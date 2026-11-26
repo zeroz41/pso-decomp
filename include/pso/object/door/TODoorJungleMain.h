@@ -26,5 +26,4 @@ struct TODoorJungleMain : public TODoorBase {
 };
 
 LAYOUT_ASSERT(TODoorJungleMain_size, sizeof(TODoorJungleMain) == 0xE0);
-extern "C" void TLobby__sub_8029B2A4(void *p);
 #endif

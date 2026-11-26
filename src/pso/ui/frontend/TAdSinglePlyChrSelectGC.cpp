@@ -13,7 +13,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/text_802A1144.h"
+#include "pso/unk/text_802A1020.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -28,7 +28,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/task/TObject.h"
@@ -49,7 +48,7 @@ const NJS_POINT2 single_chr_select_slot_message_pos = { 428.0f, 132.0f };
 
 struct T_802D4F2C { NJS_POINT2 p[3]; };
 
-const char *TAdSinglePlyChrSelectGC__class_name = "TAdSinglePlyChrSelectGC";
+const char *TAdSinglePlyChrSelectGC::class_name = "TAdSinglePlyChrSelectGC";
 const T_802D4F2C single_chr_select_position_table = { { { 156.0f, 421.0f }, { 299.0f, 421.0f }, { 432.0f, 421.0f } } };
 
 void TAdSinglePlyChrSelectGC::render() {
@@ -100,11 +99,11 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
         switch (this->menu_choice) {
         case 0:
             if (((s32)TAdSinglePlyChrSelectGC::get_data()) == 0) {
-                TAdMultiChgGameModeGC::request_transition();
+                TAdMultiChgGameModeGC::open_lic_agreement_scene();
                 return;
             }
             set_queued_main_phase(0xE);
-            TAdMultiChgGameModeGC::set_game_mode_changed();
+            TAdMultiChgGameModeGC::open_story_select_scene();
             return;
         case 1:
             request_main_phase(5);
@@ -137,10 +136,10 @@ void TAdSinglePlyChrSelectGC::close_and_change_scene() {
     if ((f32) frames > 4.5f) {
         switch (TAdSinglePlyChrSelectGC::get_data()) {
         case 0:
-            TAdMultiChgGameModeGC::request_scene_change();
+            TAdMultiChgGameModeGC::open_time_set_scene();
             return;
         case 1:
-            TAdMultiChgGameModeGC::set_game_mode_state();
+            TAdMultiChgGameModeGC::open_select_game_mode_scene();
             break;
         }
     }
@@ -317,7 +316,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
     flag_notice_shown = 0;
     if (this->last_cursor_index != this->cursor->selection_index()) {
         player->set_field_100(1);
-        if (TAdSinglePlyChrSelectGC__sub_801FE4BC(this->cursor->selection_index()) != NULL) {
+        if (get_card_slot_summary(this->cursor->selection_index()) != NULL) {
             load_tables(cursor->selection_index());
             player->set_field_100(2);
             if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
@@ -566,7 +565,7 @@ TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
 // pool_data off: the cursor rects and the title positions are each reached with their own lis/addi.
 #pragma pool_data off
 TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(parent) {
-    m_name = TAdSinglePlyChrSelectGC__class_name;
+    m_name = TAdSinglePlyChrSelectGC::class_name;
     sub_802D4E08();
     new TAdBackGC(this);
     new TAdBackTxtGC(this);

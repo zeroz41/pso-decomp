@@ -3,10 +3,9 @@
 #include "pso/audio/CriSvm.h"
 #include "pso/audio/AdxUiBridge.h"
 #include "pso/audio/GcrnaBridgeLoop.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TLobby.h"
 
-void TKeyBoardControl::flush_input() {
+void flush_input() {
     svm_exec_group4();
 }
 

@@ -3,7 +3,6 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/frontend/TAdDrawLineTask.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/system/task/TMainTask.h"
@@ -17,8 +16,8 @@ void copy_draw_line_record(DrawLineRecord *, const DrawLineRecord *);
 extern const char draw_line_task_resource_path[] = "AdDrawLineTask.prs";
 extern const char draw_line_task_name[] = "TAdDrawLineTask";
 extern const char draw_line_ctrl_name[] = "TAdDrawLineCtrl";
-const char *TAdDrawLineTask__class_name = draw_line_task_name;
-const char *TAdDrawLineCtrl__class_name = draw_line_ctrl_name;
+const char *TAdDrawLineTask::class_name = draw_line_task_name;
+const char *TAdDrawLineCtrl::class_name = draw_line_ctrl_name;
 DrawLineGroup *draw_line_task_data;
 RelocatedFile *draw_line_task_resource;
 
@@ -51,7 +50,7 @@ TAdDrawLineTask *create_draw_line_task(TObject *parent, const DrawLineRecord *re
 
 TAdDrawLineTask::TAdDrawLineTask(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *ctrl)
     : TObject(parent) {
-    m_name = TAdDrawLineTask__class_name;
+    m_name = TAdDrawLineTask::class_name;
     controller = ctrl;
     copy_draw_line_record(&line, record);
     line.start.w = draw_line_minus_one / line.start.w;
@@ -166,7 +165,7 @@ TAdDrawLineCtrl *create_draw_line_ctrl(TObject *parent, s32 group_index, f32 dep
 }
 
 TAdDrawLineCtrl::TAdDrawLineCtrl(TObject *parent, void *data, f32 depth) : TObject(parent) {
-    m_name = TAdDrawLineCtrl__class_name;
+    m_name = TAdDrawLineCtrl::class_name;
     line_data = static_cast<DrawLineGroup *>(data);
     child_root = new TObject(NULL);
     render_mode = 1;

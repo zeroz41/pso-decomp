@@ -4,6 +4,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/CsnGroundCandidates.h"
 #include "pso/system/SubtractiveRng.h"
+#include "pso/item/WeaponAttribute.h"
+#include "pso/object/base/StatStatusReceipt.h"
 
 struct Vec;
 struct player_stats;
@@ -18,17 +20,13 @@ struct CsnHit;
 // defense stat (Deband/Zalure), 4 an action hold.
 struct StatusEffect {
     StatusEffect();
+    StatusEffect &operator=(StatusEffect &src);
     void clear();
     s32 type;
     f32 amount;
     s32 timer;  // frames left
 };
 
-// The Shifta/Jellen or Deband/Zalure effect taken by the stat-status virtuals.
-struct StatStatusReceipt {
-    s32 kind;
-    f32 power;
-};
 
 struct DirectAttackPayload {
     s32 kind;
@@ -176,7 +174,7 @@ public:
     virtual void run_death_reaction();
     virtual void reset_pose();
     virtual void get_anim_node_position(s32 node, Vec *out);
-    virtual int vfunc_66();
+    virtual u32 vfunc_66(s32 attach_slot);
     virtual int deliver_attack_hits(f32 damage_scale);
     virtual void get_pos(saddr out);
     virtual void apply_switch_attack();
@@ -209,10 +207,11 @@ public:
             u8 m_103;
         } credit_slot_bytes;
     };
-    u8 pad_104[0x12];
-    s16 m_116;
-    u8 unk_118[0x2];
-    s16 m_11a;
+    u8 pad_104[0xC];
+    WeaponAttribute attack_attributes[3];  // the equipped weapon's special attributes
+    s16 special_kind;  // the special attack it hits with (set_model_id); Epsilon is immune to one kind
+    s16 special_power;  // that attack's strength (set_model_param)
+    s16 kill_count;  // TObjPlayer::get_kill_count, capped at 999
     s16 immunity_flags;  // test_immunity_flags
     u8 pad_11E[0x1];
     u8 m_11f;
@@ -252,16 +251,8 @@ public:
     u32 hit_flags;
     u8 pad_2E0[0x4];
     u32 target_attribute_mask;  // 1 native, 2 A.Beast, 4 machine (androids), 8 dark: what a weapon's attribute bonus targets
-    s16 pad_2E8;
-    s16 m_2ea;
-    s16 pad_2EC;
-    s16 m_2ee;
-    s16 pad_2F0;
-    s16 m_2f2;
-    s16 m_2f4;
-    s16 m_2f6;
-    s16 m_2f8;
-    s16 m_2fa;
+    s16 element_attack[5];  // added to a physical hit, each scaled by the target's element_resist
+    s16 element_resist[5];  // percent of the attacker's element_attack taken away
     Vec body_center;  // position raised to mid-body; effects spawn and distances are measured here
     Vec velocity;
     // The pad driving it in place of its AI; TObjControl::run_task reads the

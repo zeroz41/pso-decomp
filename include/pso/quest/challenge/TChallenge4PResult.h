@@ -21,7 +21,7 @@ public:
     s32 state_1c;
     s32 wait_frames;
     u16 slot_index;
-    u8 unknown_26[2];
+    u8 pad_26[2];
     s32 result_code;
     TWindowMessagePage *message_window;
     s32 unknown_30;

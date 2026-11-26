@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowEffectParty.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -19,7 +18,7 @@
 
 struct Pos_8024FAD8 { s32 a, b, c; };
 extern "C" {
-extern const f64 lbl_8044ECF0;
+extern const f64 party_marker_angle_scale;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 extern const char *TWindowEffectParty__name;
@@ -28,7 +27,7 @@ extern const char *TWindowEffectParty__name;
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
 #pragma fp_contract on
-void *TWindowCtrl__sub_8024FB80(s8 i) {
+void *get_simple_status_window(s8 i) {
     if (TWindowCtrl::instance == 0) return 0;
     return TWindowCtrl::instance->simple_status[i];
 }
@@ -56,7 +55,7 @@ void TWindowEffectParty::run_task() {
     void *window;
 
     slot = this->target_slot;
-    if (((s8) slot > 0) && (((window = TWindowCtrl__sub_8024FB80(slot - 1)) == 0) || (((TWindowBase *)window)->is_open_and_unblocked() == 0))) {
+    if (((s8) slot > 0) && (((window = get_simple_status_window(slot - 1)) == 0) || (((TWindowBase *)window)->is_open_and_unblocked() == 0))) {
         queue_destruction();
         return;
     }
@@ -154,7 +153,7 @@ void TWindowEffectParty::set_slot_position(s32 unused, s32 slot, f32 *position) 
         position[1] += 32.0f;
         return;
     }
-    window = (TWindowBase *)TWindowCtrl__sub_8024FB80(slot - 1);
+    window = (TWindowBase *)get_simple_status_window(slot - 1);
     if (window != NULL) {
         position[0] = (f32) (111.0f + window->target_position[0]);
         position[1] = (f32) (19.0f + window->target_position[1]);
@@ -180,10 +179,10 @@ s32 TWindowEffectParty::step_toward_target(f32 to_x, f32 to_y) {
     pos_x = to_x;
  do { pos_y = to_y; return 1; } while (0);
   }
-  angle = (s32) (lbl_8044ECF0 * atan2_float((f64) y, (f64) scr));
+  angle = (s32) (party_marker_angle_scale * atan2_float((f64) y, (f64) scr));
   pos_x = (f32) ((5.0f * cos_table_lookup(angle)) + pos_x);
   pos_y = (f32) ((5.0f * sin_table_lookup(angle)) + pos_y);
   return 0;
 }
 
-extern const f64 lbl_8044ECF0 = 10430.38043493439;
+extern const f64 party_marker_angle_scale = 10430.38043493439;

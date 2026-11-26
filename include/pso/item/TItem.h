@@ -8,6 +8,8 @@
 #include "pso/system/data/FlagWord.h"
 
 struct TItemData;
+struct AttackParams;
+struct ActorParamBlock;
 class TPlyInventoryItem;
 struct TObjPlayer;
 struct G_PickUpItem_6x59;
@@ -65,7 +67,7 @@ struct TItem : public TObjCollidable {
     virtual void unequip();
     virtual void add_equip_stats(s32 apply);
     virtual void remove_equip_stats(s32 apply);
-    virtual void subtract_item_stat_bonus(s32 player, s32 unused, s16 *stats);
+    virtual void subtract_item_stat_bonus(AttackParams *attack, ActorParamBlock *params, s16 *stats);
     virtual void subtract_equip_stats(void *atp, s16 *stats, s16 *stats2);
     virtual void render_equipped();
     virtual void render_equipped_shadow();
@@ -195,6 +197,7 @@ struct TItem : public TObjCollidable {
     u8 drop_model;                 // ground model, < ITEM_MODEL_COUNT
     TObjPlayer *owner;             // the player carrying it
     NJS_OBJECT *item_model;        // the object tree drawn for it
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TItemCollisionOffset, offsetof(TItem, collision_body) == 0xAC);

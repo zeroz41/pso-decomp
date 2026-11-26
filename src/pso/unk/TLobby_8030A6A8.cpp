@@ -6,9 +6,9 @@
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/TLevelSelect.h"
 
 
-extern s32 game_difficulty_selection;
 
 s32 TLobby::is_online_ready() {
     if (((s32) game_difficulty_selection == 3) && (TLobby::get_instance() == 0)) {

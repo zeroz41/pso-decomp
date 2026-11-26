@@ -22,6 +22,7 @@ struct TWindowShortCut;
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
+#include "pso/unk/text_80076BC4.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -30,13 +31,6 @@ struct TWindowShortCut;
 
 struct Win_8027DBB8 { u8 pad[0x20]; saddr client_id; };
 
-extern "C" {
-s32 clear_chat_shortcut();
-}
-s32 store_chat_shortcut(s32 index, s32 value);
-extern "C" {
-u32 *get_chat_shortcut();
-}
 
 const char *TWindowSubShortCut::class_name = "TWindowSubShortCut";
 
@@ -64,24 +58,23 @@ TWindowSubShortCut::~TWindowSubShortCut() {
 }
 
 void TWindowSubShortCut::run_task() {
-    u8 *arg0 = (u8 *)this;
     u32 var_r0;
     switch (this->state) {
     case 0:
     case 1:
-        if ((u32) this->chat_window != 0U) {
+        if (this->chat_window != NULL) {
             this->chat_window->queue_destruction();
             this->chat_window = 0U;
         }
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if ((u32) this->shortcut_window != 0U) {
+        if (this->shortcut_window != NULL) {
             this->shortcut_window->close();
             this->shortcut_window = 0U;
         }
-        if ((u32) this->menu != 0U) {
+        if (this->menu != NULL) {
             this->menu->close();
             this->menu = 0U;
         }
@@ -102,12 +95,12 @@ void TWindowSubShortCut::run_task() {
         }
         break;
     case 3:
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if ((u32) this->menu == 0U) {
-            this->menu = (TWindowMenu *)open_menu();
+        if (this->menu == NULL) {
+            this->menu = open_menu();
         }
         this->menu->clear_flag_and_release();
         this->menu->clear_transition_flag();
@@ -123,7 +116,7 @@ void TWindowSubShortCut::run_task() {
         }
         break;
     case 5:
-        if ((u32) this->menu != 0U) {
+        if (this->menu != NULL) {
             this->menu->close();
             this->menu = 0U;
         }
@@ -132,8 +125,8 @@ void TWindowSubShortCut::run_task() {
             com_card_list->close();
             this->com_card_list = NULL;
         }
-        if ((u32) this->chat_window == 0U) {
-            this->chat_window = new TWindowChat((TObject *)arg0, (u8 *)&this->chat_submission);
+        if (this->chat_window == NULL) {
+            this->chat_window = new TWindowChat(this, &this->chat_submission);
             this->chat_window->set_keyboard_flag62_bit4();
             this->chat_window->close_and_clear_flag();
             this->chat_window->set_flag1e_bit80();
@@ -150,15 +143,15 @@ void TWindowSubShortCut::run_task() {
         }
         break;
     case 7:
-        if ((u32) this->chat_window != 0U) {
+        if (this->chat_window != NULL) {
             this->chat_window->queue_destruction();
             this->chat_window = 0U;
         }
-        if ((u32) this->shortcut_window == 0U) {
-            this->shortcut_window = new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->m_24, (s32 *)(arg0 + 0x40));
+        if (this->shortcut_window == NULL) {
+            this->shortcut_window = new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->m_24, (s32 *)&this->chat_submission);
         }
-        if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = (TWindowMessageYesNo *)open_confirm_prompt();
+        if (this->confirm_window == NULL) {
+            this->confirm_window = open_confirm_prompt();
         }
         this->state = 8U;
     case 8:
@@ -168,7 +161,7 @@ void TWindowSubShortCut::run_task() {
         }
         if (this->confirm_window->is_child_visible() != 0) {
             if (this->confirm_window->get_selected_value() == 0) {
-                store_chat_shortcut((this->m_24), (saddr)(arg0 + 0x40));
+                store_chat_shortcut(this->m_24, &this->chat_submission);
                 this->state = 1U;
                 return;
             }
@@ -178,8 +171,8 @@ void TWindowSubShortCut::run_task() {
         break;
     case 9:
         this->menu->open();
-        if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = (TWindowMessageYesNo *)open_confirm_message();
+        if (this->confirm_window == NULL) {
+            this->confirm_window = open_confirm_message();
         }
         this->state = 0xAU;
     case 10:
@@ -189,8 +182,7 @@ void TWindowSubShortCut::run_task() {
         }
         if (this->confirm_window->is_child_visible() != 0) {
             if (this->confirm_window->get_selected_value() == 0) {
-                com_card_list->get_cursor_value();
-                clear_chat_shortcut();
+                clear_chat_shortcut(com_card_list->get_cursor_value());
                 this->state = 1U;
                 return;
             }
@@ -208,15 +200,14 @@ TWindowSubShortCutList *TWindowSubShortCut::open_com_card_list() {
     return TWindowSubShortCutList::create(get_window_layout_position(0x72), static_cast<s32>(m_24));
 }
 
-s32 TWindowSubShortCut::open_menu() {
+TWindowMenu *TWindowSubShortCut::open_menu() {
     TWindowMenu *list;
-    u32 *chat_shortcut;
+    ChatShortcut *chat_shortcut;
 
-    com_card_list->get_cursor_value();
-    chat_shortcut = get_chat_shortcut();
+    chat_shortcut = get_chat_shortcut(com_card_list->get_cursor_value());
     list = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
     list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
-    if ((u32) *chat_shortcut != 0U) {
+    if (chat_shortcut->kind.value != 0) {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
@@ -224,23 +215,23 @@ s32 TWindowSubShortCut::open_menu() {
     list->set_flag70_bit10();
     list->update_layout_height(205.0f);
     align_menu_entry_positions(list);
-    return (saddr)list;
+    return list;
 }
 
-s32 TWindowSubShortCut::open_confirm_prompt() {
-    saddr r = (saddr)TWindowMessageYesNo::create(this, this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), get_window_layout_position(0x75), 205.0f);
-    ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
-    return r;
+TWindowMessageYesNo *TWindowSubShortCut::open_confirm_prompt() {
+    TWindowMessageYesNo *dialog = TWindowMessageYesNo::create(this, this->client_id, 0, 0);
+    open_yes_no_prompt(dialog, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), get_window_layout_position(0x75), 205.0f);
+    dialog->set_choice_menu_flag70_bit10();
+    return dialog;
 }
 
-s32 TWindowSubShortCut::open_confirm_message() {
-    saddr dialog;
+TWindowMessageYesNo *TWindowSubShortCut::open_confirm_message() {
+    TWindowMessageYesNo *dialog;
 
-    dialog = (saddr)TWindowMessageYesNo::create(this, this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x76), 205.0f);
-    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(1);
-    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
+    dialog = TWindowMessageYesNo::create(this, this->client_id, 0, 0);
+    open_yes_no_prompt(dialog, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x76), 205.0f);
+    dialog->set_menu_selected_index(1);
+    dialog->set_choice_menu_flag70_bit10();
     return dialog;
 }
 

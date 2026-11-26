@@ -30,7 +30,7 @@ struct NJS_TEXLIST;
 #include "pso/object/cave/TOAirconCave01.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/ActorCollision.h"
@@ -39,6 +39,7 @@ struct NJS_TEXLIST;
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/DebugFont.h"
 
 
 
@@ -53,12 +54,10 @@ extern BmlResourceDescriptor laser_fence_switch_resource_descriptor;
 
 extern "C" {
 
-void debug_printf_at(int, void *, ...);
-extern u8 debug_select_color_label[];
 
 
 __declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
-__declspec(section ".data") uaddr lazer_fence_beam_motions[2];
+__declspec(section ".data") AnimationMotion *lazer_fence_beam_motions[2];
 // The models of the first three children of switch model 0 (the beams).
 __declspec(section ".data") void *lazer_fence_beam_node_table[3];
 }
@@ -73,7 +72,7 @@ BmlResourceDescriptor fe_obj_switch_laz_j_resource_descriptor = { "fe_obj_switch
 CollisionBody lazer_fence_sw_collision_body_part[] = {
     {{0.0f, 10.0f, 0.0f}, 7.0f, 12.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
-const u16 lbl_80445CB8[4] = { 0, 1, 2, 3 };
+const u16 lazer_fence_sw_color_slots[4] = { 0, 1, 2, 3 };
 }
 const char *TLazerFenceSw::class_name = "TLazerFenceSw";
 extern "C" {
@@ -90,7 +89,7 @@ void TLazerFenceSw::draw_laser_beam() {
     for (i = 0; i < 3; i++) {
         set_ginja_model_texture_slot(lazer_fence_beam_node_table[i], color_slot);
     }
-    TObjFish::set_global_param(lazer_fence_sw_texture_list);
+    set_texture_list(lazer_fence_sw_texture_list);
     if (actor_frame_tick != last_scroll_tick && uv_scroll >= 1.0f) {
         last_scroll_tick = actor_frame_tick;
         scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model), 0, (s32)uv_scroll, 5, 1);
@@ -105,7 +104,7 @@ void TLazerFenceSw::draw_laser_beam() {
         draw_ginja_object(lazer_fence_sw_ginja_model_table[1]);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)animation_frame);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], (f32)animation_frame);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -114,10 +113,10 @@ void TLazerFenceSw::draw_laser_beam() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], (void *)lazer_fence_beam_motions[1], (f32)switch_frame);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], lazer_fence_beam_motions[1], (f32)switch_frame);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)animation_frame);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], (f32)animation_frame);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -145,16 +144,16 @@ void TLazerFenceSw::render() {
 }
 #pragma pop
 
-__declspec(section ".rodata") u8 debug_select_color_label[16] = "<- SELECT COLOR";
+__declspec(section ".rodata") char debug_select_color_label[16] = "<- SELECT COLOR";
 void TLazerFenceSw::debug_draw_key_id() {
     TOKey::debug_draw_key_id();
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
-    color_slot = lbl_80445CB8[set_params[2] % 4];
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    color_slot = lazer_fence_sw_color_slots[set_params[2] % 4];
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130022, debug_select_color_label);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TLazerFenceSw::trigger_activate_sound() {
@@ -170,15 +169,15 @@ void TLazerFenceSw::trigger_deactivate_sound() {
 }
 
 void TLazerFenceSw::update_switch_on() {
-    u32 animation_frame;
+    u32 beam_end;
     u32 last_frame;
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
-    animation_frame = *(s32 *)((s8 *)lazer_fence_beam_motions[0] + 4) - 1;
-    if (this->animation_frame > (f32) animation_frame) {
-        this->animation_frame = (f32) animation_frame;
+    beam_end = lazer_fence_beam_motions[0]->frameCount - 1;
+    if (this->animation_frame > (f32) beam_end) {
+        this->animation_frame = (f32) beam_end;
     }
     switch_frame = (f32) (switch_frame + this->animation_step);
-    last_frame = *(s32 *)((s8 *)lazer_fence_beam_motions[1] + 4) - 1;
+    last_frame = lazer_fence_beam_motions[1]->frameCount - 1;
     if (switch_frame > (f32) last_frame) {
         switch_frame = (f32) last_frame;
     }
@@ -186,7 +185,7 @@ void TLazerFenceSw::update_switch_on() {
 
 void TLazerFenceSw::update_switch_off() {
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
-    if (this->animation_frame > (f32) (u32) (*(s32 *)((s8 *)lazer_fence_beam_motions[0] + 4) - 1)) {
+    if (this->animation_frame > (f32) (lazer_fence_beam_motions[0]->frameCount - 1)) {
         this->animation_frame = (f32) 0.0f;
     }
     this->submit_cursor_target();
@@ -235,10 +234,10 @@ void TLazerFenceSw::load_resources() {
             lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_gvm);
         }
     }
-    lazer_fence_sw_ginja_model_table[0] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
-    lazer_fence_sw_ginja_model_table[1] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 1);
-    lazer_fence_beam_motions[0] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 0);
-    lazer_fence_beam_motions[1] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 1);
+    lazer_fence_sw_ginja_model_table[0] = get_bml_model(lazer_fence_switch_bml_resource, 0);
+    lazer_fence_sw_ginja_model_table[1] = get_bml_model(lazer_fence_switch_bml_resource, 1);
+    lazer_fence_beam_motions[0] = get_bml_motion(lazer_fence_switch_bml_resource, 0);
+    lazer_fence_beam_motions[1] = get_bml_motion(lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {
         lazer_fence_beam_node_table[j] = NULL;
     }
@@ -275,7 +274,7 @@ TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
     if (this->set_params[2] < 0) {
         this->set_params[2] = 0;
     }
-    color_slot = lbl_80445CB8[this->set_params[2] % 4];
+    color_slot = lazer_fence_sw_color_slots[this->set_params[2] % 4];
     this->animation_step = 2.0f;
     switch_frame = 0.0f;
     init_collision_body_parts(this, lazer_fence_sw_collision_body_part, 1);

@@ -13,12 +13,10 @@ u8 *name_cache_pool_end;
 u8 *name_cache_pool_cursor;
 s32 lbl_805D7874;
 QuestDownloadCachedNameNode *name_cache_node_list;
-extern "C" {
 void mark_name_cache_dirty(void) {
     name_cache_dirty = 1;
 }
 
-void rotate_cache_page(void);
 
 inline int hash_name(char *s) {
     int h;
@@ -125,7 +123,7 @@ void relocate_name_record(s32 id) {
     }
 
     rec[2] = 0;
-    TQuestVmDownLoadServer::invalidate_entries_by_id(id);
+    invalidate_entries_by_id(id);
 }
 
 // Id of a name-cache record: its 0x400-byte page in bits 12 and up, its offset in the page below.
@@ -134,7 +132,7 @@ inline s32 get_name_record_id(QuestDownloadNameCacheImage *cache, void *rec) {
     return ((off / 1024) << 12) | (off % 1024);
 }
 
-s32 TQuestVmDownLoadServer::lookup_name_entry(char *name, s16 name_len, QuestNameLookupResult *out) {
+s32 lookup_name_entry(char *name, s16 name_len, QuestNameLookupResult *out) {
     QuestDownloadCachedNameNode *n;
     s32 r;
     u8 len;
@@ -178,7 +176,7 @@ s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out) {
     for (n = name_cache_index.heads[hash_name(name)]; n != NULL; n = n->next) {
         e = n->encodedRecord;
         len = e[2];
-        m = TQuestVmDownLoadServer::match_prefix_length(e + 3, (u8 *)name, len);
+        m = match_prefix_length(e + 3, (u8 *)name, len);
         if (m >= pre) {
             pre = m + 1;
         }
@@ -215,7 +213,7 @@ inline s32 calc_record_size(QuestDownloadRequest *req) {
     } else {
         extra = 2;
     }
-    return 3 + req->len + extra + TQuestVmDownLoadServer::calc_sjis_string_width(req->text);
+    return 3 + req->len + extra + calc_sjis_string_width(req->text);
 }
 inline void write_record(u8 *p, s32 size, QuestDownloadRequest *req, u8 attr) {
     *p++ = size % 256;
@@ -228,7 +226,7 @@ inline void write_record(u8 *p, s32 size, QuestDownloadRequest *req, u8 attr) {
     if (req->x8 != 0 || req->x7 >= 0x2D) {
         *p++ = req->x8;
     }
-    TQuestVmDownLoadServer::copy_sjis_string(req->text, p);
+    copy_sjis_string(req->text, p);
 }
 inline u8 *alloc_name_record(s32 size) {
     u8 *p;
@@ -256,7 +254,7 @@ s32 store_name_record(char *name, QuestDownloadRequest *req, s32 attr) {
     if (e[2] == req->len && strncmp(name, (char *)(e + 3), req->len) == 0) {
         e[2] = 0;
         *link = n->next;
-        TQuestVmDownLoadServer::invalidate_entries_by_id(get_name_record_id(cache, n->encodedRecord));
+        invalidate_entries_by_id(get_name_record_id(cache, n->encodedRecord));
         n->next = name_cache_node_list;
         name_cache_node_list = n;
     }
@@ -275,7 +273,7 @@ s32 store_name_record(char *name, QuestDownloadRequest *req, s32 attr) {
     return 0;
 }
 
-void TQuestVmDownLoadServer::append_message_text(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr) {
+void append_message_text(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr) {
     u16 cur;
     s32 v;
     u8 *p;
@@ -312,7 +310,7 @@ inline void copy_record_text(u8 *s, u8 *p) {
         *p++ = *s++;
     }
 }
-void TQuestVmDownLoadServer::build_message_packet(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr) {
+void build_message_packet(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr) {
     u8 unused[8];
     *record++ = size % 256;
     *record++ = size / 256;
@@ -428,7 +426,7 @@ inline QuestDownloadCachedNameNode *find_cached_name_link(
 #pragma push
 #pragma inline_depth(2)
 inline s32 read_name_image_bytes(s32 handle, u8 *image, s32 length) {
-    return TQuestVmDownLoadServer::aram_read_thunk(handle, image, length);
+    return aram_read_thunk(handle, image, length);
 }
 // Keep the fixed cache-image read distinct from its byte-count adapter; their
 // native inline lifetimes also determine the rebuild name-buffer offset.
@@ -460,7 +458,7 @@ s32 load_name_cache_image(void) {
     QuestDownloadCachedNameNode **link;
 
     size_t cacheAddress = (size_t)&name_cache_image;
-    if (TQuestVmDownLoadServer::seek_or_reopen(0x1400) == -1) {
+    if (seek_or_reopen(0x1400) == -1) {
         return -1;
     }
     s32 readCount = (s32)read_cached_name_image(
@@ -498,7 +496,7 @@ s32 load_name_cache_image(void) {
 
 #pragma pop
 
-u8 *TQuestVmDownLoadServer::get_buffer_ptr(s32 id) {
+u8 *get_buffer_ptr(s32 id) {
     return &name_cache_image.pages[(s16)(id >> 12)][(s16)(id & 0xFFF)];
 }
 
@@ -538,14 +536,14 @@ void rotate_cache_page(void) {
             }
         }
     }
-    TQuestVmDownLoadServer::clear_entries_by_id(lbl_805D7874);
+    clear_entries_by_id(lbl_805D7874);
 }
 
 #pragma pop
 
 void save_name_cache(void) {
     if (name_cache_dirty != 0) {
-        if (TQuestVmDownLoadServer::seek_or_reopen(0x1400) != -1) {
+        if (seek_or_reopen(0x1400) != -1) {
             aram_write_stub(quest_download_file_handle, name_cache_image.pages, 0x2000);
         }
     }
@@ -584,4 +582,3 @@ void __VIRetraceHandler(void) {
 
 #pragma pop
 
-}

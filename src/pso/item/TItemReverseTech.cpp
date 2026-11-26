@@ -6,7 +6,6 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/item/TItemReverseTechBG.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemReverseTechPart2.h"
@@ -33,9 +32,9 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
-#include "pso/unk/TScreenFadeIn.h"
+#include "pso/system/TScreenFadeIn.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/text_800F7D30.h"
+#include "pso/system/prs.h"
 #include "pso/render/GinjaView.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800F9B84.h"
@@ -57,12 +56,9 @@ static const f32 screen_height[1] = {480.0f};
 
 
 
-const char *TItemReverseTech__name = "TItemReverseTech";
+const char *TItemReverseTech::name = "TItemReverseTech";
 
 
-void activate_fast_rotation_code(void);
-void activate_reverse_rotation_code(void);
-void activate_uraending_code(void);
 TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
@@ -142,7 +138,7 @@ void TItemReverseTech::run_frame() {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::noop();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -199,7 +195,7 @@ void TItemReverseTech::create() {
 }
 
 TItemReverseTech::TItemReverseTech(TObject *parent) : TObject(parent) {
-    m_name = TItemReverseTech__name;
+    m_name = TItemReverseTech::name;
     part_one = new TItemReverseTechPart1(this, texture_list);
     part_two = NULL;
     new TAdEndText(this);
@@ -231,11 +227,11 @@ void TItemReverseTech::run_task() {
 }
 #pragma opt_common_subs reset
 
-const char *TItemReverseTechPart1__name = "TItemReverseTechPart1";
+const char *TItemReverseTechPart1::name = "TItemReverseTechPart1";
 
 
 TItemReverseTechPart1::TItemReverseTechPart1(TObject *parent, NJS_TEXLIST *texlist) : TObject(parent) {
-    m_name = TItemReverseTechPart1__name;
+    m_name = TItemReverseTechPart1::name;
     state = 0;
     timer = 0;
     fade_in_time = 150;
@@ -302,11 +298,11 @@ void TItemReverseTechPart2::destroy_and_flag(TObject *fade) {
     }
 }
 
-const char *TItemReverseTechPart2__name = "TItemReverseTechPart2";
+const char *TItemReverseTechPart2::name = "TItemReverseTechPart2";
 
 
 TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texlist) : TObject(parent) {
-    m_name = TItemReverseTechPart2__name;
+    m_name = TItemReverseTechPart2::name;
     picture_0.hold_time = 300;
     picture_0.fade_time = 0;
     picture_0.texlist = texlist;
@@ -413,11 +409,11 @@ void TItemReverseTechPart2::run_task() {
 
 void TItemReverseTechPart2::render() {  }
 
-const char *TItemReverseTechBG__name = "TItemReverseTechBG";
+const char *TItemReverseTechBG::name = "TItemReverseTechBG";
 
 
 TItemReverseTechBG::TItemReverseTechBG(TObject *parent, TItemReverseTechPicture *picture) : TObject(parent) {
-    m_name = TItemReverseTechBG__name;
+    m_name = TItemReverseTechBG::name;
     hold_time = picture->hold_time;
     fade_time = picture->fade_time;
     texlist = picture->texlist;
@@ -495,5 +491,5 @@ void TItemReverseTechBG::render() {
     begin_screen_draw(1);
     set_draw_texture_and_color(texture, color);
     draw_textured_quad_at_depth((f32 *)&quad, depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }

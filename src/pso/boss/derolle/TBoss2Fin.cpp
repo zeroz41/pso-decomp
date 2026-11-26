@@ -3,7 +3,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/TObjEZRopeBase.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "types.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/MatrixStack.h"
@@ -29,7 +29,7 @@ void TBoss2Fin::render() {
     s32 j;
     s32 yaw;
     Vec v;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss2_derolle_resource->models[2].texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss2_derolle_resource->models[2].texlist));
     seg = segments;
     end = ends;
     pt = points;

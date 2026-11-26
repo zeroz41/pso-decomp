@@ -24,7 +24,7 @@
 #include <string.h>
 
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
-const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
+const char *TAdEnterPPPPassGC::name = "TAdEnterPPPPassGC";
 
 typedef void (TAdEnterPPPPassGC::*StateHandler)();
 
@@ -60,8 +60,8 @@ void TAdEnterPPPPassGC::close_windows_and_advance(void *arg) {
     }
 }
 
-void TAdEnterPPPPassGC::forward_chg_game_mode(void *arg) { TAdMultiChgGameModeGC::reset_mode_state(); }
-void TAdEnterPPPPassGC::request_transition(void *arg) { TAdMultiChgGameModeGC::request_transition(); }
+void TAdEnterPPPPassGC::forward_chg_game_mode(void *arg) { TAdMultiChgGameModeGC::open_enter_serial_access_scene(); }
+void TAdEnterPPPPassGC::request_transition(void *arg) { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 
 void TAdEnterPPPPassGC::update_password_input(void *arg) {
     char *buf;
@@ -105,11 +105,11 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
         if (cur != 0) {
             if (select_cursor != NULL) {
                 select_cursor->reset_entries();
-                select_cursor->append_entry((void *)TAdEnterPPPPassGC__selection_positions[3]);
+                select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[3]);
             }
         } else if (select_cursor != NULL) {
             select_cursor->reset_entries();
-            select_cursor->append_entry((void *)TAdEnterPPPPassGC__selection_positions[2]);
+            select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[2]);
         }
     }
     if (select_cursor->confirmation_result() == 1 &&
@@ -127,7 +127,7 @@ void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();
-        select_cursor->append_entry((void *)TAdEnterPPPPassGC__selection_positions[2]);
+        select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[2]);
         select_cursor->lock_navigation();
     }
     password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control((saddr)this, 3);
@@ -169,7 +169,7 @@ TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}
 
 TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     s32 ok;
-    m_name = TAdEnterPPPPassGC__name;
+    m_name = TAdEnterPPPPassGC::name;
     sub_8032B460(3);
     password_entry_dispatch_state = 0;
     m_40 = 0;
@@ -189,11 +189,11 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
         } else {
             ok = 1;
         }
-    } else if (TLobby__sub_80145DB4(1) != 0 && *TLobby__sub_80146D44() != 0) {
+    } else if (TLobby__sub_80145DB4(1) != 0 && *get_modem_user_name() != 0) {
         ok = 1;
     }
     if (ok != 0) {
-        TAdMultiChgGameModeGC::reset_mode_state();
+        TAdMultiChgGameModeGC::open_enter_serial_access_scene();
         queue_destruction();
         return;
     }

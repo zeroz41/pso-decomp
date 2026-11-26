@@ -200,7 +200,6 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 
 // ---- pso/unk/text_80211C3C
 
-#include "pso/unk/text_80211C3C.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 
 extern "C" {
@@ -254,7 +253,6 @@ s32 TLobby::handle_main_phase(saddr player) {
 // ---- pso/unk/text_80211D58
 
 
-#include "pso/unk/text_80211D58.h"
 
 
 extern "C" {

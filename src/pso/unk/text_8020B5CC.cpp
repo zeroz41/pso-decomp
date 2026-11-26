@@ -10,14 +10,13 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/unk/pso_carve_8020bf88.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-extern "C" {
 extern TObject *tl_02;
 extern TObject *tl_05;
 extern TObject *tl_06;
 extern TObject *tl_07;
 
 // The header is followed by the s16 flags of every object set, then of every enemy set.
-int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
+int pack_floor_set_flags(FloorSetFlagsPayload *buf) {
     s32 enemies;
     FloorSetFlagsHeader *out = buf;
     s32 objects = 0;
@@ -80,8 +79,7 @@ int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
     }
     out->enemy_count = enemies;
     swap_floor_set_flags_header(out);
-    return TLobby__sub_8020BF88();
-}
+    return get_floor_set_flags_size();
 }
 
 #pragma push
@@ -187,9 +185,7 @@ s32 TLobby::load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 
     return 0;
 }
 #pragma pop
-extern "C" {
-
-void TLobby__sub_8020BB18(void) {
+void destroy_floor_decoration_objects(void) {
     FloorObjectSetRow *p = floor_decoration_rows;
     s32 i;
     for (i = 0; i < floor_decoration_row_count; i++, p++) {
@@ -202,5 +198,4 @@ void TLobby__sub_8020BB18(void) {
             p->object = 0;
         }
     }
-}
 }

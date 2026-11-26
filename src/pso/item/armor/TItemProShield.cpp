@@ -24,12 +24,10 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_pmt.h"
 
-extern "C" {
 // The item file helpers (TItemDrop_800F93F0.cpp).
-// The class name and the effect table's file name. This object starts at
-// 0x80117E50 with the nearby player checks (the last two functions below),
-// whose doubles follow these strings in .rodata.
-const char *TItemProShield__name = "TItemProShield";
+// The class name and the effect table's file name.
+const char *TItemProShield::name = "TItemProShield";
+extern "C" {
 const char *lbl_805D2C3C = "ItemShieldEntry.dat";
 // Called with the item index widened to int.
 void __ct__19TItemEffShieldPulseFP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
@@ -79,7 +77,7 @@ TItem *TItemProShield::create(u8 *item) {
 }
 
 TItemProShield::TItemProShield(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
-    m_name = TItemProShield__name;
+    m_name = TItemProShield::name;
     set_attach_slot(3);
     pmt = (ShieldPmtEntry *)lookup_item_pmt_record(item);
     effect_entry = &shield_table[pmt->block_effect];
@@ -264,7 +262,7 @@ s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
     s32 count;
     u16 i;
     TObjPlayer *other;
-    void *it;
+    TItem *shield;
     count = 0;
     me = get_player_by_client_id(idx);
     if (me != NULL && item != NULL) {
@@ -274,8 +272,8 @@ s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
                 other = get_player_by_client_id(i);
                 if (other != NULL && key == other->get_floor() &&
                     horizontal_distance_squared(&me->position, &other->position) < 2500.0 &&
-                    (it = (void *)((TObjPlayer *)other)->get_equipped_shield()) != NULL &&
-                    item[2] == ((TItem *)it)->get_item_index()) {
+                    (shield = other->get_equipped_shield()) != NULL &&
+                    item[2] == shield->get_item_index()) {
                     count++;
                 }
             }

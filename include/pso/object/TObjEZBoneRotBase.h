@@ -24,7 +24,7 @@ struct EZBoneRotDesc {
 // the swing from what the player is doing.
 class TObjEZBoneRotBase : public TObject {
 public:
-    TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc *desc);
+    TObjEZBoneRotBase(TObject *parent, NJS_OBJECT *root, EZBoneRotDesc *desc);
     virtual ~TObjEZBoneRotBase();
     // Records the bones' current angles in saved_angles.
     void save_bone_angles();

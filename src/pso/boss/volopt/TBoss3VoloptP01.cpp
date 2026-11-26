@@ -19,7 +19,7 @@
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiZonde.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
@@ -33,7 +33,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
@@ -244,7 +244,7 @@ void TBoss3VoloptP01::render() {
     u32 flags;
 
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
         toggle_particle_effect();
         push_matrix();

@@ -10,7 +10,7 @@
 #include "pso/player/TObjEndingPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerClassStats.h"
 #include "pso/map/FloorArea.h"
@@ -75,10 +75,10 @@ void TObjEndingPlayer::set_animation_default(s16 index) { set_animation(index); 
 TObjEndingPlayer *TObjEndingPlayer::create(TPlyCharData *data) {
     EndingPlayerRecord record;
     copy_player_visual_record(record.visual, &data->m_disp_part2);
-    TLobby::copy_data(record.stats, &data->m_stats);
+    record.stats = data->m_stats;
     copy_equipped_weapon_and_mag(data->m_inventory.m_num_items,
                 data->m_inventory.get_items(),
-                reinterpret_cast<TPlyInventoryItem *>(record.items));
+                record.equipment.items);
     return new TObjEndingPlayer(tl_03, &record);
 }
 
@@ -90,7 +90,7 @@ void TObjEndingPlayer::render() {
         rotate_matrix_y(0, rotation_y);
         render_material_state.save();
         apply_material_color_override();
-        TObjFish::set_global_param(&body_textures);
+        set_texture_list(&body_textures);
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();
@@ -123,37 +123,35 @@ void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); pla
 TObjEndingPlayer::TObjEndingPlayer(TObject *parent, EndingPlayerRecord *src) : TObjPlayer(parent, src) {
     set_floor_index(1);
     set_floor_index(1);
-    VecCopy(&position, ((ArrivalOverride *)src->pose)->get_pos());
-    rotation_y = ((ArrivalOverride *)src->pose)->get_heading();
+    VecCopy(&position, src->pose.get_pos());
+    rotation_y = src->pose.get_heading();
     select_class_action_provider();
     joint_matrices = shared_model_buffer + this->get_entity_id() * 0xC00;
     init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), *player_ending_motion_object, 1);
-    frame = src->frame;
+    frame = src->motion.frame;
     pause_motion();
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation_y);
     calc_joint_matrices(current_motion, 0.0f, (saddr)joint_matrices);
     pop_matrix();
-    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->items[0]);
-    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->items[1]);
+    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->equipment.items[0]);
+    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->equipment.items[1]);
 }
 
 TObjEndingPlayer::~TObjEndingPlayer() {}
 
-void TObjPlayer__sub_801D8A38(void* entry) { *(short*)((char*)entry + 0x0) = 1; *(float*)((char*)entry + 0x4) = 0.0f; }
-
-EndingPlayerRecord::EndingPlayerRecord() {
-    TObjPlayer::init_inventory_items((saddr)items);
-    init_arrival_override((ArrivalOverride *)pose);
-    TObjPlayer__sub_801D8A38(&pad_C0);
+EndingMotionStart::EndingMotionStart() {
+    pad_0 = 1;
+    frame = 0.0f;
 }
 
-s32 TObjPlayer::init_inventory_items(saddr items) {
+EndingPlayerRecord::EndingPlayerRecord() {}
+
+EquippedWeaponAndMag::EquippedWeaponAndMag() {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        ((TPlyInventoryItem *)items)[i].init();
+        items[i].init();
     }
-    return items;
 }

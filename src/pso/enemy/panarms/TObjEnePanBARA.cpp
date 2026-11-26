@@ -23,7 +23,7 @@
 #include "pso/technique/TTecJelin.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecZarua.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -32,7 +32,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlResource.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/task/TObject.h"
@@ -260,7 +259,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     m_name = pan_bara_name;
     add_flags_2e4(2);
     apply_set_data(setData);
-    // Same statements as TObjEnemy::clear_lobby_object_state; the original expands them here.
+    // The statements of TObjEnemy::clear_lobby_object_state, expanded here.
     PanBARAObjectState objectState;
     if (this->exchange_object_state(&objectState, 1) != 0) {
         objectState.unk_0 = 0;
@@ -444,7 +443,7 @@ void TObjEnePanBARA::render() {
     this->update_linked_effect();
 }
 
-void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation_y); TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist)); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
+void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation_y); set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist)); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
 
 void TObjEnePanBARA::update_linked_effect() {
     Vec ground_normal;

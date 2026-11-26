@@ -11,11 +11,12 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 extern const char symbol_chat_face_type_class_name_string[29] = "TWindowSubSymbolChatFaceType";
 
 
@@ -31,7 +32,7 @@ void TWindowSubSymbolChatFaceType::close_when_chat_closed() {
 void TWindowSubSymbolChatFaceType::confirm_selection() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->result_flags = (u8) (this->result_flags | 1);
-    status_disp->set_entry_state(2);
+    status_disp->set_state(2);
 }
 
 
@@ -97,7 +98,7 @@ void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp)
     x = ctx->inner_x + pos[0];
     y = ctx->inner_y + pos[1];
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(2, alpha | 0xFF0000 | 0xFFFF);
     left = x + amp;
     top = y + amp;
@@ -137,10 +138,11 @@ void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp)
     q.u1 = 0.91796875f;
     ctx->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
-void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
+}
+void draw_face_selection(u8 *window_base, u8 *ctx) {
   int entry_index;
   u8 *entry;
   NJS_POINT2 corner;
@@ -150,6 +152,7 @@ void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
   corner.y = (*((f32 *) (((s8 *) entry) + 0xC))) - 3.0f;
   draw_selection_corners((WindowDrawContext *)ctx, (f32 *)&corner, 66.0f, 0.3f);
 }
+extern "C" {
 
 void TWindowSubSymbolChatFaceType::update_parts_entries() {
     s32 i;
@@ -160,12 +163,12 @@ void TWindowSubSymbolChatFaceType::update_parts_entries() {
 }
 
 void TWindowSubSymbolChatFaceType::render() {
-    saddr context = reinterpret_cast<saddr>(draw_default_entry());
+    WindowDrawContext *context = draw_default_entry();
     update_parts_entries();
-    draw_window_frame((void *)context);
-    TWindowSubSymbolChatFaceType__sub_80283F38((u8 *)this, (u8 *)context);
-    status_disp->forward_render(reinterpret_cast<void *>(context));
-    draw_visible_window_entries(this, &entry_list, reinterpret_cast<WindowDrawContext *>(context));
+    draw_window_frame(context);
+    draw_face_selection((u8 *)this, (u8 *)context);
+    status_disp->render(context);
+    draw_visible_window_entries(this, &entry_list, context);
 }
 void TWindowSubSymbolChatFaceType::run_task() {
     TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type = this;
@@ -184,9 +187,9 @@ void TWindowSubSymbolChatFaceType::run_task() {
         }
     }
     if ((f32) (s32)window_sub_symbol_chat_face_type->open_tick >= 7.5f) {
-        status_disp->update_subwindow();
+        status_disp->update();
     }
-    ((TWindowBase *)window_sub_symbol_chat_face_type)->update_window();
+    window_sub_symbol_chat_face_type->update_window();
     window_sub_symbol_chat_face_type->update_window_entry_list(&window_sub_symbol_chat_face_type->entry_list);
 }
 
@@ -196,7 +199,7 @@ void TWindowSubSymbolChatFaceType::run_task() {
 
 
 TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
-    TWindowSubStatusDisp::destroy_status_display((saddr)status_disp, 1);
+    delete status_disp;
 }
 
 
@@ -224,16 +227,13 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
 const char *window_sub_symbol_chat_face_type_name = symbol_chat_face_type_class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selected)
     : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, 4, (u8 *)position) {
-    TWindowSubStatusDisp *heading;
+    WindowHeading *heading;
     m_name = window_sub_symbol_chat_face_type_name;
     result_flags = 0;
     cursor_col = 0;
     cursor_row = 0;
     selection = selected;
-    heading = static_cast<TWindowSubStatusDisp *>(::operator new(0x24));
-    if (heading != NULL) {
-        heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
-    }
+    heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
     status_disp = heading;
 }
 

@@ -48,7 +48,7 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
 }
 
 u8 *TWindowMessagePage::create(const NJS_POINT2 *position, saddr extent, saddr rows, s32 client) {
-    TLobby__sub_80269DA4((void *)extent, (u32)rows);
+    set_message_window_size((void *)extent, (u32)rows);
     return (u8 *)new TWindowMessagePage(position, rows, client);
 }
 

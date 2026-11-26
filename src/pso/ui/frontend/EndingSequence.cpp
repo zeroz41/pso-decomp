@@ -27,7 +27,7 @@
 // Built with -inline off,deferred: functions are written last to first.
 
 extern "C" {
-void *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void *, s32, s32, s32);
+void *__ct__6TMovieFP7TObjectPScPFP6TMovie_vll(void *, void *, const char *, void (*)(TMovie *), s32, s32, s32);
 }
 
 s32 ending_sequence_active;
@@ -56,7 +56,7 @@ void TKeyBoardControl::run_main_frame() {
     main_task.render();
     main_task.render_screen_overlay();
     process_async_file_reads();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -76,13 +76,13 @@ TEndingMovie::TEndingMovie() : TObject(tl_04) {
     case 2:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 1, 0);
+            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(p, tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 1, 0);
         }
         break;
     case 3:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 0, 0);
+            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(p, tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 0, 0);
         }
         break;
     }
@@ -94,7 +94,7 @@ void TEndingMovie::run_task() {}
 
 void TEndingMovie::finish_movie(TMovie *movie) {
     movie->queue_destruction();
-    if ((s32) ending_movie_active_flag != 0) {
+    if (ending_movie_active_flag != 0) {
         request_main_phase(2);
         return;
     }

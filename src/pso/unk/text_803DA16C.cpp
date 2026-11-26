@@ -1,7 +1,6 @@
 #include "pso/render/GinjaTexture.h"
 
 
-extern GinjaTextureError texture_error;
 
 #pragma push
 #pragma use_lmw_stmw off

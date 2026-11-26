@@ -15,8 +15,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/switch/TSwitch.h"
 
-extern "C" {
-extern const char *switch_attack_name;
 
 void TOSwitchAttack::render() {  }
 
@@ -61,7 +59,7 @@ void TOSwitchAttack::run_task() {
             p = resolve_hittable_target(i, 0);
             if (p != NULL) {
                 if (((TObjPlayer *)p)->get_floor() == get_current_floor() &&
-                    horizontal_distance_squared(&((TObjPlayer *)p)->position, &position) < range_sq) {
+                    horizontal_distance_squared(&p->position, &position) < range_sq) {
                     DirectAttackPayload b;
                     b.kind = 0;
                     b.power = damage;
@@ -125,10 +123,9 @@ void *TOSwitchAttack::create(void *set_data) {
     return new TOSwitchAttack(tl_05, set_data);
 }
 
-void TOSwitchAttack::free_assets() {  }
-void TOSwitchAttack::load_assets() {  }
+void TOSwitchAttack::free_resources() {  }
+void TOSwitchAttack::load_resources() {  }
 
-}
 TOSwitchAttack::~TOSwitchAttack() {
 
 }

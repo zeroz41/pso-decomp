@@ -15,7 +15,8 @@ struct NJS_TEXLIST;
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/system/scene/UvScrollBuffer.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
@@ -42,17 +43,17 @@ BmlResource *door_jung_resource_handle;
 NJS_TEXLIST *door_jung_texlist;
 void *door_jung_child_list;
 s32 door_jung_scroll_tick;
-void *door_jung_door_scene_buffer;
+UvScrollBuffer *door_jung_door_scene_buffer;
 s32 door_jung_signal_red_texture;
 s32 door_jung_signal_blue_texture;
 s32 door_jung_beam_red_texture;
 s32 door_jung_beam_blue_texture;
 
-struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
+
 
 void TObjDoorJung::free_buffers() {
     if (door_jung_door_scene_buffer != NULL) {
-        ((TScene *)door_jung_door_scene_buffer)->destroy_buffers(1);
+        delete door_jung_door_scene_buffer;
         door_jung_door_scene_buffer = NULL;
     }
     if (door_jung_resource_handle != NULL) {
@@ -66,7 +67,6 @@ void load_door_jung_resources(void) {
     saddr handle;
     NJS_OBJECT *model;
     NJS_OBJECT *node;
-    void *scene;
 
     handle = (saddr)new BmlResource(5, &bm_obj_beamdoa_resource_descriptor, 0, 0, NULL);
     door_jung_resource_handle = (BmlResource *)handle;
@@ -85,11 +85,7 @@ void load_door_jung_resources(void) {
     door_jung_beam_red_texture = find_texture_entry_by_name(door_jung_texlist, parts[2]);
     door_jung_beam_blue_texture = find_texture_entry_by_name(door_jung_texlist, parts[3]);
     if (door_jung_beam_red_texture != -1) {
-        scene = (void *)::operator new(0x14);
-        if (scene != NULL) {
-            scene = ((TScene *)scene)->init_buffers((saddr)model->child->sibling, door_jung_beam_red_texture);
-        }
-        door_jung_door_scene_buffer = scene;
+        door_jung_door_scene_buffer = new UvScrollBuffer(model->child->sibling, door_jung_beam_red_texture);
     } else {
         door_jung_door_scene_buffer = NULL;
     }
@@ -119,7 +115,7 @@ void TObjDoorJung::render() {
         }
         if (actor_frame_tick != door_jung_scroll_tick) {
             if (door_jung_door_scene_buffer != NULL) {
-                ((TScene *)door_jung_door_scene_buffer)->offset_position(0, -0xA);
+                door_jung_door_scene_buffer->offset_position(0, -0xA);
             }
             door_jung_scroll_tick = actor_frame_tick;
             PPCSync();
@@ -138,7 +134,7 @@ void TObjDoorJung::render() {
                 set_ginja_model_texture_slot(door_jung_child_table[j], static_cast<u16>(door_jung_signal_blue_texture));
             }
         }
-        TObjFish::set_global_param(door_jung_texlist);
+        set_texture_list(door_jung_texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -154,18 +150,18 @@ void TObjDoorJung::render() {
 void TObjDoorJung::update_door_switch_state() {
     s32 ok = 1;
     s32 i = 0;
-    while (i < ((Jung_8018F808 *)this)->fD4) {
-        s32 t = is_current_floor_switch_set((u16)(((Jung_8018F808 *)this)->fC8 + i)) - 1;
+    while (i < active_light_count) {
+        s32 t = is_current_floor_switch_set((u16)(switch_id + i)) - 1;
         i++;
         ok = (t == 0) ? (ok & 1) : 0;
     }
     if (ok != 0) {
-        ((Jung_8018F808 *)this)->fD0 |= 1;
+        door_flags |= 1;
         set_indexed_flags(0, 8);
         return;
     }
-    ((Jung_8018F808 *)this)->fD0 &= ~1;
-    ((TObjCollidable *)((Jung_8018F808 *)this))->clear_player_status_flag(0, 8);
+    door_flags &= ~1;
+    clear_player_status_flag(0, 8);
 }
 
 void TObjDoorJung::run_task() {

@@ -2,6 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_80299C4C.h"
+#include "pso/unk/TLobby_80291D94.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/TObjChallenge4PRetry.h"
@@ -15,6 +16,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/network/TLobby.h"
+#include "pso/object/ambient/TObjMistCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -41,6 +43,8 @@
 #include "pso/network/client_id.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
@@ -70,7 +74,7 @@ s32 init_jungle_area(void) {
         init_music_sequencer(5);
     }
     if ((TRaderMapCore::is_not_split_screen() == 0) && (((s32)get_current_floor_area()) == AREA_CENTRAL_CONTROL_AREA)) {
-        TLobby::create_mist_ctrl(tl_05, NULL);
+        TObjMistCtrl::create(tl_05, NULL);
     }
     return 1;
 }
@@ -114,7 +118,6 @@ extern "C" {
 
 const char *obj_challenge4p_retry_class_name = "TObjChallenge4PRetry";
 
-s32 get_camera_view_count();
 
 s32 TLobby::is_multi_ready() {
     if ((TLobby::get_challenge_mode_flag() != 0) || (get_camera_view_count() <= 1)) {
@@ -222,18 +225,13 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
         queue_destruction();
     }
 }
-extern "C" {
 
-s32 TLobby__sub_80291F9C();
-}
-
-extern s32 evt2_random_enemies_mode;
 
 void giveup_window_handle_select(void *retry) {
     TObjChallenge4PRetry *window = (TObjChallenge4PRetry *)retry;
 
     TLobby::play_effect_all_players(retry);
-    switch (TLobby__sub_80291F9C()) {
+    switch (get_challenge4p_retry_choice()) {
     case 0:
         play_cue_stream_file("lose.adx");
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(retry);
@@ -339,8 +337,6 @@ void TObjChallenge4PRetry::update_giveup() {
     }
 }
 
-void *__ct__20TObjChallenge4PRetryFP7TObject(void *, void *);
-
 void TObjChallenge4PRetry::run_task() {
     u8 *self = (u8 *)this;
     this->m_20 = ((s32 (*)(void *))is_designated_client)(self);
@@ -385,10 +381,7 @@ TObjChallenge4PRetry::TObjChallenge4PRetry(TObject *parent) : TObject(parent) {
     this->state = 0;
 }
 
-void *TObjChallenge4PRetry::create(void *parent) {
-    void *o = TObject::operator new(0x34);
-    if (o != NULL) {
-        o = __ct__20TObjChallenge4PRetryFP7TObject(o, parent);
-    }
+void *TObjChallenge4PRetry::create(TObject *parent) {
+    void *o = new TObjChallenge4PRetry(parent);
     return o;
 }

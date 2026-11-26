@@ -12,6 +12,7 @@
 
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/unk/text_80072230.h"
 
 
 
@@ -19,10 +20,8 @@ void build_6x8A_packet(u8 *packet);
 void build_6x95_packet(u8 *packet);
 void build_6x97_packet(u8 *packet);
 void build_6x9D_packet(u8 *packet);
+void send_challenge_dead_flag_packet(TLobby *lobby);
 extern "C" {
-void TLobby__sub_80072724(TLobby *lobby);
-void TLobby__sub_800722AC(s32 index);
-void TLobby__sub_80072618(void);
 void TLobby__sub_800727A0(void *player);
 }
 void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
@@ -51,7 +50,7 @@ void TLobby__sub_800722AC(s32 index) {
     }
     build_6x9D_packet((u8 *)&stack);
     stack.client_id = index;
-    TLobby__sub_80072724((TLobby *)&stack);
+    send_challenge_dead_flag_packet((TLobby *)&stack);
 }
 
 void TLobby::send_challenge_retry_cmd(s32 choice) {
@@ -156,7 +155,7 @@ void TChallenge::send_6x7c_reset() {
     packet.send();
 }
 
-void TLobby__sub_80072618(void) {
+void send_own_challenge_records(void) {
     ChallengeClientRecords *own;
     if (is_challenge_mode() != 0) {
         own = &challenge_mode_state.client_records[local_client_id];

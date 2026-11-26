@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/unk/TLobby_801E2F94.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"

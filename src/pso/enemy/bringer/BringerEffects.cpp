@@ -43,10 +43,8 @@ u32 bringer_effect_color_table[12];
 
 #pragma fp_contract on
 
-// TObjEneDf2Bringer::sub_80099248 calls this on TObject::operator new(0x34)'s result; written as
-// `new TObjEneDf2Bringer_Eff_Rush(...)` that caller allocates its registers differently, so the
-// constructor stays a free function for now (parent, source, recipient, speed as in
-// TObjEneDellBiter_Eff_Rush's ctor).
+// Builds a rush effect in `rush` (allocated by the Bringer with TObject::operator new): parent,
+// source, recipient and speed as in TObjEneDellBiter_Eff_Rush's constructor.
 u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, u8 *source, saddr recipient, f32 speed) {
     TObjEneDf2Bringer_Eff_Rush *self = (TObjEneDf2Bringer_Eff_Rush *)rush;
     Vec displacement;

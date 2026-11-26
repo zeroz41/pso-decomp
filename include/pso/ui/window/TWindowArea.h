@@ -11,9 +11,9 @@ public:
     virtual void run_task();
 };
 
+void update_area_count_text(TWindowArea *area);
 extern "C" {
 TWindowArea *create_area_window(void *text);
-void fn_8024450C(TWindowArea *area);
 }
 TWindowArea *create_window_area();
 

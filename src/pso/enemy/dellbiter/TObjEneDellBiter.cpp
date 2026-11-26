@@ -50,7 +50,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/TItem.h"
@@ -61,12 +61,12 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -79,7 +79,6 @@
 #include "pso/object/TDeadSpot.h"
 
 
-extern "C" {
 player_stats *dellbiter_boss_stat_handle;
 AttackParams *dell_biter_shared_handler_param;
 ActorParamBlock *dellbiter_object_stat_handle;
@@ -144,7 +143,6 @@ TObjMotionAction dell_biter_param_table[10] = {
 };
 
 const char *dell_biter_class_name = "TObjEneDellBiter";
-}
 #pragma fp_contract on
 
 void TObjEneDellBiter::load_resources() {
@@ -206,7 +204,7 @@ void TObjEneDellBiter::init_params() {
     init_position_vectors();
     model = dell_biter_shared_model_resource->models->model;
     texlist = dell_biter_shared_model_resource->models->texlist;
-    init_model((CollisionBody *)dell_biter_collision_bodies, 1);
+    init_model(dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
     set_action_table(dell_biter_param_table);
     set_motion_list(dell_biter_shared_model_resource->motions);
@@ -298,9 +296,9 @@ void TObjEneDellBiter::run_task() {
     }
     if (this->update_status_effects() != 4) {
         this->update_action_state();
-        if ((s32) dell_biter_last_uv_scroll_tick != (s32) actor_frame_tick) {
+        if (dell_biter_last_uv_scroll_tick != (s32) actor_frame_tick) {
             dell_biter_last_uv_scroll_tick = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0((s16 *)dell_biter_scrolling_uv_polygon_list, 0xC, 0, 0);
+            scroll_chunk_plist_uvs((s16 *)dell_biter_scrolling_uv_polygon_list, 0xC, 0, 0);
         }
     }
     this->update_particle_emitters();
@@ -1433,7 +1431,7 @@ void TObjEneDellBiter::step_demo_script(NJS_OBJECT *) {
     case 32:
         pos = dell_biter_demo_script_cursor;
         dell_biter_demo_script_cursor = pos + 1;
-        forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, pos);
+        forward_transform_to_view(&dellbiter_demo_camera_vec, pos);
         break;
     }
     dell_biter_demo_script_step += 1;
@@ -1497,7 +1495,7 @@ void TObjEneDellBiter::render() {
                 draw = 0;
             }
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (draw != 0) {
             push_matrix();
             post_translate_matrix(&position.x);
@@ -1547,7 +1545,7 @@ void TObjEneDellBiter::render_demo() {
         Vec v = { 1.0f, 1.0f, 3.0f };
         TObjEneDD::draw_ground_shadow(&v, 0);
         toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1564,7 +1562,7 @@ void TObjEneDellBiter::render_demo() {
 s32 TObjEneDellBiter::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_position) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

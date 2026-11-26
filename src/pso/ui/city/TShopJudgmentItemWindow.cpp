@@ -13,7 +13,7 @@
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
@@ -243,7 +243,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             this->judged_item.id = advance_item_id_counter((u16)local_client_id);
             this->result_item = construct_item(&judged_item);
             this->item_list->add_list_entry(this->result_item, 0);
-            ((TWindowSubShortCutList *)this->item_list)->set_flag70_bit10();
+            this->item_list->set_flag70_bit10();
             this->item_list->set_flag_40();
             this->item_list->set_close_flag();
             this->item_list->calc_content_extent();
@@ -335,7 +335,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
         if (yes_no_menu == NULL) {
             id = player->get_entity_id();
             yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
-            ((TWindowSubComCardList *)yes_no_menu)->set_selected_index(0);
+            yes_no_menu->set_selected_index(0);
             y = get_scale();
             yes_no_menu->set_position_xy(get_scale(), y);
         }
@@ -416,7 +416,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
     if (this->is_message_ready() != 0) {
         if (this->yes_no_menu == NULL) {
             this->yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), this->player->get_entity_id(), NULL, NULL);
-            ((TWindowSubComCardList *)this->yes_no_menu)->set_selected_index(0);
+            this->yes_no_menu->set_selected_index(0);
             this->yes_no_menu->set_position_xy(get_scale(), get_scale());
         }
         if ((this->yes_no_menu != NULL) && (this->yes_no_menu->is_decided() != 0)) {

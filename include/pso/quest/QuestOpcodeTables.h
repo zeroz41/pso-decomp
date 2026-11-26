@@ -3,16 +3,28 @@
 
 #include "types.h"
 
+// One quest opcode: the decoder reads the opcode's arguments from the quest code and calls the handler with
+// them, so each handler is stored as a QuestOpcodeHandler and called back with the shape its decoder reads.
 typedef void (*QuestArgumentDecoder)(s32 opcode);
 typedef void (*QuestOpcodeHandler)();
+typedef void (*QuestHandlerU8)(u8);
+typedef void (*QuestHandlerU8U8)(u8, u8);
+typedef void (*QuestHandlerU8S32)(u8, s32);
+typedef void (*QuestHandlerU8U16)(u8, u16);
+typedef void (*QuestHandlerU8U8U16)(u8, u8, u16);
+typedef void (*QuestHandlerU8S32U16)(u8, s32, u16);
+typedef void (*QuestHandlerU16)(u16);
+typedef void (*QuestHandlerU16U8)(u16, u8);
+typedef void (*QuestHandlerS32)(s32);
+typedef void (*QuestHandlerString)(char *);
+typedef void (*SwitchJumpHandler)(s32, u8, s16 *);
+typedef void (*JumpOnHandler)(u16, u8, u8 *);
 struct QuestOpcodeEntry {
     QuestArgumentDecoder decode_arguments;
     QuestOpcodeHandler handler;
 };
 
-extern "C" {
 extern QuestOpcodeEntry qst_opcode_table[0x300];
-}
 extern const char* qst_bgm_filename_table[];
 // Nonzero while a quest runs (is_quest_active).
 extern int quest_active_flag;
@@ -175,7 +187,7 @@ void qst_op_fleti_locked_camera();
 void qst_op_move_coords_object(s32 i, s32 k);
 void qst_op_close_chat_bubble(s32 reg);
 void qst_op_set_screen_bw();
-int qst_op_set_motion_blur(void);
+void qst_op_set_motion_blur();
 void qst_op_restore_tp(s32 reg);
 void qst_op_restore_hp(s32 reg);
 void qst_op_set_slot_zalure(s32 slot_reg);
@@ -333,7 +345,7 @@ void qst_op_set_eventflag2();
 void qst_op_set_eventflag();
 void qst_op_disable_mainmenu();
 void qst_op_nop_BC();
-int qst_op_clr_qt_exit(void);
+void qst_op_clr_qt_exit(void);
 void qst_op_set_qt_exit(u16 label);
 void qst_op_get_difficulty_level_v1(s32 reg);
 void qst_op_setevt();
@@ -342,10 +354,10 @@ void qst_op_winset_time(s32 reg);
 void qst_op_show_timer(void *p);
 void qst_op_find_inventory_item_ex(u8 regs, u8 dst);
 void qst_op_del_obj_param(s32 reg);
-int qst_op_clr_qt_cancel(void);
-int qst_op_clr_qt_success(void);
+void qst_op_clr_qt_cancel(void);
+void qst_op_clr_qt_success(void);
 void qst_op_pcam_param(u8 regs);
-int qst_op_clear_mainwarp_all(void *p);
+void qst_op_clear_mainwarp_all();
 void qst_op_npc_text_clear_all();
 void qst_op_pl_pkon(void *p);
 void qst_op_pl_pkoff(void *p);
@@ -404,7 +416,7 @@ void qst_op_item_delete(u32 src, u32 dst);
 void qst_op_item_create2(u8 regs, u8 dst);
 void qst_op_item_create(u8 regs, u8 dst);
 void qst_op_pl_add_meseta();
-int qst_op_clr_qt_failure(void);
+void qst_op_clr_qt_failure(void);
 void qst_op_set_qt_cancel(u16 label);
 void qst_op_set_qt_success(u16 label);
 void qst_op_set_qt_failure(u16 label);
@@ -445,8 +457,8 @@ void qst_op_p_look_at();
 void qst_op_particle_id(u8 first);
 void qst_op_pl_walk(u8 regs);
 void qst_op_p_look();
-int qst_op_p_col(void *p);
-int qst_op_p_noncol(void *p);
+void qst_op_p_col();
+void qst_op_p_noncol();
 void qst_op_enable_movement1();
 void qst_op_disable_movement1();
 void qst_op_npc_talk(void);
@@ -530,6 +542,12 @@ void qst_op_sync();
 void qst_op_exit();
 void qst_op_ret();
 void qst_op_nop();
+// Readers of the quest code at qst_pc; each advances past what it reads.
+unsigned char read_u8();
+u16 read_be_u16();
+s32 stream_read_be32();
+void append_string_to_buffer(char *dest);
+void qst_getargs_u8_u16(s32 opcode);
 void qst_getargs_u16_u8(s32 opcode);
 void qst_getargs_cstring(s32 opcode);
 void qst_getargs_s32_u8_s16ptr(s32 opcode);

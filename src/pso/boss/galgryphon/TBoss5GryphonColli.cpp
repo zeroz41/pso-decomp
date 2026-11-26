@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli_C.h"
 #include <stddef.h>
 #include "pso/system/vector.h"
@@ -16,7 +15,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 
 

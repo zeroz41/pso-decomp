@@ -17,7 +17,7 @@
 #include "pso/effect/TEffIndirectCtrl.h"
 
 #include "pso/system/vector.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/ActorCollision.h"
@@ -195,7 +195,7 @@ void TFireExplosion::render() {
     post_translate_matrix((const f32 *)&position);
     scale_matrix(0, x, y, z);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(technique_texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(technique_texture_list));
     set_cull_back();
     set_draw_list_mask(3);
     get_bml_model(technique_effect_bml, 0xB);

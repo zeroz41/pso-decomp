@@ -25,6 +25,17 @@ public:
     void fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol);
     s32 is_ready();
     s32 get_field_308();
+    // Steps the sound random generator (x * 0x10DCD + 1) and returns it.
+    s32 advance_rng();
+    s32 get_voice_volume_adjustment();
+    void set_voice_volume_adjustment(s32 adjustment);
+    // Clamps to 0..1.
+    void set_reverb_level(f32 level);
+    s32 reset_sound_state();
+    // Pops the pushed sound groups and frees their buffers: all of them when pop_all is set,
+    // otherwise down to the four resident banks.
+    s32 pop_sound_groups(s32 pop_all);
+    s32 validate_and_set_selection(s32 bank);
 
     u8 reverb[0x1C4];             // MusyX SND_AUX_REVERBHI work area
     u8 reverb_temp_disable;       // SND_AUX_REVERBHI.tempDisable
@@ -47,12 +58,11 @@ public:
     s32 output_mode;              // 0, 1 or 2: what set_output_mode gave sndOutputMode
     f32 f2A4;
     s32 f2A8;
-    s32 f2AC;
+    s32 rng_seed;
     s32 route_pos;
     s16 *route;
     s32 depth;
-    s32 f2BC;
-    s32 stack[16];
+    s32 stack[17]; /* pushed group ids, stack[1..depth] */
     s32 tick;
     u32 elapsed;
     u32 ms;
@@ -71,8 +81,8 @@ LAYOUT_ASSERT(SoundControlState_ms_offset, offsetof(SoundControlState, ms) == 0x
 
 extern SoundControlState sound_control_state;
 
+void set_sound_voice_position(s32 slot, const Vec *position);
 extern "C" {
-void TLobby__sub_8023F754(s32 slot, const Vec *position);
 s32 TLobby__sub_8023F880(s32 voice);
 int TLobby__sub_802401C8(SoundControlState *self);
 void TLobby__sub_802409E4(struct SoundRequestVoice *voice);
@@ -88,19 +98,17 @@ extern "C" {
 s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step);
 }
 void fade_out_sound_slot(s32 slot, s32 step);
+s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32 base, s32 flags);
+s32 alloc_one_shot_sound_slot(u32 id, const Vec *position, s32 base, s32 flags);
+void reset_sound_group_fade();
+void fade_voice_channels(s32 step);
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 void set_sound_slot_special_scale(s32 slot, f32 scale);
+u16 update_crc16_ccitt(u16 crc, u8 c);
 
 s32 set_voice_pitch_slide(struct SoundRequestVoice *voice, s32 target, s32 duration);
 s32 tick_sound_voice(struct SoundRequestVoice *v);
 
-// --- C functions defined in TLobby_8023F734.cpp ---
-s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32 base, s32 flags);
-s32 alloc_one_shot_sound_slot(u32 id, const Vec *position, s32 base, s32 flags);
-void fade_out_sound_slot(s32 slot, s32 step);
-void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
-void set_sound_slot_special_scale(s32 slot, f32 scale);
-// --- end of C functions
 
 s32 update_sound_frame(SoundControlState *self);
 s32 init_sound_aux_effects(SoundControlState *self);
@@ -110,6 +118,5 @@ typedef struct ResolveSoundEffectBankRange {
     s32 end;
 } ResolveSoundEffectBankRange;
 
-struct IfSlot { void *buf[4]; u8 pad[0x24 - 0x10]; };
 
 #endif

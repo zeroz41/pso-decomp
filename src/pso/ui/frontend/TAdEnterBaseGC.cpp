@@ -13,8 +13,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/task/TObject.h"
 
-#include "pso/system/task/TObject_80019A50.h"
-
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
@@ -39,13 +37,11 @@
 
 #include "pso/unk/TLobby_80132ED0.h"
 
-#include "pso/unk/text_8032AACC.h"
 
-#include "pso/unk/text_8032AC9C.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_8013ADE4.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 
 struct LengthLimits { u32 n[4]; };
 
@@ -93,7 +89,7 @@ const NJS_COLOR password_field_box_color = {0xFF};
 // inferred: per-field mode passed to the TKeyBoardControl ctor by create_keyboard_control.
 const KeyboardModes serial_keyboard_mode_table = {3, 3, 2, 0};
 
-const char *TAdEnterBaseGC__class_name = "TAdEnterBaseGC";
+const char *TAdEnterBaseGC::class_name = "TAdEnterBaseGC";
 
 TAdEnterBaseGC::Position password_screen_status_line_position[1] = {0.0f, 0.0f};
 
@@ -108,7 +104,6 @@ s32 TAdEnterBaseGC::entry_mode;
 
 extern "C" {
 
-void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor);
 
 
 extern char serial_access_hex_string_buf[];
@@ -128,7 +123,7 @@ s32 TAdPsoPassSaveGC__sub_8032B584(void) {
 }
 
 TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {
-    m_name = TAdEnterBaseGC__class_name;
+    m_name = TAdEnterBaseGC::class_name;
     sub_8032B460(0);
 }
 
@@ -309,7 +304,7 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, 
 }
 
 void fn_8032AC9C(void *window, void *context) {
-    ((TWindowBase *)window)->draw_window_frame(context);
+    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC::entry_mode) {
     case 0:
@@ -366,7 +361,7 @@ void draw_masked_password_field(saddr context) {
         NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * password_entry_keyboard_control->get_cursor_position());
         p2.y = password_field_text_pos[1];
-        fn_8025DE10((WindowDrawContext *)context, &p2);
+        draw_text_cursor((WindowDrawContext *)context, &p2);
     }
 }
 

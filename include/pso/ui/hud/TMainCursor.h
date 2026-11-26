@@ -47,9 +47,11 @@ public:
 class LockOnActionSlot;
 
 struct TMainCursor : public TObject {
+    static void free_resources();
+    static void load_resources();
     TMainCursor(TObject *parent, u16 entity_id, s32 target_id, s32 action_palette, s32 active, u16 client_id, f32 size);
     virtual ~TMainCursor();
-    void sub_8013E724(f32);
+    void set_size(f32);
     // 0 = ring shrinking onto the target, 1 = steady, 2 = fading out.
     u32 phase;
     FlagWord unk_20;

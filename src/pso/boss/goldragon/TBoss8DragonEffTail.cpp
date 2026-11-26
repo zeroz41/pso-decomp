@@ -19,7 +19,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"

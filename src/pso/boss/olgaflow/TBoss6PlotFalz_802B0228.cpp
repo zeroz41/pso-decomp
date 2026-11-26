@@ -12,14 +12,13 @@
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 // The Falz plot script: one {name, enter, idle, update, advance} entry per
 // plot state, run by TBoss6PlotFalz::run_phase_action. Built with deferred

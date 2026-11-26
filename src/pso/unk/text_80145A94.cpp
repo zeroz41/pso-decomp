@@ -8,7 +8,7 @@
 #include "pso/system/save/McFsGc.h"
 #include "pso/system/save/McFsGcRequests.h"
 #include "pso/unk/text_80145A94.h"
-#include "pso/unk/text_8042EE4C.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
@@ -20,8 +20,8 @@
 extern s16 disc_error_code;
 void *network_info_work;
 u16 network_info_flags;
-u16 lbl_805D56CE;
-int keyboard_buffer_cursor; // stored only by NetworkConnect
+u16 network_config_open;
+int network_lease_time;
 s32 load_network_info(void) {
     LoadNetworkInfoBuf buf;
     LoadNetworkInfoIds ids = {0, 1};
@@ -43,12 +43,12 @@ s32 load_network_info(void) {
     if (status == 5) {
         status = 4;
     }
-    if (lbl_805D56CE != 0) {
-        TLobby__sub_803F3D60();
-        lbl_805D56CE = 0;
+    if (network_config_open != 0) {
+        close_network_config();
+        network_config_open = 0;
     }
-    TLobby__sub_803F3BF8(0, network_info_work, status);
-    lbl_805D56CE = 1;
+    open_network_config(0, network_info_work, status);
+    network_config_open = 1;
     init_card_lib((void *)TLobby::get_global_63e0());
     start = 0;
     end = 2;
@@ -158,7 +158,7 @@ s32 load_network_info(void) {
             return 1;
         }
         memset(&buf, 0, 0x270);
-        ((TLobby *)(buf.name))->copy_current_entry_name(0x80);
+        copy_current_entry_name(buf.name, 0x80);
         TLobby__sub_803F53A0(0, (char *)buf.x, 0x40);
         if (buf.name[0] == 0 || buf.x[0] == 0) {
             return 0;
@@ -246,7 +246,7 @@ s32 init_struct(u8 *info) {
     TLobby__sub_803F6138((char *)(info + 0x204), 0x20);
     TLobby__sub_803F6138((char *)(info + 0x204), 0x20);
     TLobby__sub_803F6270((u16 *)(info + 0x244));
-    ((TLobby *)(info + 8))->copy_current_entry_name(0x80);
+    copy_current_entry_name((char *)(info + 8), 0x80);
     TLobby__sub_803F4EBC((char *)(info + 0x88), 0x20);
     TLobby__sub_803F4FF4(info + 0xB4);
     TLobby__sub_803F50B8(info + 0xB8);
@@ -261,7 +261,7 @@ s32 init_work(s32 unused, u8 *info) {
     if (!(network_info_flags & 1)) {
         return 0;
     }
-    ((TLobby *)(info + 0x4))->copy_current_entry_name(0x80);
+    copy_current_entry_name((char *)(info + 0x4), 0x80);
     TLobby__sub_803F4EBC((char *)(info + 0x84), 0x20);
     TLobby__sub_803F4FF4(info + 0x164);
     TLobby__sub_803F50B8(info + 0x168);

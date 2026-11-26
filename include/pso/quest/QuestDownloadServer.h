@@ -12,6 +12,7 @@
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadCharTables.h"
+#include "pso/quest/AskDic.h"
 
 struct QuestSymbolLookupResult {
     s16 page_index;
@@ -38,8 +39,30 @@ struct QuestDownloadNameCacheImage {
     u8 pages[8][0x400];
 };
 
+extern u8 lbl_8058DC48[0x50];
 extern u8 lbl_8058DC98[0x50];
+extern u8 lbl_8058DCE8[0x50];
+extern u8 quest_request_text_buffer[0x50];
 extern "C" {
+extern s32 lbl_805D7880;
+extern s32 lbl_805D7884;
+extern s32 quest_download_free_list_ready_flag;
+extern s16 lbl_805D78E0;
+extern s32 lbl_805D78E4;
+void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
+s32 TQuestVmDownLoadServer__sub_803EDC20(u32 input_address);
+s32 load_name_cache_image(void);
+void rotate_cache_page(void);
+s32 TQuestVmDownLoadServer__sub_803EA1A8(s32 start, s32 end);
+s32 TQuestVmDownLoadServer__sub_803EA428(s32 start, s32 end);
+QuestDownloadTextNode *TQuestVmDownLoadServer__sub_803EBEFC(const QuestDownloadEntryPrefix *entry);
+s32 TQuestVmDownLoadServer__sub_803ED84C(QuestDownloadEntryNode *e, s32 idx, s32 max);
+const u8 *TQuestVmDownLoadServer__sub_803EDDA4(u16 *start, u16 *end);
+void TQuestVmDownLoadServer__sub_803EE580(s32 pos, s32 len, QuestDownloadTextNode *node, QuestDownloadEntryNode *link);
+s32 TQuestVmDownLoadServer__sub_803EEDC0(QuestDownloadRequest *req, s32 *ids, s32 n);
+s32 TQuestVmDownLoadServer__sub_803EEFC8(u8 *rec, QuestDownloadRequest *msg);
+s32 TQuestVmDownLoadServer__sub_803EF958(u32 id, u16 key, s32 *ids, s32 n);
+s32 TQuestVmDownLoadServer__sub_803F0500(u8 *name, s16 len, QuestNameLookupResult *out);
 extern u8 quest_download_scratch_storage[0x28] ATTRIBUTE_ALIGN(4);
 extern u16 quest_download_buffer_storage[0x64] ATTRIBUTE_ALIGN(4);
 extern s32 quest_download_state;
@@ -78,7 +101,6 @@ extern s32 quest_download_name_search_lo;
 extern s32 quest_download_name_search_hi;
 QuestDownloadItemNode *alloc_quest_item_node(void);
 extern "C" {
-QuestDownloadItemNode *build_item_list__22TQuestVmDownLoadServerFlP12Hdr_803EA384(s32 arg0, Hdr_803EA384 *arg1);
 void reset_slot(QuestDownloadSlot *slot, s32 mode);
 s32 convert_quest_text_u8_to_u16(u16 *, const u8 *, int);
 }
@@ -123,13 +145,12 @@ void render_quest_text_page(void);
 void seek_quest_text_page(s32, s32);
 extern s32 quest_page_node_count;
 s32 measure_entry_group_len(QuestDownloadTextNode *quest_download_text_node);
+void release_node_chain(QuestDownloadItemNode *p);
 extern "C" {
-void release_node_chain__22TQuestVmDownLoadServerFPv(QuestDownloadItemNode *p);
 s32 parse_record_query_entries(u8 *data, QuestDownloadQueryEntry *entries, s32 n, s32 *max);
 s32 query_exact_matches(const char *name, s16 len, QuestDownloadQueryResult *out);
 s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c);
 }
-extern u8 lbl_805D7894[4];
 extern "C" {
 s32 query_prefix_matches(const char *name, s16 len, QuestDownloadQueryResult *out);
 QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32, s32, u8, u8);

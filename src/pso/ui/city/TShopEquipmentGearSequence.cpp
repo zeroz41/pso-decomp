@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/city/TShopEquipmentGearSequence.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/quest/TQuestListVM.h"
@@ -19,7 +18,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/text_80222C28.h"
 

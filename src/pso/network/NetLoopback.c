@@ -21,8 +21,8 @@ s32 loopback_shutdown(void) {
     return 0;
 }
 
-void init_loopback(void) {
-    register_loopback_handlers();
+s16 init_loopback(void) {
+    return register_loopback_handlers();
 }
 
 s16 register_loopback_handlers(void)

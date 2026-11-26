@@ -3,8 +3,8 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_800F8AA8.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/BmlAccessors.h"
+#include "pso/system/prs.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 #pragma readonly_strings on
-const char TGStream__class_name_string[] = "TGStream";
+static const char gstream_class_name[] = "TGStream";
 const char city_gsl_path[] = "gsl_city.gsl";
 const char forest01_gsl_path[] = "gsl_forest01.gsl";
 const char forest02_gsl_path[] = "gsl_forest02.gsl";
@@ -342,7 +342,7 @@ TGStream::~TGStream() {
         ADXF_Close(adxf_handle);
     }
     if (direct_read_mode == 0) {
-        TLobby::tmp_buf_release(TGStream__class_name_string);
+        TLobby::tmp_buf_release(gstream_class_name);
     }
 }
 
@@ -374,7 +374,7 @@ TGStream::TGStream(void *file, s32 direct_read_mode) {
         while (TLobby::tmp_buf_is_free() == 0) {
             TLobby::pump_frames();
         }
-        gstream_tmp_buffer = (saddr)TLobby::tmp_buf_use_req(TGStream__class_name_string);
+        gstream_tmp_buffer = (saddr)TLobby::tmp_buf_use_req(gstream_class_name);
     }
 }
 

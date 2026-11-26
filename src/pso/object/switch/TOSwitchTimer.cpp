@@ -15,14 +15,13 @@
 #pragma readonly_strings on
 
 void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *command) {
-    ((TOChatSensor *)command)->swap_state_endian();
+    command->bswap();
     if (command->should_set == 1) {
         set_floor_switch_flag(command->switch_flag_num, command->switch_flag_floor);
     } else if (command->switch_flag_floor != get_current_floor()) {
         clear_floor_switch_flag(command->switch_flag_num, command->switch_flag_floor);
     }
 }
-extern "C" {
 
 #pragma push
 #pragma opt_common_subs off
@@ -34,11 +33,11 @@ void TOSwitchTimer::send_switch_states() {
     s32 i;
     if ((u32) this->mode == 0U) {
         if ((u16) this->trigger_switch < 0x100U) {
-            ((TOChatSensor *)(&clear_packet))->init_packet_type();
+            clear_packet.init();
             clear_packet.switch_flag_floor = this->floor;
             clear_packet.switch_flag_num = this->trigger_switch;
             clear_packet.should_set = 0;
-            ((TOChatSensor *)(&clear_packet))->send_state();
+            clear_packet.send();
             clear_floor_switch_flag((this->trigger_switch), (this->floor));
         }
     } else {
@@ -46,17 +45,16 @@ void TOSwitchTimer::send_switch_states() {
         i = 0;
         do {
             if ((u16) *switch_id < 0x100U) {
-                ((TOChatSensor *)(&set_packet))->init_packet_type();
+                set_packet.init();
                 set_packet.switch_flag_floor = this->floor;
                 set_packet.switch_flag_num = *switch_id;
                 set_packet.should_set = 1;
-                ((TOChatSensor *)(&set_packet))->send_state();
+                set_packet.send();
             }
             i += 1;
-            switch_id = (u16 *)((u8 *)switch_id + (2));
+            switch_id++;
         } while (i != 3);
     }
-}
 }
 #pragma pop
 
@@ -159,8 +157,8 @@ void *TOSwitchTimer::create(void *set_data) {
     return o;
 }
 
-void TOSwitchTimer::free_assets() {  }
-void TOSwitchTimer::load_assets() {  }
+void TOSwitchTimer::free_resources() {  }
+void TOSwitchTimer::load_resources() {  }
 TOSwitchTimer::~TOSwitchTimer() {
     if ((u32) this->mode == 0U) {
         clear_floor_switch_flag(this->trigger_switch, (s16) this->floor);

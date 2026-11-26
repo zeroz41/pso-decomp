@@ -10,26 +10,26 @@
 s32 TAdPsoPassSaveGC__data_805D6E80;
 
 void TAdPsoPassSaveGC::render() {
-    vfunc_12();
+    render_dialog();
 }
 
-saddr TAdPsoPassSaveGC::vfunc_10() {
+saddr TAdPsoPassSaveGC::get_message_text() {
     return get_localized_text_entry(0x2A, 0);
 }
 
 
-void TAdPsoPassSaveGC::vfunc_7() {
+void TAdPsoPassSaveGC::on_cancel() {
     TAdPsoPassSaveGC__data_805D6E80 = 0;
     request_main_phase(0xF);
 }
 
-void TAdPsoPassSaveGC::vfunc_6() {
+void TAdPsoPassSaveGC::on_accept() {
     TAdPsoPassSaveGC__data_805D6E80 = 1;
     request_main_phase(0xF);
 }
 
 void TAdPsoPassSaveGC::run_task() {
-    vfunc_11();
+    run_dialog();
 }
 
 
@@ -37,10 +37,10 @@ TAdPsoPassSaveGC::~TAdPsoPassSaveGC() {
 
 }
 
-const char *TAdPsoPassSaveGC__name = "TAdPsoPassSaveGC";
+const char *TAdPsoPassSaveGC::name = "TAdPsoPassSaveGC";
 
 TAdPsoPassSaveGC::TAdPsoPassSaveGC(TObject *parent) : TAdYesNoBaseGC(parent) {
-    m_name = TAdPsoPassSaveGC__name;
+    m_name = TAdPsoPassSaveGC::name;
     new TAdTitleGC(this, 18);
 }
 

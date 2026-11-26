@@ -9,7 +9,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -81,7 +81,7 @@ void TODoorMachine02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         unlocked = door_flags & 1;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             post_translate_matrix(node->pos);

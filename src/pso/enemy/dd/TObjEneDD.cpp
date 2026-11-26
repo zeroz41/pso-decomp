@@ -24,7 +24,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 const char *dd_name = "TObjEneDD";
-const char *TObjEneDD_ST__name = "TObjEneDD_ST";
+const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 #include "pso/map/CsnQuery.h"
 
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
@@ -45,7 +45,6 @@ extern const f32 view_detail_near_depth = 155.0f;
 
 #include "pso/ui/TLevelSelect.h"
 extern "C" {
-int is_local_client_floor_leader(void*);
 int release_players_from_cutscene(void*);
 }
 
@@ -77,7 +76,7 @@ TAttackCollider *obj_ene_dd_instance;
 #include "pso/math/MatrixVector.h"
 
 
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 
 #include <dolphin/mtx.h>
@@ -101,8 +100,8 @@ int submit_cursor_candidate(void*, int);
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
-#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/TObjControl.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 int fn_800FD8A0(void*);
@@ -979,7 +978,7 @@ s32 TObjEneDD::is_phase_e() {
     return (u8) (get_main_phase() == 0xE);
 }
 
-int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(this); }
+int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(); }
 
 int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_state(); }
 
@@ -1028,7 +1027,7 @@ void TObjEneDD::init_lights() { current_scene_light->sub_801337F8(); TObjLight__
 
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
-    m_name = TObjEneDD_ST__name;
+    m_name = TObjEneDD_ST::name;
     this->enemy_clear_target();
     init_float_params();
     enemy_init_acquire_period(30);

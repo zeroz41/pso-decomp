@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/audio/AdxUiBridge.h"
 #include "pso/render/gjSystem.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
@@ -63,16 +64,13 @@
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/TLobby_80243370.h"
 #include "pso/unk/TLobby_803382E4.h"
-#include "pso/unk/text_8008C4F4.h"
+#include "pso/system/scene/TEnding_8008C5C0.h"
 #include "pso/unk/text_80145804.h"
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/unk/text_80290BEC.h"
 #include "pso/unk/text_802A1020.h"
-#include "pso/unk/text_802A1154.h"
-#include "pso/unk/text_803D8030.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/unk/text_803DE7E0.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
 
@@ -92,7 +90,7 @@ s32 keyboard_input_flag;
 void poll_input_devices_frame(void) {
     read_pads();
     hardware_keyboard_state.disable_disconnected_ports();
-    TKeyBoardControl::flush_input();
+    flush_input();
     update_pad_rumble();
     TLobby::reset_state_byte();
 }
@@ -122,7 +120,7 @@ int TKeyBoardControl__sub_8000F828(void) {
 }
 
 void shutdown_and_reset_system(void) {
-    TLobby__sub_802433A8();
+    free_player_data_load_buffer();
     fn_800FFE0C();
     init_depth_alpha_state();
     release_blob_shadow_texture();
@@ -136,10 +134,10 @@ void shutdown_and_reset_system(void) {
     TWindowSnapShot__sub_802A7DA0();
     reset_aram_state();
     TLobby::destroy_game_heap();
-    TLobby__sub_8022809C();
+    reset_sound_control_state();
     TLobby::shutdown_buffers();
     TAdSinglePlyChrSelectGC::release_all();
-    TWindowSubStatusDisp__sub_803386F0();
+    free_info_icon_texture();
     reset_display_copy_filter();
     TLobby__sub_80147978();
     xfree(texture_state_buffer);
@@ -295,7 +293,7 @@ void init_game_systems(void) {
     set_shape_vertex_buffer((u32 *)motion_blend_buffer);
     keyboard_input_buffer = (DebugTextRecord *)xmalloc(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
-    TObjNpcEnemy::set_global_count(-1);
+    set_debug_text_color(-1);
     set_debug_text_scale(0xC);
     init_gx_lighting_defaults();
     install_depth_alpha_state();
@@ -311,7 +309,7 @@ void init_game_systems(void) {
     TLobby::load_now_loading_texture();
     TCharaMaking__sub_8028E790();
     TAdSinglePlyChrSelectGC::init_char_select_globals();
-    TLobby__sub_80226BA4();
+    reset_sound_request_state();
     TLobby::wait_for_sound_init();
     load_info_icon();
     alloc_item_drop_memory_pool();
@@ -339,25 +337,25 @@ void init_game_systems(void) {
 
 MainPhaseEntry main_phase_table[] = {
     { NULL, NULL, NULL },
-    { TLogo::init_logo_scene, TLogo::run_frame, TLogo__sub_8013F5AC },
-    { TAdMultiChgGameModeGC__sub_8023F62C, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TLogo::init_logo_scene, TLogo::run_frame, TLogo::exit_logo_scene },
+    { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TKeyBoardControl::update_menu_scene, update_movie_phase, fn_802A1154 },
-    { TAdMultiChgGameModeGC__sub_8023F4E4, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TKeyBoardControl::update_main_menu_scene, run_main_frame, fn_80290BEC },
-    { TAdMultiChgGameModeGC::render_game_mode_change, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC__sub_8023F5B4, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_multi_save_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { start_ending_sequence, TKeyBoardControl::run_main_frame, TAdEndText::cleanup },
-    { TAdMultiChgGameModeGC::render_scene, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC__sub_8023F564, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC__sub_8023F58C, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_time_set_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_trial_agreement_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_enter_password_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TEnding::set_flag_and_advance, run_game_frame, fn_8008C4F4 },
-    { TAdMultiChgGameModeGC__sub_8023F50C, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_level_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
     { run_online_lobby_scene, update_camera_state, cleanup_online_lobby_scene },
     { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
     { NULL, NULL, NULL },
     { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, release_single_ply_chr_select_scene },
-    { TAdTrialModemChkGC__sub_803354E8, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC__sub_803354A4 },
+    { TAdTrialModemChkGC::init_modem_check_phase, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC::exit_modem_check_phase },
     { NULL, NULL, NULL },
     { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },
 };

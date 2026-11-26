@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/math/FloatRound.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -33,7 +34,7 @@
 
 #include "pso/render/RenderFadeState.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/player/TObjPlayer.h"
 
@@ -43,7 +44,7 @@
 
 #include "pso/system/MatrixOps.h"
 
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #include "pso/system/task/TObject.h"
 
@@ -55,9 +56,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 
 #include "pso/system/task/TMainTask.h"
-
-
-#include "pso/system/task/TObject_80019A50.h"
 
 
 #include "pso/render/TObjEnemyColorFade.h"
@@ -358,7 +356,7 @@ s32 TObjEneRecobox::can_spawn_recons() {
     if (has_child_in_anim_5() == 1) {
         return 0;
     }
-    t = (s32)TWindowSubComCard::trunc_float(recon_max / 2.0f);
+    t = (s32)trunc_float(recon_max / 2.0f);
     r = 0;
     if (live_recons <= t && spawned_recons < recon_total) {
         r = 1;
@@ -790,7 +788,7 @@ block_18:
                     camera_fade->set_flags_and_apply_damage_color();
                 }
                 update_secondary_light();
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
                 push_matrix();
                 post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
@@ -853,7 +851,7 @@ void TObjEneRecobox::draw_with_debug_info() {
         debug_printf_at(pack_debug_text_position(0, 5), "RECON MAX(Min:0 Max:6)");
     }
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -882,7 +880,7 @@ void TObjEneRecobox::draw_with_debug_info() {
 s32 TObjEneRecobox::render_trap_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&floor_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

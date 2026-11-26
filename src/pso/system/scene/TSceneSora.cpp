@@ -10,10 +10,9 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/animation/ActorAnimationState.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/scene/TSceneSora.h"
@@ -26,7 +25,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D8F74.h"
 
@@ -53,7 +51,7 @@ extern char sky_model_ext_s_gj[];
 void TSceneSora::render() {
     if ((s32) TSceneSora::sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(get_bml_texlist(sky_bml_resource, 0));
+        set_texture_list(get_bml_texlist(sky_bml_resource, 0));
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
         if (sky_motion != NULL) {

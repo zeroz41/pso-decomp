@@ -5,20 +5,18 @@
 #include <string.h>
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -34,7 +32,7 @@ void TWindowSubStatusDisp::render_forward() {
 }
 
 void TWindowSubStatusDisp::begin_render() {
-    TObjFish::set_global_param(localized_alphabet_list);
+    set_texture_list(localized_alphabet_list);
 }
 
 void TFontSmallHelp::set_color(u32 text_color) {

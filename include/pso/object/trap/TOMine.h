@@ -55,11 +55,14 @@ struct TOMine : public TObjChara {
     u32 facing;
     NJS_OBJECT *light_model;
     NJS_TEXLIST *light_textures;
-    int get_player_state();
+    // Offers this mine to player `client`'s lock-on cursor.
+    void submit_cursor_target(s32 client);
     int find_target_player();
     virtual void run_task();
-    void free_sub_objects();
-    void free_parts();
+    // Draws the light model with its textures.
+    void draw_light();
+    // Draws the mine model with its textures.
+    void draw_body();
     virtual void render();
     static void free_instance();
     static void load_static_resource();

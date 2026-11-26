@@ -8,9 +8,7 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/enemy/sinowzoa/SinowZoaData.h"
 
-// String objects are named after their contents.
-// .rodata block of the Sinow Zoa code (the DelDepthData.cpp shape): the code
-// addresses each object on its own, so it did not compile them itself.
+// The Sinow Zoa code's constant objects; string objects are named after their contents.
 
 
 extern const BreakUpParamRow sinow_zoa_breakup_params = { 0x14, 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f };

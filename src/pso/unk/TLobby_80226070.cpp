@@ -74,7 +74,7 @@ extern "C" {
 
 void TLobby::set_and_notify(int a0) { music_gain_adjust = a0; update_music_stream_gain(music_user_gain); }
 
-void TLobby::reset_global() { lobby_layout_offset_c = 0; TLobby__sub_8022614C(cue_stream_user_gain); }
+void TLobby::reset_global() { lobby_layout_offset_c = 0; set_cue_stream_user_gain(cue_stream_user_gain); }
 
 void TLobby::close_option_window() { music_gain_adjust = 0; update_music_stream_gain(music_user_gain); }
 
@@ -91,9 +91,7 @@ void TLobby::init_layout_positions() {
 }
 
 int TLobby::get_lobby_data() {  return music_user_gain; }
-extern "C" {
-
-void TLobby__sub_8022614C(s32 gain) {
+void set_cue_stream_user_gain(s32 gain) {
     TLobby::set_menu_index_main(gain);
     cue_stream_user_gain = gain;
     lbl_805D629C = lbl_805D6290 + cue_stream_user_gain + lobby_layout_offset_c;
@@ -101,7 +99,6 @@ void TLobby__sub_8022614C(s32 gain) {
     cue_stream_scaled_gain = (s32)(2.3622048f * (f32)gain);
     cue_stream_gain = lobby_layout_start_position + cue_stream_scaled_gain;
     set_cue_stream_gain(cue_stream_gain);
-}
 }
 
 void update_music_stream_gain(s32 user) {
@@ -186,7 +183,7 @@ void TLobby::set_sound_output_mode(s32 mode) {
     }
     TLobby::set_mode(mode_id);
 }
-void TLobby__sub_8022644C(void) {
+void reset_sound_pitch_requests(void) {
     s32 i;
     if (sound_requests_enabled != 0) {
         TLobby__sub_80227D38();
@@ -198,8 +195,7 @@ void TLobby__sub_8022644C(void) {
     }
 }
 s32 check_sound_admission_range(const Vec *pos);
-extern "C" {
-s32 fn_802264B8(s32 slot, s32) {
+s32 check_sound_pitch_request_range(s32 slot, s32) {
     s32 r;
     if (sound_pitch_requests[slot].flags & 0x2000) {
         r = 0;
@@ -212,7 +208,6 @@ s32 fn_802264B8(s32 slot, s32) {
     }
     sound_pitch_requests[slot].flags &= ~0x100;
     return 1;
-}
 }
 
 SetSoundPitchRequestSndEnt sound_pitch_requests[40];
@@ -255,7 +250,7 @@ s32 play_persistent_sound(s32 id, const void *actor, const Vec *position, s32 vo
         if (position != NULL) {
             ok = check_sound_admission(position, sound_pitch_requests[idx].flags);
         } else {
-            ok = fn_802264B8(idx, 1);
+            ok = check_sound_pitch_request_range(idx, 1);
         }
         last_sound_effect_slot = idx;
         if (ok != 0) {
@@ -312,7 +307,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
         if (position != NULL) {
             pos = &sound_pitch_requests[idx].pos;
             VecCopy(pos, position);
-            TLobby__sub_80227AF8(idx, pos);
+            set_sound_request_position(idx, pos);
         }
         sound_pitch_requests[idx].flags &= lbl_805DC748;
         if (flags & 1) {
@@ -323,7 +318,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
         sound_pitch_requests[idx].volume = volume;
         sound_pitch_requests[idx].id = id;
         sound_pitch_requests[idx].actor = NULL;
-        if (fn_802264B8(idx, 0) == 1) {
+        if (check_sound_pitch_request_range(idx, 0) == 1) {
             last_sound_effect_slot = idx;
             sound_pitch_requests[idx].flags |= 0x600;
             return idx;
@@ -332,7 +327,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
     return -1;
 }
 
-void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }
+void TLobby::update_lobby_subsystems() { reset_sound_pitch_requests(); stop_cue_stream(); }
 
 // Dead-stripped from the DOL: no code of it survives. Minimal body: it clears the sound listener position the way
 // update_sound_request_slots does when there is neither a player nor a camera.
@@ -385,7 +380,7 @@ void update_sound_request_slots(void) {
                     e->flags &= ~0x200;
                     if (*t > 0) {
                         (*t)--;
-                        if ((e->flags & 0x1000) && e->src != NULL && fn_802264B8(i, 1) == 0) {
+                        if ((e->flags & 0x1000) && e->src != NULL && check_sound_pitch_request_range(i, 1) == 0) {
                             *t = 0;
                             stop_sound_request(i);
                             e->flags &= ~0x400;
@@ -414,9 +409,7 @@ void update_sound_request_slots(void) {
 
 int TLobby__sub_80226B64(void) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); TLobby__sub_80226308(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
 
-extern "C" {
-
-s32 TLobby__sub_80226BA4(void) {
+s32 reset_sound_request_state(void) {
     s32 i;
     lbl_805D6278 = 0;
     lbl_805D62C4 = 0;
@@ -440,5 +433,4 @@ s32 TLobby__sub_80226BA4(void) {
         sound_pitch_requests[i].flags = 1;
     }
     return 1;
-}
 }

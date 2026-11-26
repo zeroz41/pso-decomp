@@ -10,8 +10,7 @@
 #include "pso/unk/TLobby_80156B18.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -109,11 +108,11 @@ void TOBarrierEnergy01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion(model, motion, animation_frame);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(barrier_energy_texlists[2]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(barrier_energy_texlists[2]));
         draw_ginja_object(barrier_energy_model);
         pop_matrix();
     }

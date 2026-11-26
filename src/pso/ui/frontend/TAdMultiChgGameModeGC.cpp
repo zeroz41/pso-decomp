@@ -19,6 +19,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 struct Txt_802FFE58 { TAdSelectTxtLayout v[3]; };
 
@@ -27,15 +28,14 @@ struct Pos_802FFE58 { f32 v[6]; };
 struct Cur_802FFE58 { f32 v[2]; };
 
 s32 lbl_805D69E8;
-s32 is_multiplayer_character_slot_selected(s32 slot);
-const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
+const char *TAdMultiChgGameModeGC::class_name = "TAdMultiChgGameModeGC";
 
 static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
 static const Cur_802FFE58 lbl_80474E1C[1] = { { { 302.0f, 28.0f } } };
 static const Pos_802FFE58 multi_chg_game_mode_position_table = { { 200.0f, 170.0f, 170.0f, 222.0f, 140.0f, 274.0f } };
 
-void fn_802FFC78(void) {  }
-void fn_802FFC7C(void) {  }
+void TAdMultiChgGameModeGC::free_scene_resources() {  }
+void TAdMultiChgGameModeGC::load_scene_resources() {  }
 void TAdMultiChgGameModeGC::render() {  }
 s32 TAdMultiChgGameModeGC::check_players_ready(void * _w0) {
     u32 slot;
@@ -59,7 +59,7 @@ void TAdMultiChgGameModeGC::run_task() {
     }
     if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
-        request_scene_change();
+        open_time_set_scene();
     } else if (select_cursor->confirmation_result() == 1) {
         switch (select_cursor->selection_index()) {
         case 0:
@@ -74,7 +74,7 @@ void TAdMultiChgGameModeGC::run_task() {
             if (check_players_ready(this) != 0) {
                 set_mode_state_0e();
             } else {
-                request_scene_change();
+                open_time_set_scene();
             }
             break;
         }
@@ -83,7 +83,7 @@ void TAdMultiChgGameModeGC::run_task() {
 }
 TAdMultiChgGameModeGC::~TAdMultiChgGameModeGC() {}
 TAdMultiChgGameModeGC::TAdMultiChgGameModeGC(TObject *parent) : TObject(parent) {
-    m_name = TAdMultiChgGameModeGC__name;
+    m_name = TAdMultiChgGameModeGC::class_name;
     pad_1C = 0;
     selection = 2;
     prev_selection = -1;

@@ -22,9 +22,9 @@ void TWindowMainMenu4P::open_main_menu() {
         player = (u8 *)(get_player_by_client_id(client_index));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                this->open((saddr)main_menu_4p_android_entries);
+                this->open(main_menu_4p_android_entries);
             } else {
-                this->open((saddr)main_menu_4p_entries);
+                this->open(main_menu_4p_entries);
             }
             this->on_menu_opened();
         }
@@ -32,7 +32,7 @@ void TWindowMainMenu4P::open_main_menu() {
 }
 
 void TWindowMainMenu4P::render() {  }
-void TWindowMainMenu4P::run_task() { handle_menu_selection(); sub_80263FE0(); }
+void TWindowMainMenu4P::run_task() { handle_menu_selection(); toggle_help_window(); }
 
 TWindowMainMenu4P::~TWindowMainMenu4P() {
 

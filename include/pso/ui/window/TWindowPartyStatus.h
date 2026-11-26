@@ -15,4 +15,6 @@ struct TWindowPartyStatus : public TWindowSimpleStatus {
 };
 
 LAYOUT_ASSERT(TWindowPartyStatus_size, sizeof(TWindowPartyStatus) == 0x78);
+
+void *create_party_status_window(s32 slot_offset);
 #endif

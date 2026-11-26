@@ -5,20 +5,19 @@
 #include "pso/object/door/TODoorBase.h"
 
 struct TObjDoaEx01 : public TODoorBase {
-    TObjDoaEx01(saddr, saddr);
+    TObjDoaEx01(TObject *parent, ObjectSetData *placement);
     virtual ~TObjDoaEx01();
     virtual void update_closing();
     virtual void update_open();
     virtual void update_opening();
     virtual void update_closed();
     virtual void render();
-    void draw_object_tree(saddr object);
+    void draw_object_tree(NJS_OBJECT *obj);
     static void free_resource();
     static void load_resources();
-    u8 unk_D4[0x4];
-    f32 glow_phase;  // pulses 0-1 while the door is closed and unlocked (door_flags 0x100000 = rising)
-    u8 unk_DC[0x4];
-    f32 m_e0;
+    // Constant material colour of the door's two alpha parts; r pulses 0-1 while the door is closed
+    // and unlocked (door_flags 0x100000 = rising).
+    NJS_ARGB glow_color;
     void try_open();
     void draw_model();
     static void *create(void *set_data);

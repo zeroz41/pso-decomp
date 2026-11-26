@@ -29,11 +29,9 @@ struct TObjBoss1Crater : public TAttackCollider {
 
 LAYOUT_ASSERT(TObjBoss1Crater_size, sizeof(TObjBoss1Crater) == 0xCC);
 
-extern "C" {
 // Horizontal distance from position to the nearest crater, 0 when there is none.
 f32 calc_nearest_crater_distance(Vec *position);
 // TLobby::update_boss1_objects calls it with the other arena objects' teardown hooks; empty.
-}
 // TLobby::init_bosses calls it: empties TObjBoss1Crater__instance_list.
 void clear_boss1_crater_instances(void);
 
@@ -41,5 +39,7 @@ void clear_boss1_crater_instances(void);
 s32 attack_target_list_count(PointerBuffer *buffer);
 // Drops entry index, moving the last entry into its place.
 void attack_target_list_remove(PointerBuffer *buffer, s32 index);
+
+void load_dragon_ground_assets(void);
 
 #endif

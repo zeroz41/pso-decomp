@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
@@ -14,7 +13,7 @@
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
 // One node of the list ModelNodePositionCapture::create reads (node -1 ends it).
@@ -195,16 +194,16 @@ void TBoss6Demo11_TYPE1_DEAD::render_fade_model() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[0].texture));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(parts[0].texture));
         draw_model_motion(parts[0].model, parts[0].motion, frame);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[1].texture));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(parts[1].texture));
         node_effect->install();
         draw_model_motion(parts[1].model, parts[1].motion, frame);
         node_effect->clear();
         clear_motion_packed_rotation();
         pop_matrix();
         if (fade < 1.0f) {
-            TObjFish::reset_fish_globals();
+            TBoss6PlotFalz::restore_fade_material_color();
         }
     }
 }

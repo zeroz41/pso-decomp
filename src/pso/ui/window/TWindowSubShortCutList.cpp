@@ -16,10 +16,11 @@
 #include "pso/network/client_id.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_80076BC4.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 const char *TWindowSubShortCutList::class_name = "TWindowSubShortCutList";
 // Size argument of the shortcut list window.
-static const NJS_POINT2 lbl_8044FAA8 = {405.0f, 188.0f};
+static const NJS_POINT2 short_cut_list_icon_line_size = {405.0f, 188.0f};
 
 
 
@@ -61,7 +62,7 @@ void TWindowSubShortCutList::refresh_entries() {
 }
 
 TWindowSubShortCutList *TWindowSubShortCutList::create(const NJS_POINT2 *position, s32 index) {
-    set_menu_icon_line_params(&lbl_8044FAA8, 4);
+    set_menu_icon_line_params(&short_cut_list_icon_line_size, 4);
     return new TWindowSubShortCutList(reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(position)), index);
 }
 
@@ -71,7 +72,7 @@ void TWindowSubShortCutList::render() {
     draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     if (status_display != NULL) {
-        status_display->forward_render(context);
+        status_display->render(context);
     }
     if (storage != NULL) {
         draw_list_page_indicator(storage, context);

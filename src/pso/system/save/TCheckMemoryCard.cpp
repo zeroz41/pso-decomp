@@ -212,12 +212,12 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
         }
         menu_window->add_text_entry(entry_text, 5, 1);
     }
-    ((TWindowMenu *)menu_window)->update_layout_height(check_memory_card_menu_width);
+    menu_window->update_layout_height(check_memory_card_menu_width);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
     if (sel != -2) {
-        ((TWindowSubComCardList *)menu_window)->set_selected_index(sel);
+        menu_window->set_selected_index(sel);
     } else {
-        ((TWindowSubComCardList *)menu_window)->set_selected_index(0);
+        menu_window->set_selected_index(0);
     }
     ((TWindowOptionCtrl *)menu_window)->clear_flag70_bit4();
 }

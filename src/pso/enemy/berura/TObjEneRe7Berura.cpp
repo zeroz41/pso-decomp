@@ -16,7 +16,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
@@ -26,7 +26,6 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/effect/TAttackTrace.h"
@@ -45,7 +44,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -527,7 +526,7 @@ void TObjEneRe7Berura::draw_saved_node_tree(NJS_OBJECT *obj, GC_Mtx *matrices) {
 void TObjEneRe7Berura::draw_arm(s32 arm) {
     TObjEneRe7BeruraPart *part;
 
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(re7_berura_shared_resource->models->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(re7_berura_shared_resource->models->texlist));
     part = &re7_berura_detached_part_states[arm];
     draw_saved_node_tree(&part->object, part->node_matrices);
 }
@@ -1415,7 +1414,7 @@ void TObjEneRe7Berura::render() {
         fade = &camera_fades[cam];
         fade->update();
         cam = fade->updateFromCamera(&body_center);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -1516,7 +1515,7 @@ void TObjEneRe7Berura::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

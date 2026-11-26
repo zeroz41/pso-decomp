@@ -15,7 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TechniqueContact.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
@@ -64,7 +64,7 @@ void TTecShot::dispatch_all_technique_contacts() {
         return;
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active((int) list->actors[i]) != 0) {
+        if (TObjPlayer::is_valid_and_active((uaddr) list->actors[i]) != 0) {
             TObjChara *p = (TObjChara *) list->actors[i];
             if (p != NULL) {
                 contact = (TechniqueContactBody *) list->bodies[i];
@@ -94,7 +94,7 @@ void TTecShot::dispatch_technique_contact(s32) {
         queue_destruction();
         return;
     }
-    if (TObjPlayer::is_valid_and_active((int) list->actors[0]) != 0) {
+    if (TObjPlayer::is_valid_and_active((uaddr) list->actors[0]) != 0) {
         TObjChara *p = (TObjChara *) list->actors[0];
         if (p != NULL) {
             contact = (TechniqueContactBody *) list->bodies[0];

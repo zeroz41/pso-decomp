@@ -33,6 +33,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TPlyDispData.h"
@@ -43,7 +44,9 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/unk/TLobby_800F795C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/ui/font/TFontSmallTask.h"
 
 
 // The enemy's row of the floor's set data (what set_entry points at).
@@ -51,37 +54,10 @@ struct EnemySetData {
     s16 set_index; u8 pad2[4]; u16 entity_id; s16 room; s16 group; u8 padC[4];
     Vec position; Vec rotation; f32 parameters[5]; s16 variant; s16 state;
 };
+
+
 extern "C" {
 
-
-extern uaddr registered_object_table[];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-s32 get_attack_credit_slot_count(void *);
-}
-
-f32 get_challenge4p_exp_multiplier();
-
-f32 get_challenge_exp_multiplier();
-extern "C" {
-
-s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
 
 int send_6x60_standard_drop_item_request(void*);
 
@@ -89,16 +65,13 @@ s32 draw_player_status(void *, void *, const char *);
 
 }
 
-void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 
 
 
 s32 area_random_seed;
 
 
-void init_6x0A_enemy_state_packet(void *);
 
-void send_6x0A_enemy_state_packet(void *);
 
 #define FIND_TAIL_800F7118(q) \
     if (this->next == NULL && tail == NULL) { \
@@ -233,11 +206,11 @@ block_14:
     this->base_dfp = dfp;
     this->ata = (s16) (stat_block->stats.ata + attack_params->get_ata());
     this->lck = (s16) stat_block->stats.lck;
-    this->m_2f2 = (s16) param_block->values[1];
-    this->m_2f4 = (s16) param_block->values[3];
-    m_2f6 = (s16) param_block->values[2];
-    this->m_2f8 = (s16) param_block->values[5];
-    m_2fa = (s16) param_block->values[4];
+    this->element_resist[0] = (s16) param_block->values[1];
+    this->element_resist[1] = (s16) param_block->values[3];
+    element_resist[2] = (s16) param_block->values[2];
+    this->element_resist[3] = (s16) param_block->values[5];
+    element_resist[4] = (s16) param_block->values[4];
     this->adjust_atp((s32)((f32)this->get_base_atp() * this->get_status_effect_amount(2)));
     this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * this->get_status_effect_amount(2)));
     this->adjust_dfp((s32)((f32)this->get_base_dfp() * this->get_status_effect_amount(3)));
@@ -359,42 +332,42 @@ void TObjEneBeastBase::link_into_group_chain() {
 
 #undef FIND_TAIL_800F7118
 void TObjEneBeastBase::unlink_enemy_group_relations() {
-    TObjEnemy *next_kids1;
+    TObjEnemy *head_next_children;
     TObjEnemy *children;
-    TObjEnemy *next_kids2;
-    TObjEnemy *prev_kids3;
-    TObjEnemy *next_kids4;
-    TObjEnemy *next1;
-    TObjEnemy *next2;
-    TObjEnemy *kids3;
-    TObjEnemy *next4;
-    TObjEnemy *kids5;
+    TObjEnemy *mid_next_children;
+    TObjEnemy *previous_children;
+    TObjEnemy *root_next_children;
+    TObjEnemy *head_next;
+    TObjEnemy *mid_next;
+    TObjEnemy *last_children;
+    TObjEnemy *root_next;
+    TObjEnemy *root_only_children;
     TObjEnemy *group;
-    TObjEnemy *kids1;
+    TObjEnemy *head_children;
     TObjEnemy *previous;
-    TObjEnemy *kids2;
-    TObjEnemy *kids4;
-    TObjEnemy *tail3;
-    TObjEnemy *tail1;
-    TObjEnemy *tail2;
-    TObjEnemy *tail4;
+    TObjEnemy *mid_children;
+    TObjEnemy *root_children;
+    TObjEnemy *previous_tail;
+    TObjEnemy *head_tail;
+    TObjEnemy *mid_tail;
+    TObjEnemy *root_tail;
     group = this->group;
     if (group != NULL) {
-        next1 = this->next;
-        if (next1 != NULL) {
-            kids1 = this->children;
-            if (kids1 != NULL) {
-                next_kids1 = next1->children;
-                if (next_kids1 != NULL) {
-                    tail1 = next_kids1;
-                    while (tail1->next != NULL) {
-                        tail1 = tail1->next;
+        head_next = this->next;
+        if (head_next != NULL) {
+            head_children = this->children;
+            if (head_children != NULL) {
+                head_next_children = head_next->children;
+                if (head_next_children != NULL) {
+                    head_tail = head_next_children;
+                    while (head_tail->next != NULL) {
+                        head_tail = head_tail->next;
                     }
-                    tail1->next = kids1;
+                    head_tail->next = head_children;
                     this->children->group = NULL;
-                    this->children->previous = tail1;
+                    this->children->previous = head_tail;
                 } else {
-                    next1->children = kids1;
+                    head_next->children = head_children;
                     this->children->group = this->next;
                 }
             }
@@ -413,69 +386,69 @@ void TObjEneBeastBase::unlink_enemy_group_relations() {
     } else {
         previous = this->previous;
         if (previous != NULL) {
-            next2 = this->next;
-            if (next2 != NULL) {
-                kids2 = this->children;
-                if (kids2 != NULL) {
-                    next_kids2 = next2->children;
-                    if (next_kids2 != NULL) {
-                        tail2 = next_kids2;
-                        while (tail2->next != NULL) {
-                            tail2 = tail2->next;
+            mid_next = this->next;
+            if (mid_next != NULL) {
+                mid_children = this->children;
+                if (mid_children != NULL) {
+                    mid_next_children = mid_next->children;
+                    if (mid_next_children != NULL) {
+                        mid_tail = mid_next_children;
+                        while (mid_tail->next != NULL) {
+                            mid_tail = mid_tail->next;
                         }
-                        tail2->next = kids2;
+                        mid_tail->next = mid_children;
                         this->children->group = NULL;
-                        this->children->previous = tail2;
+                        this->children->previous = mid_tail;
                     } else {
-                        next2->children = kids2;
+                        mid_next->children = mid_children;
                         this->children->group = this->next;
                     }
                 }
                 this->previous->next = this->next;
                 this->next->previous = this->previous;
             } else {
-                kids3 = this->children;
-                if (kids3 != NULL) {
-                    prev_kids3 = previous->children;
-                    if (prev_kids3 != NULL) {
-                        tail3 = prev_kids3;
-                        while (tail3->next != NULL) {
-                            tail3 = tail3->next;
+                last_children = this->children;
+                if (last_children != NULL) {
+                    previous_children = previous->children;
+                    if (previous_children != NULL) {
+                        previous_tail = previous_children;
+                        while (previous_tail->next != NULL) {
+                            previous_tail = previous_tail->next;
                         }
-                        tail3->next = kids3;
+                        previous_tail->next = last_children;
                         this->children->group = NULL;
-                        this->children->previous = tail3;
+                        this->children->previous = previous_tail;
                     } else {
-                        previous->children = kids3;
+                        previous->children = last_children;
                         this->children->group = this->previous;
                     }
                 }
                 this->previous->next = NULL;
             }
         } else {
-            next4 = this->next;
-            if (next4 != NULL) {
-                kids4 = this->children;
-                if (kids4 != NULL) {
-                    next_kids4 = next4->children;
-                    if (next_kids4 != NULL) {
-                        tail4 = next_kids4;
-                        while (tail4->next != NULL) {
-                            tail4 = tail4->next;
+            root_next = this->next;
+            if (root_next != NULL) {
+                root_children = this->children;
+                if (root_children != NULL) {
+                    root_next_children = root_next->children;
+                    if (root_next_children != NULL) {
+                        root_tail = root_next_children;
+                        while (root_tail->next != NULL) {
+                            root_tail = root_tail->next;
                         }
-                        tail4->next = kids4;
+                        root_tail->next = root_children;
                         this->children->group = NULL;
-                        this->children->previous = tail4;
+                        this->children->previous = root_tail;
                     } else {
-                        next4->children = kids4;
+                        root_next->children = root_children;
                         this->children->group = this->next;
                     }
                 }
                 this->next->previous = NULL;
             } else {
-                kids5 = this->children;
-                if (kids5 != NULL) {
-                    kids5->group = NULL;
+                root_only_children = this->children;
+                if (root_only_children != NULL) {
+                    root_only_children->group = NULL;
                 }
             }
         }
@@ -535,7 +508,7 @@ void TObjEnemy::award_enemy_experience(u16 client) {
     }
     val = this->stat_block->exp;
     if (client == this->attacker_id) {
-        if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
+        if (lobby_rule_settings.get_rule_field_0() == 1) {
             p->record_kill(this, 1);
             draw_player_status(p, p, "\tC1");
             draw_player_status(p, this, "\tC4");
@@ -552,7 +525,7 @@ void TObjEnemy::award_enemy_experience(u16 client) {
         }
     }
     p->add_actor_exp(val);
-    create_font_small_task(&this->body_center, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
+    create_font_small_task(&body_center, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
 }
 
 void TObjEnemy::distribute_experience() {
@@ -586,13 +559,13 @@ TObjChara *get_enemy_entity(u16 entity_id) {
         low = registered_player_count;
         while (low < high) {
             mid = (low + high) / 2;
-            if (((TObjBase *)registered_object_table[mid])->get_entity_id() < entity_id) {
+            if (entity_table[mid]->get_entity_id() < entity_id) {
                 low = mid + 1;
             } else {
                 high = mid;
             }
         }
-        TObjChara *e = reinterpret_cast<TObjChara *>(registered_object_table[low]);
+        TObjChara *e = static_cast<TObjChara *>(entity_table[low]);
         if (e != 0 && entity_id == e->get_entity_id()) {
             return e;
         }
@@ -703,7 +676,7 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
     EnemyStateRecord state;
     G_UpdateEnemyState_6x0A msg;
     u32 new_flags;
-    if (((EnemyStateRecord *)state_in) != NULL) {
+    if (state_in != NULL) {
         state.copy_header(static_cast<const EnemyStateRecord *>(state_in));
     } else if (this->exchange_object_state(&state, 1) == 0) {
         return;

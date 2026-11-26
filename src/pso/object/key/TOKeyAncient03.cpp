@@ -6,7 +6,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyAncient03.h"
 #include "pso/network/client_id.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -125,7 +125,7 @@ void TOKeyAncient03::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(key_ancient03_texture_variants[is_on]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(key_ancient03_texture_variants[is_on]));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

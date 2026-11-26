@@ -8,8 +8,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -24,7 +22,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/TPlyDispData.h"
@@ -162,7 +160,7 @@ void TObjFreezeShell::render() {
         visible = owner->update_object_view_visibility(400.0f, 20.0f);
     }
     if (visible != 0) {
-        TObjFish::set_global_param(get_bml_texlist(freeze_shell_bml_resource, 1));
+        set_texture_list(get_bml_texlist(freeze_shell_bml_resource, 1));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -275,8 +273,8 @@ void TParticleCtrl::set_scale(f32 a, f32 b) { scale_x = a; scale_y = b; }
 
 f32 TObjChara::get_frame() { return this->frame; }
 
-s32 TObjPlayer::test_action_mask(s32 arg1) {
-    return (u8) ((this->mode_mask & arg1) != 0);
+s32 TObjPlayer::test_action_mask(s32 bits) {
+    return (u8) ((mode_mask & bits) != 0);
 }
 
 s32 PlayerTechniqueState::get_state() { return state; }

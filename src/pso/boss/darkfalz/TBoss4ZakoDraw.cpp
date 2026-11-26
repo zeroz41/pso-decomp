@@ -12,11 +12,9 @@
 #include "pso/boss/darkfalz/TBoss4Zako.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDrawBuffer.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -130,7 +128,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     s32 i;
     model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
     begin_alpha_blend(zako_fade_full);
-    TObjFish::set_global_param(falz_zako_texture_list);
+    set_texture_list(falz_zako_texture_list);
     for (i = 0; i < t->count; i++, p++) {
         push_matrix();
         post_translate_matrix(&p->position.x);
@@ -142,10 +140,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     end_alpha_blend();
 }
 
-// File-scope constants of the zako draw: .sdata2 objects in this order, defined after their
-// users: defined before draw_boss4_zako_entries, 1.0f is scheduled after push_matrix;
-// defined before draw_area_chunk_objects, its 1.0f becomes a new pooled literal.
-// Names inferred from the uses.
+// File-scope constants of the zako draw.
 __declspec(section ".sdata2") const u32 zako_model_render_flags = 0x82C;
 __declspec(section ".sdata2") const f32 zako_draw_height = 0.5f;
 __declspec(section ".sdata2") const f32 zako_min_height = -9.5f;

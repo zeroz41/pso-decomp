@@ -8,6 +8,7 @@ struct CharacterSlotQuad { f32 left, top, right, bottom, u0, v0, u1, v1; };
 struct CharacterSlotPosition { f32 x, y; };
 class TAdChrSelSlotGC : public TObject {
 public:
+    static const char *name;
     TAdChrSelSlotGC(TObject*_w1);
     virtual ~TAdChrSelSlotGC();
     virtual void run_task();
@@ -35,9 +36,7 @@ LAYOUT_ASSERT(SlotColorsOffset, offsetof(TAdChrSelSlotGC, colors) == 0xFC);
 LAYOUT_ASSERT(SlotVisibleOffset, offsetof(TAdChrSelSlotGC, visible) == 0x110);
 LAYOUT_ASSERT(SlotObjectSize, sizeof(TAdChrSelSlotGC) == 0x128);
 
-extern "C" {
-void TLobby__sub_802C78EC(void);
-void TLobby__sub_802C7920(void);
-}
+void load_chr_sel_slot_texture();
+void free_chr_sel_slot_texture();
 
 #endif

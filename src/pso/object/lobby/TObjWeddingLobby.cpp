@@ -6,7 +6,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -14,7 +14,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/render/ModelDrawContext.h"
 
 #pragma readonly_strings on
@@ -31,15 +30,15 @@ void TObjWeddingLobby::demo_step() {}
 void TObjWeddingLobby::render() {
     if (fade_state != 0 && lobby_texlist != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         if (fade_state != 3) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        draw_ginja_object(get_bml_model((BmlResource *)resource_bundle, 0));
-        draw_ginja_model_with_motion((get_bml_model((BmlResource *)resource_bundle, 1)), (get_bml_motion(resource_bundle, 0)), (f32)animation_frame);
+        draw_ginja_object(get_bml_model(resource_bundle, 0));
+        draw_ginja_model_with_motion(get_bml_model(resource_bundle, 1), get_bml_motion(resource_bundle, 0), (f32)animation_frame);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

@@ -18,8 +18,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/object/door/TObjDoorJung.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -32,7 +31,7 @@
 #include "pso/system/vector.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/TLobby_800FD78C.h"
 
@@ -333,7 +332,7 @@ void TObjSeabedSuiso_CH::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         TParticleCtrl::end_effect_render();
         update_state();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjSeabedSuisoBrakable::get_texlist(0)));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjSeabedSuisoBrakable::get_texlist(0)));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -571,3 +570,31 @@ TObjSuisoChip::TObjSuisoChip(TObjBase *owner, TObjChipSpawnParams *params) : TOb
 }
 
 TObjSuisoChip::~TObjSuisoChip() {}
+
+void TObjSuisoChip::draw_ginja_chips() {
+    TObjChipPiece *piece;
+    s32 i;
+
+    if (pad_244 != 1) {
+        piece = pieces;
+        push_matrix();
+        post_translate_matrix(&origin.x);
+        rotate_matrix_y(NULL, rotation_y);
+        for (i = 0; i < params.count; i++, piece++) {
+            push_matrix();
+            post_translate_matrix(&piece->pos.x);
+            rotate_matrix_yxz(NULL, piece->rotation[0], piece->rotation[1], piece->rotation[2]);
+            draw_ginja_object(params.model);
+            pop_matrix();
+        }
+        pop_matrix();
+    }
+}
+
+s32 TObjSuisoChip::is_in_view(Vec *center, f32 max_depth, f32 radius) {
+    return TObjChip::is_in_view(&origin, max_depth, radius);
+}
+
+s32 TObjSuisoChip::is_finished() {
+    return TObjChip::is_finished();
+}

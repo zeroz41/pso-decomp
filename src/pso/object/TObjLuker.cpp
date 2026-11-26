@@ -2,10 +2,11 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
-#include "pso/unk/text_8023601C.h"
+#include "pso/object/TActorLight.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/object/TObjLuker_801329B0.h"
@@ -83,7 +84,7 @@ void TObjLuker::update_floor_name_windows() {
             if (this->current_floor != target) {
                 s32 j;
                 for (j = 0; j < 4; j++) {
-                    ((TWindowSubComCardList *)(windows[j]))->reset_entries();
+                    ((TWindowMenu *)(windows[j]))->reset_entries();
                 }
                 this->current_floor = target;
             }
@@ -269,7 +270,7 @@ void TObjLuker::transfer_to_town() {
       }
       if (flag != 0)
       {
-        ((TTecLuker *)&p->telepipe.flags)->set_state(owner_id);
+        p->telepipe.flags.set_bits(owner_id);
         send_6x21_inter_level_warp(p, floor_transition_state.get_next_floor());
         p->set_room((s16) self->telepipe.state.room_id);
       }
@@ -277,7 +278,7 @@ void TObjLuker::transfer_to_town() {
   }
   if (local != 0)
   {
-    ((TTecLuker *)&local->telepipe.flags)->set_state(owner_id);
+    local->telepipe.flags.set_bits(owner_id);
     if (get_player_by_client_id(owner_id) != 0)
     {
       local->set_room((s16) self->telepipe.state.room_id);
@@ -316,7 +317,7 @@ void TObjLuker::run_task() {
     }
     if (p == NULL) {
         if (this->effect != NULL) {
-            ((TObject *)(this->effect))->queue_destruction();
+            this->effect->queue_destruction();
             this->effect = NULL;
         }
         this->effect_pending = 1;
@@ -381,7 +382,7 @@ void TObjLuker::run_task() {
             }
             this->hold_frames = 0;
             if (this->effect != NULL) {
-                ((TObject *)(this->effect))->queue_destruction();
+                this->effect->queue_destruction();
                 this->effect = NULL;
             }
             this->effect_pending = 1;
@@ -422,3 +423,5 @@ TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
 void *TObjLuker::create(void *set_data) {
     return new TObjLuker((TObject *)tl_05, set_data);
 }
+
+void FlagWord::set_bits(s32 value) { bits = value; }

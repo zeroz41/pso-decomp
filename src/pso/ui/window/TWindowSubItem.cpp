@@ -1,4 +1,5 @@
 #include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #pragma defer_codegen on
 
 #include "types.h"
@@ -66,7 +67,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item);
 const char *TWindowSubItem::class_name = "TWindowSubItem";
 
 // Item list window position (x, y).
-extern const NJS_POINT2 lbl_8044F998 = {308.0f, 184.0f};
+extern const NJS_POINT2 sub_item_list_window_position = {308.0f, 184.0f};
 
 void TWindowSubItemList::build_item_list() {
     s32 ids[30];
@@ -114,7 +115,7 @@ void TWindowSubItemList::gray_out_battle_item_entries() {
 
     for (i = 0; i < entry_capacity; i++) {
         e = (ItemListRow *)get_array_entry(i);
-        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && (e->get_item() & -0x10) == -0x10) {
+        if (e->is_flag_4_set() != 0 && (e->get_item() & -0x10) == -0x10) {
             e->category_style = 0xFFAAAAAA;
             e->style = 0xFF909090;
             e->suffix_style = 0xFF909090;
@@ -130,7 +131,7 @@ void TWindowSubItemList::gray_out_unusable_entries() {
 
     for (i = 0; i < entry_capacity; i++) {
         e = (ItemListRow *)get_array_entry(i);
-        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && e->get_item() == -0xFF) {
+        if (e->is_flag_4_set() != 0 && e->get_item() == -0xFF) {
             e->category_style = 0xFFAAAAAA;
             e->suffix_style = 0xFF909090;
             e->flags |= 0x80;
@@ -157,7 +158,7 @@ void TWindowSubItemList::select_cursor_entry() {
 void TWindowSubItem::clear_flag_and_release() {
     *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) & 0xFFFFFFFD);
     if ((u32) *(u32 *)((s8 *)this + 0x70) != 0U) {
-        ((TWindowSubStatusDisp *)(*(saddr *)((s8 *)this + 0x70)))->set_entry_state(1);
+        ((WindowHeading *)(*(saddr *)((s8 *)this + 0x70)))->set_state(1);
     }
 }
 
@@ -167,7 +168,7 @@ TWindowSubItem::TWindowSubItem(TWindowMainMenu *parent, s32 client) : TObject(pa
     m_name = class_name;
     parent_menu = parent;
     client_id = client;
-    item_list = create_sub_item_list_window(get_window_layout_position(3), &lbl_8044F998, client_id);
+    item_list = create_sub_item_list_window(get_window_layout_position(3), &sub_item_list_window_position, client_id);
     item_list->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 0));
     item_list->set_flag70_bit10();
     help_window = 0;
@@ -183,7 +184,7 @@ TWindowSubItem::~TWindowSubItem() {
     if (count_input != 0) { ((TWindowBase *)count_input)->close(); count_input = 0; }
     if (confirm_menu != 0) { confirm_menu->close(); confirm_menu = 0; }
     if (purpose_menu != 0) { purpose_menu->close(); purpose_menu = 0; }
-    if (help_window != 0) { ((TWindowBase *)help_window)->close(); help_window = 0; }
+    if (help_window != 0) { help_window->close(); help_window = 0; }
     if (item_list != 0) { item_list->close(); item_list = 0; }
 }
 
@@ -210,7 +211,7 @@ void TWindowSubItem::run_task() {
             }
             if (this->help_window == 0) {
                 this->help_window = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
-                ((TWindowBase *)this->help_window)->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 4));
+                this->help_window->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 4));
                 this->displayed_item = -1;
             }
             item_list->refresh();
@@ -238,11 +239,11 @@ void TWindowSubItem::run_task() {
                 this->confirm_menu = 0;
             }
             if (this->help_window != 0) {
-                ((TWindowBase *)(this->help_window))->close();
+                this->help_window->close();
                 this->help_window = 0;
             }
             if (this->purpose_menu == 0) {
-                this->purpose_menu = (TWindowMenu *)open_purpose_window(item_list->get_cursor_value());
+                this->purpose_menu = open_purpose_window(item_list->get_cursor_value());
             }
             this->purpose_menu->clear_flag_and_release();
             this->purpose_menu->clear_transition_flag();
@@ -271,7 +272,7 @@ void TWindowSubItem::run_task() {
             break;
         case 6:
             this->purpose_menu->open();
-            this->confirm_menu = (TWindowMenu *)create_menu_window();
+            this->confirm_menu = create_menu_window();
             this->state = 7;
         case 7:
             if (this->confirm_menu->is_cancelled() != 0) {
@@ -444,7 +445,7 @@ void TWindowSubItem::run_task() {
 #undef BACK_PRESSED
 void TWindowSubItem::render() {  }
 
-s32 TWindowSubItem::open_purpose_window(s32 item_id) {
+TWindowMenu *TWindowSubItem::open_purpose_window(s32 item_id) {
     TWindowMenu *titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(4), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
     if (item_id == -0xFF) {
@@ -458,10 +459,10 @@ s32 TWindowSubItem::open_purpose_window(s32 item_id) {
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(224.0f);
     align_menu_entry_positions(titled_window_menu);
-    return (saddr)titled_window_menu;
+    return titled_window_menu;
 }
 
-s32 TWindowSubItem::create_menu_window() {
+TWindowMenu *TWindowSubItem::create_menu_window() {
     TWindowMenu *titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(6), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
@@ -470,7 +471,7 @@ s32 TWindowSubItem::create_menu_window() {
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(224.0f);
     align_menu_entry_positions(titled_window_menu);
-    return (saddr)titled_window_menu;
+    return titled_window_menu;
 }
 
 s32 TWindowSubItem::create_count_input(s32 maximum) {
@@ -505,14 +506,14 @@ void TWindowSubItem::draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id) {
   s32 sp8;
-  saddr item;
+  TItem *item;
   saddr player;
-  item = ((saddr)find_item_by_id((saddr)((void *) item_id)));
+  item = find_item_by_id((saddr)((void *) item_id));
   if (item != 0)
   {
-    if (((TItem *)item)->get_usable_action_flags(2, 0) != 0U)
+    if (item->get_usable_action_flags(2, 0) != 0U)
     {
-      if ((((TItem *)item)->get_usable_action_flags(1, 0) != 0U) || (get_current_floor_area() == AREA_LOBBY))
+      if ((item->get_usable_action_flags(1, 0) != 0U) || (get_current_floor_area() == AREA_LOBBY))
       {
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
@@ -521,10 +522,10 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
     }
-    ((TItem *)item)->get_item_type();
-    if (((TItem *)item)->get_usable_action_flags(8, 0) != 0U)
+    item->get_item_type();
+    if (item->get_usable_action_flags(8, 0) != 0U)
     {
-      if (((TItem *)item)->test_item_flags(8) != 0U)
+      if (item->test_item_flags(8) != 0U)
       {
         if (get_current_floor_area() == AREA_LOBBY)
         {
@@ -540,7 +541,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         player = (saddr)get_player_by_client_id(window_sub_item->client_id);
         if (player != 0)
         {
-          if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, (TItem *)item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
+          if (((item->check_equip_requirements((TObjPlayer *)player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
             list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
@@ -551,7 +552,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         }
       }
     }
-    if ((get_current_floor_area() == AREA_LOBBY) || (((TItem *)item)->get_usable_action_flags(0x10, 0) != 0U))
+    if ((get_current_floor_area() == AREA_LOBBY) || (item->get_usable_action_flags(0x10, 0) != 0U))
     {
       add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
     }
@@ -635,11 +636,11 @@ void TWindowSubItem::close_windows(s32 arg1) {
             return;
         case 1:
             if (this->confirm_menu != NULL) {
-                ((TWindowBase *)this->confirm_menu)->close();
+                this->confirm_menu->close();
                 this->confirm_menu = 0U;
             }
             if (this->purpose_menu != NULL) {
-                ((TWindowBase *)this->purpose_menu)->close();
+                this->purpose_menu->close();
                 this->purpose_menu = 0U;
             }
             this->state = 0xA;

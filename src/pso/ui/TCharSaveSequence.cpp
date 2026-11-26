@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -263,7 +263,7 @@ void TCharSaveSequence::handle_load_result() {
                 }
             } else {
                 seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
-                TAdSinglePlyChrSelectGC::encrypt_save_data((void *)TAdSinglePlyChrSelectGC::get_instance());
+                TAdSinglePlyChrSelectGC::encrypt_save_data((CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
                 TAdSinglePlyChrSelectGC::save_character_file(1);
                 state = 4;
             }
@@ -371,7 +371,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (!(char_save_message_flags & 1)) {
-        if (func_801A5E54__Fv() != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -403,7 +403,7 @@ void init_single_player_char_select_scene(void) {
     char_save_message_flags = 0;
     play_area_music("title.adx");
     TLobby::set_and_notify(-900);
-    ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
+    lobby_rule_settings.reset_settings_to_default();
     render_tick();
 }
 #pragma pool_data reset
@@ -455,7 +455,7 @@ extern ChrSelectSerialSeeds chr_select_serial_seeds;
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
     (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
-    (void *)&TWindowCtrlMain__sub_8024D838, (void *)&TWindowCtrlMain::free_all_windows, (void *)&TLobby::update_keyboard_menu, (void *)&TLobby::free_keyboard_soft_resources,
+    (void *)&TWindowCtrlMain::reset_windows, (void *)&TWindowCtrlMain::free_all_windows, (void *)&TLobby::update_keyboard_menu, (void *)&TLobby::free_keyboard_soft_resources,
 };
 
 void TCharSaveSequence::close_message_window() {

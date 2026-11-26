@@ -11,10 +11,8 @@ class TParticleCtrl;
 
 // --- C functions defined in TBoss8Dragon_80065C90.cpp ---
 const Vec *get_arena_center(void);
-extern "C" {
 void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
                            AnimationMotion *motion, s32 loop, f32 frame);
-}
 // --- end of C functions
 
 #endif

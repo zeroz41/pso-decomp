@@ -27,7 +27,6 @@
 extern "C" {
 const char *TItemObject_name = "TItemObject";
 }
-void handle_6x66_use_star_atomizer(u8 *arg0);
 extern const char *TItemObject_name;
 
 LockOnTargetRecord *LockOnTargetRecordList::get_record(s32 index) { return &records[index]; }

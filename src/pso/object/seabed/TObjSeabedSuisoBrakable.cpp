@@ -16,8 +16,6 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -29,7 +27,7 @@
 #include "pso/system/vector.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 
 s32 TObjSeabedSuisoBrakable::texture_entries[5];

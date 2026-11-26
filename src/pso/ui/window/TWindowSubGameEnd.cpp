@@ -1,4 +1,4 @@
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -43,12 +43,12 @@ void TWindowSubGameEnd::run_task() {
     switch (state) {
     case 0:
     case 1:
-        if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
+        if (yes_no_window->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             return;
         }
         if (yes_no_window->is_child_visible() != 0) {
-            slot = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
+            slot = yes_no_window->get_selected_value();
             if (slot == 0) {
                 if (window_sub_game_end_active_flag != 1) {
                     new TScreenFadeOut(tl_00, TKeyBoardControl::init_char_select);
@@ -70,7 +70,7 @@ void TWindowSubGameEnd::run_task() {
 
 TWindowSubGameEnd::~TWindowSubGameEnd() {
     if (yes_no_window != NULL) {
-        ((TWindowMessageYesNo *)yes_no_window)->close();
+        yes_no_window->close();
         yes_no_window = NULL;
     }
 }

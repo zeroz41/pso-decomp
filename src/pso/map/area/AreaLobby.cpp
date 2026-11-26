@@ -20,7 +20,7 @@ void (*lobby_floor_scene_callbacks[12])(void) = {
     TLobby::alloc_download_server, TLobby::free_single_player_chr_select,
     register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
     register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
-    TLobby__sub_802A0F70, TLobby::free_dialog_global,
+    load_title_midashi_texture, free_title_midashi_texture,
     TAdMcSelectGC::close, TAdMcSelectGC::open,
 };
 
@@ -45,7 +45,7 @@ s32 TLobby::init_lobby_floor_scene() {
     }
     init_area_lights();
     TQuestVmDownLoadServer::reset_download_state();
-    ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
+    lobby_rule_settings.reset_settings_to_default();
     TLobby::create_tasks();
     TObjBgmColCtrl::create_controller();
     TLobby__sub_801403B4(0);

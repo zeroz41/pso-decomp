@@ -41,7 +41,7 @@ const ParticleAngles TAdFloorLoadPrtGC::emitter_angles[12] = {
 };
 const Vec lbl_80478B48[1] = { { 0.0f, 0.0f, 0.0f } };
 const ParticleAngles lbl_80478B54[1] = { { 0x0, 0x0, 0x4000 } };
-const char *TAdFloorLoadPrtGC__class_name = "TAdFloorLoadPrtGC";
+const char *TAdFloorLoadPrtGC::class_name = "TAdFloorLoadPrtGC";
 
 TAdFloorLoadPrtGC::~TAdFloorLoadPrtGC() {
     s32 i;
@@ -59,7 +59,7 @@ TAdFloorLoadPrtGC::~TAdFloorLoadPrtGC() {
 
 TAdFloorLoadPrtGC::TAdFloorLoadPrtGC(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = TAdFloorLoadPrtGC__class_name;
+    m_name = TAdFloorLoadPrtGC::class_name;
     memset(emitters, 0, sizeof(emitters));
     origin_particle = NULL;
     for (i = 0; i < 12; i++) {

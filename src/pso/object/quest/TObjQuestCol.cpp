@@ -6,7 +6,6 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/network/client_id.h"
@@ -478,13 +477,12 @@ void TQuestColCtrl::delete_by_param(s32 id) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        TObjContainerCommon *container = (TObjContainerCommon *)cur;
-        if ((container->check_value_equals(quest_col_class_name) != 0
-             || container->check_value_equals(quest_col_a_class_name) != 0
-             || container->check_value_equals(obj_quest_col_alock_class_name) != 0
-             || container->check_value_equals(obj_quest_col_apc_class_name) != 0
-             || container->check_value_equals(quest_col_apc_in_name) != 0
-             || container->check_value_equals(quest_col_apc_inw_name) != 0)
+        if ((cur->check_value_equals(quest_col_class_name) != 0
+             || cur->check_value_equals(quest_col_a_class_name) != 0
+             || cur->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || cur->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || cur->check_value_equals(quest_col_apc_in_name) != 0
+             || cur->check_value_equals(quest_col_apc_inw_name) != 0)
             && cur->m_id == id) {
             cur->queue_destruction();
             return;
@@ -499,14 +497,13 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        TObjContainerCommon *container = (TObjContainerCommon *)cur;
-        if ((container->check_value_equals(quest_col_class_name) != 0
-             || container->check_value_equals(quest_col_a_class_name) != 0
-             || container->check_value_equals(obj_quest_col_alock_class_name) != 0
-             || container->check_value_equals(obj_quest_col_apc_class_name) != 0
-             || container->check_value_equals(quest_col_apc_in_name) != 0
-             || container->check_value_equals(quest_col_apc_inw_name) != 0)
-            && id == ((TObjBase *)(static_cast<TObjQuestColBase *>(cur)))->get_entity_id()) {
+        if ((cur->check_value_equals(quest_col_class_name) != 0
+             || cur->check_value_equals(quest_col_a_class_name) != 0
+             || cur->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || cur->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || cur->check_value_equals(quest_col_apc_in_name) != 0
+             || cur->check_value_equals(quest_col_apc_inw_name) != 0)
+            && id == static_cast<TObjQuestColBase *>(cur)->get_entity_id()) {
             return static_cast<TObjQuestColBase *>(cur);
         }
     }

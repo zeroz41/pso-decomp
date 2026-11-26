@@ -4,7 +4,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
@@ -13,8 +12,7 @@
 #include "pso/object/TObjChip.h"
 #include "pso/object/seabed/TObjSuisoChip.h"
 #include "pso/object/door/TObjDoorJung.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -26,7 +24,7 @@
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixVector.h"
@@ -120,7 +118,7 @@ void TOTrapSeabed01::apply_saved_state(s16 *state, s32 live) {
             stop_sound_request(sound_handle);
             sound_handle = -1;
         }
-        sub_802C9D38();
+        release_trapped_player();
         set_flag8();
         queue_destruction();
     }
@@ -201,7 +199,7 @@ void TOTrapSeabed01::clamp_params_and_init() {
     payload.kind = trap_seabed01_param_index_table[set_params[2]];
 }
 
-void TOTrapSeabed01::vfunc_84() {}
+void TOTrapSeabed01::update_effects() {}
 
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
@@ -225,7 +223,7 @@ void TOTrapSeabed01::draw() {
         set_depth_buffer_settings_3();
         set_draw_list_mask(1);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(trap_seabed01_texture_file);
+        set_texture_list(trap_seabed01_texture_file);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -254,7 +252,7 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
         if (!(flags & 8)) {
             if (projected != 0) {
                 setup_particle_tev(0);
-                TObjFish::set_global_param(trap_seabed01_texture_file);
+                set_texture_list(trap_seabed01_texture_file);
                 load_projection_tex_matrix(0x38E);
                 draw_ginja_model(object->model);
                 reset_particle_tev();
@@ -271,7 +269,7 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
 }
 
 void TOTrapSeabed01::render_effect_layers() {
-    TObjFish::set_global_param(trap_seabed01_texture_file);
+    set_texture_list(trap_seabed01_texture_file);
     if (actor_frame_tick != effect_uv_scroll_last_tick) {
         if (trap_seabed01_ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
             scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(trap_seabed01_ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);
@@ -309,7 +307,7 @@ void TOTrapSeabed01::trigger_by_id(NJS_OBJECT *node) {
     }
 }
 
-void TOTrapSeabed01::vfunc_81() {
+void TOTrapSeabed01::update_springing() {
     frame += play_speed;
     if (frame > (current_motion->nbFrame - 1)) {
         frame = (current_motion->nbFrame - 1);
@@ -322,7 +320,7 @@ void TOTrapSeabed01::vfunc_81() {
     }
 }
 
-void TOTrapSeabed01::vfunc_82() {
+void TOTrapSeabed01::update_holding() {
     if (--strike_timer < 0) {
         bodies->radius = 15.0f;
         set_indexed_flags(0, 0x100);
@@ -343,7 +341,7 @@ void TOTrapSeabed01::check_hold_player() {
         held = get_player_by_client_id(player);
         target = held;
         if (target != NULL) {
-            distance = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
+            distance = horizontal_distance_squared(&target->position, &position);
             dist -= held->get_body_radius(0);
             if (distance < dist * dist) {
                 if (TRaderMapCore::is_not_split_screen() == 1) {
@@ -351,7 +349,7 @@ void TOTrapSeabed01::check_hold_player() {
                 } else if (player == local_client_id) {
                     send_6x2C_impose_hold(held, &position, -1, 0, dist);
                 }
-                sub_802C9C18(0);
+                play_floor_sound(0);
                 return;
             }
             player = 0xFFFF;
@@ -400,20 +398,20 @@ void TOTrapSeabed01::play_sounds() {
             particle->set_scale(0.5f, 0.5f);
         }
     }
-    sub_802C9C18(1);
+    play_floor_sound(1);
 }
 
 f32 TOTrapSeabed01::receive_physical_attack(void *attacker, f32 damage) {
-    sub_802C9D38();
+    release_trapped_player();
     return TOTrap::receive_physical_attack(attacker, damage);
 }
 
 // Lets the held player go (the twin of TOTrapAncient01::release_trapped_player).
-void TOTrapSeabed01::sub_802C9D38() {
+void TOTrapSeabed01::release_trapped_player() {
     TObjPlayer *held;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (target != NULL) {
-            held = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
+            held = get_player_by_client_id(target->get_entity_id());
             if (held != NULL) {
                 if (held->check_player_flag1() != 0) {
                     send_release_hold(held);
@@ -421,7 +419,7 @@ void TOTrapSeabed01::sub_802C9D38() {
                 obj_clear_flag30_20000(held);
             }
         }
-    } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
+    } else if (target != NULL && local_client_id == target->get_entity_id()) {
         held = get_player_by_client_id(local_client_id);
         if (held != NULL && held->check_player_flag1() != 0) {
             send_release_hold(held);
@@ -430,7 +428,7 @@ void TOTrapSeabed01::sub_802C9D38() {
 }
 
 // Plays the trap's sound for the floor: 0 when it grabs a player, 1 when it breaks.
-void TOTrapSeabed01::sub_802C9C18(s32 which) {
+void TOTrapSeabed01::play_floor_sound(s32 which) {
     const s32 sounds[4][2] = {
         {0x4B71E, 0x4BC16},
         {0x4004B71E, 0x4004BC16},

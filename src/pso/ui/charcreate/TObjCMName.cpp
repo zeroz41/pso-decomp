@@ -47,6 +47,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/object/TCMCharacter.h"
+#include "pso/unk/text_80290BE0.h"
 
 
 struct Menu_80296D68
@@ -123,7 +124,6 @@ CreationMenuModeList creation_menu_mode_lists[6] = {
     {3, creation_menu_modes_4}, {1, creation_menu_modes_5},
 };
 
-void reset_character_creation_figure_rotation(void);
 NJS_COLOR proportion_frame_colors[4];
 NJS_POINT2 proportion_marker_points[4];
 NJS_COLOR proportion_marker_colors[4];
@@ -862,12 +862,12 @@ void TObjCMMainMenu::after_run_task() {  }
 
 void TObjCMMainMenu::after_render() {  }
 
-const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
+const char *TObjCMAssignMenu::name = "TObjCMAssignMenu";
 
 TObjCMAssignMenu::TObjCMAssignMenu(TObject *parent, s32 kind) : TObject(parent) {
     u32 bit;
     s32 i;
-    m_name = TObjCMAssignMenu__name;
+    m_name = TObjCMAssignMenu::name;
     appearance = creation_player_character;
     enabled = 0;
     this->kind = kind;
@@ -1286,11 +1286,11 @@ void TObjCMAssignMenu::draw_assign_icons() {
 }
 
 #pragma pop
-const char *TObjCMHairMenu__name = "TObjCMHairMenu";
+const char *TObjCMHairMenu::name = "TObjCMHairMenu";
 
 TObjCMHairMenu::TObjCMHairMenu(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = TObjCMHairMenu__name;
+    m_name = TObjCMHairMenu::name;
     appearance = creation_player_character;
     initialized = 0;
     selection = 0;
@@ -1550,8 +1550,8 @@ void TObjCMHairMenu::render() {
         pts[2].y *= scale;
         pts[3].y *= scale;
         color.c[3] = 255.0f * t;
-        TObjCMHairMenu__sub_801E3F54(&cols[0].color, TObjCMHairMenu__sub_801E3F54(&cols[1].color,
-            TObjCMHairMenu__sub_801E3F54(&cols[2].color, TObjCMHairMenu__sub_801E3F54(&cols[3].color, &color.rgba))));
+        copy_u32(&cols[0].color, copy_u32(&cols[1].color,
+            copy_u32(&cols[2].color, copy_u32(&cols[3].color, &color.rgba))));
         for (s32 i = 0; i < 3; i++) {
             draw_polygon_2d(&list, 4, 6, -2.75f);
             pts[0].y += step;
@@ -1571,8 +1571,8 @@ void TObjCMHairMenu::render() {
                 }
                 HairBarColor bar_color = hair_bar_colors[i];
                 bar_color.c[3] = 255.0f * t;
-                TObjCMHairMenu__sub_801E3F54(&cols[0].color, TObjCMHairMenu__sub_801E3F54(&cols[1].color,
-                    TObjCMHairMenu__sub_801E3F54(&cols[2].color, TObjCMHairMenu__sub_801E3F54(&cols[3].color, &bar_color.rgba))));
+                copy_u32(&cols[0].color, copy_u32(&cols[1].color,
+                    copy_u32(&cols[2].color, copy_u32(&cols[3].color, &bar_color.rgba))));
                 draw_polygon_2d(&list, 4, 6, -2.4375f);
             }
         }
@@ -1581,10 +1581,10 @@ void TObjCMHairMenu::render() {
 }
 
 #pragma pop
-const char *TObjCMAutoMkData__name = "TObjCMAutoMkData";
+const char *TObjCMAutoMkData::name = "TObjCMAutoMkData";
 
 TObjCMAutoMkData::TObjCMAutoMkData(TObject *parent) : TObject(parent) {
-    m_name = TObjCMAutoMkData__name;
+    m_name = TObjCMAutoMkData::name;
     appearance = creation_player_character;
     copy_vec2(&width, &appearance->width);
     fade = 0.0f;
@@ -1737,10 +1737,10 @@ void TObjCMAutoMkData::render() {
     draw_creation_ruler_lines(fade);
 }
 
-const char *TObjCMProportion__name = "TObjCMProportion";
+const char *TObjCMProportion::name = "TObjCMProportion";
 
 TObjCMProportion::TObjCMProportion(TObject *parent) : TObject(parent) {
-    m_name = TObjCMProportion__name;
+    m_name = TObjCMProportion::name;
     appearance = creation_player_character;
     initialized = 0;
     active = 1;

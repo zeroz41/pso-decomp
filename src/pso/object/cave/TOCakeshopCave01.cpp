@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/cave/TOCakeshopCave01.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -65,7 +65,7 @@ void TOCakeshopCave01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);

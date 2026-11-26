@@ -11,6 +11,7 @@ class TAdGuideTxtGC;
 
 class TAdMultiSelGameModeGC : public TObject {
 public:
+    static const char *name;
     TAdMultiSelGameModeGC(TObject *parent, s32 mode);
     virtual ~TAdMultiSelGameModeGC();
     virtual void run_task();
@@ -38,5 +39,7 @@ public:
 };
 
 LAYOUT_ASSERT(TAdMultiSelGameModeGC_size, sizeof(TAdMultiSelGameModeGC) == 0x44);
+
+void apply_multi_sel_rule();
 
 #endif

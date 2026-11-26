@@ -1,14 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayerSet.h"
-#include "pso/system/task/TObject_8001A448.h"
 
 #include "pso/system/task/TObject.h"
 
 
 #pragma push
 #pragma readonly_strings on
-const char *TObjPlayer__player_set_class_name = "TObjPlayerSet";
+const char *TObjPlayerSet::class_name = "TObjPlayerSet";
 #pragma pop
 
 void TObjPlayerSet::render() {  }
@@ -29,7 +28,7 @@ TObjPlayerSet::~TObjPlayerSet() {
 #pragma opt_common_subs off
 #define player_set this
 TObjPlayerSet::TObjPlayerSet(TObject *parent, void *set_data) : TObjBase(parent) {
-    *(s32 *)((s8 *)player_set + 0) = (saddr) TObjPlayer__player_set_class_name;
+    player_set->m_name = class_name;
     ((TObjPlayerSet *)(player_set))->apply_object_set_data(set_data);
     if (player_set->scale.x < 0.0f) {
         player_set->scale.x = 0.0f;

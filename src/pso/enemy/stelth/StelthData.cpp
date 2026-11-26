@@ -8,9 +8,7 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/enemy/stelth/StelthData.h"
 
-// String objects are named after their contents.
-// .rodata block of the Stelth code (the SinowZoaData.cpp shape): the code
-// addresses each object on its own, so it did not compile them itself.
+// The Stelth code's constant objects; string objects are named after their contents.
 
 
 extern const NJS_ARGB me3_stelth_offset_vec = {-0.8f, 0.0f, 0.0f, 0.0f};

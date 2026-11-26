@@ -13,7 +13,7 @@
 #include "pso/technique/TTelepipeSelectField.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
-#include "pso/unk/text_8023601C.h"
+#include "pso/object/TActorLight.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"
@@ -36,7 +36,7 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/math/MatrixVector.h"
@@ -55,19 +55,18 @@ extern "C" {
 void TTecLuker__sub_8023503C(void* p);
 void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
-int fn_80235078(void *arg0);
+int fn_80235078(void *record);
 s32 init_collision_body_parts(void *, void *, int);
 bool TTecLuker__sub_8023401C(u8 *arg0);
 }
 // The collision body every telepipe field collider starts from: a 0.01 sphere.
 CollisionBody telepipe_field_collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 0.01f, 0.0f, 0, 0x8031F0B, {0.0f, 0.0f, 0.0f}, 0.0f};
-u8 TTecLuker__visit_counts[4] = { 0, 0, 0, 0 };
+u8 TTecLuker::visit_counts[4] = { 0, 0, 0, 0 };
 void reset_telepipe_visit_counts(void);
 extern "C" {
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
-void set_state__9TTecLukerFl(void *p, s32 v);
 static const s32 telepipe_visual_template_table[12][3] = {
     { 177, 178, 176 },
     { 177, 178, 176 },
@@ -85,7 +84,9 @@ static const s32 telepipe_visual_template_table[12][3] = {
 static const s32 telepipe_owner_tint_table[12] = {
     0x00FFB2B2, 0x0099FFB2, 0x00FFFFB2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
-const char *TTecLuker__name = "TTecLuker";
+}
+const char *TTecLuker::name = "TTecLuker";
+extern "C" {
 static const Vec lbl_8044D72C = { 0.0f, 0.0f, 0.2f };
 static const Vec telepipe_town_position_table[4] = {
     { -312.0f, 0.0f, -113.0f },
@@ -158,26 +159,26 @@ void CursorAction::set_telepipe() { kind = CURSOR_ACTION_TELEPIPE; }
 void TTecLuker__sub_80234F48(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TTecLuker__visit_counts[i] = 0;
+        TTecLuker::visit_counts[i] = 0;
     }
 }
 
 void reset_telepipe_visit_counts(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TTecLuker__visit_counts[i] = 0;
+        TTecLuker::visit_counts[i] = 0;
     }
 }
 
 void TTecLuker__sub_80234F08(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TTecLuker__visit_counts[i] = 0;
+        TTecLuker::visit_counts[i] = 0;
     }
 }
 
 TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
-    m_name = TTecLuker__name;
+    m_name = TTecLuker::name;
     phase = 0;
     warp_frames = 0;
     field = NULL;
@@ -235,7 +236,7 @@ void TTecLuker::run_task() {
     u16 owner_id;
     u16 entity_id;
     u16 visit_slot;
-    u8 *traveller_player;
+    TObjPlayer *traveller_player;
     TObjPlayer *player;
     u8 *owner;
     PositionPlacementQueue *queue;
@@ -260,7 +261,7 @@ void TTecLuker::run_task() {
             }
             if (TTecLuker__sub_80235054(queue) != 0) {
                 VecCopy(&pipe_pos, &((TObjBase *)source)->position);
-                if ((telepipe_record_differs(&((TObjPlayer *)source)->telepipe.state, floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker__visit_counts[sourceId] >= 1)) {
+                if ((telepipe_record_differs(&((TObjPlayer *)source)->telepipe.state, floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker::visit_counts[sourceId] >= 1)) {
                     queue_destruction();
                     return;
                 }
@@ -271,7 +272,7 @@ void TTecLuker::run_task() {
     case 1:
         visit_slot = sourceId;
         if (visit_slot < 4U) {
-            TTecLuker__visit_counts[visit_slot] = TTecLuker__visit_counts[visit_slot] + 1;
+            TTecLuker::visit_counts[visit_slot] = TTecLuker::visit_counts[visit_slot] + 1;
         }
         if (telepipe_record_differs(&((TObjPlayer *)source)->telepipe.state, floor, &pipe_pos, traveller) != 0) {
             queue_destruction();
@@ -304,9 +305,9 @@ void TTecLuker::run_task() {
         break;
     case 3:
         owner_id = ((TObjBase *)(owner))->get_entity_id();
-        traveller_player = (u8 *)get_player_by_client_id(traveller);
+        traveller_player = get_player_by_client_id(traveller);
         if ((is_split_screen() == 0) && (traveller_player != NULL)) {
-            if (*(s32 *)((s8 *)traveller_player + 0x30) & 0x800) {
+            if (traveller_player->actorFlags & 0x800) {
                 phase = 1;
                 TWindowCtrl::unsuppress_all_slots();
                 if (field == NULL) {
@@ -317,35 +318,35 @@ void TTecLuker::run_task() {
                 warp_frames = 0;
                 return;
             }
-            set_state__9TTecLukerFl(&((TObjPlayer *)traveller_player)->telepipe.flags, owner_id);
+            traveller_player->telepipe.flags.set_bits(owner_id);
             if (TLobby::get_instance() == 1) {
-                send_6x21_inter_level_warp((TObjPlayer *)traveller_player, 0);
+                send_6x21_inter_level_warp(traveller_player, 0);
             } else {
-                send_6x21_inter_level_warp((TObjPlayer *)traveller_player, 0);
+                send_6x21_inter_level_warp(traveller_player, 0);
             }
             goto block_43;
         }
 block_43:
         {
         s32 i;
-        u8 *p;
+        TObjPlayer *p;
         i = 0;
         do {
-            p = (u8 *)get_player_by_client_id(i);
+            p = get_player_by_client_id(i);
             if (p != NULL) {
                 if (is_split_screen() != 0) {
-                    set_state__9TTecLukerFl(&((TObjPlayer *)p)->telepipe.flags, owner_id);
+                    p->telepipe.flags.set_bits(owner_id);
                     if (TLobby::get_instance() == 1) {
-                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
+                        send_6x21_inter_level_warp(p, 0);
                     } else {
-                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
+                        send_6x21_inter_level_warp(p, 0);
                     }
-                } else if (((TObjChara *)p)->obj_isState3_324() != 0) {
-                    set_state__9TTecLukerFl(&((TObjPlayer *)p)->telepipe.flags, owner_id);
+                } else if (p->obj_isState3_324() != 0) {
+                    p->telepipe.flags.set_bits(owner_id);
                     if (TLobby::get_instance() == 1) {
-                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
+                        send_6x21_inter_level_warp(p, 0);
                     } else {
-                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
+                        send_6x21_inter_level_warp(p, 0);
                     }
                 }
             }
@@ -660,13 +661,13 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
     if (slot >= 4) {
         return 0;
     }
-    p = (TObjPlayer *)get_player_by_client_id(slot);
+    p = get_player_by_client_id(slot);
     if (p != 0) {
-        owner = ((FlagWord *)&p->telepipe.flags)->get_bits();
+        owner = p->telepipe.flags.get_bits();
         if (owner == 0xffff) {
             return 0;
         }
-        ((TTecLuker *)&p->telepipe.flags)->set_state(0xffff);
+        p->telepipe.flags.set_bits(0xffff);
         if (get_current_floor_area() == AREA_PIONEER2_EP1) {
             *heading = telepipe_town_heading_table[slot];
             return &telepipe_town_position_table[slot];
@@ -675,7 +676,7 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
             *heading = telepipe_town_heading_table[slot];
             return &telepipe_town_position_table_b[slot];
         }
-        p = (TObjPlayer *)get_player_by_client_id(owner);
+        p = get_player_by_client_id(owner);
         if (p == 0) {
             return 0;
         }

@@ -35,12 +35,12 @@ void TWindowSubComCard::set_card_text(saddr src) {
         }
     }
 }
-u8 *TWindowSubComCard::get_card_entry_data() {
-    GuildCardSlot *slot = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(this)));
+char *TWindowSubComCard::get_card_note_text(s32 index) {
+    GuildCardSlot *slot = TWindowSubComCard::get_card_entry(index);
     if (slot == NULL) {
         return NULL;
     }
-    return reinterpret_cast<u8 *>(slot->note.text);
+    return slot->note.text;
 }
 
 GuildCardSlot *TWindowSubComCard::find_card_by_id(u32 id) {
@@ -75,8 +75,8 @@ void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
     *second = tmp;
 }
 
-extern "C" {
 void clear_entry_active_flag(GuildCardEntry *entry);
+extern "C" {
 
 s32 has_inactive_card__17TWindowSubComCardFPvi(GuildCardSlot *cards, s32 n) {
     s32 i;
@@ -128,7 +128,7 @@ s32 update_matching_card(GuildCardSlotBase *card, GuildCardSlot *cards, s32 coun
 
 s32 TWindowSubComCard::send_guild_card() {
     GuildCardSlot *temp;
-    if (((s32 (*)())TWindowSubComCard__sub_8007B070)() != 0) {
+    if (((s32 (*)())is_guild_card_invalid)() != 0) {
         return 0;
     }
     temp = TWindowSubComCard::get_card_entry(0);
@@ -157,7 +157,7 @@ s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards,
 
 void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
     u32 temp;
-    if (((s32 (*)(int))TWindowSubComCard__sub_8007B070)(ply_guild_card_tag) == 0) {
+    if (((s32 (*)(int))is_guild_card_invalid)(ply_guild_card_tag) == 0) {
         temp = reinterpret_cast<uaddr>(TWindowSubComCard::get_card_entry(0));
         ((s32 (*)(s32, s32, s32))forward_to_matching_card__17TWindowSubComCardFPvPvi)(ply_guild_card_tag, (s32) temp, 0xD2);
         TAdSinglePlyChrSelectGC::load_player_data();
@@ -168,15 +168,13 @@ void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
     saddr card;
     cmd->bswap();
     card = reinterpret_cast<saddr>(&cmd->card);
-    if ((((s32 (*)(int))TWindowSubComCard__sub_8007B070)(card) == 0) && (((TWindowSubComCard *)card)->send_guild_card() == 0)) {
+    if ((((s32 (*)(int))is_guild_card_invalid)(card) == 0) && (((TWindowSubComCard *)card)->send_guild_card() == 0)) {
         set_guild_card_receive_active();
         if (((s32 (*)(int, void *, int))update_matching_card_slot)(card, TWindowGetComCard__received_guild_card_tags, 4) == 0) {
             ((s32 (*)(int, void *, int))replace_matching_card)(card, TWindowGetComCard__received_guild_card_tags, 4);
         }
     }
 }
-
-struct Card_8007B010 { u8 body[0x90]; };
 
 struct Card_8007AFB8 { u8 body[0x100]; };
 
@@ -185,12 +183,14 @@ extern "C" {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubComCard__sub_8007AF10(saddr client_id) {
+}
+void send_guild_card_to_client(saddr client_id) {
     G_SendGuildCard_6x06 cmd;
     const GuildCardEntry *card = reinterpret_cast<const GuildCardEntry *>(TWindowSubComCard::get_keyboard_mode());
     cmd.card = *card;
     cmd.send_to(client_id);
 }
+extern "C" {
 #pragma pop
 
 s32 TWindowSubComCard::count_leading_active(GuildCardEntry *cards, s32 count) {
@@ -214,17 +214,17 @@ s32 TWindowSubComCard::count_active_cards() {
     return i;
 }
 
-s32 has_free_card_slot(Card_8007B010 *p, s32 n) {
+}
+s32 has_free_card_slot(GuildCardEntry *cards, s32 count) {
     s32 i;
-    for (i = 0; i < n; i++, p++) {
-        if (reinterpret_cast<const GuildCardEntry *>(p)->is_active() == 0) {
+    for (i = 0; i < count; i++, cards++) {
+        if (cards->is_active() == 0) {
             return 1;
         }
     }
     return 0;
 }
-
-u32 TWindowSubComCard__sub_8007B070(u8 *keyboard_mode) {
+s32 is_guild_card_invalid(u8 *keyboard_mode) {
     if ((s8) *(u8 *)((s8 *)keyboard_mode + 0x87) != 0) {
         return 1U;
     }
@@ -239,6 +239,7 @@ u32 TWindowSubComCard__sub_8007B070(u8 *keyboard_mode) {
     }
     return (u32) (s8) *(u8 *)((s8 *)keyboard_mode + 0x8F) >> 0x1FU;
 }
+extern "C" {
 
 s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards, s32 count) {
     u32 id;
@@ -264,6 +265,7 @@ s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards,
     return 0;
 }
 
+}
 void replace_matching_card(GuildCardSlotBase *card, GuildCardSlotBase *entries, s32 count) {
     s32 i;
     u32 id = card->get_card_id();
@@ -279,20 +281,24 @@ void replace_matching_card(GuildCardSlotBase *card, GuildCardSlotBase *entries, 
         *entries = *card;
     }
 }
+extern "C" {
 
 void TWindowSubComCard::set_text(void *text) {
     ((s32 (*)(void *, void *, int))strncpy)((void *) (((u8 *)this) + 0x20), text, 0x6B);
     *(s8 *)((s8 *)this + 0x8B) = 0;
 }
 
+}
 void clear_entry_active_flag(GuildCardEntry *entry) {
     entry->flags &= ~1;
 }
+extern "C" {
 
 int clear(void* p) { return (saddr)memset(p, 0, 144); }
 
 void TWindowSubComCard::clear_and_init(void* local_client_id) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((saddr)local_client_id); }
-s32 fn_8007B2E0(u8 *ply_guild_card_tag, s32 id) {
+}
+s32 fill_guild_card_from_short_mail(u8 *ply_guild_card_tag, s32 id) {
     ShortMailEntry *mail;
     mail = TLobby::find_short_mail_by_id(id);
     if (mail == NULL) {
@@ -306,8 +312,6 @@ s32 fn_8007B2E0(u8 *ply_guild_card_tag, s32 id) {
     *(s8 *)((s8 *)ply_guild_card_tag + 0x8D) = 5;
     *(s32 *)((s8 *)ply_guild_card_tag + 4) = mail->get_sender_card_id();
     return 1;
-}
-
 }
 
 s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client) {
@@ -387,17 +391,16 @@ void TObjPlayer::set_com_card_window(s32 client) {
 
 GuildCardEntry TWindowGetComCard__received_guild_card_tags[4];
 
-extern "C" {
 void remove_first_received_card(void) {
     TWindowGetComCard::remove_entry(0, TWindowGetComCard__received_guild_card_tags, 4);
     if (TWindowGetComCard__received_guild_card_tags[0].is_active() == 0) {
-        TWindowCtrl__sub_8024A08C();
+        destroy_com_card_window();
     }
 }
-
 GuildCardEntry *get_received_guild_card_tags(void) {
     return TWindowGetComCard__received_guild_card_tags;
 }
+extern "C" {
 
 void TWindowGetComCard::remove_entry(s32 index, GuildCardEntry *entries, s32 count) {
     if (index < count - 1) {
@@ -408,14 +411,12 @@ void TWindowGetComCard::remove_entry(s32 index, GuildCardEntry *entries, s32 cou
     clear_entry_active_flag(entries);
 }
 
+}
 void clear_received_guild_cards(s32 _w0) {
-    TWindowCtrl__sub_8024A08C();
+    destroy_com_card_window();
     for (s32 i = 0; i < 4; i++) {
         clear_entry_active_flag(&TWindowGetComCard__received_guild_card_tags[i]);
     }
 }
-
 void TWindowGetComCard__sub_8007B65C(void* p) { clear_received_guild_cards((saddr)p); }
 void TWindowGetComCard__sub_8007B67C(void* p) { clear_received_guild_cards((saddr)p); }
-
-}

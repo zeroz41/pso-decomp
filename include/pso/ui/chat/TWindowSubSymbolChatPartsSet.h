@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/chat/TWindowChatSymbol.h"
 
 struct TWindowSubStatusDisp;
@@ -31,7 +33,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     s32 *first_flag_out;
     s32 *second_flag_out;
     s32 *result_out;
-    TWindowSubStatusDisp *heading_display;
+    WindowHeading *heading_display;
     void draw_selected_part_cursor(void *ctx);
     void handle_cancel();
     void handle_decide();

@@ -4,7 +4,6 @@
 #include "types.h"
 
 struct NJS_OBJECT;
-struct NJS_TEXLIST;
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 
@@ -27,7 +26,7 @@ struct TObjFishEntry {
 struct TObjFish : public TObjBase {
     TObjFish(TObject *parent, void *set_data);
     virtual ~TObjFish();
-    s32 init_fish_school(Vec *bounds, s32, s32);
+    s32 init_fish_school(Vec *bounds, s32 anim0_count, s32 anim1_count);
     s32 update_state();
     virtual void render();
     virtual void run_task();
@@ -37,10 +36,8 @@ struct TObjFish : public TObjBase {
     u32 frame_counter;              // frame counter
     f32 school_radius;     // the larger of scale.x and scale.y
     TObjFishEntry *fish;   // the fish
-    static void reset_fish_globals();
     static void free_resource();
     static void load_area_resource();
-    static s32 set_global_param(NJS_TEXLIST *texlist);
     static void *create(void *set_data);
 };
 

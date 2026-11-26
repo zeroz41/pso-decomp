@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct GvmFileHeader;
+struct GvplPalette;
 
 struct TLanguage
 {
@@ -13,13 +14,13 @@ struct TLanguage
     static void load_text_resources(s32 language);
     static s32 set_language(s8 language);
     static s8 get_default_language();
-    static void draw_string(void *filename, void *palette, s32 tlut_name);
-    static void decode_font_data(void *arg0, void *font, s32 arg2, s32 tlut_name);
+    // Loads a GVPL palette file into `palette` and from it the TLUT `tlut_name`.
+    static void load_palette_tlut(const char *filename, GvplPalette *palette, s32 tlut_name);
+    static void decode_font_data(const char *filename, GvplPalette *palette, s32 tlut_name, s32 inverted_tlut_name);
     static int read_file_header(u8 *cursor, GvmFileHeader *header);
     static void read_into_buffer(void *destination, s32 length);
     static s32 read_u32_le();
     static s32 read_u16_le();
-    static void set_entry_index(s32 index, s32 bank);
     static void load_container_fragment_textures();
 
     // The loaded language's text file: two words, the language text resources and the group table.

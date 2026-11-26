@@ -12,6 +12,8 @@ struct DamageStatSlot {
     f32 normal_weight;
     f32 bonus_weight;
 
+    DamageStatSlot();
+    void init();
     f32 get_bonus_weight();
     s32 get_total();
     void set_total(f32 v);
@@ -27,27 +29,32 @@ struct PlayerSubObjectSlots {
     s32 pad_10;
     s32 score;
 
+    PlayerSubObjectSlots();
     s32 get_score();
     void set_score(s32 v);
 };
 
 // TObjPlayer + 0x754, the battle-rule score. The duel result window shows the
-// first four damage slots; the fifth collects meseta pickups.
+// kill, death, damage-given and damage-taken slots; meseta adds to the score
+// by its own weight.
 struct PlayerBattleScore {
     s32 timer;
     s32 pad_4;
-    DamageStatSlot damage_stats[5];
+    DamageStatSlot kills;
+    DamageStatSlot deaths;
+    DamageStatSlot damage_taken;
+    DamageStatSlot damage_given;
+    DamageStatSlot meseta;
     PlayerSubObjectSlots slots;
 
-    // Clears the timer and every stat slot.
-    PlayerBattleScore *init();
+    PlayerBattleScore();
     void set_timer(s32 v);
     s32 get_timer();
 };
 
 LAYOUT_ASSERT(DamageStatSlot_size, sizeof(DamageStatSlot) == 0x10);
 LAYOUT_ASSERT(PlayerSubObjectSlots_size, sizeof(PlayerSubObjectSlots) == 0x18);
-LAYOUT_ASSERT(PlayerBattleScore_damage_stats_offset, offsetof(PlayerBattleScore, damage_stats) == 0x8);
+LAYOUT_ASSERT(PlayerBattleScore_kills_offset, offsetof(PlayerBattleScore, kills) == 0x8);
 LAYOUT_ASSERT(PlayerBattleScore_size, sizeof(PlayerBattleScore) == 0x70);
 
 #endif

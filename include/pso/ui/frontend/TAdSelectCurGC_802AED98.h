@@ -3,8 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_802AF198(void);
-}
+void load_select_cursor_texture();
+void free_select_cursor_texture();
 
 #endif

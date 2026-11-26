@@ -16,7 +16,7 @@ struct TOVS2Wall01 : public TObjChara {
     u32 in_view;
     void spawn_debris(s32 index);
     void release();
-    int interact_player_neg1();
+    void interact_player_neg1();
     virtual void run_task();
     virtual void render();
     virtual s32 select_melee_contact_body(void *, f32);

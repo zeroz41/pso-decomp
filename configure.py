@@ -622,7 +622,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/item/shop/TShopGenerator.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TNpcPlayer.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Inline the generated row-position assignment to preserve its two word-pair copies.
-    "pso/ui/window/TWindowMainMenu_802AD538.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline noauto,level=1")},
+    "pso/ui/window/TWindowMenuMainMenu.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline noauto,level=1")},
     # -fp_contract on: the lens flare render 0x800812D0 fuses its element placement into fmadds/fnmsubs;
     # the unit's other functions are the same either way.
     "pso/effect/TEF_LensFlare.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
@@ -641,9 +641,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str readonly: every string of these units is read-only data ("SELECT"/"NEXT" of the constructor in .rodata,
     # the Spanish "\xBF"/"\xA1" marks of 0x80345608 in .sdata2, each pooled once).
     "pso/ui/window/TWindowDD_803430BC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred")},
-    "pso/ui/window/TWindowDD_8034435C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # ws_data_load reaches each .rodata object with its own lis/addi (no shared base): -pool off.
-    "pso/ui/window/TWindowDD_80346A84.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/ui/window/TWindowDD_8034435C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowCtrlMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # get_viewport_offset reaches each of its three .rodata viewport tables with its own lis/addi
     # (no shared .rodata base, though the tables precede the unit's pooled double): -pool off.
@@ -724,7 +723,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/npc/TObjNpcNgcBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/object/fence/TOVS2Wall01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/derolle/Boss2CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/window/TWindowDD_8034725C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/trap/TOMine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/trap/TOMineIcon01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/trap/TOMineIcon02.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -740,7 +738,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/charcreate/TChCrEffTag.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdAgreementBaseGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdEnterPasswordGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/frontend/TAdWarningBaseGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # The ARAM upload task opens .text while its vtable comes before TAdWarningBaseGC's in .data: deferred, source written backwards.
+    "pso/ui/frontend/TAdWarningBaseGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdEnterPPPPassGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -inline off,deferred: __vt__23TObjOnlineEndingHexLine precedes the HexMove vtable although
     # HexLine's key function comes first, so the source runs from the last function back.
@@ -1442,7 +1441,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/render/render_util.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/render/render_util_head.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/quest/QuestOpcodeHandlers.cpp": {"cflags": _switch(cflags_pso, "-inline on", "-str reuse,readonly")},
-    "pso/quest/TQuestThread.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
+    # TObjItemOKWindow's vtable sits ahead of the run_task jump tables and the other
+    # vtables follow in class order: deferred generation of the last-to-first source.
+    "pso/quest/TQuestThread.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred")},
     # The quest-list vtable precedes its switch table: deferred, written from
     # its last function back. Its titles and window sizes are addressed one
     # by one (no shared .rodata base), and its strings are read-only.

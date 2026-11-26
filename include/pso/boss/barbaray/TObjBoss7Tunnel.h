@@ -32,8 +32,7 @@ public:
     void update_spawn_timer(const s32 *table, s32 count, s32 hold_last);
     void double_scroll_speed();
     void advance_effect_timer();
-    // Out-of-line helpers at the end of the tunnel file,
-    // called by its segments (TObjBoss7TunnelSegment).
+    // Helpers at the end of the tunnel file, called by its segments (TObjBoss7TunnelSegment).
     void copy_position(const Vec *position);
     f32 get_scroll_speed();
     f32 get_segment_x();
@@ -64,9 +63,9 @@ public:
     static void release_splash_children(TParticleCtrl *particle);
     // Clears boss2_tunnel_state_flags (init_boss7_tunnel).
     static void clear_state_flags();
-    // Creates the tunnel under tl_04 (fn_802F1084).
+    // Creates the tunnel under tl_04.
     static void create();
-    // Empty (fn_802F105C).
+    // Empty.
     static void free_state();
     // Size 0x94 (create's operator new).
     s32 phase;          // index into run_task's phase handlers

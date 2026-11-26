@@ -7,7 +7,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
@@ -133,7 +133,7 @@ void TWindowSubSymbolChatHelp::draw_help_icon(WindowDrawContext *context, s32 ro
 void TWindowSubSymbolChatHelp::draw_help_entries(WindowDrawContext *context) {
     if (context->open_tick >= 0) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(hud_texlist);
+        set_texture_list(hud_texlist);
         set_draw_texture_and_color(2, -1);
         draw_help_icon(context, 0, -1);
         draw_help_icon(context, 1, -1);
@@ -155,7 +155,7 @@ void TWindowSubSymbolChatHelp::draw_help_entries(WindowDrawContext *context) {
             draw_help_icon(context, 5, (s32)(0xFF808080));
         }
         draw_color_palette(context);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         begin_screen_draw(1);
         TWindowSubStatusDisp::begin_render();
         set_draw_texture_and_color(1, -1);
@@ -178,7 +178,7 @@ void TWindowSubSymbolChatHelp::draw_help_entries(WindowDrawContext *context) {
             draw_help_entry(context, 4, (s32)(0xFF808080));
             draw_help_entry(context, 5, (s32)(0xFF808080));
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 
@@ -220,10 +220,10 @@ void TWindowSubSymbolChatHelp::handle_page_input() {
 
 void TWindowSubSymbolChatHelp::render() {
     saddr self_addr = (saddr)this;
-    saddr entry;
-    entry = reinterpret_cast<saddr>(draw_default_entry());
-    ((TWindowBase *)self_addr)->draw_window_frame((void *)entry);
-    draw_help_entries((WindowDrawContext *)entry);
+    WindowDrawContext *entry;
+    entry = draw_default_entry();
+    ((TWindowBase *)self_addr)->draw_window_frame(entry);
+    draw_help_entries(entry);
 }
 
 void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); update_window(); }

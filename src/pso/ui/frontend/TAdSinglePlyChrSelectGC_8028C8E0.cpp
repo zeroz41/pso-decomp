@@ -7,7 +7,6 @@
 #include "pso/system/NinjaChunk.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -32,13 +31,13 @@ extern s32 chr_select_preview_base_offset_table[];
 
 
 s32 TChCrLoadGmNjReq::try_acquire_slot() {
-    if (((s32) chr_select_slot_state < 0) || ((s32) chr_select_slot_state > 1)) {
+    if ((chr_select_slot_state < 0) || (chr_select_slot_state > 1)) {
         return 0;
     }
     if (slot_claimed != 0) {
         return 0;
     }
-    if ((s32) chr_select_slot_state >= 1) {
+    if (chr_select_slot_state >= 1) {
         return 0;
     }
     chr_select_slot_state += 1;

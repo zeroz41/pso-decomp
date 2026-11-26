@@ -3,9 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
 // The offline quest's second file name (offline_quest_filename_buffer_b).
-char *fn_801F43A8(void);
-}
+char *get_offline_quest_filename_buffer_b(void);
 
 #endif

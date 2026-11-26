@@ -11,6 +11,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 #pragma readonly_strings on
 

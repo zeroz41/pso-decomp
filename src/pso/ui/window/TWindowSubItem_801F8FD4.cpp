@@ -2,10 +2,11 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 void TWindowMenuIconLine::clear_decided() {
     this->state_flags = (u16) (this->state_flags & 0xFFFFFFFD);
     if (this->status_display != NULL) {
-        this->status_display->set_entry_state(1);
+        this->status_display->set_state(1);
     }
 }

@@ -9,11 +9,13 @@
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/LabelValueRow.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/WindowLayoutRecord.h"
@@ -21,12 +23,10 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 
-const char *lbl_805D3970 = "TWindowMenuInfomation";
-static const NJS_POINT2 lbl_8044F3A0 = {425.0f, 188.0f};
+const char *TWindowMenuInfomation::class_name = "TWindowMenuInfomation";
+static const NJS_POINT2 choice_setting_popup_extent = {425.0f, 188.0f};
 
 extern "C" {
-s32 TWindowSubComCard__sub_8026906C(void);
-
 void TWindowMenuInfomation::request_close() {
     if (!(this->state_flags & 8) && (TWindowMenuInfomation::is_open() == 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -34,12 +34,11 @@ void TWindowMenuInfomation::request_close() {
     }
 }
 void TWindowMenuInfomation::draw() {
-    get_array_entry(this->index);
-    if (TWindowSubComCard__sub_8026906C() == 0) {
+    if (static_cast<LabelValueRow *>(get_array_entry(this->index))->is_flag80_set() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         this->state_flags = (u16) (this->state_flags | 2);
         if (this->heading != 0) {
-            this->heading->set_entry_state(2);
+            this->heading->set_state(2);
         }
     }
 }
@@ -90,13 +89,10 @@ block_4:
     }
 }
 void TWindowMenuInfomation::create_sub_window(const char *title) {
-    TWindowSubStatusDisp *heading;
+    WindowHeading *heading;
 
     if (this->heading == NULL) {
-        heading = (TWindowSubStatusDisp *)::operator new(0x24);
-        if (heading != NULL) {
-            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)title, this->client_index);
-        }
+        heading = new WindowHeading((saddr)title, this->client_index);
         this->heading = heading;
         this->window_flags |= 0x40;
     }
@@ -154,7 +150,7 @@ void TWindowMenuInfomation::draw_setting(WindowDrawContext *context) {
 void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     u32 i;
     WindowTextEntry *entry;
-    window->m_name = lbl_805D3970;
+    window->m_name = TWindowMenuInfomation::class_name;
     window->next_entry = 0;
     window->index = 0;
     window->entry_capacity = (s16)rows;
@@ -173,7 +169,7 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
 #pragma dont_inline off
 
 // inferred: choice_setting_popup_layout_entries, the layout table choice_setting_popup_window_descriptor
-// points at (one type-9 record; fn_80268C5C fills in the row count).
+// points at (one type-9 record; set_choice_setting_popup_size fills in the row count).
 struct ChoiceSettingPopupLayout {
     u32 cols;
     u32 rows;
@@ -187,13 +183,13 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
 TWindowMenuInfomation *create_information_counter_window(s32 rows) {
     TWindowMenuInfomation *window;
 
-    fn_80268C5C(&lbl_8044F3A0, rows);
+    set_choice_setting_popup_size(&choice_setting_popup_extent, rows);
     window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), rows);
     window->create_sub_window("Information Counter");
     return window;
 }
 
-void fn_80268C5C(const NJS_POINT2 *extent, s32 rows) {
+void set_choice_setting_popup_size(const NJS_POINT2 *extent, s32 rows) {
     choice_setting_popup_window_descriptor.size[0] = extent->x;
     choice_setting_popup_window_descriptor.size[1] = extent->y;
     choice_setting_popup_layout_entries.rows = rows;
@@ -204,14 +200,14 @@ void TWindowMenuInfomation::render() {
     WindowDrawContext *draw_context;
 
     draw_context = get_draw_context();
-    ((TWindowBase *)(this))->draw_window_frame(draw_context);
+    this->draw_window_frame(draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>((this)),
         &entry_list,
         draw_context);
     draw_setting(draw_context);
     if (this->heading != 0) {
-        ((TWindowSubStatusDisp *)((saddr)this->heading))->forward_render(draw_context);
+        this->heading->render(draw_context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
@@ -219,7 +215,7 @@ void TWindowMenuInfomation::render() {
 }
 
 void TWindowMenuInfomation::run_task() {
-    TWindowSubStatusDisp *heading_window;
+    WindowHeading *heading_window;
     WindowScrollBar *scroll;
     ControllerInputContext *input;
     ControllerInputContext *pad;
@@ -253,7 +249,7 @@ void TWindowMenuInfomation::run_task() {
     if ((f32) open_tick >= 7.5f) {
         heading_window = heading;
         if (heading_window != NULL) {
-            heading_window->update_subwindow();
+            heading_window->update();
         }
         scroll = scroll_bar;
         if (scroll != NULL) {
@@ -269,10 +265,12 @@ void TWindowMenuInfomation::run_task() {
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {
     TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)this->heading, (s16)1);
+    delete this->heading;
 }
 TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)
     : TWindowAddition((u8 *)&choice_setting_popup_window_descriptor, 4, (u8 *)parent) {
     TWindowMenuInfomation__ct(this, (u32)rows);
 }
 
+s32 LabelValueRow::get_entry_id() { return id; }
+int LabelValueRow::is_flag80_set() { return flags & 0x80; }

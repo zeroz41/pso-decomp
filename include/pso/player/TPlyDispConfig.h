@@ -20,6 +20,9 @@ public:
     void set_bank();
     // The tags of row 0 or row 1.
     gc_tag *get_row(s32 row);
+    s32 get_bank();
+    // The tags of the row of the bank shown.
+    gc_tag *get_current_row();
     s32 is_channel_active_at(s32 row, s32 index);
     s32 is_channel_active(s32 index);
     void set_tag(s32 row, s32 index, s32 mode, u16 slot);
@@ -40,7 +43,7 @@ public:
     // Whether every tag of the given row (bank) is mode 0.
     int is_bank_empty(s32 bank);
 public:
-    u32 bank;  // the bank shown: 0 or 1
+    s32 bank;  // the bank shown: 0 or 1
     gc_tag m_tags[4];
     gc_tag m_tags1[4];
 };

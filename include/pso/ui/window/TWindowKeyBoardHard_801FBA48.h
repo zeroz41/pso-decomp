@@ -3,11 +3,9 @@
 
 #include "types.h"
 
-extern "C" {
-void TAdSinglePlyChrSelectGC__sub_801FBB1C(void);
-void TAdSinglePlyChrSelectGC__sub_801FBB7C(void);
-void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *save_data);
-}
+void delete_character_save_file(void);
+void delete_guild_card_save_file(void);
+void decrypt_character_save(void *save_data);
 struct NJS_OBJECT;
 
 void draw_ginja_box_tree(NJS_OBJECT *node);

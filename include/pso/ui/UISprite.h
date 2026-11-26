@@ -24,6 +24,13 @@ struct UISpriteTint {
     f32 channels[3];
 };
 
+// One corner of the sprite draw_compass_sprite draws.
+struct CompassSpriteVertex {
+    f32 x, y, z;
+    f32 u, v;
+    s32 color;
+};
+
 extern "C" {
 void draw_compass_sprite(const NJS_SPRITE *sprite, s32 index, s32 color, s32 flags, f32 depth);
 void draw_creation_sprite_offset(s32 sprite_id, const vec2f* position, const vec2f* scale,

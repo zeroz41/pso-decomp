@@ -10,7 +10,7 @@ struct NJS_OBJECT;
 struct TObjLazerFence4 : public TObjCollidable {
     TObjLazerFence4(TObject *parent, void *set_data);
     virtual ~TObjLazerFence4();
-    void sub_801933C8();
+    void wait_for_switch();
     virtual s32 update_object_view_visibility(f32, f32);
     u32 state;            // 0 closed (beam drawn, blocking), 1 open (switch set)
     f32 animation_frame;  // the beam motion's frame

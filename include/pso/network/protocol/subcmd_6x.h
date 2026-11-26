@@ -25,11 +25,13 @@
 
 #include "types.h"
 #include "pso/system/vector.h"
+#include "pso/object/base/StatStatusReceipt.h"
 #include <stddef.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #include "pso/network/protocol/cast_packets.h"
+#include "pso/player/CapturedTargetList.h"
 #include "pso/quest/challenge/ChallengeRecord.h"
 
 struct G_6x70_Base_DCNTE {
@@ -88,10 +90,8 @@ struct G_AddBattleDamageScores_6x8F {
  void send();
 };
 
-// Body of 6x0C/6x0D.
-struct StatusEffectChange {
- u32 effect_type;
- u32 unknown_a1;
+// Body of 6x0C/6x0D: the status effect the sender added or removed.
+struct StatusEffectChange : StatStatusReceipt {
  void bswap();
 };
 
@@ -119,9 +119,21 @@ struct G_AddOrRemoveStatusEffect_6x0C_6x0D {
  f32 amount;
 };
 
-struct G_AttackFinished_Header_6x46 {
- struct G_ClientIDHeader header;
- u32 target_count;
+// 6x46: a player's attack ends; the lock-on targets it hit follow the header.
+struct G_AttackFinished_6x46 {
+    G_AttackFinished_6x46();
+    G_AttackFinished_6x46 &operator=(G_AttackFinished_6x46 &src);
+    // The receive-side swap, as G_ExecutePhotonBlast_6x49::bswap_received.
+    void bswap_received();
+    // Bytes actually sent: the header, the count and count targets.
+    u8 get_size();
+    // Send-side swap, as G_ExecutePhotonBlast_6x49::bswap_for_send.
+    void bswap_for_send();
+    // Sets the header size, byte-swaps and sends the packet.
+    void send();
+
+    G_ClientIDHeader header;
+    CapturedTargetList targets;
 };
 
 struct G_Attack_6x43_6x44_6x45 {
@@ -261,7 +273,7 @@ struct G_CreateInventoryItem_DC_6x2B {
 
 struct G_CreateInventoryItem_PC_V3_BB_6x2B : G_CreateInventoryItem_DC_6x2B {
  u8 unused1;
- u8 equip_item;
+ s8 equip_item;  // handle_6x2B_create_inventory_item sign-extends it
  u8 unused2[2];
  void bswap();
  G_CreateInventoryItem_PC_V3_BB_6x2B &operator=(G_CreateInventoryItem_PC_V3_BB_6x2B &src);
@@ -466,15 +478,6 @@ struct G_EquipItem_6x25 {
  void send();
 };
 
-struct G_ExecutePhotonBlast_Header_6x49 {
- struct G_ClientIDHeader header;
- s8 photon_blast; // -1, or which of the six
- u8 unused1;
- s16 target_count;
- u16 pb_meter_value;
- u16 unused2;
-};
-
 struct G_ExitQuest_6x73 {
  struct G_UnusedHeader header;
 };
@@ -596,13 +599,14 @@ struct G_IdentifyItemRequest_6xB8 {
 
 struct G_ImposeHold_6x2C {
  struct G_ClientIDHeader header;
- s16 frames;
- s16 effect_type;
+ s16 frames;       // the receiver's movement_hold.set_frames
+ s16 effect_type;  // the receiver's movement_hold.set_effect_type
  struct VectorXZF pos;
  f32 trigger_radius2;
  void bswap();
  void init();
  void send();
+ G_ImposeHold_6x2C &operator=(G_ImposeHold_6x2C &src);
 };
 
 struct G_IncrementEnemyDamage_Extension_6xE4 {
@@ -641,6 +645,7 @@ struct G_IntraMapWarp_6x55 {
  void init();
  void bswap();
  void send();
+ G_IntraMapWarp_6x55 &operator=(G_IntraMapWarp_6x55 &src);
 };
 
 LAYOUT_ASSERT(G_IntraMapWarp_6x55_size, sizeof(G_IntraMapWarp_6x55) == 0x20);
@@ -712,9 +717,9 @@ struct G_ModifyTradeProposal_6xA6 {
 struct G_MoveToPosition_6x41_6x42 {
  struct G_ClientIDHeader header;
  struct VectorXZF pos;
- G_MoveToPosition_6x41_6x42 &operator=(const G_MoveToPosition_6x41_6x42 &src);
  // Clears the position and sets the 6x42 header.
  void init();
+ G_MoveToPosition_6x41_6x42 &operator=(const G_MoveToPosition_6x41_6x42 &src);
  void bswap();
  void send();
 };
@@ -910,13 +915,15 @@ struct G_SetAnimationState_6xAE {
  void send_to(u32 client);
 };
 
+// The client reads what, state and is_alive as signed bytes and the
+// params as signed words.
 struct G_SetBattleModeData_6x7D {
  struct G_UnusedHeader header;
- u8 what;
- u8 unknown_a1;
+ s8 what;
+ s8 state;  // the controller state to switch to when what is 0
  u8 unused;
- u8 is_alive;
- u32 params[4];
+ s8 is_alive;
+ s32 params[4];
 };
 
 struct G_SetBossWarpFlags_6x6A {
@@ -1068,10 +1075,10 @@ struct G_SetPosition_6x3F {
  s16 floor;
  s16 room;
  Vec pos;
- G_SetPosition_6x3F &operator=(G_SetPosition_6x3F &src);
  void send();
  void bswap();
  void init();
+ G_SetPosition_6x3F &operator=(G_SetPosition_6x3F &src);
 };
 
 struct G_SetQuestFlags_V2_V3_6x6F {
@@ -1085,6 +1092,9 @@ struct G_SetSwitchFlagFromTimer_6x93 {
  u16 switch_flag_num;
  u8 should_set;
  u8 unused[3];
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_SetTechniqueLevelOverride_6x8D {
@@ -1131,12 +1141,16 @@ struct G_StandardDropItemRequest_DC_6x60 {
  struct VectorXZF pos;
  s16 room;
  s16 ignore_def;
+ void init();
+ void bswap();
 };
 
 struct G_StandardDropItemRequest_PC_V3_BB_6x60 {
  struct G_StandardDropItemRequest_DC_6x60 __base_G_StandardDropItemRequest_DC_6x60;
  s8 effective_area;
  u8 unused[3];
+ G_StandardDropItemRequest_PC_V3_BB_6x60 *init();
+ void send();
 };
 
 struct G_SpecializableItemDropRequest_6xA2 {
@@ -1156,10 +1170,10 @@ struct G_StopAtPosition_6x3E {
  s16 floor;
  s16 room;
  Vec pos;
- G_StopAtPosition_6x3E &operator=(G_StopAtPosition_6x3E &src);
  void init();
  void bswap();
  void send();
+ G_StopAtPosition_6x3E &operator=(G_StopAtPosition_6x3E &src);
 };
 
 struct G_SwitchInteraction_6x50 {
@@ -1306,6 +1320,7 @@ struct G_UnequipItem_6x26 {
  void send();
  void bswap();
  void init();
+ G_UnequipItem_6x26 &operator=(G_UnequipItem_6x26 &src);
 };
 
 struct G_Unknown_6x02_6x03 {
@@ -1362,11 +1377,16 @@ struct G_UpdateAttackableColState_6x91 : G_UpdateObjectState_6x0B {
  void send();
 };
 
+// 6x9A: a player's HP, TP or meseta changes; the header carries the player's client id.
 struct G_UpdateEntityStat_6x9A {
- struct G_EntityIDHeader header;
+ struct G_ClientIDHeader header;
  u16 entity_index;
  u8 what;
  u8 amount;
+ // Clears the packet and sets its header (subcommand 0x9A, size 2).
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_UpdateQuestFlag_DC_PC_6x75 {
@@ -1444,6 +1464,7 @@ struct G_WalkToPosition_6x40 {
  u32 flags;
  // Clears the packet and sets its header (subcommand 0x40, size 4).
  void init();
+ G_WalkToPosition_6x40 &operator=(G_WalkToPosition_6x40 &src);
  void bswap();
  void send();
 };

@@ -24,6 +24,7 @@
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 #pragma readonly_strings on
@@ -34,9 +35,6 @@ const char *attackable_col_name = "TOAttackableCol";
 
 
 
-extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-}
 
 // Inferred: run_demo_task (run_task calls it in demo mode).
 void TOAttackableCol::sub_80157310() {  }
@@ -100,8 +98,8 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
                             if ((mode >= 1) || (mode < 0)) {
                                 col->mode = 0;
                             }
-                            if (command->remaining_hits < col->sub_80157C28()) {
-                                col->sub_80157C20(command->remaining_hits);
+                            if (command->remaining_hits < col->get_hits_left()) {
+                                col->set_hits_left(command->remaining_hits);
                             }
                         }
                         break;
@@ -286,7 +284,7 @@ TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
     ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjChara *)this)->calc_attach_pos();
     set_actor_flags(0x60000000);
-    init_collision_body_parts(((u8 *)this), &attackable_col_collision_parts, 1);
+    init_collision_body_parts(this, &attackable_col_collision_parts, 1);
     ((TObjCollidable *)this)->set_indexed_flags(0, 0x718);
     ((TObjPlayer *)this)->register_object_by_id();
     this->mode = 0;
@@ -312,8 +310,8 @@ f32 TOAttackableCol::receive_weapon_special_attack(void *player, void *) { retur
 void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
 
 // Inferred: set_hits_left / get_hits_left.
-void TOAttackableCol::sub_80157C20(s32 v) { hits_left = v; }
-s32 TOAttackableCol::sub_80157C28() { return hits_left; }
+void TOAttackableCol::set_hits_left(s32 v) { hits_left = v; }
+s32 TOAttackableCol::get_hits_left() { return hits_left; }
 void G_UpdateAttackableColState_6x91::bswap() {
     G_UpdateObjectState_6x0B::bswap();
     bswap_16(&is_destroyed);

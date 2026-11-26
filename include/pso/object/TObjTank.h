@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjTank : public TObjCollidable {
-    TObjTank(TObject *parent, saddr set_data);
+    TObjTank(TObject *parent, ObjectSetData *placement);
     virtual ~TObjTank();
     virtual void render();
     virtual void run_task();

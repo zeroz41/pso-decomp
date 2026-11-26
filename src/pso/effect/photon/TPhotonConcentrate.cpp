@@ -2,7 +2,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/effect/photon/TPhotonConcentrate.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/vector.h"

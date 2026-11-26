@@ -12,6 +12,7 @@ struct SelectCursorQuad {
 
 class TAdSelectCurGC : public TObject {
 public:
+    static const char *name;
     TAdSelectCurGC(TObject *parent, const NJS_POINT2 *position, const NJS_POINT2 *size);
     virtual ~TAdSelectCurGC();
     virtual void run_task();
@@ -24,6 +25,7 @@ public:
     void reset_entries();
     void append_entry(const void *position);
     void lock_navigation();
+    void set_wait_directions_released();
     void request_navigation_unlock();
     void draw_quads();
     void update_texture_rectangles(s32 frame);

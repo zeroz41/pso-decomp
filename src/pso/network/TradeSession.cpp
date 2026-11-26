@@ -25,7 +25,6 @@
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include <stddef.h>
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -35,6 +34,15 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_8001D6A0.h"
+
+void TWindowTradeRequest::reset_trade() {
+    if ((s32) trade_proposal_state == 2) {
+        TLobby::send_trade_proposal_result(0, 3);
+        TWindowTradeRequest::close_request_window();
+        reset_trade_session();
+    }
+}
+
 
 void TLobby::send_trade_proposal_modify() {
   G_ModifyTradeProposal_6xA6 packet;
@@ -833,3 +841,15 @@ TradeProposalHandler trade_proposal_state_handlers[10][8] = {
     { ignore_trade_proposal_event, 0, 0, 0, handle_trade_final_confirmation, handle_trade_state_cancel, 0, ignore_trade_proposal_event },
     { ignore_trade_proposal_event, 0, 0, 0, 0, handle_trade_state_cancel, 0, ignore_trade_proposal_event },
 };
+
+s32 is_trade_range_bit_set(s32 client_id) {
+    return (trade_protocol_flags & (1 << client_id)) ? 1 : 0;
+}
+
+void clear_trade_range_bit(s32 client_id) {
+    trade_protocol_flags &= ~(1 << client_id);
+}
+
+void set_trade_range_bit(s32 client_id) {
+    trade_protocol_flags |= 1 << client_id;
+}

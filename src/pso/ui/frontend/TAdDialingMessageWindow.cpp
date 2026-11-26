@@ -6,13 +6,13 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TMainTask.h"
 
-const char *TAdDialingMessageWindow__name = "TAdDialingMessageWindow";
+const char *TAdDialingMessageWindow::name = "TAdDialingMessageWindow";
 
 const NJS_POINT2 lbl_8047A400 = {0.0f, 28.0f};
 const NJS_POINT2 lbl_8047A408 = {640.0f, 84.0f};
 
 TAdDialingMessageWindow::TAdDialingMessageWindow(const char *message, u32 delay) : TObject(tl_fadeafter) {
-    m_name = TAdDialingMessageWindow__name;
+    m_name = TAdDialingMessageWindow::name;
     flags = 0;
     this->message = message;
     timer = new TAdDialingMessageTimer(tl_camera, this, delay);

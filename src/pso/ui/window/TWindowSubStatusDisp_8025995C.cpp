@@ -8,14 +8,12 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 extern "C" {
 u8 get_small_font_glyph_width();
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 s32 build_small_font_glyph_quad(s32, TexturedQuad *);
-void begin_screen_draw(s32 mode);
-s32 draw_textured_quad_at_depth(TexturedQuad *, f32);
-void set_draw_texture_and_color(s32 idx, s32 color);
 
 void draw_right_aligned_number(void *arg0) {
     TWindowLayoutNumber *digit = static_cast<TWindowLayoutNumber *>(arg0);
@@ -97,7 +95,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
       if (1)
       {
         case 0:
-          r = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->style);
+          r = TWindowSubStatusDisp::calc_gauge_scale(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->style);
           pos.y0 = y;
           x -= r;
           pos.x0 = x;
@@ -114,7 +112,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
     }
     if (context->clip_and_transform_quad(&pos) != 0)
     {
-      draw_textured_quad_at_depth(&pos, scale);
+      draw_textured_quad_at_depth(&pos.x0, scale);
     }
   }
   while ((n /= 10) > 0);
@@ -124,7 +122,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
       TWindowSubStatusDisp::end_render_forward();
       break;
     case 1:
-      TWindowSubStatusDisp::get_player();
+      end_screen_draw();
       break;
   }
 }

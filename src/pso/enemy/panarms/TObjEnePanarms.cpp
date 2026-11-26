@@ -24,14 +24,13 @@
 #include "pso/enemy/TObjEnePanBARA.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -138,8 +137,7 @@ extern const s32 panarms_beam_down_charge_points[3] = { 3, 4, 0 };
 typedef void (TObjEnePanarms::*PanarmsStateFn)();
 struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
 extern PanarmsState panarms_state_table[14];
-// The original's static initializer sits before the weak copies of the inline accessors this unit
-// emits (right before them), which no compiler-generated __sinit reproduces, so it is spelled out.
+// The unit's static initializer comes before the weak copies of the inline accessors it emits.
 extern "C" {
 static void __sinit_TObjEnePanarms_cpp();
 }
@@ -395,7 +393,7 @@ void TObjEnePanarms::draw() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     node_capture->install();
     TObjMotion::draw();
     node_capture->clear();

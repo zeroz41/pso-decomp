@@ -280,4 +280,4 @@ void TWindowCtrlMain::free_shared_draw_context() {
         shared_window_draw_context = NULL;
     }
 }
-void TWindowCtrlMain__sub_8024EF30(void) { shared_window_draw_context = NULL; }
+void clear_shared_window_draw_context(void) { shared_window_draw_context = NULL; }

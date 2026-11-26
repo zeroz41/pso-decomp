@@ -24,7 +24,7 @@ struct NJS_POINT2;
 struct MainMenuSlotState {
     s16 first;
     s16 second;
-    s32 value;
+    TWindowMainMenuEntry *entries; // active_entries saved for this depth
 };
 
 struct TWindowMainMenu : public TObject {
@@ -40,12 +40,12 @@ struct TWindowMainMenu : public TObject {
     void destroy_submenu();
     void replace_submenu(s16 id);
     void close_child_window();
-    void sub_80263FE0();
+    void toggle_help_window();
     void update_keyboard_card_state();
     void update_selection_value();
     void add_menu_entry(s16);
-    void sub_80263D7C();
-    void open(s32 entries);
+    void load_submenu_entries();
+    void open(TWindowMainMenuEntry *entries);
     void close_and_clear_flags();
     s32 close_active_submenu();
     void reset_depth_base();
@@ -93,5 +93,10 @@ void TWindowSubEquip__sub_80263AF4(void *, s32);
 }
 f32 get_main_menu_layer_depth(u8 *parent, u32 layer);
 void call_if_split_screen(uaddr object, s32 client_id);
+// Two empty functions after TWindowMainMenu's inlines; TWindowCtrl::shutdown and TWindowCtrl::close call them.
+extern "C" {
+void TWindowMainMenu__sub_8024E3CC(void);
+void TWindowMainMenu__sub_8024E3D0(void);
+}
 
 #endif

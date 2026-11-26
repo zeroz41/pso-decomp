@@ -5,6 +5,7 @@
 
 struct TWindowMessage;
 struct TWindowMessageQuest;
+struct TWindowMenu;
 
 enum quest_suspend_reason {
     QST_RUNNING                = 0,
@@ -27,7 +28,7 @@ struct QuestVmContext {
     s32 *function_table;
     s32 *registers;
     TWindowMessageQuest *message_window;
-    void *list_window;
+    TWindowMenu *list_window;
     u8 result_register;
     s32 unk18;
     s32 call_stack_depth;
@@ -75,7 +76,7 @@ extern u8 qst_result_register;
 extern TWindowMessageQuest *qst_message_window;
 extern TWindowMessage *qst_message_window_qb;
 extern s32 qst_message_speaker;
-extern void *qst_list_window;
+extern TWindowMenu *qst_list_window;
 extern void *qst_item_name_entry;
 extern void *qst_item_name_select;
 extern void *qst_item_ok_window;

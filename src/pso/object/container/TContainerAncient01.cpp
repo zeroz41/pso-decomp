@@ -14,7 +14,6 @@
 #include "pso/object/container/TContainerAncient01R.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/BmlResourceLoad.h"
 
@@ -29,9 +28,9 @@
 
 #include "pso/system/task/TObject.h"
 
-static const f32 ancient_container_one[1] = {1.0f};
+static const f32 ancient01_one[1] = {1.0f};
 
-static const f32 ancient_container_zero[1] = {0.0f};
+static const f32 ancient01_zero[1] = {0.0f};
 
 #include "pso/player/TObjPlayer.h"
 
@@ -41,43 +40,20 @@ static const f32 ancient_container_zero[1] = {0.0f};
 
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCollidable.h"
-
-struct Obj_8018B180 { u8 pad[0x38]; Vec pos; };
-
-struct Obj_8018B180;
-
-
-extern "C" {
-
-
-void init_collision_body_parts(void *, void *, int);
-
-
-s32 submit_cursor_candidate(void *, int, f32);
-
-extern BmlResource *container_ancient01_r_bml_resource;
-
-unsigned int __cvt_fp2unsigned(f32);
+#include "pso/object/base/ActorCollision.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 // Effect ids load_resources picks per area (0x230/0x231 or 0x45/0x46) and the
 // pair TContainerAncient01R::init_table_entries copies for its open effect.
 s32 container_ancient01_effect_id_table[2];
 
 saddr container_ancient01_open_effect_table[2];
-
-void TContainerAncient01__sub_8018A584(TContainerAncient01R *self, f32 range);
-
-BmlResource *TContainerAncient01__sub_8018BE90(void);
-
-void TContainerAncient01__sub_8018B180(TContainerAncient01 *self, f32 range);
-
-}
 
 
 
@@ -97,10 +73,8 @@ BmlResourceDescriptor container_ancient01_resource_descriptor_2 = {
     "bm_obj_geenest.bml", bm_obj_geenest_model_names, bm_obj_geenest_motion_names, 2, 2,
 };
 
-void *container_ancient01_collision_body_parts[11] = {
-    (void *)0x0, (void *)0x41000000, (void *)0x0, (void *)0x41200000,
-    (void *)0x41200000, (void *)0x0, (void *)0x38003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody container_ancient01_collision_body_parts = {
+    { 0.0f, 8.0f, 0.0f }, 10.0f, 10.0f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
 
 TObjMotionAction container_ancient01_anim_table[3] = {
@@ -119,17 +93,10 @@ static const NpcAnimationBinding container_ancient_anim_binding = {
 
 const char *container_ancient01_r_name = "TContainerAncient01R";
 
-#include "pso/system/task/TObject_80019A50.h"
-
 #include "pso/render/GinjaMaterial.h"
 
 #include "pso/unk/text_803D96A8.h"
 
-extern "C" {
-extern BmlResource *container_ancient01_bml_resource;
-
-s32 reset_state__19TContainerAncient01Fv();
-}
 
 #include "pso/npc/TObjNpcEnemy.h"
 
@@ -157,11 +124,11 @@ s32 TContainerAncient01::try_start_action(void *, s32, f32) { return 1; }
 void TContainerAncient01::apply_knockback_from_attacker(u8 *, f32) {  }
 
 f32 TContainerAncient01::receive_weapon_special_attack(void *, void *) {
-    receive_physical_attack(NULL, ancient_container_one[0]);
-    return ancient_container_zero[0];
+    receive_physical_attack(NULL, ancient01_one[0]);
+    return ancient01_zero[0];
 }
 
-BmlResource *TContainerAncient01__sub_8018BE90(void) {
+BmlResource *TContainerAncient01::get_bml_resource() {
     return container_ancient01_bml_resource;
 }
 
@@ -174,8 +141,8 @@ s32 TContainerAncient01R::try_start_action(void *, s32, f32) { return 1; }
 void TContainerAncient01R::apply_knockback_from_attacker(u8 *, f32) {  }
 
 f32 TContainerAncient01R::receive_weapon_special_attack(void *, void *) {
-    receive_physical_attack(NULL, ancient_container_one[0]);
-    return ancient_container_zero[0];
+    receive_physical_attack(NULL, ancient01_one[0]);
+    return ancient01_zero[0];
 }
 
 #pragma push
@@ -195,7 +162,7 @@ TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObj
     init_collision_body_parts(this, &container_ancient01_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    center.y = (f32) ((*(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4) / 2.0f) + center.y);
+    center.y = (f32) ((container_ancient01_collision_body_parts.offset.y / 2.0f) + center.y);
     VecCopy(&body_center, &center);
     this->mode = 0;
     this->init_state_vectors();
@@ -225,7 +192,7 @@ void TContainerAncient01::load_resources() {
     prm.motions = container_ancient01_bml_resource->motions;
     TObjNpcEnemy::register_animated_ginja(0x3B, get_bml_model(container_ancient01_bml_resource, 0),
                                              get_bml_texlist(container_ancient01_bml_resource, 0), &prm,
-                                             10.0f, ancient_container_zero[0]);
+                                             10.0f, ancient01_zero[0]);
 }
 
 void TContainerAncient01::release_static_resource() {
@@ -249,10 +216,10 @@ void TContainerAncient01::run_task() {
                 this->update_wait_for_player();
                 break;
             case 1:
-                this->sub_8018B48C();
+                this->update_spawning();
                 break;
             case 2:
-                this->sub_8018B284();
+                this->update_blast();
                 break;
             default:
                 this->mode = 0;
@@ -262,13 +229,13 @@ void TContainerAncient01::run_task() {
                 break;
             }
             frame_timer = this->frame_timer;
-            this->frame_timer = (f32) (frame_timer + ancient_container_one[0]);
-            submit_cursor_candidate((u8 *)this, -1, frame_timer);
+            this->frame_timer = (f32) (frame_timer + ancient01_one[0]);
+            submit_cursor_candidate(this, -1);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                this->position.y = (f32) (this->position.y - 0.025f);
-                if (this->position.y <= ((-1e+01f) * this->open_scale.y)) {
+                position.y = (f32) (position.y - 0.025f);
+                if (position.y <= ((-1e+01f) * this->open_scale.y)) {
                     this->TObject::queue_destruction();
                 }
             } else {
@@ -287,7 +254,7 @@ void TContainerAncient01::run_task() {
 
 void TContainerAncient01::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -314,26 +281,26 @@ f32 TContainerAncient01::receive_direct_attack(void *arg1, DirectAttackPayload p
 
     kind = payload.kind;
     if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
-        receive_physical_attack(NULL, ancient_container_one[0]);
+        receive_physical_attack(NULL, ancient01_one[0]);
     }
-    return ancient_container_zero[0];
+    return ancient01_zero[0];
 }
 
 f32 TContainerAncient01::receive_physical_attack(void *, f32) {
     s16 saved_state;
 
     if ((u16) this->entity_id >= 0x1000U) {
-        reset_state__19TContainerAncient01Fv();
+        reset_state();
         if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved_state, 1) != 0)) {
             saved_state = 1;
             access_object_saved_state(&saved_state, 0);
             send_object_state_update(&saved_state);
         }
     }
-    return ancient_container_zero[0];
+    return ancient01_zero[0];
 }
 
-void TContainerAncient01::sub_8018B700() {
+void TContainerAncient01::open_container() {
     if ((s32)opened == 0) {
         opened = 1;
         clear_player_status_flag(0, 1);
@@ -349,7 +316,7 @@ void TContainerAncient01::sub_8018B700() {
 void TContainerAncient01::apply_saved_state(s16 *state, s32 live) {
     if (live != 0) {
         if ((s16) *state == 1) {
-            sub_8018B700();
+            open_container();
             this->opened = 1;
         }
     } else if ((s16) *state == 1) {
@@ -359,18 +326,18 @@ void TContainerAncient01::apply_saved_state(s16 *state, s32 live) {
 #pragma push
 #pragma fp_contract on
 void TContainerAncient01::init_state_vectors() {
-    this->wait_limit = (f32) (3e+02f + (this->scale.x - ancient_container_one[0]));
-    this->active_limit = (f32) (2.1e+02f + (this->scale.y - ancient_container_one[0]));
-    this->range = (f32) (4e+02f + (this->scale.z - ancient_container_one[0]));
-    this->spawns_per_second = (s32) (*(s32 *)&this->set_params[2] + 4);
+    this->wait_limit = (f32) (3e+02f + (this->scale.x - ancient01_one[0]));
+    this->active_limit = (f32) (2.1e+02f + (this->scale.y - ancient01_one[0]));
+    this->range = (f32) (4e+02f + (this->scale.z - ancient01_one[0]));
+    this->spawns_per_second = this->set_params[2] + 4;
     VecCopy(&this->lower_effect_position, &this->position);
-    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4));
+    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + container_ancient01_collision_body_parts.offset.y);
     VecCopy(&this->upper_effect_position, &this->lower_effect_position);
-    this->upper_effect_position.y = (f32) ((1.25f * *(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4)) + this->upper_effect_position.y);
+    this->upper_effect_position.y = (f32) ((1.25f * container_ancient01_collision_body_parts.offset.y) + this->upper_effect_position.y);
     this->opened = 0;
-    this->open_scale.x = (f32) ancient_container_one[0];
-    this->open_scale.y = (f32) ancient_container_one[0];
-    this->open_scale.z = (f32) ancient_container_one[0];
+    this->open_scale.x = (f32) ancient01_one[0];
+    this->open_scale.y = (f32) ancient01_one[0];
+    this->open_scale.z = (f32) ancient01_one[0];
 }
 
 void TContainerAncient01::update_wait_for_player() {
@@ -398,9 +365,9 @@ void TContainerAncient01::update_wait_for_player() {
     }
 }
 #pragma pop
-void TContainerAncient01::sub_8018B48C() {
+void TContainerAncient01::update_spawning() {
   advance_animation();
-  if (((__cvt_fp2unsigned(this->frame_timer) & 0xFFFFFFFF) % 15) == 0)
+  if (((u32)this->frame_timer % 15) == 0)
   {
     spawn_effect(&this->lower_effect_position, 0x7D);
   }
@@ -412,7 +379,7 @@ void TContainerAncient01::sub_8018B48C() {
   }
 }
 
-void TContainerAncient01::sub_8018B284() {
+void TContainerAncient01::update_blast() {
     u32 period;
     u32 phase;
     f32 t;
@@ -451,7 +418,7 @@ void TContainerAncient01::sub_8018B284() {
     if (6e+01f < this->frame_timer && phase == 0) {
         spawn_effect(&this->lower_effect_position, 0x7E);
     }
-    TContainerAncient01__sub_8018B180(this, this->range);
+    attack_nearby_players(this->range);
     if (this->active_limit <= this->frame_timer) {
         this->reset_state();
     }
@@ -459,18 +426,18 @@ void TContainerAncient01::sub_8018B284() {
 
 void TContainerAncient01::reset_state() { this->mode = 0; this->requested_action = this->mode; this->frame_timer = (-1.0f); }
 
-void TContainerAncient01__sub_8018B180(TContainerAncient01 *self, f32 range) {
+void TContainerAncient01::attack_nearby_players(f32 range) {
     u16 i;
     TObjPlayer *pl;
     for (i = 0; i < 4; i++) {
         pl = get_player_by_client_id(i);
         if (pl != NULL) {
             if (pl->get_floor() == get_current_floor() && pl->test_actor_flags(1) == 0 &&
-                horizontal_distance_squared(&self->position, &pl->position) < range) {
+                horizontal_distance_squared(&position, &pl->position) < range) {
                 DirectAttackPayload atk;
                 atk.kind = 0xF;
                 atk.power = 1e+02f;
-                pl->receive_direct_attack(self, atk, NULL, -1, -1);
+                pl->receive_direct_attack(this, atk, NULL, -1, -1);
             }
         }
     }
@@ -482,8 +449,6 @@ void TContainerAncient01::spawn_effect(const Vec *position, s32 effect_id) {
 #pragma push
 #pragma fp_contract on
 TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TObjChara(parent) {
-    NJS_POINT2 *c;
-
     m_name = container_ancient01_r_name;
     apply_object_set_data(set_data);
     model = get_bml_model(container_ancient01_r_bml_resource, 0);
@@ -498,8 +463,7 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
     init_collision_body_parts(this, &container_ancient01_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    c = (NJS_POINT2 *)&container_ancient01_collision_body_parts;
-    center.y = c->y / 2.0f + center.y;
+    center.y = container_ancient01_collision_body_parts.offset.y / 2.0f + center.y;
     VecCopy(&body_center, &center);
     mode = 0;
     init_positions();
@@ -511,12 +475,12 @@ TContainerAncient01R::~TContainerAncient01R() {
 }
 
 void TContainerAncient01R::init_table_entries() {
-    container_ancient01_r_bml_resource = TContainerAncient01__sub_8018BE90();
+    container_ancient01_r_bml_resource = TContainerAncient01::get_bml_resource();
     container_ancient01_open_effect_table[0] = TContainerAncient01::get_table_entry(0);
     container_ancient01_open_effect_table[1] = TContainerAncient01::get_table_entry(1);
 }
 
-void TContainerAncient01R::free_table_entries() { container_ancient01_r_bml_resource = NULL; }
+void TContainerAncient01R::free_resources() { container_ancient01_r_bml_resource = NULL; }
 
 void *TContainerAncient01R::create(void *parent) {
     return new TContainerAncient01R(tl_05, parent);
@@ -535,7 +499,7 @@ void TContainerAncient01R::run_task() {
                 this->update_spawning();
                 break;
             case 2:
-                this->sub_8018A688();
+                this->update_blast();
                 break;
             default:
                 this->mode = 0;
@@ -545,13 +509,13 @@ void TContainerAncient01R::run_task() {
                 break;
             }
             frame_timer = this->frame_timer;
-            this->frame_timer = (f32) (frame_timer + ancient_container_one[0]);
-            submit_cursor_candidate((u8 *)this, -1, frame_timer);
+            this->frame_timer = (f32) (frame_timer + ancient01_one[0]);
+            submit_cursor_candidate(this, -1);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                this->position.y = (f32) (this->position.y - 0.025f);
-                if (this->position.y <= ((-1e+01f) * this->open_scale.y)) {
+                position.y = (f32) (position.y - 0.025f);
+                if (position.y <= ((-1e+01f) * this->open_scale.y)) {
                     this->TObject::queue_destruction();
                 }
             } else {
@@ -570,7 +534,7 @@ void TContainerAncient01R::run_task() {
 
 void TContainerAncient01R::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -597,9 +561,9 @@ f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload 
 
     kind = payload.kind;
     if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
-        receive_physical_attack(NULL, ancient_container_one[0]);
+        receive_physical_attack(NULL, ancient01_one[0]);
     }
-    return ancient_container_zero[0];
+    return ancient01_zero[0];
 }
 
 f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
@@ -612,7 +576,7 @@ f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
             send_object_state_update(&saved_state);
         }
     }
-    return ancient_container_zero[0];
+    return ancient01_zero[0];
 }
 
 void TContainerAncient01R::open_container() {
@@ -632,7 +596,7 @@ void TContainerAncient01R::apply_saved_state(s16 *state, s32 live) {
     this->hit_count = (s16) *state;
     if (live != 0) {
         if ((this->hp - this->hit_count) <= 0) {
-            this->reset_hp();
+            this->reset_state();
             this->open_container();
             this->opened = 1;
         }
@@ -643,18 +607,18 @@ void TContainerAncient01R::apply_saved_state(s16 *state, s32 live) {
 #pragma push
 #pragma fp_contract on
 void TContainerAncient01R::init_positions() {
-    this->wait_limit = (f32) (3e+02f + (this->scale.x - ancient_container_one[0]));
-    this->active_limit = (f32) (2.1e+02f + (this->scale.y - ancient_container_one[0]));
-    this->range = (f32) (4e+02f + (this->scale.z - ancient_container_one[0]));
+    this->wait_limit = (f32) (3e+02f + (this->scale.x - ancient01_one[0]));
+    this->active_limit = (f32) (2.1e+02f + (this->scale.y - ancient01_one[0]));
+    this->range = (f32) (4e+02f + (this->scale.z - ancient01_one[0]));
     this->spawns_per_second = (this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
-    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4));
+    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + container_ancient01_collision_body_parts.offset.y);
     VecCopy(&this->upper_effect_position, &this->lower_effect_position);
-    this->upper_effect_position.y = (f32) ((1.25f * *(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4)) + this->upper_effect_position.y);
+    this->upper_effect_position.y = (f32) ((1.25f * container_ancient01_collision_body_parts.offset.y) + this->upper_effect_position.y);
     this->opened = 0;
-    this->open_scale.x = (f32) ancient_container_one[0];
-    this->open_scale.y = (f32) ancient_container_one[0];
-    this->open_scale.z = (f32) ancient_container_one[0];
+    this->open_scale.x = (f32) ancient01_one[0];
+    this->open_scale.y = (f32) ancient01_one[0];
+    this->open_scale.z = (f32) ancient01_one[0];
     this->hp = (s16) this->rotation_z;
     if ((s16) this->hp < 1) {
         this->hp = 1;
@@ -690,7 +654,7 @@ void TContainerAncient01R::check_open_trigger() {
 
 void TContainerAncient01R::update_spawning() {
   advance_animation();
-  if ((__cvt_fp2unsigned(this->frame_timer) % 15) == 0)
+  if (((u32)this->frame_timer % 15) == 0)
   {
     trigger_spawn(&this->lower_effect_position, 0x7D);
   }
@@ -702,7 +666,7 @@ void TContainerAncient01R::update_spawning() {
   }
 }
 
-void TContainerAncient01R::sub_8018A688() {
+void TContainerAncient01R::update_blast() {
     u32 period;
     f32 t;
     u32 rem;
@@ -734,35 +698,34 @@ void TContainerAncient01R::sub_8018A688() {
     if (4e+01f == this->frame_timer) {
         trigger_spawn(&this->lower_effect_position, 0x7E);
     }
-    period = __cvt_fp2unsigned(3e+01f / this->spawns_per_second);
-    t = this->frame_timer;
-    rem = (u32)t % period;
+    period = (u32)(3e+01f / (f32)this->spawns_per_second);
+    rem = (u32)(t = this->frame_timer) % period;
     if (14.0f < t && t < 6e+01f && rem == 0) {
         trigger_spawn(&this->upper_effect_position, 0x7E);
     }
     if (6e+01f < this->frame_timer && rem == 0) {
         trigger_spawn(&this->lower_effect_position, 0x7E);
     }
-    TContainerAncient01__sub_8018A584(this, this->range);
+    attack_nearby_players(this->range);
     if (this->active_limit <= this->frame_timer) {
-        this->reset_hp();
+        this->reset_state();
     }
 }
 
-void TContainerAncient01R::reset_hp() { this->mode = 0; this->requested_action = this->mode; this->frame_timer = (-1.0f); }
+void TContainerAncient01R::reset_state() { this->mode = 0; this->requested_action = this->mode; this->frame_timer = (-1.0f); }
 
-void TContainerAncient01__sub_8018A584(TContainerAncient01R *self, f32 range) {
+void TContainerAncient01R::attack_nearby_players(f32 range) {
     u16 i;
     TObjPlayer *pl;
     for (i = 0; i < 4; i++) {
         pl = get_player_by_client_id(i);
         if (pl != NULL) {
             if (pl->get_floor() == get_current_floor() && pl->test_actor_flags(1) == 0 &&
-                horizontal_distance_squared(&self->position, &pl->position) < range) {
+                horizontal_distance_squared(&position, &pl->position) < range) {
                 DirectAttackPayload atk;
                 atk.kind = 0xF;
                 atk.power = 1e+02f;
-                pl->receive_direct_attack(self, atk, NULL, -1, -1);
+                pl->receive_direct_attack(this, atk, NULL, -1, -1);
             }
         }
     }

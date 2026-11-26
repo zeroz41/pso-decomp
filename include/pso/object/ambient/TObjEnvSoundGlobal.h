@@ -3,23 +3,21 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/ambient/TObjEnvSound.h"
 
 struct TObjEnvSoundGlobal : public TObjBase {
-    TObjEnvSoundGlobal(TObject *parent, saddr set_data);
+    TObjEnvSoundGlobal(TObject *parent, void *set_data);
     virtual ~TObjEnvSoundGlobal();
     f32 attenuation;   // set_params[1] clamped to -127..127
-    u32 cue;           // the sound cue of the area's table row, -1 for none
-    s32 mode;          // the row's mode: 1 plays at its position, 2 plays everywhere with the attenuation
+    EnvSoundRow sound; // the area's table row, cue -1 for none; mode 1 plays at its position, 2 everywhere with the attenuation
     s32 setup_sound();
+    // Copies an area table row (cue and mode) into an object's sound.
+    static void copy_env_sound_row(EnvSoundRow *dst, EnvSoundRow *src);
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjEnvSoundGlobal_size, sizeof(TObjEnvSoundGlobal) == 0x9C);
-
-extern "C" {
-void copy_env_sound_row(void *p, void *q);
-}
 
 #endif

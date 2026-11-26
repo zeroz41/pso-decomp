@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 
-extern "C" {
 
 void TBoss6Type2__sub_80356E50(s32 ids, s32 cnt, s32 force) {
     TBoss6Type2::send_subordinate_actions(0, ids, cnt, force, ids);
@@ -59,5 +58,4 @@ void TBoss6Type2::send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force
         pkt.b[off] = flags | (s8)kind;
     }
     send_6xAD_olga_flow_subordinate_boss_actions((u8 *)&pkt);
-}
 }

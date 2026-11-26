@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
@@ -10,10 +11,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLanguage.h"
+#include "pso/unk/text_803DAFA8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/render/GinjaTexture.h"
@@ -60,7 +62,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
     s32 j;
     f32 buf[8];
     begin_screen_draw(1);
-    TObjFish::set_global_param(TBGMulti__textures);
+    set_texture_list(TBGMulti__textures);
     set_draw_texture_and_color(0, -1);
     i = 0;
     buf[4] = 0.5f;
@@ -83,7 +85,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
         buf[0] += 64.0f;
         buf[2] += 64.0f;
     } while (i < 10);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 #pragma push
@@ -94,7 +96,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
     if (split_screen_hud_animation_frame <= 0x1E) {
         set_additive_blend();
         begin_screen_draw(1);
-        TObjFish::set_global_param(TBGMulti__textures);
+        set_texture_list(TBGMulti__textures);
         set_draw_texture_and_color(0, -1);
         i = 0;
         buf[0] = 0.0f;
@@ -111,7 +113,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
             buf[0] += 64.0f;
             buf[2] += 64.0f;
         } while (i < 10);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_default_alpha_blend();
     }
 }
@@ -121,7 +123,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   s32 i;
   f32 buffer_8[8];
   begin_screen_draw(1);
-  TObjFish::set_global_param(TBGMulti__textures);
+  set_texture_list(TBGMulti__textures);
   set_draw_texture_and_color(0, -1);
   i = 0;
   ;
@@ -141,7 +143,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
     buffer_8[2] += (64.0f);
   }
   while (i < 0xA);
-  TWindowSubStatusDisp::get_player();
+  end_screen_draw();
 }
 void TWindowSubStatusDisp::draw_split_screen_hud() {
     s32 var_r3;
@@ -177,13 +179,13 @@ void TLobby::release_bg_multi_textures() {
     }
 }
 void TBGMulti__ct(void) {
-    s32 palette[4];
+    GvplPalette palette;
     if (TCameraCtrl::get_camera_id() == 3) {
-        palette[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
-        TLanguage::draw_string((void *)"f128_gr.gvp", palette, 0x4D);
+        palette.data = TLobby::tmp_buf_use_req("TBGMulti");
+        TLanguage::load_palette_tlut("f128_gr.gvp", &palette, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
-        TObjFish::set_global_param(TBGMulti__textures = LoadPvmFileTls("bg_multi.gvm"));
-        TLanguage::set_entry_index(0, 0x4D);
+        set_texture_list(TBGMulti__textures = LoadPvmFileTls("bg_multi.gvm"));
+        set_context_texture_palette_bank(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;
 }

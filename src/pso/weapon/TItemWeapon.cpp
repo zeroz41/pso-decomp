@@ -5,7 +5,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_80120150.h"
+#include "pso/weapon/WeaponAttackActions.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/item/ItemCreateFunction.h"
@@ -17,7 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/item/item_pmt.h"
-#include "pso/unk/text_8011B620.h"
+#include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803E2D70.h"
@@ -33,7 +33,7 @@ void draw_weapon_at_joint(saddr weapon, s8 joint);
 }
 void set_shadow_material_state(void);
 
-extern s16 TObjPlayer__weapon_node_ids[];
+extern s16 weapon_node_ids[];
 extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
 extern s32 model_render_flags;
@@ -57,9 +57,9 @@ void TItemWeapon::draw_weapon_model() {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = color_node;
             parameters = this->parameters;
-            TObjPlayer__weapon_node_ids[0] = parameters->effect_nodes[0];
-            TObjPlayer__weapon_node_ids[1] = parameters->effect_nodes[1];
-            TObjPlayer__weapon_node_ids[2] = parameters->effect_nodes[2];
+            weapon_node_ids[0] = parameters->effect_nodes[0];
+            weapon_node_ids[1] = parameters->effect_nodes[1];
+            weapon_node_ids[2] = parameters->effect_nodes[2];
             if (this->model_motion == NULL) {
                 this->set_model_node_callback(apply_weapon_node_material);
             } else {
@@ -153,7 +153,6 @@ void TItemWeapon::request_equipped_model() {
 TItemWeapon::~TItemWeapon() {}
 
 
-void *lookup_item_pmt_record(u8 *item);
 extern const f32 lbl_805DAC98;
 extern const u8 lbl_805DACA4;
 
@@ -255,8 +254,8 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
     weapon->trail_end_joints[trail] = end_joint;
 }
 
-void TObjChara::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
-void TObjChara::set_model_id(s16 v) { this->m_116 = v; }
+void TObjChara::set_model_param(s16 v) { this->special_power = v; }
+void TObjChara::set_model_id(s16 v) { this->special_kind = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_attack_kind(); }
 CapturedTargetList *TObjPlayer::get_extended_state() { return attack_state.get_lockon_targets(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }

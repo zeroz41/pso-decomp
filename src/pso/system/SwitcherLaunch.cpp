@@ -8,11 +8,7 @@
 #include "types.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/SharedMemory.h"
-#include "pso/unk/text_8042EAD4.h"
-#include "pso/unk/text_8042EE4C.h"
-#include "pso/unk/text_8007F8D0.h"
 #include "pso/unk/text_8014618C.h"
-#include "pso/unk/text_8007FA24.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
@@ -91,7 +87,7 @@ void TAdTrialModemChkGC__sub_8007FA24(s32 arg0) {
   s32 temp_r31;
   s32 var_r31;
   var_r31 = 0;
-  TAdTrialModemChkGC::init_modem_check_params();
+  init_modem_check_params();
   if (TLobby__sub_8014618C() != 0)
   {
     var_r31 = 1;
@@ -100,7 +96,7 @@ void TAdTrialModemChkGC__sub_8007FA24(s32 arg0) {
   temp_r31 = (var_r31 + 1) & temp_r31;
   if ((temp_r31 == 1) != 0)
   {
-    TAdTrialModemChkGC::init_modem_check_params();
+    init_modem_check_params();
   }
   launch_switcher_dol(trial_modem_check_urls[temp_r31]);
 }

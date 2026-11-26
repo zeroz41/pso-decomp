@@ -132,7 +132,7 @@ void message_thread_loop(void) {
 
 void signal_network_message(u8 v) {
     network_message_pending_count++;
-    OSSendMessage(&transport_message_queue.queue, (OSMessage)v, OS_MESSAGE_NOBLOCK);
+    OSSendMessage(&transport_message_queue.queue, (OSMessage)(uaddr)v, OS_MESSAGE_NOBLOCK);
 }
 
 void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, u8 *frame, s32 length) {

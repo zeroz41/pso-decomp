@@ -11,14 +11,13 @@ struct ArrivalOverride {
     s32 heading;
     Vec pos;
 
+    // Clears the override: inactive, heading 0, at the origin.
+    ArrivalOverride();
     Vec *get_pos();
     s32 get_heading();
     void set_active(s32 v);
     s32 get_active();
 };
-
-// Clears an override: inactive, heading 0, at the origin.
-void init_arrival_override(ArrivalOverride *entry);
 
 extern ArrivalOverride player_arrival_overrides[12];
 

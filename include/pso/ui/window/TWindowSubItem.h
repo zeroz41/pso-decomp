@@ -36,12 +36,12 @@ struct TWindowSubItem : public TObject {
     static void draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 item_id);
     static void add_meseta_purpose_actions(saddr arg0, TWindowMenu *titled_window_menu);
     s32 create_count_input(s32 maximum);
-    s32 create_menu_window();
+    TWindowMenu *create_menu_window();
     virtual void render();
     virtual void run_task();
     void set_flag60_bit10();
     void clear_flag_and_release();
-    s32 open_purpose_window(s32 item_id);
+    TWindowMenu *open_purpose_window(s32 item_id);
     static s32 is_usable(TObjPlayer *player);
 };
 

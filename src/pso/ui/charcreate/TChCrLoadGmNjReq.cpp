@@ -11,7 +11,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TChCrLoadGmNjReq__name = "TChCrLoadGmNjReq";
+const char *TChCrLoadGmNjReq::class_name = "TChCrLoadGmNjReq";
 #pragma pop
 
 
@@ -41,7 +41,7 @@ TChCrLoadGmNjReq::~TChCrLoadGmNjReq() {
 }
 
 TChCrLoadGmNjReq::TChCrLoadGmNjReq(TObject *parent, TChCrLoadGmNjReqArgs *args) : TObject(parent) {
-    m_name = TChCrLoadGmNjReq__name;
+    m_name = TChCrLoadGmNjReq::class_name;
     load_slot = args->load_slot;
     completion_flags = args->completion_flags;
     model_out = args->model_out;

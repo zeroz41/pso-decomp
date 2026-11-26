@@ -23,13 +23,13 @@
 
 
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};
-const char *TAdEnterPasswordGC__class_name = "TAdEnterPasswordGC";
+const char *TAdEnterPasswordGC::class_name = "TAdEnterPasswordGC";
 
 
 typedef void (TAdEnterPasswordGC::*StateHandler)();
 
 #pragma explicit_zero_data on
-TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
+TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC::input_buffer = { 0 };
 #pragma explicit_zero_data off
 extern "C" {
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
@@ -63,8 +63,8 @@ void TAdEnterPasswordGC::close_window_and_destroy(void *arg) {
     }
 }
 
-void TAdEnterPasswordGC::set_multi_chg_game_mode_0x14(void *arg) { TAdMultiChgGameModeGC::set_mode_0x14(); }
-void TAdEnterPasswordGC::request_transition(void *arg) { TAdMultiChgGameModeGC::request_transition(); }
+void TAdEnterPasswordGC::set_multi_chg_game_mode_0x14(void *arg) { TAdMultiChgGameModeGC::open_sn_ak_pass_confirm_scene(); }
+void TAdEnterPasswordGC::request_transition(void *arg) { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 
 void TAdEnterPasswordGC::update_password_input(void *arg) {
   saddr buf = (saddr)password_entry_keyboard_control->realloc_buffer();
@@ -73,7 +73,7 @@ void TAdEnterPasswordGC::update_password_input(void *arg) {
   if (((len == 0) && (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0)) || ((len == 0) && (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)))
   {
     mem_free((void *)buf);
-    memset(&TAdEnterPasswordGC__input_buffer.value, 0, 9);
+    memset(&TAdEnterPasswordGC::input_buffer.value, 0, 9);
     pending_dispatch_state = 2;
     password_entry_dispatch_state = 4;
     return;
@@ -125,19 +125,19 @@ void TAdEnterPasswordGC::update_password_input(void *arg) {
       if (select_cursor != NULL)
       {
         select_cursor->reset_entries();
-        select_cursor->append_entry((void *)enter_password_item_rect_table[1]);
+        select_cursor->append_entry(enter_password_item_rect_table[1]);
       }
     }
     else
       if (select_cursor != NULL)
     {
       select_cursor->reset_entries();
-      select_cursor->append_entry((void *)enter_password_item_rect_table[0]);
+      select_cursor->append_entry(enter_password_item_rect_table[0]);
     }
   }
   if ((select_cursor->confirmation_result() == 1) && (password_entry_keyboard_control->is_confirmed() != 0))
   {
-    strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, (const char *)buf, 9);
+    strncpy((char *)&TAdEnterPasswordGC::input_buffer.value, (const char *)buf, 9);
     TAdEnterSerialAccessGC::set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 2);
     pending_dispatch_state = 3;
     password_entry_dispatch_state = 4;
@@ -151,7 +151,7 @@ void TAdEnterPasswordGC::open_keyboard_window(void *arg) {
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();
-        select_cursor->append_entry((void *)enter_password_item_rect_table[0]);
+        select_cursor->append_entry(enter_password_item_rect_table[0]);
         select_cursor->lock_navigation();
     }
     password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control((saddr)this, 2);
@@ -175,14 +175,14 @@ void TAdEnterPasswordGC::run_task() {
 }
 
 void TAdEnterPasswordGC::set_password(const char *password) {
-    memset(&TAdEnterPasswordGC__input_buffer.value, 0, 9);
-    strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, password, 9);
+    memset(&TAdEnterPasswordGC::input_buffer.value, 0, 9);
+    strncpy((char *)&TAdEnterPasswordGC::input_buffer.value, password, 9);
 }
 
 TAdEnterPasswordGC::~TAdEnterPasswordGC() {}
 
 TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent) {
-    m_name = TAdEnterPasswordGC__class_name;
+    m_name = TAdEnterPasswordGC::class_name;
     sub_8032B460(2);
     password_entry_dispatch_state = 0;
     len = 0;

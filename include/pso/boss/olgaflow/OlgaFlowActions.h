@@ -94,8 +94,8 @@ LAYOUT_ASSERT(OlgaFlowPlotActionMsg_size, sizeof(OlgaFlowPlotActionMsg) == 0x14)
 LAYOUT_ASSERT(OlgaFlowPlotActionMsg_phase_offset, offsetof(OlgaFlowPlotActionMsg, phase) == 4);
 
 struct game_command_header;
-extern "C" void handle_6xA3_olga_flow_boss_actions(game_command_header *command);
+void handle_6xA3_olga_flow_boss_actions(game_command_header *command);
 void handle_6xA4_olga_flow_boss_actions(game_command_header *command);
-extern "C" void handle_6xA5_olga_flow_boss_actions(game_command_header *command);
+void handle_6xA5_olga_flow_boss_actions(game_command_header *command);
 
 #endif

@@ -6,7 +6,6 @@
 #include "pso/item/TItem.h"
 #include "pso/ui/window/HelpItemRarityStarRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowLockOn_80262C3C.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowComCard.h"
@@ -79,7 +78,7 @@ LockOnItemLayout lockon_window_layout_entries = {
     {10, {10.0f, 20.0f}},
 };
 
-LockOnEnemyLayout lbl_804D00F4 = {
+LockOnEnemyLayout lock_on_window_layout_entries = {
     9, 1,
     {3, {10.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
     {3, {10.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
@@ -92,7 +91,7 @@ LockOnEnemyLayout lbl_804D00F4 = {
     {{2, {10.0f, 62.0f}, 0.5f, 0xFF008CFC, 0x2A, 100.0f, 0, 0}, 0xFF008DEE, 0xFFFF2924},
 };
 
-WindowDescriptor lbl_804D0268 = {
+WindowDescriptor lock_on_window_descriptor = {
     {0.0f, 0.0f}, 50000.0f, NULL, 0x23,
 };
 
@@ -142,7 +141,7 @@ u32 calc_text_width(int);
 }
 s32 get_status_effect_icon_index(u32);
 
-TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lbl_804D0268, player, (u8 *)get_window_layout_position(0x1E)) {
+TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lock_on_window_descriptor, player, (u8 *)get_window_layout_position(0x1E)) {
     this->m_name = TWindowLockOn__name;
     if (TCameraCtrl::get_camera_id() > 2) {
         this->scale = 0.7f;
@@ -179,15 +178,15 @@ void TWindowLockOn::run_task() {
 }
 
 void TWindowLockOn::render() {
-    saddr context;
+    WindowDrawContext *context;
 
-    context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&scale));
-    draw_window_frame((void *)context);
+    context = setup_window_draw_context((f32 *)&scale);
+    draw_window_frame(context);
     if (target_position[0] == frame_position[0] && target_position[1] == frame_position[1] && target_size[0] == frame_size[0] && target_size[1] == frame_size[1]) {
         draw_visible_window_entries(
             this,
             reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-            reinterpret_cast<WindowDrawContext *>(context));
+            context);
     }
 }
 
@@ -311,7 +310,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     LockOnEntryText *p;
     u32 w2;
 
-    init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lbl_804D00F4, client_index);
+    init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_layout_entries, client_index);
     refresh = &TWindowLockOn::refresh_enemy_statuses;
     e = reinterpret_cast<saddr>(get_array_entry(1));
     TWindowDuelResult::set_default_status((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
@@ -325,15 +324,15 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     if (is_split_screen() == 0) {
         target_size[1] += 29.0f;
     }
-    if ((enemy)->obj_testFlag_2E4(0x40) != 0) {
+    if (enemy->obj_testFlag_2E4(0x40) != 0) {
         kind = 4;
-    } else if ((enemy)->obj_testFlag_2E4(1) != 0) {
+    } else if (enemy->obj_testFlag_2E4(1) != 0) {
         kind = 0;
-    } else if ((enemy)->obj_testFlag_2E4(2) != 0) {
+    } else if (enemy->obj_testFlag_2E4(2) != 0) {
         kind = 1;
-    } else if ((enemy)->obj_testFlag_2E4(4) != 0) {
+    } else if (enemy->obj_testFlag_2E4(4) != 0) {
         kind = 2;
-    } else if ((enemy)->obj_testFlag_2E4(8) != 0) {
+    } else if (enemy->obj_testFlag_2E4(8) != 0) {
         kind = 3;
     } else {
         kind = 4;

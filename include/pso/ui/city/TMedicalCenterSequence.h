@@ -31,6 +31,9 @@ struct TMedicalCenterSequence : public TShopSequence {
 
 LAYOUT_ASSERT(TMedicalCenterSequence_size, sizeof(TMedicalCenterSequence) == 0x38);
 
+// One flag per split-screen slot: set while that player uses the medical center counter.
+extern s32 medical_center_slot_active_flags[4];
+
 extern "C" {
 void TMedicalCenterMes__sub_80216260(void);
 }

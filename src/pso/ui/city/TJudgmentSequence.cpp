@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TJudgmentSequence.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8026934C.h"
 #include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/city/TShopSequence.h"
@@ -10,7 +9,6 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
 s32 TJudgmentSequence::slot_flags[4];

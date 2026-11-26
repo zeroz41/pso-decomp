@@ -99,10 +99,10 @@ struct TBoss6Type1 : public TObjEnemy {
     Boss6Point pad_42C;  // set to boss6_type1_origin by the constructor
     s32 attack_mode;   // OlgaFlowActionMsg::attack_mode
     Boss6Type1MotionState motion_state;
-    s32 beam_damage;   // base damage of update_beam_attack's hit, name inferred
-    s32 sweep_damage; // base damage of the swept-arm hit test (TBoss6Type1__sub_802B715C), name inferred
-    s32 laser_damage;  // base damage of check_laser_hits (FLLSR_MV), name inferred
-    s32 center_damage;  // base damage of damage_players_in_range, name inferred
+    s32 beam_damage;   // base damage of update_beam_attack's hit
+    s32 sweep_damage;  // base damage of the swept-arm hit test
+    s32 laser_damage;  // base damage of check_laser_hits (FLLSR_MV)
+    s32 center_damage;  // base damage of damage_players_in_range
     s32 scream_threshold;   // is_ready: damage since the latch that sends SCREAM (target_mode 0)
     s32 chal_ud_threshold;  // is_time_up: damage since the latch that sends CHAL_UD (send_chal_ud)
     s32 damage_step;        // check_field4b0_threshold's step (times damage_step_scale)

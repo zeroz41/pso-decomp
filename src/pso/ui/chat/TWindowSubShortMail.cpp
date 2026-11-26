@@ -7,6 +7,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowComCard.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -26,7 +27,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -149,16 +149,16 @@ void TWindowSubShortMail::run_task() {
     case 3:
         if (action_menu != NULL) { action_menu->close(); action_menu = NULL; }
         if (card_list == NULL) {
-            card_list = (TWindowMenu *)TWindowSubComCard::send_cmd_133();
+            card_list = TWindowSubComCard::send_cmd_133();
         }
         if (card_window == NULL) {
             card_index = card_list->get_selected_value();
-            card_window = (TWindowBase *)TWindowSubComCard::send_command(card_index);
+            card_window = TWindowSubComCard::send_command(card_index);
         }
         card_list->clear_flag_and_release();
         state = 4;
     case 4:
-        TWindowSubComCard::update_display_value((uaddr)card_list, (uaddr)card_window, (s32 *)&card_index);
+        TWindowSubComCard::update_display_value(card_list, card_window, &card_index);
         if (card_list->is_cancelled() != 0) {
             state = 1;
         } else if (card_list->is_decided() != 0) {
@@ -372,7 +372,7 @@ void TWindowSubShortMail::render() {  }
 
 TWindowMenuIconLine *TWindowSubShortMail::create_list_item() {
     const NJS_POINT2 *position = get_window_layout_position(0x9B);
-    TWindowMenuIconLine *list = fn_80267F38(reinterpret_cast<saddr>(position),
+    TWindowMenuIconLine *list = create_menu_icon_line(reinterpret_cast<saddr>(position),
         reinterpret_cast<saddr>(short_mail_item_size), 8, static_cast<s16>(client_id));
     list->ensure_status_display(reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0x2E)));
     list->set_flag70_bit10();
@@ -508,7 +508,7 @@ TWindowMenu *TWindowSubShortMail::create_window(void) {
     }
     list->set_flag_40();
     TQuestThread::set_status_flag_80((void *)list);
-    ((TWindowSubComCardList *)list)->set_scroll_target(206.0f, 140.0f);
+    list->set_scroll_target(206.0f, 140.0f);
     return list;
 }
 
@@ -521,7 +521,7 @@ TWindowMenu *TWindowSubShortMail::open_menu(void) {
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);
     if (get_flag_bit0() == 0) {
-        ((TWindowSubComCardList *)menu)->set_selected_index(1);
+        menu->set_selected_index(1);
     }
     menu->set_flag70_bit10();
     menu->update_layout_height(206.0f);

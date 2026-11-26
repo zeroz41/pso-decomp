@@ -6,8 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -26,7 +25,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjContainerCommon.h"
 #include "pso/object/TObjChip.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/container/TObjContainerJungEx.h"
 #include "pso/object/container/TObjContainerItem.h"
@@ -36,13 +34,14 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCollidable.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
 
@@ -108,9 +107,6 @@ extern const TObjChipParams container_jung_enemy_spawn_params_b = {
     0.5f, 0.03f, 0.19f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 1.0f, 0, 0, 0x16,
 };
 
-extern "C" {
-u32 init_collision_body_parts(void *, saddr, s32);
-}
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 
@@ -148,7 +144,7 @@ TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TObjCont
     m_name = container_jung_name;
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, &container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
@@ -176,7 +172,7 @@ void TObjContainerJung::draw_model() {
     if (jungle_container_archive != NULL) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param(jungle_container_textures);
+            set_texture_list(jungle_container_textures);
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -281,7 +277,7 @@ TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TObj
     m_name = container_jung_ex_name;
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, &container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
@@ -309,7 +305,7 @@ void TObjContainerJungEx::draw_model() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(TObjContainerJungEx::get_textures(0));
+        set_texture_list(TObjContainerJungEx::get_textures(0));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -386,7 +382,7 @@ TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) 
     load_models();
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, &container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
@@ -403,17 +399,17 @@ void *TObjContainerJungEnemy::create(void *set_data) {
 }
 
 void TObjContainerJungEnemy::load_models() {
-    saddr created;
+    saddr variant;
     s32 param = this->set_params[1];
     if (param < 0) {
-        created = 0;
+        variant = 0;
     } else {
-        created = 1;
+        variant = 1;
         if (param <= 1) {
-            created = param;
+            variant = param;
         }
     }
-    switch (created) {
+    switch (variant) {
     case 0:
         this->body_model = TObjContainerJung::get_model_by_index(0);
         this->large_fragment_model = TObjContainerJung::get_model_by_index(1);
@@ -448,7 +444,7 @@ void TObjContainerJungEnemy::draw_model() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -466,10 +462,10 @@ void TObjContainerJungEnemy::draw_model() {
 void TObjContainerJungEnemy::debug_print_item_box_info() {
     Obj_8018CBF0 *self = (Obj_8018CBF0 *)this;
     ((TObjContainerJungEnemy *)self)->load_models();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
     debug_printf_at(0x130021, "MODEL SELECT");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {

@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/effect/TDuelEffectCtrl.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
@@ -7,7 +7,7 @@
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlayerBattleCtrl.h"
-#include "pso/unk/text_801C23A8.h"
+#include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_801C4F80.h"
 #include "pso/player/PlayerTrapCounts.h"
@@ -52,7 +52,6 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/TLobby_801D726C.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/text_8020BC50.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -60,16 +59,12 @@
 #include <dolphin/os/OSTime.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/unk/TLobby_80103F5C.h"
 
 
-// Window size {width, height} passed to TWindowMessage::create.
-struct BattleIntroWindowSize { f32 x, y; };
-// Score or player count of the two teams.
-struct BattleTeamTotals { s32 team[2]; };
 
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern "C" {
-u8 TLobby__sub_801D7100(void *);
 extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
@@ -80,7 +75,6 @@ void request_active_window_close(void);
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
-void reset_map();
 char team_matchup_message_buffer[256];
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 s32 lbl_805D6AB0;
@@ -208,7 +202,7 @@ void TPlayerBattleCtrl4P::show_intro_text() {
 
 void TPlayerBattleCtrl4P::wait_for_intro_text() {
     if (--frame_timer <= 0) {
-        if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+        if (lobby_rule_settings.get_is_teams() == 1) {
             set_phase_state(3);
             return;
         }
@@ -486,7 +480,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload() {
 
 void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
     if (--this->frame_timer <= 0) {
-        TLobby__sub_8020BC50();
+        destroy_current_floor_objects();
         reset_map();
         if (quest_mission_manager != NULL) {
             TQuestThread::clear_buffer(quest_mission_manager);
@@ -513,7 +507,7 @@ void TPlayerBattleCtrl4P::return_to_hunters_guild() {
     queue_destruction();
 }
 
-void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); }
+void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); lobby_rule_settings.reset_settings_to_default(); }
 
 void TPlayerBattleCtrl4P::sub_80311804() {  }
 
@@ -533,11 +527,11 @@ void TPlayerBattleCtrl4P::init_battle() {
         p = get_player_by_client_id(i);
         if (p != 0) {
             obj_set_flag_20000(p);
-            p->battle_score.damage_stats[3].reset();
-            p->battle_score.damage_stats[2].reset();
-            p->battle_score.damage_stats[0].reset();
-            p->battle_score.damage_stats[1].reset();
-            p->battle_score.damage_stats[4].reset();
+            p->battle_score.damage_given.reset();
+            p->battle_score.damage_taken.reset();
+            p->battle_score.kills.reset();
+            p->battle_score.deaths.reset();
+            p->battle_score.meseta.reset();
             p->battle_score.slots.set_score(0);
         }
     }
@@ -593,7 +587,7 @@ void TPlayerBattleCtrl4P::update() {
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
     TLobby__sub_8020BCE4();
-    TLobby__sub_8020BB18();
+    destroy_floor_decoration_objects();
     j = 0;
     do {
         player = get_player_by_client_id(j);
@@ -701,33 +695,33 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
   s32 t;
   s32 j;
   TObjPlayer *p;
-  ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
+  lobby_rule_settings.reset_settings_to_default();
   if (use_rules != 0)
   {
-    TLobby::set_validated_field_0x1(lobby_rule_settings, rule_data->rules[0]);
-    TLobby::set_field_2(lobby_rule_settings, rule_data->rules[1]);
-    TLobby::set_field_3(lobby_rule_settings, rule_data->rules[2]);
-    TLobby::set_clamped_field_4(lobby_rule_settings, rule_data->rules[3]);
-    TLobby::set_field_5(lobby_rule_settings, rule_data->rules[4]);
-    TLobby::set_field_0x6(lobby_rule_settings, rule_data->rules[5]);
-    TLobby::set_field7_clamped(lobby_rule_settings, rule_data->rules[6]);
-    TLobby::set_difficulty(lobby_rule_settings, rule_data->rules[7]);
-    TLobby::set_byte9_clamped(lobby_rule_settings, rule_data->rules[8]);
-    TLobby::set_field_b(lobby_rule_settings, rule_data->rules[0xA]);
-    TLobby::set_clamped_field_c(lobby_rule_settings, rule_data->rules[0xB]);
-    fn_801D72B0(lobby_rule_settings, rule_data->value_c);
+    lobby_rule_settings.set_tech_disk_mode(rule_data->rules[0]);
+    lobby_rule_settings.set_weapon_and_armor_mode(rule_data->rules[1]);
+    lobby_rule_settings.set_mag_mode(rule_data->rules[2]);
+    lobby_rule_settings.set_tool_mode(rule_data->rules[3]);
+    lobby_rule_settings.set_trap_mode(rule_data->rules[4]);
+    lobby_rule_settings.set_unused_F817(rule_data->rules[5]);
+    lobby_rule_settings.set_respawn_mode(rule_data->rules[6]);
+    lobby_rule_settings.set_replace_char(rule_data->rules[7]);
+    lobby_rule_settings.set_drop_weapon(rule_data->rules[8]);
+    lobby_rule_settings.set_hide_target_reticle(rule_data->rules[0xA]);
+    lobby_rule_settings.set_meseta_mode(rule_data->rules[0xB]);
+    lobby_rule_settings.set_death_level_up(rule_data->value_c);
     for (i = 0; i < 4; i++)
     {
-      fn_801D6D8C(lobby_rule_settings, rule_data->slot_rules[i], i);
+      fn_801D6D8C(&lobby_rule_settings, rule_data->slot_rules[i], i);
     }
-    TLobby::set_field_d(lobby_rule_settings, rule_data->rule_d);
-    ((TObjPlayer *)lobby_rule_settings)->set_level(rule_data->level);
-    TLobby::set_field_0xE(lobby_rule_settings, rule_data->rule_e);
-    ((TLobby *)lobby_rule_settings)->set_volume((u8)rule_data->volume);
-    ((TLobby *)lobby_rule_settings)->set_max_tech_level((u8)rule_data->max_tech_level);
-    ((TLobby *)lobby_rule_settings)->set_clamped_index((s16)rule_data->clamped_index);
-    ((TLobby *)lobby_rule_settings)->set_clamped_value_1c((saddr)rule_data->time_limit_seconds);
-    fn_801D726C(lobby_rule_settings, (u8)rule_data->value_28);
+    lobby_rule_settings.set_enable_sonar(rule_data->rule_d);
+    lobby_rule_settings.set_sonar_count(rule_data->level);
+    lobby_rule_settings.set_forbid_scape_dolls(rule_data->rule_e);
+    lobby_rule_settings.set_lives((u8)rule_data->volume);
+    lobby_rule_settings.set_max_tech_level((u8)rule_data->max_tech_level);
+    lobby_rule_settings.set_char_level((s16)rule_data->clamped_index);
+    lobby_rule_settings.set_time_limit((saddr)rule_data->time_limit_seconds);
+    lobby_rule_settings.set_death_tech_level_up((u8)rule_data->value_28);
     flag = 0;
     if ((((s32) rule_data->rules[9]) == 1) && (TLobby::get_game_mode() == 4))
     {
@@ -754,25 +748,25 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
       }
       flag = 1;
     }
-    TLobby::set_field_a(lobby_rule_settings, (u8) (flag != 0));
+    lobby_rule_settings.set_is_teams((u8) (flag != 0));
     for (j = 0; j < 4; j++)
     {
       p = get_player_by_client_id(j);
       if (p != 0)
       {
-        p->battle_score.damage_stats[3].set_bonus_weight(battle_player_give_damage_score);
-        p->battle_score.damage_stats[3].set_normal_weight(battle_enemy_give_damage_score);
-        p->battle_score.damage_stats[2].set_bonus_weight(battle_player_take_damage_score);
-        p->battle_score.damage_stats[2].set_normal_weight(battle_enemy_take_damage_score);
-        p->battle_score.damage_stats[0].set_bonus_weight(battle_player_kill_score);
-        p->battle_score.damage_stats[0].set_normal_weight(battle_enemy_kill_score);
-        p->battle_score.damage_stats[1].set_bonus_weight(battle_player_death_score);
-        p->battle_score.damage_stats[1].set_normal_weight(battle_enemy_death_score);
-        p->battle_score.damage_stats[4].set_bonus_weight(battle_meseta_score);
-        p->battle_score.damage_stats[4].set_normal_weight(battle_meseta_score);
+        p->battle_score.damage_given.set_bonus_weight(battle_player_give_damage_score);
+        p->battle_score.damage_given.set_normal_weight(battle_enemy_give_damage_score);
+        p->battle_score.damage_taken.set_bonus_weight(battle_player_take_damage_score);
+        p->battle_score.damage_taken.set_normal_weight(battle_enemy_take_damage_score);
+        p->battle_score.kills.set_bonus_weight(battle_player_kill_score);
+        p->battle_score.kills.set_normal_weight(battle_enemy_kill_score);
+        p->battle_score.deaths.set_bonus_weight(battle_player_death_score);
+        p->battle_score.deaths.set_normal_weight(battle_enemy_death_score);
+        p->battle_score.meseta.set_bonus_weight(battle_meseta_score);
+        p->battle_score.meseta.set_normal_weight(battle_meseta_score);
       }
     }
-    TLobby::set_section_id(lobby_rule_settings, 1);
+    lobby_rule_settings.set_section_id(1);
   }
   for (j = 0; j < 4; j++)
   {
@@ -815,7 +809,7 @@ s32 TPlayerBattleCtrl4P::calculate_rankings() {
         split_screen_battle_rankings[k].score = 0;
     }
     n = 0;
-    if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+    if (lobby_rule_settings.get_is_teams() == 1) {
         BattleTeamTotals team = {0, 0};
         for (k = 0; k < 4; k++) {
             p = get_player_by_client_id(k);
@@ -906,15 +900,15 @@ s32 TPlayerBattleCtrl4P::is_battle_decided() {
             if (player_active[i] == 0) {
                 ok = 0;
             } else if (p->actorFlags & 0x800) {
-                if (TLobby__sub_801D7100(lobby_rule_settings) == 1) {
+                if (lobby_rule_settings.get_respawn_mode() == 1) {
                     ok = 0;
-                } else if (TLobby__sub_801D7100(lobby_rule_settings) == 2 && p->battle_score.get_timer() == 0) {
+                } else if (lobby_rule_settings.get_respawn_mode() == 2 && p->battle_score.get_timer() == 0) {
                     ok = 0;
                 }
             }
             if (ok != 0) {
                 count++;
-                if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+                if (lobby_rule_settings.get_is_teams() == 1) {
                     team = p->pk_state.get_team() - 1;
                     if (team >= 0 && team < 2) {
                         seen.team[team] = 1;
@@ -924,7 +918,7 @@ s32 TPlayerBattleCtrl4P::is_battle_decided() {
         }
         i++;
     } while (i < 4);
-    if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (seen.team[0] == 0 || seen.team[1] == 0)) {
+    if (lobby_rule_settings.get_is_teams() == 1 && (seen.team[0] == 0 || seen.team[1] == 0)) {
         return (u8)(1);
     }
     return (u8)(count <= 1);
@@ -1014,41 +1008,41 @@ void TPlayerBattleCtrl4P::record_results() {
                     switch (place) {
                     case 0:
                         {
-                            s32 count = record->battle_place_counts[0] + 1;
+                            s32 count = record->split_screen_battle.place_counts[0] + 1;
                             s32 lim = 0xFFFF;
                             if (count < lim) lim = count;
-                            record->battle_place_counts[0] = lim;
+                            record->split_screen_battle.place_counts[0] = lim;
                         }
                         break;
                     case 1:
                         {
-                            s32 count = record->battle_place_counts[1] + 1;
+                            s32 count = record->split_screen_battle.place_counts[1] + 1;
                             s32 lim = 0xFFFF;
                             if (count < lim) lim = count;
-                            record->battle_place_counts[1] = lim;
+                            record->split_screen_battle.place_counts[1] = lim;
                         }
                         break;
                     case 2:
                         {
-                            s32 count = record->battle_place_counts[2] + 1;
+                            s32 count = record->split_screen_battle.place_counts[2] + 1;
                             s32 lim = 0xFFFF;
                             if (count < lim) lim = count;
-                            record->battle_place_counts[2] = lim;
+                            record->split_screen_battle.place_counts[2] = lim;
                         }
                         break;
                     case 3:
                         {
-                            s32 count = record->battle_place_counts[3] + 1;
+                            s32 count = record->split_screen_battle.place_counts[3] + 1;
                             s32 lim = 0xFFFF;
                             if (count < lim) lim = count;
-                            record->battle_place_counts[3] = lim;
+                            record->split_screen_battle.place_counts[3] = lim;
                         }
                         break;
                     }
                 }
                 {
-                    s32 count = record->battle_disconnect_count - 1;
-                    record->battle_disconnect_count = count > 0 ? count : 0;
+                    s32 count = record->split_screen_battle.disconnect_count - 1;
+                    record->split_screen_battle.disconnect_count = count > 0 ? count : 0;
                 }
             }
         }
@@ -1092,9 +1086,9 @@ void TPlayerBattleCtrl4P::update_player_alive_flags() {
             calc_battle_score(e);
             v = 1;
             if (e->actorFlags & 0x800) {
-                if (TLobby__sub_801D7100(lobby_rule_settings) == 1) {
+                if (lobby_rule_settings.get_respawn_mode() == 1) {
                     v = 0;
-                } else if (TLobby__sub_801D7100(lobby_rule_settings) == 2 && e->battle_score.get_timer() == 0) {
+                } else if (lobby_rule_settings.get_respawn_mode() == 2 && e->battle_score.get_timer() == 0) {
                     v = 0;
                 }
             }
@@ -1107,11 +1101,11 @@ s32 TPlayerBattleCtrl4P::calc_battle_score(TObjPlayer *player) {
     f32 score;
     s32 total;
 
-    score = (f32)player->battle_score.damage_stats[3].get_total();
-    score -= (f32)player->battle_score.damage_stats[2].get_total();
-    score += (f32)player->battle_score.damage_stats[0].get_total();
-    score -= (f32)player->battle_score.damage_stats[1].get_total();
-    score += (f32)player->get_actor_meseta() * player->battle_score.damage_stats[4].get_bonus_weight();
+    score = (f32)player->battle_score.damage_given.get_total();
+    score -= (f32)player->battle_score.damage_taken.get_total();
+    score += (f32)player->battle_score.kills.get_total();
+    score -= (f32)player->battle_score.deaths.get_total();
+    score += (f32)player->get_actor_meseta() * player->battle_score.meseta.get_bonus_weight();
     total = (s32)score;
     player->battle_score.slots.set_score(total);
     return total;

@@ -90,7 +90,7 @@ const char *TAdTimeSetGC_class_name = "TAdTimeSetGC";
 
 static const f32 time_set_message_size[2] = {540.0f, 260.0f};
 
-const char *T_ATS_DrawCalendar__name = "T_ATS_DrawCalendar";
+const char *T_ATS_DrawCalendar::name = "T_ATS_DrawCalendar";
 
 static const f32 time_set_message_pos[2] = {
     0.5f * (640.0f - time_set_message_size[0]),
@@ -133,10 +133,10 @@ static TAdTimeSetGCState time_set_state_table[25] = {
     {&TAdTimeSetGC::enter_state_24, &TAdTimeSetGC::update_state},
 };
 
-void TAdTimeSetGC::sub_802E34A8() {
+void TAdTimeSetGC::load_scene_resources() {
 }
 
-void TAdTimeSetGC::sub_802E34A4() {
+void TAdTimeSetGC::free_scene_resources() {
 }
 
 TAdTimeSetGC::TAdTimeSetGC(TObject *parent) : TObject(parent) {
@@ -603,10 +603,10 @@ void TAdTimeSetGC::run_states_19_21() {
             TAdSinglePlyChrSelectGC::try_load_system_file();
         }
         if (load_status & 0x100) {
-            TAdSinglePlyChrSelectGC__sub_801FBB1C();
+            delete_character_save_file();
         }
         if (load_status & 0x200) {
-            TAdSinglePlyChrSelectGC__sub_801FBB7C();
+            delete_guild_card_save_file();
         }
         TAdPlayerLoadGC::poll_card_load(0);
         sub_802E1F14();
@@ -852,12 +852,12 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     } else {
         menu_window->add_text_entry(entry_text, 5, 1);
     }
-    ((TWindowMenu *)menu_window)->update_layout_height(time_set_menu_width);
+    menu_window->update_layout_height(time_set_menu_width);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
     if (sel == -2) {
-        ((TWindowSubComCardList *)menu_window)->set_selected_index(0);
+        menu_window->set_selected_index(0);
     } else {
-        ((TWindowSubComCardList *)menu_window)->set_selected_index(sel);
+        menu_window->set_selected_index(sel);
     }
     ((TWindowOptionCtrl *)menu_window)->clear_flag70_bit4();
 }
@@ -896,11 +896,11 @@ void TAdTimeSetGC::apply_settings() {
     }
     TLanguage::set_language(state[7]);
     update_music_stream_gain(*(s16 *)(state + 4));
-    TLobby__sub_8022614C(state[6]);
+    set_cue_stream_user_gain(state[6]);
     TLobby::init_sound_mode();
     unload_lobby_scene_resources();
     load_lobby_scene_resources();
-    TAdMultiChgGameModeGC::init_change_mode();
+    TAdMultiChgGameModeGC::open_title_scene();
 }
 
 void TAdTimeSetGC::sub_802E18C8() {
@@ -1042,7 +1042,7 @@ T_ATS_DrawCalendar *T_ATS_DrawCalendar::create() {
 }
 
 T_ATS_DrawCalendar::T_ATS_DrawCalendar(TObject *parent) : TObject(parent) {
-    m_name = T_ATS_DrawCalendar__name;
+    m_name = T_ATS_DrawCalendar::name;
     visible = 0;
     // The two-float copy at 0x80052EA0 is declared as a member of TWindowSubSymbolChatPartsSet.
     copy_vec2(&pos, (void *)time_set_calendar_pos);

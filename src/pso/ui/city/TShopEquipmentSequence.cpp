@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/text_8026934C.h"
@@ -20,7 +19,6 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
 s32 TShopEquipmentSequence::slot_active_flags[4];

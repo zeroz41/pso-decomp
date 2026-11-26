@@ -10,7 +10,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"

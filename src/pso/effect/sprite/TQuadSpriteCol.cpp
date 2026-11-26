@@ -7,11 +7,11 @@
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #pragma readonly_strings on
 
@@ -50,7 +50,7 @@ void TQuadSpriteCol::render() {
     sh = sw * (480.0f / (480.0f * screen_projection.width));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param(definition->texlist);
+    set_texture_list(definition->texlist);
     set_draw_texture_and_color(definition->texture, definition->color);
     one = 1.0f;
     for (i = 0; i < definition->uv_count; i++) {
@@ -98,7 +98,7 @@ void TQuadSpriteCol::render() {
             }
             n = n->next;
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
     TParticleCtrl::end_effect_render();
     quad_sprite_reset_entries();

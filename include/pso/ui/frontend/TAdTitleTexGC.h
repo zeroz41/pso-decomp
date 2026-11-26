@@ -15,6 +15,7 @@ struct TitleTexQuad {
 
 class TAdTitleTexGC : public TObject {
 public:
+    static const char *name;
     TAdTitleTexGC(TObject *parent);
     virtual ~TAdTitleTexGC();
     void sub_802A4D74(s32, u8 *, u8 *);
@@ -33,8 +34,7 @@ LAYOUT_ASSERT(TAdTitleTexGC_size, sizeof(TAdTitleTexGC) == 0x9C);
 // The player texture list the title loads; NULL until it does (name inferred from its files).
 extern NJS_TEXLIST *player_tex_texture_list_ptr;
 
-extern "C" {
-void TLobby__sub_802A5154(void);
-}
+void load_player_tex_texture();
+void free_player_tex_texture();
 
 #endif

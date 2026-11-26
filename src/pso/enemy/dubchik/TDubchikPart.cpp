@@ -18,7 +18,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjBase.h"
 
 // The model node of each of the three parts in the dubchik's model.
@@ -133,8 +133,8 @@ void TDubchikPart::run_task() {
 #pragma pop
 
 void TDubchikPart::render() {
-    TObjFish::set_global_param(dubchik_texlist);
-    TObjFish::set_global_param(part_texlist);
+    set_texture_list(dubchik_texlist);
+    set_texture_list(part_texlist);
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rot_y);

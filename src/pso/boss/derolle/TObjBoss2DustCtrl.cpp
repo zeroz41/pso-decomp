@@ -17,7 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/boss/derolle/RandomAngle.h"
 
 Vec boss2_dust_points[6];

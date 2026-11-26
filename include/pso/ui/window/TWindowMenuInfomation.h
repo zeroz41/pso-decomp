@@ -1,6 +1,8 @@
 #ifndef PSO_UI_WINDOW_TWINDOW_MENU_INFOMATION_H
 #define PSO_UI_WINDOW_TWINDOW_MENU_INFOMATION_H
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
 
 class TWindowSubStatusDisp;
@@ -8,6 +10,7 @@ struct WindowScrollBar;
 
 class TWindowMenuInfomation : public TWindowAddition {
 public:
+    static const char *class_name;
     TWindowMenuInfomation(void *parent, s32 rows);
     virtual ~TWindowMenuInfomation();
     virtual void run_task();
@@ -29,13 +32,14 @@ public:
     void mark_entry_by_id(s32 entry_id);
     void disable_entry_by_id(s32 id);
     void update_next_entry(void *label, void *string, s32 id);
+    void add_text_entry(uaddr label_text, s32 id);
     void set_entry_string_by_id(void *string, s32 entry_id);
     void create_sub_window(const char *title);
     u16 state_flags;
     s16 next_entry;
     s16 index;
     s16 entry_capacity;
-    TWindowSubStatusDisp *heading;  // type-1 heading made by create_sub_window
+    WindowHeading *heading;  // type-1 heading made by create_sub_window
     WindowScrollBar *scroll_bar;
 };
 LAYOUT_ASSERT(TWindowMenuInfomation_size, sizeof(TWindowMenuInfomation) == 0x80);

@@ -13,10 +13,10 @@ void TAdLicAgreementGC::render() {
     check_main_task_state();
 }
 
-void TAdLicAgreementGC::vfunc_9() { TAdMultiChgGameModeGC::set_game_mode(); }
-void TAdLicAgreementGC::vfunc_8() { TAdMultiChgGameModeGC::request_scene_change(); }
-void TAdLicAgreementGC::vfunc_7() { ((TAdMultiChgGameModeGC *)this)->set_mode_1c(); }
-void TAdLicAgreementGC::vfunc_6() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
+void TAdLicAgreementGC::on_cancel() { TAdMultiChgGameModeGC::open_single_ply_chr_select_scene(); }
+void TAdLicAgreementGC::on_decline() { TAdMultiChgGameModeGC::open_time_set_scene(); }
+void TAdLicAgreementGC::on_agree() { TAdMultiChgGameModeGC::open_ep3_exist_scene(); }
+void TAdLicAgreementGC::on_closing() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 
 void TAdLicAgreementGC::run_task() {
     update_state();
@@ -28,10 +28,10 @@ TAdLicAgreementGC::~TAdLicAgreementGC() {
 }
 
 
-const char *TAdLicAgreementGC__name = "TAdLicAgreementGC";
+const char *TAdLicAgreementGC::name = "TAdLicAgreementGC";
 
 TAdLicAgreementGC::TAdLicAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
-    m_name = TAdLicAgreementGC__name;
+    m_name = TAdLicAgreementGC::name;
     m_34 = 0;
     scroll_window = NULL;
     scroll_window = new TAdScrollWinGC(this, 0, 0);

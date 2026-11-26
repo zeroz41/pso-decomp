@@ -7,7 +7,6 @@
 #include "pso/boss/darkfalz/DarkFalzScenePart.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct TObjFish;
 class TParticleCtrl;
 
 struct TObjDFDemo3 : public TObjBase {

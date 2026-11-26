@@ -57,8 +57,8 @@ extern KeyboardKeyState hardware_keyboard_state;
 
 
 struct TKeyBoardControl;
-extern "C" {
-void TKeyBoardControl__sub_80131F5C(void);
-void TKeyBoardControl__sub_80131F60(void);
-}
+
+void free_keyboard_resources();
+void load_keyboard_resources();
+
 #endif

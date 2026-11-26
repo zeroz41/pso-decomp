@@ -11,7 +11,7 @@
 #include "pso/system/vector.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -24,7 +24,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 extern const f32 breakup_unit;
 extern const f32 breakup_zero;
@@ -197,7 +197,7 @@ void TBoss2JointBreakUp::render() {
     scale.x = boss2_model_scale;
     scale.y = boss2_model_scale;
     scale.z = boss2_model_scale;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
     for (i = 0; i < 19; i++) {
         push_matrix();
         post_translate_matrix(&p->pos.x);
@@ -301,7 +301,7 @@ void TBoss2BodyBreakUp::render() {
     {
         NJS_ARGB c = {1.0f, 1.0f, 1.0f, 1.0f};
         n = mesh->child;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
         push_matrix();
         for (i = 0; i < 0x1C; i++, n = n->sibling, p++) {
             push_matrix();

@@ -1,11 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/goldragon/TObjBoss8Piller.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -43,7 +42,7 @@ void TObjBoss8Piller::render() {
         } else {
             model = TObjBoss8Piller::shared_resource->models[0].model;
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjBoss8Piller::shared_resource->models[0].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(TObjBoss8Piller::shared_resource->models[0].texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);

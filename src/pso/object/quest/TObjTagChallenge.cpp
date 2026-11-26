@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/quest/TObjTagChallenge.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TObjNewFloorWin.h"
 #include "pso/system/task/TObject.h"
@@ -9,7 +8,7 @@
 void TObjTagChallenge::run_task() {
     if (has_window_task_root() != 0) {
         TWindowCtrl::close_active_window();
-        fn_800740DC();
+        close_current_window();
         TWindowCtrl::open_status_111();
         queue_destruction();
     }

@@ -46,7 +46,7 @@ void init_creation_menu_scene(void) {
     register_texture_f256_backtext();
     TLobby::update_keyboard_menu();
     TLobby::set_ending_callback();
-    TKeyBoardControl__sub_80131F60();
+    load_keyboard_resources();
     TWindowCtrlMain::reset_all((void*)1);
     p = (void *)new TWindowCtrlMain();
     p = new BmlResource(1, (BmlResourceDescriptor *)&creation_menu_resource_descriptor, 0, 0, NULL);

@@ -8,7 +8,6 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/collision/TObjFogCollision.h"
 #include "pso/object/collision/TObjFogCollision_Manager.h"
@@ -16,7 +15,7 @@
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -35,6 +34,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 const char *fog_collision_name = "TObjFogCollision";
@@ -43,7 +43,6 @@ const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
 extern "C" {
 u8 is_current_floor_switch_set(u16);
-
 }
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
@@ -292,9 +291,6 @@ const char *TObjFogCollision_Manager::class_name = "TObjFogCollision_Manager";
 
 TObjFogCollision_Manager *fog_collision_poison_instances[12];
 
-extern "C" {
-s32 send_6x2F_change_player_hp(s32, u16, s16);
-}
 
 void TObjFogCollisionPoison::play_poison_sound() {
     switch (get_current_floor_area()) {

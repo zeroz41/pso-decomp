@@ -4,8 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -56,7 +55,7 @@ void TOCapsuleLabo::render() {
     NJS_OBJECT *light;
     visible = update_object_view_visibility(view_range, model_radius);
     if (visible == 1) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (active == 1) {
             if (light_node != NULL) {
                 light_node->evalflags &= ~NJD_EVAL_HIDE;
@@ -98,8 +97,8 @@ TOCapsuleLabo::~TOCapsuleLabo() {
 TOCapsuleLabo::TOCapsuleLabo(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)model_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)model_resource, 0);
+    model = (void *)get_bml_model(model_resource, 0);
+    texlist = get_bml_texlist(model_resource, 0);
     init_collision_body_parts(this, &capsule_labo_collision_body, 1);
     set_indexed_flags(0, 0x1288);
     refresh_collision_body_centers();

@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_8026ACDC(void);
-}
+void init_chat_log_heap(void);
 
 #endif

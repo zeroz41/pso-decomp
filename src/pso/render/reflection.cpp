@@ -20,12 +20,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/render/FloorReflection.h"
 #include "pso/effect/TEffIndirectSampler.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
@@ -286,7 +285,7 @@ s32 reflect_matrix_at_floor(Vec *pos, s32 mask) {
 
 }
 
-void load_reflection_texture(void) { TObjFish::set_global_param(reflection_texture_list); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
+void load_reflection_texture(void) { set_texture_list(reflection_texture_list); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
 
 
 const f64 reflection_angle_to_degrees = 0.0054931640625;

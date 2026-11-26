@@ -32,6 +32,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/TLobby_80291D94.h"
+#include "pso/ui/TLevelSelect.h"
 
 ChallengeModeState challenge_default_settings = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
@@ -83,13 +84,9 @@ void challenge_set_boss_warp_disabled(s32 disabled) {
 
 
 
-extern "C" {
+s32 get_challenge4p_retry_choice(void);
 char split_screen_player_name[0x20];
-}
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
-extern "C" {
-
-
 void TLobby::draw_if_ready2() {
     if ((is_challenge_mode_active() != 0) && (TLobby::is_multi_ready() != 0) && (challenge_retry_object != NULL)) {
         TObjChallenge4PRetry::create(challenge_retry_object);
@@ -99,7 +96,7 @@ void TLobby::draw_if_ready2() {
 s32 TLobby::check_ready_status() {
     s32 status;
 
-    status = TLobby__sub_80291F9C();
+    status = get_challenge4p_retry_choice();
     if (status == 1) {
         status = -1;
         if (challenge4p_mode_state.retry_confirmed != 0) {
@@ -109,12 +106,11 @@ s32 TLobby::check_ready_status() {
     return status;
 }
 
-s32 TLobby__sub_80291F9C(void) {
+s32 get_challenge4p_retry_choice(void) {
     if (challenge4p_mode_state.failed != 0) {
         return challenge4p_mode_state.retry_choice;
     }
     return 0;
-}
 }
 
 void TLobby::reset_menu_state_globals() {
@@ -320,7 +316,6 @@ s32 TLobby::set_camera_height_if_valid(f32 multiplier) {
     return 1;
 }
 
-extern s32 game_difficulty_selection;
 
 s32 TLobby::try_set_split_screen(s32 difficulty) {
     if (is_challenge_mode_active() == 0) {
@@ -332,7 +327,6 @@ s32 TLobby::try_set_split_screen(s32 difficulty) {
 void TLobby::rebuild_players_for_stage(s32 stage) {
     RebuildPlayersForStageInfo info;
     Vec pos;
-    RebuildPlayersForStageHdr hdr;
     s32 i;
     TObjPlayer *p;
     ChallengeStageStart *tbl;
@@ -343,7 +337,7 @@ void TLobby::rebuild_players_for_stage(s32 stage) {
     }
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
-        ((TObjPlayer *)(&hdr))->clear_header_struct();
+        PlayerGuildCardTag hdr;
         if (p != NULL) {
             VecCopy(&pos, (const Vec *)((u8 *)p + 0x38));
             copy_player_visual_record(&info, (u8 *)p + 0x85C);
@@ -392,6 +386,14 @@ void TLobby::rebuild_players_for_stage(s32 stage) {
 }
 
 
+void save_challenge_tombstone_spot(s32);
+s32 challenge_check_any_player_dead(void);
+s32 challenge_check_all_players_dead(void);
+s32 is_challenge_time_limit_invalid(s32 limit);
+extern "C" {
+s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
+s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
+}
 
 void TLobby::clamp_and_store_layout_index(s32 stage) {
     s32 layout_id;
@@ -417,7 +419,7 @@ s32 challenge_check_any_player_dead(void) {
     do {
         player = (u8 *)(((saddr)get_player_by_client_id(i)));
         if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) != 0)) {
-            TLobby__sub_80293218((s32) i);
+            save_challenge_tombstone_spot((s32) i);
             found = 1;
         }
         i += 1;
@@ -498,7 +500,7 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
         ok = 1;
     } else {
         limit = decode_challenge_time(*(s32 *)((u8 *)arr + idx));
-        if (TLobby__sub_80292F34(limit) != 0) {
+        if (is_challenge_time_limit_invalid(limit) != 0) {
             *(s32 *)((u8 *)arr + idx) = 0;
             return 0;
         }
@@ -609,22 +611,19 @@ s32 TLobby::get_clamped_time_limit() {
 
 
 
-extern "C" {
-
 s32 TLobby::is_value_out_of_range(s32 seed) {
     if ((seed < TLobby::get_clamped_time_limit()) || (seed > 0x8C9F)) {
         return 1;
     }
     return 0;
 }
-s32 TLobby__sub_80292F34(s32 limit) {
+s32 is_challenge_time_limit_invalid(s32 limit) {
     if ((limit < 0x3C) || (limit > 0x8C9F)) {
         return 1;
     }
     return 0;
 }
-int get_camera_view_count(void* p) { return TCameraCtrl::get_view_count(); }
-}
+int get_camera_view_count(void) { return TCameraCtrl::get_view_count(); }
 #pragma push
 #pragma fp_contract on
 s32 TLobby::get_challenge_mode_flag() {
@@ -693,6 +692,8 @@ void load_tombstone_resources() { TObjTombstone::load_resources(); }
 
 
 
+void save_challenge_tombstone_spot(s32 client);
+void setup_split_screen(void);
 
 
 void setup_split_screen(void) {
@@ -726,9 +727,7 @@ void setup_split_screen(void) {
         } while (i != 4U);
     }
 }
-extern "C" {
-
-void TLobby__sub_80293218(s32 client) {
+void save_challenge_tombstone_spot(s32 client) {
     TObjPlayer *p = get_player_by_client_id(client);
     if (p != NULL) {
         ChallengeClientRecords *r = &challenge4p_mode_state.client_records[client];
@@ -746,6 +745,7 @@ void TLobby__sub_80293218(s32 client) {
 
 #pragma push
 #pragma scheduling off
+extern "C" {
 extern "C++" void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source) {
     volatile TObjTombstoneSpot *output = destination;
     const volatile TObjTombstoneSpot *input = source;
@@ -758,6 +758,7 @@ extern "C++" void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObj
 #else
     destination->position = source->position;
 #endif
+}
 }
 
 #pragma pop
@@ -865,8 +866,6 @@ void TChallenge4P::run_task() {
         update_active();
         frame_count++;
     }
-}
-
 }
 
 // The constructor and destructor address the vtable from the unit's data block,

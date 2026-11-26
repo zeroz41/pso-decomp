@@ -1,13 +1,12 @@
 #include "types.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/render/ProjectedColorDraw.h"
 
 #pragma scheduling off
 
 extern "C" s32 GXBegin(int, int, u16);
 
-void TObjBoss2Tunnel::reset_player_state() {
+void end_projected_color_draw() {
     end_primitive_draw();
 }
 
@@ -21,7 +20,7 @@ typedef union {
     f32 f32;
 } WGPipe_803E2BCC;
 #define GXWGFifo_803E2BCC (*(volatile WGPipe_803E2BCC *)0xCC008000)
-void TObjBoss2Tunnel::draw_projected_quads(ProjectedVertex *p, s32 n) {
+void draw_projected_quads(ProjectedVertex *p, s32 n) {
     s32 i;
     f32 one;
     GXBegin(0x98, 4, n);
@@ -44,7 +43,7 @@ void TObjBoss2Tunnel::draw_projected_quads(ProjectedVertex *p, s32 n) {
 }
 #pragma pop
 
-void TObjBoss2Tunnel::setup_projected_color_draw(s32 mode) {
+void setup_projected_color_draw(s32 mode) {
     load_screen_space_matrix();
     if (mode != 0) {
         setup_blended_color_draw();

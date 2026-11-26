@@ -8,7 +8,7 @@
 #include "pso/unk/TQuestManager.h"
 #include "pso/network/client_id.h"
 #include "pso/object/CursorAction.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -163,7 +163,7 @@ void TOQuestTalkBase::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (active == 1) {
             if (motion != NULL) {
                 draw_model_motion(model, motion, animation_frame);

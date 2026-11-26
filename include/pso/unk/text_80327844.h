@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-void visit_matching_models(s32 arg0, u8 *root, s32 arg2);
+struct NJS_OBJECT;
+
+void visit_matching_models(saddr buffer, NJS_OBJECT *root, s32 texture_id);
 
 #endif

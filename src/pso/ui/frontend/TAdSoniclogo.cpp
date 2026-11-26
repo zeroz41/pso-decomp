@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TScreenFadeOut.h"
-#include "pso/unk/TScreenFadeIn.h"
+#include "pso/system/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeIn.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 
@@ -18,7 +18,7 @@
 void * sonic_logo_object;
 int TAdSoniclogo::state;
 int TLogo::exit_requested_flag;
-const char *TAdSoniclogo__class_name = "TAdSoniclogo";
+const char *TAdSoniclogo::class_name = "TAdSoniclogo";
 
 void TAdSoniclogo::request_destroy(TObject *fade) {
     fade->queue_destruction();
@@ -46,7 +46,7 @@ void TAdSoniclogo::run_task() {
 TAdSoniclogo::~TAdSoniclogo() {}
 
 TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
-    m_name = TAdSoniclogo__class_name;
+    m_name = TAdSoniclogo::class_name;
     m_wait_frames = 0;
     TAdSoniclogo::state = 0;
     TLogo::exit_requested_flag = 0;
@@ -55,7 +55,7 @@ TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
 }
 
 
-void TLogo__sub_8001C360(void) {  }
+void free_sonic_logo_texture() {  }
 
-void TLogo__sub_8001C364(void) { sonic_logo_object = get_logo_texture_e_handle(); }
+void load_sonic_logo_texture() { sonic_logo_object = get_logo_texture_e_handle(); }
 

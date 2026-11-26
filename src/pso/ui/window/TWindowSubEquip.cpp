@@ -47,7 +47,7 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
     this->client_id = client;
     this->equip_list = (TWindowMenuIconLine *)create_equip_list_window((saddr)get_window_layout_position(0), (saddr)&equip_list_window_size, this->client_id);
     this->equip_list->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 0));
-    ((TWindowSubShortCutList *)(this->equip_list))->set_flag70_bit10();
+    this->equip_list->set_flag70_bit10();
     this->window_help_item = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
     this->window_help_item->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 2));
     this->equip_kind_list = 0;
@@ -68,7 +68,7 @@ void TWindowSubEquip::run_task() {
     switch ((s32) this->m_1c) {
     case 0:
     case 1:
-        if ((u32) this->equip_kind_list != 0U) {
+        if (this->equip_kind_list != NULL) {
             TWindowSubEquip__sub_80263AF4(this->parent, 1);
             this->equip_kind_list->close();
             this->equip_kind_list = 0U;
@@ -93,8 +93,8 @@ void TWindowSubEquip::run_task() {
         break;
     case 3:
         ((TWindowSubStatusDisp *)(this->equip_list))->init_scroll_pos();
-        if ((u32) this->equip_kind_list == 0U) {
-            this->equip_kind_list = (TWindowMenuIconLine *)open_equip_kind_list(this->equip_list->get_cursor_value());
+        if (this->equip_kind_list == NULL) {
+            this->equip_kind_list = open_equip_kind_list(this->equip_list->get_cursor_value());
         }
         this->equip_kind_list->clear_decided();
         this->m_1c = 4U;
@@ -128,34 +128,34 @@ void TWindowSubEquip::run_task() {
 
 void TWindowSubEquip::render() {  }
 
-s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
-    saddr equip_kind_window;
-    equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window(
-        get_window_layout_position(1), &equip_kind_window_size, this->client_id));
-    ((TWindowBase *)equip_kind_window)->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 1));
-    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
+TWindowMenuIconLine *TWindowSubEquip::open_equip_kind_list(u32 arg1) {
+    TWindowSubEquipKind *equip_kind_window;
+    equip_kind_window = create_equip_kind_window(
+        get_window_layout_position(1), &equip_kind_window_size, this->client_id);
+    equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 1));
+    equip_kind_window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
     switch (arg1) {
     case 6:
-        ((TWindowMenuIconLine *)equip_kind_window)->refresh_mag_item_list(0);
+        equip_kind_window->refresh_mag_item_list(0);
         break;
     case 2:
-        ((TWindowMenuIconLine *)equip_kind_window)->refresh_armor_equip_list(1, 1);
+        equip_kind_window->refresh_armor_equip_list(1, 1);
         break;
     case 9:
     case 10:
     case 11:
     case 12:
-        ((TWindowMenuIconLine *)equip_kind_window)->refresh_armor_equip_list(1, 3);
+        equip_kind_window->refresh_armor_equip_list(1, 3);
         break;
     case 3:
-        ((TWindowMenuIconLine *)equip_kind_window)->refresh_armor_equip_list(1, 2);
+        equip_kind_window->refresh_armor_equip_list(1, 2);
         break;
     case 1:
-        ((TWindowMenuIconLine *)equip_kind_window)->refresh_mag_item_list(2);
+        equip_kind_window->refresh_mag_item_list(2);
         break;
     }
-    mark_unequippable_items((TWindowSubEquipKind *)equip_kind_window);
+    mark_unequippable_items(equip_kind_window);
     return equip_kind_window;
 }
 

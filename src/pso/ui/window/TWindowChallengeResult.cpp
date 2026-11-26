@@ -30,7 +30,7 @@ struct ResultEntry {
     s32 value;
 };
 
-extern const char lbl_8044E7BC[];
+extern const char challenge_time_limit_text[];
 
 struct ChallengeResultLayout {
     u32 columns;
@@ -51,18 +51,18 @@ ChallengeResultLayout challenge_result_window_layout = {
     {4, {233.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
 };
 
-WindowDescriptor lbl_804CE298 = {
+WindowDescriptor challenge_result_window_descriptor = {
     {466.0f, 88.0f}, 50100.0f, &challenge_result_window_layout, 0x23,
 };
 #pragma push
 #pragma readonly_strings on
-const char *lbl_804CE2AC[3] = {
+const char *challenge_result_labels[3] = {
     "Team Name : ", "Clear Time : ", "Death : ",
 };
 #pragma pop
 
 TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_seconds, s32 death_count)
-    : TWindowBase((u8 *)&lbl_804CE298, 4, (u8 *)get_window_layout_position(0x3F)) {
+    : TWindowBase((u8 *)&challenge_result_window_descriptor, 4, (u8 *)get_window_layout_position(0x3F)) {
     s32 i;
     WindowTextEntry *e;
     ResultEntry *count;
@@ -71,7 +71,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
     m_name = TWindowChallengeResult__name;
     for (i = 0; i < 3; i++) {
         e = (WindowTextEntry *)get_array_entry(i * 2);
-        set_text_entry_string(e, (uaddr)lbl_804CE2AC[i], 0);
+        set_text_entry_string(e, (uaddr)challenge_result_labels[i], 0);
         measure_message_text_width_default(e);
         e->x = 233.0f - e->width;
     }
@@ -81,7 +81,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
     hours = clear_seconds / 3600;
     clear_seconds = clear_seconds % 3600;
     if (hours > 99) {
-        text_builder_append((u8 *)lbl_8044E7BC);
+        text_builder_append((u8 *)challenge_time_limit_text);
     } else {
         append_padded_number(hours, 2);
         text_builder_append((u8 *)":");
@@ -119,4 +119,4 @@ void TWindowChallengeResult::render() {
 }
 
 // The capped clear time, defined after its use so the constructor addresses it on its own.
-__declspec(section ".rodata") const char lbl_8044E7BC[] = "99:59:59";
+__declspec(section ".rodata") const char challenge_time_limit_text[] = "99:59:59";

@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/task/TMainTask.h"
 
 
@@ -27,10 +27,10 @@ void TObjMesBase::debug_draw_label() {
         messageBank = 1;
     }
     const char *names[2] = {"QUEST", "RICO"};
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- LABEL : %d", messageLabel);
     debug_printf_at(0x130022, "<- %s", names[messageBank]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjMesBase::interact(u16) {
@@ -60,13 +60,13 @@ void TObjMesBase::clear_ref_if_destroyed() {
         this->messagePhase = 0;
     }
 }
-void TObjMesBase::vfunc_14() {  }
+void TObjMesBase::update_idle() {  }
 
 void TObjMesBase::run_task() {
 
     switch (this->messagePhase) {
     case 0:
-        this->vfunc_14();
+        this->update_idle();
         return;
     case 1:
         this->clear_ref_if_destroyed();

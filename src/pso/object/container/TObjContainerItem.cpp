@@ -17,11 +17,10 @@
 #include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjChip.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjContainerCommon.h"
@@ -37,7 +36,6 @@
 #include "pso/object/fence/TLazerFenceSw.h"
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/object/cave/TOAirconCave01.h"
-#include "pso/unk/text_8018A3E0.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixStack.h"
@@ -52,21 +50,14 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/network/client_id.h"
+#include "pso/object/base/ActorCollision.h"
 
 struct Item_80189E3C { u8 pad[0x30]; s32 data[3]; };
-struct ForestBoxCollisionBody {
-    f32 center[3];
-    f32 radius;
-    f32 height;
-    u32 unknown_14;
-    u32 flags;
-    u32 unknown_1c[4];
-};
 
 static const char *fe_obj_hako01_hahen02_model_names[4] = {
     "fe_obj_hako01_hahen02.gj", "fs_obj_hako01.gj", "fs_obj_hako01_hahen01.gj", NULL,
@@ -100,8 +91,8 @@ static BmlResourceDescriptor bm_obj_seabed_con_rare_resource_descriptor = {
     "bm_obj_seabed_con_rare.bml", bm_obj_seabed_con_rare_model_names, bm_obj_seabed_con_rare_motion_names, 3, 0,
 };
 
-ForestBoxCollisionBody forest_box_collision_body_parts = {
-    { 0.0f, 6.0f, 0.0f }, 9.0f, 9.0f, 0, 0x38003, { 0, 0, 0, 0 },
+CollisionBody forest_box_collision_body_parts = {
+    { 0.0f, 6.0f, 0.0f }, 9.0f, 9.0f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
 
 static TObjChipParams forest_box_break_params[4] = {
@@ -126,10 +117,10 @@ extern const TObjChipParams container_break_small_debris_parameters = {
 
 const char *container_abe_enemy_name = "TObjContainerAbeEnemy";
 
-extern const TObjChipParams lbl_80444E5C = {
+extern const TObjChipParams container_break_debris_desc = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x14,
 };
-extern const TObjChipParams lbl_80444EA8 = {
+extern const TObjChipParams container_break_debris_desc_b = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x14,
 };
 static __declspec(section ".rodata") const char container_event_number_format[] ATTRIBUTE_ALIGN(4) = "EVT NO : %d";
@@ -150,19 +141,16 @@ TObjChipParams *forest_box_debris_primary;
 TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 NJS_TEXLIST *container_breakup_textures;
-extern const f32 lbl_805DBCF8;
-extern "C" {
-u32 init_collision_body_parts(void *, void *, s32);
-}
+extern const f32 container_item_debug_radius;
 NJS_OBJECT *get_container_breakup_model(s32 index);
-extern const f32 lbl_805DBCF4;
+extern const f32 container_item_zero;
 NJS_OBJECT *get_forest_box_model(s32 index);
-extern const f32 lbl_805DBCFC;
-extern const f32 lbl_805DBD0C;
-extern const f32 lbl_805DBCF0;
-extern const f32 lbl_805DBD00;
-extern const f32 lbl_805DBD04;
-extern const f32 lbl_805DBD08;
+extern const f32 container_item_model_scale;
+extern const f32 forest_box_ginja_radius;
+extern const f32 container_item_one;
+extern const f32 container_item_view_range;
+extern const f32 container_item_model_radius;
+extern const f32 container_item_fade_distance;
 
 // ---- TObjComputer
 
@@ -212,7 +200,7 @@ void load_forest_box_resources(void) {
         forest_box_debris_secondary = &forest_box_break_params[1];
         break;
     }
-    TObjNpcEnemy::register_ginja(1, get_forest_box_model(1), forest_box_textures, lbl_805DBD0C, lbl_805DBCF4);
+    TObjNpcEnemy::register_ginja(1, get_forest_box_model(1), forest_box_textures, forest_box_ginja_radius, container_item_zero);
 }
 
 void free_forest_box_resources() {
@@ -230,20 +218,20 @@ void free_forest_box_resources() {
 NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_box_model_archive, index); }
 
 void load_container_breakup_resources() {
-    void *p;
+    BmlResource *p;
     container_breakup_model_archive = 0;
     switch (get_current_floor_area()) {
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
     case AREA_OLGA_FLOW:
         p = new BmlResource(5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, NULL);
-        container_breakup_model_archive = (BmlResource *)p;
+        container_breakup_model_archive = p;
         container_breakup_textures = LoadPvmFileTls("obj_seabed_con_rare.gvm");
         break;
     case AREA_GAL_GRYPHON:
     default:
         p = new BmlResource(5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, NULL);
-        container_breakup_model_archive = (BmlResource *)p;
+        container_breakup_model_archive = p;
         container_breakup_textures = LoadPvmFileTls("obj_abecon.gvm");
         break;
     }
@@ -270,16 +258,16 @@ NJS_OBJECT *get_container_breakup_model(s32 index) {
 TObjContainerCommon::TObjContainerCommon(TObject *parent, void *set_data) : TObjChara(parent) {
     m_name = container_base_name;
     apply_object_set_data(set_data);
-    view_range = lbl_805DBD00;
-    model_radius = lbl_805DBD04;
-    melee_range_sq = lbl_805DBD00;
-    if (scale.x > lbl_805DBCF4) {
+    view_range = container_item_view_range;
+    model_radius = container_item_model_radius;
+    melee_range_sq = container_item_view_range;
+    if (scale.x > container_item_zero) {
         random_item = 1;
     } else {
         random_item = 0;
     }
     distance_fade.reset();
-    distance_fade.set_fade_distance(lbl_805DBD08);
+    distance_fade.set_fade_distance(container_item_fade_distance);
     in_view = 0;
 }
 
@@ -294,9 +282,9 @@ f32 TObjContainerCommon::receive_direct_attack(void *attacker, DirectAttackPaylo
 
     kind = payload.kind;
     if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
-        receive_physical_attack(NULL, lbl_805DBCF0);
+        receive_physical_attack(NULL, container_item_one);
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
@@ -306,7 +294,7 @@ f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
         this->access_object_saved_state(&saved_state, 0);
         this->send_object_state_update(&saved_state);
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 void TObjContainerCommon::run_task() {
@@ -335,16 +323,16 @@ void TObjContainerCommon::render() {
 #pragma pool_data off
 void TObjContainerCommon::debug_print_item_box_info() {
     Item_80189E3C item;
-    if (this->scale.x > lbl_805DBCF4) {
+    if (this->scale.x > container_item_zero) {
         this->random_item = 1;
     } else {
         this->random_item = 0;
     }
     if (this->random_item != 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x13001C, container_random_item_message);
     } else {
-        TObjNpcEnemy::set_global_count(0xFF00FF);
+        set_debug_text_color(0xFF00FF);
         debug_printf_at(0x13001C, container_fixed_item_message);
         debug_printf_at(0x130020, container_item_parameter_message);
         item.data[0] = set_params[0];
@@ -352,7 +340,7 @@ void TObjContainerCommon::debug_print_item_box_info() {
         item.data[2] = set_params[2];
         debug_print_item_param(&item);
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 #pragma pool_data reset
 
@@ -424,7 +412,7 @@ TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjCont
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerItem::~TObjContainerItem() {
@@ -452,11 +440,11 @@ void TObjContainerItem::draw_model() {
     if (forest_box_model_archive != 0) {
         switch (mode) {
         case 0:
-            TObjFish::set_global_param(forest_box_textures);
+            set_texture_list(forest_box_textures);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
-            scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
+            scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
             draw_ginja_box_tree((NJS_OBJECT *)model);
             pop_matrix();
             break;
@@ -513,7 +501,7 @@ TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjCo
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerEnemy::~TObjContainerEnemy() {
@@ -543,11 +531,11 @@ void TObjContainerEnemy::draw_model() {
     }
     switch (mode) {
     case 0:
-        TObjFish::set_global_param(forest_box_textures);
+        set_texture_list(forest_box_textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
+        scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
         draw_ginja_box_tree((NJS_OBJECT *)model);
         pop_matrix();
         break;
@@ -557,10 +545,10 @@ void TObjContainerEnemy::draw_model() {
 }
 
 void TObjContainerEnemy::debug_print_item_box_info() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, container_event_number_format, this->set_params[0]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-    debug_draw_sphere(&position, &debug_color_blue_alpha30, lbl_805DBCF8);
+    set_debug_text_color(0xF0F0F0FF);
+    debug_draw_sphere(&position, &debug_color_blue_alpha30, container_item_debug_radius);
 }
 
 f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
@@ -577,7 +565,7 @@ f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
         pkt.sender_client_id = local_client_id;
         pkt.send();
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 void TObjContainerEnemy::spawn_break_effects() const {
@@ -626,7 +614,7 @@ TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObj
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerNoItem::~TObjContainerNoItem() {
@@ -656,11 +644,11 @@ void TObjContainerNoItem::draw_model() {
         case 1:
             break;
         case 0:
-        TObjFish::set_global_param(forest_box_textures);
+        set_texture_list(forest_box_textures);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
+        scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
         draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)this + 0x34)));
         pop_matrix();
             break;
@@ -675,7 +663,7 @@ f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
         this->access_object_saved_state(&saved_state, 0);
         this->send_object_state_update(&saved_state);
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 void TObjContainerNoItem::spawn_break_effects() const {
@@ -723,7 +711,7 @@ TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjCont
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerBase::~TObjContainerBase() {
@@ -747,7 +735,7 @@ void TObjContainerBase::draw_model() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param(container_breakup_textures);
+            set_texture_list(container_breakup_textures);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -826,7 +814,7 @@ TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : 
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerAbeEnemy::~TObjContainerAbeEnemy() {
@@ -850,7 +838,7 @@ void TObjContainerAbeEnemy::draw_model() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param(container_breakup_textures);
+            set_texture_list(container_breakup_textures);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -864,10 +852,10 @@ void TObjContainerAbeEnemy::draw_model() {
 }
 
 void TObjContainerAbeEnemy::debug_print_item_box_info() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, container_event_number_format, this->set_params[0]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-    debug_draw_sphere(&position, &debug_color_blue_alpha30, lbl_805DBCF8);
+    set_debug_text_color(0xF0F0F0FF);
+    debug_draw_sphere(&position, &debug_color_blue_alpha30, container_item_debug_radius);
 }
 
 f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
@@ -884,14 +872,14 @@ f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
         pkt.sender_client_id = local_client_id;
         pkt.send();
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 #pragma push
 #pragma opt_propagation off
 void TObjContainerAbeEnemy::spawn_break_effects() const {
     if (this->mode != 1) {
-        TObjChipParams a = lbl_80444E5C;
+        TObjChipParams a = container_break_debris_desc;
         f32 za;
         f32 ya;
         f32 xa;
@@ -904,7 +892,7 @@ void TObjContainerAbeEnemy::spawn_break_effects() const {
         a.floor_y = ya;
         a.model = get_container_breakup_model(0);
         a.textures = container_breakup_textures;
-        TObjChipParams b = lbl_80444EA8;
+        TObjChipParams b = container_break_debris_desc_b;
         f32 zb;
         f32 yb;
         f32 xb;
@@ -943,11 +931,11 @@ void TObjContainerAbeEnemy::apply_saved_state(s16 *state, s32 live) {
 }
 
 
-extern const f32 lbl_805DBCF0 = 1.0f;
-extern const f32 lbl_805DBCF4 = 0.0f;
-extern const f32 lbl_805DBCF8 = 40.0f;
-extern const f32 lbl_805DBCFC = 0.85f;
-extern const f32 lbl_805DBD00 = 400.0f;
-extern const f32 lbl_805DBD04 = 10.0f;
-extern const f32 lbl_805DBD08 = 300.0f;
-extern const f32 lbl_805DBD0C = 9.0f;
+extern const f32 container_item_one = 1.0f;
+extern const f32 container_item_zero = 0.0f;
+extern const f32 container_item_debug_radius = 40.0f;
+extern const f32 container_item_model_scale = 0.85f;
+extern const f32 container_item_view_range = 400.0f;
+extern const f32 container_item_model_radius = 10.0f;
+extern const f32 container_item_fade_distance = 300.0f;
+extern const f32 forest_box_ginja_radius = 9.0f;

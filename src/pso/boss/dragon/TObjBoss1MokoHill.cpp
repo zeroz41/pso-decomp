@@ -46,7 +46,7 @@
 
 #include "pso/enemy/dd/TObjEneDD.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
@@ -568,7 +568,7 @@ void TObjBoss1MokoHill_SoloM::render() {
     TrailRaisedVertex *p;
     s32 i;
     if (active != 0) {
-        TObjFish::set_global_param(dragon_common_texture_list);
+        set_texture_list(dragon_common_texture_list);
         update_dragon_trail_uvs(dragon_trail_position_source);
         for (p = dragon_trail_raised_vertices, i = 0; i < dragon_trail_raised_count; i++, p++) {
             *p->dst = p->base + p->ofs;

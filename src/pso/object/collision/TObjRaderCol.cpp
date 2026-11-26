@@ -4,8 +4,6 @@
 #include "pso/object/collision/TObjRaderHideCol.h"
 #include "pso/ui/hud/TObjRaderIcon.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -157,7 +155,6 @@ TObjRaderIcon::~TObjRaderIcon() {
 }
 
 void TObjRaderIcon::initialize_from_placement() {
-    s32 temp_r0;
     color_mode = 0;
     switch_count = 1;
     first_switch = 0;

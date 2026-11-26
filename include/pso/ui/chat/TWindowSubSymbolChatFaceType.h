@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include "types.h"
 
+class WindowHeading;
+
 struct NJS_POINT2;
 #include "pso/ui/window/TWindowBase.h"
 
@@ -24,7 +26,7 @@ struct TWindowSubSymbolChatFaceType : public TWindowBase {
     u8 cursor_row;
     u8 _pad63[0x1];
     s8 *selection; // Borrowed selection byte.
-    TWindowSubStatusDisp *status_disp;
+    WindowHeading *status_disp;
     void close_when_chat_closed();
     void confirm_selection();
 };
@@ -35,7 +37,5 @@ LAYOUT_ASSERT(FaceType_selection, offsetof(TWindowSubSymbolChatFaceType, selecti
 LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, status_disp) == 0x68);
 
 
-extern "C" {
-void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx);
-}
+void draw_face_selection(u8 *window_base, u8 *ctx);
 #endif

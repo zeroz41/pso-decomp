@@ -2,14 +2,13 @@
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/morfos/TObjEneMorfosArm.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/enemy/morfos/TObjEneMorfos.h"
@@ -37,7 +36,7 @@ void TObjEneMorfosArm::render() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     toggle_particle_effect();
     draw();
     TParticleCtrl::end_effect_render();

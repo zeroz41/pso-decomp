@@ -32,6 +32,7 @@ struct DrawLineRecord {
 
 class TAdDrawLineTask : public TObject {
 public:
+    static const char *class_name;
     TAdDrawLineTask(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *controller);
     virtual ~TAdDrawLineTask();
     virtual void render();
@@ -53,6 +54,8 @@ public:
 };
 
 TAdDrawLineTask *create_draw_line_task(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *controller);
+// Copies one DrawLineVertex (position, w and colour) from source to destination.
+void copy_line_vertex(void *destination, void *source);
 
 LAYOUT_ASSERT(DrawLineRecordSize, sizeof(DrawLineRecord) == 0x2C);
 

@@ -5,7 +5,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 FloorTransition::FloorTransition() {
     init_range(0);

@@ -20,7 +20,7 @@
 #pragma readonly_strings on
 
 
-const char *TItemAttacker__name = "TItemAttacker";
+const char *TItemAttacker::name = "TItemAttacker";
 
 
 s32 item_buffer_temp_mode;
@@ -57,7 +57,7 @@ void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, Delay
 
 TItemAttacker::TItemAttacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record) : TObject(parent) {
     TObjCollidable *entity;
-    m_name = TItemAttacker__name;
+    m_name = TItemAttacker::name;
     this->hit.copy_from(attack_record);
     done = 0;
     VecCopy(&this->origin, position);
@@ -81,7 +81,7 @@ void DelayedWeaponHit::copy_from(DelayedWeaponHit *source_record) {
 
 void TItemAttacker::spawn_item_timer(TObject *object, ItemTimerCallback expire, s32 frames) {
     if (object != NULL) {
-        new TItemTimer(object, (saddr)expire, frames);
+        new TItemTimer(object, expire, frames);
     }
 }
 
@@ -97,7 +97,7 @@ void TItemAttacker::run_task() { if (done != 0) { queue_destruction(); } }
 __declspec(section ".data") saddr item_nj_chunk_buffer_table[2];
 saddr get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
 
-void TItemBuff__ct(void) {
+void free_item_buff() {
     if (item_buff_buffer != NULL) {
         if (item_buffer_temp_mode != 0) {
             TLobby::tmp_buf_release("TItemBuff");
@@ -111,7 +111,7 @@ void *create_item_buff(s32 size) {
     s32 temp_available;
 
     if (size != 0) {
-        TItemBuff__ct();
+        free_item_buff();
         temp_available = TLobby::tmp_buf_is_free();
         item_buffer_temp_mode = temp_available;
         if ((temp_available != 0) && (size < 0x40000)) {

@@ -18,7 +18,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
@@ -28,7 +28,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -164,7 +164,7 @@ void TObjEneBm9Mericarol::load_resources() {
     lbl_80540B88[2] = 0.0f;
     lbl_805D6874 = 0;
     lbl_805D6878 = 0;
-    fn_802D1CC8();
+    create_mericarol_render_texture();
     init_alt_model();
     for (i = 0; i < 3; i++) {
         bm9_mericarol_phase_hp_table[i] = TLobby::register_boss(mericarol_phase_hp_ids[i]);
@@ -199,7 +199,7 @@ void TObjEneBm9Mericarol::free_shared_instances() {
         delete mericarol_trail0_points;
         mericarol_trail0_points = NULL;
     }
-    fn_802D1C84();
+    release_mericarol_render_texture();
     if (mericarol_bml != NULL) {
         delete mericarol_bml;
         mericarol_bml = NULL;
@@ -1214,7 +1214,7 @@ void TObjEneBm9Mericarol::render() {
         break;
     }
     saved_model_render_flags = model_render_flags;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -1293,7 +1293,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
             texlist->textures[2].texture = texlist->textures[8].texture;
             break;
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

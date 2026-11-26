@@ -33,35 +33,35 @@ s32 text_builder_append(s32);
 void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 void text_builder_reset(void);
 
-extern "C" const char lbl_805DCCA8[] = ":";
+extern "C" const char duel_result_time_separator[] = ":";
 void *TWindowDuelResult::layout_entries[140] = {
     (void *)0x13, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
     (void *)0x3, (void *)0x42960000, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCCA8, (void *)0x3,
+    (void *)0xffffffff, (void *)0x0, (void *)&duel_result_time_separator, (void *)0x3,
     (void *)0x42aa0000, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43be0000,
     (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x42200000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
     (void *)0x3, (void *)0x42960000, (void *)0x42200000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCCA8, (void *)0x3,
+    (void *)0xffffffff, (void *)0x0, (void *)&duel_result_time_separator, (void *)0x3,
     (void *)0x42aa0000, (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43be0000,
     (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x42700000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
     (void *)0x3, (void *)0x42960000, (void *)0x42700000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCCA8, (void *)0x3,
+    (void *)0xffffffff, (void *)0x0, (void *)&duel_result_time_separator, (void *)0x3,
     (void *)0x42aa0000, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43be0000,
     (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x42a00000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
     (void *)0x3, (void *)0x42960000, (void *)0x42a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCCA8, (void *)0x3,
+    (void *)0xffffffff, (void *)0x0, (void *)&duel_result_time_separator, (void *)0x3,
     (void *)0x42aa0000, (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43be0000,
     (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
@@ -79,23 +79,23 @@ void *duel_result_window_layout_table[119] = {
     (void *)0x3, (void *)0x0, (void *)0x42200000, (void *)0x3f000000,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
     (void *)0x43870000, (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)&lbl_805DCCA8, (void *)0x4, (void *)0x43be0000,
+    (void *)0x0, (void *)&duel_result_time_separator, (void *)0x4, (void *)0x43be0000,
     (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x42700000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
     (void *)0x3, (void *)0x43870000, (void *)0x42700000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCCA8, (void *)0x4,
+    (void *)0xffffffff, (void *)0x0, (void *)&duel_result_time_separator, (void *)0x4,
     (void *)0x43be0000, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x0,
     (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x43870000, (void *)0x42a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCCA8,
+    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)&duel_result_time_separator,
     (void *)0x4, (void *)0x43be0000, (void *)0x42a00000, (void *)0x3f000000,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
     (void *)0x0, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43870000,
     (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)&lbl_805DCCA8, (void *)0x4, (void *)0x43be0000, (void *)0x42c80000,
+    (void *)&duel_result_time_separator, (void *)0x4, (void *)0x43be0000, (void *)0x42c80000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
     (void *)0x6, (void *)0x428c0000, (void *)0x43040000, (void *)0x41900000,
     (void *)0x41900000, (void *)0x43320000, (void *)0x434b0000, (void *)0x3f000000,
@@ -107,9 +107,9 @@ WindowDescriptor window_duel_result_descriptor = {
     {388.0f, 164.0f}, 50043.0f, NULL, 3,
 };
 
-void TWindowDuelResult::update_page_1() {  }
+void TWindowDuelResult::update_stats_page() {  }
 
-void TWindowDuelResult::build_page_1() {
+void TWindowDuelResult::build_stats_page() {
     s32 vals[4];
     TObjPlayer *pl;
     s32 i;
@@ -124,10 +124,10 @@ void TWindowDuelResult::build_page_1() {
     pl = get_player_by_client_id(client_index);
     if (pl != 0) {
         set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), (uaddr)pl->name, 0x20);
-        vals[0] = pl->battle_score.damage_stats[0].get_total();
-        vals[1] = pl->battle_score.damage_stats[1].get_total();
-        vals[2] = pl->battle_score.damage_stats[3].get_total();
-        vals[3] = pl->battle_score.damage_stats[2].get_total();
+        vals[0] = pl->battle_score.kills.get_total();
+        vals[1] = pl->battle_score.deaths.get_total();
+        vals[2] = pl->battle_score.damage_given.get_total();
+        vals[3] = pl->battle_score.damage_taken.get_total();
         for (i = 0; i < 4; i++) {
             a = (u8 *)get_array_entry(i * 3 + 2);
             b = (u8 *)get_array_entry(i * 3 + 4);
@@ -137,9 +137,9 @@ void TWindowDuelResult::build_page_1() {
     }
 }
 
-void TWindowDuelResult::update_page_0() {  }
+void TWindowDuelResult::update_ranking_page() {  }
 
-void TWindowDuelResult::build_page_0() {
+void TWindowDuelResult::build_ranking_page() {
     s32 i;
     s32 none;
     BattleRanking *e;
@@ -176,7 +176,7 @@ void TWindowDuelResult::build_page_0() {
         } else {
             if (none) {
                 set_default_status(a, get_localized_text_entry(0x10, 0xA));
-            } else if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+            } else if (lobby_rule_settings.get_is_teams() == 1) {
                 if (e->place == 0) {
                     set_default_status(a, get_localized_text_entry(0x10, 0xB));
                 } else {
@@ -196,18 +196,18 @@ void TWindowDuelResult::build_page_0() {
 }
 
 #pragma defer_codegen on
-void TWindowDuelResult::sub_8024F3CC() {
+void TWindowDuelResult::build_page() {
     typedef void (TWindowDuelResult::*PageMethod)();
-    static PageMethod build[] = { &TWindowDuelResult::build_page_0, &TWindowDuelResult::build_page_1 };
+    static PageMethod build[] = { &TWindowDuelResult::build_ranking_page, &TWindowDuelResult::build_stats_page };
     entry_list.destroy_all_items();
     s8 page = page_indicator->get_type();
     (this->*build[page])();
-    sub_8024F330();
+    update_page();
 }
 
-void TWindowDuelResult::sub_8024F330() {
+void TWindowDuelResult::update_page() {
     typedef void (TWindowDuelResult::*PageMethod)();
-    static PageMethod update[] = { &TWindowDuelResult::update_page_0, &TWindowDuelResult::update_page_1 };
+    static PageMethod update[] = { &TWindowDuelResult::update_ranking_page, &TWindowDuelResult::update_stats_page };
     s8 page = page_indicator->get_type();
     (this->*update[page])();
 }
@@ -225,9 +225,9 @@ void TWindowDuelResult::run_task() {
         open_tick = 0x01000000;
     }
     if (handle_list_page_flip_input(page_indicator) != 0) {
-        sub_8024F3CC();
+        build_page();
     }
-    sub_8024F330();
+    update_page();
     update_window();
     update_window_entry_list(&entry_list);
 }
@@ -250,5 +250,5 @@ TWindowDuelResult::TWindowDuelResult(s32 client)
         scale_x = 1.0f;
         scale_y = 1.0f;
     }
-    sub_8024F3CC();
+    build_page();
 }

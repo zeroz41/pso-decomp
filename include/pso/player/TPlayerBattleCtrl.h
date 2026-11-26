@@ -5,16 +5,22 @@
 #include "types.h"
 #include "pso/player/BattleRanking.h"
 
-class TWindowMessage;
-class TWindowMenu;
-class TWindowBase;
+struct TWindowMessage;
+struct TWindowMenu;
+struct TWindowDuelResult;
+
+// Window size {width, height} passed to TWindowMessage::create.
+struct BattleIntroWindowSize { f32 x, y; };
+// Score or player count of the two teams.
+struct BattleTeamTotals { s32 team[2]; };
 
 class TPlayerBattleCtrl : public TObject {
 public:
     TPlayerBattleCtrl(TObject *parent);
     virtual ~TPlayerBattleCtrl();
     void init_battle_round();
-    // States run by update_player_battle_ctrl_state.
+    void update_state();
+    // States run by update_state.
     void update_battle_intro();
     void update_timed_wait();
     void end_battle_mode_cleanup();
@@ -22,7 +28,12 @@ public:
     void update_battle_sync(s32 t);
     s32 check_timeout(s32 timer);
     void send_battle_mode_state();
-    void set_flag_270();
+    void request_timed_event();
+    void reset_score_counters();
+    void initialize_battle();
+    void send_player_ready();
+    // Tells the player they are being sent back to the visual lobby and waits for START.
+    void show_lobby_transport_notice();
     void show_score_results();
     void init();
     s32 check_all_battle_flags();
@@ -45,15 +56,15 @@ public:
     s32 end_wait;
     TWindowMessage *window_4c;
     TWindowMenu *window_50;
-    TWindowBase *window_54;
-    s32 mode_data[2];  // the two values of 6x7D mode 0 (handle_6x7D_set_battle_mode_data)
+    TWindowDuelResult *window_54;
+    s32 aborted_after_result;  // a team emptied while the duel result was up, not mid-fight
+    s32 pad_5c;
     s32 state_send_wait;
-    s32 pad_64;
-    u8 msg[0x80];      // the intro message update_battle_intro shows first
-    u8 pad_E8[0x180];
-    s8 pending[8];     // one flag per battle event second (battle_event_second_table)
-    s32 sync_state;    // 2 once the battle ended (set_flag_270, check_timeout)
-    u8 pad_274[0x4];
+    s32 battle_ctrl_default;  // battle_ctrl_default_value when the duel starts
+    char intro_text[0x200];   // the quest's ba_start text, shown by the intro window
+    s8 timed_event_flags[8];  // one per battle_event_second_table entry still to send
+    s32 timed_event_state;
+    s32 pad_274;
 };
 
 #include <stddef.h>
@@ -63,6 +74,8 @@ LAYOUT_ASSERT(TPlayerBattleCtrl_state_24_offset, offsetof(TPlayerBattleCtrl, sta
 LAYOUT_ASSERT(TPlayerBattleCtrl_window_4c_offset, offsetof(TPlayerBattleCtrl, window_4c) == 0x4c);
 LAYOUT_ASSERT(TPlayerBattleCtrl_window_50_offset, offsetof(TPlayerBattleCtrl, window_50) == 0x50);
 LAYOUT_ASSERT(TPlayerBattleCtrl_window_54_offset, offsetof(TPlayerBattleCtrl, window_54) == 0x54);
+LAYOUT_ASSERT(TPlayerBattleCtrl_intro_text_offset, offsetof(TPlayerBattleCtrl, intro_text) == 0x68);
+LAYOUT_ASSERT(TPlayerBattleCtrl_timed_event_state_offset, offsetof(TPlayerBattleCtrl, timed_event_state) == 0x270);
 LAYOUT_ASSERT(TPlayerBattleCtrl_size, sizeof(TPlayerBattleCtrl) == 0x278);
 
 
@@ -71,17 +84,12 @@ u8 is_battle_mode_running(void);
 s32 TLobby__sub_801C2678(void);
 }
 s32 is_duel_ranking_empty(void);
-extern "C" {
-void TLobby__sub_801C2C34(void *arg0);
-void TLobby__sub_801C38A4(void);
-}
+// Fade-in callback: sends the controller back to its first state for the next round.
+void restart_battle_after_fade(void);
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 void free_char_slots(void);
 s32 get_battle_time_limit_frames(void);
 void clear_battle_player_ready_flags(void);
-extern "C" {
-void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
-}
 void handle_6x7E(void);
 void handle_6x7F_battle_scores(saddr command);
 void record_local_battle_placement(void *arg0);
@@ -97,7 +105,6 @@ void finish_chr_select_scene_init(void);
 void send_battle_mode_params(s8 command, s32 value, s32 extra);
 void apply_battle_rules_to_players(void);
 s32 get_battle_ctrl_default(void);
-void update_player_battle_ctrl_state(void *player_battle_ctrl);
 
 
 // Copies one ranking row; the ranking sorts swap rows through it.

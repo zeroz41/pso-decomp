@@ -7,7 +7,7 @@
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
@@ -44,7 +44,7 @@ void HelpItemRarityStarRow::render(WindowDrawContext *context) {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(1, -1);
     x = context->inner_x + pos[0];
     y = context->inner_y + pos[1];
@@ -90,7 +90,7 @@ void HelpItemRarityStarRow::render(WindowDrawContext *context) {
         }
         x += 17.0f;
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 

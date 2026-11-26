@@ -66,7 +66,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/task/TMainTask.h"
@@ -84,7 +84,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/system/SubtractiveRng.h"
@@ -93,6 +93,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 extern u16 boss8_dragon_control_client_id;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
@@ -192,7 +193,7 @@ BmlResourceDescriptor boss8_dragon_bml_descriptor = {"bm_boss8_dragon.bml", boss
 const char *boss8_dragon_class_name = "TBoss8Dragon";
 // Same records as TBoss1Dragon's foot-step / fireball attack parameters.
 extern const DragonAttackParams boss8_dragon_foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
-extern const DragonAttackParams TBoss8Dragon::breath_params = {1, 2.0f, 10.0f, {10.0f, 1}};
+const DragonAttackParams TBoss8Dragon::breath_params = {1, 2.0f, 10.0f, {10.0f, 1}};
 extern const DragonAttackParams boss8_dragon_fireball_impact_params = {1, 10.0f, 30.0f, {10.0f, 1}};
 extern const DragonAttackParams boss8_dragon_pillar_attack_params = {0, 10.0f, 0.0f, {10.0f, 1}};
 extern const s32 boss8_dragon_point_index_table[4] = {3, 4, 5, 6};
@@ -4660,7 +4661,7 @@ void TBoss8Dragon::draw() {
 void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
     RenderFadeState *fade;
     if (!(this->position.y <= -400.0f)) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
@@ -4766,7 +4767,7 @@ void TBoss8Dragon::draw_motion_model() {
     s32 idx;
     AnimationMotion *anim;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

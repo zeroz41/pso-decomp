@@ -3,5 +3,5 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 
 s32 measure_string_len(const char *str) {
-    return TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x100);
+    return TWindowKeyBoardSoft::strnlen(str, (u32)0x100);
 }

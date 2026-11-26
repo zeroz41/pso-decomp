@@ -8,13 +8,13 @@ class TObjPlayer;
 
 class TObjEZBoneRotPlayer : public TObjEZBoneRotBase {
 public:
-    TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc);
+    TObjEZBoneRotPlayer(TObjPlayer *parent, NJS_OBJECT *root, EZBoneRotDesc *desc);
     virtual ~TObjEZBoneRotPlayer();
     void start_bone_rotation_sequence(s32);
     void calc_bone_offsets_recursive(NJS_OBJECT *bone, s32 angle, s32 amplitude);
 public:
     virtual void run_task();
-    static void *create(void *parent, void *root, void *desc);
+    static TObjEZBoneRotPlayer *create(TObjPlayer *player, NJS_OBJECT *root, EZBoneRotDesc *desc);
     void advance_bone_rotation();
 
     TObjPlayer *player;   // the player whose motion drives the swing

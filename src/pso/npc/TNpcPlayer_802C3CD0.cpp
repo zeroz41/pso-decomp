@@ -48,7 +48,7 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     character->set_evade_materials_used(get_evade_materials_used());
     character->set_def_materials_used(get_def_materials_used());
     character->set_luck_materials_used(get_luck_materials_used());
-    TLobby::copy_data(&character->m_stats, get_stats());
+    character->m_stats = *get_stats();
     clamp_stats(&character->m_stats, get_class_stat_entry());
     copy_player_visual_record(&character->m_disp_part2, name);
     copy_disp_config(&character->m_config, &action_palettes);

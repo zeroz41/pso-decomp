@@ -11,7 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/collision/TObjInfoCol.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/ActorCollision.h"
@@ -21,23 +21,19 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
-
-// The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
-// a model's texture list (TObjFish_8001ED90), still named after their units.
 
 // The unit's .sdata2 float pool is still referenced
 // from the DOL: CW pools these in the order the functions need them, and no
 // source arrangement found yet gives the original order 120, 400, 40, 0, 640,
 // 0.15, 30 (written source gives 120, 0, 640, 400, 40, 0.15, 30).
 extern const f32 hashi_versus2_model_radius; // TObjHashiVersus2's model radius
-extern const f32 hashi_view_depth; // the view depth
-extern const f32 hashi_model_radius; // the model radius
-extern const f32 lbl_805DBE2C; // 0.0f
-extern const f32 hashi_screen_width; // the screen width
-extern const f32 hashi_rise_speed; // the rise speed
+extern const f32 hashi_view_depth;
+extern const f32 hashi_model_radius;
+extern const f32 hashi_zero;
+extern const f32 hashi_screen_width;
+extern const f32 hashi_rise_speed;
 extern const f32 hashi_start_drop; // how far below its raised height it starts
 
 __declspec(section ".data") const char *fe_obj_hashi_model_names[2] = { "fe_obj_hashi.gj", NULL };
@@ -167,7 +163,7 @@ void TObjHashiBase::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (motion != NULL) {
             draw_model_motion(model, motion, animation_frame);
         } else {
@@ -194,7 +190,7 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
         return 1;
     }
     matrix_mult_vec(NULL, &position, &view);
-    if (view.z > lbl_805DBE2C) {
+    if (view.z > hashi_zero) {
         visibility = 0;
         return 0;
     }
@@ -202,12 +198,12 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
         visibility = 0;
         return 0;
     }
-    if (view.x < lbl_805DBE2C) {
+    if (view.x < hashi_zero) {
         view.x = (camera_right.x * radius) + position.x;
         view.y = (camera_right.y * radius) + position.y;
         view.z = (camera_right.z * radius) + position.z;
         project_world_to_screen(NULL, &view, screen);
-        if (screen[0] < lbl_805DBE2C) {
+        if (screen[0] < hashi_zero) {
             visibility = 0;
             return 0;
         }
@@ -228,8 +224,8 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
 
 TObjHashi::TObjHashi(TObject *parent, void *set_data) : TObjHashiBase(parent, set_data) {
     m_name = class_name;
-    model = (void *)get_bml_model((BmlResource *)bml_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)bml_resource, 0);
+    model = (void *)get_bml_model(bml_resource, 0);
+    texlist = get_bml_texlist(bml_resource, 0);
     init_collision_body_parts(this, hashi_collision_bodies, 1);
     actorFlags |= 0x40000000;
     register_object_by_id();
@@ -262,8 +258,8 @@ TObjHashiVersus1::TObjHashiVersus1(TObject *parent, void *set_data) : TObjHashiB
         position.y = position.y - scale.x;
     }
     riseSpeed = scale.y;
-    model = (void *)get_bml_model((BmlResource *)bml_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)bml_resource, 0);
+    model = (void *)get_bml_model(bml_resource, 0);
+    texlist = get_bml_texlist(bml_resource, 0);
     init_collision_body_parts(this, hashi_versus1_collision_bodies, 2);
     actorFlags |= 0x40000000;
     register_object_by_id();
@@ -297,8 +293,8 @@ TObjHashiVersus2::TObjHashiVersus2(TObject *parent, void *set_data) : TObjHashiB
     }
     riseSpeed = scale.y;
     model_radius = hashi_versus2_model_radius;
-    model = (void *)get_bml_model((BmlResource *)bml_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)bml_resource, 0);
+    model = (void *)get_bml_model(bml_resource, 0);
+    texlist = get_bml_texlist(bml_resource, 0);
     init_collision_body_parts(this, hashi_versus2_collision_bodies, 2);
     actorFlags |= 0x40000000;
     register_object_by_id();
@@ -328,7 +324,7 @@ void *TObjHashiVersus2::create(void *set_data) {
 extern const f32 hashi_versus2_model_radius = 120.0f;
 extern const f32 hashi_view_depth = 400.0f;
 extern const f32 hashi_model_radius = 40.0f;
-extern const f32 lbl_805DBE2C = 0.0f;
+extern const f32 hashi_zero = 0.0f;
 extern const f32 hashi_screen_width = 640.0f;
 extern const f32 hashi_rise_speed = 0.15f;
 extern const f32 hashi_start_drop = 30.0f;

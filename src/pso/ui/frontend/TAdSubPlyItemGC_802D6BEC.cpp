@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include "pso/system/vector.h"
 
-const char *TAdSubPlyItemGC__name = "TAdSubPlyItemGC";
+const char *TAdSubPlyItemGC::name = "TAdSubPlyItemGC";
 
 
 u8 level_text_buffer[0x40];
@@ -19,7 +19,7 @@ u8 level_text_buffer[0x40];
 #pragma opt_common_subs off
 TAdSubPlyItemGC::TAdSubPlyItemGC(TObject *parent) : TObject(parent) {
     u32 i;
-    m_name = TAdSubPlyItemGC__name;
+    m_name = TAdSubPlyItemGC::name;
     for (i = 0; i < 4; i++) {
         alpha[i] = 0;
         visible[i] = 0;

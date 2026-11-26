@@ -166,8 +166,6 @@ extern const u32 canadin_param_ids[3];
 
 LAYOUT_ASSERT(TObjEneMe1Canadin_size, sizeof(TObjEneMe1Canadin) == 0x4CC);
 
-extern "C" {
 void canadin_capture_node_points(NJS_OBJECT *);
-}
 
 #endif

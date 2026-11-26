@@ -7,7 +7,6 @@
 #include "pso/object/door/TObjDoorKey.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/ambient/TObjEnvSoundGlobal.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -22,17 +21,18 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -68,36 +68,26 @@ NJS_TEXLIST *door_key_texture_handle;
 s16 door_key_id_counter;
 s32 beam_uv_scroll_last_tick;
 
-struct Obj_8018FA6C { u8 pad0[0x6]; u16 id; u8 pad8[0x4]; Obj_8018FA6C *next; u8 pad10[0x4]; Obj_8018FA6C *children; };
-
-extern "C" {
-extern Obj_8018FA6C *tl_05;
-Obj_8018FA6C *find_door_key_by_id(u16 id) {
-    Obj_8018FA6C *next = tl_05->children;
-    Obj_8018FA6C *cur;
-    while (tl_05->children != 0 && next != 0) {
+TObjDoorKey *find_door_key_by_id(u16 id) {
+    TObject *next = tl_05->m_down;
+    TObject *cur;
+    while (tl_05->m_down != NULL && next != NULL) {
         cur = next;
-        next = cur->next;
-        if (reinterpret_cast<TObject *>(cur)->check_value_equals(door_key_class_name) != 0 && cur->id == id) {
-            return cur;
+        next = cur->m_next;
+        if (cur->check_value_equals(door_key_class_name) != 0 && cur->m_id == id) {
+            return static_cast<TObjDoorKey *>(cur);
         }
     }
-    return 0;
+    return NULL;
 }
 
-}
-
-
-extern "C" {
-
-void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
-    Obj_8018FA6C *key;
+void activate_door_key(u16 id, u16) {
+    TObjDoorKey *key;
 
     key = find_door_key_by_id(id);
     if (key != NULL) {
-        ((TObjDoorKey *)key)->activated = 1;
+        key->activated = 1;
     }
-}
 }
 
 
@@ -128,7 +118,7 @@ void TObjDoorKey::draw_active_beam() {
         PPCSync();
         beam_uv_scroll_last_tick = actor_frame_tick;
     }
-    TObjFish::set_global_param(door_key_texture_handle);
+    set_texture_list(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -149,7 +139,7 @@ void TObjDoorKey::draw_active_beam() {
 }
 
 void TObjDoorKey::draw_inactive_badge() {
-    TObjFish::set_global_param(door_key_texture_handle);
+    set_texture_list(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -171,9 +161,9 @@ void TObjDoorKey::debug_draw_key_id() {
     TOKey::debug_draw_key_id();
     VecCopy(&center, &position);
     center.y += 8.0f;
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130022, "PLATE NUM : %d", set_params[2]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
@@ -281,6 +271,6 @@ void *TObjEnvSoundGlobal::create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
-    return new TObjEnvSoundGlobal((TObject *)tl_05, (saddr)rader_map_core);
+    return new TObjEnvSoundGlobal((TObject *)tl_05, rader_map_core);
 }
 

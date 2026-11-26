@@ -5,7 +5,7 @@
 #include "pso/item/TItemToolAddSlot.h"
 
 void TItemToolAddSlot::apply_use_effect() {
-    TItem *armor = (TItem *)((TObjPlayer *)owner)->get_equipped_armor();
+    TItem *armor = owner->get_equipped_armor();
     if (armor != NULL) {
         armor->add_slot();
     }

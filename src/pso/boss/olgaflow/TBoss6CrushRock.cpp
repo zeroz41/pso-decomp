@@ -5,14 +5,13 @@
 #include "pso/boss/olgaflow/TBoss6CrushPtcl.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TMainTask.h"
@@ -117,7 +116,7 @@ void TBoss6CrushRock::render() {
         rotate_matrix_y(NULL, angles.y);
         rotate_matrix_x(NULL, angles.x);
         rotate_matrix_z(NULL, angles.z);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
         draw_ginja_object(model);
         pop_matrix();
     }

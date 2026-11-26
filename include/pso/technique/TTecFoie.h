@@ -3,8 +3,11 @@
 
 #include "types.h"
 #include "pso/technique/TTecShot.h"
+#include "pso/technique/TechniqueEmitterTable.h"
 
 struct TTecFoie : public TTecShot {
+    static const char *name;
+    static const TechniqueEmitterSourceTable emitter_bands[6];
     TTecFoie(saddr source, u8 *pos, u8 *target, s32 level);
     TTecFoie(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecFoie();

@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/system/task/TObject.h"
@@ -24,7 +23,6 @@
 #include "pso/ui/window/TWindowTimer.h"
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
-#include "pso/unk/text_8024AB18.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrlPlayer.h"
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
@@ -48,11 +46,11 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_8030C340.h"
+#include "pso/ui/window/TWindowPartyStatus.h"
 #include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/ui/window/TWindowMainMenu_8024E3CC.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026ACDC.h"
 #include "pso/unk/text_80076BC4.h"
@@ -92,11 +90,7 @@ static const s16 open_times[4] = {24, 30, 36, 0};
 
 
 
-extern "C" {
-
-void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl);
-
-}
+void prune_destroyed_balloons(TWindowCtrl *ctrl);
 
 
 
@@ -243,7 +237,7 @@ int TWindowCtrl::is_flag_2_set() { return this->m_flags & 0x4; }
 
 void TWindowCtrl::close() {
     TWindowMainMenu__sub_8024E3D0();
-    TLobby__sub_8026ACDC();
+    init_chat_log_heap();
     instance = NULL;
 }
 
@@ -252,7 +246,7 @@ void TWindowCtrl::shutdown() {
         instance->queue_destruction();
         instance = NULL;
     }
-    fn_8026AC50();
+    free_chat_log_lines();
     TWindowMainMenu__sub_8024E3CC();
 }
 
@@ -395,7 +389,7 @@ void TWindowCtrl::update_open_sequence() {
 
 
 
-void TWindowCtrl::update() { update_party_status_rows(); update_window_visibility(); update_com_card_window(); update_trade_request_window(); TWindowCtrl__sub_8024BB30(this); handle_controller(); update_trade_window(); TWindowCtrl__sub_8024B9C0(this); update_pulse_color(); }
+void TWindowCtrl::update() { update_party_status_rows(); update_window_visibility(); update_com_card_window(); update_trade_request_window(); prune_destroyed_balloons(this); handle_controller(); update_trade_window(); update_timer_window(this); update_pulse_color(); }
 
 
 
@@ -492,7 +486,7 @@ void TWindowCtrl::update_trade_request_window() {
 }
 
 
-void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
+void prune_destroyed_balloons(TWindowCtrl *ctrl) {
     u32 i;
     for (i = 0; i < 4; i++) {
         TWindowFukidasi *child = ctrl->balloons[i];
@@ -517,7 +511,7 @@ void TWindowCtrl::handle_controller() {
 void TWindowCtrl::update_trade_window() {
     if (this->area_window != NULL) {
         if ((TWindowCtrl::is_slot_visible(local_client_id) != 0) || (is_client_main_menu_disabled(local_client_id) != 0) || ((is_split_screen() != 0) && (TRaderMapCore::is_active() == 0))) {
-            ((TWindowLockOn *)(this->area_window))->request_close();
+            this->area_window->request_close();
             return;
         }
         window_request_show(this->area_window);
@@ -526,11 +520,11 @@ void TWindowCtrl::update_trade_window() {
 
 
 
-void TWindowCtrl__sub_8024B9C0(void *ctrl_arg) {
+void update_timer_window(void *ctrl_arg) {
     TWindowCtrl *ctrl = (TWindowCtrl *)ctrl_arg;
-    if ((u32)ctrl->timer_window != 0U) {
+    if (ctrl->timer_window != NULL) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
-            ((TWindowLockOn *)(ctrl->timer_window))->request_close();
+            ctrl->timer_window->request_close();
             return;
         }
         window_request_show(ctrl->timer_window);
@@ -563,7 +557,7 @@ void TWindowCtrl::update_pulse_color() {
 
 
 
-saddr TWindowCtrl__sub_8024B7D4(s32 n) {
+saddr get_party_member_name(s32 n) {
     s32 i;
     TWindowSimpleStatus *status;
     TObjPlayer *player;
@@ -577,7 +571,7 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     for (i = 0; i < 3; i++) {
         status = TWindowCtrl::instance->simple_status[i];
         if (status != NULL && status->is_open_and_unblocked() != 0 && n-- == 0) {
-            player = get_player_by_client_id((status)->get_width());
+            player = get_player_by_client_id(status->get_width());
             if (player == NULL) {
                 return 0;
             }
@@ -685,8 +679,8 @@ void complete_actor_speech_balloons(u16 id) {
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
-            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
-                (w)->show_immediately();
+            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
+                w->show_immediately();
             }
         }
     }
@@ -1276,7 +1270,7 @@ void TWindowCtrl::start_client_countdown(s32 client_id) {
 
 
 
-bool TWindowCtrl__sub_8024A1A8(void) {
+bool is_com_card_window_open(void) {
     if (TWindowCtrl::instance == NULL) {
         return 0;
     }
@@ -1313,7 +1307,7 @@ s32 is_player_input_active(s32 client) {
 
 
 
-void TWindowCtrl__sub_8024A08C(void) {
+void destroy_com_card_window(void) {
     TObject *object;
     short_mail_flags &= 0xFFFFFFFD;
     if (TWindowCtrl::instance != NULL) {

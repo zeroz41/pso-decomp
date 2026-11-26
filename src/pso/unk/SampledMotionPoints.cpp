@@ -1,6 +1,6 @@
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "types.h"
 #include "pso/render/GinjaView.h"
 #include "pso/unk/text_803D96A8.h"

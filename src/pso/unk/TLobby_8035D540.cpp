@@ -12,9 +12,9 @@ void TWindowMessageScroll::set_scroll_speed(f32 speed) {
 TWindowMessageScroll *open_message_scroll_window(const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 *completion) {
     TWindowMessageScroll *window;
 
-    TLobby__sub_80269CA4(0x23);
-    TLobby__sub_80269DA4(extent, 1);
+    set_message_window_flags(0x23);
+    set_message_window_size(extent, 1);
     window = new TWindowMessageScroll(position, completion);
-    TLobby__sub_80269C90();
+    set_message_window_default_flags();
     return window;
 }

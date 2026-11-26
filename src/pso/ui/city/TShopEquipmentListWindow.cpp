@@ -30,7 +30,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/text_80222DE8.h"
 #include "pso/ui/window/TWindowShop.h"
@@ -47,9 +47,7 @@
 const char *shop_equipment_list_window_class_name = "TShopEquipmentListWindow";
 
 extern "C" {
-void get_shop_weapon_stock_item(TItemData *dst, s32 index, s32 table);
 void try_buy_item(void *player, TItemData *item);
-extern int shop_weapon_stock_counts[];
 extern const s32 local_client_id;
 
 int TShopEquipmentListWindow__sub_8021C85C(int a0) {  return shop_weapon_stock_counts[a0]; }
@@ -71,7 +69,7 @@ TShopEquipmentListWindow::TShopEquipmentListWindow(TObject *parent, TShopWindowB
     this->state = 0;
     this->on_close = NULL;
     calc_item_count(this->player, &count);
-    TLobby__sub_80225238((get_split_screen_slot()), (count));
+    generate_shop_weapon_stock_at_level(get_split_screen_slot(), count);
 }
 
 TShopEquipmentListWindow::~TShopEquipmentListWindow() {
@@ -301,7 +299,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 send_6x25_equip_item(reinterpret_cast<TObjPlayer *>(player), it.id, 0);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::mark_shop_weapon_sold_out(i, get_split_screen_slot());
+                    mark_shop_weapon_sold_out(i, get_split_screen_slot());
                 }
                 item_list->save_cursor_selection();
             }
@@ -318,7 +316,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 try_buy_item(player, &it);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::mark_shop_weapon_sold_out(i, get_split_screen_slot());
+                    mark_shop_weapon_sold_out(i, get_split_screen_slot());
                 }
                 item_list->save_cursor_selection();
             }
@@ -336,7 +334,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
             try_buy_item(player, &it);
             update_list(&stock[i]);
             if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                TLobby::mark_shop_weapon_sold_out(i, get_split_screen_slot());
+                mark_shop_weapon_sold_out(i, get_split_screen_slot());
             }
             item_list->save_cursor_selection();
         }
@@ -368,7 +366,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
                 try_buy_item(player, &c);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::mark_shop_weapon_sold_out(i, get_split_screen_slot());
+                    mark_shop_weapon_sold_out(i, get_split_screen_slot());
                 }
                 confirm_menu->close();
                 confirm_menu = NULL;

@@ -29,10 +29,12 @@ void release_texture_slot(s32 slot);
 s32 bind_texlist_texture(struct NJS_TEXLIST *list, s32 index, u32 id, u32 tlut_name, GvrTextureDesc *desc, s32 *slot);
 void notify_texture_state_ready(struct GinjaTextureState *texture);
 s32 select_texture_by_surface_id(u32 id);
-s32 reload_texture_state_pixels(struct GinjaTextureState *texture, s32 src, u32 arg2);
-s32 reload_list_texture_pixels(s32 index, s32 src, u32 arg2);
+s32 reload_texture_state_pixels(struct GinjaTextureState *texture, s32 src, u32 use_header);
+s32 reload_list_texture_pixels(s32 index, s32 src, u32 use_header);
 #ifdef __cplusplus
 }
+// Makes texlist the current texture list, the one set_texture_num selects from; returns 1.
+s32 set_texture_list(NJS_TEXLIST *texlist);
 s32 set_texture_num(s32 i);
 #endif
 

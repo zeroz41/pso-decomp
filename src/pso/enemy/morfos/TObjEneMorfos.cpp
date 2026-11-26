@@ -15,7 +15,7 @@
 #include "pso/enemy/morfos/TObjEneMorfos.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/FloatRounding.h"
@@ -46,7 +46,7 @@
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/network/IPv6.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -59,8 +59,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
-// .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
-// reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
+// Written last function first: the unit is built with deferred code generation.
 #pragma defer_codegen on
 
 
@@ -71,7 +70,7 @@
 
 
 
-// inferred: the boss, object and handler-a ids 803350AC registers; one each
+// The boss, object and handler ids the Morfos registers, one each.
 static const s32 morfos_boss_ids[1] = { 0x40 };
 static const s32 morfos_object_ids[1] = { 0x40 };
 static const s32 morfos_handler_a_ids[1] = { 0x40 };
@@ -262,11 +261,11 @@ void TObjEneMorfos::run_task() {
         this->update_action_state();
         if (morfos_body_scroll_tick != (s32) actor_frame_tick) {
             morfos_body_scroll_tick = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0(morfos_body_scroll_polygons, (s16)((s16) texture_scroll), (s16)(0), (u16)(2U));
+            scroll_chunk_plist_uvs(morfos_body_scroll_polygons, (s16)((s16) texture_scroll), (s16)(0), (u16)(2U));
         }
         if (morfos_wall_scroll_tick != (s32) actor_frame_tick) {
             morfos_wall_scroll_tick = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0(morfos_wall_scroll_polygons, (s16)(0), (s16) ((f32) texture_scroll / 2.0f), (u16)(0U));
+            scroll_chunk_plist_uvs(morfos_wall_scroll_polygons, (s16)(0), (s16) ((f32) texture_scroll / 2.0f), (u16)(0U));
         }
     }
     this->set_hover_target_position();
@@ -1163,7 +1162,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part = &part_fades[idx];
     part->update();
     vis = part->updateFromCamera(&body_center);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
@@ -1240,7 +1239,7 @@ void TObjEneMorfos::render() {
 s32 TObjEneMorfos::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -1260,7 +1259,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
     if ((s32)main_task.get_task_flags() & 0x200) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(morfos_instance->models[2].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(morfos_instance->models[2].texlist));
         push_matrix();
         post_translate_matrix(&node_points[0].x);
         rotate_matrix_y(0, (int) (rotation_y));
@@ -1348,7 +1347,7 @@ void TObjEneMorfos::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

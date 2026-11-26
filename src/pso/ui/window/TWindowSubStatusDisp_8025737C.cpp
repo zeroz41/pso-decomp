@@ -9,9 +9,10 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
@@ -19,16 +20,9 @@
 
 extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
-s32 begin_screen_draw(s32, f32, f32, f32);
-void set_draw_texture_and_color(s32 idx, s32 color);
 }
 void set_constant_material_color(u32 x);
-extern "C" {
-extern const float lbl_805DCE58;
-
 #define CLAMP_8025737C(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
-
-}
 
 // The four bytes of a colour as copy4 stores them into TWindowStatusGauge::color.
 struct ColorBytes { u8 r, g, b, a; };
@@ -173,8 +167,8 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
         pos.y = context->inner_y + this->y;
         sz = this->depth;
         scale = -1.0f / (0.299f * sz + context->depth);
-        begin_screen_draw(1, sz, 0.299f, -1.0f);
-        TObjFish::set_global_param(hud_texlist);
+        begin_screen_draw(1);
+        set_texture_list(hud_texlist);
         set_draw_texture_and_color(0xB, -1);
         if (this->flags & 8) {
             TWindowSubStatusDisp__sub_80256C40(this, context, &pos, scale);
@@ -185,7 +179,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
             set_constant_material_color(this->color);
             draw_status_gauge_bar(context, &pos, scale, lo);
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 #pragma pop

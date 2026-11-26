@@ -6,6 +6,7 @@
 
 class TChCrCharSelect : public TObject {
 public:
+    static const char *name;
     static s32 input_mode;
     static s32 selected_slot_index;
     static s32 selected_char_index;

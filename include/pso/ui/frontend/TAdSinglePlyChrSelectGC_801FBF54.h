@@ -13,36 +13,40 @@ CharacterFileSlot *get_selected_character_slot(CharacterFile *file);
 CharacterSaveRecord *get_selected_save_record(CharacterFile *file);
 struct GuildCardSaveData;
 
-// What the card slot summary lookups report about a card slot.
-struct CardSlotSummary { s32 x; s32 y; s32 state; };
+// What the card slot summary lookups report about a character slot of a card file.
+struct CardSlotSummary {
+    const char *name;
+    s32 level;
+    u32 copied;     // the slot's CharacterFileSlot::copied
+    s32 play_time;  // seconds played (CharacterSaveRecord::play_time)
+};
+
+// The summary of slot i of the slot A card file, NULL when i is out of range or the slot is empty.
+CardSlotSummary *get_card_slot_summary(u32 i);
+// The same for the slot B card file (secondary_card_character_save_buffer).
+CardSlotSummary *get_secondary_slot_summary(u32 i);
+s32 is_secondary_slot_active(u32 i);
+s32 load_character_file_slot_b(s32);
+s32 poll_secondary_card_load(void);
+void rebuild_guild_card_save_file(void);
+void decrypt_secondary_card_buffer(void);
 
 extern "C" {
 u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
 int start_system_file_write(s32 chan);
 s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void);
-s32 load_character_file_slot_b(s32 slot);
-s32 *get_secondary_slot_summary(u32 i);
-s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 i);
-s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-s32 poll_secondary_card_load(void);
-void rebuild_guild_card_save_file(void);
-void decrypt_secondary_card_buffer(void);
 }
-void set_character_file_seed(u8 *file, s32 value);
-s32 get_character_file_seed(u8 *file);
+void set_character_file_seed(CharacterFile *file, s32 value);
+s32 get_character_file_seed(CharacterFile *file);
 s32 start_character_file_write(void);
-GuildCardSaveData *copy_guild_card_payload(GuildCardSaveData *dest, GuildCardSaveData *source);
-s32 copy_guild_card_entries(saddr dest, saddr source);
 void decrypt_guild_card_payload(GuildCardSaveData *data);
 void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1);
 u32 calc_crc32_bitwise(u8 *data, u32 size);
 s32 alloc_global_buffer(void);
 s32 buffer_init(void);
 void game_state_load(void);
-extern "C" {
-}
-int get_split_screen_character_save_record(int a0);
+CharacterSaveRecord *get_split_screen_character_save_record(int client);
 s32 init_buffer(void);
 void init_fresh_character_card(void);
 void init_fresh_character_slot(s32 slot);

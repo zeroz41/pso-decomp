@@ -8,6 +8,7 @@ struct NJS_TEXLIST;
 
 class TAdRayGC : public TObject {
 public:
+    static const char *name;
     static NJS_TEXLIST *ray_texture_list;
     TAdRayGC(TObject *parent);
     virtual ~TAdRayGC();

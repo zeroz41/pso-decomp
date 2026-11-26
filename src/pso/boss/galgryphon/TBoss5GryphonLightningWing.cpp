@@ -2,7 +2,6 @@
 #include <dolphin/mtx.h>
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 

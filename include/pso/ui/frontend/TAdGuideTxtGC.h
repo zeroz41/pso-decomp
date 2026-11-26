@@ -7,6 +7,7 @@
 
 class TAdGuideTxtGC : public TObject {
 public:
+    static const char *class_name;
     TAdGuideTxtGC(TObject *parent);
     void set_line(s32 index, const char *line);
     const char *text[2];

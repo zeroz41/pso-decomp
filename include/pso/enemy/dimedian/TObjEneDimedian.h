@@ -29,7 +29,7 @@ struct TObjEneDimedian : public TObjEneBeastBase {
     MaterialShadeFade body_fade;  // raised while appearing, decayed by beast_retire_corpse
     TAttackTraceStrip *attack_trails[2];  // fed by update_attack_trail from the claw samples
     RenderFadeState camera_fades[4];  // one per camera (render indexes it by camera mode)
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void free_boss_objects();
 };
 
@@ -37,9 +37,13 @@ LAYOUT_ASSERT(TObjEneDimedian_size, sizeof(TObjEneDimedian) == 0x43C);
 
 class TObjBase;
 
-extern "C" {
+struct SampledMotionPoints;
+extern SampledMotionPoints *dimedian_attack_left_trail;  // left attack trail samples
+extern SampledMotionPoints *dimedian_attack_right_trail; // right attack trail samples
+extern saddr dimedian_resource_handles[];
+extern s32 dimedian_last_draw_tick[];
+
 // Copies position into object's TObjBase position.
 void set_object_position(TObjBase *object, const Vec *position);
-}
 
 #endif

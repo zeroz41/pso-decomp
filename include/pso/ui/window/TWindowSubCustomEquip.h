@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
 
 class TWindowSubStatusDisp;
@@ -29,7 +31,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     u8 back_bank;
     s16 cursor_frame;
     u32 angle;
-    TWindowSubStatusDisp *status_disp;
+    WindowHeading *status_disp;
     void layout_selection_parts(void *arg1);
     void layout_entry_group(void *index);
     void reset_selection();

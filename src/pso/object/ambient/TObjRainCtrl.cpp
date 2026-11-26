@@ -12,7 +12,7 @@
 
 extern const char rain_ctrl_class_name_string[] = "TObjRainCtrl";
 #include "pso/ui/hud/TRaderMapCore.h"
-const char *lbl_805D3428 = rain_ctrl_class_name_string;
+const char *rain_ctrl_class_name = rain_ctrl_class_name_string;
 
 
 void TObjRainCtrl::create() {
@@ -35,6 +35,6 @@ void TObjRainCtrl::run_task() {
 TObjRainCtrl::~TObjRainCtrl() {}
 
 TObjRainCtrl::TObjRainCtrl(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D3428;
+    m_name = rain_ctrl_class_name;
     ticks_until_spawn = 2;
 }

@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
 
 struct TWindowMainMenu;
 
@@ -28,15 +29,12 @@ struct TWindowSubShortCut : public TObject {
     TWindowMessageYesNo *confirm_window;
     TWindowChat *chat_window;
     TWindowShortCut *shortcut_window;
-    void* chat_submission;
-    s32 open_confirm_message();
-    s32 open_confirm_prompt();
-    s32 open_menu();
+    ChatShortcut chat_submission; // written by the chat window, saved by store_chat_shortcut
+    TWindowMessageYesNo *open_confirm_message();
+    TWindowMessageYesNo *open_confirm_prompt();
+    TWindowMenu *open_menu();
     virtual void render();
     virtual void run_task();
-    u8 unk_44[0x1C];
-    u8 m_60;
-    u8 unk_61[0x33];
 };
 
 LAYOUT_ASSERT(TWindowSubShortCut_size, sizeof(TWindowSubShortCut) == 0x94);

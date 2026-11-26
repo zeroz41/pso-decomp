@@ -6,6 +6,7 @@
 #include "pso/player/TargetCursorList.h"
 
 struct TTecZarua : public TTecCircle {
+    static const char *name;
     TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level);
     TTecZarua(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecZarua();

@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/cave/TORainbowCave01.h"
 #include "pso/network/client_id.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
@@ -46,7 +46,7 @@ void TORainbowCave01::render() {
     u32 flags;
     if (update_object_view_visibility(view_range, model_radius) != 0 && -1.0f < fade) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         flags = model_render_flags;
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;

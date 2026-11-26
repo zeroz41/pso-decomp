@@ -19,7 +19,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
@@ -186,7 +186,7 @@ void TPhotonPilla::render() {
     if (started != 0) {
         pilla_photon_blast_model->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);

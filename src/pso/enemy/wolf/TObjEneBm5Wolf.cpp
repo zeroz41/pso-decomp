@@ -20,7 +20,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/AngleUnits.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/system/vector.h"
@@ -34,7 +34,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -131,7 +131,7 @@ Vec lbl_80500B60;
 u32 lbl_80500B6C[3];
 u32 bm5_wolf_pack_member_list[5];
 u32 bm5_wolf_instance_list[3];
-void __register_global_object(void *obj, void *dtor, void *chain);
+void __register_global_object(void *obj, void (*dtor)(), void *chain);
 void __dt__18TObjEneBm5WolfListFv();
 }
 
@@ -236,9 +236,7 @@ void TObjEneBm5Wolf::load_resources() {
     }
 }
 
-// dead-stripped: only its literals survive. The int-to-float double is pooled before
-// load_resources' file name, but its only live user actor_rand_int is compiled after load_resources
-// (defer_codegen runs this file bottom-up). Minimal body after actor_rand_int's conversion; name inferred.
+// A random float below range. Dead-stripped from the game: only its literal remains.
 static f32 actor_rand_float(saddr actor, s32 range) {
     return (f32)range * ((TObjChara *)actor)->random_ratio();
 }
@@ -1872,7 +1870,7 @@ void TObjEneBm5Wolf::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -1934,7 +1932,7 @@ void TObjEneBm5Wolf::render_debug() {
     }
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         this->draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

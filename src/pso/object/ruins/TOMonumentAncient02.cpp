@@ -10,7 +10,7 @@
 #include "pso/object/ruins/TOMonumentAncient02.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/model_render_state.h"
@@ -22,12 +22,11 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/object/key/TOKeyAncient01.h"
@@ -56,9 +55,6 @@ CollisionBody monument_ancient02_collision_parts[] = {
 };
 const char *monument_ancient02_class_name = "TOMonumentAncient02";
 BmlResource *monument_ancient02_bml_resource;
-// TBoss4DarkFalz.h declares this with a u16 flag, but this caller passes the
-// full word (no clrlwi); 35 callers share that declaration.
-extern "C" s32 set_story_flag_or_send_quest_flag(u32 flag);
 
 // Restores the saved state: 2 (activated) replays its main-phase step. Once
 // all three tablets' flags (0x2C-0x2E) are set, phase 0x2F runs.
@@ -87,7 +83,7 @@ void TOMonumentAncient02::interact(u16 client) {
     TObjPlayer *player;
     switch (object_state) {
     case 1:
-        player = get_player_by_client_id((u16)client);
+        player = get_player_by_client_id(client);
         if (player != NULL) {
             object_state = 2;
             player->start_camera_pan(0xC, calc_angle_to(&player->position, &position));
@@ -137,7 +133,7 @@ void TOMonumentAncient02::render() {
         }
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);

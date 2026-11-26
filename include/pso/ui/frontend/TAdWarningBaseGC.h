@@ -11,13 +11,13 @@ struct TAdWarningBaseGC : public TObject {
     static u32 aram_capacity;
     TAdWarningBaseGC(TObject *parent);
     virtual ~TAdWarningBaseGC();
-    virtual void vfunc_6() = 0;
-    virtual saddr vfunc_7() = 0;  // the warning text: get_localized_text_entry
-    virtual void vfunc_8();
-    virtual void vfunc_9();
-    saddr create_message_window();   // creates the message window holding vfunc_7's text
-    s32 state;               // 0x1C: the vfunc_8 switch
-    s32 prev_state;          // 0x20: state when vfunc_8 began; a change restarts frames
+    virtual void on_close() = 0;
+    virtual saddr get_message_text() = 0;  // the warning text: get_localized_text_entry
+    virtual void update_state();
+    virtual void render_dialog();
+    saddr create_message_window();   // creates the message window holding get_message_text's text
+    s32 state;               // 0x1C: the update_state switch
+    s32 prev_state;          // 0x20: state when update_state began; a change restarts frames
     s32 next_state;          // 0x24: entered when the closing state's frames run out
     s32 frames;              // 0x28: frames spent in the closing state
     TWindowBase *message_window; // 0x2C: create_message_window's message window

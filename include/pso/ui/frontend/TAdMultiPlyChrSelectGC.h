@@ -22,6 +22,7 @@ struct TWindowMenu;
 struct TWindowMessageYesNo;
 
 struct TAdMultiPlyChrSelectGC : public TObject {
+    static const char *name;
     static TAdMultiPlyChrSelectGC * instance;
     static s32 selected_slot;
     static s32 select_mode;
@@ -158,9 +159,5 @@ LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_player_preview_offset, offsetof(TAdMultiPlyChrSelectGC, player_preview) == 0x60);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_unk_68_offset, offsetof(TAdMultiPlyChrSelectGC, a_slot) == 0x68);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_m_6c_offset, offsetof(TAdMultiPlyChrSelectGC, b_slot) == 0x6C);
-
-// TAdMultiPlyChrSelectGC__character_slot_positions: layout known from its uses only.
-struct TAdMultiPlyChrSelectGCCharacterSlotPositions { s32 value; u8 remaining[0x1C]; };
-extern TAdMultiPlyChrSelectGCCharacterSlotPositions TAdMultiPlyChrSelectGC__character_slot_positions;
 
 #endif

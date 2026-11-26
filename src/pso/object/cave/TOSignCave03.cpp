@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/cave/TOSignCave03.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
@@ -23,7 +23,7 @@ BmlResource *sign_cave03_bml_resource;
 void TOSignCave03::render() {
     NJS_OBJECT *node;
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

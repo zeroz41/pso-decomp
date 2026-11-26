@@ -15,7 +15,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
@@ -110,7 +110,7 @@ void TODragonflyMachine01::render() {
             rotate_matrix_y(NULL, rotation_y);
             break;
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node_index = 0;
         node_yaw = animation_yaw;
         set_chunk_model_node_callback(rotate_animated_node);

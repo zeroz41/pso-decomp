@@ -2,8 +2,6 @@
 #include "pso/effect/item/TItemEffCane.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"

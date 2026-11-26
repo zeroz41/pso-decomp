@@ -3,11 +3,9 @@
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/olgaflow/TBoss6Demo10_TYPE1_APPEAR.h"
@@ -17,7 +15,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -43,9 +41,9 @@ void TBoss6Demo10_TYPE1_APPEAR::draw_parts() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss6_type1_appear_origin.x);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[0].texture));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(parts[0].texture));
     draw_model_motion(parts[0].model, parts[0].motion, frame);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[1].texture));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(parts[1].texture));
     capture->install();
     draw_model_motion(parts[1].model, parts[1].motion, frame);
     capture->clear();

@@ -22,12 +22,12 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
 
 
-// inferred: the per-band emitter lists of TTecMegid__emitter_bands, named after their band (technique level tier)
+// The per-band emitter lists of megid_emitter_bands, named after their band (technique level tier)
 static const TechniqueEmitterSourceRow megid_band0_emitters[2] = {
     {0x1C5, 0, 0.0f}, {0x1C8, 0, 0.0f},
 };
@@ -46,12 +46,12 @@ static const TechniqueEmitterSourceRow megid_band4_emitters[3] = {
 static const TechniqueEmitterSourceRow megid_band5_emitters[5] = {
     {0x1C4, 2, 1.0f}, {0x1C5, 0x40, 3.0f}, {0x1C8, 0x40, 3.0f}, {0x1C7, 0, 1.0f}, {0x1CF, 0x1002, 1.0f},
 };
-const TechniqueEmitterSourceTable TTecMegid__emitter_bands[6] = {
+static const TechniqueEmitterSourceTable megid_emitter_bands[6] = {
     {megid_band0_emitters, 2}, {megid_band1_emitters, 2}, {megid_band2_emitters, 2},
     {megid_band3_emitters, 3}, {megid_band4_emitters, 3}, {megid_band5_emitters, 5},
 };
-// inferred: same <Class>__class_name pattern as TTecBarta__class_name
-const char *TTecMegid__class_name = "TTecMegid";
+// The class name string, as TTecBarta::class_name
+const char *TTecMegid::class_name = "TTecMegid";
 static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 
@@ -99,17 +99,17 @@ void TTecMegid::spawn_particle_emitters() {
   u32 flags;
   const TechniqueEmitterSourceRow *row;
   u32 i;
-  long long icon;
+  long long model_index;
   s32 mode;
-  s32 dir[3];
-  dir[0] = angles[0];
-  dir[1] = 0;
-  dir[2] = angles[2];
-  emitters = static_cast<void **>(mem_alloc(TTecMegid__emitter_bands[band].count * sizeof(*emitters)));
-  for (i = 0; i < TTecMegid__emitter_bands[this->band].count; i++)
+  ParticleAngles dir;
+  dir.x = angles[0];
+  dir.y = 0;
+  dir.z = angles[2];
+  emitters = static_cast<void **>(mem_alloc(megid_emitter_bands[band].count * sizeof(*emitters)));
+  for (i = 0; i < megid_emitter_bands[this->band].count; i++)
   {
     mode = 0;
-    row = &TTecMegid__emitter_bands[this->band].rows[i];
+    row = &megid_emitter_bands[this->band].rows[i];
     flags = row->flags;
     if (flags & 0x1000)
     {
@@ -117,7 +117,7 @@ void TTecMegid::spawn_particle_emitters() {
     }
     if (flags & 2)
     {
-      emitters[i] = spawn_particle_effect_with_rotation(&position, dir, row->entry, mode | 0x1000);
+      emitters[i] = spawn_particle_effect_with_rotation(&position, &dir, row->entry, mode | 0x1000);
     }
     else
     {
@@ -125,15 +125,15 @@ void TTecMegid::spawn_particle_emitters() {
     }
     if (emitters[i] != 0)
     {
-      row = &TTecMegid__emitter_bands[this->band].rows[i];
+      row = &megid_emitter_bands[this->band].rows[i];
       if (row->flags & 0x40)
       {
         ((TParticleCtrl *)(emitters[i]))->set_scale(row->scale, row->scale);
       }
-      if (TTecMegid__emitter_bands[this->band].rows[i].flags & 0x20)
+      if (megid_emitter_bands[this->band].rows[i].flags & 0x20)
       {
-        icon = TTecMegid__emitter_bands[this->band].rows[i].flags >> 16;
-        attach_particle_model(static_cast<TParticleCtrl *>(emitters[i]), get_bml_model(technique_effect_bml, icon), technique_texture_list, 0, 1, 1.0f);
+        model_index = megid_emitter_bands[this->band].rows[i].flags >> 16;
+        attach_particle_model(static_cast<TParticleCtrl *>(emitters[i]), get_bml_model(technique_effect_bml, model_index), technique_texture_list, 0, 1, 1.0f);
       }
     }
   }
@@ -193,7 +193,7 @@ void TTecMegid::create_ex(saddr source, saddr pos, s32 angle, s32 level) {
 void TTecMegid::render() {  }
 
 TTecMegid::~TTecMegid() {
-    for (u32 i = 0; i < TTecMegid__emitter_bands[band].count; ++i) {
+    for (u32 i = 0; i < megid_emitter_bands[band].count; ++i) {
         if (emitters[i]) {
             ((TObject *)emitters[i])->queue_destruction();
         }
@@ -208,8 +208,8 @@ void TTecMegid::run_task() {
         queue_destruction();
         return;
     }
-    for (i = 0; i < TTecMegid__emitter_bands[band].count; i++) {
-        if (TTecMegid__emitter_bands[band].rows[i].flags & 4) {
+    for (i = 0; i < megid_emitter_bands[band].count; i++) {
+        if (megid_emitter_bands[band].rows[i].flags & 4) {
             Vec off = tec_megid_offset_vec;
             Vec p;
             push_matrix_from(identity_matrix);
@@ -232,9 +232,9 @@ void TTecMegid::run_task() {
 // The aimed form: the technique flies from `pos` towards `target`.
 TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(source, pos, target, level) {
     s32 i;
-    m_name = TTecMegid__class_name;
+    m_name = TTecMegid::class_name;
     init_parameters();
-    m_178 = 0.0f;
+    pad_178 = 0.0f;
     for (i = 0; i < 0x20; i++) {
         hitIds[i] = 0xFFFF;
     }
@@ -249,9 +249,9 @@ TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(so
 // The facing form: the technique starts at `pos` and flies along the y angle `angle`.
 TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TTecShot(source, pos, angle, level) {
     s32 i;
-    m_name = TTecMegid__class_name;
+    m_name = TTecMegid::class_name;
     init_parameters();
-    m_178 = 0.0f;
+    pad_178 = 0.0f;
     for (i = 0; i < 0x20; i++) {
         hitIds[i] = 0xFFFF;
     }

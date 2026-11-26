@@ -15,7 +15,6 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
@@ -35,7 +34,7 @@ static const CharacterSlotPosition chr_sel_b_slot_positions[4] = {
 };
 static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
 static const CharacterSlotPosition lbl_80475910 = { 441.0f, 117.0f };
-const char *TAdChrSelBSlotGC__name = "TAdChrSelBSlotGC";
+const char *TAdChrSelBSlotGC::name = "TAdChrSelBSlotGC";
 
 
 PlayerSlotLabel chr_select_b_slot_entry;
@@ -51,19 +50,18 @@ void TAdChrSelBSlotGC::render() {
 }
 
 s32 TAdChrSelBSlotGC::is_character_transferred(u32 i) {
-    CardSlotSummary *e = (CardSlotSummary *)get_secondary_slot_summary(i);
+    CardSlotSummary *e = get_secondary_slot_summary(i);
     if (e == 0) {
         return 0;
     }
-    return e->state == 1 ? 1 : 0;
+    return e->copied == 1 ? 1 : 0;
 }
 
 PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
-    CardSlotSummary *e = (CardSlotSummary *)get_secondary_slot_summary(slot);
+    CardSlotSummary *e = get_secondary_slot_summary(slot);
     chr_select_b_slot_entry.slot = index;
-    chr_select_b_slot_entry.name = reinterpret_cast<const char *>(
-        e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C));
-    chr_select_b_slot_entry.level = e != NULL ? e->y + 1 : 0;
+    chr_select_b_slot_entry.name = e != NULL ? e->name : reinterpret_cast<const char *>(get_localized_text_entry(0x16, 0x1C));
+    chr_select_b_slot_entry.level = e != NULL ? e->level + 1 : 0;
     copy_vec2(&chr_select_b_slot_entry.position, pos);
     return &chr_select_b_slot_entry;
 }
@@ -681,7 +679,7 @@ void TAdChrSelBSlotGC::reset_windows() {
     state = 1;
 }
 
-int TAdChrSelBSlotGC__global_state;
+int TAdChrSelBSlotGC::global_state;
 
 void TAdChrSelBSlotGC::run_task() {
     if (state < 0 || state >= 30) {
@@ -833,7 +831,7 @@ TAdChrSelBSlotGC::~TAdChrSelBSlotGC() {
 }
 
 TAdChrSelBSlotGC::TAdChrSelBSlotGC(TObject *parent) : TObject(parent) {
-    m_name = TAdChrSelBSlotGC__name;
+    m_name = TAdChrSelBSlotGC::name;
     clear_all_fields();
     create_children();
 }
@@ -842,7 +840,7 @@ TAdChrSelBSlotGC *TAdChrSelBSlotGC::create(void *parent) {
     return new TAdChrSelBSlotGC((TObject *)parent);
 }
 
-int TAdChrSelBSlotGC::get_global_state() {  return TAdChrSelBSlotGC__global_state; }
+int TAdChrSelBSlotGC::get_global_state() {  return global_state; }
 
 TAdChrSelASlotGC *TAdChrSelBSlotGC::get_global_slot_data() { return TAdChrSel__global_slot_data; }
 s32 get_battle_ctrl_default() {

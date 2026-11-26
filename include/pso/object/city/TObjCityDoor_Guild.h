@@ -5,6 +5,7 @@
 #include "pso/object/TObjCityDoorBase.h"
 
 struct TObjCityDoor_Guild : public TObjCityDoorBase {
+    static const char *class_name;
     TObjCityDoor_Guild(TObject *parent, void *set);
     virtual ~TObjCityDoor_Guild();
     virtual void render();

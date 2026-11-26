@@ -6,12 +6,12 @@
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 
-const char *TMapCsnCtrl__class_name = "TMapCsnCtrl";
+const char *TMapCsnCtrl::class_name = "TMapCsnCtrl";
 
 // Corner indices of the 8 side triangles of the collision box (two per side face).
 s8 map_csn_box_triangle_indices[24] = {

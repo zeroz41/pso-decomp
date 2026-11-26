@@ -7,7 +7,7 @@
 #include "pso/object/base/TObjBase.h"
 
 #include "pso/animation/MotionContext.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 struct NJS_OBJECT;
 
@@ -71,7 +71,7 @@ struct NJS_OBJECT;
 
 #include "pso/ui/window/TWindowCtrl.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/player/TObjPlayer.h"
 
@@ -122,8 +122,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/system/MatrixOps.h"
 #include "pso/system/SoundEffect.h"
 
-#include "pso/system/task/TObject_80019A50.h"
-
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
@@ -134,7 +132,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/system/BmlResource.h"
 
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/barbaray/TBoss7JointBreakUp.h"
@@ -147,6 +144,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/boss/barbaray/TBoss7BodyBreakUp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the
@@ -358,7 +356,7 @@ extern const char boss7_de_rol_le_c_motion_name_hige_wait_hige_wait_tentacle_njm
 
 extern const char bm_boss7_de_rol_le_c_bml_filename[] = "bm_boss7_de_rol_le_c.bml";
 
-extern const char TBoss7DeRolLeC::class_name_string[] = "TBoss7DeRolLeC";
+const char TBoss7DeRolLeC::class_name_string[] = "TBoss7DeRolLeC";
 
 const char *TBoss7DeRolLeC::class_name = TBoss7DeRolLeC::class_name_string;
 
@@ -3695,7 +3693,7 @@ void TBoss7DeRolLeC::render() {
     }
 }
 
-void TObjPlayer::draw_effect() { TObjFish::set_global_param(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
+void TObjPlayer::draw_effect() { set_texture_list(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
 
 NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 

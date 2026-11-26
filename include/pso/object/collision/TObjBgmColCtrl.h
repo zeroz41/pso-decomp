@@ -3,11 +3,20 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx.h>
+
+// A row of the Pioneer 2 music zone tables: a TObjBgmCol at pos with trigger radius radius playing
+// area_music_filename_table[category] (4 is the lobby theme).
+struct BgmZoneRow {
+    Vec pos;
+    f32 radius;
+    s32 category;
+};
 
 struct TObjBgmColCtrl : public TObject {
-    TObjBgmColCtrl(saddr parent);
+    TObjBgmColCtrl(TObject *parent);
     virtual ~TObjBgmColCtrl();
-    u32 m_1c;
+    u32 start_delay; // frames run_task waits before it picks the music (3)
     static void play_lobby_theme_music();
     virtual void render();
     virtual void run_task();

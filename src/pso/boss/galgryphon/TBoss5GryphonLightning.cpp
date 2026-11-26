@@ -2,7 +2,6 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -57,9 +56,7 @@ TBoss5GryphonLightning::~TBoss5GryphonLightning() {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 
-extern "C" {
 const char *TBoss5GryphonLightning::class_name = "TBoss5GryphonLightning";
-}
 
 TBoss5GryphonLightning::TBoss5GryphonLightning(TObject *parent, Vec *pos, f32 scale) : TObject(parent) {
     s32 i;

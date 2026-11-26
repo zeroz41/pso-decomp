@@ -18,11 +18,19 @@ struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
 // A weapon's item parameter record (lookup_item_pmt_record).
 struct WeaponParams {
-    u8 pad_0[0x16];
+    u8 pad_0[0x8];
+    u16 class_flags;               // the classes that can equip it (check_class_equip_permission)
+    u16 atp_min;
+    u16 atp_max;
+    u16 atp_required;              // the ATP, MST and ATA a player needs to equip it
+    u16 mst_required;
+    u16 ata_required;
+    u16 mst;                       // MST the equipped weapon adds
     u8 max_grind;
     u8 photon_color;               // signed; -1: no photon colour
     u8 special;                    // the weapon's fixed special, 0 for none
-    u8 pad_19[0x1B - 0x19];
+    u8 ata;                        // ATA the equipped weapon adds
+    u8 pad_1a;
     u8 gun_point_joint;            // where shots start
     u8 trail_joints[4];            // start and end joints of trails 0 and 1
     u8 color_node;                 // model node drawn in the photon colour
@@ -91,10 +99,10 @@ struct TItemWeapon : public TItemEquipBase {
     // Copies what an item of this class keeps when it is replaced by a new
     // item code (replace_item_with_new_code) into the new item's data.
     static void carry_over_stats(TItemData *data, TItem *item);
-    void fire_shot_at_target(void *origin, void *model, s32 angle);
+    void fire_shot_at_target(Vec *origin, void *model, s32 angle);
     // csnVector from the owner's centre at point's height to point: the
     // wall in between, or NULL.
-    CsnHit *trace_from_owner(u8 *point);
+    CsnHit *trace_from_owner(Vec *point);
     void remap_extra_attack_type();
     void draw_weapon_model();
     void create_weapon_trail_effects();
@@ -112,7 +120,7 @@ struct TItemWeapon : public TItemEquipBase {
     // Timer callback of on_equip: sets flag 8 unless the item is on the ground.
     void set_flag_8_unless_on_ground();
     // Calls impact_callback (if set) with the task layer, this, and both arguments.
-    void call_impact_callback(saddr target, saddr extra);
+    void call_impact_callback(saddr start, saddr end);
     void set_model_node_callback(void (*callback)(NJS_OBJECT *));
     void advance_weapon_photon_phase();
     // The photon colour (blended by photon_phase), white when the weapon has none.
@@ -196,4 +204,5 @@ void increment_model_node_counter(void);
 TItem *create_common_weapon(u8 *item);
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
 void reset_model_node_counter(void);
+
 #endif

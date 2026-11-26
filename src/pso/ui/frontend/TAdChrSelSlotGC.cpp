@@ -13,7 +13,7 @@ NJS_TEXNAME chr_sel_slot_texnames_eng[1] = { { "f256_slot_eng", 0, 0 } };
 __declspec(section ".data") NJS_TEXLIST chr_sel_slot_texlist_eng = { chr_sel_slot_texnames_eng, 1 };
 NJS_TEXNAME chr_sel_slot_texnames[1] = { { "f256_slot", 0, 0 } };
 __declspec(section ".data") NJS_TEXLIST chr_sel_slot_texlist = { chr_sel_slot_texnames, 1 };
-const char *TAdChrSelSlotGC__name = "TAdChrSelSlotGC";
+const char *TAdChrSelSlotGC::name = "TAdChrSelSlotGC";
 /* per current_language: texture archive and texture list */
 const char *const chr_sel_slot_resource_name_table[5] = { "f256_slot", "f256_slot_eng", "f256_slot_eng", "f256_slot_eng", "f256_slot_eng" };
 NJS_TEXLIST *const chr_sel_slot_texlist_table[6] = { &chr_sel_slot_texlist, &chr_sel_slot_texlist_eng, &chr_sel_slot_texlist_eng, &chr_sel_slot_texlist_eng, &chr_sel_slot_texlist_eng, NULL };
@@ -27,7 +27,7 @@ NJS_TEXLIST *const chr_sel_slot_texlist_table[6] = { &chr_sel_slot_texlist, &chr
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 #include "pso/render/GinjaTexture.h"
 
@@ -41,10 +41,10 @@ void TAdChrSelSlotGC::draw_slot_icons() {
     for (i = 0; i < 5; i++) {
         if (visible[i] != 0) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(chr_sel_slot_texlist_current);
+            set_texture_list(chr_sel_slot_texlist_current);
             set_draw_texture_and_color(0, colors[i]);
             draw_textured_quad_at_depth((f32 *)&quads[i], 0.1f);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
         }
     }
 }
@@ -140,7 +140,7 @@ TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((object)) {
     u32 j;
     u32 k;
     f32 t;
-    m_name = TAdChrSelSlotGC__name;
+    m_name = TAdChrSelSlotGC::name;
     frame = -1;
     enabled = 1;
     for (i = 0; i < 5; i++) {
@@ -166,7 +166,7 @@ TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((object)) {
 
 #pragma pop
 
-void TLobby__sub_802C78EC(void) {
+void free_chr_sel_slot_texture() {
     if (chr_sel_slot_texlist_current != NULL) {
         release_texture_list(chr_sel_slot_texlist_current);
         chr_sel_slot_texlist_current = NULL;
@@ -174,7 +174,7 @@ void TLobby__sub_802C78EC(void) {
 }
 struct ByteBlock_14 { saddr v[5]; };
 
-void TLobby__sub_802C7920(void) {
+void load_chr_sel_slot_texture() {
     TLobby::update_menu_cursor();
     ByteBlock_14 a = *(const ByteBlock_14 *)chr_sel_slot_resource_name_table;
     ByteBlock_14 b = *(const ByteBlock_14 *)chr_sel_slot_texlist_table;

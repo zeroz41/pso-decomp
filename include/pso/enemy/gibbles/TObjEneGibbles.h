@@ -78,8 +78,8 @@ struct TObjEneGibbles : public TObjEnemy {
     s32 wait_frames;  // ai parameters' wait_frames
     u8 pad_3ac[0x4];
     TObjPlayer *guarded_player;  // the attacker test_flag_256 turned to guard against
-    // (name inferred) one-body collidables built from gibbles_collision_bodies[1]
-    // and [2]; sub_802D9644/sub_802D9824 move [0] to a joint and hit with it
+    // One-body collidables built from gibbles_collision_bodies[1] and [2]; the
+    // attack states move [0] to a joint and hit with it.
     TObjCollidable *attack_colliders[2];
     s32 head_angle;  // x turn of node 0x18, eased toward clamp_angle's target
     TObjEnemyColorFade fade;

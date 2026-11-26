@@ -9,7 +9,7 @@
 #include "pso/boss/olgaflow/TBoss6Tube.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
@@ -91,7 +91,7 @@ void TBoss6Tube::render() {
         break;
     }
     start = lo - TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(scroll_phase));
-    TObjFish::set_global_param(boss6_tube_texture_list);
+    set_texture_list(boss6_tube_texture_list);
     set_draw_list_mask(3);
     for (i = 0; i < 3; i++) {
         for (y = start; y < hi; y += (8e+02f)) {

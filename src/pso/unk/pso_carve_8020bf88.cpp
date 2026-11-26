@@ -3,7 +3,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_8020B03C.h"
 
-int TLobby__sub_8020BF88(void) {
+int get_floor_set_flags_size(void) {
     s32 count = 0;
     count += get_total_object_set_count();
     count += TLobby::sum_floor_enemy_counts();

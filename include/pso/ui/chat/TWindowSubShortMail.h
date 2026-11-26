@@ -9,7 +9,7 @@ struct TWindowMainMenu;
 class TWindowMenuIconLine;
 struct TWindowMessage;
 struct TWindowMenu;
-class TWindowBase;
+struct TWindowComCard;
 struct TWindowMessageYesNo;
 
 class TKeyBoardControl;
@@ -53,7 +53,7 @@ struct TWindowSubShortMail : public TObject {
     TWindowMenu *auto_reply_menu;
     TWindowMessageYesNo *confirm_window;
     TWindowMenu *card_list;
-    TWindowBase *card_window;
+    TWindowComCard *card_window;
     TKeyBoardControl *keyboard;
 };
 

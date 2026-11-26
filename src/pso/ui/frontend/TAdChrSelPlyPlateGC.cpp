@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
@@ -67,7 +67,7 @@ const Jump_802C5C84 multi_chr_select_cursor_jump_table[6][5] = {
 };
 const f32 multi_ply_chr_select_tag_size[2] = { 180.0f, 38.0f };
 
-const char *TAdChrSelPlyPlateGC__name = "TAdChrSelPlyPlateGC";
+const char *TAdChrSelPlyPlateGC::name = "TAdChrSelPlyPlateGC";
 
 #define WIN_802C6008 (&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::selected_slot])
 #define WIN_802C61E4 (&controller_physical_port_bank.controllers[multi_ply_chr_select_active_player])
@@ -87,7 +87,7 @@ TAdChrSelPlyPlateGC *TAdChrSelPlyPlateGC::create_singleton(TObject *parent, vec2
 TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(parent) {
     u32 i;
     u32 j;
-    m_name = TAdChrSelPlyPlateGC__name;
+    m_name = TAdChrSelPlyPlateGC::name;
     lbl_805D67D0 = TAdMultiPlyChrSelectGC__sub_802C6FA8();
     lbl_805D67D4 = TAdMultiPlyChrSelectGC::get_global_6700();
     TAdMultiPlyChrSelectGC::select_mode = 0;
@@ -624,7 +624,7 @@ void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {
     }
 }
 
-void TAdChrSelPlyPlateGC::add_slot_position(const void *src, s32 col) {
+void TAdChrSelPlyPlateGC::add_slot_position(const NJS_POINT2 *src, s32 col) {
     if ((u32)slot_count[col] < 4) {
         copy_vec2(&home[slot_count[col]][col], (void *)src);
         quad[slot_count[col]][col].x = home[slot_count[col]][col].x;
@@ -647,7 +647,7 @@ void TAdChrSelPlyPlateGC::clear_slot_entries(s32 column) {
     slot_count[column] = 0;
 }
 
-void TAdChrSelPlyPlateGC::init_slot_position(saddr position, s32 row, s32 column) {
+void TAdChrSelPlyPlateGC::init_slot_position(const NJS_POINT2 *position, s32 row, s32 column) {
     copy_vec2(&home[row][column], (void *)position);
     quad[row][column].x = home[row][column].x;
     quad[row][column].y = home[row][column].y;
@@ -781,12 +781,12 @@ void TAdChrSelPlyPlateGC::draw_selection_cursors() {
                 set_color_blending_mode(0, 8);
                 set_color_blending_mode(1, 0xA);
                 begin_screen_draw(1);
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D4));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D4));
                 set_draw_texture_and_color(0, cursor_color[i][j]);
                 draw_textured_quad_at_depth(cursor[0], 0.53f);
                 draw_textured_quad_at_depth(cursor[1], 0.53f);
                 draw_textured_quad_at_depth(cursor[2], 0.53f);
-                TWindowSubStatusDisp::get_player();
+                end_screen_draw();
                 set_color_blending_mode(0, 8);
                 set_color_blending_mode(1, 6);
             }
@@ -802,10 +802,10 @@ void TAdChrSelPlyPlateGC::draw_slot_tags() {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             s32 alpha = (s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f);
             begin_screen_draw(1);
-            TObjFish::set_global_param(lbl_805D67D0);
+            set_texture_list(lbl_805D67D0);
             set_draw_texture_and_color(0, (alpha << 24) | 0xFFFFFF);
             draw_textured_quad_at_depth(&quad[i + 4][0].x, 0.54f);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
             multi_ply_chr_select_tag_alpha[i] += 0.16666667f;
             multi_ply_chr_select_tag_alpha[i] = multi_ply_chr_select_tag_alpha[i] >= 1.0f ? 1.0f : multi_ply_chr_select_tag_alpha[i];
         }
@@ -821,7 +821,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags_shifted() {
     for (i = 0; i < 4; i++) {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(lbl_805D67D0);
+            set_texture_list(lbl_805D67D0);
             set_draw_texture_and_color(0, ((s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f) << 24) | 0xFFFFFF);
             q.u0 = quad[i + 4][0].u0;
             q.u1 = quad[i + 4][0].u1;
@@ -836,7 +836,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags_shifted() {
             }
             multi_ply_chr_select_tag_alpha[i] += 0.16666667f;
             multi_ply_chr_select_tag_alpha[i] = multi_ply_chr_select_tag_alpha[i] >= 1.0f ? 1.0f : multi_ply_chr_select_tag_alpha[i];
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
         }
     }
 }

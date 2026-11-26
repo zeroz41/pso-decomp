@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/boss/olgaflow/TBoss6MagMine.h"
 #include "pso/system/vector.h"
@@ -25,7 +24,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_803D8F74.h"
@@ -70,7 +69,7 @@ void TBoss6MagMine::update_linked_state() {
     textures = (saddr)get_bml_texlist(archive, 2);
     model = (saddr)get_bml_model(archive, 2);
     motion = get_bml_motion(archive, 0);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     apply_boss6_hit_flash_color(hit_flash, 0.0f);
     draw_model_motion((void *)model, motion, motion_frame);
     TBoss6PlotFalz::update_camera_target();

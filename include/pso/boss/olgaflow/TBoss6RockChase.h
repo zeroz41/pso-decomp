@@ -29,6 +29,7 @@ struct TBoss6RockChase : public TObjCollidable {
     virtual void run_task();
     static TBoss6RockChase *spawn(TObject *parent, const Vec *position);
     static const char *name;
+    static char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss6RockChase_size, sizeof(TBoss6RockChase) == 0xC8);

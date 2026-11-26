@@ -7,7 +7,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 
@@ -51,7 +51,7 @@ struct AnimationMotion;
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 
 #include "pso/render/GinjaMaterial.h"
@@ -61,7 +61,7 @@ struct AnimationMotion;
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_801F4560.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 
 struct Ids_8029B428 {
@@ -89,7 +89,7 @@ const s32 TOKeyJungleMain::story_flags[3] = {0x46, 0x47, 0x48};
 
 const char *TODoorJungleMain::class_name = "TODoorJungleMain";
 
-s32 is_any_player_near(saddr object);
+s32 is_any_player_near(TObjBase *door);
 
 
 #pragma inline_depth(1)
@@ -192,14 +192,14 @@ void TODoorJungleMain::update_door_switch_state() {
         prev = switch_count;
         switch_count = 0;
         for (i = 0; i < 3; i++) {
-            if (TLevelSelect::get_difficulty_flag_bit(lvl, TOKeyJungleMain::story_flags[i]) != 0) {
+            if (get_story_flag_in_bank(lvl, TOKeyJungleMain::story_flags[i]) != 0) {
                 switch_count++;
             }
         }
         if (switch_count > 0 && switch_count != prev) {
             play_sound_effect(0x4C123, &position, 0, 0);
         }
-        if (switch_count == 3 && is_any_player_near((saddr)this) != 0) {
+        if (switch_count == 3 && is_any_player_near(this) != 0) {
             door_flags |= 1;
         } else {
             door_flags &= ~1;
@@ -215,7 +215,7 @@ void TODoorJungleMain::render() {
     Ids_8029B428 ids = {{2, 1, 0}};
     s32 i;
     if (update_object_view_visibility(view_range, model_radius) == 1) {
-        TObjFish::set_global_param(door_jungle_main_gvm_texture);
+        set_texture_list(door_jungle_main_gvm_texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -254,7 +254,7 @@ void *TODoorJungleMain::create(void *set_data) {
     return new TODoorJungleMain(tl_05, set_data);
 }
 
-void TOKeyJungleMain::init_key_slots(void* _w0) {
+void init_jungle_key_slots() {
     s32 i;
     s32 j;
     for (i = 0; i < 4; i++) {
@@ -264,34 +264,27 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
     }
 }
 
-void TLobby__sub_8029B2A4(void* p) { TOKeyJungleMain::init_key_slots(p); }
+void unload_jungle_key_slots() { init_jungle_key_slots(); }
 
 
-s32 is_any_player_near(saddr object) {
-  f32 max_dist_sq;
-  s32 player_floor;
-  s32 client;
-  s32 current_floor;
-  u8 *player;
-  max_dist_sq = 2500.0f;
-  client = 0;
-  loop_1:
-  player = (u8 *) get_player_by_client_id(client);
-  if (player != 0)
-  {
-    player_floor = ((TObjPlayer *)player)->get_floor();
-    current_floor = get_current_floor();
-    if ((current_floor == player_floor) && (((f32 (*)(void *, void *))xz_distance_squared)((void *)(player + 0x38), (void *)(object + 0x38)) < max_dist_sq))
-    {
-      return 1;
+s32 is_any_player_near(TObjBase *door) {
+    f32 max_dist_sq;
+    s32 player_floor;
+    s32 client;
+    s32 current_floor;
+    TObjPlayer *player;
+    max_dist_sq = 2500.0f;
+    for (client = 0; client < 4; client++) {
+        player = get_player_by_client_id(client);
+        if (player != NULL) {
+            player_floor = player->get_floor();
+            current_floor = get_current_floor();
+            if (current_floor == player_floor && xz_distance_squared(&player->position, &door->position) < max_dist_sq) {
+                return 1;
+            }
+        }
     }
-  }
-  client += 1;
-  if (client >= 4)
-  {
     return 0;
-  }
-  goto loop_1;
 }
 
 
@@ -309,10 +302,10 @@ void TODoorJungleMain::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-s32 TODoorJungleMain::update_object_view_visibility(f32 farg0, f32 farg1) {
-    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (farg1 * farg1)) {
+s32 TODoorJungleMain::update_object_view_visibility(f32 far_dist, f32 near_dist) {
+    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (near_dist * near_dist)) {
         return 1;
     }
-    return TObjBase::update_object_view_visibility(farg0, farg1);
+    return TObjBase::update_object_view_visibility(far_dist, near_dist);
 }
 

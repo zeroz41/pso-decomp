@@ -19,16 +19,11 @@
 #include "pso/unk/text_803D619C.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-const char *lbl_805D42E0 = "TWindowDD_WS_Word";
+const char *TWindowDD_WS_Word::class_name = "TWindowDD_WS_Word";
 
 
-extern const s32 TWindowDD__data_805DFC14;
-extern const s32 lbl_805DFC18;
 
 
-extern const f32 TWindowDD__data_805DFB18;
-extern const f32 lbl_805DFB40;
-extern const f32 lbl_805DFB44;
 
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -45,17 +40,13 @@ struct TWindowDD_WS_WordLayout {
 
 TWindowDD_WS_WordLayout word_select_page_layout = {
     1, 1,
-    {3, {0.0f, 0.0f}, 0.2f, TWindowDD__data_805DFC14, 0x40, NULL},
+    {3, {0.0f, 0.0f}, 0.2f, window_dd_color_white, 0x40, NULL},
 };
 __declspec(section ".data") f32 word_page_position[2] = {word_page_x, word_page_y};
 WindowDescriptor word_select_page_descriptor = {
     {word_page_width, word_page_height}, word_page_depth, &word_select_page_layout, 3,
 };
 
-struct Elem_80341FFC {
-    s16 *data;
-    s32 count;
-};
 
 
 
@@ -66,7 +57,7 @@ TWindowDD_WS_Word *TWindowDD_WS_Word::create(s32 element_list, s32 rows) {
 
 TWindowDD_WS_Word::TWindowDD_WS_Word(s32 list_id, s32 visible_count)
     : TWindowBase((u8 *)&word_select_page_descriptor, 4, (u8 *)word_page_position) {
-    m_name = lbl_805D42E0;
+    m_name = class_name;
     visible_row_count = visible_count;
     strip_point_index = 0;
     scroll_offset = 0.0f;
@@ -141,16 +132,16 @@ void TWindowDD_WS_Word::set_pos_and_data(f32 x) {
 }
 
 void TWindowDD_WS_Word::load_element_list() {
-    Elem_80341FFC *e;
+    TWindowDDValueList *e;
     s32 i;
     s32 n;
     WindowTextEntry *ent;
-    e = (Elem_80341FFC *)TWindowDD::get_element_ptr(element_list_id);
+    e = TWindowDD::get_element_ptr(element_list_id);
     if (e != NULL) {
         token_count = e->count;
         token_ids = (s16 *)mem_alloc(token_count * 2);
         for (i = 0; i < token_count; i++) {
-            token_ids[i] = e->data[i];
+            token_ids[i] = e->values[i];
         }
     } else {
         token_count = 0;
@@ -253,7 +244,7 @@ void TWindowDD_WS_Word::run_task() {
                 scroll_offset = (f32) (window_dd_row_height * (f32) -(selected_token_index - selected_row));
             }
         } else if ((TWindowDD::apply_both_choices(&state_flags, 0x10000) != 0) && ((s32) selected_token_index < (s32) (token_count - 1))) {
-            if (sub_80341AC0() != 0) {
+            if (needs_scroll() != 0) {
                 rows = visible_row_count;
                 last_row = rows - 1;
                 last_visible = selected_token_index + (rows - (selected_row + 1));
@@ -274,7 +265,7 @@ void TWindowDD_WS_Word::run_task() {
                 add_scroll_offset((int)((token_count - 1) - selected_token_index));
             }
         } else if ((TWindowDD::apply_both_choices(&state_flags, 0x20000) != 0) && ((s32) selected_token_index > 0)) {
-            if (sub_80341AC0() != 0) {
+            if (needs_scroll() != 0) {
                 steps_up = visible_row_count - 1;
                 first_visible = selected_token_index - selected_row;
                 if ((first_visible - steps_up) < 0) {
@@ -314,7 +305,7 @@ void TWindowDD_WS_Word::disable_input() {
     needs_text_refresh = 1;
 }
 
-s32 TWindowDD_WS_Word::sub_80341AC0() {
+s32 TWindowDD_WS_Word::needs_scroll() {
     return this->token_count > this->visible_row_count;
 }
 
@@ -324,7 +315,7 @@ s32 TWindowDD_WS_Word::can_scroll(s32 direction) {
     s32 rows;
     s32 half;
 
-    if (sub_80341AC0() == 0) {
+    if (needs_scroll() == 0) {
         return 0;
     }
     rows = this->visible_row_count;
@@ -378,15 +369,15 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     bottom = top + window_dd_row_height;
     y1 = bottom * s + c;
     if (self->strip_point_index == 0) {
-        v0 = lbl_805DFB40;
+        v0 = word_row_strip_v;
         v1 = v0 + window_dd_row_height;
     } else {
-        v0 = lbl_805DFB44;
+        v0 = word_row_strip2_v;
         v1 = v0 + window_dd_row_height;
     }
-    v0 *= TWindowDD__data_805DFB18;
-    v1 *= TWindowDD__data_805DFB18;
-    frac = window_dd_row_height * fn_803D6308(-self->scroll_offset / window_dd_row_height);
+    v0 *= window_dd_texel_scale;
+    v1 *= window_dd_texel_scale;
+    frac = window_dd_row_height * fractional_part(-self->scroll_offset / window_dd_row_height);
     if (0.0f != frac) {
         count = self->visible_row_count - 1;
         if (frac < 0.0f) {
@@ -399,7 +390,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         v = verts;
         for (s32 i = 0; i < 4; i++) {
             v[0].y = y0;
-            v[0].v = v1 - part * TWindowDD__data_805DFB18;
+            v[0].v = v1 - part * window_dd_texel_scale;
             v[1].y = yb;
             v[1].v = v1;
             v += 2;
@@ -434,7 +425,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
             v[0].y = y1;
             v[0].v = v0;
             v[1].y = yb;
-            v[1].v = v0 - frac * TWindowDD__data_805DFB18;
+            v[1].v = v0 - frac * window_dd_texel_scale;
             v += 2;
         }
         draw_window_vertices(verts, 8, tex, 1);
@@ -478,13 +469,13 @@ void TWindowDD_WS_Word::render() {
             item->y = (f32)(i * 20);
             measure_message_text_width_default(item);
             ((TWindowHelpItem *)item)->reset_float_field();
-            item->color = TWindowDD__data_805DFC14;
+            item->color = window_dd_color_white;
         }
         if (sub_80342254() != 0) {
             for (j = 0; j < visible_entry_count; j++) {
                 item = (WindowTextEntry *)get_array_entry(j);
                 if (j == selected_row) {
-                    item->color = lbl_805DFC18;
+                    item->color = window_dd_color_black;
                 }
             }
         }

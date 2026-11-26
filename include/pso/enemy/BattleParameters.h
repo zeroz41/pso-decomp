@@ -6,7 +6,7 @@
 
 // Movement parameters contain six float words followed by six integer words.
 union BattleMovementParams {
-    struct {
+    struct Values {
         f32 floats[6];
         s32 integers[6];
     } values;

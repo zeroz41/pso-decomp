@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponAgito.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_80120D50.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/effect/item/TItemEffLavis.h"
 #include "pso/system/task/TMainTask.h"

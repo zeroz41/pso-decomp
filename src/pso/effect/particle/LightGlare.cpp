@@ -13,7 +13,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
@@ -23,7 +23,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/PlayerSlots.h"
@@ -125,7 +125,7 @@ void TLightGlare::render() {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[31].texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[31].texlist));
     set_draw_texture_and_color(particle_definitions[31].texture, -1);
     if (facing < 0.0f) {
         color.argb.a = 0;
@@ -163,7 +163,7 @@ void TLightGlare::render() {
     quad.v1 = 1.0f;
     set_constant_material_color(color.color);
     draw_textured_quad_at_depth(&quad.x0, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     TParticleCtrl::end_effect_render();
 }
 

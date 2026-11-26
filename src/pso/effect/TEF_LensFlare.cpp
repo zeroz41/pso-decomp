@@ -7,14 +7,14 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/NinjaTypes.h"
@@ -105,7 +105,7 @@ void TEF_LensFlare::render() {
                 sprite->scale_x = 20.0f * s;
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[15].texlist));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[15].texlist));
                 set_draw_texture_and_color(particle_definitions[15].texture, -1);
                 f32 x = at.x;
                 f32 y = at.y;
@@ -129,7 +129,7 @@ void TEF_LensFlare::render() {
                 quad[7] = 1.0f;
                 set_constant_material_color(sprite->color);
                 draw_textured_quad_at_depth(quad, 0.5f);
-                TWindowSubStatusDisp::get_player();
+                end_screen_draw();
             }
 
             if (d > 0.6f) {
@@ -155,7 +155,7 @@ void TEF_LensFlare::render() {
             sprite->scale_x = 1.0f;
             sprite->scale_y = sprite->scale_x;
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[9].texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[9].texlist));
             set_draw_texture_and_color(particle_definitions[9].texture, -1);
             f32 x = at.x;
             f32 y = at.y;
@@ -179,7 +179,7 @@ void TEF_LensFlare::render() {
             quad[7] = 1.0f;
             set_constant_material_color(sprite->color);
             draw_textured_quad_at_depth(quad, 0.5f);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
             s32 i;
             LensFlareElement *e = elements;
             fade = 1.0f - t;
@@ -203,7 +203,7 @@ void TEF_LensFlare::render() {
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
                 NJS_TEXLIST *texlist = particle_definitions[9 + e->sprite].texlist;
-                TObjFish::set_global_param(texlist);
+                set_texture_list(texlist);
                 set_draw_texture_and_color(particle_definitions[9 + e->sprite].texture, -1);
                 f32 sy;
                 f32 sx = 2.0f * sprite->scale_x;
@@ -224,7 +224,7 @@ void TEF_LensFlare::render() {
                 quad[7] = 1.0f;
                 set_constant_material_color(sprite->color);
                 draw_textured_quad_at_depth(quad, 0.5f);
-                TWindowSubStatusDisp::get_player();
+                end_screen_draw();
                 ++e;
             }
             restore_saved_depth_alpha_state();

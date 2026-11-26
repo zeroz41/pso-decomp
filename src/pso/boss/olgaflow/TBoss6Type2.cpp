@@ -2,7 +2,6 @@
 #include "pso/system/memory.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
@@ -29,7 +28,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/boss/olgaflow/Boss6Type2Data.h"
 #include "pso/player/TObjPlayer.h"
@@ -48,7 +47,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/ui/TLevelSelect.h"
@@ -65,7 +64,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjBase.h"
 
 CollisionBody boss6_type2_collision_parts[3] = {
@@ -136,12 +135,11 @@ struct Blk_802BCFD4;
 // literal pool at their first user, so they are file constants read through references.
 static const s32 motion_track_count = 1;
 static const s32 main_motion_track = 0;
+}
 
 inline const s32 &get_motion_track_count() { return motion_track_count; }
 inline const s32 &get_main_motion_track() { return main_motion_track; }
 
-
-}
 
 void TBoss6Type2::clear_harmful_statuses() {}
 
@@ -469,7 +467,7 @@ void TBoss6Type2::pick_walk_target(Boss6GridBytes *grid) {
 }
 #pragma pop
 
-extern "C" void handle_6xA5_olga_flow_boss_actions(game_command_header *command) {
+void handle_6xA5_olga_flow_boss_actions(game_command_header *command) {
     OlgaFlowType2ActionMsg *packet = reinterpret_cast<OlgaFlowType2ActionMsg *>(command);
     TBoss6Type2 *boss;
     saddr state;
@@ -577,7 +575,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
         attributes = 0;
         i = 0;
         do {
-            switch (*(u8 *)((TObjPlayer *)att)->get_attribute_entry(i)) {
+            switch (((TObjPlayer *)att)->get_attribute_entry(i)->area) {
             case 1:
                 attributes |= 1;
                 break;
@@ -687,7 +685,7 @@ void TBoss6Type2::run_task() {
     decay_glow_and_calc_hp_ratio();
     scroll_strips.scroll_strips_uv(8, 0);
     NJS_CNK_MODEL *scroll_model = static_cast<NJS_CNK_MODEL *>(find_model_node(get_bml_model(archive, 1), 1)->model);
-    TObjPlayer__sub_8023DEE0(scroll_model->polygon_list, 8, 0, 0);
+    scroll_chunk_plist_uvs(scroll_model->polygon_list, 8, 0, 0);
     update_head_aim();
     copy_vec_array();
     if ((s32) this->berserk != 0) {
@@ -840,7 +838,7 @@ void TBoss6Type2::draw_body_models() {
                 if (a < 1.0f) {
                     TBoss6PlotFalz::set_fade_material_color(a);
                 }
-                TObjFish::set_global_param(texlist);
+                set_texture_list(texlist);
                 if (0.0f == motion_tracks[0].blend) {
                     if (done != 0) {
                         draw_model_motion(model, motion_tracks[0].motion, motion_tracks[0].frame);
@@ -865,7 +863,7 @@ void TBoss6Type2::draw_body_models() {
                     }
                 }
                 if (a < 1.0f) {
-                    TObjFish::reset_fish_globals();
+                    TBoss6PlotFalz::restore_fade_material_color();
                 }
             }
         }
@@ -1158,7 +1156,7 @@ void TBoss6Type2::init_segment_range() {
     if (min > e->values[5]) { min = e->values[5]; } else if (max < e->values[5]) { max = e->values[5]; }
     segment_min = min;
     segment_max = max;
-    ((TLobby *)&this->params_copy)->copy_entry(this->param_block);
+    this->params_copy = *this->param_block;
     this->param_block = &this->params_copy;
     update_segments();
 }
@@ -1189,11 +1187,11 @@ void TBoss6Type2::update_segments() {
         params_copy.values[5] = segment_min;
         break;
     }
-    m_2f2 = params_copy.values[1];
-    m_2f4 = params_copy.values[3];
-    m_2f6 = params_copy.values[2];
-    m_2f8 = params_copy.values[5];
-    m_2fa = params_copy.values[4];
+    element_resist[0] = params_copy.values[1];
+    element_resist[1] = params_copy.values[3];
+    element_resist[2] = params_copy.values[2];
+    element_resist[3] = params_copy.values[5];
+    element_resist[4] = params_copy.values[4];
 }
 
 void TBoss6Type2::copy_vec_array() {

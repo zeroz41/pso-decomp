@@ -10,7 +10,7 @@
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/network/TLobby.h"
@@ -26,7 +26,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/unk/text_8002C190.h"
 
 
 BmlResource *dragon_ground_resource;
@@ -55,7 +54,7 @@ TObjBoss1Crater *TObjBoss1Crater::instance_list[20];
 
 void TObjBoss1Crater::render() {
     push_matrix();
-    TObjFish::set_global_param(dragon_common_texture_list);
+    set_texture_list(dragon_common_texture_list);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     model_render_flags |= 0x01000000;

@@ -1,158 +1,152 @@
 #include "types.h"
-#include "pso/unk/TLobby_801D726C.h"
-#include "pso/network/TLobby.h"
+#include "pso/network/LobbyRuleSettings.h"
 #include "pso/system/data/pso_const_ids4.h"
 #include "pso/item/drop/TItemDrop.h"
 
-extern "C" {
-
-void fn_801D726C(void *rules, u8 value) {
+void LobbyRuleSettings::set_death_tech_level_up(u8 value) {
     if (value >= 0x1E) {
-        value = default_setting_18(rules);
+        value = default_setting_18(this);
     }
-    *(s16 *)((s8 *)rules + 0x18) = value;
+    death_tech_level_up = value;
 }
 
-void fn_801D72B0(void *rules, s16 value) {
+void LobbyRuleSettings::set_death_level_up(s16 value) {
     if (value >= 0xC8) {
-        value = default_setting_16(rules);
+        value = default_setting_16(this);
     }
-    *(s16 *)((s8 *)rules + 0x16) = value;
+    death_level_up = value;
 }
 
-}
-
-void TLobby::set_field_0xE(void *rules, u8 value) {
+void LobbyRuleSettings::set_forbid_scape_dolls(u8 value) {
     if (value >= 2) {
-        value = default_setting_0E(rules);
+        value = default_setting_0E(this);
     }
-    *(u8 *)((s8 *)rules + 0xE) = value;
+    forbid_scape_dolls = value;
 }
 
-void TLobby::set_field_d(void *rules, u8 value) {
+void LobbyRuleSettings::set_enable_sonar(u8 value) {
     if (value >= 2) {
-        value = default_setting_0D(rules);
+        value = default_setting_0D(this);
     }
-    *(u8 *)((s8 *)rules + 0xD) = value;
+    enable_sonar = value;
 }
 
-void TLobby::set_clamped_field_c(void *rules, u8 value) {
+void LobbyRuleSettings::set_meseta_mode(u8 value) {
     if (value >= 3) {
-        value = default_setting_0C(rules);
+        value = default_setting_0C(this);
     }
-    *(u8 *)((s8 *)rules + 0xC) = value;
+    meseta_mode = value;
 }
 
-void TLobby::set_field_b(void *rules, u8 value) {
+void LobbyRuleSettings::set_hide_target_reticle(u8 value) {
     if (value >= 2) {
-        value = default_setting_0B(rules);
+        value = default_setting_0B(this);
     }
-    *(u8 *)((s8 *)rules + 0xB) = value;
+    hide_target_reticle = value;
 }
 
-void TLobby::set_field_a(void *rules, u8 value) {
+void LobbyRuleSettings::set_is_teams(u8 value) {
     if (value >= 2) {
-        value = default_setting_0A(rules);
+        value = default_setting_0A(this);
     }
-    *(u8 *)((s8 *)rules + 0xA) = value;
+    is_teams = value;
 }
 
-void TLobby::set_byte9_clamped(void *rules, u8 value) {
+void LobbyRuleSettings::set_drop_weapon(u8 value) {
     if (value >= 2) {
-        value = default_setting_09(rules);
+        value = default_setting_09(this);
     }
-    *(u8 *)((s8 *)rules + 9) = value;
+    drop_weapon = value;
 }
 
-void TLobby::set_difficulty(void *rules, u8 value) {
+void LobbyRuleSettings::set_replace_char(u8 value) {
     if (value >= 2) {
-        value = default_setting_08(rules);
+        value = default_setting_08(this);
     }
-    *(u8 *)((s8 *)rules + 8) = value;
+    replace_char = value;
 }
 
-void TLobby::set_field7_clamped(void *rules, u8 value) {
+void LobbyRuleSettings::set_respawn_mode(u8 value) {
     if (value >= 3) {
-        value = default_setting_07(rules);
+        value = default_setting_07(this);
     }
-    *(u8 *)((s8 *)rules + 7) = value;
+    respawn_mode = value;
 }
 
-void TLobby::set_field_0x6(void *rules, u8 value) {
+void LobbyRuleSettings::set_unused_F817(u8 value) {
     if (value >= 2) {
-        value = default_setting_06(rules);
+        value = default_setting_06(this);
     }
-    *(u8 *)((s8 *)rules + 6) = value;
+    unused_F817 = value;
 }
 
-void TLobby::set_field_5(void *rules, u8 value) {
+void LobbyRuleSettings::set_trap_mode(u8 value) {
     if (value >= 2) {
-        value = default_setting_05(rules);
+        value = default_setting_05(this);
     }
-    *(u8 *)((s8 *)rules + 5) = value;
+    trap_mode = value;
 }
 
-void TLobby::set_clamped_field_4(void *rules, u8 value) {
+void LobbyRuleSettings::set_tool_mode(u8 value) {
     if (value >= 3) {
-        value = default_setting_04(rules);
+        value = default_setting_04(this);
     }
-    *(u8 *)((s8 *)rules + 4) = value;
+    tool_mode = value;
 }
 
-void TLobby::set_field_3(void *rules, u8 value) {
+void LobbyRuleSettings::set_mag_mode(u8 value) {
     if (value >= 2) {
-        value = default_setting_03(rules);
+        value = default_setting_03(this);
     }
-    *(u8 *)((s8 *)rules + 3) = value;
+    mag_mode = value;
 }
 
-void TLobby::set_field_2(void *rules, u8 value) {
+void LobbyRuleSettings::set_weapon_and_armor_mode(u8 value) {
     if (value >= 4) {
-        value = default_setting_02(rules);
+        value = default_setting_02(this);
     }
-    *(u8 *)((s8 *)rules + 2) = value;
+    weapon_and_armor_mode = value;
 }
 
-void TLobby::set_validated_field_0x1(void *rules, u8 value) {
+void LobbyRuleSettings::set_tech_disk_mode(u8 value) {
     if (value >= 3) {
-        value = default_setting_01(rules);
+        value = default_setting_01(this);
     }
-    *(u8 *)((s8 *)rules + 1) = value;
+    tech_disk_mode = value;
 }
 
-void TLobby::set_section_id(void *rules, u8 value) {
+void LobbyRuleSettings::set_section_id(u8 value) {
     if (value >= 2) {
-        value = TItemDrop__sub_80107B04(rules);
+        value = TItemDrop__sub_80107B04(this);
     }
-    *(u8 *)rules = value;
+    rules_active = value;
 }
 
-void TLobby::reset_settings_to_default() {
-    u8 *rules = (u8 *)this;
+void LobbyRuleSettings::reset_settings_to_default() {
     s32 k;
 
-    set_section_id(this, TItemDrop__sub_80107B04(this));
-    set_validated_field_0x1(this, default_setting_01(this));
-    set_field_2(this, default_setting_02(this));
-    set_field_3(this, default_setting_03(this));
-    set_clamped_field_4(this, default_setting_04(this));
-    set_field_5(this, default_setting_05(this));
-    set_field_0x6(this, default_setting_06(this));
-    set_field7_clamped(this, default_setting_07(this));
-    set_difficulty(this, default_setting_08(this));
-    set_byte9_clamped(this, default_setting_09(this));
-    set_field_a(this, default_setting_0A(this));
-    set_field_b(this, default_setting_0B(this));
-    set_clamped_field_c(this, default_setting_0C(this));
-    set_field_d(this, default_setting_0D(this));
-    set_field_0xE(this, default_setting_0E(this));
-    this->set_volume(0);
-    this->set_max_tech_level(0xFF);
-    this->set_clamped_index(0);
-    this->set_clamped_value_1c(0xA);
-    *(s8 *)(rules + 0x12) = 0;
+    set_section_id(TItemDrop__sub_80107B04(this));
+    set_tech_disk_mode(default_setting_01(this));
+    set_weapon_and_armor_mode(default_setting_02(this));
+    set_mag_mode(default_setting_03(this));
+    set_tool_mode(default_setting_04(this));
+    set_trap_mode(default_setting_05(this));
+    set_unused_F817(default_setting_06(this));
+    set_respawn_mode(default_setting_07(this));
+    set_replace_char(default_setting_08(this));
+    set_drop_weapon(default_setting_09(this));
+    set_is_teams(default_setting_0A(this));
+    set_hide_target_reticle(default_setting_0B(this));
+    set_meseta_mode(default_setting_0C(this));
+    set_enable_sonar(default_setting_0D(this));
+    set_forbid_scape_dolls(default_setting_0E(this));
+    set_lives(0);
+    set_max_tech_level(0xFF);
+    set_char_level(0);
+    set_time_limit(0xA);
+    pad_12 = 0;
     for (k = 0; k < 4; k++) {
-        *(rules + k + 0x20) = 0x14;
+        trap_counts[k] = 0x14;
     }
-    *(s8 *)(rules + 0xF) = 0;
+    pad_0F = 0;
 }

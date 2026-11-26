@@ -77,13 +77,14 @@ struct TWindowDD : public TObject
     void update_layout();
     void update_transition();
     void update();
-    static saddr get_element_ptr(s32 list_id);
+    static TWindowDDValueList *get_element_ptr(s32 list_id);
     virtual void render();
-    void reset_selection();
+    void reset_selection(WordSelectMessage *message);
+    static void copy_chat_entry(WordSelectMessage *dst, WordSelectMessage *src);
     static void build_player_word_lists();
     static void free_buffers();
     static void open(void *message, u16 speaker);
-    static u8 is_id_in_special_range(s16 id);
+    static s32 is_id_in_special_range(s16 id);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
     static s32 is_state_zero_unless_0x2C8(s32 id);
@@ -94,12 +95,12 @@ struct TWindowDD : public TObject
     s32 get_current_child_index();
     TWindowDDStateEntry *get_state_entry(s32 state);
     void init_entry_field_64(s32 index);
-    static void refresh_sub(void* p, void* a1);
-    static void apply_input(void* p, void* a1);
-    static void update(void* p, void* child);
+    void refresh_sub(TWindowDD_WS_Word *page);
+    void apply_input(TWindowDD_WS_Word *page);
+    void dim_next_page(TWindowDD_WS_Word *page);
     void update(TWindowDD_WS_Word *child);
-    static void set_default_coords(void *window, TWindowDD_WS_Word *child);
-    static void init_layout(void *window, TWindowDD_WS_Word *child);
+    void set_default_coords(TWindowDD_WS_Word *child);
+    void init_layout(TWindowDD_WS_Word *child);
     void set_default_positions(TWindowDD_WS_Word *child);
     static void spawn_window();
     static void play_se();
@@ -127,7 +128,7 @@ struct TWindowDD : public TObject
     static void append_char(s8 c, char *buf, s32 *pos);
     static void append_string(const char *str, char *buf, s32 *pos);
     static s32 get_draw_count(const NJS_TEXLIST *textures);
-    static saddr get_entry(s32 index);
+    static TWindowDDValueList *get_entry(s32 index);
     static void init_ws_data_tables();
     static s32 lookup_item_category(s32 item);
     void handle_confirm_input();
@@ -138,6 +139,29 @@ struct TWindowDD : public TObject
     void update_state();
     s32 update_close_flag();
     void handle_input();
+    void run_state();
+    void handle_state_3();
+    void handle_state_9();
+    void handle_state_12();
+    void handle_state_13();
+    void handle_final_word_state();
+    void store_selected_word();
+    void store_selected_word_plain();
+    void begin_word_select_state();
+    void advance_word_select_level();
+    void pop_menu_level();
+    void open_numeric_parameter_input(s32 minimum, s32 maximum, s32 initial);
+    TWindowDD_WS_Word *commit_word_select_level();
+    void take_word_select_word(TWindowDD_WS_Word *word_window);
+    TWindowDD_WS_Word *get_or_create_word_select_child(s32 offset, s32 id);
+    void refresh_word_select_child_list();
+    void refresh_word_select_message(WordSelectMessage *message);
+    void create_word_select_cursor_label(s32 slot);
+    void move_next_label_after_wide_page();
+    void update_word_select_child_position(s32 index);
+    s32 is_word_select_cancel_input();
+    s32 update_numeric_parameter_input();
+    void finish_word_select();
 };
 
 #include <stddef.h>
@@ -147,10 +171,36 @@ LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
-extern "C" {
-void TWindowDD__sub_80344114(void);
-}
+void load_word_select_data(void);
 
+extern char *window_dd_buffer_a;
+extern char *window_dd_buffer_b;
+// Twelve name strings of 0x18 bytes in window_dd_buffer_b, one per client id.
+extern char **TWindowDD__player_name_buffers;
+// Six word lists allocated as one block; their ids live in word_select_word_storage.
+extern TWindowDDValueList *TWindowDD__word_select_lists;
+extern s16 *word_select_word_storage;
+// Word strings of the loaded ws_data archive and the string index of each word id.
+extern char **ws_word_strings;
+extern s16 *ws_word_string_index;
+extern s32 window_dd_element_count;
+extern s32 twindowdd_entry_count;
+extern TWindowDDValueList *TWindowDD__data_805D6E40;
+extern TWindowDDValueList *TWindowDD__data_805D6E44;
+extern u8 *TWindowDD__data_805D6E48;
+// Spanish prefix categories, loaded from the word-select archive header.
+extern u8 *lbl_805D6E4C;
+// The loaded ws_data_<lang>.bin archives (French goes to TWindowDD::ws_data_buffer).
+extern void *ws_data_jp;
+extern void *ws_data_us;
+extern void *ws_data_es;
+extern void *ws_data_de;
+extern char *word_page_select_label;
+extern s8 word_page_select_label_set;
+extern char *word_page_next_label;
+extern s8 word_page_next_label_set;
+// Word id the last word-select message used; -1 when none (reset_selection).
+extern s16 remembered_word_select_id;
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.
 extern const s32 word_select_numeric_limits[6];
 extern const f32 window_dd_row_height;
@@ -162,5 +212,66 @@ extern const f32 word_page_y;
 extern const f32 word_page_width;
 extern const f32 word_page_height;
 extern const f32 word_page_depth;
+extern const f32 window_dd_texel_scale;
+extern const f32 window_dd_cap_width;
+extern const f32 scroll_bar_tile_width;
+extern const f32 scroll_bar_tile_height;
+extern const f32 scroll_arrow_up_u;
+extern const f32 scroll_arrow_down_u;
+extern const f32 scroll_arrow_v;
+extern const f32 scroll_arrow_size;
+extern const f32 scroll_arrow_texture_height;
+extern const f32 word_row_strip_v;
+extern const f32 word_row_strip2_v;
+extern const f32 mode_texel_scale;
+extern const f32 mode_row_texture_height;
+extern const f32 window_dd_frame_margin_y;
+extern const f32 word_label_hidden_x;
+extern const f32 word_label_hidden_right_x;
+extern const f32 word_prompt_hidden_y;
+extern const f32 wide_word_page_width;
+extern const f32 next_word_page_x;
+extern const f32 next_word_page_y;
+extern const f32 next_word_page_width;
+extern const f32 next_word_page_height;
+extern const f32 word_page_exit_x;
+extern const f32 last_word_page_x;
+extern const f32 last_word_page_y;
+extern const f32 last_word_page_width;
+extern const f32 last_word_page_height;
+extern const f32 word_page_label_x;
+extern const f32 word_page_label_y;
+extern const f32 word_page_label_width;
+extern const f32 next_word_page_label_x;
+extern const f32 next_word_page_label_y;
+extern const f32 next_word_page_label_width;
+extern const f32 scroll_bar_width;
+extern const f32 scroll_bar_height;
+extern const f32 scroll_bar_x;
+extern const f32 scroll_bar_y;
+extern const f32 scroll_arrow_margin;
+extern const f32 word_prompt_x;
+extern const f32 word_prompt_y;
+extern const f32 word_prompt_width;
+extern const f32 cursor_label_x;
+extern const f32 cursor_label_y;
+extern const f32 cursor_label_width;
+extern const f32 cursor_label2_x;
+extern const f32 cursor_label2_y;
+extern const f32 message_label_x;
+extern const f32 message_label_y;
+extern const f32 message_label_width;
+extern const f32 mode_window_x;
+extern const f32 mode_window_y;
+extern const f32 mode_window_placement_x;
+extern const f32 mode_window_placement_y;
+extern const f32 wide_mode_window_x;
+extern const f32 wide_next_word_page_x;
+extern const u32 window_dd_color_white;
+extern const u32 window_dd_color_black;
+extern const f32 word_label_depth;
+extern const f32 scroll_bar_depth;
+extern const f32 word_cursor_depth;
+extern const f32 mode_window_depth;
 
 #endif

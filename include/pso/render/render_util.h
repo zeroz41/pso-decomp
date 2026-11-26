@@ -118,6 +118,9 @@ extern u32 color_draw_saved_and_mask;
 extern u32 color_draw_saved_or_mask;
 extern NJS_ARGB color_draw_saved_color;
 
+// The colour of the short TActorLight a player's level change and heavy attack start spawn.
+extern NJS_ARGB player_feedback_light_color;
+
 void restore_saved_depth_alpha_state(void);
 void *delete_object_if_delete_flag(void *self, s16 del);
 void *TObjMapWarp__sub_80141CA4(void *self);

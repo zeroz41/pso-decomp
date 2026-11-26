@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include <dolphin/mtx.h>
 
 class TObjBase;
 
@@ -29,5 +30,8 @@ public:
     u8 pad_62[0x2];
 };
 LAYOUT_ASSERT(TActorLight_size, sizeof(TActorLight) == 0x64);
+
+// Moves `center` `distance` units toward the camera into `out`.
+void offset_point_toward_camera(Vec *center, Vec *out, f32 distance);
 
 #endif

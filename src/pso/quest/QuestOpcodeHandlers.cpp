@@ -5,6 +5,9 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/render/CameraCapture.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
@@ -32,7 +35,6 @@
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/item/TObjItemNameSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -59,13 +61,12 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
-#include "pso/unk/TColorOverlayFade.h"
+#include "pso/system/TColorOverlayFade.h"
 #include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_8024AB18.h"
 #include "pso/unk/text_80278460.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/base/TObjBase.h"
@@ -126,7 +127,7 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraPan.h"
 #include "pso/system/TTokenList.h"
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -147,8 +148,13 @@
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80291D94.h"
-#include "pso/unk/text_801F43B4.h"
-#include "pso/unk/text_801F45FC.h"
+#include "pso/quest/QuestStoryFlags.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
+#include "pso/ui/city/THunterGuildSeqOffline_801F3718.h"
 
 
 
@@ -166,7 +172,7 @@ s32 *qst_function_table;
 s32 *qst_registers;
 TWindowMessageQuest *qst_message_window;
 TWindowMessage *qst_message_window_qb;
-void *qst_list_window;
+TWindowMenu *qst_list_window;
 u8 qst_result_register;
 s32 qst_call_stack_depth;
 saddr qst_pc;
@@ -203,26 +209,19 @@ struct QuestCommandTable {
     QuestCommand e[12];
 };
 
-namespace pf2_p0 { extern "C" { s32 append_string(const char *); } }
-#define append_string pf2_p0::append_string
-namespace pf2_p0 { extern "C" { extern AppendCardWindowTextRecoveredGlobal quest_player_class_name_buffer; } }
-#define quest_player_class_name_buffer pf2_p0::quest_player_class_name_buffer
-namespace pf2_p0 { extern "C" { extern AppendCardWindowTextRecoveredGlobal quest_player_name_buffer; } }
-#define quest_player_name_buffer pf2_p0::quest_player_name_buffer
+extern "C" {
+void append_string(const char *s);
+s32 is_message_source_exhausted(void);
+void begin_message_substitution(u8 *source, char *result);
+s32 parse_r_index(const char *text);
+}
+// The player name and class name qst_op_get_pl_name / qst_op_get_pl_job copy for the message tags.
+extern char quest_player_class_name_buffer[16];
+extern char quest_player_name_buffer[16];
 void append_player_name(void);
-namespace pf2_p0 { extern "C" { s32 is_message_source_exhausted(); } }
-#define is_message_source_exhausted pf2_p0::is_message_source_exhausted
 namespace pf2_p0 { extern "C" { s8 read_byte_advance__6TLobbyFv(); } }
 #define read_byte_advance__6TLobbyFv pf2_p0::read_byte_advance__6TLobbyFv
 void append_message_char(s8);
-extern "C" {
-namespace pf2_p0 { extern "C" { void begin_message_substitution(); } }
-#define begin_message_substitution pf2_p0::begin_message_substitution
-}
-namespace pf2_p0 { extern "C" { s32 parse_r_index(const char *); } }
-#define parse_r_index pf2_p0::parse_r_index
-namespace pf2_p0 { extern "C" { int strcmp(const char *, const char *); } }
-#define strcmp pf2_p0::strcmp
 void append_team_name(void);
 void append_episode_progress_string(void);
 void append_entered_item_name_pair(void);
@@ -285,12 +284,12 @@ const QuestCommandTable message_substitution_handlers = { {
 
 void TLobby::capture_chat_sensor() {
     saddr message = (saddr)this;
-    TOChatSensor::dispatch_chat_message_to_children(message);
+    TOChatSensor::dispatch_chat_message_to_children((char *)message);
     TOChatSensorCapture::capture_message((u16)((u16) local_client_id), (const char *)message);
 }
 
-s32 expand_message_substitutions(s32 source, s32 result) {
-    begin_message_substitution();
+char *expand_message_substitutions(u8 *source, char *result) {
+    begin_message_substitution(source, result);
     while (is_message_source_exhausted() == 0) {
         s8 c = read_byte_advance__6TLobbyFv();
         switch (c) {
@@ -387,11 +386,11 @@ void TLobby::append_card_window_text() {
 
 LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(AppendCardWindowTextRecoveredGlobal) == 0x28);
 void TLobby::append_default_string() {
-    append_string((const char *)&quest_player_class_name_buffer.value);
+    append_string(quest_player_class_name_buffer);
 }
 
 void append_player_name(void) {
-    append_string((const char *)&quest_player_name_buffer.value);
+    append_string(quest_player_name_buffer);
 }
 
 void TLobby::append_color_code(s32 color) {
@@ -421,20 +420,9 @@ s32 parse_f_index(const char *a0) {
     return -1;
 }
 
-#undef is_message_source_exhausted
-#undef begin_message_substitution
-#undef append_string
-#undef get_character_save_record
-#undef parse_r_index
 #undef read_byte_advance__6TLobbyFv
-#undef strcmp
-#undef quest_player_name_buffer
-#undef quest_player_class_name_buffer
 
 extern "C" {
-void append_string(const char *s);
-s32 is_split_screen();
-
 s32 parse_r_index(const char *text) {
     s32 index;
 
@@ -506,7 +494,7 @@ void append_hero_name(void) {
 }
 extern "C" {
 
-u8 is_message_source_exhausted(void) {
+s32 is_message_source_exhausted(void) {
     return (u8) ((s8) *quest_script_read_ptr == 0);
 }
 
@@ -529,20 +517,16 @@ void append_string(const char *s) {
 
 
 
-namespace pf2_p2 { extern "C" { extern s8 *quest_string_append_cursor; } }
-#define quest_string_append_cursor pf2_p2::quest_string_append_cursor
-
 void append_message_char(s8 c) {
-    s8 *write_ptr;
+    char *write_ptr;
 
     write_ptr = quest_string_append_cursor;
     quest_string_append_cursor = write_ptr + 1;
     *write_ptr = c;
 }
-#undef quest_string_append_cursor
 extern "C" {
 
-void begin_message_substitution(u8 *a0, char *a1) { quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
+void begin_message_substitution(u8 *source, char *result) { quest_script_read_ptr = source; quest_string_append_cursor = result; }
 }
 
 void qst_op_olga_flow_is_dead(s32 reg) {
@@ -808,9 +792,6 @@ struct PlWalkObject {
     u32 f30;
 };
 
-s32 get_current_floor();
-f64 atan2_float(void *, f32, f32);
-int set_camera_capture_overlay_alpha(void*);
 s32 copy_player_visual_record(void *, int);
 s32 __ct__16TPlyGuildCardTagFv(s32);
 }
@@ -818,22 +799,9 @@ extern "C" {
 s32 advance_item_id_counter(u16);
 }
 extern "C" {
-int clear_enabled_main_warps(void*);
-int set_hashi_versus2_flag(void*);
-int clear_hashi_versus2_flag(void*);
-}
-extern "C" {
-int set_quest_exit_callback(void*);
-int set_quest_cancel_callback(void*);
-int set_quest_success_callback(void*);
-int set_quest_failure_callback(void*);
-}
-extern "C" {
 s32 is_room_enemy_set_cleared(int, int, void *);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 delete_bank_item(u8 *item, s32 slot);
-void receive_short_mail(void *p);
-void request_active_window_close(void);
 }
 extern "C" {
 saddr create_equip_kind_window(saddr, const f32 *, s32);
@@ -848,19 +816,7 @@ extern VaCallPair lbl_80449A38[];
 struct QuestNpcVisualRecord { s32 value; u8 remaining[0x4C]; };
 extern QuestNpcVisualRecord quest_npc_visual_record;
 extern s32 symbolchat_colli_param_table[];
-extern s16 battle_event_second_table[];
-struct QuestPlayerNameBuffer { s32 value; u8 remaining[0xC]; };
-extern QuestPlayerNameBuffer quest_player_name_buffer;
-struct QuestPlayerClassNameBuffer { s32 value; u8 remaining[0xC]; };
-extern QuestPlayerClassNameBuffer quest_player_class_name_buffer;
 extern u8 quest_board_handlers[];
-extern f32 battle_player_give_damage_score;
-extern f32 battle_player_take_damage_score;
-extern f32 battle_player_kill_score;
-extern f32 battle_player_death_score;
-extern f32 battle_enemy_give_damage_score;
-extern s32 game_difficulty_selection;
-extern f32 battle_enemy_take_damage_score;
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -1356,7 +1312,7 @@ void qst_op_get_total_deaths() {
 void qst_op_atan2_int(void) {
     u8 dest_reg;
     dest_reg = (u8) qst_args[0];
-    qst_registers[dest_reg] = (s32) (10430.38043493439 * atan2_float((void *) qst_args, (f32) (*(f32 *)&qst_args[1]), (f32) (*(f32 *)&qst_args[2])));
+    qst_registers[dest_reg] = (s32) (10430.38043493439 * atan2_float(*(f32 *)&qst_args[1], *(f32 *)&qst_args[2]));
 }
 
 void qst_op_tan() {
@@ -1703,7 +1659,7 @@ void qst_op_close_chat_bubble(s32 reg) {
 
 void qst_op_set_screen_bw() { set_screen_bw(); }
 
-int qst_op_set_motion_blur() { return set_camera_capture_overlay_alpha((void*)(143)); }
+void qst_op_set_motion_blur() { set_camera_capture_overlay_alpha(143); }
 
 void qst_op_restore_tp(s32 reg) {
     apply_player_slot_status(qst_registers[(u8)reg], 0xB);
@@ -2234,7 +2190,7 @@ void qst_op_set_enemy_movement_data(s32 label) {
     if (data_addr != 0U) {
         params = *(const BattleMovementParams *)(data_addr - 4 + 4);
         params.bswap();
-        TLobby::broadcast(&params);
+        set_enemy_movement_data(&params);
     }
 }
 
@@ -2245,7 +2201,7 @@ void qst_op_set_enemy_resist_data(s32 label) {
     if (data_addr != 0U) {
         *reinterpret_cast<ByteBlock_20 *>(&packet) = *reinterpret_cast<const ByteBlock_20 *>(data_addr);
         packet.swap_endian();
-        TLobby__sub_8001DE30(&packet);
+        set_enemy_resist_data(&packet);
     }
 }
 
@@ -2256,24 +2212,23 @@ void qst_op_set_enemy_attack_data(s32 label) {
     if (data_addr != 0U) {
         *reinterpret_cast<ByteBlock_30 *>(&packet) = *reinterpret_cast<const ByteBlock_30 *>(data_addr);
         packet.byteswap_packet();
-        TLobby::copy_all_entries(&packet);
+        set_enemy_attack_data(&packet);
     }
 }
 
 void qst_op_set_enemy_physical_data(int _w0) {
-    struct SetEnemyPhysicalDataCopyStack { u8 bytes[0x24]; };
-    SetEnemyPhysicalDataCopyStack copy_storage;
+    player_stats stats;
     uaddr data_addr;
     data_addr = ((u32)((int (*)(int))qst_label_address)(_w0));
     if (data_addr != 0U) {
-        *(ByteBlock_24 *)(copy_storage.bytes) = *(const ByteBlock_24 *)((data_addr - 4) + 4);
-        bswap__12player_statsFv(((copy_storage.bytes)));
-        TLobby::copy_data((void *) ((copy_storage.bytes)));
+        *(ByteBlock_24 *)&stats = *(const ByteBlock_24 *)((data_addr - 4) + 4);
+        stats.bswap();
+        set_enemy_physical_data(&stats);
     }
 }
 
 void qst_op_set_override_enemy_bp_index() {
-    set_lobby_instance((qst_args[0]));
+    set_override_enemy_bp_index(qst_args[0]);
 }
 
 void qst_op_set_chat_callback() {
@@ -2506,11 +2461,11 @@ void qst_op_set_eventflag16() {
 }
 
 void qst_op_get_pl_job(s32 reg) {
-    u8 *player;
-    player = (u8 *)get_player_by_client_id(qst_registers[(u8)reg]);
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)reg]);
     if (player != NULL) {
-        strncpy((char *)&quest_player_class_name_buffer.value, (const char *)(TLobby::get_class_type_name((int) (((TObjPlayer *)player)->class_flags))), 0xF);
-        *(s8 *)((s8 *)(&quest_player_class_name_buffer.value) + 0xF) = 0;
+        strncpy(quest_player_class_name_buffer, (const char *)(TLobby::get_class_type_name((int) (player->class_flags))), 0xF);
+        quest_player_class_name_buffer[0xF] = 0;
         qst_registers[(u8)reg] = 1;
         return;
     }
@@ -2518,11 +2473,11 @@ void qst_op_get_pl_job(s32 reg) {
 }
 
 void qst_op_get_pl_name(s32 reg) {
-    u8 *player;
-    player = (u8 *)get_player_by_client_id(qst_registers[(u8)reg]);
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)reg]);
     if (player != NULL) {
-        strncpy((char *)&quest_player_name_buffer.value, (const char *)((TObjPlayer *)player)->get_name(), 0xF);
-        *(s8 *)((s8 *)(&quest_player_name_buffer.value) + 0xF) = 0;
+        strncpy(quest_player_name_buffer, player->get_name(), 0xF);
+        quest_player_name_buffer[0xF] = 0;
         qst_registers[(u8)reg] = 1;
         return;
     }
@@ -2614,10 +2569,10 @@ void qst_op_get_chara_class(s32 slot_reg, s32 dst) {
 
 void qst_op_get_gender(s32 slot_reg, s32 dst) {
     s32 class_flags;
-    u8 *player;
-    player = (u8 *)get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
     if (player != NULL) {
-        class_flags = ((TObjPlayer *)player)->class_flags;
+        class_flags = player->class_flags;
         if (class_flags & CLASS_FLAG_MALE) {
             qst_registers[(u8)dst] = GENDER_MALE;
             return;
@@ -2838,15 +2793,15 @@ void qst_op_set_cmode_rank_result(void) {
 }
 
 void qst_op_get_mag_levels(s32 i) {
-    saddr r;
+    TItemMag *mag;
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        r = player->activate_d04_slot();
-        if (r != 0) {
-            qst_registers[(u8)i++] = ((TItemMag *)r)->get_def_level();
-            qst_registers[(u8)i++] = ((TItemMag *)r)->get_pow_level();
-            qst_registers[(u8)i++] = ((TItemMag *)r)->get_dex_level();
-            qst_registers[(u8)i] = ((TItemMag *)r)->get_mind_level();
+        mag = (TItemMag *)player->get_equipped_mag();
+        if (mag != NULL) {
+            qst_registers[(u8)i++] = mag->get_def_level();
+            qst_registers[(u8)i++] = mag->get_pow_level();
+            qst_registers[(u8)i++] = mag->get_dex_level();
+            qst_registers[(u8)i] = mag->get_mind_level();
         }
     }
 }
@@ -3011,7 +2966,6 @@ void qst_op_ba_set_trap_count(s32 reg) {
     }
 }
 
-extern f32 battle_meseta_score;
 void qst_op_ba_meseta_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
@@ -3019,7 +2973,6 @@ void qst_op_ba_meseta_score(s32 a) {
     battle_meseta_score = v;
 }
 
-extern f32 battle_enemy_death_score;
 void qst_op_ba_enemy_death_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
@@ -3027,7 +2980,6 @@ void qst_op_ba_enemy_death_score(s32 a) {
     battle_enemy_death_score = v;
 }
 
-extern f32 battle_enemy_kill_score;
 void qst_op_ba_enemy_kill_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
@@ -3128,18 +3080,18 @@ void qst_op_set_shrink_cam1(u8 regs) {
 }
 
 void qst_op_unshrink(s32 slot_reg) {
-    saddr player;
-    player = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((TObjPlayer *)player)->scale_state.request_size_restore();
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if ((player != NULL) && (player->obj_isState2_324() == 0)) {
+        player->scale_state.request_size_restore();
     }
 }
 
 void qst_op_shrink(s32 slot_reg) {
-    saddr player;
-    player = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((TObjPlayer *)player)->scale_state.request_shrink();
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if ((player != NULL) && (player->obj_isState2_324() == 0)) {
+        player->scale_state.request_shrink();
     }
 }
 
@@ -3202,10 +3154,10 @@ void qst_op_reset_kills(s32 slot_reg) {
 }
 
 void qst_op_get_num_kills(s32 slot_reg, s32 dst) {
-    u8 *player;
-    player = (u8 *)(((saddr)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg])))));
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
     if (player != NULL) {
-        qst_registers[(u8)dst] = (s32) ((TObjPlayer *)player)->get_kill_count();
+        qst_registers[(u8)dst] = player->get_kill_count();
         return;
     }
     qst_registers[(u8)dst] = 0;
@@ -3308,21 +3260,21 @@ void qst_op_nop_F821(u8 regs) {
 }
 
 void qst_op_cmode_stage() {
-    u32 temp_r30;
+    u32 stage;
     u32 layout_id;
 
-    temp_r30 = (u32)qst_args[0];
+    stage = (u32)qst_args[0];
     layout_id = challenge_set_stage_count(-1);
     if (is_split_screen() == 1) {
-        if (temp_r30 < layout_id) {
-            TLobby::clamp_and_store_layout_index(temp_r30);
+        if (stage < layout_id) {
+            TLobby::clamp_and_store_layout_index(stage);
             return;
         }
         TLobby::clamp_and_store_layout_index(0U);
         return;
     }
-    if (temp_r30 < layout_id) {
-        set_challenge_stage(temp_r30);
+    if (stage < layout_id) {
+        set_challenge_stage(stage);
         return;
     }
     set_challenge_stage(0U);
@@ -3460,9 +3412,9 @@ void qst_op_disable_map(void) { TRaderMapCore::set_mode(0); }
 void qst_op_enable_map(void) { TRaderMapCore::set_mode(1); }
 
 void qst_op_get_coord_of_player(s32 a, s32 b) {
-    uaddr player = ((uaddr)get_player_by_client_id((int)(qst_registers[(u8)b])));
-    if (player != 0) {
-        f32 *p = (f32 *)((TObjPlayer *)player)->get_position_ptr();
+    TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)b]);
+    if (player != NULL) {
+        f32 *p = (f32 *)player->get_position_ptr();
         if (p != NULL) {
             qst_registers[(u8)a++] = (s32)p[0];
             qst_registers[(u8)a++] = (s32)p[1];
@@ -3630,10 +3582,10 @@ void qst_op_enable_mainmenu() { TWindowCtrl::enable_client_main_menu(local_clien
 
 void qst_op_nop_BC(void) {  }
 
-int qst_op_clr_qt_exit(void) { return set_quest_exit_callback((void*)(-1)); }
+void qst_op_clr_qt_exit(void) { set_quest_exit_callback(-1); }
 
 void qst_op_set_qt_exit(u16 label) {
-    set_quest_exit_callback((void *)(uaddr)label);
+    set_quest_exit_callback(label);
 }
 
 void qst_op_get_difficulty_level_v1(s32 reg) {
@@ -3688,7 +3640,7 @@ void qst_op_show_timer(void *p) { TWindowCtrl::create_alt_timer(); }
 
 void qst_op_masterkey_off() { TLobby::reset_door_state(); TObjDoor::reset_instance(); }
 
-void qst_op_masterkey_on() { force_switch_doors_closed(); TObjDoor__sub_801F3754(); }
+void qst_op_masterkey_on() { force_switch_doors_closed(); enable_door_masterkey(); }
 
 void qst_op_map_designate(u32 first) {
     u32 i = first;
@@ -3837,8 +3789,8 @@ void qst_op_item_delete(u32 src, u32 dst) {
 
 void qst_op_item_create2(u8 regs, u8 dst) {
     WrapItemWithColorItem item;
-    void *player;
-    player = (void *)get_player_by_client_id(local_client_id);
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         ((TItemData *)((VaCallItemRecord *)(&item)))->init();
         item.data[0] = qst_registers[regs++];
@@ -3854,8 +3806,8 @@ void qst_op_item_create2(u8 regs, u8 dst) {
         item.data[9] = qst_registers[regs++];
         item.data[10] = qst_registers[regs++];
         item.data[11] = qst_registers[regs];
-        if (((TObjPlayer *)player)->can_inventory_accept_item((u8 *)(&item)) > 0) {
-            ((TObjPlayer *)player)->request_inventory_item((TItemData*)(&item));
+        if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
+            player->request_inventory_item((TItemData*)(&item));
             qst_registers[dst] = item.id;
         } else {
             qst_registers[dst] = -1;
@@ -3867,16 +3819,16 @@ void qst_op_item_create2(u8 regs, u8 dst) {
 
 void qst_op_item_create(u8 regs, u8 dst) {
     WrapItemWithColorItem item;
-    void *player;
-    player = (void *)get_player_by_client_id(local_client_id);
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         ((TItemData *)((VaCallItemRecord *)(&item)))->init();
         item.data[0] = qst_registers[(u8)regs++];
         item.data[1] = qst_registers[(u8)regs++];
         item.data[2] = qst_registers[regs];
         item.id = advance_item_id_counter(local_client_id);
-        if (((TObjPlayer *)player)->can_inventory_accept_item((u8 *)(&item)) > 0) {
-            ((TObjPlayer *)player)->request_inventory_item((TItemData*)(&item));
+        if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
+            player->request_inventory_item((TItemData*)(&item));
             qst_registers[dst] = item.id;
         } else {
             qst_registers[dst] = -1;
@@ -3911,22 +3863,22 @@ void qst_op_pl_add_meseta(void) {
     }
 }
 
-int qst_op_clr_qt_cancel(void) { return set_quest_cancel_callback((void*)(-1)); }
+void qst_op_clr_qt_cancel(void) { set_quest_cancel_callback(-1); }
 
-int qst_op_clr_qt_success(void) { return set_quest_success_callback((void*)(-1)); }
+void qst_op_clr_qt_success(void) { set_quest_success_callback(-1); }
 
-int qst_op_clr_qt_failure(void) { return set_quest_failure_callback((void*)(-1)); }
+void qst_op_clr_qt_failure(void) { set_quest_failure_callback(-1); }
 
 void qst_op_set_qt_cancel(u16 label) {
-    set_quest_cancel_callback((void *)(uaddr)label);
+    set_quest_cancel_callback(label);
 }
 
 void qst_op_set_qt_success(u16 label) {
-    set_quest_success_callback((void *)(uaddr)label);
+    set_quest_success_callback(label);
 }
 
 void qst_op_set_qt_failure(u16 label) {
-    set_quest_failure_callback((void *)(uaddr)label);
+    set_quest_failure_callback(label);
 }
 
 void qst_op_clr_floor_handler(void) {
@@ -3951,7 +3903,7 @@ void qst_op_pcam_param(u8 regs) {
     request_follow_camera_offsets(&a, &b, 0xFFFF);
 }
 
-int qst_op_clear_mainwarp_all(void* p) { return clear_enabled_main_warps(p); }
+void qst_op_clear_mainwarp_all() { clear_enabled_main_warps(); }
 
 void qst_op_clear_mainwarp() {
     TObjCityMainWarp::clear_active_bit(qst_args[0]);
@@ -4264,7 +4216,7 @@ void qst_op_p_hpstat(void) {
     s32 reg;
     f32 pct;
     f32 limit;
-    void *obj;
+    TObjChara *obj;
     f32 hp;
     s32 player;
     saddr *args = qst_args;
@@ -4277,10 +4229,10 @@ void qst_op_p_hpstat(void) {
         return;
     }
     limit = 1.0f / pct;
-    obj = (void *)((saddr)get_player_by_client_id(player));
+    obj = get_player_by_client_id(player);
     if (obj != NULL) {
-        hp = ((TObjChara *)obj)->get_actor_hp();
-        if (hp / ((TObjChara *)obj)->get_hpmax() < limit) {
+        hp = obj->get_actor_hp();
+        if (hp / obj->get_hpmax() < limit) {
             qst_registers[reg] = 1;
             return;
         }
@@ -4446,9 +4398,9 @@ void qst_op_pl_walk(u8 regs) {
 void qst_op_p_look(void) {
     quest_player_look_at_partner((u16) qst_args[0]);
 }
-int qst_op_p_col(void* p) { return set_hashi_versus2_flag(p); }
+void qst_op_p_col() { set_hashi_versus2_flag(); }
 
-int qst_op_p_noncol(void* p) { return clear_hashi_versus2_flag(p); }
+void qst_op_p_noncol() { clear_hashi_versus2_flag(); }
 
 void qst_op_enable_movement1(void) {
     send_code_45_to_player((u16) qst_args[0]);
@@ -4823,12 +4775,12 @@ void qst_op_list(void) {
     list->tokenize_args(buf);
     qst_list_window = create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
-        ((TWindowMenu *)qst_list_window)->add_text_entry((saddr)list->tokens[i], 7, i);
+        qst_list_window->add_text_entry((saddr)list->tokens[i], 7, i);
     }
-    ((TWindowMenu *)qst_list_window)->calc_window_size();
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(qst_list_window));
-    ((TWindowMenu *)qst_list_window)->set_ready_flag();
-    ((TWindowBase *)qst_list_window)->set_depth(39000.0f);
+    qst_list_window->calc_window_size();
+    align_menu_entry_positions(qst_list_window);
+    qst_list_window->set_ready_flag();
+    qst_list_window->set_depth(39000.0f);
     qst_registers[idx] = 0;
     qst_result_register = idx;
     qst_suspend_reason = QST_WAIT_LIST;
@@ -5142,14 +5094,12 @@ void qst_op_gget(u16 flag, s32 dst) {
 
 void qst_op_glet(u16 flag, s32 reg) {
     if ((s32) qst_registers[(u8)reg] != 0) {
-        set_story_flag_or_send_quest_flag((s32)flag);
+        set_story_flag_or_send_quest_flag(flag);
         return;
     }
     clear_story_flag((flag));
 }
 
-namespace pf2_p6 { extern "C" { s32 set_story_flag_or_send_quest_flag(s32); } }
-#define set_story_flag_or_send_quest_flag pf2_p6::set_story_flag_or_send_quest_flag
 void qst_op_grev(s32 flag) {
     u16 v = flag;
     if (get_story_flag(v) != 0) {
@@ -5163,7 +5113,7 @@ void qst_op_gclear(u16 flag) {
 }
 
 void qst_op_gset(u16 flag) {
-    set_story_flag_or_send_quest_flag((s32)flag);
+    set_story_flag_or_send_quest_flag(flag);
 }
 
 void qst_op_rev(s32 reg) {
@@ -5219,38 +5169,30 @@ void qst_op_ret(void) {
 }
 
 void qst_op_nop(void) {  }
-u16 read_be_u16(void);
-extern "C" {
-s32 stream_read_be32(void);
-}
-void append_string_to_buffer(s32 dest);
 extern char qst_cstring_buffer[];
 
 void qst_getargs_u16_u8(s32 op) {
-    void (*fn)(u16, u8) = (void (*)(u16, u8))qst_opcode_table[op].handler;
+    QuestHandlerU16U8 fn = (QuestHandlerU16U8)qst_opcode_table[op].handler;
     u16 a = read_be_u16();
-    fn(a, TLobby::read_packet_byte());
+    fn(a, read_u8());
 }
 
 void qst_getargs_u16(s32 op) {
-    void (*fn)(u16) = (void (*)(u16))qst_opcode_table[op].handler;
+    QuestHandlerU16 fn = (QuestHandlerU16)qst_opcode_table[op].handler;
     fn(read_be_u16());
 }
 
 void qst_getargs_cstring(s32 op) {
-    void (*fn)(char *) = (void (*)(char *))qst_opcode_table[op].handler;
-    append_string_to_buffer((saddr)qst_cstring_buffer);
+    QuestHandlerString fn = (QuestHandlerString)qst_opcode_table[op].handler;
+    append_string_to_buffer(qst_cstring_buffer);
     fn(qst_cstring_buffer);
 }
 
-typedef void (*SwitchJumpHandler)(s32, u8, s16 *);
-typedef void (*JumpOnHandler)(u16, u8, u8 *);
-
 void qst_getargs_s32_u8_s16ptr(s32 op) {
     s16 buf[16];
-    SwitchJumpHandler fn = (SwitchJumpHandler) qst_opcode_table[op].handler;
-    s32 first = ((s32 (*)(void))TLobby::read_packet_byte)();
-    u8 count = ((s32 (*)(void))TLobby::read_packet_byte)();
+    SwitchJumpHandler fn = (SwitchJumpHandler)qst_opcode_table[op].handler;
+    s32 first = ((s32 (*)(void))read_u8)();
+    u8 count = ((s32 (*)(void))read_u8)();
     s32 i;
 
     for (i = 0; i < count; i++) {
@@ -5261,62 +5203,62 @@ void qst_getargs_s32_u8_s16ptr(s32 op) {
 
 void qst_getargs_u16_u8_u8ptr(s32 op) {
     u8 buf[16];
-    JumpOnHandler fn = (JumpOnHandler) qst_opcode_table[op].handler;
+    JumpOnHandler fn = (JumpOnHandler)qst_opcode_table[op].handler;
     u16 label = ((s32 (*)(void))read_be_u16)();
-    u8 count = ((s32 (*)(void))TLobby::read_packet_byte)();
+    u8 count = ((s32 (*)(void))read_u8)();
     s32 i;
 
     for (i = 0; i < count; i++) {
-        buf[i] = ((s32 (*)(void))TLobby::read_packet_byte)();
+        buf[i] = ((s32 (*)(void))read_u8)();
     }
     fn(label, count, buf);
 }
 
 void qst_getargs_u8_s32_u16(s32 op) {
-    void (*fn)(u8, s32, u16) = (void (*)(u8, s32, u16))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
+    QuestHandlerU8S32U16 fn = (QuestHandlerU8S32U16)qst_opcode_table[op].handler;
+    u8 a = read_u8();
     s32 b = stream_read_be32();
     fn(a, b, read_be_u16());
 }
 
 void qst_getargs_u8_u8_u16(s32 op) {
-    void (*fn)(u8, u8, u16) = (void (*)(u8, u8, u16))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
-    u8 b = TLobby::read_packet_byte();
+    QuestHandlerU8U8U16 fn = (QuestHandlerU8U8U16)qst_opcode_table[op].handler;
+    u8 a = read_u8();
+    u8 b = read_u8();
     fn(a, b, read_be_u16());
 }
 
-void TLobby::dispatch_command(s32 op) {
-    void (*fn)(u8, u16) = (void (*)(u8, u16))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
+void qst_getargs_u8_u16(s32 op) {
+    QuestHandlerU8U16 fn = (QuestHandlerU8U16)qst_opcode_table[op].handler;
+    u8 a = read_u8();
     fn(a, read_be_u16());
 }
 
 void qst_getargs_u16_2(s32 op) {
-    void (*fn)(u16) = (void (*)(u16))qst_opcode_table[op].handler;
+    QuestHandlerU16 fn = (QuestHandlerU16)qst_opcode_table[op].handler;
     fn(read_be_u16());
 }
 
 void qst_getargs_s32(s32 op) {
-    void (*fn)(s32) = (void (*)(s32))qst_opcode_table[op].handler;
+    QuestHandlerS32 fn = (QuestHandlerS32)qst_opcode_table[op].handler;
     fn(stream_read_be32());
 }
 
 void qst_getargs_u8_s32(s32 op) {
-    void (*fn)(u8, s32) = (void (*)(u8, s32))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
+    QuestHandlerU8S32 fn = (QuestHandlerU8S32)qst_opcode_table[op].handler;
+    u8 a = read_u8();
     fn(a, stream_read_be32());
 }
 
 void qst_getargs_u8_u8(s32 op) {
-    void (*fn)(u8, u8) = (void (*)(u8, u8))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
-    fn(a, TLobby::read_packet_byte());
+    QuestHandlerU8U8 fn = (QuestHandlerU8U8)qst_opcode_table[op].handler;
+    u8 a = read_u8();
+    fn(a, read_u8());
 }
 
 void qst_getargs_u8(s32 op) {
-    void (*fn)(u8) = (void (*)(u8))qst_opcode_table[op].handler;
-    fn(TLobby::read_packet_byte());
+    QuestHandlerU8 fn = (QuestHandlerU8)qst_opcode_table[op].handler;
+    fn(read_u8());
 }
 
 void qst_getargs_void_reset(s32 op) {
@@ -5340,11 +5282,11 @@ void qst_call_stack_push(s32 value)
   qst_call_stack[qst_call_stack_depth++] = value;
 }
 int qst_label_address(int label) {  return (saddr)(qst_code + qst_function_table[(u16)label]); }
-void append_string_to_buffer(s32 dest) {
+void append_string_to_buffer(char *dest) {
     s32 string_length;
 
     string_length = strlen((const char *)(qst_code + qst_pc));
-    expand_message_substitutions((saddr)(qst_code + qst_pc), dest);
+    expand_message_substitutions(qst_code + qst_pc, dest);
     qst_pc += string_length + 1;
 }
 
@@ -5368,13 +5310,13 @@ u16 read_be_u16(void) {
 
 saddr qst_args[8];
 s32 qst_call_stack[64];
-QuestPlayerNameBuffer quest_player_name_buffer;
-QuestPlayerClassNameBuffer quest_player_class_name_buffer;
+char quest_player_name_buffer[16];
+char quest_player_class_name_buffer[16];
 BattleRules battle_rules;
 char qst_cstring_buffer[0x404];
 
 
-unsigned char TLobby::read_packet_byte() { return qst_code[qst_pc++]; }
+unsigned char read_u8() { return qst_code[qst_pc++]; }
 
 quest_suspend_reason QuestVmContext::dispatch() {
     quest_suspend_reason reason;
@@ -5396,7 +5338,7 @@ void close_windows() {
         qst_message_window_qb = NULL;
     }
     if (qst_list_window != NULL) {
-        ((TWindowBase *)qst_list_window)->close();
+        qst_list_window->close();
         qst_list_window = NULL;
     }
     if (qst_item_name_entry != NULL) {
@@ -5426,13 +5368,13 @@ quest_suspend_reason dispatch_quest_opcode(void) {
     s32 op;
     qst_suspend_reason = QST_RUNNING;
     while (qst_suspend_reason == QST_RUNNING) {
-        op = TLobby::read_packet_byte();
+        op = read_u8();
         switch (op) {
         case 0xF8:
-            op = TLobby::read_packet_byte() + 0x100;
+            op = read_u8() + 0x100;
             break;
         case 0xF9:
-            op = TLobby::read_packet_byte() + 0x200;
+            op = read_u8() + 0x200;
             break;
         }
         qst_opcode_table[op].decode_arguments(op);
@@ -5593,11 +5535,8 @@ void TObject::toggle_pause() { m_flags ^= PAUSE_UPDATE; }
 
 void TLobby::set_floor(s16 v) { *(s16*)((char*)this + 0x11a) = v; }
 
-    extern unsigned char gba_identifier_value;
-    extern short gba_identifier_slot_plus_1;
 void gba_set_identifiers(int a0, int a1) { gba_identifier_value = a1; gba_identifier_slot_plus_1 = (a0 + 0x1); }
 
-    extern int gba_download_state;
 int get_gba_download_state(void) {  return gba_download_state; }
 
 Vec *set_quest_col_warp_position(TObjQuestColApcINW *trigger, const Vec *position) {
@@ -5610,7 +5549,6 @@ void CurvePathPoint::bswap() {
     bswap_32((u32 *)&length);
 }
 
-    extern unsigned char camera_capture_flags;
 void set_screen_bw(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
 
 void G_SyncQuestRegister_6x77::send() {
@@ -5651,13 +5589,10 @@ void BattleMovementParams::bswap() {
 
 void PlayerTechniqueState::disable_techniques() { flags.set(2); }
 
-    extern int lobby_online_ready_flag;
 void set_ult_map(void) { lobby_online_ready_flag = 1; }
 
-    extern int current_lobby_id;
 void TLobby::set_lobby_id(int a0) { current_lobby_id = a0; }
 
-    extern int area_total;
 void TLobby::set_area_total(int a0) { area_total = a0; }
 
 void override_warp_dest_floor(void) { lobby_quest_progress_flag = 1; }

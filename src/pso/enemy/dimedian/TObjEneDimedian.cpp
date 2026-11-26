@@ -15,7 +15,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -28,7 +27,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/MaterialShadeFade.h"
@@ -43,27 +42,20 @@
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
-
-extern "C" {
-extern SampledMotionPoints *dimedian_attack_left_trail;
-extern SampledMotionPoints *dimedian_attack_right_trail;
-
-extern saddr dimedian_resource_handles[];
-extern s32 dimedian_last_draw_tick[];
 
 
 s16 TObjPlayer::get_atp() { return this->atp; }
 s16 TObjPlayer::get_atp_range() { return this->atp_range; }
 void set_object_position(TObjBase *object, const Vec *position) { VecCopy(&object->position, position); }
 
-void TObjMotion::set_override_speed(f32 farg0) {
-    this->override_speed = farg0;
+void TObjMotion::set_override_speed(f32 speed) {
+    this->override_speed = speed;
     set_motion_flags(MOTION_OVERRIDE_SPEED);
 }
 
@@ -213,7 +205,7 @@ void TObjEneDimedian::render() {
     Vec pos;
     if (actor_frame_tick != dimedian_last_draw_tick[variant]) {
         dimedian_last_draw_tick[variant] = actor_frame_tick;
-        TObjPlayer__sub_8023DEE0((s16 *)dimedian_resource_handles[variant], 0xE, 0, 0);
+        scroll_chunk_plist_uvs((s16 *)dimedian_resource_handles[variant], 0xE, 0, 0);
     }
     camera = 0;
     if (is_split_screen() != 0) {
@@ -229,7 +221,7 @@ void TObjEneDimedian::render() {
         fading = camera_fades[camera].updateFromCamera(&body_center);
     }
     select_actor_lighting(this);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -310,7 +302,6 @@ void TObjEneDimedian::render() {
     }
 }
 
-}
 
 extern "C" const char dimedian_sl_body_model_filename[20] = "df3_sl_wala_body.nj";
 extern "C" const char dimedian_ssl_body_model_filename[24] = "df3_ssl_wala_body.nj";
@@ -337,12 +328,6 @@ extern "C" {
 extern const char dimedian_a_bml_filename[26];
 }
 extern "C" {
-extern const char *TObjEneDimedian_name_ref;
-
-
-
-extern const char *dimedian_model_name_table[4];
-extern const char *dimedian_motion_name_table[13];
 const char *dimedian_model_name_table[4] = {
     dimedian_sl_body_model_filename, dimedian_ssl_body_model_filename, dimedian_s_body_model_filename, NULL,
 };
@@ -379,9 +364,9 @@ CollisionBody dimedian_collision_body_table[3] = {
     {{0.0f, 15.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-void *TObjEneDimedian::create(void *arg2_) {
+void *TObjEneDimedian::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    return new TObjEneDimedian(control, arg2_);
+    return new TObjEneDimedian(control, set_data);
 }
 
 player_stats **dimedian_boss_object_buf;
@@ -471,7 +456,6 @@ void TLobby::load_dimedian_resources() {
 extern "C" __declspec(section ".rodata") const char dimedian_a_bml_filename[26] = "bm_ene_df3_dimedian_a.bml";
 }
 
-extern "C" {
 saddr dimedian_resource_handles[3];
 s32 dimedian_last_draw_tick[3];
 
@@ -480,7 +464,6 @@ const char *TObjEneDimedian_name_ref = dimedian_class_name;
 BmlResource *dimedian_resource_ptr;
 SampledMotionPoints *dimedian_attack_left_trail;
 SampledMotionPoints *dimedian_attack_right_trail;
-}
 
 #pragma defer_codegen on
 void TObjEneDimedian::load_dimedian_param_entry(s32 i) {

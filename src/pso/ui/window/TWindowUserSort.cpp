@@ -47,13 +47,13 @@ WindowDescriptor window_user_sort_settings = {
 
 
 void TWindowUserSort::render() {
-    saddr context;
-    context = reinterpret_cast<saddr>(draw_default_entry());
-    draw_window_frame((void *)context);
+    WindowDrawContext *context;
+    context = draw_default_entry();
+    draw_window_frame(context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
 }
 
 void TWindowUserSort::run_task() { update_window(); update_fade(); update_window_entry_list(&entry_list); }
@@ -91,9 +91,9 @@ void TWindowMainMenu1P::open_main_menu() {
         player = (u8 *)(get_player_by_client_id(client_index));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                this->open((saddr)main_menu_1p_android_entries);
+                this->open(main_menu_1p_android_entries);
             } else {
-                this->open((saddr)main_menu_1p_entries);
+                this->open(main_menu_1p_entries);
             }
             this->create_char_select_slot();
             this->on_menu_opened();

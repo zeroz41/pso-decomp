@@ -12,19 +12,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 
-extern const f32 TWindowDD__data_805DFBFC;
-extern const f32 lbl_805DFC00;
-extern const f32 lbl_805DFC04;
-extern const f32 lbl_805DFC08;
-extern const f32 lbl_805DFC2C;
-extern const f32 lbl_805DFB48;
-extern const f32 lbl_805DFB4C;
 
 
 struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; };
 
-__declspec(section ".data") f32 TWindowDD__layout_constant_pair[2] = { TWindowDD__data_805DFBFC, lbl_805DFC00 };
-TWindowPlacement TWindowDD__layout_constants = { lbl_805DFC04, lbl_805DFC08, lbl_805DFC2C, 0, 3 };
+__declspec(section ".data") f32 TWindowDD__layout_constant_pair[2] = { mode_window_x, mode_window_y };
+TWindowPlacement TWindowDD__layout_constants = { mode_window_placement_x, mode_window_placement_y, mode_window_depth, 0, 3 };
 
 TWindowWordSelectMode *TWindowWordSelectMode::create() { return new TWindowWordSelectMode; }
 
@@ -137,7 +130,7 @@ void TWindowWordSelectMode::render() {
     TWindowDD__sub_803489B8(ctx, points, 0);
     h = ctx->scale[1];
     step = window_dd_row_height * h;
-    dv = lbl_805DFB4C * lbl_805DFB48;
+    dv = mode_row_texture_height * mode_texel_scale;
     q.x0 = points[0].x;
     q.x1 = points[7].x;
     q.y0 = points[0].y + h;
@@ -164,5 +157,5 @@ void TWindowWordSelectMode::render() {
         q.v0 = q.v1;
         q.v1 += dv;
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }

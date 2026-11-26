@@ -6,27 +6,25 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 
 WindowDrawContext *text_draw_clip_context;
 f32 text_draw_depth;
 f32 text_draw_right_limit_x;
 s32 text_clip_enabled_flag;
-s32 lbl_805D6440;
+s32 text_draw_mode;
 
 
 extern f32 text_draw_depth;
 extern f32 text_draw_right_limit_x;
 extern s32 text_clip_enabled_flag;
-extern s32 lbl_805D6440;
+extern s32 text_draw_mode;
 extern "C" {
 u8 get_small_font_glyph_width(s32);
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 void calc_plain_glyph_quad(s32, void *);
 void build_small_font_glyph_quad(s32, void *);
-void begin_screen_draw(s32);
-void draw_textured_quad_at_depth(void *, f32);
-void set_draw_texture_and_color(s32, u32);
 s32 get_font_char_advance(s32);
 s32 map_char_to_font_code(s32);
 void calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
@@ -64,7 +62,7 @@ s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width
             adv = get_small_font_glyph_width(glyph);
             q.x0 = x;
             q.y0 = y;
-            if (lbl_805D6440 != 0) {
+            if (text_draw_mode != 0) {
                 calc_plain_glyph_quad(glyph, &q);
             } else {
                 build_small_font_glyph_quad(glyph, &q);
@@ -77,11 +75,11 @@ s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width
             width -= (f32)adv;
             if (text_clip_enabled_flag == 0 || text_draw_clip_context->clip_textured_quad(&q) != 0) {
                 text_draw_clip_context->transform_quad(&q);
-                draw_textured_quad_at_depth(&q, text_draw_depth);
+                draw_textured_quad_at_depth(&q.x0, text_draw_depth);
             }
         }
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     return ok;
 }
 
@@ -128,7 +126,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
         code = *s++ & 0xFF;
         if (code == '\n') {
             if (mode == 0) {
-                if (lbl_805D6440 != 0) {
+                if (text_draw_mode != 0) {
                     x += 9.0f;
                     width -= 9.0f;
                 } else {
@@ -174,7 +172,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
                 text_draw_clip_context->clip_textured_quad(&q);
             }
             text_draw_clip_context->transform_quad(&q);
-            draw_textured_quad_at_depth(&q, text_draw_depth);
+            draw_textured_quad_at_depth(&q.x0, text_draw_depth);
         }
         x += (f32)(u8)adv;
         width -= (f32)(u8)adv;
@@ -188,5 +186,5 @@ void set_text_draw_params(WindowDrawContext *context, s32 clip, s32 mode, f32 de
     text_draw_depth = depth;
     text_draw_right_limit_x = right_limit;
     text_clip_enabled_flag = clip;
-    lbl_805D6440 = mode;
+    text_draw_mode = mode;
 }

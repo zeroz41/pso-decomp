@@ -8,7 +8,6 @@
 class ModelNodePositionCapture;
 
 class TParticleCtrl;
-struct TObjFish;
 struct AnimationMotion;
 
 struct TObjDFDemo5 : public TObjBase {

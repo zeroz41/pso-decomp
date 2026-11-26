@@ -5,6 +5,7 @@
 
 class TWindowDD_WS_String : public TWindowBase {
 public:
+    static const char *class_name;
     TWindowDD_WS_String(f32 *position, f32 *size, u32 text, s32 style);
     virtual ~TWindowDD_WS_String();
     static TWindowDD_WS_String *create(f32 width, f32 *pos, f32 *size, u32 str, s32 style);

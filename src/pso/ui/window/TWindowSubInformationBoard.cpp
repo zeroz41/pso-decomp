@@ -5,7 +5,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowSubInformationBoard.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -31,14 +30,10 @@ struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 
 struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
-extern "C" {
-
-const char *lbl_805D4348 = "TWindowSubInformationBoard";
-
-}
+const char *TWindowSubInformationBoard::class_name = "TWindowSubInformationBoard";
 
 TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *parent, s32 client) : TObject(parent) {
-    this->m_name = lbl_805D4348;
+    this->m_name = class_name;
     this->client = client;
     this->shown_index = -1;
     parent_menu = static_cast<TWindowMainMenu *>(parent);
@@ -80,21 +75,21 @@ void TWindowSubInformationBoard::run_task() {
     switch (this->state) {
     case 0:
     case 1:
-        if ((u32) this->menu_window == 0U) {
-            this->menu_window = (TWindowMenu *)create_info_board_menu();
+        if (this->menu_window == NULL) {
+            this->menu_window = create_info_board_menu();
         }
-        if ((u32) this->message_window == 0U) {
-            this->message_window = (TWindowMessage *)open_card_info_window();
+        if (this->message_window == NULL) {
+            this->message_window = open_card_info_window();
         }
         this->menu_window->clear_flag_and_release();
         this->state = 2U;
     case 2:
-        set_message_index(((TWindowShortListCtrl *)this->menu_window)->get_cursor_pos());
+        set_message_index(this->menu_window->get_cursor_pos());
         if (this->menu_window->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             this->state = 0xCU;
         } else if (this->menu_window->is_decided() != 0) {
-            if ((u32) this->message_window != 0U) {
+            if (this->message_window != NULL) {
                 this->message_window->close();
                 this->message_window = 0U;
             }
@@ -120,10 +115,10 @@ void TWindowSubInformationBoard::run_task() {
         break;
     case 6:
         if ((u32) this->page_menu == 0U) {
-            this->page_menu = sub_8034CDE0();
+            this->page_menu = create_board_menu();
         }
-        if ((u32) this->message_window == 0U) {
-            this->message_window = (TWindowMessage *)show_card_a7();
+        if (this->message_window == NULL) {
+            this->message_window = show_card_a7();
         }
         this->state = 7U;
     case 7:
@@ -141,7 +136,7 @@ void TWindowSubInformationBoard::run_task() {
         this->state = 5U;
         break;
     case 9:
-        if ((u32) this->menu_window != 0U) {
+        if (this->menu_window != NULL) {
             this->menu_window->close();
             this->menu_window = 0U;
         }
@@ -177,7 +172,7 @@ void TWindowSubInformationBoard::run_task() {
 
 void TWindowSubInformationBoard::render() {  }
 
-u32 TWindowSubInformationBoard::create_info_board_menu() {
+TWindowMenu *TWindowSubInformationBoard::create_info_board_menu() {
   TWindowMenu *list;
   list = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
@@ -192,12 +187,12 @@ u32 TWindowSubInformationBoard::create_info_board_menu() {
   list->set_flag70_bit10();
   list->update_layout_height(179.0f);
   align_menu_entry_positions(list);
-  return (uaddr)list;
+  return list;
 }
 
-u32 TWindowSubInformationBoard::sub_8034CDE0() {
+u32 TWindowSubInformationBoard::create_board_menu() {
     I_8034CDE0 *it;
-    void *w;
+    TWindowMenu *w;
     s32 i;
     s32 n;
     it = (I_8034CDE0 *)TLobby::get_info_board_ptr();
@@ -209,33 +204,33 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     it = ((L_8034CDE0 *)it)->items;
     for (i = 0; i < n; i++, it++) {
         if (it->f10 != 0) {
-            ((TWindowMenu *)w)->add_text_entry((saddr)it, 0x16, i);
+            w->add_text_entry((saddr)it, 0x16, i);
         } else {
-            add_gray_text_entry((TWindowMenu *)w, (const char *)it, 0x16, i);
+            add_gray_text_entry(w, (const char *)it, 0x16, i);
         }
     }
-    if (((TWindowSubComCardList *)w)->get_field_72() <= 0) {
-        add_gray_text_entry((TWindowMenu *)w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 6, -1);
+    if (w->get_entry_count() <= 0) {
+        add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 6, -1);
     }
-    ((TWindowMenu *)w)->set_flag70_bit10();
-    ((TWindowSubComCardList *)w)->set_scroll_target(223.0f, 184.0f);
+    w->set_flag70_bit10();
+    w->set_scroll_target(223.0f, 184.0f);
     return (uaddr)w;
 }
 
-u32 TWindowSubInformationBoard::open_card_info_window() {
+TWindowMessage *TWindowSubInformationBoard::open_card_info_window() {
     static const f32 size[2] = {188.0f, 160.0f};
     TWindowMessage *window;
     window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA5), size, 1);
     this->shown_index = -1;
-    return (uaddr)window;
+    return window;
 }
 
-u32 TWindowSubInformationBoard::show_card_a7() {
+TWindowMessage *TWindowSubInformationBoard::show_card_a7() {
     static const f32 size[2] = {206.0f, 180.0f};
     TWindowMessage *window;
     window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA7), size, 1);
     this->shown_index = -1;
-    return (uaddr)window;
+    return window;
 }
 
 TKeyBoardControl *TWindowSubInformationBoard::open_keyboard(saddr parent) {

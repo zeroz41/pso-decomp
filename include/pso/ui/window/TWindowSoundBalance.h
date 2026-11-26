@@ -25,7 +25,7 @@ struct TWindowSoundBalance : public TWindowBase {
     void set_music_gain(s16 gain);
     void play_open_sound();
     void handle_lr_input();
-    void sub_8027095C();
+    void handle_gain_input();
     virtual void run_task();
     void apply_balance(WindowDrawContext *context);
     void handle_cancel();

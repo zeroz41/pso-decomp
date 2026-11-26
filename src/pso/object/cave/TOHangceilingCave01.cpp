@@ -14,8 +14,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer.h"
@@ -46,28 +45,22 @@ NJS_OBJECT *hangceiling_cave01_model_root;
 s32 turiten_singo_key_model_index;
 s32 hanging_ceiling_motion_index;
 
-extern const char fe_obj_turiten_kuro_gj[] = "fe_obj_turiten_kuro.gj";
-extern const char fe_obj_turiten_moto_taiki_gj[] = "fe_obj_turiten_moto_taiki.gj";
-extern const char fs_obj_turiten_singo_gj[] = "fs_obj_turiten_singo.gj";
-extern const char fe_obj_turiten_moto_njm[] = "fe_obj_turiten_moto.njm";
-extern const char fe_obj_turiten_moto_taiki_njm[] = "fe_obj_turiten_moto_taiki.njm";
-extern const char fe_obj_turiten_moto_bml[] = "fe_obj_turiten_moto.bml";
-extern const char fe_obj_gc_turiten_moto_gj[] = "fe_obj_gc_turiten_moto.gj";
-extern const char fe_obj_gc_turiten_moto_njm[] = "fe_obj_gc_turiten_moto.njm";
-extern const char bm_obj_ruins_turiten_bml[] = "bm_obj_ruins_turiten.bml";
+
+#pragma push
+#pragma readonly_strings on
+const char *fe_obj_turiten_moto_model_names[] = {"fe_obj_turiten_kuro.gj", "fe_obj_turiten_moto_taiki.gj", "fs_obj_turiten_singo.gj", NULL};
+const char *fe_obj_turiten_moto_motion_names[] = {"fe_obj_turiten_moto.njm", "fe_obj_turiten_moto_taiki.njm", NULL};
+BmlResourceDescriptor fe_obj_turiten_moto_resource_descriptor = {
+    "fe_obj_turiten_moto.bml", fe_obj_turiten_moto_model_names, fe_obj_turiten_moto_motion_names, 3, 2};
+__declspec(section ".data") const char *bm_obj_ruins_turiten_model_names[] = {"fe_obj_gc_turiten_moto.gj", NULL};
+__declspec(section ".data") const char *bm_obj_ruins_turiten_motion_names[] = {"fe_obj_gc_turiten_moto.njm", NULL};
+BmlResourceDescriptor turiten_singo_resource_descriptor = {
+    "bm_obj_ruins_turiten.bml", bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
+#pragma pop
 __declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
 extern const char hangceiling_cave01_normal_class_name_string[] = "TOHangceilingCave01Normal";
 extern const char hangceiling_cave01_key_class_name_string[] = "TOHangceilingCave01Key";
 extern const char hangceiling_cave01_key_quick_class_name_string[] = "TOHangceilingCave01KeyQuick";
-
-const char *fe_obj_turiten_moto_model_names[] = {fe_obj_turiten_kuro_gj, fe_obj_turiten_moto_taiki_gj, fs_obj_turiten_singo_gj, NULL};
-const char *fe_obj_turiten_moto_motion_names[] = {fe_obj_turiten_moto_njm, fe_obj_turiten_moto_taiki_njm, NULL};
-BmlResourceDescriptor fe_obj_turiten_moto_resource_descriptor = {
-    fe_obj_turiten_moto_bml, fe_obj_turiten_moto_model_names, fe_obj_turiten_moto_motion_names, 3, 2};
-__declspec(section ".data") const char *bm_obj_ruins_turiten_model_names[] = {fe_obj_gc_turiten_moto_gj, NULL};
-__declspec(section ".data") const char *bm_obj_ruins_turiten_motion_names[] = {fe_obj_gc_turiten_moto_njm, NULL};
-BmlResourceDescriptor turiten_singo_resource_descriptor = {
-    bm_obj_ruins_turiten_bml, bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
 CollisionBody hangceiling_cave01_collision_body_parts = {{0.0f, 80.0f, 0.0f}, 17.0f, 17.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 const char *hangceiling_cave01_normal_class_name = hangceiling_cave01_normal_class_name_string;
@@ -108,7 +101,7 @@ TOHangceilingCaveBase::~TOHangceilingCaveBase() {
 }
 
 void load_turiten_singo_resources(void) {
-    void *p;
+    BmlResource *p;
 
     hangceiling_cave01_model_archive = NULL;
     turiten_singo_texture_lists = NULL;
@@ -116,7 +109,7 @@ void load_turiten_singo_resources(void) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
         p = new BmlResource(5, &turiten_singo_resource_descriptor, 0, 0, NULL);
-        hangceiling_cave01_model_archive = (BmlResource *)p;
+        hangceiling_cave01_model_archive = p;
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[1] = NULL;
         turiten_singo_texture_lists[0] = NULL;
@@ -128,7 +121,7 @@ void load_turiten_singo_resources(void) {
         break;
     default:
         p = new BmlResource(5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, NULL);
-        hangceiling_cave01_model_archive = (BmlResource *)p;
+        hangceiling_cave01_model_archive = p;
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[0] = LoadPvmFileTls("fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = LoadPvmFileTls("fs_obj_turiten_singo_r.gvm");
@@ -207,7 +200,7 @@ void TOHangceilingCaveBase::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[2]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[2]));
         if (model != NULL && current_motion != NULL) {
             draw_ginja_model_with_motion(model, current_motion, frame);
         }
@@ -219,7 +212,7 @@ void TOHangceilingCaveBase::render() {
                 lit0 = level <= step;
                 lit1 = level <= 2.0f * step;
                 lit2 = level <= 3.0f * step;
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
                 if (lit0 == 1) {
                     draw_ginja_model(hangceiling_cave01_model_root->child->model);
                 }
@@ -229,7 +222,7 @@ void TOHangceilingCaveBase::render() {
                 if (lit2 == 1) {
                     draw_ginja_model(hangceiling_cave01_model_root->child->child->child->model);
                 }
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
                 if (lit0 == 0) {
                     draw_ginja_model(hangceiling_cave01_model_root->child->model);
                 }
@@ -241,9 +234,9 @@ void TOHangceilingCaveBase::render() {
                 }
             } else {
                 if (is_current_floor_switch_set((u16)switch_id) == 1) {
-                    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
+                    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
                 } else {
-                    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
+                    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
                 }
                 draw_ginja_object(hangceiling_cave01_model_root);
             }

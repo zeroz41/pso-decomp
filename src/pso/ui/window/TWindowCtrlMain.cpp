@@ -6,7 +6,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrlClipOut.h"
 #include "pso/ui/window/TWindowCtrlSub.h"
@@ -26,7 +25,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024EEF8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -43,7 +42,7 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/text_80269FE8.h"
-#include "pso/unk/text_80271400.h"
+#include "pso/ui/window/TWindowStatus.h"
 
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -57,8 +56,8 @@ const char *window_ctrl_sub_class_name = "TWindowCtrlSub";
 const char *window_ctrl_clip_out_class_name = "TWindowCtrlClipOut";
 const char *window_ctrl_player_class_name = "TWindowCtrlPlayer";
 
-// width, height of the player message window (TLobby__sub_80269DA4 stores it as the window size)
-const f32 lbl_8044EC4C[2] = {255.0f, 120.0f};
+// width, height of the player message window (set_message_window_size stores it as the window size)
+const f32 message_information_window_extent[2] = {255.0f, 120.0f};
 s32 TWindowCtrlMain::display_flags;
 TObject *TWindowCtrlMain::instance;
 TObject *TWindowCtrlMain::window_task_root;
@@ -74,7 +73,7 @@ struct VObj_8024C820 {
     char pad[0x18];
     virtual void m0(int);
 };
-extern "C" void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index);
+void draw_viewport_fill(s32 viewport_index);
 WindowControlState TWindowCtrlMain::viewport_states[6];
 extern "C" {
 struct Poly_8024CE68 {
@@ -85,6 +84,15 @@ struct Poly_8024CE68 {
 };
 }
 extern "C" s32 fn_8002AE08(s32 client_id);
+
+// -inline off,deferred: these sit at the end of the TU's text, so they come first in the source.
+s32 TWindowCtrlPlayer::is_main_menu_locked() { return (flags >> 6) & 0x1; }
+void TWindowMainMenu::close_main_menu() {  }
+void TWindowMainMenu::open_main_menu() {  }
+s32 TWindowMainMenu::is_open() { return menu_flags & 0x1; }
+s32 TWindowMainMenu::is_log_active() { return (menu_flags >> 3) & 0x1; }
+void TWindowMainMenu__sub_8024E3D0(void) {  }
+void TWindowMainMenu__sub_8024E3CC(void) {  }
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(parent) {
     m_name = window_ctrl_player_class_name;
@@ -103,7 +111,7 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(p
     } else {
         main_menu = new TWindowMainMenu1P(this, this->client_id);
     }
-    message_information = (TWindowMessageInfomation *)create_message_information_window(get_window_layout_position(0x20), (saddr)lbl_8044EC4C, this->client_id);
+    message_information = (TWindowMessageInfomation *)create_message_information_window(get_window_layout_position(0x20), (saddr)message_information_window_extent, this->client_id);
     simple_status = create_status_window(this->client_id);
     simple_status->suspend_update();
     action_palette = new TWindowActionPalette(this->client_id);
@@ -382,12 +390,12 @@ s32 TWindowCtrlPlayer::is_countdown_done() {
 
 void TWindowCtrlPlayer::start_countdown() { this->countdown = 60; }
 
-void TWindowCtrlMain__sub_8024D838(void) { TWindowCtrlMain::reset_all(((void*)(0))); }
+void TWindowCtrlMain::reset_windows(void) { TWindowCtrlMain::reset_all(((void*)(0))); }
 
 void TWindowCtrlMain::reset_all(void* _w0) {
     s32 i;
     load_hud_palette_textures();
-    TWindowCtrlMain__sub_8024EF30();
+    clear_shared_window_draw_context();
     WindowDrawContext::get_or_create_instance();
     TWindowCtrlMain::display_flags = 0;
     TWindowCtrlMain::window_task_root = NULL;
@@ -493,12 +501,12 @@ void TWindowCtrlMain::render() {
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
-    TWindowCtrlMain__sub_8024CE24()->render_nodes();
+    get_main_window_root()->render_nodes();
     TCameraCtrl::restore_saved_view();
     TParticleCtrl::end_effect_render();
 }
 
-void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
+void draw_viewport_fill(s32 viewport_index) {
     NJS_POINT2 verts[4];
     Poly_8024CE68 poly;
     u32 colors[4];
@@ -599,7 +607,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     a = (s32)(255.0f * alpha) << 24;
     set_draw_texture_and_color(11, a | 0xFFFFFF);
 
@@ -634,7 +642,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     q.u1 = 0.06640625f;
     q.v1 = 0.99609375f;
     draw_textured_quad_at_depth((f32 *)&q, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 
     line.verts = lverts;
     line.colors = lcolors;
@@ -663,11 +671,11 @@ s32 is_window_display_enabled(void) {
     return 1;
 }
 
-TObject *TWindowCtrlMain__sub_8024CE34(void) {
+TObject *get_clip_out_window_root(void) {
     return TWindowCtrlMain::viewport_states[4].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CE24(void) {
+TObject *get_main_window_root(void) {
     return TWindowCtrlMain::viewport_states[5].window_root;
 }
 
@@ -684,7 +692,7 @@ void TWindowCtrlMain::set_fill_color(s32 viewport_index, s32 color) {
     get_window_control_state(viewport_index)->fill_color = color;
 }
 
-s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index) {
+s32 get_viewport_fill_color(s32 viewport_index) {
     return get_window_control_state(viewport_index)->fill_color;
 }
 
@@ -739,11 +747,11 @@ f32 TWindowCtrlMain::get_bottom(s32 viewport_index) {
     return get_window_control_state(viewport_index)->bottom;
 }
 
-void TWindowCtrlMain__sub_8024CB8C() {
+void TWindowCtrlMain::enable_display() {
     TWindowCtrlMain::display_flags &= ~1;
 }
 
-void TWindowCtrlMain__sub_8024CB7C() {
+void TWindowCtrlMain::disable_display() {
     TWindowCtrlMain::display_flags |= 1;
 }
 
@@ -766,7 +774,7 @@ void TWindowCtrlScreen::render() {
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TWindowCtrlMain::instance->render_nodes();
-        TWindowCtrlMain__sub_8024D2A4(viewport_index);
+        draw_viewport_fill(viewport_index);
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
         get_viewport_window_root(viewport_index)->render_nodes();
@@ -802,7 +810,7 @@ void TWindowCtrlClipOut::render() {
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
-        TWindowCtrlMain__sub_8024CE34()->render_nodes();
+        get_clip_out_window_root()->render_nodes();
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }

@@ -9,7 +9,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #pragma readonly_strings on
 
@@ -42,14 +42,14 @@ void TObjEZBoneRotPlayer::run_task() {
     last_rotation_y = player->rotation_y;
 }
 
-TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc) : TObjEZBoneRotBase(parent, root, (EZBoneRotDesc *)desc) {
+TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObjPlayer *parent, NJS_OBJECT *root, EZBoneRotDesc *desc) : TObjEZBoneRotBase(parent, root, desc) {
     m_name = ez_bone_rot_player_name;
-    player = (TObjPlayer *)parent;
+    player = parent;
     last_rotation_y = player->rotation_y;
 }
 
-void *TObjEZBoneRotPlayer::create(void *parent, void *root, void *desc) {
-    return new TObjEZBoneRotPlayer((TObject *)parent, (u8 *)root, desc);
+TObjEZBoneRotPlayer *TObjEZBoneRotPlayer::create(TObjPlayer *player, NJS_OBJECT *root, EZBoneRotDesc *desc) {
+    return new TObjEZBoneRotPlayer(player, root, desc);
 }
 
 void TObjEZBoneRotPlayer::advance_bone_rotation() {
@@ -95,9 +95,11 @@ void TObjEZBoneRotPlayer::start_bone_rotation_sequence(s32 angle) {
 
 void TObjEZBoneRotBase::save_bone_angles_recursive(NJS_OBJECT *bone) {
     s32 k;
-loop_1:
-    k = key->bone;
-    if (k >= 0) {
+    do {
+        k = key->bone;
+        if (k < 0) {
+            return;
+        }
         if (k == bone_index) {
             bone->evalflags = bone->evalflags & 0xFFFFFFFD;
             (*saved_cursor)[0] = bone->ang[0];
@@ -105,21 +107,16 @@ loop_1:
             (*saved_cursor)[2] = bone->ang[2];
             saved_cursor++;
             key++;
-            if (key->bone >= 0) {
-                goto next_bone;
-            }
-        } else {
-next_bone:
-            bone_index = bone_index + 1;
-            if (bone->child != NULL) {
-                save_bone_angles_recursive(bone->child);
-            }
-            bone = bone->sibling;
-            if (bone != NULL) {
-                goto loop_1;
+            if (key->bone < 0) {
+                return;
             }
         }
-    }
+        bone_index = bone_index + 1;
+        if (bone->child != NULL) {
+            save_bone_angles_recursive(bone->child);
+        }
+        bone = bone->sibling;
+    } while (bone != NULL);
 }
 
 void TObjEZBoneRotBase::save_bone_angles() {
@@ -132,11 +129,11 @@ void TObjEZBoneRotBase::save_bone_angles() {
 TObjEZBoneRotBase::~TObjEZBoneRotBase() {}
 
 
-TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc *desc) : TObject(parent) {
+TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, NJS_OBJECT *root, EZBoneRotDesc *desc) : TObject(parent) {
     EZBoneRotKey *k;
 
     m_name = ez_bone_rot_base_name;
-    this->root = (NJS_OBJECT *)root;
+    this->root = root;
     this->desc = desc;
     k = this->desc->keys;
     while (k->bone >= 0) {
@@ -148,10 +145,7 @@ TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc 
 }
 TObjEZBoneRotPlayer::~TObjEZBoneRotPlayer() {}
 
-extern "C" {
-extern Vec ez_bone_rot_player_chain_gravity;
-
-void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }
+void TObjHMS_EZRope_Player::render() { draw_rope(); }
 void TObjHMS_EZRope_Player::run_task() {
     TObjHMSColliderSpec *rs;
     TObjEZRopeCollider *rd;
@@ -188,6 +182,4 @@ void TObjHMS_EZRope_Player::run_task() {
     }
     pop_matrix();
     update_ropes(&ez_bone_rot_player_chain_gravity);
-}
-
 }

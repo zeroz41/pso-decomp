@@ -14,7 +14,6 @@
 #pragma push
 #pragma readonly_strings on
 const char *TObjBoss5PillarDemo::name = "TObjBoss5PillarDemo";
-extern "C" {
 #pragma pop
 
 void TObjBoss5PillarDemo__sub_8028AB38(void) {
@@ -29,7 +28,6 @@ void TObjBoss5PillarDemo::update_active_pillar() {
         BmlModelEntry *models = boss5_common_bml_resource->models;
         clear_chain_flags(models[7].model, models[6].model);
     }
-}
 }
 
 TObjBoss5PillarDemo::~TObjBoss5PillarDemo() {

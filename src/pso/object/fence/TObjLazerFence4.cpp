@@ -9,7 +9,7 @@
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/MaterialAlphaCompare.h"
@@ -36,7 +36,7 @@
 
 #pragma readonly_strings on
 
-const u16 lbl_80445BE0[] = {0, 1, 2, 3};
+const u16 lazer_fence4_color_slots[] = {0, 1, 2, 3};
 
 CollisionBody laser_fence4_collision_body_sets[2][5] = {
     {
@@ -76,12 +76,12 @@ void TObjLazerFence4::init_models() {
     s32 i;
     s32 j;
     if (set_params[2] % 2 == 0) {
-        beam_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 4);
-        post_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 5);
+        beam_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 4);
+        post_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 5);
         motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 2);
     } else {
-        beam_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 6);
-        post_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 7);
+        beam_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 6);
+        post_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 7);
         motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {
@@ -98,7 +98,7 @@ void TObjLazerFence4::init_models() {
 }
 
 void TObjLazerFence4::draw() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -115,7 +115,7 @@ void TObjLazerFence4::draw_model() {
     i += 1;
   }
   while (i < 0xC);
-  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
+  set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
   push_matrix();
   post_translate_matrix(&this->position.x);
   rotate_matrix_y(0, this->rotation_y);
@@ -133,7 +133,7 @@ void TObjLazerFence4::reset_if_door_closed() {
     }
 }
 
-void TObjLazerFence4::sub_801933C8() {
+void TObjLazerFence4::wait_for_switch() {
     animation_frame += 0.9f;
     if (animation_frame > (f32)(u32)(motion->frameCount - 1)) {
         animation_frame = 0.0f;
@@ -163,7 +163,7 @@ void TObjLazerFence4::run_task() {
 
     switch (this->state) {
     case 0:
-        sub_801933C8();
+        wait_for_switch();
         return;
     case 1:
         reset_if_door_closed();
@@ -172,6 +172,9 @@ void TObjLazerFence4::run_task() {
 }
 
 }
+
+
+
 
 
 void *TObjLazerFence4::create(void *set_data) {
@@ -197,7 +200,7 @@ TObjLazerFence4::TObjLazerFence4(TObject *parent, void *set_data) : TObjCollidab
     if (i > 3) {
         i = 3;
     }
-    color_slot = lbl_80445BE0[i];
+    color_slot = lazer_fence4_color_slots[i];
     init_models();
     init_collision_body_parts(this, laser_fence4_collision_body_sets[set_params[2] % 2], 5);
     actorFlags |= 0x40000000;

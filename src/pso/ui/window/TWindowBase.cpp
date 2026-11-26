@@ -1,4 +1,6 @@
 #include "pso/render/GinjaTexture.h"
+#include "pso/math/FloatRound.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "pso/render/ColorLineList.h"
 #include <stdlib.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -17,7 +19,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
@@ -27,6 +28,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TLanguage.h"
+#include "pso/unk/text_803DAFA8.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/vector.h"
@@ -45,8 +47,8 @@ static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0
 
 void reset_line_width(void);
 void set_line_width(int a0);
+void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len);
 extern "C" {
-void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f32 len);
 
 
 
@@ -94,7 +96,7 @@ f32 TWindowBase::get_normalized_progress() {
 #pragma pop
 
 void TWindowBase::reparent_to_main_ctrl() {
-    set_parent(reinterpret_cast<TObject *>(TWindowCtrlMain__sub_8024CE24()));
+    set_parent(reinterpret_cast<TObject *>(get_main_window_root()));
 }
 
 void TWindowBase::save_position() {
@@ -129,12 +131,12 @@ s32 TWindowBase::is_open_and_unblocked() {
 }
 #pragma pop
 
-void fn_802449E0(u8 *object) {
+}
+void hide_window(u8 *object) {
     TWindowBase *window = (TWindowBase *)object;
     window->window_flags = (s32) (window->window_flags & 0xFFFFFFF8);
     window->closing_tick = 0;
     ((TObject *)object)->disallow_rendering();
-}
 }
 
 void TWindowBase::close() {
@@ -164,7 +166,7 @@ s32 TWindowBase::is_window_reveal_complete() {
 }
 NJS_TEXLIST *hud_texlist;
 u16 window_ui_theme_index;
-s16 lbl_805D63F6;
+s16 window_scanline_timer;
 void window_request_refresh(u8 *help) {
     TWindowBase *window = (TWindowBase *)help;
     if (!((f32) window->open_tick >= 7.5f)) {
@@ -218,7 +220,7 @@ WindowDrawContext *TWindowBase::setup_window_draw_context(f32 *scale) {
 }
 
 WindowDrawContext *TWindowBase::draw_default_entry() {
-    return setup_window_draw_context((f32 *)fn_8026CB68());
+    return setup_window_draw_context((f32 *)get_one_vec2());
 }
 
 void TWindowBase::set_depth(f32 depth) {
@@ -260,7 +262,7 @@ TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, 
     }
     for (TWindowFukidasi *p = first; p != NULL; p = static_cast<TWindowFukidasi *>(p->m_next)) {
         if (TWindowFukidasi__sub_8024695C(p) != 0 && p->is_bit10_set() == 0 &&
-            ((TWindowBase *)p)->is_open_and_unblocked() != 0 && p != this &&
+            p->is_open_and_unblocked() != 0 && p != this &&
             (get_visible_flag() == 0 || p->get_visible_flag() == 0) &&
             is_balloon_overlapping(p, position, size)) {
             return p;
@@ -273,7 +275,7 @@ TWindowFukidasi *TWindowFukidasi::find_balloon_overlap_for(TWindowFukidasi *firs
     return find_overlapping_balloon(target_position, target_size, first);
 }
 
-void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
+void TWindowBase::init_window(u8 *descriptor, u8 *parent, s16 client) {
     m_name = class_name;
     copy_vec2(target_position, parent);
     copy_vec2(target_size, descriptor);
@@ -320,7 +322,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     z = -1.0f / (0.22424999f + context->depth);
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(2, -1);
     q.x0 = x - 2.0f;
     q.y0 = y;
@@ -357,7 +359,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, z);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 
@@ -389,7 +391,7 @@ void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context) {
         return;
     }
     z = -1.0f / context->depth;
-    t = ((5.0f * lbl_805D63F6 - 100.0f) - context->x) / context->w;
+    t = ((5.0f * window_scanline_timer - 100.0f) - context->x) / context->w;
     mx = t * (quad->x1 - quad->x0) + quad->x0;
     mu = t * (quad->u1 - quad->u0) + quad->u0;
     if (t > 0.5f) {
@@ -445,18 +447,18 @@ void begin_window_sweep_draw(s32 texture) {
     }
     set_additive_blend();
     set_tev_swap_channels(3, 3, 3, 3);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_texture_num(texture);
     begin_screen_textured_draw(1);
 }
 #pragma push
 #pragma fp_contract on
-BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size) {
+BOOL scanline_crosses_window(void *ctx, void *position, void *size) {
     f32 limit_x;
     f32 start_x;
 
     start_x = *(f32 *)position;
-    limit_x = (5.0f * (f32) lbl_805D63F6) - 100.0f;
+    limit_x = (5.0f * (f32) window_scanline_timer) - 100.0f;
     if (limit_x <= start_x) {
         return FALSE;
     }
@@ -522,7 +524,7 @@ void TWindowBase::draw_quest_message_frame(void *context) {
   f32 rem;
   f32 half;
   begin_screen_draw(1);
-  TObjFish::set_global_param(hud_texlist);
+  set_texture_list(hud_texlist);
   set_draw_texture_and_color(1, -1);
   if (frame_size[1] < 64.0f)
   {
@@ -565,12 +567,12 @@ void TWindowBase::draw_quest_message_frame(void *context) {
     rem -= 32.0f;
     q.y0 += step;
   }
-  TWindowSubStatusDisp::get_player();
+  end_screen_draw();
 }
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
+void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
     ColorLineList lines;
     u32 colors[3];
     ColorLineVertex pts[3];
@@ -627,9 +629,9 @@ void draw_window_scanlines(u8 *card, u8 *context) {
     case 1:
         return;
     }
-    n1 = TWindowSubComCard::trunc_float((12.0f + *(f32 *)((s8 *)card + 0x44)) / 4.0f);
-    n2 = TWindowSubComCard::trunc_float((*(f32 *)((s8 *)card + 0x4C) - 24.0f) / 4.0f);
-    y = ((5.0f * ((f32)lbl_805D63F6 - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)card + 0x40);
+    n1 = trunc_float((12.0f + *(f32 *)((s8 *)card + 0x44)) / 4.0f);
+    n2 = trunc_float((*(f32 *)((s8 *)card + 0x4C) - 24.0f) / 4.0f);
+    y = ((5.0f * ((f32)window_scanline_timer - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)card + 0x40);
     if (y <= 0.0f) {
         return;
     }
@@ -640,7 +642,7 @@ void draw_window_scanlines(u8 *card, u8 *context) {
     set_additive_blend();
     step = 1.0f;
     for (i = 0; i < n2; i++) {
-        TWindowSubComCard__sub_80245A10(card, i, (WindowDrawContext *)context, y);
+        draw_window_scanline(card, i, (WindowDrawContext *)context, y);
         y -= step;
     }
     set_default_alpha_blend();
@@ -702,15 +704,15 @@ void TWindowBase::draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext
 #pragma pop
 
 #pragma fp_contract on
-void TWindowBase::draw_window_frame(void *context) {
+void TWindowBase::draw_window_frame(WindowDrawContext *context) {
   TexturedQuad q;
   s32 n;
   f32 h;
   f32 dy;
   f32 rem;
   begin_screen_draw(1);
-  TObjFish::set_global_param(hud_texlist);
-  set_draw_texture_and_color(1, ((WindowDrawContext *)context)->color);
+  set_texture_list(hud_texlist);
+  set_draw_texture_and_color(1, context->color);
   n = (s32) frame_size[1];
   n += (4 - (n & 3)) & 3;
   if (((f32) n) < 64.0f)
@@ -721,40 +723,40 @@ void TWindowBase::draw_window_frame(void *context) {
   {
     h = 32.0f;
   }
-  q.y0 = ((WindowDrawContext *)context)->y;
-  q.y1 = ((WindowDrawContext *)context)->y + h;
+  q.y0 = context->y;
+  q.y1 = context->y + h;
   q.v0 = 0.0f;
   q.v1 = h / 256.0f;
-  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  draw_window_frame_strips((&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
-  q.y0 = (((WindowDrawContext *)context)->y + n) - h;
-  q.y1 = ((WindowDrawContext *)context)->y + n;
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  q.y1 = (context->scale[1] * (q.y1 - context->pivot[1])) + context->pivot[1];
+  draw_window_frame_strips(&q, context);
+  q.y0 = (context->y + n) - h;
+  q.y1 = context->y + n;
   q.v0 = (96.0f - h) / 256.0f;
   q.v1 = 0.375f;
-  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  draw_window_frame_strips((&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
-  q.y0 = 32.0f + ((WindowDrawContext *)context)->y;
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  q.y1 = (context->scale[1] * (q.y1 - context->pivot[1])) + context->pivot[1];
+  draw_window_frame_strips(&q, context);
+  q.y0 = 32.0f + context->y;
   q.v0 = 0.125f;
   q.v1 = 0.25f;
   rem = n - 64.0f;
-  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  dy = 32.0f * ((WindowDrawContext *)context)->scale[1];
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  dy = 32.0f * context->scale[1];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      dy = rem * ((WindowDrawContext *)context)->scale[1];
+      dy = rem * context->scale[1];
       q.v1 = (32.0f + rem) / 256.0f;
     }
     q.y1 = q.y0 + dy;
-    draw_window_frame_strips((&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+    draw_window_frame_strips(&q, context);
     rem -= 32.0f;
     q.y0 += dy;
   }
-  TWindowSubStatusDisp::get_player();
-  draw_window_scanlines((u8 *)this, (u8 *)((WindowDrawContext *)context));
+  end_screen_draw();
+  draw_window_scanlines((u8 *)this, (u8 *)context);
 }
 
 void TWindowBase::update_fade() {
@@ -772,27 +774,24 @@ void TWindowBase::update_fade() {
     this->tween_ticks = (u32) (this->tween_ticks - 1);
 }
 
-extern "C" {
-
-void TWindowSubComCard__sub_8024634C(void) {
+void update_window_scanline(void) {
     switch (window_ui_theme_index) {
     case 0:
-        lbl_805D63F6 = 60.0f * ((1.0f / 32768.0f) * rand()) + 60.0f;
+        window_scanline_timer = 60.0f * ((1.0f / 32768.0f) * rand()) + 60.0f;
         window_ui_theme_index = 1;
     case 1:
-        if (lbl_805D63F6-- < 0) {
-            lbl_805D63F6 = 0;
+        if (window_scanline_timer-- < 0) {
+            window_scanline_timer = 0;
             window_ui_theme_index = 2;
         }
         break;
     case 2:
-        lbl_805D63F6++;
-        if (5.0f * ((f32)lbl_805D63F6 - 0.2f * TWindowSubComCard::trunc_float(120.0f)) >= 840.0f) {
+        window_scanline_timer++;
+        if (5.0f * ((f32)window_scanline_timer - 0.2f * trunc_float(120.0f)) >= 840.0f) {
             window_ui_theme_index = 0;
         }
         break;
     }
-}
 }
 
 void TWindowBase::update_open_close() {
@@ -845,7 +844,7 @@ void TWindowBase::update_open_close() {
 }
 
 
-void TWindowDD::update_com_card() { TWindowSubComCard__sub_8024634C(); }
+void TWindowDD::update_com_card() { update_window_scanline(); }
 void TWindowBase::update_window() { update_open_close(); }
 void TWindowBase::render() {  }
 void TWindowBase::run_task() {  }
@@ -856,21 +855,21 @@ TWindowBase::~TWindowBase() {
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
     : TObject(TWindowCtrlMain__sub_8024CDB0((void *)(saddr)client)) {
-    sub_80244F2C(descriptor, parent, client);
+    init_window(descriptor, parent, client);
 }
 
 
-extern const char lbl_8044E688[];
+extern const char f256_hyouji_a_palette_file[];
 extern const char hud_palette_texture_filename[];
-extern const char lbl_8044E6B0[];
-extern const char lbl_8044E6C4[];
-extern const char lbl_8044E6D8[];
-extern const char lbl_8044E6F0[];
-extern const char lbl_8044E708[];
-extern const char lbl_8044E720[];
-extern const char lbl_8044E734[];
-extern const char lbl_8044E748[];
-extern const char lbl_8044E758[];
+extern const char f256_hyouji_c_palette_file[];
+extern const char b256_mainmenu_palette_file[];
+extern const char f256_actionpallet_a_palette_file[];
+extern const char f256_actionpallet_b_palette_file[];
+extern const char f256_actionpallet_c_palette_file[];
+extern const char r256_symparts_palette_file[];
+extern const char f256_duelcount_palette_file[];
+extern const char f256_carsol_palette_file[];
+extern const char f256_hyouji_texture_file[];
 
 void TWindowCtrlMain::free_window() {
     if (hud_texlist != NULL) {
@@ -880,51 +879,51 @@ void TWindowCtrlMain::free_window() {
 }
 
 void load_hud_palette_textures(void) {
-    s32 palette[3];
-    palette[0] = (saddr)TLobby::tmp_buf_use_req("TWindowBase");
-    TLanguage::draw_string((void *)lbl_8044E688, (void *)palette, 0x40);
-    TLanguage::draw_string((void *)hud_palette_texture_filename, (void *)palette, 0x41);
-    TLanguage::draw_string((void *)lbl_8044E6B0, (void *)palette, 0x42);
-    TLanguage::draw_string((void *)lbl_8044E6C4, (void *)palette, 0x44);
-    TLanguage::draw_string((void *)lbl_8044E6D8, (void *)palette, 0x45);
-    TLanguage::draw_string((void *)lbl_8044E6F0, (void *)palette, 0x46);
-    TLanguage::draw_string((void *)lbl_8044E708, (void *)palette, 0x47);
-    TLanguage::draw_string((void *)lbl_8044E720, (void *)palette, 1);
-    TLanguage::draw_string((void *)lbl_8044E734, (void *)palette, 0x4A);
-    TLanguage::draw_string((void *)lbl_8044E748, (void *)palette, 0x43);
+    GvplPalette palette;
+    palette.data = TLobby::tmp_buf_use_req("TWindowBase");
+    TLanguage::load_palette_tlut(f256_hyouji_a_palette_file, &palette, 0x40);
+    TLanguage::load_palette_tlut(hud_palette_texture_filename, &palette, 0x41);
+    TLanguage::load_palette_tlut(f256_hyouji_c_palette_file, &palette, 0x42);
+    TLanguage::load_palette_tlut(b256_mainmenu_palette_file, &palette, 0x44);
+    TLanguage::load_palette_tlut(f256_actionpallet_a_palette_file, &palette, 0x45);
+    TLanguage::load_palette_tlut(f256_actionpallet_b_palette_file, &palette, 0x46);
+    TLanguage::load_palette_tlut(f256_actionpallet_c_palette_file, &palette, 0x47);
+    TLanguage::load_palette_tlut(r256_symparts_palette_file, &palette, 1);
+    TLanguage::load_palette_tlut(f256_duelcount_palette_file, &palette, 0x4A);
+    TLanguage::load_palette_tlut(f256_carsol_palette_file, &palette, 0x43);
     TLobby::tmp_buf_release("TWindowBase");
-    load_disc_prs_texture(lbl_8044E758, &f256_hyouji_texlist);
+    load_disc_prs_texture(f256_hyouji_texture_file, &f256_hyouji_texlist);
     hud_texlist = &f256_hyouji_texlist;
-    TObjFish::set_global_param(&f256_hyouji_texlist);
-    TLanguage::set_entry_index(0, 0x40);
-    TLanguage::set_entry_index(1, 0x41);
-    TLanguage::set_entry_index(2, 0x42);
-    TLanguage::set_entry_index(3, 0x45);
-    TLanguage::set_entry_index(4, 0x46);
-    TLanguage::set_entry_index(5, 0x47);
-    TLanguage::set_entry_index(0xB, 0x44);
-    TLanguage::set_entry_index(0xC, 0x43);
-    TLanguage::set_entry_index(6, 0x4A);
-    TLanguage::set_entry_index(7, 1);
-    TLanguage::set_entry_index(8, 1);
-    TLanguage::set_entry_index(9, 1);
-    TLanguage::set_entry_index(0xA, 1);
+    set_texture_list(&f256_hyouji_texlist);
+    set_context_texture_palette_bank(0, 0x40);
+    set_context_texture_palette_bank(1, 0x41);
+    set_context_texture_palette_bank(2, 0x42);
+    set_context_texture_palette_bank(3, 0x45);
+    set_context_texture_palette_bank(4, 0x46);
+    set_context_texture_palette_bank(5, 0x47);
+    set_context_texture_palette_bank(0xB, 0x44);
+    set_context_texture_palette_bank(0xC, 0x43);
+    set_context_texture_palette_bank(6, 0x4A);
+    set_context_texture_palette_bank(7, 1);
+    set_context_texture_palette_bank(8, 1);
+    set_context_texture_palette_bank(9, 1);
+    set_context_texture_palette_bank(0xA, 1);
     window_ui_theme_index = 0;
 }
 
 // The HUD texture archives, defined after their use so load_hud_palette_textures
 // addresses each one on its own.
-__declspec(section ".rodata") const char lbl_8044E688[] = "f256_hyouji_a.gvp";
+__declspec(section ".rodata") const char f256_hyouji_a_palette_file[] = "f256_hyouji_a.gvp";
 __declspec(section ".rodata") const char hud_palette_texture_filename[] = "f256_hyouji_b.gvp";
-__declspec(section ".rodata") const char lbl_8044E6B0[] = "f256_hyouji_c.gvp";
-__declspec(section ".rodata") const char lbl_8044E6C4[] = "b256_mainmenu.gvp";
-__declspec(section ".rodata") const char lbl_8044E6D8[] = "f256_actionpallet_a.gvp";
-__declspec(section ".rodata") const char lbl_8044E6F0[] = "f256_actionpallet_b.gvp";
-__declspec(section ".rodata") const char lbl_8044E708[] = "f256_actionpallet_c.gvp";
-__declspec(section ".rodata") const char lbl_8044E720[] = "r256_symparts.gvp";
-__declspec(section ".rodata") const char lbl_8044E734[] = "f256_duelcount.gvp";
-__declspec(section ".rodata") const char lbl_8044E748[] = "f256_carsol.gvp";
-__declspec(section ".rodata") const char lbl_8044E758[] = "f256_hyouji";
+__declspec(section ".rodata") const char f256_hyouji_c_palette_file[] = "f256_hyouji_c.gvp";
+__declspec(section ".rodata") const char b256_mainmenu_palette_file[] = "b256_mainmenu.gvp";
+__declspec(section ".rodata") const char f256_actionpallet_a_palette_file[] = "f256_actionpallet_a.gvp";
+__declspec(section ".rodata") const char f256_actionpallet_b_palette_file[] = "f256_actionpallet_b.gvp";
+__declspec(section ".rodata") const char f256_actionpallet_c_palette_file[] = "f256_actionpallet_c.gvp";
+__declspec(section ".rodata") const char r256_symparts_palette_file[] = "r256_symparts.gvp";
+__declspec(section ".rodata") const char f256_duelcount_palette_file[] = "f256_duelcount.gvp";
+__declspec(section ".rodata") const char f256_carsol_palette_file[] = "f256_carsol.gvp";
+__declspec(section ".rodata") const char f256_hyouji_texture_file[] = "f256_hyouji";
 
 s32 TWindowBase::is_closed() {
     return (u8)(!(window_flags & 1));

@@ -6,6 +6,7 @@
 #include "pso/quest/challenge/ChallengeRecord.h"
 #include "pso/ui/city/BankItemRecord.h"
 #include "pso/system/ChoiceSearchSelection.h"
+#include "pso/ui/chat/SymbolChatPreset.h"
 
 // A character's battle mode results: wins in each place (first to fourth) and battles left early.
 // The client keeps the remaining counts and values only to send them on.
@@ -14,18 +15,31 @@ struct BattleRecord {
     u16 disconnect_count;
     u16 reserved_counts[3];
     u32 reserved_values[2];
+    u8 pad_18[0x1C - 0x18];
 };
 
-LAYOUT_ASSERT(BattleRecord_size, sizeof(BattleRecord) == 0x18);
+LAYOUT_ASSERT(BattleRecord_size, sizeof(BattleRecord) == 0x1C);
+
+// What a chat shortcut sends: 0 none, 1 chat text, 2 word select message, 3 symbol chat.
+struct ChatShortcutKind {
+    u32 value;
+
+    ChatShortcutKind &operator=(const ChatShortcutKind &src);
+};
 
 struct ChatShortcutBodyCopy {
     u8 bytes[0x50];
 };
 
-struct ChatShortcutRecordCopy {
-    u32 header;
+// One chat shortcut of the character's save record: the kind and the text, message or symbol chat it sends.
+struct ChatShortcut {
+    ChatShortcutKind kind;
     ChatShortcutBodyCopy body;
+
+    ChatShortcut &operator=(const ChatShortcut &src);
 };
+
+LAYOUT_ASSERT(ChatShortcut_size, sizeof(ChatShortcut) == 0x54);
 
 // The parts of a character's save record that are read by name.
 struct CharacterSaveRecord {
@@ -49,30 +63,32 @@ struct CharacterSaveRecord {
     u8 pad_44[0x244 - 0x44];
     s32 death_count;        // raised when a local player dies (enter_death_state)
     s32 bank_item_count;    // rows of bank_items in use
-    s32 pad_24C;
+    s32 bank_meseta;        // meseta kept in the bank
     BankItemRecord bank_items[200];
     // Set up by init_guild_card_tag.
-    u8 guild_card[0x21A8 - 0x1510];
+    u8 guild_card[0x90];
+    SymbolChatPreset symbol_chat_presets[12];
+    ChatShortcut chat_shortcuts[20];
+    char short_mail_text[0xAC];   // the auto-reply text
+    char info_board_text[0xAC];
     // Battle results sent with the character data (61/98) and shown in the lobby.
     BattleRecord online_battle;
-    u8 pad_21C0[0x21C4 - 0x21C0];
     // Challenge mode records; the 6x7C packet carries a copy.
     ChallengeRecord challenge;
-    u8 pad_22C4[0x22EC - 0x22C4];
+    s16 short_list_order[0x14];   // filled by init_default_short_list_order
     // Choice search settings, sent in C2/C3 and with the character data.
     ChoiceSearchSelection choice_search[5];
     s32 quest_counters[16];  // the quest counter opcodes (write_counter, read_counter) read and write these
     // Split-screen battles finished in each place (first to fourth), and battles left early.
-    u16 battle_place_counts[4];
-    u16 battle_disconnect_count;
-    u8 pad_235E[0x2370 - 0x235E];
+    BattleRecord split_screen_battle;
 };
 
 LAYOUT_ASSERT(CharacterSaveRecord_online_battle, offsetof(CharacterSaveRecord, online_battle) == 0x21A8);
 LAYOUT_ASSERT(CharacterSaveRecord_challenge, offsetof(CharacterSaveRecord, challenge) == 0x21C4);
 LAYOUT_ASSERT(CharacterSaveRecord_choice_search, offsetof(CharacterSaveRecord, choice_search) == 0x22EC);
 LAYOUT_ASSERT(CharacterSaveRecord_quest_counters, offsetof(CharacterSaveRecord, quest_counters) == 0x2314);
-LAYOUT_ASSERT(CharacterSaveRecord_battle_place_counts, offsetof(CharacterSaveRecord, battle_place_counts) == 0x2354);
+LAYOUT_ASSERT(CharacterSaveRecord_chat_shortcuts, offsetof(CharacterSaveRecord, chat_shortcuts) == 0x19C0);
+LAYOUT_ASSERT(CharacterSaveRecord_split_screen_battle, offsetof(CharacterSaveRecord, split_screen_battle) == 0x2354);
 LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);
 
 // In split screen the record of player `client` (0xFFFF: the first player), otherwise the active

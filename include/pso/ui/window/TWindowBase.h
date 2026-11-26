@@ -13,7 +13,7 @@ public:
     TWindowBase(u8 *descriptor, s16 client, u8 *parent);
     virtual ~TWindowBase();
     void reparent_to_main_ctrl();
-    void draw_window_frame(void *context);
+    void draw_window_frame(WindowDrawContext *context);
     void draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext *context);
     void draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *context);
     void resort_window_order();
@@ -29,7 +29,7 @@ public:
     void update_window_entry_list(const WindowLayoutEntries *entries);
     void update_fade();
     void draw_quest_message_frame(void *context);
-    void sub_80244F2C(u8 *, u8 *, s16);
+    void init_window(u8 *, u8 *, s16);
     WindowDrawContext *setup_window_draw_context(f32 *scale);
     WindowDrawContext *draw_default_entry();
     s32 is_window_reveal_complete();
@@ -80,10 +80,10 @@ LAYOUT_ASSERT(WindowOpenTickOffset, offsetof(TWindowBase, open_tick) == 0x5C);
 
 struct TWindowSubComCard;
 class TWindowFukidasi;
+BOOL scanline_crosses_window(void *ctx, void *position, void *size);
+void hide_window(u8 *object);
 extern "C" {
 int get_area_total(void);
-BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size);
-void fn_802449E0(u8 *object);
 }
 void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active);
 // The highlight sweep drawn over a status window: begin sets the texture and blend

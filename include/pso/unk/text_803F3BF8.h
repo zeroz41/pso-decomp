@@ -8,8 +8,8 @@ extern u32 lobby_net_config_mode;
 s32 update_network_info_request(void);
 
 extern "C" {
-s32 TLobby__sub_803F3BF8(s32 backup_mode, void *buffer, s32 mode);
-s32 TLobby__sub_803F3D60(void);
+s32 open_network_config(s32 backup_mode, void *buffer, s32 mode);
 }
+s32 close_network_config(void);
 
 #endif

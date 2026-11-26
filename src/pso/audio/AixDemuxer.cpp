@@ -3,7 +3,6 @@
 #include "pso/audio/AixPlayer.h"
 #include "pso/system/MiddlewareInterruptLock.h"
 #include "types.h"
-#include "pso/audio/AdxStreamScrollOffset.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamLock.h"
 
@@ -211,12 +210,8 @@ void get_entry_pair(AixDemuxer *demuxer, s32 segment, s32 *offset, s32 *size) {
 
 }
 
-static inline s32 adx_get_scroll_offset_impl(void *self_ptr) {
-    return static_cast<AdxStreamScrollState *>(self_ptr)->scroll_offset;
-}
-
-s32 TLobby::get_scroll_offset() {
-    return adx_get_scroll_offset_impl(this);
+s32 get_demuxer_segment_count(AixDemuxer *demuxer) {
+    return demuxer->header.segment_count;
 }
 
 s32 get_demuxer_layer_count(AixDemuxer *demuxer) {

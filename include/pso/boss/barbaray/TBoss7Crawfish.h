@@ -22,7 +22,6 @@ struct TBoss7Crawfish : public TObjEnemy {
     s32 sub_80308AA8();
     s32 is_visible();
     s32 is_within_x_limit();
-    s16 get_floor();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
     virtual void apply_movement_ailment(CollisionBody *);

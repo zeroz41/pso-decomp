@@ -9,5 +9,7 @@ struct GinjaTextureState;
 void swap_u32_bytes(u32 *word);
 // Selects the palette bank (tlut_name) a colour-indexed texture loads its palette from.
 void set_texture_palette_bank(GinjaTextureState *texture, s32 bank);
+// set_texture_palette_bank for texture `index` of the current render context.
+void set_context_texture_palette_bank(s32 index, s32 bank);
 
 #endif

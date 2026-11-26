@@ -6,7 +6,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TLobby_801E2F94.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 s32 recorded_node_index;
 s32 recorded_node_count;

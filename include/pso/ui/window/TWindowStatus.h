@@ -15,4 +15,6 @@ struct TWindowStatus : public TWindowSimpleStatus {
 };
 
 LAYOUT_ASSERT(TWindowStatus_size, sizeof(TWindowStatus) == 0x78);
+
+TWindowSimpleStatus *create_status_window(saddr client);
 #endif

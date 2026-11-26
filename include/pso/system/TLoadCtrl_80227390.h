@@ -3,10 +3,12 @@
 
 #include "types.h"
 
+void start_music_crossfade(s32 frames);
 extern "C" {
-void TWindowOptionCtrl__sub_802273B4(s32 frames);
 void play_area_music(char *name);
 }
 void update_music_fade(void);
+// Nonzero while area music plays (TLobby_80226C3C.cpp).
+extern s32 music_state;
 
 #endif

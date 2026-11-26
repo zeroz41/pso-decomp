@@ -3,7 +3,7 @@
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/player/TObjPlayer.h"
@@ -27,7 +27,7 @@ void TPhotonMagicSquare::render() {
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     scale_current_matrix(&scale.x);
     NJS_ARGB saved = color;
     if ((age % flash_period) == 0) {

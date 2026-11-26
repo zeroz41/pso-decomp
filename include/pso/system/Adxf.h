@@ -19,6 +19,10 @@ s32 ADXF_Stop(AdxfHandle *file);
 s32 ADXF_Seek(AdxfHandle *file, s32 offset, s32 origin);
 s32 ADXF_ReadNw(AdxfHandle *file, s32 sectors, void *destination);
 s32 ADXF_ReadNw32(AdxfHandle *file, s32 sectors, void *destination);
+// File name, directory, sector offset and sector count of file flid of AFS partition ptid.
+s32 ADXF_GetFnameRangeEx(s32 ptid, s32 flid, char *fname, s32 *dir, s32 *ofst, s32 *fnsct);
+// Partition ptid's load state; advances a non-blocking partition load.
+s32 ADXF_GetPtStat(s32 ptid);
 void adxf_init(void);
 void adxf_finish(void);
 void TLobby__sub_803CC884(void);

@@ -1,12 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
-#include "pso/system/task/TObject_80019A50.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom_8036B654.h"
@@ -29,7 +28,7 @@ void * TObjBoss8DemoRoom::shared_resource_object;
 
 extern "C" {
 void TObjBoss8DemoRoom::render() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 0xC)));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 0xC)));
     push_matrix();
     draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)));
     set_default_alpha_blend();
@@ -37,8 +36,8 @@ void TObjBoss8DemoRoom::render() {
 }
 
 void TObjBoss8DemoRoom::run_task() {
-    TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 4)) + 4)), 0, 1, 3);
-    TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 0x30)) + 4)) + 4)), 0, 0x14, 1);
+    scroll_chunk_plist_uvs((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 4)) + 4)), 0, 1, 3);
+    scroll_chunk_plist_uvs((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 0x30)) + 4)) + 4)), 0, 0x14, 1);
     TBoss8Dragon *leader = TBoss8Dragon::get_part(0);
     if ((leader != NULL) && (leader->has_appeared() != 0)) {
         this->queue_destruction();

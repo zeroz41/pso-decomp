@@ -8,7 +8,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -25,7 +25,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
@@ -277,7 +277,7 @@ void TObjEnemyCustom::update_dying_state() {
 
 void TObjEnemyCustom::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -565,7 +565,7 @@ void TObjEnemyCustom::apply_enemy_state(s32 *state) {
     mode = saved_mode;
 }
 
-extern "C" u8 is_local_client_floor_leader(void) {
+s32 is_local_client_floor_leader(void) {
     TObjPlayer *player;
     s32 id;
     s32 i;

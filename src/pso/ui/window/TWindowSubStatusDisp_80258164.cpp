@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TItemData.h"
@@ -27,6 +27,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_create.h"
+
+#pragma readonly_strings on
 
 
 // Screen x, y of each item icon slot (indexed by get_entry_ptr).
@@ -124,11 +126,10 @@ void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
 
-extern s32 lbl_805DCF00;
 
 void ItemListRow::update_stat_line(s32 value) {
     text_builder_reset();
-    text_builder_append((u8 *)&lbl_805DCF00);
+    text_builder_append((u8 *)"\xD7");
     text_builder_append_int(value);
     this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
 }
@@ -139,27 +140,25 @@ void ItemListRow::update_stat_line_if_positive(s32 count) {
     }
 }
 
-extern const f32 lbl_805DCF04;
-extern const f32 lbl_805DCF08;
 
-void ItemListRow::update_item_icon_colors(void *item) {
+void ItemListRow::update_item_icon_colors(TItem *item) {
     s16 requirement;
     s32 item_flags;
     s32 equip_requirements;
     s32 usable_action_flags;
     s32 identified;
-    saddr player;
+    TObjPlayer *player;
 
-    if (((TItem *)item)->is_wrapped() != 0) {
+    if (item->is_wrapped() != 0) {
         this->style = -1;
         return;
     }
-    player = (saddr)get_player_by_client_id(this->client);
+    player = get_player_by_client_id(this->client);
     if (player != 0) {
-        item_flags = ((TItem *)item)->test_item_flags(8);
-        usable_action_flags = ((TItem *)item)->get_usable_action_flags(0x10, (TObjPlayer *)player);
-        equip_requirements = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, &requirement);
-        identified = ((TItem *) item)->is_identified();
+        item_flags = item->test_item_flags(8);
+        usable_action_flags = item->get_usable_action_flags(0x10, player);
+        equip_requirements = item->check_equip_requirements(player, &requirement);
+        identified = item->is_identified();
         if (usable_action_flags != 0) {
             if (item_flags != 0) {
                 this->status_icon = 0x30;
@@ -169,7 +168,7 @@ void ItemListRow::update_item_icon_colors(void *item) {
         } else if (item_flags != 0) {
             this->status_icon = 0xC;
         } else {
-            if ((identified == 0) && (((TItem *)item)->is_rare_item() != 0)) {
+            if ((identified == 0) && (item->is_rare_item() != 0)) {
                 this->status_icon = 0x19;
             } else if (requirement & 1) {
                 this->status_icon = 0x13;
@@ -185,23 +184,23 @@ void ItemListRow::update_item_icon_colors(void *item) {
         }
         if (equip_requirements != 0) {
             this->category_style = -1;
-            if (((TItem *)item)->is_custom_name_srank() != 0) {
+            if (item->is_custom_name_srank() != 0) {
                 this->style = 0xFFFE3C28;
                 return;
             }
-            if (((TItem *)item)->get_name_style() == 2) {
+            if (item->get_name_style() == 2) {
                 this->flags |= 0x800;
                 return;
             }
-            if ((u8)((TItem *)item)->calc_display_grade() >= 9U) {
+            if ((u8)item->calc_display_grade() >= 9U) {
                 this->style = -0x1600;
                 return;
             }
-            if (((TItem *)item)->has_bonus_stats() != 0) {
+            if (item->has_bonus_stats() != 0) {
                 this->style = 0xFF61E853;
                 return;
             }
-            if (((TItem *)item)->get_usable_action_flags(0x10000, (TObjPlayer *)player) != 0U) {
+            if (item->get_usable_action_flags(0x10000, player) != 0U) {
                 this->style = 0xFF909090;
                 return;
             }
@@ -222,15 +221,15 @@ void ItemListRow::update_item_colors(saddr item) {
     s32 requirement;
     s32 equip_requirements;
     s32 item_flags;
-    saddr player;
+    TObjPlayer *player;
 
     if (TItemData::is_wrapped((void *)item) != 0) {
         this->style = -1;
         return;
     }
-    player = (saddr)get_player_by_client_id(this->client);
+    player = get_player_by_client_id(this->client);
     if (player != 0) {
-        equip_requirements = check_equip_requirements((void *)player, (TItemData *)item, &requirement);
+        equip_requirements = check_equip_requirements(player, (TItemData *)item, &requirement);
         item_flags = ((TItemData *)item)->check_item_flags();
         if ((u8) this->status_icon == 0x33) {
             if ((item_flags == 0) && (TItemData::is_rare_item((u8 *)item) != 0)) {
@@ -263,7 +262,7 @@ void ItemListRow::update_item_colors(saddr item) {
                 this->style = 0xFF61E853;
                 return;
             }
-            if (((TItemData *)item)->calc_action_flags(0x10000, (u8 *)player) != 0U) {
+            if (((TItemData *)item)->calc_action_flags(0x10000, player) != 0U) {
                 this->style = 0xFF909090;
                 return;
             }
@@ -339,7 +338,7 @@ void ItemListRow::select_item_icon(s32 item_data, u8 item_type, u8 item_group, s
 }
 
 void ItemListRow::setup_entry_msg_d1(s32 item) {
-    this->x = (f32) lbl_805DCF04;
+    this->x = -18.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
     this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xD1))), (s32)((int) ((saddr)this->label)), 8, 1);
@@ -349,7 +348,7 @@ void ItemListRow::setup_entry_msg_d1(s32 item) {
 }
 
 void ItemListRow::setup_entry_msg_d0(s32 item) {
-    this->x = (f32) lbl_805DCF08;
+    this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
     this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xD0))), (s32)((int) ((saddr)this->label)), 8, 1);
@@ -359,7 +358,7 @@ void ItemListRow::setup_entry_msg_d0(s32 item) {
 }
 
 void ItemListRow::init_no_item_entry(s32 item) {
-    this->x = (f32) lbl_805DCF08;
+    this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
     this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xCF))), (s32)((int) ((saddr)this->label)), 8, 1);
@@ -369,7 +368,7 @@ void ItemListRow::init_no_item_entry(s32 item) {
 }
 
 void ItemListRow::init_entry(u8 status_icon, u8 category_icon, u8 status_style, u32 src, s32 item) {
-    this->x = (f32) lbl_805DCF08;
+    this->x = 0.0f;
     this->status_icon = status_icon;
     this->category_icon = category_icon;
     this->status_style = (s32) status_style;
@@ -381,7 +380,7 @@ void ItemListRow::init_entry(u8 status_icon, u8 category_icon, u8 status_style, 
 }
 
 void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 value, s32 item) {
-    row->x = (f32) lbl_805DCF08;
+    row->x = 0.0f;
     row->status_icon = 0x33;
     row->category_icon = 9;
     text_builder_reset();
@@ -394,7 +393,7 @@ void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 value, s32 item) {
 }
 
 void ItemListRow::setup_stat_line(s32 src, s32 stat, s32 item) {
-    this->x = (f32) lbl_805DCF08;
+    this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x2D;
     this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
@@ -423,14 +422,14 @@ void ItemListRow::init_status_entry_by_flag(s32 flag, u32 src, s32 item) {
         category_icon = 0x15;
     }
     init_status_entry(category_icon, src, item);
-    this->x = lbl_805DCF04;
+    this->x = -18.0f;
 }
 
 void ItemListRow::init_list_entry(u8 icon, s32 src, s32 item) {
     u8 status_icon_value;
 
     status_icon_value = icon;
-    this->x = (f32) lbl_805DCF04;
+    this->x = -18.0f;
     if (icon == 0x18) {
         status_icon_value = 0x16;
     }
@@ -449,7 +448,7 @@ void ItemListRow::init_list_entry(u8 icon, s32 src, s32 item) {
     }
 }
 void ItemListRow::init_status_entry(u8 category_icon, u32 src, s32 item) {
-    this->x = lbl_805DCF04;
+    this->x = -18.0f;
     this->status_icon = 0x33;
     this->category_icon = category_icon;
     this->status_style = -1;
@@ -465,7 +464,7 @@ void ItemListRow::init_status_entry(u8 category_icon, u32 src, s32 item) {
 void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     s32 item_data;
 
-    this->x = (f32) lbl_805DCF08;
+    this->x = 0.0f;
     item_data = item->get_icon_index();
     select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
     this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
@@ -478,13 +477,13 @@ void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     this->flags |= 0x45;
 }
 
-void ItemListRow::update_from_player(void *item, s32 price, s32 index) {
+void ItemListRow::update_from_player(TItem *item, s32 price, s32 index) {
     s32 item_data;
 
-    this->x = (f32) lbl_805DCF08;
-    item_data = ((TItem *)item)->get_icon_index();
-    select_item_icon(item_data, ((TItem *)item)->get_item_type(), ((TItem *)item)->get_item_group(), ((TItem *)item)->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
+    this->x = 0.0f;
+    item_data = item->get_icon_index();
+    select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
+    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
         text_builder_append_int(price);
@@ -496,7 +495,7 @@ void ItemListRow::update_from_player(void *item, s32 price, s32 index) {
 }
 void ItemListRow::init_item_row(TItem *item, s32 index) {
     s32 item_data;
-    this->x = (f32) lbl_805DCF08;
+    this->x = 0.0f;
     item_data = item->get_icon_index();
     select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
     this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
@@ -512,12 +511,11 @@ void ItemListRow::init_item_row(TItem *item, s32 index) {
 
 
 
-    extern const float lbl_805DCF08;
 
 void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
     saddr item_data;
 
-    this->x = lbl_805DCF08;
+    this->x = 0.0f;
     this->status_icon = 51;
     item_data = get_item_data((uaddr)a1);
     select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), TItemData::is_wrapped(a1));
@@ -537,18 +535,11 @@ struct Quad_8025941C { f32 v[8]; };
 extern "C" {
 u32 calc_text_width(char *s);
 }
-extern const f32 lbl_805DCF14;
-extern const f32 lbl_805DCF20;
-extern const f32 lbl_805DCF24;
-extern const f32 lbl_805DCF28;
-extern const f32 lbl_805DCF2C;
-extern const f32 lbl_805DCF10;
-extern const f32 lbl_805DCF18;
 
 void ItemListRow::set_ground_item(void *it, s32 index) {
     s32 item_data;
 
-    this->x = (f32) lbl_805DCF08;
+    this->x = 0.0f;
     this->status_icon = 0x33;
     item_data = get_item_data((uaddr)it);
     select_item_icon(item_data, *(u8 *)((s8 *)it + 0), *(u8 *)((s8 *)it + 1), TItemData::is_wrapped(it));
@@ -564,10 +555,9 @@ void ItemListRow::set_ground_item(void *it, s32 index) {
     this->flags |= 0x45;
 }
 
-extern const f32 lbl_805DCF0C;
 
 void ItemListRow::init_display(s32 src, s32 item) {
-    this->x = (f32) lbl_805DCF0C;
+    this->x = -36.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
     this->label = (char *)replace_owned_string(src, (s32)((saddr)this->label), 8, 1);
@@ -594,18 +584,18 @@ saddr ItemListRow::replace_owned_string(saddr src, saddr buf, s32 mask, s32 copy
 }
 
 void ItemListRow::calc_row_width() {
-    this->width = lbl_805DCF08;
+    this->width = 0.0f;
     if (this->is_flag_4_set() != 0) {
         if (this->status_icon != 0x33) {
-            this->width += lbl_805DCF10;
+            this->width += 36.0f;
         } else if (this->category_icon != 0x33) {
-            this->width += lbl_805DCF14;
+            this->width += 18.0f;
         }
         if (this->label != 0) {
             this->width += (f32)calc_text_width(this->label);
         }
         if (this->suffix != 0) {
-            this->width += lbl_805DCF18;
+            this->width += 9.0f;
             this->width += (f32)calc_text_width(this->suffix);
         }
     }
@@ -613,7 +603,6 @@ void ItemListRow::calc_row_width() {
 
 void*TWindowSubStatusDisp::get_entry_ptr(int a0) {  return (char*)status_disp_item_icon_coord_table + (unsigned char)(a0) * 8; }
 
-extern const f32 lbl_805DCF1C;
 
 void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon, s32 style, f32 depth) {
     Quad_8025941C q;
@@ -626,11 +615,11 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
     if ((u8)icon != 0x33) {
         p = pos;
         begin_screen_draw(1);
-        TObjFish::set_global_param(hud_texlist);
+        set_texture_list(hud_texlist);
         set_draw_texture_and_color(1, style);
         entry = (f32 *)TWindowSubStatusDisp::get_entry_ptr(icon);
-        offset = lbl_805DCF14;
-        scale = lbl_805DCF1C;
+        offset = 18.0f;
+        scale = 0.00390625f;
         q.v[0] = p->x;
         q.v[1] = p->y;
         q.v[2] = offset + p->x;
@@ -644,7 +633,7 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
         if (win->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
             draw_textured_quad_at_depth(q.v, depth);
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 
@@ -663,32 +652,32 @@ void ItemListRow::render(WindowDrawContext *context) {
     {
       pos.x = win->inner_x + this->x;
       pos.y = win->inner_y + this->y;
-      depth = lbl_805DCF20 / (lbl_805DCF24 + win->depth);
+      depth = -1.0f / (0.14949999749660492f + win->depth);
       if (this->flags & 0x200)
       {
         draw_item_list_icon(win, &pos, this->status_icon, -1, depth);
-        pos.x += lbl_805DCF14;
+        pos.x += 18.0f;
         draw_item_list_icon(win, &pos, this->category_icon, -1, depth);
-        pos.x += lbl_805DCF14;
+        pos.x += 18.0f;
         draw_item_list_icon(win, &pos, (u8) this->status_style, -1, depth);
-        pos.x += lbl_805DCF14;
+        pos.x += 18.0f;
       }
       else
       {
         set_additive_blend();
         if (this->flags & 0x100)
         {
-          pos.x += lbl_805DCF14;
+          pos.x += 18.0f;
           draw_item_list_icon(win, &pos, this->status_icon, this->status_style, depth);
         }
         else
         {
           draw_item_list_icon(win, &pos, this->status_icon, this->status_style, depth);
-          pos.x += lbl_805DCF14;
+          pos.x += 18.0f;
         }
         set_default_alpha_blend();
         draw_item_list_icon(win, &pos, this->category_icon, this->category_style, depth);
-        pos.x += lbl_805DCF14;
+        pos.x += 18.0f;
       }
       if (this->flags & 0x1000)
       {
@@ -696,12 +685,12 @@ void ItemListRow::render(WindowDrawContext *context) {
       }
       else
       {
-        set_text_draw_params(win, 1, 1, depth, (f32)lbl_805DCF28);
+        set_text_draw_params(win, 1, 1, depth, 100000.0f);
       }
       if (this->flags & 0x400)
       {
-        pos.x = (lbl_805DCF2C * win->inner_w) + win->inner_x;
-        pos.x = -((lbl_805DCF2C * ((f32) calc_text_width(this->label))) - pos.x);
+        pos.x = (0.5f * win->inner_w) + win->inner_x;
+        pos.x = -((0.5f * ((f32) calc_text_width(this->label))) - pos.x);
       }
       if (this->flags & 0x800)
       {
@@ -713,15 +702,15 @@ void ItemListRow::render(WindowDrawContext *context) {
       }
       if (this->flags & 0x1000)
       {
-        draw_window_text((f32 *)&pos, this->label, style, 0, (f32)lbl_805DCF28);
+        draw_window_text((f32 *)&pos, this->label, style, 0, 100000.0f);
       }
       else
       {
-        draw_window_text((f32 *)&pos, this->label, style, 1, (f32)lbl_805DCF28);
+        draw_window_text((f32 *)&pos, this->label, style, 1, 100000.0f);
       }
       f32 width = (f32) calc_text_width(this->suffix);
       pos.x = (win->inner_x + win->inner_w) - width;
-      draw_window_text((f32 *)&pos, this->suffix, this->suffix_style, 1, (f32)lbl_805DCF28);
+      draw_window_text((f32 *)&pos, this->suffix, this->suffix_style, 1, 100000.0f);
     }
   }
 }
@@ -750,7 +739,7 @@ ItemListRow::~ItemListRow() {
 }
 
 ItemListRow::ItemListRow(u8 *rec, s32 client) : TWindowLayoutRect(client) {
-    this->height = lbl_805DCF14;
+    this->height = 18.0f;
     this->status_icon = 51;
     this->category_icon = 51;
     this->label = 0;

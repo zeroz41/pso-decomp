@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/render/ProjectedColorDraw.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
@@ -29,7 +30,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -49,7 +50,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
 #include "pso/math/AngleLookup.h"
@@ -639,7 +640,7 @@ void TObjBoss2Tunnel::reset_state() {
     TQuestListVM::reset();
 }
 
-void TObjBoss2Tunnel__sub_8007DD24(void) {  }
+void TObjBoss2Tunnel::free_resources(void) {  }
 
 /* Moves the capture frame with the C stick and keeps it on screen. */
 void move_snapshot_frame(void) {
@@ -687,9 +688,9 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = snapshot_frame_center.y - 96.0f;
     v[3].x = 640.0f;
     v[3].y = snapshot_frame_center.y - 96.0f;
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(v, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(v, 4);
+    end_projected_color_draw();
     v[0].x = 0.0f;
     v[0].y = snapshot_frame_center.y - 96.0f;
     v[1].x = snapshot_frame_center.x - 128.0f;
@@ -698,9 +699,9 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 480.0f;
     v[3].x = snapshot_frame_center.x - 128.0f;
     v[3].y = 480.0f;
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(v, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(v, 4);
+    end_projected_color_draw();
     v[0].x = 128.0f + snapshot_frame_center.x;
     v[0].y = snapshot_frame_center.y - 96.0f;
     v[1].x = 640.0f;
@@ -709,9 +710,9 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 96.0f + snapshot_frame_center.y;
     v[3].x = 640.0f;
     v[3].y = 96.0f + snapshot_frame_center.y;
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(v, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(v, 4);
+    end_projected_color_draw();
     v[0].x = snapshot_frame_center.x - 128.0f;
     v[0].y = 96.0f + snapshot_frame_center.y;
     v[1].x = 640.0f;
@@ -720,10 +721,10 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 480.0f;
     v[3].x = 640.0f;
     v[3].y = 480.0f;
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(v, 4);
-    TObjBoss2Tunnel::reset_player_state();
-    TObjFish::set_global_param(hud_texlist);
+    setup_projected_color_draw(1);
+    draw_projected_quads(v, 4);
+    end_projected_color_draw();
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(1, -1);
     begin_screen_draw(1);
     q.x0 = snapshot_frame_center.x - 27.0f;
@@ -770,7 +771,7 @@ void draw_snapshot_capture_overlay(void) {
     q.u0 = 0.423529416f;
     q.u1 = 0.31764707f;
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     restore_saved_depth_alpha_state();
 }
 
@@ -1252,7 +1253,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
             break;
         }
         TLobby::wait_ready_loop();
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }
         render_tick();
@@ -1304,7 +1305,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         main_task.render();
         draw_snapshot_capture_overlay();
         TLobby::wait_ready_loop();
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }
         TParticleCtrl::begin_effect_render();

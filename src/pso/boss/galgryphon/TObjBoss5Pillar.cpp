@@ -4,13 +4,12 @@
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarSmoke.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/ModelDrawContext.h"
@@ -19,15 +18,12 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TObjBoss5Pillar::class_name = "TObjBoss5Pillar";
-
-}
 
 void TObjBoss5Pillar::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         push_matrix();
-        TObjFish::set_global_param(boss5_common_texture_list);
+        set_texture_list(boss5_common_texture_list);
         post_translate_matrix(&this->position.x);
         if (this->state != 3) {
             begin_pillar_smoke_node_capture(this->smoke);

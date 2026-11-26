@@ -6,11 +6,15 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCityDoor_Lobby : public TObjBase {
+    static const char *class_name;
     TObjCityDoor_Lobby(TObject *parent, void *set);
     virtual ~TObjCityDoor_Lobby();
     virtual void dispatch_lobby_action();
     void build_door_collision_triangles();
     void process_lobby_action_14();
+    // TObjEneDD::is_phase_e: the door is drawn and its collision built only
+    // then (name follows the callee).
+    s32 is_phase_e();
     virtual void render();
     virtual void run_task();
 

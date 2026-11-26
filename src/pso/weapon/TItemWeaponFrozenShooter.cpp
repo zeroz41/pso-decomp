@@ -41,10 +41,10 @@ void TItemWeaponFrozenShooter::emit_marker_effects() {
     skip_freeze = 0;
     p = reinterpret_cast<u8 *>(&point);
     if (is_mode_two_and_ready() != 0) {
-        fire_shot_at_target(p, second_model, 0);
+        fire_shot_at_target(&point, second_model, 0);
     } else if (get_item_index() == 1) {
         skip_freeze = 1;
-        fire_shot_at_target(p, second_model, 0);
+        fire_shot_at_target(&point, second_model, 0);
     } else {
         launch_shot(p, 0, 0, 1);
     }

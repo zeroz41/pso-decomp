@@ -24,4 +24,8 @@ public:
 
 LAYOUT_ASSERT(TObjBagWarnWin_size, sizeof(TObjBagWarnWin) == 0xA4);
 
+class TObjBagWarnWin4P;
+
+TObjBagWarnWin4P *create_bag_warn_window_4p(saddr parent);
+
 #endif

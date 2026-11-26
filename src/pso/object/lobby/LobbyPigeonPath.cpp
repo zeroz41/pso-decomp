@@ -15,7 +15,7 @@
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjPathObj.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -25,6 +25,7 @@
 #include "pso/object/TObjJungleKamome.h"
 #include "pso/object/TObjLobbyPigeon.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
@@ -35,10 +36,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/lobby/LobbyPigeonTheme.h"
 
-struct PathProfileMixed { s32 path_motion; union { f32 path_speed; s32 path_speed_bits; }; union { f32 motion_speed; s32 motion_speed_bits; }; f32 look_ahead; s32 turn_step; };
-
-struct PathProfile { s32 path_motion; f32 path_speed; f32 motion_speed; f32 look_ahead; s32 turn_step; };
-struct PathProfileEx { s32 path_motion; f32 path_speed; f32 motion_speed; f32 look_ahead; s32 turn_step; s32 extra; };
 
 // Resource descriptors of the path-following objects: seabed dolphin, jungle ebi, jungle bird,
 // jungle kamome and lobby pigeon.
@@ -87,7 +84,7 @@ TObjMotionAction seabed_dolphin_actions[1] = {
     {1, 0, 5, 0.6f, 0},
 };
 extern const NpcAnimationBinding seabed_dolphin_anim_binding = { NULL, seabed_dolphin_actions, 0, 0, 1 };
-extern const PathProfileEx jungle_ebi_path_profiles[3] = {
+extern const EbiPathProfile jungle_ebi_path_profiles[3] = {
     {1, 0.01f, 0.6f, 0.1f, 182, 5},
     {2, 0.01f, 0.6f, 0.1f, 182, 5},
     {3, 0.01f, 0.6f, 0.1f, 364, 5},
@@ -103,7 +100,7 @@ extern const PathProfile jungle_seagull_path_profiles[3] = {
     {3, 0.1f, 0.6f, 0.1f, 546},
 };
 extern const Vec path_zero_vec = {0.0f, 0.0f, 0.0f};
-extern const PathProfileMixed lobby_pigeon_path_profiles[3] = {
+extern const PathProfile lobby_pigeon_path_profiles[3] = {
     {1, 0.1f, 2.0f, 0.1f, 364},
     {2, 0.1f, 2.0f, 0.1f, 364},
     {3, 0.1f, 2.0f, 0.1f, 546},
@@ -115,21 +112,7 @@ extern const f64 path_angle_units_per_radian[1] = {10430.38043493439};
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/render_util.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 
-extern "C" {
-
-struct PathProfileView { s32 path_motion; f32 path_speed; f32 motion_speed; s32 look_ahead; s32 turn_step; };
-struct PathProfileExView { s32 path_motion; f32 path_speed; f32 motion_speed; s32 look_ahead; s32 turn_step; s32 extra; };
-
-struct Mtx_802C0F3C { f32 m[3][4]; };
-
-typedef struct { f32 m[3][4]; } Mtx_802C17FC;
-
-
-
-void matrix_mult_vec(void *, void *, void *);
-}
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/object/base/TObjMotion.h"
@@ -146,7 +129,7 @@ TObjPathObj::TObjPathObj(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = path_obj_name;
     apply_object_set_data(set_data);
     view_distance = 5e+02f;
-    m_94 = 1.5e+02f;
+    view_radius = 1.5e+02f;
 }
 
 TObjPathObj::~TObjPathObj() {}
@@ -156,7 +139,7 @@ void TObjPathObj::run_task() {
 }
 
 void TObjPathObj::render() {
-    if (TMainTask::get_render_pass() != 1 && update_object_view_visibility(view_distance, m_94) != 0) {
+    if (TMainTask::get_render_pass() != 1 && update_object_view_visibility(view_distance, view_radius) != 0) {
         draw();
     }
 }
@@ -254,7 +237,7 @@ void TObjSeabedDolphin::draw() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
-    TObjFish::set_global_param(seabed_dolphin_texture_handle);
+    set_texture_list(seabed_dolphin_texture_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -405,11 +388,11 @@ TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(pare
 TObjJungleEbi::~TObjJungleEbi() {}
 
 void TObjJungleEbi::update() {
-    PathProfileExView *e = (PathProfileExView *)jungle_ebi_path_profiles;
+    const EbiPathProfile *e = jungle_ebi_path_profiles;
     e += this->profile;
     f32 ox = this->path_frame;
     this->path_frame = ox + e->path_speed;
-    if (update_path_follow_rotation((e), ox) == 0) {
+    if (update_path_follow_rotation(e, ox) == 0) {
         this->path_frame = (0.0f);
     }
     this->motion_frame = this->motion_frame + jungle_ebi_path_profiles[this->profile].motion_speed;
@@ -422,7 +405,7 @@ void TObjJungleEbi::draw() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
-    TObjFish::set_global_param(jungle_ebi_texture_gvm_handle);
+    set_texture_list(jungle_ebi_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -453,9 +436,9 @@ s32 TObjJungleEbi::initialize_path() {
     return r;
 }
 
-s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
+s32 TObjJungleEbi::update_path_follow_rotation(const EbiPathProfile *, f32) {
     s32 r;
-    const PathProfileEx *e;
+    const EbiPathProfile *e;
     s32 old;
     s32 diff;
     Vec a;
@@ -463,7 +446,7 @@ s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
     s32 tmp;
     s32 tmp2;
     e = &jungle_ebi_path_profiles[this->profile];
-    if (!(e->extra & 1)) {
+    if (!(e->flags & 1)) {
         return 1;
     }
     sample_clamped_path_position(this->model, this->path, &a, this->path_frame);
@@ -488,10 +471,10 @@ s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
     this->path_pitch = approach_angle_limited(this->path_pitch, tmp, e->turn_step);
     old = this->path_yaw;
     tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
-    if (!(e->extra & 2)) {
+    if (!(e->flags & 2)) {
         this->path_yaw = approach_angle_limited(old, tmp, e->turn_step);
     }
-    if (!(e->extra & 4)) {
+    if (!(e->flags & 4)) {
         diff = angle_diff_s16(old, tmp);
         if (diff > 0x30) {
             if (this->roll_speed > 0) {
@@ -580,11 +563,7 @@ TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(pa
 TObjJungleBird::~TObjJungleBird() {}
 
 void TObjJungleBird::update() {
-    u8 *t = (u8 *)lobby_pigeon_path_parameters;
-    t = t + this->profile * 0x14;
-    PathProfileView *e = (PathProfileView *)t;
-    f32 ox = this->path_frame;
-    this->path_frame = ox + e->path_speed;
+    this->path_frame += lobby_pigeon_path_parameters[this->profile].path_speed;
     if (update_path_steering() == 0) {
         this->path_frame = (0.0f);
     }
@@ -598,7 +577,7 @@ void TObjJungleBird::draw() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
-    TObjFish::set_global_param(lobby_pigeon_texture_gvm);
+    set_texture_list(lobby_pigeon_texture_gvm);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -734,7 +713,7 @@ TObjJungleKamome::TObjJungleKamome(TObject *parent, void *set_data) : TObjPathOb
 TObjJungleKamome::~TObjJungleKamome() {}
 
 void TObjJungleKamome::update() {
-    Mtx_802C17FC m;
+    Mtx34 m;
     s32 cry_delay_left;
 
     this->path_frame += jungle_seagull_path_profiles[this->profile].path_speed;
@@ -749,11 +728,11 @@ void TObjJungleKamome::update() {
     this->cry_delay = cry_delay_left;
     if (cry_delay_left < 0) {
         Vec v = path_zero_vec;
-        set_matrix_identity((u8 *)&m);
-        translate_matrix_vec3((u8 *)&m, (u8 *)&this->position);
-        ((s32 (*)(void *, int))rotate_matrix_y)(&m, this->rotation_y);
-        translate_matrix_vec3((u8 *)&m, (u8 *)&this->path_position);
-        matrix_mult_vec(&m, &v, &v);
+        set_matrix_identity((u8 *)m);
+        translate_matrix_vec3((u8 *)m, (u8 *)&this->position);
+        rotate_matrix_y(m, this->rotation_y);
+        translate_matrix_vec3((u8 *)m, (u8 *)&this->path_position);
+        matrix_mult_vec(m, &v, &v);
         play_sound_effect(0x4BC04, &this->position, 0x7F, 0);
         this->cry_delay = (s32) (((3e+01f) * ((4.0f) * ((3.0517578e-05f) * (f32) rand()))) + (1.5e+02f));
     }
@@ -763,7 +742,7 @@ void TObjJungleKamome::draw() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
-    TObjFish::set_global_param(lobby_kamome_texture_gvm_handle);
+    set_texture_list(lobby_kamome_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -944,13 +923,13 @@ void TObjLobbyPigeon::update() {
     this->motion_frame = (0.0f);
   }
   if (--this->random_delay < 0) {
-    Mtx_802C0F3C m;
+    Mtx34 m;
     Vec v = lobby_pigeon_zero_vec;
-    set_matrix_identity((u8 *)&m);
-    translate_matrix_vec3((u8 *)&m, (u8 *)&this->position);
-    ((void (*)(void *, s32))rotate_matrix_y)(&m, this->rotation_y);
-    translate_matrix_vec3((u8 *)&m, (u8 *)&this->path_position);
-    matrix_mult_vec(&m, &v, &v);
+    set_matrix_identity((u8 *)m);
+    translate_matrix_vec3((u8 *)m, (u8 *)&this->position);
+    rotate_matrix_y(m, this->rotation_y);
+    translate_matrix_vec3((u8 *)m, (u8 *)&this->path_position);
+    matrix_mult_vec(m, &v, &v);
     this->random_delay =
         (s32)((3e+01f) * ((4.0f) * ((3.0517578e-05f) * (f32)rand())) +
               (1.5e+02f));
@@ -963,7 +942,7 @@ void TObjLobbyPigeon::draw() {
     draw_line_strip(this->model, this->path, (1.0f));
   if (this->phase == 0 || lobby_pigeon_lobby_type == NULL)
     return;
-  TObjFish::set_global_param(lobby_pigeon_lobby_type);
+  set_texture_list(lobby_pigeon_lobby_type);
   push_matrix();
   post_translate_matrix(&this->position.x);
   rotate_matrix_y(0, this->rotation_y);
@@ -978,18 +957,18 @@ void TObjLobbyPigeon::draw() {
 #pragma pop
 
 void TObjLobbyPigeon::select_lobby_pigeon_model() {
-    s32 param;
+    s32 theme_param;
 
     if ((s32) this->set_params[2] < 1) {
         this->model_index = 0;
     } else {
         this->model_index = 1;
     }
-    param = this->set_params[1];
-    if (param < 1) {
+    theme_param = this->set_params[1];
+    if (theme_param < 1) {
         this->theme = 0;
     } else if (this->model_index == 0) {
-        if (param > 1) {
+        if (theme_param > 1) {
             this->theme = 3;
         } else {
             this->theme = 0xA;

@@ -16,6 +16,15 @@ s32 verify_game_file_integrity(void);
 void set_movie_finished_flag(s32);
 void update_movie_phase(void);
 
+extern "C" {
+unsigned char get_opening_movie_purpose(void);
+}
+void set_opening_movie_purpose(int a0);
+
+extern "C" {
+void fn_802A1154(void);
+}
+
 typedef struct Entry_802A1020 {
     const char *file;
     u32 size;

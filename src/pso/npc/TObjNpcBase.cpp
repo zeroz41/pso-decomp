@@ -21,7 +21,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -49,7 +49,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -77,12 +77,12 @@ void TObjNpcBase::draw_debug_info() {
     }
     message_label = parameters[4];
     object_number = parameters[3];
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x1A001D, "<- DISP ON FLAG NO : %4.0f", parameters[1]);
     debug_printf_at(0x1A001E, "<- DISP OFF FLAG NO: %4.0f", parameters[2]);
     debug_printf_at(0x1A001F, "<- OBJECT NUMBER : %4d", object_number);
     debug_printf_at(0x1A0020, "<- MESSAGE LABEL : %4d", message_label);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 #pragma pool_data reset
 
@@ -410,7 +410,7 @@ void TObjNpcBase::render() {
     if ((update_object_view_visibility(view_distance, view_radius) != 0) && (visible == 1)) {
         select_actor_lighting(this);
         model_render_flags |= 1;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, (u8 *) &position);
         rotate_matrix_y(0, rotation_y);

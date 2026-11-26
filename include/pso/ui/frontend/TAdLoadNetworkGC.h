@@ -4,10 +4,13 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 class TParticleCtrl;
 
 struct TAdLoadNetworkGC : public TObject {
+    static ParticleAngles object_offset_table[5];
+    static const char *class_name;
     TAdLoadNetworkGC(TObject *parent, Vec *pos);
     virtual ~TAdLoadNetworkGC();
     u8 pad_1c[4];

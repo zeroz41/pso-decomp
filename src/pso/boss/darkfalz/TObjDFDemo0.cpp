@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -9,7 +8,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/ModelNodeTables.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -18,7 +16,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TObjDFDemo0.h"
@@ -228,7 +226,7 @@ void TObjDFDemo0::render() {
             if (i == 0 || i == 1) {
                 frame = loop_frame;
             }
-            TObjFish::set_global_param(texture_lists[i]);
+            set_texture_list(texture_lists[i]);
             draw_model_motion(models[i], motions[i], frame);
         }
         clear_motion_packed_rotation();

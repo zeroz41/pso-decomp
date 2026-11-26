@@ -12,7 +12,7 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TObject.h"
@@ -20,16 +20,16 @@
 NJS_TEXNAME lbl_804ED990 = { "f256_memorycard_select", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
 
-const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
+const char *TAdMcSelectCursorGC::class_name = "TAdMcSelectCursorGC";
 
-NJS_TEXLIST *TAdMcSelectCursorGC__texture_entry;
+NJS_TEXLIST *TAdMcSelectCursorGC::texture_entry;
 
 void TAdMcSelectCursorGC::render_cursor() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdMcSelectCursorGC__texture_entry));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(TAdMcSelectCursorGC::texture_entry));
     set_draw_texture_and_color(0, ((this->cursor_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&quads[0].x0, 0.9f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdMcSelectCursorGC::render() {
@@ -110,7 +110,7 @@ TAdMcSelectCursorGC::~TAdMcSelectCursorGC() {
 }
 
 TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
-    m_name = TAdMcSelectCursorGC__class_name;
+    m_name = TAdMcSelectCursorGC::class_name;
     m_138 = 0;
     m_12c = 0;
     m_134 = 0;
@@ -136,15 +136,15 @@ TAdMcSelectCursorGC *TAdMcSelectCursorGC::get_instance(TObject *parent) {
 }
 
 void TAdMcSelectCursorGC::release_cursor_entry() {
-    if (TAdMcSelectCursorGC__texture_entry != NULL) {
-        NJS_TEXNAME *entry = TAdMcSelectCursorGC__texture_entry->textures;
+    if (TAdMcSelectCursorGC::texture_entry != NULL) {
+        NJS_TEXNAME *entry = TAdMcSelectCursorGC::texture_entry->textures;
         if (entry->texture != NULL) {
-            release_texture_list(TAdMcSelectCursorGC__texture_entry);
+            release_texture_list(TAdMcSelectCursorGC::texture_entry);
         }
     }
 }
 
-void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = &mc_select_cursor_texture_list; load_streamed_prs_texture("f256_memorycard_select", &mc_select_cursor_texture_list); }
+void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC::texture_entry = &mc_select_cursor_texture_list; load_streamed_prs_texture("f256_memorycard_select", &mc_select_cursor_texture_list); }
 
 s32 TAdMcCheckGC::get_check_step() { return check_step; }
 

@@ -20,6 +20,7 @@ struct TObjDFDemo2 : public TObjBase {
     s32 timer;
     f32 frame;
     static const char *name;
+    static s32 motion_index_table[2];
 };
 
 LAYOUT_ASSERT(TObjDFDemo2_size, sizeof(TObjDFDemo2) == 0xC4);

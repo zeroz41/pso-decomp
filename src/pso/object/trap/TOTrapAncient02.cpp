@@ -10,7 +10,7 @@
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/object/trap/TOTrapAncient02R.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -75,7 +75,7 @@ const char *trap_ancient02_r_name = "TOTrapAncient02R";
 
 BmlResource *trap_ancient02_shared_resource;
 s32 uv_scroll_last_tick;   // the actor_frame_tick the uv scroll last ran on
-GinjaModel *uv_scroll_model; // the model vfunc_84 scrolls the uvs of
+GinjaModel *uv_scroll_model; // the model update_effects scrolls the uvs of
 s32 uv_scroll_mesh_index;   // the mesh of it that scrolls
 
 void TOTrapAncient02R::init_trap_object_id() {
@@ -237,7 +237,7 @@ void TOTrapAncient02::render() {
 void TOTrapAncient02::draw_effect_chain() {
     NJS_OBJECT *n;
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     n = (NJS_OBJECT *)model;
@@ -272,7 +272,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = (NJS_OBJECT *)model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     setup_particle_tev(0);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -280,7 +280,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
     setup_particle_tev(0);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -289,7 +289,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = n->child;
     post_translate_matrix(n->pos);
     setup_particle_tev(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -299,7 +299,7 @@ void TOTrapAncient02::render_particle_chain() {
     post_translate_matrix(n->pos);
     rotate_matrix_y(0, spin_angle);
     setup_particle_tev(0);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -309,7 +309,7 @@ void TOTrapAncient02::render_particle_chain() {
     pop_matrix();
 }
 
-void TOTrapAncient02::vfunc_81() {
+void TOTrapAncient02::update_springing() {
     TObjPlayer *p;
     f32 d;
     submit_cursor_candidate(this, -1);
@@ -335,7 +335,7 @@ void TOTrapAncient02::vfunc_81() {
             p = get_player_by_client_id(player);
             target = p;
             if (target != NULL) {
-                d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
+                d = horizontal_distance_squared(&target->position, &position);
                 dist = range - p->get_body_radius(0);
                 if (d < dist * dist) {
                     if (player == local_client_id) {
@@ -377,7 +377,7 @@ void TOTrapAncient02::vfunc_81() {
     }
 }
 
-void TOTrapAncient02::vfunc_82() {
+void TOTrapAncient02::update_holding() {
     TObjPlayer *p;
     submit_cursor_candidate(this, -1);
     switch (phase) {
@@ -386,14 +386,14 @@ void TOTrapAncient02::vfunc_82() {
         phase = 2;
     case 2:
         if (target != NULL) {
-            ((TObjBase *)target)->set_actor_flags(0x200);
-            ((TObjChara *)target)->enable_motion_blend();
-            ((TObjChara *)target)->set_override_speed(1.0f);
+            target->set_actor_flags(0x200);
+            target->enable_motion_blend();
+            target->set_override_speed(1.0f);
             timer--;
             if (timer < 0) {
                 phase = 3;
                 timer = reset;
-                if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
+                if (target != NULL && local_client_id == target->get_entity_id()) {
                     p = get_player_by_client_id(local_client_id);
                     if (p != NULL && p->check_player_flag1() != 0) {
                         send_release_hold(p);
@@ -427,7 +427,7 @@ void TOTrapAncient02::vfunc_82() {
     }
 }
 
-void TOTrapAncient02::vfunc_84() {
+void TOTrapAncient02::update_effects() {
     if (uv_scroll_last_tick != actor_frame_tick && uv_scroll_model != NULL) {
         uv_scroll_last_tick = actor_frame_tick;
         scroll_ginja_mesh_uvs(uv_scroll_model, 0, 0xE, uv_scroll_mesh_index, 1);
@@ -486,7 +486,7 @@ void TOTrapAncient02::vfunc_84() {
     }
 }
 
-void TOTrapAncient02::vfunc_88() {}
+void TOTrapAncient02::run_demo() {}
 
 void TOTrapAncient02::vfunc_86() {}
 
@@ -557,7 +557,7 @@ void TOTrapAncient02R::find_target_player() {
         if (player != 0xFFFF) {
             target = get_player_by_client_id(player);
             if (target != NULL) {
-                if (horizontal_distance_squared(&((TObjBase *)target)->position, &position) < range * range) {
+                if (horizontal_distance_squared(&target->position, &position) < range * range) {
                     mode = 2;
                 }
             } else {
@@ -570,7 +570,7 @@ void TOTrapAncient02R::find_target_player() {
     }
 }
 
-void TOTrapAncient02R::vfunc_81() {
+void TOTrapAncient02R::update_springing() {
     f32 d;
     saddr ang;
     set_indexed_flags(0, 1);
@@ -597,16 +597,16 @@ void TOTrapAncient02R::vfunc_81() {
             TObjPlayer *p = get_player_by_client_id(player);
             target = p;
             if (target != NULL && p->get_floor() == get_current_floor() &&
-                (((TObjBase *)target)->alt_room == alt_room || ((TObjBase *)target)->room == room ||
-                 ((TObjBase *)target)->room == alt_room)) {
-                d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-                dist = range + ((TObjCollidable *)target)->get_collision_body_radius(0);
+                (target->alt_room == alt_room || target->room == room ||
+                 target->room == alt_room)) {
+                d = horizontal_distance_squared(&target->position, &position);
+                dist = range + target->get_collision_body_radius(0);
                 if (d < dist * dist) {
                     mode = 3;
                     phase = 2;
                     VecCopy(&scratch_vec, &position);
                     scratch_vec.y += h344 + h348;
-                    VecCopy(&scratch_vec2, &((TObjChara *)target)->body_center);
+                    VecCopy(&scratch_vec2, &target->body_center);
                     subtract_vector(&scratch_vec2, &scratch_vec);
                     if (normalize_vector_safe(&scratch_vec2) < 1e-5f) {
                         scratch_vec2.x = scratch_vec2.y = 0.0f;
@@ -622,7 +622,7 @@ void TOTrapAncient02R::vfunc_81() {
                         DirectAttackPayload payload;
                         payload.kind = 3;
                         payload.power = scale_by_table_value(20.0f * (f32)tech_level + 240.0f);
-                        ((TObjChara *)target)->receive_direct_attack(this, payload, NULL, -1, -1);
+                        target->receive_direct_attack(this, payload, NULL, -1, -1);
                         spawn_particle_effect(&scratch_vec, 0xB9);
                         spawn_particle_effect(&scratch_vec, 0xBA);
                         {
@@ -632,7 +632,7 @@ void TOTrapAncient02R::vfunc_81() {
                         break;
                     }
                     case 0:
-                        TTecFoie::create_ex(this, &scratch_vec, &((TObjChara *)target)->body_center, tech_level);
+                        TTecFoie::create_ex(this, &scratch_vec, &target->body_center, tech_level);
                         break;
                     case 2:
                         TTecGiBarta::create_ex(this, &scratch_vec, ang, tech_level);
@@ -681,7 +681,7 @@ void TOTrapAncient02R::vfunc_81() {
     }
 }
 
-void TOTrapAncient02R::vfunc_82() {
+void TOTrapAncient02R::update_holding() {
     set_indexed_flags(0, 1);
     submit_cursor_candidate(this, -1);
     switch (phase) {
@@ -730,7 +730,7 @@ void TOTrapAncient02R::calc_trap_count() {
     }
 }
 
-void TOTrapAncient02R::vfunc_88() {}
+void TOTrapAncient02R::run_demo() {}
 
 void TOTrapAncient02R::vfunc_86() {
     if (is_current_room(this) == 1) {

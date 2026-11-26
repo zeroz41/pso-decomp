@@ -41,6 +41,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_create.h"
+#include "pso/unk/TLobby_80103F5C.h"
 
 
 
@@ -67,14 +68,12 @@ extern "C" {
 void TLobby__sub_801041D8(void);
 }
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
-extern s32 local_client_id;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
 extern void *tl_05;
 }
-void reset_map(void);
 extern "C" {
 extern s32 lbl_805D5440;
 void spawn_dropped_item_from_msg(void *, s32);

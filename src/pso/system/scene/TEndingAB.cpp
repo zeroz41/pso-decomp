@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/TLevelSelect.h"
 
@@ -159,10 +159,8 @@ EndingWallTextureSet ending_wall_texture_sets[4] = {
     },
 };
 
-extern "C" {
 s32 TEndingAB::fade_sequence_state;
 NJS_TEXLIST *ending_ab_wall_texture_list;
-}
 
 void TEndingAB::advance_fade_sequence() {
     switch (TEndingAB::fade_sequence_state) {
@@ -219,26 +217,26 @@ void TEndingAB::draw_overlay() {
     case 2:
         begin_screen_draw(1);
         set_draw_texture_and_color(wall_index * 2 + 2, -1);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_depth_buffer_settings_2();
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
         draw_textured_quad_at_depth((f32 *)&quads[0], 0.9f);
         draw_textured_quad_at_depth((f32 *)&quads[1], 0.9f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         restore_saved_depth_alpha_state();
         break;
     case 4:
     case 5:
         begin_screen_draw(1);
         set_draw_texture_and_color(wall_index * 2 + 3, -1);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_depth_buffer_settings_2();
         begin_screen_draw(1);
         set_draw_texture_and_color(1, -1);
         draw_textured_quad_at_depth((f32 *)&quads[2], 0.9f);
         draw_textured_quad_at_depth((f32 *)&quads[3], 0.9f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         restore_saved_depth_alpha_state();
         break;
     }
@@ -248,13 +246,13 @@ void TEndingAB::set_fish_global_param() {
     switch (game_difficulty_selection) {
     case 0:
     case 1:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        set_texture_list(ending_ab_wall_texture_list);
         break;
     case 2:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        set_texture_list(ending_ab_wall_texture_list);
         break;
     case 3:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        set_texture_list(ending_ab_wall_texture_list);
         break;
     }
 }

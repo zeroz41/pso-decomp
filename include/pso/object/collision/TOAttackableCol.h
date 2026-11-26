@@ -26,8 +26,8 @@ struct TOAttackableCol : public TObjChara {
     void release();
     void check_door_trigger();
     void sub_80157310();
-    void sub_80157C20(s32 v);
-    s32 sub_80157C28();
+    void set_hits_left(s32 v);
+    s32 get_hits_left();
     virtual void run_task();
     virtual void render();
     static void *create(void *set_data);

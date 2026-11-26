@@ -9,12 +9,13 @@ struct PlayerPkState {
     s32 enabled;
     s32 team;
 
+    PlayerPkState &operator=(PlayerPkState &src);
     s32 get_team();
     s32 is_enabled();
     void set_team(s32 id);
     void disable();
     void enable();
-    PlayerPkState *init();
+    PlayerPkState();
     void reset();
 };
 

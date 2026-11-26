@@ -138,7 +138,7 @@ void init_6x9C_enemy_low_game_flags_packet(u8 *packet) {
 void TLobby::bswap_enemy_state() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 void send_6x0A_enemy_state_packet(void* p) { ((TLobby *)p)->bswap_enemy_state(); send_subcommand((u8 *)p); }
 void init_6x0A_enemy_state_packet(void* p) { *(u8*)((char*)p + 0x0) = 10; *(u8*)((char*)p + 0x1) = 3; }
-int get_attack_credit_slot_count(void) { return 4; }
+int get_attack_credit_slot_count(TObjEnemy *) { return 4; }
 
 f32 get_challenge4p_exp_multiplier(void) {
     return challenge4p_mode_state.exp_multiplier;

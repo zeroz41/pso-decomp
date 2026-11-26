@@ -8,7 +8,7 @@
 #include "pso/render/GinjaTextureEntryCopy.h"
 #include "pso/effect/GroundContactSound.h"
 #include <stddef.h>
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "types.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/item/TItem.h"
@@ -59,7 +59,6 @@
 #include "pso/technique/TTecSifta.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
@@ -67,7 +66,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
@@ -1636,7 +1635,7 @@ void TObjEneMe3Stelth::render() {
                 set_chunk_material_override_pair(0xFF00, 0x800);
             }
             if (draw != 0) {
-                TObjFish::set_global_param(texlist);
+                set_texture_list(texlist);
                 push_matrix();
                 post_translate_matrix(&position.x);
                 translate_matrix(0, 0.0f, body_offset_y, 0.0f);
@@ -1675,7 +1674,7 @@ void TObjEneMe3Stelth::render() {
                 set_constant_material(&c);
                 set_color_blend_mode(1, 4, 5, 0);
             }
-            TObjFish::set_global_param(texlist);
+            set_texture_list(texlist);
             for (i = 0; i < 3; i++) {
                 if (me3_stelth_material_color_pointers[i] != 0) {
                     *me3_stelth_material_color_pointers[i] = material_color;
@@ -1751,7 +1750,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
     }
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *textures = texlist->textures;
@@ -2088,9 +2087,8 @@ void TObjEneMe3Stelth::spawn_footstep_effects() {
     }
 }
 
-// dead-stripped; reconstructed from its pooled literals: 23.0f is pooled
-// between try_spawn_ground_effect's 1.0f and spawn_footstep_effects's 12.0f, before its first live user.
-// Body after its sibling spawn_footstep_effects (a ground effect on a motion frame); name inferred.
+// Plays the ground effect on motion frame 23, like spawn_footstep_effects. Dead-stripped from the
+// game: only its 23.0f literal remains.
 void TObjEneMe3Stelth::spawn_ground_effect_on_frame_23() {
     if (is_passing_frame(23.0f) != 0) {
         try_spawn_ground_effect(&position);

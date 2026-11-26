@@ -13,10 +13,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-extern "C" {
-// TObjCharaHelpers.h declares these, but its calc_random_ratio prototype takes no rng.
-}
-
 TBoss8DragonLeaderPart *boss8_dragon_leader_part;
 
 TBoss8Dragon *TBoss8Dragon::get_part(s32 index) {

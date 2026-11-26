@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItemData.h"
+#include "pso/item/WeaponAttribute.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include <stddef.h>
 
@@ -12,10 +13,6 @@ class HelpItemStatCompareRow;
 
 // One of a weapon's three attribute slots: the area it boosts (1-5) and the
 // percentage.
-struct WeaponAttribute {
-    u8 area;
-    s8 percent;
-};
 
 // Layout tables of the help item window (cols, rows, then the records read by
 // init_window_layout_entries).
@@ -122,7 +119,7 @@ struct TWindowHelpItem : public TWindowBase
     s32 update_mag_status_gauges();
     s32 are_status_entries_ready();
     s32 advance_mag_levels();
-    void update_help_item(s32 mode);
+    void update_help_item(s8 page);
     // 1: an item is shown, 2: it has pages, 4: page flipping locked,
     // 8: the help button toggle is off.
     u8 help_flags;

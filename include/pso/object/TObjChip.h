@@ -27,12 +27,12 @@ public:
     virtual void render();
     virtual s32 init_chips();
     virtual s32 spawn_chips(s32 *rotation);
-    virtual s32 vfunc_8();
+    virtual s32 is_finished();
     virtual void tick_chips();
     virtual s32 is_in_view(Vec *center, f32 max_depth, f32 radius);
     // What render() draws through.
     virtual void render_chips();
-    virtual void vfunc_12();
+    virtual void draw_ginja_chips();
     virtual void draw_chips();
     static void copy_debris_params(TObjChipParams *dst, const TObjChipParams *src);
     static TObjChipSpawnParams *copy_transform(TObjChipSpawnParams *spawn, TObjChipParams *params);
@@ -41,7 +41,7 @@ public:
     f32 pad_20;
     TObjChipParams params;  // params.count pieces, of params.model
     TObjChipPiece pieces[8];
-    s32 pad_230;  // cleared when no piece is left
+    s32 alive;  // 1 until no piece is left (or init_chips fails)
 };
 
 LAYOUT_ASSERT(TObjChip_size, sizeof(TObjChip) == 0x234);

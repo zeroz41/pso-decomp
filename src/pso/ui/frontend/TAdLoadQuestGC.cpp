@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/frontend/TAdLoadQuestGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/camera/TCameraCtrl.h"
 
 #include "types.h"
@@ -48,10 +47,10 @@ TAdLoadQuestGC::~TAdLoadQuestGC() {
     }
 }
 
-const char *TAdLoadQuestGC__class_name = "TAdLoadQuestGC";
+const char *TAdLoadQuestGC::class_name = "TAdLoadQuestGC";
 
 TAdLoadQuestGC::TAdLoadQuestGC(TObject *parent) : TObject(parent) {
-    m_name = TAdLoadQuestGC__class_name;
+    m_name = TAdLoadQuestGC::class_name;
     get_or_create_cell(0);
     get_or_create_prt_txt(0);
     get_or_create_cell(1);

@@ -14,4 +14,6 @@ struct TOMineIcon02 : public TOMine {
 
 LAYOUT_ASSERT(TOMineIcon02_size, sizeof(TOMineIcon02) == 0x37C);
 
+extern const char *mine_icon02_name;
+
 #endif

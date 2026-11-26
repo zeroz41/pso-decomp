@@ -16,7 +16,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTimedSoundEffect.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"
@@ -25,7 +24,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/object/lobby/TGoGoBallRocket.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
@@ -61,7 +59,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
@@ -247,7 +245,7 @@ void TObjGoGoBall::update_goal_checks(u16 id) {
         actorFlags = 1;
         ang = 10430.38043493439 * atan2_float(position.x - p->position.x, position.z - p->position.z);
         if ((0.0f) == len) {
-            throw_gogo_ball(&position, (s32)ang, (s32)time);
+            throw_gogo_ball(&position, ang, (s32)time);
             send_local_player_walk();
         }
     }
@@ -367,7 +365,7 @@ void TObjGoGoBall::render() {
     if (lobby_gvm_texture_handles != 0 && gogo_ball_bml_resource != 0) {
         switch (gogo_ball_configuration.ball_type) {
         case 0:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[0]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[0]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 3));
             set_cull_front();
@@ -375,7 +373,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 1:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[1]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[1]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -383,7 +381,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 2:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[2]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[2]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -391,7 +389,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 3:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[3]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[3]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -399,7 +397,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 6:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[6]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[6]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 2));
             set_cull_front();
@@ -421,7 +419,7 @@ void TObjGoGoBall::render() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
+s32 TObjGoGoBall::reflect_velocity_off_collision(Vec *pos, Vec *vel) {
     Vec end;
     Vec dir;
     Vec a;
@@ -433,14 +431,14 @@ s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
     f32 len;
     f32 d;
     f32 px, py, pz, nx, ny, nz;
-    end.x = ((Vec *)p)->x + ((Vec *)v)->x;
-    end.y = ((Vec *)p)->y + ((Vec *)v)->y;
-    end.z = ((Vec *)p)->z + ((Vec *)v)->z;
-    VecCopy(&dir, (const Vec *)((Vec *)v));
+    end.x = pos->x + vel->x;
+    end.y = pos->y + vel->y;
+    end.z = pos->z + vel->z;
+    VecCopy(&dir, vel);
     len = vector_length(&dir);
     if ((0.0f) != len) {
         normalize_vector(&dir);
-        VecCopy(&a, (const Vec *)((Vec *)p));
+        VecCopy(&a, pos);
         a.x -= (3.0f) * (dir.x * len);
         a.y -= (3.0f) * (dir.y * len);
         a.z -= (3.0f) * (dir.z * len);
@@ -456,33 +454,33 @@ s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
     nx = tri->normal.x;
     ny = tri->normal.y;
     nz = tri->normal.z;
-    r.x = ((Vec *)v)->x;
-    r.y = ((Vec *)v)->y;
-    r.z = ((Vec *)v)->z;
+    r.x = vel->x;
+    r.y = vel->y;
+    r.z = vel->z;
     d = (2.0f) * vec3_dot(&r, &tri->normal);
     r.x -= d * nx;
     r.y -= d * ny;
     r.z -= d * nz;
-    q.x = px - ((Vec *)p)->x;
-    q.z = pz - ((Vec *)p)->z;
+    q.x = px - pos->x;
+    q.z = pz - pos->z;
     q.y = (0.0f);
     vector_length(&q);
-    ((Vec *)v)->x = r.x * restitution;
-    ((Vec *)v)->z = r.z * restitution;
+    vel->x = r.x * restitution;
+    vel->z = r.z * restitution;
     normalize_vector(&r);
     throw_up_speed *= restitution;
-    ((Vec *)v)->y = r.y * throw_up_speed;
-    s.x = ((Vec *)v)->x;
-    s.z = ((Vec *)v)->z;
+    vel->y = r.y * throw_up_speed;
+    s.x = vel->x;
+    s.z = vel->z;
     s.y = throw_up_speed;
     if (vector_length(&s) < (1.0f) - restitution) {
-        ((Vec *)v)->x = (0.0f);
-        ((Vec *)v)->y = (0.0f);
-        ((Vec *)v)->z = (0.0f);
+        vel->x = (0.0f);
+        vel->y = (0.0f);
+        vel->z = (0.0f);
     }
-    ((Vec *)p)->x += ((Vec *)v)->x;
-    ((Vec *)p)->z += ((Vec *)v)->z;
-    ((Vec *)p)->y = (0.001f) * r.y + py;
+    pos->x += vel->x;
+    pos->z += vel->z;
+    pos->y = (0.001f) * r.y + py;
     return 1;
     }
     return 0;
@@ -514,7 +512,7 @@ void TObjGoGoBall::draw_shadow_on_ground() {
         if (k >= 1.0f) {
             k = 1.0f;
         }
-        draw_shadow_quads(&ground.point, &ground.normal, 0, &scale, (f32)k);
+        draw_shadow_quads(&ground.point, &ground.normal, 0, &scale, k);
         copy_argb(&model_material_color, &saved_model_draw_color);
     }
 }
@@ -785,9 +783,9 @@ void TGoGoBallRocket::run_task() {
 void TGoGoBallRocket::render() {
     if (((gogo_ball_bml_resource != NULL) || (lobby_gvm_texture_handles[4] != NULL)) && (gogo_ball_configuration.ball_type != 6)) {
         if (this->team0 == 1) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[4]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[4]));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[5]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[5]));
         }
         push_matrix();
         post_translate_matrix(&this->pos.x);
@@ -924,9 +922,9 @@ void TGoGoBallGoal::render() {
     bml_model = get_bml_model(gogo_ball_bml_resource, 1);
     if (bml_model != NULL) {
         if ((s32) this->team0 != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[7]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[7]));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[8]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[8]));
         }
         push_matrix();
         post_translate_matrix(&this->pos.x);

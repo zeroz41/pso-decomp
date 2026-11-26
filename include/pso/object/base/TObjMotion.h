@@ -66,6 +66,7 @@ public:
     void set_action_table(TObjMotionAction *actions);
     void set_motion_list(BmlMotionEntry *motions);
     void set_requested_action(s16);
+    s16 get_requested_action();
     // Clears MOTION_NO_BLEND.
     void enable_motion_blend();
     // Plays the next action at this speed (MOTION_OVERRIDE_SPEED).

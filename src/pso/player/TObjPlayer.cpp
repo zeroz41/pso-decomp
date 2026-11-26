@@ -6,7 +6,7 @@
 #include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/TDeathTintFade.h"
+#include "pso/system/TDeathTintFade.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
@@ -40,7 +40,6 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80072004.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
@@ -69,91 +68,7 @@
 #include "pso/player/PlayerTelepipe.h"
 #include "pso/player/InventoryItemList.h"
 
-u8 *TObjPlayer::create_player_instance(s32 slot, PlayerCharDataEntry *player) {
-    u8 *p;
-    p = (u8 *)new TObjPlayer(tl_03, slot & 0xFFFF, player->get_role(), player->get_char_data());
-    ((TLobby *)(p + 0xDAC))->copy_header_struct(player->get_lobby_header());
-    ((TObjPlayer *)p)->reset_motion_fields();
-    return p;
-}
 
-TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
-    decode_created_player_inventory(record);
-    return new TObjPlayer(tl_03, slot, role, record);
-}
-
-
-
-extern s32 lbl_805D5D7C;
-
-PhotonBlastRegistry *TObjPlayer::shared_photon_blast_state;
-s32 lobby_player_count;
-
-void TObjPlayer::free_shared_data() {
-    if (TObjPlayer::shared_photon_blast_state != NULL) {
-        delete TObjPlayer::shared_photon_blast_state;
-        TObjPlayer::shared_photon_blast_state = NULL;
-    }
-    if (player_shared_buffer_base != NULL) {
-        mem_free(player_shared_buffer_base);
-        player_shared_buffer_base = NULL;
-    }
-    if (shared_model_buffer != NULL) {
-        mem_free(shared_model_buffer);
-        shared_model_buffer = NULL;
-    }
-}
-
-void TObjPlayer::alloc_shared_buffers() {
-    if (shared_model_buffer == NULL) {
-        shared_model_buffer = static_cast<u8 *>(mem_alloc(0x9000));
-    }
-    if (player_shared_buffer_base == NULL) {
-        player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
-    }
-    if (TObjPlayer::shared_photon_blast_state == NULL) {
-        TObjPlayer::shared_photon_blast_state = new PhotonBlastRegistry();
-    }
-}
-
-void TObjPlayer::finalize_shared() { TLobby::set_player_count(0); TObjPlayer::set_shared_count(0); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
-
-void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count(0); TObjPlayer::set_shared_count(1); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
-
-extern "C" {
-void __sinit_TObjPlayer_cpp();
-void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
-void __register_global_object(void *obj, void *dtor, void *chain);
-void *__construct_array(void *, void *, void *, u32, u32);
-void construct__19PlayerCharDataEntryFv(void *);
-void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
-
-}
-
-ArrivalOverride player_arrival_overrides[12];
-TObjPlayer *player_slot_table[12];
-s32 lobby_rule_settings[9];
-u8 lbl_8050EA64[0xC];
-u8 TObjPlayer::char_data_array[0x42C * 0xC];
-
-
-void __sinit_TObjPlayer_cpp() {
-    __construct_array(player_arrival_overrides, (void *)init_arrival_override, NULL, sizeof(ArrivalOverride), 12);
-    ((TObjPlayer *)lobby_rule_settings)->reset_lobby_settings();
-    __construct_array(TObjPlayer::char_data_array, (void *)construct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
-    __register_global_object(NULL, (void *)TObjPlayer::destroy_char_data_array, lbl_8050EA64);
-}
-
-void TObjPlayer::destroy_char_data_array() {
-    __destroy_arr(TObjPlayer::char_data_array, (void *)__dt__19PlayerCharDataEntryFv, 0x42c, 0xc);
-}
-
-
-__declspec(section ".ctors") static void *const __sinit_TObjPlayer_cpp_ref = (void *)__sinit_TObjPlayer_cpp;
-
-
-
-PlayerCharDataEntry::~PlayerCharDataEntry() {}
 
 void TObjPlayer::get_pos(saddr out) {
     this->get_anim_node_position(0x3A, (Vec *)out);
@@ -178,7 +93,7 @@ void TObjPlayer::clamp_stat_41c() { pending_actions.set(8); }
 
 
 s8 TObjPlayer::get_rule_field_0() {
-    return ((TLobby *)lobby_rule_settings)->get_rule_field_0();
+    return lobby_rule_settings.get_rule_field_0();
 }
 
 
@@ -260,21 +175,21 @@ void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
 
 
 int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }
-void PlayerSyncRecord::set_class_flag_2(u8 v) { items[15].m_present[3] = v; }
+void PlayerSyncRecord::set_class_flag_2(u8 v) { inventory.items[15].m_present[3] = v; }
 u8 TObjPlayer::get_battle_mode() { return battle_mode; }
-void PlayerSyncRecord::set_class_flag_1(u8 v) { items[14].m_present[3] = v; }
-u8 TObjPlayer::get_byte_339() { return this->m_339; }
-void PlayerSyncRecord::set_class_flag_0(u8 v) { items[13].m_present[3] = v; }
+void PlayerSyncRecord::set_class_flag_1(u8 v) { inventory.items[14].m_present[3] = v; }
+u8 TObjPlayer::get_byte_339() { return this->class_flag_1; }
+void PlayerSyncRecord::set_class_flag_0(u8 v) { inventory.items[13].m_present[3] = v; }
 u8 TObjPlayer::get_mag_level() { return mag_level; }
-void PlayerSyncRecord::set_luck_materials_used(u8 v) { items[12].m_present[3] = v; }
+void PlayerSyncRecord::set_luck_materials_used(u8 v) { inventory.items[12].m_present[3] = v; }
 u8 TObjPlayer::get_luck_materials_used() { return materials.get_luck_used(); }
-void PlayerSyncRecord::set_def_materials_used(u8 v) { items[11].m_present[3] = v; }
+void PlayerSyncRecord::set_def_materials_used(u8 v) { inventory.items[11].m_present[3] = v; }
 u8 TObjPlayer::get_def_materials_used() { return materials.get_def_used(); }
-void PlayerSyncRecord::set_evade_materials_used(u8 v) { items[10].m_present[3] = v; }
+void PlayerSyncRecord::set_evade_materials_used(u8 v) { inventory.items[10].m_present[3] = v; }
 u8 TObjPlayer::get_evade_materials_used() { return materials.get_evade_used(); }
-void PlayerSyncRecord::set_mind_materials_used(u8 v) { items[9].m_present[3] = v; }
+void PlayerSyncRecord::set_mind_materials_used(u8 v) { inventory.items[9].m_present[3] = v; }
 u8 TObjPlayer::get_mind_materials_used() { return materials.get_mind_used(); }
-void PlayerSyncRecord::set_power_materials_used(u8 v) { items[8].m_present[3] = v; }
+void PlayerSyncRecord::set_power_materials_used(u8 v) { inventory.items[8].m_present[3] = v; }
 u8 TObjPlayer::get_power_materials_used() { return materials.get_power_used(); }
 
 
@@ -347,30 +262,30 @@ void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
 s32 TObjPlayer::get_state_flags() { return this->state_flags; }
 int TObjPlayer::unregister_sub() { return unregister_object_by_id(); }
-void TObjPlayer::set_control_role(s32 v) { *(s32 *)&this->unk_3E8 = v; }
-u8 PlayerSyncRecord::get_class_flag_2() { return items[15].m_present[3]; }
-u8 PlayerSyncRecord::get_class_flag_1() { return items[14].m_present[3]; }
-u8 PlayerSyncRecord::get_class_flag_0() { return items[13].m_present[3]; }
+void TObjPlayer::set_control_role(s32 v) { this->control_role = v; }
+u8 PlayerSyncRecord::get_class_flag_2() { return inventory.items[15].m_present[3]; }
+u8 PlayerSyncRecord::get_class_flag_1() { return inventory.items[14].m_present[3]; }
+u8 PlayerSyncRecord::get_class_flag_0() { return inventory.items[13].m_present[3]; }
 void TObjPlayer::set_language(s32 v) { this->language = v; }
 void TObjPlayer::reset_entrance_id() { entrance_id = -1; }
 void TObjPlayer::set_luck_materials_used(u8 v) { materials.set_luck_used(v); }
-u8 PlayerSyncRecord::get_luck_materials_used() { return items[12].m_present[3]; }
+u8 PlayerSyncRecord::get_luck_materials_used() { return inventory.items[12].m_present[3]; }
 void TObjPlayer::set_def_materials_used(u8 v) { materials.set_def_used(v); }
-u8 PlayerSyncRecord::get_def_materials_used() { return items[11].m_present[3]; }
+u8 PlayerSyncRecord::get_def_materials_used() { return inventory.items[11].m_present[3]; }
 void TObjPlayer::set_evade_materials_used(u8 v) { materials.set_evade_used(v); }
-u8 PlayerSyncRecord::get_evade_materials_used() { return items[10].m_present[3]; }
+u8 PlayerSyncRecord::get_evade_materials_used() { return inventory.items[10].m_present[3]; }
 void TObjPlayer::set_mind_materials_used(u8 v) { materials.set_mind_used(v); }
-u8 PlayerSyncRecord::get_mind_materials_used() { return items[9].m_present[3]; }
+u8 PlayerSyncRecord::get_mind_materials_used() { return inventory.items[9].m_present[3]; }
 void TObjPlayer::set_power_materials_used(u8 v) { materials.set_power_used(v); }
-u8 PlayerSyncRecord::get_power_materials_used() { return items[8].m_present[3]; }
+u8 PlayerSyncRecord::get_power_materials_used() { return inventory.items[8].m_present[3]; }
 
 
 
 
 
-int TPlyPhotonChair::is_mounted() { return (*(u32*)((char*)this + 0x334) >> 26) & 0x1; }
+int TObjPlayer::is_mounted() { return (state_flags >> 26) & 0x1; }
 
-void PhotonBlastAim::reset() {
+PhotonBlastAim::PhotonBlastAim() {
     target_id = 0xFFFF;
     pad_2 = 0;
     position.x = position.y = position.z = player_zero;
@@ -386,7 +301,6 @@ s32 TObjPlayer::get_entrance_id() { return entrance_id; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_8 { u8 bytes[0x8]; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -399,18 +313,12 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 #pragma dont_inline off
 
 extern "C" {
-void copy_death_flags(void *dst, void *src);
-void copy_pk_state(void *dst, void *src);
-void copy_status_effect(StatusEffect *dst, StatusEffect *src);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
-void copy_movement_hold(MovementHold *dst, MovementHold *src);
 }
 void emit_grass_footstep_effect(PlayerFollowParticles *particles);
 void emit_water_footstep_effect(PlayerFollowParticles *particles);
 void emit_sand_footstep_effect(PlayerFollowParticles *particles);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
-int shared_count;
-int shared_flag;
 
 #pragma defer_codegen on
 ContactSurfaceFlags::~ContactSurfaceFlags() {}
@@ -465,10 +373,11 @@ s32 PlayerAppearFade::is_shown() { return (u8)(state == SHOWN); }
 
 Vec *get_marker_position(Vec *position) { return position; }
 
-void clear_equip_slots(s32 *slots) {
+void EquippedItems::clear() {
     s32 i;
+    void **slot = items;
     for (i = 0; i < 13; i++) {
-        *slots++ = 0;
+        *slot++ = 0;
     }
 }
 
@@ -546,9 +455,8 @@ void MovementHold::reset() {
     center_x = player_zero;
 }
 
-MovementHold *MovementHold::init() {
+MovementHold::MovementHold() {
     reset();
-    return this;
 }
 
 int ContactSurfaceState::get_flags() { return word.get_bits(); }
@@ -715,32 +623,41 @@ void PlayerFollowParticles::prepare_heavy_attack_particles_default() { hands.pre
 
 void PlayerPadBinding::set_controller(ControllerInputContext *context) { controller = context; }
 
-void copy_status_effect(StatusEffect *dst, StatusEffect *src) {
-    dst->type = src->type;
-    dst->amount = src->amount;
-    dst->timer = src->timer;
+StatusEffect &StatusEffect::operator=(StatusEffect &src) {
+    type = src.type;
+    amount = src.amount;
+    timer = src.timer;
+    return *this;
 }
 
-void copy_pk_state(void *dst, void *src) { ((u32 *)dst)[0] = ((u32 *)src)[0]; ((u32 *)dst)[1] = ((u32 *)src)[1]; }
-
-void TObjPlayer::copy_player_record_header(u8 *src) {
-    u8 *dst = (u8 *)this;
-    *(u16 *)((s8 *)dst + 0) = (u16) *(u16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    __memcpy(&this->m_prev, src + 8, 0xC);
-    *(s32 *)((s8 *)dst + 0x14) = (s32) *(s32 *)((s8 *)src + 0x14);
-    *(s32 *)((s8 *)dst + 0x18) = (s32) *(s32 *)((s8 *)src + 0x18);
+PlayerPkState &PlayerPkState::operator=(PlayerPkState &src) {
+    enabled = src.enabled;
+    team = src.team;
+    return *this;
 }
 
-void copy_death_flags(void *dst, void *src) { ((u32 *)dst)[0] = ((u32 *)src)[0]; }
+PlayerTelepipe &PlayerTelepipe::operator=(PlayerTelepipe &src) {
+    state.owner_client_id = src.state.owner_client_id;
+    state.floor = src.state.floor;
+    state.room_id = src.state.room_id;
+    __memcpy(&state.pos, &src.state.pos, sizeof(Vec));
+    state.angle_y = src.state.angle_y;
+    flags.bits = src.flags.bits;
+    return *this;
+}
 
-void copy_movement_hold(MovementHold *dst, MovementHold *src) {
-    dst->frames = src->frames;
-    dst->effect_type = src->effect_type;
-    dst->unused = src->unused;
-    dst->radius_sq = src->radius_sq;
-    __memcpy(&dst->center_x, &src->center_x, 8);
+FlagWord &FlagWord::operator=(FlagWord &src) {
+    bits = src.bits;
+    return *this;
+}
+
+MovementHold &MovementHold::operator=(MovementHold &src) {
+    frames = src.frames;
+    effect_type = src.effect_type;
+    unused = src.unused;
+    radius_sq = src.radius_sq;
+    __memcpy(&center_x, &src.center_x, 8);
+    return *this;
 }
 
 G_RemoveStatusEffect_6x0D &G_RemoveStatusEffect_6x0D::operator=(G_RemoveStatusEffect_6x0D &src) {
@@ -750,8 +667,8 @@ G_RemoveStatusEffect_6x0D &G_RemoveStatusEffect_6x0D::operator=(G_RemoveStatusEf
 }
 
 void StatusEffectChange::bswap() {
-    bswap_32(&effect_type);
-    bswap_32(&unknown_a1);
+    bswap_32((u32 *)&kind);
+    bswap_32((u32 *)&power);
 }
 
 void TObjPlayer::set_hp_bonus(s16 v) { this->hp_bonus = v; }
@@ -818,19 +735,17 @@ ProtectionTimer::~ProtectionTimer() {}
 #pragma pop
 
 
-s32 TObjPlayer::reset_and_return(saddr p) {
-    clear_equip_slots((s32 *)p);
-    return p;
+EquippedItems::EquippedItems() {
+    clear();
 }
 
-void clear_marker_position(Vec *position) {
-    position->z = player_zero;
-    position->y = player_zero;
-    position->x = player_zero;
+PlayerMarkerPosition::PlayerMarkerPosition() {
+    z = player_zero;
+    y = player_zero;
+    x = player_zero;
 }
 
-void PlayerSonarStock::clear() { count = 0; }
-
+PlayerSonarStock::PlayerSonarStock() { count = 0; }
 MovementHistory::MovementHistory() { clear_movement_history(this); }
 UnitScale::UnitScale() { reset(); }
 
@@ -912,26 +827,26 @@ PlayerActionPaletteState::PlayerActionPaletteState() {
     disabled_slots = 0;
 }
 
-void init_arrival_override(ArrivalOverride *entry) {
-    entry->active = 0;
-    entry->heading = 0;
-    entry->pos.z = player_zero;
-    entry->pos.y = player_zero;
-    entry->pos.x = player_zero;
+ArrivalOverride::ArrivalOverride() {
+    active = 0;
+    heading = 0;
+    pos.z = player_zero;
+    pos.y = player_zero;
+    pos.x = player_zero;
 }
 
 s32 FlagWord::get_bits() { return bits; }
 
-u8 *TObjPlayer::copy_hold_params(u8 *src) {
-    copy_subcommand_header(this, src);
-    this->m_flags = (s16) *(s16 *)((s8 *)src + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)src + 6);
-    *(ByteBlock_8 *)((saddr) ((u8 *)this) + 8) = *(const ByteBlock_8 *)((saddr) src + 8);
-    *(f32 *)((s8 *)((u8 *)this) + 0x10) = (f32) *(f32 *)((s8 *)src + 0x10);
-    return ((u8 *)this);
+G_ImposeHold_6x2C &G_ImposeHold_6x2C::operator=(G_ImposeHold_6x2C &src) {
+    copy_subcommand_header(this, &src);
+    frames = src.frames;
+    effect_type = src.effect_type;
+    __memcpy(&pos, &src.pos, sizeof(pos));
+    trigger_radius2 = src.trigger_radius2;
+    return *this;
 }
 
-s16 TBoss7Crawfish::get_floor() { return this->requested_action; }
+s16 TObjMotion::get_requested_action() { return requested_action; }
 BmlMotionEntry *PlayerActionProvider::get_motion_list(s32) { return 0; }
 int PlayerActionProvider::is_male() { return 0; }
 int PlayerActionProvider::load_motions(s32) { return 0; }
@@ -942,11 +857,6 @@ int TObjPlayer::is_handle_valid() { return ((PlayerMotionKey *)this)->get_body_t
 // Plain uninitialized globals (-sdata 8) land in .sbss; the referencing unit
 // keeps these extern.
 
-u32 town_npc_shared_resource;
-s32 lbl_805D5D7C;
-u8 *TObjPlayer::shared_model_buffer;
-PlayerJointMatrixSet *player_shared_buffer_base;
-u32 shared_state_flags[2];
 
 int PlayerActionProvider::load_motion_set(s32, s32, s32) { return 0; }
 int PlayerActionProvider::get_death_action() { return -1; }
@@ -1556,13 +1466,12 @@ void PlayerPkState::disable() { enabled = 0; }
 
 void PlayerPkState::enable() { enabled = 1; }
 
-PlayerPkState *PlayerPkState::init() { reset(); return this; }
+PlayerPkState::PlayerPkState() { reset(); }
 
 void PlayerPkState::reset() { enabled = 0; team = 0; }
 
-void *TObjPlayer::reset_lobby_settings() {
-    ((TLobby *)this)->reset_settings_to_default();
-    return this;
+LobbyRuleSettings::LobbyRuleSettings() {
+    reset_settings_to_default();
 }
 
 s32 TItem::is_equipped() {
@@ -1699,12 +1608,11 @@ s32 __ct__12TPlyCharDataFv(s32 arg0);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 cls, s16 tech, u8 level);
 
 
-PlayerAttackController *PlayerAttackController::init() {
+PlayerAttackController::PlayerAttackController() {
     __ct__8FlagWordFv(&flags);
     TObjPlayer__sub_8012AF00(&lockon_targets);
     evp_scale = player_one;
     reset();
-    return this;
 }
 
 }
@@ -1719,8 +1627,7 @@ void PendingItemDrop::set_source_id(s32 id) { source_id = id; }
 PendingItemDrop::PendingItemDrop() {}
 PlacementSlot::PlacementSlot() { state = 0; }
 
-PlayerTelepipe *PlayerTelepipe::init() {
-    __ct__8FlagWordFv(&flags);
+PlayerTelepipe::PlayerTelepipe() {
     state.owner_client_id = 0xFFFF;
     state.room_id = 0;
     state.pos.x = player_zero;
@@ -1728,8 +1635,7 @@ PlayerTelepipe *PlayerTelepipe::init() {
     state.pos.z = player_zero;
     state.angle_y = 0;
     state.floor = 0;
-    ((TTecLuker *)&flags)->set_state(0xFFFF);
-    return this;
+    flags.set_bits(0xFFFF);
 }
 
 void PlayerMotionKey::set_body_type(s32 body_type) { this->body_type = body_type; }
@@ -1742,8 +1648,8 @@ u8 PlayerLevelTableRow::get_mst_growth() const { return growth[1]; }
 u8 PlayerLevelTableRow::get_atp_growth() const { return growth[0]; }
 s32 PlayerLevelTableRow::get_exp_threshold() const { return experience; }
 
-u32 TObjPlayer::unpack_u32_hi() {
-    TPlyInventoryItem *items = reinterpret_cast<TPlyCharData *>(this)->m_inventory.m_items;
+u32 TPlyCharData::unpack_u32_hi() {
+    TPlyInventoryItem *items = m_inventory.m_items;
     u32 r = (u8)items[4].m_present[3];
     r |= (u8)items[5].m_present[3] << 8;
     r |= (u8)items[6].m_present[3] << 16;
@@ -1751,8 +1657,8 @@ u32 TObjPlayer::unpack_u32_hi() {
     return r;
 }
 
-u32 TObjPlayer::unpack_u32_lo() {
-    TPlyInventoryItem *items = reinterpret_cast<TPlyCharData *>(this)->m_inventory.m_items;
+u32 TPlyCharData::unpack_u32_lo() {
+    TPlyInventoryItem *items = m_inventory.m_items;
     u32 r = (u8)items[0].m_present[3];
     r |= (u8)items[1].m_present[3] << 8;
     r |= (u8)items[2].m_present[3] << 16;
@@ -1784,10 +1690,10 @@ void PhotonChairSeat::set_owner_id(u16 id) { owner_id = id; }
 PhotonChairSeat::PhotonChairSeat() { reset(); }
 
 int PlayerCharDataEntry::has_character() { return test_flags_any((s32 *)&flags, 1); }
-u8 *PlayerCharDataEntry::get_lobby_header() { return lobby_header; }
+PlayerGuildCardTag *PlayerCharDataEntry::get_lobby_header() { return &lobby_header; }
 TPlyCharData *PlayerCharDataEntry::get_char_data() { return &char_data; }
 s32 PlayerCharDataEntry::get_role() { return role; }
-PlayerCharDataEntry *PlayerCharDataEntry::construct() { ((TObjPlayer *)lobby_header)->clear_header_struct(); __ct__12TPlyCharDataFv((saddr)&char_data); __ct__8FlagWordFv(&flags); role = 0; return this; }
+PlayerCharDataEntry::PlayerCharDataEntry() { role = 0; }
 
 
 PhotonBlastRegistry::~PhotonBlastRegistry() {}

@@ -25,6 +25,7 @@ public:
     static s32 check_progressive_ready();
     static void run_frame();
     static void init_logo_scene();
+    static void exit_logo_scene();
 
     u8 pad_1C[4];
     u32 state;
@@ -37,7 +38,6 @@ public:
 LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 
 extern "C" {
-void TLogo__sub_8013F5AC(void);
 int is_adx_logo_done(TAdADXlogo *logo);
 s32 TLogo__sub_8013F800(void *p);
 int is_logo_clear_flag_set(void);

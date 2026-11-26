@@ -3,18 +3,33 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyInventory.h"
+#include "pso/player/PlayerTaskEffects.h"
 
 class TPlyCharData;
 
 // The record TObjEndingPlayer::create fills from a TPlyCharData and builds the
 // player from (inferred role: the ending sequence's player snapshot).
-struct EndingPlayerRecord {
-    u8 visual[0x50];             // copy_player_visual_record
+// The weapon and mag copy_equipped_weapon_and_mag copies out of the inventory.
+struct EquippedWeaponAndMag {
     TPlyInventoryItem items[2];  // TObjPlayer::assign_lobby_slot_if_flagged
-    u8 stats[0x24];              // TLobby::copy_data from the TPlyDispData
-    u8 pose[0x14];               // position and angle
-    s16 pad_C0;
-    f32 frame;                   // the motion frame the player starts at
+
+    EquippedWeaponAndMag();
+};
+
+// Where the ending player's motion starts.
+struct EndingMotionStart {
+    s16 pad_0;
+    f32 frame;  // the motion frame the player starts at
+
+    EndingMotionStart();
+};
+
+struct EndingPlayerRecord {
+    u8 visual[0x50];                 // copy_player_visual_record
+    EquippedWeaponAndMag equipment;
+    player_stats stats;              // copied from the TPlyCharData
+    ArrivalOverride pose;            // position and angle
+    EndingMotionStart motion;
 
     EndingPlayerRecord();
 };

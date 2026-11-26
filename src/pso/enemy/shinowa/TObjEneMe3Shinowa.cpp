@@ -20,7 +20,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -37,7 +37,7 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecSifta.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
@@ -49,7 +49,6 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/NinjaUtil.h"
@@ -137,9 +136,9 @@ TObjMotionAction shinowa_mirage_motion_param_table[11] = {
 
 const char *me3_shinowa_name = "TObjEneMe3Shinowa";
 const char *TObjEneMe3ShinowaReal_class_name = "TObjEneMe3ShinowaReal";
-// inferred: TObjEneMe3ShinowaMirage::class_name (was lbl_805D2AD0; the mirage ctor stores it to m_name)
+// The mirage's name; its constructor stores it to m_name.
 const char *TObjEneMe3ShinowaMirage::class_name = "TObjEneMe3ShinowaMirage";
-// inferred: motion binding load_shinowa_mirage_resources hands to TLobby::spawn_npc_enemy
+// The motion binding load_shinowa_mirage_resources hands to TLobby::spawn_npc_enemy.
 const NpcAnimationBinding shinowa_mirage_spawn_binding = { NULL, shinowa_mirage_motion_param_table, 8, 9, 11 };
 // inferred: shadow scale handed to draw_ground_shadow by update_player_state_default
 const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
@@ -1530,7 +1529,7 @@ void TObjEneMe3Shinowa::render() {
     }
     if (detail != 0) {
         update_player_state_default();
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
@@ -1593,7 +1592,7 @@ void TObjEneMe3Shinowa::render_demo() {
     }
     gold = is_gold_enabled();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         toggle_particle_effect();
         if (gold != 0) {
             textures = texlist->textures;

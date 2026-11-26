@@ -39,6 +39,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_8036A3CC.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";

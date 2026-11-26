@@ -11,7 +11,7 @@ GinjaTextureInput mericarol_render_target;
 NJS_TEXNAME mericarol_render_texture_name;
 __declspec(section ".data") NJS_TEXLIST mericarol_render_texlist[1];
 
-void fn_802D1C84(void) {
+void release_mericarol_render_texture(void) {
     NJS_TEXLIST *texlist = mericarol_render_texlist;
     if (texlist != NULL) {
         release_texture_list(texlist);
@@ -22,7 +22,7 @@ void fn_802D1C84(void) {
     }
 }
 
-void fn_802D1CC8(void) {
+void create_mericarol_render_texture(void) {
     mericarol_render_target.set_render_rect(mericarol_render_texture_buffer = mem_alloc(0x800), 0x902, 0x20, 0x20);
     set_texture_name(&mericarol_render_texture_name, &mericarol_render_target, 0x18696, 0x40800000);
     mericarol_render_texlist[0].textures = &mericarol_render_texture_name;

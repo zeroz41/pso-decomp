@@ -39,7 +39,7 @@ u32 calc_text_width(void);
 }
 const char *TWindowQuantity::class_name = "TWindowQuantity";
 void TWindowQuantity::set_position(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, width);
+    draw_window_tab(context, &context->inner_x, width, 3);
 }
 
 void TWindowQuantity::render() {
@@ -63,7 +63,7 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
     m_name = TWindowQuantity::class_name;
     id = get_message_text(1);
     n = (f32)calc_text_width();
-    width = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
+    width = calc_title_overflow_width(24.0f + (12.0f + n));
     e0 = (WindowTextEntry *)this->get_array_entry(0);
     e1 = (u8 *)this->get_array_entry(1);
     set_text_entry_string(e0, id, 0);

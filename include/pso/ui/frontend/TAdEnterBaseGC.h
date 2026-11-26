@@ -10,6 +10,7 @@ class TWindowBase;
 struct TWindowCallBack;
 
 struct TAdEnterBaseGC : public TObject {
+    static const char *class_name;
     static s32 entry_mode;
     TAdEnterBaseGC(TObject *parent);
     virtual ~TAdEnterBaseGC();
@@ -55,6 +56,12 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const
 
 extern "C" {
 s32 TAdPsoPassSaveGC__sub_8032B584(void);
+}
+
+void draw_masked_password_field(saddr context);
+extern "C" {
+void fn_8032AC24(void);
+void fn_8032AC9C(void *window, void *context);
 }
 
 #endif

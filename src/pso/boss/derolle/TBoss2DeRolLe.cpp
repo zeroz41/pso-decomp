@@ -95,7 +95,7 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/CsnQuery.h"
@@ -124,7 +124,7 @@ struct NJS_OBJECT;
 
 #include "pso/ui/window/TWindowCtrl.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/math/AngleUnits.h"
 
@@ -267,6 +267,7 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TSceneAmbientLight.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 player_stats *TBoss2DeRolLe::base_params[1];
 ActorParamBlock *TBoss2DeRolLe::resistance_params[1];
@@ -1356,7 +1357,6 @@ void TBoss2DeRolLe::start_death_sequence() {
     }
 }
 
-extern "C" {
 
 void handle_6x13_de_rol_le_boss_actions(DeRolLeActionPacket *packet) {
     TBoss2DeRolLe *boss;
@@ -1392,7 +1392,6 @@ void TBoss2DeRolLe::reset_action_sequence() {
     action_index = 0;
 }
 
-}
 
 
 
@@ -1603,7 +1602,7 @@ void TBoss2DeRolLe::update_projectile_spawns() {
 
 void TBoss2DeRolLe::sub_800338BC() {  }
 
-extern "C" s32 play_sound(s32 id, Vec *position) {
+s32 play_sound(s32 id, Vec *position) {
     return play_sound_effect(id, position, 0, 0);
 }
 
@@ -3762,7 +3761,7 @@ void TBoss2DeRolLe::render() {
         derolle_breakup_node->child = derolle_breakup_node_child;
     }
     derolle_begin_node_capture(this);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
     NJS_ARGB saved;
@@ -3866,7 +3865,7 @@ void TBoss2DeRolLe::render_body() {
     }
     derolle_begin_node_capture(this);
     set_chunk_model_node_callback(derolle_capture_node_points);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
     current_scene_light->sub_801337F8();

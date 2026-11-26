@@ -10,6 +10,7 @@ struct CharacterSlotPosition;
 
 class TAdPlyChrSelPlateGC : public TObject {
 public:
+    static const char *name;
     TAdPlyChrSelPlateGC(TObject *parent, const ChrSelPlateLayout *layout);
     virtual ~TAdPlyChrSelPlateGC();
     virtual void run_task();

@@ -8,7 +8,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/unk/text_8023601C.h"
+#include "pso/object/TActorLight.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -31,14 +31,14 @@
 
 #include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyMachine01.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
@@ -335,7 +335,7 @@ void TParticleBallistic::render() {
                 apply_particle_model_fade_color(0);
             }
         }
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         set_draw_list_mask(3);
         if (motion != NULL) {
             draw_ginja_model_with_motion(model, motion, motion_frame);

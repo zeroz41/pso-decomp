@@ -10,7 +10,7 @@
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/fence/TObjLazerFenceExtra.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/fence/TObjLazerFenceNorm.h"
@@ -51,7 +51,7 @@ BmlResourceDescriptor lazer_fence_norm_episode2_resource_descriptor = {
     "fe_obj_lazer2_2.bml", fe_obj_lazer2_2_model_names, fe_obj_lazer2_2_motion_names, 8, 4,
 };
 
-const u16 lbl_80445B7C[] = {0, 1, 2, 3};
+const u16 lazer_fence_texture_slots[] = {0, 1, 2, 3};
 
 const char *obj_lazer_fence_norm_class_name = "TObjLazerFenceNorm";
 const char *lazer_fence_extra_class_name = "TObjLazerFenceExtra";
@@ -76,7 +76,7 @@ BmlResource *lazer_fence_norm_bml_resource;
 extern "C" {
 
 
-static const f32 lbl_805DBE58[1] = {0.0f};
+static const f32 lazer_fence_norm_zero[1] = {0.0f};
 
 
 
@@ -131,7 +131,7 @@ TObjLazerFenceNorm::TObjLazerFenceNorm(TObject *parent, void *set_data) : TObjCo
     m_name = obj_lazer_fence_norm_class_name;
     apply_object_set_data(set_data);
     state = 0;
-    frame = lbl_805DBE58[0];
+    frame = lazer_fence_norm_zero[0];
     scale_level = (s32)scale.x;
     if ((s32)scale_level < 0) {
         scale_level = 0;
@@ -174,7 +174,7 @@ void TObjLazerFenceNorm::reset_by_door() {
 void TObjLazerFenceNorm::update_closed() {
     this->frame += 0.9f;
     if ((f32)(beam_motion->frameCount - 1) < frame) {
-        this->frame = lbl_805DBE58[0];
+        this->frame = lazer_fence_norm_zero[0];
     }
     if (is_current_floor_switch_set((u16)switch_id) == 1) {
         clear_player_status_flag(0, 1);
@@ -197,7 +197,7 @@ void TObjLazerFenceNorm::render() {
 }
 
 void TObjLazerFenceNorm::draw_model() {
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(NULL, this->rotation_y);
@@ -208,9 +208,9 @@ void TObjLazerFenceNorm::draw_model() {
 void TObjLazerFenceNorm::draw_animated_beam() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_part_models[i]), (lbl_80445B7C[scale_level]));
+        set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_part_models[i]), (lazer_fence_texture_slots[scale_level]));
     }
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -259,7 +259,7 @@ TObjLazerFenceExtra::TObjLazerFenceExtra(TObject *parent, void *set_data) : TObj
     m_name = lazer_fence_extra_class_name;
     apply_object_set_data(set_data);
     state = 0;
-    frame = lbl_805DBE58[0];
+    frame = lazer_fence_norm_zero[0];
     scale_level = (s32)scale.x;
     if (scale_level < 0) {
         scale_level = 0;
@@ -314,7 +314,7 @@ void TObjLazerFenceExtra::reset_by_door() {
 void TObjLazerFenceExtra::update_wait_switch() {
     this->frame += 0.9f;
     if ((f32)(beam_motion->frameCount - 1) < frame) {
-        this->frame = lbl_805DBE58[0];
+        this->frame = lazer_fence_norm_zero[0];
     }
     if (is_current_floor_switch_set((u16)switch_id) == 1) {
         clear_player_status_flag(0, 1);
@@ -336,7 +336,7 @@ void TObjLazerFenceExtra::render() {
 }
 
 void TObjLazerFenceExtra::render_lazer_fence_model() {
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(NULL, this->rotation_y);
@@ -347,9 +347,9 @@ void TObjLazerFenceExtra::render_lazer_fence_model() {
 void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>((beam_part_models[i])), lbl_80445B7C[this->scale_level]);
+        set_ginja_model_texture_slot(reinterpret_cast<void *>((beam_part_models[i])), lazer_fence_texture_slots[this->scale_level]);
     }
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, this->rotation_y);

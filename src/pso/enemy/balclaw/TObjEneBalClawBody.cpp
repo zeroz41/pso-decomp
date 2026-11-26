@@ -13,7 +13,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowLockOn.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -27,7 +27,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
@@ -39,7 +39,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 
@@ -61,7 +60,7 @@ TObjMotionAction balclaw_body_actions[12] = {
     {2, 5, 1, 0.6f, 1},
 };
 
-// Movement rows; TObjPlayer__sub_8008E934 points TObjEnemy::movementParameters at one.
+// Movement rows; TObjEnemy::movementParameters points at one.
 BalClawMovement balclaw_body_movement[2] = {
     {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
     {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
@@ -823,7 +822,7 @@ void TObjEneBalClawBody::render() {
         detail = classify_actor_view_detail(150.0f, 400.0f, 30.0f);
         if (detail != 0) {
             shadow = 1;
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

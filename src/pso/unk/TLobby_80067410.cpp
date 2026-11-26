@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"

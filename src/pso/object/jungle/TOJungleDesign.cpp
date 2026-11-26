@@ -1,16 +1,15 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "types.h"
 #include "pso/object/jungle/TOJungleDesign.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -21,30 +20,30 @@ const char *bm_obj_jungle_tree_model_names[4] = { "fe_obj_ryuuboku_01.gj", "fe_o
 const char *bm_obj_jungle_tree_motion_names[1] = { NULL };
 BmlResourceDescriptor bm_obj_jungle_tree_resource_descriptor = { "bm_obj_jungle_tree.bml", bm_obj_jungle_tree_model_names, bm_obj_jungle_tree_motion_names, 3, 0 };
 const char *jungle_design_name = "TOJungleDesign";
-// The model each design variant (m_b0, clamped to 0..2) draws.
+// The model each design variant (clamped to 0..2) draws.
 const s32 jungle_design_variant_table[3] = { 0, 1, 2 };
 BmlResource *jungle_design_shared_model_resource;
 
 void TOJungleDesign::init_design_variant() {
-    this->m_b0 = (s32) this->set_params[0];
-    if ((s32) this->m_b0 < 0) {
-        this->m_b0 = 0;
+    this->variant = this->set_params[0];
+    if (this->variant < 0) {
+        this->variant = 0;
     }
-    if ((s32) this->m_b0 > 2) {
-        this->m_b0 = 2;
+    if (this->variant > 2) {
+        this->variant = 2;
     }
-    this->m_ac = (saddr)get_jungle_design_model(jungle_design_variant_table[this->m_b0]);
+    this->design_model = get_jungle_design_model(jungle_design_variant_table[this->variant]);
     this->texlist = get_jungle_design_texlist(0);
 }
 
 
 void *TOJungleDesign::create(void *set_data) {
-    void *o = (void *)new TOJungleDesign((saddr)tl_05, (saddr)set_data);
+    void *o = (void *)new TOJungleDesign(tl_05, set_data);
     return o;
 }
 
 
-// One box per design variant (m_b0).
+// One box per design variant.
 CollisionBody jungle_design_collision_desc_table[3] = {
     { { 0.0f, 0.0f, 0.0f }, 20.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -53,11 +52,11 @@ CollisionBody jungle_design_collision_desc_table[3] = {
 
 void TOJungleDesign::render() {
     if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
-        draw_ginja_object((void *)this->m_ac);
+        draw_ginja_object(this->design_model);
         pop_matrix();
     }
 }
@@ -65,12 +64,12 @@ TOJungleDesign::~TOJungleDesign() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
+TOJungleDesign::TOJungleDesign(TObject *parent, void *set_data) : TObjCollidable(parent) {
     this->m_name = jungle_design_name;
-    ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
+    this->apply_object_set_data(set_data);
     this->init_design_variant();
-    init_collision_body_parts(this, &jungle_design_collision_desc_table[this->m_b0], 1);
-    ((TObjPlayer *)this)->register_object_by_id();
+    init_collision_body_parts(this, &jungle_design_collision_desc_table[this->variant], 1);
+    this->register_object_by_id();
 }
 
 

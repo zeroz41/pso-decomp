@@ -31,7 +31,7 @@ public:
     virtual void dispatch_state();
     // The door's view check: update_object_view_visibility with the
     // params' view values; the doors draw only when it is nonzero.
-    virtual s32 vfunc_22();
+    virtual s32 is_in_view();
     s32 phase;  // 0 closed, 1 opening, 2 open, 3 closing
     f32 end_frame;  // the open motion's last frame
     f32 frame;

@@ -57,8 +57,6 @@ public:
     static void end_effect_render();
     static void reset_emitter_table();
     static void create_quad_sprites();
-    static void reset_particles();
-    static void setup_particle_draw(s32 blended);
 public:
     static TParticle *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
     void enable();

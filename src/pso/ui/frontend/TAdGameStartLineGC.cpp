@@ -1,26 +1,26 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdGameStartLineGC.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/render/render_util.h"
-const char *TAdGameStartLineGC__name = "TAdGameStartLineGC";
+const char *TAdGameStartLineGC::name = "TAdGameStartLineGC";
 
-void *lbl_805D6C18;
+saddr TAdGameStartLineGC::texture_list;
 
 #pragma push
 #pragma fp_contract on
 void TAdGameStartLineGC::draw_lines() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6C18));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
     set_draw_texture_and_color(0, m_color);
     for (u32 i = 0; i < 4; i++) {
         draw_textured_quad_at_depth(&m_quads[i].x0, 0.0001f * i + 0.795f);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 
@@ -71,7 +71,7 @@ TAdGameStartLineGC *__ct__18TAdGameStartLineGCFP7TObject(TAdGameStartLineGC *sel
     s32 i;
     __ct__7TObjectFP7TObject(self, parent);
     *(void **)((u8 *)self + 0x18) = __vt__18TAdGameStartLineGC;
-    self->m_name = TAdGameStartLineGC__name;
+    self->m_name = TAdGameStartLineGC::name;
     self->m_left_x = 27.0f;
     self->m_left_y = 191.0f;
     self->m_right_x = 613.0f;
@@ -80,7 +80,7 @@ TAdGameStartLineGC *__ct__18TAdGameStartLineGCFP7TObject(TAdGameStartLineGC *sel
     self->m_frame = -1;
     self->m_scale_x = 3.0f;
     self->m_scale_y = 3.0f;
-    lbl_805D6C18 = (void *)get_multiplay_texture_list();
+    TAdGameStartLineGC::texture_list = get_multiplay_texture_list();
     self->m_rest[0].x0 = self->m_left_x;
     self->m_rest[0].y0 = self->m_left_y;
     self->m_rest[0].x1 = 384.0f + self->m_left_x;

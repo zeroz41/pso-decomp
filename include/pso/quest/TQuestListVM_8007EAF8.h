@@ -12,10 +12,11 @@ extern CameraParams *demo_camera_params_table[16];
 
 TQuestVmDownLoadServer *get_quest_vm_download_server(void);
 extern "C" {
-void TLobby__sub_8007EB20(const char *format, ...);
 void TLobby__sub_8007EB70(void);
 void __dl__FPv(void);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32 a, s32 b);
 }
+
+void debug_printf(const char *format, ...);
 
 #endif

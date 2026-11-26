@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
 #include "pso/render/Draw2D.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
@@ -14,12 +14,14 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001EF5C.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803E2D70.h"
 
 extern "C" {
 extern TObject *tl_04;
-BmlResource *TAdRicoRing__resource_bundle;
+}
+BmlResource *TAdRicoRing::resource_bundle;
+extern "C" {
 f32 rico_ring_quad_x_min;
 s8 rico_ring_quad_x_min_ready;
 f32 rico_ring_quad_x_max;
@@ -38,7 +40,7 @@ u32 __cvt_fp2unsigned(f32);
 
 const char *rico_ring_model_names[2] = { "rico_ring.nj", NULL };
 const char *rico_ring_motion_names[2] = { "rico_ring.njm", NULL };
-BmlResourceDescriptor TAdRicoRingCtrl__resource_descriptor = {
+BmlResourceDescriptor TAdRicoRingCtrl::resource_descriptor = {
     "rico_ring.bml", rico_ring_model_names, rico_ring_motion_names, 1, 1,
 };
 // inferred: vertex colours, corners and quad of the ring sprite TAdRicoRingCtrl::render draws in 3D
@@ -50,8 +52,8 @@ NJS_POINT2 rico_ring_fade_positions[4] = {
     {350.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 600.0f}, {350.0f, 600.0f},
 };
 NJS_COLOR rico_ring_fade_colors[4];
-const char *TAdRicoRing__class_name = "TAdRicoRing";
-const char *TAdRicoRingCtrl__class_name = "TAdRicoRingCtrl";
+const char *TAdRicoRing::class_name = "TAdRicoRing";
+const char *TAdRicoRingCtrl::class_name = "TAdRicoRingCtrl";
 
 // Definitions use deferred emission order, including the two native vtables.
 void TAdRicoRing::sub_8001BED0(f32 value) {
@@ -59,13 +61,13 @@ void TAdRicoRing::sub_8001BED0(f32 value) {
 }
 
 void TAdRicoRingCtrl::load_static_resource() {
-    TAdRicoRing__resource_bundle = new BmlResource(1, &TAdRicoRingCtrl__resource_descriptor, 0, 0, NULL);
+    TAdRicoRing::resource_bundle = new BmlResource(1, &TAdRicoRingCtrl::resource_descriptor, 0, 0, NULL);
 }
 
 void TAdRicoRingCtrl::release_global_805D4A00() {
-    if (TAdRicoRing__resource_bundle != NULL) {
-        delete TAdRicoRing__resource_bundle;
-        TAdRicoRing__resource_bundle = NULL;
+    if (TAdRicoRing::resource_bundle != NULL) {
+        delete TAdRicoRing::resource_bundle;
+        TAdRicoRing::resource_bundle = NULL;
     }
 }
 
@@ -74,9 +76,9 @@ TAdRicoRing *TAdRicoRingCtrl::create(TObject *parent) {
 }
 
 TAdRicoRing::TAdRicoRing(TObject *parent) : TObject(parent) {
-    m_name = TAdRicoRing__class_name;
-    model = get_bml_model(TAdRicoRing__resource_bundle, 0);
-    textures = get_bml_texlist(TAdRicoRing__resource_bundle, 0);
+    m_name = TAdRicoRing::class_name;
+    model = get_bml_model(TAdRicoRing::resource_bundle, 0);
+    textures = get_bml_texlist(TAdRicoRing::resource_bundle, 0);
     scale[3] = 0.0f;
     scale[2] = 0.0f;
     scale[1] = 0.0f;
@@ -151,7 +153,7 @@ void TAdRicoRing::set_scale4(f32 value) {
 
 void TAdRicoRing::render() {
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     post_translate_matrix(&position.x);
     rotate_matrix_zyx(NULL, angles[0], angles[1], angles[2]);
     set_chunk_render_flags(1);
@@ -195,7 +197,7 @@ void TAdRicoRing::start_fade(f32 duration) {
 }
 
 TAdRicoRingCtrl::TAdRicoRingCtrl(TObject *parent) : TObject(parent) {
-    m_name = TAdRicoRingCtrl__class_name;
+    m_name = TAdRicoRingCtrl::class_name;
     rings[0] = create(tl_04);
     TAdRicoRing *ring = rings[0];
     if (ring != NULL) {

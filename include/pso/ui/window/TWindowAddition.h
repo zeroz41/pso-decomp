@@ -8,7 +8,7 @@ public:
     TWindowAddition(u8 *descriptor, s16 client, u8 *parent);
     virtual ~TWindowAddition();
     s32 sub_80266B18(s32);
-    void sub_802443B4(u8 *descriptor);
+    void init_addition(u8 *descriptor);
     WindowDrawContext *get_draw_context();
     void step_window_tween();
     void set_position_xy(f32, f32);

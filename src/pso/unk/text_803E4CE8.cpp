@@ -1,6 +1,6 @@
 #include "pso/render/ChunkVertexJob.h"
 #include "dolphin/mtx.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 struct ColoredChunkVertex {
     Vec position;

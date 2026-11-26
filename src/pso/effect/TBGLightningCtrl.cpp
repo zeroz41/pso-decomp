@@ -18,7 +18,6 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 
@@ -89,9 +88,9 @@ void TBGLightning::draw_flash(Vec *dir) {
     pos.z = position.z + dir->z * (-3.0f * size) - 0.5f * extent.z;
     bind_lightning_texture();
     set_texture_num(0);
-    TParticleCtrl::setup_particle_draw(1);
+    setup_particle_draw(1);
     submit_particle_quad(this, &pos.x, &extent.x, (u32)(4278190080.0f * alpha) | 0xFFFFFF);
-    TParticleCtrl::reset_particles();
+    end_particle_draw();
 }
 
 void TBGLightning::draw_bolt(Vec *dir) {
@@ -124,9 +123,9 @@ void TBGLightning::draw_bolt(Vec *dir) {
     pos.z = position.z - 0.5f * extent.z;
     bind_lightning_texture();
     set_texture_num(step + bolt_first_texture[bolt_set]);
-    TParticleCtrl::setup_particle_draw(1);
+    setup_particle_draw(1);
     submit_particle_quad(this, &pos.x, &extent.x, (u32)(4278190080.0f * alpha) | 0xFFFFFF);
-    TParticleCtrl::reset_particles();
+    end_particle_draw();
 }
 
 void submit_particle_quad(void *owner, f32 *pos, f32 *extent, s32 color) {
@@ -199,4 +198,4 @@ void TBGLightningCtrl::spawn_lightning_at_angle(s32 angle) {
     TBGLightning::create(this, &pos, scale.z * (0.3f * (3.0517578e-05f * (f32)rand()) + 1.0f));
 }
 
-void bind_lightning_texture(void) { TObjFish::set_global_param(bg_lightning_texture_handle); }
+void bind_lightning_texture(void) { set_texture_list(bg_lightning_texture_handle); }

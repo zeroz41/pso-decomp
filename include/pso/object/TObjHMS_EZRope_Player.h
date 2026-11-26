@@ -26,7 +26,7 @@ public:
     virtual ~TObjHMS_EZRope_Player();
     virtual void run_task();
     virtual void render();
-    void sub_800FF2D0();
+    void draw_rope();
     TObject *owner;
     TObjHMSRopeSpec *rope_specs;
     TObjHMSColliderSpec *collider_specs;
@@ -39,5 +39,8 @@ LAYOUT_ASSERT(TObjHMS_EZRope_Player_size, sizeof(TObjHMS_EZRope_Player) == 0x48)
 void copy_ezrope_collider(TObjEZRopeCollider *dst, TObjEZRopeCollider *src);
 void copy_ezrope_end(TObjEZRopeEnd *dst, TObjEZRopeEnd *src);
 void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src);
+
+// The pull the player-attached ropes and bone chains settle under each frame.
+extern Vec ez_bone_rot_player_chain_gravity;
 
 #endif

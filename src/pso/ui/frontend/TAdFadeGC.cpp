@@ -18,7 +18,9 @@ f32 xz_distance_squared(void *, void *);
 f32 lbl_805D6800;
 s8 lbl_805D6804;
 extern const char TAdFadeGC__class_name_string[] = "TAdFadeGC";
-const char *TAdFadeGC__name = TAdFadeGC__class_name_string;
+}
+const char *TAdFadeGC::name = TAdFadeGC__class_name_string;
+extern "C" {
 
 void TAdFadeGC::draw_fade() {
     ColorLineVertex pos[4];
@@ -142,7 +144,7 @@ void TAdFadeGC::start_fade(s32 mode) {
 TAdFadeGC::~TAdFadeGC() {}
 }
 TAdFadeGC::TAdFadeGC(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = TAdFadeGC__name;
+    m_name = TAdFadeGC::name;
     elapsed_frames = -1;
     wipe_width = (0.0f);
     fade_mode = mode;
@@ -172,6 +174,6 @@ bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
     }
     radius = *(f32 *)&this->unk_AC;
     radius_sq = radius * radius;
-    return (xz_distance_squared((void *)(player + 0x38), (void *)(base + 0x38)) < radius_sq) == 0;
+    return (xz_distance_squared((void *)(player + 0x38), base + 0x38) < radius_sq) == 0;
 }
 #pragma pop

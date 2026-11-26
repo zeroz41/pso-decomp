@@ -5,14 +5,14 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
-extern "C" {
-s32 get_current_floor();
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/unk/TLobby_8020E400.h"
 extern TObject *tl_02;
 extern TObject *tl_05;
 extern TObject *tl_06;
 extern TObject *tl_07;
 
-void TLobby__sub_8020BC50(void) {
+void destroy_current_floor_objects(void) {
     s32 n;
     FloorObjectSetRow *p;
     s32 i;
@@ -28,6 +28,7 @@ void TLobby__sub_8020BC50(void) {
         }
     }
 }
+extern "C" {
 
 void TLobby__sub_8020BCE4(void) {
     EnemySetRecord *p;
@@ -97,7 +98,6 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
 
 struct Send6x76SetEntitySetFlagsPacket { u8 hdr[2]; s16 a; s16 b; s16 c; };
 
-void build_6x76_set_entity_set_flags(void *);
 
 void send_6x76_set_entity_set_flags(void *object, s16 flags) {
     Send6x76SetEntitySetFlagsPacket pkt;

@@ -38,11 +38,11 @@
 
 extern "C" {
 void draw_action_palette_icon(void *e, s32 a, u16 b);
-extern const s8 lbl_805DD678[4] = { 1, 2, 0, 0 };
-extern const u8 lbl_805DD67C[4] = { 3, 1, 2, 0 };
+extern const s8 photon_blast_slot_order[4] = { 1, 2, 0, 0 };
+extern const u8 photon_blast_entry_indices[4] = { 3, 1, 2, 0 };
 
 void TWindowSubMagPhoton::get_cursor_origin(NJS_POINT2 *position) {
-    WindowSpritePart *entry = static_cast<WindowSpritePart *>(get_array_entry(lbl_805DD67C[static_cast<s8>(selected_blast_index)]));
+    WindowSpritePart *entry = static_cast<WindowSpritePart *>(get_array_entry(photon_blast_entry_indices[static_cast<s8>(selected_blast_index)]));
     set_relative_pos(position, entry);
 }
 
@@ -53,7 +53,7 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
     TItemData::deserialize_mag(mag_item, &stats);
     for (i = 0; i < 3; i++) {
         s32 blast = stats.get_photon_blast(i);
-        photon_blasts[lbl_805DD678[i]] = blast;
+        photon_blasts[photon_blast_slot_order[i]] = blast;
         void *e = (void *)this->get_array_entry(i + 1);
         if (blast != -1) {
             draw_action_palette_icon(e, 5, blast);

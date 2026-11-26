@@ -5,7 +5,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
-#include "pso/object/ending/TObjOnlineEnding_802E4B80.h"
+#include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
@@ -50,6 +50,7 @@
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 
 #pragma readonly_strings on
@@ -309,10 +310,6 @@ u16 TBoss4Type3::pick_random_target_player() {
 }
 
 TBoss4DarkFalzSetEntry dark_falz_set_entry;
-
-
-extern "C" {
-s32 is_local_client_floor_leader();
 
 s32 TBoss4DarkFalz::alloc_child_ids(s16 *set_index_out, s16 *entity_id_out) {
     s32 n = next_child_index;
@@ -693,7 +690,6 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
         }
     }
 }
-}
 #pragma pop
 
 #pragma push
@@ -867,7 +863,7 @@ void TBoss4DarkFalz::load_resources() {
     darkfalz_dat_resource = resource;
     if (resource != NULL) {
         TBoss4DarkFalz::init_uro_link();
-        fn_802E52AC();
+        load_online_ending_resource();
     }
 }
 

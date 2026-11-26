@@ -11,6 +11,7 @@ struct T_ATS_DrawCalendarPos {
 // Date and clock text drawn by TAdTimeSetGC while it asks whether the clock is right.
 class T_ATS_DrawCalendar : public TObject {
 public:
+    static const char *name;
     T_ATS_DrawCalendar(TObject *parent);
     virtual ~T_ATS_DrawCalendar();
     virtual void render();

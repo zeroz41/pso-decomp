@@ -11,8 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/system/task/TObject_80019A50.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaTextureInput.h"
@@ -444,7 +443,7 @@ void setup_indirect_tev_alternate(TEffIndirectCtrl *ctrl, s32 unused, s32 sample
         mtx[1][1] = 0.5f;
         mtx[1][2] = 0.0f;
         GXSetIndTexMtx(GX_ITM_0, mtx, 1);
-        TObjFish::set_global_param(ctrl->texture_list);
+        set_texture_list(ctrl->texture_list);
         load_list_texture(0, sampler, sampler, 5);
     }
 }
@@ -479,7 +478,7 @@ void setup_indirect_tev_ordinary(TEffIndirectCtrl *ctrl, s32 sampler, s32 scale,
         m1[1][2] = 0.0f;
         GXSetIndTexMtx(GX_ITM_0, m1, 1);
     }
-    TObjFish::set_global_param(ctrl->texture_list);
+    set_texture_list(ctrl->texture_list);
     load_list_texture(0, sampler, sampler, 5);
 }
 

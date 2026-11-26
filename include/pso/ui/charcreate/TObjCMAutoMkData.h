@@ -4,6 +4,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 class TObjCMAutoMkData : public TObject {
 public:
+    static const char *name;
     CharacterAppearanceFields* appearance;
     s32 state,ticks;
     s16 red,green,blue,padding;

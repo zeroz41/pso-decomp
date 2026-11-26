@@ -3,6 +3,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct NJS_TEXLIST;
+
 // One textured screen quad: position rect, then texture-coordinate rect
 struct McSelectMcQuad {
     f32 x0, y0, x1, y1;
@@ -12,6 +14,8 @@ struct McSelectMcQuad {
 // Memory card picture of one slot on the memory card select screen
 class TAdMcSelectMcGC : public TObject {
 public:
+    static NJS_TEXLIST *texture_list_ptr;
+    static const char *class_name;
     s32 render_direct;                // 1 (ctor): drawn outside render pass 1; TAdMcSelectGC clears it
     McSelectMcQuad quads[8];
     u32 pad_120;               // alpha of the picture

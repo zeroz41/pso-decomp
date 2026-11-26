@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-s32 fn_802432F0(void *name);
-}
+s32 find_card_file_channel(void *name);
 
 #endif

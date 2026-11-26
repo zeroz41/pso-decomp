@@ -6,6 +6,7 @@
 
 class TAdFadeGC : public TObject {
 public:
+    static const char *name;
     TAdFadeGC(TObject *parent, s32 mode);
     virtual ~TAdFadeGC();
     virtual void run_task();

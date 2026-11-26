@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -72,7 +72,7 @@ void TWindowReturnCity::run_task() {
                 state = 2;
                 return;
             }
-            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
+            if (yes_no_window->is_cancelled() != 0) {
                 TWindowReturnCity::clear_flag_bit5();
                 TWindowCtrl::show_client_lock_on_window(client);
                 TWindowCtrl::clear_flag_2();
@@ -81,7 +81,7 @@ void TWindowReturnCity::run_task() {
                 return;
             }
             if (yes_no_window->is_child_visible() != 0) {
-                selected_value = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
+                selected_value = yes_no_window->get_selected_value();
                 if (selected_value == 0) {
                     TWindowReturnCity::client_scan_index = client;
                     new TScreenFadeOut(tl_00, return_to_city_after_defeat);
@@ -102,7 +102,7 @@ void TWindowReturnCity::run_task() {
 
 TWindowReturnCity::~TWindowReturnCity() {
     if (yes_no_window != NULL) {
-        ((TWindowMessageYesNo *)yes_no_window)->close();
+        yes_no_window->close();
         yes_no_window = NULL;
     }
 }

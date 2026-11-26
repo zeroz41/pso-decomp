@@ -13,11 +13,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/collision/TObjBgmCol.h"
-#include "pso/object/collision/TObjBgmCol_8017E7F0.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/quest/TQuestBgmCtrl.h"
+#include "pso/system/task/TMainTask.h"
 
 
 #pragma defer_codegen on
@@ -26,19 +27,14 @@ const char *area_music_filename_table[6] = {
     "SHOP.adx", "GUILD.adx", "MEDICAL.adx", "soutoku.adx", "city.adx", "labo.adx",
 };
 
-struct LobbyThemeNames { const char *name[2]; };
-
 
 s32 bgm_zone_category;
+// Cleared each frame before the zones run; a zone the local player is inside sets it.
 s32 bgm_zone_claimed;
 // The root the BGM collision zones hang under (created next to the controller).
 TObject *bgm_col_ctrl_instance;
 u32 bgm_col_ctrl_current_theme_id;
 
-extern s32 tl_05;
-
-
-struct BgmZoneRow { Vec pos; f32 radius; s32 category; };
 
 const BgmZoneRow pioneer2_ep1_bgm_zones[12] = {
     {{-2.11f, 0.0f, -0.24f}, 72.0f, 4},
@@ -73,9 +69,6 @@ const BgmZoneRow pioneer2_ep2_bgm_zones[12] = {
 const char *bgm_col_name = "TObjBgmCol";
 const char *bgm_col_ctrl_name = "TObjBgmColCtrl";
 
-extern s32 music_state;
-extern int quest_bgm_ctrl_bgm_issued_flag;
-
 int get_quest_bgm_issued_flag(void) {  return quest_bgm_ctrl_bgm_issued_flag; }
 
 s32 TObjBgmColCtrl::is_active() {
@@ -83,16 +76,14 @@ s32 TObjBgmColCtrl::is_active() {
 }
 
 TObjBgmCol::TObjBgmCol(TObject *parent, void *set_data) : TObjBase(parent) {
-#define bgm_col this
-    *(saddr *)((s8 *)bgm_col + 0) = (saddr) bgm_col_name;
-    bgm_col->apply_object_set_data(set_data);
-    bgm_col->outside = 1;
-    bgm_col->radius = (f32) bgm_col->scale.x;
-    bgm_col->category = (s32) (bgm_col->set_params[0] % 6);
-    if ((s32) bgm_col->category < 0) {
-        bgm_col->category = 0;
+    this->m_name = bgm_col_name;
+    this->apply_object_set_data(set_data);
+    this->outside = 1;
+    this->radius = (f32) this->scale.x;
+    this->category = (s32) (this->set_params[0] % 6);
+    if (this->category < 0) {
+        this->category = 0;
     }
-#undef bgm_col
 }
 
 TObjBgmCol::~TObjBgmCol() {
@@ -103,13 +94,13 @@ void TObjBgmCol::run_task() {
     if (get_quest_bgm_issued_flag() == 0) {
         switch (check()) {
         case 1:
-            if (bgm_zone_category != category) {
-                if (category == 4) {
+            if (bgm_zone_category != this->category) {
+                if (this->category == 4) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 } else {
-                    play_area_music((char *)area_music_filename_table[category]);
+                    play_area_music((char *)area_music_filename_table[this->category]);
                 }
-                bgm_zone_category = category;
+                bgm_zone_category = this->category;
             }
             bgm_zone_claimed = 1;
             return;
@@ -174,15 +165,15 @@ void create_bgm_col_zones(void) {
 }
 
 void TObjPlayer::set_camera_mode(s32 camera_mode) {
-    if ((get_quest_bgm_issued_flag() == 0) && (TRaderMapCore::is_not_split_screen() != 1) && (camera_mode != (s32) bgm_zone_category)) {
+    if ((get_quest_bgm_issued_flag() == 0) && (TRaderMapCore::is_not_split_screen() != 1) && (camera_mode != bgm_zone_category)) {
         bgm_zone_category = camera_mode;
         play_area_music((char *)area_music_filename_table[camera_mode]);
     }
 }
 
-TObjBgmColCtrl::TObjBgmColCtrl(saddr parent) : TObject((TObject *)parent) {
+TObjBgmColCtrl::TObjBgmColCtrl(TObject *parent) : TObject(parent) {
     this->m_name = bgm_col_ctrl_name;
-    this->m_1c = 3;
+    this->start_delay = 3;
     bgm_col_ctrl_current_theme_id = 0;
 }
 
@@ -202,8 +193,8 @@ void TObjBgmColCtrl::create_controller() {
 void TObjBgmColCtrl::run_task() {
     s32 frames_left;
 
-    frames_left = this->m_1c;
-    this->m_1c = (frames_left - 1);
+    frames_left = this->start_delay;
+    this->start_delay = (frames_left - 1);
     if ((frames_left <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             if (TObjBgmColCtrl::is_active() == 0) {
@@ -215,7 +206,7 @@ void TObjBgmColCtrl::run_task() {
             if (root != NULL) {
                 root->run_tasks();
             }
-            if ((s32) bgm_zone_claimed == 0) {
+            if (bgm_zone_claimed == 0) {
                 if (TObjBgmColCtrl::is_active() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
@@ -231,13 +222,13 @@ void TObjBgmColCtrl::render() {  }
 
 
 void TObjBgmColCtrl::play_lobby_theme_music() {
-    LobbyThemeNames names = {{"city.adx", "LOBBY.ADX"}};
+    const char *names[2] = {"city.adx", "LOBBY.ADX"};
     const char *name;
     if (get_current_floor_area() == AREA_LOBBY) {
-        name = names.name[1];
+        name = names[1];
         bgm_col_ctrl_current_theme_id = TLobby::event_theme_id;
     } else {
-        name = names.name[0];
+        name = names[0];
         bgm_col_ctrl_current_theme_id = 0;
     }
     switch (bgm_col_ctrl_current_theme_id) {

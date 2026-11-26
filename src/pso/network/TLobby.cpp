@@ -41,7 +41,6 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowMakeTeam_8026534C.h"
-#include "pso/unk/text_8013ADE4.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
@@ -58,7 +57,6 @@
 #include <stdio.h>
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLobby_8013A874.h"
-#include "pso/unk/text_8013AAD4.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
@@ -72,14 +70,12 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_8013ADD0.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/TSetManager.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/network/client_id.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -102,7 +98,7 @@
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/object/TObjControl.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
@@ -140,10 +136,6 @@ struct GameStateSyncScratch {
 };
 LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
 LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
-struct Stack_80135598 {
-    s32 sp8;
-    u8 trailing_storage[0x488];
-};
 struct RecoveredGlobal_80135198_lbl_804A7008 { s32 value; u8 remaining[0x14]; };
 LAYOUT_ASSERT(RecoveredGlobal_80135198_lbl_804A7008_size, sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18);
 struct Row_80135208 { u8 pad[8]; u32 ip_addr; s32 client_id; char name[16]; };
@@ -165,14 +157,6 @@ struct GameMenuEntry {
     s8 flags;
 };
 typedef struct { u8 pad0[5]; u8 kind; u8 pad6[6]; u8 name[0x8C]; } Ent_80135E7C;
-struct Hdr_80136A8C {
-    u8 pad0[0xAC];
-    s32 fAC;
-    u8 padB0[0x488 - 0xB0];
-    s32 f488;
-    u8 pad48C[4];
-};
-struct Hdr_80136C94 { u8 data[0x10]; };
 typedef struct LobbyServerAddress {
     const char *host;
     s32 port;
@@ -197,7 +181,6 @@ void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt);
 s32 TLobby__sub_801A3E8C();
-s32 init_player_join_record(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
@@ -205,7 +188,6 @@ void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
 void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
 }
-void show_card_list_message(void *msg);
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
 extern "C" {
 void handle_trade_received_items(TTradeList *trade_list);
@@ -349,7 +331,7 @@ void apply_arrow_colors(TArrowColorList *list) {
         s32 j;
         for (j = 0; j < 12; j++) {
             TObjPlayer *p = get_player_by_client_id(j);
-            if (p != NULL && ((TPlyGuildCardTag *)p->guild_card_tag)->m_guildcard_number == e->tag.m_guildcard_number) {
+            if (p != NULL && p->guild_card_tag.guildcard_number == e->tag.m_guildcard_number) {
                 p->set_lobby_marker(e->color);
             }
         }
@@ -582,12 +564,11 @@ void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt) {
     }
 }
 void TLobby::send_6x70_player_data(int size) {
-    Stack_80135598 stack;
+    PlayerSyncRecord record;
     PlayerSyncPacket *packet;
-    init_player_join_record(&stack.sp8);
     packet = (PlayerSyncPacket *)mem_alloc(0x494);
     if (packet != NULL) {
-        TObjPlayer::fill_player_record(get_player_by_client_id(local_client_id), &packet->record);
+        get_player_by_client_id(local_client_id)->fill_player_record(&packet->record);
         packet->header.subcommand = 0x70;
         packet->header.size = 0;
         packet->header.client_id = local_client_id;
@@ -1156,12 +1137,12 @@ void TLobby::update_block_jump_list() {
     }
 }
 
-void queue_join_entry_exit_on_input(void *self) {
+void queue_join_entry_exit_on_input(TObject *task) {
     if ((controller_input_state.sources[0]->pressed & 8) || TLobby::join_lobby_idle_timer++ > 0xe10) {
         TAdSinglePlyChrSelectGC::init();
         set_queued_main_phase(2);
         request_main_phase(0x12);
-        ((void (*)(void *))queue_destruction__7TObjectFv)(self);
+        queue_destruction__7TObjectFv(task);
     }
 }
 void TLobby::update() {
@@ -1574,7 +1555,7 @@ void TLobby::close_and_set_state_13(int msg) {
 }
 void TLobby::create_warp_menu() {
     const NJS_POINT2 *window_layout_position;
-    (TLobby_warp_menu_window)->open();
+    TLobby_warp_menu_window->open();
     window_layout_position = get_window_layout_position(0xB5);
     lobby_com_card_window = create_window_menu_default(window_layout_position, 2);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x39), 6, 0);
@@ -1600,7 +1581,7 @@ void TLobby::request_game_list() {
 void TLobby::open_menu_window() {
     TWindowMenu *menu = lobby_com_card_window;
     if (menu != NULL) {
-        (menu)->open();
+        menu->open();
     }
     TLobby::show_seq_phase_message(0x11);
     lobby_make_team_menu_window = create_window_menu_default(get_window_layout_position(0xB6), 2);
@@ -1609,7 +1590,7 @@ void TLobby::open_menu_window() {
     lobby_make_team_menu_window->calc_window_size();
     align_menu_entry_positions(lobby_make_team_menu_window);
     lobby_make_team_menu_window->set_ready_flag();
-    ((TWindowSubComCardList *)lobby_make_team_menu_window)->set_selected_index(0);
+    lobby_make_team_menu_window->set_selected_index(0);
     lobby_state = 0x18;
 }
 void TLobby::open_make_team_window(int mode) {
@@ -1619,7 +1600,7 @@ void TLobby::open_make_team_window(int mode) {
 void TLobby::close_all_windows(void *) { TLobby::close_all_windows(); }
 void TLobby::open_warp_menu() {
     const NJS_POINT2 *window_layout_position;
-    (TLobby_warp_menu_window)->open();
+    TLobby_warp_menu_window->open();
     window_layout_position = get_window_layout_position(0xB5);
     lobby_com_card_window = create_window_menu_default(window_layout_position, 2);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3E), 6, 0);
@@ -1712,7 +1693,7 @@ void TLobby::send_room_change(int idx) {
 }
 void TLobby::open_city_warp_menu() {
     const NJS_POINT2 *window_layout_position;
-    (TLobby_warp_menu_window)->open();
+    TLobby_warp_menu_window->open();
     window_layout_position = get_window_layout_position(0xB5);
     lobby_com_card_window = create_window_menu_default(window_layout_position, 5);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4C), 6, 0);
@@ -2191,11 +2172,10 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
 }
 void TLobby::handle_game_join(void *data) {
     TPlyJoinGame *pkt = (TPlyJoinGame *)data;
-    Hdr_80136C94 hdr;
+    PlayerGuildCardTag tag;
     TObjPlayer *p;
     saddr i;
     s32 j;
-    ((TObjPlayer *)(&hdr))->clear_header_struct();
     memcpy(game_join_player_records, pkt->lobby_data, 0x80);
     bswap_32(&game_join_player_records[0].ip_addr);
     bswap_32(&game_join_player_records[1].ip_addr);
@@ -2237,7 +2217,6 @@ void TLobby::handle_game_join(void *data) {
 
 void TLobby::make_players() {
     TObjPlayer *p;
-    Hdr_80136A8C hdr;
     TObjPlayer *q;
     if (TLobby__sub_801A3E8C() != 0) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
@@ -2249,13 +2228,13 @@ void TLobby::make_players() {
         lobby_state = 0xF;
         p = create_player_object(1 - local_client_id, 4, TAdSinglePlyChrSelectGC::get_char_index(0));
         if (p != NULL) {
-            init_player_join_record(&hdr);
-            TObjPlayer::fill_player_record(p, &hdr);
-            TLobby::bswap_player_data(&hdr);
-            hdr.fAC = 0;
-            hdr.f488 = 0;
+            PlayerSyncRecord record;
+            p->fill_player_record(&record);
+            TLobby::bswap_player_data(&record);
+            record.area = 0;
+            record.floor = 0;
             delete p;
-            q = create_remote_player_object(&hdr);
+            q = create_remote_player_object(&record);
             if (q != NULL) {
                 q->reset_motion_fields();
             }
@@ -2578,7 +2557,7 @@ void TLobby::send_logout() {
 void TLobby::run_join_lobby_connect(TObject *parent) {
     DateStamp date;
     void *p;
-    void *win;
+    TAdDialingMessageWindow *win;
     s32 res;
 
     if (lbl_805D55C0 == 0) {
@@ -2761,16 +2740,16 @@ void TLobby::bswap_player_data(void *data) {
         ((TLobby *)&record->status_effects[i])->bswap_header_3words();
     }
     bswap_32(&record->language);
-    ((TLobby *)&record->player_tag)->bswap_fields();
-    bswap_u32_pair(&record->unknown_a6);
+    ((TLobby *)&record->guild_card_tag)->bswap_fields();
+    bswap_u32_pair(&record->pk_state);
     bswap_telepipe_record(&record->telepipe);
-    bswap_32(&record->death_flags);
+    bswap_32((u32 *)&record->death_flags);
     bswap_32(&record->area);
     bswap_32(&record->floor);
     bswap_32(&record->player_flags);
     bswap__15disp_data_part2Fv((saddr)&record->visual);
-    bswap__12player_statsFv(&record->stats);
-    TLobby::bswap_inventory(&record->item_count);
+    record->stats.bswap();
+    TLobby::bswap_inventory(&record->inventory.count);
 }
 void TLobby::bswap_inventory(void*p) { bswap_32((u32 *)p); { int i; for (i = 0; i < 30; i++) { ((TPlyInventoryItem *)((char*)p + 0x4 + i * 28))->bswap(); } } }
 void TLobby::set_player_count(int a0) { lobby_player_count = a0; }
@@ -2999,7 +2978,7 @@ s32 get_online_message_text(s32 id) {
 }
 
 u8 *get_password_input_buffer(void) {
-    return ((u8 *)&TAdEnterPasswordGC__input_buffer);
+    return ((u8 *)&TAdEnterPasswordGC::input_buffer);
 }
 
 void *TProtocol::operator new(size_t size) { return obj_heap->heap_alloc(size); }

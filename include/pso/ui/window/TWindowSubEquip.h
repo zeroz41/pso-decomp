@@ -23,7 +23,7 @@ struct TWindowSubEquip : public TObject {
     TWindowMenuIconLine *equip_kind_list;
     void update_displayed_item();
     void update();
-    s32 open_equip_kind_list(u32 arg1);
+    TWindowMenuIconLine *open_equip_kind_list(u32 arg1);
     virtual void render();
     virtual void run_task();
     void apply_slot_selection();

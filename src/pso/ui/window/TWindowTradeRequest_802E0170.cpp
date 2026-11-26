@@ -24,14 +24,14 @@ void TWindowTradeRequest::run_task() {
     switch (state) {
     case 0:
     case 1:
-        if (((TWindowMessageYesNo *)(dialog))->is_cancelled() != 0) {
+        if (dialog->is_cancelled() != 0) {
             TWindowTradeRequest::reset_trade();
             TWindowTradeRequest::close_request_window();
             state = 3;
             break;
         }
         if (dialog->is_child_visible() != 0) {
-            slot = ((TWindowMessageYesNo *)(dialog))->get_selected_value();
+            slot = dialog->get_selected_value();
             if (slot == 0) {
                 TLobby::send_trade_proposal_modify();
                 TWindowTradeRequest::close_request_window();

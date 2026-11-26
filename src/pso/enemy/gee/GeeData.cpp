@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit split off the gee enemy; the referencing unit keeps these extern.
+// The gee enemy's constant tables.
 
 __declspec(section ".rodata") extern const u32 gee_base_stat_ids[3] = {
     0x00000007, 0x00000007, 0x00000007,

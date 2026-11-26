@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowDD_8034AF68.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/unk/text_8034AD38.h"
 
 #pragma pool_data off
 
@@ -29,7 +28,7 @@ void clear_window_dd_nodes(void) {
 // lookup_item_category's id lists: an id found in a list gives that entry's category.
 struct ItemCategoryIds { const s32 *ids; s32 count; s32 category; };
 
-// Indexed [category][column] by TWindowDD__sub_8034B008.
+// Indexed [category][column] by get_word_select_type_state.
 static const s32 word_select_type_state_table[6][2] = {
     { 2, 5 }, { 3, 7 }, { 4, 12 }, { 6, 2 }, { 1, 3 }, { 1, 1 },
 };
@@ -65,7 +64,7 @@ void TWindowDD::init_ws_data_tables() {
     ws_recent_state.n = x;
 }
 
-s32 TWindowDD__sub_8034B008(s32 state, s32 item) {
+s32 get_word_select_type_state(s32 state, s32 item) {
     return word_select_type_state_table[TWindowDD::lookup_item_category(item)][state];
 }
 s32 TWindowDD::lookup_item_category(s32 item) {

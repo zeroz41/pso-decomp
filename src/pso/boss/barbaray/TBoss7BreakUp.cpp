@@ -19,7 +19,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/derolle/RandomAngle.h"

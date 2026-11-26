@@ -10,15 +10,14 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -72,7 +71,7 @@ void TObjEneReconBomb::render() {
     push_matrix();
     translate_matrix(0, position.x, 2.0f + position.y, position.z);
     rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     draw_chunk_object((void *)bml_model);
     pop_matrix();
     push_matrix();

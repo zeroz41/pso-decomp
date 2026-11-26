@@ -17,17 +17,16 @@ struct TContainerAncient01R : public TObjChara {
     void open_container();
     void check_open_trigger();
     void update_spawning();
-    void sub_8018A688();
-    void reset_hp();
+    void update_blast();
+    void reset_state();
     virtual void apply_saved_state(s16 *, s32);
     virtual s32 try_start_action(void *, s32, f32);
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual void render();
     virtual void run_task();
     static void init_table_entries();
-    static void free_table_entries();
     u8 unk_334[0x4];
-    s16 hit_count;  // hits taken: it opens when hp runs out
+    s16 hit_count; // hits taken: it opens when hp runs out
     u8 unk_33A[0x2];
     f32 wait_limit;
     f32 active_limit;
@@ -38,8 +37,11 @@ struct TContainerAncient01R : public TObjChara {
     void trigger_spawn(const Vec *position, s32 effect_id);
     s32 opened;
     Vec open_scale;
-    u32 spawns_per_second;  // set param 2 + 4: the open blast spawns every 30 / this frames
+    u32 spawns_per_second; // set param 2 + 4: the open blast spawns every 30 / this frames
     static void *create(void *set_data);
+    // Forgets the archive it shares with TContainerAncient01 (which frees it).
+    static void free_resources();
+    void attack_nearby_players(f32 range);
 };
 
 LAYOUT_ASSERT(TContainerAncient01R_size, sizeof(TContainerAncient01R) == 0x374);

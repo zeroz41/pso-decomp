@@ -1,4 +1,5 @@
-#include "pso/object/door/DoorSavedState.h"
+#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/object/door/TODoorCave01.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -15,7 +16,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -52,25 +53,24 @@ NJS_TEXLIST **TODoorCave01::texture_lists;
 
 void TODoorCave01::update_demo() {}
 
-// The 6x0B object-state message (see the lane report: the stack structs
-// still call the packet helpers under their TLobby / TOBarrierEnergy01 names).
+// Sends the 6x0B object-state message for the saved state (or src when given).
 
-void TODoorCave01::send_state(void *src_arg) {
-    DoorSavedState *src = (DoorSavedState *)src_arg;
-    DoorSavedState st;
-    DoorSetEntryView *obj;
-    if (src != NULL) {
-        ((TLobby *)&st)->copy_short_fields(src);
+void TODoorCave01::send_state(void *saved_state) {
+    QuestObjectEntry *source = (QuestObjectEntry *)saved_state;
+    QuestObjectEntry state;
+    FloorObjectSetRow *entry;
+    if (source != NULL) {
+        ((TLobby *)&state)->copy_short_fields(source);
     } else {
-        access_object_saved_state(&st, 1);
+        access_object_saved_state(&state, 1);
     }
-    obj = (DoorSetEntryView *)set_entry;
-    if (obj != NULL) {
+    entry = (FloorObjectSetRow *)set_entry;
+    if (entry != NULL) {
         G_UpdateObjectState_6x0B pkt;
         init_collision_subcommand_header(&pkt);
         pkt.header.entity_id = entity_id;
-        pkt.flags = st.flags;
-        pkt.object_index = obj->object_index;
+        pkt.flags = state.flags;
+        pkt.object_index = entry->placement.set_index;
         send_object_state(&pkt);
     }
 }
@@ -127,7 +127,7 @@ void TODoorCave01::update_closed() {
 }
 
 void TODoorCave01::update_door_switch_state() {
-    DoorSavedState st;
+    QuestObjectEntry st;
     s32 i;
     switch (lock_mode) {
     case 1:
@@ -187,7 +187,7 @@ void TODoorCave01::update_door_switch_state() {
 void TODoorCave01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     u32 flags;
     NJS_OBJECT *child;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
     push_matrix();
     translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
     draw_ginja_model(node->model);
@@ -232,7 +232,7 @@ void TODoorCave01::render() {
                 node = node->sibling;
             } while (i < 4);
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();

@@ -6,8 +6,6 @@
 #include <dolphin/vi.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/movie/TMovie.h"
-#include "pso/system/movie/TMovie_80143C94.h"
-#include "pso/system/movie/TMovie_80143CE8.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/unk/text_80320358.h"
 
@@ -179,7 +177,7 @@ u32 movie_pending_frame_addr;
 s32 movie_pending_frame_width;
 s32 movie_pending_frame_height;
 
-void TMovie::flush_cache() {
+void flush_cache() {
     if (VIGetNextField() == 0U) {
         DCStoreRangeNoSync(movie_current_frame_buffer, movie_frame_buffer_bytes);
         VIFlush();
@@ -187,7 +185,7 @@ void TMovie::flush_cache() {
     }
 }
 
-void TMovie::flip_frame_buffer() {
+void flip_frame_buffer() {
     MovieFramePlanes planes;
     if (movie_pending_frame_addr != 0U) {
         if (movie_flip_counter & 1) {
@@ -206,14 +204,14 @@ void TMovie::flip_frame_buffer() {
     }
 }
 
-void TMovie__sub_80143C94(int frame_addr, int width, int height) {
+void set_pending_movie_frame(u32 frame_addr, s32 width, s32 height) {
     movie_pending_frame_addr = frame_addr;
     movie_pending_frame_width = width;
     movie_pending_frame_height = height;
 }
 
-void TMovie::flush_and_reset() {
-    TMovie::flush_cache();
+void flush_and_reset() {
+    flush_cache();
     wait_for_movie_retrace();
 }
 
@@ -221,14 +219,14 @@ void wait_for_movie_retrace() {
     VIWaitForRetrace();
 }
 
-void TMovie::calc_frame_buffer_size(saddr fb_a, saddr fb_b) {
+void calc_frame_buffer_size(saddr fb_a, saddr fb_b) {
     movie_frame_buffer_a = reinterpret_cast<void *>(fb_a);
     movie_frame_buffer_b = reinterpret_cast<void *>(fb_b);
     movie_frame_buffer_bytes = ((movie_framebuffer_video_mode->fbWidth + 0xF) & 0xFFF0) * movie_framebuffer_video_mode->xfbHeight * 2;
 }
 
-void flush_framebuffer(s32 movie_state, s32 sfd_player, s32 frame_info) {
-    mwPlyFxSetOutBufSize_hook(sfd_player, 0x280, 0x1E0);
-    mwPlyFxCnvFrmARGB8888_hook(sfd_player, frame_info, get_capture_texture_pixels());
+void flush_framebuffer(MovieState *movie, MwsfdPly *ply, MovieFrameInfo *frame) {
+    mwPlyFxSetOutBufSize_hook(ply, 0x280, 0x1E0);
+    mwPlyFxCnvFrmARGB8888_hook(ply, frame, get_capture_texture_pixels());
     DCFlushRangeNoSync(get_capture_texture_pixels(), GXGetTexBufferSize(0x280, 0x1E0, 6, 0, 0));
 }

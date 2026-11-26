@@ -11,6 +11,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/network/TLobby.h"
+#include "pso/item/shop/ShopArmorStock.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -28,7 +29,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/TLobby_8021B268.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/text_80222DE8.h"
 
@@ -62,7 +63,7 @@ TShopArmorListWindow::TShopArmorListWindow(TObject *parent, TShopWindowBase *seq
     this->on_close = 0;
     this->can_equip = 0;
     calc_item_count((TObjPlayer *)this->player, &count);
-    TLobby::set_shop_armor_list_flag(get_split_screen_slot(), count);
+    generate_shop_armor_stock_at_level(get_split_screen_slot(), count);
 }
 
 TShopArmorListWindow::~TShopArmorListWindow() {
@@ -141,9 +142,9 @@ void TShopArmorListWindow::refresh_item_list() {
     u8 *e;
     TWindowCost *c;
     base = get_split_screen_slot();
-    item_count = TLobby__sub_8021B274(base);
+    item_count = get_shop_stock_count(base);
     for (i = 0; i < item_count; i++) {
-        ((TLobby *)(&tmp))->copy_armor_shop_entry(i, base);
+        get_shop_armor_stock_item(&tmp, i, base);
         stock[i].copy_from(&tmp);
     }
     r = stock;
@@ -312,7 +313,7 @@ void TShopArmorListWindow::handle_buy_confirm() {
                 send_6x25_equip_item(player, it.id, 0);
                 update_selection(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_shop_entry_value(i, base);
+                    mark_shop_armor_sold_out(i, base);
                 }
                 item_list->save_cursor_selection();
             }
@@ -328,7 +329,7 @@ void TShopArmorListWindow::handle_buy_confirm() {
                 try_buy_item(player, &it);
                 update_selection(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_shop_entry_value(i, base);
+                    mark_shop_armor_sold_out(i, base);
                 }
                 item_list->save_cursor_selection();
             }
@@ -345,7 +346,7 @@ void TShopArmorListWindow::handle_buy_confirm() {
             try_buy_item(player, &it);
             update_selection(&stock[i]);
             if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                TLobby::clear_shop_entry_value(i, base);
+                mark_shop_armor_sold_out(i, base);
             }
             item_list->save_cursor_selection();
         }
@@ -376,7 +377,7 @@ void TShopArmorListWindow::handle_equip_offer() {
                 try_buy_item(player, &c);
                 update_selection(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_shop_entry_value((s32)i, get_split_screen_slot());
+                    mark_shop_armor_sold_out(i, get_split_screen_slot());
                 }
                 item_list->save_cursor_selection();
                 choice_menu->close();

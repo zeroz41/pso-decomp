@@ -72,7 +72,7 @@
 
 #include "pso/ui/hud/TNowLoading.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 
@@ -88,13 +88,13 @@
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
@@ -422,8 +422,8 @@ extern "C" {
 void TObjEneDarkGunner::run_task() {
     if (dark_gunner_polygon_update_tick != actor_frame_tick) {
         dark_gunner_polygon_update_tick = actor_frame_tick;
-        TObjPlayer__sub_8023DEE0(dark_gunner_body_child_polygons, 8, 0, 1);
-        TObjPlayer__sub_8023DEE0(dark_gunner_cly_line_polygons, 8, 0, 0);
+        scroll_chunk_plist_uvs(dark_gunner_body_child_polygons, 8, 0, 1);
+        scroll_chunk_plist_uvs(dark_gunner_cly_line_polygons, 8, 0, 0);
     }
     if (TObjPlayer::check_demo_mode() == 1) {
         load_params();
@@ -888,9 +888,9 @@ void TObjEneDarkGunner::render() {
                 color.g = s;
                 color.b = s;
                 set_constant_material(&color);
-                TObjFish::set_global_param(dark_gunner_effect_resource);
+                set_texture_list(dark_gunner_effect_resource);
             } else {
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             }
             if (behavior_flags & 4) {
                 if (render_control.has_visible_opacity() != 0) {
@@ -947,9 +947,9 @@ void TObjEneDarkGunner::run_demo_task() {  }
 void TObjEneDarkGunner::render_shadow() {
     if (test_actor_flags(0x800) == 0) {
         if (is_death_gunner() == 0) {
-            TObjFish::set_global_param(dark_gunner_cly_line_texlist);
+            set_texture_list(dark_gunner_cly_line_texlist);
         } else {
-            TObjFish::set_global_param(dark_gunner_rcly_line_texlist);
+            set_texture_list(dark_gunner_rcly_line_texlist);
         }
         push_matrix();
         post_translate_matrix(&shadow_pos.x);

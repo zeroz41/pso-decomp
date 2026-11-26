@@ -46,9 +46,9 @@
 
 #include "pso/network/TLobby.h"
 #include "pso/effect/TAttackTrace.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjControl.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/task/TMainTask.h"
@@ -59,7 +59,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
@@ -761,7 +761,7 @@ void *create_ene_saver(void *set_data) {
 void TObjEneSaver::run_task() {
     if (saver_scroll_tick != actor_frame_tick) {
         saver_scroll_tick = actor_frame_tick;
-        TObjPlayer__sub_8023DEE0(saver_scroll_polygons, 0xE, 0, 0);
+        scroll_chunk_plist_uvs(saver_scroll_polygons, 0xE, 0, 0);
     }
     if (TObjPlayer::check_demo_mode() == 1) {
         run_demo_task();
@@ -825,7 +825,7 @@ void TObjEneSaver::render() {
     v = classify_actor_view_detail(300.0f, 600.0f, 30.0f);
     if (v != 0) {
         select_actor_lighting(this);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(NULL);
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);

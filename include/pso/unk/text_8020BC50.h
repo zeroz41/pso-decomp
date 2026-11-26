@@ -3,8 +3,8 @@
 
 #include "types.h"
 
+void destroy_current_floor_objects(void);
 extern "C" {
-void TLobby__sub_8020BC50(void);
 void TLobby__sub_8020BCE4(void);
 }
 void send_6x76_set_entity_set_flags(void *object, s16 flags);

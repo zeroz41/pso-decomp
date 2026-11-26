@@ -6,7 +6,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/TObjBoss7TunnelNode.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include "pso/effect/particle/TParticle.h"
@@ -40,7 +40,7 @@ void TObjBoss7TunnelNode::draw_particle_effect() {
     set_draw_list_mask(3);
 
     TParticleCtrl::begin_effect_render();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
     set_motion_packed_rotation();
 
     draw_ginja_model_with_motion(model, motion, frame);

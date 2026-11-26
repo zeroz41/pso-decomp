@@ -4,7 +4,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D96A8.h"
@@ -21,7 +20,7 @@
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -29,15 +28,13 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 
-extern "C" {
-__declspec(section ".rodata") char TBoss6RockChase__class_name_string[] = "TBoss6RockChase";
-}
+__declspec(section ".rodata") char TBoss6RockChase::class_name_string[] = "TBoss6RockChase";
 extern const TBoss6RockChaseKind boss6_rock_chase_model_radius_table[2];
 const TBoss6RockChaseKind boss6_rock_chase_model_radius_table[2] = {
     {4, 20.0f},
     {0, 30.0f},
 };
-const char *TBoss6RockChase::name = TBoss6RockChase__class_name_string;
+const char *TBoss6RockChase::name = TBoss6RockChase::class_name_string;
 
 void TBoss6RockChase::damage_players_in_range() {
     Vec d;
@@ -75,7 +72,7 @@ void TBoss6RockChase::render() {
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_z(NULL, rotation_z);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     draw_ginja_object(model);
     pop_matrix();
 }

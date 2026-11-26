@@ -22,29 +22,17 @@ struct TWindowMenu;
 struct TWindowMessageYesNo;
 class TAdFadeGC;
 
-// The guild card file (the part after the card header): the card list and tag blocks that
-// TAdSinglePlyChrSelectGC::init_windows constructs, the checksum and the cipher seed.
-struct GuildCardList {
-    u8 pad_0[0xC0];
-    u8 entries[0xD2][0x100];
-};
+struct GuildCardSaveData;
 
-struct GuildCardTags {
-    u8 bytes[0x1C][0x90];
+// The split-screen players' buffers: a TPlyCharData and a save record for each of players 0-3.
+struct CharacterBufferTable {
+    TPlyCharData *char_data[4];
+    CharacterSaveRecord *records[4];
 };
-
-struct GuildCardSaveData {
-    u32 checksum;
-    GuildCardList list;
-    GuildCardTags tags;
-    s32 timestamp_seconds;
-    s32 cipher_seed;
-};
-
-LAYOUT_ASSERT(GuildCardSaveData_size, sizeof(GuildCardSaveData) == 0xE28C);
 
 // The 0x11C bytes of the system card file (the part after the card header).
 struct SystemSaveData {
+    s32 fields_equal(SystemSaveData *other);
     u32 checksum;
     s16 version_4;
     s8 flags_6;
@@ -60,6 +48,7 @@ struct SystemSaveData {
 LAYOUT_ASSERT(SystemSaveData_size, sizeof(SystemSaveData) == 0x11C);
 
 struct TAdSinglePlyChrSelectGC : public TObject {
+    static const char *class_name;
     static s32 selection_index;
     explicit TAdSinglePlyChrSelectGC(TObject *parent);
     virtual ~TAdSinglePlyChrSelectGC();
@@ -105,7 +94,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_player_by_slot(s32 chan);
     static s32 verify_system_file();
     static s32 load_save_from_card();
-    s32 fields_equal(void *other);
     static s32 verify_card_player_data();
     static s32 poll_memcard_status();
     s32 has_valid_slot();
@@ -169,7 +157,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void init_logo_state(s32 state);
     static void noop();
     static void run_frame();
-    void append_extension_if_missing(char *name, char *ext);
     static TPlyCharData *get_char_index(unsigned int index);
     static TPlyCharData *get_char_table_entry(int index);
     static void run_save_load_sequence();
@@ -194,13 +181,11 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void clear_load_buffers();
     static void clear_slot_body(int i);
     static void clear_slot_entry(int i);
-    static u8 *construct_card_window_array(void *list);
-    static void *construct_guild_card_tag_array(void *array);
     static void * copy_char_slot_data(void * a0, void * a1);
     static s32 copy_character_to_slot(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static void copy_chr_slots_from_request();
     static CharacterFile *copy_save_data(CharacterFile *to, CharacterFile *from);
-    static void encrypt_save_data(void *file);
+    static void encrypt_save_data(CharacterFile *file);
     static void create_instance();
     static s32 encrypt_and_save();
     static s32 encrypt_save_and_write();
@@ -235,19 +220,18 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 verify_save_checksum(int keep_on_mismatch);
     static void verify_save_checksum();
     static s32 write_encrypted_save();
-    static void alloc_char_records(void *table);
+    static void alloc_char_records(CharacterBufferTable *table);
     static s32 check_ready();
-    static s32 check_slot_swap_allowed(void *src_file, int src_slot, void *dst_file, int dst_slot);
+    static s32 check_slot_swap_allowed(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static s32 check_system_load_result();
     static void clear_entry(int i);
     static s32 compare_save_headers(CharacterSaveRecord *record_a, CharacterSaveRecord *record_b, CharacterFile *file_a, CharacterFile *file_b);
-    static void decrypt_char_data(void *file);
-    static void free_char_data_slots(void *table);
+    static void decrypt_char_data(CharacterFile *file);
+    static void free_char_data_slots(CharacterBufferTable *table);
     static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
-    static void *init_windows(void *file);
     static s32 is_entry_valid(CharacterFile *self, int i);
-    static s32 is_same_slot_entry(void *src_file, int src_slot, void *dst_file, int dst_slot);
+    static s32 is_same_slot_entry(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static s32 is_slot_active(unsigned int slot);
     static s32 load_character_and_wait();
     static s32 load_player_and_wait();

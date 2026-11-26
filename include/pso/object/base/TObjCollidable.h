@@ -36,7 +36,7 @@ public:
     // actorFlags & flags.
     s32 test_actor_flags(u32 flags);
     s32 access_object_saved_state(void *, s16);
-    void sub_80156A68();
+    void clear_hit_receive_state();
     // Empty in this build; the ancient trap and chainsaw call it from their demo and debug-draw updates.
     void sub_80154D78();
     void*set_collision_body(void*);

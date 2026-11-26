@@ -7,6 +7,7 @@
 class TParticleCtrl;
 
 struct TTecGiBarta : public TTecShot {
+    static const char *class_name;
     TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level);
     TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecGiBarta();

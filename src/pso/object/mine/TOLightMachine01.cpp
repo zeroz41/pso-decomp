@@ -12,8 +12,7 @@
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -49,14 +48,14 @@ void TOLightMachine01::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_model(((NJS_OBJECT *)model)->model);
         push_matrix();
         translate_matrix(0, 0.0f, this->bob_offset, 0.0f);
         rotate_matrix_y(0, this->spin_angle);
         draw_ginja_model(((NJS_OBJECT *)model)->child->model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(light_machine_ginja_param);
+        set_texture_list(light_machine_ginja_param);
         draw_ginja_object(light_machine_ginja_model_handle);
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -91,10 +90,10 @@ TOLightMachine01::~TOLightMachine01() {
 #pragma fp_contract on
 #define light_machine01 this
 TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
-    ((TOLightMachine01 *)light_machine01)->m_name = light_machine01_name;
+    light_machine01->m_name = light_machine01_name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data(set_data);
-    light_machine01->model = (void *)get_bml_model((BmlResource *)light_machine01_shared_bml_archive, 1);
-    light_machine01->texlist = get_bml_texlist((BmlResource *)light_machine01_shared_bml_archive, 1);
+    light_machine01->model = (void *)get_bml_model(light_machine01_shared_bml_archive, 1);
+    light_machine01->texlist = get_bml_texlist(light_machine01_shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;
     light_machine01->model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);

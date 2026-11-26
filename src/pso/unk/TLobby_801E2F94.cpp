@@ -1,4 +1,6 @@
 #include "pso/ui/window/WindowVertexBufferAbi.h"
+#include "pso/audio/AdxUiBridge.h"
+#include "pso/system/Adxf.h"
 #include "pso/system/memory.h"
 #include "pso/render/TriangleFan3D.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -30,7 +32,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/render/Draw2D.h"
 #include "pso/render/GinjaView.h"
 #include "pso/system/MatrixStack.h"
@@ -41,11 +42,13 @@
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803DA798.h"
+#include "pso/unk/TLobby_803382E4.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #undef PSO_SDK_COMPACT_MATH
 
 void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
-    TLobby__sub_80228154(sprite, frame_index, flags, depth);
+    draw_screen_sprite(sprite, frame_index, flags, depth);
     TCameraCtrl::restore_saved_view();
 }
 
@@ -54,7 +57,7 @@ void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags) {
     f32 ey, ex, cx, cy, z;
     f32 u0, v0, u1, v1;
 
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
     set_texture_num(sprite->tanim->texid);
     u0 = 0.01f;
     u1 = 0.99f;
@@ -256,8 +259,8 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
         draw_color_lines(reinterpret_cast<ColorLineList *>(poly), count, flags | 0x10, depth);
         copy_vec2((&v[0]), &poly->p[0]);
         copy_vec2((&v[1]), &poly->p[poly->num - 1]);
-        TObjCMHairMenu__sub_801E3F54(&c[0], &poly->col[0].color);
-        TObjCMHairMenu__sub_801E3F54(&c[1], &poly->col[poly->num - 1].color);
+        copy_u32(&c[0], &poly->col[0].color);
+        copy_u32(&c[1], &poly->col[poly->num - 1].color);
         draw_color_lines(&tmp, 2, flags, depth);
         return;
     }
@@ -339,9 +342,9 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
     pos = 0;
     p = (u8 *)(file + *offset);
     move_data(((&tag)), (const void *)(p), 4);
-    TLobby__sub_801E3CF0((u32 *)&tag);
+    bswap_u32_in_place((u32 *)&tag);
     move_data(((&size)), (const void *)(p + 4), 4);
-    TLobby__sub_801E3CF0(&size);
+    bswap_u32_in_place(&size);
     p += 8;
     *offset += 8;
     tag = bswap32_value(tag);
@@ -404,12 +407,12 @@ bad:
     return 0;
 next:
     move_data(((&tag)), (const void *)(p), 4);
-    TLobby__sub_801E3CF0((u32 *)&tag);
+    bswap_u32_in_place((u32 *)&tag);
     *offset += 4;
     tag = bswap32_value(tag);
     if (tag == 0x504F4630) {
         move_data(((&size)), (const void *)(p + 4), 4);
-        TLobby__sub_801E3CF0(&size);
+        bswap_u32_in_place(&size);
         p += 8;
         *offset += 4;
         while (size != 0) {
@@ -453,7 +456,7 @@ next:
     return buf;
 }
 
-void TLobby__sub_801E3CF0(u32 *p) {
+void bswap_u32_in_place(u32 *p) {
     u32 v = *p;
     *p = (v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24);
 }
@@ -464,9 +467,6 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     TObjPlayer::render_tree(model);
 }
 
-extern "C" {
-void TLobby__sub_803382E4(void);
-void run_end_of_render_tasks(void);
 
 
 void TObjPlayer::render_tree(void *model) {
@@ -488,7 +488,6 @@ void TObjPlayer::render_tree(void *model) {
 }
 
 
-}
 void render_tick(void) {
     TKeyBoardControl::run_tasks();
     TParticleCtrl::begin_effect_render();
@@ -505,14 +504,14 @@ void render_tick(void) {
     run_end_of_render_tasks();
 }
 
-s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr work) {
+s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size) {
     s32 handle;
-    handle = TLobby::adxf_open_file(id, (void *)name, 0, (void *)work);
+    handle = TLobby::adxf_open_file(id, (void *)name, 0, buf);
     if (handle >= 0) {
 loop_2:
-        if (TLobby::read_afs_toc(id) != 3) {
+        if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
-            TKeyBoardControl::flush_input();
+            flush_input();
             update_global_sound_frame();
             read_pads();
             hardware_keyboard_state.disable_disconnected_ports();
@@ -523,12 +522,12 @@ loop_2:
     return handle;
 }
 
-s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr work) {
+s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
     s32 handle;
-    handle = TLobby::adxf_open_file(id, (void *)name, 0, (void *)work);
+    handle = TLobby::adxf_open_file(id, (void *)name, 0, buf);
     if (handle >= 0) {
 loop_1:
-        if (TLobby::read_afs_toc(id) != 3) {
+        if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
             TLobby__sub_803382E4();
             TLobby::run_frame();
@@ -572,7 +571,7 @@ void gx_write_f32x2(f32 x, f32 y) {
     *(f32 *)0xCC008000 = y;
 }
 
-u32 *TObjCMHairMenu__sub_801E3F54(u32 *p, const u32 *q) {
+u32 *copy_u32(u32 *p, const u32 *q) {
     *p = *q;
     return p;
 }

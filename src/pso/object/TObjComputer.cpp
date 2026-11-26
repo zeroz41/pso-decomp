@@ -19,12 +19,12 @@
 #include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaTexture.h"
@@ -130,8 +130,8 @@ void *create_stage_computer(void *placement) {
     return new TObjComputer(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
 }
 
-void TObjComputer::vfunc_14() {
-    TObjMesBase::vfunc_14();
+void TObjComputer::update_idle() {
+    TObjMesBase::update_idle();
     if ((s32) this->messageLabel != 0) {
         submit_cursor_candidate(this, -1);
     }
@@ -153,7 +153,7 @@ void TObjComputer::draw_model() {
     if (screen_model == NULL) {
         return;
     }
-    TObjFish::set_global_param(computer_texture_gvm_handle);
+    set_texture_list(computer_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -184,9 +184,9 @@ void TObjComputer::debug_draw_label() {
     this->TObjMesBase::debug_draw_label();
     this->set_params[1] = this->set_params[1] % 2;
     screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer::screen_model_indices[this->set_params[1]]));
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- MODEL SELECT");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjGbAdvance::TObjGbAdvance(TObject *parent, ObjectSetData *placement) : TObjMesBase(parent, placement) {
@@ -203,8 +203,8 @@ TObjGbAdvance::~TObjGbAdvance() {
     free_collision_body_parts(this);
 }
 
-void TObjGbAdvance::vfunc_14() {
-    TObjMesBase::vfunc_14();
+void TObjGbAdvance::update_idle() {
+    TObjMesBase::update_idle();
     if ((s32) this->messageLabel != 0) {
         submit_cursor_candidate(this, -1);
     }
@@ -212,7 +212,7 @@ void TObjGbAdvance::vfunc_14() {
 
 void TObjGbAdvance::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(TObjGbAdvance::resource, 0));
+        set_texture_list(get_bml_texlist(TObjGbAdvance::resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);

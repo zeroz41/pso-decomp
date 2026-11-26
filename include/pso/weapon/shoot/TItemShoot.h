@@ -8,6 +8,7 @@ class TEffStarLight2D;
 
 class TItemShoot : public TObject {
 public:
+ static const char *class_name;
  Vec m_pos;
  s32 rot_x;
  s32 rot_y;
@@ -27,5 +28,16 @@ public:
     static s32 spawn_shoot_particle(u32 owner, s32 pos, s32 dir, f32 life);
     static u32 spawn_shoot_particle_attached(u32 owner, s32 pos, s32 dir, f32 life);
 };
+
+s32 create_shoot_model_rot_z(uaddr owner, saddr pos, saddr dir, f32 life);
+
+extern "C" {
+s32 create_gun_shot(saddr owner, saddr pos, saddr endpoint, f32 life);
+}
+
+s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life);
+
+// A shoot particle with flag 4 and effect 0x9F in its first slot.
+s32 spawn_shoot_particle_9f(u32 owner, s32 pos, s32 dir, f32 life);
 
 #endif

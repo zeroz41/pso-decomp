@@ -11,6 +11,7 @@ class TParticleCtrl;
 // Four particles placed in front of the camera on the quest-load screen; the
 // first controller's stick turns them and a button cycles their tint.
 struct TAdLdQuestPrtGC : public TObject {
+    static const char *class_name;
     // Angles in 0x10000-per-turn units.
     struct Angles {
         u32 x;

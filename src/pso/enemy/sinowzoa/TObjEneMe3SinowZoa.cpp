@@ -27,7 +27,7 @@
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/technique/TTecGiBarta.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/reflection.h"
 #include "pso/math/MatrixTransforms.h"
@@ -73,7 +73,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/technique/TTecDeband.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
@@ -1710,7 +1710,7 @@ void TObjEneMe3SinowZoa::render() {
             TObjEneDD::clear_global_flag_400();
         }
         toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         for (i = 0; i < 3; i++) {
             if (me3_sinow_zoa_material_color_pointers[i] != NULL) {
                 *me3_sinow_zoa_material_color_pointers[i] = this->material_color;
@@ -1765,7 +1765,7 @@ extern "C" {
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&this->floor_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             post_translate_matrix(&this->position.x);
             translate_matrix(0, 0.0f, this->body_offset_y, 0.0f);
@@ -1807,7 +1807,7 @@ void TObjEneMe3SinowZoa::render_demo() {
     }
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *parts = texlist->textures;

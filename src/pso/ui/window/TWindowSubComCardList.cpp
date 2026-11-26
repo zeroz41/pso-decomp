@@ -1,4 +1,5 @@
 #include "pso/player/GuildCardEntry.h"
+#include "pso/math/FloatRound.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -8,7 +9,6 @@
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
-#include "pso/ui/window/TWindowSubCustomSelect_80275D84.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/text_80263A20.h"
@@ -28,6 +28,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
   s16 page_row;
   u16 *array_entry;
@@ -70,7 +71,7 @@ void TWindowSubComCardList::sub_80275360() {
         }
         this->add_text_entry((saddr)card->get_name(), 7, index);
     }
-    if (this->get_field_72() <= 0) {
+    if (this->get_entry_count() <= 0) {
         switch ((s8)this->empty_message) {
         case 0:
             msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD4);
@@ -83,14 +84,14 @@ void TWindowSubComCardList::sub_80275360() {
     }
 }
 
-s32 TWindowSubComCard::create_card_list(saddr parent, saddr card_slot, s32 count, s32 empty_message) {
-    fn_80266378(7);
-    return (saddr)new TWindowSubComCardList((const NJS_POINT2 *)parent, card_slot, count, empty_message);
+TWindowSubComCardList *TWindowSubComCard::create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message) {
+    set_window_menu_rows(7);
+    return new TWindowSubComCardList(position, card_slot, count, empty_message);
 }
 
-u8 *TWindowSubComCard::sub_802754EC(saddr parent) {
-    fn_80266378(7);
-    return (u8 *)new TWindowSubComCardList((const NJS_POINT2 *)parent);
+TWindowSubComCardList *TWindowSubComCard::sub_802754EC(const NJS_POINT2 *position) {
+    set_window_menu_rows(7);
+    return new TWindowSubComCardList(position);
 }
 
 
@@ -110,7 +111,7 @@ void TWindowSubComCardList::render() {
     this->render_selected_entry(ctx);
     this->draw_card_list_selection((u8 *)ctx);
     if (this->heading != 0) {
-        this->heading->forward_render(ctx);
+        this->heading->render(ctx);
     }
     if (this->storage != 0) {
         draw_list_page_indicator(this->storage, ctx);
@@ -132,7 +133,7 @@ TWindowSubComCardList::~TWindowSubComCardList() {
 TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
-    n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
+    n = round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
     if (n <= 0) {
         n = 1;
     }
@@ -151,7 +152,7 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWind
 TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
-    n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);
+    n = round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;
     }

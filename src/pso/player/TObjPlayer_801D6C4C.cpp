@@ -2,11 +2,10 @@
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/LobbyRuleSettings.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
 extern "C" {
-
-int clear_player_sub_object_slots(void*);
 
 void TObjPlayer::reset_particle_ctrl(s32 *ctrl) {
     *ctrl = 0;
@@ -23,31 +22,24 @@ s32 destroy__10TObjPlayerFis(saddr ctrl, s16 flags) {
     return ctrl;
 }
 
-PlayerBattleScore *PlayerBattleScore::init() {
-    TObjPlayer::init_sub_object((saddr)&damage_stats[0]);
-    TObjPlayer::init_sub_object((saddr)&damage_stats[1]);
-    TObjPlayer::init_sub_object((saddr)&damage_stats[2]);
-    TObjPlayer::init_sub_object((saddr)&damage_stats[3]);
-    TObjPlayer::init_sub_object((saddr)&damage_stats[4]);
-    clear_player_sub_object_slots(&slots);
+PlayerBattleScore::PlayerBattleScore() {
     pad_4 = 0;
-    TObjPlayer::reset_particle_ctrl((s32 *)this);
-    return this;
+    TObjPlayer::reset_particle_ctrl(&timer);
 }
 
-s32 TObjPlayer__sub_801D6D28(void *record) {
-    s32 level = *(s8 *)((s8 *)record + 0x13);
-    if ((level < 0) || (level > 0x63)) {
+}
+
+s32 LobbyRuleSettings::get_sonar_count() {
+    s32 count = sonar_count;
+    if ((count < 0) || (count > 99)) {
         return 0;
     }
-    return level;
+    return count;
 }
 
-void TObjPlayer::set_level(s32 lvl) {
-    if ((lvl < 0) || (lvl > 0x63)) {
-        lvl = 0;
+void LobbyRuleSettings::set_sonar_count(s32 count) {
+    if ((count < 0) || (count > 99)) {
+        count = 0;
     }
-    *(s8 *)((s8 *)this + 0x13) = lvl;
-}
-
+    sonar_count = count;
 }

@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit split off the gibon enemy; the referencing unit keeps these extern.
+// The gibon enemy's constant tables.
 
 __declspec(section ".rodata") extern const u32 gibon_base_stat_ids[2] = {
     0x0000003B, 0x0000003C,

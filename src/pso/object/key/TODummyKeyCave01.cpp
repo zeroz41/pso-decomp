@@ -2,7 +2,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/key/TODummyKeyCave01Sound.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/key/TODummyKeyCave01.h"
 #include "pso/object/key/TOKeyAncient03.h"
@@ -17,7 +16,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -49,8 +48,8 @@ TODummyKeyCave01::~TODummyKeyCave01() {
 }
 
 
-void TODummyKeyCave01::load_assets() {  }
-void TODummyKeyCave01::free_assets() {  }
+void TODummyKeyCave01::load_resources() {  }
+void TODummyKeyCave01::free_resources() {  }
 void *TODummyKeyCave01::create(void *set_data) {
     return new TODummyKeyCave01(tl_05, set_data);
 }
@@ -63,8 +62,8 @@ void TODummyKeyCave01::run_task() {
     }
     if (this->id < 0x100) {
         st = is_current_floor_switch_set(this->id);
-        if (st != this->m_9a) {
-            this->m_9a = st;
+        if (st != this->switch_state) {
+            this->switch_state = st;
             skip = 0;
             if (mute_off_sound == 1 && st == 0) {
                 skip = 1;
@@ -74,7 +73,7 @@ void TODummyKeyCave01::run_task() {
             }
         }
     }
-    if (this->m_9a == 1) {
+    if (this->switch_state == 1) {
         this->texlist = this->on_textures;
         f32 lo = (-0.7f);
         if (lo < key_offset.y) {
@@ -126,7 +125,7 @@ void TODummyKeyCave01::render() {
         scale_current_matrix(&this->scale.x);
         node = (NJS_OBJECT *)model;
         draw_ginja_model(node->model);
-        if (m_9a == 0) {
+        if (switch_state == 0) {
             id = model_render_flags;
             saved_model_render_flags = id;
             model_render_flags = id | 0x10;
@@ -144,7 +143,7 @@ void TODummyKeyCave01::render() {
         node = node->child;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
-        if (m_9a == 0) {
+        if (switch_state == 0) {
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
@@ -157,10 +156,10 @@ void TODummyKeyCave01::init_from_set_data() {
     spins = 0;
     id = set_params[0];
     if (id < 0x100) {
-        m_9a = is_current_floor_switch_set(id);
+        switch_state = is_current_floor_switch_set(id);
     } else {
         id = 0xFFFF;
-        m_9a = 1;
+        switch_state = 1;
     }
     model_variant = set_params[1] & 0xFFFF;
     sound_delay = (u32)set_params[1] >> 16;
@@ -176,7 +175,7 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+        model = (void *)get_bml_model(key_cave01_resource_bundle, 0);
         this->off_textures = key_cave01_texture_lists[0];
         this->on_textures = key_cave01_texture_lists[1];
         break;
@@ -184,7 +183,7 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_FOREST2:
     case AREA_MINE1:
     case AREA_MINE2:
-        model = (void *)get_bml_model((BmlResource *)key_machine01_resource_bundle, 0);
+        model = (void *)get_bml_model(key_machine01_resource_bundle, 0);
         this->off_textures = key_machine01_texture_lists[0];
         this->on_textures = key_machine01_texture_lists[1];
         break;
@@ -202,11 +201,11 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
         if (model_variant == 0) {
-            model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+            model = (void *)get_bml_model(key_cave01_resource_bundle, 0);
             this->off_textures = key_cave01_texture_lists[0];
             this->on_textures = key_cave01_texture_lists[1];
         } else {
-            model = (void *)get_bml_model((BmlResource *)key_machine01_resource_bundle, 0);
+            model = (void *)get_bml_model(key_machine01_resource_bundle, 0);
             this->off_textures = key_machine01_texture_lists[0];
             this->on_textures = key_machine01_texture_lists[1];
         }
@@ -220,7 +219,7 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+        model = (void *)get_bml_model(key_cave01_resource_bundle, 0);
         this->off_textures = key_cave01_texture_lists[0];
         this->on_textures = key_cave01_texture_lists[1];
         spins = 1;

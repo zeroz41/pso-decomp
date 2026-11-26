@@ -45,8 +45,8 @@ void (*logo_load_callback_table[18])(void) = {
     register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
     register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
     register_texture_logo_e, TLogo::free_held_object,
-    TLogo__sub_8001C364, TLogo__sub_8001C360,
-    TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows,
+    load_sonic_logo_texture, free_sonic_logo_texture,
+    TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
 };
 extern int sega_logo_done_flag;
@@ -107,7 +107,7 @@ void TLogo::run_frame() {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    if (func_801A5E54__Fv() != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -116,7 +116,7 @@ void TLogo::run_frame() {
     render_tick();
 }
 
-void TLogo__sub_8013F5AC() {
+void TLogo::exit_logo_scene() {
     main_task.delete_layer_children();
     TLobby::call_funcs_reverse(logo_load_callback_table, sizeof(logo_load_callback_table));
     render_tick();

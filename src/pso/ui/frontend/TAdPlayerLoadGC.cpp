@@ -8,18 +8,18 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "types.h"
-const char *TAdPlayerLoadGC__class_name = "TAdPlayerLoadGC";
+const char *TAdPlayerLoadGC::class_name = "TAdPlayerLoadGC";
 
-extern int TAdChrSelBSlotGC__global_state;
 
-void set_character_select_b_slot_state(int a0) { TAdChrSelBSlotGC__global_state = a0; }
+void set_character_select_b_slot_state(int a0) { TAdChrSelBSlotGC::global_state = a0; }
 
 int get_player_load_state(void) { return TAdPlayerLoadGC::load_state; }
 
 TAdPlayerLoadGC::TAdPlayerLoadGC(TObject *parent, int mode) : TObject(parent) {
-    m_name = TAdPlayerLoadGC__class_name;
+    m_name = TAdPlayerLoadGC::class_name;
     state = 0;
     this->mode = mode;
     set_state(0);

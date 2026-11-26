@@ -48,13 +48,14 @@
 #include "pso/technique/TTecLightCharge.h"
 #include "pso/technique/TTecSupportCharge.h"
 #include "pso/object/TTecMegidCharge.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/technique/TechniqueRingwaveList.h"
+#include "pso/network/client_id.h"
 
 TechniqueParams calculated_technique_params;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -67,7 +68,6 @@ s32 is_split_screen();
 u8 get_cast_technique_level(void *, int);
 }
 extern u8 identity_matrix[];
-extern s32 local_client_id;
 
 // The technique effects' models and motions, and the archive that holds them.
 const char *bm_technic_model_names[13] = {
@@ -219,7 +219,7 @@ s32 clamp_nonnegative_int(s32 x) {
     return x;
 }
 
-// The charge speed (charge_speed) lowered by one per level above 4, not below 0.
+// The charge speed lowered by one per level above 4, not below 0.
 inline s32 lowered_charge_speed(s32 level) {
     return clamp_nonnegative_int(calculated_technique_params.charge_speed - clamp_nonnegative_int(level - 4));
 }

@@ -14,6 +14,7 @@ s32 calc_delta(s32 start, s32 end);
 u32 coarse_time_to_usec(u32 x);
 extern "C" {
 void begin_screen_draw(s32 mode);
+void end_screen_draw(void);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 }
 void set_constant_material_color(u32 x);

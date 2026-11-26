@@ -14,7 +14,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
@@ -89,7 +89,7 @@ void TBoss3VoloptCtrl::dispatch_state(s32 state) {
         unhide_room_set_objects(get_current_floor(), 0, 3);
     case 3:
         unhide_room_set_objects(get_current_floor(), 0, 2);
-        TLobby__sub_8020C07C(get_current_floor(), 0, 2, -0x11, 0);
+        set_wave_object_flags(get_current_floor(), 0, 2, -0x11, 0);
         return;
     case 2:
         unhide_room_set_objects(get_current_floor(), 0, 3);

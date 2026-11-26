@@ -6,18 +6,16 @@
 #include "pso/unk/text_8026C664.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/unk/text_8026C7AC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
-extern "C" {
-void fn_8026C664(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
+void fn_8026C664(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   TexturedQuad quad;
   quad.x0 = x;
   quad.y0 = y;
@@ -31,11 +29,11 @@ void fn_8026C664(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   quad.v0 = 0.3984375f;
   quad.u1 = 0.8359375f;
   quad.v1 = 0.45703125f;
-  ((WindowDrawContext *)context)->transform_quad(&quad);
+  context->transform_quad(&quad);
   draw_textured_quad_at_depth(&quad.x0, depth);
 }
-void fn_8026C708(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
-  float new_var;
+void fn_8026C708(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
+  float bottom;
   TexturedQuad quad;
   quad.x0 = x;
   quad.y0 = y;
@@ -44,38 +42,33 @@ void fn_8026C708(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
     quad.x0 = ((f32) ((double) x)) + arrow_offset;
   }
   quad.x1 = 29.0f + quad.x0;
-  new_var = 15.0f + quad.y0;
-  quad.y1 = new_var;
+  bottom = 15.0f + quad.y0;
+  quad.y1 = bottom;
   quad.u0 = 0.84375f;
   quad.v0 = 0.3984375f;
   quad.u1 = 0.95703125f;
   quad.v1 = 0.45703125f;
-  ((WindowDrawContext *)context)->transform_quad(&quad);
+  context->transform_quad(&quad);
   draw_textured_quad_at_depth(&quad.x0, depth);
 }
 
-}
 
-
-s32 fn_8026C7AC(void *indicator, s8 page) {
-    *(s8 *)((s8 *)indicator + 0) = 0;
-    *(s8 *)((s8 *)indicator + 1) = page;
+s32 fn_8026C7AC(PageIndicator *indicator, s8 count) {
+    indicator->page = 0;
+    indicator->count = count;
     return 1;
 }
 
-s32 fn_8026C7C0(void *indicator, s8 page) {
-    u8 old_page;
-
-    old_page = *(u8 *)((s8 *)indicator + 0);
-    if (page == (s8) old_page) {
+s32 fn_8026C7C0(PageIndicator *indicator, s8 page) {
+    if (page == indicator->page) {
         return 0;
     }
-    if (page > (s8) old_page) {
-        *(f32 *)((s8 *)indicator + 8) = (f32) 1e+01f;
+    if (page > indicator->page) {
+        indicator->arrow_offset = 1e+01f;
     } else {
-        *(f32 *)((s8 *)indicator + 8) = (f32) (-1e+01f);
+        indicator->arrow_offset = -1e+01f;
     }
-    *(u8 *)((s8 *)indicator + 0) = (u8) page;
+    indicator->page = page;
     return 1;
 }
 #pragma push
@@ -91,11 +84,11 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     pos.y = (r->y + r->h) - 22.0f;
     scale = (-1.0f) / (0.1495f + r->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);
-    fn_8026C708((u8 *)r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
-    fn_8026C664((u8 *)r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
-    TWindowSubStatusDisp::get_player();
+    fn_8026C708(r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
+    fn_8026C664(r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
+    end_screen_draw();
     set_text_draw_params(reinterpret_cast<WindowDrawContext *>(r), 0, 1, scale, (f32)1e+05f);
     text_builder_reset();
     text_builder_append_int(self->page + 1);

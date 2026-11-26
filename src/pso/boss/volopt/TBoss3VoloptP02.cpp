@@ -27,7 +27,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/boss/volopt/TObjVoloptPillar.h"
 #include "pso/object/base/TObjMotion.h"
@@ -45,7 +45,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/camera/CameraHelpers.h"
@@ -387,7 +387,7 @@ void TBoss3VoloptP02::render() {
         if (fade.updateFromCamera(&body_center) != 0) {
             fade.set_flags_and_apply_damage_color();
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
         toggle_particle_effect();
         push_matrix();

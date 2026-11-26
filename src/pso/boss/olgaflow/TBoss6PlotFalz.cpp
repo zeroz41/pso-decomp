@@ -46,7 +46,6 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/boss/olgaflow/TBoss6GravBall.h"
@@ -65,7 +64,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -76,6 +75,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 
 
@@ -236,14 +236,12 @@ void TBoss6PlotFalz::update_random_shake() {
 }
 #pragma pop
 
-s32 TBoss6PlotFalz::damage_player_hp(s32 client, u32 damage) {
+s32 TBoss6PlotFalz::damage_player_hp(u16 client, u32 damage) {
     u32 v;
     TObjPlayer *p;
     s32 hp;
-    u16 id;
-    id = client;
     v = damage;
-    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL || TBoss6PlotFalz::is_active(p) == 0) {
+    if (client == 0xFFFF || (p = get_player_by_client_id(client)) == NULL || TBoss6PlotFalz::is_active(p) == 0) {
         return 0;
     }
     hp = p->get_actor_hp();
@@ -380,7 +378,6 @@ void TBoss6PlotFalz::set_state(s32 state) {
 }
 
 extern "C" {
-s32 is_local_client_floor_leader();
 
 void TBoss6PlotFalz::set_visible_flag() {
     if (is_local_client_floor_leader() != 0) {
@@ -647,7 +644,11 @@ s32 next_random_seed(s32 seed) {
     return seed & 0x7FFF;
 }
 
-void TObjFish::reset_fish_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
+void TBoss6PlotFalz::restore_fade_material_color() {
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+    model_render_flags = saved_model_render_flags;
+}
 void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range) {
     s32 n;
     s32 i;
@@ -701,7 +702,7 @@ void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio) {
 __declspec(section ".sdata2") const s32 plot_falz_tint_render_flags[1] = { 0x8810 };
 #pragma push
 #pragma fp_contract on
-// Tints the material toward (r, g, b) by fade; the render state is saved for reset_fish_globals.
+// Tints the material toward (r, g, b) by fade; the render state is saved for restore_fade_material_color.
 void TBoss6PlotFalz::apply_fade_material_color(f32 fade, f32 r, f32 g, f32 b) {
     NJS_ARGB color;
     if (((-1.0f) != TBoss6PlotFalz::fade_amount) || (fade < 0.0f) || (fade > 1.0f) || (r < 0.0f) || (r > 1.0f) || (g < 0.0f) || (g > 1.0f) || (b < 0.0f) || (b > 1.0f)) {
@@ -902,7 +903,6 @@ void TBoss6PlotFalz::move_player_to(TObjPlayer *player, Vec *pos) {
 
 
 BmlResource *boss6_scene_archive;
-extern "C" {
 
 void TBoss6PlotFalz::render() {  }
 
@@ -937,7 +937,6 @@ void handle_6xA3_olga_flow_boss_actions(game_command_header *command) {
     }
 }
 
-}
 
 
 void TBoss6PlotFalz::send_6xA3_action(s8 phase) {
@@ -1040,7 +1039,7 @@ void TBoss6PlotFalz::load_resources() {
         enable_olga_flow_subordinate_actions();
         TBoss6Rock::load_resources();
         TBoss6Tube::load_resources();
-        fn_802E52AC();
+        load_online_ending_resource();
     }
 }
 

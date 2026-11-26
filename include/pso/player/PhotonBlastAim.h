@@ -11,7 +11,7 @@ struct PhotonBlastAim {
     u16 pad_2;
     Vec position;
 
-    void reset();
+    PhotonBlastAim();
     Vec *get_position();
     Vec *set_position(const Vec *src);
 };

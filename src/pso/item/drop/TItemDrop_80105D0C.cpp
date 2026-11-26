@@ -24,7 +24,6 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/GslArchive.h"
-#include "pso/unk/TLobby_801D6DC4.h"
 #include "pso/item/item_create.h"
 
 struct DifficultyLetters { char *n[4]; };
@@ -42,12 +41,6 @@ s32 item_drop_cached_offset = -1;
 const char *item_drop_class_name = "TItemDrop";
 
 extern "C" {
-u8 TLobby__sub_801D6F94(void *);
-u8 TLobby__sub_801D6FFC(void *);
-u8 fn_801D7168(void *);
-u8 fn_801D719C(void *);
-u8 fn_801D71D0(void *);
-u8 fn_801D7204(void *);
 s32 __cvt_fp2unsigned(f32);
 }
 
@@ -111,7 +104,7 @@ s32 TItemDrop::calc_drop_offset(s32 section) {
 }
 
 void TItemDrop::apply_drop_restrictions(TItemData *it) {
-    void *p;
+    LobbyRuleSettings *p;
     u8 m;
     if (it == NULL) {
         return;
@@ -131,12 +124,12 @@ void TItemDrop::apply_drop_restrictions(TItemData *it) {
             it->init();
         }
     }
-    p = lobby_rule_settings;
-    if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == TItemDrop__sub_80107B04(p)) {
+    p = &lobby_rule_settings;
+    if (lobby_rule_settings.get_rule_field_0() == TItemDrop__sub_80107B04(p)) {
         return;
     }
     if (it->data1.data_u8[0] == 0 || it->data1.data_u8[0] == 1) {
-        switch (fn_801D71D0(p)) {
+        switch (p->get_weapon_and_armor_mode()) {
         case 2:
             it->init();
             return;
@@ -148,14 +141,14 @@ void TItemDrop::apply_drop_restrictions(TItemData *it) {
         }
     }
     if (it->data1.data_u8[0] == 2) {
-        if (fn_801D719C(p) == 1) {
+        if (p->get_mag_mode() == 1) {
             it->init();
         }
     } else if (it->data1.data_u8[0] == 3) {
-        if (fn_801D7168(p) == 2) {
+        if (p->get_tool_mode() == 2) {
             it->init();
         } else if (it->data1.data_u8[1] == 2) {
-            switch (fn_801D7204(p)) {
+            switch (p->get_tech_disk_mode()) {
             case 0:
                 return;
             case 1:
@@ -171,14 +164,14 @@ void TItemDrop::apply_drop_restrictions(TItemData *it) {
                 break;
             }
         } else if (it->data1.data_u8[1] == 9) {
-            if (TLobby__sub_801D6F94(p) == 1) {
+            if (p->get_forbid_scape_dolls() == 1) {
                 it->init();
                 return;
             }
             return;
         }
     } else if (it->data1.data_u8[0] == 4) {
-        if (TLobby__sub_801D6FFC(p) == 1) {
+        if (p->get_meseta_mode() == 1) {
             it->init();
         }
     }
@@ -912,7 +905,7 @@ TItemDrop *TItemDrop::create_drop(TObject *parent) {
     return NULL;
 }
 
-s8 TItemDrop::get_bool_from_1d6ddc() { return (s8)(TLobby__sub_801D6DDC(this)); }
+s8 TItemDrop::get_bool_from_1d6ddc() { return (s8)((LobbyRuleSettings *)this)->get_max_tech_level(); }
 
 extern "C" u8 TItemDrop__sub_80107B04(void *) { return 0; }
 

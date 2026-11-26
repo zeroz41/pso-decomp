@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -9,7 +8,6 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"

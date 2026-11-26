@@ -4,11 +4,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
@@ -27,10 +27,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
-
-extern "C" {
-s32 TWindowSubComCard__sub_8007B070(s32);
-}
 
 ComCardLayout com_card_layout_entries = {
     6, 1,
@@ -119,13 +115,13 @@ TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *posi
     if (keyboard_mode == 0) {
         return 0;
     }
-    if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
+    if (is_guild_card_invalid(reinterpret_cast<u8 *>(keyboard_mode)) != 0) {
         ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
     }
     return new TWindowComCard(position, (void *)keyboard_mode);
 }
 
-void *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
+TWindowComCard *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
     void *entry = TWindowSubComCard::get_card_entry(index);
     if (entry == NULL) {
         return NULL;
@@ -133,12 +129,12 @@ void *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
     return new TWindowComCard(position, entry);
 }
 
-u8 *TWindowComCard::create_for_card(const NJS_POINT2 *position, s32 index, saddr records) {
+TWindowComCard *TWindowComCard::create_for_card(const NJS_POINT2 *position, s32 index, saddr records) {
     if (index < 0) {
         return NULL;
     }
     saddr data = records + index * 0x90;
-    return (u8 *)new TWindowComCard(position, (void *)data);
+    return new TWindowComCard(position, (void *)data);
 }
 
 void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
@@ -148,10 +144,10 @@ void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
     }
 }
 
-extern "C" void TWindowComCard__sub_80249920(saddr window, s32 index, s32 records) {
-    saddr temp = records + (index * 0x90);
+void TWindowComCard::set_display_entry(s32 card_index, s32 records) {
+    saddr temp = records + (card_index * 0x90);
     if (temp != 0) {
-        update_com_card_display(&((TWindowComCard *)window)->entry_list, (void *)temp);
+        update_com_card_display(&entry_list, (void *)temp);
     }
 }
 

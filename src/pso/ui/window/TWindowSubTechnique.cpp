@@ -87,8 +87,6 @@ static const s16 technique_menu_category_4[] = { 13, 10, 11, 12, 14, 19 };
 const s16 *technique_menu_category_lists[5] = { technique_menu_category_0, technique_menu_category_1, technique_menu_category_2, technique_menu_category_3, technique_menu_category_4 };
 
 extern "C" {
-s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
-void set_selected_index__21TWindowSubComCardListFs(s32, s32);
 s32 add_text_entry__11TWindowMenuFllll(saddr, const char *, s32, s16, s32);
 s32 add_text_entry__11TWindowMenuFlll(saddr, const char *, s32, s16);
 const char *get_technique_name(s16);
@@ -135,25 +133,25 @@ void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
 #pragma fp_contract on
 
 void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
-    s32 selected;
+    s16 selected;
     const s16 *entry;
     entry = technique_menu_category_lists[category];
-    selected = get_cursor_pos__20TWindowShortListCtrlFv(list);
-    ((TWindowSubComCardList *)list)->reset_entries();
+    selected = ((TWindowMenu *)list)->get_cursor_pos();
+    ((TWindowMenu *)list)->reset_entries();
     while (*entry != 19) {
         TWindowSubTechnique::draw_technique_row(*entry, playerIndex, list);
         ++entry;
     }
     ((TWindowMenu *)list)->update_layout_height(179.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
-    set_selected_index__21TWindowSubComCardListFs(list, selected);
+    ((TWindowMenu *)list)->set_selected_index(selected);
 }
 
 TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
   TWindowMenu *titled_window_menu;
   titled_window_menu = create_titled_window_menu(get_window_layout_position(0x13), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x30), playerIndex);
   titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 1));
-  ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
+  titled_window_menu->set_flag70_bit100();
   titled_window_menu->set_flag70_bit10();
   return titled_window_menu;
 }
@@ -172,7 +170,7 @@ TWindowMenu *TWindowSubTechnique::open_menu() {
 
     titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 0));
-    ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
+    titled_window_menu->set_flag70_bit100();
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
@@ -184,7 +182,7 @@ TWindowMenu *TWindowSubTechnique::open_menu() {
     return titled_window_menu;
 }
 
-static const char lbl_805DD83C[4] = "";
+static const char technique_empty_line[4] = "";
 
 void TWindowSubTechnique::update_selected_help(s32 technique) {
   s32 saved_reg_r30;
@@ -206,7 +204,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
       help_technique = (s16) tech;
       if (((s16) tech) == 0x13)
       {
-        help_window->append_line((saddr)((void *)lbl_805DD83C), 0x82);
+        help_window->append_line((saddr)((void *)technique_empty_line), 0x82);
         return;
       }
       text_builder_reset();
@@ -240,7 +238,7 @@ void TWindowSubTechnique::run_task() {
         if (technique_menu == 0) {
             technique_menu = create_title_window(category_menu->get_selected_value());
         }
-        ((TWindowMenu *)technique_menu)->set_flag_40();
+        technique_menu->set_flag_40();
         TQuestThread::set_status_flag_80(technique_menu);
         TWindowSubTechnique::get_current_selection(&m_20, &m_24, playerIndex);
         category_menu->clear_flag_and_release();
@@ -250,7 +248,7 @@ void TWindowSubTechnique::run_task() {
         if (r == 1 || TWindowSubTechnique::update_selection(&m_20, &m_24, playerIndex) != 0) {
             rebuildTechniqueList((saddr)technique_menu, (s32)(category_menu->get_selected_value()));
             if (r != 0) {
-                ((TWindowSubComCardList *)technique_menu)->set_selected_index(0);
+                technique_menu->set_selected_index(0);
             }
         }
         if (category_menu->is_cancelled() != 0) {
@@ -263,7 +261,7 @@ void TWindowSubTechnique::run_task() {
     }
     case 3:
         help_window = TWindowMessage::create(get_window_layout_position(0x14), technique_help_window_size, 1, (s32)playerIndex);
-        ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
+        help_window->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
         technique_menu->clear_flag_40();
         ((TWindowSubTechnique *)technique_menu)->clear_flag70_bit80();

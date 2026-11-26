@@ -5,7 +5,7 @@
 #include "pso/ui/MenuText.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/prs.h"
 #include "pso/render/GinjaView.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_800F8AA8.h"
@@ -20,7 +20,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_800F8A0C.h"
 #include "pso/unk/text_800F8A18.h"
 #include "pso/unk/text_800F8A78.h"
@@ -70,12 +70,13 @@ extern "C" {
 void copy_name(char *name) {
     strncpy(player_name_copy_buffer, name, 0x10);
     if (strncmp(name, "..", 0x10) == 0) {
-        fn_800F8A78();
+        clear_player_name_copy_buffer();
     }
     change_disc_directory(name);
 }
+}
 
-void fn_800F8A78(void) {
+void clear_player_name_copy_buffer(void) {
     memset(player_name_copy_buffer, 0, 0x10);
 }
 
@@ -811,18 +812,19 @@ void *lbl_8049C5E0[15] = {
     (void *)0x0, (void *)"er_mes04", (void *)0x0, (void *)0x0,
     (void *)"er_mes05", (void *)0x0, (void *)0x0,
 };
+extern "C" {
 __declspec(section ".data") void *lbl_8049C61C[2] = {
     (void *)&lbl_8049C5E0, (void *)0x5,
 };
+}
 
 void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardControl::reset(); }
 
 
-void TLobby__sub_800F8AD0(void) {
+void flag_pending_area_transfer(void) {
     if ((u32) main_phase_deferred_callback != 0U) {
         area_transfer_pending_flag = 1;
     }
-}
 }
 
 s32 is_area_transfer_pending() { return area_transfer_pending_flag ? 1 : 0; }
@@ -849,7 +851,7 @@ void apply_phase_keyboard_mode() {
         break;
     case 1:
     case 2:
-        TLobby::set_keyboard_mode((saddr)TLobby__sub_800F8BD8);
+        TLobby::set_keyboard_mode((saddr)reset_to_fallback_main_phase);
         break;
     default:
         TLobby::set_keyboard_mode(0);
@@ -857,9 +859,7 @@ void apply_phase_keyboard_mode() {
     }
 }
 
-extern "C" {
-void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); }
-}
+void reset_to_fallback_main_phase(void) { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); }
 
 void TLobby::invoke_callback() {
     if (((s32 (*)()) main_phase_deferred_callback) != NULL) {
@@ -937,11 +937,11 @@ void TLobby::draw_fullscreen_texture_quad() {
     v[3] = 432.0f;
     v[5] = v[4] = 0.0f;
     v[7] = v[6] = 1.0f;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_8049C61C));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_8049C61C));
     begin_screen_draw(0);
     set_draw_texture_and_color((saddr)this, -1);
     draw_textured_quad_at_depth(v, (0.5f));
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TLobby::release_menu_font() {
@@ -964,9 +964,7 @@ void TLobby::load_font_texture() {
         }
     }
 }
-extern "C" {
-
-void TLobby__sub_800F8F34(void) { lobby_state_byte_flag = 1; }
+void set_lobby_state_byte_flag(void) { lobby_state_byte_flag = 1; }
 
 #pragma pop
 
@@ -1004,7 +1002,6 @@ typedef struct {
     s32 n;
 } Desc_800F8FB8;
 
-s8 func_801A5E54__Fv(void);
 
 #define disk_error_msg_last ((Msg_800F8FB8 *)disk_error_msg_last)
 #define show_disk_error_msg(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
@@ -1038,7 +1035,7 @@ s32 TLobby::run_disk_error_check() {
     draw_polygon_2d(&d, 4, 0x12, (-0.9f));
     status = DVDGetDriveStatus();
     TCameraCtrl::restore_full_screen_view();
-    if (DVDCheckDisk() == 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0)) {
+    if (DVDCheckDisk() == 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
         reset_system();
     }
     switch (status) {
@@ -1053,7 +1050,7 @@ s32 TLobby::run_disk_error_check() {
         break;
     case 1:
         controller_stuff();
-        if (pending_file_read_flush_requested != 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0)) {
+        if (pending_file_read_flush_requested != 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
             system_reset();
         }
         break;
@@ -1066,7 +1063,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 1);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         }
         break;
@@ -1081,7 +1078,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 2);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         }
         break;
@@ -1094,7 +1091,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 3);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         } else {
             request_pending_file_read_flush();
@@ -1108,7 +1105,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 4);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         } else {
             request_pending_file_read_flush();
@@ -1135,6 +1132,7 @@ s32 TLobby::run_disk_error_check() {
 // decryption, the disc-file wrappers and TLobby::run_frame.
 extern s32 memcard_access_active;
 extern int player_load_load_state;
+extern "C" {
 
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
     fn_800FFE14(fn_800FFE04(), entries, count);
@@ -1292,7 +1290,7 @@ saddr load_text_resource_pair(saddr name) {
 void *load_encrypted_archive_data(const char *name) {
     s32 size;
 
-    return TLobby__sub_800F9A60(name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
+    return load_rel_data_file(name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
 }
 
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs) {
@@ -1306,7 +1304,7 @@ void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *r
     return apply_pointer_relocations(file, relocs);
 }
 
-void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
+void *load_rel_data_file(const char *name, u8 *data, s32 size) {
     TRelDataFile *file = new TRelDataFile(&resource_load_task_root);
 
     memset(file->name, 0, sizeof(file->name));
@@ -1421,7 +1419,7 @@ void TLobby::run_frame() {
     TObject *fade_task;
 
     begin_gx_frame();
-    TLobby__sub_800F8F34();
+    set_lobby_state_byte_flag();
     tl_su->run_tasks();
     tl_camera->run_tasks();
     tl_07->run_tasks();
@@ -1445,8 +1443,8 @@ void TLobby::run_frame() {
         fn_801E2C50();
     }
     restore_saved_depth_alpha_state();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
-        TLobby__sub_800F8AD0();
+    if (static_cast<s8>(poll_reset_request()) != 0) {
+        flag_pending_area_transfer();
     }
     TLobby__sub_803382E4();
     render_tick();

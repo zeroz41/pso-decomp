@@ -43,9 +43,6 @@ LAYOUT_ASSERT(G_WordSelect_6x74_size, sizeof(G_WordSelect_6x74) == 0x20);
 
 // The dispatcher and language formatters share the 16-bit speaker entity ID.
 extern "C" {
-// Spanish prefix categories, loaded from the word-select archive header.
-extern u8 *lbl_805D6E4C;
-
 s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *words, char *buffer);
 s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *words, char *buffer, u16 player);
 s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *words, char *buffer, u16 player);

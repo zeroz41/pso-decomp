@@ -13,7 +13,9 @@ struct TObjCity_Season_EasterEgg : public TObjCitySeasonBase {
     virtual void render();
     virtual void run_task();
 
-    s32 unk_B4;
+    // Stepped by 2 and wrapped at 0xFF each frame like the board's uv_scroll,
+    // never read.
+    s32 uv_scroll;
     // Particle emitter created at the decoration (create_particle_emitter id
     // 0x90) and queued for destruction by the destructor (name inferred).
     TParticleCtrl *emitter;

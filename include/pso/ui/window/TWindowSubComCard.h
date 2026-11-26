@@ -7,45 +7,54 @@
 
 struct GuildCardEntry;
 struct GuildCardSlot;
+struct TRecvChoiceSearchOptions;
+struct ChoiceSearchResultList;
 struct NJS_POINT2;
 struct TWindowComCard;
 struct TWindowMainMenu;
 struct TWindowMenu;
 struct TWindowMessage;
 struct TWindowSubComCardList;
+struct TWindowChoiceSetting;
+struct TWindowUserSort;
 struct TWindowMessageYesNo;
 struct TKeyBoardControl;
 
 struct TWindowSubComCard : public TObject {
-    static void update_display_value(uaddr list_window, uaddr card_window, s32 *last_selected);
+    static void update_display_value(TWindowMenu *list_window, TWindowComCard *card_window, s32 *last_selected);
+    static void update_selection(TWindowMenu *list_window, TWindowComCard *card_window, s32 *last_selected, s32 cards);
+    static void update_selection(TWindowMenu *list_window, TWindowComCard *card_window, s32 *last_selected);
     static GuildCardSlot *get_card_entry(s32 index);
+    static char *get_card_note_text(s32 index);
     TWindowSubComCard(TObject *parent, s32 client);
     virtual ~TWindowSubComCard();
     void rebuild_com_card_list(TWindowMenu *list_window);
     static const char *class_name;
-    u32 sub_80272DE0();
+    TWindowChoiceSetting *create_choice_search_window();
     // Stores the option `val` picked for the category `key` (0 is the com param) and updates the menus.
     void set_choice_search_option(ChoiceSearchSelection *selections, s32 key, saddr val);
     s32 reinit(int);
     s32 init_guild_card_tag(int);
-    s32 sub_802730E0();
+    TWindowMessageYesNo *sub_802730E0();
     TWindowMenu *create_option_list_window(ChoiceSearchSelection *selections, s32 key);
-    void sub_802721D8();
-    u8 *find_entry_rest(void *, s32);
+    void send_short_mail();
+    // Text of the option `selections[index]` picks, or NULL.
+    char *find_option_text(ChoiceSearchSelection *selections, s32 index);
     void send_state_if_dirty();
     void send_choice_search(ChoiceSearchSelection *selections);
     void handle_close_flag();
     virtual void render();
     virtual void run_task();
     u8 state;
-    u8 m_1d;
+    u8 dirty_flags;
     u8 _pad1E[0x2];
     uaddr client_id;
     uaddr selected_card;
     uaddr m_28;
     uaddr m_2c;
     ChoiceSearchSelection choice_selections[5];
-    uaddr chr_select;
+    // The options the server offered, taken from get_choice_search_options once they arrive.
+    TRecvChoiceSearchOptions *search_options;
     TWindowMainMenu *parent_menu;
     TWindowMenu *menu_window;
     // Menu the current state waits on (option lists, menus, player select).
@@ -54,21 +63,23 @@ struct TWindowSubComCard : public TObject {
     TWindowMenu *sub_menu;
     TWindowMessage *message_window;
     TWindowMessageYesNo *confirm_window;
-    uaddr com_card_window;
-    uaddr user_sort_window;
-    uaddr entry_list_window;
+    TWindowComCard *com_card_window;
+    TWindowUserSort *user_sort_window;
+    TWindowChoiceSetting *entry_list_window;
     TKeyBoardControl *keyboard;
     TWindowSubComCardList *card_list;
-    static saddr get_card_slot(s32 index);
-    static void *send_command(saddr index);
-    static u8 *apply_selection(s32 index);
-    static saddr get_com_count();
+    static saddr get_card_slot(s32 slot);
+    static TWindowComCard *send_command(s32 index);
+    static TWindowComCard *apply_selection(s32 index);
+    static ChoiceSearchResultList *get_choice_search_results();
     static void release();
-    static saddr get_chr_select();
+    static TRecvChoiceSearchOptions *get_choice_search_options();
     void clear_and_init(void* local_client_id);
     s32 get_card_id();
     int is_active();
     static int get_keyboard_mode();
+    TKeyBoardControl *create_keyboard();
+    TKeyBoardControl *create_keyboard(s32 card_index);
     static s32 init_card();
     static void remove_entry(s32 index);
     static s32 scroll_list(s32 ply_guild_card_tag);
@@ -79,13 +90,10 @@ struct TWindowSubComCard : public TObject {
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
     uaddr get_field_20();
-    void set_entry_value_clear_flag(s32 idx, s32 val);
-    static s32 create_card_list(saddr parent, saddr card_slot, s32 count, s32 empty_message);
+    static TWindowSubComCardList *create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
-    static u8 *sub_802754EC(saddr parent);
-    static f32 trunc_float(f32 value);
+    static TWindowSubComCardList *sub_802754EC(const NJS_POINT2 *position);
     void set_card_text(saddr src);
-    u8 *get_card_entry_data();
     static GuildCardSlot *find_card_by_id(u32 id);
     static void swap_cards(s32 first_index, s32 second_index);
     static s32 init_com_card();
@@ -109,9 +117,9 @@ struct TWindowSubComCard : public TObject {
     static TWindowMenu *sub_8027337C();
     TWindowMenu *sub_8027346C();
     TWindowMenu *sub_8027353C();
-    s32 create_entry_list_window();
-    s32 open_yesno_dialog();
-    s32 confirm_and_free();
+    TWindowChoiceSetting *create_entry_list_window();
+    TWindowMessageYesNo *open_yesno_dialog();
+    TWindowMessageYesNo *confirm_and_free();
     static void set_com_param(saddr client_id, s32 com_param);
     void set_page(s16 v);
     void set_display_page();
@@ -125,8 +133,8 @@ struct TWindowSubComCard : public TObject {
     TWindowMenu *create_player_select_window();
     TWindowMessage *create();
     static void cleanup(void* p);
-    static u8 *send_cmd_133();
-    static void init_layout();
+    static TWindowSubComCardList *send_cmd_133();
+    static TWindowSubComCardList *init_layout();
     void *get_message_10(s32 index);
 };
 

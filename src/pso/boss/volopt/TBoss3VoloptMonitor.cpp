@@ -8,7 +8,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
@@ -22,7 +22,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/ActorCollision.h"
@@ -330,7 +330,7 @@ void TBoss3VoloptMonitor::render() {
             }
         }
         volopt_monitor_screen.textures = &volopt_monitor_textures->textures[frame];
-        TObjFish::set_global_param(&volopt_monitor_screen);
+        set_texture_list(&volopt_monitor_screen);
         set_draw_list_mask(3);
         push_matrix();
         model_render_flags &= ~0x400;

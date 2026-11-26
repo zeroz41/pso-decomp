@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "pso/render/GinjaTextureInput.h"
 #pragma readonly_strings on
 
@@ -7,13 +8,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_80144AC8.h"
 #include "pso/unk/text_80145804.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLanguage.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
@@ -109,9 +109,9 @@ void load_menu_font(void) {
     menu_font_palette[1] = 0x3FFF;
     menu_font_palette[2] = 0x5FFF;
     menu_font_palette[3] = 0x7FFF;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
     for (i = 0; i < 2; i++) {
-        TLanguage::set_entry_index(i, 0);
+        set_context_texture_palette_bank(i, 0);
     }
     g = (Glyph_80145804 *)mem_alloc(0xB40);
     menu_font_glyph_table = g;

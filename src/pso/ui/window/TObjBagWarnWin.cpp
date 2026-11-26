@@ -22,9 +22,7 @@
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80211C3C.h"
 
-#include "pso/unk/text_8006EBC4.h"
 
 #include "pso/ui/window/TObjBagWarnWin.h"
 
@@ -162,7 +160,7 @@ s32 TObjBagWarnWin::should_show_warning() {
     return 1;
 }
 
-TObjBagWarnWin4P *fn_8006EBC4(saddr parent) {
+TObjBagWarnWin4P *create_bag_warn_window_4p(saddr parent) {
     if (TWindowCtrl::is_map_visible() == 0) {
         return new TObjBagWarnWin4P((TObject *)parent);
     }

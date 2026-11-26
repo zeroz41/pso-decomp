@@ -14,9 +14,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/text_80271400.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/player/PlayerSlots.h"
@@ -52,7 +51,7 @@ struct StatusWindowLayout {
     ValueLayoutRecord rec_14;
 };
 
-StatusWindowLayout lbl_804D0D98 = {
+StatusWindowLayout status_window_layout_entries = {
     15, 1,
     {6, {27.0f, 16.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {124.0f, 67.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
@@ -72,7 +71,7 @@ StatusWindowLayout lbl_804D0D98 = {
 };
 
 WindowDescriptor status_window_settings = {
-    {228.0f, 76.0f}, 70050.0f, &lbl_804D0D98, 0xB28,
+    {228.0f, 76.0f}, 70050.0f, &status_window_layout_entries, 0xB28,
 };
 
 
@@ -133,7 +132,7 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
         draw_photon_blast_gauge_ring(this, context, &pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0xB, context->color);
     { f32 r = get_transition_progress();
     s = -1.0f / (0.0598f + this->draw_depth);
@@ -156,8 +155,8 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
     q.v1 = 0.296875f;
     context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, s);
-    TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(context, &context->inner_x, &context->inner_w) != 0) {
+    end_screen_draw();
+    if (scanline_crosses_window(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&q, context);
         end_window_sweep_draw(0xB);

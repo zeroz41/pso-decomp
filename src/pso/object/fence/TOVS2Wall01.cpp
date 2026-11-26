@@ -14,7 +14,7 @@
 #include "pso/object/fence/TOVS2WallResources.h"
 
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TOVS2Wreck06.h"
 #include "pso/object/TOVS2Wreck05.h"
@@ -29,7 +29,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TOVS2.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/byteswap.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/map/TObjMapCsn.h"
@@ -37,7 +36,6 @@
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/task/TMainTask.h"
@@ -46,6 +44,7 @@
 #include "pso/object/fence/WallHitPacket.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 
@@ -83,10 +82,8 @@ CollisionBody ovs2wall01_collision_parts[7] = {
 
 BmlResource *vs2_wall01_bml_resource;
 
-// ---- text_8017B9AC
-struct WallSetEntry { u8 unk_0[4]; s16 m_4; };
-
-struct Ent_8017B9B0 { s16 a; s16 b; };
+// The raw set entry: its quest_object_entries row sits 4 bytes in.
+struct WallSetEntry { u8 pad_0[4]; s16 set_index; };
 
 extern "C" {
 
@@ -95,8 +92,7 @@ void TOVS2Wall01__sub_8017B9AC(void *) {  }
 
 void handle_6x86_hit_destructible_object(game_command_header *command) {
     WallHitPacket *wall_hit_packet = reinterpret_cast<WallHitPacket *>(command);
-    Ent_8017B9B0 saved_state;
-    Ent_8017B9B0 table_state;
+    QuestObjectEntry saved_state;
     TOVS2Wall01 *o;
     u16 id;
     if (wall_hit_packet == NULL) {
@@ -135,14 +131,14 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
             break;
         }
         o->access_object_saved_state(&saved_state, 1);
-        saved_state.a = o->mode;
+        saved_state.flags = o->mode;
         o->access_object_saved_state(&saved_state, 0);
-        o->apply_saved_state(&saved_state.a, 0);
+        o->apply_saved_state(&saved_state.flags, 0);
     } else {
-        *(s32 *)&table_state = *(s32 *)&quest_object_entries[wall_hit_packet->object_index];
-        if (table_state.a != 1) {
-            table_state.a = wall_hit_packet->flags;
-            TLobby::apply_table_entry(wall_hit_packet->object_index, &table_state);
+        QuestObjectEntry entry = quest_object_entries[wall_hit_packet->object_index];
+        if (entry.flags != 1) {
+            entry.flags = wall_hit_packet->flags;
+            TLobby::apply_table_entry(wall_hit_packet->object_index, &entry);
         }
     }
 }
@@ -162,7 +158,7 @@ void TOVS2Wall01::save_and_send_state(u16 update_reason) {
         pkt.init();
         pkt.header.entity_id = entity_id;
         pkt.flags = state;
-        pkt.object_index = entry->m_4;
+        pkt.object_index = entry->set_index;
         pkt.update_reason = update_reason;
         pkt.remaining_hits = hits_left;
         pkt.send();
@@ -209,7 +205,6 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 
 #pragma pop
 
-// ---- TOVS2Wall01_8017BCC8
 
 
 void TOVS2Wall01::break_wall() {
@@ -248,10 +243,6 @@ f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
 }
 
 
-// ---- TOVS2Wall01_8017BE08
-extern "C" {
-int submit_cursor_candidate(void*, int);
-// ---- TOVS2Wall01_8017C7A4
 #pragma defer_codegen on
 
 WallHitPacket *WallHitPacket::init() {
@@ -276,7 +267,6 @@ void WallHitPacket::byteswap() {
 
 s32 TOVS2Wall01::remaining_hits() { return (s32)hits_left; }
 void TOVS2Wall01::set_remaining_hits(s32 count) { hits_left = count; }
-}
 void TOVS2Wall01::apply_knockback_from_attacker(u8 *, f32) {  }
 f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit((TObjBase *)attacker); }
 f32 TOVS2Wall01::receive_direct_attack(void *attacker, DirectAttackPayload, void *, s32, s32) { return take_hit((TObjBase *)attacker); }
@@ -293,24 +283,24 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     texlist = get_bml_texlist(vs2_wall01_bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
-    m_c8 = TObjMapCsn::create(set_data);
-    m_cc = 1;
+    map_collision = TObjMapCsn::create(set_data);
+    visible = 1;
 }
 TOVS2::~TOVS2() {
-    if (m_c8 != NULL) {
-        m_c8->queue_destruction();
-        m_c8 = NULL;
+    if (map_collision != NULL) {
+        map_collision->queue_destruction();
+        map_collision = NULL;
     }
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
 void TOVS2Wall01::load_resources() {
-  saddr resource;
-  resource = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
-  vs2_wall01_bml_resource = (BmlResource *)resource;
+  BmlResource *resource;
+  resource = new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
+  vs2_wall01_bml_resource = resource;
   TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model(vs2_wall01_bml_resource, 5)),
-                        reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 5)), 10.0f, 0.0f);
+                        reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
     if (vs2_wall01_bml_resource != NULL) {
@@ -319,12 +309,12 @@ void TOVS2Wall01::release_model() {
     }
 }
 void TOVS2::render() {
-    this->m_cc = this->update_object_view_visibility(this->view_range, this->model_radius);
-    if ((s32) this->m_cc == 1) {
+    this->visible = this->update_object_view_visibility(this->view_range, this->model_radius);
+    if ((s32) this->visible == 1) {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -432,7 +422,7 @@ void TOVS2Wall01::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
         if (fading != 0) {
@@ -459,5 +449,5 @@ void TOVS2Wall01::run_task() {
         return;
     }
 }
-int TOVS2Wall01::interact_player_neg1() { return submit_cursor_candidate(this, -1); }
+void TOVS2Wall01::interact_player_neg1() { submit_cursor_candidate(this, -1); }
 void TOVS2Wall01::release() { set_flag8(); queue_destruction(); }

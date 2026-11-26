@@ -4,7 +4,7 @@
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/npc/TObjNpcHosa.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
@@ -17,10 +17,10 @@ s32 status_disp_texture_handle;
 
 void TAdSelectTxtSubGC::render_status() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(status_disp_texture_handle));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(status_disp_texture_handle));
     set_draw_texture_and_color(m_texture, m_color);
     draw_textured_quad_at_depth(&m_quad.x0, 0.25f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdSelectTxtSubGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); render_status(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }

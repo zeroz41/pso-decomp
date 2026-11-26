@@ -9,6 +9,10 @@ struct TWindowCtrlScreen;
 class TWindowCtrlSub;
 
 struct TWindowCtrlMain : public TObject {
+    // The scene hook tables pair this load hook with free_all_windows.
+    static void reset_windows();
+    static void disable_display();
+    static void enable_display();
     static TObject * window_task_root;
     static s32 display_flags;
     static TObject *instance;
@@ -40,8 +44,4 @@ struct TWindowCtrlMain : public TObject {
 
 LAYOUT_ASSERT(TWindowCtrlMain_size, sizeof(TWindowCtrlMain) == 0x1C);
 
-extern "C" {
-// TWindowCtrlMain::reset_all(0): the load hook the scene hook tables pair with free_all_windows.
-void TWindowCtrlMain__sub_8024D838(void);
-}
 #endif

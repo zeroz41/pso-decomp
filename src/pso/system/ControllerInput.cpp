@@ -258,7 +258,8 @@ void update_pad_recalibration(void) {
     }
 }
 
-s32 func_801A5E54(void) {
+// Resets on the reset button while the disc is out; reports a pending reset unless a memory card is busy.
+s32 poll_reset_request(void) {
     if ((DVDCheckDisk() == 0) && (TKeyBoardControl::check_reset_button() != 0)) {
         reset_system();
     }
@@ -602,8 +603,6 @@ void accumulate_key_bits(s32 key, u32 *buttons) {
 }
 
 
-extern "C" {
-
 void set_stick_button_bits(ControllerInputContext *pad, u32 mask, u32 previous) {
     pad->held_with_sticks |= mask;
     if (previous & mask) {
@@ -611,7 +610,6 @@ void set_stick_button_bits(ControllerInputContext *pad, u32 mask, u32 previous) 
         return;
     }
     pad->pressed_with_sticks |= mask;
-}
 }
 
 void map_c_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous) {

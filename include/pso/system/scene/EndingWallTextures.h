@@ -5,9 +5,7 @@
 
 struct NJS_TEXLIST;
 
-extern "C" {
 extern NJS_TEXLIST *ending_ab_wall_texture_list;
-}
 
 NJS_TEXLIST *get_ending_ab_wall_texture_list(void);
 

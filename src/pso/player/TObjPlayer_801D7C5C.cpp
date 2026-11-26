@@ -5,27 +5,21 @@
 
 extern "C" {
 
-s32 can_use_palette_action_for_entry__10TObjPlayerFP10TObjPlayer(s32, s32);
-
-void TObjPlayer::update_party_cursors(saddr cursors, saddr player) {
-    s32 offset;
+void TObjPlayer::update_party_cursors(TPlyDispConfigSmth *palette, TObjPlayer *player) {
     s32 i;
-    saddr entry;
+    gc_tag *tag;
 
     i = 0;
-    offset = 0;
     do {
-        s32 base = (saddr)TObjPlayer__sub_801D84B0((s32 *)cursors);
-        entry = base + offset;
-        if (((TObjPlayer *)player)->is_palette_slot_enabled(i) == 0) {
-            set_action_channel_inactive((u8 *)entry);
-        } else if (can_use_palette_action_for_entry__10TObjPlayerFP10TObjPlayer(entry, player) != 0) {
-            set_action_channel_active((u8 *)entry);
+        tag = &palette->get_current_row()[i];
+        if (player->is_palette_slot_enabled(i) == 0) {
+            set_action_channel_inactive((u8 *)tag);
+        } else if (((TObjPlayer *)tag)->can_use_palette_action_for_entry(player) != 0) {
+            set_action_channel_active((u8 *)tag);
         } else {
-            set_action_channel_inactive((u8 *)entry);
+            set_action_channel_inactive((u8 *)tag);
         }
         i += 1;
-        offset += 4;
     } while (i < 4);
 }
 

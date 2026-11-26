@@ -14,8 +14,6 @@ public:
     void *message_window;
 
     TObjItemOKWindow(TObject *parent);
-    // never defined; keeps the vtable hand-written in TQuestThread.cpp from being emitted
-    virtual void render();
     virtual ~TObjItemOKWindow();
 
     static void *create(void *parent);

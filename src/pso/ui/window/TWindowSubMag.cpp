@@ -60,14 +60,14 @@ s32 text_builder_append();
 const char *TWindowSubMag::class_name = "TWindowSubMag";
 
 // Window positions (x, y): mag slot list, the two equip-kind lists, message window.
-extern const f32 lbl_8044F9E8[2] = {144.0f, 68.0f};
-extern const NJS_POINT2 lbl_8044F9F0 = {206.0f, 184.0f};
-extern const NJS_POINT2 lbl_8044F9F8 = {308.0f, 124.0f};
-extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
+extern const f32 mag_texture_window_extent[2] = {144.0f, 68.0f};
+extern const NJS_POINT2 mag_equip_kind_window_size = {206.0f, 184.0f};
+extern const NJS_POINT2 mag_feed_equip_kind_window_size = {308.0f, 124.0f};
+extern const f32 mag_message_window_size[2] = {214.0f, 184.0f};
 void append_text_space(void);
 void text_builder_reset(void);
 
-extern "C" const char lbl_805DD648[] = "";
+extern "C" const char mag_empty_line[] = "";
 // Deferred code generation: the functions are written last to first (see configure.py).
 
 TItemData *TWindowHelpItem::get_mag_state() { return active_item; }
@@ -119,15 +119,15 @@ TWindowSubMag::~TWindowSubMag() {
         photon = 0U;
     }
     if (list2 != 0U) {
-        ((TWindowBase *)list2)->close();
+        list2->close();
         list2 = 0U;
     }
     if (card != 0U) {
-        ((TWindowBase *)card)->close();
+        card->close();
         card = 0U;
     }
     if (slotwin != 0U) {
-        ((TWindowBase *)slotwin)->close();
+        slotwin->close();
         slotwin = 0U;
     }
     if (help != 0U) {
@@ -135,7 +135,7 @@ TWindowSubMag::~TWindowSubMag() {
         help = 0U;
     }
     if (list != 0U) {
-        ((TWindowBase *)list)->close();
+        list->close();
         list = 0U;
     }
 }
@@ -152,7 +152,7 @@ void TWindowSubMag::run_task() {
     case 0:
     case 1:
         if (card != NULL) {
-            ((TWindowBase *)card)->close();
+            card->close();
             card = NULL;
         }
         if (help == NULL) {
@@ -160,7 +160,7 @@ void TWindowSubMag::run_task() {
             help->set_depth(get_main_menu_layer_depth((u8 *)parent, 5));
         }
         if (slotwin == NULL) {
-            slotwin = fn_802628C0((void *)get_window_layout_position(0xC), lbl_8044F9E8, client_id);
+            slotwin = create_load_item_texture_window((void *)get_window_layout_position(0xC), mag_texture_window_extent, client_id);
         }
         help->unlock_page_flip();
         list->refresh_mag_item_list(2);
@@ -188,7 +188,7 @@ void TWindowSubMag::run_task() {
             photon = NULL;
         }
         if (list2 != NULL) {
-            ((TWindowBase *)list2)->close();
+            list2->close();
             list2 = NULL;
         }
         if (help != NULL) {
@@ -212,7 +212,7 @@ void TWindowSubMag::run_task() {
         break;
     case 5:
         if (card != NULL) {
-            ((TWindowBase *)card)->close();
+            card->close();
             card = NULL;
         }
         ((TWindowSubStatusDisp *)(list))->init_scroll_pos();
@@ -292,7 +292,7 @@ void TWindowSubMag::run_task() {
         break;
     case 14:
         if (card != NULL) {
-            ((TWindowBase *)card)->close();
+            card->close();
             card = NULL;
         }
         if (help != NULL) {
@@ -330,7 +330,7 @@ saddr TWindowSubMag::setup_list() {
     const NJS_POINT2 *window_layout_position;
 
     window_layout_position = get_window_layout_position(7);
-    equip_kind_window = create_equip_kind_window(window_layout_position, &lbl_8044F9F0, this->client_id);
+    equip_kind_window = create_equip_kind_window(window_layout_position, &mag_equip_kind_window_size, this->client_id);
     equip_kind_window->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x29));
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)parent, 0));
     equip_kind_window->set_flag70_bit10();
@@ -342,7 +342,7 @@ saddr TWindowSubMag::create_list() {
     TWindowSubEquipKind *equip_kind_window;
 
     const NJS_POINT2 *window_layout_position = get_window_layout_position(0xD);
-    equip_kind_window = create_equip_kind_window(window_layout_position, &lbl_8044F9F8, this->client_id);
+    equip_kind_window = create_equip_kind_window(window_layout_position, &mag_feed_equip_kind_window_size, this->client_id);
     equip_kind_window->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)parent, 2));
     equip_kind_window->set_flag70_bit10();
@@ -390,7 +390,7 @@ void *TWindowSubMag::create() {
     const NJS_POINT2 *window_layout_position;
 
     window_layout_position = get_window_layout_position(0xB);
-    object = TWindowMessage::create(window_layout_position, lbl_8044FA00, 1, this->client_id);
+    object = TWindowMessage::create(window_layout_position, mag_message_window_size, 1, this->client_id);
     ((TWindowBase *)object)->set_depth(get_main_menu_layer_depth((u8 *)parent, 4));
     *(s32 *)((s8 *)object + 0x5C) = 0x186A0;
     call_if_split_screen((uaddr)object, this->client_id);
@@ -471,7 +471,7 @@ loop_1:
 void TWindowSubMag::update_displayed_item() {
     s32 cursor_value;
 
-    cursor_value = ((TWindowMenuIconLine *)this->list)->get_cursor_value();
+    cursor_value = this->list->get_cursor_value();
     if (cursor_value != (s32) this->displayed_item) {
         this->displayed_item = cursor_value;
         help->set_displayed_item_by_id(cursor_value);
@@ -486,7 +486,7 @@ void TWindowSubMag::update_mag_help() {
     if (selected_blast != (s8) this->m_1d) {
         this->m_1d = (u8) selected_blast;
         if (selected_blast == -1) {
-            ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)lbl_805DD648), 0x80);
+            ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)mag_empty_line), 0x80);
             return;
         }
         ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), 0x80);

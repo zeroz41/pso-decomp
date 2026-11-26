@@ -19,7 +19,7 @@ struct TObjLuker : public TObjBase {
     s32 effect_pending;    // 1 when the effect is to be made again
     s32 slots_locked;      // 1 while TWindowCtrl's slots are locked for the confirmation
     void show_part(u16 part_index);
-    void hide_part(u16 part);
+    void hide_part(u16 part_index);
     void update_floor_name_windows();
     void open_destination_windows();
     void transfer_to_town();

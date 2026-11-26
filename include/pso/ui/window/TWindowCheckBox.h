@@ -20,7 +20,7 @@ public:
     void add_menu_item(s32 text, s32 item);
     void draw_status(s32 text, s32 item);
     void dispatch_without_flags(s32 text, s32 item);
-    void sub_80248B7C(s32);
+    void init_check_box(s32);
     void sync_level_field();
     s16 selected_index;
     u8 pad_8A[0x2];

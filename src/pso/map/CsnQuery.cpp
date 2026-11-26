@@ -7,13 +7,11 @@
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_8007A7B8.h"
-#include "pso/unk/text_8007A7A0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/ScratchVectors.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #pragma inline_depth(1)
 #pragma dont_inline off
@@ -830,7 +828,7 @@ void TObjButterflyLobby::free_singleton_805D4E6C() {
 void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
 
 extern "C" {
-void __construct_array(void *, void *, s32, s32, s32);
+void __construct_array(void *, CsnContact *(*)(CsnContact *), s32, s32, s32);
 }
 extern "C" {
 

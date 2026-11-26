@@ -28,14 +28,7 @@ struct TWindowEffectParty : public TObject {
 
 LAYOUT_ASSERT(TWindowEffectParty_size, sizeof(TWindowEffectParty) == 0x34);
 
-extern "C" {
-void *TWindowCtrl__sub_8024FB80(s8 i);
-}
+void *get_simple_status_window(s8 i);
 
-// --- C functions defined in TWindowEffectParty.cpp ---
-extern "C" {
-void *TWindowCtrl__sub_8024FB80(s8 i);
-}
-// --- end of C functions
 
 #endif

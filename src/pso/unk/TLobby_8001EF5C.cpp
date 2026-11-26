@@ -7,7 +7,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/memory.h"
 #include "pso/render/NinjaUtil.h"
@@ -17,8 +16,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_800FA2A0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
+#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/unk/text_803DD5E0.h"
 
 
 struct BmlModelLoadRequest {
@@ -87,18 +89,16 @@ u8 * lobby_bml_read_buffer;
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
 extern "C" {
 s32 TLobby__sub_800F9FF4(saddr);
-s32 release_texture_list(void *);
 
-extern const char *lbl_805D2B10;
 }
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
+// Whether the archive has finished loading (set_flag_and_notify sets 0x400 in its flags).
+s32 is_bml_loaded(BmlResource *resource) {
+    return (resource->flags >> 10) & 1;
+}
+
 extern "C" {
-void *load_nj_chunk_model_resource(u8 *, u32 *, u32 *);
-
-
 extern "C" {
-int fn_8001ED90(void* p) { return (*(u32*)((char*)p + 0x0) >> 10) & 0x1; }
-
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }

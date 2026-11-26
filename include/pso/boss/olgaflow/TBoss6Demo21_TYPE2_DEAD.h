@@ -9,7 +9,6 @@
 class ModelNodePositionCapture;
 struct TBoss6Zanzo;
 struct TBoss6PlotFalz;
-struct TObjFish;
 class TParticleCtrl;
 
 class TBoss6Demo21_TYPE2_DEAD : public TObject {
@@ -38,6 +37,7 @@ public:
     void draw_fading_model_5();
     void draw_fading_model_4();
     static const char *name;
+    static const char class_name_string[];
 };
 LAYOUT_ASSERT(TBoss6Demo21_TYPE2_DEAD_size, sizeof(TBoss6Demo21_TYPE2_DEAD) == 0xB4);
 

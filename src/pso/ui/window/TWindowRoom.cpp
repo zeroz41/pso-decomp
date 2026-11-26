@@ -41,7 +41,7 @@ void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
 }
 
 void TWindowRoom::draw_tab(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, tabParameter);
+    draw_window_tab(context, &context->inner_x, tabParameter, 3);
 }
 
 void TWindowRoom::render() {
@@ -49,7 +49,7 @@ void TWindowRoom::render() {
     draw_tab(context);
     draw_visible_window_entries(this, &entry_list, context);
 }
-void TWindowRoom::run_task() { update_window(); ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowRoom::run_task() { update_window(); this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowRoom::~TWindowRoom() {}
 
@@ -63,5 +63,5 @@ TWindowRoom::TWindowRoom(char *title)
     target_size[0] = 10.0f + (entry->x + entry->width);
     target_position[0] -= target_size[0];
     this->save_position();
-    tabParameter = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
+    tabParameter = calc_title_overflow_width(frame_size[0] - 16.0f);
 }

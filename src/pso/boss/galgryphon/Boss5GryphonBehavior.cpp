@@ -1,4 +1,5 @@
 #include "pso/system/SubtractiveRng.h"
+#include "pso/math/FloatRound.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #pragma defer_codegen on
@@ -58,7 +59,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/galgryphon/Boss5GryphonActionScripts.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
@@ -87,13 +88,14 @@
 #pragma dont_inline off
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 // TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
@@ -351,7 +353,6 @@ s32 boss5_gryphon_resistance_param_ids[1] = { 0x1E };
 const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 }
 
-extern "C" {
 void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
                            AnimationMotion *motion, s32 loop, f32 frame) {
     particle->model = model;
@@ -375,7 +376,6 @@ void G_GalGryphonBossActions_6x9F::init() {
     header.size = 4;
 }
 
-}
 void G_GalGryphonBossActions_6x9F::bswap() {
     header.bswap();
     bswap_32(&target_id);
@@ -2704,8 +2704,8 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
         subtractive_rng_seed(&this->rng, this->motion->args.seed);
         this->rotation_x = 0x4000;
         this->dive.frame = 0;
-        this->dive.frame_limit = (f32)this->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_seventy_five);
-        this->dive.fall_speed = gryphon_offscreen_drop / ((f32)this->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_thirty_two_and_half));
+        this->dive.frame_limit = (f32)this->motion->timer - round_away_from_zero(gryphon_seventy_five);
+        this->dive.fall_speed = gryphon_offscreen_drop / ((f32)this->motion->timer - round_away_from_zero(gryphon_thirty_two_and_half));
         this->dive.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
@@ -3619,7 +3619,7 @@ void TBoss5Gryphon::render_model() {
 
 void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     RenderFadeState *fade;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     TObjEneDD::clear_global_flag_400();
     saved_model_render_flags = model_render_flags;
     set_material_alpha_compare_reference(0);
@@ -3782,7 +3782,7 @@ void TBoss5Gryphon::render_demo() {
     f32 frame;
     s32 action;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

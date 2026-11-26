@@ -17,10 +17,8 @@ struct TOKeyJungleMain : public TOKey {
     virtual void debug_draw_key_id();
     virtual void play_activate_sound();
     void render();
-    static void init_key_slots(void* _w0);
     f32 switch_frame;   // the fe_obj_start_switch motion's frame
     f32 sw_naka_frame;  // the fe_obj_start_sw_naka motion's frame
-    static void dispatch_by_phase(s32 phase, u16 flag);
     static void *create(void *set_data);
     static void release_static_resource();
     static void load_static_resource();
@@ -29,4 +27,8 @@ struct TOKeyJungleMain : public TOKey {
 };
 
 LAYOUT_ASSERT(TOKeyJungleMain_size, sizeof(TOKeyJungleMain) == 0xF0);
+// The floor resource pair that clears the jungle key story flags of every bank.
+void init_jungle_key_slots();
+void unload_jungle_key_slots();
+
 #endif

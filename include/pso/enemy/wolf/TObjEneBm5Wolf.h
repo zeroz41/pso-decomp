@@ -118,8 +118,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void remove_from_instance_list();
     void add_to_instance_list();
     s32 get_group_id();
-    // &spawn_position: the pack leader's, copied into each member's group_anchor. Its code follows get_group_id
-    // but sits in the TObjCGrass file.
+    // &spawn_position: the pack leader's, copied into each member's group_anchor.
     Vec *get_spawn_position();
     static TObjEneBm5Wolf *find_pack_leader(s32 id);
     void advance_pose_turn(s32 target);

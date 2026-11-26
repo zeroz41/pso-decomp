@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/math/FloatRound.h"
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -258,7 +259,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
 }
 
 // inferred: message_window_layout_entries, the layout table message_window_settings points at: one
-// text record per row, rows set to the line count by TLobby__sub_80269DA4.
+// text record per row, rows set to the line count by set_message_window_size.
 struct MessageWindowLayout {
     u32 cols;
     u32 rows;
@@ -277,20 +278,20 @@ WindowDescriptor message_window_settings = {
 
 int TWindowMessage::append_line(int text, int flags) { return append_message_window_line(this, text, flags, -1); }
 
-void TLobby__sub_80269C90(void) {
+void set_message_window_default_flags(void) {
     message_window_settings.flags = 3;
 }
 
-void TLobby__sub_80269CA4(s32 arg0) {
+void set_message_window_flags(s32 arg0) {
     message_window_settings.flags = arg0;
 }
 
-WindowDescriptor *TLobby__sub_80269CB4(void) {
+WindowDescriptor *get_message_window_settings(void) {
     return &message_window_settings;
 }
 
 TWindowMessage *TWindowMessage::create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client) {
-    TLobby__sub_80269DA4(size, rows);
+    set_message_window_size(size, rows);
     return new TWindowMessage(position, rows, client);
 }
 
@@ -299,10 +300,10 @@ TWindowMessage *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, s
 }
 
 TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
-    return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
+    return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
 }
 
-void TLobby__sub_80269DA4(const void *extent, u32 rows) {
+void set_message_window_size(const void *extent, u32 rows) {
     const f32 *size = static_cast<const f32 *>(extent);
     NJS_POINT2 *dst = (NJS_POINT2 *)&message_window_settings;
     dst->x = size[0];

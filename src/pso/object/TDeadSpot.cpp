@@ -6,7 +6,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TDeadSpot.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"
@@ -23,7 +22,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
@@ -39,7 +37,6 @@ struct CornerRow {
 
 extern "C" {
 extern const f32 lbl_805DA380;
-u32 __cvt_fp2unsigned(f32);
 
 #pragma push
 #pragma readonly_strings on
@@ -109,7 +106,7 @@ TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s3
     rotate_matrix_y(0, yaw);
     rotate_matrix_z(0, pitch);
     rotate_matrix_x(0, random_angle());
-    fn_803D8DE0(0, basis, basis, 2);
+    mult_vec_array_sr(0, basis, basis, 2);
     pop_matrix();
     b0x = basis[0].x;
     b0y = basis[0].y;
@@ -198,7 +195,7 @@ void TDeadSpot::render() {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         setup_alpha_test_render_state(0x8F);
-        TObjFish::set_global_param(texture);
+        set_texture_list(texture);
         set_texture_num(selector);
         draw_particle_strip(verts, 4, 1);
         restore_saved_depth_alpha_state();
@@ -244,7 +241,7 @@ void TUnk_80494A10::run_task() {
             alpha = 1.0f;
         }
         p = verts;
-        c = __cvt_fp2unsigned(255.0f * alpha) << 24 | 0xFF0000 | 0xFFFF;
+        c = (u32)(255.0f * alpha) << 24 | 0xFF0000 | 0xFFFF;
         for (i = 0; i < 4; i++) {
             p->color = c;
             p++;
@@ -263,7 +260,7 @@ TDeadSpotEmitter::TDeadSpotEmitter(TObject *parent, Vec *position, TParticleCtrl
 #pragma pop
 TDeadSpotEmitter::~TDeadSpotEmitter() {}
 
-void TDeadSpotEmitter::vfunc_6() {
+void TDeadSpotEmitter::place_emitter() {
   Vec stack;
   f32 x;
   s32 angle;
@@ -284,7 +281,7 @@ void TDeadSpotEmitter::run_task() {
     timer++;
     if (timer >= interval) {
         timer = 0;
-        vfunc_6();
+        place_emitter();
     }
 }
 
@@ -295,7 +292,7 @@ TDeadSpotGroundEmitter::TDeadSpotGroundEmitter(TObject *parent, Vec *position, T
 TDeadSpotGroundEmitter::~TDeadSpotGroundEmitter() {}
 #pragma push
 #pragma opt_common_subs off
-void TDeadSpotGroundEmitter::vfunc_6() {
+void TDeadSpotGroundEmitter::place_emitter() {
     Vec stack;
     f32 x;
     s32 angle;

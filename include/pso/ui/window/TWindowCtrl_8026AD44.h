@@ -5,9 +5,7 @@
 
 struct TWindowMessageLog;
 
-extern "C" {
-void TWindowCtrl__sub_8026AD60(void);
-void TWindowCtrl__sub_8026AD78(TWindowMessageLog *window_message_log);
-}
+void clear_message_log_window(void);
+void set_message_log_window(TWindowMessageLog *window_message_log);
 
 #endif

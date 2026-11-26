@@ -4,13 +4,16 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+class TParticleCtrl;
+
 struct TObjMistCtrl : public TObjBase {
     static const char *class_name;
-    TObjMistCtrl(saddr parent, uaddr);
+    TObjMistCtrl(TObject *parent, void *set_data);
     virtual ~TObjMistCtrl();
-    void sub_802AF64C();
+    static TObjMistCtrl *create(TObject *parent, void *set_data);
+    void follow_camera();
     void run_task();
-    u8 unk_90[0x4];
+    TParticleCtrl *particle;
 };
 
 LAYOUT_ASSERT(TObjMistCtrl_size, sizeof(TObjMistCtrl) == 0x94);

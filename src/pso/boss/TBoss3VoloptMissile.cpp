@@ -7,7 +7,7 @@
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
@@ -27,7 +27,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -67,7 +67,7 @@ void TBoss3VoloptMissile::explode_and_destroy() {
 }
 
 void TBoss3VoloptMissile::render() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_x(0, rotation_x);

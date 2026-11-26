@@ -8,10 +8,10 @@ struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct TOJungleDesign : public TObjCollidable {
-    TOJungleDesign(saddr, saddr);
+    TOJungleDesign(TObject *parent, void *set_data);
     virtual ~TOJungleDesign();
-    uaddr m_ac;
-    u32 m_b0;
+    NJS_OBJECT *design_model;
+    s32 variant;  // set_params[0], clamped to 0..2
     void init_design_variant();
     // The floor table's resource pair (free_shared_resource: name inferred).
     static void free_shared_resource();
@@ -22,9 +22,7 @@ struct TOJungleDesign : public TObjCollidable {
 
 LAYOUT_ASSERT(TOJungleDesign_size, sizeof(TOJungleDesign) == 0xB4);
 
-extern "C" {
 NJS_TEXLIST *get_jungle_design_texlist(s32 index);
 NJS_OBJECT *get_jungle_design_model(s32 index);
-}
 
 #endif

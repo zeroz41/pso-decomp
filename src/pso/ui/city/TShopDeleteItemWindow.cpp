@@ -8,7 +8,6 @@
 #include "pso/ui/city/TShopDeleteItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -208,8 +207,8 @@ void TShopDeleteItemWindow::update_item_select(void *window_ptr) {
                 id = ((TObjBase *)(window->player))->get_entity_id();
                 window->confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
                 window->confirm_menu->set_ready_flag();
-                ((TWindowSubComCardList *)window->confirm_menu)->set_selected_index(1);
-                ((TWindowAddition *)window->confirm_menu)->set_position_xy(window->get_scale(), window->get_scale());
+                window->confirm_menu->set_selected_index(1);
+                window->confirm_menu->set_position_xy(window->get_scale(), window->get_scale());
                 window->set_state(3);
                 window->display_shop_message(0x4D, 1);
             }
@@ -225,8 +224,8 @@ void TShopDeleteItemWindow::handle_number_input() {
             u32 id = ((TObjBase *)(player))->get_entity_id();
             confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
             confirm_menu->set_ready_flag();
-            ((TWindowSubComCardList *)confirm_menu)->set_selected_index(1);
-            ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), get_scale());
+            confirm_menu->set_selected_index(1);
+            confirm_menu->set_position_xy(get_scale(), get_scale());
         }
         delete_count = number_input->get_value();
         number_input->close();

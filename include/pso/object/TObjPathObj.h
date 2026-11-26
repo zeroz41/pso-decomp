@@ -6,6 +6,27 @@
 
 struct AnimationMotion;
 
+// A row of a path object's profile table (profile picks it): the path motion, the path and motion
+// frame steps per frame, how far ahead along the path it looks to steer, and its turn step
+// (182 is one degree in 0x10000 units).
+struct PathProfile {
+    s32 path_motion;
+    f32 path_speed;
+    f32 motion_speed;
+    f32 look_ahead;
+    s32 turn_step;
+};
+
+// TObjJungleEbi's rows add flags: update_path_follow_rotation only steers while bit 0 is set.
+struct EbiPathProfile {
+    s32 path_motion;
+    f32 path_speed;
+    f32 motion_speed;
+    f32 look_ahead;
+    s32 turn_step;
+    s32 flags;
+};
+
 // An object flown along a path motion: the path's root node gives its offset from the set position.
 struct TObjPathObj : public TObjBase {
     TObjPathObj(TObject *parent, void *set_data);
@@ -21,7 +42,7 @@ struct TObjPathObj : public TObjBase {
     // Debug line along the whole path, one segment per step frames.
     void draw_line_strip(NJS_OBJECT *node, AnimationMotion *motion, f32 step);
     f32 view_distance; // render's first update_object_view_visibility argument; 500 unless a subclass sets it
-    f32 m_94;
+    f32 view_radius;   // render's second update_object_view_visibility argument
 };
 
 LAYOUT_ASSERT(TObjPathObj_size, sizeof(TObjPathObj) == 0x98);

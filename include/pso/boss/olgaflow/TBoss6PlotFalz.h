@@ -5,10 +5,8 @@
 #include "pso/enemy/TObjEnemy.h"
 struct TObjPlayer;
 
-extern "C" {
 // Nonzero when the game runs on Normal difficulty (game_difficulty_selection == 0).
 s32 is_normal_difficulty(void);
-}
 
 // One step of the boss's pseudo-random sequence (the ANSI C rand() recurrence on a caller-held seed):
 // returns the next value of seed (next_random_seed is an inferred name).
@@ -70,7 +68,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6Demo15_TYPE2_WAIT *wait_demo;  // the DEMO_WAIT_T2 scene object
     static TBoss6PlotFalz *get_instance();
     static TBoss6Type2 *get_type2();
-    static s32 damage_player_hp(s32 client, u32 damage);
+    static s32 damage_player_hp(u16 client, u32 damage);
     static s32 sort_active_players();
     static u16 get_sorted_player(s32 i);  // i-th client id of sort_active_players' order
     static u16 pick_random_active_player();
@@ -103,6 +101,9 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void spawn_type1();
     static void apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range);
     static void set_fade_material_color(f32 f);
+    // Restores the render flags and polygon masks set_fade_material_color or apply_fade_material_color
+    // saved.
+    static void restore_fade_material_color();
     static void update_camera_target();
     static void apply_fade_material_color(f32 fade, f32 r, f32 g, f32 b);
     static int get_phase();
@@ -168,9 +169,7 @@ extern u16 boss6_plot_falz_player_order_table[];
 // 1 on the main floor phase 0xF or in split screen (update_active_flag, get_phase).
 extern s32 plot_falz_phase;
 
-extern "C" {
 void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio);
-}
 
 // TRUE when the sphere (pos, r) is out of the arena (inferred from TBoss6Rock).
 s32 boss6_sphere_blocks_player_view(void *pos, f32 r);

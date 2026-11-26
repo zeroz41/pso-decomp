@@ -12,7 +12,7 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 
 #include "pso/unk/TLobby_802268F4.h"
@@ -190,7 +190,7 @@ void TPhotonFarlla::render() {
     if (visible != 0) {
         farlla_photon_blast_model_buffers->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);

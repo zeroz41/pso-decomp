@@ -28,7 +28,6 @@ extern const char *medical_center_mes_class_name;
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_8022350C.h"
 
 s32 medical_center_slot_active_flags[4];
 s32 TMedicalCenterMes::slot_flags[4];
@@ -149,20 +148,20 @@ void TMedicalCenterSequence::handle_window_result() {
     if (yes_no_menu != NULL && yes_no_menu->is_decided() != 0) {
         selected = yes_no_menu->get_selected_value();
         if (selected == 0) {
-            ((TWindowBase *)yes_no_menu)->close();
+            yes_no_menu->close();
             yes_no_menu = NULL;
             set_state(4);
             return;
         }
         if (selected == 1) {
-            ((TWindowBase *)yes_no_menu)->close();
+            yes_no_menu->close();
             yes_no_menu = NULL;
             set_state(5);
             return;
         }
     }
     if (yes_no_menu != NULL && yes_no_menu->is_cancelled() != 0) {
-        ((TWindowBase *)yes_no_menu)->close();
+        yes_no_menu->close();
         yes_no_menu = NULL;
         set_state(5);
     }
@@ -263,14 +262,14 @@ void TMedicalCenterMes::run_task() {
         create_message_window(get_window_layout_position(0x2C), (saddr)pos, id);
         format_shop_message(0x25, 1);
         if (player != NULL) {
-            ((TObjPlayer *)player)->init_effect_5f0();
+            player->init_effect_5f0();
         }
         state = 1;
         break;
     }
     case 1:
         if (is_ready() != 0 && player != NULL) {
-            if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)player)->get_controller_port()], 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[player->get_controller_port()], 4) != 0) {
                 state = 2;
             }
         }

@@ -2,7 +2,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
@@ -11,14 +11,13 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
 
-extern const char *TAdBackTxtGC__name;
 
 NJS_TEXLIST *TAdBackTxtGC::backtext_texture_list;
 
 void TAdBackTxtGC::draw_character_background_frame(s32 texture_index, s32 color) {
     f32 quad[8];
     begin_screen_draw(1);
-    TObjFish::set_global_param(backtext_texture_list);
+    set_texture_list(backtext_texture_list);
     set_draw_texture_and_color(texture_index, color);
     quad[0] = 0.0f;
     quad[1] = 0.0f;
@@ -29,7 +28,7 @@ void TAdBackTxtGC::draw_character_background_frame(s32 texture_index, s32 color)
     quad[6] = 1.0f;
     quad[7] = 1.0f;
     draw_textured_quad_at_depth(quad, m_depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdBackTxtGC::render() {
@@ -64,7 +63,7 @@ TAdBackTxtGC::~TAdBackTxtGC() {
 }
 
 TAdBackTxtGC::TAdBackTxtGC(TObject *parent) : TObject(parent) {
-    m_name = TAdBackTxtGC__name;
+    m_name = TAdBackTxtGC::name;
     frame = -1;
     m_depth = 0.0025641026f;
     render_direct = 1;
@@ -76,7 +75,7 @@ NJS_TEXNAME TAdBackTxtGC_backtext_tex_names[5] = {
     { "f256_backtext04", 0, 0 }, { "f256_backtext05", 0, 0 },
 };
 __declspec(section ".data") NJS_TEXLIST TAdBackTxtGC_backtext_tex_list = { TAdBackTxtGC_backtext_tex_names, 5 };
-const char *TAdBackTxtGC__name = "TAdBackTxtGC";
+const char *TAdBackTxtGC::name = "TAdBackTxtGC";
 
 void TAdSinglePlyChrSelectGC::free_singleton_805D65C0() {
     if (TAdBackTxtGC::backtext_texture_list != NULL) {

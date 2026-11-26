@@ -40,9 +40,9 @@ TWindowArea *create_window_area() {
     TWindowArea *object;
     u8 *title_entry;
     object = new TWindowArea();
-    fn_802449E0((u8 *)object);
-    fn_8024450C(object);
-    title_entry = (u8 *)((TWindowRoom *)object)->get_title_entry();
+    hide_window((u8 *)object);
+    update_area_count_text(object);
+    title_entry = (u8 *)object->get_title_entry();
     *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)title_entry)->get_field_20()));
     return object;
 }
@@ -55,15 +55,15 @@ TWindowArea *create_area_window(void *text) {
     u8 *title_entry;
     object = new TWindowArea();
     ((TWindowSubStatusDisp *)object)->set_entry_display_value((saddr)text);
-    fn_802449E0((u8 *)object);
+    hide_window((u8 *)object);
     title_entry = reinterpret_cast<u8 *>(object->get_title_entry());
     *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
     return object;
 }
 #pragma pop
 
-void fn_8024450C(TWindowArea *area) {
-    s32 count = TObjNewFloorWin__sub_8007410C();
+void update_area_count_text(TWindowArea *area) {
+    s32 count = get_current_lobby_id();
     s32 total = get_area_total();
     ((TWindowSubStatusDisp *)area)->set_count_ratio_text(count, total);
 }
@@ -81,7 +81,7 @@ void TWindowSubStatusDisp::set_count_ratio_text(s32 count, s32 total) {
 
 TWindowAddition::TWindowAddition(u8 *descriptor, s16 client, u8 *parent)
     : TWindowBase(descriptor, client, parent) {
-    sub_802443B4(descriptor);
+    init_addition(descriptor);
 }
 
 TWindowAddition::~TWindowAddition() {}

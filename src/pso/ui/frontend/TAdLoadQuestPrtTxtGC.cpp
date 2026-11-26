@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdLoadQuestGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -10,7 +9,7 @@
 void TAdLoadQuestPrtTxtGC::render() {  }
 
 TAdLoadQuestPrtTxtGC *quest_load_prt_txt_by_slot[3] = {NULL, NULL, NULL};
-const char *TAdLoadQuestPrtTxtGC__name = "TAdLoadQuestPrtTxtGC";
+const char *TAdLoadQuestPrtTxtGC::name = "TAdLoadQuestPrtTxtGC";
 
 void TAdLoadQuestPrtTxtGC::run_task() {
     s32 i;
@@ -62,7 +61,7 @@ TAdLoadQuestPrtTxtGC::~TAdLoadQuestPrtTxtGC() {
 TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(parent) {
     s32 i;
     s32 j;
-    m_name = TAdLoadQuestPrtTxtGC__name;
+    m_name = TAdLoadQuestPrtTxtGC::name;
     this->slot = slot;
     timer = 0;
     for (i = 0; i < 32; i++) {

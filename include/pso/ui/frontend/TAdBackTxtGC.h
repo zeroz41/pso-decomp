@@ -8,6 +8,7 @@ struct NJS_TEXLIST;
 
 class TAdBackTxtGC : public TObject {
 public:
+    static const char *name;
     static NJS_TEXLIST *backtext_texture_list;
     TAdBackTxtGC(TObject *parent);
     virtual ~TAdBackTxtGC();

@@ -4,19 +4,20 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 #pragma readonly_strings on
 
 
-// Screen positions and scales of the word-select quad sets (TWindowDD__data_805434E8), set up by
-// TWindowDD__sub_80344114. inferred: names from that use.
+// Screen positions and scales of the word-select quad sets (word_select_quad_points), set up by
+// load_word_select_data. inferred: names from that use.
 extern const NJS_POINT2 window_dd_quad_positions[7] = {
     {72.0f, 199.0f}, {122.0f, 199.0f}, {72.0f, 219.0f}, {122.0f, 219.0f},
     {172.0f, 199.0f}, {172.0f, 219.0f}, {222.0f, 199.0f},
@@ -28,45 +29,27 @@ const char *TWindowDD_WS_ScrollBar__class_name = "TWindowDD_WS_ScrollBar";
 extern "C" {
 
 
-f32 lbl_805D6DC0;
-f32 lbl_805D6DC4;
-f32 lbl_805D6DC8;
-f32 lbl_805D6DCC;
-f32 lbl_805D6DD0;
-f32 lbl_805D6DD4;
-f32 lbl_805D6DD8;
-f32 lbl_805D6DDC;
-f32 lbl_805D6DE0;
-f32 lbl_805D6DE4;
-f32 lbl_805D6DE8;
-f32 lbl_805D6DEC;
-f32 lbl_805D6DF0;
-f32 lbl_805D6DF4;
-f32 lbl_805D6DF8;
-f32 lbl_805D6DFC;
-f32 lbl_805D6E00;
-extern const f32 lbl_805DFB24;
-extern const f32 lbl_805DFB28;
-extern const f32 lbl_805DFB38;
-extern const f32 lbl_805DFBCC;
+f32 scroll_track_cap_offset;
+f32 scroll_track_inset;
+f32 scroll_texel_scale;
+f32 scroll_arrow_v0;
+f32 scroll_arrow_v1;
+f32 scroll_up_arrow_u0;
+f32 scroll_up_arrow_u1;
+f32 scroll_down_arrow_u0;
+f32 scroll_down_arrow_u1;
+f32 scroll_track_u0;
+f32 scroll_track_u1;
+f32 scroll_track_top_v0;
+f32 scroll_track_top_v1;
+f32 scroll_track_bottom_v0;
+f32 scroll_track_bottom_v1;
+f32 scroll_thumb_v0;
+f32 scroll_thumb_v1;
 
-__declspec(section ".data") void *lbl_804EFBC8[2] = {
-    (void *)0x0, (void *)0x0,
-};
-void *lbl_804EFBD0[5] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x3,
-};
-extern const f32 TWindowDD__data_805DFB18;
-extern const f32 lbl_805DFB34;
-extern const f32 lbl_805DFB3C;
-extern const f32 lbl_805DFB2C;
-extern const f32 lbl_805DFB30;
-extern const f32 lbl_805DFBC4;
-extern const f32 lbl_805DFBBC;
-extern const f32 lbl_805DFBC8;
-extern const f32 lbl_805DFBC0;
-extern const f32 lbl_805DFC24;
+// Filled in by the static initialiser from the scroll_bar_* layout constants.
+__declspec(section ".data") NJS_POINT2 scroll_bar_position = {0.0f, 0.0f};
+WindowDescriptor scroll_bar_descriptor = {{0.0f, 0.0f}, 0.0f, 0, 3};
 
 #pragma push
 #pragma dont_inline off
@@ -103,7 +86,7 @@ void TWindowDD_WS_ScrollBar::render() {
     self->calc_inner_rect(rect);
     tex = TWindowDD::get_draw_count(hud_texlist);
     reset_window_vertices(verts, word_select_inverse_depth(self->draw_depth, 0.0f), -1);
-    uv = TWindowDD__data_805434E8[6];
+    uv = word_select_quad_points[6];
     s = rect->scale[1];
     v = verts;
     for (i = 0; i < 8; i++) {
@@ -118,7 +101,7 @@ void TWindowDD_WS_ScrollBar::render() {
     c = self->frame_position[1] + half;
     lo = c - t;
     hi = c + t;
-    if (t < lbl_805DFB28) {
+    if (t < scroll_bar_tile_height) {
         d = (hi - lo) / 3.0f;
     } else {
         d = 16.0f;
@@ -130,7 +113,7 @@ void TWindowDD_WS_ScrollBar::render() {
 
     half = 0.5f * self->frame_size[0];
     c = self->frame_position[0] + half;
-    step = lbl_805DFB24 * rect->scale[0];
+    step = scroll_bar_tile_width * rect->scale[0];
     t = half * rect->scale[0];
     x0 = span_start(c, t);
     v = verts;
@@ -139,48 +122,48 @@ void TWindowDD_WS_ScrollBar::render() {
         v[1].x = x0 + step;
         v += 2;
     }
-    half = 0.5f * lbl_805DFB38 * rect->scale[0];
+    half = 0.5f * scroll_arrow_size * rect->scale[0];
     quad[0] = span_start(c, half);
     quad[2] = span_end(c, half);
     draw_window_vertices(verts, 8, tex, 1);
 
     z = word_select_inverse_depth(self->draw_depth, 0.1f);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     begin_screen_draw(1);
     set_draw_texture_and_color(0, -1);
 
-    quad[5] = lbl_805D6DCC;
-    quad[7] = lbl_805D6DD0;
-    quad[4] = lbl_805D6DD4;
-    quad[6] = lbl_805D6DD8;
-    quad[1] = lbl_805DFBCC * s + lo;
-    quad[3] = s * (lbl_805DFBCC + lbl_805DFB38) + lo;
+    quad[5] = scroll_arrow_v0;
+    quad[7] = scroll_arrow_v1;
+    quad[4] = scroll_up_arrow_u0;
+    quad[6] = scroll_up_arrow_u1;
+    quad[1] = scroll_arrow_margin * s + lo;
+    quad[3] = s * (scroll_arrow_margin + scroll_arrow_size) + lo;
     draw_textured_quad_at_depth(quad, z);
 
-    quad[4] = lbl_805D6DDC;
-    quad[6] = lbl_805D6DE0;
-    quad[1] = hi - s * (lbl_805DFBCC + lbl_805DFB38);
-    quad[3] = hi - lbl_805DFBCC * s;
+    quad[4] = scroll_down_arrow_u0;
+    quad[6] = scroll_down_arrow_u1;
+    quad[1] = hi - s * (scroll_arrow_margin + scroll_arrow_size);
+    quad[3] = hi - scroll_arrow_margin * s;
     draw_textured_quad_at_depth(quad, z);
 
-    quad[4] = lbl_805D6DE4;
-    quad[6] = lbl_805D6DE8;
-    quad[5] = lbl_805D6DEC;
-    quad[7] = lbl_805D6DF0;
-    quad[1] = lbl_805D6DC0 * s + lo;
-    quad[3] = s * (14.0f + lbl_805D6DC0) + lo;
+    quad[4] = scroll_track_u0;
+    quad[6] = scroll_track_u1;
+    quad[5] = scroll_track_top_v0;
+    quad[7] = scroll_track_top_v1;
+    quad[1] = scroll_track_cap_offset * s + lo;
+    quad[3] = s * (14.0f + scroll_track_cap_offset) + lo;
     draw_textured_quad_at_depth(quad, z);
 
-    quad[5] = lbl_805D6DF4;
-    quad[7] = lbl_805D6DF8;
-    quad[1] = hi - s * (14.0f + lbl_805D6DC0);
-    quad[3] = hi - lbl_805D6DC0 * s;
+    quad[5] = scroll_track_bottom_v0;
+    quad[7] = scroll_track_bottom_v1;
+    quad[1] = hi - s * (14.0f + scroll_track_cap_offset);
+    quad[3] = hi - scroll_track_cap_offset * s;
     draw_textured_quad_at_depth(quad, z);
 
-    top = lo + lbl_805D6DC4 * s;
-    bot = hi - lbl_805D6DC4 * s;
-    quad[5] = lbl_805D6DFC;
-    quad[7] = lbl_805D6E00;
+    top = lo + scroll_track_inset * s;
+    bot = hi - scroll_track_inset * s;
+    quad[5] = scroll_thumb_v0;
+    quad[7] = scroll_thumb_v1;
     if (self->count <= self->visible_count) {
         quad[1] = top;
         quad[3] = bot;
@@ -194,7 +177,7 @@ void TWindowDD_WS_ScrollBar::render() {
         quad[3] = quad[1] + len;
     }
     draw_textured_quad_at_depth(quad, z);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 
@@ -202,28 +185,28 @@ void TWindowDD_WS_ScrollBar::render() {
 #pragma defer_codegen on
 
 void __sinit_TWindowDD_WS_ScrollBar_cpp(void) {
-    lbl_805D6DC0 = 17.0f + lbl_805DFBCC;
-    lbl_805D6DC4 = 14.0f + (17.0f + lbl_805DFBCC);
-    lbl_805D6DC8 = TWindowDD__data_805DFB18;
-    lbl_805D6DCC = lbl_805DFB34 * lbl_805D6DC8;
-    lbl_805D6DD0 = lbl_805D6DC8 * (lbl_805DFB34 + lbl_805DFB3C);
-    lbl_805D6DD4 = lbl_805DFB2C * lbl_805D6DC8;
-    lbl_805D6DD8 = lbl_805D6DC8 * (lbl_805DFB2C + lbl_805DFB38);
-    lbl_805D6DDC = lbl_805DFB30 * lbl_805D6DC8;
-    lbl_805D6DE0 = lbl_805D6DC8 * (lbl_805DFB30 + lbl_805DFB38);
-    lbl_805D6DE4 = 224.0f * lbl_805D6DC8;
-    lbl_805D6DE8 = 238.0f * lbl_805D6DC8;
-    lbl_805D6DEC = 58.0f * lbl_805D6DC8;
-    lbl_805D6DF0 = 72.0f * lbl_805D6DC8;
-    lbl_805D6DF4 = 86.0f * lbl_805D6DC8;
-    lbl_805D6DF8 = 100.0f * lbl_805D6DC8;
-    lbl_805D6DFC = 72.0f * lbl_805D6DC8;
-    lbl_805D6E00 = 86.0f * lbl_805D6DC8;
-    ((f32 *)lbl_804EFBC8)[0] = lbl_805DFBC4;
-    ((f32 *)lbl_804EFBC8)[1] = lbl_805DFBC8;
-    ((f32 *)lbl_804EFBD0)[0] = lbl_805DFBBC;
-    ((f32 *)lbl_804EFBD0)[1] = lbl_805DFBC0;
-    ((f32 *)lbl_804EFBD0)[2] = lbl_805DFC24;
+    scroll_track_cap_offset = 17.0f + scroll_arrow_margin;
+    scroll_track_inset = 14.0f + (17.0f + scroll_arrow_margin);
+    scroll_texel_scale = window_dd_texel_scale;
+    scroll_arrow_v0 = scroll_arrow_v * scroll_texel_scale;
+    scroll_arrow_v1 = scroll_texel_scale * (scroll_arrow_v + scroll_arrow_texture_height);
+    scroll_up_arrow_u0 = scroll_arrow_up_u * scroll_texel_scale;
+    scroll_up_arrow_u1 = scroll_texel_scale * (scroll_arrow_up_u + scroll_arrow_size);
+    scroll_down_arrow_u0 = scroll_arrow_down_u * scroll_texel_scale;
+    scroll_down_arrow_u1 = scroll_texel_scale * (scroll_arrow_down_u + scroll_arrow_size);
+    scroll_track_u0 = 224.0f * scroll_texel_scale;
+    scroll_track_u1 = 238.0f * scroll_texel_scale;
+    scroll_track_top_v0 = 58.0f * scroll_texel_scale;
+    scroll_track_top_v1 = 72.0f * scroll_texel_scale;
+    scroll_track_bottom_v0 = 86.0f * scroll_texel_scale;
+    scroll_track_bottom_v1 = 100.0f * scroll_texel_scale;
+    scroll_thumb_v0 = 72.0f * scroll_texel_scale;
+    scroll_thumb_v1 = 86.0f * scroll_texel_scale;
+    scroll_bar_position.x = scroll_bar_x;
+    scroll_bar_position.y = scroll_bar_y;
+    scroll_bar_descriptor.size[0] = scroll_bar_width;
+    scroll_bar_descriptor.size[1] = scroll_bar_height;
+    scroll_bar_descriptor.sort_depth = scroll_bar_depth;
 }
 
 __declspec(section ".ctors") static void *const __sinit_TWindowDD_WS_ScrollBar_cpp_ref = (void *)__sinit_TWindowDD_WS_ScrollBar_cpp;
@@ -231,7 +214,7 @@ __declspec(section ".ctors") static void *const __sinit_TWindowDD_WS_ScrollBar_c
 TWindowDD_WS_ScrollBar *TWindowDD_WS_ScrollBar::create() { return new TWindowDD_WS_ScrollBar; }
 
 TWindowDD_WS_ScrollBar::TWindowDD_WS_ScrollBar()
-    : TWindowBase((u8 *)lbl_804EFBD0, 4, (u8 *)lbl_804EFBC8) {
+    : TWindowBase((u8 *)&scroll_bar_descriptor, 4, (u8 *)&scroll_bar_position) {
     m_name = TWindowDD_WS_ScrollBar__class_name;
     count = 6.0f;
     visible_count = 6.0f;

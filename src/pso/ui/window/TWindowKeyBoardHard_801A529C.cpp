@@ -1,4 +1,5 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/network/TSocket.h"
 #include "types.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
@@ -10,11 +11,10 @@
 #include "pso/network/TProtocol.h"
 
 extern "C" {
-u16 to_be_uint16_t__FUs(u16);
 saddr deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
 s32 lbl_805D5D00;
-s32 lbl_805D5D04;
+s32 deferred_packet_buffer_state;
 }
 
 s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 mask) {
@@ -45,13 +45,13 @@ void set_fresh_card_flag(void *card) {
 
 void TLobby::drain_deferred_packets() {
     deferred_packet_buffer_used = 0;
-    lbl_805D5D04 = 2;
+    deferred_packet_buffer_state = 2;
     s32 i;
     while ((i = deferred_packet_buffer_used) < 0x10000) {
         u8 *p;
         u16 n;
         p = (u8 *)(deferred_packet_buffer + i);
-        n = (u16)to_be_uint16_t__FUs(*(u16 *)(p + 2));
+        n = (u16)to_be_uint16_t(*(u16 *)(p + 2));
         if (p[0] == 0) {
             break;
         }
@@ -62,7 +62,7 @@ void TLobby::drain_deferred_packets() {
 void copy_packet(packet *pkt) {
     s32 len;
 
-    len = (u16) to_be_uint16_t__FUs(pkt->pkt.header.size);
+    len = (u16) to_be_uint16_t(pkt->pkt.header.size);
     if (deferred_packet_buffer_used + len <= 0x10000) {
         memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), pkt, len);
         deferred_packet_buffer_used += len;
@@ -73,17 +73,17 @@ void buffer_reset(void) {
     deferred_packet_buffer_used = 0;
     lbl_805D5D00 = 0;
     memset((void *)deferred_packet_buffer, 0, 0x10000);
-    lbl_805D5D04 = 1;
+    deferred_packet_buffer_state = 1;
 }
 
 
-void TLobby__sub_801A5478(void) { mem_free((void *)deferred_packet_buffer); deferred_packet_buffer = 0; }
+void free_deferred_packet_buffer(void) { mem_free((void *)deferred_packet_buffer); deferred_packet_buffer = 0; }
 
 
 void alloc_work_buffer(void) {
     deferred_packet_buffer_used = 0;
     lbl_805D5D00 = 0;
-    lbl_805D5D04 = 0;
+    deferred_packet_buffer_state = 0;
     deferred_packet_buffer = (saddr)mem_alloc(0x10000);
     memset((void *)deferred_packet_buffer, 0, 0x10000);
 }

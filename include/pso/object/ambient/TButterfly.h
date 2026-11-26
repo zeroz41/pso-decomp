@@ -4,27 +4,30 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct ObjectSetData;
+
 struct TButterfly : public TObjBase {
-    TButterfly(TObject *parent, void *set_data);
+    TButterfly(TObject *parent, ObjectSetData *set_data);
     virtual ~TButterfly();
-    Vec home_position;  // where it spawned; y is the height it hovers around
-    Vec velocity;
-    f32 motion_frame; // frame passed to draw_ginja_model_with_motion, randomised by the ctor (name inferred)
-    f32 phase_speed;  // how fast motion_frame advances
-    f32 lift;         // the upward push towards the hover height
-    s16 timer;        // frames left in the current state
-    s16 angle;        // the bobbing angle
-    u8 state;         // 0 hovers, 1 drifts forward, 2 turns while drifting
-    u8 flag;          // 0 rising wing beat, 1 falling wing beat
-    u8 turn_dir;      // which way state 2 turns
     void init_motion();
     virtual void render();
     virtual void run_task();
     static void load_resources();
     static void destroy_instance();
     void draw_model();
-    u8 pad_BB[0x1];
     static void *create(void *set_data);
+
+    Vec home_position; // where it spawned; y is the height it hovers around
+    Vec velocity;
+    f32 motion_frame;  // frame passed to draw_ginja_model_with_motion, wraps at 5
+    f32 phase_speed;   // added to motion_frame every frame
+    f32 lift;
+    s16 timer;         // frames left in the current state
+    s16 angle;         // sine angle of the height it bobs to
+    u8 state;          // 0 hover, 1 fly ahead, 2 fly ahead turning
+    u8 alt_mode;       // swaps the climb for a dive until motion_frame wraps
+    u8 turn_dir;       // state 2: 0 turns one way, 1 the other
+    u8 pad_bb[0x1];
 };
 
 LAYOUT_ASSERT(TButterfly_size, sizeof(TButterfly) == 0xBC);

@@ -24,6 +24,6 @@ int dispatch_message_window_text(TWindowMessageQuest *window, s32 text, s32 flag
 }
 
 TWindowMessageQuest *create_quest_message_window_at(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
-    TLobby__sub_80269DA4(extent, 1);
+    set_message_window_size(extent, 1);
     return new TWindowMessageQuest(position);
 }

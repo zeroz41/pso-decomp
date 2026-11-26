@@ -7,9 +7,9 @@
 
 extern "C" {
 const char *member_check_name_ptr = "TMemberCheck";
-s32 TMemberCheck::previous_member_count;
 extern const char *member_check_name_ptr;
 }
+s32 TMemberCheck::previous_member_count;
 
 void TMemberCheck::run_task() {
     s32 n = TLobby::count_members();

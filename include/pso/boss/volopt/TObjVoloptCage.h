@@ -43,9 +43,7 @@ struct VoloptCageParams {
 
 extern VoloptCageParams *volopt_cage_params;
 
-extern "C" {
 void obj_set_flag_20000(TObjBase *actor);
-}
 void obj_clear_flag30_20000(TObjBase *actor);
 
 void set_volopt_cage_flag();

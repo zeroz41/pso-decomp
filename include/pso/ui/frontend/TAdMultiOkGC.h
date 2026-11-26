@@ -30,6 +30,7 @@ struct TAdMultiOkEntry {
 
 class TAdMultiOkGC : public TObject {
 public:
+    static const char *name;
     TAdMultiOkGC(TObject *parent, TAdMultiOkSetup *setup);
     virtual ~TAdMultiOkGC();
     virtual void run_task();

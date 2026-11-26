@@ -5,7 +5,7 @@
 #include "pso/object/warp/TObjWarpString.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/NinjaTypes.h"
@@ -31,7 +31,7 @@ static NJS_TEXNAME player_tex_texture_names[1] = {  // inferred: from the file n
 
 static NJS_TEXLIST player_tex_texture_list = { player_tex_texture_names, 1 };  // inferred
 
-const char *TAdTitleTexGC__name = "TAdTitleTexGC";
+const char *TAdTitleTexGC::name = "TAdTitleTexGC";
 
 NJS_TEXLIST *player_tex_texture_list_ptr;
 
@@ -39,7 +39,7 @@ extern "C" {
 extern const s32 current_language;
 }
 
-void TLobby__sub_802A5154(void) {
+void load_player_tex_texture() {
     if (player_tex_texture_list_ptr != NULL) {
         return;
     }
@@ -56,7 +56,7 @@ void TLobby__sub_802A5154(void) {
     load_streamed_prs_texture(files[current_language], list);
 }
 
-void TLobby::free_dialing_gc() {
+void free_player_tex_texture() {
     if (player_tex_texture_list_ptr != NULL) {
         release_texture_list(player_tex_texture_list_ptr);
         player_tex_texture_list_ptr = NULL;
@@ -64,7 +64,7 @@ void TLobby::free_dialing_gc() {
 }
 
 TAdTitleTexGC::TAdTitleTexGC(TObject *parent) : TObject(parent) {
-    m_name = TAdTitleTexGC__name;
+    m_name = TAdTitleTexGC::name;
     alpha = 51;
     frames = -1;
     rects[0].u1 = 0.8203125f;
@@ -125,15 +125,15 @@ void TAdTitleTexGC::render() {
 
 void TAdTitleTexGC::render_status_pair(s32 color) {
     begin_screen_draw(1);
-    TObjFish::set_global_param(player_tex_texture_list_ptr);
+    set_texture_list(player_tex_texture_list_ptr);
     set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[0].x0, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     begin_screen_draw(1);
-    TObjFish::set_global_param(player_tex_texture_list_ptr);
+    set_texture_list(player_tex_texture_list_ptr);
     set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[1].x0, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 #pragma push

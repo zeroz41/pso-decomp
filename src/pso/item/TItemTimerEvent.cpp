@@ -26,8 +26,8 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/TScene.h"
 
-extern const char TItemTimerEvent__class_name_string[] = "TItemTimerEvent";
-const char *TItemTimerEvent__class_name = TItemTimerEvent__class_name_string;
+const char TItemTimerEvent::class_name_string[] = "TItemTimerEvent";
+const char *TItemTimerEvent::class_name = TItemTimerEvent::class_name_string;
 
 
 struct StatusTargetBase { char pad[0x18]; };
@@ -49,7 +49,6 @@ void TObjPlayer::set_flag_10000() {
     set_state_flags(0x10000);
 }
 
-extern "C" {
 TItemLockCountCtrl * item_timer_event_instance;
 
 void TObjPlayer::clear_state_flags(s32 mask) {
@@ -118,7 +117,7 @@ TItemTimerEventConfusionCurse::~TItemTimerEventConfusionCurse() {}
 TItemTimerEventParalysisCurse::~TItemTimerEventParalysisCurse() {}
 
 TItemTimerEvent::TItemTimerEvent(TItemHeapObject *parent, u16 client, s32 period) : TItemHeapObject(parent) {
-    m_name = TItemTimerEvent__class_name;
+    m_name = TItemTimerEvent::class_name;
     client_id = client;
     player = 0;
     interval = period;
@@ -249,4 +248,3 @@ void TItemTimerEventParalysisCurse::apply_effect() {
     }
 }
 
-}

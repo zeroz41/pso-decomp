@@ -4,7 +4,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 
 // The label call passes the label size as a fourth float, which the white-text helper ignores.
@@ -28,11 +28,11 @@ void TAdGuideButtonGC::draw_label(int style, const char *text) {
 #pragma pop
 void TAdGuideButtonGC::draw_quad(int style) {
     if (guide_button_texture_handle != NULL) {
-        TObjFish::set_global_param(guide_button_texture_handle);
+        set_texture_list(guide_button_texture_handle);
         begin_screen_draw(1);
         set_draw_texture_and_color(0,-1);
         draw_textured_quad_at_depth((f32 *)quads, 0.5f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 void TAdGuideButtonGC::render() {

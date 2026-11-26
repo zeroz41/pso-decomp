@@ -16,10 +16,6 @@
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/weapon/shoot/TItemShootGun.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_8011B328.h"
-#include "pso/unk/text_8011B620.h"
-#include "pso/unk/text_8011BE50.h"
-#include "pso/unk/text_8011BEF0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -48,8 +44,8 @@
 extern TObject *tl_05;
 extern TObject *const tl_07;
 
-const char *TItemShoot__class_name = "TItemShoot";
-const char *TItemShootModel__class_name = "TItemShootModel";
+const char *TItemShoot::class_name = "TItemShoot";
+const char *TItemShootModel::class_name = "TItemShootModel";
 const char *item_shoot_particle_class_name = "TItemShootParticle";
 const char *item_shoot_gun_class_name = "TItemShootGun";
 // The gun shot's star light; the colour is filled from the weapon's colour.
@@ -111,7 +107,7 @@ s32 TItemShoot::spawn_shoot_particle(u32 owner, s32 pos, s32 dir, f32 life) {
 
 TItemShoot::TItemShoot(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TObject(tl_05) {
-    m_name = TItemShoot__class_name;
+    m_name = TItemShoot::class_name;
     VecCopy(&m_pos, pos);
     VecCopy(&m_dir, VecCopy(&end_pos, dir));
     m_life = life;
@@ -169,7 +165,7 @@ saddr TObjPlayer::create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life
 
 TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShoot(owner, pos, dir, life) {
-    m_name = TItemShootModel__class_name;
+    m_name = TItemShootModel::class_name;
     model = *(NJS_OBJECT **)((u8 *)owner + 0x188);
     texture_list = (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist();
     if (0.0f != m_dir.y) {

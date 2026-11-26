@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/render/CameraCapture.h"
 
 // A camera-space probe point and where it lands on screen.
 struct ViewProbe {
@@ -20,9 +21,6 @@ struct ViewProbe {
     Vec point;
 };
 
-extern "C" {
-s32 is_in_shadow_range(f32, const Vec *);
-}
 
 u16 next_player_id;
 u16 next_enemy_id;
@@ -135,7 +133,7 @@ s32 TObjBase::classify_actor_view_detail(f32 near_depth, f32 far_depth, f32 radi
     ViewProbe probe;
     f32 z;
     if (this->m_flags & 0x400) {
-        if (is_in_shadow_range(radius, &position) != 0) {
+        if (is_in_shadow_range(&position, radius) != 0) {
             visibility = 1;
             return 1;
         }
@@ -191,7 +189,7 @@ s32 TObjBase::classify_actor_view_detail(f32 near_depth, f32 far_depth, f32 radi
 s32 TObjBase::update_object_view_visibility(f32 far_depth, f32 radius) {
     ViewProbe probe;
     if (this->m_flags & 0x400) {
-        if (is_in_shadow_range(radius, &position) != 0) {
+        if (is_in_shadow_range(&position, radius) != 0) {
             visibility = 1;
             return 1;
         }

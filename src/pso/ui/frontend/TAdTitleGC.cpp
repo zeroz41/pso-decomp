@@ -6,7 +6,7 @@
 #include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/unk/text_802A1020.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -25,7 +25,6 @@ const char *ad_title_gc_class_name = "TAdTitleGC";
 
 extern "C" {
 u32 calc_text_width(char *s);
-s32 get_player__20TWindowSubStatusDispFv();
 uaddr title_midashi_texlist_current;
 saddr get_localized_text_entry(s32, s32);
 
@@ -36,7 +35,7 @@ extern const s32 current_language;
 
 int game_files_modified() { return game_files_modified_flag; }
 
-void TLobby__sub_802A0F70(void) {
+void load_title_midashi_texture() {
     TLobby::update_menu_cursor();
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };
     NJS_TEXLIST *lists[5] = { &title_midashi_texlist, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng };
@@ -44,7 +43,7 @@ void TLobby__sub_802A0F70(void) {
     load_streamed_prs_texture(names[current_language], lists[current_language]);
 }
 
-void TLobby::free_dialog_global() {
+void free_title_midashi_texture() {
     if ((u32) title_midashi_texlist_current != 0U) {
         release_texture_list((NJS_TEXLIST *)title_midashi_texlist_current);
         title_midashi_texlist_current = 0U;
@@ -133,13 +132,13 @@ block_5:
     }
 }
 
-s32 TAdTitleGC::draw_title_layer(s32 layer, s32 color) {
+void TAdTitleGC::draw_title_layer(s32 layer, s32 color) {
     s32 i;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(title_midashi_texlist_current));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(title_midashi_texlist_current));
     set_draw_texture_and_color(layer > 0xB, color);
     for (i = 0; i < 8; i++) {
         draw_textured_quad_at_depth(&rects[i].x0, (-1.0f) / -((113.0f) - (f32)i));
     }
-    return get_player__20TWindowSubStatusDispFv();
+    end_screen_draw();
 }

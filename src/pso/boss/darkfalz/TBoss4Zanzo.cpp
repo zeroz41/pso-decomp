@@ -2,12 +2,11 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/BattleParameters.h"
@@ -25,7 +24,6 @@
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 
@@ -58,7 +56,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/ActorCollision.h"
@@ -357,7 +355,7 @@ void TBoss4Type2::draw_hanger() {
     s32 i;
     set_motion_packed_rotation();
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(get_bml_texlist(archive, boss4_zanzo_bml_index_table[i]));
+        set_texture_list(get_bml_texlist(archive, boss4_zanzo_bml_index_table[i]));
         switch (i) {
         case 1:
             model_render_flags |= 0x20000;
@@ -1102,7 +1100,7 @@ void TBoss4Zanzo::render() {
         set_motion_packed_rotation();
         post_translate_matrix(&params.pos.x);
         rotate_matrix_y(0, params.rotation_y);
-        TObjFish::set_global_param(params.texlist);
+        set_texture_list(params.texlist);
         begin_alpha_blend(value);
         draw_model_motion(params.model, params.motion, params.frame);
         end_alpha_blend();

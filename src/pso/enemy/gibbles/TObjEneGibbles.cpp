@@ -39,7 +39,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -57,7 +57,7 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/network/client_id.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -341,7 +341,7 @@ void TObjEneGibbles::render() {
         this->fades[cam].update();
         fade = this->fades[cam].updateFromCamera(&body_center);
         select_actor_lighting(this);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(NULL);
         VecCopy(&v, &position);
         switch (this->mode) {

@@ -61,7 +61,7 @@
 #include "pso/npc/TObjNpcHosa2.h"
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
-#include "pso/unk/text_80362264.h"
+#include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"

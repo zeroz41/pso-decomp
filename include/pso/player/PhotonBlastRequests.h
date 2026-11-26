@@ -30,9 +30,7 @@ LAYOUT_ASSERT(PhotonBlastRequestFlagOffset, offsetof(PhotonBlastRequest, flags) 
 LAYOUT_ASSERT(PhotonBlastRequestSlotsOffset, offsetof(PhotonBlastRequest, slots) == 8);
 LAYOUT_ASSERT(PhotonBlastRegistrySize, sizeof(PhotonBlastRegistry) == 0x60);
 
-extern PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
-
-// The four requests (TObjPlayer__shared_photon_blast_state).
+// The four requests (TObjPlayer::shared_photon_blast_state).
 int get_photon_blast_request_count();
 // The first request not in use, NULL when all four are.
 PhotonBlastRequest *find_free_photon_blast_request(PhotonBlastRegistry *registry);

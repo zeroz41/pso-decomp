@@ -48,20 +48,20 @@ void TObjWarnChime::update_chime_countdown() {
 void TObjWarnChime::update_player_hp_ratios() {
     s32 changed;
     s32 i;
-    void* p;
+    TObjPlayer *player;
     f32 min;
     f32 max;
     f32 cur;
     min = 1.0f;
     changed = 0;
     for (i = 0; i < 4; i++) {
-        p = get_player_by_client_id(i);
-        if (p == NULL || ((TObjPlayer *)p)->find_revival_item() != 0) {
+        player = get_player_by_client_id(i);
+        if (player == NULL || player->find_revival_item() != 0) {
             m_player_hp_ratios[i] = 1.0f;
             continue;
         }
-        cur = ((TObjChara *)p)->get_actor_hp();
-        max = ((TObjChara *)p)->get_hpmax();
+        cur = player->get_actor_hp();
+        max = player->get_hpmax();
         if (0.0f == cur) {
             m_player_hp_ratios[i] = 1.0f;
             continue;

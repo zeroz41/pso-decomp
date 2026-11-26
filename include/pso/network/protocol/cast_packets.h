@@ -51,11 +51,13 @@ struct G_ExecutePhotonBlastParams_6x49 {
 struct G_ExecutePhotonBlast_6x49 {
     G_ExecutePhotonBlast_6x49();
     G_ExecutePhotonBlast_6x49 &operator=(G_ExecutePhotonBlast_6x49 &src);
-    u8 get_size();
-    // For a packet just received (params first, then the targets by the swapped count).
+    // The receive-side swap: the parameters first, so target_count is native for the loop.
     void bswap_received();
-    // For a packet about to be sent (the targets by the native count, then params).
+    // Bytes actually sent: the header, the parameters and target_count targets.
+    u8 get_size();
+    // Send-side swap: the targets while target_count is still native, then the parameters.
     void bswap_for_send();
+    // Sets the header size, byte-swaps and sends the packet.
     void send();
 
     G_ClientIDHeader header;

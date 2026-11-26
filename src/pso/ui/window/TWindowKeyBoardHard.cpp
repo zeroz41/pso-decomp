@@ -211,7 +211,7 @@ s32 TWindowKeyBoardHard::poll_input() {
     }
 }
 
-WindowDescriptor lbl_804CFAD0 = { {0.0f, 0.0f}, 50030.0f, NULL, 0x823 };
+WindowDescriptor keyboard_hard_window_descriptor = { {0.0f, 0.0f}, 50030.0f, NULL, 0x823 };
 __declspec(section ".data") u8 keyboard_repeat_key_codes[7] = { 0x60, 0xB4, 0x5E, 0x7E, 0xA8, 0xB0, 0xB8 };
 u8 keyboard_layout_mode_table[7][7] = {
     { 0x07, 0x07, 0x07, 0x07, 0x07, 0x00, 0x00 },
@@ -232,7 +232,7 @@ u8 keyboard_accent_composed_chars[7][7] = {
     { 0x00, 0xDD, 0x00, 0x00, 0xDF, 0x00, 0x00 },
 };
 
-u8 TWindowKeyBoardHard::sub_8025F2F8(u8 key) {
+u8 TWindowKeyBoardHard::apply_accent(u8 key) {
     u32 idx;
     s32 bit;
     const u8 *p;
@@ -289,7 +289,7 @@ s32 TWindowKeyBoardHard::lookup_key_repeat_state(u8 key, u8 ch) {
     return 0;
 }
 
-s32 TWindowKeyBoardHard::sub_8025F4A0(u8 key) {
+s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
     static void (TWindowKeyBoardBase::*control_key_handlers[26])() = {
         &TWindowKeyBoardBase::key_enter,
         &TWindowKeyBoardBase::key_escape,
@@ -410,7 +410,7 @@ void TWindowKeyBoardHard::process_key_input(u8 key) {
     u16 ch;
     s32 mode;
 
-    if (sub_8025F4A0(key) != 0) {
+    if (handle_control_key(key) != 0) {
         accent_index = 7;
         return;
     }
@@ -421,7 +421,7 @@ void TWindowKeyBoardHard::process_key_input(u8 key) {
     }
     if (poll_input() < 3U) {
         if (lookup_key_repeat_state(key, (u8) ch) == 0) {
-            ch = (u16) sub_8025F2F8((u8) ch);
+            ch = (u16) apply_accent((u8) ch);
             goto block_7;
         }
     } else {
@@ -628,7 +628,7 @@ void TWindowKeyBoardHard::run_task() {
 }
 
 TWindowKeyBoardHard::~TWindowKeyBoardHard() {}
-TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindowBase((u8 *)&lbl_804CFAD0, (s16)(4), (u8 *)(get_window_layout_position(0xB9))) {
+TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindowBase((u8 *)&keyboard_hard_window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB9))) {
     this->m_name = TWindowKeyBoardHard__name;
     this->input_flags = 0;
     m_control = control;

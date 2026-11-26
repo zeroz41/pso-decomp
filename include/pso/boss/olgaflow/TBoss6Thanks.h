@@ -50,4 +50,6 @@ LAYOUT_ASSERT(TBoss6Thanks_size, sizeof(TBoss6Thanks) == 0x64);
 // Particle effect id and the fade_frame range in which update_particle_emitters keeps it.
 struct Boss6ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 
+s32 any_player_has_listed_equipment(void);
+
 #endif

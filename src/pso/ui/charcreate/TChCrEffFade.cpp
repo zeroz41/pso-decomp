@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/charcreate/TChCrEffFade.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -10,10 +9,9 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include <stddef.h>
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_80293D84.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 
-const char *TChCrEffFade__class_name = "TChCrEffFade";
+const char *TChCrEffFade::class_name = "TChCrEffFade";
 
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
@@ -136,7 +134,7 @@ TChCrEffFade::~TChCrEffFade() {}
 TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject((TObject *)tl_fade) {
     s32 len;
     s32 direction;
-    m_name = TChCrEffFade__class_name;
+    m_name = TChCrEffFade::class_name;
     step = new_step;
     length = (new_length + 3);
     len = length;

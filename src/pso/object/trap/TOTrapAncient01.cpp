@@ -3,7 +3,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/trap/TOTrap.h"
@@ -12,7 +11,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
@@ -28,7 +27,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
@@ -173,7 +171,7 @@ void TOTrapAncient01::render() {
             v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             post_translate_matrix(&v.x);
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         n = (NJS_OBJECT *)model;
         push_matrix();
         translate_matrix(0, 0.0f, scale.y, 0.0f);
@@ -198,7 +196,7 @@ void TOTrapAncient01::render() {
 }
 #pragma pop
 
-void TOTrapAncient01::vfunc_81() {
+void TOTrapAncient01::update_springing() {
     TObjPlayer *player;
     f32 dist;
     scale.y += scale_step;
@@ -257,7 +255,7 @@ void TOTrapAncient01::vfunc_81() {
     }
 }
 
-void TOTrapAncient01::vfunc_82() {
+void TOTrapAncient01::update_holding() {
     s32 i;
     TObjChara *p;
     calc_attach_pos();
@@ -335,7 +333,7 @@ void TOTrapAncient01::vfunc_82() {
     }
 }
 
-void TOTrapAncient01::vfunc_84() {  }
+void TOTrapAncient01::update_effects() {  }
 
 f32 TOTrapAncient01::receive_physical_attack(void *attacker, f32 scale) {
     release_trapped_player();
@@ -394,7 +392,7 @@ void TOTrapAncient01::release_trapped_player() {
     TObjPlayer *player;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (target != NULL) {
-            player = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
+            player = get_player_by_client_id(target->get_entity_id());
             if (player != NULL) {
                 if (player->check_player_flag1() != 0) {
                     send_release_hold(player);
@@ -402,7 +400,7 @@ void TOTrapAncient01::release_trapped_player() {
                 obj_clear_flag30_20000(player);
             }
         }
-    } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
+    } else if (target != NULL && local_client_id == target->get_entity_id()) {
         player = get_player_by_client_id(local_client_id);
         if (player != NULL) {
             if (player->check_player_flag1() != 0) {
@@ -424,6 +422,6 @@ void TOTrapAncient01::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-void TOTrapAncient01::vfunc_88() {  }
+void TOTrapAncient01::run_demo() {  }
 
 void TOTrapAncient01::vfunc_86() {  }

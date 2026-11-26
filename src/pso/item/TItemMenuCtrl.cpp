@@ -14,17 +14,17 @@
 
 #pragma readonly_strings on
 
-TItemMenuCtrl *TItemMenuCtrl__instance;
+TItemMenuCtrl *TItemMenuCtrl::instance;
 
 TItemMenuCtrl::~TItemMenuCtrl() {
-    TItemMenuCtrl__instance = 0;
+    TItemMenuCtrl::instance = 0;
 }
 
 
 const char *lbl_805D2C18 = "TItemMenuCtrl";
 
 TItemMenuCtrl::TItemMenuCtrl(TObject *parent) : TObject(parent) {
-    TItemMenuCtrl__instance = this;
+    TItemMenuCtrl::instance = this;
     m_name = lbl_805D2C18;
 }
 
@@ -33,15 +33,15 @@ TItemMenuCtrl::TItemMenuCtrl(TObject *parent) : TObject(parent) {
 extern "C" {
 
 void TItemMenuCtrl::open_menu(u32 arg0) {
-    if (TItemMenuCtrl__instance == NULL) {
+    if (TItemMenuCtrl::instance == NULL) {
         new TItemMenuCtrl(tl_05);
     }
     if (arg0 < 7U) {
         if (arg0 == 0) {
-            TItemMenuCtrl__instance->queue_destruction();
+            TItemMenuCtrl::instance->queue_destruction();
             return;
         }
-        TItemMenuCtrl__instance->set_menu_flags(1U << arg0);
+        TItemMenuCtrl::instance->set_menu_flags(1U << arg0);
     }
 }
 

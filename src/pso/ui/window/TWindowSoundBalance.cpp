@@ -62,7 +62,7 @@ const char *TWindowSoundBalance::class_name = "TWindowSoundBalance";
 void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
     if (sound_effect_gain != gain) {
         sound_effect_gain = gain;
-        TLobby__sub_8022614C(gain);
+        set_cue_stream_user_gain(gain);
         TWindowStatusGauge *gauge = (TWindowStatusGauge *)get_array_entry(3);
         gauge->target = gain + 100;
         gauge->calc_bar_width();
@@ -98,7 +98,7 @@ void TWindowSoundBalance::play_open_sound() {
 }
 
 
-void TWindowSoundBalance::sub_8027095C() {
+void TWindowSoundBalance::handle_gain_input() {
     ControllerInputContext *input = &controller_input_state.controllers[0];
     s16 gain;
     s16 range;
@@ -172,7 +172,7 @@ void TWindowSoundBalance::run_task() {
     ControllerInputContext *input;
     if (is_active() == 0) {
         handle_lr_input();
-        sub_8027095C();
+        handle_gain_input();
         input = &controller_input_state.controllers[0];
         if ((test_pressed_buttons_packed(input, 4) != 0) || ((s32)test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_open_sound();

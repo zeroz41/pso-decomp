@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/quest/QuestVm.h"
 
+struct TWindowMenu;
+
 class TQuestManager;
 struct TKeyBoardControl;
 struct TWindowMenu;
@@ -16,7 +18,6 @@ public:
     quest_suspend_reason state;
 
     TQuestThread(TQuestManager *root, s32 label);
-    virtual void render();
     virtual ~TQuestThread();
     virtual void run_task();
 
@@ -31,7 +32,7 @@ public:
     static void destroy_all_in(TObject *parent);
     static void clear_buffer(TQuestManager *root);
     static void clear_thread_state();
-    static char *get_quest_name();
+    static const char *get_quest_name();
     static s32 get_register(const TQuestManager *root, int index);
     static void queue_destruction(void *obj);
     static void set_status_flag_80(void *window);
@@ -43,7 +44,6 @@ public:
     quest_suspend_reason state;
 
     TQuestThreadBoard(TQuestManager *root, s32 label);
-    virtual void render();
     virtual ~TQuestThreadBoard();
     virtual void run_task();
 
@@ -57,7 +57,6 @@ public:
     TWindowMenu *prompt_menu;
 
     TObjItemNameEntry(TObject *parent);
-    virtual void render();
     virtual ~TObjItemNameEntry();
 
     static void *create(void *parent);

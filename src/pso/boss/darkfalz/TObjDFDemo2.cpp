@@ -4,14 +4,12 @@
 
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -23,7 +21,7 @@
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
@@ -36,9 +34,8 @@ extern s32 boss4_zanzo_bml_index_table[];
 }
 
 const char *TObjDFDemo2::name = "TObjDFDemo2";
-extern "C" {
 __declspec(section ".rodata") CameraAngles df_demo2_zero_camera_angles = {0, 0, 0};
-__declspec(section ".data") s32 TObjDFDemo2__motion_index_table[2] = {0x12, 0x11};
+__declspec(section ".data") s32 TObjDFDemo2::motion_index_table[2] = {0x12, 0x11};
 CameraPlayback df_demo2_camera_playback = {0, 0, 0, 0.0f, 0.5f};
 
 TObjDFDemo2 *TObjDFDemo2::create(TObject *parent, const Vec *position, s32 angle, s32 variant) {
@@ -63,7 +60,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
         k = t;
         this->parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
         this->parts[i].texlist = get_bml_texlist(archive, k);
-        this->parts[i].motion = get_bml_motion(archive, TObjDFDemo2__motion_index_table[i]);
+        this->parts[i].motion = get_bml_motion(archive, TObjDFDemo2::motion_index_table[i]);
     }
     this->frame = -0.5f;
     activate_camera_mode(5);
@@ -131,7 +128,7 @@ void TObjDFDemo2::render() {
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[i].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(parts[i].texlist));
         draw_model_motion(parts[i].model, parts[i].motion, frame);
     }
     clear_motion_packed_rotation();
@@ -139,5 +136,4 @@ void TObjDFDemo2::render() {
     if (alpha < 1.0f) {
         end_alpha_blend();
     }
-}
 }

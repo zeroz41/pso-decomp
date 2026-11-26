@@ -1,5 +1,5 @@
 #include "pso/system/scene/EndingWallTextures.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingPicStage.h"
@@ -83,7 +83,7 @@ void TEndingPic::draw_current_pic() {
     default:
         break;
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TEndingPic::init_positions() {
@@ -138,8 +138,8 @@ void TEndingPic::init_positions() {
 }
 
 void TEndingPic::render() {
-    if ((s32) TEndingPic::animation_state != 0) {
-        TObjFish::set_global_param(ending_pic_wall_texture_list);
+    if (TEndingPic::animation_state != 0) {
+        set_texture_list(ending_pic_wall_texture_list);
         draw_current_pic();
     }
 }

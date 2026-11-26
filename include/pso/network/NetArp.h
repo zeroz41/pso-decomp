@@ -103,6 +103,9 @@ LAYOUT_ASSERT(ArpState_size_check, sizeof(ArpState) == 0x28);
 
 extern ArpState arp_state;
 
+void arp_start(void);
+s32 arp_term(void);
+
 #ifdef __cplusplus
 }
 #endif

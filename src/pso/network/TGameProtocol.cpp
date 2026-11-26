@@ -38,7 +38,7 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/unk/text_80072230.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
@@ -265,7 +265,7 @@ void handle_6x9E_player_camera_shutter_sound(void) {
 
 void handle_6x04_legacy_activate_switch_by_token(G_LegacyActivateSwitchByToken_6x04 *packet) {
     packet->bswap();
-    TObjDoorKey__sub_8018FAEC(packet->header.param, packet->switch_token);
+    activate_door_key(packet->header.param, packet->switch_token);
 }
 
 void handle_6x03(void) {  }
@@ -351,7 +351,7 @@ void dispatch_pso_data_commands(TPacket *packet) {
 void TGameProtocol::run_task() {
     TPacket *n;
     for (n = (TPacket *)game_protocol_instance->m_down; n != 0; n = (TPacket *)n->m_next) {
-        TLobby__sub_8007EB20("Packet %s %x", n->m_name, n);
+        debug_printf("Packet %s %x", n->m_name, n);
         if (n->m_buffer_cleared == 0) {
             dispatch_pso_data_commands(n);
             n->recv();

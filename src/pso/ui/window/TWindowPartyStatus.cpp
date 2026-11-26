@@ -11,9 +11,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/text_8030C340.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
@@ -37,7 +36,7 @@ struct PartyStatusWindowLayout {
     TextLayoutRecord rec_4;
 };
 
-PartyStatusWindowLayout lbl_804E7750 = {
+PartyStatusWindowLayout party_status_layout_entries = {
     5, 1,
     {6, {7.0f, 7.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {45.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
@@ -47,7 +46,7 @@ PartyStatusWindowLayout lbl_804E7750 = {
 };
 
 WindowDescriptor party_status_window_params = {
-    {114.0f, 46.0f}, 70100.0f, &lbl_804E7750, 0xB28,
+    {114.0f, 46.0f}, 70100.0f, &party_status_layout_entries, 0xB28,
 };
 
 void TWindowPartyStatus::draw() { update_hp_entry(); update_status_entry(); }
@@ -57,7 +56,7 @@ void TWindowPartyStatus::draw_background(WindowDrawContext *context) {
     f32 depth;
     depth = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0xB, context->color);
     quad.x0 = context->inner_x;
     quad.y0 = context->inner_y;
@@ -69,8 +68,8 @@ void TWindowPartyStatus::draw_background(WindowDrawContext *context) {
     quad.v1 = 0.8828125f;
     context->transform_quad(&quad);
     draw_textured_quad_at_depth((f32 *)&quad, depth);
-    TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(context, &context->inner_x, &context->inner_w) != 0) {
+    end_screen_draw();
+    if (scanline_crosses_window(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&quad, context);
         end_window_sweep_draw(0xB);

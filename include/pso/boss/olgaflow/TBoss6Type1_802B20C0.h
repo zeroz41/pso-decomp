@@ -5,8 +5,6 @@
 #include <dolphin/mtx.h>
 
 struct TBoss6Type1;
-extern "C" {
 void send_flow_action_if_idle(TBoss6Type1 *boss, s32 action);
-}
 
 #endif

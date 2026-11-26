@@ -9,18 +9,15 @@ struct RelFileTrailer;
 class TRelDataFile;
 class TObject;
 
-extern "C" {
 // The name copy_name last copied (16 characters, not terminated when full).
 extern char player_name_copy_buffer[16];
 // What __sinit stores into disc_read_filename: an empty file name.
 extern const char *lbl_805D2B10;
-
-void TLobby__sub_800F8AD0(void);
-void TLobby__sub_800F8BD8(void);
-}
+void flag_pending_area_transfer(void);
+void reset_to_fallback_main_phase(void);
 void request_pending_file_read_flush(void);
+void set_lobby_state_byte_flag(void);
 extern "C" {
-void TLobby__sub_800F8F34(void);
 
 // The GSL archive close hook: hands the archive's entries to fn_800FFE14.
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count);
@@ -32,9 +29,7 @@ saddr load_text_resource_pair(saddr name);
 // The named resource files: load, relocate and register under resource_load_task_root.
 void *load_encrypted_archive_data(const char *name);
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs);
-extern "C" {
-void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size);
-}
+void *load_rel_data_file(const char *name, u8 *data, s32 size);
 void *apply_pointer_relocations(TRelDataFile *file, RelFileTrailer *relocs);
 void *apply_rel_relocations(TRelDataFile *file);
 TObject *get_load_fade_task(void);

@@ -48,12 +48,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/MenuText.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/object/warp/TObjWarpJung.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/technique/TTecLuker.h"
@@ -79,7 +78,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/warp/ForestWarpResources.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
@@ -87,13 +86,13 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -106,11 +105,6 @@ struct Colors_8019C250 { u16 c[2]; };
 
 struct Colors_8019C604 { u16 c[2]; };
 
-extern "C" {
-
-s64 get_warp_string_screen_position(void *arg0, u16 client_id);
-void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
-}
 
 
 union WarpStringPos {
@@ -165,7 +159,7 @@ extern __declspec(section ".data") const Vec map_warp_destination_offsets[4] = {
 };
 
 // Screen position of the warp id string: one entry for a single screen, then the
-// split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see get_warp_string_screen_position.
+// split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see TObjWarpString::get_screen_position.
 extern __declspec(section ".data") const WarpStringScreenPosition warp_string_screen_position_table[10] = {
     {{320.0f}, {200.0f}},
     {{320.0f}, {120.0f}},
@@ -185,7 +179,7 @@ void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet) {
     bswap_16(reinterpret_cast<u16 *>(&packet->floor));
 }
 
-void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *p, s32 v) { *(s32 *)((char *)p + 0x3c8) = v; }
+void TObjPlayer::set_entrance_id(s32 id) { entrance_id = id; }
 
 s32 FloorTransition::get_next_floor() { return next_floor; }
 
@@ -226,7 +220,7 @@ TObjWarpBase::TObjWarpBase(TObject *parent, void *set_data) : TObjCollidable(par
     m_name = class_name;
     apply_object_set_data(set_data);
     warp_range = 10.0f;
-    menu_window = 0;
+    menu_window = NULL;
     field_collider = new TTelepipeSelectField(&position, this, 1);
     user_client_id = 0xFFFF;
 }
@@ -247,17 +241,15 @@ TObjPlayer *find_warp_player_in_range(TObjWarpBase *warp, u16 client_id, f32 ran
 }
 
 void TObjWarpBase::close_menu() {
-    uaddr player;
-
-    player = (u32) this->menu_window;
-    if (player != 0U) {
-        ((TWindowBase *)player)->close();
-        this->menu_window = 0U;
-        player = (uaddr)get_player_by_client_id(this->user_client_id);
-        if (player != 0U) {
-            ((TObjPlayer *)player)->pad_binding.enable_buttons(4);
+    TWindowMenu *window = menu_window;
+    if (window != NULL) {
+        window->close();
+        menu_window = NULL;
+        TObjPlayer *player = get_player_by_client_id(user_client_id);
+        if (player != NULL) {
+            player->pad_binding.enable_buttons(4);
         }
-        this->user_client_id = 0xFFFFU;
+        user_client_id = 0xFFFF;
     }
 }
 
@@ -402,15 +394,15 @@ void TObjMapWarp::process_player_warps() {
     }
     if (is_warp_enabled() == 0) {
         if (this->menu_window != NULL) {
-            ((TWindowBase *)this->menu_window)->close();
+            this->menu_window->close();
             this->menu_window = NULL;
         }
     } else {
         TObjPlayer *t2;
         s32 j2;
         if (this->menu_window != NULL) {
-            ((TObject *)(this->menu_window))->clear_update_suspension();
-            ((TObject *)this->menu_window)->allow_rendering();
+            this->menu_window->clear_update_suspension();
+            this->menu_window->allow_rendering();
         }
         t2 = find_warp_player_in_range(this, local_client_id, this->warp_range);
         if (t2 != NULL) {
@@ -431,12 +423,12 @@ void TObjMapWarp::process_player_warps() {
 void TObjMapWarp::draw_debug_destinations() {
     Vec *end;
     s32 i;
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- DST POS X");
     debug_printf_at(0x13001D, "<- DST POS Y");
     debug_printf_at(0x13001E, "<- DST POS Z");
     debug_printf_at(0x130020, "<- DST ANG Y");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     for (i = 0; i < 4; i++) {
         Vec b;
         Vec a = {0.0f, 0.0f, -3.0f};
@@ -478,7 +470,7 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -512,17 +504,17 @@ TObjAreaWarp::~TObjAreaWarp() {
 void TObjAreaWarp::open_confirm_window(s32 client_id) {
     uaddr player;
 
-    if ((u32) this->menu_window == 0U) {
-        this->menu_window = (uaddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
+    if (this->menu_window == NULL) {
+        this->menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         if (get_game_play_mode() == 1) {
-            ((TWindowMenu *)(this->menu_window))->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
+            this->menu_window->add_text_entry((saddr)get_area_title(), 2, 0, -1);
         } else {
-            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
+            this->menu_window->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
         }
-        ((TWindowMenu *)(this->menu_window))->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
-        ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
-        ((TWindowMenu *)(this->menu_window))->set_flag_40();
+        this->menu_window->calc_window_size();
+        align_menu_entry_positions(this->menu_window);
+        this->menu_window->set_flag70_bit10();
+        this->menu_window->set_flag_40();
         this->user_client_id = client_id;
         player = (uaddr)get_player_by_client_id(this->user_client_id);
         if (player != 0U) {
@@ -548,14 +540,14 @@ void TObjAreaWarp::handle_area_selection() {
     s32 i;
     TObjPlayer *t;
     if (is_warp_enabled() == 0) {
-        if (menu_window != 0) {
-            ((TWindowBase *)menu_window)->close();
-            menu_window = 0;
+        if (menu_window != NULL) {
+            menu_window->close();
+            menu_window = NULL;
         }
     } else {
-        if (menu_window != 0) {
-            ((TObject *)menu_window)->clear_update_suspension();
-            ((TObject *)menu_window)->allow_rendering();
+        if (menu_window != NULL) {
+            menu_window->clear_update_suspension();
+            menu_window->allow_rendering();
         }
         if (is_split_screen() != 0) {
             found = 0;
@@ -624,9 +616,9 @@ void handle_6x94_inter_level_warp(game_command_header *command) {
 
 void TObjAreaWarp::debug_print_area_num() {
     dest_floor = set_params[0];
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- AREA NUM : %d", dest_floor);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 const char *TObjAreaWarpForest::class_name = "TObjAreaWarpForest";
@@ -682,7 +674,7 @@ void TObjAreaWarpForest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -711,19 +703,19 @@ void TObjAreaWarpForest::render() {
 
 void TObjAreaWarpForest::debug_print_area_num() {
     this->TObjAreaWarp::debug_print_area_num();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
     set_params[2] = set_params[2] % 2;
     if (set_params[2] == 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 const char *TObjAreaWarpQuest::class_name = "TObjAreaWarpQuest";
@@ -774,7 +766,7 @@ void TObjAreaWarpQuest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -811,16 +803,16 @@ void TObjAreaWarpQuest::debug_print_area_num() {
         set_params[2] = 0;
     }
     set_params[2] = set_params[2] % 2;
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- PLAYER SET ID : %d", player_set_id);
     if (set_params[2] == 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
@@ -829,13 +821,13 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
     floor_transition_state.set_next_floor(dest_floor, get_floor_map_terrain(dest_floor));
     mark_area_change_pending();
     if (player != 0 && player_set_id > 1) {
-        TObjAreaWarpQuest__sub_8019DCD8(player, player_set_id);
+        player->set_entrance_id(player_set_id);
     }
     if (player_set_id > 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != 0 && p->obj_isState3_324() != 0 && p->get_npc_controller() != 0xFFFF) {
-                TObjAreaWarpQuest__sub_8019DCD8(p, player_set_id);
+                p->set_entrance_id(player_set_id);
             }
         }
     }
@@ -891,7 +883,7 @@ void TObjAreaWarpEnding::render() {
         }
     }
     root = warp_model;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -917,33 +909,33 @@ void TObjAreaWarpEnding::render() {
 
 void TObjAreaWarpEnding::debug_print_area_num() {
     this->TObjAreaWarp::debug_print_area_num();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
     set_params[2] = set_params[2] % 2;
     if (set_params[2] == 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
-    if ((u32) this->menu_window == 0U) {
-        this->menu_window = (uaddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
+    if (this->menu_window == NULL) {
+        this->menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         if (get_main_phase() == 0xE) {
-            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x26), 3, 0, -1);
+            this->menu_window->add_text_entry(get_localized_text_entry(9, 0x26), 3, 0, -1);
         } else {
-            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
+            this->menu_window->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
         }
-        ((TWindowMenu *)(this->menu_window))->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
-        ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
-        ((TWindowMenu *)(this->menu_window))->set_flag_40();
+        this->menu_window->calc_window_size();
+        align_menu_entry_positions(this->menu_window);
+        this->menu_window->set_flag70_bit10();
+        this->menu_window->set_flag_40();
         user_client_id = client_id;
     }
 }
@@ -981,8 +973,8 @@ TObjMapForceWarp::TObjMapForceWarp(TObject *parent, void *set_data) : TObjMapWar
         display_number = 1;
     }
     if (field_collider != NULL) {
-        ((TObject *)field_collider)->disallow_rendering();
-        ((TObject *)field_collider)->suspend_update();
+        field_collider->disallow_rendering();
+        field_collider->suspend_update();
     }
 }
 
@@ -999,14 +991,14 @@ void TObjMapForceWarp::draw_debug_destinations() {
     } else {
         display_number = 1;
     }
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- FLOOR NUMBER");
     if (display_number != 0) {
         debug_printf_at(0x130022, "<- DISP NUMBER");
     } else {
         debug_printf_at(0x130022, "<- NO DISP NUMBER");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 s32 TObjMapForceWarp::is_choice_confirmed_by(s32 client_id) {
@@ -1102,7 +1094,7 @@ void TObjWarpString::render() {
     u32 color;
     u32 width;
 
-    pos.packed = get_warp_string_screen_position(this, client_id);
+    pos.packed = get_screen_position(client_id);
     width = calc_text_width(text) >> 1;
     pos.xy.x -= (f32)width;
     y = pos.xy.y;
@@ -1122,7 +1114,7 @@ void TObjWarpString::render() {
 }
 #pragma pop
 
-s64 get_warp_string_screen_position(void *arg0, u16 client_id) {
+s64 TObjWarpString::get_screen_position(u16 client_id) {
     const WarpStringScreenPosition *p = warp_string_screen_position_table;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (TCameraCtrl::get_camera_id()) {
@@ -1174,10 +1166,10 @@ void TObjAreaWarpEndingJung::render() {
         }
         switch (this->set_params[2]) {
         case 0:
-            TObjWarpJung__sub_801A0404(0);
+            TObjWarpJung::set_beam_texture(0);
             break;
         case 1:
-            TObjWarpJung__sub_801A0404(1);
+            TObjWarpJung::set_beam_texture(1);
             break;
         }
         TObjWarpJung::set_global_render_param();
@@ -1193,19 +1185,19 @@ void TObjAreaWarpEndingJung::render() {
 }
 
 void TObjAreaWarpEndingJung::debug_print_area_num() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
     set_params[2] = set_params[2] % 2;
     if (set_params[2] == 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     } else {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void *TObjAreaWarpEndingJung::create(void *set_data) {

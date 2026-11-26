@@ -2,11 +2,10 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/network/TLobby.h"
@@ -19,7 +18,7 @@ NJS_TEXNAME player_ad_texture_entry = { "f128_player_ad", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST player_ad_texture_list = { &player_ad_texture_entry, 1 };
 NJS_TEXNAME player_ad_eng_texture_entry = { "f128_player_ad_eng", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST player_ad_eng_texture_list = { &player_ad_eng_texture_entry, 1 };
-const char *TAdMultiPlayerNoGC__name = "TAdMultiPlayerNoGC";
+const char *TAdMultiPlayerNoGC::name = "TAdMultiPlayerNoGC";
 NJS_TEXLIST *player_ad_texture_list_ptr;
 
 // Built with deferred inlining: functions are written in the reverse of
@@ -50,7 +49,7 @@ void TLobby::free_global_object() {
 
 TAdMultiPlayerNoGC::TAdMultiPlayerNoGC(TObject *parent, s32 player_count, u32 slot, u32 player_no)
     : TObject(parent) {
-    m_name = TAdMultiPlayerNoGC__name;
+    m_name = TAdMultiPlayerNoGC::name;
     switch (player_count) {
     case 2:
         x = slot * 0x130 + 0x68;
@@ -93,8 +92,8 @@ void TAdMultiPlayerNoGC::render() {
 
 void TAdMultiPlayerNoGC::render_status() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(player_ad_texture_list_ptr);
+    set_texture_list(player_ad_texture_list_ptr);
     set_draw_texture_and_color(0, -1);
     draw_textured_quad_at_depth(quad, 0.25f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }

@@ -9,6 +9,7 @@ class TAdGuideTxtGC;
 
 class TAdStorySelectGC : public TObject {
 public:
+    static const char *class_name;
     TAdStorySelectGC(TObject *parent);
     virtual ~TAdStorySelectGC();
     virtual void run_task();

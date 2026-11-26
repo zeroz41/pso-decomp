@@ -5,7 +5,7 @@
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
@@ -20,7 +20,7 @@ const PlyPltAnimVec2 ply_plt_anim_target_position_table[5] = {
 const u32 ply_plt_anim_duration_table[5] = { 16, 14, 12, 10, 14 };
 // plate size in pixels (width, height)
 static const PlyPltAnimVec2 lbl_80479350[1] = { { 180.0f, 38.0f } };
-const char *TAdPlyPltAnimGC__class_name = "TAdPlyPltAnimGC";
+const char *TAdPlyPltAnimGC::class_name = "TAdPlyPltAnimGC";
 NJS_TEXLIST *player_prate_texture_list_ptr;
 
 #pragma push
@@ -29,10 +29,10 @@ void TAdPlyPltAnimGC::render() {
     if (state != 0 && TMainTask::get_render_pass() != 1) {
         set_additive_blend();
         begin_screen_draw(1);
-        TObjFish::set_global_param(player_prate_texture_list_ptr);
+        set_texture_list(player_prate_texture_list_ptr);
         set_draw_texture_and_color(0, (alpha << 0x18) | 0xFF0000 | 0xFFFF);
         draw_textured_quad_at_depth(&quad.x0, (0.001f * (f32)index) + 0.99f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_default_alpha_blend();
     }
 }
@@ -97,7 +97,7 @@ TAdPlyPltAnimGC::~TAdPlyPltAnimGC() {
 #pragma push
 #pragma fp_contract on
 TAdPlyPltAnimGC::TAdPlyPltAnimGC(TObject *parent, s32 plate) : TObject(parent) {
-    m_name = TAdPlyPltAnimGC__class_name;
+    m_name = TAdPlyPltAnimGC::class_name;
     frame = -1;
     state = 0;
     quad.u0 = 0.0f;
@@ -116,14 +116,14 @@ TAdPlyPltAnimGC *TAdPlyPltAnimGC::get_or_create(TObject *parent, s32 index) {
     return TAdPlyPltAnimGC::instances[index];
 }
 
-void TAdPlyPltAnimGC__sub_8035615C(void) {
+void free_player_prate() {
     if (player_prate_texture_list_ptr != NULL) {
         release_texture_list(player_prate_texture_list_ptr);
         player_prate_texture_list_ptr = NULL;
     }
 }
 
-void register_player_prate(void) {
+void register_player_prate() {
     player_prate_texture_list_ptr = &player_prate_texture_list;
     load_streamed_prs_texture("f256_player_prate", &player_prate_texture_list);
 }

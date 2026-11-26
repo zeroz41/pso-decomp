@@ -24,16 +24,17 @@
 #include <stdio.h>
 #include "pso/network/NetworkConnect.h"
 #include "pso/unk/text_80145A94.h"
+#include "pso/unk/text_80145A44.h"
 
 void TAdDialingGC::open() {
     TAdDialingGC::instance = NULL;
-    TLobby__sub_802A0F70();
-    TLobby__sub_802A5154();
+    load_title_midashi_texture();
+    load_player_tex_texture();
 }
 
 void TAdDialingGC::close() {
-    TLobby::free_dialing_gc();
-    TLobby::free_dialog_global();
+    free_player_tex_texture();
+    free_title_midashi_texture();
     TAdDialingGC::instance = NULL;
 }
 
@@ -44,17 +45,12 @@ void TAdDialingGC::create() {
 }
 
 TAdDialingGC *TAdDialingGC::instance;
-extern "C" {
-s8 func_801A5E54__Fv();
-BOOL fn_80145A44(char *dst);
-}
 
 #pragma readonly_strings on
-const char *TAdDialingGC__name = "TAdDialingGC";
-extern const char *TAdDialingGC__name;
+const char *TAdDialingGC::name = "TAdDialingGC";
 
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
-    *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC__name);
+    *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC::name);
     TAdDialingGC::instance = this;
     if (is_state_active() != 0) {
         this->dial_mode = 1;
@@ -284,7 +280,7 @@ void TAdDialingGC::update() {
     }
 }
 
-void TAdDialingGC__sub_80328730(s32 status) {
+void TAdDialingGC::set_dial_result(s32 status) {
     if (TAdDialingGC::instance != 0) {
         TAdDialingGC::instance->status_code = status;
         TAdDialingGC::instance->dial_step = 2;
@@ -407,7 +403,7 @@ void TAdDialingGC::update_idle_dial_state() {
         }
         return;
     case 2:
-        if (func_801A5E54__Fv() != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             this->dial_step = 3;
             return;
         }

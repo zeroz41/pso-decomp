@@ -5,7 +5,7 @@
 #include "pso/system/MatrixOps.h"
 
 
-extern const char TBoss1DragonEffBreath::class_name_string[] = "TBoss1DragonEffBreath";
+const char TBoss1DragonEffBreath::class_name_string[] = "TBoss1DragonEffBreath";
 const char *TBoss1DragonEffBreath::name = TBoss1DragonEffBreath::class_name_string;
 
 void TBoss1DragonEffBreath::render() {}

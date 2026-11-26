@@ -7,7 +7,6 @@
 #include "pso/system/task/TObject.h"
 
 class ModelNodePositionCapture;
-struct TObjFish;
 class TParticleCtrl;
 struct TBoss6PlotFalz;
 class TBoss6Demo20_TYPE2_APPEAR : public TObject {

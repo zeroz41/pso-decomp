@@ -8,7 +8,6 @@
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/text_803000C8.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
@@ -30,7 +29,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 
 saddr multi_sel_rule;
-void fn_803000C8(void) {
+void apply_multi_sel_rule(void) {
     if (is_split_screen() != 0) {
         switch (multi_sel_rule) {
         case 1:
@@ -50,6 +49,7 @@ void fn_803000C8(void) {
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 
 typedef void (TAdMultiSelGameModeGC::*StateAction)();
@@ -59,7 +59,6 @@ struct Float8 { f32 v[8]; };
 
 struct Float2 { f32 v[2]; };
 
-s32 is_multiplayer_character_slot_selected(s32 slot);
 saddr multi_sel_episode;
 
 typedef struct Point3 { NJS_POINT2 p[3]; } Point3;
@@ -71,7 +70,7 @@ static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
     { -1, 340.0f, 145.0f }, { -1, 310.0f, 197.0f }, { -1, 280.0f, 250.0f },
 };
-const char *TAdMultiSelGameModeGC__name = "TAdMultiSelGameModeGC";
+const char *TAdMultiSelGameModeGC::name = "TAdMultiSelGameModeGC";
 extern Point3 multi_sel_game_mode_position;
 extern Int3 lbl_80474EEC;
 extern Int3 multi_sel_game_mode_arr3;
@@ -115,7 +114,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
             add_gray_text_entry(r, (const char *)(get_localized_text_entry(0x18, i + b.v[menu])), 6, i + a.v[menu]);
         }
         r->update_layout_height(206.0f);
-        ((TWindowSubComCardList *)r)->set_selected_index(a.v[menu]);
+        r->set_selected_index(a.v[menu]);
         align_menu_entry_positions(r);
     }
     return (saddr)r;
@@ -126,10 +125,10 @@ void TAdMultiSelGameModeGC::exit_keyboard_mode() { TObjEneDolmOlm::reset_count()
 void TAdMultiSelGameModeGC::update_transition_state() {
     switch (mode) {
     case 0:
-        TAdMultiChgGameModeGC::begin_transition();
+        TAdMultiChgGameModeGC::open_multi_confirm_scene();
         return;
     case 1:
-        TAdMultiChgGameModeGC::begin_change_game_mode();
+        TAdMultiChgGameModeGC::open_multi_chg_game_mode_scene();
         return;
     }
 }
@@ -269,7 +268,7 @@ TAdMultiSelGameModeGC::~TAdMultiSelGameModeGC() {}
 
 #pragma pool_data off
 TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = TAdMultiSelGameModeGC__name;
+    m_name = TAdMultiSelGameModeGC::name;
     state = 0;
     selection = 3;
     this->mode = mode;

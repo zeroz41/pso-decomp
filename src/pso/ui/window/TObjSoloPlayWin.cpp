@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/challenge/ChallengeMode.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"

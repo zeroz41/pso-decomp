@@ -8,7 +8,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -19,10 +19,9 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include <dolphin/base/PPCArch.h>
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_800FD78C.h"
 
 // Written from its last function back: the unit is built -inline off,deferred
@@ -31,8 +30,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-}
 
 // One model per lobby theme; the themes with a motion have it in the motion
 // list at the index lobby_main_model_motions gives.
@@ -213,13 +210,13 @@ void TObjLobbyMain::render() {
         if (fade_state != 2) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
         index = model_index;
         motion = lobby_main_model_motions[index];
         if (motion != 5) {
-            draw_ginja_model_with_motion((get_bml_model((BmlResource *)model_resource, model_index)), (get_bml_motion(model_resource, motion)), (f32)animation_frame);
+            draw_ginja_model_with_motion(get_bml_model(model_resource, model_index), get_bml_motion(model_resource, motion), (f32)animation_frame);
         } else {
-            draw_ginja_object(get_bml_model((BmlResource *)model_resource, index));
+            draw_ginja_object(get_bml_model(model_resource, index));
         }
         pop_matrix();
     }

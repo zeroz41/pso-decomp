@@ -3,17 +3,15 @@
 #undef PSO_SDK_COMPACT_MATH
 #include "types.h"
 #include "pso/effect/particle/ParticleStrip.h"
-#include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 
 void draw_particle_strip(ParticleStripVertex *vertices, s32 count, s32 blended) {
-    TParticleCtrl::setup_particle_draw(blended);
+    setup_particle_draw(blended);
     emit_particle_strip_vertices(vertices, count);
-    TParticleCtrl::reset_particles();
+    end_particle_draw();
 }
 
-void TParticleCtrl::reset_particles() {
+void end_particle_draw() {
     end_primitive_draw();
 }
 
@@ -43,7 +41,7 @@ void emit_particle_strip_vertices(ParticleStripVertex *vertices, s32 count) {
     }
 }
 
-void TParticleCtrl::setup_particle_draw(s32 blended) {
+void setup_particle_draw(s32 blended) {
     load_camera_view_matrix();
     if (blended != 0) {
         setup_blended_textured_draw();

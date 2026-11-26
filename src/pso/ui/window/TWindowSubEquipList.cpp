@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubEquipList.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 
 #pragma readonly_strings on
@@ -33,7 +34,7 @@ void TWindowSubEquipList::render() {
         draw_context);
     draw_selected_list_entry(draw_context);
     if (this->status_display != NULL) {
-        this->status_display->forward_render(draw_context);
+        this->status_display->render(draw_context);
     }
 }
 #pragma pop

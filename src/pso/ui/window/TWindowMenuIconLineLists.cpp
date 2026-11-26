@@ -175,7 +175,7 @@ void TWindowMenuIconLine::build_weapon_shortcut_list() {
             }
         }
         // The equipped weapon (equip slot 6) is listed after the inventory.
-        weapon = (TItem *)TObjPlayer::get_slot_value(player->equipped_items, 6);
+        weapon = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, 6);
         if (weapon != NULL) {
             weapon_id = weapon->get_item_id();
             add_list_entry(weapon, weapon_id);

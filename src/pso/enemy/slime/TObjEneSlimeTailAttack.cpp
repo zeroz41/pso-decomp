@@ -2,7 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -25,7 +24,7 @@ struct NJS_OBJECT;
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 
 
@@ -39,7 +38,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -330,7 +329,7 @@ void TObjEneSlime::render() {
         push_matrix();
         model_index = *(s32 *)((s8 *)((u8 *)slime_model_index_by_type + type_offset) + 0);
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(get_bml_texlist(slime_bml_resource, model_index));
+        set_texture_list(get_bml_texlist(slime_bml_resource, model_index));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -1257,7 +1256,7 @@ void TObjEneSlimeOne::render_trail() {
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[this->variant];
-    TObjFish::set_global_param(get_bml_texlist(this->model_archive, t));
+    set_texture_list(get_bml_texlist(this->model_archive, t));
     draw_chunk_object(get_bml_model(this->model_archive, t));
     pop_matrix();
     TObjPlayer::init_render_globals();
@@ -1563,7 +1562,7 @@ void TObjEneSlimeTailAttack::draw_body() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, (int) (this->rotation_y));
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     if (active != 0) {
         reset_slime_tail_node_index();
         set_chunk_model_node_callback(capture_slime_tail_node);
@@ -1608,7 +1607,7 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(Vec *from, Vec *to, f32 t) {
         f32 r = 1.0f - t;
         scale_matrix(0, 1.0f, 0.5f, r * len / 10.0f);
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     push_material_fade(0.10000001f * t + 0.05f);
     saved = this->frame;
     this->frame = 7.0f;

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-bool TLobby__sub_800F9FD0(void);
+bool is_async_file_read_busy(void);
 }
 
 struct TLobbyKey { u8 pad0[4]; s32 id; };

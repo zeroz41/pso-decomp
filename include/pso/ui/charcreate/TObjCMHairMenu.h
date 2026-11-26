@@ -6,6 +6,7 @@
 
 class TObjCMHairMenu : public TObject {
 public:
+    static const char *name;
     TObjCMHairMenu(TObject *parent);
     CharacterAppearanceFields* appearance;
     s32 initialized, selection, count, ticks, active;

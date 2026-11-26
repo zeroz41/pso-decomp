@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/effect/sprite/TQuadSprite.h"
 
@@ -251,7 +251,7 @@ void capture_viewport_texture() {
 }
 
 void TObjPlayer::load_capture_texture() {
-    TObjFish::set_global_param(&shared_capture_texture_list);
+    set_texture_list(&shared_capture_texture_list);
     load_list_texture(0, 0, 0, 0);
 }
 
@@ -259,7 +259,7 @@ void draw_textured_screen_quad(u32 argb, f32 *pos, f32 *size, s32 cropped) {
     u32 rgba;
     GinjaSurfaceState *surface;
     f32 z;
-    TObjFish::set_global_param(&shared_capture_texture_list);
+    set_texture_list(&shared_capture_texture_list);
     if (cropped != 0) {
         surface = shared_capture_texture_list.textures->texture->surface;
         surface->header.width = 256;
@@ -312,7 +312,7 @@ void draw_screen_quad(u32 argb, s32 cropped, f32 border) {
     f32 z;
     u32 rgba;
     GinjaSurfaceState *surface;
-    TObjFish::set_global_param(&shared_capture_texture_list);
+    set_texture_list(&shared_capture_texture_list);
     if (cropped != 0) {
         surface = shared_capture_texture_list.textures->texture->surface;
         surface->header.width = 256;
@@ -485,7 +485,7 @@ void end_shadow_map_pass() {
 #pragma pop
 void bind_shadow_map_texture() {
     if ((is_split_screen() == 0) && (is_shadow_pass_active() != 0)) {
-        TObjFish::set_global_param(&shadow_map_texture_list);
+        set_texture_list(&shadow_map_texture_list);
         load_list_texture(0, 0, 0, 1);
     }
 }
@@ -597,7 +597,7 @@ void setup_particle_tev(s32 modulate) {
             GXSetTevOp(GX_TEVSTAGE1, GX_DECAL);
         }
         set_tex_coord_gen(GX_TEXCOORD1, GX_TG_MTX3x4, GX_TG_POS, GX_TEXMTX0);
-        TObjFish::set_global_param(&shared_capture_texture_list);
+        set_texture_list(&shared_capture_texture_list);
         load_list_texture(0, 0, 0, 1);
         model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);
@@ -610,7 +610,7 @@ void setup_capture_blend_tev() {
         GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD1, GX_TEXMAP1, GX_COLOR0A0);
         GXSetTevOp(GX_TEVSTAGE1, GX_BLEND);
         set_tex_coord_gen(GX_TEXCOORD1, GX_TG_MTX3x4, GX_TG_POS, GX_TEXMTX0);
-        TObjFish::set_global_param(&shared_capture_texture_list);
+        set_texture_list(&shared_capture_texture_list);
         load_list_texture(0, 0, 0, 1);
         model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);
@@ -743,7 +743,7 @@ void TLiveCameraView::render() {}
 
 void TLiveCameraView::bind_texture() {
     if ((is_split_screen() == 0) && (camera_render_target_singleton != NULL)) {
-        TObjFish::set_global_param(&camera_render_target_singleton->texture_list);
+        set_texture_list(&camera_render_target_singleton->texture_list);
         load_list_texture(0, 0, 0, 0);
     }
 }
@@ -841,7 +841,7 @@ void TObjPlayer::draw_capture_caption_bar() {
     QuadSpriteRect rect;
     f32 y;
     f32 x;
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);
     begin_screen_draw(1);
     x = 192.0f;
@@ -855,7 +855,7 @@ void TObjPlayer::draw_capture_caption_bar() {
     rect.u1 = 1.0f;
     rect.v1 = 1.0f;
     draw_textured_quad_at_depth(&rect.x0, 0.5f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 #pragma pop

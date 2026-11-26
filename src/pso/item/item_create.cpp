@@ -50,7 +50,6 @@
 #include "pso/item/MagStats.h"
 #include "pso/item/TItemData_80104D0C.h"
 #include "pso/unk/text_80104F4C.h"
-#include "pso/unk/text_8011A780.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/PlayerRequirementStats.h"
@@ -67,8 +66,6 @@
 #include "pso/weapon/TItemWeaponSRankCard.h"
 #include "pso/weapon/TItemWeaponPhotonLauncher.h"
 #include "pso/weapon/TItemWeaponSRankLauncher.h"
-#include "pso/unk/text_80125428.h"
-#include "pso/unk/text_80126740.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/unk/text_80128308.h"
 #include "pso/unk/text_80128440.h"
@@ -139,9 +136,7 @@
 #include "pso/unk/text_80103674.h"
 #include "pso/unk/text_8010F168.h"
 #include "pso/item/TItemBuff.h"
-#include "pso/unk/TLobby_80105A2C.h"
 #include "pso/item/item_pmt.h"
-#include "pso/item/ItemPmtRecords.h"
 #include "pso/item/TItemDisconnectCtrl_80105BE8.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemTimerEvent.h"
@@ -223,7 +218,6 @@
 
 extern "C" {
 s32 get_item_icon_index();
-void TLobby__sub_80104464(void);
 }
 
 // This unit's .sbss, in address order.
@@ -406,7 +400,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponSRankKnuckle::create,
     TItemWeaponSRank::create,
 };
-// Tool item factories, indexed by the tool type byte (TLobby__sub_8010440C).
+// Tool item factories, indexed by the tool type byte.
 ItemCreateFunction item_tool_factory_table[24] = {
     TItemToolMate::create,
     TItemToolFluid::create,
@@ -434,7 +428,6 @@ ItemCreateFunction item_tool_factory_table[24] = {
     TItemToolKillCounter::create,
 };
 
-void normalize_drop_area(s32 *p);
 
 void set_boss_buf_entry(int value, u16 index) { item_sync_counter_table[index] = value; }
 int TLobby::get_sync_counter(u16 a0) {  return item_sync_counter_table[a0]; }
@@ -522,13 +515,13 @@ void normalize_drop_area(s32 *p) {
     }
 }
 
-void TLobby::forward_to_player(int id, void *item) {
+void TLobby::forward_to_player(int id, TItemData *item) {
     TObjPlayer *player;
     if (item != NULL) {
         player = get_player_by_client_id((u16)id);
         if ((player != NULL) && ((player->is_locally_controlled() == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) designated_client_id)))) {
-            player->request_inventory_item((TItemData*)item);
-            send_6x25_equip_item(player, *(s32 *)((s8 *)item + 0xC), 0);
+            player->request_inventory_item(item);
+            send_6x25_equip_item(player, item->id, 0);
         }
     }
 }
@@ -543,13 +536,13 @@ void TLobby::handle_player_event(s32 client, s32 slot) {
             item = TObjPlayer::get_equipped_weapon(player);
             break;
         case 1:
-            item = (TItem *)(player)->get_equipped_armor();
+            item = player->get_equipped_armor();
             break;
         case 2:
-            item = (TItem *)(player)->get_equipped_shield();
+            item = player->get_equipped_shield();
             break;
         case 3:
-            item = (TItem *)player->activate_d04_slot();
+            item = player->get_equipped_mag();
             break;
         case 4:
         case 5:
@@ -568,12 +561,12 @@ void TLobby::handle_player_event(s32 client, s32 slot) {
 
 // ---- TShopEquipmentSellWindow_801047B4.cpp
 
-s32 TShopEquipmentSellWindow::get_item_data_value(uaddr item) {
-    TItemData item_data;
+s32 TShopEquipmentSellWindow::get_item_data_value(TItem *item) {
+    TItemData data;
 
-    if (item != 0U) {
-        ((TItem *)item)->copy_to_item_data(&item_data);
-        return item_data.calc_price();
+    if (item != NULL) {
+        item->copy_to_item_data(&data);
+        return data.calc_price();
     }
     return 0;
 }
@@ -615,16 +608,16 @@ s32 is_local_player_off_current_floor() {
 
 
 u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
-    s16 prev_amount;
+    s16 prev_type;
+    s16 type;
     s16 amount;
-    s16 unused;
     int prev;
 
     prev = slot - 1;
-    get_weapon_special_type_amount((u8) prev, &prev_amount, &unused);
-    get_weapon_special_type_amount(slot, &amount, &unused);
-    if ((prev_amount != -1) && (amount != -1)) {
-        if (prev_amount == amount) {
+    get_weapon_special_type_amount((u8) prev, &prev_type, &amount);
+    get_weapon_special_type_amount(slot, &type, &amount);
+    if ((prev_type != -1) && (type != -1)) {
+        if (prev_type == type) {
             return (u8) prev;
         }
         return slot;
@@ -633,15 +626,15 @@ u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
 }
 
 u8 TObjPlayer::get_next_matching_special_index(u8 slot) {
+    s16 type;
+    s16 next_type;
     s16 amount;
-    s16 next_amount;
-    s16 unused;
     int next;
-    get_weapon_special_type_amount(slot, &amount, &unused);
+    get_weapon_special_type_amount(slot, &type, &amount);
     next = slot + 1;
-    get_weapon_special_type_amount((u8)next, &next_amount, &unused);
-    if ((amount != -1) && (next_amount != -1)) {
-        if (amount == next_amount) {
+    get_weapon_special_type_amount((u8)next, &next_type, &amount);
+    if ((type != -1) && (next_type != -1)) {
+        if (type == next_type) {
             return (u8)next;
         }
         return slot;
@@ -895,18 +888,6 @@ ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
 
 struct Entry_8010567C { u16 a; u16 b; };
 
-struct Pkt_80105538 {
-    u8 hdr[4];
-    s8 f4;
-    s8 f5;
-    s16 f6;
-    f32 x;
-    f32 z;
-    s16 f10;
-    u8 f12[2];
-    s8 f14;
-};
-
 struct Obj_80105538 {
     u8 pad[0x28];
     s16 f28;
@@ -932,7 +913,6 @@ ItemCreateFunction item_create_fn_table[5] = {
 extern Entry_8010567C *quest_object_entries;
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
-void *build_6x06_send_guild_card(void *arg0);
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   void *player_alias;
@@ -1002,8 +982,8 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   switch (item->data1.data_u8[0])
   {
     case 0: {
-      PmtWeaponRecord *weapon;
-      if ((saddr) (weapon = (PmtWeaponRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
+      WeaponParams *weapon;
+      if ((saddr) (weapon = (WeaponParams *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
       if (check_class_equip_permission((TObjPlayer *) player, (s16) weapon->class_flags) == 0)
       {
@@ -1034,8 +1014,8 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     case 1:
       if (item->data1.data_u8[1] != 3)
     {
-      PmtArmorRecord *armor;
-      if ((saddr) (armor = (PmtArmorRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
+      ArmorPmtEntry *armor;
+      if ((saddr) (armor = (ArmorPmtEntry *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
         if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) armor->class_flags) == ((0, 0)))
         {
@@ -1055,8 +1035,8 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     else
       if (check_class_equip_permission((TObjPlayer *) player, 0xd7) != 0)
     {
-      PmtUnitRecord *unit;
-      if ((unit = (PmtUnitRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
+      UnitPmtEntry *unit;
+      if ((unit = (UnitPmtEntry *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
         switch (unit->stat)
         {
@@ -1086,8 +1066,8 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       break;
 
     case 2: {
-      PmtMagRecord *mag;
-      if ((mag = (PmtMagRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
+      MagPmtRecord *mag;
+      if ((mag = (MagPmtRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
       if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) mag->class_flags) == 0)
       {
@@ -1107,7 +1087,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       case 2:
         r = item->data1.data_u8[4];
       {
-        u8 lim = get_technique_learn_limit(((TObjPlayer *)player)->class_index, r);
+        u8 lim = get_technique_learn_limit(*(u8 *)&((TObjPlayer *)player)->class_index, r);
         if ((lim == 0xff) || (lim < item->data1.data_u8[2]))
         {
           flags |= 1;
@@ -1193,8 +1173,6 @@ TItem *construct_item(TItemData *data) {
     return 0;
 }
 
-extern "C" {
-
 TItem *TLobby__sub_801054E0(u8 *item) {
     if (item != 0) {
         if (item[1] < 4) {
@@ -1205,10 +1183,9 @@ TItem *TLobby__sub_801054E0(u8 *item) {
     }
     return 0;
 }
+extern "C" {
 
-// Dead-stripped by the linker: its 0.0f is the only trace left. The DOL pools 0.0f (0x805DAAB0)
-// ahead of send_6x60_standard_drop_item_request's 100.0f, so a 0.0f user came first in this TU.
-// inferred: minimal body, the real function is unknown.
+// Clears a drop request's position. Dead-stripped from the game: only its 0.0f literal remains.
 void clear_drop_request_position(Vec *v) {
     v->x = 0.0f;
     v->y = 0.0f;
@@ -1228,21 +1205,22 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                 if (self->f2c != -1) {
                     EnemyStateRecord e = enemy_state_records[self->f2c];
                     if (e.drop_id != 0xFFFF) {
-                        Pkt_80105538 pkt;
-                        build_6x06_send_guild_card(&pkt);
-                        pkt.f4 = get_current_floor();
-                        pkt.f5 = self->f370;
-                        pkt.f6 = self->f2c;
-                        pkt.x = self->x;
-                        pkt.z = self->z;
-                        pkt.f10 = self->f28;
-                        pkt.f14 = get_current_floor_area();
+                        G_StandardDropItemRequest_PC_V3_BB_6x60 pkt;
+                        G_StandardDropItemRequest_DC_6x60 &drop = pkt.__base_G_StandardDropItemRequest_DC_6x60;
+                        pkt.init();
+                        drop.floor = get_current_floor();
+                        drop.rt_index = self->f370;
+                        drop.entity_index = self->f2c;
+                        drop.pos.x = self->x;
+                        drop.pos.z = self->z;
+                        drop.room = self->f28;
+                        pkt.effective_area = get_current_floor_area();
                         Vec v;
-                        v.x = pkt.x;
+                        v.x = drop.pos.x;
                         v.y = 100.0f;
-                        v.z = pkt.z;
+                        v.z = drop.pos.z;
                         if (csnVecterUnder(&v, 1) != 0) {
-                            ((TLobby *)(&pkt))->dispatch_packet_wrapper();
+                            pkt.send();
                         }
                     }
                 }
@@ -1346,16 +1324,16 @@ void TObjPlayer::init_game_resources() {
     lbl_805D5440.reset();
 }
 
-void fn_801058E8(void* p) { *(u8*)((char*)p + 0x7) |= 0x1; }
+void fn_801058E8(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }
 
 s32 TObjPlayer::is_script_controlled() {
     return this->control_state == 6;
 }
 
-saddr TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
+TItem *TObjPlayer::get_equipped_mag() { return (TItem *)get_slot_value(equipped_items.items, 1); }
 
-saddr TObjPlayer::get_equipped_shield() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
-saddr TObjPlayer::get_equipped_armor() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }
+TItem *TObjPlayer::get_equipped_shield() { return (TItem *)get_slot_value(equipped_items.items, 3); }
+TItem *TObjPlayer::get_equipped_armor() { return (TItem *)get_slot_value(equipped_items.items, 2); }
 
 
 }
@@ -1372,24 +1350,45 @@ extern "C" {
 s32 test_flags_any(s32 *, s32);
 
 s32 TItemMenuCtrl::query_flag(s32 arg0) {
-    if (TItemMenuCtrl__instance != NULL) {
-        return test_flags_any(&TItemMenuCtrl__instance->menu_flags.bits, 1 << arg0);
+    if (TItemMenuCtrl::instance != NULL) {
+        return test_flags_any(&TItemMenuCtrl::instance->menu_flags.bits, 1 << arg0);
     }
     return 0;
 }
 
 }
 
-void TLobby::dispatch_packet_wrapper() { bswap_6x60_drop_request_fields(this); send_subcommand_to_leader(this); }
-
-void bswap_6x60_drop_request_fields(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x6)); bswap_16((u16 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x12)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
-void *build_6x06_send_guild_card(void *arg0) {
-    build_6x05_write_switch_flag(arg0);
-    *(s8 *)((s8 *)arg0 + 0) = 0x60;
-    *(s8 *)((s8 *)arg0 + 1) = 6;
-    return arg0;
+void G_StandardDropItemRequest_PC_V3_BB_6x60::send() {
+    __base_G_StandardDropItemRequest_DC_6x60.bswap();
+    send_subcommand_to_leader(this);
 }
-void build_6x05_write_switch_flag(void* a0) { *(float*)((char*)a0 + 0xc) = 0.0f; *(float*)((char*)a0 + 0x8) = 0.0f; *(short*)((char*)a0 + 0x10) = 0; *(short*)((char*)a0 + 0x12) = 0; *(unsigned char*)((char*)a0 + 0x5) = 0; *(unsigned char*)((char*)a0 + 0x4) = 0; *(unsigned char*)((char*)a0 + 0x0) = 96; *(unsigned char*)((char*)a0 + 0x1) = 5; }
+
+void G_StandardDropItemRequest_DC_6x60::bswap() {
+    reinterpret_cast<G_ClientIDHeader *>(&header)->bswap();
+    bswap_16(reinterpret_cast<u16 *>(&entity_index));
+    bswap_16(reinterpret_cast<u16 *>(&room));
+    bswap_16(reinterpret_cast<u16 *>(&ignore_def));
+    bswap_32(reinterpret_cast<u32 *>(&pos.x));
+    bswap_32(reinterpret_cast<u32 *>(&pos.z));
+}
+
+G_StandardDropItemRequest_PC_V3_BB_6x60 *G_StandardDropItemRequest_PC_V3_BB_6x60::init() {
+    __base_G_StandardDropItemRequest_DC_6x60.init();
+    __base_G_StandardDropItemRequest_DC_6x60.header.subcommand = 0x60;
+    __base_G_StandardDropItemRequest_DC_6x60.header.size = 6;
+    return this;
+}
+
+void G_StandardDropItemRequest_DC_6x60::init() {
+    pos.z = 0.0f;
+    pos.x = 0.0f;
+    room = 0;
+    ignore_def = 0;
+    rt_index = 0;
+    floor = 0;
+    header.subcommand = 0x60;
+    header.size = 5;
+}
 
 void G_SpecializableItemDropRequest_6xA2::send() {
     bswap();
@@ -1397,7 +1396,7 @@ void G_SpecializableItemDropRequest_6xA2::send() {
 }
 
 void G_SpecializableItemDropRequest_6xA2::bswap() {
-    bswap_6x60_drop_request_fields(this);
+    __base_G_StandardDropItemRequest_PC_V3_BB_6x60.__base_G_StandardDropItemRequest_DC_6x60.bswap();
     bswap_32(reinterpret_cast<u32 *>(&scale_z));
     bswap_32(reinterpret_cast<u32 *>(&set_params[0]));
     bswap_32(reinterpret_cast<u32 *>(&set_params[1]));
@@ -1405,7 +1404,7 @@ void G_SpecializableItemDropRequest_6xA2::bswap() {
 }
 
 G_SpecializableItemDropRequest_6xA2 *G_SpecializableItemDropRequest_6xA2::init() {
-    build_6x06_send_guild_card(this);
+    __base_G_StandardDropItemRequest_PC_V3_BB_6x60.init();
     G_UnusedHeader &header = __base_G_StandardDropItemRequest_PC_V3_BB_6x60.__base_G_StandardDropItemRequest_DC_6x60.header;
     header.subcommand = 0xA2;
     header.size = 0x0A;

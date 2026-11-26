@@ -30,7 +30,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"

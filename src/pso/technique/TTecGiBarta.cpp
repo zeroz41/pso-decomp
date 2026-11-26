@@ -9,7 +9,6 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecShot.h"
@@ -22,13 +21,13 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/TObjMotion.h"
-
+#include "pso/technique/TechniqueEmitterTable.h"
 
 #pragma push
 #pragma dont_inline off
@@ -73,45 +72,45 @@ void TTecGiBarta::update_technique_by_phase() {
 #pragma auto_inline on
 #pragma dont_inline off
 
-const TechniqueEmitterSourceRow giBarta_band0_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band0_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.0f},
     {0x182, 0x20022, 0.0f},
 };
-const TechniqueEmitterSourceRow giBarta_band1_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band1_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.2f},
     {0x183, 0x20062, 1.4f},
 };
-const TechniqueEmitterSourceRow giBarta_band2_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band2_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.4f},
     {0x184, 0x20062, 1.4f},
 };
-const TechniqueEmitterSourceRow giBarta_band3_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band3_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.6f},
     {0x185, 0x30062, 1.6f},
 };
-const TechniqueEmitterSourceRow giBarta_band4_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band4_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.8f},
     {0x186, 0x30062, 1.8f},
 };
-const TechniqueEmitterSourceRow giBarta_band5_emitters[2] = {
+static const TechniqueEmitterSourceRow giBarta_band5_emitters[2] = {
     {0x181, 0x42, 2.2f},
     {0x18E, 0x30062, 2.2f},
 };
-const TechniqueEmitterSourceTable TTecGiBarta__emitter_profile_table[6] = {
+static const TechniqueEmitterSourceTable gibarta_emitter_bands[6] = {
     {giBarta_band0_emitters, 3}, {giBarta_band1_emitters, 3}, {giBarta_band2_emitters, 3},
     {giBarta_band3_emitters, 3}, {giBarta_band4_emitters, 3}, {giBarta_band5_emitters, 2},
 };
-const char *TTecGiBarta__class_name = "TTecGiBarta";
+const char *TTecGiBarta::class_name = "TTecGiBarta";
 const Vec giBarta_emitter_offset = {0.0f, 0.0f, 3.0f};
 
 
 void TTecGiBarta::create_particles() {
-    s32 dir[3];
+    ParticleAngles angles;
     Vec pos;
     Vec off;
     Vec p2;
@@ -120,22 +119,22 @@ void TTecGiBarta::create_particles() {
     TParticleCtrl *emitter;
     TObjCollidable *src;
 
-    dir[0] = angles[0];
-    dir[1] = 0;
-    dir[2] = angles[2];
-    emitters = static_cast<TParticleCtrl **>(mem_alloc(TTecGiBarta__emitter_profile_table[band].count * sizeof(*emitters)));
-    for (i = 0; i < TTecGiBarta__emitter_profile_table[band].count; i++) {
+    angles.x = this->angles[0];
+    angles.y = 0;
+    angles.z = this->angles[2];
+    emitters = static_cast<TParticleCtrl **>(mem_alloc(gibarta_emitter_bands[band].count * sizeof(*emitters)));
+    for (i = 0; i < gibarta_emitter_bands[band].count; i++) {
 #ifdef __MWERKS__
         __memcpy(&pos, &position, sizeof(pos));
 #else
         pos = position;
 #endif
-        if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x800) {
+        if (gibarta_emitter_bands[band].rows[i].flags & 0x800) {
             pos.y -= 5.0f;
         }
-        if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 2) {
+        if (gibarta_emitter_bands[band].rows[i].flags & 2) {
             emitter = static_cast<TParticleCtrl *>(spawn_continuous_particle_with_direction(
-                &pos, dir, TTecGiBarta__emitter_profile_table[band].rows[i].entry));
+                &pos, &angles, gibarta_emitter_bands[band].rows[i].entry));
         } else {
 #ifdef __MWERKS__
             __memcpy(&off, &giBarta_emitter_offset, sizeof(off));
@@ -143,23 +142,23 @@ void TTecGiBarta::create_particles() {
             off = giBarta_emitter_offset;
 #endif
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, angles[1]);
+            rotate_matrix_y(0, this->angles[1]);
             matrix_mult_vec(0, &off, &off);
             pop_matrices(1);
             p2.x = position.x + off.x;
             p2.y = position.y + off.y;
             p2.z = position.z + off.z;
-            if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x800) {
+            if (gibarta_emitter_bands[band].rows[i].flags & 0x800) {
                 p2.y -= 5.0f;
             }
-            emitter = create_particle_emitter(&p2, TTecGiBarta__emitter_profile_table[band].rows[i].entry);
+            emitter = create_particle_emitter(&p2, gibarta_emitter_bands[band].rows[i].entry);
         }
         if (emitter != NULL) {
-            if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x40) {
-                emitter->set_scale(TTecGiBarta__emitter_profile_table[band].rows[i].scale, TTecGiBarta__emitter_profile_table[band].rows[i].scale);
+            if (gibarta_emitter_bands[band].rows[i].flags & 0x40) {
+                emitter->set_scale(gibarta_emitter_bands[band].rows[i].scale, gibarta_emitter_bands[band].rows[i].scale);
             }
-            if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x20) {
-                attach_particle_model(emitter, get_bml_model(technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[band].rows[i].flags >> 16)), technique_texture_list, 0, 0, 1.0f);
+            if (gibarta_emitter_bands[band].rows[i].flags & 0x20) {
+                attach_particle_model(emitter, get_bml_model(technique_effect_bml, (u16)(gibarta_emitter_bands[band].rows[i].flags >> 16)), technique_texture_list, 0, 0, 1.0f);
             }
         }
         emitters[i] = emitter;
@@ -236,7 +235,7 @@ void TTecGiBarta::create_ex(void *owner, Vec *position, s32 angle, s32 level) {
 }
 
 TTecGiBarta::~TTecGiBarta() {
-    for (u32 i = 0; i < TTecGiBarta__emitter_profile_table[band].count; ++i) {
+    for (u32 i = 0; i < gibarta_emitter_bands[band].count; ++i) {
         if (emitters[i]) {
             emitters[i]->queue_destruction();
         }
@@ -258,7 +257,7 @@ void TTecGiBarta::run_task() {
 TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
     : TTecShot(source, pos, target, level) {
     s32 i;
-    m_name = TTecGiBarta__class_name;
+    m_name = TTecGiBarta::class_name;
     calc_params();
     halfWidth = 12.0f;
     for (i = 0; i < 32; i++) {
@@ -275,7 +274,7 @@ TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
 TTecGiBarta::TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     s32 i;
-    m_name = TTecGiBarta__class_name;
+    m_name = TTecGiBarta::class_name;
     calc_params();
     for (i = 0; i < 0x20; i++) {
         hitIds[i] = 0xFFFF;

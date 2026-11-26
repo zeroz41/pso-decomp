@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/ui/TLevelSelect.h"
 
-extern s32 game_difficulty_selection;
 
 int TLobby::is_boss_phase_reached() {
     s32 phase;

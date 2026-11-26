@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/Language.h"
@@ -12,7 +13,6 @@
 
 extern "C" {
 s32 is_chat_shortcut_set(int);
-s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 saddr get_shared_text_buffer();
 
 int TWindowKeyBoardBase::is_alnum(u16 code) {
@@ -52,8 +52,8 @@ void TWindowKeyBoardBase::key_clear() {
 void TWindowKeyBoardBase::sub_8025B928() {  }
 
 void TWindowKeyBoardBase::sub_8025B92C() {
-    s8 text[0x100];
-    s8 name[0x100];
+    char text[0x100];
+    char name[0x100];
     s32 count;
     u16 flags;
     flags = state_flags;
@@ -64,11 +64,11 @@ void TWindowKeyBoardBase::sub_8025B92C() {
             if (!(state_flags & 0x10)) {
                 do {
                     this->candidate_count = count;
-                    count = TWindowKeyBoardSoft__sub_803E67D4(name, text);
+                    count = ime_request_extend_segment(name, text);
                 } while (count != 0);
-                sub_8025CFA8((s32 *)name);
+                sub_8025CFA8(name);
                 name[0] = 0;
-                write_name_and_text((char *)name, (char *)name);
+                write_name_and_text(name, name);
                 goto block_5;
             }
         } else {
@@ -147,8 +147,8 @@ void TWindowKeyBoardBase::key_f8() {
 }
 
 void TWindowKeyBoardBase::key_f7() {
-    s8 text[0x100];
-    s8 name[0x100];
+    char text[0x100];
+    char name[0x100];
     s32 count;
     u16 flags;
     if (!((s32)composition_flags & 0x20)) {
@@ -160,11 +160,11 @@ void TWindowKeyBoardBase::key_f7() {
                 if (!(state_flags & 0x10)) {
                     do {
                         this->candidate_count = count;
-                        count = TWindowKeyBoardSoft__sub_803E67D4(name, text);
+                        count = ime_request_extend_segment(name, text);
                     } while (count != 0);
-                    sub_8025CFA8((s32 *)name);
+                    sub_8025CFA8(name);
                     name[0] = 0;
-                    write_name_and_text((char *)name, (char *)name);
+                    write_name_and_text(name, name);
                     goto block_6;
                 }
             } else {
@@ -179,8 +179,8 @@ block_6:
 }
 
 void TWindowKeyBoardBase::key_f6() {
-    s8 text[0x100];
-    s8 name[0x100];
+    char text[0x100];
+    char name[0x100];
     s32 count;
     u16 flags;
     if (!((s32)composition_flags & 0x20)) {
@@ -192,11 +192,11 @@ void TWindowKeyBoardBase::key_f6() {
                 if (!(state_flags & 0x10)) {
                     do {
                         this->candidate_count = count;
-                        count = TWindowKeyBoardSoft__sub_803E67D4(name, text);
+                        count = ime_request_extend_segment(name, text);
                     } while (count != 0);
-                    sub_8025CFA8((s32 *)name);
+                    sub_8025CFA8(name);
                     name[0] = 0;
-                    write_name_and_text((char *)name, (char *)name);
+                    write_name_and_text(name, name);
                     goto block_6;
                 }
             } else {
@@ -227,7 +227,7 @@ void TWindowKeyBoardBase::key_f4() {
 void TWindowKeyBoardBase::key_f3() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
-            sub_8025C51C(2);
+            insert_party_member_name(2);
             return;
         }
         if (!(state_flags & 2) && (is_chat_shortcut_set(0xA) != 0)) {
@@ -240,7 +240,7 @@ void TWindowKeyBoardBase::key_f3() {
 void TWindowKeyBoardBase::key_f2() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
-            sub_8025C51C(1);
+            insert_party_member_name(1);
             return;
         }
         if (!(state_flags & 2) && (is_chat_shortcut_set(9) != 0)) {
@@ -253,7 +253,7 @@ void TWindowKeyBoardBase::key_f2() {
 void TWindowKeyBoardBase::key_f1() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
-            sub_8025C51C(0);
+            insert_party_member_name(0);
             return;
         }
         if (!(state_flags & 2) && (is_chat_shortcut_set(8) != 0)) {
@@ -279,7 +279,7 @@ void TWindowKeyBoardBase::key_down() {
             select_next();
             return;
         }
-        sub_8025D664();
+        select_next_segment();
     }
 }
 
@@ -289,7 +289,7 @@ void TWindowKeyBoardBase::key_left() {
             process_input();
             return;
         }
-        sub_8025D7FC();
+        shrink_segment();
         return;
     }
     if (active_text->cursor != 0) {
@@ -300,10 +300,10 @@ void TWindowKeyBoardBase::key_left() {
 void TWindowKeyBoardBase::key_right() {
     if (state_flags & 4) {
         if ((request_flags & 1) && !((s32)composition_flags & 0x20)) {
-            sub_8025D664();
+            select_next_segment();
             return;
         }
-        sub_8025D8C8();
+        extend_segment();
         return;
     }
     if (active_text->cursor < active_text->length) {
@@ -433,7 +433,7 @@ void TWindowKeyBoardBase::key_enter() {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025C51C(s32 slot) {
+void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
     u8 *name;
     u16 flags;
     u32 cursor;
@@ -444,7 +444,7 @@ void TWindowKeyBoardBase::sub_8025C51C(s32 slot) {
         }
         commit_composition_text();
     }
-    name = (u8 *)TWindowCtrl__sub_8024B7D4(slot);
+    name = (u8 *)get_party_member_name(slot);
     if (name != NULL) {
         text_builder_reset();
         cursor = m_text.cursor;

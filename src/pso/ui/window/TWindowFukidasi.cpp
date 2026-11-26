@@ -22,7 +22,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -233,7 +233,7 @@ void TWindowFukidasi::draw_body(WindowDrawContext *context, u32 argb, f32 *offse
     s.edge_a_v = 0.0f;
     s.edge_b_u = 0.0f;
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(1, argb);
     if (frame_size[1] < 64.0f) {
         capY = 0.5f * frame_size[1];
@@ -263,7 +263,7 @@ void TWindowFukidasi::draw_body(WindowDrawContext *context, u32 argb, f32 *offse
         s.edge_b_y = mid;
         draw_body_row(&s, context, offset[0], 32.0f, width, d);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TWindowFukidasi::draw_body_row(RotatedQuadSpriteRect *slice, WindowDrawContext *context, f32 offsetX, f32 rowTop, f32 fullWidth, f32 rowHeight) {
@@ -414,7 +414,7 @@ void TWindowFukidasi::draw_name_plate(WindowDrawContext *context, u32 argb) {
       context->transform_quad(&q);
       draw_textured_quad_at_depth(&q.x0, scale);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     pos[0] += 6.0f;
     if (textW < 20.0f)
     {
@@ -438,7 +438,7 @@ void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32
     this->speaker_id = speaker;
     this->client_index = client;
     if (str != NULL) {
-        len = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
+        len = TWindowKeyBoardSoft::strnlen(str, (u32)0x18);
         this->name = (char *)mem_alloc(len + 1);
         strncpy(this->name, str, len + 1);
     } else {
@@ -526,7 +526,7 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
     entry->flags &= 0xFFFFFDFF;
   }
   entry->color = 0xFF000000;
-  new_var = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x100));
+  new_var = TWindowKeyBoardSoft::strnlen(str, (u32)(0x100));
   hide_ticks = (s16) ((3.3f * ((f32) new_var)) + 55.5f);
   if (TWindowSubStatusDisp::get_card_window_scale((int) ((s32) client_index)) > 0.0f)
   {
@@ -1121,7 +1121,7 @@ void TWindowFukidasi::rearm_balloon(saddr flags) {
     init_flags(flags);
     switch (content_kind) {
     case 0:
-        n = TWindowKeyBoardSoft::strnlen((s8 *)(((TWindowSubComCard *)(void *)this->get_array_entry(0))->get_field_20()), (u32)0x100);
+        n = TWindowKeyBoardSoft::strnlen((const char *)((TWindowSubComCard *)(void *)this->get_array_entry(0))->get_field_20(), (u32)0x100);
         hide_ticks = (s16) ((3.3f * (f32) n) + 55.5f);
         break;
     case 1:

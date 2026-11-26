@@ -12,7 +12,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/technique/TTecBarta.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"
@@ -28,15 +28,16 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/technique/TechniqueEmitterTable.h"
 
-const char *TTecGiFoie__name = "TTecGiFoie";
+const char *TTecGiFoie::name = "TTecGiFoie";
 
-// emitter_rows_N: the N particle parts an entry of TTecGiFoie__emitter_profile_table spawns.
+// emitter_rows_N: the N particle parts an entry of gifoie_emitter_bands spawns.
 static const TechniqueEmitterSourceRow emitter_rows_1[1] = {{34, 2, 0.0f}};
 static const TechniqueEmitterSourceRow emitter_rows_2[2] = {{34, 2, 0.0f}, {172, 1, 0.0f}};
 static const TechniqueEmitterSourceRow emitter_rows_3[3] = {{34, 2, 0.0f}, {172, 1, 0.0f}, {414, 0x1000, 1.0f}};
 
-const TechniqueEmitterSourceTable TTecGiFoie__emitter_profile_table[6] = {
+static const TechniqueEmitterSourceTable gifoie_emitter_bands[6] = {
     {emitter_rows_1, 1}, {emitter_rows_1, 1}, {emitter_rows_1, 1},
     {emitter_rows_2, 2}, {emitter_rows_2, 2}, {emitter_rows_3, 3},
 };
@@ -54,7 +55,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
     s32 j;
     s32 k;
     s32 r;
-    this->m_name = TTecGiFoie__name;
+    this->m_name = TTecGiFoie::name;
     calc_params();
     if (this->collidable != NULL) {
         this->collidable->bodies->radius = 5.0f + this->params.range;
@@ -195,24 +196,24 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
     this->frames = 0;
     this->single = single;
     if (this->single != 0) {
-        s32 r[3];
+        ParticleAngles r;
         this->particles = (TParticleCtrl **)mem_alloc(4);
-        r[0] = 0;
-        r[1] = 0;
-        r[2] = 0x4000;
-        this->particles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&this->center, r, 0x19D);
+        r.x = 0;
+        r.y = 0;
+        r.z = 0x4000;
+        this->particles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&this->center, &r, 0x19D);
         this->radius = 5.0f;
     } else {
         s32 i;
-        this->particles = (TParticleCtrl **)mem_alloc(TTecGiFoie__emitter_profile_table[this->band].count * 4);
-        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->band].count; i++) {
-            s32 r[3];
+        this->particles = (TParticleCtrl **)mem_alloc(gifoie_emitter_bands[this->band].count * 4);
+        for (i = 0; i < gifoie_emitter_bands[this->band].count; i++) {
+            ParticleAngles r;
             const TechniqueEmitterSourceRow *p;
-            r[0] = 0;
-            r[1] = 0;
-            r[2] = 0x4000;
-            p = &TTecGiFoie__emitter_profile_table[this->band].rows[i];
-            this->particles[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->center, r, p->entry, (p->flags & 0x1000) ? (u16)0x2000 : (u16)0);
+            r.x = 0;
+            r.y = 0;
+            r.z = 0x4000;
+            p = &gifoie_emitter_bands[this->band].rows[i];
+            this->particles[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->center, &r, p->entry, (p->flags & 0x1000) ? (u16)0x2000 : (u16)0);
             if (this->band == 2) {
                 if (level >= 0xF && level < 0x19) {
                     if (i <= 1 && this->particles[i] != NULL) {
@@ -233,7 +234,7 @@ TTecGiFoieFlame::~TTecGiFoieFlame() {
     if (this->single != 0) {
         this->particles[0]->queue_destruction();
     } else {
-        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->band].count; i++) {
+        for (i = 0; i < gifoie_emitter_bands[this->band].count; i++) {
             this->particles[i]->queue_destruction();
         }
     }
@@ -312,7 +313,7 @@ void TTecGiFoieFlame::run_task() {
         rot[0] = rot[1] - 0x8000;
         rot[1] = roll;
         rot[2] = 0x4000;
-        for (; i < TTecGiFoie__emitter_profile_table[band].count; i++) {
+        for (; i < gifoie_emitter_bands[band].count; i++) {
             particles[i]->set_position(&pos);
             particles[i]->set_direction(rot);
         }

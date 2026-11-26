@@ -4,7 +4,7 @@
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
@@ -23,14 +23,14 @@ void TPhotonRainbow::render() {
     texlist = ring_texlist[0];
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y / 2);
-    TObjFish::set_global_param(texlist);
+    set_texture_list(texlist);
     draw_chunk_object(ring_model[0]);
     pop_matrix();
     push_matrix();
     texlist = ring_texlist[1];
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, 0x10000 - rotation_y);
-    TObjFish::set_global_param(texlist);
+    set_texture_list(texlist);
     draw_chunk_object(ring_model[1]);
     pop_matrix();
     TParticleCtrl::end_effect_render();

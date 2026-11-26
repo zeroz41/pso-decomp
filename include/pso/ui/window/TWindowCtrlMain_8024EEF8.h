@@ -3,14 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
-void TWindowCtrlMain__sub_8024EF30(void);
-}
+void clear_shared_window_draw_context(void);
 
-// --- C functions defined in TWindowCtrlMain_8024EEF8.cpp ---
-extern "C" {
-void TWindowCtrlMain__sub_8024EF30(void);
-}
-// --- end of C functions
 
 #endif

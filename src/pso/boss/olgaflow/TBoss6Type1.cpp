@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -51,7 +50,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/object/base/TObjBase.h"
@@ -117,6 +116,7 @@ static const s32 boss6_type1_sway_delay_min = 20;
 static const s32 boss6_type1_sway_delay_range = 20;
 static const s32 boss6_type1_anim_count = 2;
 static const s32 boss6_type1_main_anim_index = 1;
+}
 
 inline const s32 &slot_count() { return boss6_type1_slot_count; }
 inline const s32 &sway_target_min() { return boss6_type1_sway_target_min; }
@@ -125,7 +125,6 @@ inline const s32 &sway_delay_min() { return boss6_type1_sway_delay_min; }
 inline const s32 &sway_delay_range() { return boss6_type1_sway_delay_range; }
 inline const s32 &anim_count() { return boss6_type1_anim_count; }
 inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
-}
 
 
 
@@ -134,7 +133,7 @@ inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjControl.h"
 
@@ -734,7 +733,7 @@ void TBoss6Type1::draw_part_motions() {
         cb = draw_callback_lists[i];
         a = &motion_state.part_motions[i];
         if (cb != 0) {
-            TObjFish::set_global_param(textures);
+            set_texture_list(textures);
             if (0.0f == a->blend) {
                 cb->install();
                 draw_model_motion((void *)id, a->motion, a->frame);
@@ -1523,7 +1522,7 @@ void TBoss6Type1::render_laser() {
         rotate_matrix_x(0, pitch);
         rotate_matrix_z(0, 0);
         scale_matrix(0, width, 1.0f, height);
-        TObjFish::set_global_param(textures);
+        set_texture_list(textures);
         draw_chunk_object(model);
         pop_matrix();
     }

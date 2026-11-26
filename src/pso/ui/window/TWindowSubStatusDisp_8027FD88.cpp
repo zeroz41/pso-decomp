@@ -11,7 +11,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -21,7 +20,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_8026C7AC.h"
+#include "pso/unk/text_8026C664.h"
 #include "pso/player/PlayerRequirementStats.h"
 
 const char *TWindowSubStatusDisp::class_name = "TWindowSubStatusDisp";
@@ -356,7 +355,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 
 
 // list type of page_indicator per page: the page-flip list kind passed to fn_8026C7AC
-const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
+const u8 status_page_list_kinds[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
     : TWindowBase((u8 *)TWindowSubStatusDisp::window_layout, client, (u8 *)get_window_layout_position(0x19)) {
@@ -384,27 +383,27 @@ void TWindowSubStatusDisp::run_task() {
     if ((this->page) != (this->requested_page))
     {
       this->page = this->requested_page;
-      fn_8026C7AC(this->page_indicator, lbl_805DD6F4[this->page]);
+      fn_8026C7AC(this->page_indicator, status_page_list_kinds[this->page]);
     }
     this->entry_list.destroy_all_items();
     this->dispatch_page_init();
   }
   this->dispatch_page_update();
   update_window();
-  ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *) this) + 0x24)));
+  this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *) this) + 0x24)));
 }
 
 void TWindowSubStatusDisp::render() {
-    saddr context;
+    WindowDrawContext *context;
 
     if (get_player_by_client_id(this->client_index) != 0U) {
-        context = reinterpret_cast<saddr>(this->setup_window_draw_context(&this->scale_x));
-        draw_window_frame((void *)context);
+        context = this->setup_window_draw_context(&this->scale_x);
+        draw_window_frame(context);
         draw_visible_window_entries(
             this,
             reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-            reinterpret_cast<WindowDrawContext *>(context));
-        draw_list_page_indicator(page_indicator, reinterpret_cast<WindowDrawContext *>(context));
+            context);
+        draw_list_page_indicator(page_indicator, context);
     }
 }
 
@@ -464,7 +463,7 @@ void TWindowSubStatusDisp::vt0() {
     WindowTextEntry *e;
     u8 *gauge;
     u8 *pl;
-    s32 v;
+    saddr v;
     s8 *st;
     if ((f32) this->open_tick > 7.5f) {
         this->open_tick = 7;
@@ -485,7 +484,7 @@ void TWindowSubStatusDisp::vt0() {
     if (pl != NULL) {
         st = (s8 *)(pl + 0x85C);
         if (st != NULL) {
-            v = (s32)((TObjPlayer *)pl)->get_name();
+            v = (saddr)((TObjPlayer *)pl)->get_name();
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(0)), v, 0x20);
             v = get_class_name_text(st[0x31]);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(3)), v, 0);
@@ -498,21 +497,21 @@ void TWindowSubStatusDisp::vt0() {
     }
 }
 
-void vt11__20TWindowSubStatusDispFv(TWindowBase *window) {
+void TWindowSubStatusDisp::vt11() {
     TObjPlayer *p;
     player_stats *q;
     TWindowLayoutNumber *e;
-    p = get_player_by_client_id(window->client_index);
+    p = get_player_by_client_id(client_index);
     if (p != NULL) {
         q = p->get_stats();
         if (q != NULL) {
-            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(2));
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(2));
             e->value = p->get_actor_level_index() + 1;
-            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(0x10));
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x10));
             e->value = q->meseta;
-            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(8));
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(8));
             e->value = q->exp;
-            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(0xC));
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
             e->value = p->get_next_level_exp() - q->exp;
         }
     }
@@ -703,7 +702,7 @@ void TWindowSubStatusDisp::vt7() {
 void TWindowSubStatusDisp::vt18() {  }
 
 // rank letters by clear rank
-const char *lbl_804D2B20[4] = {"", "B", "A", "S"};
+const char *challenge_rank_letters[4] = {"", "B", "A", "S"};
 
 // Best-time records page: page == 2 shows the split-screen record sets.
 void TWindowSubStatusDisp::vt4() {
@@ -755,7 +754,7 @@ void TWindowSubStatusDisp::vt4() {
         } else {
             set_text_entry_string(title, (uaddr)TWindowSubStatusDisp::get_message_10(0x9A), 0);
         }
-        set_text_entry_string(value, (uaddr)lbl_804D2B20[rank], 0);
+        set_text_entry_string(value, (uaddr)challenge_rank_letters[rank], 0);
     }
 
     title = (WindowTextEntry *)get_array_entry(7);
@@ -797,7 +796,7 @@ void TWindowSubStatusDisp::vt4() {
         spacer->flags &= ~RecordEntryHidden;
         value->flags &= ~RecordEntryHidden;
         set_text_entry_string(title, (uaddr)TWindowSubStatusDisp::get_message_10(0x99), 0);
-        set_text_entry_string(value, (uaddr)lbl_804D2B20[rank], 0);
+        set_text_entry_string(value, (uaddr)challenge_rank_letters[rank], 0);
     }
 
     title = (WindowTextEntry *)get_array_entry(0xD);
@@ -821,56 +820,45 @@ void TWindowSubStatusDisp::vt4() {
 
 void TWindowSubStatusDisp::vt15() {  }
 
-void vt5__20TWindowSubStatusDispFv(u8 *window_base) {
-  s32 type;
-  s32 n;
-  WindowTextEntry *e;
-  s32 r;
-  u8 *new_var;
-  int new_var2;
-  s32 i;
-  if (((f32) (*((s32 *) (((s8 *) window_base) + 0x5C)))) > 7.5f)
-  {
-    *((s32 *) (((s8 *) window_base) + 0x5C)) = 7;
-  }
-  init_window_layout_entries(
-      reinterpret_cast<WindowLayoutEntries *>(window_base + 0x24),
-      &TWindowSubStatusDisp::numbered_times_layout,
-      *((s16 *) (((s8 *) window_base) + 0x20)));
-  new_var = window_base;
-  type = ((TWindowSubStatusDisp *)new_var)->get_display_mode();
-  e = (WindowTextEntry *)((TWindowBase *)window_base)->get_array_entry(0);
-  set_text_entry_string(e, (saddr)TWindowSubStatusDisp::get_message_10(status_disp_vt5_message_ids[type]), 0);
-  n = challenge_set_stage_count(type);
-  i = 0;
-  do
-  {
-    e = (WindowTextEntry *)((TWindowBase *)window_base)->get_array_entry(i + 1);
-    new_var2 = n > i;
-    if (!new_var2)
-    {
-      e->flags |= 2;
+void TWindowSubStatusDisp::vt5() {
+    s32 type;
+    s32 stage_count;
+    WindowTextEntry *e;
+    s32 time;
+    s32 i;
+    int stage_in_set;
+    if ((f32) this->open_tick > 7.5f) {
+        this->open_tick = 7;
     }
-    else
-    {
-      r = get_challenge_stage_time(i, *((s16 *) (((s8 *) window_base) + 0x20)), type);
-      if (r == 0)
-      {
-        e->flags |= 2;
-      }
-      else
-      {
-        e->flags &= ~2;
-        text_builder_reset();
-        append_padded_number(i + 1, 2);
-        text_builder_append((u8 *)":");
-        TWindowSubStatusDisp::append_play_time(r);
-        set_text_entry_string(e, get_shared_text_buffer(), 0x20);
-      }
-    }
-    i++;
-  }
-  while (i < 9);
+    init_window_layout_entries(
+        &this->entry_list,
+        &TWindowSubStatusDisp::numbered_times_layout,
+        this->client_index);
+    type = get_display_mode();
+    e = (WindowTextEntry *)get_array_entry(0);
+    set_text_entry_string(e, (saddr)TWindowSubStatusDisp::get_message_10(status_disp_vt5_message_ids[type]), 0);
+    stage_count = challenge_set_stage_count(type);
+    i = 0;
+    do {
+        e = (WindowTextEntry *)get_array_entry(i + 1);
+        stage_in_set = stage_count > i;
+        if (!stage_in_set) {
+            e->flags |= 2;
+        } else {
+            time = get_challenge_stage_time(i, this->client_index, type);
+            if (time == 0) {
+                e->flags |= 2;
+            } else {
+                e->flags &= ~2;
+                text_builder_reset();
+                append_padded_number(i + 1, 2);
+                text_builder_append((u8 *)":");
+                TWindowSubStatusDisp::append_play_time(time);
+                set_text_entry_string(e, get_shared_text_buffer(), 0x20);
+            }
+        }
+        i++;
+    } while (i < 9);
 }
 
 void TWindowSubStatusDisp::vt16() {  }

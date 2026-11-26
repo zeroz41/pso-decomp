@@ -7,8 +7,8 @@
 // --- C functions defined in TLobby_80228154.cpp ---
 struct NJS_SPRITE;
 
+void draw_screen_sprite(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
 extern "C" {
-void TLobby__sub_80228154(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
 void load_area_scene_and_init(u8 *transition);
 }
 // --- end of C functions

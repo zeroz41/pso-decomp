@@ -24,6 +24,8 @@ struct gc_tag {
     void bswap() {
         bswap_16(&tag2);
     };
+    // Out-of-line copy for the action palette tags (TPlyDispConfigSmth rows).
+    void bswap_disp_config_field();
 
     u8 tag0;
     u8 tag1;

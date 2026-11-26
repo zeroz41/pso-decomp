@@ -59,4 +59,6 @@ LAYOUT_ASSERT(TBoss4Thanks_size, sizeof(TBoss4Thanks) == 0x54);
 // A particle emitter of the Thanks scene, alive while fade_frame is in [first_frame, last_frame]
 // (the TBoss6Thanks twin's Boss6ThanksEmitter).
 struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
+
+s32 any_player_has_listed_item(void);
 #endif

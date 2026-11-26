@@ -1,11 +1,10 @@
 #include "types.h"
 #include "pso/unk/text_803D9FF0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include <string.h>
 
 
-void TAdSinglePlyChrSelectGC::append_extension_if_missing(char *name, char *ext) {
+void append_extension_if_missing(char *dest, char *name, char *ext) {
     char buf[8];
     s32 len;
     len = strlen(name);
@@ -13,14 +12,14 @@ void TAdSinglePlyChrSelectGC::append_extension_if_missing(char *name, char *ext)
     convert_string_chars_via_table((u8 *)buf);
     if (buf[0] == '.') {
         if (strcmp(buf, ext) != 0) {
-            strcpy(((char *)this), name);
-            strcat(((char *)this), ext);
+            strcpy(dest, name);
+            strcat(dest, ext);
         } else {
-            strcpy(((char *)this), name);
+            strcpy(dest, name);
         }
     } else {
-        strcpy(((char *)this), name);
-        strcat(((char *)this), ext);
+        strcpy(dest, name);
+        strcat(dest, ext);
     }
 }
 

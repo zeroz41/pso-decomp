@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSnAkPassConfirmGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -18,17 +17,17 @@ static const NJS_POINT2 sn_ak_pass_confirm_message_pos = {44.0f, 231.0f};
 static const NJS_POINT2 sn_ak_pass_confirm_message_size = {552.0f, 140.0f};
 
 void TAdSnAkPassConfirmGC::render() {
-    vfunc_12();
+    render_dialog();
 }
 
-saddr TAdSnAkPassConfirmGC::vfunc_10() { return get_localized_text_entry(39, 0); }
-void TAdSnAkPassConfirmGC::vfunc_9() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
-void TAdSnAkPassConfirmGC::vfunc_8() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
-void TAdSnAkPassConfirmGC::vfunc_7() { TAdMultiChgGameModeGC::request_transition(); }
-void TAdSnAkPassConfirmGC::vfunc_6() { ((TAdMultiChgGameModeGC *)this)->set_state_0x1a(); }
+saddr TAdSnAkPassConfirmGC::get_message_text() { return get_localized_text_entry(39, 0); }
+void TAdSnAkPassConfirmGC::on_no_chosen() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
+void TAdSnAkPassConfirmGC::on_yes_chosen() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
+void TAdSnAkPassConfirmGC::on_cancel() { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
+void TAdSnAkPassConfirmGC::on_accept() { TAdMultiChgGameModeGC::open_pso_pass_save_scene(); }
 
 void TAdSnAkPassConfirmGC::run_task() {
-    vfunc_11();
+    run_dialog();
 }
 
 TAdSnAkPassConfirmGC::~TAdSnAkPassConfirmGC() {
@@ -45,7 +44,7 @@ TAdSnAkPassConfirmGC::TAdSnAkPassConfirmGC(TObject *parent) : TAdYesNoBaseGC(par
     init_parts((void *)&sn_ak_pass_confirm_message_pos, (void *)&sn_ak_pass_confirm_message_size);
 }
 
-void TAdYesNoBaseGC::vfunc_12() {
+void TAdYesNoBaseGC::render_dialog() {
     if (TMainTask::get_render_pass() == 1) { return;
     }
 }

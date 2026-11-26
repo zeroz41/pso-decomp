@@ -442,7 +442,7 @@ void randomize_adventure_maps(void) {
 
 #pragma push
 #pragma opt_common_subs off
-void TLobby__sub_80207BB0(void) {
+void reset_floor_map_registry(void) {
     struct TLobbyIds ids = boss_warp_area_id_table;
     s32 i;
     memset(floor_map_registry, 0, sizeof(floor_map_registry));

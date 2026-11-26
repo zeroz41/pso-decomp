@@ -5,20 +5,19 @@
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/text_801F3774.h"
-#include "pso/unk/text_801F4560.h"
-#include "pso/unk/text_801F469C.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
+#include "pso/ui/TLevelSelect.h"
 
-extern s32 game_difficulty_selection;
 
 void TLobby__sub_801F3774(void) {  }
 
-void TLobby::send_6x75_quest_flag(s16 flag, s16 action, s16 difficulty) {
+void TLobby::send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty) {
     G_UpdateQuestFlag_V3_BB_6x75 packet;
     build_6x75_update_quest_flag_dc(&packet);
     packet.__base_G_UpdateQuestFlag_DC_PC_6x75.flag = flag;
@@ -28,7 +27,7 @@ void TLobby::send_6x75_quest_flag(s16 flag, s16 action, s16 difficulty) {
     send_and_handle_6x75((TLobby *)&packet);
 }
 
-void TLobby::send_6x75_quest_flag_cur_difficulty(s16 flag, s16 action) {
+void TLobby::send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action) {
     G_UpdateQuestFlag_V3_BB_6x75 packet;
     build_6x75_update_quest_flag_dc(&packet);
     packet.__base_G_UpdateQuestFlag_DC_PC_6x75.flag = flag;

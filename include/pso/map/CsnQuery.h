@@ -31,6 +31,9 @@ struct WallRayResult {
 LAYOUT_ASSERT(WallRayResultSize, sizeof(WallRayResult) == 0x10);
 LAYOUT_ASSERT(WallRayResultHeaderOffset, offsetof(WallRayResult, header) == 0);
 
+// The collision groups of the floor's loaded c.rel module (NULL when none).
+extern CsnGroup **scene_collision_data;
+
 CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
 extern "C" {
 CsnGroup *select_ground_query_groups(const Vec *origin, u32 mask);

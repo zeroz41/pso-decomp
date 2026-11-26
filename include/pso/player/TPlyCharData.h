@@ -7,6 +7,7 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 class TObjPlayer;
 
@@ -36,6 +37,9 @@ public:
     u8 get_class_flag_0();
     u8 get_class_flag_1();
     u8 get_class_flag_2();
+    // The words fill_player_record packs into the last m_present byte of items 0-3 (lo) and 4-7 (hi).
+    u32 unpack_u32_hi();
+    u32 unpack_u32_lo();
     u8 get_def_materials_used();
     u8 get_evade_materials_used();
     u8 get_mind_materials_used();

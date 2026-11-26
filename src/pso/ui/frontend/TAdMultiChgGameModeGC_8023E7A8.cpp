@@ -4,6 +4,7 @@
 // (.sdata) are read and written by every part.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include <string.h>
@@ -27,7 +28,6 @@
 #include "pso/render/gjSystem.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8023F3F8.h"
-#include "pso/unk/text_802E10D8.h"
 #include "pso/unk/text_8026ACDC.h"
 #include "pso/unk/text_8026AC50.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -80,8 +80,8 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/unk/text_800F9B84.h"
 
-void clear_resource_load_tasks(void);
 void set_screen_size(f32, f32);
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
@@ -110,21 +110,21 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global},
     {register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0},
     {register_texture_f128_ray, TAdRayGC::destroy_instance},
-    {fn_802E10D8, TAdChrSelPlayerGC__sub_802E10A0},
-    {TAdTimeSetGC::sub_802E34A8, TAdTimeSetGC::sub_802E34A4},
+    {load_multi_ply_chr_select_resources, free_multi_ply_chr_select_resources},
+    {TAdTimeSetGC::load_scene_resources, TAdTimeSetGC::free_scene_resources},
     {register_texture_f512_multiplay, TAdGameStartSubGC::destroy_instance},
     {TAdSinglePlyChrSelectGC::alloc_char_buffers, TAdSinglePlyChrSelectGC::free_callbacks},
-    {fn_802FFC7C, fn_802FFC78},
+    {TAdMultiChgGameModeGC::load_scene_resources, TAdMultiChgGameModeGC::free_scene_resources},
     {load_multi_confirm_textures, free_multi_confirm_textures},
     {register_texture_logo_e, TLogo::free_held_object},
-    {TLogo__sub_8001C364, TLogo__sub_8001C360},
-    {TLobby__sub_8026ACDC, fn_8026AC50},
-    {register_player_prate, TAdPlyPltAnimGC__sub_8035615C},
+    {load_sonic_logo_texture, free_sonic_logo_texture},
+    {init_chat_log_heap, free_chat_log_lines},
+    {register_player_prate, free_player_prate},
     {load_data_buffers, TObjBoss2Tunnel::free_buffers},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
-    {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
+    {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
-    {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
+    {load_keyboard_resources, free_keyboard_resources},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {load_draw_line_task_resource, free_draw_line_task_resource},
 };
@@ -132,11 +132,11 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
 // The front-end screens' hooks, run after the table above and released before it.
 FloorResourceCallbacks lobby_scene_release_callback_table[7] = {
     {initialize_lobby_title_scene, TLobby::destroy_global_object},
-    {TLobby__sub_802A0F70, TLobby::free_dialog_global},
-    {TLobby__sub_802A5154, TLobby::free_dialing_gc},
-    {TLobby__sub_802A194C, TLobby__sub_802A1918},
-    {TLobby::apply_menu_cursor_selection, TLobby__sub_802AF198},
-    {TLobby__sub_802C7920, TLobby__sub_802C78EC},
+    {load_title_midashi_texture, free_title_midashi_texture},
+    {load_player_tex_texture, free_player_tex_texture},
+    {load_select_gamen_texture, free_select_gamen_texture},
+    {load_select_cursor_texture, free_select_cursor_texture},
+    {load_chr_sel_slot_texture, free_chr_sel_slot_texture},
     {TLobby::update_menu_cursor_selection, TLobby::free_global_object},
 };
 
@@ -182,12 +182,12 @@ void TAdMultiChgGameModeGC::set_default_camera() {
     set_active_camera_pose(&a, &b);
 }
 
-void TAdMultiChgGameModeGC::set_mode_change_state() {
+void TAdMultiChgGameModeGC::open_dialing_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 3;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::set_change_mode_flags() {
+void TAdMultiChgGameModeGC::open_level_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 1;
     game_mode_scene_change_state = 1;
@@ -197,12 +197,12 @@ void TAdMultiChgGameModeGC::apply_bgm_col_ctrl(const char *name) {
         play_area_music((char *)name);
     }
 }
-void TAdMultiChgGameModeGC::set_state_0x1a() {
+void TAdMultiChgGameModeGC::open_pso_pass_save_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x1A;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::reset_and_set_mode() {
+void TAdMultiChgGameModeGC::open_enter_ppp_pass_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x19;
     game_mode_scene_change_state = 1;
@@ -212,34 +212,34 @@ void TAdMultiChgGameModeGC::set_mode_18() {
     multi_chg_game_mode_state = 0x18;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::set_mode_17() {
+void TAdMultiChgGameModeGC::open_trial_agreement_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x17;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::set_mode_0x15() {
+void TAdMultiChgGameModeGC::open_ex_net_confirm_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x15;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::set_mode_0x14() {
+void TAdMultiChgGameModeGC::open_sn_ak_pass_confirm_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x14;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::request_transition() {
+void TAdMultiChgGameModeGC::open_lic_agreement_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x11;
     game_mode_scene_change_state = 1;
 }
 
-void TAdEnterSerialAccessGC::init_state() {
+void TAdMultiChgGameModeGC::open_enter_password_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x10;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::reset_mode_state() {
+void TAdMultiChgGameModeGC::open_enter_serial_access_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0xF;
     game_mode_scene_change_state = 1;
@@ -257,61 +257,61 @@ void TAdMultiChgGameModeGC::set_mode_state_0d() {
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_state_0xc() {
+void TAdMultiChgGameModeGC::open_multi_sel_game_mode_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0xC;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::begin_change_game_mode() {
+void TAdMultiChgGameModeGC::open_multi_chg_game_mode_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0xB;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::begin_transition() {
+void TAdMultiChgGameModeGC::open_multi_confirm_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0xA;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_state_0x9() {
+void TAdMultiChgGameModeGC::open_multi_save_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 9;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::request_scene_change() {
+void TAdMultiChgGameModeGC::open_time_set_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 8;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_change_game_mode() {
+void TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 7;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_game_mode() {
+void TAdMultiChgGameModeGC::open_single_ply_chr_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 6;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_game_mode_state() {
+void TAdMultiChgGameModeGC::open_select_game_mode_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 5;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_game_mode_changed() {
+void TAdMultiChgGameModeGC::open_story_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 4;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::init_change_mode() {
+void TAdMultiChgGameModeGC::open_title_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0;
     game_mode_scene_change_state = 1;
@@ -520,7 +520,7 @@ void run_game_mode_select_frame(void) {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (TAdPlayerLoadGC::get_instance() == 0) {
-        if (func_801A5E54__Fv() != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -530,19 +530,19 @@ void run_game_mode_select_frame(void) {
     render_tick();
 }
 
-void TAdMultiChgGameModeGC__sub_8023F4E4(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_mode_change_state(); render_tick(); }
-void TAdMultiChgGameModeGC__sub_8023F50C(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_change_mode_flags(); render_tick(); }
+void TAdMultiChgGameModeGC::init_dialing_select_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_dialing_select_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_level_select_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_level_select_scene(); render_tick(); }
 
 
-void TAdMultiChgGameModeGC::set_mode_1c() {
+void TAdMultiChgGameModeGC::open_ep3_exist_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x1C;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC__sub_8023F564(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_mode_17(); render_tick(); }
-void TAdMultiChgGameModeGC__sub_8023F58C(void) { init_game_mode_select_scene(); TAdEnterSerialAccessGC::init_state(); render_tick(); }
-void TAdMultiChgGameModeGC__sub_8023F5B4(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_state_0x9(); render_tick(); }
-void TAdMultiChgGameModeGC::render_scene() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::request_scene_change(); render_tick(); }
-void TAdMultiChgGameModeGC::render_game_mode_change() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_game_mode_changed(); render_tick(); }
-void TAdMultiChgGameModeGC__sub_8023F62C(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::init_change_mode(); render_tick(); }
+void TAdMultiChgGameModeGC::init_trial_agreement_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_trial_agreement_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_enter_password_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_enter_password_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_multi_save_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_multi_save_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_time_set_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_time_set_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_story_select_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_story_select_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_title_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_title_scene(); render_tick(); }
 void TAdMultiChgGameModeGC::sync_mode_state() { lbl_805D384C = multi_chg_game_mode_state; }

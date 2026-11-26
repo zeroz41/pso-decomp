@@ -11,7 +11,7 @@ struct TObjQuestColALock2 : public TObjQuestColBase {
     virtual int is_triggered();
     virtual TQuestThread *start_quest_thread();
     virtual void draw_debug_bounds();
-    TQuestManager *thread_root;  // quest_mission_manager or quest_area_manager, per manager_kind (inferred name)
+    TQuestManager *thread_root;  // quest_mission_manager or quest_area_manager, per manager_kind
     s32 manager_kind;
     static void *create(void *set_data);
 };

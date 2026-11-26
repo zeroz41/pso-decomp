@@ -11,7 +11,6 @@ struct BmlResourceDescriptor;
 extern const char *charamakingmot_model_names[1];
 extern const char *charamakingmot_motion_names[50];
 extern BmlResourceDescriptor creation_menu_resource_descriptor;
-extern const char *TCharaMaking__name;
 extern const s32 player_class_texture_archive_length[19];
 
 // Resets out-of-range appearance fields (name, section, class, parts); returns 0 if any were bad.
@@ -24,6 +23,7 @@ void TCharaMaking__sub_8028E790(void);
 s32 calc_section_id_from_name(s8 *name);
 
 struct TCharaMaking : public TObject {
+    static const char *name;
     TCharaMaking(TObject *parent);
     virtual ~TCharaMaking();
     u32 m_1c;

@@ -37,7 +37,7 @@ void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
 
 }
 
-void TObjPlayer::notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos) {
+void TObjPlayer::notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos) {
     if ((player != 0U) && (pos != 0U)) {
         TItemWeaponSRankPunch::clear_rico_ring_flag((TObject *)player);
         spawn_particle_effect((const Vec *)pos, 0x45);

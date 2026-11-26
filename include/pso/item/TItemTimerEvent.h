@@ -20,6 +20,8 @@ struct TItemTimerEvent : public TItemHeapObject {
     static void check_battle_ctrl(int client);
     static void notify_if_active(int client);
     static void clear_active();
+    static const char *class_name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TItemTimerEvent_size, sizeof(TItemTimerEvent) == 0x2C);

@@ -31,4 +31,8 @@ void reset_npc_proximity_target_on_floor_free(void);
 // Puts the player under quest control (state flag 0x8000).
 void set_player_quest_control_flag(TObjPlayer *player);
 
+// The quest opcodes p_noncol and p_col.
+void clear_hashi_versus2_flag(void);
+void set_hashi_versus2_flag(void);
+
 #endif

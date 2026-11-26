@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
@@ -86,7 +85,7 @@ void update_players_in_range(WarpPartyCheck *check) {
 
 
 s32 logo_clear_flag = 1;
-const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
+const char *TAdVIConfigGC::class_name = "TAdVIConfigGC";
 extern "C" {
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 
@@ -106,10 +105,10 @@ void TAdVIConfigGC::open_player_names_window() {
             if (p != 0) {
                 strncpy(((WarpPartyCheck *)this)->names[i].s, (char *)(p + 0x85C), 0x17);
                 ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), (s32)i);
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
             } else {
                 ((WarpPartyCheck *)this)->names[i].s[0] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), (s32)i);
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
             }
         }
     }
@@ -126,15 +125,15 @@ void TAdVIConfigGC::update_visibility() {
         open_player_names_window();
     }
     update_players_in_range((WarpPartyCheck *)this);
-    quest_vm_down_load_server = (u8 *)(*(u8 * *)&this->m_24);
+    quest_vm_down_load_server = (u8 *)(*(u8 * *)&this->exit_state);
     if (quest_vm_down_load_server != NULL) {
         if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x18) != 0) {
             ((TObject *)quest_vm_down_load_server)->clear_update_suspension();
-            ((TObject *)(*(u8 * *)&this->m_24))->allow_rendering();
+            ((TObject *)(*(u8 * *)&this->exit_state))->allow_rendering();
             return;
         }
         ((TObject *)quest_vm_down_load_server)->suspend_update();
-        ((TObject *)(*(u8 * *)&this->m_24))->disallow_rendering();
+        ((TObject *)(*(u8 * *)&this->exit_state))->disallow_rendering();
     }
 }
 
@@ -159,7 +158,7 @@ u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     u8 *base = (u8 *)this;
     VecCopy((Vec *)&this->m_prev, position);
     *(f32 *)&this->m_name = (f32) (radius * radius);
-    this->m_24 = 0;
+    this->exit_state = 0;
     memset((u8 *)&this->state_frames, 0, 0x60);
     *(s32 *)&this->m_flags = TLobby::count_members();
     *(s32 *)&this->m_down = 0;
@@ -172,7 +171,7 @@ u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
 }
 
 void TAdVIConfigGC::render() {
-    vfunc_12();
+    render_dialog();
 }
 
 
@@ -191,14 +190,14 @@ void TAdVIConfigGC::enable_progressive_mode() {
 }
 
 void TAdVIConfigGC::disable_progressive_mode() { OSSetProgressiveMode(0); }
-saddr TAdVIConfigGC::vfunc_10() { return get_localized_text_entry(29, 0); }
+saddr TAdVIConfigGC::get_message_text() { return get_localized_text_entry(29, 0); }
 
-void TAdVIConfigGC::vfunc_7() {
+void TAdVIConfigGC::on_cancel() {
     disable_progressive_mode();
     set_field48_clear_global();
 }
 
-void TAdVIConfigGC::vfunc_6() {
+void TAdVIConfigGC::on_accept() {
     if (VIGetDTVStatus() != 0) {
         enable_progressive_mode();
     }
@@ -206,7 +205,7 @@ void TAdVIConfigGC::vfunc_6() {
 }
 
 void TAdVIConfigGC::run_task() {
-    vfunc_11();
+    run_dialog();
 }
 
 
@@ -216,14 +215,14 @@ TAdVIConfigGC::~TAdVIConfigGC() {
 
 
 TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
-    m_name = TAdVIConfigGC__class_name;
-    set_field_2c(0);
+    m_name = TAdVIConfigGC::class_name;
+    set_default_choice(0);
     m_48 = 0;
 }
 
 }
 
-// Sits between the TAdVIConfigGC constructor and the TAdYesNoBaseGC::vfunc_8/9 copies that end this unit.
+// Sits between the TAdVIConfigGC constructor and the TAdYesNoBaseGC::on_yes_chosen/9 copies that end this unit.
 s32 TLogo::check_progressive_ready() {
     if (VIGetDTVStatus() == 0U) {
         TAdVIConfigGC::disable_progressive_mode();

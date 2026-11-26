@@ -2,7 +2,7 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/TObjBoss7TunnelSegment.h"
@@ -10,7 +10,6 @@
 #include "pso/boss/barbaray/TObjBoss7TunnelCol.h"
 #include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/render/GinjaMaterial.h"
@@ -19,7 +18,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/TObjBoss7TunnelNode.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -41,7 +40,7 @@ const s32 boss7_tunnel_kind1_model_indices[4] = {3, 4, 5, 6};
 const s32 boss7_tunnel_kind2_model_indices[3] = {7, 8, 9};
 const s32 boss7_tunnel_kind3_model_indices[3] = {10, 11, 12};
 const s32 boss7_tunnel_kind4_model_indices[4] = {13, 14, 15, 16};
-// where TObjBoss2Tunnel__sub_802F2A2C places its two TObjBoss7RaftSplash
+// Where the tunnel places its two TObjBoss7RaftSplash.
 const Vec TObjBoss2Tunnel::raft_splash_offset_table[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *TObjBoss7TunnelCol::name = "TObjBoss7TunnelCol";
 const CollisionBody TObjBoss7TunnelCol::col_desc = {{0.0f, 0.0f, 0.0f}, 100.0f, 9.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -433,7 +432,7 @@ void TObjBoss7TunnelSegment::run_task() {
 void TObjBoss7TunnelSegment::draw_opaque_model() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(1);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[0]].model);
@@ -445,7 +444,7 @@ void TObjBoss7TunnelSegment::draw_opaque_model() {
 void TObjBoss7TunnelSegment::draw_translucent_models() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(2);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[1]].model);
@@ -462,7 +461,7 @@ void TObjBoss7TunnelSegment::draw_tunnel_segment() {
     if (is_in_camera_range() != 0) {
         model_index = model_indices[model_count - 1];
         set_draw_list_mask(2);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         TParticleCtrl::begin_effect_render();
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));

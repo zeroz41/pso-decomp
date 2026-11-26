@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/memory.h"

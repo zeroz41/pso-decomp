@@ -5,7 +5,6 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"
@@ -49,7 +48,7 @@ static const CharacterSlotPosition chr_sel_a_slot_left_header_pos = { 35.0f, 118
 static const CharacterSlotPosition chr_sel_a_slot_message_pos = { 128.0f, 182.0f };
 static const CharacterSlotPosition chr_sel_a_slot_left_message_pos = { 24.0f, 182.0f };
 static const CharacterSlotPosition chr_sel_b_slot_message_pos = { 431.0f, 182.0f };
-const char *TAdChrSelASlotGC__name = "TAdChrSelASlotGC";
+const char *TAdChrSelASlotGC::name = "TAdChrSelASlotGC";
 
 
 TAdChrSelASlotGC *TAdChrSel__global_slot_data;
@@ -62,11 +61,11 @@ void TAdChrSelASlotGC::render() {
 }
 
 s32 TAdChrSelASlotGC::is_character_transferred(u32 i) {
-    CardSlotSummary *e = (CardSlotSummary *)TAdSinglePlyChrSelectGC__sub_801FE4BC(i);
+    CardSlotSummary *e = get_card_slot_summary(i);
     if (e == 0) {
         return 0;
     }
-    return e->state == 1 ? 1 : 0;
+    return e->copied == 1 ? 1 : 0;
 }
 
 s32 TAdChrSelASlotGC::get_plate_value_for_slot(s32 k) {
@@ -81,11 +80,10 @@ s32 TAdChrSelASlotGC::get_plate_value_for_slot(s32 k) {
 }
 
 PlayerSlotLabel *TAdChrSelASlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
-    CardSlotSummary *e = (CardSlotSummary *)TAdSinglePlyChrSelectGC__sub_801FE4BC(slot);
+    CardSlotSummary *e = get_card_slot_summary(slot);
     chr_select_a_slot_entry.slot = index;
-    chr_select_a_slot_entry.name = reinterpret_cast<const char *>(
-        e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C));
-    chr_select_a_slot_entry.level = e != NULL ? e->y + 1 : 0;
+    chr_select_a_slot_entry.name = e != NULL ? e->name : reinterpret_cast<const char *>(get_localized_text_entry(0x16, 0x1C));
+    chr_select_a_slot_entry.level = e != NULL ? e->level + 1 : 0;
     copy_vec2(&chr_select_a_slot_entry.position, pos);
     return &chr_select_a_slot_entry;
 }
@@ -803,7 +801,7 @@ TAdChrSelASlotGC::~TAdChrSelASlotGC() {
     }
 }
 TAdChrSelASlotGC::TAdChrSelASlotGC(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = TAdChrSelASlotGC__name;
+    m_name = TAdChrSelASlotGC::name;
     init(mode);
     create_children(mode);
 }

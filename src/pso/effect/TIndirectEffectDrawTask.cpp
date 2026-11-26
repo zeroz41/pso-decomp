@@ -18,7 +18,7 @@
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXTev.h>
 #include <dolphin/gx/GXGeometry.h>
@@ -57,7 +57,7 @@ const char *player_battle_ctrl_text_english[7] = {
 
 
 void TIndirectEffectDrawTask::bind_capture_texture() {
-    TObjFish::set_global_param(get_shared_capture_texture_list());
+    set_texture_list(get_shared_capture_texture_list());
     load_list_texture(0, 0, 0, 2);
 }
 
@@ -124,7 +124,7 @@ void TIndirectEffectDrawTask::render() {
         play_indirect_effect_recipe(this->entries[i].effect_kind, 1, 1);
         bind_capture_texture();
         setup_projection_tex_matrix();
-        TObjFish::set_global_param(this->entries[i].texlist);
+        set_texture_list(this->entries[i].texlist);
         draw_ginja_object(this->entries[i].model);
         pop_matrix();
         reset_indirect_tev(1);

@@ -22,7 +22,7 @@ NJS_TEXNAME lbl_804DBEC0[8] = {
     {(char *)"f128_adpic08", 0, 0},
 };
 __declspec(section ".data") NJS_TEXLIST chr_select_ad_pic_2_texture_descriptor = {lbl_804DBEC0, 8};
-const char *TAdBackGC__class_name = "TAdBackGC";
+const char *TAdBackGC::class_name = "TAdBackGC";
 
 
 void TAdBackGC::sub_8029A6EC() {
@@ -74,7 +74,7 @@ void TAdBackGC::run_task() {  }
 
 TAdBackGC::~TAdBackGC() {}
 TAdBackGC::TAdBackGC(TObject *parent) : TObject(parent) {
-    m_name = TAdBackGC__class_name;
+    m_name = TAdBackGC::class_name;
     m_depth = -400.0f;
     render_direct = 1;
 }

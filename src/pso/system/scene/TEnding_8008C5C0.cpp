@@ -2,7 +2,6 @@
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"
 #include "pso/render/gjSystem.h"
-#include "pso/unk/text_8008C4F4.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -33,7 +32,7 @@
 #include "pso/unk/text_800FA464.h"
 #include "pso/unk/TLobby_802268F4.h"
 
-extern const char TEnding__class_name_string[] = "TEnding";
+const char TEnding::class_name_string[] = "TEnding";
 void create_player_ending_motion(void);
 
 // Load and release hooks of the ending scene, in pairs: run_load_callback_table
@@ -72,7 +71,7 @@ void run_game_frame(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::noop();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -106,7 +105,7 @@ void TEnding::start_ending_scene() {
     render_tick();
 }
 
-// inferred: the empty load/unload pair in ending_scene_callbacks
+// The empty load/unload pair in ending_scene_callbacks
 void ending_scene_nop_release() {}
 void ending_scene_nop_load() {}
 

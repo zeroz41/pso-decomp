@@ -15,8 +15,6 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -25,7 +23,7 @@
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/item/TItemAttackColBase.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
@@ -196,7 +194,7 @@ void TItemEffPGModel::render() {
         model_render_flags |= 0x20;
         set_constant_material(&color);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         push_matrix();

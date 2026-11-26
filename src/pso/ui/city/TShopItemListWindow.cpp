@@ -29,10 +29,11 @@
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/item/TItemData.h"
+#include "pso/item/shop/ShopItemSort.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_80222DE8.h"
-#include "pso/unk/text_80223B98.h"
+#include "pso/item/shop/ShopToolStock.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/object/base/TObjBase.h"
@@ -76,7 +77,7 @@ TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *seque
     this->purchase_step = 0;
     this->last_cursor = 0;
     calc_item_count((TObjPlayer *)this->player, &count);
-    TLobby::generate_shop_inventory_at_level(get_split_screen_slot(), count);
+    generate_shop_tool_stock_at_level(get_split_screen_slot(), count);
 }
 
 TShopItemListWindow::~TShopItemListWindow() {
@@ -132,7 +133,7 @@ void TShopItemListWindow::build_item_list() {
     TWindowCost *c;
     item_count = TShopItemTecSequence__sub_8021FE6C(get_split_screen_slot());
     for (i = 0; i < item_count; i++) {
-        reinterpret_cast<TLobby *>(&tmp)->copy_shop_item_entry(i, get_split_screen_slot());
+        get_shop_tool_stock_item(&tmp, i, get_split_screen_slot());
         shop_items[i].copy_from(&tmp);
     }
     r = shop_items;
@@ -329,7 +330,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                     sel = item_list->get_cursor_value();
                     TItemData item = shop_items[sel];
                     item.id = advance_item_id_counter(local_client_id);
-                    if (TCheckRoomSequence::get_item_def((uaddr)&item) != 0) {
+                    if (get_item_def(&item) != 0) {
                         item.set_stack_count(purchase_count);
                     }
                     try_buy_item(player, &item);

@@ -13,6 +13,7 @@ public:
     TItemDisconnectCtrl();
     virtual ~TItemDisconnectCtrl();
     virtual void run_task();
+    static const char *name;
 };
 
 #include <stddef.h>

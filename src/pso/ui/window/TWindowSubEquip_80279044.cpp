@@ -56,21 +56,21 @@ void TWindowMenuIconLine::build_equipment_list() {
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
         weapon_icon = get_class_weapon_icon_index(this, (u8 *)player);
-        item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items, 6);
+        item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, 6);
         add_status_line(weapon_icon, item, 6);
-        item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items, 2);
+        item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, 2);
         add_status_line(0xb, item, 2);
         if (item != NULL) {
             item->copy_to_item_data(&data);
             slots = (s8)data.data1.data_u8[5];
             for (i = 0; i < slots; i++) {
-                item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items, i + 9);
+                item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, i + 9);
                 add_status_line(4, item, i + 9);
             }
         }
-        item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items, 3);
+        item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, 3);
         add_status_line(0xa, item, 3);
-        item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items, 1);
+        item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, 1);
         add_status_line(3, item, 1);
     }
 }

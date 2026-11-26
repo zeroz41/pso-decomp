@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
 #include "pso/unk/text_8026A14C.h"
@@ -15,7 +14,8 @@
 #include "pso/unk/text_80145A94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInputState.h"
 
@@ -29,7 +29,7 @@ TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, s32 text) : TObject(pa
     static const f32 size[2] = { 552.0f, 220.0f };
     s32 base;
     s32 i;
-    m_name = TAdScrollWinGC__class_name;
+    m_name = TAdScrollWinGC::class_name;
     scroll_win_texture_handle = TAdMultiPlyChrSelectGC__sub_802C6FA8();
     m_alpha = 0;
     m_window = NULL;
@@ -61,7 +61,7 @@ TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, s32 text) : TObject(pa
 }
 
 
-const char *TAdScrollWinGC__class_name = "TAdScrollWinGC";
+const char *TAdScrollWinGC::class_name = "TAdScrollWinGC";
 
 
 TAdScrollWinGC::~TAdScrollWinGC() {
@@ -133,9 +133,9 @@ void TAdScrollWinGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 
 void TAdScrollWinGC::render_status_value() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(scroll_win_texture_handle);
+    set_texture_list(scroll_win_texture_handle);
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_marker.x0, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 

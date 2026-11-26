@@ -14,6 +14,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowTextEntry.h"
+void TWindowMeseta::set_value(s32 value) {
+    meseta = value;
+    ((TWindowSubStatusDisp *)get_array_entry(1))->set_all_values((int)meseta);
+}
+
 #pragma readonly_strings on
 
 
@@ -32,7 +37,7 @@ s32 TWindowMeseta::get_meseta_value() {
     return stats->meseta;
 }
 void TWindowMeseta::draw_value(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, width);
+    draw_window_tab(context, &context->inner_x, width, 3);
 }
 void TWindowMeseta::render() {
     WindowDrawContext *context = setup_window_draw_context(draw_scale);
@@ -93,7 +98,7 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     ((TWindowSubStatusDisp *)b)->set_all_values(meseta);
     target_size[0] = 10.0f + b->x8;
     save_position();
-    width = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
+    width = calc_title_overflow_width(frame_size[0] - 16.0f);
     if (TCameraCtrl::get_camera_id() > 2) {
         draw_scale[0] = 0.75f;
         draw_scale[1] = 0.75f;

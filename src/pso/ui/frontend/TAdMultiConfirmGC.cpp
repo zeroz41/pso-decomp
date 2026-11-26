@@ -12,12 +12,12 @@
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *);
 void TAdMultiConfirmGC__sub_802E0448(void *);
 s32 fn_802E0454(void *);
-saddr get_localized_text_entry(s32 group, s32 id);
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;
@@ -61,9 +61,9 @@ void TAdMultiConfirmGC::run_task() {
         break;
     case 3:
         if (ok->multi_confirm_cancel_requested() != 0) {
-            TAdMultiChgGameModeGC::set_change_game_mode();
+            TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
         } else if (ok->are_all_entries_finished() != 0) {
-            TAdMultiChgGameModeGC::set_state_0xc();
+            TAdMultiChgGameModeGC::open_multi_sel_game_mode_scene();
         }
         break;
     }

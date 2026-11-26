@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/object/cave/TORevlightCave01.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -38,7 +38,7 @@ void TORevlightCave01::render() {
         rotate_matrix_z(NULL, rotation_z);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_model(((NJS_OBJECT *)model)->model);
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model(((NJS_OBJECT *)model)->child->model);

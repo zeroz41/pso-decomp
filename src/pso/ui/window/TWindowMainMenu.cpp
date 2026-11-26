@@ -2,7 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowSubTrade.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
+#include "pso/network/TradeSession.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "types.h"
@@ -31,7 +31,6 @@ struct TWindowSubItem;
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/unk/TWindowStatusCategoryMenu.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubEquip.h"
@@ -46,7 +45,7 @@ struct TWindowSubItem;
 
 const char *TWindowMainMenu::class_name = "TWindowMainMenu";
 
-extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
+extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
 
@@ -83,7 +82,7 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
     for (i = 0; i < 4; i++) {
         slots[i].first = 0;
         slots[i].second = 0;
-        slots[i].value = 0;
+        slots[i].entries = NULL;
     }
     menu_window = NULL;
     submenu = 0;
@@ -138,7 +137,7 @@ void TWindowMainMenu::handle_menu_selection() {
             }
             add_menu_entry(id);
             submenu_depth--;
-            sub_80263D7C();
+            load_submenu_entries();
             update_selection_value();
             close_submenu(active_entries);
         }
@@ -319,17 +318,17 @@ void TWindowMainMenu::update_description_text(s32 id) {
         description_item_id = id;
         if (help_window == NULL) {
             const NJS_POINT2 *tmp = get_window_layout_position(0x1B);
-            help_window = TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
-            ((TWindowBase *)help_window)->set_depth(49999.0f);
+            help_window = TWindowMessage::create(tmp, main_menu_help_message_size, 1, this->client_index);
+            help_window->set_depth(49999.0f);
             call_if_split_screen((uaddr)help_window, this->client_index);
         }
         help_window->append_line(select_main_menu_item_10(id), 0x80);
     }
 }
 
-void TWindowMainMenu::close_child_window() { if (help_window != NULL) { ((TWindowBase *)this->help_window)->close(); help_window = NULL; } }
+void TWindowMainMenu::close_child_window() { if (help_window != NULL) { this->help_window->close(); help_window = NULL; } }
 
-void TWindowMainMenu::sub_80263FE0() {
+void TWindowMainMenu::toggle_help_window() {
     toggle_help_window_on_button((uaddr)help_window, this->client_index);
 }
 
@@ -399,7 +398,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
 }
 
 void TWindowMainMenu::update_keyboard_card_state() {
-    if (test_keyboard_card_flag4((void *)client_index) != 0) {
+    if (test_keyboard_card_flag4((void *)(saddr)client_index) != 0) {
         selected_slot = 0;
         return;
     }
@@ -408,7 +407,7 @@ void TWindowMainMenu::update_keyboard_card_state() {
 
 void TWindowMainMenu::update_selection_value() {
     MainMenuSlotState *e = &slots[submenu_depth];
-    if ((u32)e->value != (u32)active_entries) {
+    if (e->entries != active_entries) {
         selected_slot = 0;
     } else {
         selected_slot = e->first;
@@ -419,20 +418,21 @@ void TWindowMainMenu::add_menu_entry(s16 id) {
     MainMenuSlotState *e = &slots[submenu_depth];
     e->first = selected_slot;
     e->second = id;
-    e->value = (s32)active_entries;
+    e->entries = active_entries;
 }
 
-void TWindowMainMenu::sub_80263D7C() {
-    this->active_entries = (TWindowMainMenuEntry *)*(s32 *)((u8 *)this + this->submenu_depth * 8 + 0x2c);
+void TWindowMainMenu::load_submenu_entries() {
+    MainMenuSlotState *e = &slots[submenu_depth];
+    active_entries = e->entries;
 }
 
-void TWindowMainMenu::open(s32 entries) {
+void TWindowMainMenu::open(TWindowMainMenuEntry *entries) {
     TObjPlayer *player;
 
     player = get_player_by_client_id((s32)this->client_index);
     if (player != 0) {
         menu_flags = menu_flags | 1;
-        active_entries = (TWindowMainMenuEntry *)entries;
+        active_entries = entries;
         submenu_depth = 0;
         update_keyboard_card_state();
         populate_menu(active_entries);
@@ -455,12 +455,12 @@ void TWindowMainMenu::close_and_clear_flags() {
 s32 TWindowMainMenu::close_active_submenu() {
     menu_flags = (s32) (menu_flags & 0xFFFFFFFB);
     destroy_submenu();
-    if ((u32)active_entries == 0U) {
+    if (active_entries == NULL) {
         this->close_main_menu();
         return 0;
     }
     description_item_id = 0x1F;
-    sub_80263D7C();
+    load_submenu_entries();
     update_selection_value();
     close_submenu((void*)active_entries);
     return 1;
@@ -500,6 +500,6 @@ void TWindowSubEquip__sub_80263AF4(void *, s32) {}
 
 void call_if_split_screen(uaddr object, s32 client_id) {
     if ((is_split_screen() != 0) && (object != 0U)) {
-        fn_802449E0((u8 *)object);
+        hide_window((u8 *)object);
     }
 }

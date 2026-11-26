@@ -149,7 +149,7 @@ void set_text_entry_string(WindowTextEntry *entry, uaddr str, s32 flags) {
         }
     }
     if ((str != 0U) && (flags & 0x20)) {
-        num = TWindowKeyBoardSoft::strnlen((s8 *)str, 0x400);
+        num = TWindowKeyBoardSoft::strnlen((const char *)str, 0x400);
         entry->text = (char *)mem_alloc(num + 1);
         strncpy(entry->text, (const char *)str, num);
         *(char *)(num + (uaddr)entry->text) = 0;

@@ -11,7 +11,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/TLanguage.h"
@@ -33,22 +32,20 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/cave/TOAirconCave01.h"
 #include "pso/object/TObjChip.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_8015C534.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -76,9 +73,9 @@ LAYOUT_ASSERT(AncientContainerBmlSize, sizeof(AncientContainerBml) == 0x20);
 LAYOUT_ASSERT(AncientContainerBmlDescriptorOffset, offsetof(AncientContainerBml, descriptor) == 0x10);
 
 // The 6x67 packet receive_physical_attack sends (its fields are not named yet).
-extern const f32 lbl_805DB398;
-extern const f32 lbl_805DB39C;
-extern const f32 lbl_805DB3A0;
+extern const f32 ancient_container_one;
+extern const f32 ancient_container_zero;
+extern const f32 ancient_container_debug_radius;
 
 const char *bm_o_container_ancient_motion_names[1] = { NULL };
 const char *fe_obj_o_vs2container_motion_names[1] = { NULL };
@@ -159,8 +156,8 @@ s32 TObjContainerCommon::try_start_action(void *, s32, f32) { return 1; }
 void TObjContainerCommon::apply_knockback_from_attacker(u8 *, f32) {  }
 
 f32 TObjContainerCommon::receive_weapon_special_attack(void *, void *) {
-    receive_physical_attack(NULL, lbl_805DB398);
-    return lbl_805DB39C;
+    receive_physical_attack(NULL, ancient_container_one);
+    return ancient_container_zero;
 }
 
 int TObjContainerCommon::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
@@ -265,7 +262,7 @@ void TUnk_804B08BC::draw_model() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
@@ -424,7 +421,7 @@ void TOContainerAncientEnemy::draw_model() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
@@ -449,10 +446,10 @@ void TOContainerAncientEnemy::draw_model() {
 }
 
 void TOContainerAncientEnemy::debug_print_item_box_info() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, ancient_enemy_event_format, this->set_params[0]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-    debug_draw_sphere(&this->position, &debug_color_blue_alpha30, lbl_805DB3A0);
+    set_debug_text_color(0xF0F0F0FF);
+    debug_draw_sphere(&this->position, &debug_color_blue_alpha30, ancient_container_debug_radius);
 }
 
 f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
@@ -469,7 +466,7 @@ f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
         pk.sender_client_id = local_client_id;
         pk.send();
     }
-    return lbl_805DB39C;
+    return ancient_container_zero;
 }
 
 void TOContainerAncientEnemy::spawn_break_effects() const {
@@ -536,6 +533,6 @@ TOContainerAncientEnemyRare::~TOContainerAncientEnemyRare() {
 
 BmlResource *ancient_container_resource_bundle;
 NJS_TEXLIST **ancient_container_fragment_texture_lists;
-extern const f32 lbl_805DB398 = 1.0f;
-extern const f32 lbl_805DB39C = 0.0f;
-extern const f32 lbl_805DB3A0 = 40.0f;
+extern const f32 ancient_container_one = 1.0f;
+extern const f32 ancient_container_zero = 0.0f;
+extern const f32 ancient_container_debug_radius = 40.0f;

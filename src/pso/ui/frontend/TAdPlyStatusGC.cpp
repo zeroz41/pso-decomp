@@ -11,7 +11,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -23,15 +23,12 @@
 #include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowComCard.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/window/TWindowCallBack.h"
 
 
-struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 
-extern "C" {
-saddr get_localized_text_entry(s32 group, s32 id);
-s32 *get_secondary_slot_summary(u32 i);
-s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-}
 
 TAdPlyStatusGC *ply_status_gc_instance;
 CharacterPreview *ply_status_preview;
@@ -39,121 +36,112 @@ s32 TAdPlyStatusGC::window_offset_index;
 u32 ply_status_index;
 s32 TAdPlyStatusGC::is_shown;
 
-extern "C" {
-
-// Status window position handed to TAdEnterSerialAccessGC::create_callback.
+// Status window size handed to TAdEnterSerialAccessGC::create_callback.
 static const NJS_POINT2 ply_status_window_position = {199.0f, 112.0f};
-// Status window offset per TAdPlyStatusGC::window_offset_index.
+// Status window position per TAdPlyStatusGC::window_offset_index.
 static const NJS_POINT2 ply_status_window_offset_table[3] = {
     {426.0f, 250.0f},
     {223.0f, 243.0f},
     {223.0f, 243.0f},
 };
 
-const char *TAdPlyStatusGC__class_name = "TAdPlyStatusGC";
+const char *TAdPlyStatusGC::class_name = "TAdPlyStatusGC";
 
-void *TAdPlyStatusGC__status_window_box[8] = {
-    (void *)0x42a60000, (void *)0x41200000, (void *)0x42e60000, (void *)0x42280000,
-    (void *)0x0, (void *)0x0, (void *)0x3f800000, (void *)0x3f800000,
-};
-void *ply_status_window_points_first[6] = {
-    (void *)0x40800000, (void *)0x42280000, (void *)0x40800000, (void *)0x42780000,
-    (void *)0x40800000, (void *)0x42a40000,
-};
-void *ply_status_window_points_second[6] = {
-    (void *)0x42700000, (void *)0x42280000, (void *)0x42700000, (void *)0x42780000,
-    (void *)0x42700000, (void *)0x42a40000,
-};
-void TAdPlyStatusGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
+// The character portrait inside the status window.
+StatusPortraitQuad ply_status_portrait_quad = {83.0f, 10.0f, 115.0f, 42.0f, 0.0f, 0.0f, 1.0f, 1.0f};
+// The label column (class, section id, play time).
+NJS_POINT2 ply_status_window_points_first[3] = {{4.0f, 42.0f}, {4.0f, 62.0f}, {4.0f, 82.0f}};
+// The value column format_status_strings fills.
+NJS_POINT2 ply_status_window_points_second[3] = {{60.0f, 42.0f}, {60.0f, 62.0f}, {60.0f, 82.0f}};
 
-#define TAdPlyStatusGC__status_window_box (*(Box_8033F3D8 *)TAdPlyStatusGC__status_window_box)
-#define ply_status_window_points_first ((NJS_POINT2 *)ply_status_window_points_first)
-#define ply_status_window_points_second ((NJS_POINT2 *)ply_status_window_points_second)
-#define OFF_8033F3D8 (ply_status_window_offset_table[TAdPlyStatusGC::window_offset_index])
+void TAdPlyStatusGC::render() {
+    if (TMainTask::get_render_pass() != 1) {
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 10);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
+    }
+}
+
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Box_8033F3D8 { f32 v[8]; };
-struct Item_8033F3D8 { s8 valid; u8 pad[0xF]; };
 
-void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *context) {
-    Item_8033F3D8 items[3];
-    Box_8033F3D8 box;
-    NJS_POINT2 pts[3];
-    NJS_POINT2 pts2[3];
+void TAdPlyStatusGC::draw_status_window(void *window, void *context) {
+    WindowDrawContext *draw_context = (WindowDrawContext *)context;
+    char text[3][16];
+    StatusPortraitQuad quad;
+    NJS_POINT2 labels[3];
+    NJS_POINT2 values[3];
     s32 i;
 
-    ((TWindowBase *)window_base)->draw_window_frame(context);
-    if (ply_status_preview != NULL && ply_status_preview->is_unloaded() != 0 && TAdPlyStatusGC::is_shown != 0 &&
+    ((TWindowBase *)window)->draw_window_frame(draw_context);
+    if (ply_status_preview != NULL && ply_status_preview->is_unloaded() != 0 && is_shown != 0 &&
         ply_status_preview->get_status_sub()->textures->texaddr != 0) {
-        box = TAdPlyStatusGC__status_window_box;
-        box.v[0] = TAdPlyStatusGC__status_window_box.v[0] + OFF_8033F3D8.x;
-        box.v[2] = TAdPlyStatusGC__status_window_box.v[2] + OFF_8033F3D8.x;
-        box.v[1] = TAdPlyStatusGC__status_window_box.v[1] + OFF_8033F3D8.y;
-        box.v[3] = TAdPlyStatusGC__status_window_box.v[3] + OFF_8033F3D8.y;
-        TObjFish::set_global_param(ply_status_preview->get_status_sub());
+        quad = ply_status_portrait_quad;
+        quad.values[0] = ply_status_portrait_quad.values[0] + ply_status_window_offset_table[window_offset_index].x;
+        quad.values[2] = ply_status_portrait_quad.values[2] + ply_status_window_offset_table[window_offset_index].x;
+        quad.values[1] = ply_status_portrait_quad.values[1] + ply_status_window_offset_table[window_offset_index].y;
+        quad.values[3] = ply_status_portrait_quad.values[3] + ply_status_window_offset_table[window_offset_index].y;
+        set_texture_list(ply_status_preview->get_status_sub());
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
-        draw_textured_quad_at_depth((f32 *)&box, 0.8f);
-        TWindowSubStatusDisp::get_player();
+        draw_textured_quad_at_depth(&quad.values[0], 0.8f);
+        end_screen_draw();
     }
-    ((TAdPlyStatusGC *)items)->format_status_strings();
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(context), 1, 1, 0.8f, 100000.0f);
+    format_status_strings(text);
+    set_text_draw_params(draw_context, 1, 1, 0.8f, 100000.0f);
     for (i = 0; i < 3; i++) {
-        pts[i].x = ply_status_window_points_first[i].x + OFF_8033F3D8.x;
-        pts[i].y = ply_status_window_points_first[i].y + OFF_8033F3D8.y;
+        labels[i].x = ply_status_window_points_first[i].x + ply_status_window_offset_table[window_offset_index].x;
+        labels[i].y = ply_status_window_points_first[i].y + ply_status_window_offset_table[window_offset_index].y;
     }
-    draw_window_text((f32 *)&pts[0], (const char *)((void *)get_localized_text_entry(0x26, 1)), -1, 0, 100000.0f);
-    draw_window_text((f32 *)&pts[1], (const char *)((void *)get_localized_text_entry(0x26, 2)), -1, 0, 100000.0f);
-    draw_window_text((f32 *)&pts[2], (const char *)((void *)get_localized_text_entry(0x26, 3)), -1, 0, 100000.0f);
+    draw_window_text(&labels[0].x, (const char *)get_localized_text_entry(0x26, 1), -1, 0, 100000.0f);
+    draw_window_text(&labels[1].x, (const char *)get_localized_text_entry(0x26, 2), -1, 0, 100000.0f);
+    draw_window_text(&labels[2].x, (const char *)get_localized_text_entry(0x26, 3), -1, 0, 100000.0f);
     for (i = 0; i < 3; i++) {
-        pts2[i].x = ply_status_window_points_second[i].x + OFF_8033F3D8.x;
-        pts2[i].y = ply_status_window_points_second[i].y + OFF_8033F3D8.y;
+        values[i].x = ply_status_window_points_second[i].x + ply_status_window_offset_table[window_offset_index].x;
+        values[i].y = ply_status_window_points_second[i].y + ply_status_window_offset_table[window_offset_index].y;
     }
-    if (items[0].valid == 0 || items[1].valid == 0 || items[2].valid == 0) {
+    if (text[0][0] == 0 || text[1][0] == 0 || text[2][0] == 0) {
         return;
     }
-    draw_window_text((f32 *)&pts2[0], (const char *)&items[0], -1, 0, 100000.0f);
-    draw_window_text((f32 *)&pts2[1], (const char *)&items[1], -1, 0, 100000.0f);
-    draw_window_text((f32 *)&pts2[2], (const char *)&items[2], -1, 0, 100000.0f);
+    draw_window_text(&values[0].x, text[0], -1, 0, 100000.0f);
+    draw_window_text(&values[1].x, text[1], -1, 0, 100000.0f);
+    draw_window_text(&values[2].x, text[2], -1, 0, 100000.0f);
 }
-#undef OFF_8033F3D8
-#undef TAdPlyStatusGC__status_window_box
-#undef ply_status_window_points_first
-#undef ply_status_window_points_second
 
-void TAdPlyStatusGC::format_status_strings() {
-    char *buf = (char *)this;
+void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
     TPlyCharData *c;
     u32 time;
     u32 mins;
     s32 flags;
     u32 hours;
     TAdChrSelPlyPlateGC *plate;
-    Save_8033F6A8 *p;
+    CharacterSaveRecord *record;
+    CardSlotSummary *summary;
     u32 t;
-    memset(buf, 0, 0x10);
-    memset(buf + 0x10, 0, 0x10);
-    memset(buf + 0x20, 0, 0x10);
+    memset(text[0], 0, sizeof(text[0]));
+    memset(text[1], 0, sizeof(text[1]));
+    memset(text[2], 0, sizeof(text[2]));
     c = 0;
     switch (TAdPlyStatusGC::window_offset_index) {
     case 0:
     case 2:
-        p = (Save_8033F6A8 *)get_character_save_record(0xFFFF);
-        if (p != 0) {
-            time = p->fC;
+        record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+        if (record != 0) {
+            time = record->play_time;
         }
         c = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
         break;
     case 1:
-        p = (Save_8033F6A8 *)get_secondary_slot_summary(ply_status_index);
-        if (p != 0) {
-            time = p->fC;
+        summary = get_secondary_slot_summary(ply_status_index);
+        if (summary != 0) {
+            time = summary->play_time;
         }
         plate = TAdMultiPlyChrSelectGC::get_card_instance();
         if (plate != NULL) {
-            if (TAdSinglePlyChrSelectGC__sub_801FE800(plate->get_active_card_slot()) != 0) {
+            if (is_secondary_slot_active(plate->get_active_card_slot()) != 0) {
                 c = TAdSinglePlyChrSelectGC::get_entry(plate->get_active_card_slot());
             }
         }
@@ -176,25 +164,24 @@ void TAdPlyStatusGC::format_status_strings() {
         }
         flags = *reinterpret_cast<const s8 *>(&card.v2_flags);
         if (flags & 2) {
-            sprintf(buf, ":%s", get_localized_text_entry(0x26, 0));
+            sprintf(text[0], ":%s", get_localized_text_entry(0x26, 0));
         } else {
-            sprintf(buf, ":%s", get_class_name_text(*reinterpret_cast<const s8 *>(&card.char_class)));
+            sprintf(text[0], ":%s", get_class_name_text(*reinterpret_cast<const s8 *>(&card.char_class)));
         }
         if (flags & 1) {
-            sprintf(buf + 0x10, ":%s", get_localized_text_entry(0x26, 0));
+            sprintf(text[1], ":%s", get_localized_text_entry(0x26, 0));
         } else {
-            sprintf(buf + 0x10, ":%s", TObjLuker::get_stat_table_entry(*reinterpret_cast<const s8 *>(&card.section_id)));
+            sprintf(text[1], ":%s", TObjLuker::get_stat_table_entry(*reinterpret_cast<const s8 *>(&card.section_id)));
         }
-        sprintf(buf + 0x20, ":%04d:%02d'", hours, mins);
+        sprintf(text[2], ":%04d:%02d'", hours, mins);
     }
 }
 
-TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *owner, const void *ad_enter_serial_access_gc) {
-    TWindowBase *r = (TWindowBase *)TAdEnterSerialAccessGC::create_callback((void *)ad_enter_serial_access_gc,
-                                              (void *)&ply_status_window_position,
-                                              draw_status_window__14TAdPlyStatusGCFPvPv);
-    r->set_depth(60000.0f);
-    return r;
+TWindowBase *TAdPlyStatusGC::create_status_window(const NJS_POINT2 *position) {
+    TWindowBase *status_window = TAdEnterSerialAccessGC::create_callback(
+        (void *)position, (void *)&ply_status_window_position, draw_status_window);
+    status_window->set_depth(60000.0f);
+    return status_window;
 }
 
 void TAdPlyStatusGC::set_load_state(s32 load_result) {
@@ -239,7 +226,7 @@ void TAdPlyStatusGC::update_shown() {
     TAdPlyStatusGC::is_shown = 1;
     if ((s32) TAdPlyStatusGC::window_offset_index < 3) {
         if (window == NULL) {
-            window = TAdPlyStatusGC__sub_8033F8B0(this, &ply_status_window_offset_table[TAdPlyStatusGC::window_offset_index]);
+            window = create_status_window(&ply_status_window_offset_table[window_offset_index]);
         }
         guide_button = TAdPlyStatusGC::get_player_index();
         if (guide_button != NULL) {
@@ -265,7 +252,7 @@ void TAdPlyStatusGC::close_window() {
         }
     }
 }
-}
+
 void TAdPlyStatusGC::run_task() {
     static void (TAdPlyStatusGC::*tbl[3])() = {
         &TAdPlyStatusGC::close_window, &TAdPlyStatusGC::update_shown, &TAdPlyStatusGC::update_hidden,
@@ -283,13 +270,13 @@ TAdPlyStatusGC::~TAdPlyStatusGC() {
     }
 }
 
-TAdPlyStatusGC::TAdPlyStatusGC(TObject *parent, s32 window_offset_index) : TObject(parent) {
-    m_name = TAdPlyStatusGC__class_name;
+TAdPlyStatusGC::TAdPlyStatusGC(TObject *parent, s32 offset_index) : TObject(parent) {
+    m_name = TAdPlyStatusGC::class_name;
     state = 0;
     prev_state = state;
     window = NULL;
     ply_status_preview = NULL;
-    TAdPlyStatusGC::window_offset_index = window_offset_index;
+    window_offset_index = offset_index;
     TAdPlyStatusGC::is_shown = 1;
     buttons[0].kind = 2;
     buttons[0].from.x = 432.0f;

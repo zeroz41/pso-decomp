@@ -64,6 +64,6 @@ void TMapCsnCtrl::sub_80140F44() {
 TMapCsnCtrl::~TMapCsnCtrl() {}
 
 TMapCsnCtrl::TMapCsnCtrl(TObject *parent) : TObject(parent) {
-    m_name = TMapCsnCtrl__class_name;
+    m_name = TMapCsnCtrl::class_name;
     sub_80140F44();
 }

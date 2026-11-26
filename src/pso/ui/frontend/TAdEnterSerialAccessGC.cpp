@@ -26,10 +26,8 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 
-extern "C" {
-void fn_8025DE10(void *context, NJS_POINT2 *cursor);
-}
 
 char serial_hex_buffer[0x40];
 char serial_decimal_buffer[0x40];
@@ -46,7 +44,7 @@ const NJS_POINT2 serial_draw_window_position = { 85.0f, 220.0f };
 const NJS_POINT2 serial_draw_window_size = { 470.0f, 60.0f };
 const NJS_POINT2 TAdEnterSerialAccessGC::selection_positions[2] = { { 155.0f, 231.0f }, { 155.0f, 251.0f } };
 const NJS_POINT2 lbl_804764F8 = { 330.0f, 20.0f };
-const char *TAdEnterSerialAccessGC__name = "TAdEnterSerialAccessGC";
+const char *TAdEnterSerialAccessGC::name = "TAdEnterSerialAccessGC";
 
 __declspec(section ".data") NJS_POINT2 serial_entry_status_line_position = { 0.0f, 0.0f };
 __declspec(section ".data") char TAdEnterSerialAccessGC::raw_serial_buffer[0xC] = { 0 };
@@ -68,7 +66,7 @@ s32 TKeyBoardControl::get_cursor_position() {
 TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC(parent) {
     char serial[0x10];
     char access_key[0x10];
-    m_name = TAdEnterSerialAccessGC__name;
+    m_name = TAdEnterSerialAccessGC::name;
     state_timer = 0;
     input_state = 0;
     next_state = 0;
@@ -83,7 +81,7 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
     if (*(s8 *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C) != 0) {
         initialize_serial_input((const char *)TAdSinglePlyChrSelectGC::get_instance() + 0x1152C);
         set_access_key((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1153C));
-        init_state();
+        TAdMultiChgGameModeGC::open_enter_password_scene();
         queue_destruction();
         return;
     }
@@ -165,14 +163,14 @@ void TAdEnterSerialAccessGC::run_task() {
             cursor->queue_destruction();
             cursor = NULL;
         }
-        TAdMultiChgGameModeGC::request_transition();
+        TAdMultiChgGameModeGC::open_lic_agreement_scene();
         break;
     case 7:
         if (cursor != NULL) {
             cursor->queue_destruction();
             cursor = NULL;
         }
-        init_state();
+        TAdMultiChgGameModeGC::open_enter_password_scene();
         break;
     }
     if (prev_state != input_state) {
@@ -478,12 +476,12 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
         }
         pos.x = row[keyboard_control->get_cursor_position()];
         pos.y = 230.0f;
-        fn_8025DE10(context, &pos);
+        draw_text_cursor(static_cast<WindowDrawContext *>(context), &pos);
     }
 }
 
 void TAdEnterSerialAccessGC::draw_screen(void *window, void *context) {
-    ((TWindowBase *)window)->draw_window_frame(context);
+    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
     TAdSubPlyItemGC::render_status_line(serial_entry_status_line_position.x, serial_entry_status_line_position.y, 0.8f,
         (const char *)get_localized_text_entry(0x17, 4), -1);
     draw_serial_plates();

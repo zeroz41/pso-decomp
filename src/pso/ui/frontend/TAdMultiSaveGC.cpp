@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -24,11 +24,11 @@ saddr get_message_text(s32 arg0);
 
 static const f32 TAdMultiSaveGC__data_80474D70[2] = { 80.0f, 176.0f };
 static const f32 TAdMultiSaveGC__data_80474D78[2] = { 479.0f, 207.0f };
-const char *TAdMultiSaveGC__name = "TAdMultiSaveGC";
+const char *TAdMultiSaveGC::class_name = "TAdMultiSaveGC";
 static const NJS_POINT2 lbl_80474D90 = { 324.0f, 374.0f };
 
 TAdMultiSaveGC::TAdMultiSaveGC(TObject *parent) : TObject(parent) {
-    m_name = TAdMultiSaveGC__name;
+    m_name = TAdMultiSaveGC::class_name;
     m_state = 0;
     no_card_window = NULL;
     card_status_window = NULL;
@@ -194,7 +194,7 @@ TWindowSubComCardList *TAdMultiSaveGC::sub_802FF170() {
 // the fade before switching game mode.
 void TAdMultiSaveGC::queue_destruction(TObject *fade) {
     fade->queue_destruction();
-    TAdMultiChgGameModeGC::begin_change_game_mode();
+    TAdMultiChgGameModeGC::open_multi_chg_game_mode_scene();
 }
 
 void TAdMultiSaveGC::render() {

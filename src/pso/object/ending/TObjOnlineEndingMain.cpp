@@ -6,8 +6,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
@@ -148,7 +147,7 @@ s8 online_ending_quad_vertices_initialized;
 
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
 
-void fn_802E52AC() {
+void load_online_ending_resource() {
     if (online_ending_resource == NULL) {
         online_ending_resource = new BmlResource(5, &onlineending_dat_resource_descriptor, NULL, NULL, NULL);
         if (online_ending_resource == NULL) {
@@ -206,7 +205,7 @@ TObjOnlineEnding::TObjOnlineEnding(TObject *parent) : TObjBase(parent) {
             entry->active = 1;
             entry->id = i;
             strncpy(entry->name, player->name, 0x10);
-            class_type = *reinterpret_cast<s8 *>(&player->class_index);
+            class_type = player->class_index;
             {
                 OnlineEndingPlayerPlacement *placement =
                     &online_ending_player_placements[online_ending_seat_slots[player_count] + class_type * 4];
@@ -290,7 +289,7 @@ void TObjOnlineEnding::render() {
     push_matrix();
     post_translate_matrix(&online_ending_scene_origin.x);
     scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
-    TObjFish::set_global_param(scene_textures);
+    set_texture_list(scene_textures);
     draw_model_motion(scene_model, scene_motion, scene_frame);
     pop_matrix();
     for (i = 0; i < player_count; i++) {

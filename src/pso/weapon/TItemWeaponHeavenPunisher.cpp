@@ -101,7 +101,7 @@ TItem *create_heaven_punisher(u8 *item) {
 TItemWeaponHeavenPunisher::~TItemWeaponHeavenPunisher() {}
 
 extern "C" {
-void *__construct_array(void *, void *, void *, u32, u32);
+void *__construct_array(void *, CapturedTarget *(*)(CapturedTarget *), void *, u32, u32);
 CapturedTargetList *TObjPlayer__sub_8012AF00(CapturedTargetList *self) {
     __construct_array(self->entries, TObjPlayer__sub_8012AF50, 0, 4, 10);
     self->clear_lockon_list();

@@ -41,4 +41,8 @@ public:
     u32 error;
 };
 
+// Decompress the PRS data at src into dst with a temporary decoder; both return the decompressed size.
+u32 prs_decompress_buffer(const void *src, void *dst);
+s32 prs_decompress_alloc(const void *src, void *dst, s32 size_limit);
+
 #endif

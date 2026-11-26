@@ -19,26 +19,26 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 #pragma readonly_strings on
 
 const f32 lbl_8047B8A8[2] = { 89.0f, 394.0f };
 const f32 lbl_8047B8B0[2] = { 462.0f, 18.0f };
-const char *TAdEp3Exist__name = "TAdEp3Exist";
+const char *TAdEp3Exist::name = "TAdEp3Exist";
 const f32 lbl_8047B8C4[2] = { 85.0f, 384.0f };
 const f32 lbl_8047B8CC[2] = { 470.0f, 32.0f };
 
-void *TAdEp3Exist::vfunc_6() {
+void *TAdEp3Exist::create_callback_window() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_8047B8C4, (void *)lbl_8047B8CC, draw_message_window);
 }
 
 extern "C" {
-saddr get_localized_text_entry(s32 group, s32 id);
-u32 calc_text_width(char *s);
 
 
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
-    ((TWindowBase *)window)->draw_window_frame(frame_context);
+    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)frame_context);
     f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
     TAdSubPlyItemGC::render_status_line(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
 }
@@ -49,16 +49,16 @@ void TAdEp3Exist::render() {
     }
 }
 
-void TAdEp3Exist::request_game_mode_transition() { TAdMultiChgGameModeGC::request_transition(); }
-void TAdEp3Exist::request_scene_change() { TAdMultiChgGameModeGC::request_scene_change(); }
-void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p) { TAdMultiChgGameModeGC::reset_and_set_mode(); }
+void TAdEp3Exist::request_game_mode_transition() { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
+void TAdEp3Exist::request_scene_change() { TAdMultiChgGameModeGC::open_time_set_scene(); }
+void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p) { TAdMultiChgGameModeGC::open_enter_ppp_pass_scene(); }
 void TAdEp3Exist::close_window() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 
 void TAdEp3Exist::run_task() {
     prev_state = state;
     switch (state) {
     case 0:
-        callback_window = vfunc_6();
+        callback_window = create_callback_window();
         state = 1;
         break;
     case 1:
@@ -116,7 +116,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     s32 res;
     bool ok;
     bool go;
-    m_name = TAdEp3Exist__name;
+    m_name = TAdEp3Exist::name;
     scroll_window = NULL;
     cursor = NULL;
     callback_window = NULL;
@@ -138,7 +138,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
         }
     }
     if (!go) {
-        TAdMultiChgGameModeGC::reset_and_set_mode();
+        TAdMultiChgGameModeGC::open_enter_ppp_pass_scene();
         queue_destruction();
         return;
     }
@@ -147,6 +147,6 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     scroll_window = new TAdScrollWinGC(this, 3, (s32)get_localized_text_entry(0x2C, 9));
     cursor = new TAdSelectCurGC(tl_clipout, (const NJS_POINT2 *)lbl_8047B8A8, (const NJS_POINT2 *)lbl_8047B8B0);
     cursor->append_entry((void *)lbl_8047B8A8);
-    fn_80329BAC(cursor);
+    cursor->set_wait_directions_released();
     cursor->set_selection_index(0);
 }

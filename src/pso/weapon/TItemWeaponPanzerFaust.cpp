@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItemAttackColBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/weapon/TExplosionCollider.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemAttackCol.h"

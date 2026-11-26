@@ -12,7 +12,9 @@ struct FlagWord {
     void set(u32 mask);
     void clear(u32 mask);
     s32 get_bits();
+    void set_bits(s32 value);
     void bswap();
+    FlagWord &operator=(FlagWord &src);
 };
 
 extern "C" {

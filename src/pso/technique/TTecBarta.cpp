@@ -42,11 +42,11 @@ const TechniqueEmitterSourceRow barta_band5_emitters[7] = {
     {0x190, 2, 1.6f}, {0x191, 2, 1.6f}, {0x192, 0, 1.0f}, {0x198, 1, 1.0f},
     {0x193, 0x20, 1.0f}, {0x1D8, 0x20, 1.0f}, {0x1D7, 0x20, 1.0f},
 };
-const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
+static const TechniqueEmitterSourceTable barta_emitter_bands[6] = {
     {barta_band0_emitters, 3}, {barta_band1_emitters, 3}, {barta_band2_emitters, 3},
     {barta_band3_emitters, 4}, {barta_band4_emitters, 4}, {barta_band5_emitters, 7},
 };
-const char *TTecBarta__class_name = "TTecBarta";
+const char *TTecBarta::class_name = "TTecBarta";
 
 #pragma push
 #pragma dont_inline off
@@ -97,9 +97,9 @@ void TTecBarta::create_particle_emitters() {
     angles[0] = this->angles[0];
     angles[1] = 0;
     angles[2] = this->angles[2];
-    this->emitters = (TechniqueParticleEmitter **)mem_alloc(TTecBarta__emitter_bands[this->band].count * 4);
-    for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
-        row = &TTecBarta__emitter_bands[this->band].rows[i];
+    this->emitters = (TechniqueParticleEmitter **)mem_alloc(barta_emitter_bands[this->band].count * 4);
+    for (i = 0; i < barta_emitter_bands[this->band].count; i++) {
+        row = &barta_emitter_bands[this->band].rows[i];
         flags = row->flags;
         if (flags & 2) {
             this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, angles, row->entry);
@@ -107,12 +107,12 @@ void TTecBarta::create_particle_emitters() {
             reverse[0] = this->angles[0] + 0x8000;
             reverse[1] = 0;
             reverse[2] = this->angles[2];
-            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, reverse, TTecBarta__emitter_bands[this->band].rows[i].entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, reverse, barta_emitter_bands[this->band].rows[i].entry);
         } else {
             this->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter(&position, row->entry);
         }
         if (this->emitters[i] != NULL) {
-            row = &TTecBarta__emitter_bands[this->band].rows[i];
+            row = &barta_emitter_bands[this->band].rows[i];
             if (row->flags & 0x20) {
                 attach_particle_model(reinterpret_cast<TParticleCtrl *>(this->emitters[i]), get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
             } else {
@@ -167,7 +167,7 @@ void TTecBarta::apply_to_target(TObjChara *target) {
 }
 
 TTecBarta::~TTecBarta() {
-    for (u32 i = 0; i < TTecBarta__emitter_bands[band].count; ++i) {
+    for (u32 i = 0; i < barta_emitter_bands[band].count; ++i) {
         if (emitters[i]) {
             ((TObject *)emitters[i])->queue_destruction();
             emitters[i] = 0;
@@ -183,9 +183,9 @@ void TTecBarta::run_task() {
         queue_destruction();
         return;
     }
-    for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
+    for (i = 0; i < barta_emitter_bands[this->band].count; i++) {
         Vec pos = this->position;
-        if (TTecBarta__emitter_bands[this->band].rows[i].flags & 0x20) {
+        if (barta_emitter_bands[this->band].rows[i].flags & 0x20) {
             pos.y -= 10.0f;
         }
         if (this->emitters[i] != NULL) {
@@ -211,7 +211,7 @@ void TTecBarta::render() {  }
 TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
     : TTecShot(source, pos, target, level) {
     s32 i;
-    m_name = TTecBarta__class_name;
+    m_name = TTecBarta::class_name;
     init_parameters();
     collisionBody.flags = 0x40003;
     for (i = 0; i < 32; i++) {
@@ -229,7 +229,7 @@ TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
 TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     s32 i;
-    m_name = TTecBarta__class_name;
+    m_name = TTecBarta::class_name;
     init_parameters();
     for (i = 0; i < 32; i++) {
         hitIds[i] = 0xFFFF;

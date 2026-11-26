@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 
 

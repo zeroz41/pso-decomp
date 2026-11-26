@@ -10,8 +10,6 @@ class TObjBoss5PillarCtrl;
 // Gal Gryphon attack hits on the arena: the grass and stone floors, and the pillars (boss5_ctrl_instance).
 void boss5_attack_floor_in_range(const Vec *pos, const DragonAttackParams *params);
 void boss5_attack_pillars_in_range(const Vec *pos, const DragonAttackParams *params);
-extern "C" {
 void trigger_pillars_in_range(TObjBoss5PillarCtrl *pillar_controller, const Vec *pos, const DragonAttackParams *params);
-}
 
 #endif

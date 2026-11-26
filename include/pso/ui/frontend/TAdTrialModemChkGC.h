@@ -3,30 +3,42 @@
 
 #include "types.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
+#include "pso/unk/SharedMemory.h"
 
 struct TAdTrialModemChkGC : public TAdWarningBaseGC {
+    static const char *name;
     TAdTrialModemChkGC(TObject *parent);
     virtual ~TAdTrialModemChkGC();
-    virtual saddr vfunc_7();
-    virtual void vfunc_6();
+    virtual saddr get_message_text();
+    virtual void on_close();
+    static void init_modem_check_phase();
     static void check_modem_result();
+    static void exit_modem_check_phase();
     virtual void render();
     virtual void run_task();
-    static s32 init_modem_check_params();
 };
 
 LAYOUT_ASSERT(TAdTrialModemChkGC_size, sizeof(TAdTrialModemChkGC) == 0x30);
 
-extern "C" {
-void TAdTrialModemChkGC__sub_803354A4(void);
-void TAdTrialModemChkGC__sub_803354E8(void);
-}
+s32 set_shared_memory_data(u8 *source, u32 size);
+void launch_iwanaga_dol(DolHeader *dol_image, s32 param);
+void init_shared_memory();
+s32 set_disc_error_message(s32 index, const char *text);
+s32 ntUtlExSetDialType(s8 value);
+s32 get_network_adapter_type(s32 *out_type);
+s32 set_modem_check_char(s8 value);
+s32 set_modem_check_param(s32 value);
+s32 set_modem_check_param_360(s8 value);
+s32 set_modem_flag(s8 value);
+s32 set_modem_param(s16 value);
+s32 set_modem_trial_param(s16 value);
 
-// --- C functions defined in TAdTrialModemChkGC.cpp ---
 extern "C" {
-void TAdTrialModemChkGC__sub_803354A4(void);
-void TAdTrialModemChkGC__sub_803354E8(void);
+// Resets the shared-memory connect parameters to the modem check defaults.
+s32 init_modem_check_params();
+s32 TAdTrialModemChkGC__sub_8042F080(s16 value);
+s32 TAdTrialModemChkGC__sub_8042F0D4(s8 value);
+s32 fn_8042EF48(s8 value);
 }
-// --- end of C functions
 
 #endif

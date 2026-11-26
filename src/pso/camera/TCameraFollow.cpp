@@ -35,7 +35,7 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 #include <stddef.h>
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803D8F74.h"

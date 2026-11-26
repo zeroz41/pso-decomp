@@ -14,11 +14,11 @@ struct TWindowShortListCtrl : public TObject {
     static const char *class_name;
     void refresh_technique_rows(saddr, void *);
     void cycle_list_page();
-    void sub_8026EA48();
+    void enter_page_first_state();
     virtual void run_task();
     // Short list shown (0..3; saved in the card window flags bits 16-17); cycle_list_page steps it.
     s8 page;
-    // run_task state; sub_8026EA48 sets the first state of the page (0, 3, 6, 9).
+    // run_task state; enter_page_first_state sets the first state of the page (0, 3, 6, 9).
     u8 state;
     // Frames since open (run_task counts it, wraps to 2; the close button is ignored below 3).
     s16 timer;
@@ -44,8 +44,6 @@ struct TWindowShortListCtrl : public TObject {
     void *create_window(const NJS_POINT2 *position, saddr arg2_arg);
     virtual void render();
     static void set_card_window_flags(saddr client_id, s32 page);
-    s16 get_cursor_pos();
-    void update_cursor_pos();
     static void assign_shortcut(s32 slot, saddr item, s32 client_id);
 };
 

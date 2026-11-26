@@ -12,7 +12,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 extern "C" {
 void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);

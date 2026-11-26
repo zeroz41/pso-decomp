@@ -19,7 +19,7 @@ const f32 chr_move_effect_pos_table[7][2] = {
 };
 const u8 chr_move_effect_color_table[2][4] = { { 0x25, 0x76, 0x68, 0xFF }, { 0x25, 0x76, 0x30, 0xFF } };
 const f32 chr_move_effect_size[2] = { 180.0f, 38.0f };
-const char *TAdChrMoveEffectGC__class_name = "TAdChrMoveEffectGC";
+const char *TAdChrMoveEffectGC::class_name = "TAdChrMoveEffectGC";
 
 struct S_803491F8 { u32 w[8]; };
 
@@ -200,7 +200,7 @@ TAdChrMoveEffectGC::~TAdChrMoveEffectGC() {
 }
 
 TAdChrMoveEffectGC::TAdChrMoveEffectGC(TObject *parent) : TObject(parent) {
-    m_name = TAdChrMoveEffectGC__class_name;
+    m_name = TAdChrMoveEffectGC::class_name;
     active = 0;
 }
 

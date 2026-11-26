@@ -24,12 +24,11 @@ void TLobby__sub_80227AA8(s32 tracks) {
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/TLobby_803382E4.h"
 
-extern "C" {
-void TLobby__sub_80227AF8(s32 slot, const Vec *position) { TLobby__sub_8023F754(slot, position); }
-}
+void set_sound_request_position(s32 slot, const Vec *position) { set_sound_voice_position(slot, position); }
 
-extern s32 local_client_id;
 
 s32 is_special_sound_id(u32 x) {
     s32 lo = x & 0xffff;
@@ -42,7 +41,7 @@ s32 is_special_sound_id(u32 x) {
 
 
 void apply_clamped_field_27c__6TLobbyFv(f32 value) {
-    ((TLobby *)(&sound_control_state))->set_clamped_field27c(value);
+    sound_control_state.set_reverb_level(value);
 }
 
 void handle_6xB2_play_sound_from_player(game_command_header *header) {
@@ -84,16 +83,16 @@ void TLobby::set_mode(s32 mode) {
 
 
 void get_menu_field_280__6TLobbyFv(void) {
-    ((TLobby *)&sound_control_state)->get_field_0x280();
+    sound_control_state.get_voice_volume_adjustment();
 }
 
 void TLobby::set_menu_index_main(s32 index) {
-    ((TLobby *)&sound_control_state)->set_menu_index(index);
+    sound_control_state.set_voice_volume_adjustment(index);
 }
 
 void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
 
-void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
+void TLobby__sub_80227D38(void) { fade_voice_channels(0); }
 
 s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 offset, s32 options) {
     s32 r;
@@ -190,7 +189,6 @@ void is_sound_enabled(void) {
 
 
 extern "C" {
-void TLobby__sub_803382E4(void);
 s32 TLobby__sub_80226B64(int);
 extern const s32 floor_sound_bank_table[36] = {
     1, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 3,
@@ -203,7 +201,7 @@ extern const f32 floor_sound_bank_volume_table[36] = {
     0.1f, 0.1f, 0.1f, 0.1f, 0.5f, 0.5f, 0.1f, 0.5f, 0.0f, 0.1f, 0.1f, 0.2f,
 };
 
-void TLobby::refresh_render_state() { TLobby::pop_sound_groups((void *)&sound_control_state, (saddr)((void*)0)); ((int (*)(float))apply_clamped_field_27c__6TLobbyFv)(0.0f); render_tick(); }
+void TLobby::refresh_render_state() { sound_control_state.pop_sound_groups(0); ((int (*)(float))apply_clamped_field_27c__6TLobbyFv)(0.0f); render_tick(); }
 
 void load_floor_sound_bank(s32 floor) {
     s32 byte_offset;
@@ -216,7 +214,7 @@ void load_floor_sound_bank(s32 floor) {
             if (floor < 0x24) {
                 ((s32 (*)(void *, f32))apply_clamped_field_27c__6TLobbyFv)((void *)floor_sound_bank_volume_table, (f32) (*(f32 *)((s8 *)((u8 *)floor_sound_bank_volume_table + byte_offset) + 0)));
             }
-            ((TLobby *)((void *)&sound_control_state))->validate_and_set_selection((int)bank);
+            sound_control_state.validate_and_set_selection(bank);
             do {
                 TLobby::run_disk_error_check();
                 exec_adx_server();
@@ -235,16 +233,13 @@ void TLobby__sub_8022804C(void) {
 void update_global_sound_frame(void) {
     update_sound_frame(&sound_control_state);
 }
-extern "C" {
-
-void TLobby__sub_8022809C(void) {
-    ((TLobby *)&sound_control_state)->reset_sound_state();
-}
+void reset_sound_control_state(void) {
+    sound_control_state.reset_sound_state();
 }
 
 void TLobby::wait_for_sound_init() {
     init_sound_aux_effects(&sound_control_state);
-    ((TLobby *)&sound_control_state)->validate_and_set_selection(0);
+    sound_control_state.validate_and_set_selection(0);
     do {
         TLobby__sub_803382E4();
         TLobby::run_disk_error_check();

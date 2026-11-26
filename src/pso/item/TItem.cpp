@@ -45,14 +45,13 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80104F4C.h"
-#include "pso/unk/text_8011A780.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/unk/text_801057A8.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/weapon/TItemAttacker.h"
@@ -113,7 +112,7 @@ void (*model_node_visit_callback)(NJS_OBJECT *object);
 TItemIdCounters *item_id_counters;
 GC_Mtx *model_node_matrix_output_cursor;
 
-const char *TItem__name = "TItem";
+const char *TItem::name = "TItem";
 
 const CollisionBody item_collider_body = {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x31F0B};
 
@@ -276,7 +275,7 @@ f32 RenderMaterialState::get_alpha() { return fade_color.a; }
 
 s32 TObjPlayer::is_flag_20000_set() { return check_flag(0x20000); }
 
-TItem *TObjPlayer::get_equipped_item(s32 slot) { return (TItem *)get_slot_value(equipped_items, slot); }
+TItem *TObjPlayer::get_equipped_item(s32 slot) { return (TItem *)get_slot_value(equipped_items.items, slot); }
 
 s32 TObjPlayer::get_hp_bonus() { return hp_bonus; }
 
@@ -350,7 +349,7 @@ void *TItem::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 
 TItem::TItem(TObject *parent, u8 *item) : TObjCollidable(parent) {
-    m_name = TItem__name;
+    m_name = TItem::name;
     set_actor_flags(0x80000000);
     copy_collision_body(&collision_body, &item_collider_body);
     cursor_action.set_pick_up();
@@ -957,7 +956,7 @@ u32 TItem::get_usable_action_flags(u32 mask, TObjPlayer *player) {
     if (player == NULL) {
         player = owner;
     }
-    u32 flags = data.calc_action_flags(mask, (u8 *)player);
+    u32 flags = data.calc_action_flags(mask, player);
     if (test_item_flags(0x200) != 0) {
         flags |= 2;
     }
@@ -1355,7 +1354,7 @@ void TItemEquipBase::refresh_owner_stats() {
     }
 }
 
-void TItem::subtract_item_stat_bonus(s32, s32, s16 *) {}
+void TItem::subtract_item_stat_bonus(AttackParams *, ActorParamBlock *, s16 *) {}
 
 void TItem::subtract_equip_stats(void *, s16 *, s16 *) {}
 

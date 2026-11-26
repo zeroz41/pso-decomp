@@ -13,13 +13,14 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/ActorCollision.h"
 
 __declspec(section ".data") const char *fs_obj_tank_model_names[2] = { "fs_obj_tank.gj", NULL };
 const char *fs_obj_tank_motion_names[1] = { NULL };
@@ -32,14 +33,11 @@ CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f,
 
 BmlResource *tank_bml_resource;
 NJS_TEXLIST *tank_texture_list;
-extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-}
 
 void TObjTank::render() {
     NJS_TEXLIST *textures;
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = tank_texture_list)) {
-        TObjFish::set_global_param(textures);
+        set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -55,18 +53,18 @@ TObjTank::~TObjTank() {
 }
 
 
-TObjTank::TObjTank(TObject *parent, saddr set_data) : TObjCollidable(parent) {
-    this->m_name = tank_class_name;
-    VecCopy(&this->position, (const Vec *)(set_data + 0xC));
-    copy_xyz(&this->rotation_x, (void *)(set_data + 0x18));
-    VecCopy(&this->scale, (const Vec *)(set_data + 0x24));
+TObjTank::TObjTank(TObject *parent, ObjectSetData *placement) : TObjCollidable(parent) {
+    m_name = tank_class_name;
+    VecCopy(&position, &placement->position);
+    copy_xyz(&rotation_x, placement->rotation);
+    VecCopy(&scale, &placement->scale);
     init_collision_body_parts(this, &tobjtank_collision_body_parts, 1);
-    this->actorFlags = (s32) (this->actorFlags | 0x40000000);
-    this->register_object_by_id();
+    actorFlags |= 0x40000000;
+    register_object_by_id();
 }
 
 void *TObjTank::create(void *set_data) {
-    return new TObjTank(tl_05, (saddr)set_data);
+    return new TObjTank(tl_05, static_cast<ObjectSetData *>(set_data));
 }
 
 void TObjTank::free_globals() {

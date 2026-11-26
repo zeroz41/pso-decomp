@@ -5,6 +5,7 @@
 #include "types.h"
 
 struct SceneMaterialSection;
+struct SceneMaterialNode;
 struct Vec;
 
 // One record of the area's texture UV animations (texture_animation_buffer).
@@ -20,7 +21,7 @@ struct TextureUvAnimation {
 struct SceneMaterialInfo {
     u16 id;
     u8 texture_index;
-    u8 pad_03;
+    u8 scale_index;
     u8 effect_id;
     u8 pad_05[3];
 };
@@ -44,6 +45,17 @@ struct TextureWaveEntry {
 // scene file (get_floor_scene_table).
 struct SceneNameIndex { char *name; s32 idx; };
 
+// Per area, whether players use the auxiliary surface flags there.
+struct SurfaceAreaTable { s32 enabled[36]; };
+
+// The areas of the group-selection list, ended by -1 (a struct so it copies by value).
+struct GroupSelectionAreaList { s32 areas[8]; };
+
+// The floor b.bin room visibility table: per room, the run of room ids seen from it;
+// the s16 room ids follow the entries.
+struct RoomVisibilityEntry { s32 id; s32 count; s32 start; };
+struct RoomVisibilityTable { u32 pad_00; s32 count; RoomVisibilityEntry entries[1]; };
+
 /* A map section's rotation, its node's angles plus the section's (passed to the section render callback). */
 struct SceneSectionAngles { s32 x, y, z; };
 
@@ -62,10 +74,13 @@ public:
     virtual ~TScene();
     virtual void run_task();
     virtual void render();
-    void sub_80204D7C();
+    // Cull mode 0: marks the sections in front of the camera within the map radius visible.
+    void cull_sections_within_map_radius();
     void cull_sections();
     // Whether pos lies in front of the camera and no further than depth.
     BOOL is_in_view_depth(Vec *pos, f32 depth, f32);
+    // True when the camera is inside the node's model radius or the node is in view depth.
+    s32 is_node_visible(SceneMaterialNode *node, f32 depth, f32 near_depth);
     // Which of the four culling passes render runs this frame.
     s32 get_cull_mode();
     // Empty: the TEffIndirect nodes init_material_nodes creates are child tasks.
@@ -96,7 +111,7 @@ public:
     void render_static_map_section(SceneMaterialSection *section, s32 flagged_only);
     void render_animated_map_section(SceneMaterialSection *section, s32 flagged_only);
     void update_room_object_visibility(SceneMaterialSection *room);
-    void set_field4();
+    void reset_root_flags();
     void advance_scene_object_animations();
     void init_material_nodes();
     static void create_texture_wave_tasks(TObject *parent);
@@ -125,10 +140,6 @@ public:
     static void begin_reflection_pass();
     static void end_reflection_pass();
     static void set_visibility_radius_margin(f32 margin);
-    void offset_position(s32 dx, s32 dy);
-    void apply_uv_offset(s16 u_offset, s16 v_offset);
-    void *destroy_buffers(s16 delete_flag);
-    void *init_buffers(saddr arg1, s32 arg2);
 };
 
 #include <stddef.h>
@@ -136,11 +147,16 @@ LAYOUT_ASSERT(TScene_size, sizeof(TScene) == 0x40);
 LAYOUT_ASSERT(TScene_field_1c_offset, offsetof(TScene, visible_section_count) == 0x1C);
 
 void load_scene_collision_file(saddr scene_file_index);
+void load_scene_map_file(saddr name);
+void load_floor_scene(void);
 // The id of the nearest map section whose radius holds pos, or -1.
 s32 find_section_at_position(Vec *pos);
+SceneMaterialSection *find_scene_room_by_id(s32 id);
 
 extern s32 scene_resource_index;
 extern s32 lobby_online_ready_flag;
+extern s32 current_lobby_id;
+extern s32 area_total;
 extern s8 floor_scene_ready_flag;
 extern s32 reflection_pass_active;
 extern f32 visibility_radius_margin;
@@ -148,7 +164,6 @@ extern f32 visibility_radius_margin;
 s32 is_item_area_enabled(s32 area);
 
 struct SceneMaterialCycle;
-struct SceneMaterialNode;
 struct SceneMaterialStatic;
 struct SceneMaterialAnimated;
 

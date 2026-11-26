@@ -9,8 +9,7 @@
 #include "pso/object/warp/TObjGoalWarpAncient.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -18,7 +17,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -102,15 +101,15 @@ void TObjMapWarpAncient::run_task() {
 
 void TObjMapWarpAncient::draw_debug_destinations() {
     if ((s32)set_params[1] < 0) {
-        TObjNpcEnemy::set_global_count(0xFF00FF);
+        set_debug_text_color(0xFF00FF);
         debug_printf_at(0x130021, "<- ONE WAY (POSITIVE: NORMAL)");
-        TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+        set_debug_text_color(0xF0F0F0FF);
         return;
     }
     TObjMapWarp::draw_debug_destinations();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- NORMAL (NEGATIVE: ONE WAY)");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjMapWarpAncient::render() {
@@ -120,13 +119,13 @@ void TObjMapWarpAncient::render() {
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
         if ((s32)set_params[1] >= 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(beam_textures));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(beam_textures));
             draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(ksita_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(ksita_textures));
         draw_ginja_object(ksita_model);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(nsita_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(nsita_textures));
         draw_ginja_object(nsita_model);
         pop_matrix();
     }
@@ -182,7 +181,7 @@ void TObjGoalWarpAncient::run_task() {
 
 void TObjGoalWarpAncient::debug_print_area_num() {
     TObjAreaWarp::debug_print_area_num();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if ((s32)set_params[2] < 0) {
         beam_textures = get_goal_beam_textures();
         debug_printf_at(0x130022, "<- GOAL (POSITIVE: START)");
@@ -190,7 +189,7 @@ void TObjGoalWarpAncient::debug_print_area_num() {
         beam_textures = get_archive_textures(1);
         debug_printf_at(0x130022, "<- START (NEGATIVE: GOAL)");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjGoalWarpAncient::render() {
@@ -199,12 +198,12 @@ void TObjGoalWarpAncient::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(beam_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(beam_textures));
         draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(naka_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(naka_textures));
         draw_ginja_model_with_motion(naka_model, naka_motion, naka_frame);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(gawa_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(gawa_textures));
         draw_ginja_object(gawa_model);
         pop_matrix();
     }

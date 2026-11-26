@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowLoadItemTexture.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/item/TItemTexLoad.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -14,13 +13,28 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 
+void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
+    static_cast<WindowSpritePart *>(get_array_entry(0))->flags |= 2;
+    if (texture_loader->load_item_icon(item) != 0) {
+        m_60 = 1;
+        return;
+    }
+    m_60 = 2;
+}
+
+void bind_item_texture(TWindowLoadItemTexture *window) {
+    WindowSpritePart *sprite = static_cast<WindowSpritePart *>(window->get_array_entry(0));
+    sprite->texture_list_slot = &window->texture_list;
+    sprite->flags &= ~2;
+}
+
 #pragma push
 #pragma opt_common_subs off
 
 
 #pragma push
 #pragma fp_contract on
-TWindowLoadItemTexture *fn_802628C0(void *position, const f32 *extent, s32 client) {
+TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f32 *extent, s32 client) {
     TWindowLoadItemTexture *window;
     WindowSpritePart *sprite;
 
@@ -63,10 +77,10 @@ const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
 extern saddr tl_07;
 
 
-extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
+extern const f32 load_item_texture_window_extent[2] = { 160.0f, 120.0f };
 
 TWindowLoadItemTexture *TWindowLoadItemTexture::create(void *position, s32 client) {
-    TWindowLoadItemTexture *window = new TWindowLoadItemTexture(position, (f32 *)lbl_8044F280, client);
+    TWindowLoadItemTexture *window = new TWindowLoadItemTexture(position, (f32 *)load_item_texture_window_extent, client);
     set_sprite_uv_bounds(reinterpret_cast<WindowSpritePart *>(window->get_array_entry(0)), 0.0f, 0.0f, 0.625f, 0.46875f);
     return window;
 }
@@ -75,7 +89,7 @@ void TWindowLoadItemTexture::render() {
     if ((s32)m_60 == 1) {
         texture_list = texture_loader->ready_texture_list();
         if (texture_list != NULL) {
-            fn_8026287C(this);
+            bind_item_texture(this);
             m_60 = 1;
         }
     }

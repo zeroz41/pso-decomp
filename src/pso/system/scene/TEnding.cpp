@@ -1,4 +1,4 @@
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/scene/TEndingPicStage.h"
@@ -20,9 +20,8 @@ s32 ending_scene_active;
 
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
-extern const char TEnding__class_name_string[];
-const char *TEnding__class_name = TEnding__class_name_string;
 }
+const char *TEnding::class_name = TEnding::class_name_string;
 
 void TEnding::run_task() {
     switch (phase) {
@@ -62,7 +61,7 @@ TEnding::~TEnding() {
 }
 
 TEnding::TEnding() : TObject(tl_window) {
-    m_name = TEnding__class_name;
+    m_name = TEnding::class_name;
     TEnding__sub_8008C9F8();
     TMainTask::cleanup_game_objects();
     set_current_floor_area(1);

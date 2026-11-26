@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
+#include "pso/item/shop/ShopPool.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
@@ -34,7 +35,6 @@ struct AppraisalItemView { u8 pad[3]; u8 f3; };
 struct AppraisalSlotView { u8 pad[4]; u8 slot; };
 struct AppraisalPercentages { u8 pad[7]; s8 a; u8 p8; s8 b; u8 pa; s8 c; };
 
-struct ShopPoolCounter { u8 buf[0x68]; };
 
 // Grind/percentage steps picked by the JudgeItem appraisal rolls (name inferred from its users).
 static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3, 5, 10, 0};
@@ -42,9 +42,7 @@ static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3
 ItemAppraisalRules *item_appraisal_rules;
 s32 item_appraisal_favored_weapon;
 s32 item_appraisal_score;
-void shuffle_shop_pool_n_times(void *, s32);
 extern "C" {
-void push_shop_pool_entry(void *, u8);
 
 u8 TLobby::lookup_table_value(s8 x) {
     const AppraisalScoreEntry *p = item_appraisal_rules->grind_scores;
@@ -69,12 +67,12 @@ u8 lookup_key_value__6TLobbyFc(s8 x) {
 }
 
 void adjust_appraisal_percentages(AppraisalPercentages *appraisal) {
-    ShopPoolCounter ctr;
+    ShopPool ctr;
     const AppraisalRollEntry *e;
     s32 count;
     s32 n;
     s32 r;
-    ((TLobby *)(&ctr))->reset_counter_64();
+    ctr.clear();
     count = item_appraisal_rules->percentage_rolls->count;
     e = &item_appraisal_rules->percentage_rolls->entries[count * shop_section_id];
     while (count-- > 0) {
@@ -84,12 +82,12 @@ void adjust_appraisal_percentages(AppraisalPercentages *appraisal) {
             n = e->weight;
         }
         while (n-- != 0) {
-            push_shop_pool_entry(&ctr, e->adjustment);
+            ctr.push(e->adjustment);
         }
         e++;
     }
-    shuffle_shop_pool_n_times(&ctr, 4);
-    r = ((TLobby *)(&ctr))->pop_byte();
+    ctr.shuffle_n_times(4);
+    r = ctr.pop();
     if (r != -1) {
         u8 v = item_appraisal_adjust_table[r];
         appraisal->a += v;
@@ -113,13 +111,13 @@ void adjust_appraisal_percentages(AppraisalPercentages *appraisal) {
 }
 
 void TLobby::roll_item_grind_bonus() {
-    u8 buf[0x68];
+    ShopPool pool;
     const AppraisalRollEntry *e;
     s32 n;
     s32 c;
     s32 r;
     if (TItemData::is_rare_item(this) == 0) {
-        ((TLobby *)buf)->reset_counter_64();
+        pool.clear();
         const AppraisalRollTable *t = item_appraisal_rules->grind_rolls;
         n = t->count;
         e = &t->entries[n * shop_section_id];
@@ -130,12 +128,12 @@ void TLobby::roll_item_grind_bonus() {
                 c = e->weight;
             }
             while (c-- != 0) {
-                push_shop_pool_entry(buf, e->adjustment);
+                pool.push(e->adjustment);
             }
             e++;
         }
-        shuffle_shop_pool_n_times(buf, 4);
-        r = ((TLobby *)buf)->pop_byte();
+        pool.shuffle_n_times(4);
+        r = pool.pop();
         if (r != -1) {
             s32 v = ((AppraisalItemView *)this)->f3 + item_appraisal_adjust_table[r];
             if (v < 0) {
@@ -143,7 +141,7 @@ void TLobby::roll_item_grind_bonus() {
             }
             ((AppraisalItemView *)this)->f3 = v;
         }
-        u8 m = ((TItemData *)this)->get_entry_field16();
+        u8 m = ((TItemData *)this)->get_max_grind();
         if (((AppraisalItemView *)this)->f3 > m) {
             ((AppraisalItemView *)this)->f3 = m;
         }
@@ -152,12 +150,12 @@ void TLobby::roll_item_grind_bonus() {
 }
 
 void adjust_appraisal_special(AppraisalSlotView *obj) {
-    u8 buf[0x68];
+    ShopPool pool;
     AppraisalRollEntry *e;
     s32 n;
     s32 c;
     s32 r;
-    ((TLobby *)buf)->reset_counter_64();
+    pool.clear();
     AppraisalRollTable *t = item_appraisal_rules->special_rolls;
     n = t->count;
     e = &t->entries[n * shop_section_id];
@@ -168,12 +166,12 @@ void adjust_appraisal_special(AppraisalSlotView *obj) {
             c = e->weight;
         }
         while (c-- != 0) {
-            push_shop_pool_entry(buf, e->adjustment);
+            pool.push(e->adjustment);
         }
         e++;
     }
-    shuffle_shop_pool_n_times(buf, 4);
-    r = ((TLobby *)buf)->pop_byte();
+    pool.shuffle_n_times(4);
+    r = pool.pop();
     if (r != -1) {
         switch (item_appraisal_adjust_table[r]) {
         case -1:

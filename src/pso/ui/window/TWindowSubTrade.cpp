@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 // ---- pso/ui/window/TWindowSubTrade_802B1AB4
 #include "types.h"
@@ -38,10 +37,8 @@ s32 text_builder_append();
 void text_builder_reset(void);
 const char *TWindowSubTrade::class_name = "TWindowSubTrade"; // TWindowSubTrade::class_name
 // Player message window position (x, y).
-extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
-extern "C" {
-TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
-}
+extern const f32 trade_message_window_size[2] = {384.0f, 120.0f};
+TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *);
 
 // Built with deferred code generation (the vtable precedes run_task's jump
 // table in .data), so the functions are written from the last one back.
@@ -61,7 +58,7 @@ TWindowSubTrade::~TWindowSubTrade() {
     release_trade_sub_window(this);
     TLobby::check_flags_and_proceed();
     if (this->m_confirm_prompt != NULL) {
-        ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
+        this->m_confirm_prompt->close();
         this->m_confirm_prompt = NULL;
     }
     if (this->m_message_window != NULL) {
@@ -81,7 +78,7 @@ void TWindowSubTrade::run_task() {
     case 0:
     case 1:
         if (this->m_confirm_prompt != NULL) {
-            ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
+            this->m_confirm_prompt->close();
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window != NULL) {
@@ -89,12 +86,12 @@ void TWindowSubTrade::run_task() {
             this->m_message_window = NULL;
         }
         if (this->m_player_list == NULL) {
-            m_player_list = TWindowSubComCard__sub_802B1C1C(this);
+            m_player_list = create_trade_partner_menu(this);
         }
         m_player_list->clear_flag_and_release();
         this->state = 2U;
     case 2:
-        if (((TWindowMenu *)(this->m_player_list))->is_cancelled() != 0) {
+        if (this->m_player_list->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             this->state = 7U;
         } else if (m_player_list->is_decided() != 0) {
@@ -110,10 +107,10 @@ void TWindowSubTrade::run_task() {
         }
         this->state = 4U;
     case 4:
-        if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->is_cancelled() != 0) {
+        if (this->m_confirm_prompt->is_cancelled() != 0) {
             this->state = 1U;
         } else if (m_confirm_prompt->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->get_selected_value() == 0) {
+            if (this->m_confirm_prompt->get_selected_value() == 0) {
                 this->state = 5U;
             } else {
                 this->state = 1U;
@@ -122,7 +119,7 @@ void TWindowSubTrade::run_task() {
         break;
     case 5:
         if (this->m_confirm_prompt != NULL) {
-            ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
+            this->m_confirm_prompt->close();
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window == NULL) {
@@ -145,7 +142,7 @@ void TWindowSubTrade::run_task() {
 void TWindowSubTrade::render() {  }
 
 // The caller passes its TWindowSubTrade in r3; the body never reads it.
-TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
+TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *) {
     s32 i;
     TObjPlayer *player;
     TWindowSubComCardList *list;
@@ -171,7 +168,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
             add_gray_text_entry((TWindowMenu *)list, (const char *)(player->get_name()), 7, i);
         }
     }
-    if (list->get_field_72() <= 0) {
+    if (list->get_entry_count() <= 0) {
         add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
     }
     list->set_flag70_bit10();
@@ -187,7 +184,7 @@ TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 mess
         ((s32 (*)(s32))text_builder_append)((saddr)p->get_name());
     }
     ((s32 (*)(s32))text_builder_append)(message);
-    window = TWindowMessage::create(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->client_id);
+    window = TWindowMessage::create(get_window_layout_position(0x5B), trade_message_window_size, 1, this->client_id);
     window->append_line((saddr)get_shared_text_buffer(), 0x82);
     return window;
 }

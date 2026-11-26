@@ -148,7 +148,7 @@ s32 TMessageWindowController::is_ready() {
 }
 void TMessageWindowController::send_message(s32 index, s32 flags) {
     if (window != NULL) {
-        ((TWindowMessagePage *)window)->set_message((void *)(get_appraisal_text(index)), (s32)(flags | 0x80));
+        window->set_message((void *)(get_appraisal_text(index)), (s32)(flags | 0x80));
     }
 }
 void TMessageWindowController::format_guild_message(s32 index, s32 flags) {
@@ -157,14 +157,14 @@ void TMessageWindowController::format_guild_message(s32 index, s32 flags) {
         text = (const char *)get_guild_text(index);
         memset(buffer, 0, 0x200);
         parse_message_text(text, buffer);
-        ((TWindowMessagePage *)window)->set_message((void *)buffer, (s32)(flags | 0x80));
+        window->set_message((void *)buffer, (s32)(flags | 0x80));
     }
 }
 void TMessageWindowController::display_message(const char *text, s32 flags) {
     if (window != NULL) {
         memset(buffer, 0, 0x200);
         parse_message_text(text, buffer);
-        ((TWindowMessagePage *)window)->set_message((void *)buffer, (s32)(flags | 0x80));
+        window->set_message((void *)buffer, (s32)(flags | 0x80));
     }
 }
 void TMessageWindowController::format_shop_message(s32 index, s32 flags) {
@@ -173,7 +173,7 @@ void TMessageWindowController::format_shop_message(s32 index, s32 flags) {
         text = (const char *)get_shop_text(index);
         memset(buffer, 0, 0x200);
         parse_message_text(text, buffer);
-        ((TWindowMessagePage *)window)->set_message((void *)buffer, (s32)(flags | 0x80));
+        window->set_message((void *)buffer, (s32)(flags | 0x80));
     }
 }
 void TMessageWindowController::close() {
@@ -188,7 +188,7 @@ TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_PO
     else scale = 1.0f;
     if (window == NULL) {
         window = (TWindowMessagePage *)TWindowMessagePage::create(position, extent, 1, flags);
-        ((TWindowAddition *)window)->set_position_xy(scale, scale);
+        window->set_position_xy(scale, scale);
         return window;
     }
     return NULL;
@@ -199,7 +199,7 @@ TWindowMessagePage *TMessageWindowController::create_window(const NJS_POINT2 *po
     else scale = 1.0f;
     if (window == NULL) {
         window = (TWindowMessagePage *)TWindowMessagePage::set_text(position, extent, 1);
-        ((TWindowAddition *)window)->set_position_xy(scale, scale);
+        window->set_position_xy(scale, scale);
         return window;
     }
     return NULL;

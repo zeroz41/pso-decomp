@@ -22,7 +22,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 // The mag data files TItemMag::load_data_files reads.

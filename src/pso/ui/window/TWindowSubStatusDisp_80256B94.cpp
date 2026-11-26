@@ -13,7 +13,7 @@
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -79,7 +79,7 @@ void TWindowStatusGauge::render(WindowDrawContext *ctx) {
     pos.y = ctx->inner_y + this->y;
     depth = -1.0f / (0.299f * this->depth + ctx->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(11, -1);
     if (this->flags & 8) {
         TWindowSubStatusDisp__sub_80256C40(this, ctx, &pos, depth);
@@ -88,7 +88,7 @@ void TWindowStatusGauge::render(WindowDrawContext *ctx) {
         set_constant_material_color(this->color);
         this->draw_status_gauge_bar(ctx, &pos, depth, len);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth, f32 len) {

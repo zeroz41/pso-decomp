@@ -8,13 +8,15 @@
 struct NJS_TEXLIST;
 
 struct TODummyKeyCave01 : public TObjBase {
+    static void free_resources();
+    static void load_resources();
     TODummyKeyCave01(TObject *parent, void *set_data);
     virtual ~TODummyKeyCave01();
     void init_from_set_data();
     NJS_TEXLIST *off_textures;  // the key's textures while its switch is off
     NJS_TEXLIST *on_textures;   // ... and while it is on
     u16 id;                     // the floor switch it shows, 0xFFFF for none (always on)
-    u16 m_9a;                   // the switch's state last frame
+    u16 switch_state;                   // the switch's state last frame
     NJS_ARGB color;             // tint of the glow; red pulses while the switch is off
     Vec key_offset;             // where the key head sits; y rises while the switch is on
     s32 pulse_rising;           // 1 while the pulse is brightening
@@ -27,8 +29,6 @@ struct TODummyKeyCave01 : public TObjBase {
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
-    static void free_assets();
-    static void load_assets();
 };
 
 LAYOUT_ASSERT(TODummyKeyCave01_size, sizeof(TODummyKeyCave01) == 0xD4);

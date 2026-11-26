@@ -7,14 +7,12 @@
 #include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8036A3CC.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/text_8013ADE4.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -44,10 +42,10 @@
 // The class name opens .rodata (0x8044F478), then the menu window positions
 // (0x8044F48C..0x8044F4A4) in this order, ahead of the strings of the functions.
 const char *TWindowOptionCtrl::class_name = "TWindowOptionCtrl";
-const vec2f lbl_8044F48C = {470.0f, 124.0f};
-const vec2f lbl_8044F494 = {470.0f, 80.0f};
-const vec2f lbl_8044F49C = {470.0f, 80.0f};
-const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
+const vec2f select_menu_window_size = {470.0f, 124.0f};
+const vec2f sound_mode_menu_window_size = {470.0f, 80.0f};
+const vec2f option_menu_window_size = {470.0f, 80.0f};
+const vec2f serial_info_window_size = {470.0f, 80.0f};
 
 
 extern "C" {
@@ -66,7 +64,7 @@ int TWindowOptionCtrl__sub_8026C630(void* p) { return *(u8*)((char*)p + 0x60) & 
 
 void TWindowOptionCtrl::clear_flag70_bit4() { *(u16*)((char*)this + 0x70) &= 0xfffffffb; }
 
-void TWindowSubComCardList::set_flag70_bit100() { this->m_70 |= 0x100; }
+void TWindowMenu::set_flag70_bit100() { this->m_70 |= 0x100; }
 
 void TWindowOptionCtrl::set_flag70_bit400() { *(u16*)((char*)this + 0x70) |= 0x400; }
 
@@ -111,7 +109,7 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         sound_balance_window = NULL;
     }
     if (option_menu != NULL) {
-        ((TWindowBase *)option_menu)->close();
+        option_menu->close();
         option_menu = NULL;
     }
     if (m_30 != NULL) {
@@ -119,11 +117,11 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         m_30 = NULL;
     }
     if (sub_menu != NULL) {
-        ((TWindowBase *)sub_menu)->close();
+        sub_menu->close();
         sub_menu = NULL;
     }
     if (main_menu != NULL) {
-        ((TWindowBase *)main_menu)->close();
+        main_menu->close();
         main_menu = NULL;
     }
 }
@@ -149,11 +147,11 @@ void TWindowOptionCtrl::run_task() {
             sound_balance_window = NULL;
         }
         if (option_menu != NULL) {
-            ((TWindowBase *)option_menu)->close();
+            option_menu->close();
             option_menu = NULL;
         }
         if (sub_menu != NULL) {
-            ((TWindowBase *)sub_menu)->close();
+            sub_menu->close();
             sub_menu = NULL;
         }
         if (main_menu == NULL) {
@@ -184,7 +182,7 @@ void TWindowOptionCtrl::run_task() {
         }
         break;
     case 5:
-        TWindowOptionCtrl__sub_802273B4(0x1E);
+        start_music_crossfade(0x1E);
         main_menu->open();
         if (sub_menu == NULL) {
             sub_menu = (TWindowMenu *)create_list_window();
@@ -193,7 +191,7 @@ void TWindowOptionCtrl::run_task() {
     case 6:
         if (sub_menu->is_cancelled() != 0) {
             if (flags & 2) {
-                TWindowOptionCtrl__sub_802273B4(0x1E);
+                start_music_crossfade(0x1E);
                 flags &= ~2;
                 ((TWindowOptionCtrl *)(sub_menu))->clear_flag70_bit4();
             } else {
@@ -287,7 +285,7 @@ void TWindowOptionCtrl::run_task() {
             yes_no_window = NULL;
         }
         if (option_menu != NULL) {
-            ((TWindowBase *)option_menu)->close();
+            option_menu->close();
             option_menu = NULL;
         }
         if (m_30 != NULL) {
@@ -401,7 +399,7 @@ saddr TWindowOptionCtrl::create_menu() {
 
 TWindowCheckBox *TWindowOptionCtrl::create_select_menu_window() {
     TWindowCheckBox *check_box_window;
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xCF), &lbl_8044F48C);
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xCF), &select_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 8), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 9), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xA), 2);
@@ -417,7 +415,7 @@ saddr TWindowOptionCtrl::create_list_window() {
 
     unlock_music_flag(2);
     list = create_window_menu_default(TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
-    ((TWindowSubComCardList *)list)->set_flag70_bit100();
+    list->set_flag70_bit100();
     idx = 0;
     do {
         if (is_music_flag_unlocked_stub(idx) != 0) {
@@ -430,7 +428,7 @@ saddr TWindowOptionCtrl::create_list_window() {
         idx += 1;
     } while (idx < 0x31);
     ((TWindowOptionCtrl *)list)->set_flag70_bit400();
-    ((TWindowSubComCardList *)list)->set_scroll_target(470.0f, 124.0f);
+    list->set_scroll_target(470.0f, 124.0f);
     align_menu_entry_positions(list);
     return (saddr)list;
 }
@@ -439,7 +437,7 @@ TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
     TWindowCheckBox *check_box_window;
 
     saddr temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &lbl_8044F494);
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &sound_mode_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xE), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xD), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xF), 2);
@@ -485,7 +483,7 @@ saddr TWindowOptionCtrl::create_sub_menu_window() {
 TWindowCheckBox *TWindowOptionCtrl::create_option_menu() {
     TWindowCheckBox *check_box_window;
 
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &lbl_8044F49C);
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &option_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x10), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x11), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x12), 2);
@@ -503,7 +501,7 @@ saddr TWindowOptionCtrl::open_yes_no_window(saddr parent, s32 message_id, s32 in
 
 saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {
     saddr w;
-    w = (saddr)TWindowMessage::create(pos, (const f32 *)(&lbl_8044F4A4), 3);
+    w = (saddr)TWindowMessage::create(pos, (const f32 *)(&serial_info_window_size), 3);
     switch (kind) {
     case 0:
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_80321874()))), (u32)0);
@@ -532,11 +530,11 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
         unload_lobby_scene_resources();
         load_lobby_scene_resources();
         if (option_menu != NULL) {
-            ((TObject *)option_menu)->queue_destruction();
+            option_menu->queue_destruction();
             option_menu = NULL;
         }
         if (main_menu != NULL) {
-            ((TObject *)main_menu)->queue_destruction();
+            main_menu->queue_destruction();
             main_menu = NULL;
         }
         main_menu = (TWindowMenu *)create_menu();

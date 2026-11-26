@@ -46,6 +46,8 @@ s16 set_at_timer(NetTimerCallback callback, s32 interval);
 s32 reset_at_timer(NetTimerCallback timer);
 s32 udp_close(s32 nh);
 s16 if_down(s16 idx, s32 op);
+s32 route4_del(saddr dst, saddr mask, saddr gateway);
+s32 route4_add(saddr dst, saddr mask, saddr gateway);
 s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);
 s32 tcp_delete(s32 nh);
 s32 tcp_abort(s32 nh);

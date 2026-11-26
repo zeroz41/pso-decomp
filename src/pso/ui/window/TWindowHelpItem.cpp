@@ -15,6 +15,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/PageIndicator.h"
+#include "pso/unk/text_8026C664.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
@@ -64,7 +65,6 @@ typedef struct Quest_802549B0 {
 typedef struct MagData_80253564 { u8 b[16]; } MagData_80253564;
 
 extern "C" {
-int fn_8026C7C0(void*);
 void fn_80255A38(TWindowHelpItem *item);
 }
 extern u8 *text_language_group_table;
@@ -83,7 +83,7 @@ HelpItemLayout TWindowHelpItem::item_layout_entries = {
     {4, {208.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
     {3, {208.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
 };
-HelpItemLinesLayout lbl_804CF24C = {
+HelpItemLinesLayout help_item_lines_layout = {
     5, 1,
     {{11, {0.0f, 0.0f}}, {11, {0.0f, 20.0f}}, {11, {0.0f, 40.0f}},
      {11, {0.0f, 60.0f}}, {11, {0.0f, 80.0f}}},
@@ -95,7 +95,7 @@ HelpItemResistanceLayout TWindowHelpItem::resistance_layout_entries = {
     {3, {55.0f, 123.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
     {4, {211.0f, 123.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
 };
-HelpItemStatsLayout lbl_804CF30C = {
+HelpItemStatsLayout help_item_stats_layout = {
     16, 1,
     {{11, {0.0f, 0.0f}}, {11, {0.0f, 20.0f}}, {11, {0.0f, 40.0f}}},
     {
@@ -114,7 +114,7 @@ HelpItemStatsLayout lbl_804CF30C = {
     },
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFF00, 0, "Level Up!"},
 };
-HelpItemSpritesLayout lbl_804CF4E4 = {
+HelpItemSpritesLayout help_item_sprites_layout = {
     4, 1,
     {
         {6, {35.0f, 18.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.6f, -1, &hud_texlist, 2, 4},
@@ -218,18 +218,18 @@ void TWindowHelpItem::run_task() {
 }
 
 void TWindowHelpItem::render() {
-    saddr context;
+    WindowDrawContext *context;
     u8 flags;
 
-    context = reinterpret_cast<saddr>(this->setup_window_draw_context(&scale_x));
-    this->draw_window_frame((void *)context);
+    context = this->setup_window_draw_context(&scale_x);
+    this->draw_window_frame(context);
     draw_visible_window_entries(
         this,
         &entry_list,
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
     flags = this->help_flags;
     if ((flags & 1) && (flags & 2)) {
-        draw_list_page_indicator(page_indicator, reinterpret_cast<WindowDrawContext *>(context));
+        draw_list_page_indicator(page_indicator, context);
     }
 }
 
@@ -262,7 +262,7 @@ void fn_80255A38(TWindowHelpItem *item) {
     item->m_callback = NULL;
 }
 
-void TWindowHelpItem::update_help_item(s32 mode) { if (fn_8026C7C0(*(void**)((char*)this + 0x64)) != 0) { ((TWindowHelpItem *)this)->dispatch_item_help(); } }
+void TWindowHelpItem::update_help_item(s8 page) { if (fn_8026C7C0(page_indicator, page) != 0) { this->dispatch_item_help(); } }
 
 void TWindowHelpItem::set_items_and_refresh(void* a1, void* a2) { *(void* *)&this->secondary_id = a2; *(void* *)&this->secondary_item = a1; update_cursor_selection(); dispatch_item_help(); }
 
@@ -595,10 +595,10 @@ void TWindowHelpItem::update_level_requirement() {
     s32 requirement;
     u8 *level_value;
     u8 *item_pmt_record;
-    u8 *player;
-    player = (u8 *)(((u8 *)get_player_by_client_id(client_index)));
+    TObjPlayer *player;
+    player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        if (((TObjPlayer *)player)->get_stats() != 0U) {
+        if (player->get_stats() != 0U) {
             update_stat_comparison();
             level_value = (u8 *)(((u8 *)get_array_entry(0xA)));
             item_pmt_record = (u8 *)(lookup_item_pmt_record((u8 *)active_item));
@@ -609,7 +609,7 @@ void TWindowHelpItem::update_level_requirement() {
             } else {
 block_4:
                 if ((u8) *(u8 *)((s8 *)item_pmt_record + 0x10) != 0) {
-                    ((TWindowLayoutNumber *)level_value)->value = (s32) (((TObjPlayer *)(player))->get_actor_level_index() + 1);
+                    ((TWindowLayoutNumber *)level_value)->value = (s32) (player->get_actor_level_index() + 1);
                 }
             }
         }
@@ -691,7 +691,7 @@ void TWindowHelpItem::show_weapon_attributes() {
     if (player != 0) {
         init_window_layout_entries(
             &entry_list,
-            &lbl_804CF24C,
+            &help_item_lines_layout,
             client_index);
         m_callback = &TWindowHelpItem::update_stat_disp2;
         a = (HelpItemStatCompareRow *)(get_array_entry(0));
@@ -709,7 +709,7 @@ void TWindowHelpItem::show_weapon_attributes() {
         c->set_flag0_bit20();
         d->set_flag0_bit20();
         e->set_flag0_bit20();
-        set_percentage_rows((WeaponAttribute *)((TObjPlayer *)player)->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
+        set_percentage_rows(((TObjPlayer *)player)->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
         if (primary_item != 0) {
             if (is_item_already_equipped() != 0) {
                 set_percentage_rows(NULL, &HelpItemStatCompareRow::set_compare_value);
@@ -893,9 +893,9 @@ void TWindowHelpItem::update_stat_disp() {
 #pragma fp_contract on
 void TWindowHelpItem::show_mag_growth() {
     s32 mag[4];
-    saddr a;
-    saddr b;
-    saddr c;
+    TWindowHelpItem *a;
+    TWindowLayoutNumber *b;
+    TWindowStatusGaugeFeedback *c;
     HelpItemStatCompareRow *lv;
     HelpItemStatCompareRow *sy;
     HelpItemStatCompareRow *iq;
@@ -903,7 +903,7 @@ void TWindowHelpItem::show_mag_growth() {
     ((MagStats *)mag)->init();
     init_window_layout_entries(
         &entry_list,
-        &lbl_804CF30C,
+        &help_item_stats_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, (void *)mag);
@@ -921,34 +921,34 @@ void TWindowHelpItem::show_mag_growth() {
     measure_message_text_width_default((void *)up);
     *(f32 *)((s8 *)up + 8) = 110.0f - 0.5f * *(f32 *)((s8 *)up + 0x10);
     ((TWindowHelpItem *)up)->set_flag0_bit2();
-    a = reinterpret_cast<saddr>(get_array_entry(3));
-    b = reinterpret_cast<saddr>(get_array_entry(4));
-    c = reinterpret_cast<saddr>(get_array_entry(5));
-    ((TWindowHelpItem *)a)->reset_float_field();
-    ((TWindowLayoutNumber *)b)->value = ((MagStats *)mag)->get_def_level();
-    ((TWindowStatusGaugeFeedback *)c)->target = (f32) ((MagStats *)(mag))->get_def_progress();
-    ((TWindowStatusGaugeFeedback *)c)->calc_bar_width();
-    a = reinterpret_cast<saddr>(get_array_entry(6));
-    b = reinterpret_cast<saddr>(get_array_entry(7));
-    c = reinterpret_cast<saddr>(get_array_entry(8));
-    ((TWindowHelpItem *)a)->reset_float_field();
-    ((TWindowLayoutNumber *)b)->value = ((MagStats *)mag)->get_pow_level();
-    ((TWindowStatusGaugeFeedback *)c)->target = (f32) ((MagStats *)(mag))->get_pow_progress();
-    ((TWindowStatusGaugeFeedback *)c)->calc_bar_width();
-    a = reinterpret_cast<saddr>(get_array_entry(9));
-    b = reinterpret_cast<saddr>(get_array_entry(0xA));
-    c = reinterpret_cast<saddr>(get_array_entry(0xB));
-    ((TWindowHelpItem *)a)->reset_float_field();
-    ((TWindowLayoutNumber *)b)->value = ((MagStats *)mag)->get_dex_level();
-    ((TWindowStatusGaugeFeedback *)c)->target = (f32) ((MagStats *)(mag))->get_dex_progress();
-    ((TWindowStatusGaugeFeedback *)c)->calc_bar_width();
-    a = reinterpret_cast<saddr>(get_array_entry(0xC));
-    b = reinterpret_cast<saddr>(get_array_entry(0xD));
-    c = reinterpret_cast<saddr>(get_array_entry(0xE));
-    ((TWindowHelpItem *)a)->reset_float_field();
-    ((TWindowLayoutNumber *)b)->value = ((MagStats *)mag)->get_mind_level();
-    ((TWindowStatusGaugeFeedback *)c)->target = (f32) ((MagStats *)(mag))->get_mind_progress();
-    ((TWindowStatusGaugeFeedback *)c)->calc_bar_width();
+    a = (TWindowHelpItem *)get_array_entry(3);
+    b = (TWindowLayoutNumber *)get_array_entry(4);
+    c = (TWindowStatusGaugeFeedback *)get_array_entry(5);
+    a->reset_float_field();
+    b->value = ((MagStats *)mag)->get_def_level();
+    c->target = (f32) ((MagStats *)(mag))->get_def_progress();
+    c->calc_bar_width();
+    a = (TWindowHelpItem *)get_array_entry(6);
+    b = (TWindowLayoutNumber *)get_array_entry(7);
+    c = (TWindowStatusGaugeFeedback *)get_array_entry(8);
+    a->reset_float_field();
+    b->value = ((MagStats *)mag)->get_pow_level();
+    c->target = (f32) ((MagStats *)(mag))->get_pow_progress();
+    c->calc_bar_width();
+    a = (TWindowHelpItem *)get_array_entry(9);
+    b = (TWindowLayoutNumber *)get_array_entry(0xA);
+    c = (TWindowStatusGaugeFeedback *)get_array_entry(0xB);
+    a->reset_float_field();
+    b->value = ((MagStats *)mag)->get_dex_level();
+    c->target = (f32) ((MagStats *)(mag))->get_dex_progress();
+    c->calc_bar_width();
+    a = (TWindowHelpItem *)get_array_entry(0xC);
+    b = (TWindowLayoutNumber *)get_array_entry(0xD);
+    c = (TWindowStatusGaugeFeedback *)get_array_entry(0xE);
+    a->reset_float_field();
+    b->value = ((MagStats *)mag)->get_mind_level();
+    c->target = (f32) ((MagStats *)(mag))->get_mind_progress();
+    c->calc_bar_width();
 }
 #pragma pop
 
@@ -1118,7 +1118,7 @@ void TWindowHelpItem::show_mag_photon_blasts() {
     ((MagStats *)(&mag))->init();
     init_window_layout_entries(
         &entry_list,
-        &lbl_804CF4E4,
+        &help_item_sprites_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, &mag);
@@ -1245,20 +1245,20 @@ void TWindowHelpItem::format_description_with_price() {
 }
 
 s32 TWindowHelpItem::is_item_already_equipped() {
-    saddr item;
+    TItem *item;
     s32 field;
     u32 diff;
     field = this->primary_id;
     if (field == -1) {
         return 0;
     }
-    item = (saddr)find_item_by_id(field);
+    item = find_item_by_id(field);
     if (item == 0) {
         return 0;
     }
-    if (((TItem *)item)->test_item_flags(8) == 0U) {
+    if (item->test_item_flags(8) == 0U) {
         return 0;
     }
-    diff = (u32) ((TItem *)item)->get_owner_client() - (u32) (s32) this->client_index;
+    diff = (u32) item->get_owner_client() - (u32) (s32) this->client_index;
     return (s32) ((u32) __cntlzw(diff) >> 5);
 }

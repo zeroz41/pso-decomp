@@ -77,7 +77,7 @@ inline s32 check_803CC294(s32 partition, s32 file_index) {
     }
     return 0;
 }
-s32 TLobby::get_afs_file_info(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *offset, s32 *size) {
+s32 ADXF_GetFnameRangeEx(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *offset, s32 *size) {
     s32 st;
     GetAfsFileInfoEntry *e;
     u16 *arr;
@@ -414,7 +414,7 @@ inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 file_index) {
     s32 b;
     s32 a;
     AdxStreamFile *h;
-    if (TLobby::get_afs_file_info(partition, file_index, filename, &a, &b, &c) < 0) {
+    if (ADXF_GetFnameRangeEx(partition, file_index, filename, &a, &b, &c) < 0) {
         return -3;
     }
     s->archive_start_sector = b;
@@ -609,7 +609,7 @@ s32 adxf_load_partition(s32 broken) {
     return -1;
 }
 
-s32 TLobby::read_afs_toc(s32 id) {
+s32 ADXF_GetPtStat(s32 id) {
     s16 *arr;
     ReadAfsTocEntry *e;
     s32 st;

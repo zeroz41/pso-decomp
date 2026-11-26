@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit split off the mericarol enemy; TObjEneBm9Mericarol.h declares these.
+// The mericarol enemy's constant tables; TObjEneBm9Mericarol.h declares them.
 
 __declspec(section ".rodata") extern const u32 mericarol_phase_hp_ids[3] = {
     0x0000003A, 0x00000045, 0x00000046,

@@ -13,7 +13,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TObjBoss2TunnelSlide.h"
@@ -565,7 +565,7 @@ void TObjBoss2Tunnel::render() {
         saved = entries->texture;
         entries->texture = entries[current_texture_index()].texture;
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
     if (state == 0 || state == 1) {
         push_matrix();
         translate_matrix(0, 0.0f, 0.0f, -start_offset);

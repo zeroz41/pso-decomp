@@ -65,9 +65,7 @@ struct DolmOlmBehaviorParams {
     s32 special_power; // mode 11's hit passes 30 times this to TObjPlayer::play_effect
 };
 
-extern "C" {
 s32 TObjEneDolmOlm__sub_80300CF0(void);
-}
 
 extern BmlResource *dolm_olm_resource_bundle;
 extern SampledMotionPoints *dolm_olm_left_attack_samples; // the left attack's (action 3) trail samples

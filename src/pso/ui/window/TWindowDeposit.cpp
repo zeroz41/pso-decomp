@@ -17,6 +17,10 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
+void TWindowDeposit::set_meseta(s32 meseta) {
+    *(s32 *)((s8 *)get_array_entry(1) + 0x20) = meseta;
+}
+
 // inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
 struct DepositWindowLayout {
     u32 cols;
@@ -42,7 +46,7 @@ const char *TWindowDeposit::class_name = "TWindowDeposit";
 
 
 void TWindowDeposit::render_status(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, this->width);
+    draw_window_tab(context, &context->inner_x, this->width, 3);
 }
 
 void TWindowDeposit::render() {
@@ -64,7 +68,7 @@ TWindowDeposit::TWindowDeposit(s16 client)
     m_name = class_name;
     text = get_message_text(2);
     text_width = (f32)calc_text_width((char *)text);
-    width = TWindowSubStatusDisp__sub_802877A4(96.0f + (12.0f + text_width));
+    width = calc_title_overflow_width(96.0f + (12.0f + text_width));
     label = (WindowTextEntry *)get_array_entry(0);
     amount = (TWindowLayoutRect *)get_array_entry(1);
     set_text_entry_string(label, text, 0);

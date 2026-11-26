@@ -11,7 +11,7 @@ struct TechniqueParams {
     f32 range;       // a shot's range, an area's radius; raised by range_step
     f32 pad_0C;
     s16 tp_cost;     // the TP the cast takes (callers subtract it from the player's TP)
-    s16 charge_speed;      // charge speed, "CH_SPD" in TTecShot's readout; lowered per level above 4, at least 0
+    s16 charge_speed; // "CH_SPD" in TTecShot's readout; lowered per level above 4, at least 0
     s16 mental;      // "MENTAL" in TTecShot's readout; raised by mental_per_level per level
     s16 pad_16;
     s32 angle;       // degrees in the table; Foie, Rafoie, Barta, Gibarta and Megid turn it into angle units (65536 / 360)

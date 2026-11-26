@@ -11,7 +11,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/vector.h"
 
-const char *TAdPlyChrSelPlateGC__name = "TAdPlyChrSelPlateGC";
+const char *TAdPlyChrSelPlateGC::name = "TAdPlyChrSelPlateGC";
 
 #pragma push
 #pragma fp_contract on
@@ -158,7 +158,7 @@ TAdPlyChrSelPlateGC::TAdPlyChrSelPlateGC(TObject *parent, const ChrSelPlateLayou
     SelectionPlateInit *state = reinterpret_cast<SelectionPlateInit *>(this);
     s32 i;
     // Keep the initial name store before the settings read in the retail instruction order.
-    reinterpret_cast<volatile SelectionPlateInit *>(this)->name = TAdPlyChrSelPlateGC__name;
+    reinterpret_cast<volatile SelectionPlateInit *>(this)->name = TAdPlyChrSelPlateGC::name;
     state->settings = reinterpret_cast<const volatile ChrSelPlateLayout *>(layout)->settings;
     state->frame = -1;
     state->count = 0;

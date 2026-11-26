@@ -2,13 +2,12 @@
 #include "pso/unk/text_803DAFA8.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_80144AC8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/render/render_util.h"
@@ -414,10 +413,10 @@ u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *quad, s32 color) {
 }
 
 void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
 }
 
-void TWindowSubStatusDisp::end_render_forward() { get_player(); }
+void TWindowSubStatusDisp::end_render_forward() { end_screen_draw(); }
 void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); TWindowSubStatusDisp::set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale) {
   s32 mb = 0;

@@ -1,8 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/shop/ShopWeaponStock.h"
-#include "pso/unk/text_8020E700.h"
-#include "pso/unk/text_80223B98.h"
+#include "pso/item/shop/ShopArmorStock.h"
+#include "pso/item/shop/ShopToolStock.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
@@ -12,10 +12,10 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/item/TItemData.h"
+#include "pso/item/shop/ShopItemSort.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
@@ -325,7 +325,7 @@ void TShopGetItemWindow::update_input_number() {
         return;
     }
     w = number_input;
-    if (w != NULL && (w)->is_cancelled() != 0) {
+    if (w != NULL && w->is_cancelled() != 0) {
         number_input->close();
         number_input = NULL;
         set_state(4);
@@ -347,7 +347,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
             idx = item_list->get_cursor_value();
             if (TCheckRoomSequence::copy_item_record(idx, &record, (int)(slot & 0xFFFFFFFFFFFFFFFFu)) != 0) {
                 record.id = -1;
-                if (TCheckRoomSequence::get_item_def((uaddr)&record) != 0) {
+                if (get_item_def(&record) != 0) {
                     record.set_stack_count(withdraw_count);
                 }
                 if (player->can_inventory_accept_item((u8 *)&record) == 0) {

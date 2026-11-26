@@ -14,11 +14,11 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -129,7 +129,7 @@ s32 TObjCamera::update_object_view_visibility(f32 radius, f32 depth) {
 void TObjCamera::render() {
     s32 i;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(model_resource, 0));
+        set_texture_list(get_bml_texlist(model_resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

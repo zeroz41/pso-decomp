@@ -37,7 +37,7 @@ struct S16_802C4944 { S8_802C4944 x[2]; };
 
 struct S24_802C4944 { TAdSelectTxtLayout t[2]; };
 
-const char *TAdSelectGameModeGC__name = "TAdSelectGameModeGC";
+const char *TAdSelectGameModeGC::name = "TAdSelectGameModeGC";
 const S24_802C4944 select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
 const S8_802C4944 lbl_80471A44 = {302.0f, 28.0f};
 const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
@@ -50,7 +50,7 @@ int fn_802C4748(void* p) { return TObjPlayer::sync_char_select_state(); }
 void TAdSelectGameModeGC::render() {  }
 
 void TAdSelectGameModeGC::call_enable_camera(void* p) { TAdSelectGameModeGC::enable_camera(); }
-void TAdSelectGameModeGC__sub_802C478C(void) {
+void TAdSelectGameModeGC::setup_views(void) {
     s32 mode_data;
     if (get_main_phase() == 0xE) {
         mode_data = TAdSelectGameModeGC::get_mode_data();
@@ -75,17 +75,17 @@ void TAdSelectGameModeGC::run_task() {
     TAdSelectGameModeGC::cached_mode_value = cursor->selection_index();
     if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        TAdMultiChgGameModeGC::request_scene_change();
+        TAdMultiChgGameModeGC::open_time_set_scene();
         return;
     }
     if (cursor->confirmation_result() == 1) {
         mode_data = TAdSelectGameModeGC::get_mode_data();
         switch (mode_data) {
         case 0:
-            TAdMultiChgGameModeGC::set_game_mode();
+            TAdMultiChgGameModeGC::open_single_ply_chr_select_scene();
             return;
         case 1:
-            TAdMultiChgGameModeGC::set_change_game_mode();
+            TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
             break;
         }
     }
@@ -93,7 +93,7 @@ void TAdSelectGameModeGC::run_task() {
 TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
 
 TAdSelectGameModeGC::TAdSelectGameModeGC(TObject *parent) : TObject(parent) {
-    m_name = TAdSelectGameModeGC__name;
+    m_name = TAdSelectGameModeGC::name;
     TAdSelectGameModeGC::cached_mode_value = 0;
     cursor = 0;
     guide = 0;

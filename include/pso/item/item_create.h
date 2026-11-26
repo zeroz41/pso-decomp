@@ -12,9 +12,7 @@ void handle_select_confirm();
 
 
 s32 is_valid_drop_floor(s32 floor);
-extern "C" {
 s32 TObjPlayer__sub_80104840(s32 arg0);
-}
 struct TObjPlayer;
 
 int check_class_equip_permission(TObjPlayer *player, s32 perm);

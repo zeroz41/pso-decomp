@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/TObjLuker_801329B0.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/ActorCollision.h"
@@ -34,7 +34,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/GinjaUvScroll.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/GinjaDrawUtil.h"
@@ -471,7 +471,7 @@ void TObjTombstone::update_render_flags() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
     }

@@ -9,7 +9,8 @@ class PlayerSonarStock {
 public:
     s32 count;
 
-    void clear();
+    PlayerSonarStock();
+
     s32 consume(s32 amount);
     s32 get_count();
     void set_count(s32 count);
@@ -27,7 +28,7 @@ public:
     s32 consume(s32 amount, s32 kind);
     s8 get_count(s32 kind);
     void set_count(s8 count, s32 kind);
-    PlayerTrapCounts *init();
+    PlayerTrapCounts();
 };
 
 // Only the android classes (HUcast, RAcast, RAcaseal, HUcaseal) carry traps;

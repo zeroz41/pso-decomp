@@ -5,13 +5,14 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
 struct TAdPsoPassSaveGC : public TAdYesNoBaseGC {
+    static const char *name;
     TAdPsoPassSaveGC(TObject *parent);
     virtual ~TAdPsoPassSaveGC();
     virtual void render();
     virtual void run_task();
-    virtual void vfunc_6();
-    virtual void vfunc_7();
-    virtual saddr vfunc_10();
+    virtual void on_accept();
+    virtual void on_cancel();
+    virtual saddr get_message_text();
 };
 
 LAYOUT_ASSERT(TAdPsoPassSaveGC_size, sizeof(TAdPsoPassSaveGC) == 0x48);

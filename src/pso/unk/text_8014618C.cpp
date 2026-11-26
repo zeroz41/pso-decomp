@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8014618C.h"
-#include "pso/unk/text_8042EE4C.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
 
 // Nonzero when the network adapter reports type 1; TAdExNetConfirmGC::vfunc_7 picks its
 // message text by it.

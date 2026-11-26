@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/object/trap/TOMineTrap.h"
@@ -32,7 +31,7 @@ s32 TOTrap::is_any_player_matching_stat() {
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != 0) {
-            if (((s16)p->get_room() == (s16)get_room()) && (fn_80171314(p) != 0)) {
+            if (((s16)p->get_room() == (s16)get_room()) && (can_see_traps(p) != 0)) {
                 return 1;
             }
         }
@@ -40,7 +39,7 @@ s32 TOTrap::is_any_player_matching_stat() {
     return 0;
 }
 
-void TOTrap::vfunc_82() {
+void TOTrap::update_holding() {
     TObjPlayer *pl;
 
     calc_attach_pos();
@@ -62,7 +61,7 @@ void TOTrap::vfunc_82() {
     submit_cursor_candidate(this, -1);
 }
 
-void TOTrap::vfunc_81() {
+void TOTrap::update_springing() {
     TObjPlayer *pl;
     calc_attach_pos();
     this->player = find_nearest_visible_player(this, 0, this->range);
@@ -148,11 +147,11 @@ f32 TOTrap::receive_physical_attack(void *source, f32) {
 
 void TOTrap::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
-        this->vfunc_88();
+        this->run_demo();
         return;
     }
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        this->vfunc_84();
+        this->update_effects();
         switch (this->mode) {
         case 0:
             if (this->is_any_player_matching_stat() != 0) {
@@ -164,10 +163,10 @@ void TOTrap::run_task() {
             this->submit_cursor_and_notify();
             return;
         case 2:
-            this->vfunc_81();
+            this->update_springing();
             return;
         case 3:
-            this->vfunc_82();
+            this->update_holding();
             break;
         }
     }
@@ -176,16 +175,13 @@ void TOTrap::run_task() {
 
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
 
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/PlayerSlots.h"
 
-
-extern "C" {
-
-s32 rotate_matrix_y(s32, s32);
 
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {
@@ -195,7 +191,7 @@ void TOTrap::render() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object(this->model);
             } else {
@@ -204,8 +200,6 @@ void TOTrap::render() {
             pop_matrix();
         }
     }
-}
-
 }
 
 
@@ -218,8 +212,8 @@ TOTrap::TOTrap(TObject *parent) : TObjChara(parent) {
     m_340 = 1;
 }
 
-void TOTrap::vfunc_84() {}
+void TOTrap::update_effects() {}
 
 void TOTrap::vfunc_86() {}
 
-void TOTrap::vfunc_88() {}
+void TOTrap::run_demo() {}

@@ -17,7 +17,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #include "pso/effect/TAttackTrace.h"
 #include "types.h"
@@ -31,7 +31,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 
 #include "pso/render/RenderFadeState.h"
@@ -206,7 +206,7 @@ void TObjEneBeast::render() {
     }
     saved_model_render_flags = model_render_flags;
     select_actor_lighting(this);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
@@ -246,9 +246,6 @@ void TObjEneBeast::render() {
 }
 
 #include "pso/enemy/saver/TObjEneSaver.h"
-
-
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 
 

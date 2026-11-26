@@ -26,7 +26,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/shark/TObjEneShark.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
@@ -34,10 +33,10 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -226,7 +225,7 @@ void TObjEneShark::render() {
   }
   select_actor_lighting(this);
   model_render_flags |= 1;
-  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+  set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
   push_matrix();
   translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
   post_translate_matrix(&position.x);
@@ -527,7 +526,7 @@ s32 TObjEneMoja::calc_technique_level() {
     return v;
 }
 
-void TObjPlayer__sub_800ACA0C(void) {  }
+void TObjPlayer__sub_800ACA0C(void *) {  }
 
 void TObjEneShark::sub_800AC9DC(s32 i) {
     model = shark_bml_resource->models[i].model;

@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdSelectTxtSubGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -12,7 +11,7 @@
 #include "pso/render/GinjaTexture.h"
 
 // The select screen's text textures, English set then Japanese set. inferred: names from the f256_selectgamen_*
-// texture files they list; TLobby__sub_802A194C picks a set by current_language (0 = Japanese).
+// texture files they list; load_select_gamen_texture picks a set by current_language (0 = Japanese).
 static NJS_TEXNAME select_gamen_eng_texture_names[2] = {
     {"f256_selectgamen_a_eng", 0, 0},
     {"f256_selectgamen_b_eng", 0, 0},
@@ -24,7 +23,7 @@ static NJS_TEXNAME select_gamen_texture_names[2] = {
 };
 static NJS_TEXLIST select_gamen_texture_list = {select_gamen_texture_names, 2};
 // inferred: same <Class>__class_name pattern as the other frontend tasks
-const char *TAdSelectTxtGC__class_name = "TAdSelectTxtGC";
+const char *TAdSelectTxtGC::class_name = "TAdSelectTxtGC";
 
 struct O_802A15BC {
     u8 a[0x10];
@@ -113,17 +112,17 @@ void TAdSelectTxtGC::init_slot_entries(TAdSelectTxtLayout *layout, s32 value) {
 }
 
 TAdSelectTxtGC::TAdSelectTxtGC(TObject *parent, TAdSelectTxtLayout *layout, s32 value) : TObject(parent) {
-    this->m_name = TAdSelectTxtGC__class_name;
+    this->m_name = TAdSelectTxtGC::class_name;
     this->init_slot_entries(layout, value);
 }
 
-void TLobby__sub_802A1918(void) {
+void free_select_gamen_texture() {
     if ((u32) ad_select_text_texture_handle != 0U) {
         release_texture_list((NJS_TEXLIST *)ad_select_text_texture_handle);
         ad_select_text_texture_handle = 0U;
     }
 }
-void TLobby__sub_802A194C(void) {
+void load_select_gamen_texture() {
     TLobby::update_menu_cursor();
     const char *texture_files[5] = {"f256_selectgamen_a", "f256_selectgamen_a_eng", "f256_selectgamen_a_eng",
                                     "f256_selectgamen_a_eng", "f256_selectgamen_a_eng"};

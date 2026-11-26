@@ -15,7 +15,8 @@ struct MovementHold {
     f32 center_x;
     f32 center_z;
 
-    MovementHold *init();
+    MovementHold &operator=(MovementHold &src);
+    MovementHold();
     void reset();
     s32 count_down();
     s16 get_frames();

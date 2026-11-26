@@ -29,9 +29,9 @@ LAYOUT_ASSERT(TWindowLoadItemTexture_scale_offset, offsetof(TWindowLoadItemTextu
 LAYOUT_ASSERT(TWindowLoadItemTexture_loader_offset, offsetof(TWindowLoadItemTexture, texture_loader) == 0x6C);
 LAYOUT_ASSERT(TWindowLoadItemTexture_list_offset, offsetof(TWindowLoadItemTexture, texture_list) == 0x70);
 
+TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f32 *extent, s32 client);
+void bind_item_texture(TWindowLoadItemTexture *window);
 extern "C" {
-TWindowLoadItemTexture *fn_802628C0(void *position, const f32 *extent, s32 client);
-void fn_8026287C(TWindowLoadItemTexture *window);
 void fn_80262C2C(TWindowLoadItemTexture *window);
 }
 

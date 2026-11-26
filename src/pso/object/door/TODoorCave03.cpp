@@ -6,7 +6,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -98,7 +98,7 @@ void TODoorCave03::update_closed() {
 void TODoorCave03::render() {
     NJS_OBJECT *node;
     if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

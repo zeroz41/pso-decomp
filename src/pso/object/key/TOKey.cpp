@@ -21,7 +21,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/network/TProtocol.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -106,9 +106,9 @@ void TOKey::debug_draw_key_id() {
         switch_id = set_params[0];
         mode = KEY_MODE_ONCE;
     }
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- KEY ID : %d", switch_id);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     vfunc_25();
 }
 
@@ -377,7 +377,7 @@ void TOKey::interact(u16 client) {
     TObjPlayer *player;
 
     if (m != KEY_MODE_NONE && (m != KEY_MODE_ONCE || is_on != 1)) {
-        player = get_player_by_client_id((u16)client);
+        player = get_player_by_client_id(client);
         if (player != NULL) {
             player->start_camera_pan(0xC, calc_angle_to(&player->position, &position));
             press_timer = press_delay;

@@ -27,7 +27,7 @@ void FloorTransition::init_range(s32 floor) {
 }
 
 // The validators pass the two packed floats of a position subcommand (x, z).
-u8 fn_800FD7C0(f32 *xz) {
+u8 is_xz_nonfinite(f32 *xz) {
     int result;
 
     result = 0;

@@ -41,10 +41,10 @@ extern "C" {
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
+}
 
 const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
-void TLobby__sub_80072724(TLobby *lobby);
-}
+void send_challenge_dead_flag_packet(TLobby *lobby);
 void build_6x9D_packet(u8 *packet);
 extern "C" {
 void TLobby__sub_800727A0(void *player);
@@ -55,12 +55,9 @@ void TLobby::bswap_challenge_dead_flag() {
     ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)((char *)this + 4));
 }
-extern "C" {
-
-void TLobby__sub_80072724(TLobby *lobby) {
+void send_challenge_dead_flag_packet(TLobby *lobby) {
     lobby->bswap_challenge_dead_flag();
     send_subcommand((u8 *)lobby);
-}
 }
 
 void build_6x9D_packet(u8 *packet) {
@@ -379,7 +376,6 @@ void TObjChallengeRetry::sub_8007313C() {
   }
 }
 
-extern const char *obj_challenge_retry_class_name;
 void TObjChallengeRetry::run_task() {
     u8 *self = (u8 *)this;
     this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(self);

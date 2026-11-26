@@ -12,12 +12,12 @@ struct TWindowDuelResult : public TWindowBase {
     virtual ~TWindowDuelResult();
     virtual void run_task();
     virtual void render();
-    void build_page_0();
-    void build_page_1();
-    void update_page_0();
-    void update_page_1();
-    void sub_8024F3CC();
-    void sub_8024F330();
+    void build_ranking_page();
+    void build_stats_page();
+    void update_ranking_page();
+    void update_stats_page();
+    void build_page();
+    void update_page();
 
     f32 scale_x;
     f32 scale_y;

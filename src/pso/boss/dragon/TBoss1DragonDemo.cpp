@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
-#include "pso/system/task/TObject_80019A50.h"
 
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
@@ -14,7 +13,6 @@
 
 const char *TBoss1DragonDemo::name = "TBoss1DragonDemo";
 
-extern "C" {
 void TBoss1DragonDemo::free_assets() {  }
 void TBoss1DragonDemo::load_assets() {  }
 
@@ -53,6 +51,5 @@ TBoss1DragonDemo::TBoss1DragonDemo(TObject *parent, s32 *flag, f32 frame_step) :
         playback.play(0x3333);
         break;
     }
-}
 }
 

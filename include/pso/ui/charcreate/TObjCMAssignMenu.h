@@ -6,6 +6,7 @@
 
 class TObjCMAssignMenu : public TObject {
 public:
+    static const char *name;
     TObjCMAssignMenu(TObject *parent, s32 kind);
     virtual ~TObjCMAssignMenu();
     void draw_assign_sprites();

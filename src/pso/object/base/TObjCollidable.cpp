@@ -38,8 +38,6 @@
 #include "pso/map/FloorPopulation.h"
 
 
-// The entity table, sorted by entity id (CollisionActorLookup.h).
-extern TObjCollidable *registered_object_table[0x18C];
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -110,7 +108,7 @@ void collect_body_contacts(CollisionBodySet *set, s32 start, s32 count) {
             sphere.center.z = body->center.z;
             sphere.radius = body->radius;
         }
-        entry = &registered_object_table[start];
+        entry = &entity_table[start];
         for (i = count; i != 0; i--) {
             actor = *entry++;
             if (actor != NULL && !(actor->actorFlags & 0x80000800) && actor->bodies != NULL &&
@@ -273,7 +271,7 @@ void TObjCollidable::send_object_state_update(void *saved_state) {
 void clear_entity_table() {
     s32 i;
     for (i = 0; i < 0x18c; i++) {
-        registered_object_table[i] = NULL;
+        entity_table[i] = NULL;
     }
     entity_table_count = 0;
 }
@@ -290,14 +288,14 @@ s32 TObjCollidable::unregister_object_by_id() {
     hi = count - 1;
     while (lo < hi) {
         mid = (lo + hi) / 2;
-        if (registered_object_table[mid]->entity_id < id) {
+        if (entity_table[mid]->entity_id < id) {
             lo = mid + 1;
         } else {
             hi = mid;
         }
     }
-    if (registered_object_table[lo] == this) {
-        memcpy(&registered_object_table[lo], &registered_object_table[lo + 1], (count - (lo + 1)) * 4);
+    if (entity_table[lo] == this) {
+        memcpy(&entity_table[lo], &entity_table[lo + 1], (count - (lo + 1)) * 4);
         entity_table_count--;
         u16 kind = get_entity_id();
         if (kind < 0x1000) {
@@ -307,7 +305,7 @@ s32 TObjCollidable::unregister_object_by_id() {
         } else {
             registered_object_count--;
         }
-        registered_object_table[entity_table_count] = NULL;
+        entity_table[entity_table_count] = NULL;
         return (u16)id;
     }
     return (u16)0xFFFF;
@@ -330,24 +328,24 @@ u16 register_entity_by_id(TObjCollidable *actor) {
         return id;
     }
     hi = entity_table_count - 1;
-    if (hi > -1 && id < registered_object_table[hi]->entity_id) {
+    if (hi > -1 && id < entity_table[hi]->entity_id) {
         lo = 0;
         while (lo < hi) {
             mid = (lo + hi) / 2;
-            if (registered_object_table[mid]->entity_id < id) {
+            if (entity_table[mid]->entity_id < id) {
                 lo = mid + 1;
             } else {
                 hi = mid;
             }
         }
-        if (id == registered_object_table[lo]->entity_id) {
+        if (id == entity_table[lo]->entity_id) {
             return id;
         }
-        memcpy(&registered_object_table[lo + 1], &registered_object_table[lo], (entity_table_count - lo) * 4);
+        memcpy(&entity_table[lo + 1], &entity_table[lo], (entity_table_count - lo) * 4);
     } else {
         lo = entity_table_count;
     }
-    registered_object_table[lo] = actor;
+    entity_table[lo] = actor;
     entity_table_count++;
     kind = actor->get_entity_id();
     if (kind < 0x1000) {
@@ -375,13 +373,13 @@ TObjCollidable *find_entity_by_id(u16 id) {
     hi = entity_table_count - 1;
     while (lo < hi) {
         mid = (lo + hi) / 2;
-        if (registered_object_table[mid]->entity_id < id) {
+        if (entity_table[mid]->entity_id < id) {
             lo = mid + 1;
         } else {
             hi = mid;
         }
     }
-    entity = registered_object_table[lo];
+    entity = entity_table[lo];
     if (entity != NULL && entity->entity_id == id) {
         return entity;
     }
@@ -889,7 +887,7 @@ void TObjCollidable::mark_enemy_body_contacts() {
     if (body != NULL) {
         body->flags = body->flags & 0xFFEFFFFF;
         for (i = 0; i < entity_table_count; i++) {
-            actor = registered_object_table[i];
+            actor = entity_table[i];
             if (actor == NULL) {
                 break;
             }
@@ -906,7 +904,7 @@ void TAttackCollider::update_body_contact_flag(f32 range) {
     if (body) {
         body->flags &= ~0x80000;
         for (s32 i = 0; i < registered_player_count; i++) {
-            TObjCollidable *actor = registered_object_table[i];
+            TObjCollidable *actor = entity_table[i];
             if (actor && check_actor_body_contact(actor, range)) {
                 bodies->flags |= 0x80000;
             }
@@ -1124,10 +1122,10 @@ TObjCollidable::TObjCollidable(TObject *parent) : TObjBase(parent) {
     bodies = NULL;
     interactor = 0xFFFF;
     body_flags = NULL;
-    sub_80156A68();
+    clear_hit_receive_state();
 }
 
-void TObjCollidable::sub_80156A68() { hit_receive_state = 0; }
+void TObjCollidable::clear_hit_receive_state() { hit_receive_state = 0; }
 
 CursorAction::CursorAction() { kind = CURSOR_ACTION_NONE; }
 
@@ -1150,6 +1148,6 @@ s32 TObjCollidable::access_object_saved_state(void *saved_state, s16 load) {
     return 1;
 }
 
-TObjCollidable *registered_object_table[0x18C];
+TObjCollidable *entity_table[0x18C];
 saddr player_battle_param_table[0x10];
 ActorBodyHit player_unique_pair_entries[0x10];

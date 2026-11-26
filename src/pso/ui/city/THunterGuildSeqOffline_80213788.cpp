@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
@@ -31,7 +31,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8022350C.h"
 
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;
@@ -236,7 +235,7 @@ void THunterGuildSeqOnline_Server::update() {
 void THunterGuildSeqOnline_Server::create_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         choice_menu = create_yes_no_window(get_window_layout_position(0x2B), ((TObjBase *)(player))->get_entity_id(), NULL, NULL);
-        ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
+        choice_menu->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
         set_state(7);
@@ -306,10 +305,7 @@ void THunterGuildSeqOnline_Server::close_window() {
 
 void THunterGuildSeqOnline_Server::open_quest_list() {
     TQuestListOnline *l;
-    l = static_cast<TQuestListOnline *>(TObject::operator new(sizeof(TQuestListOnline)));
-    if (l != 0) {
-        l = TQuestListOnline__ct(l, tl_05, this, player);
-    }
+    l = new TQuestListOnline(tl_05, this, player);
     if (l != 0) {
         display_guild_message(4, 1);
         l->callback28 = THunterGuildSeqOffline__sub_80213F78;

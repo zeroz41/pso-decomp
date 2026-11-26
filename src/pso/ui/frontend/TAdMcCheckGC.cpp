@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -130,7 +129,7 @@ void TAdMcCheckGC::run_task() {
     this->previous_step = (s32) this->check_step;
 }
 
-const char *TAdMcCheckGC__name = "TAdMcCheckGC";
+const char *TAdMcCheckGC::name = "TAdMcCheckGC";
 
 TAdMcCheckGC::~TAdMcCheckGC() {
     if (memcard_cursor_instance_table[card_slot] != NULL) {
@@ -154,7 +153,7 @@ TAdMcCheckGC::~TAdMcCheckGC() {
     }
 }
 TAdMcCheckGC::TAdMcCheckGC(TObject *object, s32 slot) : TObject(object) {
-    this->m_name = TAdMcCheckGC__name;
+    this->m_name = TAdMcCheckGC::name;
     card_slot = slot;
     this->check_step = 0;
     previous_step = check_step;

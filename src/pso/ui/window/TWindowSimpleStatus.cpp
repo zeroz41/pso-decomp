@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/math/FloatRound.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
@@ -16,7 +17,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/unk/TWindowLayoutNumber.h"
@@ -167,7 +168,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
     saddr i;
     s32 j;
     s32 name;
-    TWindowBase *window;
+    TWindowComCardFollower *window;
     TObjPlayer *player;
     player = get_player_by_client_id(this->client_index);
     if (player == NULL || is_open_and_unblocked() == 0) {
@@ -189,13 +190,13 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
             }
         }
         name = (saddr)((TWindowComCard *)i)->get_card_name_ptr();
-        window = this->w[j];
+        window = (TWindowComCardFollower *)(this->w[j]);
         if (window == NULL) {
-            window = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, this->client_index);
+            window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, this->client_index));
             this->w[j] = window;
             this->w[j]->set_depth(1.0f + get_scale());
         } else {
-            ((TWindowComCardFollower *)window)->set_column(0);
+            window->set_column(0);
             ((TWindowComCardFollower *)this->w[j])->set_selected_index(name);
         }
         count = 1;
@@ -213,13 +214,13 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
             }
         } else {
             name = get_status_effect_icon_index(word);
-            window = this->w[j];
+            window = (TWindowComCardFollower *)(this->w[j]);
             if (window == NULL) {
-                window = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, name, this->client_index);
+                window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, name, this->client_index));
                 this->w[j] = window;
                 this->w[j]->set_depth(2.0f + ((f32)k + get_scale()));
             } else {
-                ((TWindowComCardFollower *)window)->set_column(count);
+                window->set_column(count);
                 ((TWindowComCardFollower *)this->w[j])->set_selected_index(name);
             }
             count++;
@@ -372,7 +373,7 @@ void update_photon_blast_player_marker(saddr help, s32 client_id) {
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 170.0f, 173.0f);
             break;
         default:
-            if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (p = get_player_by_client_id(key)) != 0) {
+            if (lobby_rule_settings.get_is_teams() == 1 && (p = get_player_by_client_id(key)) != 0) {
                 key = p->pk_state.get_team() - 1;
             }
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f * key, 202.0f);
@@ -400,7 +401,7 @@ void draw_photon_blast_gauge_ring(TWindowSimpleStatus *window, WindowDrawContext
     if (charge > 500.0f) {
         charge = 500.0f;
     }
-    n = TWindowSubComCard::trunc_float(0.01f * charge);
+    n = trunc_float(0.01f * charge);
     charge -= 100.0f * n;
     if (ctx->open_tick >= 0) {
         p.x = ctx->x + pos->x;
@@ -431,7 +432,7 @@ void TWindowSimpleStatus::draw_background(WindowDrawContext *ctx) {
     size.y = 35.0f;
     scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0xB, ctx->color);
     r.x0 = pos.x;
     r.y0 = pos.y;
@@ -443,8 +444,8 @@ void TWindowSimpleStatus::draw_background(WindowDrawContext *ctx) {
     r.v1 = 0.44921875f;
     ctx->transform_quad(&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
-    TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(ctx, &pos, &size) != 0) {
+    end_screen_draw();
+    if (scanline_crosses_window(ctx, &pos, &size) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&r, ctx);
         end_window_sweep_draw(0xB);

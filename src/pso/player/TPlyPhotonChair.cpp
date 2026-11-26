@@ -7,17 +7,15 @@
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TDrawableModel.h"
 #include "pso/object/base/TMotionModel.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TMainCursor.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
@@ -33,9 +31,9 @@ extern BmlResourceDescriptor photon_chair_resource_descriptor;
 __declspec(section ".data") const char *bm_ply_photon_chair_model_names[3] = { "fs_obj_isu_meka.nj", "fs_obj_lobby_isu.nj", NULL };
 __declspec(section ".data") const char *bm_ply_photon_chair_motion_names[3] = { "fs_obj_isu_meka.njm", "fs_obj_lobby_isu.njm", NULL };
 BmlResourceDescriptor photon_chair_resource_descriptor = { "bm_ply_photon_chair.bml", bm_ply_photon_chair_model_names, bm_ply_photon_chair_motion_names, 2, 2 };
-const char *TPlyPhotonChair__class_name = "TPlyPhotonChair";
+const char *TPlyPhotonChair::class_name = "TPlyPhotonChair";
 /* radar marker colour (a, r, g, b) per section id */
-const NJS_ARGB TPlyPhotonChair__section_id_color_table[10] = {
+const NJS_ARGB section_id_color_table[10] = {
     { 1.0f, 0.2f, 0.6f, 0.2f },
     { 1.0f, 0.0f, 1.0f, 0.3f },
     { 1.0f, 0.0f, 1.0f, 1.0f },
@@ -49,7 +47,6 @@ const NJS_ARGB TPlyPhotonChair__section_id_color_table[10] = {
 };
 
 extern "C" {
-int TPlyPhotonChair__sub_8035B520(void* p);
 
 void TPlyPhotonChair::render() {
     Vec node_pos;
@@ -71,7 +68,7 @@ void TPlyPhotonChair::render() {
         copy_xyz(&rotation_x, &player->rotation_x);
         if (player->is_inactive() != 0) {
             save_model_draw_state(&marker);
-            TObjFish::set_global_param(texlist);
+            set_texture_list(texlist);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
@@ -95,7 +92,7 @@ void TPlyPhotonChair::run_task() {
         queue_destruction();
         return;
     }
-    if (owner_dismounted == 0 && ((TPlyPhotonChair *)player)->is_mounted() == 0) {
+    if (owner_dismounted == 0 && player->is_mounted() == 0) {
         owner_dismounted = 1;
         lobby_seat.play_to_end();
         lobby_seat.set_speed(2.0f);
@@ -118,15 +115,15 @@ void TPlyPhotonChair::run_task() {
 }
 
 void TPlyPhotonChair::free_static_model() {
-    if (TPlyPhotonChair__shared_model_resource != NULL) {
-        delete TPlyPhotonChair__shared_model_resource;
-        TPlyPhotonChair__shared_model_resource = NULL;
+    if (shared_model_resource != NULL) {
+        delete shared_model_resource;
+        shared_model_resource = NULL;
     }
 }
 
 s32 TPlyPhotonChair::load_resources() {
     BmlResource *resource = new BmlResource(5, &photon_chair_resource_descriptor, 0, 0, NULL);
-    TPlyPhotonChair__shared_model_resource = resource;
+    shared_model_resource = resource;
     if (resource == NULL) {
         return 0;
     }
@@ -138,7 +135,7 @@ TPlyPhotonChair::~TPlyPhotonChair() {}
 
 TPlyPhotonChair::TPlyPhotonChair(s32 owner_id, TObject *parent) : TObjBase(parent) {
     TObjPlayer *player;
-    m_name = TPlyPhotonChair__class_name;
+    m_name = class_name;
     set_owner_id(owner_id);
     m_92 = 0;
     owner_dismounted = 0;
@@ -147,21 +144,21 @@ TPlyPhotonChair::TPlyPhotonChair(s32 owner_id, TObject *parent) : TObjBase(paren
         queue_destruction();
         return;
     }
-    marker.set_color(const_cast<NJS_ARGB *>(&TPlyPhotonChair__section_id_color_table[(s32)player->get_section_id()]));
-    texlist = get_bml_texlist(TPlyPhotonChair__shared_model_resource, 1);
-    lobby_seat.set_model(get_bml_model(TPlyPhotonChair__shared_model_resource, 1));
-    lobby_seat.set_motion(reinterpret_cast<NJS_MOTION *>(get_bml_motion(TPlyPhotonChair__shared_model_resource, 1)));
+    marker.set_color(const_cast<NJS_ARGB *>(&section_id_color_table[(s32)player->get_section_id()]));
+    texlist = get_bml_texlist(shared_model_resource, 1);
+    lobby_seat.set_model(get_bml_model(shared_model_resource, 1));
+    lobby_seat.set_motion(reinterpret_cast<NJS_MOTION *>(get_bml_motion(shared_model_resource, 1)));
     lobby_seat.set_frame_count_from_motion();
     lobby_seat.set_speed(1.0f);
     lobby_seat.play_to_end();
-    meka_seat.set_model(get_bml_model(TPlyPhotonChair__shared_model_resource, 0));
-    meka_seat.set_motion(reinterpret_cast<NJS_MOTION *>(get_bml_motion(TPlyPhotonChair__shared_model_resource, 0)));
+    meka_seat.set_model(get_bml_model(shared_model_resource, 0));
+    meka_seat.set_motion(reinterpret_cast<NJS_MOTION *>(get_bml_motion(shared_model_resource, 0)));
     meka_seat.set_frame_count_from_motion();
     meka_seat.set_speed(1.0f);
     meka_seat.play_to_end();
 }
 
-int TPlyPhotonChair__sub_8035B520(void* p) { return ((TPlyPhotonChair *)p)->owner_dismounted == 0; }
+int TPlyPhotonChair::is_owner_seated() { return owner_dismounted == 0; }
 u16 TPlyPhotonChair::get_owner_id() { return owner_id; }
 void TPlyPhotonChair::set_owner_id(s32 owner_id) { this->owner_id = owner_id; }
 void MarkerColor::get_color(NJS_ARGB *out) { copy_argb(out, &color); }
@@ -205,4 +202,4 @@ void TPlyPhotonChair::free_instance() {
 }
 
 
-BmlResource *TPlyPhotonChair__shared_model_resource;
+BmlResource *TPlyPhotonChair::shared_model_resource;

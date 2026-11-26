@@ -6,7 +6,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
@@ -18,7 +18,7 @@ const char *TObjBoss5FloorGrass::name = "TObjBoss5FloorGrass";
 void TObjBoss5FloorGrass::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         push_matrix();
-        TObjFish::set_global_param(boss5_common_texture_list);
+        set_texture_list(boss5_common_texture_list);
         draw_ginja_object(boss5_common_bml_resource->models[7].model);
         pop_matrix();
     }

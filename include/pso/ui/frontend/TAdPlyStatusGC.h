@@ -7,11 +7,18 @@
 
 class TWindowBase;
 class CharacterPreview;
+struct NJS_POINT2;
+
+// The eight floats draw_textured_quad_at_depth reads: x0, y0, x1, y1, then the uvs u0, v0, u1, v1.
+struct StatusPortraitQuad {
+    f32 values[8];
+};
 
 struct TAdPlyStatusGC : public TObject {
+    static const char *class_name;
     static s32 is_shown;
     static s32 window_offset_index;
-    TAdPlyStatusGC(TObject *parent, s32 window_offset_index);
+    TAdPlyStatusGC(TObject *parent, s32 offset_index);
     virtual ~TAdPlyStatusGC();
     virtual void render();
     virtual void run_task();
@@ -29,7 +36,11 @@ struct TAdPlyStatusGC : public TObject {
     void update_hidden();
     static TAdPlyStatusGC *get_instance(TObject *parent, s32 window_offset_index);
     static TAdGuideButtonGC *get_player_index(); // the guide button, or NULL
-    void format_status_strings();
+    // Fills text with the class, section id and play time lines of the shown character.
+    static void format_status_strings(char (*text)[16]);
+    // The status window's draw callback: portrait, labels and format_status_strings' values.
+    static void draw_status_window(void *window, void *context);
+    TWindowBase *create_status_window(const NJS_POINT2 *position);
     void set_load_state(s32 load_result);
 };
 

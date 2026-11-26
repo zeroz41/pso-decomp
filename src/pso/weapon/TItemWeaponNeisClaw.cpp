@@ -19,15 +19,12 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/item/TItemAttackColBase.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
@@ -129,8 +126,8 @@ void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
     new TFireExplosion(10.0f, &info.position, 0, tl_particle);
 }
 
-void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr arg1) {
-    ActorBodyHit *hit = (ActorBodyHit *)arg1;
+void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr context) {
+    ActorBodyHit *hit = (ActorBodyHit *)context;
     uaddr p = (uaddr)find_item_by_id(id);
     if (p != 0U) {
         TObjPlayer::spawn_fire_explosion(p, (saddr)&hit->target->bodies[hit->body].center);

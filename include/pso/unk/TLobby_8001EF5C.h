@@ -18,9 +18,6 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request);
 
 // --- C functions defined in TLobby_8001EF5C.cpp ---
 extern "C" {
-
-int fn_8001ED90(void *p);
-
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 }
 // --- end of C functions

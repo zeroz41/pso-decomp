@@ -5,8 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
@@ -15,7 +14,7 @@
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
 
@@ -71,9 +70,9 @@ void TODoorVoShip::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, (f32)animation_frame);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(light_texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(light_texlist));
         u32 flags = model_render_flags;
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;
@@ -135,14 +134,14 @@ TODoorVoShip::~TODoorVoShip() {
 TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = door_vo_ship_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)bml_resource, 1);
-    texlist = get_bml_texlist((BmlResource *)bml_resource, 1);
+    model = (void *)get_bml_model(bml_resource, 1);
+    texlist = get_bml_texlist(bml_resource, 1);
     motion = get_bml_motion(bml_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;
     shape_motion = get_bml_motion(bml_resource, 1);
-    light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)bml_resource, 0);
-    light_texlist = (saddr)get_bml_texlist((BmlResource *)bml_resource, 0);
+    light_model = (NJS_OBJECT *)get_bml_model(bml_resource, 0);
+    light_texlist = (saddr)get_bml_texlist(bml_resource, 0);
     init_collision_body_parts(this, door_vo_ship_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

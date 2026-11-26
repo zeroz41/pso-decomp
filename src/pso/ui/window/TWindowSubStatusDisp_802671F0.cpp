@@ -29,7 +29,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_80266BD0.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
@@ -52,7 +51,7 @@
 const char *TWindowMenuIconLine::class_name = "TWindowMenuIconLine";
 
 
-void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
+void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player) {
     // pairs of entry codes handed to init_entry by TWindowSubShortCutList::draw_entry
     static const u8 entry_code_pairs[20][2] = {
         {0x33, 0x1C}, {0x33, 0x1E}, {0x33, 0x1F}, {0x33, 0x1D}, {0x1A, 0x1C}, {0x1A, 0x1E}, {0x1A, 0x1F},
@@ -73,9 +72,9 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
 void TWindowMenuIconLine::activate() {
     if (status_display != NULL) {
         if (is_decided() != 0) {
-            status_display->set_entry_state(2);
+            status_display->set_state(2);
         } else {
-            status_display->set_entry_state(1);
+            status_display->set_state(1);
         }
     }
     clear_close_flag();
@@ -87,7 +86,7 @@ void TWindowMenuIconLine::deactivate() {
     set_flag_40();
     set_close_flag();
     if (status_display != NULL) {
-        status_display->set_entry_state(0);
+        status_display->set_state(0);
     }
 }
 
@@ -128,9 +127,9 @@ extern "C" {
 u32 calc_text_width();
 u8 get_font_char_advance();
 u16 map_char_to_font_code(u16 c);
-s32 lbl_804D05F8[3] = {1, 0, 8};
-WindowDescriptor lbl_804D0604 = {
-    {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
+s32 list_window_layout[3] = {1, 0, 8};
+WindowDescriptor list_window_descriptor = {
+    {0.0f, 0.0f}, 50050.0f, list_window_layout, 3,
 };
 
 }
@@ -197,7 +196,7 @@ void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 src, s3
     u8 category_icon;
 
     if ((s16) this->entry_count < (s16) this->entry_capacity) {
-        fn_80266BD0(index, &status_icon, &category_icon, this->client_index);
+        get_shortcut_entry_codes(index, &status_icon, &category_icon, this->client_index);
         ((ItemListRow *)get_array_entry(this->entry_count))->init_entry(status_icon, category_icon, status_style, src, item);
         this->entry_count = (this->entry_count + 1);
     }
@@ -369,7 +368,7 @@ void TLobby::add_status_disp_entry(s32 name, s32 id) {
 }
 
 void TAdVIConfigGC__sub_80267704(s32 arg0) {
-    lbl_804D0604.flags = arg0;
+    list_window_descriptor.flags = arg0;
 }
 
 #pragma fp_contract on
@@ -380,7 +379,7 @@ void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_ite
   {
     pt.x = (166.0f + context->x) - 8.0f;
     pt.y = context->y - 13.0f;
-    draw_window_tab(context, &pt.x, 0, -60.0f);
+    draw_window_tab(context, &pt.x, -60.0f, 0);
     pt.x += 50.0f;
     pt.y += 4.0f;
     set_text_draw_params(context, 0, 0, (f32)(-1.0f / (0.1794f + context->depth)), (f32)100000.0f);
@@ -416,7 +415,7 @@ void TWindowMenuIconLine::handle_open() {
     }
     this->state_flags = (u16) (this->state_flags | 2);
     if (this->status_display != NULL) {
-        this->status_display->set_entry_state(2);
+        this->status_display->set_state(2);
     }
 }
 
@@ -493,13 +492,10 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
 }
 
 void TWindowMenuIconLine::ensure_status_display(s32 title) {
-    TWindowSubStatusDisp *heading;
+    WindowHeading *heading;
 
     if (this->status_display == NULL) {
-        heading = (TWindowSubStatusDisp *)::operator new(0x24);
-        if (heading != NULL) {
-            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading(title, this->client_index);
-        }
+        heading = new WindowHeading(title, this->client_index);
         this->status_display = heading;
         (this->window_flags) = (s32) ((this->window_flags) | 0x40);
     }
@@ -612,15 +608,15 @@ void TWindowMenuIconLine::init(u32 count, s32 client) {
     }
 }
 
-TWindowMenuIconLine *fn_80267F38(saddr parent, saddr position, uaddr count, s16 client) {
+TWindowMenuIconLine *create_menu_icon_line(saddr parent, saddr position, uaddr count, s16 client) {
     ((s32 (*)(void *, void *))set_menu_icon_line_params)((void *)position, (void *)count);
     return new TWindowMenuIconLine((u8 *)parent, count, client);
 }
 
 void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count) {
-    lbl_804D0604.size[0] = size->x;
-    lbl_804D0604.size[1] = size->y;
-    lbl_804D05F8[1] = count;
+    list_window_descriptor.size[0] = size->x;
+    list_window_descriptor.size[1] = size->y;
+    list_window_layout[1] = count;
 }
 
 void TWindowMenuIconLine::render() {
@@ -634,7 +630,7 @@ void TWindowMenuIconLine::render() {
         draw_context);
     this->draw_selected_list_entry(draw_context);
     if (this->status_display != NULL) {
-        this->status_display->forward_render(draw_context);
+        this->status_display->render(draw_context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
@@ -676,7 +672,7 @@ void TWindowMenuIconLine::run_task() {
     }
     if ((f32) this->open_tick >= 7.5f) {
         if (status_display != NULL) {
-            status_display->update_subwindow();
+            status_display->update();
         }
         bar = scroll_bar;
         if (bar != NULL) {
@@ -693,7 +689,7 @@ void TWindowMenuIconLine::run_task() {
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {
     TWindowSubStatusDisp::destroy_allocation((saddr)this->scroll_bar, (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)this->status_display, (s16)1);
+    delete this->status_display;
 }
 
 // The descriptor-taking form; the window layout comes from the caller.
@@ -704,7 +700,7 @@ TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *
 
 // The default form: the list window descriptor of this unit.
 TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client)
-    : TWindowAddition((u8 *)&lbl_804D0604, client, parent) {
+    : TWindowAddition((u8 *)&list_window_descriptor, client, parent) {
     init(count, client);
 }
 
@@ -772,12 +768,12 @@ void TWindowMenuInfomation::update_next_entry(void *label, void *string, s32 id)
     }
 }
 
-void TWindowSubStatusDisp::add_text_entry(s32 arg1, s32 arg2) {
-    s16 temp_r4;
+void TWindowMenuInfomation::add_text_entry(uaddr label_text, s32 id) {
+    s16 next_row;
 
-    temp_r4 = *(s16 *)((s8 *)this + 0x72);
-    if (temp_r4 < (s16) *(s16 *)((s8 *)this + 0x76)) {
-        ((LabelValueRow *)(get_array_entry(temp_r4)))->set_text(arg1, arg2);
-        *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
+    next_row = next_entry;
+    if (next_row < entry_capacity) {
+        ((LabelValueRow *)(get_array_entry(next_row)))->set_text(label_text, id);
+        ++next_entry;
     }
 }

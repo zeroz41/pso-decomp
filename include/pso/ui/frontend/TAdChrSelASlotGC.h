@@ -17,6 +17,7 @@ struct TWindowMessageYesNo;
 struct PlayerSlotLabel;
 
 struct TAdChrSelASlotGC : public TObject {
+    static const char *name;
     TAdChrSelASlotGC(TObject *parent, s32 mode);
     virtual ~TAdChrSelASlotGC();
     virtual void render();

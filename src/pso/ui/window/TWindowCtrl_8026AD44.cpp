@@ -10,13 +10,13 @@ TWindowMessageLog *TWindowCtrl::get_field44() {
     return instance->message_log;
 }
 
-void TWindowCtrl__sub_8026AD60(void) {
+void clear_message_log_window(void) {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->message_log = NULL;
     }
 }
 
-void TWindowCtrl__sub_8026AD78(TWindowMessageLog *window_message_log) {
+void set_message_log_window(TWindowMessageLog *window_message_log) {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->message_log = window_message_log;
     }

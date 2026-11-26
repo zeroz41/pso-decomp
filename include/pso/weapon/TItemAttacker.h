@@ -4,9 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 #include "types.h"
-
-// Called with a timer's object when the timer runs out.
-typedef void (*ItemTimerCallback)(TObject *object);
+#include "pso/item/TItemTimer.h"
 
 // The hit a delayed weapon attack carries to its target (launch_shot,
 // launch_rare_weapon_special, TItemWeaponDoubleCannon::fire_special_shots).
@@ -23,6 +21,7 @@ struct DelayedWeaponHit {
 
 class TItemAttacker : public TObject {
 public:
+    static const char *name;
     TItemAttacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record);
     virtual ~TItemAttacker();
     virtual void run_task();
@@ -41,8 +40,9 @@ LAYOUT_ASSERT(TItemAttacker_size, sizeof(TItemAttacker) == 0x50);
 
 extern "C" {
 void TItemAttacker__sub_8010349C(TObject *attacker);
-void TItemBuff__ct(void);
 }
+// Releases item_buff_buffer back to the temporary buffer or the heap.
+void free_item_buff();
 extern s32 item_buffer_temp_mode;
 extern void *item_buff_buffer;
 

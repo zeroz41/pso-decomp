@@ -11,7 +11,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/GinjaView.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -22,13 +21,13 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/NinjaTypes.h"
@@ -218,7 +217,7 @@ void TBreakUpMdl::render() {
     BreakUpPiece *piece;
     s32 i;
     if (texlist != NULL) {
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
     }
     saved_model_render_flags = model_render_flags;
     if (alpha < 1.0f) {

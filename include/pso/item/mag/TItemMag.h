@@ -67,6 +67,7 @@ struct MagPmtRecord {
     u8 activation_rate;
     u8 trigger_actions[4];  // TItemMag::trigger_actions
     u8 trigger_modes[4];
+    u16 class_flags;        // the classes that can equip it (check_class_equip_permission)
 };
 
 // ItemMagEdit.prs: the mag models' tables, indexed by item group.

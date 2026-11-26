@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -19,6 +18,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FC4;
@@ -96,8 +96,6 @@ void TObjEneRe2Flower::state_die(s32 reason) {
     }
 }
 
-// The client id is passed unextended, as a u16; TObjPlayer_801AF2F0.h declares it s32.
-extern "C" void send_6x2F_change_player_hp(s32 sender, u16 client, s32 hp);
 
 // The curse's hit on a target that is not a player.
 const DirectAttackPayload lbl_8043BA60[1] = {{16, 0}};

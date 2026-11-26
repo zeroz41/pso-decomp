@@ -6,19 +6,20 @@
 #include "pso/system/NinjaTypes.h"
 
 struct TAdYesNoBaseGC : public TObject {
+    static const char *class_name;
     TAdYesNoBaseGC(TObject *parent);
     virtual ~TAdYesNoBaseGC();
-    virtual void vfunc_6() = 0;
-    virtual void vfunc_7() = 0;
-    virtual void vfunc_8() {}
-    virtual void vfunc_9() {}
-    virtual saddr vfunc_10() = 0;  // the prompt text: get_localized_text_entry
-    virtual void vfunc_11();
-    virtual void vfunc_12();
-    s32 sub_8032C0B4();
+    virtual void on_accept() = 0;
+    virtual void on_cancel() = 0;
+    virtual void on_yes_chosen() {}
+    virtual void on_no_chosen() {}
+    virtual saddr get_message_text() = 0;  // the prompt text: get_localized_text_entry
+    virtual void run_dialog();
+    virtual void render_dialog();
+    s32 create_message_window();
     u32 state;
     u32 prev_state;
-    u32 m_24;
+    u32 exit_state;
     u32 state_frames;
     u32 default_selection;
     NJS_POINT2 message_position;

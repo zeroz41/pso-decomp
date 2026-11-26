@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
@@ -9,7 +10,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
@@ -27,21 +27,19 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/text_80076BC4.h"
 
 #pragma push
 #pragma readonly_strings on
 const char *window_chat_type_name_pointer = "TWindowChat";
 #pragma pop
 extern "C" {
-saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr, saddr);
-int get_chat_shortcut(s32 index);
 s32 fn_8002AE08(s32 client_id);
-void send_chat_shortcut(s32);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
     extern int chat_help_color_table[];
 int get_chat_help_color(int a0);
 s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
-    if (w->composer->sub_8025CB10() != 0) {
+    if (w->composer->has_text() != 0) {
         return 1;
     }
     if (!(w->flags & 2)) {
@@ -105,17 +103,17 @@ s32 TWindowChat::submit_keyboard_input() {
         this->set_input_active();
         return 1;
     }
-    if (((TWindowKeyBoardBase *)(this->composer))->is_confirmed() == 0) {
+    if (this->composer->is_confirmed() == 0) {
         return 0;
     }
     this->set_active_flag();
     if (composer->get_flag() != 0) {
-        TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)this->result, (s32)(get_chat_shortcut((s32)((int) (s8)(composer->get_input_mode())))));
+        *(ChatShortcut *)this->result = *get_chat_shortcut((s8)composer->get_input_mode());
         if (((u32) **(u32 * *)&this->result == 3U) && (this->is_mode_bit6() == 0)) {
             TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4))->update_selected_symbol();
         }
     } else {
-        ((TWindowKeyBoardBase *)this->composer)->export_text((char *)this->result + 4);
+        this->composer->export_text((char *)this->result + 4);
     }
     composer->reset_input();
     return 1;
@@ -217,8 +215,8 @@ void TWindowChat::close_all_children() {
 }
 
 void TWindowChat::handle_input() {
-    saddr player;
-    player = (saddr)get_player_by_client_id(local_client_id);
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
     if (player != 0) {
         if (this->flags & 2) {
             this->handle_dpad_shortcuts();
@@ -230,7 +228,7 @@ void TWindowChat::handle_input() {
             case 0:
                 if ((this->submit_keyboard_input() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
-                        ((TObjPlayer *)player)->init_parts();
+                        player->init_parts();
                         TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
@@ -241,7 +239,7 @@ void TWindowChat::handle_input() {
             case 1:
                 if ((update_word_select_window() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
-                        ((TObjPlayer *)player)->init_parts();
+                        player->init_parts();
                         TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
@@ -252,7 +250,7 @@ void TWindowChat::handle_input() {
             case 2:
                 if ((update_symbol_chat_window() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
-                        ((TObjPlayer *)player)->init_parts();
+                        player->init_parts();
                         TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
@@ -267,8 +265,8 @@ void TWindowChat::handle_input() {
 void TWindowChat::handle_chat_input() {
   u8 mode;
   ControllerInputContext *context;
-  saddr player;
-  player = (saddr)get_player_by_client_id((saddr)local_client_id);
+  TObjPlayer *player;
+  player = get_player_by_client_id((saddr)local_client_id);
   if (player != 0)
   {
     if (flags & 2)
@@ -282,7 +280,7 @@ void TWindowChat::handle_chat_input() {
         if (is_mode_bit6() != 0)
         {
           TWindowCtrl::begin_client_keyboard_hold(local_client_id);
-          ((TObjPlayer *)player)->reset_equip_slots();
+          player->reset_equip_slots();
         }
       }
     }
@@ -298,12 +296,12 @@ void TWindowChat::handle_chat_input() {
       open_next_input_window();
       if (is_mode_bit6() != 0)
       {
-        ((TObjPlayer *)player)->init_parts();
+        player->init_parts();
         TWindowCtrl::end_client_keyboard_hold(local_client_id);
       }
     }
     else
-      if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) && (composer->sub_8025CB10() == 0))
+      if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) && (composer->has_text() == 0))
     {
       close_all_children();
       inputMode = (inputMode + 1);
@@ -355,7 +353,7 @@ void TWindowChat::run_task() {
     if ((((int)this->is_open()) == 0) && (this->is_mode_bit4() == 0) && (this->is_visible() == 0)) {
         this->handle_chat_input();
         this->handle_input();
-        if (composer->sub_8025CB10() != 0) {
+        if (composer->has_text() != 0) {
             flags = (u16) (flags | 4);
             return;
         }
@@ -387,15 +385,15 @@ TWindowChat::~TWindowChat() {
         auxiliaryWindow = NULL;
     }
     if (softKeyboard != NULL) {
-        ((TWindowBase *)this->softKeyboard)->close();
+        this->softKeyboard->close();
         softKeyboard = NULL;
     }
     if (hardKeyboard != NULL) {
-        ((TWindowBase *)this->hardKeyboard)->close();
+        this->hardKeyboard->close();
         hardKeyboard = NULL;
     }
     if (composer != NULL) {
-        ((TWindowBase *)this->composer)->close();
+        this->composer->close();
         composer = NULL;
     }
 }

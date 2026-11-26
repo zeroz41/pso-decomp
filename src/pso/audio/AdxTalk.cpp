@@ -20,7 +20,7 @@
 
 #include "types.h"
 #include "pso/audio/GcrnaStream.h"
-#include "pso/unk/text_803D31A4.h"
+#include "pso/audio/CriSvm.h"
 #include "pso/audio/AdxManager.h"
 
 struct Pair_803C8678 { u32 a, b; };

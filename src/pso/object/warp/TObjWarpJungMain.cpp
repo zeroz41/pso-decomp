@@ -17,8 +17,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -36,8 +35,9 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -62,9 +62,6 @@ s32 warp_jung_nakalight_tex_entry;               // texture entry "ts032_warp_na
 GinjaModel *warp_jung_beam_models[6];
 // The texture entry names load_warp_beam_resources looks up.
 
-extern "C" {
-void request_active_window_close(void);
-}
 
 
 void TObjWarpJungMain::render() {
@@ -93,7 +90,7 @@ void TObjWarpJungMain::render() {
             }
             break;
         }
-        TObjFish::set_global_param(warp_jung_textures);
+        set_texture_list(warp_jung_textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -107,8 +104,8 @@ void TObjWarpJungMain::render() {
 
 // Returns 1 once the destination menu is decided, with dest_floor set to the chosen area.
 s32 TObjWarpJungMain::is_choice_confirmed_by(s32) {
-    if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
-        dest_floor = jungle_warp_destination_ids[((TWindowMenu *)menu_window)->get_selected_value()];
+    if (menu_window != NULL && menu_window->is_decided() != 0) {
+        dest_floor = jungle_warp_destination_ids[menu_window->get_selected_value()];
         return 1;
     }
     return 0;
@@ -121,15 +118,15 @@ void TObjWarpJungMain::close_menu() { TObjWarpBase::close_menu(); TWindowCtrl::c
 // Opens the three-entry destination menu for the player with this client id.
 void TObjWarpJungMain::open_confirm_window(s32 client_id) {
     s32 i;
-    if (menu_window == 0) {
-        menu_window = (saddr)create_window_menu(get_window_layout_position(0x32), 3, client_id);
+    if (menu_window == NULL) {
+        menu_window = create_window_menu(get_window_layout_position(0x32), 3, client_id);
         for (i = 0; i < 3; i++) {
-            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
+            menu_window->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
-        ((TWindowMenu *)menu_window)->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
-        ((TWindowMenu *)menu_window)->set_flag70_bit10();
-        ((TWindowMenu *)menu_window)->set_loss_flag();
+        menu_window->calc_window_size();
+        align_menu_entry_positions(menu_window);
+        menu_window->set_flag70_bit10();
+        menu_window->set_loss_flag();
         request_active_window_close();
         user_client_id = client_id;
     }
@@ -176,10 +173,10 @@ void TObjWarpJung::render() {
         }
         switch (set_params[2]) {
         case 0:
-            TObjWarpJung__sub_801A0404(0);
+            set_beam_texture(0);
             break;
         case 1:
-            TObjWarpJung__sub_801A0404(1);
+            set_beam_texture(1);
             break;
         }
         TObjWarpJung::set_global_render_param();
@@ -230,7 +227,7 @@ f32 TObjWarpJung::get_static_field4_as_float() {
     return (f32)warp_jung_beam_motion->frameCount;
 }
 
-void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param(warp_jung_textures); }
+void TObjWarpJung::set_global_render_param() { set_texture_list(warp_jung_textures); }
 
 void TObjWarpJung::render_warp_effect(s32 model_index, s32 frame) {
     draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
@@ -240,9 +237,9 @@ void TObjWarpJung::render_warp(s32 model_index) {
     draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, model_index));
 }
 
-s32 TObjWarpJung__sub_801A0404(s32 arg0) {
+s32 TObjWarpJung::set_beam_texture(s32 color) {
     s32 i;
-    switch (arg0) {
+    switch (color) {
     case 0:
         if (warp_jung_beam_entry_index >= 0) {
             for (i = 0; i < 6; i++) {

@@ -68,7 +68,7 @@ struct TWindowSubSymbolChat : public TObject {
     static TWindowMenu *create_menu(void *chat);
     TWindowSubSymbolChatPartsSet *create_parts_set();
     TWindowSubSymbolChatParts *create_parts();
-    static void open_menu(s32 chat, saddr list);
+    void open_menu(TWindowMenu *menu);
     TWindowMenu *open_edit_menu();
     static TWindowMenu *open_main_menu(void * _w0);
     void apply_symbol();
@@ -95,7 +95,7 @@ struct TWindowSubSymbolChat : public TObject {
 LAYOUT_ASSERT(TWindowSubSymbolChat_size, sizeof(TWindowSubSymbolChat) == 0x60);
 
 extern "C" {
-TWindowMenu *TWindowSubSymbolChat__sub_8028233C(s32 chat);
+TWindowMenu *TWindowSubSymbolChat__sub_8028233C(TWindowSubSymbolChat *chat);
 SymbolChatPreset *get_symbol_chat_receive_buffer(void);
 }
 #endif

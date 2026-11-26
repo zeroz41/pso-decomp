@@ -10,12 +10,12 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/render/ModelDrawContext.h"
 #include <stdlib.h>
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/object/base/ObjectSetData.h"
 
 __declspec(section ".data") const char *bm_o_abe_butterfly_model_names[2] = { "abecyou_fe_obj001_cyou.gj", NULL };
 __declspec(section ".data") const char *bm_o_abe_butterfly_motion_names[2] = { "abecyou2_fe_obj001_cyou.njm", NULL };
@@ -24,7 +24,6 @@ BmlResourceDescriptor bm_o_abe_butterfly_resource_descriptor = {
 };
 const char *butterfly_name = "TButterfly";
 
-extern "C" {
 
 BmlResource *butterfly_bml_resource;
 
@@ -33,7 +32,7 @@ void TButterfly::draw_model() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, -0x2000);
-    draw_ginja_model_with_motion(get_bml_model((BmlResource *)butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
+    draw_ginja_model_with_motion(get_bml_model(butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
     pop_matrix();
 }
 
@@ -45,14 +44,14 @@ void TButterfly::init_motion() {
     this->motion_frame = (f32) ((0.5f) * ((3.0517578e-05f) * (f32) rand()));
     this->lift = 0.0f;
     this->state = 0;
-    this->flag = 0;
+    this->alt_mode = 0;
     this->timer = 0x1E;
     this->angle = 0;
 }
 
 void TButterfly::render() {
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)butterfly_bml_resource, 0));
+        set_texture_list(get_bml_texlist(butterfly_bml_resource, 0));
         draw_model();
     }
 }
@@ -64,7 +63,7 @@ void TButterfly::run_task() {
     f32 target;
     f32 lift;
     target = 3.2f * sin_table_lookup(this->angle) + this->home_position.y;
-    if (this->flag == 0) {
+    if (this->alt_mode == 0) {
         this->lift = 5.0f * (target - this->position.y);
         lift = this->lift;
         if (lift < 0.1f) {
@@ -93,7 +92,7 @@ void TButterfly::run_task() {
         this->motion_frame = this->motion_frame + this->phase_speed;
         if (this->motion_frame > 5.0f) {
             this->motion_frame = 0.0f;
-            this->flag = 0;
+            this->alt_mode = 0;
         }
     }
     switch (this->state) {
@@ -102,7 +101,7 @@ void TButterfly::run_task() {
         this->velocity.z *= (0.8f);
         break;
     case 1:
-        if (this->flag == 0) {
+        if (this->alt_mode == 0) {
             Vec dir;
             Vec out;
             dir.x = 2.0f * (0.0015f * (2.0f * (3.0517578125e-05f * (f32)rand()) - 1.0f));
@@ -127,7 +126,7 @@ void TButterfly::run_task() {
         } else {
             this->rotation_y = (f32)this->rotation_y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
         }
-        if (this->flag == 0) {
+        if (this->alt_mode == 0) {
             Vec dir;
             Vec out;
             dir.x = 2.0f * (0.025f * (2.0f * (3.0517578125e-05f * (f32)rand()) - 1.0f));
@@ -195,21 +194,20 @@ void TButterfly::run_task() {
 }
 #pragma pop
 
-}
 TButterfly::~TButterfly() {
 
 }
-TButterfly::TButterfly(TObject *parent, void *set_data) : TObjBase(parent) {
+TButterfly::TButterfly(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     this->m_name = butterfly_name;
-    VecCopy(&this->position, (const Vec *)((char *)set_data + 12));
-    copy_xyz((char *)this + 92, ((char *)set_data + 24));
-    VecCopy(&this->scale, (const Vec *)((char *)set_data + 36));
+    VecCopy(&this->position, &set_data->position);
+    copy_xyz(&this->rotation_x, set_data->rotation);
+    VecCopy(&this->scale, &set_data->scale);
     this->init_motion();
 }
 
 
 void *TButterfly::create(void *set_data) {
-    void *o = (void *)new TButterfly(tl_05, set_data);
+    void *o = (void *)new TButterfly(tl_05, (ObjectSetData *)set_data);
     return o;
 }
 

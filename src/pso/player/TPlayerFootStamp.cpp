@@ -21,7 +21,6 @@
 #include "pso/camera/CameraAngles.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/ParticleStrip.h"
@@ -246,7 +245,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         set_matrix_identity(NULL);
         rotate_matrix_y(NULL, rotation->yaw);
         rotate_matrix_z(NULL, pitch);
-        fn_803D8DE0(0, dir, dir, 2);
+        mult_vec_array_sr(0, dir, dir, 2);
         pop_matrix();
 
         width *= 2.0f;
@@ -306,7 +305,7 @@ void TPlayerFootStamp::render() {
     if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 22500.0f) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
-        TObjFish::set_global_param(player_footstamp_texture_gvm_handle);
+        set_texture_list(player_footstamp_texture_gvm_handle);
         set_texture_num(texture);
         set_depth_buffer_settings_1();
         draw_particle_strip(verts, 4, 1);

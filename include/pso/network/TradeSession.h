@@ -59,4 +59,9 @@ void send_6xA6_modify_trade_proposal(saddr client_id);
 
 void snapshot_trade_inventories(void);
 
+// One bit per client id: set while that player stands in the trade range.
+s32 is_trade_range_bit_set(s32 client_id);
+void clear_trade_range_bit(s32 client_id);
+void set_trade_range_bit(s32 client_id);
+
 #endif

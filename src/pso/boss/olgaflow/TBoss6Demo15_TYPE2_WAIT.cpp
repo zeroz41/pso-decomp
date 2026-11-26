@@ -2,11 +2,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/map/TObjMapCsn.h"
@@ -17,7 +16,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -50,7 +48,7 @@ void TBoss6Demo15_TYPE2_WAIT::draw_parts() {
     set_motion_packed_rotation();
     post_translate_matrix(&lbl_80478430.x);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(parts[i].texlist);
+        set_texture_list(parts[i].texlist);
         draw_model_motion(parts[i].model, parts[i].motion, 0.0f);
     }
     clear_motion_packed_rotation();

@@ -938,8 +938,8 @@ s8 TItemMag::collect_owner_events() {
         return 0;
     }
     loss = 0;
-    hp = ((TObjChara *)owner)->get_actor_hp();
-    max_hp = ((TObjChara *)owner)->get_hpmax();
+    hp = owner->get_actor_hp();
+    max_hp = owner->get_hpmax();
     events = 0;
     if (owner_watch.hp != hp) {
         if (hp < owner_watch.hp) {
@@ -1786,7 +1786,7 @@ s32 TItemMag::check_evolution_cond(TObjPlayer *player, s32 kind) {
     TItemMag *mag;
     s32 count;
 
-    if (player != NULL && (mag = (TItemMag *)player->activate_d04_slot()) != NULL) {
+    if (player != NULL && (mag = (TItemMag *)player->get_equipped_mag()) != NULL) {
         switch (kind) {
         case 0:
             if (mag->get_item_index() >= 100) {

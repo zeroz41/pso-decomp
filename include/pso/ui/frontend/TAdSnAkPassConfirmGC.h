@@ -7,14 +7,14 @@
 struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     TAdSnAkPassConfirmGC(TObject *parent);
     virtual ~TAdSnAkPassConfirmGC();
-    virtual void vfunc_8();
-    virtual void vfunc_9();
+    virtual void on_yes_chosen();
+    virtual void on_no_chosen();
     uaddr m_48;
     virtual void render();
     virtual void run_task();
-    virtual void vfunc_6();
-    virtual void vfunc_7();
-    virtual saddr vfunc_10();
+    virtual void on_accept();
+    virtual void on_cancel();
+    virtual saddr get_message_text();
 };
 
 LAYOUT_ASSERT(TAdSnAkPassConfirmGC_size, sizeof(TAdSnAkPassConfirmGC) == 0x4C);

@@ -10,7 +10,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
@@ -20,7 +20,7 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/math/MatrixTransforms.h"
@@ -214,19 +214,19 @@ void TObjNpcEnemy::set_npc_data(TObjNpcEnemyEntry *data) {
 void TObjNpcEnemy::draw_debug_info() {
     TObjNpcEnemyEntry *p;
     TObjNpcBase::draw_debug_info();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130018, "<- ENEMY NUMBER");
     debug_printf_at(0x13001A, "<- MOTION TEST");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     p = TObjNpcEnemy::get_entry_by_index((s16) this->rotation_x);
     if (p != this->entry) {
         set_npc_data(p);
     }
     p = this->entry;
     if (p == NULL) {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x240018, "ERROR");
-        TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+        set_debug_text_color(0xF0F0F0FF);
         return;
     }
     switch (p->kind) {
@@ -237,9 +237,9 @@ void TObjNpcEnemy::draw_debug_info() {
     case 1:
     case 3:
         if (p->animation.debug_action_limit <= this->rotation_z || this->rotation_z < 0) {
-            TObjNpcEnemy::set_global_count(0xFF0000FF);
+            set_debug_text_color(0xFF0000FF);
             debug_printf_at(0x24001A, "ERROR");
-            TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+            set_debug_text_color(0xF0F0F0FF);
             this->requested_action = 0;
         } else {
             this->requested_action = this->rotation_z;
@@ -283,7 +283,7 @@ void TObjNpcEnemy::render() {
         if (is_not_jungle_grass() != 0) {
             model_render_flags |= 1;
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
         entry = this->entry;

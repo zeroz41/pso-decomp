@@ -40,7 +40,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/TBreakUpMdl.h"
@@ -52,7 +52,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -1763,7 +1763,7 @@ void TObjEneMe1Gee::render() {
             this->draw_ground_shadow(0, 0);
         }
         this->update_secondary_light();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
@@ -1845,7 +1845,7 @@ void TObjEneMe1Gee::render_demo() {
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         this->draw_ground_shadow(0, 0);
         toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -1893,9 +1893,8 @@ void TObjEneMe1GeeLeader::select_next_attack_state() {
     }
 }
 
-// dead-stripped: only its literals survive. 10.0f is pooled after spawn_members'
-// 0.0f and before render_demo's 400.0f, ahead of its first live user state_melee_attack (deferred codegen
-// runs this file bottom-up). Minimal body after state_melee_attack's frame-10 hit check; name inferred.
+// Whether the Gee is on the hit frame of its melee attack. Dead-stripped from the game: only its
+// 10.0f literal remains.
 static s32 is_hit_frame(TObjEneMe1GeeLeader *gee) {
     return gee->is_passing_frame(10.0f);
 }

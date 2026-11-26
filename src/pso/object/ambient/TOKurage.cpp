@@ -6,8 +6,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/ambient/TOKurage.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaDrawUtil.h"
@@ -21,7 +20,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_800FD8A0.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 
@@ -275,7 +274,7 @@ void TOKurage::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_zyx(NULL, rotation_x, rotation_y, rotation_z);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         switch (state) {
         case 4:
             saved_model_render_flags = model_render_flags;

@@ -98,10 +98,8 @@ struct Voice_80241FD8 {
     u8 pad3[0x48 - 0x24]; s32 fade; s32 fadeStep;
 };
 
-struct Owner_80241798 { u8 pad[0x288]; u32 field_288; };
-
 struct Sound_80241798 {
-    Owner_80241798 *owner;
+    SoundControlState *owner;
     u8 pad4[0x4];
     s32 flags;
     u8 padC[0x4];
@@ -250,7 +248,7 @@ void SoundRequestVoice::update_random_flip_flag() {
         break;
     }
     if (flags & 0x100) {
-        delay = (s16)(((TLobby *)owner)->advance_rng() & 1);
+        delay = (s16)(owner->advance_rng() & 1);
     }
 }
 
@@ -272,7 +270,7 @@ void TLobby__sub_80240F3C(SoundRequestVoice *v) {
         }
         break;
     case 3:
-        switch (((Owner_80241798 *)v->owner)->field_288) {
+        switch (v->owner->group_state) {
         case 2:
             switch (v->index) {
             case 12:
@@ -307,7 +305,7 @@ void TLobby__sub_80240F3C(SoundRequestVoice *v) {
             }
             break;
         }
-        switch (((Owner_80241798 *)v->owner)->field_288) {
+        switch (v->owner->group_state) {
         case 2:
             switch (v->index) {
             case 13:
@@ -532,7 +530,7 @@ void TLobby__sub_80240F3C(SoundRequestVoice *v) {
         }
         break;
     case 6:
-        switch (((Owner_80241798 *)v->owner)->field_288) {
+        switch (v->owner->group_state) {
         case 17:
             switch (v->index) {
             case 22: case 30: case 31:
@@ -545,7 +543,7 @@ void TLobby__sub_80240F3C(SoundRequestVoice *v) {
         break;
     }
     if (v->flags & 0x40) {
-        v->pitchMoving = num * ((s32)((((TLobby *)(v->owner))->advance_rng() >> 16) & 0x3F00) - 0x2000 + extra) / den;
+        v->pitchMoving = num * ((s32)((v->owner->advance_rng() >> 16) & 0x3F00) - 0x2000 + extra) / den;
     }
 }
 
@@ -554,7 +552,7 @@ void TLobby__sub_80241798(Sound_80241798 *sound) {
     s32 den = 1;
     s32 mask = 0;
     s32 min = 0;
-    switch (sound->owner->field_288) {
+    switch (sound->owner->group_state) {
     case 16:
         switch (sound->group) {
         case 4:
@@ -644,9 +642,9 @@ void TLobby__sub_80241798(Sound_80241798 *sound) {
         break;
     }
     if (sound->flags & 0x80) {
-        sound->pitch = num * ((s32)((((TLobby *)(sound->owner))->advance_rng() >> 16) & 0x3FFF) - 0x2000) / den;
-        sound->velocity = min + (mask & ((TLobby *)(sound->owner))->advance_rng());
-        if ((s32)(((TLobby *)(sound->owner))->advance_rng() & 0x3F) < 0x20) {
+        sound->pitch = num * ((s32)((sound->owner->advance_rng() >> 16) & 0x3FFF) - 0x2000) / den;
+        sound->velocity = min + (mask & sound->owner->advance_rng());
+        if ((s32)(sound->owner->advance_rng() & 0x3F) < 0x20) {
             sound->velocity = -sound->velocity;
         }
     }

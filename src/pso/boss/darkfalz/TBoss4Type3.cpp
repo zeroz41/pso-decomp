@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/object/TObjControl.h"
@@ -30,7 +29,7 @@
 #include <stdlib.h>
 #include "pso/render/render_util.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 
 #include "pso/system/task/TObject.h"
@@ -94,7 +93,7 @@ typedef TBoss4Type3Handler Type3Handler;
 #include "pso/system/vector.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/boss/darkfalz/DrainPlayerHp.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #pragma defer_codegen on
 
@@ -509,7 +508,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
     set_motion_packed_rotation();
     for (i = 0; i < 3; i++) {
-        TObjFish::set_global_param(get_bml_texlist(archive, tbl[i]));
+        set_texture_list(get_bml_texlist(archive, tbl[i]));
         render_lists[i]->install();
         draw_model_motion(get_bml_model(archive, tbl[i]), get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[i]), anim_frame);
         render_lists[i]->clear();

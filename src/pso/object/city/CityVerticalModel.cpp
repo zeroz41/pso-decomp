@@ -8,7 +8,7 @@
 #include "pso/object/city/CityTraffic.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjCityVerticalModel.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -23,7 +23,7 @@ void TObjCityVerticalModel::render() {
             y_offset = y_offset;
             return;
         }
-        TObjFish::set_global_param(city_common_texture_list);
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, y_offset, 0.0f);

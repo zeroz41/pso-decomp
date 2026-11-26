@@ -1,18 +1,16 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -21,7 +19,6 @@
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/text_8035C9E8.h"
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
@@ -124,7 +121,7 @@ void TBoss4Thanks::render() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(boss4_thanks_position);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
     draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -209,7 +206,6 @@ TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     this->fade_frame = 0;
 }
 
-extern "C" {
 
 extern void *tl_02;
 
@@ -235,7 +231,6 @@ s32 TBoss4Thanks::check_ready() {
     return 1;
 }
 
-}
 
 s32 any_player_has_listed_item(void) {
     s32 n = TLobby::get_game_mode();

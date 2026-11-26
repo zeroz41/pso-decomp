@@ -8,7 +8,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/object/city/CitySeason.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
@@ -17,7 +16,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjCitySeasonBase.h"
@@ -38,36 +37,28 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/boss/derolle/RandomAngle.h"
 
 const CollisionBody city_season_collision_template = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
-const char TObjCity_Season_EasterEgg__class_name[] = "TObjCity_Season_EasterEgg";
-const char TObjCity_Season_ValentineHeart__class_name[] = "TObjCity_Season_ValentineHeart";
-const char TObjCity_Season_XmasTree__class_name[] = "TObjCity_Season_XmasTree";
-const char TObjCity_Season_XmasWreath__class_name[] = "TObjCity_Season_XmasWreath";
-const char TObjCity_Season_HalloweenPumpkin__class_name[] = "TObjCity_Season_HalloweenPumpkin";
-const char TObjCity_Season_21_21__class_name[] = "TObjCity_Season_21_21";
-const char TObjCity_Season_SonicAdv2__class_name[] = "TObjCity_Season_SonicAdv2";
-const char TObjCity_Season_Board__class_name[] = "TObjCity_Season_Board";
-const char TObjCity_Season_FireWorkCtrl__class_name[] = "TObjCity_Season_FireWorkCtrl";
-const char TObjCity_Season_FireWork__class_name[] = "TObjCity_Season_FireWork";
+#pragma push
+#pragma readonly_strings on
+const char *TObjCity_Season_EasterEgg::class_name = "TObjCity_Season_EasterEgg";
+const char *TObjCity_Season_ValentineHeart::class_name = "TObjCity_Season_ValentineHeart";
+const char *TObjCity_Season_XmasTree::class_name = "TObjCity_Season_XmasTree";
+const char *TObjCity_Season_XmasWreath::class_name = "TObjCity_Season_XmasWreath";
+const char *TObjCity_Season_HalloweenPumpkin::class_name = "TObjCity_Season_HalloweenPumpkin";
+const char *TObjCity_Season_21_21::class_name = "TObjCity_Season_21_21";
+const char *TObjCity_Season_SonicAdv2::class_name = "TObjCity_Season_SonicAdv2";
+const char *TObjCity_Season_Board::class_name = "TObjCity_Season_Board";
+const char *TObjCity_Season_FireWorkCtrl::class_name = "TObjCity_Season_FireWorkCtrl";
+const char *TObjCity_Season_FireWork::class_name = "TObjCity_Season_FireWork";
 // The firework area's debug box colour.
-const NJS_ARGB lbl_804441FC = {0.8f, 0.2f, 1.0f, 0.9f};
-
-const char *TObjCity_Season_EasterEgg::class_name = TObjCity_Season_EasterEgg__class_name;
-const char *TObjCity_Season_ValentineHeart::class_name = TObjCity_Season_ValentineHeart__class_name;
-const char *TObjCity_Season_XmasTree::class_name = TObjCity_Season_XmasTree__class_name;
-const char *TObjCity_Season_XmasWreath::class_name = TObjCity_Season_XmasWreath__class_name;
-const char *TObjCity_Season_HalloweenPumpkin::class_name = TObjCity_Season_HalloweenPumpkin__class_name;
-const char *TObjCity_Season_21_21::class_name = TObjCity_Season_21_21__class_name;
-const char *TObjCity_Season_SonicAdv2::class_name = TObjCity_Season_SonicAdv2__class_name;
-const char *TObjCity_Season_Board::class_name = TObjCity_Season_Board__class_name;
-const char *TObjCity_Season_FireWorkCtrl::class_name = TObjCity_Season_FireWorkCtrl__class_name;
-const char *TObjCity_Season_FireWork::class_name = TObjCity_Season_FireWork__class_name;
+const NJS_ARGB firework_area_box_color = {0.8f, 0.2f, 1.0f, 0.9f};
+#pragma pop
 
 TObjCitySeasonBase::TObjCitySeasonBase(TObject *parent, void *set_data, s32 kind, f32 radius) : TObjCollidable(parent) {
     apply_object_set_data(set_data);
@@ -111,8 +102,8 @@ s32 TObjCitySeasonBase::advance_anim_time(s32 motion, f32 step) {
 TObjCity_Season_EasterEgg::TObjCity_Season_EasterEgg(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 0, 13.0f) {
     Vec pos;
-    m_name = TObjCity_Season_EasterEgg::class_name;
-    unk_B4 = 0;
+    m_name = class_name;
+    uv_scroll = 0;
     if (get_anim_frame() != NULL) {
         VecCopy(&pos, &position);
         pos.y += 4.0f;
@@ -143,16 +134,16 @@ void *TObjCity_Season_EasterEgg::create(void *set) {
 }
 void TObjCity_Season_EasterEgg::run_task() {
     if (get_anim_frame() != NULL) {
-        unk_B4 += 2;
-        if (unk_B4 >= 0xFF) {
-            unk_B4 -= 0xFF;
+        uv_scroll += 2;
+        if (uv_scroll >= 0xFF) {
+            uv_scroll -= 0xFF;
         }
     }
 }
 void TObjCity_Season_EasterEgg::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param(city_season_texlists[0]);
+        set_texture_list(city_season_texlists[0]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -165,7 +156,7 @@ void TObjCity_Season_EasterEgg::render() {
 TObjCity_Season_ValentineHeart::TObjCity_Season_ValentineHeart(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 1, 13.0f) {
     Vec pos;
-    m_name = TObjCity_Season_ValentineHeart::class_name;
+    m_name = class_name;
     if (get_anim_frame() != NULL) {
         VecCopy(&pos, &position);
         pos.y += 4.0f;
@@ -190,7 +181,7 @@ void TObjCity_Season_ValentineHeart::run_task() { advance_anim_time(1, 0.2f); }
 void TObjCity_Season_ValentineHeart::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param(city_season_texlists[1]);
+        set_texture_list(city_season_texlists[1]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -202,7 +193,7 @@ void TObjCity_Season_ValentineHeart::render() {
 TObjCity_Season_XmasTree::TObjCity_Season_XmasTree(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 2, 22.5f) {
     Vec pos;
-    m_name = TObjCity_Season_XmasTree::class_name;
+    m_name = class_name;
     if (get_anim_frame() != NULL) {
         VecCopy(&pos, &position);
         pos.y += 4.0f;
@@ -228,7 +219,7 @@ void TObjCity_Season_XmasTree::run_task() { advance_anim_time(1, 0.2f); }
 void TObjCity_Season_XmasTree::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param(city_season_texlists[2]);
+        set_texture_list(city_season_texlists[2]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -241,7 +232,7 @@ void TObjCity_Season_XmasTree::render() {
 }
 
 TObjCity_Season_XmasWreath::TObjCity_Season_XmasWreath(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjCity_Season_XmasWreath::class_name;
+    m_name = class_name;
     apply_object_set_data(set_data);
 }
 
@@ -255,7 +246,7 @@ void TObjCity_Season_XmasWreath::render() {
     BmlResource *resource;
     resource = city_season_resources[2];
     if ((resource != NULL) && (update_object_view_visibility(400.0f, 20.0f) != 0)) {
-        TObjFish::set_global_param(city_season_texlists[2]);
+        set_texture_list(city_season_texlists[2]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -265,7 +256,7 @@ void TObjCity_Season_XmasWreath::render() {
 }
 
 TObjCity_Season_HalloweenPumpkin::TObjCity_Season_HalloweenPumpkin(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjCity_Season_HalloweenPumpkin::class_name;
+    m_name = class_name;
     apply_object_set_data(set_data);
 }
 
@@ -285,7 +276,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
     BmlResource *resource;
     resource = city_season_resources[3];
     if ((resource != NULL) && (update_object_view_visibility(800.0f, 80.0f) != 0)) {
-        TObjFish::set_global_param(city_season_texlists[3]);
+        set_texture_list(city_season_texlists[3]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -297,7 +288,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
 TObjCity_Season_21_21::TObjCity_Season_21_21(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 4, 23.0f) {
     Vec pos;
-    m_name = TObjCity_Season_21_21::class_name;
+    m_name = class_name;
     uv_scroll = 0;
     if (get_anim_frame() != NULL) {
         VecCopy(&pos, &position);
@@ -331,7 +322,7 @@ void TObjCity_Season_21_21::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL) {
         if (update_object_view_visibility(800.0f, 60.0f) != 0) {
-            TObjFish::set_global_param(city_season_texlists[4]);
+            set_texture_list(city_season_texlists[4]);
             city_season_strips->scroll_uvs(0, uv_scroll);
             push_matrix();
             post_translate_matrix(&position.x);
@@ -345,7 +336,7 @@ void TObjCity_Season_21_21::render() {
 
 TObjCity_Season_SonicAdv2::TObjCity_Season_SonicAdv2(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 5, 3.0f) {
-    m_name = TObjCity_Season_SonicAdv2::class_name;
+    m_name = class_name;
 }
 
 TObjCity_Season_SonicAdv2::~TObjCity_Season_SonicAdv2() {}
@@ -354,7 +345,7 @@ TObjCity_Season_SonicAdv2::~TObjCity_Season_SonicAdv2() {}
 void *TObjCity_Season_SonicAdv2::create(void *set) {
     return new TObjCity_Season_SonicAdv2(tl_05, set);
 }
-s32 TObjCity_Season_SonicAdv2::sub_80183C38() {
+s32 TObjCity_Season_SonicAdv2::get_model_variant() {
     if (this->set_params[0] < 0) {
         return 0;
     }
@@ -363,7 +354,7 @@ s32 TObjCity_Season_SonicAdv2::sub_80183C38() {
     }
     return 3;
 }
-void TObjCity_Season_SonicAdv2::run_task() { advance_anim_time(sub_80183C38(), 0.3f); }
+void TObjCity_Season_SonicAdv2::run_task() { advance_anim_time(get_model_variant(), 0.3f); }
 void TObjCity_Season_SonicAdv2::render() {
     BmlResource *resource;
     s32 model;
@@ -372,8 +363,8 @@ void TObjCity_Season_SonicAdv2::render() {
     Vec scale;
     resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(city_season_texlists[5]);
-        model = sub_80183C38();
+        set_texture_list(city_season_texlists[5]);
+        model = get_model_variant();
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -392,14 +383,14 @@ void TObjCity_Season_SonicAdv2::render() {
 }
 
 void TObjCity_Season_SonicAdv2::debug_draw_model_index() {
-    sub_80183C38();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    get_model_variant();
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- MDL IDX");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjCity_Season_Board::TObjCity_Season_Board(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjCity_Season_Board::class_name;
+    m_name = class_name;
     apply_object_set_data(set_data);
     uv_scroll = 0;
 }
@@ -418,7 +409,7 @@ void TObjCity_Season_Board::run_task() {
 }
 void TObjCity_Season_Board::render() {
     if ((city_season_board_resource != NULL) && (update_object_view_visibility(800.0f, 200.0f) != 0)) {
-        TObjFish::set_global_param(city_season_board_texlist);
+        set_texture_list(city_season_board_texlist);
         city_season_board_strips->scroll_uvs(uv_scroll, 0);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -430,7 +421,7 @@ void TObjCity_Season_Board::render() {
 }
 
 TObjCity_Season_FireWorkCtrl::TObjCity_Season_FireWorkCtrl(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjCity_Season_FireWorkCtrl::class_name;
+    m_name = class_name;
     apply_object_set_data(set_data);
     spawn_delay = 0;
 }
@@ -469,10 +460,10 @@ void TObjCity_Season_FireWorkCtrl::run_task() {
 }
 #pragma pop
 
-void TObjCity_Season_FireWorkCtrl::sub_8018355C() {
+void TObjCity_Season_FireWorkCtrl::draw_area_box() {
     if (update_object_view_visibility(250.0f, 10.0f) != 0) {
         Vec size;
-        NJS_ARGB color = lbl_804441FC;
+        NJS_ARGB color = firework_area_box_color;
         rotation_z = 0;
         rotation_x = 0;
         size.x = scale.x;
@@ -481,19 +472,19 @@ void TObjCity_Season_FireWorkCtrl::sub_8018355C() {
         debug_draw_box(&position, &rotation_x, &size, &color);
     }
 }
-void TObjCity_Season_FireWorkCtrl::vfunc_13(s32) {
-    sub_8018355C();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+void TObjCity_Season_FireWorkCtrl::draw_debug_labels(s32) {
+    draw_area_box();
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- AREA WIDTH");
     debug_printf_at(0x13001D, "<- RISE HEIGHT");
     debug_printf_at(0x13001E, "<- AREA DEPTH");
     debug_printf_at(0x130020, "<- FREQ");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
-TObjCity_Season_FireWork::TObjCity_Season_FireWork(TObject* parent, void* position, f32 riseHeight) : TObject(parent) {
-    m_name = TObjCity_Season_FireWork::class_name;
-    VecCopy(&pos, (const Vec *)position);
+TObjCity_Season_FireWork::TObjCity_Season_FireWork(TObject *parent, const Vec *position, f32 riseHeight) : TObject(parent) {
+    m_name = class_name;
+    VecCopy(&pos, position);
     state = 0;
     handle = NULL;
     limit = riseHeight;

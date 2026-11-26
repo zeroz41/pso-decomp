@@ -6,7 +6,6 @@
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/camera/TCameraConversation.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

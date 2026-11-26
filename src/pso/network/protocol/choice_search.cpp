@@ -80,8 +80,8 @@ s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choic
 
 extern "C" {
 
-saddr TWindowSubComCard::get_com_count() {
-    return (saddr)choice_search_results;
+ChoiceSearchResultList *TWindowSubComCard::get_choice_search_results() {
+    return choice_search_results;
 }
 void TWindowSubComCard::release() {
     if (choice_search_results != NULL) {
@@ -89,8 +89,8 @@ void TWindowSubComCard::release() {
         choice_search_results = NULL;
     }
 }
-saddr TWindowSubComCard::get_chr_select() {
-    return (saddr)choice_search_options;
+TRecvChoiceSearchOptions *TWindowSubComCard::get_choice_search_options() {
+    return choice_search_options;
 }
 
 void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSearchOptions *chr_select) {
@@ -102,7 +102,7 @@ void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSea
     ChoiceSearchOption *e;
     ChoiceSearchSelection tmp[5];
     copy_struct28__17TWindowSubComCardFii((saddr) tmp, (saddr) arr);
-    clear_choice_search_selections((ChoiceSearchSelection *) arr);
+    clear_choice_search_selections(arr);
     n = chr_select->header.flags;
     dst = arr;
     e = chr_select->entries;

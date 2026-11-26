@@ -9,11 +9,10 @@
 #pragma readonly_strings on
 
 
-const char *TItemDisconnectCtrl__name = "TItemDisconnectCtrl";
+const char *TItemDisconnectCtrl::name = "TItemDisconnectCtrl";
 
 
 s32 item_desync_detected;
-extern const char *TItemDisconnectCtrl__name;
 
 void TItemDisconnectCtrl::run_task() {
     if (get_current_floor_area() != AREA_LOBBY && item_desync_detected != 0) {
@@ -25,6 +24,6 @@ void TItemDisconnectCtrl::run_task() {
 TItemDisconnectCtrl::~TItemDisconnectCtrl() {}
 
 TItemDisconnectCtrl::TItemDisconnectCtrl() : TObject(tl_05) {
-    m_name = TItemDisconnectCtrl__name;
+    m_name = TItemDisconnectCtrl::name;
     disallow_rendering();
 }

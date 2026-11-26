@@ -24,6 +24,7 @@
 #include <string.h>
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/network/client_id.h"
 
 
 extern "C" {
@@ -228,8 +229,6 @@ void bswap_object_row_fields(void *placement_ptr) {
 
 MapSetArea *map_set_areas;
 
-extern "C" {
-
 s32 TLobby::get_drop_item_mode() {
     s32 main_phase;
 
@@ -285,7 +284,7 @@ void TLobby::update_drop_item() {
 }
 
 
-void TLobby__sub_802083C0(void) {
+void free_forest_rel_work_buffer(void) {
     if (forest_rel_work_buffer != NULL) {
         safe_free(forest_rel_work_buffer);
         forest_rel_work_buffer = NULL;
@@ -293,7 +292,6 @@ void TLobby__sub_802083C0(void) {
         forest_rel_set_data_table = 0;
         map_set_areas = 0;
     }
-}
 }
 
 
@@ -330,7 +328,6 @@ s32 wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
 void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
-extern s32 local_client_id;
 void send_6x67_wave_trigger_event(s32 event_id) {
     G_FloorEvent_6x67 pkt;
     wave_event_trigger_count++;

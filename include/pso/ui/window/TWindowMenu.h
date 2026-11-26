@@ -2,6 +2,8 @@
 #define PSO_UI_WINDOW_TWINDOWMENU_H
 
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
 
 struct NJS_POINT2;
@@ -15,6 +17,7 @@ struct TWindowMenuRow {
 };
 
 struct TWindowMenu : public TWindowAddition {
+    static const char *class_name;
     TWindowMenu(u32 rows, s32 client, const NJS_POINT2 *position);
     virtual ~TWindowMenu();
     void *get_selected_entry();
@@ -50,11 +53,12 @@ struct TWindowMenu : public TWindowAddition {
     s16 row_cursor;
     s16 row_count;
     s16 selected_row;
-    u8 unk_7A[0x2];
+    // Row remembered by update_cursor_pos (-1 after reset_selection), e.g. the first of two rows to swap.
+    s16 marked_row;
     f32 layout_height;
     TWindowMenuRow *rows;
     WindowScrollBar *scroll_bar;  // the list scroll bar, made on demand by ensure_scroll_bar
-    TWindowSubStatusDisp *heading;  // type-1 heading made by create_titled_window_menu
+    WindowHeading *heading;  // type-1 heading made by create_titled_window_menu
     void set_active_flag();
     void confirm_selection();
     void select_next_item();
@@ -62,6 +66,21 @@ struct TWindowMenu : public TWindowAddition {
     virtual void run_task();
 
     s32 is_locked(s32 buttons);
+    void clamp_scroll_offset();
+    // Row flag 0x10 marks a disabled row: confirming it plays the error sound.
+    s32 is_row_enabled(s16 row);
+    void disable_row(s16 row);
+    void enable_row(s16 row, s32 color);
+    s16 get_entry_count();
+    s16 get_cursor_pos();
+    void set_selected_index(s16 index);
+    s16 get_selected_index();
+    void update_cursor_pos();
+    void reset_entries();
+    void ensure_scroll_bar();
+    void set_scroll_target(f32 width, f32 max_height);
+    void update_scroll_target_position();
+    void set_flag70_bit100();
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);

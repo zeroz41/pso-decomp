@@ -14,8 +14,17 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80226C3C.h"
+#include "pso/unk/TLobby_80226070.h"
+#include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8036A3CC.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/audio/AdxManager.h"
+#include "pso/ui/keyboard/SystemBootInitInternal.h"
+#include "dolphin/ar.h"
+#include "dolphin/ai.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 
 
@@ -31,8 +40,6 @@ u32 lbl_804CB838[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 // [0] and [1] play the music, [2] the cue stream ("can't create ADXT-BGM #%d", "can't create ADXT-SE #%d").
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
 
-extern "C" {
-    extern int lbl_805D62B8;
 void *lbl_805D62D8;
 void *lbl_805D62DC;
 s32 music_active;
@@ -57,8 +64,6 @@ f32 music_fade_step;
 s32 music_fade_frames_remaining;
 s32 bgm_stream_active;
 s16 music_current_slot;
-}
-void update_music_fade(void);
 
 extern "C" char music_slot_entries[2][0x20];
 u8 *TLobby::get_current_slot_entry() {
@@ -105,9 +110,7 @@ extern "C" {
 extern void *bgm_stream_buffers[];
 extern const char *bgm_stream_files[];
 }
-extern "C" {
-
-void TLoadCtrl__sub_80226DA0(s32 index) {
+void start_bgm_stream(s32 index) {
     if (index < 0 || index >= 4) {
         return;
     }
@@ -124,18 +127,15 @@ void TLoadCtrl__sub_80226DA0(s32 index) {
 }
 
 void *bgm_stream_buffers[0x20];
+extern "C" {
 __declspec(section ".data") s32 music_slot_cues[2];
 __declspec(section ".data") s32 music_slot_progress[2];
 __declspec(section ".data") s32 lbl_80514CF0[2];
 __declspec(section ".data") f32 music_fade_volumes[2];
 __declspec(section ".data") char music_slot_entries[2][0x20];
+}
 u8 lbl_80514D40[0x218];
-}
 
-extern "C" {
-int TKeyBoardControl__sub_8000F828(void);
-s32 TKeyBoardControl__sub_801E3E24(s32 id, const char *name, void *buf, s32 size);
-}
 extern TLoadCtrlProgram *music_programs[];
 
 void init_music_sequencer(s32 program) {
@@ -164,7 +164,7 @@ void init_music_sequencer(s32 program) {
     music_slot_cues[1] = music_slot_cues[0] + 1;
     music_sequencer_passage_index = 0;
     music_passage_index = 1;
-    TKeyBoardControl__sub_801E3E24(190, music_program->archive, lbl_80514D40, 128);
+    open_afs_file_wait_input(190, music_program->archive, lbl_80514D40, 128);
     ADXT_EntryAfs(adxt_players[0], 190, music_slot_cues[0]);
     ADXT_EntryAfs(adxt_players[0], 190, music_slot_cues[1]);
     TLobby__sub_803C5D24(adxt_players[0]);
@@ -287,21 +287,20 @@ s32 VISetPreRetraceCallback(void (*callback)(void));
 void update_all_zones__14TObjBgmColCtrlFl(void);
 extern char music_slot_entries[][0x20];
 void play_area_music(char *name);
-void TWindowOptionCtrl__sub_802273B4(s32 frames);
+}
 struct SndHooks {
     void *(*malloc)(u32 size);
     void (*free)(void *ptr);
 };
+extern "C" {
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
-void setup_adx_file_systems(s32 *read_mode);
 void init_runtime_threads(s32 *cfg);
 s32 VISetPostRetraceCallback(int (*callback)(void *));
 void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
-void init_adx_audio_system(void);
 
-// The four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
+// The four .acx streams start_bgm_stream starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
 extern const SndHooks snd_hooks = { musyx_malloc_hook, TLobby::free };
 const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
@@ -476,7 +475,7 @@ extern f32 music_fade_volumes[];
 
 void TLoadCtrl::step() { TLobby::stop_audio_streams(); stop_cue_stream(); }
 
-void TWindowOptionCtrl__sub_802273B4(s32 frames) {
+void start_music_crossfade(s32 frames) {
     if (music_active != 0) {
         TLobby::stop_audio_streams();
         return;
@@ -633,9 +632,9 @@ void init_adx_audio_system(void) {
 // TLobby::free and musyx_malloc_hook are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
 void TLobby::free(void *p) { xfree(p); }
 
-extern "C" {
 void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
 void pre_retrace_callback(void) {  }
 int post_retrace_callback(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
+extern "C" {
 void TLobby__sub_80227A90(s32, const char *) {  }
 }

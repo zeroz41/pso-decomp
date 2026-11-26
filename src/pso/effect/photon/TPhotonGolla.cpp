@@ -15,7 +15,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/MatrixTransforms.h"
@@ -23,7 +23,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
@@ -179,7 +179,7 @@ void TPhotonGolla::render() {
     if (visible != 0) {
         golla_photon_blast_buffer_pair->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

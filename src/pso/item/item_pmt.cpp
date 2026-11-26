@@ -1,7 +1,5 @@
 // The item parameter table (ItemPMT.prs): its loader, the record lookups and
-// the item drop rolls that read it. One TU: the "ItemPMT.prs" string, the
-// weapon-special roll table and the int-to-float doubles are one .rodata block
-// 0x8043E7A8-0x8043E7D8 in first-use order.
+// the item drop rolls that read it.
 #pragma readonly_strings on
 #include "types.h"
 #include <stdlib.h>
@@ -42,15 +40,14 @@ typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-s32 get_item_star_count(s32 id);
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode);
 }
 
-saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
+saddr TObjPlayer::get_item_pmt_entry(u8 index) {
     ItemChoiceListTable *table = item_pmt_tbl->random_items;
 
-    if (table->count > arg0) {
-        return (saddr)&table->lists[arg0];
+    if (table->count > index) {
+        return (saddr)&table->lists[index];
     }
     return 0;
 }
@@ -130,9 +127,9 @@ void find_tool_pmt_base_id(s32 tool_id, u8 *item) {
     }
 }
 
-f32 TObjPlayer::get_drop_random_float(u32 arg0) {
+f32 TObjPlayer::get_drop_random_float(u32 channel) {
     if (item_mgr != NULL) {
-        return item_mgr->roll_table_ratio(arg0);
+        return item_mgr->roll_table_ratio(channel);
     }
     return 3.0517578e-05f * (f32) rand();
 }
@@ -179,7 +176,7 @@ void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
     }
 }
 
-saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
+ItemStatBoost *get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
     s32 idx;
     u8 *rec;
     idx = 0;
@@ -203,9 +200,9 @@ saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
         break;
     }
     if (idx > 0) {
-        return (saddr)&item_pmt_tbl->stat_boosts[idx * 6];
+        return &item_pmt_tbl->stat_boosts[idx];
     }
-    return (saddr)item_pmt_tbl->stat_boosts;
+    return item_pmt_tbl->stat_boosts;
 }
 
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags) {
@@ -261,7 +258,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
         pos = (u8 *)((TObjCollidable *)target)->bodies + request->collider * 0x2C + 0x1C;
         type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
-            cls = *(s8 *)&((TObjPlayer *)target)->class_index;
+            cls = ((TObjPlayer *)target)->class_index;
             mode = 1;
         } else if (type < 0x4000) {
             cls = *(s32 *)(target + 0x370);

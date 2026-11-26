@@ -3,8 +3,6 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/text_802A1020.h"
-#include "pso/unk/text_802A1144.h"
-#include "pso/unk/text_802A1154.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TUnk_804DCB64.h"
 #include "pso/network/TLobby.h"
@@ -25,7 +23,7 @@
 
 s32 opening_movie_selector = 1;
 extern "C" {
-u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
+u8 *__ct__6TMovieFP7TObjectPScPFP6TMovie_vll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
 }
 s8 movie_finished_flag;
 u8 opening_movie_purpose;
@@ -119,7 +117,7 @@ void update_movie_phase(void) {
     if ((s32) (*(u8 *)&movie_finished_flag) == 1) {
         request_queued_main_phase();
     }
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -167,13 +165,13 @@ TUnk_804DCB64::TUnk_804DCB64() : TObject(tl_01) {
     if ((s8) opening_movie_purpose == 0) {
         u8 *movie = (u8 *)TObject::operator new(0x4C);
         if (movie != NULL) {
-            __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 1, 1, 0);
+            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(movie, tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 1, 1, 0);
         }
         opening_movie_selector = 1 - opening_movie_selector;
     } else {
         u8 *movie = (u8 *)TObject::operator new(0x4C);
         if (movie != NULL) {
-            __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
+            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(movie, tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
         }
     }
 }

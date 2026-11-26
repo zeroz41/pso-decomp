@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"
@@ -24,7 +23,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -51,7 +50,6 @@ CollisionBody TBoss6Mine::collision_body_template[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-extern "C" {
 const char *TBoss6Mine::class_name = "TBoss6Mine";
 
 void TBoss6Mine::render_shadows() {
@@ -81,7 +79,7 @@ void TBoss6Mine::draw() {
     texlist = (saddr)get_bml_texlist(scene_archive, 2);
     bml_model = (saddr)get_bml_model(scene_archive, 2);
     bml_motion = get_bml_motion(scene_archive, 0);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     apply_boss6_hit_flash_color(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();
@@ -326,7 +324,6 @@ void TBoss6Mine::run_task() {
     }
 }
 
-}
 TBoss6Mine::~TBoss6Mine() {
     if (this->emitter != NULL) { TParticleCtrl::release(this->emitter); this->emitter = 0; }
     free_collision_body_parts(this);

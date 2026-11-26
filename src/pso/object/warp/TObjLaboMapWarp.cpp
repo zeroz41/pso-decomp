@@ -8,14 +8,12 @@
 #include "pso/object/city/CityTraffic.h"
 #include "types.h"
 #include "pso/system/BmlResourceLoader.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 
 #include "pso/object/warp/TObjMapWarp.h"
 
-#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 
 #include "pso/object/warp/TObjAreaWarp.h"
 
@@ -64,11 +62,11 @@
 
 #include "pso/object/base/TObjCharaHelpers.h"
 
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #include "pso/unk/text_803D96A8.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -81,7 +79,9 @@
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 s32 city_main_warp_enabled_destinations;
@@ -90,22 +90,6 @@ s32 city_main_warp_visible_destination_mask;
 
 BmlResource *labo_map_warp_resource_bundle;
 
-extern "C" {
-
-
-
-
-
-
-s32 rotate_matrix_y(s32, s32);
-
-
-extern void request_active_window_close();
-
-
-
-
-}
 
 extern "C" {
 
@@ -157,6 +141,8 @@ const char *TObjCityAreaWarp::class_name = "TObjCityAreaWarp";
 const char *TObjCityMapWarp::class_name = "TObjCityMapWarp";
 const char *TObjLaboMapWarp::class_name = "TObjLaboMapWarp";
 
+
+
 #pragma push
 #pragma fp_contract on
 TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range) {
@@ -191,9 +177,7 @@ s32 TObjCityMainWarpChallenge::are_all_players_in_range() {
 s32 TObjCityMainWarp::get_phase_flag() {
     return ((get_main_phase() - 0xF) == 0) ? lbl_805D55C0 : 0;
 }
-extern "C" {
-
-char *TObjCityMainWarp__sub_80186AF4(void) {
+char *get_area_title() {
     return area_title;
 }
 
@@ -201,8 +185,7 @@ void TWindowMenu::set_flag70_bit10() { this->m_70 |= 0x10; }
 
 void TObjCityMainWarp::reset() { clear_enabled_main_warps(); update_main_warp_visible_mask(0); }
 
-void TObjCityMainWarp__sub_80186AB8(void) {  }
-}
+void TObjCityMainWarp::free_resources() {}
 
 s32 TObjCityMainWarp::get_floor_warp_bit(s32 floor) {
     s32 bit = -1;
@@ -421,7 +404,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
     s32 j2;
     s32 k2;
 
-    if (menu_window != 0) {
+    if (menu_window != NULL) {
         return;
     }
     if (is_quest_active() == 0) {
@@ -451,15 +434,15 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
         }
     }
     if (n > 0) {
-        menu_window = (saddr)create_window_menu(get_window_layout_position(0x32), n, client_id);
-        if (menu_window != 0) {
+        menu_window = create_window_menu(get_window_layout_position(0x32), n, client_id);
+        if (menu_window != NULL) {
             if (TLobby::get_instance() == 0) {
                 for (j = 0, k = 0; j < 17; j++) {
                     if (city_main_warp_visible_destination_mask & (1 << j)) {
                         if (get_game_play_mode() == 1) {
-                            ((TWindowMenu *)menu_window)->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, k);
+                            menu_window->add_text_entry((saddr)get_area_title(), 0xE, k);
                         } else {
-                            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
+                            menu_window->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
                         }
                         k++;
                     }
@@ -468,21 +451,21 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j2 = 0, k2 = 0; j2 < 17; j2++) {
                     if (city_main_warp_visible_destination_mask & (1 << j2)) {
                         if (get_game_play_mode() == 1) {
-                            ((TWindowMenu *)menu_window)->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, k2);
+                            menu_window->add_text_entry((saddr)get_area_title(), 0xE, k2);
                         } else {
-                            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
+                            menu_window->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
                         }
                         k2++;
                     }
                 }
             }
-            ((TWindowMenu *)menu_window)->set_flag70_bit10();
-            ((TWindowMenu *)menu_window)->set_loss_flag();
-            ((TWindowMenu *)menu_window)->update_layout_height(288.0f);
+            menu_window->set_flag70_bit10();
+            menu_window->set_loss_flag();
+            menu_window->update_layout_height(288.0f);
             if (((TWindowSubComCardList *)menu_window)->target_size[1] > 160.0f) {
-                ((TWindowSubComCardList *)menu_window)->set_scroll_target(288.0f, 160.0f);
+                ((TWindowMenu *)menu_window)->set_scroll_target(288.0f, 160.0f);
             }
-            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
+            align_menu_entry_positions(menu_window);
         }
     }
     request_active_window_close();
@@ -490,18 +473,18 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
 }
 #pragma pop
 
-void TObjCityMainWarp::close_menu() { if (menu_window != 0) { TObjWarpBase::close_menu(); TWindowCtrl::clear_flag(); } }
+void TObjCityMainWarp::close_menu() { if (menu_window != NULL) { TObjWarpBase::close_menu(); TWindowCtrl::clear_flag(); } }
 
 s32 TObjCityMainWarp::is_choice_confirmed() {
     if (TLobby::get_instance() == 0) {
-        if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
-            dest_floor = city_warp_floor_destination_table[menu_destinations[((TWindowMenu *)menu_window)->get_selected_value()]];
+        if (menu_window != NULL && menu_window->is_decided() != 0) {
+            dest_floor = city_warp_floor_destination_table[menu_destinations[menu_window->get_selected_value()]];
             return 1;
         }
         return 0;
     }
-    if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
-        dest_floor = city_warp_floor_destination_table_b[lobby_menu_destinations[((TWindowMenu *)menu_window)->get_selected_value()]];
+    if (menu_window != NULL && menu_window->is_decided() != 0) {
+        dest_floor = city_warp_floor_destination_table_b[lobby_menu_destinations[menu_window->get_selected_value()]];
         return 1;
     }
     return 0;
@@ -528,10 +511,10 @@ void TObjCityMainWarp::run_task() {
 
 void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation_y);
         draw_ginja_object(city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->frame);
@@ -549,9 +532,9 @@ void TObjCityMainWarp::debug_print_area_num() {
         select_type = 2;
     }
     const char *type_names[3] = {"SELECT TYPE NORMAL", "SELECT TYPE VR", "SELECT TYPE CTRL CENTER"};
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "%s", type_names[select_type]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
@@ -568,13 +551,13 @@ void *TObjCityAreaWarp::create(void *set_data) {
 }
 
 void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
-    if (menu_window == 0) {
-        menu_window = (saddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
-        ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
-        ((TWindowMenu *)menu_window)->set_flag70_bit10();
-        ((TWindowMenu *)menu_window)->set_flag_40();
-        ((TWindowMenu *)menu_window)->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
+    if (menu_window == NULL) {
+        menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
+        menu_window->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
+        menu_window->set_flag70_bit10();
+        menu_window->set_flag_40();
+        menu_window->calc_window_size();
+        align_menu_entry_positions(menu_window);
         user_client_id = client_id;
     }
 }
@@ -593,10 +576,10 @@ void TObjCityAreaWarp::run_task() {
 
 void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation_y);
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
         TParticleCtrl::end_effect_render();
@@ -666,10 +649,10 @@ void TObjCityMapWarp::run_task() {
 
 void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation_y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(city_common_model_archive->models[13].model);
             TParticleCtrl::begin_effect_render();
@@ -688,14 +671,14 @@ const char *labo_map_warp_dest_name_table_a[3] = {"GOVERNOR", "CITY", "LABO"};
 
 void TObjCityMapWarp::draw_debug_destinations() {
     clamp_destination_index();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- DST POS X");
     debug_printf_at(0x13001D, "<- DST POS Y");
     debug_printf_at(0x13001E, "<- DST POS Z");
     debug_printf_at(0x130020, "<- DST ANG Y");
     debug_printf_at(0x130021, "<- MODEL TYPE");
     debug_printf_at(0x130022, "<- MESSAGE : %s", labo_map_warp_dest_name_table_a[set_params[2]]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
@@ -763,10 +746,10 @@ void TObjLaboMapWarp::run_task() {
 
 void TObjLaboMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(labo_map_warp_resource_bundle, 1));
+        set_texture_list(get_bml_texlist(labo_map_warp_resource_bundle, 1));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation_y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(get_bml_model(labo_map_warp_resource_bundle, 1));
             TParticleCtrl::begin_effect_render();
@@ -785,13 +768,13 @@ const char *labo_map_warp_dest_name_table_b[3] = {"GOVERNOR", "CITY", "LABO"};
 
 void TObjLaboMapWarp::draw_debug_destinations() {
     clamp_index();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- DST POS X");
     debug_printf_at(0x13001D, "<- DST POS Y");
     debug_printf_at(0x13001E, "<- DST POS Z");
     debug_printf_at(0x130020, "<- DST ANG Y");
     debug_printf_at(0x130021, "<- MODEL TYPE");
     debug_printf_at(0x130022, "<- MESSAGE : %s", labo_map_warp_dest_name_table_b[set_params[2]]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 

@@ -26,6 +26,8 @@ public:
     void set_text(uaddr label_text, s32 id);
     s32 get_entry_id();
     int is_flag_4_set();
+    // inferred: LabelValueRow's copy of TWindowLayoutEntry::is_flag80_set (next to get_entry_id).
+    int is_flag80_set();
 };
 
 LAYOUT_ASSERT(LabelValueRow_size, sizeof(LabelValueRow) == 0x28);

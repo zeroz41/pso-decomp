@@ -7,7 +7,7 @@
 void TItemToolMagCell::apply_use_effect() {
     TItemMag *mag;
 
-    mag = (TItemMag *)this->owner->activate_d04_slot();
+    mag = (TItemMag *)this->owner->get_equipped_mag();
     if (mag != NULL) {
         mag->evolve_special_form(get_item_index());
     }

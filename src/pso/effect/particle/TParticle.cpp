@@ -19,7 +19,6 @@
 #include "pso/system/THeap.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/effect/TEffIndirectSampler.h"
@@ -30,7 +29,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/MatrixStack.h"
@@ -189,16 +188,16 @@ void TParticle::draw_particle_refraction_quad() {
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_matrix_x(0, camera_ctrl_instance->pitch);
     load_projected_texture_matrix(1.1333334f);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[9].texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[9].texlist));
     set_texture_num(sprite_index);
-    TParticleCtrl::setup_particle_draw(1);
+    setup_particle_draw(1);
     GXSetNumTevStages(2);
     GXSetNumTexGens(2);
     GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     play_indirect_effect_recipe(0x1F, 0, 1);
     setup_capture_blend_tev();
     emit_particle_strip_vertices(v, 4);
-    TParticleCtrl::reset_particles();
+    end_particle_draw();
     reset_particle_tev();
     reset_indirect_tev(1);
     pop_matrix();
@@ -251,7 +250,7 @@ void TParticleBallistic::draw_sprite_quad(s32 kind) {
     sx = sy * (480.0f / (480.0f * screen_projection.width));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[kind].texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[kind].texlist));
     set_draw_texture_and_color(particle_definitions[kind].texture, particle_definitions[kind].color);
     uv = particle_definitions[kind].uvs[sprite.uv_index];
     quad.u = uv[0];
@@ -302,7 +301,7 @@ void TParticleBallistic::draw_sprite_quad(s32 kind) {
         quad.edge_b_y = sy * c;
         draw_rotated_quad(&quad.x);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     TParticleCtrl::end_effect_render();
     set_default_alpha_blend();
 }

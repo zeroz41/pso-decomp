@@ -17,11 +17,10 @@
 #include "pso/object/wreck/TOWreckAncient07.h"
 #include "pso/object/wreck/TOWreckAncientBrakable.h"
 #include "pso/object/wreck/TOWreckAncientBrakable05.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
@@ -149,12 +148,8 @@ TOWreckAncient::~TOWreckAncient() {
 }
 
 void TOWreckAncient::load_resources() {
-    saddr resource;
-    saddr brakable_resource;
-    resource = (saddr)new BmlResource(1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, NULL);
-    wreck_ancient_bml_resource = (BmlResource *)resource;
-    brakable_resource = (saddr)new BmlResource(1, &wreck_ancient_resource_descriptor, 0, 0, NULL);
-    wreck_ancient_brakable_bml_resource = (BmlResource *)brakable_resource;
+    wreck_ancient_bml_resource = new BmlResource(1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, NULL);
+    wreck_ancient_brakable_bml_resource = new BmlResource(1, &wreck_ancient_resource_descriptor, 0, 0, NULL);
 }
 
 void TOWreckAncient::free_statics() {
@@ -173,7 +168,7 @@ void TOWreckAncient::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }

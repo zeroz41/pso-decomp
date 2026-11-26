@@ -7,8 +7,6 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -23,7 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
@@ -189,7 +187,7 @@ TObjLight::~TObjLight() {
 TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     TObjLight *light = this;
     light->m_name = light_class_name;
-    ((light))->apply_object_set_data(set_data);
+    (light)->apply_object_set_data(set_data);
     light->m_90 = (s32) *(s16 *)((s8 *)set_data + 8);
     light->actor_color.a = 0.5f;
     light->actor_color.r = (f32) light->scale.x;

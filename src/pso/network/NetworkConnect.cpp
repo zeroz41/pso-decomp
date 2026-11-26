@@ -11,6 +11,10 @@
 #include "pso/network/NetworkMessageTransport.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/NetDhcp.h"
+#include "pso/network/NetArp.h"
+#include "pso/network/NetDns.h"
+#include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/ModemSession.h"
 #include "pso/unk/text_80145A44.h"
 #include "pso/unk/text_803F4D84.h"
@@ -22,32 +26,19 @@
 #include "pso/system/ControllerInput.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
+#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/unk/text_8014618C.h"
+#include "pso/unk/TLobby_80145E40.h"
 #undef PSO_SDK_COMPACT_MATH
-
-struct TLobbyRecoveredGlobal {
-    s32 value;
-    u8 remaining[0x6D8];
-};
-
-extern "C" {
-s32 arp_term();
-s32 loopback_shutdown();
-void dhcp_stop(void);
-s32 DHCP_release(s32 session, s32 ip, s32 retries);
-void TLobby__sub_801469B8(void);
-void *get_account_entry(int idx);
-void copy_ip_address(void* p, void* q);
-s32 dns_term();
-}
 
 s32 lobby_local_ip_addr;
 s32 lobby_dns_server_addr;
 s32 lobby_dns_server_addr2;
 s32 lobby_gateway_addr;
 s32 lbl_805D56E8;
-s32 lbl_805D56EC;
-s32 lbl_805D56F0;
-s32 lbl_805D56F4;
+s32 lobby_dhcp_lease_time;
+s32 lobby_dhcp_renew_time;
+s32 lobby_dhcp_rebind_time;
 s32 connect_pending_flags;
 s32 lobby_default_gateway;
 uaddr avetcp_work_area;
@@ -59,122 +50,23 @@ s32 lbl_805D5714;
 s32 lbl_805D5718;
 
 extern "C" {
-s32 TLobby__sub_8014618C(void);
-void get_local_ip_address(s32 *arg0);
-s32 apply_static_network_config(s32 *arg0);
-char *TLobby__sub_80146D44(void);
-char *get_account_user_name(s32 idx);
-s32 should_try_next_phone_number(u32 arg0);
-s32 TLobby__sub_80145EE4(void);
-s32 apply_dhcp_network_config(s32 *);
-void reset_keyboard_buffer_cursor(void);
-void arp_start(void);
-s16 init_loopback(void);
 s16 if_config(s16, void *);
+}
 s32 lobby_net_session_id = -1;
-s32 connect_with_any_phone_number(s32 id);
-}
-char *get_modem_phone_number(s32 idx);
-s32 connect_pppoe(s32 *);
-s32 connect_modem(s32 idx, s16 id);
-extern s32 actor_frame_tick;
 
-// The wired (Ethernet or PPPoE) connection settings load_network_configs copies from the network info.
-struct NetworkConfig {
-    s32 unknown_0;
-    s32 local_ip;
-    s32 netmask;
-    s32 unknown_C;
-    s32 dns_server1;
-    s32 dns_server2;
-    s32 gateway;
-    char hostname[0x20];
-    char domain[0x40];
-    char user[0x80];
-    char password[0x20];
-    u16 unknown_11C;
-    s32 valid;  // 1 once load_network_configs has filled it in from the network info
-};
-
-struct PhoneNumber {
-    char number[0x20];
-};
-
-struct AccountEntry {
-    char host[0x80];
-    char user[0x20];
-    PhoneNumber phone[3]; /* dial-up numbers (get_modem_phone_number, connect_modem) */
-    char f100[0x40];
-    char f140[0x40];
-    char f180[0x40];
-    u32 dns1; /* primary DNS server address (set_dns_servers) */
-    u32 dns2; /* secondary DNS server address */
-    s32 valid;
-};
-struct LoadNetworkConfigsWork {
-    s32 f0;
-    char host[0x80];
-    char user[0x20];
-    char pass[0x40];
-    char dns1[0x40];
-    char dns2[0x40];
-    u32 f164;
-    u32 f168;
-    char f16C[0x20];
-    char f18C[0x40];
-    char f1CC[0x40];
-    u8 pad[0x274 - 0x20C];
-};
-struct LoadNetworkConfigsInfo {
-    s32 f0;
-    s32 f4;
-    char f8[0x80];
-    char f88[0x20];
-    s32 fA8, fAC, fB0, fB4, fB8, fBC;
-    s32 fC0;
-    char fC4[0x40];
-    char f104[0x140];
-    u16 f244;
-    u8 pad[0x26C - 0x246];
-};
-
-extern "C" {
-void set_keyboard_buffer_cursor(int a0);
-s16 DHCP_init(s16);
-}
-int is_network_info_loaded(void);
-extern "C" {
-int get_phone_number_count(void);
-int TLobby__sub_8014677C(void);
-}
-s32 load_network_info(void);
-extern "C" {
-s32 TLobby__sub_80145DB4(s32 mode);
-s32 disconnect_network();
-s32 route4_del(saddr, saddr, saddr);
-s32 route4_add(saddr, saddr, saddr);
-
-    extern void *network_info_work;
-    extern short lbl_805D56CE;
-    extern int keyboard_buffer_cursor;
-u32 lbl_8050C0A8[7];
+u32 lobby_if_config[7];
 u32 lbl_8050C0C4[368];
-u32 lbl_8050C684[64];
-AccountEntry lobby_account_entries[3]; /* cleared by TLobby::init_account_entries, filled by load_network_configs; [2] is the modem account */
+char lobby_dns_domain[0x100];
+AccountEntry lobby_account_entries[3];
 NetworkConfig network_config;
 __declspec(section ".data") s32 lbl_8050CE0C[2];
-}
-s32 init_struct(u8 *info);
-s32 init_work(s32 unused, u8 *info);
-s32 get_network_config_buffer_size(s32 mode);
-char lbl_8050CE14[0x20];
+char modem_user_name[0x20];
 char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
-#define lbl_8050C0A8 (*(TLobbyRecoveredGlobal *)lbl_8050C0A8)
 
 void init_keyboard_buffer() {
-    keyboard_buffer_cursor = 0;
-    lbl_805D56CE = 0;
+    network_lease_time = 0;
+    network_config_open = 0;
     network_info_work = NULL;
     network_info_work = xmalloc(get_network_config_buffer_size(0));
     load_network_info();
@@ -190,7 +82,7 @@ s32 poll_connect() {
         }
         tries += 1;
         send_and_handle();
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             return 1;
         }
         if (query_link_status() == 1) {
@@ -213,7 +105,6 @@ void set_default_gateway(s32 gateway) {
     route4_add(0, 0, gateway);
 }
 
-void get_link_state(s16 *state, s16 *reason);
 
 s32 connect_pppoe(s32 *out_value) {
     NetConnectCfg cfg;
@@ -234,8 +125,8 @@ s32 connect_pppoe(s32 *out_value) {
     }
     cfg.flags = 5;
     cfg.wait = 0;
-    cfg.user = network_config.user;
-    cfg.password = network_config.password;
+    cfg.user = network_config.ppp_user;
+    cfg.password = network_config.ppp_password;
     cfg.callback = 0;
     cfg.ip_mode = 4;
     cfg.h18 = 6;
@@ -272,7 +163,7 @@ s32 connect_pppoe(s32 *out_value) {
             cancel = 1;
             result = 0x10;
         }
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             cancel = 1;
             result = 0x11;
         }
@@ -332,7 +223,7 @@ s32 apply_dhcp_network_config(s32 *netmask) {
     }
     connect_pending_flags |= 0x10;
     lobby_connect_active_flag = 1;
-    char *name = network_config.hostname;
+    char *name = network_config.dhcp_hostname;
     if (*name != 0 && DHCP_hostname(name) < 0) {
         return 0xC;
     }
@@ -344,11 +235,11 @@ s32 apply_dhcp_network_config(s32 *netmask) {
     if (DHCP_get_gateway(lbl_8050C0C4, &lobby_gateway_addr) != 0) {
         return 0xC;
     }
-    if (dhcp_get_lease_times(&lbl_805D56EC, &lbl_805D56F0, &lbl_805D56F4) != 0) {
+    if (dhcp_get_lease_times(&lobby_dhcp_lease_time, &lobby_dhcp_renew_time, &lobby_dhcp_rebind_time) != 0) {
         return 0xC;
     }
-    set_keyboard_buffer_cursor(lbl_805D56EC);
-    return DHCP_get_dns(lbl_8050C0C4, (char *)lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
+    set_network_lease_time(lobby_dhcp_lease_time);
+    return DHCP_get_dns(lbl_8050C0C4, lobby_dns_domain, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
 }
 
 s32 should_try_next_phone_number(u32 result) {
@@ -370,9 +261,8 @@ s32 should_try_next_phone_number(u32 result) {
 
 int get_phone_number_count(void) { return 3; }
 
-LAYOUT_ASSERT(RecoveredGlobal_8014672C_lbl_8050C0A8_size, sizeof(TLobbyRecoveredGlobal) == 0x6DC);
-void get_local_ip_address(s32 *out) {
-    *(s32 *)((s8 *)out + 0) = *(s32 *)((s8 *)&lbl_8050C0A8.value + 4);
+void get_local_ip_address(s32 *out_addr) {
+    *out_addr = lobby_if_config[1];
 }
 
 int get_post_save_lobby_action(void) { return 0; }
@@ -384,7 +274,7 @@ s32 query_task_active() {
     return 0;
 }
 
-int TLobby__sub_8014677C(void) { return TLobby__sub_80145DB4(1); }
+int has_modem_adapter(void) { return TLobby__sub_80145DB4(1); }
 int get_link_status_value() { return TLobby__sub_80145DB4(4); }
 
 int get_link_status() {
@@ -400,7 +290,7 @@ int get_link_status() {
         case 8:
             return 0;
         }
-        if (actor_frame_tick % 900 == 0 && (s16)TLobby__sub_8014677C() == 0) {
+        if (actor_frame_tick % 900 == 0 && (s16)has_modem_adapter() == 0) {
             return 0;
         }
     } else {
@@ -415,7 +305,7 @@ int get_link_status() {
 }
 void cleanup() {
     if (net_session_mode != 0) {
-        TLobby__sub_801469B8();
+        disconnect_lan();
     } else {
         disconnect_network();
     }
@@ -428,7 +318,6 @@ void cleanup() {
         avetcp_work_area = 0U;
     }
 }
-extern "C" {
 s32 init_network_and_connect() {
     NetTransportParams params;
     s32 size;
@@ -451,14 +340,13 @@ s32 init_network_and_connect() {
     }
     return connect_with_any_phone_number(ppp_init());
 }
-void TLobby__sub_801469B8(void) { flush_pending_flags(); }
-}
+void disconnect_lan(void) { flush_pending_flags(); }
 void flush_pending_flags() {
     NetLinkStatus status;
     NetWaitParam stop;
 
     connect_pending_flags &= 0xFFFFFFFE;
-    teardown_boss2();
+    teardown_dns();
     if (TLobby__sub_80145EE4() != 0) {
         if (connect_pending_flags & 0x10) {
             DHCP_release((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
@@ -466,7 +354,7 @@ void flush_pending_flags() {
             dhcp_stop();
         }
     } else if (is_state_active() != 0) {
-        if ((s32) lobby_net_session_id != -1) {
+        if (lobby_net_session_id != -1) {
             if_down(((s16) lobby_net_session_id), 0);
             stop.wait = 0;
             ppp_stop(&stop);
@@ -501,7 +389,7 @@ s32 run_connect_sequence() {
     s32 r;
     s16 ok;
     connect_pending_flags &= ~1;
-    reset_keyboard_buffer_cursor();
+    clear_network_lease_time();
     if (network_config.valid != 0) {
         arp_start();
         connect_pending_flags |= 0x80;
@@ -532,12 +420,11 @@ s32 run_connect_sequence() {
             r = apply_static_network_config(&sp8);
         }
         if (r == 0) {
-            s32 *m = (s32 *)&lbl_8050C0A8;
-            m[0] = 4;
-            m[1] = lobby_local_ip_addr;
-            m[2] = sp8;
-            m[3] = 0;
-            if (if_config((s16)lobby_net_session_id, &lbl_8050C0A8) == 0) {
+            lobby_if_config[0] = 4;
+            lobby_if_config[1] = lobby_local_ip_addr;
+            lobby_if_config[2] = sp8;
+            lobby_if_config[3] = 0;
+            if (if_config((s16)lobby_net_session_id, lobby_if_config) == 0) {
                 set_default_gateway(lobby_gateway_addr);
             } else {
                 return 0xD;
@@ -559,7 +446,7 @@ void set_ppp_password(const char *src) {
     char *password;
     TLobby__sub_8014618C();
     is_state_active();
-    password = network_config.password;
+    password = network_config.ppp_password;
     memset(password, 0, 0x20);
     strncpy(password, src, 0x1F);
 }
@@ -568,21 +455,21 @@ void set_ppp_password(const char *src) {
 char *get_ppp_password(void) {
     TLobby__sub_8014618C();
     is_state_active();
-    return network_config.password;
+    return network_config.ppp_password;
 }
 
-char *TLobby__sub_80146D44(void) {
-    return (char *)&lbl_8050CE14;
+char *get_modem_user_name(void) {
+    return (char *)&modem_user_name;
 }
 
 char *get_account_user_name(s32 idx) {
     return lobby_account_entries[idx].user;
 }
 
-void *get_account_entry(int idx) { return &lobby_account_entries[idx]; }
+AccountEntry *get_account_entry(int idx) { return &lobby_account_entries[idx]; }
 void load_network_configs() {
-    LoadNetworkConfigsWork w;
-    LoadNetworkConfigsInfo info;
+    AccountConfigRecord w;
+    LanConfigRecord info;
 
     if (is_network_info_loaded() == 1) {
         lbl_8050CE0C[1] = 1;
@@ -592,14 +479,14 @@ void load_network_configs() {
     if (init_work(1, (u8 *)&w) == 0) {
         strncpy(lobby_account_entries[0].host, w.host, 0x7F);
         strncpy(lobby_account_entries[0].user, w.user, 0x1F);
-        strncpy(lobby_account_entries[0].phone[0].number, w.pass, 0x1F);
-        strncpy(lobby_account_entries[0].phone[1].number, w.dns1, 0x1F);
-        strncpy(lobby_account_entries[0].phone[2].number, w.dns2, 0x1F);
+        strncpy(lobby_account_entries[0].phone[0].number, w.phone[0], 0x1F);
+        strncpy(lobby_account_entries[0].phone[1].number, w.phone[1], 0x1F);
+        strncpy(lobby_account_entries[0].phone[2].number, w.phone[2], 0x1F);
         strncpy(lobby_account_entries[0].f100, w.f16C, 0x3F);
         strncpy(lobby_account_entries[0].f140, w.f18C, 0x3F);
         strncpy(lobby_account_entries[0].f180, w.f1CC, 0x3F);
-        copy_ip_address(&lobby_account_entries[0].dns1, &w.f164);
-        copy_ip_address(&lobby_account_entries[0].dns2, &w.f168);
+        copy_ip_address(&lobby_account_entries[0].dns1, &w.dns1);
+        copy_ip_address(&lobby_account_entries[0].dns2, &w.dns2);
         lobby_account_entries[0].valid = 1;
     } else {
         lobby_account_entries[0].valid = 0;
@@ -607,14 +494,14 @@ void load_network_configs() {
     if (init_work(2, (u8 *)&w) == 0) {
         strncpy(lobby_account_entries[1].host, w.host, 0x7F);
         strncpy(lobby_account_entries[1].user, w.user, 0x1F);
-        strncpy(lobby_account_entries[1].phone[0].number, w.pass, 0x1F);
-        strncpy(lobby_account_entries[1].phone[1].number, w.dns1, 0x1F);
-        strncpy(lobby_account_entries[1].phone[2].number, w.dns2, 0x1F);
+        strncpy(lobby_account_entries[1].phone[0].number, w.phone[0], 0x1F);
+        strncpy(lobby_account_entries[1].phone[1].number, w.phone[1], 0x1F);
+        strncpy(lobby_account_entries[1].phone[2].number, w.phone[2], 0x1F);
         strncpy(lobby_account_entries[1].f100, w.f16C, 0x3F);
         strncpy(lobby_account_entries[1].f140, w.f18C, 0x3F);
         strncpy(lobby_account_entries[1].f180, w.f1CC, 0x3F);
-        copy_ip_address(&lobby_account_entries[1].dns1, &w.f164);
-        copy_ip_address(&lobby_account_entries[1].dns2, &w.f168);
+        copy_ip_address(&lobby_account_entries[1].dns1, &w.dns1);
+        copy_ip_address(&lobby_account_entries[1].dns2, &w.dns2);
         lobby_account_entries[1].valid = 1;
     } else {
         lobby_account_entries[1].valid = 0;
@@ -622,38 +509,37 @@ void load_network_configs() {
     if (init_work(0, (u8 *)&w) == 0) {
         strncpy(lobby_account_entries[2].host, w.host, 0x7F);
         strncpy(lobby_account_entries[2].user, w.user, 0x1F);
-        strncpy(lobby_account_entries[2].phone[0].number, w.pass, 0x1F);
-        strncpy(lobby_account_entries[2].phone[1].number, w.dns1, 0x1F);
-        strncpy(lobby_account_entries[2].phone[2].number, w.dns2, 0x1F);
+        strncpy(lobby_account_entries[2].phone[0].number, w.phone[0], 0x1F);
+        strncpy(lobby_account_entries[2].phone[1].number, w.phone[1], 0x1F);
+        strncpy(lobby_account_entries[2].phone[2].number, w.phone[2], 0x1F);
         strncpy(lobby_account_entries[2].f100, w.f16C, 0x3F);
         strncpy(lobby_account_entries[2].f140, w.f18C, 0x3F);
         strncpy(lobby_account_entries[2].f180, w.f1CC, 0x3F);
-        copy_ip_address(&lobby_account_entries[2].dns1, &w.f164);
-        copy_ip_address(&lobby_account_entries[2].dns2, &w.f168);
+        copy_ip_address(&lobby_account_entries[2].dns1, &w.dns1);
+        copy_ip_address(&lobby_account_entries[2].dns2, &w.dns2);
         lobby_account_entries[2].valid = 1;
     } else {
         lobby_account_entries[2].valid = 0;
     }
     network_config.valid = 0;
     if (net_session_mode == 1 && init_struct((u8 *)&info) == 0) {
-        network_config.unknown_0 = info.f4;
-        network_config.local_ip = info.fA8;
-        network_config.netmask = info.fAC;
-        network_config.unknown_C = info.fB0;
-        network_config.dns_server1 = info.fB4;
-        network_config.dns_server2 = info.fB8;
-        network_config.gateway = info.fBC;
-        strncpy(network_config.user, info.f8, 0x7F);
-        strncpy(network_config.password, info.f88, 0x1F);
-        strncpy(network_config.hostname, info.fC4, 0x1F);
+        network_config.connection_type = info.connection_type;
+        network_config.local_ip = info.ip_addr;
+        network_config.netmask = info.netmask;
+        network_config.fC = info.fB0;
+        network_config.dns_server1 = info.dns1;
+        network_config.dns_server2 = info.dns2;
+        network_config.gateway = info.gateway;
+        strncpy(network_config.ppp_user, info.ppp_user, 0x7F);
+        strncpy(network_config.ppp_password, info.ppp_password, 0x1F);
+        strncpy(network_config.dhcp_hostname, info.dhcp_hostname, 0x1F);
         strncpy(network_config.domain, info.f104, 0x3F);
-        network_config.unknown_11C = info.f244;
+        network_config.f11C = info.f244;
         network_config.valid = 1;
     }
 }
-#undef A_80146D7C
-void copy_ip_address(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
-void teardown_boss2() {
+void copy_ip_address(u32 *dst, const u32 *src) { *dst = *src; }
+void teardown_dns() {
     if (dns_initialized != 0) {
         dns_clear_server();
         dns_term();
@@ -661,34 +547,25 @@ void teardown_boss2() {
     }
 }
 
-#undef lbl_8050C0A8
-
-struct TeardownBoss2Req { s32 type; u32 addr; u8 pad[0x18]; };
 
 struct PppPasswordBuffer { s32 value; u8 remaining[0x94]; };
 extern PppPasswordBuffer ppp_password_buffer;
-char *get_ppp_password_buffer(void);
-extern "C" {
-s16 dns_set_server(TeardownBoss2Req *);
-s32 disconnect_network(void);
-void TLobby__sub_80147978(void);
-}
 
 s32 set_dns_servers() {
-    TeardownBoss2Req req;
+    NetworkAddress req;
     s16 r1;
     s16 r2;
     if (dns_init() == 0) {
         dns_initialized = 1;
-        req.type = 4;
-        req.addr = lobby_dns_server_addr;
+        req.family = 4;
+        req.ipv4 = lobby_dns_server_addr;
         if (lobby_account_entries[2].dns1 != 0) {
-            req.addr = lobby_account_entries[2].dns1;
+            req.ipv4 = lobby_account_entries[2].dns1;
         }
         r1 = dns_set_server(&req);
-        req.addr = lobby_dns_server_addr2;
+        req.ipv4 = lobby_dns_server_addr2;
         if (lobby_account_entries[2].dns2 != 0) {
-            req.addr = lobby_account_entries[2].dns2;
+            req.ipv4 = lobby_account_entries[2].dns2;
         }
         r2 = dns_set_server(&req);
         OSReport(" pri_dns on ==> %d\n", r1);
@@ -704,7 +581,7 @@ s32 set_dns_servers() {
 s32 disconnect_network(void) {
     NetWaitParam stop;
 
-    if ((s32) lobby_net_session_id != -1) {
+    if (lobby_net_session_id != -1) {
         if_down((s16) lobby_net_session_id, 0);
         stop.wait = 1;
         ppp_stop(&stop);
@@ -714,7 +591,7 @@ s32 disconnect_network(void) {
         ppp_term();
         connect_pending_flags &= 0xFFFFFFFB;
     }
-    teardown_boss2();
+    teardown_dns();
     lobby_net_session_id = -1;
     return 0;
 }
@@ -830,10 +707,10 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.flags = 1;
     cfg.wait = 0;
     cfg.user = lobby_account_entries[2].host;
-    if (*TLobby__sub_80146D44() == 0) {
+    if (*get_modem_user_name() == 0) {
         cfg.password = get_ppp_password_buffer();
     } else {
-        cfg.password = lbl_8050CE14;
+        cfg.password = modem_user_name;
     }
     cfg.phone_number = get_modem_phone_number(idx);
     cfg.callback = 0;
@@ -883,7 +760,7 @@ s32 connect_modem(s32 idx, s16 id) {
                 cancel = 1;
                 result = 0x10;
             }
-            if (static_cast<s8>(func_801A5E54()) != 0) {
+            if (static_cast<s8>(poll_reset_request()) != 0) {
                 cancel = 1;
                 result = 0x11;
             }
@@ -901,11 +778,11 @@ s32 connect_modem(s32 idx, s16 id) {
     } while (state != 4);
     if (state == 4 && cancel == 0) {
         ppp_stat(&status);
-        lbl_8050C0A8[0] = 4;
-        lbl_8050C0A8[1] = status.addr_local;
-        lbl_8050C0A8[2] = 0;
-        lbl_8050C0A8[3] = 0;
-        if_config((s16)lobby_net_session_id, lbl_8050C0A8);
+        lobby_if_config[0] = 4;
+        lobby_if_config[1] = status.addr_local;
+        lobby_if_config[2] = 0;
+        lobby_if_config[3] = 0;
+        if_config((s16)lobby_net_session_id, lobby_if_config);
         set_default_gateway(status.addr_local);
         lobby_dns_server_addr = status.dns_local_primary;
         lobby_dns_server_addr2 = status.dns_local_secondary;
@@ -971,15 +848,15 @@ void init_account_entries() {
         net_session_mode = 1;
     }
     load_network_configs();
-    memset(lbl_8050CE14, 0, 0x20);
-    strncpy(lbl_8050CE14, lobby_account_entries[2].user, 0x1F);
+    memset(modem_user_name, 0, 0x20);
+    strncpy(modem_user_name, lobby_account_entries[2].user, 0x1F);
     memset(lbl_8050CE34, 0, 0x20);
     strncpy(lbl_8050CE34, lobby_account_entries[0].user, 0x1F);
 }
 
-void set_keyboard_buffer_cursor(int a0) { keyboard_buffer_cursor = a0; }
+void set_network_lease_time(s32 seconds) { network_lease_time = seconds; }
 
-void reset_keyboard_buffer_cursor(void) { keyboard_buffer_cursor = 0; }
+void clear_network_lease_time(void) { network_lease_time = 0; }
 char *get_ppp_password_buffer(void) {
     return (char *)&ppp_password_buffer.value;
 }

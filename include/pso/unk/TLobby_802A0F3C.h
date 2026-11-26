@@ -3,10 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_802A0F70(void);
-}
-
+void load_title_midashi_texture();
+void free_title_midashi_texture();
 
 // Whether the disc files failed verify_game_file_integrity; recorded in saved characters.
 int game_files_modified();

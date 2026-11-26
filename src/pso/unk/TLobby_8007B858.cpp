@@ -2,7 +2,8 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/TScreenFadeController.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/system/TScreenFadeController.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/system/TLanguage.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
@@ -38,6 +39,7 @@
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/unk/TDeferredRenderQueue.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
@@ -64,6 +66,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/memory.h"
 #include "pso/network/protocol/SendGuildCardPacket.h"
+#include "pso/unk/TLobby_80207DA8.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
@@ -127,9 +130,7 @@ extern "C" {
 void TSceneSora__sub_80207430(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
-s32 activate_triggered_floor_events();
 s32 restore_floor_telepipes();
-s32 __ct__15TWindowCtrlMainFv();
 
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
@@ -171,11 +172,10 @@ FloorResourceCallbacks lbl_8048D5A8[4] = {
     {load_technique_resources, TLobby__sub_8022F068},
     {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
-    {TLobby::update_difficulty, NULL},
+    {update_battle_params, NULL},
 };
 
 void TLobby::create_tasks() {
-    uaddr tmp;
     create_area_fog_ctrl();
     if (is_split_screen() == 0) {
         new TCameraCapturePass(tl_particlemodel, 1);
@@ -188,10 +188,7 @@ void TLobby::create_tasks() {
     TSceneSora::create_instance();
     TSetManager::create();
     activate_triggered_floor_events();
-    tmp = (uaddr)TObject::operator new(0x1C);
-    if (tmp != 0U) {
-        __ct__15TWindowCtrlMainFv();
-    }
+    new TWindowCtrlMain();
     new TWindowCtrl(tl_00);
     new TScreenFadeController(tl_fade);
     TLobby::set_fade_params(0);
@@ -215,7 +212,7 @@ void TLobby::create_tasks() {
 
 void TLobby::clear_session_buffers() {
     if (get_current_floor_area() == AREA_LOBBY) {
-        TLobby::free_dialing_gc();
+        free_player_tex_texture();
         free_lobby_textures();
         free_obj_lobby_main();
     }
@@ -241,7 +238,7 @@ s32 TLobby::run_lobby_load_tables() {
     if (get_current_floor_area() == AREA_LOBBY) {
         load_obj_lobby_main();
         load_lobby_textures();
-        TLobby__sub_802A5154();
+        load_player_tex_texture();
     }
     return 1;
 }

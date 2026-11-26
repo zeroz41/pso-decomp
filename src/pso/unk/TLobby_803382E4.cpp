@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/render/ProjectedColorDraw.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/UISprite.h"
@@ -7,7 +8,7 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_803382E4.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/prs.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
@@ -20,7 +21,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/GinjaView.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/AngleLookup.h"
@@ -101,7 +101,7 @@ void TLobby__sub_803382E4(void) {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
-        TObjFish::set_global_param(&loading_texture_list);
+        set_texture_list(&loading_texture_list);
         set_texture_num(0);
         begin_screen_textured_draw(0);
         draw_projected_textured_strip(loading_image_left, 4);
@@ -172,11 +172,11 @@ void TLobby__sub_80338534(void) {
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(overlay->title, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(overlay->title, 4);
+    end_projected_color_draw();
     if ((u32)info_icon_texture != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(info_icon_texture));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(info_icon_texture));
         if (lobby_request_flags & 4) {
             set_texture_num(1);
         } else {
@@ -187,7 +187,7 @@ void TLobby__sub_80338534(void) {
         draw_projected_textured_strip(overlay->info_icon, 4);
         end_screen_textured_draw();
         set_default_alpha_blend();
-        TObjFish::set_global_param(hud_texlist);
+        set_texture_list(hud_texlist);
         set_texture_num(5);
         begin_screen_textured_draw(1);
         draw_projected_textured_strip(overlay->hud_icon, 4);
@@ -231,6 +231,6 @@ void TLobby::update_pulse_colors(s32 request) {
 }
 #pragma pop
 
-void TWindowSubStatusDisp__sub_803386F0(void) { TObjPlayer::free_if_valid(info_icon_texture); }
+void free_info_icon_texture(void) { TObjPlayer::free_if_valid(info_icon_texture); }
 
 void load_info_icon(void) { info_icon_texture = (saddr)LoadPvmFileTls("InfoIcon.gvm"); }

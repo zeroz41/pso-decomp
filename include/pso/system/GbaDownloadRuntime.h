@@ -5,6 +5,9 @@
 
 extern u8 *gba_download_data_buffer;
 extern u32 gba_download_data_size;
+extern s32 gba_download_state;
+extern u8 gba_identifier_value;
+extern s16 gba_identifier_slot_plus_1;
 
 void gba_init(void);
 void stamp_joyboot_image(s32 arg0, s32 arg1);

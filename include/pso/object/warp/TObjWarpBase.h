@@ -6,6 +6,8 @@
 
 struct TAdVIConfigGC;
 struct TObjPlayer;
+struct TWindowMenu;
+class TTelepipeSelectField;
 
 struct TObjWarpBase : public TObjCollidable {
     static const char *class_name;
@@ -19,8 +21,8 @@ struct TObjWarpBase : public TObjCollidable {
     virtual s32 is_choice_confirmed_by(s32);
     static void free_globals();
     f32 warp_range;        // how close a player must come (the range find_warp_player_in_range tests)
-    uaddr menu_window;     // the menu window open for the user; close_menu closes it
-    void *field_collider;  // the TTelepipeSelectField selectable field the constructor news
+    TWindowMenu *menu_window; // the menu window open for the user; close_menu closes it
+    TTelepipeSelectField *field_collider; // the selectable field the constructor news
     u16 user_client_id;    // client id of the player using the warp, 0xFFFF for none
     u8 pad_ba[2];
 };

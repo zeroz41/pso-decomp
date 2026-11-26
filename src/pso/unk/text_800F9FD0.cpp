@@ -6,7 +6,7 @@
 
 extern "C" {
 s32 TLobby__sub_800F9FF4(TLobbyKey *key);
-bool TLobby__sub_800F9FD0(void) {
+bool is_async_file_read_busy(void) {
     if ((s32) async_file_read_state != 0) {
         return 1;
     }
