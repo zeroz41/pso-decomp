@@ -2,8 +2,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/UISprite.h"
-#include "pso/unk/text_802948A8.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
 #include <stdlib.h>
@@ -125,3 +125,8 @@ void fn_802947A8(void) {
     }
 }
 
+
+void *create_TObjCMHexTile(void *pos) {
+    void *o = (void *)new TObjCMHexTile(tl_07, pos);
+    return o;
+}

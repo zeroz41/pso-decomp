@@ -25,6 +25,8 @@ public:
 
 LAYOUT_ASSERT(TObjCMHexTile_size, sizeof(TObjCMHexTile) == 0x54);
 
+void *create_TObjCMHexTile(void *pos);
+
 extern "C" {
 void fn_802947A8(void);
 }
