@@ -349,7 +349,7 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     quest_download_cipher_state.set_seed(download_rng_seed_pair[0]);
     quest_download_cipher_state.apply_rng_cipher(words, size & ~3);
     quest_download_cipher_state.set_seed(words[0]);
-    quest_download_cipher_state.xor_buffer((u32 *)(words + 1), (s32)((size - 4) & ~3));
+    quest_download_cipher_state.xor_buffer(words + 1, (s32)((size - 4) & ~3));
 }
 s32 calc_download_crc32(void *data, s32 size) {
     u32 crc = -1;
