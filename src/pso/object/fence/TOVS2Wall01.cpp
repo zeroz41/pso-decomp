@@ -46,6 +46,7 @@
 #include "pso/object/fence/WallHitPacket.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 
@@ -83,7 +84,6 @@ CollisionBody ovs2wall01_collision_parts[7] = {
 
 BmlResource *vs2_wall01_bml_resource;
 
-// ---- text_8017B9AC
 // The raw set entry: its quest_object_entries row sits 4 bytes in.
 struct WallSetEntry { u8 pad_0[4]; s16 set_index; };
 
@@ -207,7 +207,6 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 
 #pragma pop
 
-// ---- TOVS2Wall01_8017BCC8
 
 
 void TOVS2Wall01::break_wall() {
@@ -246,10 +245,6 @@ f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
 }
 
 
-// ---- TOVS2Wall01_8017BE08
-extern "C" {
-int submit_cursor_candidate(void*, int);
-// ---- TOVS2Wall01_8017C7A4
 #pragma defer_codegen on
 
 WallHitPacket *WallHitPacket::init() {
@@ -274,7 +269,6 @@ void WallHitPacket::byteswap() {
 
 s32 TOVS2Wall01::remaining_hits() { return (s32)hits_left; }
 void TOVS2Wall01::set_remaining_hits(s32 count) { hits_left = count; }
-}
 void TOVS2Wall01::apply_knockback_from_attacker(u8 *, f32) {  }
 f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit((TObjBase *)attacker); }
 f32 TOVS2Wall01::receive_direct_attack(void *attacker, DirectAttackPayload, void *, s32, s32) { return take_hit((TObjBase *)attacker); }
@@ -457,5 +451,5 @@ void TOVS2Wall01::run_task() {
         return;
     }
 }
-int TOVS2Wall01::interact_player_neg1() { return submit_cursor_candidate(this, -1); }
+void TOVS2Wall01::interact_player_neg1() { submit_cursor_candidate(this, -1); }
 void TOVS2Wall01::release() { set_flag8(); queue_destruction(); }

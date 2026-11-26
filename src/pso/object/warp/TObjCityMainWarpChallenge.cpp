@@ -45,12 +45,12 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 const char *TObjCityMainWarpChallenge::class_name = "TObjCityMainWarpChallenge";
 static const char next_stage_format[] = "<- NEXT STAGE No.%d";
 static const char key_id_format[] = "<- KEY ID : %d";
 
 
-extern "C" s32 is_local_client_floor_leader();
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = class_name;

@@ -565,7 +565,7 @@ void TObjEnemyCustom::apply_enemy_state(s32 *state) {
     mode = saved_mode;
 }
 
-extern "C" u8 is_local_client_floor_leader(void) {
+extern "C" s32 is_local_client_floor_leader(void) {
     TObjPlayer *player;
     s32 id;
     s32 i;

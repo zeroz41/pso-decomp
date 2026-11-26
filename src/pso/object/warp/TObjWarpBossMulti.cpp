@@ -64,6 +64,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 
 #pragma defer_codegen on
@@ -92,7 +93,6 @@ const char *warp_boss_multi_name = "TObjWarpBossMulti";
 
 
 extern "C" {
-s32 is_local_client_floor_leader();
 TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range);
 BmlResource *boss_warp_resource_bundle;
 NJS_OBJECT *boss_warp_base_model;

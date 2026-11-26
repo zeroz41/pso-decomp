@@ -28,6 +28,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 void TObjCityMainWarpChallenge::close_windows() {
     if (yes_no_window != NULL) {
@@ -140,7 +141,6 @@ void TObjCityMainWarpChallenge::update_warp_window() {
 
 s32 city_main_warp_destination_id;
 
-extern "C" s32 is_local_client_floor_leader();
 
 void TObjCityMainWarpChallenge::update_area_transfer() {
     TObjPlayer *player;

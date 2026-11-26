@@ -77,4 +77,10 @@ void show_model_nodes(NJS_OBJECT **nodes);
 // Every visible node with a model under `root` (not its siblings), NULL-terminated.
 s32 collect_visible_nodes(NJS_OBJECT *root, NJS_OBJECT **out);
 
+extern "C" {
+// 1 when this client acts for the floor: outside phase 15 always; in it, when it is the
+// designated client on this floor, else the next client (in slot order) on this floor.
+s32 is_local_client_floor_leader(void);
+}
+
 #endif

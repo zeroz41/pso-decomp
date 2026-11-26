@@ -45,7 +45,6 @@ extern const f32 view_detail_near_depth = 155.0f;
 
 #include "pso/ui/TLevelSelect.h"
 extern "C" {
-int is_local_client_floor_leader(void*);
 int release_players_from_cutscene(void*);
 }
 
@@ -988,7 +987,7 @@ s32 TObjEneDD::is_phase_e() {
     return (u8) (get_main_phase() == 0xE);
 }
 
-int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(this); }
+int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(); }
 
 int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_state(); }
 
