@@ -94,12 +94,12 @@ struct TWindowDD : public TObject
     s32 get_current_child_index();
     TWindowDDStateEntry *get_state_entry(s32 state);
     void init_entry_field_64(s32 index);
-    static void refresh_sub(void* p, void* a1);
-    static void apply_input(void* p, void* a1);
-    static void update(void* p, void* child);
+    void refresh_sub(TWindowDD_WS_Word *page);
+    void apply_input(TWindowDD_WS_Word *page);
+    void dim_next_page(TWindowDD_WS_Word *page);
     void update(TWindowDD_WS_Word *child);
-    static void set_default_coords(void *window, TWindowDD_WS_Word *child);
-    static void init_layout(void *window, TWindowDD_WS_Word *child);
+    void set_default_coords(TWindowDD_WS_Word *child);
+    void init_layout(TWindowDD_WS_Word *child);
     void set_default_positions(TWindowDD_WS_Word *child);
     static void spawn_window();
     static void play_se();
@@ -138,6 +138,29 @@ struct TWindowDD : public TObject
     void update_state();
     s32 update_close_flag();
     void handle_input();
+    void run_state();
+    void handle_state_3();
+    void handle_state_9();
+    void handle_state_12();
+    void handle_state_13();
+    void handle_final_word_state();
+    void store_selected_word();
+    void store_selected_word_plain();
+    void begin_word_select_state();
+    void advance_word_select_level();
+    void pop_menu_level();
+    void open_numeric_parameter_input(s32 minimum, s32 maximum, s32 initial);
+    TWindowDD_WS_Word *commit_word_select_level();
+    void take_word_select_word(TWindowDD_WS_Word *word_window);
+    TWindowDD_WS_Word *get_or_create_word_select_child(s32 offset, s32 id);
+    void refresh_word_select_child_list();
+    void refresh_word_select_message(WordSelectMessage *message);
+    void create_word_select_cursor_label(s32 slot);
+    void move_label_to_third_page();
+    void update_word_select_child_position(s32 index);
+    s32 is_word_select_cancel_input();
+    s32 update_numeric_parameter_input();
+    void finish_word_select();
 };
 
 #include <stddef.h>
