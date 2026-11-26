@@ -10,6 +10,7 @@ struct AsyncFileReadRequest;
 struct EnemySetRecord;
 struct LobbyPlayerEntry;
 class TLobbyIdleTimer;
+class TEnemyTaskList;
 template <size_t size> struct TPlyText;
 class TPlyJoinGame;
 struct PlayerSyncRecord;
@@ -152,7 +153,7 @@ struct TLobby : public TObject {
     static s32 set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 flags);
     static s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits);
     static s32 sum_floor_enemy_counts();
-    static s32 spawn_matching_objects(s16 room, s16 wave, saddr wave_members);
+    static s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members);
     static s32 link_matching_objects(s16 room, s16 wave);
     static int get_selected_quest_id();
     static void *create_tl05_object(void *player);

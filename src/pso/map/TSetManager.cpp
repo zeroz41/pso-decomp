@@ -586,7 +586,7 @@ s32 TObjCollidable::set_flag8() {
 }
 
 
-s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
+s32 TLobby::spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members) {
     s16 set_index;
     s16 flags;
     s32 row_count;
@@ -616,7 +616,7 @@ s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
                 if (set_index != -1) {
                     enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
                 }
-                append_wave_member((SendPlayerUpdateObject *)wave_members, (SendPlayerUpdateItem *)enemy);
+                append_wave_member(wave_members, enemy);
                 spawned += 1;
             } else {
                 row->enemy = NULL;

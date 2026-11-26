@@ -6,6 +6,8 @@
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/TEnemyTaskList.h"
+#include "pso/enemy/TObjEnemy.h"
 
 void G_SetEntitySetFlags_6x76::bswap() {
     ((G_ClientIDHeader *)&header)->bswap();
@@ -25,9 +27,9 @@ void build_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *cmd) {
     cmd->header.size = sizeof(G_SetEntitySetFlags_6x76) / 4;
 }
 
-void append_wave_member(SendPlayerUpdateObject *o, SendPlayerUpdateItem *item) {
-    if (o->count < o->max) {
-        o->ptrs[o->count] = item;
-        o->vals[o->count++] = item->v;
+void append_wave_member(TEnemyTaskList *list, TObjEnemy *enemy) {
+    if (list->m_count < list->m_capacity) {
+        list->m_enemies[list->m_count] = enemy;
+        list->m_records[list->m_count++] = (EnemySetRecord *)enemy->set_entry;
     }
 }
