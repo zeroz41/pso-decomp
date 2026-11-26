@@ -51,7 +51,7 @@
 #include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/ui/window/TWindowMainMenu_8024E3CC.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026ACDC.h"
 #include "pso/unk/text_80076BC4.h"

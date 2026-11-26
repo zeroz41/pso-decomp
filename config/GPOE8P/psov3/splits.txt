@@ -5933,7 +5933,7 @@ pso/ui/window/TWindowCtrl.cpp:
 	.sdata2     start:0x805DCBD8 end:0x805DCC18
 
 pso/ui/window/TWindowCtrlMain.cpp:
-	.text       start:0x8024C820 end:0x8024E3CC
+	.text       start:0x8024C820 end:0x8024E400
 	.rodata     start:0x8044EBF0 end:0x8044EC58
 	.data       start:0x804CEAB8 end:0x804CEB30
 	.bss        start:0x80518730 end:0x805187D8
@@ -5941,11 +5941,8 @@ pso/ui/window/TWindowCtrlMain.cpp:
 	.sbss       start:0x805D6400 end:0x805D6420
 	.sdata2     start:0x805DCC18 end:0x805DCC5C
 
-pso/ui/window/TWindowMainMenu_8024E3CC.cpp:
-	.text       start:0x8024E3CC end:0x8024E434
-
 pso/ui/window/TWindowDeposit.cpp:
-	.text       start:0x8024E434 end:0x8024E68C
+	.text       start:0x8024E400 end:0x8024E68C
 	.rodata     start:0x8044EC58 end:0x8044EC70
 	.data       start:0x804CEB30 end:0x804CEB9C
 	.sdata      start:0x805D38E8 end:0x805D38F0

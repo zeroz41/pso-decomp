@@ -86,6 +86,15 @@ struct Poly_8024CE68 {
 }
 extern "C" s32 fn_8002AE08(s32 client_id);
 
+// -inline off,deferred: these sit at the end of the TU's text, so they come first in the source.
+s32 TWindowCtrlPlayer::is_main_menu_locked() { return (flags >> 6) & 0x1; }
+void TWindowMainMenu::close_main_menu() {  }
+void TWindowMainMenu::open_main_menu() {  }
+s32 TWindowMainMenu::is_open() { return menu_flags & 0x1; }
+s32 TWindowMainMenu::is_log_active() { return (menu_flags >> 3) & 0x1; }
+void TWindowMainMenu__sub_8024E3D0(void) {  }
+void TWindowMainMenu__sub_8024E3CC(void) {  }
+
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(parent) {
     m_name = window_ctrl_player_class_name;
     flags = 0;

@@ -17,6 +17,10 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
+void TWindowDeposit::set_meseta(s32 meseta) {
+    *(s32 *)((s8 *)get_array_entry(1) + 0x20) = meseta;
+}
+
 // inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
 struct DepositWindowLayout {
     u32 cols;
