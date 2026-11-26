@@ -844,7 +844,7 @@ G_ImposeHold_6x2C &G_ImposeHold_6x2C::operator=(G_ImposeHold_6x2C &src) {
     return *this;
 }
 
-s16 TBoss7Crawfish::get_floor() { return this->requested_action; }
+s16 TObjMotion::get_requested_action() { return requested_action; }
 BmlMotionEntry *PlayerActionProvider::get_motion_list(s32) { return 0; }
 int PlayerActionProvider::is_male() { return 0; }
 int PlayerActionProvider::load_motions(s32) { return 0; }

@@ -964,7 +964,6 @@ struct TObjPlayer : public TObjChara {
     s32 update_target_lock();
     void use_current_item();
     void unequip_all_units();
-    void *copy_unequip_fields(void *command);
     void equip_item_to_slot(TItem *item, s32 slot);
     static void bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventoryItem *records, int count);
     static void equip_saved_item_if_slot_empty(TObjPlayer *player, TPlyInventoryItem *record);

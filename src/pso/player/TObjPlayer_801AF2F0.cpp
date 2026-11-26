@@ -154,65 +154,10 @@ struct InventoryCreatePacket_801B849C {
 
 
 
-
-struct Pkt_801B01AC {
-    u8 hdr[2];
-    u16 client;
-    u16 target;
-    s16 amount;
-};
-
-typedef struct Pkt_801B0300
-{
-  u16 hdr;
-  u16 a;
-  u16 b;
-  s16 c;
-} Pkt_801B0300;
-
-typedef struct Pkt_801B0300 Pkt_801B0300;
-
-
-struct pkt_801B1FA4 {
-    u8 hdr[2];
-    u16 slot;
-    s32 heading;
-    Vec pos;
-};
-
-typedef struct Msg_801B1E54 {
-    u8 pad0[2];
-    u16 a;
-    s32 b;
-    s16 c;
-    u16 d;
-} Msg_801B1E54;
-
-
-
-struct Pkt_801B1EE0 {
-    u8 hdr[2];
-    u16 slot;
-    s32 heading;
-    f32 pos[3];
-};
-
-
-
-
-
-
 struct S801B4430_801b4430_801B3FD8 { s8 b[2]; s16 h; };
 
 
-
-
-
-
-
-
 struct Color_801B6964 { f32 r, g, b, a; };
-
 
 
 struct S801B7F4C { s8 b[2]; s16 h; s32 w; };
@@ -255,26 +200,6 @@ struct L_801B8CB0 { u16 f0; u16 f2; s32 f4; u8 f8[0x78]; };
 struct Cmd_801B8DE8 { u8 hdr[2]; s16 id; s32 a; s32 b; };
 
 
-
-typedef struct Cmd_801B9634 { u8 hdr[2]; s16 client; s32 val; } Cmd_801B9634;
-
-typedef struct Msg_801B9E0C {
-    u8 pad0[2];
-    u16 slot;
-    s32 c;
-} Msg_801B9E0C;
-
-struct UnequipItemPacket {
-    u16 header;
-    u16 client;
-    u32 item_id;
-    u32 reserved;
-};
-LAYOUT_ASSERT(UnequipItemPacketSize, sizeof(UnequipItemPacket) == 12);
-
-struct EquipItemPacket { u16 header; s16 client; s32 item_id; s32 slot; };
-LAYOUT_ASSERT(EquipItemPacketSize, sizeof(EquipItemPacket) == 12);
-
 struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
     s32 value;
     u8 remaining[0x24];
@@ -283,41 +208,11 @@ struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
 LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28);
 
 
-typedef struct Msg20_801BA8D4 {
-    u8 pad0[2];
-    u16 id;
-    s32 f4;
-    u8 vec[12];
-    s32 ang;
-} Msg20_801BA8D4;
-
-typedef struct Msg_801BA8D4 {
-    u8 pad0[2];
-    u16 id;
-    s16 floor;
-    u8 pad6[2];
-    s32 f8;
-    f32 speed;
-} Msg_801BA8D4;
-
-typedef struct Player_801BA8D4 {
-    u8 pad0[0x38];
-    u8 pos[12];
-    u8 pad44[0x60 - 0x44];
-    s32 ang;
-} Player_801BA8D4;
-
 struct Sp8Struct_801baa00 {
     s16 f0;
     s16 fA;
     s32 fC;
 };
-
-struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
-
-
-
-
 
 
 extern "C" {
@@ -1010,11 +905,11 @@ void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
 
 void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor) {
     if (player == 0 || player->obj_isState2_324() == 0) {
-        Msg_801BAB1C m;
-        ((G_InterLevelWarp_6x21 *)&m)->init();
-        m.id = player->get_entity_id();
-        m.value = floor;
-        ((G_InterLevelWarp_6x21 *)&m)->send();
+        G_InterLevelWarp_6x21 m;
+        m.init();
+        m.header.client_id = player->get_entity_id();
+        m.floor = floor;
+        m.send();
     }
 }
 
@@ -1052,10 +947,10 @@ void TObjPlayer::apply_state_transform() {
 
 void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
     G_SetPlayerFloor_6x1F m;
-    Msg_801BA8D4 m2;
-    Msg20_801BA8D4 m3;
+    G_SetAnimationState_6xAE m2;
+    G_SetPosition_6x20 m3;
     TObjPlayer *p;
-    Player_801BA8D4 *pl;
+    TObjPlayer *pl;
     m.init();
     m = *command;
     m.bswap();
@@ -1065,21 +960,21 @@ void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
             p->set_floor_index(get_floor_area(m.floor));
             p->set_floor(m.floor);
         }
-        pl = (Player_801BA8D4 *)get_local_player();
-        if (pl != NULL && (pl == NULL || ((TObjChara *)pl)->obj_isState2_324() == 0)) {
-            ((G_SetPosition_6x20 *)&m3)->init();
-            m3.id = ((TObjBase *)(pl))->get_entity_id();
-            m3.f4 = ((TObjPlayer *)pl)->get_floor();
-            VecCopy((Vec *)m3.vec, (const Vec *)pl->pos);
-            m3.ang = pl->ang;
-            ((G_SetPosition_6x20 *)&m3)->send();
+        pl = get_local_player();
+        if (pl != NULL && (pl == NULL || pl->obj_isState2_324() == 0)) {
+            m3.init();
+            m3.header.client_id = pl->get_entity_id();
+            m3.floor = pl->get_floor();
+            VecCopy(&m3.pos, &pl->position);
+            m3.angle_y = pl->rotation_y;
+            m3.send();
             if (TFontSmallLobby::is_lobby_floor_15() != 0) {
-                ((G_SetAnimationState_6xAE *)&m2)->init();
-                m2.id = ((TObjBase *)(pl))->get_entity_id();
-                m2.f8 = ((TObjPlayer *)pl)->get_state_flags();
-                m2.floor = ((TBoss7Crawfish *)pl)->get_floor();
-                m2.speed = ((TObjChara *)pl)->get_frame();
-                ((G_SetAnimationState_6xAE *)&m2)->send_to(m.header.client_id);
+                m2.init();
+                m2.header.client_id = pl->get_entity_id();
+                m2.player_flags = pl->get_state_flags();
+                m2.animation_number = pl->get_requested_action();
+                m2.animation_timer = pl->get_frame();
+                m2.send_to(m.header.client_id);
             }
         }
     }
@@ -1280,13 +1175,13 @@ call3:
 }
 
 void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot) {
-    EquipItemPacket packet;
+    G_EquipItem_6x25 packet;
     if (player->check_switch_available(item_id) != 0 && (player == NULL || player->obj_isState2_324() == 0)) {
-        ((G_EquipItem_6x25 *)&packet)->init();
-        packet.client = player->get_entity_id();
+        packet.init();
+        packet.header.client_id = player->get_entity_id();
         packet.item_id = item_id;
-        packet.slot = slot;
-        ((G_EquipItem_6x25 *)&packet)->send();
+        packet.equip_slot = slot;
+        packet.send();
     }
 }
 
@@ -1334,33 +1229,33 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
 
 void TObjPlayer::send_6x26_unequip_item(TObjPlayer *target, u32 item_id) {
     if (target == NULL || static_cast<TObjChara *>(target)->obj_isState2_324() == 0) {
-        UnequipItemPacket packet;
-        ((G_UnequipItem_6x26 *)&packet)->init();
-        packet.client = static_cast<TObjBase *>(target)->get_entity_id();
+        G_UnequipItem_6x26 packet;
+        packet.init();
+        packet.header.client_id = target->get_entity_id();
         packet.item_id = item_id;
-        ((G_UnequipItem_6x26 *)&packet)->send();
+        packet.send();
         static_cast<TObjPlayer *>(target)->send_unequip_held_item();
     }
 }
 
-void *TObjPlayer::copy_unequip_fields(void *command) {
-    copy_subcommand_header(this, command);
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)command + 4);
-    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)command + 8);
-    return this;
+G_UnequipItem_6x26 &G_UnequipItem_6x26::operator=(G_UnequipItem_6x26 &src) {
+    copy_subcommand_header(this, &src);
+    item_id = src.item_id;
+    equip_slot = src.equip_slot;
+    return *this;
 }
 
 void handle_6x26_unequip_item(G_UnequipItem_6x26 *command) {
-    Msg_801B9E0C m;
+    G_UnequipItem_6x26 m;
     TObjPlayer *player;
     TItem *item;
     TItemList *slot;
-    ((G_UnequipItem_6x26 *)&m)->init();
-    ((TObjPlayer *)(&m))->copy_unequip_fields(command);
-    ((G_UnequipItem_6x26 *)&m)->bswap();
-    if (validate_6x26_unequip_item((G_UnequipItem_6x26 *)&m) != 0) {
-        player = (TObjPlayer *)get_player_by_client_id(m.slot);
-        if (player != NULL && (slot = static_cast<TItemList *>(player->inventory_objects->start_inventory_update(m.c))) != NULL &&
+    m.init();
+    m = *command;
+    m.bswap();
+    if (validate_6x26_unequip_item(&m) != 0) {
+        player = get_player_by_client_id(m.header.client_id);
+        if (player != NULL && (slot = static_cast<TItemList *>(player->inventory_objects->start_inventory_update(m.item_id))) != NULL &&
             (item = slot->get_owner_if_alive()) != NULL) {
             player->unequip_item(item);
         }
@@ -1515,14 +1410,14 @@ s32 TObjPlayer::preview_unequip_stats(PlayerRequirementStats *out, s32 key) {
 #pragma pop
 
 void TObjPlayer::send_unequip_held_item() {
-    Cmd_801B9634 cmd;
+    G_UnequipItem_6x26 cmd;
     TItem *item;
     item = get_equipped_weapon(this);
     if ((item != NULL) && (item->check_equip_requirements(this, (s16 *)0) == 0) && (((uaddr)this == 0U) || (this->obj_isState2_324() == 0))) {
-        ((G_UnequipItem_6x26 *)&cmd)->init();
-        cmd.client = ((TObjBase *)((uaddr)this))->get_entity_id();
-        cmd.val = item->get_item_id();
-        ((G_UnequipItem_6x26 *)&cmd)->send();
+        cmd.init();
+        cmd.header.client_id = get_entity_id();
+        cmd.item_id = item->get_item_id();
+        cmd.send();
     }
 }
 
@@ -4577,54 +4472,54 @@ void TObjPlayer::resend_status_effects() {
 }
 
 void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading) {
-    struct pkt_801B1FA4 pkt;
-    ((G_TeleportPlayer_6x24 *)&pkt)->init();
+    G_TeleportPlayer_6x24 pkt;
+    pkt.init();
     TObjChara *chara = (TObjChara *)get_player_by_client_id(slot);
     if (chara != NULL && chara->obj_isState2_324() == 0) {
-        pkt.slot = slot;
-        pkt.heading = heading;
+        pkt.header.client_id = slot;
+        pkt.angle_y = heading;
         VecCopy(&pkt.pos, pos);
-        ((G_TeleportPlayer_6x24 *)&pkt)->send();
+        pkt.send();
     }
 }
 
 void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
-    Pkt_801B1EE0 pkt;
-    uaddr player;
-    ((G_TeleportPlayer_6x24 *)&pkt)->init();
-    *(G_TeleportPlayer_6x24 *)&pkt = *command;
-    ((G_TeleportPlayer_6x24 *)&pkt)->bswap();
-    if (validate_6x24_teleport_player((G_TeleportPlayer_6x24 *)&pkt) == 0) {
+    G_TeleportPlayer_6x24 pkt;
+    TObjPlayer *player;
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x24_teleport_player(&pkt) == 0) {
         return;
     }
-    player = (uaddr)get_player_by_client_id(pkt.slot);
-    if (player == 0) {
+    player = get_player_by_client_id(pkt.header.client_id);
+    if (player == NULL) {
         return;
     }
-    ((TObjBase *)player)->set_position_from(pkt.pos);
-    *(s32 *)(player + 0x60) = *(s32 *)(player + 0x3F0) = pkt.heading;
-    ((TObjChara *)player)->calc_attach_pos();
-    ((TObjPlayer *)player)->set_flag_4000();
-    ((TObjPlayer *)player)->refresh_equipment_slot();
-    TPlyOnCountOver::create(((TObjBase *)player)->get_entity_id(), 2, TObjPlayer::clear_flag_4000_callback);
-    if (((TObjChara *)player)->is_locally_controlled() != 0) {
-        reset_cameras_to_actor(reinterpret_cast<TObjPlayer *>(player), 0);
+    player->set_position_from(&pkt.pos);
+    player->rotation_y = player->target_heading = pkt.angle_y;
+    player->calc_attach_pos();
+    player->set_flag_4000();
+    player->refresh_equipment_slot();
+    TPlyOnCountOver::create(player->get_entity_id(), 2, TObjPlayer::clear_flag_4000_callback);
+    if (player->is_locally_controlled() != 0) {
+        reset_cameras_to_actor(player, 0);
     }
 }
 
 
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp) {
-    Msg_801B1E54 m;
+    G_ChangePlayerHP_6x2F m;
 
     TObjChara *chara = (TObjChara *)get_player_by_client_id(sender);
     TObjPlayer *target;
     if (((chara == NULL) || (chara->obj_isState2_324() == 0)) && (((target = get_player_by_client_id(client)) == NULL) || (target->is_locally_controlled() != 0))) {
-        ((G_ChangePlayerHP_6x2F *)&m)->init();
-        m.a = sender;
-        m.b = 0;
-        m.c = hp;
-        m.d = client;
-        ((G_ChangePlayerHP_6x2F *)&m)->send();
+        m.init();
+        m.header.client_id = sender;
+        m.type = 0;
+        m.amount = hp;
+        m.client_id = client;
+        m.send();
     }
 }
 
@@ -5397,7 +5292,7 @@ s32 TObjPlayer::record_death(TObject *killer, s32 count) {
 }
 
 void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage) {
-  Pkt_801B0300 pkt;
+  G_AddBattleDamageScores_6x8F pkt;
   u32 player;
   uaddr obj;
   if (TTecCtrl::is_technique_ready() != 0)
@@ -5428,11 +5323,11 @@ void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damag
       }
       if (TObjPlayer::is_final_phase() != 0)
       {
-        ((G_AddBattleDamageScores_6x8F *)&pkt)->init();
-        pkt.a = ((TObjBase *)(obj))->get_entity_id();
-        pkt.b = ((TObjBase *)(mine_trap))->get_entity_id();
-        pkt.c = damage;
-        ((G_AddBattleDamageScores_6x8F *)&pkt)->send();
+        pkt.init();
+        pkt.header.client_id = ((TObjBase *)(obj))->get_entity_id();
+        pkt.target_entity_id = ((TObjBase *)(mine_trap))->get_entity_id();
+        pkt.amount = damage;
+        pkt.send();
       }
     }
   }
@@ -5447,21 +5342,21 @@ void TObjPlayer::apply_camera_shake(TObjCollidable *target, s32 damage) {
     }
 }
 void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command) {
-    Pkt_801B01AC pkt;
+    G_AddBattleDamageScores_6x8F pkt;
     TObjPlayer *player;
     TObjCollidable *target;
     TObjPlayer *other;
-    ((G_AddBattleDamageScores_6x8F *)&pkt)->init();
-    *(G_AddBattleDamageScores_6x8F *)&pkt = *command;
-    ((G_AddBattleDamageScores_6x8F *)&pkt)->bswap();
-    if (validate_6x8F_add_battle_damage_scores((G_AddBattleDamageScores_6x8F *)&pkt) == 0) {
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x8F_add_battle_damage_scores(&pkt) == 0) {
         return;
     }
-    player = get_player_by_client_id((u16)pkt.client);
+    player = get_player_by_client_id(pkt.header.client_id);
     if (player == NULL) {
         return;
     }
-    target = find_entity_by_id(pkt.target);
+    target = find_entity_by_id(pkt.target_entity_id);
     if (target == NULL) {
         return;
     }

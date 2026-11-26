@@ -250,7 +250,7 @@ void TBoss7Crawfish::update_attack_state() {
     if (--attack_timer < 0) {
         change_state(1);
     }
-    if ((get_floor() == 2) && (is_passing_frame(9.0f) != 0)) {
+    if ((get_requested_action() == 2) && (is_passing_frame(9.0f) != 0)) {
         CollisionBody *body = bodies;
         if (body->flags & 0x02000000) {
             body->flags &= ~0x02000000;

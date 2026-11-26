@@ -1315,6 +1315,7 @@ struct G_UnequipItem_6x26 {
  void send();
  void bswap();
  void init();
+ G_UnequipItem_6x26 &operator=(G_UnequipItem_6x26 &src);
 };
 
 struct G_Unknown_6x02_6x03 {
