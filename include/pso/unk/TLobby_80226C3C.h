@@ -18,9 +18,7 @@ struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next;
 struct TLoadCtrlProgram { char archive[32]; s32 count, ntsc, pal; UpdateMusicSequencerPassage *modes[2]; };
 
 void start_music_crossfade(s32 frames);
-extern "C" {
 void play_area_music(char *name);
-}
 void update_music_fade(void);
 // Nonzero while area music plays.
 extern s32 music_state;

@@ -23,6 +23,7 @@
 #include "dolphin/ar.h"
 #include "dolphin/ai.h"
 #include "pso/unk/TLobby_801E2F94.h"
+#include "pso/object/collision/TObjBgmColCtrl.h"
 
 
 
@@ -63,7 +64,7 @@ s32 music_fade_frames_remaining;
 s32 bgm_stream_active;
 s16 music_current_slot;
 
-extern "C" char music_slot_entries[2][0x20];
+extern char music_slot_entries[2][0x20];
 u8 *TLobby::get_current_slot_entry() {
     if ((s32) music_state == 1) {
         return (u8 *)music_slot_entries[music_fade_slot_index];
@@ -279,9 +280,6 @@ void turn_off_bgm_p2(void) {
 
 extern "C" {
 s32 VISetPreRetraceCallback(void (*callback)(void));
-void update_all_zones__14TObjBgmColCtrlFl(void);
-extern char music_slot_entries[][0x20];
-void play_area_music(char *name);
 }
 struct SndHooks {
     void *(*malloc)(u32 size);
@@ -495,7 +493,7 @@ void TLobby::stop_audio_streams() {
 
 void play_area_music(char *name) {
     s32 flag;
-    update_all_zones__14TObjBgmColCtrlFl();
+    TObjBgmColCtrl::update_all_zones((saddr)name);
     TLobby::release_bgm_resource();
     flag = 1;
     if (music_state != 0) {
