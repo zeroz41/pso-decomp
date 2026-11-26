@@ -321,7 +321,7 @@ LAYOUT_ASSERT(TSendClientConfigSize, sizeof(TSendClientConfig) == 0x24);
     o(unused11, void) \
     o(handle_1F_recv_text_list, int entry_count, GameListEntry *entries, GameListEntry &entry_0) \
     o(handle_B0_recv_emergency_call, char *mesg) \
-    o(handle_88_player_arrow_color_list_packet, void) \
+    o(handle_88_player_arrow_color_list_packet, TArrowColorList *list) \
     o(handle_8A_lobby_name_packet, char *name) \
     o(handle_C5_player_challenge_data_packet, TPlyChallenge *records, s32 count) \
     o(handle_DA_lobby_event_packet, int theme) \

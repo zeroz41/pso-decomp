@@ -34,8 +34,6 @@ s32 build_item_id_mode;
 // The per-client item id tables (12 s32 each, allocated by TItemIdCounters).
 s32 *item_sync_counter_table;
 s32 *item_id_counter_table;
-void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request);
-void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 
 u32 build_item_id(u16 drop_id_base) {
     u32 id;
@@ -193,8 +191,7 @@ void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int 
 
 #pragma push
 #pragma fp_contract on
-void handle_6xA2_specializable_item_drop_request(void *command) {
-    G_SpecializableItemDropRequest_6xA2 *request = static_cast<G_SpecializableItemDropRequest_6xA2 *>(command);
+void handle_6xA2_specializable_item_drop_request(G_SpecializableItemDropRequest_6xA2 *request) {
     const G_StandardDropItemRequest_PC_V3_BB_6x60 &extended =
         request->__base_G_StandardDropItemRequest_PC_V3_BB_6x60;
     const G_StandardDropItemRequest_DC_6x60 &drop = extended.__base_G_StandardDropItemRequest_DC_6x60;
@@ -215,8 +212,7 @@ void handle_6xA2_specializable_item_drop_request(void *command) {
 }
 #pragma pop
 
-void handle_6x60_standard_drop_item_request(void *command) {
-    G_StandardDropItemRequest_PC_V3_BB_6x60 *req = static_cast<G_StandardDropItemRequest_PC_V3_BB_6x60 *>(command);
+void handle_6x60_standard_drop_item_request(G_StandardDropItemRequest_PC_V3_BB_6x60 *req) {
     const G_StandardDropItemRequest_DC_6x60 &drop = req->__base_G_StandardDropItemRequest_DC_6x60;
     s32 client;
     s32 slot;

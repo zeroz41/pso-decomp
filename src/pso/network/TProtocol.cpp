@@ -423,16 +423,13 @@ void TProtocol::send_lobby_arrow(int arrow) {
     send((u8*)&header, sizeof(header));
 }
 
-// The lobby registers a no-argument function as the 88 handler; the protocol passes it the list.
-typedef void (*arrow_color_list_handler)(TArrowColorList *list);
-
 void TProtocol::handle_cmd_88(packet &pkt) {
     char list[sizeof(TArrowColorList)];
-    arrow_color_list_handler handler;
+    recv_packet_handler_handle_88_player_arrow_color_list_packet handler;
 
     copy_arrow_color_list((TArrowColorList *)list, (TArrowColorList *)&pkt);
     ((TArrowColorList *)list)->bswap();
-    handler = (arrow_color_list_handler)m_recv_handlers.handle_88_player_arrow_color_list_packet;
+    handler = m_recv_handlers.handle_88_player_arrow_color_list_packet;
     if (handler != NULL) {
         handler((TArrowColorList *)list);
     }

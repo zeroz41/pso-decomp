@@ -35,7 +35,7 @@ s32 claim_trade_sub_window(TWindowSubTrade *window);
 
 void cancel_trade_for_member_out_of_range(s32 client_id);
 const char *format_trade_out_of_range_message(s32 client_id);
-void handle_6xA6_modify_trade_proposal(u8 *message_window);
+void handle_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *packet);
 void handle_6xA7(void);
 void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_final_confirmation(G_ModifyTradeProposal_6xA6 *proposal);

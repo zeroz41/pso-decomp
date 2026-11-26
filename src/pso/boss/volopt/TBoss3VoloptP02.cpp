@@ -1316,7 +1316,7 @@ void TBoss3VoloptP02::broadcast_values() {
     message.send();
 }
 
-extern "C" void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
+void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
     TBoss3VoloptP02 *boss;
     s32 i;
     u32 bit;

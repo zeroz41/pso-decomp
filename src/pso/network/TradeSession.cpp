@@ -366,8 +366,7 @@ void handle_6xA7(void) {  }
 
 
 LAYOUT_ASSERT(TradeProposalStateHandlersSize, sizeof(trade_proposal_state_handlers) == 0x140);
-void handle_6xA6_modify_trade_proposal(u8 *message_window) {
-    G_ModifyTradeProposal_6xA6 *packet = (G_ModifyTradeProposal_6xA6 *)message_window;
+void handle_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *packet) {
     TradeProposalHandler handler;
     u16 client_id;
     u8 what;

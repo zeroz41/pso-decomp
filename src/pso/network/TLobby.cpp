@@ -2639,7 +2639,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = TQuestVmDownLoadServer::receive_file_chunk;
     protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;
     protocol_instance->m_recv_handlers.handle_1F_recv_text_list = TLobby::open_information_list;
-    protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = (recv_packet_handler_handle_88_player_arrow_color_list_packet)apply_arrow_colors;
+    protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = apply_arrow_colors;
     protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = TLobby::copy_player_records;
     protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
     protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)TLobby::handle_reset_choice;

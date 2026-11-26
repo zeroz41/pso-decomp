@@ -13,6 +13,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TPacket.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/item/TItem.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -76,8 +77,6 @@ const char *TGameProtocol::class_name = "TGameProtocol";
 s32 dispatching_own_subcommand;
 
 
-extern "C" void handle_6x18_vol_opt2_boss_actions();
-void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 struct game_command_header;
 u32 lbl_804C5238[10] = { 0 };
 
