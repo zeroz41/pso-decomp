@@ -5,7 +5,7 @@
 
 TEF_PvrWave::~TEF_PvrWave() {
     NJS_TEXLIST *list;
-    list = reinterpret_cast<NJS_TEXLIST *>(get_scene_material_root()->texlist);
+    list = get_scene_material_root()->texlist;
     list->textures[texture_index].texture = saved_entry.texture;
     list->textures[texture_index].attr = saved_entry.attr;
     list->textures[texture_index].filename = saved_entry.filename;
@@ -20,7 +20,7 @@ TEF_PvrWave::TEF_PvrWave(TObject *parent, u8 *image, s32 size, s32 index) : TObj
     texture_index = index;
     wave = new TTextureWave(&texture_list);
     wave->init_image_buffer(image, size);
-    list = reinterpret_cast<NJS_TEXLIST *>(get_scene_material_root()->texlist);
+    list = get_scene_material_root()->texlist;
     saved_entry.texture = list->textures[index].texture;
     saved_entry.attr = list->textures[index].attr;
     saved_entry.filename = list->textures[index].filename;

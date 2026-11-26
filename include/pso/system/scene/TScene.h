@@ -45,6 +45,17 @@ struct TextureWaveEntry {
 // scene file (get_floor_scene_table).
 struct SceneNameIndex { char *name; s32 idx; };
 
+// Per area, whether players use the auxiliary surface flags there.
+struct SurfaceAreaTable { s32 enabled[36]; };
+
+// The areas of the group-selection list, ended by -1 (a struct so it copies by value).
+struct GroupSelectionAreaList { s32 areas[8]; };
+
+// The floor b.bin room visibility table: per room, the run of room ids seen from it;
+// the s16 room ids follow the entries.
+struct RoomVisibilityEntry { s32 id; s32 count; s32 start; };
+struct RoomVisibilityTable { u32 pad_00; s32 count; RoomVisibilityEntry entries[1]; };
+
 /* A map section's rotation, its node's angles plus the section's (passed to the section render callback). */
 struct SceneSectionAngles { s32 x, y, z; };
 
@@ -63,7 +74,8 @@ public:
     virtual ~TScene();
     virtual void run_task();
     virtual void render();
-    void sub_80204D7C();
+    // Cull mode 0: marks the sections in front of the camera within the map radius visible.
+    void cull_sections_within_map_radius();
     void cull_sections();
     // Whether pos lies in front of the camera and no further than depth.
     BOOL is_in_view_depth(Vec *pos, f32 depth, f32);
@@ -99,7 +111,7 @@ public:
     void render_static_map_section(SceneMaterialSection *section, s32 flagged_only);
     void render_animated_map_section(SceneMaterialSection *section, s32 flagged_only);
     void update_room_object_visibility(SceneMaterialSection *room);
-    void set_field4();
+    void reset_root_flags();
     void advance_scene_object_animations();
     void init_material_nodes();
     static void create_texture_wave_tasks(TObject *parent);
