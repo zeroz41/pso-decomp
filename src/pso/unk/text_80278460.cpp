@@ -1,6 +1,7 @@
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/ItemListRow.h"
 #include "types.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80278460.h"
 #include "pso/ui/window/TWindowSubItem.h"
@@ -27,16 +28,16 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
         }
     }
 }
-void disable_pack_item_rows(void *qst_pack_select_window, s32 item) {
+void disable_pack_item_rows(TWindowMenuIconLine *window, s32 item) {
     s32 i;
-    u16 *row;
-    for (i = 0; i < *(s16 *)((s8 *)qst_pack_select_window + 0x76); i++) {
-        row = (u16 *)((TWindowBase *)qst_pack_select_window)->get_array_entry(i);
-        if ((((TWindowLayoutEntry *)row)->is_flag_4_set() != 0) && (item == ((ItemListRow *)row)->get_item())) {
-            ((ItemListRow *)row)->category_style = 0xFFAAAAAA;
-            ((ItemListRow *)row)->style = 0xFF909090;
-            ((ItemListRow *)row)->suffix_style = 0xFF909090;
-            *(u16 *)((s8 *)row + 0) = (u16) (*(u16 *)((s8 *)row + 0) | 0x80);
+    ItemListRow *row;
+    for (i = 0; i < window->entry_capacity; i++) {
+        row = (ItemListRow *)window->get_array_entry(i);
+        if ((row->is_flag_4_set() != 0) && (item == row->get_item())) {
+            row->category_style = 0xFFAAAAAA;
+            row->style = 0xFF909090;
+            row->suffix_style = 0xFF909090;
+            row->flags |= 0x80;
         }
     }
 }

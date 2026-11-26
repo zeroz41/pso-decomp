@@ -16,7 +16,7 @@ public:
     TObjItemOKWindow(TObject *parent);
     virtual ~TObjItemOKWindow();
 
-    static TObjItemOKWindow *create(void *parent);
+    static TObjItemOKWindow *create(TObject *parent);
     s32 get_result();
     s32 is_done();
 };

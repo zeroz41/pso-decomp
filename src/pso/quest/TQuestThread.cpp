@@ -58,10 +58,6 @@
 
 #pragma readonly_strings on
 
-struct ItemNameEntry { s32 text_id; s32 value; };
-struct WindowPos { f32 x; f32 y; };
-struct ByteBlock_20 { u8 bytes[0x20]; };
-struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern "C" {
 
@@ -116,7 +112,7 @@ void TKeyBoardControl::clear_keyboard_flag60_bit1() {
     }
 }
 
-void TQuestThread::queue_destruction(void *obj) { ((TObject *)obj)->queue_destruction(); }
+void TQuestThread::queue_destruction(TObject *obj) { obj->queue_destruction(); }
 
 void TObjItemNameSelect::set_selection_index(int index) { item_name_selection_index = index; }
 
@@ -255,7 +251,7 @@ void TQuestManager::run_task() {}
 
 s32 TQuestThread::get_register(const TQuestManager *root, int index) {
     if (root != NULL) {
-        return root->ctx.registers[index];
+        return root->ctx.registers[index].i;
     }
     return 0;
 }
@@ -283,7 +279,7 @@ const char *TQuestThread::get_quest_name() {
 
 void handle_6x77_sync_quest_register(G_SyncQuestRegister_6x77 *cmd) {
     TQuestManager *root;
-    s32 *registers;
+    QuestValue *registers;
     u16 index;
     cmd->bswap();
     root = quest_mission_manager;
@@ -291,7 +287,7 @@ void handle_6x77_sync_quest_register(G_SyncQuestRegister_6x77 *cmd) {
         index = cmd->register_number;
         registers = root->ctx.registers;
         if (index <= 0xFFU) {
-            registers[index] = cmd->value;
+            registers[index].i = cmd->value;
         }
     }
 }
@@ -407,7 +403,7 @@ void TQuestThread::run_task() {
         break;
     case QST_WAIT_LIST:
         if (ctx.list_window->is_decided() != 0) {
-            ctx.registers[ctx.result_register] = ctx.list_window->get_selected_value();
+            ctx.registers[ctx.result_register].i = ctx.list_window->get_selected_value();
             ctx.list_window->close();
             ctx.list_window = NULL;
             state = QST_RUNNING;
@@ -440,7 +436,7 @@ void TQuestThread::run_task() {
     }
     case QST_WAIT_ITEM_OK:
         if (ctx.item_ok_window->is_done() != 0) {
-            ctx.registers[ctx.result_register] = ctx.item_ok_window->get_result();
+            ctx.registers[ctx.result_register].i = ctx.item_ok_window->get_result();
             ctx.item_ok_window->queue_destruction();
             ctx.item_ok_window = NULL;
             state = QST_RUNNING;
@@ -448,14 +444,14 @@ void TQuestThread::run_task() {
         break;
     case QST_WAIT_ITEM_CHOICE: {
         s32 item = ctx.pack_select_window->get_cursor_value();
-        if (item != ctx.registers[ctx.result_register]) {
-            ctx.registers[ctx.result_register] = item;
+        if (item != ctx.registers[ctx.result_register].i) {
+            ctx.registers[ctx.result_register].i = item;
             ctx.pack_select_help_window->set_displayed_item_by_id(item);
         }
         if (ctx.pack_select_window->is_decided() != 0 ||
             ctx.pack_select_window->is_cancelled() != 0) {
             if (ctx.pack_select_window->is_cancelled() != 0) {
-                ctx.registers[ctx.result_register] = -1;
+                ctx.registers[ctx.result_register].i = -1;
             }
             ctx.pack_select_window->close();
             ctx.pack_select_window = NULL;
@@ -588,7 +584,7 @@ void TQuestThreadBoard::run_task() {
         break;
     case QST_WAIT_LIST:
         if (ctx.list_window->is_decided() != 0) {
-            ctx.registers[ctx.result_register] = ctx.list_window->get_selected_value();
+            ctx.registers[ctx.result_register].i = ctx.list_window->get_selected_value();
             ctx.list_window->close();
             ctx.list_window = NULL;
             state = QST_RUNNING;
@@ -636,7 +632,7 @@ void TQuestThreadBoard::run_task() {
     }
     case QST_WAIT_ITEM_OK:
         if (ctx.item_ok_window->is_done() != 0) {
-            ctx.registers[ctx.result_register] = ctx.item_ok_window->get_result();
+            ctx.registers[ctx.result_register].i = ctx.item_ok_window->get_result();
             ctx.item_ok_window->queue_destruction();
             ctx.item_ok_window = NULL;
             state = QST_RUNNING;
@@ -644,8 +640,8 @@ void TQuestThreadBoard::run_task() {
         break;
     case QST_WAIT_ITEM_CHOICE: {
         s32 item = ctx.pack_select_window->get_cursor_value();
-        if (item != ctx.registers[ctx.result_register]) {
-            ctx.registers[ctx.result_register] = item;
+        if (item != ctx.registers[ctx.result_register].i) {
+            ctx.registers[ctx.result_register].i = item;
             ctx.pack_select_help_window->set_displayed_item_by_id(item);
         }
         if (ctx.pack_select_window->is_decided() != 0) {
@@ -695,8 +691,8 @@ TObjItemNameEntry::~TObjItemNameEntry() {
     if (keyboard != nullptr) { keyboard->queue_destruction(); keyboard = nullptr; }
 }
 
-TObjItemNameEntry *TObjItemNameEntry::create(void *parent) {
-    return new TObjItemNameEntry((TObject *)parent);
+TObjItemNameEntry *TObjItemNameEntry::create(TObject *parent) {
+    return new TObjItemNameEntry(parent);
 }
 
 s32 TObjItemNameEntry::process_keyboard_input() {
@@ -727,7 +723,7 @@ void TObjItemNameEntry::set_entered_name(const char *name) {
 }
 
 TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
-    WindowPos pos;
+    NJS_POINT2 pos;
     s32 i;
 
     m_name = obj_item_name_select_class_name;
@@ -741,7 +737,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
     selection_menu->set_depth(39000.0f);
     pos.x = 332.0f;
     pos.y = 80.0f;
-    message_window = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), (NJS_POINT2 *)&pos);
+    message_window = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), &pos);
     if (message_window != NULL) {
         ((TWindowMessage *)message_window)->append_line(get_message_text(0x46), 0x81);
     }
@@ -761,8 +757,8 @@ s32 TObjItemNameSelect::get_result() {
     return -1;
 }
 
-TObjItemNameSelect *TObjItemNameSelect::create(void *parent) {
-    return new TObjItemNameSelect((TObject *)parent);
+TObjItemNameSelect *TObjItemNameSelect::create(TObject *parent) {
+    return new TObjItemNameSelect(parent);
 }
 
 char *TObjItemNameSelect::get_selected_name() {
@@ -780,7 +776,7 @@ s32 TObjItemNameSelect::get_selected_value() {
 }
 
 TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
-    WindowPos pos;
+    NJS_POINT2 pos;
     s32 name;
 
     m_name = obj_item_ok_window_class_name;
@@ -805,7 +801,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     TQuestThread::set_status_flag_80(name_menu);
     pos.x = 332.0f;
     pos.y = 80.0f;
-    message_window = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), (NJS_POINT2 *)&pos);
+    message_window = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), &pos);
     if (message_window != NULL) {
         ((TWindowMessage *)message_window)->append_line(get_message_text(0x48), 0x81);
     }
@@ -831,6 +827,6 @@ s32 TObjItemOKWindow::get_result() {
     return -1;
 }
 
-TObjItemOKWindow *TObjItemOKWindow::create(void *parent) {
-    return new TObjItemOKWindow((TObject *)parent);
+TObjItemOKWindow *TObjItemOKWindow::create(TObject *parent) {
+    return new TObjItemOKWindow(parent);
 }

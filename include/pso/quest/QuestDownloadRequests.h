@@ -42,4 +42,30 @@ struct QuestConvertString {
 LAYOUT_ASSERT(QuestConvertStringSize, sizeof(QuestConvertString) == 0x80);
 extern QuestConvertString quest_convert_string ATTRIBUTE_ALIGN(4);
 
+// A conversion request: the handler id followed by its arguments.
+struct ImeRequest {
+    s32 id;
+};
+
+struct ImeTextRequest : ImeRequest {
+    char *text;
+    char *rest;
+};
+
+struct ImeOpenRequest : ImeRequest {
+    const char *a;
+    const char *b;
+};
+
+struct ImeConvertRequest : ImeRequest {
+    const u8 *reading;
+    char *text;
+    char *rest;
+};
+
+struct ImeRomajiRequest : ImeRequest {
+    const char *romaji;
+    char *kana;
+};
+
 #endif

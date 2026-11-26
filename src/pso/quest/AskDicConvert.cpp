@@ -1747,10 +1747,6 @@ s32 sum_entry_sizes(s32 start, s32 n) {
 #pragma dont_inline off
 #pragma inline_depth(1)
 #pragma opt_propagation off
-struct DownloadDecoderState {
-    u16 lead;
-    DownloadDecoderState() : lead(0) {}
-};
 
 inline s32 count_encoded_download_input(QuestDownloadInputEntry *&entry) {
     QuestDownloadInputEntry *end = input_entry_cursor;
@@ -2363,12 +2359,6 @@ s32 format_number_text_all_modes(const u8 *format, s32 length, QuestDownloadText
     return 1;
 }
 
-struct FormatNumberTextAllModesTable {
-    u8 units[0x14];
-    u8 fullwidth_digits[0x18];
-    u8 kanji_digits[0x18];
-    const u8 *sets[3];
-};
 // The digit and unit kanji the number formatter writes (Shift-JIS):
 // units = 拾壱弐参十百千万億兆 (no terminator), fullwidth_digits = ０..９,
 // kanji_digits = 〇一二三四五六七八九. The unit text also supplies set 2 (壱弐参).

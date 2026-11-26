@@ -34,7 +34,7 @@ public:
     static void clear_thread_state();
     static const char *get_quest_name();
     static s32 get_register(const TQuestManager *root, int index);
-    static void queue_destruction(void *obj);
+    static void queue_destruction(TObject *obj);
     static void set_status_flag_80(void *window);
 };
 
@@ -68,7 +68,7 @@ public:
     TObjItemNameEntry(TObject *parent);
     virtual ~TObjItemNameEntry();
 
-    static TObjItemNameEntry *create(void *parent);
+    static TObjItemNameEntry *create(TObject *parent);
     static void set_entered_name(const char *name);
     s32 process_keyboard_input();
 };
@@ -81,5 +81,7 @@ void load_area_dialogue_script();
 extern char entered_item_name[0x10];
 
 void clear_quest_floor_handlers(void);
+
+struct ItemNameEntry { s32 text_id; s32 value; };
 
 #endif
