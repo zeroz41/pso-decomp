@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_803DA12C(void *p);
+void init_ginja_texture_buffer(void *p);
 }
 
 #endif

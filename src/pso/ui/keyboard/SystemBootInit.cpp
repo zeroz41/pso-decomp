@@ -343,7 +343,7 @@ MainPhaseEntry main_phase_table[] = {
     { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { init_movie_phase, update_movie_phase, exit_movie_phase },
     { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TKeyBoardControl::update_main_menu_scene, run_main_frame, fn_80290BEC },
+    { TKeyBoardControl::update_main_menu_scene, run_main_frame, stop_audio_and_free_resources },
     { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TAdMultiChgGameModeGC::init_multi_save_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { start_ending_sequence, TKeyBoardControl::run_main_frame, TAdEndText::cleanup },

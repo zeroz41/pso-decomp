@@ -16,10 +16,10 @@ void TAdTrialModemChkGC::exit_modem_check_phase() {  }
 void TAdTrialModemChkGC::check_modem_result() {
     if (load_network_info() != 0) {
         init_account_entries();
-        TAdTrialModemChkGC__sub_8007FA24(0);
+        launch_trial_switcher_dol(0);
         return;
     }
-    TAdTrialModemChkGC__sub_8007FA24(1);
+    launch_trial_switcher_dol(1);
 }
 void TAdTrialModemChkGC::init_modem_check_phase() { TLobby::stop_audio_streams(); }
 

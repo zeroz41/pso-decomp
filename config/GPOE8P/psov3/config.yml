@@ -17786,7 +17786,7 @@ force_active:
   - "get_adx_threshold_and_chunk"
   - "adxt_insert_silence"
   - "adxt_set_time_offset"
-  - "TLobby__sub_803C9358"
+  - "adxt_update_base_time"
   - "TLobby__sub_803C94D8"
   - "adxt_set_server_freq"
   - "adxt_get_out_vol"

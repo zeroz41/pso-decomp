@@ -103,7 +103,7 @@ s32 TLobby::is_scene_ready() {
 }
 void TLobby__sub_80207E24(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
 void TLobby__sub_80207E44(void) {  }
-void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
+void randomize_offline_area_maps(void) { randomize_adventure_maps(); }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
     return get_floor_map_selection(floor, selection);
 }
@@ -119,7 +119,7 @@ saddr get_floor_scene_table(s32 area) {
 
 
 void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
-void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
+void reset_lobby_story_select(void) { TLobby::reset_story_select(); }
 typedef FloorLifecycleEntry E_80207F80;
 typedef FloorLifecycleCallback Fn_80208020;
 typedef FloorLifecycleEntry E_80208020;

@@ -273,7 +273,7 @@ void TLobby::reload_offline_area() {
     TKeyBoardControl::update();
     free_area_event_sets();
     clear_floor_population();
-    TLobby__sub_80207E48();
+    randomize_offline_area_maps();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     apply_phase_keyboard_mode();

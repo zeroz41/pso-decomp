@@ -44,7 +44,7 @@ public:
     s32 unk_48;
     u8 pad_4c[0x4];
     s32 shown_index;                      // 0x50: entry whose description is shown
-    OfflineQuestEntry *quests;            // 0x54: offline_quest_catalog_ep1 or lbl_804C9C10
+    OfflineQuestEntry *quests;            // 0x54: offline_quest_catalog_ep1 or offline_quest_entries
 };
 LAYOUT_ASSERT(TQuestListOffline_size, sizeof(TQuestListOffline) == 0x58);
 

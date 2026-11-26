@@ -17,7 +17,7 @@
 
 #pragma readonly_strings on
 
-const char *lbl_805D3838 = "TTecZonde"; // TTecZonde__name
+const char *TTecZonde_class_name = "TTecZonde"; // TTecZonde__name
 
 void TTecZonde::init_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(6, level, 0xFFFF);
@@ -183,7 +183,7 @@ void TTecZonde::run_task() {
 
 #pragma pop
 TTecZonde::TTecZonde(TObjBase *source, Vec *origin, TargetCursorList *target_list, s32 level) : TTecShot(source, origin, 0, level) {
-    m_name = lbl_805D3838;
+    m_name = TTecZonde_class_name;
     init_parameters();
     copy_technique_target_list(&targets, target_list);
     if (this->source != NULL) {

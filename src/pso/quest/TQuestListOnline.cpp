@@ -426,7 +426,7 @@ void TQuestListOnline::decompress_quest_buffer(const u8 *data, s32) {
     }
 }
 
-extern "C" void TQuestListOnline__sub_802176DC(const u8 *data, s32) {
+void decompress_online_quest_list(const u8 *data, s32) {
     if (quest_list_online_decompression_cursor != NULL) {
         online_quest_list_decompressed_size = prs_decompress_buffer(data, quest_list_online_decompression_cursor);
         online_quest_dat_buffer = quest_list_online_decompression_cursor;

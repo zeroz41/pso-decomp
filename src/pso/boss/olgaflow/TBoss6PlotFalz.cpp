@@ -392,7 +392,7 @@ void TBoss6PlotFalz::spawn_player_hit_effects() {
     TObjPlayer *p;
     s32 i;
     f32 k;
-    if (TBoss6Thanks__sub_8035D270() != 0) {
+    if (check_boss6_thanks_ship_door() != 0) {
         play_sound_effect(0x40033231, 0, 0, 0);
         k = 12.5f;
         for (i = 0; i < registered_player_count; i++) {

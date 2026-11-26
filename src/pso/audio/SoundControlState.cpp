@@ -507,7 +507,7 @@ u16 sound_bank_group_ids[38] = {
 
 
 SoundRequestVoice sound_request_voices[0x28];
-u8 lbl_80517BEC[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effects)
+u8 sound_bin_data[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effects)
 void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
@@ -950,8 +950,8 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     self->stack[0] = 0;
     self->depth = 0;
     self->set_output_mode(1);
-    memset(lbl_80517BEC, 0, sizeof(lbl_80517BEC));
-    result = open_afs_file_wait_render(0, "SOUND.BIN", lbl_80517BEC, 0xA0);
+    memset(sound_bin_data, 0, sizeof(sound_bin_data));
+    result = open_afs_file_wait_render(0, "SOUND.BIN", sound_bin_data, 0xA0);
     if (result != 0) {
         return 1;
     }

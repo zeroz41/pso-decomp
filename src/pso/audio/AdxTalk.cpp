@@ -134,7 +134,7 @@ inline void adxt_run_server(void) {
         adx_unlock();
     }
 }
-s32 TLobby__sub_803C9358(AdxtPlayer *player) {
+s32 adxt_update_base_time(AdxtPlayer *player) {
     s32 ret;
     s32 save;
     s32 pos;

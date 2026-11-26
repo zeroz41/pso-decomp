@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void fn_80290BEC(void);
+void stop_audio_and_free_resources(void);
 extern "C" {
 void run_main_frame(void);
 }

@@ -218,7 +218,7 @@ void load_floor_sound_bank(s32 floor) {
                 exec_adx_server();
                 TLobby::run_frame();
             } while (sound_control_state.is_ready() == 0);
-            TLobby__sub_80226B64(0);
+            reset_floor_sound_state(0);
         }
     }
 }

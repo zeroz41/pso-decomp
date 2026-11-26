@@ -26,7 +26,7 @@
 // A particle emitter of the revival effect: it starts after `delay` frames, `count` times.
 struct RevivalEmitter { s32 delay; s32 count; s32 id; s32 pad; };
 
-const char *lbl_805D3818 = "TTecReverser";
+const char *TTecReverser_class_name = "TTecReverser";
 RevivalEmitter revival_particle_table[3] = {
     {0, 0x1E, 0x35, 0},
     {0x23, 1, 0x36, 0},
@@ -104,7 +104,7 @@ void TTecShot::dispatch_technique_contact(s32) {
 }
 
 TTecReverser::TTecReverser(TObjBase *owner, Vec *origin, TargetCursorList *targets, s32 level) : TTecCircle(owner, origin, level) {
-    this->m_name = lbl_805D3818;
+    this->m_name = TTecReverser_class_name;
     this->params.copy(&technique_param_table[17]);
     this->apply_params(&this->params, level);
     copy_technique_target_list(&this->targets, targets);

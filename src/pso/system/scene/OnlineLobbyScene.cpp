@@ -668,7 +668,7 @@ void run_online_lobby_scene(void) {
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
-    TLobby__sub_80207F10();
+    reset_lobby_story_select();
     load_floor_object_set(0xF);
     TAdDialingGC::open();
     ((TAdDialingGC *)tl_window)->create();

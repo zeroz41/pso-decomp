@@ -51,7 +51,7 @@ OfflineQuestEntry offline_quest_catalog_ep1[28] = {
     {-1, -1, -1, -1, -1, -1, -1, ""},
 };
 
-OfflineQuestEntry lbl_804C9C10[5] = {
+OfflineQuestEntry offline_quest_entries[5] = {
     {27, 78, 79, 80, -1, 161, 0, "quest27"},
     {28, 81, 82, 83, 162, 163, 0, "quest28"},
     {29, 84, 85, 86, 164, 165, 0, "quest29"},
@@ -93,7 +93,7 @@ TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence,
     if (TLobby::get_instance() == 0) {
         quests = offline_quest_catalog_ep1;
     } else {
-        quests = lbl_804C9C10;
+        quests = offline_quest_entries;
     }
     set_state(0);
 }

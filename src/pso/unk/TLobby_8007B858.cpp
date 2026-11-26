@@ -130,7 +130,7 @@ const char *TObjPlayer::get_name() { return appearance.name; }
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
 // back to front by TLobby::clear_session_buffers (load, release pairs).
-FloorResourceCallbacks lbl_8048D4C0[29] = {
+FloorResourceCallbacks session_resource_callbacks[29] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
     {(FloorResourceCallback)TLobby__sub_802D7A0C, forward_npc_enemy},
@@ -163,7 +163,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
 };
 
 // Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
-FloorResourceCallbacks lbl_8048D5A8[4] = {
+FloorResourceCallbacks field_resource_callbacks[4] = {
     {load_technique_resources, free_technique_resources},
     {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
@@ -212,20 +212,20 @@ void TLobby::clear_session_buffers() {
         free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        TLobby::call_funcs_reverse(lbl_8048D5A8, 0x20);
+        TLobby::call_funcs_reverse(field_resource_callbacks, 0x20);
     }
-    TLobby::call_funcs_reverse(lbl_8048D4C0, 0xE8);
+    TLobby::call_funcs_reverse(session_resource_callbacks, 0xE8);
 }
 
 s32 TLobby::run_lobby_load_tables() {
     s32 second_result;
     s32 first_result;
-    first_result = run_load_callback_table(lbl_8048D4C0, 0xE8);
+    first_result = run_load_callback_table(session_resource_callbacks, 0xE8);
     if (first_result == 0) {
         return first_result;
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        second_result = run_load_callback_table(lbl_8048D5A8, 0x20);
+        second_result = run_load_callback_table(field_resource_callbacks, 0x20);
         if (second_result == 0) {
             return second_result;
         }

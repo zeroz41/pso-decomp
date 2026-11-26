@@ -5,7 +5,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
 
-extern const char lbl_805DB070 = '.';
+extern const char file_extension_dot = '.';
 void TLobby::debug_print(const char *fmt, ...) {}
 
 s32 TLobby::replace_file_extension(char *dest, char *filename, char *suffix) {
@@ -54,7 +54,7 @@ s32 TLobby::change_file_extension(char *dest, char *filename, char *ext) {
         return -1;
     }
     *p = 0;
-    strcat(buf, &lbl_805DB070);
+    strcat(buf, &file_extension_dot);
     strcat(buf, ext);
     strncpy(dest, buf, 0x20);
     return 0;

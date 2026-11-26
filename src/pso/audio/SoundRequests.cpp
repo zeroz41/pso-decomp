@@ -135,7 +135,7 @@ void stop_sound_request(s32 idx) {
     }
 }
 
-int TLobby__sub_80226308(void) { return TLobby::init_sound_mode(); }
+int init_lobby_sound_mode(void) { return TLobby::init_sound_mode(); }
 
 int TLobby::init_sound_mode() {
     u8 *p;
@@ -400,7 +400,7 @@ void update_sound_request_slots(void) {
     }
 }
 
-int TLobby__sub_80226B64(s32) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); TLobby__sub_80226308(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
+int reset_floor_sound_state(s32) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); init_lobby_sound_mode(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
 
 s32 reset_sound_request_state(void) {
     s32 i;

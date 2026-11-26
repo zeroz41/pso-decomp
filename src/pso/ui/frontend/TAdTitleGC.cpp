@@ -125,7 +125,7 @@ void TAdTitleGC::render() {
     draw_title_layer(title, 0x1FFFFFFF);
     set_color_blending_mode(0, 8);
     set_color_blending_mode(1, 6);
-    fn_802A0A30((saddr)this, (u8 *)text_pos, title, (alpha << 0x18) | 0xFF0000 | 0xFFFF, get_localized_text_entry(0x13, title));
+    draw_title_menu_text((saddr)this, (u8 *)text_pos, title, (alpha << 0x18) | 0xFF0000 | 0xFFFF, get_localized_text_entry(0x13, title));
     if (render_direct == 0) {
         restore_saved_depth_alpha_state();
     }

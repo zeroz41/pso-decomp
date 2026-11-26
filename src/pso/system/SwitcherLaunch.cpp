@@ -83,7 +83,7 @@ s32 launch_switcher_dol(const char *url) {
     return 1;
 }
 
-void TAdTrialModemChkGC__sub_8007FA24(s32 use_modem_url) {
+void launch_trial_switcher_dol(s32 use_modem_url) {
   s32 url_index;
   s32 modem_ready;
   modem_ready = 0;

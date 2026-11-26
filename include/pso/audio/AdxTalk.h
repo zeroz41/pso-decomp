@@ -9,7 +9,7 @@ struct AdxtPlayer;
 // --- C functions defined in AdxTalk.cpp ---
 extern "C" {
 void adxt_set_time_offset(AdxtPlayer *player, s32 offset);
-s32 TLobby__sub_803C9358(AdxtPlayer *player);
+s32 adxt_update_base_time(AdxtPlayer *player);
 void adxt_set_error_callback(AdxMessageCallback callback, s32 context);
 void TLobby__sub_803C94D8(void);
 void adxt_pause(AdxtPlayer *player, s32 paused);
