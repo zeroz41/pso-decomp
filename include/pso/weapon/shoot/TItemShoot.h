@@ -3,18 +3,19 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+class TEffStarLight2D;
 #include "dolphin/mtx.h"
 
 class TItemShoot : public TObject {
 public:
  Vec m_pos;
- s32 m_28;
- s32 m_count;
- s32 rot_b;
+ s32 rot_x;
+ s32 rot_y;
+ s32 rot_z;
  f32 m_life;
  Vec m_dir;
- Vec m_44;
- TObject* m_50;
+ Vec end_pos;
+ TEffStarLight2D* star_light;  // the gun shot's star light, which follows it
  s32 m_owner_item_id; // the owner item's get_item_id(); find_equipped_item(id) == NULL ends the shot
 
 public:

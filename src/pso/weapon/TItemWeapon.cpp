@@ -29,7 +29,7 @@
 // ---- pso/unk/text_80120908
 
 extern "C" {
-void draw_weapon_at_joint(saddr arg0, s8 arg1);
+void draw_weapon_at_joint(saddr weapon, s8 joint);
 }
 void set_shadow_material_state(void);
 
@@ -39,7 +39,7 @@ extern u8 *weapon_render_callback_object;
 extern s32 model_render_flags;
 
 void TItemWeapon::draw_weapon_model() {
-    s32 var_r30;
+    s32 visible;
     WeaponParams *parameters;
     if ((void *) this->owner == NULL || this->item_model == NULL) {
         return;
@@ -47,13 +47,13 @@ void TItemWeapon::draw_weapon_model() {
     {
         reset_model_node_counter();
         if (this->has_no_defer_render() != 0) {
-            var_r30 = 1;
+            visible = 1;
         } else {
-            var_r30 = this->update_object_view_visibility(400.0f, 20.0f);
+            visible = this->update_object_view_visibility(400.0f, 20.0f);
         }
         set_texlist((this->texlist));
         push_matrix_from((void *)((TObjMotion *)(this->owner))->get_joint_matrix((s8)get_attach_joint()));
-        if ((var_r30 != 0) && (this->is_hidden() == 0)) {
+        if ((visible != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = color_node;
             parameters = this->parameters;
@@ -117,12 +117,12 @@ void TItemWeapon::draw_weapon_model() {
     }
 }
 
-void draw_weapon_at_joint(saddr arg0, s8 joint) {
-    s8 temp_r31;
-    temp_r31 = (s32)((TItemEquipBase *)arg0)->get_attach_joint();
-    ((TItemEquipBase *)arg0)->set_attach_joint(joint);
-    ((TItemWeapon *)arg0)->draw_weapon_model();
-    ((TItemEquipBase *)arg0)->set_attach_joint(temp_r31);
+void draw_weapon_at_joint(saddr weapon, s8 joint) {
+    s8 saved_joint;
+    saved_joint = (s32)((TItemEquipBase *)weapon)->get_attach_joint();
+    ((TItemEquipBase *)weapon)->set_attach_joint(joint);
+    ((TItemWeapon *)weapon)->draw_weapon_model();
+    ((TItemEquipBase *)weapon)->set_attach_joint(saved_joint);
 }
 // ---- pso/unk/text_80120C5C
 void TItemWeapon::release_model() { memset(trails, 0, 16); clear_weapon_flags((uaddr)((void*)12)); TItemEquipBase::release_model(); }
