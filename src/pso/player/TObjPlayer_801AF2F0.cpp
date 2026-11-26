@@ -189,7 +189,6 @@ s32 fn_8000F740(void *);
 
 extern const f32 player_front_distance;
 extern Vec scratch_vec5;
-extern s32 lbl_805D55C0;
 extern PlayerCharDataEntry *lobby_char_slot_array;
 extern const char status_line_break[];
 extern f32 player_angle_per_degree;
@@ -1001,7 +1000,7 @@ void TObjPlayer::freeze_all_players() {
 }
 
 s32 TObjPlayer::end_camera_pan() {
-    if ((s32) lbl_805D55C0 != 0) {
+    if (TLobby::connection_lost != 0) {
         return 0;
     }
     if (!(mode_mask & 0x10000)) {
@@ -1053,7 +1052,7 @@ void TObjPlayer::handle_state2_transitions() {
     control_state = this->control_state;
     switch (control_state) {
     case 1:
-        if ((get_main_phase() != 0xE) && ((s32) lbl_805D55C0 != 0)) {
+        if ((get_main_phase() != 0xE) && (TLobby::connection_lost != 0)) {
             goto call3;
         }
         this->select_contextual_pickup_action();
@@ -2298,7 +2297,7 @@ void TObjPlayer::init_effect_5f0() {
 }
 
 void TObjPlayer::clear_lobby_flag(void *base) {
-    if ((s32) lbl_805D55C0 == 0) {
+    if (TLobby::connection_lost == 0) {
         ((TObjBase *)base)->clear_actor_flags((u32)0x10000);
     }
 }

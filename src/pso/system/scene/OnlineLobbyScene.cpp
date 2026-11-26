@@ -186,7 +186,6 @@ UdpTestGameEntry lobby_udp_test_game_entries[2] = {
     {0x9D6D3201, 0},
 };
 
-extern s32 lbl_805D55C0;
 s16 lobby_floor_reload_pending;
 int new_game_setup_flags;
 s32 online_lobby_scene_handle;
@@ -545,7 +544,7 @@ void run_lobby_frame() {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     take_snapshot();
-    if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
+    if ((TLobby::connection_lost == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
             online_lobby_frame_counter = 0;
         } else {
@@ -595,7 +594,7 @@ void run_main_frame() {
     TAdSinglePlyChrSelectGC::noop();
     take_snapshot();
     run_challenge_frame();
-    if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
+    if ((TLobby::connection_lost == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
             online_lobby_frame_counter = 0;
         } else {

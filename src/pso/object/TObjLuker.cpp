@@ -48,7 +48,6 @@ const char *luker_name = "TObjLuker";
 
 
 extern "C" {
-extern s32 lbl_805D55C0;
 
 void TObjLuker::hide_part(u16 part) {
     if (windows[part] != 0) {
@@ -246,7 +245,7 @@ void TObjLuker::transfer_to_town() {
   s32 flag;
   self = get_player_by_client_id(owner_id);
   local = get_player_by_client_id(local_client_id);
-  if ((((get_main_phase() == 0xF) && (lbl_805D55C0 != 0)) || (self == 0)) || (local == 0))
+  if ((((get_main_phase() == 0xF) && (TLobby::connection_lost != 0)) || (self == 0)) || (local == 0))
   {
     return;
   }

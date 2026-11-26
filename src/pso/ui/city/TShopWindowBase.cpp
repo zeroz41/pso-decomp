@@ -1,4 +1,5 @@
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/CounterTextLookup.h"
@@ -37,7 +38,6 @@ u16 TShopWindowBase::get_player_entity_id() {
     return 0;
 }
 
-extern "C" s32 lbl_805D55C0;
 
 s32 TShopWindowBase::is_cancel_pressed() {
     if (controller_input_state.controllers[player->get_controller_port()].pressed_buttons & 2) {
@@ -57,7 +57,7 @@ s32 TShopWindowBase::is_decide_pressed() {
 }
 
 void TShopWindowBase::run_task() {
-    if ((s32) lbl_805D55C0 == 0) {
+    if (TLobby::connection_lost == 0) {
         this->update_state();
     }
 }

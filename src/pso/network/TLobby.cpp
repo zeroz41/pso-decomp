@@ -214,7 +214,7 @@ s32 TLobby::lobby_number;
 s32 TLobby::join_lobby_idle_timer;
 s32 TLobby::lobby_block_high;
 s32 TLobby::login_pending_flag;
-s32 lbl_805D55C0;
+s32 TLobby::connection_lost;
 s32 lobby_login_result_flag;
 TWindowMessage *TLobby::card_list_window;
 TWindowMessage *TLobby::download_list_window;
@@ -1510,7 +1510,7 @@ void update_state_with_location(void) {
             TLobby::deferred_player_setup_state = 5;
             TLobby::lobby_state = 0x17;
         }
-        lbl_805D55C0 = 1;
+        TLobby::connection_lost = 1;
     }
 }
 void TLobby::update_state() {
@@ -1530,7 +1530,7 @@ void TLobby::update_state() {
             deferred_player_setup_state = 5;
             lobby_state = 0x17;
         }
-        lbl_805D55C0 = 1;
+        TLobby::connection_lost = 1;
     }
 }
 void TLobby::reset_state(int msg) {
@@ -1538,7 +1538,7 @@ void TLobby::reset_state(int msg) {
     TLobby::init_player_window_effect();
     join_lobby_idle_timer = 0;
     lobby_state = 0xC;
-    lbl_805D55C0 = 1;
+    TLobby::connection_lost = 1;
 }
 void TLobby::close_and_set_state_13(int msg) {
     show_join_entry_message(msg);
@@ -1759,7 +1759,7 @@ TLobby::~TLobby() {
     join_lobby_idle_timer = 0;
     lobby_block_high = 0;
     login_pending_flag = 1;
-    lbl_805D55C0 = 0;
+    TLobby::connection_lost = 0;
     player_setup_pending = 0;
     lobby_selected_game_list_index = 0;
     join_lobby_controller = NULL;
@@ -2547,7 +2547,7 @@ void TLobby::run_join_lobby_connect(TObject *parent) {
     TAdDialingMessageWindow *win;
     s32 res;
 
-    if (lbl_805D55C0 == 0) {
+    if (TLobby::connection_lost == 0) {
         reset_controller_input_state();
         getDateStamp(&date);
         DateToSeconds(&date, (int *)&date_seconds);
@@ -2626,7 +2626,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     join_lobby_idle_timer = 0;
     lobby_block_high = 0;
     login_pending_flag = 1;
-    lbl_805D55C0 = 0;
+    TLobby::connection_lost = 0;
     lobby_login_result_flag = 0;
     player_setup_pending = 0;
     local_client_id = 0;

@@ -254,7 +254,6 @@ extern "C" {
 // TCameraCtrl::get_nth_view_player_id, whose u16 return this caller does not see: it extends the id at every use.
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 }
-extern s32 lbl_805D55C0;
 s32 is_in_hunter_guild(s32 client_id) {
     s32 kind;
     s32 player;
@@ -293,7 +292,7 @@ s32 is_in_hunter_guild(s32 client_id) {
         return get_offline_instance(client_id);
     }
     if (get_main_phase() == 15) {
-        if (lbl_805D55C0 != 0) {
+        if (TLobby::connection_lost != 0) {
             return 1;
         }
         if (get_online_server_instance(client_id) != 0) {

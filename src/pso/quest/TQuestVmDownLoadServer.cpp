@@ -55,7 +55,6 @@ TQuestVmDownLoadServer *quest_vm_download_server_instance;
 extern TObject *tl_00;
 
 struct StatusWindowPos { f32 a; f32 b; };
-extern s32 lbl_805D55C0;
 extern uaddr lobby_player_construction_window;
 
 
@@ -452,7 +451,7 @@ void TQuestVmDownLoadServer::run_task() {
         this->update_mc_select();
         break;
     case 4:
-        if (lbl_805D55C0 != 0) {
+        if (TLobby::connection_lost != 0) {
             if (status_window != NULL) {
                 status_window->suspend_update();
             }
@@ -1027,7 +1026,7 @@ void TQuestVmDownLoadServer::check_client_connections() {
         return;
     }
     {
-        if ((s32) lbl_805D55C0 != 0) {
+        if (TLobby::connection_lost != 0) {
             if ((uaddr) this->mc_select != 0U) {
                 ((TObject *)(this->mc_select))->suspend_update();
             }

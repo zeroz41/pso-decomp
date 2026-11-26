@@ -519,7 +519,6 @@ void load_tables(int a0) { TAdSinglePlyChrSelectGC::selection_index = a0; memcpy
 
 
 extern "C" {
-extern s32 lbl_805D55C0;
 s32 is_challenge_task_running();
 s32 TAdSinglePlyChrSelectGC__sub_8028DC14();
 }
@@ -615,7 +614,7 @@ s32 save_active_character_to_card(void) {
     s32 ret;
     uaddr obj;
     u8 *buf;
-    if (get_main_phase() == 0xE || lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() == 0) {
+    if (get_main_phase() == 0xE || TLobby::connection_lost == 1 || TTecCtrl::is_technique_ready() == 0) {
         return 0xFFFF0000;
     }
     stop_pad_rumble();
@@ -730,7 +729,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
     s32 ret;
     uaddr obj;
     u8 *buf;
-    if (get_main_phase() == 0xE || lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() != 0 ||
+    if (get_main_phase() == 0xE || TLobby::connection_lost == 1 || TTecCtrl::is_technique_ready() != 0 ||
         is_challenge_task_running() == 1 || TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
         return 0xFFFF0000;
     }
@@ -1781,7 +1780,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
     TPlyInventoryItem *p;
     u32 size;
     if (get_main_phase() == 0xE || (get_current_floor_area() == AREA_LOBBY && card_file != 1) ||
-        lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() != 0 || is_challenge_task_running() == 1) {
+        TLobby::connection_lost == 1 || TTecCtrl::is_technique_ready() != 0 || is_challenge_task_running() == 1) {
         return 0xFFFF0000;
     }
     stop_pad_rumble();
@@ -2319,7 +2318,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
     s32 inst;
     saddr obj;
     u8 *buf;
-    if (lbl_805D55C0 == 1) {
+    if (TLobby::connection_lost == 1) {
         if (active_character_save_record != NULL) {
             active_character_save_record->save_count++;
             return active_character_save_record->save_count;

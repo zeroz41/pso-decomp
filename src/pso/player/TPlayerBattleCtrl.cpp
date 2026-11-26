@@ -154,7 +154,6 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 
 
 
-extern s32 lbl_805D55C0;
 
 BattleRanking duel_result_table[4];
 s32 battle_team_table[4];
@@ -194,7 +193,7 @@ TPlayerBattleCtrl::~TPlayerBattleCtrl() {
 }
 
 void TPlayerBattleCtrl::run_task() {
-    if (lbl_805D55C0 == 0) {
+    if (TLobby::connection_lost == 0) {
         if (state_1c != state_24) {
             if (state_20 != -1) {
                 state_20 = -1;

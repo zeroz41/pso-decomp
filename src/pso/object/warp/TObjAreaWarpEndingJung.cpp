@@ -116,13 +116,6 @@ union WarpStringPos {
 };
 // The table is 4-aligned in the original, so its entries are float pairs, not s64.
 
-extern "C" {
-
-
-
-extern s32 lbl_805D55C0;
-
-}
 
 BmlResource *forest_warp_bml_resource;
 NJS_TEXLIST *forest_warp_texture_list;
@@ -264,7 +257,7 @@ s32 TObjWarpBase::is_warp_enabled() {
     if (quest_warp_enabled == 0) {
         return 0;
     }
-    if (lbl_805D55C0 != 0) {
+    if (TLobby::connection_lost != 0) {
         return 0;
     }
     if ((player != NULL) && (player->is_actor_dead() != 0)) {
@@ -346,7 +339,7 @@ s32 TObjMapWarp::can_warp(u16 client_id) {
     if (quest_warp_enabled == 0) {
         return 0;
     }
-    if (lbl_805D55C0 != 0) {
+    if (TLobby::connection_lost != 0) {
         return 0;
     }
     if ((player != NULL) && (player->is_actor_dead() != 0)) {

@@ -58,7 +58,6 @@ s32 TShopGenerator::slot_active_table[4];
 extern "C" {
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 lbl_805D55C0;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFP8TObjBasef(u8 *self, u8 *player, f32 range);
 }
@@ -107,7 +106,7 @@ void TShopGenerator::run_task() {
         this->service_check_delay--;
         return;
     }
-    if (lbl_805D55C0 != 0) {
+    if (TLobby::connection_lost != 0) {
         return;
     }
     if (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {

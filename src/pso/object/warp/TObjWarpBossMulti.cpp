@@ -106,7 +106,6 @@ void release_boss_warp_resources(void);
 
 const char debug_next_stage_label[] = "<- NEXT STAGE No.";
 const char debug_key_id_format[] = "<- KEY ID : %d";
-extern s32 lbl_805D55C0;
 
 
 
@@ -729,7 +728,7 @@ s32 TObjWarpBoss::are_all_players_in_range() {
 }
 
 s32 TObjWarpBossMulti::get_boss_warp_flag() {
-    return ((get_main_phase() - 0xF) == 0) ? lbl_805D55C0 : 0;
+    return ((get_main_phase() - 0xF) == 0) ? TLobby::connection_lost : 0;
 }
 
 s32 TObjWarpBossMulti::is_lobby_active() {

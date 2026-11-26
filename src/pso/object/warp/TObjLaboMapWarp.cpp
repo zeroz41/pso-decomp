@@ -90,13 +90,6 @@ s32 city_main_warp_visible_destination_mask;
 BmlResource *labo_map_warp_resource_bundle;
 
 
-extern "C" {
-
-extern s32 lbl_805D55C0;
-
-
-
-}
 
 const char *bm_obj_warp_labo_model_names[3] = {
     "warp_citybeam.gj",
@@ -174,7 +167,7 @@ s32 TObjCityMainWarpChallenge::are_all_players_in_range() {
 }
 
 s32 TObjCityMainWarp::get_phase_flag() {
-    return ((get_main_phase() - 0xF) == 0) ? lbl_805D55C0 : 0;
+    return ((get_main_phase() - 0xF) == 0) ? TLobby::connection_lost : 0;
 }
 char *get_area_title() {
     return area_title;
