@@ -385,7 +385,6 @@ struct TLobby : public TObject {
     static void update_subsystems();
     static void update_game_modes();
     static void free_global_buffers();
-    void fill_guild_card_from_char(s32 index);
     void roll_item_grind_bonus();
     static void free_map_resources();
     static s32 count_members();
