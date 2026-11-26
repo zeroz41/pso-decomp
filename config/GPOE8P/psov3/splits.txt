@@ -491,7 +491,7 @@ pso/boss/darkfalz/TBoss4DarkFalz.cpp:
 	.sbss       start:0x805D4D58 end:0x805D4D78
 	.sdata2     start:0x805D8908 end:0x805D8938
 
-pso/boss/darkfalz/TBoss4DarkFalzStates.cpp:
+pso/boss/darkfalz/TBoss4DarkFalz_States.cpp:
 	.text       start:0x8004C1AC end:0x8004D8C8
 	.ctors      start:0x80433F34 end:0x80433F38
 	.rodata     start:0x804371E0 end:0x804372B0
@@ -975,7 +975,7 @@ pso/system/SubtractiveRng.cpp:
 	.text       start:0x8007C0CC end:0x8007C5C0
 	.bss        start:0x80500398 end:0x80500598
 
-pso/boss/derolle/ScreenSnapshot.cpp:
+pso/boss/derolle/TObjBoss2Tunnel_Snapshot.cpp:
 	.text       start:0x8007C5C0 end:0x8007EAF8
 	.rodata     start:0x80438A08 end:0x80438A98
 	.data       start:0x8048D5C8 end:0x8048DF58

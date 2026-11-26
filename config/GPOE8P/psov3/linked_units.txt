@@ -234,7 +234,7 @@ pso/render/MaterialColorFade.cpp
 pso/unk/SampledMotionPoints.cpp
 pso/boss/darkfalz/ModelNodeTables.cpp
 pso/boss/darkfalz/TBoss4CheckEmpty.cpp
-pso/boss/darkfalz/TBoss4DarkFalzStates.cpp
+pso/boss/darkfalz/TBoss4DarkFalz_States.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
 pso/boss/darkfalz/TBoss4Fade.cpp
 pso/boss/darkfalz/TBoss4Thanks.cpp
@@ -308,7 +308,7 @@ pso/boss/derolle/TObjBoss2CeilJunk.cpp
 pso/boss/derolle/Boss2CommonResource.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
-pso/boss/derolle/ScreenSnapshot.cpp
+pso/boss/derolle/TObjBoss2Tunnel_Snapshot.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
 pso/boss/barbaray/TObjBoss7TunnelCol.cpp

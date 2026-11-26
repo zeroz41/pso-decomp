@@ -87,7 +87,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
-// ScreenSnapshot.cpp's debug chunk model.
+// TObjBoss2Tunnel_Snapshot.cpp's debug chunk model.
 
 // TObjEneDD.cpp's view-detail distances.
 

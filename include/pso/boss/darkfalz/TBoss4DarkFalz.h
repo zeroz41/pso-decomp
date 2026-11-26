@@ -104,7 +104,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static s32 is_active();
     void spawn_zako_rings();
     void enter_demo2_phase();
-    // State handlers installed in the state table dark_falz_state_table (TBoss4DarkFalzStates.cpp).
+    // State handlers installed in the state table dark_falz_state_table (TBoss4DarkFalz_States.cpp).
     void update_ol_ending();
     void update_type3();
     void update_demo_warp3();

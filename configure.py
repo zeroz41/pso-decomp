@@ -679,7 +679,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/enemy/gibon/TObjEneBm5GibonU.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/shinowa/TObjEneMe3Shinowa.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/derolle/ScreenSnapshot.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-opt nopropagation", "-pool off", "-sdata 4")},
+    "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-opt nopropagation", "-pool off", "-sdata 4")},
     # Its three vtables sit in .data as TBoss2TargetMine, TBoss2FloorMine, TBoss2Mine: key-function text order, so deferred with the source written backwards.
     "pso/boss/derolle/TBoss2Mine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/enemy/gigue/TObjEneMe1GiGueHomingShot.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -697,7 +697,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/balclaw/TObjEneBalClawClaw.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/particle/TPlyFollowParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/derolle/TBoss2BreakUp.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/boss/darkfalz/TBoss4DarkFalzStates.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/darkfalz/TBoss4DarkFalz_States.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/lappy/TObjEneLappy.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/wolf/TObjEneBm5Wolf.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/gee/TObjEneMe1Gee.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

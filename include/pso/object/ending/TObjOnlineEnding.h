@@ -45,7 +45,7 @@ struct TObjOnlineEnding : public TObjBase {
     s32 elapsed_frames;
     static s32 get_card_window_value();
     static int get_instance();
-    static void*get_attack_entry(int a0);
+    static void *get_attack_entry(int index);
     void close_window();
     void create_result_window();
     static void *create(void *parent);
