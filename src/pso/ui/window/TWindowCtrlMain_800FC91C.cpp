@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/font/TFontPlayerStatusHelp.h"
-#include "pso/ui/window/TWindowCtrlMain_800FC91C.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
@@ -88,11 +87,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
 }
 
 void *TFontSmallLobby::create(s32 id) {
-    void *o = TObject::operator new(0x64);
-    if (o != NULL) {
-        o = fn_800FCC78((u8 *)o, id);
-    }
-    return o;
+    return new TFontPlayerStatusHelp(id);
 }
 
 void TFontPlayerStatusHelp::run_task() {
@@ -128,21 +123,6 @@ TFontPlayerStatusHelp::~TFontPlayerStatusHelp() {
 
 }
 
-struct RecoveredGlobal_800FCC78_lbl_8049CA54 {
-    s32 value;
-    u8 remaining[0x18];
-};
-
-LAYOUT_ASSERT(RecoveredGlobal_800FCC78_lbl_8049CA54_size, sizeof(RecoveredGlobal_800FCC78_lbl_8049CA54) == 0x1C);
-
-extern "C" {
-u8 * __ct__14TFontSmallHelpFUlUllUl(void *, s32, s32, s32, s32);
-extern RecoveredGlobal_800FCC78_lbl_8049CA54 __vt__21TFontPlayerStatusHelp;
-u8 *fn_800FCC78(u8 *font, s32 id) {
-    __ct__14TFontSmallHelpFUlUllUl(font, id, -1, -1, 0);
-    *(s32 **)((s8 *)font + 0x18) = &__vt__21TFontPlayerStatusHelp.value;
-    *(s32 *)((s8 *)font + 0x60) = 5;
-    return font;
-}
-
+TFontPlayerStatusHelp::TFontPlayerStatusHelp(u32 player) : TFontSmallHelp(player, -1, -1, 0) {
+    card_status_bits = 5;
 }

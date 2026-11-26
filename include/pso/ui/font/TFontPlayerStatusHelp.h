@@ -5,6 +5,7 @@
 
 class TFontPlayerStatusHelp : public TFontSmallHelp {
 public:
+    TFontPlayerStatusHelp(u32 player);
     virtual ~TFontPlayerStatusHelp();
     virtual void run_task();
     s32 card_status_bits;

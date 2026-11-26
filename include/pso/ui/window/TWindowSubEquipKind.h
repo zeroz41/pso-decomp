@@ -3,11 +3,12 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+struct WindowDrawContext;
 
 struct TWindowSubEquipKind : public TWindowMenuIconLine {
     TWindowSubEquipKind(u8 *parent, s32 client);
     virtual ~TWindowSubEquipKind();
-    void draw_tab_label(void *);
+    void draw_tab_label(WindowDrawContext *context);
     void set_trade_state(s16 trade_state);
     virtual void render();
     s16 trade_state;  // indexes the status-display tab labels; 4 after the list opens

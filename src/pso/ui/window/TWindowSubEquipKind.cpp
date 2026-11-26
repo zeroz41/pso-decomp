@@ -20,10 +20,7 @@ void TWindowSubEquipKind::render() {
 
     context = get_draw_context();
     draw_window_frame(context);
-    draw_visible_window_entries(
-        this,
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
-        context);
+    draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     if (trade_state != 4) {
         draw_tab_label(context);

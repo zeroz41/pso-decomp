@@ -51,14 +51,6 @@ void TWindowSubAreaMapDisp::update_visibility() {
 }
 
 
-struct RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp { s32 value; u8 remaining[0x18]; };
-LAYOUT_ASSERT(RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp) == 0x1C);
-
-struct RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
     {610.0f, 188.0f}, 50150.0f, NULL, 3,
 };
@@ -168,7 +160,6 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
     }
     delete heading;
 }
-LAYOUT_ASSERT(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C);
 TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
     s32 title_len;
     WindowHeading *display;
