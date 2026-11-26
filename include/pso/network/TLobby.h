@@ -472,7 +472,6 @@ struct TLobby : public TObject {
     // Members other code calls by their mangled names.
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
-    static s32 adxf_open_file(int, void *, int, void *);
     static void *bsearch_record(void *, int, int);
     static void bswap_6x6E_sync_game_state(void*);
     static void bswap_and_handle_packet(void *packet, int size);

@@ -8476,8 +8476,8 @@ force_active:
   - lbl_805D7504
   - lbl_805D7508
   - lbl_805D750C
-  - lbl_805D75D0
-  - lbl_805D75F0
+  - adxf_init_count
+  - adxf_load_partition_buffer
   - gcci_init_guard
   - lbl_805D76A8
   - debug_text_pool_size

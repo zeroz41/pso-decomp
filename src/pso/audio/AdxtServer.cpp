@@ -31,9 +31,9 @@ extern "C" {
 void adxt_trap_end_update(void *context);
 
 void adxt_stat_decinfo(AdxtPlayer *self);
-s32 lbl_805D7578;
-s32 lbl_805D757C;
-s32 lbl_805D7580;
+s32 adxt_rna_queue_size;
+s32 adxt_sj_available;
+s32 adxt_num_output_channels;
 
 // Waits until every output SJ holds data, then starts the RNA.
 inline void adxt_stat_prep(AdxtPlayer *self) {
@@ -41,10 +41,10 @@ inline void adxt_stat_prep(AdxtPlayer *self) {
     s32 i;
     if (audio_stream_get_state(self->input_state) == 3) {
         n = self->input_state->get_channels();
-        lbl_805D7580 = n;
+        adxt_num_output_channels = n;
         for (i = 0; i < n; i++) {
-            lbl_805D757C = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
-            if (lbl_805D757C >= 0x40) {
+            adxt_sj_available = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
+            if (adxt_sj_available >= 0x40) {
                 break;
             }
         }
@@ -92,7 +92,7 @@ inline void adxt_stat_playing(AdxtPlayer *self) {
 }
 // Stops the RNA once its queue is empty.
 inline void adxt_stat_playend(AdxtPlayer *self) {
-    lbl_805D7578 = query_available_size(self->rna_handle);
+    adxt_rna_queue_size = query_available_size(self->rna_handle);
     if (query_available_size(self->rna_handle) <= 0) {
         gcrna_bridge_set_play_sw(self->rna_handle, 0);
         self->stat = 5;
