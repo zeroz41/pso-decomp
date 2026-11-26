@@ -15,14 +15,14 @@
 
 TBoss8DragonLeaderPart *boss8_dragon_leader_part;
 
-TBoss8Dragon *TBoss8Dragon::get_part(s32 index) {
+TBoss8Dragon *get_boss8_dragon_part(s32 index) {
     if (boss8_dragon_leader_part == NULL) {
         return NULL;
     }
     return (TBoss8Dragon *)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(index));
 }
 
-u16 TBoss8Dragon::get_part_entity_id(s32 index) {
+u16 get_boss8_dragon_part_entity_id(s32 index) {
     if (boss8_dragon_leader_part == NULL) {
         return 0xFFFFU;
     }
@@ -95,7 +95,7 @@ void TBoss8Dragon::update_all_parts() {
     }
 }
 
-s32 TBoss8Dragon::get_live_monitor_count() {
+s32 get_boss8_live_monitor_count() {
     s32 i;
     s32 alive;
 

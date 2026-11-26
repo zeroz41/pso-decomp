@@ -7703,7 +7703,7 @@ pso/boss/goldragon/TBoss8DragonColli.cpp:
 	.sdata      start:0x805D4000 end:0x805D4008
 	.sdata2     start:0x805DED20 end:0x805DED3C
 
-pso/boss/goldragon/TBoss8Dragon_802F3348.cpp:
+pso/boss/goldragon/TBoss8DragonLeaderPart.cpp:
 	.text       start:0x802F3348 end:0x802F3CA0
 	.data       start:0x804E4BF0 end:0x804E4C08
 	.sbss       start:0x805D6978 end:0x805D697C

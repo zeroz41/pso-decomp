@@ -128,7 +128,7 @@ void TObjLiveCameraCtrl::run_task() {
 
 
 void TObjLiveCameraCtrl::update_toggle_state() {
-    if (slot >= TBoss8Dragon::get_live_monitor_count()) {
+    if (slot >= get_boss8_live_monitor_count()) {
         if (enabled == 1) {
             if (view != NULL) {
                 view->disable();
@@ -189,7 +189,7 @@ void TObjLiveCameraCtrl::update_live_camera() {
         }
         break;
     case SHOT_OPENING:
-        boss = TBoss8Dragon::get_part(0);
+        boss = get_boss8_dragon_part(0);
         if (boss != NULL && boss->has_appeared() != 0) {
             shot_frames = 0;
         }
@@ -278,7 +278,7 @@ void TObjLiveCameraCtrl::turn_orbit_toward(int angle) {
 
 u16 TObjLiveCameraCtrl::get_player_target() { return local_client_id; }
 
-u16 TObjLiveCameraCtrl::get_boss_target() { return TBoss8Dragon::get_part_entity_id(0); }
+u16 TObjLiveCameraCtrl::get_boss_target() { return get_boss8_dragon_part_entity_id(0); }
 
 void TObjLiveCameraCtrl::load_view_texture() {
     if (view != NULL) {

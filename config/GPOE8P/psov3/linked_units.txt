@@ -304,7 +304,7 @@ pso/boss/goldragon/TBoss8Dragon_8005D700.cpp
 pso/boss/goldragon/TBoss8Dragon_80067034.cpp
 pso/boss/goldragon/AreaAttackHistory.cpp
 pso/boss/goldragon/TBoss8Dragon_8028A8F8.cpp
-pso/boss/goldragon/TBoss8Dragon_802F3348.cpp
+pso/boss/goldragon/TBoss8DragonLeaderPart.cpp
 pso/boss/goldragon/TBoss8DragonPart.cpp
 pso/network/NetworkWaitIcon.cpp
 pso/boss/dragon/TObjBoss1Crater.cpp
