@@ -422,7 +422,7 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TObjEneBeastBase(p
     update_prev_position();
     copy_position();
     ((TObjPlayer *)this)->register_object_by_id();
-    m_2ac = (s32)(182.04445f * (3.6e+02f * random_ratio()));
+    move_timer = (s32)(182.04445f * (3.6e+02f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;

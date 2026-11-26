@@ -163,6 +163,6 @@ LAYOUT_ASSERT(WolfOffset_nearTarget, offsetof(TObjEneBm5Wolf, near_target) == 0x
 
 LAYOUT_ASSERT(TObjEneBm5Wolf_size, sizeof(TObjEneBm5Wolf) == 0x46C);
 
-s32 actor_rand_int(saddr actor, s32 range);
+s32 actor_rand_int(TObjChara *actor, s32 range);
 
 #endif

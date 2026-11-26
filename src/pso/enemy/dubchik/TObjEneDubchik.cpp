@@ -936,7 +936,7 @@ void TObjEneDubchik::update_shoot() {
         }
         if (--timer <= 0) {
             shot_count--;
-            new TDubchikShot(&muzzle_position, rotation_y, (saddr)this, get_int_parameter(3));
+            new TDubchikShot(&muzzle_position, rotation_y, this, get_int_parameter(3));
             state = 4;
             if (effect != NULL) {
                 effect->queue_destruction();

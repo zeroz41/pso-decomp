@@ -157,7 +157,7 @@ TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TObjEneBeas
     update_prev_position();
     copy_position();
     register_object_by_id();
-    m_2ac = (s32)(182.04445f * (360.0f * random_ratio()));
+    move_timer = (s32)(182.04445f * (360.0f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;
@@ -428,9 +428,9 @@ void TObjEneMerillLia::beast_update_approach() {
             enemy_move_toward(this, ((BeastMovementParams *)movementParameters)->turnSpeed, dest, 0, move_speed);
             if (targetId == 0xFFFF) {
                 if (horizontal_distance_squared(&move_destination, &position) < (r = move_speed + bodies->radius) * r ||
-                    150.0f < (f32)(*(s32 *)&m_2ac)++) {
+                    150.0f < (f32)move_timer++) {
                     target = NULL;
-                    m_2ac = 0;
+                    move_timer = 0;
                 }
             }
         }

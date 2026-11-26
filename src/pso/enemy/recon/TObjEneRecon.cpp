@@ -661,7 +661,7 @@ void TObjEneRecon::state_attack(s32 reason) {
         switch (state_step) {
         case 0:
             if (current_target != 0) {
-                advance_field398();
+                aim_above_target();
             }
             update_velocity();
             velocity.x = sin_table_lookup(rotation_y);
@@ -1053,7 +1053,7 @@ void TObjEneRecon::set_orbit_destination(s32 angle) {
 }
 #pragma pop
 
-void TObjEneRecon::advance_field398() {
+void TObjEneRecon::aim_above_target() {
     enemy_copy_target_destination();
     destination.y = destination.y + strike_height;
 }

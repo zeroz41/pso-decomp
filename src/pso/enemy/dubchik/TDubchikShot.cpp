@@ -19,7 +19,7 @@
 // functions in reverse definition order.
 #pragma defer_codegen on
 
-TDubchikShot::TDubchikShot(Vec *start, s32 angle, s32 source, s32 power) : TObject(tl_06) {
+TDubchikShot::TDubchikShot(Vec *start, s32 angle, TObjBase *source, s32 power) : TObject(tl_06) {
     VecCopy(&pos, start);
     VecCopy(&prev_pos, start);
     distance = 0.0f;
@@ -73,7 +73,7 @@ void TDubchikShot::try_hit_target(TObjPlayer *player) {
     if (player != NULL && !(player->actorFlags & 0xA00) && !(xz_distance_squared(&pos, &player->body_center) > 49.0f)) {
         DirectAttackPayload hit = {0, 0.0f};
         hit.power = power;
-        player->receive_direct_attack((TObjBase *)source, hit, 0, -1, -1);
+        player->receive_direct_attack(source, hit, 0, -1, -1);
         spawn_particle_effect(&player->body_center, 0xFB);
         queue_destruction();
     }

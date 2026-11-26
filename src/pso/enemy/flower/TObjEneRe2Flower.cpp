@@ -553,7 +553,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
     case 0:
         advance_animation();
         idx = 0xFFFF;
-        if (tick_period_counter((saddr)this, &retarget_counter, 0x14) != 0) {
+        if (tick_period_counter(this, &retarget_counter, 0x14) != 0) {
             if (destination_distance > re2_flower_retarget_margin) {
                 if (is_confused() != 0) {
                     idx = enemy_nearest_visible_enemy(this, destination_distance - re2_flower_retarget_margin);

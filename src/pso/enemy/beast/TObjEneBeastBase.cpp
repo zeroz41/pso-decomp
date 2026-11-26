@@ -371,9 +371,9 @@ void TObjEneBeastBase::beast_update_approach() {
             enemy_move_toward(this, ((BeastMovementParams *)movementParameters)->turnSpeed, dest, 0, move_speed);
             if (targetId == 0xFFFF) {
                 if (horizontal_distance_squared(&move_destination, &position) < (r = move_speed + bodies->radius) * r ||
-                    BEAST_DESTINATION_TIMEOUT_FRAMES < (f32)(*(s32 *)&m_2ac)++) {
+                    BEAST_DESTINATION_TIMEOUT_FRAMES < (f32)move_timer++) {
                     target = NULL;
-                    m_2ac = 0;
+                    move_timer = 0;
                 }
             }
         }

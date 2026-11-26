@@ -81,7 +81,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void update_collide_flag();
     void set_flag2(f32 x, f32 z, f32 r);
     void set_orbit_destination(s32 angle);
-    void advance_field398();
+    void aim_above_target();
     void sync_height();
 
     s32 state_step;               // step inside the current action state

@@ -321,7 +321,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (enemy_turn_and_move_xz_slide(((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->distance) != 0) {
+    if (enemy_turn_and_move_xz_slide(((Bm3FlyMovementParameters *)this->movementParameters)->turn_speed, bm3_fly_lobby_params->distance) != 0) {
         this->status_flags |= BM3_FLY_SHADOW;
         return;
     }
@@ -750,7 +750,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
             break;
         case 1:
             this->counter++;
-            if ((s32) this->counter >= bm3_fly_lobby_params->unknown_1C) {
+            if ((s32) this->counter >= bm3_fly_lobby_params->attack_wind_up_frames) {
                 this->counter = 0;
                 this->step = 2;
                 this->requested_action = 2;
@@ -892,7 +892,7 @@ void TObjEneBm3Fly::update_return_state(s32 msg) {
         this->destination.y = (f32) this->hover_height;
         this->destination.z = (f32) (((3e+01f) * cos_table_lookup(this->hover_angle)) + this->nest_position.z);
         params = (Bm3FlyMovementParameters *)this->movementParameters;
-        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->unknown_08, params->length);
+        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->turn_speed, params->length);
         this->update_velocity();
         break;
     case 3:

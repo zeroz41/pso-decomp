@@ -107,7 +107,7 @@ extern "C" {
 int fn_800FD8A0(void*);
 }
 
-s32 tick_period_counter(s32 self, s32 *counter, s32 limit) {
+s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit) {
     s32 count;
     count = *counter;
     if (count >= limit) {
@@ -1126,7 +1126,7 @@ s32 TObjEneDD_ST::select_nearest_target(f32 distance) {
 
 s32 TObjEneDD_ST::enemy_tick_target_acquisition(s32 *counter, s32 limit, f32 scale) {
     s32 has_target;
-    if (tick_period_counter((saddr)this, counter, limit) != 0) {
+    if (tick_period_counter(this, counter, limit) != 0) {
         has_target = this->acquire_target(scale);
     } else {
         has_target = enemy_has_live_target();
@@ -1156,7 +1156,7 @@ void TObjEneDD_ST::enemy_init_validate_period(s32 period) {
 }
 
 s32 TObjEneDD_ST::enemy_validate_retained_target() {
-    if (tick_period_counter((saddr)this, &this->validate_counter, this->validate_period) != 0) {
+    if (tick_period_counter(this, &this->validate_counter, this->validate_period) != 0) {
         if (is_target_unobstructed_from(this->current_target) != 0) {
             return 1;
         }

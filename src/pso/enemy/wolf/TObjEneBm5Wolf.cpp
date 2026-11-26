@@ -139,8 +139,8 @@ __declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref =
 
 s32 TObjEneBm5Wolf::get_group_id() { return this->group_id; }
 
-s32 actor_rand_int(saddr actor, s32 range) {
-    return (s32) ((f32) range * ((TObjChara *)actor)->random_ratio());
+s32 actor_rand_int(TObjChara *actor, s32 range) {
+    return (s32) ((f32) range * actor->random_ratio());
 }
 
 void TObjEneBm5Wolf::register_global_objects() {
@@ -1013,7 +1013,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
         this->clear_intangible();
         this->state_timer = 0;
         this->substate = 0;
-        this->random_phase = actor_rand_int((saddr)this, 0x14);
+        this->random_phase = actor_rand_int(this, 0x14);
         this->near_target = 0;
         angle = (s32) (65536.0f * this->random_ratio());
         radius = 120.0f * this->random_ratio();

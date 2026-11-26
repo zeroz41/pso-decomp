@@ -13,7 +13,7 @@ struct TObjEneBm3FlyNest;
 struct Bm3FlyMovementParameters {
     f32 unknown_00;
     f32 length;
-    s32 unknown_08;
+    s32 turn_speed;  // enemy_turn_and_move_xz_slide's max step
     u32 unknown_0C[4];
 };
 
@@ -21,7 +21,7 @@ struct Bm3FlyMovementParameters {
 struct Bm3FlyParameters {
     f32 distance;
     u8 unknown_04[0x18];
-    s32 unknown_1C;
+    s32 attack_wind_up_frames;  // frames the fly waits before the strike (execute_action step 1)
 };
 
 // The motion binding the fly and the nest pass to TLobby::spawn_npc_enemy.

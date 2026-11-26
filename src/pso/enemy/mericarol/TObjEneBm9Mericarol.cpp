@@ -573,7 +573,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
     case 0:
         advance_animation();
         target = 0xFFFF;
-        if (tick_period_counter((saddr)this, &retarget_counter, 0x14) != 0) {
+        if (tick_period_counter(this, &retarget_counter, 0x14) != 0) {
             if (destination_distance > 30.0f) {
                 if (is_confused() != 0) {
                     target = enemy_nearest_visible_enemy(this, destination_distance - 30.0f);

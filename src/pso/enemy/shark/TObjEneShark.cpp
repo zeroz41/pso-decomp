@@ -557,7 +557,7 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TObjEneBeastBase(pa
     update_prev_position();
     copy_position();
     initialize_enemy_photon_effect(this);
-    m_2ac = (s32)(182.04445f * (360.0f * random_ratio()));
+    move_timer = (s32)(182.04445f * (360.0f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;

@@ -151,7 +151,7 @@ void set_collider_contact_high(CollisionBody *body);
 void set_collider_contact_low(CollisionBody *body);
 void update_collider_contact_by_height(CollisionBody *body, f32 height);
 u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range);
-s32 tick_period_counter(s32 self, s32 *counter, s32 limit);
+s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit);
 
 // The far (310) and near (155) depths the enemies' render() hands classify_actor_view_detail.
 extern const f32 view_detail_far_depth;

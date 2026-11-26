@@ -458,7 +458,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
 #pragma pop
 extern "C" {
 s32 TObjEneRe4Sorcerer::try_attack(f32 ranger_range_sq, f32 range_sq) {
-    if (tick_period_counter((saddr)this, &acquire_counter, 0x1E) != 0) {
+    if (tick_period_counter(this, &acquire_counter, 0x1E) != 0) {
         return select_attack_target(ranger_range_sq, range_sq);
     }
     if (enemy_has_live_target() != 0) {

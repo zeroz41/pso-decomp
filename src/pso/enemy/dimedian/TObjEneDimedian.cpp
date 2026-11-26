@@ -492,7 +492,7 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TObjEneBeast
     update_prev_position();
     copy_position();
     initialize_enemy_photon_effect(this);
-    m_2ac = (s32)(182.04445f * (3.6e+02f * random_ratio()));
+    move_timer = (s32)(182.04445f * (3.6e+02f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;

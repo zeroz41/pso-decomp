@@ -222,7 +222,7 @@ public:
     Vec move_origin;  // where the current move started (calc_velocity_toward_destination's from)
     Vec move_destination;  // where the current move goes
     TObjChara *target;
-    u32 m_2ac;
+    s32 move_timer;  // frames spent on the current move; reset when a new destination is picked
     player_stats *stat_block;  // the stat block get_stats returns
     f32 frame_timer;  // frames counted up or down by the current behaviour
     s16 hpmax;

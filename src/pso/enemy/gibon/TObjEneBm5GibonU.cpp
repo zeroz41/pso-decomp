@@ -1487,7 +1487,7 @@ void TObjEneBm5GibonU::roaming_state(s32 msg) {
         this->clear_intangible();
         this->state_timer = 0;
         this->substate = 0;
-        this->random_phase = actor_rand_int((saddr)this, 0x14);
+        this->random_phase = actor_rand_int(this, 0x14);
         this->near_target = 0;
         angle = (s32)(65536.0f * this->random_ratio());
         radius = 120.0f * this->random_ratio();

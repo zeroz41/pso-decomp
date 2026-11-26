@@ -560,7 +560,7 @@ void TObjChara::reset_motion_fields() {
     move_destination.x = move_destination.y = move_destination.z = (0.0f);
     this->ground_normal.x = this->ground_normal.z = (0.0f);
     ground_normal.y = (1.0f);
-    this->m_2ac = 0;
+    this->move_timer = 0;
     this->frame_timer = (0.0f);
     this->attacker_id = 0xFFFF;
     this->hit_flags = 0;
@@ -965,13 +965,13 @@ f32 TObjEnemy::enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn) 
         vec3_add_to(&v, &this->home_position);
         select_enemy_destination(this, v, 1);
         this->velocity.x = this->velocity.z = (0.0f);
-        this->m_2ac = 0;
+        this->move_timer = 0;
     } else {
         this->enemy_turn_toward_dest(turn);
         enemy_set_heading_velocity(speed, this, this->rotation_y);
         move_with_wall_slide(this);
         dist_sq = horizontal_distance_squared(&this->move_destination, &this->body_center);
-        this->m_2ac = this->m_2ac + 1;
+        this->move_timer = this->move_timer + 1;
     }
     return dist_sq;
 }

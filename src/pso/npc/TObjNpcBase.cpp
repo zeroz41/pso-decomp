@@ -116,7 +116,7 @@ void TObjNpcBase::interact(u16 client) {
                     send_impose_hold(player, -1);
                 }
                 request_action(1);
-                m_2ac = 0;
+                move_timer = 0;
             }
         } else {
             interactor = 0xFFFFU;
@@ -247,7 +247,7 @@ void TObjNpcBase::update_conversation() {
     case 2:
         if ((quest_thread != 0 && quest_thread->all_parents_unqueued_for_destruction() == 0) || quest_thread == 0) {
             phase = 3;
-            m_2ac = 0;
+            move_timer = 0;
             switch (object_number) {
             case 0x3E9:
             case 0x3EA:
@@ -331,10 +331,10 @@ void TObjNpcBase::update_wandering() {
     case 2:
         break;
     case 3:
-        m_2ac++;
-        if (120.0f < (f32)(s32)m_2ac) {
+        move_timer++;
+        if (120.0f < (f32)move_timer) {
             phase = 0;
-            m_2ac = 0;
+            move_timer = 0;
         }
         break;
     }
