@@ -6,6 +6,7 @@
 struct WindowDrawContext;
 
 struct TWindowSubEquipKind : public TWindowMenuIconLine {
+    static const char *class_name;
     TWindowSubEquipKind(u8 *parent, s32 client);
     virtual ~TWindowSubEquipKind();
     void draw_tab_label(WindowDrawContext *context);
@@ -18,7 +19,6 @@ struct TWindowSubEquipKind : public TWindowMenuIconLine {
 
 LAYOUT_ASSERT(TWindowSubEquipKind_size, sizeof(TWindowSubEquipKind) == 0x8C);
 
-extern const char *TWindowSubEquipKind__class_name;
 
 struct NJS_POINT2;
 

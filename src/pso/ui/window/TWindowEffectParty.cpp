@@ -21,7 +21,6 @@
 extern "C" {
 extern const f64 party_marker_angle_scale;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
-extern const char *TWindowEffectParty__name;
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
@@ -34,7 +33,7 @@ void *get_simple_status_window(s8 i) {
 
 TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id) : TObject(object) {
     NJS_POINT3 position;
-    m_name = TWindowEffectParty__name;
+    m_name = TWindowEffectParty::class_name;
     this->source_slot = source;
     TWindowEffectParty::set_slot_position((saddr)this, (s32)this->source_slot, &this->pos_x);
     this->target_slot = target;
@@ -90,7 +89,7 @@ void TWindowEffectParty::run_task() {
 void TWindowEffectParty::render() {  }
 
 #pragma readonly_strings on
-const char *TWindowEffectParty__name = "TWindowEffectParty";
+const char *TWindowEffectParty::class_name = "TWindowEffectParty";
 
 void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     s32 id;

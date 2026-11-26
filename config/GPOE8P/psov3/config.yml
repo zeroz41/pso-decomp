@@ -1764,7 +1764,7 @@ force_active:
   - is_first_bank__18TPlyDispConfigSmthFv
   - is_status_text_shown__19TWindowKeyBoardHardFv
   - is_cancelled__15TSymbolChatMenuFv
-  - TWindowComCard__class_name
+  - class_name__14TWindowComCard
   - __ct__14TWindowComCardFPC10NJS_POINT2Pv
   - __dt__22TWindowComCardFollowerFv
   - com_card_window_descriptor
@@ -1783,7 +1783,7 @@ force_active:
   - TWindowDD__sub_80346FC0
   - layout_entries__17TWindowDuelResult
   - TWindowEffectLight__sub_802AD040
-  - TWindowEffectParty__name
+  - class_name__18TWindowEffectParty
   - set_flag2c_bit400__15TWindowFukidasiFv
   - clear_received_guild_cards__Fl
   - item_layout_entries__15TWindowHelpItem
@@ -1797,7 +1797,7 @@ force_active:
   - show_armor_resistances__15TWindowHelpItemFv
   - show_shield_resistances__15TWindowHelpItemFv
   - show_mag_stats__15TWindowHelpItemFv
-  - TWindowKeyBoardHard__name
+  - class_name__19TWindowKeyBoardHard
   - apply_dakuten_to_last_char__18KeyboardTextBufferFv
   - window_duel_result_descriptor
   - would_overflow_with__18KeyboardTextBufferFUs
@@ -8287,8 +8287,8 @@ force_active:
   - class_name__9TTecResta
   - class_name__9TTecSifta
   - name__9TTecZarua
-  - TWindowBreakIn__name
-  - TWindowChallengeResult__name
+  - class_name__14TWindowBreakIn
+  - class_name__22TWindowChallengeResult
   - lbl_805D38B0
   - class_name__24TWindowMessageInfomation
   - class_name__17TWindowMessageLog

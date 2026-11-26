@@ -5,6 +5,7 @@
 
 class TWindowAddition : public TWindowBase {
 public:
+    static const char *class_name;
     TWindowAddition(u8 *descriptor, s16 client, u8 *parent);
     virtual ~TWindowAddition();
     // Flag 1 of entry `index`: the cursor only stops on entries that have it.

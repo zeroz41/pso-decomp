@@ -10,7 +10,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowBreakIn__name = "TWindowBreakIn";
+const char *TWindowBreakIn::class_name = "TWindowBreakIn";
 #pragma pop
 
 
@@ -42,6 +42,6 @@ void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_v
 
 TWindowBreakIn::~TWindowBreakIn() {}
 TWindowBreakIn::TWindowBreakIn() : TWindowBase((u8 *)&window_break_in_layout, (s16)(4), (u8 *)(get_window_layout_position(0xAA))) {
-    m_name = TWindowBreakIn__name;
+    m_name = TWindowBreakIn::class_name;
 }
 

@@ -81,10 +81,10 @@ void TWindowCheckBox::sync_level_field() {
 #pragma readonly_strings on
 
 
-const char *TWindowCheckBox__class_name = "TWindowCheckBox";
+const char *TWindowCheckBox::class_name = "TWindowCheckBox";
 
 void TWindowCheckBox::init_check_box(s32 client) {
-    this->m_name = TWindowCheckBox__class_name;
+    this->m_name = TWindowCheckBox::class_name;
     this->client_index = client;
 }
 

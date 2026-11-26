@@ -46,7 +46,7 @@ void TWindowSubEquipKind::run_task() {
 TWindowSubEquipKind::~TWindowSubEquipKind() {}
 
 TWindowSubEquipKind::TWindowSubEquipKind(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 0x1F, client) {
-    m_name = TWindowSubEquipKind__class_name;
+    m_name = TWindowSubEquipKind::class_name;
     create_menu_scroll_bar();
     trade_state = 4;
     state_timer = 0;

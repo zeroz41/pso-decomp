@@ -44,6 +44,7 @@ LAYOUT_ASSERT(TMainMenuEntry_flags, offsetof(TMainMenuEntry, flags) == 0x13);
 LAYOUT_ASSERT(TMainMenuEntry_kind, offsetof(TMainMenuEntry, kind) == 0x12);
 
 struct TWindowMenuMainMenu : public TWindowBase {
+    static const char *class_name;
     TWindowMenuMainMenu(const NJS_POINT2 *position, s32 client);
     virtual ~TWindowMenuMainMenu();
     void handle_navigation_input();

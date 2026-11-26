@@ -21,7 +21,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/HeadingEntry.h"
 
-const char *TWindowInputNumber__name = "TWindowInputNumber";
+const char *TWindowInputNumber::class_name = "TWindowInputNumber";
 // Value of one step at each digit position (1 .. 1000000).
 static const s32 number_input_decimal_place_values[7] = {1, 10, 100, 1000, 10000, 100000, 1000000};
 
@@ -314,7 +314,7 @@ TWindowInputNumber::~TWindowInputNumber() {
 
 TWindowInputNumber::TWindowInputNumber(const NJS_POINT2 *position, s32 low, s32 high, s32 initial, s16 client)
     : TWindowBase((u8 *)&window_input_number_layout, client, (u8 *)position) {
-    m_name = TWindowInputNumber__name;
+    m_name = TWindowInputNumber::class_name;
     client_index = client;
     inputFlags = 0;
     selectedDigit = 0;

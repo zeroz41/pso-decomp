@@ -6,6 +6,7 @@
 
 class TWindowArea : public TWindowRoom {
 public:
+    static const char *class_name;
     TWindowArea();
     virtual ~TWindowArea();
     virtual void run_task();

@@ -10,6 +10,7 @@ class TObjChara;
 class TItem;
 
 struct TWindowLockOn : public TWindowBase {
+    static const char *class_name;
     TWindowLockOn(s32 player, u16 id);
     virtual ~TWindowLockOn();
     virtual void render();

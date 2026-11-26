@@ -22,7 +22,7 @@ extern const NJS_POINT2 window_dd_quad_positions[7] = {
 };
 extern const f32 window_dd_quad_scales[8] = {16.0f, 16.0f, 16.0f, 16.0f, 20.0f, 20.0f, 16.0f, 0.0f};
 
-const char *TWindowDD_WS_ScrollBar__class_name = "TWindowDD_WS_ScrollBar";
+const char *TWindowDD_WS_ScrollBar::class_name = "TWindowDD_WS_ScrollBar";
 
 extern "C" {
 
@@ -213,7 +213,7 @@ TWindowDD_WS_ScrollBar *TWindowDD_WS_ScrollBar::create() { return new TWindowDD_
 
 TWindowDD_WS_ScrollBar::TWindowDD_WS_ScrollBar()
     : TWindowBase((u8 *)&scroll_bar_descriptor, 4, (u8 *)&scroll_bar_position) {
-    m_name = TWindowDD_WS_ScrollBar__class_name;
+    m_name = TWindowDD_WS_ScrollBar::class_name;
     count = 6.0f;
     visible_count = 6.0f;
     first_index = 0.0f;

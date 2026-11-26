@@ -43,7 +43,7 @@ WindowDescriptor com_card_window_descriptor = {
     {206.0f, 180.0f}, 50100.0f, &com_card_layout_entries, 0x23,
 };
 
-const char *TWindowComCard__class_name = "TWindowComCard";
+const char *TWindowComCard::class_name = "TWindowComCard";
 void *com_card_status_text_table[6] = {
     (void *)"Jpn.", (void *)"Eng.", (void *)"Ger.", (void *)"Fr.",
     (void *)"Span.", (void *)"??????",
@@ -90,7 +90,7 @@ char *GuildCardEntry::get_text() { return text; }
 
 TWindowComCard::TWindowComCard(const NJS_POINT2 *position, void *data)
     : TWindowBase((u8 *)&com_card_window_descriptor, 4, (u8 *)position) {
-    m_name = TWindowComCard__class_name;
+    m_name = TWindowComCard::class_name;
     update_com_card_display(&entry_list, (GuildCardEntry *)data);
 }
 

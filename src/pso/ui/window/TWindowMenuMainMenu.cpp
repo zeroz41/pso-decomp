@@ -20,7 +20,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 
-const char *TWindowMenuMainMenu__class_name = "TWindowMenuMainMenu";
+const char *TWindowMenuMainMenu::class_name = "TWindowMenuMainMenu";
 
 const MainMenuLabelUV main_menu_label_uv_table[31] = {
     {0.0f, 18.0f},  {0.0f, 18.0f},  {0.0f, 0.0f},   {0.0f, 54.0f},
@@ -540,7 +540,7 @@ TWindowMenuMainMenu::TWindowMenuMainMenu(const NJS_POINT2 *position, s32 client)
     TMainMenuEntry *entry;
     entry = entries;
     i = 0;
-    m_name = TWindowMenuMainMenu__class_name;
+    m_name = TWindowMenuMainMenu::class_name;
     state_flags = 4;
     selected_slot = 0;
     parked_row_count = 0;

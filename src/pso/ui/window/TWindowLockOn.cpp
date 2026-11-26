@@ -35,7 +35,7 @@
 #pragma defer_codegen on
 
 
-const char *TWindowLockOn__name = "TWindowLockOn";
+const char *TWindowLockOn::class_name = "TWindowLockOn";
 
 LockOnPlayerLayout lock_on_window_params = {
     2, 1,
@@ -72,7 +72,7 @@ s32 is_split_screen(void);
 s32 get_status_effect_icon_index(u32);
 
 TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lock_on_window_descriptor, player, (u8 *)get_window_layout_position(0x1E)) {
-    this->m_name = TWindowLockOn__name;
+    this->m_name = TWindowLockOn::class_name;
     if (TCameraCtrl::get_camera_id() > 2) {
         this->scale = 0.7f;
         this->height_scale = 0.7f;

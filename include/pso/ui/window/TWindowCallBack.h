@@ -6,6 +6,7 @@
 #include "pso/ui/window/WindowCallback.h"
 
 struct TWindowCallBack : public TWindowBase {
+    static const char *class_name;
     TWindowCallBack(u8 *position, u8 *scale, WindowCallback callback_function);
     virtual ~TWindowCallBack();
     void render();

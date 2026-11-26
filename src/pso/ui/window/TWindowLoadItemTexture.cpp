@@ -63,7 +63,7 @@ WindowDescriptor TWindowLoadItemTexture__window_descriptor = {
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
+const char *TWindowLoadItemTexture::class_name = "TWindowLoadItemTexture";
 #pragma pop
 extern saddr tl_07;
 
@@ -103,7 +103,7 @@ TWindowLoadItemTexture::~TWindowLoadItemTexture() {
 
 TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 client)
     : TWindowBase((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)client, (u8 *)position) {
-    m_name = TWindowLoadItemTexture__name;
+    m_name = TWindowLoadItemTexture::class_name;
     switch (TCameraCtrl::get_camera_id()) {
     case 1:
         draw_scale[1] = draw_scale[0] = 1.0f;

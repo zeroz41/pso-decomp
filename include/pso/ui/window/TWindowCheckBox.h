@@ -7,6 +7,7 @@ struct NJS_POINT2;
 
 class TWindowCheckBox : public TWindowMenuIconLine {
 public:
+    static const char *class_name;
     TWindowCheckBox(u8 *parent, s32 client);
     virtual ~TWindowCheckBox();
     virtual void run_task();

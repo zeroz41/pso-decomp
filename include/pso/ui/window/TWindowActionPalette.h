@@ -9,6 +9,7 @@
 class WindowSpritePart;
 
 struct TWindowActionPalette : public TWindowBase {
+    static const char *class_name;
     static const f32 bank_panel_uv_origins[4][2];
     TWindowActionPalette(s32 slot);
     struct ChildList {

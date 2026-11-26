@@ -7,6 +7,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowChallengeResult : public TWindowBase {
+    static const char *class_name;
     TWindowChallengeResult(const char *team_name, s32 clear_seconds, s32 death_count);
     virtual ~TWindowChallengeResult();
     virtual void run_task();

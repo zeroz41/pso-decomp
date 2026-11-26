@@ -13,6 +13,7 @@ struct ComCardLayout {
 };
 
 struct TWindowComCard : public TWindowBase {
+    static const char *class_name;
     TWindowComCard(const NJS_POINT2 *position, void *data);
     virtual ~TWindowComCard();
     virtual void render();

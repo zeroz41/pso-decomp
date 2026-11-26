@@ -21,10 +21,10 @@
 #pragma defer_codegen on
 
 s32 TWindowSubStatusDisp__count_ratio_value;
-const char *TWindowArea__name = "TWindowArea";
+const char *TWindowArea::class_name = "TWindowArea";
 
 TWindowArea::TWindowArea() : TWindowRoom(NULL) {
-    this->m_name = TWindowArea__name;
+    this->m_name = TWindowArea::class_name;
     const NJS_POINT2 *position = get_window_layout_position(0x25);
     copy_vec2(frame_position, (void *)position);
     this->tabParameter = 0.0f;

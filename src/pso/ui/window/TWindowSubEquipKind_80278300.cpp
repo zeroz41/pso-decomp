@@ -9,7 +9,7 @@
 
 #pragma readonly_strings on
 
-const char *TWindowSubEquipKind__class_name = "TWindowSubEquipKind";
+const char *TWindowSubEquipKind::class_name = "TWindowSubEquipKind";
 
 // Message ids of the four status-display tab labels, indexed by the selected tab (f88).
 extern const s32 status_disp_tab_label_message_ids[4] = {0xE2, 0xE0, 0xE1, 0xF5};

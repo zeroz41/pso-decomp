@@ -7,6 +7,7 @@
 struct TWindowKeyBoardBase;
 
 struct TWindowKeyBoardHard : public TWindowBase {
+    static const char *class_name;
     TWindowKeyBoardHard(TWindowKeyBoardBase *control);
     virtual ~TWindowKeyBoardHard();
     void draw_status_text(WindowDrawContext *context);

@@ -12,12 +12,12 @@ void TWindowCost::run_task() {
 
 #pragma readonly_strings on
 
-const char *TWindowCost__class_name = "TWindowCost";
+const char *TWindowCost::class_name = "TWindowCost";
 
 TWindowCost::~TWindowCost() {}
 
 TWindowCost::TWindowCost(void *position, s32 client, s32 text)
     : TWindowMeseta(position, client, text) {
-    m_name = TWindowCost__class_name;
+    m_name = TWindowCost::class_name;
     set_cost(0);
 }

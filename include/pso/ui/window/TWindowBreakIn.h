@@ -6,6 +6,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowBreakIn : public TWindowBase {
+    static const char *class_name;
     TWindowBreakIn();
     virtual ~TWindowBreakIn();
     virtual void render();

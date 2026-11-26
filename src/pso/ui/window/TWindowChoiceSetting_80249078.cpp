@@ -19,7 +19,7 @@
 // in .rodata, so the name is defined ahead of the functions.
 #pragma push
 #pragma readonly_strings on
-const char *TWindowChoiceSetting__name = "TWindowChoiceSetting";
+const char *TWindowChoiceSetting::class_name = "TWindowChoiceSetting";
 #pragma pop
 
 #pragma push
@@ -146,6 +146,6 @@ TWindowChoiceSetting::~TWindowChoiceSetting() {
 }
 
 TWindowChoiceSetting::TWindowChoiceSetting(void *parent, s32 rows) : TWindowMenuInfomation(parent, rows) {
-    m_name = TWindowChoiceSetting__name;
+    m_name = TWindowChoiceSetting::class_name;
     choice_flags = 0;
 }
