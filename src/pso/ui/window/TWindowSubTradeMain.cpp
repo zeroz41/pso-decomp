@@ -83,7 +83,7 @@ TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : 
     snapshot_trade_inventories();
     parent_menu->hide_for_subwindow();
     chat = new TWindowChat(this, &submission);
-    fn_8027B2A8(chat);
+    chat->set_flag1e_bit200();
     player = get_player_by_client_id(client_id);
     if (player != NULL) {
         player->start_freeze();
@@ -152,7 +152,7 @@ void TWindowSubTradeMain::run_task() {
     if (this->chat->is_visible() != 0) {
         consume_input_active_flag(this->chat);
     }
-    if (TWindowCtrl__sub_8024701C(this->chat) != 0) {
+    if (this->chat->is_busy() != 0) {
         this->set_labels(0xA);
         this->set_child_windows_enabled(0);
         this->flags |= 1;
@@ -175,7 +175,7 @@ void TWindowSubTradeMain::run_task() {
         }
         window_request_show(this->menu);
         this->menu->clear_flag_and_release();
-        ((TWindowOptionCtrl *)(this->menu))->clear_flag70_bit4();
+        this->menu->clear_flag70_bit4();
         this->state = 2;
     case 2:
         if (this->menu->is_cancelled() != 0) {

@@ -38,7 +38,10 @@ struct TWindowKeyBoardHard : public TWindowBase {
     static void clear_card_window_flag(saddr client_id, s32 value);
     static void set_card_window_flag(saddr client_id, s32 value);
     int is_key_active();
-    void sub_8025EC04();
+    // Stops the input-mode status text and sets input flag 0x100 until the next key.
+    void reset_status_text();
+    // input_delay counts the frames the input-mode status text stays up.
+    s32 is_status_text_shown();
     s32 is_printable_key(u8 key);
     s32 has_non_modifier_key();
     s32 translate_key_char(u8 key, u16 *out_char);

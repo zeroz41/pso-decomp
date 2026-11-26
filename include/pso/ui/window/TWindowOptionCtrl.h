@@ -10,6 +10,8 @@ class TWindowMenuIconLine;
 struct TWindowMenu;
 struct TWindowMessageYesNo;
 class TSnapshotFileSetup;
+struct TWindowSoundBalance;
+struct TWindowSnapShot;
 struct NJS_POINT2;
 class TWindowCheckBox;
 
@@ -26,8 +28,8 @@ struct TWindowOptionCtrl : public TObject {
     TWindowMenu *sub_menu;
     TWindowMenu *confirm_menu;
     TWindowCheckBox *option_menu;
-    TWindowBase *sound_balance_window;
-    TWindowBase *snap_shot_window;
+    TWindowSoundBalance *sound_balance_window;
+    TWindowSnapShot *snap_shot_window;
     TWindowMessageYesNo *yes_no_window;
     TWindowBase *serial_info_window;
     TSnapshotFileSetup *card_format_dialog;
@@ -46,8 +48,8 @@ struct TWindowOptionCtrl : public TObject {
     static saddr open_yes_no_window(saddr parent, s32 message_id, s32 index);
     TWindowCheckBox *create_option_menu();
     saddr create_sub_menu_window();
-    saddr create_snap_shot_window();
-    saddr create_sound_balance_window();
+    TWindowSnapShot *create_snap_shot_window();
+    TWindowSoundBalance *create_sound_balance_window();
     TWindowCheckBox *create_sound_mode_menu();
     saddr create_list_window();
     TWindowCheckBox *create_select_menu_window();
@@ -55,10 +57,6 @@ struct TWindowOptionCtrl : public TObject {
     virtual void render();
     virtual void run_task();
     static saddr get_chr_select_base_plus_1154c();
-    void set_flag70_bit400();
-    void clear_flag70_bit4();
-    s32 get_field_64();
-    s16 get_field_62();
     static const NJS_POINT2 *get_option_entry(int a0);
     s32 add_label_value_line(const char *label, const char *value, u32 flags);
 };

@@ -21,7 +21,7 @@ void resolve_chat_balloon_overlaps(void) {
         p = (TWindowFukidasi *)get_viewport_window_root(i)->m_down;
         if (p != NULL) {
             while (p != NULL) {
-                p->hide();
+                p->clear_flag2c_bit400();
                 p = static_cast<TWindowFukidasi *>(p->m_next);
             }
         }
@@ -33,13 +33,13 @@ void resolve_chat_balloon_overlaps(void) {
                 q = p->find_balloon_overlap_for(static_cast<TWindowFukidasi *>(p->m_next));
                 while (q != NULL) {
                     if (p->get_visible_flag() != 0) {
-                        TWindowFukidasi__sub_80249788(q);
+                        q->set_flag2c_bit400();
                     } else if (q->get_visible_flag() != 0) {
-                        TWindowFukidasi__sub_80249788(p);
+                        p->set_flag2c_bit400();
                     } else if (p->m_58 > q->m_58) {
-                        TWindowFukidasi__sub_80249788(p);
+                        p->set_flag2c_bit400();
                     } else {
-                        TWindowFukidasi__sub_80249788(q);
+                        q->set_flag2c_bit400();
                     }
                     q = p->find_balloon_overlap_for(static_cast<TWindowFukidasi *>(q->m_next));
                 }
@@ -49,5 +49,5 @@ void resolve_chat_balloon_overlaps(void) {
     }
 }
 
-void TWindowFukidasi__sub_80249788(void* p) { *(u32*)((char*)p + 0x2c) |= 0x400; }
-void TWindowFukidasi::hide() { *(u32*)((char*)this + 0x2c) &= 0xfffffbff; }
+void TWindowFukidasi::set_flag2c_bit400() { window_flags |= 0x400; }
+void TWindowFukidasi::clear_flag2c_bit400() { window_flags &= ~0x400; }

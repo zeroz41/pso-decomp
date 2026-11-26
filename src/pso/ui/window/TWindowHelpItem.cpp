@@ -48,9 +48,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
-void fn_80255A38(TWindowHelpItem *item);
-}
 extern u8 *text_language_group_table;
 saddr format_item_description(u8 *item);
 
@@ -234,16 +231,16 @@ void TWindowHelpItem::update_cursor_selection() {
     this->active_id = -1;
 }
 
-void fn_80255A38(TWindowHelpItem *item) {
-    item->entry_list.destroy_all_items();
-    item->help_flags &= ~1;
-    item->active_item = NULL;
-    item->secondary_item = 0;
-    item->primary_item = 0;
-    item->active_id = -1;
-    item->secondary_id = -1;
-    item->primary_id = -1;
-    item->m_callback = NULL;
+void TWindowHelpItem::clear_items() {
+    entry_list.destroy_all_items();
+    help_flags &= ~1;
+    active_item = NULL;
+    secondary_item = 0;
+    primary_item = 0;
+    active_id = -1;
+    secondary_id = -1;
+    primary_id = -1;
+    m_callback = NULL;
 }
 
 void TWindowHelpItem::update_help_item(s8 page) { if (fn_8026C7C0(page_indicator, page) != 0) { this->dispatch_item_help(); } }

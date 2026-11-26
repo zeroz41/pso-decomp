@@ -36,6 +36,7 @@ public:
     s8 alloc_nearest_free_slot();
     int is_balloon_visible();
     int is_active();
+    void set_active();
     void clear_flag_20();
     int is_flag_set();
     void set_balloon_visible();
@@ -48,7 +49,9 @@ public:
 
     TWindowFukidasi *find_overlapping_balloon(const f32 *position, const f32 *size, TWindowFukidasi *first);
     TWindowFukidasi *draw_resolved_window(const f32 *position, const f32 *size, s32 viewport);
-    void hide();
+    // Window flag 0x400 marks the balloon that loses an overlap (resolve_chat_balloon_overlaps).
+    void set_flag2c_bit400();
+    void clear_flag2c_bit400();
     int get_visible_flag();
     int is_bit8_set();
     int is_bit10_set();

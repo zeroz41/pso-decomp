@@ -35,9 +35,6 @@ static const NJS_POINT2 equip_list_window_size = {308.0f, 184.0f};
 static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
-extern "C" {
-void fn_80255A38(TWindowHelpItem *item);
-}
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
@@ -73,7 +70,7 @@ void TWindowSubEquip::run_task() {
             this->equip_kind_list->close();
             this->equip_kind_list = 0U;
         }
-        fn_80255A38(this->window_help_item);
+        this->window_help_item->clear_items();
         this->shown_item_id = -1;
         this->shown_cursor_value = -1;
         equip_list->refresh_equipment_list();

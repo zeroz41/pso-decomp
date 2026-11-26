@@ -27,10 +27,6 @@ struct TWindowGetComCard : public TObject {
 LAYOUT_ASSERT(TWindowGetComCard_size, sizeof(TWindowGetComCard) == 0x2C);
 
 // --- C functions defined in TWindowGetComCard.cpp ---
-extern "C" {
-void TWindowFukidasi__sub_80252C38(void *p);
-int fn_80252CBC(void *p);
-}
 // --- end of C functions
 
 #endif

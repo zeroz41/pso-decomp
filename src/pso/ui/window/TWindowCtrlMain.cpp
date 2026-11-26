@@ -169,7 +169,7 @@ void TWindowCtrlPlayer::update_target_info_window() {
     if ((lock_on_window != NULL) && ((lock_on_window->all_parents_unqueued_for_destruction() == 0) || (lock_on_window->is_open_and_unblocked() == 0))) {
         lock_on_window = NULL;
     }
-    if ((is_lock_on_window_hidden() != 0) || (is_main_menu_open() != 0) || (is_suppressed() != 0) || (has_short_list() != 0) || (TWindowCtrl::fn_8024A314() != 0)) {
+    if ((is_lock_on_window_hidden() != 0) || (is_main_menu_open() != 0) || (is_suppressed() != 0) || (has_short_list() != 0) || (TWindowCtrl::is_chat_busy() != 0)) {
         if (lock_on_window != NULL) {
             lock_on_window->close();
             lock_on_window = NULL;

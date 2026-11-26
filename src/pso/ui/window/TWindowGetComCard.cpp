@@ -27,11 +27,12 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowGetComCard::class_name = "TWindowGetComCard";
 __declspec(section ".data") NJS_POINT2 TWindowGetComCard::window_rect = {152.0f, 370.0f};
 
-void TWindowFukidasi__sub_80252C38(void* p) { *(u8*)((char*)p + 0x71) |= 0x4; }
+void TWindowFukidasi::set_active() { balloon_flags |= 0x4; }
 void TWindowFukidasi::clear_visible_flag() { this->balloon_flags &= 0xfe; }
 void TWindowFukidasi::set_flag() { this->balloon_flags |= 0x1; }
 void TWindowFukidasi::set_balloon_visible() { this->balloon_flags |= 0x20; }
@@ -40,7 +41,7 @@ void TWindowFukidasi::clear_flag_20() { this->balloon_flags &= 0xffffffdf; }
 int TWindowFukidasi::is_active() { return (this->balloon_flags >> 2) & 0x1; }
 void TWindowFukidasi::clear_flag() { this->balloon_flags &= 0xfffffffb; }
 int TWindowFukidasi::is_balloon_visible() { return (this->balloon_flags >> 5) & 0x1; }
-int fn_80252CBC(void* p) { return *(u16*)((char*)p + 0x0) & 0x10; }
+int WindowTextEntry::is_text_drawn() { return flags & 0x10; }
 
 void TWindowGetComCard::render() {  }
 
@@ -121,7 +122,7 @@ TWindowGetComCard::~TWindowGetComCard() {
     }
     TWindowCtrl::show_client_lock_on_window(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
-    if ((TWindowCtrl::fn_8024A314() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
+    if ((TWindowCtrl::is_chat_busy() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
         player->init_parts();
     }
 }

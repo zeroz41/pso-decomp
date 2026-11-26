@@ -61,7 +61,7 @@ struct TWindowCtrl : public TObject {
     static s32 is_submit_cooldown_clear();
     static void update_focused();
     static s32 get_active_sub();
-    static s32 fn_8024A314();
+    static s32 is_chat_busy();
     // Flag 0x10 is held while a quest board is open.
     static void set_quest_board_open();
     static void clear_quest_board_open();

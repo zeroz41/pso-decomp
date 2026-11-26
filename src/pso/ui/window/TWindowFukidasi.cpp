@@ -49,10 +49,6 @@ f32 xyz_distance(void *, void *);
 
 }
 
-extern "C" {
-void TWindowFukidasi__sub_80252C38(void *p);
-s32 fn_80252CBC(void);
-}
 
 extern "C" {
 f32 vec3_dot(void *, void *);
@@ -115,7 +111,7 @@ void TWindowFukidasi::run_task() {
       this->sync_display_pos();
       break;
     case 3:
-      TWindowFukidasi__sub_80252C38(this);
+      set_active();
       this->set_flag2c_bit100();
       state = 4U;
     case 4:
@@ -835,7 +831,7 @@ void TWindowFukidasi::refresh_rect_placement() {
                 res = c;
             }
         } else {
-            hide();
+            clear_flag2c_bit400();
             if (shift_rect_with_head(target_position, a) != 0) {
                 res = a;
             }
@@ -1132,8 +1128,7 @@ s32 TWindowFukidasi::is_speech_balloon_ready() {
     s32 t = content_kind;
     switch (t) {
     case 0:
-        get_array_entry(0);
-        return fn_80252CBC();
+        return static_cast<WindowTextEntry *>(get_array_entry(0))->is_text_drawn();
     case 1:
     case 2:
         break;
@@ -1147,7 +1142,7 @@ void TWindowFukidasi::show_immediately() {
     balloon_flags |= 0x40;
     calc_text_size(target_size);
     refresh_rect_placement();
-    TWindowFukidasi__sub_80252C38(this);
+    set_active();
     set_flag2c_bit100();
     save_position();
     tail_scale = 1.0f;

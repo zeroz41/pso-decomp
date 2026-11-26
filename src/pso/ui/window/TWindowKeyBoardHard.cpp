@@ -16,7 +16,7 @@ u8 keyboard_key_repeat_mask_table[4] = { 0x1D, 0x1F, 0x07, 0x00 };
 const u8 *keyboard_accent_base_chars = (const u8 *)"AaEeIiOoUuNnYy";
 
 
-void TWindowKeyBoardHard::sub_8025EC04() {
+void TWindowKeyBoardHard::reset_status_text() {
     input_delay = 0;
     input_flags |= 0x100;
 }

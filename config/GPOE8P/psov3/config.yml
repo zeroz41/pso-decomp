@@ -1762,7 +1762,7 @@ force_active:
   - TTecSlicer__ct
   - __ct__9TTecZondeFP8TObjBaseP3VecP16TargetCursorListl
   - is_first_bank__18TPlyDispConfigSmthFv
-  - TWindowChat__sub_80247D50
+  - is_status_text_shown__19TWindowKeyBoardHardFv
   - is_cancelled__15TSymbolChatMenuFv
   - TWindowComCard__class_name
   - __ct__14TWindowComCardFPC10NJS_POINT2Pv
@@ -1784,7 +1784,7 @@ force_active:
   - layout_entries__17TWindowDuelResult
   - TWindowEffectLight__sub_802AD040
   - TWindowEffectParty__name
-  - TWindowFukidasi__sub_80249788
+  - set_flag2c_bit400__15TWindowFukidasiFv
   - clear_received_guild_cards__Fl
   - item_layout_entries__15TWindowHelpItem
   - resistance_layout_entries__15TWindowHelpItem
@@ -16241,7 +16241,7 @@ force_active:
   - update_collision_radius__19TTecPlayerInfluenceFv
   - update_symbol_chat_window__11TWindowChatFv
   - update_word_select_window__11TWindowChatFv
-  - sub_80247EC0__11TWindowChatFv
+  - closes_after_send__11TWindowChatFv
   - update_stats_page__17TWindowDuelResultFv
   - build_stats_page__17TWindowDuelResultFv
   - update_ranking_page__17TWindowDuelResultFv

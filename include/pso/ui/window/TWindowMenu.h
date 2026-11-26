@@ -82,6 +82,8 @@ struct TWindowMenu : public TWindowAddition {
     void set_scroll_target(f32 width, f32 max_height);
     void update_scroll_target_position();
     void set_flag70_bit100();
+    void set_flag70_bit400();
+    void clear_flag70_bit4();
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);

@@ -219,7 +219,7 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
     } else {
         menu_window->set_selected_index(0);
     }
-    ((TWindowOptionCtrl *)menu_window)->clear_flag70_bit4();
+    menu_window->clear_flag70_bit4();
 }
 
 void TCheckMemoryCard::close_windows() {

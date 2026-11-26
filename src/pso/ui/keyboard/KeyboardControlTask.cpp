@@ -24,7 +24,7 @@ void TKeyBoardControl::run_task() {
     if (flags & 1) {
         if (test_pressed_buttons_packed(&controller_input_state.controllers[port], 0x200) != 0) {
             flags = (u16)(flags & 0xFFFE);
-            m_hard->sub_8025EC04();
+            m_hard->reset_status_text();
             if (m_soft != NULL) {
                 window_request_show(m_soft);
             }
@@ -59,7 +59,7 @@ TKeyBoardControl::TKeyBoardControl(TObject *parent, u32 width, u32 lines, u8 mod
     m_base->init_keyboard_text_field(width, lines);
     m_base->set_flag62_bit8();
     m_hard = new TWindowKeyBoardHard(m_base);
-    m_hard->sub_8025EC04();
+    m_hard->reset_status_text();
     m_soft = new TWindowKeyBoardSoft(m_base, client);
     switch (mode) {
     case 0:

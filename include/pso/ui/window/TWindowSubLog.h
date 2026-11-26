@@ -26,14 +26,8 @@ struct TWindowSubLog : public TObject {
 
 LAYOUT_ASSERT(TWindowSubLog_size, sizeof(TWindowSubLog) == 0x80);
 
-extern "C" {
-void fn_8027B2A8(void *p);
-}
 
 // --- C functions defined in TWindowSubLog.cpp ---
-extern "C" {
-void fn_8027B2A8(void *p);
-}
 // --- end of C functions
 
 #endif
