@@ -106,9 +106,9 @@ WindowDescriptor custom_equip_window_descriptor = {
 
 
 int TWindowSubCustomEquip::is_selected() { return this->state_flags & 0x1; }
-int TWindowSubCustomEquip__sub_80275DA8(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
+int is_custom_equip_cancelled(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
 void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
-    *(s8 *)&this->state_flags &= ~1;
+    this->state_flags &= ~1;
     status_disp->set_state(1);
 }
 
@@ -160,14 +160,14 @@ void TWindowSubCustomEquip::draw_cursor(WindowDrawContext *context) {
     draw_cursor_sprite(0.8f, context, &position, cursor_frame);
 }
 
-void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
+void TWindowSubCustomEquip::update_palette_slot(s32 slot, u16 kind, u16 index) {
     TObjPlayer *pl;
     WindowSpritePart *icon;
     TWindowLayoutNumber *label;
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        icon = static_cast<WindowSpritePart *>(get_array_entry(custom_equip_slot_icon_entries[arg1]));
-        label = static_cast<TWindowLayoutNumber *>(get_array_entry(custom_equip_slot_number_entries[arg1]));
+        icon = static_cast<WindowSpritePart *>(get_array_entry(custom_equip_slot_icon_entries[slot]));
+        label = static_cast<TWindowLayoutNumber *>(get_array_entry(custom_equip_slot_number_entries[slot]));
         if (pl->can_use_palette_action(kind, index) != 0) {
             icon->color = -1;
         } else {
@@ -202,11 +202,7 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(u8 slot) {
 }
 
 
-// An action palette slot reference: the tag mode and the slot it points to.
-struct PaletteTag { u16 mode; u16 slot; };
-
-void TWindowSubCustomEquip::get_cursor_pos(void *tag_out) {
-    PaletteTag *tag = (PaletteTag *)tag_out;
+void TWindowSubCustomEquip::get_cursor_pos(PaletteTag *tag) {
     s32 i;
     TObjPlayer *player;
     s32 saved_slot;
@@ -222,8 +218,7 @@ void TWindowSubCustomEquip::get_cursor_pos(void *tag_out) {
     tag->mode = palette->get_tag_mode(i, saved_slot);
     tag->slot = (s16)palette->get_tag_slot(i, saved_slot);
 }
-void TWindowSubCustomEquip::remove_duplicate_bindings(void *tag_ptr) {
-    PaletteTag *tag = (PaletteTag *)tag_ptr;
+void TWindowSubCustomEquip::remove_duplicate_bindings(const PaletteTag *tag) {
     TObjPlayer *player;
     TPlyDispConfigSmth *palette;
     if ((player = get_player_by_client_id(this->client_index)) == NULL || (palette = player->select_action_palette(0)) == NULL) {
@@ -248,8 +243,7 @@ void TWindowSubCustomEquip::remove_duplicate_bindings(void *tag_ptr) {
         player->set_action_palette_entry(0, 1, 2, 0, 0);
     }
 }
-void TWindowSubCustomEquip::toggle_action_binding(void *tag_ptr) {
-    PaletteTag *tag = (PaletteTag *)tag_ptr;
+void TWindowSubCustomEquip::toggle_action_binding(PaletteTag *tag) {
     TObjPlayer *player;
     TPlyDispConfigSmth *palette;
     s32 valid;
@@ -263,7 +257,7 @@ void TWindowSubCustomEquip::toggle_action_binding(void *tag_ptr) {
         player->set_action_palette_entry(0, valid, idx, 0, 0);
         return;
     }
-    remove_duplicate_bindings(tag_ptr);
+    remove_duplicate_bindings(tag);
     player->set_action_palette_entry(0, valid, idx, tag->mode, tag->slot);
 }
 
@@ -278,14 +272,14 @@ void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry) {
     position->y = entry->y - 15.0f;
 }
 
-void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
+void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
     NJS_POINT2 pos;
     WindowSpritePart *p;
     WindowSpritePart *a;
     WindowSpritePart *b;
     WindowSpritePart *c;
     WindowSpritePart *d;
-    if (*(s8 *)&this->front_bank == 0) {
+    if (this->front_bank == 0) {
         a = static_cast<WindowSpritePart *>(get_array_entry(0x11));
         b = static_cast<WindowSpritePart *>(get_array_entry(0x10));
         c = static_cast<WindowSpritePart *>(get_array_entry(8));
@@ -329,7 +323,7 @@ void TWindowSubCustomEquip::layout_entry_group(void *index) {
     e1->y = base->y + custom_equip_entry_offset_table[i].y;
     e1->depth = 0.1f + base->depth;
     e2->depth = 0.2f + base->depth;
-    e2->style = base->color;
+    e2->color = base->color;
     v = 0.003921569f * (((unsigned char) (((u32)base->color) & 0xFF)) * (((u32)e1->color) & 0xFF));
     e1->color = (v & 0xFF) | ((((v & 0xFF) << 16) | 0xFF000000) | ((v & 0xFF) << 8));
   }
@@ -344,12 +338,12 @@ void TWindowSubCustomEquip::refresh_palette_slots() {
     if (player == NULL || (palette = player->select_action_palette(0)) == NULL) {
         return;
     }
-    update_palette_slot(0, palette->get_tag_mode(*(s8 *)&this->front_bank, 2), palette->get_tag_slot(*(s8 *)&this->front_bank, 2));
-    update_palette_slot(1, palette->get_tag_mode(*(s8 *)&this->front_bank, 1), palette->get_tag_slot(*(s8 *)&this->front_bank, 1));
-    update_palette_slot(2, palette->get_tag_mode(*(s8 *)&this->front_bank, 3), palette->get_tag_slot(*(s8 *)&this->front_bank, 3));
-    update_palette_slot(3, palette->get_tag_mode(*(s8 *)&this->back_bank, 2), palette->get_tag_slot(*(s8 *)&this->back_bank, 2));
-    update_palette_slot(4, palette->get_tag_mode(*(s8 *)&this->back_bank, 1), palette->get_tag_slot(*(s8 *)&this->back_bank, 1));
-    update_palette_slot(5, palette->get_tag_mode(*(s8 *)&this->back_bank, 3), palette->get_tag_slot(*(s8 *)&this->back_bank, 3));
+    update_palette_slot(0, palette->get_tag_mode(this->front_bank, 2), palette->get_tag_slot(this->front_bank, 2));
+    update_palette_slot(1, palette->get_tag_mode(this->front_bank, 1), palette->get_tag_slot(this->front_bank, 1));
+    update_palette_slot(2, palette->get_tag_mode(this->front_bank, 3), palette->get_tag_slot(this->front_bank, 3));
+    update_palette_slot(3, palette->get_tag_mode(this->back_bank, 2), palette->get_tag_slot(this->back_bank, 2));
+    update_palette_slot(4, palette->get_tag_mode(this->back_bank, 1), palette->get_tag_slot(this->back_bank, 1));
+    update_palette_slot(5, palette->get_tag_mode(this->back_bank, 3), palette->get_tag_slot(this->back_bank, 3));
 }
 
 #pragma push
@@ -448,9 +442,9 @@ void TWindowSubCustomEquip::handle_cursor_input() {
         array_entry->color = 0xFF666666;
     }
     window_choice_setting = &controller_input_state.controllers[controller_index];
-    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
+    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_pressed_buttons_packed(window_choice_setting, (int) (get_control_button_mask((int)this->client_index))) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
-        if (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) {
+        if (test_pressed_buttons_packed(window_choice_setting, (int) (get_control_button_mask((int)this->client_index))) != 0) {
             this->bank = (u8) (1 - this->bank);
             this->bank_swap_timer = 3U;
         }
@@ -531,6 +525,6 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&cust
     this->refresh_palette_slots();
 }
 
-void *TWindowSubCustomSelect::get_selected_action() {
-    return reinterpret_cast<void *>(action_table + (static_cast<s8>(column) + static_cast<s8>(row) * 3) * 4);
+PaletteTag *TWindowSubCustomSelect::get_selected_action() {
+    return const_cast<PaletteTag *>(action_table + (static_cast<s8>(column) + static_cast<s8>(row) * 3));
 }

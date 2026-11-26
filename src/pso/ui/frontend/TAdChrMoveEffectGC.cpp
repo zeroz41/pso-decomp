@@ -33,7 +33,7 @@ extern "C" {
 void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *dest, S_803491F8 *source);
 #pragma push
 #pragma fp_contract on
-void TAdChrMoveEffectGC::sub_80348E34() {
+void TAdChrMoveEffectGC::draw_entries() {
     NJS_POINT2 pos[4];
     NJS_POINT2COL desc;
     NJS_COLOR col[4];
@@ -81,7 +81,7 @@ TAdChrMoveEffectGC *chr_move_effect_instance;
 extern "C" {
 void TAdChrMoveEffectGC__sub_80349194(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params);
 
-void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); sub_80348E34(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
+void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); draw_entries(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
 void TAdChrMoveEffectGC::reset_effect_entries() {
     ChrMoveEffectSlot *e;
@@ -109,8 +109,8 @@ void TAdChrMoveEffectGC::setup_move_effect_params(s32 from_index, s32 to_index) 
     ChrMoveEffectParams p;
     copy_vec2(&p.start, (void *)&chr_move_effect_pos_table[from_index]);
     copy_vec2(&p.end, (void *)&chr_move_effect_pos_table[to_index]);
-    copy4(p.start_color, (void *)(from_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
-    copy4(p.end_color, (void *)(to_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
+    copy4(p.start_color, (from_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
+    copy4(p.end_color, (to_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
     copy_vec2(&p.size, (void *)chr_move_effect_size);
     TAdChrMoveEffectGC__sub_80349194(this, &p);
 }

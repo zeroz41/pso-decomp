@@ -30,4 +30,7 @@ struct TLanguage
     static const char class_name[];
 };
 
+// The loaded text resource's string groups: text_language_group_table[group][id] is one string.
+extern char ***text_language_group_table;
+
 #endif

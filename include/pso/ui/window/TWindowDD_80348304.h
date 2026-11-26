@@ -7,8 +7,8 @@ struct TWindowDD;
 
 // --- C functions defined in TWindowDD_8034725C.cpp ---
 extern "C" {
-int TWindowDD__sub_80348424(s32 _w0, s32 _w1);
-void TWindowDD__sub_80348448(s32 arg0, s16 id);
+s32 get_word_next_state(TWindowDD *window, s32 id);
+s32 get_word_message_type(TWindowDD *window, s16 id);
 }
 // --- end of C functions
 

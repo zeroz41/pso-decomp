@@ -85,17 +85,16 @@ void set_sound_voice_position(s32 slot, const Vec *position);
 extern "C" {
 s32 TLobby__sub_8023F880(s32 voice);
 int TLobby__sub_802401C8(SoundControlState *self);
-void TLobby__sub_802409E4(struct SoundRequestVoice *voice);
-void TLobby__sub_802409F0(struct SoundRequestVoice *v);
+void sound_request_voice_set_refresh(struct SoundRequestVoice *voice);
+void sound_request_voice_update_pitch(struct SoundRequestVoice *v);
 void TLobby__sub_80240F38(void);
 void TLobby__sub_80241A0C(void);
-void TLobby__sub_802422EC(void *arg0, void *arg1);
-void TLobby__sub_8024259C(saddr arg0);
-void TLobby__sub_8024285C(void);
+void TLobby__sub_802422EC(void *dst, void *src);
+void reset_com_card_list_callback(void);
 }
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index);
 extern "C" {
-s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step);
+s32 start_voice_fade(SoundRequestVoice *v, s32 step);
 }
 void fade_out_sound_slot(s32 slot, s32 step);
 s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32 base, s32 flags);

@@ -96,8 +96,8 @@ void TObjCurtainLobby::free_resources() {
 }
 
 void TObjCurtainLobby::load_resources() {
-    void *resource = new BmlResource(5, &bm_obj_lobby_curtain_resource_descriptor, 0, 0, NULL);
-    model_resource = (BmlResource *)resource;
+    BmlResource *resource = new BmlResource(5, &bm_obj_lobby_curtain_resource_descriptor, 0, 0, NULL);
+    model_resource = resource;
     lobby_texlist = get_lobby_main_texlist();
 }
 
@@ -112,6 +112,6 @@ TObjCurtainLobby::TObjCurtainLobby(TObject *parent, void *set_data) : TObjMapObj
         state = 0;
     }
     scale = 1.0f;
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = lobby_texlist;
 }

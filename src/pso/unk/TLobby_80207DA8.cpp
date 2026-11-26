@@ -423,7 +423,7 @@ s32 read_be_u32(void) {
     s32 value;
     s32 cursor;
 
-    memcpy(&value, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
+    memcpy(&value, (wave_event_stream_base + wave_event_stream_cursor), 4);
     cursor = wave_event_stream_cursor;
     wave_event_stream_cursor = cursor + 4;
     bswap_32__FPUl(&value, cursor);
@@ -457,4 +457,4 @@ s32 run_wave_event_actions(void) {
 }
 
 
-void TLobby__sub_80208884(void *a0) { wave_event_stream_base = *(u8 **)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }
+void set_wave_event_stream(void *a0) { wave_event_stream_base = *(u8 **)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }

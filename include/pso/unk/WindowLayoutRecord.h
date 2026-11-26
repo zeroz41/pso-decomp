@@ -17,7 +17,7 @@ struct StatusGaugeLayout {
     f32 depth;
     u32 color;
     u32 flags;
-    f32 scale;
+    f32 length;
     f32 maximum;
     f32 target;
 };
@@ -48,10 +48,10 @@ struct TextLayoutRecord {
 struct ValueLayoutRecord {
     s32 type;
     f32 pos[2];
-    f32 pad_0C;
-    u32 pad_10;
-    s32 pad_14;
-    s32 pad_18;
+    f32 depth;
+    u32 color;
+    s32 flags;
+    s32 value;
 };
 
 // Type 6 (0x30 bytes), read by WindowSpritePart::init_part_scaled: u and v are texel

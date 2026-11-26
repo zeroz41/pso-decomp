@@ -35,7 +35,7 @@ TObjNpcFemaleOld::TObjNpcFemaleOld(TObject *parent, void *set_data) : TObjNpcFem
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = (void *)static_instance->models->model;
+    this->model = static_instance->models->model;
     this->texlist = static_instance->models->texlist;
     this->setup_common();
 }

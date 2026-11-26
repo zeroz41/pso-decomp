@@ -31,21 +31,23 @@ public:
     void handle_open();
     void set_flag4();
     void clear_flag4();
-    void set_flag_40();
-    void clear_flag_40();
+    void disable_input();
+    void enable_input();
     void set_close_flag();
     void clear_close_flag();
     void activate();
     void deactivate();
     // Opening the selected entry then plays no decide sound.
     void disable_decide_sound();
-    int get_flag();
+    int is_input_disabled();
     int is_decided();
     int is_cancelled();
     void clear_decided();
     void reset_list();
     void set_flag70_bit10();
     void start_scroll(f32 height);
+    // Shrinks the list onto the selected row (state flag 0x20); start_scroll undoes it.
+    void shrink_to_selected_entry();
     void add_status_entry(s8 flags, s32 src, s32 item);
     void add_list_entry(u8 icon, s32 src, s32 item);
     void add_list_entry(TItem *item, s32 index);
@@ -55,6 +57,7 @@ public:
     void add_ground_item(TItemData *item, s32 index);
     // Append a row with no item that shows message (-1 for the empty-list row).
     void add_list_entry(s32 message);
+    void add_text_entry(s32 text, s32 id);
     void add_inventory_item(TItem *item, s32 count, s32 id);
     // Fill the list from the player's inventory: the 31 slots of a trade
     // offer, usable items, armor of one kind and group to equip, mags of one
@@ -92,7 +95,7 @@ public:
     void advance_all_entries(s32 play_sound);
     void refresh_selected_entry(s32 play_sound);
     void append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows);
-    void push_status_disp_entry(s32 count, s32 id);
+    void add_meseta_entry(s32 meseta, s32 id);
     // Append a row for one of the player's five battle items (stat 0-4) when
     // they hold any; gray_out greys it where items cannot be used.
     void add_battle_stat_entry(s32 stat, s32 item, s32 gray_out);

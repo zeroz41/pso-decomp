@@ -1009,7 +1009,7 @@ void PartnerCounters::reset(s32 index) { count[index] = 0; }
 void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
 void __sinit_TNpcPlayer_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(npc_player_char_data), (void *)__dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
+    __register_global_object(__ct__12TPlyCharDataFv(npc_player_char_data), __dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
 }
 
 void TNpcPlayer::ensure_rock_singleton() {
@@ -2471,7 +2471,7 @@ s32 NpcPlayerView::probe_obstacles() {
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + get_registered_object_count(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
-            contact = (CollisionBody *)probe->find_actor_body_contact(reinterpret_cast<TObjCollidable *>(actor), 10000.0f);
+            contact = (CollisionBody *)probe->find_actor_body_contact(actor, 10000.0f);
             if (contact != NULL) {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {

@@ -16,7 +16,7 @@
 s32 adxt_fs_svr_phase;
 
 void ADXT_ExecFsSvr(void) {
-    if ((s32) adxt_fs_svr_phase == 0) {
+    if (adxt_fs_svr_phase == 0) {
         adx_lock();
         adxt_fs_svr_phase = 1;
         update_active_stream_reads();
@@ -25,7 +25,7 @@ void ADXT_ExecFsSvr(void) {
         adxt_fs_svr_phase = 5;
         update_active_stream_reads();
         adxt_fs_svr_phase = 6;
-        TLobby__sub_803CC884();
+        adxf_update_file_states();
         adxt_fs_svr_phase = 0;
         adx_unlock();
     }

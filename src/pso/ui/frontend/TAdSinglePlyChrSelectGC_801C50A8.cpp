@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TBattleProximitySound.h"
 #include "pso/system/task/TObject.h"
@@ -9,39 +10,40 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/render/NinjaUtil.h"
 #undef PSO_SDK_COMPACT_MATH
 
     extern int duel_result_window;
 TObject *ad_single_ply_chr_select_instance;
-void TAdSinglePlyChrSelectGC::set_slot(int a0) { *(short*)((char*)active_character_save_record + 0x21b0) = a0; }
-u16 TAdSinglePlyChrSelectGC::get_char_select_slot() {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21B0);
+void TAdSinglePlyChrSelectGC::set_active_disconnect_count(int a0) { active_character_save_record->online_battle.disconnect_count = a0; }
+u16 TAdSinglePlyChrSelectGC::get_active_disconnect_count() {
+    return active_character_save_record->online_battle.disconnect_count;
 }
-void TAdSinglePlyChrSelectGC__sub_801C50C0(int value) { *(short*)((char*)active_character_save_record + 0x21ae) = value; }
-u16 TAdSinglePlyChrSelectGC__sub_801C50CC(void) {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21AE);
+void set_active_fourth_place_count(int value) { active_character_save_record->online_battle.place_counts[3] = value; }
+u16 get_active_fourth_place_count(void) {
+    return active_character_save_record->online_battle.place_counts[3];
 }
-void TAdSinglePlyChrSelectGC__sub_801C50D8(int value) { *(short*)((char*)active_character_save_record + 0x21ac) = value; }
-u16 TAdSinglePlyChrSelectGC__sub_801C50E4(void) {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21AC);
+void set_active_third_place_count(int value) { active_character_save_record->online_battle.place_counts[2] = value; }
+u16 get_active_third_place_count(void) {
+    return active_character_save_record->online_battle.place_counts[2];
 }
-void TAdSinglePlyChrSelectGC__sub_801C50F0(int value) { *(short*)((char*)active_character_save_record + 0x21aa) = value; }
-u16 TAdSinglePlyChrSelectGC__sub_801C50FC(void) {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21AA);
+void set_active_second_place_count(int value) { active_character_save_record->online_battle.place_counts[1] = value; }
+u16 get_active_second_place_count(void) {
+    return active_character_save_record->online_battle.place_counts[1];
 }
-void TAdSinglePlyChrSelectGC__sub_801C5108(int value) { *(short*)((char*)active_character_save_record + 0x21a8) = value; }
-u16 TAdSinglePlyChrSelectGC__sub_801C5114(void) {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21A8);
+void set_active_first_place_count(int value) { active_character_save_record->online_battle.place_counts[0] = value; }
+u16 get_active_first_place_count(void) {
+    return active_character_save_record->online_battle.place_counts[0];
 }
-void TAdSinglePlyChrSelectGC__sub_801C5120(void) { duel_result_window = 0; }
+void clear_duel_result_window(void) { duel_result_window = 0; }
 void TAdSinglePlyChrSelectGC::destroy() {
     if (ad_single_ply_chr_select_instance != NULL) {
         ad_single_ply_chr_select_instance->queue_destruction();
     }
 }
-void TAdSinglePlyChrSelectGC__sub_801C5158(void) { ad_single_ply_chr_select_instance = NULL; }
+void clear_battle_proximity_sound(void) { ad_single_ply_chr_select_instance = NULL; }
 s32 TAdSinglePlyChrSelectGC::create_if_key_pressed() {
     s32 area;
     area = get_current_floor_area();
@@ -56,33 +58,28 @@ s32 TAdSinglePlyChrSelectGC::create_if_key_pressed() {
 }
 
 
-struct Ply_801C51D4 { u8 pad[0x30]; u32 flags; u8 pad34[4]; f32 pos[3]; };
-
-struct Self_801C51D4 { u8 pad[0x1C]; s32 life; s32 timer; Ply_801C51D4 *owner; };
-
 extern "C" {
 void *play_sound_effect(s32, s32, s32, s32, f32);
 
 #pragma push
 #pragma fp_contract on
 void TBattleProximitySound::run_task() {
-    Self_801C51D4 *self = (Self_801C51D4 *)this;
     s32 i;
-    Ply_801C51D4 *p;
+    TObjPlayer *p;
     f32 min;
     f32 d;
     f32 f;
-    if (--self->life <= 0) {
-        ((TObject *)self)->queue_destruction();
+    if (--life <= 0) {
+        queue_destruction();
         return;
     }
-    if (self->life > 0x5A) {
-        if (--self->timer <= 0) {
+    if (life > 0x5A) {
+        if (--timer <= 0) {
             min = 2250000.0f;
             for (i = 0; i < 4; i++) {
-                p = (Ply_801C51D4 *)get_player_by_client_id(i);
-                if (p != NULL && p != self->owner && !(p->flags & 0x800)) {
-                    d = xz_distance_squared((const Vec *)self->owner->pos, (const Vec *)p->pos);
+                p = get_player_by_client_id(i);
+                if (p != NULL && p != owner && !(p->actorFlags & 0x800)) {
+                    d = xz_distance_squared(&owner->position, &p->position);
                     min = min < d ? min : d;
                 }
             }
@@ -90,7 +87,7 @@ void TBattleProximitySound::run_task() {
             f -= 200.0f;
             min = 1.0f - 0.00076923077f * f;
             set_sound_pitch_request((saddr)play_sound_effect(0x23230, 0, 0, 0, f), (256.0f * min), 0);
-            self->timer = (s32)(-53.0f * min) + 0x3C;
+            timer = (s32)(-53.0f * min) + 0x3C;
         }
     }
 }
@@ -105,5 +102,5 @@ TBattleProximitySound::~TBattleProximitySound() {
 TBattleProximitySound::TBattleProximitySound(TObject *parent) : TObject(parent) {
     life = 0x3DE;
     timer = 0x1E;
-    owner = (saddr)get_local_player();
+    owner = get_local_player();
 }

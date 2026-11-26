@@ -225,7 +225,7 @@ void TODoorCave01::render() {
         rotate_matrix_y(NULL, rotation_y);
         if ((s32)object_state == DOOR_CLOSED) {
             i = 0;
-            node = ((NJS_OBJECT *)model)->child;
+            node = (model)->child;
             do {
                 draw_switch_light(node, door_flags & (1 << (i + LIGHT_LIT_SHIFT)) ? 1 : 0);
                 i++;
@@ -280,7 +280,7 @@ TODoorCave01::~TODoorCave01() {
 TODoorCave01::TODoorCave01(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_cave01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)bml_resource->models[0].model;
+    model = bml_resource->models[0].model;
     texlist = bml_resource->models[0].texlist;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

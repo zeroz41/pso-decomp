@@ -9,10 +9,20 @@
 struct GuildCardEntry {
     s32 get_card_id() const;
     char *get_name();
+    char *get_text();
     int is_active() const;
     s8 get_char_class();
-    s32 sub_8007B6F4() const;
+    s8 get_language();
+    s8 get_section_id();
+    // 1 unless flag 2 is set; cards filled from a short mail or another player get flags 3, the
+    // player's own card (fill_from_char) only flag 1.
+    s32 is_own_card() const;
     void bswap();
+    void set_text(char *text);
+    void clear_and_fill_from_char(s32 index);
+    void fill_from_char(s32 index);
+    // Updates the matching card of the guild card file (update_matching_card); 1 if the file has it.
+    s32 update_in_card_file();
 
     TPlyGuildCardTag tag;
     char name[0x18];
@@ -50,6 +60,6 @@ LAYOUT_ASSERT(GuildCardSlotNoteOffset, offsetof(GuildCardSlot, note) == 0x94);
 
 // Fills a GuildCardEntry with the name, section id, class and language of the player of
 // client; 0 when there is none or it has no guild card number.
-s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client);
+s32 fill_guild_card_from_player(GuildCardEntry *card, u32 client);
 
 #endif

@@ -27,7 +27,7 @@ void TOSignCave03::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        node = (NJS_OBJECT *)model;
+        node = model;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         push_matrix();
@@ -48,7 +48,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node = ((NJS_OBJECT *)model)->child->sibling;
+        node = (model)->child->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
@@ -65,7 +65,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node = ((NJS_OBJECT *)model)->child->sibling->sibling;
+        node = (model)->child->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
@@ -77,7 +77,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node = ((NJS_OBJECT *)model)->child->sibling->sibling->sibling;
+        node = (model)->child->sibling->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
@@ -118,7 +118,7 @@ TOSignCave03::~TOSignCave03() {}
 TOSignCave03::TOSignCave03(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = sign_cave03_class_name;
     apply_object_set_data(set_data);
-    model = (void *)sign_cave03_bml_resource->models[0].model;
+    model = sign_cave03_bml_resource->models[0].model;
     texlist = sign_cave03_bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 300.0f;

@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOCONTAINERANCIENTITEMCOMMON_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B08BC.h"
+#include "pso/object/container/TOContainerAncientItem.h"
 
-struct TOContainerAncientItemCommon : public TUnk_804B08BC {
+struct TOContainerAncientItemCommon : public TOContainerAncientItem {
     TOContainerAncientItemCommon(void *set_data);
     virtual ~TOContainerAncientItemCommon();
     virtual void apply_saved_state(s16 *, s32);

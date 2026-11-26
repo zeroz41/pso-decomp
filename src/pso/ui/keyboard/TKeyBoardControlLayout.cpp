@@ -34,7 +34,7 @@ void TKeyBoardControl::show() {
             m_hard->clear_flag60_bit200();
         }
         if (!(flags & 1) && (m_soft != NULL)) {
-            window_request_show(m_soft);
+            m_soft->request_show();
         }
     }
 }

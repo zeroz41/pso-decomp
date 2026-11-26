@@ -78,32 +78,30 @@ void TWindowMenuIconLine::activate() {
         }
     }
     clear_close_flag();
-    clear_flag_40();
+    enable_input();
 }
 
 // inferred: what the trade window creators call on a new list.
 void TWindowMenuIconLine::deactivate() {
-    set_flag_40();
+    disable_input();
     set_close_flag();
     if (status_display != NULL) {
         status_display->set_state(0);
     }
 }
 
-
-
 // Puts the cursor back on the saved row, or the nearest selectable row above it.
 void TWindowMenuIconLine::clamp_selection_to_valid_entry() {
-    void *e;
+    TWindowLayoutEntry *e;
     if (entry_count >= 0) {
         if (saved_cursor >= entry_count) {
             cursor = entry_count - 1;
             return;
         }
-        e = get_array_entry(saved_cursor);
-        while (((TWindowLayoutEntry *)e)->is_flag_4_set() == 0) {
+        e = (TWindowLayoutEntry *)get_array_entry(saved_cursor);
+        while (e->is_flag_4_set() == 0) {
             saved_cursor = saved_cursor - 1;
-            e = get_array_entry(saved_cursor);
+            e = (TWindowLayoutEntry *)get_array_entry(saved_cursor);
         }
         cursor = saved_cursor;
     }
@@ -202,9 +200,9 @@ void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 src, s3
     }
 }
 
-void TWindowMenuIconLine::push_status_disp_entry(s32 count, s32 id) {
+void TWindowMenuIconLine::add_meseta_entry(s32 meseta, s32 id) {
     if (entry_count < entry_capacity) {
-        TWindowSubStatusDisp__sub_80258A28((ItemListRow *)get_array_entry(entry_count), count, id);
+        ((ItemListRow *)get_array_entry(entry_count))->init_meseta(meseta, id);
         entry_count++;
     }
 }
@@ -358,22 +356,21 @@ void TWindowMenuIconLine::add_ground_item(TItemData *item, s32 index) {
     }
 }
 
-void TLobby::add_status_disp_entry(s32 name, s32 id) {
-    TWindowMenuIconLine *list = (TWindowMenuIconLine *)this;
-    if (list->entry_count < list->entry_capacity) {
-        ItemListRow *entry = (ItemListRow *)list->get_array_entry(list->entry_count);
-        entry->init_display(name, id);
-        list->entry_count++;
+void TWindowMenuIconLine::add_text_entry(s32 text, s32 id) {
+    if (entry_count < entry_capacity) {
+        ItemListRow *entry = (ItemListRow *)get_array_entry(entry_count);
+        entry->init_display(text, id);
+        entry_count++;
     }
 }
 
-void TAdVIConfigGC__sub_80267704(s32 arg0) {
-    list_window_descriptor.flags = arg0;
+void set_menu_icon_line_flags(s32 flags) {
+    list_window_descriptor.flags = flags;
 }
 
 #pragma fp_contract on
 void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_items, s32 capacity) {
-  u8 new_var;
+  u8 advance;
   NJS_POINT2 pt;
   if (context->open_tick >= 0)
   {
@@ -388,11 +385,11 @@ void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_ite
     get_shared_text_buffer();
     pt.x -= (f32) calc_text_width();
     map_char_to_font_code(0x2F);
-    new_var = get_font_char_advance();
-    pt.x -= 0.5f * new_var;
-    text_builder_append((u8 *)"/");
+    advance = get_font_char_advance();
+    pt.x -= 0.5f * advance;
+    text_builder_append("/");
     text_builder_append_int(capacity);
-    draw_window_text((f32 *)&pt, (const char *)(get_shared_text_buffer()), -1, 0, (f32)100000.0f);
+    draw_window_text((f32 *)&pt, get_shared_text_buffer(), -1, 0, (f32)100000.0f);
   }
 }
 
@@ -435,7 +432,7 @@ void TWindowMenuIconLine::move_cursor_next() {
         if (candidate == (s16) this->cursor) {
             return;
         }
-        if (sub_80266B18(candidate) != 0) {
+        if (is_entry_selectable(candidate) != 0) {
             this->cursor = candidate;
             return;
         }
@@ -458,7 +455,7 @@ void TWindowMenuIconLine::move_cursor() {
         if (candidate == (s16) this->cursor) {
             return;
         }
-        if (sub_80266B18(candidate) != 0) {
+        if (is_entry_selectable(candidate) != 0) {
             this->cursor = candidate;
             return;
         }
@@ -470,7 +467,7 @@ void TWindowMenuIconLine::set_cursor_index(s16 index) {
         if (index >= entry_capacity) {
             return;
         }
-        while (sub_80266B18(index) == 0) {
+        while (is_entry_selectable(index) == 0) {
             if (index > 0) {
                 index -= 1;
                 continue;
@@ -510,15 +507,15 @@ void TWindowMenuIconLine::start_scroll(f32 height) {
     }
 }
 
-void TWindowSubStatusDisp::init_scroll_pos() {
-    u16 temp_r4;
-    void *temp;
+void TWindowMenuIconLine::shrink_to_selected_entry() {
+    u16 flags;
+    WindowTextEntry *entry;
 
-    temp_r4 = *(u16 *)((s8 *)this + 0x70);
-    if (!(temp_r4 & 0x20)) {
-        *(u16 *)((s8 *)this + 0x70) = (u16) (temp_r4 | 0x20);
-        temp = (u16 *)this->get_array_entry((s16)((*(s16 *)((s8 *)this + 0x74))));
-        this->target_size[1] = (f32) (20.0f + *(f32 *)((s8 *)temp + 0x14));
+    flags = state_flags;
+    if (!(flags & 0x20)) {
+        state_flags = (u16) (flags | 0x20);
+        entry = (WindowTextEntry *)this->get_array_entry(cursor);
+        this->target_size[1] = 20.0f + entry->height;
         if (this->window_flags & 0x40) {
             this->target_size[1] += 6.0f;
         }
@@ -532,7 +529,7 @@ void TWindowMenuIconLine::center_list_selection() {
     f32 target;
 
     if ((this->scroll_bar != 0U) && (this->tween_ticks == 0U)) {
-        f32 t = (*(f32 *)&this->frame_size[1] - 16.0f) - 10.0f;
+        f32 t = (this->frame_size[1] - 16.0f) - 10.0f;
         target = 9.0f + (f32) (this->cursor * 0x14);
         target -= 0.5f * t;
         scroll_offset[1] += target - scroll_offset[1];
@@ -554,13 +551,13 @@ void TWindowMenuIconLine::clamp_item_list_scroll() {
 
 #pragma fp_contract on
 void TWindowMenuIconLine::update_scroll_offset() {
-  s8 *new_var;
+  WindowTextEntry *entry;
   f32 target_y;
   u32 n;
   if ((this->state_flags) & 0x20)
   {
-    new_var = ((s8 *) ((u16 *)get_array_entry(this->cursor))) + 0xC;
-    target_y = *((f32 *) new_var);
+    entry = (WindowTextEntry *)get_array_entry(this->cursor);
+    target_y = entry->y;
   }
   else
   {
@@ -584,7 +581,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(WindowDrawContext *context) {
     if (!(this->state_flags & 0x80)) {
         entry = (u16 *)this->get_array_entry(this->cursor);
         if (*entry & 1) {
-            draw_selection_bar(context, (u8 *)entry, this->is_decided());
+            draw_selection_bar(context, (TWindowLayoutRect *)entry, this->is_decided());
         }
     }
 }
@@ -624,10 +621,7 @@ void TWindowMenuIconLine::render() {
 
     draw_context = get_draw_context();
     draw_window_frame(draw_context);
-    draw_visible_window_entries(
-        this,
-        reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-        draw_context);
+    draw_visible_window_entries(this, &entry_list, draw_context);
     this->draw_selected_list_entry(draw_context);
     if (this->status_display != NULL) {
         this->status_display->render(draw_context);
@@ -644,7 +638,7 @@ void TWindowMenuIconLine::run_task() {
     ControllerInputContext *pad;
     ControllerInputContext *context;
     controller_index = is_player_input_active(((s32) this->client_index));
-    if ((this->get_flag() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
+    if ((this->is_input_disabled() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
         if (this->state_flags & 0x10) {
             input = &controller_input_state.controllers[controller_index];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
@@ -684,7 +678,7 @@ void TWindowMenuIconLine::run_task() {
     this->step_window_tween();
     this->center_list_selection();
     this->clamp_item_list_scroll();
-    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24));
+    this->update_window_entry_list(&entry_list);
 }
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {
@@ -704,7 +698,7 @@ TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client)
     init(count, client);
 }
 
-void TWindowMenuIconLine::clear_flag_40() { state_flags &= ~0x40; }
+void TWindowMenuIconLine::enable_input() { state_flags &= ~0x40; }
 
 void TWindowMenuIconLine::clear_close_flag() { state_flags &= ~0x80; }
 

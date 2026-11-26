@@ -357,8 +357,8 @@ void free_armor_random_table(void) {
 }
 
 // Dead-stripped from the DOL: no code of it survives, only its literals. The TU's int-to-float
-// constant (0x4330000080000000, .rodata 0x8044BC38) is pooled ahead of "ArmorRandom.rel"
-// (0x8044BC40), yet load_armor_random_table is compiled before ShopPool::shuffle, the constant's
+// constant (0x4330000080000000) is pooled ahead of "ArmorRandom.rel"
+// yet load_armor_random_table is compiled before ShopPool::shuffle, the constant's
 // one surviving user: a function compiled ahead of it converted an int. This reconstruction draws
 // a random pool index the way ShopPool::shuffle (and ShopToolStock's roll_shop_technique_level)
 // draws.

@@ -37,7 +37,7 @@ void gba_download_destroy_graph() {
         ((TObject *)gba_download_graph)->queue_destruction();
         gba_download_graph = 0U;
     }
-    *(s8 *)((s8 *)TLobby__data_805434A8 + 7) = 0;
+    *(s8 *)((s8 *)gba_joyboot_states + 7) = 0;
 }
 
 void gba_download_create_graph() {
@@ -81,10 +81,10 @@ void gba_joyboot_transfer_callback(s32 channel, s32 status) {
         gba_download_state = 1;
         break;
     }
-    GbaJoybootState* q = TLobby__data_805434A8;
+    GbaJoybootState* q = gba_joyboot_states;
     q->timeout_counter = q->timeout_counter + 1;
     if ((f32)q->timeout_counter >= 120.0f) {
-        TLobby__data_805434A8[0].timeout_counter = 0x78;
+        gba_joyboot_states[0].timeout_counter = 0x78;
         gba_download_state = 2;
     }
 }
@@ -140,25 +140,25 @@ u8 gba_download_update_graph() {
 }
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-GbaJoybootState TLobby__data_805434A8[1];
+GbaJoybootState gba_joyboot_states[1];
 
-struct DateStamp_8032C9A8 { s32 days; s32 mins; s32 ticks; };
+struct DayMinuteTicks { s32 days; s32 mins; s32 ticks; };
 
 struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
 
 #pragma push
 #pragma fp_contract on
-void stamp_joyboot_image(s32 arg0, s32 arg1) {
+void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
     u32 secs;
     Rec_8032C9A8 rec;
-    DateStamp_8032C9A8 ds;
+    DayMinuteTicks ds;
     u8 *obj;
     u8 *st;
     memset(&rec, 0, 0xC);
     obj = gba_joyboot_send_buffer;
     st = TAdSinglePlyChrSelectGC::get_global_state();
     if (st != 0) {
-        if (arg1 != 0) {
+        if (stamp_enabled != 0) {
             getDateStamp((DateStamp *)&ds);
             DateToSeconds((DateStamp *)&ds, (int *)&secs);
             secs = 100.0f * (3.0517578e-05f * rand()) + secs;
@@ -200,17 +200,17 @@ s32 gba_start_joyboot() {
 }
 
 void probe_gba_device(void) {
-    TLobby__data_805434A8[0].probe_counter = TLobby__data_805434A8[0].probe_counter + 1;
+    gba_joyboot_states[0].probe_counter = gba_joyboot_states[0].probe_counter + 1;
     if (SIProbe(3) == 0x40000) {
-        TLobby__data_805434A8[0].probe_counter = 0;
-        TLobby__data_805434A8[0].device_present = 1;
+        gba_joyboot_states[0].probe_counter = 0;
+        gba_joyboot_states[0].device_present = 1;
     } else {
-        if (TLobby__data_805434A8[0].probe_counter >= 120.0f) {
-            *(volatile u16 *)&TLobby__data_805434A8[0].probe_counter = 0x78;
-            *(volatile s8 *)&TLobby__data_805434A8[0].device_present = 0;
+        if (gba_joyboot_states[0].probe_counter >= 120.0f) {
+            *(volatile u16 *)&gba_joyboot_states[0].probe_counter = 0x78;
+            *(volatile s8 *)&gba_joyboot_states[0].device_present = 0;
             *(volatile s32 *)&gba_download_state = 2;
         } else {
-            *(volatile s32 *)&gba_download_state = 1;
+            *&gba_download_state = 1;
         }
     }
 }
@@ -218,37 +218,37 @@ void probe_gba_device(void) {
 void update_gba_joyboot_transfer(void) {
     probe_gba_device();
     if (get_gba_download_state() == 2) {
-        TLobby__data_805434A8[0].phase = 0;
+        gba_joyboot_states[0].phase = 0;
     }
-    switch (TLobby__data_805434A8[0].phase) {
+    switch (gba_joyboot_states[0].phase) {
     case 0:
-        if (TLobby__data_805434A8[0].device_present != 0) {
-            TLobby__data_805434A8[0].phase = 1;
+        if (gba_joyboot_states[0].device_present != 0) {
+            gba_joyboot_states[0].phase = 1;
         }
         break;
     case 1:
         stamp_joyboot_image(*(u16 *)&gba_identifier_slot_plus_1 - 1, gba_identifier_value);
         gba_clear_identifiers();
         gba_calc_joyboot_checksum();
-        TLobby__data_805434A8[0].phase = 2;
+        gba_joyboot_states[0].phase = 2;
         break;
     case 2:
-        if (TLobby__data_805434A8[0].device_present != 0) {
+        if (gba_joyboot_states[0].device_present != 0) {
             gba_start_joyboot();
             if (get_gba_download_state() != 1) {
-                TLobby__data_805434A8[0].phase = 3;
+                gba_joyboot_states[0].phase = 3;
             }
-            GbaJoybootState *q = TLobby__data_805434A8;
+            GbaJoybootState *q = gba_joyboot_states;
             q->timeout_counter = q->timeout_counter + 1;
             if ((f32)q->timeout_counter >= 120.0f) {
-                TLobby__data_805434A8[0].timeout_counter = 0x78;
+                gba_joyboot_states[0].timeout_counter = 0x78;
                 gba_download_state = 2;
             }
         }
         break;
     case 3:
         if (get_gba_download_state() != 4 && get_gba_download_state() != 3) {
-            TLobby__data_805434A8[0].phase = 0;
+            gba_joyboot_states[0].phase = 0;
         }
         break;
     }
@@ -262,7 +262,7 @@ void gba_joyboot_set_send_buffer(u8 *buffer, s32 length) {
     gba_joyboot_send_buffer = buffer;
     gba_joyboot_send_length = length;
     gba_joyboot_status = 0;
-    reset_joyboot_state(TLobby__data_805434A8);
+    reset_joyboot_state(gba_joyboot_states);
     gba_download_state = 0;
 }
 #pragma pop

@@ -12,7 +12,7 @@ void ending_scene_nop_load(void);
 // --- end of C functions
 
 extern "C" {
-void fn_8008C4F4(void);
+void release_ending_scene(void);
 }
 void run_game_frame(void);
 

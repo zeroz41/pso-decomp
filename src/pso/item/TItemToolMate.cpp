@@ -14,16 +14,16 @@ s32 get_item_index__5TItemFv(void *);
 // Monomate and dimate heal their PMT amount plus half of it per difficulty
 // level; the trimate fills HP.
 void TItemToolMate::apply_use_effect() {
-  u8 (*new_var2)(void *);
+  u8 (*get_index)(void *);
   s32 t;
-  new_var2 = (u8 (*)(void *)) get_item_index__5TItemFv;
-  if (new_var2(this) != 2)
+  get_index = (u8 (*)(void *)) get_item_index__5TItemFv;
+  if (get_index(this) != 2)
   {
-    int new_var;
+    int heal;
     t = get_pmt_amount();
-    new_var = game_difficulty_selection;
-    new_var = t + (new_var * (t / 2));
-    add_actor_hp((TObjChara *)this->owner, new_var);
+    heal = game_difficulty_selection;
+    heal = t + (heal * (t / 2));
+    add_actor_hp((TObjChara *)this->owner, heal);
   }
   else
   {

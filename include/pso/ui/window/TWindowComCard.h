@@ -13,6 +13,7 @@ struct ComCardLayout {
 };
 
 struct TWindowComCard : public TWindowBase {
+    static const char *class_name;
     TWindowComCard(const NJS_POINT2 *position, void *data);
     virtual ~TWindowComCard();
     virtual void render();
@@ -22,12 +23,12 @@ struct TWindowComCard : public TWindowBase {
     void set_display_entry(s32 card_index, s32 records);
     static TWindowComCard *create_for_card(const NJS_POINT2 *position, s32 index, saddr card_slot);
     static TWindowComCard *create(const NJS_POINT2 *position, s32 index);
-    void*get_kbd_ptr();
-    void set_help_mode(s32 mode);
-    void*get_card_name_ptr();
 };
 
 LAYOUT_ASSERT(TWindowComCard_size, sizeof(TWindowComCard) == 0x60);
 
 s32 get_class_name_text(s32 class_index);
+// Help panel mode of photon blast chain slot `slot` (modes 0xA and up).
+s32 get_chain_help_mode(s32 slot);
+
 #endif

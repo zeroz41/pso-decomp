@@ -36,7 +36,7 @@ extern __declspec(section ".rodata") const ChallengeWindowExtentResource lbl_804
 
 #pragma push
 #pragma opt_common_subs off
-const char *get_selected_quest_text__19TQuestListChallengeFv(void) {
+const char *get_selected_quest_text(void) {
     if (quest_list_challenge_active_instance != NULL) {
         TWindowMenuIconLine *window = quest_list_challenge_active_instance->list_window;
         if (window != NULL) {
@@ -268,7 +268,7 @@ void reset_globals__19TQuestListChallengeFv(void) {
     quest_list_challenge_active_instance = NULL;
 }
 
-void reset_globals2__19TQuestListChallengeFv(void) {
+void reset_globals2(void) {
     lbl_805D64A8 = 0;
     lbl_805D64AC = 0;
     quest_list_challenge_active_instance = NULL;

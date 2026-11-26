@@ -44,7 +44,7 @@ LAYOUT_ASSERT(palette_size, sizeof(TWindowActionPalette) == 0x78);
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowActionPalette__name = "TWindowActionPalette";
+const char *TWindowActionPalette::class_name = "TWindowActionPalette";
 #pragma pop
 
 struct PaletteItemKind { u8 group; u8 index; };
@@ -52,8 +52,8 @@ struct PaletteItemKind { u8 group; u8 index; };
 
 
 // update_palette_item_count_label is the first caller of these two: their copies close the TU.
-void TWindowHelpItem::set_flag0_bit2() { *(u16*)(this + 0x0) |= 0x2; }
-void TWindowSubStatusDisp::clear_visible_flag() { *(u16 *)&this->m_name &= 0xfffffffd; }
+void TWindowLayoutEntry::hide() { flags |= 0x2; }
+void TWindowLayoutEntry::show() { flags &= 0xfffffffd; }
 
 extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
@@ -134,7 +134,7 @@ WindowDescriptor twindow_action_palette_layout = {
 TWindowActionPalette::TWindowActionPalette(s32 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
     u32 i;
 
-    this->m_name = TWindowActionPalette__name;
+    this->m_name = TWindowActionPalette::class_name;
     if (TCameraCtrl::get_camera_id() > 2) {
         this->scale.x = 0.5f;
         this->scale.y = 0.5f;
@@ -172,7 +172,7 @@ void TWindowActionPalette::run_task() {
         open_tick = 0x01000000;
     }
     slot = is_player_input_active(client_index);
-    if (test_previous_buttons_packed(&controller_input_state.controllers[slot], fn_8002AE08(client_index)) != 0) {
+    if (test_previous_buttons_packed(&controller_input_state.controllers[slot], get_control_button_mask(client_index)) != 0) {
         state = 3;
     }
     help = (TWindowHelpItem *)get_array_entry(0);
@@ -251,7 +251,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
         corner.v0 = 0.63671875f;
         corner.u1 = 0.27734375f;
         corner.v1 = 0.9609375f;
-        draw_textured_quad_at_depth((f32 *)&corner, depth);
+        draw_textured_quad_at_depth(&corner.x0, depth);
     }
     top_row.x0 = 13.0f + ctx->x;
     top_row.y0 = ctx->y;
@@ -262,7 +262,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
     top_row.u1 = 0.35546875f;
     top_row.v1 = 0.6328125f;
     ctx->transform_quad(&top_row);
-    draw_textured_quad_at_depth((f32 *)&top_row, depth);
+    draw_textured_quad_at_depth(&top_row.x0, depth);
     bottom_row.x0 = 45.0f + ctx->x;
     bottom_row.y0 = 53.0f + ctx->y;
     bottom_row.x1 = 91.0f + bottom_row.x0;
@@ -272,7 +272,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
     bottom_row.u1 = 0.71875f;
     bottom_row.v1 = 0.6328125f;
     ctx->transform_quad(&bottom_row);
-    draw_textured_quad_at_depth((f32 *)&bottom_row, depth);
+    draw_textured_quad_at_depth(&bottom_row.x0, depth);
     frame.x0 = ctx->x;
     frame.y0 = ctx->y;
     frame.x1 = 150.0f + frame.x0;
@@ -281,7 +281,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
     frame.u1 = 0.5859375f;
     frame.v1 = 0.41796875f;
     ctx->transform_quad(&frame);
-    draw_textured_quad_at_depth((f32 *)&frame, depth);
+    draw_textured_quad_at_depth(&frame.x0, depth);
     end_screen_draw();
     if (scanline_crosses_window(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
         begin_window_sweep_draw(2);
@@ -322,7 +322,7 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
         } else {
             icon->color = 0xFF404040;
         }
-        ((TWindowHelpItem *)get_array_entry(5))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)get_array_entry(5))->hide();
         ActionPaletteTag *cur = &resources[idx];
         if (mode != get_action_palette_tag_mode(cur) || get_action_palette_tag_slot(cur) != slot) {
             set_action_palette_tag_mode(cur, mode);
@@ -443,7 +443,7 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
     s32 v;
     TObjPlayer *p;
     if (group != 4) {
-        reinterpret_cast<TWindowHelpItem *>(label)->set_flag0_bit2();
+        reinterpret_cast<TWindowLayoutEntry *>(label)->hide();
         return;
     }
     if (index >= 0xD) {
@@ -457,11 +457,11 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
         v = TWindowHelpItem::get_help_value(index, client_id);
     }
     if (v <= 0) {
-        reinterpret_cast<TWindowHelpItem *>(label)->set_flag0_bit2();
+        reinterpret_cast<TWindowLayoutEntry *>(label)->hide();
         return;
     }
-    reinterpret_cast<TWindowSubStatusDisp *>(label)->clear_visible_flag();
-    label->style = icon->color;
+    reinterpret_cast<TWindowLayoutEntry *>(label)->show();
+    label->color = icon->color;
     label->value = v;
     draw_right_aligned_number(label);
     label->x = (icon->x - -25.0f) + 0.5f * label->width;

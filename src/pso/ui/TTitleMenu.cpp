@@ -37,7 +37,7 @@ void TTitleMenu::draw_record_with_camera(s32 record, s32 camera) {
 }
 
 
-s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller) {
+s32 is_title_choice_confirmed(TTitleMenu *controller) {
     return controller->state == 2;
 }
 

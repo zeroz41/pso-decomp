@@ -134,7 +134,7 @@ TODoorVoShip::~TODoorVoShip() {
 TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = door_vo_ship_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(bml_resource, 1);
+    model = get_bml_model(bml_resource, 1);
     texlist = get_bml_texlist(bml_resource, 1);
     motion = get_bml_motion(bml_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;

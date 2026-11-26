@@ -5,6 +5,7 @@
 
 class TWindowDD_WS_ScrollBar : public TWindowBase {
 public:
+    static const char *class_name;
     virtual ~TWindowDD_WS_ScrollBar();
     TWindowDD_WS_ScrollBar();
     static TWindowDD_WS_ScrollBar *create();

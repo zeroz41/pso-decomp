@@ -70,9 +70,9 @@ TSymbolChatCapture::TSymbolChatCapture(TObject *parent) : TObject(parent) {
     slot_entity_dispatcher_instance = this;
 }
 
-void TLobby::create_singleton(void *parent) {
+void TLobby::create_singleton(TObject *parent) {
     if (slot_entity_dispatcher_instance == NULL) {
-        new TSymbolChatCapture((TObject *)parent);
+        new TSymbolChatCapture(parent);
     }
 }
 

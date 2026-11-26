@@ -30,7 +30,7 @@ void TWindowSubEquipList::render() {
     draw_window_frame(draw_context);
     draw_visible_window_entries(
         this,
-        reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *)this) + 0x24)),
+        reinterpret_cast<const WindowLayoutEntries *>((((u8 *)this) + 0x24)),
         draw_context);
     draw_selected_list_entry(draw_context);
     if (this->status_display != NULL) {

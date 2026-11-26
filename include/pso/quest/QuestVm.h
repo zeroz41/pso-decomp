@@ -6,6 +6,11 @@
 struct TWindowMessage;
 struct TWindowMessageQuest;
 struct TWindowMenu;
+class TObjItemNameEntry;
+class TObjItemNameSelect;
+class TObjItemOKWindow;
+class TWindowMenuIconLine;
+struct TWindowHelpItem;
 
 enum quest_suspend_reason {
     QST_RUNNING                = 0,
@@ -43,11 +48,11 @@ struct QuestVmContext {
     u8 unk155;
     u16 unk156;
     u16 unk158;
-    void *item_name_entry;
-    void *item_name_select;
-    void *item_ok_window;
-    void *pack_select_window;
-    void *pack_select_help_window;
+    TObjItemNameEntry *item_name_entry;
+    TObjItemNameSelect *item_name_select;
+    TObjItemOKWindow *item_ok_window;
+    TWindowMenuIconLine *pack_select_window;
+    TWindowHelpItem *pack_select_help_window;
     u16 statistic_arg1;
     u16 statistic_arg2;
 
@@ -77,11 +82,11 @@ extern TWindowMessageQuest *qst_message_window;
 extern TWindowMessage *qst_message_window_qb;
 extern s32 qst_message_speaker;
 extern TWindowMenu *qst_list_window;
-extern void *qst_item_name_entry;
-extern void *qst_item_name_select;
-extern void *qst_item_ok_window;
-extern void *qst_pack_select_window;
-extern void *qst_pack_select_help_window;
+extern TObjItemNameEntry *qst_item_name_entry;
+extern TObjItemNameSelect *qst_item_name_select;
+extern TObjItemOKWindow *qst_item_ok_window;
+extern TWindowMenuIconLine *qst_pack_select_window;
+extern TWindowHelpItem *qst_pack_select_help_window;
 
 extern u32 qst_flag_buf;
 extern u16 qst_statistic_id;

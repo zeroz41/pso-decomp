@@ -16,7 +16,7 @@
 const char *TObjBoss5PillarDemo::name = "TObjBoss5PillarDemo";
 #pragma pop
 
-void TObjBoss5PillarDemo__sub_8028AB38(void) {
+void clear_pillar_target_refs(void) {
     if (boss5_common_bml_resource != NULL) {
         BmlModelEntry *models = boss5_common_bml_resource->models;
         clear_child_target_refs(models[7].model, models[6].model);

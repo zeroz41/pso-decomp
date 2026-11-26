@@ -24,14 +24,14 @@
 
 #pragma readonly_strings on
 
-const f32 lbl_8047B8A8[2] = { 89.0f, 394.0f };
-const f32 lbl_8047B8B0[2] = { 462.0f, 18.0f };
+const f32 ep3_exist_cursor_pos[2] = { 89.0f, 394.0f };
+const f32 ep3_exist_cursor_size[2] = { 462.0f, 18.0f };
 const char *TAdEp3Exist::name = "TAdEp3Exist";
-const f32 lbl_8047B8C4[2] = { 85.0f, 384.0f };
-const f32 lbl_8047B8CC[2] = { 470.0f, 32.0f };
+const f32 serial_access_window_pos[2] = { 85.0f, 384.0f };
+const f32 serial_access_window_size[2] = { 470.0f, 32.0f };
 
 void *TAdEp3Exist::create_callback_window() {
-    return TAdEnterSerialAccessGC::create_callback((void *)lbl_8047B8C4, (void *)lbl_8047B8CC, draw_message_window);
+    return TAdEnterSerialAccessGC::create_callback((void *)serial_access_window_pos, (void *)serial_access_window_size, draw_message_window);
 }
 
 extern "C" {
@@ -145,8 +145,8 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     scroll_window = new TAdScrollWinGC(this, 3, (s32)get_localized_text_entry(0x2C, 9));
-    cursor = new TAdSelectCurGC(tl_clipout, (const NJS_POINT2 *)lbl_8047B8A8, (const NJS_POINT2 *)lbl_8047B8B0);
-    cursor->append_entry((void *)lbl_8047B8A8);
+    cursor = new TAdSelectCurGC(tl_clipout, (const NJS_POINT2 *)ep3_exist_cursor_pos, (const NJS_POINT2 *)ep3_exist_cursor_size);
+    cursor->append_entry(ep3_exist_cursor_pos);
     cursor->set_wait_directions_released();
     cursor->set_selection_index(0);
 }

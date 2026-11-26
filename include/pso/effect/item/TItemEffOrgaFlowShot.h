@@ -23,7 +23,7 @@ public:
     void bswap_6xAD_subordinate_action();
     void update_segments();
     void update_position_from_velocity();
-    static void create(void *parent, void *params);
+    static void create(TObject *parent, OrgaFlowShotParams *params);
     static const char *class_name;
 
     // Pairs: a point pushed forward by length, then the spine point (joints 0 to 4,
@@ -50,5 +50,5 @@ void disable_olga_flow_subordinate_actions(void);
 void enable_olga_flow_subordinate_actions(void);
 void build_6xAD_olga_flow_subordinate_boss_actions(void *p);
 void read_be16_field2_forward(void *p);
-void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0);
+void send_6xAD_olga_flow_subordinate_boss_actions(u8 *actions);
 #endif

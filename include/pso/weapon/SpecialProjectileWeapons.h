@@ -6,12 +6,6 @@
 struct TItem;
 
 struct TObjPlayer;
-extern "C" {
-void *__dt__24TItemWeaponDrillLauncherFv(void *object, s16 delete_mode);
-}
-extern "C" {
-void *ct_shoot_model__10TObjPlayerFPv(void *owner);
-}
 s32 drill_launcher_create_shot(s32 owner, s32 pos, s32 dir, f32 life);
 void *drill_launcher_ct(void *weapon, s32 client, void *item);
 void drill_launcher_return_timer(void *weapon);

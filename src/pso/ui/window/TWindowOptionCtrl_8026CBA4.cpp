@@ -22,18 +22,18 @@ const NJS_POINT2 *get_window_layout_position(s32 idx) {
 }
 }
 
-void TWindowBase::sub_8026CC28() {
-    TObject *n;
+void TWindowBase::bring_to_front() {
+    TWindowBase *n;
     f32 lim;
     f32 t;
     if (has_window_task_root() != 0) {
         this->get_scale();
         window_depth_order_cursor -= -0.3f;
         lim = this->draw_depth;
-        for (n = m_up->m_down; n != NULL; n = n->m_next) {
-            t = ((TWindowBase *)n)->draw_depth;
+        for (n = static_cast<TWindowBase *>(m_up->m_down); n != NULL; n = static_cast<TWindowBase *>(n->m_next)) {
+            t = n->draw_depth;
             if (lim > t) {
-                ((TWindowBase *)n)->draw_depth = t - (-0.3f);
+                n->draw_depth = t - (-0.3f);
             }
         }
     }

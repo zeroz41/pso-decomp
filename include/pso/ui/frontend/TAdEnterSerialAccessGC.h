@@ -67,9 +67,9 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
 LAYOUT_ASSERT(TAdEnterSerialAccessGC_size, sizeof(TAdEnterSerialAccessGC) == 0x68);
 
 extern "C" {
-char *TAdEnterSerialAccessGC__sub_80321738(void);
-char *TAdEnterSerialAccessGC__sub_803217B8(void);
-char *TAdEnterSerialAccessGC__sub_80321874(void);
+char *format_saved_serial(void);
+char *format_entered_access_key(void);
+char *format_entered_serial(void);
 }
 void *create_callback_at_zero_vec2(WindowCallback callback);
 

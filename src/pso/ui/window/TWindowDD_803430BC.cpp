@@ -59,23 +59,23 @@ TWindowDDStateEntry word_select_state_table[21] = {
 const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
 
 extern "C" {
-s32 TWindowDD__sub_80348424(void *, s16);
-s16 TWindowDD__sub_80348448(void *, s32);
+s32 get_word_next_state(void *, s16);
+s16 get_word_message_type(void *, s32);
 s32 push_recent_id(s32);
 }
 
 
 s32 TWindowDD::window_mode;
 
-uaddr TWindowDD::work_buffer;
+char *TWindowDD::work_buffer;
 
 char *window_dd_buffer_a;
 
 char *window_dd_buffer_b;
 
-char **TWindowDD__player_name_buffers;
+char **word_select_player_names;
 
-TWindowDDValueList *TWindowDD__word_select_lists;
+TWindowDDValueList *word_select_lists;
 
 s16 *word_select_word_storage;
 
@@ -166,36 +166,36 @@ void load_word_select_data(void) {
     TWindowDD::ws_data_base = 0;
     TWindowDD::ws_data_table = 0;
     ws_word_string_index = 0;
-    TWindowDD__data_805D6E40 = 0;
-    TWindowDD__data_805D6E44 = 0;
-    TWindowDD__data_805D6E48 = 0;
-    lbl_805D6E4C = 0;
+    ws_word_variant_lists = 0;
+    ws_word_form_lists = 0;
+    ws_word_form_index = 0;
+    ws_spanish_prefix_categories = 0;
     ws_data_jp = 0;
     ws_data_us = 0;
     ws_data_es = 0;
     ws_data_de = 0;
-    TWindowDD::ws_data_buffer = 0;
+    TWindowDD::ws_data_fr = 0;
     TWindowDD::window_mode = current_language;
     if (TWindowDD::window_mode < 0 || TWindowDD::window_mode >= 5) {
         TWindowDD::window_mode = 0;
     }
     ws_data_load();
-    TWindowDD::work_buffer = (uaddr)mem_alloc(0x80);
+    TWindowDD::work_buffer = (char *)mem_alloc(0x80);
     window_dd_buffer_a = (char *)mem_alloc(0x80);
-    memset((void *)TWindowDD::work_buffer, 0, 0x80);
+    memset(TWindowDD::work_buffer, 0, 0x80);
     memset(window_dd_buffer_a, 0, 0x80);
     window_dd_buffer_b = (char *)mem_alloc(0x120);
     memset(window_dd_buffer_b, 0, 0x120);
-    TWindowDD__player_name_buffers = (char **)mem_alloc(0x30);
+    word_select_player_names = (char **)mem_alloc(0x30);
     for (i = 0; i < 12; i++) {
-        TWindowDD__player_name_buffers[i] = window_dd_buffer_b + i * 0x18;
-        TWindowDD__player_name_buffers[i][0] = 0;
+        word_select_player_names[i] = window_dd_buffer_b + i * 0x18;
+        word_select_player_names[i][0] = 0;
     }
     word_select_word_storage = (s16 *)mem_alloc(0x100);
-    TWindowDD__word_select_lists = (TWindowDDValueList *)mem_alloc(0x30);
+    word_select_lists = (TWindowDDValueList *)mem_alloc(0x30);
     list = word_select_word_storage;
     for (j = 0; j < 6; j++) {
-        entry = &TWindowDD__word_select_lists[j];
+        entry = &word_select_lists[j];
         entry->values = list;
         entry->count = 0;
         switch (j) {
@@ -234,17 +234,17 @@ extern "C" {
 
 void TWindowDD::free_buffers() {
     clear_window_dd_nodes();
-    if (TWindowDD__word_select_lists != NULL) {
-        mem_free(TWindowDD__word_select_lists);
-        TWindowDD__word_select_lists = NULL;
+    if (word_select_lists != NULL) {
+        mem_free(word_select_lists);
+        word_select_lists = NULL;
     }
     if (word_select_word_storage != NULL) {
         mem_free(word_select_word_storage);
         word_select_word_storage = NULL;
     }
-    if (TWindowDD__player_name_buffers != NULL) {
-        mem_free(TWindowDD__player_name_buffers);
-        TWindowDD__player_name_buffers = NULL;
+    if (word_select_player_names != NULL) {
+        mem_free(word_select_player_names);
+        word_select_player_names = NULL;
     }
     if (window_dd_buffer_b != NULL) {
         mem_free(window_dd_buffer_b);
@@ -254,13 +254,13 @@ void TWindowDD::free_buffers() {
         mem_free(window_dd_buffer_a);
         window_dd_buffer_a = NULL;
     }
-    if ((u32) TWindowDD::work_buffer != 0U) {
-        mem_free((void*)TWindowDD::work_buffer);
-        TWindowDD::work_buffer = 0U;
+    if (TWindowDD::work_buffer != NULL) {
+        mem_free(TWindowDD::work_buffer);
+        TWindowDD::work_buffer = NULL;
     }
-    if (TWindowDD::ws_data_buffer != NULL) {
-        TLobby::free_nodes_with_id((uaddr)((void*)TWindowDD::ws_data_buffer));
-        TWindowDD::ws_data_buffer = NULL;
+    if (TWindowDD::ws_data_fr != NULL) {
+        TLobby::free_nodes_with_id((uaddr)((void*)TWindowDD::ws_data_fr));
+        TWindowDD::ws_data_fr = NULL;
     }
     if (ws_data_de != NULL) {
         TLobby::free_nodes_with_id((uaddr)ws_data_de);
@@ -291,7 +291,7 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
   m_name = word_select_type_name_pointer;
   menu_index = (floor = remembered_word_select_id);
   build_item_list();
-  *((u8 *) TWindowDD::work_buffer) = 0;
+  *TWindowDD::work_buffer = 0;
   enemies_active = 0;
   {
     player = get_player_by_client_id(local_client_id);
@@ -389,13 +389,13 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
       prompt->fit_width_to_text();
     }
   }
-  TWindowDD::format_message(&message, reinterpret_cast<char *>(TWindowDD::work_buffer), local_client_id);
+  TWindowDD::format_message(&message, TWindowDD::work_buffer, local_client_id);
   {
     a.x = message_label_x;
     a.y = message_label_y;
     b.x = word_label_hidden_x;
     b.y = message_label_y;
-    text = TWindowDD_WS_String::create(message_label_width, &a.x, &b.x, TWindowDD::work_buffer, 0);
+    text = TWindowDD_WS_String::create(message_label_width, &a.x, &b.x, (uaddr)TWindowDD::work_buffer, 0);
     labels[3] = text;
     if (text != 0)
     {
@@ -657,7 +657,7 @@ void TWindowDD::begin_word_select_state() {
             if ((word_window = get_or_create_word_select_child(2, list_ids[2])) != NULL) {
                 word_window->set_pos_and_data(next_word_page_x);
             }
-            init_entry_field_64(1);
+            move_label_to_start(1);
         }
     } else {
         update_word_select_child_position(1);
@@ -666,7 +666,7 @@ void TWindowDD::begin_word_select_state() {
         update_word_select_child_position(2);
     } else {
         setup_entry(next_entry->prompt_id);
-        init_entry_field_64(2);
+        move_label_to_start(2);
     }
     pending_transition = 1;
 }
@@ -719,7 +719,7 @@ void TWindowDD::apply_entry_layout() {
         } else {
             child->set_pos_and_data(next_word_page_x);
             child->target_size[0] = next_word_page_width;
-            init_entry_field_64(1);
+            move_label_to_start(1);
         }
         if (prev->flags & 2) {
             message.pop_token();
@@ -740,7 +740,7 @@ void TWindowDD::apply_entry_layout() {
         update_word_select_child_position(2);
     } else {
         setup_entry(id);
-        init_entry_field_64(2);
+        move_label_to_start(2);
     }
     pending_transition = 2;
 }
@@ -838,8 +838,8 @@ void TWindowDD::handle_confirm_input() {
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         id = word_windows[depth]->get_selected_id();
-        message.type = TWindowDD__sub_80348448(this, id);
-        next_state = TWindowDD__sub_80348424(this, id);
+        message.type = get_word_message_type(this, id);
+        next_state = get_word_next_state(this, id);
         push_recent_id(id);
         pad_104 = 0;
         begin_word_select_state();
@@ -1016,7 +1016,7 @@ void TWindowDD::handle_state_9() {
         break;
     }
     if (done != 0) {
-        if (TWindowDD_is_id_in_range_5AC_5F9(word_windows[depth]->get_selected_id()) != 0) {
+        if (is_verb_word(word_windows[depth]->get_selected_id()) != 0) {
             next_state = 0xA;
         } else {
             next_state = 0xB;

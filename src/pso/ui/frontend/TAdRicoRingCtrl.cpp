@@ -56,7 +56,7 @@ const char *TAdRicoRing::class_name = "TAdRicoRing";
 const char *TAdRicoRingCtrl::class_name = "TAdRicoRingCtrl";
 
 // Definitions use deferred emission order, including the two native vtables.
-void TAdRicoRing::sub_8001BED0(f32 value) {
+void TAdRicoRing::set_target_scale(f32 value) {
     target_scale = value;
 }
 
@@ -201,19 +201,19 @@ TAdRicoRingCtrl::TAdRicoRingCtrl(TObject *parent) : TObject(parent) {
     rings[0] = create(tl_04);
     TAdRicoRing *ring = rings[0];
     if (ring != NULL) {
-        ring->sub_8001BED0(0.0f);
+        ring->set_target_scale(0.0f);
         rings[0]->set_scale4(0.0f);
     }
     rings[1] = create(tl_04);
     ring = rings[1];
     if (ring != NULL) {
-        ring->sub_8001BED0(0.0f);
+        ring->set_target_scale(0.0f);
         rings[1]->set_scale4(0.0f);
     }
     fade = 1.0f;
     fade_step = 0.0f;
     Vec point = { 1.8f, 0.3f, -5.0f };
-    sub_8001B424(&point);
+    set_position(&point);
 }
 
 TAdRicoRingCtrl::~TAdRicoRingCtrl() {
@@ -323,7 +323,7 @@ void TAdRicoRingCtrl::start_fade_all(f32 x) {
     }
 }
 
-void TAdRicoRingCtrl::sub_8001B4A0(f32 x) {
+void TAdRicoRingCtrl::start_rings_anim(f32 x) {
     s32 i;
     for (i = 0; i != 2; i++) {
         if (rings[i] != NULL) {
@@ -339,7 +339,7 @@ void TAdRicoRingCtrl::sub_8001B4A0(f32 x) {
 
 #pragma push
 #pragma fp_contract on
-void TAdRicoRingCtrl::sub_8001B424(const Vec *point) {
+void TAdRicoRingCtrl::set_position(const Vec *point) {
     if (point != NULL) {
         TAdRicoRing *ring = rings[0];
         if (ring != NULL) {

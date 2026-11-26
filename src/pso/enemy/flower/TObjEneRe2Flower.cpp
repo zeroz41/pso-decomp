@@ -182,7 +182,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
         flags |= 0x400;
     }
     init_position_vectors();
-    model = (void *)re2_flower_bml_resource->models->model;
+    model = re2_flower_bml_resource->models->model;
     texlist = re2_flower_bml_resource->models->texlist;
     if (is_tower_variant()) {
         init_model(re2_flower_tower_collision_bodies, 2);
@@ -381,7 +381,7 @@ s32 TObjEneRe2Flower::check_hit_flag() {
 
 void TObjEneRe2Flower::start_hit_cooldown() {
     if (hit_cooldown == 0) {
-        TBoss8Dragon__sub_800BB7D4(this, 0xF2);
+        debug_effect_hook(this, 0xF2);
         hit_cooldown = 20;
     }
 }

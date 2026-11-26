@@ -21,7 +21,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 
-const char *TWindowMenuMainMenu__class_name = "TWindowMenuMainMenu";
+const char *TWindowMenuMainMenu::class_name = "TWindowMenuMainMenu";
 
 const MainMenuLabelUV main_menu_label_uv_table[31] = {
     {0.0f, 18.0f},  {0.0f, 18.0f},  {0.0f, 0.0f},   {0.0f, 54.0f},
@@ -199,22 +199,22 @@ int TWindowMenuMainMenu::is_flag_set() { return (this->state_flags >> 1) & 0x1; 
 int TWindowMenuMainMenu::get_menu_flag() { return this->state_flags & 0x1; }
 
 TMainMenuEntry *TWindowMenuMainMenu::find_active_item_by_id(int id) {
-    s32 var_r31;
+    s32 i;
     TMainMenuEntry *entry;
-    s32 var_r29;
-    var_r29 = id;
-    if (var_r29 == 0x1B) {
-        var_r29 = 0x1A;
+    s32 icon;
+    icon = id;
+    if (icon == 0x1B) {
+        icon = 0x1A;
     }
     entry = entries;
-    var_r31 = 0;
+    i = 0;
 loop_3:
-    if ((entry->is_item_active() != 0) && ((s8)entry->icon == var_r29)) {
+    if ((entry->is_item_active() != 0) && ((s8)entry->icon == icon)) {
         return entry;
     }
-    var_r31 += 1;
+    i += 1;
     entry += 1;
-    if (var_r31 >= 8) {
+    if (i >= 8) {
         return NULL;
     }
     goto loop_3;
@@ -480,7 +480,7 @@ void TWindowMenuMainMenu::play_cursor_sound(int delta) {
 void TWindowMenuMainMenu::handle_navigation_input() {
     ControllerInputContext *window_choice_setting;
     if ((TWindowBase::is_window_reveal_complete() != 0) && (this->get_menu_flag() == 0) && (this->is_flag_set() == 0) && !(this->state_flags & 4)) {
-        window_choice_setting = &controller_input_state.controllers[is_player_input_active((*(s16 *)&this->client_index))];
+        window_choice_setting = &controller_input_state.controllers[is_player_input_active((this->client_index))];
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             play_cursor_sound(-1);
         }
@@ -509,13 +509,13 @@ void TWindowMenuMainMenu::render() {
 
 void TWindowMenuMainMenu::run_task() {
     s32 i;
-    u8 temp_r3;
-    u8 temp_r3_2;
+    u8 flags;
+    u8 flags_after;
 
     TMainMenuEntry *entry;
-    temp_r3 = state_flags;
-    if (temp_r3 & 8) {
-        state_flags = (u8) (temp_r3 | 4);
+    flags = state_flags;
+    if (flags & 8) {
+        state_flags = (u8) (flags | 4);
     }
     entry = entries;
     i = 0;
@@ -528,9 +528,9 @@ void TWindowMenuMainMenu::run_task() {
     update_window();
     update_slide_position();
     update_fade();
-    temp_r3_2 = state_flags;
-    if (temp_r3_2 & 8) {
-        state_flags = (u8) (temp_r3_2 & 0xFFFFFFF3);
+    flags_after = state_flags;
+    if (flags_after & 8) {
+        state_flags = (u8) (flags_after & 0xFFFFFFF3);
     }
 }
 
@@ -541,7 +541,7 @@ TWindowMenuMainMenu::TWindowMenuMainMenu(const NJS_POINT2 *position, s32 client)
     TMainMenuEntry *entry;
     entry = entries;
     i = 0;
-    m_name = TWindowMenuMainMenu__class_name;
+    m_name = TWindowMenuMainMenu::class_name;
     state_flags = 4;
     selected_slot = 0;
     parked_row_count = 0;

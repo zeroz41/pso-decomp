@@ -7,7 +7,7 @@
 
 s32 lobby_callback_tables_refcount;
 
-void TLobby__sub_803D3194(void) {
+void svm_release_callback_tables(void) {
     lobby_callback_tables_refcount -= 1;
 }
 

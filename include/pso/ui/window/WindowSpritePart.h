@@ -28,6 +28,8 @@ public:
 
     WindowSpritePart *init_part_scaled(SpritePartLayoutRecord *source, s32 client);
     WindowSpritePart *init_part_direct(DirectSpritePartLayoutRecord *source, s32 client);
+    // Shows the guild card help panel for help_mode (hidden for 0xE).
+    void set_help_mode(s32 help_mode);
 };
 
 LAYOUT_ASSERT(WindowSpritePartSize, sizeof(WindowSpritePart) == 0x38);

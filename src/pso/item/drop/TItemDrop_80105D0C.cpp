@@ -25,6 +25,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/GslArchive.h"
 #include "pso/item/item_create.h"
+#include "pso/item/TItemDisconnectCtrl.h"
 
 struct DifficultyLetters { char *n[4]; };
 
@@ -52,7 +53,6 @@ extern const f32 item_drop_rand_reciprocal;
 
 void unload_item_drop_globals() {  }
 
-extern int item_desync_detected;
 
 void init_item_drop_globals() { item_desync_detected = 0; }
 
@@ -309,9 +309,9 @@ void TItemDrop::refresh_drop_table_if_changed() {
 }
 
 void TItemDrop::free_unit_star_tables() {
-    mem_free((void *)unit_star_bucket_counts);
+    mem_free(unit_star_bucket_counts);
     unit_star_bucket_counts = 0;
-    mem_free((void *)unit_star_classes);
+    mem_free(unit_star_classes);
     unit_star_classes = 0;
 }
 

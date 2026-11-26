@@ -6,6 +6,7 @@
 
 struct NJS_OBJECT;
 #include <string.h>
+#include "pso/item/WeaponAttribute.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/system/vector.h"
@@ -164,11 +165,11 @@ void TItemWeapon::roll_technique() {
 }
 
 void TItemWeapon::set_flag_8_unless_on_ground() {
-    u8 *var_r31;
+    u8 *self;
     if (this != NULL) {
-        var_r31 = (u8 *)this;
+        self = (u8 *)this;
         if (((TItem *)(this))->get_mode() != 0) {
-            ((TItemWeapon *)var_r31)->set_flag_8();
+            ((TItemWeapon *)self)->set_flag_8();
         }
     }
 }
@@ -243,8 +244,8 @@ void TItemWeapon::create_weapon_trail_effects() {
     }
 }
 
-u32 pack_weapon_trail_color(void *weapon) {
-    NJS_ARGB w = ((TItemWeapon *)weapon)->get_weapon_color();
+u32 pack_weapon_trail_color(TItemWeapon *weapon) {
+    NJS_ARGB w = weapon->get_weapon_color();
     return (__cvt_fp2unsigned(255.0f * w.a) << 24 | __cvt_fp2unsigned(255.0f * w.r) << 16 | __cvt_fp2unsigned(255.0f * w.g) << 8) | __cvt_fp2unsigned(255.0f * w.b);
 }
 
@@ -271,7 +272,7 @@ void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 ra
     this->restore_action_type();
 }
 
-void TItemWeapon::fire_shot_at_target(Vec *origin, void *model, s32 angle) {
+void TItemWeapon::fire_shot_at_target(Vec *origin, NJS_OBJECT *model, s32 angle) {
     Vec v;
     WeaponEffectDescriptor atk;
     f32 *scale;
@@ -288,7 +289,7 @@ void TItemWeapon::fire_shot_at_target(Vec *origin, void *model, s32 angle) {
         atk.rotation_y = owner->rotation_y + angle;
         atk.range = *scale;
         atk.speed = shot_speed;
-        atk.model = (NJS_OBJECT *)model;
+        atk.model = model;
         atk.texlist = this->texlist;
         init_weapon_effect_descriptor(&atk);
         remap_extra_attack_type();
@@ -312,7 +313,7 @@ void TItemWeapon::fire_shot_at_target(Vec *origin, void *model, s32 angle) {
         if (atk.attack_kind == 2 && this->is_identified() == 0) {
             atk.accuracy *= lbl_805DAC94;
         }
-        TItemAttackCol::create((TObject *)tl_05, &atk);
+        TItemAttackCol::create(tl_05, &atk);
         this->restore_action_type();
     }
 }
@@ -328,7 +329,7 @@ void TItemWeapon::fill_status_info(S_802E451C *params) {
     restore_action_type();
 }
 
-void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale) {
+void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale) {
     CapturedTargetList *ext;
     Vec pos;
     f32 dist;
@@ -364,10 +365,10 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         rotate_matrix_y(0, owner->rotation_y);
         transform_point_by_current_matrix(&v.x, &pos);
         pop_matrix();
-        vec3_add_to(&pos, (const Vec *)origin);
+        vec3_add_to(&pos, origin);
     }
     {
-        CsnHit *hit = csnVector((const Vec *)origin, &pos, 0x8100);
+        CsnHit *hit = csnVector(origin, &pos, 0x8100);
         if (hit != NULL) {
             dist = xyz_distance(origin, &hit->contact->point);
         } else {
@@ -567,7 +568,7 @@ s32 TItemWeapon::is_active_in_game() {
 
 // ---- pso/unk/text_8011F710
 
-struct Item_8011F760 { u8 pad[0x10]; s32 count; };
+struct WeaponCountRecord { u8 pad[0x10]; s32 count; };
 
 extern "C" {
 s32 add_weapon_grind(TItemWeapon *weapon, s32 amount);
@@ -584,13 +585,13 @@ s32 add_weapon_grind(TItemWeapon *weapon, s32 amount) {
 
 u32 TItemWeapon::get_attack_flags() {
     u32 flags = 0;
-    Item_8011F760 *it;
+    WeaponCountRecord *it;
     if (this->get_icon_index() == 3) {
         flags |= 2;
     } else {
         flags |= 1;
     }
-    it = (Item_8011F760 *)get_weapon_range_record(this, 0);
+    it = (WeaponCountRecord *)get_weapon_range_record(this, 0);
     if (it != 0 && it->count > 1) {
         flags |= 4;
     }
@@ -733,9 +734,9 @@ void TItemWeapon::render_equipped() {
         this->update_trails();
         count = 0;
         do {
-            void *trail = this->trails[count];
+            TItemEffectWeapon *trail = this->trails[count];
             if (trail) {
-                ((TItemEffectWeapon *)trail)->render_trail();
+                trail->render_trail();
             }
             count++;
         } while (count != 4);
@@ -809,7 +810,7 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 // ---- pso/unk/text_80120150
 
-struct WeaponColorDescriptor_80120304 { s32 mode; NJS_ARGB first, second; };
+struct WeaponColorDescriptor { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 lbl_805DACA0;
 s16 weapon_node_material_index;
@@ -864,10 +865,10 @@ void TItemWeapon::advance_weapon_photon_phase() {
 #pragma fp_contract on
 NJS_ARGB TItemWeapon::get_weapon_color() {
     NJS_ARGB first, second;
-    WeaponColorDescriptor_80120304 *descriptor;
+    WeaponColorDescriptor *descriptor;
     f32 override_alpha;
     if (photon_color_id != -1) {
-        descriptor = (WeaponColorDescriptor_80120304 *)get_photon_color_record(photon_color_id);
+        descriptor = (WeaponColorDescriptor *)get_photon_color_record(photon_color_id);
         if (descriptor->mode == 1) {
             copy_argb(&first, &descriptor->first);
             copy_argb(&second, &descriptor->second);
@@ -920,16 +921,16 @@ void TItemWeapon::write_item_data(TItemData *data) {
 
 void TItemWeapon::remove_owner_bonuses() {
     s32 i;
-    void *attribute_entry;
+    WeaponAttribute *attribute_entry;
 
     ((TObjPlayer *)(this->owner))->set_model_id(0);
     ((TObjPlayer *)(this->owner))->set_model_param(0);
     i = 0;
     do {
         attribute_entry = ((TObjPlayer *)(this->owner))->get_attribute_entry(i);
-        *(s8 *)((s8 *)attribute_entry + 0) = 0;
+        attribute_entry->area = 0;
         i += 1;
-        *(s8 *)((s8 *)attribute_entry + 1) = 0;
+        attribute_entry->percent = 0;
     } while (i != 3);
 }
 

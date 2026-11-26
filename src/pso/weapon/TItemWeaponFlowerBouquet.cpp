@@ -7,11 +7,11 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponFlowerBouquet::emit_marker_effects() {
-    s32 sp8[6];
+    s32 muzzle[6];
     saddr weapon = (saddr)this;
 
-    ((TItemWeapon *)weapon)->get_joint_position(1, sp8);
-    spawn_particle_effect((const Vec *)sp8, 0xC1);
+    ((TItemWeapon *)weapon)->get_joint_position(1, muzzle);
+    spawn_particle_effect((const Vec *)muzzle, 0xC1);
 }
 
 TItemWeaponFlowerBouquet::~TItemWeaponFlowerBouquet() {}

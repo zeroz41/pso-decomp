@@ -25,28 +25,28 @@ struct Pair_803C8678 { u32 a, b; };
 void adxt_trap_entry_update(void *context);
 
 extern "C" {
-void TLobby__sub_803CB194(void *context);
-void TLobby__sub_803CA8B4(AdxtPlayer *);
+void adxt_loop_callback(void *context);
+void adxt_exec_handle(AdxtPlayer *);
 }
 extern "C" {
 
 void TLobby__sub_803CAEB4(void *context);
 
 void adxt_stat_decinfo(AdxtPlayer *self);
-s32 lbl_805D7578;
-s32 lbl_805D757C;
-s32 lbl_805D7580;
+s32 adxt_end_available;
+s32 adxt_prep_available;
+s32 adxt_prep_channel_count;
 
 // Inferred: CRI adxt_stat_prep (wait until every output SJ holds data, then start the RNA).
-inline void prep_803CA8B4(AdxtPlayer *self) {
+inline void adxt_stat_prep_step(AdxtPlayer *self) {
     s32 n;
     s32 i;
     if (audio_stream_get_state(self->input_state) == 3) {
         n = self->input_state->send_with_offset4();
-        lbl_805D7580 = n;
+        adxt_prep_channel_count = n;
         for (i = 0; i < n; i++) {
-            lbl_805D757C = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
-            if (lbl_805D757C >= 0x40) {
+            adxt_prep_available = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
+            if (adxt_prep_available >= 0x40) {
                 break;
             }
         }
@@ -57,7 +57,7 @@ inline void prep_803CA8B4(AdxtPlayer *self) {
     }
 }
 // Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
-inline void dec_803CA8B4(AdxtPlayer *self) {
+inline void adxt_stat_playing_step(AdxtPlayer *self) {
     GcrnaStream *rna = self->rna_handle;
     AudioStreamInputState *sjd = self->input_state;
     s32 i;
@@ -68,12 +68,12 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
     SjRingBuffer *sj;
     SjChunk ck;
     avail = query_available_size(rna);
-    size = TLobby__sub_803CBFF0(rna);
+    size = gcrna_bridge_get_packet_size(rna);
     if (avail >= self->reserved_48 * 2 || size <= sjd->notify_field_4_alt() ||
         audio_stream_get_state(self->input_state) == 3) {
         if (self->auto_start_flag == 0) {
             if (self->pause_flag == 0) {
-                TLobby__sub_803CC030(rna, 1);
+                gcrna_bridge_set_play_sw(rna, 1);
                 self->base_time = 0;
                 self->base_vblank = adxt_vblank_count;
             }
@@ -82,7 +82,7 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
         self->started_playback = 1;
     }
     if (audio_stream_get_state(self->input_state) == 3) {
-        nch = TLobby__sub_803C9740(self);
+        nch = adxt_get_num_channels(self);
         nbyte = self->reserved_48 * nch * 2;
         for (i = 0; i < nch; i++) {
             sj = self->output_rings[i];
@@ -93,26 +93,26 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
     }
 }
 // Inferred: CRI adxt_stat_playend (stop the RNA once its queue is empty).
-inline void end_803CA8B4(AdxtPlayer *self) {
-    lbl_805D7578 = query_available_size(self->rna_handle);
+inline void adxt_stat_playend_step(AdxtPlayer *self) {
+    adxt_end_available = query_available_size(self->rna_handle);
     if (query_available_size(self->rna_handle) <= 0) {
-        TLobby__sub_803CC030(self->rna_handle, 0);
+        gcrna_bridge_set_play_sw(self->rna_handle, 0);
         self->stat = 5;
     }
 }
 // Inferred: CRI ADXT_ExecHndl (per-handle state step of the ADXT server).
 #pragma push
 #pragma opt_common_subs off
-void TLobby__sub_803CA8B4(AdxtPlayer *self) {
+void adxt_exec_handle(AdxtPlayer *self) {
     s8 stat = self->stat;
     if (stat == 3) {
-        prep_803CA8B4(self);
+        adxt_stat_prep_step(self);
     } else if (stat == 1) {
         adxt_stat_decinfo(self);
     } else if (stat == 2) {
-        dec_803CA8B4(self);
+        adxt_stat_playing_step(self);
     } else if (stat == 4) {
-        end_803CA8B4(self);
+        adxt_stat_playend_step(self);
     }
     if (self->stream_file != NULL && get_adx_stream_status(self->stream_file) == 4) {
         self->error_code = -1;
@@ -125,7 +125,7 @@ void TLobby__sub_803CA8B4(AdxtPlayer *self) {
 }
 #pragma pop
 
-#define SBF50 TLobby__sub_803CBF50
+#define SBF50 gcrna_bridge_set_channel_pan
 
 
 void adxt_stat_decinfo(AdxtPlayer *self) {
@@ -165,7 +165,7 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
                 self->reserved_50 = self->reserved_50 % 0x800;
                 self->total_pages = pages;
                 set_adx_stream_end_sector(self->stream_file, pages);
-                set_adx_stream_completion(self->stream_file, TLobby__sub_803CB194, self);
+                set_adx_stream_completion(self->stream_file, adxt_loop_callback, self);
             }
             s32 e = input_state->get_loop_end_sample();
             self->loop_end_sample = e;
@@ -186,10 +186,10 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
         n1 = input_state->send_with_offset4();
         s32 pid = input_state->send_packet_by_id();
         s32 p2 = input_state->send_packet_by_id_2();
-        TLobby__sub_803CBF30(self->rna_handle, p2);
-        TLobby__sub_803CBF90(self->rna_handle, k);
-        TLobby__sub_803CBFB0(self->rna_handle, n1);
-        TLobby__sub_803CBF0C(self->rna_handle, pid);
+        gcrna_bridge_set_sample_bits(self->rna_handle, p2);
+        gcrna_bridge_set_frequency(self->rna_handle, k);
+        gcrna_bridge_set_stream_count(self->rna_handle, n1);
+        gcrna_bridge_set_pan_id(self->rna_handle, pid);
         trigger_sub_task(self->rna_handle, self->output_vol);
         if (self->input_state->send_with_offset4() == 1) {
             if (self->out_pan[0] == -0x80) {
@@ -271,14 +271,14 @@ void TLobby__sub_803CAEB4(void *context) {
     if (r1 == 0)
     {
       ring->interface->unget_chunk(ring, 1, &b);
-      TLobby__sub_803D3130(&a, n, &a, &c);
+      sj_chunk_split(&a, n, &a, &c);
       ring->interface->put_chunk(ring, 0, &a);
       ring->interface->unget_chunk(ring, 1, &c);
     }
     else
     {
       ring->interface->put_chunk(ring, 0, &a);
-      TLobby__sub_803D3130(&b, m, &b, &d);
+      sj_chunk_split(&b, m, &b, &d);
       ring->interface->put_chunk(ring, 0, &b);
       ring->interface->unget_chunk(ring, 1, &d);
     }
@@ -298,7 +298,7 @@ void TLobby__sub_803CAEB4(void *context) {
   }
 }
 
-void TLobby__sub_803CB194(void *context) {
+void adxt_loop_callback(void *context) {
     AdxtPlayer *player = static_cast<AdxtPlayer *>(context);
     AdxStreamFile *file = player->stream_file;
     s32 loop_start_byte = player->input_state->get_loop_start_byte();

@@ -28,7 +28,7 @@ struct TWindowMenu : public TWindowAddition {
     void clear_transition_flag();
     void open();
     void set_loss_flag();
-    int sub_80266BB8();
+    int is_input_disabled();
     s32 test_menu_flag(s32 buttons);
     void render_selected_entry(WindowDrawContext *context);
     void draw_selected_bar(WindowDrawContext *context);
@@ -43,12 +43,15 @@ struct TWindowMenu : public TWindowAddition {
     void clear_flag_and_release();
     s32 get_selected_value();
     void set_flag70_bit10();
-    void set_flag_40();
-    void clear_flag_40();
+    void disable_input();
+    void enable_input();
+    // Clears menu flag 0x80, which hides the selected entry's highlight.
+    void show_selection_highlight();
     s32 add_text_entry(saddr text, s32 flags, s32 id, s32 color);
     s32 add_text_entry(saddr text, s32 flags, s32 id);
     virtual void render();
-    u16 m_70;
+    // Flag bits: 1 ready (set_ready_flag), 2 decided, 4 cancelled, 8 no cancel, 0x200 loss, 0x400 silent cancel.
+    u16 menu_flags;
     s16 entry_count;
     s16 row_cursor;
     s16 row_count;
@@ -74,6 +77,8 @@ struct TWindowMenu : public TWindowAddition {
     s16 get_entry_count();
     s16 get_cursor_pos();
     void set_selected_index(s16 index);
+    void set_marked_row(s16 row);
+    void mark_selected_value();
     s16 get_selected_index();
     void update_cursor_pos();
     void reset_entries();
@@ -81,6 +86,8 @@ struct TWindowMenu : public TWindowAddition {
     void set_scroll_target(f32 width, f32 max_height);
     void update_scroll_target_position();
     void set_flag70_bit100();
+    void clear_cancelled();
+    void set_silent_cancel();
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);

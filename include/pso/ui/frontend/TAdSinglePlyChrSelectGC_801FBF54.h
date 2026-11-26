@@ -32,16 +32,16 @@ void rebuild_guild_card_save_file(void);
 void decrypt_secondary_card_buffer(void);
 
 extern "C" {
-u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);
-s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
+u16 get_split_second_place_count(int client);
+s32 save_active_character_to_card(void);
 int start_system_file_write(s32 chan);
-s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void);
+s32 begin_character_card_save(void);
 }
 void set_character_file_seed(CharacterFile *file, s32 value);
 s32 get_character_file_seed(CharacterFile *file);
 s32 start_character_file_write(void);
 void decrypt_guild_card_payload(GuildCardSaveData *data);
-void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1);
+void encrypt_guild_card_payload(GuildCardSaveData *data, void *);
 u32 calc_crc32_bitwise(u8 *data, u32 size);
 s32 alloc_global_buffer(void);
 s32 buffer_init(void);

@@ -49,14 +49,14 @@ s32 TLobby__sub_803C9104(AdxtPlayer *player, s32 channels, s32 samples) {
     sj->interface->get_chunk(sj, 0, total, &a);
     n1 = blk * (a.size / blk);
     memset(a.data, 0, n1);
-    TLobby__sub_803D3130(&a, n1, &a, &b);
+    sj_chunk_split(&a, n1, &a, &b);
     sj->interface->put_chunk(sj, 1, &a);
     sj->interface->unget_chunk(sj, 0, &b);
     total = total - n1;
     sj->interface->get_chunk(sj, 0, total, &a);
     n2 = blk * (a.size / blk);
     memset(a.data, 0, n2);
-    TLobby__sub_803D3130(&a, n2, &a, &b);
+    sj_chunk_split(&a, n2, &a, &b);
     sj->interface->put_chunk(sj, 1, &a);
     sj->interface->unget_chunk(sj, 0, &b);
     return ((n1 + n2) / blk) * 32;
@@ -72,7 +72,7 @@ s32 adx_check_packet_header(u16 *p, s32 size, s32 *out) {
     *out = size;
     return 1;
 }
-s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
+s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *out_data_start) {
     s32 a7;
     s32 a8;
     s32 a9;
@@ -90,7 +90,7 @@ s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
     if (adx_parse_header_info((u8 *)hdr, size, &len, &b3, &b4, &b5, &b6, &a7, &a8, &a9) < 0) {
         return 0;
     }
-    *arg2 = len;
+    *out_data_start = len;
     return 1;
 }
 }
@@ -100,7 +100,7 @@ typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
 
 extern "C" {
-void TLobby__sub_803CA8B4(AdxtPlayer *);
+void adxt_exec_handle(AdxtPlayer *);
 extern AdxtPlayer adx_stream_player_pool[16];
 
 s32 adxt_rate_mode;
@@ -114,7 +114,7 @@ void set_sync_mode_flag(AdxtPlayer *player, s8 flag) {
     player->sync_mode_flag = flag;
 }
 
-void TLobby__sub_803C9350(AdxtPlayer *player, s32 offset) {
+void adxt_set_time_offset(AdxtPlayer *player, s32 offset) {
     player->time_offset = offset;
 }
 
@@ -123,11 +123,11 @@ inline void inl_803C9608(void) {
     if (adxt_server_stage == 0) {
         adx_lock();
         adxt_server_stage = 1;
-        sub_803C0018();
+        process_audio_stream_inputs();
         adxt_server_stage = 2;
         for (i = 0; i < 16; i++) {
             if (adx_stream_player_pool[i].used == 1) {
-                TLobby__sub_803CA8B4(&adx_stream_player_pool[i]);
+                adxt_exec_handle(&adx_stream_player_pool[i]);
             }
         }
         adxt_server_stage = 3;
@@ -144,18 +144,18 @@ s32 TLobby__sub_803C9358(AdxtPlayer *player) {
     if (player->pause_flag == 0) {
         return 0;
     }
-    ret = TLobby__sub_803CBF10(player->rna_handle);
+    ret = gcrna_bridge_stream_ready(player->rna_handle);
     inl_803C9608();
     save = adxt_rate_mode;
     adxt_rate_mode = 0;
-    TLobby__sub_803C97F4(player, &pos, &rate);
+    adxt_get_play_position(player, &pos, &rate);
     adxt_rate_mode = save;
     player->base_time = (s32)((f32)adxt_time_rate * ((f32)pos / (f32)rate));
     player->base_vblank = adxt_vblank_count;
     return ret;
 }
 
-void TLobby__sub_803C94B8(AdxMessageCallback callback, s32 context) {
+void adxt_set_error_callback(AdxMessageCallback callback, s32 context) {
     adxerr_set_callback(callback, context);
 }
 
@@ -163,7 +163,7 @@ void TLobby__sub_803C94D8(void) {
 
 }
 
-void TLobby__sub_803C94DC(AdxtPlayer *player, s32 paused) {
+void adxt_pause(AdxtPlayer *player, s32 paused) {
     s32 pos;
     s32 rate;
     s32 st;
@@ -174,14 +174,14 @@ void TLobby__sub_803C94DC(AdxtPlayer *player, s32 paused) {
         player->pause_flag = paused;
         if (st == 3 || st == 4) {
             if (paused == 1) {
-                TLobby__sub_803CC030(player->rna_handle, 0);
+                gcrna_bridge_set_play_sw(player->rna_handle, 0);
             } else {
-                TLobby__sub_803CC030(player->rna_handle, 1);
+                gcrna_bridge_set_play_sw(player->rna_handle, 1);
                 player->base_vblank = adxt_vblank_count;
             }
             save = adxt_rate_mode;
             adxt_rate_mode = 0;
-            TLobby__sub_803C97F4(player, &pos, &rate);
+            adxt_get_play_position(player, &pos, &rate);
             adxt_rate_mode = save;
             player->base_time = (s32)((f32)adxt_time_rate * ((f32)pos / (f32)rate));
         }
@@ -193,16 +193,16 @@ s32 get_error_code(AdxtPlayer *player) {
     return player->error_code;
 }
 
-void TLobby__sub_803C9608(void) {
+void adxt_exec_server(void) {
     s32 i;
     if (adxt_server_stage == 0) {
         adx_lock();
         adxt_server_stage = 1;
-        sub_803C0018();
+        process_audio_stream_inputs();
         adxt_server_stage = 2;
         for (i = 0; i < 16; i++) {
             if (adx_stream_player_pool[i].used == 1) {
-                TLobby__sub_803CA8B4(&adx_stream_player_pool[i]);
+                adxt_exec_handle(&adx_stream_player_pool[i]);
             }
         }
         adxt_server_stage = 3;
@@ -216,11 +216,11 @@ void set_auto_repeat(AdxtPlayer *player, s8 flag) {
     player->auto_repeat = flag;
 }
 
-void TLobby__sub_803C96A8(AdxtPlayer *player, s32 freq) {
+void adxt_set_server_freq(AdxtPlayer *player, s32 freq) {
     player->server_freq = freq;
 }
 
-s16 TLobby__sub_803C96B0(AdxtPlayer *player) {
+s16 adxt_get_out_vol(AdxtPlayer *player) {
     return player->output_vol;
 }
 
@@ -233,20 +233,20 @@ void set_field_40_and_notify(AdxtPlayer *player, s32 volume) {
 
 extern "C" {
 
-s16 TLobby__sub_803C96E0(AdxtPlayer *player, s32 ch) {
+s16 adxt_get_out_pan(AdxtPlayer *player, s32 ch) {
     return player->out_pan[ch];
 }
 
 void ADXT_SetOutPan(AdxtPlayer *player, s32 ch, s32 pan) {
     player->out_pan[ch] = pan;
     if (ch < player->max_channels) {
-        TLobby__sub_803CBF50(player->rna_handle, ch, pan);
+        gcrna_bridge_set_channel_pan(player->rna_handle, ch, pan);
         return;
     }
     adxerr_report("E8101208 ADXT_SetOutPan: parameter error");
 }
 
-s32 TLobby__sub_803C9740(AdxtPlayer *player) {
+s32 adxt_get_num_channels(AdxtPlayer *player) {
     if (player->stat >= 2) {
         return player->input_state->send_with_offset4();
     }
@@ -272,7 +272,7 @@ extern "C" {
 u32 adxt_resync_enabled = 1;
 }
 
-inline void get_play_position_803C97F4(AdxtPlayer *p, s32 *pos, s32 *rate) {
+inline void compute_play_position(AdxtPlayer *p, s32 *pos, s32 *rate) {
     s32 st = p->stat;
     if (st == 3 || st == 4) {
         s32 total;
@@ -291,13 +291,13 @@ inline void get_play_position_803C97F4(AdxtPlayer *p, s32 *pos, s32 *rate) {
     *pos += p->time_offset;
 }
 
-void TLobby__sub_803C97F4(AdxtPlayer *p, s32 *pos, s32 *rate) {
+void adxt_get_play_position(AdxtPlayer *p, s32 *pos, s32 *rate) {
     s32 cur_pos;
     s32 cur_rate;
     s32 st;
 
     if (adxt_rate_mode == 0) {
-        get_play_position_803C97F4(p, pos, rate);
+        compute_play_position(p, pos, rate);
         return;
     }
     adxt_sync_drift_ms = 0.0f;
@@ -308,13 +308,13 @@ void TLobby__sub_803C97F4(AdxtPlayer *p, s32 *pos, s32 *rate) {
         } else {
             *pos = p->base_time;
         }
-        get_play_position_803C97F4(p, &cur_pos, &cur_rate);
+        compute_play_position(p, &cur_pos, &cur_rate);
         adxt_sync_drift_ms = 1000.0f * ((f32)cur_pos / (f32)cur_rate - (f32)*pos / (f32)adxt_time_rate);
         if (adxt_sync_drift_ms > 60.0f || adxt_sync_drift_ms < -60.0f) {
             if (adxt_resync_enabled == 1) {
                 s32 save = adxt_rate_mode;
                 adxt_rate_mode = 0;
-                TLobby__sub_803C97F4(p, &cur_pos, &cur_rate);
+                adxt_get_play_position(p, &cur_pos, &cur_rate);
                 adxt_rate_mode = save;
                 adxt_resync_count++;
             }
@@ -343,7 +343,7 @@ void adx_talk_set_rate_mode(s32 rate_mode) {
     adxt_rate_mode = rate_mode;
 }
 
-s32 TLobby__sub_803C9CB0(AdxtPlayer *player) {
+s32 adxt_get_stat(AdxtPlayer *player) {
     return player->stat;
 }
 }
@@ -367,7 +367,7 @@ void stop_audio_stream(AdxtPlayer *player) {
     }
     adx_lock();
     gcrna_bridge_set_trans_sw(player->rna_handle, 0);
-    TLobby__sub_803CC030(player->rna_handle, 0);
+    gcrna_bridge_set_play_sw(player->rna_handle, 0);
     player->input_state->reset_flag();
     if ((s32)player->source_type == 2) {
         if (player->input_sj != NULL) {
@@ -385,7 +385,7 @@ void stop_audio_stream(AdxtPlayer *player) {
 void TLobby__sub_803C9DB4(AdxtPlayer *player) {
     adx_lock();
     gcrna_bridge_set_trans_sw(player->rna_handle, 0);
-    TLobby__sub_803CC030(player->rna_handle, 0);
+    gcrna_bridge_set_play_sw(player->rna_handle, 0);
     player->input_state->reset_flag();
     if ((s32)player->source_type == 2) {
         if (player->input_sj != NULL) {
@@ -417,7 +417,7 @@ void TLobby__sub_803C9E38(AdxtPlayer *player, SjRingBuffer *sj) {
     }
     adx_lock();
     gcrna_bridge_set_trans_sw(player->rna_handle, 0);
-    TLobby__sub_803CC030(player->rna_handle, 0);
+    gcrna_bridge_set_play_sw(player->rna_handle, 0);
     player->input_state->reset_flag();
     if ((s32)player->source_type == 2) {
         if (player->input_sj != NULL) {
@@ -515,7 +515,7 @@ void adx_destroy_stream_player(AdxtPlayer *player) {
         }
         adx_lock();
         gcrna_bridge_set_trans_sw(player->rna_handle, 0);
-        TLobby__sub_803CC030(player->rna_handle, 0);
+        gcrna_bridge_set_play_sw(player->rna_handle, 0);
         player->input_state->reset_flag();
         if ((s32)player->source_type == 2) {
             if (player->input_sj != NULL) {

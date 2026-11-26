@@ -99,7 +99,7 @@
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 
 
-struct Pair_801A3CFC { s32 f0; s32 f4; };
+struct UdpTestGameEntry { s32 f0; s32 f4; };
 
 extern "C" {
 int clear_keyboard_input_flag(void);
@@ -154,13 +154,13 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
     {reset_shop_stock_and_params, clear_all_shop_stock},
     {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
-    {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
+    {TQuestThread::clear_all_floor_handlers, clear_quest_floor_handlers},
     {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
-    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)clear_auto_reply_flags},
+    {(FloorResourceCallback)reset_auto_reply_flags_callback, (FloorResourceCallback)clear_auto_reply_flags},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
-    {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
-    {TLobby__sub_8024285C, TLobby::reset_state},
+    {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
+    {reset_com_card_list_callback, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
     {load_word_select_data, TWindowDD::free_buffers},
@@ -185,7 +185,7 @@ FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { update_battle_params, NULL },
     { clear_boss6_player_snapshots, NULL },
 };
-Pair_801A3CFC lobby_udp_test_game_entries[2] = {
+UdpTestGameEntry lobby_udp_test_game_entries[2] = {
     {0x9D6D3202, 0},
     {0x9D6D3201, 0},
 };
@@ -346,7 +346,7 @@ void reload_floor_scene() {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -425,7 +425,7 @@ void start_quest_mission(void) {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -481,7 +481,7 @@ void change_floor_reload_area(void) {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -512,7 +512,7 @@ void cleanup_online_lobby_scene(void) {
     TLobby::free_objects();
     main_task.delete_layer_children();
     main_task.resume_layers();
-    ((TObject *)tl_su)->delete_children();
+    (tl_su)->delete_children();
     PPCSync();
     i = 0;
     do {

@@ -54,7 +54,7 @@ struct TMainCursor : public TObject {
     void set_size(f32);
     // 0 = ring shrinking onto the target, 1 = steady, 2 = fading out.
     u32 phase;
-    FlagWord unk_20;
+    FlagWord state_flags;
     CursorOwner owner;
     u8 pad_26[0x2];
     // Resting height of the ring above the target, the minimum it shrinks to, and the height it starts from.
@@ -71,7 +71,7 @@ struct TMainCursor : public TObject {
     void update_photon_chair();
     virtual void render();
     virtual void run_task();
-    static s32 get_action_cursor_priority(void *unused, saddr player, s32 index);
+    static s32 get_action_cursor_priority(void *unused, TObjPlayer *player, s32 index);
     static void set_cursor_color(s32 unused, saddr player, LockOnActionSlot *main_cursor);
     static void set_display_flags(s32 unused, saddr player, LockOnActionSlot *main_cursor);
     static void setup_flags(s32 unused, s32 player, LockOnActionSlot *main_cursor);

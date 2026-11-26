@@ -35,7 +35,7 @@ LAYOUT_ASSERT(TShopItemTecSequence_size, sizeof(TShopItemTecSequence) == 0x38);
 LAYOUT_ASSERT(TShopItemTecSequence_choice_menu_offset, offsetof(TShopItemTecSequence, choice_menu) == 0x30);
 
 extern "C" {
-int TShopItemTecSequence__sub_8021FE6C(int a0);
+int get_shop_tool_stock_count(int a0);
 void TShopItemTecSequence__sub_80220538(void);
 void TShopItemTecSequence__sub_80220560(void);
 }

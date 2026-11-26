@@ -84,11 +84,11 @@ struct QuestDownloadSlot {
     QuestDownloadEntryNode *head;
     QuestDownloadTextNode *chain;
     s32 timer;
-    s8 x14;
-    s8 x15;
-    s8 x16;
+    s8 fixed;
+    s8 length;
+    s8 latched_length;
     s8 width;
-    s8 x18;
+    s8 token_length;
     s8 x19;
     u8 reserved_1a[2];
 };

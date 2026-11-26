@@ -51,7 +51,7 @@ void copy_boss6_trail_point(Boss6TrailPoint *dest, const Boss6TrailPoint *source
 #pragma pop
 
 // Draws the after-image trail: a strip of quads between each pair of consecutive frames, fading out with age.
-void TBoss6Zanzo::sub_803205C4() {
+void TBoss6Zanzo::draw_trail() {
     Boss6TrailFrame *frame;
     Boss6TrailFrame *end;
     Boss6TrailFrame *prev;
@@ -123,7 +123,7 @@ void TBoss6Zanzo::sub_803205C4() {
 
 void TBoss6Zanzo::render() {
     set_depth_buffer_settings_1();
-    sub_803205C4();
+    draw_trail();
     restore_saved_depth_alpha_state();
 }
 

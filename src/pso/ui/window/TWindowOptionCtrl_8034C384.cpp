@@ -18,7 +18,7 @@ extern "C" {
 saddr get_localized_text_entry(s32);
 s32 start_memcard_format(int, int, int, int, int);
 extern s32 local_client_id;
-extern saddr tl_01;
+extern TObject *tl_01;
 
 TSnapshotFileSetup::TSnapshotFileSetup(TObject *parent) : TObject(parent) {
     this->state = 0;
@@ -34,7 +34,7 @@ TSnapshotFileSetup::~TSnapshotFileSetup() {
 
 void TSnapshotFileSetup::run_task() {
     s32 state;
-    s32 temp_r0_2;
+    s32 current_state;
     if (!(this->flags & 1)) {
         switch (TObjBoss2Tunnel::save_snapshot()) {
         case 1:
@@ -100,9 +100,9 @@ void TSnapshotFileSetup::run_task() {
             break;
         }
     }
-    temp_r0_2 = this->state;
+    current_state = this->state;
     {
-        switch (temp_r0_2) {
+        switch (current_state) {
         case 0:
         case 1:
             set_option_and_confirm(0, 1);
@@ -248,20 +248,20 @@ void TSnapshotFileSetup::run_task() {
 
 void TSnapshotFileSetup::render() { if (this->state == 6) { TLobby::update_pulse_colors((saddr)((void*)1)); TLobby__sub_80338534(); } }
 
-void TSnapshotFileSetup::set_option_and_confirm(s32 arg1, s32 arg2) {
-    if (arg1 != (s32) this->shown_message) {
-        this->shown_message = arg1;
-        open_confirm_dialog((s32)(get_localized_text_entry(0x24)), arg2);
+void TSnapshotFileSetup::set_option_and_confirm(s32 option, s32 yes_no) {
+    if (option != (s32) this->shown_message) {
+        this->shown_message = option;
+        open_confirm_dialog((s32)(get_localized_text_entry(0x24)), yes_no);
     }
 }
 
-void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 arg2) {
+void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 yes_no) {
     if (this->message_window != NULL) {
         this->message_window->close();
         this->message_window = NULL;
     }
-    this->message_window = TWindowMessageYesNo::create((void *)tl_01, local_client_id, 0, 0);
-    if (arg2 != 0) {
+    this->message_window = TWindowMessageYesNo::create((TObject *)tl_01, local_client_id, 0, 0);
+    if (yes_no != 0) {
         this->message_window->open_yes_no_prompt_with_text(message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
         return;
     }

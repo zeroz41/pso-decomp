@@ -1,6 +1,7 @@
 // Emit the follower vtable before the status-icon jump table.
 #pragma defer_codegen on
 
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
@@ -55,7 +56,7 @@ TWindowComCardFollower::TWindowComCardFollower(TWindowBase *parent, NJS_POINT2 *
     target_position[0] = 16.0f * (f32)card_column + (parent_window->frame_position[0] + offset.x);
     target_position[1] = parent_window->frame_position[1] + offset.y;
     save_position();
-    ((TWindowComCard *)get_array_entry(0))->set_help_mode(mode);
+    static_cast<WindowSpritePart *>(get_array_entry(0))->set_help_mode(mode);
 }
 #pragma pop
 
@@ -88,7 +89,7 @@ void TWindowComCardFollower::set_column(s32 column) {
 void TWindowComCardFollower::set_selected_index(s32 value) {
     if (help_mode != value) {
         help_mode = value;
-        ((TWindowComCard *)get_array_entry(0))->set_help_mode(help_mode);
+        static_cast<WindowSpritePart *>(get_array_entry(0))->set_help_mode(help_mode);
     }
 }
 

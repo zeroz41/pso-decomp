@@ -14,7 +14,7 @@ public:
     virtual ~TObjEneHoldEffect();
     virtual void run_task();
     virtual void render();
-    static void create(void *target, s32 type, s32 frames);
+    static void create(TObjBase *target, s32 type, s32 frames);
 
     static const char *class_name;
 

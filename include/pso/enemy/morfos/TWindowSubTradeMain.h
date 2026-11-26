@@ -15,6 +15,7 @@ struct TWindowMenu;
 struct TWindowSubEquipKind;
 struct TWindowMessageYesNo;
 class TWindowChat;
+struct NJS_POINT2;
 
 struct TWindowSubTradeMain : public TObject {
     TWindowSubTradeMain(TWindowMainMenu *parent, s32 client);
@@ -69,7 +70,7 @@ struct TWindowSubTradeMain : public TObject {
     void notify_child_if_present(s32 trade_state);
     void draw_item_slot();
     void update_trade_window();
-    static void update_position_if_changed(saddr owner, u8 *window, u8 *position);
+    void update_position_if_changed(TWindowBase *window, NJS_POINT2 *position);
 };
 
 LAYOUT_ASSERT(TWindowSubTradeMain_size, sizeof(TWindowSubTradeMain) == 0xA8);

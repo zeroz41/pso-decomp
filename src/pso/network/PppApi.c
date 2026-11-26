@@ -278,7 +278,7 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
     g->phone_number = cfg->phone_number;
     g->cb = cfg->callback;
     NetMemcpy(&g->h7C, &cfg->h18, 0xA);
-    NetMemcpy(&g->req, &cfg->h24, sizeof(ModemRequest));
+    NetMemcpy(&g->req, &cfg->req_type, sizeof(ModemRequest));
     NetMemcpy(&g->auth_mode, &cfg->auth_mode, 0x10);
     if (g->mtu == 0)
     {

@@ -8,18 +8,18 @@ struct AdxtPlayer;
 
 // --- C functions defined in AdxTalk.cpp ---
 extern "C" {
-void TLobby__sub_803C9350(AdxtPlayer *player, s32 offset);
+void adxt_set_time_offset(AdxtPlayer *player, s32 offset);
 s32 TLobby__sub_803C9358(AdxtPlayer *player);
-void TLobby__sub_803C94B8(AdxMessageCallback callback, s32 context);
+void adxt_set_error_callback(AdxMessageCallback callback, s32 context);
 void TLobby__sub_803C94D8(void);
-void TLobby__sub_803C94DC(AdxtPlayer *player, s32 paused);
-void TLobby__sub_803C9608(void);
-void TLobby__sub_803C96A8(AdxtPlayer *player, s32 freq);
-s16 TLobby__sub_803C96B0(AdxtPlayer *player);
-s32 TLobby__sub_803C9740(AdxtPlayer *player);
+void adxt_pause(AdxtPlayer *player, s32 paused);
+void adxt_exec_server(void);
+void adxt_set_server_freq(AdxtPlayer *player, s32 freq);
+s16 adxt_get_out_vol(AdxtPlayer *player);
+s32 adxt_get_num_channels(AdxtPlayer *player);
 s32 TLobby__sub_803C97B8(AdxtPlayer *player);
-void TLobby__sub_803C97F4(AdxtPlayer *player, s32 *pos, s32 *rate);
-s32 TLobby__sub_803C9CB0(AdxtPlayer *player);
+void adxt_get_play_position(AdxtPlayer *player, s32 *pos, s32 *rate);
+s32 adxt_get_stat(AdxtPlayer *player);
 void TLobby__sub_803C9DB4(AdxtPlayer *player);
 void adx_destroy_stream_player(AdxtPlayer *player);
 AdxtPlayer *adx_create_stream_player(s32 n, void *work, s32 size);

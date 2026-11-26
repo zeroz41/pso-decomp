@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-BOOL fn_80145A44(char *dst);
+BOOL read_dial_prefix(char *dst);
 }
 
 #endif

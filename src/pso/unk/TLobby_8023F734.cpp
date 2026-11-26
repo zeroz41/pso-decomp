@@ -500,7 +500,6 @@ u16 sound_bank_group_ids[38] = {
 #include <dolphin/os/OSTime.h>
 #undef PSO_SDK_COMPACT_MATH
 #pragma readonly_strings on
-struct Voice_80241FD8;
 #pragma push
 
 #include "types.h"
@@ -513,8 +512,8 @@ void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
 s32 sndStreamMixParameter(u32, u8, u8, u8, u8);
-s32 TLobby__sub_803C9CB0(s32);
-s32 TLobby__sub_803CBE64(s32, s32);
+s32 adxt_get_stat(s32);
+s32 adx_ui_bridge_get_stream_id(s32, s32);
 }
 
 void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
@@ -545,8 +544,8 @@ void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 
     if (output_mode != 2) {
         span = 0;
     }
-    if (TLobby__sub_803C9CB0(tracks) == 3) {
-        sndStreamMixParameter(TLobby__sub_803CBE64(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
+    if (adxt_get_stat(tracks) == 3) {
+        sndStreamMixParameter(adx_ui_bridge_get_stream_id(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
     }
 }
 
@@ -621,7 +620,7 @@ s32 TLobby__sub_8023F880(s32 voice) {
 }
 void fade_out_sound_slot(s32 slot, s32 step) {
     if (slot < 0 || slot >= 32) return;
-    ((void (*)(void*, s32))start_voice_fade)(&sound_request_voices[slot], step);
+    start_voice_fade(&sound_request_voices[slot], step);
 }
 
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
@@ -641,7 +640,7 @@ s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32
             sound_request_voices[i].kind == 0 && (s32)(id >> 16) == sound_request_voices[i].bank &&
             (s32)(id & 0xFFFF) == sound_request_voices[i].index && reinterpret_cast<saddr>(actor) == reinterpret_cast<saddr>(sound_request_voices[i].actor) &&
             (sound_request_voices[i].flags & 1)) {
-            TLobby__sub_802409E4(&sound_request_voices[i]);
+            sound_request_voice_set_refresh(&sound_request_voices[i]);
             sound_request_voices[i].position = position;
             sound_request_voices[i].base = base;
             return i;
@@ -738,7 +737,7 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 #pragma pop
 extern "C" {
 
-s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
+s32 free_sound_entry_data(SoundControlState *self, int id);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
 s32 SoundControlState::is_ready() {
@@ -764,7 +763,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     if (pos == -1) {
         self->route_pos = 0;
-        TLobby__sub_8023FFB8(self, self->route[self->route_pos]);
+        free_sound_entry_data(self, self->route[self->route_pos]);
         return;
     }
     errors = 0;
@@ -816,7 +815,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     self->route_pos++;
     if (self->route[self->route_pos] >= 0) {
-        TLobby__sub_8023FFB8(self, self->route[self->route_pos]);
+        free_sound_entry_data(self, self->route[self->route_pos]);
         return;
     }
     self->group_state = self->next_group_state;
@@ -836,10 +835,10 @@ void reset_sound_group_fade() {
 void fade_voice_channels(s32 step) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
-        ((void (*)(void*, s32))start_voice_fade)(&sound_request_voices[i], step);
+        start_voice_fade(&sound_request_voices[i], step);
     }
 }
-s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
+s32 free_sound_entry_data(SoundControlState *self, int id) {
     s32 i;
     s32 ret;
     if (self->ents[id].file_data[3] != 0) {
@@ -992,7 +991,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
             ADXF_ReadNw(handle, (s32)size / 2048, musyx_sdir_buffers[i]);
             TLobby::set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
             do {
-                TLobby__sub_803382E4();
+                draw_loading_compass();
                 TLobby::run_disk_error_check();
                 render_tick();
             } while (ADXF_GetStat(handle) != 3);

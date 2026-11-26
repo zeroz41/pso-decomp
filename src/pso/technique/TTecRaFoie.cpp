@@ -51,7 +51,7 @@ void TFireExplosion::spawn_rafoie_explosion_bursts() {
     for (i = 0; i < rafoie_burst_table[band].count; i++) {
         const TechniqueEmitter *row = &rafoie_burst_table[band].emitters[i];
         u16 mode = 0;
-        void *p;
+        TParticleCtrl *p;
         if (row->flags & 0x1000) {
             mode = 0x2000;
         }
@@ -61,7 +61,7 @@ void TFireExplosion::spawn_rafoie_explosion_bursts() {
             p = spawn_particle_effect_with_flags(&higher, row->entry, mode);
         }
         if (p != NULL) {
-            ((TParticleCtrl *)p)->set_scale(rafoie_burst_table[band].emitters[i].scale, rafoie_burst_table[band].emitters[i].scale);
+            p->set_scale(rafoie_burst_table[band].emitters[i].scale, rafoie_burst_table[band].emitters[i].scale);
         }
     }
 }
@@ -294,7 +294,7 @@ void TTecRaFoie::apply_to_target(TObjChara *target) {
     DirectAttackPayload attack;
     attack.kind = 1;
     attack.power = params.power;
-    target->receive_direct_attack((void *)source, attack, contact, 2, -1);
+    target->receive_direct_attack(source, attack, contact, 2, -1);
 }
 
 void TTecRaFoie::render() {  }
@@ -305,7 +305,7 @@ void TTecRaFoie::run_task() {
         queue_destruction();
         return;
     }
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
@@ -324,11 +324,11 @@ void TTecRaFoie::run_task() {
     }
 }
 
-void TTecRaFoie::update_detonation(void *pos) {
+void TTecRaFoie::update_detonation(Vec *pos) {
     void *p;
     s32 h;
 
-    VecCopy(&position, VecCopy(&target, (const Vec *)pos));
+    VecCopy(&position, VecCopy(&target, pos));
     age++;
     if (age != 10) {
         return;
@@ -372,8 +372,8 @@ void TTecRaFoie::create(TObject *source, Vec *origin, Vec *pos, s32 level) {
     new TTecRaFoie((saddr)source, origin, pos, level);
 }
 
-void TTecRaFoie::create_ex(void *source, void *origin, void *targets, s32 level) {
-    new TTecRaFoie((saddr)source, (Vec *)origin, (TargetCursorList *)targets, level);
+void TTecRaFoie::create_ex(void *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecRaFoie((saddr)source, origin, targets, level);
 }
 
 TTecRaFoie::~TTecRaFoie() {
@@ -391,7 +391,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
         collidable->bodies->radius = params.range;
     }
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     spawn_effects(0);
     play_cast_sound();
@@ -404,7 +404,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 le
     m_148 = 0;
     copy_technique_target_list(&m_targets, list);
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;

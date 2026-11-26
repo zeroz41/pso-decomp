@@ -949,7 +949,7 @@ void TObjCollidable::update_enemy_collision_flags() {
     CollisionBody *body = bodies;
     if (body != NULL) {
         body->flags = body->flags & 0xFEDFFFFF;
-        for (j = registered_player_count + registered_enemy_count; j < (s32)entity_table_count; j++) {
+        for (j = registered_player_count + registered_enemy_count; j < entity_table_count; j++) {
             player = TObjPlayer::get_player_data(j);
             if (player != NULL) {
                 contact = find_actor_body_contact(player, 10000.0f);
@@ -993,7 +993,7 @@ void TObjCollidable::check_object_collisions() {
     CollisionBody *body = bodies;
     if (body != NULL) {
         body->flags = body->flags & 0xFFB7FFFF;
-        for (j = 0; j < (s32)registered_player_count; j++) {
+        for (j = 0; j < registered_player_count; j++) {
             player = TObjPlayer::get_player_data(j);
             if (player != NULL && player->entity_id < 0x1000U) {
                 contact = find_actor_body_contact(player, 10000.0f);
@@ -1022,9 +1022,9 @@ void TObjCollidable::clear_collision_bodies() {
     bodies = NULL;
 }
 
-void *TObjCollidable::set_collision_body(void *body) {
+void *TObjCollidable::set_collision_body(CollisionBody *body) {
     body_count = 1;
-    bodies = (CollisionBody *)body;
+    bodies = body;
     body_flags = &own_body_flags;
     refresh_collision_body_centers();
     return bodies;

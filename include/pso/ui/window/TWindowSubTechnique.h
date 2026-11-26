@@ -17,9 +17,9 @@ struct TWindowSubTechnique : public TObject {
     u8 state;
     u8 pad_1d[0x1];
     s16 help_technique; // technique the help window shows; 0x13 = none
-    s16 m_20;
+    s16 shown_tp;  // tp and hold status the list was built for (update_selection)
     u8 pad_22[0x2];
-    s32 m_24;
+    s32 shown_hold_status;
     s32 playerIndex;
     s32 current_category;
     TWindowMainMenu *parent_menu;
@@ -34,10 +34,9 @@ struct TWindowSubTechnique : public TObject {
     void update_selected_help(s32 technique);
     virtual void render();
     virtual void run_task();
-    void clear_flag70_bit80();
-    static void get_selection(s16 *arg0, s32 *arg1, s32 client);
-    static s32 update_selection(s16 *arg0, s32 *arg1, s32 client);
-    static void get_current_selection(s16 *arg0, s32 *arg1, s32 client);
+    static void get_selection(s16 *tp, s32 *hold_status, s32 client);
+    static s32 update_selection(s16 *tp, s32 *hold_status, s32 client);
+    static void get_current_selection(s16 *tp, s32 *hold_status, s32 client);
     static s32 lookup_technique(s32 technique, s32 client);
     TWindowMenu *create_title_window(s32 category);
     static s32 is_technique_available(s32 sub, s32 client);

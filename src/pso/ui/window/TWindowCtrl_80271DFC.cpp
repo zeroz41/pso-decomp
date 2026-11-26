@@ -18,5 +18,5 @@ void TWindowCtrl::clear_active_flag() {
 
 void TRaderMapCore::clear() { TRaderMapCore::view_mode = 0; }
 
-    extern int TWindowSubStatusDisp__count_ratio_value;
-int get_window_count_ratio_value(void) {  return TWindowSubStatusDisp__count_ratio_value; }
+    extern int status_disp_count_ratio_value;
+int get_window_count_ratio_value(void) {  return status_disp_count_ratio_value; }

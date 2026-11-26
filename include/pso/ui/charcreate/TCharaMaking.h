@@ -26,8 +26,8 @@ struct TCharaMaking : public TObject {
     static const char *name;
     TCharaMaking(TObject *parent);
     virtual ~TCharaMaking();
-    u32 m_1c;
-    u32 m_20;
+    u32 light_pitch;
+    u32 light_yaw;
     static s32 query_state();
     static void setup_from_data(s32 model, CharacterAppearanceFields *appearance);
     void free_loaded_buffers();
@@ -51,9 +51,9 @@ s32 get_current_char_flag();
 extern "C" {
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void);
 int TAdSinglePlyChrSelectGC__sub_8028DC1C(void *p);
-CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void);
-void TObjCMMainMenu__sub_8028D9B4(CharacterAppearanceFields *record);
-void TObjCMMainMenu__sub_8028D9F8(void);
+CharacterAppearanceFields *get_creation_visual_record(void);
+void load_creation_visual_record(CharacterAppearanceFields *record);
+void invalidate_creation_visual_record(void);
 void fn_8028DBC4(s32 _w0);
 }
 #endif

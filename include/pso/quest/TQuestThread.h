@@ -51,6 +51,15 @@ public:
     static void destroy_board();
 };
 
+// One quest board entry set by the quest opcode set_quest_board_handler:
+// the title the board lists and the label TQuestThreadBoard runs.
+struct QuestBoardHandler {
+    char title[0x20];
+    s32 label;
+};
+
+extern QuestBoardHandler quest_board_handlers[6];
+
 class TObjItemNameEntry : public TObject {
 public:
     TKeyBoardControl *keyboard;  // for the name
@@ -59,7 +68,7 @@ public:
     TObjItemNameEntry(TObject *parent);
     virtual ~TObjItemNameEntry();
 
-    static void *create(void *parent);
+    static TObjItemNameEntry *create(void *parent);
     static void set_entered_name(const char *name);
     s32 process_keyboard_input();
 };
@@ -72,7 +81,7 @@ void load_area_dialogue_script();
 extern char entered_item_name[0x10];
 
 extern "C" {
-void TQuestThread__sub_801F5D88(void);
+void clear_quest_floor_handlers(void);
 }
 
 #endif

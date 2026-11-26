@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+class WindowTextEntry;
+
 struct RotatedQuadSpriteRect;
 
 class TWindowFukidasi : public TWindowAddition {
@@ -27,7 +29,7 @@ public:
     void calc_text_size(f32 *);
     s32 calc_name_plate_angle(f32 *, f32 *, f32 *, f32 *);  // dead-stripped
     void clear_width();  // dead-stripped
-    void measure_text_unbounded(int);  // dead-stripped
+    void measure_text_unbounded(WindowTextEntry *entry);  // dead-stripped
     virtual void render();
     void clear_flag();
     u16 get_speaker_id();
@@ -36,6 +38,7 @@ public:
     s8 alloc_nearest_free_slot();
     int is_balloon_visible();
     int is_active();
+    void set_active();
     void clear_flag_20();
     int is_flag_set();
     void set_balloon_visible();
@@ -45,12 +48,15 @@ public:
     void set_flag2c_bit200();
     void clear_flag2c_bit200();
     void set_flag2c_bit100();
+    int test_flag2c_bit100();
 
     TWindowFukidasi *find_overlapping_balloon(const f32 *position, const f32 *size, TWindowFukidasi *first);
     TWindowFukidasi *draw_resolved_window(const f32 *position, const f32 *size, s32 viewport);
-    void hide();
+    // Window flag 0x400: the balloon overlaps another one and is moved aside by the layout.
+    void mark_overlapped();
+    void clear_overlapped();
     int get_visible_flag();
-    int is_bit10_set();
+    int is_overlapped();
     s32 check_card_match_enabled(const char *text);
     void sync_display_pos();
     s32 approach(f32 target);

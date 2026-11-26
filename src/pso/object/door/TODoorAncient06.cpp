@@ -125,7 +125,7 @@ TODoorAncient06::~TODoorAncient06() {
 TODoorAncient06::TODoorAncient06(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_ancient06_class_name;
     apply_object_set_data(set_data);
-    model = (void *)bml_resource->models[0].model;
+    model = bml_resource->models[0].model;
     texlist = texture_lists[0];
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

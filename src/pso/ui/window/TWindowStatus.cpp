@@ -23,12 +23,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 
 
 const char *TWindowStatus::class_name = "TWindowStatus";
 
 
-void set_status_entry_target(void *entry, s32 value);
 #pragma readonly_strings on
 
 struct StatusWindowLayout {
@@ -92,9 +92,9 @@ void TWindowStatus::update_hp_tp_values() {
         maximum->value = player->get_hpmax();
         current->value = player->hp;
         color = update_hp_entry();
-        current->style = color;
+        current->color = color;
         label->color = color;
-        maximum->style = color;
+        maximum->color = color;
         slash->color = color;
         draw_right_aligned_number(maximum);
         draw_right_aligned_number(current);
@@ -107,9 +107,9 @@ void TWindowStatus::update_hp_tp_values() {
         maximum->value = player->get_tpmax();
         current->value = player->tp;
         color = update_hp_gauge();
-        current->style = color;
+        current->color = color;
         label->color = color;
-        maximum->style = color;
+        maximum->color = color;
         slash->color = color;
         draw_right_aligned_number(maximum);
         draw_right_aligned_number(current);
@@ -144,7 +144,7 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
     q.v0 = 0.3125f;
     q.u1 = 0.73046875f;
     q.v1 = 0.625f;
-    draw_textured_quad_at_depth((f32 *)&q, s);
+    draw_textured_quad_at_depth(&q.x0, s);
     q.x0 = context->x;
     q.y0 = context->y;
     q.x1 = 228.0f + q.x0;
@@ -154,7 +154,7 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
     q.u1 = 0.890625f;
     q.v1 = 0.296875f;
     context->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, s);
+    draw_textured_quad_at_depth(&q.x0, s);
     end_screen_draw();
     if (scanline_crosses_window(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);

@@ -13,6 +13,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/data/pso_date.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 const u32 input_button_mask_table[14] = {
     0x10, 0x20, 0x40, 0x80, 0x100000, 0x200000, 0x400000, 0x800000,
@@ -26,7 +27,6 @@ s8 keyboard_reset_button_pressed;
 s8 pad_recalibration_hold_frames[4];
 extern "C" {
 BOOL DVDCheckDisk();
-extern s32 memcard_access_active;
 }
 
 // Stands in for a port with no controller: nothing held.
@@ -74,8 +74,8 @@ s32 TKeyBoardControl__sub_801A58B0(void) {
     return hardware_keyboard_state.sub_801321B4();
 }
 
-s32 TKeyBoardControl__sub_801A58D8(void) {
-    return hardware_keyboard_state.sub_80132310();
+s32 is_keyboard_shift_held(void) {
+    return hardware_keyboard_state.is_shift_held();
 }
 
 s32 TKeyBoardControl::check_and_read(s32 key) {
@@ -87,7 +87,7 @@ s32 TKeyBoardControl::check_and_read(s32 key) {
 
 s32 TKeyBoardControl::read_input(u8 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return update_state_from_input__16TKeyBoardControlFPv(key);
+        return update_state_from_input(key);
     }
     return 0;
 }
@@ -97,14 +97,14 @@ s32 TKeyBoardControl::is_key_down(s32 key) {
     s32 n;
     n = hardware_keyboard_state.get_pending_count();
     for (i = 0; i < n; i++) {
-        if ((u8)key == hardware_keyboard_state.sub_8013239C(i)) {
+        if ((u8)key == hardware_keyboard_state.get_pending_key(i)) {
             return 1;
         }
     }
     return 0;
 }
 
-s32 update_state_from_input__16TKeyBoardControlFPv(u8 key) {
+s32 update_state_from_input(u8 key) {
     return hardware_keyboard_state.is_key_pressed(key);
 }
 
@@ -145,7 +145,6 @@ StickEscapeDetector::StickEscapeDetector() {
 }
 
 s32 TKeyBoardControl::get_ascii_key() {
-  short new_var;
   s32 shift_held;
   s32 result;
   u8 key;
@@ -153,9 +152,9 @@ s32 TKeyBoardControl::get_ascii_key() {
   {
     return 0;
   }
-  result = hardware_keyboard_state.sub_8013239C(0);
+  result = hardware_keyboard_state.get_pending_key(0);
   key = result;
-  shift_held = hardware_keyboard_state.sub_80132310();
+  shift_held = hardware_keyboard_state.is_shift_held();
   if ((((s32) key) >= 0x2A) && (((s32) key) <= 0x32))
   {
     return key + 7;
@@ -204,7 +203,7 @@ s32 TKeyBoardControl::get_ascii_key() {
       return result;
     case 0x3A:
       result = 0x3A;
-      if (new_var = shift_held != 0)
+      if (shift_held != 0)
     {
       return 0x2A;
     }
@@ -583,7 +582,7 @@ s32 ControllerInputContext::poll_key_state() {
     }
     n = hardware_keyboard_state.get_pending_count();
     for (j = 0; j < n; j++) {
-        accumulate_key_bits(hardware_keyboard_state.sub_8013239C(j), &pressed_buttons);
+        accumulate_key_bits(hardware_keyboard_state.get_pending_key(j), &pressed_buttons);
     }
     held_with_sticks = buttons;
     pressed_with_sticks = pressed_buttons;
@@ -680,13 +679,13 @@ s32 TRaderMapCore__sub_801A6D00(ControllerInputContext *pad, s32 mask) {
     return (mask & 0xFFFFFF0F) | ((mask << 0x16) & 0x3C000000);
 }
 
-s32 pack_flags__13TRaderMapCoreFii(s32 pad, s32 mask) {
+s32 pack_button_mask(s32 pad, s32 mask) {
     return (mask & 0xFF0FFFFF) | ((mask << 0x16) & 0x3C000000);
 }
 }
 
 s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask) {
-    return (pad->not_held & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+    return (pad->not_held & pack_button_mask((saddr)pad, mask)) != 0;
 }
 extern "C" {
 
@@ -695,7 +694,7 @@ s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
 }
 
 s32 test_pressed_buttons_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->pressed_with_sticks & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+    return (((ControllerInputContext *)pad)->pressed_with_sticks & pack_button_mask((saddr)pad, mask)) != 0;
 }
 
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
@@ -707,7 +706,7 @@ s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
 }
 
 s32 test_previous_buttons_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->held_with_sticks & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+    return (((ControllerInputContext *)pad)->held_with_sticks & pack_button_mask((saddr)pad, mask)) != 0;
 }
 }
 
@@ -717,14 +716,14 @@ s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(ControllerInputContext *input,
 }
 
 s32 TRaderMapCore::apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period) {
-    u32 mask = pack_flags__13TRaderMapCoreFii(input, buttons);
+    u32 mask = pack_button_mask(input, buttons);
     return check_packed_flag_match((ControllerInputContext *)input, mask, delay, period);
 }
 
 extern "C" {
 
 s32 test_buttons_press_or_repeat(ControllerInputContext *pad, s32 buttons, s32 delay, s32 period) {
-    u32 mask = pack_flags__13TRaderMapCoreFii((saddr)pad, buttons);
+    u32 mask = pack_button_mask((saddr)pad, buttons);
     return input_press_or_repeat(pad, mask, delay, period);
 }
 }

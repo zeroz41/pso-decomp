@@ -204,7 +204,7 @@ void TObjCityMainWarpChallenge::update_warp_dialogs() {
         pos[1] = 104.0f;
         this->player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), pos);
         if (this->player_list_window != 0) {
-            this->player_list_window->set_flag_40();
+            this->player_list_window->disable_input();
             this->player_list_window->set_close_flag();
             for (i = 0; i < this->player_count; i++) {
                 this->player_list_window->dispatch_without_flags((saddr)this->player_names[i], i);
@@ -220,7 +220,7 @@ void TObjCityMainWarpChallenge::update_warp_dialogs() {
                 (player)->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
-            this->player_list_window->sub_80248994(color, j);
+            this->player_list_window->set_item_color(color, j);
         }
     }
 }

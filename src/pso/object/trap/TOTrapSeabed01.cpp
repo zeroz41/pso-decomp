@@ -152,7 +152,7 @@ void *TOTrapSeabed01::create(void *set_data) {
     return new TOTrapSeabed01(tl_05, set_data);
 }
 
-inline f32 clampf_802CA5F4(f32 lo, f32 hi, f32 v) {
+inline f32 clamp_f32(f32 lo, f32 hi, f32 v) {
     f32 r;
     if (lo > v) {
         r = lo;
@@ -178,7 +178,7 @@ inline s32 CLAMPI(s32 v, s32 lo, s32 hi) {
 }
 
 void TOTrapSeabed01::clamp_params_and_init() {
-    scale.x = clampf_802CA5F4(0.1f, 10.0f, scale.x);
+    scale.x = clamp_f32(0.1f, 10.0f, scale.x);
     set_params[0] = CLAMPI(set_params[0], 1, 60);
     set_params[1] = CLAMPI(set_params[1], 0, 1);
     mode = 0;
@@ -227,7 +227,7 @@ void TOTrapSeabed01::draw() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        draw_object_tree((NJS_OBJECT *)model);
+        draw_object_tree(model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         restore_draw_list_mask();

@@ -22,20 +22,12 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 
-struct RecoveredGlobal_8036E8DC_lbl_804C88C0 { s32 value; u8 remaining[0x50]; };
-LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal_8036E8DC_lbl_804C88C0) == 0x54);
-
-
 #include <stddef.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-union MemberActionStorage_8036EA24 { s32 words[3]; void (TAdSystemFileCheckGC::*action)(); };
-
-union MemberActionStorage_8036E858 { s32 words[3]; void (TAdSystemFileCheckGC::*action)(); };
-
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
 const char *multi_chg_game_mode_text_table_a[11] = {
@@ -151,13 +143,13 @@ TAdSystemFileCheckGCState multi_chg_game_mode_entry_table[11] = {
 };
 extern "C" {
 __declspec(section ".data") f32 multi_chg_game_mode_window_extent[2] = {0.5f * (640.0f - multi_chg_game_mode_window_size[0]), 70.0f};
-__declspec(section ".data") NJS_POINT2 lbl_804F3A18 = {
+__declspec(section ".data") NJS_POINT2 system_file_check_menu_pos = {
     20.0f + multi_chg_game_mode_window_extent[0],
     10.0f + (multi_chg_game_mode_window_extent[1] + multi_chg_game_mode_window_size[1]),
 };
-f32 lbl_805D7020 = multi_chg_game_mode_window_size[0] - 40.0f;
+f32 system_file_check_menu_height = multi_chg_game_mode_window_size[0] - 40.0f;
 
-s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, s32 text_set) {
+s32 get_system_file_check_text(TAdSystemFileCheckGC *owner, s32 index, s32 text_set) {
     if (text_set == -1) {
         return get_message_text((index));
     }
@@ -169,16 +161,16 @@ s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, 
 }
 
 void TAdSystemFileCheckGC::close_windows_on_selection() {
-    void *window;
+    TObject *window;
     if (handle_mode_selection() == 0) {
         window = message_window;
-        if ((uaddr) window != 0U) {
-            ((TObject *)window)->queue_destruction();
+        if (window != 0U) {
+            window->queue_destruction();
             message_window = NULL;
         }
         window = menu_window;
-        if ((uaddr) window != 0U) {
-            ((TObject *)window)->queue_destruction();
+        if (window != 0U) {
+            window->queue_destruction();
             menu_window = NULL;
         }
         set_state(3);
@@ -230,7 +222,7 @@ void TAdSystemFileCheckGC::close_windows_and_cleanup() {
     setup_mode_menu(0);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line(TAdMultiChgGameModeGC__sub_8036DE10(this, 3, (s32)this->language), 3);
+        message_window->append_line(get_system_file_check_text(this, 3, (s32)this->language), 3);
     }
 }
 
@@ -271,7 +263,7 @@ void TAdSystemFileCheckGC::close_windows_and_reopen() {
     setup_mode_menu(0);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line(TAdMultiChgGameModeGC__sub_8036DE10(this, 1, (s32)this->language), 3);
+        message_window->append_line(get_system_file_check_text(this, 1, (s32)this->language), 3);
     }
 }
 
@@ -282,14 +274,14 @@ void TAdSystemFileCheckGC::open_message_window(s32 index) {
     }
     this->message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
     if (this->message_window != NULL) {
-        this->message_window->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10(this, index, (s32)((int) (this->language))))), 3);
+        this->message_window->append_line((s32)((int) (get_system_file_check_text(this, index, (s32)((int) (this->language))))), 3);
     }
 }
 
 void TAdSystemFileCheckGC::close_window_30() {
-    void *window_base = message_window;
-    if ((uaddr) window_base != 0U) {
-        ((TWindowBase *)window_base)->close();
+    TWindowBase *window_base = (TWindowBase *)message_window;
+    if (window_base != 0U) {
+        window_base->close();
         message_window = NULL;
     }
     close_menu_window();
@@ -301,11 +293,11 @@ void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
     s32 b;
     s32 c;
     s32 d;
-    this->menu_window = create_window_menu_default(&lbl_804F3A18, 2);
-    a = TAdMultiChgGameModeGC__sub_8036DE10(this, 6, this->language);
-    b = TAdMultiChgGameModeGC__sub_8036DE10(this, 7, this->language);
-    c = TAdMultiChgGameModeGC__sub_8036DE10(this, 2, this->language);
-    d = TAdMultiChgGameModeGC__sub_8036DE10(this, 5, this->language);
+    this->menu_window = create_window_menu_default(&system_file_check_menu_pos, 2);
+    a = get_system_file_check_text(this, 6, this->language);
+    b = get_system_file_check_text(this, 7, this->language);
+    c = get_system_file_check_text(this, 2, this->language);
+    d = get_system_file_check_text(this, 5, this->language);
     if (this->menu_window != 0) {
         if (mode == 0) {
             this->menu_window->add_text_entry(a, 5, 0);
@@ -316,7 +308,7 @@ void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
             this->menu_window->add_text_entry(d, 5, 1);
             this->menu_window->set_selected_index(0);
         }
-        this->menu_window->update_layout_height(lbl_805D7020);
+        this->menu_window->update_layout_height(system_file_check_menu_height);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
     }
 }
@@ -370,7 +362,7 @@ void TAdSystemFileCheckGC::enter_state_3() {
     setup_mode_menu(1);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10(this, 0, (s32)((s32)((int) this->language))))), 3);
+        message_window->append_line((s32)((int) (get_system_file_check_text(this, 0, (s32)((s32)((int) this->language))))), 3);
     }
     create_back_objects();
 }
@@ -455,19 +447,12 @@ void TAdSystemFileCheckGC::enter_state_9() {  }
 void TAdSystemFileCheckGC::run_state_8() { TAdMultiChgGameModeGC::open_title_scene(); }
 void TAdSystemFileCheckGC::enter_state_8() {  }
 
-LAYOUT_ASSERT(MemberActionStorage_8036E858_size, sizeof(MemberActionStorage_8036E858) == 12);
 void TAdSystemFileCheckGC::set_state(s32 new_state) {
-    MemberActionStorage_8036E858 member_action;
-    s32 frame_padding[3];
-    u8 *entry;
     if (state != new_state) {
         state = new_state;
-        entry = (u8 *)multi_chg_game_mode_entry_table + (state * 0x18);
-        member_action.words[0] = *(s32 *)((s8 *)entry + 0);
-        member_action.words[1] = *(s32 *)((s8 *)entry + 4);
-        member_action.words[2] = *(s32 *)((s8 *)entry + 8);
-        if (member_action.action != 0) {
-            (this->*member_action.action)();
+        TAdSystemFileCheckGCAction enter = multi_chg_game_mode_entry_table[state].enter;
+        if (enter != 0) {
+            (this->*enter)();
         }
     }
 }
@@ -494,21 +479,15 @@ s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
 void TAdSystemFileCheckGC::confirm_mode_selection() { if (((int)handle_mode_selection()) == 0) { set_state((s32)((saddr)((void*)((void*)1)))); } }
 void TAdSystemFileCheckGC::enter_state_0() { close_window_30(); open_message_window(4); }
 
-LAYOUT_ASSERT(MemberActionStorage_8036EA24_size, sizeof(MemberActionStorage_8036EA24) == 12);
 void TAdSystemFileCheckGC::run_task() {
-    MemberActionStorage_8036EA24 member_action;
-    s32 frame_padding[3];
-    u8 *entry;
     this->status = TAdSinglePlyChrSelectGC::check_system_file_status();
     if (this->status & 1) {
         set_state(9);
     }
-    entry = (u8 *)multi_chg_game_mode_entry_table + (this->state * 0x18);
-    member_action.words[0] = *(s32 *)((s8 *)entry + 0xC);
-    member_action.words[1] = *(s32 *)((s8 *)entry + 0x10);
-    member_action.words[2] = *(s32 *)((s8 *)entry + 0x14);
-    if (member_action.action != 0) {
-        (this->*member_action.action)();
+    TAdSystemFileCheckGCState *entry = &multi_chg_game_mode_entry_table[this->state];
+    TAdSystemFileCheckGCAction task = entry->task;
+    if (task != 0) {
+        (this->*task)();
     }
 }
 

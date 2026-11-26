@@ -19,7 +19,9 @@ struct ViewScreen {
 struct CameraViewParams {
     ViewScreen screen;
     TileRect scissor;  // the view's scissor box
-    f32 pad_40[2];
+    // {1.0, 0.85} by default; the 1P main menu sets [0] from how far its shrunk
+    // view is from the screen edges and [1] = 0.85 * [0].
+    f32 view_scale[2];
 
     s32 begin_override();
     void apply_if_overridden();

@@ -57,7 +57,7 @@ loop_1:
     } else {
 block_4:
         if (candidate != (s16) this->index) {
-            if (sub_80266B18(candidate) != 0) {
+            if (is_entry_selectable(candidate) != 0) {
                 this->index = candidate;
             } else {
                 goto loop_1;
@@ -80,7 +80,7 @@ loop_1:
     } else {
 block_4:
         if (candidate != (s16) this->index) {
-            if (sub_80266B18(candidate) != 0) {
+            if (is_entry_selectable(candidate) != 0) {
                 this->index = candidate;
             } else {
                 goto loop_1;
@@ -143,7 +143,7 @@ void TWindowMenuInfomation::draw_setting(WindowDrawContext *context) {
 
     entry = (u16 *)this->get_array_entry(this->index);
     if (*entry & 1) {
-        draw_selection_bar(context, (u8 *)entry, this->is_open());
+        draw_selection_bar(context, (TWindowLayoutRect *)entry, this->is_open());
     }
 }
 

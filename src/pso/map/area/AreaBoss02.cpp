@@ -13,12 +13,12 @@
 #pragma readonly_strings on
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
-void (*lbl_804A7360[2])(void) = {init_boss2_tunnel, free_boss2_tunnel};
+void (*boss2_tunnel_callbacks[2])(void) = {init_boss2_tunnel, free_boss2_tunnel};
 
 void cleanup_boss2_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
-    TLobby::call_funcs_reverse(lbl_804A7360, sizeof(lbl_804A7360));
+    TLobby::call_funcs_reverse(boss2_tunnel_callbacks, sizeof(boss2_tunnel_callbacks));
     unload_current_floor_resources();
     TLobby::update_current_floor();
     TLobby::clear_session_buffers();
@@ -29,13 +29,13 @@ s32 TLobby::setup_area() {
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
-    run_load_callback_table(lbl_804A7360, sizeof(lbl_804A7360));
+    run_load_callback_table(boss2_tunnel_callbacks, sizeof(boss2_tunnel_callbacks));
     init_area_lights();
     TLobby::create_tasks();
     create_boss2_tunnel();
-    TLobby__sub_801403B4(0);
+    debug_area_hook(0);
     play_area_music("delo.adx");
     return 1;
 }
 
-void TLobby__sub_801403B4(s32 _w0) {}
+void debug_area_hook(s32 _w0) {}

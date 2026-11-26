@@ -90,18 +90,18 @@ TChCrLoadReq::TChCrLoadReq(TObject *parent, const CharacterPreviewLoadArgs *args
 void TChCrLoadReq::reset_request() {
     s32 i;
     s32 index;
-    m_58 = inputs.part_models + 2;
+    head_model_slot = inputs.part_models + 2;
     index = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
-    m_5c = &class_appearance_table[index];
+    class_appearance = &class_appearance_table[index];
     reset_character_load_buffer(inputs.load_slot);
     inputs.body_model[0] = 0;
     inputs.part_models[1] = 0;
     inputs.part_models[0] = 0;
     inputs.part_models[2] = 0;
     for (i = 0; i < 6; i++) {
-        m_74[i] = 0;
+        sample_loads[i] = 0;
     }
-    m_8c = 0;
+    holds_load_slot = 0;
     timer = 0x1518;
     state = 0;
 }
@@ -121,7 +121,7 @@ void TChCrLoadReq::run_task() {
 
 void TChCrLoadReq::update_load_progress() {
     if (timer > 0x1512) {
-        if (TAdSinglePlyChrSelectGC__sub_8028CF6C() == 0) {
+        if (is_load_slot_free() == 0) {
             timer = 0x1512;
             goto claim;
         }

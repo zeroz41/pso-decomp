@@ -19,22 +19,15 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 #pragma readonly_strings on
 
-struct Ent_80277AEC { u16 id; u8 pad[0xA]; };
-
-struct Sub_80277AEC { u8 pad[0x34]; s32 flags; };
-
-struct Big_80277AEC { u8 pad[0x85C]; Sub_80277AEC sub; };
-
-struct Ent_802776D0 { u16 id; u16 sub; };
-
 
 // inferred: window_sub_custom_select_layout_entries, the layout table
-// TWindowSubCustomSelect__window_settings points at (two sprite parts and a value entry).
+// custom_select_window_settings points at (two sprite parts and a value entry).
 struct SubCustomSelectWindowLayout {
     u32 cols;
     u32 rows;
@@ -48,7 +41,7 @@ SubCustomSelectWindowLayout window_sub_custom_select_layout_entries = {
     {6, {6.0f, 11.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.3f, -1, &hud_texlist, 3, 4},
     {4, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
 };
-WindowDescriptor TWindowSubCustomSelect__window_settings = {
+WindowDescriptor custom_select_window_settings = {
     {204.0f, 188.0f}, 50050.0f, &window_sub_custom_select_layout_entries, 0x43,
 };
 
@@ -140,7 +133,7 @@ void TWindowSubCustomSelect::draw_cursor(WindowDrawContext *context) {
 void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     u32 i;
     TObjPlayer *p;
-    Ent_802776D0 *e;
+    const PaletteTag *e;
     s16 id;
     s16 sub;
     WindowSpritePart *icon;
@@ -153,9 +146,9 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     if (p == NULL) {
         return;
     }
-    e = reinterpret_cast<Ent_802776D0 *>(action_table);
-    for (i = 0; e->id != 8; i++, e++) {
-        if (e->id == 0) {
+    e = action_table;
+    for (i = 0; e->mode != 8; i++, e++) {
+        if (e->mode == 0) {
             continue;
         }
         fx = 58.0f * (f32)(i % 3);
@@ -171,8 +164,8 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
         icon->y = 10.0f + fy;
         background->x = 9.0f + fx;
         background->y = 8.0f + fy;
-        id = e->id;
-        sub = e->sub;
+        id = e->mode;
+        sub = e->slot;
         if (p->can_use_palette_action(id, sub) != 0) {
             icon->color = -1;
         } else {
@@ -200,8 +193,8 @@ void TWindowSubCustomSelect::run_task() {
     s32 controller_index;
     ControllerInputContext *context;
     controller_index = is_player_input_active(((s32) this->client_index));
-    if (!(*(s32 *)&this->window_flags & 2)) {
-        *(s32 *)&this->open_tick = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
     if (this->is_active() == 0) {
         handle_grid_navigation();
@@ -214,66 +207,80 @@ void TWindowSubCustomSelect::run_task() {
         }
     }
     update_list_scroll();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32)this->open_tick >= 7.5f) {
         this->status_display->update();
         scroll_bar->increment_counter();
     }
     update_window();
     this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
-    *(s32 *)&this->cursor_frame = (s32) (*(s32 *)&this->cursor_frame + 1);
+    this->cursor_frame = (s32) (this->cursor_frame + 1);
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
     TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
     delete status_display;
 }
-const u32 custom_select_organic_action_table[40] = {
-    0x20000, 0x20001, 0x20002, 0x30000, 0x30006, 0x30003, 0x30001, 0x30007,
-    0x30004, 0x30002, 0x30008, 0x30005, 0x30009, 0x30012, 0, 0x3000F,
-    0x30010, 0x30011, 0x3000D, 0x3000A, 0x3000B, 0x3000C, 0x3000E, 0,
-    0x40000, 0x40001, 0x40002, 0x40003, 0x40004, 0x40005, 0x40006, 0x40007,
-    0x40008, 0x40009, 0x4000A, 0, 0x4000B, 0x4000C, 0, 0x80000,
+// The palette actions offered per row of 3 cells; mode 8 ends the list.
+const PaletteTag custom_select_organic_action_table[40] = {
+    {2, 0x0}, {2, 0x1}, {2, 0x2},
+    {3, 0x0}, {3, 0x6}, {3, 0x3},
+    {3, 0x1}, {3, 0x7}, {3, 0x4},
+    {3, 0x2}, {3, 0x8}, {3, 0x5},
+    {3, 0x9}, {3, 0x12}, {0, 0},
+    {3, 0xF}, {3, 0x10}, {3, 0x11},
+    {3, 0xD}, {3, 0xA}, {3, 0xB},
+    {3, 0xC}, {3, 0xE}, {0, 0},
+    {4, 0x0}, {4, 0x1}, {4, 0x2},
+    {4, 0x3}, {4, 0x4}, {4, 0x5},
+    {4, 0x6}, {4, 0x7}, {4, 0x8},
+    {4, 0x9}, {4, 0xA}, {0, 0},
+    {4, 0xB}, {4, 0xC}, {0, 0},
+    {8, 0x0},
 };
-const u32 custom_select_android_action_table[20] = {
-    0x20000, 0x20001, 0x20002, 0x40000, 0x40001, 0x40002, 0x40009, 0x4000A,
-    0, 0x4000B, 0x40008, 0, 0x4000D, 0x4000E, 0, 0x4000F,
-    0x40010, 0, 0x80000, 0,
+const PaletteTag custom_select_android_action_table[20] = {
+    {2, 0x0}, {2, 0x1}, {2, 0x2},
+    {4, 0x0}, {4, 0x1}, {4, 0x2},
+    {4, 0x9}, {4, 0xA}, {0, 0},
+    {4, 0xB}, {4, 0x8}, {0, 0},
+    {4, 0xD}, {4, 0xE}, {0, 0},
+    {4, 0xF}, {4, 0x10}, {0, 0},
+    {8, 0x0}, {0, 0},
 };
 
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
 TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
-    : TWindowAddition((u8 *)&TWindowSubCustomSelect__window_settings,
+    : TWindowAddition((u8 *)&custom_select_window_settings,
                       static_cast<s16>(client), (u8 *)get_window_layout_position(0x10)) {
     NJS_POINT2 pos;
-    Big_80277AEC *p;
-    Sub_80277AEC *q;
-    Ent_80277AEC *e;
+    TObjPlayer *player;
+    CharacterAppearanceFields *q;
+    const PaletteTag *e;
     WindowHeading *o;
     m_name = TWindowSubCustomSelect::class_name;
     client_index = client;
-    p = (Big_80277AEC *)get_player_by_client_id(client_index);
-    if (p == NULL) {
+    player = get_player_by_client_id(client_index);
+    if (player == NULL) {
         return;
     }
-    q = &p->sub;
+    q = (CharacterAppearanceFields *)player->name;
     if (q == NULL) {
         return;
     }
-    if (q->flags & 0x10) {
-        action_table = reinterpret_cast<uaddr>(custom_select_android_action_table);
+    if (q->classFlags & 0x10) {
+        action_table = custom_select_android_action_table;
     } else {
-        action_table = reinterpret_cast<uaddr>(custom_select_organic_action_table);
+        action_table = custom_select_organic_action_table;
     }
     this->state_flags = 0;
     this->column = 0;
     this->row = 0;
     this->cursor_frame = 0;
-    e = reinterpret_cast<Ent_80277AEC *>(action_table);
+    e = action_table;
     this->row_count = 0;
-    while (e->id != 8) {
-        e++;
+    while (e->mode != 8) {
+        e += 3;
         (this->row_count)++;
     }
     o = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x22), client_index);

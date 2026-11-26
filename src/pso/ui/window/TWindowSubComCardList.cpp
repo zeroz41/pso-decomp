@@ -40,13 +40,13 @@ void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) 
       array_entry = (u16 *) this->get_array_entry((s32) page_row);
       if ((*array_entry) & 1)
       {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)array_entry, 1);
+        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (TWindowLayoutRect *)array_entry, 1);
       }
     }
   }
 }
 
-void TWindowSubComCardList::sub_80275360() {
+void TWindowSubComCardList::refresh_page() {
     GuildCardEntry *card;
     s32 n;
     s32 index;
@@ -89,7 +89,7 @@ TWindowSubComCardList *TWindowSubComCard::create_card_list(const NJS_POINT2 *pos
     return new TWindowSubComCardList(position, card_slot, count, empty_message);
 }
 
-TWindowSubComCardList *TWindowSubComCard::sub_802754EC(const NJS_POINT2 *position) {
+TWindowSubComCardList *TWindowSubComCard::create_all_cards_list(const NJS_POINT2 *position) {
     set_window_menu_rows(7);
     return new TWindowSubComCardList(position);
 }
@@ -122,7 +122,7 @@ void TWindowSubComCardList::run_task() {
     TWindowMenu::run_task();
     if ((is_decided() == 0) && (handle_list_page_flip_input(this->storage) != 0)) {
         set_selected_index(0);
-        sub_80275360();
+        refresh_page();
     }
 }
 
@@ -144,26 +144,26 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWind
     empty_message = 0;
     set_flag70_bit100();
     set_selected_index(0);
-    sub_80275360();
+    refresh_page();
     set_flag70_bit10();
     set_scroll_target(223.0f, 184.0f);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
+TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 card_count, s32 empty_message) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
-    n = round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);
+    n = round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, card_count) / 7.0f);
     if (n <= 0) {
         n = 1;
     }
     storage = new PageIndicator(0, (s8)n, local_client_id);
     cards = card_slot;
     card_slots = 0;
-    card_count = arg3;
-    empty_message = arg4;
+    this->card_count = card_count;
+    this->empty_message = empty_message;
     set_flag70_bit100();
     set_selected_index(0);
-    sub_80275360();
+    refresh_page();
     set_flag70_bit10();
     set_scroll_target(223.0f, 184.0f);
 }

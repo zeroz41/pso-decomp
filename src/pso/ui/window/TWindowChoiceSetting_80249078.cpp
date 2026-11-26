@@ -15,11 +15,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 // One TU (.text 0x80249078-0x802495FC): the class-name string 0x8044EAF0 comes before
-// update_scroll_tween's u32->f32 double (0x8044EB08) and run_task's s32->f32 double (0x8044EB10)
+// update_scroll_tween's u32->f32 double and run_task's s32->f32 double
 // in .rodata, so the name is defined ahead of the functions.
 #pragma push
 #pragma readonly_strings on
-const char *TWindowChoiceSetting__name = "TWindowChoiceSetting";
+const char *TWindowChoiceSetting::class_name = "TWindowChoiceSetting";
 #pragma pop
 
 #pragma push
@@ -28,13 +28,13 @@ void TWindowChoiceSetting::update_scroll_tween() {
     f32 target;
     uaddr steps;
 
-    if (this->m_80 & 1) {
+    if (this->choice_flags & 1) {
         steps = reinterpret_cast<uaddr>(this->get_array_entry(this->get_field_74()));
         target = *(f32 *)(steps + 0xC);
     } else {
         target = 0.0f;
     }
-    steps = *(u32 *)&this->tween_ticks;
+    steps = this->tween_ticks;
     if (steps == 0) {
         scroll_offset[1] = target;
         return;
@@ -45,20 +45,20 @@ void TWindowChoiceSetting::update_scroll_tween() {
 #pragma pop
 
 void TWindowChoiceSetting::begin_scroll(f32 height) {
-    u16 flags = m_80;
+    u16 flags = choice_flags;
     if (flags & 1) {
-        m_80 = (u16)(flags & 0xFFFE);
+        choice_flags = (u16)(flags & 0xFFFE);
         target_size[1] = height;
         tween_ticks = 3;
     }
 }
 
-void TWindowChoiceSetting::sub_80249144() {
+void TWindowChoiceSetting::shrink_to_selected_entry() {
     u16 flags;
     WindowTextEntry *entry;
-    flags = m_80;
+    flags = choice_flags;
     if (!(flags & 1)) {
-        m_80 = (u16)(flags | 1);
+        choice_flags = (u16)(flags | 1);
         entry = (WindowTextEntry *)get_array_entry(get_field_74());
         target_size[1] = 20.0f + entry->height;
         if (window_flags & 0x40) {
@@ -70,11 +70,11 @@ void TWindowChoiceSetting::sub_80249144() {
 
 TWindowChoiceSetting *TWindowChoiceSetting::create_choice_setting_window(
     const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows) {
-    sub_80249220(extent, rows);
+    set_popup_size(extent, rows);
     return new TWindowChoiceSetting(const_cast<NJS_POINT2 *>(position), rows);
 }
 
-void TWindowChoiceSetting::sub_80249220(const NJS_POINT2 *extent, s32 rows) {
+void TWindowChoiceSetting::set_popup_size(const NJS_POINT2 *extent, s32 rows) {
     set_choice_setting_popup_size(extent, rows);
 }
 
@@ -146,6 +146,6 @@ TWindowChoiceSetting::~TWindowChoiceSetting() {
 }
 
 TWindowChoiceSetting::TWindowChoiceSetting(void *parent, s32 rows) : TWindowMenuInfomation(parent, rows) {
-    m_name = TWindowChoiceSetting__name;
-    m_80 = 0;
+    m_name = TWindowChoiceSetting::class_name;
+    choice_flags = 0;
 }

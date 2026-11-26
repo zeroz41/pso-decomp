@@ -14,11 +14,11 @@
 
 #pragma readonly_strings on
 
-s32 lbl_805D6E88;
+s32 multiplay_texlist;
 
 void TAdGameStartShineGC::render_status_box() {
     begin_screen_draw(1);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6E88));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(multiplay_texlist));
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_quad.x0, 0.899f);
     end_screen_draw();
@@ -27,7 +27,7 @@ void TAdGameStartShineGC::render_status_box() {
 // Shine quad origin and extent the constructor lays the quad out from.
 static const vec2f game_start_shine_origin = {94.0f, 196.0f};
 static const vec2f game_start_shine_extent = {512.0f, 128.0f};
-const char *lbl_805D4320 = "TAdGameStartShineGC";
+const char *TAdGameStartShineGC_class_name = "TAdGameStartShineGC";
 
 void TAdGameStartShineGC::render() {
     if ((TMainTask::get_render_pass() != 1) && ((s32) m_visible != 0)) {
@@ -72,7 +72,7 @@ void TAdGameStartShineGC::run_task() {
 #pragma fp_contract on
 TAdGameStartShineGC::~TAdGameStartShineGC() {}
 TAdGameStartShineGC::TAdGameStartShineGC(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D4320;
+    m_name = TAdGameStartShineGC_class_name;
     m_scale_x = 1.0f;
     m_scale_y = 1.0f;
     copy_vec2(&m_origin, (void *)&game_start_shine_origin);
@@ -89,6 +89,6 @@ TAdGameStartShineGC::TAdGameStartShineGC(TObject *parent) : TObject(parent) {
     m_alpha = 0xFF;
     m_frame = -1;
     m_visible = 0;
-    lbl_805D6E88 = get_multiplay_texture_list();
+    multiplay_texlist = get_multiplay_texture_list();
 }
 #pragma pop

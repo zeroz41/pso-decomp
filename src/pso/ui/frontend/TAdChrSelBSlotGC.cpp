@@ -42,7 +42,7 @@ PlayerSlotLabel chr_select_b_slot_entry;
 extern "C" {
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 }
-extern TAdChrSelASlotGC *TAdChrSel__global_slot_data;
+extern TAdChrSelASlotGC *chr_sel_a_slot_instance;
 
 void TAdChrSelBSlotGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -842,7 +842,7 @@ TAdChrSelBSlotGC *TAdChrSelBSlotGC::create(void *parent) {
 
 int TAdChrSelBSlotGC::get_global_state() {  return global_state; }
 
-TAdChrSelASlotGC *TAdChrSelBSlotGC::get_global_slot_data() { return TAdChrSel__global_slot_data; }
+TAdChrSelASlotGC *TAdChrSelBSlotGC::get_global_slot_data() { return chr_sel_a_slot_instance; }
 s32 get_battle_ctrl_default() {
     return are_split_screen_battle_players_tied() != 0 ? 0 : battle_ctrl_default_value;
 }

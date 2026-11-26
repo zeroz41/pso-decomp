@@ -40,7 +40,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
     r1.u1 = (40.0f + window_tab_uv_table[idx].u) / 256.0f;
     r1.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
     context->transform_quad(&r1);
-    draw_textured_quad_at_depth((f32 *)&r1, scale);
+    draw_textured_quad_at_depth(&r1.x0, scale);
     r2.x0 = 40.0f + pos[0];
     r2.y0 = pos[1];
     r2.x1 = r2.x0 + w;
@@ -50,7 +50,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
     r2.u1 = (20.0f + (40.0f + window_tab_uv_table[idx].u)) / 256.0f;
     r2.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
     context->transform_quad(&r2);
-    draw_textured_quad_at_depth((f32 *)&r2, scale);
+    draw_textured_quad_at_depth(&r2.x0, scale);
     r3.x0 = 40.0f + (pos[0] + w);
     r3.y0 = pos[1];
     r3.x1 = 40.0f + r3.x0;
@@ -60,7 +60,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
     r3.u1 = (80.0f + window_tab_uv_table[idx].u) / 256.0f;
     r3.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
     context->transform_quad(&r3);
-    draw_textured_quad_at_depth((f32 *)&r3, scale);
+    draw_textured_quad_at_depth(&r3.x0, scale);
     end_screen_draw();
 }
 

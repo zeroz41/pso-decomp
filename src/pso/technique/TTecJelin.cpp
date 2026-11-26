@@ -37,7 +37,7 @@ void TTecJelin::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0xb;
     hit.power = this->params.power;
-    target->receive_direct_attack((void *)this->source, hit, this->contact, 0xb, -1);
+    target->receive_direct_attack(this->source, hit, this->contact, 0xb, -1);
 }
 
 void TTecJelin::create(void *source, Vec *pos, Vec *target, s32 level) {
@@ -48,7 +48,7 @@ void TTecJelin::render() {  }
 void TTecJelin::run_task() {
     s32 i;
     uaddr id;
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
@@ -101,7 +101,7 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         break;
     }
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }
 
@@ -135,6 +135,6 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         break;
     }
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }

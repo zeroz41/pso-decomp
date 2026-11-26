@@ -3599,7 +3599,7 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (this->mask_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss8_dragon_control_client_id)) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, get_control_button_mask(boss8_dragon_control_client_id)) != 0) {
             send_action_packet(9);
         }
         return;
@@ -3688,7 +3688,7 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (this->mask_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss8_dragon_control_client_id)) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, get_control_button_mask(boss8_dragon_control_client_id)) != 0) {
             send_action_packet(9);
             return;
         }
@@ -4584,7 +4584,7 @@ void TBoss8Dragon::capture_node_points(NJS_OBJECT *) {
 }
 
 void TBoss8Dragon::render_body_model() {
-    void *saved = this->model;
+    NJS_OBJECT *saved = this->model;
     this->model = boss8_dragon_capture_model;
     boss8_dragon_capture_node = 0;
     boss8_dragon_breath_points_out = this->breath_node_points;
@@ -4599,7 +4599,7 @@ void TBoss8Dragon::render_body_model() {
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     scale_current_matrix(&this->scale.x);
-    draw_motion((NJS_OBJECT *)this->model, this->current_motion, this->get_motion_frame());
+    draw_motion(this->model, this->current_motion, this->get_motion_frame());
     clear_motion_packed_rotation();
     pop_matrix();
     set_chunk_model_node_callback(NULL);
@@ -4643,7 +4643,7 @@ int TBoss8Dragon::run_demo_task() { return get_target_info(); }
 void TBoss8Dragon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { draw(); } }
 
 void TBoss8Dragon::draw() {
-    void *saved_model;
+    NJS_OBJECT *saved_model;
 
     push_matrix();
     post_translate_matrix(&this->position.x);
@@ -4692,7 +4692,7 @@ void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
         this->TObjMotion::draw();
         init_tev_swap();
         TParticleCtrl::end_effect_render();
-        current_scene_light->sub_801337F8();
+        current_scene_light->debug_scene_light_hook();
         pop_matrix();
         set_chunk_material_override_pair(0xFF00, 0);
         set_material_alpha_compare_reference(0xBF);
@@ -4792,7 +4792,7 @@ void TBoss8Dragon::draw_motion_model() {
         set_motion_packed_rotation();
         draw_model_motion(this->model, anim, f);
         clear_motion_packed_rotation();
-        current_scene_light->sub_801337F8();
+        current_scene_light->debug_scene_light_hook();
         pop_matrix();
     }
 }

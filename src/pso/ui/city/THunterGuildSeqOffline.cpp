@@ -335,9 +335,9 @@ void THunterGuildSeqOffline__sub_80213410(void) { THunterGuildSeqOffline::reset_
 void THunterGuildSeqOffline::notify_quest_thread() {
     s32 v = quest_result_callbacks[3];
     if (v != -1) {
-        void *obj = TQuestThread::create(v);
+        GuildMenuCallbackView *obj = (GuildMenuCallbackView *)TQuestThread::create(v);
         if (obj != NULL) {
-            ((GuildMenuCallbackView *)obj)->m1();
+            obj->m1();
         }
     }
 }

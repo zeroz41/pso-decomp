@@ -21,6 +21,11 @@ public:
     virtual ~WindowTextEntry();
     virtual void update();
     virtual void render(WindowDrawContext *context);
+    char *get_text();
+    // Set by render when the revealed text fit completely.
+    int is_fully_shown();
+    // Shows the whole text at once.
+    void reveal_all();
 };
 
 LAYOUT_ASSERT(WindowTextEntry_size, sizeof(WindowTextEntry) == 0x2C);

@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowTextEntry.h"
 struct CompleteRevealLine { u32 flags; u32 f4; };
 
 struct IsMessageWindowReadyEntry { u16 flags; };
@@ -24,7 +25,7 @@ s32 TWindowMessagePage::is_message_window_ready() {
     }
     for (i = 0; i < ((struct IsMessageWindowReadyWindow *)this)->count; i++) {
         e = (IsMessageWindowReadyEntry *)((TWindowBase *)this)->get_array_entry(i);
-        if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->flags & 0x10)) {
+        if ((void *)((WindowTextEntry *)e)->get_text() != 0 && !(e->flags & 0x10)) {
             return 0;
         }
     }
@@ -40,12 +41,12 @@ void TWindowMessage::complete_reveal() {
     for (i = 0; i < ((CompleteRevealWindow *)this)->count; i++) {
         e = (IsMessageWindowReadyEntry *)((TWindowBase *)this)->get_array_entry(i);
         lines = ((CompleteRevealWindow *)this)->lines;
-        if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0) {
+        if ((void *)((WindowTextEntry *)e)->get_text() != 0) {
             if (lines[i].flags & 8) {
                 lines[i].flags &= ~8;
                 e->flags &= ~8;
             }
-            ((TWindowHelpItem *)e)->reset_float_field();
+            ((WindowTextEntry *)e)->reveal_all();
         }
     }
 }

@@ -7,7 +7,7 @@ class WindowSpritePart;
 struct WindowDrawContext;
 
 extern "C" {
-void *TWindowSubStatusDisp__sub_8025B2DC(void *arg0, s16 arg1);
+void *TWindowSubStatusDisp__sub_8025B2DC(void *part, s16 flags);
 }
 void set_sprite_dimensions(WindowSpritePart *sprite, f32 a, f32 b);
 void set_sprite_uv_bounds(WindowSpritePart *sprite, f32 a, f32 b, f32 c, f32 d);

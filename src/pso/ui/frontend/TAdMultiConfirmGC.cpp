@@ -13,17 +13,15 @@
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 extern "C" {
-void TAdMultiConfirmGC__sub_802E03D0(void *);
-void TAdMultiConfirmGC__sub_802E0448(void *);
-s32 fn_802E0454(void *);
+s32 is_player_model_shown(void *);
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;
 void fn_802FF760(void *);
 }
-s32 is_multiplayer_character_slot_selected(s32 arg0);
 void TAdMultiConfirmGC::render() {  }
 
 void TAdMultiConfirmGC::run_task() {
@@ -36,7 +34,7 @@ void TAdMultiConfirmGC::run_task() {
     case 1:
         for (i = 0; i < 4; i++) {
             if (players[i] != NULL) {
-                players[i]->set_field_100(2);
+                players[i]->request_state(2);
             }
         }
         this->state = 2;
@@ -44,7 +42,7 @@ void TAdMultiConfirmGC::run_task() {
     case 2:
         i = 1;
         for (j = 0; j < this->count; j++) {
-            if (players[j] != NULL && fn_802E0454(players[j]) == 0) {
+            if (players[j] != NULL && is_player_model_shown(players[j]) == 0) {
                 i = 0;
                 break;
             }
@@ -52,8 +50,8 @@ void TAdMultiConfirmGC::run_task() {
         if ((s32)i == 1) {
             for (i = 0; i < this->count; i++) {
                 if (players[i] != NULL) {
-                    TAdMultiConfirmGC__sub_802E0448(players[i]);
-                    TAdMultiConfirmGC__sub_802E03D0(players[i]);
+                    enable_spin_model(players[i]);
+                    reset_animation_ticks(players[i]);
                 }
             }
             this->state = 3;

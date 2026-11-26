@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-s32 TWindowDD__sub_80346FC0(s16 id);
+s32 is_rememberable_word(s16 id);
 }
 
 // --- C functions defined in TWindowDD_80346F48.cpp ---
 extern "C" {
-s32 TWindowDD__sub_80346FC0(s16 id);
+s32 is_rememberable_word(s16 id);
 }
 // --- end of C functions
 

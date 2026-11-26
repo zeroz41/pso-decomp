@@ -61,7 +61,6 @@ void request_active_window_close();
 void fn_8034BE38(TObjPlayer *);
 
 }
-s32 update_challenge_result_player_locks();
 void resume_challenge_result_processing(void *result);
 extern saddr tl_01;
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
@@ -257,7 +256,7 @@ void TChallenge4PResult::clear_slot_entries() {
     }
 }
 void TChallenge4PResult::create(u16 client, s32 result_code) {
-    if (get_player_by_client_id((u16)client) != NULL) {
+    if (get_player_by_client_id(client) != NULL) {
         new TChallenge4PResult((TObject *)tl_01, client, result_code);
     }
 }

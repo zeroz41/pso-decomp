@@ -19,6 +19,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 const char *TWindowMakeTeam::class_name = "TWindowMakeTeam";
 const char *make_team_empty_text = "";
@@ -26,7 +27,6 @@ const char *make_team_empty_text = "";
 extern const NJS_POINT2 make_team_name_menu_position = {389.0f, 251.0f};
 extern const NJS_POINT2 make_team_comment_menu_position = {389.0f, 251.0f};
 extern "C" {
-char *get_shared_text_buffer(void);
 }
 
 TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 kind) : TObject(parent) {

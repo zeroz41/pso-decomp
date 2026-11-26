@@ -1,4 +1,5 @@
 #pragma defer_codegen on
+#include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
@@ -17,11 +18,14 @@
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/render/GinjaTextureMatrices.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/render/model_render_state.h"
 
-extern const char lbl_804728D0[] = "TAdChrSelPlayerGC";
+extern const char chr_sel_player_class_name_string[] = "TAdChrSelPlayerGC";
 BmlResource *multi_ply_chr_select_resource_bundle;
 
-const char *lbl_805D3F78 = lbl_804728D0;
+const char *chr_sel_player_class_name = chr_sel_player_class_name_string;
 
 void load_multi_ply_chr_select_resources(void) {
     multi_ply_chr_select_resource_bundle = new BmlResource(1, &creation_menu_resource_descriptor, 0, 0, NULL);
@@ -48,7 +52,7 @@ TAdChrSelPlayerGC::TAdChrSelPlayerGC(TObject *parent, s32 mode, s32 index, s32 s
 }
 
 void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
-    this->m_name = lbl_805D3F78;
+    this->m_name = chr_sel_player_class_name;
     state = 0;
     this->pending_state = 0;
     this->status_index = 0;
@@ -61,17 +65,6 @@ void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
 
 
 extern "C" {
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
-
-s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(int, int);
-
-extern TObjMotionAction lbl_804E2F78[9];
 
 void copy_player_visual_record(void *, const void *);
 
@@ -275,7 +268,7 @@ void TAdChrSelPlayerGC::run_task() {
 }
 
 void TAdChrSelPlayerGC::init_model_animation() {
-    this->set_action_table(lbl_804E2F78);
+    this->set_action_table(chr_sel_player_actions);
     this->set_motion_list(multi_ply_chr_select_resource_bundle->motions);
     set_cursor_index(0);
     set_animation((this->requested_action));
@@ -305,7 +298,7 @@ void TAdChrSelPlayerGC::render() {
 
 void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
-    post_translate_matrix((u8 *)&position);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     set_texture_list(preview_data->get_status_sub());
     draw_model_with_arg((void *)preview_data->get_body_model());
@@ -325,7 +318,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
         push_matrix_from((void *)get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
-        TObjPlayer__sub_802E0580(this, preview_data->get_hair_model(), &visual_record);
+        draw_model_tinted_opaque(this, preview_data->get_hair_model(), &visual_record);
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
@@ -333,16 +326,16 @@ void TAdChrSelPlayerGC::update_chara_making() {
 }
 
 void TAdChrSelPlayerGC::draw_model_with_arg(void *model) {
-    this->model = model;
+    this->model = (NJS_OBJECT *)model;
     set_motion_interpolation_flag();
     draw_saving_joints_checked();
 }
 
-void TObjPlayer__sub_802E0580(void * _w0, int _w1, void * _w2) {
-    ((s32 (*)(f32))TObjPlayer__sub_802E0468)(1.0f);
+void draw_model_tinted_opaque(void * _w0, int _w1, void * _w2) {
+    ((s32 (*)(f32))draw_model_tinted)(1.0f);
 }
 
-void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha) {
+void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f32 alpha) {
   NJS_ARGB color;
   int one;
   saved_model_render_flags = model_render_flags;
@@ -355,9 +348,9 @@ void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha) {
     set_chunk_material_override_pair(-one, 0x800);
   }
   color.a = alpha;
-  color.r = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x42))));
-  color.g = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x44))));
-  color.b = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x46))));
+  color.r = 0.003921569f * ((f32) appearance->red);
+  color.g = 0.003921569f * ((f32) appearance->green);
+  color.b = 0.003921569f * ((f32) appearance->blue);
   set_constant_material(&color);
   TObjPlayer::play_phase_transition_sound(child);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -365,11 +358,11 @@ void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha) {
   model_render_flags = saved_model_render_flags;
 }
 
-extern "C" bool fn_802E0454(TAdChrSelPlayerGC *player) {
+extern "C" bool is_player_model_shown(TAdChrSelPlayerGC *player) {
     return player->state == 3;
 }
 
-void TAdMultiConfirmGC__sub_802E0448(void* p) { *(s32*)((char*)p + 0x11c) = 1; }
+void enable_spin_model(TAdChrSelPlayerGC *player) { player->spin_model = 1; }
 
 void TAdChrSelPlayerGC::reset_cursor() { set_cursor_index(0); }
 
@@ -377,9 +370,9 @@ void TAdChrSelPlayerGC::set_cursor_index_1() { set_cursor_index(1); }
 
 void TAdChrSelPlayerGC::set_cursor_index_2() { set_cursor_index(2); }
 
-void TAdMultiConfirmGC__sub_802E03D0(void* p) { *(s32*)((char*)p + 0x118) = 0; }
+void reset_animation_ticks(TAdChrSelPlayerGC *player) { player->animation_ticks = 0; }
 
-TObjMotionAction lbl_804E2F78[9] = {
+TObjMotionAction chr_sel_player_actions[9] = {
     { 1, 0, 0x21, 1.0f, 0 },
     { 1, 0, 0x1, 1.0f, 0 },
     { 1, 0, 0x0, 1.0f, 0 },

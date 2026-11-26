@@ -3556,7 +3556,7 @@ void TBoss5Gryphon::draw_body() {
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     scale_matrix(0, 2.0f, 2.0f, 2.0f);
-    draw_motion((NJS_OBJECT *)this->model, this->current_motion, this->get_motion_frame());
+    draw_motion(this->model, this->current_motion, this->get_motion_frame());
     clear_motion_packed_rotation();
     pop_matrix();
     set_chunk_model_node_callback(0);
@@ -3602,7 +3602,7 @@ void TBoss5Gryphon::render() {
 void TBoss5Gryphon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { render_model(); } }
 
 void TBoss5Gryphon::render_model() {
-    void *body_model;
+    NJS_OBJECT *body_model;
 
     push_matrix();
     post_translate_matrix(&this->position.x);
@@ -3641,7 +3641,7 @@ void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     toggle_particle_effect();
     draw();
     TParticleCtrl::end_effect_render();
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
     pop_matrix();
     set_chunk_material_override_pair(0xFF00, 0);
     set_material_alpha_compare_reference(0xBF);
@@ -3808,7 +3808,7 @@ void TBoss5Gryphon::render_demo() {
             }
         }
         draw_model_motion(this->model, anim, frame);
-        current_scene_light->sub_801337F8();
+        current_scene_light->debug_scene_light_hook();
         pop_matrix();
     }
 }

@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowBreakIn : public TWindowBase {
+    static const char *class_name;
     TWindowBreakIn();
     virtual ~TWindowBreakIn();
     virtual void render();

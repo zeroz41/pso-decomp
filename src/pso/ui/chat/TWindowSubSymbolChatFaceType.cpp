@@ -17,6 +17,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/unk/TLobby_800FD78C.h"
 extern const char symbol_chat_face_type_class_name_string[29] = "TWindowSubSymbolChatFaceType";
 
 
@@ -39,7 +40,6 @@ void TWindowSubSymbolChatFaceType::confirm_selection() {
 
 extern "C" {
 
-extern s32 actor_frame_tick;
 
 
 void TWindowSubSymbolChatFaceType::handle_input() {
@@ -173,7 +173,7 @@ void TWindowSubSymbolChatFaceType::render() {
 void TWindowSubSymbolChatFaceType::run_task() {
     TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type = this;
     ControllerInputContext *context;
-    if (!(*(s32 *)&window_sub_symbol_chat_face_type->window_flags & 2)) {
+    if (!(window_sub_symbol_chat_face_type->window_flags & 2)) {
         window_sub_symbol_chat_face_type->open_tick = 0x01000000;
     }
     if (window_sub_symbol_chat_face_type->is_open() == 0) {

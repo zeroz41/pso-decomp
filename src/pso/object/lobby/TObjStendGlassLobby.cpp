@@ -98,8 +98,8 @@ void TObjStendGlassLobby::free_resources() {
 }
 
 void TObjStendGlassLobby::load_resources() {
-    void *resource = new BmlResource(5, &bm_obj_lobby_stendglass_resource_descriptor, 0, 0, NULL);
-    static_model_resource = (BmlResource *)resource;
+    BmlResource *resource = new BmlResource(5, &bm_obj_lobby_stendglass_resource_descriptor, 0, 0, NULL);
+    static_model_resource = resource;
     lobby_texlist = get_lobby_main_texlist();
 }
 
@@ -110,6 +110,6 @@ TObjStendGlassLobby::TObjStendGlassLobby(TObject *parent, void *set_data) : TObj
     apply_object_set_data(set_data);
     update_state();
     fade_scale = 1.0f;
-    model = (void *)static_model_resource->models->model;
+    model = static_model_resource->models->model;
     texlist = lobby_texlist;
 }

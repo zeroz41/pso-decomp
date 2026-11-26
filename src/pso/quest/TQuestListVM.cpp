@@ -26,15 +26,12 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 
 // A window's width and height.
 struct WindowSize {
     f32 dimensions[2];
 };
-
-extern "C" {
-extern s32 evt2_random_enemies_mode;
-}
 
 extern const char quest_file_prefix[] = "PSO______0";
 extern const char quest_file_99_name[] = "PSO______099";

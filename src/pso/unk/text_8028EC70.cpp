@@ -64,7 +64,7 @@ void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(CopySlotDataDst *d, CopySlot
 #pragma fp_contract on
 void TAdSinglePlyChrSelectGC__sub_8028ED54(saddr part) {
     ByteBlock_50 buf;
-    uaddr h;
+    CreationTextureCacheEntry *h;
     if (TAdSinglePlyChrSelectGC::count_remaining_slots() > 0) {
         buf = *(const ByteBlock_50 *)creation_player_character;
         if ((part < 0) || (part >= 5)) {
@@ -73,16 +73,16 @@ void TAdSinglePlyChrSelectGC__sub_8028ED54(saddr part) {
             }
             goto block_7;
         }
-        if ((TAdSinglePlyChrSelectGC::has_matching_entry((void *)&buf) == 0) || (select_unused_appearance_part(&buf, part) != 0)) {
+        if ((TAdSinglePlyChrSelectGC::has_matching_entry(&buf) == 0) || (select_unused_appearance_part(&buf, part) != 0)) {
 block_7:
-            h = (uaddr)TAdSinglePlyChrSelectGC::find_free_slot();
+            h = TAdSinglePlyChrSelectGC::find_free_slot();
             if (h == 0U) {
                 if (TAdSinglePlyChrSelectGC::evict_char_entries(1) == 0) {
                     return;
                 }
-                h = (uaddr)TAdSinglePlyChrSelectGC::find_free_slot();
+                h = TAdSinglePlyChrSelectGC::find_free_slot();
             }
-            TAdSinglePlyChrSelectGC__sub_8028F084((CreationTextureCacheEntry *)h, (TCharaMaking *)&buf);
+            TAdSinglePlyChrSelectGC__sub_8028F084(h, (TCharaMaking *)&buf);
         }
     }
 }

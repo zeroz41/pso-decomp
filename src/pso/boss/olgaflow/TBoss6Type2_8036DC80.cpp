@@ -28,7 +28,7 @@ void restore_boss6_player_snapshot(TObjPlayer *player) {
                 copy_texlist(&player->body_textures, &snapshot->look.body_textures);
                 copy_texlist((NJS_TEXLIST *)player->head_textures, &snapshot->look.head_textures);
                 copy_texlist((NJS_TEXLIST *)player->attachment_textures, &snapshot->look.attachment_textures);
-                player->model = snapshot->look.model;
+                player->model = (NJS_OBJECT *)snapshot->look.model;
                 player->head_model = snapshot->look.head_model;
                 player->hair_model = snapshot->look.hair_model;
                 player->attachment_model = snapshot->look.attachment_model;

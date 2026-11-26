@@ -67,9 +67,6 @@ u16 short_mail_flags;
 
 
 
-struct Obj_8024AA08 { u8 pad[4]; u32 f4; };
-
-struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 
 
@@ -82,7 +79,7 @@ extern "C" {
 }
 
 
-const char *TWindowCtrl__name = "TWindowCtrl";
+const char *TWindowCtrl::class_name = "TWindowCtrl";
 /* frame of the open sequence at which each window appears: split screen / single player */
 static const s16 split_open_times[6] = {0, 4, 8, 12, 0, 0};
 static const s16 open_times[4] = {24, 30, 36, 0};
@@ -253,7 +250,7 @@ void TWindowCtrl::shutdown() {
 
 TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = TWindowCtrl__name;
+    m_name = TWindowCtrl::class_name;
     if (instance != NULL) {
         instance->queue_destruction();
     }
@@ -282,7 +279,7 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     }
     break_in = new TWindowBreakIn();
     if (is_split_screen() == 0) {
-        chat_window = new TWindowChat(tl_00, &m_94);
+        chat_window = new TWindowChat(tl_00, &submission);
         chat_window->set_flag1e_bit40();
     }
     if (is_split_screen() != 0) {
@@ -396,7 +393,7 @@ void TWindowCtrl::update() { update_party_status_rows(); update_window_visibilit
 void TWindowCtrl::update_party_status_rows() {
     f32 y;
     u32 i;
-    void *pl;
+    TObjPlayer *pl;
     TWindowSimpleStatus *w;
     y = get_window_layout_y(0xAB);
     for (i = 0; i < 3; i++) {
@@ -405,12 +402,12 @@ void TWindowCtrl::update_party_status_rows() {
             pl = get_player_by_client_id(w->get_width());
             if (pl == NULL || TWindowCtrl::has_player_active_menu(local_client_id) != 0 ||
                 TWindowCtrl::is_slot_visible(local_client_id) != 0 || is_flag_bit2_set() != 0 ||
-                ((TObjPlayer *)pl)->is_script_controlled() != 0 ||
-                (((TObjChara *)pl)->obj_isState3_324() != 0 &&
-                 (((TObjPlayer *)pl)->get_field_828() != 0 || static_cast<TObjPlayer *>(pl)->get_npc_controller() == 0xFFFF))) {
+                pl->is_script_controlled() != 0 ||
+                (pl->obj_isState3_324() != 0 &&
+                 (pl->get_field_828() != 0 || pl->get_npc_controller() == 0xFFFF))) {
                 w->request_close();
             } else {
-                window_request_show(w);
+                w->request_show();
                 if (w->target_position[1] != y) {
                     w->target_position[1] = y;
                     w->tween_ticks = 0xF;
@@ -442,7 +439,7 @@ void TWindowCtrl::update_window_visibility() {
             return;
         }
         chat_window->open_input();
-        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->m_94) != 0)) {
+        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->submission) != 0)) {
             consume_active_flag(chat_window);
         }
         if (chat_window->is_visible() != 0) {
@@ -461,7 +458,7 @@ void TWindowCtrl::update_com_card_window() {
     if ((card_before != NULL) && (card_before->all_parents_unqueued_for_destruction() == 0)) {
         this->com_card_window = NULL;
     }
-    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((chat = chat_window, ((chat == NULL) == 0)) && (TWindowCtrl__sub_8024701C(chat) != 0))) {
+    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((chat = chat_window, ((chat == NULL) == 0)) && (is_chat_in_use(chat) != 0))) {
         card = this->com_card_window;
         if (card != NULL) {
             card->queue_destruction();
@@ -475,7 +472,7 @@ void TWindowCtrl::update_com_card_window() {
 
 
 void TWindowCtrl::update_trade_request_window() {
-    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->com_card_window != 0U) || ((chat_window != NULL) && (TWindowCtrl__sub_8024701C(chat_window) != 0))) {
+    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->com_card_window != 0U) || ((chat_window != NULL) && (is_chat_in_use(chat_window) != 0))) {
         if (trade_request != NULL) {
             trade_request->queue_destruction();
             trade_request = NULL;
@@ -501,7 +498,7 @@ void prune_destroyed_balloons(TWindowCtrl *ctrl) {
 
 
 void TWindowCtrl::handle_controller() {
-    if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (is_client_main_menu_disabled(local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], fn_8002AE08(local_client_id)) != 0)) {
+    if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (is_client_main_menu_disabled(local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], get_control_button_mask(local_client_id)) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
 }
@@ -514,20 +511,19 @@ void TWindowCtrl::update_trade_window() {
             this->area_window->request_close();
             return;
         }
-        window_request_show(this->area_window);
+        this->area_window->request_show();
     }
 }
 
 
 
-void update_timer_window(void *ctrl_arg) {
-    TWindowCtrl *ctrl = (TWindowCtrl *)ctrl_arg;
+void update_timer_window(TWindowCtrl *ctrl) {
     if (ctrl->timer_window != NULL) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
             ctrl->timer_window->request_close();
             return;
         }
-        window_request_show(ctrl->timer_window);
+        ctrl->timer_window->request_show();
     }
 }
 
@@ -679,7 +675,7 @@ void complete_actor_speech_balloons(u16 id) {
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
-            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
+            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == w->get_speaker_id()) {
                 w->show_immediately();
             }
         }
@@ -946,18 +942,18 @@ void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
 
 
 
-void TWindowCtrl::handle_chat_message(char *message) {
-    Obj_8024AA08 *arg0 = (Obj_8024AA08 *)this;
+// The chat packet (06) handler: shows the message in the sender's balloon.
+extern "C" void handle_recv_chat(TPlyGuildCardTag &tag, char *message) {
     s32 i;
     u32 key;
     char *v;
-    Ply_8024AA08 *p;
-    if (instance != NULL) {
-        v = TWindowCtrl::skip_name_prefix(instance, message);
-        key = arg0->f4;
+    TObjPlayer *p;
+    if (TWindowCtrl::instance != NULL) {
+        v = TWindowCtrl::skip_name_prefix(TWindowCtrl::instance, message);
+        key = tag.m_guildcard_number;
         for (i = 0; i < 12; i++) {
-            p = (Ply_8024AA08 *)get_player_by_client_id(i);
-            if (p != NULL && p->f == key) {
+            p = get_player_by_client_id(i);
+            if (p != NULL && p->guild_card_tag.guildcard_number == key) {
                 break;
             }
         }
@@ -1209,14 +1205,14 @@ void TWindowCtrl::open_status_111() {
 
 
 
-s32 TWindowCtrl__sub_8024A314(void) {
+s32 is_chat_window_in_use(void) {
     if (TWindowCtrl::instance == NULL) {
         return 0;
     }
     if (TWindowCtrl::instance->chat_window == NULL) {
         return 0;
     }
-    return TWindowCtrl__sub_8024701C(TWindowCtrl::instance->chat_window);
+    return is_chat_in_use(TWindowCtrl::instance->chat_window);
 }
 
 

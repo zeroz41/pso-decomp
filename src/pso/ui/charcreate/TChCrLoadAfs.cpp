@@ -61,12 +61,12 @@ void TChCrLoadAfs::poll_load() {
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-extern "C" { extern const char TChCrLoadAfs__class_name_string[13] = "TChCrLoadAfs"; }
-extern "C" { extern const char TChCrLoadAfsTextureReq__class_name_string[23] = "TChCrLoadAfsTextureReq"; }
+#include "pso/unk/text_803DD5E0.h"
+extern "C" { extern const char TChCrLoadAfs_class_name_string[13] = "TChCrLoadAfs"; }
+extern "C" { extern const char TChCrLoadAfsTextureReq_class_name_string[23] = "TChCrLoadAfsTextureReq"; }
 
 extern "C" {
 f32 TLobby__sub_8028C50C(f32);
-s32 load_texture_list(NJS_TEXLIST *);
 }
 
 void TChCrLoadAfs::start_download() {
@@ -88,7 +88,7 @@ void TChCrLoadAfs::start_download() {
             load_state = 3;
             return;
         }
-        ADXF_ReadNw(load_handle, count, (void *)buffer_address);
+        ADXF_ReadNw(load_handle, count, buffer_address);
         load_state = 1;
     }
 }
@@ -126,7 +126,7 @@ TChCrLoadAfs::~TChCrLoadAfs() {
     release_load_slot();
 }
 
-const char *lbl_805D3B48 = TChCrLoadAfs__class_name_string;
+const char *lbl_805D3B48 = TChCrLoadAfs_class_name_string;
 TChCrLoadAfs::TChCrLoadAfs(TObject *object, u32 archive, u32 entry) : TObject(object) {
     m_name = lbl_805D3B48;
     load_handle = 0;

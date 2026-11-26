@@ -5,8 +5,6 @@
 
 // --- C functions defined in TAdDialingSelectGC.cpp ---
 extern "C" {
-s32 TWindowShortListCtrl__sub_801A513C(void *p);
-int TWindowShortListCtrl__sub_801A5144(void *p);
 // The idle timeout setting of the client's character save record (name inferred).
 s32 fn_801A51F0(u32 client);
 }

@@ -105,9 +105,9 @@ void draw_window_uv_sprite_part(WindowSpritePart *sprite, WindowDrawContext *con
     q.v1 = sprite->v1;
     if (sprite->flags & 0x10) {
         context->transform_quad(&q);
-        draw_textured_quad_at_depth((f32 *)&q, scale);
+        draw_textured_quad_at_depth(&q.x0, scale);
     } else if (context->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, scale);
+        draw_textured_quad_at_depth(&q.x0, scale);
     }
     end_screen_draw();
     set_default_alpha_blend();
@@ -116,15 +116,15 @@ void draw_window_uv_sprite_part(WindowSpritePart *sprite, WindowDrawContext *con
 
 void TWindowSubStatusDisp::update_palette_sprite() {  }
 
-void *TWindowSubStatusDisp__sub_8025B2DC(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 4) = window_uv_sprite_part_vtable;
-        __dt__18TWindowLayoutEntryFv(arg0, 0);
-        if (arg1 > 0) {
-            ::operator delete(arg0);
+void *TWindowSubStatusDisp__sub_8025B2DC(void *part, s16 flags) {
+    if (part != NULL) {
+        *(void ***)((s8 *)part + 4) = window_uv_sprite_part_vtable;
+        __dt__18TWindowLayoutEntryFv(part, 0);
+        if (flags > 0) {
+            ::operator delete(part);
         }
     }
-    return arg0;
+    return part;
 }
 
 WindowSpritePart *WindowSpritePart::init_part_direct(DirectSpritePartLayoutRecord *source, s32 client) {

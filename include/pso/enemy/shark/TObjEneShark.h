@@ -23,7 +23,7 @@ public:
     virtual void play_hurt_sound();
     virtual void play_death_sound();
     virtual void run_demo_task();
-    void sub_800AC9DC(s32);
+    void set_model_variant(s32);
     void apply_clamped_mode_param();
 
     TObjEnemyColorFade fade;

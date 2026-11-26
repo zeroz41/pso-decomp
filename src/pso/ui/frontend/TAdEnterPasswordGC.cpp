@@ -20,6 +20,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include <string.h>
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};
@@ -31,11 +32,6 @@ typedef void (TAdEnterPasswordGC::*StateHandler)();
 #pragma explicit_zero_data on
 TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC::input_buffer = { 0 };
 #pragma explicit_zero_data off
-extern "C" {
-extern TAdEnterBaseGC::Position password_screen_status_line_position[];
-extern s32 password_entry_dispatch_state;
-void request_main_phase(s32 arg0);
-}
 
 void TAdEnterPasswordGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -63,7 +59,7 @@ void TAdEnterPasswordGC::close_window_and_destroy(void *arg) {
     }
 }
 
-void TAdEnterPasswordGC::set_multi_chg_game_mode_0x14(void *arg) { TAdMultiChgGameModeGC::open_sn_ak_pass_confirm_scene(); }
+void TAdEnterPasswordGC::open_sn_ak_pass_confirm(void *arg) { TAdMultiChgGameModeGC::open_sn_ak_pass_confirm_scene(); }
 void TAdEnterPasswordGC::request_transition(void *arg) { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 
 void TAdEnterPasswordGC::update_password_input(void *arg) {
@@ -159,13 +155,13 @@ void TAdEnterPasswordGC::open_keyboard_window(void *arg) {
 }
 
 void TAdEnterPasswordGC::run_task() {
-    fn_8032B318(password_screen_status_line_position);
+    get_title_position(password_screen_status_line_position);
     prev_state = password_entry_dispatch_state;
     static StateHandler tbl[5] = {
         (StateHandler)&TAdEnterPasswordGC::open_keyboard_window,
         (StateHandler)&TAdEnterPasswordGC::update_password_input,
         (StateHandler)&TAdEnterPasswordGC::request_transition,
-        (StateHandler)&TAdEnterPasswordGC::set_multi_chg_game_mode_0x14,
+        (StateHandler)&TAdEnterPasswordGC::open_sn_ak_pass_confirm,
         (StateHandler)&TAdEnterPasswordGC::close_window_and_destroy,
     };
     (this->*tbl[password_entry_dispatch_state])();
@@ -183,7 +179,7 @@ TAdEnterPasswordGC::~TAdEnterPasswordGC() {}
 
 TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent) {
     m_name = TAdEnterPasswordGC::class_name;
-    sub_8032B460(2);
+    reset(2);
     password_entry_dispatch_state = 0;
     len = 0;
     if ((s8) *(u8 *)((s8 *)(TAdSinglePlyChrSelectGC::get_instance()) + 0x1154C) != 0) {

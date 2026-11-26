@@ -17,7 +17,7 @@ void TLobby__sub_8022804C(void);
 }
 void reset_sound_control_state(void);
 extern "C" {
-void apply_clamped_field_27c__6TLobbyFv(f32 value);
+void apply_clamped_field_27c(f32 value);
 void get_menu_field_280__6TLobbyFv(void);
 }
 int get_music_base_gain(void);

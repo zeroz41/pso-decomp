@@ -75,7 +75,7 @@ void TAdPlyStatusGC::close_window(s32 index) {
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
-s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s32 start_memcard_format(s32, s32, s32, s32, s32);
 }
 
 // One entry per state: enter is called by change_state, run by run_task every frame.
@@ -570,7 +570,7 @@ void TAdTimeSetGC::run_states_17_18() {
     }
     menu_window->get_selected_value();
     TAdPlayerLoadGC::poll_card_load(0);
-    sub_802E1F14();
+    reset_check_state();
     change_state(0);
 }
 
@@ -609,12 +609,12 @@ void TAdTimeSetGC::run_states_19_21() {
             delete_guild_card_save_file();
         }
         TAdPlayerLoadGC::poll_card_load(0);
-        sub_802E1F14();
+        reset_check_state();
         change_state(0);
         break;
     case 1:
         TAdPlayerLoadGC::poll_card_load(0);
-        sub_802E1F14();
+        reset_check_state();
         change_state(0);
         break;
     }
@@ -680,7 +680,7 @@ void TAdTimeSetGC::run_state_23() {
         change_state(0x18);
         break;
     case 1:
-        sub_802E1F14();
+        reset_check_state();
         change_state(0);
         break;
     }
@@ -704,7 +704,7 @@ void TAdTimeSetGC::update_state() {
     }
 }
 
-void TAdTimeSetGC::sub_802E1F14() {
+void TAdTimeSetGC::reset_check_state() {
     system_file_check = -1;
     character_file_check = -1;
     guild_card_file_check = -1;
@@ -715,7 +715,7 @@ void TAdTimeSetGC::sub_802E1F14() {
 }
 
 void TAdTimeSetGC::init() {
-    sub_802E1F14();
+    reset_check_state();
     back = NULL;
     back_text = NULL;
     message_window = NULL;
@@ -770,7 +770,7 @@ s32 TAdTimeSetGC::count_selected_flags() {
         count += TAdSinglePlyChrSelectGC::get_flag_count();
     }
     if (load_status & 0x1000) {
-        count += TAdSinglePlyChrSelectGC__sub_8001C5F0();
+        count += get_guild_card_file_block_count();
     }
     return count;
 }
@@ -788,15 +788,11 @@ s32 TAdTimeSetGC::check_capacity() {
 }
 
 void TAdTimeSetGC::create_backgrounds() {
-    void *object;
-
     if (back == NULL) {
-        object = new TAdBackGC(this);
-        back = (TAdBackGC *)object;
+        back = new TAdBackGC(this);
     }
     if (back_text == NULL) {
-        object = new TAdBackTxtGC(this);
-        back_text = (TAdBackTxtGC *)object;
+        back_text = new TAdBackTxtGC(this);
     }
 }
 
@@ -859,10 +855,10 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     } else {
         menu_window->set_selected_index(sel);
     }
-    ((TWindowOptionCtrl *)menu_window)->clear_flag70_bit4();
+    menu_window->clear_cancelled();
 }
 
-void TAdTimeSetGC::sub_802E1A04(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
+void TAdTimeSetGC::open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
     s32 text;
     s32 first_text;
 
@@ -884,19 +880,19 @@ void TAdTimeSetGC::close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 sec
 
 void TAdTimeSetGC::close_and_next(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
     close_windows();
-    sub_802E1A04(entry, sel, first_entry, second_entry);
+    open_message_choice_by_entries(entry, sel, first_entry, second_entry);
 }
 
 void TAdTimeSetGC::apply_settings() {
-    s8 *state = (s8 *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *state = (SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state();
 
     if (state == NULL) {
         change_state(1);
         return;
     }
-    TLanguage::set_language(state[7]);
-    update_music_stream_gain(*(s16 *)(state + 4));
-    set_cue_stream_user_gain(state[6]);
+    TLanguage::set_language(state->language);
+    update_music_stream_gain(state->music_stream_gain);
+    set_cue_stream_user_gain(state->cue_stream_gain);
     TLobby::init_sound_mode();
     unload_lobby_scene_resources();
     load_lobby_scene_resources();
@@ -928,7 +924,7 @@ s32 TAdTimeSetGC::poll_load_status() {
     }
     busy_count = 0;
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
-        sub_802E1F14();
+        reset_check_state();
         return 1;
     }
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
@@ -946,7 +942,7 @@ s32 TAdTimeSetGC::poll_load_status() {
         if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
             return 0x40;
         }
-        if (sub_802E1528() != 0) {
+        if (is_system_card_file_missing() != 0) {
             return 0x80;
         }
         damaged = 0;
@@ -968,7 +964,7 @@ s32 TAdTimeSetGC::poll_load_status() {
         if (system_file_check == 1) {
             return 0x80;
         }
-        if (sub_802E15C8() != 0) {
+        if (is_system_card_file_absent() != 0) {
             if (character_file_check == -1) {
                 character_file_check = 0;
                 if (TAdSinglePlyChrSelectGC::load_character_and_wait() != 0) {
@@ -993,7 +989,7 @@ s32 TAdTimeSetGC::poll_load_status() {
             }
         }
         absent = 0;
-        if (sub_802E15C8() == 0) {
+        if (is_system_card_file_absent() == 0) {
             absent |= 0x400;
         }
         if (is_card_file_absent_b() == 0) {
@@ -1013,7 +1009,7 @@ s32 TAdTimeSetGC::is_load_complete() {
     return 0;
 }
 
-s32 TAdTimeSetGC::sub_802E15C8() {
+s32 TAdTimeSetGC::is_system_card_file_absent() {
     return TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) == 0;
 }
 
@@ -1025,7 +1021,7 @@ s32 TAdTimeSetGC::is_card_file_absent_a() {
     return TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) == 0;
 }
 
-s32 TAdTimeSetGC::sub_802E1528() {
+s32 TAdTimeSetGC::is_system_card_file_missing() {
     return TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) == -0xBF;
 }
 
@@ -1044,15 +1040,12 @@ T_ATS_DrawCalendar *T_ATS_DrawCalendar::create() {
 T_ATS_DrawCalendar::T_ATS_DrawCalendar(TObject *parent) : TObject(parent) {
     m_name = T_ATS_DrawCalendar::name;
     visible = 0;
-    // The two-float copy at 0x80052EA0 is declared as a member of TWindowSubSymbolChatPartsSet.
     copy_vec2(&pos, (void *)time_set_calendar_pos);
 }
 
 T_ATS_DrawCalendar::~T_ATS_DrawCalendar() {
 }
 
-// render reaches each of its three format strings and the conversion constant 0x80472980 with a lis/addi of
-// its own, while the static initialiser addresses the unit's .data from one base register.
 #pragma pool_data off
 void T_ATS_DrawCalendar::render() {
     char buf[0x24];
@@ -1064,7 +1057,6 @@ void T_ATS_DrawCalendar::render() {
     if (visible != 0) {
         T_ATS_DrawCalendarPos p = pos;
         s = (char *)get_localized_text_entry(0x1C, 0xC);
-        // The text drawing function at 0x80145778 is declared as a member of TAdSinglePlyChrSelectGC.
         draw_menu_font_string_white(s, -(0.5f * (f32)calc_text_width(s) - p.x), p.y);
         p.y += 30.0f;
         getDateStamp(&date);

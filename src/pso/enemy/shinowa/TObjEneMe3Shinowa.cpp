@@ -305,7 +305,7 @@ void TObjEneMe3Shinowa::init_enemy() {
     ShinowaBattleTables *tables = reinterpret_cast<ShinowaBattleTables *>(&TObjEneMe3ShinowaMirage::node_origin);
     init_position_vectors();
     select_gold_or_normal_variant();
-    model = (void *)TObjEneMe3ShinowaMirage::bml_resource->models->model;
+    model = TObjEneMe3ShinowaMirage::bml_resource->models->model;
     init_model(shinowa_mirage_model_init_data, 1);
     motion_flags = 0;
     set_action_table(shinowa_mirage_motion_param_table);
@@ -406,7 +406,7 @@ f32 TObjEneMe3Shinowa::get_node_world_y() {
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
     bind_motion_context((NJS_MOTION *)this->current_motion, this->frame);
-    node = (NJS_OBJECT *)this->model;
+    node = this->model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);
     matrix_mult_vec(0, &v, &v);
@@ -493,7 +493,7 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
 
 void TObjEneMe3Shinowa::select_next_attack_state() {  }
 
-void TObjEneMe3Shinowa::sub_800E7268() {
+void TObjEneMe3Shinowa::halve_evp() {
     this->behavior_flags |= 0x10;
     this->evp = (s16) ((s16) this->normal_evp / 2);
 }
@@ -696,7 +696,7 @@ void TObjEneMe3Shinowa::state_fade_appear(s32 reason) {
         VecCopy(&pos, &position);
         y = body_y;
         pos.y = y - 20.0f;
-        TBoss3Volopt__sub_800D8D88((saddr)&pos);
+        play_appear_effects((saddr)&pos);
         return;
     case 3:
         if (fade.advance_toward_max() != 0) {
@@ -895,7 +895,7 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
 
 void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
     Vec edge_b;
-    Vec sp14;
+    Vec edge_a;
     Vec v;
     f32 d;
     s32 angle;
@@ -1009,9 +1009,9 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 set_matrix_identity(0);
                 post_translate_matrix(&this->position.x);
                 rotate_matrix_y(0, this->rotation_y);
-                matrix_mult_vec_array(NULL, entry, &sp14, 2);
+                matrix_mult_vec_array(NULL, entry, &edge_a, 2);
                 pop_matrix();
-                this->attack_traces[0]->add_segment(&sp14, &edge_b);
+                this->attack_traces[0]->add_segment(&edge_a, &edge_b);
             }
         }
         break;
@@ -1192,7 +1192,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
     }
     case 3: {
         if (this->state_step >= 40) {
-            sub_800E7268();
+            halve_evp();
             s32 r = TObjEneDD::collect_target_candidates(this, 40000.0f);
             if (r > 0) {
                 enemy_set_target_id(this, enemy_target_candidate_table[r - 1].id);

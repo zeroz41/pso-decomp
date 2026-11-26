@@ -93,11 +93,11 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
             s16 *dst = adxb->buf;
             dst += adxb->pos;
             channel->post_request((s8 *)adxb->src, n * 2, dst, dst + adxb->rOff);
-            TLobby__sub_803CB4A4(channel);
+            start_adx_decoder_channel(channel);
         } else {
             AdxDecoderChannel *channel = adxb->channel;
             channel->try_post_command((s8 *)adxb->src, n, adxb->buf + adxb->pos);
-            TLobby__sub_803CB4A4(channel);
+            start_adx_decoder_channel(channel);
         }
         adxb->state = 2;
     }
@@ -350,7 +350,7 @@ void AdxbDecoder::clear_record() {
     }
 }
 
-inline void free_803C3E88(AdxbDecoder *r) {
+inline void free_decoder(AdxbDecoder *r) {
     if (r != NULL) {
         r->channel->clear_record_data();
         memset(r, 0, sizeof(AdxbDecoder));
@@ -373,7 +373,7 @@ AdxbDecoder *AdxbDecoder::alloc_record(s32 channels, saddr buffer, s32 size, s32
     r->used = 1;
     r->channel = adx_allocate_decoder_channel();
     if (r->channel == NULL) {
-        free_803C3E88(r);
+        free_decoder(r);
         return NULL;
     }
     r->m_38 = channels;

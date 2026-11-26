@@ -51,11 +51,11 @@ void TOAttackableCol::init_params() {
     } else if (hits > 0x100) {
         this->hits_left = 0x100;
     }
-    this->script_kind = (s32) *(s32 *)&this->set_params[1];
+    this->script_kind = (s32) this->set_params[1];
     if ((s32) this->script_kind < 0) {
         this->script_kind = 0;
     }
-    this->label = (s32) *(s32 *)&this->set_params[2];
+    this->label = (s32) this->set_params[2];
     if ((s32) this->label < 0) {
         this->label = 0;
     }
@@ -182,8 +182,8 @@ f32 TOAttackableCol::apply_hit(saddr player) {
   s32 is_local_player;
   u32 unused1;
   u32 unused2;
-  uaddr thread_a;
-  uaddr thread_b;
+  TObject *thread_a;
+  TObject *thread_b;
   is_local_player = 0;
   if (((player != 0) && (((TObjBase *)player)->get_entity_id() < 4U)) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
@@ -206,19 +206,19 @@ f32 TOAttackableCol::apply_hit(saddr player) {
         kind = script_kind;
         if ((((kind >= 0x64) && (kind < 0x3E8)) && ((quest_mission_manager) != 0U)) && (quest_mission_manager->all_parents_unqueued_for_destruction() != 0))
         {
-          thread_a = (uaddr)new TQuestThread(quest_mission_manager, this->label);
+          thread_a = new TQuestThread(quest_mission_manager, this->label);
           if (thread_a != 0U)
           {
-            ((TObject *)thread_a)->set_parent(tl_00);
+            thread_a->set_parent(tl_00);
           }
         }
         else
           if (((quest_area_manager) != 0U) && (quest_area_manager->all_parents_unqueued_for_destruction() != 0))
         {
-          thread_b = (uaddr)new TQuestThread(quest_area_manager, this->label);
+          thread_b = new TQuestThread(quest_area_manager, this->label);
           if (thread_b != 0U)
           {
-            ((TObject *)thread_b)->set_parent(tl_00);
+            thread_b->set_parent(tl_00);
           }
         }
       }

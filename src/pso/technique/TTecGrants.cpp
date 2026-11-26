@@ -116,7 +116,7 @@ TTecGrants::~TTecGrants() {
 
 void TTecGrants::run_task() {
     uaddr entity;
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
@@ -146,7 +146,7 @@ void TTecGrants::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0x4;
     hit.power = this->params.power;
-    target->receive_direct_attack((void *)this->source, hit, this->contact, 0x9, -1);
+    target->receive_direct_attack(this->source, hit, this->contact, 0x9, -1);
 }
 
 void TTecGrants::render() {  }

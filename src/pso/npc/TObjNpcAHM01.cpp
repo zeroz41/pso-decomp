@@ -52,7 +52,7 @@ TObjNpcAHM01::TObjNpcAHM01(TObject *parent, void *set_data) : TObjNpcMale(parent
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *shared_object;
+    this->model = (NJS_OBJECT *)*shared_object;
     this->texlist = texture_handle;
     this->setup_common();
 }

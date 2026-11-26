@@ -125,7 +125,7 @@ void TWindowSubSymbolChatParts::add_part() {
     s32 symbol_index;
 
     symbol_index = this->calc_symbol_index();
-    if (((s8) this->view_mode != 0) || (symbol_index >= (s16) *(s16 *)&this->item_count) || (TWindowSubSymbolChat::count_instance_empty_slots() < 2)) {
+    if (((s8) this->view_mode != 0) || (symbol_index >= (s16) this->item_count) || (TWindowSubSymbolChat::count_instance_empty_slots() < 2)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -136,7 +136,7 @@ void TWindowSubSymbolChatParts::add_part() {
 }
 
 void TWindowSubSymbolChatParts::handle_add() {
-    if (this->calc_symbol_index() >= (s16) *(s16 *)&this->item_count) {
+    if (this->calc_symbol_index() >= (s16) this->item_count) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -167,7 +167,7 @@ void TWindowSubSymbolChatParts::update_cursor_input() {
     ControllerInputContext *input;
     input = &controller_input_state.controllers[0];
     if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
-        ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x54100, 0U, 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
         if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
             cursor_col = (u8) (cursor_col + 1);
         }
@@ -190,7 +190,7 @@ void TWindowSubSymbolChatParts::update_cursor_input() {
         }
         row = cursor_row;
         if ((s8) row < 0) {
-            cursor_row = (u8) (row + *(u8 *)&row_count);
+            cursor_row = (u8) (row + row_count);
         }
         row_now = cursor_row;
         rows = *(u8 *)&row_count;
@@ -239,10 +239,10 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     set_sprite_uv_from_pixels(e0, 185.0f, 22.0f);
     e0->kind = 0;
     e0->depth = 0.5f;
-    ((TWindowSubStatusDisp *)e0)->clear_visible_flag();
+    ((TWindowLayoutEntry *)e0)->show();
     slot = chat->parts;
     n = TWindowSubSymbolChat::calc_remaining_slots();
-    ((TWindowHelpItem *)e2)->set_flag0_bit2();
+    ((TWindowLayoutEntry *)e2)->hide();
     for (i = 0; i < n; i++, slot++) {
         e0->x = 40.0f * (f32)col + 10.0f;
         e0->y = 40.0f * (f32)row + 9.0f;

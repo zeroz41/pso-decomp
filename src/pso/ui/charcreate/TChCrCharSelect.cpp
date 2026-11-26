@@ -17,18 +17,18 @@
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct Range_802937E8 { s32 min; s32 max; };
+struct ClassGroupRange { s32 min; s32 max; };
 
 const char *TChCrCharSelect::name = "TChCrCharSelect";
 s32 TChCrCharSelect::selected_char_index = -1;
 s32 TChCrCharSelect::selected_slot_index = -1;
 s32 TChCrCharSelect::input_mode;
 
-const Range_802937E8 char_select_class_group_range_table[3] = {{0, 3}, {4, 7}, {8, 11}};
-const vec2f lbl_80464E88 = {606.0f, 52.0f};
-const s32 lbl_80464E90[2] = {0, 4};
+const ClassGroupRange char_select_class_group_range_table[3] = {{0, 3}, {4, 7}, {8, 11}};
+const vec2f char_select_icon_position = {606.0f, 52.0f};
+const s32 char_select_icon_ids_mode1[2] = {0, 4};
 const int char_select_class_id_table[12] = {0, 1, 2, 9, 3, 11, 4, 5, 10, 6, 7, 8};
-const s32 lbl_805DD9D8[1] = {4};
+const s32 char_select_icon_ids_mode0[1] = {4};
 
 int get_char_select_class_id(int index) { return char_select_class_id_table[index]; }
 
@@ -54,7 +54,7 @@ extern "C" {
 s32 copy_player_visual_record(void *, void *);
 }
 
-extern saddr tl_03;
+extern TObject *tl_03;
 
 void TChCrCharSelect::tick_and_apply_selection() {
     s32 delay;
@@ -67,7 +67,7 @@ void TChCrCharSelect::tick_and_apply_selection() {
         copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(get_char_select_class_id(TChCrCharSelect::selected_slot_index)));
         character_appearance_fields->section = -1;
         character_appearance_fields->name[0] = 0;
-        TCharaMaking::create((void *)tl_03, character_appearance_fields);
+        TCharaMaking::create(tl_03, character_appearance_fields);
         queue_destruction();
     }
 }
@@ -128,10 +128,10 @@ void TChCrCharSelect::run_task() {
     (this->*tbl[TChCrCharSelect::input_mode])();
     switch (TChCrCharSelect::input_mode) {
     case 0:
-        TObjCMIcon::show_only_creation_icons(1, lbl_805DD9D8);
+        TObjCMIcon::show_only_creation_icons(1, char_select_icon_ids_mode0);
         return;
     case 1:
-        TObjCMIcon::show_only_creation_icons(2, lbl_80464E90);
+        TObjCMIcon::show_only_creation_icons(2, char_select_icon_ids_mode1);
         return;
     case 2:
     default:
@@ -155,7 +155,7 @@ TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     } else {
         TChCrCharSelect::input_mode = 1;
     }
-    TObjCMIcon::set_screen_position(&lbl_80464E88);
+    TObjCMIcon::set_screen_position(&char_select_icon_position);
     init_widgets();
 }
 

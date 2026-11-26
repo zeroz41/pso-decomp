@@ -32,7 +32,7 @@ struct TTecBarta : public TTecShot {
     void create_particle_emitters();
     void init_parameters();
     static void create(void *source, void *origin, void *aim, s32 level);
-    static void create_ex(void *source, void *origin, s32 angle, s32 level);
+    static void create_ex(void *source, Vec *origin, s32 angle, s32 level);
     virtual void run_task();
     virtual void render();
 };

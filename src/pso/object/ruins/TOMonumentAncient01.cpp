@@ -65,7 +65,7 @@ TOMonumentAncient01::~TOMonumentAncient01() {
 TOMonumentAncient01::TOMonumentAncient01(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(model_resource, 2);
+    model = get_bml_model(model_resource, 2);
     texlist = get_bml_texlist(model_resource, 2);
     init_collision_body_parts(this, &monument_ancient01_collision_body, 1);
     refresh_collision_body_centers();

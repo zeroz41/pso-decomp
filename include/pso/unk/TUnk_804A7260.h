@@ -4,8 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerRef.h"
 
-// Base of the lock-on cursor tasks TLOC_Start, TLOC_End and TLOC_ListClear (vtable 0x804A7260). Its ctor
-// (0x8013E0D8) takes the parent task and the lock-on target id, which goes into the target record.
+// Base of the lock-on cursor tasks TLOC_Start, TLOC_End and TLOC_ListClear. Its ctor
+// takes the parent task and the lock-on target id, which goes into the target record.
 class LockOnTask : public TObject {
 public:
     LockOnTask(TObject *parent, u16 id);

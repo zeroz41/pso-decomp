@@ -167,7 +167,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
     s32 count;
     saddr i;
     s32 j;
-    s32 name;
+    s32 help_mode;
     TWindowComCardFollower *window;
     TObjPlayer *player;
     player = get_player_by_client_id(this->client_index);
@@ -189,15 +189,15 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
                 break;
             }
         }
-        name = (saddr)((TWindowComCard *)i)->get_card_name_ptr();
+        help_mode = get_chain_help_mode(i);
         window = (TWindowComCardFollower *)(this->w[j]);
         if (window == NULL) {
-            window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, this->client_index));
+            window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, help_mode, this->client_index));
             this->w[j] = window;
             this->w[j]->set_depth(1.0f + get_scale());
         } else {
             window->set_column(0);
-            ((TWindowComCardFollower *)this->w[j])->set_selected_index(name);
+            ((TWindowComCardFollower *)this->w[j])->set_selected_index(help_mode);
         }
         count = 1;
     } else if (this->w[j] != NULL) {
@@ -213,15 +213,15 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
                 this->w[j] = NULL;
             }
         } else {
-            name = get_status_effect_icon_index(word);
+            help_mode = get_status_effect_icon_index(word);
             window = (TWindowComCardFollower *)(this->w[j]);
             if (window == NULL) {
-                window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, name, this->client_index));
+                window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, help_mode, this->client_index));
                 this->w[j] = window;
                 this->w[j]->set_depth(2.0f + ((f32)k + get_scale()));
             } else {
                 window->set_column(count);
-                ((TWindowComCardFollower *)this->w[j])->set_selected_index(name);
+                ((TWindowComCardFollower *)this->w[j])->set_selected_index(help_mode);
             }
             count++;
         }
@@ -299,25 +299,25 @@ void TWindowLockOn::update_for_player_index(s32 id) {
 
     player = get_player_by_client_id(id);
     if (player == NULL) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)(this))->hide();
         return;
     }
     status_block = (u8 *)player->name;
     if (status_block == NULL) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)(this))->hide();
         return;
     }
     str = (saddr)player->get_name();
     if (str == 0) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)(this))->hide();
         return;
     }
     if (player->is_inactive() == 0) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)(this))->hide();
         return;
     }
-    ((TWindowSubStatusDisp *)(this))->clear_visible_flag();
-    if ((((TWindowSubComCard *)(this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)(this))->get_field_20(), (const char *)str) != 0)) {
+    ((TWindowLayoutEntry *)(this))->show();
+    if ((((WindowTextEntry *)(this))->get_text() == 0U) || (strcmp((const char *)((WindowTextEntry *)(this))->get_text(), (const char *)str) != 0)) {
         set_text_entry_string(((WindowTextEntry *)this), str, 0x20);
     }
     if (player->is_actor_dead() != 0) {
@@ -333,7 +333,7 @@ void update_lockon_window(TWindowSimpleStatus *window) {
     lock_on->update_for_player_index(window->get_width());
 }
 
-void update_photon_blast_player_marker(saddr help, s32 client_id) {
+void update_photon_blast_player_marker(WindowSpritePart *help, s32 client_id) {
     PhotonBlastChainCopy chain;
     s32 type;
     u32 key;
@@ -355,28 +355,28 @@ void update_photon_blast_player_marker(saddr help, s32 client_id) {
         }
         switch (type) {
         case 5:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 0.0f, 173.0f);
+            set_sprite_uv_from_pixels(help, 0.0f, 173.0f);
             break;
         case 4:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f, 173.0f);
+            set_sprite_uv_from_pixels(help, 34.0f, 173.0f);
             break;
         case 3:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 68.0f, 173.0f);
+            set_sprite_uv_from_pixels(help, 68.0f, 173.0f);
             break;
         case 1:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 102.0f, 173.0f);
+            set_sprite_uv_from_pixels(help, 102.0f, 173.0f);
             break;
         case 2:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 136.0f, 173.0f);
+            set_sprite_uv_from_pixels(help, 136.0f, 173.0f);
             break;
         case 0:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 170.0f, 173.0f);
+            set_sprite_uv_from_pixels(help, 170.0f, 173.0f);
             break;
         default:
             if (lobby_rule_settings.get_is_teams() == 1 && (p = get_player_by_client_id(key)) != 0) {
                 key = p->pk_state.get_team() - 1;
             }
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f * key, 202.0f);
+            set_sprite_uv_from_pixels(help, 34.0f * key, 202.0f);
             break;
         }
     }
@@ -389,7 +389,7 @@ void update_status_help_item(TWindowSimpleStatus *window) {
     if (get_current_floor_area() == AREA_LOBBY) {
         client_id = 0;
     }
-    update_photon_blast_player_marker((saddr)window->get_array_entry(0), client_id);
+    update_photon_blast_player_marker(static_cast<WindowSpritePart *>(window->get_array_entry(0)), client_id);
 }
 
 #pragma push
@@ -443,7 +443,7 @@ void TWindowSimpleStatus::draw_background(WindowDrawContext *ctx) {
     r.u1 = 0.8828125f;
     r.v1 = 0.44921875f;
     ctx->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     end_screen_draw();
     if (scanline_crosses_window(ctx, &pos, &size) != 0) {
         begin_window_sweep_draw(0xB);

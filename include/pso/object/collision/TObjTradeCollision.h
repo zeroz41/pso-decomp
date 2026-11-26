@@ -10,7 +10,7 @@ struct TObjTradeCollision : public TObjCollidable {
     bool is_player_outside_trade_radius(u32);
     virtual void run_task();
     virtual void render();
-    u8 unk_AC[0x4];
+    f32 trade_radius;  // the scale along x: how close a player has to be
     static void *create(void *set_data);
 };
 

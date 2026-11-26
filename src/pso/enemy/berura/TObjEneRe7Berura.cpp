@@ -288,7 +288,7 @@ void TObjEneRe7Berura::init_enemy() {
     s32 i;
     s32 j;
     init_position_vectors();
-    model = (void *)re7_berura_shared_resource->models->model;
+    model = re7_berura_shared_resource->models->model;
     texlist = re7_berura_shared_resource->models->texlist;
     init_model(&berura_collision_body, 1);
     set_action_table(re7_berura_animation_definitions);
@@ -1289,7 +1289,7 @@ void TObjEneRe7Berura::update_death_state(s32 reason) {
         accum = texture_scroll_speed;
         counter = 0;
         step = 0;
-        fn_800D911C(&body_center);
+        create_particle_emitter_pair(&body_center);
         body_fade.start_fade_out();
         status_flags |= 2;
         play_sound_effect(remap_sound_for_area(0x4003AD25), &position, 0, 0);

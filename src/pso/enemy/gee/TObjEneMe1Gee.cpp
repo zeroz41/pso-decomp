@@ -364,7 +364,7 @@ void TObjEneMe1Gee::apply_parameters() {
 }
 #pragma pop
 void TObjEneMe1Gee::select_model() {
-    this->model = (void *)me1_gee_resource_bundle->models->model;
+    this->model = me1_gee_resource_bundle->models->model;
     this->texlist = me1_gee_resource_bundle->models->texlist;
 }
 #pragma push
@@ -845,7 +845,7 @@ void TObjEneMe1Gee::state_high_appear(s32 mode) {
         VecCopy(&pos, &this->position);
         pos.y += 150.0f;
         this->hover_y = pos.y;
-        TBoss3Volopt__sub_800D8D88((saddr) &pos);
+        play_appear_effects((saddr) &pos);
         this->set_invulnerable();
         this->stage = 0;
         return;
@@ -1875,7 +1875,7 @@ void TObjEneMe1GeeLeader::run_task() {
 }
 
 void TObjEneMe1GeeLeader::select_model() {
-    this->model = (void *)me1_gee_resource_bundle->models->model;
+    this->model = me1_gee_resource_bundle->models->model;
     this->texlist = me1_gee_resource_bundle->models->texlist;
 }
 

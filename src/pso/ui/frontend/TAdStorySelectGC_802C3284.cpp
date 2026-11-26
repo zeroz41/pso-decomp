@@ -28,8 +28,8 @@ struct B_802C3400 { NJS_POINT2 e[2]; };
 
 struct C_802C3400 { TAdSelectTxtLayout e[2]; };
 
-__declspec(section ".rodata") extern const char TAdStorySelectGC__class_name_string[] = "TAdStorySelectGC";
-const char *TAdStorySelectGC::class_name = TAdStorySelectGC__class_name_string;
+__declspec(section ".rodata") extern const char TAdStorySelectGC_class_name_string[] = "TAdStorySelectGC";
+const char *TAdStorySelectGC::class_name = TAdStorySelectGC_class_name_string;
 
 s32 story_select_cursor;
 void TAdStorySelectGC::render() {  }

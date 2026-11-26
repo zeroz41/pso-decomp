@@ -35,7 +35,7 @@ TObjNpcFemaleBase::TObjNpcFemaleBase(TObject *parent, void *set_data) : TObjNpcF
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = (void *)shared_resource_obj->models->model;
+    this->model = shared_resource_obj->models->model;
     this->texlist = shared_resource_obj->models->texlist;
     this->setup_common();
 }

@@ -6,7 +6,7 @@
 s32 launch_switcher_dol(const char *url);
 
 extern "C" {
-void TAdTrialModemChkGC__sub_8007FA24(s32 arg0);
+void TAdTrialModemChkGC__sub_8007FA24(s32 use_modem_url);
 }
 
 #endif

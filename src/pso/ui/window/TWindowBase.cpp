@@ -10,6 +10,7 @@
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -36,18 +37,16 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 
-struct UV_8024503C { f32 u, v; };
-
-struct UVPair_8024503C { UV_8024503C e[2]; };
+struct SelectionBarCoordinates { NJS_POINT2 e[2]; };
 
 const char *TWindowBase::class_name = "TWindowBase";
-static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
+static const SelectionBarCoordinates selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
 
-void reset_line_width(void);
-void set_line_width(int a0);
-void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len);
+void draw_window_scanline(TWindowBase *window, s32 row, WindowDrawContext *r, f32 len);
 extern "C" {
 
 
@@ -60,7 +59,7 @@ extern int area_total;
 
 int get_area_total(void) {  return area_total; }
 
-uaddr TWindowSubComCard::get_field_20() { return this->client_id; }
+char *WindowTextEntry::get_text() { return this->text; }
 
 f32 TWindowBase::get_transition_progress() {
     f32 v = get_close_progress();
@@ -167,34 +166,32 @@ s32 TWindowBase::is_window_reveal_complete() {
 NJS_TEXLIST *hud_texlist;
 u16 window_ui_theme_index;
 s16 window_scanline_timer;
-void window_request_refresh(u8 *help) {
-    TWindowBase *window = (TWindowBase *)help;
-    if (!((f32) window->open_tick >= 7.5f)) {
-        window->open_tick = 7;
+void TWindowBase::request_refresh() {
+    if (!((f32) open_tick >= 7.5f)) {
+        open_tick = 7;
     }
 }
 
-void window_request_show(void *object) {
-    TWindowBase *window = (TWindowBase *)object;
+void TWindowBase::request_show() {
     s32 state_flags;
 
-    state_flags = window->window_flags;
+    state_flags = window_flags;
     if (state_flags & 1) {
-        window->window_flags = (s32) (state_flags & 0xFFFFFFFB);
+        window_flags = (s32) (state_flags & 0xFFFFFFFB);
         return;
     }
     if (state_flags & 2) {
-        window->window_flags = (s32) (state_flags | 4);
+        window_flags = (s32) (state_flags | 4);
         return;
     }
-    if (TWindowSubStatusDisp::get_card_window_scale(window->client_index) > 0.0f) {
-        window->open_tick = 0;
+    if (TWindowSubStatusDisp::get_card_window_scale(client_index) > 0.0f) {
+        open_tick = 0;
     }
-    window->window_flags = (s32) (window->window_flags | 3);
-    if (!(window->window_flags & 0x20)) {
+    window_flags = (s32) (window_flags | 3);
+    if (!(window_flags & 0x20)) {
         play_sound_effect(0x53703, 0, 0, 0);
     }
-    ((TObject *)object)->allow_rendering();
+    allow_rendering();
 }
 
 WindowDrawContext *TWindowBase::setup_window_draw_context(f32 *scale) {
@@ -224,7 +221,7 @@ WindowDrawContext *TWindowBase::draw_default_entry() {
 }
 
 void TWindowBase::set_depth(f32 depth) {
-    TWindowBase::sub_8026CC28();
+    TWindowBase::bring_to_front();
     this->sort_depth = depth;
     resort_window_order();
 }
@@ -251,17 +248,17 @@ s32 is_balloon_overlapping(const TWindowFukidasi *balloon, const f32 *position, 
 }
 
 TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, const f32 *size, TWindowFukidasi *first) {
-    if (TWindowFukidasi__sub_8024695C(this) == 0) {
+    if (test_flag2c_bit100() == 0) {
         return NULL;
     }
-    if (is_bit10_set() != 0) {
+    if (is_overlapped() != 0) {
         return NULL;
     }
     if (this->is_open_and_unblocked() == 0) {
         return NULL;
     }
     for (TWindowFukidasi *p = first; p != NULL; p = static_cast<TWindowFukidasi *>(p->m_next)) {
-        if (TWindowFukidasi__sub_8024695C(p) != 0 && p->is_bit10_set() == 0 &&
+        if (p->test_flag2c_bit100() != 0 && p->is_overlapped() == 0 &&
             p->is_open_and_unblocked() != 0 && p != this &&
             (get_visible_flag() == 0 || p->get_visible_flag() == 0) &&
             is_balloon_overlapping(p, position, size)) {
@@ -293,16 +290,16 @@ void TWindowBase::init_window(u8 *descriptor, u8 *parent, s16 client) {
         disallow_rendering();
     }
     if ((window_flags & 1) && (window_flags & 2) && !(window_flags & 0x20)) {
-        ((s32 (*)(int, int, int, int))play_sound_effect)(0x53703, 0, 0, 0);
+        play_sound_effect(0x53703, 0, 0, 0);
     }
     if (TWindowSubStatusDisp::get_card_window_scale((int) (client_index)) <= 0.0f) {
         open_tick = 0x01000000;
     }
 }
 
-void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
-    UVPair_8024503C uv = selection_bar_texture_coordinates;
-    UV_8024503C *p;
+void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s32 active) {
+    SelectionBarCoordinates uv = selection_bar_texture_coordinates;
+    NJS_POINT2 *p;
     TexturedQuad q;
     f32 x1;
     f32 x;
@@ -317,7 +314,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     if (active != 0) {
         p = &uv.e[1];
     }
-    y = context->inner_y + *(f32 *)((s8 *)entry + 0xC);
+    y = context->inner_y + entry->y;
     x = context->inner_x;
     z = -1.0f / (0.22424999f + context->depth);
     set_additive_blend();
@@ -327,37 +324,37 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     q.x0 = x - 2.0f;
     q.y0 = y;
     q.x1 = x1 = (16.0f + x) - 2.0f;
-    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
-    q.u0 = p->u / 256.0f;
-    q.v0 = p->v / 256.0f;
-    q.u1 = (16.0f + p->u) / 256.0f;
-    q.v1 = (18.0f + p->v) / 256.0f;
+    q.y1 = y + entry->height;
+    q.u0 = p->x / 256.0f;
+    q.v0 = p->y / 256.0f;
+    q.u1 = (16.0f + p->x) / 256.0f;
+    q.v1 = (18.0f + p->y) / 256.0f;
     if (context->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, z);
+        draw_textured_quad_at_depth(&q.x0, z);
     }
     t = x + context->inner_w;
     q.x0 = 2.0f + (t - 16.0f);
     q.y0 = y;
     q.x1 = 2.0f + t;
-    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
-    u = 32.0f + p->u;
+    q.y1 = y + entry->height;
+    u = 32.0f + p->x;
     q.u0 = u / 256.0f;
-    q.v0 = p->v / 256.0f;
+    q.v0 = p->y / 256.0f;
     q.u1 = (16.0f + u) / 256.0f;
-    q.v1 = (18.0f + p->v) / 256.0f;
+    q.v1 = (18.0f + p->y) / 256.0f;
     if (context->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, z);
+        draw_textured_quad_at_depth(&q.x0, z);
     }
     q.x0 = x1;
     q.y0 = y;
     q.x1 = 2.0f + ((x + context->inner_w) - 16.0f);
-    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
-    q.u0 = (16.0f + p->u) / 256.0f;
-    q.v0 = p->v / 256.0f;
-    q.u1 = (16.0f + (16.0f + p->u)) / 256.0f;
-    q.v1 = (18.0f + p->v) / 256.0f;
+    q.y1 = y + entry->height;
+    q.u0 = (16.0f + p->x) / 256.0f;
+    q.v0 = p->y / 256.0f;
+    q.u1 = (16.0f + (16.0f + p->x)) / 256.0f;
+    q.v1 = (18.0f + p->y) / 256.0f;
     if (context->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, z);
+        draw_textured_quad_at_depth(&q.x0, z);
     }
     end_screen_draw();
     set_default_alpha_blend();
@@ -488,14 +485,14 @@ void TWindowBase::draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *
     quad->u1 = 0.5078125f;
     quad->x0 = context->scale[0] * (quad->x0 - context->pivot[0]) + context->pivot[0];
     quad->x1 = context->scale[0] * (quad->x1 - context->pivot[0]) + context->pivot[0];
-    draw_textured_quad_at_depth((f32 *)quad, z);
+    draw_textured_quad_at_depth(&quad->x0, z);
     quad->x0 = (context->x + this->frame_size[0]) - w;
     quad->x1 = context->x + this->frame_size[0];
     quad->u0 = 0.6328125f;
     quad->u1 = 0.7578125f;
     quad->x0 = context->scale[0] * (quad->x0 - context->pivot[0]) + context->pivot[0];
     quad->x1 = context->scale[0] * (quad->x1 - context->pivot[0]) + context->pivot[0];
-    draw_textured_quad_at_depth((f32 *)quad, z);
+    draw_textured_quad_at_depth(&quad->x0, z);
     quad->x0 = 32.0f + context->x;
     quad->u0 = 0.5078125f;
     quad->u1 = 0.6328125f;
@@ -509,7 +506,7 @@ void TWindowBase::draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *
         } else {
             quad->x1 = 32.0f + quad->x0;
         }
-        draw_textured_quad_at_depth((f32 *)quad, z);
+        draw_textured_quad_at_depth(&quad->x0, z);
         rem -= 32.0f;
         quad->x0 += 32.0f;
     }
@@ -517,8 +514,7 @@ void TWindowBase::draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *
 #pragma pop
 
 #pragma fp_contract on
-void TWindowBase::draw_quest_message_frame(void *context) {
-  WindowDrawContext *c = (WindowDrawContext *)context;
+void TWindowBase::draw_quest_message_frame(WindowDrawContext *c) {
   TexturedQuad q;
   f32 step;
   f32 rem;
@@ -572,7 +568,7 @@ void TWindowBase::draw_quest_message_frame(void *context) {
 
 #pragma push
 #pragma fp_contract on
-void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
+void draw_window_scanline(TWindowBase *window, s32 row, WindowDrawContext *r, f32 len) {
     ColorLineList lines;
     u32 colors[3];
     ColorLineVertex pts[3];
@@ -584,7 +580,7 @@ void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
     if (len <= 0.0f) {
         return;
     }
-    if (len >= *(f32 *)(card + 0x48) - 24.0f) {
+    if (len >= window->frame_size[0] - 24.0f) {
         return;
     }
     lines.verts = pts;
@@ -618,7 +614,7 @@ void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
 
 #pragma push
 #pragma fp_contract on
-void draw_window_scanlines(u8 *card, u8 *context) {
+void draw_window_scanlines(TWindowBase *window, WindowDrawContext *context) {
     s32 n1;
     s32 i;
     s32 n2;
@@ -629,20 +625,20 @@ void draw_window_scanlines(u8 *card, u8 *context) {
     case 1:
         return;
     }
-    n1 = trunc_float((12.0f + *(f32 *)((s8 *)card + 0x44)) / 4.0f);
-    n2 = trunc_float((*(f32 *)((s8 *)card + 0x4C) - 24.0f) / 4.0f);
-    y = ((5.0f * ((f32)window_scanline_timer - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)card + 0x40);
+    n1 = trunc_float((12.0f + window->frame_position[1]) / 4.0f);
+    n2 = trunc_float((window->frame_size[1] - 24.0f) / 4.0f);
+    y = ((5.0f * ((f32)window_scanline_timer - 0.2f * (f32)n1) - 100.0f) - 12.0f) - window->frame_position[0];
     if (y <= 0.0f) {
         return;
     }
-    if (y - (f32)n2 >= *(f32 *)((s8 *)card + 0x48) - 24.0f) {
+    if (y - (f32)n2 >= window->frame_size[0] - 24.0f) {
         return;
     }
-    set_line_width(12.0f * *(f32 *)((s8 *)context + 0x2C));
+    set_line_width(12.0f * context->scale[1]);
     set_additive_blend();
     step = 1.0f;
     for (i = 0; i < n2; i++) {
-        draw_window_scanline(card, i, (WindowDrawContext *)context, y);
+        draw_window_scanline(window, i, context, y);
         y -= step;
     }
     set_default_alpha_blend();
@@ -670,14 +666,14 @@ void TWindowBase::draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext
   quad->u1 = w / 256.0f;
   quad->x0 = (context->scale[0] * (quad->x0 - context->pivot[0])) + context->pivot[0];
   quad->x1 = (context->scale[0] * (quad->x1 - context->pivot[0])) + context->pivot[0];
-  draw_textured_quad_at_depth((f32 *)quad, z);
+  draw_textured_quad_at_depth(&quad->x0, z);
   quad->x0 = (context->x + frame_size[0]) - w;
   quad->x1 = context->x + frame_size[0];
   quad->u0 = (96.0f - w) / 256.0f;
   quad->u1 = 0.375f;
   quad->x0 = (context->scale[0] * (quad->x0 - context->pivot[0])) + context->pivot[0];
   quad->x1 = (context->scale[0] * (quad->x1 - context->pivot[0])) + context->pivot[0];
-  draw_textured_quad_at_depth((f32 *)quad, z);
+  draw_textured_quad_at_depth(&quad->x0, z);
   quad->x0 = 32.0f + context->x;
   quad->u0 = 0.125f;
   quad->u1 = 0.25f;
@@ -695,7 +691,7 @@ void TWindowBase::draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext
     {
       quad->x1 = 32.0f + quad->x0;
     }
-    draw_textured_quad_at_depth((f32 *)quad, z);
+    draw_textured_quad_at_depth(&quad->x0, z);
     rem -= 32.0f;
     quad->x0 += 32.0f;
   }
@@ -756,7 +752,7 @@ void TWindowBase::draw_window_frame(WindowDrawContext *context) {
     q.y0 += dy;
   }
   end_screen_draw();
-  draw_window_scanlines((u8 *)this, (u8 *)context);
+  draw_window_scanlines(this, context);
 }
 
 void TWindowBase::update_fade() {
@@ -812,7 +808,7 @@ void TWindowBase::update_open_close() {
         if ((f32) open_tick >= 7.5f) {
             if (state_flags & 4) {
                 if (!(state_flags & 0x20)) {
-                    ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x53704, 0U, 0, 0);
+                    play_sound_effect(0x53704, 0, 0, 0);
                 }
                 window_flags = (s32) (window_flags & ~5);
                 return;
@@ -830,7 +826,7 @@ void TWindowBase::update_open_close() {
             card_window_flags = window_flags;
             if (card_window_flags & 4) {
                 if (!(card_window_flags & 0x20)) {
-                    ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x53703, 0U, 0, 0);
+                    play_sound_effect(0x53703, 0, 0, 0);
                 }
                 window_flags = (s32) (window_flags & 0xFFFFFFFB);
                 window_flags = (s32) (window_flags | 1);
@@ -851,10 +847,10 @@ void TWindowBase::run_task() {  }
 
 TWindowBase::~TWindowBase() {
     entry_list.destroy_all_items();
-    sub_8026CC28();
+    bring_to_front();
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
-    : TObject(TWindowCtrlMain__sub_8024CDB0((void *)(saddr)client)) {
+    : TObject(get_client_window_root(client)) {
     init_window(descriptor, parent, client);
 }
 
@@ -929,86 +925,86 @@ s32 TWindowBase::is_closed() {
     return (u8)(!(window_flags & 1));
 }
 
-int TWindowFukidasi__sub_8024695C(void* p) { return (*(u32*)((char*)p + 0x2c) >> 8) & 0x1; }
+int TWindowFukidasi::test_flag2c_bit100() { return ((u32)window_flags >> 8) & 0x1; }
 
 int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1; }
 
-int TWindowFukidasi::is_bit10_set() { return ((u32)window_flags >> 10) & 0x1; }
+int TWindowFukidasi::is_overlapped() { return ((u32)window_flags >> 10) & 0x1; }
 void TWindowSubStatusDisp::update_entry_visibility() {
-    uaddr entry7;
-    uaddr entry6;
-    uaddr entry5;
-    uaddr entry4;
-    uaddr entry3;
-    uaddr entry2;
-    uaddr entry1;
-    uaddr entry0;
-    entry7 = reinterpret_cast<uaddr>(this->get_array_entry(7));
-    entry6 = reinterpret_cast<uaddr>(this->get_array_entry(6));
-    entry5 = reinterpret_cast<uaddr>(this->get_array_entry(5));
-    entry4 = reinterpret_cast<uaddr>(this->get_array_entry(4));
-    entry3 = reinterpret_cast<uaddr>(this->get_array_entry(3));
-    entry2 = reinterpret_cast<uaddr>(this->get_array_entry(2));
-    entry1 = reinterpret_cast<uaddr>(this->get_array_entry(1));
-    entry0 = reinterpret_cast<uaddr>(this->get_array_entry(0));
+    TWindowLayoutEntry *entry7;
+    TWindowLayoutEntry *entry6;
+    TWindowLayoutEntry *entry5;
+    TWindowLayoutEntry *entry4;
+    TWindowLayoutEntry *entry3;
+    TWindowLayoutEntry *entry2;
+    TWindowLayoutEntry *entry1;
+    TWindowLayoutEntry *entry0;
+    entry7 = (TWindowLayoutEntry *)this->get_array_entry(7);
+    entry6 = (TWindowLayoutEntry *)this->get_array_entry(6);
+    entry5 = (TWindowLayoutEntry *)this->get_array_entry(5);
+    entry4 = (TWindowLayoutEntry *)this->get_array_entry(4);
+    entry3 = (TWindowLayoutEntry *)this->get_array_entry(3);
+    entry2 = (TWindowLayoutEntry *)this->get_array_entry(2);
+    entry1 = (TWindowLayoutEntry *)this->get_array_entry(1);
+    entry0 = (TWindowLayoutEntry *)this->get_array_entry(0);
     if (is_guild_card_receive_active() != 0) {
-        if (entry7 != 0U) {
-            ((TWindowSubStatusDisp *)entry7)->clear_visible_flag();
+        if (entry7 != NULL) {
+            entry7->show();
         }
-        if (entry6 != 0U) {
-            ((TWindowSubStatusDisp *)entry6)->clear_visible_flag();
+        if (entry6 != NULL) {
+            entry6->show();
         }
     } else {
-        if (entry7 != 0U) {
-            ((TWindowHelpItem *)entry7)->set_flag0_bit2();
+        if (entry7 != NULL) {
+            entry7->hide();
         }
-        if (entry6 != 0U) {
-            ((TWindowHelpItem *)entry6)->set_flag0_bit2();
+        if (entry6 != NULL) {
+            entry6->hide();
         }
     }
     if (is_com_card_active() != 0) {
-        if (entry5 != 0U) {
-            ((TWindowSubStatusDisp *)entry5)->clear_visible_flag();
+        if (entry5 != NULL) {
+            entry5->show();
         }
-        if (entry4 != 0U) {
-            ((TWindowSubStatusDisp *)entry4)->clear_visible_flag();
+        if (entry4 != NULL) {
+            entry4->show();
         }
     } else {
-        if (entry5 != 0U) {
-            ((TWindowHelpItem *)entry5)->set_flag0_bit2();
+        if (entry5 != NULL) {
+            entry5->hide();
         }
-        if (entry4 != 0U) {
-            ((TWindowHelpItem *)entry4)->set_flag0_bit2();
+        if (entry4 != NULL) {
+            entry4->hide();
         }
     }
     if (TWindowSubShortMail::is_active() != 0) {
-        if (entry3 != 0U) {
-            ((TWindowSubStatusDisp *)entry3)->clear_visible_flag();
+        if (entry3 != NULL) {
+            entry3->show();
         }
-        if (entry2 != 0U) {
-            ((TWindowSubStatusDisp *)entry2)->clear_visible_flag();
+        if (entry2 != NULL) {
+            entry2->show();
         }
     } else {
-        if (entry3 != 0U) {
-            ((TWindowHelpItem *)entry3)->set_flag0_bit2();
+        if (entry3 != NULL) {
+            entry3->hide();
         }
-        if (entry2 != 0U) {
-            ((TWindowHelpItem *)entry2)->set_flag0_bit2();
+        if (entry2 != NULL) {
+            entry2->hide();
         }
     }
     if (is_trade_active() != 0) {
-        if (entry1 != 0U) {
-            ((TWindowSubStatusDisp *)entry1)->clear_visible_flag();
+        if (entry1 != NULL) {
+            entry1->show();
         }
-        if (entry0 != 0U) {
-            ((TWindowSubStatusDisp *)entry0)->clear_visible_flag();
+        if (entry0 != NULL) {
+            entry0->show();
         }
     } else {
-        if (entry1 != 0U) {
-            ((TWindowHelpItem *)entry1)->set_flag0_bit2();
+        if (entry1 != NULL) {
+            entry1->hide();
         }
-        if (entry0 != 0U) {
-            ((TWindowHelpItem *)entry0)->set_flag0_bit2();
+        if (entry0 != NULL) {
+            entry0->hide();
         }
     }
 }

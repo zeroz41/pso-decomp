@@ -44,7 +44,7 @@ TObjNpcHRM00::TObjNpcHRM00(TObject *parent, void *set_data) : TObjNpcMale(parent
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *named_object_resource;
+    this->model = (NJS_OBJECT *)*named_object_resource;
     this->texlist = body_texture_gvm;
     this->setup_common();
 }

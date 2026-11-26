@@ -6,9 +6,9 @@
 
 void TItemToolTechniqueDisk::apply_use_effect() {
   u8 item_index;
-    saddr arg0 = (saddr)this;
-  item_index = (s32)((TItem *)arg0)->get_item_index();
-  ((TItem *)arg0)->set_owner_technique_level(((s16) (((TItemObject *)arg0)->get_technique() & 0xFF)), ((s16) (item_index & 0xFFFFFFFFu)));
+    saddr disk = (saddr)this;
+  item_index = (s32)((TItem *)disk)->get_item_index();
+  ((TItem *)disk)->set_owner_technique_level(((s16) (((TItemObject *)disk)->get_technique() & 0xFF)), ((s16) (item_index & 0xFFFFFFFFu)));
 }
 
 TItemToolTechniqueDisk::~TItemToolTechniqueDisk() {}

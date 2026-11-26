@@ -19,7 +19,7 @@ public:
     void update_position();
     void start_fade(f32 duration);
     void start_anim(f32 duration);
-    void sub_8001BED0(f32 value);
+    void set_target_scale(f32 value);
     f32 scale[4];
     FlagWord flags;
     s32 angular_velocity;

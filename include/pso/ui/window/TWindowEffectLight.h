@@ -7,9 +7,10 @@
 
 class TWindowEffectLight : public TObject {
 public:
+    static const char *class_name;
     TWindowEffectLight(void *position, s16 kind, u32 id);
     virtual ~TWindowEffectLight();
-    void sub_802AD040(f32);
+    void draw_capped_bar(f32 width);
     void draw_outline_quad(s32);
     virtual void render();
     virtual void run_task();

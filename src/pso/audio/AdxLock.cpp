@@ -26,7 +26,7 @@ void adx_unlock() {
 }
 
 void adx_lock() {
-    if ((s32) init_ref_count == 0) {
+    if (init_ref_count == 0) {
         svm_lock();
     }
     init_ref_count += 1;

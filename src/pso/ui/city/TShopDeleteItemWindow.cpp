@@ -64,10 +64,10 @@ void TShopDeleteItemWindow::update_state() {
     void (*empty_callback)(TShopWindowBase *);
     switch (state) {
     case 0:
-        sub_80337E2C();
+        open_item_list();
         return;
     case 1:
-        TShopDeleteItemWindow::update_item_select(this);
+        update_item_select();
         return;
     case 2:
         handle_number_input();
@@ -99,7 +99,7 @@ void TShopDeleteItemWindow::update_state() {
 #pragma push
 #pragma opt_loop_invariants off
 
-void TShopDeleteItemWindow::sub_80337E2C() {
+void TShopDeleteItemWindow::open_item_list() {
     s32 base;
     s32 cursor;
     s32 i;
@@ -153,15 +153,15 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     }
     if (help_window == NULL) {
         if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
-            help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
+            help_window = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
             if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }
-            help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
+            help_window->set_displayed_item_colored(&displayed_item_colored);
             last_cursor = cursor;
         }
     } else if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
-        help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
+        help_window->set_displayed_item_colored(&displayed_item_colored);
         last_cursor = cursor;
     }
     set_state(1);
@@ -170,47 +170,46 @@ void TShopDeleteItemWindow::sub_80337E2C() {
 #pragma pop
 #pragma push
 #pragma opt_common_subs off
-void TShopDeleteItemWindow::update_item_select(void *window_ptr) {
+void TShopDeleteItemWindow::update_item_select() {
     TItemData item;
     s32 count;
     s32 base;
     s32 cursor;
     TWindowInputNumber *p;
     s32 id;
-    TShopDeleteItemWindow *window = (TShopDeleteItemWindow *)window_ptr;
-    base = window->get_split_screen_slot();
-    if (window->item_list != NULL) {
-        cursor = window->item_list->get_cursor_value();
-        if (window->help_window != NULL && cursor != window->last_cursor) {
-            if (TCheckRoomSequence::copy_item_record(cursor, &window->displayed_item_colored, base) != 0) {
-                window->help_window->set_displayed_item_colored((uaddr)&window->displayed_item_colored);
+    base = get_split_screen_slot();
+    if (item_list != NULL) {
+        cursor = item_list->get_cursor_value();
+        if (help_window != NULL && cursor != last_cursor) {
+            if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
+                help_window->set_displayed_item_colored(&displayed_item_colored);
             }
-            window->last_cursor = cursor;
+            last_cursor = cursor;
         }
     }
-    if (window->is_cancel_pressed() != 0) {
-        window->set_state(7);
-    } else if (window->is_decide_pressed() != 0) {
-        if (copy_bank_item_with_stack_limit(window->item_list->get_cursor_value(), &item, &count, base) != 0) {
+    if (is_cancel_pressed() != 0) {
+        set_state(7);
+    } else if (is_decide_pressed() != 0) {
+        if (copy_bank_item_with_stack_limit(item_list->get_cursor_value(), &item, &count, base) != 0) {
             if (item.data1.data_u8[0] == 3 && count > 1) {
                 p = (TWindowInputNumber *)TObject::operator new(0x7C);
                 if (p != NULL) {
-                    id = get_player_entity_id__15TShopWindowBaseFv(window);
+                    id = get_player_entity_id__15TShopWindowBaseFv(this);
                     p = __ct__18TWindowInputNumberFPC10NJS_POINT2llls(p, get_window_layout_position(0x2B), 1, count, 1, id);
                 }
-                window->number_input = p;
-                if (window->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    window->number_input->set_scale(0.75f, 0.75f);
+                number_input = p;
+                if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                    number_input->set_scale(0.75f, 0.75f);
                 }
-                window->set_state(2);
+                set_state(2);
             } else {
-                id = ((TObjBase *)(window->player))->get_entity_id();
-                window->confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
-                window->confirm_menu->set_ready_flag();
-                window->confirm_menu->set_selected_index(1);
-                window->confirm_menu->set_position_xy(window->get_scale(), window->get_scale());
-                window->set_state(3);
-                window->display_shop_message(0x4D, 1);
+                id = ((TObjBase *)(player))->get_entity_id();
+                confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
+                confirm_menu->set_ready_flag();
+                confirm_menu->set_selected_index(1);
+                confirm_menu->set_position_xy(get_scale(), get_scale());
+                set_state(3);
+                display_shop_message(0x4D, 1);
             }
         }
     }

@@ -10,40 +10,41 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include <string.h>
 
-void fill_game_list_row(void *row, s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mark, s8 level, s32 index) {
+void fill_game_list_row(void *row_entry, s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mode, s8 episode, s32 index) {
+    TGameListRow *row = (TGameListRow *)row_entry;
     saddr len;
     if (locked != 0) {
-        *(s8 *)((s8 *)row + 0x1C) = 0x18;
+        row->icon = 0x18;
     } else {
-        *(s8 *)((s8 *)row + 0x1C) = 0x33;
+        row->icon = 0x33;
     }
     len = (s32)measure_string_len(name);
-    *(s32 *)((s8 *)row + 0x24) = (saddr)mem_alloc((len + 1));
-    strncpy((char *)(*(saddr *)((s8 *)row + 0x24)), name, (int)len);
-    *(s8 *)((s8 *)len + (*(s32 *)((s8 *)row + 0x24))) = 0;
-    *(s8 *)((s8 *)row + 0x1D) = level;
-    *(s8 *)((s8 *)row + 0x1E) = mark;
-    *(s8 *)((s8 *)row + 0x1F) = difficulty;
-    *(s8 *)((s8 *)row + 0x20) = player_count;
-    *(s8 *)((s8 *)row + 0x21) = max_players;
-    *(s32 *)((s8 *)row + 0x18) = index;
-    *(u16 *)((s8 *)row + 0) = (u16) (*(u16 *)((s8 *)row + 0) | 5);
+    row->text = (char *)mem_alloc((len + 1));
+    strncpy(row->text, name, (int)len);
+    *(char *)(len + (saddr)row->text) = 0;
+    row->episode = episode;
+    row->mode = mode;
+    row->difficulty = difficulty;
+    row->player_count = player_count;
+    row->max_players = max_players;
+    row->index = index;
+    row->flags |= 5;
 }
 
-void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
-    (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
+void get_difficulty_name(void *unused, s8 value) {
+    (saddr)TWindowSubStatusDisp::get_message_10(value + 0x113);
 }
-saddr TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
-    if (arg1 == 0) {
+saddr TWindowSubStatusDisp::get_game_mode_name(void *unused, s8 value) {
+    if (value == 0) {
         return 0;
     }
-    return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x110);
+    return (saddr)TWindowSubStatusDisp::get_message_10(value + 0x110);
 }
-saddr TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
-    if (arg1 == 0) {
+saddr TWindowSubStatusDisp::get_episode_name(void *unused, s8 value) {
+    if (value == 0) {
         return 0;
     }
-    return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x10D);
+    return (saddr)TWindowSubStatusDisp::get_message_10(value + 0x10D);
 }
 
 void TGameListRow::render(WindowDrawContext *context) {
@@ -77,17 +78,17 @@ void TGameListRow::render(WindowDrawContext *context) {
   set_text_draw_params(win, 1, 1, scale, 100000.0f);
   draw_window_text((f32 *)&pos, this->text, -1, 1, 100000.0f);
   pos.x += 210.0f;
-  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(this, this->level)), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_episode_name(this, this->episode)), -1, 0, 100000.0f);
   pos.x += 108.0f;
-  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::query_status_field(this, this->mark)), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_game_mode_name(this, this->mode)), -1, 0, 100000.0f);
   pos.x += 96.0f;
-  draw_window_text((f32 *)&pos, (const char *)(((saddr (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(this, this->difficulty)), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)(((saddr (*)(void *, s8)) get_difficulty_name)(this, this->difficulty)), -1, 0, 100000.0f);
   pos.x += 126.0f;
   text_builder_reset();
   text_builder_append_int(this->player_count);
-  text_builder_append((u8 *)separator);
+  text_builder_append(separator);
   text_builder_append_int(this->max_players);
-  draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, get_shared_text_buffer(), -1, 0, 100000.0f);
 }
 
 void TGameListRow::update() {}
@@ -102,8 +103,8 @@ TGameListRow::~TGameListRow() {
 TGameListRow::TGameListRow(u8 *rec, s32 client) : TWindowLayoutRect(client) {
     this->height = 18.0f;
     this->icon = 51;
-    this->level = -1;
-    this->mark = -1;
+    this->episode = -1;
+    this->mode = -1;
     this->difficulty = -1;
     this->player_count = -1;
     this->max_players = -1;

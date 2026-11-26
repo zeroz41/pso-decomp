@@ -4,7 +4,7 @@
 #include "types.h"
 
 // Class name of the lobby player label TObject (TObjPlayer checks its lobby_label object by it).
-extern const char *TFontSmallLobby__name;
+extern const char *TFontSmallLobby_class_name;
 
 struct TFontSmallLobby
 {

@@ -36,7 +36,7 @@ void TTecZarua::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0xc;
     hit.power = this->params.power;
-    target->receive_direct_attack((void *)this->source, hit, this->contact, 0xc, -1);
+    target->receive_direct_attack(this->source, hit, this->contact, 0xc, -1);
 }
 
 void TTecZarua::create_instance(saddr source, Vec *pos, Vec *target, saddr level) {
@@ -47,7 +47,7 @@ void TTecZarua::render() {  }
 void TTecZarua::run_task() {
     s32 i;
     uaddr id;
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
@@ -100,7 +100,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         break;
     }
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }
 
@@ -134,6 +134,6 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         break;
     }
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }

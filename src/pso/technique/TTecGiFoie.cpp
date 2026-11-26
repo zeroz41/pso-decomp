@@ -117,7 +117,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
         break;
     }
     if (this->source != NULL) {
-        this->sourceId = ((TObjBase *)this->source)->get_entity_id();
+        this->sourceId = this->source->get_entity_id();
     }
 }
 
@@ -131,7 +131,7 @@ void TTecGiFoie::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
+    this->source = find_entity_by_id(this->sourceId);
     if (this->source == 0) {
         queue_destruction();
         return;
@@ -175,7 +175,7 @@ void TTecGiFoie::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 1;
         hit.power = params.power;
-        target->receive_direct_attack((void *)source, hit, contact, 1, -1);
+        target->receive_direct_attack(source, hit, contact, 1, -1);
     }
 }
 

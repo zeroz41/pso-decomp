@@ -278,7 +278,7 @@ s32 TOVS2Wall01::try_start_action(void *, s32, f32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = vs2_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(vs2_wall01_bml_resource, index);
+    model = get_bml_model(vs2_wall01_bml_resource, index);
     model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
     texlist = get_bml_texlist(vs2_wall01_bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
@@ -381,7 +381,7 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     apply_object_set_data(set_data);
     calc_attach_pos();
     set_actor_flags(0x60000000);
-    model = (void *)get_bml_model(vs2_wall01_bml_resource, 6);
+    model = get_bml_model(vs2_wall01_bml_resource, 6);
     texlist = get_bml_texlist(vs2_wall01_bml_resource, 6);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
     set_indexed_flags(0, 0x08000000);

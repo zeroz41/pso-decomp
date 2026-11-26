@@ -52,15 +52,15 @@ TObjTreeLobby::TObjTreeLobby(TObject *parent, void *set_data) : TObjMapObject(pa
         fade_state = 3;
     }
     fade_scale = 1.0f;
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = lobby_texlist;
 }
 
 TObjTreeLobby::~TObjTreeLobby() {}
 
 void TObjTreeLobby::load_resources() {
-    void *resource = new BmlResource(5, &bm_obj_lobby_tree_resource_descriptor, 0, 0, NULL);
-    model_resource = (BmlResource *)resource;
+    BmlResource *resource = new BmlResource(5, &bm_obj_lobby_tree_resource_descriptor, 0, 0, NULL);
+    model_resource = resource;
     lobby_texlist = get_lobby_main_texlist();
 }
 

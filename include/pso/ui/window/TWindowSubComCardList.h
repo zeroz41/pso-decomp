@@ -9,10 +9,10 @@ struct PageIndicator;
 
 struct TWindowSubComCardList : public TWindowMenu {
     TWindowSubComCardList(const NJS_POINT2 *position);
-    TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 arg3, s32 arg4);
+    TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 card_count, s32 empty_message);
     virtual ~TWindowSubComCardList();
     static const char *class_name;
-    void sub_80275360();
+    void refresh_page();
     void draw_card_list_selection(u8 *);
 
     virtual void render();

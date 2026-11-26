@@ -341,9 +341,9 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
 
     pos = 0;
     p = (u8 *)(file + *offset);
-    move_data(((&tag)), (const void *)(p), 4);
+    move_data(((&tag)), (p), 4);
     bswap_u32_in_place((u32 *)&tag);
-    move_data(((&size)), (const void *)(p + 4), 4);
+    move_data(((&size)), (p + 4), 4);
     bswap_u32_in_place(&size);
     p += 8;
     *offset += 8;
@@ -397,7 +397,7 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
     if (size_out != 0) {
         *size_out = size;
     }
-    move_data((buf), (const void *)(p), size);
+    move_data((buf), (p), size);
     DCFlushRange(buf, size);
     p += size;
     *offset += size;
@@ -406,17 +406,17 @@ bad:
     *type = 0x2A2A2A2A;
     return 0;
 next:
-    move_data(((&tag)), (const void *)(p), 4);
+    move_data(((&tag)), (p), 4);
     bswap_u32_in_place((u32 *)&tag);
     *offset += 4;
     tag = bswap32_value(tag);
     if (tag == 0x504F4630) {
-        move_data(((&size)), (const void *)(p + 4), 4);
+        move_data(((&size)), (p + 4), 4);
         bswap_u32_in_place(&size);
         p += 8;
         *offset += 4;
         while (size != 0) {
-            move_data(((&b0)), (const void *)(p), 1);
+            move_data(((&b0)), (p), 1);
             p++;
             *offset += 1;
             size--;
@@ -427,18 +427,18 @@ next:
                 off = b0 & 0x3F;
                 break;
             case 0x80:
-                move_data(((&b1)), (const void *)(p), 1);
+                move_data(((&b1)), (p), 1);
                 p++;
                 size--;
                 *offset += 1;
                 off = ((b0 << 8) & 0x3F00) | b1;
                 break;
             case 0xC0:
-                move_data(((&b1)), (const void *)(p), 1);
+                move_data(((&b1)), (p), 1);
                 size--;
-                move_data(((&b2)), (const void *)(p + 1), 1);
+                move_data(((&b2)), (p + 1), 1);
                 size--;
-                move_data(((&b3)), (const void *)(p + 2), 1);
+                move_data(((&b3)), (p + 2), 1);
                 p += 3;
                 size--;
                 *offset += 3;
@@ -480,7 +480,7 @@ void TObjPlayer::render_tree(void *model) {
             chunk_model_node_callback(static_cast<NJS_OBJECT *>(node));
         }
         if ((u32) *(u32 *)((s8 *)node + 0x2C) != 0U) {
-            TObjPlayer::render_tree((void *)(*(void **)((s8 *)node + 0x2C)));
+            TObjPlayer::render_tree((*(void **)((s8 *)node + 0x2C)));
         }
         pop_matrix();
         node = *(void **)((s8 *)node + 0x30);
@@ -529,7 +529,7 @@ s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
 loop_1:
         if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
-            TLobby__sub_803382E4();
+            draw_loading_compass();
             TLobby::run_frame();
             goto loop_1;
         }
@@ -550,7 +550,7 @@ void bswap_32(u32 *val) {
 void TObjEneRe4Sorcerer__sub_801E3F14(void) {  }
 void TObjEneRe4Sorcerer__sub_801E3F18(void) {  }
 
-void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32) {  }
+void set_texture_scroll(f32, f32) {  }
 
 void TObjEneRe4Sorcerer__sub_801E3F20(void) {  }
 

@@ -7,6 +7,7 @@
 
 struct WindowDrawContext;
 struct TexturedQuad;
+class TWindowLayoutRect;
 
 class TWindowBase : public TObject {
 public:
@@ -19,16 +20,18 @@ public:
     void resort_window_order();
     void close();
     void request_close();
+    void request_refresh();
+    void request_show();
     // The per-frame open/close animation every window runs from its run_task.
     void update_open_close();
     void update_window();
     void set_depth(f32 depth);
     void set_position(f32 *pos);
     void calc_inner_rect(WindowDrawContext *context);
-    void sub_8026CC28();
+    void bring_to_front();
     void update_window_entry_list(const WindowLayoutEntries *entries);
     void update_fade();
-    void draw_quest_message_frame(void *context);
+    void draw_quest_message_frame(WindowDrawContext *c);
     void init_window(u8 *, u8 *, s16);
     WindowDrawContext *setup_window_draw_context(f32 *scale);
     WindowDrawContext *draw_default_entry();
@@ -85,15 +88,13 @@ void hide_window(u8 *object);
 extern "C" {
 int get_area_total(void);
 }
-void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active);
+void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s32 active);
 // The highlight sweep drawn over a status window: begin sets the texture and blend
 // (skipped for UI themes 0 and 1), draw_window_sweep_strip draws it over quad, end restores.
 void begin_window_sweep_draw(s32 texture);
 void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context);
 void end_window_sweep_draw(s32 texture);
-void draw_window_scanlines(u8 *card, u8 *context);
+void draw_window_scanlines(TWindowBase *window, WindowDrawContext *context);
 bool is_balloon_overlapping(u8 *balloon, u8 *position, u8 *size);
-void window_request_refresh(u8 *help);
-void window_request_show(void *object);
 
 #endif

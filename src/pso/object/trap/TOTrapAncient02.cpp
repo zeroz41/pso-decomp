@@ -240,7 +240,7 @@ void TOTrapAncient02::draw_effect_chain() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    n = (NJS_OBJECT *)model;
+    n = model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     draw_ginja_model(n->model);
     push_matrix();
@@ -269,7 +269,7 @@ void TOTrapAncient02::render_particle_chain() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    n = (NJS_OBJECT *)model;
+    n = model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     setup_particle_tev(0);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));

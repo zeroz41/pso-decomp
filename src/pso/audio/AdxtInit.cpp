@@ -30,11 +30,11 @@ static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 1
 AdxtPlayer adx_stream_player_pool[16];
 
 void adxt_finish() {
-    s32 temp_r0;
+    s32 remaining;
 
-    temp_r0 = TLobby_init_ref_count - 1;
-    TLobby_init_ref_count = temp_r0;
-    if (temp_r0 == 0) {
+    remaining = TLobby_init_ref_count - 1;
+    TLobby_init_ref_count = remaining;
+    if (remaining == 0) {
         gcrna_bridge_shutdown();
         adxf_finish();
         adxstm_finish_fs();
@@ -43,7 +43,7 @@ void adxt_finish() {
         SVM_DelCbSvr(2, (saddr)((void *) (1)));
         SVM_DelCbSvr(2, (saddr)((void *) (3)));
         SVM_DelCbSvr(4, svm_cb_svr_handle);
-        TLobby__sub_803D3194();
+        svm_release_callback_tables();
         adx_unlock();
         adx_lock();
         adxb_finish();
@@ -66,7 +66,7 @@ void adxt_init() {
         adxstm_clear_requests();
         adxb_init();
         adxf_init();
-        TLobby__sub_803CC114();
+        gcrna_bridge_initialize();
         gcrna_bridge_set_error_callback(adxt_error_callback, NULL);
         memset(adx_stream_player_pool, 0, 0xA80);
         lsc_init();
@@ -87,7 +87,7 @@ s32 adxt_exec_fs_server_cb(s32) {
 }
 
 s32 adxt_exec_main_server_cb(s32) {
-    TLobby__sub_803C9608();
+    adxt_exec_server();
     return 0;
 }
 

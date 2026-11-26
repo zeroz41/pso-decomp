@@ -822,7 +822,7 @@ void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardC
 
 
 void flag_pending_area_transfer(void) {
-    if ((u32) main_phase_deferred_callback != 0U) {
+    if (main_phase_deferred_callback != 0U) {
         area_transfer_pending_flag = 1;
     }
 }
@@ -874,7 +874,7 @@ void TLobby::set_keyboard_mode(int a0) { main_phase_deferred_callback = a0; }
 void TLobby::flush_pending() {
     uaddr destination;
     s32 count;
-    if ((s32) pending_file_read_flush_requested != 0) {
+    if (pending_file_read_flush_requested != 0) {
         destination = pending_file_read_destination;
         pending_file_read_flush_requested = 0;
         if ((destination != 0U)) {
@@ -897,7 +897,7 @@ void TLobby::flush_checked_reads() {
     }
 }
 
-void TLobby::reset_read_state() { (*(int *)&pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
+void TLobby::reset_read_state() { (pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
 void TLobby::clear_player_slot_tables(s32 n) {
     s32 i;
     if (n == -1) {
@@ -972,7 +972,7 @@ void set_lobby_state_byte_flag(void) { lobby_state_byte_flag = 1; }
 
 
 void TLobby::reset_state_byte() {
-    if ((u8) lobby_wait_ready_flag == 0) {
+    if (lobby_wait_ready_flag == 0) {
         lobby_state_byte_flag = 0;
     }
 }
@@ -1130,7 +1130,6 @@ s32 TLobby::run_disk_error_check() {
 // The GSL archive close hook, the resource load tasks (TRelDataFile children of
 // resource_load_task_root, one per relocatable data file), the quest and text archive
 // decryption, the disc-file wrappers and TLobby::run_frame.
-extern s32 memcard_access_active;
 extern int player_load_load_state;
 extern "C" {
 
@@ -1446,7 +1445,7 @@ void TLobby::run_frame() {
     if (static_cast<s8>(poll_reset_request()) != 0) {
         flag_pending_area_transfer();
     }
-    TLobby__sub_803382E4();
+    draw_loading_compass();
     render_tick();
 }
 

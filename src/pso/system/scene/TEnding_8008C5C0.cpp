@@ -31,9 +31,9 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/text_800FA464.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/player/TObjPlayer_801D84CC.h"
 
 const char TEnding::class_name_string[] = "TEnding";
-void create_player_ending_motion(void);
 
 // Load and release hooks of the ending scene, in pairs: run_load_callback_table
 // calls the first of each pair, call_funcs_reverse the second, last pair first.
@@ -54,7 +54,7 @@ void (*ending_scene_callbacks[26])(void) = {
 };
 
 
-void fn_8008C4F4(void) {
+void release_ending_scene(void) {
     TLobby::stop_audio_streams();
     main_task.delete_layer_children();
     TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));

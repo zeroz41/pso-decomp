@@ -10,10 +10,7 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/unk/pso_carve_8020bf88.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-extern TObject *tl_02;
-extern TObject *tl_05;
-extern TObject *tl_06;
-extern TObject *tl_07;
+#include "pso/system/task/TMainTask.h"
 
 // The header is followed by the s16 flags of every object set, then of every enemy set.
 int pack_floor_set_flags(FloorSetFlagsPayload *buf) {

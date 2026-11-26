@@ -15,9 +15,9 @@ extern "C" {
 void VIWaitForRetrace(void);
 // Runs the SVM group 4 server callbacks.
 void flush_input(void);
-void TLobby__sub_803CBE20(void);
+void gcrna_bridge_init_buffers(void);
 void adx_bridge_set_loop_flag(AdxUiBridgeTarget *bridge, s32 enabled);
-s32 TLobby__sub_803CBE64(AdxUiBridgeTarget *bridge, s32 channel);
+s32 adx_ui_bridge_get_stream_id(AdxUiBridgeTarget *bridge, s32 channel);
 }
 
 #endif

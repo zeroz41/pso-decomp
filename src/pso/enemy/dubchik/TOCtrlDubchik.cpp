@@ -88,7 +88,7 @@ TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent
     hp = 0x12C;
     hpmax = 0x12C;
     view_range = 400.0f;
-    model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
     hover_height = 60.0f;
     bob_phase = 0;
     part_spread = 0.0f;
@@ -131,7 +131,7 @@ void TOCtrlDubchik::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        node = (NJS_OBJECT *)model;
+        node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
         push_matrix();

@@ -19,26 +19,19 @@ struct TWindowSubQuestBoard : public TObject {
     TQuestThreadBoard *quest_thread_board;
 
     static const char *class_name;
-    void set_board_flags(s32 value);
-    void set_card_window_flags(s32 value);
-    void clear_card_window_flags(s32 value);
-    void set_card_flags_scaled(s32 value);
-    int set_card_flags_direct(int card_flags_direct);
     virtual void render();
     virtual void run_task();
 };
 
 LAYOUT_ASSERT(TWindowSubQuestBoard_size, sizeof(TWindowSubQuestBoard) == 0x30);
 
-extern "C" {
-void *__dt__20TWindowSubQuestBoardFv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TWindowSubQuestBoard.cpp ---
-extern "C" {
-void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value);
-}
-// --- end of C functions
-
+// Option menu setters: write one field of the client's card window flags
+// (TWindowKeyBoardHard::set_card_window_flags), named by the bits they keep.
+void set_card_flags_1C00(saddr client_id, s32 value);
+void set_card_flags_300(saddr client_id, s32 value);
+void set_card_flag_8(saddr client_id, s32 value);
+void set_card_flag_4(saddr client_id, s32 value);
+void set_card_flag_2(saddr client_id, s32 value);
+int set_card_flag_1(saddr client_id, int value);
 
 #endif

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -125,11 +126,6 @@ const char *TWindowSubSymbolChat::class_name = "TWindowSubSymbolChat";
 static const f32 symbol_chat_window_size[2] = {203.0f, 78.0f};
 __declspec(section ".data") f32 symbol_chat_check_box_size[2] = {193.0f, 128.0f};
 
-struct SymbolChatArrowQuad { f32 x, y, x2, y2, u0, v0, u1, v1; };
-
-struct SymbolChatCountView { u8 pad[0x5C]; s32 count; };
-
-struct SymbolChatWindowView { u8 pad[0x24]; s32 ctrl; u8 pad2[0x34 - 0x28]; SymbolChatCountView *sub; };
 #pragma pop
 #pragma push
 #pragma inline_depth(1)
@@ -144,7 +140,7 @@ extern "C" {
 s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 
-void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window);
+void draw_second_window_arrow(TWindowSubSymbolChat *window);
 
 }
 #pragma pop
@@ -177,8 +173,6 @@ extern s32 close_child__20TWindowSubSymbolChatFv[];
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
-}
 #pragma pop
 
 #pragma push
@@ -381,7 +375,7 @@ void TWindowSubSymbolChat::run_task() {
             this->symbol_window->set_selection(selected_preset);
         }
         window = (u8 *)this->symbol_window;
-        copy_vec2(this->symbol_window->target_position, (void *)((void*)(get_window_layout_position(0x7B))));
+        copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7B))));
         this->symbol_window->tween_ticks = 6;
         if (this->main_menu == NULL) {
             this->main_menu = TWindowSubSymbolChat::open_main_menu(this);
@@ -461,7 +455,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         this->main_menu->open();
         if (this->symbol_list == NULL) {
-            this->symbol_list = TWindowSubSymbolChat__sub_8028233C(this);
+            this->symbol_list = create_new_parts_menu(this);
         }
         this->symbol_list->clear_flag_and_release();
         this->selected_value = 0xBU;
@@ -689,7 +683,7 @@ void TWindowSubSymbolChat::run_task() {
         if ((void *) this->second_symbol_window == NULL) {
             this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 1);
         }
-        this->second_symbol_window->m_64 = 1;
+        this->second_symbol_window->always_visible = 1;
         this->symbol_list = create_symbol_list_card();
         apply_symbol();
         this->selected_value = 0x1FU;
@@ -871,7 +865,7 @@ TWindowMenu *TWindowSubSymbolChat::open_edit_menu() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-TWindowMenu *TWindowSubSymbolChat__sub_8028233C(TWindowSubSymbolChat *chat) {
+TWindowMenu *create_new_parts_menu(TWindowSubSymbolChat *chat) {
     TWindowMenu *r = create_titled_window_menu_default(get_window_layout_position(0x79), 6, (saddr)TWindowSubStatusDisp::get_message_10(0xA9));
     chat->open_menu(r);
     return r;
@@ -945,7 +939,7 @@ TWindowMenu *TWindowSubSymbolChat::create_menu() {
 }
 
 TWindowMessageYesNo *TWindowSubSymbolChat::open_confirm_prompt() {
-    TWindowMessageYesNo *r = (TWindowMessageYesNo *)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    TWindowMessageYesNo *r = (TWindowMessageYesNo *)TWindowMessageYesNo::create((this), this->client_id, 0, 0);
     open_yes_no_prompt(r, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x44)), get_window_layout_position(0x7A), 178.0f);
     r->set_choice_menu_flag70_bit10();
     return r;
@@ -1062,15 +1056,15 @@ void TWindowSubSymbolChat::update_sub_window() {
         if (window_base != NULL) {
             window_base->close();
             this->second_symbol_window = NULL;
-            copy_vec2(this->symbol_window->target_position, (void *)((void*)(get_window_layout_position(0x7B))));
+            copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7B))));
             this->symbol_window->tween_ticks = 6;
         }
     } else {
         if (this->second_symbol_window == NULL) {
             this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
             this->second_symbol_window->set_selection(get_symbol_chat_receive_buffer());
-            this->second_symbol_window->m_64 = 1;
-            copy_vec2(this->symbol_window->target_position, (void *)((void*)(get_window_layout_position(0x7C))));
+            this->second_symbol_window->always_visible = 1;
+            copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7C))));
             this->symbol_window->tween_ticks = 6;
         }
         this->second_symbol_window->update_visibility();
@@ -1085,26 +1079,26 @@ s32 TWindowSubSymbolChat::is_card_confirmed() {
     return this->symbol_list->is_row_enabled(row) ? 1 : 0;
 }
 
-void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window) {
-    SymbolChatArrowQuad q;
+void draw_second_window_arrow(TWindowSubSymbolChat *window) {
+    TexturedQuad q;
     u32 color;
     f32 scale;
-    SymbolChatCountView *sub;
-    sub = window->sub;
+    TWindowChatSymbol *sub;
+    sub = window->second_symbol_window;
     if (sub != NULL) {
-        if (sub->count < 6) {
-            color = ((s32)(0.16666667f * (f32)(sub->count * 0xFF)) << 24) | 0xFFFFFF;
+        if (sub->open_tick < 6) {
+            color = ((s32)(0.16666667f * (f32)(sub->open_tick * 0xFF)) << 24) | 0xFFFFFF;
         } else {
             color = 0xFFFFFFFF;
         }
-        scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(window->ctrl);
+        scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(window->client_id);
         begin_screen_draw(1);
         set_texture_list(hud_texlist);
         set_draw_texture_and_color(0, color);
-        q.x = 482.0f;
-        q.y = 344.0f;
-        q.x2 = 14.0f + q.x;
-        q.y2 = 12.0f + q.y;
+        q.x0 = 482.0f;
+        q.y0 = 344.0f;
+        q.x1 = 14.0f + q.x0;
+        q.y1 = 12.0f + q.y0;
         q.u0 = 0.875f;
         q.v0 = 0.33984375f;
         q.u1 = 0.9296875f;
@@ -1118,7 +1112,7 @@ void TWindowSubSymbolChat::close_child(void *, void *) {
     void *chat;
     chat = TWindowSubSymbolChat::instance;
     if (chat != NULL) {
-        TWindowSubSymbolChat__sub_80281840((SymbolChatWindowView *)(chat));
+        draw_second_window_arrow((TWindowSubSymbolChat *)(chat));
     }
 }
 #pragma pop

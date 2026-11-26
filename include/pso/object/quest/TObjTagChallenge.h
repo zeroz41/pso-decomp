@@ -11,6 +11,6 @@ public:
     virtual void run_task();
 };
 
-void *create_obj_tag_challenge(void *tag_challenge);
+void *create_obj_tag_challenge(TObject *tag_challenge);
 
 #endif

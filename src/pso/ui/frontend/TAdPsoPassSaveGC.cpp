@@ -7,7 +7,7 @@
 
 #pragma readonly_strings on
 
-s32 TAdPsoPassSaveGC__data_805D6E80;
+s32 pso_pass_save_accepted;
 
 void TAdPsoPassSaveGC::render() {
     render_dialog();
@@ -19,12 +19,12 @@ saddr TAdPsoPassSaveGC::get_message_text() {
 
 
 void TAdPsoPassSaveGC::on_cancel() {
-    TAdPsoPassSaveGC__data_805D6E80 = 0;
+    pso_pass_save_accepted = 0;
     request_main_phase(0xF);
 }
 
 void TAdPsoPassSaveGC::on_accept() {
-    TAdPsoPassSaveGC__data_805D6E80 = 1;
+    pso_pass_save_accepted = 1;
     request_main_phase(0xF);
 }
 

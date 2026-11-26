@@ -52,7 +52,7 @@ void TMessageWindowController::append_quest_title() {
         switch (mode) {
         case 1:
         case 2:
-            text = get_selected_quest_text__19TQuestListChallengeFv();
+            text = get_selected_quest_text();
             break;
         }
     } else {
@@ -157,14 +157,14 @@ void TMessageWindowController::format_guild_message(s32 index, s32 flags) {
         text = (const char *)get_guild_text(index);
         memset(buffer, 0, 0x200);
         parse_message_text(text, buffer);
-        window->set_message((void *)buffer, (s32)(flags | 0x80));
+        window->set_message(buffer, (s32)(flags | 0x80));
     }
 }
 void TMessageWindowController::display_message(const char *text, s32 flags) {
     if (window != NULL) {
         memset(buffer, 0, 0x200);
         parse_message_text(text, buffer);
-        window->set_message((void *)buffer, (s32)(flags | 0x80));
+        window->set_message(buffer, (s32)(flags | 0x80));
     }
 }
 void TMessageWindowController::format_shop_message(s32 index, s32 flags) {
@@ -173,7 +173,7 @@ void TMessageWindowController::format_shop_message(s32 index, s32 flags) {
         text = (const char *)get_shop_text(index);
         memset(buffer, 0, 0x200);
         parse_message_text(text, buffer);
-        window->set_message((void *)buffer, (s32)(flags | 0x80));
+        window->set_message(buffer, (s32)(flags | 0x80));
     }
 }
 void TMessageWindowController::close() {

@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOCONTAINERANCIENTITEMRARE_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B08BC.h"
+#include "pso/object/container/TOContainerAncientItem.h"
 
-struct TOContainerAncientItemRare : public TUnk_804B08BC {
+struct TOContainerAncientItemRare : public TOContainerAncientItem {
     TOContainerAncientItemRare(void *set_data);
     virtual ~TOContainerAncientItemRare();
     virtual void apply_saved_state(s16 *, s32);

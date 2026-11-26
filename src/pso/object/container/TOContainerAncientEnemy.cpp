@@ -18,7 +18,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjContainerCommon.h"
-#include "pso/player/TUnk_804B08BC.h"
+#include "pso/object/container/TOContainerAncientItem.h"
 #include "pso/object/container/TOContainerAncientEnemy.h"
 #include "pso/object/container/TOContainerAncientEnemyCommon.h"
 #include "pso/object/container/TOContainerAncientEnemyRare.h"
@@ -225,7 +225,7 @@ void free_ancient_container_resources(void) {
 
 #pragma pop
 
-TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_data) {
+TOContainerAncientItem::TOContainerAncientItem(void *set_data) : TObjContainerCommon(tl_05, set_data) {
     mode = 0;
     actorFlags |= 0x60000000U;
     init_collision_body_parts(this, &container_ancient_enemy_collision_body_params, 1);
@@ -233,16 +233,16 @@ TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_da
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    model = get_bml_model(ancient_container_resource_bundle, 0);
     texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
-TUnk_804B08BC::~TUnk_804B08BC() {
+TOContainerAncientItem::~TOContainerAncientItem() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-void TUnk_804B08BC::update_state() {
+void TOContainerAncientItem::update_state() {
     switch (this->mode) {
     case 0:
         if (this->in_view != 0) {
@@ -252,7 +252,7 @@ void TUnk_804B08BC::update_state() {
     }
 }
 
-void TUnk_804B08BC::draw_model() {
+void TOContainerAncientItem::draw_model() {
     NJS_OBJECT *obj;
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
@@ -263,7 +263,7 @@ void TUnk_804B08BC::draw_model() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
-            obj = (NJS_OBJECT *)this->model;
+            obj = this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
             draw_ginja_model(obj->model);
@@ -286,7 +286,7 @@ void TUnk_804B08BC::draw_model() {
     }
 }
 
-void TUnk_804B08BC::spawn_break_effects() const {
+void TOContainerAncientItem::spawn_break_effects() const {
     if (this->mode == 1) {
         return;
     }
@@ -315,7 +315,7 @@ void TUnk_804B08BC::spawn_break_effects() const {
     play_container_break_sound(this);
 }
 
-TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TUnk_804B08BC(set_data) {
+TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TOContainerAncientItem(set_data) {
     m_name = container_ancient_item_common_name;
 }
 
@@ -341,7 +341,7 @@ void TOContainerAncientItemCommon::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TUnk_804B08BC(set_data) {
+TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TOContainerAncientItem(set_data) {
     m_name = container_ancient_item_rare_name;
     texlist = ancient_container_fragment_texture_lists[0];
 }
@@ -392,7 +392,7 @@ TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainer
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    model = get_bml_model(ancient_container_resource_bundle, 0);
     texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
@@ -422,7 +422,7 @@ void TOContainerAncientEnemy::draw_model() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
-            obj = (NJS_OBJECT *)this->model;
+            obj = this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
             draw_ginja_model(obj->model);

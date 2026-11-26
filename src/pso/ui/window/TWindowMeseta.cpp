@@ -49,7 +49,7 @@ void TWindowMeseta::render() {
 
 const char *TWindowMeseta::class_name = "TWindowMeseta";
 
-// inferred: window_meseta_layout_entries, the layout table TWindowMeseta__window_descriptor points at
+// inferred: window_meseta_layout_entries, the layout table meseta_window_descriptor points at
 // (a label and the meseta counter, then an all-zero record).
 struct MesetaWindowLayout {
     u32 cols;
@@ -63,7 +63,7 @@ MesetaWindowLayout window_meseta_layout_entries = {
     {3, {10.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},
     {5, {152.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 8, 0},
 };
-WindowDescriptor TWindowMeseta__window_descriptor = {
+WindowDescriptor meseta_window_descriptor = {
     {226.0f, 27.0f}, 50100.0f, &window_meseta_layout_entries, 0x82B,
 };
 
@@ -85,12 +85,12 @@ void TWindowMeseta::run_task() {
 }
 
 TWindowMeseta::~TWindowMeseta() {}
-TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
-    : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)position) {
+TWindowMeseta::TWindowMeseta(void *position, s32 client, s32 str)
+    : TWindowBase((u8 *)&meseta_window_descriptor, (s16)client, (u8 *)position) {
     WindowTextEntry *a;
     Sub_80269244 *b;
     m_name = TWindowMeseta::class_name;
-    client = arg2;
+    this->client = client;
     meseta = this->get_meseta_value();
     a = (WindowTextEntry *)get_array_entry(0);
     b = (Sub_80269244 *)get_array_entry(1);

@@ -16,13 +16,13 @@
 
 struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; };
 
-__declspec(section ".data") f32 TWindowDD__layout_constant_pair[2] = { mode_window_x, mode_window_y };
-TWindowPlacement TWindowDD__layout_constants = { mode_window_placement_x, mode_window_placement_y, mode_window_depth, 0, 3 };
+__declspec(section ".data") f32 word_select_mode_window_position[2] = { mode_window_x, mode_window_y };
+TWindowPlacement word_select_mode_window_placement = { mode_window_placement_x, mode_window_placement_y, mode_window_depth, 0, 3 };
 
 TWindowWordSelectMode *TWindowWordSelectMode::create() { return new TWindowWordSelectMode; }
 
 TWindowWordSelectMode::TWindowWordSelectMode()
-    : TWindowBase((u8 *)&TWindowDD__layout_constants, 4, (u8 *)TWindowDD__layout_constant_pair) {
+    : TWindowBase((u8 *)&word_select_mode_window_placement, 4, (u8 *)word_select_mode_window_position) {
     highlight_hidden = 1;
     grey_row_count = 2;
     selected_row = 2;
@@ -108,8 +108,8 @@ void TWindowWordSelectMode::render() {
     this->calc_inner_rect(ctx);
     reset_window_vertices(points, word_select_inverse_depth(this->draw_depth, 0.0f), -1);
     copy_window_point_table(points, 0);
-    TWindowDD__sub_80348A2C(ctx, points);
-    TWindowDD__sub_803489B8(ctx, points, 0);
+    set_frame_column_vertices_x(ctx, points);
+    set_frame_row_vertices_y(ctx, points, 0);
     count = TWindowDD::get_draw_count(hud_texlist);
     if (this->highlight_hidden == 0) {
         sel = this->selected_row;
@@ -117,7 +117,7 @@ void TWindowWordSelectMode::render() {
         sel = -1;
     }
     for (i = 0; i < 3; i++) {
-        TWindowDD__sub_803489B8(ctx, points, i);
+        set_frame_row_vertices_y(ctx, points, i);
         if (i == sel) {
             copy_window_point_table(points, 1);
             draw_window_vertices(points, 8, count, 1);
@@ -127,7 +127,7 @@ void TWindowWordSelectMode::render() {
         }
     }
     depth = word_select_inverse_depth(this->draw_depth, 0.2f);
-    TWindowDD__sub_803489B8(ctx, points, 0);
+    set_frame_row_vertices_y(ctx, points, 0);
     h = ctx->scale[1];
     step = window_dd_row_height * h;
     dv = mode_row_texture_height * mode_texel_scale;
@@ -151,7 +151,7 @@ void TWindowWordSelectMode::render() {
             color = 0xFF808080;
         }
         set_constant_material_color(color);
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
         q.y0 += step;
         q.y1 += step;
         q.v0 = q.v1;

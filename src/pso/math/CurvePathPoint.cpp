@@ -138,11 +138,11 @@ s32 get_vector_from_path(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 clo
         prev = acc;
     }
     if (idx == n - 1) {
-        VecCopy((Vec *)&a, &e[idx].pos);
-        VecCopy((Vec *)&b, &e[0].pos);
+        VecCopy(&a, &e[idx].pos);
+        VecCopy(&b, &e[0].pos);
     } else {
-        VecCopy((Vec *)&a, &e[idx].pos);
-        VecCopy((Vec *)&b, &e[idx + 1].pos);
+        VecCopy(&a, &e[idx].pos);
+        VecCopy(&b, &e[idx + 1].pos);
     }
     d.x = b.x - a.x;
     d.y = b.y - a.y;

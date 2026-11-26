@@ -80,7 +80,7 @@ extern const char decoration_file_suffix_online[7] = "ad.dat";
 extern const char decoration_file_suffix_offline[6] = "d.dat";
 
 void TSetManager::create() {
-    new TSetManager((TObject *)tl_02);
+    new TSetManager(tl_02);
 }
 
 void free_floor_decorations() {
@@ -376,8 +376,8 @@ void init_item_drop_tables(void) {
     memset(floor_object_set_counts, 0, 0x48);
     memset(floor_enemy_set_counts, 0, 0x48);
     memset(TLobby__data_80513D10, 0, 0x24);
-    quest_object_entries = (QuestObjectEntry *)TQuestVmDownLoadServer__sub_8007EBDC(0xBA0, 4);
-    enemy_state_records = (EnemyStateRecord *)TQuestVmDownLoadServer__sub_8007EBDC(0xB50, 0xC);
+    quest_object_entries = (QuestObjectEntry *)alloc_zeroed_array(0xBA0, 4);
+    enemy_state_records = (EnemyStateRecord *)alloc_zeroed_array(0xB50, 0xC);
     k = 0;
     for (i = 0; i < 0xBA0; i++) {
         quest_object_entries[i].drop_id_base = k++ + 0x100;

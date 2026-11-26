@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/task/TObject.h"
 
-NJS_TEXNAME lbl_804DBEC0[8] = {
+NJS_TEXNAME chr_select_ad_pic_2_texnames[8] = {
     {(char *)"f256_adpic01", 0, 0},
     {(char *)"f256_adpic02", 0, 0},
     {(char *)"f256_adpic03", 0, 0},
@@ -21,11 +21,11 @@ NJS_TEXNAME lbl_804DBEC0[8] = {
     {(char *)"f128_adpic07", 0, 0},
     {(char *)"f128_adpic08", 0, 0},
 };
-__declspec(section ".data") NJS_TEXLIST chr_select_ad_pic_2_texture_descriptor = {lbl_804DBEC0, 8};
+__declspec(section ".data") NJS_TEXLIST chr_select_ad_pic_2_texture_descriptor = {chr_select_ad_pic_2_texnames, 8};
 const char *TAdBackGC::class_name = "TAdBackGC";
 
 
-void TAdBackGC::sub_8029A6EC() {
+void TAdBackGC::draw_backdrop() {
     ColorLineVertex pos[4];
     ColorLineList fan;
     u32 col[4];
@@ -58,7 +58,7 @@ void TAdBackGC::render() {
         }
     } else if (TMainTask::get_render_pass() != 1) {
 draw:
-        sub_8029A6EC();
+        draw_backdrop();
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 0xA);
         draw_title_background_layer(&chr_select_ad_pic_2_texture_descriptor, 0, -1, m_depth);

@@ -37,7 +37,7 @@ TObjNpcMaleBase::TObjNpcMaleBase(TObject *parent, void *set_data) : TObjNpcMale(
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = (void *)shared_bml_archive->models->model;
+    this->model = shared_bml_archive->models->model;
     this->texlist = shared_bml_archive->models->texlist;
     this->setup_common();
 }

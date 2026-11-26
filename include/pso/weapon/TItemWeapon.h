@@ -52,7 +52,7 @@ struct TItemWeapon : public TItemEquipBase {
     virtual ~TItemWeapon();
     saddr get_tp();
     void update_active_game_effect();
-    void launch_rare_weapon_special(void *, s32, f32);
+    void launch_rare_weapon_special(Vec *, s32, f32);
     void fill_status_info(S_802E451C *params);
     void drain_owner_hp_fraction(f32);
     virtual void *get_center();
@@ -99,7 +99,7 @@ struct TItemWeapon : public TItemEquipBase {
     // Copies what an item of this class keeps when it is replaced by a new
     // item code (replace_item_with_new_code) into the new item's data.
     static void carry_over_stats(TItemData *data, TItem *item);
-    void fire_shot_at_target(Vec *origin, void *model, s32 angle);
+    void fire_shot_at_target(Vec *origin, NJS_OBJECT *model, s32 angle);
     // csnVector from the owner's centre at point's height to point: the
     // wall in between, or NULL.
     CsnHit *trace_from_owner(Vec *point);

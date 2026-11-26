@@ -152,7 +152,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     this->clear_lobby_object_state();
     init_position_vectors();
     apply_actor_gravity(this, (s32 *)(0), 0.0f);
-    model = (void *)illGillResource->models->model;
+    model = illGillResource->models->model;
     texlist = illGillResource->models->texlist;
     motion_list = illGillResource->motions;
     action_table = illGillActions;
@@ -1009,7 +1009,7 @@ void TObjEneIllGill::update_death_fall() {
     {
       play_sound_effect(0x4003A358, &position, 0, 0);
       TDeadSpot::spawn_kind0_scale15(&position, 0xA);
-      fn_800D911C(&position);
+      create_particle_emitter_pair(&position);
       this->phase = 4;
       this->deathTimer = 0xA;
       return;

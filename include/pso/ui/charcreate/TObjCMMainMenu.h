@@ -54,13 +54,13 @@ public:
     f32 reveal;
     f32 submenu_fade;
     f32 slide_offset;
-    f32 unknown44;
+    f32 name_fade;  // 0-1 alpha of the character name drawn under the menu
     f32 progress;
     s32 idle_ticks;
     TObject* nodes;
     f32 preview;
 public:
-    static s32 validate_character_name(s8 *arg0);
+    static s32 validate_character_name(s8 *name);
     s32 is_state_4();
     s32 is_state_3();
     static void *create_fade(void *duration, void *mode);
@@ -106,7 +106,7 @@ LAYOUT_ASSERT(CreationMainMenu_reveal_ticks_offset, offsetof(TObjCMMainMenu,reve
 LAYOUT_ASSERT(CreationMainMenu_reveal_offset, offsetof(TObjCMMainMenu,reveal)==0x38);
 LAYOUT_ASSERT(CreationMainMenu_submenu_fade_offset, offsetof(TObjCMMainMenu,submenu_fade)==0x3C);
 LAYOUT_ASSERT(CreationMainMenu_slide_offset_offset, offsetof(TObjCMMainMenu,slide_offset)==0x40);
-LAYOUT_ASSERT(CreationMainMenu_unknown44_offset, offsetof(TObjCMMainMenu,unknown44)==0x44);
+LAYOUT_ASSERT(CreationMainMenu_name_fade_offset, offsetof(TObjCMMainMenu,name_fade)==0x44);
 LAYOUT_ASSERT(CreationMainMenu_progress_offset, offsetof(TObjCMMainMenu,progress)==0x48);
 LAYOUT_ASSERT(CreationMainMenu_idle_ticks_offset, offsetof(TObjCMMainMenu,idle_ticks)==0x4C);
 LAYOUT_ASSERT(CreationMainMenu_nodes_offset, offsetof(TObjCMMainMenu,nodes)==0x50);

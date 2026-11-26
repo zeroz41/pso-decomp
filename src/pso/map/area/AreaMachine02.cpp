@@ -26,7 +26,7 @@ s32 init_machine_b_scene(void) {
     }
     init_area_lights();
     TLobby::create_tasks();
-    TLobby__sub_801403B4(0);
+    debug_area_hook(0);
     if (is_split_screen() != 0) {
         play_area_music("machin_b.adx");
     } else {

@@ -513,7 +513,7 @@ void TObjSeabedSuisoBrakable::pre_draw() {
     s32 entry;
 
     if (kind == 2) {
-        node = find_object_node((NJS_OBJECT *)model, 2);
+        node = find_object_node(model, 2);
         if (last_uv_scroll_tick != actor_frame_tick) {
             if (node != NULL && node->model != NULL) {
                 entry = get_texture_entry(1);
@@ -525,7 +525,7 @@ void TObjSeabedSuisoBrakable::pre_draw() {
         }
     }
     if (kind == 0) {
-        node = find_object_node((NJS_OBJECT *)model, 8);
+        node = find_object_node(model, 8);
         if (last_uv_scroll_tick != actor_frame_tick) {
             if (node != NULL && node->model != NULL) {
                 entry = get_texture_entry(2);

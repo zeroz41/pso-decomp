@@ -26,7 +26,7 @@ TWindowStatusGauge::TWindowStatusGauge(StatusGaugeLayout *source, s32 client)
     x = source->pos[0];
     y = source->pos[1];
     depth = source->depth;
-    scale = source->scale;
+    length = source->length;
     color = source->color;
     flags = (u16)source->flags;
     maximum = source->maximum;
@@ -42,7 +42,7 @@ void TWindowStatusGauge::update() {
     if (maximum <= 0.0f || target <= 0.0f) {
         goal = 0.0f;
     } else {
-        goal = (target * scale) / maximum;
+        goal = (target * length) / maximum;
     }
     diff = goal - width;
     if (fabs_float(diff) < 2.0f) {
@@ -82,7 +82,7 @@ void TWindowStatusGauge::render(WindowDrawContext *ctx) {
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(11, -1);
     if (this->flags & 8) {
-        TWindowSubStatusDisp__sub_80256C40(this, ctx, &pos, depth);
+        draw_gauge_frame(ctx, &pos, depth);
     }
     if (avail > 0.0f) {
         set_constant_material_color(this->color);
@@ -112,12 +112,12 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     q.u1 = (230.0f + w) / 256.0f;
     q.v1 = 0.14453125f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
     if (len <= 4.0f) {
         return;
     }
-    w = (len < scale - 4.0f) ? len - 4.0f : scale - 8.0f;
+    w = (len < length - 4.0f) ? len - 4.0f : length - 8.0f;
     q.x0 = 4.0f + pos->x;
     q.y0 = pos->y;
     q.x1 = q.x0 + w;
@@ -127,9 +127,9 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     q.u1 = 0.97265625f;
     q.v1 = 0.14453125f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
-    end = scale - 4.0f;
+    end = length - 4.0f;
     if (len <= end) {
         return;
     }
@@ -143,14 +143,14 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     q.u1 = (252.0f + w) / 256.0f;
     q.v1 = 0.14453125f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
 }
 
-void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth) {
+void TWindowStatusGauge::draw_gauge_frame(WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth) {
     TexturedQuad q;
     f32 w;
-    w = self->scale - -2.0f;
+    w = this->length - -2.0f;
     q.x0 = -1.0f + pos->x;
     q.y0 = -1.0f + pos->y;
     q.x1 = 20.0f + q.x0;
@@ -160,7 +160,7 @@ void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawCont
     q.u1 = 0.2265625f;
     q.v1 = 0.96875f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
     q.x0 = 20.0f + (-1.0f + pos->x);
     q.y0 = -1.0f + pos->y;
@@ -171,7 +171,7 @@ void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawCont
     q.u1 = 0.30859375f;
     q.v1 = 0.96875f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
     q.x0 = ((-1.0f + pos->x) + w) - 20.0f;
     q.y0 = -1.0f + pos->y;
@@ -182,7 +182,7 @@ void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawCont
     q.u1 = 0.48828125f;
     q.v1 = 0.96875f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
 }
 
@@ -193,7 +193,7 @@ void TWindowStatusGauge::calc_bar_width() {
     if (max <= 0.0f || (target = this->target) <= 0.0f) {
         v = 0.0f;
     } else {
-        v = (target * this->scale) / max;
+        v = (target * this->length) / max;
     }
     this->width = v;
 }

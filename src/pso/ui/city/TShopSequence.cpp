@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 #pragma readonly_strings on
 
@@ -24,10 +25,6 @@ TCameraConversation *set_service_counter_camera(void *sequence, s32 counter) {
         return create_conversation_camera(service_counter_camera_table[counter]);
     }
     return create_conversation_camera(service_counter_camera_alt_table[counter]);
-}
-extern "C" {
-
-s32 is_split_screen();
 }
 
 int TShopSequence::is_message_ready() {

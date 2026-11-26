@@ -3,19 +3,12 @@
 
 #include "types.h"
 
-// Fills a game list row: lock icon, game name, level, mode mark, difficulty and player count.
-void fill_game_list_row(void *row, s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mark, s8 level, s32 index);
+// Fills a game list row: lock icon, game name, episode, mode, difficulty and player count.
+void fill_game_list_row(void *row, s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mode, s8 episode, s32 index);
 
 extern "C" {
-void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1);
+void get_difficulty_name(void *unused, s8 value);
 int TWindowSubStatusDisp__sub_80338B88(void *p);
 }
-
-// --- C functions defined in TWindowSubStatusDisp_80338740.cpp ---
-extern "C" {
-void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1);
-int TWindowSubStatusDisp__sub_80338B88(void *p);
-}
-// --- end of C functions
 
 #endif

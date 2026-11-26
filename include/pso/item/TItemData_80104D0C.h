@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-saddr find_eligible_combination_recipe(saddr arg0, u8 *item);
+saddr find_eligible_combination_recipe(saddr player, u8 *item);
 
 #endif

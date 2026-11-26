@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -129,10 +130,10 @@ void TWindowSubSymbolChatPartsSet::set_part_sprite(WindowSpritePart *sprite, s16
     const NJS_POINT2 *e;
     const NJS_POINT2 *size;
     if (id == -1) {
-        ((TWindowHelpItem *)sprite)->set_flag0_bit2();
+        ((TWindowLayoutEntry *)sprite)->hide();
         return;
     }
-    ((TWindowSubStatusDisp *)sprite)->clear_visible_flag();
+    ((TWindowLayoutEntry *)sprite)->show();
     if (id < 0x30) {
         size = &symbol_chat_part_size_table[0];
     } else if (id < 0x3C) {
@@ -173,14 +174,14 @@ void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, Wi
     f32 v;
     const NJS_POINT2 *uv;
     if (code == 0xFF) {
-        ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
-        ((TWindowHelpItem *)help)->set_flag0_bit2();
-        ((TWindowHelpItem *)alternate)->set_flag0_bit2();
+        ((TWindowLayoutEntry *)shortcut_icon)->hide();
+        ((TWindowLayoutEntry *)help)->hide();
+        ((TWindowLayoutEntry *)alternate)->hide();
         return;
     }
-    ((TWindowSubStatusDisp *)shortcut_icon)->clear_visible_flag();
-    ((TWindowSubStatusDisp *)help)->clear_visible_flag();
-    ((TWindowSubStatusDisp *)alternate)->clear_visible_flag();
+    ((TWindowLayoutEntry *)shortcut_icon)->show();
+    ((TWindowLayoutEntry *)help)->show();
+    ((TWindowLayoutEntry *)alternate)->show();
     u = 32.0f * (f32)(code & 7);
     v = 32.0f * (f32)((code >> 3) & 7);
     help->kind = ((code >> 6) & 3) + 7;
@@ -192,12 +193,12 @@ void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, Wi
         shortcut_icon->y = help->y;
         set_sprite_dimensions(shortcut_icon, 50.0f, 40.0f);
         set_sprite_uv_from_pixels(shortcut_icon, uv->x, uv->y);
-        ((TWindowHelpItem *)alternate)->set_flag0_bit2();
+        ((TWindowLayoutEntry *)alternate)->hide();
     } else {
         set_sprite_dimensions(help, 30.0f, 30.0f);
         alternate->x = help->x;
         alternate->y = help->y;
-        ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
+        ((TWindowLayoutEntry *)shortcut_icon)->hide();
     }
     set_sprite_uv_from_pixels(help, u, v);
     if (flip_u != 0) {
@@ -264,7 +265,7 @@ void TWindowSubSymbolChat::init_layout_entries(saddr player) {
 }
 
 void TWindowChatSymbol::update_visibility() {
-    if (((s32) this->m_64 == 0) && (selected_preset == NULL || is_symbol_chat_preset_in_use(selected_preset) == 0)) {
+    if (((s32) this->always_visible == 0) && (selected_preset == NULL || is_symbol_chat_preset_in_use(selected_preset) == 0)) {
         this->disallow_rendering();
         return;
     }
@@ -287,20 +288,20 @@ void TWindowChatSymbol::set_from_key(s32 index) {
 #pragma push
 #pragma fp_contract on
 void TWindowChatSymbol::render() {
-    u8 *c_arg;
+    WindowDrawContext *c_arg;
 
-    c_arg = reinterpret_cast<u8 *>(draw_default_entry());
-    if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
-        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) this->open_tick / 7.5f);
-        *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
+    c_arg = draw_default_entry();
+    if (c_arg->open_tick < 0) {
+        c_arg->scale[0] = (f32) ((f32) this->open_tick / 7.5f);
+        c_arg->scale[1] = (f32) c_arg->scale[0];
     }
     draw_quest_message_frame(c_arg);
-    *(f32 *)((s8 *)c_arg + 0x10) = (f32) ((0.5f * (frame_size[0] - 136.0f)) + *(f32 *)((s8 *)c_arg + 0x10));
-    *(f32 *)((s8 *)c_arg + 0x14) = (f32) ((0.5f * (this->frame_size[1] - 90.0f)) + *(f32 *)((s8 *)c_arg + 0x14));
+    c_arg->inner_x = (f32) ((0.5f * (frame_size[0] - 136.0f)) + c_arg->inner_x);
+    c_arg->inner_y = (f32) ((0.5f * (this->frame_size[1] - 90.0f)) + c_arg->inner_y);
     draw_visible_window_entries(
         this,
         &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(c_arg));
+        c_arg);
 }
 #pragma pop
 
@@ -321,5 +322,5 @@ TWindowChatSymbol::TWindowChatSymbol(const NJS_POINT2 *position, saddr size) : T
     this->m_name = window_chat_symbol_name;
     set_size((f32 *)size);
     this->selected_preset = 0;
-    this->m_64 = 0;
+    this->always_visible = 0;
 }

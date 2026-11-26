@@ -237,7 +237,7 @@ void TObjPlayer::send_state_sync() {
         if (lobby_animation == action_provider->get_alt_chair_sit_action()) {
             pkt.set_alt_chair();
         }
-        if (TKeyBoardControl__sub_801A58D8() != 0) {
+        if (is_keyboard_shift_held() != 0) {
             pkt.set_keyboard();
         }
         pkt.send();
@@ -535,7 +535,7 @@ void TObjPlayer::send_6x58_lobby_animation() {
         pkt.init();
         pkt.header.client_id = get_entity_id();
         pkt.animation_number = lobby_animation;
-        if (TKeyBoardControl__sub_801A58D8() != 0) {
+        if (is_keyboard_shift_held() != 0) {
             pkt.set_keyboard();
         }
         pkt.send();
@@ -638,7 +638,7 @@ void TObjPlayer::send_6x57() {
 #pragma opt_dead_assignments off
 void TObjPlayer::update_off_floor_state() {
   f32 alpha;
-  s16 *new_var;
+  s16 *phase_ptr;
   if (is_on_current_floor() != 0)
   {
     this->clear_state_flags(4);
@@ -655,8 +655,8 @@ void TObjPlayer::update_off_floor_state() {
       if (alpha < 0.0f)
     {
       alpha = 0.0f;
-      new_var = &this->phase;
-      *new_var = 1;
+      phase_ptr = &this->phase;
+      *phase_ptr = 1;
       this->set_actor_flags(0x02000000);
       this->clear_player_status_flag(0, 1);
     }
@@ -1139,8 +1139,8 @@ s32 TObjPlayer::try_change_action() {
 
 void TObjPlayer::clear_flag() { clear_actor_flags((uaddr)((void*)((void*)65536))); clear_velocity(); }
 
-void TObjPlayer::apply_velocity_if_free(void *player) {
-    TObjPlayer *p = (TObjPlayer *)player;
+void TObjPlayer::apply_velocity_if_free(TObjPlayer *player) {
+    TObjPlayer *p = player;
     void *x = (void *)p->resolve_move_collision();
     if (x == NULL) {
         p->apply_velocity();
@@ -1581,7 +1581,7 @@ void TObjPlayer::enter_death_state() {
                 culprit = find_entity_by_id(killer);
                 record_death(culprit, 1);
             }
-            draw_player_status(this, (void *) (entity), "\tC9");
+            draw_player_status(this, (entity), "\tC9");
         }
         draw_player_status(this, this, "\tC8");
         if (this->is_locally_controlled() != 0) {
@@ -2345,7 +2345,7 @@ void release_all_players_control_lock(void) {
 
 void release_photon_blast_player_holds(u16 *p) {
     s32 i;
-    uaddr obj;
+    TObjPlayer *obj;
     if (p != NULL) {
         i = 0;
         while (*p != 0xFFFF) {
@@ -2353,9 +2353,9 @@ void release_photon_blast_player_holds(u16 *p) {
             if (id >= 12) {
                 break;
             }
-            obj = (uaddr)get_player_by_client_id(id);
+            obj = get_player_by_client_id(id);
             if (obj != 0) {
-                ((TObjPlayer *)obj)->clear_flag_200();
+                obj->clear_flag_200();
             }
             i++;
             if (i >= 12) {
@@ -2471,10 +2471,7 @@ void TObjPlayer::update_photon_blast_action() {
     else
       if ((this->frame) <= (this->get_photon_blast_hold_frame() - 1.0f))
     {
-      if (1)
-      {
-        this->photon_blast_gauge.set_field_0c(0.2f);
-      }
+      this->photon_blast_gauge.set_field_0c(0.2f);
     }
       this->photon_blast_gauge.decrement_countdown();
       if (this->photon_blast_gauge.get_countdown() < 0)
@@ -2684,7 +2681,7 @@ void handle_6x33_revive_player(G_RevivePlayer_6x33 *command) {
 
 void send_6x33_revive_player(u16 client_id, u16 target_id) {
     G_RevivePlayer_6x33 pkt;
-    TObjChara *chara = (TObjChara *)get_player_by_client_id(static_cast<u16>(client_id));
+    TObjChara *chara = (TObjChara *)get_player_by_client_id(client_id);
     if (chara == NULL || chara->obj_isState2_324() == 0) {
         pkt.init();
         pkt.header.client_id = client_id;
@@ -5204,7 +5201,7 @@ void G_AttackFinished_6x46::bswap_received() {
 }
 
 G_AttackFinished_6x46::G_AttackFinished_6x46() {
-    TObjPlayer__sub_8012AF00(&targets);
+    construct_captured_target_list(&targets);
     header.subcommand = 0x46;
     header.size = sizeof(G_AttackFinished_6x46) / 4;
 }
@@ -5703,8 +5700,8 @@ void PlayerAttackController::set_recovery_timer(s32 frames) { recovery_timer = f
 s32 PlayerAttackController::get_recovery_timer() { return recovery_timer; }
 
 void TObjPlayer::request_heavy_attack_particles() {
-    u16 *arg0 = (u16 *)this;
-    emit_heavy_attack_particles((saddr)((s8 *)arg0 + 4), *arg0);
+    u16 *record = (u16 *)this;
+    emit_heavy_attack_particles((saddr)((s8 *)record + 4), *record);
 }
 
 #pragma push

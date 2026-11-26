@@ -9,11 +9,11 @@
 
 
 extern s32 info_board_state_flags;
-extern u32 information_board_response_buffer;
+extern TRecvInfoBoard *information_board_response_buffer;
 
 
-void TLobby::init_once_data(u32 buffer) {
-    if ((u32) information_board_response_buffer == 0U) {
+void TLobby::request_info_board(TRecvInfoBoard *buffer) {
+    if (information_board_response_buffer == NULL) {
         information_board_response_buffer = buffer;
         info_board_state_flags &= 0xFFFFFFFD;
         if (protocol_instance != NULL) {
@@ -25,21 +25,21 @@ void TLobby::init_once_data(u32 buffer) {
 void TLobby::flush_pending_send() {
     if (info_board_state_flags & 1) {
         if (protocol_instance != NULL) {
-            protocol_instance->send_text_packet_D9((char *)(TLobby::get_card_window_field()));
+            protocol_instance->send_text_packet_D9(TLobby::get_info_board_text());
         }
         info_board_state_flags &= 0xFFFFFFFE;
     }
 }
 
-saddr TLobby::get_card_window_field() {
-    return get_character_save_record(0xFFFF) + 0x20FC;
+char *TLobby::get_info_board_text() {
+    return ((CharacterSaveRecord *)get_character_save_record(0xFFFF))->info_board_text;
 }
 void TLobby::set_info_board_text(char *text) {
-    u8 *board_text;
-    board_text = (u8 *)(get_character_save_record((0xFFFFU)) + 0x20FC);
-    TWindowSubComCard::mask_profanity_words(text, (char *)get_shared_text_buffer());
-    strncpy((char *)board_text, (char *)get_shared_text_buffer(), 0xAB);
-    *(s8 *)((s8 *)board_text + 0xAB) = 0;
+    char *board_text;
+    board_text = ((CharacterSaveRecord *)get_character_save_record(0xFFFFU))->info_board_text;
+    TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+    strncpy(board_text, get_shared_text_buffer(), 0xAB);
+    board_text[0xAB] = 0;
     info_board_state_flags |= 1;
 }
-void TLobby::reset_info_board() { (*(int *)&info_board_state_flags) = 0; (*(int *)&information_board_response_buffer) = 0; }
+void TLobby::reset_info_board() { (info_board_state_flags) = 0; (information_board_response_buffer) = 0; }

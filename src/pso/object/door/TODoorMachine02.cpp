@@ -83,7 +83,7 @@ void TODoorMachine02::render() {
         unlocked = door_flags & 1;
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
         if (object_state == DOOR_CLOSED) {
-            node = ((NJS_OBJECT *)model)->child;
+            node = (model)->child;
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
             if (unlocked != 1) {
@@ -106,7 +106,7 @@ void TODoorMachine02::render() {
                 set_constant_material(&chunk_material_color_half_alpha_f32);
                 model_render_flags = saved_model_render_flags;
             }
-            node = ((NJS_OBJECT *)model)->child->sibling;
+            node = (model)->child->sibling;
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
         } else {
@@ -157,7 +157,7 @@ TODoorMachine02::~TODoorMachine02() {
 TODoorMachine02::TODoorMachine02(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_machine02_class_name;
     apply_object_set_data(set_data);
-    model = (void *)bml_resource->models[0].model;
+    model = bml_resource->models[0].model;
     texlist = bml_resource->models[0].texlist;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

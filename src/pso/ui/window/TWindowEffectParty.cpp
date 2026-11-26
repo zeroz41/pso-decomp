@@ -16,12 +16,11 @@
 
 
 
-struct Pos_8024FAD8 { s32 a, b, c; };
 extern "C" {
 extern const f64 party_marker_angle_scale;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
-extern const char *TWindowEffectParty__name;
+extern const char *TWindowEffectParty::class_name;
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
@@ -33,14 +32,14 @@ void *get_simple_status_window(s8 i) {
 }
 
 TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id) : TObject(object) {
-    Pos_8024FAD8 p;
-    m_name = TWindowEffectParty__name;
+    Vec p;
+    m_name = TWindowEffectParty::class_name;
     this->source_slot = source;
-    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->source_slot, &this->pos_x);
+    set_slot_position(this->source_slot, &this->pos_x);
     this->target_slot = target;
-    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->target_slot, &this->target_x);
+    set_slot_position(this->target_slot, &this->target_x);
     this->calc_effect_position(&p);
-    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)effect_id, (s32)(0xC0));
+    this->m_particle = spawn_continuous_particle_effect_with_flags(&p, (saddr)effect_id, (s32)(0xC0));
     this->state = 0;
 }
 
@@ -49,7 +48,7 @@ TWindowEffectParty::~TWindowEffectParty() {
 }
 
 void TWindowEffectParty::run_task() {
-    s32 pos;
+    Vec pos;
     u8 slot;
 
     void *window;
@@ -90,7 +89,7 @@ void TWindowEffectParty::run_task() {
 void TWindowEffectParty::render() {  }
 
 #pragma readonly_strings on
-const char *TWindowEffectParty__name = "TWindowEffectParty";
+const char *TWindowEffectParty::class_name = "TWindowEffectParty";
 
 void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     s32 id;
@@ -143,9 +142,8 @@ void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     return w;
 }
 
-void TWindowEffectParty::set_slot_position(s32 unused, s32 slot, f32 *position) {
+void TWindowEffectParty::set_slot_position(s32 slot, f32 *position) {
     TWindowBase *window;
-    (void)unused;
 
     if (slot <= 0) {
         copy_vec2(position, (void*)(get_window_layout_position(0x1C)));
@@ -160,11 +158,10 @@ void TWindowEffectParty::set_slot_position(s32 unused, s32 slot, f32 *position) 
     }
 }
 
-void TWindowEffectParty::calc_effect_position(void *out_arg) {
-    f32 *out = (f32 *)out_arg;
-    out[0] = this->pos_x;
-    out[1] = this->pos_y;
-    out[2] = (f32)(-1.0f / get_scale__15TWindowCtrlMainFv(local_client_id));
+void TWindowEffectParty::calc_effect_position(Vec *out) {
+    out->x = this->pos_x;
+    out->y = this->pos_y;
+    out->z = (f32)(-1.0f / get_scale__15TWindowCtrlMainFv(local_client_id));
 }
 
 s32 TWindowEffectParty::step_toward_target(f32 to_x, f32 to_y) {

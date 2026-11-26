@@ -29,14 +29,11 @@
 
 #pragma readonly_strings on
 
-struct Ent_8027CFC8 { u8 pad[0x20]; s32 label; };
-
 // The {width, height} of the option value window create_option_value_window opens.
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
 
 extern "C" {
-extern Ent_8027CFC8 quest_board_handlers[];
-int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
+int set_card_window_flags__19TWindowKeyBoardHardFlll(int, int, int);
 }
 
 const char *TWindowSubQuestBoard::class_name = "TWindowSubQuestBoard";
@@ -54,11 +51,11 @@ TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *client) : TObj
     select_window = new TWindowSubQuestBoardSelect();
     this->quest_thread_board = NULL;
     this->state = 0;
-    TWindowCtrl__sub_8027D214();
+    set_ctrl_flag_bit4();
 }
 
 TWindowSubQuestBoard::~TWindowSubQuestBoard() {
-    TWindowCtrl__sub_8027D1F8();
+    clear_ctrl_flag_bit4();
     if (select_window != NULL) { select_window->close(); select_window = NULL; }
 }
 
@@ -95,30 +92,26 @@ void TWindowSubQuestBoard::run_task() {
 
 void TWindowSubQuestBoard::render() {  }
 
-int TWindowSubQuestBoard::set_card_flags_direct(int card_flags_direct) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, card_flags_direct, -2); }
+int set_card_flag_1(saddr client_id, int value) { return set_card_window_flags__19TWindowKeyBoardHardFlll(client_id, value, -2); }
 
-void TWindowSubQuestBoard::set_card_flags_scaled(s32 value) {
-    saddr client_id = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 2, -3);
+void set_card_flag_2(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 2, -3);
 }
 
-void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 4, -5);
+void set_card_flag_4(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 4, -5);
 }
 
-void TWindowSubQuestBoard::clear_card_window_flags(s32 value) {
-    saddr client_id = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 8, -9);
+void set_card_flag_8(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 8, -9);
 }
 
-void TWindowSubQuestBoard::set_card_window_flags(s32 value) {
-    saddr client_id = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 8, -0x301);
+void set_card_flags_300(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value << 8, -0x301);
 }
 
-void TWindowSubQuestBoard::set_board_flags(s32 value) {
-    saddr client_id = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 0xA, -0x1C01);
+void set_card_flags_1C00(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value << 0xA, -0x1C01);
 }
 
 TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {
@@ -255,22 +248,22 @@ void TWindowSubOption::update_quest_board_card_flags() {
     value = value_window->update_selected_item();
     switch (selected_menu_value) {
     case 0:
-        ((TWindowSubQuestBoard *)(client_id))->set_card_flags_direct(value);
+        set_card_flag_1(client_id, value);
         return;
     case 1:
-        ((TWindowSubQuestBoard *)(client_id))->set_card_flags_scaled(value);
+        set_card_flag_2(client_id, value);
         return;
     case 2:
-        TWindowSubQuestBoard__sub_8027CF50(client_id, value);
+        set_card_flag_4(client_id, value);
         return;
     case 4:
-        ((TWindowSubQuestBoard *)(client_id))->clear_card_window_flags(value);
+        set_card_flag_8(client_id, value);
         return;
     case 3:
-        ((TWindowSubQuestBoard *)(client_id))->set_card_window_flags(value);
+        set_card_flags_300(client_id, value);
         return;
     case 5:
-        ((TWindowSubQuestBoard *)(client_id))->set_board_flags(value);
+        set_card_flags_1C00(client_id, value);
         return;
     }
 }

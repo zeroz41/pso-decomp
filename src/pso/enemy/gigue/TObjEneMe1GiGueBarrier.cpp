@@ -102,7 +102,7 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj)
     timer = owner->get_barrier_duration();
     owner->set_barrier_active();
     phase = 0;
-    model = (void *)me1_gi_gue_barrier_barrier_resource_object->models[2].model;
+    model = me1_gi_gue_barrier_barrier_resource_object->models[2].model;
     models = me1_gi_gue_barrier_barrier_resource_object->models;
     texlist = models[2].texlist;
     set_action_table(me1_gi_gue_barrier_animation_definitions);

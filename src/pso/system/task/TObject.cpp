@@ -16,8 +16,8 @@
 #include "pso/system/debug_print.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/render/GinjaTextureMatrices.h"
 
-extern u32 model_render_flags;
 
 // 0 while the scene tree is drawn for geometry, particles and UI; 1 during
 // the effects traversal and the deferred-object pass (see TMainTask::render).

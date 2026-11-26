@@ -250,9 +250,9 @@ void TItemShootParticle::hook() {
     }
 }
 
-s32 create_gun_shot(saddr owner, saddr pos, saddr endpoint, f32 life) {
-    spawn_particle_effect((const Vec *)pos, 9);
-    return (saddr)new TItemShootGun((void *)owner, (const Vec *)pos, (const Vec *)endpoint, life);
+s32 create_gun_shot(saddr owner, Vec *pos, Vec *endpoint, f32 life) {
+    spawn_particle_effect(pos, 9);
+    return (saddr)new TItemShootGun((void *)owner, pos, endpoint, life);
 }
 
 u32 TItemShootGun::create(saddr owner, saddr pos, saddr endpoint, f32 life) {

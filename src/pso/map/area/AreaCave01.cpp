@@ -30,7 +30,7 @@ s32 init_cave_b_stage(void) {
     }
     init_area_lights();
     TLobby::create_tasks();
-    TLobby__sub_801403B4(0);
+    debug_area_hook(0);
     if (is_split_screen() != 0) {
         play_area_music("cave_b.adx");
     } else {

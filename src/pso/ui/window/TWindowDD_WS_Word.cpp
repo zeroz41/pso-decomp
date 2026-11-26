@@ -101,8 +101,8 @@ void TWindowDD_WS_Word::get_cursor_pos(NJS_POINT2 *position) {
 
 s32 TWindowDD_WS_Word::get_selected_row_text() {
     if (entry_list.items != NULL) {
-        TWindowSubComCard *entry = (TWindowSubComCard *)get_array_entry(selected_row);
-        return entry->get_field_20();
+        WindowTextEntry *entry = (WindowTextEntry *)get_array_entry(selected_row);
+        return (s32)entry->get_text();
     }
     return 0;
 }
@@ -361,7 +361,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     f32 depth = word_select_inverse_depth(self->draw_depth, 0.0f);
     reset_window_vertices(verts, depth, -1);
     copy_window_point_table(verts, self->strip_point_index);
-    TWindowDD__sub_80348A2C(rect, verts);
+    set_frame_column_vertices_x(rect, verts);
     s = rect->scale[1];
     count = self->visible_row_count;
     top = -(0.5f * self->frame_size[1]);
@@ -434,7 +434,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         depth = word_select_inverse_depth(self->draw_depth, 0.1f);
         reset_window_vertices(verts, depth, -1);
         copy_window_point_table(verts, 1);
-        TWindowDD__sub_80348A2C(rect, verts);
+        set_frame_column_vertices_x(rect, verts);
         f32 row = (f32)self->selected_row;
         f32 first_y = -(0.5f * self->frame_size[1]);
         y0 = row * window_dd_row_height + first_y;
@@ -468,7 +468,7 @@ void TWindowDD_WS_Word::render() {
             set_text_entry_string(item, get_word_select_token_text(token_ids[idx]), 0xC0);
             item->y = (f32)(i * 20);
             measure_message_text_width_default(item);
-            ((TWindowHelpItem *)item)->reset_float_field();
+            item->reveal_all();
             item->color = window_dd_color_white;
         }
         if (sub_80342254() != 0) {

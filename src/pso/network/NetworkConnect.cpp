@@ -55,13 +55,13 @@ s16 if_config(s16, void *);
 s32 lobby_net_session_id = -1;
 
 u32 lobby_if_config[7];
-u32 lbl_8050C0C4[368];
+u32 dhcp_work_buffer[368];
 char lobby_dns_domain[0x100];
 AccountEntry lobby_account_entries[3];
 NetworkConfig network_config;
 __declspec(section ".data") s32 lbl_8050CE0C[2];
 char modem_user_name[0x20];
-char lbl_8050CE34[0x20];
+char account_user_copy[0x20];
 u8 lbl_8050CE54[0x114];
 
 void init_keyboard_buffer() {
@@ -134,12 +134,12 @@ s32 connect_pppoe(s32 *out_value) {
     cfg.h1C = 0;
     cfg.h1E = 3;
     cfg.h20 = 1;
-    cfg.h28 = 90;
+    cfg.req_timeout = 90;
     cfg.h2A = 0;
     cfg.h2C = 20;
     cfg.phone_number = 0;
-    cfg.h24 = 0;
-    cfg.h26 = 0;
+    cfg.req_type = 0;
+    cfg.req_has_arg = 0;
     cfg.prefix = 0;
     cfg.auth_mode = 4;
     cfg.mtu = 1500;
@@ -229,17 +229,17 @@ s32 apply_dhcp_network_config(s32 *netmask) {
     }
     lobby_local_ip_addr = 0;
     lbl_805D56E8 = 0;
-    if (dhcp_discover_and_request((s16)lobby_net_session_id, 0, 0, lbl_8050C0C4, &lobby_local_ip_addr, netmask, &broadcast, 3) != 0) {
+    if (dhcp_discover_and_request((s16)lobby_net_session_id, 0, 0, dhcp_work_buffer, &lobby_local_ip_addr, netmask, &broadcast, 3) != 0) {
         return 0xC;
     }
-    if (DHCP_get_gateway(lbl_8050C0C4, &lobby_gateway_addr) != 0) {
+    if (DHCP_get_gateway(dhcp_work_buffer, &lobby_gateway_addr) != 0) {
         return 0xC;
     }
     if (dhcp_get_lease_times(&lobby_dhcp_lease_time, &lobby_dhcp_renew_time, &lobby_dhcp_rebind_time) != 0) {
         return 0xC;
     }
     set_network_lease_time(lobby_dhcp_lease_time);
-    return DHCP_get_dns(lbl_8050C0C4, lobby_dns_domain, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
+    return DHCP_get_dns(dhcp_work_buffer, lobby_dns_domain, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
 }
 
 s32 should_try_next_phone_number(u32 result) {
@@ -721,18 +721,18 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.h1E = 3;
     cfg.h20 = 1;
     if (TLobby::is_status_zero() != 0) {
-        cfg.h24 = 0;
+        cfg.req_type = 0;
     } else {
-        cfg.h24 = 1;
+        cfg.req_type = 1;
     }
-    cfg.h28 = 90;
+    cfg.req_timeout = 90;
     cfg.h2A = 0;
     cfg.h2C = 20;
-    if (fn_80145A44(dial_prefix) != 0) {
-        cfg.h26 = 1;
+    if (read_dial_prefix(dial_prefix) != 0) {
+        cfg.req_has_arg = 1;
         cfg.prefix = dial_prefix;
     } else {
-        cfg.h26 = 0;
+        cfg.req_has_arg = 0;
         cfg.prefix = 0;
     }
     cfg.auth_mode = 4;
@@ -850,8 +850,8 @@ void init_account_entries() {
     load_network_configs();
     memset(modem_user_name, 0, 0x20);
     strncpy(modem_user_name, lobby_account_entries[2].user, 0x1F);
-    memset(lbl_8050CE34, 0, 0x20);
-    strncpy(lbl_8050CE34, lobby_account_entries[0].user, 0x1F);
+    memset(account_user_copy, 0, 0x20);
+    strncpy(account_user_copy, lobby_account_entries[0].user, 0x1F);
 }
 
 void set_network_lease_time(s32 seconds) { network_lease_time = seconds; }

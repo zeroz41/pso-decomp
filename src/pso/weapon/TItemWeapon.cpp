@@ -24,19 +24,17 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/CapturedTargetList.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
+#include "pso/render/GinjaTextureMatrices.h"
+#include "pso/unk/text_80120908.h"
 
 
 // ---- pso/unk/text_80120908
 
-extern "C" {
-void draw_weapon_at_joint(saddr weapon, s8 joint);
-}
 void set_shadow_material_state(void);
 
 extern s16 weapon_node_ids[];
 extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
-extern s32 model_render_flags;
 
 void TItemWeapon::draw_weapon_model() {
     s32 visible;
@@ -74,13 +72,13 @@ void TItemWeapon::draw_weapon_model() {
                 set_shadow_material_state();
                 if (this->model_motion == NULL) {
                     if (this->test_weapon_flags(0x800000) != 0U) {
-                        draw_chunk_object((void *)this->item_model);
+                        draw_chunk_object(this->item_model);
                     } else {
                         this->draw_model_nodes(NULL);
                     }
                 } else {
                     set_motion_packed_rotation();
-                    draw_model_motion((void *)this->item_model, (void *)this->model_motion, (f32)this->motion_frame);
+                    draw_model_motion(this->item_model, this->model_motion, (f32)this->motion_frame);
                     clear_motion_packed_rotation();
                 }
                 model_render_flags &= 0xFFFF7FEE;
@@ -88,13 +86,13 @@ void TItemWeapon::draw_weapon_model() {
                 if (this->test_weapon_flags(0x40) != 0U) {
                     this->apply_sign_effect(this->owner->item_node_matrices);
                 } else if (this->test_weapon_flags(0x800000) != 0U) {
-                    draw_chunk_object((void *)this->item_model);
+                    draw_chunk_object(this->item_model);
                 } else {
                     this->draw_model_nodes(this->owner->item_node_matrices);
                 }
             } else {
                 set_motion_packed_rotation();
-                draw_model_motion((void *)this->item_model, (void *)this->model_motion, (f32)this->motion_frame);
+                draw_model_motion(this->item_model, this->model_motion, (f32)this->motion_frame);
                 clear_motion_packed_rotation();
             }
             TItem::end_material_color();

@@ -41,8 +41,8 @@ public:
 public:
     u8 unk_1C[0x1C];
     CharacterPreviewLoadArgs inputs;
-    s32 *m_58;
-    CharacterClassAppearance *m_5c;
+    s32 *head_model_slot;  // the slot of part_models that receives the head model
+    CharacterClassAppearance *class_appearance;
     s32 state;
     s32 timer;
     saddr calc_preview_last_index(s32 display_index, s32 region_index);
@@ -54,9 +54,9 @@ public:
 public:
     void reset_request();
     static void *create(void *parent);
-    s32 m_68[3];
-    TChCrLoadAfs *m_74[6];
-    s32 m_8c;
+    s32 sample_indices[3];  // the proportion samples the preview blends
+    TChCrLoadAfs *sample_loads[6];  // 0-2 head samples, 3-5 body samples
+    s32 holds_load_slot;
 };
 TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadArgs *args);
 

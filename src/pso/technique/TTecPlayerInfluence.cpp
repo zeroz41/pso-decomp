@@ -50,7 +50,7 @@ TTecPlayerInfluence::TTecPlayerInfluence(void *owner, void *pos, s32 level) : TE
   scale.x = 1.0f;
   scale.y = 1.0f;
   scale.z = 1.0f;
-  source = (uaddr)owner;
+  source = (TObjBase *)owner;
   color.a = 0.2f;
   color.r = 1.0f;
   color.g = 1.0f;
@@ -69,7 +69,7 @@ TTecPlayerInfluence::TTecPlayerInfluence(void *owner, void *pos, s32 level) : TE
     init_collision_body_parts(target, &collisionBody, 1);
   }
   show_effects = 1;
-  if (source != 0 && ((TObjBase *)source)->get_entity_id() < 4 && (((TObjBase *)source)->actorFlags & 0x02000000))
+  if (source != 0 && source->get_entity_id() < 4 && (source->actorFlags & 0x02000000))
   {
     show_effects = 0;
   }
@@ -81,11 +81,11 @@ TTecPlayerInfluence::~TTecPlayerInfluence() {
 
 
 void TTecPlayerInfluence::run_task() {
-    sub_80237258();
+    sync_collision_radius();
     this->tick_lifetime();
 }
 
-void TTecPlayerInfluence::sub_80237258() { collisionBody.radius = scale.x; }
+void TTecPlayerInfluence::sync_collision_radius() { collisionBody.radius = scale.x; }
 
 void TTecPlayerInfluence::tick_lifetime() {
     age++;
@@ -107,10 +107,10 @@ void TTecPlayerInfluence::deliver_technique_to_party_targets() {
         queue_destruction();
         return;
     }
-    if (((TObjBase *)source)->get_entity_id() < 4) {
-        list = gather_contacts_for_self(source);
+    if (source->get_entity_id() < 4) {
+        list = gather_contacts_for_self((saddr)source);
     } else {
-        list = find_support_technique_contact_for_target(source);
+        list = find_support_technique_contact_for_target((saddr)source);
     }
     for (i = 0; i < list->count; i++) {
         if (TObjPlayer::is_valid_and_active((uaddr)list->actors[i]) != 0) {

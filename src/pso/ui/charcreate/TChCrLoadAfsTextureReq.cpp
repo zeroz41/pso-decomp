@@ -16,8 +16,8 @@
 
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
-extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
-const char *TChCrLoadAfsTextureReq::name = TChCrLoadAfsTextureReq__class_name_string;
+extern "C" { extern char TChCrLoadAfsTextureReq_class_name_string[]; }
+const char *TChCrLoadAfsTextureReq::name = TChCrLoadAfsTextureReq_class_name_string;
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
     if (try_acquire_load_slot() != 0) {
@@ -130,8 +130,8 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsText
     init_texture_table();
 }
 
-TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *parent, void *textures, void *slot, void *index) {
-    return new TChCrLoadAfsTextureReq((TObject *)parent, (NJS_TEXLIST *)textures, (s32 *)slot, (saddr)index);
+TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, void *slot, void *index) {
+    return new TChCrLoadAfsTextureReq(parent, textures, (s32 *)slot, (saddr)index);
 }
 
 TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoadAfsTextureReqArgs *args) {

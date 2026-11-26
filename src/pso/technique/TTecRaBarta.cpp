@@ -53,7 +53,7 @@ void TTecRaBarta::spawn_effects(Vec *pos) {
     const TechniqueEmitter *binding;
     emitters = (TParticleCtrl **)mem_alloc(rabarta_band_emitter_table[band].count * sizeof(TParticleCtrl *));
     for (i = 0; i < rabarta_band_emitter_table[band].count; i++) {
-        VecCopy(&point, &((TObjBase *)source)->position);
+        VecCopy(&point, &source->position);
         if (pos != NULL) {
             VecCopy(&point, pos);
         }
@@ -78,7 +78,7 @@ void TTecRaBarta::spawn_effects(Vec *pos) {
         if (pos != NULL) {
             VecCopy(&top, pos);
         } else {
-            VecCopy(&top, &((TObjBase *)source)->position);
+            VecCopy(&top, &source->position);
         }
         top.y += height;
         emitter = spawn_particle_effect(&top, effect->entry);
@@ -160,12 +160,12 @@ void TTecRaBarta::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 2;
         hit.power = params.power;
-        target->receive_direct_attack((void *)source, hit, contact, 5, -1);
+        target->receive_direct_attack(source, hit, contact, 5, -1);
     }
 }
 
-void TTecRaBarta::create(void *source, void *origin, void *pos, s32 level) {
-    new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, level);
+void TTecRaBarta::create(void *source, Vec *origin, Vec *pos, s32 level) {
+    new TTecRaBarta((saddr)source, origin, pos, level);
 }
 
 void TTecRaBarta::create(void *source, void *origin, s32 level) {
@@ -192,7 +192,7 @@ void TTecRaBarta::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id((this->sourceId));
+    this->source = find_entity_by_id((this->sourceId));
     if ((u32) this->source == 0U) {
         queue_destruction();
         return;
@@ -223,7 +223,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     spawn_effects(&position);
     play_cast_sound();
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }
 #pragma pop
@@ -243,6 +243,6 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     spawn_effects(0);
     play_cast_sound();
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }

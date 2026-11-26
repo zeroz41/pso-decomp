@@ -5,7 +5,7 @@
 
 #pragma readonly_strings on
 
-const char *TWindowAddition__name = "TWindowAddition";
+const char *TWindowAddition::class_name = "TWindowAddition";
 
 void TWindowAddition::set_position_xy(f32 a, f32 b) { this->content_scale[0] = a; this->content_scale[1] = b; }
 
@@ -37,7 +37,7 @@ WindowDrawContext *TWindowAddition::get_draw_context() {
 }
 
 void TWindowAddition::init_addition(u8 *) {
-    m_name = TWindowAddition__name;
+    m_name = TWindowAddition::class_name;
     scroll_offset[0] = 0.0f;
     scroll_offset[1] = 0.0f;
     set_position_xy(1.0f, 1.0f);

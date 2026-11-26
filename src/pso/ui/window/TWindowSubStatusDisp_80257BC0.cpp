@@ -135,7 +135,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 4:
                 o = (WindowSpritePart *)(::operator new(0x24));
                 if (o != NULL) {
-                    o = (WindowSpritePart *)__ct__19TWindowLayoutNumberFPUcl(o, (u8 *)rec, client);
+                    o = (WindowSpritePart *)__ct__19TWindowLayoutNumberFP17ValueLayoutRecordl(o, reinterpret_cast<ValueLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0x1C / 4;
@@ -143,7 +143,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 5:
                 o = (WindowSpritePart *)(::operator new(0x30));
                 if (o != NULL) {
-                    o = (WindowSpritePart *)__ct__27TWindowLayoutCountingNumberFPUcl(o, (u8 *)rec, client);
+                    o = (WindowSpritePart *)__ct__27TWindowLayoutCountingNumberFP17ValueLayoutRecordl(o, reinterpret_cast<ValueLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0x1C / 4;

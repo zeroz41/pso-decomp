@@ -627,7 +627,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 4:
         case 5:
         case 19:
-            model = (void *)get_bml_model(mine_model_archive, 4);
+            model = get_bml_model(mine_model_archive, 4);
             texlist = get_bml_texlist(mine_model_archive, 4);
             light_model = (NJS_OBJECT *)get_bml_model(mine_model_archive, 1);
             light_textures = get_bml_texlist(mine_model_archive, 1);
@@ -636,7 +636,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 16:
         case 17:
         case 18:
-            model = (void *)get_bml_model(mine_model_archive, 5);
+            model = get_bml_model(mine_model_archive, 5);
             texlist = get_bml_texlist(mine_model_archive, 5);
             light_model = (NJS_OBJECT *)get_bml_model(mine_model_archive, 0);
             light_textures = get_bml_texlist(mine_model_archive, 0);
@@ -968,10 +968,10 @@ s32 TOMineTrap::show_owner_message(TObjChara *player) {
             name = p->get_name();
             if (name != NULL) {
                 text_builder_reset();
-                text_builder_append((u8 *)("\x09""C4"));
-                text_builder_append((u8 *)name);
-                text_builder_append((u8 *)(" TRAP\n"));
-                TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
+                text_builder_append(("\x09""C4"));
+                text_builder_append(name);
+                text_builder_append((" TRAP\n"));
+                TWindowCtrl::append_message_all(get_shared_text_buffer(), 0x200);
                 return 1;
             }
         }

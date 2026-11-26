@@ -3,8 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// A spinning cane-type weapon class (vtable 0x804A69DC; old name
-// init_state_35): spins faster while attacking and, once fast enough,
+// A spinning cane-type weapon class: spins faster while attacking and, once fast enough,
 // releases a charged shot (TItemShootWindmill shoot models via
 // create_shoot_model). Made by TItemWeaponWindmill::create.
 class TItemWeaponWindmill : public TItemWeapon {
@@ -31,6 +30,6 @@ public:
 // The TItemWeaponWindmill shot callback: a TItemShootWindmill from owner.
 saddr create_shoot_model(saddr owner, saddr pos, saddr dir, f32 life);
 // Item timer: sets charge_ready again 30 frames after a charged release.
-void charge_ready_timer(void *weapon);
+void charge_ready_timer(TItemWeaponWindmill *weapon);
 
 #endif

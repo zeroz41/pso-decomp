@@ -35,32 +35,32 @@ TWindowSubAreaMap::TWindowSubAreaMap(TObject *parent, s32 client) : TObject(pare
 }
 
 void TWindowSubAreaMapDisp::update_manual_scroll() {
-    ControllerInputContext *temp_r31;
-    if ((s32) this->m_6c != 0) {
-        temp_r31 = &controller_input_state.controllers[0];
-        if ((test_previous_buttons_packed(temp_r31, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
-            this->m_64 += 6.0f;
+    ControllerInputContext *pad;
+    if (this->manual_scroll != 0) {
+        pad = &controller_input_state.controllers[0];
+        if ((test_previous_buttons_packed(pad, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
+            this->pan_y_speed += 6.0f;
         }
-        if ((test_previous_buttons_packed(temp_r31, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
-            this->m_64 -= 6.0f;
+        if ((test_previous_buttons_packed(pad, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
+            this->pan_y_speed -= 6.0f;
         }
-        if ((test_previous_buttons_packed(temp_r31, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
-            *(f32 *)&this->unk_60 += 6.0f;
+        if ((test_previous_buttons_packed(pad, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
+            this->pan_x_speed += 6.0f;
         }
-        if ((test_previous_buttons_packed(temp_r31, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
-            *(f32 *)&this->unk_60 -= 6.0f;
+        if ((test_previous_buttons_packed(pad, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
+            this->pan_x_speed -= 6.0f;
         }
-        if (test_previous_buttons_packed(temp_r31, 0x20000) != 0) {
-            *(f32 *)&this->unk_68 -= 6.0f;
+        if (test_previous_buttons_packed(pad, 0x20000) != 0) {
+            this->zoom_speed -= 6.0f;
         }
-        if (test_previous_buttons_packed(temp_r31, 0x10000) != 0) {
-            *(f32 *)&this->unk_68 += 6.0f;
+        if (test_previous_buttons_packed(pad, 0x10000) != 0) {
+            this->zoom_speed += 6.0f;
         }
-        TRaderMapCore::pan_horizontal((f32) (*(f32 *)&this->unk_60));
-        TRaderMapCore::pan_vertical(this->m_64);
-        TRaderMapCore::add_zoom_distance((f32) (*(f32 *)&this->unk_68));
-        *(f32 *)&this->unk_60 *= 0.8f;
-        this->m_64 *= 0.8f;
-        *(f32 *)&this->unk_68 *= 0.8f;
+        TRaderMapCore::pan_horizontal(this->pan_x_speed);
+        TRaderMapCore::pan_vertical(this->pan_y_speed);
+        TRaderMapCore::add_zoom_distance(this->zoom_speed);
+        this->pan_x_speed *= 0.8f;
+        this->pan_y_speed *= 0.8f;
+        this->zoom_speed *= 0.8f;
     }
 }

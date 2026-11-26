@@ -347,7 +347,7 @@ void MaterialColorFade::set_speed(f32 v) { rate = v; }
 s32 TWindowKeyBoardHard::test_card_flag_2(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 2); }
 
 extern "C" {
-s32 fn_8002AE08(s32 client_id) {
+s32 get_control_button_mask(s32 client_id) {
     return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x20000 : 0x10000;
 }
 
@@ -4127,7 +4127,7 @@ void TBoss1Dragon::update_controlled_stand_state(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss1_dragon_control_client_id)) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, get_control_button_mask(boss1_dragon_control_client_id)) != 0) {
             this->request_state_change(9);
         }
         return;
@@ -4219,7 +4219,7 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss1_dragon_control_client_id)) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, get_control_button_mask(boss1_dragon_control_client_id)) != 0) {
             this->request_state_change(9);
             return;
         }
@@ -5021,7 +5021,7 @@ void dragon_capture_node_points(NJS_OBJECT *) {
 }
 
 void TBoss1Dragon::draw() {
-    void *saved_model;
+    NJS_OBJECT *saved_model;
 
     saved_model = this->model;
     this->model = boss1_dragon_capture_model;
@@ -5064,7 +5064,7 @@ void TBoss1Dragon::render() {
     boss1_dragon_breath_points_out = this->breath_node_points;
     boss1_dragon_capture_cursor = 0;
     boss1_dragon_capture_points_out = this->node_positions;
-    boss1_dragon_capture_flags = *(s32 *)&this->flags;
+    boss1_dragon_capture_flags = this->flags;
     this->update_object_view_visibility((1000.0f), (1000.0f));
     ch = &this->viewFade[view];
     if (ch->has_visible_opacity() != 0) {
@@ -5173,7 +5173,7 @@ void TBoss1Dragon::render() {
             TObjMotion::draw();
             TParticleCtrl::end_effect_render();
             set_chunk_model_node_callback(NULL);
-            current_scene_light->sub_801337F8();
+            current_scene_light->debug_scene_light_hook();
             pop_matrix();
         }
         set_chunk_material_override_pair(0xFF00, 0);
@@ -5195,7 +5195,7 @@ void TBoss1Dragon::render() {
 
 #pragma pop
 void TBoss1Dragon::render_shadows() {
-    void *body_model;
+    NJS_OBJECT *body_model;
     s32 view;
 
     view = 0;
@@ -5254,7 +5254,7 @@ void TBoss1Dragon::render_low_detail() {
         }
     }
     draw_model_motion(this->model, m, frame);
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
     pop_matrix();
 }
 

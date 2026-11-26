@@ -16,15 +16,16 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 // The functions are generated last to first.
 #pragma defer_codegen on
 
-s32 TWindowSubStatusDisp__count_ratio_value;
-const char *TWindowArea__name = "TWindowArea";
+s32 status_disp_count_ratio_value;
+const char *TWindowArea::class_name = "TWindowArea";
 
 TWindowArea::TWindowArea() : TWindowRoom(NULL) {
-    this->m_name = TWindowArea__name;
+    this->m_name = TWindowArea::class_name;
     const NJS_POINT2 *position = get_window_layout_position(0x25);
     copy_vec2(frame_position, (void *)position);
     this->tabParameter = 0.0f;
@@ -43,7 +44,7 @@ TWindowArea *create_window_area() {
     hide_window((u8 *)object);
     update_area_count_text(object);
     title_entry = (u8 *)object->get_title_entry();
-    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)title_entry)->get_field_20()));
+    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((WindowTextEntry *)title_entry)->get_text()));
     return object;
 }
 #pragma pop
@@ -70,13 +71,13 @@ void update_area_count_text(TWindowArea *area) {
 
 void TWindowSubStatusDisp::set_count_ratio_text(s32 count, s32 total) {
     text_builder_reset();
-    text_builder_append((u8 *)(get_message_text(0x67)));
+    text_builder_append((const char *)(get_message_text(0x67)));
     append_text_space();
     append_padded_number((count), (2U));
-    text_builder_append((u8 *)"/");
+    text_builder_append("/");
     append_padded_number((total), (2U));
     this->set_entry_display_value((saddr) (get_shared_text_buffer()));
-    TWindowSubStatusDisp__count_ratio_value = count;
+    status_disp_count_ratio_value = count;
 }
 
 TWindowAddition::TWindowAddition(u8 *descriptor, s16 client, u8 *parent)

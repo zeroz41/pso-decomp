@@ -62,7 +62,7 @@ void TOSensorGeneral01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        object = (NJS_OBJECT *)model;
+        object = model;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[0]));
         draw_ginja_model(object->model);
@@ -124,9 +124,9 @@ TOSensorGeneral01::TOSensorGeneral01(TObject *parent, void *set_data) : TOSensor
     apply_object_set_data(set_data);
     init_switch_id();
     texlist = sensor_general01_texture_lists[0];
-    model = (void *)sensor_general_shared_bml_archive->models[0].model;
+    model = sensor_general_shared_bml_archive->models[0].model;
     view_range = 400.0f;
-    model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
     activate_range = 50.0f + scale.x;
     if (activate_range < 0.0f) {
         activate_range = 0.0f;

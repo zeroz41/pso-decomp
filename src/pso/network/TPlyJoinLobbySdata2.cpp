@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit: the first two floats of TMainCursor's .sdata2 pool (0x805DB0C0); TMainCursor keeps them extern.
+// Data-only unit: the first two floats of TMainCursor's .sdata2 pool; TMainCursor keeps them extern.
 
 
 __declspec(section ".sdata2") extern u32 cursor_float_zero[1] = {

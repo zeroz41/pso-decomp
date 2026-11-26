@@ -11,12 +11,12 @@ void TLobby::init_once(TRecvInfoBoard *info_board) {
     }
 }
 
-void *TLobby::get_info_board_ptr() {
-    void *p;
+TRecvInfoBoard *TLobby::get_info_board_ptr() {
+    TRecvInfoBoard *p;
     if (!(info_board_state_flags & 2)) {
         return NULL;
     }
-    p = (void *)information_board_response_buffer;
+    p = information_board_response_buffer;
     if (p != NULL) {
         return p;
     }

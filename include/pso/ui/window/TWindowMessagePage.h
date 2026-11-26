@@ -24,9 +24,4 @@ struct TWindowMessagePage : public TWindowMessage {
 
 LAYOUT_ASSERT(TWindowMessagePage_size, sizeof(TWindowMessagePage) == 0x98);
 
-extern "C" {
-void *__dt__18TWindowMessagePageFv(void *arg0, s16 arg1);
-}
-
-
 #endif

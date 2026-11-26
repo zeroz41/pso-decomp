@@ -31,7 +31,7 @@ void TBoss5GryphonLightningHorn::queue_destruction() { TObject::queue_destructio
 
 #pragma push
 #pragma fp_contract on
-#define STEP_80325D58() \
+#define CHECK_DISTANCE_STEP() \
     { \
         f32 xx = d.x * d.x; \
         f32 yy = d.y * d.y; \
@@ -60,13 +60,13 @@ s32 TBoss5GryphonLightningHorn::clamp_to_segment(Vec *from, Vec *dir, Vec *to, f
         VecCopy(&n, &d);
         normalize_vector(&n);
         if (1.0f != vec3_dot(dir, &n)) {
-            STEP_80325D58()
+            CHECK_DISTANCE_STEP()
         }
-        STEP_80325D58()
+        CHECK_DISTANCE_STEP()
     }
-    STEP_80325D58()
+    CHECK_DISTANCE_STEP()
 }
-#undef STEP_80325D58
+#undef CHECK_DISTANCE_STEP
 #pragma pop
 
 void TBoss5GryphonLightningHorn::apply_lightning_effect() {

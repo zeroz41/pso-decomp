@@ -27,6 +27,6 @@ LAYOUT_ASSERT(TTitleMenu_size, sizeof(TTitleMenu) == 0x3C);
 
 
 extern "C" {
-s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller);
+s32 is_title_choice_confirmed(TTitleMenu *controller);
 }
 #endif

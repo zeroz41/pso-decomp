@@ -78,7 +78,7 @@ saddr TObjPlayer::get_battle_param(int index) {
 }
 
 void TBoss3VoloptCore::load_entry_params_volopt(s32 index) {
-    model = (void *)core_resources->models[index].model;
+    model = core_resources->models[index].model;
     texlist = core_resources->models[index].texlist;
 }
 

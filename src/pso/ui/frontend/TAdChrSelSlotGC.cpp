@@ -54,25 +54,25 @@ void TAdChrSelSlotGC::render() {
         if (TMainTask::get_render_pass() == 1) {
             return;
         }
-        goto block_5;
-    }
-    if ((s32)this->defer_render() == 0) {
-        set_depth_buffer_settings_2();
-block_5:
-        set_color_blending_mode(0, 8);
-        set_color_blending_mode(1, 0xA);
-        draw_slot_icons();
-        set_color_blending_mode(0, 8);
-        set_color_blending_mode(1, 6);
-        if ((s32) this->enabled == 0) {
-            restore_saved_depth_alpha_state();
+    } else {
+        if ((s32)this->defer_render() != 0) {
+            return;
         }
+        set_depth_buffer_settings_2();
+    }
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 0xA);
+    draw_slot_icons();
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 6);
+    if ((s32) this->enabled == 0) {
+        restore_saved_depth_alpha_state();
     }
 }
 
 void TAdChrSelSlotGC::reset_all_slots() {
-    sub_802C754C(0);
-    sub_802C754C(1);
+    hide_slot(0);
+    hide_slot(1);
     hide_slot_entry(0);
     hide_slot_entry(1);
     hide_slot_entry(2);
@@ -92,7 +92,7 @@ void TAdChrSelSlotGC::init_slot_entry(s32 slot, void *position) {
     alpha[slot + 2] = 0;
 }
 
-void TAdChrSelSlotGC::sub_802C754C(s32 i) {
+void TAdChrSelSlotGC::hide_slot(s32 i) {
     visible[i] = 0;
 }
 

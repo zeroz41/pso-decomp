@@ -184,7 +184,7 @@ void TOHealGeneral::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        base = (NJS_OBJECT *)model;
+        base = model;
         post_translate_matrix(base->pos);
         draw_ginja_model(base->model);
         push_matrix();
@@ -249,7 +249,7 @@ TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
     s32 i;
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = model_resource->models->texlist;
     model_radius = 40.0f;
     init_collision_body_parts(this, &heal_general_collision_body_part, 1);

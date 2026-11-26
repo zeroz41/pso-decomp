@@ -16,6 +16,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -335,23 +336,18 @@ void *TWindowSubStatusDisp::window_layout[5] = {
     (void *)0x3,
 };
 
-typedef struct Entry_80280B1C {
-    u8 pad0[0x1C];
-    s32 color;
-    s32 value;
-} Entry_80280B1C;
 extern "C" {
 s32 is_battle_mode_running();
 }
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-s32 get_class_name_text(s32);
 extern "C" {
-s32 get_shared_text_buffer();
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
 
 #include "types.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowComCard.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 
 // list type of page_indicator per page: the page-flip list kind passed to fn_8026C7AC
@@ -390,7 +386,7 @@ void TWindowSubStatusDisp::run_task() {
   }
   this->dispatch_page_update();
   update_window();
-  this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *) this) + 0x24)));
+  this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((((u8 *) this) + 0x24)));
 }
 
 void TWindowSubStatusDisp::render() {
@@ -462,9 +458,9 @@ extern "C" {
 void TWindowSubStatusDisp::vt0() {
     WindowTextEntry *e;
     u8 *gauge;
-    u8 *pl;
+    TObjPlayer *pl;
     saddr v;
-    s8 *st;
+    CharacterAppearanceFields *st;
     if ((f32) this->open_tick > 7.5f) {
         this->open_tick = 7;
     }
@@ -479,21 +475,21 @@ void TWindowSubStatusDisp::vt0() {
     e = (WindowTextEntry *)get_array_entry(0xE);
     set_text_entry_string(e, (saddr)TWindowSubStatusDisp::get_message_10(0x82), 0x20);
     e = (WindowTextEntry *)get_array_entry(0x11);
-    set_text_entry_string(e, TWindowSubStatusDisp::get_download_server(), 0x20);
-    pl = (u8 *)get_player_by_client_id(this->client_index);
+    set_text_entry_string(e, TWindowSubStatusDisp::get_meseta_unit(), 0x20);
+    pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        st = (s8 *)(pl + 0x85C);
+        st = (CharacterAppearanceFields *)pl->name;
         if (st != NULL) {
-            v = (saddr)((TObjPlayer *)pl)->get_name();
+            v = (saddr)pl->get_name();
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(0)), v, 0x20);
-            v = get_class_name_text(st[0x31]);
+            v = get_class_name_text(st->classId);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(3)), v, 0);
-            v = (saddr)TObjLuker::get_stat_table_entry(st[0x30]);
+            v = (saddr)TObjLuker::get_stat_table_entry(st->section);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(4)), v, 0);
         }
         gauge = (u8 *)get_array_entry(5);
         *(u8 **)(gauge + 0x30) = (u8 *)this + 0x64;
-        *(u8 **)((s8 *)this + 0x64) = pl + 0xCF4;
+        *(u8 **)((s8 *)this + 0x64) = (u8 *)pl + 0xCF4;
     }
 }
 
@@ -543,34 +539,34 @@ void TWindowSubStatusDisp::vt1() {
 void TWindowSubStatusDisp::vt12() {
     PlayerRequirementStats cur;
     PlayerRequirementStats req;
-    Entry_80280B1C *e2;
+    TWindowLayoutNumber *e2;
     TObjPlayer *pl;
-    Entry_80280B1C *e;
+    TWindowLayoutNumber *e;
     player_stats *q;
     cur.clear_fields();
     req.clear_fields();
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        e2 = (Entry_80280B1C *)(void *)get_array_entry(2);
+        e2 = static_cast<TWindowLayoutNumber *>(get_array_entry(2));
         e2->value = pl->get_atp_range() + (pl->get_atp() + pl->get_actor_attack_params_atp_min());
-        e = (Entry_80280B1C *)(void *)get_array_entry(8);
+        e = static_cast<TWindowLayoutNumber *>(get_array_entry(8));
         e->value = pl->get_dfp();
-        e = (Entry_80280B1C *)(void *)get_array_entry(0x14);
+        e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x14));
         e->value = pl->get_ata();
-        e = (Entry_80280B1C *)(void *)get_array_entry(0x1A);
+        e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x1A));
         e->value = pl->get_evp();
         q = pl->get_stats();
         if (q != NULL) {
-            e = (Entry_80280B1C *)(void *)get_array_entry(0xE);
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0xE));
             e->value = q->stats.mst;
-            e = (Entry_80280B1C *)(void *)get_array_entry(0x20);
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x20));
             e->value = q->stats.lck;
         }
     }
     if (build_player_equipment_requirement_stats(pl, &cur) != 0) {
         build_player_class_stat_template(pl, &req);
 #define ROW(idx, k) \
-        e = (Entry_80280B1C *)(void *)get_array_entry(idx); \
+        e = static_cast<TWindowLayoutNumber *>(get_array_entry(idx)); \
         e->value = cur.k; \
         if (req.k <= cur.k) { e->color = -0x100; } else { e->color = -1; }
         ROW(4, atp)
@@ -604,25 +600,25 @@ void TWindowSubStatusDisp::vt2() {
 }
 
 void TWindowSubStatusDisp::vt13() {
-    saddr player;
+    TObjPlayer *player;
     TWindowLayoutNumber *entry_2;
     TWindowLayoutNumber *entry_8;
     TWindowLayoutNumber *entry_e;
     TWindowLayoutNumber *entry_14;
     TWindowLayoutNumber *entry_1a;
 
-    player = (saddr)get_player_by_client_id(this->client_index);
-    if (player != 0) {
+    player = get_player_by_client_id(this->client_index);
+    if (player != NULL) {
         entry_2 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(2));
-        entry_2->value = (s32) ((TWindowSubStatusDisp *)player)->get_stat();
+        entry_2->value = (s32) player->get_efr();
         entry_8 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(8));
-        entry_8->value = (s32) ((TObjPlayer *)player)->get_class_id();
+        entry_8->value = (s32) player->get_eic();
         entry_e = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0xE));
-        entry_e->value = (s32) ((TObjPlayer *)player)->get_item_index();
+        entry_e->value = (s32) player->get_eth();
         entry_14 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x14));
-        entry_14->value = (s32) ((TWindowSubStatusDisp *)player)->get_field_2F8();
+        entry_14->value = (s32) player->get_edk();
         entry_1a = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x1A));
-        entry_1a->value = (s32) ((TWindowSubStatusDisp *)player)->get_item_type();
+        entry_1a->value = (s32) player->get_elt();
     }
 }
 
@@ -650,14 +646,14 @@ void TWindowSubStatusDisp::vt3() {
     label = (WindowTextEntry *)get_array_entry(0xD);
     set_text_entry_string(label, get_localized_text_entry(0x10, 0xE), 0);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_field_21a8((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_online_first_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_value((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_online_second_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(9));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_status((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_online_third_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_field((u16) this->client_index);
-    card_flag = TAdSinglePlyChrSelectGC::get_card_flag((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_online_fourth_place_count((u16) this->client_index);
+    card_flag = TAdSinglePlyChrSelectGC::get_online_disconnect_count((u16) this->client_index);
     if (is_battle_mode_running() != 0) {
         card_flag -= 1;
     }
@@ -686,17 +682,17 @@ void TWindowSubStatusDisp::vt7() {
     set_text_entry_string(label, get_localized_text_entry(0x10, 8), 0);
     label = (WindowTextEntry *)get_array_entry(0xA);
     set_text_entry_string(label, get_localized_text_entry(0x10, 9), 0);
-    ((TWindowHelpItem *)((void *)get_array_entry(0xD)))->set_flag0_bit2();
-    ((TWindowHelpItem *)((void *)get_array_entry(0xE)))->set_flag0_bit2();
+    ((TWindowLayoutEntry *)get_array_entry(0xD))->hide();
+    ((TWindowLayoutEntry *)get_array_entry(0xE))->hide();
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_state((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_first_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
-    number->value = (s32)TAdSinglePlyChrSelectGC__sub_801FC36C((u16) this->client_index);
+    number->value = (s32)get_split_second_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(9));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_window_status((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_third_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_window_field((u16) this->client_index);
-    ((TWindowHelpItem *)((void *)get_array_entry(0xF)))->set_flag0_bit2();
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_fourth_place_count((u16) this->client_index);
+    ((TWindowLayoutEntry *)get_array_entry(0xF))->hide();
 }
 
 void TWindowSubStatusDisp::vt18() {  }
@@ -776,7 +772,7 @@ void TWindowSubStatusDisp::vt4() {
         }
         text_builder_reset();
         TWindowSubStatusDisp::append_play_time(time);
-        set_text_entry_string(value, get_shared_text_buffer(), 0x20);
+        set_text_entry_string(value, (uaddr)get_shared_text_buffer(), 0x20);
     }
 
     slot = RECORD_SET_EP2;
@@ -814,7 +810,7 @@ void TWindowSubStatusDisp::vt4() {
         set_text_entry_string(title, (uaddr)TWindowSubStatusDisp::get_message_10(0x96), 0);
         text_builder_reset();
         TWindowSubStatusDisp::append_play_time(time);
-        set_text_entry_string(value, get_shared_text_buffer(), 0x20);
+        set_text_entry_string(value, (uaddr)get_shared_text_buffer(), 0x20);
     }
 }
 
@@ -852,9 +848,9 @@ void TWindowSubStatusDisp::vt5() {
                 e->flags &= ~2;
                 text_builder_reset();
                 append_padded_number(i + 1, 2);
-                text_builder_append((u8 *)":");
+                text_builder_append(":");
                 TWindowSubStatusDisp::append_play_time(time);
-                set_text_entry_string(e, get_shared_text_buffer(), 0x20);
+                set_text_entry_string(e, (uaddr)get_shared_text_buffer(), 0x20);
             }
         }
         i++;

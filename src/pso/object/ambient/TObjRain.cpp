@@ -16,7 +16,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/NinjaUtil.h"
 
- extern const char TObjRain__class_name_string[9] = "TObjRain";
+ extern const char rain_class_name_string[9] = "TObjRain";
 NJS_POINT3 rain_streak_points[2] = {
     {0.0f, 0.0f, 0.0f},
     {0.0f, 9.0f, 0.0f},
@@ -103,7 +103,7 @@ void TObjRain::init_drops() {
 }
 #pragma pop
 
-const char *rain_class_name = TObjRain__class_name_string;
+const char *rain_class_name = rain_class_name_string;
 void TObjRain::render() { draw_streaks(); }
 void TObjRain::run_task() { update_drops(); }
 TObjRain::~TObjRain() {}

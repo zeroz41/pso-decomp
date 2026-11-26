@@ -17,54 +17,6 @@
 #include "pso/render/render_util.h"
 #include "pso/effect/sprite/TQuadSprite.h"
 
-struct O_800FB400 { u8 pad[0x174]; s32 arr[1]; };
-
-struct FogRow_800FB134 {
-    u32 flags;
-    u32 color;
-    f32 end;
-    f32 start;
-    f32 rate;
-    u32 reserved14;
-    f32 speed;
-    f32 reserved1c;
-    f32 end_amplitude;
-    f32 reserved24;
-    f32 start_amplitude;
-    f32 reserved2c;
-    f32 width;
-    f32 reserved34;
-    u8 phases[8];
-};
-
-struct FogCtrl_800FB134 {
-    u8 prefix[0x1C];
-    u32 dirty;
-    u8 pad20[0x174 - 0x20];
-    FogRow_800FB134 *slots[4];
-    s32 selected;
-    u32 color;
-    f32 end;
-    f32 start;
-    f32 width;
-};
-
-struct Pos_800FBEA8 {
-    f32 x;
-    f32 y;
-    u8 pad[0x18];
-};
-
-struct Pos_800FBFD8 {
-    f32 x;
-    f32 y;
-    u8 pad[0x18];
-};
-
-
-struct O_800FB400;
-
-struct FogCtrl_800FB134;
 
 extern "C" {
 
@@ -104,7 +56,7 @@ void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 x, f32 y, f32 depth)
 }
 
 void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale) {
-    Pos_800FBEA8 pos;
+    TexturedQuad pos;
     s32 id;
     s32 i;
     set_default_alpha_blend();
@@ -112,19 +64,19 @@ void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits
     TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, (saddr)color);
     for (i = 0; i < digits; i++) {
-        id = ((s32 (*)(s32))TWindowSubStatusDisp__sub_800FC248)((u8)(value % 10) + '0');
+        id = get_small_font_glyph_id((u8)(value % 10) + '0');
         x -= ((u8 (*)(s32))get_small_font_glyph_width)(id);
-        pos.x = x;
-        pos.y = y;
-        ((void (*)(s32, Pos_800FBEA8 *))build_small_font_glyph_quad)(id, &pos);
-        draw_textured_quad_at_depth((f32 *)&pos, scale);
+        pos.x0 = x;
+        pos.y0 = y;
+        ((void (*)(s32, TexturedQuad *))build_small_font_glyph_quad)(id, &pos);
+        draw_textured_quad_at_depth(&pos.x0, scale);
         value /= 10;
     }
     end_screen_draw();
 }
 
 void draw_small_font_text(u32 color, const char *s, f32 x, f32 y, f32 scale) {
-    Pos_800FBFD8 pos;
+    TexturedQuad pos;
     s32 id;
     set_default_alpha_blend();
     begin_screen_draw(1);
@@ -132,11 +84,11 @@ void draw_small_font_text(u32 color, const char *s, f32 x, f32 y, f32 scale) {
     set_draw_texture_and_color(0, color);
     while (*s != 0) {
         u8 c = *s++;
-        pos.x = x;
-        pos.y = y;
-        id = ((s32 (*)(s32))TWindowSubStatusDisp__sub_800FC248)(c);
-        ((void (*)(s32, Pos_800FBEA8 *))build_small_font_glyph_quad)(id, (Pos_800FBEA8 *)(&pos));
-        draw_textured_quad_at_depth((f32 *)&pos, scale);
+        pos.x0 = x;
+        pos.y0 = y;
+        id = get_small_font_glyph_id(c);
+        ((void (*)(s32, TexturedQuad *))build_small_font_glyph_quad)(id, &pos);
+        draw_textured_quad_at_depth(&pos.x0, scale);
         x += ((u8 (*)(s32))get_small_font_glyph_width)(id);
     }
     end_screen_draw();
@@ -176,7 +128,8 @@ s32 get_small_font_glyph_width(u8 c) {
     return (s32)small_font_metrics_table_ptr[c - 0x20].width;
 }
 
-void TWindowSubStatusDisp__sub_800FC248(void) {  }
+// The small font indexes its glyphs by character code.
+s32 get_small_font_glyph_id(s32 c) { return c; }
 
 void calc_plain_glyph_quad(u8 c, TexturedQuad *q) {
     f32 a = (f32)((c & 0xF) << 4);

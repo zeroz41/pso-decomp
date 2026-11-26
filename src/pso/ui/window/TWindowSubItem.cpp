@@ -58,7 +58,7 @@ struct ItemData_80279754 {
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id);
 
 extern "C" {
-s32 try_send_6x27_use_item(s32, s32);
+s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
 }
 
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item);
@@ -90,7 +90,7 @@ void TWindowSubItemList::build_item_list() {
         }
         stats = pl->get_stats();
         if (stats != NULL && stats->meseta > 0) {
-            push_status_disp_entry(stats->meseta, -0xFF);
+            add_meseta_entry(stats->meseta, -0xFF);
         }
         if (entry_count <= 0) {
             add_list_entry(-1);
@@ -210,7 +210,7 @@ void TWindowSubItem::run_task() {
                 this->purpose_menu = 0;
             }
             if (this->help_window == 0) {
-                this->help_window = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
+                this->help_window = new TWindowHelpItem(get_window_layout_position(2), this->client_id);
                 this->help_window->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 4));
                 this->displayed_item = -1;
             }
@@ -485,7 +485,7 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
     return storage;
 }
 
-void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, TWindowMenu *titled_window_menu) {
+void TWindowSubItem::add_meseta_purpose_actions(saddr owner, TWindowMenu *titled_window_menu) {
     if (get_current_floor_area() == AREA_LOBBY) {
         add_gray_text_entry(titled_window_menu, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
         return;
@@ -493,7 +493,7 @@ void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, TWindowMenu *titled_
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
-void TWindowSubItem::draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 item_id) {
+void TWindowSubItem::draw_slot(saddr owner, TWindowMenu *titled_window_menu, s32 item_id) {
     s32 id;
 
     id = ((u32)__cntlzw(4 - (item_id & 0xF)) >> 5) + 4;
@@ -507,7 +507,7 @@ void TWindowSubItem::draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id) {
   s32 sp8;
   TItem *item;
-  saddr player;
+  TObjPlayer *player;
   item = find_item_by_id((saddr)((void *) item_id));
   if (item != 0)
   {
@@ -538,10 +538,10 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
       }
       else
       {
-        player = (saddr)get_player_by_client_id(window_sub_item->client_id);
-        if (player != 0)
+        player = get_player_by_client_id(window_sub_item->client_id);
+        if (player != NULL)
         {
-          if (((item->check_equip_requirements((TObjPlayer *)player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
+          if (((item->check_equip_requirements(player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
             list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
@@ -595,12 +595,12 @@ void TWindowSubItem::set_cursor_row_for_mode(s32 mode) {
 }
 
 void TWindowSubItem::exec_item_command(saddr item_id, s32 command) {
-    saddr player;
+    TObjPlayer *player;
     TItem *item;
     saddr t;
 
-    player = (saddr)get_player_by_client_id(this->client_id);
-    if ((player != 0) && (item = find_item_by_id(item_id), ((item == NULL) == 0))) {
+    player = get_player_by_client_id(this->client_id);
+    if ((player != NULL) && (item = find_item_by_id(item_id), ((item == NULL) == 0))) {
         switch (command) {
         case 3:
             break;
@@ -609,27 +609,27 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 command) {
             this->state = 0x16;
             break;
         case 1: {
-            TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), item->get_attach_slot());
+            TItem *held = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot());
             if (held != NULL) {
                 t = held->get_item_id();
-                TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, t);
+                TObjPlayer::send_6x26_unequip_item(player, t);
             }
-            send_6x25_equip_item(reinterpret_cast<TObjPlayer *>(player), item_id, 0);
+            send_6x25_equip_item(player, item_id, 0);
             this->state = 0x16;
             break;
         }
         case 2:
-            TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item_id);
+            TObjPlayer::send_6x26_unequip_item(player, item_id);
             this->state = 0x16;
             break;
         }
     }
 }
 
-void TWindowSubItem::close_windows(s32 arg1) {
+void TWindowSubItem::close_windows(s32 mode) {
     TObjPlayer *player = get_player_by_client_id(this->client_id);
     if (player != NULL) {
-        switch (arg1) {
+        switch (mode) {
         case 0:
             player->close_sub_window();
             this->state = 0x16;
@@ -662,10 +662,10 @@ void TWindowSubItem::use_selected_item() {
 #pragma pop
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     ItemData_80279754 d;
-    saddr pl;
+    TObjPlayer *pl;
     uaddr armor;
-    pl = (saddr)get_player_by_client_id(window_sub_item->client_id);
-    if (pl == 0) {
+    pl = get_player_by_client_id(window_sub_item->client_id);
+    if (pl == NULL) {
         return 0;
     }
     if (item->get_item_type() != 1) {
@@ -674,7 +674,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     if (item->get_item_group() != 3) {
         return 1;
     }
-    armor = TObjPlayer::get_slot_value((void *)(pl + 0xD04), 2);
+    armor = TObjPlayer::get_slot_value(pl->equipped_items.items, 2);
     if (armor == 0) {
         return 0;
     }

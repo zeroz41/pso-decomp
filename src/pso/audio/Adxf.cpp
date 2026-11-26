@@ -30,7 +30,7 @@ s32 lbl_805D75E8;
 u8 * afs_toc_buffer;
 u8 *lbl_805D75F0;
 extern s32 adxf_log_write_index;
-extern s32 lbl_805D75E4;
+extern s32 adxf_invalidate_cache_flag;
 
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.
@@ -62,7 +62,7 @@ void adxf_set_req_rd_sct(AdxfHandle *adxf, s32 nsct) {
     adxf->requested_read_sectors = nsct;
 }
 
-inline s32 check_803CC294(s32 partition, s32 file_index) {
+inline s32 check_partition_range(s32 partition, s32 file_index) {
     if (partition < 0 || partition >= 0x100) {
         adxerr_report("E9040828:'ptid' is range outside.");
         return -3;
@@ -84,7 +84,7 @@ s32 ADXF_GetFnameRangeEx(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *o
     s32 sum;
     s32 i;
     GetAfsFileInfoEntry *next;
-    st = check_803CC294(archive, file_id);
+    st = check_partition_range(archive, file_id);
     if (st < 0) {
         *mode = 0;
         *offset = -1;
@@ -191,7 +191,7 @@ inline s32 adxf_stop_logged(AdxfHandle *adxf) {
     get_adx_stream_position(adxf->stream, &position);
     adxf->sectors_read = position;
     if (adxf->buffer != NULL && adxf->f2 == 0) {
-        if (lbl_805D75E4 == 1) {
+        if (adxf_invalidate_cache_flag == 1) {
             adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
         }
         adxf->buffer->interface->destroy(adxf->buffer);
@@ -232,7 +232,7 @@ s32 ADXF_Seek(AdxfHandle *adxf, s32 pos, s32 type) {
     return adxf->sector_position;
 }
 
-void TLobby__sub_803CC884(void) {
+void adxf_update_file_states(void) {
     AdxfHandle *p;
     s32 i;
     s32 position;
@@ -246,7 +246,7 @@ void TLobby__sub_803CC884(void) {
             if (p->state == 3 || p->state == 4) {
                 p->sector_position += p->sectors_read;
                 if (p->buffer != NULL && p->f2 == 0) {
-                    if (lbl_805D75E4 == 1) {
+                    if (adxf_invalidate_cache_flag == 1) {
                         adx_invalidate_cache(p->read_destination, p->read_buffer_size);
                     }
                     p->buffer->interface->destroy(p->buffer);
@@ -269,7 +269,7 @@ s32 ADXF_ReadNw(AdxfHandle *file, s32 sectors, void *destination) {
     }
     return ADXF_ReadNw32(file, sectors, destination);
 }
-#define LE32_803CD5C4(p) ((p)[0] | ((p)[1] << 8) | ((p)[2] << 16) | ((p)[3] << 24))
+#define READ_LE32(p) ((p)[0] | ((p)[1] << 8) | ((p)[2] << 16) | ((p)[3] << 24))
 // ADXF_ReadNw32 (named by its messages)
 s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     SjRingBuffer *sj;
@@ -301,7 +301,7 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     adxf->read_destination = buf;
     adxf->read_buffer_size = nsct << 11;
     adx_lock();
-    if (lbl_805D75E4 == 1) {
+    if (adxf_invalidate_cache_flag == 1) {
         adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
     }
     if (get_adx_stream_status(adxf->stream) != 1) {
@@ -370,10 +370,10 @@ s32 adxf_read_sj32(AdxfHandle *adxf, s32 nsct, SjRingBuffer *sj) {
     return rqsct;
 }
 
-inline s32 rd32_803CD5C4(u8 *p) {
+inline s32 read_le32(u8 *p) {
     return p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24);
 }
-inline s32 state_803CD5C4(void) {
+inline s32 get_open_file_state(void) {
     if (lobby_adxf_open_file_handle == NULL) {
         adxerr_report("E9040832:'adxf' is NULL.(ADXF_GetStat)");
         return -3;
@@ -381,7 +381,7 @@ inline s32 state_803CD5C4(void) {
     return lobby_adxf_open_file_handle->state;
 }
 
-inline AdxfHandle *find_803CD16C(void) {
+inline AdxfHandle *find_free_adxf_handle(void) {
     AdxfHandle *r = NULL;
     s32 i;
     for (i = 0; i < 16; i++) {
@@ -392,8 +392,8 @@ inline AdxfHandle *find_803CD16C(void) {
     }
     return r;
 }
-inline AdxfHandle *alloc_803CD16C(void) {
-    AdxfHandle *s = find_803CD16C();
+inline AdxfHandle *alloc_adxf_handle(void) {
+    AdxfHandle *s = find_free_adxf_handle();
     if (s == NULL) {
         return NULL;
     }
@@ -408,7 +408,7 @@ inline AdxfHandle *alloc_803CD16C(void) {
     s->used = 1;
     return s;
 }
-inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 file_index) {
+inline s32 open_partition_file(AdxfHandle *s, s32 partition, s32 file_index) {
     char filename[0x10C];
     s32 c;
     s32 b;
@@ -499,9 +499,9 @@ AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
         adxf_log_write_index = i + 1;
     }
     adx_lock();
-    s = alloc_803CD16C();
+    s = alloc_adxf_handle();
     if (s != NULL) {
-        if (open_803CD16C(s, partition, file) < 0) {
+        if (open_partition_file(s, partition, file) < 0) {
             ADXF_Close(s);
             s = NULL;
         }
@@ -521,7 +521,7 @@ AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
     return s;
 }
 
-inline s32 open_803CD3A8(AdxfHandle *s, const void *name, s32 mode) {
+inline s32 open_named_file(AdxfHandle *s, const void *name, s32 mode) {
     AdxStreamFile *h;
     s32 sz;
     if (name == 0) {
@@ -558,9 +558,9 @@ AdxfHandle *ADXF_Open(const void *name, s32 mode) {
         adxf_log_write_index = i + 1;
     }
     adx_lock();
-    s = alloc_803CD16C();
+    s = alloc_adxf_handle();
     if (s != NULL) {
-        if (open_803CD3A8(s, name, mode) < 0) {
+        if (open_named_file(s, name, mode) < 0) {
             ADXF_Close(s);
             s = NULL;
         }
@@ -618,7 +618,7 @@ s32 ADXF_GetPtStat(s32 id) {
         adxerr_report("E0041303:illigal parameter 'ptid'.(ADXF_GetPtStat)");
         return -3;
     }
-    st = state_803CD5C4();
+    st = get_open_file_state();
     if (st != 3) {
         return st;
     }
@@ -628,36 +628,36 @@ s32 ADXF_GetPtStat(s32 id) {
         s32 n;
         if (memcmp(afs_toc_buffer, "AFS", 3) != 0) {
             adxerr_report("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
-            TLobby__sub_803CD804();
+            adxf_end_partition_load();
             return 4;
         }
-        n = rd32_803CD5C4(afs_toc_buffer + 4);
+        n = read_le32(afs_toc_buffer + 4);
         if (n > 0x10000) {
             adxerr_report("E0040702:Illigal number of file.(ADXF_GetPtStat)");
-            TLobby__sub_803CD804();
+            adxf_end_partition_load();
             return 4;
         }
         e->fc = n;
         i = 3;
         e->f8 = (u16)n;
         e->f4 = ((e->f8 + 1) * 2 + 0x116) & ~3;
-        e->f114 = LE32_803CD5C4(afs_toc_buffer + 8) / 2048;
+        e->f114 = READ_LE32(afs_toc_buffer + 8) / 2048;
     } else {
         i = 1;
     }
     for (; i < 0x200; i += 2) {
         u8 *q = afs_toc_buffer + i * 4;
-        arr[lobby_afs_toc_entry_index++] = (LE32_803CD5C4(q) + 0x7FF) / 2048;
+        arr[lobby_afs_toc_entry_index++] = (READ_LE32(q) + 0x7FF) / 2048;
         if (lobby_afs_toc_entry_index >= e->f8) {
             st = 3;
-            TLobby__sub_803CD804();
+            adxf_end_partition_load();
             break;
         }
     }
     if (i >= 0x200) {
         if (ADXF_ReadNw32(lobby_adxf_open_file_handle, 1, afs_toc_buffer) < 0) {
             st = 4;
-            TLobby__sub_803CD804();
+            adxf_end_partition_load();
         } else {
             st = lobby_adxf_open_file_handle->state;
         }
@@ -665,7 +665,7 @@ s32 ADXF_GetPtStat(s32 id) {
     return st;
 }
 
-void TLobby__sub_803CD804(void) {
+void adxf_end_partition_load(void) {
     ADXF_Close(lobby_adxf_open_file_handle);
     lobby_adxf_open_file_handle = 0;
     lobby_adxf_current_file_id = -1;

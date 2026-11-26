@@ -146,9 +146,9 @@ TItemShootWindmill::~TItemShootWindmill() {
 }
 
 
-void charge_ready_timer(void *weapon) {
+void charge_ready_timer(TItemWeaponWindmill *weapon) {
     if (weapon != NULL) {
-        ((TItemWeaponWindmill *)weapon)->charge_ready = 1;
+        weapon->charge_ready = 1;
     }
 }
 

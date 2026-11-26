@@ -209,7 +209,7 @@ void free_forest_box_resources() {
         safe_free(forest_box_textures);
         forest_box_textures = NULL;
     }
-    if ((uaddr) forest_box_model_archive != 0U) {
+    if (forest_box_model_archive != 0U) {
         delete forest_box_model_archive;
         forest_box_model_archive = NULL;
     }
@@ -243,7 +243,7 @@ void free_container_breakup_resources() {
         safe_free(container_breakup_textures);
         container_breakup_textures = NULL;
     }
-    if ((uaddr) container_breakup_model_archive != 0U) {
+    if (container_breakup_model_archive != 0U) {
         delete container_breakup_model_archive;
         container_breakup_model_archive = NULL;
     }
@@ -405,7 +405,7 @@ void TObjContainerCommon::request_configured_item_drop(TObjContainerCommon *cont
 
 TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = container_item_name;
-    model = (void *)get_forest_box_model(1);
+    model = get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
@@ -445,7 +445,7 @@ void TObjContainerItem::draw_model() {
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
-            draw_ginja_box_tree((NJS_OBJECT *)model);
+            draw_ginja_box_tree(model);
             pop_matrix();
             break;
         case 1:
@@ -494,7 +494,7 @@ void TObjContainerItem::apply_saved_state(s16 *state, s32 live) {
 
 TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = container_enemy_name;
-    model = (void *)get_forest_box_model(1);
+    model = get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
@@ -536,7 +536,7 @@ void TObjContainerEnemy::draw_model() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
-        draw_ginja_box_tree((NJS_OBJECT *)model);
+        draw_ginja_box_tree(model);
         pop_matrix();
         break;
     case 1:
@@ -607,7 +607,7 @@ void TObjContainerEnemy::apply_saved_state(s16 *state, s32 live) {
 
 TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = container_no_item_name;
-    model = (void *)get_forest_box_model(1);
+    model = get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
@@ -649,7 +649,7 @@ void TObjContainerNoItem::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
-        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)this + 0x34)));
+        draw_ginja_box_tree(this->model);
         pop_matrix();
             break;
         }

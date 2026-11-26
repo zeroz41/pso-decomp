@@ -266,7 +266,7 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
 
     init_position_vectors();
     init_variant();
-    model = (void *)me3_sinow_zoa_bml_resource->models->model;
+    model = me3_sinow_zoa_bml_resource->models->model;
     init_model(&sinow_zoa_collision_parts, 1);
     motion_flags = 0;
     this->set_action_table(me3_sinow_zoa_animation_descriptors);
@@ -432,7 +432,7 @@ f32 TObjEneMe3SinowZoa::get_node_height() {
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
     bind_motion_context(current_motion, frame);
-    node = (NJS_OBJECT *)model;
+    node = model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);
     matrix_mult_vec(0, &v, &v);
@@ -738,7 +738,7 @@ void TObjEneMe3SinowZoa::state_fade_in(s32 mode) {
         t = this->body_y;
         v.y = t - 20.0f;
         if (this->stealthed == 0) {
-            TBoss3Volopt__sub_800D8D88((saddr)&v);
+            play_appear_effects((saddr)&v);
         } else {
             create_timed_particle_emitter(&this->position, 0x79, 0, 0xF);
         }
@@ -831,7 +831,7 @@ void TObjEneMe3SinowZoa::state_ambush(s32 mode) {
         this->fade.start_fade_in();
         VecCopy(&v, &this->position);
         v.y = this->body_y - 10.0f;
-        TBoss3Volopt__sub_800D8D88((saddr)&v);
+        play_appear_effects((saddr)&v);
         break;
     case 3:
         if (this->fade.advance_toward_max() != 0) {
@@ -1934,15 +1934,15 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
     }
 }
 
-inline s32 approach_80316C3C(TObjEneMe3SinowZoa *self) {
+inline s32 approach_destination(TObjEneMe3SinowZoa *self) {
     copy_position_if_valid(self, self->body_center);
     self->body_center.y += 5.0f;
     return ((TObjEnemy *)self)->enemy_turn_toward_dest(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
 }
-inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
+inline s32 seek_destination(TObjEneMe3SinowZoa *self, Vec *diff) {
     s32 angle;
     if (select_enemy_destination(self, self->destination, 1) != 0) {
-        angle = approach_80316C3C(self);
+        angle = approach_destination(self);
         enemy_set_heading_velocity(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->speed, self, self->rotation_y);
         move_with_wall_slide(self);
     } else {
@@ -1982,7 +1982,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 this->transition_enemy_state(6);
                 break;
             }
-            angle = seek_80316C3C(this, &diff);
+            angle = seek_destination(this, &diff);
             if (angle < 0x100) {
                 if (this->stealthed != 0) {
                     this->fade.set_rate(0.05f);

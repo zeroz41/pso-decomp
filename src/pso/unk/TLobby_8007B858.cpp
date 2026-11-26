@@ -75,7 +75,7 @@ s32 GuildCardEntry::get_card_id() const { return tag.m_guildcard_number; }
 int GuildCardEntry::is_active() const { return flags & 1; }
 s8 GuildCardEntry::get_char_class() { return char_class; }
 
-s32 GuildCardEntry::sub_8007B6F4() const {
+s32 GuildCardEntry::is_own_card() const {
     if (flags & 2) {
         return 0;
     }
@@ -95,7 +95,7 @@ void G_SendGuildCard_6x06::send_to(u32 client) {
     ((game_command *)&header)->send_to_client(client);
 }
 
-int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
+GuildCardEntry *TWindowSubComCard::get_own_guild_card() { return own_guild_card; }
 
 G_SendGuildCard_6x06::G_SendGuildCard_6x06() {
     header.subcommand = 6;
@@ -127,7 +127,7 @@ const char *TObjPlayer::get_name() { return name; }
 
 
 extern "C" {
-void TSceneSora__sub_80207430(void);
+void release_sky_scene(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
 s32 restore_floor_telepipes();
@@ -142,7 +142,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {create_reflection_target, destroy_reflection_target},
     {init_camera_render_target, free_camera_render_target},
     {TScene::load_current_floor, TScene::free_scene_resources},
-    {TSceneSora::load_sky_resources, TSceneSora__sub_80207430},
+    {TSceneSora::load_sky_resources, release_sky_scene},
     {TRaderMapCore::load_map_resources, TRaderMapCore::unload_floor_map},
     {setup_floor_decorations, clear_floor_flags_and_depart},
     {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},
@@ -169,7 +169,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
 
 // Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
 FloorResourceCallbacks lbl_8048D5A8[4] = {
-    {load_technique_resources, TLobby__sub_8022F068},
+    {load_technique_resources, free_technique_resources},
     {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
     {update_battle_params, NULL},

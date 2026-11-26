@@ -18,10 +18,10 @@ LAYOUT_ASSERT(ItemDropBaseOffset, offsetof(G_DropItem_PC_V3_BB_6x5F, __base_G_Dr
 
 // Swap a complete aligned packet of at least 0x28 bytes. Its first subobject
 // must be a live G_ClientIDHeader; its remaining record is encoded bytes.
-extern "C" void bswap_item_packet__6TLobbyFv(void *packet);
+extern "C" void bswap_item_packet(void *packet);
 
 // Byte-order conversion for an aligned 0x24-byte floor-item representation.
 // Also used on sync-buffer records: this does not claim a FloorItem lifetime.
-extern "C" void bswap_item__6TLobbyFv(void *record);
+extern "C" void bswap_item(void *record);
 
 #endif

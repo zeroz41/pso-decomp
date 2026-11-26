@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-int TWindowSubCustomEquip__sub_80275DA8(void *p);
+int is_custom_equip_cancelled(void *p);
 }
 
 #endif

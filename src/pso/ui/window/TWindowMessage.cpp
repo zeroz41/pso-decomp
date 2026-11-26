@@ -21,6 +21,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 const char *TWindowMessage::class_name = "TWindowMessage";
 
 extern "C" {
@@ -49,7 +50,7 @@ void TWindowMessage::advance_reveal_cursor() {
     u16 *e;
     s32 t;
     e = ((u16 *)get_array_entry(reveal_line));
-    while (((TWindowSubComCard *)e)->get_field_20() != 0 && (*e & 0x10)) {
+    while (((WindowTextEntry *)e)->get_text() != 0 && (*e & 0x10)) {
         t = reveal_line + 1;
         reveal_line = t;
         if (t >= line_count) {
@@ -73,7 +74,7 @@ void TWindowMessage::update_line_timers() {
     s32 idx;
     f32 h;
     for (i = 0; i < (u32)line_count; i++) {
-        if (((TWindowSubComCard *)((u8 *)this->get_array_entry(i)))->get_field_20() != 0) {
+        if (((WindowTextEntry *)((u8 *)this->get_array_entry(i)))->get_text() != 0) {
             if ((lines[i].flags & 4) && lines[i].timer > 0) {
                 lines[i].timer--;
             }
@@ -82,7 +83,7 @@ void TWindowMessage::update_line_timers() {
     idx = oldest_line;
     e = static_cast<WindowTextEntry *>(get_array_entry(idx));
     m = &lines[idx];
-    while (((TWindowSubComCard *)e)->get_field_20() != 0 && m->timer <= 0 && (m->flags & 4)) {
+    while (e->get_text() != 0 && m->timer <= 0 && (m->flags & 4)) {
         m->flags &= ~4;
         h = (1.0f) + (e->y + e->height);
         if (target_scroll_y < h) {
@@ -105,7 +106,7 @@ void TWindowMessage::retire_scrolled_lines() {
     TWindowMessageLine *m;
     e = static_cast<WindowTextEntry *>(get_array_entry(oldest_line));
     m = &lines[oldest_line];
-    while (((TWindowSubComCard *)e)->get_field_20() != 0 && e->y + e->height < scroll_offset[1]) {
+    while (e->get_text() != 0 && e->y + e->height < scroll_offset[1]) {
         scroll_up_line(reinterpret_cast<u8 *>(e));
         m->flags = 0;
         m->timer = 0;
@@ -148,28 +149,27 @@ void TWindowMessage::update_scroll() {
 
 #pragma push
 #pragma fp_contract on
-s32 get_shared_text_buffer(void);
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
 
 #pragma readonly_strings on
-s32 TWindowOptionCtrl::add_label_value_line(const char *label, const char *value, u32 flags) {
+s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u32 flags) {
     const char *sep;
     f32 x;
     s32 r;
-    u8 *e;
+    WindowTextEntry *e;
 
     sep = " : ";
     text_builder_reset();
-    text_builder_append((u8 *)label);
-    text_builder_append((u8 *)sep);
-    text_builder_append((u8 *)value);
-    e = (u8 *)((TWindowBase *)this)->get_array_entry(*(s32 *)(((u8 *)this) + 0x88));
-    r = append_message_window_line((TWindowMessage *)this, get_shared_text_buffer(), flags | 2, -1);
+    text_builder_append(label);
+    text_builder_append(sep);
+    text_builder_append(value);
+    e = (WindowTextEntry *)get_array_entry(next_line);
+    r = append_message_window_line(this, (saddr)get_shared_text_buffer(), flags | 2, -1);
     if (r != 0) {
-        x = (0.5f) * (*(f32 *)(((u8 *)this) + 0x38) - 8.0f);
+        x = (0.5f) * (target_size[0] - 8.0f);
         x -= (f32)calc_text_width((char *)label);
         x -= (0.5f) * (f32)calc_text_width((char *)sep);
-        *(f32 *)(e + 8) = x;
+        e->x = x;
     }
     return r;
 }
@@ -179,7 +179,6 @@ s32 TWindowOptionCtrl::add_label_value_line(const char *label, const char *value
 }
 
 extern "C" {
-void measure_message_text_width(void *, f32);
 
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color) {
     WindowTextEntry *e;
@@ -191,7 +190,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
     }
     e = (WindowTextEntry *)self->get_array_entry(self->next_line);
     rec = &self->lines[self->next_line];
-    if (((TWindowSubComCard *)e)->get_field_20() != 0U) {
+    if (e->get_text() != 0U) {
         self->scroll_up_line((u8 *)e);
     }
     if (flags & 0x80) {
@@ -282,8 +281,8 @@ void set_message_window_default_flags(void) {
     message_window_settings.flags = 3;
 }
 
-void set_message_window_flags(s32 arg0) {
-    message_window_settings.flags = arg0;
+void set_message_window_flags(s32 flags) {
+    message_window_settings.flags = flags;
 }
 
 WindowDescriptor *get_message_window_settings(void) {

@@ -42,7 +42,7 @@ struct TItemData {
     // Makes this item a meseta drop of `amount`.
     void init_meseta(s32 amount);
     void bswap();
-    static s32 is_usable(void *data);
+    static s32 is_usable(TItemData *data);
     static s32 lookup_item_def(void *data);
     static s32 is_wrapped(void *data);
     static s32 is_rare_item(void *data);
@@ -124,7 +124,7 @@ struct TItemData {
     s32 get_base_rarity();
     s32 check_item_flags();
     void clear_unidentified_flag();
-    static s32 is_item_usable(saddr arg0, u8 *item);
+    static s32 is_item_usable(saddr player, u8 *item);
     void set_present_color(s8 color);
     s32 get_type_nibble();
     void add_weapon_stat_bonuses(TObjPlayer *player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,

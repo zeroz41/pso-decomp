@@ -24,11 +24,11 @@
 extern "C" {
 TObjCollidable *find_entity_by_id(s32);
 
-void TObjPlayer__sub_80128A70(void) {  }
+void debug_weapon_attack_hook(void) {  }
 
-void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
+void s_rank_punch_hit_effect(s32 layer, TObject *player, s32 target_id, s32 body) {
     TObjCollidable *o;
-    TItemWeaponSRankPunch::clear_rico_ring_flag((TObject *)player);
+    TItemWeaponSRankPunch::clear_rico_ring_flag(player);
     o = find_entity_by_id(target_id);
     if (o != 0 && o->bodies != 0 && body < o->body_count) {
         spawn_particle_effect(&o->bodies[body].center, 0x45);
@@ -84,7 +84,7 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
     PlayerAttackController *attack_state;
     s32 i;
     TObjPlayer *player;
-    TObjPlayer__sub_80128A70();
+    debug_weapon_attack_hook();
     player = owner;
     if (player == NULL) return;
     attack_state = &player->attack_state;

@@ -20,10 +20,10 @@ public:
 
     static s32 is_card_file_missing_a();
     static s32 is_card_file_missing_b();
-    static s32 sub_802E1528();
+    static s32 is_system_card_file_missing();
     static s32 is_card_file_absent_a();
     static s32 is_card_file_absent_b();
-    static s32 sub_802E15C8();
+    static s32 is_system_card_file_absent();
     static s32 is_load_complete();
     s32 poll_load_status();
     s32 sub_802E1868();
@@ -31,7 +31,7 @@ public:
     void apply_settings();
     void close_and_next(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
     void close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 second_text);
-    void sub_802E1A04(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
+    void open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
     void open_message_choice(u32 text, s32 sel, u32 first_text, u32 second_text);
     void close_windows();
     void create_backgrounds();
@@ -40,7 +40,7 @@ public:
     s32 count_flags();
     void change_state(s32 new_state);
     void init();
-    void sub_802E1F14();
+    void reset_check_state();
 
     // State handlers, last state first.
     void update_state();

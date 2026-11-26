@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 
-// Own TU: the .data vtable at 0x804EDAC0 starts 8-aligned after TAdEnterPasswordGC's vtable and its 4-byte pad,
-// the .sbss instance pointer starts 8-aligned after TAdEnterPasswordGC's PMF guard, and every function from
-// 0x8032BBF0 to 0x8032BE50 works on this object.
+// Own TU: the .data vtable starts 8-aligned after TAdEnterPasswordGC's vtable and its 4-byte pad,
+// the .sbss instance pointer starts 8-aligned after TAdEnterPasswordGC's PMF guard, and every function of this unit
+// works on this object.
 
 TDeferredRenderQueue *TDeferredRenderQueue::instance;
 

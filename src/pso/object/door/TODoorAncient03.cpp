@@ -49,7 +49,7 @@ static NJS_TEXLIST **door_ancient03_texlists;
 TODoorAncient03::TODoorAncient03(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = TODoorAncient03_name;
     apply_object_set_data(set_data);
-    model = (void *)door_ancient03_archive->models[0].model;
+    model = door_ancient03_archive->models[0].model;
     texlist = door_ancient03_texlists[1];
     motion = door_ancient03_archive->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
@@ -99,7 +99,7 @@ void TODoorAncient03::render() {
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(door_ancient03_texlists[door_flags & DOOR_FLAG_UNLOCKED]));
         if (object_state == DOOR_CLOSED) {
-            NJS_OBJECT *node = (NJS_OBJECT *)model;
+            NJS_OBJECT *node = model;
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
             node = node->child;

@@ -8,6 +8,12 @@ struct NJS_SPRITE;
 struct BmlResource;
 struct AsyncFileReadRequest;
 struct EnemySetRecord;
+struct ServerMenuEntry;
+class TLobbyIdleTimer;
+class TPlyJoinGame;
+struct PlayerSyncRecord;
+struct G_ClientIDHeader;
+struct DownloadListEntry;
 struct FloorObjectSetRow;
 struct GuildCardRecord;
 
@@ -311,10 +317,10 @@ struct TLobby : public TObject {
     static void free_global_object();
     static void update_menu_cursor_selection();
     static void init_once(TRecvInfoBoard *info_board);
-    static void *get_info_board_ptr();
-    static void init_once_data(u32 buffer);
+    static TRecvInfoBoard *get_info_board_ptr();
+    static void request_info_board(TRecvInfoBoard *buffer);
     static void flush_pending_send();
-    static saddr get_card_window_field();
+    static char *get_info_board_text();  // the player's own info board text (CharacterSaveRecord)
     static void set_info_board_text(char *text);
     static void reset_info_board();
     static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
@@ -329,7 +335,6 @@ struct TLobby : public TObject {
     static void load_ask_dictionary();
     static void drain_deferred_packets();
     static void open_challenge_window(s32 lobby, s32 challenge_id);
-    void add_status_disp_entry(s32 name, s32 id);
     static void tmp_buf_release_if_owner(const char *name);
     static s32 tmp_buf_release(const char *name);
     static s32 tmp_buf_is_free();
@@ -470,7 +475,6 @@ struct TLobby : public TObject {
     static s32 is_multi_ready();
     static void update_game_modes();
     static void free_global_buffers();
-    void fill_guild_card_from_char(s32 index);
     void roll_item_grind_bonus();
     static void free_map_resources();
     static s32 count_members();
@@ -518,7 +522,7 @@ struct TLobby : public TObject {
     // Empties the com card list and clears its flag.
     static void reset_com_card_list();
     void set_split_screen_name();
-    static void create_singleton(void *parent);
+    static void create_singleton(TObject *parent);
     static s32 assign_player_id(void *);
     static void handle_battle_result(int client, s32 local);
     static void close_and_play_effect(int client, s32 local);
@@ -531,7 +535,7 @@ struct TLobby : public TObject {
     static void bswap_and_handle_packet(void *packet, int size);
     static void bswap_header_fields(void *header);
     static void bswap_inventory(void*);
-    static void bswap_player_data(void *data);
+    static void bswap_player_data(PlayerSyncRecord *record);
     static s32 change_file_extension(char *dest, char *filename, char *ext);
     static void close_all_windows(void *);
     static void close_all_windows();
@@ -560,7 +564,7 @@ struct TLobby : public TObject {
     static void handle_com_card();
     static void handle_comcard_window();
     static void handle_create_game_window();
-    static void handle_game_join(void *);
+    static void handle_game_join(TPlyJoinGame *);
     static void handle_game_list_select();
     static void handle_lobby_enter(TPlyJoinLobbyEntry *, int, int, int, int, int, int, int);
     static void handle_login_result(unsigned int);
@@ -579,15 +583,15 @@ struct TLobby : public TObject {
     static u8 lookup_key_value(char);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
     static void open_city_warp_menu();
-    static void open_download_list_window(int, void *);
+    static void open_download_list_window(int, DownloadListEntry *);
     static s32 open_hard_keyboard(s32 client_id);
-    static void open_information_list(int, void *);
+    static void open_information_list(int, ServerMenuEntry *);
     static void open_keyboard_window();
     static void open_lobby_warp_menu();
     static void open_make_team_window(int);
     static void open_menu_window();
     static void open_session(const char *path);
-    static void open_ship_block_select_menu(int, void *, void *);
+    static void open_ship_block_select_menu(int, ServerMenuEntry *, ServerMenuEntry *);
     static void open_warp_menu();
     static s32 pick_random_slot(s16 *slot);
     static void play_all_players_effect(void*);
@@ -629,7 +633,7 @@ struct TLobby : public TObject {
     static void update_card_list_window();
     static void update_com_card_window();
     static void update_game_list_menu();
-    static void update_idle_timeout(void *);
+    static void update_idle_timeout(TLobbyIdleTimer *);
     static void update_make_team_menu();
     static void update_menu_window();
     static void update_player_window();

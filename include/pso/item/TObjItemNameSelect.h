@@ -14,7 +14,7 @@ public:
     TObjItemNameSelect(TObject *parent);
     virtual ~TObjItemNameSelect();
 
-    static void *create(void *parent);
+    static TObjItemNameSelect *create(void *parent);
     static void set_selection_index(int index);
     static s32 get_selected_value();
     static char *get_selected_name();

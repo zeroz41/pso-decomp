@@ -18,10 +18,10 @@ public:
     static const char *class_name;
     s32 render_direct;                // 1 (ctor): drawn outside render pass 1; TAdMcSelectGC clears it
     McSelectMcQuad quads[8];
-    u32 pad_120;               // alpha of the picture
-    s32 pad_124;               // fade-in step, follows the slot's cursor state
+    u32 alpha;               // alpha of the picture
+    s32 fade_step;               // fade-in step, follows the slot's cursor state
     s32 pad_128;
-    s32 pad_12c;               // memory card slot (ctor argument)
+    s32 slot;               // memory card slot (ctor argument)
     s32 pad_130;
 
     TAdMcSelectMcGC(TObject *parent, s32 slot);

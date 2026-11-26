@@ -51,7 +51,7 @@ void TWindowMessageQuest::render() {
     draw_visible_window_entries(
         reinterpret_cast<const void *>(((Win_8026B148 *)this)),
         reinterpret_cast<const WindowLayoutEntries *>(((Win_8026B148 *)this)->entries),
-        reinterpret_cast<WindowDrawContext *>(c));
+        c);
 }
 
 

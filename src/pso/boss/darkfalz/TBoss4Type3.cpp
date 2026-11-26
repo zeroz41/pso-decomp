@@ -505,7 +505,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         apply_boss6_hit_flash_color(hit_flash, hp_ratio);
     }
     model_render_flags |= 0x20000;
-    TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
+    set_texture_scroll(0.0f, texture_scroll);
     set_motion_packed_rotation();
     for (i = 0; i < 3; i++) {
         set_texture_list(get_bml_texlist(archive, tbl[i]));

@@ -186,7 +186,7 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
                 if (entries[cursor].item->copy_to_item_data(&selected_item) != 0) {
                     this->at_tekker = entries[cursor].item->is_at_tekker();
                     judged_item.copy_from(&selected_item);
-                    update_item_appraisal((saddr)&judged_item);
+                    update_item_appraisal(&judged_item);
                     this->timer = 0x5F;
                     if (item_list != NULL) {
                         item_list->close();
@@ -244,7 +244,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             this->result_item = construct_item(&judged_item);
             this->item_list->add_list_entry(this->result_item, 0);
             this->item_list->set_flag70_bit10();
-            this->item_list->set_flag_40();
+            this->item_list->disable_input();
             this->item_list->set_close_flag();
             this->item_list->calc_content_extent();
         }
@@ -253,11 +253,11 @@ void TShopJudgmentItemWindow::create_result_windows() {
             this->texture_window->set_mag_slot_state(&judged_item);
         }
         if (this->help_window == NULL) {
-            this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());
+            this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
             if ((this->help_window != NULL) && (TLobby::is_camera_ctrl_active() > 2)) {
                 this->help_window->set_scale(0.75f, 0.75f);
             }
-            this->help_window->set_displayed_item_colored((uaddr)&judged_item);
+            this->help_window->set_displayed_item_colored(&judged_item);
         }
         send_message(8, 1);
         set_state(4);

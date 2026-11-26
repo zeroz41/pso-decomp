@@ -9,6 +9,7 @@ struct NJS_TEXLIST;
 struct TItemData;
 
 struct TWindowLoadItemTexture : public TWindowBase {
+    static const char *class_name;
     TWindowLoadItemTexture(void *position, f32 *extent, s32 client);
     virtual ~TWindowLoadItemTexture();
     virtual void render();
@@ -16,8 +17,8 @@ struct TWindowLoadItemTexture : public TWindowBase {
     static TWindowLoadItemTexture *create(void *position, s32 client);
     void set_mag_slot_state(TItemData *item);
 
-    u8 m_60;
-    u8 m_61;
+    u8 load_state;   // 1 while the icon texture is loading (render binds it once ready), else 2
+    u8 frame_flags;  // bit 0: draw the window frame
     u8 _pad62[0x2];
     f32 draw_scale[2];
     TItemTexLoad *texture_loader;
@@ -32,7 +33,7 @@ LAYOUT_ASSERT(TWindowLoadItemTexture_list_offset, offsetof(TWindowLoadItemTextur
 TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f32 *extent, s32 client);
 void bind_item_texture(TWindowLoadItemTexture *window);
 extern "C" {
-void fn_80262C2C(TWindowLoadItemTexture *window);
+void enable_item_texture_frame(TWindowLoadItemTexture *window);
 }
 
 #endif

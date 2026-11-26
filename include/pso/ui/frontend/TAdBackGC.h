@@ -10,7 +10,7 @@ public:
     static const char *class_name;
     TAdBackGC(TObject *parent);
     virtual ~TAdBackGC();
-    void sub_8029A6EC();
+    void draw_backdrop();
     virtual void run_task();
     virtual void render();
 public:

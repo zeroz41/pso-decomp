@@ -82,8 +82,8 @@ void TObjRainbowLobby::free_resources() {
 }
 
 void TObjRainbowLobby::load_resources() {
-    void *resource = new BmlResource(1, &bm_obj_lobby_rainbow_resource_descriptor, 0, 0, NULL);
-    shared_model_resource = (BmlResource *)resource;
+    BmlResource *resource = new BmlResource(1, &bm_obj_lobby_rainbow_resource_descriptor, 0, 0, NULL);
+    shared_model_resource = resource;
 }
 
 TObjRainbowLobby::~TObjRainbowLobby() {}
@@ -97,6 +97,6 @@ TObjRainbowLobby::TObjRainbowLobby(TObject *parent, void *set_data) : TObjMapObj
         state = 3;
     }
     scale = 1.0f;
-    model = (void *)shared_model_resource->models->model;
+    model = shared_model_resource->models->model;
     texlist = shared_model_resource->models->texlist;
 }

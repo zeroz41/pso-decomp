@@ -112,7 +112,7 @@ struct TObjEneDelDepth : public TObjEnemy {
     static void load_assets();
     static void reset_globals();
     static void setup_draw_material_default(f32 opacity);
-    static void setup_draw_material(f32 opacity, f32 farg1, f32 farg2, f32 farg3);
+    static void setup_draw_material(f32 opacity, f32 red, f32 green, f32 blue);
     static BmlResource *get_data();
     static DelDepthParameters *tune_params;
     static BmlResource *shared_resource;

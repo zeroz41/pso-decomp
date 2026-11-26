@@ -95,7 +95,7 @@ struct TWindowSubSymbolChat : public TObject {
 LAYOUT_ASSERT(TWindowSubSymbolChat_size, sizeof(TWindowSubSymbolChat) == 0x60);
 
 extern "C" {
-TWindowMenu *TWindowSubSymbolChat__sub_8028233C(TWindowSubSymbolChat *chat);
+TWindowMenu *create_new_parts_menu(TWindowSubSymbolChat *chat);
 SymbolChatPreset *get_symbol_chat_receive_buffer(void);
 }
 #endif

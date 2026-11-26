@@ -20,6 +20,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 #pragma readonly_strings on
 
@@ -80,21 +81,21 @@ void TWindowSoundBalance::set_music_gain(s16 gain) {
 }
 
 void TWindowSoundBalance::apply_balance(WindowDrawContext *context) {
-    u8 *entry = static_cast<u8 *>(get_array_entry(selection));
+    TWindowLayoutRect *entry = static_cast<TWindowLayoutRect *>(get_array_entry(selection));
     draw_selection_bar(context, entry, is_active());
 }
 
 void TWindowSoundBalance::handle_cancel() {
     if (is_active() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_60 = (u8) (this->m_60 | 2);
+        this->result_flags = (u8) (this->result_flags | 2);
     }
 }
 
 
 void TWindowSoundBalance::play_open_sound() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->m_60 = (u8) (this->m_60 | 1);
+    this->result_flags = (u8) (this->result_flags | 1);
 }
 
 
@@ -195,16 +196,16 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     SoundBalanceSettings *st;
 
     this->m_name = TWindowSoundBalance::class_name;
-    this->m_60 = 0;
+    this->result_flags = 0;
     this->selection = 0;
     this->music_gain = 1;
     this->sound_effect_gain = 1;
     e = (u8 *)get_array_entry(0);
-    char *label = reinterpret_cast<char *>(reinterpret_cast<TWindowSubComCard *>(e)->get_field_20());
+    char *label = reinterpret_cast<char *>(reinterpret_cast<WindowTextEntry *>(e)->get_text());
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     e = (u8 *)get_array_entry(1);
-    label = reinterpret_cast<char *>(reinterpret_cast<TWindowSubComCard *>(e)->get_field_20());
+    label = reinterpret_cast<char *>(reinterpret_cast<WindowTextEntry *>(e)->get_text());
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();

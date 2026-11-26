@@ -30,13 +30,13 @@ void TWindowSubQuestBoardSelect::sub_8027D1E8() {
 
 extern "C" {
 
-void TWindowCtrl__sub_8027D1F8(void) {
+void clear_ctrl_flag_bit4(void) {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags &= ~0x10;
     }
 }
 
-void TWindowCtrl__sub_8027D214(void) {
+void set_ctrl_flag_bit4(void) {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags |= 0x10;
     }
@@ -54,7 +54,7 @@ struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 
 // inferred: window_sub_quest_board_select_layout_entries, the layout table
-// TWindowSubQuestBoardSelect__window_parameters points at (two text entries, six slot sprites).
+// quest_board_select_window_parameters points at (two text entries, six slot sprites).
 struct SubQuestBoardSelectWindowLayout {
     u32 cols;
     u32 rows;
@@ -76,20 +76,18 @@ SubQuestBoardSelectWindowLayout window_sub_quest_board_select_layout_entries = {
         {6, {392.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
     },
 };
-WindowDescriptor TWindowSubQuestBoardSelect__window_parameters = {
+WindowDescriptor quest_board_select_window_parameters = {
     {434.0f, 184.0f}, 50150.0f, &window_sub_quest_board_select_layout_entries, 3,
 };
 
 
 
 extern "C" {
-void measure_message_text_width(void *, f32);
-extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::update_slot_title() {
-    u8 *str;
+    char *str;
     WindowTextEntry *entry_1;
-    str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
+    str = quest_board_handlers[(s8) this->slot].title;
     entry_1 = static_cast<WindowTextEntry *>(this->get_array_entry(1));
     set_text_entry_string(entry_1, (uaddr)str, 0);
     measure_message_text_width(entry_1, 100000.0f);
@@ -270,8 +268,8 @@ void TWindowSubQuestBoardSelect::run_task() {
         }
     }
     update_window();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        *(s32 *)&this->open_tick = 0x186A0;
+    if ((f32)this->open_tick >= 7.5f) {
+        this->open_tick = 0x186A0;
         this->status_disp->update();
     }
     this->update_fade();
@@ -286,7 +284,7 @@ u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma push
 #pragma fp_contract on
-TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
+TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&quest_board_select_window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 title_width;
     WindowTextEntry *entry_0;
     WindowHeading *heading;
@@ -296,7 +294,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
     set_text_entry_string(entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
-    ((TWindowSubComCard *)entry_0)->get_field_20();
+    entry_0->get_text();
     title_width = (f32) calc_text_width();
     entry_0->x = 210.0f - 0.5f * title_width;
     slot = -1;

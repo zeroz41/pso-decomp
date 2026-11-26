@@ -22,7 +22,7 @@
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
-NJS_TEXLIST *TBGMulti__textures;
+NJS_TEXLIST *bg_multi_textures;
 s32 split_screen_hud_animation_frame;
 
 void TWindowSubStatusDisp::draw_split_screen_dividers() {
@@ -62,7 +62,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
     s32 j;
     f32 buf[8];
     begin_screen_draw(1);
-    set_texture_list(TBGMulti__textures);
+    set_texture_list(bg_multi_textures);
     set_draw_texture_and_color(0, -1);
     i = 0;
     buf[4] = 0.5f;
@@ -96,7 +96,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
     if (split_screen_hud_animation_frame <= 0x1E) {
         set_additive_blend();
         begin_screen_draw(1);
-        set_texture_list(TBGMulti__textures);
+        set_texture_list(bg_multi_textures);
         set_draw_texture_and_color(0, -1);
         i = 0;
         buf[0] = 0.0f;
@@ -123,7 +123,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   s32 i;
   f32 buffer_8[8];
   begin_screen_draw(1);
-  set_texture_list(TBGMulti__textures);
+  set_texture_list(bg_multi_textures);
   set_draw_texture_and_color(0, -1);
   i = 0;
   ;
@@ -146,8 +146,8 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   end_screen_draw();
 }
 void TWindowSubStatusDisp::draw_split_screen_hud() {
-    s32 var_r3;
-    if (TBGMulti__textures != NULL) {
+    s32 frame;
+    if (bg_multi_textures != NULL) {
         set_depth_buffer_settings_2();
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
@@ -159,9 +159,9 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
         restore_saved_depth_alpha_state();
-        var_r3 = split_screen_hud_animation_frame;
-        split_screen_hud_animation_frame = var_r3 + 1;
-        if (var_r3 > 0x708) {
+        frame = split_screen_hud_animation_frame;
+        split_screen_hud_animation_frame = frame + 1;
+        if (frame > 0x708) {
             split_screen_hud_animation_frame = 0;
         }
     }
@@ -172,10 +172,10 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 extern s32 split_screen_hud_animation_frame;
 
 void TLobby::release_bg_multi_textures() {
-    if (TBGMulti__textures != NULL) {
-        release_texture_list(TBGMulti__textures);
-        safe_free(TBGMulti__textures);
-        TBGMulti__textures = NULL;
+    if (bg_multi_textures != NULL) {
+        release_texture_list(bg_multi_textures);
+        safe_free(bg_multi_textures);
+        bg_multi_textures = NULL;
     }
 }
 void TBGMulti__ct(void) {
@@ -184,7 +184,7 @@ void TBGMulti__ct(void) {
         palette.data = TLobby::tmp_buf_use_req("TBGMulti");
         TLanguage::load_palette_tlut("f128_gr.gvp", &palette, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
-        set_texture_list(TBGMulti__textures = LoadPvmFileTls("bg_multi.gvm"));
+        set_texture_list(bg_multi_textures = LoadPvmFileTls("bg_multi.gvm"));
         set_context_texture_palette_bank(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;

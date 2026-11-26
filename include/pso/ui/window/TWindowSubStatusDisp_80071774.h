@@ -8,7 +8,7 @@
 s32 get_challenge_title_color(u16 client);
 s32 challenge_title_color(ChallengeRecord *record);
 char *get_challenge_rank_title(u16 client);
-extern "C" char *TWindowSubStatusDisp__sub_80071820(ChallengeRecord *record);
+extern "C" char *decode_challenge_rank_title(ChallengeRecord *record);
 s32 get_challenge_rank(u16 client, s32 set);
 // The current set's total time plus the base time; the maximum while a stage is not cleared.
 s32 get_challenge_total_time();

@@ -33,7 +33,7 @@ const char *font_small_task_class_name = "TFontSmallTask";
 static const Vec font_small_forward_vec = {0.0f, 0.0f, -1.0f};
 
 void update_card_window_flags(saddr client_id, s32 card_status_bits) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
 }
 s32 get_player_status_color(void *player) { return *(s32 *)((char *)player + 0x874); }
 
@@ -164,22 +164,22 @@ void TFontSmallTask::run_task() {
 
 s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, const char *str, s32 value, u16 view) {
     text_builder_reset();
-    text_builder_append((u8 *)str);
+    text_builder_append(str);
     if (value >= 0) {
-        text_builder_append((u8 *)"+");
+        text_builder_append("+");
     }
     text_builder_append_int(value);
-    return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), view);
+    return (saddr)new TFontSmallTask(pos, color, life, delay, get_shared_text_buffer(), view);
 }
 
 s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, const char *str, s32 value) {
     text_builder_reset();
-    text_builder_append((u8 *)str);
+    text_builder_append(str);
     if (value >= 0) {
-        text_builder_append((u8 *)"+");
+        text_builder_append("+");
     }
     text_builder_append_int(value);
-    return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), 0xFFFF);
+    return (saddr)new TFontSmallTask(pos, color, life, delay, get_shared_text_buffer(), 0xFFFF);
 }
 
 void create_boss_health_font(s32 pos, s32 color, s32 life, void *label, void *value) {
@@ -189,13 +189,13 @@ void create_boss_health_font(s32 pos, s32 color, s32 life, void *label, void *va
 s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {
     text_builder_reset();
     text_builder_append_int(damage);
-    return (saddr)new TFontSmallTask((Vec *)(saddr)pos, color, life, 0, (const char *)get_shared_text_buffer(), 0xFFFF);
+    return (saddr)new TFontSmallTask((Vec *)(saddr)pos, color, life, 0, get_shared_text_buffer(), 0xFFFF);
 }
 
 saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, const char *text) {
     text_builder_reset();
-    text_builder_append((u8 *)text);
-    return (saddr)new TFontSmallTask((Vec *)pos, color, life, 0, (const char *)get_shared_text_buffer(), 0xFFFF);
+    text_builder_append(text);
+    return (saddr)new TFontSmallTask((Vec *)pos, color, life, 0, get_shared_text_buffer(), 0xFFFF);
 }
 
 TFontSmallTask::~TFontSmallTask() {}

@@ -49,16 +49,9 @@ void TAdGameStartShadowGC::run_task() {
     m_color = (s32) ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF);
 }
 TAdGameStartShadowGC::~TAdGameStartShadowGC() {}
-extern "C" {
-void *__ct__7TObjectFP7TObject(void *, TObject *);
-extern void *__vt__20TAdGameStartShadowGC[];
-TAdGameStartShadowGC *__ct__20TAdGameStartShadowGCFP7TObject(TAdGameStartShadowGC *self, TObject *parent);
-}
-
-TAdGameStartShadowGC *__ct__20TAdGameStartShadowGCFP7TObject(TAdGameStartShadowGC *self, TObject *parent) {
+TAdGameStartShadowGC::TAdGameStartShadowGC(TObject *parent) : TObject(parent) {
+    TAdGameStartShadowGC *self = this;
     u32 i;
-    __ct__7TObjectFP7TObject(self, parent);
-    *(void **)((u8 *)self + 0x18) = __vt__20TAdGameStartShadowGC;
     self->m_name = TAdGameStartShadowGC::name;
     self->m_color = -1;
     self->m_alpha = 0;
@@ -84,5 +77,4 @@ TAdGameStartShadowGC *__ct__20TAdGameStartShadowGCFP7TObject(TAdGameStartShadowG
     self->m_quads[4].v0 = 0.75f;
     self->m_quads[4].u1 = 0.75f;
     self->m_quads[4].v1 = 1.0f;
-    return self;
 }

@@ -279,9 +279,9 @@ int TObjEnemy::submit_default_cursor_candidate() { return submit_cursor_candidat
 
 void TBoss8Dragon__sub_800BB7DC(void *self) {  }
 
-void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale) {  }
+void debug_effect_hook_scaled(void *self, s32 id, f32 scale) {  }
 
-void TBoss8Dragon__sub_800BB7D4(void *self, int id) {  }
+void debug_effect_hook(void *self, int id) {  }
 
 void TBoss8Dragon::noop() {  }
 
@@ -327,7 +327,7 @@ u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range) {
     return enemy_nearest_visible_player_sq(self, range * range);
 }
 
-void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src) {
+void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src) {
     dst->id = src->id;
     dst->dist = src->dist;
 }
@@ -379,9 +379,9 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
                 }
             }
             if (mi != k) {
-                TBoss8Dragon__sub_800BB650(&tmp, &out[mi]);
-                TBoss8Dragon__sub_800BB650(&out[mi], &out[k]);
-                TBoss8Dragon__sub_800BB650(&out[k], &tmp);
+                copy_target_candidate(&tmp, &out[mi]);
+                copy_target_candidate(&out[mi], &out[k]);
+                copy_target_candidate(&out[k], &tmp);
             }
         }
     }
@@ -416,8 +416,8 @@ u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
     return best;
 }
 
-u16 enemy_nearest_visible_enemy(void *self, f32 range) {
-    return enemy_nearest_visible_enemy_sq((TObjChara *)self, range * range);
+u16 enemy_nearest_visible_enemy(TObjChara *self, f32 range) {
+    return enemy_nearest_visible_enemy_sq(self, range * range);
 }
 
 CsnHit *TObjEneDD::snap_to_ground_at(u8 *dest) {
@@ -664,12 +664,13 @@ void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points) {
 }
 
 void TObjEneDD::set_part_position(void *actor, void *v, int i) {
+    TObjCollidable *collidable = (TObjCollidable *)actor;
     Vec *p;
-    VecCopy(&((TObjCollidable *)actor)->bodies[i].offset, (const Vec *)v);
-    p = &((TObjCollidable *)actor)->bodies[i].center;
+    VecCopy(&collidable->bodies[i].offset, (const Vec *)v);
+    p = &collidable->bodies[i].center;
     VecCopy(p, (const Vec *)v);
-    rotate_xz_pair_by_angle(&p->x, &p->z, ((TObjCollidable *)actor)->rotation_y);
-    vec3_add_to(p, &((TObjCollidable *)actor)->position);
+    rotate_xz_pair_by_angle(&p->x, &p->z, collidable->rotation_y);
+    vec3_add_to(p, &collidable->position);
 }
 
 void TObjEneDD::transform_part_positions() {
@@ -1023,7 +1024,7 @@ s32 TObjEneDD::clamp_frame_index(s32 frame) {
 
 void TObjEneDD__sub_800B9B24(f32) {}
 
-void TObjEneDD::init_lights() { current_scene_light->sub_801337F8(); TObjLight__sub_801337FC(lbl_805D555C); }
+void TObjEneDD::init_lights() { current_scene_light->debug_scene_light_hook(); TObjLight__sub_801337FC(lbl_805D555C); }
 
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
@@ -1197,7 +1198,7 @@ void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 d
     dist = distance;
     turn_toward_target_direction(max_step);
     dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)(dz), (f32)(dist));
+    calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (dz), (dist));
 }
 
 void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1205,7 +1206,7 @@ void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)(dist));
+    calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (dist));
 }
 
 CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale) {

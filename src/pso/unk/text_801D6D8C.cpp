@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_801D6D8C.h"
 
-void fn_801D6D8C(s8 *record, s8 value, s32 index) {
+void set_rule_slot_clamped(s8 *record, s8 value, s32 index) {
     s8 clamped;
 
     clamped = value;

@@ -134,7 +134,7 @@ void TOMonumentAncient02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        node = (NJS_OBJECT *)model;
+        node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
         if (activated == 1) {
@@ -207,7 +207,7 @@ TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObj
     s32 area;
     m_name = monument_ancient02_class_name;
     apply_object_set_data(set_data);
-    model = (void *)monument_ancient02_bml_resource->models[0].model;
+    model = monument_ancient02_bml_resource->models[0].model;
     texlist = monument_ancient02_bml_resource->models[0].texlist;
     init_collision_body_parts(this, monument_ancient02_collision_parts, 1);
     refresh_collision_body_centers();

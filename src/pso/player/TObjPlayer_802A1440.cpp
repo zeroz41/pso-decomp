@@ -14,20 +14,20 @@ int clear_player_data_block(void*);
 void TObjPlayer::init_select_txt() { *(int*)(this) = 0; TAdSelectTxtGC__sub_802A16A8((char*)this + 0x4); ((FlagWord *)((char*)this + 0x428))->reset(); ((TObjPlayer *)((char*)this + 0xc))->initialize_player_data(); }
 
 void TObjPlayer::copy_lobby_header(saddr player) {
-    s32 *arg0 = (s32 *)this;
-    ((FlagWord *)((s8 *)arg0 + 0x428))->set(1);
-    *arg0 = TAdSelectTxtGC__sub_802A16C0((void *)player);
-    ((TLobby *)((s8 *)arg0 + 4))->copy_header_struct((void *) ((s8 *)player + 0xDAC));
-    reinterpret_cast<TObjPlayer *>(player)->export_character_data(reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(arg0) + 0xC));
+    s32 *record = (s32 *)this;
+    ((FlagWord *)((s8 *)record + 0x428))->set(1);
+    *record = TAdSelectTxtGC__sub_802A16C0((void *)player);
+    ((TLobby *)((s8 *)record + 4))->copy_header_struct(((s8 *)player + 0xDAC));
+    reinterpret_cast<TObjPlayer *>(player)->export_character_data(reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(record) + 0xC));
 }
 
 void TObjPlayer::initialize_player_data() { *(unsigned char*)((char*)this + 0x3) = 0; *(unsigned char*)((char*)this + 0x2) = 0; *(unsigned char*)((char*)this + 0x1) = 0; *(unsigned char*)(this) = 0; ((TPlyCharData *)this)->init_inventory_items(); ((TAdSelectTxtGC *)((char*)this + 0x34c))->reset_state(); clear_player_data_block((char*)this + 0x370); ((TPlyDispConfig *)((char*)this + 0x3c0))->init(); init_item_counts_max(); }
 
 void TObjPlayer::init_item_counts_max() {
-    P_802A1544 *arg0 = (P_802A1544 *)this;
+    P_802A1544 *limits = (P_802A1544 *)this;
     s32 i;
     for (i = 0; i < 0x14; i++) {
-        arg0->v[i] = TObjPlayer::get_item_count_max();
+        limits->v[i] = TObjPlayer::get_item_count_max();
     }
 }
 

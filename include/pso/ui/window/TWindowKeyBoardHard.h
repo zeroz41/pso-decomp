@@ -7,6 +7,7 @@
 struct TWindowKeyBoardBase;
 
 struct TWindowKeyBoardHard : public TWindowBase {
+    static const char *class_name;
     TWindowKeyBoardHard(TWindowKeyBoardBase *control);
     virtual ~TWindowKeyBoardHard();
     void draw_status_text(WindowDrawContext *context);
@@ -22,14 +23,14 @@ struct TWindowKeyBoardHard : public TWindowBase {
     int sub_8026042C();
     u32 input_flags;
     u32 m_64;
-    s32 m_68;
+    s32 mode_label_timer;  // frames the input-mode label stays drawn after a key press (60 in Japanese)
     u32 accent_index;
     TWindowKeyBoardBase *m_control;
     void release_keyboard();
     virtual void render();
     static s32 test_card_flag(s32 client, s32 mask);
     static s32 test_card_flag_2(s32 client_id);
-    static void set_card_window_flags(void *client_id, s32 bits, s32 keep_mask);
+    static void set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask);
     int is_card_flag_set();
     static s32 test_card_flag_8(s32 client_id);
     virtual void run_task();

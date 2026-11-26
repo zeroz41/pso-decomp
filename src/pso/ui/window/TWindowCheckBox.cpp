@@ -31,7 +31,7 @@ void TWindowCheckBox::set_selected_index(s16 selected_index) {
     refresh_selected_entry(0);
 }
 
-void TWindowCheckBox::sub_80248994(u32 color, s32 item) {
+void TWindowCheckBox::set_item_color(u32 color, s32 item) {
     s32 i;
     ItemListRow *e;
     for (i = 0; i < entry_capacity; i++) {
@@ -82,19 +82,19 @@ void TWindowCheckBox::sync_level_field() {
 #pragma readonly_strings on
 
 
-const char *TWindowCheckBox__class_name = "TWindowCheckBox";
+const char *TWindowCheckBox::class_name = "TWindowCheckBox";
 
 void TWindowCheckBox::init_check_box(s32 client) {
-    this->m_name = TWindowCheckBox__class_name;
+    this->m_name = TWindowCheckBox::class_name;
     this->client_index = client;
 }
 
 TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, s32 size, s32 client) {
     TWindowCheckBox *window;
 
-    TAdVIConfigGC__sub_80267704(0x23);
+    set_menu_icon_line_flags(0x23);
     window = TWindowCheckBox::create(position, size, client);
-    TAdVIConfigGC__sub_80267704(3);
+    set_menu_icon_line_flags(3);
     return window;
 }
 
@@ -125,10 +125,10 @@ void TWindowCheckBox::run_task() {
     WindowHeading *status;
     WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r29_2;
+    ControllerInputContext *input2;
     ControllerInputContext *context;
     controller_index = is_player_input_active(((s32) this->client_index));
-    if ((this->get_flag() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
+    if ((this->is_input_disabled() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
         if (state_flags & 0x10) {
             input = &controller_input_state.controllers[controller_index];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
@@ -138,11 +138,11 @@ void TWindowCheckBox::run_task() {
                 this->move_cursor_next();
             }
         } else {
-            temp_r29_2 = &controller_input_state.controllers[controller_index];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            input2 = &controller_input_state.controllers[controller_index];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 this->move_cursor_next();
             }
         }
@@ -179,4 +179,4 @@ TWindowCheckBox::TWindowCheckBox(u8 *parent, s32 client) : TWindowMenuIconLine(p
 s32 ItemListRow::get_item() { return item; }
 
 int TWindowLayoutEntry::is_flag_4_set() const { return flags & 0x4; }
-int TWindowMenuIconLine::get_flag() { return (this->state_flags >> 6) & 0x1; }
+int TWindowMenuIconLine::is_input_disabled() { return (this->state_flags >> 6) & 0x1; }

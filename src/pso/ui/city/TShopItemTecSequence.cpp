@@ -23,6 +23,7 @@
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/text_80222C28.h"
 
 s32 TShopItemTecSequence::slot_table[4];
 extern "C" {
@@ -31,7 +32,6 @@ s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
 }
-s32 get_shop_text(s32 index);
 extern "C" {
 
 
@@ -214,5 +214,5 @@ void TShopItemTecSequence::select_and_advance(TShopWindowBase *window) {
     }
 }
 
-int TShopItemTecSequence__sub_8021FE6C(int a0) {  return shop_tool_stock_counts[a0]; }
+int get_shop_tool_stock_count(int a0) {  return shop_tool_stock_counts[a0]; }
 

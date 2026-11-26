@@ -9,7 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 
-u32 baranz_launcher_create_shot(void *player, s32 pos, s32 dir, f32 life) {
+u32 baranz_launcher_create_shot(TItemWeapon *player, s32 pos, s32 dir, f32 life) {
     uaddr model_shot;
     uaddr particle_shot;
     NJS_OBJECT *model;
@@ -17,7 +17,7 @@ u32 baranz_launcher_create_shot(void *player, s32 pos, s32 dir, f32 life) {
     model_shot = TObjPlayer::create_shoot_model((uaddr)player, pos, dir, life);
     particle_shot = (uaddr)TObjPlayer::spawn_shoot_particle((saddr)player, pos, dir, life);
     if ((model_shot != 0U) && (particle_shot != 0U)) {
-        model = ((TItemWeapon *)player)->second_model;
+        model = player->second_model;
         if (model != NULL) {
             model->evalflags &= ~NJD_EVAL_UNIT_ANG;
             model->ang[0] = 0x4000;

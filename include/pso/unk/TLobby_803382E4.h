@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_803382E4(void);
+void draw_loading_compass(void);
 }
 void render_info_icon_overlay(void);
 extern "C" {

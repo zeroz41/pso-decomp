@@ -114,7 +114,7 @@ void set_stream_frequency(GcrnaStream *stream, s32 frequency) {
 
 }
 
-void TLobby__sub_803D4704(GcrnaStream *stream, s32 stream_count) {
+void gcrna_set_stream_count(GcrnaStream *stream, s32 stream_count) {
     if (stream != NULL) {
         stream->stream_count = stream_count;
     }
@@ -140,10 +140,10 @@ inline void gcrna_transfer_input(GcrnaStream *stream) {
         stream->ring_buffers[i]->interface->get_chunk(stream->ring_buffers[i], 0, 0x2000, &free_chunk);
         stream->input_buffers[i]->interface->get_chunk(stream->input_buffers[i], 1, free_chunk.size, &data);
         memcpy(free_chunk.data, data.data, data.size);
-        TLobby__sub_803D3130(&data, data.size, &head, &tail);
+        sj_chunk_split(&data, data.size, &head, &tail);
         stream->input_buffers[i]->interface->put_chunk(stream->input_buffers[i], 0, &head);
         stream->input_buffers[i]->interface->unget_chunk(stream->input_buffers[i], 1, &tail);
-        TLobby__sub_803D3130(&free_chunk, data.size, &head, &tail);
+        sj_chunk_split(&free_chunk, data.size, &head, &tail);
         stream->ring_buffers[i]->interface->put_chunk(stream->ring_buffers[i], 1, &head);
         stream->ring_buffers[i]->interface->unget_chunk(stream->ring_buffers[i], 0, &tail);
         sndStreamARAMUpdate(stream->stream_ids[i], (u32)(free_chunk.data - stream->buffers[i]) >> 1,

@@ -222,7 +222,7 @@ void TTecGiBarta::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 2;
         hit.power = params.power;
-        target->receive_direct_attack((void *)source, hit, contact, 4, -1);
+        target->receive_direct_attack(source, hit, contact, 4, -1);
     }
 }
 
@@ -244,7 +244,7 @@ TTecGiBarta::~TTecGiBarta() {
 }
 
 void TTecGiBarta::run_task() {
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
+    this->source = find_entity_by_id(this->sourceId);
     if ((u32) this->source == 0U) {
         queue_destruction();
         return;
@@ -265,7 +265,7 @@ TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
     }
     hitCursor = 0;
     if (this->source) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     create_particles();
     update_technique_by_phase();
@@ -281,7 +281,7 @@ TTecGiBarta::TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level)
     }
     hitCursor = 0;
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     create_particles();
     update_technique_by_phase();

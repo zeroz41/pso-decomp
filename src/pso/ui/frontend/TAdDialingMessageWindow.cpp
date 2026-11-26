@@ -8,8 +8,8 @@
 
 const char *TAdDialingMessageWindow::name = "TAdDialingMessageWindow";
 
-const NJS_POINT2 lbl_8047A400 = {0.0f, 28.0f};
-const NJS_POINT2 lbl_8047A408 = {640.0f, 84.0f};
+const NJS_POINT2 dialing_rectangle_pos = {0.0f, 28.0f};
+const NJS_POINT2 dialing_rectangle_size = {640.0f, 84.0f};
 
 TAdDialingMessageWindow::TAdDialingMessageWindow(const char *message, u32 delay) : TObject(tl_fadeafter) {
     m_name = TAdDialingMessageWindow::name;
@@ -30,7 +30,7 @@ TAdDialingMessageWindow::~TAdDialingMessageWindow() {
 
 void TAdDialingMessageWindow::render() {
     if (flags & 1) {
-        draw_dialing_rectangle(&lbl_8047A400, &lbl_8047A408);
+        draw_dialing_rectangle(&dialing_rectangle_pos, &dialing_rectangle_size);
         if (message != NULL) {
             draw_menu_font_string_white(message, 23.0f, 356.0f);
         }

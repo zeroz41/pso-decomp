@@ -87,7 +87,7 @@ void TObjEneBalClaw::set_attack_distance_flag() { this->behavior_flags |= 0x1000
 
 // Picks this part's model and texture list (index into the Bal Claw BML models).
 void TObjEneBalClaw::set_model(s32 i) {
-    model = (void *)balclaw_bml_resource->models[i].model;
+    model = balclaw_bml_resource->models[i].model;
     texlist = balclaw_bml_resource->models[i].texlist;
 }
 
@@ -255,7 +255,7 @@ void TObjEneBalClawBody::update_attack_distance_state() {
                 update_if_active(1);
                 range_band = 2;
             } else {
-                sub_800C73F4();
+                return_home_or_idle();
             }
             break;
         case 1:
@@ -324,7 +324,7 @@ void TObjEneBalClawBody::update_attack_distance_state() {
             if (target != NULL) {
                 update_if_active(0xC);
             } else {
-                sub_800C73F4();
+                return_home_or_idle();
             }
             break;
         case 1:
@@ -467,7 +467,7 @@ void TObjEneBalClawBody::run_death_sequence() {
         break;
     case 3:
         this->fade.start_fade_out();
-        fn_800D911C(&this->body_center);
+        create_particle_emitter_pair(&this->body_center);
         this->behavior_flags |= 4;
         this->state = 4;
     case 4:

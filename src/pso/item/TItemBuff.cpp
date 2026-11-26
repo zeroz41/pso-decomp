@@ -8,19 +8,19 @@ extern saddr item_nj_chunk_buffer_table[];
 
 void TItemBuff::free_all_and_init() {
     s32 i;
-    saddr *var_r29;
-    s32 var_r30;
-    s32 var_r31;
+    saddr *table;
+    s32 zero;
+    s32 index;
 
     free_item_buff();
-    var_r31 = 0;
-    var_r30 = var_r31;
+    index = 0;
+    zero = index;
     i = 0;
-    var_r29 = item_nj_chunk_buffer_table;
+    table = item_nj_chunk_buffer_table;
     do {
-        mem_free((void *)var_r29[var_r31]);
+        mem_free((void *)table[index]);
         i += 1;
-        var_r29[var_r31] = var_r30;
-        var_r31 += 1;
+        table[index] = zero;
+        index += 1;
     } while (i != 2);
 }

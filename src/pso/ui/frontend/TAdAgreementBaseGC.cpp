@@ -18,15 +18,15 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 static const NJS_POINT2 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
-static const NJS_POINT2 lbl_804770A0 = {462.0f, 18.0f};
-const char *lbl_805D41B8 = "TAdAgreementBaseGC";
-static const NJS_POINT2 lbl_804770BC = {85.0f, 384.0f};
-static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
+static const NJS_POINT2 agreement_cursor_size = {462.0f, 18.0f};
+const char *TAdAgreementBaseGC_class_name = "TAdAgreementBaseGC";
+static const NJS_POINT2 agreement_text_window_pos = {85.0f, 384.0f};
+static const NJS_POINT2 agreement_text_window_size = {470.0f, 60.0f};
 
 extern "C" {
-void *get_localized_text_entry(int, u32);
 
 void TAdAgreementBaseGC::check_main_task_state() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -50,7 +50,7 @@ void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) 
 void TAdAgreementBaseGC::on_cancel() { state = 4; }
 
 void *TAdAgreementBaseGC::create_agreement_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)&lbl_804770BC, (void *)&lbl_804770C4, TAdAgreementBaseGC::draw_agreement_text);
+    return TAdEnterSerialAccessGC::create_callback((void *)&agreement_text_window_pos, (void *)&agreement_text_window_size, TAdAgreementBaseGC::draw_agreement_text);
 }
 
 void TAdAgreementBaseGC::update_state() {
@@ -113,7 +113,7 @@ TAdAgreementBaseGC::~TAdAgreementBaseGC() {
 
 
 TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D41B8;
+    m_name = TAdAgreementBaseGC_class_name;
     frames = 0;
     state = 0;
     next_state = 0;
@@ -122,7 +122,7 @@ TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *parent) : TObject(parent) {
     cursor = NULL;
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    cursor = new TAdSelectCurGC(tl_clipout, agreement_item_rect_table, &lbl_804770A0);
+    cursor = new TAdSelectCurGC(tl_clipout, agreement_item_rect_table, &agreement_cursor_size);
     cursor->append_entry(&agreement_item_rect_table[0]);
     cursor->append_entry(&agreement_item_rect_table[1]);
     cursor->set_wait_directions_released();

@@ -32,7 +32,7 @@ void unload_items(void);
 void find_tool_pmt_base_id(s32 item_id, u8 *item_code);
 f32 get_item_price_coefficient(u8 type, u8 sub);
 extern "C" {
-s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags);
+s32 get_unit_attribute_index(u8 flags);
 }
 s32 get_item_star_count(s32 id);
 u8 get_weapon_class_motion_type(u8 group);

@@ -27,7 +27,7 @@ saddr get_card_window_area() {
 void set_short_mail_text(char *text) {
     u8 *mail_text;
     mail_text = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
-    TWindowSubComCard::mask_profanity_words(text, (char *)get_shared_text_buffer());
+    TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
     strncpy((char *)mail_text, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
     *(s8 *)((s8 *)mail_text + 0xAB) = 0;
     auto_reply_flags |= 4;
@@ -65,4 +65,4 @@ void reset_auto_reply_flags(s32 _w0) {
 }
 
 void clear_auto_reply_flags(void* p) { reset_auto_reply_flags((saddr)p); }
-void TLobby__sub_8001DC04(void* p) { reset_auto_reply_flags((saddr)p); }
+void reset_auto_reply_flags_callback(void* p) { reset_auto_reply_flags((saddr)p); }

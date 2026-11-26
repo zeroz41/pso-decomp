@@ -46,6 +46,8 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/gjSystem.h"
+#include "pso/object/TObjLuker.h"
 
 
 
@@ -108,20 +110,16 @@ void restore_floor_telepipes(void);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
 s32 is_split_screen();
 }
-void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
 void free_collision_body_parts(TObjCollidable *actor);
 extern "C" {
 s32 submit_cursor_candidate(void *, s32);
 }
-extern u8 identity_matrix[];
-void create_quest_telepipe_for_client(u16 client);
 void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room);
-s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
 int fn_80235078(void *record) {
     return (u8) (*(s32 *)((s8 *)record + 0x0) == 2);
 }
 
-int TTecLuker__sub_80235054(void* p) { return fn_80235078((void *)((char*)p + 0x4)); }
+int TTecLuker__sub_80235054(void* p) { return fn_80235078(((char*)p + 0x4)); }
 
 void TTecLuker__sub_80235048(void* p) { *(s32*)((char*)p + 0x38) = 0; }
 
@@ -186,7 +184,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     floor = get_current_floor();
     placement = NULL;
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     traveller = local_client_id;
     if (is_split_screen() == 0 && sourceId != local_client_id) {
@@ -201,7 +199,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
                 Vec v = lbl_8044D72C;
                 TObjBase *owner;
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, ((TObjBase *)this->source)->rotation_y);
+                rotate_matrix_y(0, this->source->rotation_y);
                 matrix_mult_vec(0, &v, &v);
                 pop_matrices(1);
                 owner = (TObjBase *)this->source;
@@ -240,7 +238,7 @@ void TTecLuker::run_task() {
     TObjPlayer *player;
     u8 *owner;
     PositionPlacementQueue *queue;
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     owner = (u8 *)source;
     if (owner == NULL) {
         queue_destruction();
@@ -260,7 +258,7 @@ void TTecLuker::run_task() {
                 return;
             }
             if (TTecLuker__sub_80235054(queue) != 0) {
-                VecCopy(&pipe_pos, &((TObjBase *)source)->position);
+                VecCopy(&pipe_pos, &source->position);
                 if ((telepipe_record_differs(&((TObjPlayer *)source)->telepipe.state, floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker::visit_counts[sourceId] >= 1)) {
                     queue_destruction();
                     return;
@@ -366,7 +364,7 @@ block_43:
 }
 
 void TTecLuker::setup_telepipe_field() {
-    s32 id = ((TObjBase *)source)->get_entity_id();
+    s32 id = source->get_entity_id();
     visual = new TTelepipeEffect(&pipe_pos, id, tl_07);
     phase = 1;
     if (field != NULL) {
@@ -374,11 +372,11 @@ void TTecLuker::setup_telepipe_field() {
     } else {
         field = new TTelepipeSelectField(&pipe_pos, tl_05, 0);
     }
-    if (traveller == ((TObjBase *)source)->get_entity_id()) {
+    if (traveller == source->get_entity_id()) {
         s16 room;
         floor = get_current_floor();
-        room = (s32)((TObjBase *)source)->get_room();
-        write_telepipe_record((u8 *)&((TObjPlayer *)source)->telepipe.state, ((TObjBase *)source)->get_entity_id(), floor, (u8 *)&pipe_pos, room);
+        room = (s32)source->get_room();
+        write_telepipe_record((u8 *)&((TObjPlayer *)source)->telepipe.state, source->get_entity_id(), floor, (u8 *)&pipe_pos, room);
         ((TObjPlayer *)source)->telepipe.state.send_telepipe_packet();
     }
 }
@@ -391,7 +389,7 @@ void TTecLuker::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0xE;
     hit.power = 10.0f;
-    target->receive_direct_attack((void *)source, hit, 0, -1, -1);
+    target->receive_direct_attack(source, hit, 0, -1, -1);
 }
 
 #pragma push
@@ -420,7 +418,7 @@ TTelepipeEffect::TTelepipeEffect(Vec *at, u32 id, TObject *parent) : TObject(par
     switch (i)
     {
       case 2:
-        VecCopy((Vec *)&v, &ground_pos);
+        VecCopy(&v, &ground_pos);
         v.y += 1.8f;
         particles[i] = spawn_continuous_particle_effect_with_flags(&v, row[i], 0x40);
         if ((particles[i] != 0) && (id != 3))
@@ -437,7 +435,7 @@ TTelepipeEffect::TTelepipeEffect(Vec *at, u32 id, TObject *parent) : TObject(par
         break;
     }
   }
-  VecCopy((Vec *)&v2, &pos);
+  VecCopy(&v2, &pos);
   v2.y += 15.0f;
   if (is_split_screen() == 0)
   {
@@ -470,7 +468,7 @@ void TTelepipeEffect::run_task() {
   s32 j;
   s32 i;
   s32 area;
-  uaddr player;
+  TObjBase *player;
   nearest_sq = 10000.0f;
   j = get_current_floor_area();
   area = j;
@@ -482,10 +480,10 @@ void TTelepipeEffect::run_task() {
   {
     for (j = 0; j < 4; j++)
     {
-      player = (uaddr)get_player_by_client_id(j);
+      player = get_player_by_client_id(j);
       if (player != 0)
       {
-        dist_sq = horizontal_distance_squared(&pos, &((TObjBase *)player)->position);
+        dist_sq = horizontal_distance_squared(&pos, &player->position);
         if (dist_sq <= nearest_sq)
         {
           nearest_sq = dist_sq;
@@ -551,8 +549,8 @@ void TTelepipeEffect::run_task() {
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     u8 *player;
     TelepipeState *rec;
-    uaddr other;
-    uaddr local;
+    TObjPlayer *other;
+    TObjPlayer *local;
     command->bswap();
     if (command->state.owner_client_id == 0xffff) {
         return;
@@ -572,10 +570,10 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     if (is_split_screen() == 0 && command->state.owner_client_id == local_client_id) {
         return;
     }
-    other = (uaddr)get_player_by_client_id(command->state.owner_client_id);
-    local = (uaddr)get_player_by_client_id(local_client_id);
+    other = get_player_by_client_id(command->state.owner_client_id);
+    local = get_player_by_client_id(local_client_id);
     if (other != 0 && local != 0) {
-        if (((TObjPlayer *)other)->get_floor() == ((TObjPlayer *)local)->get_floor()) {
+        if (other->get_floor() == local->get_floor()) {
             ((TTecLuker *)player)->create(player + 0x38, player + 0x38, 0);
         }
     }

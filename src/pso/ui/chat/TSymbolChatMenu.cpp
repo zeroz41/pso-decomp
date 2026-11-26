@@ -45,7 +45,7 @@ TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
         if (is_symbol_chat_preset_in_use(symbol_chat_preset) != 0) {
             preset_list->add_text_entry((saddr)text, 0x66, i);
         } else {
-            add_gray_text_entry(preset_list, (const char *)text, 0x46, (s32)i);
+            add_gray_text_entry(preset_list, (const char *)text, 0x46, i);
         }
         i += 1;
     } while (i < 0xC);

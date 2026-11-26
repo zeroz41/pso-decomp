@@ -81,7 +81,7 @@ void TOMonitorMachine01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        n = ((NJS_OBJECT *)model)->child;
+        n = (model)->child;
         push_matrix();
         translate_matrix(0, -slide, 0.0f, 0.0f);
         draw_ginja_model(n->model);
@@ -158,7 +158,7 @@ TOMonitorMachine01::~TOMonitorMachine01() {}
 TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = monitor_machine01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(monitor_machine01_bml_resource, 0);
+    model = get_bml_model(monitor_machine01_bml_resource, 0);
     texlist = get_bml_texlist(monitor_machine01_bml_resource, 0);
     view_range = 500.0f;
     model_radius = 15.0f;

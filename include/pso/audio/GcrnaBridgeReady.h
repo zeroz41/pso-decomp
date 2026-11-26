@@ -6,7 +6,7 @@
 struct GcrnaStream;
 
 extern "C" {
-s32 TLobby__sub_803CBF10(GcrnaStream *stream);
+s32 gcrna_bridge_stream_ready(GcrnaStream *stream);
 }
 
 #endif

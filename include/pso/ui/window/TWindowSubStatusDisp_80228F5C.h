@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern "C" {
-void text_builder_append_int(s32 arg0);
-void text_builder_append(u8 *str);
+void text_builder_append_int(s32 value);
+void text_builder_append(const char *str);
 }
 void text_builder_reset(void);
 

@@ -119,7 +119,7 @@ void play_area_se_with_particle(Vec *position) {
     spawn_particle_effect(&v, 0xE6);
 }
 
-void TBoss3Volopt__sub_800D8D88(saddr position) {
+void play_appear_effects(saddr position) {
     const Vec *sound_position = reinterpret_cast<const Vec *>(position);
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
@@ -143,7 +143,7 @@ void TBoss3Volopt__sub_800D8D88(saddr position) {
         play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), sound_position, 0, 0);
         break;
     }
-    spawn_particles_at__12TBoss3VoloptFi(position);
+    spawn_particles_at(position);
 }
 
 void play_area_sound_effect(Vec *position) {
@@ -169,11 +169,11 @@ void play_area_sound_effect(Vec *position) {
         play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB37), position, 0, 0);
         break;
     }
-    spawn_particles_at__12TBoss3VoloptFi((saddr)position);
+    spawn_particles_at((saddr)position);
 }
 extern "C" {
 
-void spawn_particles_at__12TBoss3VoloptFi(saddr position) {
+void spawn_particles_at(saddr position) {
     Vec pos;
     VecCopy(&pos, (const Vec *)position);
     create_timed_particle_emitter((void *)position, 0xEA, 0xA, 0x1E);
@@ -200,7 +200,7 @@ void create_dead_spot(Vec *pos, s32 particle, s32 duration, f32 radius) {
 }
 
 
-void fn_800D911C(Vec *position) {
+void create_particle_emitter_pair(Vec *position) {
     create_timed_particle_emitter(position, 232, 10, 1);
     create_timed_particle_emitter(position, 236, 10, 1);
 }

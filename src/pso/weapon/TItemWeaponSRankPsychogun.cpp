@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponSRankPsychogun::emit_marker_effects() {
-    TObjPlayer__sub_80128A70();
+    debug_weapon_attack_hook();
     if (launch_shot((u8 *)&shot_origins[0], 0, 0, 1) != 0) {
         launch_shot((u8 *)&shot_origins[1], 0, 0, 0);
         return;
