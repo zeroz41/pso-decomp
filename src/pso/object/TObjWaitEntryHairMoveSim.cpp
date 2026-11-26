@@ -48,8 +48,6 @@ s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h);
 
 s32 is_level_in_table__24TObjWaitEntryHairMoveSimFPv(Obj_800FE698 *o);
 
-extern "C" void render__7TObjectFv();
-extern "C" void render_shadows__7TObjectFv();
 extern EZBoneRotKey hair_bone_rotation_bone_list_00[4];
 extern EZBoneRotKey hair_bone_rotation_bone_list_01[5];
 extern EZBoneRotKey hair_bone_rotation_bone_list_02[4];

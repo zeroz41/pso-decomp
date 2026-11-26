@@ -267,8 +267,8 @@ void TContainerAncient01::run_task() {
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                *(f32 *)((s8 *)this + 0x3C) = (f32) (*(f32 *)((s8 *)this + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)this + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
+                this->position.y = (f32) (this->position.y - 0.025f);
+                if (this->position.y <= ((-1e+01f) * this->open_scale.y)) {
                     this->TObject::queue_destruction();
                 }
             } else {
@@ -550,8 +550,8 @@ void TContainerAncient01R::run_task() {
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                *(f32 *)((s8 *)this + 0x3C) = (f32) (*(f32 *)((s8 *)this + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)this + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
+                this->position.y = (f32) (this->position.y - 0.025f);
+                if (this->position.y <= ((-1e+01f) * this->open_scale.y)) {
                     this->TObject::queue_destruction();
                 }
             } else {

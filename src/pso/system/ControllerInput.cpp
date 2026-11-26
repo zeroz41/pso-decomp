@@ -604,7 +604,7 @@ void accumulate_key_bits(s32 key, u32 *buttons) {
 
 extern "C" {
 
-void fn_801A6A28(ControllerInputContext *pad, u32 mask, u32 previous) {
+void set_stick_button_bits(ControllerInputContext *pad, u32 mask, u32 previous) {
     pad->held_with_sticks |= mask;
     if (previous & mask) {
         pad->pressed_with_sticks &= ~mask;
@@ -616,31 +616,31 @@ void fn_801A6A28(ControllerInputContext *pad, u32 mask, u32 previous) {
 
 void map_c_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous) {
     if (y > 0x30) {
-        fn_801A6A28(pad, 0x08000000, previous);
+        set_stick_button_bits(pad, 0x08000000, previous);
     } else if (y < -0x30) {
-        fn_801A6A28(pad, 0x04000000, previous);
+        set_stick_button_bits(pad, 0x04000000, previous);
     }
     if (x > 0x30) {
-        fn_801A6A28(pad, 0x20000000, previous);
+        set_stick_button_bits(pad, 0x20000000, previous);
         return;
     }
     if (x < -0x30) {
-        fn_801A6A28(pad, 0x10000000, previous);
+        set_stick_button_bits(pad, 0x10000000, previous);
     }
 }
 
 void map_main_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous) {
     if (y > 0x30) {
-        fn_801A6A28(pad, 0x200000, previous);
+        set_stick_button_bits(pad, 0x200000, previous);
     } else if (y < -0x30) {
-        fn_801A6A28(pad, 0x100000, previous);
+        set_stick_button_bits(pad, 0x100000, previous);
     }
     if (x > 0x30) {
-        fn_801A6A28(pad, 0x800000, previous);
+        set_stick_button_bits(pad, 0x800000, previous);
         return;
     }
     if (x < -0x30) {
-        fn_801A6A28(pad, 0x400000, previous);
+        set_stick_button_bits(pad, 0x400000, previous);
     }
 }
 

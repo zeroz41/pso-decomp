@@ -470,14 +470,14 @@ void TOMine::apply_saved_state(s16 *state, s32 live) {
     }
 }
 void TOMine::play_trigger_effects() {
-    spawn_particle_effect((const Vec *)(((u8 *)this) + 0x2FC), 0x47);
+    spawn_particle_effect(&this->body_center, 0x47);
     this->spawn_blast_particle();
     this->play_trigger_sound();
 }
 // Slot 82: the detonation particle (inferred; was named detonate_if_triggered on TOMineTrap).
 void TOMine::spawn_blast_particle() {
     {
-        TParticleCtrl *particle = spawn_particle_effect((const Vec *)(((u8 *)this) + 0x2FC), 0x45);
+        TParticleCtrl *particle = spawn_particle_effect(&this->body_center, 0x45);
         if (particle != NULL) {
             particle->set_scale(1.25f, 1.25f);
         }

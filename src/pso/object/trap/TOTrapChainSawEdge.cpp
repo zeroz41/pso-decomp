@@ -109,7 +109,7 @@ f32 fabs_float(f32);
 
 
 
-s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
+s32 get_chain_saw_sound_id(TOTrapChainSaw *trap, s32 sound_index);
 
 void vfunc_14__14TOTrapChainSawFv(void);
 
@@ -485,7 +485,7 @@ f32 TOTrapChainSaw::scale_by_level(f32 level) {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_depth(1)
-s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index) {
+s32 get_chain_saw_sound_id(TOTrapChainSaw *trap, s32 sound_index) {
     T_802C8F68 t = chainsaw_area_table_values;
     s32 *p = t.r[0];
     switch (get_current_floor_area()) {
@@ -566,7 +566,7 @@ void TOTrapChainSawDamage::vfunc_25() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     push_matrix();
-    rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
+    rotate_matrix_y(0, (void *)this->rotation_y);
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), this->animation_end_frame);
     pop_matrix();
@@ -593,7 +593,7 @@ void TOTrapChainSawDamage::vfunc_27() {
     if (((s32) tick == 0xA) && ((p = edge_b) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
-    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, &position, 0, 0);
+    play_persistent_sound(get_chain_saw_sound_id(this, 0), this, &position, 0, 0);
 }
 #pragma pop
 void TOTrapChainSawDamage::vfunc_28() {
@@ -658,9 +658,9 @@ void TOTrapChainSawKey::update_state() {
     if (*(f32 *)((s8 *)this + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x100)) + 4) - 1)) {
         *(f32 *)((s8 *)this + 0x104) = 0.0f;
     }
-    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 2), this, &position, 0, 0);
+    play_persistent_sound(get_chain_saw_sound_id(this, 2), this, &position, 0, 0);
     if ((s32) *(s32 *)((s8 *)this + 0xF0) == 1) {
-        play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 1), this, &position, 0, 0);
+        play_persistent_sound(get_chain_saw_sound_id(this, 1), this, &position, 0, 0);
     }
 }
 
@@ -676,7 +676,7 @@ void TOTrapChainSawKey::vfunc_25() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     push_matrix();
-    rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
+    rotate_matrix_y(0, (void *)this->rotation_y);
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     set_model_node_callback(TParticleCtrl__sub_802C8464);
     draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), this->animation_end_frame);
@@ -775,7 +775,7 @@ void TOTrapChainSawEdge::vfunc_25() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     push_matrix();
-    rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
+    rotate_matrix_y(0, (void *)this->rotation_y);
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), this->animation_end_frame);
     pop_matrix();

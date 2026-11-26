@@ -85,7 +85,7 @@ extern "C" void update_file_stream_range(void *context) {
         get_entry_pair(*reinterpret_cast<AixDemuxer **>(player_bytes + 4), (s32)((int) (*(s32 *)((s8 *)player_bytes + 0x1B0))), &offset, &size);
         seek_adx_stream_sector(((AixPlayer *)player_bytes)->stream, offset / 2048);
         set_adx_stream_end_sector(((AixPlayer *)player_bytes)->stream, (offset + size) / 2048);
-        init_stream_position__6TLobbyFv(((AixPlayer *)player_bytes)->stream);
+        init_adx_stream_position(((AixPlayer *)player_bytes)->stream);
         adx_interrupt_lock_leave();
     }
 }

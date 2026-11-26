@@ -89,7 +89,7 @@ s32 draw_player_status(void *, void *, const char *);
 
 }
 
-void init_6x9C_enemy_low_game_flags_packet(u8 *packet);
+void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 
 
 
@@ -552,7 +552,7 @@ void TObjEnemy::award_enemy_experience(u16 client) {
         }
     }
     p->add_actor_exp(val);
-    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
+    create_font_small_task(&this->body_center, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
 }
 
 void TObjEnemy::distribute_experience() {

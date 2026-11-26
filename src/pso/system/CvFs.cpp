@@ -442,7 +442,7 @@ s32 cvFsGetStat(CvFsHandle *handle) {
 }
 extern "C" {
 
-void TLobby__sub_803CEF60(void) {
+void exec_device_servers(void) {
     s32 i;
     TLobbyEntry *p;
     for (i = 0; i < 0x20; i++) {

@@ -23,8 +23,8 @@ struct TOJungleDesign : public TObjCollidable {
 LAYOUT_ASSERT(TOJungleDesign_size, sizeof(TOJungleDesign) == 0xB4);
 
 extern "C" {
-NJS_TEXLIST *fn_802FF028(s32 index);
-NJS_OBJECT *fn_802FF064(s32 index);
+NJS_TEXLIST *get_jungle_design_texlist(s32 index);
+NJS_OBJECT *get_jungle_design_model(s32 index);
 }
 
 #endif

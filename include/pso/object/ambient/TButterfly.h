@@ -29,12 +29,4 @@ struct TButterfly : public TObjBase {
 
 LAYOUT_ASSERT(TButterfly_size, sizeof(TButterfly) == 0xBC);
 
-extern "C" {
-void *__dt__10TButterflyFv(void *object, s16 delete_flag);
-}
-
-extern "C" {
-void *__ct__10TButterflyFP7TObjectPv(void *butterfly, void *parent, void *set_data);
-}
-
 #endif

@@ -108,7 +108,7 @@ void gba_download_load_file(const char *filename) {
 void TLobby::update_alloc_size() {
     u32 data_size;
 
-    data_size = TAdWarningBaseGC__sub_8032D020();
+    data_size = get_aligned_aram_alloc_size();
     gba_download_data_size = data_size;
     if (data_size > 0x40000U) {
         gba_download_data_size = 0U;

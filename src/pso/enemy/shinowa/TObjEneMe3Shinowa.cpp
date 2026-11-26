@@ -460,7 +460,7 @@ void TObjEneMe3Shinowa::apply_sword_hits() {
                 current_target->receive_physical_attack(this, 1.0f);
                 current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                 if ((late_hit != 0) && (random_ratio() <= 0.1666f)) {
-                    TObjEneDD__sub_800BA438(this, current_target);
+                    TObjEneDD::inflict_confusion(this, current_target);
                 }
             }
         }

@@ -199,11 +199,11 @@ void TButterfly::run_task() {
 TButterfly::~TButterfly() {
 
 }
-TButterfly::TButterfly(TObject *parent, void *arg2) : TObjBase(parent) {
+TButterfly::TButterfly(TObject *parent, void *set_data) : TObjBase(parent) {
     this->m_name = butterfly_name;
-    VecCopy(&this->position, (const Vec *)((char *)arg2 + 12));
-    copy_xyz((char *)this + 92, ((char *)arg2 + 24));
-    VecCopy(&this->scale, (const Vec *)((char *)arg2 + 36));
+    VecCopy(&this->position, (const Vec *)((char *)set_data + 12));
+    copy_xyz((char *)this + 92, ((char *)set_data + 24));
+    VecCopy(&this->scale, (const Vec *)((char *)set_data + 36));
     this->init_motion();
 }
 

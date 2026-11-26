@@ -22,8 +22,4 @@ LAYOUT_ASSERT(TObjInfoColRadiusOffset, offsetof(TObjInfoCol, interaction_radius)
 
 LAYOUT_ASSERT(TObjInfoCol_size, sizeof(TObjInfoCol) == 0xB0);
 
-extern "C" {
-void *__dt__11TObjInfoColFv(void *object, s16 delete_flag);
-}
-
 #endif

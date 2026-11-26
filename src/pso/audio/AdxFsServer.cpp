@@ -21,7 +21,7 @@ void ADXT_ExecFsSvr(void) {
         adxt_fs_svr_phase = 1;
         update_active_stream_reads();
         adxt_fs_svr_phase = 2;
-        TLobby__sub_803CEF60();
+        exec_device_servers();
         adxt_fs_svr_phase = 5;
         update_active_stream_reads();
         adxt_fs_svr_phase = 6;

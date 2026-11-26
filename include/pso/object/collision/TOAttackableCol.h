@@ -38,9 +38,6 @@ struct TOAttackableCol : public TObjChara {
 };
 
 LAYOUT_ASSERT(TOAttackableCol_size, sizeof(TOAttackableCol) == 0x350);
-extern "C" {
-void *__dt__15TOAttackableColFv(void *object, s16 delete_flag);
-}
 struct G_UpdateAttackableColState_6x91;
 G_UpdateAttackableColState_6x91 *init_6x91_subcommand(G_UpdateAttackableColState_6x91 *msg);
 

@@ -72,7 +72,7 @@ struct Obj_8018FA6C { u8 pad0[0x6]; u16 id; u8 pad8[0x4]; Obj_8018FA6C *next; u8
 
 extern "C" {
 extern Obj_8018FA6C *tl_05;
-Obj_8018FA6C *fn_8018FA6C(u16 id) {
+Obj_8018FA6C *find_door_key_by_id(u16 id) {
     Obj_8018FA6C *next = tl_05->children;
     Obj_8018FA6C *cur;
     while (tl_05->children != 0 && next != 0) {
@@ -93,7 +93,7 @@ extern "C" {
 void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
     Obj_8018FA6C *key;
 
-    key = fn_8018FA6C(id);
+    key = find_door_key_by_id(id);
     if (key != NULL) {
         ((TObjDoorKey *)key)->activated = 1;
     }

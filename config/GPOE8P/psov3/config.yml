@@ -707,7 +707,7 @@ force_active:
   - TLobby__sub_803362A4
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
   - __ct__18TSymbolChatCaptureFP7TObject
-  - TLobby__sub_803C4698
+  - reset_init_ref_count
   - adx_bridge_set_loop_flag
   - TLobby__sub_803CE2A0
   - svm_invoke_single_callback
@@ -5369,7 +5369,7 @@ force_active:
   - copy_network_info_config_string__FPcPcUlUl
   - __as__18IndirectDrawRecordFR18IndirectDrawRecord
   - copy_pair__11TBoss4Type3FPv
-  - copy_pair__18TObjEnvSoundGlobalFPvPv
+  - copy_env_sound_row
   - copy_pair__6TLobbyFPvPv
   - copy_params__12TBoss1DragonFP29G_DragonBossActions_6x10_6x11
   - copy_pos__10TBoss6MineFv
@@ -6572,7 +6572,7 @@ force_active:
   - get_angle__23MagNodeOscillationStateFv
   - get_anim_frame__18TObjCitySeasonBaseFv
   - get_area_event_data__Fl
-  - get_area_table_value__17TOTrapChainSawKeyFii
+  - get_chain_saw_sound_id
   - get_armor_set_multiplier__9TItemDataFPUc
   - get_attack_angle__9TObjCharaFv
   - get_attack_state__16TObjEneBm5GibonUFPv

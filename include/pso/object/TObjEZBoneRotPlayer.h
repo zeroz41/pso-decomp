@@ -23,8 +23,4 @@ public:
 
 LAYOUT_ASSERT(TObjEZBoneRotPlayer_size, sizeof(TObjEZBoneRotPlayer) == 0xA0);
 
-extern "C" {
-int render__21TObjHMS_EZRope_PlayerFv(void *p);
-}
-
 #endif

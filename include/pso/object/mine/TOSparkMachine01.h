@@ -24,8 +24,4 @@ struct TOSparkMachine01 : public TObjBase {
 LAYOUT_ASSERT(TOSparkMachine01SparkTimersOffset, offsetof(TOSparkMachine01, spark_timer) == 0x90);
 LAYOUT_ASSERT(TOSparkMachine01_size, sizeof(TOSparkMachine01) == 0xB0);
 
-extern "C" {
-void *__dt__16TOSparkMachine01Fv(void *object, s16 delete_flag);
-}
-
 #endif

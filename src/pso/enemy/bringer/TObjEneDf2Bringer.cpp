@@ -472,7 +472,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {
-                        TObjEneDD__sub_800BA438(this, player);
+                        TObjEneDD::inflict_confusion(this, player);
                     }
                 }
                 eff = (u8 *)TObject::operator new(0x34);

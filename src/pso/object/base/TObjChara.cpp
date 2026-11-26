@@ -187,7 +187,6 @@ s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 void * find_entity_by_id(s32 id);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 int bswap_16__FPUs(void*);
-u32 __nw__7TObjectFUl(s32);
 void matrix_mult_vec(s32, void *, void *);
 extern const f64 angle_units_per_radian;
 extern TObjCollidable *registered_object_table[];

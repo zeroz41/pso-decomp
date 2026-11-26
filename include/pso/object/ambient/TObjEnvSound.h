@@ -19,14 +19,7 @@ struct TObjEnvSound : public TObjBase {
 
 LAYOUT_ASSERT(TObjEnvSound_size, sizeof(TObjEnvSound) == 0xA0);
 
-extern "C" {
-void *__dt__12TObjEnvSoundFv(void *object, s16 delete_flag);
-}
-
 // --- C functions defined in TObjEnvSound.cpp ---
-extern "C" {
-void *__dt__12TObjEnvSoundFv(void *object, s16 delete_flag);
-}
 // --- end of C functions
 
 #endif

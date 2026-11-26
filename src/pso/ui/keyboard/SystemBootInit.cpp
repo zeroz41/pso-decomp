@@ -134,7 +134,7 @@ void shutdown_and_reset_system(void) {
     free_ply_level_tbl();
     free_item_drop_memory_pool();
     TWindowSnapShot__sub_802A7DA0();
-    TAdWarningBaseGC__sub_8032D188();
+    reset_aram_state();
     TLobby::destroy_game_heap();
     TLobby__sub_8022809C();
     TLobby::shutdown_buffers();

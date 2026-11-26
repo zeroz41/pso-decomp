@@ -12,7 +12,6 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_8002E174.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/system/BmlResource.h"
 
@@ -100,5 +99,5 @@ TObjBoss1Rock::TObjBoss1Rock(TObject *parent, const Vec *pos, const Vec *vel) : 
     init(pos, vel, kind);
 }
 
-void TObjBoss1Rock__sub_8002E3CC(void) {}
-void TObjBoss1Rock__sub_8002E3D0(void) {}
+void TObjBoss1Rock::free_resources() {}
+void TObjBoss1Rock::load_resources() {}

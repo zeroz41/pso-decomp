@@ -57,7 +57,7 @@ void adxt_finish() {
 void adxt_init() {
     lbl_805E0D30;
     if (TLobby_init_ref_count == 0) {
-        TLobby__sub_803C4698();
+        reset_init_ref_count();
         adx_lock();
         ref_counted_work_buffer_init();
         sj_ring_buffer_init();

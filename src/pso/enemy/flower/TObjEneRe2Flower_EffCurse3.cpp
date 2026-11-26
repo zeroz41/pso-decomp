@@ -77,7 +77,7 @@ GinjaTextureInput player_render_target;
 NJS_TEXNAME player_render_texture_name;
 __declspec(section ".data") Node_800C4D88 lbl_80500C30;
 
-void TObjPlayer__sub_800C4D44(void) {
+void free_curse_resources(void) {
     void *p = &lbl_80500C30;
     if (p != 0) {
         release_texture_list((NJS_TEXLIST *)p);

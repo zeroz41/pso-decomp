@@ -84,10 +84,10 @@ s32 TObjBgmColCtrl::is_active() {
     return (u8)((u8) (music_state != 0));
 }
 
-TObjBgmCol::TObjBgmCol(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjBgmCol::TObjBgmCol(TObject *parent, void *set_data) : TObjBase(parent) {
 #define bgm_col this
     *(saddr *)((s8 *)bgm_col + 0) = (saddr) bgm_col_name;
-    bgm_col->apply_object_set_data(arg2);
+    bgm_col->apply_object_set_data(set_data);
     bgm_col->m_90 = 1;
     bgm_col->m_98 = (f32) bgm_col->scale.x;
     bgm_col->m_9c = (s32) (bgm_col->set_params[0] % 6);

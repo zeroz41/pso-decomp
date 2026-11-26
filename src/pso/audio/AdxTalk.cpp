@@ -450,7 +450,7 @@ void configure_audio_stream_output(AdxtPlayer *player) {
     AdxtPlayer *pp;
     adxstm_set_read_range(player->stream_file, player->min_sectors << 11, player->total_sectors << 11);
     set_adx_stream_end_sector(player->stream_file, 0x19);
-    init_stream_position__6TLobbyFv(player->stream_file);
+    init_adx_stream_position(player->stream_file);
     sj = player->input_ring;
     pp = player;
     for (i = 0; i < player->max_channels; i++) {

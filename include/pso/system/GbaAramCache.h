@@ -11,8 +11,8 @@ extern s32 aram_request_busy_flag;
 
 void reset_warning_aram_cache(void);
 extern "C" {
-int TAdWarningBaseGC__sub_8032D020(void);
-void TAdWarningBaseGC__sub_8032D188(void);
+int get_aligned_aram_alloc_size(void);
+void reset_aram_state(void);
 }
 
 #endif

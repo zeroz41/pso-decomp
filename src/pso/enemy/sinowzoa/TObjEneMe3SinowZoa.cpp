@@ -506,7 +506,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }
                     } else if (near != 0 && this->random_ratio() <= 0.1666f) {
-                        TObjEneDD__sub_800BA438(this, current_target);
+                        TObjEneDD::inflict_confusion(this, current_target);
                     }
                 }
             }

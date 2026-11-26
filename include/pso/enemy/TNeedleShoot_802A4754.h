@@ -3,8 +3,4 @@
 
 #include "types.h"
 
-extern "C" {
-void *__dt__12TNeedleShootFv(void *object, s16 delete_flag);
-}
-
 #endif

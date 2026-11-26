@@ -33,8 +33,4 @@ struct TODummyKeyCave01 : public TObjBase {
 
 LAYOUT_ASSERT(TODummyKeyCave01_size, sizeof(TODummyKeyCave01) == 0xD4);
 
-extern "C" {
-void *__dt__16TODummyKeyCave01Fv(void *object, s16 delete_flag);
-}
-
 #endif

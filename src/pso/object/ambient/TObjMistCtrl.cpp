@@ -55,7 +55,7 @@ TObjMistCtrl::TObjMistCtrl(saddr parent, uaddr set_data) : TObjBase((TObject *)(
     if (set_data != 0U) {
         ((TObjMistCtrl *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     }
-    *(saddr *)((s8 *)this + 0x90) = (saddr)spawn_continuous_particle_effect_with_flags((((u8 *)this) + 0x38), 0x200, 0x800);
+    *(saddr *)((s8 *)this + 0x90) = (saddr)spawn_continuous_particle_effect_with_flags((&this->position), 0x200, 0x800);
 }
 
 __declspec(section ".rodata") Vec lbl_804707E8 = { 0, 0, -1.0f };

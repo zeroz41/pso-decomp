@@ -23,7 +23,7 @@ inline void lsc_step_read(LscStream *lsc_stream) {
         if (status == 4) {
             lsc_stream->state = 3;
         } else if (status == 2) {
-            entry->progress = get_file_offset_relative__6TLobbyFv(lsc_stream->file_handle);
+            entry->progress = get_adx_stream_file_offset(lsc_stream->file_handle);
         } else if (status == 3) {
             entry->progress = lsc_stream->file_sector_count;
             entry->status = 2;
@@ -66,7 +66,7 @@ inline void lsc_step_wait(LscStream *lsc_stream) {
             if (lsc_stream->file_handle == 0) {
                 lsc_log_printf("E0004: Can not open '%s'", entry->filename);
             }
-            s32 sector_count = (get_field_14__6TLobbyFv(lsc_stream->file_handle) + 0x7FF) / 0x800;
+            s32 sector_count = (get_adx_stream_size(lsc_stream->file_handle) + 0x7FF) / 0x800;
             lsc_stream->read_started = 0;
             lsc_stream->file_sector_count = sector_count;
             entry->progress = 0;
@@ -74,7 +74,7 @@ inline void lsc_step_wait(LscStream *lsc_stream) {
         if (lsc_stream->read_started == 0) {
             adxstm_set_read_range(lsc_stream->file_handle, lsc_stream->min_buffer_bytes, lsc_stream->buffer_capacity);
             seek_adx_stream_sector(lsc_stream->file_handle, 0);
-            init_stream_position__6TLobbyFv(lsc_stream->file_handle);
+            init_adx_stream_position(lsc_stream->file_handle);
             lsc_stream->read_started = 1;
         }
         entry->status = 1;

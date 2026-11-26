@@ -29,7 +29,7 @@ static const char lbl_8047C600[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't o
 static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
 static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
 
-void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset) {
+void set_adx_stream_base_offset(AdxStreamFile *file, s32 offset) {
     file->base_offset = offset;
     cvFsSeek(file->handle, file->base_offset, 0);
     cvFsTell(file->handle);
@@ -39,14 +39,14 @@ void set_adx_stream_size_sectors(AdxStreamFile *file, s32 sectors) {
     file->size = sectors << 11;
 }
 
-void set_buffer__6TLobbyFPPv(AdxStreamFile *file, SjRingBuffer *buffer) {
+void set_adx_stream_buffer(AdxStreamFile *file, SjRingBuffer *buffer) {
     file->buffer = buffer;
     s32 available = buffer->interface->get_available(buffer, 0);
     file->read_chunk_size = available;
     file->read_threshold = available;
 }
 
-s32 get_field_14__6TLobbyFv(AdxStreamFile *file) {
+s32 get_adx_stream_size(AdxStreamFile *file) {
     return file->size;
 }
 
@@ -205,7 +205,7 @@ static inline s32 get_pos_803C8A14(AdxStreamFile *s) {
     }
     return 0;
 }
-s32 init_stream_position__6TLobbyFv(AdxStreamFile *file) {
+s32 init_adx_stream_position(AdxStreamFile *file) {
     if (file->size == 0) {
         file->field34 = 0;
         file->start_position = 0;
@@ -219,7 +219,7 @@ s32 init_stream_position__6TLobbyFv(AdxStreamFile *file) {
     return 1;
 }
 
-s32 get_file_offset_relative__6TLobbyFv(AdxStreamFile *file) {
+s32 get_adx_stream_file_offset(AdxStreamFile *file) {
     CvFsHandle *handle = file->handle;
     if (handle != NULL) {
         return cvFsTell(handle) - file->base_offset;

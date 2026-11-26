@@ -26,8 +26,4 @@ struct TOLightMachine01 : public TObjBase {
 LAYOUT_ASSERT(TOLightMachine01ViewRangeOffset, offsetof(TOLightMachine01, view_range) == 0x90);
 LAYOUT_ASSERT(TOLightMachine01_size, sizeof(TOLightMachine01) == 0xB0);
 
-extern "C" {
-void *__dt__16TOLightMachine01Fv(void *object, s16 delete_flag);
-}
-
 #endif

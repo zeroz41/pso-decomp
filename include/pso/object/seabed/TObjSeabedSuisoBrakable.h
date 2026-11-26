@@ -57,7 +57,5 @@ extern BmlResourceDescriptor bm_obj_seabed_suiso_resource_descriptor;
 extern BmlResourceDescriptor bm_obj_seabed_suiso_2_resource_descriptor;
 extern const SeabedSuisoTextureNames seabed_suiso_texture_names;
 extern const SeabedSuisoTextureNames seabed_suiso_2_texture_names;
-extern const char seabed_suiso_gvm_name[];
-extern const char seabed_suiso_2_gvm_name[];
 
 #endif

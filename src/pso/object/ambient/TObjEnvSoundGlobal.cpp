@@ -15,46 +15,46 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 
-struct Row_80190AA0 { u32 cue; s32 mode; };
+struct EnvSoundRow { u32 cue; s32 mode; };
 
 
 
 // Per-area {sound cue, mode} rows, indexed by the object's set parameter.
-const Row_80190AA0 env_sound_table_pioneer2[] = {
+const EnvSoundRow env_sound_table_pioneer2[] = {
     {0x4004B200, 1}, {0x4004C101, 1}, {0x4004CB02, 1},
 };
-const Row_80190AA0 env_sound_table_forest[] = {
+const EnvSoundRow env_sound_table_forest[] = {
     {0x4A801, 2}, {0x4B202, 2}, {0x4BC00, 2}, {0x43704, 2},
     {0x4BC05, 2}, {0x4AD06, 2},
 };
-const Row_80190AA0 env_sound_table_cave[] = {
+const EnvSoundRow env_sound_table_cave[] = {
     {0x46400, 2}, {0x42A01, 2}, {0x42F02, 2}, {0x43C03, 2},
     {0x43C04, 2}, {0x42D05, 2},
 };
-const Row_80190AA0 env_sound_table_mine[] = {
+const EnvSoundRow env_sound_table_mine[] = {
     {0x4004B715, 2}, {0x4004BC16, 2},
 };
-const Row_80190AA0 env_sound_table_ruins[] = {
+const EnvSoundRow env_sound_table_ruins[] = {
     {0x4004B200, 2}, {0x4004CB01, 2}, {0x4004BC02, 2}, {0x4004BC03, 2},
     {0x4004C604, 2}, {0x4004AA05, 2}, {0x4004C606, 2},
 };
-const Row_80190AA0 env_sound_table_spaceship[] = {
+const EnvSoundRow env_sound_table_spaceship[] = {
     {0x4004B40C, 2}, {0x4004B40D, 2}, {0x4004C10E, 2}, {0x4004C10F, 2},
 };
-const Row_80190AA0 env_sound_table_palace[] = {
+const EnvSoundRow env_sound_table_palace[] = {
     {0x4CB0C, 2}, {0x4BC0D, 2}, {0x4BC0E, 2},
 };
-const Row_80190AA0 env_sound_table_vr_temple[] = {
+const EnvSoundRow env_sound_table_vr_temple[] = {
     {0x4CB0C, 2}, {0x4BC0D, 2}, {0x4BC0E, 2},
 };
-const Row_80190AA0 env_sound_table_vr_spaceship[] = {
+const EnvSoundRow env_sound_table_vr_spaceship[] = {
     {0x4004B40C, 2}, {0x4004B40D, 2}, {0x4C10E, 2}, {0x4C10F, 2},
 };
-const Row_80190AA0 env_sound_table_episode2_field[] = {
+const EnvSoundRow env_sound_table_episode2_field[] = {
     {0x4CB05, 2}, {0x4D506, 2}, {0x4BC07, 2}, {0x4C60A, 2},
     {0x4CB0B, 2}, {0x4CB0C, 2}, {0x4CB0D, 2}, {0x4BC0E, 2},
 };
-const Row_80190AA0 env_sound_table_seabed[] = {
+const EnvSoundRow env_sound_table_seabed[] = {
     {0x4004BC00, 2}, {0x4004BC01, 2}, {0x4004C603, 2}, {0x4004D504, 2},
     {0x4004B205, 2}, {0x4004B206, 2}, {0x4004AD07, 2}, {0x4004B208, 2},
     {0x4004AD09, 2}, {0x4004B20A, 2}, {0x4004B20B, 2},
@@ -65,7 +65,7 @@ const char *env_sound_ex_class_name = "TObjEnvSoundEx";
 const char *env_sound_global_class_name = "TObjEnvSoundGlobal";
 
 extern "C" {
-const Row_80190AA0 *environment_sound_tables_by_area[36] = {
+const EnvSoundRow *environment_sound_tables_by_area[36] = {
     env_sound_table_pioneer2, env_sound_table_forest, env_sound_table_forest, env_sound_table_cave,
     env_sound_table_cave, env_sound_table_cave, env_sound_table_mine, env_sound_table_mine,
     env_sound_table_ruins, env_sound_table_ruins, env_sound_table_ruins, NULL,
@@ -112,12 +112,12 @@ void handle_6x67_trigger_set_event(game_command_header *command) {
 }
 
 TObjEnvSound::TObjEnvSound(TObject *parent, void *set_data) : TObjBase(parent) {
-    const Row_80190AA0 *table;
+    const EnvSoundRow *table;
     m_name = env_sound_class_name;
     apply_object_set_data(set_data);
     table = environment_sound_tables_by_area[get_current_floor_area()];
     if (table != NULL) {
-        copy_pair__18TObjEnvSoundGlobalFPvPv(&cue, (void *)&table[set_params[0]]);
+        copy_env_sound_row(&cue, (void *)&table[set_params[0]]);
     } else {
         queue_destruction();
         return;
@@ -237,7 +237,7 @@ s32 TObjEnvSoundEx::init_sound_params() {
     ok = 1;
     table = (uaddr)environment_sound_tables_by_area[get_current_floor_area()];
     if (table != 0U) {
-        ((s32 (*)(void *, int))copy_pair__18TObjEnvSoundGlobalFPvPv)(&sound_id, (int)(table + (set_params[0] * 8)));
+        ((s32 (*)(void *, int))copy_env_sound_row)(&sound_id, (int)(table + (set_params[0] * 8)));
     } else {
         ok = 0;
         sound_id = -1;
@@ -290,17 +290,17 @@ void TObjEnvSoundGlobal::run_task() {
 
 void TObjEnvSoundGlobal::render() {  }
 
-void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+void copy_env_sound_row(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 
 #pragma push
 #pragma opt_common_subs off
 s32 TObjEnvSoundGlobal::setup_sound() {
     s32 result;
-    const Row_80190AA0 *table;
+    const EnvSoundRow *table;
     result = 1;
     table = environment_sound_tables_by_area[get_current_floor_area()];
     if (table != NULL) {
-        copy_pair__18TObjEnvSoundGlobalFPvPv(&this->cue, (void *)&table[this->set_params[0]]);
+        copy_env_sound_row(&this->cue, (void *)&table[this->set_params[0]]);
     } else {
         result = 0;
         this->cue = -1;

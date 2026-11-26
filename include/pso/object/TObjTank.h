@@ -16,8 +16,4 @@ struct TObjTank : public TObjCollidable {
 
 LAYOUT_ASSERT(TObjTank_size, sizeof(TObjTank) == 0xAC);
 
-extern "C" {
-void *__dt__8TObjTankFv(void *object, s16 delete_flag);
-}
-
 #endif

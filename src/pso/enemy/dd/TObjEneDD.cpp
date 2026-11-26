@@ -813,7 +813,7 @@ void TObjEneDD::emit_effect_at_position(const DragonAttackParams *params) {
     TObjEneDD::emit_enemy_effect(this, &position, params, NULL);
 }
 
-void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target) {
+void TObjEneDD::inflict_confusion(TObjChara *attacker, TObjChara *target) {
     DirectAttackPayload attack = {0x12, 1.0f};
     target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
@@ -823,12 +823,12 @@ void TObjEneDD::inflict_poison(TObjChara *attacker, TObjChara *target) {
     target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
 
-void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target) {
+void TObjEneDD::inflict_paralysis(TObjChara *attacker, TObjChara *target) {
     DirectAttackPayload attack = {0x10, 1.0f};
     target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
 
-void TObjEneDD::send_damage_message(TObjChara *attacker, TObjChara *target) {
+void TObjEneDD::inflict_slow(TObjChara *attacker, TObjChara *target) {
     DirectAttackPayload attack = {0x11, 1.0f};
     target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }

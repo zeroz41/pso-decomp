@@ -26,10 +26,7 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-
-struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
-
-struct Obj_80186CC8 { u8 pad[0x1c]; u16 id; };
+#include "pso/network/protocol/subcmd_6x.h"
 
 struct Obj_80186DA0 {
     u8 pad0[0xD0];
@@ -63,11 +60,10 @@ void TObjCityMainWarpChallenge::close_windows() {
 }
 
 void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
-    Obj_80186CC8 *self = (Obj_80186CC8 *)this;
-    Pkt_80186CC8 pkt;
+    G_SetBossWarpFlags_6x6A pkt;
     ((TWindowSubTradeMain *)(&pkt))->init_pkt_cmd_6A();
-    pkt.id = self->id;
-    pkt.value = value;
+    pkt.header.entity_id = this->entity_id;
+    pkt.flags = value;
     ((TWindowSubTradeMain *)(&pkt))->send_60_update();
 }
 

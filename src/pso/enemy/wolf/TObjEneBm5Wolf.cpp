@@ -1452,9 +1452,9 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
                         this->near_target = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
                             if (this->is_leader != 0) {
-                                TObjEneDD__sub_800BA378(this, this->current_target);
+                                TObjEneDD::inflict_paralysis(this, this->current_target);
                             } else {
-                                TObjEneDD::send_damage_message(this, this->current_target);
+                                TObjEneDD::inflict_slow(this, this->current_target);
                             }
                         }
                     }

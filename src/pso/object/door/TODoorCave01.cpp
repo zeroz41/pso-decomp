@@ -1,3 +1,4 @@
+#include "pso/object/door/DoorSavedState.h"
 #include "pso/object/door/TODoorCave01.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -53,25 +54,23 @@ void TODoorCave01::update_demo() {}
 
 // The 6x0B object-state message (see the lane report: the stack structs
 // still call the packet helpers under their TLobby / TOBarrierEnergy01 names).
-struct State_80161320 { s16 a; s16 b; };
-struct Obj_80161320 { u8 pad[4]; s16 kind; };
 
 void TODoorCave01::send_state(void *src_arg) {
-    State_80161320 *src = (State_80161320 *)src_arg;
-    State_80161320 st;
-    Obj_80161320 *obj;
+    DoorSavedState *src = (DoorSavedState *)src_arg;
+    DoorSavedState st;
+    DoorSetEntryView *obj;
     if (src != NULL) {
         ((TLobby *)&st)->copy_short_fields(src);
     } else {
         access_object_saved_state(&st, 1);
     }
-    obj = (Obj_80161320 *)set_entry;
+    obj = (DoorSetEntryView *)set_entry;
     if (obj != NULL) {
         G_UpdateObjectState_6x0B pkt;
         init_collision_subcommand_header(&pkt);
         pkt.header.entity_id = entity_id;
-        pkt.flags = st.a;
-        pkt.object_index = obj->kind;
+        pkt.flags = st.flags;
+        pkt.object_index = obj->object_index;
         send_object_state(&pkt);
     }
 }
@@ -128,7 +127,7 @@ void TODoorCave01::update_closed() {
 }
 
 void TODoorCave01::update_door_switch_state() {
-    State_80161320 st;
+    DoorSavedState st;
     s32 i;
     switch (lock_mode) {
     case 1:
@@ -173,7 +172,7 @@ void TODoorCave01::update_door_switch_state() {
             play_door_sound();
             door_flags |= 1;
             if (set_entry != NULL && access_object_saved_state(&st, 1) != 0) {
-                st.a = 1;
+                st.flags = 1;
                 send_state(&st);
                 access_object_saved_state(&st, 0);
             }

@@ -32,7 +32,7 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(TObjChara *target, const f32 *hi
         if (is_player_entity_id(target->get_entity_id()) != 0) {
             entity = (TObjChara *)find_entity_by_id(this->owner_id);
             if ((entity != NULL) && (entity->random_ratio() < 0.1f)) {
-                TObjEneDD__sub_800BA438(entity, target);
+                TObjEneDD::inflict_confusion(entity, target);
             }
         }
     }
