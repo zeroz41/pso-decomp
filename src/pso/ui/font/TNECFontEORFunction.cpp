@@ -487,7 +487,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
   TWindowSubStatusDisp::end_render_forward();
 }
 
-void TAdSubPlyItemGC::render_status_line(f32 x, f32 y, f32 scale, const char *text, u32 color) {
+void draw_menu_text_scaled(f32 x, f32 y, f32 scale, const char *text, u32 color) {
     draw_menu_font_string(text, color, 0, x, y, scale);
 }
 

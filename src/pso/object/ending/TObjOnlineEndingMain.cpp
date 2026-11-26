@@ -34,6 +34,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
 #include <string.h>
+#include "pso/ui/MenuText.h"
 
 #pragma readonly_strings on
 
@@ -307,7 +308,7 @@ void TObjOnlineEnding::render() {
                 u32 width = calc_text_width(name);
                 NJS_POINT2 pos = online_ending_quad_vertices[i];
                 pos.x -= static_cast<f32>(width >> 1);
-                TAdSubPlyItemGC::render_status_line(pos.x, pos.y, 0.1f, name, -1);
+                draw_menu_text_scaled(pos.x, pos.y, 0.1f, name, -1);
             }
             push_matrix();
             post_translate_matrix(&online_ending_scene_origin.x);

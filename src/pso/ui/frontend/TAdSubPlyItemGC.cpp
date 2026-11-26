@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "pso/system/vector.h"
+#include "pso/ui/MenuText.h"
 
 const char *TAdSubPlyItemGC::name = "TAdSubPlyItemGC";
 
@@ -75,14 +76,14 @@ void TAdSubPlyItemGC::render() {
         for (i = 0; i < 4; i++) {
             if (visible[i] != 0 && names[i][0] != 0) {
                 pos = name_pos;
-                TAdSubPlyItemGC::render_status_line(1.0f + pos[i].x, name_pos[i].y, 0.39f,
+                draw_menu_text_scaled(1.0f + pos[i].x, name_pos[i].y, 0.39f,
                         names[i], (alpha[i] << 24) | 0x111111);
-                TAdSubPlyItemGC::render_status_line(pos[i].x, pos[i].y, 0.4f,
+                draw_menu_text_scaled(pos[i].x, pos[i].y, 0.4f,
                         names[i], (alpha[i] << 24) | 0xFFFFFF);
                 if (levels[i] != 0) {
-                    TAdSubPlyItemGC::render_status_line(1.0f + level_pos[i].x, level_pos[i].y, 0.39f,
+                    draw_menu_text_scaled(1.0f + level_pos[i].x, level_pos[i].y, 0.39f,
                         (const char *)format_level_text(levels[i]), (alpha[i] << 24) | 0x111111);
-                    TAdSubPlyItemGC::render_status_line(level_pos[i].x, level_pos[i].y, 0.4f,
+                    draw_menu_text_scaled(level_pos[i].x, level_pos[i].y, 0.4f,
                         (const char *)format_level_text(levels[i]), (alpha[i] << 24) | 0xFFFFFF);
                 }
             }

@@ -18,6 +18,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/MenuText.h"
 
 static const NJS_POINT2 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
 static const NJS_POINT2 lbl_804770A0 = {462.0f, 18.0f};
@@ -42,7 +43,7 @@ void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) 
     for (i = 0; i < 2; i++) {
         pos[i].x = 320.0f - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, i))) >> 1);
         pos[i].y = 20.0f * (f32) i + 394.0f;
-        TAdSubPlyItemGC::render_status_line(pos[i].x, pos[i].y, 0.8f, (const char *)get_localized_text_entry(0x1B, i), -1);
+        draw_menu_text_scaled(pos[i].x, pos[i].y, 0.8f, (const char *)get_localized_text_entry(0x1B, i), -1);
     }
 }
 #pragma pop
