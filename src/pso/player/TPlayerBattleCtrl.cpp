@@ -148,7 +148,7 @@ TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
     if (player != NULL) {
         player->export_character_data(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     battle_ctrl_default = 0;
 }
 
@@ -769,7 +769,7 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl) {
             if (quest_mission_manager != NULL) {
                 TQuestThread::clear_buffer(quest_mission_manager);
             }
-            TLobby::stop_audio_streams();
+            stop_audio_streams();
             battle_fadeout_done = 0;
             TLobby::init_fadeout_state(init_and_set_flag);
             ctrl->state_20 = 2;

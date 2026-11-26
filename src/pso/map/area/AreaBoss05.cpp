@@ -11,6 +11,8 @@
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjRainCtrl.h"
+#include "pso/map/FloorWaveEvents.h"
+#include "pso/boss/galgryphon/Boss5PillarCleanup.h"
 
 #pragma readonly_strings on
 
@@ -24,16 +26,16 @@ struct AreaLightParams {
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*gryphon_area_cleanup_callbacks[2])(void) = {
-    TLobby::cleanup_boss5_pillars, TLobby::cleanup_pillar_demo,
+    cleanup_boss5_pillars, cleanup_pillar_demo,
 };
 
 void cleanup_gryphon_area(void) {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     stop_cue_stream();
     TLobby::call_funcs_reverse(gryphon_area_cleanup_callbacks, sizeof(gryphon_area_cleanup_callbacks));
     TParticleCtrl::free_heap();
-    TLobby::update_current_floor();
+    update_current_floor();
     unload_current_floor_resources();
     TLobby::clear_session_buffers();
 }

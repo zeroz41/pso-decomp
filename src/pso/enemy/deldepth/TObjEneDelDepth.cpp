@@ -55,6 +55,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/model_render_state.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 DelDepthParameters *TObjEneDelDepth::tune_params;
@@ -174,7 +175,7 @@ void TObjEneDelDepth::load_assets() {
         info.motions = shared_resource->motions;
         TObjNpcEnemy::register_animated_chunk((s16)0x48, shared_resource->models[1].model, shared_resource->models[1].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
-    tune_params = (DelDepthParameters *)TLobby::dispatch_shared_handler_a(0x30);
+    tune_params = (DelDepthParameters *)dispatch_shared_handler_a(0x30);
 }
 
 void TObjEneDelDepth::free_shared_data() {
@@ -208,7 +209,7 @@ void TObjEneDelDepth::init() {
     this->velocity.y = 0.0f;
     velocity.x = 0.0f;
     this->target = 0;
-    this->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30), TLobby::register_object(0x30));
+    this->bind_enemy_combat_stats(register_boss(0x30), dispatch_shared_handler_b(0x30), register_object(0x30));
     this->referenceHp = (s16) this->hp;
     register_by_id();
     this->movementParameters = 0;

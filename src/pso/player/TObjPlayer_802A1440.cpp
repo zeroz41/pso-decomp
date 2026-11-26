@@ -21,7 +21,7 @@ void TPlyCharData::initialize_player_data() { m_inventory.m_language = 0; m_inve
 void TPlyCharData::clear_technique_levels() {
     s32 i;
     for (i = 0; i < 0x14; i++) {
-        m_tech_levels[i] = TObjPlayer::get_item_count_max();
+        m_tech_levels[i] = get_item_count_max();
     }
 }
 

@@ -39,6 +39,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 extern "C" {
@@ -418,7 +419,7 @@ f32 TItemData::calc_clock_bonus(TObjPlayer *player) {
     f32 bonus = 0.0f;
     switch (data1.data_u8[1]) {
     case 0x94:
-        bonus = (f32) (TLobby::get_internet_beat() / 4);
+        bonus = (f32) (get_internet_beat() / 4);
         break;
     }
     return bonus;

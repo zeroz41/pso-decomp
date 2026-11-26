@@ -12,10 +12,11 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/ui/charcreate/CreationResourceFree.h"
+#include "pso/audio/MusicControl.h"
 
 void exit_main_menu_scene(void) {
     s32 *task;
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     task = (s32 *)&main_task;
     task = (s32 *)&main_task;
     main_task.delete_layer_children();

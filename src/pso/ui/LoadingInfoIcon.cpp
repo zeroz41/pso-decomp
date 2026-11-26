@@ -120,14 +120,14 @@ void draw_loading_compass(void) {
 }
 #pragma pop
 
-void TLobby::handle_flag2_request() {
+void handle_flag2_request() {
     if (lobby_request_flags & 2) {
         release_texture_list(&loading_texture_list);
         lobby_request_flags &= 0xFFFFFFFD;
     }
 }
 
-void TLobby::load_now_loading_texture() {
+void load_now_loading_texture() {
     void *archive;
     void *packed;
     if (!(lobby_request_flags & 2)) {
@@ -152,11 +152,11 @@ void render_info_icon_overlay(void) {
     case 12:
     case 15:
     case 19:
-        TLobby::update_pulse_colors(0);
+        update_pulse_colors(0);
         draw_loading_overlay();
         return;
     case 18:
-        TLobby::update_pulse_colors(1);
+        update_pulse_colors(1);
         draw_loading_overlay();
     default:
         return;
@@ -200,7 +200,7 @@ void draw_loading_overlay(void) {
 
 #pragma push
 #pragma fp_contract on
-void TLobby::update_pulse_colors(s32 request) {
+void update_pulse_colors(s32 request) {
     f32 t;
     u32 c0;
     u32 c1;

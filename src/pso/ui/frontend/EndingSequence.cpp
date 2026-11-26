@@ -38,7 +38,7 @@ void start_ending_sequence(void) {
     set_queued_main_phase(2);
     set_fallback_main_phase(2);
     TAdEndText::load_ending_font();
-    TLobby::update_keyboard_menu();
+    update_keyboard_menu();
     set_ending_callback();
     new TEndingMovie;
     render_tick();

@@ -42,6 +42,7 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/city/AppraisalScore.h"
+#include "pso/system/GameModeQueries.h"
 
 const char *shop_judgment_item_window_class_name = "TShopJudgmentItemWindow";
 
@@ -255,7 +256,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
         }
         if (this->help_window == NULL) {
             this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
-            if ((this->help_window != NULL) && (TLobby::is_camera_ctrl_active() > 2)) {
+            if ((this->help_window != NULL) && (is_camera_ctrl_active() > 2)) {
                 this->help_window->set_scale(0.75f, 0.75f);
             }
             this->help_window->set_displayed_item_colored(&judged_item);

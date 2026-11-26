@@ -27,6 +27,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/enemy/BattleParamTables.h"
 
 __declspec(section ".rodata") char TBoss6RockChase::class_name_string[] = "TBoss6RockChase";
 extern const TBoss6RockChaseKind boss6_rock_chase_model_radius_table[2];
@@ -45,7 +46,7 @@ void TBoss6RockChase::damage_players_in_range() {
     f32 range;
     count = TLobby::get_game_mode();
     range = boss6_rock_chase_model_radius_table[size_kind].radius;
-    damage = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[3];
+    damage = dispatch_shared_handler_a(0x2C)->values.floats[3];
     if (damage < 1) {
         damage = 20;
     }

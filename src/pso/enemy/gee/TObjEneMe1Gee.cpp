@@ -61,6 +61,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -146,10 +147,10 @@ void TObjEneMe1Gee::load_resources() {
     TObjEneMe1Gee_NEEDLE::init_global();
     gee_model_node7 = find_model_node(me1_gee_resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
-        gee_boss_stat_handle_table[i] = TLobby::register_boss(gee_base_stat_ids[i]);
-        gee_shared_handler_b_table[i] = TLobby::dispatch_shared_handler_b(gee_attack_stat_ids[i]);
-        gee_object_handle_table[i] = TLobby::register_object(gee_resist_stat_ids[i]);
-        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(gee_param_ids[i]);
+        gee_boss_stat_handle_table[i] = register_boss(gee_base_stat_ids[i]);
+        gee_shared_handler_b_table[i] = dispatch_shared_handler_b(gee_attack_stat_ids[i]);
+        gee_object_handle_table[i] = register_object(gee_resist_stat_ids[i]);
+        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)dispatch_shared_handler_a(gee_param_ids[i]);
     }
     me1_gee_render_node_index = 0;
     p = new TBreakUpMdlData(me1_gee_resource_bundle->models->model);

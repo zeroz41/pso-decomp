@@ -35,6 +35,7 @@
 #include "pso/item/shop/ShopSinglePurchase.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/GameModeQueries.h"
 
 #pragma readonly_strings on
 
@@ -161,7 +162,7 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
     }
     if (this->help_window == NULL) {
         this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
-        if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (this->help_window != NULL && is_camera_ctrl_active() > 2) {
             this->help_window->set_scale(0.75f, 0.75f);
         }
         this->help_window->set_displayed_item_colored(this->stock);

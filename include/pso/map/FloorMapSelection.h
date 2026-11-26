@@ -17,8 +17,12 @@ void reset_floor_map_registry(void);
 
 // The story-select state TLobby::reset_story_select clears to -1.
 extern s32 story_select_pending_state;
-// The episode TAdStorySelectGC::set_state last picked.
+// The episode select_episode last picked.
 extern int selected_episode;
+// Picks episode 0 or 1 and resets the floor map registry for it.
+void select_episode(s32 episode);
+// Copies the game variations' (terrain, entities) pairs into the floor map registry.
+void copy_table_entries(s32 *src, u32 size);
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection);
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection);
 s32 get_floor_map_terrain(s32 floor);
@@ -33,5 +37,7 @@ void set_floor_map_variant(s32 floor, s32 terrain);
 struct TLobbyIds { s32 w[18]; };
 
 struct GetBossWarpDestinationTable { s32 w[2][18]; };
+
+void reset_story_select_state();
 
 #endif

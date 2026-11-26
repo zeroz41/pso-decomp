@@ -111,6 +111,7 @@ s32 bm5_wolf_render_joint_y_rotation;
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 #pragma push
@@ -213,10 +214,10 @@ void TObjEneBm5Wolf::load_resources() {
     bm5_wolf_zero_vector.y = 0.0f;
     bm5_wolf_zero_vector.z = 0.0f;
     for (i = 0; i < 2; i++) {
-        bm5_wolf_stat_params[i] = TLobby::register_boss(wolf_base_stat_ids[i]);
-        wolf_stat_handle_a_table[i] = TLobby::dispatch_shared_handler_b(wolf_attack_stat_ids[i]);
-        wolf_stat_handle_b_table[i] = TLobby::register_object(wolf_resist_stat_ids[i]);
-        wolf_param_table[i] = (saddr)TLobby::dispatch_shared_handler_a(wolf_param_ids[i]);
+        bm5_wolf_stat_params[i] = register_boss(wolf_base_stat_ids[i]);
+        wolf_stat_handle_a_table[i] = dispatch_shared_handler_b(wolf_attack_stat_ids[i]);
+        wolf_stat_handle_b_table[i] = register_object(wolf_resist_stat_ids[i]);
+        wolf_param_table[i] = (saddr)dispatch_shared_handler_a(wolf_param_ids[i]);
     }
     {
     NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;

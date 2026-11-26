@@ -61,6 +61,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
+#include "pso/enemy/BattleParamTables.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -581,7 +582,7 @@ void handle_6x79_gogo_ball(G_GoGoBall_6x79 *packet) {
 
 
 TGoGoBallGame::TGoGoBallGame(TObject *parent) : TObject(parent) {
-    beat = TLobby::get_internet_beat();
+    beat = get_internet_beat();
     TWindowCtrl::create_timer();
     set_gogo_ball_score(1, 0);
     set_gogo_ball_score(0, 0);
@@ -611,7 +612,7 @@ void TGoGoBallGame::run_task() {
     } else if (get_gogo_ball_score(0) >= 999) {
         set_gogo_ball_score(0, 0);
     }
-    m = TLobby::get_internet_beat();
+    m = get_internet_beat();
     r = (s32)fabs_float((f32)(m - this->beat));
     if (r == 1 || r == 999) {
         gogo_ball_sync_state.applied = 1;

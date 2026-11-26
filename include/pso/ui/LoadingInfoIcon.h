@@ -8,5 +8,8 @@ void render_info_icon_overlay(void);
 void draw_loading_overlay(void);
 void free_info_icon_texture(void);
 void load_info_icon(void);
+void handle_flag2_request();
+void load_now_loading_texture();
+void update_pulse_colors(s32 request);
 
 #endif

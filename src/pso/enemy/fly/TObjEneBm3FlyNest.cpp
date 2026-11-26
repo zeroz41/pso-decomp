@@ -51,6 +51,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -236,10 +237,10 @@ void TObjEneBm3FlyNest::load_resources() {
     } else {
         bm3_fly_nest_bml = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
     }
-    bm3_fly_nest_base_stats = TLobby::register_boss(1);
-    bm3_fly_nest_attack_stats = TLobby::dispatch_shared_handler_b(1);
-    bm3_fly_nest_resist_stats = TLobby::register_object(1);
-    bm3_fly_nest_lobby_params = TLobby::dispatch_shared_handler_a(1);
+    bm3_fly_nest_base_stats = register_boss(1);
+    bm3_fly_nest_attack_stats = dispatch_shared_handler_b(1);
+    bm3_fly_nest_resist_stats = register_object(1);
+    bm3_fly_nest_lobby_params = dispatch_shared_handler_a(1);
     TObjEneBm3Fly::load_resources();
     TObjEneBm3FlyNest::init_vertex_table();
     {

@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 ARQRequest ad_warning_arq_request;
 u32 ad_warning_aram_base;
@@ -147,7 +148,7 @@ s32 TAdWarningBaseGC::load_from_aram_sync(void *buf) {
         if (aram_request_busy_flag == 0) {
             break;
         }
-        TLobby::run_frame();
+        run_frame();
     }
     DCInvalidateRange(buf, size);
     return 1;

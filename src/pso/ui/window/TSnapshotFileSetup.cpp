@@ -16,6 +16,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/network/InfoBoardRequests.h"
 
 extern "C" {
 
@@ -245,7 +246,7 @@ void TSnapshotFileSetup::run_task() {
     }
 }
 
-void TSnapshotFileSetup::render() { if (this->state == 6) { TLobby::update_pulse_colors((saddr)((void*)1)); draw_loading_overlay(); } }
+void TSnapshotFileSetup::render() { if (this->state == 6) { update_pulse_colors((saddr)((void*)1)); draw_loading_overlay(); } }
 
 void TSnapshotFileSetup::set_option_and_confirm(s32 option, s32 yes_no) {
     if (option != (s32) this->shown_message) {
@@ -270,6 +271,6 @@ void TSnapshotFileSetup::open_confirm_dialog(const char *message, s32 yes_no) {
 s32 TSnapshotFileSetup::get_result() { return this->result; }
 }
 
-void reset_info_board_on_load() { TLobby::reset_info_board(); }
+void reset_info_board_on_load() { reset_info_board(); }
 
-void reset_info_board_on_unload() { TLobby::reset_info_board(); }
+void reset_info_board_on_unload() { reset_info_board(); }

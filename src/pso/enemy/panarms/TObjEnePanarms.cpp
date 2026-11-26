@@ -55,6 +55,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 extern const char bm7_s_paa_body_model_filename[] = "bm7_s_paa_body.nj";
@@ -253,8 +254,8 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, EnemyPlacement *setData) : TObjE
     velocity.x = velocity.y = velocity.z = 0.0f;
     move_velocity.x = move_velocity.y = move_velocity.z = 0.0f;
     target = NULL;
-    bind_enemy_combat_stats(TLobby::register_boss(49), TLobby::dispatch_shared_handler_b(49),
-                            TLobby::register_object(49));
+    bind_enemy_combat_stats(register_boss(49), dispatch_shared_handler_b(49),
+                            register_object(49));
     referenceHp = hp;
     register_entity_by_id(this);
     set_param(21);
@@ -268,12 +269,12 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, EnemyPlacement *setData) : TObjE
     max_hp = hp;
     has_split = 0;
     move_count = 0;
-    pad_470 = ((PanarmsParams *)TLobby::dispatch_shared_handler_a(49))->unk_0;
-    search_range = ((PanarmsParams *)TLobby::dispatch_shared_handler_a(49))->search_range;
+    pad_470 = ((PanarmsParams *)dispatch_shared_handler_a(49))->unk_0;
+    search_range = ((PanarmsParams *)dispatch_shared_handler_a(49))->search_range;
     if (search_range < 5) {
         search_range = 5;
     }
-    wait_frames = ((PanarmsParams *)TLobby::dispatch_shared_handler_a(49))->wait_frames;
+    wait_frames = ((PanarmsParams *)dispatch_shared_handler_a(49))->wait_frames;
     if (wait_frames < 0) {
         wait_frames = 0;
     }

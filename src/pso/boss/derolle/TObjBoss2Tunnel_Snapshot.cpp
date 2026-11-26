@@ -61,6 +61,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 static s16 debug_chunk_a_strips[59] = {
     0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,
@@ -945,7 +946,7 @@ s32 take_snapshot(void) {
                         graph->run_task();
                         graph->render();
                     }
-                    TLobby::update_pulse_colors(1);
+                    update_pulse_colors(1);
                     draw_loading_overlay();
                     TParticleCtrl::end_effect_render();
                     render_tick();
@@ -1246,7 +1247,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
         if ((f32)frames >= 30.0f) {
             break;
         }
-        TLobby::wait_ready_loop();
+        wait_ready_loop();
         if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }
@@ -1298,7 +1299,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         }
         main_task.render();
         draw_snapshot_capture_overlay();
-        TLobby::wait_ready_loop();
+        wait_ready_loop();
         if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }

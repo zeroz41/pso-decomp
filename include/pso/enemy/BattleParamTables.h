@@ -55,4 +55,13 @@ struct GetInternetBeatDateStamp
   u8 pad8[4];
 };
 
+BattleMovementParams *dispatch_shared_handler_a(s32 index);
+ActorParamBlock *register_object(s32 index);
+AttackParams *dispatch_shared_handler_b(s32 index);
+player_stats *register_boss(s32 index);
+s32 calc_alpha_shifted(f32 alpha);
+f32 calc_result_offset();
+f32 calc_phase_offset();
+s32 get_internet_beat();
+
 #endif

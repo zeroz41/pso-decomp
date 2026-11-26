@@ -8,6 +8,7 @@
 #include "pso/item/TItem.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 void TItemWeaponHeavenPunisher::activate_effect(s32 effect_variant) {
@@ -55,7 +56,7 @@ void TItemWeaponHeavenPunisher::emit_marker_effects() {
         copy_attack_targets((u32 *)&captured_targets, (u32 *)owner->get_extended_state());
         get_gun_point(&captured_muzzle);
         effect = 0;
-        if (!((TLobby::get_internet_beat() / 100) & 1)) {
+        if (!((get_internet_beat() / 100) & 1)) {
             effect = 1;
         }
         send_activate_effect(effect);

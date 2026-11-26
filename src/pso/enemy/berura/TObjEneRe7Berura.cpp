@@ -54,6 +54,7 @@
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -236,16 +237,16 @@ void TObjEneRe7Berura::load_static_resources() {
     vecs[2].x = 10.0f;
     sampled->sample((NJS_OBJECT *)re7_berura_shared_resource->models->model, (NJS_MOTION *)re7_berura_shared_resource->motions[re7_berura_animation_definitions[2].motion].motion, pair, vecs);
     for (i = 0; i < 1; i++) {
-        re7_berura_stat_handle_table[i] = TLobby::register_boss(berura_base_stat_ids[i]);
+        re7_berura_stat_handle_table[i] = register_boss(berura_base_stat_ids[i]);
     }
     for (s32 j = 0; j < 2; j++) {
-        re7_berura_attack_stat_handles[j] = TLobby::dispatch_shared_handler_b(berura_attack_stat_ids[j]);
+        re7_berura_attack_stat_handles[j] = dispatch_shared_handler_b(berura_attack_stat_ids[j]);
     }
     for (i = 0; i < 1; i++) {
-        re7_berura_shared_object_handles[i] = TLobby::register_object(berura_resist_stat_ids[i]);
+        re7_berura_shared_object_handles[i] = register_object(berura_resist_stat_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        re7_berura_handler_table_a[i] = TLobby::dispatch_shared_handler_a(berura_lobby_param_ids[i]);
+        re7_berura_handler_table_a[i] = dispatch_shared_handler_a(berura_lobby_param_ids[i]);
     }
     {
         NpcAnimationBinding atk = ene_re7_berura_attack_def;

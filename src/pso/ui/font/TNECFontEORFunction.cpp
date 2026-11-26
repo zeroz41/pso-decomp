@@ -23,6 +23,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/TLanguage.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 #pragma readonly_strings on
 
@@ -536,9 +537,9 @@ void load_menu_font(void) {
     u32 k;
     u32 u;
     u32 v;
-    TLobby::load_font_texture();
+    load_font_texture();
     menu_font_glyph_data = load_disc_file("S18all04.fon");
-    TLobby::release_menu_font();
+    release_menu_font();
     for (i = 0; i < 2; i++) {
         menu_font_render_rects[i].set_render_rect(NULL, 0x208, 0x100, 0x100);
         set_texture_name(menu_font_texnames + i, menu_font_render_rects + i, i + 0xDCF28, 0x08800000);

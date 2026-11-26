@@ -136,6 +136,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 s32 TItem::get_item_id() { return (s32)this->item_id; }
@@ -199,10 +200,10 @@ void TObjEneDf2Bringer::load_resources() {
   {
     TObjEneDf2Bringer::resource_bundle = load_enemy_bml_resource(&bm_ene_df2_bringer_resource_descriptor);
   }
-  bringer_boss_stats_handle = TLobby::register_boss(0xD);
-  bringer_boss_stats_ptr_b = TLobby::dispatch_shared_handler_b(0xD);
-  bringer_object_handle = TLobby::register_object(0xD);
-  df2_bringer_params = (BringerParameters *)TLobby::dispatch_shared_handler_a(0xD);
+  bringer_boss_stats_handle = register_boss(0xD);
+  bringer_boss_stats_ptr_b = dispatch_shared_handler_b(0xD);
+  bringer_object_handle = register_object(0xD);
+  df2_bringer_params = (BringerParameters *)dispatch_shared_handler_a(0xD);
   df2_bringer_render_node_index = 0;
   df2_bringer_render_rotation_x = 0;
   df2_bringer_render_point_cursor = 0;

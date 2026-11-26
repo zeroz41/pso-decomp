@@ -83,6 +83,7 @@ Mtx34 df_captured_matrix_pair[2];
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 // Written last to first: the unit is generated deferred (see configure.py).
@@ -669,8 +670,8 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     velocity.z = 1.2f * cos_table_lookup(ang) / scale;
     velocity.y = -6.0f / scale;
     speed = 6.0f;
-    damage = TLobby::dispatch_shared_handler_a(0x38)->values.integers[4];
-    homing_rate = TLobby::dispatch_shared_handler_a(0x38)->values.floats[0];
+    damage = dispatch_shared_handler_a(0x38)->values.integers[4];
+    homing_rate = dispatch_shared_handler_a(0x38)->values.floats[0];
     if (homing_rate < 0.0f || homing_rate > 1.0f) {
         homing_rate = 0.5f;
     }

@@ -76,6 +76,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -959,7 +960,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
         break;
     }
     if (this->is_ending_or_split_screen() == 0) {
-        TLobby::stop_audio_streams();
+        stop_audio_streams();
         if (state_index == 7) {
             play_area_music("HALL.adx");
         }
@@ -1002,9 +1003,9 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    base_params = TLobby::register_boss(0x2C);
-    attack_params = TLobby::dispatch_shared_handler_b(0x2C);
-    resistance_params = TLobby::register_object(0x2C);
+    base_params = register_boss(0x2C);
+    attack_params = dispatch_shared_handler_b(0x2C);
+    resistance_params = register_object(0x2C);
     bind_enemy_combat_stats(base_params, attack_params, resistance_params);
     register_entity_by_id(this);
     actorFlags = (s32) (actorFlags | 0x02000000);

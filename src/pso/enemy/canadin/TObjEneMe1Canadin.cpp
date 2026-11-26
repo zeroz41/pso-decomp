@@ -64,6 +64,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 extern "C" {
@@ -156,10 +157,10 @@ void TObjEneMe1Canadin::load_resources() {
         bm_ene_me1_mb_resource = load_enemy_bml_resource(&bm_ene_me1_mb_resource_descriptor);
     }
     for (i = 0; i < 3; i++) {
-        canadin_boss_stat_handle_table[i] = TLobby::register_boss(canadin_base_stat_ids[i]);
-        canadin_shared_handler_b_table[i] = TLobby::dispatch_shared_handler_b(canadin_attack_stat_ids[i]);
-        canadin_object_handle_table[i] = TLobby::register_object(canadin_resist_stat_ids[i]);
-        canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
+        canadin_boss_stat_handle_table[i] = register_boss(canadin_base_stat_ids[i]);
+        canadin_shared_handler_b_table[i] = dispatch_shared_handler_b(canadin_attack_stat_ids[i]);
+        canadin_object_handle_table[i] = register_object(canadin_resist_stat_ids[i]);
+        canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)dispatch_shared_handler_a(canadin_param_ids[i]);
     }
     me1_canadin_render_node_index = 0;
     canadin_leader_breakup_model = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);

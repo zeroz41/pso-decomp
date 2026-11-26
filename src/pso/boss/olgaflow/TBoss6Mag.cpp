@@ -43,6 +43,7 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -108,7 +109,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = NULL;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2E), TLobby::dispatch_shared_handler_b(0x2E), TLobby::register_object(0x2E));
+    bind_enemy_combat_stats(register_boss(0x2E), dispatch_shared_handler_b(0x2E), register_object(0x2E));
     referenceHp = hp;
     initial_hp = hp;
     register_by_id();
@@ -123,7 +124,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     init_motion_state();
     capture = ModelNodePositionCapture::create(boss6_mag_capture_nodes, node_positions);
     copy_mag_target(&chase_target, (TBoss6MagTarget *)&boss6_mag_initial_target);
-    tuning = (f32 *)TLobby::dispatch_shared_handler_a(0x2E);
+    tuning = (f32 *)dispatch_shared_handler_a(0x2E);
     dead_duration = (s32)tuning[0];
     if ((f32)dead_duration <= 0.0f) {
         dead_duration = 0x96;

@@ -64,6 +64,7 @@
 #include "pso/network/client_id.h"
 #include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *TBoss6Type2::name = "TBoss6Type2";
 // Inferred name: distance checks (> 390), sound sources and the start position all use it.
@@ -221,7 +222,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2C), TLobby::dispatch_shared_handler_b(0x2C), TLobby::register_object(0x2C));
+    bind_enemy_combat_stats(register_boss(0x2C), dispatch_shared_handler_b(0x2C), register_object(0x2C));
     referenceHp = prev_hp = hp;
     register_by_id();
     set_param(0x4E);
@@ -907,7 +908,7 @@ void TBoss6Type2::load_battle_params() {
     const BattleMovementParams *rec;
     s32 first;
     s32 second;
-    rec = TLobby::dispatch_shared_handler_a(0x2C);
+    rec = dispatch_shared_handler_a(0x2C);
     rock_damage = (s32)rec->values.floats[1];
     if ((f32)rock_damage <= 0.0f) {
         rock_damage = TBoss6Type2::default_battle_parameters.int_params[0];
@@ -943,7 +944,7 @@ void TBoss6Type2::load_battle_params() {
         iai_x2_percent = TBoss6Type2::default_battle_parameters.int_params[6];
         iai_x3_percent = TBoss6Type2::default_battle_parameters.int_params[7];
     }
-    rec = TLobby::dispatch_shared_handler_a(0x2F);
+    rec = dispatch_shared_handler_a(0x2F);
     base_walk_speed = rec->values.floats[0];
     if (base_walk_speed <= 0.0f) {
         base_walk_speed = TBoss6Type2::default_battle_parameters.float_params[0];
@@ -960,7 +961,7 @@ void TBoss6Type2::load_battle_params() {
     if ((f32)info_stat_duration <= 0.0f) {
         info_stat_duration = TBoss6Type2::default_battle_parameters.last_param;
     }
-    rec = TLobby::dispatch_shared_handler_a(0x2E);
+    rec = dispatch_shared_handler_a(0x2E);
     low_hp_walk_speed = rec->values.floats[2];
     if (low_hp_walk_speed <= 0.0f) {
         low_hp_walk_speed = TBoss6Type2::default_battle_parameters.float_params[2];

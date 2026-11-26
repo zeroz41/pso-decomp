@@ -36,6 +36,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/GameModeQueries.h"
 
 
 const char *TShopKeepItemWindow::class_name = "TShopKeepItemWindow";
@@ -135,7 +136,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
     }
     if (this->help_window == NULL) {
         this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
-        if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (this->help_window != NULL && is_camera_ctrl_active() > 2) {
             this->help_window->set_scale(0.75f, 0.75f);
         }
         this->help_window->set_displayed_item_by_id(this->entries[cur].item->get_item_id());
@@ -200,7 +201,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     }
     if (count > 1 && this->number_window == NULL) {
         this->number_window = new TWindowInputNumber(get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
-        if (this->number_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (this->number_window != NULL && is_camera_ctrl_active() > 2) {
             this->number_window->set_scale(0.75f, 0.75f);
         }
         set_state(4);

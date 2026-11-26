@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/galgryphon/Boss5PillarCleanup.h"
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
 #include "pso/boss/galgryphon/Boss5CommonResource.h"
@@ -12,8 +13,9 @@ void cleanup_pillar_demo_stub_b(void);
 int forward_pillar_2B710__19TObjBoss5PillarCtrlFv(void);
 void cleanup_pillar_demo_stub_a(void);
 s32 update_pillar__19TObjBoss5PillarCtrlFv();
+}
 
-void TLobby::cleanup_pillar_demo() {
+void cleanup_pillar_demo() {
     if (boss5_ctrl_instance != NULL) {
         boss5_ctrl_instance->queue_destruction();
         boss5_ctrl_instance = NULL;
@@ -24,6 +26,4 @@ void TLobby::cleanup_pillar_demo() {
     clear_pillar_target_refs();
     free_boss5_common_assets();
 }
-void TLobby::cleanup_boss5_pillars() { load_boss5_common_assets(); TObjBoss5PillarDemo::update_active_pillar(); cleanup_pillar_demo_stub_b(); forward_pillar_2B710__19TObjBoss5PillarCtrlFv(); pillar_demo_stub_b(); boss5_ctrl_instance = NULL; }
-
-}
+void cleanup_boss5_pillars() { load_boss5_common_assets(); TObjBoss5PillarDemo::update_active_pillar(); cleanup_pillar_demo_stub_b(); forward_pillar_2B710__19TObjBoss5PillarCtrlFv(); pillar_demo_stub_b(); boss5_ctrl_instance = NULL; }

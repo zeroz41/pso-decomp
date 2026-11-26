@@ -103,7 +103,7 @@ static const Vec game_mode_scene_camera_target = {0.0f, 0.0f, -100.0f};
 FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
-    {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
+    {update_keyboard_menu, free_keyboard_soft_resources},
     {register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global},
     {register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext},
     {register_texture_f128_ray, TAdRayGC::destroy_instance},
@@ -190,7 +190,7 @@ void TAdMultiChgGameModeGC::open_level_select_scene() {
     game_mode_scene_change_state = 1;
 }
 void TAdMultiChgGameModeGC::apply_bgm_col_ctrl(const char *name) {
-    if (strcmp((const char *)TLobby::get_current_slot_entry(), name) != 0) {
+    if (strcmp((const char *)get_current_slot_entry(), name) != 0) {
         play_area_music((char *)name);
     }
 }
@@ -430,8 +430,8 @@ void load_lobby_scene_resources(void) {
 }
 
 void TLobby::release_scene_resources() {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     if (game_mode_scene_instance != NULL) {
         game_mode_scene_instance->queue_destruction();
         game_mode_scene_instance = NULL;
@@ -457,14 +457,14 @@ void init_game_mode_select_scene(void) {
     apply_phase_keyboard_mode();
     run_load_callback_table(game_mode_select_scene_callbacks, sizeof(game_mode_select_scene_callbacks));
     if (is_area_transfer_pending() != 0) {
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLobby::reset_keyboard_state();
         return;
     }
     run_load_callback_table(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
     if (is_area_transfer_pending() != 0) {
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLobby::reset_keyboard_state();
         return;

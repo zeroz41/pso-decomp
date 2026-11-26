@@ -28,7 +28,7 @@ void TPlyCharData::reset_technique_levels() {
     u8 *p;
     p = get_technique_levels();
     for (i = 0; i < 0x14; i++) {
-        *p = TObjPlayer::get_item_count_max();
+        *p = get_item_count_max();
         p++;
     }
     if (m_disp_part2.v1_flags & 0x80) {
@@ -41,7 +41,7 @@ void init_technique_levels(s32 flags, u8 *counts) {
     s32 i;
     u8 *p = counts;
     for (i = 0; i < 0x14; i++, p++) {
-        *p = TObjPlayer::get_item_count_max();
+        *p = get_item_count_max();
     }
     if (flags & 0x80) {
         *counts = 0;

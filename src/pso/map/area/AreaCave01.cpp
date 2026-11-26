@@ -12,13 +12,14 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/map/FloorWaveEvents.h"
 
 #pragma readonly_strings on
 
 void cleanup_cave1_area(void) {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
-    TLobby::update_current_floor();
+    refresh_render_state();
+    stop_audio_streams();
+    update_current_floor();
     unload_current_floor_resources();
     TLobby::clear_session_buffers();
 }

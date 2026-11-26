@@ -32,6 +32,8 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/network/TPacket.h"
+#include "pso/system/MallocLoadFilePrc.h"
+#include "pso/system/FileExtension.h"
 
 
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
@@ -42,12 +44,12 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     s32 ret;
     pump_frames();
     strncpy(path, name, 0x40);
-    if (((TLobby *)path)->compare_file_extension("gvm") != 0) {
-        TLobby::change_file_extension(0, path, (char *)"gvm");
+    if (compare_file_extension(path, "gvm") != 0) {
+        change_file_extension(0, path, (char *)"gvm");
     }
     size = TGStream::get_resource_file_size(path);
     if (size <= 0) {
-        TLobby::debug_print("psoLoadTexturePvmFile:%s file not found.", name);
+        file_debug_printf("psoLoadTexturePvmFile:%s file not found.", name);
         return -1;
     }
     allocated = 0;
@@ -69,7 +71,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
         tmp_buf_release("LoadTexturePvm");
     }
     if (ret < 0) {
-        TLobby::debug_print("psoLoadTexturePvmFile:%s load error.", name);
+        file_debug_printf("psoLoadTexturePvmFile:%s load error.", name);
     }
     return ret;
 }
@@ -86,10 +88,10 @@ s32 psoLoadTexture(NJS_TEXLIST *texlist) {
         }
         if (r == -1) {
             ret = -1;
-            TLobby::debug_print("psoLoadTexture:%s load error.", texlist->textures->filename);
+            file_debug_printf("psoLoadTexture:%s load error.", texlist->textures->filename);
             break;
         }
-        TLobby::run_frame();
+        run_frame();
     }
     return ret;
 }
@@ -119,7 +121,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     pump_frames();
     size = TGStream::get_resource_file_size(name);
     if (size <= 0) {
-        TLobby::debug_print("LoadPvmFileTls:%s load error.", name);
+        file_debug_printf("LoadPvmFileTls:%s load error.", name);
         return NULL;
     }
     size = ((size + 0x7FF) / 2048) * 2048;

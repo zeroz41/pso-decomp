@@ -22,6 +22,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/map/FloorMapSelection.h"
 
 struct B_802C3400 { NJS_POINT2 e[2]; };
 
@@ -42,10 +43,10 @@ void TAdStorySelectGC::run_task() {
     case 1:
         switch (TAdStorySelectGC::get_story_select()) {
         case 0:
-            TAdStorySelectGC::set_state(0);
+            select_episode(0);
             break;
         case 1:
-            TAdStorySelectGC::set_state(1);
+            select_episode(1);
             break;
         }
         queue_destruction();
@@ -73,7 +74,7 @@ TAdStorySelectGC::TAdStorySelectGC(TObject *parent) : TObject(parent) {
         return;
     }
     if (TAdSelectGameModeGC::get_mode_data() == 1) {
-        TAdStorySelectGC::set_state(0);
+        select_episode(0);
         queue_destruction();
         if (is_multi_chr_select_slot_chosen() != 0) {
             TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();

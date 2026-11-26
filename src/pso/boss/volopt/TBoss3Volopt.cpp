@@ -55,6 +55,7 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/door/TODoorVoShip.h"
+#include "pso/enemy/BattleParamTables.h"
 #pragma readonly_strings on
 
 
@@ -411,9 +412,9 @@ void TBoss3Volopt::load_resources() {
     TObjVoloptCage::init_break_model();
     volopt_p02_id = 0xFFFF;
     volopt_resources_loaded = 0;
-    volopt_phase1_camera = (VoloptCameraParams *)TLobby::dispatch_shared_handler_a(0x27);
-    volopt_phase2_camera = (VoloptCameraParams *)TLobby::dispatch_shared_handler_a(0x28);
-    volopt_cage_camera = (VoloptCameraParams *)TLobby::dispatch_shared_handler_a(0x29);
+    volopt_phase1_camera = (VoloptCameraParams *)dispatch_shared_handler_a(0x27);
+    volopt_phase2_camera = (VoloptCameraParams *)dispatch_shared_handler_a(0x28);
+    volopt_cage_camera = (VoloptCameraParams *)dispatch_shared_handler_a(0x29);
 }
 
 void TBoss3Volopt::free_parts() {

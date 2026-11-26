@@ -44,6 +44,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *bm_boss7_crawfish_model_names[3] = { "minibaru_body.nj", "minibaru_body_b.nj", NULL };
 const char *bm_boss7_crawfish_motion_names[7] = {
@@ -374,13 +375,13 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     apply_set_data(set);
     if (is_small_variant() != 0) {
         set_param(0x4A);
-        bind_enemy_combat_stats(TLobby::register_boss(8), TLobby::dispatch_shared_handler_b(8), TLobby::register_object(8));
-        params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(8);
+        bind_enemy_combat_stats(register_boss(8), dispatch_shared_handler_b(8), register_object(8));
+        params = (Boss7CrawfishParams *)dispatch_shared_handler_a(8);
         model = get_bml_model(TBoss7Crawfish::shared_resource, 0);
     } else {
         set_param(0x4B);
-        bind_enemy_combat_stats(TLobby::register_boss(9), TLobby::dispatch_shared_handler_b(9), TLobby::register_object(9));
-        params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(9);
+        bind_enemy_combat_stats(register_boss(9), dispatch_shared_handler_b(9), register_object(9));
+        params = (Boss7CrawfishParams *)dispatch_shared_handler_a(9);
         model = get_bml_model(TBoss7Crawfish::shared_resource, 1);
     }
     get_or_assign_entity_id(0);

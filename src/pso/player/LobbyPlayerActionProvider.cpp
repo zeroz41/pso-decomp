@@ -185,7 +185,7 @@ u8 *lobby_action_motion_buffer;
 FlagWord lobby_loaded_motion_sets;
 
 int LobbyPlayerActionProvider::get_run_action() {
-    s32 t = ((TObjPlayer *)this)->is_handle_valid();
+    s32 t = get_body_type();
     s32 r = 2;
     if (t == 2) {
         r = 5;
@@ -194,7 +194,7 @@ int LobbyPlayerActionProvider::get_run_action() {
 }
 
 int LobbyPlayerActionProvider::get_walk_action() {
-    s32 t = ((TObjPlayer *)this)->is_handle_valid();
+    s32 t = get_body_type();
     s32 r = 1;
     if (t == 2) {
         r = 4;
@@ -203,7 +203,7 @@ int LobbyPlayerActionProvider::get_walk_action() {
 }
 
 int LobbyPlayerActionProvider::get_idle_action() {
-    return ((((TObjPlayer *)this)->is_handle_valid() - 2) == 0) ? 3 : 0;
+    return ((get_body_type() - 2) == 0) ? 3 : 0;
 }
 
 u8 *LobbyPlayerActionProvider::get_cell_address(s32 set, s32 slot) {
@@ -226,11 +226,11 @@ int LobbyPlayerActionProvider::get_gender(s32 body_type) {
 }
 
 int LobbyPlayerActionProvider::get_gender() {
-    return get_gender(((TObjPlayer *)this)->is_handle_valid());
+    return get_gender(get_body_type());
 }
 
 BmlMotionEntry *LobbyPlayerActionProvider::get_current_motion_list() {
-    return get_motion_list(((TObjPlayer *)this)->is_handle_valid());
+    return get_motion_list(get_body_type());
 }
 
 BmlMotionEntry *LobbyPlayerActionProvider::get_motion_list(s32 body_type) {

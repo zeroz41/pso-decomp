@@ -9,7 +9,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 
 
-void TLobby::update_game_modes() { TLobby::update_trade_partner(); TLobby::update_battle_mode(); TLobby::update_trade_proposal_state(); TLobby::update_trade_list_send(); }
+void update_game_modes() { TLobby::update_trade_partner(); TLobby::update_battle_mode(); TLobby::update_trade_proposal_state(); TLobby::update_trade_list_send(); }
 void close_trade_request_on_floor_unload() { TLobby::close_trade_request(); }
 void close_trade_request_on_floor_load() { TLobby::close_trade_request(); }
 void reset_trade_state_on_scene_unload() { TLobby::reset_trade_state(); }

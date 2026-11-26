@@ -9,13 +9,14 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3VoloptCtrl.h"
+#include "pso/map/FloorWaveEvents.h"
 
 void cleanup_boss3_area(void) {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     stop_cue_stream();
     unload_current_floor_resources();
-    TLobby::update_current_floor();
+    update_current_floor();
     TLobby::clear_session_buffers();
 }
 

@@ -69,6 +69,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern const f64 dolmolm_radians_to_angle[];
 
@@ -220,14 +221,14 @@ void TObjEneDolmOlm::load_shared_resources() {
     dolm_olm_shared_handler_ids = static_cast<AttackParams **>(mem_alloc(8));
     dolm_olm_registered_object_ids = static_cast<ActorParamBlock **>(mem_alloc(8));
     dolm_olm_behavior_params_by_variant = (DolmOlmBehaviorParams **)mem_alloc(8);
-    dolm_olm_combat_stat_id_pair[0] = TLobby::register_boss(0x4F);
-    dolm_olm_combat_stat_id_pair[1] = TLobby::register_boss(0x50);
-    dolm_olm_shared_handler_ids[0] = TLobby::dispatch_shared_handler_b(0x54);
-    dolm_olm_shared_handler_ids[1] = TLobby::dispatch_shared_handler_b(0x55);
-    dolm_olm_registered_object_ids[0] = TLobby::register_object(0x4E);
-    dolm_olm_registered_object_ids[1] = TLobby::register_object(0x4F);
-    dolm_olm_behavior_params_by_variant[0] = (DolmOlmBehaviorParams *)TLobby::dispatch_shared_handler_a(0x4E);
-    dolm_olm_behavior_params_by_variant[1] = (DolmOlmBehaviorParams *)TLobby::dispatch_shared_handler_a(0x4F);
+    dolm_olm_combat_stat_id_pair[0] = register_boss(0x4F);
+    dolm_olm_combat_stat_id_pair[1] = register_boss(0x50);
+    dolm_olm_shared_handler_ids[0] = dispatch_shared_handler_b(0x54);
+    dolm_olm_shared_handler_ids[1] = dispatch_shared_handler_b(0x55);
+    dolm_olm_registered_object_ids[0] = register_object(0x4E);
+    dolm_olm_registered_object_ids[1] = register_object(0x4F);
+    dolm_olm_behavior_params_by_variant[0] = (DolmOlmBehaviorParams *)dispatch_shared_handler_a(0x4E);
+    dolm_olm_behavior_params_by_variant[1] = (DolmOlmBehaviorParams *)dispatch_shared_handler_a(0x4F);
     dolm_olm_effect_render_state = 0;
     {
         s16 ids[2] = { 69, 79 };

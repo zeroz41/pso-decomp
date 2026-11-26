@@ -32,6 +32,7 @@
 #include "pso/item/TItemIdCounters.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/item/shop/ShopSinglePurchase.h"
+#include "pso/system/GameModeQueries.h"
 
 #pragma readonly_strings on
 
@@ -172,7 +173,7 @@ void TShopArmorListWindow::refresh_item_list() {
     }
     if (help_window == NULL) {
         help_window = new TWindowHelpItem(get_window_layout_position(0x27), player->get_entity_id());
-        if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (help_window != NULL && is_camera_ctrl_active() > 2) {
             help_window->set_scale(0.75f, 0.75f);
         }
         help_window->set_displayed_item_colored(stock);

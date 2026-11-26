@@ -59,6 +59,7 @@
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *TBoss4Type1::name = "TBoss4Type1";
 f32 lbl_80485AE0[10] = { 0.0f, 0.0f, 0.0f, 25.0f, 2.0f, 25.0f, 0.5f, 0.5f, 0.5f, 0.5f };
@@ -271,7 +272,7 @@ void apply_tenchu_hits(TObject *source) {
     f32 power;
     Vec pos;
 
-    power = (f32)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->power;
+    power = (f32)((TBoss4Type2Params *)dispatch_shared_handler_a(0x36))->power;
     spot = TBoss4Type2::tenchu_furu_array;
     for (i = 0; i < 0x40; i++) {
         TParticleCtrl *effect = spawn_particle_effect(spot, boss4_type1_tenchu_hit_effect_ids[i & 1]);
@@ -334,7 +335,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x36), TLobby::dispatch_shared_handler_b(0x36), TLobby::register_object(0x36));
+    bind_enemy_combat_stats(register_boss(0x36), dispatch_shared_handler_b(0x36), register_object(0x36));
     referenceHp = hp;
     register_by_id();
     set_param(0x2F);
@@ -354,12 +355,12 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     slot = 0;
     prev_turn = 1;
     turn = 1;
-    move_frames = ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->move_seconds;
+    move_frames = ((TBoss4Type2Params *)dispatch_shared_handler_a(0x36))->move_seconds;
     if (move_frames < 1 || move_frames > 60) {
         move_frames = 25;
     }
     move_frames *= 30.0f;
-    uro_limit = TLobby::dispatch_shared_handler_a(0x39)->values.integers[0];
+    uro_limit = dispatch_shared_handler_a(0x39)->values.integers[0];
     if (uro_limit < 1) {
         uro_limit = 1;
     } else if (uro_limit > 6) {
@@ -1143,10 +1144,10 @@ void TBoss4Type1::update_tech_charge() {
         }
         play_sound_effect(0x4003A813, &position, 0, 1);
         if (idx == 0) {
-            TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
+            TBoss4Type2Params *params = (TBoss4Type2Params *)dispatch_shared_handler_a(0x36);
             TTecRaBarta::create(this, &grid_target, &grid_target, params->rabarta_level);
         } else {
-            TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
+            TBoss4Type2Params *params = (TBoss4Type2Params *)dispatch_shared_handler_a(0x36);
             TTecRaFoie::create(this, &grid_target, &grid_target, params->rafoie_level);
         }
         start_pad_rumble_all(0xC0, 0xF);

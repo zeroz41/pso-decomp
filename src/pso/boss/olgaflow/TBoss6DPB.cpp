@@ -21,6 +21,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -45,12 +46,12 @@ TBoss6DPB::TBoss6DPB(TObject *parent, const Vec *position, f32 radius) : TObject
     VecCopy(&this->position, position);
     this->position.y = 0.0f;
     this->radius = radius;
-    f32 param = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[2];
+    f32 param = dispatch_shared_handler_a(0x2C)->values.floats[2];
     power = (s32)param;
     if (0.0f == param) {
         power = 0x14;
     }
-    f32 scale = TLobby::dispatch_shared_handler_a(0x2F)->values.floats[2];
+    f32 scale = dispatch_shared_handler_a(0x2F)->values.floats[2];
     power_scale = scale;
     if (0.0f == scale) {
         power_scale = 1.0f;

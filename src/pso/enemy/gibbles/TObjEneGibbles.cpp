@@ -62,6 +62,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 static const char gibbles_model_name[] = "gibb_body.nj";
 static const char gibbles_attack_motion_name[] = "attack_gibb_body.njm";
@@ -217,12 +218,12 @@ void TObjEneGibbles::load_resources() {
     gibbles_render_node_index = 0;
     gibbles_render_rotation_x = 0;
     gibbles_combat_stat_entries = (AttackParams **)mem_alloc(0xC);
-    gibbles_boss_stat_handle = TLobby::register_boss(0x3D);
-    gibbles_combat_stat_entries[0] = TLobby::dispatch_shared_handler_b(0x3D);
-    gibbles_combat_stat_entries[2] = TLobby::dispatch_shared_handler_b(0x3E);
-    gibbles_combat_stat_entries[1] = TLobby::dispatch_shared_handler_b(0x3F);
-    gibbles_combat_stats_handle = TLobby::register_object(0x3D);
-    gibbles_ai_parameters = (GibblesAiParams *)TLobby::dispatch_shared_handler_a(0x3D);
+    gibbles_boss_stat_handle = register_boss(0x3D);
+    gibbles_combat_stat_entries[0] = dispatch_shared_handler_b(0x3D);
+    gibbles_combat_stat_entries[2] = dispatch_shared_handler_b(0x3E);
+    gibbles_combat_stat_entries[1] = dispatch_shared_handler_b(0x3F);
+    gibbles_combat_stats_handle = register_object(0x3D);
+    gibbles_ai_parameters = (GibblesAiParams *)dispatch_shared_handler_a(0x3D);
     NpcAnimationBinding s = gibbles_resource_binding_desc;
     s.motions = gibbles_resource_bundle->motions;
     TObjNpcEnemy::register_animated_chunk(0x44, gibbles_resource_bundle->models->model, gibbles_resource_bundle->models->texlist, &s, gibbles_collision_bodies[0].radius, 0.0f);

@@ -24,6 +24,7 @@
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/object/city/CitySeasonResources.h"
 #include "pso/ui/city/JudgeItem.h"
+#include "pso/audio/MusicControl.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*TLobby_scene_load_callback_table[24])(void) = {
@@ -42,12 +43,12 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
 };
 
 void cleanup_city_area(void) {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     cleanup_city_area_stub();
     TLobby::call_funcs_reverse(TLobby_scene_load_callback_table, sizeof(TLobby_scene_load_callback_table));
     unload_current_floor_resources();
-    TLobby::update_current_floor();
+    update_current_floor();
     TLobby::clear_session_buffers();
 }
 

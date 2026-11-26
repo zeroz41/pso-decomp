@@ -56,7 +56,7 @@ struct BmlResource;
 struct SampledMotionPoints;
 struct TObjMotionAction;
 
-// What TLobby::dispatch_shared_handler_a(0x4E / 0x4F) gives each variant.
+// What dispatch_shared_handler_a(0x4E / 0x4F) gives each variant.
 struct DolmOlmBehaviorParams {
     f32 params[4];     // the ctor copies them to far_move_speed, far_anim_speed, near_move_speed and near_anim_speed
     f32 special_range; // how near the target has to be for mode 11 (update_special_attack)

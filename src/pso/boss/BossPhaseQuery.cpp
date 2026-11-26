@@ -1,10 +1,11 @@
 #include "types.h"
+#include "pso/boss/BossPhaseQuery.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
 
 
-int TLobby::is_boss_phase_reached() {
+int is_boss_phase_reached() {
     s32 phase;
 
     if (dark_falz_controller_instance == 0) {

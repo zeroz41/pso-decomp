@@ -43,9 +43,10 @@ extern const f32 lbl_805D9FBC; // 5.0
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *re2_flower_class_name = re2_flower_class_name_string;
-// The variant's movement block (TLobby::dispatch_shared_handler_a of re2_flower_param_ids), set by the constructor.
+// The variant's movement block (dispatch_shared_handler_a of re2_flower_param_ids), set by the constructor.
 void *re2_flower_movement_params;
 BmlResource *re2_flower_bml_resource;
 // State of the chunk node callback TObjPlayer::update_effect_sequence: the node counter, the head yaw
@@ -158,10 +159,10 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         variant = 0;
     }
-    reset_hp(TLobby::register_boss(re2_flower_base_stat_ids[variant]),
-             TLobby::dispatch_shared_handler_b(re2_flower_attack_stat_ids[variant]),
-             TLobby::register_object(re2_flower_resist_stat_ids[variant]));
-    re2_flower_movement_params = TLobby::dispatch_shared_handler_a(re2_flower_param_ids[variant]);
+    reset_hp(register_boss(re2_flower_base_stat_ids[variant]),
+             dispatch_shared_handler_b(re2_flower_attack_stat_ids[variant]),
+             register_object(re2_flower_resist_stat_ids[variant]));
+    re2_flower_movement_params = dispatch_shared_handler_a(re2_flower_param_ids[variant]);
     if (is_tower_variant()) {
         set_state_8();
     } else {

@@ -62,6 +62,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/system/FileExtension.h"
 
 #pragma readonly_strings on
 
@@ -265,14 +266,14 @@ void TLobby::destroy_child_recursive(TObject *task, TObject *object) {
     }
 }
 
-void init_scene_objects() { TLobby::init_sub_objects(); reset_id_tables(); clear_floor_event_flags(); init_switch_table(); TRaderMapCore::set_piece_flags(1); attach_objects_by_id((s32)get_current_floor()); create_objects((s32)get_current_floor()); TQuestThread::create_for_floor(); }
+void init_scene_objects() { init_sub_objects(); reset_id_tables(); clear_floor_event_flags(); init_switch_table(); TRaderMapCore::set_piece_flags(1); attach_objects_by_id((s32)get_current_floor()); create_objects((s32)get_current_floor()); TQuestThread::create_for_floor(); }
 
 void destroy_current_floor_objects(void) {
     s32 n;
     FloorObjectSetRow *p;
     s32 i;
     p = get_active_floor_object_rows(get_current_floor());
-    n = TLobby::get_obj_table_entry(get_current_floor());
+    n = get_obj_table_entry(get_current_floor());
     for (i = 0; i < n; i++, p++) {
         if (p->object != 0) {
             TLobby::destroy_child_recursive(tl_02, p->object);
@@ -639,7 +640,7 @@ s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
         local = 1;
     }
     if (local == 0) {
-        return TLobby::set_flags_on_matching_entries(floor, room, wave, 1);
+        return set_flags_on_matching_entries(floor, room, wave, 1);
     }
     set = get_active_floor_enemy_rows(floor);
     n = TLobby::get_object_type(floor);
@@ -725,10 +726,10 @@ s32 unhide_room_set_objects(s32 floor, s16 room, s16 group) {
         local = 1;
     }
     if (local == 0) {
-        return TLobby::set_room_group_flags(floor, room, group, 1);
+        return set_room_group_flags(floor, room, group, 1);
     }
     set = get_active_floor_object_rows(floor);
-    n = TLobby::get_obj_table_entry(floor);
+    n = get_obj_table_entry(floor);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;
@@ -770,7 +771,7 @@ s32 spawn_objects_at_pos(s16 room, s16 wave) {
 
     spawned = 0;
     row = get_active_floor_object_rows(active_set_floor);
-    obj_table_entry = TLobby::get_obj_table_entry(active_set_floor);
+    obj_table_entry = get_obj_table_entry(active_set_floor);
     for (k = 0; k < obj_table_entry; k++, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->placement.room == room) && (row->placement.wave == wave)) {
@@ -936,7 +937,7 @@ void attach_objects_by_id(s32 floor) {
     TObjBase *set_object;
 
     row = get_active_floor_object_rows(floor);
-    count = TLobby::get_obj_table_entry(floor);
+    count = get_obj_table_entry(floor);
     for (i = 0; i < count; i++, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->type != -1) && ((flags & 0x10) || (flags & 1) || (row->placement.wave == 0))) {
@@ -1234,10 +1235,10 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
     if (r == NULL || map_set_areas[map].variants[grp].count - 1 < room) {
         return 0;
     }
-    if (TLobby::is_online_ready() != 0) {
-        TLobby::replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
+    if (is_online_ready() != 0) {
+        replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
     } else {
-        TLobby::replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
+        replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
     }
     size = get_resource_file_size(path);
     if (size < 0) {

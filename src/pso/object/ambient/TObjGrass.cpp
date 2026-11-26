@@ -69,6 +69,7 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/enemy/BattleParameters.h"
+#include "pso/enemy/BattleParamTables.h"
 
 player_stats *grass_base_stats;
 AttackParams **grass_attack_params;  // the three attack parameter sets
@@ -205,12 +206,12 @@ void TObjGrass::load_resources() {
     grass_right_attack_points->sample_two_nodes((NJS_OBJECT *)grass_resource_bundle->models[0].model,
         (NJS_MOTION *)grass_resource_bundle->motions[grass_grass_type_param_table[3].motion].motion, 0x3C, 0x3E);
     grass_attack_params = (AttackParams **)mem_alloc(0xC);
-    grass_base_stats = TLobby::register_boss(0x4E);
-    grass_attack_params[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x51);
-    grass_attack_params[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x52);
-    grass_attack_params[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x53);
-    grass_resistance_stats = TLobby::register_object(0x4D);
-    grass_battle_movement_params = TLobby::dispatch_shared_handler_a(0x4D);
+    grass_base_stats = register_boss(0x4E);
+    grass_attack_params[0] = (AttackParams *)dispatch_shared_handler_b(0x51);
+    grass_attack_params[2] = (AttackParams *)dispatch_shared_handler_b(0x52);
+    grass_attack_params[1] = (AttackParams *)dispatch_shared_handler_b(0x53);
+    grass_resistance_stats = register_object(0x4D);
+    grass_battle_movement_params = dispatch_shared_handler_a(0x4D);
     {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = grass_resource_bundle->motions;

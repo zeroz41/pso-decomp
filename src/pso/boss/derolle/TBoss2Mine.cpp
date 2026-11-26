@@ -23,6 +23,7 @@
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/enemy/BattleParamTables.h"
 
 static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
@@ -93,9 +94,9 @@ void TBoss2Mine::init(s32 variant) {
     this->model = boss2_derolle_resource->models[3].model;
     this->texlist = boss2_derolle_resource->models[2].texlist;
     this->init_model(&boss2_mine_collision_body, 1);
-    this->reset_hp(TLobby::register_boss(boss2_mine_params[variant]),
-                   TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
-                   TLobby::register_object(boss2_mine_resist_params[variant]));
+    this->reset_hp(register_boss(boss2_mine_params[variant]),
+                   dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
+                   register_object(boss2_mine_resist_params[variant]));
     this->set_state_flag_2();
     this->movementParameters = &boss2_mine_movement[variant];
     this->wall_reach = 3.0f;

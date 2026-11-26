@@ -324,7 +324,7 @@ extern Vec dragon_forward_reference_vec;
 extern Vec boss8_dragon_node_origin;
 extern Vec boss8_dragon_breath_local_points[3];
 
-// A tuning record of TLobby::dispatch_shared_handler_a (ids 0x11-0x13 for the Gol Dragon): six floats,
+// A tuning record of dispatch_shared_handler_a (ids 0x11-0x13 for the Gol Dragon): six floats,
 // then six words, each read per id.
 struct Boss8DragonParams {
     f32 values[6];

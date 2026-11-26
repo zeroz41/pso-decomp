@@ -24,6 +24,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 #pragma readonly_strings on
 
@@ -44,7 +45,7 @@ void init_creation_menu_scene(void) {
     begin_creation_view();
     register_texture_f256_ad_pic_2();
     register_texture_f256_backtext();
-    TLobby::update_keyboard_menu();
+    update_keyboard_menu();
     set_ending_callback();
     load_keyboard_resources();
     TWindowCtrlMain::reset_all((void*)1);

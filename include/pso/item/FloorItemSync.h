@@ -28,5 +28,9 @@ FloorItem *copy_floor_item_entry(FloorItem *dst, FloorItem *src);
 // and give back; 0xFFFF when it is empty.
 u16 pop_free_entity_id();
 s32 push_free_entity_id(u16 id);
+s32 is_stat_over_limit(s32 floor);
+s32 is_entry_valid(s32 floor);
+void free_boss_rocks();
+void alloc_objects();
 
 #endif

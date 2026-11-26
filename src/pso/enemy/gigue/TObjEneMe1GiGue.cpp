@@ -59,6 +59,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -222,10 +223,10 @@ void TObjEneMe1GiGue::load_resources() {
     } else {
         gigue_resource = new BmlResource(1, &gigue_bml_descriptor, 0, 0, NULL);
     }
-    ene_me1_gigue_boss_id = TLobby::register_boss(0x1A);
-    gigue_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
-    gigue_resistance_params = TLobby::register_object(0x1A);
-    me1_gi_gue_param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
+    ene_me1_gigue_boss_id = register_boss(0x1A);
+    gigue_attack_params = dispatch_shared_handler_b(0x1A);
+    gigue_resistance_params = register_object(0x1A);
+    me1_gi_gue_param_table = (GiGueParameters *)dispatch_shared_handler_a(0x1A);
     gigue_breakup_model = new TBreakUpMdlData(gigue_resource->models->model);
     TObjEneMe1GiGueMissile::init_global();
     TObjEneMe1GiGueBarrier::init_global();

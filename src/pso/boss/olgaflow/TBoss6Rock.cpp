@@ -34,6 +34,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *boss06_rock_dat_model_names[8] = {
     "b_iwa_p_ori.gj",      "b_iwa_p_p01.gj",      "b_iwa_p_p02.gj",       "b_iwa_p_p03.gj",
@@ -73,7 +74,7 @@ void TBoss6Rock::load_resources() {
     for (i = 0; i < 32; i++) {
         TBoss6Rock::instance_table[i] = NULL;
     }
-    boss6_rock_damage = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[3];
+    boss6_rock_damage = dispatch_shared_handler_a(0x2C)->values.floats[3];
     if (boss6_rock_damage < 1) {
         boss6_rock_damage = 20;
     }

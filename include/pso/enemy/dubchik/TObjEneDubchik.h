@@ -17,7 +17,7 @@ extern BmlResource *dubchik_resource;
 extern NJS_TEXLIST *dubchik_texlist;
 }
 
-// The record TLobby::dispatch_shared_handler_a(0x1B + variant) returns (DarkGunner's layout).
+// The record dispatch_shared_handler_a(0x1B + variant) returns (DarkGunner's layout).
 struct TObjEneDubchikBehaviorParams {
     f32 float_params[6]; // 0/4 scratch01/02 motion speed, 1/5 attack range (whole/collapsed), 2 collapsed chase
                          // speed, 3 walk02 motion speed

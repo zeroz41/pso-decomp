@@ -9,7 +9,7 @@
 class TParticleCtrl;
 struct TObjEneBm3FlyNest;
 
-// The block TLobby::dispatch_shared_handler_a(0) returns; the fly's load_resources keeps it in bm3_fly_lobby_params.
+// The block dispatch_shared_handler_a(0) returns; the fly's load_resources keeps it in bm3_fly_lobby_params.
 struct Bm3FlyParameters {
     f32 distance;
     u8 pad_04[0x18];

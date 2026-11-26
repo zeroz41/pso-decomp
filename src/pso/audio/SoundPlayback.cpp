@@ -27,6 +27,7 @@ void update_voice_stream_mix(AdxtPlayer *tracks) {
 #include "pso/network/client_id.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 void set_sound_request_position(s32 slot, const Vec *position) { set_sound_voice_position(slot, position); }
 
@@ -60,7 +61,7 @@ void handle_6xB2_play_sound_from_player(game_command_header *header) {
     }
 }
 
-s32 TLobby::is_camera_state_active() {
+s32 is_camera_state_active() {
     if ((TCameraCtrl::get_active_controller() == 5) || (TCameraCtrl::get_active_controller() == 9)) {
         return 1;
     }
@@ -87,7 +88,7 @@ s32 get_sound_voice_volume_adjustment(void) {
     return sound_control_state.get_voice_volume_adjustment();
 }
 
-void TLobby::set_menu_index_main(s32 index) {
+void set_menu_index_main(s32 index) {
     sound_control_state.set_voice_volume_adjustment(index);
 }
 
@@ -190,6 +191,7 @@ void is_sound_enabled(void) {
 
 
 extern "C" {
+
 extern const s32 floor_sound_bank_table[36] = {
     1, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 3,
     5, 7, 9, -1, 10, 11, 1, 14, 14, 15, 15, 12,
@@ -200,9 +202,11 @@ extern const f32 floor_sound_bank_volume_table[36] = {
     0.4f, 0.0f, 0.2f, 0.0f, 0.05f, 0.0f, 0.0f, 0.0f, 0.0f, 0.05f, 0.05f, 0.1f,
     0.1f, 0.1f, 0.1f, 0.1f, 0.5f, 0.5f, 0.1f, 0.5f, 0.0f, 0.1f, 0.1f, 0.2f,
 };
+}
 
-void TLobby::refresh_render_state() { sound_control_state.pop_sound_groups(0); set_sound_reverb_level(0.0f); render_tick(); }
+void refresh_render_state() { sound_control_state.pop_sound_groups(0); set_sound_reverb_level(0.0f); render_tick(); }
 
+extern "C" {
 void load_floor_sound_bank(s32 floor) {
     s32 bank;
 
@@ -216,7 +220,7 @@ void load_floor_sound_bank(s32 floor) {
             do {
                 TLobby::run_disk_error_check();
                 exec_adx_server();
-                TLobby::run_frame();
+                run_frame();
             } while (sound_control_state.is_ready() == 0);
             enable_sound_requests(0);
         }
@@ -236,7 +240,7 @@ void reset_sound_control_state(void) {
     sound_control_state.reset_sound_state();
 }
 
-void TLobby::wait_for_sound_init() {
+void wait_for_sound_init() {
     init_sound_aux_effects(&sound_control_state);
     sound_control_state.validate_and_set_selection(0);
     do {

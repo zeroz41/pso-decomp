@@ -849,7 +849,7 @@ void apply_phase_keyboard_mode() {
 
 void reset_to_fallback_main_phase(void) { clear_controller_reset_request(); switch_to_fallback_main_phase(); }
 
-void TLobby::invoke_callback() {
+void invoke_callback() {
     if (((s32 (*)()) main_phase_deferred_callback) != NULL) {
         main_phase_deferred_callback();
     }
@@ -885,8 +885,8 @@ void TLobby::flush_checked_reads() {
     }
 }
 
-void TLobby::reset_read_state() { (pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
-void TLobby::clear_player_slot_tables(s32 n) {
+void reset_read_state() { (pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
+void clear_player_slot_tables(s32 n) {
     s32 i;
     if (n == -1) {
         for (i = 0; i < 4; i++) {
@@ -903,16 +903,15 @@ void TLobby::clear_player_slot_tables(s32 n) {
     lbl_80499A30[n] = 0;
 }
 
-void TLobby::set_entry_params(s32 index, s32 sector_count, s32 buffer) {
-    saddr handle = (saddr)this;
-    lobby_checked_read_ptr_table[index] = (AdxfHandle **)handle;
+void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, s32 buffer) {
+    lobby_checked_read_ptr_table[index] = handle;
     lobby_checked_read_sector_counts[index] = sector_count;
     lobby_checked_read_buffers[index] = buffer;
 }
 
 #pragma push
 
-void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
+void set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
 
 void request_pending_file_read_flush(void) { pending_file_read_flush_requested = 1; }
 
@@ -932,14 +931,14 @@ void TLobby::draw_fullscreen_texture_quad() {
     end_screen_draw();
 }
 
-void TLobby::release_menu_font() {
+void release_menu_font() {
     if (lobby_font_texture_loaded) {
         release_texture_list(reinterpret_cast<NJS_TEXLIST *>(er_mes_texlist));
     }
     lobby_font_texture_loaded = 0;
 }
 
-void TLobby::load_font_texture() {
+void load_font_texture() {
     void *file = tmp_buf_use_req("FONT");
     if (file != 0) {
         s32 r;
@@ -959,7 +958,7 @@ void set_lobby_state_byte_flag(void) { lobby_state_byte_flag = 1; }
 #pragma push
 
 
-void TLobby::reset_state_byte() {
+void reset_state_byte() {
     if (lobby_wait_ready_flag == 0) {
         lobby_state_byte_flag = 0;
     }
@@ -968,7 +967,7 @@ void TLobby::reset_state_byte() {
 #pragma pop
 
 #pragma push
-void TLobby::wait_ready_loop() {
+void wait_ready_loop() {
     lobby_wait_ready_flag = 0;
     for (;;) {
         if (TLobby::run_disk_error_check() == 1) {
@@ -1110,7 +1109,7 @@ s32 TLobby::run_disk_error_check() {
 
 // The GSL archive close hook, the resource load tasks (TRelDataFile children of
 // resource_load_task_root, one per relocatable data file), the quest and text archive
-// decryption, the disc-file wrappers and TLobby::run_frame.
+// decryption, the disc-file wrappers and run_frame.
 void on_gsl_archive_close(char *filename, GslArchiveEntry *entries, s32 count) {
     gsl_archive_close_stub(gsl_archive_owner_stub(), entries, count);
 }
@@ -1351,7 +1350,7 @@ TRelDataFile::TRelDataFile(TObject *parent) : TObject(parent) {}
 TRelDataFile::TRelDataFile() : TObject(NULL) {}
 
 s32 TQuestVmDownLoadServer::is_ready() {
-    TLobby::wait_ready_loop();
+    wait_ready_loop();
     if (memcard_access_active != 0) {
         return 0;
     }
@@ -1391,7 +1390,7 @@ s32 read_disc_file(const char *filename, void *destination) {
     return TGStream::read_whole_file(filename, (u8 *)destination);
 }
 
-void TLobby::run_frame() {
+void run_frame() {
     TObject *fade_task;
 
     begin_gx_frame();

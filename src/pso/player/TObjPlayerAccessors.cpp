@@ -164,7 +164,7 @@ G_SetPlayerInvisible_6x22 &G_SetPlayerInvisible_6x22::operator=(const G_SetPlaye
     copy_subcommand_header(this, &src);
     return *this;
 }
-void TObjPlayer::clear_flag_4000_callback(TObjPlayer *player) { player->clear_flag_4000(); }
+void clear_flag_4000_callback(TObjPlayer *player) { player->clear_flag_4000(); }
 void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
 void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
 void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
@@ -255,7 +255,7 @@ int TObjPlayer::check_flag_48() { return check_flag(48); }
 int TObjPlayer::is_status_locked() { return this->actorFlags & 0x10000; }
 int TObjPlayer::is_status_flag_200() { return this->actorFlags & 0x200; }
 void end_player_camera_pan(TObjPlayer *player) { player->end_camera_pan(); }
-void TObjPlayer::start_freeze_self(TObjPlayer *player) { player->start_freeze(); }
+void start_freeze_self(TObjPlayer *player) { player->start_freeze(); }
 void TObjPlayer::set_floor(s32 v) { this->current_floor = v; }
 void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
@@ -838,7 +838,7 @@ BmlMotionEntry *PlayerActionProvider::get_motion_list(s32) { return 0; }
 int PlayerActionProvider::is_male() { return 0; }
 int PlayerActionProvider::load_motions(s32) { return 0; }
 int TObjPlayer::get_action_motion_type() { return ((PlayerMotionKey *)this)->get_motion_type(); }
-int TObjPlayer::is_handle_valid() { return ((PlayerMotionKey *)this)->get_body_type(); }
+s32 PlayerActionProvider::get_body_type() { return key.get_body_type(); }
 
 // Data-only unit split off the shared player model buffers.
 // Plain uninitialized globals (-sdata 8) land in .sbss; the referencing unit
@@ -882,7 +882,7 @@ u8 PlayerTechniqueState::get_learned_level(s16 technique) const {
     return learned_levels[technique];
 }
 
-u8 TObjPlayer::get_item_count_max() { return 255; }
+u8 get_item_count_max() { return 255; }
 
 
 #pragma inline_depth(1)

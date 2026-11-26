@@ -41,12 +41,13 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/map/FloorWaveEvents.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
 }
 
-void update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void update_floor_state_deferred() { refresh_render_state(); stop_audio_streams(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 // inferred: the JUNGLE01-07 init of area_initializer_dispatch_table
 s32 init_jungle_area(void) {
@@ -75,7 +76,7 @@ s32 init_jungle_area(void) {
     return 1;
 }
 
-void update_scene_alt() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void update_scene_alt() { refresh_render_state(); stop_audio_streams(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 
 s32 initialize_boss_scene(void) {

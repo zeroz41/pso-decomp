@@ -137,6 +137,7 @@ inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
 #include "pso/render/TextureState.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjControl.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -258,7 +259,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2B), TLobby::dispatch_shared_handler_b(0x2B), TLobby::register_object(0x2B));
+    bind_enemy_combat_stats(register_boss(0x2B), dispatch_shared_handler_b(0x2B), register_object(0x2B));
     referenceHp = hp;
     register_by_id();
     set_param(0x4E);
@@ -754,7 +755,7 @@ void TBoss6Type1::draw_part_motions() {
 }
 #pragma pop
 void TBoss6Type1::load_params_from_table() {
-    const BattleMovementParams *rec = TLobby::dispatch_shared_handler_a(0x2B);
+    const BattleMovementParams *rec = dispatch_shared_handler_a(0x2B);
     this->beam_damage = (s32)rec->values.floats[0];
     if ((f32) this->beam_damage <= 0.0f) {
         this->beam_damage = (s32) TBoss6Type1::param_table[0];
@@ -799,7 +800,7 @@ void TBoss6Type1::load_params_from_table() {
     if (this->laser_fire_time <= 0) {
         this->laser_fire_time = (s32) TBoss6Type1::param_table[9];
     }
-    this->low_hp_float_time = (s32)TLobby::dispatch_shared_handler_a(0x2F)->values.floats[5];
+    this->low_hp_float_time = (s32)dispatch_shared_handler_a(0x2F)->values.floats[5];
     if ((f32) this->low_hp_float_time <= 0.0f) {
         this->low_hp_float_time = (s32) TBoss6Type1::param_table[11];
     }

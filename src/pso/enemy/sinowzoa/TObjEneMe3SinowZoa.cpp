@@ -80,10 +80,11 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
 
-// load_resources fills these per kind (0 and 1) from TLobby::register_boss,
-// TLobby::dispatch_shared_handler_b, TLobby::register_object and
-// TLobby::dispatch_shared_handler_a.
+// load_resources fills these per kind (0 and 1) from register_boss,
+// dispatch_shared_handler_b, register_object and
+// dispatch_shared_handler_a.
 Vec me3_sinow_zoa_zero_vector;  // zeroed by the resource loader, never read
 player_stats *me3_sinow_zoa_base_params_by_variant[2];
 AttackParams *me3_sinow_zoa_attack_params_by_variant[2];
@@ -175,16 +176,16 @@ void TObjEneMe3SinowZoa::load_resources() {
         me3_sinow_zoa_alternate_texture_list.textures[i].texture = me3_sinow_zoa_alternate_texture_list.textures[i + 3].texture;
     }
     for (i = 0; i < 2; i++) {
-        me3_sinow_zoa_base_params_by_variant[i] = TLobby::register_boss(sinow_zoa_base_param_ids[i]);
+        me3_sinow_zoa_base_params_by_variant[i] = register_boss(sinow_zoa_base_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_sinow_zoa_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(sinow_zoa_attack_param_ids[i]);
+        me3_sinow_zoa_attack_params_by_variant[i] = dispatch_shared_handler_b(sinow_zoa_attack_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_sinow_zoa_resistance_params_by_variant[i] = TLobby::register_object(sinow_zoa_resistance_param_ids[i]);
+        me3_sinow_zoa_resistance_params_by_variant[i] = register_object(sinow_zoa_resistance_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_sinow_zoa_kind_param_tbls[i] = (TObjEneMe3SinowZoaParams *)TLobby::dispatch_shared_handler_a(sinow_zoa_kind_param_ids[i]);
+        me3_sinow_zoa_kind_param_tbls[i] = (TObjEneMe3SinowZoaParams *)dispatch_shared_handler_a(sinow_zoa_kind_param_ids[i]);
     }
     params = me3_sinow_zoa_kind_param_tbls[0];
     set_entry_value_clamped(7, params->sword_motion_speed);

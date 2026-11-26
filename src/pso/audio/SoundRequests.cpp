@@ -59,13 +59,11 @@ s8 lbl_805D62CE;
 s8 lbl_805D62CF;
 s8 lbl_805D62D0;
 s8 lbl_805D62D1;
-extern "C" {
-
 void TLobby::set_and_notify(int a0) { music_gain_adjust = a0; update_music_stream_gain(music_user_gain); }
 
 void TLobby::reset_global() { lobby_layout_offset_c = 0; set_cue_stream_user_gain(cue_stream_user_gain); }
 
-void TLobby::close_option_window() { music_gain_adjust = 0; update_music_stream_gain(music_user_gain); }
+void close_option_window() { music_gain_adjust = 0; update_music_stream_gain(music_user_gain); }
 
 void TLobby::init_layout_positions() {
     music_gain_offset = -0x50;
@@ -74,14 +72,13 @@ void TLobby::init_layout_positions() {
         music_gain_offset -= 0x32;
     }
     lbl_805D6290 = -0xA;
-    TLobby::close_option_window();
+    close_option_window();
     TLobby::reset_global();
 }
-}
 
-int TLobby::get_lobby_data() {  return music_user_gain; }
+int get_lobby_data() {  return music_user_gain; }
 void set_cue_stream_user_gain(s32 gain) {
-    TLobby::set_menu_index_main(gain);
+    set_menu_index_main(gain);
     cue_stream_user_gain = gain;
     lbl_805D629C = lbl_805D6290 + cue_stream_user_gain + lobby_layout_offset_c;
     lbl_805D62A0 = lbl_805D6290 + lobby_layout_offset_c;
@@ -143,7 +140,7 @@ int TLobby::init_sound_mode() {
     return sound_mode_value;
 }
 
-void TLobby::set_sound_output_mode(s32 mode) {
+void set_sound_output_mode(s32 mode) {
     s32 mode_id;
     u8 *global_state;
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
@@ -312,7 +309,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
     return -1;
 }
 
-void TLobby::update_lobby_subsystems() { reset_sound_pitch_requests(); stop_cue_stream(); }
+void update_lobby_subsystems() { reset_sound_pitch_requests(); stop_cue_stream(); }
 // Dead-stripped from the DOL: no code of it survives. Minimal body: it clears the sound listener position the way
 // update_sound_request_slots does when there is neither a player nor a camera.
 // Name inferred from that role.
@@ -389,7 +386,7 @@ void update_sound_request_slots(void) {
     }
 }
 
-int enable_sound_requests(s32) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); init_sound_output_mode(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
+int enable_sound_requests(s32) { update_lobby_subsystems(); TLobby::init_layout_positions(); init_sound_output_mode(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
 
 s32 reset_sound_request_state(void) {
     s32 i;

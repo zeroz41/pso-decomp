@@ -57,6 +57,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/container/TContainerAncient01R.h"
+#include "pso/system/GameModeQueries.h"
 
 struct Item_80189E3C { u8 pad[0x30]; s32 data[3]; };
 
@@ -193,7 +194,7 @@ void load_forest_box_resources(void) {
     default:
         bundle = new BmlResource(5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
-        forest_box_textures = TLobby::is_online_ready() != 0 ? LoadPvmFileTls(forest_box_texture_filename_a) : LoadPvmFileTls(forest_box_texture_filename_n);
+        forest_box_textures = is_online_ready() != 0 ? LoadPvmFileTls(forest_box_texture_filename_a) : LoadPvmFileTls(forest_box_texture_filename_n);
         forest_box_debris_primary = &forest_box_break_params[0];
         forest_box_debris_secondary = &forest_box_break_params[1];
         break;

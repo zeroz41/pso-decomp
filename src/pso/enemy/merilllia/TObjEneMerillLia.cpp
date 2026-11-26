@@ -66,6 +66,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -205,14 +206,14 @@ void TObjEneMerillLia::load_resources() {
     merill_lia_rock_buffer = static_cast<AttackParams **>(mem_alloc(2 * sizeof(*merill_lia_rock_buffer)));
     merill_lia_rock_aux_buffer = static_cast<ActorParamBlock **>(mem_alloc(2 * sizeof(*merill_lia_rock_aux_buffer)));
     merill_lia_behavior_params = (MerillLiaBehaviorParams **)mem_alloc(8);
-    merill_lia_rock_stats_table[0] = TLobby::register_boss(75);
-    merill_lia_rock_stats_table[1] = TLobby::register_boss(76);
-    merill_lia_rock_buffer[0] = TLobby::dispatch_shared_handler_b(78);
-    merill_lia_rock_buffer[1] = TLobby::dispatch_shared_handler_b(79);
-    merill_lia_rock_aux_buffer[0] = TLobby::register_object(74);
-    merill_lia_rock_aux_buffer[1] = TLobby::register_object(75);
-    merill_lia_behavior_params[0] = (MerillLiaBehaviorParams *)TLobby::dispatch_shared_handler_a(74);
-    merill_lia_behavior_params[1] = (MerillLiaBehaviorParams *)TLobby::dispatch_shared_handler_a(75);
+    merill_lia_rock_stats_table[0] = register_boss(75);
+    merill_lia_rock_stats_table[1] = register_boss(76);
+    merill_lia_rock_buffer[0] = dispatch_shared_handler_b(78);
+    merill_lia_rock_buffer[1] = dispatch_shared_handler_b(79);
+    merill_lia_rock_aux_buffer[0] = register_object(74);
+    merill_lia_rock_aux_buffer[1] = register_object(75);
+    merill_lia_behavior_params[0] = (MerillLiaBehaviorParams *)dispatch_shared_handler_a(74);
+    merill_lia_behavior_params[1] = (MerillLiaBehaviorParams *)dispatch_shared_handler_a(75);
     {
         s16 ids[2] = {44, 46};
         NpcAnimationBinding motions = { NULL, merill_lia_action_table, 0, 2, 12 };

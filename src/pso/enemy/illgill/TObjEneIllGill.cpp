@@ -56,6 +56,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/network/TProtocol.h"
+#include "pso/enemy/BattleParamTables.h"
 extern "C" {
 BmlResource * illGillResource;
 player_stats *ill_gill_boss_registration_id;
@@ -115,13 +116,13 @@ void TObjEneIllGill::load_shared_resources() {
     Vec *q;
 
     illGillResource = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
-    ill_gill_boss_registration_id = TLobby::register_boss(0x26);
-    ill_gill_combat_parameter_variants[0] = TLobby::dispatch_shared_handler_b(0x26);
-    ill_gill_combat_parameter_variants[1] = TLobby::dispatch_shared_handler_b(0x27);
-    ill_gill_combat_parameter_variants[2] = TLobby::dispatch_shared_handler_b(0x28);
-    ill_gill_combat_parameter_variants[3] = TLobby::dispatch_shared_handler_b(0x29);
-    ill_gill_resistance_params = TLobby::register_object(0x26);
-    illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
+    ill_gill_boss_registration_id = register_boss(0x26);
+    ill_gill_combat_parameter_variants[0] = dispatch_shared_handler_b(0x26);
+    ill_gill_combat_parameter_variants[1] = dispatch_shared_handler_b(0x27);
+    ill_gill_combat_parameter_variants[2] = dispatch_shared_handler_b(0x28);
+    ill_gill_combat_parameter_variants[3] = dispatch_shared_handler_b(0x29);
+    ill_gill_resistance_params = register_object(0x26);
+    illGillAttackBehavior = (IllGillAttackBehavior *)dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;
     q = &illGillWeaponEffectPosition;
     q->x = q->y = q->z = 0.0f;

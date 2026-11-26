@@ -31,9 +31,11 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/render/ScreenSpriteDraw.h"
+#include "pso/ui/TitleTextures.h"
 
 void TTitleMenu::draw_record_with_camera(s32 record, s32 camera) {
-    TLobby::draw_with_camera(TLobby::get_record(record), camera, 0x20, (-1e+01f));
+    draw_with_camera(get_record(record), camera, 0x20, (-1e+01f));
 }
 
 
@@ -91,7 +93,7 @@ void TTitleMenu::render() {
             model_render_flags |= 0x10;
             set_constant_material(&color);
             bind_title_texture_list();
-            TLobby::draw_with_camera(TLobby::get_record(0xA), 0xA, 0x22, (-1e+01f));
+            draw_with_camera(get_record(0xA), 0xA, 0x22, (-1e+01f));
         }
         current_state = state;
         if ((current_state == 1) || (current_state == 2)) {

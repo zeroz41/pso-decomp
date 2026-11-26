@@ -42,6 +42,7 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/CounterTextLookup.h"
+#include "pso/system/GameModeQueries.h"
 
 
 #pragma readonly_strings on
@@ -160,7 +161,7 @@ void TShopItemListWindow::build_item_list() {
     }
     if (help_window == NULL) {
         help_window = new TWindowHelpItem(get_window_layout_position(0x27), player->get_entity_id());
-        if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (help_window != NULL && is_camera_ctrl_active() > 2) {
             help_window->set_scale(0.75f, 0.75f);
         }
         help_window->set_displayed_item_colored(shop_items);
@@ -269,7 +270,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
         }
         if (count > 1) {
             quantity_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
-            if (quantity_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+            if (quantity_input != NULL && is_camera_ctrl_active() > 2) {
                 quantity_input->set_scale(0.75f, 0.75f);
             }
             purchase_step = 0;

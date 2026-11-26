@@ -13,6 +13,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/audio/MusicControl.h"
+#include "pso/map/FloorWaveEvents.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*lobby_floor_scene_callbacks[12])(void) = {
@@ -27,11 +29,11 @@ void (*lobby_floor_scene_callbacks[12])(void) = {
 void cleanup_lobby_area(void) {
     TQuestVmDownLoadServer::free_download_buffers();
     unload_current_floor_resources();
-    TLobby::update_current_floor();
+    update_current_floor();
     TLobby::call_funcs_reverse(lobby_floor_scene_callbacks, sizeof(lobby_floor_scene_callbacks));
-    TLobby::stop_audio_streams();
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     TLobby::clear_session_buffers();
 }
 

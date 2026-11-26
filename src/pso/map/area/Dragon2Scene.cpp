@@ -11,12 +11,13 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/area/Dragon2Scene.h"
+#include "pso/map/FloorWaveEvents.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
 }
 
-void refresh_lobby_state() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void refresh_lobby_state() { refresh_render_state(); stop_audio_streams(); stop_cue_stream(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 init_particle_model() {
     get_current_floor_area();
@@ -33,7 +34,7 @@ s32 init_particle_model() {
     return 1;
 }
 
-void update_field_state() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); free_static_resource_callbacks(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void update_field_state() { refresh_render_state(); stop_audio_streams(); stop_cue_stream(); free_static_resource_callbacks(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 load_dragon2_scene(void) {
     get_current_floor_area();

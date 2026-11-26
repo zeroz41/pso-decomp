@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/InfoBoardState.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
 
@@ -11,7 +12,7 @@ void TLobby::init_once(TRecvInfoBoard *info_board) {
     }
 }
 
-TRecvInfoBoard *TLobby::get_info_board_ptr() {
+TRecvInfoBoard *get_info_board_ptr() {
     TRecvInfoBoard *p;
     if (!(info_board_state_flags & 2)) {
         return NULL;

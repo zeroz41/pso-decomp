@@ -17,6 +17,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -219,7 +220,7 @@ void free_select_cursor_texture() {
 }
 
 void load_select_cursor_texture() {
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     const char *names[5] = {"f256_ad", "f256_ad_eng", "f256_ad_eng", "f256_ad_eng", "f256_ad_eng"};
     NJS_TEXLIST *lists[5] = {
         &select_cursor_texture_list, &select_cursor_eng_texture_list, &select_cursor_eng_texture_list,

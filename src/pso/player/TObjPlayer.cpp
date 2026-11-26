@@ -1641,7 +1641,7 @@ s32 TObjPlayer::start_camera_pan(s16 action, s32 angle) {
 }
 
 void TObjPlayer::freeze_all_players() {
-    foreach_player(TObjPlayer::start_freeze_self);
+    foreach_player(start_freeze_self);
 }
 
 s32 TObjPlayer::end_camera_pan() {
@@ -3630,7 +3630,7 @@ void TObjPlayer::init_parts() { pad_binding.enable_buttons(0x406); enable_all_pa
 
 s32 TObjPlayer::is_controls_locked() { return check_flag(256); }
 
-int TObjPlayer::has_valid_handle() { return ((TObjPlayer *)this->action_provider)->is_handle_valid(); }
+int TObjPlayer::has_valid_handle() { return action_provider->get_body_type(); }
 
 void TObjPlayer::select_class_action_provider() {
   s8 class_index;
@@ -3830,7 +3830,7 @@ PlayerSyncRecord::PlayerSyncRecord() {
     floor = 0;
     player_flags = 0;
     for (i = 0; i < 0x13; i++) {
-        technique_levels[i] = TObjPlayer::get_item_count_max();
+        technique_levels[i] = get_item_count_max();
     }
 }
 
@@ -5048,7 +5048,7 @@ void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
     player->calc_attach_pos();
     player->set_flag_4000();
     player->refresh_equipment_slot();
-    TPlyOnCountOver::create(player->get_entity_id(), 2, TObjPlayer::clear_flag_4000_callback);
+    TPlyOnCountOver::create(player->get_entity_id(), 2, clear_flag_4000_callback);
     if (player->is_locally_controlled() != 0) {
         reset_cameras_to_actor(player, 0);
     }

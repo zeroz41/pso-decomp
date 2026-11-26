@@ -12,6 +12,7 @@
 #include "pso/ui/charcreate/CreationResourceFree.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/audio/MusicControl.h"
 
 
-void free_all_resources() { free_creation_sprites(); TLobby::stop_audio_streams(); delete (BmlResource *)creation_menu_main_obj; creation_menu_main_obj = 0; TAdSinglePlyChrSelectGC::free_global(); TAdSinglePlyChrSelectGC::free_texture_f256_backtext(); end_creation_view(); TCameraCtrl::reset(); TCameraCtrl::reset_default_view(); TWindowCtrlMain::free_all_windows(); free_keyboard_resources(); free_ending_callback(); free_keyboard_soft_resources(); TLobby::refresh_render_state(); }
+void free_all_resources() { free_creation_sprites(); stop_audio_streams(); delete (BmlResource *)creation_menu_main_obj; creation_menu_main_obj = 0; TAdSinglePlyChrSelectGC::free_global(); TAdSinglePlyChrSelectGC::free_texture_f256_backtext(); end_creation_view(); TCameraCtrl::reset(); TCameraCtrl::reset_default_view(); TWindowCtrlMain::free_all_windows(); free_keyboard_resources(); free_ending_callback(); free_keyboard_soft_resources(); refresh_render_state(); }

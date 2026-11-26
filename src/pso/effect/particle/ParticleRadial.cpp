@@ -39,6 +39,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/audio/MusicControl.h"
 
 static const ParticleAngles radial_particle_zero_angles = { 0, 0, 0 };
 
@@ -330,6 +331,6 @@ void destroy_keyboard_objects(TObject *fade) {
     fade->queue_destruction();
     set_queued_main_phase(2);
     request_main_phase(18);
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     stop_cue_stream();
 }

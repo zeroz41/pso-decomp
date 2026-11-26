@@ -53,6 +53,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 /* A half's one collision sphere (init_collision_body_parts in the constructor). */
@@ -256,12 +257,12 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     target = NULL;
     switch (half_index) {
     case 0:
-        bind_enemy_combat_stats(TLobby::register_boss(50), TLobby::dispatch_shared_handler_b(50),
-                                TLobby::register_object(50));
+        bind_enemy_combat_stats(register_boss(50), dispatch_shared_handler_b(50),
+                                register_object(50));
         break;
     case 1:
-        bind_enemy_combat_stats(TLobby::register_boss(51), TLobby::dispatch_shared_handler_b(51),
-                                TLobby::register_object(51));
+        bind_enemy_combat_stats(register_boss(51), dispatch_shared_handler_b(51),
+                                register_object(51));
         break;
     default:
         return;
@@ -281,17 +282,17 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     move_speed = 0.0f;
     partner_death_seen = 0;
     if (half_index == 0) {
-        pad_460 = TLobby::dispatch_shared_handler_a(50)->values.floats[0];
-        attack_power = TLobby::dispatch_shared_handler_a(50)->values.floats[1];
+        pad_460 = dispatch_shared_handler_a(50)->values.floats[0];
+        attack_power = dispatch_shared_handler_a(50)->values.floats[1];
     } else {
-        pad_460 = TLobby::dispatch_shared_handler_a(51)->values.floats[0];
-        jelin_chance = TLobby::dispatch_shared_handler_a(51)->values.floats[1];
+        pad_460 = dispatch_shared_handler_a(51)->values.floats[0];
+        jelin_chance = dispatch_shared_handler_a(51)->values.floats[1];
         if (jelin_chance < 0.0f) {
             jelin_chance = 0.0f;
         } else if (jelin_chance > 1.0f) {
             jelin_chance = 1.0f;
         }
-        zalure_chance = TLobby::dispatch_shared_handler_a(51)->values.floats[2];
+        zalure_chance = dispatch_shared_handler_a(51)->values.floats[2];
         if (zalure_chance < 0.0f) {
             zalure_chance = 0.0f;
         } else if (zalure_chance > 1.0f) {
@@ -701,7 +702,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
         }
         roll = random_ratio();
         if (roll <= jelin_chance) {
-            level = ((PanBARATechniqueLevels *)TLobby::dispatch_shared_handler_a(0x33))->jelin_level;
+            level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->jelin_level;
             if (level < 0 || level > 0xE) {
                 level = 0;
             }
@@ -709,7 +710,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
             return;
         }
         if (roll <= jelin_chance + zalure_chance) {
-            level = ((PanBARATechniqueLevels *)TLobby::dispatch_shared_handler_a(0x33))->zalure_level;
+            level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->zalure_level;
             if (level < 0 || level > 0xE) {
                 level = 0;
             }
@@ -1302,7 +1303,7 @@ void TObjEnePanBARA::update_heal() {
         set_requested_action(4);
     }
     if (-15.0f == (f32) this->action_timer) {
-        level = ((PanBARATechniqueLevels *)TLobby::dispatch_shared_handler_a(0x33))->resta_level;
+        level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->resta_level;
         if (level < 0 || level > 0xE) {
             level = 0;
         }

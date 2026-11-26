@@ -254,19 +254,19 @@ s32 is_valid_battle_param_index(s32 index) {
     return valid;
 }
 
-BattleMovementParams *TLobby::dispatch_shared_handler_a(s32 index) { return get_battle_param_movement(battle_parameter_difficulty, index); }
+BattleMovementParams *dispatch_shared_handler_a(s32 index) { return get_battle_param_movement(battle_parameter_difficulty, index); }
 
 BattleMovementParams *get_battle_param_movement(s32 difficulty, s32 index) { return &battle_param_movement[index]; }
 
-ActorParamBlock *TLobby::register_object(s32 index) { return get_battle_param_resistance(battle_parameter_difficulty, index); }
+ActorParamBlock *register_object(s32 index) { return get_battle_param_resistance(battle_parameter_difficulty, index); }
 
 ActorParamBlock *get_battle_param_resistance(s32 difficulty, s32 index) { return &battle_param_resistances[index]; }
 
-AttackParams *TLobby::dispatch_shared_handler_b(s32 index) { return get_battle_param_attack(battle_parameter_difficulty, index); }
+AttackParams *dispatch_shared_handler_b(s32 index) { return get_battle_param_attack(battle_parameter_difficulty, index); }
 
 AttackParams *get_battle_param_attack(s32 difficulty, s32 index) { return &battle_param_attacks[index]; }
 
-player_stats *TLobby::register_boss(s32 index) { return get_battle_param_stats(battle_parameter_difficulty, index); }
+player_stats *register_boss(s32 index) { return get_battle_param_stats(battle_parameter_difficulty, index); }
 
 player_stats *get_battle_param_stats(s32 difficulty, s32 index) { return &battle_param_stats[index]; }
 void set_battle_param_episode(s32 episode) {
@@ -424,7 +424,7 @@ s32 parse_two_digit_number(void *text) {
     v += s[1] - '0';
     return v;
 }
-s32 TLobby::calc_alpha_shifted(f32 alpha) {
+s32 calc_alpha_shifted(f32 alpha) {
     return (u32)(255.0f * alpha) << 0x18;
 }
 
@@ -439,7 +439,7 @@ void TLobby::close_result_windows() {
 }
 
 
-f32 TLobby::calc_result_offset() {
+f32 calc_result_offset() {
     f32 offset;
 
     offset = 0.0f;
@@ -453,7 +453,7 @@ f32 TLobby::calc_result_offset() {
 static f32 clock_bar_pulse;
 
 
-f32 TLobby::calc_phase_offset() {
+f32 calc_phase_offset() {
     f32 offset;
 
     offset = -163.0f;
@@ -467,7 +467,7 @@ s32 default_clock_offset_frames(void) {
     return 0x1A5E00;
 }
 
-s32 TLobby::get_internet_beat() {
+s32 get_internet_beat() {
     return (TLobby::get_clock_frames() / 2592) % 1000;
 }
 
@@ -509,7 +509,7 @@ void draw_lobby_location_text(f32 x, f32 y, f32 size, f32 alpha) {
             clamped = 1.0f;
         }
         scale = -1.0f / size;
-        color = TLobby::calc_alpha_shifted(clamped);
+        color = calc_alpha_shifted(clamped);
         if (get_main_phase() == 0xF) {
             TLobby::close_result_windows();
             draw_small_font_text(color | 0xFF0000 | 0xFFFF, get_shared_text_buffer(), x, (f32)(-1.0f + y), scale);
@@ -542,7 +542,7 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
         beat = frames / 2592;
         beat %= 1000;
         scale = -1.0f / size;
-        color = TLobby::calc_alpha_shifted(alpha);
+        color = calc_alpha_shifted(alpha);
         if (get_main_phase() == 0xF) {
             getDateStamp(&date);
             DateToSeconds(&date, (int *)&elapsed);

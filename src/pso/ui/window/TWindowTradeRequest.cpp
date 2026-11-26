@@ -14,6 +14,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/network/TradeModeQuery.h"
 
 const char *TWindowTradeRequest::class_name = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }
@@ -68,7 +69,7 @@ TWindowTradeRequest::~TWindowTradeRequest() {
 #pragma fp_contract on
 TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
     m_name = TWindowTradeRequest::class_name;
-    TObjPlayer *player = get_player_by_client_id(static_cast<s8>(TLobby::get_trade_mode()));
+    TObjPlayer *player = get_player_by_client_id(static_cast<s8>(get_trade_mode()));
     text_builder_reset();
     if (player != NULL) {
         text_builder_append(player->get_name());

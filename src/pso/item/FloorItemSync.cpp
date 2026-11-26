@@ -41,6 +41,7 @@
 #include "pso/network/client_id.h"
 #include "pso/item/item_create.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/FileExtension.h"
 
 extern "C" {
 FloorItem *floor_item_entry_pool;
@@ -108,7 +109,7 @@ void evict_lowest_key_floor_item(s32 n) {
     }
 }
 
-s32 TLobby::is_stat_over_limit(s32 floor) {
+s32 is_stat_over_limit(s32 floor) {
     if ((floor >= 0) && (floor < 0x12) && ((s32) floor_item_counts_by_floor[floor] < 0x32)) {
         return 0;
     }
@@ -209,7 +210,7 @@ s32 push_free_entity_id(u16 id) {
   return 0;
 }
 
-s32 TLobby::is_entry_valid(s32 floor) {
+s32 is_entry_valid(s32 floor) {
     if (((s32) floor_item_counts_by_floor[floor] < 0xC0) && (floor < 0x12)) {
         return 1;
     }
@@ -263,7 +264,7 @@ s32 remove_item_condition(s32 floor, s32 item_id) {
         }
         return 0;
     }
-    TLobby::debug_print("ItemCondition AreaOffset Lost");
+    file_debug_printf("ItemCondition AreaOffset Lost");
     return 0;
 }
 FloorItem *find_item_condition(s32 floor, s32 item_id) {
@@ -298,7 +299,7 @@ FloorItem *find_item_condition(s32 floor, s32 item_id) {
         }
         return NULL;
     }
-    TLobby::debug_print("ItemCondition AreaOffset Lost");
+    file_debug_printf("ItemCondition AreaOffset Lost");
     return NULL;
 }
 s32 insert_item_condition(FloorItem *item) {
@@ -312,10 +313,10 @@ s32 insert_item_condition(FloorItem *item) {
     s32 hi;
     FloorItem *p;
     if (item != NULL) {
-        if (TLobby::is_stat_over_limit(item->floor) != 0) {
+        if (is_stat_over_limit(item->floor) != 0) {
             evict_lowest_key_floor_item(item->floor);
         }
-        if (item->floor < 0x12 && TLobby::is_entry_valid(item->floor) != 0) {
+        if (item->floor < 0x12 && is_entry_valid(item->floor) != 0) {
             idx = item->floor;
             list = floor_item_row_table[idx];
             if (list != NULL) {
@@ -379,7 +380,7 @@ void TLobby::reset_floor_items() {
     TLobby::clear_object_count();
 }
 
-void TLobby::free_boss_rocks() {
+void free_boss_rocks() {
     mem_free(floor_item_next_sort_keys);
     floor_item_next_sort_keys = 0;
     mem_free(floor_item_free_id_stack);
@@ -395,7 +396,7 @@ void TLobby::free_boss_rocks() {
     floor_item_entry_pool = NULL;
     lbl_805D5430.reset();
 }
-void TLobby::alloc_objects() {
+void alloc_objects() {
     floor_item_entry_pool = new FloorItem[0xD80];
     floor_item_row_table = static_cast<FloorItem **>(mem_alloc(0x48));
     floor_item_counts_by_floor = static_cast<s32 *>(mem_alloc(0x48));

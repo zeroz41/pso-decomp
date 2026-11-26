@@ -65,6 +65,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/system/FileExtension.h"
+#include "pso/system/GameModeQueries.h"
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
 f32 radar_camera_height_default = 2000.0f;
@@ -221,10 +223,10 @@ void TRaderMapCore::load_map_resources() {
     area = get_current_floor_area();
     status = TScene::get_status();
     e = (RadarSceneEntry *)get_floor_scene_table(area);
-    TLobby::replace_file_extension(buf, (char *)e[status].name, (char *)"r.rel");
+    replace_file_extension(buf, (char *)e[status].name, (char *)"r.rel");
     TRaderMapCore::floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore::floor_map_resource != NULL && RADAR_REGION_MAP->textures != 0) {
-        TLobby::replace_file_extension(buf, (char *)e[status].name, "r");
+        replace_file_extension(buf, (char *)e[status].name, "r");
         bind_gvm_texture_list(buf, (NJS_TEXLIST *)((u8 *)RADAR_REGION_MAP->textures));
     }
     copy_name("..");
@@ -262,7 +264,7 @@ void TRaderMapCore::unload_floor_map() {
 }
 
 void TRaderMapCore::create() {
-    if ((TRaderMapCore::is_not_split_screen() != 1) || (TLobby::is_ready() != 1)) {
+    if ((TRaderMapCore::is_not_split_screen() != 1) || (is_game_quest_active() != 1)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             new TRaderMapCore(tl_clipout);
         } else {
@@ -1330,7 +1332,7 @@ void TRaderMapCore::hide_radar() {
 void TRaderMapCore::reset_counter() { this->target_player = 0; }
 
 s32 TRaderMapCore::should_show_map(void) {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (TLobby::is_ready() == 0)) {
+    if ((TRaderMapCore::is_not_split_screen() == 1) && (is_game_quest_active() == 0)) {
         return 0;
     }
     return TTecCtrl::is_technique_ready();

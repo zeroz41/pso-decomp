@@ -874,7 +874,7 @@ ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { TItemProArmor::load_data, TItemProArmor::free },
     { TItemProShield::load_data, TItemProShield::free },
     { TItemProUnit::load_data, TItemProUnit::free },
-    { TLobby::alloc_objects, TLobby::free_boss_rocks },
+    { alloc_objects, free_boss_rocks },
     { item_class_slot7_load, NULL },
     { TItemLockCountCtrl::create_instance, TItemTimerEvent::clear_active },
     { TItemLockCountCtrl::init_effect_table, free_all },

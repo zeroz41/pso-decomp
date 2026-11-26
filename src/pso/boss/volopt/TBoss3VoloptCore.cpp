@@ -33,6 +33,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptCore_name = "TBoss3VoloptCore";
@@ -149,10 +150,10 @@ void *TBoss3VoloptCore::create(void *set_data) {
 
 void TBoss3VoloptCore::load_resources() {
     core_resources = boss3_volopt_resources;
-    core_combat_stats_a = TLobby::register_boss(0x21);
-    core_combat_stats_b = TLobby::dispatch_shared_handler_b(0x21);
-    core_combat_stats_c = TLobby::register_object(0x21);
-    core_orbit_speeds = (TBoss3VoloptOrbitSpeeds *)TLobby::dispatch_shared_handler_a(0x21);
+    core_combat_stats_a = register_boss(0x21);
+    core_combat_stats_b = dispatch_shared_handler_b(0x21);
+    core_combat_stats_c = register_object(0x21);
+    core_orbit_speeds = (TBoss3VoloptOrbitSpeeds *)dispatch_shared_handler_a(0x21);
 }
 
 void TBoss3VoloptCore::release() {}

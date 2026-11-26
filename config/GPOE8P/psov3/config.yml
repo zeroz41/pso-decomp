@@ -4647,7 +4647,7 @@ force_active:
   - send__31G_UpdateAttackableColState_6x91Fv
   - set_battle_param_movement__FlP20BattleMovementParams
   - broadcast_values__15TBoss3VoloptP02Fv
-  - bsearch_record__6TLobbyFPvii
+  - bsearch_record__FPvii
   - bswap32_in_place
   - bswap__24G_DragonBossActions_6x12Fv
   - bswap__20GameStateSyncScratchFv
@@ -4715,7 +4715,7 @@ force_active:
   - cached_blend_factor_table
   - cakeshop_cave01_collision_body_part
   - calc_alpha__18TWindowEffectLightFv
-  - calc_alpha_shifted__6TLobbyFf
+  - calc_alpha_shifted__Ff
   - calc_angle_to_target__19TObjEneEpsilonGuardFv
   - calc_anim_speed__16TObjEneBm5GibonUFPvf
   - calc_area_parameters__10TTecRaFoieFv
@@ -7236,7 +7236,7 @@ force_active:
   - is_manual_camera_held__13TCameraFollowFv
   - is_valid__24ModelNodePositionCaptureFPC22ModelNodePositionEntry
   - is_entry_valid__23TAdSinglePlyChrSelectGCFP13CharacterFilei
-  - is_entry_valid__6TLobbyFl
+  - is_entry_valid__Fl
   - is_far_from_origin__10TBoss6MineFv
   - is_field88_zero__15TObjCityMapWarpFv
   - is_field88_zero__15TObjLaboMapWarpFv
@@ -7300,7 +7300,7 @@ force_active:
   - is_sound_enabled__12TObjEnvSoundFl
   - is_sphere_visible__12TBoss1DragonFP3Vecf
   - split_screen_active__Fv
-  - is_stat_over_limit__6TLobbyFl
+  - is_stat_over_limit__Fl
   - is_non_topic_word__9TWindowDDFl
   - is_target_in_attack_range__12TObjEneSaverFv
   - is_target_in_attack_range__14TObjEneIllGillFv

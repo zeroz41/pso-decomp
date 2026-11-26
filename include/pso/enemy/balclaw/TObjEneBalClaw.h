@@ -38,7 +38,7 @@ LAYOUT_ASSERT(TObjEneBalClaw_size, sizeof(TObjEneBalClaw) == 0x3C0);
 struct BmlResource;
 struct NJS_OBJECT;
 
-// The record TLobby::dispatch_shared_handler_a(31 body, 32 claw) returns (DarkGunner's layout).
+// The record dispatch_shared_handler_a(31 body, 32 claw) returns (DarkGunner's layout).
 struct BalClawBehaviorParams {
     f32 float_params[6];
     s32 int_params[4];  // body: 0 hp percent at which it turns on its target

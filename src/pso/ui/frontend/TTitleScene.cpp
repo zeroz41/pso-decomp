@@ -34,6 +34,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
     extern int lobby_game_mode_state;
@@ -149,7 +150,7 @@ NJS_TEXANIM title_sprite_frames[46] = {
     {16, 18, 0, 0, 87, 224, 103, 242, 0, 0},
 };
 
-// Title screen sprites; TLobby::get_record hands one to draw_with_camera.
+// Title screen sprites; get_record hands one to draw_with_camera.
 // The Ninja sprite table references the Ginja texture list at its original address.
 #define TITLE_SPRITE_TEXTURE_LIST reinterpret_cast<NJS_TEXLIST *>(&title_texture_list)
 NJS_SPRITE lobby_record_table[46] = {
@@ -323,7 +324,7 @@ TTitleScene::~TTitleScene() {
     }
     close_auxiliary_window();
     end_view_override();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
 }
 
 TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
@@ -385,7 +386,7 @@ void TLobby::destroy_global_object() {
 
 void initialize_lobby_title_scene(void) {
     title_scene_instance = NULL;
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     TitleTextureFilenameTable names = title_texture_filename_table;
     lobby_title_texture_list = &title_texture_list;
     load_streamed_prs_texture(names.archive[current_language], &title_texture_list);

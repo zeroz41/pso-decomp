@@ -222,6 +222,7 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
@@ -517,11 +518,11 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     this->velocity.x = 0.0f;
     this->target = NULL;
     if (*variant == 0) {
-        this->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30),
-                                      TLobby::register_object(0x30));
+        this->bind_enemy_combat_stats(register_boss(0x30), dispatch_shared_handler_b(0x30),
+                                      register_object(0x30));
     } else {
-        this->bind_enemy_combat_stats(TLobby::register_boss(0x34), TLobby::dispatch_shared_handler_b(0x34),
-                                      TLobby::register_object(0x34));
+        this->bind_enemy_combat_stats(register_boss(0x34), dispatch_shared_handler_b(0x34),
+                                      register_object(0x34));
     }
     this->referenceHp = this->hp;
     this->register_by_id();
@@ -1266,7 +1267,7 @@ TObjEneSlimeWaterBomb::TObjEneSlimeWaterBomb(TObjEneSlimeOne *parent, TObjEneSli
     movement.z = 0.6f * c;
     lifetime = 0.0f;
     particle = (TParticleCtrl *)create_particle_emitter(&position, 0xCF);
-    attack_power = *(f32 *)TLobby::dispatch_shared_handler_a(slime_attack_target_param_table[this->owner->get_attack_target()]);
+    attack_power = *(f32 *)dispatch_shared_handler_a(slime_attack_target_param_table[this->owner->get_attack_target()]);
     if (attack_power < 0.0f) {
         attack_power = 0.0f;
     }
@@ -1476,7 +1477,7 @@ s32 TObjEneSlimeTailAttack::apply_tail_hits() {
     }
     hit.kind = 0;
     result = 0;
-    hit.power = *(s16 *)TLobby::register_boss(slime_tail_attack_param_ids[this->owner->get_attack_target()]);
+    hit.power = *(s16 *)register_boss(slime_tail_attack_param_ids[this->owner->get_attack_target()]);
     id = find_nearest_visible_player(this, 0, 25.0f);
     if (id != 0xFFFF && id != this->last_hit_player) {
         e = get_player_by_client_id(id);

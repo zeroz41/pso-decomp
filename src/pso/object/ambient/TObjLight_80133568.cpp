@@ -26,6 +26,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/TextureLoad.h"
+#include "pso/system/GameModeQueries.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -297,7 +298,7 @@ void init_area_lights(void) {
     s32 area;
     if (light_entry_data != NULL) {
         area = get_current_floor_area();
-        if (TLobby::is_online_ready() != 0) {
+        if (is_online_ready() != 0) {
             area += 48.0f;
         }
         *(LightEntryBytes *)&entry = *(LightEntryBytes *)&light_entry_data[area];

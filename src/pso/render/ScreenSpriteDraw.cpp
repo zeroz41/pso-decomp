@@ -43,9 +43,10 @@
 #include "pso/render/TextureState.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #undef PSO_SDK_COMPACT_MATH
 
-void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
+void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
     draw_screen_sprite(sprite, frame_index, flags, depth);
     TCameraCtrl::restore_saved_view();
@@ -511,7 +512,7 @@ loop_2:
             update_global_sound_frame();
             read_pads();
             hardware_keyboard_state.disable_disconnected_ports();
-            TLobby::reset_state_byte();
+            reset_state_byte();
             goto loop_2;
         }
     }
@@ -526,7 +527,7 @@ loop_1:
         if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
             draw_loading_compass();
-            TLobby::run_frame();
+            run_frame();
             goto loop_1;
         }
     }

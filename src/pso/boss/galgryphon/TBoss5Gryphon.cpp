@@ -97,6 +97,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/enemy/BattleParamTables.h"
 // TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
 }
@@ -480,16 +481,16 @@ void load_boss5_gryphon_resources(void) {
     boss5_gryphon_render_flags = 0;
     boss5_gryphon_instance = NULL;
     for (s32 i = 0; i < 1; i++) {
-        boss5_gryphon_base_params[i] = TLobby::register_boss(boss5_gryphon_base_param_ids[i]);
+        boss5_gryphon_base_params[i] = register_boss(boss5_gryphon_base_param_ids[i]);
     }
     for (s32 i = 0; i < 5; i++) {
-        boss5_gryphon_attack_params[i] = TLobby::dispatch_shared_handler_b(boss5_gryphon_attack_param_ids[i]);
+        boss5_gryphon_attack_params[i] = dispatch_shared_handler_b(boss5_gryphon_attack_param_ids[i]);
     }
     for (s32 i = 0; i < 1; i++) {
-        boss5_gryphon_resistance_params[i] = TLobby::register_object(boss5_gryphon_resistance_param_ids[i]);
+        boss5_gryphon_resistance_params[i] = register_object(boss5_gryphon_resistance_param_ids[i]);
     }
     for (s32 i = 0; i < 3; i++) {
-        boss5_gryphon_behavior_params[i] = (Boss5GryphonParams *)TLobby::dispatch_shared_handler_a(boss5_gryphon_behavior_param_ids[i]);
+        boss5_gryphon_behavior_params[i] = (Boss5GryphonParams *)dispatch_shared_handler_a(boss5_gryphon_behavior_param_ids[i]);
     }
     TWindowCtrl::suppress_all_slots();
     TBoss5GryphonShockWave::select_particle_table();

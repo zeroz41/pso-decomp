@@ -59,6 +59,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 // Written last function first: the unit is built with deferred code generation.
 #pragma defer_codegen on
 
@@ -154,16 +155,16 @@ void TObjEneMorfos::load_static_data() {
     morfos_body_scroll_tick = 0;
     morfos_wall_scroll_tick = 0;
     for (i = 0; i < 1; i++) {
-        morfos_base_params[i] = TLobby::register_boss(morfos_boss_ids[i]);
+        morfos_base_params[i] = register_boss(morfos_boss_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        morfos_attack_params[i] = TLobby::dispatch_shared_handler_b(morfos_attack_param_ids[i]);
+        morfos_attack_params[i] = dispatch_shared_handler_b(morfos_attack_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        morfos_resistance_params[i] = TLobby::register_object(morfos_object_ids[i]);
+        morfos_resistance_params[i] = register_object(morfos_object_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        (&morfos_param_table)[i] = (MorfosParams *)TLobby::dispatch_shared_handler_a(morfos_handler_a_ids[i]);
+        (&morfos_param_table)[i] = (MorfosParams *)dispatch_shared_handler_a(morfos_handler_a_ids[i]);
     }
     TObjEneMorfosArm::init_global();
     {

@@ -34,7 +34,7 @@ public:
     TWindowMenu *menu;                // 0x2C: the open option menu (build_mode_menu)
     TAdSelectTxtGC *difficulty_text;  // 0x30: shows game_difficulty_selection
     TAdSelectTxtGC *rule_text;        // 0x34: shows multi_sel_rule
-    TAdSelectTxtGC *episode_text;     // 0x38: shows multi_sel_episode, the episode handed to TAdStorySelectGC::set_state
+    TAdSelectTxtGC *episode_text;     // 0x38: shows multi_sel_episode, the episode handed to select_episode
     TAdSelectCurGC *cursor;           // 0x3C
     TAdGuideTxtGC *guide;             // 0x40
 };

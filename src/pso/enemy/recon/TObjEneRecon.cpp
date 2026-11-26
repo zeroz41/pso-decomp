@@ -53,6 +53,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/player/LocalClientId.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -1096,10 +1097,10 @@ void TObjEneRecon::load_resources() {
   boss3_volopt_instance = new TBreakUpMdlData(recon_recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
-  recon_base_params = TLobby::register_boss(0x42);
-  recon_attack_params = TLobby::dispatch_shared_handler_b(0x42);
-  recon_resistance_params = TLobby::register_object(0x42);
-  recon_behavior_params = (ReconParams *)TLobby::dispatch_shared_handler_a(0x42);
+  recon_base_params = register_boss(0x42);
+  recon_attack_params = dispatch_shared_handler_b(0x42);
+  recon_resistance_params = register_object(0x42);
+  recon_behavior_params = (ReconParams *)dispatch_shared_handler_a(0x42);
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
   binding.motions = recon_recobox_static_instance->motions;

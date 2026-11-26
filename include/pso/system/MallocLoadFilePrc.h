@@ -4,6 +4,7 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 
+struct AdxfHandle;
 struct GslArchiveEntry;
 struct RelFileTrailer;
 class TRelDataFile;
@@ -51,5 +52,15 @@ void clear_player_name_copy_buffer(void);
 
 void clear_resource_load_tasks(void);
 void *create_named_object(const char *name);
+void invoke_callback();
+void reset_read_state();
+void clear_player_slot_tables(s32 n);
+void set_read_params(void *handle_ref, int sector_count, int destination);
+void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, s32 buffer);
+void release_menu_font();
+void load_font_texture();
+void reset_state_byte();
+void wait_ready_loop();
+void run_frame();
 
 #endif

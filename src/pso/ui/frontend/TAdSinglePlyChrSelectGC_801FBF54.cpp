@@ -55,6 +55,7 @@
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/system/MallocLoadFilePrc.h"
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;
@@ -249,7 +250,7 @@ s32 TAdSinglePlyChrSelectGC::is_ready() {
     if (is_challenge_quest_active() != 0) {
         return 0;
     }
-    return (u32) __cntlzw(TLobby::is_ready()) >> 5;
+    return (u32) __cntlzw(is_game_quest_active()) >> 5;
 }
 
 u16 TAdSinglePlyChrSelectGC::get_split_fourth_place_count(int client) {
@@ -1516,7 +1517,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
                 break;
             }
             controller_stuff();
-            TLobby::wait_ready_loop();
+            wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
             if (static_cast<s8>(poll_reset_request()) != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
                 if (check != NULL) {
@@ -1547,7 +1548,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
         while (1) {
             begin_gx_frame();
             controller_stuff();
-            TLobby::wait_ready_loop();
+            wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
             if (static_cast<s8>(poll_reset_request()) != 0) {
                 break;
@@ -1601,7 +1602,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
         while (1) {
             begin_gx_frame();
             controller_stuff();
-            TLobby::wait_ready_loop();
+            wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
             if (static_cast<s8>(poll_reset_request()) != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
                 break;

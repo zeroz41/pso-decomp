@@ -16,7 +16,7 @@ FloorMapSelection floor_map_registry[18];
 
 
 // File names of the floor maps: the first three are the sky model extensions
-// TSceneSora::load_sky_resources passes to TLobby::replace_file_extension, the rest
+// TSceneSora::load_sky_resources passes to replace_file_extension, the rest
 // are the per-floor map name lists (pointed to by the tables in FloorWaveEvents.cpp).
 extern const char sky_model_ext_s_njm[] = "s.njm";
 extern const char sky_model_ext_sm_gj[] = "sm.gj";
@@ -377,8 +377,7 @@ s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection) {
 }
 #pragma pop
 
-void TLobby::copy_table_entries(u32 size) {
-    s32 *src = (s32 *)this;
+void copy_table_entries(s32 *src, u32 size) {
     s32 n = size >> 3;
     s32 i;
     if (n <= 0x12) {
@@ -405,7 +404,7 @@ void randomize_adventure_maps(void) {
   s32 main_phase;
   s32 i;
   map = floor_map_registry;
-  TAdStorySelectGC::set_state((saddr)selected_episode);
+  select_episode((saddr)selected_episode);
   main_phase = get_main_phase();
   if (TRaderMapCore::is_not_split_screen() == 1)
   {
@@ -465,9 +464,9 @@ void init_floor_map_registry(void) {
     }
 }
 
-void TLobby::reset_story_select_state() {
+void reset_story_select_state() {
     if (story_select_pending_state != -1) {
-        TAdStorySelectGC::set_state(story_select_pending_state);
+        select_episode(story_select_pending_state);
         story_select_pending_state = -1;
     }
 }
@@ -480,7 +479,7 @@ s32 request_story_select_state(s32 state) {
     return 0;
 }
 
-void TAdStorySelectGC::set_state(s32 episode) {
+void select_episode(s32 episode) {
     selected_episode = episode;
     switch (episode) {
     case 0:

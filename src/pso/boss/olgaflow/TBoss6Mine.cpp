@@ -44,6 +44,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -361,7 +362,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2D), TLobby::dispatch_shared_handler_b(0x2D), TLobby::register_object(0x2D));
+    bind_enemy_combat_stats(register_boss(0x2D), dispatch_shared_handler_b(0x2D), register_object(0x2D));
     referenceHp = hp;
     register_by_id();
     set_param(0);
@@ -369,7 +370,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     spread_frames = 0x96 - rise_delay;
     arm_delay = (s32)(57.0f * next_random_float(&seed) + 3.0f);
     travel_distance = 80.0f * next_random_float(&seed) + 120.0f;
-    f = TLobby::dispatch_shared_handler_a(0x2D)->values.floats[0];
+    f = dispatch_shared_handler_a(0x2D)->values.floats[0];
     damage = f;
     if (0.0f == f) {
         damage = 0x14;

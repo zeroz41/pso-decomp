@@ -10,7 +10,7 @@
 TMapCsnCtrl *map_csn_ctrl_instance;
 s32 pending_adventure_map_floor = -1;
 
-void TLobby::create_map_csn_ctrl() {
+void create_map_csn_ctrl() {
     map_csn_ctrl_instance = new TMapCsnCtrl(tl_05);
 }
 

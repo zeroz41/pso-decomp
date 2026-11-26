@@ -42,7 +42,7 @@ struct DeRolLeActionTargetPacket {
     s32 target_id;
 };
 
-// Boss parameter block 15 from TLobby::dispatch_shared_handler_a (TBoss7DeRolLeCParams is its twin).
+// Boss parameter block 15 from dispatch_shared_handler_a (TBoss7DeRolLeCParams is its twin).
 struct TBoss2DeRolLeParams {
     f32 laser_power;              // the laser hit's attack power
     f32 bullet_power;             // TBoss2PhotonBullet's attack power

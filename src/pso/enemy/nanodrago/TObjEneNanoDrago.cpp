@@ -109,6 +109,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -233,10 +234,10 @@ void TObjEneNanoDrago::load_resources() {
 
     resource = (u8 *)new BmlResource(1, &bm_ene_nanodrago_resource_descriptor, 0, 0, NULL);
     nano_drago_entry_params_resource = (BmlResource *)resource;
-    nano_drago_base_params = TLobby::register_boss(0x1A);
-    nano_drago_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
-    nano_drago_resistance_params = TLobby::register_object(0x1A);
-    nano_drago_behavior_params = (NanoDragoBehaviorParams *)TLobby::dispatch_shared_handler_a(0x1A);
+    nano_drago_base_params = register_boss(0x1A);
+    nano_drago_attack_params = dispatch_shared_handler_b(0x1A);
+    nano_drago_resistance_params = register_object(0x1A);
+    nano_drago_behavior_params = (NanoDragoBehaviorParams *)dispatch_shared_handler_a(0x1A);
     NpcAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
     TObjNpcEnemy::register_animated_chunk((s16)(0x22), modelEntries[0].model, modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));

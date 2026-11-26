@@ -106,16 +106,16 @@ void TLoadCtrl::cleanup_scene() {
     }
     switch (loading_mode) {
     case 0:
-        TLobby::release_bgm_resource();
+        release_bgm_resource();
         TNowLoading::cleanup();
         break;
     case 1:
-        TLobby::release_bgm_resource();
+        release_bgm_resource();
         TAdLoadQuestGC::cleanup();
         break;
     case 3:
     case 4:
-        TLobby::release_bgm_resource();
+        release_bgm_resource();
         TAdFloorLoadGC::cleanup();
         break;
     }

@@ -62,7 +62,7 @@ const char *TItemReverseTech::name = "TItemReverseTech";
 TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
-    {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
+    {update_keyboard_menu, free_keyboard_soft_resources},
     {set_ending_callback, free_ending_callback},
     {TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_static_resource},
     {TAdEndText::load_ending_font, TAdEndText::free_resources},
@@ -204,7 +204,7 @@ TItemReverseTech::TItemReverseTech(TObject *parent) : TObject(parent) {
 
 
 TItemReverseTech::~TItemReverseTech() {
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     request_queued_main_phase();
 }
 

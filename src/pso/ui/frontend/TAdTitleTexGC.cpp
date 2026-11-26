@@ -41,7 +41,7 @@ void load_player_tex_texture() {
     if (player_tex_texture_list_ptr != NULL) {
         return;
     }
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     NJS_TEXLIST *lists[5] = {
         &player_tex_texture_list, &player_tex_eng_texture_list, &player_tex_eng_texture_list,
         &player_tex_eng_texture_list, &player_tex_eng_texture_list,

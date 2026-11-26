@@ -33,6 +33,7 @@
 #include "pso/system/MemoryMove.h"
 #include <stdlib.h>
 #include "pso/map/TSetEvtDestroy.h"
+#include "pso/system/FileExtension.h"
 
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
@@ -114,7 +115,7 @@ QuestChunkHeader *find_chunk_by_id(QuestChunkHeader *chunks, s32 id) {
 }
 
 
-void TLobby::append_swapped_u32(s32 *value) {
+void append_swapped_u32(s32 *value) {
     s32 src;
 
     if (challenge_action_buffer != NULL) {
@@ -185,7 +186,7 @@ void TLobby::pick_random_entry() {
     out->f = e.f;
 }
 
-void *TLobby::bsearch_record(void *records, int n, int key) {
+void *bsearch_record(void *records, int n, int key) {
     u8 *arr = (u8 *)records;
     u8 *e;
     BsearchRecordTmp t;
@@ -217,7 +218,7 @@ void lookup_item_data_record(AppendOut *out, s32 key) {
     TLobbyHdr hdr = *(TLobbyHdr *)item_data_table_buffer;
     AppendRecord *p;
     bswap_table_header(&hdr);
-    p = (AppendRecord *)TLobby::bsearch_record((item_data_table_buffer + hdr.table), hdr.count, key);
+    p = (AppendRecord *)bsearch_record((item_data_table_buffer + hdr.table), hdr.count, key);
     if (p != NULL) {
         AppendRecord r = *p;
         bswap_item_data_record(&r);
@@ -267,7 +268,7 @@ extern const s32 lobby_random_slot_id_table[42] = {
     214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 224, 225, 0,
 };
 
-s32 TLobby::pick_random_slot(s16 *slot) {
+s32 pick_random_slot(s16 *slot) {
     s32 key;
     s32 entry;
 
@@ -365,7 +366,7 @@ void build_challenge_enemy_set(s32 floor) {
             select_event_shuffle_table(event.room);
             while (enemies-- > 0) {
                 u8 *placement = challenge_enemy_buffer + enemyOffset;
-                if (TLobby::pick_random_slot(reinterpret_cast<s16 *>(placement)) == 0) {
+                if (pick_random_slot(reinterpret_cast<s16 *>(placement)) == 0) {
                     reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer + enemyOffset)->wave = wave;
                     reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer + enemyOffset)->room = event.room;
                     ++enemyCount;
@@ -389,7 +390,7 @@ void build_challenge_enemy_set(s32 floor) {
                 command.opcode = ChallengeEventCommand::TriggerEvent;
                 command.append();
                 nextId = static_cast<u16>(id);
-                TLobby::append_swapped_u32(&nextId);
+                append_swapped_u32(&nextId);
                 command.opcode = ChallengeEventCommand::Stop;
                 command.append();
                 ++challenge_event_count;
@@ -631,7 +632,7 @@ void load_floor_object_set(s32 player) {
 }
 
 
-void TLobby::init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entry(); }
+void init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entry(); }
 
 
 
@@ -644,7 +645,7 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
     s32 n;
     s32 i;
     s32 floor;
-    TLobby::replace_file_extension((char *)&name, (char *)filename, "e.dat");
+    replace_file_extension((char *)&name, (char *)filename, "e.dat");
     size = read_disc_file(name.s, map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -670,7 +671,7 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     s32 n;
     s32 i;
     saddr floor;
-    TLobby::replace_file_extension(name.s, (char *)filename, "o.dat");
+    replace_file_extension(name.s, (char *)filename, "o.dat");
     size = read_disc_file(name.s, map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -762,29 +763,29 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     MapSetEntry *t3;
     t2 = map_set_areas[area].variants;
     if (t2 == NULL || map_set_areas[area].count - 1 < terrain) {
-        TLobby::debug_print("NOT FOUND SET");
+        file_debug_printf("NOT FOUND SET");
         return 0;
     }
     t3 = t2[terrain].entries;
     if (t3 == NULL || t2[terrain].count - 1 < entities) {
-        TLobby::debug_print("NOT FOUND SET");
+        file_debug_printf("NOT FOUND SET");
         return 0;
     }
     filename = t3[entities].enemy_set_name;
     if (area == 0 || area == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            TLobby::replace_file_extension(buf, (char *)filename, "e.dat");
+            replace_file_extension(buf, (char *)filename, "e.dat");
             break;
         case 1:
-            TLobby::replace_file_extension(buf, (char *)filename, "e_c1.dat");
+            replace_file_extension(buf, (char *)filename, "e_c1.dat");
             break;
         case 2:
-            TLobby::replace_file_extension(buf, (char *)filename, "e_d.dat");
+            replace_file_extension(buf, (char *)filename, "e_d.dat");
             break;
         }
     } else {
-        TLobby::replace_file_extension(buf, (char *)filename, "e.dat");
+        replace_file_extension(buf, (char *)filename, "e.dat");
     }
     size = read_disc_file(buf, map_set_file_buffer);
     if (size < 0) {
@@ -821,29 +822,29 @@ s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities) {
     s32 i;
     subs = map_set_areas[lobby].variants;
     if (subs == NULL || map_set_areas[lobby].count - 1 < terrain) {
-        TLobby::debug_print("NOT FOUND SET");
+        file_debug_printf("NOT FOUND SET");
         return 0;
     }
     items = subs[terrain].entries;
     if (items == NULL || subs[terrain].count - 1 < entities) {
-        TLobby::debug_print("NOT FOUND SET");
+        file_debug_printf("NOT FOUND SET");
         return 0;
     }
     filename = items[entities].object_set_name;
     if (lobby == 0 || lobby == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            TLobby::replace_file_extension(name, (char *)filename, "o.dat");
+            replace_file_extension(name, (char *)filename, "o.dat");
             break;
         case 1:
-            TLobby::replace_file_extension(name, (char *)filename, "o_c1.dat");
+            replace_file_extension(name, (char *)filename, "o_c1.dat");
             break;
         case 2:
-            TLobby::replace_file_extension(name, (char *)filename, "o_d.dat");
+            replace_file_extension(name, (char *)filename, "o_d.dat");
             break;
         }
     } else {
-        TLobby::replace_file_extension(name, (char *)filename, "o.dat");
+        replace_file_extension(name, (char *)filename, "o.dat");
     }
     len = read_disc_file(name, map_set_file_buffer);
     if (len < 0) {
@@ -965,7 +966,7 @@ void TLobby::load_set_gsl_files() {
     }
 }
 
-s32 TLobby::set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 flags) {
+s32 set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 flags) {
     LobbyFloorRows *g = &floor_enemy_group_table[floor];
     FloorSavedSetRow *e;
     s32 n = 0;
@@ -984,7 +985,7 @@ s32 TLobby::set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 fla
     return n;
 }
 
-s32 TLobby::set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits) {
+s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits) {
     LobbyFloorRows *t = &floor_enemy_group_table[floor];
     s32 n = 0;
     FloorSavedSetRow *e;
@@ -1040,7 +1041,7 @@ s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, s32 byte_size) {
 
 int TLobby::get_object_type(int a0) {  return floor_enemy_set_counts[a0]; }
 
-int TLobby::get_obj_table_entry(int a0) {  return floor_object_set_counts[a0]; }
+int get_obj_table_entry(int a0) {  return floor_object_set_counts[a0]; }
 // Copies the received object and enemy set flags of every floor into the floor tables.
 void unpack_floor_set_flags(FloorSetFlagsHeader *block) {
     s32 j;

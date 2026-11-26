@@ -26,6 +26,7 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXStruct.h>
 #include <dolphin/gx/GXPixel.h>
+#include "pso/system/GameModeQueries.h"
 #undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
@@ -112,7 +113,7 @@ void create_area_fog_ctrl(void) {
 
 void TFogCtrl::update_fog_entries() {
     s32 i;
-    if (TLobby::is_online_ready() != 0) {
+    if (is_online_ready() != 0) {
         if (!(fog_update_flags & 2)) {
             read_disc_file(fog_entry_online_file_name, fog_entry_array);
             fog_update_flags |= 2;

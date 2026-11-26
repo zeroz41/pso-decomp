@@ -12,4 +12,6 @@ CsnGroup *get_map_collision_group(TObjMapCsn *object);
 // Floor prepare_adventure_maps (TSceneSora) sets up next through initialize_floor_transition; -1 = none.
 extern s32 pending_adventure_map_floor;
 
+void create_map_csn_ctrl();
+
 #endif

@@ -51,6 +51,8 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/MusicControl.h"
 
 #pragma readonly_strings on
 
@@ -416,7 +418,7 @@ s32 TBoss4DarkFalz::calc_rate_from_field() {
 s32 TBoss4DarkFalz::is_timer_expired() {
     s32 losses_per_player;
 
-    losses_per_player = TLobby::dispatch_shared_handler_a(0x35)->values.integers[0];
+    losses_per_player = dispatch_shared_handler_a(0x35)->values.integers[0];
     if ((losses_per_player < 1) || (losses_per_player > 0x13)) {
         losses_per_player = 2;
     }
@@ -719,7 +721,7 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
     end_player_camera_pans();
     restore_player_cameras();
     if (TBoss4DarkFalz::is_ending_or_split_screen() == 0) {
-        TLobby::stop_audio_streams();
+        stop_audio_streams();
     }
     object = fade;
     if (object != NULL) {
@@ -758,9 +760,9 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
     if (game_difficulty_selection == 0) {
-        bind_enemy_combat_stats(TLobby::register_boss(0x37), TLobby::dispatch_shared_handler_b(0x37), TLobby::register_object(0x37));
+        bind_enemy_combat_stats(register_boss(0x37), dispatch_shared_handler_b(0x37), register_object(0x37));
     } else {
-        bind_enemy_combat_stats(TLobby::register_boss(0x38), TLobby::dispatch_shared_handler_b(0x38), TLobby::register_object(0x38));
+        bind_enemy_combat_stats(register_boss(0x38), dispatch_shared_handler_b(0x38), register_object(0x38));
     }
     register_entity_by_id(this);
     actorFlags |= 0x02000000;
@@ -777,11 +779,11 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     init_music_sequencer(4);
     dark_falz_form_index = 0;
     roar_timer = 0;
-    boss4_type2_rafoie_level = ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rafoie_level;
+    boss4_type2_rafoie_level = ((TBoss4Type2Params *)dispatch_shared_handler_a(0x36))->rafoie_level;
     if (boss4_type2_rafoie_level < 0 || boss4_type2_rafoie_level > 0xE) {
         boss4_type2_rafoie_level = 0;
     }
-    boss4_type2_rabarta_level = ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rabarta_level;
+    boss4_type2_rabarta_level = ((TBoss4Type2Params *)dispatch_shared_handler_a(0x36))->rabarta_level;
     if (boss4_type2_rabarta_level < 0 || boss4_type2_rabarta_level > 0xE) {
         boss4_type2_rabarta_level = 0;
     }

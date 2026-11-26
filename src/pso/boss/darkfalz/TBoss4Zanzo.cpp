@@ -76,6 +76,7 @@
 #include "pso/boss/darkfalz/DrainPlayerHp.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 const char *boss4_type2_class_name = "TBoss4Type2";
@@ -152,7 +153,7 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x37), TLobby::dispatch_shared_handler_b(0x37), TLobby::register_object(0x37));
+    bind_enemy_combat_stats(register_boss(0x37), dispatch_shared_handler_b(0x37), register_object(0x37));
     referenceHp = hp;
     register_by_id();
     set_param(0x2F);
@@ -172,18 +173,18 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     angle = 0;
     move_count = 0;
     target_player = 0xFFFF;
-    move_frames = floor_to_float(TLobby::dispatch_shared_handler_a(0x37)->values.floats[0]);
+    move_frames = floor_to_float(dispatch_shared_handler_a(0x37)->values.floats[0]);
     if (move_frames < 1 || move_frames > 25) {
         move_frames = 4;
     }
     move_frames *= 75;
     move_turn_frames = move_frames - 7;
-    v = TLobby::dispatch_shared_handler_a(0x37)->values.integers[0];
+    v = dispatch_shared_handler_a(0x37)->values.integers[0];
     if (v < 1 || v > 4) {
         v = 1;
     }
     stop_action = v + 8;
-    resta_level = TLobby::dispatch_shared_handler_a(0x37)->values.integers[1];
+    resta_level = dispatch_shared_handler_a(0x37)->values.integers[1];
     if (resta_level < 0 || resta_level > 14) {
         resta_level = 0;
     }
@@ -606,7 +607,7 @@ void TBoss4Type2::choose_action_after_move() {
 void TBoss4Type2::apply_resta_heal() {
     s16 power = stat_block->stats.mst;
     drain_player_hp(target_player, (power / 5) + (s32)TTecResta::calc_heal_amount(
-        TLobby::dispatch_shared_handler_a(0x37)->values.integers[1]));
+        dispatch_shared_handler_a(0x37)->values.integers[1]));
 }
 
 void TBoss4Type2::spawn_bishi_around_players() {
@@ -821,9 +822,9 @@ void TBoss4Type2::beam_update() {
         p.x += 20.0f * beam_side.x;
         p.z += 20.0f * beam_side.z;
         if (idx == 0) {
-            TTecRaBarta::create(this, &p, &p, ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rabarta_level);
+            TTecRaBarta::create(this, &p, &p, ((TBoss4Type2Params *)dispatch_shared_handler_a(0x36))->rabarta_level);
         } else {
-            const TBoss4Type2Params *params = reinterpret_cast<const TBoss4Type2Params *>(TLobby::dispatch_shared_handler_a(0x36));
+            const TBoss4Type2Params *params = reinterpret_cast<const TBoss4Type2Params *>(dispatch_shared_handler_a(0x36));
             TTecRaFoie::create(this, &p, &p, params->rafoie_level);
         }
         add_radar_scaled_marker(&p, -0x5DB4, 1, 1, 2.5f);

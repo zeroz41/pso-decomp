@@ -158,6 +158,8 @@
 #include "pso/ui/chat/TSymbolChatCapture.h"
 #include "pso/player/ClassTypeName.h"
 #include "pso/ui/city/THunterGuildWarning.h"
+#include "pso/boss/BossPhaseQuery.h"
+#include "pso/map/MapSetData.h"
 
 
 void qst_call_stack_push(s32 value);
@@ -1599,13 +1601,13 @@ void qst_op_file_dl_req(void) {
 void qst_op_set_episode(s32 episode) {
     switch (episode) {
     case 0:
-        TAdStorySelectGC::set_state(0);
+        select_episode(0);
         return;
     case 1:
-        TAdStorySelectGC::set_state(1);
+        select_episode(1);
         return;
     default:
-        TAdStorySelectGC::set_state(0);
+        select_episode(0);
         return;
     }
 }
@@ -1908,7 +1910,7 @@ void qst_op_reset_map(void) {
         TQuestThread::clear_buffer(quest_mission_manager);
     }
     TQuestThread::destroy_all_in(tl_00);
-    TLobby::init_sub_objects();
+    init_sub_objects();
     reset_id_tables();
     clear_floor_event_flags();
     init_switch_table();
@@ -2414,7 +2416,7 @@ void qst_op_set_cmode_rank_override(void) {
 }
 
 void qst_op_dark_falz_is_dead(s32 reg) {
-    if (TLobby::is_boss_phase_reached() != 0) {
+    if (is_boss_phase_reached() != 0) {
         qst_registers[(u8)reg].i = 1;
         return;
     }

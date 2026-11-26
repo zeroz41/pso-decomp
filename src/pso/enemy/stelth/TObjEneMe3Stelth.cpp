@@ -84,6 +84,7 @@
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -202,16 +203,16 @@ void TObjEneMe3Stelth::load_shared_resources() {
         me3_stelth_alternate_texture_list.textures[i].texture = me3_stelth_alternate_texture_list.textures[i + 3].texture;
     }
     for (i = 0; i < 2; i++) {
-        me3_stelth_base_params_by_variant[i] = TLobby::register_boss(stelth_base_stat_ids[i]);
+        me3_stelth_base_params_by_variant[i] = register_boss(stelth_base_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_stelth_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(stelth_attack_stat_ids[i]);
+        me3_stelth_attack_params_by_variant[i] = dispatch_shared_handler_b(stelth_attack_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_stelth_resistance_params_by_variant[i] = TLobby::register_object(stelth_resist_stat_ids[i]);
+        me3_stelth_resistance_params_by_variant[i] = register_object(stelth_resist_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_stelth_behavior_params_by_variant[i] = (StelthBehaviorParams *)TLobby::dispatch_shared_handler_a(stelth_param_ids[i]);
+        me3_stelth_behavior_params_by_variant[i] = (StelthBehaviorParams *)dispatch_shared_handler_a(stelth_param_ids[i]);
     }
     d = me3_stelth_behavior_params_by_variant[0];
     TObjEneMe3Stelth::set_slot_min_clamped_value(7, d->sword_motion_speed);

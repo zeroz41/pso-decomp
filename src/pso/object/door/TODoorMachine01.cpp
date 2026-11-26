@@ -22,6 +22,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/system/GameModeQueries.h"
 
 const char *fs_obj_ki_doa_model_names[] = {"fs_obj_ki_doa.gj", NULL};
 const char *fs_obj_ki_doa_motion_names[] = {"fs_obj_ki_doa.njm", NULL};
@@ -230,7 +231,7 @@ void TODoorMachine01::destroy() {
 void TODoorMachine01::load_resources() {
     BmlResource *resource;
     texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
-    if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
+    if (enable_v2_features == 1 && is_online_ready() != 0) {
         resource = new BmlResource(1, &door_machine01_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
         texture_lists[0] = LoadPvmFileTls("fs_obj_ki_doa_r_a.gvm");

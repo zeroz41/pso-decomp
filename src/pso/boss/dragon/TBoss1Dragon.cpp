@@ -165,7 +165,7 @@ const char *boss1_dragon_motion_names[27] = {
     NULL,
 };
 BmlResourceDescriptor boss1_dragon_bml_descriptor = {"bm_boss1_dragon.bml", boss1_dragon_model_names, boss1_dragon_motion_names, 2, 26};
-// inferred: the ids load_resources passes to TLobby::register_boss and TLobby::register_object
+// inferred: the ids load_resources passes to register_boss and register_object
 // (de_rol_le_base_param_ids / boss5_gryphon_base_param_ids twins)
 s32 boss1_dragon_base_param_ids[1] = {0x12};
 s32 boss1_dragon_register_object_ids[1] = {0x12};
@@ -243,6 +243,7 @@ static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/TProtocol.h"
+#include "pso/enemy/BattleParamTables.h"
 extern "C" {
 AttackParams *boss1_dragon_part_hp_stats[5];
 Boss1DragonParams *boss1_dragon_behavior_params[3];
@@ -609,15 +610,15 @@ void TBoss1Dragon::load_resources() {
     nodes[55].key[1] -= (0.5f);
 
     out = boss1_dragon_base_params;
-    for (s32 i = 0; i < 1; i++) { static_cast<player_stats **>(out)[i] = TLobby::register_boss(boss1_dragon_base_param_ids[i]); }
+    for (s32 i = 0; i < 1; i++) { static_cast<player_stats **>(out)[i] = register_boss(boss1_dragon_base_param_ids[i]); }
     table = boss1_dragon_attack_param_ids;
     out = boss1_dragon_part_hp_stats;
     for (s32 i = 0; i < 5; i++) {
-        static_cast<AttackParams **>(out)[i] = TLobby::dispatch_shared_handler_b(table[i]);
+        static_cast<AttackParams **>(out)[i] = dispatch_shared_handler_b(table[i]);
     }
-    for (s32 i = 0; i < 1; i++) { boss1_dragon_resistance_params[i] = TLobby::register_object(boss1_dragon_register_object_ids[i]); }
+    for (s32 i = 0; i < 1; i++) { boss1_dragon_resistance_params[i] = register_object(boss1_dragon_register_object_ids[i]); }
     for (s32 i = 0; i < 3; i++) {
-        boss1_dragon_behavior_params[i] = (Boss1DragonParams *)TLobby::dispatch_shared_handler_a(boss1_dragon_behavior_param_ids[i]);
+        boss1_dragon_behavior_params[i] = (Boss1DragonParams *)dispatch_shared_handler_a(boss1_dragon_behavior_param_ids[i]);
     }
     boss1_dragon_hold_mode = 0;
     boss1_dragon_player_control = 0;

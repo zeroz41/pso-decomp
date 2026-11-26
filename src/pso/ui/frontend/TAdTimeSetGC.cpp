@@ -37,6 +37,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
+#include "pso/audio/MusicControl.h"
 
 #pragma push
 #pragma defer_codegen off
@@ -130,7 +131,7 @@ void TAdTimeSetGC::free_scene_resources() {
 TAdTimeSetGC::TAdTimeSetGC(TObject *parent) : TObject(parent) {
     m_name = TAdTimeSetGC_class_name;
     init();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
 }
 
 TAdTimeSetGC::~TAdTimeSetGC() {

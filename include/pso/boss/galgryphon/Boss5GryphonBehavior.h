@@ -34,7 +34,7 @@ struct Boss5GryphonAttackParams {
     s32 pad_2C;
 };
 
-// One of the gryphon's parameter blocks: TLobby::dispatch_shared_handler_a of
+// One of the gryphon's parameter blocks: dispatch_shared_handler_a of
 // boss5_gryphon_behavior_param_ids (0x1E, 0x1F, 0x20). The first two lead with the follow camera's
 // (y, z) target offset and eye offset pairs per flight mode, one run of twelve floats over both
 // (fill_follow_camera_params).

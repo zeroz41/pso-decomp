@@ -100,6 +100,10 @@
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/system/task/DestructorChain.h"
+#include "pso/map/MapCollisionSetup.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
+#include "pso/map/FloorMapSelection.h"
 
 
 void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -196,7 +200,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {clear_story_flag_list_and_reload, clear_story_flag_list},
     {start_challenge_mode, NULL},
     {load_tombstone_resources, destroy_tombstone},
-    {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
+    {update_keyboard_menu, free_keyboard_soft_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {reset_clock_bar_pulse, clock_bar_on_floor_free_stub},
@@ -208,7 +212,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
-    {TLobby::load_item_data, free_forest_rel_work_buffer},
+    {load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
     {create_area_event_set_heap, free_area_event_set_heap},
@@ -275,7 +279,7 @@ void TLobby::reload_offline_area() {
     free_area_event_sets();
     clear_floor_population();
     randomize_offline_maps();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     apply_phase_keyboard_mode();
     TLoadCtrl::start_loading(1);
@@ -327,13 +331,13 @@ void TLobby::rebuild_area_keep_players() {
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
     TLobby::sync_story_select();
-    TAdStorySelectGC::set_state(0);
+    select_episode(0);
     TKeyBoardControl::update();
     TLobby::reset_quest_state();
     free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
@@ -397,7 +401,7 @@ void run_offline_area_transfer(void) {
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
     TKeyBoardControl::update();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     leader_selection.find_leader_section_id(designated_client_id);
@@ -426,8 +430,8 @@ void TLobby::teardown_scene() {
     }
     reset_view_count();
     TAdSelectGameModeGC::enable_camera();
-    TLobby::stop_audio_streams();
-    TLobby::update_lobby_subsystems();
+    stop_audio_streams();
+    update_lobby_subsystems();
     TLobby::reset_quest_state();
     main_task.delete_layer_children();
     main_task.resume_layers();
@@ -581,7 +585,7 @@ void init_offline_game_scene(void) {
     reset_controller_input_state();
     clear_keyboard_key_state();
     clear_resource_load_tasks();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::poll_default();
     TObjPlayer::send_local_player_invisible();
@@ -593,7 +597,7 @@ void init_offline_game_scene(void) {
     run_load_callback_table(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLoadCtrl::cleanup_scene();
         TObjPlayer::send_local_player_visible();

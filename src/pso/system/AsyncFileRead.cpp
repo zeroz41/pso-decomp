@@ -11,6 +11,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 void free_static_buffer(void *ptr) { game_heap->heap_free(ptr); }
 
@@ -20,7 +21,7 @@ void pump_frames() {
 loop_1:
     if (is_async_file_read_busy() != 0) {
         process_async_file_reads();
-        TLobby::run_frame();
+        run_frame();
         goto loop_1;
     }
 }

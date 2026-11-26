@@ -86,6 +86,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/enemy/BattleParamTables.h"
 
 // TObjBoss2Tunnel_Snapshot.cpp's debug chunk model.
 
@@ -168,10 +169,10 @@ void TObjEneRecobox::load_resources() {
         }
         recobox_static_instance = res;
     }
-    recobox_boss_register_id = TLobby::register_boss(0x41);
-    recobox_attack_params = TLobby::dispatch_shared_handler_b(0x41);
-    recobox_shared_object_handle = TLobby::register_object(0x41);
-    recobox_behavior_params = (saddr)TLobby::dispatch_shared_handler_a(0x41);
+    recobox_boss_register_id = register_boss(0x41);
+    recobox_attack_params = dispatch_shared_handler_b(0x41);
+    recobox_shared_object_handle = register_object(0x41);
+    recobox_behavior_params = (saddr)dispatch_shared_handler_a(0x41);
     TObjEneRecon::load_resources();
     {
         NpcAnimationBinding binding = recobox_resource_binding_desc;

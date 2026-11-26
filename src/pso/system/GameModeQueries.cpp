@@ -10,7 +10,7 @@
 
 
 
-s32 TLobby::is_online_ready() {
+s32 is_online_ready() {
     if (((s32) game_difficulty_selection == 3) && (TLobby::get_instance() == 0)) {
         return 1;
     }
@@ -20,14 +20,14 @@ s32 TLobby::is_online_ready() {
     return 0;
 }
 
-s32 TLobby::is_camera_ctrl_active() {
+s32 is_camera_ctrl_active() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return TCameraCtrl::get_view_count();
     }
     return 1;
 }
 
-s32 TLobby::is_ready() {
+s32 is_game_quest_active() {
     if ((get_game_play_mode() == 2) && (is_quest_active() == 1)) {
         return 1;
     }

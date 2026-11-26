@@ -12,6 +12,6 @@ void set_trade_active(void);
 struct G_ModifyTradeProposal_6xA6;
 
 void build_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *cmd);
-
+void update_game_modes();
 
 #endif

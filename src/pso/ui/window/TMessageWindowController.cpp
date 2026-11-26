@@ -180,7 +180,7 @@ void TMessageWindowController::close() {
 }
 TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 flags) {
     f32 scale;
-    if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
+    if (is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
     if (window == NULL) {
         window = (TWindowMessagePage *)TWindowMessagePage::create(position, extent, 1, flags);
@@ -191,7 +191,7 @@ TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_PO
 }
 TWindowMessagePage *TMessageWindowController::create_window(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
     f32 scale;
-    if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
+    if (is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
     if (window == NULL) {
         window = (TWindowMessagePage *)TWindowMessagePage::set_text(position, extent, 1);

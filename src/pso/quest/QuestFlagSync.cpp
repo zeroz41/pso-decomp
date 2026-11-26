@@ -13,6 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/system/FileExtension.h"
 
 
 void quest_flag_sync_stub(void) {  }
@@ -52,14 +53,14 @@ void handle_6x75_update_quest_flag_dc(G_UpdateQuestFlag_V3_BB_6x75 *packet) {
 
 void prepare_offline_quest_filenames(const char* identity) {
  switch(current_language) {
- case LANGUAGE_JAPANESE:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_j.bin");break;
- case LANGUAGE_ENGLISH:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_e.bin");break;
- case LANGUAGE_GERMAN:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_g.bin");break;
- case LANGUAGE_FRENCH:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_f.bin");break;
- case LANGUAGE_SPANISH:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_s.bin");break;
- default:TLobby::replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_e.bin");break;
+ case LANGUAGE_JAPANESE:replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_j.bin");break;
+ case LANGUAGE_ENGLISH:replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_e.bin");break;
+ case LANGUAGE_GERMAN:replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_g.bin");break;
+ case LANGUAGE_FRENCH:replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_f.bin");break;
+ case LANGUAGE_SPANISH:replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_s.bin");break;
+ default:replace_file_extension(offline_quest_filename_buffer_a, (char *)identity, (char *)"_e.bin");break;
  }
- TLobby::replace_file_extension(offline_quest_filename_buffer_b, (char *)identity, (char *)"_j.dat");
+ replace_file_extension(offline_quest_filename_buffer_b, (char *)identity, (char *)"_j.dat");
 }
 
 void send_and_handle_6x75(G_UpdateQuestFlag_V3_BB_6x75 *packet) {

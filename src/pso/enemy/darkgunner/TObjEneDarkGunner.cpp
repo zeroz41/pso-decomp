@@ -101,6 +101,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -380,11 +381,11 @@ void load_darkgunner_effect_resources() {
     TEneEffHamon::init_fish_effects();
     dark_gunner_effect_resource = LoadPvmFileTls("re5_b_gunner_body_pika.gvm");
     for (i = 0; i < 1; i++) {
-        dark_gunner_base_params_by_variant[i] = TLobby::register_boss(30 + i);
-        dark_gunner_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(30 + i);
-        dark_gunner_resistance_params_by_variant[i] = TLobby::register_object(30 + i);
+        dark_gunner_base_params_by_variant[i] = register_boss(30 + i);
+        dark_gunner_attack_params_by_variant[i] = dispatch_shared_handler_b(30 + i);
+        dark_gunner_resistance_params_by_variant[i] = register_object(30 + i);
     }
-    dark_gunner_behavior_params = (TObjEneDarkGunnerBehaviorParams *)TLobby::dispatch_shared_handler_a(30);
+    dark_gunner_behavior_params = (TObjEneDarkGunnerBehaviorParams *)dispatch_shared_handler_a(30);
 }
 
 void TObjEneDarkGunner::cleanup_effects() {

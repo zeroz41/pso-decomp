@@ -20,6 +20,7 @@
 #include "pso/system/RelModule.h"
 #include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/frontend/OpeningMovie.h"
+#include "pso/audio/SoundRequests.h"
 
 extern "C" {
 s32 DVDCheckDisk();
@@ -37,7 +38,7 @@ static const Vec movie_camera_up = {0.0f, 1.0f, 0.0f};
 MovieState::~MovieState() {
     release();
     free_buffer();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
 }
 
 MovieState::MovieState(const char *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending) {
@@ -127,7 +128,7 @@ void MovieState::init_sfd_player(s32 is_ending, s32 is_normal_ending) {
     } else {
         ply->vt->start_fname(ply, filename);
     }
-    ply->vt->f2C(ply, TLobby::get_lobby_data());
+    ply->vt->f2C(ply, get_lobby_data());
 }
 
 s32 MovieState::decode_frame() {
@@ -216,7 +217,7 @@ TMovie::~TMovie() {
     if (finish_callback != NULL) {
         finish_callback(this);
     }
-    TLobby::set_pre_retrace_callback();
+    set_pre_retrace_callback();
 }
 
 void TMovie::render_until_finished() {

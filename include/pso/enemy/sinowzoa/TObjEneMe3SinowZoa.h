@@ -6,7 +6,7 @@
 #include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
 
-// Per-kind parameter block from TLobby::dispatch_shared_handler_a, one for each of
+// Per-kind parameter block from dispatch_shared_handler_a, one for each of
 // the two Sinow Zoa kinds (load_resources).
 struct TObjEneMe3SinowZoaParams {
     f32 walk_speed;          // state_chase_target's move speed (walk motion)

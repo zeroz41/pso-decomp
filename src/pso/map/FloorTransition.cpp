@@ -235,7 +235,7 @@ void promote_area_floor(FloorTransition *transition) {
     trans->previous_floor = (s32) trans->current_floor;
     trans->current_floor = (s32) trans->next_floor;
     trans->current_map = (s32) trans->next_map;
-    TLobby::reset_story_select_state();
+    reset_story_select_state();
 }
 
 FloorTransition floor_transition_state;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FileExtension.h"
 #include <string.h>
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
@@ -6,9 +7,9 @@
 
 
 extern const char file_extension_dot = '.';
-void TLobby::debug_print(const char *fmt, ...) {}
+void file_debug_printf(const char *format, ...) {}
 
-s32 TLobby::replace_file_extension(char *dest, char *filename, char *suffix) {
+s32 replace_file_extension(char *dest, char *filename, char *suffix) {
     char buf[0x20];
     char *p;
     s32 n;
@@ -34,7 +35,7 @@ s32 TLobby::replace_file_extension(char *dest, char *filename, char *suffix) {
     return 0;
 }
 
-s32 TLobby::change_file_extension(char *dest, char *filename, char *ext) {
+s32 change_file_extension(char *dest, char *filename, char *ext) {
     char buf[0x20];
     char *p;
     s32 n;
@@ -60,8 +61,8 @@ s32 TLobby::change_file_extension(char *dest, char *filename, char *ext) {
     return 0;
 }
 
-int TLobby::compare_file_extension(const char *ext) {
-    const char *s = (const char *)this;
+int compare_file_extension(const char *path, const char *ext) {
+    const char *s = path;
     while (*s) {
         if (*s == '.') {
             return strcmp(s + 1, ext);

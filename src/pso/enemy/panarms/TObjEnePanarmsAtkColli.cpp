@@ -20,6 +20,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/enemy/BattleParamTables.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
@@ -182,7 +183,7 @@ TObjEnePanarmsAtkColli::TObjEnePanarmsAtkColli(TObject *parent, Vec *position, V
     last_hit_player = NULL;
     last_hit_enemy = NULL;
     set_param(0x15);
-    attack_power = ((f32 *)TLobby::dispatch_shared_handler_a(0x31))[panarms_atk_colli_type_index_table[this->type]];
+    attack_power = ((f32 *)dispatch_shared_handler_a(0x31))[panarms_atk_colli_type_index_table[this->type]];
     if (attack_power < 0.0f) {
         attack_power = 0.0f;
     }

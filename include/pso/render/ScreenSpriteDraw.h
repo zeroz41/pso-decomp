@@ -23,6 +23,7 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
 // Draws `count` lines through the camera view, each a pair of lines->p points with their lines->col ARGB
 // words. Flags: 4 blends, 0x10 joins the points into one strip.
 void draw_line_list(NJS_POINT3COL *lines, s32 count, u32 flags);
+void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
 
 // Empty hooks: the duel start (TLobby::start_duel_battle, TPlayerBattleCtrl4P::start_duel) calls the first two,
 // the Dark Falz and Sorcerer renders set_texture_scroll, the 2D line and polygon draws draw_2d_stub.

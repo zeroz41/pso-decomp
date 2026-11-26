@@ -40,6 +40,7 @@
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 
@@ -77,10 +78,10 @@ void TObjEneBm3Fly::load_resources() {
     bm3_fly_nest_resources = TObjEneBm3FlyNest::get_bml_resource();
     model = new TBreakUpMdlData(bm3_fly_nest_resources->models[0].model);
     bm3_fly_breakup_model = model;
-    bm3_fly_boss_stat_handle = TLobby::register_boss(0);
-    bm3_fly_attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);
-    bm3_fly_resist_stats = TLobby::register_object(0);
-    bm3_fly_lobby_params = (Bm3FlyParameters *)TLobby::dispatch_shared_handler_a(0);
+    bm3_fly_boss_stat_handle = register_boss(0);
+    bm3_fly_attack_params = (AttackParams *)dispatch_shared_handler_b(0);
+    bm3_fly_resist_stats = register_object(0);
+    bm3_fly_lobby_params = (Bm3FlyParameters *)dispatch_shared_handler_a(0);
     {
         NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
         binding.motions = bm3_fly_nest_resources->motions;

@@ -65,6 +65,7 @@
 #include "pso/technique/TechniqueRingwaveList.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
 extern "C" {
@@ -715,12 +716,12 @@ void initialize_saver_resources(void) {
     dir.y = dir.z = 0.0f;
     saver_nail_trail_points->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, &pos, &dir);
     player_object_ptr_array = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*player_object_ptr_array)));
-    saver_boss_stat_handle = TLobby::register_boss(0x52);
-    player_object_ptr_array[0] = TLobby::dispatch_shared_handler_b(0x57);
-    player_object_ptr_array[2] = TLobby::dispatch_shared_handler_b(0x58);
-    player_object_ptr_array[1] = TLobby::dispatch_shared_handler_b(0x59);
-    saver_object_stat_handle = TLobby::register_object(0x51);
-    saver_ai_params = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
+    saver_boss_stat_handle = register_boss(0x52);
+    player_object_ptr_array[0] = dispatch_shared_handler_b(0x57);
+    player_object_ptr_array[2] = dispatch_shared_handler_b(0x58);
+    player_object_ptr_array[1] = dispatch_shared_handler_b(0x59);
+    saver_object_stat_handle = register_object(0x51);
+    saver_ai_params = (f32 *)dispatch_shared_handler_a(0x51);
     NpcAnimationBinding init = saver_init_binding_desc;
     init.motions = saver_bml_resource->motions;
     TObjNpcEnemy::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].texlist, &init, saver_collision_body_part_table[0].radius, (f32)0.0f);

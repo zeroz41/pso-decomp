@@ -30,6 +30,7 @@ NJS_TEXLIST *const chr_sel_slot_texlist_table[6] = { &chr_sel_slot_texlist, &chr
 #include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 NJS_TEXLIST *chr_sel_slot_texlist_current;
 f32 char_select_slot_quad_width, char_select_slot_quad_height;
@@ -175,7 +176,7 @@ void free_chr_sel_slot_texture() {
 struct ByteBlock_14 { saddr v[5]; };
 
 void load_chr_sel_slot_texture() {
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     ByteBlock_14 a = *(const ByteBlock_14 *)chr_sel_slot_resource_name_table;
     ByteBlock_14 b = *(const ByteBlock_14 *)chr_sel_slot_texlist_table;
     NJS_TEXLIST *list = (NJS_TEXLIST *)b.v[current_language];

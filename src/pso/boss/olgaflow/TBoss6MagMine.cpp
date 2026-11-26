@@ -37,6 +37,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -289,11 +290,11 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2D), TLobby::dispatch_shared_handler_b(0x2D), TLobby::register_object(0x2D));
+    bind_enemy_combat_stats(register_boss(0x2D), dispatch_shared_handler_b(0x2D), register_object(0x2D));
     referenceHp = hp;
     register_by_id();
     set_param(0);
-    params = (f32 *)TLobby::dispatch_shared_handler_a(0x2D);
+    params = (f32 *)dispatch_shared_handler_a(0x2D);
     attack_power = (s32)params[1];
     if ((f32) attack_power <= 0.0f) {
         attack_power = 0x14;

@@ -9,7 +9,7 @@
 class TParticleCtrl;
 struct BmlResource;
 
-// The tuning record TLobby::dispatch_shared_handler_a hands the crawfish.
+// The tuning record dispatch_shared_handler_a hands the crawfish.
 struct Boss7CrawfishParams {
     f32 speed;
     u8 pad_4[0x14];

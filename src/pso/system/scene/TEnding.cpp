@@ -47,7 +47,7 @@ const char TEnding::class_name_string[] = "TEnding";
 void (*ending_scene_callbacks[26])(void) = {
     TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
-    TLobby::update_keyboard_menu, free_keyboard_soft_resources,
+    update_keyboard_menu, free_keyboard_soft_resources,
     set_ending_callback, free_ending_callback,
     ending_scene_nop_load, ending_scene_nop_release,
     register_texture_ed_512kabe_c, TEndingC::release_lobby,
@@ -61,7 +61,7 @@ void (*ending_scene_callbacks[26])(void) = {
 };
 
 void release_ending_scene(void) {
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     main_task.delete_layer_children();
     TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
@@ -161,7 +161,7 @@ void TEnding::run_task() {
 
 TEnding::~TEnding() {
     ending_scene_active = 0;
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
 }
 
 TEnding::TEnding() : TObject(tl_window) {

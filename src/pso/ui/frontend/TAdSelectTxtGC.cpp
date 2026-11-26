@@ -13,6 +13,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/PlayerGuildCardTag.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 // The select screen's text textures, English set then Japanese set. inferred: names from the f256_selectgamen_*
 // texture files they list; load_select_gamen_texture picks a set by current_language (0 = Japanese).
@@ -123,7 +124,7 @@ void free_select_gamen_texture() {
     }
 }
 void load_select_gamen_texture() {
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     const char *texture_files[5] = {"f256_selectgamen_a", "f256_selectgamen_a_eng", "f256_selectgamen_a_eng",
                                     "f256_selectgamen_a_eng", "f256_selectgamen_a_eng"};
     NJS_TEXLIST *texture_lists[5] = {&select_gamen_texture_list, &select_gamen_eng_texture_list,

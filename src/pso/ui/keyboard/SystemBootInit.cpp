@@ -74,6 +74,8 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/GslArchiveStubs.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
+#include "pso/system/MallocLoadFilePrc.h"
+#include "pso/audio/MusicControl.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -93,7 +95,7 @@ void poll_input_devices_frame(void) {
     hardware_keyboard_state.disable_disconnected_ports();
     flush_input();
     update_pad_rumble();
-    TLobby::reset_state_byte();
+    reset_state_byte();
 }
 
 void TKeyBoardControl::run_tasks() {
@@ -136,7 +138,7 @@ void shutdown_and_reset_system(void) {
     reset_aram_state();
     destroy_game_heap();
     reset_sound_control_state();
-    TLobby::shutdown_buffers();
+    shutdown_buffers();
     TAdSinglePlyChrSelectGC::release_all();
     free_info_icon_texture();
     reset_display_copy_filter();
@@ -307,11 +309,11 @@ void init_game_systems(void) {
     init_adx_audio_system();
     init_download_state();
     load_menu_font();
-    TLobby::load_now_loading_texture();
+    load_now_loading_texture();
     chara_making_init_stub();
     TAdSinglePlyChrSelectGC::init_char_select_globals();
     reset_sound_request_state();
-    TLobby::wait_for_sound_init();
+    wait_for_sound_init();
     load_info_icon();
     alloc_item_drop_memory_pool();
     alloc_player_motion_aram();
@@ -325,7 +327,7 @@ void init_game_systems(void) {
     init_disc_error_messages();
     init_keyboard_buffer();
     TAdPlayerLoadGC::load_banner_files();
-    TLobby::load_player_data();
+    load_player_data();
     init_account_entries();
     load_ha_u032_kage();
     system_init_stub();
@@ -333,7 +335,7 @@ void init_game_systems(void) {
     gba_init();
     load_ply_level_tbl();
     verify_game_file_integrity();
-    TLobby::handle_flag2_request();
+    handle_flag2_request();
 }
 
 MainPhaseEntry main_phase_table[] = {

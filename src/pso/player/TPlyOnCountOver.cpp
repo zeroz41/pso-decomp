@@ -78,6 +78,7 @@
 #include "pso/effect/TEffect.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/audio/MusicControl.h"
 
 
 
@@ -597,9 +598,9 @@ s32 BattleMusicState::tick_battle_music_timer() {
     return --timer < 0 ? 0 : 1;
 }
 
-void BattleMusicState::clear_target_lock() { flags.set(1); TLobby::set_target_id(1); }
+void BattleMusicState::clear_target_lock() { flags.set(1); set_target_id(1); }
 
-void BattleMusicState::reset_ring() { flags.clear(1); set_lock_timer(-1); TLobby::set_target_id(0); }
+void BattleMusicState::reset_ring() { flags.clear(1); set_lock_timer(-1); set_target_id(0); }
 
 void RenderMaterialState::reset_fade_color() {
     fade_color.a = 1.0f;

@@ -12,6 +12,7 @@
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/SwitcherLaunch.h"
+#include "pso/player/PlayerDataLoad.h"
 
 BOOL read_dial_prefix(char *dst) {
     if (get_network_config_outside_line_number(dst, 0x20) == 0) {
@@ -51,7 +52,7 @@ s32 load_network_info(void) {
     }
     open_network_config(0, network_info_work, status);
     network_config_open = 1;
-    init_card_lib((void *)TLobby::get_global_63e0());
+    init_card_lib((void *)get_global_63e0());
     start = 0;
     end = 2;
     switch (disc_error_code) {
@@ -154,7 +155,7 @@ s32 load_network_info(void) {
         }
     }
     check_card_lib_ready();
-    TLobby::load_player_data();
+    load_player_data();
     if (found != 0) {
         if (has_broadband_adapter() != 0) {
             return 1;

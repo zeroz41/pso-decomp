@@ -25,4 +25,9 @@ struct SetSoundPitchRequestSndEnt {
     u8 pad[8];
 };
 
+void close_option_window();
+int get_lobby_data();
+void set_sound_output_mode(s32 mode);
+void update_lobby_subsystems();
+
 #endif

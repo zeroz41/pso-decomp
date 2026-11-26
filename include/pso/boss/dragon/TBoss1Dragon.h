@@ -313,7 +313,7 @@ LAYOUT_ASSERT(DragonSize, sizeof(TBoss1Dragon) == 0x8BC);
 
 struct ByteBlock_C { u8 bytes[0xC]; };
 struct DragonCaptureVectors { Vec vectors[3]; };
-// The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
+// The Dragon's block from dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
 // landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.
 struct Boss1DragonParams {
     f32 breath_attack_power;   // deliver_breath_attack

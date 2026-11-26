@@ -746,7 +746,7 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
                     dist = newton_sqrtf(dist);
                 }
             } else {
-                if (TLobby::is_camera_state_active()) {
+                if (is_camera_state_active()) {
                     listener.x = camera_ctrl_instance->pos.x;
                     listener.y = 0.0f;
                     listener.z = camera_ctrl_instance->pos.z;

@@ -57,6 +57,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowMessageLog.h"
+#include "pso/network/TradeProposalCmd.h"
 
 TWindowCtrl *TWindowCtrl::instance;
 u16 short_mail_flags;
@@ -347,7 +348,7 @@ TWindowCtrl::~TWindowCtrl() {
     }
 }
 
-void TWindowCtrl::run_task() { update_open_sequence(); update(); TLobby::update_game_modes(); }
+void TWindowCtrl::run_task() { update_open_sequence(); update(); update_game_modes(); }
 
 void TWindowCtrl::render() {  }
 

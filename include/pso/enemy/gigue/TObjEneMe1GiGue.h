@@ -7,7 +7,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/BmlResource.h"
 
-// The tuning block TLobby::dispatch_shared_handler_a hands out for the Gi Gue
+// The tuning block dispatch_shared_handler_a hands out for the Gi Gue
 // (read by get_gigue_float_parameter and get_gigue_int_parameter).
 struct GiGueParameters {
     f32 floats[6];

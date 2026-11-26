@@ -27,6 +27,7 @@
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/GslArchive.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/system/FileExtension.h"
 
 #pragma readonly_strings on
 
@@ -282,7 +283,7 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (map_set_areas[area].variants[terrain].entries == 0 || map_set_areas[area].variants[terrain].count - 1 < entities) {
         return 0;
     }
-    TLobby::replace_file_extension(path, (char *)map_set_areas[area].variants[terrain].entries[entities].enemy_set_name, (char *)".evt");
+    replace_file_extension(path, (char *)map_set_areas[area].variants[terrain].entries[entities].enemy_set_name, (char *)".evt");
     n = get_resource_file_size(path);
     if (n > 0) {
         set = (FloorEventSet *)area_event_set_heap->heap_alloc(n);

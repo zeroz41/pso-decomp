@@ -177,7 +177,7 @@ void TCheckRoomSequence::begin_meseta_withdrawal() {
         if (amount > 0) {
             if (number_input == NULL) {
                 number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
-                if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                if (number_input != NULL && is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
             }
@@ -235,7 +235,7 @@ void TCheckRoomSequence::begin_meseta_deposit() {
             amount = (amount < meseta) ? amount : meseta;
             if (number_input == NULL) {
                 number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
-                if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                if (number_input != NULL && is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
             }

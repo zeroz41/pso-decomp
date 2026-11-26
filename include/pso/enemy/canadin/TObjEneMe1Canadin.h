@@ -10,7 +10,7 @@
 class TObjEneMe1Canadin_EffLine;
 class TParticleCtrl;
 
-// The kind's parameter block (kind_params, from TLobby::dispatch_shared_handler_a); the field layout is
+// The kind's parameter block (kind_params, from dispatch_shared_handler_a); the field layout is
 // shared with TObjEneMe1GeeParams.
 struct TObjEneMe1CanadinParams {
     f32 melee_speed;          // chase step of the melee attack

@@ -47,6 +47,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 s16 TObjPlayer::get_atp() { return this->atp; }
@@ -429,18 +430,18 @@ void TLobby::load_dimedian_resources() {
     dimedian_attack_stat_table = static_cast<AttackParams **>(mem_alloc(0xC));
     dimedian_boss_objects = static_cast<ActorParamBlock **>(mem_alloc(0xC));
     dimedian_buffer_ptr = (f32 **)mem_alloc(0xC);
-    dimedian_boss_object_buf[0] = TLobby::register_boss(0x53);
-    dimedian_boss_object_buf[1] = TLobby::register_boss(0x54);
-    dimedian_boss_object_buf[2] = TLobby::register_boss(0x55);
-    dimedian_attack_stat_table[0] = TLobby::dispatch_shared_handler_b(0x5A);
-    dimedian_attack_stat_table[1] = TLobby::dispatch_shared_handler_b(0x5B);
-    dimedian_attack_stat_table[2] = TLobby::dispatch_shared_handler_b(0x5C);
-    dimedian_boss_objects[0] = TLobby::register_object(0x52);
-    dimedian_boss_objects[1] = TLobby::register_object(0x53);
-    dimedian_boss_objects[2] = TLobby::register_object(0x54);
-    dimedian_buffer_ptr[0] = (f32 *)TLobby::dispatch_shared_handler_a(0x52);
-    dimedian_buffer_ptr[1] = (f32 *)TLobby::dispatch_shared_handler_a(0x53);
-    dimedian_buffer_ptr[2] = (f32 *)TLobby::dispatch_shared_handler_a(0x54);
+    dimedian_boss_object_buf[0] = register_boss(0x53);
+    dimedian_boss_object_buf[1] = register_boss(0x54);
+    dimedian_boss_object_buf[2] = register_boss(0x55);
+    dimedian_attack_stat_table[0] = dispatch_shared_handler_b(0x5A);
+    dimedian_attack_stat_table[1] = dispatch_shared_handler_b(0x5B);
+    dimedian_attack_stat_table[2] = dispatch_shared_handler_b(0x5C);
+    dimedian_boss_objects[0] = register_object(0x52);
+    dimedian_boss_objects[1] = register_object(0x53);
+    dimedian_boss_objects[2] = register_object(0x54);
+    dimedian_buffer_ptr[0] = (f32 *)dispatch_shared_handler_a(0x52);
+    dimedian_buffer_ptr[1] = (f32 *)dispatch_shared_handler_a(0x53);
+    dimedian_buffer_ptr[2] = (f32 *)dispatch_shared_handler_a(0x54);
     {
         s16 ids[3] = { 0x1B, 0x1C, 0x1D };
         NpcAnimationBinding anim = { dimedian_resource_ptr->motions, dimedian_action_table, 0, 2, 12 };

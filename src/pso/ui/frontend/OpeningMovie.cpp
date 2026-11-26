@@ -135,7 +135,7 @@ void init_movie_phase(void) {
         set_fallback_main_phase(9);
         break;
     case 1:
-        TLobby::update_keyboard_menu();
+        update_keyboard_menu();
         init_fresh_character_card();
         free_keyboard_soft_resources();
         set_queued_main_phase(5);
@@ -156,7 +156,7 @@ TOpeningMovie::~TOpeningMovie() {
 // Plays the opening movie (or, from the lobby keyboard path, the movie of
 // opening_movie_purpose) and raises movie_finished_flag when it ends.
 TOpeningMovie::TOpeningMovie() : TObject(tl_01) {
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     if ((TAdSinglePlyChrSelectGC::get_data() == 1) && (TAdSelectGameModeGC::get_mode_data() == 1)) {
         set_movie_finished_flag(NULL);
         return;

@@ -38,6 +38,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/audio/SoundRequests.h"
 
 // The class name opens .rodata, then the menu window positions in this order, ahead of the
 // strings of the functions.
@@ -194,8 +195,8 @@ void TWindowOptionCtrl::run_task() {
                 flags &= ~2;
                 sub_menu->clear_cancelled();
             } else {
-                TLobby::stop_audio_streams();
-                TLobby::close_option_window();
+                stop_audio_streams();
+                close_option_window();
                 play_area_music("advr.adx");
                 state = 1;
                 break;
@@ -539,9 +540,9 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
 }
 
 void TWindowOptionCtrl::apply_and_close(s32 bgm_index) {
-    TLobby::stop_audio_streams();
-    TLobby::stop_audio_streams();
-    TLobby::close_option_window();
+    stop_audio_streams();
+    stop_audio_streams();
+    close_option_window();
     play_area_music(get_bgm_filename(bgm_index));
     this->flags = (u8) (this->flags | 2);
 }
@@ -556,8 +557,8 @@ void TWindowOptionCtrl::init_selection_indices() {
 
 void TWindowOptionCtrl::apply_selection_change() {
     if (saved_sound_mode != sound_mode) {
-        TLobby::stop_audio_streams();
-        TLobby::set_sound_output_mode(sound_mode);
+        stop_audio_streams();
+        set_sound_output_mode(sound_mode);
         TLobby::init_layout_positions();
     }
 }

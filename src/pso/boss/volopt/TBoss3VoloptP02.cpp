@@ -60,6 +60,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -293,11 +294,11 @@ void TBoss3VoloptP02::load_resources() {
     node_44_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_44->model)->polygon_list);
     node_27_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_27->model)->polygon_list);
     node_3f_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_3f->model)->polygon_list);
-    boss_stat_handle = TLobby::register_boss(0x25);
-    shared_handler_b = TLobby::dispatch_shared_handler_b(0x25);
-    object_handle = TLobby::register_object(0x25);
-    volopt_p02_params = (VoloptP02Params *)TLobby::dispatch_shared_handler_a(0x25);
-    part_params = (s32 *)TLobby::dispatch_shared_handler_a(0x2A);
+    boss_stat_handle = register_boss(0x25);
+    shared_handler_b = dispatch_shared_handler_b(0x25);
+    object_handle = register_object(0x25);
+    volopt_p02_params = (VoloptP02Params *)dispatch_shared_handler_a(0x25);
+    part_params = (s32 *)dispatch_shared_handler_a(0x2A);
 }
 
 void TBoss3VoloptP02::free_resources() {

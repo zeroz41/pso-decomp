@@ -8,6 +8,7 @@
 
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/audio/MusicControl.h"
 
 #pragma readonly_strings on
 
@@ -21,7 +22,7 @@ void TAdTrialModemChkGC::check_modem_result() {
     }
     launch_browser(1);
 }
-void TAdTrialModemChkGC::init_modem_check_phase() { TLobby::stop_audio_streams(); }
+void TAdTrialModemChkGC::init_modem_check_phase() { stop_audio_streams(); }
 
 void TAdTrialModemChkGC::render() {
     render_dialog();

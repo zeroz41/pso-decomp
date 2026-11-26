@@ -904,6 +904,7 @@ void *TObjEneLappy::create(void *set) {
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern "C" {
 __declspec(section ".data") player_stats *lappy_boss_stats_handles[2];
@@ -988,10 +989,10 @@ void TObjEneLappy::load_resources() {
     }
     rappy_visibility_node = find_model_node(rappy_bml_resource->models[0].model, 0x12);
     for (i = 0; i < 2; i++) {
-        lappy_boss_stats_handles[i] = TLobby::register_boss(i + 0x18);
-        lappy_boss_stats_ptrs_b[i] = TLobby::dispatch_shared_handler_b(i + 0x18);
-        lappy_object_handles[i] = TLobby::register_object(i + 0x18);
-        lappy_variant_speed_ptr_table[i] = (f32 *)TLobby::dispatch_shared_handler_a(i + 0x18);
+        lappy_boss_stats_handles[i] = register_boss(i + 0x18);
+        lappy_boss_stats_ptrs_b[i] = dispatch_shared_handler_b(i + 0x18);
+        lappy_object_handles[i] = register_object(i + 0x18);
+        lappy_variant_speed_ptr_table[i] = (f32 *)dispatch_shared_handler_a(i + 0x18);
     }
     {
         BmlResource *res = rappy_bml_resource;

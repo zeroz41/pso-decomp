@@ -49,6 +49,7 @@ void apply_multi_sel_rule(void) {
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
+#include "pso/map/FloorMapSelection.h"
 
 
 typedef void (TAdMultiSelGameModeGC::*StateAction)();
@@ -156,7 +157,7 @@ void TAdMultiSelGameModeGC::run_state_2() {
             rule_text->reset_slots((TAdSelectTxtLayout *)&multi_sel_text_layouts[5], multi_sel_rule + 9);
             if (multi_sel_rule == 1 && multi_sel_episode == 1) {
                 multi_sel_episode = 0;
-                TAdStorySelectGC::set_state(0);
+                select_episode(0);
                 episode_text->reset_slots((TAdSelectTxtLayout *)&multi_sel_text_layouts[6], multi_sel_episode + 4);
             }
             if (multi_sel_rule == 2 && game_difficulty_selection != 0) {
@@ -175,11 +176,11 @@ void TAdMultiSelGameModeGC::run_state_2() {
             switch (menu->get_selected_value()) {
             case 0:
                 multi_sel_episode = 0;
-                TAdStorySelectGC::set_state(0);
+                select_episode(0);
                 break;
             case 1:
                 multi_sel_episode = 1;
-                TAdStorySelectGC::set_state(1);
+                select_episode(1);
                 break;
             }
             episode_text->reset_slots((TAdSelectTxtLayout *)&multi_sel_text_layouts[6], multi_sel_episode + 4);
@@ -276,10 +277,10 @@ TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObjec
     }
     switch (multi_sel_episode) {
     case 0:
-        TAdStorySelectGC::set_state(0);
+        select_episode(0);
         break;
     case 1:
-        TAdStorySelectGC::set_state(1);
+        select_episode(1);
         break;
     }
     new TAdBackGC(this);

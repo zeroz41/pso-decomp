@@ -63,6 +63,7 @@
 #include "pso/object/TDeadSpot.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/render/ScreenSpriteDraw.h"
+#include "pso/audio/MusicControl.h"
 
 
 
@@ -480,7 +481,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
         if (quest_mission_manager != NULL) {
             TQuestThread::clear_buffer(quest_mission_manager);
         }
-        TLobby::stop_audio_streams();
+        stop_audio_streams();
         reload_ready = 0;
         TLobby::init_fadeout_state(TPlayerBattleCtrl4P::init);
         set_phase_state(2);

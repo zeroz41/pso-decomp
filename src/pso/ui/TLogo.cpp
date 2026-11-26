@@ -40,7 +40,7 @@ const char *logo_class_name = "TLogo";
 void (*logo_load_callback_table[18])(void) = {
     TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
-    TLobby::update_keyboard_menu, free_keyboard_soft_resources,
+    update_keyboard_menu, free_keyboard_soft_resources,
     register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
     register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
     register_texture_logo_e, TLogo::free_held_object,
@@ -80,7 +80,7 @@ void TLogo::init_logo_scene() {
     apply_phase_keyboard_mode();
     run_load_callback_table(logo_load_callback_table, sizeof(logo_load_callback_table));
     if (is_area_transfer_pending() != 0) {
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLobby::reset_keyboard_state();
         return;

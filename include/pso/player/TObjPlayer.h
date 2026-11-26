@@ -499,7 +499,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_walk_action();
     void clear_flag_200000();
     int check_flag_4();
-    static void clear_flag_4000_callback(TObjPlayer *player);
     void clear_flag_4000();
     void set_flag_4000();
     s32 is_flag_4000_set();
@@ -519,8 +518,6 @@ struct TObjPlayer : public TObjChara {
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
     int get_action_motion_type();
-    int is_handle_valid();
-    static u8 get_item_count_max();
     static s32 decrement_clamp(s32 *value, s32 amount);
     void set_visible_flag();
     s32 check_flag_04000000();
@@ -1015,7 +1012,6 @@ struct TObjPlayer : public TObjChara {
     int check_flag_48();
     int is_status_locked();
     int is_status_flag_200();
-    static void start_freeze_self(TObjPlayer *player);
     void set_floor_index(s32 v);
     GC_Mtx *item_node_matrices;
     void revive_or_spawn_marker();
@@ -1209,6 +1205,12 @@ struct TObjPlayer : public TObjChara {
     void init_saved_technique_caps(TPlyCharData *record);
     void init_session_area_sync(void *record);
 };
+
+u8 get_item_count_max();
+
+void start_freeze_self(TObjPlayer *player);
+
+void clear_flag_4000_callback(TObjPlayer *player);
 
 #include <stddef.h>
 LAYOUT_ASSERT(PlayerPaletteModifierOffset, offsetof(TObjPlayer, photon_blast_gauge) == 0x4AC);

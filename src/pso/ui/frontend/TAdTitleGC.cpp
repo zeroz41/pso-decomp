@@ -35,7 +35,7 @@ extern const s32 current_language;
 int game_files_modified() { return game_files_modified_flag; }
 
 void load_title_midashi_texture() {
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };
     NJS_TEXLIST *lists[5] = { &title_midashi_texlist, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng };
     title_midashi_texlist_current = (uaddr)lists[current_language];

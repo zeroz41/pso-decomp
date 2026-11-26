@@ -115,5 +115,12 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities);
 s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities);
 
 void clear_map_set_data(void);
+void append_swapped_u32(s32 *value);
+void *bsearch_record(void *records, int n, int key);
+s32 pick_random_slot(s16 *slot);
+void init_sub_objects();
+s32 set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 flags);
+s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits);
+int get_obj_table_entry(int a0);
 
 #endif

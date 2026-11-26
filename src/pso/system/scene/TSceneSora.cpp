@@ -26,6 +26,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/system/FileExtension.h"
 
 
 #pragma readonly_strings on
@@ -125,13 +126,13 @@ void TSceneSora::load_sky_resources() {
     if (lookup_floor_map_selection(get_current_floor(), &ref) != 0) {
         ok = 0;
         tbl = (SceneTableEntry *)get_floor_scene_table(ref.area);
-        TLobby::replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
+        replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
+            replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
             ok = get_resource_file_size(name2);
         }
         if (ok <= 0) {
-            TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
+            replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
         }
         p = ADXF_Open(name2, 0);
         if (p != NULL) {

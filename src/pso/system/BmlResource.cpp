@@ -20,6 +20,7 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/TextureLoad.h"
+#include "pso/system/FileExtension.h"
 
 
 LAYOUT_ASSERT(BmlModelLoadRequestSize, sizeof(BmlModelLoadRequest) == 0x18);
@@ -78,11 +79,11 @@ void tmp_buf_release_if_owner(const char *name) {
 s32 tmp_buf_release(const char *name) {
     if (name != 0) {
         if (tmp_buf_in_use_flag == 1) {
-            TLobby::debug_print("TmpBufRelease(%s) Bad Release", name);
+            file_debug_printf("TmpBufRelease(%s) Bad Release", name);
             return 0;
         }
         if (strcmp(tmp_buf_name, name) != 0) {
-            TLobby::debug_print("TmpBufRelease(%s) keycode no-match(%s)", name, tmp_buf_name);
+            file_debug_printf("TmpBufRelease(%s) keycode no-match(%s)", name, tmp_buf_name);
             return 0;
         }
     }
@@ -100,7 +101,7 @@ u8 *tmp_buf_use_req(const char *name) {
         strncpy(tmp_buf_name, name, 0x20);
         return lobby_download_buffer;
     }
-    TLobby::debug_print("TmpBufUseReq(%s) can't use");
+    file_debug_printf("TmpBufUseReq(%s) can't use");
     return 0;
 }
 
@@ -125,17 +126,17 @@ void *BmlResource::allocate_bml_chunk(u8 *file, u32 *offset, u32 *tag) {
 void BmlResource::LoadTextureSub(const char *filename, s32 index) {
     char buf[0x20];
     s32 size;
-    TLobby::change_file_extension(buf, const_cast<char *>(filename), const_cast<char *>("gvm"));
+    change_file_extension(buf, const_cast<char *>(filename), const_cast<char *>("gvm"));
     size = TGStream::gsSctLoadFile(buf, lobby_download_buffer);
     if (size > 0x40000) {
-        TLobby::debug_print("LoadTextureSub: %s too large.", buf);
+        file_debug_printf("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
         load_gvm_texture_archive(lobby_download_buffer, models[index].texlist);
         models[index].flags |= 1;
     } else {
         models[index].flags |= 2;
         if (!(flags & 4)) {
-            TLobby::debug_print("LoadTextureSub: %s load failed.", buf);
+            file_debug_printf("LoadTextureSub: %s load failed.", buf);
         }
     }
 }
@@ -161,7 +162,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         lobby_bml_read_buffer = tmp_buf_use_req("LoadBmlExec");
         lobby_bml_file_handle = ADXF_Open(name, 0);
         if (lobby_bml_file_handle == 0) {
-            TLobby::debug_print("LoadBmlExec: %s cannot open.", name);
+            file_debug_printf("LoadBmlExec: %s cannot open.", name);
             bml->load_state = 0xB;
             return -1;
         }
@@ -172,15 +173,15 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         bml_archive_header = reinterpret_cast<BmlArchiveHeader *>(bml_load_buffer);
         bml_header_record_ptr = bml_archive_header->recs;
         ADXF_ReadNw(lobby_bml_file_handle, n, bml_load_buffer);
-        TLobby::set_read_params(&lobby_bml_file_handle, (int)n, reinterpret_cast<saddr>(bml_archive_header));
+        set_read_params(&lobby_bml_file_handle, (int)n, reinterpret_cast<saddr>(bml_archive_header));
         bml->load_state = 1;
     case 1:
         if (bml->flags & 0x200) {
-            TLobby::reset_read_state();
+            reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
             bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
-            TLobby::reset_read_state();
+            reset_read_state();
             switch (bml_archive_header->compressed) {
             case 0x50:
                 bml_load_state = 1;
@@ -194,7 +195,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         break;
     case 2:
         if (bml->flags & 0x200) {
-            TLobby::reset_read_state();
+            reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
             bml->load_state = 9;
         } else if (bml->loaded_models < bml->model_count) {
@@ -203,10 +204,10 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             case 0:
             case 1:
                 ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
                 break;
             default:
-                TLobby::debug_print("TBinModel: Illegal File Format");
+                file_debug_printf("TBinModel: Illegal File Format");
                 break;
             }
             bml->load_state = 3;
@@ -216,11 +217,11 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         break;
     case 3:
         if (bml->flags & 0x200) {
-            TLobby::reset_read_state();
+            reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
             bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
-            TLobby::reset_read_state();
+            reset_read_state();
             switch ((s8) bml_load_state) {
             case 1: {
                 u8 *p = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize));
@@ -229,7 +230,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
                     LoadBinModelSub(bml, bml_header_record_ptr->rawSize, bml->loaded_models++, p);
                     safe_free(p);
                 } else {
-                    TLobby::debug_print("TBinModel: Can't malloc(LOADMODEL)");
+                    file_debug_printf("TBinModel: Can't malloc(LOADMODEL)");
                 }
                 break;
             }
@@ -243,7 +244,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         break;
     case 4:
         if (bml->flags & 0x200) {
-            TLobby::reset_read_state();
+            reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
             bml->load_state = 9;
         } else if (bml->loaded_motions < bml->motion_count) {
@@ -252,15 +253,15 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             case 0:
             case 1:
                 ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
                 break;
             default:
-                TLobby::debug_print("TBinModel: Illegal File Format");
+                file_debug_printf("TBinModel: Illegal File Format");
                 break;
             }
             bml->load_state = 5;
         } else {
-            TLobby::reset_read_state();
+            reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
             bml_header_record_ptr = bml_archive_header->recs;
             bml->load_state = 6;
@@ -268,11 +269,11 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         break;
     case 5:
         if (bml->flags & 0x200) {
-            TLobby::reset_read_state();
+            reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
             bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
-            TLobby::reset_read_state();
+            reset_read_state();
             switch ((s8) bml_load_state) {
             case 1: {
                 u8 *p = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize));
@@ -281,7 +282,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
                     LoadBinMotionSub(bml, bml->loaded_models++, p);
                     safe_free(p);
                 } else {
-                    TLobby::debug_print("TBinModel: Can't malloc(LOADMOTION)");
+                    file_debug_printf("TBinModel: Can't malloc(LOADMOTION)");
                 }
                 break;
             }
@@ -302,22 +303,22 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             }
         }
         if (bml_load_entry_index < bml->model_count) {
-            TLobby::change_file_extension(NULL, bml_header_record_ptr->name, (char *)"gvm");
+            change_file_extension(NULL, bml_header_record_ptr->name, (char *)"gvm");
             lobby_bml_file_handle = ADXF_Open(bml_header_record_ptr->name, 0);
             if (lobby_bml_file_handle != 0) {
                 n = ADXF_GetFsizeSct(lobby_bml_file_handle);
                 if (n > 0x80) {
-                    TLobby::debug_print("LoadBmlExec: %s Too Large(%08x)", bml_header_record_ptr->name, n << 11);
+                    file_debug_printf("LoadBmlExec: %s Too Large(%08x)", bml_header_record_ptr->name, n << 11);
                     bml_load_entry_index++;
                     bml_header_record_ptr++;
                 } else {
                     ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                    TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                    set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
                 }
             } else {
                 bml->models[bml_load_entry_index].flags |= 2;
                 if (!(bml->flags & 4)) {
-                    TLobby::debug_print("LoadBmlExec: %s load failed.", bml_header_record_ptr->name);
+                    file_debug_printf("LoadBmlExec: %s load failed.", bml_header_record_ptr->name);
                 }
                 bml_load_entry_index++;
                 bml_header_record_ptr++;
@@ -331,11 +332,11 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         break;
     case 7:
         if (bml->flags & 0x200) {
-            TLobby::reset_read_state();
+            reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
             bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
-            TLobby::reset_read_state();
+            reset_read_state();
             load_gvm_texture_archive(lobby_bml_read_buffer, bml->models[bml_load_entry_index].texlist);
             bml->models[bml_load_entry_index].flags |= 1;
             bml_load_entry_index++;
@@ -401,7 +402,7 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     position = 0;
     AnimationMotion *data = (AnimationMotion *)request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &position, &kind);
     if (data == 0) {
-        TLobby::debug_print("LoadBinMotionCallBack: Illegal format.");
+        file_debug_printf("LoadBinMotionCallBack: Illegal format.");
     }
     *request->motion = data;
     BmlResource *resource = request->resource;
@@ -428,13 +429,13 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             *slot = (NJS_TEXLIST *)data;
             params.resource = self->resource;
             params.entry = self->entry;
-            TLobby::change_file_extension(name, (char *)self->name, (char *)"gvm");
+            change_file_extension(name, (char *)self->name, (char *)"gvm");
             r = create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
                 self->resource->add_resource_handle(handle);
                 self->resource->expected_textures++;
             } else if (!(self->resource->flags & 4)) {
-                TLobby::debug_print("LoadBinModelCallBack: %s ERROR(%+2d)", name, r);
+                file_debug_printf("LoadBinModelCallBack: %s ERROR(%+2d)", name, r);
             }
             break;
         case 0x4E4A434D:
@@ -442,7 +443,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             self->resource->loaded_models++;
             break;
         default:
-            TLobby::debug_print("LoadBinModelCallBack: Illegal model format.");
+            file_debug_printf("LoadBinModelCallBack: Illegal model format.");
             break;
         }
     }
@@ -457,7 +458,7 @@ s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes) {
     offset = 0;
     motion = static_cast<AnimationMotion *>(resource->allocate_bml_chunk(bytes, &offset, &tag));
     if (motion == NULL) {
-        TLobby::debug_print("LoadBinMotionSub: Illegal format.");
+        file_debug_printf("LoadBinMotionSub: Illegal format.");
         return 0;
     }
     resource->motions[index].motion = motion;
@@ -481,7 +482,7 @@ s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes) {
             resource->models[index].texlist = static_cast<NJS_TEXLIST *>(data);
             break;
         default:
-            TLobby::debug_print("LoadBinModelSub: Illegal format %08x", tag);
+            file_debug_printf("LoadBinModelSub: Illegal format %08x", tag);
             break;
         }
     }
@@ -496,16 +497,16 @@ s32 BmlResource::LoadBinMotion(const char *name, s32 index) {
     motions[index].motion = NULL;
     size = read_disc_file_sectors(name, lobby_download_buffer);
     if (size == 0) {
-        TLobby::debug_print("LoadBinMotion: %s load failed.", name);
+        file_debug_printf("LoadBinMotion: %s load failed.", name);
         return 0;
     }
     if (size > 0x40000) {
-        TLobby::debug_print("LoadBinMotion: tmpbuf overflow(%x)", size - 0x40000);
+        file_debug_printf("LoadBinMotion: tmpbuf overflow(%x)", size - 0x40000);
     }
     offset = 0;
     data = static_cast<AnimationMotion *>(allocate_bml_chunk(lobby_download_buffer, &offset, (u32 *)&tag));
     if (data == 0) {
-        TLobby::debug_print("LoadBinMotion: Illegal format.");
+        file_debug_printf("LoadBinMotion: Illegal format.");
     }
     motions[index].motion = data;
     return 1;
@@ -517,11 +518,11 @@ s32 BmlResource::LoadBinModel(const char *name, s32 index) {
     models[index].texlist = NULL;
     size = TGStream::get_resource_file_size(name);
     if (size <= 0) {
-        TLobby::debug_print("LoadBinModel: %s load failed.", name);
+        file_debug_printf("LoadBinModel: %s load failed.", name);
         return 0;
     }
     if (size > 0x40000) {
-        TLobby::debug_print("LoadBinModel: tmpbuf overflow(%x)", size - 0x40000);
+        file_debug_printf("LoadBinModel: tmpbuf overflow(%x)", size - 0x40000);
     }
     read_disc_file_sectors(name, lobby_download_buffer);
     LoadBinModelSub(this, size, index, lobby_download_buffer);
@@ -614,7 +615,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
         {
             TGStream st((void *)descriptor->archive_filename, 0);
             if (st.get_file_size() <= 0) {
-                TLobby::debug_print("TBinModel: %s not found.", descriptor->archive_filename);
+                file_debug_printf("TBinModel: %s not found.", descriptor->archive_filename);
                 model_count = motion_count = 0;
                 return;
             }
@@ -642,7 +643,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
             for (i = 0; i < model_count; i++, rec++) {
                 size = rec->size;
                 if (size > 0x40000) {
-                    TLobby::debug_print("TBinModel: tmpbuf overflow(%x)", size - 0x40000);
+                    file_debug_printf("TBinModel: tmpbuf overflow(%x)", size - 0x40000);
                 }
                 switch (bml_load_state) {
                 case 1:
@@ -656,7 +657,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                         safe_free(buf);
                         LoadBinModelSub(this, size, i, resource_decompress_buffer);
                     } else {
-                        TLobby::debug_print("TBinModel:%s Malloc failed.", descriptor->archive_filename);
+                        file_debug_printf("TBinModel:%s Malloc failed.", descriptor->archive_filename);
                     }
                     break;
                 default:
@@ -680,12 +681,12 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                                 models[i].flags |= 1;
                             } else {
                                 models[i].flags |= 2;
-                                TLobby::debug_print("TBinModel: Illegal Texture.");
+                                file_debug_printf("TBinModel: Illegal Texture.");
                             }
                         } else {
                             e->flags |= 2;
                             if (!(this->flags & 4)) {
-                                TLobby::debug_print("TBinModel: Texture not exist.");
+                                file_debug_printf("TBinModel: Texture not exist.");
                             }
                         }
                     }
@@ -694,7 +695,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
             for (j = 0; j < motion_count; j++, rec++) {
                 s32 sz = rec->size;
                 if (sz > 0x40000) {
-                    TLobby::debug_print("TBinModel: tmpbuf overflow(%x)", sz - 0x40000);
+                    file_debug_printf("TBinModel: tmpbuf overflow(%x)", sz - 0x40000);
                 }
                 switch (bml_load_state) {
                 case 1: {
@@ -811,7 +812,7 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
     } else if (resource->flags & 2) {
         tmp_buf_use_req("TBinModel_REQ");
         if (resource->model_count * 2 + resource->motion_count >= 0x100) {
-            TLobby::debug_print("TBinModel:Too Many Files.");
+            file_debug_printf("TBinModel:Too Many Files.");
         }
         for (p = models, i = 0; *p != 0; p++, i++) {
             req.name = *p;

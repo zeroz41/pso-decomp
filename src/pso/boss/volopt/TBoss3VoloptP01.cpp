@@ -39,6 +39,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern "C" {
 void init_collision_body_parts(void *obj, void *parts, s32 count);
@@ -176,10 +177,10 @@ void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptP01::resource_bundle = boss3_volopt_resources;
     TBoss3VoloptP01::breakup_model = new TBreakUpMdlData(TBoss3VoloptP01::resource_bundle->models[17].model);
     volopt_p01_chunk_list = find_model_node(TBoss3VoloptP01::resource_bundle->models[17].model, 0xD);
-    volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
-    volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);
-    volopt_p01_object_handle = TLobby::register_object(0x22);
-    volopt_p01_shared_handler_handle = (TBoss3VoloptP01Params *)TLobby::dispatch_shared_handler_a(0x22);
+    volopt_p01_boss_stat_handle_a = register_boss(0x22);
+    volopt_p01_shared_handler_b = dispatch_shared_handler_b(0x22);
+    volopt_p01_object_handle = register_object(0x22);
+    volopt_p01_shared_handler_handle = (TBoss3VoloptP01Params *)dispatch_shared_handler_a(0x22);
     volopt_p01_breakup_color_ptr = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(volopt_p01_chunk_list->model)->polygon_list);
 }
 

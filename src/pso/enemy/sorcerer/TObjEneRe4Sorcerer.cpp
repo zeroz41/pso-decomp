@@ -100,6 +100,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 extern "C" {
 
 
@@ -193,10 +194,10 @@ void TObjEneRe4Sorcerer::load_resources() {
     } else {
         sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource(&bm_ene_re4_sorcerer_resource_descriptor);
     }
-    re4_sorcerer_base_params = TLobby::register_boss(0xA);
-    re4_sorcerer_attack_params = TLobby::dispatch_shared_handler_b(0xA);
-    re4_sorcerer_resistance_params = TLobby::register_object(0xA);
-    sorcerer_behavior_params = (s32 *)TLobby::dispatch_shared_handler_a(0xA);
+    re4_sorcerer_base_params = register_boss(0xA);
+    re4_sorcerer_attack_params = dispatch_shared_handler_b(0xA);
+    re4_sorcerer_resistance_params = register_object(0xA);
+    sorcerer_behavior_params = (s32 *)dispatch_shared_handler_a(0xA);
     re4_sorcerer_render_node_index = 0;
     re4_sorcerer_saved_render_flags = 0;
     re4_sorcerer_effect_render_scale = 0.0f;

@@ -54,7 +54,7 @@ u8 PlayerTechniqueState::get_castable_technique_level() {
     }
     cap = get_effective_technique_level(technique);
     if (TObjPlayer::is_invalid_slot(cap) != 0) {
-        return TObjPlayer::get_item_count_max();
+        return get_item_count_max();
     }
     if (level > cap) {
         level = cap;

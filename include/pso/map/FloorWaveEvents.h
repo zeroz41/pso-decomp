@@ -68,4 +68,12 @@ struct WaveEventAction {
     WaveEventActionFunc action;
 };
 
+void update_drop_item();
+void load_item_data();
+void dispatch_opcode_two_u16(u8 opcode);
+void dispatch_stream_command(u8 opcode);
+void invoke_command(u8 opcode);
+void update_current_floor();
+void relink_objects(s16 a, s16 b);
+
 #endif

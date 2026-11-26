@@ -506,6 +506,7 @@ u16 sound_bank_group_ids[38] = {
 
 #include "types.h"
 #include "pso/render/ScreenSpriteDraw.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 
 SoundRequestVoice sound_request_voices[0x28];
@@ -791,7 +792,7 @@ void update_sound_bank_load(SoundControlState *self) {
             self->bank_file_handles[j] = NULL;
         }
     }
-    TLobby::clear_player_slot_tables(-1);
+    clear_player_slot_tables(-1);
     id = self->route[self->route_pos];
     for (i = 0; i < 4; i++) {
         file = self->ents[id].file_index[i];
@@ -869,7 +870,7 @@ s32 start_sound_bank_load(SoundControlState *self, int id) {
     }
     for (i = 0; i < 4; i++) {
         ADXF_ReadNw(self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), self->ents[id].file_data[i]);
-        ((TLobby *)(&self->bank_file_handles[i]))->set_entry_params(i, self->bank_file_sizes[i] / 2048, (saddr)self->ents[id].file_data[i]);
+        set_entry_params(&self->bank_file_handles[i], i, self->bank_file_sizes[i] / 2048, (saddr)self->ents[id].file_data[i]);
     }
     return 0;
 fail:
@@ -981,13 +982,13 @@ s32 init_sound_aux_effects(SoundControlState *self) {
         AdxfHandle *handle = ADXF_OpenAfs(0, sound_bank_file_indices[i][2]);
         if (handle != NULL) {
             ADXF_ReadNw(handle, (s32)size / 2048, musyx_sdir_buffers[i]);
-            TLobby::set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
+            set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
             do {
                 draw_loading_compass();
                 TLobby::run_disk_error_check();
                 render_tick();
             } while (ADXF_GetStat(handle) != 3);
-            TLobby::reset_read_state();
+            reset_read_state();
             ADXF_Close(handle);
         } else {
             return 2;

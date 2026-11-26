@@ -96,6 +96,10 @@
 #include "pso/quest/QuestActiveFlag.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/map/MapCollisionSetup.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
+#include "pso/map/FloorMapSelection.h"
 
 
 extern "C" {
@@ -128,7 +132,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {init_game_player_actions, release_game_player_actions},
     {init_player_shared, finalize_player_shared},
     {clear_story_flag_list_and_reload, clear_story_flag_list},
-    {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
+    {update_keyboard_menu, free_keyboard_soft_resources},
     {set_ending_callback, free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
@@ -141,7 +145,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {init_item_system, free_item_system},
-    {TLobby::load_item_data, free_forest_rel_work_buffer},
+    {load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {create_area_event_set_heap, free_area_event_set_heap},
     {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
@@ -172,7 +176,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
 // Area resources reloaded on a floor change and released with the lobby scene.
 FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { start_challenge_mode, NULL },
-    { TLobby::update_drop_item, NULL },
+    { update_drop_item, NULL },
     { clear_floor_population, NULL },
     { TLobby::load_set_gsl_files, clear_map_set_data },
     { load_area_event_sets, (FloorResourceCallback)free_area_event_sets },
@@ -235,7 +239,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::clear_counters();
     TLobby::reset_state_flags();
     TObjPlayer::send_local_player_invisible();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     process_pending_resources();
     reset_controller_input_state();
     TLobby::send_game_character();
@@ -251,7 +255,7 @@ void reload_lobby_floor_scene(void) {
     free_area_event_sets();
     clear_floor_population();
     TKeyBoardControl::update();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     load_floor_object_set(0xF);
@@ -309,8 +313,8 @@ void reload_floor_scene() {
     s32 j;
     TLobby::reset_state_flags();
     TObjPlayer::send_local_player_invisible();
-    TLobby::stop_audio_streams();
-    TLobby::update_lobby_subsystems();
+    stop_audio_streams();
+    update_lobby_subsystems();
     TObject holder(NULL);
     process_pending_resources();
     reset_controller_input_state();
@@ -324,7 +328,7 @@ void reload_floor_scene() {
     }
     main_task.delete_layer_children();
     TKeyBoardControl::update();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::poll_default();
     load_floor_scene();
@@ -377,8 +381,8 @@ void start_quest_mission(void) {
     TObject holder(NULL);
     TLobby::reset_state_flags();
     TObjPlayer::send_local_player_invisible();
-    TLobby::stop_audio_streams();
-    TLobby::update_lobby_subsystems();
+    stop_audio_streams();
+    update_lobby_subsystems();
     process_pending_resources();
     reset_controller_input_state();
     render_tick();
@@ -393,13 +397,13 @@ void start_quest_mission(void) {
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
     TLobby::sync_story_select();
-    TAdStorySelectGC::set_state(0);
+    select_episode(0);
     TKeyBoardControl::update();
     TLobby::free_objects();
     free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(1);
     TQuestThread::create_by_mode();
@@ -438,7 +442,7 @@ void change_floor_reload_area(void) {
     TObject holder(NULL);
     TLobby::reset_state_flags();
     TObjPlayer::send_local_player_invisible();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     process_pending_resources();
     reset_controller_input_state();
     render_tick();
@@ -454,7 +458,7 @@ void change_floor_reload_area(void) {
     promote_area_floor(&floor_transition_state);
     floor_transition_state.clear_ready_flag_unless_locked();
     TKeyBoardControl::update();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     if (new_game_setup_flags & 1) {
@@ -501,8 +505,8 @@ void change_floor_reload_area(void) {
 
 void cleanup_online_lobby_scene(void) {
     s32 i;
-    TLobby::stop_audio_streams();
-    TLobby::update_lobby_subsystems();
+    stop_audio_streams();
+    update_lobby_subsystems();
     TLobby::send_logout();
     TLobby::free_objects();
     main_task.delete_layer_children();
@@ -651,7 +655,7 @@ void run_online_lobby_scene(void) {
     set_fallback_main_phase(2);
     set_queued_main_phase(0xF);
     clear_resource_load_tasks();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::poll_default();
     TLobby::reset_keyboard_state();
@@ -659,7 +663,7 @@ void run_online_lobby_scene(void) {
     run_load_callback_table(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLoadCtrl::cleanup_scene();
         return;

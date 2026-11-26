@@ -58,6 +58,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 #pragma defer_codegen on
 
 
@@ -167,10 +168,10 @@ void TObjEneBm9Mericarol::load_resources() {
     create_mericarol_render_texture();
     init_alt_model();
     for (i = 0; i < 3; i++) {
-        bm9_mericarol_phase_hp_table[i] = TLobby::register_boss(mericarol_phase_hp_ids[i]);
-        bm9_mericarol_phase_attack_table[i] = TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
-        bm9_mericarol_phase_resist_table[i] = TLobby::register_object(mericarol_phase_resist_ids[i]);
-        mericarol_phase_param_table[i] = (TObjEneBm9MericarolParams *)TLobby::dispatch_shared_handler_a(mericarol_phase_param_ids[i]);
+        bm9_mericarol_phase_hp_table[i] = register_boss(mericarol_phase_hp_ids[i]);
+        bm9_mericarol_phase_attack_table[i] = dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
+        bm9_mericarol_phase_resist_table[i] = register_object(mericarol_phase_resist_ids[i]);
+        mericarol_phase_param_table[i] = (TObjEneBm9MericarolParams *)dispatch_shared_handler_a(mericarol_phase_param_ids[i]);
     }
     mericarol_trail0_points = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
     mericarol_trail1_points = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);

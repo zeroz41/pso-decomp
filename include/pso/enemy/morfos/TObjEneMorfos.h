@@ -13,7 +13,7 @@ struct NJS_OBJECT;
 class TObject;
 class TParticleCtrl;
 
-// The Morfos row TLobby::dispatch_shared_handler_a returns (morfos_param_table).
+// The Morfos row dispatch_shared_handler_a returns (morfos_param_table).
 struct MorfosParams {
     f32 projectile_speed;    // copied to morfos_projectile_speed
     f32 projectile_speed_b;  // copied to morfos_param_table_speed_copy

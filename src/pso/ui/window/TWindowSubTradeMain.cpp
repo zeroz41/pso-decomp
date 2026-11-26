@@ -44,6 +44,7 @@ static const NJS_POINT2 trade_list_window_pos = {326.0f, 104.0f};
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/TradeModeQuery.h"
 
 
 
@@ -597,7 +598,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
 TWindowSubEquipKind *TWindowSubTradeMain::create_trade_window() {
     TObjPlayer *p;
     TWindowSubEquipKind *w;
-    p = get_player_by_client_id((s8)TLobby::get_trade_mode());
+    p = get_player_by_client_id((s8)get_trade_mode());
     if (p == NULL) {
         return 0;
     }

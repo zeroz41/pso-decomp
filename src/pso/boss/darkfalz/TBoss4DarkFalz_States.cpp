@@ -135,7 +135,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
     u16 defeat_params[4];
     s32 i;
     freeze_all_players();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     set_story_flag_or_send_quest_flag(0x37);
     TBoss4Thanks::check_ready();
     if (TBoss4DarkFalz::type3_instance != NULL) {
@@ -265,7 +265,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
     saddr flag;
     s32 i;
     freeze_all_players();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     if (TBoss4DarkFalz::type2_instance != NULL) {
         VecCopy(&v, VecCopy(&cinematic_position, &TBoss4DarkFalz::type2_instance->position));
         v.y = 0.0f;
@@ -400,7 +400,7 @@ void TBoss4DarkFalz::update_intro_demo() {
 void TBoss4DarkFalz::update_leader_app_type1() {  }
 void TBoss4DarkFalz::start_effect() {
     freeze_all_players();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     play_sound_effect(0x4003A80B, 0, 0, 0);
     state_timer = 0;
 }

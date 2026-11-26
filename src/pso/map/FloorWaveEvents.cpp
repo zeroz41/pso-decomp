@@ -26,6 +26,7 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/client_id.h"
+#include "pso/system/GameModeQueries.h"
 
 
 extern "C" {
@@ -86,7 +87,7 @@ FloorSceneEntry floor_scene_table[36] = { { floor_map_set_acity00, 1 }, { floor_
 const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
 
 
-void TLobby::reset_story_select() { TAdStorySelectGC::set_state(0); story_select_pending_state = -1; }
+void TLobby::reset_story_select() { select_episode(0); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
     s32 status;
@@ -100,7 +101,7 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-void copy_game_variations(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
+void copy_game_variations(void* p, s32 size) { copy_table_entries((s32 *)p, size); }
 void init_city_area_stub(void) {  }
 void randomize_offline_maps(void) { randomize_adventure_maps(); }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
@@ -110,7 +111,7 @@ saddr get_floor_scene_table(s32 area) {
     if (area > 0x23) {
         return 0;
     }
-    if (TLobby::is_online_ready() != 0) {
+    if (is_online_ready() != 0) {
         return (saddr)floor_scene_table[area].names;
     }
     return (saddr)offline_floor_scene_table[area].names;
@@ -145,7 +146,7 @@ void TLobby::run_floor_cleanup_callbacks(int floor) {
     }
 }
 
-void TLobby::update_current_floor() { run_floor_cleanup_callbacks(get_current_floor_area()); }
+void update_current_floor() { TLobby::run_floor_cleanup_callbacks(get_current_floor_area()); }
 s32 run_floor_initialize_callbacks(s32 floor) {
     FloorLifecycleEntry *p = floor_lifecycle_callback_tables[floor];
     FloorLifecycleCallback f;
@@ -249,7 +250,7 @@ MapSetArea *forest_rel_set_data_table;
 MapSetModule *forest_rel_module;
 void *forest_rel_work_buffer;
 
-void TLobby::update_drop_item() {
+void update_drop_item() {
     MapSetModule *module;
     MapSetArea *areas;
     s32 drop_item_mode;
@@ -282,7 +283,7 @@ void free_forest_rel_work_buffer(void) {
 }
 
 
-void TLobby::load_item_data() {
+void load_item_data() {
     MapSetModule *module;
     MapSetArea *areas;
     s32 drop_item_mode;
@@ -311,7 +312,7 @@ s32 wave_event_stream_cursor;
 s32 wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
-void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
+void relink_objects(s16 a, s16 b) { TLobby::link_matching_objects(a, b); wave_event_stop_requested = 1; }
 void send_6x67_wave_trigger_event(s32 event_id) {
     G_FloorEvent_6x67 pkt;
     wave_event_trigger_count++;
@@ -359,20 +360,20 @@ void command_exit_stub(void) {  }
 
 
 WaveEventAction wave_event_action_table[16] = {
-    { TLobby::invoke_command, command_exit_stub },
-    { TLobby::invoke_command, request_wave_event_stop },
+    { invoke_command, command_exit_stub },
+    { invoke_command, request_wave_event_stop },
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_spawn_objects },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_link_objects },
-    { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_set_switch },
-    { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_clear_switch },
+    { dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_spawn_objects },
+    { dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_link_objects },
+    { dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_set_switch },
+    { dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_clear_switch },
     { dispatch_wave_event_action, (WaveEventActionFunc)send_6x67_wave_trigger_event },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)TLobby::relink_objects },
+    { dispatch_opcode_two_u16, (WaveEventActionFunc)relink_objects },
 };
 
 void dispatch_wave_event_action(u8 opcode) {
@@ -380,18 +381,18 @@ void dispatch_wave_event_action(u8 opcode) {
     action(read_be_u32());
 }
 
-void TLobby::dispatch_opcode_two_u16(u8 opcode) {
+void dispatch_opcode_two_u16(u8 opcode) {
     void (*action)(u16, u16) = (void (*)(u16, u16))wave_event_action_table[opcode].action;
     u16 a = read_stream_u16();
     action(a, read_stream_u16());
 }
 
-void TLobby::dispatch_stream_command(u8 opcode) {
+void dispatch_stream_command(u8 opcode) {
     void (*action)(u16) = (void (*)(u16))wave_event_action_table[opcode].action;
     action(read_stream_u16());
 }
 
-void TLobby::invoke_command(u8 opcode) {
+void invoke_command(u8 opcode) {
     wave_event_action_table[opcode].action();
 }
 

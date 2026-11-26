@@ -6,7 +6,7 @@
 #include "pso/render/TObjEnemyColorFade.h"
 
 // The row of merill_lia_behavior_params a Merill Lia's subtype picks (what
-// TLobby::dispatch_shared_handler_a(74 + subtype) returns).
+// dispatch_shared_handler_a(74 + subtype) returns).
 struct MerillLiaBehaviorParams {
     f32 far_move_speed;
     f32 far_anim_speed;

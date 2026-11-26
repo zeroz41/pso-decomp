@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/map/FloorWaveEvents.h"
 
 #pragma readonly_strings on
 
@@ -24,11 +25,11 @@ struct AreaLightParams {
 void (*dragon_area_scene_callbacks[2])(void) = {TLobby::init_bosses, TLobby::update_boss1_objects};
 
 void cleanup_dragon_area_scene(void) {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     stop_cue_stream();
     TLobby::call_funcs_reverse(dragon_area_scene_callbacks, sizeof(dragon_area_scene_callbacks));
-    TLobby::update_current_floor();
+    update_current_floor();
     unload_current_floor_resources();
     TLobby::clear_session_buffers();
 }

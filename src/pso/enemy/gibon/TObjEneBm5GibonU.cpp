@@ -75,6 +75,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern "C" {
 BmlResource * bm5_gibon_u_model_archive;
@@ -1960,10 +1961,10 @@ void TObjEneBm5GibonU::load_resources() {
     v[1] = 0.0f;
     v[2] = 0.0f;
     for (i = 0; i < 2; i++) {
-        bm5_gibon_u_stat_params[i] = TLobby::register_boss(gibon_base_stat_ids[i]);
-        gibon_stat_handle_a_table[i] = TLobby::dispatch_shared_handler_b(gibon_attack_stat_ids[i]);
-        gibon_stat_handle_b_table[i] = TLobby::register_object(gibon_resist_stat_ids[i]);
-        gibon_param_table[i] = (u8 *)TLobby::dispatch_shared_handler_a(gibon_param_ids[i]);
+        bm5_gibon_u_stat_params[i] = register_boss(gibon_base_stat_ids[i]);
+        gibon_stat_handle_a_table[i] = dispatch_shared_handler_b(gibon_attack_stat_ids[i]);
+        gibon_stat_handle_b_table[i] = register_object(gibon_resist_stat_ids[i]);
+        gibon_param_table[i] = (u8 *)dispatch_shared_handler_a(gibon_param_ids[i]);
     }
     NpcAnimationBinding sp = bm5_gibon_u_spawn_params;
     m = bm5_gibon_u_model_archive;

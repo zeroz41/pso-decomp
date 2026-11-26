@@ -5,7 +5,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 
-void TLobby::update_menu_cursor() {
+void update_menu_cursor() {
     void *global_state;
 
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
@@ -26,8 +26,8 @@ void free_keyboard_soft_resources() {
     TLanguage::free_text_resources();
 }
 
-void TLobby::update_keyboard_menu() {
-    TLobby::update_menu_cursor();
+void update_keyboard_menu() {
+    update_menu_cursor();
     TLanguage::load_text_resources(current_language);
     TLanguage::load_fonts(current_language);
 }
