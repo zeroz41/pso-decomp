@@ -45,7 +45,7 @@
 
 
 extern "C" {
-u8 TWindowDD__sub_80347858(s16 id);
+s32 TWindowDD__sub_80347858(s16 id);
 void append_word_select_entry_words(WordSelectMessage *entry, char *buf, s32 *pos);
 void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos);
 void append_word_select_token(s16 id, char *buf, s32 *pos);
@@ -88,7 +88,7 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
         break;
     case 3: {
         s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (((s32 (*)(s16))TWindowDD__sub_80347858)(resolved) != 0) {
+        if (TWindowDD__sub_80347858(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -176,7 +176,7 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
         break;
     case 3: {
         s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (((s32 (*)(s16))TWindowDD__sub_80347858)(resolved) != 0) {
+        if (TWindowDD__sub_80347858(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -264,7 +264,7 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
         break;
     case 3: {
         s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (((s32 (*)(s16))TWindowDD__sub_80347858)(resolved) != 0) {
+        if (TWindowDD__sub_80347858(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -1246,7 +1246,7 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
         break;
     case 3: {
         s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (((s32 (*)(s16))TWindowDD__sub_80347858)(resolved) != 0) {
+        if (TWindowDD__sub_80347858(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -1336,7 +1336,7 @@ s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index)
         break;
     case 3:
         resolved_id = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (((s32 (*)(s16)) TWindowDD__sub_80347858)(resolved_id) != 0) {
+        if (TWindowDD__sub_80347858(resolved_id) != 0) {
             value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, resolved_id - 0x37);
         } else {
             value = -0x3C;
@@ -1657,7 +1657,8 @@ s32 has_menu_selection(TWindowDD *window_dd) {
 
 
 
-void TWindowDD::reset_selection() {
+// The caller passes its message; the body does not read it.
+void TWindowDD::reset_selection(WordSelectMessage *message) {
     menu_index = -1;
     remembered_word_select_id = -1;
     build_item_list();
@@ -1955,12 +1956,12 @@ void TWindowDD__sub_80347758(WordSelectMessage *src, WordSelectMessage *dst) {
     dst->numeric_parameter = src->numeric_parameter;
 }
 
-u8 TWindowDD__sub_80347858(s16 id) {
-    s32 r = 0;
+s32 TWindowDD__sub_80347858(s16 id) {
+    u8 r = 0;
     if (id >= 0x37 && id <= 0x45) {
         r = 1;
     }
-    return (u8)r;
+    return r;
 }
 }
 
@@ -2289,10 +2290,6 @@ s32 TWindowDD::is_word_select_cancel_input() {
 }
 
 
-extern "C" {
-void copy_chat_entry__9TWindowDDFPvPv(void *, void *);
-s32 reset_selection__9TWindowDDFv(void *, void *);
-}
 
 int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)this + 0x1c, 4); }
 
@@ -2348,9 +2345,9 @@ void TWindowDD::set_state() { dialog_state = 3; close_all_windows(); }
 
 void TWindowDD::finish_word_select() {
     dialog_state = 2;
-    copy_chat_entry__9TWindowDDFPvPv(output, &message);
+    copy_chat_entry(output, &message);
     if (selection_confirmed != 0) {
-        reset_selection__9TWindowDDFv(this, &message);
+        reset_selection(&message);
     }
     close_all_windows();
 }
@@ -2666,7 +2663,7 @@ void G_WordSelect_6x74::send_message(WordSelectMessage *data) {
     G_WordSelect_6x74 pkt;
     pkt.init_header();
     pkt.client_id = local_client_id;
-    copy_chat_entry__9TWindowDDFPvPv(&pkt.message, data);
+    TWindowDD::copy_chat_entry(&pkt.message, data);
     pkt.send();
 }
 

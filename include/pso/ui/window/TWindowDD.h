@@ -79,7 +79,8 @@ struct TWindowDD : public TObject
     void update();
     static TWindowDDValueList *get_element_ptr(s32 list_id);
     virtual void render();
-    void reset_selection();
+    void reset_selection(WordSelectMessage *message);
+    static void copy_chat_entry(WordSelectMessage *dst, WordSelectMessage *src);
     static void build_player_word_lists();
     static void free_buffers();
     static void open(void *message, u16 speaker);

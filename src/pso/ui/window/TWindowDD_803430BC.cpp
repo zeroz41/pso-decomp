@@ -435,8 +435,7 @@ TWindowDD::~TWindowDD() {
 
 #pragma push
 #pragma optimization_level 1
-extern "C" {
-void copy_chat_entry__9TWindowDDFPvPv(WordSelectMessage *body, WordSelectMessage *src) {
+void TWindowDD::copy_chat_entry(WordSelectMessage *body, WordSelectMessage *src) {
     u32 a, b;
     body->count = src->count;
     body->type = src->type;
@@ -444,7 +443,6 @@ void copy_chat_entry__9TWindowDDFPvPv(WordSelectMessage *body, WordSelectMessage
     b = ((u32 *)src->ids)[2]; a = ((u32 *)src->ids)[3]; ((u32 *)body->ids)[2] = b; ((u32 *)body->ids)[3] = a;
     body->numeric_parameter = src->numeric_parameter;
     body->unknown_a4 = src->unknown_a4;
-}
 }
 
 #pragma pop
@@ -477,7 +475,7 @@ void TWindowDD::run_task() {
                 case 0:
                     TWindowDD::play_sound();
                     finish_word_select();
-                    copy_chat_entry__9TWindowDDFPvPv(output, &final_message);
+                    copy_chat_entry(output, &final_message);
                     break;
                 case 1:
                     TWindowDD::play_se();
@@ -515,7 +513,7 @@ void TWindowDD::run_task() {
                 dialog_state = 1;
                 mode_window->set_clamped_selection(word_windows[depth]->get_selected_row());
                 cur->disable_input();
-                copy_chat_entry__9TWindowDDFPvPv(&final_message, &message);
+                copy_chat_entry(&final_message, &message);
                 if (final_message.count > 0) {
                     final_message.count--;
                     refresh_word_select_message(&final_message);
