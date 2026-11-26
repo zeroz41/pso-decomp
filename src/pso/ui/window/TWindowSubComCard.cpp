@@ -1488,7 +1488,7 @@ TKeyBoardControl *TWindowSubComCard::create_keyboard() {
 
     keyboard_mode = TWindowSubComCard::get_keyboard_mode();
     control = new TKeyBoardControl(this, 0xC6, 3, 4, local_client_id);
-    control->set_text((char *)((TWindowComCard *)keyboard_mode)->get_kbd_ptr());
+    control->set_text(((GuildCardEntry *)keyboard_mode)->get_text());
     control->set_sub_position((u8 *)get_window_layout_position(0xBB));
     control->set_flag62_bit2();
     control->set_soft_flag60_bit1();

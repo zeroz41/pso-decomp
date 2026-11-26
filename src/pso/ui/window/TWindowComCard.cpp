@@ -54,12 +54,12 @@ const ComCardHelpRect com_card_help_panel_rect_table[14] = {
     {72.0f, 167.0f}, {104.0f, 167.0f}, {136.0f, 167.0f}, {168.0f, 167.0f},
 };
 
-extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data);
+extern "C" void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card);
 
 extern u8 *text_language_group_table;
 
 
-void*TWindowComCard::get_card_name_ptr() { return (char*)this + 0xa; }
+s32 get_photon_chain_icon_index(s32 chain_slot) { return chain_slot + 10; }
 
 void TWindowComCard::set_help_mode(s32 help_mode) {
     const ComCardHelpRect *temp_r4;
@@ -82,16 +82,16 @@ s32 get_class_name_text(s32 class_index) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (class_index * 4));
 }
 
-extern "C" s8 TWindowComCard__sub_80249C20(void* p) { return ((GuildCardEntry *)p)->language; }
+s8 GuildCardEntry::get_language() { return language; }
 
-extern "C" s8 TWindowComCard__sub_80249C18(void* p) { return ((GuildCardEntry *)p)->section_id; }
+s8 GuildCardEntry::get_section_id() { return section_id; }
 
-void*TWindowComCard::get_kbd_ptr() { return (char*)this + 0x20; }
+char *GuildCardEntry::get_text() { return text; }
 
 TWindowComCard::TWindowComCard(const NJS_POINT2 *position, void *data)
     : TWindowBase((u8 *)&com_card_window_descriptor, 4, (u8 *)position) {
     m_name = TWindowComCard__class_name;
-    update_com_card_display(&entry_list, data);
+    update_com_card_display(&entry_list, (GuildCardEntry *)data);
 }
 
 TWindowComCard::~TWindowComCard() {}
@@ -138,18 +138,18 @@ TWindowComCard *TWindowComCard::create_for_card(const NJS_POINT2 *position, s32 
 void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
     saddr temp = cards + (card_index << 8);
     if (temp != 0) {
-        update_com_card_display(&entry_list, (void *)temp);
+        update_com_card_display(&entry_list, (GuildCardEntry *)temp);
     }
 }
 
 void TWindowComCard::set_display_entry(s32 card_index, s32 records) {
     saddr temp = records + (card_index * 0x90);
     if (temp != 0) {
-        update_com_card_display(&entry_list, (void *)temp);
+        update_com_card_display(&entry_list, (GuildCardEntry *)temp);
     }
 }
 
-extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data) {
+extern "C" void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card) {
     WindowTextEntry *t4;
     WindowTextEntry *t14;
     WindowTextEntry *t0;
@@ -166,24 +166,24 @@ extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data
     t10 = s[4];
     t4 = (WindowTextEntry *)s[1];
     t14 = (WindowTextEntry *)s[5];
-    set_text_entry_string(t0, (uaddr)reinterpret_cast<GuildCardEntry *>(data)->get_name(), 0x220);
-    n = TWindowComCard__sub_80249C20(data);
+    set_text_entry_string(t0, (uaddr)card->get_name(), 0x220);
+    n = card->get_language();
     if (n > 5) {
         n = 5;
     }
     TWindowDuelResult::set_default_status(tC, (saddr)com_card_status_text_table[n]);
-    n = reinterpret_cast<GuildCardEntry *>(data)->get_char_class();
+    n = card->get_char_class();
     if (n > 0xC) {
         n = 0xC;
     }
     TWindowDuelResult::set_default_status(t8, get_class_name_text(n));
-    n = TWindowComCard__sub_80249C18(data);
+    n = card->get_section_id();
     if (n > 0xA) {
         n = 0xA;
     }
     TWindowDuelResult::set_default_status(t10, reinterpret_cast<saddr>(TObjLuker::get_stat_table_entry(n)));
-    if (reinterpret_cast<GuildCardEntry *>(data)->sub_8007B6F4() != 0) {
-        id = reinterpret_cast<const GuildCardEntry *>(data)->get_card_id();
+    if (card->sub_8007B6F4() != 0) {
+        id = card->get_card_id();
         if (id == 0) {
             t4->flags |= 2;
         } else {
@@ -197,5 +197,5 @@ extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data
     } else {
         t4->flags |= 2;
     }
-    set_text_entry_string(t14, (uaddr)((void *)((TWindowComCard *)data)->get_kbd_ptr()), 0x220);
+    set_text_entry_string(t14, (uaddr)card->get_text(), 0x220);
 }

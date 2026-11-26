@@ -115,7 +115,7 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
     targetId = 0xFFFF;
     variant = 0;
     state36C = 0;
-    control = 0;
+    rt_index = 0;
     subtype = 0;
     group = 0;
     previous = 0;
@@ -870,9 +870,9 @@ void TObjControl::run_task() {
     }
 }
 
-s32 TObjEnemy::remap_sound_for_area(s32 sound_id) { return ::remap_area_sound_id(sound_id, (saddr)this->control); }
+s32 TObjEnemy::remap_sound_for_area(s32 sound_id) { return ::remap_area_sound_id(sound_id, this->rt_index); }
 
-const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index((saddr)this->control); }
+const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index(this->rt_index); }
 
 void TObjEnemy::render_shadows() {
     if (test_actor_flags(0x800) == 0) {
@@ -888,4 +888,4 @@ void TObjEnemy::render_shadows() {
 
 void initialize_enemy_photon_effect(TObjEnemy *enemy) { enemy->register_by_id(); }
 
-void TObjEnemy::set_param(s32 v) { *(s32 *)&this->control = v; }
+void TObjEnemy::set_param(s32 v) { this->rt_index = v; }

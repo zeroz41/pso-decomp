@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -197,7 +198,7 @@ void TWindowMenu::select_next_item() {
         if (candidate == selected_row) {
             return;
         }
-        if (sub_80266B18(candidate) != 0) {
+        if (is_entry_selectable(candidate) != 0) {
             selected_row = candidate;
             return;
         }
@@ -220,7 +221,7 @@ void TWindowMenu::move_cursor_prev() {
         if (candidate == selected_row) {
             return;
         }
-        if (sub_80266B18(candidate) != 0) {
+        if (is_entry_selectable(candidate) != 0) {
             selected_row = candidate;
             return;
         }
@@ -707,8 +708,8 @@ void WindowScrollBar::set_extent(const NJS_POINT2 *size) {
 }
 #pragma pop
 
-s32 TWindowAddition::sub_80266B18(s32 index) {
-    return *(u16 *)((s8 *)(*(u16 **)((s8 *)(*(saddr *)((s8 *)(this) + 0x28) + (index * 4)) + 0)) + 0) & 1;
+s32 TWindowAddition::is_entry_selectable(s32 index) {
+    return ((TWindowLayoutEntry *)entry_list.items[index])->flags & 1;
 }
 
 s32 TWindowMenu::test_menu_flag(s32 buttons) {

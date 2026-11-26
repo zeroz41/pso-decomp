@@ -3,6 +3,7 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct ChatShortcut;
 struct TWindowKeyBoardBase;
 struct TWindowKeyBoardHard;
 struct TWindowKeyBoardSoft;
@@ -42,7 +43,7 @@ public:
     class TWindowBase *auxiliaryWindow;
     class TSymbolChatMenu *symbolChatWindow;
     class TWindowDD *wordSelectWindow;
-    void* result;
+    ChatShortcut *result;  // what the player chose: kind 1 text, 2 word select, 3 symbol chat, then its body
 public:
     void update();
     void handle_input();

@@ -11,6 +11,10 @@ struct GuildCardEntry {
     char *get_name();
     int is_active() const;
     s8 get_char_class();
+    s8 get_language();
+    s8 get_section_id();
+    // The card description the com card keyboard edits.
+    char *get_text();
     s32 sub_8007B6F4() const;
     // Fills the card with the name, class and section id of the character in save slot index, the
     // current language and this console's guild card tag.

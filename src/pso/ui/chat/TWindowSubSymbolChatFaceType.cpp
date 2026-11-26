@@ -141,15 +141,15 @@ void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp)
 }
 
 }
-void draw_face_selection(u8 *window_base, u8 *ctx) {
+void draw_face_selection(TWindowSubSymbolChatFaceType *window, WindowDrawContext *context) {
   int entry_index;
-  u8 *entry;
+  WindowSpritePart *face;
   NJS_POINT2 corner;
-  entry_index = ((TWindowSubSymbolChatFaceType *)window_base)->get_face_index();
-  entry = (u8 *) ((TWindowBase *)window_base)->get_array_entry(entry_index);
-  corner.x = (*((f32 *) (((s8 *) entry) + 8))) - 3.0f;
-  corner.y = (*((f32 *) (((s8 *) entry) + 0xC))) - 3.0f;
-  draw_selection_corners((WindowDrawContext *)ctx, (f32 *)&corner, 66.0f, 0.3f);
+  entry_index = window->get_face_index();
+  face = (WindowSpritePart *)window->get_array_entry(entry_index);
+  corner.x = face->x - 3.0f;
+  corner.y = face->y - 3.0f;
+  draw_selection_corners(context, (f32 *)&corner, 66.0f, 0.3f);
 }
 extern "C" {
 
@@ -165,7 +165,7 @@ void TWindowSubSymbolChatFaceType::render() {
     WindowDrawContext *context = draw_default_entry();
     update_parts_entries();
     draw_window_frame(context);
-    draw_face_selection((u8 *)this, (u8 *)context);
+    draw_face_selection(this, context);
     status_disp->render(context);
     draw_visible_window_entries(this, &entry_list, context);
 }

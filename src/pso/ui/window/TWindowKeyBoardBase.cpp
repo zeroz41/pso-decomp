@@ -540,7 +540,7 @@ void TWindowKeyBoardBase::convert_input_text() {
             dst += 1;
         }
         code = *src;
-        src = (u16 *)((u8 *)src + 2);
+        src++;
         *dst = (u8) code;
         dst += 1;
     }

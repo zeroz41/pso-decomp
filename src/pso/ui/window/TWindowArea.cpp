@@ -52,12 +52,12 @@ TWindowArea *create_window_area() {
 #pragma fp_contract on
 TWindowArea *create_area_window(void *text) {
     TWindowArea *object;
-    u8 *title_entry;
+    WindowTextEntry *title_entry;
     object = new TWindowArea();
     ((TWindowSubStatusDisp *)object)->set_entry_display_value((saddr)text);
     hide_window((u8 *)object);
-    title_entry = reinterpret_cast<u8 *>(object->get_title_entry());
-    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
+    title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
+    title_entry->x = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
     return object;
 }
 #pragma pop

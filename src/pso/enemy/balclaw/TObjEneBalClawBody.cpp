@@ -12,7 +12,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/network/TLobby.h"
-#include "pso/ui/window/TWindowLockOn.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
@@ -1041,7 +1040,7 @@ s32 TObjEneBalClawBody::summon_claws() {
     this->child_count = 0;
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEneBalClawClaw *)TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
+        if (p != NULL && p->get_rt_index() == 0x26 &&
             this->room == p->room && p->check_active() != 0) {
             this->child_ids[this->child_count++] = p->get_entity_id();
             if (this->child_count >= 4) {

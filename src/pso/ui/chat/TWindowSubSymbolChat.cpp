@@ -193,7 +193,7 @@ void TWindowSubSymbolChat::set_flag_bit1(s32 *flags) {
     *flags |= 1;
 }
 unsigned char TWindowSubSymbolChat::get_global_4e54() {  return pending_symbol_chat_count; }
-void*TWindowSubSymbolChat::get_keyboard_ptr() { return (char*)this + 0x4; }
+char *SymbolChatPreset::get_name() { return name; }
 s32 TWindowSubSymbolChat::calc_remaining_slots() {
     return 0xC - TWindowSubSymbolChat::count_instance_empty_slots();
 }
@@ -970,7 +970,7 @@ TKeyBoardControl *TWindowSubSymbolChat::create_keyboard_control() {
 
     keyboard = new TKeyBoardControl(this, 0x90, 1, 4, local_client_id);
     keyboard->set_composer_flag62_bit4();
-    keyboard->set_text((char *)((TWindowSubSymbolChat *)this->selected_preset)->get_keyboard_ptr());
+    keyboard->set_text(this->selected_preset->get_name());
     keyboard->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     keyboard->set_flag62_bit2();
     keyboard->set_soft_flag60_bit1();

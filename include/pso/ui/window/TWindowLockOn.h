@@ -19,7 +19,6 @@ struct TWindowLockOn : public TWindowBase {
     f32 scale;
     f32 height_scale;  // scales the window height when it is placed above its target
     void (TWindowLockOn::*refresh)();
-    s32 get_target_id();
     void validate_target();
     void refresh_ground_item();
     void update_photon_blast_marker();

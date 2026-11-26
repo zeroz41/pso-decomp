@@ -17,6 +17,7 @@ struct TObjEnemy : public TObjChara {
     void send_6x0A_enemy_state(void *);
     s32 bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats);
     void set_param(s32);
+    s32 get_rt_index();
     s32 remap_sound_for_area(s32 sound_id);
     f32 enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn_speed);
     virtual void render_shadows();
@@ -55,7 +56,7 @@ struct TObjEnemy : public TObjChara {
     f32 parameters[5];
     s32 variant;
     u32 state36C;
-    void* control;
+    s32 rt_index;  // the enemy type: enemy_name_for_rt_index and remap_area_sound_id take it, set_param stores it
     static s32 apply_by_index(s16 index, const EnemyStateRecord *record);
     int apply_player_54a00();
     s32 mask_sub_flags(s32 mask);

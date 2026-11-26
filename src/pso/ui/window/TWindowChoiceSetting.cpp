@@ -58,7 +58,7 @@ loop_1:
     } else {
 block_4:
         if (candidate != (s16) this->index) {
-            if (sub_80266B18(candidate) != 0) {
+            if (is_entry_selectable(candidate) != 0) {
                 this->index = candidate;
             } else {
                 goto loop_1;
@@ -81,7 +81,7 @@ loop_1:
     } else {
 block_4:
         if (candidate != (s16) this->index) {
-            if (sub_80266B18(candidate) != 0) {
+            if (is_entry_selectable(candidate) != 0) {
                 this->index = candidate;
             } else {
                 goto loop_1;

@@ -38,7 +38,7 @@ LAYOUT_ASSERT(FaceType_selection, offsetof(TWindowSubSymbolChatFaceType, selecti
 LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, status_disp) == 0x68);
 
 
-void draw_face_selection(u8 *window_base, u8 *ctx);
+void draw_face_selection(TWindowSubSymbolChatFaceType *window, WindowDrawContext *context);
 
 // symbol_chat_face_type_layout_entries, the layout table
 // symbol_chat_face_type_window_layout points at (a 2x2 grid of face-type sprites).

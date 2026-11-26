@@ -23,6 +23,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -246,7 +247,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     e->reveal_all();
     width = calc_text_width(e->get_text());
     e = (WindowTextEntry *)get_array_entry(0);
-    TWindowDuelResult::set_default_status(e, enemy_name_for_rt_index(((TWindowLockOn *)enemy)->get_target_id()));
+    TWindowDuelResult::set_default_status(e, enemy_name_for_rt_index(((TObjEnemy *)enemy)->get_rt_index()));
     e->reveal_all();
     target_size[0] = (f32)calc_text_width(e->get_text());
     target_size[1] = 64.0f;
@@ -342,7 +343,7 @@ s32 TWindowLockOn::is_lockable_target(TObjCollidable *actor) {
         if (actor->test_actor_flags(0x40000000) != 0) {
             return 0;
         }
-        if (((TWindowLockOn *)actor)->get_target_id() != 0) {
+        if (((TObjEnemy *)actor)->get_rt_index() != 0) {
             return 1;
         }
         return 0;

@@ -562,7 +562,7 @@ void TChallenge::update_card_save_info() {
     if ((attacker & 0xF000) == 0x1000) {
         enemy = static_cast<TObjEnemy *>(find_entity_by_id(attacker));
         if (enemy != NULL) {
-            rt_index = (saddr)enemy->control;
+            rt_index = enemy->rt_index;
         }
     }
     record->challenge.tombstone.rt_index = rt_index;

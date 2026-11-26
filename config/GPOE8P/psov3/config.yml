@@ -1858,7 +1858,7 @@ force_active:
   - get_flag_4_bit__12TGameListRowFv
   - TWindowSubStatusDisp__sub_8036D994
   - window_layout__20TWindowSubStatusDisp
-  - draw_face_selection__FPUcPUc
+  - draw_face_selection__FP28TWindowSubSymbolChatFaceTypeP17WindowDrawContext
   - window_sub_symbol_chat_help_name
   - symbol_chat_parts_set_part_uv_table
   - TWindowSubSymbolChat__sub_80281840
@@ -5812,7 +5812,7 @@ force_active:
   - draw_effect_chain__15TOTrapAncient02Fv
   - draw_empty_warp_overlay__Fv
   - draw_entry__12TAdMultiOkGCFi
-  - draw_entry_if_visible__19TWindowDD_WS_StringFPv
+  - draw_entry_if_visible__19TWindowDD_WS_StringFP17WindowDrawContext
   - draw_tab__12HeadingEntryFP17WindowDrawContext
   - draw_fade__9TAdFadeGCFv
   - draw_fading_model_1_pair__25TBoss6Demo20_TYPE2_APPEARFv

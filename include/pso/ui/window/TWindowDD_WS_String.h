@@ -17,7 +17,7 @@ public:
     void move_to_start(s32 ticks);
     void update_position(s32 ticks);
     void set_first_entry_text(uaddr str);
-    void draw_entry_if_visible(void *);
+    void draw_entry_if_visible(WindowDrawContext *context);
     s32 text_style;        // point table index passed to draw (ctor argument; 1 and 3 recolor the text)
     f32 start_position[2]; // position given to the ctor; move_to_start tweens back to it
     f32 end_position[2];   // second ctor vector (update_position: negative x/y anchor right/bottom)

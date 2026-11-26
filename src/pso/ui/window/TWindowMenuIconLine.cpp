@@ -434,7 +434,7 @@ void TWindowMenuIconLine::move_cursor_next() {
         if (candidate == (s16) this->cursor) {
             return;
         }
-        if (sub_80266B18(candidate) != 0) {
+        if (is_entry_selectable(candidate) != 0) {
             this->cursor = candidate;
             return;
         }
@@ -457,7 +457,7 @@ void TWindowMenuIconLine::move_cursor() {
         if (candidate == (s16) this->cursor) {
             return;
         }
-        if (sub_80266B18(candidate) != 0) {
+        if (is_entry_selectable(candidate) != 0) {
             this->cursor = candidate;
             return;
         }
@@ -469,7 +469,7 @@ void TWindowMenuIconLine::set_cursor_index(s16 index) {
         if (index >= entry_capacity) {
             return;
         }
-        while (sub_80266B18(index) == 0) {
+        while (is_entry_selectable(index) == 0) {
             if (index > 0) {
                 index -= 1;
                 continue;

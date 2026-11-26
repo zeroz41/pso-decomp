@@ -47,7 +47,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     if (p == NULL) {
         return 0;
     }
-    info = (u8 *)p + 0x85C;
+    info = (u8 *)p->name;
     if (info == NULL) {
         return 0;
     }

@@ -170,7 +170,7 @@ void TWindowActionPalette::run_task() {
     } else {
         update_slot_sprites(0, 7, v);
     }
-    if (is_palettex_activated((u16)client_index) != 0 && ((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
+    if (is_palettex_activated((u16)client_index) != 0 && player->action_palettes.is_primary_first_bank() != 0) {
         update_slot_icon(1, 7, 7);
     } else {
         v = palette->get_current_tag_slot(2);
@@ -180,7 +180,7 @@ void TWindowActionPalette::run_task() {
     update_slot_sprites(2, palette->get_current_tag_mode(3), v);
     target = TObjPlayer::get_current_target_id();
     if (target == 0xFFFF || target == client_index || player->get_photon_blast_charge() <= 0) {
-        if (((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
+        if (player->action_palettes.is_primary_first_bank() != 0) {
             if (is_split_screen() != 0) {
                 set_bank_panel_art(3);
             } else {

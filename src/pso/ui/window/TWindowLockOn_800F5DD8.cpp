@@ -3,4 +3,4 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 
-s32 TWindowLockOn::get_target_id() { return *(s32*)((char*)this + 0x370); }
+s32 TObjEnemy::get_rt_index() { return rt_index; }

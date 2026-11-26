@@ -31,7 +31,7 @@ struct SymbolChatPreset {
     void clear_flag_bit2();
     void clear_entries();
     void bswap_entry();
-    char *get_keyboard_ptr();
+    char *get_name();
     SymbolChatPreset *commit(const SymbolChatPreset *src);
 };
 
