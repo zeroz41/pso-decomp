@@ -7964,8 +7964,8 @@ force_active:
   - npc_very_hard_set_13
   - npc_very_hard_set_11
   - npc_very_hard_set_15
-  - lbl_804B2174
-  - lbl_804B4550
+  - hangceiling_collision_body
+  - symbolchat_colli_body_parts
   - gogo_ball_configs
   - gogo_ball_shadow_texanim
   - three_point_goal_team0
@@ -8381,7 +8381,7 @@ force_active:
   - lbl_805D6800
   - lbl_805D6804
   - chain_saw_resource
-  - lbl_805D681C
+  - seabed01_uv_scroll_tick
   - mericarol_bml
   - mericarol_render_texture_buffer
   - lbl_805D6910

@@ -63,7 +63,7 @@ const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
 BmlResource *computer_model_archive;
 NJS_TEXLIST *computer_texture_gvm_handle;
 u16 computer_uv_scroll_phase;
-BmlResource *TObjGbAdvance__data_805D5B74;
+BmlResource *gb_advance_resource;
 
 CollisionBody obj_computer_collision_body_parts = {{0.0f, 7.0f, 0.0f}, 7.0f, 7.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 CollisionBody gb_advance_collision_body_parts = {{0.0f, 20.0f, -10.0f}, 5.0f, 5.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -213,26 +213,26 @@ void TObjGbAdvance::vfunc_14() {
 
 void TObjGbAdvance::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(TObjGbAdvance__data_805D5B74, 0));
+        TObjFish::set_global_param(get_bml_texlist(gb_advance_resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
-        draw_ginja_object(get_bml_model(TObjGbAdvance__data_805D5B74, 0));
-        draw_ginja_object(get_bml_model(TObjGbAdvance__data_805D5B74, 1));
-        draw_ginja_object(get_bml_model(TObjGbAdvance__data_805D5B74, 2));
-        draw_ginja_object(get_bml_model(TObjGbAdvance__data_805D5B74, 3));
+        draw_ginja_object(get_bml_model(gb_advance_resource, 0));
+        draw_ginja_object(get_bml_model(gb_advance_resource, 1));
+        draw_ginja_object(get_bml_model(gb_advance_resource, 2));
+        draw_ginja_object(get_bml_model(gb_advance_resource, 3));
         pop_matrix();
     }
 }
 
 void TObjGbAdvance::load_resource_instance() {
     BmlResource *archive = new BmlResource(5, &bm_obj_gba_resource_descriptor, 0, 0, NULL);
-    TObjGbAdvance__data_805D5B74 = archive;
+    gb_advance_resource = archive;
 }
 
 void TObjGbAdvance::free_shared_data() {
-    if (TObjGbAdvance__data_805D5B74 != NULL) {
-        delete TObjGbAdvance__data_805D5B74;
-        TObjGbAdvance__data_805D5B74 = NULL;
+    if (gb_advance_resource != NULL) {
+        delete gb_advance_resource;
+        gb_advance_resource = NULL;
     }
 }

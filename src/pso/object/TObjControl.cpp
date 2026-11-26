@@ -33,6 +33,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TPlyDispData.h"
@@ -52,7 +53,6 @@ struct EnemySetData {
 extern "C" {
 
 
-extern uaddr TObjPlayer__data_8050D460[];
 
 
 
@@ -587,13 +587,13 @@ TObjChara *get_enemy_entity(u16 entity_id) {
         low = registered_player_count;
         while (low < high) {
             mid = (low + high) / 2;
-            if (((TObjBase *)TObjPlayer__data_8050D460[mid])->get_entity_id() < entity_id) {
+            if (entity_table[mid]->get_entity_id() < entity_id) {
                 low = mid + 1;
             } else {
                 high = mid;
             }
         }
-        TObjChara *e = reinterpret_cast<TObjChara *>(TObjPlayer__data_8050D460[low]);
+        TObjChara *e = static_cast<TObjChara *>(entity_table[low]);
         if (e != 0 && entity_id == e->get_entity_id()) {
             return e;
         }

@@ -51,7 +51,7 @@ BmlResourceDescriptor lazer_fence_norm_episode2_resource_descriptor = {
     "fe_obj_lazer2_2.bml", fe_obj_lazer2_2_model_names, fe_obj_lazer2_2_motion_names, 8, 4,
 };
 
-const u16 lbl_80445B7C[] = {0, 1, 2, 3};
+const u16 lazer_fence_texture_slots[] = {0, 1, 2, 3};
 
 const char *obj_lazer_fence_norm_class_name = "TObjLazerFenceNorm";
 const char *lazer_fence_extra_class_name = "TObjLazerFenceExtra";
@@ -208,7 +208,7 @@ void TObjLazerFenceNorm::draw_model() {
 void TObjLazerFenceNorm::draw_animated_beam() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_part_models[i]), (lbl_80445B7C[scale_level]));
+        set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_part_models[i]), (lazer_fence_texture_slots[scale_level]));
     }
     TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
@@ -347,7 +347,7 @@ void TObjLazerFenceExtra::render_lazer_fence_model() {
 void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>((beam_part_models[i])), lbl_80445B7C[this->scale_level]);
+        set_ginja_model_texture_slot(reinterpret_cast<void *>((beam_part_models[i])), lazer_fence_texture_slots[this->scale_level]);
     }
     TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();

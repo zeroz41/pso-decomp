@@ -73,7 +73,7 @@ BmlResourceDescriptor fe_obj_switch_laz_j_resource_descriptor = { "fe_obj_switch
 CollisionBody lazer_fence_sw_collision_body_part[] = {
     {{0.0f, 10.0f, 0.0f}, 7.0f, 12.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
-const u16 lbl_80445CB8[4] = { 0, 1, 2, 3 };
+const u16 lazer_fence_sw_color_slots[4] = { 0, 1, 2, 3 };
 }
 const char *TLazerFenceSw::class_name = "TLazerFenceSw";
 extern "C" {
@@ -151,7 +151,7 @@ void TLazerFenceSw::debug_draw_key_id() {
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
-    color_slot = lbl_80445CB8[set_params[2] % 4];
+    color_slot = lazer_fence_sw_color_slots[set_params[2] % 4];
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130022, lbl_80445CD8);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
@@ -275,7 +275,7 @@ TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
     if (this->set_params[2] < 0) {
         this->set_params[2] = 0;
     }
-    color_slot = lbl_80445CB8[this->set_params[2] % 4];
+    color_slot = lazer_fence_sw_color_slots[this->set_params[2] % 4];
     this->animation_step = 2.0f;
     switch_frame = 0.0f;
     init_collision_body_parts(this, lazer_fence_sw_collision_body_part, 1);

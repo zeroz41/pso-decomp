@@ -3677,7 +3677,7 @@ void qst_op_show_timer(void *p) { TWindowCtrl::create_alt_timer(); }
 
 void qst_op_masterkey_off() { TLobby::reset_door_state(); TObjDoor::reset_instance(); }
 
-void qst_op_masterkey_on() { force_switch_doors_closed(); TObjDoor__sub_801F3754(); }
+void qst_op_masterkey_on() { force_switch_doors_closed(); enable_door_masterkey(); }
 
 void qst_op_map_designate(u32 first) {
     u32 i = first;

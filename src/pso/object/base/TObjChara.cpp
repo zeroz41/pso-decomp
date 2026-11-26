@@ -222,7 +222,7 @@ s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 u32 __nw__7TObjectFUl(s32);
 void matrix_mult_vec(s32, void *, void *);
 extern const f64 TObjPlayer__data_804340B8;
-extern TObjCollidable *TObjPlayer__data_8050D460[];
+extern TObjCollidable *entity_table[];
 extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
@@ -366,7 +366,7 @@ void obj_setField96_1(TObjCollidable *p) {
     p->hit_receive_state = 1;
 }
 
-TObjPlayer *TObjPlayer::get_player_data(int index) { return static_cast<TObjPlayer *>(TObjPlayer__data_8050D460[index]); }
+TObjPlayer *TObjPlayer::get_player_data(int index) { return static_cast<TObjPlayer *>(entity_table[index]); }
 
 extern "C" s32 obj_is_hit_receivable(const TObjCollidable *target) {
     return target->hit_receive_state == 1;

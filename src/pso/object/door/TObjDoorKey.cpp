@@ -66,7 +66,7 @@ saddr door_key_ginja_model_table[4];
 BmlResource *door_key_resource_handle;
 NJS_TEXLIST *door_key_texture_handle;
 s16 door_key_id_counter;
-s32 TObjDoorKey__data_805D5C04;
+s32 door_key_uv_scroll_tick;
 
 struct Obj_8018FA6C { u8 pad0[0x6]; u16 id; u8 pad8[0x4]; Obj_8018FA6C *next; u8 pad10[0x4]; Obj_8018FA6C *children; };
 
@@ -123,10 +123,10 @@ void TObjDoorKey::render() {
 }
 
 void TObjDoorKey::draw_active_beam() {
-    if (TObjDoorKey__data_805D5C04 != actor_frame_tick) {
+    if (door_key_uv_scroll_tick != actor_frame_tick) {
         scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(((NJS_OBJECT *)door_key_ginja_model_table[1])->model), 0, 0x14, 0xE, 1);
         PPCSync();
-        TObjDoorKey__data_805D5C04 = actor_frame_tick;
+        door_key_uv_scroll_tick = actor_frame_tick;
     }
     TObjFish::set_global_param(door_key_texture_handle);
     push_matrix();
@@ -262,7 +262,7 @@ void TObjDoorKey::free_key() {
     }
     TObjPlayer::free_if_valid((saddr)door_key_texture_handle);
     door_key_texture_handle = NULL;
-    TObjDoorKey__data_805D5C04 = 0;
+    door_key_uv_scroll_tick = 0;
 }
 
 void TObjDoorKey::load_resources() {
@@ -274,7 +274,7 @@ void TObjDoorKey::load_resources() {
     s32 t = (saddr)get_bml_model(door_key_resource_handle, 0);
     door_key_id_counter = 0;
     door_key_ginja_model_table[2] = t;
-    TObjDoorKey__data_805D5C04 = 0;
+    door_key_uv_scroll_tick = 0;
 }
 
 void *TObjEnvSoundGlobal::create(void *rader_map_core) {

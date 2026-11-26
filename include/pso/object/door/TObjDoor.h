@@ -55,5 +55,6 @@ struct TObjDoor : public TObjCollidable {
     static NJS_TEXLIST *resource_param;
 };
 LAYOUT_ASSERT(TObjDoor_size, sizeof(TObjDoor)==0xD4);
-extern "C" s32 TObjDoor__data_805D5BC8;
+// Set by the quest opcode masterkey_on; doors then run in state 0.
+extern s32 door_masterkey_on;
 #endif

@@ -5,7 +5,7 @@
 #include "pso/object/key/TOKey.h"
 
 // The jungle main switch (bm_obj_jungle_mkey). Its switch is a story flag
-// (TOKeyJungleMain__data_804653C8[switch_id], set param 4 clamped to 0-2)
+// (jungle_key_flag_ids[switch_id], set param 4 clamped to 0-2)
 // that TODoorJungleMain also reads.
 struct TOKeyJungleMain : public TOKey {
     TOKeyJungleMain(TObject *parent, void *set_data);
@@ -27,7 +27,7 @@ struct TOKeyJungleMain : public TOKey {
 };
 
 // The story flag of each key (switch_id 0-2).
-extern const s32 TOKeyJungleMain__data_804653C8[3];
+extern const s32 jungle_key_flag_ids[3];
 
 LAYOUT_ASSERT(TOKeyJungleMain_size, sizeof(TOKeyJungleMain) == 0xF0);
 #endif

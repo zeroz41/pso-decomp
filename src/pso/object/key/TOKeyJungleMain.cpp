@@ -79,7 +79,7 @@ void TOKeyJungleMain::debug_draw_key_id() {
         switch_id = 2;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, "<- GLOBAL FLAG : %d", TOKeyJungleMain__data_804653C8[switch_id]);
+    debug_printf_at(0x130020, "<- GLOBAL FLAG : %d", jungle_key_flag_ids[switch_id]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
@@ -112,14 +112,14 @@ void TOKeyJungleMain::render() {
 }
 
 void TOKeyJungleMain::send_switch_on() {
-    dispatch_by_phase__15TOKeyJungleMainFlUs(game_difficulty_selection, TOKeyJungleMain__data_804653C8[switch_id]);
+    dispatch_by_phase__15TOKeyJungleMainFlUs(game_difficulty_selection, jungle_key_flag_ids[switch_id]);
 }
 
 void TOKeyJungleMain::update_lock_state() {
     if (mode != KEY_MODE_NONE) {
         s32 was_on = is_on;
 
-        if (TLevelSelect::get_difficulty_flag_bit(game_difficulty_selection, TOKeyJungleMain__data_804653C8[switch_id]) != 0) {
+        if (TLevelSelect::get_difficulty_flag_bit(game_difficulty_selection, jungle_key_flag_ids[switch_id]) != 0) {
             is_on = 1;
         } else {
             is_on = 0;

@@ -3771,7 +3771,7 @@ void TBoss2DeRolLe::render() {
         scene_light_state.color.g = 0.4f;
         scene_light_state.color.b = 0.5f;
         current_scene_light->sub_8013379C(&scene_light_state);
-        lbl_805D5564->sub_801336DC();
+        current_ambient_light->sub_801336DC();
     }
     this->draw();
     copy_argb(col, &saved);
