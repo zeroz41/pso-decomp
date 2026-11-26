@@ -107,9 +107,9 @@ WindowDescriptor window_duel_result_descriptor = {
     {388.0f, 164.0f}, 50043.0f, NULL, 3,
 };
 
-void TWindowDuelResult::sub_8024EF3C() {  }
+void TWindowDuelResult::update_page_1() {  }
 
-void TWindowDuelResult::sub_8024EF40() {
+void TWindowDuelResult::build_page_1() {
     s32 vals[4];
     TObjPlayer *pl;
     s32 i;
@@ -137,9 +137,9 @@ void TWindowDuelResult::sub_8024EF40() {
     }
 }
 
-void TWindowDuelResult::sub_8024F090() {  }
+void TWindowDuelResult::update_page_0() {  }
 
-void TWindowDuelResult::sub_8024F094() {
+void TWindowDuelResult::build_page_0() {
     s32 i;
     s32 none;
     BattleRanking *e;
@@ -198,7 +198,7 @@ void TWindowDuelResult::sub_8024F094() {
 #pragma defer_codegen on
 void TWindowDuelResult::sub_8024F3CC() {
     typedef void (TWindowDuelResult::*PageMethod)();
-    static PageMethod build[] = { &TWindowDuelResult::sub_8024F094, &TWindowDuelResult::sub_8024EF40 };
+    static PageMethod build[] = { &TWindowDuelResult::build_page_0, &TWindowDuelResult::build_page_1 };
     entry_list.destroy_all_items();
     s8 page = page_indicator->get_type();
     (this->*build[page])();
@@ -207,7 +207,7 @@ void TWindowDuelResult::sub_8024F3CC() {
 
 void TWindowDuelResult::sub_8024F330() {
     typedef void (TWindowDuelResult::*PageMethod)();
-    static PageMethod update[] = { &TWindowDuelResult::sub_8024F090, &TWindowDuelResult::sub_8024EF3C };
+    static PageMethod update[] = { &TWindowDuelResult::update_page_0, &TWindowDuelResult::update_page_1 };
     s8 page = page_indicator->get_type();
     (this->*update[page])();
 }

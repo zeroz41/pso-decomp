@@ -520,7 +520,7 @@ void TWindowCtrl::update_trade_window() {
             ((TWindowLockOn *)(this->area_window))->request_close();
             return;
         }
-        window_request_show((void *)this->area_window);
+        window_request_show(this->area_window);
     }
 }
 
@@ -533,7 +533,7 @@ void TWindowCtrl__sub_8024B9C0(void *ctrl_arg) {
             ((TWindowLockOn *)(ctrl->timer_window))->request_close();
             return;
         }
-        window_request_show((void *)ctrl->timer_window);
+        window_request_show(ctrl->timer_window);
     }
 }
 
@@ -577,7 +577,7 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     for (i = 0; i < 3; i++) {
         status = TWindowCtrl::instance->simple_status[i];
         if (status != NULL && status->is_open_and_unblocked() != 0 && n-- == 0) {
-            player = get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
+            player = get_player_by_client_id((status)->get_width());
             if (player == NULL) {
                 return 0;
             }
@@ -594,10 +594,10 @@ void TWindowCtrl::dispatch_to_child(s32 client, s32 kind) {
     }
 }
 
-void TWindowCtrl::create_party_effect(u16 from, u16 to) { TWindowEffectParty::create((void *)tl_07, from, to, 0); }
+void TWindowCtrl::create_party_effect(u16 from, u16 to) { TWindowEffectParty::create(tl_07, from, to, 0); }
 
 
-void TWindowCtrl::show_party_effect(u16 from, u16 to, u32 kind) { TWindowEffectParty::create((void *)tl_07, from, to, kind); }
+void TWindowCtrl::show_party_effect(u16 from, u16 to, u32 kind) { TWindowEffectParty::create(tl_07, from, to, kind); }
 
 
 void TWindowCtrl::append_message_all(const char *text) {
@@ -686,7 +686,7 @@ void complete_actor_speech_balloons(u16 id) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
-                ((TWindowFukidasi *)w)->show_immediately();
+                (w)->show_immediately();
             }
         }
     }

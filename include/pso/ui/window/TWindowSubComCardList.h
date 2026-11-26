@@ -20,7 +20,7 @@ struct TWindowSubComCardList : public TWindowMenu {
     void set_scroll_target(f32 width, f32 max_height);
     void set_selected_index(s16);
     void reset_entries();
-    void sub_8026556C();
+    void ensure_scroll_bar();
     void update_scroll_target_position();
     void set_flag70_bit100();
     virtual void render();

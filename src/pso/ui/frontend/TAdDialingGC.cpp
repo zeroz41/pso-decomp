@@ -153,7 +153,7 @@ void TAdDialingGC::draw_dialing_status() {
     }
     sprintf(b, dialing_message_format, a, get_dialing_phone_number());
     sprintf(c, (char *)get_connection_message_text(1), b);
-    draw_menu_font_string_white((const char *)c, 23.0f, 351.0f);
+    draw_menu_font_string_white(c, 23.0f, 351.0f);
 }
 
 void TAdDialingGC::init_dialog() {

@@ -137,17 +137,17 @@ struct TAdSystemFileCheckGCState {
 };
 
 TAdSystemFileCheckGCState multi_chg_game_mode_entry_table[11] = {
-    {&TAdSystemFileCheckGC::sub_8036E9EC, &TAdSystemFileCheckGC::confirm_mode_selection},
+    {&TAdSystemFileCheckGC::enter_state_0, &TAdSystemFileCheckGC::confirm_mode_selection},
     {&TAdSystemFileCheckGC::load_system_on_mode_default, &TAdSystemFileCheckGC::update_mode_selection},
-    {&TAdSystemFileCheckGC::sub_8036E7DC, &TAdSystemFileCheckGC::check_player_load_result},
-    {&TAdSystemFileCheckGC::sub_8036E51C, &TAdSystemFileCheckGC::handle_menu_input},
+    {&TAdSystemFileCheckGC::enter_state_2, &TAdSystemFileCheckGC::check_player_load_result},
+    {&TAdSystemFileCheckGC::enter_state_3, &TAdSystemFileCheckGC::handle_menu_input},
     {&TAdSystemFileCheckGC::close_windows_and_reopen, &TAdSystemFileCheckGC::update_card_confirm_selection},
     {&TAdSystemFileCheckGC::close_windows_and_cleanup, &TAdSystemFileCheckGC::update_confirm_selection},
-    {&TAdSystemFileCheckGC::sub_8036E750, &TAdSystemFileCheckGC::update_mode_selection_and_save},
-    {&TAdSystemFileCheckGC::sub_8036E6EC, &TAdSystemFileCheckGC::sub_8036E6A0},
-    {&TAdSystemFileCheckGC::sub_8036E854, &TAdSystemFileCheckGC::sub_8036E834},
-    {&TAdSystemFileCheckGC::sub_8036E830, &TAdSystemFileCheckGC::request_scene_change_vt},
-    {&TAdSystemFileCheckGC::sub_8036DEDC, &TAdSystemFileCheckGC::close_windows_on_selection},
+    {&TAdSystemFileCheckGC::enter_state_6, &TAdSystemFileCheckGC::update_mode_selection_and_save},
+    {&TAdSystemFileCheckGC::enter_state_7, &TAdSystemFileCheckGC::run_state_7},
+    {&TAdSystemFileCheckGC::enter_state_8, &TAdSystemFileCheckGC::run_state_8},
+    {&TAdSystemFileCheckGC::enter_state_9, &TAdSystemFileCheckGC::request_scene_change_vt},
+    {&TAdSystemFileCheckGC::enter_state_10, &TAdSystemFileCheckGC::close_windows_on_selection},
 };
 extern "C" {
 __declspec(section ".data") f32 multi_chg_game_mode_window_extent[2] = {0.5f * (640.0f - multi_chg_game_mode_window_size[0]), 70.0f};
@@ -185,7 +185,7 @@ void TAdSystemFileCheckGC::close_windows_on_selection() {
     }
 }
 
-void TAdSystemFileCheckGC::sub_8036DEDC() {
+void TAdSystemFileCheckGC::enter_state_10() {
     if (handle_mode_selection() != 0) {
         return;
     }
@@ -362,7 +362,7 @@ void TAdSystemFileCheckGC::create_back_objects() {
         back_text = o2;
     }
 }
-void TAdSystemFileCheckGC::sub_8036E51C() {
+void TAdSystemFileCheckGC::enter_state_3() {
     if ((u32) menu_window != 0U) {
         ((TWindowBase *)((void*)(menu_window)))->close();
         menu_window = NULL;
@@ -401,12 +401,12 @@ s32 TAdSystemFileCheckGC::handle_mode_selection() {
     }
     return 0;
 }
-void TAdSystemFileCheckGC::sub_8036E6A0() {
+void TAdSystemFileCheckGC::run_state_7() {
     if ((handle_mode_selection() == 0) && (TAdPlayerLoadGC::get_instance() == 0)) {
         set_state(8);
     }
 }
-void TAdSystemFileCheckGC::sub_8036E6EC() {  }
+void TAdSystemFileCheckGC::enter_state_7() {  }
 void TAdSystemFileCheckGC::update_mode_selection_and_save() {
     s32 this_addr = (saddr)this;
     if (((int)handle_mode_selection()) == 0) {
@@ -418,7 +418,7 @@ void TAdSystemFileCheckGC::update_mode_selection_and_save() {
         set_state((s32)((saddr)((void*)(8))));
     }
 }
-void TAdSystemFileCheckGC::sub_8036E750() {  }
+void TAdSystemFileCheckGC::enter_state_6() {  }
 
 void TAdSystemFileCheckGC::check_player_load_result() {
     if (handle_mode_selection() != 0) {
@@ -441,7 +441,7 @@ void TAdSystemFileCheckGC::check_player_load_result() {
     }
 }
 
-void TAdSystemFileCheckGC::sub_8036E7DC() {
+void TAdSystemFileCheckGC::enter_state_2() {
     if (handle_mode_selection() != 0) {
         return;
     }
@@ -451,9 +451,9 @@ void TAdSystemFileCheckGC::sub_8036E7DC() {
 }
 
 void TAdSystemFileCheckGC::request_scene_change_vt() { TAdMultiChgGameModeGC::request_scene_change(); }
-void TAdSystemFileCheckGC::sub_8036E830() {  }
-void TAdSystemFileCheckGC::sub_8036E834() { TAdMultiChgGameModeGC::init_change_mode(); }
-void TAdSystemFileCheckGC::sub_8036E854() {  }
+void TAdSystemFileCheckGC::enter_state_9() {  }
+void TAdSystemFileCheckGC::run_state_8() { TAdMultiChgGameModeGC::init_change_mode(); }
+void TAdSystemFileCheckGC::enter_state_8() {  }
 
 LAYOUT_ASSERT(MemberActionStorage_8036E858_size, sizeof(MemberActionStorage_8036E858) == 12);
 void TAdSystemFileCheckGC::set_state(s32 new_state) {
@@ -492,7 +492,7 @@ s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
 }
 
 void TAdSystemFileCheckGC::confirm_mode_selection() { if (((int)handle_mode_selection()) == 0) { set_state((s32)((saddr)((void*)((void*)1)))); } }
-void TAdSystemFileCheckGC::sub_8036E9EC() { close_window_30(); open_message_window(4); }
+void TAdSystemFileCheckGC::enter_state_0() { close_window_30(); open_message_window(4); }
 
 LAYOUT_ASSERT(MemberActionStorage_8036EA24_size, sizeof(MemberActionStorage_8036EA24) == 12);
 void TAdSystemFileCheckGC::run_task() {

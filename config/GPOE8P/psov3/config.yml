@@ -231,15 +231,15 @@ force_active:
   - set_character_file_seed__FPUcl
   - get_character_file_seed__FPUc
   - get_selected_character_slot__FP13CharacterFile
-  - TAdSinglePlyChrSelectGC__sub_801FDC14
-  - TAdSinglePlyChrSelectGC__sub_801FE380
-  - TAdSinglePlyChrSelectGC__sub_801FEBBC
+  - load_character_file_slot_b
+  - copy_character_between_files
+  - poll_secondary_card_load
   - copy_guild_card_payload__FP17GuildCardSaveDataP17GuildCardSaveData
   - copy_guild_card_entries__Fll
-  - TAdSinglePlyChrSelectGC__sub_801FFF14
+  - rebuild_guild_card_save_file
   - decrypt_guild_card_payload__FP17GuildCardSaveData
   - encrypt_guild_card_payload__FP17GuildCardSaveDataPv
-  - TAdSinglePlyChrSelectGC__sub_80200418
+  - decrypt_secondary_card_buffer
   - TAdSinglePlyChrSelectGC__sub_80202D7C
   - __ct__21Pso3CharacterFileSlotFv
   - __ct__23Pso3CharacterSaveRecordFv
@@ -1787,7 +1787,7 @@ force_active:
   - TWindowEffectLight__sub_802AD040
   - TWindowEffectParty__name
   - TWindowFukidasi__sub_80249788
-  - TWindowGetComCard__sub_8007B60C
+  - clear_received_guild_cards
   - item_layout_entries__15TWindowHelpItem
   - resistance_layout_entries__15TWindowHelpItem
   - is_flag20_set__22HelpItemStatCompareRowFv
@@ -1823,7 +1823,7 @@ force_active:
   - client_scan_index__17TWindowReturnCity
   - __ct__13TWindowStatusFPvlPUc
   - class_name__21TWindowSubComCardList
-  - TWindowSubComCard__sub_8007AC7C
+  - update_matching_card
   - TWindowSubComCard__sub_80245A10
   - sub_80249220__20TWindowChoiceSettingFPC10NJS_POINT2l
   - TWindowSubComCard__sub_80272640
@@ -16239,21 +16239,21 @@ force_active:
   - build_file_slot_image__22TQuestVmDownLoadServerFv
   - count_download_file_blocks__22TQuestVmDownLoadServerFv
   - sub_80204D7C__6TSceneFv
-  - sub_8020F1DC__18TCheckRoomSequenceFv
-  - sub_802100F8__18TCheckRoomSequenceFv
-  - sub_802100FC__18TCheckRoomSequenceFv
+  - noop_state_17__18TCheckRoomSequenceFv
+  - noop_state_15__18TCheckRoomSequenceFv
+  - noop_state_14__18TCheckRoomSequenceFv
   - move_toward_target__10TTecCircleFv
   - sub_80237258__19TTecPlayerInfluenceFv
   - update_symbol_chat_window__11TWindowChatFv
   - update_word_select_window__11TWindowChatFv
   - sub_80247EC0__11TWindowChatFv
-  - sub_8024EF3C__17TWindowDuelResultFv
-  - sub_8024EF40__17TWindowDuelResultFv
-  - sub_8024F090__17TWindowDuelResultFv
-  - sub_8024F094__17TWindowDuelResultFv
+  - update_page_1__17TWindowDuelResultFv
+  - build_page_1__17TWindowDuelResultFv
+  - update_page_0__17TWindowDuelResultFv
+  - build_page_0__17TWindowDuelResultFv
   - sub_8025F2F8__19TWindowKeyBoardHardFUc
   - sub_8025F4A0__19TWindowKeyBoardHardFUc
-  - sub_8026556C__21TWindowSubComCardListFv
+  - ensure_scroll_bar__21TWindowSubComCardListFv
   - sub_80266BB8__11TWindowMenuFv
   - sub_8027095C__19TWindowSoundBalanceFv
   - set_choice_search_option__17TWindowSubComCardFP21ChoiceSearchSelectionll
@@ -16264,8 +16264,8 @@ force_active:
   - set_face_part_from_cursor__20TWindowSubSymbolChatFv
   - add_part_at_cursor__20TWindowSubSymbolChatFv
   - sub_80288BE4__19TQuestListChallengeFv
-  - sub_8028B940__12TChCrLoadAfsFv
-  - sub_8028B944__12TChCrLoadAfsFv
+  - empty_state_3__12TChCrLoadAfsFv
+  - empty_state_2__12TChCrLoadAfsFv
   - draw_occupation__18TChCrTagOccupationFv
   - pause_indirect_effect__16TEffIndirectCtrlFv
   - update_ol_ending__14TBoss6PlotFalzFv
@@ -16312,15 +16312,15 @@ force_active:
   - update_stopped__15TObjBoss7TunnelFv
   - update_arrival__15TObjBoss7TunnelFv
   - sub_802F273C__15TObjBoss7TunnelFv
-  - sub_803003A4__21TAdMultiSelGameModeGCFv
-  - sub_80300648__21TAdMultiSelGameModeGCFv
-  - sub_80300764__21TAdMultiSelGameModeGCFv
+  - run_state_2__21TAdMultiSelGameModeGCFv
+  - run_state_1__21TAdMultiSelGameModeGCFv
+  - run_state_0__21TAdMultiSelGameModeGCFv
   - apply_variant__14TObjEneDolmOlmFv
   - retarget_attacker__16TObjEneDellBiterFv
   - turn_orbit_toward__18TObjLiveCameraCtrlFi
-  - sub_8030CBD0__16TAdChrSelASlotGCFv
-  - sub_8030CBD4__16TAdChrSelASlotGCFv
-  - sub_8030CCE0__16TAdChrSelASlotGCFv
+  - run_state_20__16TAdChrSelASlotGCFv
+  - run_state_19__16TAdChrSelASlotGCFv
+  - run_state_14__16TAdChrSelASlotGCFv
   - populate_slot_entries__16TAdChrSelASlotGCFv
   - push_plate_positions__16TAdChrSelASlotGCFv
   - show_no_card_message__16TAdChrSelASlotGCFv
@@ -16365,16 +16365,16 @@ force_active:
   - handle_wait_state__18TObjEneEpsilonBodyFl
   - sub_803669B0__14TObjEneIllGillFv
   - sub_80369D68__15TObjSuisouLobbyFv
-  - sub_8036DEDC__20TAdSystemFileCheckGCFv
-  - sub_8036E51C__20TAdSystemFileCheckGCFv
-  - sub_8036E6A0__20TAdSystemFileCheckGCFv
-  - sub_8036E6EC__20TAdSystemFileCheckGCFv
-  - sub_8036E750__20TAdSystemFileCheckGCFv
-  - sub_8036E7DC__20TAdSystemFileCheckGCFv
-  - sub_8036E830__20TAdSystemFileCheckGCFv
-  - sub_8036E834__20TAdSystemFileCheckGCFv
-  - sub_8036E854__20TAdSystemFileCheckGCFv
-  - sub_8036E9EC__20TAdSystemFileCheckGCFv
+  - enter_state_10__20TAdSystemFileCheckGCFv
+  - enter_state_3__20TAdSystemFileCheckGCFv
+  - run_state_7__20TAdSystemFileCheckGCFv
+  - enter_state_7__20TAdSystemFileCheckGCFv
+  - enter_state_6__20TAdSystemFileCheckGCFv
+  - enter_state_2__20TAdSystemFileCheckGCFv
+  - enter_state_9__20TAdSystemFileCheckGCFv
+  - run_state_8__20TAdSystemFileCheckGCFv
+  - enter_state_8__20TAdSystemFileCheckGCFv
+  - enter_state_0__20TAdSystemFileCheckGCFv
   - submit_chat_text__FPUc
   - submit_cursor_and_notify__16TOTrapAncient02RFv
   - submit_keyboard_input__11TWindowChatFv

@@ -38,7 +38,7 @@ s32 TAdYesNoBaseGC::create_menu_window() {
     saddr r = (saddr)init_shop_judgment_window(&pos);
     ((TWindowMenu *)r)->update_layout_height(470.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
-    ((TWindowSubComCardList *)r)->set_selected_index((s16)owner->m_2c);
+    ((TWindowSubComCardList *)r)->set_selected_index((s16)owner->default_selection);
     return r;
 }
 
@@ -52,46 +52,46 @@ void TAdYesNoBaseGC::vfunc_11() {
     s32 selected_menu_value;
     s32 timer;
 
-    this->m_20 = (s32) this->m_1c;
-    switch (this->m_1c) {
+    this->prev_state = (s32) this->state;
+    switch (this->state) {
     case 0:
-        this->m_40 = sub_8032C0B4();
-        this->m_44 = this->create_menu_window();
-        this->m_1c = 1;
+        this->message_window = sub_8032C0B4();
+        this->menu_window = this->create_menu_window();
+        this->state = 1;
         break;
     case 1:
-        if (((TWindowMenu *)(this->m_44))->is_decided() != 0) {
-            selected_menu_value = ((TWindowMenu *)this->m_44)->get_selected_value();
+        if (((TWindowMenu *)(this->menu_window))->is_decided() != 0) {
+            selected_menu_value = ((TWindowMenu *)this->menu_window)->get_selected_value();
             switch (selected_menu_value) {
             case 0:
                 this->vfunc_8();
-                this->m_1c = 2;
+                this->state = 2;
                 this->m_24 = 3;
                 break;
             case 1:
                 this->vfunc_9();
-                this->m_1c = 2;
+                this->state = 2;
                 this->m_24 = 4;
                 break;
             }
         } else if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
-            this->m_1c = 2;
+            this->state = 2;
             this->m_24 = 4;
         }
         break;
     case 2:
-        if ((u32) this->m_40 != 0U) {
-            ((TWindowBase *)this->m_40)->close();
-            this->m_40 = 0U;
+        if ((u32) this->message_window != 0U) {
+            ((TWindowBase *)this->message_window)->close();
+            this->message_window = 0U;
         }
-        if ((u32) this->m_44 != 0U) {
-            ((TWindowBase *)this->m_44)->close();
-            this->m_44 = 0U;
+        if ((u32) this->menu_window != 0U) {
+            ((TWindowBase *)this->menu_window)->close();
+            this->menu_window = 0U;
         }
-        timer = this->m_28 + 1;
-        this->m_28 = timer;
+        timer = this->state_frames + 1;
+        this->state_frames = timer;
         if ((f32) timer > 4.5f) {
-            this->m_1c = (s32) this->m_24;
+            this->state = (s32) this->m_24;
         }
         break;
     case 3:
@@ -101,13 +101,13 @@ void TAdYesNoBaseGC::vfunc_11() {
         vfunc_7();
         break;
     }
-    if ((s32) this->m_20 != (s32) this->m_1c) {
-        this->m_28 = 0;
+    if ((s32) this->prev_state != (s32) this->state) {
+        this->state_frames = 0;
     }
 }
 TAdYesNoBaseGC::~TAdYesNoBaseGC() {
-    if (*(void **)((s8 *)this + 0x40) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x40)))->queue_destruction(); this->m_40 = 0; }
-    if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x44)))->queue_destruction(); this->m_44 = 0; }
+    if (*(void **)((s8 *)this + 0x40) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x40)))->queue_destruction(); this->message_window = 0; }
+    if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x44)))->queue_destruction(); this->menu_window = 0; }
 }
 
 
@@ -115,16 +115,16 @@ TAdYesNoBaseGC::TAdYesNoBaseGC(TObject *parent) : TObject(parent) {
     void *o;
     void *o2;
     m_name = TAdYesNoBaseGC__class_name;
-    m_28 = 0;
+    state_frames = 0;
     message_position.x = 46.0f;
     message_position.y = 131.0f;
     message_size.x = 548.0f;
     message_size.y = 220.0f;
-    m_1c = 0;
+    state = 0;
     m_24 = 0;
-    m_2c = 1;
-    m_40 = 0;
-    m_44 = 0;
+    default_selection = 1;
+    message_window = 0;
+    menu_window = 0;
     o = new TAdBackGC(this);
     o2 = new TAdBackTxtGC(this);
 }

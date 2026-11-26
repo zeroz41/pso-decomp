@@ -16,8 +16,8 @@ public:
     virtual void run_task();
     void start_download();
     void poll_load();
-    void sub_8028B944();
-    void sub_8028B940();
+    void empty_state_2();
+    void empty_state_3();
     AdxfHandle *load_handle;
     u32 source_20;
     u32 source_24;

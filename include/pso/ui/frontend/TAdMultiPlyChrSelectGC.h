@@ -40,14 +40,14 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 state;          // 0x20  index into run_task's state handler table
     s32 prev_state;     // 0x24  state before this frame's handler ran
     s32 next_state;     // 0x28  state update_idle_timer moves to once the wait ends
-    s32 exit_action;    // 0x2C  what sub_802DCCA4 does on leaving (0 opening movie, 1 start, 2 none)
+    s32 exit_action;    // 0x2C  what run_state_28 does on leaving (0 opening movie, 1 start, 2 none)
     s32 last_card_slot; // 0x30  player_plate's active card slot when last checked
     s32 last_cursor;    // 0x34  player_plate's cursor when last checked
     s32 swap_slot;      // 0x38  slot passed to swap_characters (swap_search + 4)
     s32 controllers_ready; // 0x3C  run_task: port 0 connected and at least two players ready
     s32 show_flag_notice;  // 0x40  the slot under the cursor has data flag 1 set (guide lines 0xD/0xE)
     s32 guide_state;    // 0x44  which guide line is shown (0, 1, 2 = ready)
-    s32 mode;           // 0x48  constructor mode; switch in handle_event and sub_802DCD14
+    s32 mode;           // 0x48  constructor mode; switch in handle_event and run_state_27
     s32 cursor;         // 0x4C  get_clamped_cursor() of this frame
     s32 move_requested; // 0x50  "move" was chosen from the choice menu; update_select starts the move
     s32 move_finished;  // 0x54  cleared while a move is pending or found no free slot
@@ -101,22 +101,22 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void reset_to_select();
     void update_button_input();
     void update_state_serial();
-    void sub_802DEDA8();
-    void sub_802DE7D0();
+    void run_state_1();
+    void run_state_3();
     void update();
-    void sub_802DDD08();
-    void sub_802DDBA8();
-    void sub_802DD400();
-    void sub_802DD2B0();
-    void sub_802DD010();
-    void sub_802DCF68();
-    void sub_802DCD14();
-    void sub_802DCCA4();
-    void sub_802DCA20();
-    void sub_802DC8A0();
-    void sub_802DC5CC();
-    void sub_802DC440();
-    void sub_802DC310();
+    void run_state_12();
+    void run_state_13();
+    void run_state_18();
+    void run_state_20();
+    void run_state_22();
+    void run_state_23();
+    void run_state_27();
+    void run_state_28();
+    void run_state_30();
+    void run_state_31();
+    void run_state_33();
+    void run_state_35();
+    void run_state_37();
     s32 cursor_to_card_index(s32 cursor);
     TWindowMenu *create_moving_notice(const NJS_POINT2 *desc);
     TWindowMenu *create_full_notice(const NJS_POINT2 *desc);

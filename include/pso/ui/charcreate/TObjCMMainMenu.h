@@ -29,14 +29,14 @@ public:
     virtual void run_task();
     virtual void render();
     void handle_creation_input();
-    void sub_8029862C();
+    void empty_state();
     // State 2, after confirm_selection: waits for the figure, then fades out on the decide button.
     void update_confirmation();
     // State 5: counts the delay down, then moves to state 3.
     void finish_confirmation();
     // State 6: counts the delay down, then moves to state 4.
     void finish_cancel();
-    void sub_802981BC();
+    void draw_nothing();
     // Draws the class, name and section id being confirmed.
     void draw_confirmation();
     // Empty hooks at the end of the constructor, run_task and render, and after the state handler.

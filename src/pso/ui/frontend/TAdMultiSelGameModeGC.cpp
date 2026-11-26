@@ -134,7 +134,7 @@ void TAdMultiSelGameModeGC::update_transition_state() {
     }
 }
 
-void TAdMultiSelGameModeGC::sub_803003A4() {
+void TAdMultiSelGameModeGC::run_state_2() {
     switch (cursor->selection_index()) {
     case 0:
         if (menu->is_cancelled() != 0) {
@@ -202,7 +202,7 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
     }
 }
 
-void TAdMultiSelGameModeGC::sub_80300648() {
+void TAdMultiSelGameModeGC::run_state_1() {
     selection = cursor->selection_index();
     if (prev_selection != selection) {
         guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x18, selection)));
@@ -230,13 +230,13 @@ void TAdMultiSelGameModeGC::sub_80300648() {
     prev_selection = selection;
 }
 
-void TAdMultiSelGameModeGC::sub_80300764() { state = 1; }
+void TAdMultiSelGameModeGC::run_state_0() { state = 1; }
 
 void TAdMultiSelGameModeGC::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();
     static StateAction tbl[5] = {
-        &TAdMultiSelGameModeGC::sub_80300764, &TAdMultiSelGameModeGC::sub_80300648,
-        &TAdMultiSelGameModeGC::sub_803003A4, &TAdMultiSelGameModeGC::update_transition_state,
+        &TAdMultiSelGameModeGC::run_state_0, &TAdMultiSelGameModeGC::run_state_1,
+        &TAdMultiSelGameModeGC::run_state_2, &TAdMultiSelGameModeGC::update_transition_state,
         &TAdMultiSelGameModeGC::exit_keyboard_mode,
     };
     (this->*tbl[state])();

@@ -146,7 +146,7 @@ s32 symbol_chat_mirror_mode;
 f32 get_scale__15TWindowCtrlMainFv(s32);
 
 void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window);
-s32 TWindowSubComCard__sub_80265660(s32, s32);
+s32 is_menu_row_enabled(s32, s32);
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
 
 }
@@ -835,7 +835,7 @@ TWindowMenu *TWindowSubSymbolChat::create_symbol_list_card() {
 }
 
 void TWindowSubSymbolChat::apply_symbol() {
-    TWindowSubComCard__sub_80265680((TWindowMenu *)this->symbol_list, (s16) this->selected_list_index);
+    disable_menu_row((TWindowMenu *)this->symbol_list, (s16) this->selected_list_index);
 }
 
 TWindowMenu *TWindowSubSymbolChat::open_main_menu(void * _w0) {
@@ -1093,7 +1093,7 @@ s32 TWindowSubSymbolChat::is_card_confirmed() {
     s32 ret;
 
     temp = get_cursor_pos__20TWindowShortListCtrlFv((s32)this->symbol_list);
-    ret = TWindowSubComCard__sub_80265660((s32)this->symbol_list, temp);
+    ret = is_menu_row_enabled((s32)this->symbol_list, temp);
     return ret ? 1 : 0;
 }
 

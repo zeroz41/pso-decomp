@@ -566,7 +566,7 @@ void TWindowFukidasi::open(u32 *symbol, s32 flags) {
             open_tick = 0;
         }
     }
-    set_symbol_chat_parts(&entry_list, (void *)symbol);
+    set_symbol_chat_parts(&entry_list, symbol);
     TWindowSubSymbolChat::play_symbol_sound(((u32) *symbol >> 5U) & 0xF);
     hide_ticks = 0x5A;
 }
@@ -1081,7 +1081,7 @@ void TWindowFukidasi::calc_text_size(f32 *out) {
         out[1] = 0.1f + (20.0f + e->h);
         break;
     case 1:
-        get_symbol_chat_frame_size((saddr)&entry_list, (void *)out);
+        get_symbol_chat_frame_size((saddr)&entry_list, out);
         break;
     case 2:
         break;
@@ -1090,7 +1090,7 @@ void TWindowFukidasi::calc_text_size(f32 *out) {
 
 void TWindowFukidasi::clamp_text_size(f32 *out) {
     f32 size[2];
-    calc_text_size((f32 *)size);
+    calc_text_size(size);
     if (target_size[0] > size[0]) {
         out[0] = size[0];
     } else {

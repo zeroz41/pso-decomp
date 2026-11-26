@@ -41,15 +41,15 @@ struct TAdChrSelASlotGC : public TObject {
     TWindowMessageYesNo *open_yes_no_window(NJS_POINT2 *pos, s32 client_id);
     TWindowMessageYesNo *open_create_character_prompt(NJS_POINT2 *pos);
     TWindowBase *create_slot_message_window(s32 kind, s32 text);
-    void sub_8030CBD0();
-    void sub_8030CBD4();
+    void run_state_20();
+    void run_state_19();
     void update_load_state();
     void set_state();
     s32 get_state();
     void set_state(s32 value);
     void check_load_state();
     void init_selection();
-    void sub_8030CCE0();
+    void run_state_14();
     void populate_slot_entries();
     void push_plate_positions();
     void update_window_78();

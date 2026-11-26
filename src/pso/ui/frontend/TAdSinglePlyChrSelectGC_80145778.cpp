@@ -47,8 +47,8 @@ void draw_menu_font_string_white(const char *text, f32 x, f32 y) {
 void TAdSinglePlyChrSelectGC::free_resources() {
     delete menu_font_object;
     release_texture_list(menu_font_texture_list);
-    mem_free((void *)menu_font_glyph_table);
-    mem_free((void *)menu_font_palette);
+    mem_free(menu_font_glyph_table);
+    mem_free(menu_font_palette);
     safe_free(menu_font_glyph_data);
 }
 #pragma pop

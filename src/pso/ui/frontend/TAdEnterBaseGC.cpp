@@ -362,7 +362,7 @@ void draw_masked_password_field(saddr context) {
         }
         buf[len] = 0;
         len = calc_text_width("*");
-        draw_menu_font_string_white((const char *)buf, password_field_text_pos[0], password_field_text_pos[1]);
+        draw_menu_font_string_white(buf, password_field_text_pos[0], password_field_text_pos[1]);
         NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * password_entry_keyboard_control->get_cursor_position());
         p2.y = password_field_text_pos[1];

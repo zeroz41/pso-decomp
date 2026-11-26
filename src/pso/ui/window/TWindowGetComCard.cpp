@@ -71,7 +71,7 @@ void TWindowGetComCard::run_task() {
         state = 3;
     case 3:
         if (confirmation->is_cancelled() != 0) {
-            TWindowGetComCard__sub_8007B54C();
+            remove_first_received_card();
             queue_destruction();
             state = 6;
         } else if (confirmation->is_decided() != 0) {
@@ -80,7 +80,7 @@ void TWindowGetComCard::run_task() {
                 state = 4;
             }
             if (r == 1) {
-                TWindowGetComCard__sub_8007B54C();
+                remove_first_received_card();
                 queue_destruction();
                 state = 6;
             }
@@ -88,8 +88,8 @@ void TWindowGetComCard::run_task() {
         break;
     case 4:
         if (TAdPlayerLoadGC::get_instance() == 0) {
-            TWindowSubComCard::start_player_data_load((saddr)TWindowGetComCard__sub_8007B594());
-            TWindowGetComCard__sub_8007B54C();
+            TWindowSubComCard::start_player_data_load((saddr)get_received_guild_card_tags());
+            remove_first_received_card();
             queue_destruction();
             state = 6;
         } else if (test_pressed_buttons_packed(&controller_input_state.controllers[port], 2) != 0 ||
@@ -100,7 +100,7 @@ void TWindowGetComCard::run_task() {
         break;
     case 5:
         if (timer-- <= 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
-            TWindowGetComCard__sub_8007B54C();
+            remove_first_received_card();
             queue_destruction();
             state = 6;
         }
@@ -132,10 +132,10 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
     static const f32 pos[2] = {10.0f, 277.0f};
     static const f32 size[3] = {264.0f, 104.0f, 0.0f};
     m_name = class_name;
-    message = TWindowMessage::create((const NJS_POINT2 *)pos, (const f32 *)size, 1);
+    message = TWindowMessage::create((const NJS_POINT2 *)pos, size, 1);
     confirmation = NULL;
     if (TWindowSubComCard::init_com_card() != 0) {
-        GuildCardEntry *card = TWindowGetComCard__sub_8007B594();
+        GuildCardEntry *card = get_received_guild_card_tags();
         text_builder_reset();
         text_builder_append(reinterpret_cast<u8 *>(card->get_name()));
         text_builder_append(static_cast<u8 *>(TWindowSubStatusDisp::get_message_10(0x36)));
