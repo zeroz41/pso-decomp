@@ -127,6 +127,4 @@ extern "C" {
 int get_empty_action_entry(void);
 }
 int get_target_cursor_model(void);
-extern "C" {
-}
 #endif
