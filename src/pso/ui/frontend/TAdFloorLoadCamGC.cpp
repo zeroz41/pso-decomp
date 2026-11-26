@@ -9,14 +9,15 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/quest/challenge/TChallenge4PResult.h"
+#include "pso/player/TObjPlayer.h"
 
 
 const char *floor_load_cam_class_name = "TAdFloorLoadCamGC";
 extern const f32 floor_load_cam_zero;
 
 s32 TChallenge4PResult::get_slot_index() { return slot_index; }
-void fn_8034BE38(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
-void fn_8034BE48(void* p) { *(u32*)((char*)p + 0x334) |= 0x40000000; }
+void fn_8034BE38(TObjPlayer *player) { player->state_flags &= ~0x40000000; }
+void fn_8034BE48(TObjPlayer *player) { player->state_flags |= 0x40000000; }
 void TAdFloorLoadCamGC::render() {  }
 
 extern const f32 floor_load_cam_angle_units_per_degree = 182.04445f;

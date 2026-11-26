@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 
+struct TObjPlayer;
+
 struct TAdFloorLoadCamGC : public TObject {
     TAdFloorLoadCamGC(TObject *parent, s32 mode);
     virtual ~TAdFloorLoadCamGC();
@@ -21,8 +23,8 @@ struct TAdFloorLoadCamGC : public TObject {
 LAYOUT_ASSERT(TAdFloorLoadCamGC_size, sizeof(TAdFloorLoadCamGC) == 0x4C);
 
 extern "C" {
-void fn_8034BE38(void *p);
-void fn_8034BE48(void *p);
+void fn_8034BE38(TObjPlayer *player);
+void fn_8034BE48(TObjPlayer *player);
 }
 
 #endif

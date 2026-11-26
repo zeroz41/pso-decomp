@@ -106,7 +106,7 @@ void TAdPlyPltAnimCtrlGC::run_task() {
     }
 }
 
-void TAdPlyPltAnimCtrlGC::init(void* a1) { reset_plate_animations(this); copy_vec2(((char*)this + 0x24), a1); this->state = 1; }
+void TAdPlyPltAnimCtrlGC::init(void* a1) { reset_plate_animations(this); copy_vec2(&plate_position, a1); this->state = 1; }
 
 void reset_plate_animations(TAdPlyPltAnimCtrlGC *ctrl) {
     s32 i;

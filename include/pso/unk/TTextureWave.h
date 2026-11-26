@@ -1,8 +1,11 @@
 #ifndef PSO_UNK_TTEXTUREWAVE_H
 #define PSO_UNK_TTEXTUREWAVE_H
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/render/GinjaTextureInput.h"
 
 struct NJS_TEXLIST;
+struct GvrTexture;
 
 // A texture image that update_texture_wave_image redraws distorted every frame (TEF_PvrWave).
 class TTextureWave {
@@ -10,9 +13,10 @@ public:
     s32 height;
     s32 width;
     s32 texture_id;
-    u8 records[0x30];
-    s32 texture_list;
-    u8 *image_data;
+    NJS_TEXNAME texture_name;
+    GinjaTextureInput texture_input;
+    NJS_TEXLIST *texture_list;
+    GvrTexture *image_data;
     s32 output;
     s32 displacement;
     s32 phase;

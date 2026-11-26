@@ -16,6 +16,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/quest/challenge/TChallenge4PResult.h"
+#include "pso/ui/frontend/TAdFloorLoadCamGC.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
@@ -48,14 +49,6 @@ Challenge4PItemCode challenge4p_item_select_item_table[8] = {
 
 TChallenge4PResult *challenge4p_result_slot_entries[4];
 
-extern "C" {
-
-
-
-void fn_8034BE48(TObjPlayer *);
-void fn_8034BE38(TObjPlayer *);
-
-}
 void resume_challenge_result_processing(void *result);
 extern saddr tl_01;
 const char *challenge_4p_result_class_name = "TChallenge4PResult";

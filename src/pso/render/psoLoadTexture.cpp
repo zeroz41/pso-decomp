@@ -204,7 +204,7 @@ s32 TLanguage::read_u16_le() {
 
 void TTextureWave::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+        set_texture_list(texture_list);
         advance_wrapped_cursor();
         distort_image();
     }
@@ -220,7 +220,7 @@ void TTextureWave::distort_image() {
     y = 0;
     out = reinterpret_cast<GvrTexture *>(output)->texels;
     dx = reinterpret_cast<u8 *>(displacement);
-    image = reinterpret_cast<GvrTexture *>(image_data)->texels;
+    image = image_data->texels;
     dy = dx + height * width;
     for (; y < height; y++) {
         for (x = 0; x < width; x++) {
