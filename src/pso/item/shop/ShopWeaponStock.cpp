@@ -3,7 +3,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/shop/ShopWeaponStock.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_8020EEFC.h"
+#include "pso/item/shop/ShopPool.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -39,10 +39,6 @@ struct SRock_80224544_8022448C;
 
 
 
-typedef struct Pool_8022525C
-{
-  u8 b[0x68];
-} Pool_8022525C;
 
 extern "C" {
 extern TItemData *shop_weapon_stock_buffers[4];
@@ -50,7 +46,6 @@ void get_shop_weapon_stock_item(TItemData *dst, s32 idx, s32 tbl);
 extern WeaponRandomTables *lobby_weapon_random_tables_ptr;
 extern s32 shop_weapon_stock_counts[];
 s32 is_duplicate_shop_weapon(TItemData *item, s32 tbl);
-void push_shop_pool_entry(void *, u8);
 extern int shop_weapon_stock_level;
 void roll_shop_weapon_special(TItemData *item);
 extern s32 shop_difficulty_tier;
@@ -281,7 +276,7 @@ s32 is_duplicate_shop_weapon(TItemData *item, s32 tbl) {
 #pragma push
 #pragma optimization_level 1
 void roll_shop_weapon_second_bonus(TItemData *item) {
-    u8 buf[0x68];
+    ShopPool pool;
     WeaponRandomWeight *e;
     WeaponRandomRange *r;
     s32 idx;
@@ -291,7 +286,7 @@ void roll_shop_weapon_second_bonus(TItemData *item) {
     s32 x;
     s32 hi;
     s32 lo;
-    ((TLobby *)buf)->reset_counter_64();
+    pool.clear();
     e = lobby_weapon_random_tables_ptr->second_bonus_types;
     r = lobby_weapon_random_tables_ptr->second_bonus_ranges;
     idx = TLobby::classify_level_bracket_wide(shop_weapon_stock_level);
@@ -302,14 +297,14 @@ void roll_shop_weapon_second_bonus(TItemData *item) {
     while (i++ < 6) {
         n = e[idx].weight;
         while (n != 0) {
-            push_shop_pool_entry(buf, e[idx].value);
+            pool.push(e[idx].value);
             n--;
         }
         idx++;
     }
-    shuffle_shop_pool_n_times(buf, 3);
+    pool.shuffle_n_times(3);
     do {
-        v = ((TLobby *)buf)->pop_byte();
+        v = pool.pop();
         if (v < 0) {
             v = 0;
             break;
@@ -335,7 +330,7 @@ void roll_shop_weapon_second_bonus(TItemData *item) {
 #pragma push
 #pragma optimization_level 1
 void roll_shop_weapon_first_bonus(TItemData *item) {
-    u8 buf[0x68];
+    ShopPool pool;
     WeaponRandomWeight *e;
     WeaponRandomRange *r;
     s32 idx;
@@ -345,7 +340,7 @@ void roll_shop_weapon_first_bonus(TItemData *item) {
     s32 x;
     s32 lo;
     s32 hi;
-    ((TLobby *)buf)->reset_counter_64();
+    pool.clear();
     e = lobby_weapon_random_tables_ptr->first_bonus_types;
     r = lobby_weapon_random_tables_ptr->first_bonus_ranges;
     idx = TLobby::get_level_bracket(shop_weapon_stock_level);
@@ -356,13 +351,13 @@ void roll_shop_weapon_first_bonus(TItemData *item) {
     while (i++ < 6) {
         n = e[idx].weight;
         while (n != 0) {
-            push_shop_pool_entry(buf, e[idx].value);
+            pool.push(e[idx].value);
             n--;
         }
         idx++;
     }
-    shuffle_shop_pool_n_times(buf, 3);
-    v = ((TLobby *)buf)->pop_byte();
+    pool.shuffle_n_times(3);
+    v = pool.pop();
     if (v != -1) {
         item->data1.data_u8[6] = v;
         item->data1.data_u8[7] = 0;
@@ -389,12 +384,12 @@ void roll_shop_weapon_first_bonus(TItemData *item) {
 #pragma push
 #pragma optimization_level 1
 void roll_shop_weapon_special(TItemData *item) {
-    u8 buf[0x68];
+    ShopPool pool;
     WeaponRandomWeight *e;
     s32 idx;
     s32 i;
     s32 n;
-    ((TLobby *)buf)->reset_counter_64();
+    pool.clear();
     e = lobby_weapon_random_tables_ptr->specials;
     idx = TLobby__sub_80224840(shop_weapon_stock_level);
     i = 0;
@@ -402,13 +397,13 @@ void roll_shop_weapon_special(TItemData *item) {
     while (i++ < 3) {
         n = e[idx].weight;
         while (n != 0) {
-            push_shop_pool_entry(buf, e[idx].value);
+            pool.push(e[idx].value);
             n--;
         }
         idx++;
     }
-    shuffle_shop_pool_n_times(buf, 3);
-    switch (((TLobby *)buf)->pop_byte()) {
+    pool.shuffle_n_times(3);
+    switch (pool.pop()) {
     case 1:
         item->data1.data_s8[4] = roll_weapon_special_channel15(0);
         break;
@@ -468,7 +463,7 @@ TItemData *shop_weapon_stock_buffers[4];  // each stock table's generated items,
 void generate_shop_weapon_stock(s32 tbl) {
   long long new_var;
   TItemData item;
-  Pool_8022525C pool;
+  ShopPool pool;
   u8 *buf;
   s32 n;
   WeaponRandomKind *e;
@@ -484,7 +479,7 @@ void generate_shop_weapon_stock(s32 tbl) {
     shop_weapon_stock_counts[tbl] = 0;
     buf = (u8 *)shop_weapon_stock_buffers[tbl];
     shop_weapon_stock_target_counts[tbl] = TLobby::level_to_reward(shop_weapon_stock_level);
-    ((TLobby *)(&pool))->reset_counter_64();
+    pool.clear();
     id = TLobby::get_level_tier(shop_weapon_stock_level);
     t = &lobby_weapon_random_tables_ptr->tiers[id];
     i = 0;
@@ -496,14 +491,14 @@ void generate_shop_weapon_stock(s32 tbl) {
     {
       for (c = e->weight; c != 0; c--)
       {
-        push_shop_pool_entry(&pool, e->kind);
+        pool.push(e->kind);
       }
       e++;
     }
-    shuffle_shop_pool_n_times(&pool, 4);
+    pool.shuffle_n_times(4);
     while (shop_weapon_stock_counts[tbl] < shop_weapon_stock_target_counts[tbl])
     {
-      id = ((TLobby *)(&pool))->pop_byte();
+      id = pool.pop();
       if (id == (-1))
       {
         continue;

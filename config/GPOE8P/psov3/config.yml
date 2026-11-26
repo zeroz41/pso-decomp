@@ -15646,7 +15646,7 @@ force_active:
   - show_tp_font__FlUlll
   - shuffle_event_entries__FP17EventShuffleTable
   - shuffle_p01_order__12TBoss3VoloptFv
-  - shuffle_shop_pool__FPv
+  - shuffle__8ShopPoolFv
   - si_polling_callback
   - single_ply_quest_download_server
   - sj_memory_buffer_destroy

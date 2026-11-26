@@ -6,7 +6,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/text_8020EEFC.h"
+#include "pso/item/shop/ShopPool.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -26,10 +26,6 @@ typedef struct Item_8022525C
   u8 padC[8];
 } Item_8022525C;
 
-typedef struct Pool_8022525C
-{
-  u8 b[0x68];
-} Pool_8022525C;
 
 typedef struct Pair_8022525C
 {
@@ -90,13 +86,11 @@ struct Ent_8022403C { u8 id; u8 n; };
 
 struct Tbl_8022403C { u8 pad[8]; Ent_8022403C *base; u8 count; };
 
-struct Ctr_8022403C { u8 buf[0x74]; };
 
 struct Ent_80224190 { u8 id; u8 n; };
 
 struct Tbl_80224190 { Ent_80224190 *base; u8 count; };
 
-struct Ctr_80224190 { u8 buf[0x74]; };
 
 const Pair_802242F8 shop_tool_group_subtype_table[16] = {
     { 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 6, 0 }, { 6, 1 },
@@ -108,7 +102,6 @@ const s32 shop_technique_pool_table[19] = {
 
 extern "C" {
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
-void push_shop_pool_entry(void *, u8);
 s32 shop_stock_lacks_technique(Item_802242F8 *, s32);
 s32 shop_stock_lacks_tool(Item_802242F8 *, s32);
 }
@@ -270,7 +263,7 @@ void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1) {
 
 void generate_shop_technique_pool(s32 shop) {
     Item_802242F8 it;
-    Ctr_8022403C ctr;
+    ShopPool ctr;
     Ent_8022403C *e;
     s32 n;
     Item_802242F8 *arr;
@@ -281,7 +274,7 @@ void generate_shop_technique_pool(s32 shop) {
     arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
     n = get_shop_technique_pool_count(shop_tool_stock_level);
     if (n > 0) {
-        ((TLobby *)(&ctr))->reset_counter_64();
+        ctr.clear();
         i = get_tool_pool_table_row(shop_tool_stock_level);
         t = ((Tbl_8022403C **)lobby_tool_random_rel)[1];
         e = &t->base[i * t->count];
@@ -289,14 +282,14 @@ void generate_shop_technique_pool(s32 shop) {
         while (c++ < t->count) {
             k = e->n;
             while (k-- != 0) {
-                push_shop_pool_entry(&ctr, e->id);
+                ctr.push(e->id);
             }
             e++;
         }
-        shuffle_shop_pool_n_times(&ctr, 5);
+        ctr.shuffle_n_times(5);
         i = 0;
         while (i < n) {
-            s32 b = ((TLobby *)(&ctr))->pop_byte();
+            s32 b = ctr.pop();
             if (b != -1) {
                 ((TItemData *)(&it))->init();
                 it.b[0] = 3;
@@ -314,7 +307,7 @@ void generate_shop_technique_pool(s32 shop) {
 
 void generate_shop_rare_tool_pool(s32 shop) {
     Item_802242F8 it;
-    Ctr_80224190 ctr;
+    ShopPool ctr;
     Tbl_80224190 *t;
     s32 j;
     Item_802242F8 *arr;
@@ -328,7 +321,7 @@ void generate_shop_rare_tool_pool(s32 shop) {
     arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
     n = get_shop_rare_tool_pool_count(shop_tool_stock_level);
     if (n > 0) {
-        ((TLobby *)(&ctr))->reset_counter_64();
+        ctr.clear();
         i = get_tool_pool_table_row(shop_tool_stock_level);
         t = ((Tbl_80224190 **)lobby_tool_random_rel)[1];
         e = &t->base[i * t->count];
@@ -336,16 +329,16 @@ void generate_shop_rare_tool_pool(s32 shop) {
         while (c++ < t->count) {
             k = e->n;
             while (k-- != 0) {
-                push_shop_pool_entry(&ctr, e->id);
+                ctr.push(e->id);
             }
             e++;
         }
-        shuffle_shop_pool_n_times(&ctr, 8);
+        ctr.shuffle_n_times(8);
         {
             orig = n;
             j = 0;
             while (n > j) {
-                b = ((TLobby *)(&ctr))->pop_byte();
+                b = ctr.pop();
                 if (b == 0xF) {
                     if (orig == n) {
                         n--;

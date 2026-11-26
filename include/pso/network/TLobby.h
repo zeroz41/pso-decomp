@@ -273,8 +273,6 @@ struct TLobby : public TObject {
     static s32 get_armor_shop_tier_for_level(s32 level);
     static void set_shop_armor_list_flag(int a0, int a1);
     static void free_rocks();
-    s32 pop_byte();
-    void reset_counter_64();
     static int get_selected_quest_id();
     static s32 handle_main_phase(saddr player);
     static void *create_tl05_object(void *player);
