@@ -901,8 +901,8 @@ fail:
 
 extern "C" {
 s32 sndPopGroup();
-int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
 }
+int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
 s32 update_sound_frame(SoundControlState *self) {
     s32 t;
     s32 i;
