@@ -123,13 +123,11 @@ void start_bgm_stream(s32 index) {
     }
 }
 
-extern "C" {
 __declspec(section ".data") s32 music_slot_cues[2];
 __declspec(section ".data") s32 music_slot_progress[2];
 __declspec(section ".data") s32 lbl_80514CF0[2];
 __declspec(section ".data") f32 music_fade_volumes[2];
 __declspec(section ".data") char music_slot_entries[2][0x20];
-}
 u8 lbl_80514D40[0x218];
 
 extern TLoadCtrlProgram *music_programs[];
@@ -465,7 +463,6 @@ TLoadCtrlProgram *music_programs[] = {
     &forest_music, &cave_music, &machine_music, &ancient_music, &dark_music,
     &jungle_music, &seabed_music, &ruin_music, &space_music,
 };
-extern f32 music_fade_volumes[];
 
 void TLoadCtrl::step() { TLobby::stop_audio_streams(); stop_cue_stream(); }
 
