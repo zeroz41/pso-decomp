@@ -16,9 +16,9 @@ struct TWindowChoiceSetting : public TWindowMenuInfomation {
         const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows);
     static void sub_80249220(const NJS_POINT2 *extent, s32 rows);
     virtual void render();
-    u16 m_80;
+    u16 choice_flags;
     virtual void run_task();
-    u8 unk_82[0x2];
+    u8 pad_82[0x2];
 };
 
 LAYOUT_ASSERT(TWindowChoiceSetting_size, sizeof(TWindowChoiceSetting) == 0x84);

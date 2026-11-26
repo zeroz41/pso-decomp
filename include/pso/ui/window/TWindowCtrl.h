@@ -132,7 +132,7 @@ struct TWindowCtrl : public TObject {
     static void clear_flag_8();
     static void set_flag_bit0();
     static void clear_active_flag();
-    u8 unk_98[0x50];
+    u8 pad_98[0x50];
     static void set_flag_bit2();
     static void clear_flag_bit2();
     s32 is_flag_bit2_set();

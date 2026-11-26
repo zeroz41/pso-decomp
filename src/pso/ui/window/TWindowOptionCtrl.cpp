@@ -58,7 +58,7 @@ s16 TWindowOptionCtrl::get_field_62() { return *(s16*)((char*)this + 0x62); }
 
 s32 TWindowOptionCtrl::get_field_64() { return (s16)(*(s16*)((char*)this + 0x64)); }
 
-int TWindowSoundBalance::is_active() { return this->m_60 & 0x1; }
+int TWindowSoundBalance::is_active() { return this->state_flags & 0x1; }
 
 int TWindowOptionCtrl__sub_8026C630(void* p) { return *(u8*)((char*)p + 0x60) & 0x1; }
 

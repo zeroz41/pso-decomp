@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct SoundBalanceSettings {
-    u8 unknown_00[4];
+    u8 pad_00[4];
     s16 music_gain;
     s8 sound_effect_gain;
 };
@@ -17,7 +17,7 @@ struct TWindowSoundBalance : public TWindowBase {
     static const char *class_name;
     int is_active();
     virtual void render();
-    u8 m_60;
+    u8 state_flags;
     s8 selection;
     s16 music_gain;
     s16 sound_effect_gain;
@@ -29,7 +29,7 @@ struct TWindowSoundBalance : public TWindowBase {
     virtual void run_task();
     void apply_balance(WindowDrawContext *context);
     void handle_cancel();
-    u8 unk_66[0x2];
+    u8 pad_66[0x2];
 };
 
 LAYOUT_ASSERT(TWindowSoundBalance_size, sizeof(TWindowSoundBalance) == 0x68);

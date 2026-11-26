@@ -417,7 +417,7 @@ u8 TWindowKeyBoardBase::get_input_mode() { return active_input_mode; }
 int TWindowKeyBoardBase::get_flag() { return (state_flags >> 6) & 1; }
 
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard) {
-    return static_cast<s32>(keyboard->m_68) > 0;
+    return static_cast<s32>(keyboard->input_delay) > 0;
 }
 
 int TSymbolChatMenu::get_selected_index() { return preset_list->get_selected_value(); }

@@ -35,7 +35,7 @@ struct TWindowSubInformationBoard : public TObject {
     TWindowMessage *show_card_a7();
     TWindowMenu *create_info_board_menu();
     u32 create_board_menu();
-    u8 unk_44[0x8D0];
+    u8 pad_44[0x8D0];
 };
 
 LAYOUT_ASSERT(TWindowSubInformationBoard_size, sizeof(TWindowSubInformationBoard) == 0x914);

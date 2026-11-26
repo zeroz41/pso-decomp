@@ -30,7 +30,7 @@ public:
     void open_next_input_window();
 
     u8 inputMode;
-    u8 unknown_1D;
+    u8 pad_1D;
     u16 flags;
     TWindowKeyBoardBase *composer;
     TWindowKeyBoardSoft *softKeyboard;

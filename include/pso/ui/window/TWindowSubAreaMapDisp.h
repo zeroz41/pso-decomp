@@ -12,10 +12,10 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
     TWindowSubAreaMapDisp();
     virtual ~TWindowSubAreaMapDisp();
     static const char *class_name;
-    u8 unk_60[0x4];
-    f32 m_64;
-    u8 unk_68[0x4];
-    u32 m_6c;
+    f32 pan_x;
+    f32 pan_y;
+    f32 zoom;
+    u32 map_open;
     WindowHeading *heading;
     char *title;
     void update_manual_scroll();

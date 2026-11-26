@@ -110,7 +110,7 @@ public:
     s16 cursor;
     s16 entry_capacity;
     s16 saved_cursor;           // save_cursor_selection, before the list is rebuilt
-    u8 unk_7A[0x2];
+    u8 pad_7A[0x2];
     s32 saved_cursor_value;
     WindowHeading *status_display;
     WindowScrollBar *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar

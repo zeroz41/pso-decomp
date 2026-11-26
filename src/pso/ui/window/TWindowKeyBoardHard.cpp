@@ -17,7 +17,7 @@ const u8 *keyboard_accent_base_chars = (const u8 *)"AaEeIiOoUuNnYy";
 
 
 void TWindowKeyBoardHard::sub_8025EC04() {
-    m_68 = 0;
+    input_delay = 0;
     input_flags |= 0x100;
 }
 
@@ -585,7 +585,7 @@ void TWindowKeyBoardHard::draw_status_text(WindowDrawContext *ctx) {
 #pragma pool_data reset
 
 void TWindowKeyBoardHard::render() {
-    if ((m_68 > 0) && (is_key_active() == 0)) {
+    if ((input_delay > 0) && (is_key_active() == 0)) {
         WindowDrawContext *context = draw_default_entry();
         draw_status_text(context);
     }
@@ -607,7 +607,7 @@ void TWindowKeyBoardHard::run_task() {
         if ((is_key_active() == 0) && (m_control->is_confirmed() == 0)) {
             if (has_non_modifier_key() != 0) {
                 if (current_language == LANGUAGE_JAPANESE) {
-                    this->m_68 = 0x3C;
+                    this->input_delay = 0x3C;
                 }
                 this->input_flags = (s32) (this->input_flags & 0xFFFFFEFF);
                 m_control->composition_flags &= ~0x40;
@@ -618,9 +618,9 @@ void TWindowKeyBoardHard::run_task() {
             update_modifier_flags();
             process_all_key_states();
         }
-        delay = this->m_68;
+        delay = this->input_delay;
         if (delay > 0) {
-            this->m_68 = (delay - 1);
+            this->input_delay = (delay - 1);
         }
         update_window();
         update_fade();
@@ -633,7 +633,7 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
     this->input_flags = 0;
     m_control = control;
     this->m_64 = 0;
-    this->m_68 = 0;
+    this->input_delay = 0;
     this->accent_index = 7;
     this->release_keyboard();
 }

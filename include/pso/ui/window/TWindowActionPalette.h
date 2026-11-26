@@ -25,7 +25,7 @@ struct TWindowActionPalette : public TWindowBase {
 
     ActionPaletteTag resources[3];
     u8 state;
-    u8 unknown_6d[3];
+    u8 pad_6d[3];
     Scale scale;
 
     void set_bank_panel_art(unsigned short state);

@@ -75,9 +75,9 @@ bool is_mag_full(u8 *arg0) {
     return (*(f32 *)((s8 *)arg0 + 0x194) < 2.0f) == 0;
 }
 
-int TWindowSubMagPhoton::is_cancelled() { return m_60 & 2; }
+int TWindowSubMagPhoton::is_cancelled() { return state_flags & 2; }
 
-int TWindowSubMagPhoton::get_active_flag() { return this->m_60 & 0x1; }
+int TWindowSubMagPhoton::get_active_flag() { return this->state_flags & 0x1; }
 
 s32 TWindowSubMagPhoton::get_selected_blast() {
     return photon_blasts[static_cast<s8>(selected_blast_index)];

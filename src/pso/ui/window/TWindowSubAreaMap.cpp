@@ -36,31 +36,31 @@ TWindowSubAreaMap::TWindowSubAreaMap(TObject *parent, s32 client) : TObject(pare
 
 void TWindowSubAreaMapDisp::update_manual_scroll() {
     ControllerInputContext *temp_r31;
-    if ((s32) this->m_6c != 0) {
+    if ((s32) this->map_open != 0) {
         temp_r31 = &controller_input_state.controllers[0];
         if ((test_previous_buttons_packed(temp_r31, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
-            this->m_64 += 6.0f;
+            this->pan_y += 6.0f;
         }
         if ((test_previous_buttons_packed(temp_r31, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
-            this->m_64 -= 6.0f;
+            this->pan_y -= 6.0f;
         }
         if ((test_previous_buttons_packed(temp_r31, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
-            *(f32 *)&this->unk_60 += 6.0f;
+            this->pan_x += 6.0f;
         }
         if ((test_previous_buttons_packed(temp_r31, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
-            *(f32 *)&this->unk_60 -= 6.0f;
+            this->pan_x -= 6.0f;
         }
         if (test_previous_buttons_packed(temp_r31, 0x20000) != 0) {
-            *(f32 *)&this->unk_68 -= 6.0f;
+            this->zoom -= 6.0f;
         }
         if (test_previous_buttons_packed(temp_r31, 0x10000) != 0) {
-            *(f32 *)&this->unk_68 += 6.0f;
+            this->zoom += 6.0f;
         }
-        TRaderMapCore::pan_horizontal((f32) (*(f32 *)&this->unk_60));
-        TRaderMapCore::pan_vertical(this->m_64);
-        TRaderMapCore::add_zoom_distance((f32) (*(f32 *)&this->unk_68));
-        *(f32 *)&this->unk_60 *= 0.8f;
-        this->m_64 *= 0.8f;
-        *(f32 *)&this->unk_68 *= 0.8f;
+        TRaderMapCore::pan_horizontal(this->pan_x);
+        TRaderMapCore::pan_vertical(this->pan_y);
+        TRaderMapCore::add_zoom_distance(this->zoom);
+        this->pan_x *= 0.8f;
+        this->pan_y *= 0.8f;
+        this->zoom *= 0.8f;
     }
 }

@@ -16,8 +16,8 @@ struct TWindowLoadItemTexture : public TWindowBase {
     static TWindowLoadItemTexture *create(void *position, s32 client);
     void set_mag_slot_state(TItemData *item);
 
-    u8 m_60;
-    u8 m_61;
+    u8 load_state;
+    u8 draw_flags;
     u8 _pad62[0x2];
     f32 draw_scale[2];
     TItemTexLoad *texture_loader;

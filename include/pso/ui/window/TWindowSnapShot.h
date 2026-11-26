@@ -10,10 +10,10 @@ struct TWindowSnapShot : public TWindowBase {
     virtual ~TWindowSnapShot();
     static const char *class_name;
     virtual void render();
-    u8 m_60;
+    u8 state_flags;
     void play_open_sound();
     virtual void run_task();
-    u8 unk_61[0x3];
+    u8 pad_61[0x3];
 };
 
 LAYOUT_ASSERT(TWindowSnapShot_size, sizeof(TWindowSnapShot) == 0x64);

@@ -22,7 +22,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     int sub_8026042C();
     u32 input_flags;
     u32 m_64;
-    s32 m_68;
+    s32 input_delay;
     u32 accent_index;
     TWindowKeyBoardBase *m_control;
     void release_keyboard();
