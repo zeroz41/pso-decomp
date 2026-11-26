@@ -14,6 +14,7 @@ public:
     void set_state(s8 entry_state);
     void draw_tab(WindowDrawContext *context);
     void draw(WindowDrawContext *context);
+    void advance_reveal();
     s32 is_enabled(); // flags bit 0 clear: drawn white in state 0, else grey
 
     saddr text;
@@ -45,6 +46,5 @@ void draw_window_tab(WindowDrawContext *context, f32 *position, f32 width, u8 st
 f32 calc_title_overflow_width(f32 text_width);
 f32 get_heading_frame_width(HeadingEntry *heading);
 void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context);
-void advance_heading_reveal(HeadingEntry *heading);
 
 #endif

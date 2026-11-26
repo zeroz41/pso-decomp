@@ -122,8 +122,8 @@ void HeadingEntry::draw(WindowDrawContext *context) {
     draw_heading_text(this, context);
 }
 
-void advance_heading_reveal(HeadingEntry *heading) {
-    heading->reveal_pos = heading->reveal_pos + heading->reveal_step;
+void HeadingEntry::advance_reveal() {
+    reveal_pos = reveal_pos + reveal_step;
 }
 
 HeadingEntry::~HeadingEntry() {}

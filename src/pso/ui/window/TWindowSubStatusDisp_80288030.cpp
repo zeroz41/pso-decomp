@@ -37,7 +37,7 @@ NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };
 
 void WindowHeading::render(WindowDrawContext *context) { draw(context); }
 
-void WindowHeading::update() { advance_heading_reveal(this); }
+void WindowHeading::update() { advance_reveal(); }
 
 WindowHeading::~WindowHeading() {}
 
