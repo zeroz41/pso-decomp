@@ -10,7 +10,7 @@
 #include "pso/ui/Language.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 
 #include "pso/network/client_id.h"

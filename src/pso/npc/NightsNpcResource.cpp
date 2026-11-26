@@ -3,7 +3,6 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/NightsNpcResource.h"
-#include "pso/unk/text_8035B788.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/network/TLobby.h"

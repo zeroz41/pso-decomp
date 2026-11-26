@@ -24,7 +24,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/effect/TEffStarLight2D.h"
-#include "pso/unk/text_801036CC.h"
+#include "pso/item/FloorItemSync.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/weapon/TItemWeapon.h"

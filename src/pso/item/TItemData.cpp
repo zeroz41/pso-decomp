@@ -31,7 +31,7 @@
 #include "pso/item/TItemObject.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/item/item_pmt.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_param.h"

@@ -5,7 +5,7 @@
 #include "pso/npc/TObjNpcAHM01.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/npc/TObjNpcARM00.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/npc/TObjNpcMale.h"
 
 #include "pso/network/TLobby.h"

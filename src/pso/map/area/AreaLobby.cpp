@@ -11,7 +11,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/player/PlayerActionProvider.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.

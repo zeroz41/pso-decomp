@@ -2,7 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlyDispData.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/JudgeItem.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"

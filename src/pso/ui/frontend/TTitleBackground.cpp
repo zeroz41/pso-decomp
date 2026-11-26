@@ -4,7 +4,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_80335E08.h"
+#include "pso/ui/TitleTextureResources.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer.h"

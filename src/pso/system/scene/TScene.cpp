@@ -25,7 +25,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/map/FloorWaveEvents.h"
-#include "pso/unk/text_800F8A18.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/render/DebugFont.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
@@ -52,7 +52,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_800F8A0C.h"
 
 #pragma readonly_strings on
 

@@ -1,7 +1,7 @@
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessageScroll.h"
-#include "pso/unk/TLobby_80269C6C.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMessageQuest.h"

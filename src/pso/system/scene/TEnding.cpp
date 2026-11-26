@@ -13,7 +13,7 @@
 #include "pso/audio/BgmStream.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby_800FC3CC.h"

@@ -29,7 +29,7 @@
 #include "pso/item/shop/ShopWeaponStock.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/item/shop/ShopSinglePurchase.h"

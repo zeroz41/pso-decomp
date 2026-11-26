@@ -38,4 +38,6 @@ s32 TLobby__sub_80211C3C(void);
 }
 s32 is_in_hunter_guild(s32 client_id);
 
+void *create_lobby_object_05(void *player);
+
 #endif

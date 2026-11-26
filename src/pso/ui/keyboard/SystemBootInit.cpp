@@ -65,7 +65,6 @@
 #include "pso/player/PlayerDataLoad.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/ui/font/TNECFontEORFunction.h"
-#include "pso/unk/text_8023F3F8.h"
 #include "pso/system/MainFrame.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/render/DebugFont.h"

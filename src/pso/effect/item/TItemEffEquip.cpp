@@ -7,7 +7,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/text_801036CC.h"
+#include "pso/item/FloorItemSync.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "types.h"
 #include "pso/object/base/TObjBase.h"

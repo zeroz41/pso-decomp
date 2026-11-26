@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/ui/CounterTextLookup.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/Language.h"
 #include "pso/object/base/TObjCharaHelpers.h"

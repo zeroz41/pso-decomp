@@ -7,7 +7,6 @@
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/TextureState.h"
 #include "pso/render/GinjaTextureHeader.h"
-#include "pso/unk/text_803DAFA8.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/MemoryMove.h"
 

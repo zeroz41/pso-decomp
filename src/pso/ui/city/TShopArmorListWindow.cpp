@@ -28,7 +28,7 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/TLobby_8021B268.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/item/shop/ShopSinglePurchase.h"

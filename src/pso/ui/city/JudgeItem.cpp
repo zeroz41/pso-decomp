@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/item/shop/ShopPool.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TShopItemListWindow.h"

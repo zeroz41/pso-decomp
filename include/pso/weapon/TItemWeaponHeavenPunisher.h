@@ -21,4 +21,8 @@ LAYOUT_ASSERT(HeavenPunisherMuzzleOffset, offsetof(TItemWeaponHeavenPunisher, ca
 // Copies a lock-on target list (the count and every entry) from src to dst; returns dst.
 u32 *copy_attack_targets(u32 *dst, u32 *src);
 
+struct TItem;
+
+TItem *create_heaven_punisher(u8 *item);
+
 #endif

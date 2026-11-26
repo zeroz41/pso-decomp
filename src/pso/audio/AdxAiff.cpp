@@ -6,10 +6,9 @@
 #include <stddef.h>
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803C1780.h"
+#include "pso/audio/AdxAiff.h"
 #include "pso/system/RefCountedWorkBuffer.h"
 #include <string.h>
-#include "pso/audio/AdxAiff.h"
 #include "pso/audio/AiffHeader.h"
 
 // The RIFF chunk ids parse_wav_header_info scans a WAVE header for.

@@ -2,7 +2,7 @@
 #include <string.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/shop/ShopWeaponStock.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/item/shop/ShopItemSort.h"
 #include "pso/item/shop/ShopPool.h"
 #include "pso/network/TLobby.h"
@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include "pso/item/TItemData.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TShopItemListWindow.h"
 

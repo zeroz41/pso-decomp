@@ -8,7 +8,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/save/CharacterFile.h"
 #include "pso/system/TLanguage.h"
-#include "pso/unk/text_8023F160.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/audio/MusicUnlockFlags.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"

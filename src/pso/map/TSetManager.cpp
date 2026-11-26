@@ -20,14 +20,12 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorWaveEvents.h"
-#include "pso/unk/text_800F8A18.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/GameModeQueries.h"
-#include "pso/unk/text_800F8A0C.h"
 #include "pso/system/TGStream.h"
 #include "pso/system/MemoryMove.h"
 #include <stdlib.h>
-#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include <string.h>
 #include "pso/system/THeap.h"

@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/network/protocol/ItemDropPacket.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_801036CC.h"
+#include "pso/item/FloorItemSync.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include <stddef.h>
 #include "pso/network/TLobby.h"

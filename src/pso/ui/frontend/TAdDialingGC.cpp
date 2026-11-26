@@ -1,11 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"

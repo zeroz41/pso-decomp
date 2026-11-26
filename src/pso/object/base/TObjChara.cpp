@@ -76,7 +76,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 
-#include "pso/unk/text_8023F3F8.h"
 
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 

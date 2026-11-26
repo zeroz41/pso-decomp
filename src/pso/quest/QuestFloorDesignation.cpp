@@ -10,9 +10,7 @@
 #include "pso/system/TGStream.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/quest/OfflineQuestFilename.h"
-#include "pso/unk/text_8020A2AC.h"
-#include "pso/unk/text_8020AB50.h"
-#include "pso/unk/text_8020AD40.h"
+#include "pso/map/MapSetData.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/AreaEventSet.h"
@@ -21,7 +19,6 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/TSetManager.h"
-#include "pso/map/MapSetData.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 
 

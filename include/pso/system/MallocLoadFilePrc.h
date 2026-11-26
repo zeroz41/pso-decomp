@@ -36,4 +36,13 @@ TObject *get_load_fade_task(void);
 void apply_phase_keyboard_mode();
 s32 is_area_transfer_pending();
 
+s32 *get_player_name_copy_buffer(void);
+
+void copy_name(char *name);
+
+void clear_player_name_copy_buffer(void);
+
+void clear_resource_load_tasks(void);
+void *create_named_object(const char *name);
+
 #endif

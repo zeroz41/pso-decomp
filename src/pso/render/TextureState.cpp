@@ -6,7 +6,7 @@
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/render/TextureState.h"
-#include "pso/unk/text_803DAFA8.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/render/GinjaModelQueue.h"
 extern "C" {

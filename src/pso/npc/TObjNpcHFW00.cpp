@@ -4,7 +4,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/render/psoLoadTexture.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/npc/TObjNpcFomarl.h"
 #include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"

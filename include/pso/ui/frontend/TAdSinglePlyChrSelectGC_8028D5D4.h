@@ -21,4 +21,6 @@ struct CharacterCreationEffects {
 LAYOUT_ASSERT(CharacterCreationEffectsSize, sizeof(CharacterCreationEffects) == 0xC);
 extern CharacterCreationEffects character_creation_effects;
 
+void TLobby__sub_8028D7D0(s32 i);
+
 #endif

@@ -2,7 +2,7 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/render/GvplPaletteFile.h"
-#include "pso/unk/text_803DAFA8.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include <dolphin/os/OSCache.h>
 

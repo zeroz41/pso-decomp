@@ -33,7 +33,6 @@
 #include "pso/item/TItemToolQuestBgm.h"
 #include "pso/item/TItemToolKillCounter.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_801036CC.h"
 #include "pso/system/task/TObject.h"
 
 #include "pso/object/base/TObjChara.h"
@@ -41,7 +40,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_create.h"
-#include "pso/item/FloorItemSync.h"
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {

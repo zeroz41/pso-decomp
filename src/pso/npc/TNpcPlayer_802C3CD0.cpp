@@ -9,7 +9,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 
 extern "C" {
 void copy_player_visual_record(void *, void *);

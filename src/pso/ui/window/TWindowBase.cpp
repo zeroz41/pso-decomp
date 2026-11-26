@@ -31,7 +31,6 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TLanguage.h"
-#include "pso/unk/text_803DAFA8.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

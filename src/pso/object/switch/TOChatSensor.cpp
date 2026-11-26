@@ -17,7 +17,7 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 #include "types.h"
 #include <string.h>
 
-#include "pso/unk/TLobby_8015ABD0.h"
+#include "pso/object/switch/TOChatSensor.h"
 
 #include "pso/object/switch/TOChatSensorFolder.h"
 
@@ -25,7 +25,6 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "pso/system/NinjaTypes.h"
 
-#include "pso/object/switch/TOChatSensor.h"
 
 #include "pso/system/task/TObject.h"
 

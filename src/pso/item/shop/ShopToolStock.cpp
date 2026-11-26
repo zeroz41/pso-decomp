@@ -8,7 +8,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/memory.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 
 // Per shop list (four in split screen): the stock array (18 items, allocated by

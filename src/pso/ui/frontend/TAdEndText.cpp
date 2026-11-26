@@ -1,6 +1,6 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"

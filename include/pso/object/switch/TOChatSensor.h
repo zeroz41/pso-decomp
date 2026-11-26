@@ -32,4 +32,9 @@ struct TOChatSensor : public TObjBase {
 
 LAYOUT_ASSERT(TOChatSensor_size, sizeof(TOChatSensor) == 0xD0);
 
+extern "C" {
+void TLobby__sub_8015ABD0(void);
+void TLobby__sub_8015ABD4(void);
+}
+
 #endif

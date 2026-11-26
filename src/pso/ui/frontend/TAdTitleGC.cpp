@@ -7,7 +7,6 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/TextureState.h"
-#include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/network/TLobby.h"

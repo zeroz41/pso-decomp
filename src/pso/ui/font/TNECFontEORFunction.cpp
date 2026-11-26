@@ -1,5 +1,5 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
-#include "pso/unk/text_803DAFA8.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -14,7 +14,6 @@
 #include <dolphin/os/OSCache.h>
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/memory.h"
-#include "pso/render/GinjaTextureHeader.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"

@@ -68,5 +68,15 @@ public:
 
 LAYOUT_ASSERT(TAdMultiChgGameModeGC_size, sizeof(TAdMultiChgGameModeGC) == 0x30);
 
+// Defined in TAdMultiChgGameModeGC_8023E7A8.cpp. The unload/load pair runs the lobby
+// scene hook table (unload halves in reverse, then the load halves): the options and
+// time-set screens call it after a language change.
+void unload_lobby_scene_resources(void);
+void load_lobby_scene_resources(void);
+void init_game_mode_select_scene(void);
+
+// The front-end phases' frame loop (main_phase_table), defined in
+// TAdMultiChgGameModeGC_8023E7A8.cpp.
+void run_game_mode_select_frame(void);
 
 #endif

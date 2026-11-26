@@ -31,7 +31,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/unk/text_8023F160.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"

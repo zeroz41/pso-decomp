@@ -1,6 +1,6 @@
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
-#include "pso/unk/TLobby_80269C6C.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/MessageInformationWindow.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMessageInfomation.h"

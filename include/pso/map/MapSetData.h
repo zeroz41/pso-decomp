@@ -105,4 +105,14 @@ struct LoadObjectSetFileName { char s[0x20]; };
 
 struct LoadAreaObjectSetRecord { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
+s32 load_enemy_set_file(s32 idx, const char *filename);
+void load_map_set_data(s32 idx, const char *filename);
+s32 load_object_set_file(s32 idx, const char *filename);
+
+s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities);
+
+s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities);
+
+void clear_map_set_data(void);
+
 #endif

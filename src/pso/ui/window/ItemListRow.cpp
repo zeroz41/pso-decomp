@@ -21,10 +21,9 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowTextDraw.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/item/item_create.h"
 #include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on

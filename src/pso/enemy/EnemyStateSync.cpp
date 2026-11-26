@@ -21,7 +21,6 @@
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/npc/ChaoNpcSpawn.h"
 #include "pso/npc/NightsNpcResource.h"
-#include "pso/unk/text_8035B788.h"
 #include "pso/system/byteswap.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"

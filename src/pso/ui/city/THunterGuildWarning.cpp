@@ -229,7 +229,6 @@ s32 TLobby__sub_80211C3C(void) {
 // ---- pso/unk/TLobby_80211CE0
 
 
-#include "pso/unk/TLobby_80211F0C.h"
 
 
 s32 TLobby::handle_main_phase(saddr player) {

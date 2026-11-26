@@ -43,11 +43,10 @@
 #include "pso/system/THeap.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_80104F4C.h"
+#include "pso/item/item_create.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_801036CC.h"
+#include "pso/item/FloorItemSync.h"
 #include "pso/unk/text_801057A8.h"
-#include "pso/unk/text_80104FCC.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
@@ -74,7 +73,6 @@
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/item/item_create.h"
 
 
 // The two colours of the present box, by wrapping colour (box_color).

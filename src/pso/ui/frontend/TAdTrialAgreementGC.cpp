@@ -13,7 +13,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/unk/TLobby_80335E08.h"
+#include "pso/ui/TitleTextureResources.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/TTitleMenu.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"

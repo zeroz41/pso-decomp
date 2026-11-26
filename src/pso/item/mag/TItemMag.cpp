@@ -40,7 +40,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/object/base/TObjBase.h"
 

@@ -53,7 +53,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/unk/TLobby_80269C6C.h"
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;

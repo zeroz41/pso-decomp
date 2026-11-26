@@ -26,7 +26,6 @@
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 
-#include "pso/unk/TLobby_800F7744.h"
 
 #include "pso/system/ControllerInputState.h"
 

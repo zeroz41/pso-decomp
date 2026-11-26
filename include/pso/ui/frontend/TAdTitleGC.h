@@ -40,4 +40,10 @@ public:
 
 LAYOUT_ASSERT(TAdTitleGC_size, sizeof(TAdTitleGC) == 0x138);
 
+void load_title_midashi_texture();
+void free_title_midashi_texture();
+
+// Whether the disc files failed verify_game_file_integrity; recorded in saved characters.
+int game_files_modified();
+
 #endif

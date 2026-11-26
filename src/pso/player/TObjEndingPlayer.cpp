@@ -1,4 +1,4 @@
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/player/PlayerState.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "types.h"

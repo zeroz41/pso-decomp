@@ -42,7 +42,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"

@@ -5,7 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/npc/TObjNpcARW00.h"
 #include "pso/render/psoLoadTexture.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/npc/TObjNpcFemale.h"
 #include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"

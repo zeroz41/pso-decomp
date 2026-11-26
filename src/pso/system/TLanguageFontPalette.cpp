@@ -5,7 +5,7 @@
 #include <dolphin/os/OSCache.h>
 #include "pso/system/TLanguage.h"
 #include "pso/render/GvplPaletteFile.h"
-#include "pso/unk/text_803DAFA8.h"
+#include "pso/render/GinjaTextureHeader.h"
 
 // Loads the palette into `tlut_name`, then a copy with every colour inverted (opaque
 // where it was translucent) into `inverted_tlut_name`.
