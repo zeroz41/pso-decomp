@@ -2,9 +2,10 @@
 #define PSO_SYSTEM_MAINPHASECHECK_H
 
 #include "types.h"
+#include "pso/system/MainPhaseState.h"
 
 extern "C" {
-u8 fn_8000F740(s32 *p);
+s32 fn_8000F740(MainPhaseState *state);
 }
 
 #endif

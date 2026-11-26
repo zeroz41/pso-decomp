@@ -115,6 +115,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/math/ScratchVectors.h"
+#include "pso/system/MainPhaseCheck.h"
 #include "pso/system/MainPhaseState.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/player/TObjPlayerSet.h"
@@ -840,7 +841,6 @@ void release_players_from_cutscene(void);
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
 s32 get_class_max_exp(void *, void *);
-s32 fn_8000F740(void *);
 }
 
 extern const f32 player_front_distance;

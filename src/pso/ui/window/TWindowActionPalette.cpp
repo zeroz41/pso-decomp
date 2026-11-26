@@ -66,7 +66,7 @@ PaletteIconUV action_palette_icon_uv_tables[19] = {
     {0.0f, 172.0f}, {50.0f, 129.0f}, {200.0f, 86.0f}, {150.0f, 0.0f},
     {150.0f, 86.0f}, {150.0f, 43.0f}, {200.0f, 43.0f},
 };
-PaletteIconUV lbl_804CDD40[17] = {
+PaletteIconUV action_palette_item_icon_uvs[17] = {
     {0.0f, 0.0f}, {0.0f, 43.0f}, {0.0f, 86.0f}, {50.0f, 0.0f},
     {50.0f, 43.0f}, {50.0f, 86.0f}, {100.0f, 0.0f}, {50.0f, 129.0f},
     {100.0f, 43.0f}, {0.0f, 172.0f}, {0.0f, 129.0f}, {150.0f, 43.0f},
@@ -386,7 +386,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
         } else {
             icon->kind = 4;
         }
-        row = lbl_804CDD40;
+        row = action_palette_item_icon_uvs;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
