@@ -5061,7 +5061,7 @@ pso/ui/city/THunterGuildSeqOnlineTask.cpp:
 	.sdata      start:0x805D3660 end:0x805D366C
 	.sdata2     start:0x805DC660 end:0x805DC67C
 
-pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp:
+pso/ui/city/JudgeItem.cpp:
 	.text       start:0x802156A0 end:0x80215BA0
 	.rodata     start:0x8044BD30 end:0x8044BD50
 	.sbss       start:0x805D61C0 end:0x805D61CC

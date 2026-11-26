@@ -8912,8 +8912,8 @@ force_active:
   - lookup_item_category__9TWindowDDFl
   - lookup_key_char__19TWindowKeyBoardHardFUc
   - lookup_key_repeat_state__19TWindowKeyBoardHardFUcUc
-  - lookup_key_value__6TLobbyFc
-  - lookup_table_value__6TLobbyFSc
+  - lookup_appraisal_score__FSc
+  - lookup_appraisal_grind_score__FSc
   - lookup_technique__19TWindowSubTechniqueFll
   - lsc_enqueue_file
   - lsc_get_min_buffer_bytes

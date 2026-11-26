@@ -51,7 +51,7 @@ static const size_t shop_items_offset = offsetof(TShopItemListWindow, shop_items
 static const size_t shop_price_offset = shop_items_offset + offsetof(TItemData, data2);
 
 // Favoured grind type per section ID (-1: none), indexed by the player's section ID in
-// roll_shop_weapon_grind and TLobby::is_slot_match.
+// roll_shop_weapon_grind and is_section_favored_weapon.
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 extern "C" {

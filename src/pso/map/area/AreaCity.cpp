@@ -23,9 +23,7 @@
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/object/city/CitySeasonResources.h"
-#include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
-
-// THunterGuildSeqOnlineTask_802156A0.cpp; no header declares it yet.
+#include "pso/ui/city/JudgeItem.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*TLobby_scene_load_callback_table[24])(void) = {
@@ -33,7 +31,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     load_weapon_random_tables, free_weapon_random_tables,
     load_armor_random_table, free_armor_random_table,
     load_tool_random_rel, free_tool_random_rel,
-    load_judge_item, TLobby::free_window,
+    load_judge_item, free_judge_item,
     TQuestListOffline::reset_global_if_not_split_screen, TQuestListOffline::free_global,
     reset_globals2, reset_globals__19TQuestListChallengeFv,
     load_city_season_resources, free_city_season_resources,

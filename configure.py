@@ -983,7 +983,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowSubComCard.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowSubCustomEquip.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/city/THunterGuildSeqOnlineTask.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/city/JudgeItem.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjBgmColCtrl.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/object/collision/TObjBgmColCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/ambient/TButterfly.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

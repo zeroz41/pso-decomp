@@ -256,8 +256,6 @@ struct TLobby : public TObject {
     void send_6x71_to_player();
     void send_6x6D_item_state();
     static void make_players();
-    static u8 lookup_table_value(s8 x);
-    bool is_slot_match();
     static void drain_deferred_packets();
     void add_status_disp_entry(s32 name, s32 id);
     void handle_quest_download_chunk();
@@ -365,14 +363,12 @@ struct TLobby : public TObject {
     void bswap_player_fields();
     void send_player_update();
     static void update_guild_or_quest_phase();
-    static void free_window();
     static void refresh_lobby_state();
     static s32 init_particle_model();
     static void update_field_state();
     static void update_subsystems();
     static void update_game_modes();
     static void free_global_buffers();
-    void roll_item_grind_bonus();
     static void free_map_resources();
     static s32 count_members();
     static void handle_reset_choice(s32 choice);
@@ -463,7 +459,6 @@ struct TLobby : public TObject {
     static void init_buffers(int floor, u8 *quest);
     static void init_player_window_effect();
     static s32 load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 size);
-    static u8 lookup_key_value(char);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
     static void open_city_warp_menu();
     static void open_download_list_window(int, DownloadListEntry *);

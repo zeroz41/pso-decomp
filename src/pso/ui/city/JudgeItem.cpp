@@ -1,3 +1,4 @@
+#include "pso/ui/city/JudgeItem.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
@@ -7,41 +8,14 @@
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TShopItemListWindow.h"
 
-struct AppraisalScoreEntry {
-    s8 roll;
-    u8 score;
-};
-
-struct AppraisalRollEntry {
-    u8 adjustment;
-    u8 weight;
-    u8 favored_weight;
-};
-
-struct AppraisalRollTable {
-    AppraisalRollEntry *entries;
-    s32 count;
-};
-
-struct ItemAppraisalRules {
-    AppraisalRollTable *special_rolls;
-    AppraisalRollTable *grind_rolls;
-    AppraisalRollTable *percentage_rolls;
-    AppraisalScoreEntry *special_and_percentage_scores;
-    AppraisalScoreEntry *grind_scores;
-};
-
-
-
-// Grind/percentage steps picked by the JudgeItem appraisal rolls (name inferred from its users).
+// Grind/percentage steps picked by the JudgeItem appraisal rolls.
 static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3, 5, 10, 0};
 
 ItemAppraisalRules *item_appraisal_rules;
 s32 item_appraisal_favored_weapon;
 s32 item_appraisal_score;
-extern "C" {
 
-u8 TLobby::lookup_table_value(s8 x) {
+u8 lookup_appraisal_grind_score(s8 x) {
     const AppraisalScoreEntry *p = item_appraisal_rules->grind_scores;
     while (p->roll != -1) {
         if (p->roll == x) {
@@ -52,7 +26,7 @@ u8 TLobby::lookup_table_value(s8 x) {
     return 0;
 }
 
-u8 lookup_key_value__6TLobbyFc(s8 x) {
+u8 lookup_appraisal_score(s8 x) {
     const AppraisalScoreEntry *p = item_appraisal_rules->special_and_percentage_scores;
     while (p->roll != -1) {
         if (p->roll == x) {
@@ -104,16 +78,16 @@ void adjust_appraisal_percentages(TItemData *appraisal) {
     if (appraisal->data1.data_s8[11] > 100) {
         appraisal->data1.data_s8[11] = 100;
     }
-    item_appraisal_score += ((s8 (*)(s8))lookup_key_value__6TLobbyFc)(r);
+    item_appraisal_score += (s8)lookup_appraisal_score(r);
 }
 
-void TLobby::roll_item_grind_bonus() {
+void adjust_appraisal_grind(TItemData *item) {
     ShopPool pool;
     const AppraisalRollEntry *e;
     s32 n;
     s32 c;
     s32 r;
-    if (TItemData::is_rare_item(this) == 0) {
+    if (TItemData::is_rare_item(item) == 0) {
         pool.clear();
         const AppraisalRollTable *t = item_appraisal_rules->grind_rolls;
         n = t->count;
@@ -132,17 +106,17 @@ void TLobby::roll_item_grind_bonus() {
         pool.shuffle_n_times(4);
         r = pool.pop();
         if (r != -1) {
-            s32 v = ((TItemData *)this)->data1.data_u8[3] + item_appraisal_adjust_table[r];
+            s32 v = item->data1.data_u8[3] + item_appraisal_adjust_table[r];
             if (v < 0) {
                 v = 0;
             }
-            ((TItemData *)this)->data1.data_u8[3] = v;
+            item->data1.data_u8[3] = v;
         }
-        u8 m = ((TItemData *)this)->get_max_grind();
-        if (((TItemData *)this)->data1.data_u8[3] > m) {
-            ((TItemData *)this)->data1.data_u8[3] = m;
+        u8 m = item->get_max_grind();
+        if (item->data1.data_u8[3] > m) {
+            item->data1.data_u8[3] = m;
         }
-        item_appraisal_score += (s8)TLobby::lookup_table_value(r);
+        item_appraisal_score += (s8)lookup_appraisal_grind_score(r);
     }
 }
 
@@ -179,27 +153,27 @@ void adjust_appraisal_special(TItemData *obj) {
             break;
         }
     }
-    item_appraisal_score += (s8)lookup_key_value__6TLobbyFc(r);
+    item_appraisal_score += (s8)lookup_appraisal_score(r);
 }
 
-bool TLobby::is_slot_match() {
-    return ((TItemData *)this)->data1.data_u8[1] == section_id_favored_grind_table[shop_section_id];
+s32 is_section_favored_weapon(TItemData *item) {
+    if (item->data1.data_u8[1] == section_id_favored_grind_table[shop_section_id]) {
+        return 1;
+    }
+    return 0;
 }
-s32 is_slot_match__6TLobbyFv();
-}
-
 
 void update_item_appraisal(TItemData *appraisal) {
     if (item_appraisal_rules != NULL) {
         item_appraisal_score = 0;
-        item_appraisal_favored_weapon = is_slot_match__6TLobbyFv();
+        item_appraisal_favored_weapon = is_section_favored_weapon(appraisal);
         adjust_appraisal_special(appraisal);
-        ((TLobby *)appraisal)->roll_item_grind_bonus();
+        adjust_appraisal_grind(appraisal);
         adjust_appraisal_percentages(appraisal);
     }
 }
 
-void TLobby::free_window() {
+void free_judge_item() {
     if (item_appraisal_rules != NULL) {
         TLobby::free_nodes_with_id((uaddr)((void*)item_appraisal_rules));
         item_appraisal_rules = 0U;
