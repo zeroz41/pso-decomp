@@ -8,6 +8,7 @@
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/player/TPlayerBattleCtrl.h"
+#include "pso/player/PlayerTaskEffects.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TPacket.h"
@@ -77,15 +78,7 @@ s32 dispatching_own_subcommand;
 extern "C" void handle_6x07_symbol_chat();
 extern "C" void handle_6x18_vol_opt2_boss_actions();
 void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
-extern "C" void handle_6x6B_sync_game_state();
-extern "C" void handle_6x6C_sync_game_state();
-extern "C" void handle_6x6D_sync_game_state();
-extern "C" void handle_6x6E_sync_game_state();
-extern "C" void handle_6x70_sync_player_disp_and_inventory();
-extern "C" void handle_6x7D_set_battle_mode_data();
 struct game_command_header;
-extern "C" void handle_6x87_shrink_player();
-extern "C" void handle_6x88_restore_shrunken_player();
 u32 lbl_804C5238[10] = { 0 };
 
 u8 subcommand_area_masks[36] = {

@@ -57,7 +57,7 @@ struct PlayerAttackController {
     f32 get_attack_speed();
     void set_queued_kind(s16 kind);
     FlagWord *get_flags();
-    void set_lockon_targets(void *src);
+    void set_lockon_targets(CapturedTargetList *src);
     void end_swing();
     void increment_hit_count();
     void set_recovery_timer(s32 frames);

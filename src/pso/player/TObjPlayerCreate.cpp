@@ -517,7 +517,6 @@ TObjPlayer::~TObjPlayer() {
 }
 
 extern "C" {
-void load_pending_actions_from_sync_record(TObjPlayer *player, u8 *record);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 }
 
@@ -547,7 +546,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     init_battle(record);
     TObjPlayer__sub_801BBB70(this, record);
     this->init_class_flags(record);
-    load_pending_actions_from_sync_record(this, (u8 *)record);
+    load_pending_actions_from_sync_record((u8 *)record);
     this->hp = record->current_hp;
 }
 

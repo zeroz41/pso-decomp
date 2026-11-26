@@ -129,6 +129,7 @@
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/network/protocol/subcommand_validation.h"
+#include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/npc/NpcPartnerControl.h"
@@ -159,7 +160,6 @@ s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
 bool is_trap_stock_empty(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
-void emit_idle_water_effect(PlayerFollowParticles *particles);
 s8 clamp_class_index(s8 cls);
 }
 extern "C" {
@@ -184,7 +184,6 @@ void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
 s32 get_class_max_exp(void *, void *);
-s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
 }
 
@@ -230,8 +229,6 @@ struct EquippedItemSlot {
     s16 slot;
     TItem *item;
 };
-
-extern "C" {
 
 extern const f32 player_rand_pick_limit;
 
@@ -390,8 +387,10 @@ void TObjPlayer::init_player_substructs(u8 *data) {
 void TObjPlayer::release_action_palettes() {  }
 
 void TObjPlayer::reset_action_input() { enable_action_input(); }
+extern "C" {
 
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record) {}
+}
 
 void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     this->hp = (s16) this->hpmax;
@@ -476,11 +475,11 @@ void TObjPlayer::release_pending_action() {  }
 
 void TObjPlayer::reset_pending_action() {  }
 
-void load_pending_actions_from_sync_record(TObjPlayer *player, u8 *record) {
+void TObjPlayer::load_pending_actions_from_sync_record(u8 *record) {
     u32 state = record[0x143] | (record[0x15F] << 8);
     state |= (record[0x17B] << 16) & 0xFF0000;
     state |= record[0x197] << 24;
-    player->pending_actions.set_bits(state);
+    pending_actions.set_bits(state);
 }
 
 void TObjPlayer::reset_motion_fields() {
@@ -817,8 +816,6 @@ void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
     }
     draw_blob_shadow(force_draw);
     pop_matrix();
-}
-
 }
 
 void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor) {
@@ -5684,7 +5681,7 @@ void TObjPlayer::update_movement_effects() {
         follow_particles.emit_movement_effect();
     }
     if (is_body_collision_inactive() == 0 && test_action_mask(2) != 0 && contact_surface.has_water_ground_flag() != 0) {
-        emit_idle_water_effect(&follow_particles);
+        follow_particles.emit_idle_water_effect();
     }
 }
 
@@ -5799,7 +5796,7 @@ void TObjPlayer::add_power_material(u8 amount) {
         amount *= 5;
     }
     add_stat(amount);
-    materials.try_add_item(get_class_index__10TObjPlayerFv(this), 1);
+    materials.try_add_item(get_class_index(), 1);
 }
 
 void TObjPlayer::add_mind_material(u8 amount) {
@@ -5807,7 +5804,7 @@ void TObjPlayer::add_mind_material(u8 amount) {
         amount *= 5;
     }
     add_mst(amount);
-    materials.add_item_count(get_class_index__10TObjPlayerFv(this), 1);
+    materials.add_item_count(get_class_index(), 1);
 }
 
 void TObjPlayer::add_evp_material(u8 amount) {
@@ -5815,7 +5812,7 @@ void TObjPlayer::add_evp_material(u8 amount) {
         amount *= 5;
     }
     add_evp(amount);
-    materials.try_add_item_count_type2(get_class_index__10TObjPlayerFv(this), 1);
+    materials.try_add_item_count_type2(get_class_index(), 1);
 }
 
 void TObjPlayer::add_dfp_material(u8 amount) {
@@ -5823,7 +5820,7 @@ void TObjPlayer::add_dfp_material(u8 amount) {
         amount *= 5;
     }
     add_dfp(amount);
-    materials.try_add_item_count_kind3(get_class_index__10TObjPlayerFv(this), 1);
+    materials.try_add_item_count_kind3(get_class_index(), 1);
 }
 
 // TObjPlayer::get_class_index as its callers see it: the whole return register.
@@ -5834,7 +5831,7 @@ void TObjPlayer::add_luck_material(u8 amount) {
         amount *= 5;
     }
     add_lck(amount);
-    materials.add_item_count_kind4(get_class_index__10TObjPlayerFv(this), 1);
+    materials.add_item_count_kind4(get_class_index(), 1);
 }
 
 __declspec(section ".sdata2") extern const f32 player_zero = 0.0f;

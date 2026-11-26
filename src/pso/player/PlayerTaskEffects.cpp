@@ -38,11 +38,6 @@
 #include "pso/player/TPlayerParticleOwner.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-extern "C" {
-void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
-void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
-}
-
 
 
 

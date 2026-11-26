@@ -569,6 +569,16 @@ void fn_801058E8(TPlyCharData *chr);
 
 char *get_lobby_name();
 
+struct CompressedSyncPacket;
+struct PlayerSyncPacket;
+
+// 6x6B-6x6E: the compressed game-state blocks a joining client receives; 6x70: a player's state and inventory.
+void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt);
+void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt);
+void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
+void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt);
+void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
+
 // The battle rule settings (0x24 bytes) the TLobby rule accessors read and write.
 
 class TObject;

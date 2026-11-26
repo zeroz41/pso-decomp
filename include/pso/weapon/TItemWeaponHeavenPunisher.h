@@ -18,4 +18,7 @@ public:
 
 LAYOUT_ASSERT(HeavenPunisherMuzzleOffset, offsetof(TItemWeaponHeavenPunisher, captured_muzzle) == 0x224);
 
+// Copies a lock-on target list (the count and every entry) from src to dst; returns dst.
+u32 *copy_attack_targets(u32 *dst, u32 *src);
+
 #endif

@@ -11,9 +11,6 @@
 #include "pso/system/task/TMainTask.h"
 
 
-extern "C" {
-u32 *copy_attack_targets(u32 *dst, u32 *src);
-
 void TItemWeaponHeavenPunisher::activate_effect(s32 effect_variant) {
   if (owner != NULL)
   {
@@ -81,8 +78,6 @@ u32 *copy_attack_targets(u32 *dst, u32 *src) {
         *(d += 2) = b;
     }
     return dst;
-}
-
 }
 
 TItemWeaponHeavenPunisher::TItemWeaponHeavenPunisher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

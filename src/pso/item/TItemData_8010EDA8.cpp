@@ -7,7 +7,6 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-s32 get_class_index__10TObjPlayerFv(void *);
 }
 
 void ActorParamBlock::add_elt(s32 amount) {
@@ -62,7 +61,7 @@ s16 MagStats::get_pow_level() {
 }
 
 s32 TObjPlayer::can_use_more_materials_for_class() {
-    return this->materials.can_use_more_materials(get_class_index__10TObjPlayerFv(this));
+    return this->materials.can_use_more_materials(get_class_index());
 }
 saddr get_item_description_text(s32 name) {
     return (saddr)text_language_group_table[1][name];

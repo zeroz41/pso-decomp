@@ -314,10 +314,6 @@ s32 TObjPlayer::get_entrance_id() { return entrance_id; }
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
-void emit_idle_water_effect(PlayerFollowParticles *particles);
-}
-
 #pragma defer_codegen on
 ContactSurfaceFlags::~ContactSurfaceFlags() {}
 
@@ -561,8 +557,8 @@ int PlayerFollowParticles::emit_movement_effect() { return hands.emit_movement_e
 
 Vec *PlayerFollowParticles::get_surface_contact_point() { return &contact_points[2]; }
 
-void emit_idle_water_effect(PlayerFollowParticles *particles) {
-    emit_idle_water_splash(&particles->hands, particles->get_surface_contact_point());
+void PlayerFollowParticles::emit_idle_water_effect() {
+    emit_idle_water_splash(&hands, get_surface_contact_point());
 }
 
 #pragma push
@@ -695,23 +691,23 @@ u8 MaterialUsage::get_def_used() { return counts[3]; }
 
 u8 MaterialUsage::get_luck_used() { return counts[4]; }
 
-void MaterialUsage::try_add_item(s32 class_index, u8 amount) {
+void MaterialUsage::try_add_item(s8 class_index, u8 amount) {
     try_add_item_count(class_index, 0, amount);
 }
 
-void MaterialUsage::add_item_count(s32 class_index, u8 amount) {
+void MaterialUsage::add_item_count(s8 class_index, u8 amount) {
     try_add_item_count(class_index, 1, amount);
 }
 
-void MaterialUsage::try_add_item_count_type2(s32 class_index, u8 amount) {
+void MaterialUsage::try_add_item_count_type2(s8 class_index, u8 amount) {
     try_add_item_count(class_index, 2, amount);
 }
 
-void MaterialUsage::try_add_item_count_kind3(s32 class_index, u8 amount) {
+void MaterialUsage::try_add_item_count_kind3(s8 class_index, u8 amount) {
     try_add_item_count(class_index, 3, amount);
 }
 
-void MaterialUsage::add_item_count_kind4(s32 class_index, u8 amount) {
+void MaterialUsage::add_item_count_kind4(s8 class_index, u8 amount) {
     try_add_item_count(class_index, 4, amount);
 }
 

@@ -60,6 +60,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/weapon/TItemWeaponHeavenPunisher.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/base/ActorCollision.h"
@@ -111,8 +112,6 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 
 
 extern "C" {
-
-s32 copy_attack_targets(void *dst, void *src);
 s32 draw_player_status(void *, void *, const char *);
 u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
@@ -3531,7 +3530,7 @@ void TObjPlayer::send_attack_target_packet() {
     if (((this->obj_isState2_324() == 0) || (this->reset_volopt_state() != 0)) && ((this->obj_isState3_324() != 0) || (this->attack_state.capture_lockon_targets(this) != 0)) && (this->is_body_collision_inactive() == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
         G_AttackFinished_6x46 packet;
         packet.header.client_id = this->get_entity_id();
-        copy_attack_targets(&packet.targets, this->attack_state.get_lockon_targets());
+        copy_attack_targets((u32 *)&packet.targets, (u32 *)(this->attack_state.get_lockon_targets()));
         packet.send();
     }
 }
@@ -5680,7 +5679,7 @@ f32 PlayerAttackController::calc_attack_stage_multiplier(s32 kind) {
     return attack_type_accuracy_scales[kind] * attack_combo_accuracy_multipliers[get_validated_attack_stage()];
 }
 
-void PlayerAttackController::set_lockon_targets(void *src) { copy_attack_targets(&lockon_targets, src); }
+void PlayerAttackController::set_lockon_targets(CapturedTargetList *src) { copy_attack_targets((u32 *)&lockon_targets, (u32 *)src); }
 
 void PlayerAttackController::end_swing() { ((FlagWord *)&flags)->set(1); }
 

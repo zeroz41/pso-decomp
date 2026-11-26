@@ -54,6 +54,7 @@ struct PlayerFollowParticles {
     void create_hand_particles(TObjBase *owner);
     void set_owner(TObjBase *owner);
     int emit_movement_effect();
+    void emit_idle_water_effect();
     void emit_photon_blast_feedback();
     void check_hit_by_id_431();
     void request_heavy_attack_particles();

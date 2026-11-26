@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/MaterialUsage.h"
 
-s32 MaterialUsage::try_add_item_count(s32 class_index, s32 index, u8 amount) {
+s32 MaterialUsage::try_add_item_count(s8 class_index, s32 index, u8 amount) {
     u8 total_materials_used;
 
     total_materials_used = get_total_materials_used();
@@ -12,7 +12,7 @@ s32 MaterialUsage::try_add_item_count(s32 class_index, s32 index, u8 amount) {
     return 1;
 }
 
-s32 MaterialUsage::can_use_more_materials(s32 class_index) {
+s32 MaterialUsage::can_use_more_materials(s8 class_index) {
     u8 t = get_total_materials_used();
     if (t >= get_material_limit_for_class(class_index)) {
         return 1;
@@ -30,8 +30,8 @@ u8 MaterialUsage::get_total_materials_used() {
     return sum;
 }
 
-u8 get_material_limit_for_class(s32 class_index) {
-    switch ((s8)class_index) {
+u8 get_material_limit_for_class(s8 class_index) {
+    switch (class_index) {
     case 0:
     case 3:
     case 6:

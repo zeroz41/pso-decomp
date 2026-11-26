@@ -6652,7 +6652,7 @@ force_active:
   - get_mag_state__15TWindowHelpItemFv
   - get_body__14ShortMailEntryFv
   - get_material_index__18TPlayerLobbyMarkerFv
-  - get_material_limit_for_class__Fl
+  - get_material_limit_for_class__FSc
   - get_max_difficulty_for_party_level__21TAdMultiSelGameModeGCFv
   - get_max_tp__14TItemToolFluidFv
   - get_message_10__17TWindowSubComCardFl

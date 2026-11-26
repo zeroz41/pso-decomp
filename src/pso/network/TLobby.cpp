@@ -175,11 +175,6 @@ void handle_quest_download_chunk__6TLobbyFv();
 }
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
-void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt);
-void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
-void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
-void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt);
-void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt);
 s32 TLobby__sub_801A3E8C();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];

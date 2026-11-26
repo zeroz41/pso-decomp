@@ -141,13 +141,6 @@ void __destroy_new_array(void *, void *);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 void __ct__19PlayerCharDataEntryFv(void);
-
-
-
-void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
-}
-
-extern "C" {
 }
 
 extern s32 battle_intro_value_table[];

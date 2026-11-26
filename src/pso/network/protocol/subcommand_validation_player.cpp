@@ -316,11 +316,7 @@ s32 validate_6x22_set_player_invisible(G_ClientIDHeader *packet) {
     return validate_subcommand_client(packet) ? 1 : 0;
 }
 
-struct LobbyAnimationState { G_ClientIDHeader header; s16 animation_number; u16 unused; u32 player_flags; f32 animation_timer; };
-
-extern "C" {
-s32 validate_6xAE_set_animation_state(LobbyAnimationState *packet);
-s32 validate_6xAE_set_animation_state(LobbyAnimationState *packet) {
+s32 validate_6xAE_set_animation_state(G_SetAnimationState_6xAE *packet) {
     TObjPlayer *player;
     player = get_player_by_client_id(packet->header.client_id);
     if (player == 0) {
@@ -336,6 +332,4 @@ s32 validate_6xAE_set_animation_state(LobbyAnimationState *packet) {
         return 0;
     }
     return 1;
-}
-
 }
