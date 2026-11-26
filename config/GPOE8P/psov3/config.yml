@@ -1924,7 +1924,7 @@ force_active:
   - __atexit_funcs
   - __console_exit
   - __ct__10TBoss6RockFP7TObjectl
-  - __ct__10TButterflyFP7TObjectPv
+  - __ct__10TButterflyFP7TObjectP13ObjectSetData
   - __ct__10TItemMoneyFP7TObjectP9TItemData
   - __ct__10TObjCameraFP7TObjectPv
   - __ct__11TBoss4ZanzoFP7TObjectP17TBoss4ZanzoParams
