@@ -444,7 +444,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # slot order: deferred generation of the last-to-first source. The EXP/TP/HP labels
     # are 4-byte string literals in .sdata2.
     "pso/object/base/TObjChara.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/ui/frontend/TAdDrawLineTask.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on")},
+    "pso/ui/frontend/TAdDrawLineCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on")},
     # .rodata holds assign_photon_blast_palette_slot's id table ahead of the earlier
     # assign_default_photon_blast_palette_slots's: deferred generation of the last-to-first source.
     "pso/system/data/pso_const_ids4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

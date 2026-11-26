@@ -1587,7 +1587,7 @@ pso/weapon/TItemWeaponRifle.cpp
 pso/weapon/TItemWeaponShot.cpp
 pso/weapon/TItemWeaponYasminkov2000H.cpp
 pso/unk/text_8000F740.cpp
-pso/ui/frontend/TAdDrawLineTask.cpp
+pso/ui/frontend/TAdDrawLineCtrl.cpp
 pso/ui/frontend/TitleBackground.cpp
 pso/boss/darkfalz/TObjDFDemo0.cpp
 pso/boss/darkfalz/DrainPlayerHp.cpp

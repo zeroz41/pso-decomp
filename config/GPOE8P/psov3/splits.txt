@@ -44,7 +44,7 @@ pso/ui/frontend/TAdADXlogo.cpp:
 pso/system/task/TObject_80019A50.cpp:
 	.text       start:0x80019A68 end:0x80019A8C
 
-pso/ui/frontend/TAdDrawLineTask.cpp:
+pso/ui/frontend/TAdDrawLineCtrl.cpp:
 	.text       start:0x80019A8C end:0x8001A468
 	.rodata     start:0x804340D8 end:0x80434118
 	.data       start:0x80480908 end:0x80480938
