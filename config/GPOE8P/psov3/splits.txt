@@ -9310,7 +9310,7 @@ pso/boss/olgaflow/Boss6PlayerSnapshots.cpp:
 	.text       start:0x8036DC80 end:0x8036DE10
 	.data       start:0x804F36F8 end:0x804F37A8
 
-pso/ui/frontend/TAdMultiChgGameModeGC_8036DE10.cpp:
+pso/ui/frontend/TAdSystemFileCheckGC.cpp:
 	.text       start:0x8036DE10 end:0x8036EF0C
 	.ctors      start:0x80434014 end:0x80434018
 	.rodata     start:0x8047AD30 end:0x8047B8A8

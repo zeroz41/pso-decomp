@@ -12,7 +12,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TAdSystemFileCheckGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/ui/frontend/TAdMultiChgGameModeGC_8036DE10.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -149,7 +148,6 @@ TAdSystemFileCheckGCState multi_chg_game_mode_entry_table[11] = {
     {&TAdSystemFileCheckGC::enter_state_9, &TAdSystemFileCheckGC::request_scene_change_vt},
     {&TAdSystemFileCheckGC::enter_state_10, &TAdSystemFileCheckGC::close_windows_on_selection},
 };
-extern "C" {
 __declspec(section ".data") f32 multi_chg_game_mode_window_extent[2] = {0.5f * (640.0f - multi_chg_game_mode_window_size[0]), 70.0f};
 __declspec(section ".data") NJS_POINT2 lbl_804F3A18 = {
     20.0f + multi_chg_game_mode_window_extent[0],
@@ -157,7 +155,8 @@ __declspec(section ".data") NJS_POINT2 lbl_804F3A18 = {
 };
 f32 lbl_805D7020 = multi_chg_game_mode_window_size[0] - 40.0f;
 
-s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, s32 text_set) {
+// Message text by id: text_set -1 takes the shared message table, 0 the Japanese table, else English.
+s32 TAdSystemFileCheckGC::get_message(s32 index, s32 text_set) {
     if (text_set == -1) {
         return get_message_text((index));
     }
@@ -165,7 +164,6 @@ s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, 
         return (saddr)multi_chg_game_mode_text_table_b[index];
     }
     return (saddr)multi_chg_game_mode_text_table_a[index];
-}
 }
 
 void TAdSystemFileCheckGC::close_windows_on_selection() {
@@ -230,7 +228,7 @@ void TAdSystemFileCheckGC::close_windows_and_cleanup() {
     setup_mode_menu(0);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line(TAdMultiChgGameModeGC__sub_8036DE10(this, 3, (s32)this->language), 3);
+        message_window->append_line(get_message(3, this->language), 3);
     }
 }
 
@@ -271,7 +269,7 @@ void TAdSystemFileCheckGC::close_windows_and_reopen() {
     setup_mode_menu(0);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line(TAdMultiChgGameModeGC__sub_8036DE10(this, 1, (s32)this->language), 3);
+        message_window->append_line(get_message(1, this->language), 3);
     }
 }
 
@@ -282,7 +280,7 @@ void TAdSystemFileCheckGC::open_message_window(s32 index) {
     }
     this->message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
     if (this->message_window != NULL) {
-        this->message_window->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10(this, index, (s32)((int) (this->language))))), 3);
+        this->message_window->append_line(get_message(index, this->language), 3);
     }
 }
 
@@ -302,10 +300,10 @@ void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
     s32 c;
     s32 d;
     this->menu_window = create_window_menu_default(&lbl_804F3A18, 2);
-    a = TAdMultiChgGameModeGC__sub_8036DE10(this, 6, this->language);
-    b = TAdMultiChgGameModeGC__sub_8036DE10(this, 7, this->language);
-    c = TAdMultiChgGameModeGC__sub_8036DE10(this, 2, this->language);
-    d = TAdMultiChgGameModeGC__sub_8036DE10(this, 5, this->language);
+    a = get_message(6, this->language);
+    b = get_message(7, this->language);
+    c = get_message(2, this->language);
+    d = get_message(5, this->language);
     if (this->menu_window != 0) {
         if (mode == 0) {
             this->menu_window->add_text_entry(a, 5, 0);
@@ -370,7 +368,7 @@ void TAdSystemFileCheckGC::enter_state_3() {
     setup_mode_menu(1);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10(this, 0, (s32)((s32)((int) this->language))))), 3);
+        message_window->append_line(get_message(0, this->language), 3);
     }
     create_back_objects();
 }
