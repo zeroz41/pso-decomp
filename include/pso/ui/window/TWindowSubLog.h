@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct TWindowMessageLog;
 class TWindowChat;
 
 struct TWindowSubLog : public TObject {
@@ -13,7 +14,7 @@ struct TWindowSubLog : public TObject {
     static const char *class_name;
     s32 client;
     TWindowMainMenu *parent_menu;
-    uaddr log_window;
+    TWindowMessageLog *log_window;
     TWindowChat *chat;
     void *submission;
     virtual void render();

@@ -16,6 +16,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/THeap.h"
+#include "pso/unk/text_8026A14C.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8026AD44.h"
@@ -117,25 +118,29 @@ void TWindowMessageLog::update_scroll_animation() {
 }
 
 extern "C" {
-u8 *heap_alloc__5THeapFUl(s32, s32);
-extern saddr scroll_win_chat_log_heap;
-extern u8 *chat_last_line_buffer;
 
-void TAdScrollWinGC__sub_8026A5F8(void* window) { *(float*)((char*)window + 0x84) = 0.0f; *(float*)((char*)window + 0x6c) = 0.0f; *(float*)((char*)window + 0x94) = 0.0f; }
+// Inferred: resets the scroll position (target, current and pending scroll to 0).
+void TWindowMessageLog::fn_8026A5F8() {
+    target_scroll_y = 0.0f;
+    scroll_offset[1] = 0.0f;
+    pending_scroll = 0.0f;
+}
 
-void TAdScrollWinGC::advance_scroll(f32 v) { *(f32*)((char*)this + 0x94) += v; }
+void TWindowMessageLog::advance_scroll(f32 v) { pending_scroll += v; }
 
-void fn_8026A61C(void* p, f32 v) { *(f32*)((char*)p + 0x94) += v; }
+// Same body as advance_scroll; called with the opposite direction.
+void TWindowMessageLog::fn_8026A61C(f32 v) { pending_scroll += v; }
 
 void TWindowMessageLog::append_line(s32 shared_text_buffer) {
     ((TWindowMessage *)(this))->append_line(shared_text_buffer, 0x502);
     update_scroll_position();
 }
 
-void TWindowSubLog__sub_8026A664(u8 *arg0, f32 farg0) {
-    if (farg0 != *(f32 *)((s8 *)arg0 + 0x3C)) {
-        *(f32 *)((s8 *)arg0 + 0x3C) = farg0;
-        *(s32 *)((s8 *)arg0 + 0x50) = 3;
+// Inferred: tweens the window to a new height over 3 ticks.
+void TWindowMessageLog::fn_8026A664(f32 height) {
+    if (height != target_size[1]) {
+        target_size[1] = height;
+        tween_ticks = 3;
     }
 }
 
@@ -157,7 +162,7 @@ void chat_log_remove_line(saddr index) {
     destination = (u32 *)&chat_log_lines[index];
     line = *destination;
     if (line != 0U) {
-        ((THeap *)scroll_win_chat_log_heap)->heap_free((void *)line);
+        scroll_win_chat_log_heap->heap_free((void *)line);
         *destination = 0U;
         if (index < 0x1D) {
             move_words(reinterpret_cast<void *>(destination), &chat_log_lines[index + 1], (saddr)((void *) ((0x1D - index) & 0x3FFFFFFF)));
@@ -181,9 +186,9 @@ s32 chat_text_lacks_language_tag(const char *text) {
 void cache_last_chat_line(uaddr text) {
     s32 lacks_language_tag;
     s32 size;
-    u8 *dest;
-    if ((void *) chat_last_line_buffer != NULL) {
-        ((THeap *)scroll_win_chat_log_heap)->heap_free((void *) chat_last_line_buffer);
+    char *dest;
+    if (chat_last_line_buffer != NULL) {
+        scroll_win_chat_log_heap->heap_free(chat_last_line_buffer);
         chat_last_line_buffer = NULL;
     }
     if (text != 0U) {
@@ -192,48 +197,46 @@ void cache_last_chat_line(uaddr text) {
         if (lacks_language_tag != 0) {
             size += 2;
         }
-        dest = (u8 *)((THeap *)scroll_win_chat_log_heap)->heap_alloc(size);
+        dest = (char *)scroll_win_chat_log_heap->heap_alloc(size);
         if (dest == NULL) {
             do {
                 chat_log_remove_line(0);
-                dest = (u8 *)((THeap *)scroll_win_chat_log_heap)->heap_alloc(size);
+                dest = (char *)scroll_win_chat_log_heap->heap_alloc(size);
             } while (dest == NULL);
         }
         chat_last_line_buffer = dest;
         if (lacks_language_tag != 0) {
-            *(s8 *)((s8 *)dest + 0) = 9;
+            dest[0] = 9;
             if (current_language == LANGUAGE_JAPANESE) {
-                *(s8 *)((s8 *)dest + 1) = 0x4A;
+                dest[1] = 'J';
                 dest += 2;
             } else {
-                *(s8 *)((s8 *)dest + 1) = 0x45;
+                dest[1] = 'E';
                 dest += 2;
             }
             size -= 2;
         }
-        strncpy((char *)dest, (const char *)text, size);
+        strncpy(dest, (const char *)text, size);
     }
 }
 
 void chat_log_add_line(const char *text) {
-    saddr num;
-    s32 slot_offset;
-    s32 buffer;
-    s32 free_chat_log_slot;
+    size_t num;
+    s32 slot;
+    char *buffer;
     num = strlen(text);
-    free_chat_log_slot = TLobby::find_free_chat_log_slot();
-    buffer = (saddr) heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
-    if (buffer == 0) {
+    slot = TLobby::find_free_chat_log_slot();
+    buffer = (char *)scroll_win_chat_log_heap->heap_alloc(num + 1);
+    if (buffer == NULL) {
         do {
             chat_log_remove_line(0);
-            buffer = (saddr) heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
-        } while (buffer == 0);
-        free_chat_log_slot = TLobby::find_free_chat_log_slot();
+            buffer = (char *)scroll_win_chat_log_heap->heap_alloc(num + 1);
+        } while (buffer == NULL);
+        slot = TLobby::find_free_chat_log_slot();
     }
-    slot_offset = free_chat_log_slot * 4;
-    *(s32 *)((s8 *)((u8 *)chat_log_lines + slot_offset) + 0) = buffer;
-    strncpy(*(char **)((u8 *)chat_log_lines + slot_offset), text, num);
-    *(s8 *)((s8 *)(num + *(s32 *)((s8 *)((u8 *)chat_log_lines + slot_offset) + 0)) + 0) = 0;
+    chat_log_lines[slot] = buffer;
+    strncpy(chat_log_lines[slot], text, num);
+    *(char *)(num + (size_t)chat_log_lines[slot]) = 0;
 }
 
 void append_text_space(void);
@@ -262,9 +265,9 @@ void post_chat_log_message(u16 id, const char *text) {
     }
 }
 
-u8 *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client) {
-    set_message_window_size((void *)extent, 0x1E);
-    return (u8 *)new TWindowMessageLog(position, client);
+TWindowMessageLog *create_message_log_window(const NJS_POINT2 *position, const f32 *size, s32 client) {
+    set_message_window_size(size, 0x1E);
+    return new TWindowMessageLog(position, client);
 }
 
 
@@ -277,22 +280,22 @@ void TWindowMessageLog::render() {
     draw_window_frame(draw_context);
     draw_visible_window_entries(
         this,
-        reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *)this) + 0x24)),
+        &entry_list,
         draw_context);
     draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
 }
 void TWindowMessageLog::run_task() {
-    if (!(*(s32 *)&this->window_flags & 2)) {
-        *(s32 *)&this->open_tick = 0x01000000;
+    if (!(window_flags & 2)) {
+        open_tick = 0x01000000;
     }
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32)open_tick >= 7.5f) {
         scroll_bar->increment_counter();
     }
     update_scroll_animation();
     update_scroll();
     update_window();
     update_fade_offset();
-    update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24));
+    update_window_entry_list(&entry_list);
 }
 TWindowMessageLog::~TWindowMessageLog() {
     delete scroll_bar;
@@ -301,7 +304,7 @@ TWindowMessageLog::~TWindowMessageLog() {
 TWindowMessageLog::TWindowMessageLog(const NJS_POINT2 *position, s32 client) : TWindowMessage(position, 0x1E, client) {
     NJS_POINT2 extent;
     f32 bar_width;
-    *(s32 *)(this + 0) = (s32) ((saddr)TWindowMessageLog::class_name);
+    m_name = TWindowMessageLog::class_name;
     set_message_log_window(this);
     bar_width = this->target_size[0] - 8.0f;
     extent.y = 0.0f;

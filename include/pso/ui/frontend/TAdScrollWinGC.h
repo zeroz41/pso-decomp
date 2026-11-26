@@ -20,7 +20,6 @@ public:
 
     void render_status_value();
     s32 get_scroll_delay_for_mode();
-    void advance_scroll(f32 v);
     void close();
     void close_window();
 

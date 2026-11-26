@@ -23,13 +23,17 @@ struct TWindowMessageLog : public TWindowMessage {
     void update_scroll_position();
     void append_line(s32 shared_text_buffer);
     void load_chat_history();
+    void fn_8026A5F8();
+    void advance_scroll(f32 v);
+    void fn_8026A61C(f32 v);
+    void fn_8026A664(f32 height);
 };
 
 LAYOUT_ASSERT(TWindowMessageLog_size, sizeof(TWindowMessageLog) == 0x98);
 // The chat log, oldest line first; NULL marks a free slot.
 extern char *chat_log_lines[30];
 
-u8 *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client);
+TWindowMessageLog *create_message_log_window(const NJS_POINT2 *position, const f32 *size, s32 client);
 extern "C" {
 void post_chat_log_message(u16 id, const char *text);
 }

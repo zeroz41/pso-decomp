@@ -22,13 +22,12 @@ const char *TWindowSubLog::class_name = "TWindowSubLog";
 
 
 const NJS_POINT2 message_log_window_position = {17.0f, 36.0f};
-const u8 message_log_window_extent[8] = {67, 151, 128, 0, 67, 204, 0, 0};
+const f32 message_log_window_extent[2] = {303.0f, 408.0f};
 
 void TWindowSubLog::render() {  }
 
 void TWindowSubLog::run_task() {
     ControllerInputContext *context;
-    u8 *temp_r3;
     if ((chat->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&submission) != 0)) {
         consume_active_flag(chat);
     }
@@ -36,19 +35,18 @@ void TWindowSubLog::run_task() {
         consume_input_active_flag(chat);
     }
     if (TWindowCtrl__sub_8024701C(chat) != 0) {
-        TWindowSubLog__sub_8026A664((u8 *)log_window, 200.0f);
+        log_window->fn_8026A664(200.0f);
         return;
     }
-    TWindowSubLog__sub_8026A664((u8 *)log_window, 408.0f);
+    log_window->fn_8026A664(408.0f);
     context = &controller_input_state.controllers[0];
     if ((test_previous_buttons_packed(context, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
-        fn_8026A61C((u8 *)log_window, -6.0f);
+        log_window->fn_8026A61C(-6.0f);
     }
     if ((test_previous_buttons_packed(context, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
-        ((TAdScrollWinGC *)log_window)->advance_scroll(6.0f);
+        log_window->advance_scroll(6.0f);
     }
-    temp_r3 = (u8 *)log_window;
-    if ((*(f32 *)((s8 *)temp_r3 + 0x3C) == *(f32 *)((s8 *)temp_r3 + 0x4C)) && ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
+    if ((log_window->target_size[1] == log_window->frame_size[1]) && ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
         play_sound_effect(0x52F16, 0, 0, 0);
         parent_menu->on_submenu_closed();
         parent_menu->clear_log_active();
@@ -57,7 +55,7 @@ void TWindowSubLog::run_task() {
 
 TWindowSubLog::~TWindowSubLog() {
     if (chat != NULL) { chat->queue_destruction(); this->chat = 0; }
-    if (log_window != NULL) { ((TWindowBase *)log_window)->close(); this->log_window = 0; }
+    if (log_window != NULL) { log_window->close(); this->log_window = NULL; }
     if (parent_menu != NULL) {
         parent_menu->clear_log_active();
         parent_menu->restore_after_subwindow();
@@ -71,7 +69,7 @@ TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
     TWindowCtrl::hide_client_status_window(this->client);
     parent_menu->hide_for_subwindow();
     parent_menu->set_log_active();
-    log_window = (saddr)create_message_log_window(&message_log_window_position, (saddr)message_log_window_extent, (saddr)this->client);
+    log_window = create_message_log_window(&message_log_window_position, message_log_window_extent, this->client);
     chat = new TWindowChat((TObject *)this, &submission);
     fn_8027B2A8(chat);
 }
