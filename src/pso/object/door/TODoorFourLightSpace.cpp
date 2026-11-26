@@ -1,3 +1,4 @@
+#include "pso/object/switch/TSwitch.h"
 #include "types.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/object/door/TODoorFourLightRuins.h"
@@ -40,7 +41,6 @@ BmlResourceDescriptor bm_obj_door_space_resource_descriptor = {"bm_obj_door_spac
 CollisionBody door_four_light_collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 extern "C" {
-u8 is_current_floor_switch_set(u16);
 void fn_802898E8(void);
 void fn_802898EC(void);
 }
@@ -132,7 +132,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
     if (!(this->door_flags & DOOR_FLAG_UNLOCKED)) {
         s32 j;
         for (j = 0; j < this->set_params[1]; j++) {
-            if (is_current_floor_switch_set(this->switch_id + j) == 1) {
+            if (is_current_floor_switch_set((u16)(this->switch_id + j)) == 1) {
                 lit[j] = 1;
             } else {
                 lit[j] = 0;
@@ -190,7 +190,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
     case 2:
         off = 0;
         for (i = 0; i < this->set_params[1]; i++) {
-            if (is_current_floor_switch_set(this->switch_id + i) == 0) {
+            if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 0) {
                 off = 1;
             }
         }
@@ -207,7 +207,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
         }
         off2 = 0;
         for (j = 0; j < this->set_params[1]; j++) {
-            if (is_current_floor_switch_set(this->switch_id + j) == 0) {
+            if (is_current_floor_switch_set((u16)(this->switch_id + j)) == 0) {
                 off2 = 1;
             }
         }
@@ -334,7 +334,7 @@ void TODoorFourLightSpace::draw_lights() {
     if (!(this->door_flags & 1)) {
         s32 j;
         for (j = 0; j < this->set_params[1]; j++) {
-            if (is_current_floor_switch_set(this->switch_id + j) == 1) {
+            if (is_current_floor_switch_set((u16)(this->switch_id + j)) == 1) {
                 flags[j] = 1;
             } else {
                 flags[j] = 0;
@@ -397,7 +397,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
     case 2:
         fail = 0;
         for (i = 0; i < this->set_params[1]; i++) {
-            if (is_current_floor_switch_set(this->switch_id + i) == 0) {
+            if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 0) {
                 fail = 1;
             }
         }
@@ -414,7 +414,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
             s32 j;
             bad = 0;
             for (j = 0; j < this->set_params[1]; j++) {
-                if (is_current_floor_switch_set(this->switch_id + j) == 0) {
+                if (is_current_floor_switch_set((u16)(this->switch_id + j)) == 0) {
                     bad = 1;
                 }
             }

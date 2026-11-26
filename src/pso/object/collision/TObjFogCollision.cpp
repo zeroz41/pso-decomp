@@ -13,6 +13,7 @@
 #include "pso/object/collision/TObjFogCollision_Manager.h"
 #include "pso/object/collision/TObjFogCollisionSwitch.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"
+#include "pso/object/switch/TSwitch.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/DebugFont.h"
@@ -41,9 +42,6 @@ const char *fog_collision_name = "TObjFogCollision";
 const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
 const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
-extern "C" {
-u8 is_current_floor_switch_set(u16);
-}
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
 void *TObjFogCollision::create(void *set) {
@@ -207,7 +205,7 @@ void TObjFogCollisionSwitch::run_task() {
     u16 i;
     if (debug_text_enabled() == 0 && debug_draw_enabled() == 0) {
         st = get_switch_mode();
-        if (st == is_current_floor_switch_set(set_params[2])) {
+        if (st == is_current_floor_switch_set((u16)set_params[2])) {
             for (i = 0; i != 4; i++) {
                 if (check_collision(i) != 0) {
                     record_fog_collision_hit(i, set_params[0], set_params[1] == 0);

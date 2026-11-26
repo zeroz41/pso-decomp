@@ -11,7 +11,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D8F74.h"
 
-// TSwitch.h declares is_current_floor_switch_set(s32); these callers saw a
+// TSwitch.h declares is_current_floor_switch_set(u32); these callers saw a
 // u16 id (clrlwi before the call), hence the (u16) below.
 
 // Closed: opens once a player is within 70 (trigger 1) or the switch is set
