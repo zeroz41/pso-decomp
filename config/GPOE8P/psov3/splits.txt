@@ -5597,7 +5597,7 @@ pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp:
 	.sbss       start:0x805D63C8 end:0x805D63D4
 	.sdata2     start:0x805DC9B8 end:0x805DC9C0
 
-pso/unk/TLobby_8023F734.cpp:
+pso/audio/SoundControlState.cpp:
 	.text       start:0x8023F660 end:0x802409AC
 	.ctors      start:0x80433FB4 end:0x80433FB8
 	.rodata     start:0x8044DD28 end:0x8044E5C0

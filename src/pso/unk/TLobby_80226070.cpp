@@ -1,5 +1,5 @@
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/TLobby_8023F734.h"
+#include "pso/audio/SoundControlState.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"

@@ -9,7 +9,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/unk/TLobby_8023F734.h"
+#include "pso/audio/SoundControlState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
     extern int music_stream_base_gain;

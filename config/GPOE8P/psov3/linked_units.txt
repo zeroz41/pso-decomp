@@ -742,7 +742,7 @@ pso/unk/text_80222C28.cpp
 pso/unk/TLobby_80226070.cpp
 pso/unk/TLobby_80226C3C.cpp
 pso/unk/TLobby_80228C84.cpp
-pso/unk/TLobby_8023F734.cpp
+pso/audio/SoundControlState.cpp
 pso/audio/SoundRequestVoice.cpp
 pso/network/GuildCardRecord.cpp
 pso/ui/window/TWindowMenuIconLineLists.cpp

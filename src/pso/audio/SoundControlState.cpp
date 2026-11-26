@@ -487,7 +487,7 @@ u16 sound_bank_group_ids[38] = {
     24, 25, 26, 27, 28, 29,
 };
 }
-#include "pso/unk/TLobby_8023F734.h"
+#include "pso/audio/SoundControlState.h"
 #include "pso/system/memory.h"
 
 #include "pso/ui/window/TWindowSubStatusDisp.h"
