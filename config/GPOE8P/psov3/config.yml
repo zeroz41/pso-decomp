@@ -4935,7 +4935,7 @@ force_active:
   - charamakingmot_model_names
   - charamakingmot_motion_names
   - chasing_state__14TObjEneBm5WolfFl
-  - chat_dispatch_accepted_result__FPl
+  - chat_dispatch_accepted_result__FP12ChatShortcut
   - chat_log_remove_line__Fl
   - chat_text_lacks_language_tag__FPCc
   - chcr_eff_wall_gradient_table

@@ -58,7 +58,7 @@ s32 TWindowChat::update_symbol_chat_window() {
         return 0;
     }
     this->set_active_flag();
-    preset_index = (s32 *)this->result->body.bytes;
+    preset_index = &this->result->body.symbol_chat_preset;
     *preset_index = this->symbolChatWindow->get_selected_index();
     if (this->flags & 0x80) {
         TWindowChat::open_symbol_chat(preset_index)->update_selected_symbol();
@@ -107,10 +107,10 @@ s32 TWindowChat::submit_keyboard_input() {
     if (composer->get_flag() != 0) {
         *this->result = *get_chat_shortcut((s8)composer->get_input_mode());
         if ((this->result->kind.value == 3U) && (this->is_mode_bit6() == 0)) {
-            TWindowChat::open_symbol_chat((s32 *)this->result->body.bytes)->update_selected_symbol();
+            TWindowChat::open_symbol_chat(&this->result->body.symbol_chat_preset)->update_selected_symbol();
         }
     } else {
-        this->composer->export_text((char *)this->result->body.bytes);
+        this->composer->export_text(this->result->body.text);
     }
     composer->reset_input();
     return 1;
@@ -331,7 +331,7 @@ void TWindowChat::open_next_input_window() {
     case 1: {
         composer->reset_input();
         result->kind.value = 2;
-        wordSelectWindow = new TWindowDD(this, reinterpret_cast<WordSelectMessage *>(result->body.bytes));
+        wordSelectWindow = new TWindowDD(this, &result->body.message);
         hardKeyboard->reset_status_text();
         return;
     }

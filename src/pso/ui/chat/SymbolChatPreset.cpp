@@ -28,11 +28,11 @@ static const s32 symbol_chat_sound_ids[9] = {
 
 void send_selected_symbol_chat(s32 *preset_index) {
     G_SymbolChat_6x07 packet;
-    saddr symbol_chat_preset;
+    SymbolChatPreset *preset;
     init_symbol_chat_header(&packet);
-    symbol_chat_preset = ((s32)((saddr)get_symbol_chat_preset((saddr)(*preset_index))));
+    preset = get_symbol_chat_preset(*preset_index);
     packet.client_id = local_client_id;
-    TLobby::copy_symbol_chat_entry(&packet.data, (void *)(symbol_chat_preset + 0x1C));
+    TLobby::copy_symbol_chat_entry(&packet.data, &preset->payload);
     packet.send();
 }
 

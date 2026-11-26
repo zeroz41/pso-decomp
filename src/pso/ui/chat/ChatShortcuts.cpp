@@ -35,17 +35,17 @@ void submit_chat_text(u8 *lobby) {
     }
 }
 
-void chat_dispatch_accepted_result(s32 *submission) {
+void chat_dispatch_accepted_result(ChatShortcut *submission) {
 
-    switch (*submission) {
+    switch (submission->kind.value) {
     case 1:
-        ((s32 (*)(void *)) submit_chat_text)((s8 *)submission + 4);
+        ((s32 (*)(void *)) submit_chat_text)(submission->body.text);
         return;
     case 2:
-        G_WordSelect_6x74::send_message((WordSelectMessage *)((s8 *)submission + 4));
+        G_WordSelect_6x74::send_message(&submission->body.message);
         return;
     case 3:
-        send_selected_symbol_chat((s32 *)((s8 *)submission + 4));
+        send_selected_symbol_chat(&submission->body.symbol_chat_preset);
     case 0:
         return;
     }
@@ -55,7 +55,7 @@ s32 chat_accept_submission(saddr submission) {
         return 0;
     }
     TWindowCtrl::start_submit_cooldown();
-    chat_dispatch_accepted_result((s32 *)submission);
+    chat_dispatch_accepted_result((ChatShortcut *)submission);
     return 1;
 }
 

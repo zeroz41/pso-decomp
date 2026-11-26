@@ -6,7 +6,7 @@
 struct ChatShortcut;
 
 s32 chat_accept_submission(saddr submission);
-void chat_dispatch_accepted_result(s32 *submission);
+void chat_dispatch_accepted_result(ChatShortcut *submission);
 void clear_chat_shortcut(s32 i);
 char *get_chat_shortcut_text(s32 *text);
 ChatShortcut *get_chat_shortcut(s32 index);

@@ -8,6 +8,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/network/client_id.h"
 #include "pso/network/protocol/subcmd_6x.h"
 
@@ -21,13 +22,13 @@ const char *get_technique_name(s32 id) {
 }
 void handle_6x07_symbol_chat(G_SymbolChat_6x07 *command) {
     SymbolChatPayload *p;
-    s32 ply;
+    TObjPlayer *player;
     command->bswap();
     p = &command->data;
-    ply = (saddr)get_player_by_client_id(command->client_id);
-    if (ply != 0) {
+    player = get_player_by_client_id(command->client_id);
+    if (player != NULL) {
         TLobby::dispatch_by_index(command->client_id, (saddr)p);
-        TWindowCtrl::open_balloon(((TObjBase *)(saddr)(ply))->get_entity_id(), (u8 *)p, 2, local_client_id);
+        TWindowCtrl::open_balloon(player->get_entity_id(), (u8 *)p, 2, local_client_id);
         if (p->appearance & 0x200) {
             for (; static_cast<s8>(pending_symbol_chat_count) >= 1; pending_symbol_chat_count--) {
             }
