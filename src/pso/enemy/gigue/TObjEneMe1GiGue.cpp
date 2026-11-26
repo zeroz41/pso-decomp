@@ -74,15 +74,6 @@ f32 gigue_shot_homing_step;
 s32 gigue_missile_power;
 s32 gigue_shot_power;
 
-// What movementParameters points at: EnemyMoveParams and four more words.
-struct GiGueMoveParams {
-    EnemyMoveParams move;
-    s32 unk_c;
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-};
-
 const char *me1_gi_gue_model_filename_table[4] = {
     "gi_gue_all.nj", "gi_gue_missile.nj", "gi_gue_barrier.nj", NULL,
 };

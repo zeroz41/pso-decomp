@@ -53,12 +53,10 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/door/TODoorVoShip.h"
 #pragma readonly_strings on
 
-extern "C" {
-void release_players_from_cutscene(void);
-extern const char *door_vo_ship_class_name;
-}
 
 static const char *bm_boss3_volopt_model_names[] = {
     "fe_obj_hira_kage.nj",

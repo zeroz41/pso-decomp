@@ -171,6 +171,8 @@ struct TBoss4FormSetData {
 };
 
 extern TBoss4DarkFalzSetEntry dark_falz_set_entry;
+// Which Dark Falz form the fight is in (2 from the third form on).
+extern s32 dark_falz_form_index;
 // Handler of subcommand 6x19 (TGameProtocol's table).
 void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd);
 

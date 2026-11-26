@@ -61,9 +61,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-extern "C" {
-void release_players_from_cutscene(void);
-}
 
 
 

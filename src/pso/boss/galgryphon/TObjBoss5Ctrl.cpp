@@ -9,6 +9,7 @@
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_8020BFE4.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 #pragma fp_contract on
@@ -75,7 +76,6 @@ TObjBoss5Ctrl::TObjBoss5Ctrl(TObject *parent) : TObject(parent) {
     }
 }
 
-extern "C" TObject *tl_01;
 
 TObjBoss5Ctrl *TObjBoss5Ctrl::create() {
     TObjBoss5Ctrl *controller = new TObjBoss5Ctrl(tl_01);

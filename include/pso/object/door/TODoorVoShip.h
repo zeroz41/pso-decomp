@@ -39,4 +39,6 @@ struct TODoorVoShip : public TObjMapObject {
 
 LAYOUT_ASSERT(TODoorVoShip_size, sizeof(TODoorVoShip) == 0xEC);
 
+extern const char *door_vo_ship_class_name;
+
 #endif

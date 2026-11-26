@@ -95,5 +95,12 @@ LAYOUT_ASSERT(TObjEneBm3FlyNest_child_count_offset, offsetof(TObjEneBm3FlyNest, 
 LAYOUT_ASSERT(TObjEneBm3FlyNest_fades_offset, offsetof(TObjEneBm3FlyNest, fades) == 0x440);
 LAYOUT_ASSERT(TObjEneBm3FlyNest_sink_depth_offset, offsetof(TObjEneBm3FlyNest, sink_depth) == 0x4D8);
 
+struct Bm3FlyNestVertexList {
+    f32 *vertices;
+    s32 *indices;
+    s32 pad_08;
+    s32 count;
+    s32 pad_10;
+};
 
 #endif

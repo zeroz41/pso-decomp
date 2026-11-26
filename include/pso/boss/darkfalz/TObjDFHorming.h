@@ -51,4 +51,22 @@ void copy_set_entry(void *dst, void *src);
 // from that zone's center.
 struct DarkFalzPushZone { Vec center; f32 radius; Vec landing; f32 spread; };
 
+struct SetEntryWords3 { u32 w[3]; };
+struct SetEntryWords5 { u32 w[5]; };
+struct SetEntryCopy {
+  s16 set_index;
+  s16 kind;
+  s16 unknown_04;
+  u16 entity_id;
+  s16 room;
+  s16 wave;
+  s16 unknown_0C;
+  s16 unknown_0E;
+  struct SetEntryWords3 position;
+  struct SetEntryWords3 rotation;
+  struct SetEntryWords5 params;
+  s16 param_3C;
+  s16 param_3E;
+};
+
 #endif

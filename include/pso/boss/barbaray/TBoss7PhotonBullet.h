@@ -27,4 +27,12 @@ struct TBoss7PhotonBullet : public TAttackCollider {
 };
 
 LAYOUT_ASSERT(TBoss7PhotonBullet_size, sizeof(TBoss7PhotonBullet) == 0xF8);
+
+struct Boss7PhotonLevel {
+    s32 shots;
+    s32 interval;
+    s32 spread;
+    f32 speed;
+};
+
 #endif

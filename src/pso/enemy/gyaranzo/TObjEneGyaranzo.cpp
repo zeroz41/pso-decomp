@@ -103,15 +103,6 @@ TObjMotionAction gyaranzo_action_table[8] = {
     {2, 0, 1, 1.0f, 8},
 };
 
-// What movementParameters points at: EnemyMoveParams and four more words (as on the GiGue).
-struct GyaranzoMoveParams {
-    EnemyMoveParams move;
-    s32 pad_c;
-    s32 pad_10;
-    s32 pad_14;
-    s32 pad_18;
-};
-
 GyaranzoMoveParams gyaranzo_move_params = {
     {150.0f, 0.5555555f, 0x400}, 0x1E0000, 0, 1, 0,
 };

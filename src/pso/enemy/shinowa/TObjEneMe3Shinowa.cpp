@@ -73,12 +73,6 @@ SampledMotionPoints * TObjEneMe3ShinowaMirage::sword_trail_a;
 SampledMotionPoints * TObjEneMe3ShinowaMirage::sword_trail_b;
 SampledMotionPoints * TObjEneMe3ShinowaMirage::attack_trail;
 
-struct ShinowaBattleTables {
-    Vec node_origin;
-    player_stats *base[2];
-    AttackParams *attack[2];
-    ActorParamBlock *resistance[2];
-};
 LAYOUT_ASSERT(ShinowaBattleBaseOffset, offsetof(ShinowaBattleTables, base) == 0xC);
 LAYOUT_ASSERT(ShinowaBattleAttackOffset, offsetof(ShinowaBattleTables, attack) == 0x14);
 LAYOUT_ASSERT(ShinowaBattleResistanceOffset, offsetof(ShinowaBattleTables, resistance) == 0x1C);

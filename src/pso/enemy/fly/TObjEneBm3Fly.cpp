@@ -39,6 +39,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma defer_codegen on
 
@@ -49,7 +50,6 @@ ActorParamBlock *bm3_fly_resist_stats;
 Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
 TBreakUpMdlData * bm3_fly_breakup_model;
-extern void *tl_04;
 
 const BreakUpParamRow bm3_fly_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 const char *bm3_fly_name = "TObjEneBm3Fly";
@@ -89,7 +89,7 @@ void TObjEneBm3Fly::load_resources() {
 }
 
 TObjEneBm3Fly *TObjEneBm3Fly::create(TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity) {
-    return new TObjEneBm3Fly((TObject *)tl_04, nest, entity_id, set_index, position, velocity);
+    return new TObjEneBm3Fly(tl_04, nest, entity_id, set_index, position, velocity);
 }
 
 void TObjEneBm3Fly::release_shared_data() {

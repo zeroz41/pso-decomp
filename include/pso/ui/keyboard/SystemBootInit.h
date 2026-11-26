@@ -37,4 +37,7 @@ void mark_area_change_pending(void);
 s32 request_queued_main_phase(void);
 void shutdown_and_reset_system(void);
 
+// Set while a memory card access runs.
+extern s32 memcard_access_active;
+
 #endif

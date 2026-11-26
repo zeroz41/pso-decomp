@@ -78,8 +78,6 @@ LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam)
 
 
 
-struct BeamRotation { s32 x, y, z; };
-
 
 
 #pragma push

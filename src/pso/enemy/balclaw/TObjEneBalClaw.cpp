@@ -10,16 +10,6 @@
 #include "pso/unk/TLobby_800FD78C.h"
 
 
-struct BalClawPartEntry {
-    s16 *plist;
-    s16 model_index;
-    s16 part_index;
-    s16 uv_scroll_u;  // added to the u of the texture_id strips once a frame
-    s16 uv_scroll_v;
-    s16 texture_id;
-    s16 pad_e;
-};
-
 static const char balclaw_body_model[] = "re6_b_bal_body.nj";
 static const char balclaw_bcbody_model[] = "re6_b_bcbody.nj";
 static const char balclaw_claw_body_model[] = "re6_b_claw_body.nj";

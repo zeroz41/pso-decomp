@@ -58,20 +58,6 @@
 #include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 
-// A texture coordinate of the trail model as load_resources saved it, one per strip index.
-struct TrailUV {
-    s16 u;
-    s16 v;
-};
-
-// A trail model vertex higher than 15 that bobs while the mound is active (load_resources lists them).
-struct TrailRaisedVertex {
-    f32 *dst;
-    f32 base;
-    f32 ofs;
-    s32 state; // 0 sinking, 1 rising, else frames left to wait
-};
-
 
 ChunkStripGrid *dragon_trail_grid;
 ChunkStripGrid *dragon_trail_strip;

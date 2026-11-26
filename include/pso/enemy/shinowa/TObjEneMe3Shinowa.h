@@ -108,4 +108,11 @@ LAYOUT_ASSERT(TObjEneMe3Shinowa_size, sizeof(TObjEneMe3Shinowa) == 0x42C);
 
 void load_shinowa_mirage_resources(void);
 
+struct ShinowaBattleTables {
+    Vec node_origin;
+    player_stats *base[2];
+    AttackParams *attack[2];
+    ActorParamBlock *resistance[2];
+};
+
 #endif

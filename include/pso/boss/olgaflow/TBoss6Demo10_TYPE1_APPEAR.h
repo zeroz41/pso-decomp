@@ -31,4 +31,8 @@ public:
 LAYOUT_ASSERT(TBoss6Demo10_TYPE1_APPEAR_size, sizeof(TBoss6Demo10_TYPE1_APPEAR) == 0x68);
 
 LAYOUT_ASSERT(TBoss6Demo10_capture_offset, offsetof(TBoss6Demo10_TYPE1_APPEAR, capture) == 0x60);
+
+struct AppearanceClassTag { const char *value; u32 padding; };
+struct AppearanceZero { f32 value; u32 padding; };
+
 #endif

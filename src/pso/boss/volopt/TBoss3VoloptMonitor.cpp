@@ -36,16 +36,6 @@
 
 
 
-struct BossStats {
-    u8 pad_0[0x6];
-    s16 hp;
-};
-
-struct MonitorStatTable {
-    u8 pad_0[0x18];
-    s32 hp[2];
-};
-
 enum MonitorScreen {
     MONITOR_SCREEN_TEXT = 0,
     MONITOR_SCREEN_NOISE = 8,

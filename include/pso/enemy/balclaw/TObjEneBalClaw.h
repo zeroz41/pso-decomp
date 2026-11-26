@@ -69,4 +69,14 @@ extern AttackParams *balclaw_claw_attack_params[];
 extern ActorParamBlock *balclaw_claw_resistance_params[];
 extern BalClawBehaviorParams *balclaw_claw_behavior_params[];
 
+struct BalClawPartEntry {
+    s16 *plist;
+    s16 model_index;
+    s16 part_index;
+    s16 uv_scroll_u;  // added to the u of the texture_id strips once a frame
+    s16 uv_scroll_v;
+    s16 texture_id;
+    s16 pad_e;
+};
+
 #endif

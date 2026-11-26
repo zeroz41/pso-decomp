@@ -103,15 +103,6 @@
 
 #pragma readonly_strings on
 
-// The four ripple offsets spawn_hamon_effects puts around the gunner.
-struct HamonOffset {
-    f32 x, z;
-};
-
-struct HamonOffsets {
-    HamonOffset v[4];
-};
-
 extern "C" {
 
 struct Raw_800A10A0 { u8 b[12]; };

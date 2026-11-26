@@ -97,10 +97,6 @@ Vec boss6_type2_follow_camera_target = { 0.0f, 10.43f, 70.42f };
 extern "C" {
 void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec);
 
-// One leg contact for update_leg_ground_effects: its node, the particle slot it drives and
-// the node height above which (up to 20 units) the slot's dust stays alive.
-struct Boss6Type2LegEffect { s32 node; s32 particle_slot; f32 ground_height; };
-
 
 struct ByteBlock_C { u8 bytes[0xc]; };
 

@@ -105,4 +105,14 @@ extern f32 gigue_shot_speed;
 extern f32 gigue_shot_homing;
 extern f32 gigue_shot_homing_step;
 extern s32 gigue_shot_power;
+
+// What movementParameters points at: EnemyMoveParams and four more words.
+struct GiGueMoveParams {
+    EnemyMoveParams move;
+    s32 unk_c;
+    s32 unk_10;
+    s32 unk_14;
+    s32 unk_18;
+};
+
 #endif

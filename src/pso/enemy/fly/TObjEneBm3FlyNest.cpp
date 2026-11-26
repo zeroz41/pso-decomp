@@ -81,13 +81,6 @@ const char *bm3_fly_nest_class_name = "TObjEneBm3FlyNest";
 }
 const char *TObjEneBm3FlyNest_CarryFly::name = "TObjEneBm3FlyNest_CarryFly";
 extern "C" {
-struct Bm3FlyNestVertexList {
-    f32 *vertices;
-    s32 *indices;
-    s32 pad_08;
-    s32 count;
-    s32 pad_10;
-};
 Vec bm3_fly_nest_attachment_sample_origin;
 f32 fly_nest_vertex_table[6];
 __declspec(section ".data") s32 fly_nest_vertex_indices[2];

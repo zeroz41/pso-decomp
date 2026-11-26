@@ -77,9 +77,6 @@ extern "C" {
 extern const char *bm_ene_df1_saver_model_names[2];
 extern const char *bm_ene_df1_saver_motion_names[12];
 }
-// Where render's node callback last placed the particle node (node 0x1A), in world space. 16 bytes in the
-// original; only the first 12 are used, as a point.
-struct SaverNodePoint { Vec pos; u8 pad_c[4]; };
 SaverNodePoint saver_particle_node_position;
 extern "C" {
 player_stats *saver_boss_stat_handle;

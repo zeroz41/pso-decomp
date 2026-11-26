@@ -1859,16 +1859,6 @@ void TObjEneBm5GibonU::handle_state(s32 msg) {
 
 #pragma pop
 
-// The Gibbon's static data from bm5_gibon_u_stat_params on: the parameter tables, then
-// the two lists, each after the destructor-chain record __register_global_object fills in.
-struct TObjEneBm5GibonUStaticData {
-    u8 tables[0x2c];
-    u8 node_list_chain[0xc];
-    TObjEneBm5GibonUList node_list;
-    u8 enemy_list_chain[0xc];
-    TObjEneBm5GibonUList enemy_list;
-};
-
 extern "C" {
 void __register_global_object(void *obj, void (*dtor)(), void *chain);
 void __dt__20TObjEneBm5GibonUListFv();

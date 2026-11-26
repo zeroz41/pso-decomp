@@ -81,12 +81,6 @@ struct NJS_OBJECT;
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-// Load and release hooks run by run_load_callback_table / call_funcs_reverse.
-struct Boss7LoadCallback {
-    void (*load)(void);
-    void (*release)(void);
-};
-
 // The BML resource descriptor, followed by the action table that
 // TBoss7DeRolLeC's constructor hands to set_action_table.
 extern Boss7LoadCallback boss7_derolle_c_load_callbacks[6];
@@ -144,14 +138,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/quest/QuestStoryFlags.h"
-
-// Step of a De Rol Le C action sequence: the action id and its parameter, a
-// duration in seconds (the timer compares against param * 30) or the
-// boss7_derolle_c_crawfish_patterns row of a crawfish spawn.
-struct Boss7ActionStep {
-    s32 action;
-    s32 param;
-};
 
 extern const s32 boss7_derolle_c_body_point_node_ids[21] = {0x18, 0x1a, 0x1c, 0x1d, 0x1e, 0x1f, 0x22, 0x45, 0x4a, 0x5f, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1};
 
@@ -460,28 +446,6 @@ f32 boss7_derolle_c_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 
 extern "C" {
 
-// The set entry a crawfish spawned by De Rol Le C is built from. TObjEnemy::apply_set_data
-// reads set_index, entity_id, room, wave, position, rotation, parameters and variant from
-// it; kind sits where TBoss4DarkFalzSetEntry has it.
-struct Boss7CrawfishSetData {
-    s16 set_index;
-    s16 kind;
-    s16 unk_04;
-    u16 entity_id;
-    s16 room;
-    s16 wave;
-    s16 unk_0C;
-    s16 unk_0E;
-    Vec position;
-    Boss7Angles rotation;
-    f32 parameters[5];
-    s16 variant;
-    s16 unk_3E;
-};
-
-// Spawns a crawfish in child slot `slot` unless one with that entity id is
-// already alive.
-struct CrawfishSlotOffset { s16 value; };
 #pragma push
 static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
     offset.value += 11;

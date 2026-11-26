@@ -222,4 +222,38 @@ void handle_6xA9_barba_ray_boss_actions(G_BarbaRayBossActions_6xA9 *packet);
 void handle_6xAA_barba_ray_boss_actions(G_BarbaRayBossActions_6xAA *packet);
 AnimationMotion *get_boss7_motion(s32 kind);
 
+// Load and release hooks run by run_load_callback_table / call_funcs_reverse.
+struct Boss7LoadCallback {
+    void (*load)(void);
+    void (*release)(void);
+};
+// Step of a De Rol Le C action sequence: the action id and its parameter, a
+// duration in seconds (the timer compares against param * 30) or the
+// boss7_derolle_c_crawfish_patterns row of a crawfish spawn.
+struct Boss7ActionStep {
+    s32 action;
+    s32 param;
+};
+// The set entry a crawfish spawned by De Rol Le C is built from. TObjEnemy::apply_set_data
+// reads set_index, entity_id, room, wave, position, rotation, parameters and variant from
+// it; kind sits where TBoss4DarkFalzSetEntry has it.
+struct Boss7CrawfishSetData {
+    s16 set_index;
+    s16 kind;
+    s16 unk_04;
+    u16 entity_id;
+    s16 room;
+    s16 wave;
+    s16 unk_0C;
+    s16 unk_0E;
+    Vec position;
+    Boss7Angles rotation;
+    f32 parameters[5];
+    s16 variant;
+    s16 unk_3E;
+};
+// Spawns a crawfish in child slot `slot` unless one with that entity id is
+// already alive.
+struct CrawfishSlotOffset { s16 value; };
+
 #endif

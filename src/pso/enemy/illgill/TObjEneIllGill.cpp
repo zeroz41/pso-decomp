@@ -56,7 +56,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/network/TProtocol.h"
-struct IllGillEffectRotation { s32 x, y, z; };
 extern "C" {
 BmlResource * illGillResource;
 player_stats *ill_gill_boss_registration_id;

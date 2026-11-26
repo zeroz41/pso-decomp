@@ -12,6 +12,8 @@ class TObject;
 void delete_item(TObjPlayer *player, s32 id, s32 count);
 extern "C" {
 void submit_cursor_candidate(void *object, s32 id);
+// Lets every player move again after a boss cutscene.
+void release_players_from_cutscene(void);
 // Offers target to the lock-on cursor of player `id` (a client id below 0x1000).
 void submit_target_to_player_cursor(void *target, s32 id);
 void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);

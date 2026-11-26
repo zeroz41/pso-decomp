@@ -19,9 +19,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 
-extern "C" {
-void release_players_from_cutscene(void);
-}
 
 #pragma defer_codegen on
 #pragma readonly_strings on

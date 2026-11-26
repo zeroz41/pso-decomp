@@ -57,7 +57,6 @@ extern const char dark_falz_state_name_die_type3[] = "DIE TYPE3";
 extern const char dark_falz_state_name_ol_ending[] = "OL ENDING";
 extern "C" {
 extern Vec dark_falz_demo5_position;
-    extern int dark_falz_form_index;
 
 TBoss4Type3 *TBoss4DarkFalz::get_type3_instance() { return TBoss4DarkFalz::type3_instance; }
 

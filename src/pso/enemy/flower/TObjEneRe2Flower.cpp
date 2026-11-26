@@ -90,12 +90,6 @@ BmlResource *re2_flower_bml_resource;
 s32 re2_flower_node_index;
 s32 re2_flower_node_yaw;
 f32 *re2_flower_node_points;
-struct FlowerSetupData {
-    f32 value00;
-    u32 unknown04;
-    u32 flags;
-    u32 unknown0c[4];
-};
 
 LAYOUT_ASSERT(FlowerSetupData_size, sizeof(FlowerSetupData) == 0x1C);
 

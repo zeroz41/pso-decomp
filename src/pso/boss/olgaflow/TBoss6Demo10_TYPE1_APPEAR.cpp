@@ -30,9 +30,7 @@ extern Boss6StripDesc boss6_type1_appear_model_node_descriptors[];
 extern CameraAngles boss6_type1_appear_camera_angles;
 extern CameraPlayback boss6_type1_appear_camera_script;
 extern s32 boss6_type1_appear_motion_indices[];
-struct AppearanceClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name;
-struct AppearanceZero { f32 value; u32 padding; };
 __declspec(section ".sdata2") extern const AppearanceZero lbl_805DFA50;
 }
 

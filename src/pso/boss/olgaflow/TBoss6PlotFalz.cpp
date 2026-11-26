@@ -1041,7 +1041,7 @@ void TBoss6PlotFalz::load_resources() {
 }
 
 void *TBoss6PlotFalz::create(void *set_data) {
-    return new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), set_data);
+    return new TBoss6PlotFalz(new TObjControl(tl_04), set_data);
 }
 
 s32 TBoss6PlotFalz::get_scene_state() { return state_index; }

@@ -187,9 +187,6 @@ NJS_OBJECT *debug_chunk_object = &debug_chunk_b_object;
 NJS_OBJECT *debug_cylinder_object = &debug_chunk_a_object;
 
 LAYOUT_ASSERT(ScreenSnapshot_size, sizeof(ScreenSnapshot) == 0x1818C);
-extern "C" {
-extern s32 memcard_access_active;
-}
 
 
 u8 boss2_tunnel_state_flag;
