@@ -51,9 +51,7 @@ LAYOUT_ASSERT(TQuestListChallenge_callbacks, offsetof(TQuestListChallenge, on_ca
 LAYOUT_ASSERT(TQuestListChallenge_windows, offsetof(TQuestListChallenge, confirmation) == 0x34);
 LAYOUT_ASSERT(TQuestListChallenge_entries, offsetof(TQuestListChallenge, entries) == 0x58);
 
-extern "C" {
 const char *get_selected_quest_text(void);
 void reset_globals2(void);
-}
 
 #endif
