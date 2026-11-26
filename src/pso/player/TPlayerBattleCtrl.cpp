@@ -871,9 +871,9 @@ void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt) {
 
 void handle_6x7E(void) {  }
 
-void handle_6x7F_battle_scores(saddr command) {
-    bswap_client_id_header((G_ClientIDHeader *)command);
-    memcpy(duel_result_table, (void *)(command + 4), 0x20);
+void handle_6x7F_battle_scores(G_BattleScores_6x7F *cmd) {
+    bswap_client_id_header(&cmd->header);
+    memcpy(duel_result_table, cmd->rankings, sizeof(cmd->rankings));
     battle_scores_received = 1;
 }
 

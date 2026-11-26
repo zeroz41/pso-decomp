@@ -7,6 +7,7 @@
 
 struct TWindowMessage;
 struct G_SetBattleModeData_6x7D;
+struct G_BattleScores_6x7F;
 struct TWindowMenu;
 struct TWindowDuelResult;
 
@@ -93,7 +94,7 @@ s32 get_battle_time_limit_frames(void);
 void clear_battle_player_ready_flags(void);
 void handle_6x7E(void);
 void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
-void handle_6x7F_battle_scores(saddr command);
+void handle_6x7F_battle_scores(G_BattleScores_6x7F *cmd);
 void record_local_battle_placement(void *arg0);
 extern "C" {
 void send_6x7D_set_battle_mode_data(void *arg0);

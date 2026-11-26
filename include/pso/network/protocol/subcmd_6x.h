@@ -29,6 +29,7 @@
 #include "pso/network/protocol/cast_packets.h"
 #include "pso/player/CapturedTargetList.h"
 #include "pso/quest/challenge/ChallengeRecord.h"
+#include "pso/player/BattleRanking.h"
 
 // 6x61: Activates the effect of a player's mag. Sent by TItem::send_activate_effect; received by
 // handle_6x61_activate_item_effect. Size checked: its constructor sets the header size to 3 words.
@@ -322,7 +323,7 @@ struct G_CreateLobbyChair_6xAB {
 };
 LAYOUT_ASSERT(G_CreateLobbyChair_6xABSize, sizeof(G_CreateLobbyChair_6xAB) == 0x8);
 
-// Sent by TBoss4DarkFalz::send_action_packet / send_code_25_4, read by
+// 6x19: Sent by TBoss4DarkFalz::send_action_packet / send_code_25_4, read by
 // handle_6x19_dark_falz_actions. The header holds the boss's entity id; its byte swap is
 // G_ClientIDHeader's.
 // Size checked: G_DarkFalzActions_6x19::init sets the header size to 4 words.
@@ -591,7 +592,7 @@ struct G_FeedMag_6x28 {
 };
 LAYOUT_ASSERT(G_FeedMag_6x28Size, sizeof(G_FeedMag_6x28) == 0xC);
 
-// The Gal Gryphon's target (TBoss5Gryphon::send_target_update, applied by
+// 6x9F: The Gal Gryphon's target (TBoss5Gryphon::send_target_update, applied by
 // TBoss5Gryphon::set_target_from_action); header.client_id holds the gryphon's entity id.
 // Sent by TBoss5Gryphon::send_target_update; received by handle_6x9F_gal_gryphon_boss_actions.
 // Size checked: G_GalGryphonBossActions_6x9F::init sets the header size to 4 words.
@@ -606,8 +607,8 @@ struct G_GalGryphonBossActions_6x9F {
 };
 LAYOUT_ASSERT(G_GalGryphonBossActions_6x9FSize, sizeof(G_GalGryphonBossActions_6x9F) == 0x10);
 
-// The Gal Gryphon's next motion entry and where it starts it (TBoss5Gryphon::copy_spawn_params,
-// applied by TBoss5Gryphon::apply_remote_action).
+// 6xA0: The Gal Gryphon's next motion entry and where it starts it
+// (TBoss5Gryphon::copy_spawn_params, applied by TBoss5Gryphon::apply_remote_action).
 // Sent by TBoss5Gryphon::copy_spawn_params; received by handle_6xA0_gal_gryphon_boss_actions. Size
 // checked: G_GalGryphonBossActions_6xA0::init sets the header size to 10 words.
 struct G_GalGryphonBossActions_6xA0 {
@@ -624,8 +625,8 @@ LAYOUT_ASSERT(G_GalGryphonBossActions_6xA0Size, sizeof(G_GalGryphonBossActions_6
 // 6x79: our code carries this as G_GoGoBall_6x79 (pso/object/lobby/LobbyGoGoBall.h), which
 // handle_6x79_gogo_ball reads.
 
-// The Gol Dragon's next action (TBoss8Dragon::send_action_packet / send_6xA8_action, applied by
-// TBoss8Dragon::apply_6xA8_action); header.client_id holds the dragon's entity id.
+// 6xA8: The Gol Dragon's next action (TBoss8Dragon::send_action_packet / send_6xA8_action,
+// applied by TBoss8Dragon::apply_6xA8_action); header.client_id holds the dragon's entity id.
 // Sent by TBoss8Dragon::send_6xA8_action and TBoss8Dragon::send_action_packet; received by
 // handle_6xA8_gol_dragon_boss_actions. Used by our code; size not checked against a sender yet.
 struct G_GolDragonBossActions_6xA8 {
@@ -1092,7 +1093,7 @@ struct G_SetAnimationState_6xAE {
 };
 LAYOUT_ASSERT(G_SetAnimationState_6xAESize, sizeof(G_SetAnimationState_6xAE) == 0x10);
 
-// The client reads what, state and is_alive as signed bytes and the
+// 6x7D: The client reads what, state and is_alive as signed bytes and the
 // params as signed words.
 // Sent by send_battle_mode_params, send_6x7D_set_battle_mode_data,
 // TPlayerBattleCtrl::send_player_ready, TPlayerBattleCtrl::send_battle_mode_state and 1 more;
@@ -1106,6 +1107,15 @@ struct G_SetBattleModeData_6x7D {
  s8 is_alive;
  s32 params[4];
 };
+
+// 6x7F: The final places and scores of a battle, one row per player. Received by
+// handle_6x7F_battle_scores, which copies the rows into duel_result_table; nothing in our code
+// sends it. Used by our code; size not checked against a sender.
+struct G_BattleScores_6x7F {
+ struct G_ClientIDHeader header;
+ BattleRanking rankings[4];
+};
+LAYOUT_ASSERT(G_BattleScores_6x7FSize, sizeof(G_BattleScores_6x7F) == 0x24);
 
 // 6x6A: The boss warp flags. Sent by TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags and
 // TObjWarpBoss::send_cmd_6A; received by handle_6x6A_set_boss_warp_flags. Size checked:

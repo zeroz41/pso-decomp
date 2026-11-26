@@ -2615,8 +2615,7 @@ TWindowDDValueList *TWindowDD::get_entry(s32 index) {
     return &TWindowDD::ws_data_table[index];
 }
 
-void handle_6x74_word_select(G_WordSelect_6x74 *window_dd) {
-    G_WordSelect_6x74 *cmd = window_dd;
+void handle_6x74_word_select(G_WordSelect_6x74 *cmd) {
     cmd->bswap_message();
     if (TWindowDD::word_select_lists != NULL) {
         if ((s32) cmd->client_id != (s32) local_client_id) {

@@ -26,7 +26,9 @@ struct WordSelectMessage {
 
 LAYOUT_ASSERT(WordSelectMessage_size, sizeof(WordSelectMessage) == 0x1C);
 
-// The 6x74 subcommand a word-select message travels in (name from newserv).
+// 6x74: A word-select chat message. Sent by G_WordSelect_6x74::send_message; received by
+// handle_6x74_word_select, which opens it in the word-select window. Size checked: init_header
+// sets the header size to 8 words.
 struct G_WordSelect_6x74 {
     u8 subcommand;
     u8 size;
