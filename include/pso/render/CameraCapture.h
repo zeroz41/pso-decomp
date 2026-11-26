@@ -58,7 +58,7 @@ s32 is_shadow_pass_active();
 void begin_shadow_map_pass();
 void end_shadow_map_pass();
 void bind_shadow_map_texture();
-extern "C" s32 is_in_shadow_range(const Vec *pos, f32 radius);
+s32 is_in_shadow_range(const Vec *pos, f32 radius);
 void render_projected_shadow_receiver(const f32 *pos, const s32 *ang);
 
 // The camera's vertical field of view as a 0x10000-per-turn angle.

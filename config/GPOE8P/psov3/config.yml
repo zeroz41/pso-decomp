@@ -15969,7 +15969,7 @@ force_active:
   - spawn_particle_at_entity_slot__10TObjPlayerFllll
   - spawn_particle_emitters__9TTecMegidFv
   - spawn_particle_if_in_band__17TObjEneDf2BringerFv
-  - spawn_particles_at
+  - spawn_particles_at__Fl
   - spawn_parts__12TBoss3VoloptFv
   - spawn_player_hit_effects__14TBoss6PlotFalzFv
   - spawn_player_tombstones2__Fv
@@ -17765,9 +17765,9 @@ force_active:
   - music_stream_afs_filename_buffer
   - prepare_wall_query_polygons__FPC3VecfUl
   - query_wall_segment__FP3VecP3VecUlP10CsnContact
-  - refill_csn_candidate_cache
+  - refill_csn_candidate_cache__FP3VecPP8CsnGroupUl
   - select_deepest_wall_ray__FP12WallRayQueryP13WallRayResult
-  - select_ground_query_groups
+  - select_ground_query_groups__FPC3VecUl
   - __dt__19TAdSelectGameModeGCFv
   - __vt__19TAdSelectGameModeGC
   - add_part__25TWindowSubSymbolChatPartsFv

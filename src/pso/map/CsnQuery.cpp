@@ -483,7 +483,7 @@ s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *
 
 #pragma push
 #pragma fp_contract on
-extern "C" CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **out_groups, u32 mask) {
+CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **out_groups, u32 mask) {
     f32 rr;
     f32 dz;
     f32 dx;

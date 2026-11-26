@@ -170,7 +170,6 @@ void play_area_sound_effect(Vec *position) {
     }
     spawn_particles_at(position);
 }
-extern "C" {
 
 void spawn_particles_at(Vec *position) {
     Vec pos;
@@ -178,8 +177,6 @@ void spawn_particles_at(Vec *position) {
     create_timed_particle_emitter((void *)position, 0xEA, 0xA, 0x1E);
     pos.y += 30.0f;
     spawn_particle_effect(&pos, 0xE9);
-}
-
 }
 
 void create_dead_spot(Vec *pos, s32 duration, f32 radius) {

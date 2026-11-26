@@ -63,8 +63,6 @@ LAYOUT_ASSERT(TItemEffNeedleSize, sizeof(TItemEffNeedle) == 0x64);
 void create_needle_pos_effect(s32 item_id, const Vec *pos, Vec *dir);
 void spawn_needle_wall_impact(TObject *parent, TItemEquipBase *weapon, const Vec *from, Vec *hit);
 void create_needle_effect(s32 item_id, ActorBodyHit *hit);
-extern "C" {
 void spawn_target_needle(TObject *parent, TItemEquipBase *weapon, u16 target_id, s32 body_index);
-}
 
 #endif

@@ -43,9 +43,7 @@ public:
 LAYOUT_ASSERT(TItemEffOrgaFlowShot_size, sizeof(TItemEffOrgaFlowShot) == 0x1A0);
 
 // The Olga Flow subordinate-boss action packet (6xAD) the shot's unit sends and handles.
-extern "C" {
 void clear_6xAD_action_buffer(s8 *buf);
-}
 void disable_olga_flow_subordinate_actions(void);
 void enable_olga_flow_subordinate_actions(void);
 void build_6xAD_olga_flow_subordinate_boss_actions(void *p);

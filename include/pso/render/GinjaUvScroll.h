@@ -7,12 +7,12 @@ struct GinjaDrawRecord;
 struct GinjaModel;
 
 extern "C" {
-s32 has_texture_scroll_entry(const GinjaDrawRecord *record, u16 texture);
-void set_ginja_texture_wrap_repeat(GinjaDrawRecord *record);
 // Scrolls the UVs of one mesh of a Ginja model; rewrite != 0 also patches
 // the model's display list. The coordinate sums wrap at 16 bits.
 void scroll_ginja_mesh_uvs(GinjaModel *model, s32 du, s32 dv, u16 mesh, s32 rewrite);
 }
+s32 has_texture_scroll_entry(const GinjaDrawRecord *record, u16 texture);
+void set_ginja_texture_wrap_repeat(GinjaDrawRecord *record);
 
 // When either draw record of model scrolls texture_id, makes them wrap and
 // appends the model's uv vertex arrays (attributes 5 and 6) to the scene's
