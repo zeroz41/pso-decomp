@@ -16,6 +16,7 @@ template <typename T, int entries, int pad_entries> class TMenuList;
 typedef TMenuList<QuestListEntry, 30, 0> OnlineQuestMenu;
 
 struct TQuestListOnline : public TShopWindowBase {
+    TQuestListOnline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TQuestListOnline();
     void update_state();
     void (*callback28)();
@@ -80,8 +81,6 @@ extern TQuestListOnline *quest_list_online_instance;
 
 extern "C" {
 void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu);
-TQuestListOnline *TQuestListOnline__ct(TQuestListOnline *list, TObject *parent,
-                                     TShopWindowBase *sequence, TObjPlayer *player);
 }
 
 #endif

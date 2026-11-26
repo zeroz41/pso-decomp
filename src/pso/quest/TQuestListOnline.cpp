@@ -67,8 +67,6 @@ s32 online_quest_list_state;
 
 struct UpdateStateObject { u8 pad[0x20]; u32 state; };
 
-extern s32 __vt__16TQuestListOnline[];
-
 void TWindowMenu::clear_flag_and_release() {
     uaddr temp;
     m_70 &= ~2;
@@ -80,27 +78,23 @@ void TWindowMenu::clear_flag_and_release() {
 
 s32 TQuestListOnline::get_selection_stage() { return selection_stage; }
 
-TQuestListOnline *TQuestListOnline__ct(TQuestListOnline *quest_list_online, TObject *parent,
-                                     TShopWindowBase *sequence, TObjPlayer *player) {
-    __ct__15TShopWindowBaseFP7TObject(quest_list_online, parent);
-    *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
-    __ct__13GameListEntryFv(&quest_list_online->selected_entry);
-    quest_list_online->m_name = quest_list_online_class_name;
-    quest_list_online->list_window = NULL;
-    quest_list_online->description_window = NULL;
-    quest_list_online->info_window = NULL;
-    quest_list_online->confirm_window = NULL;
-    quest_list_online->sequence = sequence;
-    quest_list_online->selected_index = 0;
-    quest_list_online->callback28 = NULL;
-    quest_list_online->callback2c = NULL;
-    quest_list_online->callback34 = NULL;
-    quest_list_online->selection_stage = 0;
-    quest_list_online->player = player;
-    memset(&quest_list_online->selected_entry, 0, sizeof(quest_list_online->selected_entry));
-    quest_list_online->set_state(0);
-    quest_list_online_instance = quest_list_online;
-    return quest_list_online;
+TQuestListOnline::TQuestListOnline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
+    : TShopWindowBase(parent) {
+    m_name = quest_list_online_class_name;
+    list_window = NULL;
+    description_window = NULL;
+    info_window = NULL;
+    confirm_window = NULL;
+    this->sequence = sequence;
+    selected_index = 0;
+    callback28 = NULL;
+    callback2c = NULL;
+    callback34 = NULL;
+    selection_stage = 0;
+    this->player = player;
+    memset(&selected_entry, 0, sizeof(selected_entry));
+    set_state(0);
+    quest_list_online_instance = this;
 }
 
 TQuestListOnline::~TQuestListOnline() {

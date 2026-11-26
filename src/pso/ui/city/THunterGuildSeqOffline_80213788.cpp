@@ -306,10 +306,7 @@ void THunterGuildSeqOnline_Server::close_window() {
 
 void THunterGuildSeqOnline_Server::open_quest_list() {
     TQuestListOnline *l;
-    l = static_cast<TQuestListOnline *>(TObject::operator new(sizeof(TQuestListOnline)));
-    if (l != 0) {
-        l = TQuestListOnline__ct(l, tl_05, this, player);
-    }
+    l = new TQuestListOnline(tl_05, this, player);
     if (l != 0) {
         display_guild_message(4, 1);
         l->callback28 = THunterGuildSeqOffline__sub_80213F78;
