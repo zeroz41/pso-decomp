@@ -20,11 +20,7 @@
 #include "pso/unk/text_80320358.h"
 #include "pso/ui/frontend/EndingSequence.h"
 
-int get_opening_movie_selector(void);
-void activate_main_menu_scene(void);
 extern "C" {
-void fn_801449F0(void);
-
 s32 DVDCheckDisk();
 }
 extern "C" {
@@ -240,7 +236,7 @@ s32 TMovie::check_skip_input() {
     if (is_ending_sequence_active() != 0) {
         if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
             if ((TLobby::run_disk_error_check() == 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
-                fn_801449F0();
+                set_ending_movie_active();
             }
             return 1;
         }
@@ -353,4 +349,4 @@ int get_opening_movie_selector(void) { return opening_movie_selector; }
 
 void activate_main_menu_scene(void) { main_menu_scene_active_flag = 1; }
 
-void fn_801449F0(void) { ending_movie_active_flag = 1; }
+void set_ending_movie_active(void) { ending_movie_active_flag = 1; }

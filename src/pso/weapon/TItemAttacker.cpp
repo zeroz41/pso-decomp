@@ -51,7 +51,7 @@ void TItemAttacker::deliver_delayed_weapon_hit() {
 
 void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record) {
     if ((parent != NULL) && (attack_record != NULL) && (position != NULL) && (attack_record->source != 0xFFFF) && (attack_record->target != 0xFFFF)) {
-        TItemAttacker::spawn_item_timer(new TItemAttacker(parent, position, frames, attack_record), TItemAttacker__sub_8010349C, frames);
+        TItemAttacker::spawn_item_timer(new TItemAttacker(parent, position, frames, attack_record), deliver_attacker_timer_hit, frames);
     }
 }
 
@@ -85,7 +85,7 @@ void TItemAttacker::spawn_item_timer(TObject *object, ItemTimerCallback expire, 
     }
 }
 
-void TItemAttacker__sub_8010349C(TObject *attacker) {
+void deliver_attacker_timer_hit(TObject *attacker) {
     if (attacker != NULL) {
         ((TItemAttacker *)attacker)->deliver_delayed_weapon_hit();
     }

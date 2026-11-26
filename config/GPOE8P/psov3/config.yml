@@ -549,7 +549,7 @@ force_active:
   - THunterGuildSeqOffline__sub_80213F78
   - handle_party_check__28THunterGuildSeqOnline_ServerFv
   - name__13TItemAttacker
-  - TItemAttacker__sub_8010349C
+  - deliver_attacker_timer_hit__FP7TObject
   - letter_index_to_char__9TItemDataFSc
   - name__19TItemDisconnectCtrl
   - __ct__9TItemDropFP7TObjectSc
@@ -6352,8 +6352,8 @@ force_active:
   - load_unload_set_init_order__FP26LoadUnloadSetShuffleOrderO
   - remove_poison_immunity__Fi
   - init_6x91_subcommand__FP31G_UpdateAttackableColState_6x91
-  - fn_801811FC
-  - fn_80181204
+  - get_path_speed__18TObjCityAirCar_CarFv
+  - get_path_frame__18TObjCityAirCar_CarFv
   - is_within_camera_distance_sq__12TObjEnvSoundFf
   - get_screen_position__14TObjWarpStringFUs
   - fn_8019F9AC

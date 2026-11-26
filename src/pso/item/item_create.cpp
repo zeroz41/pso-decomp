@@ -445,7 +445,7 @@ void forward_message(saddr buf, uaddr item) {
 void mark_selected() { lobby_drop_flag = 1; }
 int get_drop_flag() {  return lobby_drop_flag; }
 
-ItemCreateFunction TLobby__sub_8010440C(u8 *item) {
+ItemCreateFunction get_tool_factory_for_item(u8 *item) {
     u8 i = item[1];
     if (i < 0x18) {
         return item_tool_factory_table[i];
@@ -582,7 +582,7 @@ s32 is_valid_drop_floor(s32 floor) {
     }
     return 0;
 }
-s32 TObjPlayer__sub_80104840(s32 arg0) {
+s32 is_valid_area_id(s32 arg0) {
     if ((arg0 >= 0) && (arg0 < 0x24)) {
         return 1;
     }
@@ -907,7 +907,7 @@ ItemCreateFunction item_pro_create_fn_table[4] = {
     0, TItemProArmor::create, TItemProShield::create, TItemProUnit::create,
 };
 ItemCreateFunction item_create_fn_table[5] = {
-    create_weapon_for_item, TLobby__sub_801054E0, TItemMag::create, TItemObject::create_tool,
+    create_weapon_for_item, create_armor_for_item, TItemMag::create, TItemObject::create_tool,
     TItemMoney::create,
 };
 extern Entry_8010567C *quest_object_entries;
@@ -1173,7 +1173,7 @@ TItem *construct_item(TItemData *data) {
     return 0;
 }
 
-TItem *TLobby__sub_801054E0(u8 *item) {
+TItem *create_armor_for_item(u8 *item) {
     if (item != 0) {
         if (item[1] < 4) {
             if (item_pro_create_fn_table[item[1]] != 0) {
@@ -1235,7 +1235,7 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
     if (this != NULL) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
-        if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
+        if (p1 != 0 && p2 != 0 && is_valid_area_id(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
             (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
              designated_client_id == local_client_id)) {
             if (this->set_index != -1) {

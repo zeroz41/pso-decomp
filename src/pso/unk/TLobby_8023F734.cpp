@@ -641,7 +641,7 @@ s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32
             sound_request_voices[i].kind == 0 && (s32)(id >> 16) == sound_request_voices[i].bank &&
             (s32)(id & 0xFFFF) == sound_request_voices[i].index && reinterpret_cast<saddr>(actor) == reinterpret_cast<saddr>(sound_request_voices[i].actor) &&
             (sound_request_voices[i].flags & 1)) {
-            TLobby__sub_802409E4(&sound_request_voices[i]);
+            refresh_sound_voice(&sound_request_voices[i]);
             sound_request_voices[i].position = position;
             sound_request_voices[i].base = base;
             return i;

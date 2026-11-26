@@ -43,11 +43,11 @@ void SoundRequestVoice::clamp_reverb(f32 scale) {
     reverb = reverb_value;
 }
 
-void TLobby__sub_802409E4(SoundRequestVoice *voice) { voice->refresh = 5; }
+void refresh_sound_voice(SoundRequestVoice *voice) { voice->refresh = 5; }
 
 extern "C" s32 sndFXCtrl14(u32 vid, u8 ctrl, u16 value);
 
-void TLobby__sub_802409F0(SoundRequestVoice *v) {
+void send_voice_pitch_update(SoundRequestVoice *v) {
     switch (v->kind) {
     case 0:
         if (v->previousPitch != v->pitch) {
@@ -154,10 +154,10 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             v->delay--;
             break;
         }
-        ((void (*)(SoundRequestVoice *))TLobby__sub_80241A0C)(v);
+        TLobby__sub_80241A0C(v);
         TLobby__sub_80241798((Sound_80241798 *)(v));
     start:
-        ((void (*)(SoundRequestVoice *))TLobby__sub_80240F38)(v);
+        TLobby__sub_80240F38(v);
         TLobby__sub_80240F3C(v);
         calc_sound_spatial_params(v);
         v->clamp_params();
@@ -221,7 +221,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             v->state = 0;
         } else {
             send_voice_controller_updates(v);
-            TLobby__sub_802409F0(v);
+            send_voice_pitch_update(v);
             if ((v->flags & 1) && v->refresh < 0) {
                 sndFXKeyOff(v->token);
                 v->state = 0;
@@ -252,7 +252,7 @@ void SoundRequestVoice::update_random_flip_flag() {
     }
 }
 
-void TLobby__sub_80240F38(void) {  }
+void TLobby__sub_80240F38(SoundRequestVoice *) {}
 
 void TLobby__sub_80240F3C(SoundRequestVoice *v) {
     s32 num = 1;
@@ -650,7 +650,7 @@ void TLobby__sub_80241798(Sound_80241798 *sound) {
     }
 }
 
-void TLobby__sub_80241A0C(void) {  }
+void TLobby__sub_80241A0C(SoundRequestVoice *) {}
 
 
 void send_sound_request_reverb(SoundRequestVoice *voice) {

@@ -18,6 +18,7 @@ struct TSceneSora : public TObjBase {
     virtual void run_task();
     static void create_instance();
     static void load_sky_resources();
+    static void release_sky_resources();
     f32 motion_step;
     f32 m_a0;
     static TSceneSora *instance;

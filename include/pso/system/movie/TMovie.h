@@ -107,6 +107,11 @@ struct MovieState {
 LAYOUT_ASSERT(MovieState_frame, offsetof(MovieState, frame) == 0x5C);
 LAYOUT_ASSERT(MovieState_size, sizeof(MovieState) == 0xD0);
 
+int get_opening_movie_selector(void);
+void activate_main_menu_scene(void);
+// Sets ending_movie_active_flag; check_skip_input calls it on a disk error or reset during the ending.
+void set_ending_movie_active(void);
+
 // The movie frame-buffer helpers: double-buffered XFB flips driven by VI retrace.
 void flush_cache();
 void flip_frame_buffer();

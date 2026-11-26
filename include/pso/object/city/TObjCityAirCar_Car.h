@@ -14,6 +14,8 @@ public:
     virtual void run_task();
     virtual void render();
     s32 update_path_motion();
+    f32 get_path_frame();
+    f32 get_path_speed();
 
     f32 path_frame;
     f32 path_speed;

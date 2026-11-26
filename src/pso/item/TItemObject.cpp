@@ -63,7 +63,7 @@ TItemObject::~TItemObject() {}
 
 TItem *TItemObject::create_tool(u8 *item) {
     if (item != NULL) {
-        ItemCreateFunction factory = TLobby__sub_8010440C(item);
+        ItemCreateFunction factory = get_tool_factory_for_item(item);
         return factory(item);
     }
     return NULL;

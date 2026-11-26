@@ -40,7 +40,6 @@ BmlResource *TSceneSora::sky_bml_resource;
 s32 TSceneSora::has_sky_motion;
 
 extern "C" {
-void TSceneSora__sub_80207430(void);
 extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
 extern char sky_model_ext_s_gj[];
@@ -104,13 +103,13 @@ void TSceneSora::create_instance() {
     TSceneSora::instance = 0;
 }
 
-extern "C" void TSceneSora__sub_80207430(void) {
-    TSceneSora::sky_active_flag = 1;
-    if (TSceneSora::sky_bml_resource != NULL) {
-        delete TSceneSora::sky_bml_resource;
-        TSceneSora::sky_bml_resource = NULL;
+void TSceneSora::release_sky_resources() {
+    sky_active_flag = 1;
+    if (sky_bml_resource != NULL) {
+        delete sky_bml_resource;
+        sky_bml_resource = NULL;
     }
-    TSceneSora::instance = 0;
+    instance = 0;
 }
 
 void TSceneSora::load_sky_resources() {

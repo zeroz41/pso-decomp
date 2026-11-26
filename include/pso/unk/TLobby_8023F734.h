@@ -85,13 +85,15 @@ void set_sound_voice_position(s32 slot, const Vec *position);
 extern "C" {
 s32 TLobby__sub_8023F880(s32 voice);
 int TLobby__sub_802401C8(SoundControlState *self);
-void TLobby__sub_802409E4(struct SoundRequestVoice *voice);
-void TLobby__sub_802409F0(struct SoundRequestVoice *v);
-void TLobby__sub_80240F38(void);
-void TLobby__sub_80241A0C(void);
 void TLobby__sub_802422EC(void *arg0, void *arg1);
 void TLobby__sub_8024259C(saddr arg0);
 }
+// Keeps a looping voice alive for five more updates.
+void refresh_sound_voice(struct SoundRequestVoice *voice);
+// Sends the voice's pitch to the sound driver when it changed.
+void send_voice_pitch_update(struct SoundRequestVoice *v);
+void TLobby__sub_80240F38(struct SoundRequestVoice *v);
+void TLobby__sub_80241A0C(struct SoundRequestVoice *v);
 void init_com_card_list(void);
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index);
 extern "C" {
