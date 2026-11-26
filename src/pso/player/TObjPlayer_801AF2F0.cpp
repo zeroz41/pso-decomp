@@ -144,75 +144,13 @@
 #pragma readonly_strings on
 
 
-struct InventoryCreatePacket_801B849C {
-    u8 command;
-    u8 size;
-    u16 actor;
-    TItemData item;
-    u32 flags;
-};
 
 
 
-struct S801B4430_801b4430_801B3FD8 { s8 b[2]; s16 h; };
 
 
-struct Color_801B6964 { f32 r, g, b, a; };
 
 
-struct S801B7F4C { s8 b[2]; s16 h; s32 w; };
-
-typedef struct Pkt_801B8344 {
-    u8 cmd;
-    u8 size;
-    u16 client;
-    u8 item[0x14];
-    u8 pad18;
-    s8 f19;
-    u8 pad1A[0x1C - 0x1A];
-} Pkt_801B8344;
-
-struct Stack_801B8A80 {
-    s32 sp8;
-    u8 pad_C[0x8];
-    s32 sp14;
-    u8 trailing_storage[0x4];
-};
-
-struct Item_801B8AF8 {
-    u8 data[0xC];
-    s32 id;
-    u8 data2[4];
-};
-
-typedef struct Cmd_801B8870 {
-    u8 cmd;
-    u8 size;
-    s16 client;
-    s16 b;
-    s16 floor;
-    s32 a;
-    Vec pos;
-} Cmd_801B8870;
-
-struct L_801B8CB0 { u16 f0; u16 f2; s32 f4; u8 f8[0x78]; };
-
-struct Cmd_801B8DE8 { u8 hdr[2]; s16 id; s32 a; s32 b; };
-
-
-struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28);
-
-
-struct Sp8Struct_801baa00 {
-    s16 f0;
-    s16 fA;
-    s32 fC;
-};
 
 
 extern "C" {
@@ -264,7 +202,6 @@ void *__construct_array(void *, void *, void *, u32, u32);
 extern const char *TObjPlayer__player_set_class_name;
 extern const f32 player_front_distance;
 extern Vec scratch_vec5;
-extern Color_801B6964 player_feedback_light_color[];
 extern s32 lbl_805D55C0;
 extern PlayerCharDataEntry *lobby_char_slot_array;
 extern const char status_line_break[];
@@ -296,13 +233,13 @@ s32 player_auxiliary_surfaces_enabled();
 
 // The level-up light colour and direction (spawn_level_change_feedback).
 extern const f32 player_feedback_light_dir_y;
+extern const f32 player_feedback_light_green;
 extern const f32 player_feedback_light_blue;
-extern const f32 player_feedback_light_alpha;
 extern const f32 player_feedback_light_step;
 
 // An equipped item and the slot it sits in, kept while apply_battle_level_reset rebuilds the stats.
-struct Unk_801B67C4 {
-    Unk_801B67C4() {
+struct SavedEquipSlot {
+    SavedEquipSlot() {
         slot = 0;
         item = NULL;
     }
@@ -311,7 +248,6 @@ struct Unk_801B67C4 {
     TItem *item;
 };
 
-struct Pkt_801B8908 { u16 f0; u16 client; s16 a; s16 b; };
 extern "C" {
 
 extern const f32 player_rand_pick_limit;
@@ -934,14 +870,14 @@ void handle_6x21_inter_level_warp(G_InterLevelWarp_6x21 *command) {
 
 
 void TObjPlayer::apply_state_transform() {
-    struct Sp8Struct_801baa00 pkt;
+    G_SetPlayerFloor_6x1F pkt;
 
     ::set_flag_400000(this);
     if (((uaddr)this == 0U) || (this->obj_isState2_324() == 0)) {
-        ((G_SetPlayerFloor_6x1F *)&pkt)->init();
-        pkt.fA = ((TObjBase *)((uaddr)this))->get_entity_id();
-        pkt.fC = this->get_floor();
-        ((G_SetPlayerFloor_6x1F *)&pkt)->send();
+        pkt.init();
+        pkt.header.client_id = get_entity_id();
+        pkt.floor = this->get_floor();
+        pkt.send();
     }
 }
 
@@ -1646,18 +1582,18 @@ u32 TObjPlayer::pickup_item(TItem *item) {
 }
 
 void TObjPlayer::send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 count) {
-    Cmd_801B8DE8 cmd;
+    G_DeleteInventoryItem_6x29 cmd;
     if (player->is_in_lobby() != 0) {
         return;
     }
     if (player != NULL && player->obj_isState2_324() != 0) {
         return;
     }
-    ((G_DeleteInventoryItem_6x29 *)&cmd)->init();
-    cmd.id = player->get_entity_id();
-    cmd.a = item_id;
-    cmd.b = count;
-    ((G_DeleteInventoryItem_6x29 *)&cmd)->send();
+    cmd.init();
+    cmd.header.client_id = player->get_entity_id();
+    cmd.item_id = item_id;
+    cmd.amount = count;
+    cmd.send();
     player->send_unequip_held_item();
 }
 void handle_6x29_delete_inventory_item(G_DeleteInventoryItem_6x29 *command) {
@@ -1679,14 +1615,14 @@ void TObjPlayer::dispatch_action(s32 key, s32 amount) {
 }
 
 void handle_6xAC(G_DeleteMultipleInventoryItems_6xAC *command) {
-    L_801B8CB0 cmd;
-    ((G_DeleteMultipleInventoryItems_6xAC *)&cmd)->init();
-    *(G_DeleteMultipleInventoryItems_6xAC *)&cmd = *command;
-    ((G_DeleteMultipleInventoryItems_6xAC *)&cmd)->bswap();
-    if (validate_6xAC((G_DeleteMultipleInventoryItems_6xAC *)&cmd) != 0) {
-        saddr p = (saddr)get_player_by_client_id(cmd.f2);
-        if (p != 0 && TFontSmallLobby::is_lobby_floor_15() == 0) {
-            reinterpret_cast<TObjPlayer *>(p)->delete_multiple_inventory_items(reinterpret_cast<s32 *>(cmd.f8), cmd.f4);
+    G_DeleteMultipleInventoryItems_6xAC cmd;
+    cmd.init();
+    cmd = *command;
+    cmd.bswap();
+    if (validate_6xAC(&cmd) != 0) {
+        TObjPlayer *p = get_player_by_client_id(cmd.header.client_id);
+        if (p != NULL && TFontSmallLobby::is_lobby_floor_15() == 0) {
+            p->delete_multiple_inventory_items(reinterpret_cast<s32 *>(cmd.item_ids.id), cmd.num_items);
         }
     }
 }
@@ -1709,7 +1645,7 @@ s32 TObjPlayer::count_items_of_type(u8 kind, u8 group, u8 subgroup) {
 }
 
 void TObjPlayer::request_item_drop(s32 key, s32 count) {
-    Item_801B8AF8 item;
+    TItemData item;
     TItem *owner;
     s32 id;
     if (check_player_action_allowed() != 0 &&
@@ -1728,31 +1664,29 @@ void TObjPlayer::request_item_drop(s32 key, s32 count) {
     }
     send_impose_hold(this, 0x384);
     set_action_flag_2();
-    owner->copy_to_item_data((TItemData *)&item);
-    ((TItemData *)&item)->set_stack_count(count);
+    owner->copy_to_item_data(&item);
+    item.set_stack_count(count);
     id = item.id;
     if (owner->get_amount() - count > 0) {
         item.id = -1;
     }
-    inventory_objects->list.add_drop(get_marker_position(&marker_position), this, (TItemData *)&item, id);
+    inventory_objects->list.add_drop(get_marker_position(&marker_position), this, &item, id);
 }
 
 void TObjPlayer::request_meseta_drop(s32 amount) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801B8A80, sp8) == 0x0);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801B8A80, sp14) == 0xC);
-    Stack_801B8A80 stack;
+    TItemData meseta;
     if (amount > 0) {
         send_impose_hold(this, 0x384);
         set_action_flag_2();
-        ((TItemData *)(&stack.sp8))->init_meseta(amount);
-        stack.sp14 = -1;
-        inventory_objects->list.add_drop(get_marker_position(&marker_position), this, (TItemData *)&stack.sp8, -1);
+        meseta.init_meseta(amount);
+        meseta.id = -1;
+        inventory_objects->list.add_drop(get_marker_position(&marker_position), this, &meseta, -1);
     }
 }
 
 s32 TObjPlayer::send_trap_packet(int kind) {
     s32 trap = kind;
-    Pkt_801B8908 pkt;
+    G_PlaceTrap_6x83 pkt;
 
     if ((u8 *)this != NULL && this->obj_isState2_324() != 0) {
         return 0;
@@ -1766,11 +1700,11 @@ s32 TObjPlayer::send_trap_packet(int kind) {
     if (trap_counts.get_count(trap) <= 0) {
         return 0;
     }
-    ((G_PlaceTrap_6x83 *)&pkt)->init();
-    pkt.client = (u16)((TObjBase *)this)->get_entity_id();
-    pkt.a = trap;
-    pkt.b = trap_counts.get_count(trap);
-    ((G_PlaceTrap_6x83 *)&pkt)->send();
+    pkt.init();
+    pkt.header.client_id = get_entity_id();
+    pkt.trap_type = trap;
+    pkt.trap_index = trap_counts.get_count(trap);
+    pkt.send();
     return 1;
 }
 
@@ -1791,16 +1725,16 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
 }
 
 
-void TObjPlayer::send_6x2A_drop_item(TObjPlayer *player, s32 source, void *pos, s32 item_id) {
-    Cmd_801B8870 cmd;
+void TObjPlayer::send_6x2A_drop_item(TObjPlayer *player, s32 item_id, void *pos, s32 amount) {
+    G_DropItem_6x2A cmd;
     if (player->is_in_lobby() == 0 && (player == NULL || player->obj_isState2_324() == 0)) {
-        ((G_DropItem_6x2A *)&cmd)->init();
-        cmd.client = player->get_entity_id();
-        cmd.a = source;
-        cmd.b = item_id;
-        cmd.floor = ((s16 (*)(void))get_current_floor)();
-        VecCopy((Vec *)&cmd.pos, (const Vec *)pos);
-        ((G_DropItem_6x2A *)&cmd)->send();
+        cmd.init();
+        cmd.header.client_id = player->get_entity_id();
+        cmd.item_id = item_id;
+        cmd.amount = amount;
+        cmd.floor = get_current_floor();
+        VecCopy(&cmd.pos, (const Vec *)pos);
+        cmd.send();
         player->send_unequip_held_item();
     }
 }
@@ -1887,45 +1821,45 @@ void delete_item(TObjPlayer *player, s32 id, s32 count) { TObjPlayer::send_6x29_
 
 void TObjPlayer::request_inventory_item(TItemData* item) {
     TObjPlayer* player = this;
-    InventoryCreatePacket_801B849C packet;
+    G_CreateInventoryItem_PC_V3_BB_6x2B packet;
     if (is_in_lobby() == 0) {
         if ((s32)item->id == -1) {
             item->id = advance_item_id_counter((u16)local_client_id);
         }
         if (player == 0 || ((TObjChara *)player)->obj_isState2_324() == 0) {
-            ((G_CreateInventoryItem_PC_V3_BB_6x2B *)&packet)->init();
-            packet.actor = player->get_entity_id();
-            ((TItemData *)(&packet.item))->copy_from((TItemData *)(item));
-            ((TItemData *)&packet.item)->encode_for_network();
-            ((G_CreateInventoryItem_PC_V3_BB_6x2B *)&packet)->send();
+            packet.init();
+            packet.header.client_id = player->get_entity_id();
+            packet.item_data.copy_from(item);
+            packet.item_data.encode_for_network();
+            packet.send();
         }
     }
 }
 
 void handle_6x2B_create_inventory_item(G_CreateInventoryItem_PC_V3_BB_6x2B *command) {
-    Pkt_801B8344 pkt;
+    G_CreateInventoryItem_PC_V3_BB_6x2B pkt;
     TObjPlayer *player;
     s32 kind;
-    u8 *item;
-    ((G_CreateInventoryItem_PC_V3_BB_6x2B *)&pkt)->init();
-    *(G_CreateInventoryItem_PC_V3_BB_6x2B *)&pkt = *command;
-    ((G_CreateInventoryItem_PC_V3_BB_6x2B *)&pkt)->bswap();
-    if (validate_6x2B_create_inventory_item((G_ClientIDHeader *)&pkt) != 0) {
-        player = (TObjPlayer *)get_player_by_client_id(pkt.client);
+    TItem *item;
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x2B_create_inventory_item(&pkt.header) != 0) {
+        player = get_player_by_client_id(pkt.header.client_id);
         if ((player != NULL) && (player->is_in_lobby() == 0)) {
-            if ((u32)(pkt.size * 4) == 0x18) {
+            if ((u32)(pkt.header.size * 4) == 0x18) {
                 kind = 0;
-                ((TItemData *)pkt.item)->convert_from_version(0);
+                pkt.item_data.convert_from_version(0);
             } else {
                 kind = 2;
-                ((TItemData *)pkt.item)->convert_from_version(2);
+                pkt.item_data.convert_from_version(2);
             }
-            ((TItemData *)pkt.item)->decode_from_network();
-            item = ((u8 * (*)(s32 *))create_item)((s32 *)pkt.item);
-            if ((item != NULL) && (player->pickup_item((TItem *)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (TObjPlayer::get_slot_value(player->equipped_items.items, ((TItem *)item)->get_attach_slot()) == 0U)) {
-                set_equip_slot_entry((saddr)player->equipped_items.items, ((TItem *)item)->get_attach_slot(), (saddr)item);
+            pkt.item_data.decode_from_network();
+            item = create_item(&pkt.item_data);
+            if ((item != NULL) && (player->pickup_item(item) != 0U) && (kind == 2) && (pkt.equip_item != 0) && (TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot()) == 0U)) {
+                set_equip_slot_entry((saddr)player->equipped_items.items, item->get_attach_slot(), (saddr)item);
                 player->set_flag_20000();
-                ((TItem *)item)->equip();
+                item->equip();
                 player->clear_flag_20000();
             }
         }
@@ -2003,7 +1937,7 @@ void rebuild_player_inventory(TObjPlayer *player) {
 }
 
 s32 try_send_6x27_use_item(void *player, s32 key) {
-    struct S801B7F4C cmd;
+    G_UseItem_6x27 cmd;
     TItem *temp;
     if (TFontSmallLobby::is_lobby_floor_15() != 0) {
         return 0;
@@ -2023,10 +1957,10 @@ s32 try_send_6x27_use_item(void *player, s32 key) {
     if ((player != NULL) && (((TObjChara *)player)->obj_isState2_324() != 0)) {
         return 0;
     }
-    ((G_UseItem_6x27 *)&cmd)->init();
-    cmd.h = ((TObjBase *)(player))->get_entity_id();
-    cmd.w = key;
-    ((G_UseItem_6x27 *)&cmd)->send();
+    cmd.init();
+    cmd.header.client_id = ((TObjBase *)(player))->get_entity_id();
+    cmd.item_id = key;
+    cmd.send();
     return 1;
 }
 
@@ -2595,10 +2529,10 @@ void TObjPlayer::spawn_level_change_feedback(const char *message) {
     scratch_vec.x = player_zero;
     scratch_vec.y = player_feedback_light_dir_y;
     scratch_vec.z = player_zero;
-    player_feedback_light_color[0].g = player_feedback_light_color[0].r = player_one;
-    player_feedback_light_color[0].b = player_feedback_light_blue;
-    player_feedback_light_color[0].a = player_feedback_light_alpha;
-    new TActorLight(player_feedback_light_step, (NJS_ARGB *)player_feedback_light_color, &scratch_vec, 10, this, tl_07);
+    player_feedback_light_color.r = player_feedback_light_color.a = player_one;
+    player_feedback_light_color.g = player_feedback_light_green;
+    player_feedback_light_color.b = player_feedback_light_blue;
+    new TActorLight(player_feedback_light_step, &player_feedback_light_color, &scratch_vec, 10, this, tl_07);
     publish_actor_light_scalars(get_entity_id(), player_one, player_half);
 }
 
@@ -2650,11 +2584,11 @@ void apply_class_level_growth(s32 cls, s32 level, stats *st) {
 void TObjPlayer::apply_battle_level_reset(s32 level) {
     level = clamp_index_to_max(level);
 
-    Unk_801B67C4 saved[9];
+    SavedEquipSlot saved[9];
     s16 result;
     s32 i;
 
-    Unk_801B67C4 *e = saved;
+    SavedEquipSlot *e = saved;
     for (i = 0; i < 13; i++) {
         TItem *item = get_equipped_item(i);
         if (item != NULL) {
@@ -2695,7 +2629,7 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
     hp = hpmax;
     tp = tpmax;
     set_flag_20000();
-    Unk_801B67C4 *p = saved;
+    SavedEquipSlot *p = saved;
     for (s32 i = 0; i < 9; i++, p++) {
         TItem *item = p->item;
         if (item == NULL) {
@@ -2705,7 +2639,7 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
             equip_item_to_slot(item, p->slot);
         }
     }
-    Unk_801B67C4 *q = saved;
+    SavedEquipSlot *q = saved;
     for (s32 i = 0; i < 9; i++, q++) {
         TItem *item = q->item;
         if (item == NULL) {
@@ -3581,12 +3515,12 @@ void handle_6x32_medical_center_revive_all_players(void) {
 }
 
 void TObjPlayer::send_6xA1_player_id() {
-    struct S801B4430_801b4430_801B3FD8 pkt;
+    G_RevivePlayer_V3_BB_6xA1 pkt;
 
     if ((((saddr)this) == 0) || (this->obj_isState2_324() == 0)) {
-        ((G_RevivePlayer_V3_BB_6xA1 *)&pkt)->init();
-        pkt.h = ((TObjBase *)(((saddr)this)))->get_entity_id();
-        ((G_RevivePlayer_V3_BB_6xA1 *)&pkt)->send();
+        pkt.init();
+        pkt.header.client_id = get_entity_id();
+        pkt.send();
     }
 }
 
@@ -5946,8 +5880,8 @@ __declspec(section ".sdata2") extern f32 player_one = 1.0f;
 __declspec(section ".sdata2") extern const f32 player_velocity_epsilon = 1e-05f;
 __declspec(section ".sdata2") extern const f32 player_velocity_neg_epsilon = -1e-05f;
 __declspec(section ".sdata2") extern const f32 player_feedback_light_dir_y = -1.0f;
-__declspec(section ".sdata2") extern const f32 player_feedback_light_blue = 0.8f;
-__declspec(section ".sdata2") extern const f32 player_feedback_light_alpha = 0.63f;
+__declspec(section ".sdata2") extern const f32 player_feedback_light_green = 0.8f;
+__declspec(section ".sdata2") extern const f32 player_feedback_light_blue = 0.63f;
 __declspec(section ".sdata2") extern const f32 player_feedback_light_step = 0.2f;
 __declspec(section ".sdata2") extern const f32 player_body_radius = 5.0f;
 __declspec(section ".sdata2") extern const f32 player_wall_probe_margin = 4.0f;

@@ -58,7 +58,7 @@ u32 scratch_vec3[8];
 u32 scratch_vec4[8];
 f32 scratch_vec5[16];
 u32 scratch_rotation[16];
-f32 player_feedback_light_color[4];
+NJS_ARGB player_feedback_light_color;
 NJS_ARGB color_draw_saved_color;
 DepthAlphaState depth_buffer_settings;
 DepthAlphaState depth_buffer_config_copy;

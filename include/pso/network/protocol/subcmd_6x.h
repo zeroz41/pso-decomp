@@ -272,7 +272,7 @@ struct G_CreateInventoryItem_DC_6x2B {
 
 struct G_CreateInventoryItem_PC_V3_BB_6x2B : G_CreateInventoryItem_DC_6x2B {
  u8 unused1;
- u8 equip_item;
+ s8 equip_item;  // handle_6x2B_create_inventory_item sign-extends it
  u8 unused2[2];
  void bswap();
  G_CreateInventoryItem_PC_V3_BB_6x2B &operator=(G_CreateInventoryItem_PC_V3_BB_6x2B &src);

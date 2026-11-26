@@ -954,7 +954,7 @@ struct TObjPlayer : public TObjChara {
     s32 find_inventory_item_id(s8 kind, s8 group);
     s32 try_add_sale_meseta(s32 item_id, s32 amount, s32 count);
     void drop_items_on_death();
-    static void send_6x2A_drop_item(TObjPlayer *player, s32 source, void *pos, s32 item_id);
+    static void send_6x2A_drop_item(TObjPlayer *player, s32 item_id, void *pos, s32 amount);
     s32 send_trap_packet(int kind);
     void request_meseta_drop(s32 amount);
     void request_item_drop(s32 key, s32 count);

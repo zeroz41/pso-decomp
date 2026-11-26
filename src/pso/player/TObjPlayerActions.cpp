@@ -129,7 +129,6 @@ s32 dispatch_weapon_special_effect(void *, int, int, int);
 
 const f64 freeze_escape_timer_scale = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
-extern f32 player_feedback_light_color[];
 extern const char *TWindowReturnCity__class_name;
 
 }
@@ -3363,10 +3362,10 @@ void TObjPlayer::start_attack_preparation() {
         this->set_state_flags(0x80);
         ((TObjPlayer *)&this->follow_particles)->request_heavy_attack_particles();
         scratch_vec.y = scratch_vec.x = 0.0f;
-        player_feedback_light_color[0] = scratch_vec.z = 1.0f;
-        player_feedback_light_color[2] = player_feedback_light_color[1] = 0.8f;
-        player_feedback_light_color[3] = 1.0f;
-        new TActorLight(0.2f, (NJS_ARGB *)player_feedback_light_color, &scratch_vec, 8, this, tl_07);
+        player_feedback_light_color.a = scratch_vec.z = 1.0f;
+        player_feedback_light_color.g = player_feedback_light_color.r = 0.8f;
+        player_feedback_light_color.b = 1.0f;
+        new TActorLight(0.2f, &player_feedback_light_color, &scratch_vec, 8, this, tl_07);
         publish_actor_light_scalars(this->get_entity_id(), 1.0f, 0.5f);
         this->play_sound_if_on_floor(0x1AD1C);
         break;
@@ -3375,10 +3374,10 @@ void TObjPlayer::start_attack_preparation() {
         this->set_state_flags(0x80);
         dispatch_weapon_special_effect(this, 0, 0, 0);
         scratch_vec.y = scratch_vec.x = 0.0f;
-        player_feedback_light_color[0] = scratch_vec.z = 1.0f;
-        player_feedback_light_color[2] = player_feedback_light_color[1] = 0.8f;
-        player_feedback_light_color[3] = 1.0f;
-        new TActorLight(0.2f, (NJS_ARGB *)player_feedback_light_color, &scratch_vec, 8, this, tl_07);
+        player_feedback_light_color.a = scratch_vec.z = 1.0f;
+        player_feedback_light_color.g = player_feedback_light_color.r = 0.8f;
+        player_feedback_light_color.b = 1.0f;
+        new TActorLight(0.2f, &player_feedback_light_color, &scratch_vec, 8, this, tl_07);
         publish_actor_light_scalars(this->get_entity_id(), 1.0f, 0.5f);
         this->play_sound_if_on_floor(0x1AD1D);
         break;
