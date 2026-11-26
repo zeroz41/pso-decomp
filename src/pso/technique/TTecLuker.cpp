@@ -121,7 +121,7 @@ int fn_80235078(void *record) {
     return (u8) (*(s32 *)((s8 *)record + 0x0) == 2);
 }
 
-int TTecLuker__sub_80235054(void* p) { return fn_80235078((void *)((char*)p + 0x4)); }
+int TTecLuker__sub_80235054(void* p) { return fn_80235078(((char*)p + 0x4)); }
 
 void TTecLuker__sub_80235048(void* p) { *(s32*)((char*)p + 0x38) = 0; }
 

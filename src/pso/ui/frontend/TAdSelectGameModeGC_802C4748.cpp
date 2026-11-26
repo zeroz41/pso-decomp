@@ -31,16 +31,14 @@
 #include "pso/system/scene/OfflineGameScene.h"
 
 
-struct S8_802C4944 { f32 a, b; };
+struct SelectGameModeButtonRects { NJS_POINT2 x[2]; };
 
-struct S16_802C4944 { S8_802C4944 x[2]; };
-
-struct S24_802C4944 { TAdSelectTxtLayout t[2]; };
+struct SelectGameModeTextLayouts { TAdSelectTxtLayout t[2]; };
 
 const char *TAdSelectGameModeGC::name = "TAdSelectGameModeGC";
-const S24_802C4944 select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
-const S8_802C4944 lbl_80471A44 = {302.0f, 28.0f};
-const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
+const SelectGameModeTextLayouts select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
+const NJS_POINT2 select_game_mode_button_size = {302.0f, 28.0f};
+const SelectGameModeButtonRects select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
 
 s32 TAdSelectGameModeGC::cached_mode_value;
 
@@ -103,14 +101,14 @@ TAdSelectGameModeGC::TAdSelectGameModeGC(TObject *parent) : TObject(parent) {
     new TAdTitleGC(this, 4);
     new TAdTitleTexGC(this);
     {
-        S24_802C4944 txt = select_game_mode_text_layout;
+        SelectGameModeTextLayouts txt = select_game_mode_text_layout;
         new TAdSelectTxtGC(this, &txt.t[0], 6);
         new TAdSelectTxtGC(this, &txt.t[1], 7);
     }
     {
-        S8_802C4944 a = lbl_80471A44;
-        S16_802C4944 b = select_game_mode_button_rect;
-        cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&b), reinterpret_cast<const NJS_POINT2 *>(&a));
+        NJS_POINT2 a = select_game_mode_button_size;
+        SelectGameModeButtonRects b = select_game_mode_button_rect;
+        cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&b), &a);
         cursor->append_entry(&b.x[0]);
         cursor->append_entry(&b.x[1]);
     }

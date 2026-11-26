@@ -60,7 +60,7 @@ public:
     TObject* nodes;
     f32 preview;
 public:
-    static s32 validate_character_name(s8 *arg0);
+    static s32 validate_character_name(s8 *name);
     s32 is_state_4();
     s32 is_state_3();
     static void *create_fade(void *duration, void *mode);

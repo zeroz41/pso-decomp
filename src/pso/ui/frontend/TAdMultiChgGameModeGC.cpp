@@ -21,18 +21,16 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
-struct Txt_802FFE58 { TAdSelectTxtLayout v[3]; };
+struct MultiChgGameModeTextLayouts { TAdSelectTxtLayout v[3]; };
 
-struct Pos_802FFE58 { f32 v[6]; };
-
-struct Cur_802FFE58 { f32 v[2]; };
+struct MultiChgGameModePositions { NJS_POINT2 v[3]; };
 
 s32 lbl_805D69E8;
 const char *TAdMultiChgGameModeGC::class_name = "TAdMultiChgGameModeGC";
 
-static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
-static const Cur_802FFE58 lbl_80474E1C[1] = { { { 302.0f, 28.0f } } };
-static const Pos_802FFE58 multi_chg_game_mode_position_table = { { 200.0f, 170.0f, 170.0f, 222.0f, 140.0f, 274.0f } };
+static const MultiChgGameModeTextLayouts multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
+static const NJS_POINT2 multi_chg_game_mode_cursor_size = { 302.0f, 28.0f };
+static const MultiChgGameModePositions multi_chg_game_mode_position_table = { { { 200.0f, 170.0f }, { 170.0f, 222.0f }, { 140.0f, 274.0f } } };
 
 void TAdMultiChgGameModeGC::free_scene_resources() {  }
 void TAdMultiChgGameModeGC::load_scene_resources() {  }
@@ -90,18 +88,18 @@ TAdMultiChgGameModeGC::TAdMultiChgGameModeGC(TObject *parent) : TObject(parent) 
     new TAdRayGC(this);
     new TAdTitleGC(this, 0xF);
     {
-        Txt_802FFE58 txt = multi_chg_game_mode_text_layout;
+        MultiChgGameModeTextLayouts txt = multi_chg_game_mode_text_layout;
         new TAdSelectTxtGC(this, &txt.v[0], 0xC);
         new TAdSelectTxtGC(this, &txt.v[1], 0xD);
         new TAdSelectTxtGC(this, &txt.v[2], 0xE);
         new TAdTitleTexGC(this);
         {
-            Cur_802FFE58 cur = lbl_80474E1C[0];
-            Pos_802FFE58 pos = multi_chg_game_mode_position_table;
-            select_cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&pos), reinterpret_cast<const NJS_POINT2 *>(&cur));
+            NJS_POINT2 cur = multi_chg_game_mode_cursor_size;
+            MultiChgGameModePositions pos = multi_chg_game_mode_position_table;
+            select_cursor = new TAdSelectCurGC(this, &pos.v[0], &cur);
             select_cursor->append_entry(&pos.v[0]);
+            select_cursor->append_entry(&pos.v[1]);
             select_cursor->append_entry(&pos.v[2]);
-            select_cursor->append_entry(&pos.v[4]);
         }
     }
     select_cursor->set_selection_index(selection);

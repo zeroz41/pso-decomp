@@ -12,9 +12,9 @@ extern "C" {
 u8 *get_window_layout_position(s32);
 }
 
-void TWindowMenuTeamStatus::add_entry(s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mark, s8 level, s32 index) {
+void TWindowMenuTeamStatus::add_entry(s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mode, s8 episode, s32 index) {
     if (entry_count < entry_capacity) {
-        fill_game_list_row(get_array_entry(entry_count), locked, name, player_count, max_players, difficulty, mark, level, index);
+        fill_game_list_row(get_array_entry(entry_count), locked, name, player_count, max_players, difficulty, mode, episode, index);
         entry_count++;
     }
 }

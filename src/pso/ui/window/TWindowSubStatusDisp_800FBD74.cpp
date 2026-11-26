@@ -117,7 +117,7 @@ void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits
         pos.x = x;
         pos.y = y;
         ((void (*)(s32, Pos_800FBEA8 *))build_small_font_glyph_quad)(id, &pos);
-        draw_textured_quad_at_depth((f32 *)&pos, scale);
+        draw_textured_quad_at_depth(&pos.x, scale);
         value /= 10;
     }
     end_screen_draw();
@@ -136,7 +136,7 @@ void draw_small_font_text(u32 color, const char *s, f32 x, f32 y, f32 scale) {
         pos.y = y;
         id = ((s32 (*)(s32))TWindowSubStatusDisp__sub_800FC248)(c);
         ((void (*)(s32, Pos_800FBEA8 *))build_small_font_glyph_quad)(id, (Pos_800FBEA8 *)(&pos));
-        draw_textured_quad_at_depth((f32 *)&pos, scale);
+        draw_textured_quad_at_depth(&pos.x, scale);
         x += ((u8 (*)(s32))get_small_font_glyph_width)(id);
     }
     end_screen_draw();

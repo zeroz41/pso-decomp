@@ -64,7 +64,7 @@ void HelpItemRarityStarRow::render(WindowDrawContext *context) {
         q.u1 = (16.0f + uv->u) / 256.0f;
         q.v1 = (16.0f + uv->v) / 256.0f;
         if (context->clip_and_transform_quad(&q) != 0) {
-            draw_textured_quad_at_depth((f32 *)&q, depth);
+            draw_textured_quad_at_depth(&q.x0, depth);
         }
         x += 17.0f;
     }
@@ -86,7 +86,7 @@ void HelpItemRarityStarRow::render(WindowDrawContext *context) {
         q.u1 = (16.0f + uv->u) / 256.0f;
         q.v1 = (16.0f + uv->v) / 256.0f;
         if (context->clip_and_transform_quad(&q) != 0) {
-            draw_textured_quad_at_depth((f32 *)&q, depth2);
+            draw_textured_quad_at_depth(&q.x0, depth2);
         }
         x += 17.0f;
     }

@@ -290,10 +290,10 @@ void TWindowMessageLog::render() {
     draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
 }
 void TWindowMessageLog::run_task() {
-    if (!(*(s32 *)&this->window_flags & 2)) {
-        *(s32 *)&this->open_tick = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32)this->open_tick >= 7.5f) {
         scroll_bar->increment_counter();
     }
     update_scroll_animation();

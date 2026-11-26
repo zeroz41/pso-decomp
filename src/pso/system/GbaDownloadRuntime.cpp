@@ -210,7 +210,7 @@ void probe_gba_device(void) {
             *(volatile s8 *)&gba_joyboot_states[0].device_present = 0;
             *(volatile s32 *)&gba_download_state = 2;
         } else {
-            *(volatile s32 *)&gba_download_state = 1;
+            *&gba_download_state = 1;
         }
     }
 }

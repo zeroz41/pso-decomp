@@ -6,6 +6,7 @@
 
 struct NJS_OBJECT;
 #include <string.h>
+#include "pso/item/WeaponAttribute.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/system/vector.h"
@@ -920,16 +921,16 @@ void TItemWeapon::write_item_data(TItemData *data) {
 
 void TItemWeapon::remove_owner_bonuses() {
     s32 i;
-    void *attribute_entry;
+    WeaponAttribute *attribute_entry;
 
     ((TObjPlayer *)(this->owner))->set_model_id(0);
     ((TObjPlayer *)(this->owner))->set_model_param(0);
     i = 0;
     do {
         attribute_entry = ((TObjPlayer *)(this->owner))->get_attribute_entry(i);
-        *(s8 *)((s8 *)attribute_entry + 0) = 0;
+        attribute_entry->area = 0;
         i += 1;
-        *(s8 *)((s8 *)attribute_entry + 1) = 0;
+        attribute_entry->percent = 0;
     } while (i != 3);
 }
 

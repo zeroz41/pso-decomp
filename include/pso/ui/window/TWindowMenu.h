@@ -28,7 +28,7 @@ struct TWindowMenu : public TWindowAddition {
     void clear_transition_flag();
     void open();
     void set_loss_flag();
-    int sub_80266BB8();
+    int is_input_disabled();
     s32 test_menu_flag(s32 buttons);
     void render_selected_entry(WindowDrawContext *context);
     void draw_selected_bar(WindowDrawContext *context);
@@ -43,8 +43,8 @@ struct TWindowMenu : public TWindowAddition {
     void clear_flag_and_release();
     s32 get_selected_value();
     void set_flag70_bit10();
-    void set_flag_40();
-    void clear_flag_40();
+    void disable_input();
+    void enable_input();
     s32 add_text_entry(saddr text, s32 flags, s32 id, s32 color);
     s32 add_text_entry(saddr text, s32 flags, s32 id);
     virtual void render();

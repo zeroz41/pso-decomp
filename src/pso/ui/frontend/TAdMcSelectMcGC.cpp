@@ -19,7 +19,7 @@ NJS_TEXLIST *TAdMcSelectMcGC::texture_list_ptr;
 void TAdMcSelectMcGC::draw_status_window() {
     begin_screen_draw(1);
     set_texture_list(TAdMcSelectMcGC::texture_list_ptr);
-    set_draw_texture_and_color(0, (pad_120 << 0x18) | 0xFF0000 | 0xFFFF);
+    set_draw_texture_and_color(0, (alpha << 0x18) | 0xFF0000 | 0xFFFF);
     draw_textured_quad_at_depth(&quads[0].x0, 0.8f);
     end_screen_draw();
 }
@@ -50,40 +50,40 @@ void TAdMcSelectMcGC::run_task() {
     TAdMcCheckGC *slot_cursor;
     TAdMcSelectCursorGC *cursor;
     for (i = 0; i < 8; i++) {
-        quads[i].x0 = 286.0f * (f32)pad_12c + 51.0f;
+        quads[i].x0 = 286.0f * (f32)slot + 51.0f;
         quads[i].y0 = 116.0f;
         quads[i].x1 = 256.0f + quads[i].x0;
         quads[i].y1 = 256.0f + quads[i].y0;
     }
     cursor = TAdMcSelectGC::get_mc_count();
-    if (cursor != NULL && pad_12c == cursor->sub_8032AAC4()) {
-        pad_120 >>= 1;
+    if (cursor != NULL && slot == cursor->sub_8032AAC4()) {
+        alpha >>= 1;
     }
-    slot_cursor = TAdMcSelectCursorGC::get_cursor_type(pad_12c);
+    slot_cursor = TAdMcSelectCursorGC::get_cursor_type(slot);
     if (slot_cursor != NULL && slot_cursor->get_check_step() == 0) {
-        pad_124 = 0;
+        fade_step = 0;
     }
-    switch (pad_124) {
+    switch (fade_step) {
     case 0:
         if (slot_cursor != NULL && slot_cursor->get_check_step() > 0) {
-            pad_124 = 1;
+            fade_step = 1;
         }
-        pad_120 = 0;
+        alpha = 0;
         break;
     case 1:
         if (slot_cursor != NULL && slot_cursor->get_check_step() > 3) {
-            pad_124 = 2;
+            fade_step = 2;
         }
-        pad_120 = 0;
+        alpha = 0;
         break;
     case 2:
         if (slot_cursor != NULL && slot_cursor->get_check_step() > 4) {
-            pad_124 = 3;
+            fade_step = 3;
         }
-        pad_120 = 0;
+        alpha = 0;
         break;
     case 3:
-        pad_120 = 0xFF;
+        alpha = 0xFF;
         break;
     }
 }
@@ -95,10 +95,10 @@ TAdMcSelectMcGC::TAdMcSelectMcGC(TObject *parent, s32 slot) : TObject(parent) {
     s32 i;
     m_name = TAdMcSelectMcGC::class_name;
     pad_130 = 0;
-    pad_124 = 0;
+    fade_step = 0;
     pad_128 = 0;
-    pad_12c = slot;
-    pad_120 = 0xFF;
+    this->slot = slot;
+    alpha = 0xFF;
     render_direct = 1;
     for (i = 0; i < 8; i++) {
         quads[i].u0 = 0.0f;

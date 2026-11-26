@@ -128,7 +128,7 @@ void TMemberCheck::open_member_name_window() {
     }
     member_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0xBD), member_name_window_pos);
     if (member_window != 0) {
-        member_window->set_flag_40();
+        member_window->disable_input();
         member_window->set_close_flag();
         for (i = 0; i < 4; i++) {
             TObjPlayer *p = get_player_by_client_id(i);

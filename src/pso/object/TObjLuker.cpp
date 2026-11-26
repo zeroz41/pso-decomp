@@ -121,7 +121,7 @@ void TObjLuker::open_destination_windows() {
             if (windows[i] != 0) {
                 this->current_floor = target;
                 ((TWindowMenu *)(windows[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
-                ((TWindowMenu *)(windows[i]))->set_flag_40();
+                ((TWindowMenu *)(windows[i]))->disable_input();
                 ((TWindowMenu *)(windows[i]))->calc_window_size();
                 align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(windows[i]));
                 windows[i]->suspend_update();

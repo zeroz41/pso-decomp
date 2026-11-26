@@ -586,7 +586,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
                 set_glyph_quad_extents(width, &q);
                 if (hit_test_relative(ctx, &q) != 0) {
                     ctx->transform_quad(&q);
-                    draw_textured_quad_at_depth((f32 *)&q, depth);
+                    draw_textured_quad_at_depth(&q.x0, depth);
                 }
             }
         }
@@ -609,7 +609,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
         if (hit_test_relative(ctx, &q) != 0) {
             set_constant_material_color(key == cursor ? 0xFF000000 : 0xFF999999);
             ctx->transform_quad(&q);
-            draw_textured_quad_at_depth((f32 *)&q, depth);
+            draw_textured_quad_at_depth(&q.x0, depth);
         }
     }
     TWindowSubStatusDisp::begin_render();
@@ -638,7 +638,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
         if (hit_test_relative(ctx, &q) != 0) {
             ctx->transform_quad(&q);
             set_constant_material_color(tab_color);
-            draw_textured_quad_at_depth((f32 *)&q, depth);
+            draw_textured_quad_at_depth(&q.x0, depth);
         }
         tab_x += (f32)layout->tab_width;
     }
@@ -659,7 +659,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
         if (hit_test_relative(ctx, &q) != 0) {
             set_constant_material_color(color);
             ctx->transform_quad(&q);
-            draw_textured_quad_at_depth((f32 *)&q, depth);
+            draw_textured_quad_at_depth(&q.x0, depth);
         }
     }
     end_screen_draw();
@@ -747,7 +747,7 @@ void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32
     q.u1 = (10.0f + uv->u) / 256.0f;
     q.v1 = (20.0f + uv->v) / 256.0f;
     context->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, scale);
+    draw_textured_quad_at_depth(&q.x0, scale);
     x3 = x0 + w;
     x4 = x3 - 10.0f;
     q.x0 = x4;
@@ -759,7 +759,7 @@ void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32
     q.u1 = (20.0f + uv->u) / 256.0f;
     q.v1 = (20.0f + uv->v) / 256.0f;
     context->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, scale);
+    draw_textured_quad_at_depth(&q.x0, scale);
     if (w <= 20.0f) {
         return;
     }
@@ -772,7 +772,7 @@ void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32
     q.u1 = (10.0f + uv->u) / 256.0f;
     q.v1 = (20.0f + uv->v) / 256.0f;
     context->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, scale);
+    draw_textured_quad_at_depth(&q.x0, scale);
 }
 
 #pragma push

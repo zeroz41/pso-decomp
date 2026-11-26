@@ -17,7 +17,7 @@ struct TAdEnterBaseGC : public TObject {
     void sub_8032B460(int);
     void create_parts();
     struct Position { f32 x, y; };
-    void fn_8032B318(Position *position);
+    void get_title_position(Position *position);
     TWindowCallBack *create_default_callback();
     virtual void render();
     virtual void run_task();
@@ -63,7 +63,7 @@ s32 TAdPsoPassSaveGC__sub_8032B584(void);
 void draw_masked_password_field(saddr context);
 extern "C" {
 void fn_8032AC24(void);
-void fn_8032AC9C(void *window, void *context);
+void render_entry_window(void *window, void *context);
 }
 
 #endif

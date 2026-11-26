@@ -52,7 +52,7 @@ void TAdTrialAgreementGC::wait_for_load() {
 const char *TAdTrialAgreementGC::name = "TAdTrialAgreementGC";
 
 
-s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
+s32 TAdTrialAgreementGC::check_card_file() {
     s32 card_file;
 
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
@@ -61,11 +61,11 @@ s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
         return 0;
     }
-    ((TAdTrialAgreementGC *)arg0)->wait_for_load();
+    wait_for_load();
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
         return 0;
     }
-    ((TAdTrialAgreementGC *)arg0)->wait_for_load();
+    wait_for_load();
     card_file = TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename);
     if ((card_file == 0) || ((card_file + 0x10000) == 0xFF41U)) {
         return 1;
@@ -84,7 +84,7 @@ TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 TAdTrialAgreementGC::TAdTrialAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
     m_name = TAdTrialAgreementGC::name;
     scroll_window = NULL;
-    if (TAdTrialAgreementGC::check_card_file((saddr)this) != 0) {
+    if (check_card_file() != 0) {
         on_agree();
         queue_destruction();
         return;

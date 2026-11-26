@@ -251,7 +251,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
         corner.v0 = 0.63671875f;
         corner.u1 = 0.27734375f;
         corner.v1 = 0.9609375f;
-        draw_textured_quad_at_depth((f32 *)&corner, depth);
+        draw_textured_quad_at_depth(&corner.x0, depth);
     }
     top_row.x0 = 13.0f + ctx->x;
     top_row.y0 = ctx->y;
@@ -262,7 +262,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
     top_row.u1 = 0.35546875f;
     top_row.v1 = 0.6328125f;
     ctx->transform_quad(&top_row);
-    draw_textured_quad_at_depth((f32 *)&top_row, depth);
+    draw_textured_quad_at_depth(&top_row.x0, depth);
     bottom_row.x0 = 45.0f + ctx->x;
     bottom_row.y0 = 53.0f + ctx->y;
     bottom_row.x1 = 91.0f + bottom_row.x0;
@@ -272,7 +272,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
     bottom_row.u1 = 0.71875f;
     bottom_row.v1 = 0.6328125f;
     ctx->transform_quad(&bottom_row);
-    draw_textured_quad_at_depth((f32 *)&bottom_row, depth);
+    draw_textured_quad_at_depth(&bottom_row.x0, depth);
     frame.x0 = ctx->x;
     frame.y0 = ctx->y;
     frame.x1 = 150.0f + frame.x0;
@@ -281,7 +281,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
     frame.u1 = 0.5859375f;
     frame.v1 = 0.41796875f;
     ctx->transform_quad(&frame);
-    draw_textured_quad_at_depth((f32 *)&frame, depth);
+    draw_textured_quad_at_depth(&frame.x0, depth);
     end_screen_draw();
     if (scanline_crosses_window(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
         begin_window_sweep_draw(2);

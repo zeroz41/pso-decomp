@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/NinjaUtil.h"
 #include "pso/render/Draw2D.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
@@ -14,9 +15,8 @@
 
 
 extern "C" {
-f32 xz_distance_squared(void *, void *);
-f32 lbl_805D6800;
-s8 lbl_805D6804;
+f32 fade_line_depth;
+s8 fade_line_depth_ready;
 extern const char TAdFadeGC__class_name_string[] = "TAdFadeGC";
 }
 const char *TAdFadeGC::name = TAdFadeGC__class_name_string;
@@ -54,11 +54,11 @@ void TAdFadeGC::draw_fade() {
             d.verts[3].x = (6.4e+02f) - wipe_width;
             d.verts[3].y = y2;
             d.colors[3] = 0xFFFFFFFF;
-            if (lbl_805D6804 == 0) {
-                lbl_805D6804 = 1;
-                lbl_805D6800 = (-1.0f);
+            if (fade_line_depth_ready == 0) {
+                fade_line_depth_ready = 1;
+                fade_line_depth = (-1.0f);
             }
-            draw_color_lines(&d, 4, 7, lbl_805D6800);
+            draw_color_lines(&d, 4, 7, fade_line_depth);
         }
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 6);
@@ -156,24 +156,23 @@ TAdFadeGC::TAdFadeGC(TObject *parent, s32 mode) : TObject(parent) {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
-    u8 *base = (u8 *)this;
     f32 radius;
     f32 radius_sq;
     s32 player_floor;
-    saddr player;
-    player = (saddr)get_player_by_client_id(client);
+    TObjPlayer *player;
+    player = get_player_by_client_id(client);
     if (player == 0) {
         return 0;
     }
     if (get_main_phase() != 0xF) {
         return 0;
     }
-    player_floor = ((TObjPlayer *)player)->get_floor();
+    player_floor = player->get_floor();
     if (player_floor != get_current_floor()) {
         return 0;
     }
-    radius = *(f32 *)&this->unk_AC;
+    radius = trade_radius;
     radius_sq = radius * radius;
-    return (xz_distance_squared((void *)(player + 0x38), base + 0x38) < radius_sq) == 0;
+    return (xz_distance_squared(&player->position, &position) < radius_sq) == 0;
 }
 #pragma pop

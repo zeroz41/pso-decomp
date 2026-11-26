@@ -150,7 +150,7 @@ void TAdEnterBaseGC::create_parts() {
 
 void TAdEnterBaseGC::run_task() {  }
 
-void TAdEnterBaseGC::fn_8032B318(Position *position) {
+void TAdEnterBaseGC::get_title_position(Position *position) {
     u32 half_width = calc_text_width((char *)get_localized_text_entry(23, 4)) >> 1;
     f32 offset = half_width;
     f32 x = enter_base_text_anchor[0];
@@ -279,7 +279,7 @@ TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, void *mess
 }
 
 TWindowCallBack *TAdEnterBaseGC::create_default_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)enter_base_callback_position, (void *)enter_base_callback_size, fn_8032AC9C);
+    return TAdEnterSerialAccessGC::create_callback((void *)enter_base_callback_position, (void *)enter_base_callback_size, render_entry_window);
 }
 
 TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, s32 field) {
@@ -302,7 +302,7 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, 
     return kb;
 }
 
-void fn_8032AC9C(void *window, void *context) {
+void render_entry_window(void *window, void *context) {
     ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC::entry_mode) {

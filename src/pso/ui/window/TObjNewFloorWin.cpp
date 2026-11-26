@@ -70,7 +70,7 @@ void TObjNewFloorWin::open_window() {
         sprintf(title, "%s %02d", get_message_text(0x67), get_current_lobby_id());
         window->add_text_entry((saddr)title, 0, 0);
         window->calc_window_size();
-        window->set_flag_40();
+        window->disable_input();
         close_current_window();
         TWindowCtrl::close_active_window();
         TWindowCtrl::ensure_initialized();

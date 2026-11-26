@@ -13,7 +13,7 @@ public:
     virtual void init(u32 count, s32 id);
 
     // Fills the next free row with one game of the game list.
-    void add_entry(s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mark, s8 level, s32 index);
+    void add_entry(s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mode, s8 episode, s32 index);
 };
 
 LAYOUT_ASSERT(TWindowMenuTeamStatus_size, sizeof(TWindowMenuTeamStatus) == 0x8C);

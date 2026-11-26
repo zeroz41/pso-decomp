@@ -5,8 +5,8 @@
 
 struct NJS_TEXLIST;
 
-// S-Berill's Hands (weapon group 0x8E): #1 sets weapon flag 0x800 once pad_1f8 has counted down, and from then on
-// transform_model_node sways the projected texture by pad_1fc.
+// S-Berill's Hands (weapon group 0x8E): #1 sets weapon flag 0x800 once charge_ticks has counted down, and from then on
+// transform_model_node sways the projected texture by sway_offset.
 class TItemWeaponSBerillsHands : public TItemWeapon {
 public:
     virtual ~TItemWeaponSBerillsHands();
@@ -15,9 +15,9 @@ public:
     virtual void update_weapon();
     virtual void emit_marker_effects();
     TItemWeaponSBerillsHands(TObject *parent, u8 *item);
-    s32 pad_1f8;   // 5 at construction and on emit_marker_effects, counted down by update_weapon
-    s32 pad_1fc;   // 182 * sin(pad_200) once pad_1f8 is 0
-    s32 pad_200;   // angle, +0xB6 per update_weapon
+    s32 charge_ticks;   // 5 at construction and on emit_marker_effects, counted down by update_weapon
+    s32 sway_offset;   // 182 * sin(sway_angle) once charge_ticks is 0
+    s32 sway_angle;   // angle, +0xB6 per update_weapon
 };
 
 TItem *create_s_berills_hands_weapon(u8 *item);

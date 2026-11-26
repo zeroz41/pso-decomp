@@ -78,12 +78,12 @@ void TWindowMenuIconLine::activate() {
         }
     }
     clear_close_flag();
-    clear_flag_40();
+    enable_input();
 }
 
 // inferred: what the trade window creators call on a new list.
 void TWindowMenuIconLine::deactivate() {
-    set_flag_40();
+    disable_input();
     set_close_flag();
     if (status_display != NULL) {
         status_display->set_state(0);
@@ -644,7 +644,7 @@ void TWindowMenuIconLine::run_task() {
     ControllerInputContext *pad;
     ControllerInputContext *context;
     controller_index = is_player_input_active(((s32) this->client_index));
-    if ((this->get_flag() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
+    if ((this->is_input_disabled() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
         if (this->state_flags & 0x10) {
             input = &controller_input_state.controllers[controller_index];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
@@ -704,7 +704,7 @@ TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client)
     init(count, client);
 }
 
-void TWindowMenuIconLine::clear_flag_40() { state_flags &= ~0x40; }
+void TWindowMenuIconLine::enable_input() { state_flags &= ~0x40; }
 
 void TWindowMenuIconLine::clear_close_flag() { state_flags &= ~0x80; }
 

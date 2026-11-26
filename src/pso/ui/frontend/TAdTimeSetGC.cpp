@@ -75,7 +75,7 @@ void TAdPlyStatusGC::close_window(s32 index) {
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
-s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s32 start_memcard_format(s32, s32, s32, s32, s32);
 }
 
 // One entry per state: enter is called by change_state, run by run_task every frame.

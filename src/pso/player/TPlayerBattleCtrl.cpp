@@ -781,7 +781,7 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
 void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     lbl_805D5D9C = TKeyBoardControl__sub_8000F828() == 1 ? 0x19 : 0x1E;
-    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
+    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), __ct__19PlayerCharDataEntryFv, __dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     clear_battle_proximity_sound();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;
@@ -790,7 +790,7 @@ void init_char_slots(void) {
 
 void free_char_slots(void) {
     if (lobby_char_slot_array != 0) {
-        __destroy_new_array(lobby_char_slot_array, (void *)__dt__19PlayerCharDataEntryFv);
+        __destroy_new_array(lobby_char_slot_array, __dt__19PlayerCharDataEntryFv);
         lobby_char_slot_array = 0;
     }
 }

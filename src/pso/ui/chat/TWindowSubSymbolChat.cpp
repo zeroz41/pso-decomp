@@ -461,7 +461,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         this->main_menu->open();
         if (this->symbol_list == NULL) {
-            this->symbol_list = TWindowSubSymbolChat__sub_8028233C(this);
+            this->symbol_list = create_new_parts_menu(this);
         }
         this->symbol_list->clear_flag_and_release();
         this->selected_value = 0xBU;
@@ -871,7 +871,7 @@ TWindowMenu *TWindowSubSymbolChat::open_edit_menu() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-TWindowMenu *TWindowSubSymbolChat__sub_8028233C(TWindowSubSymbolChat *chat) {
+TWindowMenu *create_new_parts_menu(TWindowSubSymbolChat *chat) {
     TWindowMenu *r = create_titled_window_menu_default(get_window_layout_position(0x79), 6, (saddr)TWindowSubStatusDisp::get_message_10(0xA9));
     chat->open_menu(r);
     return r;

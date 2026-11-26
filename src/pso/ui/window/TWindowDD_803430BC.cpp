@@ -174,7 +174,7 @@ void load_word_select_data(void) {
     ws_data_us = 0;
     ws_data_es = 0;
     ws_data_de = 0;
-    TWindowDD::ws_data_buffer = 0;
+    TWindowDD::ws_data_fr = 0;
     TWindowDD::window_mode = current_language;
     if (TWindowDD::window_mode < 0 || TWindowDD::window_mode >= 5) {
         TWindowDD::window_mode = 0;
@@ -258,9 +258,9 @@ void TWindowDD::free_buffers() {
         mem_free((void*)TWindowDD::work_buffer);
         TWindowDD::work_buffer = 0U;
     }
-    if (TWindowDD::ws_data_buffer != NULL) {
-        TLobby::free_nodes_with_id((uaddr)((void*)TWindowDD::ws_data_buffer));
-        TWindowDD::ws_data_buffer = NULL;
+    if (TWindowDD::ws_data_fr != NULL) {
+        TLobby::free_nodes_with_id((uaddr)((void*)TWindowDD::ws_data_fr));
+        TWindowDD::ws_data_fr = NULL;
     }
     if (ws_data_de != NULL) {
         TLobby::free_nodes_with_id((uaddr)ws_data_de);
@@ -1016,7 +1016,7 @@ void TWindowDD::handle_state_9() {
         break;
     }
     if (done != 0) {
-        if (TWindowDD_is_id_in_range_5AC_5F9(word_windows[depth]->get_selected_id()) != 0) {
+        if (is_verb_word(word_windows[depth]->get_selected_id()) != 0) {
             next_state = 0xA;
         } else {
             next_state = 0xB;

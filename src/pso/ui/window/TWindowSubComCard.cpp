@@ -1162,7 +1162,7 @@ TWindowMenu *TWindowSubComCard::create_single_entry_window() {
   TWindowMenu *menu;
     menu = create_window_menu_default(get_window_layout_position(0x84), 1);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x38)), 3, 0);
-    menu->set_flag_40();
+    menu->disable_input();
     menu->set_scroll_target(213.0f, 64.0f);
     return menu;
 }

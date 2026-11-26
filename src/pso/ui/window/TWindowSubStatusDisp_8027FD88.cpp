@@ -614,15 +614,15 @@ void TWindowSubStatusDisp::vt13() {
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
         entry_2 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(2));
-        entry_2->value = (s32) ((TWindowSubStatusDisp *)player)->get_stat();
+        entry_2->value = (s32) ((TObjPlayer *)player)->get_efr();
         entry_8 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(8));
-        entry_8->value = (s32) ((TObjPlayer *)player)->get_class_id();
+        entry_8->value = (s32) ((TObjPlayer *)player)->get_eic();
         entry_e = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0xE));
-        entry_e->value = (s32) ((TObjPlayer *)player)->get_item_index();
+        entry_e->value = (s32) ((TObjPlayer *)player)->get_eth();
         entry_14 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x14));
-        entry_14->value = (s32) ((TWindowSubStatusDisp *)player)->get_field_2F8();
+        entry_14->value = (s32) ((TObjPlayer *)player)->get_edk();
         entry_1a = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x1A));
-        entry_1a->value = (s32) ((TWindowSubStatusDisp *)player)->get_item_type();
+        entry_1a->value = (s32) ((TObjPlayer *)player)->get_elt();
     }
 }
 

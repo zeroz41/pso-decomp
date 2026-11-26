@@ -17,7 +17,7 @@ struct TAdTrialAgreementGC : public TAdAgreementBaseGC {
     virtual void render();
     void wait_for_load();
     virtual void run_task();
-    static s32 check_card_file(saddr arg0);
+    s32 check_card_file();
 };
 
 LAYOUT_ASSERT(TAdTrialAgreementGC_size, sizeof(TAdTrialAgreementGC) == 0x3C);

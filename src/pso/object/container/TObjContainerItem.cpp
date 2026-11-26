@@ -649,7 +649,7 @@ void TObjContainerNoItem::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
-        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)this + 0x34)));
+        draw_ginja_box_tree((NJS_OBJECT *)this->model);
         pop_matrix();
             break;
         }

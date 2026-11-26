@@ -1496,7 +1496,7 @@ s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
         if ((u8) *(u8 *)item_data == 4) {
             return get_actor_meseta() < 0xF423F;
         }
-        TItemList *list = this->inventory_objects->set_mode_and_refresh_object((void *)item_data);
+        TItemList *list = this->inventory_objects->set_mode_and_refresh_object(item_data);
         if (list != NULL) {
             held = list->get_owner_if_alive();
             if (held == NULL) {
@@ -1519,7 +1519,6 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     void *list;
     s32 n;
     TItem *owner;
-    u8 *inv;
     s16 idx;
     if (item == NULL) {
         return 0;
@@ -1566,8 +1565,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     }
     if (list != NULL) {
         ((TItemList *)list)->set_owner(item);
-        inv = *(u8 * *)&this->inventory_objects;
-        on_inventory_item_added(item, (*(s16 *)((s8 *)inv + 0x1C))++);
+        on_inventory_item_added(item, this->inventory_objects->item_count++);
         item->set_mode(1);
         ((TObject *)item)->set_parent(this->inventory_objects->item_root);
         item->set_owner_client(this->get_entity_id());
@@ -1791,7 +1789,7 @@ s32 try_buy_item(saddr player, void *item) {
     if (((TObjPlayer *)player)->can_pickup_item((TItemData *)item) == 0) {
         return 1;
     }
-    if (reinterpret_cast<TObjChara *>(player)->try_spend_actor_meseta(*(s32 *)((s8 *)item + 0x10) * ((TItemData *)item)->get_stack_count()) != 0) {
+    if (reinterpret_cast<TObjChara *>(player)->try_spend_actor_meseta(((TItemData *)item)->data2.price * ((TItemData *)item)->get_stack_count()) != 0) {
         buy_item_for_client((TItemData *)item, ((TObjBase *)(player))->get_entity_id());
         return 0;
     }

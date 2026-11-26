@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -181,7 +182,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     motion_list = nano_drago_entry_params_resource->motions;
     variant = 0;
     add_flags_2e4(2);
-    state36C = *(s16 *)((s8 *)setData + 0x3E);
+    state36C = ((EnemyPlacement *)setData)->unknown3e;
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
     set_action_table(action_table);
@@ -214,7 +215,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     alternateBeam = 0;
     set_param(0xF);
     sinkingOffset = 0.0f;
-    if (*(s16 *)((s8 *)setData + 0xA) != 0 && !(behavior_flags & 0x40000)) {
+    if (((EnemyPlacement *)setData)->wave != 0 && !(behavior_flags & 0x40000)) {
         start_appear();
     }
     flightHeight = 0.0f;

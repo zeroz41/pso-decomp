@@ -113,7 +113,7 @@ void TWindowEffectLight::draw_outline_quad(s32 color) {
     q.v0 = 0.60546875f;
     q.u1 = 0.98828125f;
     q.v1 = 0.7734375f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
+    draw_textured_quad_at_depth(&q.x0, 0.5f);
 }
 
 void TWindowEffectLight::sub_802AD040(f32 f) {
@@ -134,7 +134,7 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
     q.v0 = 0.5f;
     q.u1 = 0.953125f;
     q.v1 = 0.578125f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
+    draw_textured_quad_at_depth(&q.x0, 0.5f);
 
     q.x0 = x + dx;
     q.y0 = y - h;
@@ -144,7 +144,7 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
     q.v0 = 0.5f;
     q.u1 = 0.9921875f;
     q.v1 = 0.578125f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
+    draw_textured_quad_at_depth(&q.x0, 0.5f);
 
     if (f > 20.0f) {
         q.x0 = x - dx;
@@ -155,7 +155,7 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
         q.v0 = 0.5f;
         q.u1 = 0.953125f;
         q.v1 = 0.578125f;
-        draw_textured_quad_at_depth((f32 *)&q, 0.5f);
+        draw_textured_quad_at_depth(&q.x0, 0.5f);
     }
 }
 

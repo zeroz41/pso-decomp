@@ -620,7 +620,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
         q.v0 = 0.93359375f;
         q.u1 = 0.13671875f;
         q.v1 = 0.99609375f;
-        draw_textured_quad_at_depth((f32 *)&q, 0.1f);
+        draw_textured_quad_at_depth(&q.x0, 0.1f);
     }
     for (y = s->bottom; y < 480.0f; y += 16.0f) {
         q.x0 = 0.0f;
@@ -631,7 +631,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
         q.v0 = 0.93359375f;
         q.u1 = 0.13671875f;
         q.v1 = 0.99609375f;
-        draw_textured_quad_at_depth((f32 *)&q, 0.1f);
+        draw_textured_quad_at_depth(&q.x0, 0.1f);
     }
     q.x0 = s->left;
     q.y0 = s->bottom - 16.0f;
@@ -641,7 +641,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     q.v0 = 0.93359375f;
     q.u1 = 0.06640625f;
     q.v1 = 0.99609375f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.1f);
+    draw_textured_quad_at_depth(&q.x0, 0.1f);
     end_screen_draw();
 
     line.verts = lverts;

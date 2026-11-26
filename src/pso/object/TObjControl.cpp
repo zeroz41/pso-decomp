@@ -130,11 +130,11 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
 TObjEnemy::~TObjEnemy() {
     u16 entity_id;
     this->apply_player_54a00();
-    if ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) {
+    if ((u32) (u32)this->set_entry != 0U) {
         entity_id = this->entity_id;
         if ((entity_id >= 0x1000U) && (entity_id < 0x4000U)) {
             this->mask_sub_flags(-3);
-            *(u32 *)((s8 *)this + 0x80) = 0U;
+            this->set_entry = NULL;
         }
     }
 }

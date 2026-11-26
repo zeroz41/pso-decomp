@@ -1851,10 +1851,10 @@ force_active:
   - update__13LabelValueRowFv
   - draw_composition_background__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUl
   - layout_wrapped_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUll
-  - TWindowSubStatusDisp__sub_80271A6C
+  - draw_zoom_button_hints
   - draw_heading_text__FP12HeadingEntryP17WindowDrawContext
   - is_enabled__12HeadingEntryFv
-  - TWindowSubStatusDisp__sub_803387F8
+  - get_difficulty_name
   - TWindowSubStatusDisp__sub_80338B88
   - TWindowSubStatusDisp__sub_8036D994
   - window_layout__20TWindowSubStatusDisp
@@ -1862,7 +1862,7 @@ force_active:
   - window_sub_symbol_chat_help_name
   - symbol_chat_parts_set_part_uv_table
   - TWindowSubSymbolChat__sub_80281840
-  - TWindowSubSymbolChat__sub_8028233C
+  - create_new_parts_menu
   - get_symbol_chat_receive_buffer
   - get_technique_description_text__Fl
   - TWindowSubTradeMessage__name
@@ -4979,7 +4979,7 @@ force_active:
   - check_can_pickup__11TMainCursorFv
   - check_cancel_input__22TQuestVmDownLoadServerFv
   - check_capacity__12TAdTimeSetGCFv
-  - check_card_file__19TAdTrialAgreementGCFl
+  - check_card_file__19TAdTrialAgreementGCFv
   - check_client_connections__22TQuestVmDownLoadServerFv
   - check_death__12TBoss1DragonFv
   - check_death_trigger__13TObjEneMe1GeeFv
@@ -6623,7 +6623,7 @@ force_active:
   - get_flags__14ShortMailEntryFv
   - stick_enabled__16PlayerPadBindingFv
   - get_flag_bit0__14TObjEneBm5WolfFPv
-  - get_flag_or_zero__20TWindowSubStatusDispFPvSc
+  - get_episode_name__20TWindowSubStatusDispFPvSc
   - get_floor_surface_type__10TObjPlayerFv
   - get_floor_switch_flag__FUls
   - get_function_key_menu__16TKeyBoardControlFPv
@@ -7340,7 +7340,7 @@ force_active:
   - is_sphere_visible__12TBoss1DragonFP3Vecf
   - split_screen_active__Fv
   - is_stat_over_limit__6TLobbyFl
-  - is_state_zero_unless_0x2C8__9TWindowDDFl
+  - is_non_topic_word__9TWindowDDFl
   - is_target_in_attack_range__12TObjEneSaverFv
   - is_target_in_attack_range__14TObjEneIllGillFv
   - is_target_in_attack_range__16TBoss3VoloptCoreFv
@@ -8375,8 +8375,8 @@ force_active:
   - text_draw_mode
   - lbl_805D64A8
   - lbl_805D64AC
-  - lbl_805D6800
-  - lbl_805D6804
+  - fade_line_depth
+  - fade_line_depth_ready
   - jungle_nokogiri_resource
   - effect_uv_scroll_last_tick
   - mericarol_bml
@@ -13841,7 +13841,7 @@ force_active:
   - qst_label_address__Fi
   - query_battle_state__17TWindowReturnCityFv
   - query_default__13TBoss5GryphonFv
-  - query_status_field__20TWindowSubStatusDispFPvSc
+  - get_game_mode_name__20TWindowSubStatusDispFPvSc
   - quest_bgm_area_filename_table
   - quest_bgm_carnaval_filename
   - quest_bgm_chu_f_filename
@@ -16249,7 +16249,7 @@ force_active:
   - apply_accent__19TWindowKeyBoardHardFUc
   - handle_control_key__19TWindowKeyBoardHardFUc
   - ensure_scroll_bar__11TWindowMenuFv
-  - sub_80266BB8__11TWindowMenuFv
+  - is_input_disabled__11TWindowMenuFv
   - handle_gain_input__19TWindowSoundBalanceFv
   - set_choice_search_option__17TWindowSubComCardFP21ChoiceSearchSelectionll
   - send_short_mail__17TWindowSubComCardFv
@@ -16949,7 +16949,7 @@ force_active:
   - update_inward_orbit_point__19TMirrorPairParticleFv
   - update_item_colors__11ItemListRowFl
   - update_item_icon_colors__20TWindowSubStatusDispFPvPv
-  - update_item_select__21TShopDeleteItemWindowFPv
+  - update_item_select__21TShopDeleteItemWindowFv
   - update_judge_confirm__23TShopJudgmentItemWindowFv
   - update_kafun_attack__16TObjEneMerillLiaFv
   - update_key_events

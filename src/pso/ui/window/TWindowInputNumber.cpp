@@ -221,7 +221,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber
     q.u1 = (14.0f + uv->u) / 256.0f;
     q.v1 = (12.0f + uv->v) / 256.0f;
     ctx->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    draw_textured_quad_at_depth(&q.x0, depth);
     q.x0 = x;
     q.y0 = 25.0f + y;
     q.x1 = 14.0f + q.x0;
@@ -231,7 +231,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber
     q.u1 = (14.0f + uv->u) / 256.0f;
     q.v1 = (28.0f + (12.0f + uv->v)) / 256.0f;
     ctx->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    draw_textured_quad_at_depth(&q.x0, depth);
     q.x0 = x;
     q.y0 = 19.0f + y;
     q.x1 = 14.0f + q.x0;
@@ -241,7 +241,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber
     q.u1 = (14.0f + uv->u) / 256.0f;
     q.v1 = (13.0f + (12.0f + uv->v)) / 256.0f;
     ctx->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    draw_textured_quad_at_depth(&q.x0, depth);
     end_screen_draw();
 }
 #pragma pop

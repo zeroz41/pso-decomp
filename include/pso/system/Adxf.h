@@ -27,9 +27,6 @@ void adxf_init(void);
 void adxf_finish(void);
 void adxf_update_file_states(void);
 void adxf_end_partition_load(void);
-s32 check_803CC294(s32 partition, s32 file_index);
-s32 rd32_803CD5C4(u8 *p);
-s32 state_803CD5C4(void);
 }
 
 #endif

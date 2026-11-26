@@ -98,7 +98,7 @@ void TAdVIConfigGC::open_player_names_window() {
     }
     ((WarpPartyCheck *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
     if (((WarpPartyCheck *)this)->win != 0) {
-        ((WarpPartyCheck *)this)->win->set_flag_40();
+        ((WarpPartyCheck *)this)->win->disable_input();
         ((WarpPartyCheck *)this)->win->set_close_flag();
         for (i = 0; i < 4; i++) {
             p = (u8 *)get_player_by_client_id(i);

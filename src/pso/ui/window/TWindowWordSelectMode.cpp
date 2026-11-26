@@ -151,7 +151,7 @@ void TWindowWordSelectMode::render() {
             color = 0xFF808080;
         }
         set_constant_material_color(color);
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
         q.y0 += step;
         q.y1 += step;
         q.v0 = q.v1;

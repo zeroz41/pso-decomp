@@ -1813,7 +1813,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
 TWindowMenu *TAdMultiPlyChrSelectGC::create_moving_notice(const NJS_POINT2 *desc) {
     TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 6), 0x21, 0);
-    menu->set_flag_40();
+    menu->disable_input();
     TQuestThread::set_status_flag_80(menu);
     menu->calc_layout_height(190.0f);
     return menu;
@@ -1822,7 +1822,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_moving_notice(const NJS_POINT2 *desc
 TWindowMenu *TAdMultiPlyChrSelectGC::create_full_notice(const NJS_POINT2 *desc) {
     TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 7), 0x21, 0);
-    menu->set_flag_40();
+    menu->disable_input();
     TQuestThread::set_status_flag_80(menu);
     menu->calc_layout_height(190.0f);
     return menu;

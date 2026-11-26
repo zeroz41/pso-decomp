@@ -475,7 +475,7 @@ void TLobby::update_idle_timeout(void *object) {
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
-    __ct__7TObjectFP7TObject((void *)timer, (void *)parent);
+    __ct__7TObjectFP7TObject(timer, parent);
     *(void ***)((s8 *)timer + 0x18) = lbl_804A7008;
     getDateStamp(&date);
     DateToSeconds(&date, (int *)(timer + 0x1C));
@@ -1673,7 +1673,7 @@ void TLobby::open_keyboard_window() {
         lobby_keyboard_prompt_window->add_text_entry((saddr)blank_entry, 2, 1);
         lobby_keyboard_prompt_window->calc_window_size();
         align_menu_entry_positions(lobby_keyboard_prompt_window);
-        lobby_keyboard_prompt_window->set_flag_40();
+        lobby_keyboard_prompt_window->disable_input();
     }
     lobby_keyboard_controller = new TKeyBoardControl(join_lobby_controller, 0x10, 0, 0, local_client_id);
     lobby_keyboard_controller->set_sub_position((u8 *)(get_window_layout_position(0xC4)));
@@ -2148,22 +2148,22 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
     for (i = 0; i < count; i++) {
         GameMenuEntry *e = &entries[i];
         s32 flags = e->flags;
-        s32 mark = 0;
-        s8 level;
+        s32 mode = 0;
+        s8 episode;
         if (flags & 0x10) {
-            mark = 2;
+            mode = 2;
         }
         if (flags & 0x20) {
-            mark = 1;
+            mode = 1;
         }
-        level = 0;
+        episode = 0;
         if (flags & 0x40) {
-            level = 1;
+            episode = 1;
         }
         if (flags & 0x80) {
-            level = 2;
+            episode = 2;
         }
-        w->add_entry(flags & 2, e->name, e->num_players, 4, e->difficulty_tag - 0x22, mark, level, i);
+        w->add_entry(flags & 2, e->name, e->num_players, 4, e->difficulty_tag - 0x22, mode, episode, i);
     }
     w->calc_content_extent();
     TLobby::list_window = w;
@@ -2703,16 +2703,16 @@ saddr TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void lobby_init_hook(void) {  }
 void lobby_debug_printf_stub(const char *fmt, ...) {}
 void TLobby::construct_global_arrays() {
-    __construct_array(join_entries, (void *)__ct__18TPlyJoinLobbyEntryFv, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
-    __register_global_object(0, (void *)TLobby::destroy_join_entries, join_entries_dtor_registration);
-    __construct_array(game_join_player_records, (void *)__ct__17TPlyJoinLobbyDataFv, 0, 0x20, 4);
+    __construct_array(join_entries, __ct__18TPlyJoinLobbyEntryFv, __dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
+    __register_global_object(0, TLobby::destroy_join_entries, join_entries_dtor_registration);
+    __construct_array(game_join_player_records, __ct__17TPlyJoinLobbyDataFv, 0, 0x20, 4);
 }
 
 
 
 TPlyJoinLobbyData::TPlyJoinLobbyData() {}
 void TLobby::destroy_join_entries() {
-    __destroy_arr(join_entries, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43c, 0xc);
+    __destroy_arr(join_entries, __dt__18TPlyJoinLobbyEntryFv, 0x43c, 0xc);
 }
 
 

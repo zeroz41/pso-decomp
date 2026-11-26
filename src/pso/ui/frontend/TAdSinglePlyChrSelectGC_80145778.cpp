@@ -22,21 +22,12 @@ void draw_menu_text(f32 x, f32 y, const char *text, u32 color) {
     draw_menu_font_string(text, color, 0, x, y, 0.5f);
 }
 
-typedef struct Glyph_80145804 {
-    s16 code;
-    u8 w;
-    u8 h;
-    u8 page;
-    u8 u;
-    u8 v;
-    u8 pad[3];
-} Glyph_80145804;
 
 extern NJS_TEXLIST menu_font_texture_list[];
 u8 *menu_font_glyph_data;
 s16 *menu_font_palette;
 s32 menu_font_upload_flags;
-Glyph_80145804 *menu_font_glyph_table;
+MenuFontGlyph *menu_font_glyph_table;
 u8 menu_font_upload_epoch;
 TObject *menu_font_object;
 
@@ -84,7 +75,7 @@ void load_menu_font(void) {
     u32 *p;
     s16 *t;
     s32 n;
-    Glyph_80145804 *g;
+    MenuFontGlyph *g;
     void *f;
     u32 i;
     u32 j;
@@ -113,7 +104,7 @@ void load_menu_font(void) {
     for (i = 0; i < 2; i++) {
         set_context_texture_palette_bank(i, 0);
     }
-    g = (Glyph_80145804 *)mem_alloc(0xB40);
+    g = (MenuFontGlyph *)mem_alloc(0xB40);
     menu_font_glyph_table = g;
     for (i = 0; i < 2; i++) {
         v = 0;
@@ -121,11 +112,11 @@ void load_menu_font(void) {
             u = 0;
             for (k = 0; k < 12; k++) {
                 g->code = 0x2EF;
-                g->w = 9;
-                g->h = 0xF0;
+                g->width = 9;
+                g->epoch = 0xF0;
                 g->page = i;
-                g->u = u;
-                g->v = v;
+                g->x = u;
+                g->y = v;
                 g++;
                 u += 20;
             }

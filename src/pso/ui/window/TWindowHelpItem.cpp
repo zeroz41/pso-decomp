@@ -160,11 +160,11 @@ void TWindowHelpItem::lock_page_flip() { this->help_flags |= 0x4; }
 
 s16 TObjPlayer::get_dfp() { return dfp; }
 
-s16 TWindowSubStatusDisp::get_stat() { return *(s16*)((char*)this + 0x2f2); }
+s16 TObjPlayer::get_efr() { return element_resist[0]; }
 
-s16 TWindowSubStatusDisp::get_field_2F8() { return *(s16*)((char*)this + 0x2f8); }
+s16 TObjPlayer::get_edk() { return element_resist[3]; }
 
-s16 TWindowSubStatusDisp::get_item_type() { return *(s16*)((char*)this + 0x2fa); }
+s16 TObjPlayer::get_elt() { return element_resist[4]; }
 
 void HelpItemStatCompareRow::set_flag0_bit20() { flags |= 0x20; }
 
@@ -837,11 +837,11 @@ void TWindowHelpItem::update_resistance_rows() {
         c->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8B));
         d->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8C));
         e->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8D));
-        a->set_value(((TWindowSubStatusDisp *)pl)->get_stat());
-        b->set_value(pl->get_class_id());
-        c->set_value(pl->get_item_index());
-        d->set_value(((TWindowSubStatusDisp *)pl)->get_field_2F8());
-        e->set_value(((TWindowSubStatusDisp *)pl)->get_item_type());
+        a->set_value(pl->get_efr());
+        b->set_value(pl->get_eic());
+        c->set_value(pl->get_eth());
+        d->set_value(pl->get_edk());
+        e->set_value(pl->get_elt());
         if (primary_item != 0) {
             if (is_item_already_equipped() != 0) {
                 pl->preview_unequip_stats(&st, primary_id);
@@ -956,65 +956,67 @@ void TWindowHelpItem::show_mag_growth() {
 
 s32 TWindowHelpItem::update_mag_status_gauges() {
     MagStats mag;
-    saddr a;
-    saddr b;
-    saddr c;
-    saddr d;
+    TWindowLayoutEntry *panel;
+    HelpItemStatCompareRow *synchro;
+    HelpItemStatCompareRow *iq;
+    TWindowLayoutEntry *growth;
+    TWindowLayoutNumber *level;
+    TWindowStatusGaugeFeedback *gauge;
     s32 changed;
     mag.init();
     changed = 0;
     TItemData::deserialize_mag(active_item, &mag);
-    a = reinterpret_cast<saddr>(get_array_entry(0));
-    b = reinterpret_cast<saddr>(get_array_entry(1));
-    c = reinterpret_cast<saddr>(get_array_entry(2));
-    d = reinterpret_cast<saddr>(get_array_entry(0xF));
-    ((TWindowLayoutEntry *)a)->show();
-    ((TWindowLayoutEntry *)d)->hide();
-    ((HelpItemStatCompareRow *)b)->set_compare_color((s32) mag.get_synchro());
-    ((HelpItemStatCompareRow *)c)->set_compare_color((s32) mag.get_iq());
-    b = reinterpret_cast<saddr>(get_array_entry(4));
-    a = reinterpret_cast<saddr>(get_array_entry(5));
-    if (((TWindowLayoutNumber *)b)->value < mag.get_def_level()) {
+    panel = (TWindowLayoutEntry *)get_array_entry(0);
+    synchro = (HelpItemStatCompareRow *)get_array_entry(1);
+    iq = (HelpItemStatCompareRow *)get_array_entry(2);
+    growth = (TWindowLayoutEntry *)get_array_entry(0xF);
+    panel->show();
+    growth->hide();
+    synchro->set_compare_color((s32) mag.get_synchro());
+    iq->set_compare_color((s32) mag.get_iq());
+    level = (TWindowLayoutNumber *)get_array_entry(4);
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(5);
+    if (level->value < mag.get_def_level()) {
         changed = 1;
-        ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
+        gauge->target = 100.0f;
     } else {
-        if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_def_progress()) {
+        if (gauge->target != (f32) mag.get_def_progress()) {
             changed = 1;
         }
-        ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_def_progress();
+        gauge->target = (f32) mag.get_def_progress();
     }
-    b = reinterpret_cast<saddr>(get_array_entry(7));
-    a = reinterpret_cast<saddr>(get_array_entry(8));
-    if (((TWindowLayoutNumber *)b)->value < mag.get_pow_level()) {
+    level = (TWindowLayoutNumber *)get_array_entry(7);
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(8);
+    if (level->value < mag.get_pow_level()) {
         changed = 1;
-        ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
+        gauge->target = 100.0f;
     } else {
-        if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_pow_progress()) {
+        if (gauge->target != (f32) mag.get_pow_progress()) {
             changed = 1;
         }
-        ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_pow_progress();
+        gauge->target = (f32) mag.get_pow_progress();
     }
-    a = reinterpret_cast<saddr>(get_array_entry(0xA));
-    b = reinterpret_cast<saddr>(get_array_entry(0xB));
-    if (((TWindowLayoutNumber *)a)->value < mag.get_dex_level()) {
+    level = (TWindowLayoutNumber *)get_array_entry(0xA);
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(0xB);
+    if (level->value < mag.get_dex_level()) {
         changed = 1;
-        ((TWindowStatusGaugeFeedback *)b)->target = 100.0f;
+        gauge->target = 100.0f;
     } else {
-        if (((TWindowStatusGaugeFeedback *)b)->target != (f32) mag.get_dex_progress()) {
+        if (gauge->target != (f32) mag.get_dex_progress()) {
             changed = 1;
         }
-        ((TWindowStatusGaugeFeedback *)b)->target = (f32) mag.get_dex_progress();
+        gauge->target = (f32) mag.get_dex_progress();
     }
-    b = reinterpret_cast<saddr>(get_array_entry(0xD));
-    a = reinterpret_cast<saddr>(get_array_entry(0xE));
-    if (((TWindowLayoutNumber *)b)->value < mag.get_mind_level()) {
+    level = (TWindowLayoutNumber *)get_array_entry(0xD);
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(0xE);
+    if (level->value < mag.get_mind_level()) {
         changed = 1;
-        ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
+        gauge->target = 100.0f;
     } else {
-        if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_mind_progress()) {
+        if (gauge->target != (f32) mag.get_mind_progress()) {
             changed = 1;
         }
-        ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_mind_progress();
+        gauge->target = (f32) mag.get_mind_progress();
     }
     return changed;
 }

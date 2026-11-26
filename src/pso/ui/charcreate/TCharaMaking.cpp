@@ -66,13 +66,13 @@ void select_char_menu() {
     copy_char_name(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.name);
 }
 
-s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
+s32 TObjCMMainMenu::validate_character_name(s8 *name) {
     s8 buf[13];
     s8 out[16];
     s32 found;
     s8 *p;
     s8 *q;
-    strncpy((char *)buf, (const char *)arg0, 0xC);
+    strncpy((char *)buf, (const char *)name, 0xC);
     buf[12] = 0;
     found = 0;
     p = buf;
@@ -84,11 +84,11 @@ s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
         p++;
     }
     if (found == 0) {
-        *arg0 = 0;
+        *name = 0;
         return 0;
     }
     if (TWindowSubComCard::contains_profanity((char *)buf) != 0) {
-        *arg0 = 0;
+        *name = 0;
         return 0;
     }
     p = buf;
@@ -102,7 +102,7 @@ s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
     }
     *q = 0;
     if (TWindowSubComCard::contains_profanity((char *)out) != 0) {
-        *arg0 = 0;
+        *name = 0;
         return 0;
     }
     return 1;

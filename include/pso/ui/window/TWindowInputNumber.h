@@ -15,8 +15,8 @@ struct TWindowInputNumber : public TWindowBase {
     static const char *class_name;
     s32 is_locked(s32);
     s32 test_input_flag(s32 buttons);
-    void set_flag_40();
-    void clear_flag_40();
+    void disable_input();
+    void enable_input();
     void refresh_digit_entries();
     void align_digits();
     void draw_arrows(WindowDrawContext *context, TWindowLayoutNumber *digit, int confirmed);

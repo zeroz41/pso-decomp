@@ -19,7 +19,7 @@ void TWindowSubTradeMain::init_pkt_cmd_6A() { *(u8 *)&this->m_name = 106; *(u8*)
 int TWindowSubTradeMain::get_warp_state() {  return quest_warp_enabled; }
 
 void TWindowMenuIconLine::set_close_flag() { state_flags |= 0x80; }
-void TWindowMenuIconLine::set_flag_40() { state_flags |= 0x40; }
+void TWindowMenuIconLine::disable_input() { state_flags |= 0x40; }
 
 extern void *tl_05;
 

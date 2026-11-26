@@ -58,8 +58,8 @@ static const NJS_POINT2 trade_list_window_pos = {326.0f, 104.0f};
 // Child-window flag helpers; their only callers are TWindowSubTradeMain's
 // set_child_windows_enabled and run_task, and they follow its dtor/ctor here.
 void TWindowMenuIconLine::clear_flag4() { state_flags &= ~4; }
-void TWindowInputNumber::clear_flag_40() { inputFlags &= ~0x40; }
-void TWindowInputNumber::set_flag_40() { inputFlags |= 0x40; }
+void TWindowInputNumber::enable_input() { inputFlags &= ~0x40; }
+void TWindowInputNumber::disable_input() { inputFlags |= 0x40; }
 
 TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     TObjPlayer *player;
@@ -697,9 +697,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 2:
         if (this->menu != NULL) {
             if (on != 0) {
-                this->menu->clear_flag_40();
+                this->menu->enable_input();
             } else {
-                this->menu->set_flag_40();
+                this->menu->disable_input();
             }
         }
         break;
@@ -713,9 +713,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->list != NULL) {
             if (on != 0) {
-                this->list->clear_flag_40();
+                this->list->enable_input();
             } else {
-                this->list->set_flag_40();
+                this->list->disable_input();
             }
         }
         break;
@@ -723,9 +723,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 14:
         if (this->input_number != NULL) {
             if (on != 0) {
-                this->input_number->clear_flag_40();
+                this->input_number->enable_input();
             } else {
-                this->input_number->set_flag_40();
+                this->input_number->disable_input();
             }
         }
         break;
@@ -739,9 +739,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->request != NULL) {
             if (on != 0) {
-                this->request->clear_flag_40();
+                this->request->enable_input();
             } else {
-                this->request->set_flag_40();
+                this->request->disable_input();
             }
         }
         break;
@@ -755,18 +755,18 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->offer != NULL) {
             if (on != 0) {
-                this->offer->clear_flag_40();
+                this->offer->enable_input();
             } else {
-                this->offer->set_flag_40();
+                this->offer->disable_input();
             }
         }
         break;
     case 21:
         if (this->confirm != NULL) {
             if (on != 0) {
-                this->confirm->clear_flag_40();
+                this->confirm->enable_input();
             } else {
-                this->confirm->set_flag_40();
+                this->confirm->disable_input();
             }
         }
         break;
@@ -774,9 +774,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 27:
         if (this->dialog != NULL) {
             if (on != 0) {
-                this->dialog->clear_choice_menu_flag_40();
+                this->dialog->enable_choice_input();
             } else {
-                this->dialog->set_choice_menu_flag_40();
+                this->dialog->disable_choice_input();
             }
         }
         break;

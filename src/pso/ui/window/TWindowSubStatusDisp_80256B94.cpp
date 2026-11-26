@@ -112,7 +112,7 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     q.u1 = (230.0f + w) / 256.0f;
     q.v1 = 0.14453125f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
     if (len <= 4.0f) {
         return;
@@ -127,7 +127,7 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     q.u1 = 0.97265625f;
     q.v1 = 0.14453125f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
     end = scale - 4.0f;
     if (len <= end) {
@@ -143,7 +143,7 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     q.u1 = (252.0f + w) / 256.0f;
     q.v1 = 0.14453125f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
 }
 
@@ -160,7 +160,7 @@ void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawCont
     q.u1 = 0.2265625f;
     q.v1 = 0.96875f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
     q.x0 = 20.0f + (-1.0f + pos->x);
     q.y0 = -1.0f + pos->y;
@@ -171,7 +171,7 @@ void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawCont
     q.u1 = 0.30859375f;
     q.v1 = 0.96875f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
     q.x0 = ((-1.0f + pos->x) + w) - 20.0f;
     q.y0 = -1.0f + pos->y;
@@ -182,7 +182,7 @@ void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawCont
     q.u1 = 0.48828125f;
     q.v1 = 0.96875f;
     if (ctx->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
     }
 }
 

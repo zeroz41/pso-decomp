@@ -21,8 +21,6 @@ const u32 text_control_color_palette[10] = {
     0xFFFF00FF, 0xFFFFFF00, 0xFFFFFFFF, 0xFFFF8080, 0xFF8080FF,
 };
 
-extern s32 menu_font_upload_flags;
-extern u8 menu_font_upload_epoch;
 extern u8 menu_font_texnames[];
 __declspec(section ".data") void *menu_font_texture_list[2] = {
     (void *)&menu_font_texnames, (void *)0x2,
@@ -61,14 +59,6 @@ TNECFontEORFunction::TNECFontEORFunction() : TObject((TObject *)(&end_of_render_
 }
 
 // ---- font text helpers (formerly the TWindowSubStatusDisp_80144B14 fragment)
-struct MenuGlyphEntry {
-    u16 code;
-    u8 width;
-    u8 epoch;   // stamped with menu_font_upload_epoch when the glyph was uploaded
-    u8 page;
-    u8 x;
-    u8 y;
-};
 
 
 const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {
@@ -295,7 +285,7 @@ void TWindowSubStatusDisp::pack_status_flags(u32 pixel) {
 }
 extern u8 *menu_font_glyph_pixel_buffers[];
 extern u8 *menu_font_glyph_data;
-#define g ((MenuGlyphEntry *)free_slot)
+#define g ((MenuFontGlyph *)free_slot)
 
 s32 calc_ci4_tile_offset(u32 x, u32 y) {
     s32 tile = (x * 4) & 0x7FFFFFE0;
@@ -336,7 +326,7 @@ void upload_font_glyph(u16 c, void *free_slot) {
 
 s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot) {
     u8 slot_epoch;
-    slot_epoch = ((MenuGlyphEntry *)free_slot)->epoch;
+    slot_epoch = ((MenuFontGlyph *)free_slot)->epoch;
     if (slot_epoch == (u8) menu_font_upload_epoch) {
         return 0;
     }
@@ -350,13 +340,11 @@ s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void *
     return 0;
 }
 
-typedef struct MenuGlyphSlot { u16 code; u16 data[4]; } MenuGlyphSlot;
-extern MenuGlyphSlot *menu_font_glyph_table;
 void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     void *free_slot;
-    MenuGlyphSlot *g;
-    MenuGlyphSlot *p;
-    MenuGlyphSlot *q;
+    MenuFontGlyph *g;
+    MenuFontGlyph *p;
+    MenuFontGlyph *q;
     u32 i;
     u32 j;
 
@@ -403,7 +391,7 @@ u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *quad, s32 color) {
     void *cached_glyph;
 
     cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
-    MenuGlyphEntry *entry = (MenuGlyphEntry *)cached_glyph;
+    MenuFontGlyph *entry = (MenuFontGlyph *)cached_glyph;
     TexturedQuad *pos = static_cast<TexturedQuad *>(quad);
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);

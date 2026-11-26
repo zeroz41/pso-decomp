@@ -31,8 +31,8 @@ struct TWindowMessageYesNo : public TObject {
     void get_choice_menu_position(NJS_POINT2 *position);
     void move_to(const NJS_POINT2 *position);
     void reparent_to_main_ctrl();
-    void set_choice_menu_flag_40();
-    void clear_choice_menu_flag_40();
+    void disable_choice_input();
+    void enable_choice_input();
 };
 
 void initialize_option_dialog(TWindowMessageYesNo *dialog, s32 message, const NJS_POINT2 *position, f32 width);

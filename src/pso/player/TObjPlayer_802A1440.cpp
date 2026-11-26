@@ -17,7 +17,7 @@ void TObjPlayer::copy_lobby_header(saddr player) {
     s32 *record = (s32 *)this;
     ((FlagWord *)((s8 *)record + 0x428))->set(1);
     *record = TAdSelectTxtGC__sub_802A16C0((void *)player);
-    ((TLobby *)((s8 *)record + 4))->copy_header_struct((void *) ((s8 *)player + 0xDAC));
+    ((TLobby *)((s8 *)record + 4))->copy_header_struct(((s8 *)player + 0xDAC));
     reinterpret_cast<TObjPlayer *>(player)->export_character_data(reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(record) + 0xC));
 }
 

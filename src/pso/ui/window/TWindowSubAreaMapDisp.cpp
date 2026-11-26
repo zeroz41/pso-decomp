@@ -92,7 +92,7 @@ void fn_80271848(s32 window, WindowDrawContext *context) {
     r.u1 = 0.91796875f;
     r.v1 = 0.21875f;
     context->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     r.x0 = 484.0f;
     r.y0 = 346.0f;
     r.x1 = 12.0f + r.x0;
@@ -100,7 +100,7 @@ void fn_80271848(s32 window, WindowDrawContext *context) {
     r.u0 = 0.9296875f;
     r.u1 = 0.9765625f;
     context->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     r.x0 = 249.0f;
     r.y0 = 272.0f;
     r.x1 = 14.0f + r.x0;
@@ -110,7 +110,7 @@ void fn_80271848(s32 window, WindowDrawContext *context) {
     r.u1 = 0.9921875f;
     r.v1 = 0.046875f;
     context->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     r.x0 = 249.0f;
     r.y0 = 4.2e+02f;
     r.x1 = 14.0f + r.x0;
@@ -118,11 +118,11 @@ void fn_80271848(s32 window, WindowDrawContext *context) {
     r.v0 = 0.109375f;
     r.v1 = 0.15625f;
     context->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     end_screen_draw();
 }
 
-void TWindowSubStatusDisp__sub_80271A6C(s32 window, WindowDrawContext *context) {
+void draw_zoom_button_hints(s32 window, WindowDrawContext *context) {
     NJS_POINT2 pos;
     s32 color;
     f32 scale;
@@ -146,7 +146,7 @@ void TWindowSubAreaMapDisp::render() {
     draw_window_frame(context);
     heading->render(context);
     if (this->manual_scroll != 0) {
-        ((s32 (*)(void *, s32))TWindowSubStatusDisp__sub_80271A6C)(this, reinterpret_cast<saddr>(context));
+        ((s32 (*)(void *, s32))draw_zoom_button_hints)(this, reinterpret_cast<saddr>(context));
         ((s32 (*)(void *, s32))fn_80271848)(this, reinterpret_cast<saddr>(context));
     }
 }
@@ -155,7 +155,7 @@ void TWindowSubAreaMapDisp::run_task() {
     update_window();
     this->update_visibility();
     this->update_manual_scroll();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32)this->open_tick >= 7.5f) {
         heading->update();
     }
 }

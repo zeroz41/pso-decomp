@@ -244,7 +244,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             this->result_item = construct_item(&judged_item);
             this->item_list->add_list_entry(this->result_item, 0);
             this->item_list->set_flag70_bit10();
-            this->item_list->set_flag_40();
+            this->item_list->disable_input();
             this->item_list->set_close_flag();
             this->item_list->calc_content_extent();
         }

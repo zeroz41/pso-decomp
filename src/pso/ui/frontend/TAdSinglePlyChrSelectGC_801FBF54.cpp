@@ -993,9 +993,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct B8_801FDFB8 { u32 w[2]; };
-
-struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x278C - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
 
 extern "C" {
 s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
@@ -1156,17 +1153,18 @@ s32 TAdSinglePlyChrSelectGC::copy_character_to_slot(CharacterFile *src_file, int
     return 1;
 }
 
-#define dst ((P_801FDFB8 *)a0)
-#define src ((P_801FDFB8 *)a1)
+// The copied flag and the copy time, copied together.
+struct CopyStamp { u32 w[2]; };
+
 void *TAdSinglePlyChrSelectGC::copy_char_slot_data(void *a0, void *a1) {
-    TProtocol::copy_player_data(&dst->char_data, &src->char_data);
-    assign_char_data__23TAdSinglePlyChrSelectGCFPvPv((CharacterSaveRecord *)dst->a, (CharacterSaveRecord *)src->a);
-    dst->f278C = src->f278C;
-    dst->f2794 = src->f2794;
+    CharacterFileSlot *dst = (CharacterFileSlot *)a0;
+    CharacterFileSlot *src = (CharacterFileSlot *)a1;
+    TProtocol::copy_player_data(&dst->chardata, &src->chardata);
+    assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(&dst->record, &src->record);
+    *(CopyStamp *)&dst->copied = *(CopyStamp *)&src->copied;
+    *(s32 *)dst->pad_2794 = *(s32 *)src->pad_2794;
     return a0;
 }
-#undef dst
-#undef src
 
 
 CharacterSaveRecord *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(CharacterSaveRecord *dest, CharacterSaveRecord *source) {
@@ -2011,19 +2009,10 @@ GuildCardList::GuildCardList() {}
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Slot_80200690 { u8 data[0x2798]; };
-
 struct Pair_80200690 { u32 a; u32 b; };
 
 struct Tail_80200690 { Pair_80200690 p0, p1, p2, p3, p4, p5, p6; };
 
-struct Save_80200690 {
-    s32 hdr;
-    Slot_80200690 slots[7];
-    Tail_80200690 tail;
-    u32 x;
-    u32 y;
-};
 
 
 
@@ -2094,14 +2083,14 @@ void decrypt_guild_card_payload(GuildCardSaveData *data) {
     ::operator delete(b);
     ::operator delete(a);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)data, 0xE28C);
+    chr_select_rng_state.apply_rng_cipher((u32 *)data , 0xE28C);
     subtractive_rng_seed(&chr_select_rng_state, data->cipher_seed);
     subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)data, 0xE288);
 }
 
 #pragma push
 #pragma opt_common_subs off
-void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1) {
+void encrypt_guild_card_payload(GuildCardSaveData *data, void *) {
     GuildCardSaveData *a;
     GuildCardSaveData *b;
     data->cipher_seed = subtractive_rng_next(&chr_select_rng_state);
@@ -2230,21 +2219,19 @@ void TAdSinglePlyChrSelectGC::decrypt_char_data(CharacterFile *file) {
 }
 
 CharacterFile *TAdSinglePlyChrSelectGC::copy_save_data(CharacterFile *to, CharacterFile *from) {
-    Save_80200690 *dst = (Save_80200690 *)to;
-    Save_80200690 *src = (Save_80200690 *)from;
-    Slot_80200690 *d;
-    Slot_80200690 *s;
-    dst->hdr = src->hdr;
-    d = dst->slots;
-    s = src->slots;
+    CharacterFileSlot *d;
+    CharacterFileSlot *s;
+    to->checksum = from->checksum;
+    d = to->slots;
+    s = from->slots;
     do {
         TAdSinglePlyChrSelectGC::copy_char_slot_data(d, s);
         d++;
         s++;
-    } while (d < &dst->slots[7]);
-    dst->tail = src->tail;
-    dst->x = src->x;
-    dst->y = src->y;
+    } while (d < &to->slots[7]);
+    *(Tail_80200690 *)to->pad_1152C = *(Tail_80200690 *)from->pad_1152C;
+    to->save_count = from->save_count;
+    to->cipher_seed = from->cipher_seed;
     return to;
 }
 

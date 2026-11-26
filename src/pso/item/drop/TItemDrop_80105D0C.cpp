@@ -309,9 +309,9 @@ void TItemDrop::refresh_drop_table_if_changed() {
 }
 
 void TItemDrop::free_unit_star_tables() {
-    mem_free((void *)unit_star_bucket_counts);
+    mem_free(unit_star_bucket_counts);
     unit_star_bucket_counts = 0;
-    mem_free((void *)unit_star_classes);
+    mem_free(unit_star_classes);
     unit_star_classes = 0;
 }
 

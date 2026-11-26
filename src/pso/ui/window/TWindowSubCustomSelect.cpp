@@ -200,8 +200,8 @@ void TWindowSubCustomSelect::run_task() {
     s32 controller_index;
     ControllerInputContext *context;
     controller_index = is_player_input_active(((s32) this->client_index));
-    if (!(*(s32 *)&this->window_flags & 2)) {
-        *(s32 *)&this->open_tick = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
     if (this->is_active() == 0) {
         handle_grid_navigation();
@@ -214,7 +214,7 @@ void TWindowSubCustomSelect::run_task() {
         }
     }
     update_list_scroll();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32)this->open_tick >= 7.5f) {
         this->status_display->update();
         scroll_bar->increment_counter();
     }

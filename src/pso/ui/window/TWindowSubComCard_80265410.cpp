@@ -274,7 +274,7 @@ void TWindowMenu::advance_past_disabled_menu_rows() {
     s16 t;
     if (row_cursor < row_count) {
         e = static_cast<WindowTextEntry *>(get_array_entry((s32)row_cursor));
-        while (((u32)((WindowTextEntry *)e)->get_text()) != 0 && (e->flags & 0x10)) {
+        while (((u32)e->get_text()) != 0 && (e->flags & 0x10)) {
             t = row_cursor + 1;
             row_cursor = t;
             if (t >= row_count) {
@@ -291,30 +291,23 @@ void TWindowMenu::advance_past_disabled_menu_rows() {
 
 #pragma fp_contract on
 void TWindowMenu::update_scroll_value() {
-    u8 *arg0 = (u8 *)this;
-  u8 *new_var2;
-  f32 v;
-  u32 *new_var;
-  u32 n;
-  new_var = &this->tween_ticks;
-  if ((*((u16 *)(arg0 + 0x70))) & 0x20)
-  {
-    v = *((f32 *) (static_cast<u8 *>(reinterpret_cast<TWindowMenu *>(arg0)->get_selected_entry()) + 0xC));
-  }
-  else
-  {
-    v = 0.0f;
-    new_var = &this->tween_ticks;
-  }
-  n = *new_var;
-  if (n == 0)
-  {
-    this->scroll_offset[1] = v;
-    return;
-  }
-  v += 0.5f * ((this->target_size[1]) - (this->frame_size[1]));
-  new_var2 = (u8 *)&this->scroll_offset[1];
-  *((f32 *) new_var2) += (v - (this->scroll_offset[1])) / ((f32) n);
+    f32 v;
+    u32 *ticks;
+    u32 n;
+    ticks = &tween_ticks;
+    if (menu_flags & 0x20) {
+        v = ((TWindowLayoutRect *)get_selected_entry())->y;
+    } else {
+        v = 0.0f;
+        ticks = &tween_ticks;
+    }
+    n = *ticks;
+    if (n == 0) {
+        scroll_offset[1] = v;
+        return;
+    }
+    v += 0.5f * (target_size[1] - frame_size[1]);
+    scroll_offset[1] += (v - scroll_offset[1]) / (f32)n;
 }
 
 s32 TWindowMenu::get_selected_value() {
@@ -335,7 +328,7 @@ void align_menu_entry_positions(TWindowMenu *self) {
     u32 i;
     for (i = 0; i < self->row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(self->get_array_entry(i));
-        if (((WindowTextEntry *)e)->get_text() != 0) {
+        if (e->get_text() != 0) {
             measure_message_text_width(e, left);
             if (e->height > 18.0f) {
                 e->x = 0.0f;
@@ -354,7 +347,7 @@ void TWindowMenu::calc_layout_height(f32 width) {
     h = 0.0f;
     for (i = 0; i < row_count; i++) {
         e = static_cast<WindowTextEntry *>(get_array_entry(i));
-        if (((WindowTextEntry *)e)->get_text() != 0 && !(e->height <= com_card_minimum_entry_height)) {
+        if (e->get_text() != 0 && !(e->height <= com_card_minimum_entry_height)) {
             measure_message_text_width(e, width);
             h += 2.0f + e->height;
         }
@@ -385,7 +378,7 @@ void TWindowMenu::update_layout_height(f32 x) {
     u32 i;
     for (i = 0; i < row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(this->TWindowBase::get_array_entry(i));
-        if (((WindowTextEntry *)e)->get_text() != 0) {
+        if (e->get_text() != 0) {
             if (!(e->height <= com_card_minimum_entry_height)) {
                 sum += 2.0f + e->height;
             }
@@ -409,7 +402,7 @@ void TWindowMenu::calc_window_size() {
     u32 i;
     for (i = 0; i < row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(get_array_entry(i));
-        if (((WindowTextEntry *)e)->get_text() != 0) {
+        if (e->get_text() != 0) {
             if (e->width > width) {
                 width = e->width;
             }
@@ -440,7 +433,7 @@ void TWindowMenu::layout_entries() {
     zero = com_card_minimum_entry_height;
     for (i = 0; i < row_count; i++) {
         e = static_cast<WindowTextEntry *>(get_array_entry(i));
-        if (((WindowTextEntry *)e)->get_text() != 0) {
+        if (e->get_text() != 0) {
             e->y = y;
             h = e->height;
             if (!(h <= zero)) {
@@ -514,7 +507,7 @@ s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id, s32 color) {
         }
     }
     if (menu_flags & 0x100) {
-        ((WindowTextEntry *)entry)->reveal_all();
+        entry->reveal_all();
     }
     measure_message_text_width_default(entry);
     row->flags = flags;
@@ -634,10 +627,10 @@ void TWindowMenu::run_task() {
     ControllerInputContext *context;
 
     this->layout_entries();
-    if (!(*(s32 *)&this->window_flags & 2)) {
-        *(s32 *)&this->open_tick = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
-    if ((this->sub_80266BB8() == 0) && (this->is_decided() == 0) && ((s32) *(s32 *)&this->open_tick > 2) && (is_window_display_enabled() != 0) && (this->is_open_and_unblocked() != 0)) {
+    if ((this->is_input_disabled() == 0) && (this->is_decided() == 0) && (this->open_tick > 2) && (is_window_display_enabled() != 0) && (this->is_open_and_unblocked() != 0)) {
         player_idx = is_player_input_active((this->client_index));
         if (this->menu_flags & 0x10) {
             input = &controller_input_state.controllers[player_idx];
@@ -664,7 +657,7 @@ void TWindowMenu::run_task() {
             set_active_flag();
         }
     }
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32) this->open_tick >= 7.5f) {
         if (this->heading != 0) {
             this->heading->update();
         }
@@ -735,6 +728,6 @@ s32 TWindowMenu::is_locked(s32 buttons) {
     return test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }
 
-int TWindowMenu::sub_80266BB8() { return (this->menu_flags >> 6) & 0x1; }
+int TWindowMenu::is_input_disabled() { return (this->menu_flags >> 6) & 0x1; }
 
 void TWindowMenu::reset_selection() { marked_row = -1; }

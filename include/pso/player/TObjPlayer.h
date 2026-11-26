@@ -383,8 +383,12 @@ struct TObjPlayer : public TObjChara {
     void copy_entry_bytes(void* q);
     WeaponAttribute *get_attribute_entry(s32 i);
     static f32 calc_distance_to_client(const TObjBase *actor, u16 client, Vec *delta);
-    s16 get_class_id();
-    s16 get_item_index();
+    // Element resistances (element_resist), named as in the item help window.
+    s16 get_efr();
+    s16 get_eth();
+    s16 get_eic();
+    s16 get_edk();
+    s16 get_elt();
     s32 get_floor();
     s32 is_on_current_floor();
     s32 get_area();

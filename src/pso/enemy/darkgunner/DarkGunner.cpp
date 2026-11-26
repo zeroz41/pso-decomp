@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/system/BmlAccessors.h"
@@ -318,7 +319,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     variant = 0;
     set_param(0x22);
     add_flags_2e4(8);
-    state36C = *(s16 *)((u8 *)set_data + 0x3E);
+    state36C = ((EnemyPlacement *)set_data)->unknown3e;
     resetTimer = 0xF;
     timer = resetTimer;
     VecCopy(&prev_position, &position);

@@ -141,7 +141,7 @@ TItemList *find_matching_inventory_item_node(TObject *root) {
             owner = node->get_owner_if_alive();
             if (owner != NULL) {
                 owner->copy_to_item_data((TItemData *)data);
-                if (item_identity_matches((u8 *)((s32 *)data), (u8 *)inventory_search_item_data) != 0) {
+                if (item_identity_matches((u8 *)(data), (u8 *)inventory_search_item_data) != 0) {
                     return node;
                 }
             }

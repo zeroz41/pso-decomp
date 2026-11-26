@@ -47,17 +47,17 @@ void TWindowMessageYesNo::move_to(const NJS_POINT2 *position) {
     }
 }
 
-void TWindowMessageYesNo::set_choice_menu_flag_40() {
+void TWindowMessageYesNo::disable_choice_input() {
     TWindowMenu *menu = choice_menu;
     if (menu != NULL) {
-        menu->set_flag_40();
+        menu->disable_input();
     }
 }
 
-void TWindowMessageYesNo::clear_choice_menu_flag_40() {
+void TWindowMessageYesNo::enable_choice_input() {
     TWindowMenu *menu = choice_menu;
     if (menu != NULL) {
-        menu->clear_flag_40();
+        menu->enable_input();
     }
 }
 
@@ -95,7 +95,7 @@ s32 TWindowMessageYesNo::is_child_visible() {
 void initialize_option_dialog(TWindowMessageYesNo *dialog, s32 message, const NJS_POINT2 *position, f32 width) {
     dialog->message_menu = create_window_menu(position, 1, dialog->client_id);
     dialog->message_menu->add_text_entry(message, 0x21, 0);
-    dialog->message_menu->set_flag_40();
+    dialog->message_menu->disable_input();
     TQuestThread::set_status_flag_80(dialog->message_menu);
     dialog->message_menu->calc_layout_height(width);
 }
@@ -108,7 +108,7 @@ void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, const 
         dialog->message_menu = reinterpret_cast<TWindowMenu *>(create_titled_window_menu(message_position, 1, title, dialog->client_id));
     }
     dialog->message_menu->add_text_entry(text, 0x21, 0);
-    reinterpret_cast<TWindowMenu *>(dialog->message_menu)->set_flag_40();
+    reinterpret_cast<TWindowMenu *>(dialog->message_menu)->disable_input();
     TQuestThread::set_status_flag_80(dialog->message_menu);
     dialog->message_menu->calc_layout_height(width);
     dialog->get_choice_menu_position(&position);

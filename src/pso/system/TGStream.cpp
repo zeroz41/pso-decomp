@@ -150,7 +150,7 @@ s32 TGStream::read_whole_file(const char *name, u8 *dst) {
     rem = size % 2048;
     if (rem > 0) {
         stream.read_sectors_sync(1, gstream_sector_buffer);
-        move_data(((dst + n * 2048)), (const void *)((const void *)gstream_sector_buffer), rem);
+        move_data(((dst + n * 2048)), ((const void *)gstream_sector_buffer), rem);
     }
     return size;
 }

@@ -224,7 +224,7 @@ void TWindowSubTechnique::run_task() {
         if (technique_menu == 0) {
             technique_menu = create_title_window(category_menu->get_selected_value());
         }
-        technique_menu->set_flag_40();
+        technique_menu->disable_input();
         TQuestThread::set_status_flag_80(technique_menu);
         TWindowSubTechnique::get_current_selection(&shown_tp, &shown_hold_status, playerIndex);
         category_menu->clear_flag_and_release();
@@ -249,7 +249,7 @@ void TWindowSubTechnique::run_task() {
         help_window = TWindowMessage::create(get_window_layout_position(0x14), technique_help_window_size, 1, (s32)playerIndex);
         help_window->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
-        technique_menu->clear_flag_40();
+        technique_menu->enable_input();
         ((TWindowSubTechnique *)technique_menu)->clear_flag70_bit80();
         technique_menu->clear_flag_and_release();
         technique_menu->clear_cancelled();
@@ -318,4 +318,4 @@ saddr get_technique_description_text(s32 technique) {
 }
 
 void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }
-void TWindowMenu::clear_flag_40() { menu_flags &= ~0x40; }
+void TWindowMenu::enable_input() { menu_flags &= ~0x40; }

@@ -349,7 +349,7 @@ void TObjWarpBoss::update_warp_dialogs() {
     player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), pos);
     if (player_list_window != 0)
     {
-      player_list_window->set_flag_40();
+      player_list_window->disable_input();
       player_list_window->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
@@ -591,7 +591,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
                 menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if (menu_window != NULL) {
                     menu_window->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
-                    menu_window->set_flag_40();
+                    menu_window->disable_input();
                     menu_window->calc_window_size();
                     align_menu_entry_positions(menu_window);
                 }

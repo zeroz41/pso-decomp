@@ -6,7 +6,7 @@
 #include "pso/ui/window/WordSelectMessage.h"
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
-s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value);
+s32 is_verb_word(s32 value);
 
 class TWindowDD_WS_Word;
 class TWindowDD_WS_String;
@@ -31,7 +31,7 @@ extern TWindowDDStateEntry word_select_state_table[21];
 
 struct TWindowDD : public TObject
 {
-    static void * ws_data_buffer;
+    static void * ws_data_fr;
     static TWindowDDValueList * ws_data_table;
     static TWindowDDValueList * ws_data_base;
     static uaddr work_buffer;
@@ -84,10 +84,10 @@ struct TWindowDD : public TObject
     static void build_player_word_lists();
     static void free_buffers();
     static void open(void *message, u16 speaker);
-    static s32 is_id_in_special_range(s16 id);
+    static s32 is_levelled_technique_word(s16 id);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
-    static s32 is_state_zero_unless_0x2C8(s32 id);
+    static s32 is_non_topic_word(s32 id);
     void destroy_menu_entry(s32 offset);
     void set_item_pos(s32 i);
     TWindowDD_WS_Word *init_last_child();
@@ -178,6 +178,31 @@ extern char *window_dd_buffer_b;
 // Twelve name strings of 0x18 bytes in window_dd_buffer_b, one per client id.
 extern char **word_select_player_names;
 // Six word lists allocated as one block; their ids live in word_select_word_storage.
+// Header of a word select data file (ws_data_<language>.bin, loaded by ws_data_load).
+// The Japanese file has only the first four tables; the US file stores the
+// form index before the form lists, the European files after them.
+struct WordSelectDataUS {
+    char **word_strings;
+    TWindowDDValueList *base;
+    TWindowDDValueList *table;
+    s16 *word_string_index;
+    TWindowDDValueList *word_variant_lists;
+    u8 *word_form_index;
+    TWindowDDValueList *word_form_lists;
+};
+
+struct WordSelectDataEU {
+    char **word_strings;
+    TWindowDDValueList *base;
+    TWindowDDValueList *table;
+    s16 *word_string_index;
+    TWindowDDValueList *word_variant_lists;
+    TWindowDDValueList *word_form_lists;
+    u8 *word_form_index;
+    u8 pad_1C[4];
+    u8 *spanish_prefix_categories;
+};
+
 extern TWindowDDValueList *word_select_lists;
 extern s16 *word_select_word_storage;
 // Word strings of the loaded ws_data archive and the string index of each word id.
@@ -193,7 +218,7 @@ extern TWindowDDValueList *ws_word_form_lists;
 extern u8 *ws_word_form_index;
 // Spanish prefix categories, loaded from the word-select archive header.
 extern u8 *ws_spanish_prefix_categories;
-// The loaded ws_data_<lang>.bin archives (French goes to TWindowDD::ws_data_buffer).
+// The loaded ws_data_<lang>.bin archives (French goes to TWindowDD::ws_data_fr).
 extern void *ws_data_jp;
 extern void *ws_data_us;
 extern void *ws_data_es;

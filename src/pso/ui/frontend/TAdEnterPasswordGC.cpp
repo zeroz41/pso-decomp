@@ -157,7 +157,7 @@ void TAdEnterPasswordGC::open_keyboard_window(void *arg) {
 }
 
 void TAdEnterPasswordGC::run_task() {
-    fn_8032B318(password_screen_status_line_position);
+    get_title_position(password_screen_status_line_position);
     prev_state = password_entry_dispatch_state;
     static StateHandler tbl[5] = {
         (StateHandler)&TAdEnterPasswordGC::open_keyboard_window,

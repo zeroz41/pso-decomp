@@ -467,9 +467,9 @@ s16 TObjChara::get_base_dfp() { return this->base_dfp; }
 
 void TObjChara::adjust_dfp(int amount) { this->dfp = (this->dfp + amount); }
 
-s16 TObjPlayer::get_item_index() { return this->element_resist[1]; }
+s16 TObjPlayer::get_eth() { return this->element_resist[1]; }
 
-s16 TObjPlayer::get_class_id() { return this->element_resist[2]; }
+s16 TObjPlayer::get_eic() { return this->element_resist[2]; }
 
 #pragma push
 #pragma scheduling off
@@ -3505,7 +3505,7 @@ s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *targe
     f32 chance;
 
     if ((attacker->get_entity_id() >= 0x1000U) && (target->get_entity_id() < 0x1000U)) {
-        chance = 0.75f - ((f32) (actor)->get_item_index() / 100.0f);
+        chance = 0.75f - ((f32) (actor)->get_eth() / 100.0f);
         if (chance < 0.0f) {
             chance = 0.0f;
         }
@@ -3522,7 +3522,7 @@ s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *targ
 
     chance = base_chance;
     if ((attacker->get_entity_id() >= 0x1000U) && (attacker->get_entity_id() < 0x4000U) && (target->get_entity_id() < 0x1000U)) {
-        chance = 0.75f - ((f32) (actor)->get_class_id() / 100.0f);
+        chance = 0.75f - ((f32) (actor)->get_eic() / 100.0f);
         if (chance < 0.0f) {
             chance = 0.0f;
         }

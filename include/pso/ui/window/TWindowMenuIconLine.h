@@ -31,15 +31,15 @@ public:
     void handle_open();
     void set_flag4();
     void clear_flag4();
-    void set_flag_40();
-    void clear_flag_40();
+    void disable_input();
+    void enable_input();
     void set_close_flag();
     void clear_close_flag();
     void activate();
     void deactivate();
     // Opening the selected entry then plays no decide sound.
     void disable_decide_sound();
-    int get_flag();
+    int is_input_disabled();
     int is_decided();
     int is_cancelled();
     void clear_decided();

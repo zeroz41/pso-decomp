@@ -29,7 +29,7 @@ LAYOUT_ASSERT(TWindowSubAreaMapDisp_size, sizeof(TWindowSubAreaMapDisp) == 0x78)
 struct WindowDrawContext;
 
 extern "C" {
-void TWindowSubStatusDisp__sub_80271A6C(s32 window, WindowDrawContext *context);
+void draw_zoom_button_hints(s32 window, WindowDrawContext *context);
 void fn_80271848(s32 window, WindowDrawContext *context);
 }
 

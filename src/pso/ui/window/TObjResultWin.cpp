@@ -45,7 +45,7 @@ __declspec(section ".data") const char* challenge_result_rank_labels[4] = {
 };
 __declspec(section ".sdata2") extern const char challenge_result_newline[] = "\n";
 
-void TWindowMenu::set_flag_40() { menu_flags |= 0x40; }
+void TWindowMenu::disable_input() { menu_flags |= 0x40; }
 }
 int get_current_lobby_id(void) {  return current_lobby_id; }
 

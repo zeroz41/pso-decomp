@@ -270,8 +270,8 @@ void TWindowSubQuestBoardSelect::run_task() {
         }
     }
     update_window();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        *(s32 *)&this->open_tick = 0x186A0;
+    if ((f32)this->open_tick >= 7.5f) {
+        this->open_tick = 0x186A0;
         this->status_disp->update();
     }
     this->update_fade();

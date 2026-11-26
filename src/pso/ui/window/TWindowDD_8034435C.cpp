@@ -45,7 +45,7 @@
 
 
 extern "C" {
-s32 TWindowDD__sub_80347858(s16 id);
+s32 is_topic_word(s16 id);
 void append_word_select_entry_words(WordSelectMessage *entry, char *buf, s32 *pos);
 void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos);
 void append_word_select_token(s16 id, char *buf, s32 *pos);
@@ -88,7 +88,7 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
         break;
     case 3: {
         s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved) != 0) {
+        if (is_topic_word(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -176,7 +176,7 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
         break;
     case 3: {
         s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved) != 0) {
+        if (is_topic_word(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -264,7 +264,7 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
         break;
     case 3: {
         s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved) != 0) {
+        if (is_topic_word(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -1251,7 +1251,7 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
         break;
     case 3: {
         s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved) != 0) {
+        if (is_topic_word(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -1341,7 +1341,7 @@ s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index)
         break;
     case 3:
         resolved_id = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved_id) != 0) {
+        if (is_topic_word(resolved_id) != 0) {
             value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, resolved_id - 0x37);
         } else {
             value = -0x3C;
@@ -1512,80 +1512,80 @@ void *ws_data_jp;
 void *ws_data_us;
 void *ws_data_es;
 void *ws_data_de;
-void *TWindowDD::ws_data_buffer;
+void *TWindowDD::ws_data_fr;
 char *word_page_select_label;
 s8 word_page_select_label_set;
 char *word_page_next_label;
 s8 word_page_next_label_set;
 
 void ws_data_load(void) {
-    void *jp_data;
-    void *us_data;
-    void *es_data;
-    void *de_data;
-    void *fr_data;
+    WordSelectDataUS *jp_data;
+    WordSelectDataUS *us_data;
+    WordSelectDataEU *es_data;
+    WordSelectDataEU *de_data;
+    WordSelectDataEU *fr_data;
 
     switch ((s32) TWindowDD::window_mode) {
     case 0:
-        jp_data = load_encrypted_archive_data("ws_data_jp.bin");
+        jp_data = (WordSelectDataUS *)load_encrypted_archive_data("ws_data_jp.bin");
         ws_data_jp = jp_data;
-        ws_word_strings = reinterpret_cast<char ***>(jp_data)[0];
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(jp_data)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(jp_data)[2];
-        ws_word_string_index = reinterpret_cast<s16 **>(jp_data)[3];
+        ws_word_strings = jp_data->word_strings;
+        TWindowDD::ws_data_base = jp_data->base;
+        TWindowDD::ws_data_table = jp_data->table;
+        ws_word_string_index = jp_data->word_string_index;
         window_dd_element_count = 0x11A;
         twindowdd_entry_count = 0x12;
         return;
     default:
-        us_data = load_encrypted_archive_data("ws_data_us.bin");
+        us_data = (WordSelectDataUS *)load_encrypted_archive_data("ws_data_us.bin");
         ws_data_us = us_data;
-        ws_word_strings = reinterpret_cast<char ***>(us_data)[0];
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(us_data)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(us_data)[2];
-        ws_word_string_index = reinterpret_cast<s16 **>(us_data)[3];
-        ws_word_variant_lists = reinterpret_cast<TWindowDDValueList **>(us_data)[4];
-        ws_word_form_index = reinterpret_cast<u8 **>(us_data)[5];
-        ws_word_form_lists = reinterpret_cast<TWindowDDValueList **>(us_data)[6];
+        ws_word_strings = us_data->word_strings;
+        TWindowDD::ws_data_base = us_data->base;
+        TWindowDD::ws_data_table = us_data->table;
+        ws_word_string_index = us_data->word_string_index;
+        ws_word_variant_lists = us_data->word_variant_lists;
+        ws_word_form_index = us_data->word_form_index;
+        ws_word_form_lists = us_data->word_form_lists;
         window_dd_element_count = 0x126;
         twindowdd_entry_count = 0x13;
         return;
     case 4:
-        es_data = load_encrypted_archive_data("ws_data_es.bin");
+        es_data = (WordSelectDataEU *)load_encrypted_archive_data("ws_data_es.bin");
         ws_data_es = es_data;
-        ws_word_strings = reinterpret_cast<char ***>(es_data)[0];
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(es_data)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(es_data)[2];
-        ws_word_string_index = reinterpret_cast<s16 **>(es_data)[3];
-        ws_word_variant_lists = reinterpret_cast<TWindowDDValueList **>(es_data)[4];
-        ws_word_form_index = reinterpret_cast<u8 **>(es_data)[6];
-        ws_word_form_lists = reinterpret_cast<TWindowDDValueList **>(es_data)[5];
-        ws_spanish_prefix_categories = reinterpret_cast<u8 **>(es_data)[8];
+        ws_word_strings = es_data->word_strings;
+        TWindowDD::ws_data_base = es_data->base;
+        TWindowDD::ws_data_table = es_data->table;
+        ws_word_string_index = es_data->word_string_index;
+        ws_word_variant_lists = es_data->word_variant_lists;
+        ws_word_form_index = es_data->word_form_index;
+        ws_word_form_lists = es_data->word_form_lists;
+        ws_spanish_prefix_categories = es_data->spanish_prefix_categories;
         window_dd_element_count = 0x126;
         twindowdd_entry_count = 0x13;
         return;
     case 2:
-        de_data = load_encrypted_archive_data("ws_data_de.bin");
+        de_data = (WordSelectDataEU *)load_encrypted_archive_data("ws_data_de.bin");
         ws_data_de = de_data;
-        ws_word_strings = reinterpret_cast<char ***>(de_data)[0];
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(de_data)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(de_data)[2];
-        ws_word_string_index = reinterpret_cast<s16 **>(de_data)[3];
-        ws_word_variant_lists = reinterpret_cast<TWindowDDValueList **>(de_data)[4];
-        ws_word_form_lists = reinterpret_cast<TWindowDDValueList **>(de_data)[5];
-        ws_word_form_index = reinterpret_cast<u8 **>(de_data)[6];
+        ws_word_strings = de_data->word_strings;
+        TWindowDD::ws_data_base = de_data->base;
+        TWindowDD::ws_data_table = de_data->table;
+        ws_word_string_index = de_data->word_string_index;
+        ws_word_variant_lists = de_data->word_variant_lists;
+        ws_word_form_lists = de_data->word_form_lists;
+        ws_word_form_index = de_data->word_form_index;
         window_dd_element_count = 0x126;
         twindowdd_entry_count = 0x13;
         return;
     case 3:
-        fr_data = load_encrypted_archive_data("ws_data_fr.bin");
-        TWindowDD::ws_data_buffer = fr_data;
-        ws_word_strings = reinterpret_cast<char ***>(fr_data)[0];
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(fr_data)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(fr_data)[2];
-        ws_word_string_index = reinterpret_cast<s16 **>(fr_data)[3];
-        ws_word_variant_lists = reinterpret_cast<TWindowDDValueList **>(fr_data)[4];
-        ws_word_form_index = reinterpret_cast<u8 **>(fr_data)[6];
-        ws_word_form_lists = reinterpret_cast<TWindowDDValueList **>(fr_data)[5];
+        fr_data = (WordSelectDataEU *)load_encrypted_archive_data("ws_data_fr.bin");
+        TWindowDD::ws_data_fr = fr_data;
+        ws_word_strings = fr_data->word_strings;
+        TWindowDD::ws_data_base = fr_data->base;
+        TWindowDD::ws_data_table = fr_data->table;
+        ws_word_string_index = fr_data->word_string_index;
+        ws_word_variant_lists = fr_data->word_variant_lists;
+        ws_word_form_index = fr_data->word_form_index;
+        ws_word_form_lists = fr_data->word_form_lists;
         window_dd_element_count = 0x127;
         twindowdd_entry_count = 0x13;
         return;
@@ -1746,7 +1746,8 @@ void TWindowDD::open(void *message, u16 speaker) {
     TWindowCtrl::open(speaker, window_dd_buffer_a, 0x4F);
 }
 
-s32 TWindowDD::is_id_in_special_range(s16 id) {
+// 0x45D-0x46F are the technique names; RYUKER and REVERSER have no level.
+s32 TWindowDD::is_levelled_technique_word(s16 id) {
     u8 r = 0;
     if (id >= 0x45d && id <= 0x46f && id != 0x46d && id != 0x46e) {
         r = 1;
@@ -1754,7 +1755,8 @@ s32 TWindowDD::is_id_in_special_range(s16 id) {
     return r;
 }
 
-s32 TWindowDD__sub_80347238(s16 id) {
+// 0x300-0x395 are the weapon names (SABER .. RABBIT WAND).
+s32 is_weapon_word(s16 id) {
     u8 in_range;
     in_range = 0;
     if ((id >= 0x300) && (id <= 0x395)) {
@@ -1774,10 +1776,10 @@ s32 TWindowDD::classify_id(s16 id) {
     if (id == 0x2E4) {
         return 0;
     }
-    if (TWindowDD__sub_80347238(id) != 0) {
+    if (is_weapon_word(id) != 0) {
         return 1;
     }
-    if (is_id_in_special_range(id) != 0) {
+    if (is_levelled_technique_word(id) != 0) {
         return 2;
     }
     if (id == 0x4F3) {
@@ -1935,7 +1937,7 @@ void convert_type3_message(WordSelectMessage *src, WordSelectMessage *dst) {
     n = src->count;
     if (n > 1) {
         id = src->ids[1];
-        if (TWindowDD_is_id_in_range_5AC_5F9(id) != 0) {
+        if (is_verb_word(id) != 0) {
             dst->type = 4;
             if (n > 3) {
                 dst->ids[0] = src->ids[3];
@@ -1964,7 +1966,8 @@ void convert_type3_message(WordSelectMessage *src, WordSelectMessage *dst) {
     dst->numeric_parameter = src->numeric_parameter;
 }
 
-s32 TWindowDD__sub_80347858(s16 id) {
+// Word ids index the word select data; 0x37-0x45 are the "TOPIC: ..." words.
+s32 is_topic_word(s16 id) {
     u8 r = 0;
     if (id >= 0x37 && id <= 0x45) {
         r = 1;
@@ -1973,14 +1976,16 @@ s32 TWindowDD__sub_80347858(s16 id) {
 }
 }
 
-s32 TWindowDD::is_state_zero_unless_0x2C8(s32 id) {
+// 0x2C8 is OTHER SUBJECTS.
+s32 TWindowDD::is_non_topic_word(s32 id) {
     if ((s16)id == 0x2C8) {
         return 0;
     }
-    return (u32) __cntlzw((u32) ((s32 (*)(void))TWindowDD__sub_80347858)()) >> 5;
+    return (u32) __cntlzw((u32) ((s32 (*)(void))is_topic_word)()) >> 5;
 }
 
-s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value) {
+// 0x5AC-0x5F9 are the verbs ("want", "will give", ...).
+s32 is_verb_word(s32 value) {
     u8 in_range = 0;
     if (static_cast<s16>(value) >= 0x5ac && static_cast<s16>(value) <= 0x5f9) {
         in_range = 1;
@@ -2038,7 +2043,7 @@ extern "C" {
 void TWindowDD::take_word_select_word(TWindowDD_WS_Word *word_window) {
     s32 id;
     id = word_window->get_selected_id();
-    if (TWindowDD::is_state_zero_unless_0x2C8(id) != 0) {
+    if (TWindowDD::is_non_topic_word(id) != 0) {
         message.push_token(id);
         refresh_word_select_message(&message);
         token_pushed = 1;
@@ -2076,7 +2081,7 @@ void TWindowDD::update_selection_state() {
     if ((s16)v != last_selected_id) {
         switch (token_pushed) {
         case 0:
-            if (TWindowDD::is_state_zero_unless_0x2C8(v) != 0) {
+            if (TWindowDD::is_non_topic_word(v) != 0) {
                 message.push_token(v);
                 token_pushed = 1;
             } else {
@@ -2084,7 +2089,7 @@ void TWindowDD::update_selection_state() {
             }
             break;
         case 1:
-            if (TWindowDD::is_state_zero_unless_0x2C8(v) != 0) {
+            if (TWindowDD::is_non_topic_word(v) != 0) {
                 message.set_last_token(v);
             } else {
                 message.pop_token();

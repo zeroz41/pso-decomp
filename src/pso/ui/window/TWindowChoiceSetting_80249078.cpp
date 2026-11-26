@@ -34,7 +34,7 @@ void TWindowChoiceSetting::update_scroll_tween() {
     } else {
         target = 0.0f;
     }
-    steps = *(u32 *)&this->tween_ticks;
+    steps = this->tween_ticks;
     if (steps == 0) {
         scroll_offset[1] = target;
         return;

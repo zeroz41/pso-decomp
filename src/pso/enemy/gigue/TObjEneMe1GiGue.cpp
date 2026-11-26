@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -166,7 +167,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     motion_list = gigue_resource->motions;
     variant = 0;
     add_flags_2e4(0x11);
-    state36C = *(s16 *)((s8 *)set_data + 0x3E);
+    state36C = ((EnemyPlacement *)set_data)->unknown3e;
     load_params_from_table(variant);
     action_table = gigue_enemy_param_table;
     set_action_table(action_table);

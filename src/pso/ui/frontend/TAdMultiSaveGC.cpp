@@ -19,7 +19,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 extern "C" {
-saddr get_message_text(s32 arg0);
+saddr get_message_text(s32);
 }
 
 static const f32 save_message_window_pos[2] = { 80.0f, 176.0f };
@@ -77,7 +77,7 @@ void TAdMultiSaveGC::run_task() {
             return;
         }
         if (no_card_window == NULL) {
-            no_card_window = sub_802FF314();
+            no_card_window = create_no_card_message();
         }
         break;
     case 1:
@@ -90,7 +90,7 @@ void TAdMultiSaveGC::run_task() {
             return;
         }
         if (card_status_window == NULL) {
-            card_status_window = sub_802FF254();
+            card_status_window = create_card_status_message();
             return;
         }
         break;
@@ -106,8 +106,8 @@ void TAdMultiSaveGC::run_task() {
             m_state = 4U;
             return;
         }
-        load_error_window = sub_802FF2B4();
-        retry_menu = sub_802FF170();
+        load_error_window = create_load_error_message();
+        retry_menu = create_save_or_exit_menu();
         m_state = 3U;
         return;
     case 3:
@@ -125,7 +125,7 @@ void TAdMultiSaveGC::run_task() {
         break;
     case 4:
         TAdSinglePlyChrSelectGC::write_encrypted_save();
-        saving_window = sub_802FF1F4();
+        saving_window = create_saving_message();
         m_state = 5U;
         return;
     case 5:
@@ -158,31 +158,31 @@ void TAdMultiSaveGC::run_task() {
     }
 }
 
-TWindowMessage *TAdMultiSaveGC::sub_802FF314() {
+TWindowMessage *TAdMultiSaveGC::create_no_card_message() {
     TWindowMessage *msg = create_message_window_for_size((NJS_POINT2 *)save_message_window_pos, (NJS_POINT2 *)save_message_window_size);
     msg->append_line(get_localized_text_entry(0x20, 0), 1);
     return msg;
 }
 
-TWindowMessage *TAdMultiSaveGC::sub_802FF2B4() {
+TWindowMessage *TAdMultiSaveGC::create_load_error_message() {
     TWindowMessage *msg = create_message_window_for_size((NJS_POINT2 *)save_message_window_pos, (NJS_POINT2 *)save_message_window_size);
     msg->append_line(get_localized_text_entry(0x20, 3), 1);
     return msg;
 }
 
-TWindowMessage *TAdMultiSaveGC::sub_802FF254() {
+TWindowMessage *TAdMultiSaveGC::create_card_status_message() {
     TWindowMessage *msg = create_message_window_for_size((NJS_POINT2 *)save_message_window_pos, (NJS_POINT2 *)save_message_window_size);
     msg->append_line(get_localized_text_entry(0x20, 3), 1);
     return msg;
 }
 
-TWindowMessage *TAdMultiSaveGC::sub_802FF1F4() {
+TWindowMessage *TAdMultiSaveGC::create_saving_message() {
     TWindowMessage *msg = create_message_window_for_size((NJS_POINT2 *)save_message_window_pos, (NJS_POINT2 *)save_message_window_size);
     msg->append_line(get_localized_text_entry(0x20, 2), 1);
     return msg;
 }
 
-TWindowSubComCardList *TAdMultiSaveGC::sub_802FF170() {
+TWindowSubComCardList *TAdMultiSaveGC::create_save_or_exit_menu() {
     TWindowSubComCardList *menu = (TWindowSubComCardList *)create_window_menu_default(&save_menu_pos, 2);
     menu->add_text_entry(get_message_text(0xD), 6, 0);
     menu->add_text_entry(get_message_text(0xE), 6, 1);
