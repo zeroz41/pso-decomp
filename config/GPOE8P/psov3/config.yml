@@ -666,7 +666,7 @@ force_active:
   - render_idle_timeout__Fv
   - init_6x6F_quest_flags_packet__FP26G_SetQuestFlags_V2_V3_6x6F
   - put_byte__4LzssFUc
-  - TLobby__sub_80182E60
+  - get_challenge_state__Fv
   - alloc_enemy_ids__Fl
   - TLobby__sub_801A3CF8
   - TLobby__sub_801A3E94
@@ -951,21 +951,21 @@ force_active:
   - __ct__16TObjCityAreaWarpFP7TObjectPv
   - TObjCityDoor_Guild__class_name
   - __ct__18TObjCityDoor_GuildFP7TObjectPv
-  - TObjCityDoor_Guild__name
-  - TObjCityDoor_Guild__params
+  - class_name__18TObjCityDoor_Guild
+  - city_door_guild_params
   - TObjCityDoor_Lobby__class_name
   - __ct__18TObjCityDoor_LobbyFP7TObjectPv
-  - TObjCityDoor_Lobby__name
+  - class_name__18TObjCityDoor_Lobby
   - TObjCityDoor_Med__class_name
   - __ct__16TObjCityDoor_MedFP7TObjectPv
-  - TObjCityDoor_Med__name
+  - class_name__16TObjCityDoor_Med
   - TObjCityDoor_Shop__class_name
   - __ct__17TObjCityDoor_ShopFP7TObjectPv
-  - TObjCityDoor_Shop__name
-  - TObjCityDoor_Shop__params
+  - class_name__17TObjCityDoor_Shop
+  - city_door_shop_params
   - TObjCityDoor_Warp__class_name
   - __ct__17TObjCityDoor_WarpFP7TObjectPv
-  - TObjCityDoor_Warp__name
+  - class_name__17TObjCityDoor_Warp
   - __ct__16TObjCityMainWarpFP7TObjectPv
   - __ct__15TObjCityMapWarpFP7TObjectPv
   - TObjCity_Season_21_21__ct
@@ -17405,7 +17405,7 @@ force_active:
   - hit_player__14TOTrapChainSawFP10TObjPlayer
   - play_break_sound__15TORockJungleM01Fv
   - hit_player__17TOTrapChainSawKeyFP10TObjPlayer
-  - vfunc_22__16TObjCityDoorBaseFv
+  - is_in_view__16TObjCityDoorBaseFv
   - vfunc_25__11TOKeyCave01Fv
   - vfunc_25__14TOKeyAncient01Fv
   - vfunc_25__14TOKeyAncient02Fv
@@ -17761,7 +17761,7 @@ force_active:
   - adx_stream_ring_buffer_storage
   - calc_segment_xz_distance_sq__FP3VecP3VecP3VecP3Vecfff
   - check_line_hits_walls__FP3VecP3VecUlPP8CsnGroup
-  - check_phase_e
+  - is_phase_e__18TObjCityDoor_LobbyFv
   - copy_wall_polygon__11WallPolygonFPC7CsnFace
   - evaluate_ground_triangles__FP3VecUlPP8CsnGroup
   - intersect_wall_triangle_one_sided__FP3VecP3VecUlP7CsnFaceP3Vecl

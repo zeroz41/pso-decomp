@@ -5,6 +5,7 @@
 #include "pso/object/TObjCityDoorBase.h"
 
 struct TObjCityDoor_Warp : public TObjCityDoorBase {
+    static const char *class_name;
     TObjCityDoor_Warp(TObject *parent, void *set);
     virtual ~TObjCityDoor_Warp();
     s32 is_rader_map_active();
