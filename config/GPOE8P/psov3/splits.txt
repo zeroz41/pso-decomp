@@ -348,7 +348,7 @@ pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp:
 	.text       start:0x8003B1FC end:0x8003B2EC
 	.sbss       start:0x805D4BF8 end:0x805D4BFC
 
-pso/boss/derolle/TObjBoss2Tunnel_8003B138.cpp:
+pso/boss/derolle/TObjBoss2Tunnel.cpp:
 	.text       start:0x8003B2EC end:0x8003C804
 	.ctors      start:0x80433F30 end:0x80433F34
 	.rodata     start:0x80435E90 end:0x80435ED0
@@ -482,7 +482,7 @@ pso/boss/BossPhaseQuery.cpp:
 pso/boss/darkfalz/ModelNodeTables.cpp:
 	.text       start:0x8004A978 end:0x8004AB90
 
-pso/boss/darkfalz/TObjDFHorming.cpp:
+pso/boss/darkfalz/TBoss4DarkFalz.cpp:
 	.text       start:0x8004AB90 end:0x8004C1AC
 	.rodata     start:0x804367C8 end:0x804371E0
 	.data       start:0x80484BB8 end:0x80484F3C
@@ -491,7 +491,7 @@ pso/boss/darkfalz/TObjDFHorming.cpp:
 	.sbss       start:0x805D4D58 end:0x805D4D78
 	.sdata2     start:0x805D8908 end:0x805D8938
 
-pso/boss/darkfalz/TBoss4DarkFalz.cpp:
+pso/boss/darkfalz/TBoss4DarkFalzStates.cpp:
 	.text       start:0x8004C1AC end:0x8004D8C8
 	.ctors      start:0x80433F34 end:0x80433F38
 	.rodata     start:0x804371E0 end:0x804372B0
@@ -795,7 +795,7 @@ pso/quest/challenge/ChallengeModeQuest.cpp:
 	.sbss       start:0x805D4E38 end:0x805D4E40
 	.sdata2     start:0x805D9108 end:0x805D9110
 
-pso/object/ending/TObjOnlineEnding.cpp:
+pso/object/ending/OnlineEndingCardValue.cpp:
 	.text       start:0x8007172C end:0x80071774
 
 pso/ui/window/ChallengeRank.cpp:
@@ -975,7 +975,7 @@ pso/system/SubtractiveRng.cpp:
 	.text       start:0x8007C0CC end:0x8007C5C0
 	.bss        start:0x80500398 end:0x80500598
 
-pso/boss/derolle/TObjBoss2Tunnel.cpp:
+pso/boss/derolle/ScreenSnapshot.cpp:
 	.text       start:0x8007C5C0 end:0x8007EAF8
 	.rodata     start:0x80438A08 end:0x80438A98
 	.data       start:0x8048D5C8 end:0x8048DF58
@@ -3953,7 +3953,7 @@ pso/object/wreck/TOWreckAncient03.cpp:
 	.data       start:0x804B5748 end:0x804B5780
 	.sdata      start:0x805D3220 end:0x805D3228
 
-pso/object/container/TObjContainerIdo.cpp:
+pso/object/container/ContainerIdoChild.cpp:
 	.text       start:0x8017E154 end:0x8017E1E4
 
 pso/object/collision/TObjBgmColCtrl.cpp:
@@ -4077,7 +4077,7 @@ pso/object/container/TContainerAncient01.cpp:
 	.sbss       start:0x805D5B90 end:0x805D5B98
 	.sdata2     start:0x805DBD10 end:0x805DBD60
 
-pso/object/container/TObjContainerIdo_8018BEE4.cpp:
+pso/object/container/TObjContainerIdo.cpp:
 	.text       start:0x8018BEE4 end:0x8018C948
 	.rodata     start:0x804450B8 end:0x80445148
 	.data       start:0x804B7098 end:0x804B7120
@@ -7379,7 +7379,7 @@ pso/weapon/TItemAttackCol.cpp:
 	.sbss       start:0x805D68E8 end:0x805D68F0
 	.sdata2     start:0x805DE910 end:0x805DE930
 
-pso/object/ending/TObjOnlineEndingMain.cpp:
+pso/object/ending/TObjOnlineEnding.cpp:
 	.text       start:0x802E4B80 end:0x802E530C
 	.rodata     start:0x804729C8 end:0x80472BE8
 	.data       start:0x804E3578 end:0x804E3A98

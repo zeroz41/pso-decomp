@@ -1,6 +1,6 @@
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 
-// Gal Gryphon tuning constants read by Boss5GryphonBehavior.cpp. They follow that unit's own literal
+// Gal Gryphon tuning constants read by TBoss5Gryphon.cpp. They follow that unit's own literal
 // pool, and its code is compiled without knowing their values, so they live in a unit of their own.
 
 const f32 gryphon_twelve = 12.0f;

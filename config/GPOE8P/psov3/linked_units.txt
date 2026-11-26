@@ -234,7 +234,7 @@ pso/render/MaterialColorFade.cpp
 pso/unk/SampledMotionPoints.cpp
 pso/boss/darkfalz/ModelNodeTables.cpp
 pso/boss/darkfalz/TBoss4CheckEmpty.cpp
-pso/boss/darkfalz/TBoss4DarkFalz.cpp
+pso/boss/darkfalz/TBoss4DarkFalzStates.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
 pso/boss/darkfalz/TBoss4Fade.cpp
 pso/boss/darkfalz/TBoss4Thanks.cpp
@@ -308,9 +308,9 @@ pso/boss/derolle/TObjBoss2CeilJunk.cpp
 pso/boss/derolle/Boss2CommonResource.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
-pso/boss/derolle/TObjBoss2Tunnel.cpp
+pso/boss/derolle/ScreenSnapshot.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
-pso/boss/derolle/TObjBoss2Tunnel_8003B138.cpp
+pso/boss/derolle/TObjBoss2Tunnel.cpp
 pso/boss/barbaray/TObjBoss7TunnelCol.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp
 pso/boss/derolle/ProjectedColorDraw.cpp
@@ -496,8 +496,8 @@ pso/item/TItemTimerEvent.cpp
 pso/weapon/TItemWeapon.cpp
 pso/weapon/TItemWeaponMechgun.cpp
 pso/effect/item/TItemWpnCardEffect.cpp
+pso/object/container/ContainerIdoChild.cpp
 pso/object/container/TObjContainerIdo.cpp
-pso/object/container/TObjContainerIdo_8018BEE4.cpp
 pso/object/container/TObjContainerIdo_801A0B94.cpp
 pso/object/container/TObjContainerItem.cpp
 pso/object/container/TObjContainerJung.cpp
@@ -1285,7 +1285,7 @@ pso/boss/darkfalz/TObjDFDemo3.cpp
 pso/boss/darkfalz/TObjDFDemo4.cpp
 pso/boss/darkfalz/TObjDFDemo5.cpp
 pso/boss/darkfalz/TObjDFDemoF.cpp
-pso/boss/darkfalz/TObjDFHorming.cpp
+pso/boss/darkfalz/TBoss4DarkFalz.cpp
 pso/ui/window/TObjDeadListWin.cpp
 pso/object/TObjDoaEx01.cpp
 pso/object/door/TObjDoorJung.cpp
@@ -1324,9 +1324,9 @@ pso/object/warp/TObjMapWarpAncient.cpp
 pso/object/TObjMesBase.cpp
 pso/object/ambient/TObjMistCtrl.cpp
 pso/object/base/TObjMotion.cpp
-pso/object/ending/TObjOnlineEnding.cpp
+pso/object/ending/OnlineEndingCardValue.cpp
 pso/object/ending/TObjOnlineEndingHexLine.cpp
-pso/object/ending/TObjOnlineEndingMain.cpp
+pso/object/ending/TObjOnlineEnding.cpp
 pso/object/TObjParticle.cpp
 pso/object/lobby/TObjParticleLobby.cpp
 pso/object/quest/TObjQuestCol.cpp
