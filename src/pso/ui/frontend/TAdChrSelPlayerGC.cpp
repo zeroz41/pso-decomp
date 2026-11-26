@@ -308,7 +308,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
     post_translate_matrix((u8 *)&position);
     rotate_matrix_y(0, rotation_y);
     set_texture_list(preview_data->get_status_sub());
-    draw_model_with_arg((void *)preview_data->get_body_model());
+    draw_model_with_arg((NJS_OBJECT *)preview_data->get_body_model());
     push_matrix_from((void *)get_joint_matrix(0x3A));
     set_texture_list(preview_data->get_status_data());
     TObjPlayer::play_phase_transition_sound(preview_data->get_attachment_model());
@@ -332,7 +332,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
     pop_matrix();
 }
 
-void TAdChrSelPlayerGC::draw_model_with_arg(void *model) {
+void TAdChrSelPlayerGC::draw_model_with_arg(NJS_OBJECT *model) {
     this->model = model;
     set_motion_interpolation_flag();
     draw_saving_joints_checked();
