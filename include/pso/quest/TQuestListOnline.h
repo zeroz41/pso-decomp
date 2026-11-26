@@ -84,4 +84,5 @@ extern s32 quest_bin_decompressed_size;
 
 void copy_quest_list_data(OnlineQuestMenu &menu);
 
+extern u8 *online_quest_dat_buffer;
 #endif

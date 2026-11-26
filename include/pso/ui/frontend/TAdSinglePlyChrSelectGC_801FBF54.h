@@ -79,4 +79,5 @@ struct CardSaveMetadataBlock {
     GuildCardFile_804C89BC guild_card;
 };
 
+extern u8 quest_memcard_key[];
 #endif

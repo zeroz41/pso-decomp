@@ -68,8 +68,8 @@ extern uaddr lobby_player_construction_window;
 #include "pso/system/MemoryMove.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
-extern u8 quest_memcard_key[];
 QuestDownloadRecord quest_download_file_state;
 QuestDownloadRecord quest_download_file_slot;
 QuestDownloadRecord quest_download_file_info;

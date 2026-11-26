@@ -45,4 +45,8 @@ s32 is_ready_to_draw();
 void bswap_client_id_packet(void *player);
 void send_and_handle_60_wrapper(G_SelectChallengeModeFailureOption_6x97 *packet);
 
+void build_6x8A_packet(u8 *packet);
+void build_6x95_packet(u8 *packet);
+void build_6x97_packet(u8 *packet);
+void build_6x9D_packet(u8 *packet);
 #endif
