@@ -6,8 +6,10 @@
 
 struct BmlResource;
 struct TObjMapCsn;
+struct ObjectSetData;
 
 struct TObjLaboDesignBase : public TObjCollidable {
+    static const char *class_name;
     TObjLaboDesignBase(TObject *parent, void *set_data, s32 state);
     virtual ~TObjLaboDesignBase();
     virtual void run_task();
@@ -17,8 +19,8 @@ struct TObjLaboDesignBase : public TObjCollidable {
     void draw_node_tree(NJS_OBJECT *node);
     BmlResource *model_resource;
     s32 state;
-    f32 xB4;
-    f32 xB8;
+    f32 view_depth;   // update_object_view_visibility's arguments (400, 50)
+    f32 view_radius;
     TObjMapCsn *map_csn;
     // create with state 0, create_stateN with state N: the design the model
     // and collision come from.
@@ -29,6 +31,11 @@ struct TObjLaboDesignBase : public TObjCollidable {
     static void *create_state4(void *set_data);
     static void *create_state5(void *set_data);
 };
+
+// The archives load_labo_design_object_table loads, by design (state).
+extern BmlResource *labo_design_object_table[6];
+CollisionBody *get_labo_design_entry(int design);
+BmlResource *get_labo_design_object(int design);
 
 LAYOUT_ASSERT(TObjLaboDesignBase_size, sizeof(TObjLaboDesignBase) == 0xC0);
 #endif

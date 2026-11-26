@@ -8124,18 +8124,18 @@ force_active:
   - epsilon_body_movement_params
   - epsilon_body_collision_bodies
   - epsilon_body_debug_line_colors
-  - lbl_804F2B78
-  - lbl_804F2B80
-  - lbl_804F2B90
-  - lbl_804F2B98
-  - lbl_804F2BA8
-  - lbl_804F2BB0
-  - lbl_804F2BC0
-  - lbl_804F2BC8
-  - lbl_804F2BD8
-  - lbl_804F2BE0
-  - lbl_804F2BF0
-  - lbl_804F2BF8
+  - bm_obj_comp_army_model_names
+  - bm_obj_comp_army_resource_descriptor
+  - bm_obj_comp_norm_model_names
+  - bm_obj_comp_norm_resource_descriptor
+  - bm_obj_desk_model_names
+  - bm_obj_desk_resource_descriptor
+  - bm_obj_partition_army_model_names
+  - bm_obj_partition_army_resource_descriptor
+  - bm_obj_partition_norm_model_names
+  - bm_obj_partition_norm_resource_descriptor
+  - bm_obj_table_labo_model_names
+  - bm_obj_table_labo_resource_descriptor
   - lbl_804F3A18
   - toneup_tab
   - tonedown_tab

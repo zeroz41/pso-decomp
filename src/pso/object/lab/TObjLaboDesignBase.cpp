@@ -16,6 +16,7 @@
 #include "pso/unk/text_80365348.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
+#include "pso/object/base/ObjectSetData.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -28,62 +29,59 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct ByteBlock_3C { u8 bytes[0x3C]; };
-
-extern "C" {
-const char *lbl_805D4488[1] = {0};
-const char *lbl_805D448C[1] = {0};
-const char *lbl_805D4490[1] = {0};
-const char *lbl_805D4494[1] = {0};
-const char *lbl_805D4498[1] = {0};
-const char *lbl_805D449C[1] = {0};
-extern const char *lbl_804F2B78[2];
-extern BmlResourceDescriptor lbl_804F2B80;
-extern const char *lbl_804F2B90[2];
-extern BmlResourceDescriptor lbl_804F2B98;
-extern const char *lbl_804F2BA8[2];
-extern BmlResourceDescriptor lbl_804F2BB0;
-extern const char *lbl_804F2BC0[2];
-extern BmlResourceDescriptor lbl_804F2BC8;
-extern const char *lbl_804F2BD8[2];
-extern BmlResourceDescriptor lbl_804F2BE0;
-extern const char *lbl_804F2BF0[2];
-extern BmlResourceDescriptor lbl_804F2BF8;
-__declspec(section ".data") const char *lbl_804F2B78[2] = {
+const char *bm_obj_comp_army_motion_names[1] = {0};
+const char *bm_obj_comp_norm_motion_names[1] = {0};
+const char *bm_obj_desk_motion_names[1] = {0};
+const char *bm_obj_partition_army_motion_names[1] = {0};
+const char *bm_obj_partition_norm_motion_names[1] = {0};
+const char *bm_obj_table_labo_motion_names[1] = {0};
+extern const char *bm_obj_comp_army_model_names[2];
+extern BmlResourceDescriptor bm_obj_comp_army_resource_descriptor;
+extern const char *bm_obj_comp_norm_model_names[2];
+extern BmlResourceDescriptor bm_obj_comp_norm_resource_descriptor;
+extern const char *bm_obj_desk_model_names[2];
+extern BmlResourceDescriptor bm_obj_desk_resource_descriptor;
+extern const char *bm_obj_partition_army_model_names[2];
+extern BmlResourceDescriptor bm_obj_partition_army_resource_descriptor;
+extern const char *bm_obj_partition_norm_model_names[2];
+extern BmlResourceDescriptor bm_obj_partition_norm_resource_descriptor;
+extern const char *bm_obj_table_labo_model_names[2];
+extern BmlResourceDescriptor bm_obj_table_labo_resource_descriptor;
+__declspec(section ".data") const char *bm_obj_comp_army_model_names[2] = {
     "labocity_computer_army.gj", NULL,
 };
-BmlResourceDescriptor lbl_804F2B80 = {
-    "bm_obj_comp_army.bml", lbl_804F2B78, lbl_805D4488, 1, 0,
+BmlResourceDescriptor bm_obj_comp_army_resource_descriptor = {
+    "bm_obj_comp_army.bml", bm_obj_comp_army_model_names, bm_obj_comp_army_motion_names, 1, 0,
 };
-__declspec(section ".data") const char *lbl_804F2B90[2] = {
+__declspec(section ".data") const char *bm_obj_comp_norm_model_names[2] = {
     "labocity_computer_norm.gj", NULL,
 };
-BmlResourceDescriptor lbl_804F2B98 = {
-    "bm_obj_comp_norm.bml", lbl_804F2B90, lbl_805D448C, 1, 0,
+BmlResourceDescriptor bm_obj_comp_norm_resource_descriptor = {
+    "bm_obj_comp_norm.bml", bm_obj_comp_norm_model_names, bm_obj_comp_norm_motion_names, 1, 0,
 };
-__declspec(section ".data") const char *lbl_804F2BA8[2] = {
+__declspec(section ".data") const char *bm_obj_desk_model_names[2] = {
     "labocity_desk.gj", NULL,
 };
-BmlResourceDescriptor lbl_804F2BB0 = {
-    "bm_obj_desk.bml", lbl_804F2BA8, lbl_805D4490, 1, 0,
+BmlResourceDescriptor bm_obj_desk_resource_descriptor = {
+    "bm_obj_desk.bml", bm_obj_desk_model_names, bm_obj_desk_motion_names, 1, 0,
 };
-__declspec(section ".data") const char *lbl_804F2BC0[2] = {
+__declspec(section ".data") const char *bm_obj_partition_army_model_names[2] = {
     "labocity_partition_army.gj", NULL,
 };
-BmlResourceDescriptor lbl_804F2BC8 = {
-    "bm_obj_partition_army.bml", lbl_804F2BC0, lbl_805D4494, 1, 0,
+BmlResourceDescriptor bm_obj_partition_army_resource_descriptor = {
+    "bm_obj_partition_army.bml", bm_obj_partition_army_model_names, bm_obj_partition_army_motion_names, 1, 0,
 };
-__declspec(section ".data") const char *lbl_804F2BD8[2] = {
+__declspec(section ".data") const char *bm_obj_partition_norm_model_names[2] = {
     "labocity_partition_norm.gj", NULL,
 };
-BmlResourceDescriptor lbl_804F2BE0 = {
-    "bm_obj_partition_norm.bml", lbl_804F2BD8, lbl_805D4498, 1, 0,
+BmlResourceDescriptor bm_obj_partition_norm_resource_descriptor = {
+    "bm_obj_partition_norm.bml", bm_obj_partition_norm_model_names, bm_obj_partition_norm_motion_names, 1, 0,
 };
-__declspec(section ".data") const char *lbl_804F2BF0[2] = {
+__declspec(section ".data") const char *bm_obj_table_labo_model_names[2] = {
     "labocity_table.gj", NULL,
 };
-BmlResourceDescriptor lbl_804F2BF8 = {
-    "bm_obj_table_labo.bml", lbl_804F2BF0, lbl_805D449C, 1, 0,
+BmlResourceDescriptor bm_obj_table_labo_resource_descriptor = {
+    "bm_obj_table_labo.bml", bm_obj_table_labo_model_names, bm_obj_table_labo_motion_names, 1, 0,
 };
 // Archive descriptors of the six laboratory design objects, by object id.
 struct LaboDesignObjectEntry {
@@ -91,13 +89,13 @@ struct LaboDesignObjectEntry {
     BmlResourceDescriptor *descriptor;
 };
 
-LaboDesignObjectEntry lbl_804F2C08[7] = {
-    {0, &lbl_804F2B80},
-    {1, &lbl_804F2B98},
-    {2, &lbl_804F2BB0},
-    {3, &lbl_804F2BC8},
-    {4, &lbl_804F2BE0},
-    {5, &lbl_804F2BF8},
+LaboDesignObjectEntry labo_design_object_descriptors[7] = {
+    {0, &bm_obj_comp_army_resource_descriptor},
+    {1, &bm_obj_comp_norm_resource_descriptor},
+    {2, &bm_obj_desk_resource_descriptor},
+    {3, &bm_obj_partition_army_resource_descriptor},
+    {4, &bm_obj_partition_norm_resource_descriptor},
+    {5, &bm_obj_table_labo_resource_descriptor},
     {-1, NULL},
 };
 CollisionBody labo_design_entry_table[6] = {
@@ -109,34 +107,28 @@ CollisionBody labo_design_entry_table[6] = {
     { { 0.0f, 20.0f, 0.0f }, 10.0f, 40.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-}
-
 void *TObjLaboDesignBase::create_state5(void *set_data) {
-    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 5);
+    return new TObjLaboDesignBase(tl_05, set_data, 5);
 }
-CollisionBody *get_labo_design_entry(int a0);
-extern BmlResource *labo_design_object_table[6];
-
-BmlResource *get_labo_design_object(int a0);
-const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
+const char *TObjLaboDesignBase::class_name = "TObjLaboDesignBase";
 void *TObjLaboDesignBase::create_state4(void *set_data) {
-    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 4);
+    return new TObjLaboDesignBase(tl_05, set_data, 4);
 }
 
 void *TObjLaboDesignBase::create_state3(void *set_data) {
-    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 3);
+    return new TObjLaboDesignBase(tl_05, set_data, 3);
 }
 
 void *TObjLaboDesignBase::create_state2(void *set_data) {
-    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 2);
+    return new TObjLaboDesignBase(tl_05, set_data, 2);
 }
 
 void *TObjLaboDesignBase::create_state1(void *set_data) {
-    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 1);
+    return new TObjLaboDesignBase(tl_05, set_data, 1);
 }
 
 void *TObjLaboDesignBase::create(void *set_data) {
-    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 0);
+    return new TObjLaboDesignBase(tl_05, set_data, 0);
 }
 
 s32 TObjLaboDesignBase::update_object_view_visibility(f32 near_dist, f32 far_dist) {
@@ -194,10 +186,10 @@ void TObjLaboDesignBase::render_model() {
     TParticleCtrl::end_effect_render();
 }
 
-typedef void (TObjLaboDesignBase::*Action_80365040)();
+typedef void (TObjLaboDesignBase::*RenderAction)();
 
 void TObjLaboDesignBase::render() {
-    static Action_80365040 tbl[8] = {
+    static RenderAction tbl[8] = {
         &TObjLaboDesignBase::render_model,
         &TObjLaboDesignBase::render_model,
         &TObjLaboDesignBase::render_model,
@@ -207,7 +199,7 @@ void TObjLaboDesignBase::render() {
         &TObjLaboDesignBase::render_model,
         &TObjLaboDesignBase::render_model,
     };
-    if (update_object_view_visibility(xB4, xB8) == 1) {
+    if (update_object_view_visibility(view_depth, view_radius) == 1) {
         (this->*(tbl[state]))();
     }
 }
@@ -216,7 +208,7 @@ void TObjLaboDesignBase::run_task() {}
 
 TObjLaboDesignBase::~TObjLaboDesignBase() {
     if (map_csn != NULL) {
-        ((TObject *)map_csn)->queue_destruction();
+        map_csn->queue_destruction();
         map_csn = 0;
     }
     unregister_object_by_id();
@@ -224,45 +216,36 @@ TObjLaboDesignBase::~TObjLaboDesignBase() {
 }
 
 TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 state) : TObjCollidable(parent) {
-    union {
-        u8 bytes[0x3C];
-        struct {
-            u8 pad[0x24];
-            f32 x;
-            f32 y;
-            f32 z;
-        } extents;
-    } copy_storage;
-    s32 temp_r0;
-    m_name = TObjLaboDesignBase_class_name;
+    s32 design;
+    m_name = class_name;
     apply_object_set_data(set_data);
     this->state = state;
     model_resource = get_labo_design_object(this->state);
     init_collision_body_parts(this, get_labo_design_entry(this->state), 1);
     register_object_by_id();
-    xB4 = 400.0f;
-    xB8 = 50.0f;
+    view_depth = 400.0f;
+    view_radius = 50.0f;
     map_csn = NULL;
-    temp_r0 = this->state;
-    if ((temp_r0 == 3) || (temp_r0 == 4)) {
-        *(ByteBlock_3C *)(copy_storage.bytes) = *(const ByteBlock_3C *)set_data;
-        copy_storage.extents.x = 40.0f;
-        copy_storage.extents.y = 20.0f;
-        copy_storage.extents.z = 10.0f;
-        map_csn = TObjMapCsn::create(copy_storage.bytes);
+    design = this->state;
+    if ((design == 3) || (design == 4)) {
+        ObjectSetData wall_set = *(ObjectSetData *)set_data;
+        wall_set.scale.x = 40.0f;
+        wall_set.scale.y = 20.0f;
+        wall_set.scale.z = 10.0f;
+        map_csn = TObjMapCsn::create(&wall_set);
     }
 }
 
-CollisionBody *get_labo_design_entry(int a0) { return &labo_design_entry_table[a0]; }
+CollisionBody *get_labo_design_entry(int design) { return &labo_design_entry_table[design]; }
 
 
-BmlResource *get_labo_design_object(int a0) {  return labo_design_object_table[a0]; }
+BmlResource *get_labo_design_object(int design) { return labo_design_object_table[design]; }
 
 void free_object_table(void) {
     s32 i;
     for (i = 5; i >= 0; i--) {
         if (labo_design_object_table[i] != 0) {
-            delete (BmlResource *)labo_design_object_table[i];
+            delete labo_design_object_table[i];
             labo_design_object_table[i] = NULL;
         }
     }
@@ -275,10 +258,10 @@ void load_labo_design_object_table(void) {
     for (i = 0; i < 6; i++) {
         labo_design_object_table[i] = NULL;
     }
-    e = lbl_804F2C08;
+    e = labo_design_object_descriptors;
     if (e != NULL) {
         while (e->id != -1) {
-            resource = new BmlResource(5, (BmlResourceDescriptor *)e->descriptor, 0, 0, NULL);
+            resource = new BmlResource(5, e->descriptor, 0, 0, NULL);
             labo_design_object_table[e->id] = resource;
             e++;
         }
