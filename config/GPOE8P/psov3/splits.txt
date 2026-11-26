@@ -8696,32 +8696,12 @@ pso/ui/window/TWindowDD_803430BC.cpp:
 	.sdata2     start:0x805DFCB0 end:0x805DFCC0
 
 pso/ui/window/TWindowDD_8034435C.cpp:
-	.text       start:0x8034435C end:0x80346A84
+	.text       start:0x8034435C end:0x80348E34
+	.rodata     start:0x80478650 end:0x804786B0
 	.data       start:0x804EFDC0 end:0x804EFF1C
-	.sdata2     start:0x805DFCC0 end:0x805DFCC6
-
-pso/ui/window/TWindowDD_80346A84.cpp:
-	.text       start:0x80346A84 end:0x80346F48
-	.rodata     start:0x80478650 end:0x8047869F
-	.sbss       start:0x805D6E38 end:0x805D6E78
-
-pso/ui/window/TWindowDD_80346F48.cpp:
-	.text       start:0x80346F48 end:0x803471C0
-
-pso/ui/window/TWindowDD_803471C0.cpp:
-	.text       start:0x803471C0 end:0x8034725C
-
-pso/ui/window/TWindowDD_8034725C.cpp:
-	.text       start:0x8034725C end:0x80348BF4
-	.rodata     start:0x804786A0 end:0x804786B0
 	.bss        start:0x805434E8 end:0x805436A8
-	.sdata2     start:0x805DFCC8 end:0x805DFCE8
-
-pso/ui/window/TWindowDD_80348BF4.cpp:
-	.text       start:0x80348BF4 end:0x80348C54
-
-pso/ui/window/TWindowDD_80348C54.cpp:
-	.text       start:0x80348C54 end:0x80348E34
+	.sbss       start:0x805D6E38 end:0x805D6E78
+	.sdata2     start:0x805DFCC0 end:0x805DFCE8
 
 pso/ui/frontend/TAdChrMoveEffectGC.cpp:
 	.text       start:0x80348E34 end:0x8034960C

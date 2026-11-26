@@ -47,10 +47,6 @@ WindowDescriptor word_select_page_descriptor = {
     {word_page_width, word_page_height}, word_page_depth, &word_select_page_layout, 3,
 };
 
-struct Elem_80341FFC {
-    s16 *data;
-    s32 count;
-};
 
 
 
@@ -136,16 +132,16 @@ void TWindowDD_WS_Word::set_pos_and_data(f32 x) {
 }
 
 void TWindowDD_WS_Word::load_element_list() {
-    Elem_80341FFC *e;
+    TWindowDDValueList *e;
     s32 i;
     s32 n;
     WindowTextEntry *ent;
-    e = (Elem_80341FFC *)TWindowDD::get_element_ptr(element_list_id);
+    e = TWindowDD::get_element_ptr(element_list_id);
     if (e != NULL) {
         token_count = e->count;
         token_ids = (s16 *)mem_alloc(token_count * 2);
         for (i = 0; i < token_count; i++) {
-            token_ids[i] = e->data[i];
+            token_ids[i] = e->values[i];
         }
     } else {
         token_count = 0;

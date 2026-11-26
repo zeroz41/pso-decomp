@@ -77,13 +77,13 @@ struct TWindowDD : public TObject
     void update_layout();
     void update_transition();
     void update();
-    static saddr get_element_ptr(s32 list_id);
+    static TWindowDDValueList *get_element_ptr(s32 list_id);
     virtual void render();
     void reset_selection();
     static void build_player_word_lists();
     static void free_buffers();
     static void open(void *message, u16 speaker);
-    static u8 is_id_in_special_range(s16 id);
+    static s32 is_id_in_special_range(s16 id);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
     static s32 is_state_zero_unless_0x2C8(s32 id);
@@ -127,7 +127,7 @@ struct TWindowDD : public TObject
     static void append_char(s8 c, char *buf, s32 *pos);
     static void append_string(const char *str, char *buf, s32 *pos);
     static s32 get_draw_count(const NJS_TEXLIST *textures);
-    static saddr get_entry(s32 index);
+    static TWindowDDValueList *get_entry(s32 index);
     static void init_ws_data_tables();
     static s32 lookup_item_category(s32 item);
     void handle_confirm_input();
@@ -172,6 +172,32 @@ void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 void load_word_select_data(void);
 
+extern char *window_dd_buffer_a;
+extern char *window_dd_buffer_b;
+// Twelve name strings of 0x18 bytes in window_dd_buffer_b, one per client id.
+extern char **TWindowDD__player_name_buffers;
+// Six word lists allocated as one block; their ids live in word_select_word_storage.
+extern TWindowDDValueList *TWindowDD__word_select_lists;
+extern s16 *word_select_word_storage;
+// Word strings of the loaded ws_data archive and the string index of each word id.
+extern char **ws_word_strings;
+extern s16 *ws_word_string_index;
+extern s32 window_dd_element_count;
+extern s32 twindowdd_entry_count;
+extern TWindowDDValueList *TWindowDD__data_805D6E40;
+extern TWindowDDValueList *TWindowDD__data_805D6E44;
+extern u8 *TWindowDD__data_805D6E48;
+// Spanish prefix categories, loaded from the word-select archive header.
+extern u8 *lbl_805D6E4C;
+// The loaded ws_data_<lang>.bin archives (French goes to TWindowDD::ws_data_buffer).
+extern void *ws_data_jp;
+extern void *ws_data_us;
+extern void *ws_data_es;
+extern void *ws_data_de;
+extern char *word_page_select_label;
+extern s8 word_page_select_label_set;
+extern char *word_page_next_label;
+extern s8 word_page_next_label_set;
 // Word id the last word-select message used; -1 when none (reset_selection).
 extern s16 remembered_word_select_id;
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.

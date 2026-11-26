@@ -73,11 +73,11 @@ char *window_dd_buffer_a;
 
 char *window_dd_buffer_b;
 
-uaddr TWindowDD__player_name_buffers;
+char **TWindowDD__player_name_buffers;
 
-uaddr TWindowDD__word_select_lists;
+TWindowDDValueList *TWindowDD__word_select_lists;
 
-uaddr word_select_word_storage;
+s16 *word_select_word_storage;
 
 s16 remembered_word_select_id;
 
@@ -87,7 +87,7 @@ TWindowDDValueList *TWindowDD::ws_data_base;
 
 TWindowDDValueList *TWindowDD::ws_data_table;
 
-u32 ws_word_string_index;
+s16 *ws_word_string_index;
 extern "C" {
 
 
@@ -101,13 +101,6 @@ const char *word_select_type_name_pointer = "TWindowDD";
 
 
 
-extern char *word_page_select_label;
-
-extern s8 word_page_select_label_set;
-
-extern char *word_page_next_label;
-
-extern s8 word_page_next_label_set;
 
 
 
@@ -140,16 +133,8 @@ extern "C" {
 
 
 
-extern uaddr ws_data_jp;
-
-extern uaddr ws_data_us;
-
-extern uaddr ws_data_es;
-
-extern uaddr ws_data_de;
 
 
-struct WordList_80344114 { u8 *words; s32 count; };
 extern "C++" void ws_data_load(void);
 
 
@@ -167,9 +152,9 @@ extern const f32 window_dd_quad_scales[];
 }
 void load_word_select_data(void) {
     s32 i;
-    u8 *list;
+    s16 *list;
     s32 j;
-    WordList_80344114 *entry;
+    TWindowDDValueList *entry;
     const NJS_POINT2 *src;
     NJS_POINT2 *pt;
     f32 x;
@@ -201,25 +186,25 @@ void load_word_select_data(void) {
     memset(window_dd_buffer_a, 0, 0x80);
     window_dd_buffer_b = (char *)mem_alloc(0x120);
     memset(window_dd_buffer_b, 0, 0x120);
-    TWindowDD__player_name_buffers = (uaddr)mem_alloc(0x30);
+    TWindowDD__player_name_buffers = (char **)mem_alloc(0x30);
     for (i = 0; i < 12; i++) {
-        ((char **)TWindowDD__player_name_buffers)[i] = window_dd_buffer_b + i * 0x18;
-        ((char **)TWindowDD__player_name_buffers)[i][0] = 0;
+        TWindowDD__player_name_buffers[i] = window_dd_buffer_b + i * 0x18;
+        TWindowDD__player_name_buffers[i][0] = 0;
     }
-    word_select_word_storage = (uaddr)mem_alloc(0x100);
-    TWindowDD__word_select_lists = (uaddr)mem_alloc(0x30);
-    list = (u8 *)word_select_word_storage;
+    word_select_word_storage = (s16 *)mem_alloc(0x100);
+    TWindowDD__word_select_lists = (TWindowDDValueList *)mem_alloc(0x30);
+    list = word_select_word_storage;
     for (j = 0; j < 6; j++) {
-        entry = &((WordList_80344114 *)TWindowDD__word_select_lists)[j];
-        entry->words = list;
+        entry = &TWindowDD__word_select_lists[j];
+        entry->values = list;
         entry->count = 0;
         switch (j) {
         case 0:
         case 1:
-            list += 0x40;
+            list += 0x20;
             break;
         default:
-            list += 0x20;
+            list += 0x10;
             break;
         }
     }
@@ -249,17 +234,17 @@ extern "C" {
 
 void TWindowDD::free_buffers() {
     clear_window_dd_nodes();
-    if ((u32) TWindowDD__word_select_lists != 0U) {
-        mem_free((void*)TWindowDD__word_select_lists);
-        TWindowDD__word_select_lists = 0U;
+    if (TWindowDD__word_select_lists != NULL) {
+        mem_free(TWindowDD__word_select_lists);
+        TWindowDD__word_select_lists = NULL;
     }
-    if ((u32) word_select_word_storage != 0U) {
-        mem_free((void*)word_select_word_storage);
-        word_select_word_storage = 0U;
+    if (word_select_word_storage != NULL) {
+        mem_free(word_select_word_storage);
+        word_select_word_storage = NULL;
     }
-    if ((u32) TWindowDD__player_name_buffers != 0U) {
-        mem_free((void*)TWindowDD__player_name_buffers);
-        TWindowDD__player_name_buffers = 0U;
+    if (TWindowDD__player_name_buffers != NULL) {
+        mem_free(TWindowDD__player_name_buffers);
+        TWindowDD__player_name_buffers = NULL;
     }
     if (window_dd_buffer_b != NULL) {
         mem_free(window_dd_buffer_b);
@@ -277,21 +262,21 @@ void TWindowDD::free_buffers() {
         TLobby::free_nodes_with_id((uaddr)((void*)TWindowDD::ws_data_buffer));
         TWindowDD::ws_data_buffer = NULL;
     }
-    if ((u32) ws_data_de != 0U) {
-        TLobby::free_nodes_with_id((uaddr)((void*)ws_data_de));
-        ws_data_de = 0U;
+    if (ws_data_de != NULL) {
+        TLobby::free_nodes_with_id((uaddr)ws_data_de);
+        ws_data_de = NULL;
     }
-    if ((u32) ws_data_es != 0U) {
-        TLobby::free_nodes_with_id((uaddr)((void*)ws_data_es));
-        ws_data_es = 0U;
+    if (ws_data_es != NULL) {
+        TLobby::free_nodes_with_id((uaddr)ws_data_es);
+        ws_data_es = NULL;
     }
-    if ((u32) ws_data_us != 0U) {
-        TLobby::free_nodes_with_id((uaddr)((void*)ws_data_us));
-        ws_data_us = 0U;
+    if (ws_data_us != NULL) {
+        TLobby::free_nodes_with_id((uaddr)ws_data_us);
+        ws_data_us = NULL;
     }
-    if ((u32) ws_data_jp != 0U) {
-        TLobby::free_nodes_with_id((uaddr)((void*)ws_data_jp));
-        ws_data_jp = 0U;
+    if (ws_data_jp != NULL) {
+        TLobby::free_nodes_with_id((uaddr)ws_data_jp);
+        ws_data_jp = NULL;
     }
 }
 

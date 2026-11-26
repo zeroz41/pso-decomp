@@ -1092,12 +1092,6 @@ pso/ui/window/TWindowDD_WS_String.cpp
 pso/ui/window/TWindowDD_WS_Word.cpp
 pso/ui/window/TWindowDD_803430BC.cpp
 pso/ui/window/TWindowDD_8034435C.cpp
-pso/ui/window/TWindowDD_80346A84.cpp
-pso/ui/window/TWindowDD_80346F48.cpp
-pso/ui/window/TWindowDD_803471C0.cpp
-pso/ui/window/TWindowDD_8034725C.cpp
-pso/ui/window/TWindowDD_80348BF4.cpp
-pso/ui/window/TWindowDD_80348C54.cpp
 pso/ui/window/TWindowDD_8034AF68.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
