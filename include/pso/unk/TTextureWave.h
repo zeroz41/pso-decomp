@@ -20,14 +20,12 @@ public:
     TTextureWave(NJS_TEXLIST *list);
     virtual void advance_wrapped_cursor();
     virtual void update_texture_wave_image();
+    // Redraws output from image_data, shifting each texel by the displacement map at the current phase.
+    void distort_image();
     ~TTextureWave();
     void init_image_buffer(u8 *image, s32 displacement);
 };
 
 LAYOUT_ASSERT(TTextureWave_size, sizeof(TTextureWave) == 0x54);
-
-extern "C" {
-// TTextureWave::~TTextureWave(), called by the destructors that are still written by hand.
-}
 
 #endif
