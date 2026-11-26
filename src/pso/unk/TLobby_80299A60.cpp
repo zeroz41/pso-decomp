@@ -33,7 +33,7 @@ s32 TLobby::init_particle_model() {
     return 1;
 }
 
-void TLobby::update_field_state() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); fn_802FE9E0(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void TLobby::update_field_state() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); free_boss8_demo_resources(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 load_dragon2_scene(void) {
     get_current_floor_area();
@@ -41,7 +41,7 @@ s32 load_dragon2_scene(void) {
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
-    fn_802FEA0C();
+    load_boss8_demo_resources();
     init_area_lights();
     TLobby::create_tasks();
     create_boss8_demo_objects();

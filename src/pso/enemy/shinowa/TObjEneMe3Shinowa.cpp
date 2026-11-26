@@ -185,7 +185,7 @@ void load_shinowa_mirage_resources() {
     }
     info = TObjEneMe3ShinowaMirage::mirage_info_table[0];
     TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(6, info->sword_motion_speed);
-    TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(3, info->m_10);
+    TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(3, info->damage_motion_speed);
     TObjEneMe3ShinowaMirage::render_node_index = 0;
     TObjEneMe3ShinowaMirage::body_node_position.x = 0.0f;
     TObjEneMe3ShinowaMirage::body_node_position.y = 0.0f;
@@ -333,7 +333,7 @@ void TObjEneMe3Shinowa::init_enemy() {
     state_timer = 0;
     target_angle = 0;
     move_speed = 0.0f;
-    m_414 = 0.0f;
+    state_value = 0.0f;
     start_position.x = 0.0f;
     start_position.y = 0.0f;
     start_position.z = 0.0f;
@@ -792,8 +792,8 @@ void TObjEneMe3Shinowa::state_drop_appear(s32 reason) {
         case 0:
             node_world_y = this->get_node_world_y();
             this->advance_animation();
-            this->m_414 = this->get_node_world_y();
-            this->body_y = this->body_y + (node_world_y - this->m_414);
+            this->state_value = this->get_node_world_y();
+            this->body_y = this->body_y + (node_world_y - this->state_value);
             this->rotation_y += 0x8000;
             this->state_step = 1;
             this->body_offset_y = this->body_y - this->position.y;
@@ -810,8 +810,8 @@ void TObjEneMe3Shinowa::state_drop_appear(s32 reason) {
             }
             this->body_y = this->body_y + this->move_speed;
             new_node_y = this->get_node_world_y();
-            this->body_y = this->body_y - (new_node_y - this->m_414);
-            this->m_414 = new_node_y;
+            this->body_y = this->body_y - (new_node_y - this->state_value);
+            this->state_value = new_node_y;
             if (this->body_y < this->position.y) {
                 this->body_y = this->position.y;
                 this->state_step = 2;
@@ -851,17 +851,17 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
         behavior_flags &= 0xFFFFFFFC;
         destination_distance = 300.0f;
         if (behavior_flags & 0x10) {
-            move_speed = (f32) TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->m_4;
+            move_speed = (f32) TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->weakened_walk_speed;
         } else {
-            move_speed = (f32) TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->m_0;
+            move_speed = (f32) TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->walk_speed;
         }
-        m_414 = 0.0f;
+        state_value = 0.0f;
         return;
     case 3:
         if ((uaddr) current_target == 0U) {
             on_target_lost();
             transition_enemy_state(0xB);
-        } else if (check_in_range(m_414) != 0) {
+        } else if (check_in_range(state_value) != 0) {
             transition_enemy_state(6);
         } else if (can_hit_same_target() != 0) {
             transition_enemy_state(5);
@@ -874,8 +874,8 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
         if (update_linked_position(200.0f) != 0) {
             enemy_copy_target_destination();
             update_velocity();
-            m_414 = (f32) ((destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y)));
-            if (m_414 < cos_table_lookup(0x1000)) {
+            state_value = (f32) ((destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y)));
+            if (state_value < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
@@ -958,7 +958,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                     v.z += this->destination_direction.z * d;
                     if (csnVecterUnder(&v, 0x15) != 0U) {
                         this->state_step = 3;
-                        this->m_414 = (this->destination_distance - 20.0f) / 12.857143f;
+                        this->state_value = (this->destination_distance - 20.0f) / 12.857143f;
                         this->set_invulnerable();
                         play_sound_effect(this->remap_sound_for_area(0x4003AD11), &this->position, 0, 0);
                     } else {
@@ -977,7 +977,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 play_sound_effect(this->remap_sound_for_area(0x4003AD12), &this->position, 0, 0);
                 spawn_particle_effect(&this->position, 0xF3);
             }
-            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->m_414);
+            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->state_value);
             this->update_body_colliders();
             break;
         case 4:
@@ -991,8 +991,8 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 }
                 play_sound_effect(this->remap_sound_for_area(0x4003AD13), &this->position, 0, 0);
             }
-            this->m_414 *= 0.85f;
-            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_414);
+            this->state_value *= 0.85f;
+            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->state_value);
             this->check_collisions();
             break;
         }
@@ -1071,7 +1071,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
             break;
         case 1:
             this->state_timer++;
-            if (this->state_timer <= TObjEneMe3ShinowaMirage::mirage_info_table[this->kind_index]->m_20) {
+            if (this->state_timer <= TObjEneMe3ShinowaMirage::mirage_info_table[this->kind_index]->sword_hold_frames) {
                 this->frame = 25.0f;
             }
             this->update_ground_contact();
@@ -1297,7 +1297,7 @@ void TObjEneMe3Shinowa::state_cast_support(s32 reason) {
         state_timer = 0;
         break;
     case 3:
-        if (state_timer > TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->m_1c) {
+        if (state_timer > TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->cast_duration) {
             transition_enemy_state(4);
         }
         break;

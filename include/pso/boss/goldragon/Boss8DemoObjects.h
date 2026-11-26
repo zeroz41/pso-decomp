@@ -7,7 +7,7 @@
 void create_boss8_demo_objects(void);
 
 // Release (reverse order) and load the Gol Dragon demo room's static resources.
-void fn_802FE9E0(void);
-void fn_802FEA0C(void);
+void free_boss8_demo_resources(void);
+void load_boss8_demo_resources(void);
 
 #endif
