@@ -51,7 +51,6 @@ int floor_item_free_id_count;
 u16 *floor_item_next_sort_keys;
 FlagWord lbl_805D5430;
 }
-void build_6x63_packet(void *packet);
 extern "C" {
 void TLobby__sub_801041D8(void);
 }
@@ -75,11 +74,10 @@ void reset_map(void) {
     TLobby::reset_floor_items();
 }
 void evict_lowest_key_floor_item(s32 n);
-void handle_6x63_destroy_floor_item(void *command) {
+void handle_6x63_destroy_floor_item(G_DestroyFloorItem_6x63 *destroy) {
     TItem *o;
-    G_DestroyFloorItem_6x5C_6x63 *destroy = (G_DestroyFloorItem_6x5C_6x63 *)command;
 
-    ((TLobby *)command)->bswap_player_packet();
+    destroy->bswap();
     remove_item_condition((s32)destroy->floor, (s32)destroy->item_id);
     o = find_item_by_id(destroy->item_id);
     if (o != NULL) {
@@ -88,7 +86,7 @@ void handle_6x63_destroy_floor_item(void *command) {
 }
 
 void evict_lowest_key_floor_item(s32 n) {
-    EvictLowestKeyFloorItemMsg m;
+    G_DestroyFloorItem_6x63 m;
     s32 best;
     u16 bestKey;
     s32 i;
@@ -104,9 +102,9 @@ void evict_lowest_key_floor_item(s32 n) {
         }
         v = floor_item_row_table[n][best].item.id;
         build_6x63_packet(&m);
-        m.v = v;
-        m.who = n;
-        ((TLobby *)(&m))->update_and_send();
+        m.item_id = v;
+        m.floor = n;
+        m.send();
     }
 }
 
@@ -117,7 +115,7 @@ s32 TLobby::is_stat_over_limit(s32 floor) {
     return 1;
 }
 
-void TLobby::apply_sync_item_state() {
+void G_SyncItemState_6x6D_Decompressed::apply() {
     s32 i;
     u16 b;
     s32 k;
@@ -126,38 +124,38 @@ void TLobby::apply_sync_item_state() {
     FloorItem *p;
     s32 n;
     TLobby::reset_floor_items();
-    bswap_sync_item_state_header((G_SyncItemState_6x6D_Decompressed *)this);
+    bswap_sync_item_state_header(this);
     for (i = 0; i < 0x10; i++) {
-        floor_item_next_sort_keys[i] = ((ApplySyncItemStateSave *)this)->slots[i];
+        floor_item_next_sort_keys[i] = next_drop_number_per_floor[i];
     }
     for (b = 0; b != 0xC; b++) {
-        set_boss_buf_entry(((ApplySyncItemStateSave *)this)->boss[b], b);
+        set_boss_buf_entry(next_item_id_per_player[b], b);
     }
     for (i = 0; i < 0xF; i++) {
-        floor_item_counts_by_floor[i] = ((ApplySyncItemStateSave *)this)->counts[i];
+        floor_item_counts_by_floor[i] = floor_item_count_per_floor[i];
     }
     k = 0;
     for (j = 0; j != 0xF; j++) {
         count = floor_item_counts_by_floor[j];
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++) {
-            TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)p, (TLobbyFloorItemEntry *)&((ApplySyncItemStateSave *)this)->items[k++]);
+            copy_floor_item_entry((TLobbyFloorItemEntry *)p, (TLobbyFloorItemEntry *)&items[k++]);
             bswap_item(p);
             p->item.decode_from_network();
         }
     }
     if (lbl_805D5440.test_flags_any(1) != 0) {
-        TLobby::respawn_missing_floor_items(0);
+        respawn_missing_floor_items(0);
     }
     TLobby__sub_801041D8();
 }
 
 #pragma push
 #pragma opt_propagation off
-s32 TLobby::write_sync_item_state() {
+s32 G_SyncItemState_6x6D_Decompressed::write() {
     s32 i;
     u16 b;
-    WriteSyncItemStateSave *dst = (WriteSyncItemStateSave *)this;
+    G_SyncItemState_6x6D_Decompressed *dst = this;
     s32 k;
     FloorItem *d;
     s32 j;
@@ -165,13 +163,13 @@ s32 TLobby::write_sync_item_state() {
     FloorItem *p;
     s32 n;
     for (i = 0; i < 0x10; i++) {
-        dst->slots[i] = floor_item_next_sort_keys[i];
+        dst->next_drop_number_per_floor[i] = floor_item_next_sort_keys[i];
     }
     for (b = 0; b != 0xC; b++) {
-        dst->boss[b] = TLobby::get_sync_counter(b);
+        dst->next_item_id_per_player[b] = get_sync_counter(b);
     }
     for (i = 0; i < 0xF; i++) {
-        dst->counts[i] = floor_item_counts_by_floor[i];
+        dst->floor_item_count_per_floor[i] = floor_item_counts_by_floor[i];
     }
     d = dst->items;
     k = 0;
@@ -179,14 +177,14 @@ s32 TLobby::write_sync_item_state() {
         count = floor_item_counts_by_floor[j];
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++, k++) {
-            TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)d, (TLobbyFloorItemEntry *)p);
+            copy_floor_item_entry((TLobbyFloorItemEntry *)d, (TLobbyFloorItemEntry *)p);
             d->item.encode_for_network();
             bswap_item(d);
             d++;
         }
     }
     i = k * 0x24 + 0x8C;
-    bswap_sync_item_state_header((G_SyncItemState_6x6D_Decompressed *)dst);
+    bswap_sync_item_state_header(dst);
     return i;
 }
 #pragma pop
@@ -218,12 +216,12 @@ s32 TLobby::is_entry_valid(s32 floor) {
     return 0;
 }
 
-void TLobby::respawn_missing_floor_items(s32 n) {
+void respawn_missing_floor_items(s32 floor) {
     s32 i;
-    if (n < 0x12) {
-        if (floor_item_row_table[n] != 0) {
-            for (i = 0; i != floor_item_counts_by_floor[n]; i++) {
-                FloorItem *e = &floor_item_row_table[n][i];
+    if (floor < 0x12) {
+        if (floor_item_row_table[floor] != 0) {
+            for (i = 0; i != floor_item_counts_by_floor[floor]; i++) {
+                FloorItem *e = &floor_item_row_table[floor][i];
                 if (find_item_by_id(e->item.id) == 0) {
                     spawn_dropped_item_from_msg(e, 1);
                 }
@@ -347,7 +345,7 @@ s32 insert_item_condition(FloorItem *item) {
                 if (floor_item_next_sort_keys[item->floor] != 0xFFFF) {
                     floor_item_next_sort_keys[item->floor]++;
                 }
-                TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)&list[lo], (TLobbyFloorItemEntry *)item);
+                copy_floor_item_entry((TLobbyFloorItemEntry *)&list[lo], (TLobbyFloorItemEntry *)item);
                 counts[idx]++;
                 return 1;
             }
@@ -408,13 +406,21 @@ void TLobby::alloc_objects() {
     TLobby::reset_floor_items();
 }
 int TLobby::get_lobby_flag() {  return entity_table_count; }
-void TLobby::bswap_player_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
-void TLobby::update_and_send() { bswap_player_packet(); send_subcommand((u8 *)this); }
-void build_6x63_packet(void *packet) {
-    G_DestroyFloorItem_6x5C_6x63 *destroy = (G_DestroyFloorItem_6x5C_6x63 *)packet;
+void G_DestroyFloorItem_6x63::bswap() {
+    header.bswap();
+    bswap_32(&item_id);
+    bswap_32(&floor);
+}
+
+void G_DestroyFloorItem_6x63::send() {
+    bswap();
+    send_subcommand(this);
+}
+
+void build_6x63_packet(G_DestroyFloorItem_6x63 *destroy) {
     destroy->item_id = -1;
     destroy->header.subcommand = 0x63;
-    destroy->header.size = 3;
+    destroy->header.size = sizeof(G_DestroyFloorItem_6x63) / 4;
 }
 void TLobby__sub_801041D8(void) {
     lbl_805D5430.set(1);
@@ -429,14 +435,13 @@ void bswap_item(void *record) {
     reinterpret_cast<TItemData *>(bytes + 0x10)->bswap();
 }
 
-TLobbyFloorItemEntry *TLobby::copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src) {
+TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src) {
     *dst = *src;
     return dst;
 }
 
 LAYOUT_ASSERT(SyncItemHeaderPlayerIds, offsetof(G_SyncItemState_6x6D_Decompressed, next_item_id_per_player) == 0x20);
 LAYOUT_ASSERT(SyncItemHeaderFloorCounts, offsetof(G_SyncItemState_6x6D_Decompressed, floor_item_count_per_floor) == 0x50);
-LAYOUT_ASSERT(SyncItemHeaderSize, sizeof(G_SyncItemState_6x6D_Decompressed) == 0x8C);
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header) {
     for (s32 i = 0; i < 16; ++i) {
         bswap_16((&header->next_drop_number_per_floor[i]));

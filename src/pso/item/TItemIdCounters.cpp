@@ -108,9 +108,8 @@ void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request) {
     }
 }
 
-void handle_6x5C_destroy_floor_item(void *lobby) {
-    G_DestroyFloorItem_6x5C_6x63 *destroy = (G_DestroyFloorItem_6x5C_6x63 *)lobby;
-    ((TLobby *)lobby)->bswap_packet();
+void handle_6x5C_destroy_floor_item(G_DestroyFloorItem_6x5C *destroy) {
+    destroy->bswap();
     remove_item_condition(destroy->floor, destroy->item_id);
 }
 
@@ -321,7 +320,11 @@ G_DropItem_DC_6x5F::G_DropItem_DC_6x5F() {
     header.subcommand = 0x5F;
     header.size = 0xA;
 }
-void TLobby::bswap_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0x4)); }
+void G_DestroyFloorItem_6x5C::bswap() {
+    header.bswap();
+    bswap_32(&floor);
+    bswap_32(&item_id);
+}
 s32 set_quest_object_entry(s16 index, QuestObjectEntry *entry) {
     if (index > 0xB9F) {
         return 0;

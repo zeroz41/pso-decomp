@@ -429,7 +429,7 @@ ItemCreateFunction item_tool_factory_table[24] = {
 
 
 void set_boss_buf_entry(int value, u16 index) { item_sync_counter_table[index] = value; }
-int TLobby::get_sync_counter(u16 a0) {  return item_sync_counter_table[a0]; }
+int get_sync_counter(u16 index) { return item_sync_counter_table[index]; }
 s32 get_item_data(u32 item) {
     if (item != 0U) {
         return get_item_icon_index();
@@ -752,7 +752,7 @@ void TMainTask::cleanup_game_objects() {
     floor = get_current_floor();
     item_ground_placement_enabled = 0;
     TLobby::clear_object_count();
-    TLobby::respawn_missing_floor_items(floor);
+    respawn_missing_floor_items(floor);
     if ((area == AREA_PIONEER2_EP1) || (area == AREA_PIONEER2_EP2)) {
         lbl_805D5440.set(1);
         if ((main_phase != 0xE) && (main_phase == 0xF)) {

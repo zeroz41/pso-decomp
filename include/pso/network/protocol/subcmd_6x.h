@@ -383,15 +383,29 @@ struct G_DeleteMultipleInventoryItems_6xAC {
 };
 LAYOUT_ASSERT(G_DeleteMultipleInventoryItems_6xACSize, sizeof(G_DeleteMultipleInventoryItems_6xAC) == 0x80);
 
-// 6x5C/6x63: Destroys an item on the floor. Sent by build_6x63_packet; received by
-// handle_6x5C_destroy_floor_item and handle_6x63_destroy_floor_item. Size checked:
-// build_6x63_packet sets the header size to 3 words.
-struct G_DestroyFloorItem_6x5C_6x63 {
- struct G_UnusedHeader header;
+// 6x5C: Destroys an item on the floor. Received by handle_6x5C_destroy_floor_item; nothing in our
+// code sends it. Same layout as 6x63, but our code swaps it with its own function (floor first).
+// The header is byte-swapped as a G_ClientIDHeader.
+struct G_DestroyFloorItem_6x5C {
+ struct G_ClientIDHeader header;
  u32 item_id;
  u32 floor;
+ void bswap();
 };
-LAYOUT_ASSERT(G_DestroyFloorItem_6x5C_6x63Size, sizeof(G_DestroyFloorItem_6x5C_6x63) == 0xC);
+LAYOUT_ASSERT(G_DestroyFloorItem_6x5CSize, sizeof(G_DestroyFloorItem_6x5C) == 0xC);
+
+// 6x63: Destroys an item on the floor (the oldest one when a floor is full). Sent by
+// evict_lowest_key_floor_item; received by handle_6x63_destroy_floor_item. Size checked:
+// build_6x63_packet sets the header size to 3 words. The header is byte-swapped as a
+// G_ClientIDHeader.
+struct G_DestroyFloorItem_6x63 {
+ struct G_ClientIDHeader header;
+ u32 item_id;
+ u32 floor;
+ void bswap();
+ void send();
+};
+LAYOUT_ASSERT(G_DestroyFloorItem_6x63Size, sizeof(G_DestroyFloorItem_6x63) == 0xC);
 
 // 6x81: Stops a player from dropping their weapon on death. Sent by
 // TObjPlayer::send_disable_drop_weapon_on_death; received by
@@ -1543,13 +1557,19 @@ struct CompressedSyncPacket {
 };
 LAYOUT_ASSERT(CompressedSyncPacketDataOffset, offsetof(CompressedSyncPacket, data) == 8);
 
-// 6x6D: The item state sent to a joining player, after decompression. Received by
-// handle_6x6D_sync_game_state. Used by our code; size not checked against a sender yet.
+// 6x6D: The item state sent to a joining player, after decompression: written by
+// G_SyncItemState_6x6D_Decompressed::write (TLobby::send_6x6D_item_state compresses it) and read by
+// G_SyncItemState_6x6D_Decompressed::apply (handle_6x6D_sync_game_state). Used by our code; write
+// returns its size, 0x8C bytes plus 0x24 per floor item.
 struct G_SyncItemState_6x6D_Decompressed {
  u16 next_drop_number_per_floor[16];
  u32 next_item_id_per_player[12];
  u32 floor_item_count_per_floor[15];
+ FloorItem items[1];  // floor_item_count_per_floor items per floor, floor 0 first
+ void apply();
+ s32 write();
 };
+LAYOUT_ASSERT(G_SyncItemState_6x6D_DecompressedItemsOffset, offsetof(G_SyncItemState_6x6D_Decompressed, items) == 0x8C);
 
 // 6x70: carried as PlayerSyncPacket (pso/player/PlayerSyncRecord.h).
 

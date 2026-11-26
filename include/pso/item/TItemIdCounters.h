@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+struct G_DestroyFloorItem_6x5C;
 struct G_DropItem_DC_6x5F;
 struct G_StandardDropItemRequest_PC_V3_BB_6x60;
 struct G_SpecializableItemDropRequest_6xA2;
@@ -26,7 +27,7 @@ extern s32 build_item_id_mode;
 extern s32 lbl_805D54E0;
 // Advances the owning client's item id counter past an item id seen from the network.
 void observe_item_id(s32 item_id);
-void handle_6x5C_destroy_floor_item(void *lobby);
+void handle_6x5C_destroy_floor_item(G_DestroyFloorItem_6x5C *destroy);
 void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 void handle_6x60_standard_drop_item_request(G_StandardDropItemRequest_PC_V3_BB_6x60 *req);
 void handle_6x62(void);

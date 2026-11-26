@@ -6,6 +6,7 @@
 struct TItemData;
 
 void set_boss_buf_entry(int value, u16 index);
+int get_sync_counter(u16 index);
 s32 get_item_data(u32 item);
 void forward_message(char *buf, TItemData *item);
 void mark_selected();

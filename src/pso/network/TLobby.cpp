@@ -574,19 +574,19 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
 
 void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt) {
     s32 len;
-    u8 *buf;
+    G_SyncItemState_6x6D_Decompressed *buf;
     Lzss *lz;
     if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         len = pkt->total_size - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_item_condition_format, pkt->total_size);
-        buf = (u8 *)mem_alloc(0x8000);
+        buf = (G_SyncItemState_6x6D_Decompressed *)mem_alloc(0x8000);
         if (buf != NULL) {
             lz = new Lzss;
             if (lz != NULL) {
                 lz->decode(pkt->data + 0, len, buf);
                 delete lz;
             }
-            ((TLobby *)buf)->apply_sync_item_state();
+            buf->apply();
             mem_free(buf);
         }
     }
@@ -684,15 +684,15 @@ void TLobby::send_6x6D_item_state(int client) {
     s32 n;
     s32 len;
     CompressedSyncPacket *buf;
-    u8 *src;
+    G_SyncItemState_6x6D_Decompressed *src;
     Lzss *lz;
     buf = (CompressedSyncPacket *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
-        src = (u8 *)mem_alloc(0x8000);
+        src = (G_SyncItemState_6x6D_Decompressed *)mem_alloc(0x8000);
         if (src != NULL) {
             memset(src, 0, 0x8000);
-            n = ((TLobby *)src)->write_sync_item_state();
+            n = src->write();
             lz = new Lzss;
             if (lz != NULL) {
                 len = lz->encode(src, n, buf->data);

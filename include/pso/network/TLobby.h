@@ -55,6 +55,8 @@ struct TLobbyFloorItemEntry {
     TItemData item_data;
 };
 
+TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
+
 LAYOUT_ASSERT(TLobbyFloorItemEntrySize, sizeof(TLobbyFloorItemEntry) == 0x24);
 LAYOUT_ASSERT(TLobbyFloorItemEntryDataOffset, offsetof(TLobbyFloorItemEntry, item_data) == 0x10);
 
@@ -122,14 +124,9 @@ struct TLobby : public TObject {
     static void free_boss_rocks();
     static void alloc_objects();
     static int get_lobby_flag();
-    void bswap_player_packet();
-    void update_and_send();
-    static TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
-    static int get_sync_counter(u16 a0);
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();
     void *build_6x06_guild_card_packet();
-    void bswap_packet();
     static void debug_print(const char *fmt, ...);
     int compare_file_extension(const char *ext);
     static void update_menu_cursor();
@@ -253,9 +250,7 @@ struct TLobby : public TObject {
     static void set_fade_params(void (*callback)());
     static s32 get_quest_thread_state();
     static s32 is_stat_over_limit(s32 floor);
-    s32 write_sync_item_state();
     static s32 is_entry_valid(s32 floor);
-    static void respawn_missing_floor_items(s32 n);
     static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
     static void reset_item_id_counters();
     static void free_global_buffer();
@@ -351,7 +346,6 @@ struct TLobby : public TObject {
     static void send_modify_trade_proposal(s8 what, s32 item_id, s32 amount);
     static void send_trade_proposal_result(s8 what, s8 result);
     static s32 write_zero_padded_block(void *arg0p);
-    void apply_sync_item_state();
     static s32 init_floor_enemy_count(s32 floor, u8 *source, s32 size);
     static s32 load_object_set_entries(s32 floor, u8 *rows, s32 byte_size);
     void capture_chat_sensor();

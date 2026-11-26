@@ -6,28 +6,16 @@
 #include "pso/network/protocol/protocol_types.h"
 
 void unload_select_confirm(void);
+void respawn_missing_floor_items(s32 floor);
 
-void handle_6x63_destroy_floor_item(void *command);
+struct G_DestroyFloorItem_6x63;
+
+void handle_6x63_destroy_floor_item(G_DestroyFloorItem_6x63 *destroy);
+void build_6x63_packet(G_DestroyFloorItem_6x63 *destroy);
 
 void reset_map(void);
 
 struct TLobbyPlayer { u8 pad[0x10]; void *owner; };
-
-struct EvictLowestKeyFloorItemMsg { u32 hdr; s32 v; s32 who; };
-
-struct ApplySyncItemStateSave {
-    u16 slots[0x10];
-    s32 boss[0xC];
-    s32 counts[0xF];
-    FloorItem items[1];
-};
-
-struct WriteSyncItemStateSave {
-    u16 slots[0x10];
-    s32 boss[0xC];
-    s32 counts[0xF];
-    FloorItem items[1];
-};
 
 // The floor item records ("item conditions") of each floor, sorted by item id.
 FloorItem *find_item_condition(s32 floor, s32 item_id);
