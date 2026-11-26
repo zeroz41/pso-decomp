@@ -13,7 +13,7 @@
 #include "pso/quest/QuestDownloadRequests.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
+#include "pso/quest/AskDicFile.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"

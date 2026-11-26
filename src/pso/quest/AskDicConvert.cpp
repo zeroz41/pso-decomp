@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/quest/TQuestVmDownLoadServer_803EB0D8.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
+#include "pso/quest/AskDicConvert.h"
+#include "pso/quest/AskDicFile.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
 struct QuestDownloadFreeLink { QuestDownloadFreeLink *next; };

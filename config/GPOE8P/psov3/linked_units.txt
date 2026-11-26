@@ -980,9 +980,9 @@ pso/quest/TQuestVmDownLoadServer.cpp
 pso/quest/TQuestVmDownLoadServer_80080788.cpp
 pso/quest/TQuestVmDownLoadServer_801F9010.cpp
 pso/quest/QuestDownloadRequests.cpp
-pso/quest/TQuestVmDownLoadServer_803E6970.cpp
+pso/quest/AskDicFile.cpp
 pso/quest/QuestDownloadNameCache.cpp
-pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp
+pso/quest/AskDicConvert.cpp
 pso/ui/hud/TRaderMapCore_801F3710.cpp
 pso/ui/hud/TRaderMapCore.cpp
 pso/ui/hud/TRaderMapCore_8030A808.cpp
@@ -1844,7 +1844,7 @@ pso/npc/TObjNpcKenkyuW.cpp
 pso/effect/TEF_LensFlare.cpp
 pso/boss/dragon/TObjBoss1MokoHill.cpp
 pso/boss/barbaray/TBoss7DeRolLeC.cpp
-pso/quest/TQuestVmDownLoadServer_803E9A24.cpp
+pso/quest/AskDicLookup.cpp
 pso/network/NetTcp.c
 pso/network/NetFragment.c
 pso/network/NetIpv6Route.c

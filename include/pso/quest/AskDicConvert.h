@@ -1,5 +1,5 @@
-#ifndef PSO_QUEST_TQUESTVMDOWNLOADSERVER_803EB0D8_H
-#define PSO_QUEST_TQUESTVMDOWNLOADSERVER_803EB0D8_H
+#ifndef PSO_QUEST_ASKDICCONVERT_H
+#define PSO_QUEST_ASKDICCONVERT_H
 
 #include "types.h"
 
@@ -25,12 +25,12 @@ void free_quest_entry_chain(QuestDownloadEntryNode *p);
 void free_quest_queue_chain(QuestDownloadQueueNode *p);
 void free_quest_segment_chain(QuestDownloadSegment *p);
 void free_slot_node_chain(s32 slot, s32 mode);
-u16 *get_entry_text(s32 i, s32 len);
+u16 *get_entry_text(s32 start, s32 len);
 s32 is_jis_kanji_code(u16 ch);
 s32 is_sjis_double_byte(u16 code);
 u8 jis_to_single_byte(u16 code);
 s32 measure_entry_group_len(QuestDownloadTextNode *node);
-QuestDownloadTextNode *next_quest_text_entry(QuestDownloadTextNode *p);
+QuestDownloadTextNode *next_quest_text_entry(QuestDownloadTextNode *chain);
 void pack_entry_text_chain(s32 start, QuestDownloadTextNode *node);
 void process_entry_text_range(s32 pos, s32 end);
 s32 quest_text_next_page(s32 mode, s32 force);

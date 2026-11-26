@@ -9,7 +9,7 @@
 #include "pso/quest/QuestDownloadText.h"
 #include "pso/quest/QuestDownloadWorkspace.h"
 #include "pso/quest/QuestDownloadCacheTypes.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
+#include "pso/quest/AskDicFile.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadCharTables.h"
 #include "pso/quest/AskDic.h"

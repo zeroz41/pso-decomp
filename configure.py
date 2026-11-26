@@ -1604,9 +1604,9 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/system/save/McFsGc.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength", "-str reuse,readonly")},
         # -pool off: find_longest_match_entry (0x803E9DE0) and sub_803E9A74 load the string, entry and index
         # tables of the TU's own .rodata each with its own lis/addi.
-        "pso/quest/TQuestVmDownLoadServer_803E9A24.cpp": {"cflags": _switch(cflags_middleware, "-pool off")},
+        "pso/quest/AskDicLookup.cpp": {"cflags": _switch(cflags_middleware, "-pool off")},
         # -str reuse,readonly: its string literal " " sits in .sdata2 0x805E10D0 (padded to the next TU at 0x805E10D8).
-        "pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
+        "pso/quest/AskDicConvert.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         # -str reuse,readonly: its literals "Dummy" and "" sit in .sdata2 0x805E10D8 (sub_803F09A4).
         "pso/quest/QuestDownloadAramFile.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
     }),

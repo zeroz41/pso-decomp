@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/quest/TQuestVmDownLoadServer_803EB0D8.h"
+#include "pso/quest/AskDicConvert.h"
 #include <string.h>
 #include "pso/quest/QuestDownloadRecords.h"
 #include "pso/quest/QuestDownloadText.h"
@@ -9,7 +9,7 @@
 #include "pso/quest/QuestDownloadServer.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include <stddef.h>
-#include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
+#include "pso/quest/AskDicFile.h"
 
 #pragma readonly_strings on
 
