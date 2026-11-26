@@ -118,9 +118,6 @@ void TItemWeapon::draw_weapon_at_joint(s8 joint) {
 void TItemWeapon::release_model() { memset(trails, 0, 16); clear_weapon_flags((uaddr)((void*)12)); TItemEquipBase::release_model(); }
 
 
-struct SRankModelIds { s32 a; s32 b; s32 c; u16 d; u8 e; };
-
-
 extern SRankModelIds srank_weapon_model_ids[];
 void TItemWeapon::request_equipped_model() {
     u8 v = this->get_item_group();

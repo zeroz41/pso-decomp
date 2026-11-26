@@ -210,4 +210,6 @@ void reset_model_node_counter(void);
 // The model node the weapon draw callback is at (counted by increment_model_node_counter).
 int get_model_node_counter(void);
 
+struct SRankModelIds { s32 a; s32 b; s32 c; u16 d; u8 e; };
+
 #endif

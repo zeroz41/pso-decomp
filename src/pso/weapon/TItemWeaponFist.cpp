@@ -42,17 +42,6 @@ void TItemWeaponFist::on_equipped() {
 }
 
 
-// Mirror plane for the second hand: a point and a normal.
-struct MirrorPlane {
-    f32 point_x;
-    f32 point_y;
-    f32 point_z;
-    f32 normal_x;
-    f32 normal_y;
-    f32 normal_z;
-};
-
-
 extern "C" {
 s32 reflect_matrix_in_plane(s32, f32 *, f32);
 }

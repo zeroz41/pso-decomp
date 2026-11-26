@@ -16,4 +16,6 @@ extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
 extern const f32 weapon_float_zero;
 extern const u8 weapon_unidentified_flag;
+struct WeaponColorDescriptor { s32 mode; NJS_ARGB first, second; };
+
 #endif

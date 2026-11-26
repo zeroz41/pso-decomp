@@ -8,11 +8,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 
-// Eight x/y/z scales, indexed by scale_step.
-struct CaneScaleTable {
-    Vec value;
-    Vec remaining[7];
-};
 
 const CaneScaleTable cane_node1_scale_steps = {
     {1.0f, 1.0f, 1.0f},

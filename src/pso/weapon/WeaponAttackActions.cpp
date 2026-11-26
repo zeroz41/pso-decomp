@@ -67,8 +67,6 @@ extern Vec weapon_light_direction[];
 extern NJS_ARGB weapon_light_color[];
 
 
-
-
 TObjChara *resolve_hittable_target(s32, s32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
@@ -790,7 +788,6 @@ void TItemWeapon::update_owned() {
 
 void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
-struct WeaponColorDescriptor { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 weapon_photon_phase_step;
 s16 weapon_node_material_index;
@@ -908,7 +905,6 @@ void TItemWeapon::remove_owner_bonuses() {
         attribute_entry->percent = 0;
     } while (i != 3);
 }
-
 
 
 extern "C" {

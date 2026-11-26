@@ -19,4 +19,10 @@ public:
     s16 scale_state;  // 1: stepping up, 2: stepping down, 0/3: at rest
 };
 
+// Eight x/y/z scales, indexed by scale_step.
+struct CaneScaleTable {
+    Vec value;
+    Vec remaining[7];
+};
+
 #endif

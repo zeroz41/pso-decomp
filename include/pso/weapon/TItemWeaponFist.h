@@ -16,4 +16,14 @@ public:
 };
 
 extern s32 knuckle_marker_joint_table[];
+// Mirror plane for the second hand: a point and a normal.
+struct MirrorPlane {
+    f32 point_x;
+    f32 point_y;
+    f32 point_z;
+    f32 normal_x;
+    f32 normal_y;
+    f32 normal_z;
+};
+
 #endif
