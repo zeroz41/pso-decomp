@@ -15,8 +15,8 @@ SymbolChatPreset symbol_chat_receive_buffer;
 extern "C" {
 extern u8 *text_language_group_table;
 void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command);
-s32 get_technique_name(s32 id) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x10)) + (id * 4));
+const char *get_technique_name(s32 id) {
+    return ((const char ***)text_language_group_table)[4][id];
 }
 void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command) {
     u32 *p;
