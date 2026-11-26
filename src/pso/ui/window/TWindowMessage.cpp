@@ -148,7 +148,6 @@ void TWindowMessage::update_scroll() {
 
 #pragma push
 #pragma fp_contract on
-s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
 
 #pragma readonly_strings on
 s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u32 flags) {
@@ -177,7 +176,6 @@ s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u
 
 }
 
-extern "C" {
 
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color) {
     WindowTextEntry *e;
@@ -254,7 +252,6 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
     return 1;
 }
 
-}
 
 MessageWindowLayout message_window_layout_entries = {
     1, 0,

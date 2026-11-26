@@ -11,7 +11,6 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-int append_message_window_line(TWindowMessage *window, s32 text, s32 flags, s32 color);
 void TWindowMessageQuest::set_frame_mode(s32 mode) {
     frame_mode = mode;
 }

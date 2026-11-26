@@ -39,6 +39,8 @@ struct TWindowMessage : public TWindowAddition {
     void update_line_timers();
 };
 
+s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
+
 LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
 TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);
 
