@@ -36,7 +36,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/quest/QuestOpcodeHandlers.h"

@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowDD_WS_ScrollBar.h"

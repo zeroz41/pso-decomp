@@ -50,6 +50,7 @@ public:
     TWindowFukidasi *draw_resolved_window(const f32 *position, const f32 *size, s32 viewport);
     void hide();
     int get_visible_flag();
+    int is_bit8_set();
     int is_bit10_set();
     s32 check_card_match_enabled(const char *text);
     void sync_display_pos();

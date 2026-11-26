@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ProjectedColorDraw.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/ResourceFile.h"

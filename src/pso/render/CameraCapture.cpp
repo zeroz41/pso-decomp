@@ -129,7 +129,7 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 
 u8 camera_capture_overlay_alpha = 143;
 

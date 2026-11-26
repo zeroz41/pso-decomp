@@ -2,7 +2,7 @@
 #include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 
 #pragma readonly_strings on
 

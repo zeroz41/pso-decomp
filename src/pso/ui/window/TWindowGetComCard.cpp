@@ -20,7 +20,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"

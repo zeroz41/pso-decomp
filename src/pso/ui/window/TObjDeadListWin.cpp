@@ -12,7 +12,7 @@
 #include <string.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";

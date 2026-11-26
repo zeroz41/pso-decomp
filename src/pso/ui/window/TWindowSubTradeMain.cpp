@@ -5,7 +5,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include "pso/network/TradeSession.h"
 #include "pso/unk/text_80076BC4.h"

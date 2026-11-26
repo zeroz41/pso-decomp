@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowLayoutEntries.h"

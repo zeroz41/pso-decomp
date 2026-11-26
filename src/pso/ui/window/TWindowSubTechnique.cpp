@@ -21,7 +21,7 @@
 #include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowHelpItem.h"

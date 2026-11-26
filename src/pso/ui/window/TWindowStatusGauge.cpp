@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowDrawContext.h"

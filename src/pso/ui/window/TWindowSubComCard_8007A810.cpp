@@ -20,7 +20,6 @@
 #include "pso/network/TProtocol.h"
 #include "pso/ui/Language.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 
 

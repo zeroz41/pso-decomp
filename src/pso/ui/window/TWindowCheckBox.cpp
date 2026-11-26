@@ -5,7 +5,7 @@
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowBase.h"

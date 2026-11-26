@@ -6,7 +6,7 @@
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include <string.h>
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"

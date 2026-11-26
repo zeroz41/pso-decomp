@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -21,7 +20,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
 #include "pso/system/ControllerInput.h"

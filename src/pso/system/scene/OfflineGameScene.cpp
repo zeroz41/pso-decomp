@@ -82,7 +82,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/render/gjSystem.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/text_800F9B84.h"

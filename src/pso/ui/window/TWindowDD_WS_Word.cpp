@@ -2,7 +2,6 @@
 #pragma defer_codegen on
 
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"

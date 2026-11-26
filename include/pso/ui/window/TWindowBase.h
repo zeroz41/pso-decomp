@@ -96,4 +96,9 @@ bool is_balloon_overlapping(u8 *balloon, u8 *position, u8 *size);
 void window_request_refresh(u8 *help);
 void window_request_show(void *object);
 
+struct NJS_TEXLIST;
+// The HUD palette and glyph texture list loaded for the window system.
+extern NJS_TEXLIST *hud_texlist;
+void load_hud_palette_textures(void);
+
 #endif

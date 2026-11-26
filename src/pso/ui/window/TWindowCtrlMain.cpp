@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -22,7 +21,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowChoiceSetting_80249610.h"
 #include "pso/unk/WindowControlState.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_803DA798.h"
@@ -46,7 +44,6 @@
 
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 const char *window_ctrl_main_class_name = "TWindowCtrlMain";
@@ -685,7 +682,7 @@ TObject *get_viewport_window_root(s32 viewport_index) {
     return TWindowCtrlMain::viewport_states[0].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((saddr)p); }
+TObject *get_client_window_root(s32 client) { return get_viewport_window_root(client); }
 
 void TWindowCtrlMain::set_fill_color(s32 viewport_index, s32 color) {
     get_window_control_state(viewport_index)->fill_color = color;

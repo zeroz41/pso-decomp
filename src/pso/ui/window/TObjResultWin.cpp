@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #pragma defer_codegen off
 #pragma inline_depth(1)
 #pragma auto_inline off

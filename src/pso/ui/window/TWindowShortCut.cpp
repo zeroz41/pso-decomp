@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/math/FloatRound.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"

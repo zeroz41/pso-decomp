@@ -4,6 +4,9 @@
 #include "types.h"
 
 struct WindowDrawContext;
+struct NJS_TEXLIST;
+
+__declspec(section ".data") extern NJS_TEXLIST f256_hyouji_texlist;
 
 // A heading line of a window (text, position, width) that reveals its text over time.
 class HeadingEntry {

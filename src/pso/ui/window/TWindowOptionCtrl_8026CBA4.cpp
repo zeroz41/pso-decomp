@@ -8,7 +8,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/ui/window/TWindowQuantity.h"
 
 extern "C" {

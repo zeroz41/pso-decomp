@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/effect/TDuelEffectNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 

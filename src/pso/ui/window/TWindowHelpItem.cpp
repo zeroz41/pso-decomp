@@ -18,7 +18,6 @@
 #include "pso/unk/text_8026C664.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"

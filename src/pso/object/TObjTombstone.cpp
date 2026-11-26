@@ -38,7 +38,7 @@
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
 

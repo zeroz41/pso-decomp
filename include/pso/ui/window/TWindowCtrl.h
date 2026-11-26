@@ -155,5 +155,7 @@ void complete_actor_speech_balloons(u16 id);
 s32 is_actor_speech_balloon_done(u16 id);
 saddr get_party_member_name(s32 n);
 s32 fn_8024C5C4(const TWindowChat *chat);
+void destroy_com_card_window(void);
+s32 is_player_input_active(s32 client);
 
 #endif

@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowDrawContext.h"

@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 
 
 int TWindowMenuInfomation::is_selected() { return (this->state_flags >> 5) & 0x1; }

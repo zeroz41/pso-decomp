@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "types.h"

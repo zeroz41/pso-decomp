@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/system/task/TObject.h"

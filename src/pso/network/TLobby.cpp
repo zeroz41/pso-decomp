@@ -73,7 +73,7 @@
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/TSetManager.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/network/client_id.h"
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/window/TWindowMenuTeamStatus.h"

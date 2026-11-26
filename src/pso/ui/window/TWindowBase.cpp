@@ -10,6 +10,7 @@
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -23,7 +24,6 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -33,7 +33,6 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
@@ -252,7 +251,7 @@ s32 is_balloon_overlapping(const TWindowFukidasi *balloon, const f32 *position, 
 }
 
 TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, const f32 *size, TWindowFukidasi *first) {
-    if (TWindowFukidasi__sub_8024695C(this) == 0) {
+    if (is_bit8_set() == 0) {
         return NULL;
     }
     if (is_bit10_set() != 0) {
@@ -262,7 +261,7 @@ TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, 
         return NULL;
     }
     for (TWindowFukidasi *p = first; p != NULL; p = static_cast<TWindowFukidasi *>(p->m_next)) {
-        if (TWindowFukidasi__sub_8024695C(p) != 0 && p->is_bit10_set() == 0 &&
+        if (p->is_bit8_set() != 0 && p->is_bit10_set() == 0 &&
             p->is_open_and_unblocked() != 0 && p != this &&
             (get_visible_flag() == 0 || p->get_visible_flag() == 0) &&
             is_balloon_overlapping(p, position, size)) {
@@ -855,7 +854,7 @@ TWindowBase::~TWindowBase() {
     sub_8026CC28();
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
-    : TObject(TWindowCtrlMain__sub_8024CDB0((void *)(saddr)client)) {
+    : TObject(get_client_window_root(client)) {
     init_window(descriptor, parent, client);
 }
 
@@ -930,7 +929,7 @@ s32 TWindowBase::is_closed() {
     return (u8)(!(window_flags & 1));
 }
 
-int TWindowFukidasi__sub_8024695C(void* p) { return (*(u32*)((char*)p + 0x2c) >> 8) & 0x1; }
+int TWindowFukidasi::is_bit8_set() { return ((u32)window_flags >> 8) & 0x1; }
 
 int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1; }
 

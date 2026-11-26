@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowMessagePage.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMessage.h"

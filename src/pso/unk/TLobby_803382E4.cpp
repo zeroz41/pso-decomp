@@ -1,6 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/render/ProjectedColorDraw.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/UISprite.h"
 #include "pso/render/GvmTextureArchive.h"

@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"

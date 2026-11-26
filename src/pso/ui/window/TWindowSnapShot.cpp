@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/TGStream.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/WindowLayoutEntries.h"

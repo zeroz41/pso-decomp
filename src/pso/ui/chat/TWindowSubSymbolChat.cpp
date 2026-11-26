@@ -78,7 +78,6 @@ void SymbolChatPreset::set_flag_bit2() {
     flags |= 2;
 }
 
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -113,7 +112,7 @@ void SymbolChatPreset::set_flag_bit2() {
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #pragma push

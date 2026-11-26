@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TWindowDD.h"

@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #pragma defer_codegen on
 #include "pso/ui/window/TWindowDD.h"

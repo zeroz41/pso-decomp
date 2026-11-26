@@ -15,7 +15,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowLayout.h"

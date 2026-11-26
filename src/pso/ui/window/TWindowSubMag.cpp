@@ -36,7 +36,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerSlots.h"
