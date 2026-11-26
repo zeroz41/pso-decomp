@@ -43,6 +43,10 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/unk/TLobby_800F795C.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/ui/font/TFontSmallTask.h"
 
 
 // The enemy's row of the floor's set data (what set_entry points at).
@@ -50,56 +54,24 @@ struct EnemySetData {
     s16 set_index; u8 pad2[4]; u16 entity_id; s16 room; s16 group; u8 padC[4];
     Vec position; Vec rotation; f32 parameters[5]; s16 variant; s16 state;
 };
+
+
 extern "C" {
 
-
-
-
-
-
-
-
-
-
-
-s32 is_split_screen();
-
-s32 get_current_floor();
-
-
-
-
-
-
-
-
-s32 get_attack_credit_slot_count(void *);
-}
-
-f32 get_challenge4p_exp_multiplier();
-
-f32 get_challenge_exp_multiplier();
-extern "C" {
-
-s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
 
 int send_6x60_standard_drop_item_request(void*);
 
 s32 draw_player_status(void *, void *, const char *);
 
-s32 submit_cursor_candidate(void *, int);
 }
 
-void init_6x9C_enemy_low_game_flags_packet(u8 *packet);
 
 
 
 s32 area_random_seed;
 
 
-void init_6x0A_enemy_state_packet(void *);
 
-void send_6x0A_enemy_state_packet(void *);
 
 #define FIND_TAIL_800F7118(q) \
     if (this->next == NULL && tail == NULL) { \
@@ -553,7 +525,7 @@ void TObjEnemy::award_enemy_experience(u16 client) {
         }
     }
     p->add_actor_exp(val);
-    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
+    create_font_small_task(&body_center, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
 }
 
 void TObjEnemy::distribute_experience() {

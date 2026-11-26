@@ -39,4 +39,7 @@ void copy_ezrope_collider(TObjEZRopeCollider *dst, TObjEZRopeCollider *src);
 void copy_ezrope_end(TObjEZRopeEnd *dst, TObjEZRopeEnd *src);
 void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src);
 
+// The pull the player-attached ropes and bone chains settle under each frame.
+extern Vec ez_bone_rot_player_chain_gravity;
+
 #endif

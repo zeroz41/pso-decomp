@@ -145,9 +145,6 @@ TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, NJS_OBJECT *root, EZBoneRo
 }
 TObjEZBoneRotPlayer::~TObjEZBoneRotPlayer() {}
 
-extern "C" {
-extern Vec ez_bone_rot_player_chain_gravity;
-
 void TObjHMS_EZRope_Player::render() { draw_rope(); }
 void TObjHMS_EZRope_Player::run_task() {
     TObjHMSColliderSpec *rs;
@@ -185,6 +182,4 @@ void TObjHMS_EZRope_Player::run_task() {
     }
     pop_matrix();
     update_ropes(&ez_bone_rot_player_chain_gravity);
-}
-
 }

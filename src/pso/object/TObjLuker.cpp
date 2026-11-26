@@ -37,6 +37,7 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/client_id.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 #pragma readonly_strings on
@@ -46,7 +47,6 @@ const char *luker_name = "TObjLuker";
 
 
 extern "C" {
-s32 is_split_screen(void);
 s32 TTecLuker__sub_8023401C(void *);
 extern s32 lbl_805D55C0;
 

@@ -24,6 +24,7 @@
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 #pragma readonly_strings on
@@ -34,9 +35,6 @@ const char *attackable_col_name = "TOAttackableCol";
 
 
 
-extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-}
 
 // Inferred: run_demo_task (run_task calls it in demo mode).
 void TOAttackableCol::sub_80157310() {  }
@@ -286,7 +284,7 @@ TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
     ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjChara *)this)->calc_attach_pos();
     set_actor_flags(0x60000000);
-    init_collision_body_parts(((u8 *)this), &attackable_col_collision_parts, 1);
+    init_collision_body_parts(this, &attackable_col_collision_parts, 1);
     ((TObjCollidable *)this)->set_indexed_flags(0, 0x718);
     ((TObjPlayer *)this)->register_object_by_id();
     this->mode = 0;

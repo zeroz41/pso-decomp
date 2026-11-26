@@ -39,7 +39,6 @@ struct CornerRow {
 
 extern "C" {
 extern const f32 lbl_805DA380;
-u32 __cvt_fp2unsigned(f32);
 
 #pragma push
 #pragma readonly_strings on
@@ -244,7 +243,7 @@ void TUnk_80494A10::run_task() {
             alpha = 1.0f;
         }
         p = verts;
-        c = __cvt_fp2unsigned(255.0f * alpha) << 24 | 0xFF0000 | 0xFFFF;
+        c = (u32)(255.0f * alpha) << 24 | 0xFF0000 | 0xFFFF;
         for (i = 0; i < 4; i++) {
             p->color = c;
             p++;

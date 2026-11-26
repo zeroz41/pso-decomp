@@ -40,6 +40,7 @@ struct NJS_TEXLIST;
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/render/model_render_state.h"
+#include "pso/unk/text_803D853C.h"
 
 
 
@@ -54,8 +55,6 @@ extern BmlResourceDescriptor laser_fence_switch_resource_descriptor;
 
 extern "C" {
 
-void debug_printf_at(int, void *, ...);
-extern u8 lazer_fence_sw_select_color_label[];
 
 
 __declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
@@ -146,7 +145,7 @@ void TLazerFenceSw::render() {
 }
 #pragma pop
 
-__declspec(section ".rodata") u8 lazer_fence_sw_select_color_label[16] = "<- SELECT COLOR";
+__declspec(section ".rodata") char lazer_fence_sw_select_color_label[16] = "<- SELECT COLOR";
 void TLazerFenceSw::debug_draw_key_id() {
     TOKey::debug_draw_key_id();
     if (set_params[2] < 0) {

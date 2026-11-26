@@ -21,6 +21,7 @@
 #include "pso/math/InverseTrig.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/model_render_state.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -39,9 +40,6 @@ TObjEZRopeEnd ezrope_default_end = {0, {0.0f, 0.0f, 0.0f}};
 TObjEZRopeCollider ezrope_default_collider = {0.0f, {0.0f, 0.0f, 0.0f}};
 Vec ez_bone_rot_player_chain_gravity = {0.0f, -0.75f, 0.0f};
 
-extern "C" {
-extern u8 debug_chunk_b_object[];
-}
 
 
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
@@ -245,7 +243,7 @@ void TObjHMS_EZRope_Player::draw_rope() {
             translate_matrix_vec3((u8 *)(0), (u8 *)&b->center);
             s = 0.2f * b->radius;
             scale_matrix(0, s, s, s);
-            draw_chunk_object(debug_chunk_b_object);
+            draw_chunk_object(&debug_chunk_b_object);
             pop_matrix();
         }
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

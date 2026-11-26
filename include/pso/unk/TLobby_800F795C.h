@@ -3,10 +3,12 @@
 
 #include "types.h"
 
+struct TObjEnemy;
+
 f32 get_challenge4p_exp_multiplier(void);
 f32 get_challenge_exp_multiplier(void);
 extern "C" {
-int get_attack_credit_slot_count(void);
+int get_attack_credit_slot_count(TObjEnemy *enemy);
 }
 void init_6x0A_enemy_state_packet(void *p);
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
@@ -20,7 +22,7 @@ void unload_floor_resources(s32 selector);
 f32 get_challenge4p_exp_multiplier(void);
 f32 get_challenge_exp_multiplier(void);
 extern "C" {
-int get_attack_credit_slot_count(void);
+int get_attack_credit_slot_count(TObjEnemy *enemy);
 }
 // --- end of C functions
 

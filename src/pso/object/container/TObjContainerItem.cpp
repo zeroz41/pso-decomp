@@ -58,16 +58,9 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/network/client_id.h"
+#include "pso/object/base/ActorCollision.h"
 
 struct Item_80189E3C { u8 pad[0x30]; s32 data[3]; };
-struct ForestBoxCollisionBody {
-    f32 center[3];
-    f32 radius;
-    f32 height;
-    u32 unknown_14;
-    u32 flags;
-    u32 unknown_1c[4];
-};
 
 static const char *fe_obj_hako01_hahen02_model_names[4] = {
     "fe_obj_hako01_hahen02.gj", "fs_obj_hako01.gj", "fs_obj_hako01_hahen01.gj", NULL,
@@ -101,8 +94,8 @@ static BmlResourceDescriptor bm_obj_seabed_con_rare_resource_descriptor = {
     "bm_obj_seabed_con_rare.bml", bm_obj_seabed_con_rare_model_names, bm_obj_seabed_con_rare_motion_names, 3, 0,
 };
 
-ForestBoxCollisionBody forest_box_collision_body_parts = {
-    { 0.0f, 6.0f, 0.0f }, 9.0f, 9.0f, 0, 0x38003, { 0, 0, 0, 0 },
+CollisionBody forest_box_collision_body_parts = {
+    { 0.0f, 6.0f, 0.0f }, 9.0f, 9.0f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
 
 static TObjChipParams forest_box_break_params[4] = {
@@ -152,9 +145,6 @@ TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 NJS_TEXLIST *container_breakup_textures;
 extern const f32 container_item_debug_radius;
-extern "C" {
-u32 init_collision_body_parts(void *, void *, s32);
-}
 NJS_OBJECT *get_container_breakup_model(s32 index);
 extern const f32 container_item_zero;
 NJS_OBJECT *get_forest_box_model(s32 index);
@@ -425,7 +415,7 @@ TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjCont
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerItem::~TObjContainerItem() {
@@ -514,7 +504,7 @@ TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjCo
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerEnemy::~TObjContainerEnemy() {
@@ -627,7 +617,7 @@ TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObj
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerNoItem::~TObjContainerNoItem() {
@@ -724,7 +714,7 @@ TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjCont
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerBase::~TObjContainerBase() {
@@ -827,7 +817,7 @@ TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : 
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += forest_box_collision_body_parts.center[1];
+    center.y += forest_box_collision_body_parts.offset.y;
 }
 
 TObjContainerAbeEnemy::~TObjContainerAbeEnemy() {

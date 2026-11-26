@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
 
@@ -29,7 +30,6 @@ BmlResource *spark_machine01_static_resource;
 extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
 extern BmlResource *spark_machine01_static_resource;
 extern const char *spark_machine01_name;
-void rotate_matrix_y(int, int);
 
 void TOSparkMachine01::update_spark_toggle(s32 i) {
     switch (spark_on[i]) {
@@ -72,7 +72,7 @@ void TOSparkMachine01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         n = ((NJS_OBJECT *)model)->child;
         TParticleCtrl::begin_effect_render();

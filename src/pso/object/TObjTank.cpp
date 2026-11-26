@@ -20,6 +20,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/ActorCollision.h"
 
 __declspec(section ".data") const char *fs_obj_tank_model_names[2] = { "fs_obj_tank.gj", NULL };
 const char *fs_obj_tank_motion_names[1] = { NULL };
@@ -32,9 +33,6 @@ CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f,
 
 BmlResource *tank_bml_resource;
 NJS_TEXLIST *tank_texture_list;
-extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-}
 
 void TObjTank::render() {
     NJS_TEXLIST *textures;

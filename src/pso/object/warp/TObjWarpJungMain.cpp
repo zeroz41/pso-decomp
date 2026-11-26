@@ -38,6 +38,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -62,9 +63,6 @@ s32 warp_jung_nakalight_tex_entry;               // texture entry "ts032_warp_na
 GinjaModel *warp_jung_beam_models[6];
 // The texture entry names load_warp_beam_resources looks up.
 
-extern "C" {
-saddr get_localized_text_entry(s32, s32);
-}
 
 
 void TObjWarpJungMain::render() {

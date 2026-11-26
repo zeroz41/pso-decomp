@@ -26,6 +26,7 @@ struct NJS_TEXLIST;
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 const char *bm_obj_beamdoa_model_names[3] = {"fe_obj_beamdoa.gj", "fe_obj_beamdoa_singo.gj", NULL};
@@ -47,9 +48,6 @@ s32 door_jung_signal_blue_texture;
 s32 door_jung_beam_red_texture;
 s32 door_jung_beam_blue_texture;
 
-extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-}
 
 
 void TObjDoorJung::free_buffers() {

@@ -44,6 +44,7 @@
 #include "pso/network/client_id.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCollidable.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
 
@@ -109,9 +110,6 @@ extern const TObjChipParams container_jung_enemy_spawn_params_b = {
     0.5f, 0.03f, 0.19f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 1.0f, 0, 0, 0x16,
 };
 
-extern "C" {
-u32 init_collision_body_parts(void *, saddr, s32);
-}
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 
@@ -149,7 +147,7 @@ TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TObjCont
     m_name = container_jung_name;
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, &container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
@@ -282,7 +280,7 @@ TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TObj
     m_name = container_jung_ex_name;
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, &container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
@@ -387,7 +385,7 @@ TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) 
     load_models();
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, &container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);

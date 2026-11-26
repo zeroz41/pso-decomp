@@ -162,7 +162,7 @@ void TFontSmallTask::run_task() {
     }
 }
 
-s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value, u16 view) {
+s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, const char *str, s32 value, u16 view) {
     text_builder_reset();
     text_builder_append((u8 *)str);
     if (value >= 0) {
@@ -172,7 +172,7 @@ s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s
     return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), view);
 }
 
-s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value) {
+s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, const char *str, s32 value) {
     text_builder_reset();
     text_builder_append((u8 *)str);
     if (value >= 0) {
@@ -183,7 +183,7 @@ s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 dela
 }
 
 void create_boss_health_font(s32 pos, s32 color, s32 life, void *label, void *value) {
-    create_font_small_task((Vec *)(saddr)pos, color, life, 0, (s32 *)label, (saddr)value, 0xFFFF);
+    create_font_small_task((Vec *)(saddr)pos, color, life, 0, (const char *)label, (saddr)value, 0xFFFF);
 }
 
 s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {

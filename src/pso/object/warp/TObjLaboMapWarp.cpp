@@ -83,6 +83,7 @@
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 s32 city_main_warp_enabled_destinations;
@@ -91,21 +92,6 @@ s32 city_main_warp_visible_destination_mask;
 
 BmlResource *labo_map_warp_resource_bundle;
 
-extern "C" {
-
-
-
-
-
-
-s32 rotate_matrix_y(s32, s32);
-
-
-
-
-
-
-}
 
 extern "C" {
 
@@ -530,7 +516,7 @@ void TObjCityMainWarp::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation_y);
         draw_ginja_object(city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->frame);
@@ -595,7 +581,7 @@ void TObjCityAreaWarp::do_warp() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation_y);
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
         TParticleCtrl::end_effect_render();
@@ -668,7 +654,7 @@ void TObjCityMapWarp::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation_y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(city_common_model_archive->models[13].model);
             TParticleCtrl::begin_effect_render();
@@ -765,7 +751,7 @@ void TObjLaboMapWarp::render() {
         TObjFish::set_global_param(get_bml_texlist(labo_map_warp_resource_bundle, 1));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation_y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(get_bml_model(labo_map_warp_resource_bundle, 1));
             TParticleCtrl::begin_effect_render();

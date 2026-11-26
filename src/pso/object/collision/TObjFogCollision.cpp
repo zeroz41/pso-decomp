@@ -34,6 +34,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/render_util.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 const char *fog_collision_name = "TObjFogCollision";
@@ -43,8 +44,6 @@ const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 void record_fog_collision_hit(s32 index, s32 level, s32 link);
 extern "C" {
 u8 is_current_floor_switch_set(u16);
-
-s32 is_split_screen();
 }
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
