@@ -25,6 +25,11 @@ struct PlayerHandParticles : PlayerHandParticlesBase {
     void create_left_hand(TObjBase *owner);
     void create_right_hand(TObjBase *owner);
     int emit_movement_effect(u16 target_id);
+    void emit_photon_blast_feedback(u16 target_id);
+    void emit_heavy_attack_particles(u16 target_id);
+    // Spawns effect id on the entity target_id; returns the particle (0 if none).
+    s32 check_hit_by_id(u16 target_id, s32 id);
+    s32 check_hit_by_id_431(u16 target_id);
     int emit_deband_support_effect(u16 target_id);
     TParticleCtrl *emit_zalure_support_effect(u16 target_id);
     TParticleCtrl *emit_grass_footstep_particle(const Vec *position);
@@ -49,6 +54,9 @@ struct PlayerFollowParticles {
     void create_hand_particles(TObjBase *owner);
     void set_owner(TObjBase *owner);
     int emit_movement_effect();
+    void emit_photon_blast_feedback();
+    void check_hit_by_id_431();
+    void request_heavy_attack_particles();
     int emit_deband_support();
     TParticleCtrl *emit_zalure_support();
     Vec *get_grass_contact_point();

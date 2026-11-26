@@ -9,8 +9,13 @@
 struct QuestObjectEntry {
     s16 flags;
     u16 drop_id_base;
+
+    void copy_from(QuestObjectEntry *src);
 };
 extern QuestObjectEntry *quest_object_entries;
+
+// Stores entry as quest object index's state; 0 when index is past the table.
+s32 set_quest_object_entry(s16 index, QuestObjectEntry *entry);
 
 void clear_quest_floor_designations(void);
 bool load_quest_encounter_section(s32 floor);

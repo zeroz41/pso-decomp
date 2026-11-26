@@ -503,7 +503,7 @@ void handle_6x71_unblock_game_join(void) {
 
     if (lobby_floor_reload_pending == 0) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)&p->guild_card_tag)->copy_header_struct(&TLobby::protocol_instance->m_guildcard_tag);
+        p->guild_card_tag.copy_from((PlayerGuildCardTag *)&TLobby::protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -515,7 +515,7 @@ void handle_6x71_unblock_game_join(void) {
                     e = (TPlyJoinLobbyEntry *)TLobby::join_entries;
                     e += i;
                     p = create_player_object(i, 4, &e->char_data);
-                    ((TLobby *)&p->guild_card_tag)->copy_header_struct(e);
+                    p->guild_card_tag.copy_from((PlayerGuildCardTag *)&e->tag);
                     p->reset_motion_fields();
                     TLobby::open_udp_socket_for_player(i);
                     lobby_debug_printf_stub(lobby_debug_burst_player_format, i);
@@ -2213,7 +2213,7 @@ void TLobby::make_players() {
     TObjPlayer *q;
     if (TLobby__sub_801A3E8C() != 0) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)&p->guild_card_tag)->copy_header_struct(&protocol_instance->m_guildcard_tag);
+        p->guild_card_tag.copy_from((PlayerGuildCardTag *)&protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -2234,7 +2234,7 @@ void TLobby::make_players() {
         }
     } else if (local_client_id == designated_client_id) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)&p->guild_card_tag)->copy_header_struct(&protocol_instance->m_guildcard_tag);
+        p->guild_card_tag.copy_from((PlayerGuildCardTag *)&protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -2298,7 +2298,7 @@ void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, 
         if (self_id == records[i].client_id) {
             if (get_player_by_client_id(self_id) == NULL) {
                 plr = create_player_object(self_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-                ((TLobby *)&plr->guild_card_tag)->copy_header_struct(&records[i]);
+                plr->guild_card_tag.copy_from((PlayerGuildCardTag *)records[i].tag);
                 plr->reset_motion_fields();
                 lobby_debug_printf_stub(lobby_debug_my_player_format, self_id);
                 lobby_debug_printf_stub(lobby_list_savedata_format, sizeof(records->char_data));
@@ -2311,7 +2311,7 @@ void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, 
         if (self_id != records[j].client_id) {
             if (get_player_by_client_id(records[j].client_id) == NULL) {
                 plr = create_player_object(records[j].client_id, 4, reinterpret_cast<TPlyCharData *>(records[j].char_data));
-                ((TLobby *)&plr->guild_card_tag)->copy_header_struct(&records[j]);
+                plr->guild_card_tag.copy_from((PlayerGuildCardTag *)records[j].tag);
                 plr->reset_motion_fields();
                 lobby_debug_printf_stub(lobby_debug_create_player_format, records[j].client_id);
             } else {
@@ -2393,7 +2393,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         TLobby::send_6x70_player_data(e.client_id);
         if (get_player_by_client_id(e.client_id) == NULL) {
             plr = create_player_object(e.client_id, 4, reinterpret_cast<TPlyCharData *>(e.char_data));
-            ((TLobby *)&plr->guild_card_tag)->copy_header_struct(&e);
+            plr->guild_card_tag.copy_from((PlayerGuildCardTag *)e.tag);
             plr->reset_motion_fields();
             TLobby::open_udp_socket_for_player(e.client_id);
             lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
@@ -2464,7 +2464,7 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     }
     strncpy(lobby_player_names[e.client_id], e.name, 0x10);
     plr = create_player_object(e.client_id, 4, reinterpret_cast<TPlyCharData *>(e.char_data));
-    ((TLobby *)&plr->guild_card_tag)->copy_header_struct(&e);
+    plr->guild_card_tag.copy_from((PlayerGuildCardTag *)e.tag);
     plr->reset_motion_fields();
     lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
     ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();
@@ -2728,10 +2728,10 @@ void TLobby::bswap_player_data(PlayerSyncRecord *record) {
     bswap_16((u16 *)&record->hp_material_bonus);
     bswap_16((u16 *)&record->tp_material_bonus);
     for (i = 0; i < 5; i++) {
-        ((TLobby *)&record->status_effects[i])->bswap_header_3words();
+        record->status_effects[i].bswap();
     }
     bswap_32(&record->language);
-    ((TLobby *)&record->guild_card_tag)->bswap_fields();
+    record->guild_card_tag.bswap();
     bswap_u32_pair(&record->pk_state);
     bswap_telepipe_record(&record->telepipe);
     bswap_32((u32 *)&record->death_flags);
@@ -2838,9 +2838,9 @@ void TPlyInventoryItem::bswap() {
 
 extern "C" {
 
-void TLobby::bswap_fields() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u32 *)((char*)this + 0x4)); }
+void PlayerGuildCardTag::bswap() { bswap_16(&tag2); bswap_32(&guildcard_number); }
 
-void TLobby::bswap_header_3words() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
+void StatusEffect::bswap() { bswap_32((u32 *)&type); bswap_32((u32 *)&amount); bswap_32((u32 *)&timer); }
 
 void disp_data_part2::bswap() {
     s32 i;

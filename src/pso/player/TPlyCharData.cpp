@@ -16,7 +16,12 @@ TPlyCharData::~TPlyCharData() {}
 TPlyDispConfig::~TPlyDispConfig() {}
 TPlyDispConfig::TPlyDispConfig() {}
 
-void TLobby::copy_header_struct(void* q) { *(u8 *)&this->m_name = *(u8*)((char*)q + 0x0); *(u8*)((char*)this + 0x1) = *(u8*)((char*)q + 0x1); *(u16*)((char*)this + 0x2) = *(u16*)((char*)q + 0x2); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); }
+void PlayerGuildCardTag::copy_from(PlayerGuildCardTag *src) {
+    tag0 = src->tag0;
+    tag1 = src->tag1;
+    tag2 = src->tag2;
+    guildcard_number = src->guildcard_number;
+}
 
 #pragma inline_depth(1)
 #pragma auto_inline off

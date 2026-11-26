@@ -244,7 +244,7 @@ void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
     } else {
         QuestObjectEntry fallback = quest_object_entries[packet->object_index];
         fallback.flags = packet->flags;
-        TLobby::apply_table_entry(packet->object_index, &fallback);
+        set_quest_object_entry(packet->object_index, &fallback);
     }
 }
 
@@ -253,7 +253,7 @@ void TObjCollidable::send_object_state_update(void *saved_state) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
     if (source != NULL) {
-        ((TLobby *)&state)->copy_short_fields(source);
+        state.copy_from(source);
     } else {
         access_object_saved_state(&state, 1);
     }
@@ -1140,10 +1140,10 @@ s32 TObjCollidable::access_object_saved_state(void *saved_state, s16 load) {
         return 0;
     }
     if (load == 0) {
-        ((TLobby *)&quest_object_entries[index])->copy_short_fields(saved_state);
+        quest_object_entries[index].copy_from((QuestObjectEntry *)saved_state);
     }
     if (load == 1) {
-        ((TLobby *)saved_state)->copy_short_fields(&quest_object_entries[index]);
+        ((QuestObjectEntry *)saved_state)->copy_from(&quest_object_entries[index]);
     }
     return 1;
 }

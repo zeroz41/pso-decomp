@@ -107,7 +107,6 @@ struct TLobby : public TObject {
     static int is_boss_phase_reached();
     static void cleanup_pillar_demo();
     static void cleanup_boss5_pillars();
-    void copy_header_struct(void* q);
     static void set_enemy_mode_flag();
     void collect_active_card_ids();
     static void send_status_packet();
@@ -137,8 +136,6 @@ struct TLobby : public TObject {
     void bswap_6xa2_fields();
     void *build_6x06_guild_card_packet();
     void bswap_packet();
-    static s32 apply_table_entry(s16 source, void * _w1);
-    void copy_short_fields(void *src);
     static void debug_print(const char *fmt, ...);
     int compare_file_extension(const char *ext);
     static saddr get_class_type_name(s32 class_flags);
@@ -147,8 +144,6 @@ struct TLobby : public TObject {
     static void update_keyboard_menu();
     static void clear_counters();
     static void disconnect_protocol();
-    void bswap_fields();
-    void bswap_header_3words();
     static char *init_serial_access();
     static void create_map_csn_ctrl();
     static s32 is_status_zero();
@@ -341,7 +336,6 @@ struct TLobby : public TObject {
     static void send_battle_mode_data(void * _w0);
     static void clear_quest_vm_flag();
     static void free_luker_object();
-    void set_floor(s16 v);
     static int is_warning_aram_load_done();
     static int get_lobby_count();
     static void set_lobby_id(int a0);

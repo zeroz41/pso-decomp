@@ -116,7 +116,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
             } else {
                 QuestObjectEntry entry = quest_object_entries[command->object_index];
                 entry.flags = command->flags;
-                TLobby::apply_table_entry(command->object_index, &entry);
+                set_quest_object_entry(command->object_index, &entry);
             }
             if (command->should_set == 1 && command->switch_flag_num < 0x100 && command->floor < 18) {
                 set_floor_switch_flag(command->switch_flag_num, command->floor);

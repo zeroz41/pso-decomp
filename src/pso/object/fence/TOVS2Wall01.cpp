@@ -138,7 +138,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
         QuestObjectEntry entry = quest_object_entries[wall_hit_packet->object_index];
         if (entry.flags != 1) {
             entry.flags = wall_hit_packet->flags;
-            TLobby::apply_table_entry(wall_hit_packet->object_index, &entry);
+            set_quest_object_entry(wall_hit_packet->object_index, &entry);
         }
     }
 }

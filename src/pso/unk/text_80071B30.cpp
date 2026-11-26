@@ -64,7 +64,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             }
             VecCopy(&pos, (const Vec *)((u8 *)p + 0x38));
             copy_player_visual_record(&chr, (u8 *)p + 0x85c);
-            ((TLobby *)(&hdr))->copy_header_struct((u8 *)p + 0xdac);
+            hdr.copy_from(&p->guild_card_tag);
             delete p;
             switch (chr.f34 & 0xe0) {
             case 0x20:
@@ -94,7 +94,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
                     return;
                 }
             }
-            ((TLobby *)((u8 *)p + 0xdac))->copy_header_struct(&hdr);
+            p->guild_card_tag.copy_from(&hdr);
             p->set_position_from(&pos);
             p->save_previous_position();
             p->reset_motion_fields();

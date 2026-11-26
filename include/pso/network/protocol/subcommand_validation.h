@@ -5,6 +5,7 @@
 
 struct G_AddBattleDamageScores_6x8F;
 struct G_Attack_6x43_6x44_6x45;
+struct G_AttackFinished_6x46;
 struct G_CastTechnique_6x47;
 struct G_CastTechniqueComplete_6x48;
 struct G_CastTechniqueParams_6x47;
@@ -70,7 +71,7 @@ s32 validate_6x8D_set_technique_level_override(G_SetTechniqueLevelOverride_6x8D 
 s32 validate_6x47_cast_technique(G_CastTechnique_6x47 *packet);
 s32 validate_technique_parameters(G_CastTechniqueParams_6x47 *params);
 s32 validate_cast_target_entry(PhotonBlastTarget *target);
-s32 validate_6x46_attack_finished(G_ClientIDHeader *packet);
+s32 validate_6x46_attack_finished(G_AttackFinished_6x46 *packet);
 s32 validate_attack_target_list(s32 *list);
 s32 validate_attack_target_entry(void *parameters);
 s32 validate_6x45_attack(G_Attack_6x43_6x44_6x45 *packet);

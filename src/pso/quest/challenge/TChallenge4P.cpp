@@ -338,7 +338,7 @@ void rebuild_players_for_stage(s32 stage) {
         if (p != NULL) {
             VecCopy(&pos, &p->position);
             copy_player_visual_record(&info, (u8 *)p + 0x85C);
-            ((TLobby *)(&hdr))->copy_header_struct(&p->guild_card_tag);
+            hdr.copy_from(&p->guild_card_tag);
             map = (p)->get_controller_port();
             delete p;
             switch (info.flags & 0xE0) {
@@ -365,7 +365,7 @@ void rebuild_players_for_stage(s32 stage) {
                     return;
                 }
             }
-            ((TLobby *)&p->guild_card_tag)->copy_header_struct(&hdr);
+            p->guild_card_tag.copy_from(&hdr);
             p->set_position_from(&pos);
             p->save_previous_position();
             p->reset_motion_fields();

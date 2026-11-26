@@ -134,7 +134,7 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     copy_xyz(&rotation_x, record->angle);
     mode = record->phase;
     hp = record->current_hp;
-    ((TLobby *)&guild_card_tag)->copy_header_struct(&record->guild_card_tag);
+    guild_card_tag.copy_from(&record->guild_card_tag);
     pk_state = record->pk_state;
     telepipe = record->telepipe;
     death_flags = record->death_flags;
@@ -654,14 +654,14 @@ TObjPlayer *TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {
     TObjPlayer *created;
 
     created = new TObjPlayer(tl_03, slot & 0xFFFF, entry->get_role(), entry->get_char_data());
-    ((TLobby *)&created->guild_card_tag)->copy_header_struct(entry->get_lobby_header());
+    created->guild_card_tag.copy_from(entry->get_lobby_header());
     return created;
 }
 
 TObjPlayer *TObjPlayer::create_player_instance(s32 slot, PlayerCharDataEntry *player) {
     TObjPlayer *p;
     p = new TObjPlayer(tl_03, slot & 0xFFFF, player->get_role(), player->get_char_data());
-    ((TLobby *)&p->guild_card_tag)->copy_header_struct(player->get_lobby_header());
+    p->guild_card_tag.copy_from(player->get_lobby_header());
     p->reset_motion_fields();
     return p;
 }

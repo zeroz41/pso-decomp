@@ -15,7 +15,7 @@ void PlayerCharDataEntry::clear() { role = 0; TAdSelectTxtGC__sub_802A16A8(&lobb
 void PlayerCharDataEntry::copy_from_player(TObjPlayer *player) {
     flags.set(1);
     role = TAdSelectTxtGC__sub_802A16C0(player);
-    ((TLobby *)&lobby_header)->copy_header_struct(&player->guild_card_tag);
+    lobby_header.copy_from(&player->guild_card_tag);
     player->export_character_data(&char_data);
 }
 

@@ -79,7 +79,7 @@ void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request) {
         if (row.drop_id_base != 0xFFFF) {
             id = build_item_id(row.drop_id_base);
             row.drop_id_base = 0xFFFF;
-            TLobby::apply_table_entry(source, &row);
+            set_quest_object_entry(source, &row);
             set.scale.z = request->scale_z;
             set.set_params[0] = request->set_params[0];
             set.set_params[1] = request->set_params[1];
@@ -141,7 +141,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
         if (row.drop_id_base != 0xFFFF) {
             id = build_item_id(row.drop_id_base);
             row.drop_id_base = 0xFFFF;
-            TLobby::apply_table_entry(source, &row);
+            set_quest_object_entry(source, &row);
             item.init();
             TObjPlayer::drop_item(slot, (saddr)&item);
             item.id = id;
@@ -257,7 +257,7 @@ void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt) {
     } else {
         QuestObjectEntry row = quest_object_entries[pkt->item.entity_index];
         row.drop_id_base = 0xFFFF;
-        TLobby::apply_table_entry(pkt->item.entity_index, &row);
+        set_quest_object_entry(pkt->item.entity_index, &row);
     }
     spawn_dropped_item_from_msg(&pkt->item, 0);
 }
@@ -327,14 +327,14 @@ G_DropItem_DC_6x5F::G_DropItem_DC_6x5F() {
     header.size = 0xA;
 }
 void TLobby::bswap_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0x4)); }
-s32 TLobby::apply_table_entry(s16 source, void * _w1) {
-    if (source > 0xB9F) {
+s32 set_quest_object_entry(s16 index, QuestObjectEntry *entry) {
+    if (index > 0xB9F) {
         return 0;
     }
-    ((TLobby *)&quest_object_entries[source])->copy_short_fields(_w1);
+    quest_object_entries[index].copy_from(entry);
     return 1;
 }
-void TLobby::copy_short_fields(void *src) {
-    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)src + 0);
-    *(u16 *)((s8 *)this + 2) = (u16) *(u16 *)((s8 *)src + 2);
+void QuestObjectEntry::copy_from(QuestObjectEntry *src) {
+    flags = src->flags;
+    drop_id_base = src->drop_id_base;
 }

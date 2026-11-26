@@ -369,8 +369,6 @@ struct TObjPlayer : public TObjChara {
     static void set_shared_count(int count);
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 meseta);
-    void check_hit_by_id_431_from_packet();
-    void emit_photon_blast_feedback_from_packet();
     u16 get_attacker_id();
     void set_attacker_id(u16 id);
     s32 is_local_player();
@@ -463,6 +461,7 @@ struct TObjPlayer : public TObjChara {
     int test_flag30_bit0x100000();
     static void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);
     s16 get_kill_count();
+    void set_kill_count(s16 count);
     static void set_camera_mode(s32 camera_mode);
     s16 get_evp();
     int check_flag_0x80();
@@ -723,7 +722,6 @@ struct TObjPlayer : public TObjChara {
     f32 get_action_rate_entry();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
-    void request_heavy_attack_particles();
     void set_action_palette_state_mode(u8 mode);
     void clear_flag_128();
     static s32 decrement_timer(s32 *timer);
@@ -774,8 +772,6 @@ struct TObjPlayer : public TObjChara {
     // The ending movie's finish callback: TMovie::run_task calls it with the movie.
     static void enable_foot_stamp(saddr owner, saddr player);
     static void clear_foot_stamp(saddr owner, saddr player);
-    static s32 check_hit_by_id_431(void* p, u16 target_id);
-    static s32 check_hit_by_id(saddr owner, u16 target_id, s32 id);
     static void alloc_and_init(s32 item_id, saddr position, saddr direction);
     static void create_and_init_effect(s32 item_id, u32 *hit, saddr direction);
     static void start_guardianna_hit_card(s32 item_id, u32 *hit, saddr direction);
@@ -943,7 +939,6 @@ struct TObjPlayer : public TObjChara {
     void clamp_stats(player_stats *out, player_stats *class_stats);
     void notify_volopt_if_ready();
     void spawn_level_change_feedback(const char *message);
-    void *copy_fields(void *command);
     s32 apply_exp_level_growth();
     void update_status_effects();
     void update_position_history();

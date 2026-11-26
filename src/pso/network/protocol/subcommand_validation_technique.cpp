@@ -1,6 +1,7 @@
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/cast_packets.h"
 #include "pso/player/PlayerTechniqueState.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
 
 s32 validate_technique_parameters(G_CastTechniqueParams_6x47 *params) {
@@ -22,9 +23,9 @@ s32 validate_cast_target_entry(PhotonBlastTarget *target) {
     return target->index < 0 ? 0 : 1;
 }
 
-s32 validate_6x46_attack_finished(G_ClientIDHeader *packet) {
-    if (validate_subcommand_client(packet) == 0) {
+s32 validate_6x46_attack_finished(G_AttackFinished_6x46 *packet) {
+    if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    return validate_attack_target_list((s32 *)((u8 *)packet + 4)) != 0 ? 1 : 0;
+    return validate_attack_target_list(&packet->targets.count) != 0 ? 1 : 0;
 }

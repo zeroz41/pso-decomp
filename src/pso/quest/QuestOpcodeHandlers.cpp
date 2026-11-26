@@ -3033,10 +3033,10 @@ void qst_op_set_switch_flag_sync() {
 }
 
 void qst_op_reset_kills(s32 slot_reg) {
-    u8 *lobby;
-    lobby = (u8 *)(((u8 *)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg])))));
-    if (lobby != NULL) {
-        ((TLobby *)lobby)->set_floor(0);
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if (player != NULL) {
+        player->set_kill_count(0);
     }
 }
 
@@ -5421,7 +5421,7 @@ s32 fn_get_field_3ac(void* p) { return *(s32*)((char*)p + 0x3ac); }
 
 void TObject::toggle_pause() { m_flags ^= PAUSE_UPDATE; }
 
-void TLobby::set_floor(s16 v) { *(s16*)((char*)this + 0x11a) = v; }
+void TObjPlayer::set_kill_count(s16 count) { kill_count = count; }
 
 void gba_set_identifiers(int a0, int a1) { gba_identifier_value = a1; gba_identifier_slot_plus_1 = (a0 + 0x1); }
 

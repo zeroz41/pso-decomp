@@ -317,7 +317,6 @@ s32 TObjPlayer::get_entrance_id() { return entrance_id; }
 extern "C" {
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 }
-void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
 
 #pragma defer_codegen on
 ContactSurfaceFlags::~ContactSurfaceFlags() {}
@@ -530,16 +529,13 @@ void PlayerFollowParticles::set_grass_contact_point(const Vec *point) { VecCopy(
 
 void PlayerFollowParticles::set_surface_contact_point(const Vec *point) { VecCopy(&contact_points[2], point); }
 
-void emit_photon_blast_feedback_effects(saddr owner, u16 target_id) {
-    TObjPlayer::check_hit_by_id(owner, target_id, 5);
-    TObjPlayer::check_hit_by_id(owner, target_id, 0x2C);
-    TObjPlayer::check_hit_by_id(owner, target_id, 0x3B);
+void PlayerHandParticles::emit_photon_blast_feedback(u16 target_id) {
+    check_hit_by_id(target_id, 5);
+    check_hit_by_id(target_id, 0x2C);
+    check_hit_by_id(target_id, 0x3B);
 }
 
-void TObjPlayer::emit_photon_blast_feedback_from_packet() {
-    u16 *record = (u16 *)this;
-    emit_photon_blast_feedback_effects((saddr)((s8 *)record + 4), *record);
-}
+void PlayerFollowParticles::emit_photon_blast_feedback() { hands.emit_photon_blast_feedback(owner_id); }
 
 Vec *PlayerFollowParticles::get_grass_contact_point() { return &contact_points[1]; }
 
@@ -557,12 +553,9 @@ void emit_sand_footstep_effect(PlayerFollowParticles *particles) {
     emit_sand_step_particles(&particles->hands, particles->get_surface_contact_point());
 }
 
-void TObjPlayer::check_hit_by_id_431_from_packet() {
-    u16 *record = (u16 *)this;
-    TObjPlayer::check_hit_by_id_431((s8 *)record + 4, *record);
-}
+void PlayerFollowParticles::check_hit_by_id_431() { hands.check_hit_by_id_431(owner_id); }
 
-int PlayerHandParticles::emit_movement_effect(u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)this, target_id, 276); }
+int PlayerHandParticles::emit_movement_effect(u16 target_id) { return check_hit_by_id(target_id, 276); }
 
 int PlayerFollowParticles::emit_movement_effect() { return hands.emit_movement_effect(owner_id); }
 
@@ -576,10 +569,10 @@ void emit_idle_water_effect(PlayerFollowParticles *particles) {
 #pragma fp_contract on
 void PlayerHandParticles::emit_shifta_support_effect() {
     if (left_hand != NULL) {
-        TObjPlayer::check_hit_by_id((saddr)this, left_hand->get_entity_id(), 0x1C);
+        check_hit_by_id(left_hand->get_entity_id(), 0x1C);
     }
     if (right_hand != NULL) {
-        TObjPlayer::check_hit_by_id((saddr)this, right_hand->get_entity_id(), 0x1C);
+        check_hit_by_id(right_hand->get_entity_id(), 0x1C);
     }
 }
 #pragma pop
@@ -600,7 +593,7 @@ void PlayerHandParticles::emit_jellen_support_effect() {
 
 void PlayerFollowParticles::emit_jellen_support_effect_default() { hands.emit_jellen_support_effect(); }
 
-int PlayerHandParticles::emit_deband_support_effect(u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)this, target_id, 508); }
+int PlayerHandParticles::emit_deband_support_effect(u16 target_id) { return check_hit_by_id(target_id, 508); }
 
 int PlayerFollowParticles::emit_deband_support() { return hands.emit_deband_support_effect(owner_id); }
 
@@ -612,8 +605,8 @@ TParticleCtrl *PlayerFollowParticles::emit_zalure_support() { return hands.emit_
 #pragma fp_contract on
 void PlayerHandParticles::prepare_heavy_attack_particles() {
     if (right_hand != NULL) {
-        TObjPlayer::check_hit_by_id((saddr)this, right_hand->get_entity_id(), 0x11);
-        TObjPlayer::check_hit_by_id((saddr)this, right_hand->get_entity_id(), 0x12);
+        check_hit_by_id(right_hand->get_entity_id(), 0x11);
+        check_hit_by_id(right_hand->get_entity_id(), 0x12);
     }
 }
 #pragma pop

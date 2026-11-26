@@ -60,7 +60,7 @@ void TODoorCave01::send_state(void *saved_state) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
     if (source != NULL) {
-        ((TLobby *)&state)->copy_short_fields(source);
+        state.copy_from(source);
     } else {
         access_object_saved_state(&state, 1);
     }

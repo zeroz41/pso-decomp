@@ -800,7 +800,7 @@ s32 build_dns_query_aaaa(DnsQuery *q, char *name, s16 len) {
     DnsQuestion qt;
     h = (DnsQueryHeader *)q->msg->data;
     h->id = q->id;
-    body = (u8 *)h + DNS_HEADER_SIZE;
+    body = (u8 *)(h + 1);
     h->flags_high = 1;
     h->flags_low = 0;
     h->qd = 1;
@@ -829,7 +829,7 @@ s32 build_dns_query_a(DnsQuery *q, char *name, s16 len) {
     DnsQuestion qt;
     h = (DnsQueryHeader *)q->msg->data;
     h->id = q->id;
-    body = (u8 *)h + DNS_HEADER_SIZE;
+    body = (u8 *)(h + 1);
     h->flags_high = 1;
     h->flags_low = 0;
     h->qd = 1;
@@ -945,7 +945,7 @@ s16 dns_parse_reply(DnsQuery *self)
 
   }
 
-  cur = (u8 *)hdr + DNS_HEADER_SIZE;
+  cur = (u8 *)(hdr + 1);
   len -= DNS_HEADER_SIZE;
   t = hdr->qd;
   if (t != 0)

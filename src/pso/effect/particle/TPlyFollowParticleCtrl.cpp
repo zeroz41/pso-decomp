@@ -100,7 +100,7 @@ TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id) { 
 // The emitters below take target_id as an int while find_entity_by_id and set_owner_id
 // take u16, and the int is passed on unconverted, so both are called through int prototypes.
 
-s32 TObjPlayer::check_hit_by_id(saddr owner, u16 target_id, s32 id) {
+s32 PlayerHandParticles::check_hit_by_id(u16 target_id, s32 id) {
     TObjCollidable *target = find_entity_by_id(target_id);
     if (target == NULL) {
         return 0;
@@ -173,7 +173,7 @@ void emit_idle_water_splash(PlayerHandParticles *owner, const Vec *position) {
 }
 
 
-s32 TObjPlayer::check_hit_by_id_431(void* p, u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)p, target_id, 431); }
+s32 PlayerHandParticles::check_hit_by_id_431(u16 target_id) { return check_hit_by_id(target_id, 431); }
 
 PlayerFollowParticles::PlayerFollowParticles() {
     s32 i;

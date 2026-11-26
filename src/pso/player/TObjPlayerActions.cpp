@@ -122,7 +122,6 @@ u8 get_cast_technique_level(void *techs, s16 tech);
 }
 int is_android_player(void* p);
 void remove_photon_blast_participant(s32 id);
-void emit_heavy_attack_particles(saddr owner, u16 target_id);
 extern "C" {
 s32 dispatch_weapon_special_effect(void *, int, int, int);
 
@@ -3354,7 +3353,7 @@ void TObjPlayer::start_attack_preparation() {
     case 1:
         this->phase = 1;
         this->set_state_flags(0x80);
-        ((TObjPlayer *)&this->follow_particles)->request_heavy_attack_particles();
+        this->follow_particles.request_heavy_attack_particles();
         scratch_vec.y = scratch_vec.x = 0.0f;
         player_feedback_light_color.a = scratch_vec.z = 1.0f;
         player_feedback_light_color.g = player_feedback_light_color.r = 0.8f;
@@ -3513,7 +3512,7 @@ void handle_6x46_attack_finished(G_AttackFinished_6x46 *command) {
     TItem *it;
     packet = *command;
     packet.bswap_received();
-    if (validate_6x46_attack_finished(&packet.header) != 0 && (pl = get_player_by_client_id(packet.header.client_id)) != NULL) {
+    if (validate_6x46_attack_finished(&packet) != 0 && (pl = get_player_by_client_id(packet.header.client_id)) != NULL) {
         if (pl->is_in_tl03_state() != 0 && pl->reset_volopt_state() != 0) {
             pl->attack_state.set_lockon_targets(&packet.targets);
             it = TObjPlayer::get_equipped_weapon(pl);
@@ -5692,18 +5691,15 @@ void PlayerAttackController::set_recovery_timer(s32 frames) { recovery_timer = f
 
 s32 PlayerAttackController::get_recovery_timer() { return recovery_timer; }
 
-void TObjPlayer::request_heavy_attack_particles() {
-    u16 *record = (u16 *)this;
-    emit_heavy_attack_particles((saddr)((s8 *)record + 4), *record);
-}
+void PlayerFollowParticles::request_heavy_attack_particles() { hands.emit_heavy_attack_particles(owner_id); }
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void emit_heavy_attack_particles(saddr owner, u16 target_id) {
-    TObjPlayer::check_hit_by_id(owner, target_id, 0xBB);
-    TObjPlayer::check_hit_by_id(owner, target_id, 0x1B7);
+void PlayerHandParticles::emit_heavy_attack_particles(u16 target_id) {
+    check_hit_by_id(target_id, 0xBB);
+    check_hit_by_id(target_id, 0x1B7);
 }
 
 f32 attack_damage_scale_table[3] = { 0.9f, 1.7f, 0.5f };

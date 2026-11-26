@@ -2451,17 +2451,17 @@ void TObjPlayer::send_6x30_change_player_level() {
     }
 }
 
-void *TObjPlayer::copy_fields(void *command) {
-    copy_subcommand_header(this, command);
-    this->m_flags = (s16) *(s16 *)((s8 *)command + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)command + 6);
-    *(s16 *)((s8 *)this + 8) = (s16) *(s16 *)((s8 *)command + 8);
-    *(s16 *)((s8 *)this + 0xA) = (s16) *(s16 *)((s8 *)command + 0xA);
-    *(s16 *)((s8 *)this + 0xC) = (s16) *(s16 *)((s8 *)command + 0xC);
-    *(s16 *)((s8 *)this + 0xE) = (s16) *(s16 *)((s8 *)command + 0xE);
-    *(s16 *)((s8 *)this + 0x10) = (s16) *(s16 *)((s8 *)command + 0x10);
-    *(s16 *)((s8 *)this + 0x12) = (s16) *(s16 *)((s8 *)command + 0x12);
-    return this;
+G_ChangePlayerLevel_6x30 &G_ChangePlayerLevel_6x30::operator=(G_ChangePlayerLevel_6x30 &src) {
+    copy_subcommand_header(this, &src);
+    atp = src.atp;
+    mst = src.mst;
+    evp = src.evp;
+    hp = src.hp;
+    dfp = src.dfp;
+    ata = src.ata;
+    level = src.level;
+    is_level_down = src.is_level_down;
+    return *this;
 }
 
 void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command) {
@@ -2469,7 +2469,7 @@ void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command) {
     TObjPlayer *pl;
     f32 f;
     pkt.init();
-    ((TObjPlayer *)(&pkt))->copy_fields(command);
+    pkt = *command;
     pkt.bswap();
     if (validate_6x30_change_player_level(&pkt) == 0) {
         return;
@@ -3214,7 +3214,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     for (i = 0; i < 5; i++) {
         record->status_effects[i] = status_effects[i];
     }
-    ((TLobby *)&record->guild_card_tag)->copy_header_struct(&guild_card_tag);
+    record->guild_card_tag.copy_from(&guild_card_tag);
     record->pk_state = pk_state;
     record->telepipe = telepipe;
     record->death_flags = death_flags;
@@ -3396,7 +3396,7 @@ void TObjPlayer::update_target() {
     }
 }
 
-void TObjPlayer::play_photon_blast_feedback() { ((TObjPlayer *)&this->follow_particles)->emit_photon_blast_feedback_from_packet(); this->play_sound_if_on_floor(142625); }
+void TObjPlayer::play_photon_blast_feedback() { this->follow_particles.emit_photon_blast_feedback(); this->play_sound_if_on_floor(142625); }
 
 s32 TObjPlayer::can_use_action() {
     if (pad_binding.is_button_pressed(0x200) == 0) {
@@ -4719,7 +4719,7 @@ s32 TObjPlayer::try_pickup_item() {
             return 0;
         }
         recover_full();
-        ((FlagWord *)((saddr)this + 0x858))->set(4);
+        death_flags.set(4);
         send_6x29_delete_item(this, owner_if_alive->get_item_id(), 1);
         return 1;
     }
@@ -4750,7 +4750,7 @@ void TObjPlayer::spawn_effect(saddr player) {
 
 void TObjPlayer::send_field_state() {
     if ((this->is_body_collision_inactive() == 0) && (check_flag_800000() == 0)) {
-        ((TObjPlayer *)((saddr)this + 0x384))->check_hit_by_id_431_from_packet();
+        follow_particles.check_hit_by_id_431();
     }
     this->play_sound_if_on_floor(0x42D08);
 }

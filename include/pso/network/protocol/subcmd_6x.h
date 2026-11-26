@@ -239,6 +239,7 @@ struct G_ChangePlayerLevel_6x30 {
  s16 ata;
  s16 level;
  s16 is_level_down;
+ G_ChangePlayerLevel_6x30 &operator=(G_ChangePlayerLevel_6x30 &src);
  void send();
  void bswap();
  void init();
