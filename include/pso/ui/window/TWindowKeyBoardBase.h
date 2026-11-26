@@ -94,10 +94,10 @@ struct TWindowKeyBoardBase : public TWindowBase {
     int is_key_state_2();
     s32 sub_8025CE00(u8 *text);
     void sub_8025CF50(int count);
-    void sub_8025CFA8(s32 *name);
+    void sub_8025CFA8(char *text);
     void sub_8025D1C8(void *record);
     s32 sub_8025D378(void *window_sub_status_disp);
-    s32 sub_8025D544(s32 *name, s8 *text);
+    s32 candidate_fits(char *name, char *text);
     void sub_8025D664();
     void sub_8025D7FC();
     void sub_8025D8C8();

@@ -6,7 +6,6 @@
 u32 calc_fullwidth_text_width(char *s);
 s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
 extern "C" {
-u8 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(u16 glyph, void *quad, s32 color);
 u32 calc_text_width(char *s);
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale);
 void draw_menu_font_string_white(const char *text, f32 x, f32 y);

@@ -149,7 +149,7 @@ s8 *TWindowSubStatusDisp::copy_message_page_text() {
 
 void text_builder_append(u8 *str) {
   s32 num;
-  num = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0xFFU);
+  num = TWindowKeyBoardSoft::strnlen((const char *)str, (u32)0xFFU);
   strncpy(text_builder_write_cursor, (char *)str, num);
   text_builder_write_cursor[num] = 0;
   text_builder_write_cursor += num;

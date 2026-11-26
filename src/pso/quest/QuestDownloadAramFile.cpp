@@ -5,6 +5,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
 
 // The ARAM back end of the keyboard's ASKDIC dictionary ("ASKDIC:ARAM DMA Timeout!!"): TWindowKeyBoardBase sets the
 // ARAM image up with aram_dma_setup, then start_askdic starts the dictionary.
@@ -45,9 +46,9 @@ s32 start_askdic(void) {
     quest_download_initialized = 1;
     lbl_805D7908 = 0;
     lbl_805D790C = 0;
-    result = TWindowKeyBoardSoft::dispatch_request_0x20("Dummy", "");
+    result = ime_request_open("Dummy", "");
     if (result == 0) {
-        result = TWindowKeyBoardSoft::dispatch_request_0x1c();
+        result = ime_request_poll_status();
     }
     if (result > 0) {
         result = -1;

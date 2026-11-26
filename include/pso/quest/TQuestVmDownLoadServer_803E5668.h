@@ -18,11 +18,22 @@ s32 quest_download_request_select_candidate(saddr *args);
 s32 quest_download_request_convert_all(saddr *args);
 s32 quest_download_request_turn_page(saddr *args);
 
-// Request senders for the keyboard_soft_dispatch_fn_table handlers (same TU).
-extern "C" {
-void TWindowKeyBoardSoft__sub_803E67D4(s32 a, s32 b);
-void TWindowKeyBoardSoft__sub_803E6868(s32 a, s32 b);
-}
+// Senders of conversion requests to the keyboard_soft_dispatch_fn_table handlers (same TU).
+s32 ime_request_0x28(char *text, char *rest);
+s32 ime_request_0x27(char *text, char *rest);
+s32 ime_request_0x26(char *text, char *rest);
+s32 ime_request_0x25(char *text, char *rest);
+s32 ime_request_next_segment(char *text, char *rest);
+s32 ime_request_prev_segment(char *text, char *rest);
+s32 ime_request_shrink_segment(char *text, char *rest);
+s32 ime_request_extend_segment(char *text, char *rest);
+s32 ime_request_open(const char *a, const char *b);
+s32 ime_request_poll_status();
+s32 ime_request_next_candidate(char *text, char *rest);
+s32 ime_request_prev_candidate(char *text, char *rest);
+s32 ime_request_convert(const u8 *reading, char *text, char *rest);
+s32 ime_request_romaji_to_hiragana(const char *romaji, char *kana);
+s32 ime_request_romaji_to_katakana(const char *romaji, char *kana);
 
 struct QuestConvertString {
     char value[0x80];

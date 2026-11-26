@@ -608,163 +608,154 @@ u8 lbl_8058DCE8[80];
 u8 quest_request_text_buffer[80];
 QuestConvertString quest_convert_string;
 
-struct ConvertRequest {
+// A conversion request: the handler id followed by its arguments.
+struct ImeRequest {
     s32 id;
-    s32 text_id;
-    s32 segment;
-    s32 rest;
 };
 
-struct DispatchRequest0x27Req { s32 id; s32 a; s32 b; };
+struct ImeTextRequest : ImeRequest {
+    char *text;
+    char *rest;
+};
 
-struct DispatchRequest0x25Req { s32 id; s32 a; s32 b; };
+struct ImeOpenRequest : ImeRequest {
+    const char *a;
+    const char *b;
+};
 
-struct DispatchRequest0x24Req { s32 id; s32 a; s32 b; };
+struct ImeConvertRequest : ImeRequest {
+    const u8 *reading;
+    char *text;
+    char *rest;
+};
 
-struct DispatchRequest0x23Req { s32 id; void *a; void *b; };
+struct ImeRomajiRequest : ImeRequest {
+    const char *romaji;
+    char *kana;
+};
 
-struct DispatchRequest0x28Req { s32 id; void *a; void *b; };
-
-struct DispatchRequest0x26Req { s32 id; s32 a; s32 b; };
-
-struct TWindowKeyBoardSoftReq { s32 id; s32 a; s32 b; };
-
-struct DispatchRequest0x22Req { s32 id; s32 a; s32 b; };
-
-struct DispatchRequest0x20Req { s32 id; const char *a; const char *b; };
-
-struct DispatchRequest0x10Req { s32 id; s32 a; s32 b; };
-
-struct DispatchRequest0fReq { s32 id; s32 a; s32 b; };
-
-struct DispatchRequest0x14Req { s32 id; s32 a; s32 b; };
-
-struct TWindowKeyBoardSoftReq2 { s32 id; s32 a; s32 b; };
-struct DispatchByIndexState { s32 idx; saddr rest; };
-
-s32 TWindowKeyBoardSoft::dispatch_by_index() {
-    DispatchByIndexState *request = (DispatchByIndexState *)this;
-    s32 i = request->idx;
-    saddr *rest = &request->rest;
+s32 ime_dispatch_request(ImeRequest *request) {
+    s32 i = request->id;
+    saddr *args = (saddr *)(request + 1);
     if (i <= 0 || (u32)i > 0x3F) {
         return -1;
     }
-    return keyboard_soft_dispatch_fn_table[i - 1](rest);
+    return keyboard_soft_dispatch_fn_table[i - 1](args);
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x28(void *a, void *b) {
-    DispatchRequest0x28Req req;
+s32 ime_request_0x28(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x28;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x27(s32 a, s32 b) {
-    DispatchRequest0x27Req req;
+s32 ime_request_0x27(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x27;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x26(s32 a, s32 b) {
-    DispatchRequest0x26Req req;
+s32 ime_request_0x26(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x26;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x25(s32 a, s32 b) {
-    DispatchRequest0x25Req req;
+s32 ime_request_0x25(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x25;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x24(s32 a, s32 b) {
-    DispatchRequest0x24Req req;
+s32 ime_request_next_segment(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x24;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
 }
 
-s32 TWindowKeyBoardSoft::dispatch_request_0x23(void *a, void *b) {
-    DispatchRequest0x23Req req;
+s32 ime_request_prev_segment(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x23;
-    req.a = a;
-    req.b = b;
-    return ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x22(s32 a, s32 b) {
-    DispatchRequest0x22Req req;
+s32 ime_request_shrink_segment(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x22;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
 }
 
-void TWindowKeyBoardSoft__sub_803E67D4(s32 a, s32 b) {
-    TWindowKeyBoardSoftReq req;
+s32 ime_request_extend_segment(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x21;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
 }
 
-s32 TWindowKeyBoardSoft::dispatch_request_0x20(const char *a, const char *b) {
-    DispatchRequest0x20Req req;
+s32 ime_request_open(const char *a, const char *b) {
+    ImeOpenRequest req;
     req.id = 0x20;
     req.a = a;
     req.b = b;
-    return ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    return ime_dispatch_request(&req);
 }
 
-s32 TWindowKeyBoardSoft::dispatch_request_0x1c() {
-    s32 sp8;
-    sp8 = 0x1C;
-    return ((TWindowKeyBoardSoft *)(&sp8))->dispatch_by_index();
+s32 ime_request_poll_status() {
+    ImeRequest req;
+    req.id = 0x1C;
+    return ime_dispatch_request(&req);
 }
 
-void TWindowKeyBoardSoft__sub_803E6868(s32 a, s32 b) {
-    TWindowKeyBoardSoftReq2 req;
+s32 ime_request_next_candidate(char *text, char *rest) {
+    ImeTextRequest req;
     req.id = 0x15;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
-}
-
-void TWindowKeyBoardSoft::dispatch_request_0x14(s32 a, s32 b) {
-    DispatchRequest0x14Req req;
-    req.id = 0x14;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
-}
-
-void TWindowKeyBoardSoft::dispatch_request_0x13(s32 text_id, s32 segment, s32 rest) {
-    ConvertRequest req;
-    req.id = 0x13;
-    req.text_id = text_id;
-    req.segment = segment;
+    req.text = text;
     req.rest = rest;
-    ((TWindowKeyBoardSoft *)(&req.id))->dispatch_by_index();
+    return ime_dispatch_request(&req);
 }
-void TWindowKeyBoardSoft::dispatch_request_0x10(s32 a, s32 b) {
-    DispatchRequest0x10Req req;
+
+s32 ime_request_prev_candidate(char *text, char *rest) {
+    ImeTextRequest req;
+    req.id = 0x14;
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
+}
+
+s32 ime_request_convert(const u8 *reading, char *text, char *rest) {
+    ImeConvertRequest req;
+    req.id = 0x13;
+    req.reading = reading;
+    req.text = text;
+    req.rest = rest;
+    return ime_dispatch_request(&req);
+}
+s32 ime_request_romaji_to_hiragana(const char *romaji, char *kana) {
+    ImeRomajiRequest req;
     req.id = 0x10;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.romaji = romaji;
+    req.kana = kana;
+    return ime_dispatch_request(&req);
 }
-void TWindowKeyBoardSoft::dispatch_request_0f(s32 a, s32 b) {
-    DispatchRequest0fReq req;
+s32 ime_request_romaji_to_katakana(const char *romaji, char *kana) {
+    ImeRomajiRequest req;
     req.id = 0xf;
-    req.a = a;
-    req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    req.romaji = romaji;
+    req.kana = kana;
+    return ime_dispatch_request(&req);
 }

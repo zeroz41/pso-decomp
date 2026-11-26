@@ -97,7 +97,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
       if (1)
       {
         case 0:
-          r = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->style);
+          r = TWindowSubStatusDisp::calc_gauge_scale(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->style);
           pos.y0 = y;
           x -= r;
           pos.x0 = x;

@@ -438,7 +438,7 @@ void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32
     this->speaker_id = speaker;
     this->client_index = client;
     if (str != NULL) {
-        len = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
+        len = TWindowKeyBoardSoft::strnlen(str, (u32)0x18);
         this->name = (char *)mem_alloc(len + 1);
         strncpy(this->name, str, len + 1);
     } else {
@@ -526,7 +526,7 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
     entry->flags &= 0xFFFFFDFF;
   }
   entry->color = 0xFF000000;
-  new_var = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x100));
+  new_var = TWindowKeyBoardSoft::strnlen(str, (u32)(0x100));
   hide_ticks = (s16) ((3.3f * ((f32) new_var)) + 55.5f);
   if (TWindowSubStatusDisp::get_card_window_scale((int) ((s32) client_index)) > 0.0f)
   {
@@ -1121,7 +1121,7 @@ void TWindowFukidasi::rearm_balloon(saddr flags) {
     init_flags(flags);
     switch (content_kind) {
     case 0:
-        n = TWindowKeyBoardSoft::strnlen((s8 *)(((TWindowSubComCard *)(void *)this->get_array_entry(0))->get_field_20()), (u32)0x100);
+        n = TWindowKeyBoardSoft::strnlen((const char *)((TWindowSubComCard *)(void *)this->get_array_entry(0))->get_field_20(), (u32)0x100);
         hide_ticks = (s16) ((3.3f * (f32) n) + 55.5f);
         break;
     case 1:

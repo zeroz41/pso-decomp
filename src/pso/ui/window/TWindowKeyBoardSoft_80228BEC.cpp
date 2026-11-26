@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 
-s32 TWindowKeyBoardSoft::strnlen(s8 *str, u32 max) {
+s32 TWindowKeyBoardSoft::strnlen(const char *str, u32 max) {
     u32 i;
     if (str == 0) {
         return 0;
