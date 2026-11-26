@@ -35,7 +35,7 @@ TObjNpcFemaleFat::TObjNpcFemaleFat(TObject *parent, void *set_data) : TObjNpcFem
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = (void *)static_model->models->model;
+    this->model = static_model->models->model;
     this->texlist = static_model->models->texlist;
     this->setup_common();
 }

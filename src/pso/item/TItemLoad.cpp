@@ -209,14 +209,14 @@ s32 request_item_model_load(u8 *item) {
 
 void TItemLoad::get_drop_model(u8 index, NJS_OBJECT **model, NJS_TEXLIST **texlist) {
     if ((model != NULL) && (texlist != NULL)) {
-        *model = (NJS_OBJECT *)get_bml_model(bml_resource, index + 2);
+        *model = get_bml_model(bml_resource, index + 2);
         *texlist = get_bml_texlist(bml_resource, 0);
     }
 }
 
 void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, AnimationMotion **motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
-        *model = (NJS_OBJECT *)get_bml_model(bml_resource, 1);
+        *model = get_bml_model(bml_resource, 1);
         *texlist = get_bml_texlist(bml_resource, 0);
         *motion = get_bml_motion(bml_resource, 0);
     }
@@ -224,7 +224,7 @@ void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist
 
 void TItemLoad::get_item_model(s32 index, NJS_OBJECT **model) {
     if (model != NULL) {
-        *model = (NJS_OBJECT *)get_bml_model(bml_resource, index);
+        *model = get_bml_model(bml_resource, index);
     }
 }
 

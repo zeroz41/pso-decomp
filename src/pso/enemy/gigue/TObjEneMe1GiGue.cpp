@@ -126,7 +126,7 @@ CollisionBody gigue_collision_bodies[2] = {
 const char *me1_gi_gue_name = "TObjEneMe1GiGue";
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
-    model = (void *)gigue_resource->models[i].model;
+    model = gigue_resource->models[i].model;
     texlist = gigue_resource->models[i].texlist;
 }
 

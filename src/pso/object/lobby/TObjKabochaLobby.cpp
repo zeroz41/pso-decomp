@@ -95,6 +95,6 @@ TObjKabochaLobby::TObjKabochaLobby(TObject *parent, void *set_data) : TObjMapObj
         state = 0;
     }
     scale = 1.0f;
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = lobby_texlist;
 }

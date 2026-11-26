@@ -558,7 +558,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
         state_flags |= 0x8000;
     }
     init_position_vectors();
-    model = (void *)get_bml_model(boss7_derolle_c_bml_resource, 0);
+    model = get_bml_model(boss7_derolle_c_bml_resource, 0);
     texlist = get_bml_texlist(boss7_derolle_c_bml_resource, 0);
     save_joint_polygons();
     copy_collision_body(&collision_body, &boss7_derolle_c_collision_body);
@@ -679,7 +679,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
         mode = 1;
         dispatch_action(mode, 4);
     }
-    node_recorder = new TNodeMatrixRecorder(this, static_cast<NJS_OBJECT *>(model));
+    node_recorder = new TNodeMatrixRecorder(this, model);
     if (node_recorder != NULL) {
         node_recorder->set_node_callback(record_node_transforms);
     }
@@ -3660,7 +3660,7 @@ void TObjPlayer::draw_effect() { set_texture_list(get_bml_texlist(boss7_derolle_
 
 NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 
-NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return (NJS_OBJECT *)get_bml_model(boss7_derolle_c_bml_resource, index); }
+NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return get_bml_model(boss7_derolle_c_bml_resource, index); }
 
 AnimationMotion *get_boss7_motion(s32 kind) { return get_bml_motion(boss7_derolle_c_bml_resource, kind); }
 void TBoss7DeRolLeC::restore_joint_polygons() {

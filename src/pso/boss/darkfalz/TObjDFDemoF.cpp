@@ -51,7 +51,7 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
         s32 model_index = TObjDFDemoF::bml_model_id_table[i];
         motion_indices = df_demof_motion_ids;
         texture_index = model_index;
-        this->models[i] = (NJS_OBJECT *)get_bml_model(archive, model_index);
+        this->models[i] = get_bml_model(archive, model_index);
         this->textures[i] = get_bml_texlist(archive, texture_index);
         if (motion_indices[i] < 0) {
             this->motions[i] = NULL;

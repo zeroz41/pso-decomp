@@ -288,7 +288,7 @@ void TObjEneRe7Berura::init_enemy() {
     s32 i;
     s32 j;
     init_position_vectors();
-    model = (void *)re7_berura_shared_resource->models->model;
+    model = re7_berura_shared_resource->models->model;
     texlist = re7_berura_shared_resource->models->texlist;
     init_model(&berura_collision_body, 1);
     set_action_table(re7_berura_animation_definitions);

@@ -172,7 +172,7 @@ void TOKeyCave01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        object = (NJS_OBJECT *)model;
+        object = model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
         if (is_on != 1) {
@@ -255,7 +255,7 @@ TOKeyCave01::TOKeyCave01(TObject *parent, void *set_data) : TOKey(parent) {
     apply_object_set_data(set_data);
     init_switch_id();
     texlist = key_cave01_texture_lists[0];
-    model = (void *)key_cave01_resource_bundle->models[0].model;
+    model = key_cave01_resource_bundle->models[0].model;
     view_range = 400.0f;
     model_radius = 20.0f;
     activate_range = 10.0f;

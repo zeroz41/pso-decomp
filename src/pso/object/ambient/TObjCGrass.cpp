@@ -141,7 +141,7 @@ TObjCGrass::TObjCGrass(Vec origin, s32 count, s32 lifetime) : TObjMotion(tl_06) 
     } else {
         VecCopy(&position, &origin);
     }
-    model = (void *)TObjCGrass_bml_resource->models[0].model;
+    model = TObjCGrass_bml_resource->models[0].model;
     texlist = TObjCGrass_bml_resource->models[0].texlist;
     motion_list = TObjCGrass_bml_resource->motions;
     action_table = cgrass_action_desc;

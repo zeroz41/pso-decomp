@@ -136,7 +136,7 @@ BmlResource *wreck_ancient_brakable_bml_resource;
 
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
     m_name = wreck_ancient_name;
-    model = (void *)get_bml_model(wreck_ancient_bml_resource, model_index);
+    model = get_bml_model(wreck_ancient_bml_resource, model_index);
     texlist = get_bml_texlist(wreck_ancient_bml_resource, model_index);
     view_far_depth = 400.0f;
     view_radius = 40.0f;

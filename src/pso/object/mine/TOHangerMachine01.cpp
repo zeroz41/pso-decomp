@@ -37,7 +37,7 @@ void TOHangerMachine01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        node = (NJS_OBJECT *)model;
+        node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
         node = node->child;
@@ -61,7 +61,7 @@ void TOHangerMachine01::render() {
         draw_ginja_model(node->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
-        node = ((NJS_OBJECT *)model)->child->sibling->sibling->sibling;
+        node = model->child->sibling->sibling->sibling;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
         node = node->child;
@@ -74,7 +74,7 @@ void TOHangerMachine01::render() {
         draw_ginja_model(node->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
-        node = ((NJS_OBJECT *)model)->child->sibling->sibling->sibling->sibling;
+        node = model->child->sibling->sibling->sibling->sibling;
         if (0.0f < scale.x) {
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
@@ -107,7 +107,7 @@ TOHangerMachine01::~TOHangerMachine01() {
 TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = hanger_machine01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)hanger_machine01_bml_resource->models[0].model;
+    model = hanger_machine01_bml_resource->models[0].model;
     texlist = hanger_machine01_bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 50.0f;

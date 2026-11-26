@@ -122,7 +122,7 @@ s32 get_monitor_hp(s32 index) {
 }
 
 void TBoss3VoloptMonitor::set_model(s32 index) {
-    model = (void *)volopt_monitor_resources->models[index].model;
+    model = volopt_monitor_resources->models[index].model;
 }
 
 void TObjEnemyCustom::clear_flags_30() {

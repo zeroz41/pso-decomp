@@ -57,7 +57,7 @@ void TOKeyGenericSw::render() {
     }
     push_matrix();
     texlist = key_generic_sw_texture_lists[0];
-    model = (void *)key_generic_sw_shared_resource_ptrs[0]->models[0].model;
+    model = key_generic_sw_shared_resource_ptrs[0]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
@@ -73,7 +73,7 @@ void TOKeyGenericSw::render() {
         texlist = key_generic_sw_texture_lists[2];
         break;
     }
-    model = (void *)key_generic_sw_shared_resource_ptrs[1]->models[0].model;
+    model = key_generic_sw_shared_resource_ptrs[1]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
@@ -156,7 +156,7 @@ TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = key_generic_sw_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    model = (void *)key_generic_sw_shared_resource_ptrs[1]->models[0].model;
+    model = key_generic_sw_shared_resource_ptrs[1]->models[0].model;
     motion = key_generic_sw_shared_resource_ptrs[1]->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 2.0f;

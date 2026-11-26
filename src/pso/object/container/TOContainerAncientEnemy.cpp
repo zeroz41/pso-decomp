@@ -233,7 +233,7 @@ TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_da
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    model = get_bml_model(ancient_container_resource_bundle, 0);
     texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
@@ -263,7 +263,7 @@ void TUnk_804B08BC::draw_model() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
-            obj = (NJS_OBJECT *)this->model;
+            obj = this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
             draw_ginja_model(obj->model);
@@ -392,7 +392,7 @@ TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainer
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    model = get_bml_model(ancient_container_resource_bundle, 0);
     texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
@@ -422,7 +422,7 @@ void TOContainerAncientEnemy::draw_model() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
-            obj = (NJS_OBJECT *)this->model;
+            obj = this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
             draw_ginja_model(obj->model);

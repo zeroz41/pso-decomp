@@ -71,7 +71,7 @@ void TOSensorAncient01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)ancient_sensor_resource_pair_table[set_params[2]].red));
-        object = (NJS_OBJECT *)model;
+        object = model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
         TParticleCtrl::begin_effect_render();
@@ -177,12 +177,12 @@ TOSensorAncient01::TOSensorAncient01(TObject *parent, void *set_data) : TOSensor
     } else if (set_params[2] >= 2) {
         set_params[2] = 1;
     }
-    model = (void *)sensor_ancient01_model_resource->models[0].model;
+    model = sensor_ancient01_model_resource->models[0].model;
     motion = sensor_ancient01_model_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;
     view_range = 400.0f;
-    model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     activate_range = 50.0f + scale.x;
     if (activate_range < 0.0f) {
         activate_range = 0.0f;

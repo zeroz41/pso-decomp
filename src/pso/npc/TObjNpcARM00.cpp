@@ -26,7 +26,7 @@ void *TObjNpcARM00::create(void *set_data) {
 }
 
 const char *TObjNpcARM00::name = "TObjNpcARM00";
-void **TObjNpcARM00::model_resource;
+NJS_OBJECT **TObjNpcARM00::model_resource;
 NJS_TEXLIST *TObjNpcARM00::texture_list;
 
 void TObjNpcARM00::free_resources() {
@@ -42,7 +42,7 @@ void TObjNpcARM00::free_resources() {
 }
 
 void TObjNpcARM00::load_resources() {
-    model_resource = static_cast<void **>(create_named_object("npc_e00_data.rel"));
+    model_resource = static_cast<NJS_OBJECT **>(create_named_object("npc_e00_data.rel"));
     texture_list = LoadPvmFileTls("n_e00_w_body.gvm");
 }
 

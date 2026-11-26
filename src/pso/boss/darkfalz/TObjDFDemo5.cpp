@@ -47,11 +47,11 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     res = TBoss4Uro::get_instance_count();
     for (i = 0; i < 3; i++) {
         id = boss4_type3_model_ids[i];
-        parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        parts[i].model = get_bml_model(res, id);
         parts[i].texlist = get_bml_texlist(res, id);
         parts[i].motion = get_bml_motion(res, df_demo5_part_motion_ids[i]);
     }
-    parts[3].model = (NJS_OBJECT *)get_bml_model(res, 1);
+    parts[3].model = get_bml_model(res, 1);
     parts[3].texlist = get_bml_texlist(res, 1);
     parts[3].motion = get_bml_motion(res, 0x23);
     frame = -0.5f;

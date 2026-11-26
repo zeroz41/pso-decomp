@@ -272,7 +272,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, EnemyPlacement *set_data) 
     m_name = bm3_fly_nest_class_name;
     invoke_initialization_hook(set_data);
     init_position_vectors();
-    model = (void *)bm3_fly_nest_bml->models[1].model;
+    model = bm3_fly_nest_bml->models[1].model;
     texlist = bm3_fly_nest_bml->models[0].texlist;
     init_model(bm3_flynest_collider_params, 1);
     body_center.y = 20.0f + position.y;

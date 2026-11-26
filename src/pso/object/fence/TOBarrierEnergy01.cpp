@@ -57,7 +57,7 @@ static void *barrier_energy_model;
 TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = TOBarrierEnergy01_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(barrier_energy_shared_bml_archive, 1);
+    model = get_bml_model(barrier_energy_shared_bml_archive, 1);
     texlist = barrier_energy_texlists[0];
     motion = get_bml_motion(barrier_energy_shared_bml_archive, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;

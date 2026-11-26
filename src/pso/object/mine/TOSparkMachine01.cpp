@@ -74,7 +74,7 @@ void TOSparkMachine01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        n = ((NJS_OBJECT *)model)->child;
+        n = model->child;
         TParticleCtrl::begin_effect_render();
         for (i = 0; i < 4; i++) {
             switch (spark_on[i]) {
@@ -118,7 +118,7 @@ TOSparkMachine01::TOSparkMachine01(void *set_data) : TObjBase(tl_05) {
     s32 i;
     self->m_name = spark_machine01_name;
     self->apply_object_set_data(set_data);
-    self->model = (void *)spark_machine01_static_resource->models[0].model;
+    self->model = spark_machine01_static_resource->models[0].model;
     self->texlist = spark_machine01_static_resource->models[0].texlist;
     self->view_range = 500.0f;
     self->model_radius = 40.0f;

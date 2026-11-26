@@ -87,7 +87,7 @@ void TObjEneBalClaw::set_attack_distance_flag() { this->behavior_flags |= 0x1000
 
 // Picks this part's model and texture list (index into the Bal Claw BML models).
 void TObjEneBalClaw::set_model(s32 i) {
-    model = (void *)balclaw_bml_resource->models[i].model;
+    model = balclaw_bml_resource->models[i].model;
     texlist = balclaw_bml_resource->models[i].texlist;
 }
 

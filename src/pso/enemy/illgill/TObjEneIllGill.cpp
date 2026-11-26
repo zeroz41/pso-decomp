@@ -151,7 +151,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     this->clear_lobby_object_state();
     init_position_vectors();
     apply_actor_gravity(this, (s32 *)(0), 0.0f);
-    model = (void *)illGillResource->models->model;
+    model = illGillResource->models->model;
     texlist = illGillResource->models->texlist;
     motion_list = illGillResource->motions;
     action_table = illGillActions;

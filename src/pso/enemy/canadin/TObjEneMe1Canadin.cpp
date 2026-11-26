@@ -369,7 +369,7 @@ void TObjEneMe1Canadin::apply_parameters() {
 }
 
 void TObjEneMe1Canadin::select_model() {
-    model = (void *)bm_ene_me1_mb_resource->models[0].model;
+    model = bm_ene_me1_mb_resource->models[0].model;
     texlist = bm_ene_me1_mb_resource->models[1].texlist;
 }
 
@@ -1914,7 +1914,7 @@ void TObjEneMe1CanadinLeader::run_task() {
 }
 
 void TObjEneMe1CanadinLeader::select_model() {
-    model = (void *)bm_ene_me1_mb_resource->models[1].model;
+    model = bm_ene_me1_mb_resource->models[1].model;
     texlist = bm_ene_me1_mb_resource->models[1].texlist;
 }
 

@@ -135,9 +135,9 @@ void load_boss_warp_resources() {
     if (area >= 8 && area <= 0xA) {
         resource = new BmlResource(5, &bm_obj_warpboss_ancient_resource_descriptor, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
-        warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
+        boss_warp_base_model = get_bml_model(resource, 0);
+        boss_warp_confirmation_model = get_bml_model(boss_warp_resource_bundle, 2);
+        warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         boss_warp_base_textures = get_bml_texlist(boss_warp_resource_bundle, 2);
@@ -147,9 +147,9 @@ void load_boss_warp_resources() {
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         resource = new BmlResource(5, &bm_obj_warpboss_jungle_resource_descriptor, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
-        warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
+        boss_warp_base_model = get_bml_model(resource, 0);
+        boss_warp_confirmation_model = get_bml_model(boss_warp_resource_bundle, 1);
+        warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         boss_warp_base_textures = get_bml_texlist(boss_warp_resource_bundle, 0);
@@ -158,9 +158,9 @@ void load_boss_warp_resources() {
     }
     resource = new BmlResource(5, &bm_obj_warpboss_resource_descriptor, 0, 0, NULL);
     boss_warp_resource_bundle = resource;
-    boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-    boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
-    warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
+    boss_warp_base_model = get_bml_model(resource, 0);
+    boss_warp_confirmation_model = get_bml_model(boss_warp_resource_bundle, 2);
+    warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
     boss_warp_base_textures = get_bml_texlist(boss_warp_resource_bundle, 2);

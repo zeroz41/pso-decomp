@@ -1419,7 +1419,7 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     BmlResource *resource = TObjEneSlimeOne::get_instance();
     u32 id = slime_tail_model_by_target[this->owner->get_attack_target()];
     texlist = get_bml_texlist(resource, id);
-    model = (void *)get_bml_model(resource, id);
+    model = get_bml_model(resource, id);
     action_table = slime_motion_action_table;
     set_action_table(slime_motion_action_table);
     motion_list = resource->motions;

@@ -315,7 +315,7 @@ void TObjEneMe3StelthReal::init_common() {
     init_position_vectors();
     init_variant();
     entry = me3_stelth_bml_resource->models;
-    model = (void *)entry->model;
+    model = entry->model;
     init_model(&me3_stelth_collision_body_template, 1);
     motion_flags = 0;
     set_action_table(me3_stelth_animation_descriptors);
@@ -434,7 +434,7 @@ f32 TObjEneMe3Stelth::get_node_world_y() {
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
     bind_motion_context(current_motion, frame);
-    node = (NJS_OBJECT *)model;
+    node = model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);
     matrix_mult_vec(0, &v, &v);

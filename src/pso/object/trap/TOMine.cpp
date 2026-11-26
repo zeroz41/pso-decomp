@@ -627,18 +627,18 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 4:
         case 5:
         case 19:
-            model = (void *)get_bml_model(mine_model_archive, 4);
+            model = get_bml_model(mine_model_archive, 4);
             texlist = get_bml_texlist(mine_model_archive, 4);
-            light_model = (NJS_OBJECT *)get_bml_model(mine_model_archive, 1);
+            light_model = get_bml_model(mine_model_archive, 1);
             light_textures = get_bml_texlist(mine_model_archive, 1);
             break;
         case 15:
         case 16:
         case 17:
         case 18:
-            model = (void *)get_bml_model(mine_model_archive, 5);
+            model = get_bml_model(mine_model_archive, 5);
             texlist = get_bml_texlist(mine_model_archive, 5);
-            light_model = (NJS_OBJECT *)get_bml_model(mine_model_archive, 0);
+            light_model = get_bml_model(mine_model_archive, 0);
             light_textures = get_bml_texlist(mine_model_archive, 0);
             break;
         }

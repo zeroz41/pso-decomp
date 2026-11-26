@@ -5018,7 +5018,7 @@ void dragon_capture_node_points(NJS_OBJECT *) {
 }
 
 void TBoss1Dragon::draw() {
-    void *saved_model;
+    NJS_OBJECT *saved_model;
 
     saved_model = this->model;
     this->model = boss1_dragon_capture_model;
@@ -5192,7 +5192,7 @@ void TBoss1Dragon::render() {
 
 #pragma pop
 void TBoss1Dragon::render_shadows() {
-    void *body_model;
+    NJS_OBJECT *body_model;
     s32 view;
 
     view = 0;

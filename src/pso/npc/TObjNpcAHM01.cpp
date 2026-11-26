@@ -26,7 +26,7 @@ void *TObjNpcAHM01::create(void *set_data) {
 }
 
 const char *TObjNpcAHM01::name = "TObjNpcAHM01";
-void **TObjNpcAHM01::shared_object;
+NJS_OBJECT **TObjNpcAHM01::shared_object;
 NJS_TEXLIST *TObjNpcAHM01::texture_handle;
 
 void TObjNpcAHM01::free_resources() {
@@ -42,7 +42,7 @@ void TObjNpcAHM01::free_resources() {
 }
 
 void TObjNpcAHM01::load_resources() {
-    shared_object = static_cast<void **>(create_named_object("npc_c01_data.rel"));
+    shared_object = static_cast<NJS_OBJECT **>(create_named_object("npc_c01_data.rel"));
     texture_handle = LoadPvmFileTls("n_c01_e_body.gvm");
 }
 

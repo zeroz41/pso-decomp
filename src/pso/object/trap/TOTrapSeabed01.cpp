@@ -128,7 +128,7 @@ void TOTrapSeabed01::load_resources() {
     BmlResource *resource = new BmlResource(5, &seabed_trap_resource_descriptor, 0, 0, NULL);
     trap_seabed01_bml_resource = resource;
     trap_seabed01_texture_file = LoadPvmFileTls("obj_seabed_turigane.gvm");
-    trap_seabed01_ginja_model = find_object_node((NJS_OBJECT *)get_bml_model(trap_seabed01_bml_resource, 0), 5);
+    trap_seabed01_ginja_model = find_object_node(get_bml_model(trap_seabed01_bml_resource, 0), 5);
     effect_uv_scroll_last_tick = 0;
     seabed01_ginja_mesh_index = -1;
     if (trap_seabed01_texture_file != NULL) {
@@ -227,7 +227,7 @@ void TOTrapSeabed01::draw() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        draw_object_tree((NJS_OBJECT *)model);
+        draw_object_tree(model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         restore_draw_list_mask();

@@ -315,16 +315,16 @@ TBoss6Demo21_TYPE2_DEAD::TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec
     }
     vec3_add_to(&camera_position, &delta);
     BmlResource *archive = TBoss6PlotFalz::get_scene_archive();
-    models[0].model = (NJS_OBJECT *)get_bml_model(archive, 4);
+    models[0].model = get_bml_model(archive, 4);
     models[0].texture = get_bml_texlist(archive, 4);
     models[0].motion = get_bml_motion(archive, 7);
-    models[1].model = (NJS_OBJECT *)get_bml_model(archive, 5);
+    models[1].model = get_bml_model(archive, 5);
     models[1].texture = get_bml_texlist(archive, 5);
     models[1].motion = get_bml_motion(archive, 7);
-    models[2].model = (NJS_OBJECT *)get_bml_model(archive, 8);
+    models[2].model = get_bml_model(archive, 8);
     models[2].texture = get_bml_texlist(archive, 8);
     models[2].motion = get_bml_motion(archive, 8);
-    models[3].model = (NJS_OBJECT *)get_bml_model(archive, 0xD);
+    models[3].model = get_bml_model(archive, 0xD);
     models[3].texture = get_bml_texlist(archive, 0xD);
     models[3].motion = get_bml_motion(archive, 0x3D);
     capture_5 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_a, &effect_position_5);

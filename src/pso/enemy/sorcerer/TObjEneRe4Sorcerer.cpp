@@ -242,7 +242,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     BmlModelEntry *models;
 
     init_position_vectors();
-    model = (void *)sorcerer_bml_resource->models->model;
+    model = sorcerer_bml_resource->models->model;
     models = sorcerer_bml_resource->models;
     texlist = models->texlist;
     this->init_model(re4_sorcerer_collision_body_part_table, 1);

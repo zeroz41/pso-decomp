@@ -248,10 +248,10 @@ void TObjMotion::draw_ginja_motion_model() {
     set_motion_packed_rotation();
     setup_actor_draw_lighting();
     if (motion_flags & MOTION_BLENDING) {
-        draw_ginja_motion_link((NJS_OBJECT *)model, &blend, frame);
+        draw_ginja_motion_link(model, &blend, frame);
     } else {
         set_model_node_callback(model_node_callback);
-        draw_ginja_motion((NJS_OBJECT *)model, current_motion, frame);
+        draw_ginja_motion(model, current_motion, frame);
         set_model_node_callback(0);
     }
     set_default_alpha_blend();
@@ -349,7 +349,7 @@ s32 TObjEnemy::calc_joint_matrices(f32 at_frame) {
     set_motion_packed_rotation();
     player_joint_matrix_write_ptr = anim_model_matrix_array;
     set_chunk_model_node_callback(save_joint_matrix_callback);
-    draw_motion((NJS_OBJECT *)model, current_motion, at_frame);
+    draw_motion(model, current_motion, at_frame);
     set_chunk_model_node_callback(0);
     clear_motion_packed_rotation();
     return 1;
@@ -362,7 +362,7 @@ s32 TObjPlayer::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, saddr matric
     set_motion_packed_rotation();
     player_joint_matrix_write_ptr = (Mtx34 *)matrices;
     set_chunk_model_node_callback(save_joint_matrix_callback);
-    draw_motion((NJS_OBJECT *)model, with, at_frame);
+    draw_motion(model, with, at_frame);
     set_chunk_model_node_callback(0);
     clear_motion_packed_rotation();
     return 1;

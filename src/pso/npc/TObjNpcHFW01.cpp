@@ -17,7 +17,7 @@
 #pragma readonly_strings on
 
 const char *TObjNpcHFW01::name = "TObjNpcHFW01";
-void **TObjNpcHFW01::resource_node;
+NJS_OBJECT **TObjNpcHFW01::resource_node;
 NJS_TEXLIST *TObjNpcHFW01::texture_handle;
 
 void *TObjNpcHFW01::create(void *set_data) {
@@ -38,7 +38,7 @@ void TObjNpcHFW01::free_static_resources() {
 }
 
 void TObjNpcHFW01::load_resources() {
-    resource_node = static_cast<void **>(create_named_object("npc_g01_data.rel"));
+    resource_node = static_cast<NJS_OBJECT **>(create_named_object("npc_g01_data.rel"));
     texture_handle = LoadPvmFileTls("n_g01_e_body.gvm");
 }
 

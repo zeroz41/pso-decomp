@@ -35,7 +35,7 @@ TObjNpcFemaleMacho::TObjNpcFemaleMacho(TObject *parent, void *set_data) : TObjNp
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = (void *)lobby_resource->models->model;
+    this->model = lobby_resource->models->model;
     this->texlist = lobby_resource->models->texlist;
     this->setup_common();
 }

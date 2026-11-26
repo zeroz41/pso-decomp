@@ -218,7 +218,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
         flags |= 0x400;
     }
     init_position_vectors();
-    model = (void *)mericarol_bml->models[0].model;
+    model = mericarol_bml->models[0].model;
     texlist = mericarol_bml->models[0].texlist;
     init_model(mericarol_collision_bodies, 1);
     set_action_table(mericarol_motion_actions);
@@ -1224,7 +1224,7 @@ void TObjEneBm9Mericarol::render() {
     mericarol_node_counter = 0;
     toggle_particle_effect();
     if (!(flags & 0x10)) {
-        plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->sibling->model)->polygon_list;
+        plist = ((NJS_CNK_MODEL *)model->child->sibling->sibling->sibling->model)->polygon_list;
         saved = plist[5];
         plist[5] = (u8)plist[5];
         set_chunk_model_node_callback(TObjEneBm9Mericarol::update_particle_effect);
@@ -1254,7 +1254,7 @@ void TObjEneBm9Mericarol::render() {
     }
     if (!(flags & 0x10)) {
         set_chunk_model_node_callback(NULL);
-        ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->model)->polygon_list[5] = saved;
+        ((NJS_CNK_MODEL *)model->child->sibling->sibling->model)->polygon_list[5] = saved;
     }
     TParticleCtrl::end_effect_render();
     restore_alpha_ref();

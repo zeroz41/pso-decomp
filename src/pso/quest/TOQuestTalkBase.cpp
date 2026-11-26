@@ -171,7 +171,7 @@ void TOQuestTalkBase::render() {
                 draw_chunk_object(model);
             }
         } else {
-            draw_chunk_model(((NJS_OBJECT *)model)->model);
+            draw_chunk_model(model->model);
         }
         pop_matrix();
     }

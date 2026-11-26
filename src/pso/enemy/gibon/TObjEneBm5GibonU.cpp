@@ -2167,12 +2167,12 @@ void TObjEneBm5GibonU::select_subtype() {
     if (variant >= 1) {
         is_leader = 1;
         technique_type = 1;
-        model = (void *)bm5_gibon_u_model_archive->models[1].model;
+        model = bm5_gibon_u_model_archive->models[1].model;
         texlist = bm5_gibon_u_model_archive->models[1].texlist;
     } else {
         is_leader = 0;
         technique_type = 0;
-        model = (void *)bm5_gibon_u_model_archive->models[0].model;
+        model = bm5_gibon_u_model_archive->models[0].model;
         texlist = bm5_gibon_u_model_archive->models[0].texlist;
     }
     backjump_chance = 0.4f + parameters[2];

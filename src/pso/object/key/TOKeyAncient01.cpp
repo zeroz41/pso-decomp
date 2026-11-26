@@ -43,11 +43,11 @@ void TOKeyAncient01::render() {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {
             push_matrix();
-            post_translate_matrix(((NJS_OBJECT *)model)->pos);
-            rotate_matrix_z(NULL, ((NJS_OBJECT *)model)->ang[2]);
-            rotate_matrix_x(NULL, ((NJS_OBJECT *)model)->ang[0]);
-            rotate_matrix_y(NULL, ((NJS_OBJECT *)model)->ang[1]);
-            draw_ginja_model(((NJS_OBJECT *)model)->model);
+            post_translate_matrix(model->pos);
+            rotate_matrix_z(NULL, model->ang[2]);
+            rotate_matrix_x(NULL, model->ang[0]);
+            rotate_matrix_y(NULL, model->ang[1]);
+            draw_ginja_model(model->model);
             pop_matrix();
         }
         pop_matrix();
@@ -108,7 +108,7 @@ TOKeyAncient01::TOKeyAncient01(TObject *parent, void *set_data) : TOKey(parent) 
         set_params[1] = 3;
     }
     texlist = key_ancient01_texture_lists[set_params[1]];
-    model = (void *)key_ancient01_shared_resource_object->models[0].model;
+    model = key_ancient01_shared_resource_object->models[0].model;
     motion = key_ancient01_shared_resource_object->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 0.99f;

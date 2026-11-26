@@ -13,7 +13,7 @@
 #pragma readonly_strings on
 
 const char *TObjNpcHRM01::name = "TObjNpcHRM01";
-void **TObjNpcHRM01::shared_object_resource;
+NJS_OBJECT **TObjNpcHRM01::shared_object_resource;
 NJS_TEXLIST *TObjNpcHRM01::body_texture_gvm_handle;
 
 void *TObjNpcHRM01::create(void *set_data) {
@@ -34,7 +34,7 @@ void TObjNpcHRM01::free_shared_objects() {
 }
 
 void TObjNpcHRM01::load_resources() {
-    shared_object_resource = static_cast<void **>(create_named_object("npc_d01_data.rel"));
+    shared_object_resource = static_cast<NJS_OBJECT **>(create_named_object("npc_d01_data.rel"));
     body_texture_gvm_handle = LoadPvmFileTls("n_d01_e_body.gvm");
 }
 

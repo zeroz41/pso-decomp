@@ -180,7 +180,7 @@ void TObjLaboDesignBase::render_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    draw_node_tree((NJS_OBJECT *)get_bml_model(model_resource, 0));
+    draw_node_tree(get_bml_model(model_resource, 0));
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }

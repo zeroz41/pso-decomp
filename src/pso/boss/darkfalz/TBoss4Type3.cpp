@@ -246,7 +246,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
         render_lists[i] = ModelNodePositionCapture::create(boss4_type3_effect_desc_ptr_table[i], node_positions[i]);
     }
     set_motion_packed_rotation();
-    body = (NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]);
+    body = get_bml_model(archive, boss4_type3_model_ids[0]);
     trail_samples[0] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     trail_samples[0]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[3].motions[0]), 0x16, 0x17);
     trails[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
@@ -387,7 +387,7 @@ void TBoss4Type3::run_task() {
     }
     p = new SampledMotionPoints(2, lim, lim, 0.6f);
     set_motion_packed_rotation();
-    p->sample((NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
+    p->sample(get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
     clear_motion_packed_rotation();
     e = p->lookup(lim);
     push_matrix();

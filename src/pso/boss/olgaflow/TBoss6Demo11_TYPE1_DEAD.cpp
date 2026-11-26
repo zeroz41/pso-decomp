@@ -58,7 +58,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TBoss6PlotFalz *plot, const Vec
     resource = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
         model_id = boss6_type1_part_model_ids[i];
-        parts[i].model = (NJS_OBJECT *)get_bml_model(resource, model_id);
+        parts[i].model = get_bml_model(resource, model_id);
         parts[i].texture = get_bml_texlist(resource, model_id);
         parts[i].motion = get_bml_motion(resource, death_motion_indices[i]);
     }

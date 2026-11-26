@@ -55,7 +55,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
     for (i = 0; i < 2; i++) {
         s32 t = boss4_zanzo_bml_index_table[i];
         k = t;
-        this->parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
+        this->parts[i].model = get_bml_model(archive, t);
         this->parts[i].texlist = get_bml_texlist(archive, k);
         this->parts[i].motion = get_bml_motion(archive, TObjDFDemo2::motion_index_table[i]);
     }

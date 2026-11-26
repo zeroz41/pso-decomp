@@ -81,7 +81,7 @@ NJS_TEXLIST *get_jungle_design_texlist(s32 index) {
 }
 NJS_OBJECT *get_jungle_design_model(s32 index) {
     if (jungle_design_shared_model_resource != NULL) {
-        return (NJS_OBJECT *)get_bml_model(jungle_design_shared_model_resource, index);
+        return get_bml_model(jungle_design_shared_model_resource, index);
     }
     return NULL;
 }

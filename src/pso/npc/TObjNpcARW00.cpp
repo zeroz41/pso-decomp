@@ -22,7 +22,7 @@ void *TObjNpcARW00::create(void *set_data) {
 
 const char *TObjNpcARW00::name = "TObjNpcARW00";
 
-void **TObjNpcARW00::static_model;
+NJS_OBJECT **TObjNpcARW00::static_model;
 NJS_TEXLIST *TObjNpcARW00::gvm_texture_handle;
 
 void TObjNpcARW00::free_resources() {
@@ -38,7 +38,7 @@ void TObjNpcARW00::free_resources() {
 }
 
 void TObjNpcARW00::load_resources() {
-    static_model = static_cast<void **>(create_named_object("npc_f00_data.rel"));
+    static_model = static_cast<NJS_OBJECT **>(create_named_object("npc_f00_data.rel"));
     gvm_texture_handle = LoadPvmFileTls("n_f00_w_body.gvm");
 }
 

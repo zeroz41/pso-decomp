@@ -1025,7 +1025,7 @@ void TObjEneLappy::clear_flag_1() {
 }
 
 void TObjEneLappy::set_speed_params(s32 variant) {
-    void *body;
+    NJS_OBJECT *body;
     NJS_TEXLIST *textures;
 
     if (TLobby::get_instance() == 0) {

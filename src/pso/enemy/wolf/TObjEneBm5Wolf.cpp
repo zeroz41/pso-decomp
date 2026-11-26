@@ -433,12 +433,12 @@ void TObjEneBm5Wolf::select_subtype() {
     this->group_id = (s32) floor_to_float(this->parameters[0]);
     if (this->parameters[1] >= 1.0f) {
         this->is_leader = 1;
-        this->model = (void *)bm5_wolf_bml_resource->models[1].model;
+        this->model = bm5_wolf_bml_resource->models[1].model;
         this->texlist = bm5_wolf_bml_resource->models[0].texlist;
         return;
     }
     this->is_leader = 0;
-    this->model = (void *)bm5_wolf_bml_resource->models[0].model;
+    this->model = bm5_wolf_bml_resource->models[0].model;
     this->texlist = bm5_wolf_bml_resource->models[0].texlist;
 }
 

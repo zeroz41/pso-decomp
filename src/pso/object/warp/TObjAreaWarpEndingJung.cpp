@@ -187,7 +187,7 @@ TObjMapWarpForest::~TObjMapWarpForest() {}
 
 void TObjMapForceWarp::open_confirm_window(s32) {}
 
-NJS_OBJECT *get_forest_warp_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_warp_bml_resource, index); }
+NJS_OBJECT *get_forest_warp_model(s32 index) { return get_bml_model(forest_warp_bml_resource, index); }
 
 AnimationMotion *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
 

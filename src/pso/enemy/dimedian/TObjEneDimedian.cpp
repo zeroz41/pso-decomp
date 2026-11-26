@@ -231,7 +231,7 @@ void TObjEneDimedian::render() {
         case 0:
         case 1:
         case 8: {
-            s16 *strip = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->model)->polygon_list;
+            s16 *strip = ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list;
             saved = strip[3];
             strip[3] = (u8)strip[3];
             break;
@@ -280,7 +280,7 @@ void TObjEneDimedian::render() {
         case 0:
         case 1:
         case 8:
-            ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->model)->polygon_list[3] = saved;
+            ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list[3] = saved;
             break;
         }
     }

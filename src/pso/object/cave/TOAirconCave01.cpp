@@ -51,7 +51,7 @@ TOAirconCave01::~TOAirconCave01() {}
 TOAirconCave01::TOAirconCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TOAirconCave01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)aircon_cave01_model_archive->models[0].model;
+    model = aircon_cave01_model_archive->models[0].model;
     texlist = aircon_cave01_model_archive->models[0].texlist;
     view_range = 500.0f;
     model_radius = 40.0f;

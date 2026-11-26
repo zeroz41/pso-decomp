@@ -177,7 +177,7 @@ void TBoss2Mine::update_move_flag() {
 }
 
 void TBoss2Mine::set_node_offsets() {
-    NJS_OBJECT *node = ((NJS_OBJECT *)model)->child;
+    NJS_OBJECT *node = model->child;
     s32 i;
     s32 angle = -spike_angle;
     for (i = 0; i < 4; i++) {

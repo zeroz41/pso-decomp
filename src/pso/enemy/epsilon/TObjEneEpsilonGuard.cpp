@@ -683,7 +683,7 @@ TObjEneEpsilonGuard::~TObjEneEpsilonGuard() {
 
 void TObjEneEpsilonGuard::init_model_and_state() {
     init_position_vectors();
-    model = (void *)get_bml_model(epsilon_bml_resource, 2);
+    model = get_bml_model(epsilon_bml_resource, 2);
     texlist = get_bml_texlist(epsilon_bml_resource, 0);
     init_model(epsilon_guard_model_desc, 1);
     set_action_table(epsilon_guard_action_table);

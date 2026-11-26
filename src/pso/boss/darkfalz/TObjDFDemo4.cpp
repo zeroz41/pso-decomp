@@ -60,13 +60,13 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     res = TBoss4Uro::get_instance_count();
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
-        zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        zanzo_parts[i].model = get_bml_model(res, id);
         zanzo_parts[i].texlist = get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, df_demo4_zanzo_motion_ids[i]);
     }
     for (i = 0; i < 3; i++) {
         int id = boss4_type3_model_ids[i];
-        body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        body_parts[i].model = get_bml_model(res, id);
         body_parts[i].texlist = get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, df_demo4_body_motion_ids[i]);
     }

@@ -45,7 +45,7 @@ NJS_TEXLIST *goal_warp_ancient_gvm_texture;
 
 
 extern "C" NJS_OBJECT *get_ancient_warp_model(s32 index) {
-    return (NJS_OBJECT *)get_bml_model(ancient_warp_shared_resource, index);
+    return get_bml_model(ancient_warp_shared_resource, index);
 }
 
 AnimationMotion *TObjGoalWarpAncient::register_warp(s32 index) {

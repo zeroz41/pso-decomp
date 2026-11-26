@@ -1077,13 +1077,13 @@ void TObjEneEpsilonBody::render_demo() {  }
 void TObjEneEpsilonBody::set_guard_state() {
     if (flags & 2) {
         guarded = 1;
-        model = (void *)get_bml_model(epsilon_bml_resource, 0);
+        model = get_bml_model(epsilon_bml_resource, 0);
         requested_action = 0;
         set_indexed_flags(1, 1);
         clear_player_status_flag(0, 1);
     } else {
         guarded = 0;
-        model = (void *)get_bml_model(epsilon_bml_resource, 1);
+        model = get_bml_model(epsilon_bml_resource, 1);
         requested_action = 1;
         set_indexed_flags(0, 1);
         clear_player_status_flag(1, 1);

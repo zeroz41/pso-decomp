@@ -114,8 +114,8 @@ void TODoorCave02::render() {
         rotate_matrix_y(NULL, rotation_y);
         if ((s32)object_state == DOOR_CLOSED) {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
-            draw_light(((NJS_OBJECT *)model)->child);
-            draw_light(((NJS_OBJECT *)model)->child->sibling);
+            draw_light(model->child);
+            draw_light(model->child->sibling);
         } else {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
@@ -164,7 +164,7 @@ TODoorCave02::~TODoorCave02() {
 TODoorCave02::TODoorCave02(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_cave02_class_name;
     apply_object_set_data(set_data);
-    model = (void *)bml_resource->models[0].model;
+    model = bml_resource->models[0].model;
     texlist = bml_resource->models[0].texlist;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

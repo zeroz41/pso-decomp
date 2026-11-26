@@ -43,7 +43,7 @@ void TOKeyAncient02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        object = (NJS_OBJECT *)model;
+        object = model;
         push_matrix();
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
@@ -144,7 +144,7 @@ void TOKeyAncient02::load_resources() {
     key_ancient02_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*key_ancient02_texture_lists));
     key_ancient02_texture_lists[0] = get_bml_texlist(key_ancient02_model_archive, 0);
     key_ancient02_texture_lists[1] = LoadPvmFileTls("o_key_ancient02.gvm");
-    key_ancient02_glass_model = (NJS_OBJECT *)get_bml_model(key_ancient02_model_archive, 0);
+    key_ancient02_glass_model = get_bml_model(key_ancient02_model_archive, 0);
 }
 
 TOKeyAncient02::~TOKeyAncient02() {
@@ -156,13 +156,13 @@ TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = key_ancient02_class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    model = (void *)get_bml_model(key_ancient02_model_archive, 1);
+    model = get_bml_model(key_ancient02_model_archive, 1);
     texlist = get_bml_texlist(key_ancient02_model_archive, 1);
     init_collision_body_parts(this, key_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     view_range = 400.0f;
-    model_radius = 50.0f + ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
+    model_radius = 50.0f + ((GinjaModelBounds *)model->model)->radius;
     pulse_flags = 0;
     lamp_angle = 0;
     if (mode != KEY_MODE_NONE && set_params[1] < 0) {

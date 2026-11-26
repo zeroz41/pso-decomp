@@ -52,7 +52,7 @@ TObjTreeLobby::TObjTreeLobby(TObject *parent, void *set_data) : TObjMapObject(pa
         fade_state = 3;
     }
     fade_scale = 1.0f;
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = lobby_texlist;
 }
 

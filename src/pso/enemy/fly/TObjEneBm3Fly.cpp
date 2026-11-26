@@ -115,7 +115,7 @@ TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entit
 #pragma fp_contract on
 void TObjEneBm3Fly::init_child_params() {
     init_position_vectors();
-    this->model = (void *)bm3_fly_nest_resources->models[0].model;
+    this->model = bm3_fly_nest_resources->models[0].model;
     this->texlist = bm3_fly_nest_resources->models[0].texlist;
     this->init_model(bm3_fly_collider_params, 1);
     set_action_table(bm3_fly_action_table);

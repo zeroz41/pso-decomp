@@ -172,7 +172,7 @@ void TODoorMachine01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         if (object_state == DOOR_CLOSED) {
-            node = ((NJS_OBJECT *)model)->child;
+            node = model->child;
             lit = (door_flags >> LIGHT_LIT_SHIFT) & 1;
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
@@ -180,7 +180,7 @@ void TODoorMachine01::render() {
             draw_ginja_model(node->model);
             draw_switch_light(node->child, lit);
             pop_matrix();
-            node = ((NJS_OBJECT *)model)->child->sibling;
+            node = model->child->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 1)) & 1;
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
@@ -193,7 +193,7 @@ void TODoorMachine01::render() {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             draw_switch_light(node, lit);
             pop_matrix();
-            node = ((NJS_OBJECT *)model)->child->sibling->sibling;
+            node = model->child->sibling->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 3)) & 1;
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
@@ -250,7 +250,7 @@ TODoorMachine01::~TODoorMachine01() {
 TODoorMachine01::TODoorMachine01(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_machine01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)bml_resource->models[0].model;
+    model = bml_resource->models[0].model;
     texlist = bml_resource->models[0].texlist;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

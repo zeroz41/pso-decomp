@@ -11,7 +11,7 @@ struct TObjNpcNHW01 : public TObjNpcFemale {
     static void load_resources();
     static void *create(void *set_data);
     static const char *name;
-    static void **model_object;
+    static NJS_OBJECT **model_object;
     static NJS_TEXLIST *texture_handle;
 };
 
