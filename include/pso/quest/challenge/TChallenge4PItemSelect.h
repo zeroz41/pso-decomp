@@ -33,4 +33,11 @@ LAYOUT_ASSERT(ChallengeItemSelectWindow, offsetof(TChallenge4PItemSelect,menu_wi
 
 s32 update_challenge_result_player_locks();
 
+// One selectable item: the first three item-code bytes, stored as words.
+struct Challenge4PItemCode {
+    s32 type;
+    s32 group;
+    s32 subtype;
+};
+
 #endif

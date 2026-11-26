@@ -140,9 +140,9 @@ u8 gba_download_update_graph() {
 }
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/GbaDownloadRuntimeTypes.h"
 GbaJoybootState gba_joyboot_states[1];
 
-struct DayMinuteTicks { s32 days; s32 mins; s32 ticks; };
 
 struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
 

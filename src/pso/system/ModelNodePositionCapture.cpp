@@ -1,13 +1,8 @@
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/ModelNodePositionCaptureTypes.h"
 
-struct ModelNodePositionCaptureState {
-    s32 node_index;
-    const ModelNodePositionEntry *entries;
-    Vec *positions;
-    s32 unknown_0c;
-};
 
 extern "C" {
 ModelNodePositionCaptureState model_node_position_capture_state;

@@ -26,9 +26,9 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/scene/TSceneSoraTypes.h"
 
 
-struct SceneTableEntry { s32 f0; char *name; };
 
 
 #pragma readonly_strings on

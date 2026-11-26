@@ -87,4 +87,18 @@ struct NetConfigRecordVersion { u8 pad[0xEC]; u16 v; s16 state; u8 pad2[0x210 - 
 
 struct NetConfigVersionView { u8 pad0[2]; s16 cur; u8 pad4[0x24]; NetConfigSlot recs[6]; NetConfigRecordVersion ents[6]; };
 
+struct NetConfigBufferView {
+    u8 pad0[2];
+    s16 cur;
+    u8 pad4[0x24];
+    NetConfigSlotWord recs[6];
+    union {
+        NetConfigRecordNames ents[6];
+        struct {
+            u8 pad[0xD5C - 0x118];
+            NetConfigStringSet ents2[6];
+        } b;
+    } u;
+};
+
 #endif

@@ -56,4 +56,8 @@ void reset_globals2(void);
 void reset_globals__19TQuestListChallengeFv(void);
 }
 
+struct ChallengeWindowExtent { f32 dimensions[2]; };
+
+struct ChallengeWindowExtentResource { ChallengeWindowExtent extent; u32 reserved; };
+
 #endif

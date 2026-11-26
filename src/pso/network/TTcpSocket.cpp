@@ -20,36 +20,13 @@
 #include "pso/network/TUdpSocket.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/gjSystem.h"
+#include "pso/network/TTcpSocketTypes.h"
 
 // Game code; structure adapted from pso-gc-reference, verified against PsoV3.dol.
 
-struct at_ip4_opt {
-	u8 ttl;
-	u8 svctype;
-	u8 df_flag;
-};
 
-struct at_ip6_opt {
-	u8 traffic_class;
-	u32 flow_label;
-	u8 hop_limit;
-};
 
-struct at_ip_option {
-	u32 type;
-	union {
-		struct at_ip6_opt ip6;
-		struct at_ip4_opt ip4;
-	} ip46;
-};
 
-struct at_ip_addr {
-	u32 type;
-	union {
-		u8 ip6[16];
-		u32 ip4;
-	} ip46;
-};
 
 extern "C" {
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);

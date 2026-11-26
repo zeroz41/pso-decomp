@@ -29,6 +29,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/text_8014618C.h"
 #include "pso/unk/TLobby_80145E40.h"
+#include "pso/network/NetworkConnectTypes.h"
 #undef PSO_SDK_COMPACT_MATH
 
 s32 lobby_local_ip_addr;
@@ -548,7 +549,6 @@ void teardown_dns() {
 }
 
 
-struct PppPasswordBuffer { s32 value; u8 remaining[0x94]; };
 extern PppPasswordBuffer ppp_password_buffer;
 
 s32 set_dns_servers() {

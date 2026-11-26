@@ -99,6 +99,7 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TObjFreezeShell.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/system/task/DestructorChain.h"
 
 
 void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -652,11 +653,6 @@ void TScene::set_scene(int scene) { scene_resource_index = scene; }
 // The global character record. The original's static initializer precedes this
 // file's inline copies, which a compiler-generated one never does, so the
 // initializer is spelled out.
-struct DestructorChain {
-    DestructorChain *next;
-    void *destructor;
-    void *object;
-};
 extern "C" {
 static void __sinit_OfflineGameScene_cpp();
 TPlyCharData *__ct__12TPlyCharDataFv(TPlyCharData *self);

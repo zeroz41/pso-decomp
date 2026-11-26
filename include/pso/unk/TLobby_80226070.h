@@ -13,4 +13,15 @@ void update_music_stream_gain(s32 user);
 // Nonzero while a lobby music request is pending (TLobby_80226070.cpp).
 extern int lbl_805D62B8;
 
+struct SetSoundPitchRequestSndEnt {
+    s32 flags;
+    s32 id;
+    const Vec *src;
+    Vec pos;
+    s16 timer; // frames left: 0x96 when played, 5 to fade out; the same id is not replayed while >= 0x94
+    s16 volume;
+    const void *actor;
+    u8 pad[8];
+};
+
 #endif

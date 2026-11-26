@@ -23,4 +23,9 @@ void update_music_fade(void);
 // Nonzero while area music plays.
 extern s32 music_state;
 
+struct SndHooks {
+    void *(*malloc)(u32 size);
+    void (*free)(void *ptr);
+};
+
 #endif

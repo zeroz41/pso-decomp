@@ -96,9 +96,9 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
+#include "pso/system/scene/OnlineLobbySceneTypes.h"
 
 
-struct UdpTestGameEntry { s32 f0; s32 f4; };
 
 extern "C" {
 int clear_keyboard_input_flag(void);

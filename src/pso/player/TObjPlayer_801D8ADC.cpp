@@ -26,14 +26,9 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/player/PhotonBlastMotionTiming.h"
 
 
-// Photon blast motion frames of one weapon handle.
-struct PhotonBlastMotionTiming {
-    f32 hold_frame;
-    f32 upper_bound;
-    f32 complete_threshold;
-};
 
 extern "C" {
 s32 clamp_class_index(s32);

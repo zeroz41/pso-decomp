@@ -49,12 +49,11 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/gjSystem.h"
 #include "pso/object/TObjLuker.h"
+#include "pso/object/base/ActorCollision.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 
-extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-}
 // The collision body every telepipe field collider starts from: a 0.01 sphere.
 CollisionBody telepipe_field_collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 0.01f, 0.0f, 0, 0x8031F0B, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -97,10 +96,6 @@ static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 }
 extern "C" {
 const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
-}
-void free_collision_body_parts(TObjCollidable *actor);
-extern "C" {
-s32 submit_cursor_candidate(void *, s32);
 }
 void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room);
 s32 PlacementSlot::is_placed() { return (u8)(state == 2); }

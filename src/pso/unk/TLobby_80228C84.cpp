@@ -4,19 +4,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/player/PlayerSlots.h"
 
-struct VObj_80228C84 : Base_80228C84 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual const char *m10();
-};
 
 
 void refresh_player_status(s32 client_id) {

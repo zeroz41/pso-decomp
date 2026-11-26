@@ -32,12 +32,6 @@
 #include "pso/object/base/TObjBase.h"
 
 
-// One selectable item: the first three item-code bytes, stored as words.
-struct Challenge4PItemCode {
-    s32 type;
-    s32 group;
-    s32 subtype;
-};
 
 extern "C" {
 

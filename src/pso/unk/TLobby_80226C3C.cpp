@@ -279,10 +279,6 @@ void turn_off_bgm_p2(void) {
 extern "C" {
 s32 VISetPreRetraceCallback(void (*callback)(void));
 }
-struct SndHooks {
-    void *(*malloc)(u32 size);
-    void (*free)(void *ptr);
-};
 extern "C" {
 void gcrna_bridge_init_buffers(void *work, s32 size, s32 count);
 }

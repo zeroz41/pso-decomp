@@ -140,6 +140,7 @@
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TPlayerLobbyMarker.h"
+#include "pso/player/EquippedItemSlot.h"
 
 #pragma readonly_strings on
 
@@ -224,16 +225,6 @@ extern const f32 player_feedback_light_green;
 extern const f32 player_feedback_light_blue;
 extern const f32 player_feedback_light_step;
 
-// An equipped item and the slot it sits in, kept while apply_battle_level_reset rebuilds the stats.
-struct EquippedItemSlot {
-    EquippedItemSlot() {
-        slot = 0;
-        item = NULL;
-    }
-
-    s16 slot;
-    TItem *item;
-};
 
 extern "C" {
 

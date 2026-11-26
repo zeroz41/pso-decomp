@@ -53,9 +53,8 @@ void TTecZonde::apply_to_target(TObjChara *target) {
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/technique/TTecZondeTypes.h"
 
-// One bolt of Zonde: it starts at `start`, travels along the unit vector `dir` for `len`.
-struct ZondeBolt { Vec start; Vec dir; f32 len; };
 
 TTecZonde::~TTecZonde() {
 }

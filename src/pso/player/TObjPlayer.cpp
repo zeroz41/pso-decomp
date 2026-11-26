@@ -67,6 +67,7 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/player/PlayerTelepipe.h"
 #include "pso/player/InventoryItemList.h"
+#include "pso/player/TObjPlayerTypes.h"
 
 
 
@@ -1412,9 +1413,7 @@ G_InterLevelWarp_6x21 &G_InterLevelWarp_6x21::operator=(const G_InterLevelWarp_6
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ItemDataWords { u32 w[5]; };
 
-struct InventoryEntryLayout { u8 a; u8 b; u8 c; u8 d; s32 e; ItemDataWords f; };
 
 
 void G_InterLevelWarp_6x21::init() {

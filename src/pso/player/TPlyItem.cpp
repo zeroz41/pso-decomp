@@ -38,6 +38,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TPlyItemTypes.h"
 
 struct Actor_801D3E20 {
     u8 pad[0x30];
@@ -51,25 +52,7 @@ struct Actor_801D3E20 {
     s32 count;
 };
 struct Ground_801D3C38 { u8 pad0[4]; Vec *pos; };
-struct InventorySortEntry {
-    u32 key;
-    TItem *val;
-    InventorySortEntry();
-    void set_key(TItem *item);
-    // Non-const source: the original reloads other.val after storing key.
-    InventorySortEntry &operator=(InventorySortEntry &other);
-};
 
-// The 8-byte list TPlyItem::sort_items allocates with new and frees with
-// delete (the destructor's s16 argument is MWCC's delete flag).
-struct InventorySortBuffer {
-    s32 count;
-    InventorySortEntry *items;
-    InventorySortBuffer(s32 n);
-    ~InventorySortBuffer();
-    // Bubble-sorts records by key.
-    void sort_by_key();
-};
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
 }

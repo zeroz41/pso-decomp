@@ -39,14 +39,13 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/item/TItemDataTypes.h"
 
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
 }
 
-// get_item_icon_index copies the table whole.
-struct ItemIconIndexTable { s32 w[19]; };
 
 static const ItemIconIndexTable item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
 static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
@@ -987,19 +986,6 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
   return result & mask;
 }
 
-// A mag's item data as serialize_mag fills it (TItemData's layout).
-struct MagItemData {
-    u8 kind;
-    u8 group;
-    u8 level;
-    u8 photon_blasts;
-    s16 stat[4];
-    u32 id;
-    u8 synchro;
-    u8 iq;
-    u8 photon_blast_flags;
-    u8 color;
-};
 
 void serialize_mag__9TItemDataFPvPv(MagItemData *item, const MagStats *mag) {
     MagItemData copy;

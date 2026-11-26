@@ -67,6 +67,8 @@
 #include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_801C4F80.h"
 #include "pso/unk/TLobby_80103F5C.h"
+#include "pso/player/TPlayerBattleCtrlTypes.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -126,7 +128,6 @@ extern const char *dead_spot_class_name;
 
 
 
-struct UpdateBattleIntroName { char s[16]; };
 
 
 
@@ -136,7 +137,6 @@ struct UpdateBattleIntroName { char s[16]; };
 extern "C" {
 
 
-void request_active_window_close(void);
 void __destroy_new_array(void *, void *);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
@@ -147,8 +147,6 @@ void __ct__19PlayerCharDataEntryFv(void);
 void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
 }
 
-extern "C" {
-}
 
 extern s32 battle_intro_value_table[];
 

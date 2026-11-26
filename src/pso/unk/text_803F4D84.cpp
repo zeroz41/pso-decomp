@@ -12,19 +12,6 @@
 
 
 
-struct NetConfigBufferView {
-    u8 pad0[2];
-    s16 cur;
-    u8 pad4[0x24];
-    NetConfigSlotWord recs[6];
-    union {
-        NetConfigRecordNames ents[6];
-        struct {
-            u8 pad[0xD5C - 0x118];
-            NetConfigStringSet ents2[6];
-        } b;
-    } u;
-};
 
 
 

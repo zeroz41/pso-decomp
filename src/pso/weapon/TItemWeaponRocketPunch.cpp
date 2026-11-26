@@ -22,17 +22,9 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/weapon/TItemWeaponRocketPunchTypes.h"
 
-struct TargetEntityPosition {
-    u8 pad[0x1c];
-    u8 position[0x10];
-};
 
-struct TargetEntityManager {
-    u8 pad[0xa4];
-    TargetEntityPosition *ents;
-    s32 count;
-};
 
 extern "C" {
 TargetEntityManager *find_entity_by_id(u32);

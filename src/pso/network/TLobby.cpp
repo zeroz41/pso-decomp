@@ -105,65 +105,10 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 
+#include "pso/network/TLobbyRecords.h"
+
 #pragma readonly_strings on
 
-struct LobbyPlayerEntry {
-    u8 tag[8];
-    u32 ip_addr;
-    saddr client_id;
-    char name[16];
-    u8 char_data[0x41C];
-};
-/* An entry of a server menu (commands 07 and 1F: ship, block and information lists). */
-struct ServerMenuEntry {
-    u32 menu_id;
-    u32 item_id;
-    u16 flags;
-    char name[0x12];
-};
-/* The 6x6B-6x6E game-state sync subcommands: an extended subcommand header (size 0, the whole packet's size in the
- * word after it) and the LZ-compressed state. */
-struct CompressedSyncPacket {
-    G_UnusedHeader header;
-    s32 total_size;
-    u8 data[1];
-};
-struct GameStateSyncScratch {
-    u16 total_size;
-    u16 floor_flags_size;
-    u16 sync_records_size;
-    u16 switch_table_size;
-    u8 payload[sizeof(FloorSetFlagsPayload)];
-};
-LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
-LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
-struct RecoveredGlobal_80135198_lbl_804A7008 { s32 value; u8 remaining[0x14]; };
-LAYOUT_ASSERT(RecoveredGlobal_80135198_lbl_804A7008_size, sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18);
-struct Row_80135208 { u8 pad[8]; u32 ip_addr; s32 client_id; char name[16]; };
-/* 6x70: an extended subcommand header and the sending player's sync record. */
-struct PlayerSyncPacket {
-    G_ClientIDHeader header;
-    s32 total_size;
-    PlayerSyncRecord record;
-};
-typedef char LobbyPlayerName[16];
-/* An entry of the game list (command 08). */
-struct GameMenuEntry {
-    u32 menu_id;
-    u32 game_id;
-    s8 difficulty_tag; /* the difficulty + 0x22 */
-    u8 num_players;
-    char name[0x10];
-    u8 episode;
-    s8 flags;
-};
-struct DownloadListEntry { u8 pad0[5]; u8 kind; u8 pad6[6]; u8 name[0x8C]; };
-typedef struct LobbyServerAddress {
-    const char *host;
-    s32 port;
-} LobbyServerAddress;
-struct H_8013A348 { u8 b[12]; };
-struct S_8013A348 { u8 pad[0x28]; struct H_8013A348 h[5]; };
 struct ByteBlock_8 { u8 bytes[0x8]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
 struct ByteBlock_24 { u8 bytes[0x24]; };
@@ -258,7 +203,7 @@ char lobby_ship_name[0x28];
 char selected_game_name[0x14];
 LobbyPlayerName lobby_player_names[12];
 s32 game_join_pending_clients[4];
-Row_80135208 game_join_player_records[4];
+GameJoinPlayerRecord game_join_player_records[4];
 u32 lobby_join_message_buffer[64];
 char player_joined_message[0x80];
 char lobby_idle_timeout_text_buffer[0x100];

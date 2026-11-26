@@ -36,7 +36,6 @@ s32 battle_parameter_difficulty;
 s32 battle_param_lab_variant;
 s32 override_enemy_bp_index;
 
-extern char text_builder_buffer[0x100];
 
 
 

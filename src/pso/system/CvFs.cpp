@@ -4,14 +4,10 @@
 #include "pso/system/CvFsStreamHandle.h"
 #include "pso/system/CvFs.h"
 #include "pso/network/TLobby.h"
+#include "pso/system/CvFsTypes.h"
 
 
-struct TLobbyEntry { CvFsDeviceInterface *device; char name[12]; };
 
-struct CvFsHandle {
-    CvFsDeviceInterface *vtbl;
-    void *fd;
-};
 
 extern s8 fs_default_device_name[];
 extern TLobbyEntry cvfs_entry_table[];

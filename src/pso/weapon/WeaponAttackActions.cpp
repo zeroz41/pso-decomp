@@ -56,6 +56,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
+#include "pso/weapon/WeaponAttackActionsTypes.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -807,7 +808,6 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 // ---- pso/unk/text_80120150
 
-struct WeaponColorDescriptor { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 weapon_photon_phase_step;
 s16 weapon_node_material_index;

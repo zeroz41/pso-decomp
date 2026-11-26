@@ -26,8 +26,6 @@ s32 lbl_805D64AC;
 TQuestListChallenge *quest_list_challenge_active_instance;
 void *__ct__11TObjControlFP7TObject(void *, void *);
 
-struct ChallengeWindowExtent { f32 dimensions[2]; };
-struct ChallengeWindowExtentResource { ChallengeWindowExtent extent; u32 reserved; };
 extern __declspec(section ".rodata") const QuestListStageEntry TQuestListChallenge__stage_table[5];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_challenge_stage_table[9];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_battle_stage_table[8];
