@@ -60,8 +60,6 @@ u16 *floor_item_free_id_stack;
 int floor_item_free_id_count;
 u16 *floor_item_next_sort_keys;
 FlagWord lbl_805D5430;
-void *__construct_new_array(void *block, void *ctor, void *dtor, size_t size, size_t n);
-void __ct__9FloorItemFv(FloorItem *item, s32 mode);
 }
 void build_6x63_packet(void *packet);
 extern "C" {
@@ -414,8 +412,7 @@ void TLobby::free_boss_rocks() {
     lbl_805D5430.reset();
 }
 void TLobby::alloc_objects() {
-    floor_item_entry_pool = static_cast<FloorItem *>(
-        __construct_new_array(mem_alloc(0x1E610), reinterpret_cast<void *>(__ct__9FloorItemFv), NULL, 0x24, 0xD80));
+    floor_item_entry_pool = new FloorItem[0xD80];
     floor_item_row_table = static_cast<ApplySyncItemStateEntry **>(mem_alloc(0x48));
     floor_item_counts_by_floor = static_cast<s32 *>(mem_alloc(0x48));
     floor_item_free_id_stack = static_cast<u16 *>(mem_alloc(0x40));
