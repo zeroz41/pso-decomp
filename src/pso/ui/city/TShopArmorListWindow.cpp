@@ -29,7 +29,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/TLobby_8021B268.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/text_80222DE8.h"
 

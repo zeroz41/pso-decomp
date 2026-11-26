@@ -38,7 +38,7 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/unk/text_80072230.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerSubcommandHandlers.h"

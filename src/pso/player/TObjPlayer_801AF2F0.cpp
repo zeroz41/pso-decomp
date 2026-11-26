@@ -74,7 +74,7 @@
 #include "pso/system/TDeathTintFade.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/network/TLobby.h"

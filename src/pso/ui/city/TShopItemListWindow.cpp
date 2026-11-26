@@ -31,7 +31,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/shop/ShopItemSort.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_80222DE8.h"
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/system/task/TObject.h"

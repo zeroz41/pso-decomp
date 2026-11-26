@@ -50,7 +50,6 @@
 #include "pso/item/MagStats.h"
 #include "pso/item/TItemData_80104D0C.h"
 #include "pso/unk/text_80104F4C.h"
-#include "pso/unk/text_8011A780.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/PlayerRequirementStats.h"

@@ -13,7 +13,7 @@
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_8011A780.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"

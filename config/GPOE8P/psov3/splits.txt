@@ -2243,7 +2243,7 @@ pso/item/TItemReverseTechCtrl.cpp:
 	.data       start:0x804A0440 end:0x804A04A8
 	.sdata      start:0x805D2C58 end:0x805D2C60
 
-pso/unk/text_8011A780.cpp:
+pso/item/TItemIdCounters.cpp:
 	.text       start:0x8011A780 end:0x8011B260
 	.sbss       start:0x805D54E0 end:0x805D54F0
 	.sdata2     start:0x805DAC58 end:0x805DAC5C
