@@ -2791,21 +2791,21 @@ void *TLobby::copy_member_record(void *to, void *from) {
     dst->ip_addr = src->ip_addr;
     dst->client_id = src->client_id;
     *(ByteBlock_10 *)dst->name = *(ByteBlock_10 *)src->name;
-    TProtocol::copy_player_data(&dst->char_data, &src->char_data);
+    dst->char_data = src->char_data;
     return dst;
 }
 
-TPlyCharData *TProtocol::copy_player_data(TPlyCharData *dst, TPlyCharData *src) {
-    dst->m_inventory.m_num_items = src->m_inventory.m_num_items;
-    dst->m_inventory.m_hp_materials_used = src->m_inventory.m_hp_materials_used;
-    dst->m_inventory.m_tp_materials_used = src->m_inventory.m_tp_materials_used;
-    dst->m_inventory.m_language = src->m_inventory.m_language;
-    *(ByteBlock_348 *)dst->m_inventory.m_items = *(ByteBlock_348 *)src->m_inventory.m_items;
-    *(ByteBlock_24 *)&dst->m_stats = *(ByteBlock_24 *)&src->m_stats;
-    *(ByteBlock_50 *)&dst->m_disp_part2 = *(ByteBlock_50 *)&src->m_disp_part2;
-    copy_disp_config(&dst->m_config, &src->m_config);
-    *(ByteBlock_14 *)dst->m_tech_levels = *(ByteBlock_14 *)src->m_tech_levels;
-    return dst;
+TPlyCharData &TPlyCharData::operator=(TPlyCharData &src) {
+    m_inventory.m_num_items = src.m_inventory.m_num_items;
+    m_inventory.m_hp_materials_used = src.m_inventory.m_hp_materials_used;
+    m_inventory.m_tp_materials_used = src.m_inventory.m_tp_materials_used;
+    m_inventory.m_language = src.m_inventory.m_language;
+    *(ByteBlock_348 *)m_inventory.m_items = *(ByteBlock_348 *)src.m_inventory.m_items;
+    *(ByteBlock_24 *)&m_stats = *(ByteBlock_24 *)&src.m_stats;
+    *(ByteBlock_50 *)&m_disp_part2 = *(ByteBlock_50 *)&src.m_disp_part2;
+    copy_disp_config(&m_config, &src.m_config);
+    *(ByteBlock_14 *)m_tech_levels = *(ByteBlock_14 *)src.m_tech_levels;
+    return *this;
 }
 
 TPlyDispConfig *copy_disp_config(TPlyDispConfig *dst, TPlyDispConfig *src) {

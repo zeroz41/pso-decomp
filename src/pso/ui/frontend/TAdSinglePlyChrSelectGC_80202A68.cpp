@@ -162,7 +162,7 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
 #define dst ((P_801FDFB8 *)a0)
 #define src ((P_801FDFB8 *)a1)
 void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
-    TProtocol::copy_player_data(&dst->char_data, &src->char_data);
+    dst->char_data = src->char_data;
     ((TAdSinglePlyChrSelectGC *)((S_801FE010 *)dst->a))->copy_character_data((u8 *)((S_801FE010 *)src->a));
     dst->f278C = src->f278C;
     dst->f2794 = src->f2794;

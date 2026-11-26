@@ -904,13 +904,13 @@ void TProtocol::send_update_chara_data_v2(TPlyCharData &char_data, TPlyChallenge
                                           TBlockedSenders &blocked_senders, TPlyText<512> &auto_reply, char *info_board) {
     if (m_connected) {
         validate_player_visual_record(&char_data.m_disp_part2);
-        copy_player_data(&m_character_data, &char_data);
+        m_character_data = char_data;
         TPlyJoinData tmp;
         memset(&tmp, 0, sizeof(tmp));
         tmp.header.command = 0x98;
         tmp.header.flags = 3;
         tmp.header.size = sizeof(tmp);
-        copy_player_data(&tmp.char_data, &m_character_data);
+        tmp.char_data = m_character_data;
         tmp.challenge = challenge;
         copy_choice_search_parameters(&tmp.choice_search_config, &choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
@@ -931,13 +931,13 @@ void TProtocol::send_chara_data_v2(TPlyCharData &char_data, TPlyChallenge &chall
                                    TBlockedSenders &blocked_senders, TPlyText<512> &auto_reply, char *info_board) {
     if (m_connected) {
         validate_player_visual_record(&char_data.m_disp_part2);
-        copy_player_data(&m_character_data, &char_data);
+        m_character_data = char_data;
         TPlyJoinData tmp;
         memset(&tmp, 0, sizeof(tmp));
         tmp.header.command = 0x61;
         tmp.header.flags = 3;
         tmp.header.size = sizeof(tmp);
-        copy_player_data(&tmp.char_data, &m_character_data);
+        tmp.char_data = m_character_data;
         tmp.challenge = challenge;
         copy_choice_search_parameters(&tmp.choice_search_config, &choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));

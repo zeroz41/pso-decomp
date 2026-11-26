@@ -15,6 +15,7 @@ class TPlyCharData {
 public:
     TPlyCharData();
     ~TPlyCharData();
+    TPlyCharData &operator=(TPlyCharData &src);
     void bswap();
     void some_stub() {};
 public:

@@ -176,10 +176,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void clear_load_buffers();
     static void clear_slot_body(int i);
     static void clear_slot_entry(int i);
-    static void * copy_char_slot_data(void * a0, void * a1);
     static s32 copy_character_to_slot(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static void copy_chr_slots_from_request();
-    static CharacterFile *copy_save_data(CharacterFile *to, CharacterFile *from);
     static void encrypt_save_data(CharacterFile *file);
     static void create_instance();
     static s32 encrypt_and_save();

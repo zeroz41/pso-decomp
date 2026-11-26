@@ -487,8 +487,6 @@ public:
     void send_room_change(int idx);
     void send_find_user(TPlyGuildCardTag &tag, u32 gc_num);
     void send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, u8 episode);
-public:
-    static TPlyCharData *copy_player_data(TPlyCharData *dst, TPlyCharData *src);
 };
 
 extern s32 lobby_state_flags;

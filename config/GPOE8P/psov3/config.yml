@@ -4125,7 +4125,7 @@ force_active:
   - area_gsl_filename_table
   - area_music_filename_table
   - assert_light_id__9TObjLightFl
-  - assign_char_data__23TAdSinglePlyChrSelectGCFPvPv
+  - __as__19CharacterSaveRecordFR19CharacterSaveRecord
   - assign_guard_targets__18TObjEneEpsilonBodyFv
   - assign_item_id__5TItemFv
   - assign_player_id__6TLobbyFv
@@ -5341,7 +5341,7 @@ force_active:
   - copy_block__11TBoss6Type2FPvPv
   - copy_bone_positions__13TBoss5GryphonFv
   - copy_challenge_result_record__FP21ChallengeResultRecordPC21ChallengeResultRecord
-  - copy_char_slot_data__23TAdSinglePlyChrSelectGCFPvPv
+  - __as__17CharacterFileSlotFR17CharacterFileSlot
   - copy_character_data__23TAdSinglePlyChrSelectGCFPUc
   - copy_character_to_slot__23TAdSinglePlyChrSelectGCFP13CharacterFileiP13CharacterFilei
   - copy_chat_entry__20TWindowSubSymbolChatFPl
@@ -5384,7 +5384,7 @@ force_active:
   - copy_from__21BmlResourceDescriptorFRC21BmlResourceDescriptor
   - copy_ring_buffer_window__15TObjBoss2TunnelFv
   - copy_rotation_to_current_matrix__FPA3_A4_Cf
-  - copy_save_data__23TAdSinglePlyChrSelectGCFP13CharacterFileP13CharacterFile
+  - __as__13CharacterFileFR13CharacterFile
   - copy_spawn_params__13TBoss5GryphonFP28G_GalGryphonBossActions_6xA0
   - copy_stat_block__16PlayerLevelStatsFPC16PlayerLevelStats
   - copy_state__20TBoss6MagMotionTrackFP20TBoss6MagMotionTrack
