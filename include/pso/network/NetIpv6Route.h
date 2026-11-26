@@ -193,7 +193,7 @@ s16 NetIPv6IsLoopback(u8 *address);
 s16 NetIPv6IsUnspecified(u8 *bytes);
 s16 NetIPv6CompareAddresses(u8 *a, u8 *b);
 s16 register_loopback_handlers(void);
-void init_loopback(void);
+s16 init_loopback(void);
 void NetIPv6TickRouters(void);
 void NetIPv6TickNeighborCache(void);
 void NetIPv6TickNeighborDiscovery(void);

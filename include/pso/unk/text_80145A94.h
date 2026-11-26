@@ -4,6 +4,12 @@
 #include "types.h"
 
 s32 load_network_info(void);
+s32 init_struct(u8 *info);
+s32 init_work(s32 arg0, u8 *work);
+
+extern void *network_info_work;
+extern u16 network_config_open;
+extern int network_lease_time; /* the DHCP lease time NetworkConnect keeps */
 extern "C" {
 s32 TLobby__sub_80145DB4(s32 mode);
 }

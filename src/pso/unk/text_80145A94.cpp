@@ -22,8 +22,8 @@ struct LoadNetworkInfoBuf { s32 hdr; char name[0xA0]; s8 x[0x270 - 0xA4]; };
 extern s16 disc_error_code;
 void *network_info_work;
 u16 network_info_flags;
-u16 lbl_805D56CE;
-int keyboard_buffer_cursor; // stored only by NetworkConnect; placed here by the 8-byte .sbss boundary at 0x805D56D8
+u16 network_config_open;
+int network_lease_time;
 s32 load_network_info(void) {
     LoadNetworkInfoBuf buf;
     LoadNetworkInfoIds ids = {0, 1};
@@ -45,12 +45,12 @@ s32 load_network_info(void) {
     if (status == 5) {
         status = 4;
     }
-    if (lbl_805D56CE != 0) {
+    if (network_config_open != 0) {
         close_network_config();
-        lbl_805D56CE = 0;
+        network_config_open = 0;
     }
     open_network_config(0, network_info_work, status);
-    lbl_805D56CE = 1;
+    network_config_open = 1;
     init_card_lib((void *)TLobby::get_global_63e0());
     start = 0;
     end = 2;

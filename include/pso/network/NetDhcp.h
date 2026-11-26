@@ -64,6 +64,9 @@ s16 dhcp_get_lease_times(s32 *lease, s32 *renew, s32 *rebind);
 s16 DHCP_get_gateway(void *ignored, s32 *router);
 s16 DHCP_get_dns(void *ignored, char *domain, s32 *dns1, s32 *dns2);
 s32 find_dhcp_option(u8 *packet, u8 tag, u8 **out);
+s16 DHCP_init(s16 iface);
+void dhcp_stop(void);
+s32 DHCP_release(s32 session, s32 ip, s32 retries);
 #ifdef __cplusplus
 }
 #endif
