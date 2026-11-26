@@ -1375,13 +1375,13 @@ force_active:
   - debug_draw_enabled__16TObjFogCollisionFv
   - debug_text_enabled__16TObjFogCollisionFv
   - update_hold__12TObjGrassWebFv
-  - grass_bml_resource
+  - grass_attack_params
   - grass_class_name
   - __ct__9TObjGrassFP7TObjectPv
   - grass_grass_type_param_table
   - grass_render_node_index
   - grass_resource_bundle
-  - sub_800BCA2C__9TObjGrassFv
+  - update_demo__9TObjGrassFv
   - clear_hit_targets__9TObjGrassFv
   - __ct__21TObjHMS_EZRope_PlayerFP7TObjectP15TObjHMSRopeSpecP19TObjHMSColliderSpec
   - obj_item_name_entry_class_name
@@ -6743,7 +6743,7 @@ force_active:
   - giveup_window_handle_select__FPv
   - grab_player__11TBoss6Type2FUs
   - grass_camera_vec
-  - grass_combat_stats_handle
+  - grass_resistance_stats
   - grass_origin_vec
   - grass_render_vec
   - gray_out_unusable_entries__18TWindowSubItemListFv
@@ -8347,10 +8347,10 @@ force_active:
   - bm3_fly_nest_bml
   - bm3_fly_nest_node_index
   - bm3_fly_nest_sample_cursor
-  - lbl_805D5140
-  - lbl_805D514C
-  - lbl_805D5158
-  - lbl_805D515C
+  - grass_base_stats
+  - grass_battle_movement_params
+  - grass_left_attack_points
+  - grass_right_attack_points
   - slime_tail_node_index
   - lbl_805D58C4
   - lbl_805D59D8
@@ -16152,10 +16152,10 @@ force_active:
   - apply_subtype__15TObjEneDimedianFv
   - sub_800AC9DC__12TObjEneSharkFl
   - pick_hover_point__13TObjEneBm3FlyFv
-  - sub_800BCE44__9TObjGrassFv
-  - sub_800BD4D8__9TObjGrassFv
-  - sub_800BDD70__9TObjGrassFv
-  - sub_800BE75C__9TObjGrassFv
+  - update_hit_reaction__9TObjGrassFv
+  - update_charge_attack__9TObjGrassFv
+  - update_swing_attack__9TObjGrassFv
+  - update_move_forward__9TObjGrassFv
   - clear_flag_1__12TObjEneLappyFv
   - set_flag_1__12TObjEneLappyFv
   - update_formation_state__19TObjEneMe1GeeLeaderFv

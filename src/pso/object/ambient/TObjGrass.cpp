@@ -66,39 +66,20 @@
 #include "pso/object/TDeadSpot.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/enemy/EnemyMovement.h"
+#include "pso/object/base/ActorCollision.h"
+#include "pso/enemy/BattleParameters.h"
 
-saddr lbl_805D5140;
-AttackParams **grass_bml_resource;  // the three attack parameter sets (inferred: not a BML resource)
-saddr grass_combat_stats_handle;
-saddr lbl_805D514C;
+player_stats *grass_base_stats;
+AttackParams **grass_attack_params;  // the three attack parameter sets
+ActorParamBlock *grass_resistance_stats;
+BattleMovementParams *grass_battle_movement_params;
 s32 grass_render_node_index;
 BmlResource *grass_resource_bundle;
-SampledMotionPoints *lbl_805D5158;
-SampledMotionPoints *lbl_805D515C;
+SampledMotionPoints *grass_left_attack_points;   // sampled from the lattack motion
+SampledMotionPoints *grass_right_attack_points;  // sampled from the rattack motion
 
 #pragma readonly_strings on
-
-typedef struct GrassRange {
-    f32 lo;
-    f32 hi;
-} GrassRange;
-
-// The movement table row the enemy's movementParameters points at.
-struct GrassMoveParams { f32 radius; f32 speed; s32 turn; };
-
-struct E1C_800BF924 { u8 pad[0x1C]; };
-
-struct E2C_800BF924 { u8 pad[0x2C]; };
-
-extern "C" {
-f32 step_toward_destination(void *, Vec, f32);
-f32 enemy_move_toward(void *, s32, void *, s32, f32);
-void enemy_pursue_point(void *, s32, void *, f32, f32);
-}
-extern "C" {
-s32 select_enemy_destination(void *, Vec, int);
-s32 copy_position_if_valid(void *, Vec);
-s32 init_collision_body_parts(void *, void *, int);
 
 extern const char *bm_ene_grass_model_names[2];
 extern const char *bm_ene_grass_motion_names[9];
@@ -123,26 +104,21 @@ TObjMotionAction grass_grass_type_param_table[8] = {
     {3, 5, 1, 0.4f, 0x10},
     {2, 1, 3, 0.5f, 0x20},
 };
-void *lbl_804929E4[7] = {
-    (void *)0x43c80000, (void *)0x3f400000, (void *)0x100, (void *)0x1e0000,
-    (void *)0x0, (void *)0x1, (void *)0x0,
+GrassMovementParams grass_movement_params[1] = {
+    {400.0f, 0.75f, 0x100, {0x1E0000, 0, 1, 0}},
 };
-void *lbl_80492A00[11] = {
-    (void *)0x0, (void *)0x41700000, (void *)0x0, (void *)0x41200000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody grass_collision_body_parts[1] = {
+    {{0.0f, 15.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 const char *grass_class_name = "TObjGrass";
 const NpcAnimationBinding grass_spawn_descriptor = {NULL, grass_grass_type_param_table, 0, 1, 8};
-const Vec lbl_8043B790 = {0.0f, 0.0f, 0.0f};
+const Vec grass_zero_vector = {0.0f, 0.0f, 0.0f};
 const char *grass_web_class_name = "TObjGrassWeb";
 #pragma fp_contract on
 
 Vec grass_camera_vec;
 Vec grass_render_vec;
 Vec grass_origin_vec;
-}
-extern "C" {
 
 void TObjGrass::init_from_table_entry(s32 i) {
     model = grass_resource_bundle->models[i].model;
@@ -156,13 +132,11 @@ void TObjGrass::clear_hit_targets() {
 }
 
 TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
-    s32 t;
     m_name = grass_class_name;
     apply_set_data(set_data);
     init_position_vectors();
     apply_actor_gravity(this, 0, (0.0f));
-    t = (saddr)grass_resource_bundle->motions;
-    *(saddr *)&motion_list = t;
+    motion_list = grass_resource_bundle->motions;
     scale.y = (1.3f);
     variant = 0;
     ((TObjEnemy *)this)->set_param(0xC);
@@ -180,10 +154,10 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    init_collision_body_parts(this, &((E2C_800BF924 *)lbl_80492A00)[variant], 1);
+    init_collision_body_parts(this, &grass_collision_body_parts[variant], 1);
     attack_kind = 0;
-    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(lbl_805D5140), reinterpret_cast<AttackParams *>(grass_bml_resource[attack_kind]), reinterpret_cast<ActorParamBlock *>(grass_combat_stats_handle));
-    movementParameters = &((E1C_800BF924 *)lbl_804929E4)[variant];
+    bind_enemy_combat_stats(grass_base_stats, grass_attack_params[attack_kind], grass_resistance_stats);
+    movementParameters = &grass_movement_params[variant];
     referenceHp = hp;
     update_prev_position();
     copy_position();
@@ -224,19 +198,19 @@ void TObjGrass::load_resources() {
     }
     grass_render_node_index = 0;
     grass_origin_vec.x = grass_origin_vec.y = grass_origin_vec.z = (0.0f);
-    lbl_805D5158 = new SampledMotionPoints(2, (0.0f), (2e+01f), (0.7f));
-    lbl_805D515C = new SampledMotionPoints(2, (0.0f), (2e+01f), (0.7f));
-    lbl_805D5158->sample_two_nodes((NJS_OBJECT *)grass_resource_bundle->models[0].model,
+    grass_left_attack_points = new SampledMotionPoints(2, (0.0f), (2e+01f), (0.7f));
+    grass_right_attack_points = new SampledMotionPoints(2, (0.0f), (2e+01f), (0.7f));
+    grass_left_attack_points->sample_two_nodes((NJS_OBJECT *)grass_resource_bundle->models[0].model,
         (NJS_MOTION *)grass_resource_bundle->motions[grass_grass_type_param_table[2].motion].motion, 0x46, 0x48);
-    lbl_805D515C->sample_two_nodes((NJS_OBJECT *)grass_resource_bundle->models[0].model,
+    grass_right_attack_points->sample_two_nodes((NJS_OBJECT *)grass_resource_bundle->models[0].model,
         (NJS_MOTION *)grass_resource_bundle->motions[grass_grass_type_param_table[3].motion].motion, 0x3C, 0x3E);
-    grass_bml_resource = (AttackParams **)mem_alloc(0xC);
-    lbl_805D5140 = (saddr)TLobby::register_boss(0x4E);
-    grass_bml_resource[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x51);
-    grass_bml_resource[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x52);
-    grass_bml_resource[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x53);
-    grass_combat_stats_handle = (saddr)TLobby::register_object(0x4D);
-    lbl_805D514C = (saddr)TLobby::dispatch_shared_handler_a(0x4D);
+    grass_attack_params = (AttackParams **)mem_alloc(0xC);
+    grass_base_stats = TLobby::register_boss(0x4E);
+    grass_attack_params[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x51);
+    grass_attack_params[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x52);
+    grass_attack_params[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x53);
+    grass_resistance_stats = TLobby::register_object(0x4D);
+    grass_battle_movement_params = TLobby::dispatch_shared_handler_a(0x4D);
     {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = grass_resource_bundle->motions;
@@ -246,17 +220,17 @@ void TObjGrass::load_resources() {
 }
 
 void TObjGrass::destroy_all() {
-    if (grass_bml_resource != NULL) {
-        mem_free(grass_bml_resource);
-        grass_bml_resource = NULL;
+    if (grass_attack_params != NULL) {
+        mem_free(grass_attack_params);
+        grass_attack_params = NULL;
     }
-    if (lbl_805D515C != NULL) {
-        delete lbl_805D515C;
-        lbl_805D515C = NULL;
+    if (grass_right_attack_points != NULL) {
+        delete grass_right_attack_points;
+        grass_right_attack_points = NULL;
     }
-    if (lbl_805D5158 != NULL) {
-        delete lbl_805D5158;
-        lbl_805D5158 = NULL;
+    if (grass_left_attack_points != NULL) {
+        delete grass_left_attack_points;
+        grass_left_attack_points = NULL;
     }
     if (grass_resource_bundle != NULL) {
         delete grass_resource_bundle;
@@ -276,7 +250,7 @@ void TObjGrass::run_task() {
     TObjPlayer *temp_r3_2;
     TObjChara *target;
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_800BCA2C();
+        update_demo();
         return;
     }
     client = this->targetId;
@@ -303,16 +277,16 @@ void TObjGrass::run_task() {
             update_ai();
             break;
         case 1:
-            this->sub_800BE75C();
+            this->update_move_forward();
             break;
         case 2:
             update_chase_target();
             break;
         case 3:
-            this->sub_800BDD70();
+            this->update_swing_attack();
             break;
         case 4:
-            this->sub_800BD4D8();
+            this->update_charge_attack();
             break;
         case 5:
             update_web_attack();
@@ -321,7 +295,7 @@ void TObjGrass::run_task() {
             update();
             break;
         case 7:
-            this->sub_800BCE44();
+            this->update_hit_reaction();
             break;
         case 8:
             update_dying();
@@ -429,8 +403,8 @@ void TObjGrass::refresh_target() {
         if (this->test_actor_flags(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
-            Vec v = lbl_8043B790;
-            best = *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0) * *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0);
+            Vec v = grass_zero_vector;
+            best = ((GrassMovementParams *)this->movementParameters)->radius * ((GrassMovementParams *)this->movementParameters)->radius;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 p = TObjPlayer::get_player_data(i);
                 if (p == NULL) {
@@ -453,7 +427,7 @@ void TObjGrass::refresh_target() {
             }
             this->targetId = best_id;
         } else {
-            this->targetId = find_nearest_visible_player(this, NULL, *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0));
+            this->targetId = find_nearest_visible_player(this, NULL, ((GrassMovementParams *)this->movementParameters)->radius);
         }
         tid = this->targetId;
         if (tid < 0x1000U) {
@@ -570,7 +544,7 @@ void TObjGrass::update_ai() {
                 ang = (s32)((10430.38043493439) * atan2_float(d->x, d->z));
                 v = &scratch_vec2;
                 v->x = v->y = (0.0f);
-                v->z = ((GrassMoveParams *)movementParameters)->speed;
+                v->z = ((GrassMovementParams *)movementParameters)->speed;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, ang);
                 rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
@@ -579,7 +553,7 @@ void TObjGrass::update_ai() {
                 if (project_actor_to_ground(this, &scratch_vec2, NULL) == 1) {
                     requested_action = 1;
                     VecCopy(&position, &scratch_vec2);
-                    rotation_y = approach_angle_limited(rotation_y, ang, ((GrassMoveParams *)movementParameters)->turn);
+                    rotation_y = approach_angle_limited(rotation_y, ang, ((GrassMovementParams *)movementParameters)->turn);
                 } else {
                     f32 r = fabs_float(d->z);
                     if (fabs_float(scratch_vec.x) < r) {
@@ -589,7 +563,7 @@ void TObjGrass::update_ai() {
                     }
                     v->y = (0.0f);
                     scratch_vec2.x = (0.0f);
-                    v->z = ((GrassMoveParams *)movementParameters)->speed;
+                    v->z = ((GrassMovementParams *)movementParameters)->speed;
                     push_matrix_from(identity_matrix);
                     rotate_matrix_y(0, ang);
                     rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
@@ -598,7 +572,7 @@ void TObjGrass::update_ai() {
                     if (project_actor_to_ground(this, &scratch_vec2, NULL) == 1) {
                         requested_action = 1;
                         VecCopy(&position, &scratch_vec2);
-                        rotation_y = approach_angle_limited(rotation_y, ang, ((GrassMoveParams *)movementParameters)->turn);
+                        rotation_y = approach_angle_limited(rotation_y, ang, ((GrassMovementParams *)movementParameters)->turn);
                     } else {
                         s32 ang2;
                         r = fabs_float(d->z);
@@ -609,7 +583,7 @@ void TObjGrass::update_ai() {
                         }
                         v->y = (0.0f);
                         scratch_vec2.x = (0.0f);
-                        v->z = ((GrassMoveParams *)movementParameters)->speed;
+                        v->z = ((GrassMovementParams *)movementParameters)->speed;
                         push_matrix_from(identity_matrix);
                         rotate_matrix_y(0, ang2);
                         rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
@@ -618,17 +592,17 @@ void TObjGrass::update_ai() {
                         if (project_actor_to_ground(this, &scratch_vec2, NULL) == 1) {
                             requested_action = 1;
                             VecCopy(&position, &scratch_vec2);
-                            rotation_y = approach_angle_limited(rotation_y, ang2, ((GrassMoveParams *)movementParameters)->turn);
+                            rotation_y = approach_angle_limited(rotation_y, ang2, ((GrassMovementParams *)movementParameters)->turn);
                         } else {
                             requested_action = 1;
                         }
                     }
                 }
-                enemy_turn_toward_dest(((GrassMoveParams *)movementParameters)->turn);
-                enemy_set_heading_velocity(((GrassMoveParams *)movementParameters)->speed, this, rotation_y);
+                enemy_turn_toward_dest(((GrassMovementParams *)movementParameters)->turn);
+                enemy_set_heading_velocity(((GrassMovementParams *)movementParameters)->speed, this, rotation_y);
                 move_with_wall_slide(this);
             } else {
-                enemy_wander_home((0.25f) * ((GrassMoveParams *)movementParameters)->speed, (1e+02f), (5e+01f), ((GrassMoveParams *)movementParameters)->turn);
+                enemy_wander_home((0.25f) * ((GrassMovementParams *)movementParameters)->speed, (1e+02f), (5e+01f), ((GrassMovementParams *)movementParameters)->turn);
             }
             refresh_collision_body_centers();
             break;
@@ -662,7 +636,7 @@ void TObjGrass::run_move_action() {
     }
 }
 
-void TObjGrass::sub_800BE75C() {
+void TObjGrass::update_move_forward() {
     Vec v;
     f32 d;
     f32 lo2;
@@ -677,9 +651,9 @@ void TObjGrass::sub_800BE75C() {
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrices(1);
     vec3_add_to(&v, &home_position);
-    d = step_toward_destination(this, v, (2.0f) * ((GrassRange *)movementParameters)->hi);
-    lo2 = ((GrassRange *)movementParameters)->lo * ((GrassRange *)movementParameters)->lo;
-    hi2 = ((GrassRange *)movementParameters)->hi * ((GrassRange *)movementParameters)->hi;
+    d = step_toward_destination(this, v, (2.0f) * ((GrassMovementParams *)movementParameters)->speed);
+    lo2 = ((GrassMovementParams *)movementParameters)->radius * ((GrassMovementParams *)movementParameters)->radius;
+    hi2 = ((GrassMovementParams *)movementParameters)->speed * ((GrassMovementParams *)movementParameters)->speed;
     if (lo2 < d || d < hi2) {
         target = NULL;
         move_mode = 0;
@@ -694,9 +668,9 @@ void TObjGrass::update_chase_target() {
     f32 speed;
     f32 dist;
     s32 turn;
-    GrassMoveParams *prm;
+    GrassMovementParams *prm;
     clear_actor_flags(0x04040000);
-    prm = (GrassMoveParams *)movementParameters;
+    prm = (GrassMovementParams *)movementParameters;
     speed = prm->speed;
     turn = prm->turn;
     if (actorFlags & 0x2000) {
@@ -715,8 +689,7 @@ void TObjGrass::update_chase_target() {
             phase = 0;
         case 0: {
             Vec v;
-            Vec t = target->body_center;
-            dist = enemy_move_toward(this, turn, &t, 0, (0.125f) * speed);
+            dist = enemy_move_toward(this, turn, target->body_center, 0, (0.125f) * speed);
             VecCopy(&v, &target->body_center);
             subtract_vector(&v, &body_center);
             turn = angle_difference_abs(rotation_y, (s32)((10430.38043493439) * atan2_float(v.x, v.z)));
@@ -726,9 +699,8 @@ void TObjGrass::update_chase_target() {
             break;
         }
         case 1: {
-            Vec t = target->body_center;
             f32 r;
-            enemy_pursue_point(this, turn, &t, speed, (4e+01f));
+            enemy_pursue_point(this, turn, target->body_center, speed, (4e+01f));
             dist = horizontal_distance_squared(&move_destination, &body_center);
             r = speed + bodies->radius;
             if (dist < r * r) {
@@ -741,7 +713,7 @@ void TObjGrass::update_chase_target() {
             break;
         }
         }
-        if (((GrassMoveParams *)movementParameters)->radius * ((GrassMoveParams *)movementParameters)->radius < dist) {
+        if (((GrassMovementParams *)movementParameters)->radius * ((GrassMovementParams *)movementParameters)->radius < dist) {
             target = NULL;
         }
     }
@@ -749,7 +721,7 @@ void TObjGrass::update_chase_target() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-#define TBL grass_bml_resource
+#define TBL grass_attack_params
 #define T318 attack_params
 #define IN_RANGE() (dist <= (r + T318->get_attack_range()) * (r + T318->get_attack_range()) && ang <= T318->get_attack_angle())
 #define BIND(n) attack_kind = (n); bind_enemy_combat_stats(NULL, TBL[attack_kind], NULL); return 1;
@@ -831,7 +803,7 @@ void TObjGrass::run_attack_action() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
 
-void TObjGrass::sub_800BDD70() {
+void TObjGrass::update_swing_attack() {
     Vec sp20;
     Vec dst;
     Vec sp8;
@@ -850,7 +822,7 @@ void TObjGrass::sub_800BDD70() {
         } else {
             VecCopy(&sp8, &this->target->body_center);
             subtract_vector(&sp8, &this->body_center);
-            ang = turn_toward_direction(((GrassMoveParams *)this->movementParameters)->turn, &sp8);
+            ang = turn_toward_direction(((GrassMovementParams *)this->movementParameters)->turn, &sp8);
             apply_actor_gravity(this, (s32 *)(0), (0.0f));
             if (ang < this->attack_params->get_attack_angle()) {
                 this->phase = 1;
@@ -892,11 +864,11 @@ void TObjGrass::sub_800BDD70() {
         if (this->frame < (2e+01f)) {
             switch (this->requested_action) {
             case 2:
-                ent = lbl_805D5158->lookup(this->frame);
+                ent = grass_left_attack_points->lookup(this->frame);
                 idx = 0;
                 break;
             case 3:
-                ent = lbl_805D515C->lookup(this->frame);
+                ent = grass_right_attack_points->lookup(this->frame);
                 idx = 1;
                 break;
             default:
@@ -939,7 +911,7 @@ void TObjGrass::sub_800BDD70() {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjGrass::sub_800BD4D8() {
+void TObjGrass::update_charge_attack() {
     if (this->targetId < 0x1000) {
         TObjPlayer *p = get_player_by_client_id(this->targetId);
         if (p != NULL && p->get_floor() == get_current_floor()) {
@@ -974,7 +946,7 @@ void TObjGrass::sub_800BD4D8() {
             s32 d;
             VecCopy(&v, &this->target->body_center);
             subtract_vector(&v, &this->body_center);
-            d = this->turn_toward_direction((s32)((2.0f) * (f32)((GrassMoveParams *)this->movementParameters)->turn), &v);
+            d = this->turn_toward_direction((s32)((2.0f) * (f32)((GrassMovementParams *)this->movementParameters)->turn), &v);
             if (d < this->attack_params->get_attack_angle()) {
                 s32 ang = (s32)((10430.38043493439) * atan2_float(v.x, v.z));
                 this->charge_distance = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client(this, this->targetId, NULL)) + this->get_collision_body_radius(0));
@@ -1052,7 +1024,7 @@ void TObjGrass::sub_800BD4D8() {
             }
         }
         if (this->target != NULL) {
-            GrassMoveParams *prm = (GrassMoveParams *)this->movementParameters;
+            GrassMovementParams *prm = (GrassMovementParams *)this->movementParameters;
             f32 spd = (2.0f) * prm->speed;
             f32 d2;
             f32 t;
@@ -1067,7 +1039,7 @@ void TObjGrass::sub_800BD4D8() {
                 this->lost_target_frames++;
             }
             t = spd + this->bodies->radius;
-            if (d2 < t * t || ((GrassMoveParams *)this->movementParameters)->radius * ((GrassMoveParams *)this->movementParameters)->radius < d2 || (1.5e+02f) < (f32)this->lost_target_frames) {
+            if (d2 < t * t || ((GrassMovementParams *)this->movementParameters)->radius * ((GrassMovementParams *)this->movementParameters)->radius < d2 || (1.5e+02f) < (f32)this->lost_target_frames) {
                 if (this->targetId == 0xFFFF) {
                     this->target = NULL;
                 } else {
@@ -1144,9 +1116,9 @@ void TObjGrass::update_web_attack() {
             s32 d;
             VecCopy(&v, &target->body_center);
             subtract_vector(&v, &body_center);
-            d = turn_toward_direction(((GrassMoveParams *)movementParameters)->turn, &v);
+            d = turn_toward_direction(((GrassMovementParams *)movementParameters)->turn, &v);
             apply_actor_gravity(this, (s32 *)(0), (0.0f));
-            if (d < grass_bml_resource[1]->get_attack_angle()) {
+            if (d < grass_attack_params[1]->get_attack_angle()) {
                 phase = 1;
                 requested_action = 4;
                 timer = 0;
@@ -1161,7 +1133,7 @@ void TObjGrass::update_web_attack() {
             VecCopy(&v2, &target->body_center);
             subtract_vector(&v2, &body_center);
             d = angle_difference_abs(rotation_y, (s32)((10430.38043493439) * atan2_float(v2.x, v2.z)));
-            if (d < grass_bml_resource[1]->get_attack_angle()) {
+            if (d < grass_attack_params[1]->get_attack_angle()) {
                 VecCopy(&v2, &target->position);
                 subtract_vector(&v2, &render_vec);
                 ang[0] = (s32)((10430.38043493439) * atan2_float(v2.z, newton_sqrtf(v2.x * v2.x + v2.y * v2.y)));
@@ -1240,7 +1212,7 @@ void TObjGrass::run_hit_reaction() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
 }
 
-void TObjGrass::sub_800BCE44() {
+void TObjGrass::update_hit_reaction() {
   CollisionBody *bodies;
   clear_actor_flags((u32)(0x04040000));
   advance_animation();
@@ -1392,7 +1364,7 @@ void TObjGrass::update_dying() {
 }
 #pragma pop
 
-void TObjGrass::sub_800BCA2C() {  }
+void TObjGrass::update_demo() {  }
 
 TObjGrassWeb::TObjGrassWeb(TObject *parent, TObjCollidable *target) : TObjBase(parent) {
     if (target != NULL) {
@@ -1458,7 +1430,6 @@ void TObjGrassWeb::update_hold() {
     if (set_params[0]-- < 0) {
         state = 2;
     }
-}
 }
 
 void TObjGrassWeb::queue_destruction() { TObject::queue_destruction(); }
