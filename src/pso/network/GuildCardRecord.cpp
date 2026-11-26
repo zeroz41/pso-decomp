@@ -246,7 +246,7 @@ void remove_com_card_entry(s32 index) {
         lobby = (u8 *)&com_card_entries[index];
         move_words(reinterpret_cast<void *>(lobby), reinterpret_cast<const void *>(lobby + 0xBC), static_cast<u32>((7 - index) * 0xBC) >> 2);
     }
-    (*(s32 *)&com_card_entry_count) -= 1;
+    (com_card_entry_count) -= 1;
 }
 
 void TLobby__sub_8024273C(TUserAns &response) {

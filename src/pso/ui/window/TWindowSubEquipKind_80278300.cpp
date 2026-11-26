@@ -5,6 +5,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
 #pragma readonly_strings on
 
@@ -14,23 +15,6 @@ const char *TWindowSubEquipKind::class_name = "TWindowSubEquipKind";
 extern const s32 status_disp_tab_label_message_ids[4] = {0xE2, 0xE0, 0xE1, 0xF5};
 
 extern "C" {
-
-typedef struct {
-    f32 x;
-    f32 y;
-    u8 pad08[0x30 - 0x08];
-    s32 f30;
-    u8 pad34[0x38 - 0x34];
-    f32 f38;
-} Win_8027831C;
-
-typedef struct {
-    u8 pad00[0x80];
-    saddr f80;
-    u8 pad84[0x88 - 0x84];
-    s16 f88;
-    s16 f8A;
-} Disp_8027831C;
 
 u32 calc_text_width(void);
 static const u8 equip_kind_tab_label_colors[4] = {1, 2, 2, 1};
@@ -43,17 +27,17 @@ void TWindowSubEquipKind::set_trade_state(s16 trade_state) {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubEquipKind::draw_tab_label(void *win) {
+void TWindowSubEquipKind::draw_tab_label(WindowDrawContext *context) {
     NJS_POINT2 pos;
     saddr msg;
     s16 fl;
     u8 col;
 
-    if (((Win_8027831C *)win)->f30 >= 0) {
-        pos.x = ((Win_8027831C *)win)->x + get_heading_frame_width((HeadingEntry *)((Disp_8027831C *)this)->f80);
-        pos.y = ((Win_8027831C *)win)->y - 13.0f;
-        col = equip_kind_tab_label_colors[((Disp_8027831C *)this)->f88];
-        fl = ((Disp_8027831C *)this)->f8A;
+    if (context->open_tick >= 0) {
+        pos.x = context->x + get_heading_frame_width((HeadingEntry *)status_display);
+        pos.y = context->y - 13.0f;
+        col = equip_kind_tab_label_colors[trade_state];
+        fl = state_timer;
         if (fl != 0) {
             if (fl & 4) {
                 col = 1;
@@ -61,11 +45,11 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
                 col = 2;
             }
         }
-        draw_window_tab((WindowDrawContext *)win, &pos.x, 0.0f, col);
+        draw_window_tab(context, &pos.x, 0.0f, col);
         pos.x += 80.0f;
         pos.y += 4.0f;
-        set_text_draw_params(reinterpret_cast<WindowDrawContext *>(win), 0, 0, (f32)(-1.0f / (0.1794f + ((Win_8027831C *)win)->f38)), 100000.0f);
-        msg = (saddr)TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[((Disp_8027831C *)this)->f88]);
+        set_text_draw_params(context, 0, 0, (f32)(-1.0f / (0.1794f + context->depth)), 100000.0f);
+        msg = (saddr)TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[trade_state]);
         pos.x -= 0.5f * (f32)calc_text_width();
         draw_window_text((f32 *)&pos, (const char *)msg, (0xFF000000), 0, 100000.0f);
     }

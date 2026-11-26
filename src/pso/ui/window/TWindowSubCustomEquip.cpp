@@ -202,11 +202,7 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(u8 slot) {
 }
 
 
-// An action palette slot reference: the tag mode and the slot it points to.
-struct PaletteTag { u16 mode; u16 slot; };
-
-void TWindowSubCustomEquip::get_cursor_pos(void *tag_out) {
-    PaletteTag *tag = (PaletteTag *)tag_out;
+void TWindowSubCustomEquip::get_cursor_pos(PaletteTag *tag) {
     s32 i;
     TObjPlayer *player;
     s32 saved_slot;
@@ -222,8 +218,7 @@ void TWindowSubCustomEquip::get_cursor_pos(void *tag_out) {
     tag->mode = palette->get_tag_mode(i, saved_slot);
     tag->slot = (s16)palette->get_tag_slot(i, saved_slot);
 }
-void TWindowSubCustomEquip::remove_duplicate_bindings(void *tag_ptr) {
-    PaletteTag *tag = (PaletteTag *)tag_ptr;
+void TWindowSubCustomEquip::remove_duplicate_bindings(const PaletteTag *tag) {
     TObjPlayer *player;
     TPlyDispConfigSmth *palette;
     if ((player = get_player_by_client_id(this->client_index)) == NULL || (palette = player->select_action_palette(0)) == NULL) {
@@ -248,8 +243,7 @@ void TWindowSubCustomEquip::remove_duplicate_bindings(void *tag_ptr) {
         player->set_action_palette_entry(0, 1, 2, 0, 0);
     }
 }
-void TWindowSubCustomEquip::toggle_action_binding(void *tag_ptr) {
-    PaletteTag *tag = (PaletteTag *)tag_ptr;
+void TWindowSubCustomEquip::toggle_action_binding(PaletteTag *tag) {
     TObjPlayer *player;
     TPlyDispConfigSmth *palette;
     s32 valid;
@@ -263,7 +257,7 @@ void TWindowSubCustomEquip::toggle_action_binding(void *tag_ptr) {
         player->set_action_palette_entry(0, valid, idx, 0, 0);
         return;
     }
-    remove_duplicate_bindings(tag_ptr);
+    remove_duplicate_bindings(tag);
     player->set_action_palette_entry(0, valid, idx, tag->mode, tag->slot);
 }
 
@@ -531,6 +525,6 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&cust
     this->refresh_palette_slots();
 }
 
-void *TWindowSubCustomSelect::get_selected_action() {
-    return reinterpret_cast<void *>(action_table + (static_cast<s8>(column) + static_cast<s8>(row) * 3) * 4);
+PaletteTag *TWindowSubCustomSelect::get_selected_action() {
+    return const_cast<PaletteTag *>(action_table + (static_cast<s8>(column) + static_cast<s8>(row) * 3));
 }

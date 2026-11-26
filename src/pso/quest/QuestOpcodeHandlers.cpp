@@ -743,11 +743,6 @@ struct UpdateSwitchFlagPacket {
     u8 e;
 };
 
-struct SetQuestBoardHandlerEntry {
-    u8 name[0x20];
-    s32 v;
-};
-
 struct VaCallItemRecord {
     u8 data[12];
     s32 id;
@@ -801,7 +796,6 @@ extern VaCallPair lbl_80449A38[];
 struct QuestNpcVisualRecord { s32 value; u8 remaining[0x4C]; };
 extern QuestNpcVisualRecord quest_npc_visual_record;
 extern s32 symbolchat_colli_param_table[];
-extern u8 quest_board_handlers[];
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -2306,7 +2300,7 @@ void qst_op_send_mail(void) {
     TTokenList *fields;
     u8 i = (u32)qst_args[0];
     char *src = *(char **)&qst_args[1];
-    ((TLobby *)((saddr)&tag))->init_guild_card_tag();
+    ((TLobby *)(&tag))->init_guild_card_tag();
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, src, 0x3FF);
     trim_whitespace(buf);
@@ -3598,7 +3592,7 @@ void qst_op_setevt(void) {
 
 void qst_op_clear_quest_board_handler(void) {
     if ((u32)qst_args[0] <= 5U) {
-        memset(((u8 *)&quest_board_handlers + ((u32)qst_args[0] * 0x24)), 0, 0x24);
+        memset(&quest_board_handlers[(u32)qst_args[0]], 0, sizeof(QuestBoardHandler));
     }
 }
 
@@ -3607,8 +3601,8 @@ void qst_op_set_quest_board_handler(void) {
     s32 v = qst_args[1];
     s32 n = qst_args[2];
     if (i <= 5) {
-        SetQuestBoardHandlerEntry* e = &((SetQuestBoardHandlerEntry *)&quest_board_handlers)[i];
-        e->v = v;
+        QuestBoardHandler *e = &quest_board_handlers[i];
+        e->label = v;
         ((void* (*)(void*, s32, s32))strncpy)(e, n, 0x20);
     }
 }
@@ -4251,7 +4245,7 @@ void qst_op_player_effect_nc(u8 regs) {
     s32 extra;
     f32 dy;
     TObjCollidable *actor;
-    uaddr r;
+    TParticleCtrl *r;
     s32 i;
 
     i = regs;
@@ -4263,9 +4257,9 @@ void qst_op_player_effect_nc(u8 regs) {
     if (actor != NULL) {
         VecCopy(&v, &actor->position);
         v.y += dy;
-        r = (uaddr)create_timed_particle_emitter(&v, kind, 0, extra);
+        r = create_timed_particle_emitter(&v, kind, 0, extra);
         if (r != 0) {
-            ((TParticleCtrl *)r)->set_flags(0x40);
+            r->set_flags(0x40);
         }
     }
 }
@@ -4304,7 +4298,7 @@ void qst_op_particle_effect_nc(u8 regs) {
     f32 z;
     s16 kind;
     s32 extra;
-    uaddr r;
+    TParticleCtrl *r;
 
     i = regs;
     x = qst_registers[i++];
@@ -4315,9 +4309,9 @@ void qst_op_particle_effect_nc(u8 regs) {
     v.x = x;
     v.y = y;
     v.z = z;
-    r = (uaddr)create_timed_particle_emitter(&v, kind, 0, extra);
+    r = create_timed_particle_emitter(&v, kind, 0, extra);
     if (r != 0) {
-        ((TParticleCtrl *)r)->set_flags(0x40);
+        r->set_flags(0x40);
     }
 }
 

@@ -367,8 +367,8 @@ void TLobby::add_status_disp_entry(s32 name, s32 id) {
     }
 }
 
-void TAdVIConfigGC__sub_80267704(s32 arg0) {
-    list_window_descriptor.flags = arg0;
+void TAdVIConfigGC__sub_80267704(s32 flags) {
+    list_window_descriptor.flags = flags;
 }
 
 #pragma fp_contract on

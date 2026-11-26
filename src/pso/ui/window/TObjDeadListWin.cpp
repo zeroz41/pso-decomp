@@ -41,17 +41,17 @@ void TObjDeadListWin::build_dead_list_window() {
 }
 
 void TObjDeadListWin::update_countdown() {
-    s32 temp_r0;
-    saddr player;
-    player = (saddr)get_player_by_client_id(local_client_id);
-    if ((player == 0) || (((TObjCollidable *)player)->test_actor_flags(0x02000000) != 0)) {
+    s32 countdown;
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
+    if ((player == NULL) || (player->test_actor_flags(0x02000000) != 0)) {
         queue_destruction();
         return;
     }
-    if ((((TObjPlayer *)player)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
-    temp_r0 = m_countdown - 1;
-    m_countdown = temp_r0;
-    if (temp_r0 < 0) {
+    if ((player->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
+    countdown = m_countdown - 1;
+    m_countdown = countdown;
+    if (countdown < 0) {
         if (m_window_handle != NULL) {
             m_window_handle->close();
             m_window_handle = NULL;
@@ -62,19 +62,19 @@ void TObjDeadListWin::update_countdown() {
 
 void TObjDeadListWin::refresh_names() {
     s32 i;
-    u8* player;
-    u8* me;
+    TObjPlayer *player;
+    TObjPlayer *me;
     for (i = 0; i < 4; i++) {
-        player = (u8*)get_player_by_client_id(i);
+        player = get_player_by_client_id(i);
         if (m_names[i].text[0] == 0 && player != NULL && challenge_client_died(i) != 0) {
-            strncpy(m_names[i].text, (char*)player + 0x85C, 15);
+            strncpy(m_names[i].text, player->name, 15);
             m_names[i].terminator = 0;
         }
     }
-    me = (u8*)get_player_by_client_id(local_client_id);
+    me = get_player_by_client_id(local_client_id);
     if ((get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2)
         && has_window_task_root() != 0 && me != NULL
-        && ((TObjCollidable *)me)->test_actor_flags(0x02000000) == 0) {
+        && me->test_actor_flags(0x02000000) == 0) {
         build_dead_list_window();
         m_phase = 1;
     }

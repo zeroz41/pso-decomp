@@ -1740,7 +1740,7 @@ TObjCMProportion *TObjCMProportion::create(TObject *parent) {
 #pragma push
 #pragma fp_contract on
 void TObjCMProportion::run_task() {
-    TObjCMProportion *self = this;
+
     s32 angle;
     f32 magnitude;
     f32 visible;
@@ -1752,30 +1752,30 @@ void TObjCMProportion::run_task() {
     CharacterAppearanceFields *fields;
 
     proportion = TObjCMMainMenu::get_proportion();
-    if (self->active != 0) {
-        if (1.0f == self->fade) {
+    if (this->active != 0) {
+        if (1.0f == this->fade) {
             proportion += -0.033333335f;
             if (proportion < 0.0f) {
                 proportion = 0.0f;
             }
         }
     } else {
-        visible = 1.0f - self->fade;
+        visible = 1.0f - this->fade;
         proportion = (proportion > visible) ? proportion : visible;
     }
     set_creation_projection_center(proportion);
-    if (self->initialized == 0) {
-        self->initialized = 1;
+    if (this->initialized == 0) {
+        this->initialized = 1;
         return;
     }
-    if (self->active == 0) {
-        if ((self->fade += -0.083333336f) <= 0.0f) {
-            self->fade = 0.0f;
-            ((TObject *)self)->queue_destruction();
+    if (this->active == 0) {
+        if ((this->fade += -0.083333336f) <= 0.0f) {
+            this->fade = 0.0f;
+            ((TObject *)this)->queue_destruction();
         }
     } else {
-        if ((self->fade += 0.16666667f) > 1.0f) {
-            self->fade = 1.0f;
+        if ((this->fade += 0.16666667f) > 1.0f) {
+            this->fade = 1.0f;
         }
         get_creation_pad_stick(&angle, &magnitude);
         d_width = 0.016666668f * (magnitude * sin_table_lookup(angle));
@@ -1792,15 +1792,15 @@ void TObjCMProportion::run_task() {
                 d_height = -0.013333335f;
             }
         }
-        self->appearance->width += d_width;
-        self->appearance->height += d_height;
-        appearance = self->appearance;
+        this->appearance->width += d_width;
+        this->appearance->height += d_height;
+        appearance = this->appearance;
         if (appearance->width > 0.99f) {
             appearance->width -= 0.99f;
         } else if (appearance->width < 0.0f) {
             appearance->width += 0.99f;
         }
-        fields = self->appearance;
+        fields = this->appearance;
         height = fields->height;
         if (height > 0.99f) {
             fields->height = 0.99f;
@@ -1810,7 +1810,7 @@ void TObjCMProportion::run_task() {
         if (creation_buttons_pressed(6) != 0) {
             play_sound_effect(0x53704, 0, 0, 0);
             TObjCMMainMenu::clear_task_state();
-            self->active = 0;
+            this->active = 0;
         }
     }
 }

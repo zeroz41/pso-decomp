@@ -34,7 +34,7 @@ public:
   void update_stat_line(s32 value);
   void update_stat_line_if_positive(s32 count);
   void update_item_icon_colors(TItem *item);
-  void update_item_colors(saddr item);
+  void update_item_colors(TItemData *item);
   void select_item_icon(s32 item_data, u8 item_type, u8 item_group, s32 wrapped);
   void setup_entry_msg_d1(s32 item);
   void setup_entry_msg_d0(s32 item);

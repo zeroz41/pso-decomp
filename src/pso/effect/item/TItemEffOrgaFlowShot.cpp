@@ -241,6 +241,6 @@ TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, OrgaFlowShotParams *
     update_position_from_velocity();
 }
 
-void TItemEffOrgaFlowShot::create(void *parent, void *params) {
-    new TItemEffOrgaFlowShot((TObject *)parent, (OrgaFlowShotParams *)params);
+void TItemEffOrgaFlowShot::create(TObject *parent, OrgaFlowShotParams *params) {
+    new TItemEffOrgaFlowShot(parent, params);
 }

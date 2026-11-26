@@ -23,7 +23,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     int sub_8026042C();
     u32 input_flags;
     u32 m_64;
-    s32 m_68;
+    s32 mode_label_timer;  // frames the input-mode label stays drawn after a key press (60 in Japanese)
     u32 accent_index;
     TWindowKeyBoardBase *m_control;
     void release_keyboard();

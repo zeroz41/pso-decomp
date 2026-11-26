@@ -646,7 +646,7 @@ s32 item_identity_matches(u8 *item, u8 *other) {
   s32 result;
   u8 item_type;
   u8 item_group;
-  if ((((((uaddr) item) != 0) && (((uaddr) other) != 0)) && ((item_type = *((u8 *) (((s8 *) item) + 0)), (item_type == ((u8) (*((u8 *) (((s8 *) other) + 0))))) != 0))) && ((item_group = *((u8 *) (((s8 *) item) + 1)), (item_group == ((u8) (*((u8 *) (((s8 *) other) + 1))))) != 0)))
+  if (((((item) != 0) && ((other) != 0)) && ((item_type = *((u8 *) (((s8 *) item) + 0)), (item_type == ((u8) (*((u8 *) (((s8 *) other) + 0))))) != 0))) && ((item_group = *((u8 *) (((s8 *) item) + 1)), (item_group == ((u8) (*((u8 *) (((s8 *) other) + 1))))) != 0)))
   {
     switch ((s32) item_type)
     {
@@ -791,14 +791,14 @@ saddr find_eligible_combination_recipe(saddr player, u8 *item) {
     MagStats mag;
     s16 m;
     ItemCombination *rec;
-    void *it;
+    TItem *it;
     u8 v;
     rec = NULL;
     if (o != NULL && item != NULL) {
         it = find_unique_combination_target(o, (TItemData *)item);
         if (it != NULL) {
             d.init();
-            ((TItem *)it)->copy_to_item_data(&d);
+            it->copy_to_item_data(&d);
             rec = find_item_combination_recipe(item, it);
         } else {
             return 0;
@@ -922,7 +922,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   int meseta_limit;
   s32 r;
   void *player;
-  if (((saddr) self == 0) || (item == 0))
+  if ((self == 0) || (item == 0))
   {
     if (out != 0)
     {
@@ -1193,14 +1193,14 @@ void clear_drop_request_position(Vec *v) {
 }
 
 void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
-    void *p1;
-    void *p2;
+    TObjPlayer *p1;
+    TObjPlayer *p2;
     if (self != 0) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0) {
             if (is_valid_drop_floor(get_current_floor()) != 0 &&
-                (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
+                (p1->get_floor() != p2->get_floor() ||
                  designated_client_id == local_client_id)) {
                 if (self->f2c != -1) {
                     EnemyStateRecord e = enemy_state_records[self->f2c];
@@ -1230,13 +1230,13 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
 }
 
 void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
-    void *p1;
-    void *p2;
+    TObjPlayer *p1;
+    TObjPlayer *p2;
     if (this != NULL) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
-            (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
+            (p1->get_floor() != p2->get_floor() ||
              designated_client_id == local_client_id)) {
             if (this->set_index != -1) {
                 Entry_8010567C e = quest_object_entries[this->set_index];

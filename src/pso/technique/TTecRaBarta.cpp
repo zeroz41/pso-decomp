@@ -164,8 +164,8 @@ void TTecRaBarta::apply_to_target(TObjChara *target) {
     }
 }
 
-void TTecRaBarta::create(void *source, void *origin, void *pos, s32 level) {
-    new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, level);
+void TTecRaBarta::create(void *source, Vec *origin, Vec *pos, s32 level) {
+    new TTecRaBarta((saddr)source, origin, pos, level);
 }
 
 void TTecRaBarta::create(void *source, void *origin, s32 level) {

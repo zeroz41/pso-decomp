@@ -16,7 +16,7 @@
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 extern "C" {
-s32 fn_802E0454(void *);
+s32 is_player_model_shown(void *);
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;
@@ -42,7 +42,7 @@ void TAdMultiConfirmGC::run_task() {
     case 2:
         i = 1;
         for (j = 0; j < this->count; j++) {
-            if (players[j] != NULL && fn_802E0454(players[j]) == 0) {
+            if (players[j] != NULL && is_player_model_shown(players[j]) == 0) {
                 i = 0;
                 break;
             }

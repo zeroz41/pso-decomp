@@ -82,11 +82,11 @@ void spawn_scattered_lightning_strikes(u8 *origin, s32 pattern) {
         break;
     case 1:
         scale *= 1.2f;
-        new TTecZondeEff(tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
+        new TTecZondeEff(tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, scale);
         break;
     case 2:
         scale *= 1.4f;
-        new TTecZondeEff(tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
+        new TTecZondeEff(tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, scale);
         break;
     case 3:
         for (j = 0; j < 3; j++) {
@@ -96,7 +96,7 @@ void spawn_scattered_lightning_strikes(u8 *origin, s32 pattern) {
     case 4:
         scale *= 1.4f;
         for (k = 0; k < 3; k++) {
-            new TTecZondeEff(tl_07, &strikes[k].pos, &strikes[k].dir, 0x14000000, 0x14, strikes[k].len, (f32)scale);
+            new TTecZondeEff(tl_07, &strikes[k].pos, &strikes[k].dir, 0x14000000, 0x14, strikes[k].len, scale);
         }
         break;
     case 5:
@@ -160,9 +160,9 @@ TMirrorPairParticle::TMirrorPairParticle(TObject *parent, Vec *pos, s32 start_an
 }
 #pragma pop
 
-void TObjPlayer::update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase) {
+void TObjPlayer::update_battle_control_on_unlock(TObjPlayer *player, void *target, void *pos, s32 phase) {
     if (phase == 0) {
-        ((TObjPlayer *)player)->update_battle_control_if_unlocked();
+        player->update_battle_control_if_unlocked();
     }
 }
 

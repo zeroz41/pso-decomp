@@ -219,7 +219,7 @@ s32 challenge_check_rank_time(s32 seed, s32 card) {
         return -2;
     }
     CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record((u16)card);
-    if ((uaddr)record != 0 && record->is_bank_full() != 0) {
+    if (record != 0 && record->is_bank_full() != 0) {
         challenge4p_mode_state.result_rank = -3;
         return -3;
     }

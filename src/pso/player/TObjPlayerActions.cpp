@@ -1139,8 +1139,8 @@ s32 TObjPlayer::try_change_action() {
 
 void TObjPlayer::clear_flag() { clear_actor_flags((uaddr)((void*)((void*)65536))); clear_velocity(); }
 
-void TObjPlayer::apply_velocity_if_free(void *player) {
-    TObjPlayer *p = (TObjPlayer *)player;
+void TObjPlayer::apply_velocity_if_free(TObjPlayer *player) {
+    TObjPlayer *p = player;
     void *x = (void *)p->resolve_move_collision();
     if (x == NULL) {
         p->apply_velocity();
@@ -2345,7 +2345,7 @@ void release_all_players_control_lock(void) {
 
 void release_photon_blast_player_holds(u16 *p) {
     s32 i;
-    uaddr obj;
+    TObjPlayer *obj;
     if (p != NULL) {
         i = 0;
         while (*p != 0xFFFF) {
@@ -2353,9 +2353,9 @@ void release_photon_blast_player_holds(u16 *p) {
             if (id >= 12) {
                 break;
             }
-            obj = (uaddr)get_player_by_client_id(id);
+            obj = get_player_by_client_id(id);
             if (obj != 0) {
-                ((TObjPlayer *)obj)->clear_flag_200();
+                obj->clear_flag_200();
             }
             i++;
             if (i >= 12) {

@@ -114,7 +114,7 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style
         entry->x = 0.0f;
         entry->y = 0.0f;
         measure_message_text_width_default(entry);
-        ((WindowTextEntry *)entry)->reveal_all();
+        entry->reveal_all();
     }
     if ((text_style == 1) || (text_style == 3)) {
         entry->color = window_dd_color_black;

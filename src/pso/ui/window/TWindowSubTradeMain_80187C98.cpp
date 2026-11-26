@@ -7,6 +7,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 
@@ -21,7 +22,6 @@ int TWindowSubTradeMain::get_warp_state() {  return quest_warp_enabled; }
 void TWindowMenuIconLine::set_close_flag() { state_flags |= 0x80; }
 void TWindowMenuIconLine::disable_input() { state_flags |= 0x40; }
 
-extern void *tl_05;
 
 void *TObjGbAdvance::create(void *placement) {
     return new TObjGbAdvance(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));

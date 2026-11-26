@@ -5120,7 +5120,7 @@ force_active:
   - classify_level_bracket_narrow__Fl
   - classify_level_bracket_wide__Fl
   - classify_tool_shop_level_bracket__Fl
-  - cleanup__17TWindowSubComCardFPv
+  - send_find_user_for_selected_card__17TWindowSubComCardFv
   - cleanup__23TAdSinglePlyChrSelectGCFv
   - cleanup_fmt1_materials__6TSceneFv
   - cleanup_fmt2_materials__6TSceneFv
@@ -6561,7 +6561,7 @@ force_active:
   - get_size__20G_CastTechnique_6x47Fv
   - get__12CursorActionFv
   - get_abs__15TAdLdQuestPrtGCFi
-  - get_action_cursor_priority__11TMainCursorFPvll
+  - get_action_cursor_priority__11TMainCursorFPvP10TObjPlayerl
   - get_action_motion__10TObjMotionFs
   - get_status__13NpcPlayerViewFv
   - get_actor_attack_params__FP9TObjChara
@@ -14036,7 +14036,7 @@ force_active:
   - reload_stats_for_type__13TBoss5GryphonFv
   - remap_sequence_after_recovery__12TBoss1DragonFv
   - remap_sound_id__15TObjEneMe1GiGueFl
-  - remove_duplicate_bindings__21TWindowSubCustomEquipFPv
+  - remove_duplicate_bindings__21TWindowSubCustomEquipFPC10PaletteTag
   - remove_entry_at__6TLobbyFi
   - remove_equip_effects__14TItemEquipBaseFv
   - remove_equipped_item__10TObjPlayerFPvii
@@ -16666,7 +16666,7 @@ force_active:
   - update_backdrop_transition__17TWindowMainMenu1PFv
   - capture_local_player__FP12TPlyCharData
   - update_battle_cleanup_flag__10TChallengeFv
-  - update_battle_control_on_unlock__10TObjPlayerFPvPvPvl
+  - update_battle_control_on_unlock__10TObjPlayerFP10TObjPlayerPvPvl
   - update_battle_intro__6TLobbyFPv
   - update_battle_phase__19TPlayerBattleCtrl4PFv
   - update_battle_sync__6TLobbyFl
@@ -16761,7 +16761,7 @@ force_active:
   - update_countdown__11TBoss6Type2Fv
   - update_countdown__15TObjDeadListWinFv
   - update_countdown_state__11TBoss6Type1Fv
-  - update_customize_help_text__18TCustomizeMenuCtrlFPv
+  - update_customize_help_text__18TCustomizeMenuCtrlFPC10PaletteTag
   - update_cut__11TBoss4Type3Fv
   - update_cutscene_fade__14TBoss6PlotFalzFv
   - update_damage_recovery__14TObjEneIllGillFv
@@ -16947,7 +16947,7 @@ force_active:
   - update_invincibility_action__8TItemMagFv
   - update_invuln_timer__12TObjEneLappyFv
   - update_inward_orbit_point__19TMirrorPairParticleFv
-  - update_item_colors__11ItemListRowFl
+  - update_item_colors__11ItemListRowFP9TItemData
   - update_item_icon_colors__20TWindowSubStatusDispFPvPv
   - update_item_select__21TShopDeleteItemWindowFv
   - update_judge_confirm__23TShopJudgmentItemWindowFv

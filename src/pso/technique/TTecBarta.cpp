@@ -141,8 +141,8 @@ void TTecBarta::create(void *source, void *origin, void *aim, s32 level) {
     new TTecBarta((saddr)source, (u8 *)origin, (u8 *)aim, level);
 }
 
-void TTecBarta::create_ex(void *source, void *origin, s32 angle, s32 level) {
-    new TTecBarta((saddr)source, (Vec *)origin, angle, level);
+void TTecBarta::create_ex(void *source, Vec *origin, s32 angle, s32 level) {
+    new TTecBarta((saddr)source, origin, angle, level);
 }
 
 void TTecBarta::apply_to_target(TObjChara *target) {

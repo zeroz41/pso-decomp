@@ -175,14 +175,14 @@ void recreate_all_players(void);
 void handle_6x34(void);
 void handle_6x32_medical_center_revive_all_players(void);
 extern "C" {
-void set_selected_palette_tag_slot(saddr player, s32 secondary, s32 i, s32 action, s32 param);
-void get_action_palette_mode(saddr player, s32 index);
+void set_selected_palette_tag_slot(TObjPlayer *player, s32 secondary, s32 i, s32 action, s32 param);
+void get_action_palette_mode(TObjPlayer *player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 }
 void handle_6x99(void);
 void handle_6x98(void);
 extern "C" {
-s32 fn_801B7CEC(u8 *player, s8 kind, s8 group, s8 index);
+s32 fn_801B7CEC(TObjPlayer *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
 void release_players_from_cutscene(void);
@@ -828,7 +828,7 @@ void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
     rotate_matrix_y(0, rotation_y);
     rotate_matrix_x(0, -0x4000);
     if (scale != NULL) {
-        scale_matrix(0, scale->x, scale->z, (*(const f32 *)&player_one));
+        scale_matrix(0, scale->x, scale->z, (player_one));
     }
     draw_blob_shadow(force_draw);
     pop_matrix();
@@ -1393,7 +1393,7 @@ s32 TObjPlayer::update_target_lock() {
     lock_target_distance_sq = this->lock_on_cursor->nearest_target.get_published_target_dist();
     this->lock_on_cursor->nearest_target.get_candidate_part_index();
     if (!(this->actorFlags & 0x100000)) {
-        if ((u16) lock_target_id == 0xFFFF) {
+        if (lock_target_id == 0xFFFF) {
             return 0;
         }
         if ((target = find_entity_by_id(lock_target_id)) == NULL) {
@@ -1408,7 +1408,7 @@ s32 TObjPlayer::update_target_lock() {
         this->actorFlags = (s32) (this->actorFlags | 0x100000);
         return 1;
     }
-    if ((u16) lock_target_id == 0xFFFF) {
+    if (lock_target_id == 0xFFFF) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFEFFFFF);
         return 0;
     }
@@ -1515,7 +1515,7 @@ s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
 
 u32 TObjPlayer::pickup_item(TItem *item) {
     u32 item_data[5];
-    saddr id;
+    TItemList *id;
     TItemList *list;
     s32 n;
     TItem *owner;
@@ -1544,7 +1544,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     case 3:
         if (item->is_stackable() != 0) {
             item->copy_to_item_data((TItemData *)&item_data);
-            id = (saddr)this->inventory_objects->set_mode_and_refresh_object(&item_data);
+            id = this->inventory_objects->set_mode_and_refresh_object(&item_data);
             if (id == 0) {
                 list = new TItemList(this->inventory_objects->item_list);
                 break;
@@ -1553,7 +1553,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
             if (n == 0) {
                 n = 1;
             }
-            owner = (TItem *)((TItemList *)id)->get_owner_if_alive();
+            owner = (TItem *)id->get_owner_if_alive();
             if (owner != NULL) {
                 owner->add_amount(n);
             }
@@ -1718,7 +1718,7 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
 }
 
 
-void TObjPlayer::send_6x2A_drop_item(TObjPlayer *player, s32 item_id, void *pos, s32 amount) {
+void TObjPlayer::send_6x2A_drop_item(TObjPlayer *player, s32 item_id, Vec *pos, s32 amount) {
     G_DropItem_6x2A cmd;
     if (player->is_in_lobby() == 0 && (player == NULL || player->obj_isState2_324() == 0)) {
         cmd.init();
@@ -1726,7 +1726,7 @@ void TObjPlayer::send_6x2A_drop_item(TObjPlayer *player, s32 item_id, void *pos,
         cmd.item_id = item_id;
         cmd.amount = amount;
         cmd.floor = get_current_floor();
-        VecCopy(&cmd.pos, (const Vec *)pos);
+        VecCopy(&cmd.pos, pos);
         cmd.send();
         player->send_unequip_held_item();
     }
@@ -1804,7 +1804,7 @@ s32 TObjPlayer::try_add_sale_meseta(s32 item_id, s32 amount, s32 count) {
     if (max < this->stat_block->meseta + amount) {
         return 0;
     }
-    this->add_meseta((s32)amount);
+    this->add_meseta(amount);
     send_6x29_delete_item(this, item_id, count);
     return 1;
 }
@@ -2012,13 +2012,13 @@ void handle_6x28_feed_mag(G_FeedMag_6x28 *command) {
     }
 }
 
-s32 fn_801B7CEC(u8 *player, s8 kind, s8 group, s8 index) {
+s32 fn_801B7CEC(TObjPlayer *player, s8 kind, s8 group, s8 index) {
     TItemData item;
     item.init();
     item.data1.data_u8[0] = kind;
     item.data1.data_u8[1] = group;
     item.data1.data_u8[2] = index;
-    TItemList *node_4144 = ((TObjPlayer *)player)->inventory_objects->set_mode_and_refresh_object(&item);
+    TItemList *node_4144 = player->inventory_objects->set_mode_and_refresh_object(&item);
     if (node_4144 == 0U) {
         return -1;
     }
@@ -2500,7 +2500,7 @@ void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command) {
     pl->stat_block->stats.ata = pkt.ata;
     pl->stat_block->level = pkt.level;
     f = pl->get_tp_class_factor();
-    pl->recalc_combat_stats(pl->stat_block, NULL, NULL, (f32)(pl->get_class_hp_factor()), (f32)f);
+    pl->recalc_combat_stats(pl->stat_block, NULL, NULL, (f32)(pl->get_class_hp_factor()), f);
     pl->hp = pl->hpmax;
     pl->tp = pl->tpmax;
     if (pl->is_alive_and_ready() != 0) {
@@ -2658,7 +2658,7 @@ void TObjPlayer::recalc_stats() {
 
     tp_class_factor = this->get_tp_class_factor();
     xscale = this->get_class_hp_factor();
-    this->recalc_combat_stats(NULL, NULL, NULL, (f32)xscale, (f32)tp_class_factor);
+    this->recalc_combat_stats(NULL, NULL, NULL, xscale, tp_class_factor);
     this->clamp_hp();
     this->clamp_tp();
 }
@@ -2754,12 +2754,12 @@ void TObjPlayer::damp_planar_velocity() {
     if (this->velocity.x < player_velocity_epsilon && this->velocity.x > player_velocity_neg_epsilon) {
         this->velocity.x = player_zero;
     } else {
-        this->velocity.x *= (*(const f32 *)&player_half);
+        this->velocity.x *= (player_half);
     }
     if (this->velocity.z < player_velocity_epsilon && this->velocity.z > player_velocity_neg_epsilon) {
         this->velocity.z = player_zero;
     } else {
-        this->velocity.z *= (*(const f32 *)&player_half);
+        this->velocity.z *= (player_half);
     }
 }
 
@@ -2888,8 +2888,8 @@ TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
 
 #pragma push
 #pragma fp_contract on
-void get_action_palette_mode(saddr player, s32 index) {
-    ((TObjPlayer *)player)->refresh_effect()->get_current_tag_mode(index);
+void get_action_palette_mode(TObjPlayer *player, s32 index) {
+    player->refresh_effect()->get_current_tag_mode(index);
 }
 #pragma pop
 #pragma push
@@ -2908,8 +2908,8 @@ u16 TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 row, s32 inde
 
 #pragma push
 #pragma scheduling off
-void set_selected_palette_tag_slot(saddr player, s32 secondary, s32 i, s32 action, s32 param) {
-    ((TObjPlayer *)player)->select_action_palette(secondary)->set_tag_slot(i, action, param);
+void set_selected_palette_tag_slot(TObjPlayer *player, s32 secondary, s32 i, s32 action, s32 param) {
+    player->select_action_palette(secondary)->set_tag_slot(i, action, param);
 }
 #pragma pop
 
@@ -2929,8 +2929,8 @@ void TObjPlayer::refresh_party_cursors() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjPlayer::is_effect_channel_active(saddr player, s32 index) {
-    return ((TObjPlayer *)player)->refresh_effect()->is_channel_active(index);
+s32 TObjPlayer::is_effect_channel_active(TObjPlayer *player, s32 index) {
+    return player->refresh_effect()->is_channel_active(index);
 }
 #pragma pop
 
@@ -3095,7 +3095,7 @@ void TObjPlayer::init_trait_flags() {
 }
 
 void send_impose_hold(TObjPlayer *player, int frames) {
-    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, (*(f32 *)&player_zero));
+    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, (player_zero));
 }
 
 
@@ -4718,20 +4718,20 @@ void *TObjPlayer::find_revival_item() {
 }
 
 s32 TObjPlayer::try_pickup_item() {
-    saddr owner_if_alive;
+    TItem *owner_if_alive;
 
     if (this->obj_isState2_324() != 0) {
         return 0;
     }
     TItemList *node;
     if ((node = (TItemList *)this->find_revival_item()) != NULL) {
-        owner_if_alive = (saddr)node->get_owner_if_alive();
+        owner_if_alive = node->get_owner_if_alive();
         if (owner_if_alive == 0) {
             return 0;
         }
         recover_full();
         ((FlagWord *)((saddr)this + 0x858))->set(4);
-        send_6x29_delete_item(this, ((TItem *)owner_if_alive)->get_item_id(), 1);
+        send_6x29_delete_item(this, owner_if_alive->get_item_id(), 1);
         return 1;
     }
     return 0;
@@ -5641,7 +5641,7 @@ void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command) {
 
 f32 TObjPlayer::get_battle_value(u16 client, s16 technique) {
     if (get_player_by_client_id(client) == NULL) {
-        return (*(f32 *)&player_zero);
+        return (player_zero);
     }
     return get_class_technique_boost(get_class_index(), technique);
 }
@@ -5760,7 +5760,7 @@ s32 TObjPlayer::is_player_valid_target(u16 client_index) {
     if (is_local_client(client_index) == 0) {
         return 0;
     }
-    player = get_player_by_client_id((u16) client_index);
+    player = get_player_by_client_id(client_index);
     if ((is_palettex_enabled(client_index) == 0) || (player->is_controls_locked() != 0) || (player->reset_volopt_state() == 0)) {
         return 0;
     }

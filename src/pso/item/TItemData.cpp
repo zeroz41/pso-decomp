@@ -443,8 +443,8 @@ u16 TItemData::get_packed_value() {
 
 s32 get_item_icon_index(const u8 *q);
 
-s32 TItemData::is_usable(void *data) {
-    TItemData *item = (TItemData *)data;
+s32 TItemData::is_usable(TItemData *data) {
+    TItemData *item = data;
     u8 kind;
 
     if (TItemData::is_custom_name_srank(item) == 0) {

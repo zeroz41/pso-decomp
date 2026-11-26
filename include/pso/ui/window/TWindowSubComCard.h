@@ -128,7 +128,8 @@ struct TWindowSubComCard : public TObject {
     TWindowMenu *create_menu_window();
     TWindowMenu *create_player_select_window();
     TWindowMessage *create();
-    static void cleanup(void* p);
+    // Asks the server where the selected card's owner is.
+    void send_find_user_for_selected_card();
     static TWindowSubComCardList *send_cmd_133();
     static TWindowSubComCardList *init_layout();
     void *get_message_10(s32 index);

@@ -668,14 +668,14 @@ void TWindowHelpItem::update_stat_comparison() {
 }
 
 void TWindowHelpItem::show_weapon_attributes() {
-    saddr player;
+    TObjPlayer *player;
     HelpItemStatCompareRow *a;
     HelpItemStatCompareRow *b;
     HelpItemStatCompareRow *c;
     HelpItemStatCompareRow *d;
     HelpItemStatCompareRow *e;
 
-    player = (saddr)get_player_by_client_id(client_index);
+    player = get_player_by_client_id(client_index);
     if (player != 0) {
         init_window_layout_entries(
             &entry_list,
@@ -697,7 +697,7 @@ void TWindowHelpItem::show_weapon_attributes() {
         c->set_flag0_bit20();
         d->set_flag0_bit20();
         e->set_flag0_bit20();
-        set_percentage_rows(((TObjPlayer *)player)->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
+        set_percentage_rows(player->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
         if (primary_item != 0) {
             if (is_item_already_equipped() != 0) {
                 set_percentage_rows(NULL, &HelpItemStatCompareRow::set_compare_value);
@@ -716,11 +716,11 @@ void TWindowHelpItem::update_stat_disp2() {
     HelpItemStatCompareRow *machine_row;
     HelpItemStatCompareRow *dark_row;
     HelpItemStatCompareRow *hit_row;
-    saddr player;
+    TObjPlayer *player;
     TItemData *item;
-    player = (saddr)get_player_by_client_id(client_index);
+    player = get_player_by_client_id(client_index);
     if ((player != 0) && (native_row = (HelpItemStatCompareRow *)get_array_entry(0), abeast_row = (HelpItemStatCompareRow *)get_array_entry(1), machine_row = (HelpItemStatCompareRow *)get_array_entry(2), dark_row = (HelpItemStatCompareRow *)get_array_entry(3), hit_row = (HelpItemStatCompareRow *)get_array_entry(4), (item = primary_item, (item == NULL) == 0))) {
-        if (check_equip_requirements((void *)player, item, &requirement) != 0) {
+        if (check_equip_requirements(player, item, &requirement) != 0) {
             native_row->set_compare_enabled(1);
             abeast_row->set_compare_enabled(1);
             machine_row->set_compare_enabled(1);
@@ -850,9 +850,9 @@ void TWindowHelpItem::update_stat_disp() {
     HelpItemStatCompareRow *c;
     HelpItemStatCompareRow *d;
     HelpItemStatCompareRow *e;
-    saddr player;
+    TObjPlayer *player;
 
-    player = (saddr)get_player_by_client_id(this->client_index);
+    player = get_player_by_client_id(this->client_index);
     if (player != 0) {
         a = (HelpItemStatCompareRow *)this->get_array_entry(0);
         b = (HelpItemStatCompareRow *)this->get_array_entry(1);
@@ -860,7 +860,7 @@ void TWindowHelpItem::update_stat_disp() {
         d = (HelpItemStatCompareRow *)this->get_array_entry(3);
         e = (HelpItemStatCompareRow *)this->get_array_entry(4);
         if (this->primary_item != 0) {
-            if (check_equip_requirements((void *)player, this->primary_item, &requirement) != 0) {
+            if (check_equip_requirements(player, this->primary_item, &requirement) != 0) {
                 a->set_compare_enabled(1);
                 b->set_compare_enabled(1);
                 c->set_compare_enabled(1);
@@ -1056,7 +1056,7 @@ s32 TWindowHelpItem::advance_mag_levels() {
     if (count != level_row->get_value()) {
         level_row->set_value(count);
         ((TWindowLayoutEntry *)level_row)->hide();
-        ((TWindowLayoutEntry *)panel)->show();
+        panel->show();
         return 1;
     }
     return 0;
@@ -1133,14 +1133,14 @@ void TWindowHelpItem::show_item_description() {
     e = (WindowTextEntry *)this->get_array_entry(0);
     this->format_description_with_price();
     set_text_entry_string((e), (uaddr)(get_shared_text_buffer()), 0x20);
-    ((WindowTextEntry *)e)->reveal_all();
+    e->reveal_all();
     e2 = (HelpItemRarityStarRow *)this->get_array_entry(1);
     e2->stars = (u8)(active_item)->calc_display_grade();
 }
 
 void TWindowHelpItem::update_tech_disk_details() {
     s32 requirement;
-    saddr player;
+    TObjPlayer *player;
     WindowTextEntry *e0;
     WindowSpritePart *e1;
     WindowTextEntry *e2;
@@ -1148,7 +1148,7 @@ void TWindowHelpItem::update_tech_disk_details() {
     WindowTextEntry *e4;
     TWindowLayoutEntry *e5;
     WindowTextEntry *e6;
-    player = (saddr)get_player_by_client_id(this->client_index);
+    player = get_player_by_client_id(this->client_index);
     if (player != 0) {
         init_window_layout_entries(
             &this->entry_list,
@@ -1169,7 +1169,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         e4 = (WindowTextEntry *)this->get_array_entry(4);
         e5 = (TWindowLayoutEntry *)this->get_array_entry(5);
         e6 = (WindowTextEntry *)this->get_array_entry(6);
-        check_equip_requirements((void *)player, active_item, &requirement);
+        check_equip_requirements(player, active_item, &requirement);
         if (requirement & 1) {
             set_sprite_uv_from_pixels(e1, 0.0f, 152.0f);
             e2->hide();

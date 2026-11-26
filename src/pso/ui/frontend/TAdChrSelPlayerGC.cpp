@@ -358,7 +358,7 @@ void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f
   model_render_flags = saved_model_render_flags;
 }
 
-extern "C" bool fn_802E0454(TAdChrSelPlayerGC *player) {
+extern "C" bool is_player_model_shown(TAdChrSelPlayerGC *player) {
     return player->state == 3;
 }
 

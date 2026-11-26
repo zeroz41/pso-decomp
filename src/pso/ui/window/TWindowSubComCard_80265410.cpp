@@ -32,6 +32,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 #pragma readonly_strings on
 
@@ -57,7 +58,6 @@ struct MenuWindowLayout {
 MenuWindowLayout menu_window_layout = {1, 0, {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0}};
 WindowDescriptor menu_window_descriptor = {{0.0f, 0.0f}, 50050.0f, &menu_window_layout, 3};
 const char *TWindowMenu::class_name = "TWindowMenu";
-extern s32 actor_frame_tick;
 
 void TKeyBoardControl::set_composer_flag62_bit4() {
     TWindowKeyBoardBase *keyboard = m_base;

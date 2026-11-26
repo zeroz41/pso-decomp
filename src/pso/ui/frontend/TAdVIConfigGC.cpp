@@ -91,7 +91,7 @@ __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 
 void TAdVIConfigGC::open_player_names_window() {
     s32 i;
-    u8 *p;
+    TObjPlayer *p;
     if (((WarpPartyCheck *)this)->win != 0) {
         ((TWindowBase *)(((WarpPartyCheck *)this)->win))->close();
         ((WarpPartyCheck *)this)->win = 0;
@@ -101,9 +101,9 @@ void TAdVIConfigGC::open_player_names_window() {
         ((WarpPartyCheck *)this)->win->disable_input();
         ((WarpPartyCheck *)this)->win->set_close_flag();
         for (i = 0; i < 4; i++) {
-            p = (u8 *)get_player_by_client_id(i);
-            if (p != 0) {
-                strncpy(((WarpPartyCheck *)this)->names[i].s, (char *)(p + 0x85C), 0x17);
+            p = get_player_by_client_id(i);
+            if (p != NULL) {
+                strncpy(((WarpPartyCheck *)this)->names[i].s, p->name, 0x17);
                 ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
                 ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
             } else {

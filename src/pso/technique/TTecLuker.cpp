@@ -470,7 +470,7 @@ void TTelepipeEffect::run_task() {
   s32 j;
   s32 i;
   s32 area;
-  uaddr player;
+  TObjBase *player;
   nearest_sq = 10000.0f;
   j = get_current_floor_area();
   area = j;
@@ -482,10 +482,10 @@ void TTelepipeEffect::run_task() {
   {
     for (j = 0; j < 4; j++)
     {
-      player = (uaddr)get_player_by_client_id(j);
+      player = get_player_by_client_id(j);
       if (player != 0)
       {
-        dist_sq = horizontal_distance_squared(&pos, &((TObjBase *)player)->position);
+        dist_sq = horizontal_distance_squared(&pos, &player->position);
         if (dist_sq <= nearest_sq)
         {
           nearest_sq = dist_sq;
@@ -551,8 +551,8 @@ void TTelepipeEffect::run_task() {
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     u8 *player;
     TelepipeState *rec;
-    uaddr other;
-    uaddr local;
+    TObjPlayer *other;
+    TObjPlayer *local;
     command->bswap();
     if (command->state.owner_client_id == 0xffff) {
         return;
@@ -572,10 +572,10 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     if (is_split_screen() == 0 && command->state.owner_client_id == local_client_id) {
         return;
     }
-    other = (uaddr)get_player_by_client_id(command->state.owner_client_id);
-    local = (uaddr)get_player_by_client_id(local_client_id);
+    other = get_player_by_client_id(command->state.owner_client_id);
+    local = get_player_by_client_id(local_client_id);
     if (other != 0 && local != 0) {
-        if (((TObjPlayer *)other)->get_floor() == ((TObjPlayer *)local)->get_floor()) {
+        if (other->get_floor() == local->get_floor()) {
             ((TTecLuker *)player)->create(player + 0x38, player + 0x38, 0);
         }
     }

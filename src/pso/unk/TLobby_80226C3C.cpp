@@ -67,7 +67,7 @@ s16 music_current_slot;
 
 extern "C" char music_slot_entries[2][0x20];
 u8 *TLobby::get_current_slot_entry() {
-    if ((s32) music_state == 1) {
+    if (music_state == 1) {
         return (u8 *)music_slot_entries[music_fade_slot_index];
     }
     return (u8 *)lobby_current_slot_entry;
@@ -93,13 +93,13 @@ void set_music_streams_volume(s32 total) {
     if (value <= -0x140) {
         value = -0x3E7;
     }
-    if ((s32) bgm_stream_active == 0) {
+    if (bgm_stream_active == 0) {
         set_field_40_and_notify(adxt_players[0], value);
     }
     set_field_40_and_notify(adxt_players[1], value);
 }
 void TLobby::release_bgm_resource() {
-    if ((s32) bgm_stream_active != 0) {
+    if (bgm_stream_active != 0) {
         stop_audio_stream(adxt_players[1]);
         bgm_stream_active = 0;
         TLobby::init_layout_positions();
@@ -241,13 +241,13 @@ void update_music_sequencer(void) {
 }
 
 void set_dark_falz_music_request(s32 request) {
-    if ((s32) music_program_index == 4) {
+    if (music_program_index == 4) {
         music_target_id = request;
     }
 }
 
 void TLobby::set_target_id(s32 target_id) {
-    if ((s32) music_program_index != 4) {
+    if (music_program_index != 4) {
         music_target_id = target_id;
     }
 }

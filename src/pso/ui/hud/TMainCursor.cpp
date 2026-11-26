@@ -649,11 +649,11 @@ void TMainCursor::set_cursor_color(s32 unused, saddr player, LockOnActionSlot *m
     main_cursor->set_actor_include_mask(0x60000000);
 }
 
-s32 TMainCursor::get_action_cursor_priority(void *unused, saddr player, s32 index) {
+s32 TMainCursor::get_action_cursor_priority(void *unused, TObjPlayer *player, s32 index) {
     u16 kind;
     s32 sub;
-    kind = get_action_palette_mode((TObjPlayer *)player, index);
-    sub = ((TObjPlayer *)player)->get_action_palette_entry(index);
+    kind = get_action_palette_mode(player, index);
+    sub = player->get_action_palette_entry(index);
     switch (kind) {
     case 1:
         if (TObjPlayer::is_effect_channel_active(player, 0) != 0) {
@@ -661,17 +661,17 @@ s32 TMainCursor::get_action_cursor_priority(void *unused, saddr player, s32 inde
         }
         break;
     case 2:
-        if (((TObjPlayer *)player)->check_mode_action(sub) != 0) {
+        if (player->check_mode_action(sub) != 0) {
             return 2;
         }
         break;
     case 3:
-        if (((TObjPlayer *)player)->try_camera_action(sub) != 0) {
+        if (player->try_camera_action(sub) != 0) {
             return cursor_action_priority_table[sub];
         }
         break;
     case 4:
-        if (TObjPlayer::is_effect_channel_active(player, index) != 0 && is_current_area_item_enabled() != 0 && ((TObjPlayer *)player)->test_action_mask(0x43001E) != 0 && (sub == 0xA || sub == 9)) {
+        if (TObjPlayer::is_effect_channel_active(player, index) != 0 && is_current_area_item_enabled() != 0 && player->test_action_mask(0x43001E) != 0 && (sub == 0xA || sub == 9)) {
             return 0xF;
         }
         break;
@@ -690,7 +690,7 @@ void TLockOnCursor::set_cursor_pos(u16 part, s32 index) {
 
 void TLockOnCursor::bind_action_channels() {
     s32 i;
-    saddr player;
+    TObjPlayer *player;
     u8 type;
     s32 slot;
     s32 count;
@@ -703,11 +703,11 @@ void TLockOnCursor::bind_action_channels() {
     if (TCameraCtrl::get_mode() != 0) {
         return;
     }
-    player = (saddr)get_player_by_client_id(get_target_id());
-    if (player == 0) {
+    player = get_player_by_client_id(get_target_id());
+    if (player == NULL) {
         return;
     }
-    if (((TObjPlayer *)player)->is_controls_locked() != 0 && ((TMainCursor *)&palette_override)->is_channel_active() != 0) {
+    if (player->is_controls_locked() != 0 && ((TMainCursor *)&palette_override)->is_channel_active() != 0) {
         type = get_action_palette_tag_mode(&palette_override);
         enabled = get_action_palette_tag_slot(&palette_override);
         if (is_current_area_item_enabled() == 0) {
@@ -721,7 +721,7 @@ void TLockOnCursor::bind_action_channels() {
                 return;
             }
         }
-        setup_action_channel((TObjPlayer *)player, 0, type, enabled);
+        setup_action_channel(player, 0, type, enabled);
         return;
     }
     count = action_list.get_count();
@@ -736,7 +736,7 @@ void TLockOnCursor::bind_action_channels() {
     slot = 0;
     for (i = 0; i < count; i++) {
         if (entry->get_priority() != 0) {
-            setup_action_channel((TObjPlayer *)player, slot, get_action_palette_mode((TObjPlayer *)player, entry->get_index()), (s16)((TObjPlayer *)player)->get_action_palette_entry(entry->get_index()));
+            setup_action_channel(player, slot, get_action_palette_mode(player, entry->get_index()), (s16)player->get_action_palette_entry(entry->get_index()));
             slot++;
         }
         entry++;

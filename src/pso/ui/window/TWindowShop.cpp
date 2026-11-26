@@ -16,9 +16,9 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
-void TWindowMenuIconLine::add_list_entry(u8 icon, s32 arg2, s32 arg3) {
+void TWindowMenuIconLine::add_list_entry(u8 icon, s32 src, s32 item) {
     if (this->entry_count < this->entry_capacity) {
-        ((ItemListRow *)get_array_entry(entry_count))->init_list_entry(icon, arg2, arg3);
+        ((ItemListRow *)get_array_entry(entry_count))->init_list_entry(icon, src, item);
         this->entry_count = (this->entry_count + 1);
     }
 }

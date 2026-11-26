@@ -38,6 +38,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -47,8 +48,6 @@ struct UVPair_8024503C { UV_8024503C e[2]; };
 const char *TWindowBase::class_name = "TWindowBase";
 static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
 
-void reset_line_width(void);
-void set_line_width(int a0);
 void draw_window_scanline(TWindowBase *window, s32 row, WindowDrawContext *r, f32 len);
 extern "C" {
 

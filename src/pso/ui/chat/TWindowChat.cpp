@@ -120,15 +120,15 @@ s32 TWindowChat::submit_keyboard_input() {
 }
 
 void TWindowChat::update() {
-    saddr player;
+    TObjPlayer *player;
     if (is_open() == 0) {
         this->flags = (u16) (this->flags | 1);
         consume_active_flag(this);
         consume_input_active_flag(this);
-        player = (saddr)get_player_by_client_id(local_client_id);
-        if ((player != 0) && !(this->flags & 2) && (is_mode_bit6() != 0)) {
+        player = get_player_by_client_id(local_client_id);
+        if ((player != NULL) && !(this->flags & 2) && (is_mode_bit6() != 0)) {
             if (TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
-                ((TObjPlayer *)player)->init_parts();
+                player->init_parts();
             }
             TWindowCtrl::end_client_keyboard_hold(local_client_id);
         }
@@ -362,12 +362,12 @@ void TWindowChat::run_task() {
 }
 
 TWindowChat::~TWindowChat() {
-    saddr player;
-    player = (saddr)get_player_by_client_id(local_client_id);
-    if (player != 0) {
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
         if (!(this->flags & 2)) {
             if (this->is_mode_bit6() != 0) {
-                ((TObjPlayer *)player)->init_parts();
+                player->init_parts();
                 TWindowCtrl::end_client_keyboard_hold(local_client_id);
             }
         }
@@ -419,7 +419,7 @@ u8 TWindowKeyBoardBase::get_input_mode() { return active_input_mode; }
 int TWindowKeyBoardBase::get_flag() { return (state_flags >> 6) & 1; }
 
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard) {
-    return static_cast<s32>(keyboard->m_68) > 0;
+    return static_cast<s32>(keyboard->mode_label_timer) > 0;
 }
 
 int TSymbolChatMenu::get_selected_index() { return preset_list->get_selected_value(); }

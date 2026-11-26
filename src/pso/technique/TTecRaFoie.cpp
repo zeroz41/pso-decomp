@@ -372,8 +372,8 @@ void TTecRaFoie::create(TObject *source, Vec *origin, Vec *pos, s32 level) {
     new TTecRaFoie((saddr)source, origin, pos, level);
 }
 
-void TTecRaFoie::create_ex(void *source, void *origin, void *targets, s32 level) {
-    new TTecRaFoie((saddr)source, (Vec *)origin, (TargetCursorList *)targets, level);
+void TTecRaFoie::create_ex(void *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecRaFoie((saddr)source, origin, targets, level);
 }
 
 TTecRaFoie::~TTecRaFoie() {

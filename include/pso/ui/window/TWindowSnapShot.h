@@ -6,7 +6,7 @@
 #include "pso/system/RlcArchive.h"
 
 struct TWindowSnapShot : public TWindowBase {
-    TWindowSnapShot(saddr arg1);
+    TWindowSnapShot(saddr position);
     virtual ~TWindowSnapShot();
     static const char *class_name;
     virtual void render();

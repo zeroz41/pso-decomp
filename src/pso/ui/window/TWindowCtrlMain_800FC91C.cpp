@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/font/TFontPlayerStatusHelp.h"
 #include "pso/ui/window/TWindowCtrlMain_800FC91C.h"
 #include "pso/ui/font/TFontSmallTask.h"
@@ -20,8 +21,6 @@ s32 get_shared_text_buffer(void);
 void text_builder_append_int(s32);
 void text_builder_append(const char *);
 }
-void append_text_space(void);
-void append_padded_number(s32 v, u8 n);
 void text_builder_reset(void);
 const char *TFontSmallLobby_class_name = "TFontSmallLobby";
 
@@ -52,7 +51,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     if (p == NULL) {
         return 0;
     }
-    info = (u8 *)p + 0x85C;
+    info = (u8 *)p->name;
     if (info == NULL) {
         return 0;
     }
@@ -103,10 +102,10 @@ void TFontPlayerStatusHelp::run_task() {
     s32 status_bits;
     s32 client;
     uaddr text_source;
-    saddr player;
+    TObjPlayer *player;
 
-    player = (saddr)get_player_by_client_id((s32)this->player_id);
-    if (player == 0) {
+    player = get_player_by_client_id((s32)this->player_id);
+    if (player == NULL) {
         queue_destruction();
         return;
     }
@@ -120,7 +119,7 @@ void TFontPlayerStatusHelp::run_task() {
                 client = (s32)this->player_id;
                 set_color(challenge_title_color(&lobby_player_status_records[client].challenge));
             } else {
-                set_color(get_player_status_color((void *)player));
+                set_color(get_player_status_color(player));
             }
         }
     }

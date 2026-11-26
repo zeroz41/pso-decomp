@@ -149,18 +149,18 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWind
     set_scroll_target(223.0f, 184.0f);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
+TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 card_count, s32 empty_message) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
-    n = round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);
+    n = round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, card_count) / 7.0f);
     if (n <= 0) {
         n = 1;
     }
     storage = new PageIndicator(0, (s8)n, local_client_id);
     cards = card_slot;
     card_slots = 0;
-    card_count = arg3;
-    empty_message = arg4;
+    this->card_count = card_count;
+    this->empty_message = empty_message;
     set_flag70_bit100();
     set_selected_index(0);
     refresh_page();

@@ -645,9 +645,9 @@ void TObjPlayer::refresh_player_lobby_headers() {
     } while (client < 12);
 }
 
-TObjPlayer *create_remote_player_object(void *record) {
+TObjPlayer *create_remote_player_object(PlayerSyncRecord *record) {
     decode_remote_player_inventory(record);
-    return new TObjPlayer(tl_03, (PlayerSyncRecord *)record);
+    return new TObjPlayer(tl_03, record);
 }
 
 TObjPlayer *TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {

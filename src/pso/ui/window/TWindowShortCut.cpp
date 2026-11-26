@@ -204,7 +204,7 @@ TWindowShortCut::~TWindowShortCut() {
     }
     delete this->heading;
 }
-TWindowShortCut::TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
+TWindowShortCut::TWindowShortCut(saddr position, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)position) {
     WindowHeading *heading;
     m_name = TWindowShortCut::class_name;
     heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x35), this->client_index);

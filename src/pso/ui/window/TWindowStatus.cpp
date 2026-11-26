@@ -23,12 +23,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 
 
 const char *TWindowStatus::class_name = "TWindowStatus";
 
 
-void set_status_entry_target(void *entry, s32 value);
 #pragma readonly_strings on
 
 struct StatusWindowLayout {

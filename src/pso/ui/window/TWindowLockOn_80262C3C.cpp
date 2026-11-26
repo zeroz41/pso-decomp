@@ -29,6 +29,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 
 #pragma readonly_strings on
@@ -115,7 +116,6 @@ s32 is_split_screen(void);
 extern "C" {
 u32 calc_text_width(char *s);
 }
-s32 get_status_effect_icon_index(u32);
 
 TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lock_on_window_descriptor, player, (u8 *)get_window_layout_position(0x1E)) {
     this->m_name = TWindowLockOn::class_name;

@@ -84,12 +84,11 @@ WindowDescriptor quest_board_select_window_parameters = {
 
 extern "C" {
 void measure_message_text_width(void *, f32);
-extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::update_slot_title() {
-    u8 *str;
+    char *str;
     WindowTextEntry *entry_1;
-    str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
+    str = quest_board_handlers[(s8) this->slot].title;
     entry_1 = static_cast<WindowTextEntry *>(this->get_array_entry(1));
     set_text_entry_string(entry_1, (uaddr)str, 0);
     measure_message_text_width(entry_1, 100000.0f);
@@ -296,7 +295,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&qu
     state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
     set_text_entry_string(entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
-    ((WindowTextEntry *)entry_0)->get_text();
+    entry_0->get_text();
     title_width = (f32) calc_text_width();
     entry_0->x = 210.0f - 0.5f * title_width;
     slot = -1;

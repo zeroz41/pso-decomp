@@ -132,11 +132,11 @@ void TWindowLayoutNumber::update() {}
 
 TWindowLayoutNumber::~TWindowLayoutNumber() {}
 
-TWindowLayoutNumber::TWindowLayoutNumber(u8 *rec, s32 m_2) : TWindowLayoutRect(m_2) {
-    this->x = *(f32 *)(rec + 4);
-    this->y = *(f32 *)(rec + 8);
-    this->depth = *(f32 *)(rec + 0xC);
-    this->flags = *(s32 *)(rec + 0x14);
-    this->color = *(s32 *)(rec + 0x10);
-    this->value = *(s32 *)(rec + 0x18);
+TWindowLayoutNumber::TWindowLayoutNumber(ValueLayoutRecord *rec, s32 client) : TWindowLayoutRect(client) {
+    this->x = rec->pos[0];
+    this->y = rec->pos[1];
+    this->depth = rec->depth;
+    this->flags = rec->flags;
+    this->color = rec->color;
+    this->value = rec->value;
 }

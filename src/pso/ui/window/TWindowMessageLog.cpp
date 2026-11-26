@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "pso/system/memory.h"
@@ -243,8 +244,6 @@ void chat_log_add_line(const char *text) {
     strncpy(*(char **)((u8 *)chat_log_lines + slot_offset), text, num);
     *(s8 *)((s8 *)(num + *(s32 *)((s8 *)((u8 *)chat_log_lines + slot_offset) + 0)) + 0) = 0;
 }
-
-void append_text_space(void);
 
 void post_chat_log_message(u16 id, const char *text) {
     char *str;

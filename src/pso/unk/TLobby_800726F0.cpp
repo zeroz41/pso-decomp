@@ -226,7 +226,7 @@ void TLobby::send_45_and_close_windows(void * _w0) {
     TWindowCtrl::unsuppress_slot(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
 }
-void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
+void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void TLobby::play_player_default_effect() {
     TObjPlayer *player;

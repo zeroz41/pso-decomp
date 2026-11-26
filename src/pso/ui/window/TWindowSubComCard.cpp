@@ -182,7 +182,6 @@ void TWindowSubComCard::run_task() {
     s32 idle_ticks;
     GuildCardRecord *record;
     s32 selected_value;
-    s32 temp_r30_3;
     switch (this->state) {
     case 0x0:
     case 0x1:
@@ -408,7 +407,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0xF:
-        ((s32 (*)(void))TWindowSubComCard::cleanup)();
+        send_find_user_for_selected_card();
         this->state = 0x10U;
     case 0x10:
         this->state = 0xBU;
@@ -1107,7 +1106,6 @@ TWindowMenu *TWindowSubComCard::create_menu() {
 
 TWindowMenu *TWindowSubComCard::create_send_action_menu() {
     TWindowMenu *menu;
-    saddr temp_r31_2;
     menu = create_titled_window_menu_default(get_window_layout_position(0x82), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1E));
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x55)), 6, 5);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x56)), 6, 9);
@@ -1137,15 +1135,15 @@ TWindowMenu *TWindowSubComCard::create_contact_menu() {
 
 TWindowMenu *TWindowSubComCard::create_player_list_menu() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     TWindowMenu *w;
     u8 *name;
     w = create_titled_window_menu_default(get_window_layout_position(0x83), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1F));
     i = 0;
     do {
         if (i != local_client_id && (p = get_player_by_client_id(i)) != NULL &&
-            ((TObjPlayer *)p)->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0 &&
-            (name = (u8 *)p + 0x85C) != NULL) {
+            p->is_script_controlled() == 0 && p->obj_isState3_324() == 0 &&
+            (name = (u8 *)p->name) != NULL) {
             w->add_text_entry((saddr)name, 7, i);
         }
         i++;
@@ -1418,7 +1416,6 @@ TWindowMenu *TWindowSubComCard::create_block_sender_menu() {
 
 TWindowMenu *TWindowSubComCard::create_card_action_window() {
     TWindowMenu *menu;
-    void *temp_r31_2;
     menu = create_titled_window_menu_default(get_window_layout_position(0x93), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFD)), 6, 0x41);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFE)), 6, 0x45);
@@ -1571,22 +1568,21 @@ void TWindowSubComCard::set_card_index(s32 card_index) {
 #pragma push
 #pragma scheduling off
 void TWindowSubComCard::send_short_mail() {
-  u8 *new_var;
+  u8 *buffer;
   saddr src;
   GuildCardRecord *record;
   u8 *message;
   src = (saddr)this->keyboard->realloc_buffer();
   record = get_selected_guild_card_record();
   TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
-  new_var = (u8 *)get_shared_text_buffer();
-  message = new_var;
+  buffer = (u8 *)get_shared_text_buffer();
+  message = buffer;
   TLobby::send_simple_mail(record->get_id(), message);
   mem_free((void *)src);
 }
 #pragma pop
-void TWindowSubComCard::cleanup(void *p) {
-    TWindowMenu *menu = *reinterpret_cast<TWindowMenu **>(static_cast<u8 *>(p) + 0x84);
-    const GuildCardSlot *slot = TWindowSubComCard::get_card_entry(menu->get_selected_value());
+void TWindowSubComCard::send_find_user_for_selected_card() {
+    const GuildCardSlot *slot = TWindowSubComCard::get_card_entry(card_list->get_selected_value());
     TLobby::send_find_user_self_tag(slot->get_card_id());
 }
 TWindowSubComCardList *TWindowSubComCard::send_cmd_133() { return create_all_cards_list(get_window_layout_position(133)); }

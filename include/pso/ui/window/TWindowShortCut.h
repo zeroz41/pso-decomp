@@ -10,7 +10,7 @@ struct TWindowChatSymbol;
 struct TWindowMessageQuest;
 
 struct TWindowShortCut : public TWindowBase {
-    TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut);
+    TWindowShortCut(saddr position, s32 index, s32 *chat_shortcut);
     virtual ~TWindowShortCut();
     static const char *class_name;
     virtual void render();

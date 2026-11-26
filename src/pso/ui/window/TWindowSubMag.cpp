@@ -47,6 +47,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 
 #pragma readonly_strings on
 
@@ -62,7 +63,6 @@ extern const f32 mag_texture_window_extent[2] = {144.0f, 68.0f};
 extern const NJS_POINT2 mag_equip_kind_window_size = {206.0f, 184.0f};
 extern const NJS_POINT2 mag_feed_equip_kind_window_size = {308.0f, 124.0f};
 extern const f32 mag_message_window_size[2] = {214.0f, 184.0f};
-void append_text_space(void);
 void text_builder_reset(void);
 
 extern "C" const char mag_empty_line[] = "";
@@ -86,8 +86,8 @@ s32 TWindowSubMagPhoton::get_selected_blast() {
     return photon_blasts[static_cast<s8>(selected_blast_index)];
 }
 
-s32 get_photon_blast_name(s32 arg0) {
-    return (saddr)text_language_group_table[8][arg0];
+s32 get_photon_blast_name(s32 id) {
+    return (saddr)text_language_group_table[8][id];
 }
 
 TWindowSubMag::TWindowSubMag(TWindowMainMenu *parent, s32 client) : TObject(parent) {

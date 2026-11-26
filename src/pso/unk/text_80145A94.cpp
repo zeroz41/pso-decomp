@@ -230,7 +230,7 @@ s32 init_struct(u8 *info) {
     if (!(network_info_flags & 1)) {
         return 0;
     }
-    memset((void *)((saddr)info), 0, 0x26C);
+    memset((void *)(info), 0, 0x26C);
     if (TLobby__sub_803F5678(&state) != 0) {
         return 0;
     }

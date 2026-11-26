@@ -20,7 +20,7 @@ struct TTecRaFoie : public TTecCircle {
     virtual void render();
     void update_detonation(void *arg1);
     static void create(TObject *source, Vec *origin, Vec *pos, s32 level);
-    static void create_ex(void *source, void *origin, void *targets, s32 level);
+    static void create_ex(void *source, Vec *origin, TargetCursorList *targets, s32 level);
 };
 
 LAYOUT_ASSERT(TTecRaFoie_size, sizeof(TTecRaFoie) == 0x14C);

@@ -29,13 +29,10 @@
 
 #pragma readonly_strings on
 
-struct Ent_8027CFC8 { u8 pad[0x20]; s32 label; };
-
 // The {width, height} of the option value window create_option_value_window opens.
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
 
 extern "C" {
-extern Ent_8027CFC8 quest_board_handlers[];
 int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
 }
 

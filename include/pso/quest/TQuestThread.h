@@ -51,6 +51,15 @@ public:
     static void destroy_board();
 };
 
+// One quest board entry set by the quest opcode set_quest_board_handler:
+// the title the board lists and the label TQuestThreadBoard runs.
+struct QuestBoardHandler {
+    char title[0x20];
+    s32 label;
+};
+
+extern QuestBoardHandler quest_board_handlers[6];
+
 class TObjItemNameEntry : public TObject {
 public:
     TKeyBoardControl *keyboard;  // for the name

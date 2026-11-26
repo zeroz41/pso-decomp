@@ -856,7 +856,6 @@ void TWindowKeyBoardSoft::render() {
 
 
 void TWindowKeyBoardSoft::run_task() {
-    f32 temp_f0;
     s32 port;
 
     if (m_control != NULL) {

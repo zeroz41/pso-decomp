@@ -217,22 +217,22 @@ void ItemListRow::update_item_icon_colors(TItem *item) {
     }
 }
 
-void ItemListRow::update_item_colors(saddr item) {
+void ItemListRow::update_item_colors(TItemData *item) {
     s32 requirement;
     s32 equip_requirements;
     s32 item_flags;
     TObjPlayer *player;
 
-    if (TItemData::is_wrapped((void *)item) != 0) {
+    if (TItemData::is_wrapped(item) != 0) {
         this->style = -1;
         return;
     }
     player = get_player_by_client_id(this->client);
-    if (player != 0) {
-        equip_requirements = check_equip_requirements(player, (TItemData *)item, &requirement);
-        item_flags = ((TItemData *)item)->check_item_flags();
+    if (player != NULL) {
+        equip_requirements = check_equip_requirements(player, item, &requirement);
+        item_flags = item->check_item_flags();
         if ((u8) this->status_icon == 0x33) {
-            if ((item_flags == 0) && (TItemData::is_rare_item((u8 *)item) != 0)) {
+            if ((item_flags == 0) && (TItemData::is_rare_item(item) != 0)) {
                 this->status_icon = 0x19U;
             } else if (requirement & 1) {
                 this->status_icon = 0x13U;
@@ -246,23 +246,23 @@ void ItemListRow::update_item_colors(saddr item) {
         }
         if (equip_requirements != 0) {
             this->category_style = -1;
-            if (TItemData::is_custom_name_srank((u8 *)item) != 0) {
+            if (TItemData::is_custom_name_srank(item) != 0) {
                 this->style = 0xFFFE3C28;
                 return;
             }
-            if (((TItemData *)item)->get_name_style() == 2) {
+            if (item->get_name_style() == 2) {
                 this->flags |= 0x800;
                 return;
             }
-            if ((u8)((TItemData *)item)->calc_display_grade() >= 9U) {
+            if ((u8)item->calc_display_grade() >= 9U) {
                 this->style = -0x1600;
                 return;
             }
-            if (((TItemData *)item)->has_bonus_stats() != 0) {
+            if (item->has_bonus_stats() != 0) {
                 this->style = 0xFF61E853;
                 return;
             }
-            if (((TItemData *)item)->calc_action_flags(0x10000, player) != 0U) {
+            if (item->calc_action_flags(0x10000, player) != 0U) {
                 this->style = 0xFF909090;
                 return;
             }
@@ -522,15 +522,13 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
     forward_message(get_shared_text_buffer(), (uaddr)(void *)item);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     update_stat_line_if_positive(count);
-    update_item_colors((saddr)item);
+    update_item_colors(item);
     this->suffix_style = this->style;
     this->item = index;
     this->flags = (this->flags | 0x45);
 }
 
 
-
-struct Quad_8025941C { f32 v[8]; };
 
 extern "C" {
 u32 calc_text_width(char *s);
@@ -550,7 +548,7 @@ void ItemListRow::set_ground_item(TItemData *item, s32 index) {
         text_builder_append_int(item->data2.data_u32);
         this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
     }
-    update_item_colors((saddr)item);
+    update_item_colors(item);
     this->item = index;
     this->flags |= 0x45;
 }
@@ -605,7 +603,7 @@ void*TWindowSubStatusDisp::get_entry_ptr(int a0) {  return (char*)status_disp_it
 
 
 void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon, s32 style, f32 depth) {
-    Quad_8025941C q;
+    TexturedQuad q;
     ItemListPosition *p;
     f32 *entry;
     f32 scale;
@@ -620,18 +618,18 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
         entry = (f32 *)TWindowSubStatusDisp::get_entry_ptr(icon);
         offset = 18.0f;
         scale = 0.00390625f;
-        q.v[0] = p->x;
-        q.v[1] = p->y;
-        q.v[2] = offset + p->x;
-        q.v[3] = offset + p->y;
-        q.v[4] = entry[0] * scale;
-        q.v[5] = entry[1] * scale;
+        q.x0 = p->x;
+        q.y0 = p->y;
+        q.x1 = offset + p->x;
+        q.y1 = offset + p->y;
+        q.u0 = entry[0] * scale;
+        q.v0 = entry[1] * scale;
         edge = offset + entry[0];
-        q.v[6] = edge * scale;
+        q.u1 = edge * scale;
         edge = offset + entry[1];
-        q.v[7] = edge * scale;
-        if (win->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
-            draw_textured_quad_at_depth(q.v, depth);
+        q.v1 = edge * scale;
+        if (win->clip_and_transform_quad(&q) != 0) {
+            draw_textured_quad_at_depth(&q.x0, depth);
         }
         end_screen_draw();
     }

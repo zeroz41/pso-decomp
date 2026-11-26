@@ -32,6 +32,7 @@ struct TWindowSubItem;
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowLockOn.h"
@@ -332,14 +333,14 @@ void TWindowMainMenu::toggle_help_window() {
 }
 
 s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
-    u8 *base;
-    u8 *p;
+    TObjPlayer *player;
+    CharacterAppearanceFields *p;
     s32 area;
-    base = (u8 *)get_player_by_client_id(this->client_index);
-    if (base == NULL) {
+    player = get_player_by_client_id(this->client_index);
+    if (player == NULL) {
         return 0;
     }
-    p = base + 0x85C;
+    p = (CharacterAppearanceFields *)player->name;
     if (p == NULL) {
         return 0;
     }
@@ -367,7 +368,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
         }
         break;
     case 3:
-        if (*(s32 *)((s8 *)p + 0x34) & 0x10) {
+        if (p->classFlags & 0x10) {
             return 0;
         }
         if (area == AREA_LOBBY || area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
@@ -440,14 +441,14 @@ void TWindowMainMenu::open(TWindowMainMenuEntry *entries) {
 }
 
 void TWindowMainMenu::close_and_clear_flags() {
-    void *player;
+    TObjPlayer *player;
 
     menu_flags = (s32) (menu_flags & ~5);
     close_child_window();
     destroy_submenu();
     close();
-    if ((player = (void *)get_player_by_client_id((s32)this->client_index)) != 0U) {
-        ((TObjPlayer *)player)->init_parts();
+    if ((player = get_player_by_client_id((s32)this->client_index)) != NULL) {
+        player->init_parts();
     }
 }
 

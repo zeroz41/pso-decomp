@@ -12,6 +12,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/task/TMainTask.h"
 
 void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
     static_cast<WindowSpritePart *>(get_array_entry(0))->flags |= 2;
@@ -74,7 +75,6 @@ WindowDescriptor load_item_texture_window_descriptor = {
 #pragma readonly_strings on
 const char *TWindowLoadItemTexture::class_name = "TWindowLoadItemTexture";
 #pragma pop
-extern TObject *tl_07;
 
 
 extern const f32 load_item_texture_window_extent[2] = { 160.0f, 120.0f };

@@ -266,60 +266,60 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
 #pragma pop
 
 void TAdMultiPlyChrSelectGC::run_task() {
-    TAdMultiPlyChrSelectGC *self = this;
+
     TAdMultiChgGameModeGC::set_default_camera();
-    self->controllers_ready = 1;
-    if (self->mode != 1 && TAdMultiPlyChrSelectGC::is_controller_connected(0) == 0) {
-        self->controllers_ready = 0;
-        self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xB)));
-        self->guide->set_line(1, "");
-    } else if (self->mode != 1 && TAdMultiPlyChrSelectGC::count_ready() < 2) {
-        self->controllers_ready = 0;
-        self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xC)));
-        self->guide->set_line(1, "");
+    this->controllers_ready = 1;
+    if (this->mode != 1 && TAdMultiPlyChrSelectGC::is_controller_connected(0) == 0) {
+        this->controllers_ready = 0;
+        this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xB)));
+        this->guide->set_line(1, "");
+    } else if (this->mode != 1 && TAdMultiPlyChrSelectGC::count_ready() < 2) {
+        this->controllers_ready = 0;
+        this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xC)));
+        this->guide->set_line(1, "");
     } else {
-        switch (self->mode) {
+        switch (this->mode) {
         case 0:
         case 2:
-            if (self->state >= 0xC && self->state < 0x19) {
+            if (this->state >= 0xC && this->state < 0x19) {
                 if (TAdMultiPlyChrSelectGC::count_selected_slots() > 0) {
-                    if (self->show_flag_notice == 0) {
+                    if (this->show_flag_notice == 0) {
                         if (TAdMultiPlyChrSelectGC::is_controller_connected(TAdMultiPlyChrSelectGC::get_last_selected_player()) != 0) {
-                            self->guide->set_line(0, reinterpret_cast<const char *>(TAdMultiPlyChrSelectGC::format_player_number_text((saddr)self, (s32)(TAdMultiPlyChrSelectGC::get_last_selected_player()))));
-                            self->guide->set_line(1, "");
+                            this->guide->set_line(0, reinterpret_cast<const char *>(TAdMultiPlyChrSelectGC::format_player_number_text((saddr)this, (s32)(TAdMultiPlyChrSelectGC::get_last_selected_player()))));
+                            this->guide->set_line(1, "");
                         } else {
-                            self->guide->set_line(0, "");
-                            self->guide->set_line(1, "");
+                            this->guide->set_line(0, "");
+                            this->guide->set_line(1, "");
                         }
                     } else {
-                        self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
-                        self->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
+                        this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
+                        this->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
                     }
-                } else if (self->show_flag_notice == 0) {
-                    self->guide->set_line(0, "");
-                    self->guide->set_line(1, "");
+                } else if (this->show_flag_notice == 0) {
+                    this->guide->set_line(0, "");
+                    this->guide->set_line(1, "");
                 } else {
-                    self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
-                    self->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
+                    this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
+                    this->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
                 }
-            } else if (self->state >= 3 && TAdMultiPlyChrSelectGC::is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) != 0) {
-                if (self->show_flag_notice == 0) {
-                    self->update_guide_text(TAdMultiPlyChrSelectGC::get_clamped_cursor());
+            } else if (this->state >= 3 && TAdMultiPlyChrSelectGC::is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) != 0) {
+                if (this->show_flag_notice == 0) {
+                    this->update_guide_text(TAdMultiPlyChrSelectGC::get_clamped_cursor());
                 } else {
-                    self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
-                    self->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
+                    this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
+                    this->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
                 }
-            } else if (self->show_flag_notice == 0) {
-                self->guide->set_line(0, "");
-                self->guide->set_line(1, "");
+            } else if (this->show_flag_notice == 0) {
+                this->guide->set_line(0, "");
+                this->guide->set_line(1, "");
             } else {
-                self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
-                self->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
+                this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
+                this->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
             }
             break;
         case 1:
-            self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 1)));
-            self->guide->set_line(1, "");
+            this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 1)));
+            this->guide->set_line(1, "");
             break;
         }
     }
@@ -364,11 +364,11 @@ void TAdMultiPlyChrSelectGC::run_task() {
         &TAdMultiPlyChrSelectGC::run_state_37,
         &TAdMultiPlyChrSelectGC::request_scene_change,
     };
-    self->prev_state = self->state;
-    self->cursor = TAdMultiPlyChrSelectGC::get_clamped_cursor();
-    (self->*handlers[self->state])();
-    if (self->prev_state != self->state) {
-        self->state_frames = 0;
+    this->prev_state = this->state;
+    this->cursor = TAdMultiPlyChrSelectGC::get_clamped_cursor();
+    (this->*handlers[this->state])();
+    if (this->prev_state != this->state) {
+        this->state_frames = 0;
     }
 }
 

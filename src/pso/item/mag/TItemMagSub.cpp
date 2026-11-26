@@ -435,7 +435,7 @@ void TItemMagSub::reset_oscillation(s32 from, s32 to) {
 }
 
 void TItemMagSub::clear_optional_oscillation_flag(void *sub) {
-    if ((uaddr)sub != 0) {
+    if (sub != 0) {
         ((TItemMagSub *)sub)->clear_flags(2);
     }
 }

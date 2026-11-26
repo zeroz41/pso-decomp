@@ -82,7 +82,7 @@ void TWindowMessage::update_line_timers() {
     idx = oldest_line;
     e = static_cast<WindowTextEntry *>(get_array_entry(idx));
     m = &lines[idx];
-    while (((WindowTextEntry *)e)->get_text() != 0 && m->timer <= 0 && (m->flags & 4)) {
+    while (e->get_text() != 0 && m->timer <= 0 && (m->flags & 4)) {
         m->flags &= ~4;
         h = (1.0f) + (e->y + e->height);
         if (target_scroll_y < h) {
@@ -105,7 +105,7 @@ void TWindowMessage::retire_scrolled_lines() {
     TWindowMessageLine *m;
     e = static_cast<WindowTextEntry *>(get_array_entry(oldest_line));
     m = &lines[oldest_line];
-    while (((WindowTextEntry *)e)->get_text() != 0 && e->y + e->height < scroll_offset[1]) {
+    while (e->get_text() != 0 && e->y + e->height < scroll_offset[1]) {
         scroll_up_line(reinterpret_cast<u8 *>(e));
         m->flags = 0;
         m->timer = 0;
@@ -191,7 +191,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
     }
     e = (WindowTextEntry *)self->get_array_entry(self->next_line);
     rec = &self->lines[self->next_line];
-    if (((WindowTextEntry *)e)->get_text() != 0U) {
+    if (e->get_text() != 0U) {
         self->scroll_up_line((u8 *)e);
     }
     if (flags & 0x80) {

@@ -42,7 +42,7 @@ struct TItemData {
     // Makes this item a meseta drop of `amount`.
     void init_meseta(s32 amount);
     void bswap();
-    static s32 is_usable(void *data);
+    static s32 is_usable(TItemData *data);
     static s32 lookup_item_def(void *data);
     static s32 is_wrapped(void *data);
     static s32 is_rare_item(void *data);

@@ -97,7 +97,7 @@ TQuestManager *quest_area_manager;
 TQuestThreadBoard *quest_thread_board;
 int item_name_selection_index;
 ItemNameEntry *item_name_selection_table;
-u8 quest_board_handlers[0xD8];
+QuestBoardHandler quest_board_handlers[6];
 s32 quest_thread_floor_handler_ids[18];
 char entered_item_name[0x10];
 
@@ -263,7 +263,7 @@ s32 TQuestThread::get_register(const TQuestManager *root, int index) {
 }
 
 void TQuestThread::clear_thread_state() {
-    memset(quest_board_handlers, 0, 0xD8);
+    memset(quest_board_handlers, 0, sizeof(quest_board_handlers));
 }
 
 // The name get_quest_name reports when no quest is loaded.

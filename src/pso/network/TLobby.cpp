@@ -877,7 +877,7 @@ void show_join_entry_message(s32 id) {
 
 void TLobby::run_task() {
     s32 r;
-    switch ((*(u32 *)&lobby_state)) {
+    switch ((u32)lobby_state) {
     case 1:
         handle_team_select();
         break;
@@ -2105,7 +2105,7 @@ void TLobby::open_ship_block_select_menu(int count, void *entries, void *selecte
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((saddr)tbl);
     for (i = 0; i < count; i++) {
-        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, (s32)i);
+        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, i);
     }
     list_window->calc_content_extent();
     if (cmp == 0) {
@@ -2129,7 +2129,7 @@ void TLobby::open_information_list(int count, void *entries) {
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((saddr)w);
     for (i = 0; i < count; i++) {
-        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, (s32)i);
+        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, i);
     }
     list_window->calc_content_extent();
     TLobby::set_menu_mode_2();
@@ -2504,16 +2504,16 @@ void TLobby::open_download_list_window(int count, void *entries) {
         e = &list[i];
         switch (e->kind) {
         case 0:
-            list_window->add_list_entry(0x2C, (saddr)e->name, (s32)i);
+            list_window->add_list_entry(0x2C, (saddr)e->name, i);
             break;
         case 1:
-            list_window->add_list_entry(0x17, (saddr)e->name, (s32)i);
+            list_window->add_list_entry(0x17, (saddr)e->name, i);
             break;
         case 2:
-            list_window->add_list_entry(0x31, (saddr)e->name, (s32)i);
+            list_window->add_list_entry(0x31, (saddr)e->name, i);
             break;
         default:
-            list_window->add_list_entry(0x2C, (saddr)e->name, (s32)i);
+            list_window->add_list_entry(0x2C, (saddr)e->name, i);
             break;
         }
     }
@@ -2829,7 +2829,7 @@ TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispCo
 void copy_gc_tag(gc_tag *dst, gc_tag *src) {
     dst->tag0 = src->tag0;
     dst->tag1 = src->tag1;
-    *(s16 *)&dst->tag2 = *(s16 *)&src->tag2;
+    dst->tag2 = *(s16 *)&src->tag2;
 }
 
 #pragma pop
@@ -2924,7 +2924,7 @@ TPlyDispConfigSmth *TPlyDispConfigSmth::copy(TPlyDispConfigSmth *src) {
 void copy_guild_card_tag_triplet(gc_tag *dst, gc_tag *src) {
     dst->tag0 = src->tag0;
     dst->tag1 = src->tag1;
-    *(s16 *)&dst->tag2 = *(s16 *)&src->tag2;
+    dst->tag2 = *(s16 *)&src->tag2;
 }
 void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *to, void *from) {
     TPlyGuildCardTag *dst = (TPlyGuildCardTag *)to;

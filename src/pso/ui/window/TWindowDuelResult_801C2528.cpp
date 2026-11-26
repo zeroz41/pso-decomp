@@ -7,9 +7,9 @@
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 TBattleMusicGainTask *duel_result_window;
-extern TObject *tl_00;
 
 void show_duel_result_window(saddr gain, saddr duration) {
     if (duel_result_window != NULL) {

@@ -42,4 +42,4 @@ void TLobby::set_info_board_text(char *text) {
     *(s8 *)((s8 *)board_text + 0xAB) = 0;
     info_board_state_flags |= 1;
 }
-void TLobby::reset_info_board() { (*(int *)&info_board_state_flags) = 0; (*(int *)&information_board_response_buffer) = 0; }
+void TLobby::reset_info_board() { (info_board_state_flags) = 0; (information_board_response_buffer) = 0; }

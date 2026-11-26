@@ -6,6 +6,7 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowSubCustomSelect.h"
 
 class TWindowSubStatusDisp;
 class WindowSpritePart;
@@ -46,9 +47,9 @@ struct TWindowSubCustomEquip : public TWindowBase {
     static void draw_cursor_sprite(f32 depth_scale, WindowDrawContext *context, NJS_POINT2 *position, s32 frame);
     s32 is_type_valid(u8 type);
     s32 get_saved_slot_for_index(u8 slot);
-    void get_cursor_pos(void *tag_out);
-    void remove_duplicate_bindings(void *tag_ptr);
-    void toggle_action_binding(void *tag_ptr);
+    void get_cursor_pos(PaletteTag *tag);
+    void remove_duplicate_bindings(const PaletteTag *tag);
+    void toggle_action_binding(PaletteTag *tag);
     void place_bank_slot_on_ring(s32 angle, s32 index);
 };
 

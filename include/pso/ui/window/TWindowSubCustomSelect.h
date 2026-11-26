@@ -7,6 +7,12 @@
 class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
 
+// An action palette slot reference: the tag mode and the slot it points to.
+struct PaletteTag {
+    u16 mode;
+    u16 slot;
+};
+
 struct WindowScrollBar;
 
 struct TWindowSubCustomSelect : public TWindowAddition {
@@ -19,7 +25,7 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     u8 row_count;
     u8 state_flags;
     u32 cursor_frame;
-    uaddr action_table;
+    const PaletteTag *action_table;  // rows of 3 cells, ended by mode 8
     WindowHeading *status_display;
     WindowScrollBar *scroll_bar;
     void handle_cancel();
@@ -31,7 +37,7 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     virtual void run_task();
     int is_active();
     int is_cancelled();  // set by handle_cancel
-    void *get_selected_action();
+    PaletteTag *get_selected_action();
 };
 
 LAYOUT_ASSERT(TWindowSubCustomSelect_size, sizeof(TWindowSubCustomSelect) == 0x84);

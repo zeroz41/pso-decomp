@@ -50,6 +50,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/task/TMainTask.h"
 const char *window_ctrl_main_class_name = "TWindowCtrlMain";
 const char *window_ctrl_screen_class_name = "TWindowCtrlScreen";
 const char *window_ctrl_sub_class_name = "TWindowCtrlSub";
@@ -65,10 +66,6 @@ TWindowCtrlScreen *TWindowCtrlMain::screen_controller;
 TWindowCtrlSub *TWindowCtrlMain::sub_controller;
 TWindowCtrlClipOut *window_clip_out_instance;
 f32 window_depth_order_cursor;
-extern TObject *tl_01;
-extern TObject *tl_window;
-extern TObject *tl_clipout;
-extern TObject *tl_fadeafter;
 struct VObj_8024C820 {
     char pad[0x18];
     virtual void m0(int);

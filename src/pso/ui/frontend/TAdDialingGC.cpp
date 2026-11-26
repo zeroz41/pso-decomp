@@ -108,8 +108,8 @@ void TAdDialingGC::render_if_flag_set() {
 }
 
 void TAdDialingGC::draw_if_flag_set() {
-    TAdDialingGC *self = this;
-    if (self->dial_flags & 1) {
+
+    if (this->dial_flags & 1) {
         draw_dialing_rectangle(dialing_bottom_rect_position, dialing_bottom_rect_size);
     }
 }

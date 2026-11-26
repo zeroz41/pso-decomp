@@ -16,6 +16,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -339,7 +340,6 @@ extern "C" {
 s32 is_battle_mode_running();
 }
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-s32 get_class_name_text(s32);
 extern "C" {
 s32 get_shared_text_buffer();
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
@@ -347,6 +347,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 
 #include "types.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowComCard.h"
 
 
 // list type of page_indicator per page: the page-flip list kind passed to fn_8026C7AC
@@ -457,9 +458,9 @@ extern "C" {
 void TWindowSubStatusDisp::vt0() {
     WindowTextEntry *e;
     u8 *gauge;
-    u8 *pl;
+    TObjPlayer *pl;
     saddr v;
-    s8 *st;
+    CharacterAppearanceFields *st;
     if ((f32) this->open_tick > 7.5f) {
         this->open_tick = 7;
     }
@@ -475,20 +476,20 @@ void TWindowSubStatusDisp::vt0() {
     set_text_entry_string(e, (saddr)TWindowSubStatusDisp::get_message_10(0x82), 0x20);
     e = (WindowTextEntry *)get_array_entry(0x11);
     set_text_entry_string(e, TWindowSubStatusDisp::get_download_server(), 0x20);
-    pl = (u8 *)get_player_by_client_id(this->client_index);
+    pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        st = (s8 *)(pl + 0x85C);
+        st = (CharacterAppearanceFields *)pl->name;
         if (st != NULL) {
-            v = (saddr)((TObjPlayer *)pl)->get_name();
+            v = (saddr)pl->get_name();
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(0)), v, 0x20);
-            v = get_class_name_text(st[0x31]);
+            v = get_class_name_text(st->classId);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(3)), v, 0);
-            v = (saddr)TObjLuker::get_stat_table_entry(st[0x30]);
+            v = (saddr)TObjLuker::get_stat_table_entry(st->section);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(4)), v, 0);
         }
         gauge = (u8 *)get_array_entry(5);
         *(u8 **)(gauge + 0x30) = (u8 *)this + 0x64;
-        *(u8 **)((s8 *)this + 0x64) = pl + 0xCF4;
+        *(u8 **)((s8 *)this + 0x64) = (u8 *)pl + 0xCF4;
     }
 }
 
