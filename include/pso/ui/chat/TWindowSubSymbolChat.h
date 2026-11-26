@@ -50,8 +50,6 @@ struct TWindowSubSymbolChat : public TObject {
     static void update_symbol_chat_result(s32 index);
     static void play_symbol_sound(s32 sound_index);
     u8 *get_symbol_chat_data();
-    void bswap_symbol_chat_packet();
-    void send_symbol_chat();
     static saddr get_instance();
     int is_initialized();
     static void close_child(void *window, void *frame_context);

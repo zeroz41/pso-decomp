@@ -30,6 +30,7 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/quest/challenge/ChallengeRecord.h"
 #include "pso/player/BattleRanking.h"
+#include "pso/ui/chat/SymbolChatPayload.h"
 
 // 6x61: Activates the effect of a player's mag. Sent by TItem::send_activate_effect; received by
 // handle_6x61_activate_item_effect. Size checked: its constructor sets the header size to 3 words.
@@ -699,6 +700,8 @@ struct G_UpdateEnemyState_6x0A {
  u16 enemy_index;
  s16 total_damage;
  u32 game_flags;
+ void bswap();
+ void send();
 };
 LAYOUT_ASSERT(G_UpdateEnemyState_6x0ASize, sizeof(G_UpdateEnemyState_6x0A) == 0xC);
 
@@ -1115,14 +1118,18 @@ LAYOUT_ASSERT(G_SetAnimationState_6xAESize, sizeof(G_SetAnimationState_6xAE) == 
 // Sent by send_battle_mode_params, send_6x7D_set_battle_mode_data,
 // TPlayerBattleCtrl::send_player_ready, TPlayerBattleCtrl::send_battle_mode_state and 1 more;
 // received by handle_6x7D_set_battle_mode_data. Used by our code. Size checked:
-// build_6x7D_set_battle_mode_data sets the header size to 6 words.
+// build_6x7D_set_battle_mode_data sets the header size to 6 words. The header is byte-swapped as a
+// G_ClientIDHeader.
 struct G_SetBattleModeData_6x7D {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  s8 what;
  s8 state;  // the controller state to switch to when what is 0
  u8 unused;
  s8 is_alive;
  s32 params[4];
+ void send();
+ void bswap();
+ void send_to_leader();
 };
 LAYOUT_ASSERT(G_SetBattleModeData_6x7DSize, sizeof(G_SetBattleModeData_6x7D) == 0x18);
 
@@ -1148,14 +1155,17 @@ struct G_SetBossWarpFlags_6x6A {
 };
 LAYOUT_ASSERT(G_SetBossWarpFlags_6x6ASize, sizeof(G_SetBossWarpFlags_6x6A) == 0x8);
 
-// 6x95: The challenge mode stage time. Received by handle_6x95_set_challenge_time. Size checked:
-// build_6x95_packet sets the header size to 5 words.
+// 6x95: The challenge mode stage time. Sent by send_challenge_time; received by
+// handle_6x95_set_challenge_time. Size checked: build_6x95_packet sets the header size to 5 words.
+// The header is byte-swapped as a G_ClientIDHeader.
 struct G_SetChallengeTime_6x95 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  s32 client_id;
  s32 time;
- // Sent and byte-swapped (TLobby::byteswap_challenge_time_packet) but never set; newserv's 6x95 ends at time.
+ // Sent and byte-swapped (G_SetChallengeTime_6x95::bswap) but never set; newserv's 6x95 ends at time.
  u32 unused[2];
+ void bswap();
+ void send();
 };
 LAYOUT_ASSERT(G_SetChallengeTime_6x95Size, sizeof(G_SetChallengeTime_6x95) == 0x14);
 
@@ -1194,19 +1204,25 @@ LAYOUT_ASSERT(G_SetChallengeRecords_V3_6x7CSize, sizeof(G_SetChallengeRecords_V3
 struct G_SetEnemyLowGameFlagsUltimate_6x9C {
  struct G_EntityIDHeader header;
  s32 status_effect_flags;
+ void bswap();
+ void send();
 };
 LAYOUT_ASSERT(G_SetEnemyLowGameFlagsUltimate_6x9CSize, sizeof(G_SetEnemyLowGameFlagsUltimate_6x9C) == 0x8);
 
 // 6x17: our code carries this as TBoss3VoloptPositionPacket (pso/boss/volopt/TBoss3Volopt.h),
 // which handle_6x17_set_entity_position_and_angle reads.
 
-// 6x76: An entity's set flags. Received by handle_6x76_set_entity_set_flags. Used by our code;
-// size not checked against a sender yet.
+// 6x76: An entity's set flags. Sent by send_6x76_set_entity_set_flags; received by
+// handle_6x76_set_entity_set_flags. Used by our code. Size checked: build_6x76_set_entity_set_flags
+// sets the header size to 2 words.
 struct G_SetEntitySetFlags_6x76 {
  struct G_EntityIDHeader header;
  s16 floor;
  s16 flags;
+ void bswap();
+ void send();
 };
+LAYOUT_ASSERT(G_SetEntitySetFlags_6x76Size, sizeof(G_SetEntitySetFlags_6x76) == 0x8);
 
 // 6x89: The id of the entity that killed a player. Sent by TObjPlayer::prepare_death; received by
 // handle_6x89_set_killer_entity_id. Size checked: G_SetKillerEntityID_6x89::init sets the header
@@ -1419,6 +1435,8 @@ LAYOUT_ASSERT(G_ShieldAttack_6x4ASize, sizeof(G_ShieldAttack_6x4A) == 0x4);
 struct G_ShowChallengeTimeRecordsWindow_6x8A {
  struct G_ClientIDHeader header;
  s32 which;
+ void bswap();
+ void send();
 };
 LAYOUT_ASSERT(G_ShowChallengeTimeRecordsWindow_6x8ASize, sizeof(G_ShowChallengeTimeRecordsWindow_6x8A) == 0x8);
 
@@ -1502,11 +1520,13 @@ LAYOUT_ASSERT(G_SwitchInteraction_6x50Size, sizeof(G_SwitchInteraction_6x50) == 
 
 // 6x07: A symbol chat message. Sent by send_selected_symbol_chat; received by
 // handle_6x07_symbol_chat. Used by our code. Size checked: init_symbol_chat_header sets the
-// header size to 17 words.
+// header size to 17 words. The header is byte-swapped as a G_ClientIDHeader.
 struct G_SymbolChat_6x07 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u32 client_id;
- u8 data[0x3C];
+ SymbolChatPayload data;
+ void bswap();
+ void send();
 };
 LAYOUT_ASSERT(G_SymbolChat_6x07Size, sizeof(G_SymbolChat_6x07) == 0x44);
 
@@ -1688,12 +1708,13 @@ struct G_Unknown_6x57 {
 LAYOUT_ASSERT(G_Unknown_6x57Size, sizeof(G_Unknown_6x57) == 0x4);
 
 // 6x78: Toggles the TObjHashi entry of a client. Received by handle_6x78. Used by our code; size
-// not checked against a sender yet.
+// not checked against a sender yet. The header is byte-swapped as a G_ClientIDHeader.
 struct G_Unknown_6x78 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u16 client_id;
  u16 unused1;
  u32 unused2;
+ void bswap();
 };
 
 // 6x92: Sets one parameter of the online ending hex lines; the client id modulo 4 picks which.

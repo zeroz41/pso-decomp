@@ -33,8 +33,6 @@
 
 #pragma readonly_strings on
 
-void build_6x95_packet(u8 *packet);
-void build_6x8A_packet(u8 *packet);
 extern "C" {
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
@@ -78,35 +76,37 @@ void build_6x97_packet(u8 *packet) {
     header->size = 5;
 }
 
-void TLobby::byteswap_challenge_time_packet() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((char *)this + 4));
-    bswap_32((u32 *)((char *)this + 8));
-    bswap_32((u32 *)((char *)this + 12));
-    bswap_32((u32 *)((char *)this + 16));
+void G_SetChallengeTime_6x95::bswap() {
+    header.bswap();
+    bswap_32((u32 *)&client_id);
+    bswap_32((u32 *)&time);
+    bswap_32(&unused[0]);
+    bswap_32(&unused[1]);
 }
 
-void TLobby::send_state() {
-    byteswap_challenge_time_packet();
+void G_SetChallengeTime_6x95::send() {
+    bswap();
     send_subcommand(this);
 }
-void build_6x95_packet(u8 *packet) {
-    G_ClientIDHeader *header = (G_ClientIDHeader *)packet;
-    header->subcommand = 0x95;
-    header->size = 5;
+
+void build_6x95_packet(G_SetChallengeTime_6x95 *packet) {
+    packet->header.subcommand = 0x95;
+    packet->header.size = sizeof(G_SetChallengeTime_6x95) / 4;
 }
-void TLobby::byteswap_challenge_packet() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((char *)this + 4));
+
+void G_ShowChallengeTimeRecordsWindow_6x8A::bswap() {
+    header.bswap();
+    bswap_32((u32 *)&which);
 }
-void TLobby::send_challenge_packet() {
-    byteswap_challenge_packet();
+
+void G_ShowChallengeTimeRecordsWindow_6x8A::send() {
+    bswap();
     send_subcommand(this);
 }
-void build_6x8A_packet(u8 *packet) {
-    G_ClientIDHeader *header = (G_ClientIDHeader *)packet;
-    header->subcommand = 0x8A;
-    header->size = 2;
+
+void build_6x8A_packet(G_ShowChallengeTimeRecordsWindow_6x8A *packet) {
+    packet->header.subcommand = 0x8A;
+    packet->header.size = sizeof(G_ShowChallengeTimeRecordsWindow_6x8A) / 4;
 }
 void G_SetChallengeRecords_V3_6x7C::bswap() {
     __base_G_SetChallengeRecordsBase_6x7C.header.bswap();

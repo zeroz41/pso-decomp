@@ -7,9 +7,9 @@ extern "C" {
 const char *get_technique_name(s32 id);
 }
 
-struct Handle6x07SymbolChatPacket { u8 pad[4]; s32 f4; u32 f8; };
+struct G_SymbolChat_6x07;
 
-void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command);
+void handle_6x07_symbol_chat(G_SymbolChat_6x07 *command);
 
 struct Handle6x07SymbolChatSymBody { u32 w[12]; };
 

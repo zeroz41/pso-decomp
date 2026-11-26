@@ -663,7 +663,7 @@ void send_battle_mode_params(s8 command, s32 value, s32 extra) {
     cmd.what = 0;
     cmd.params[0] = value;
     cmd.params[1] = extra;
-    ((TLobby *)(&cmd))->send_set_battle_mode_data();
+    cmd.send();
 }
 
 s32 TPlayerBattleCtrl::check_team_balance(s32 check_rule) {
@@ -802,7 +802,7 @@ void restart_battle_after_fade(void) {
 void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt) {
     TObjPlayer *p;
     s32 i;
-    ((TLobby *)pkt)->bswap_set_battle_mode_data();
+    pkt->bswap();
     switch (pkt->what) {
     case 0:
         if (battle_mode_data_ptr != NULL) {
@@ -1123,7 +1123,7 @@ void send_6x7D_set_battle_mode_data(void *) {
             msg.params[b] = t;
         }
     }
-    ((TLobby *)(&msg))->send_6x7D_set_battle_mode_data();
+    msg.send_to_leader();
     ((game_command *)&msg)->send();
 }
 
@@ -1162,7 +1162,7 @@ void TPlayerBattleCtrl::send_player_ready() {
     build_6x7D_set_battle_mode_data(&cmd);
     cmd.what = 4;
     cmd.params[0] = local_client_id;
-    ((TLobby *)(&cmd))->send_set_battle_mode_data();
+    cmd.send();
 }
 
 s32 TPlayerBattleCtrl::check_all_players_ready() {
@@ -1233,7 +1233,7 @@ void TPlayerBattleCtrl::send_battle_mode_state() {
         }
         m.is_alive = on;
         battle_team_table[local_client_id] = on;
-        ((TLobby *)(&m))->send_set_battle_mode_data();
+        m.send();
     }
 }
 
@@ -1251,7 +1251,7 @@ void TLobby::send_battle_mode_data(void * _w0) {
 
     build_6x7D_set_battle_mode_data(&cmd);
     cmd.what = 5;
-    ((TLobby *)(&cmd))->send_set_battle_mode_data();
+    cmd.send();
 }
 
 void TPlayerBattleCtrl::update_battle_sync(s32 t) {

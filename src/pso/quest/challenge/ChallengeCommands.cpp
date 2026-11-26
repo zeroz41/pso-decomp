@@ -76,7 +76,7 @@ void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command) {
     if (is_challenge_mode() == 0) {
         return;
     }
-    ((TLobby *)command)->byteswap_challenge_time_packet();
+    command->bswap();
     t = command->time;
     idx = command->client_id;
     r = decode_challenge_time(t);
@@ -90,18 +90,18 @@ void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command) {
 }
 
 void send_challenge_time(s32 clear_time) {
-    SendChallengeTimeStack stack;
-    build_6x95_packet((u8 *)&stack.header);
-    stack.time = encode_challenge_time(clear_time);
-    stack.client_id = local_client_id;
-    ((TLobby *)(&stack.header))->send_state();
+    G_SetChallengeTime_6x95 packet;
+    build_6x95_packet(&packet);
+    packet.time = encode_challenge_time(clear_time);
+    packet.client_id = local_client_id;
+    packet.send();
 }
 
 void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWindow_6x8A *command) {
     if (is_challenge_mode() == 0) {
         return;
     }
-    ((TLobby *)command)->byteswap_challenge_packet();
+    command->bswap();
     if (command->which < 0 || command->which >= 0x11) {
         return;
     }
@@ -110,9 +110,9 @@ void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWi
 
 void TLobby::send_challenge_with_value(s32 challenge, s32 window_mode) {
     G_ShowChallengeTimeRecordsWindow_6x8A packet;
-    build_6x8A_packet((u8 *)&packet);
+    build_6x8A_packet(&packet);
     packet.which = window_mode;
-    ((TLobby *)(&packet))->send_challenge_packet();
+    packet.send();
 }
 
 void handle_6x7C_set_challenge_records(G_SetChallengeRecords_V3_6x7C *command) {

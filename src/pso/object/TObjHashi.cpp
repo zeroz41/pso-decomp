@@ -95,10 +95,8 @@ void set_handle_6x78_entry(u16 index, s32 value) {
     }
 }
 
-void handle_6x78(void *packet) {
-    G_Unknown_6x78 *cmd = (G_Unknown_6x78 *)packet;
-    // The packet's byte swap is still filed under TObjInfoCol (the next unit).
-    ((TObjInfoCol *)cmd)->bswap_6x78();
+void handle_6x78(G_Unknown_6x78 *cmd) {
+    cmd->bswap();
     if (get_handle_6x78_entry(cmd->client_id) != 0) {
         set_handle_6x78_entry(cmd->client_id, 0);
         return;

@@ -32,8 +32,8 @@ void send_selected_symbol_chat(s32 *preset_index) {
     init_symbol_chat_header(&packet);
     symbol_chat_preset = ((s32)((saddr)get_symbol_chat_preset((saddr)(*preset_index))));
     packet.client_id = local_client_id;
-    TLobby::copy_symbol_chat_entry(&packet.data[0], (void *)(symbol_chat_preset + 0x1C));
-    ((TWindowSubSymbolChat *)(&packet.header))->send_symbol_chat();
+    TLobby::copy_symbol_chat_entry(&packet.data, (void *)(symbol_chat_preset + 0x1C));
+    packet.send();
 }
 
 int is_preset_flag_bit9_set(const SymbolChatPreset *preset) { return (preset->payload.appearance >> 9) & 1; }
@@ -238,9 +238,16 @@ void clear_received_symbol_chat(void) { pending_symbol_chat_count = 0; symbol_ch
 
 
 SymbolChatPayload *SymbolChatPreset::get_data_ptr() { return &payload; }
-void TWindowSubSymbolChat::bswap_symbol_chat_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); ((SymbolChatPayload *)((char*)this + 0x8))->byteswap_entry(); }
+void G_SymbolChat_6x07::bswap() {
+    header.bswap();
+    bswap_32(&client_id);
+    data.byteswap_entry();
+}
 void SymbolChatPayload::byteswap_entry() { bswap_32(&appearance); { int i; for (i = 0; i < 4; i++) { bswap_16(&facial_parts[i]); } } }
-void TWindowSubSymbolChat::send_symbol_chat() { bswap_symbol_chat_packet(); broadcast_subcommand(this); }
+void G_SymbolChat_6x07::send() {
+    bswap();
+    broadcast_subcommand(this);
+}
 void init_symbol_chat_header(G_SymbolChat_6x07 *cmd) {
     cmd->header.subcommand = 0x07;
     cmd->header.size = sizeof(G_SymbolChat_6x07) / 4;

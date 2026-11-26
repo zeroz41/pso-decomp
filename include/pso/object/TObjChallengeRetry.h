@@ -7,6 +7,8 @@
 struct TWindowMessage;
 struct TWindowSubComCardList;
 struct G_SelectChallengeModeFailureOption_6x97;
+struct G_SetChallengeTime_6x95;
+struct G_ShowChallengeTimeRecordsWindow_6x8A;
 
 class TObjChallengeRetry : public TObject {
 public:
@@ -45,8 +47,8 @@ s32 is_ready_to_draw();
 void bswap_client_id_packet(void *player);
 void send_and_handle_60_wrapper(G_SelectChallengeModeFailureOption_6x97 *packet);
 
-void build_6x8A_packet(u8 *packet);
-void build_6x95_packet(u8 *packet);
+void build_6x8A_packet(G_ShowChallengeTimeRecordsWindow_6x8A *packet);
+void build_6x95_packet(G_SetChallengeTime_6x95 *packet);
 void build_6x97_packet(u8 *packet);
 void build_6x9D_packet(u8 *packet);
 #endif

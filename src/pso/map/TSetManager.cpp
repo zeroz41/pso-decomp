@@ -304,7 +304,7 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
     LobbyFloorRows *a2;
     s32 i;
     u16 id;
-    ((TLobby *)command)->bswap_player_fields();
+    command->bswap();
     id = command->header.entity_id;
     if (id >= 0x1000 && id < 0x4000) {
         a = &floor_enemy_group_table[command->floor];
@@ -351,12 +351,12 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
 
 
 void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags) {
-    Send6x76SetEntitySetFlagsPacket pkt;
+    G_SetEntitySetFlags_6x76 pkt;
     build_6x76_set_entity_set_flags(&pkt);
-    pkt.a = object->get_entity_id();
-    pkt.b = ((s16 (*)())get_current_floor)();
-    pkt.c = flags;
-    ((TLobby *)(&pkt))->send_player_update();
+    pkt.header.entity_id = object->get_entity_id();
+    pkt.floor = ((s16 (*)())get_current_floor)();
+    pkt.flags = flags;
+    pkt.send();
 }
 
 void apply_floor_set_flags_packet(FloorSetFlagsHeader *buffer, u16) {

@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
 
 SymbolChatPreset symbol_chat_receive_buffer;
@@ -18,16 +19,16 @@ const char *get_technique_name(s32 id) {
     return text_language_group_table[4][id];
 }
 }
-void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command) {
-    u32 *p;
+void handle_6x07_symbol_chat(G_SymbolChat_6x07 *command) {
+    SymbolChatPayload *p;
     s32 ply;
-    ((TWindowSubSymbolChat *)command)->bswap_symbol_chat_packet();
-    p = &command->f8;
-    ply = (saddr)get_player_by_client_id(command->f4);
+    command->bswap();
+    p = &command->data;
+    ply = (saddr)get_player_by_client_id(command->client_id);
     if (ply != 0) {
-        TLobby::dispatch_by_index(command->f4, (saddr)p);
+        TLobby::dispatch_by_index(command->client_id, (saddr)p);
         TWindowCtrl::open_balloon(((TObjBase *)(saddr)(ply))->get_entity_id(), (u8 *)p, 2, local_client_id);
-        if (*p & 0x200) {
+        if (p->appearance & 0x200) {
             for (; static_cast<s8>(pending_symbol_chat_count) >= 1; pending_symbol_chat_count--) {
             }
             pending_symbol_chat_count++;

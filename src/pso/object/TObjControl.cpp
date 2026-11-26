@@ -688,14 +688,14 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
     } else {
         msg.game_flags = state.flags;
     }
-    send_6x0A_enemy_state_packet(&msg);
+    msg.send();
 }
 
 void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command) {
     EnemyStateRecord sp;
     u16 idx;
     TObjEnemy *e;
-    ((TLobby *)command)->bswap_enemy_state();
+    command->bswap();
     idx = command->enemy_index;
     sp.copy_header(&enemy_state_records[idx]);
     sp.damage = command->total_damage;
@@ -714,10 +714,10 @@ void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command) {
 
 void TObjEnemy::send_6x9C_enemy_low_game_flags(s32 arg) {
     G_SetEnemyLowGameFlagsUltimate_6x9C msg;
-    init_6x9C_enemy_low_game_flags_packet((u8 *)&msg);
+    init_6x9C_enemy_low_game_flags_packet(&msg);
     msg.header.entity_id = entity_id;
     msg.status_effect_flags = arg;
-    ((TLobby *)(&msg))->broadcast_state();
+    msg.send();
 }
 
 void handle_6x9C_set_enemy_low_game_flags_ultimate(G_SetEnemyLowGameFlagsUltimate_6x9C *command) {
@@ -729,7 +729,7 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(G_SetEnemyLowGameFlagsUltimat
     if (game_difficulty_selection != 3) {
         return;
     }
-    ((TLobby *)command)->bswap_field();
+    command->bswap();
     if (command->header.entity_id < 0x1000) {
         return;
     }

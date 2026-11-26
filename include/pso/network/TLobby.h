@@ -112,9 +112,6 @@ struct TLobby : public TObject {
     void collect_active_card_ids();
     static void send_status_packet();
     static void clear_flag_on_phase_e();
-    void bswap_field();
-    void broadcast_state();
-    void bswap_enemy_state();
     static void wait_ready_loop();
     static s32 run_disk_error_check();
     void *alloc_download_quest(s32 size, s32 *out_size);
@@ -157,9 +154,6 @@ struct TLobby : public TObject {
     void bswap_udp_test_header();
     static void free_objects();
     static void reset_counter();
-    void send_set_battle_mode_data();
-    void bswap_set_battle_mode_data();
-    void send_6x7D_set_battle_mode_data();
     static void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
     static void backup_story_select();
     static void sync_story_select();
@@ -287,10 +281,6 @@ struct TLobby : public TObject {
     static void apply_trade_items();
 
     void update_alloc_size();
-    void byteswap_challenge_time_packet();
-    void send_state();
-    void byteswap_challenge_packet();
-    void send_challenge_packet();
     static void create_tasks();
     static void clear_session_buffers();
     static s32 run_lobby_load_tables();
@@ -347,8 +337,6 @@ struct TLobby : public TObject {
     static void free(void *p);
     static void free_data_60F0();
     static s32 init_handle(s32 size);
-    void bswap_player_fields();
-    void send_player_update();
     static void update_guild_or_quest_phase();
     static void update_game_modes();
     static void free_global_buffers();

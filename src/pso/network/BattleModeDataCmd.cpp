@@ -17,10 +17,24 @@ s32 PlayerSubObjectSlots::get_score() { return score; }
 void DamageStatSlot::set_normal_weight(f32 v) { normal_weight = v; }
 void DamageStatSlot::set_bonus_weight(f32 v) { bonus_weight = v; }
 
-void TLobby::send_set_battle_mode_data() { bswap_set_battle_mode_data(); send_subcommand((u8 *)this); }
-void TLobby::bswap_set_battle_mode_data() { ((G_ClientIDHeader *)this)->bswap(); { int i; for (i = 0; i < 4; i++) { bswap_32((u32 *)((char*)this + 0x8 + i * 4)); } } }
+void G_SetBattleModeData_6x7D::send() {
+    bswap();
+    send_subcommand(this);
+}
+
+void G_SetBattleModeData_6x7D::bswap() {
+    int i;
+    header.bswap();
+    for (i = 0; i < 4; i++) {
+        bswap_32((u32 *)&params[i]);
+    }
+}
+
 void build_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *cmd) {
     cmd->header.subcommand = 0x7D;
     cmd->header.size = sizeof(G_SetBattleModeData_6x7D) / 4;
 }
-void TLobby::send_6x7D_set_battle_mode_data() { bswap_set_battle_mode_data(); send_subcommand_to_leader(this); }
+void G_SetBattleModeData_6x7D::send_to_leader() {
+    bswap();
+    send_subcommand_to_leader(this);
+}

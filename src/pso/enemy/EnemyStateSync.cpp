@@ -122,22 +122,37 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/object/TDeadSpot.h"
-extern "C" {
-
-void TLobby::bswap_field() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
-void TLobby::broadcast_state() { bswap_field(); send_subcommand((u8 *)this); }
+void G_SetEnemyLowGameFlagsUltimate_6x9C::bswap() {
+    ((G_ClientIDHeader *)&header)->bswap();
+    bswap_32((u32 *)&status_effect_flags);
 }
 
-void init_6x9C_enemy_low_game_flags_packet(u8 *packet_arg) {
-    G_SetEnemyLowGameFlagsUltimate_6x9C *packet = (G_SetEnemyLowGameFlagsUltimate_6x9C *)packet_arg;
+void G_SetEnemyLowGameFlagsUltimate_6x9C::send() {
+    bswap();
+    send_subcommand(this);
+}
+
+void init_6x9C_enemy_low_game_flags_packet(G_SetEnemyLowGameFlagsUltimate_6x9C *packet) {
     packet->status_effect_flags = 0;
     packet->header.subcommand = 0x9C;
     packet->header.size = 2;
 }
 
-void TLobby::bswap_enemy_state() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
-void send_6x0A_enemy_state_packet(void* p) { ((TLobby *)p)->bswap_enemy_state(); send_subcommand((u8 *)p); }
-void init_6x0A_enemy_state_packet(void *packet_arg) { G_UpdateEnemyState_6x0A *packet = (G_UpdateEnemyState_6x0A *)packet_arg; packet->header.subcommand = 10; packet->header.size = 3; }
+void G_UpdateEnemyState_6x0A::bswap() {
+    ((G_ClientIDHeader *)&header)->bswap();
+    bswap_16(&enemy_index);
+    bswap_16((u16 *)&total_damage);
+}
+
+void G_UpdateEnemyState_6x0A::send() {
+    bswap();
+    send_subcommand(this);
+}
+
+void init_6x0A_enemy_state_packet(G_UpdateEnemyState_6x0A *packet) {
+    packet->header.subcommand = 0x0A;
+    packet->header.size = sizeof(G_UpdateEnemyState_6x0A) / 4;
+}
 int get_attack_credit_slot_count(TObjEnemy *) { return 4; }
 
 f32 get_challenge4p_exp_multiplier(void) {
