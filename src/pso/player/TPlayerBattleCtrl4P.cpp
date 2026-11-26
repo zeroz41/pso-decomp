@@ -51,7 +51,6 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/TLobby_801D726C.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/text_8020BC50.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -69,7 +68,6 @@ struct BattleTeamTotals { s32 team[2]; };
 
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern "C" {
-u8 TLobby__sub_801D7100(void *);
 extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
@@ -207,7 +205,7 @@ void TPlayerBattleCtrl4P::show_intro_text() {
 
 void TPlayerBattleCtrl4P::wait_for_intro_text() {
     if (--frame_timer <= 0) {
-        if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+        if (lobby_rule_settings.get_is_teams() == 1) {
             set_phase_state(3);
             return;
         }
@@ -512,7 +510,7 @@ void TPlayerBattleCtrl4P::return_to_hunters_guild() {
     queue_destruction();
 }
 
-void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); }
+void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); lobby_rule_settings.reset_settings_to_default(); }
 
 void TPlayerBattleCtrl4P::sub_80311804() {  }
 
@@ -700,33 +698,33 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
   s32 t;
   s32 j;
   TObjPlayer *p;
-  ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
+  lobby_rule_settings.reset_settings_to_default();
   if (use_rules != 0)
   {
-    TLobby::set_validated_field_0x1(lobby_rule_settings, rule_data[0]);
-    TLobby::set_field_2(lobby_rule_settings, rule_data[1]);
-    TLobby::set_field_3(lobby_rule_settings, rule_data[2]);
-    TLobby::set_clamped_field_4(lobby_rule_settings, rule_data[3]);
-    TLobby::set_field_5(lobby_rule_settings, rule_data[4]);
-    TLobby::set_field_0x6(lobby_rule_settings, rule_data[5]);
-    TLobby::set_field7_clamped(lobby_rule_settings, rule_data[6]);
-    TLobby::set_difficulty(lobby_rule_settings, rule_data[7]);
-    TLobby::set_byte9_clamped(lobby_rule_settings, rule_data[8]);
-    TLobby::set_field_b(lobby_rule_settings, rule_data[0xA]);
-    TLobby::set_clamped_field_c(lobby_rule_settings, rule_data[0xB]);
-    fn_801D72B0(lobby_rule_settings, ((s8 *) rule_data)[0xC]);
+    lobby_rule_settings.set_tech_disk_mode(rule_data[0]);
+    lobby_rule_settings.set_weapon_and_armor_mode(rule_data[1]);
+    lobby_rule_settings.set_mag_mode(rule_data[2]);
+    lobby_rule_settings.set_tool_mode(rule_data[3]);
+    lobby_rule_settings.set_trap_mode(rule_data[4]);
+    lobby_rule_settings.set_unused_F817(rule_data[5]);
+    lobby_rule_settings.set_respawn_mode(rule_data[6]);
+    lobby_rule_settings.set_replace_char(rule_data[7]);
+    lobby_rule_settings.set_drop_weapon(rule_data[8]);
+    lobby_rule_settings.set_hide_target_reticle(rule_data[0xA]);
+    lobby_rule_settings.set_meseta_mode(rule_data[0xB]);
+    lobby_rule_settings.set_death_level_up(((s8 *) rule_data)[0xC]);
     for (i = 0; i < 4; i++)
     {
-      fn_801D6D8C(lobby_rule_settings, rule_data[i + 0xD], i);
+      fn_801D6D8C(&lobby_rule_settings, rule_data[i + 0xD], i);
     }
-    TLobby::set_field_d(lobby_rule_settings, rule_data[0x11]);
-    ((TObjPlayer *)lobby_rule_settings)->set_level(((s8 *) rule_data)[0x12]);
-    TLobby::set_field_0xE(lobby_rule_settings, rule_data[0x13]);
-    ((TLobby *)lobby_rule_settings)->set_volume((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x18))))));
-    ((TLobby *)lobby_rule_settings)->set_max_tech_level((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x1C))))));
-    ((TLobby *)lobby_rule_settings)->set_clamped_index((s16)(((s16) (*((s32 *) (((s8 *) rule_data) + 0x20))))));
-    ((TLobby *)lobby_rule_settings)->set_clamped_value_1c((saddr)((*((s32 *) (((s8 *) rule_data) + 0x24)))));
-    fn_801D726C(lobby_rule_settings, ((u8) (*((s16 *) (((s8 *) rule_data) + 0x28)))));
+    lobby_rule_settings.set_enable_sonar(rule_data[0x11]);
+    ((TObjPlayer *)&lobby_rule_settings)->set_level(((s8 *) rule_data)[0x12]);
+    lobby_rule_settings.set_forbid_scape_dolls(rule_data[0x13]);
+    lobby_rule_settings.set_lives((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x18))))));
+    lobby_rule_settings.set_max_tech_level((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x1C))))));
+    lobby_rule_settings.set_char_level((s16)(((s16) (*((s32 *) (((s8 *) rule_data) + 0x20))))));
+    lobby_rule_settings.set_time_limit((saddr)((*((s32 *) (((s8 *) rule_data) + 0x24)))));
+    lobby_rule_settings.set_death_tech_level_up(((u8) (*((s16 *) (((s8 *) rule_data) + 0x28)))));
     flag = 0;
     if ((((s32) rule_data[9]) == 1) && (TLobby::get_game_mode() == 4))
     {
@@ -753,7 +751,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
       }
       flag = 1;
     }
-    TLobby::set_field_a(lobby_rule_settings, (u8) (flag != 0));
+    lobby_rule_settings.set_is_teams((u8) (flag != 0));
     for (j = 0; j < 4; j++)
     {
       p = get_player_by_client_id(j);
@@ -771,7 +769,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
         p->battle_score.damage_stats[4].set_normal_weight(battle_meseta_score);
       }
     }
-    TLobby::set_section_id(lobby_rule_settings, 1);
+    lobby_rule_settings.set_section_id(1);
   }
   for (j = 0; j < 4; j++)
   {
@@ -814,7 +812,7 @@ s32 TPlayerBattleCtrl4P::calculate_rankings() {
         split_screen_battle_rankings[k].score = 0;
     }
     n = 0;
-    if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+    if (lobby_rule_settings.get_is_teams() == 1) {
         BattleTeamTotals team = {0, 0};
         for (k = 0; k < 4; k++) {
             p = get_player_by_client_id(k);
@@ -905,15 +903,15 @@ s32 TPlayerBattleCtrl4P::is_battle_decided() {
             if (player_active[i] == 0) {
                 ok = 0;
             } else if (p->actorFlags & 0x800) {
-                if (TLobby__sub_801D7100(lobby_rule_settings) == 1) {
+                if (lobby_rule_settings.get_respawn_mode() == 1) {
                     ok = 0;
-                } else if (TLobby__sub_801D7100(lobby_rule_settings) == 2 && p->battle_score.get_timer() == 0) {
+                } else if (lobby_rule_settings.get_respawn_mode() == 2 && p->battle_score.get_timer() == 0) {
                     ok = 0;
                 }
             }
             if (ok != 0) {
                 count++;
-                if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+                if (lobby_rule_settings.get_is_teams() == 1) {
                     team = p->pk_state.get_team() - 1;
                     if (team >= 0 && team < 2) {
                         seen.team[team] = 1;
@@ -923,7 +921,7 @@ s32 TPlayerBattleCtrl4P::is_battle_decided() {
         }
         i++;
     } while (i < 4);
-    if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (seen.team[0] == 0 || seen.team[1] == 0)) {
+    if (lobby_rule_settings.get_is_teams() == 1 && (seen.team[0] == 0 || seen.team[1] == 0)) {
         return (u8)(1);
     }
     return (u8)(count <= 1);
@@ -1091,9 +1089,9 @@ void TPlayerBattleCtrl4P::update_player_alive_flags() {
             calc_battle_score(e);
             v = 1;
             if (e->actorFlags & 0x800) {
-                if (TLobby__sub_801D7100(lobby_rule_settings) == 1) {
+                if (lobby_rule_settings.get_respawn_mode() == 1) {
                     v = 0;
-                } else if (TLobby__sub_801D7100(lobby_rule_settings) == 2 && e->battle_score.get_timer() == 0) {
+                } else if (lobby_rule_settings.get_respawn_mode() == 2 && e->battle_score.get_timer() == 0) {
                     v = 0;
                 }
             }

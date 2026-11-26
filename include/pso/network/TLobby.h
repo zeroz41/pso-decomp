@@ -2,6 +2,7 @@
 #define PSO_NETWORK_TLOBBY_H
 
 #include "types.h"
+#include "pso/network/LobbyRuleSettings.h"
 
 struct NJS_SPRITE;
 struct BmlResource;
@@ -209,19 +210,6 @@ struct TLobby : public TObject {
     void bswap_set_battle_mode_data();
     void send_6x7D_set_battle_mode_data();
     void update_all_children();
-    void set_volume(u8 vol);
-    void set_max_tech_level(u8 level);
-    s16 clamp_player_index();
-    void set_clamped_index(s16 level);
-    void set_clamped_value_1c(s32 value);
-    u8 get_clamped_level();
-    s16 clamp_value_below_200();
-    u8 clamp_value_below_2();
-    u8 normalize_battle_rule_value();
-    u8 get_rule_field_a();
-    u8 normalize_battle_rule_value_b();
-    u8 clamp_rule_value_2();
-    void reset_settings_to_default();
     static void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
     static void clear_story_flag_list();
     static void clear_story_flags_and_reset_camera();
@@ -382,7 +370,6 @@ struct TLobby : public TObject {
     static void reload_offline_area();
     static void rebuild_area_keep_players();
     static void teardown_scene();
-    u8 get_rule_field_0();
     static void send_6x75_quest_flag(s32 flag, s16 action, s32 difficulty);
     static void send_6x75_quest_flag_cur_difficulty(s32 flag, s16 action);
     void byteswap_6x75_packet();
@@ -654,27 +641,11 @@ struct TLobby : public TObject {
     static void send_position_update();
     static void send_room_change(int);
     static void send_selected_character();
-    static void set_byte9_clamped(void *, u8);
-    static void set_clamped_field_4(void *, u8);
-    static void set_clamped_field_c(void *, u8);
     static void set_destroy_event(int);
-    static void set_difficulty(void *, u8);
-    static void set_difficulty(int);
-    static void set_field7_clamped(void *, u8);
-    static void set_field_0x6(void *, u8);
-    static void set_field_0xE(void *, u8);
-    static void set_field_2(void *, u8);
-    static void set_field_3(void *, u8);
-    static void set_field_5(void *, u8);
-    static void set_field_a(void *, u8);
-    static void set_field_b(void *, u8);
-    static void set_field_d(void *, u8);
     static void set_menu_mode_0();
     static void set_menu_mode_1();
     static void set_menu_mode_2();
     static void set_player_count(int);
-    static void set_section_id(void *, u8);
-    static void set_validated_field_0x1(void *, u8);
     static void show_seq_phase_message(int);
     static void update();
     static void update_and_reset(u8 *quest);
@@ -748,7 +719,6 @@ void clear_lobby_name();
 char *get_lobby_name();
 
 // The battle rule settings (0x24 bytes) the TLobby rule accessors read and write.
-extern s32 lobby_rule_settings[9];
 
 class TObject;
 

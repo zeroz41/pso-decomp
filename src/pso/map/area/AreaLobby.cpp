@@ -45,7 +45,7 @@ s32 TLobby::init_lobby_floor_scene() {
     }
     init_area_lights();
     TQuestVmDownLoadServer::reset_download_state();
-    ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
+    lobby_rule_settings.reset_settings_to_default();
     TLobby::create_tasks();
     TObjBgmColCtrl::create_controller();
     TLobby__sub_801403B4(0);

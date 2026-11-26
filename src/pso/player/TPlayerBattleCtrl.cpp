@@ -94,7 +94,6 @@ void play_duel_result_stream(const char *file, saddr duration);
 extern "C" {
 u8 is_battle_mode_running(void);
 s32 TLobby__sub_801C2678(void);
-u8 TLobby__sub_801D7100(void *);
 }
 struct SendBattleModeDataS801C295C { s32 f0; s8 f4; s8 pad[0x13]; };
 
@@ -275,8 +274,6 @@ void handle_6x7D_set_battle_mode_data(Handle6x7DSetBattleModeDataPacket *pkt);
 
 extern "C" {
 s32 fn_801D6D8C(void *, int, int);
-s32 fn_801D726C(void *, int);
-s32 fn_801D72B0(void *, int);
 }
 
 extern s32 battle_intro_value_table[];
@@ -410,7 +407,7 @@ void TPlayerBattleCtrl::update_battle_intro() {
         break;
     case 2:
         if (--((UpdateBattleIntroLobby *)this)->timer <= 0) {
-            if (((TLobby *)((u8 *)&lobby_rule_settings))->get_rule_field_a() == 1) {
+            if (lobby_rule_settings.get_is_teams() == 1) {
                 ((UpdateBattleIntroLobby *)this)->state = 3;
             } else {
                 ((UpdateBattleIntroLobby *)this)->state = 5;
@@ -762,32 +759,32 @@ void TLobby::handle_battle_result(int client, s32 local) {
 }
 
 void apply_game_settings(s32 owner, s32 use_config) {
-    ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
+    lobby_rule_settings.reset_settings_to_default();
     if (use_config != 0) {
         s32 flag;
-        TLobby::set_validated_field_0x1(lobby_rule_settings, CFG->b[0]);
-        TLobby::set_field_2(lobby_rule_settings, CFG->b[1]);
-        TLobby::set_field_3(lobby_rule_settings, CFG->b[2]);
-        TLobby::set_clamped_field_4(lobby_rule_settings, CFG->b[3]);
-        TLobby::set_field_5(lobby_rule_settings, CFG->b[4]);
-        TLobby::set_field_0x6(lobby_rule_settings, CFG->b[5]);
-        TLobby::set_field7_clamped(lobby_rule_settings, CFG->b[6]);
-        TLobby::set_difficulty(lobby_rule_settings, CFG->b[7]);
-        TLobby::set_byte9_clamped(lobby_rule_settings, CFG->b[8]);
-        TLobby::set_field_b(lobby_rule_settings, CFG->b[0xA]);
-        TLobby::set_clamped_field_c(lobby_rule_settings, CFG->b[0xB]);
-        fn_801D72B0(lobby_rule_settings, CFG->c);
+        lobby_rule_settings.set_tech_disk_mode(CFG->b[0]);
+        lobby_rule_settings.set_weapon_and_armor_mode(CFG->b[1]);
+        lobby_rule_settings.set_mag_mode(CFG->b[2]);
+        lobby_rule_settings.set_tool_mode(CFG->b[3]);
+        lobby_rule_settings.set_trap_mode(CFG->b[4]);
+        lobby_rule_settings.set_unused_F817(CFG->b[5]);
+        lobby_rule_settings.set_respawn_mode(CFG->b[6]);
+        lobby_rule_settings.set_replace_char(CFG->b[7]);
+        lobby_rule_settings.set_drop_weapon(CFG->b[8]);
+        lobby_rule_settings.set_hide_target_reticle(CFG->b[0xA]);
+        lobby_rule_settings.set_meseta_mode(CFG->b[0xB]);
+        lobby_rule_settings.set_death_level_up(CFG->c);
         for (s32 i = 0; i < 4; i++) {
-            fn_801D6D8C((s8 *)lobby_rule_settings, CFG->b[i + 0xD], i);
+            fn_801D6D8C(&lobby_rule_settings, CFG->b[i + 0xD], i);
         }
-        TLobby::set_field_d(lobby_rule_settings, CFG->d11);
-        ((TObjPlayer *)lobby_rule_settings)->set_level(CFG->lvl);
-        TLobby::set_field_0xE(lobby_rule_settings, CFG->d13);
-        ((TLobby *)lobby_rule_settings)->set_volume((u8) CFG->vol);
-        ((TLobby *)lobby_rule_settings)->set_max_tech_level((u8) CFG->v1c);
-        ((TLobby *)lobby_rule_settings)->set_clamped_index((s16) CFG->v20);
-        ((TLobby *)lobby_rule_settings)->set_clamped_value_1c(CFG->v24);
-        fn_801D726C(lobby_rule_settings, (u8) CFG->v28);
+        lobby_rule_settings.set_enable_sonar(CFG->d11);
+        ((TObjPlayer *)&lobby_rule_settings)->set_level(CFG->lvl);
+        lobby_rule_settings.set_forbid_scape_dolls(CFG->d13);
+        lobby_rule_settings.set_lives((u8) CFG->vol);
+        lobby_rule_settings.set_max_tech_level((u8) CFG->v1c);
+        lobby_rule_settings.set_char_level((s16) CFG->v20);
+        lobby_rule_settings.set_time_limit(CFG->v24);
+        lobby_rule_settings.set_death_tech_level_up((u8) CFG->v28);
         flag = 0;
         if ((s32) CFG->b[9] == 1 && TLobby::get_game_mode() == 4) {
             s32 toggle = 1;
@@ -807,7 +804,7 @@ void apply_game_settings(s32 owner, s32 use_config) {
             }
             flag = 1;
         }
-        TLobby::set_field_a(lobby_rule_settings, (u8) (flag != 0));
+        lobby_rule_settings.set_is_teams((u8) (flag != 0));
         for (s32 i = 0; i < 4; i++) {
             TObjPlayer *p = player_slot_table[i];
             if (p != NULL) {
@@ -823,7 +820,7 @@ void apply_game_settings(s32 owner, s32 use_config) {
                 p->battle_score.damage_stats[4].set_normal_weight(battle_meseta_score);
             }
         }
-        TLobby::set_section_id(lobby_rule_settings, 1);
+        lobby_rule_settings.set_section_id(1);
     }
     if (((u32 (*)(void))get_local_player)() != 0U) {
         apply_battle_rules_to_players();
@@ -847,7 +844,7 @@ s32 TPlayerBattleCtrl::check_team_balance(s32 check_rule) {
     if (TLobby::get_game_mode() <= 1) {
         return 1;
     }
-    if (check_rule != 0 && ((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+    if (check_rule != 0 && lobby_rule_settings.get_is_teams() == 1) {
         CheckTeamBalanceCount cnt = lbl_80446FAC[0];
         i = 0;
         do {
@@ -1047,7 +1044,7 @@ s32 TPlayerBattleCtrl::calc_player_rankings() {
         duel_result_table[k].score = 0;
     }
     n = 0;
-    if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+    if (lobby_rule_settings.get_is_teams() == 1) {
         CalcPlayerRankingsTeam team = lbl_80446FBC[0];
         for (k = 0; k < 4; k++) {
             p = (uaddr)get_player_by_client_id(k);
@@ -1400,9 +1397,9 @@ void TPlayerBattleCtrl::send_battle_mode_state() {
         m.player = id;
         on = 1;
         if (p->flags & 0x800) {
-            if (TLobby__sub_801D7100(lobby_rule_settings) == 1) {
+            if (lobby_rule_settings.get_respawn_mode() == 1) {
                 on = 0;
-            } else if (TLobby__sub_801D7100(lobby_rule_settings) == 2 &&
+            } else if (lobby_rule_settings.get_respawn_mode() == 2 &&
                        ((PlayerBattleScore *)(p->ctrl))->get_timer() == 0) {
                 on = 0;
             }
@@ -1467,16 +1464,16 @@ s32 TPlayerBattleCtrl::check_battle_end() {
             if (battle_team_table[i] == 0) {
                 ok = 0;
             } else if (*(s32 *)(p + 0x30) & 0x800) {
-                if (TLobby__sub_801D7100(lobby_rule_settings) == 1) {
+                if (lobby_rule_settings.get_respawn_mode() == 1) {
                     ok = 0;
-                } else if (TLobby__sub_801D7100(lobby_rule_settings) == 2 &&
+                } else if (lobby_rule_settings.get_respawn_mode() == 2 &&
                            ((PlayerBattleScore *)(p + 0x754))->get_timer() == 0) {
                     ok = 0;
                 }
             }
             if (ok != 0) {
                 cnt++;
-                if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+                if (lobby_rule_settings.get_is_teams() == 1) {
                     idx = ((TObjPlayer *)p)->pk_state.get_team() - 1;
                     if (idx >= 0 && idx < 2) {
                         seen[idx] = 1;
@@ -1485,7 +1482,7 @@ s32 TPlayerBattleCtrl::check_battle_end() {
             }
         }
     }
-    if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (seen[0] == 0 || seen[1] == 0)) {
+    if (lobby_rule_settings.get_is_teams() == 1 && (seen[0] == 0 || seen[1] == 0)) {
         return 1;
     }
     return cnt <= 1;

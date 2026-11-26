@@ -62,7 +62,7 @@ s32 TLobby::setup_scene() {
     init_area_lights();
     init_shop_world_context();
     run_load_callback_table(TLobby_scene_load_callback_table, sizeof(TLobby_scene_load_callback_table));
-    ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
+    lobby_rule_settings.reset_settings_to_default();
     TLobby::create_tasks();
     TObjBgmColCtrl::create_controller();
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {

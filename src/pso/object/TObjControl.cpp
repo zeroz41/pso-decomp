@@ -536,7 +536,7 @@ void TObjEnemy::award_enemy_experience(u16 client) {
     }
     val = this->stat_block->exp;
     if (client == this->attacker_id) {
-        if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
+        if (lobby_rule_settings.get_rule_field_0() == 1) {
             p->record_kill(this, 1);
             draw_player_status(p, p, "\tC1");
             draw_player_status(p, this, "\tC4");

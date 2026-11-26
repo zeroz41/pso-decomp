@@ -400,17 +400,6 @@ void *__ct__12StatusEffectFv(void *);
 
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
-s8 get_validated_array_value(s32 *, s32);
-s8 TLobby__sub_801D6DDC(s32 *);
-u8 fn_801D6DB0(s32 *);
-u8 TLobby__sub_801D6F94(s32 *);
-u8 TLobby__sub_801D6FFC(s32 *);
-u8 TLobby__sub_801D7100(s32 *);
-u8 fn_801D7134(s32 *);
-u8 fn_801D7168(s32 *);
-u8 fn_801D719C(s32 *);
-u8 fn_801D71D0(s32 *);
-u8 fn_801D7204(s32 *);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
 s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
@@ -4013,7 +4002,7 @@ s32 TObjPlayer::can_use_camera_field() {
 
 s32 TObjPlayer::can_use_item(TItem *item) {
     LockOnActionSlot *slot;
-    if (TTecCtrl::is_technique_ready() != 0 && fn_801D7168(lobby_rule_settings) == 2) {
+    if (TTecCtrl::is_technique_ready() != 0 && lobby_rule_settings.get_tool_mode() == 2) {
         return 0;
     }
     switch (item->get_item_type()) {
@@ -4164,21 +4153,21 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
         return;
     }
     if (TTecCtrl::is_technique_ready() != 0) {
-        if (TLobby__sub_801D7100(lobby_rule_settings) == 1) {
+        if (lobby_rule_settings.get_respawn_mode() == 1) {
             p->send_6x4E_player_revivable();
             return;
         }
-        if (TLobby__sub_801D7100(lobby_rule_settings) == 2 && TObjPlayer::decrement_timer(&p->battle_score.timer) == 0) {
+        if (lobby_rule_settings.get_respawn_mode() == 2 && TObjPlayer::decrement_timer(&p->battle_score.timer) == 0) {
             p->send_6x4E_player_revivable();
             return;
         }
         p->send_respawn_position();
-        aim = ((TLobby *)lobby_rule_settings)->clamp_value_below_200();
+        aim = lobby_rule_settings.get_death_level_up();
         room = get_entity_id_kind(p->get_attacker_id());
         if (aim != 0 && (room == 0 || room == 0x1000)) {
             p->update_aim_angle(aim);
         }
-        if ((lvl = (u8)((TLobby *)lobby_rule_settings)->get_clamped_level()) != 0 && (room == 0 || room == 0x1000)) {
+        if ((lvl = (u8)lobby_rule_settings.get_death_tech_level_up()) != 0 && (room == 0 || room == 0x1000)) {
             p->send_level_up_all_techniques(lvl);
         }
         p->reset_pose();
@@ -5147,19 +5136,19 @@ s32 TTecCtrl::is_technique_ready() {
 
 void apply_battle_rules_to_players() {
     s32 i;
-    s32 *q;
+    LobbyRuleSettings *q;
     TObjPlayer *p;
     saddr j;
     TItem *weapon;
-    s32 lv;
-    q = ((s32 *)&lobby_rule_settings);
+    s8 lv;
+    q = &lobby_rule_settings;
     for (i = 0; i < 0xC; i++) {
         p = (TObjPlayer *)get_player_by_client_id(i);
         if (p == NULL) {
             continue;
         }
         ((TLobby *)&p->battle_score)->update_all_children();
-        if (((TLobby *)q)->get_rule_field_0() == 1) {
+        if (q->get_rule_field_0() == 1) {
             p->set_state_flag_6043();
             if (((TObjChara *)p)->is_locally_controlled() != 0) {
                 lobby_player_count = 1;
@@ -5167,7 +5156,7 @@ void apply_battle_rules_to_players() {
         } else {
             return;
         }
-        switch (fn_801D71D0(q)) {
+        switch (q->get_weapon_and_armor_mode()) {
         case 1:
         case 2:
         case 3:
@@ -5175,7 +5164,7 @@ void apply_battle_rules_to_players() {
             p->inventory_objects->set_globals_and_update(p, 1);
             break;
         }
-        switch (fn_801D719C(q)) {
+        switch (q->get_mag_mode()) {
         case 1:
             p->inventory_objects->set_globals_and_update(p, 2);
             break;
@@ -5183,31 +5172,31 @@ void apply_battle_rules_to_players() {
         if ((weapon = TObjPlayer::get_equipped_weapon(p)) != NULL && weapon->check_equip_requirements(p, (s16 *)0) == 0) {
             p->unequip_item(weapon);
         }
-        switch (fn_801D7168(q)) {
+        switch (q->get_tool_mode()) {
         case 1:
         case 2:
             p->inventory_objects->set_globals_and_update(p, 3);
             break;
         }
-        if (fn_801D7134(q) == 1) {
+        if (q->get_trap_mode() == 1) {
             for (j = 0; j < 4; j++) {
-                p->trap_counts.set_count(get_validated_array_value(q, j), j);
+                p->trap_counts.set_count(q->get_trap_count(j), j);
             }
         }
-        switch (TLobby__sub_801D7100(q)) {
+        switch (q->get_respawn_mode()) {
         case 2:
-            p->battle_score.set_timer(fn_801D6DB0(q));
+            p->battle_score.set_timer(q->get_lives());
             break;
         }
-        switch (((TLobby *)q)->clamp_rule_value_2()) {
+        switch (q->get_replace_char()) {
         case 1:
             p->sub_801BEE2C(0);
             p->sub_801BEE24(0);
-            p->apply_battle_level_reset(((TLobby *)q)->clamp_player_index());
+            p->apply_battle_level_reset(q->get_char_level());
             break;
         }
-        lv = TLobby__sub_801D6DDC(q);
-        switch (fn_801D7204(q)) {
+        lv = q->get_max_tech_level();
+        switch (q->get_tech_disk_mode()) {
         case 1:
             p->technique_state.copy_all_technique_entries(0xFF);
             p->technique_state.set_all_technique_levels(0xFF);
@@ -5218,21 +5207,21 @@ void apply_battle_rules_to_players() {
             break;
         }
         p->set_flag_drop_weapon_on_death();
-        switch (((TLobby *)q)->normalize_battle_rule_value_b()) {
+        switch (q->get_drop_weapon()) {
         case 1:
             p->disable_drop_weapon_on_death();
             break;
         }
-        if (((TLobby *)q)->normalize_battle_rule_value() == 1 && ((TObjChara *)p)->is_locally_controlled() != 0) {
+        if (q->get_hide_target_reticle() == 1 && ((TObjChara *)p)->is_locally_controlled() != 0) {
             ((TObjPlayer *)p->lock_on_cursor)->set_flags_bit2();
         }
-        if (TLobby__sub_801D6FFC(q) != 0) {
+        if (q->get_meseta_mode() != 0) {
             p->set_meseta(0);
         }
-        if (((TLobby *)q)->clamp_value_below_2() == 1) {
+        if (q->get_enable_sonar() == 1) {
             p->sonar_stock.set_count(TObjPlayer__sub_801D6D28(q));
         }
-        if (TLobby__sub_801D6F94(q) == 1) {
+        if (q->get_forbid_scape_dolls() == 1) {
             p->inventory_objects->reduce_items_of_kind(p, 3, 9);
         }
         p->set_flag_4096();
@@ -5244,7 +5233,7 @@ void apply_battle_rules_to_players() {
 
 s32 TObjPlayer::check_switch_available(s32 item_id) {
     if (TTecCtrl::is_technique_ready() != 0) {
-        if (fn_801D71D0(lobby_rule_settings) == 2) {
+        if (lobby_rule_settings.get_weapon_and_armor_mode() == 2) {
             TItemList *slot = static_cast<TItemList *>(inventory_objects->start_inventory_update(item_id));
             if (slot == NULL) {
                 return 0;
@@ -5259,7 +5248,7 @@ s32 TObjPlayer::check_switch_available(s32 item_id) {
             goto block_8;
         }
 block_8:
-        if (fn_801D719C(lobby_rule_settings) == 1) {
+        if (lobby_rule_settings.get_mag_mode() == 1) {
             TItemList *slot = static_cast<TItemList *>(inventory_objects->start_inventory_update(item_id));
             if (slot == NULL) {
                 return 0;
@@ -5444,7 +5433,7 @@ void draw_player_status(saddr window, void *player, saddr str) {
 // Counts a kill unless the victim is a player on this player's own PK team.
 void TObjPlayer::record_kill(TObject *victim, s32 count) {
     if (victim->check_value_equals(TObjPlayer_name) == 0
-        || ((TLobby *)lobby_rule_settings)->get_rule_field_a() != 1
+        || lobby_rule_settings.get_is_teams() != 1
         || pk_state.get_team() != ((TObjPlayer *)victim)->pk_state.get_team()) {
         accumulate_damage_stats(&battle_score.damage_stats[0], victim, count);
         play_sound_effect(0x4004B20A, 0, 0, 0);
@@ -5538,7 +5527,7 @@ void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command)
 extern "C" {
 
 void TObjPlayer::record_meseta_pickup(s32 amount) {
-    if (this->is_locally_controlled() == 0 || TLobby__sub_801D6FFC(lobby_rule_settings) != 2 || TTecCtrl::is_technique_ready() == 0) {
+    if (this->is_locally_controlled() == 0 || lobby_rule_settings.get_meseta_mode() != 2 || TTecCtrl::is_technique_ready() == 0) {
         return;
     }
     battle_score.damage_stats[4].set_total((f32) amount);

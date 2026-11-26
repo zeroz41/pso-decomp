@@ -403,7 +403,7 @@ void init_single_player_char_select_scene(void) {
     char_save_message_flags = 0;
     play_area_music("title.adx");
     TLobby::set_and_notify(-900);
-    ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
+    lobby_rule_settings.reset_settings_to_default();
     render_tick();
 }
 #pragma pool_data reset

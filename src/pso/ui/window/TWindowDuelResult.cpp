@@ -176,7 +176,7 @@ void TWindowDuelResult::sub_8024F094() {
         } else {
             if (none) {
                 set_default_status(a, get_localized_text_entry(0x10, 0xA));
-            } else if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+            } else if (lobby_rule_settings.get_is_teams() == 1) {
                 if (e->place == 0) {
                     set_default_status(a, get_localized_text_entry(0x10, 0xB));
                 } else {

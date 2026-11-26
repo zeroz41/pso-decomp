@@ -373,7 +373,7 @@ void update_photon_blast_player_marker(saddr help, s32 client_id) {
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 170.0f, 173.0f);
             break;
         default:
-            if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (p = get_player_by_client_id(key)) != 0) {
+            if (lobby_rule_settings.get_is_teams() == 1 && (p = get_player_by_client_id(key)) != 0) {
                 key = p->pk_state.get_team() - 1;
             }
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f * key, 202.0f);

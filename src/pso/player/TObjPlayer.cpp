@@ -116,7 +116,7 @@ void TObjPlayer::alloc_shared_buffers() {
     }
 }
 
-void TObjPlayer::finalize_shared() { TLobby::set_player_count(0); TObjPlayer::set_shared_count(0); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
+void TObjPlayer::finalize_shared() { TLobby::set_player_count(0); TObjPlayer::set_shared_count(0); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; lobby_rule_settings.reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
 
 void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count(0); TObjPlayer::set_shared_count(1); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
 
@@ -133,14 +133,14 @@ void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 
 ArrivalOverride player_arrival_overrides[12];
 TObjPlayer *player_slot_table[12];
-s32 lobby_rule_settings[9];
+LobbyRuleSettings lobby_rule_settings;
 u8 lbl_8050EA64[0xC];
 u8 TObjPlayer__char_data_array[0x42C * 0xC];
 
 
 void __sinit_TObjPlayer_cpp() {
     __construct_array(player_arrival_overrides, (void *)init_arrival_override, NULL, sizeof(ArrivalOverride), 12);
-    ((TObjPlayer *)lobby_rule_settings)->reset_lobby_settings();
+    ((TObjPlayer *)&lobby_rule_settings)->reset_lobby_settings();
     __construct_array(TObjPlayer__char_data_array, (void *)construct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     __register_global_object(NULL, (void *)TObjPlayer::destroy_char_data_array, lbl_8050EA64);
 }
@@ -179,7 +179,7 @@ void TObjPlayer::clamp_stat_41c() { pending_actions.set(8); }
 
 
 s8 TObjPlayer::get_rule_field_0() {
-    return ((TLobby *)lobby_rule_settings)->get_rule_field_0();
+    return lobby_rule_settings.get_rule_field_0();
 }
 
 
@@ -1563,7 +1563,7 @@ PlayerPkState *PlayerPkState::init() { reset(); return this; }
 void PlayerPkState::reset() { enabled = 0; team = 0; }
 
 void *TObjPlayer::reset_lobby_settings() {
-    ((TLobby *)this)->reset_settings_to_default();
+    ((LobbyRuleSettings *)this)->reset_settings_to_default();
     return this;
 }
 

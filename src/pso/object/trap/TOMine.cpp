@@ -585,7 +585,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
             kind = 0;
         case 0:
             attack.kind = 1;
-            if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
+            if (lobby_rule_settings.get_rule_field_0() == 1) {
                 attack.power = mine_trap_attack_power;
             } else {
                 area_scale = mine_trap_area_scale_table[get_current_floor_area()];
@@ -647,7 +647,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         trigger_radius = 50.0f;
         set_params[0] = 150;
         set_params[1] = 30;
-        if (game_difficulty_selection == 3 && ((TLobby *)lobby_rule_settings)->get_rule_field_0() == 0) {
+        if (game_difficulty_selection == 3 && lobby_rule_settings.get_rule_field_0() == 0) {
             set_params[0] = 60;
             trigger_radius = 80.0f;
             set_trap_count(0);
@@ -817,7 +817,7 @@ s32 TOMineTrap::find_target_in_range() {
             continue;
         }
         if (id == get_trap_type() && TOMineTrap::get_trap_count() != 1 &&
-            ((TLobby *)lobby_rule_settings)->get_rule_field_0() != 0) {
+            lobby_rule_settings.get_rule_field_0() != 0) {
             continue;
         }
         if (id < 0x1000) {

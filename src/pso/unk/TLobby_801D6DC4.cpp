@@ -1,55 +1,22 @@
 #include "types.h"
-#include "pso/unk/TLobby_801D6DC4.h"
-#include "pso/network/TLobby.h"
+#include "pso/network/LobbyRuleSettings.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/data/pso_const_ids4.h"
 
-struct ClampValueBelow200Object { u8 pad[0x16]; s16 v; };
-
-struct NormalizeBattleRuleValueObject { u8 pad[0xB]; u8 v; };
-
-struct TLobbyObject { u8 pad[0xE]; u8 v; };
-
-struct ClampValueBelow2Object { u8 pad[0xD]; u8 v; };
-
-struct TLobbyObject2 { u8 pad[0xC]; u8 v; };
-
-struct GetRuleFieldAObject { u8 pad[0xA]; u8 v; };
-
-struct ClampRuleValue2Object { u8 pad[0x8]; u8 v; };
-
-struct NormalizeBattleRuleValueBObject { u8 pad[0x9]; u8 v; };
-
-struct TLobbyObject3 { u8 pad[0x7]; u8 v; };
-
-extern "C" {
-u8 default_setting_16(ClampValueBelow200Object *p);
-u8 default_setting_0B(NormalizeBattleRuleValueObject *p);
-u8 default_setting_0E(TLobbyObject *p);
-u8 TLobby__sub_801D6F94(TLobbyObject *p);
-u8 default_setting_0D(ClampValueBelow2Object *p);
-u8 default_setting_0C(TLobbyObject2 *p);
-u8 TLobby__sub_801D6FFC(TLobbyObject2 *p);
-u8 default_setting_0A(GetRuleFieldAObject *p);
-u8 default_setting_08(ClampRuleValue2Object *p);
-u8 default_setting_09(NormalizeBattleRuleValueBObject *p);
-u8 default_setting_07(TLobbyObject3 *p);
-u8 TLobby__sub_801D7100(TLobbyObject3 *p);
-u8 default_setting_18();
-
-void TLobby::set_volume(u8 vol) {
+void LobbyRuleSettings::set_lives(u8 count) {
     u8 clamped;
 
-    clamped = vol;
+    clamped = count;
     if (clamped > 0x63U) {
         clamped = 0;
     }
-    *(u8 *)&this->m_up = clamped;
+    lives = clamped;
 }
 
-u8 TLobby__sub_801D6DDC(void *record) {
+u8 LobbyRuleSettings::get_max_tech_level() {
     u8 v;
     s32 t;
-    t = *(u8 *)((s8 *)record + 0x11);
+    t = max_tech_level;
     v = t;
     if (TObjPlayer::is_invalid_slot(t) == 0 && v > 0x1DU) {
         v = 0;
@@ -57,120 +24,112 @@ u8 TLobby__sub_801D6DDC(void *record) {
     return v;
 }
 
-void TLobby::set_max_tech_level(u8 level) {
+void LobbyRuleSettings::set_max_tech_level(u8 level) {
     u8 max_level;
 
     max_level = level;
     if ((TObjPlayer::is_invalid_slot(max_level) == 0) && (max_level > 0x1DU)) {
         max_level = 0;
     }
-    *(u8 *)((s8 *)this + 0x11) = max_level;
+    max_tech_level = max_level;
 }
 
-s16 TLobby::clamp_player_index() {
+s16 LobbyRuleSettings::get_char_level() {
     s16 index;
 
-    index = *(s16 *)&this->m_down;
+    index = char_level;
     if ((index < 0) || (index > TObjPlayer::get_max_level())) {
         index = 0;
     }
     return index;
 }
 
-void TLobby::set_clamped_index(s16 level) {
+void LobbyRuleSettings::set_char_level(s16 level) {
     s16 down;
 
     down = level;
     if ((down < 0) || (down > TObjPlayer::get_max_level())) {
         down = 0;
     }
-    *(s16 *)&this->m_down = down;
+    char_level = down;
 }
 
-void TLobby::set_clamped_value_1c(s32 value) {
+void LobbyRuleSettings::set_time_limit(s32 value) {
     s32 clamped;
 
     clamped = value;
     if ((clamped < 0) || (clamped > 0x278D0)) {
         clamped = 0;
     }
-    *(s32 *)((s8 *)this + 0x1C) = clamped;
+    time_limit = clamped;
 }
 
-u8 TLobby::get_clamped_level() {
+u8 LobbyRuleSettings::get_death_tech_level_up() {
     s16 level;
 
-    level = *(s16 *)((s8 *)this + 0x18);
+    level = death_tech_level_up;
     if (level >= 0x1E) {
-        return default_setting_18();
+        return default_setting_18(this);
     }
     return (u8) level;
 }
-s16 TLobby::clamp_value_below_200() {
-    ClampValueBelow200Object *p = (ClampValueBelow200Object *)this;
-    if (p->v >= 200) {
-        return default_setting_16(p);
+s16 LobbyRuleSettings::get_death_level_up() {
+    if (death_level_up >= 200) {
+        return default_setting_16(this);
     }
-    return p->v;
+    return death_level_up;
 }
 
-u8 TLobby__sub_801D6F94(TLobbyObject *p) {
-    if (p->v >= 2) {
-        return default_setting_0E(p);
+u8 LobbyRuleSettings::get_forbid_scape_dolls() {
+    if (forbid_scape_dolls >= 2) {
+        return default_setting_0E(this);
     }
-    return p->v;
+    return forbid_scape_dolls;
 }
 
-u8 TLobby::clamp_value_below_2() {
-    ClampValueBelow2Object *p = (ClampValueBelow2Object *)this;
-    if (p->v >= 2) {
-        return default_setting_0D(p);
+u8 LobbyRuleSettings::get_enable_sonar() {
+    if (enable_sonar >= 2) {
+        return default_setting_0D(this);
     }
-    return p->v;
+    return enable_sonar;
 }
 
-u8 TLobby__sub_801D6FFC(TLobbyObject2 *p) {
-    if (p->v >= 3) {
-        return default_setting_0C(p);
+u8 LobbyRuleSettings::get_meseta_mode() {
+    if (meseta_mode >= 3) {
+        return default_setting_0C(this);
     }
-    return p->v;
+    return meseta_mode;
 }
 
-u8 TLobby::normalize_battle_rule_value() {
-    NormalizeBattleRuleValueObject *p = (NormalizeBattleRuleValueObject *)this;
-    if (p->v >= 2) {
-        return default_setting_0B(p);
+u8 LobbyRuleSettings::get_hide_target_reticle() {
+    if (hide_target_reticle >= 2) {
+        return default_setting_0B(this);
     }
-    return p->v;
+    return hide_target_reticle;
 }
-u8 TLobby::get_rule_field_a() {
-    GetRuleFieldAObject *p = (GetRuleFieldAObject *)this;
-    if (p->v >= 2) {
-        return default_setting_0A(p);
+u8 LobbyRuleSettings::get_is_teams() {
+    if (is_teams >= 2) {
+        return default_setting_0A(this);
     }
-    return p->v;
+    return is_teams;
 }
 
-u8 TLobby::normalize_battle_rule_value_b() {
-    NormalizeBattleRuleValueBObject *p = (NormalizeBattleRuleValueBObject *)this;
-    if (p->v >= 2) {
-        return default_setting_09(p);
+u8 LobbyRuleSettings::get_drop_weapon() {
+    if (drop_weapon >= 2) {
+        return default_setting_09(this);
     }
-    return p->v;
+    return drop_weapon;
 }
 
-u8 TLobby::clamp_rule_value_2() {
-    ClampRuleValue2Object *p = (ClampRuleValue2Object *)this;
-    if (p->v >= 2) {
-        return default_setting_08(p);
+u8 LobbyRuleSettings::get_replace_char() {
+    if (replace_char >= 2) {
+        return default_setting_08(this);
     }
-    return p->v;
+    return replace_char;
 }
-u8 TLobby__sub_801D7100(TLobbyObject3 *p) {
-    if (p->v >= 3) {
-        return default_setting_07(p);
+u8 LobbyRuleSettings::get_respawn_mode() {
+    if (respawn_mode >= 3) {
+        return default_setting_07(this);
     }
-    return p->v;
-}
-
+    return respawn_mode;
 }

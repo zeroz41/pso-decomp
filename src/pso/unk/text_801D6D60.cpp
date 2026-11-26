@@ -1,14 +1,10 @@
 #include "types.h"
-struct GetValidatedArrayValueObject { u8 pad[0x20]; s8 arr[1]; };
+#include "pso/network/LobbyRuleSettings.h"
 
-extern "C" {
-u8 get_validated_array_value(GetValidatedArrayValueObject *p, s32 i);
-u8 get_validated_array_value(GetValidatedArrayValueObject *p, s32 i) {
-    s8 v = p->arr[i];
-    if (v < 0 || v > 20) {
-        p->arr[i] = 0;
+s8 LobbyRuleSettings::get_trap_count(s32 index) {
+    s8 count = trap_counts[index];
+    if (count < 0 || count > 20) {
+        trap_counts[index] = 0;
     }
-    return p->arr[i];
-}
-
+    return trap_counts[index];
 }
