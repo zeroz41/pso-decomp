@@ -6,7 +6,6 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_80209524.h"
-#include "pso/unk/text_8020BFE4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
