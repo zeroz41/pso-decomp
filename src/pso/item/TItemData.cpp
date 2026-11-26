@@ -40,9 +40,6 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 
-struct Pair_8010E344;
-struct TItemData_8010E344;
-struct Item_8010E59C;
 struct Mag_8010D510;
 struct Item_8010D510;
 
@@ -671,10 +668,6 @@ s32 TItemData::get_max_stack_size() {
 
 
 
-struct Pair_8010E344 { u8 a; u8 b; };
-
-struct TItemData_8010E344 { u8 data[6]; Pair_8010E344 stats[3]; s32 id; s32 data2; };
-
 struct Mag_8010D510 { s16 f0; s16 f2; s16 stat[4]; u8 b0c; u8 b0d; u8 b0e; };
 
 struct Item_8010D510 {
@@ -682,16 +675,6 @@ struct Item_8010D510 {
     s16 stat[4];
     u32 word;
     u8 b16; u8 b17; u8 b18; u8 b19;
-};
-
-struct Item_8010E59C {
-    u8 type;
-    u8 sub;
-    u8 b2;
-    u8 grind;
-    u8 flags;
-    u8 pad5[0xB];
-    s32 meseta;
 };
 
 s32 format_item_description(u8 *item);
@@ -747,36 +730,35 @@ s16 TItemData::get_technique_level() {
 }
 
 s32 TItemData::has_bonus_stats() {
-    TItemData_8010E344 *item = (TItemData_8010E344 *)this;
     s32 i;
-    switch (item->data[0]) {
+    switch (data1.data_u8[0]) {
     case 0:
         for (i = 0; i < 3; i++) {
-            if (item->stats[i].a != 0) {
+            if (data1.data_u8_pair[3 + i][0] != 0) {
                 return 1;
             }
         }
         break;
     case 1:
-        switch (item->data[1]) {
+        switch (data1.data_u8[1]) {
         case 1:
-            if (item->data[5] != 0) {
+            if (data1.data_u8[5] != 0) {
                 return 1;
             }
         case 2:
-            if (TItemData::getS16_06(item) > 0 || TItemData::get_bswap16_field8(item) > 0) {
+            if (getS16_06(this) > 0 || get_bswap16_field8(this) > 0) {
                 return 1;
             }
             break;
         case 3:
-            if (TItemData::get_field6_bswap(item) > 0) {
+            if (get_field6_bswap(this) > 0) {
                 return 1;
             }
             break;
         }
         break;
     case 2:
-        switch (item->data[1]) {
+        switch (data1.data_u8[1]) {
         case 0x1D:
         case 0x21:
         case 0x22:
@@ -1537,8 +1519,6 @@ s32 format_item_description(u8 *item) {
 }
 
 void TItemData::format_item_name(char *buf) {
-    u8 *bytes = (u8 *)this;
-    Item_8010E59C *item = (Item_8010E59C *)bytes;
     s8 *slot;
     char *name;
     s32 *pmt;
@@ -1550,43 +1530,43 @@ void TItemData::format_item_name(char *buf) {
     if (buf == NULL) {
         return;
     }
-    if (item->type == 4) {
-        sprintf(buf, "%d%s", item->meseta, TWindowSubStatusDisp::get_download_server());
+    if (data1.data_u8[0] == 4) {
+        sprintf(buf, "%d%s", data2.meseta, TWindowSubStatusDisp::get_download_server());
         return;
     }
-    pmt = (s32 *)lookup_item_pmt_record(bytes);
+    pmt = (s32 *)lookup_item_pmt_record(data1.data_u8);
     if (pmt != NULL) {
         name = (char *)get_text_collection(*pmt);
     } else {
         name = (char *)get_text_collection(0x1F4);
     }
-    if (TItemData::is_wrapped(bytes) != 0) {
+    if (is_wrapped(this) != 0) {
         sprintf(buf, "%s", get_text_collection(0x77));
         return;
     }
-    t = item->type;
+    t = data1.data_u8[0];
     if (t == 0) {
-        if (TItemData::is_custom_name_srank(bytes) != 0) {
+        if (is_custom_name_srank(this) != 0) {
             memset(tmp, 0, 10);
-            ((TItemData *)bytes)->decode_packed_name_chars(tmp);
+            decode_packed_name_chars(tmp);
             if (tmp[0] - 0x41 == 1) {
-                if (item->grind != 0) {
-                    sprintf(buf, "%s +%d", &tmp[1], item->grind);
+                if (data1.data_u8[3] != 0) {
+                    sprintf(buf, "%s +%d", &tmp[1], data1.data_u8[3]);
                 } else {
                     sprintf(buf, "%s", &tmp[1]);
                 }
-            } else if (item->grind != 0) {
-                sprintf(buf, "%s %s +%d", &tmp[1], name, item->grind);
+            } else if (data1.data_u8[3] != 0) {
+                sprintf(buf, "%s %s +%d", &tmp[1], name, data1.data_u8[3]);
             } else {
                 sprintf(buf, "%s %s", &tmp[1], name);
             }
             return;
         }
-        slot = (s8 *)TObjPlayer::get_item_by_slot_flag(item->flags);
-        if (TItemData::is_rare_item(bytes) != 0) {
+        slot = (s8 *)TObjPlayer::get_item_by_slot_flag(data1.data_u8[4]);
+        if (is_rare_item(this) != 0) {
             if (check_item_flags() == 1) {
-                if (item->grind != 0) {
-                    sprintf(buf, "%s +%d", name, item->grind);
+                if (data1.data_u8[3] != 0) {
+                    sprintf(buf, "%s +%d", name, data1.data_u8[3]);
                 } else {
                     sprintf(buf, "%s", name);
                 }
@@ -1596,18 +1576,18 @@ void TItemData::format_item_name(char *buf) {
             return;
         }
         if (*slot != 0) {
-            if (item->grind != 0) {
-                sprintf(buf, "%s %s +%d", slot, name, item->grind);
+            if (data1.data_u8[3] != 0) {
+                sprintf(buf, "%s %s +%d", slot, name, data1.data_u8[3]);
             } else {
                 sprintf(buf, "%s %s", slot, name);
             }
-        } else if (item->grind != 0) {
-            sprintf(buf, "%s +%d", name, item->grind);
+        } else if (data1.data_u8[3] != 0) {
+            sprintf(buf, "%s +%d", name, data1.data_u8[3]);
         } else {
             sprintf(buf, "%s", name);
         }
-    } else if (t == 3 && item->sub == 2) {
-        u8 f = item->flags;
+    } else if (t == 3 && data1.data_u8[1] == 2) {
+        u8 f = data1.data_u8[4];
         if (f < 0x13) {
             switch (f) {
             case 0xE:
@@ -1620,21 +1600,21 @@ void TItemData::format_item_name(char *buf) {
                 break;
             default:
                 if (current_language == LANGUAGE_JAPANESE) {
-                    sprintf(buf, "%sLV%d%s", get_technique_name(f), item->b2 + 1, name);
+                    sprintf(buf, "%sLV%d%s", get_technique_name(f), data1.data_u8[2] + 1, name);
                 } else {
-                    sprintf(buf, "%s%s Lv.%d", name, get_technique_name(f), item->b2 + 1);
+                    sprintf(buf, "%s%s Lv.%d", name, get_technique_name(f), data1.data_u8[2] + 1);
                 }
                 break;
             }
         } else {
             sprintf(buf, name);
         }
-    } else if (t == 1 && item->sub == 3) {
+    } else if (t == 1 && data1.data_u8[1] == 3) {
         memset(sign, 0, 3);
-        pmt = (s32 *)lookup_item_pmt_record(bytes);
+        pmt = (s32 *)lookup_item_pmt_record(data1.data_u8);
         if (pmt != NULL) {
             lim = *(s16 *)((u8 *)pmt + 0xC);
-            v = TItemData::get_field6_bswap(bytes);
+            v = get_field6_bswap(this);
             if (v < -lim) {
                 sign[0] = '-';
                 sign[1] = '-';

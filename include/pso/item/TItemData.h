@@ -64,6 +64,7 @@ struct TItemData {
         u16 data_u16[2];
         u32 data_u32;
         s32 price;  // a shop stock item's price
+        s32 meseta; // a meseta item's amount
     } data2;
     static s8 char_to_letter_index(void *self, s8 c);
     void copy_from(TItemData *src);
