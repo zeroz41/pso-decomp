@@ -696,7 +696,7 @@ force_active:
   - save_challenge_tombstone_spot__Fl
   - refresh_challenge_windows__12TChallenge4PFv
   - __dt__12TChallenge4PFv
-  - is_designated_client__Fv
+  - is_designated_client__20TObjChallenge4PRetryFv
   - free_game_action_motion_buffer__Fv
   - clear__21PlayerMotionAramEntryFv
   - stamp_joyboot_image__Fll
@@ -5211,7 +5211,7 @@ force_active:
   - close_child__20TWindowSubSymbolChatFPvPv
   - close_com_card_window__6TLobbyFv
   - close_download__22TQuestVmDownLoadServerFv
-  - close_giveup_window__6TLobbyFPv
+  - close_giveup_window__20TObjChallenge4PRetryFv
   - close_if_done__20TShopItemTecSequenceFv
   - close_if_done__22TShopEquipmentSequenceFv
   - close_menu_windows__6TLobbyFv
@@ -6738,7 +6738,7 @@ force_active:
   - gibon_u_animation_file_table
   - gibon_u_animation_name_table
   - give_item_to_client__FUsP9TItemData
-  - giveup_window_handle_select__FPv
+  - giveup_window_handle_select__20TObjChallenge4PRetryFv
   - grab_player__11TBoss6Type2FUs
   - grass_camera_vec
   - grass_resistance_stats
@@ -7255,7 +7255,7 @@ force_active:
   - is_card_file_absent_b__12TAdTimeSetGCFv
   - is_card_file_missing_a__12TAdTimeSetGCFv
   - is_card_file_missing_b__12TAdTimeSetGCFv
-  - is_challenge_lobby__6TLobbyFv
+  - is_designated_client__18TObjChallengeRetryFv
   - is_channel_active_at__18TPlyDispConfigSmthFll
   - is_confirm_pressed__11TOKeyCave01Fv
   - is_confirm_pressed__14TOKeyAncient03Fv
@@ -9347,12 +9347,12 @@ force_active:
   - pick_wander_destination__16TObjEneBm5GibonUFPv
   - place_bank_slot_on_ring__21TWindowSubCustomEquipFll
   - place_players_in_warp_circle__Fv
-  - play_all_players_effect__6TLobbyFPv
+  - play_all_players_effect__20TObjChallenge4PRetryFv
   - play_ambient_loop_sound__17TOBarrierEnergy01Fv
   - play_animation_index__13TBoss5GryphonFl
   - play_anti_cast_sound__8TTecAntiFv
   - play_default_effect__18TObjChallengeRetryFv
-  - play_effect_all_players__6TLobbyFPv
+  - play_effect_all_players__20TObjChallenge4PRetryFv
   - play_footsteps__14TObjEneBm5WolfFPv
   - play_lobby_theme_music__14TObjBgmColCtrlFv
   - play_nearby_se__12TBoss1DragonFv
@@ -15292,7 +15292,7 @@ force_active:
   - select_weapon_drop__9TItemDropFv
   - select_weighted_byte__9TItemDropFiiiii
   - select_weighted_column_u16__9TItemDropFiiiii
-  - send_45_and_close_windows__6TLobbyFPv
+  - send_45_and_close_windows__18TObjChallengeRetryFv
   - send__24G_DragonBossActions_6x12Fv
   - send_6x6D_item_state__6TLobbyFv
   - send_6x6E_sync_game_state__6TLobbyFi
@@ -15323,7 +15323,7 @@ force_active:
   - send_compressed_packet_6c__6TLobbyFv
   - send_drop_stacked_item__FP9TItemDataUsPf
   - send_field_state__5TItemFsP10TObjPlayer
-  - send_giveup_to_all_players__6TLobbyFv
+  - send_giveup_to_all_players__20TObjChallenge4PRetryFv
   - send__15G_GoGoBall_6x79Fv
   - send_guild_card__17TWindowSubComCardFv
   - send__23G_UpdateEntityStat_6x9AFv

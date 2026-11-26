@@ -35,7 +35,6 @@
 void build_6x95_packet(u8 *packet);
 void build_6x8A_packet(u8 *packet);
 extern "C" {
-u8 is_challenge_lobby__6TLobbyFv(void);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 }
@@ -210,7 +209,7 @@ void TObjChallengeRetry::open_loss_menu() {
         this->menu->set_selected_index(2);
     }
 }
-void TLobby::send_45_and_close_windows(void * _w0) {
+void TObjChallengeRetry::send_45_and_close_windows() {
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->check_player_flag1() != 0)) {
@@ -236,8 +235,8 @@ void TObjChallengeRetry::play_player_default_effect() {
         send_impose_hold(player, -1);
     }
 }
-u8 is_challenge_lobby__6TLobbyFv(void) {
-    return (u8) (local_client_id == designated_client_id);
+s32 TObjChallengeRetry::is_designated_client() {
+    return local_client_id == designated_client_id;
 }
 void TObjChallengeRetry::update_destroy_countdown() {
     s32 countdown;
@@ -246,7 +245,7 @@ void TObjChallengeRetry::update_destroy_countdown() {
     this->countdown = countdown;
     if (countdown <= 0) {
         confirm_challenge_retry();
-        TLobby::send_45_and_close_windows(this);
+        send_45_and_close_windows();
         close_window_2c();
         sub_80072B70();
         queue_destruction();
@@ -257,14 +256,14 @@ void TObjChallengeRetry::handle_loss_sequence() {
     switch (get_challenge_failure_choice()) {
     case 0:
         play_cue_stream_file("lose.adx");
-        TLobby::send_45_and_close_windows(this);
+        send_45_and_close_windows();
         close_window_2c();
         sub_80072B70();
         queue_destruction();
         return;
     case 1:
         play_sound_effect(0x52812, 0, 0, 0);
-        TLobby::send_45_and_close_windows(this);
+        send_45_and_close_windows();
         play_default_effect();
         sub_80072B70();
         close_window_2c();
@@ -272,8 +271,8 @@ void TObjChallengeRetry::handle_loss_sequence() {
         this->state = 4;
         return;
     default:
-        if (((s32) this->m_20 != 0) && ((s32) this->m_24 == 0)) {
-            TLobby::send_45_and_close_windows(this);
+        if ((this->is_designated != 0) && (this->selection_sent == 0)) {
+            send_45_and_close_windows();
             show_ctrl_and_play_effect();
             sub_80072B70();
             open_loss_menu();
@@ -296,16 +295,16 @@ void TObjChallengeRetry::update_challenge_retry() {
             close_requested = 1;
         } else {
             TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
-            TLobby::send_45_and_close_windows(this);
+            send_45_and_close_windows();
             play_player_default_effect();
-            this->m_24 = 1;
+            this->selection_sent = 1;
             this->state = 3;
             return;
         }
     }
     if ((close_requested != 0) || (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0)) {
         close_window_2c();
-        TLobby::send_45_and_close_windows(this);
+        send_45_and_close_windows();
         play_default_effect();
         this->state = 1;
     }
@@ -315,7 +314,7 @@ void TObjChallengeRetry::handle_challenge_retry_confirm() {
     play_default_effect();
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
-        TLobby::send_45_and_close_windows(this);
+        send_45_and_close_windows();
         show_ctrl_and_play_effect();
         this->state = 2;
     }
@@ -365,14 +364,14 @@ void TObjChallengeRetry::sub_8007313C() {
       }
       if (no_player_flagged != 0)
       {
-        if ((this->m_20) != 0)
+        if ((this->is_designated) != 0)
         {
-          TLobby::send_45_and_close_windows((void *) ((u8 *)this));
+          send_45_and_close_windows();
           show_ctrl_and_play_effect();
           this->state = 2;
           return;
         }
-        TLobby::send_45_and_close_windows((void *) ((u8 *)this));
+        send_45_and_close_windows();
         play_player_default_effect();
         sub_80072BB0();
         this->state = 3;
@@ -382,8 +381,7 @@ void TObjChallengeRetry::sub_8007313C() {
 }
 
 void TObjChallengeRetry::run_task() {
-    u8 *self = (u8 *)this;
-    this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(self);
+    this->is_designated = is_designated_client();
     switch (this->state) {
     case 0:
         this->sub_8007313C();
@@ -402,7 +400,7 @@ void TObjChallengeRetry::run_task() {
         break;
     }
     if (is_ready_to_draw() == 0) {
-        TLobby::send_45_and_close_windows(self);
+        send_45_and_close_windows();
         this->close_window_2c();
         this->sub_80072B70();
         this->queue_destruction();
@@ -410,15 +408,15 @@ void TObjChallengeRetry::run_task() {
 }
 
 TObjChallengeRetry::~TObjChallengeRetry() {
-    if (m_20 != 0 && m_24 == 0) {
+    if (is_designated != 0 && selection_sent == 0) {
         TLobby::send_challenge_retry_cmd(0);
     }
 }
 
 TObjChallengeRetry::TObjChallengeRetry(TObject *parent) : TObject(parent) {
     m_name = obj_challenge_retry_class_name;
-    m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(this);
-    m_24 = 0;
+    is_designated = is_designated_client();
+    selection_sent = 0;
     menu = NULL;
     message = NULL;
     state = 0;

@@ -10,8 +10,8 @@ struct TWindowSubComCardList;
 class TObjChallenge4PRetry : public TObject {
 public:
     s32 state;
-    s32 m_20;
-    s32 m_24;
+    s32 is_designated;  // is_designated_client(), refreshed every frame
+    s32 selection_sent;  // set once the retry choice went out
     s32 countdown;
     TWindowSubComCardList *menu;
     TWindowMessage *message;
@@ -27,16 +27,20 @@ public:
     void close_window();
     void open_message_window();
     void close_window_field30();
+    void send_giveup_to_all_players();
+    void close_giveup_window();
+    void play_all_players_effect();
+    void play_effect_all_players();
+    s32 is_designated_client();
+    void giveup_window_handle_select();
     virtual void run_task();
 public:
     static void *create(TObject *parent);
 };
 
 // --- C functions defined in TLobby_80299C4C.cpp ---
-u8 is_designated_client(void);
 extern "C" {
 s32 init_jungle_area(void);
-void send_giveup_to_all_players__6TLobbyFv(void);
 }
 // --- end of C functions
 

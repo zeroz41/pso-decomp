@@ -318,7 +318,6 @@ struct TLobby : public TObject {
     void send_state();
     void byteswap_challenge_packet();
     void send_challenge_packet();
-    static void send_45_and_close_windows(void * _w0);
     static void create_tasks();
     static void clear_session_buffers();
     static s32 run_lobby_load_tables();
@@ -451,7 +450,6 @@ struct TLobby : public TObject {
     static void close_and_set_state_12();
     static void close_and_set_state_13(int msg);
     static void close_com_card_window();
-    static void close_giveup_window(void*);
     static void close_menu_windows();
     static void construct_global_arrays();
     static void copy_all_data(int, int);
@@ -485,7 +483,6 @@ struct TLobby : public TObject {
     static void handle_warp_menu_input();
     static void init_buffers(int floor, u8 *quest);
     static void init_player_window_effect();
-    static u8 is_challenge_lobby();
     static s32 load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 size);
     static u8 lookup_key_value(char);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
@@ -501,8 +498,6 @@ struct TLobby : public TObject {
     static void open_ship_block_select_menu(int, void *, void *);
     static void open_warp_menu();
     static s32 pick_random_slot(s16 *slot);
-    static void play_all_players_effect(void*);
-    static void play_effect_all_players(void*);
     static void process_deferred_player_setup();
     static void queue_static_object_destruction();
     static u8 read_byte_advance();
@@ -521,7 +516,6 @@ struct TLobby : public TObject {
     static void run_join_lobby_connect(TObject *parent);
     static void send_6x6E_sync_game_state(int);
     static void send_6x70_player_data(int);
-    static void send_giveup_to_all_players();
     static void send_logout();
     static void send_packet_60(void *packet);
     static void send_position_update();
