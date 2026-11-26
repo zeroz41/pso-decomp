@@ -6,9 +6,6 @@
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/camera/TCameraCtrl.h"
 
-// One TU 0x800FD78C-0x800FD8B4: its .sbss 0x805D53A0-0x805D53B4 is one run (no pad inside) whose only user
-// here is fn_800FD8A0; the zero word at 0x805D53B4 before the 8-aligned 0x805D53B8 closes it (the next TU,
-// TObjRoomId_800FD8C8, owns 0x805D53B8-0x805D53C0). The fragments around it have no data of their own.
 s32 local_client_id;
 s32 actor_frame_tick;
 // Never stored: the control role create_player_object hands each local player (base + split-screen slot)

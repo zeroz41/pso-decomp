@@ -13,9 +13,6 @@
 #include "pso/unk/text_800FA464.h"
 
 extern "C" {
-void request_main_phase(s32 phase);
-}
-extern "C" {
 void fn_80290BEC(void) {
     s32 *task;
     TLobby::stop_audio_streams();

@@ -28,10 +28,6 @@ extern "C" {
 
 
 // The screen quad draw_textured_quad_at_depth reads.
-struct TLobbyScreenQuad {
-    f32 x0, y0, x1, y1;
-    f32 u0, v0, u1, v1;
-};
 
 union TLobbySpriteColor {
     struct { u8 a, r, g, b; } channels;

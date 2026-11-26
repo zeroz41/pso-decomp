@@ -224,7 +224,6 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
 }
 extern "C" {
 
-void set_keyboard_input_flag(void);
 s32 TLobby__sub_80291F9C();
 }
 

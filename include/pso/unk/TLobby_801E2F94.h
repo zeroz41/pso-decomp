@@ -21,4 +21,14 @@ void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags);
 // Draw a model posed by a motion at a frame.
 void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
 
+struct Ctrl_801E352C {
+    u8 pad[4];
+    u32 *data;
+};
+
+struct DrawTransformedPrimitiveLines {
+    Vec *positions;
+    u32 *colors;
+};
+
 #endif

@@ -9,10 +9,5 @@
 // functions that are not real constructors/destructors yet:
 // - the lock-on cursor code constructs and destroys gc_tag base subobjects.
 // Drop these once those callers are the real constructors/destructors.
-extern "C" {
-gc_tag *__ct__6gc_tagFv(gc_tag *self);
-gc_tag *__dt__6gc_tagFv(gc_tag *self, s16 flags);
-void init__6gc_tagFv(gc_tag *self);
-}
 
 #endif

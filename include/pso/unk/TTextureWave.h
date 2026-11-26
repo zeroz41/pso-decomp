@@ -28,7 +28,6 @@ LAYOUT_ASSERT(TTextureWave_size, sizeof(TTextureWave) == 0x54);
 
 extern "C" {
 // TTextureWave::~TTextureWave(), called by the destructors that are still written by hand.
-void *__dt__12TTextureWaveFv(void *p, s16 flags);
 }
 
 #endif

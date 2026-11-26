@@ -96,7 +96,6 @@ extern "C" {
 void *load_nj_chunk_model_resource(u8 *, u32 *, u32 *);
 
 
-// ---- 0x8001ED90-0x8001EF5C (was TObjFish_8001ED90) ----
 extern "C" {
 int fn_8001ED90(void* p) { return (*(u32*)((char*)p + 0x0) >> 10) & 0x1; }
 
@@ -153,7 +152,6 @@ u8 *TLobby::tmp_buf_use_req(const char *name) {
     return 0;
 }
 
-// ---- 0x8001EF5C-0x80020898 ----
 void BmlResource::free_if_not_in_arena(void *ptr) {
     if (arena == NULL) {
         xfree(ptr);

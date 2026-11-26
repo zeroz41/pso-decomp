@@ -11,23 +11,18 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 
+struct ByteBlock_14 { u8 bytes[0x14]; };
+
 #pragma readonly_strings on
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
-struct ClearShopEntryValueEntry { u8 pad[0x10]; s32 v; };
 
-struct IsDuplicateShopShieldOrUnitItem { u8 b[0x14]; };
 
-struct GenerateShopShieldPoolTable { u8 pad[8]; u8 *pairs; u8 count; };
 
-struct GenerateShopUnitPoolTable { u8 pad[0x10]; u8 *pairs; u8 count; };
 
-struct GenerateShopArmorPoolTable { u8 *pairs; u8 count; };
 
-struct IsDuplicateShopArmorRecord { u8 a, b, c, d, e, f; u8 pad[0x14 - 6]; };
 
 extern "C" {
 // Per shop list (four in split screen): the stock array (0x1A4 bytes, allocated by load_armor_random_table),
@@ -300,10 +295,7 @@ extern "C" {
 s32 mem_alloc(s32);
 }
 
-// Dead-stripped from the DOL: no code of it survives, only its literals. The TU's int-to-float
-// constant (0x4330000080000000, .rodata 0x8044BC38) is pooled ahead of "ArmorRandom.rel"
-// (0x8044BC40), yet load_armor_random_table is compiled before shuffle_shop_pool, the constant's
-// one surviving user: a function compiled ahead of it converted an int. This reconstruction draws
+// Dead-stripped from the DOL: no code of it survives, only its literals. This reconstruction draws
 // a random pool index the way shuffle_shop_pool (and ShopToolStock's roll_shop_technique_level)
 // draws. Name inferred.
 s32 draw_shop_pool_index(s32 count) {

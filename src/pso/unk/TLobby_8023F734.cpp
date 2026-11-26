@@ -505,10 +505,6 @@ struct Voice_80241FD8;
 
 #include "types.h"
 
-typedef struct ResolveSoundEffectBankRange {
-    s32 start;
-    s32 end;
-} ResolveSoundEffectBankRange;
 
 SoundRequestVoice sound_request_voices[0x28];
 u8 lbl_80517BEC[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effects)
@@ -902,7 +898,6 @@ fail:
 }
 
 
-struct IfSlot { void *buf[4]; u8 pad[0x24 - 0x10]; };
 
 struct InitSoundAuxEffectsMgr {
     u8 pad0[0x288];
@@ -917,7 +912,6 @@ extern "C" {
 s32 sndPopGroup();
 int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
 }
-s32 update_sound_frame(SoundControlState *self);
 s32 update_sound_frame(SoundControlState *self) {
     s32 t;
     s32 i;

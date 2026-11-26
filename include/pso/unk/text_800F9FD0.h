@@ -7,4 +7,6 @@ extern "C" {
 bool TLobby__sub_800F9FD0(void);
 }
 
+struct TLobbyKey { u8 pad0[4]; s32 id; };
+
 #endif

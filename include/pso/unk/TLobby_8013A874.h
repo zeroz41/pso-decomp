@@ -10,10 +10,5 @@ extern "C" {
 void bswap__15disp_data_part2Fv(saddr part2);
 }
 
-// --- C functions defined in TLobby_8013A874.cpp ---
-extern "C" {
-void bswap__15disp_data_part2Fv(saddr part2);
-}
-// --- end of C functions
 
 #endif

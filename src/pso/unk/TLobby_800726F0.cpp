@@ -292,16 +292,15 @@ void TObjChallengeRetry::update_challenge_retry() {
         selected_menu_value = this->menu->get_selected_value();
         if (selected_menu_value == 2) {
             close_requested = 1;
-            goto block_6;
+        } else {
+            TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
+            TLobby::send_45_and_close_windows(this);
+            ((TLobby *)this)->play_player_default_effect();
+            this->m_24 = 1;
+            this->state = 3;
+            return;
         }
-        TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
-        TLobby::send_45_and_close_windows(this);
-        ((TLobby *)this)->play_player_default_effect();
-        this->m_24 = 1;
-        this->state = 3;
-        return;
     }
-block_6:
     if ((close_requested != 0) || (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0)) {
         close_window_2c();
         TLobby::send_45_and_close_windows(this);

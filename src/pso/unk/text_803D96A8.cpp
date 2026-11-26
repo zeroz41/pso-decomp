@@ -11,19 +11,12 @@
 #include "pso/render/GinjaTexture.h"
 #include <dolphin/mtx.h>
 
-struct ConcatQuaternionRotationQ { f32 x, y, z, w; };
 
-struct ApplyQuatRotationQ { f32 x, y, z, w; };
 
-struct InitTextureFromGvrDescA { u8 pad[0xC]; u8 *p; };
 
-struct InitTextureFromGvrDescB { s32 a; u16 b; u16 c; };
 
-struct Matrix34 { f32 elements[3][4]; };
 
-struct Ent_803D9E38 { u8 *p; s32 a; s32 b; };
 
-struct ResolveTexlistEntryTable { u8 pad[8]; Ent_803D9E38 arr[1]; };
 
 extern "C" {
 s32 fn_803DA12C(u8 *, s32, s32, s32);

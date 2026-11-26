@@ -105,7 +105,6 @@ int current_line_width = 12;
 s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
-s32 select_texture_by_surface_id(u32 id);
 }
 
 void set_viewport_scissor(int mode, const TileRect *r) {
@@ -148,23 +147,13 @@ void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
 void draw_window_vertices(WindowVertex *vertices, s32 count, u32 surface_id, s32 blended) { select_texture_by_surface_id(surface_id); draw_screen_textured_strip((ScreenTexturedVertex *)vertices, count, blended); }
 
-struct Ctrl_801E352C {
-    u8 pad[4];
-    u32 *data;
-};
 
-struct DrawTransformedPrimitiveLines {
-    Vec *positions;
-    u32 *colors;
-};
 
 
 extern "C" {
 void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags);
 }
-void reset_line_width(void);
 
-void set_line_width(int a0);
 
 void draw_color_lines(ColorLineList *l, s32 count, s32 flags, f32 scale) {
     u32 c;
@@ -477,8 +466,6 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 extern "C" {
 void TLobby__sub_803382E4(void);
-s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr work);
-s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr work);
 void run_end_of_render_tasks(void);
 
 

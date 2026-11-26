@@ -1,5 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
+#include "pso/unk/text_80072230.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/TChallenge.h"
@@ -12,14 +13,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 
-struct SendChallengeTimeStack {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    u8 trailing_storage[0x8];
-};
 
-struct TLobbyStack { s32 sp8; s32 spC; s32 sp10; s32 sp14; };
 
 void build_6x8A_packet(u8 *packet);
 void build_6x95_packet(u8 *packet);
@@ -48,7 +42,7 @@ void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
 extern "C" {
 
 void TLobby__sub_800722AC(s32 index) {
-    TLobbyStack stack;
+    ChallengeDeadFlagStack stack;
     if (is_challenge_mode() == 0) {
         return;
     }
@@ -56,7 +50,7 @@ void TLobby__sub_800722AC(s32 index) {
         return;
     }
     build_6x9D_packet((u8 *)&stack);
-    stack.spC = index;
+    stack.client_id = index;
     TLobby__sub_80072724((TLobby *)&stack);
 }
 
@@ -105,14 +99,11 @@ void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command) {
 }
 
 void send_challenge_time(s32 clear_time) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(SendChallengeTimeStack, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(SendChallengeTimeStack, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(SendChallengeTimeStack, sp10) == 0x8);
     SendChallengeTimeStack stack;
-    build_6x95_packet((u8 *)&stack.sp8);
-    stack.sp10 = encode_challenge_time(clear_time);
-    stack.spC = local_client_id;
-    ((TLobby *)(&stack.sp8))->send_state();
+    build_6x95_packet((u8 *)&stack.header);
+    stack.time = encode_challenge_time(clear_time);
+    stack.client_id = local_client_id;
+    ((TLobby *)(&stack.header))->send_state();
 }
 
 void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWindow_6x8A *command) {

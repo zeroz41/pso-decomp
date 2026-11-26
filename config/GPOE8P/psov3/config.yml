@@ -8111,9 +8111,9 @@ force_active:
   - lbl_804ED9C0
   - __vt__9TBoss6Mag
   - lbl_804EE0C0
-  - lbl_804EF1B8
-  - lbl_804EF1DC
-  - lbl_804EF3A4
+  - loading_texture_names
+  - loading_texture_list
+  - loading_compass_texanim
   - save_chcr_state_actions
   - lbl_804EFBC8
   - lbl_804EFBD0

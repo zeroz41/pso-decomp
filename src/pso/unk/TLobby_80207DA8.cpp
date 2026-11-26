@@ -64,10 +64,6 @@ __declspec(section ".data") const char *floor_map_set_boss06[2] = { floor_map_na
 __declspec(section ".data") const char *floor_map_set_boss07[2] = { floor_map_name_boss07, floor_map_name_boss07 };
 __declspec(section ".data") const char *floor_map_set_boss08[2] = { floor_map_name_boss08, floor_map_name_boss08 };
 /* {name list, entry count} per floor (inferred) */
-struct FloorSceneEntry {
-    const char **names;
-    s32 count;
-};
 FloorSceneEntry offline_floor_scene_table[36] = { { floor_map_set_city00, 1 }, { floor_map_set_forest01, 1 }, { floor_map_set_forest02, 1 }, { floor_map_set_cave01, 6 }, { floor_map_set_cave02, 5 }, { floor_map_set_cave03, 6 }, { floor_map_set_machine01, 6 }, { floor_map_set_machine02, 6 }, { floor_map_set_ancient01, 5 }, { floor_map_set_ancient02, 5 }, { floor_map_set_ancient03, 5 }, { floor_map_set_boss01, 1 }, { floor_map_set_boss02, 1 }, { floor_map_set_boss03, 1 }, { floor_map_set_darkfalz00, 1 }, { floor_map_set_lobby_01, 15 }, { floor_map_set_vs01, 3 }, { floor_map_set_vs02, 3 }, { floor_map_set_labo00, 1 }, { floor_map_set_ruins01, 3 }, { floor_map_set_ruins02, 3 }, { floor_map_set_space01, 3 }, { floor_map_set_space02, 3 }, { floor_map_set_jungle01, 1 }, { floor_map_set_jungle02, 1 }, { floor_map_set_jungle03, 1 }, { floor_map_set_jungle04, 3 }, { floor_map_set_jungle05, 1 }, { floor_map_set_seabed01, 3 }, { floor_map_set_seabed02, 3 }, { floor_map_set_boss05, 1 }, { floor_map_set_boss06, 1 }, { floor_map_set_boss07, 1 }, { floor_map_set_boss08, 1 }, { floor_map_set_jungle06, 1 }, { floor_map_set_jungle07, 5 } };
 __declspec(section ".data") const char *floor_map_set_acity00[2] = { floor_map_name_acity00, floor_map_name_acity00_00 };
 __declspec(section ".data") const char *floor_map_set_aforest01[2] = { floor_map_name_aforest01, floor_map_name_aforest01 };
@@ -301,18 +297,7 @@ void TLobby__sub_802083C0(void) {
 }
 
 
-struct Send6x05WaveSetSwitchPacket { u8 hdr[2]; u16 a; s16 b; s16 pad; s16 c; s8 d; s8 e; };
 
-struct Send6x05WaveClearSwitchPacket {
-    u8 cmd;
-    u8 size;
-    u16 a;
-    u16 b;
-    u16 pad;
-    u16 c;
-    u8 d;
-    u8 e;
-};
 
 
 void TLobby::load_item_data() {

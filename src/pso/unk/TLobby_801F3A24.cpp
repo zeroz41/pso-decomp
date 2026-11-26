@@ -22,17 +22,7 @@
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby_80209524.h"
 
-struct ConvertQuestObjectRowsQuestObjRow {
-    u8 pad0[2];
-    s16 flags;
-    u8 pad1[0x40];
-};
 
-struct BswapEnemySetRowsEntry {
-    u16 a;
-    s16 b;
-    u8 rest[0x44];
-};
 
 void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u32 byte_size);
 extern "C" {
@@ -212,27 +202,26 @@ bool load_quest_encounter_section(s32 floor) {
     s32 next_offset;
     s32 record_floor;
     s32 size;
-    u8 *record;
-    if ((record = quest_dat_buffer) != NULL) {
-loop_1:
-        type = *(s32 *)((s8 *)record + 0);
-        next_offset = *(s32 *)((s8 *)record + 4);
-        record_floor = *(s32 *)((s8 *)record + 8);
-        size = *(s32 *)((s8 *)record + 0xC);
-        bswap_32((u32 *)&type);
-        bswap_32((u32 *)&next_offset);
-        bswap_32((u32 *)&record_floor);
-        bswap_32((u32 *)&size);
-        if ((type == 3) && (record_floor == floor)) {
-            return TLobby::add_player(record_floor, (saddr)(record + 0x10), size) != 0;
-        }
-        if (type != 0) {
-            record += next_offset;
-            goto loop_1;
-        }
-        goto block_6;
+    QuestDatRecord *record;
+    if ((record = (QuestDatRecord *)quest_dat_buffer) != NULL) {
+        do {
+            type = record->type;
+            next_offset = record->next_offset;
+            record_floor = record->floor;
+            size = record->size;
+            bswap_32((u32 *)&type);
+            bswap_32((u32 *)&next_offset);
+            bswap_32((u32 *)&record_floor);
+            bswap_32((u32 *)&size);
+            if ((type == 3) && (record_floor == floor)) {
+                return TLobby::add_player(record_floor, (saddr)(record + 1), size) != 0;
+            }
+            if (type == 0) {
+                break;
+            }
+            record = (QuestDatRecord *)((u8 *)record + next_offset);
+        } while (1);
     }
-block_6:
     return 0;
 }
 extern "C" {
@@ -245,32 +234,31 @@ s32 TLobby::handle_msg_type2(s32 floor) {
     s32 record_floor;
     s32 size;
     u8 *lobby;
-    u8 *record;
+    QuestDatRecord *record;
 
-    if ((record = quest_dat_buffer) != NULL) {
-loop_1:
-        type = *(s32 *)((s8 *)record + 0);
-        next_offset = *(s32 *)((s8 *)record + 4);
-        record_floor = *(s32 *)((s8 *)record + 8);
-        size = *(s32 *)((s8 *)record + 0xC);
-        bswap_32((u32 *)&type);
-        bswap_32((u32 *)&next_offset);
-        bswap_32((u32 *)&record_floor);
-        bswap_32((u32 *)&size);
-        if ((type == 2) && (record_floor == floor)) {
-            lobby = record + 0x10;
-            ((TLobby *)lobby)->bswap_enemy_set_rows(size);
-            reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(record_floor));
-            TLobby::init_floor_enemy_count(record_floor, lobby, size);
-            return 1;
-        }
-        if (type != 0) {
-            record += next_offset;
-            goto loop_1;
-        }
-        goto block_6;
+    if ((record = (QuestDatRecord *)quest_dat_buffer) != NULL) {
+        do {
+            type = record->type;
+            next_offset = record->next_offset;
+            record_floor = record->floor;
+            size = record->size;
+            bswap_32((u32 *)&type);
+            bswap_32((u32 *)&next_offset);
+            bswap_32((u32 *)&record_floor);
+            bswap_32((u32 *)&size);
+            if ((type == 2) && (record_floor == floor)) {
+                lobby = (u8 *)(record + 1);
+                ((TLobby *)lobby)->bswap_enemy_set_rows(size);
+                reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(record_floor));
+                TLobby::init_floor_enemy_count(record_floor, lobby, size);
+                return 1;
+            }
+            if (type == 0) {
+                break;
+            }
+            record = (QuestDatRecord *)((u8 *)record + next_offset);
+        } while (1);
     }
-block_6:
     return 0;
 }
 
@@ -281,32 +269,31 @@ s32 TLobby::handle_msg_type1(s32 floor) {
     s32 record_floor;
     s32 byte_size;
     u8 *rows;
-    u8 *record;
+    QuestDatRecord *record;
 
-    if ((record = quest_dat_buffer) != NULL) {
-loop_1:
-        type = *(s32 *)((s8 *)record + 0);
-        next_offset = *(s32 *)((s8 *)record + 4);
-        record_floor = *(s32 *)((s8 *)record + 8);
-        byte_size = *(s32 *)((s8 *)record + 0xC);
-        bswap_32((u32 *)&type);
-        bswap_32((u32 *)&next_offset);
-        bswap_32((u32 *)&record_floor);
-        bswap_32((u32 *)&byte_size);
-        if ((type == 1) && (record_floor == floor)) {
-            rows = record + 0x10;
-            convert_quest_object_rows((struct ConvertQuestObjectRowsQuestObjRow *)rows, byte_size);
-            assign_object_ids((FloorObjectSetRow *)rows, (s32)((u32) byte_size / 68U), get_floor_area(record_floor));
-            TLobby::load_object_set_entries(record_floor, rows, byte_size);
-            return 1;
-        }
-        if (type != 0) {
-            record += next_offset;
-            goto loop_1;
-        }
-        goto block_6;
+    if ((record = (QuestDatRecord *)quest_dat_buffer) != NULL) {
+        do {
+            type = record->type;
+            next_offset = record->next_offset;
+            record_floor = record->floor;
+            byte_size = record->size;
+            bswap_32((u32 *)&type);
+            bswap_32((u32 *)&next_offset);
+            bswap_32((u32 *)&record_floor);
+            bswap_32((u32 *)&byte_size);
+            if ((type == 1) && (record_floor == floor)) {
+                rows = (u8 *)(record + 1);
+                convert_quest_object_rows((struct ConvertQuestObjectRowsQuestObjRow *)rows, byte_size);
+                assign_object_ids((FloorObjectSetRow *)rows, (s32)((u32) byte_size / 68U), get_floor_area(record_floor));
+                TLobby::load_object_set_entries(record_floor, rows, byte_size);
+                return 1;
+            }
+            if (type == 0) {
+                break;
+            }
+            record = (QuestDatRecord *)((u8 *)record + next_offset);
+        } while (1);
     }
-block_6:
     return 0;
 }
 

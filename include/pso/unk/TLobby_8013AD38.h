@@ -9,12 +9,5 @@ s32 *get_access_key_input_buffer(void);
 s32 *get_raw_serial_input_buffer(void);
 }
 
-// --- C functions defined in TLobby_8013AD38.cpp ---
-extern "C" {
-saddr get_connection_message_text(s32 id);
-s32 *get_access_key_input_buffer(void);
-s32 *get_raw_serial_input_buffer(void);
-}
-// --- end of C functions
 
 #endif

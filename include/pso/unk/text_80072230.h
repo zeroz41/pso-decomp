@@ -10,4 +10,13 @@ void TLobby__sub_80072618(void);
 
 void handle_6x97_select_challenge_mode_failure_option(void *player);
 
+struct SendChallengeTimeStack {
+    s32 header;
+    s32 client_id;
+    s32 time;
+    u8 trailing_storage[0x8];
+};
+
+struct ChallengeDeadFlagStack { s32 header; s32 client_id; u8 unused[8]; };
+
 #endif

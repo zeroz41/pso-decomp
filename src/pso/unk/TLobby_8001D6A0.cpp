@@ -36,7 +36,6 @@ s32 battle_parameter_difficulty;
 s32 battle_param_lab_variant;
 saddr lobby_instance;
 
-struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
 extern TextBuilderBuffer text_builder_buffer;
 
 
@@ -144,9 +143,7 @@ void TLobby::copy_data(void* a0) { ((int (*)(void*, void*))copy_all_data__6TLobb
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct CopyDataBlk { s32 w[6]; };
 
-struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
 
 void set_lobby_instance(s32 instance) {
     lobby_instance = instance;
@@ -503,15 +500,6 @@ s32 TLobby::get_internet_beat() {
 }
 
 typedef struct GetInternetBeatDateStamp GetInternetBeatDateStamp;
-struct GetInternetBeatDateStamp
-{
-  u8 pad0[4];
-  u8 h;
-  u8 m;
-  u8 s;
-  u8 pad7;
-  u8 pad8[4];
-};
 s32 TLobby::get_clock_frames() {
   u8 *new_var;
   u8 *g;

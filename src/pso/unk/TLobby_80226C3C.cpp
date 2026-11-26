@@ -17,9 +17,7 @@
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8036A3CC.h"
 
-struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next; };
 
-struct TLoadCtrlProgram { char archive[32]; s32 count, ntsc, pal; UpdateMusicSequencerPassage *modes[2]; };
 
 s32 lbl_805D3710 = -140;
 s32 area_music_fade_frame_count = 60;
@@ -59,17 +57,8 @@ f32 music_fade_step;
 s32 music_fade_frames_remaining;
 s32 bgm_stream_active;
 s16 music_current_slot;
-void turn_on_bgm_p2(void);
 }
-void set_cue_stream_gain(s32 gain);
-extern "C" {
-void turn_off_bgm_p2(void);
-}
-void set_dark_falz_music_request(s32 request);
-void stop_cue_stream(void);
-void set_music_streams_volume(s32 total);
 void update_music_fade(void);
-void update_music_sequencer(void);
 
 extern "C" char music_slot_entries[2][0x20];
 u8 *TLobby::get_current_slot_entry() {
@@ -314,7 +303,7 @@ void init_adx_audio_system(void);
 
 // The four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
-extern const SndHooks snd_hooks = { TLobby__sub_80227A4C, TLobby::free };
+extern const SndHooks snd_hooks = { musyx_malloc_hook, TLobby::free };
 const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
 
 // Area music: each program names its .afs archive and two passage lists (modes[0]/[1]).
@@ -573,7 +562,7 @@ void update_music_fade(void) {
 }
 
 void TLobby::set_pre_retrace_callback() {
-    VISetPreRetraceCallback(TLobby__sub_80227A6C);
+    VISetPreRetraceCallback(pre_retrace_callback);
 }
 void TLobby::shutdown_buffers() {
     s32 i;
@@ -607,8 +596,8 @@ void init_adx_audio_system(void) {
     ARInit(lbl_804CB838, 6);
     ARQInit();
     AIInit(NULL);
-    VISetPostRetraceCallback(TLobby__sub_80227A70);
-    VISetPreRetraceCallback(TLobby__sub_80227A6C);
+    VISetPostRetraceCallback(post_retrace_callback);
+    VISetPreRetraceCallback(pre_retrace_callback);
     TLobby__sub_803C94B8(TLobby__sub_80227A90, 0);
     ARAlloc(0xC00000);
     sndSetHooks(&hooks);
@@ -641,12 +630,12 @@ void init_adx_audio_system(void) {
 #pragma pool_data reset
 
 
-// TLobby::free and TLobby__sub_80227A4C are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
+// TLobby::free and musyx_malloc_hook are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
 void TLobby::free(void *p) { xfree(p); }
 
 extern "C" {
-void *TLobby__sub_80227A4C(u32 size) { return xmalloc(size); }
-void TLobby__sub_80227A6C(void) {  }
-int TLobby__sub_80227A70(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
+void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
+void pre_retrace_callback(void) {  }
+int post_retrace_callback(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
 void TLobby__sub_80227A90(s32, const char *) {  }
 }

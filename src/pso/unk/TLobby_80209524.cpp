@@ -41,6 +41,8 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/map/TSetEvtDestroy.h"
 
+struct ByteBlock_14 { u8 bytes[0x14]; };
+
 // ---- pso/unk/TLobby_80209524
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
@@ -147,36 +149,19 @@ void ChallengeEventCommand::append() const {
 }
 
 // ---- pso/unk/text_802097B0
-struct DestroyEventShuffleTableEntry { f32 a, b, c; u32 d, e, f, g; };
 
-struct PickRandomEntryOut { u8 pad[0x14]; f32 a, b, c; u32 d, e, f; };
 
-struct TLobbyHdr { s32 table; s32 b; s32 count; s32 d; };
 
-struct AppendRecord { f32 f[5]; s16 h[6]; };
 
-struct AppendOut {
-    u8 pad0[6];
-    s16 f6;
-    u8 pad8[0x2C - 8];
-    f32 f[5];
-    s16 f40;
-    s16 f42;
-};
 
-struct PickWeightedEntryHdr { s32 a; s32 table; s32 c; s32 count; };
 
-struct PickWeightedEntryEntry { u8 b0; u8 b1; u8 weight; u8 pad; };
 
 struct AppendRecord;
-struct BsearchRecordTmp { u8 pad[0x18]; s16 v; u8 pad2[2]; };
 
-struct TLobbyHdr2 { s32 table; s32 data; s32 count; };
 
-struct TLobbyEntry { s16 id; s16 count; s32 offset; };
 
 void select_event_shuffle_table(s16 id) {
-    TLobbyEntry e;
+    EventShuffleTableIndexEntry e;
     TLobbyHdr2 hdr = *(TLobbyHdr2 *)lbl_805D60AC;
     u8 *table;
     s32 lo;
@@ -354,17 +339,6 @@ u32 TLobby::clamp_min_drop(u32 min, u32 max) {
     return value;
 }
 
-struct DestroyEventShuffleTableSpawnRecord {
-    s16 type;
-    u16 flags;
-    s16 index;
-    s16 children;
-    u16 reserved;
-    s16 actor_id;
-    s16 room;
-    s16 wave;
-    u8 placement[0x48 - 0x10];
-};
 
 extern "C" {
 void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *slots, s32 count, s32 floor);
@@ -574,41 +548,72 @@ void QuestChunkHeader::bswap() {
     bswap_32((u32 *)&data_size);
 }
 
-void bswap_event_table_entry(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); }
-
-void copy_event_table_entry(void *dst, void *src) {
-    *(s16 *)((s8 *)dst + 0) = (s16) *(s16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+void bswap_event_table_entry(void* p) {
+    EventShuffleTableIndexEntry *entry = (EventShuffleTableIndexEntry *)p;
+    bswap_16((u16 *)&entry->id);
+    bswap_16((u16 *)&entry->count);
+    bswap_32((u32 *)&entry->offset);
 }
 
-void TLobby::bswap_vec3() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
+void copy_event_table_entry(void *dst, void *src) {
+    EventShuffleTableIndexEntry *to = (EventShuffleTableIndexEntry *)dst;
+    EventShuffleTableIndexEntry *from = (EventShuffleTableIndexEntry *)src;
+    to->id = from->id;
+    to->count = from->count;
+    to->offset = from->offset;
+}
+
+void TLobby::bswap_vec3() {
+    Vec *vec = (Vec *)this;
+    bswap_32((u32 *)&vec->x);
+    bswap_32((u32 *)&vec->y);
+    bswap_32((u32 *)&vec->z);
+}
 
 void TLobby::swap_header_endian() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); bswap_16((u16 *)((char*)this + 0x18)); bswap_16((u16 *)((char*)this + 0x1a)); }
 
-void bswap_item_data_record(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); bswap_32((u32 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x14)); bswap_16((u16 *)((char*)p + 0x16)); bswap_16((u16 *)((char*)p + 0x18)); bswap_16((u16 *)((char*)p + 0x1a)); bswap_16((u16 *)((char*)p + 0x1c)); bswap_16((u16 *)((char*)p + 0x1e)); }
+void bswap_item_data_record(void* p) {
+    AppendRecord *record = (AppendRecord *)p;
+    bswap_32((u32 *)&record->f[0]);
+    bswap_32((u32 *)&record->f[1]);
+    bswap_32((u32 *)&record->f[2]);
+    bswap_32((u32 *)&record->f[3]);
+    bswap_32((u32 *)&record->f[4]);
+    bswap_16((u16 *)&record->h[0]);
+    bswap_16((u16 *)&record->h[1]);
+    bswap_16((u16 *)&record->h[2]);
+    bswap_16((u16 *)&record->h[3]);
+    bswap_16((u16 *)&record->h[4]);
+    bswap_16((u16 *)&record->h[5]);
+}
 
 // ---- pso/unk/text_8020A508
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void TLobby::copy_record_entry(saddr src) {
-    saddr dst = (saddr)this;
-    *(ByteBlock_14 *)(dst) = *(const ByteBlock_14 *)(src);
-    *(s16 *)((s8 *)dst + 0x14) = (s16) *(s16 *)((s8 *)src + 0x14);
-    *(s16 *)((s8 *)dst + 0x16) = (s16) *(s16 *)((s8 *)src + 0x16);
-    *(s16 *)((s8 *)dst + 0x18) = (s16) *(s16 *)((s8 *)src + 0x18);
-    *(s16 *)((s8 *)dst + 0x1A) = (s16) *(s16 *)((s8 *)src + 0x1A);
-    *(s16 *)((s8 *)dst + 0x1C) = (s16) *(s16 *)((s8 *)src + 0x1C);
-    *(s16 *)((s8 *)dst + 0x1E) = (s16) *(s16 *)((s8 *)src + 0x1E);
+    AppendRecord *dst = (AppendRecord *)this;
+    AppendRecord *from = (AppendRecord *)src;
+    *(ByteBlock_14 *)dst = *(const ByteBlock_14 *)from;
+    dst->h[0] = from->h[0];
+    dst->h[1] = from->h[1];
+    dst->h[2] = from->h[2];
+    dst->h[3] = from->h[3];
+    dst->h[4] = from->h[4];
+    dst->h[5] = from->h[5];
 }
 
 // ---- pso/unk/TLobby_8020A568
 
-void bswap_table_header(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
+void bswap_table_header(void* p) {
+    TLobbyHdr *header = (TLobbyHdr *)p;
+    bswap_32((u32 *)&header->table);
+    bswap_32((u32 *)&header->b);
+    bswap_32((u32 *)&header->count);
+    bswap_32((u32 *)&header->d);
+}
 
 void ChallengeRandomEvent::swap_endian() {
     bswap_32(reinterpret_cast<u32 *>(&id));
@@ -668,13 +673,9 @@ void TLobby::init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entr
 
 
 // ---- pso/unk/text_8020A768
-struct LoadEnemySetFileEntry { s16 a; s16 b; u8 pad[0x48 - 4]; };
 
-struct LoadEnemySetFileName { char s[0x20]; };
 
-struct LoadObjectSetFileEntry { s16 a; s16 b; u8 pad[0x44 - 4]; };
 
-struct LoadObjectSetFileName { char s[0x20]; };
 
 s32 load_enemy_set_file(s32 idx, const char *filename) {
     LoadEnemySetFileName name;
@@ -858,7 +859,6 @@ int TLobby::init_sub_state() { return clear_record_flags_b(); }
 
 // ---- pso/unk/text_8020AD40
 
-struct LoadAreaObjectSetRecord { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 extern "C" {
 }
@@ -920,45 +920,37 @@ s32 TLobby::load_all_floor_enemy_sets() {
     FloorMapSelection stack;
     s32 floor;
     floor = 0;
-loop_1:
-    if ((get_floor_map_selection(floor, &stack) == 1) && (stack.area >= 0)) {
-        if (is_area_transfer_pending() != 0) {
-            return 0;
+    do {
+        if ((get_floor_map_selection(floor, &stack) == 1) && (stack.area >= 0)) {
+            if (is_area_transfer_pending() != 0) {
+                return 0;
+            }
+            load_area_enemy_set(floor, stack.area, stack.terrain, stack.entities);
         }
-        load_area_enemy_set(floor, stack.area, stack.terrain, stack.entities);
-        goto block_6;
-    }
-block_6:
-    floor += 1;
-    if (floor >= 0x12) {
-        advance_enemy_id_counter(((u16) map_set_enemy_id_counter));
-        enemy_condition_count = next_enemy_set_actor_id;
-        TLobby::sum_floor_enemy_counts();
-        return 1;
-    }
-    goto loop_1;
+        floor += 1;
+    } while (floor < 0x12);
+    advance_enemy_id_counter(((u16) map_set_enemy_id_counter));
+    enemy_condition_count = next_enemy_set_actor_id;
+    TLobby::sum_floor_enemy_counts();
+    return 1;
 }
 s32 TLobby::load_all_floor_object_sets() {
     FloorMapSelection stack;
     s32 floor;
     floor = 0;
-loop_1:
-    if ((get_floor_map_selection(floor, &stack) == 1) && (stack.area >= 0)) {
-        if (is_area_transfer_pending() != 0) {
-            return 0;
+    do {
+        if ((get_floor_map_selection(floor, &stack) == 1) && (stack.area >= 0)) {
+            if (is_area_transfer_pending() != 0) {
+                return 0;
+            }
+            load_area_object_set(floor, stack.area, stack.terrain, stack.entities);
         }
-        load_area_object_set(floor, stack.area, stack.terrain, stack.entities);
-        goto block_6;
-    }
-block_6:
-    floor += 1;
-    if (floor >= 0x12) {
-        advance_object_id_counter(((u16) map_object_id_counter));
-        object_condition_count = map_set_object_id_counter;
-        get_total_object_set_count();
-        return 1;
-    }
-    goto loop_1;
+        floor += 1;
+    } while (floor < 0x12);
+    advance_object_id_counter(((u16) map_object_id_counter));
+    object_condition_count = map_set_object_id_counter;
+    get_total_object_set_count();
+    return 1;
 }
 
 // ---- pso/unk/TLobby_8020B03C

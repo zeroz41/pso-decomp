@@ -129,8 +129,7 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
     }
 }
 extern SetSoundPitchRequestSndEnt sound_pitch_requests[];
-// Defined here: CodeWarrior emits it in definition order, and its .sdata2 slot
-// (0x805DC748) lies between update_music_stream_gain's literal and the 0.0 below.
+// Defined here: CodeWarrior emits it in definition order.
 const u32 lbl_805DC748 = 1;
 
 void stop_sound_request(s32 idx) {
@@ -335,10 +334,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
 
 void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }
 
-// Dead-stripped from the DOL: no code of it survives. This part of the .sdata2 pool opens
-// with 0.0 (0x805DC74C) ahead of check_sound_admission_range's 90000/40/260/127
-// although that function loads 0.0 last, so a function before it used 0.0 first.
-// Minimal body: it clears the sound listener position the way
+// Dead-stripped from the DOL: no code of it survives. Minimal body: it clears the sound listener position the way
 // update_sound_request_slots does when there is neither a player nor a camera.
 // Name inferred from that role.
 void clear_sound_listener_position(void) {

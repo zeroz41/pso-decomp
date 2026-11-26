@@ -28,13 +28,7 @@
 #include "pso/item/item_create.h"
 
 
-struct BoxDrop_8011A868 {
-    u8 cmd; u8 size; u16 pad2; u8 client; u8 area; s16 source;
-    f32 x; f32 z; s16 room; s16 x12; s8 slot; u8 pad15[3];
-    f32 fixed; u32 params[3];
-};
 
-struct Source_8011AB64 { u32 a; u16 claim; u16 b; u32 c; };
 
 s32 lbl_805D54E0;
 s32 build_item_id_mode;

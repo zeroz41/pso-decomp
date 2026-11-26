@@ -13,8 +13,6 @@
 
 extern "C" {
 s32 load_floor_sound_bank();
-void fn_802FE9E0(void);
-void fn_802FEA0C(void);
 }
 s32 load_dragon2_scene(void);
 

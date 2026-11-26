@@ -41,4 +41,20 @@ extern "C" {
 void set_difficulty__6TLobbyFi(s32 variant);
 }
 
+struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
+
+struct CopyDataBlk { s32 w[6]; };
+
+struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
+
+struct GetInternetBeatDateStamp
+{
+  u8 pad0[4];
+  u8 h;
+  u8 m;
+  u8 s;
+  u8 pad7;
+  u8 pad8[4];
+};
+
 #endif

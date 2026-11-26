@@ -14,16 +14,14 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80145E40.h"
 
-struct LoadNetworkInfoIds { s32 v[2]; };
 
-struct LoadNetworkInfoBuf { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 
 extern s16 disc_error_code;
 void *network_info_work;
 u16 network_info_flags;
 u16 lbl_805D56CE;
-int keyboard_buffer_cursor; // stored only by NetworkConnect; placed here by the 8-byte .sbss boundary at 0x805D56D8
+int keyboard_buffer_cursor; // stored only by NetworkConnect
 s32 load_network_info(void) {
     LoadNetworkInfoBuf buf;
     LoadNetworkInfoIds ids = {0, 1};

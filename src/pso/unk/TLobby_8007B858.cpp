@@ -276,7 +276,6 @@ void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke
 }
 
 
-struct CollectActiveCardIdsL { u8 pad0; u8 count; u8 pad2[2]; s32 ids[30]; };
 
     extern short quest_collision_next_id;
 void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }

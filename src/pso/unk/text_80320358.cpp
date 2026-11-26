@@ -14,7 +14,7 @@ s32 (*mwPlyCalcWorkCprmSfd_hook)(MwsfdCrePrm *);
 MwsfdPly *(*mwPlyCreateSofdec_hook)(MwsfdCrePrm *);
 s32 (*mwPlyGetCurFrm_hook)(void **, u32 *);
 s32 (*mwPlyRelCurFrm_hook)(void **);
-void (*lbl_805D6B40)();  // calls the VIWaitForRetrace wrapper 0x803CBE00, no arguments
+void (*lbl_805D6B40)();  // calls the VIWaitForRetrace wrapper, no arguments
 void (*mwPlySetAudioCh_hook)();
 void (*mwPlySetAudioSw_hook)();
 void (*mwPlyIsNextFrmReady_hook)();
