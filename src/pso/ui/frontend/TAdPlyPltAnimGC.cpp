@@ -116,14 +116,14 @@ TAdPlyPltAnimGC *TAdPlyPltAnimGC::get_or_create(TObject *parent, s32 index) {
     return TAdPlyPltAnimGC::instances[index];
 }
 
-void TAdPlyPltAnimGC__sub_8035615C(void) {
+void free_player_prate() {
     if (player_prate_texture_list_ptr != NULL) {
         release_texture_list(player_prate_texture_list_ptr);
         player_prate_texture_list_ptr = NULL;
     }
 }
 
-void register_player_prate(void) {
+void register_player_prate() {
     player_prate_texture_list_ptr = &player_prate_texture_list;
     load_streamed_prs_texture("f256_player_prate", &player_prate_texture_list);
 }

@@ -45,7 +45,7 @@ void (*logo_load_callback_table[18])(void) = {
     register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
     register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
     register_texture_logo_e, TLogo::free_held_object,
-    TLogo__sub_8001C364, TLogo__sub_8001C360,
+    load_sonic_logo_texture, free_sonic_logo_texture,
     TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
 };
@@ -116,7 +116,7 @@ void TLogo::run_frame() {
     render_tick();
 }
 
-void TLogo__sub_8013F5AC() {
+void TLogo::exit_logo_scene() {
     main_task.delete_layer_children();
     TLobby::call_funcs_reverse(logo_load_callback_table, sizeof(logo_load_callback_table));
     render_tick();

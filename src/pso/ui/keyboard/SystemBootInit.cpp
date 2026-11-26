@@ -339,7 +339,7 @@ void init_game_systems(void) {
 
 MainPhaseEntry main_phase_table[] = {
     { NULL, NULL, NULL },
-    { TLogo::init_logo_scene, TLogo::run_frame, TLogo__sub_8013F5AC },
+    { TLogo::init_logo_scene, TLogo::run_frame, TLogo::exit_logo_scene },
     { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TKeyBoardControl::update_menu_scene, update_movie_phase, fn_802A1154 },
     { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
@@ -357,7 +357,7 @@ MainPhaseEntry main_phase_table[] = {
     { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
     { NULL, NULL, NULL },
     { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, release_single_ply_chr_select_scene },
-    { TAdTrialModemChkGC__sub_803354E8, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC__sub_803354A4 },
+    { TAdTrialModemChkGC::init_modem_check_phase, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC::exit_modem_check_phase },
     { NULL, NULL, NULL },
     { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },
 };

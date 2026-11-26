@@ -90,8 +90,8 @@ public:
     void report_card_status();
     void rebuild_and_maybe_close();
 
-    static void sub_802E34A4();
-    static void sub_802E34A8();
+    static void free_scene_resources();
+    static void load_scene_resources();
 
     s32 state_index;                 // 0x1C: index into the state table
     s32 system_file_loaded;                      // 0x20: set once the system file was loaded (state 2)

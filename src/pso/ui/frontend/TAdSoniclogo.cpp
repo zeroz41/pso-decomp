@@ -55,7 +55,7 @@ TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
 }
 
 
-void TLogo__sub_8001C360(void) {  }
+void free_sonic_logo_texture() {  }
 
-void TLogo__sub_8001C364(void) { sonic_logo_object = get_logo_texture_e_handle(); }
+void load_sonic_logo_texture() { sonic_logo_object = get_logo_texture_e_handle(); }
 

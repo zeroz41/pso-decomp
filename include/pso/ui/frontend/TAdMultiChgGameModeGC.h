@@ -53,6 +53,9 @@ public:
     static void init_time_set_phase();
     static void init_story_select_phase();
     static void init_title_phase();
+    // Load and free entry of game_mode_select_scene_callbacks.
+    static void load_scene_resources();
+    static void free_scene_resources();
     static void sync_mode_state();
 public:
 
@@ -65,9 +68,5 @@ public:
 
 LAYOUT_ASSERT(TAdMultiChgGameModeGC_size, sizeof(TAdMultiChgGameModeGC) == 0x30);
 
-extern "C" {
-void fn_802FFC78(void);
-void fn_802FFC7C(void);
-}
 
 #endif

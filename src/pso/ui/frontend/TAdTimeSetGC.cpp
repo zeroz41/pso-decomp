@@ -133,10 +133,10 @@ static TAdTimeSetGCState time_set_state_table[25] = {
     {&TAdTimeSetGC::enter_state_24, &TAdTimeSetGC::update_state},
 };
 
-void TAdTimeSetGC::sub_802E34A8() {
+void TAdTimeSetGC::load_scene_resources() {
 }
 
-void TAdTimeSetGC::sub_802E34A4() {
+void TAdTimeSetGC::free_scene_resources() {
 }
 
 TAdTimeSetGC::TAdTimeSetGC(TObject *parent) : TObject(parent) {

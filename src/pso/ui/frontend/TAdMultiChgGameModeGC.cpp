@@ -34,8 +34,8 @@ static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 16
 static const Cur_802FFE58 lbl_80474E1C[1] = { { { 302.0f, 28.0f } } };
 static const Pos_802FFE58 multi_chg_game_mode_position_table = { { 200.0f, 170.0f, 170.0f, 222.0f, 140.0f, 274.0f } };
 
-void fn_802FFC78(void) {  }
-void fn_802FFC7C(void) {  }
+void TAdMultiChgGameModeGC::free_scene_resources() {  }
+void TAdMultiChgGameModeGC::load_scene_resources() {  }
 void TAdMultiChgGameModeGC::render() {  }
 s32 TAdMultiChgGameModeGC::check_players_ready(void * _w0) {
     u32 slot;

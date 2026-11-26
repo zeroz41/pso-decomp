@@ -10,7 +10,9 @@ struct TAdTrialModemChkGC : public TAdWarningBaseGC {
     virtual ~TAdTrialModemChkGC();
     virtual saddr get_message_text();
     virtual void on_close();
+    static void init_modem_check_phase();
     static void check_modem_result();
+    static void exit_modem_check_phase();
     virtual void render();
     virtual void run_task();
     static s32 init_modem_check_params();
@@ -18,16 +20,5 @@ struct TAdTrialModemChkGC : public TAdWarningBaseGC {
 
 LAYOUT_ASSERT(TAdTrialModemChkGC_size, sizeof(TAdTrialModemChkGC) == 0x30);
 
-extern "C" {
-void TAdTrialModemChkGC__sub_803354A4(void);
-void TAdTrialModemChkGC__sub_803354E8(void);
-}
-
-// --- C functions defined in TAdTrialModemChkGC.cpp ---
-extern "C" {
-void TAdTrialModemChkGC__sub_803354A4(void);
-void TAdTrialModemChkGC__sub_803354E8(void);
-}
-// --- end of C functions
 
 #endif

@@ -41,9 +41,7 @@ public:
 LAYOUT_ASSERT(TAdPlyPltAnimGC_size, sizeof(TAdPlyPltAnimGC) == 0x7C);
 
 
-extern "C" {
-void TAdPlyPltAnimGC__sub_8035615C(void);
-}
-void register_player_prate(void);
+void register_player_prate();
+void free_player_prate();
 
 #endif

@@ -18,9 +18,7 @@ public:
     s32 m_wait_frames; // 0x1C; inferred name: frames counted to 0x3C in run_task before the fade
 };
 
-extern "C" {
-void TLogo__sub_8001C360(void);
-void TLogo__sub_8001C364(void);
-}
+void load_sonic_logo_texture();
+void free_sonic_logo_texture();
 
 #endif

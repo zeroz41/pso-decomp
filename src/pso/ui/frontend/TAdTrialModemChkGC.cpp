@@ -12,7 +12,7 @@
 #pragma readonly_strings on
 
 
-void TAdTrialModemChkGC__sub_803354A4(void) {  }
+void TAdTrialModemChkGC::exit_modem_check_phase() {  }
 void TAdTrialModemChkGC::check_modem_result() {
     if (load_network_info() != 0) {
         init_account_entries();
@@ -21,7 +21,7 @@ void TAdTrialModemChkGC::check_modem_result() {
     }
     TAdTrialModemChkGC__sub_8007FA24(1);
 }
-void TAdTrialModemChkGC__sub_803354E8(void) { TLobby::stop_audio_streams(); }
+void TAdTrialModemChkGC::init_modem_check_phase() { TLobby::stop_audio_streams(); }
 
 void TAdTrialModemChkGC::render() {
     render_dialog();
