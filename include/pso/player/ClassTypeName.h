@@ -3,15 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
-void select_main_menu_item_10(s32 id);
-}
-
-// --- C functions defined in ClassTypeName.cpp ---
-extern "C" {
-void select_main_menu_item_10(s32 id);
-}
-// --- end of C functions
 saddr get_class_type_name(s32 class_flags);
+
+extern "C" {
+void select_main_menu_item_10(s32 id);
+}
 
 #endif
