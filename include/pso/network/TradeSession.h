@@ -70,4 +70,10 @@ s32 is_trade_range_bit_set(s32 client_id);
 void clear_trade_range_bit(s32 client_id);
 void set_trade_range_bit(s32 client_id);
 
+// Per-frame steps of the trade session update_game_modes runs.
+void update_trade_list_send();
+void update_trade_partner();
+void update_battle_mode();
+void update_trade_proposal_state();
+
 #endif

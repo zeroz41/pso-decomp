@@ -274,7 +274,7 @@ void TObjGoGoBall::run_task() {
     Vec q;
     Vec p;
     i = 0;
-    time = TLobby::get_clock_frames() % 2592;
+    time = get_clock_frames() % 2592;
     if (time >= gogo_ball_configuration.lifetime) {
         VecCopy(&p, &position);
         p.y += gogo_ball_configuration.radius;

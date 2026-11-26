@@ -12,16 +12,12 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/area/Delo2Scene.h"
 #include "pso/map/FloorWaveEvents.h"
-
-extern "C" {
-s32 load_floor_sound_bank();
-}
+#include "pso/audio/SoundPlayback.h"
 
 void update_subsystems() { refresh_render_state(); stop_audio_streams(); stop_cue_stream(); free_boss7_tunnel(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 init_scene_delo2(void) {
-    get_current_floor_area();
-    load_floor_sound_bank();
+    load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }

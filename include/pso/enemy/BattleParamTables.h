@@ -63,5 +63,6 @@ s32 calc_alpha_shifted(f32 alpha);
 f32 calc_result_offset();
 f32 calc_phase_offset();
 s32 get_internet_beat();
+s32 get_clock_frames();
 
 #endif

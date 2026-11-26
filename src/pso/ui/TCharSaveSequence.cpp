@@ -44,6 +44,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/audio/SoundRequests.h"
 
 // Window position and size setup passes to create_message_window_for_size
 static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
@@ -341,7 +342,7 @@ void on_chr_select_fade_out_done(TObject *) { request_queued_main_phase(); }
 void release_single_ply_chr_select_scene(void) {
     main_task.delete_layer_children();
     stop_audio_streams();
-    TLobby::set_and_notify(0);
+    set_and_notify(0);
     TLobby::call_funcs_reverse(&character_select_scene_resource_callbacks, 0x30);
     render_tick();
 }
@@ -389,7 +390,7 @@ void init_single_player_char_select_scene(void) {
     set_fallback_main_phase(2);
     char_save_message_flags = 0;
     play_area_music("title.adx");
-    TLobby::set_and_notify(-900);
+    set_and_notify(-900);
     lobby_rule_settings.reset_settings_to_default();
     render_tick();
 }

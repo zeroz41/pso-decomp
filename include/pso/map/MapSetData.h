@@ -58,6 +58,7 @@ struct DestroyEventShuffleTableEntry {
 };
 
 struct PickRandomEntryOut { u8 pad[0x14]; f32 a, b, c; u32 d, e, f; };
+void pick_random_entry(PickRandomEntryOut *out);
 
 struct TLobbyHdr { s32 table; s32 b; s32 count; s32 d; };
 
@@ -122,5 +123,7 @@ void init_sub_objects();
 s32 set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 flags);
 s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits);
 int get_obj_table_entry(int a0);
+void pick_weighted_entry(s32 *key, s32 *slot);
+int get_object_type(int a0);
 
 #endif

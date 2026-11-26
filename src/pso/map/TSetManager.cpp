@@ -289,7 +289,7 @@ void mark_floor_enemies_dead(void) {
     s32 n;
     s32 i;
     p = get_active_floor_enemy_rows(get_current_floor());
-    n = TLobby::get_object_type(get_current_floor());
+    n = get_object_type(get_current_floor());
     for (i = 0; i < n; i++, p++) {
         u32 r = (uaddr)find_entity_by_id(p->placement.id);
         if (r != 0) {
@@ -471,7 +471,7 @@ s32 TWindowDD::check_all_ready(s32 floor) {
     EnemySetRecord *active_floor_enemy_rows;
 
     active_floor_enemy_rows = get_active_floor_enemy_rows(floor);
-    object_type = TLobby::get_object_type(floor);
+    object_type = get_object_type(floor);
     if (active_floor_enemy_rows != NULL) {
         for (i = 0; i < object_type; i++) {
             flags = active_floor_enemy_rows->flags;
@@ -487,7 +487,7 @@ s32 TWindowDD::check_all_ready(s32 floor) {
 
 s32 is_room_free_of_active_enemies(s32 floor, s16 room) {
     EnemySetRecord *rows = get_active_floor_enemy_rows(floor);
-    s32 count = TLobby::get_object_type(floor);
+    s32 count = get_object_type(floor);
     if (rows != NULL) {
         for (; count > 0; count--, rows++) {
             if (rows[0].placement.room == room && !(rows[0].flags & 8) && (rows[0].flags & 2)) {
@@ -601,7 +601,7 @@ s32 TLobby::spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_memb
         return 0;
     }
     row = get_active_floor_enemy_rows(active_set_floor);
-    row_count = TLobby::get_object_type(active_set_floor);
+    row_count = get_object_type(active_set_floor);
     for (row_index = 0; row_index < row_count; row_index += 1, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->placement.room == room) && (row->placement.wave == wave)) {
@@ -643,7 +643,7 @@ s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
         return set_flags_on_matching_entries(floor, room, wave, 1);
     }
     set = get_active_floor_enemy_rows(floor);
-    n = TLobby::get_object_type(floor);
+    n = get_object_type(floor);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;
@@ -674,7 +674,7 @@ s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
     return count;
 }
 
-s32 TLobby::link_matching_objects(s16 room, s16 wave) {
+s32 link_matching_objects(s16 room, s16 wave) {
     s16 set_index;
     s16 flags;
     s32 row_count;
@@ -688,7 +688,7 @@ s32 TLobby::link_matching_objects(s16 room, s16 wave) {
         return 0;
     }
     row = get_active_floor_enemy_rows(active_set_floor);
-    row_count = TLobby::get_object_type(active_set_floor);
+    row_count = get_object_type(active_set_floor);
     for (row_index = 0; row_index < row_count; row_index += 1, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->placement.room == room) && (row->placement.wave == wave)) {
@@ -835,7 +835,7 @@ void create_objects(s32 floor) {
     TObjEnemy *enemy;
 
     row = get_active_floor_enemy_rows(floor);
-    row_count = TLobby::get_object_type(floor);
+    row_count = get_object_type(floor);
     for (row_index = 0; row_index < row_count; row_index++, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->type != -1) && ((flags & 1) || (row->placement.wave == 0))) {

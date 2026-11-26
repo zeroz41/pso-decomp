@@ -8,7 +8,7 @@
 #include "pso/system/scene/TScene.h"
 
 
-int TLobby::get_online_ready_flag() {  return lobby_online_ready_flag; }
+int get_online_ready_flag() {  return lobby_online_ready_flag; }
 
 void *create_boss4_zako_draw(TObject *parent) {
     return new TBoss4ZakoDraw(parent);

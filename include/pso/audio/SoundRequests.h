@@ -29,5 +29,9 @@ void close_option_window();
 int get_lobby_data();
 void set_sound_output_mode(s32 mode);
 void update_lobby_subsystems();
+void set_and_notify(int a0);
+void init_layout_positions();
+void reset_global();
+int init_sound_mode();
 
 #endif

@@ -56,11 +56,15 @@ void invoke_callback();
 void reset_read_state();
 void clear_player_slot_tables(s32 n);
 void set_read_params(void *handle_ref, int sector_count, int destination);
+void draw_fullscreen_texture_quad(s32 texture);
 void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, s32 buffer);
 void release_menu_font();
 void load_font_texture();
 void reset_state_byte();
 void wait_ready_loop();
 void run_frame();
+s32 run_disk_error_check();
+void flush_pending();
+void flush_checked_reads();
 
 #endif

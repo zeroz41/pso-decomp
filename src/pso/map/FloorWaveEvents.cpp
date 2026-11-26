@@ -27,6 +27,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/client_id.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/map/TSetManager.h"
 
 
 extern "C" {
@@ -130,7 +131,7 @@ s32 init_object_set_data(ObjectSetData *set) {
     set->entity_id = 0xFFFF;
     return r;
 }
-void TLobby::run_floor_cleanup_callbacks(int floor) {
+void run_floor_cleanup_callbacks(int floor) {
     FloorLifecycleEntry *p = floor_lifecycle_callback_tables[floor];
     s32 n;
     s32 i;
@@ -146,7 +147,7 @@ void TLobby::run_floor_cleanup_callbacks(int floor) {
     }
 }
 
-void update_current_floor() { TLobby::run_floor_cleanup_callbacks(get_current_floor_area()); }
+void update_current_floor() { run_floor_cleanup_callbacks(get_current_floor_area()); }
 s32 run_floor_initialize_callbacks(s32 floor) {
     FloorLifecycleEntry *p = floor_lifecycle_callback_tables[floor];
     FloorLifecycleCallback f;
@@ -217,7 +218,7 @@ void bswap_object_row_fields(ObjectSetData *placement) {
 
 MapSetArea *map_set_areas;
 
-s32 TLobby::get_drop_item_mode() {
+s32 get_drop_item_mode() {
     s32 main_phase;
 
     main_phase = get_main_phase();
@@ -258,7 +259,7 @@ void update_drop_item() {
     forest_rel_set_data_table = 0;
     forest_rel_module = NULL;
     if (forest_rel_work_buffer != NULL) {
-        drop_item_mode = TLobby::get_drop_item_mode();
+        drop_item_mode = get_drop_item_mode();
         if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
             module = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = module;
@@ -294,7 +295,7 @@ void load_item_data() {
     buffer = TQuestVmDownLoadServer::alloc(0x24B8);
     forest_rel_work_buffer = buffer;
     if (buffer != NULL) {
-        drop_item_mode = TLobby::get_drop_item_mode();
+        drop_item_mode = get_drop_item_mode();
         if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
             module = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = module;
@@ -312,7 +313,7 @@ s32 wave_event_stream_cursor;
 s32 wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
-void relink_objects(s16 a, s16 b) { TLobby::link_matching_objects(a, b); wave_event_stop_requested = 1; }
+void relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
 void send_6x67_wave_trigger_event(s32 event_id) {
     G_FloorEvent_6x67 pkt;
     wave_event_trigger_count++;
@@ -351,7 +352,7 @@ void send_6x05_wave_set_switch(s16 switch_id) {
     }
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
-s32 wave_event_link_objects(s16 room, s16 wave) { return TLobby::link_matching_objects(room, wave); }
+s32 wave_event_link_objects(s16 room, s16 wave) { return link_matching_objects(room, wave); }
 s32 wave_event_spawn_objects(s16 room, s16 wave) { return spawn_objects_at_pos(room, wave); }
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }

@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/os/OSInterrupt.h>
+#include "pso/audio/SoundPlayback.h"
 
 
 void SoundRequestVoice::set_field0(SoundControlState *owner) { this->owner = owner; }

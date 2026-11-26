@@ -778,7 +778,7 @@ void update_sound_bank_load(SoundControlState *self) {
                     break;
                 case 4:
                 default:
-                    TLobby::flush_checked_reads();
+                    flush_checked_reads();
                     errors++;
                     break;
                 }
@@ -985,7 +985,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
             set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
             do {
                 draw_loading_compass();
-                TLobby::run_disk_error_check();
+                run_disk_error_check();
                 render_tick();
             } while (ADXF_GetStat(handle) != 3);
             reset_read_state();

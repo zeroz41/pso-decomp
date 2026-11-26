@@ -12,16 +12,12 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/area/Dragon2Scene.h"
 #include "pso/map/FloorWaveEvents.h"
-
-extern "C" {
-s32 load_floor_sound_bank();
-}
+#include "pso/audio/SoundPlayback.h"
 
 void refresh_lobby_state() { refresh_render_state(); stop_audio_streams(); stop_cue_stream(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 init_particle_model() {
-    get_current_floor_area();
-    load_floor_sound_bank();
+    load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
@@ -37,8 +33,7 @@ s32 init_particle_model() {
 void update_field_state() { refresh_render_state(); stop_audio_streams(); stop_cue_stream(); free_static_resource_callbacks(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 load_dragon2_scene(void) {
-    get_current_floor_area();
-    load_floor_sound_bank();
+    load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }

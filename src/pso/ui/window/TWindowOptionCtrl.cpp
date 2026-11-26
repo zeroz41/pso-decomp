@@ -550,7 +550,7 @@ void TWindowOptionCtrl::apply_and_close(s32 bgm_index) {
 void TWindowOptionCtrl::init_selection_indices() {
     s16 current_sound_mode;
 
-    current_sound_mode = TLobby::init_sound_mode();
+    current_sound_mode = init_sound_mode();
     saved_sound_mode = current_sound_mode;
     sound_mode = current_sound_mode;
 }
@@ -559,7 +559,7 @@ void TWindowOptionCtrl::apply_selection_change() {
     if (saved_sound_mode != sound_mode) {
         stop_audio_streams();
         set_sound_output_mode(sound_mode);
-        TLobby::init_layout_positions();
+        init_layout_positions();
     }
 }
 

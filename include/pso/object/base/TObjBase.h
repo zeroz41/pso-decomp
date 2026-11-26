@@ -45,7 +45,7 @@ public:
     s32 m_20;
     NJS_TEXLIST *texlist;  // its texture list, made current before it draws
     // Copied from the object's set entry when it is spawned; see
-    // TLobby::link_matching_objects.
+    // link_matching_objects.
     s16 room;
     s16 set_group;  // the object's group, or an enemy's wave number
     s16 set_index;  // index of its set entry, -1 for none

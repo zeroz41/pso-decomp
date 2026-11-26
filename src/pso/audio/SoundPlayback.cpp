@@ -68,7 +68,7 @@ s32 is_camera_state_active() {
     return 0;
 }
 
-void TLobby::set_mode(s32 mode) {
+void apply_sound_output_mode(s32 mode) {
     switch (mode) {
     case 0:
         adxt_set_output_mono(1);
@@ -218,7 +218,7 @@ void load_floor_sound_bank(s32 floor) {
             }
             sound_control_state.validate_and_set_selection(bank);
             do {
-                TLobby::run_disk_error_check();
+                run_disk_error_check();
                 exec_adx_server();
                 run_frame();
             } while (sound_control_state.is_ready() == 0);
@@ -245,7 +245,7 @@ void wait_for_sound_init() {
     sound_control_state.validate_and_set_selection(0);
     do {
         draw_loading_compass();
-        TLobby::run_disk_error_check();
+        run_disk_error_check();
         exec_adx_server();
         render_tick();
     } while (((s32 (*)())is_sound_enabled)() == 0);

@@ -5804,7 +5804,7 @@ force_active:
   - draw_fading_motion__11TObjDFDemo5Fv
   - draw_rects__18TAdLoadQuestLineGCFP13QuestLineRectl
   - draw_frame__20TWindowActionPaletteFl
-  - draw_fullscreen_texture_quad__6TLobbyFv
+  - draw_fullscreen_texture_quad__Fl
   - draw_ginja_motion_node_tree__FP10NJS_OBJECT
   - draw_hanger__11TBoss4Type2Fv
   - draw_help_entries__24TWindowSubSymbolChatHelpFP17WindowDrawContext
@@ -6262,7 +6262,7 @@ force_active:
   - floor_resource_callbacks_selectors_23_24_25_26_27
   - floor_resource_callbacks_selectors_28_29
   - floor_scene_table
-  - flush_pending__6TLobbyFv
+  - flush_pending__Fv
   - flush_pending_effect__13TBoss5GryphonFv
   - fly_nest_vertex_table
   - get_local_attacker_id__9TObjCharaFv
@@ -6574,7 +6574,7 @@ force_active:
   - get_distance_to_local_player_xz__13TObjTombstoneFv
   - get_dominant_stats__8TItemMagFv
   - get_download_seed__12TQuestListVMFv
-  - get_drop_item_mode__6TLobbyFv
+  - get_drop_item_mode__Fv
   - get_drop_random_float__10TObjPlayerFUl
   - get_drop_table_mode_flags
   - get_ending_ab_wall_texture_list__Fv
@@ -14530,7 +14530,7 @@ force_active:
   - clear__18TObjEneBm5WolfListFv
   - clear__20TObjEneBm5GibonUListFv
   - reset_fish_fields__11TBoss6Type2Fv
-  - reset_global__6TLobbyFv
+  - reset_global__Fv
   - reset_globals__15TObjEneDelDepthFv
   - reset_gstream_buffer__Fv
   - reset_state__20TContainerAncient01RFv
@@ -14627,7 +14627,7 @@ force_active:
   - run_confirm_message_loop__15TObjBoss2TunnelFv
   - run_default_state__13TBoss5GryphonFv
   - run_demo_task__16TObjEneNanoDragoFv
-  - run_floor_cleanup_callbacks__6TLobbyFi
+  - run_floor_cleanup_callbacks__Fi
   - run_floor_initialize_callbacks__Fl
   - run_freeze_state__16TBoss3VoloptCoreFv
   - run_idle_state__16TObjEneBm5GibonUFl

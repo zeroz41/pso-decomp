@@ -21,6 +21,7 @@
 #include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 extern "C" {
 s32 DVDCheckDisk();
@@ -222,7 +223,7 @@ TMovie::~TMovie() {
 
 void TMovie::render_until_finished() {
 loop_1:
-    if ((DVDCheckDisk() == 0) && (TLobby::run_disk_error_check() == 0)) {
+    if ((DVDCheckDisk() == 0) && (run_disk_error_check() == 0)) {
         render_tick();
         goto loop_1;
     }
@@ -233,8 +234,8 @@ s32 TMovie::check_skip_input() {
     s32 reset_pressed;
 
     if (is_ending_sequence_active() != 0) {
-        if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
-            if ((TLobby::run_disk_error_check() == 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
+        if ((run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
+            if ((run_disk_error_check() == 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
                 set_ending_movie_active();
             }
             return 1;
@@ -258,7 +259,7 @@ s32 TMovie::check_skip_input() {
         context = &controller_input_state.keyboard;
         if (test_controller_flag_4c_color(context, 4) != 0) goto end_movie;
         if (test_controller_flag_4c_color(context, 2) != 0) goto end_movie;
-        if (TLobby::run_disk_error_check() == 0) goto end_movie;
+        if (run_disk_error_check() == 0) goto end_movie;
         if (check_reset_button() != 0) goto end_movie;
         if (this->player->is_playback_finished() == 0) goto block_return0;
 end_movie:
@@ -275,7 +276,7 @@ end_movie:
         context = &controller_input_state.keyboard;
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_call_func;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_call_func;
-        if (TLobby::run_disk_error_check() == 0) goto block_call_func;
+        if (run_disk_error_check() == 0) goto block_call_func;
         if (reset_pressed != 0) goto block_call_func;
         if (this->player->is_playback_finished() == 0) goto block_return0;
 block_call_func:

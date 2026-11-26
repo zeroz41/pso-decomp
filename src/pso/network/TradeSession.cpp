@@ -66,7 +66,7 @@ void TLobby::send_trade_proposal_modify() {
   }
 }
 
-void TLobby::update_trade_list_send() {
+void update_trade_list_send() {
     TTradeList list;
     switch ((s8) trade_proposal_state) {
     case 5:
@@ -76,7 +76,7 @@ void TLobby::update_trade_list_send() {
         break;
     case 6:
         list.build_from_trade_window();
-        protocol_instance->send_trade_list(&list);
+        TLobby::protocol_instance->send_trade_list(&list);
         trade_protocol_flags |= 0x400;
         if (trade_main_window != NULL) {
             trade_main_window->show_trade_status();
@@ -92,7 +92,7 @@ void TLobby::update_trade_list_send() {
     }
 }
 
-void TLobby::update_trade_proposal_state() {
+void update_trade_proposal_state() {
     if (!(trade_protocol_flags & 0x10)) {
         trade_proposal_delay = 0;
         if (trade_protocol_flags & 0x20) {
@@ -782,7 +782,7 @@ void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal) {
     }
 }
 
-void TLobby::update_battle_mode() {
+void update_battle_mode() {
     if ((s8) trade_proposal_state != 0) {
         if (get_player_by_client_id(local_client_id) == NULL) {
             TLobby::cancel_trade();
@@ -794,7 +794,7 @@ void TLobby::update_battle_mode() {
     }
 }
 
-void TLobby::update_trade_partner() {
+void update_trade_partner() {
     if ((s8) trade_proposal_state == 0) {
         return;
     }

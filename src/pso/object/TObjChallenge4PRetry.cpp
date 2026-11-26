@@ -42,17 +42,13 @@
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/map/FloorWaveEvents.h"
-
-extern "C" {
-s32 load_floor_sound_bank();
-}
+#include "pso/audio/SoundPlayback.h"
 
 void update_floor_state_deferred() { refresh_render_state(); stop_audio_streams(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 // inferred: the JUNGLE01-07 init of area_initializer_dispatch_table
 s32 init_jungle_area(void) {
-    get_current_floor_area();
-    load_floor_sound_bank();
+    load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
@@ -82,8 +78,7 @@ void update_scene_alt() { refresh_render_state(); stop_audio_streams(); unload_c
 s32 initialize_boss_scene(void) {
     s32 area;
 
-    get_current_floor_area();
-    load_floor_sound_bank();
+    load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }

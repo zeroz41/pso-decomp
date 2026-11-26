@@ -468,11 +468,11 @@ s32 default_clock_offset_frames(void) {
 }
 
 s32 get_internet_beat() {
-    return (TLobby::get_clock_frames() / 2592) % 1000;
+    return (get_clock_frames() / 2592) % 1000;
 }
 
 typedef struct GetInternetBeatDateStamp GetInternetBeatDateStamp;
-s32 TLobby::get_clock_frames() {
+s32 get_clock_frames() {
   u8 *hour;
   u8 *g;
   s32 base;
@@ -538,7 +538,7 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
         if (alpha > 1.0f) {
             alpha = 1.0f;
         }
-        frames = TLobby::get_clock_frames();
+        frames = get_clock_frames();
         beat = frames / 2592;
         beat %= 1000;
         scale = -1.0f / size;

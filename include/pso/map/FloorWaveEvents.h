@@ -75,5 +75,7 @@ void dispatch_stream_command(u8 opcode);
 void invoke_command(u8 opcode);
 void update_current_floor();
 void relink_objects(s16 a, s16 b);
+void run_floor_cleanup_callbacks(int floor);
+s32 get_drop_item_mode();
 
 #endif

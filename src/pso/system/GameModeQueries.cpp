@@ -7,6 +7,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/boss/darkfalz/TBoss4ZakoDrawCreate.h"
 
 
 
@@ -14,7 +15,7 @@ s32 is_online_ready() {
     if (((s32) game_difficulty_selection == 3) && (TLobby::get_instance() == 0)) {
         return 1;
     }
-    if (TLobby::get_online_ready_flag() != 0) {
+    if (get_online_ready_flag() != 0) {
         return 1;
     }
     return 0;

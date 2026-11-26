@@ -3,13 +3,14 @@
 #include "pso/network/TradeProposalCmd.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"
+#include "pso/network/TradeSession.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/network/protocol/subcmd_6x.h"
 
 
-void update_game_modes() { TLobby::update_trade_partner(); TLobby::update_battle_mode(); TLobby::update_trade_proposal_state(); TLobby::update_trade_list_send(); }
+void update_game_modes() { update_trade_partner(); update_battle_mode(); update_trade_proposal_state(); update_trade_list_send(); }
 void close_trade_request_on_floor_unload() { TLobby::close_trade_request(); }
 void close_trade_request_on_floor_load() { TLobby::close_trade_request(); }
 void reset_trade_state_on_scene_unload() { TLobby::reset_trade_state(); }

@@ -59,21 +59,21 @@ s8 lbl_805D62CE;
 s8 lbl_805D62CF;
 s8 lbl_805D62D0;
 s8 lbl_805D62D1;
-void TLobby::set_and_notify(int a0) { music_gain_adjust = a0; update_music_stream_gain(music_user_gain); }
+void set_and_notify(int a0) { music_gain_adjust = a0; update_music_stream_gain(music_user_gain); }
 
-void TLobby::reset_global() { lobby_layout_offset_c = 0; set_cue_stream_user_gain(cue_stream_user_gain); }
+void reset_global() { lobby_layout_offset_c = 0; set_cue_stream_user_gain(cue_stream_user_gain); }
 
 void close_option_window() { music_gain_adjust = 0; update_music_stream_gain(music_user_gain); }
 
-void TLobby::init_layout_positions() {
+void init_layout_positions() {
     music_gain_offset = -0x50;
     lobby_layout_start_position = -0x5A;
-    if (TLobby::init_sound_mode() == 1) {
+    if (init_sound_mode() == 1) {
         music_gain_offset -= 0x32;
     }
     lbl_805D6290 = -0xA;
     close_option_window();
-    TLobby::reset_global();
+    reset_global();
 }
 
 int get_lobby_data() {  return music_user_gain; }
@@ -121,20 +121,20 @@ void stop_sound_request(s32 idx) {
     }
 }
 
-int init_sound_output_mode(void) { return TLobby::init_sound_mode(); }
+int init_sound_output_mode(void) { return init_sound_mode(); }
 
-int TLobby::init_sound_mode() {
+int init_sound_mode() {
     u8 *p;
     if (OSGetSoundMode() == 0U) {
         sound_mode_value = 1;
-        TLobby::set_mode(0);
+        apply_sound_output_mode(0);
     } else {
-        TLobby::set_mode(1);
+        apply_sound_output_mode(1);
         sound_mode_value = 0;
         p = TAdSinglePlyChrSelectGC::get_global_state();
         if (p != NULL && p != NULL && *(s16 *)((s8 *)p + 0xE) != 0) {
             sound_mode_value = 2;
-            TLobby::set_mode(2);
+            apply_sound_output_mode(2);
         }
     }
     return sound_mode_value;
@@ -164,7 +164,7 @@ void set_sound_output_mode(s32 mode) {
         mode_id = 0;
         break;
     }
-    TLobby::set_mode(mode_id);
+    apply_sound_output_mode(mode_id);
 }
 void reset_sound_pitch_requests(void) {
     s32 i;
@@ -386,7 +386,7 @@ void update_sound_request_slots(void) {
     }
 }
 
-int enable_sound_requests(s32) { update_lobby_subsystems(); TLobby::init_layout_positions(); init_sound_output_mode(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
+int enable_sound_requests(s32) { update_lobby_subsystems(); init_layout_positions(); init_sound_output_mode(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
 
 s32 reset_sound_request_state(void) {
     s32 i;
@@ -407,7 +407,7 @@ s32 reset_sound_request_state(void) {
     music_user_gain = 0;
     cue_stream_scaled_gain = 0;
     cue_stream_user_gain = 0;
-    TLobby::init_layout_positions();
+    init_layout_positions();
     for (i = 0; i < 40; i++) {
         sound_pitch_requests[i].flags = 1;
     }

@@ -173,8 +173,7 @@ void select_event_shuffle_table(s16 id) {
     }
 }
 
-void TLobby::pick_random_entry() {
-    PickRandomEntryOut *out = (PickRandomEntryOut *)this;
+void pick_random_entry(PickRandomEntryOut *out) {
     s32 i = next_event_shuffle_entry(challenge_event_shuffle);
     DestroyEventShuffleTableEntry e = destroy_event_entries[i];
     e.bswap();
@@ -232,7 +231,7 @@ void lookup_item_data_record(AppendOut *out, s32 key) {
         out->f6 = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
     }
 }
-void TLobby::pick_weighted_entry(s32 *key, s32 *slot) {
+void pick_weighted_entry(s32 *key, s32 *slot) {
     PickWeightedEntryHdr hdr = *(PickWeightedEntryHdr *)item_data_table_buffer;
     PickWeightedEntryEntry *tbl;
     u32 total;
@@ -272,11 +271,11 @@ s32 pick_random_slot(s16 *slot) {
     s32 key;
     s32 entry;
 
-    TLobby::pick_weighted_entry(&key, &entry);
+    pick_weighted_entry(&key, &entry);
     if ((key != -1) && (entry != -1)) {
         *slot = (s16) lobby_random_slot_id_table[entry];
         lookup_item_data_record((AppendOut *)slot, key);
-        ((TLobby *)slot)->pick_random_entry();
+        pick_random_entry((PickRandomEntryOut *)slot);
         return 0;
     }
     return 1;
@@ -1039,7 +1038,7 @@ s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, s32 byte_size) {
     return 0;
 }
 
-int TLobby::get_object_type(int a0) {  return floor_enemy_set_counts[a0]; }
+int get_object_type(int a0) {  return floor_enemy_set_counts[a0]; }
 
 int get_obj_table_entry(int a0) {  return floor_object_set_counts[a0]; }
 // Copies the received object and enemy set flags of every floor into the floor tables.

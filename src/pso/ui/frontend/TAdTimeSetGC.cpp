@@ -882,7 +882,7 @@ void TAdTimeSetGC::apply_settings() {
     TLanguage::set_language(state->language);
     update_music_stream_gain(state->music_stream_gain);
     set_cue_stream_user_gain(state->cue_stream_gain);
-    TLobby::init_sound_mode();
+    init_sound_mode();
     unload_lobby_scene_resources();
     load_lobby_scene_resources();
     TAdMultiChgGameModeGC::open_title_scene();

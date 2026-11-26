@@ -77,8 +77,8 @@ u8 *get_current_slot_entry() {
     return (u8 *)lobby_current_slot_entry;
 }
 
-void set_and_notify_default() { TLobby::set_and_notify(0); }
-void send_neg30() { TLobby::set_and_notify(-30); }
+void set_and_notify_default() { set_and_notify(0); }
+void send_neg30() { set_and_notify(-30); }
 
 void set_cue_stream_gain(s32 gain) {
     s32 value;
@@ -106,7 +106,7 @@ void release_bgm_resource() {
     if (bgm_stream_active != 0) {
         stop_audio_stream(adxt_players[1]);
         bgm_stream_active = 0;
-        TLobby::init_layout_positions();
+        init_layout_positions();
     }
 }
 void *bgm_stream_buffers[0x20];
@@ -516,7 +516,7 @@ void update_music_fade(void) {
         return;
     }
     if (lbl_805D62B8 != 0) {
-        TLobby::set_and_notify(-999);
+        set_and_notify(-999);
     }
     if (music_fade_frames_remaining > 0) {
         music_fade_volumes[music_fade_slot_index] += music_fade_step;

@@ -859,7 +859,7 @@ void invoke_callback() {
 
 void TLobby::set_keyboard_mode(int a0) { main_phase_deferred_callback = a0; }
 
-void TLobby::flush_pending() {
+void flush_pending() {
     uaddr destination;
     s32 count;
     if (pending_file_read_flush_requested != 0) {
@@ -871,11 +871,11 @@ void TLobby::flush_pending() {
                 ADXF_ReadNw(*pending_file_read_handle_ref, count, (void *)destination);
             }
         }
-        TLobby::flush_checked_reads();
+        flush_checked_reads();
     }
 }
 
-void TLobby::flush_checked_reads() {
+void flush_checked_reads() {
     s32 i;
 
     for (i = 0; i < 4; i++) {
@@ -916,7 +916,7 @@ void set_read_params(void *handle_ref, int sector_count, int destination) { pend
 void request_pending_file_read_flush(void) { pending_file_read_flush_requested = 1; }
 
 
-void TLobby::draw_fullscreen_texture_quad() {
+void draw_fullscreen_texture_quad(s32 texture) {
     f32 v[8];
     v[0] = 128.0f;
     v[1] = 48.0f;
@@ -926,7 +926,7 @@ void TLobby::draw_fullscreen_texture_quad() {
     v[7] = v[6] = 1.0f;
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(er_mes_texlist));
     begin_screen_draw(0);
-    set_draw_texture_and_color((saddr)this, -1);
+    set_draw_texture_and_color(texture, -1);
     draw_textured_quad_at_depth(v, (0.5f));
     end_screen_draw();
 }
@@ -970,7 +970,7 @@ void reset_state_byte() {
 void wait_ready_loop() {
     lobby_wait_ready_flag = 0;
     for (;;) {
-        if (TLobby::run_disk_error_check() == 1) {
+        if (run_disk_error_check() == 1) {
             return;
         }
         if (get_main_phase() == 0xF) {
@@ -986,7 +986,7 @@ void wait_ready_loop() {
 #define disk_error_msg_last ((DiskErrorMsg *)disk_error_msg_last)
 #define show_disk_error_msg(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
 
-s32 TLobby::run_disk_error_check() {
+s32 run_disk_error_check() {
     NJS_POINT2 pos[4];
     NJS_POINT2COL d;
     NJS_COLOR colors[4];
@@ -1023,7 +1023,7 @@ s32 TLobby::run_disk_error_check() {
         begin_gx_frame();
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         if (lobby_font_texture_loaded != 0) {
-            ((TLobby *)0)->draw_fullscreen_texture_quad();
+            draw_fullscreen_texture_quad(0);
         } else {
             show_disk_error_msg(disk_error_msg_table, 0);
         }
@@ -1039,7 +1039,7 @@ s32 TLobby::run_disk_error_check() {
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         controller_stuff();
         if (lobby_font_texture_loaded != 0) {
-            ((TLobby *)1)->draw_fullscreen_texture_quad();
+            draw_fullscreen_texture_quad(1);
         } else {
             show_disk_error_msg(disk_error_msg_table, 1);
         }
@@ -1052,7 +1052,7 @@ s32 TLobby::run_disk_error_check() {
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         controller_stuff();
         if (lobby_font_texture_loaded != 0) {
-            ((TLobby *)2)->draw_fullscreen_texture_quad();
+            draw_fullscreen_texture_quad(2);
         } else if (get_main_phase() == 0xF) {
             show_disk_error_msg(disk_error_msg_last, 0);
         } else {
@@ -1067,7 +1067,7 @@ s32 TLobby::run_disk_error_check() {
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         controller_stuff();
         if (lobby_font_texture_loaded != 0) {
-            ((TLobby *)3)->draw_fullscreen_texture_quad();
+            draw_fullscreen_texture_quad(3);
         } else {
             show_disk_error_msg(disk_error_msg_table, 3);
         }
@@ -1081,7 +1081,7 @@ s32 TLobby::run_disk_error_check() {
         begin_gx_frame();
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         if (lobby_font_texture_loaded != 0) {
-            ((TLobby *)4)->draw_fullscreen_texture_quad();
+            draw_fullscreen_texture_quad(4);
         } else {
             show_disk_error_msg(disk_error_msg_table, 4);
         }
@@ -1098,7 +1098,7 @@ s32 TLobby::run_disk_error_check() {
         return 0;
     }
     if (status == 0) {
-        TLobby::flush_pending();
+        flush_pending();
     }
     return 1;
 }
