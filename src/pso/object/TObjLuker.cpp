@@ -424,4 +424,4 @@ void *TObjLuker::create(void *set_data) {
     return new TObjLuker((TObject *)tl_05, set_data);
 }
 
-void FlagWord::set_bits(s32 v) { bits = v; }
+void FlagWord::set_bits(s32 value) { bits = value; }

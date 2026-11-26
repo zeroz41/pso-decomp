@@ -177,7 +177,7 @@ u32 movie_pending_frame_addr;
 s32 movie_pending_frame_width;
 s32 movie_pending_frame_height;
 
-void TMovie::flush_cache() {
+void flush_cache() {
     if (VIGetNextField() == 0U) {
         DCStoreRangeNoSync(movie_current_frame_buffer, movie_frame_buffer_bytes);
         VIFlush();
@@ -185,7 +185,7 @@ void TMovie::flush_cache() {
     }
 }
 
-void TMovie::flip_frame_buffer() {
+void flip_frame_buffer() {
     MovieFramePlanes planes;
     if (movie_pending_frame_addr != 0U) {
         if (movie_flip_counter & 1) {
@@ -210,8 +210,8 @@ void set_pending_movie_frame(u32 frame_addr, s32 width, s32 height) {
     movie_pending_frame_height = height;
 }
 
-void TMovie::flush_and_reset() {
-    TMovie::flush_cache();
+void flush_and_reset() {
+    flush_cache();
     wait_for_movie_retrace();
 }
 
@@ -219,7 +219,7 @@ void wait_for_movie_retrace() {
     VIWaitForRetrace();
 }
 
-void TMovie::calc_frame_buffer_size(saddr fb_a, saddr fb_b) {
+void calc_frame_buffer_size(saddr fb_a, saddr fb_b) {
     movie_frame_buffer_a = reinterpret_cast<void *>(fb_a);
     movie_frame_buffer_b = reinterpret_cast<void *>(fb_b);
     movie_frame_buffer_bytes = ((movie_framebuffer_video_mode->fbWidth + 0xF) & 0xFFF0) * movie_framebuffer_video_mode->xfbHeight * 2;

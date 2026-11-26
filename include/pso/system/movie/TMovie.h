@@ -19,10 +19,6 @@ struct TMovie : public TObject {
     char filename[0x20];
     void (*finish_callback)(TMovie *);
     s32 movie_mode;  // nonzero: the opening, shown straight in the frame buffer; 0: the ending
-    static void flush_cache();
-    static void flip_frame_buffer();
-    static void flush_and_reset();
-    static void calc_frame_buffer_size(saddr fb_a, saddr fb_b);
     void render_until_finished();
     s32 check_skip_input();
 };
@@ -111,11 +107,16 @@ struct MovieState {
 LAYOUT_ASSERT(MovieState_frame, offsetof(MovieState, frame) == 0x5C);
 LAYOUT_ASSERT(MovieState_size, sizeof(MovieState) == 0xD0);
 
+// The movie frame-buffer helpers: double-buffered XFB flips driven by VI retrace.
+void flush_cache();
+void flip_frame_buffer();
+void flush_and_reset();
+void calc_frame_buffer_size(saddr fb_a, saddr fb_b);
 void set_pending_movie_frame(u32 frame_addr, s32 width, s32 height);
 void flush_framebuffer(MovieState *movie, MwsfdPly *ply, MovieFrameInfo *frame);
 
 // Planes of one decoded movie frame, filled by the decoder callback that
-// TMovie::flip_frame_buffer() calls (from pack_movie_frame's use:
+// flip_frame_buffer() calls (from pack_movie_frame's use:
 // three 8-bit planes Y, U, V and their pitches in bytes).
 struct MovieFramePlanes {
     u32 *y;

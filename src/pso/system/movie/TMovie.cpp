@@ -69,7 +69,7 @@ s32 MovieState::stop_if_advanced() {
 
 s32 MovieState::check_finished() {
     if (status >= 2) {
-        TMovie::flip_frame_buffer();
+        flip_frame_buffer();
     }
     return 1;
 }
@@ -141,7 +141,7 @@ s32 MovieState::decode_frame() {
     s32 stat;
 
     if (movie_mode != 0) {
-        TMovie::flush_and_reset();
+        flush_and_reset();
     }
     mwPlyGetCurFrm_hook(handle, &current);
     if (current.buffer != 0U) {
@@ -301,7 +301,7 @@ void TMovie::run_task() {
     }
     render_tick();
     render_tick();
-    TMovie::calc_frame_buffer_size((saddr)video_initial_display_framebuffer, (saddr)video_initial_draw_framebuffer);
+    calc_frame_buffer_size((saddr)video_initial_display_framebuffer, (saddr)video_initial_draw_framebuffer);
     txt = NULL;
     if (is_ending_sequence_active() != 0) {
         txt = new TAdEndText(this);
