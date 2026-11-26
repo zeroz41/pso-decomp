@@ -939,6 +939,7 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
 
 const char ask_dictionary_file[10] = "Ask_n.dic";
 
+}
 void load_ask_dictionary() {
     u8 *data;
     s32 size;
@@ -952,7 +953,6 @@ void load_ask_dictionary() {
     safe_free(data);
     aram_dma_setup(aram, size, 3, 1, 0x2710);
     start_askdic();
-}
 }
 
 int TWindowKeyBoardBase::sub_8025EB68() { return (this->state_flags >> 3) & 0x1; }

@@ -28,6 +28,7 @@ char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
 int TWindowMenu::is_decided() { return (this->menu_flags >> 1) & 0x1; }
 
+}
 void format_challenge_stage_times(s32 lobby, s32 challenge_id) {
     char buf2[0x18];
     char buf1[0x10];
@@ -87,7 +88,6 @@ void format_challenge_stage_times(s32 lobby, s32 challenge_id) {
         }
     }
 }
-
 void open_challenge_window(s32 lobby, s32 challenge_id) {
     TWindowMessage *window;
     window = TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1);
@@ -102,6 +102,7 @@ void open_challenge_window(s32 lobby, s32 challenge_id) {
     format_challenge_stage_times(lobby, challenge_id);
     challenge_mode_state.record_window->append_line((saddr)challenge_progress_text_buffer, 0);
 }
+extern "C" {
 
 void TChallenge::open_challenge_progress_window(s32 slot) {
     char tmp[32];

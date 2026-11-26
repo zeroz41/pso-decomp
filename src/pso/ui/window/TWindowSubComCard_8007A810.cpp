@@ -401,8 +401,6 @@ void remove_first_received_card(void) {
 GuildCardEntry *get_received_guild_card_tags(void) {
     return TWindowGetComCard::received_guild_card_tags;
 }
-extern "C" {
-
 void remove_guild_card_entry(s32 index, GuildCardEntry *entries, s32 count) {
     if (index < count - 1) {
         GuildCardEntry *entry = &entries[index];
@@ -410,8 +408,6 @@ void remove_guild_card_entry(s32 index, GuildCardEntry *entries, s32 count) {
     }
     entries += count - 1;
     clear_entry_active_flag(entries);
-}
-
 }
 void clear_received_guild_cards(s32 _w0) {
     destroy_com_card_window();

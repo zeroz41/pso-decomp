@@ -145,6 +145,7 @@ void TWindowMessageLog::set_target_height(f32 height) {
     }
 }
 
+}
 s32 find_free_chat_log_slot() {
     s32 i;
     for (i = 0; i < 30; i++) {
@@ -154,7 +155,6 @@ s32 find_free_chat_log_slot() {
     }
     chat_log_remove_line(0);
     return 29;
-}
 }
 
 void chat_log_remove_line(saddr index) {
