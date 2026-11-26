@@ -21,10 +21,10 @@ void exit_movie_phase(void);
 s8 get_opening_movie_purpose(void);
 void set_opening_movie_purpose(int a0);
 
-typedef struct Entry_802A1020 {
+typedef struct FileIntegrityEntry {
     const char *file;
     u32 size;
     u32 crc;
-} Entry_802A1020;
+} FileIntegrityEntry;
 
 #endif

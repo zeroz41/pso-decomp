@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TUnk_804DCB64.h"
+#include "pso/ui/frontend/TOpeningMovie.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TMainTask.h"
@@ -28,7 +28,7 @@ s8 opening_movie_purpose;
 s32 game_files_modified_flag;
 
 // File size and CRC-32 of the files checked by verify_game_file_integrity (crc 0: size check only).
-Entry_802A1020 file_integrity_table[11] = {
+FileIntegrityEntry file_integrity_table[11] = {
     {"ending_normal.sfd", 0x75C7800, 0},
     {"psogc_j.sfd", 0x35FC7D8, 0},
     {"psogc_j2.sfd", 0x512229E, 0},
@@ -141,20 +141,20 @@ void init_movie_phase(void) {
         break;
     }
     movie_finished_flag = 0;
-    new TUnk_804DCB64;
+    new TOpeningMovie;
     render_tick();
 }
 
-void TUnk_804DCB64::render() {  }
-void TUnk_804DCB64::run_task() {  }
+void TOpeningMovie::render() {  }
+void TOpeningMovie::run_task() {  }
 void set_movie_finished_flag(TMovie *) { movie_finished_flag = 1; }
-TUnk_804DCB64::~TUnk_804DCB64() {
+TOpeningMovie::~TOpeningMovie() {
 
 }
 
 // Plays the opening movie (or, from the lobby keyboard path, the movie of
 // opening_movie_purpose) and raises movie_finished_flag when it ends.
-TUnk_804DCB64::TUnk_804DCB64() : TObject(tl_01) {
+TOpeningMovie::TOpeningMovie() : TObject(tl_01) {
     TLobby::update_menu_cursor();
     if ((TAdSinglePlyChrSelectGC::get_data() == 1) && (TAdSelectGameModeGC::get_mode_data() == 1)) {
         set_movie_finished_flag(NULL);

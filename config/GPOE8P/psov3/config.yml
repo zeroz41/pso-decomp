@@ -2008,7 +2008,7 @@ force_active:
   - __ct__13TQuestManagerFP7TObjectPCc
   - __ct__13TQuestManagerFP7TObjectPCcl
   - __ct__13TQuestManagerFP7TObjectPvl
-  - __ct__13TUnk_804DCB64Fv
+  - __ct__13TOpeningMovieFv
   - __ct__22TBoss8DragonLeaderPartFP7TObjectPv
   - __ct__16TItemToolAddSlotFP7TObjectPUc
   - __ct__19TItemToolRandomItemFP7TObjectPUc
@@ -2485,7 +2485,7 @@ force_active:
   - __dt__12TTecRestaEffFv
   - __dt__15TTecReverserEffFv
   - __dt__18TTecZondeHitEffectFv
-  - __dt__13TUnk_804DCB64Fv
+  - __dt__13TOpeningMovieFv
   - __dt__12TEffIndirectFv
   - __dt__13TBoss7BreakUpFv
   - __dt__24TBoss7DeRolLeCLaserTrailFv
@@ -3256,7 +3256,7 @@ force_active:
   - __vt__12TTecRestaEff
   - __vt__15TTecReverserEff
   - __vt__18TTecZondeHitEffect
-  - __vt__13TUnk_804DCB64
+  - __vt__13TOpeningMovie
   - __vt__12TEffIndirect
   - __vt__13TBoss7BreakUp
   - __vt__24TBoss7DeRolLeCLaserTrail
@@ -14158,7 +14158,7 @@ force_active:
   - render__15TTecGrantsFlashFv
   - render__14TFireExplosionFv
   - render__22TWindowComCardFollowerFv
-  - render__13TUnk_804DCB64Fv
+  - render__13TOpeningMovieFv
   - render__22TBoss8DragonLeaderPartFv
   - render__12TEndingMovieFv
   - render__15TTelepipeMarkerFv
@@ -14857,7 +14857,7 @@ force_active:
   - run_task__15TTecReverserEffFv
   - run_task__18TTecZondeHitEffectFv
   - run_task__22TWindowComCardFollowerFv
-  - run_task__13TUnk_804DCB64Fv
+  - run_task__13TOpeningMovieFv
   - run_task__24TBoss7DeRolLeCLaserTrailFv
   - run_task__22TBoss8DragonLeaderPartFv
   - run_task__12TEndingMovieFv
