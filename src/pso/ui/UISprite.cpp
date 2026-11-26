@@ -336,13 +336,13 @@ const NJS_POINT3 creation_ruler_line_vertices[32] = {
 };
 
 
-struct Desc_80290D1C { const NJS_POINT3 *verts; u32 *colors; int start; int count; };
+struct RulerLineList { const NJS_POINT3 *verts; u32 *colors; int start; int count; };
 
 extern "C" {
 s32 draw_line_list(void *, int, int);
 }
 void draw_creation_ruler_lines(f32 fade) {
-    Desc_80290D1C d;
+    RulerLineList d;
     u32 colors[32];
     u32 c;
     s32 i;

@@ -60,7 +60,6 @@ struct TWindowOptionCtrl : public TObject {
     virtual void run_task();
     static saddr get_chr_select_base_plus_1154c();
     static const NJS_POINT2 *get_option_entry(int a0);
-    s32 add_label_value_line(const char *label, const char *value, u32 flags);
 };
 
 LAYOUT_ASSERT(TWindowOptionCtrl_size, sizeof(TWindowOptionCtrl) == 0x50);

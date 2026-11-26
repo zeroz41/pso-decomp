@@ -46,10 +46,8 @@ const NJS_POINT2 single_chr_select_yes_no_pos = { 91.0f, 160.0f };
 const NJS_POINT2 single_chr_select_menu_pos = { 428.0f, 132.0f };
 const NJS_POINT2 single_chr_select_slot_message_pos = { 428.0f, 132.0f };
 
-struct T_802D4F2C { NJS_POINT2 p[3]; };
-
 const char *TAdSinglePlyChrSelectGC::class_name = "TAdSinglePlyChrSelectGC";
-const T_802D4F2C single_chr_select_position_table = { { { 156.0f, 421.0f }, { 299.0f, 421.0f }, { 432.0f, 421.0f } } };
+const TitleTexPositions single_chr_select_position_table = { { { 156.0f, 421.0f }, { 299.0f, 421.0f }, { 432.0f, 421.0f } } };
 
 void TAdSinglePlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
@@ -451,7 +449,7 @@ void TAdSinglePlyChrSelectGC::run_state_1() {
     }
 }
 
-typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
+typedef void (TAdSinglePlyChrSelectGC::*StateHandler)();
 
 void TAdSinglePlyChrSelectGC::cleanup() {
     this->cursor->reset_entries();
@@ -505,7 +503,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
 
 void TAdSinglePlyChrSelectGC::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();
-    static Act_802D4B6C tbl[13] = {
+    static StateHandler tbl[13] = {
         &TAdSinglePlyChrSelectGC::cleanup,
         &TAdSinglePlyChrSelectGC::run_state_1,
         &TAdSinglePlyChrSelectGC::run_state_2,
@@ -577,8 +575,8 @@ TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(pare
         reinterpret_cast<const NJS_POINT2 *>(single_chr_select_item_rect_table),
         reinterpret_cast<const NJS_POINT2 *>(&single_chr_select_cursor_size));
     TAdTitleTexGC *title_tex = new TAdTitleTexGC(this);
-    T_802D4F2C t = single_chr_select_position_table;
-    fn_802D50B8(title_tex, &t.p[0], &t.p[1], &t.p[2]);
+    TitleTexPositions t = single_chr_select_position_table;
+    set_title_tex_positions(title_tex, &t.p[0], &t.p[1], &t.p[2]);
 }
 #pragma pool_data reset
 
@@ -594,7 +592,7 @@ void TAdChrSelPlayerGC::request_state(s32 value) {
 
 void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
 
-void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third) {
+void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third) {
     copy_vec2__FPvPv(&title->rest_pos[0], first);
     copy_vec2__FPvPv(&title->rest_pos[1], second);
     copy_vec2__FPvPv(&title->rest_pos[2], third);

@@ -252,11 +252,11 @@ void TShopGetItemWindow::rebuild_item_list() {
             if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }
-            help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
+            help_window->set_displayed_item_colored(&displayed_item_colored);
             last_cursor = sel;
         }
     } else if (TCheckRoomSequence::copy_item_record(sel, &displayed_item_colored, x) != 0) {
-        help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
+        help_window->set_displayed_item_colored(&displayed_item_colored);
         last_cursor = sel;
     }
     set_state(1);
@@ -274,7 +274,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
         sel = item_list->get_cursor_value();
         if (help_window != NULL && sel != last_cursor) {
             if (TCheckRoomSequence::copy_item_record(sel, &displayed_item_colored, x) != 0) {
-                help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
+                help_window->set_displayed_item_colored(&displayed_item_colored);
             }
             last_cursor = sel;
         }

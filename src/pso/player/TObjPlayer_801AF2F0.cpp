@@ -453,7 +453,7 @@ void TObjPlayer::sub_801BB950() {
   if (TFontSmallLobby::is_lobby_floor_15() != 0)
   {
     lobby_font = this->lobby_label;
-    if ((lobby_font != 0U) && (reinterpret_cast<TObject *>(lobby_font)->check_value_equals(TFontSmallLobby__name) != 0))
+    if ((lobby_font != 0U) && (reinterpret_cast<TObject *>(lobby_font)->check_value_equals(TFontSmallLobby_class_name) != 0))
     {
       ((TObject *)(this->lobby_label))->queue_destruction();
     }
@@ -805,7 +805,7 @@ void TObjPlayer::draw_head_attachments() {
         }
         TCharaMaking::enable_making();
         f32 alpha = this->render_material_state.get_alpha();
-        TCharaMaking__draw_colored_hair(alpha, (saddr)this->hair_model,
+        draw_colored_hair(alpha, (saddr)this->hair_model,
             (CharacterAppearanceFields *)this->name, special_color);
         TCharaMaking::clear_flag_bit0();
         set_default_alpha_blend();

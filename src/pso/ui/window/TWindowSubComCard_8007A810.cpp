@@ -176,9 +176,6 @@ void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
     }
 }
 
-struct Card_8007AFB8 { u8 body[0x100]; };
-
-
 extern "C" {
 
 #pragma push
@@ -316,26 +313,26 @@ s32 fill_guild_card_from_short_mail(GuildCardEntry *card, s32 id) {
 
 s32 fill_guild_card_from_player(GuildCardEntry *card, u32 client) {
   unsigned char language;
-  saddr player;
-  u8 *player_tag;
-  player = (saddr)get_player_by_client_id(client);
-  if (player == 0)
+  TObjPlayer *player;
+  PlayerGuildCardTag *player_tag;
+  player = get_player_by_client_id(client);
+  if (player == NULL)
   {
     return 0;
   }
   card->flags |= 3;
   strncpy(card->name, (const char *)((TPlyPhotonChair *)(player))->get_name(), 0x17);
   card->name[0x17] = 0;
-  card->char_class = *((u8 *) (((s8 *) player) + 0x88D));
-  card->section_id = ((TObjPlayer *)player)->get_section_id();
-  language = ((TObjPlayer *)player)->get_language();
-  player_tag = (u8 *)(player + 0xDAC);
+  card->char_class = player->class_index;
+  card->section_id = player->get_section_id();
+  language = player->get_language();
+  player_tag = &player->guild_card_tag;
   card->language = language;
   if (player_tag == 0)
   {
     return 0;
   }
-  if (((u32) (*((u32 *) (((s8 *) player_tag) + 4)))) == 0U)
+  if (player_tag->guildcard_number == 0U)
   {
     return 0;
   }

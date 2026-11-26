@@ -349,7 +349,7 @@ void TAdEnterSerialAccessGC::initialize_serial_input(const char *serial) {
     set_raw_serial(serial_to_hex_string(serial));
 }
 
-char *TAdEnterSerialAccessGC__sub_80321874(void) {
+char *format_entered_serial(void) {
     memset(TAdEnterSerialAccessGC_serial_buffer, 0, 0x14);
     u32 lengths[3] = { 2, 4, 4 };
     TAdEnterSerialAccessGC::format_dashed_serial(TAdEnterSerialAccessGC_serial_buffer,
@@ -363,14 +363,14 @@ s32 TAdEnterSerialAccessGC::parse_serial_value() {
     return value;
 }
 
-char *TAdEnterSerialAccessGC__sub_803217B8(void) {
+char *format_entered_access_key(void) {
     memset(access_key_dashed_buffer, 0, 0x18);
     u32 lengths[3] = { 4, 4, 4 };
     TAdEnterSerialAccessGC::format_dashed_serial(access_key_dashed_buffer, TAdEnterSerialAccessGC::access_key_input_buffer, 3, lengths);
     return access_key_dashed_buffer;
 }
 
-char *TAdEnterSerialAccessGC__sub_80321738(void) {
+char *format_saved_serial(void) {
     memset(stored_serial_dashed_buffer, 0, 0x14);
     u32 lengths[3] = { 2, 4, 4 };
     TAdEnterSerialAccessGC::format_dashed_serial(stored_serial_dashed_buffer,

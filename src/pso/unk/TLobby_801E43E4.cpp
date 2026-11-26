@@ -26,9 +26,10 @@
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/network/TPacket.h"
 
 extern "C" {
-s32 append_command_to_batch_buffer(void *, void *);
 s32 distort_texture_wave_image(void *);
 }
 
@@ -107,7 +108,7 @@ void broadcast_subcommand(void *cmd) {
     if (game_protocol_instance != NULL) {
         client = game_protocol_instance->m_down;
         while (client != NULL) {
-            append_command_to_batch_buffer(client, cmd);
+            append_command_to_batch_buffer((TPacket *)client, (u8 *)cmd);
             client = client->m_next;
         }
     }

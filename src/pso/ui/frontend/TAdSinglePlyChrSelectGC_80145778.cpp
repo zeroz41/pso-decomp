@@ -46,15 +46,6 @@ void TAdSinglePlyChrSelectGC::free_resources() {
 #pragma pop
 
 
-typedef struct Rect_80145804 { u8 pad[0x24]; } Rect_80145804;
-
-typedef struct Tex_80145804 { u8 pad[0xC]; } Tex_80145804;
-
-typedef struct Font_80145804 {
-    u32 *bufs[2];
-    Rect_80145804 rects[2];
-    Tex_80145804 names[2];
-} Font_80145804;
 
 extern "C" {
 __declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];

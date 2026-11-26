@@ -1734,8 +1734,6 @@ s32 TAdSinglePlyChrSelectGC::load_player_and_wait() {
 }
 
 
-struct ByteBlock_FC0 { u8 bytes[0xfc0]; };
-
 #pragma inline_depth(1)
 #pragma auto_inline on
 #pragma dont_inline off

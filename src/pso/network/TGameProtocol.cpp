@@ -357,7 +357,7 @@ void TGameProtocol::run_task() {
             n->recv();
         }
         if (n->m_id == frame_slot) {
-            TLobby__sub_801A54E8((u8 *)n);
+            flush_packet_send_buffer(n);
             n->clear_send_buffer();
         }
     }

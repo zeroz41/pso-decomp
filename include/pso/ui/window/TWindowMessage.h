@@ -33,6 +33,8 @@ struct TWindowMessage : public TWindowAddition {
     s32 next_line;
     s32 line_count;
     void complete_reveal();
+    // Adds "label : value" with the colon at the window's centre.
+    s32 add_label_value_line(const char *label, const char *value, u32 flags);
     void update_line_timers();
 };
 

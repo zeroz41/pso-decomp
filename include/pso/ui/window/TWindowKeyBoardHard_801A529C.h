@@ -3,19 +3,14 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_801A54E8(u8 *arg0);
-void alloc_work_buffer(void);
-}
-void set_fresh_card_flag(void *card);
+class TPacket;
 
-// --- C functions defined in TWindowKeyBoardHard_801A529C.cpp ---
 extern "C" {
-void TLobby__sub_801A54E8(u8 *arg0);
+void flush_packet_send_buffer(TPacket *packet);
+void append_command_to_batch_buffer(TPacket *batch, u8 *cmd);
 void alloc_work_buffer(void);
 }
 void set_fresh_card_flag(void *card);
-// --- end of C functions
 
 void free_deferred_packet_buffer();
 

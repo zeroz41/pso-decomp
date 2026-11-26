@@ -163,7 +163,7 @@ void TShopItemListWindow::build_item_list() {
         if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             help_window->set_scale(0.75f, 0.75f);
         }
-        help_window->set_displayed_item_colored((uaddr)shop_items);
+        help_window->set_displayed_item_colored(shop_items);
     }
     if (status_window == NULL) {
         status_window = create_window_quantity((u16)get_player_entity_id());
@@ -203,7 +203,7 @@ void TShopItemListWindow::handle_tool_list_select() {
     if (item_list != NULL) {
         i = item_list->get_cursor_value();
         if (help_window != NULL && i != last_cursor) {
-            help_window->set_displayed_item_colored((uaddr)&shop_items[i]);
+            help_window->set_displayed_item_colored(&shop_items[i]);
         }
         if (status_window != NULL && i != last_cursor) {
             n = player->inventory_objects->count_items_by_id(&shop_items[i]);

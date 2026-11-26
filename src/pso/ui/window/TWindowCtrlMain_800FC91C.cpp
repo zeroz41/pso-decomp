@@ -23,7 +23,7 @@ void text_builder_append(const char *);
 void append_text_space(void);
 void append_padded_number(s32 v, u8 n);
 void text_builder_reset(void);
-const char *TFontSmallLobby__name = "TFontSmallLobby";
+const char *TFontSmallLobby_class_name = "TFontSmallLobby";
 
 // One letter per language (J/E/G/F/S), appended after the player name.
 char *status_text_label_table[5] = { "J", "E", "G", "F", "S" };

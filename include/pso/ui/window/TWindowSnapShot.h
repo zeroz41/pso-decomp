@@ -10,7 +10,7 @@ struct TWindowSnapShot : public TWindowBase {
     virtual ~TWindowSnapShot();
     static const char *class_name;
     virtual void render();
-    u8 m_60;
+    u8 result_flags;  // 0x1 done (is_done)
     void play_open_sound();
     // Set by play_open_sound, when run_task sees button 2 pressed.
     int is_done();

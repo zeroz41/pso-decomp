@@ -127,13 +127,13 @@ struct TWindowHelpItem : public TWindowBase
     u8 _pad61[0x3];
     PageIndicator *page_indicator;
     TItemData *active_item;
-    u32 secondary_item;       // shown when no primary item is set (secondary_id)
-    uaddr primary_item;       // takes precedence; compared with the equipped one
+    TItemData *secondary_item; // shown when no primary item is set (secondary_id)
+    TItemData *primary_item;   // takes precedence; compared with the equipped one
     TItemData item_copy;      // copy of the item secondary_id names
     TItemData displayed_item;
     s32 active_id;  // id of the item on show, -1 for none
-    u32 secondary_id;
-    u32 primary_id;
+    s32 secondary_id;
+    s32 primary_id;
     f32 scale_x;
     f32 scale_y;
     void (TWindowHelpItem::*m_callback)();  // run each frame for the page on show
@@ -160,11 +160,11 @@ struct TWindowHelpItem : public TWindowBase
     void init_help_texts();
     void invoke_callback_pmf();
     void dispatch_item_help();
-    void set_displayed_item_colored(uaddr displayed_item_colored);
+    void set_displayed_item_colored(TItemData *item);
     void set_displayed_item_by_id(saddr id);
     void set_scale(f32 x, f32 y);
-    void set_displayed_item_data(void* a1, void* a2);
-    void set_items_and_refresh(void* a1, void* a2);
+    void set_displayed_item_data(TItemData *item, s32 id);
+    void set_items_and_refresh(TItemData *item, s32 id);
     void update_cursor_selection();
     void set_flag0_bit20();
     void update_visible_flags();

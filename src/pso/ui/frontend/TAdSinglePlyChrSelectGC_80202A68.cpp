@@ -17,47 +17,49 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct B1C_80202DD4 { u32 w[7]; };
+struct BattleRecordBlock { u32 w[7]; };
 
-struct B10_80202DD4 { u32 w[4]; };
+struct CardAccountBlock { u32 w[7]; };
 
-struct B400_80202DD4 { u32 w[0x100]; };
+struct CardUserNameBlock { u32 w[4]; };
 
-struct B90_80202DD4 { u32 w[0x24]; };
+struct CardPaddingBlock { u32 w[0x100]; };
 
-struct B420_80202DD4 { u32 w[0x108]; };
+struct GuildCardBlock { u32 w[0x24]; };
 
-struct BAC_80202DD4 { u32 w[0x2B]; };
+struct SymbolChatBlock { u32 w[0x108]; };
 
-struct B100_80202DD4 { u32 w[0x40]; };
+struct MailTextBlock { u32 w[0x2B]; };
 
-struct B28_80202DD4 { u32 w[0xA]; };
+struct ChallengeBlock { u32 w[0x40]; };
 
-struct BC0_80202DD4 { u32 w[0x30]; };
+struct ListSettingsBlock { u32 w[0xA]; };
 
-struct B21FC_80202DD4 { u32 w[0x87F]; };
+struct Pso3SettingsBlock { u32 w[0x30]; };
+
+struct Pso3TailBlock { u32 w[0x87F]; };
 
 
 
-struct S_80202DD4 {
-    s32 f0, f4, f8, fC, f10, f14;
-    B1C_80202DD4 b18;
-    B10_80202DD4 b34;
-    B400_80202DD4 b44;
-    s32 f444, f448, f44C;
+struct Pso3SaveRecordView {
+    s32 flags, creation_seconds, magic, play_time, card_window_flags, save_count;
+    CardAccountBlock account;
+    CardUserNameBlock user_name;
+    CardPaddingBlock padding;
+    s32 death_count, bank_item_count, bank_meseta;
     BankItemRecord items[4];
-    B90_80202DD4 b4B0;
-    B420_80202DD4 b540;
-    ChatShortcut elems[20];
-    BAC_80202DD4 bFF0;
-    BAC_80202DD4 b109C;
-    B1C_80202DD4 b1148;
-    B100_80202DD4 b1164;
-    B28_80202DD4 b1264;
-    B28_80202DD4 b128C;
-    BC0_80202DD4 b12B4;
-    B1C_80202DD4 b1374;
-    B21FC_80202DD4 b1390;
+    GuildCardBlock guild_card;
+    SymbolChatBlock symbol_chat_presets;
+    ChatShortcut chat_shortcuts[20];
+    MailTextBlock short_mail_text;
+    MailTextBlock info_board_text;
+    BattleRecordBlock online_battle;
+    ChallengeBlock challenge;
+    ListSettingsBlock short_list_order;
+    ListSettingsBlock choice_search;
+    Pso3SettingsBlock settings;
+    BattleRecordBlock split_screen_battle;
+    Pso3TailBlock tail;
 };
 
 #pragma inline_depth(1)
@@ -173,44 +175,44 @@ void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
 #undef src
 
 u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
-    S_80202DD4 *d = (S_80202DD4 *)this;
-    S_80202DD4 *s = (S_80202DD4 *)source;
+    Pso3SaveRecordView *d = (Pso3SaveRecordView *)this;
+    Pso3SaveRecordView *s = (Pso3SaveRecordView *)source;
     ChatShortcut *p;
     ChatShortcut *q;
-    d->f0 = s->f0;
-    d->f4 = s->f4;
-    d->f8 = s->f8;
-    d->fC = s->fC;
-    d->f10 = s->f10;
-    d->f14 = s->f14;
-    d->b18 = s->b18;
-    d->b34 = s->b34;
-    d->b44 = s->b44;
-    d->f444 = s->f444;
-    d->f448 = s->f448;
-    d->f44C = s->f44C;
+    d->flags = s->flags;
+    d->creation_seconds = s->creation_seconds;
+    d->magic = s->magic;
+    d->play_time = s->play_time;
+    d->card_window_flags = s->card_window_flags;
+    d->save_count = s->save_count;
+    d->account = s->account;
+    d->user_name = s->user_name;
+    d->padding = s->padding;
+    d->death_count = s->death_count;
+    d->bank_item_count = s->bank_item_count;
+    d->bank_meseta = s->bank_meseta;
     d->items[0] = s->items[0];
     d->items[1] = s->items[1];
     d->items[2] = s->items[2];
     d->items[3] = s->items[3];
-    d->b4B0 = s->b4B0;
-    d->b540 = s->b540;
-    p = d->elems;
-    q = s->elems;
+    d->guild_card = s->guild_card;
+    d->symbol_chat_presets = s->symbol_chat_presets;
+    p = d->chat_shortcuts;
+    q = s->chat_shortcuts;
     do {
         *p = *q;
         p++;
         q++;
-    } while (p < d->elems + 20);
-    d->bFF0 = s->bFF0;
-    d->b109C = s->b109C;
-    d->b1148 = s->b1148;
-    d->b1164 = s->b1164;
-    d->b1264 = s->b1264;
-    d->b128C = s->b128C;
-    d->b12B4 = s->b12B4;
-    d->b1374 = s->b1374;
-    d->b1390 = s->b1390;
+    } while (p < d->chat_shortcuts + 20);
+    d->short_mail_text = s->short_mail_text;
+    d->info_board_text = s->info_board_text;
+    d->online_battle = s->online_battle;
+    d->challenge = s->challenge;
+    d->short_list_order = s->short_list_order;
+    d->choice_search = s->choice_search;
+    d->settings = s->settings;
+    d->split_screen_battle = s->split_screen_battle;
+    d->tail = s->tail;
     return ((u8 *)this);
 }
 

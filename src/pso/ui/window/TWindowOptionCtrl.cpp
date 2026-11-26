@@ -52,15 +52,15 @@ void set_udp_option__17TWindowOptionCtrlFls(s32 unused, s16 option);
 }
 
 
-int TWindowSoundBalance::is_cancelled() { return m_60 & 0x2; }
+int TWindowSoundBalance::is_cancelled() { return result_flags & 0x2; }
 
 s32 TWindowSoundBalance::get_music_gain() { return music_gain; }
 
 s32 TWindowSoundBalance::get_sound_effect_gain() { return sound_effect_gain; }
 
-int TWindowSoundBalance::is_active() { return this->m_60 & 0x1; }
+int TWindowSoundBalance::is_active() { return this->result_flags & 0x1; }
 
-int TWindowSnapShot::is_done() { return m_60 & 0x1; }
+int TWindowSnapShot::is_done() { return result_flags & 0x1; }
 
 void TWindowMenu::clear_cancelled() { menu_flags &= 0xfffffffb; }
 
@@ -487,30 +487,30 @@ TWindowCheckBox *TWindowOptionCtrl::create_udp_option_menu() {
 }
 
 saddr TWindowOptionCtrl::open_yes_no_window(saddr parent, s32 message_id, s32 index) {
-  saddr window;
-  window = (saddr)TWindowMessageYesNo::create((void *)parent, 6, NULL, NULL);
-  ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, message_id)), get_window_layout_position(index), 470.0f);
-  ((TWindowMessageYesNo *)window)->set_menu_selected_index(1);
-  return window;
+  TWindowMessageYesNo *window;
+  window = TWindowMessageYesNo::create((void *)parent, 6, NULL, NULL);
+  window->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, message_id)), get_window_layout_position(index), 470.0f);
+  window->set_menu_selected_index(1);
+  return (saddr)window;
 }
 
 saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {
-    saddr w;
-    w = (saddr)TWindowMessage::create(pos, (const f32 *)(&serial_info_window_size), 3);
+    TWindowMessage *w;
+    w = TWindowMessage::create(pos, (const f32 *)(&serial_info_window_size), 3);
     switch (kind) {
     case 0:
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_80321874()))), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_803217B8()))), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(get_password_input_buffer()))), (u32)0);
+        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x16), TWindowOptionCtrl::text_or_default(format_entered_serial()), 0);
+        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x17), TWindowOptionCtrl::text_or_default(format_entered_access_key()), 0);
+        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x18), TWindowOptionCtrl::text_or_default((const char *)get_password_input_buffer()), 0);
         break;
     case 1:
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_80321738()))), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC::get_formatted_serial()))), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)((void *)TWindowOptionCtrl::get_chr_select_base_plus_1154c()))), (u32)0);
+        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x16), TWindowOptionCtrl::text_or_default(format_saved_serial()), 0);
+        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x17), TWindowOptionCtrl::text_or_default(TAdEnterSerialAccessGC::get_formatted_serial()), 0);
+        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x18), TWindowOptionCtrl::text_or_default((const char *)TWindowOptionCtrl::get_chr_select_base_plus_1154c()), 0);
         break;
     }
-    ((TWindowMessage *)w)->complete_reveal();
-    return w;
+    w->complete_reveal();
+    return (saddr)w;
 }
 
 const char *TWindowOptionCtrl::text_or_default(const char *text) {

@@ -175,7 +175,7 @@ void TShopArmorListWindow::refresh_item_list() {
         if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             help_window->set_scale(0.75f, 0.75f);
         }
-        help_window->set_displayed_item_colored((uaddr)stock);
+        help_window->set_displayed_item_colored(stock);
     }
     if (cost_window == NULL) {
         cost_window = create_cost_window(player->get_entity_id());
@@ -219,7 +219,7 @@ void TShopArmorListWindow::handle_selection() {
     if (item_list != NULL) {
         i = item_list->get_cursor_value();
         if (help_window != NULL && i != last_cursor) {
-            help_window->set_displayed_item_colored((uaddr)&stock[i]);
+            help_window->set_displayed_item_colored(&stock[i]);
         }
         if (i != last_cursor) {
             update_selection(&stock[i]);

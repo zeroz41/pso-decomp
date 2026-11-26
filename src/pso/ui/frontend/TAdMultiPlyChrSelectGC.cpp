@@ -51,8 +51,6 @@ extern "C" {
 s32 is_plate_animation_running();
 }
 
-struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
-
 static const ChrSelPlateLayout multi_chr_select_plate_layout = {180.0f, 38.0f, {0xDD, 0x90, 0x48, 0x00}, 0};
 static const NJS_POINT2 multi_chr_select_character_slot_positions[4] = {
     {28.0f, 182.0f}, {28.0f, 225.0f}, {28.0f, 268.0f}, {28.0f, 311.0f},
@@ -258,8 +256,8 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     guide->set_line(0, "");
     guide->set_line(1, "");
     TAdTitleTexGC *tex = new TAdTitleTexGC(this);
-    Blk_802DF9B4 blk = {{156.0f, 421.0f}, {299.0f, 421.0f}, {432.0f, 421.0f}};
-    fn_802D50B8(tex, &blk.a, &blk.b, &blk.c);
+    TitleTexPositions positions = {{{156.0f, 421.0f}, {299.0f, 421.0f}, {432.0f, 421.0f}}};
+    set_title_tex_positions(tex, &positions.p[0], &positions.p[1], &positions.p[2]);
     game_start = new TAdGameStartGC(tl_clipout);
     NJS_POINT2 v = {multi_chr_select_plate_layout.width, multi_chr_select_plate_layout.height};
     player_plate = TAdChrSelPlyPlateGC::create_singleton(tl_02, (vec2f *)&v);

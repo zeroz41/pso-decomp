@@ -280,5 +280,5 @@ extern s32 chr_select_save_slot;
 
 class TAdTitleTexGC;
 struct NJS_POINT2;
-extern "C" void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
+extern "C" void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 #endif

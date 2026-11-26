@@ -1,6 +1,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/TSocket.h"
 #include "types.h"
+#include "pso/network/TPacket.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/network/packet_copy.h"
@@ -88,44 +89,31 @@ void alloc_work_buffer(void) {
     memset((void *)deferred_packet_buffer, 0, 0x10000);
 }
 
-struct VBase_801a54e8_801A529C { char pad[0x18]; };
-struct VObj_801a54e8_801A529C : VBase_801a54e8_801A529C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, s32);
-};
-
-struct S_801A5544 { u8 pad[0x8B8]; s32 cnt; u8 buf[0x5B4]; };
-
 extern "C" {
 
-void TLobby__sub_801A54E8(u8 *arg0) {
+// Sends what the packet's send buffer holds, padded to a multiple of 4 bytes
+// (TGameProtocol::run_task clears the buffer afterwards).
+void flush_packet_send_buffer(TPacket *packet) {
     s32 length;
 
-    length = *(s32 *)((s8 *)arg0 + 0x8B8);
+    length = packet->m_send_size;
     if (length > 0) {
         if (length & 3) {
-            *(s32 *)((s8 *)arg0 + 0x8B8) = (length + 3);
-            *(s32 *)((s8 *)arg0 + 0x8B8) = (s32) (*(s32 *)((s8 *)arg0 + 0x8B8) & 0xFFFFFFFC);
+            packet->m_send_size = (length + 3);
+            packet->m_send_size = (s32) (packet->m_send_size & 0xFFFFFFFC);
         }
-        ((VObj_801a54e8_801A529C *) arg0)->m8(arg0 + 0x8BC, *(s32 *)((s8 *)arg0 + 0x8B8));
+        packet->send(packet->m_send_buffer, packet->m_send_size);
     }
 }
-void append_command_to_batch_buffer(S_801A5544 *batch, u8 *cmd) {
+void append_command_to_batch_buffer(TPacket *batch, u8 *cmd) {
     s32 n;
     s32 i;
-    if (batch->cnt + cmd[1] * 4 > 0x5B4) {
+    if (batch->m_send_size + cmd[1] * 4 > 0x5B4) {
         return;
     }
     n = cmd[1] * 4;
     for (i = 0; i < n; i++) {
-        batch->buf[batch->cnt++] = *cmd++;
+        batch->m_send_buffer[batch->m_send_size++] = *cmd++;
     }
 }
 

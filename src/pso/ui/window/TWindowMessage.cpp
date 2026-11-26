@@ -152,24 +152,24 @@ s32 get_shared_text_buffer(void);
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
 
 #pragma readonly_strings on
-s32 TWindowOptionCtrl::add_label_value_line(const char *label, const char *value, u32 flags) {
+s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u32 flags) {
     const char *sep;
     f32 x;
     s32 r;
-    u8 *e;
+    WindowTextEntry *e;
 
     sep = " : ";
     text_builder_reset();
     text_builder_append((u8 *)label);
     text_builder_append((u8 *)sep);
     text_builder_append((u8 *)value);
-    e = (u8 *)((TWindowBase *)this)->get_array_entry(*(s32 *)(((u8 *)this) + 0x88));
-    r = append_message_window_line((TWindowMessage *)this, get_shared_text_buffer(), flags | 2, -1);
+    e = (WindowTextEntry *)get_array_entry(next_line);
+    r = append_message_window_line(this, get_shared_text_buffer(), flags | 2, -1);
     if (r != 0) {
-        x = (0.5f) * (*(f32 *)(((u8 *)this) + 0x38) - 8.0f);
+        x = (0.5f) * (target_size[0] - 8.0f);
         x -= (f32)calc_text_width((char *)label);
         x -= (0.5f) * (f32)calc_text_width((char *)sep);
-        *(f32 *)(e + 8) = x;
+        e->x = x;
     }
     return r;
 }

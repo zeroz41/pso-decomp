@@ -13,6 +13,9 @@ struct TitleTexQuad {
     f32 u0, v0, u1, v1;
 };
 
+// The three positions the plates of the title text stop at.
+struct TitleTexPositions { NJS_POINT2 p[3]; };
+
 class TAdTitleTexGC : public TObject {
 public:
     static const char *name;

@@ -257,7 +257,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             if ((this->help_window != NULL) && (TLobby::is_camera_ctrl_active() > 2)) {
                 this->help_window->set_scale(0.75f, 0.75f);
             }
-            this->help_window->set_displayed_item_colored((uaddr)&judged_item);
+            this->help_window->set_displayed_item_colored(&judged_item);
         }
         send_message(8, 1);
         set_state(4);

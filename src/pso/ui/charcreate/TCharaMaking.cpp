@@ -164,7 +164,8 @@ const s32 player_class_texture_archive_length[19] = {
     16, 17, 14, 14, 14, 14, 14,
 };
 
-struct P_8028DCCC { f32 a; f32 b; };
+// The height of a class at the top and the bottom of the height slider.
+struct CharacterHeightRange { f32 max_height; f32 min_height; };
 
 u8 player_class_texture_buffer_00[0x228];
 u8 player_class_texture_buffer_01[0x384];
@@ -196,7 +197,7 @@ void *player_class_texture_buffer_table[19] = {
 s32 player_class_trait_table[12] = {
     0x25, 0x2A, 0x31, 0x45, 0x51, 0x52, 0x86, 0x89, 0x8A, 0x32, 0x85, 0x46,
 };
-P_8028DCCC character_proportion_height_table[12] = {
+CharacterHeightRange character_proportion_height_table[12] = {
     {15.0f, 20.0f}, {14.0f, 18.0f}, {18.0f, 21.5f}, {16.0f, 20.0f},
     {17.0f, 21.0f}, {14.5f, 19.0f}, {14.5f, 17.5f}, {16.5f, 20.0f},
     {14.0f, 17.5f}, {13.0f, 18.0f}, {14.8f, 20.5f}, {14.2f, 18.3f},
@@ -237,8 +238,8 @@ f32 calc_character_height(CharacterAppearanceFields *appearance) {
     f32 b;
     f32 v = appearance->height;
     s32 k = appearance->classId;
-    a = character_proportion_height_table[k].a;
-    b = character_proportion_height_table[k].b;
+    a = character_proportion_height_table[k].max_height;
+    b = character_proportion_height_table[k].min_height;
     if (v < 0.0f || v > 1.0f) {
         v = 0.0f;
     }
@@ -255,8 +256,8 @@ static const s32 hair_render_flags[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void TCharaMaking__draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
-    struct Color { f32 a, r, g, b; } color;
+void draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
+    NJS_ARGB color;
     s32 flags_masked;
     s32 second;
     s32 first;
@@ -290,7 +291,7 @@ void TCharaMaking__draw_colored_hair(f32 alpha, saddr child, CharacterAppearance
 #pragma pop
 
 void TCharaMaking::setup_from_data(s32 model, CharacterAppearanceFields *appearance) {
-    TCharaMaking__draw_colored_hair(1.0f, model, appearance, 0);
+    draw_colored_hair(1.0f, model, appearance, 0);
 }
 
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id) {

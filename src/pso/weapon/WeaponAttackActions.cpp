@@ -244,8 +244,8 @@ void TItemWeapon::create_weapon_trail_effects() {
     }
 }
 
-u32 pack_weapon_trail_color(void *weapon) {
-    NJS_ARGB w = ((TItemWeapon *)weapon)->get_weapon_color();
+u32 pack_weapon_trail_color(TItemWeapon *weapon) {
+    NJS_ARGB w = weapon->get_weapon_color();
     return (__cvt_fp2unsigned(255.0f * w.a) << 24 | __cvt_fp2unsigned(255.0f * w.r) << 16 | __cvt_fp2unsigned(255.0f * w.g) << 8) | __cvt_fp2unsigned(255.0f * w.b);
 }
 
@@ -272,7 +272,7 @@ void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 ra
     this->restore_action_type();
 }
 
-void TItemWeapon::fire_shot_at_target(Vec *origin, void *model, s32 angle) {
+void TItemWeapon::fire_shot_at_target(Vec *origin, NJS_OBJECT *model, s32 angle) {
     Vec v;
     WeaponEffectDescriptor atk;
     f32 *scale;
@@ -289,7 +289,7 @@ void TItemWeapon::fire_shot_at_target(Vec *origin, void *model, s32 angle) {
         atk.rotation_y = owner->rotation_y + angle;
         atk.range = *scale;
         atk.speed = shot_speed;
-        atk.model = (NJS_OBJECT *)model;
+        atk.model = model;
         atk.texlist = this->texlist;
         init_weapon_effect_descriptor(&atk);
         remap_extra_attack_type();
