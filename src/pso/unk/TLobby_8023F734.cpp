@@ -1,4 +1,6 @@
 #include "pso/system/Adxf.h"
+#include "pso/audio/AdxTalk.h"
+#include "pso/audio/AdxUiBridge.h"
 #include "musyx/musyx.h"
 #include "pso/audio/SoundBankTables.h"
 #include "pso/network/TLobby.h"
@@ -512,11 +514,9 @@ void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
 s32 sndStreamMixParameter(u32, u8, u8, u8, u8);
-s32 adxt_get_stat(s32);
-s32 adx_ui_bridge_get_stream_id(s32, s32);
 }
 
-void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
+void SoundControlState::fn_8023F660(AdxtPlayer *tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
     if (span < 0) {
         span = 0;
     }
@@ -545,7 +545,7 @@ void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 
         span = 0;
     }
     if (adxt_get_stat(tracks) == 3) {
-        sndStreamMixParameter(adx_ui_bridge_get_stream_id(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
+        sndStreamMixParameter(adx_ui_bridge_get_stream_id((AdxUiBridgeTarget *)tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
     }
 }
 

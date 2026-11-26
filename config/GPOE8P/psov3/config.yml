@@ -4679,7 +4679,7 @@ force_active:
   - bswap__16TArrowColorEntryFv
   - bswap_data__10LightEntryFv
   - bswap_6x11__29G_DragonBossActions_6x10_6x11Fv
-  - bswap_enemy_set_row_fields__FPv
+  - bswap_enemy_set_row_fields__FP14EnemyPlacement
   - bswap_enemy_set_rows__6TLobbyFUl
   - bswap_fields_0_4__6TLobbyFv
   - bswap_fields_4_8_12__6TLobbyFv
@@ -4690,7 +4690,7 @@ force_active:
   - bswap__23G_UpdateEntityStat_6x9AFv
   - bswap_header_fields__6TLobbyFi
   - bswap_inventory__6TLobbyFPv
-  - bswap_object_row_fields__FPv
+  - bswap_object_row_fields__FP13ObjectSetData
   - bswap_packet_field__6TLobbyFv
   - bswap__14TPlyDispConfigFv
   - bswap__31G_UpdateAttackableColState_6x91Fv

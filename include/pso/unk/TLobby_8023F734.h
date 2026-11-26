@@ -2,6 +2,7 @@
 #define PSO_UNK_TLOBBY_8023F734_H
 
 struct AdxfHandle;
+struct AdxtPlayer;
 struct Vec;
 
 #include "types.h"
@@ -22,7 +23,7 @@ public:
     ~SoundControlState();
     void set_output_mode(s32 mode);
     // Clamps the mix to 0..0x7F and sets the stream mix; surround only in output mode 2.
-    void fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol);
+    void fn_8023F660(AdxtPlayer *tracks, s32 vol, s32 pan, s32 span, s32 fxvol);
     s32 is_ready();
     s32 get_field_308();
     // Steps the sound random generator (x * 0x10DCD + 1) and returns it.

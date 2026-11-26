@@ -174,8 +174,7 @@ void bswap_enemy_set_row(void *row_ptr) {
     bswap_enemy_set_row_fields(&row->placement);
 }
 
-void bswap_enemy_set_row_fields(void *placement_ptr) {
-    EnemyPlacement *placement = (EnemyPlacement *)placement_ptr;
+void bswap_enemy_set_row_fields(EnemyPlacement *placement) {
     bswap_16((u16 *)&placement->child_count);
     bswap_16((u16 *)&placement->unknown04[0]);
     bswap_16((u16 *)&placement->unknown0c[0]);
@@ -202,8 +201,7 @@ void swap_object_row_endian(void *row_ptr) {
     bswap_object_row_fields(&row->placement);
 }
 
-void bswap_object_row_fields(void *placement_ptr) {
-    ObjectSetData *placement = (ObjectSetData *)placement_ptr;
+void bswap_object_row_fields(ObjectSetData *placement) {
     bswap_16((u16 *)&placement->floor);
     bswap_16((u16 *)&placement->wave);
     bswap_16((u16 *)&placement->room);
@@ -360,8 +358,8 @@ void send_6x05_wave_set_switch(s16 switch_id) {
     }
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
-int link_matching_objects__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::link_matching_objects)(p); }
-int spawn_objects_at_pos__6TLobbyFPv(void *p) { return ((int (*)(void *))spawn_objects_at_pos)(p); }
+int wave_event_link_objects(void *p) { return ((int (*)(void *))TLobby::link_matching_objects)(p); }
+int wave_event_spawn_objects(void *p) { return ((int (*)(void *))spawn_objects_at_pos)(p); }
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
@@ -384,8 +382,8 @@ WaveEventAction wave_event_action_table[16] = {
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)spawn_objects_at_pos__6TLobbyFPv },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)link_matching_objects__6TLobbyFPv },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_spawn_objects },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_link_objects },
     { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_set_switch },
     { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_clear_switch },
     { dispatch_wave_event_action, (WaveEventActionFunc)send_6x67_wave_trigger_event },
