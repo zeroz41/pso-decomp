@@ -1856,7 +1856,7 @@ force_active:
   - is_enabled__12HeadingEntryFv
   - get_difficulty_name__12TGameListRowFSc
   - get_flag_4_bit__12TGameListRowFv
-  - TWindowSubStatusDisp__sub_8036D994
+  - draw_split_screen_sweep__20TWindowSubStatusDispFv
   - window_layout__20TWindowSubStatusDisp
   - draw_face_selection__FP28TWindowSubSymbolChatFaceTypeP17WindowDrawContext
   - window_sub_symbol_chat_help_name
@@ -1865,7 +1865,7 @@ force_active:
   - get_symbol_chat_receive_buffer__Fv
   - draw_second_window_arrow
   - get_technique_description_text__Fl
-  - TWindowSubTradeMessage__name
+  - trade_message_names
   - TWindowTimer__sub_8019886C
   - TWindowTimer__sub_801988E8
   - TWindowTimer__sub_80198CF8

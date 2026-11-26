@@ -33,7 +33,7 @@
 
 const char *TWindowSubTradeMain::class_name = "TWindowSubTradeMain";
 
-// inferred: screen positions of the trade windows, named after the function that opens each one
+// Screen positions of the trade windows, named after the function that opens each one
 // (create_equip_kind_window takes the position, like short_list_window_pos in TWindowShortListCtrl).
 static const NJS_POINT2 trade_window_pos = {326.0f, 84.0f};
 static const NJS_POINT2 trade_equip_window_pos = {326.0f, 84.0f};

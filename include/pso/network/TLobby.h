@@ -258,6 +258,7 @@ struct TLobby : public TObject {
     static void set_info_board_text(char *text);
     static void reset_info_board();
     static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
+    static void load_bg_multi_textures();
     static void release_bg_multi_textures();
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);

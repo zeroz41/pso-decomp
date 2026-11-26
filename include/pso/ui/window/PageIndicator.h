@@ -6,8 +6,8 @@
 
 struct WindowDrawContext;
 
-// Allocated by the status, shortcut and card-list windows. The page-flip
-// controller at 0x8026C9DC and renderer at 0x8026C800 share this layout.
+// Allocated by the status, shortcut and card-list windows. handle_list_page_flip_input
+// and draw_list_page_indicator share this layout.
 struct PageIndicator {
     s8 page;
     s8 count;

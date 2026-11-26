@@ -342,7 +342,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     f32 bottom;
     f32 step;
 
-    // TWindowDD::get_draw_count(hud_texlist), read inline here (0x80348AE8 is the same load chain)
+    // TWindowDD::get_draw_count(hud_texlist), read inline here
     tex = hud_texlist->textures[2].texture->surface->id;
     if (rect->open_tick < 0) {
         return;

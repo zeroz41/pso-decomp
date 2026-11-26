@@ -40,13 +40,6 @@ struct TWindowSoundBalance : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSoundBalance_size, sizeof(TWindowSoundBalance) == 0x68);
 
-extern "C" {
-}
-
-// --- C functions defined in TWindowSoundBalance.cpp ---
-extern "C" {
-}
-// --- end of C functions
 
 // GaugeLayoutRecord, the type 1 record (0x24 bytes) behind entries 2 and 3, which
 // set_music_gain (entry 2) and set_sound_effect_gain (entry 3) drive as gauges (TWindowStatusGauge::target).

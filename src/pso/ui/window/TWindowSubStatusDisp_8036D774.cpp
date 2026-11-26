@@ -2,7 +2,6 @@
 #include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/render/ColorLineList.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/render_util.h"
 
@@ -21,41 +20,39 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
 
-struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
-
 NJS_TEXLIST *bg_multi_textures;
 s32 split_screen_hud_animation_frame;
 
 void TWindowSubStatusDisp::draw_split_screen_dividers() {
-    f32 verts[8];
-    Desc_8036D774 d;
+    ColorLineVertex verts[4];
+    ColorLineList d;
     u32 cols[4];
-    d.pos = verts;
-    d.col = cols;
-    d.a = 0;
-    d.n = 4;
-    d.pos[0] = (1.6e+02f);
-    d.pos[1] = (2.4e+02f);
-    d.col[0] = 0xFF000000;
-    d.pos[2] = (4.8e+02f);
-    d.pos[3] = (2.4e+02f);
-    d.col[1] = 0xFF000000;
-    d.pos[4] = (4.8e+02f);
-    d.pos[5] = (4.8e+02f);
-    d.col[2] = 0xFF000000;
-    d.pos[6] = (1.6e+02f);
-    d.pos[7] = (4.8e+02f);
-    d.col[3] = 0xFF000000;
-    reinterpret_cast<ColorLineList *>(&d)->draw_strip_swap_color(4, 0x16, (-2.0f));
-    d.pos[0] = (0.0f);
-    d.pos[1] = (0.0f);
-    d.pos[2] = (6.4e+02f);
-    d.pos[3] = (0.0f);
-    d.pos[4] = (6.4e+02f);
-    d.pos[5] = (2.4e+02f);
-    d.pos[6] = (0.0f);
-    d.pos[7] = (2.4e+02f);
-    reinterpret_cast<ColorLineList *>(&d)->draw_strip_swap_color(4, 0x16, (-2.0f));
+    d.verts = verts;
+    d.colors = cols;
+    d.tex = NULL;
+    d.count = 4;
+    d.verts[0].x = (1.6e+02f);
+    d.verts[0].y = (2.4e+02f);
+    d.colors[0] = 0xFF000000;
+    d.verts[1].x = (4.8e+02f);
+    d.verts[1].y = (2.4e+02f);
+    d.colors[1] = 0xFF000000;
+    d.verts[2].x = (4.8e+02f);
+    d.verts[2].y = (4.8e+02f);
+    d.colors[2] = 0xFF000000;
+    d.verts[3].x = (1.6e+02f);
+    d.verts[3].y = (4.8e+02f);
+    d.colors[3] = 0xFF000000;
+    d.draw_strip_swap_color(4, 0x16, (-2.0f));
+    d.verts[0].x = (0.0f);
+    d.verts[0].y = (0.0f);
+    d.verts[1].x = (6.4e+02f);
+    d.verts[1].y = (0.0f);
+    d.verts[2].x = (6.4e+02f);
+    d.verts[2].y = (2.4e+02f);
+    d.verts[3].x = (0.0f);
+    d.verts[3].y = (2.4e+02f);
+    d.draw_strip_swap_color(4, 0x16, (-2.0f));
 }
 
 void TWindowSubStatusDisp::draw_tiled_background() {
@@ -91,7 +88,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubStatusDisp__sub_8036D994(void) {
+void TWindowSubStatusDisp::draw_split_screen_sweep() {
     s32 i;
     f32 buf[8];
     if (split_screen_hud_animation_frame <= 0x1E) {
@@ -154,7 +151,7 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         TWindowSubStatusDisp::draw_bottom_bar();
-        TWindowSubStatusDisp__sub_8036D994();
+        TWindowSubStatusDisp::draw_split_screen_sweep();
         TWindowSubStatusDisp::draw_tiled_background();
         TWindowSubStatusDisp::draw_split_screen_dividers();
         TCameraCtrl::restore_saved_view();
@@ -179,7 +176,7 @@ void TLobby::release_bg_multi_textures() {
         bg_multi_textures = NULL;
     }
 }
-void TBGMulti__ct(void) {
+void TLobby::load_bg_multi_textures() {
     GvplPalette palette;
     if (TCameraCtrl::get_camera_id() == 3) {
         palette.data = tmp_buf_use_req("TBGMulti");

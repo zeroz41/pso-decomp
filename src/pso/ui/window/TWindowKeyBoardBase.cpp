@@ -54,7 +54,7 @@ extern "C" {
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
 extern "C" u8 bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
-struct Stack_8025E6DC {
+struct InputTextCursors {
     NJS_POINT2 caret;
     NJS_POINT2 cursor;
 };
@@ -835,7 +835,7 @@ void TWindowKeyBoardBase::layout_wrapped_glyphs(WindowDrawContext *box, NJS_POIN
 #pragma push
 #pragma opt_common_subs off
 void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
-    Stack_8025E6DC stack;
+    InputTextCursors stack;
     s32 composing_cursor;
     s32 text_cursor;
     s32 composing_remaining;

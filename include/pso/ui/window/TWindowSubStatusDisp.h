@@ -79,6 +79,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void fill_card_text_entries(GuildCardRecord *record);
     static void draw_split_screen_dividers();
     static void draw_tiled_background();
+    static void draw_split_screen_sweep();
     static void draw_bottom_bar();
     static void draw_split_screen_hud();
     void set_entry_display_value(s32 str);

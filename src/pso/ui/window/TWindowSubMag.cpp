@@ -347,7 +347,7 @@ extern "C" {
 // dead-stripped: only its literals survive. 2.0f is pooled after create_action_menu's
 // 172.0f and ahead of run_task's literals, but its one live user is_mag_full is generated last (deferred
 // codegen runs this file bottom-up), so a function generated between create_action_menu and create_list
-// used it first. Minimal body after is_mag_full's check; name inferred.
+// used it first. Minimal body after is_mag_full's check.
 static int is_mag_fed_full(TItemMag *mag) {
     return mag->feeds_while_full >= 2.0f;
 }

@@ -18,7 +18,7 @@
 
 
 void set_constant_material_color(u32 x);
-#define CLAMP_8025737C(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
+#define CLAMP_CHANNEL(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
 
 // The four bytes of a colour as copy4 stores them into TWindowStatusGauge::color.
 struct ColorBytes { u8 r, g, b, a; };
@@ -27,39 +27,39 @@ u32 TWindowStatusGaugeFeedback::update_text_color_transition() {
     s32 done = 1;
     if (fade_current.r < fade_target.r) {
         f32 v = fade_current.r + fade_step.r;
-        fade_current.r = CLAMP_8025737C(v, 0.0f, fade_target.r);
+        fade_current.r = CLAMP_CHANNEL(v, 0.0f, fade_target.r);
         if (fade_current.r < fade_target.r) {
             done = 0;
         }
     } else {
         f32 v = fade_current.r + fade_step.r;
-        fade_current.r = CLAMP_8025737C(v, fade_target.r, 255.0f);
+        fade_current.r = CLAMP_CHANNEL(v, fade_target.r, 255.0f);
         if (fade_current.r > fade_target.r) {
             done = 0;
         }
     }
     if (fade_current.g < fade_target.g) {
         f32 v = fade_current.g + fade_step.g;
-        fade_current.g = CLAMP_8025737C(v, 0.0f, fade_target.g);
+        fade_current.g = CLAMP_CHANNEL(v, 0.0f, fade_target.g);
         if (fade_current.g < fade_target.g) {
             done = 0;
         }
     } else {
         f32 v = fade_current.g + fade_step.g;
-        fade_current.g = CLAMP_8025737C(v, fade_target.g, 255.0f);
+        fade_current.g = CLAMP_CHANNEL(v, fade_target.g, 255.0f);
         if (fade_current.g > fade_target.g) {
             done = 0;
         }
     }
     if (fade_current.b < fade_target.b) {
         f32 v = fade_current.b + fade_step.b;
-        fade_current.b = CLAMP_8025737C(v, 0.0f, fade_target.b);
+        fade_current.b = CLAMP_CHANNEL(v, 0.0f, fade_target.b);
         if (fade_current.b < fade_target.b) {
             done = 0;
         }
     } else {
         f32 v = fade_current.b + fade_step.b;
-        fade_current.b = CLAMP_8025737C(v, fade_target.b, 255.0f);
+        fade_current.b = CLAMP_CHANNEL(v, fade_target.b, 255.0f);
         if (fade_current.b > fade_target.b) {
             done = 0;
         }

@@ -68,7 +68,6 @@
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
 #include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
@@ -233,7 +232,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_jungle_key_slots, unload_jungle_key_slots},
     {reset_trade_state_on_scene_load, reset_trade_state_on_scene_unload},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
-    {TBGMulti__ct, TLobby::release_bg_multi_textures},
+    {TLobby::load_bg_multi_textures, TLobby::release_bg_multi_textures},
     {clear_boss6_player_snapshots, NULL},
 };
 

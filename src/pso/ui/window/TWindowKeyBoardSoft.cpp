@@ -47,7 +47,7 @@ WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 5004
 
 
 
-extern u8 *TWindowKeyBoardSoft__language_text_resources;
+extern u8 *soft_keyboard_layouts;
 
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
 
@@ -148,7 +148,7 @@ s32 TWindowKeyBoardSoft::calc_key_index(s32 col, s32 row) {
 #pragma push
 #pragma fp_contract on
 f32 TWindowKeyBoardSoft::get_tab_bar_x() {
-    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
+    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)soft_keyboard_layouts;
     return -((0.5f * (f32) (layout->page_count * layout->tab_width)) - 153.0f);
 }
 #pragma pop
@@ -231,7 +231,7 @@ void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 port) 
 }
 
 void TWindowKeyBoardSoft::handle_key_press(s32 port) {
-    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
+    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)soft_keyboard_layouts;
     static void (TWindowKeyBoardBase::*key_actions[])() = {
         &TWindowKeyBoardBase::key_enter,  &TWindowKeyBoardBase::key_backspace,  &TWindowKeyBoardBase::key_clear,
         &TWindowKeyBoardBase::key_f1,  &TWindowKeyBoardBase::key_f2,  &TWindowKeyBoardBase::key_f3,
@@ -550,7 +550,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
     TexturedQuad q;
     u32 color;
 
-    layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
+    layout = (SoftKeyboardLayout *)soft_keyboard_layouts;
     depth = -1.0f / (0.1196f + ctx->depth);
     cursor = this->get_cursor_key();
     keys = layout->pages[layout_page];
@@ -670,7 +670,7 @@ void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
     u8 *res;
 
     depth = 0.0598f + ctx->depth;
-    res = TWindowKeyBoardSoft__language_text_resources;
+    res = soft_keyboard_layouts;
     d.verts = v;
     d.colors = col;
     d.tex = NULL;
@@ -776,7 +776,7 @@ void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32
 /* Key frames of the character grid and the page tabs, then the tab bar ends. */
 void TWindowKeyBoardSoft::draw_key_frames(WindowDrawContext *ctx) {
     s32 cursor;
-    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
+    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)soft_keyboard_layouts;
     f32 depth = -1.0f / ctx->depth;
     s32 i;
     s32 j;

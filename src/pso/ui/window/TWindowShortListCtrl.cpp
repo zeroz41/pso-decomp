@@ -49,10 +49,10 @@ s32 try_send_6x27_use_item(void *player, s32 key);
 // The class name TObject::m_name points at.
 const char *TWindowShortListCtrl::class_name = "TWindowShortListCtrl";
 
-// Screen position of the list windows (inferred from create_equip_kind_window / set_scroll_target use).
+// Screen position of the list windows (from create_equip_kind_window / set_scroll_target use).
 static const NJS_POINT2 short_list_window_pos = {308.0f, 124.0f};
 
-// First run_task state of each page (inferred from enter_page_first_state and run_task's case labels).
+// First run_task state of each page (from enter_page_first_state and run_task's case labels).
 static const u8 page_first_state[4] = {0, 3, 6, 9};
 
 s16 TWindowMenu::get_selected_index() { return marked_row; }

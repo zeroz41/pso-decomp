@@ -1004,7 +1004,7 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
     return changed;
 }
 
-// inferred: steps each shown mag level one towards the mag's own level; 1 while any still moves.
+// Steps each shown mag level one towards the mag's own level; 1 while any still moves.
 s32 TWindowHelpItem::advance_mag_levels() {
     MagStats mag;
     HelpItemStatCompareRow *level_row;

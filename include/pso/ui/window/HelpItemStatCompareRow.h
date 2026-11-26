@@ -8,7 +8,7 @@
 // A stat line of the help item window: its label, ":", the value and, once a compare value is
 // set, an arrow and the value the item on show would give (case 11 of init_window_layout_entries).
 // Flag 4: value set, 8: compare value set, 0x10: compare enabled, 0x20: draw as a percentage.
-// inferred: help item stat compare row (class name from the window it serves).
+// Help item stat compare row (class name from the window it serves).
 class HelpItemStatCompareRow : public TWindowLayoutEntry {
 public:
     f32 pos[2];

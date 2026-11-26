@@ -70,12 +70,6 @@ u16 short_mail_flags;
 
 
 
-extern "C" {
-
-
-}
-
-
 const char *TWindowCtrl::class_name = "TWindowCtrl";
 /* frame of the open sequence at which each window appears: split screen / single player */
 static const s16 split_open_times[6] = {0, 4, 8, 12, 0, 0};

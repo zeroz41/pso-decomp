@@ -42,7 +42,7 @@ s32 *TLanguage::text_resource;
 char ***text_language_group_table;
 NJS_TEXLIST *localized_alphabet_list;
 language current_language;
-s32 TWindowKeyBoardSoft__language_text_resources;
+s32 soft_keyboard_layouts;
 
 void TLanguage::free_alphabet_textures() {
     if (localized_alphabet_list != NULL) {
@@ -56,7 +56,7 @@ void TLanguage::free_alphabet_textures() {
 
 void TLanguage::free_text_resources() {
     TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(text_resource));
-    TWindowKeyBoardSoft__language_text_resources = 0;
+    soft_keyboard_layouts = 0;
     text_language_group_table = 0;
     text_resource = NULL;
 }
@@ -136,7 +136,7 @@ void TLanguage::load_text_resources(s32 language) {
         text_resource = (s32 *)load_text_resource_pair((saddr)TextEnglish);
         break;
     }
-    TWindowKeyBoardSoft__language_text_resources = text_resource[0];
+    soft_keyboard_layouts = text_resource[0];
     text_language_group_table = (char ***)text_resource[1];
 }
 

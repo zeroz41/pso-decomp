@@ -99,10 +99,9 @@ void TWindowMenuInfomation::create_sub_window(const char *title) {
     }
 }
 }
-// dead-stripped: only its literals survive. 0.0f, 20.0f and 6.0f (.sdata2 0x805DD1D8-0x805DD1E0) open the pool
-// ahead of update_scroll_offset's 9/0.5/16/10 although their live user clamp_scroll follows it in .text: a function
-// compiled before update_scroll_offset built the same scroll clip. Minimal body after clamp_scroll's clip; name
-// inferred.
+// Dead-stripped: only its literals survive. 0.0f, 20.0f and 6.0f open the .sdata2 pool ahead of
+// update_scroll_offset's 9/0.5/16/10 although their live user clamp_scroll follows it in .text, so a function
+// compiled before update_scroll_offset built the same scroll clip. The body follows clamp_scroll's clip.
 static void get_scroll_clip(TWindowMenuInfomation *window, f32 *clip) {
     clip[0] = 0.0f;
     clip[1] = window->frame_size[1] - 20.0f;
@@ -148,21 +147,21 @@ void TWindowMenuInfomation::draw_setting(WindowDrawContext *context) {
     }
 }
 
-void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
+void TWindowMenuInfomation::init_entries(u32 rows) {
     u32 i;
     WindowTextEntry *entry;
-    window->m_name = TWindowMenuInfomation::class_name;
-    window->next_entry = 0;
-    window->index = 0;
-    window->entry_capacity = (s16)rows;
-    window->state_flags = 0;
-    window->heading = NULL;
-    window->scroll_bar = NULL;
+    m_name = TWindowMenuInfomation::class_name;
+    next_entry = 0;
+    index = 0;
+    entry_capacity = (s16)rows;
+    state_flags = 0;
+    heading = NULL;
+    scroll_bar = NULL;
     for (i = 0; i < rows; i++) {
-        entry = static_cast<WindowTextEntry *>(window->get_array_entry(i));
+        entry = static_cast<WindowTextEntry *>(get_array_entry(i));
         entry->y = (f32)(i * 0x14);
     }
-    window->set_depth(39000.0f);
+    set_depth(39000.0f);
 }
 
 #pragma inline_depth(1)
@@ -263,7 +262,7 @@ TWindowMenuInfomation::~TWindowMenuInfomation() {
 }
 TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)
     : TWindowAddition((u8 *)&choice_setting_popup_window_descriptor, 4, (u8 *)parent) {
-    TWindowMenuInfomation__ct(this, (u32)rows);
+    init_entries((u32)rows);
 }
 
 s32 LabelValueRow::get_entry_id() { return id; }

@@ -1484,8 +1484,8 @@ TWindowDDValueList *ws_word_variant_lists;
 TWindowDDValueList *ws_word_form_lists;
 u8 *ws_word_form_index;
 u8 *ws_spanish_prefix_categories;
-// inferred: ws_word_strings and ws_word_string_index are words 0 and 3 of the ws_data archive (id -> string).
-// inferred: the loaded ws_data_<lang>.bin archives ws_data_load keeps per language
+// ws_word_strings and ws_word_string_index are words 0 and 3 of the ws_data archive (id -> string).
+// The loaded ws_data_<lang>.bin archives ws_data_load keeps per language
 void *ws_data_jp;
 void *ws_data_us;
 void *ws_data_es;

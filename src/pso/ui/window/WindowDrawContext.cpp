@@ -10,7 +10,7 @@
 
 WindowDrawContext *shared_window_draw_context;
 // Window offsets per player viewport for two, three and four split-screen views (camera ids 2-4).
-// inferred: _3p/_4p names from the camera-count switch in get_viewport_offset.
+// _3p/_4p names from the camera-count switch in get_viewport_offset.
 extern const NJS_POINT2 window_viewport_offset_table[2] = {
     {0.0f, 40.0f}, {0.0f, 0.0f},
 };

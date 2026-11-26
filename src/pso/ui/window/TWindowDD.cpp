@@ -7,10 +7,9 @@
 #include "pso/system/ControllerInput.h"
 
 // Window layout constants shared by the TWindowDD files (one definition here, extern elsewhere).
-// inferred: names come from the fields, positions and texture coordinates the users give them.
 extern const f32 window_dd_texel_scale = 0.00390625f;
 extern const f32 window_dd_cap_width = 16.0f;
-extern const f32 window_dd_row_height = 20.0f; // inferred: word select rows scroll in steps of it
+extern const f32 window_dd_row_height = 20.0f; // word select rows scroll in steps of it
 extern const f32 scroll_bar_tile_width = 18.0f;
 extern const f32 scroll_bar_tile_height = 16.0f;
 extern const f32 scroll_arrow_up_u = 202.0f;
@@ -22,14 +21,14 @@ extern const f32 word_row_strip_v = 199.0f;
 extern const f32 word_row_strip2_v = 219.0f;
 extern const f32 mode_texel_scale = 0.015625f;
 extern const f32 mode_row_texture_height = 18.0f;
-extern const s32 window_dd_tween_ticks = 6; // inferred: tween_ticks given to every word select window
-extern const f32 window_dd_visible_rows = 6.0f; // inferred: rows of a word page (TWindowDD_WS_Word::create)
-extern const f32 window_dd_frame_margin = 4.0f; // inferred: inset of the text inside a word select frame
+extern const s32 window_dd_tween_ticks = 6; // tween_ticks given to every word select window
+extern const f32 window_dd_visible_rows = 6.0f; // rows of a word page (TWindowDD_WS_Word::create)
+extern const f32 window_dd_frame_margin = 4.0f; // inset of the text inside a word select frame
 extern const f32 window_dd_frame_margin_y = 0.0f;
 extern const f32 word_label_hidden_x = -20.0f;
 extern const f32 word_label_hidden_right_x = 680.0f;
 extern const f32 word_prompt_hidden_y = 480.0f;
-// inferred: word select page window placement and size.
+// Word select page window placement and size.
 extern const f32 word_page_x = 50.0f;
 extern const f32 word_page_y = 310.0f;
 extern const f32 word_page_width = 240.0f;
@@ -74,7 +73,7 @@ extern const f32 wide_mode_window_x = 530.0f;
 extern const f32 wide_next_word_page_x = 594.0f;
 extern const u32 window_dd_color_white = 0xFFFFFFFF;
 extern const u32 window_dd_color_black = 0xFF000000;
-// inferred: sort depth of the word select page window.
+// Sort depth of the word select page window.
 extern const f32 word_page_depth = 50039.0f;
 extern const f32 word_label_depth = 50038.0f;
 extern const f32 scroll_bar_depth = 50040.0f;

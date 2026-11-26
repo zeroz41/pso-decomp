@@ -91,7 +91,7 @@ struct HelpItemDescriptionLayout {
     TextLayoutRecord text;
 };
 
-// inferred: the attribute area names show_weapon_attributes labels the first four rows with
+// The attribute area names show_weapon_attributes labels the first four rows with
 // ("Hit" is the fifth).
 extern const char native_attribute_label[];
 extern const char abeast_attribute_label[];
@@ -173,7 +173,6 @@ struct TWindowHelpItem : public TWindowBase
     void set_flag0_bit20();
     void update_visible_flags();
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
-    static void set_flag_0x10(u16 *flags, s32 on);
     void set_flag8_and_field20(s32 next_value);
     void set_compare_color(s32 count);
     void set_flag4_and_field1c(s32 count);

@@ -469,7 +469,7 @@ void TWindowFukidasi::init_flags(s32 flags) {
 // Dead-stripped from the DOL: no code of it survives, only its literal (1e6,
 // pooled between set_text's 200 and init_flags's 60000). It measures a text entry
 // the way set_text does but without its 200 wrap width, using the
-// 1e6 "no limit" width draw_name_plate clips names with. Name inferred from that role.
+// 1e6 "no limit" width draw_name_plate clips names with.
 void TWindowFukidasi::measure_text_unbounded(WindowTextEntry *entry) {
     reinterpret_cast<WindowTextEntry *>(entry)->measure_text(1000000.0f);
 }
@@ -791,7 +791,7 @@ s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
 
 // Dead-stripped from the DOL: no code of it survives, only its literal (0.0,
 // pooled between rest_balloon's 65536 and project_anchor's 320). It clears
-// the width init_balloon zeroes when it sets the balloon up. Name inferred
+// the width init_balloon zeroes when it sets the balloon up.
 // from that role.
 void TWindowFukidasi::clear_width() {
     frame_size[0] = 0.0f;
@@ -1035,7 +1035,7 @@ void TWindowFukidasi::place_rect_at_head_or_slot() {
 // approach's 0.011 and find_random_free_position's 2^-15. It aims from the
 // middle of the 19-unit name plate draw_name_plate puts on the balloon's top edge at
 // the tail tip draw_tail places 1000/distance short of the speaker, with the
-// same atan2 scale. Name inferred from that role.
+// same atan2 scale.
 s32 TWindowFukidasi::calc_name_plate_angle(f32 *world, f32 *scr, f32 *rect, f32 *size) {
     f32 reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, world);
     f32 dx = (0.5f * size[0] + rect[0]) - scr[0];

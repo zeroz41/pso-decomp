@@ -9,7 +9,7 @@
 #include "pso/ui/window/WindowLayout.h"
 __declspec(section ".rodata") extern const char trade_message_class_name[23] = "TWindowSubTradeMessage";
 __declspec(section ".rodata") extern const f32 trade_message_window_dimensions[2] = {282.0f,120.0f};
-__declspec(section ".sdata") const char* TWindowSubTradeMessage__name[2] = {trade_message_class_name,0};
+__declspec(section ".sdata") const char* trade_message_names[2] = {trade_message_class_name,0};
 
 void TWindowSubTradeMessage::finish() {
     parentWindow->on_submenu_closed();
@@ -57,7 +57,7 @@ TWindowSubTradeMessage::~TWindowSubTradeMessage() {
 }
 
 TWindowSubTradeMessage::TWindowSubTradeMessage(TWindowMainMenu *parent, s32 index) : TObject(parent) {
-    m_name=TWindowSubTradeMessage__name[0];
+    m_name=trade_message_names[0];
     parentWindow=parent;
     playerIndex=index;
     messageWindow=0;

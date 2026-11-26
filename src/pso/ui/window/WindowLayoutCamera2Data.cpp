@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutCamera2Data.h"
 
-// Interim data-only unit: .rodata 0x80477890-0x80477B70 lies between TBoss6MagActions and
+// Interim data-only unit: this .rodata lies between TBoss6MagActions and
 // TObjEneMorfos_80337500, and no code in the units between reads it. Fold it into its real TU once known.
 const NJS_POINT2 window_layout_position_table_camera2[92] = {
     {13.0f, 14.0f}, {13.0f, 75.0f}, {324.0f, 14.0f}, {13.0f, 14.0f},

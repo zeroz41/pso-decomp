@@ -29,7 +29,7 @@
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/HelpItemRarityStarRow.h"
 
-struct Desc_80257D44 {
+struct WindowLayoutEntriesDesc {
     u32 cols;
     u32 rows;
     u32 recs[1];
@@ -79,7 +79,7 @@ void WindowLayoutEntries::destroy_all_items() {
 }
 
 void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout, s32 client) {
-    const Desc_80257D44 *desc = static_cast<const Desc_80257D44 *>(layout);
+    const WindowLayoutEntriesDesc *desc = static_cast<const WindowLayoutEntriesDesc *>(layout);
     u32 cols;
     u32 rows;
     u32 *rec;

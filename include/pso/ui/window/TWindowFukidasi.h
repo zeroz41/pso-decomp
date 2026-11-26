@@ -80,7 +80,7 @@ public:
     s8 slot;             // the balloon slot taken from TWindowCtrl (alloc_nearest_free_slot)
     s16 hide_ticks;      // frames left before the balloon starts to close (counts down in run_task state 4)
     u16 speaker_id;  // Speaker entity ID, or 0xFFFF for no entity.
-    char *name;  // speaker name, drawn by draw_name_plate (inferred)
+    char *name;  // speaker name, drawn by draw_name_plate
     f32 scale;
     f32 tail_scale;
     s32 balloon_color;

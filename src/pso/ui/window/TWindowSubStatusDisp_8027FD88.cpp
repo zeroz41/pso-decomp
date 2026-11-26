@@ -195,7 +195,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 #include "pso/unk/TLobby_8001D6A0.h"
 
 
-// list type of page_indicator per page: the page-flip list kind passed to fn_8026C7AC
+// list type of page_indicator per page: the page-flip list kind
 const u8 status_page_list_kinds[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)

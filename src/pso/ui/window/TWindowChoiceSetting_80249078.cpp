@@ -14,7 +14,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/HeadingEntry.h"
 
-// One TU (.text 0x80249078-0x802495FC): the class-name string 0x8044EAF0 comes before
+// One TU: the class-name string comes before
 // update_scroll_tween's u32->f32 double and run_task's s32->f32 double
 // in .rodata, so the name is defined ahead of the functions.
 #pragma push

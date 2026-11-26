@@ -67,7 +67,7 @@ void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player) {
 
 
 
-// inferred: the trade lists' enable step, the reverse of deactivate.
+// The trade lists' enable step, the reverse of deactivate.
 void TWindowMenuIconLine::activate() {
     if (status_display != NULL) {
         if (is_decided() != 0) {
@@ -80,7 +80,7 @@ void TWindowMenuIconLine::activate() {
     enable_input();
 }
 
-// inferred: what the trade window creators call on a new list.
+// What the trade window creators call on a new list.
 void TWindowMenuIconLine::deactivate() {
     disable_input();
     set_close_flag();
