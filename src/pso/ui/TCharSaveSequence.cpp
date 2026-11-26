@@ -263,7 +263,7 @@ void TCharSaveSequence::handle_load_result() {
                 }
             } else {
                 seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
-                TAdSinglePlyChrSelectGC::encrypt_save_data((void *)TAdSinglePlyChrSelectGC::get_instance());
+                TAdSinglePlyChrSelectGC::encrypt_save_data((CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
                 TAdSinglePlyChrSelectGC::save_character_file(1);
                 state = 4;
             }

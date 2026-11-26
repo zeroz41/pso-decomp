@@ -62,7 +62,7 @@ struct CharacterSaveRecord {
     u8 user_name[0x10];
     u8 pad_44[0x248 - 0x44];
     s32 bank_item_count;    // rows of bank_items in use
-    s32 pad_24C;
+    s32 bank_meseta;        // meseta kept in the bank
     BankItemRecord bank_items[200];
     // Set up by init_guild_card_tag.
     u8 guild_card[0x90];
@@ -74,7 +74,7 @@ struct CharacterSaveRecord {
     BattleRecord online_battle;
     // Challenge mode records; the 6x7C packet carries a copy.
     ChallengeRecord challenge;
-    u8 pad_22C4[0x22EC - 0x22C4];
+    s16 short_list_order[0x14];   // filled by init_default_short_list_order
     // Choice search settings, sent in C2/C3 and with the character data.
     ChoiceSearchSelection choice_search[5];
     u8 pad_2314[0x2354 - 0x2314];

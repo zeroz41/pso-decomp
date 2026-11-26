@@ -185,7 +185,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 copy_character_to_slot(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static void copy_chr_slots_from_request();
     static CharacterFile *copy_save_data(CharacterFile *to, CharacterFile *from);
-    static void encrypt_save_data(void *file);
+    static void encrypt_save_data(CharacterFile *file);
     static void create_instance();
     static s32 encrypt_and_save();
     static s32 encrypt_save_and_write();
@@ -222,16 +222,16 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 write_encrypted_save();
     static void alloc_char_records(CharacterBufferTable *table);
     static s32 check_ready();
-    static s32 check_slot_swap_allowed(void *src_file, int src_slot, void *dst_file, int dst_slot);
+    static s32 check_slot_swap_allowed(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static s32 check_system_load_result();
     static void clear_entry(int i);
     static s32 compare_save_headers(CharacterSaveRecord *record_a, CharacterSaveRecord *record_b, CharacterFile *file_a, CharacterFile *file_b);
-    static void decrypt_char_data(void *file);
+    static void decrypt_char_data(CharacterFile *file);
     static void free_char_data_slots(CharacterBufferTable *table);
     static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
     static s32 is_entry_valid(CharacterFile *self, int i);
-    static s32 is_same_slot_entry(void *src_file, int src_slot, void *dst_file, int dst_slot);
+    static s32 is_same_slot_entry(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static s32 is_slot_active(unsigned int slot);
     static s32 load_character_and_wait();
     static s32 load_player_and_wait();

@@ -37,8 +37,8 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
 int start_system_file_write(s32 chan);
 s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void);
 }
-void set_character_file_seed(u8 *file, s32 value);
-s32 get_character_file_seed(u8 *file);
+void set_character_file_seed(CharacterFile *file, s32 value);
+s32 get_character_file_seed(CharacterFile *file);
 s32 start_character_file_write(void);
 void decrypt_guild_card_payload(GuildCardSaveData *data);
 void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1);

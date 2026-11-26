@@ -23,11 +23,11 @@ struct CharacterFile {
     CharacterFile();
     ~CharacterFile();
 
-    u32 pad_0;
+    u32 checksum;    // CRC32 of the file, written by encrypt_save_data
     CharacterFileSlot slots[7];
     u8 pad_1152C[0x11564 - 0x1152C];
-    u32 pad_11564;
-    u32 pad_11568;
+    u32 save_count;  // raised on every save; the two cards' copies are compared by it
+    s32 cipher_seed; // seeds the cipher over everything before it
 };
 
 LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);
