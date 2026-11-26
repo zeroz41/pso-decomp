@@ -155,7 +155,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
     {TQuestThread::clear_all_floor_handlers, clear_all_floor_handlers_on_free},
     {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
-    {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
+    {clear_short_mail_on_load, clear_short_mail_on_unload},
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)clear_auto_reply_flags},
     {reset_info_board_on_load, reset_info_board_on_unload},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},

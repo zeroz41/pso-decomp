@@ -401,7 +401,6 @@ struct TLobby : public TObject {
     static void append_default_string();
     static void append_color_code(s32 color);
     static s32 parse_color_code(char *s);
-    s32 init_guild_card_tag();
     void destroy_matching_children();
     static void destroy_download_server(TObject *fade);
     void send_compressed_packet_6c();
@@ -413,8 +412,7 @@ struct TLobby : public TObject {
     static ShortMailEntry *find_short_mail_by_id(u32 id);
     static s32 find_free_slot();
     static void remove_entry_at(s32 idx);
-    static void clear_all_entries(void* _w0);
-    s32 is_name_too_long();
+    static void clear_all_entries();
     void*get_com_card_list();
     s32 get_lobby_id();
     static int get_short_mail_ctrl();

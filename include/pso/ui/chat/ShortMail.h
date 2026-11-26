@@ -5,6 +5,8 @@
 
 #include <stddef.h>
 
+class TChatMessage;
+
 struct ShortMailPacketBuffer {
     u8 header[4];
     u8 sender_tag[8];
@@ -29,7 +31,7 @@ struct ShortMailEntry {
     void set_replied();
     void clear_unread();
     int is_active();
-    void fill_from_packet(u8 *packet);
+    void fill_from_packet(TChatMessage &message);
 };
 
 LAYOUT_ASSERT(ShortMailEntrySize, sizeof(ShortMailEntry) == 0xD0);
@@ -40,15 +42,11 @@ LAYOUT_ASSERT(ShortMailEntryFlagsOffset, offsetof(ShortMailEntry, flags) == 0xCC
 ShortMailEntry *get_short_mail_entry(int index);
 void remove_short_mail_by_id(u32 id);
 
-extern "C" {
-void clear_unread_flags(void);
-void store_short_mail(void *p);
-void TLobby__sub_80225C44(void *p);
-void TLobby__sub_80225C64(void *p);
-void set_new_mail_flag(void);
-void receive_short_mail(void *p);
-void *TLobby__sub_8022598C(int a0);
-void TLobby__sub_80225C8C(void *p);
-}
+void clear_unread_flags();
+void store_short_mail(TChatMessage &message);
+void clear_short_mail_on_unload();
+void clear_short_mail_on_load();
+void set_new_mail_flag();
+void receive_short_mail(TChatMessage &message);
 
 #endif

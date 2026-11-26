@@ -686,9 +686,9 @@ force_active:
   - shop_stock_lacks_technique__FP9TItemDatal
   - shop_stock_lacks_tool__FP9TItemDatal
   - get_special_level_bracket__Fl
-  - store_short_mail
+  - store_short_mail__FR12TChatMessage
   - clear_unread__14ShortMailEntryFv
-  - set_new_mail_flag
+  - set_new_mail_flag__Fv
   - get_challenge_award_rank__FlUsl
   - record_challenge_stage_time__FlUsl
   - record_challenge_stage_clear
@@ -5130,7 +5130,7 @@ force_active:
   - clear__14PadRumbleLevelFv
   - clear__15PadRumbleEffectFv
   - clear_active_flag__8TFogCtrlFv
-  - clear_all_entries__6TLobbyFPv
+  - clear_all_entries__6TLobbyFv
   - clear_alt_model_flag__Fv
   - clear_battle_player_ready_flags__Fv
   - clear_bit__16Boss6WaveArcMaskFl

@@ -677,14 +677,6 @@ struct ByteBlock_24 { u8 bytes[0x24]; };
 // The quest event flags of the selected character's record (get/set_eventflag16/32).
 struct QuestEventFlagRecord { u8 pad_0[0x10]; u8 event_flags[0x100]; };
 
-struct SendMailTag {
-    u8 pad0[8];
-    s32 id;
-    char name[0x10];
-    u8 pad1c[4];
-    char text[0x200];
-};
-
 
 
 
@@ -700,7 +692,6 @@ struct VaCallPair { s32 a; s32 b; };
 
 
 s32 copy_player_visual_record(void *, int);
-s32 __ct__16TPlyGuildCardTagFv(s32);
 }
 extern "C" {
 s32 advance_item_id_counter(u16);
@@ -2221,12 +2212,11 @@ void qst_op_get_game_version(s32 reg) {
 }
 
 void qst_op_send_mail(void) {
-    SendMailTag tag;
-    char buf[0x400];
-    TTokenList *fields;
     u8 i = (u32)qst_args[0];
     char *src = *(char **)&qst_args[1];
-    ((TLobby *)((saddr)&tag))->init_guild_card_tag();
+    TChatMessage mail;
+    char buf[0x400];
+    TTokenList *fields;
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, src, 0x3FF);
     trim_whitespace(buf);
@@ -2234,21 +2224,17 @@ void qst_op_send_mail(void) {
     if (fields->count > 2) {
         delete fields;
     } else {
-        tag.id = qst_registers[i];
-        strncpy(tag.name, fields->tokens[0], 0xF);
-        tag.name[0xF] = 0;
-        strncpy(tag.text, fields->tokens[1], 0x1FF);
-        tag.text[0x1FF] = 0;
-        receive_short_mail(&tag);
+        mail.tag.m_guildcard_number = qst_registers[i];
+        strncpy(mail.name, fields->tokens[0], 0xF);
+        mail.name[0xF] = 0;
+        strncpy(mail.text, fields->tokens[1], 0x1FF);
+        mail.text[0x1FF] = 0;
+        receive_short_mail(mail);
         delete fields;
     }
 }
 
-s32 TLobby::init_guild_card_tag() {
-    s32 self_addr = (saddr)this;
-    __ct__16TPlyGuildCardTagFv(self_addr + 4);
-    return self_addr;
-}
+TChatMessage::TChatMessage() {}
 
 void qst_op_get_player_state(s32 slot_reg, saddr dst) {
     TObjPlayer *player;
