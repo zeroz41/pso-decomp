@@ -103,9 +103,9 @@ void set_current_floor_switch(s32 id) {
 
 TSwitch::TSwitch(TObject *parent) : TObject(parent) {
     m_name = switch_name;
-    m_1c = 0;
-    m_20 = 0;
-    m_24 = 0;
+    pad_1c = 0;
+    pad_20 = 0;
+    pad_24 = 0;
 }
 void clear_switch_table(void) {
     memset(TSwitch__floor_switch_table, 0, 0x240);
