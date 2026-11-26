@@ -176,7 +176,7 @@ public:
     virtual void run_death_reaction();
     virtual void reset_pose();
     virtual void get_anim_node_position(s32 node, Vec *out);
-    virtual int vfunc_66();
+    virtual u32 vfunc_66(s32 attach_slot);
     virtual int deliver_attack_hits(f32 damage_scale);
     virtual void get_pos(saddr out);
     virtual void apply_switch_attack();

@@ -1910,7 +1910,7 @@ void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); *(short 
 
 void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
-int TObjChara::vfunc_66() { return 0; }
+u32 TObjChara::vfunc_66(s32) { return 0; }
 
 int TObjChara::deliver_attack_hits(f32) { return 0; }
 
