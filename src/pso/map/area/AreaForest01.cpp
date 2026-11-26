@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 #pragma readonly_strings on
 

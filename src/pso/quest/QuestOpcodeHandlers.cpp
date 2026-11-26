@@ -150,8 +150,7 @@
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80291D94.h"
-#include "pso/unk/text_801F43B4.h"
-#include "pso/unk/text_801F45FC.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 
 
@@ -5133,7 +5132,7 @@ void qst_op_gget(u16 flag, s32 dst) {
 
 void qst_op_glet(u16 flag, s32 reg) {
     if ((s32) qst_registers[(u8)reg] != 0) {
-        set_story_flag_or_send_quest_flag((s32)flag);
+        set_story_flag_or_send_quest_flag(flag);
         return;
     }
     clear_story_flag((flag));
@@ -5152,7 +5151,7 @@ void qst_op_gclear(u16 flag) {
 }
 
 void qst_op_gset(u16 flag) {
-    set_story_flag_or_send_quest_flag((s32)flag);
+    set_story_flag_or_send_quest_flag(flag);
 }
 
 void qst_op_rev(s32 reg) {

@@ -210,8 +210,6 @@ struct TLobby : public TObject {
     void send_6x7D_set_battle_mode_data();
     void update_all_children();
     static void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
-    static void clear_story_flag_list();
-    static void clear_story_flags_and_reset_camera();
     static void backup_story_select();
     static void sync_story_select();
     void copy_table_entries(u32 size);
@@ -369,8 +367,8 @@ struct TLobby : public TObject {
     static void reload_offline_area();
     static void rebuild_area_keep_players();
     static void teardown_scene();
-    static void send_6x75_quest_flag(s32 flag, s16 action, s32 difficulty);
-    static void send_6x75_quest_flag_cur_difficulty(s32 flag, s16 action);
+    static void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
+    static void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
     void byteswap_6x75_packet();
     void pick_random_entry();
     static void pick_weighted_entry(s32 *key, s32 *slot);
@@ -614,7 +612,6 @@ struct TLobby : public TObject {
     static s32 replace_file_extension(char *dest, char *filename, char *suffix);
     static void request_game_list();
     static void reset(int);
-    static void reset_camera_if_fullscreen(void*);
     static void reset_random_enemies_mode(TObject *fade);
     static void reset_state(int msg);
     static void reset_state_flags();

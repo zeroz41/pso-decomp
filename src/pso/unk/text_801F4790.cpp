@@ -1,6 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_801F4790.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/ui/TLevelSelect.h"
 
 void set_story_flag(s32 flag) {

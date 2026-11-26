@@ -95,6 +95,7 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/quest/QuestStoryFlags.h"
 // TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
 f64 atan2_float(f32, f32);

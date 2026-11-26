@@ -43,7 +43,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ruins/TOCapsuleAncient01.h"
 #include "pso/object/base/ActorCollision.h"

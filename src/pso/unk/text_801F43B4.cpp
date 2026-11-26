@@ -3,7 +3,7 @@
 #include <string.h>
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -11,7 +11,7 @@
 
 u8 quest_story_flags_by_difficulty[4][128];
 
-void copy_card_window_data(void) {
+void save_quest_story_flags(void) {
     uaddr character_save_record;
 
     if ((get_main_phase() != 0xF) && (TRaderMapCore::is_not_split_screen() != 1)) {
@@ -25,22 +25,22 @@ void copy_card_window_data(void) {
     }
 }
 
-s32 TLevelSelect::get_difficulty_flag_bit(s32 n, s32 flag) {
+s32 get_story_flag_in_bank(s32 bank, s32 flag) {
     s32 v;
     s32 bit;
     s32 byteIdx;
     s32 shift;
 
     if (flag < 0 || flag > 0x3FF) return -1;
-    if (n < 0 || n >= 4) return -1;
+    if (bank < 0 || bank >= 4) return -1;
     v = flag + 1;
     byteIdx = v / 8;
     bit = v % 8;
     if (bit > 0) {
         shift = 8 - bit;
-        return (quest_story_flags_by_difficulty[n][byteIdx] & (1 << shift)) >> shift;
+        return (quest_story_flags_by_difficulty[bank][byteIdx] & (1 << shift)) >> shift;
     }
-    return quest_story_flags_by_difficulty[n][byteIdx - 1] & 1;
+    return quest_story_flags_by_difficulty[bank][byteIdx - 1] & 1;
 }
 
 s32 get_story_flag(s32 flag) {

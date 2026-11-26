@@ -171,7 +171,6 @@ struct TBoss4FormSetData {
 };
 
 extern TBoss4DarkFalzSetEntry dark_falz_set_entry;
-extern "C" void set_story_flag_or_send_quest_flag(u16 flag);
 // Handler of subcommand 6x19 (TGameProtocol's table).
 void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd);
 

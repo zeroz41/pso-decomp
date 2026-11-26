@@ -1,6 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_801F45FC.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/ui/TLevelSelect.h"
 void clear_story_flag(s32 flag) {
     s32 v;

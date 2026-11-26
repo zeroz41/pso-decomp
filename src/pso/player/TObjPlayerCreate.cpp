@@ -46,6 +46,7 @@
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 
 extern "C" {
@@ -107,12 +108,12 @@ void TObjPlayer__sub_801BEEE0(void *p, void *q);
 
 s32 TObjPlayer::has_active_camera_event() {
     if (TLobby::get_instance() == 0) {
-        if ((TObjPlayer::check_camera_mode() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0xB) == 0)) {
+        if ((TObjPlayer::check_camera_mode() == 0) && (get_story_flag_in_bank(0, 0xB) == 0) && (get_story_flag_in_bank(1, 0xB) == 0) && (get_story_flag_in_bank(2, 0xB) == 0) && (get_story_flag_in_bank(3, 0xB) == 0)) {
             return 0;
         }
         goto block_14;
     }
-    if ((TLobby::get_instance() == 1) && (TObjPlayer::check_camera_mode() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0x5B) == 0)) {
+    if ((TLobby::get_instance() == 1) && (TObjPlayer::check_camera_mode() == 0) && (get_story_flag_in_bank(0, 0x5B) == 0) && (get_story_flag_in_bank(1, 0x5B) == 0) && (get_story_flag_in_bank(2, 0x5B) == 0) && (get_story_flag_in_bank(3, 0x5B) == 0)) {
         return 0;
     }
 block_14:

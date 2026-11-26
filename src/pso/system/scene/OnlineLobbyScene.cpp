@@ -89,7 +89,7 @@
 #include "pso/ui/frontend/TAdDialingGC_801A4C90.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/TLobby_80209524.h"
-#include "pso/unk/TLobby_801F487C.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/text_800FA464.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800F9B84.h"
@@ -130,7 +130,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
     {init_game_player_actions, release_game_player_actions},
     {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
-    {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
+    {clear_story_flag_list_and_reload, clear_story_flag_list},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},

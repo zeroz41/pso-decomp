@@ -93,6 +93,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 extern u16 boss8_dragon_control_client_id;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);

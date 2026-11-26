@@ -81,7 +81,7 @@
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/unk/text_803D8F74.h"
 

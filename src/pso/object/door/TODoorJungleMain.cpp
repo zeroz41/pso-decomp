@@ -61,7 +61,7 @@ struct AnimationMotion;
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_801F4560.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 
 struct Ids_8029B428 {
@@ -192,7 +192,7 @@ void TODoorJungleMain::update_door_switch_state() {
         prev = switch_count;
         switch_count = 0;
         for (i = 0; i < 3; i++) {
-            if (TLevelSelect::get_difficulty_flag_bit(lvl, jungle_key_flag_ids[i]) != 0) {
+            if (get_story_flag_in_bank(lvl, jungle_key_flag_ids[i]) != 0) {
                 switch_count++;
             }
         }

@@ -27,7 +27,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/object/key/TOKeyAncient01.h"
@@ -56,9 +56,6 @@ CollisionBody monument_ancient02_collision_parts[] = {
 };
 const char *monument_ancient02_class_name = "TOMonumentAncient02";
 BmlResource *monument_ancient02_bml_resource;
-// TBoss4DarkFalz.h declares this with a u16 flag, but this caller passes the
-// full word (no clrlwi); 35 callers share that declaration.
-extern "C" s32 set_story_flag_or_send_quest_flag(u32 flag);
 
 // Restores the saved state: 2 (activated) replays its main-phase step. Once
 // all three tablets' flags (0x2C-0x2E) are set, phase 0x2F runs.

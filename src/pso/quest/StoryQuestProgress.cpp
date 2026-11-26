@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/quest/StoryQuestProgress.h"
-#include "pso/unk/text_801F43B4.h"
-#include "pso/unk/text_801F45FC.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 #include <stddef.h>
 #include "pso/network/TLobby.h"
@@ -11,9 +10,6 @@ struct AreAllStoryQuestsCompletePair { s32 a; s32 b; };
 
 extern const s32 episode1_story_quest_flag_pairs[];
 extern const AreAllStoryQuestsCompletePair episode2_story_quest_flag_pairs[];
-extern "C" {
-s32 set_story_flag_or_send_quest_flag(s32);
-}
 LAYOUT_ASSERT(Induction_80219EE8_var_r31_size_check, sizeof(ShouldRecordEpisode1QuestCompletionInduction) == 0x8);
 s32 should_record_episode1_quest_completion(void) {
     s32 all_complete;

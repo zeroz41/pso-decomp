@@ -18,7 +18,7 @@
 #include "pso/render/gjSystem.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
-#include "pso/unk/text_801F498C.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/date.h"
@@ -49,13 +49,11 @@
 #include "pso/network/NetworkConnect.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_802C3AC0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
 #include "pso/unk/text_80076BC4.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_80269C6C.h"
-#include "pso/unk/TLobby_801F487C.h"
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;
@@ -1873,7 +1871,7 @@ s32 TAdSinglePlyChrSelectGC::init(void) {
         }
         TAdSinglePlyChrSelectGC::clear_flags(3);
         TAdSinglePlyChrSelectGC::update_play_time();
-        copy_card_window_data();
+        save_quest_story_flags();
         TAdSinglePlyChrSelectGC::prepare_save_data();
     }
     return 0xFFFF0000;
@@ -2049,7 +2047,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
                 *(s32 *)((u8 *)get_selected_character_slot(card_character_save_buffer) + 0x36C) = 0;
                 break;
             default:
-                copy_card_window_data();
+                save_quest_story_flags();
                 memcpy(get_selected_character_slot(card_character_save_buffer), selected_character_data, 0x41C);
                 memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
                 break;

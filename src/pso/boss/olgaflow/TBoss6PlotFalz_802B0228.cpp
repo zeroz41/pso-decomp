@@ -20,6 +20,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 // The Falz plot script: one {name, enter, idle, update, advance} entry per
 // plot state, run by TBoss6PlotFalz::run_phase_action. Built with deferred

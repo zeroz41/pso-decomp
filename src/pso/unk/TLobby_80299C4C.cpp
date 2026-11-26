@@ -44,6 +44,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 extern "C" {
 s32 load_floor_sound_bank();

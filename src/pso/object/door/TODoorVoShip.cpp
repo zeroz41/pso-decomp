@@ -15,7 +15,7 @@
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
 

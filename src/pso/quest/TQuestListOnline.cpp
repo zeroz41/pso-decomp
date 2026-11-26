@@ -26,7 +26,7 @@
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/quest/TQuestListVM.h"

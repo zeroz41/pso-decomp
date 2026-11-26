@@ -252,6 +252,7 @@ static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/quest/QuestStoryFlags.h"
 extern "C" {
 AttackParams *boss1_dragon_part_hp_stats[5];
 Boss1DragonParams *boss1_dragon_behavior_params[3];

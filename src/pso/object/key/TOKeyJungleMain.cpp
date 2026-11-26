@@ -21,13 +21,9 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 
-extern "C" {
-// TOKeyJungleMain::dispatch_by_phase: the call passes the flag word without the u16 truncation the
-// header's (s32, u16) signature makes the compiler emit; the real parameter type is still open.
-void dispatch_by_phase__15TOKeyJungleMainFlUs(s32 bank, s32 flag);
-}
 
 const char *bm_obj_jungle_mkey_model_names[] = {"fe_obj_start_sw_naka.gj", "fe_obj_start_switch.gj", NULL};
 const char *bm_obj_jungle_mkey_motion_names[] = {"fe_obj_start_sw_naka.njm", "fe_obj_start_switch.njm", NULL};
@@ -113,14 +109,14 @@ void TOKeyJungleMain::render() {
 }
 
 void TOKeyJungleMain::send_switch_on() {
-    dispatch_by_phase__15TOKeyJungleMainFlUs(game_difficulty_selection, jungle_key_flag_ids[switch_id]);
+    set_story_flag_in_bank_or_send_quest_flag(game_difficulty_selection, jungle_key_flag_ids[switch_id]);
 }
 
 void TOKeyJungleMain::update_lock_state() {
     if (mode != KEY_MODE_NONE) {
         s32 was_on = is_on;
 
-        if (TLevelSelect::get_difficulty_flag_bit(game_difficulty_selection, jungle_key_flag_ids[switch_id]) != 0) {
+        if (get_story_flag_in_bank(game_difficulty_selection, jungle_key_flag_ids[switch_id]) != 0) {
             is_on = 1;
         } else {
             is_on = 0;

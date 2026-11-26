@@ -15,7 +15,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_801F3774.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjBase.h"

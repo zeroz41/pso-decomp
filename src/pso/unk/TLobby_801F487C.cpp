@@ -1,34 +1,31 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby_801F487C.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_801F45FC.h"
-#include "pso/network/TLobby.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_801F43B4.h"
 
-extern "C" {
-__declspec(section ".rodata") s32 lobby_story_flag_clear_list[6] = { 151, 152, 153, 154, -1, 0 };
-extern s32 lobby_story_flag_clear_list[6];
+const s32 lobby_story_flag_clear_list[6] = { 151, 152, 153, 154, -1, 0 };
 
-void reset_camera_if_fullscreen__6TLobbyFPv(void* p) { if (TRaderMapCore::is_not_split_screen() == 1) { TCameraCtrl::get_nth_view_player_id((saddr)((void*)0)); ((int (*)(void))load_quest_story_flags)(); } }
+void load_view_player_story_flags(void) {
+    if (TRaderMapCore::is_not_split_screen() == 1) {
+        load_quest_story_flags(TCameraCtrl::get_nth_view_player_id(0));
+    }
 }
 
-void TLobby::clear_story_flag_list() {
+void clear_story_flag_list(void) {
     s32 i;
     for (i = 0; lobby_story_flag_clear_list[i] != -1; i++) {
         clear_story_flag(lobby_story_flag_clear_list[i]);
     }
 }
 
-void TLobby::clear_story_flags_and_reset_camera() {
+void clear_story_flag_list_and_reload(void) {
     s32 i;
     for (i = 0; lobby_story_flag_clear_list[i] != -1; i++) {
         clear_story_flag(lobby_story_flag_clear_list[i]);
     }
-    ((void (*)(void))reset_camera_if_fullscreen__6TLobbyFPv)();
+    load_view_player_story_flags();
 }
 
 void load_quest_story_flags(u16 client) {

@@ -15,7 +15,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static s32 get_difficulty_flag_bit(s32 n, s32 flag);
     int count_unlocked_difficulties();
 
     s32 m_unlocked_count;

@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_801F43B4.h"
+#include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
 

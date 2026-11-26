@@ -99,6 +99,7 @@
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TObjFreezeShell.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -192,7 +193,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
     {apply_multi_sel_rule, reset_multi_sel_rule},
     {prepare_adventure_maps, release_adventure_maps},
-    {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
+    {clear_story_flag_list_and_reload, clear_story_flag_list},
     {start_challenge_mode, NULL},
     {load_tombstone_resources, TLobby::destroy_tombstone},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},

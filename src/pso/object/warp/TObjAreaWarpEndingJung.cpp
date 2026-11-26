@@ -94,6 +94,7 @@
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals

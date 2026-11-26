@@ -147,6 +147,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/boss/barbaray/TBoss7BodyBreakUp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the

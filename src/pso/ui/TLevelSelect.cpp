@@ -22,6 +22,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/quest/QuestStoryFlags.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -36,17 +37,17 @@ int TLevelSelect::count_unlocked_difficulties(void) {
     u8 f;
     int n;
     f = 0;
-    if (TLevelSelect::get_difficulty_flag_bit(0, 0x35) != 0 || TLevelSelect::get_difficulty_flag_bit(0, 0x57) != 0) {
+    if (get_story_flag_in_bank(0, 0x35) != 0 || get_story_flag_in_bank(0, 0x57) != 0) {
         f = 1;
     }
     n = f;
     f = 0;
-    if (TLevelSelect::get_difficulty_flag_bit(1, 0x37) != 0 || TLevelSelect::get_difficulty_flag_bit(1, 0x57) != 0) {
+    if (get_story_flag_in_bank(1, 0x37) != 0 || get_story_flag_in_bank(1, 0x57) != 0) {
         f = 1;
     }
     n += f;
     f = 0;
-    if (TLevelSelect::get_difficulty_flag_bit(2, 0x37) != 0 || TLevelSelect::get_difficulty_flag_bit(2, 0x57) != 0) {
+    if (get_story_flag_in_bank(2, 0x37) != 0 || get_story_flag_in_bank(2, 0x57) != 0) {
         f = 1;
     }
     n += f;
