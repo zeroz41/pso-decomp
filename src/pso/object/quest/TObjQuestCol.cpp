@@ -60,7 +60,7 @@ TQuestThread *TObjQuestColBase::start_quest_thread() {
     return NULL;
 }
 
-void TQuestColCtrl::sub_80196EC0() {
+void TQuestColCtrl::clear_warp_pending() {
     quest_collision_warp_pending = 0;
 }
 
@@ -172,7 +172,7 @@ TObjQuestColA::TObjQuestColA(TObject *parent, void *set_data) : TObjQuestColBase
 
 int TObjQuestColA::is_triggered() {
     TObjPlayer *player;
-    s32 temp_r3_2;
+    s32 trigger;
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
@@ -184,22 +184,20 @@ int TObjQuestColA::is_triggered() {
             player->enable_action_input();
             return 0;
         }
-        temp_r3_2 = update_trigger_state(radius);
-        if (temp_r3_2 == 1) {
+        trigger = update_trigger_state(radius);
+        if (trigger == 1) {
             player->disable_primary_action_input();
         }
-        if (temp_r3_2 == 3) {
+        if (trigger == 3) {
             player->enable_action_input();
         }
-        if (temp_r3_2 == 0) {
+        if (trigger == 0) {
             player->disable_primary_action_input();
             if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
-        goto block_12;
     }
-block_12:
     return 0;
 }
 
@@ -248,7 +246,7 @@ TObjQuestColALock::~TObjQuestColALock() {
 
 int TObjQuestColALock::is_triggered() {
     TObjPlayer *player;
-    s32 temp_r3_2;
+    s32 trigger;
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
@@ -261,22 +259,20 @@ int TObjQuestColALock::is_triggered() {
             return 0;
         }
         submit_cursor_candidate(this, -1);
-        temp_r3_2 = update_trigger_state(radius);
-        if (temp_r3_2 == 1) {
+        trigger = update_trigger_state(radius);
+        if (trigger == 1) {
             player->disable_primary_action_input();
         }
-        if (temp_r3_2 == 3) {
+        if (trigger == 3) {
             player->enable_action_input();
         }
-        if (temp_r3_2 == 0) {
+        if (trigger == 0) {
             player->disable_primary_action_input();
             if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
-        goto block_12;
     }
-block_12:
     return 0;
 }
 
@@ -459,7 +455,7 @@ TQuestColCtrl::~TQuestColCtrl() {
 }
 
 void TQuestColCtrl::run_task() {
-    sub_80196EC0();
+    clear_warp_pending();
     if (quest_collision_task_root != NULL) {
         quest_collision_task_root->run_tasks();
     }
@@ -482,12 +478,13 @@ void TQuestColCtrl::delete_by_param(s32 id) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        if ((((TObjContainerCommon *)cur)->check_value_equals(quest_col_class_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_a_class_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_apc_in_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_apc_inw_name) != 0)
+        TObjContainerCommon *container = (TObjContainerCommon *)cur;
+        if ((container->check_value_equals(quest_col_class_name) != 0
+             || container->check_value_equals(quest_col_a_class_name) != 0
+             || container->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || container->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || container->check_value_equals(quest_col_apc_in_name) != 0
+             || container->check_value_equals(quest_col_apc_inw_name) != 0)
             && cur->m_id == id) {
             cur->queue_destruction();
             return;
@@ -502,12 +499,13 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        if ((((TObjContainerCommon *)cur)->check_value_equals(quest_col_class_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_a_class_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_apc_in_name) != 0
-             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_apc_inw_name) != 0)
+        TObjContainerCommon *container = (TObjContainerCommon *)cur;
+        if ((container->check_value_equals(quest_col_class_name) != 0
+             || container->check_value_equals(quest_col_a_class_name) != 0
+             || container->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || container->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || container->check_value_equals(quest_col_apc_in_name) != 0
+             || container->check_value_equals(quest_col_apc_inw_name) != 0)
             && id == ((TObjBase *)(static_cast<TObjQuestColBase *>(cur)))->get_entity_id()) {
             return static_cast<TObjQuestColBase *>(cur);
         }
@@ -527,14 +525,14 @@ TObjQuestColALock2::TObjQuestColALock2(TObject *parent, void *set_data) : TObjQu
     refresh_collision_body_centers();
     actorFlags |= 0x40000000;
     register_object_by_id();
-    m_c0 = set_params[1];
-    if (m_c0 < 0) {
-        m_c0 = 0;
+    manager_kind = set_params[1];
+    if (manager_kind < 0) {
+        manager_kind = 0;
     }
-    if (m_c0 > 1) {
-        m_c0 = 1;
+    if (manager_kind > 1) {
+        manager_kind = 1;
     }
-    switch (m_c0) {
+    switch (manager_kind) {
     case 0:
         thread_root = quest_mission_manager;
         break;
@@ -554,7 +552,7 @@ TObjQuestColALock2::~TObjQuestColALock2() {
 
 int TObjQuestColALock2::is_triggered() {
     TObjPlayer *player;
-    s32 temp_r3_2;
+    s32 trigger;
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
@@ -567,22 +565,20 @@ int TObjQuestColALock2::is_triggered() {
             return 0;
         }
         submit_cursor_candidate(this, -1);
-        temp_r3_2 = update_trigger_state(radius);
-        if (temp_r3_2 == 1) {
+        trigger = update_trigger_state(radius);
+        if (trigger == 1) {
             player->disable_primary_action_input();
         }
-        if (temp_r3_2 == 3) {
+        if (trigger == 3) {
             player->enable_action_input();
         }
-        if (temp_r3_2 == 0) {
+        if (trigger == 0) {
             player->disable_primary_action_input();
             if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
-        goto block_12;
     }
-block_12:
     return 0;
 }
 
@@ -616,14 +612,14 @@ const char *quest_col2_name = "TObjQuestCol2";
 
 TObjQuestCol2::TObjQuestCol2(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
     m_name = quest_col2_name;
-    m_c0 = set_params[1];
-    if (m_c0 < 0) {
-        m_c0 = 0;
+    manager_kind = set_params[1];
+    if (manager_kind < 0) {
+        manager_kind = 0;
     }
-    if (m_c0 > 1) {
-        m_c0 = 1;
+    if (manager_kind > 1) {
+        manager_kind = 1;
     }
-    switch (m_c0) {
+    switch (manager_kind) {
     case 0:
         thread_root = quest_mission_manager;
         break;

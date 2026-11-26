@@ -638,16 +638,8 @@ void qst_op_arg_pushb(u8 a0) {
     qst_args[qst_arg_count++] = a0;
 }
 
-void qst_op_arg_pushl(int a0)
-{
-  unsigned long new_var3;
-  int new_var;
-  int *new_var2;
-  new_var = qst_arg_count;
-  new_var2 = &a0;
-  new_var3 = *new_var2;
-  qst_arg_count = qst_arg_count + 0x1;
-  qst_args[new_var] = new_var3;
+void qst_op_arg_pushl(int a0) {
+    qst_args[qst_arg_count++] = a0;
 }
 void qst_op_arg_pushr(u8 a0) {
     qst_args[qst_arg_count++] = qst_registers[a0];
@@ -666,8 +658,6 @@ void qst_op_va_call(s32 label) {
   qst_call_stack_push(qst_pc);
   qst_pc = qst_function_table[(u16)label];
 }
-struct WriteCounterWindow { u8 pad[0x2314]; s32 t[16]; };
-
 struct GetSlotMesetaCard {
     u8 pad[0x24C];
     s32 v;
@@ -1065,32 +1055,23 @@ void qst_op_find_bank_item(u8 i, u8 out) {
 void qst_op_write_counter() {
     s32 idx = qst_args[0];
     s32 val = qst_args[1];
-    WriteCounterWindow *w = ((WriteCounterWindow *)get_character_save_record(0xFFFFU));
-    if (w != NULL && idx >= 0 && idx < 0x10) {
-        w->t[idx] = val;
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    if (record != NULL && idx >= 0 && idx < 0x10) {
+        record->quest_counters[idx] = val;
     }
 }
 
 void qst_op_read_counter(void) {
-  long long new_var;
-  s32 counter_index;
-  u32 character_save_record;
-  u8 dest_reg;
-  counter_index = qst_args[0];
-  dest_reg = (u8) qst_args[1];
-  character_save_record = get_character_save_record(0xFFFFU);
-  if (character_save_record != 0U)
-  {
-    if ((counter_index >= 0) && (counter_index < 0x10))
-    {
-      new_var = character_save_record + (counter_index * 4);
-      qst_registers[dest_reg] = *((s32 *) (((s8 *) new_var) + 0x2314));
+    s32 counter_index = qst_args[0];
+    u8 dest_reg = (u8)qst_args[1];
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    if (record != NULL) {
+        if (counter_index >= 0 && counter_index < 0x10) {
+            qst_registers[dest_reg] = record->quest_counters[counter_index];
+        }
+    } else {
+        qst_registers[dest_reg] = -1;
     }
-  }
-  else
-  {
-    qst_registers[dest_reg] = -1;
-  }
 }
 
 void qst_op_get_coord_player_detect(u8 i, u8 out) {

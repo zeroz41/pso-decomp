@@ -60,7 +60,7 @@ struct CharacterSaveRecord {
     u8 pad_22C4[0x22EC - 0x22C4];
     // Choice search settings, sent in C2/C3 and with the character data.
     ChoiceSearchSelection choice_search[5];
-    u8 pad_2314[0x2354 - 0x2314];
+    s32 quest_counters[16];  // the quest counter opcodes (write_counter, read_counter) read and write these
     // Split-screen battles finished in each place (first to fourth), and battles left early.
     u16 battle_place_counts[4];
     u16 battle_disconnect_count;
@@ -70,6 +70,7 @@ struct CharacterSaveRecord {
 LAYOUT_ASSERT(CharacterSaveRecord_online_battle, offsetof(CharacterSaveRecord, online_battle) == 0x21A8);
 LAYOUT_ASSERT(CharacterSaveRecord_challenge, offsetof(CharacterSaveRecord, challenge) == 0x21C4);
 LAYOUT_ASSERT(CharacterSaveRecord_choice_search, offsetof(CharacterSaveRecord, choice_search) == 0x22EC);
+LAYOUT_ASSERT(CharacterSaveRecord_quest_counters, offsetof(CharacterSaveRecord, quest_counters) == 0x2314);
 LAYOUT_ASSERT(CharacterSaveRecord_battle_place_counts, offsetof(CharacterSaveRecord, battle_place_counts) == 0x2354);
 LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);
 
