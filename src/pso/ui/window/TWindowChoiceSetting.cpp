@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/LabelValueRow.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -26,8 +27,6 @@ const char *TWindowMenuInfomation::class_name = "TWindowMenuInfomation";
 static const NJS_POINT2 choice_setting_popup_extent = {425.0f, 188.0f};
 
 extern "C" {
-s32 TWindowSubComCard__sub_8026906C(void);
-
 void TWindowMenuInfomation::request_close() {
     if (!(this->state_flags & 8) && (TWindowMenuInfomation::is_open() == 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -35,8 +34,7 @@ void TWindowMenuInfomation::request_close() {
     }
 }
 void TWindowMenuInfomation::draw() {
-    get_array_entry(this->index);
-    if (TWindowSubComCard__sub_8026906C() == 0) {
+    if (static_cast<LabelValueRow *>(get_array_entry(this->index))->is_flag80_set() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         this->state_flags = (u16) (this->state_flags | 2);
         if (this->heading != 0) {
@@ -274,3 +272,5 @@ TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)
     TWindowMenuInfomation__ct(this, (u32)rows);
 }
 
+s32 LabelValueRow::get_entry_id() { return id; }
+int LabelValueRow::is_flag80_set() { return flags & 0x80; }

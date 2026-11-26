@@ -14,6 +14,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowTextEntry.h"
+void TWindowMeseta::set_value(s32 value) {
+    meseta = value;
+    ((TWindowSubStatusDisp *)get_array_entry(1))->set_all_values((int)meseta);
+}
+
 #pragma readonly_strings on
 
 
