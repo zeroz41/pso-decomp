@@ -635,7 +635,7 @@ force_active:
   - set_battle_param_resistance__FlP15ActorParamBlock
   - get_battle_param_attack__Fll
   - get_battle_param_stats__Fll
-  - parse_two_digit_number__FPv
+  - parse_two_digit_number__FPCc
   - add_resource_handle
   - challenge_rank_for_total__Fl
   - apply_challenge_rank_title__Fv
