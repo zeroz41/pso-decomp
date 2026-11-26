@@ -8,6 +8,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PlayerStats.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallHelp.h"
@@ -41,26 +42,11 @@
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/weapon/TItemWeapon.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-typedef struct Pmt_80254CE4 {
-    u8 pad0[0xE];
-    u16 req_atp;
-    u16 req_mst;
-    u16 req_ata;
-} Pmt_80254CE4;
-
-typedef struct Quest_802549B0 {
-    u8 pad0[2];
-    s16 f2;
-    u8 pad4[8];
-    s16 fc;
-} Quest_802549B0;
-
-typedef struct MagData_80253564 { u8 b[16]; } MagData_80253564;
 
 extern "C" {
 void fn_80255A38(TWindowHelpItem *item);
@@ -562,7 +548,7 @@ void TWindowHelpItem::update_requirements() {
     PlayerRequirementStats st;
     TObjPlayer *pl;
     TWindowLayoutNumber *entry;
-    Pmt_80254CE4 *pmt;
+    WeaponParams *pmt;
     st.clear_fields();
     pl = get_player_by_client_id(client_index);
     if (pl == NULL) {
@@ -570,19 +556,19 @@ void TWindowHelpItem::update_requirements() {
     }
     update_stat_comparison();
     entry = (TWindowLayoutNumber *)get_array_entry(10);
-    pmt = (Pmt_80254CE4 *)lookup_item_pmt_record((u8 *)active_item);
+    pmt = (WeaponParams *)lookup_item_pmt_record((u8 *)active_item);
     if (check_equip_requirements(pl, active_item, &flags) == 0 && (flags & 1)) {
         return;
     }
-    if (pmt->req_atp != 0) {
+    if (pmt->atp_required != 0) {
         if (build_player_equipment_requirement_stats(pl, &st) != 0) {
             entry->value = st.atp;
         }
-    } else if (pmt->req_mst != 0) {
+    } else if (pmt->mst_required != 0) {
         if (build_player_equipment_requirement_stats(pl, &st) != 0) {
             entry->value = st.mst;
         }
-    } else if (pmt->req_ata != 0) {
+    } else if (pmt->ata_required != 0) {
         if (build_player_equipment_requirement_stats(pl, &st) != 0) {
             entry->value = st.ata;
         }
@@ -623,14 +609,14 @@ void TWindowHelpItem::update_stat_comparison() {
     HelpItemStatCompareRow *e4;
     HelpItemStatCompareRow *e2;
     HelpItemStatCompareRow *e5;
-    Quest_802549B0 *q;
+    player_stats *q;
     TObjPlayer *pl;
     st.clear_fields();
     pl = get_player_by_client_id(client_index);
     if (pl == NULL) {
         return;
     }
-    q = (Quest_802549B0 *)pl->get_stats();
+    q = pl->get_stats();
     if (q == NULL) {
         return;
     }
@@ -644,8 +630,8 @@ void TWindowHelpItem::update_stat_comparison() {
     e3->set_value(pl->get_ata());
     e1->set_value(pl->get_dfp());
     e4->set_value(pl->get_evp());
-    e2->set_value(q->f2);
-    e5->set_value(q->fc);
+    e2->set_value(q->stats.mst);
+    e5->set_value(q->stats.lck);
     if (primary_item == 0) {
         return;
     }
@@ -1110,10 +1096,10 @@ void TWindowHelpItem::refresh_copied_items() {
 }
 
 void TWindowHelpItem::show_mag_photon_blasts() {
-    MagData_80253564 mag;
+    MagStats mag;
     s32 slot;
     s32 blast;
-    ((MagStats *)(&mag))->init();
+    mag.init();
     init_window_layout_entries(
         &entry_list,
         &help_item_sprites_layout,
@@ -1121,7 +1107,7 @@ void TWindowHelpItem::show_mag_photon_blasts() {
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, &mag);
     for (slot = 0; slot < 3; slot++) {
-        blast = ((MagStats *)(&mag))->get_photon_blast(slot);
+        blast = mag.get_photon_blast(slot);
         if (blast != -1) {
             draw_action_palette_icon((WindowSpritePart *)get_array_entry(slot + 1), 5, blast);
         } else {

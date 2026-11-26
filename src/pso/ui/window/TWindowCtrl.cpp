@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/protocol/choice_search.h"
@@ -63,9 +64,6 @@ u16 short_mail_flags;
 
 
 
-struct Obj_8024AA08 { u8 pad[4]; u32 f4; };
-
-struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 
 
@@ -941,18 +939,17 @@ void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
 
 
 
-void TWindowCtrl::handle_chat_message(char *message) {
-    Obj_8024AA08 *arg0 = (Obj_8024AA08 *)this;
+void TWindowCtrl::handle_chat_message(TPlyGuildCardTag &tag, char *message) {
     s32 i;
     u32 key;
     char *v;
-    Ply_8024AA08 *p;
+    TObjPlayer *p;
     if (instance != NULL) {
         v = TWindowCtrl::skip_name_prefix(instance, message);
-        key = arg0->f4;
+        key = tag.m_guildcard_number;
         for (i = 0; i < 12; i++) {
-            p = (Ply_8024AA08 *)get_player_by_client_id(i);
-            if (p != NULL && p->f == key) {
+            p = get_player_by_client_id(i);
+            if (p != NULL && p->guild_card_tag.guildcard_number == key) {
                 break;
             }
         }

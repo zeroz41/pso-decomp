@@ -185,7 +185,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
-void handle_chat_message__11TWindowCtrlFPc(char *);
 void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
 }
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
@@ -2326,7 +2325,7 @@ void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, 
             }
         }
     }
-    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = (recv_packet_handler_handle_06_recv_chat)handle_chat_message__11TWindowCtrlFPc;
+    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = TWindowCtrl::handle_chat_message;
     if (lobby_player_construction_window != NULL) {
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;

@@ -18,6 +18,7 @@ struct TWindowBreakIn;
 class TWindowChat;
 struct TWindowCtrlPlayer;
 struct TObjPlayer;
+class TPlyGuildCardTag;
 struct TWindowBreakIn;
 
 class TWindowFukidasi;
@@ -76,7 +77,8 @@ struct TWindowCtrl : public TObject {
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
-    void handle_chat_message(char *message);
+    // The handle_06_recv_chat handler construct_lobby_players installs: opens the speaker's balloon.
+    static void handle_chat_message(TPlyGuildCardTag &tag, char *message);
     static void suppress_all_slots();
     static void unsuppress_all_slots();
     static void suppress_slot(s32 client);

@@ -50,8 +50,6 @@
 
 #pragma readonly_strings on
 
-struct Item_8027B424 { u8 b[0x10]; };
-
 extern u8 *text_language_group_table;
 
 const char *TWindowSubMag::class_name = "TWindowSubMag";
@@ -395,15 +393,15 @@ void *TWindowSubMag::create() {
 #pragma push
 #pragma fp_contract on
 void *TWindowSubMag::create_learned_blast_toast() {
-    Item_8027B424 item;
+    MagStats item;
     NJS_POINT2 pos;
     NJS_POINT2 size;
     f32 scale;
     s32 n;
     void *win;
-    ((MagStats *)((s32 *)&item))->init();
-    TItemData::deserialize_mag(mag, (void *)((s32 *)&item));
-    n = ((MagStats *)((s32 *)&item))->get_photon_blast(this->slots);
+    item.init();
+    TItemData::deserialize_mag(mag, &item);
+    n = item.get_photon_blast(this->slots);
     if (n == -1) {
         return 0;
     }

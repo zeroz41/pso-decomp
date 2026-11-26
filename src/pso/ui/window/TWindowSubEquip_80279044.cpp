@@ -5,8 +5,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
-
-struct Item_80279098 { u8 pad[0x34]; u32 flags; };
+#include "pso/ui/charcreate/CharacterAppearance.h"
 
 
 void TWindowMenuIconLine::disable_decide_sound() {
@@ -20,11 +19,11 @@ void TWindowMenuIconLine::refresh_equipment_list() {
     clamp_selection_to_valid_entry();
 }
 
-u8 get_class_weapon_icon_index(void *self, u8 *p) {
-    Item_80279098 *it = (Item_80279098 *)(p + 0x85c);
-    if (it == 0) return 0x33;
-    if (it->flags & 0x20) return 0;
-    if (it->flags & 0x40) return 1;
+u8 TWindowMenuIconLine::get_class_weapon_icon_index(TObjPlayer *player) {
+    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+    if (appearance == NULL) return 0x33;
+    if (appearance->classFlags & 0x20) return 0;
+    if (appearance->classFlags & 0x40) return 1;
     return 2;
 }
 
@@ -55,7 +54,7 @@ void TWindowMenuIconLine::build_equipment_list() {
 
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        weapon_icon = get_class_weapon_icon_index(this, (u8 *)player);
+        weapon_icon = get_class_weapon_icon_index(player);
         item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, 6);
         add_status_line(weapon_icon, item, 6);
         item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, 2);

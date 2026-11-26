@@ -46,7 +46,6 @@
 
 extern "C" {
 f32 xyz_distance(void *, void *);
-struct Entry_80250380 { u8 pad[0x10]; f32 w; f32 h; };
 
 }
 
@@ -1069,12 +1068,12 @@ s32 TWindowFukidasi::approach(f32 target) {
 void TWindowFukidasi::sync_display_pos() { this->content_scale[0] = this->tail_scale; this->content_scale[1] = this->tail_scale; }
 
 void TWindowFukidasi::calc_text_size(f32 *out) {
-    Entry_80250380 *e;
+    WindowTextEntry *e;
     switch (content_kind) {
     case 0:
-        e = (Entry_80250380 *)get_array_entry(0);
-        out[0] = 0.1f + (8.0f + e->w);
-        out[1] = 0.1f + (20.0f + e->h);
+        e = (WindowTextEntry *)get_array_entry(0);
+        out[0] = 0.1f + (8.0f + e->width);
+        out[1] = 0.1f + (20.0f + e->height);
         break;
     case 1:
         get_symbol_chat_frame_size((saddr)&entry_list, out);

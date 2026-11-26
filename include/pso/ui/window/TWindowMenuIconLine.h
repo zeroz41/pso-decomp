@@ -12,6 +12,7 @@ struct WindowScrollBar;
 struct WindowDrawContext;
 struct NJS_POINT2;
 struct TWindowSubStatusDisp;
+struct TObjPlayer;
 
 class TWindowMenuIconLine : public TWindowAddition {
 public:
@@ -102,6 +103,8 @@ public:
     // slot, the armor's unit slots indented.
     void refresh_equipment_list();
     void build_equipment_list();
+    // The weapon icon for the player's class flags: 0 (0x20), 1 (0x40), else 2; 0x33 without a player.
+    u8 get_class_weapon_icon_index(TObjPlayer *player);
     void add_status_line(u8 category_icon, TItem *item, s32 slot);
     // Draws "current_items/capacity" on a tab above the list.
     void draw_item_list_capacity(WindowDrawContext *context, s32 current_items, s32 capacity);

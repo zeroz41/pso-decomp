@@ -179,11 +179,6 @@ void *TWindowSubStatusDisp::window_layout[5] = {
     (void *)0x3,
 };
 
-typedef struct Entry_80280B1C {
-    u8 pad0[0x1C];
-    s32 color;
-    s32 value;
-} Entry_80280B1C;
 extern "C" {
 s32 is_battle_mode_running();
 }
@@ -387,34 +382,34 @@ void TWindowSubStatusDisp::vt1() {
 void TWindowSubStatusDisp::vt12() {
     PlayerRequirementStats cur;
     PlayerRequirementStats req;
-    Entry_80280B1C *e2;
+    TWindowLayoutNumber *e2;
     TObjPlayer *pl;
-    Entry_80280B1C *e;
+    TWindowLayoutNumber *e;
     player_stats *q;
     cur.clear_fields();
     req.clear_fields();
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        e2 = (Entry_80280B1C *)(void *)get_array_entry(2);
+        e2 = (TWindowLayoutNumber *)get_array_entry(2);
         e2->value = pl->get_atp_range() + (pl->get_atp() + pl->get_actor_attack_params_atp_min());
-        e = (Entry_80280B1C *)(void *)get_array_entry(8);
+        e = (TWindowLayoutNumber *)get_array_entry(8);
         e->value = pl->get_dfp();
-        e = (Entry_80280B1C *)(void *)get_array_entry(0x14);
+        e = (TWindowLayoutNumber *)get_array_entry(0x14);
         e->value = pl->get_ata();
-        e = (Entry_80280B1C *)(void *)get_array_entry(0x1A);
+        e = (TWindowLayoutNumber *)get_array_entry(0x1A);
         e->value = pl->get_evp();
         q = pl->get_stats();
         if (q != NULL) {
-            e = (Entry_80280B1C *)(void *)get_array_entry(0xE);
+            e = (TWindowLayoutNumber *)get_array_entry(0xE);
             e->value = q->stats.mst;
-            e = (Entry_80280B1C *)(void *)get_array_entry(0x20);
+            e = (TWindowLayoutNumber *)get_array_entry(0x20);
             e->value = q->stats.lck;
         }
     }
     if (build_player_equipment_requirement_stats(pl, &cur) != 0) {
         build_player_class_stat_template(pl, &req);
 #define ROW(idx, k) \
-        e = (Entry_80280B1C *)(void *)get_array_entry(idx); \
+        e = (TWindowLayoutNumber *)get_array_entry(idx); \
         e->value = cur.k; \
         if (req.k <= cur.k) { e->color = -0x100; } else { e->color = -1; }
         ROW(4, atp)

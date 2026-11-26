@@ -49,10 +49,6 @@
 
 #pragma dont_inline off
 
-struct ItemData_80279754 {
-    u8 b[0x14];
-};
-
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id);
 
 extern "C" {
@@ -659,11 +655,11 @@ void TWindowSubItem::use_selected_item() {
 
 #pragma pop
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
-    ItemData_80279754 d;
-    saddr pl;
+    TItemData d;
+    TObjPlayer *pl;
     uaddr armor;
-    pl = (saddr)get_player_by_client_id(window_sub_item->client_id);
-    if (pl == 0) {
+    pl = get_player_by_client_id(window_sub_item->client_id);
+    if (pl == NULL) {
         return 0;
     }
     if (item->get_item_type() != 1) {
@@ -672,12 +668,12 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     if (item->get_item_group() != 3) {
         return 1;
     }
-    armor = TObjPlayer::get_slot_value((void *)(pl + 0xD04), 2);
+    armor = TObjPlayer::get_slot_value(pl->equipped_items.items, 2);
     if (armor == 0) {
         return 0;
     }
-    ((TItem *)armor)->copy_to_item_data((TItemData *)&d);
-    return d.b[5] != 0 ? 1 : 0;
+    ((TItem *)armor)->copy_to_item_data(&d);
+    return d.data1.data_u8[5] != 0 ? 1 : 0;
 }
 
 void TWindowSubItem::set_displayed_item(s32 id) {

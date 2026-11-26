@@ -33,20 +33,14 @@ WindowDescriptor window_timer_layout = {
 
 const char *TWindowTimer::class_name = "TWindowTimer";
 
-/* Window entry view: the text entry the timer centres (x at +8). */
-struct TimerEntry {
-    u8 pad_0[8];
-    f32 x;
-};
-
 #pragma push
 #pragma fp_contract on
 void init_timer_window_layout(TWindowTimer *self) {
     f32 width;
-    TimerEntry *entry;
+    WindowTextEntry *entry;
     self->flags |= 1;
     width = (f32)calc_text_width("000:000");
-    entry = (TimerEntry *)self->get_array_entry(0);
+    entry = (WindowTextEntry *)self->get_array_entry(0);
     entry->x = 48.0f - 0.5f * width;
 }
 #pragma pop
@@ -55,10 +49,10 @@ void init_timer_window_layout(TWindowTimer *self) {
 #pragma fp_contract on
 void init_timer_window_layout_alt(TWindowTimer *self) {
     f32 width;
-    TimerEntry *entry;
+    WindowTextEntry *entry;
     self->flags &= ~1;
     width = (f32)calc_text_width("0'00\"00");
-    entry = (TimerEntry *)self->get_array_entry(0);
+    entry = (WindowTextEntry *)self->get_array_entry(0);
     entry->x = 48.0f - 0.5f * width;
 }
 #pragma pop

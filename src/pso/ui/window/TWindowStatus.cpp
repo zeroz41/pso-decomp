@@ -69,9 +69,9 @@ void TWindowStatus::update_hp_tp_values() {
         maximum->value = player->get_hpmax();
         current->value = player->hp;
         color = update_hp_entry();
-        current->style = color;
+        current->color = color;
         label->color = color;
-        maximum->style = color;
+        maximum->color = color;
         slash->color = color;
         maximum->calc_size();
         current->calc_size();
@@ -84,9 +84,9 @@ void TWindowStatus::update_hp_tp_values() {
         maximum->value = player->get_tpmax();
         current->value = player->tp;
         color = update_hp_gauge();
-        current->style = color;
+        current->color = color;
         label->color = color;
-        maximum->style = color;
+        maximum->color = color;
         slash->color = color;
         maximum->calc_size();
         current->calc_size();

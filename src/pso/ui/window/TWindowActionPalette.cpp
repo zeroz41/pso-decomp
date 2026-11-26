@@ -441,7 +441,7 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
         return;
     }
     reinterpret_cast<TWindowSubStatusDisp *>(label)->clear_visible_flag();
-    label->style = icon->color;
+    label->color = icon->color;
     label->value = v;
     label->calc_size();
     label->x = (icon->x - -25.0f) + 0.5f * label->width;

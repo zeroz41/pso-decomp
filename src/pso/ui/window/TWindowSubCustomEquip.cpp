@@ -304,7 +304,7 @@ void TWindowSubCustomEquip::layout_entry_group(void *index) {
     e1->y = base->y + custom_equip_entry_offset_table[i].y;
     e1->depth = 0.1f + base->depth;
     e2->depth = 0.2f + base->depth;
-    e2->style = base->color;
+    e2->color = base->color;
     v = 0.003921569f * (((unsigned char) (((u32)base->color) & 0xFF)) * (((u32)e1->color) & 0xFF));
     e1->color = (v & 0xFF) | ((((v & 0xFF) << 16) | 0xFF000000) | ((v & 0xFF) << 8));
   }

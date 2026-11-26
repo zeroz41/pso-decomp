@@ -77,7 +77,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
     case 1:
       begin_screen_draw(1);
       TWindowSubStatusDisp::render_forward();
-      set_draw_texture_and_color(0, this->style);
+      set_draw_texture_and_color(0, this->color);
       break;
   }
   do
@@ -92,7 +92,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
       if (1)
       {
         case 0:
-          r = TWindowSubStatusDisp::calc_gauge_scale(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->style);
+          r = TWindowSubStatusDisp::calc_gauge_scale(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->color);
           pos.y0 = y;
           x -= r;
           pos.x0 = x;
@@ -133,6 +133,6 @@ TWindowLayoutNumber::TWindowLayoutNumber(u8 *rec, s32 m_2) : TWindowLayoutRect(m
     this->y = *(f32 *)(rec + 8);
     this->depth = *(f32 *)(rec + 0xC);
     this->flags = *(s32 *)(rec + 0x14);
-    this->style = *(s32 *)(rec + 0x10);
+    this->color = *(s32 *)(rec + 0x10);
     this->value = *(s32 *)(rec + 0x18);
 }

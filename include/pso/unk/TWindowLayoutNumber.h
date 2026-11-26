@@ -8,7 +8,7 @@
 class TWindowLayoutNumber : public TWindowLayoutRect {
 public:
     f32 depth;
-    s32 style;
+    s32 color;  // ARGB the digits are drawn in (the record's colour word)
     s32 value;
 
     TWindowLayoutNumber(u8 *rec, s32 m_2);
