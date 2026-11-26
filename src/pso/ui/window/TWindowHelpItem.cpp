@@ -53,8 +53,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-saddr format_item_description(u8 *item);
-
 const char *TWindowHelpItem::class_name = "TWindowHelpItem";
 
 HelpItemLayout TWindowHelpItem::item_layout_entries = {
@@ -335,7 +333,7 @@ void TWindowHelpItem::dispatch_item_help() {
             lock_page_flip();
             init_text((void *)(get_localized_text_entry(0x10, ((s32)primary_id & 0xF) + 0x18)));
         }
-    } else if (TItemData::is_wrapped(active_item) != 0) {
+    } else if (active_item->is_wrapped() != 0) {
         help_flags &= ~2;
         lock_page_flip();
         update_displayed_item();
@@ -891,7 +889,7 @@ void TWindowHelpItem::show_mag_growth() {
         &help_item_stats_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
-    TItemData::deserialize_mag(active_item, &mag);
+    active_item->deserialize_mag(&mag);
     lv = (HelpItemStatCompareRow *)get_array_entry(0);
     sy = (HelpItemStatCompareRow *)get_array_entry(1);
     iq = (HelpItemStatCompareRow *)get_array_entry(2);
@@ -948,7 +946,7 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
     s32 changed;
     mag.init();
     changed = 0;
-    TItemData::deserialize_mag(active_item, &mag);
+    active_item->deserialize_mag(&mag);
     panel = (TWindowLayoutEntry *)get_array_entry(0);
     synchro = (HelpItemStatCompareRow *)get_array_entry(1);
     iq = (HelpItemStatCompareRow *)get_array_entry(2);
@@ -1013,7 +1011,7 @@ s32 TWindowHelpItem::advance_mag_levels() {
     TWindowLayoutNumber *num;
     s32 count;
     mag.init();
-    TItemData::deserialize_mag(active_item, &mag);
+    active_item->deserialize_mag(&mag);
     level_row = (HelpItemStatCompareRow *)get_array_entry(0);
     panel = (TWindowLayoutEntry *)get_array_entry(0xF);
     count = level_row->get_value();
@@ -1108,7 +1106,7 @@ void TWindowHelpItem::show_mag_photon_blasts() {
         &help_item_sprites_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
-    TItemData::deserialize_mag(active_item, &mag);
+    active_item->deserialize_mag(&mag);
     for (slot = 0; slot < 3; slot++) {
         blast = mag.get_photon_blast(slot);
         if (blast != -1) {
@@ -1154,7 +1152,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         m_callback = &TWindowHelpItem::update_tech_disk_stats;
         e0 = (WindowTextEntry *)this->get_array_entry(0);
         text_builder_reset();
-        text_builder_append((const char *)format_item_description((u8 *)active_item));
+        text_builder_append(format_item_description(active_item));
         if (current_language == LANGUAGE_JAPANESE) {
             text_builder_append(get_help_text_string(active_item->data1.data_u8[4]));
         }
@@ -1226,7 +1224,7 @@ void TWindowHelpItem::idle_update() {}
 
 void TWindowHelpItem::format_description_with_price() {
     text_builder_reset();
-    text_builder_append((const char *)format_item_description(reinterpret_cast<u8 *>(active_item)));
+    text_builder_append(format_item_description(active_item));
     text_builder_append("\n");
     text_builder_append((const char *)(active_item->calc_buy_price()));
 }

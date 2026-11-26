@@ -384,7 +384,7 @@ s32 TPlyItem::count_items_by_id(TItemData *data) {
     TItemList *node;
     TItem *item;
 
-    if (TItemData::lookup_item_def(data) != 0) {
+    if (data->lookup_item_def() != 0) {
         node = set_mode_and_refresh_object(data);
         if (node != NULL) {
             item = node->get_owner_if_alive();

@@ -349,7 +349,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
                 if (get_item_def(&record) != 0) {
                     record.set_stack_count(withdraw_count);
                 }
-                if (player->can_inventory_accept_item((u8 *)&record) == 0) {
+                if (player->can_inventory_accept_item(&record) == 0) {
                     display_shop_message(0x4B, 1);
                     set_state(6);
                 } else {

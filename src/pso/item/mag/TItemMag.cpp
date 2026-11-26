@@ -111,7 +111,7 @@ void MagNodeOscillationState::update() {
     }
 }
 
-s16 MagStats::get_level() {
+s16 MagStats::get_level() const {
     return get_def_level() + get_pow_level() + get_mind_level() + get_dex_level();
 }
 
@@ -469,7 +469,7 @@ TItemMag::TItemMag(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
     action_cooldown = 0.0f;
     fullness_frames = 6300.0f;
     feeds_while_full = 2.0f;
-    TItemData::deserialize_mag(item, &stats);
+    ((TItemData *)item)->deserialize_mag(&stats);
     stats.photon_blast_flags &= ~0x40;
     set_item_index(stats.get_level());
     set_attach_slot(1);
@@ -549,7 +549,7 @@ void TItemMag::on_unequip() {
 }
 
 void TItemMag::write_item_data(TItemData *data) {
-    TItemData::serialize_mag(data, &stats);
+    data->serialize_mag(&stats);
 }
 
 void TItemMag::render_equipped() {

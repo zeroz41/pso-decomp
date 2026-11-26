@@ -13,11 +13,11 @@ struct MagStats {
     MagStats *init();
     // A new mag: level 5 DEF, 0 IQ, 40% synchro, colour 18.
     void clear();
-    s16 get_level();
-    s16 get_def_level();
-    s16 get_pow_level();
-    s16 get_dex_level();
-    s16 get_mind_level();
+    s16 get_level() const;
+    s16 get_def_level() const;
+    s16 get_pow_level() const;
+    s16 get_dex_level() const;
+    s16 get_mind_level() const;
     s16 get_def_progress();
     s16 get_pow_progress();
     s16 get_dex_progress();

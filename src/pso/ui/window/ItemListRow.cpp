@@ -214,7 +214,7 @@ void ItemListRow::update_item_colors(TItemData *item) {
     s32 item_flags;
     TObjPlayer *player;
 
-    if (TItemData::is_wrapped(item) != 0) {
+    if (item->is_wrapped() != 0) {
         this->style = -1;
         return;
     }
@@ -223,7 +223,7 @@ void ItemListRow::update_item_colors(TItemData *item) {
         equip_requirements = check_equip_requirements(player, item, &requirement);
         item_flags = item->check_item_flags();
         if ((u8) this->status_icon == 0x33) {
-            if ((item_flags == 0) && (TItemData::is_rare_item(item) != 0)) {
+            if ((item_flags == 0) && (item->is_rare_item() != 0)) {
                 this->status_icon = 0x19U;
             } else if (requirement & 1) {
                 this->status_icon = 0x13U;
@@ -237,7 +237,7 @@ void ItemListRow::update_item_colors(TItemData *item) {
         }
         if (equip_requirements != 0) {
             this->category_style = -1;
-            if (TItemData::is_custom_name_srank(item) != 0) {
+            if (item->is_custom_name_srank() != 0) {
                 this->style = 0xFFFE3C28;
                 return;
             }
@@ -509,7 +509,7 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
     this->x = 0.0f;
     this->status_icon = 51;
     item_data = get_item_data((uaddr)item);
-    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], TItemData::is_wrapped(item));
+    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], item->is_wrapped());
     forward_message((saddr)get_shared_text_buffer(), (uaddr)(void *)item);
     this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
     update_stat_line_if_positive(count);
@@ -531,7 +531,7 @@ void ItemListRow::set_ground_item(TItemData *item, s32 index) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     item_data = get_item_data((uaddr)item);
-    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], TItemData::is_wrapped(item));
+    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], item->is_wrapped());
     forward_message((saddr)get_shared_text_buffer(), (uaddr)(void *)item);
     this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {

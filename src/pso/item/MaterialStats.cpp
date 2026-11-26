@@ -44,19 +44,19 @@ void ActorParamBlock::sub_evp(s32 amount) {
     values[0] -= amount;
 }
 
-s16 MagStats::get_mind_level() {
+s16 MagStats::get_mind_level() const {
     return mind / 100;
 }
 
-s16 MagStats::get_def_level() {
+s16 MagStats::get_def_level() const {
     return def / 100;
 }
 
-s16 MagStats::get_dex_level() {
+s16 MagStats::get_dex_level() const {
     return dex / 100;
 }
 
-s16 MagStats::get_pow_level() {
+s16 MagStats::get_pow_level() const {
     return pow / 100;
 }
 

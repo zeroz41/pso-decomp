@@ -771,7 +771,7 @@ void TMainTask::cleanup_game_objects() {
 
 
 s32 TItemData::is_item_usable(saddr player, u8 *item) {
-    if (TItemData::is_wrapped(item) != 0) {
+    if (((TItemData *)item)->is_wrapped() != 0) {
         return (u8)(1U);
     }
     if ((u8) *item == 3) {
@@ -806,7 +806,7 @@ saddr find_eligible_combination_recipe(saddr player, u8 *item) {
                 return 0;
             }
             mag.init();
-            TItemData::deserialize_mag(&d, &mag);
+            d.deserialize_mag(&mag);
             m = rec->mag_level;
             if (mag.get_level() < m) {
                 return 0;

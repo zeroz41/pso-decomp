@@ -190,7 +190,7 @@ s32 TShopEquipmentListWindow::check_purchase_eligibility() {
         return 0;
     }
     r = &this->stock[i];
-    if (this->player->can_inventory_accept_item((u8 *)r) == 0) {
+    if (this->player->can_inventory_accept_item(r) == 0) {
         return 1;
     }
     if (check_equip_requirements(this->player, r, (s32 *)&res) == 0) {

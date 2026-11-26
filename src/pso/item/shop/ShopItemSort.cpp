@@ -4,7 +4,7 @@
 
 s32 get_item_def(TItemData *item) {
     if (item != NULL) {
-        return TItemData::lookup_item_def(item);
+        return item->lookup_item_def();
     }
     return 0;
 }

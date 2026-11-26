@@ -190,7 +190,7 @@ s32 TShopItemListWindow::check_purchase_eligibility() {
     if ((s32)shop_items[sel].data2.data_u32 > meseta) {
         return 0;
     }
-    if (player->can_inventory_accept_item(reinterpret_cast<u8 *>(&shop_items[sel])) == 0) {
+    if (player->can_inventory_accept_item(&shop_items[sel]) == 0) {
         return 1;
     }
     return 3;
@@ -262,7 +262,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
 
     if (item_list != NULL) {
         sel = item_list->get_cursor_value();
-        room = player->can_inventory_accept_item(reinterpret_cast<u8 *>(&shop_items[sel]));
+        room = player->can_inventory_accept_item(&shop_items[sel]);
         count = player->get_actor_meseta() / (s32)shop_items[sel].data2.data_u32;
         if (count > room) {
             count = room;

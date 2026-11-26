@@ -150,7 +150,7 @@ void TItemProShield::on_unequip() { clear_technique_boosts(); }
 
 void TItemProShield::write_item_data(TItemData *data) {
     data->set_dfp_bonus(dfp_bonus);
-    data->set_bswapped_field_8(evp_bonus);
+    data->set_evp_bonus(evp_bonus);
 }
 
 void TItemProShield::update_equipped() {
@@ -173,7 +173,7 @@ void TItemProShield::update_owned() {
 
 void TItemProShield::carry_over_stats(TItemData *data, TItem *item) {
     data->set_dfp_bonus(((TItemProShield *)item)->dfp_bonus);
-    data->set_bswapped_field_8(((TItemProShield *)item)->evp_bonus);
+    data->set_evp_bonus(((TItemProShield *)item)->evp_bonus);
 }
 
 void TItemProShield::on_update_equipped() {}

@@ -109,7 +109,7 @@ void TItemDrop::apply_drop_restrictions(TItemData *it) {
     if (it == NULL) {
         return;
     }
-    if (TItemDrop::can_drop() == 0 && TItemData::is_rare_item((u8 *)it) != 0) {
+    if (TItemDrop::can_drop() == 0 && it->is_rare_item() != 0) {
         it->init();
         return;
     }
@@ -134,7 +134,7 @@ void TItemDrop::apply_drop_restrictions(TItemData *it) {
             it->init();
             return;
         case 3:
-            if (TItemData::is_rare_item((u8 *)it) == 1) {
+            if (it->is_rare_item() == 1) {
                 it->init();
             }
             return;
@@ -542,12 +542,12 @@ void TItemDrop::handle_type3(TItemData *item) {
 }
 
 void TItemDrop::apply_item_data(TItemData *item) {
-    s32 mag;
+    MagStats mag;
 
     if (item->data1.data_u8[0] == 2) {
-        ((MagStats *)(&mag))->init();
+        mag.init();
         item->data1.data_u8[1] = 0;
-        TItemData::serialize_mag(item, &mag);
+        item->serialize_mag(&mag);
     }
 }
 
@@ -573,7 +573,7 @@ void TItemDrop::roll_armor_bonuses(TItemData *item) {
             r = roll_table_ratio(12);
             item->set_dfp_bonus((s16)(def->a * r));
             r = roll_table_ratio(13);
-            item->set_bswapped_field_8((s16)(def->b * r));
+            item->set_evp_bonus((s16)(def->b * r));
         }
         break;
     }
@@ -581,7 +581,7 @@ void TItemDrop::roll_armor_bonuses(TItemData *item) {
 
 void TItemDrop::roll_weapon_special(TItemData *item, s32 area) {
     u8 *stars;
-    if (item->data1.data_u8[0] == 0 && TItemData::is_rare_item(item) == 0) {
+    if (item->data1.data_u8[0] == 0 && item->is_rare_item() == 0) {
         stars = common_probability_table->special_stars;
         if (stars[area] != 0 && roll_channel_below(100, 9) < common_probability_table->special_chance[area]) {
             item->data1.data_u8[4] = roll_weapon_special_for_stars((u8)(s32)((f32)stars[area] * roll_table_ratio(10)));
@@ -593,7 +593,7 @@ void TItemDrop::set_flag(TItemData *item) {
     u8 special;
 
     if ((TItemDrop::is_enabled() == 1) && (item->data1.data_u8[0] == 0)) {
-        if (TItemData::is_rare_item(item) != 0) {
+        if (item->is_rare_item() != 0) {
             item->data1.data_u8[4] = (u8) (item->data1.data_u8[4] | item_unidentified_flag);
             return;
         }

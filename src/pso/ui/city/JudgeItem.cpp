@@ -87,7 +87,7 @@ void adjust_appraisal_grind(TItemData *item) {
     s32 n;
     s32 c;
     s32 r;
-    if (TItemData::is_rare_item(item) == 0) {
+    if (item->is_rare_item() == 0) {
         pool.clear();
         const AppraisalRollTable *t = item_appraisal_rules->grind_rolls;
         n = t->count;

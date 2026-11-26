@@ -117,7 +117,7 @@ void TItemProArmor::on_equip() {
 void TItemProArmor::write_item_data(TItemData *data) {
     data->data1.data_u8[5] = slot_count;
     data->set_dfp_bonus(dfp_bonus);
-    data->set_bswapped_field_8(evp_bonus);
+    data->set_evp_bonus(evp_bonus);
 }
 
 void TItemProArmor::update_owned() {

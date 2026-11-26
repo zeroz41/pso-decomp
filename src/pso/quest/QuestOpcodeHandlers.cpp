@@ -1028,7 +1028,7 @@ void qst_op_wrap_item_with_color() {
         TObjPlayer::send_6x29_delete_item(player, (int)id, 1);
         item.set_wrapped();
         item.set_present_color(n);
-        if (player->can_inventory_accept_item((u8 *)&item) > 0) {
+        if (player->can_inventory_accept_item(&item) > 0) {
             player->request_inventory_item(&item);
         }
     }
@@ -1050,7 +1050,7 @@ void qst_op_wrap_item() {
     if (player != NULL) {
         TObjPlayer::send_6x29_delete_item(player, (int)id, 1);
         item.set_wrapped();
-        if (player->can_inventory_accept_item((u8 *)&item) > 0) {
+        if (player->can_inventory_accept_item(&item) > 0) {
             player->request_inventory_item(&item);
         }
     }
@@ -2676,7 +2676,7 @@ void qst_op_give_s_rank_weapon() {
         TObjPlayer *player = get_player_by_client_id(id);
         if (player != NULL) {
             init_srank_weapon_item(&item, (const char *)a, (u8)qst_registers[r]);
-            if (item.isValidGroundDrop() == 1 && player->can_inventory_accept_item((u8 *)&item) > 0) {
+            if (item.isValidGroundDrop() == 1 && player->can_inventory_accept_item(&item) > 0) {
                 player->request_inventory_item(&item);
             }
         }
@@ -3668,7 +3668,7 @@ void qst_op_item_create2(u8 regs, u8 dst) {
         item.data1.data_u8[9] = qst_registers[regs++];
         item.data1.data_u8[10] = qst_registers[regs++];
         item.data1.data_u8[11] = qst_registers[regs];
-        if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
+        if (player->can_inventory_accept_item(&item) > 0) {
             player->request_inventory_item(&item);
             qst_registers[dst] = item.id;
         } else {
@@ -3689,7 +3689,7 @@ void qst_op_item_create(u8 regs, u8 dst) {
         item.data1.data_u8[1] = qst_registers[(u8)regs++];
         item.data1.data_u8[2] = qst_registers[regs];
         item.id = advance_item_id_counter(local_client_id);
-        if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
+        if (player->can_inventory_accept_item(&item) > 0) {
             player->request_inventory_item(&item);
             qst_registers[dst] = item.id;
         } else {

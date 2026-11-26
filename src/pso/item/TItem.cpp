@@ -346,25 +346,27 @@ void *TItem::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 
 TItem::TItem(TObject *parent, u8 *item) : TObjCollidable(parent) {
+    TItemData *data = (TItemData *)item;
+
     m_name = TItem::name;
     set_actor_flags(0x80000000);
     copy_collision_body(&collision_body, &item_collider_body);
     cursor_action.set_pick_up();
     set_collision_body(&collision_body);
     owner_client_id = 0xFFFF;
-    item_id = ((TItemData *)item)->id;
+    item_id = data->id;
     item_flags = 0;
     pickup_wait_frames = 0;
     model_node_callback = 0;
-    item_type = item[0];
-    item_group = item[1];
-    item_index = item[2];
+    item_type = data->data1.data_u8[0];
+    item_group = data->data1.data_u8[1];
+    item_index = data->data1.data_u8[2];
     owner = NULL;
     item_model = NULL;
     kill_count = 0;
-    apply_item_flags((TItemData *)item);
-    box_color = ((TItemData *)item)->get_type_nibble();
-    if (TItemData::is_rare_item(item) != 0) {
+    apply_item_flags(data);
+    box_color = data->get_type_nibble();
+    if (data->is_rare_item() != 0) {
         set_drop_model(4);
     } else {
         set_drop_model(item_type_drop_models[clamp_s32(get_item_type(), 0, 4)]);
@@ -979,13 +981,13 @@ void TItem::destroy() {
 s32 TItem::is_rare_item() {
     TItemData data;
     copy_to_item_data(&data);
-    return TItemData::is_rare_item(&data);
+    return data.is_rare_item();
 }
 
 s32 TItem::is_custom_name_srank() {
     TItemData data;
     copy_to_item_data(&data);
-    return TItemData::is_custom_name_srank(&data);
+    return data.is_custom_name_srank();
 }
 
 void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
@@ -1530,11 +1532,11 @@ void TItem::render_owned() {}
 void TItem::render_following_owner() {}
 
 void TItem::apply_item_flags(TItemData *data) {
-    if (TItemData::is_usable(data) != 0) {
+    if (data->is_usable() != 0) {
         item_flags |= ITEM_FLAG_KILL_COUNTER;
         kill_count = data->get_packed_value();
     }
-    if (TItemData::is_wrapped(data) != 0) {
+    if (data->is_wrapped() != 0) {
         item_flags |= ITEM_FLAG_WRAPPED;
     }
 }

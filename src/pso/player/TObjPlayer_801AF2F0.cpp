@@ -1433,12 +1433,12 @@ s32 TObjPlayer::is_target_in_facing_cone(Vec *target) {
 }
 #pragma pop
 
-s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
+s32 TObjPlayer::can_inventory_accept_item(TItemData *item) {
     s32 max;
     s32 n;
     TItem *owner;
-    if (TItemData::lookup_item_def(item) != 0) {
-        if (item[0] == 4) {
+    if (item->lookup_item_def() != 0) {
+        if (item->data1.data_u8[0] == 4) {
             return 1;
         }
         TItemList *list = this->inventory_objects->set_mode_and_refresh_object(item);
@@ -1446,7 +1446,7 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
             if (this->inventory_objects->item_count >= 30) {
                 return 0;
             }
-            return ((TItemData *)item)->get_max_stack_size();
+            return item->get_max_stack_size();
         }
         owner = list->get_owner_if_alive();
         if (owner == NULL) {
@@ -1454,7 +1454,7 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
         }
         n = owner->get_max_stack_size();
         n -= owner->get_amount();
-        max = ((TItemData *)item)->get_stack_count();
+        max = item->get_stack_count();
         return (n < max) ? 0 : n;
     }
     return this->inventory_objects->item_count < 30;
@@ -1472,7 +1472,7 @@ s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
     s32 max_stack_size;
     TItem *held;
 
-    if (TItemData::lookup_item_def((u8 *)item_data) != 0) {
+    if (item_data->lookup_item_def() != 0) {
         if ((u8) *(u8 *)item_data == 4) {
             return get_actor_meseta() < 0xF423F;
         }

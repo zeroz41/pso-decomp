@@ -171,7 +171,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     switch (this->entries[cur].data.data1.data_u8[0]) {
     case 3:
         data = &this->entries[cur].data;
-        if (TItemData::lookup_item_def(data) != 0) {
+        if (data->lookup_item_def() != 0) {
             count = get_bank_deposit_capacity_for_item(data, bank);
             stack = data->get_stack_count();
             count = count < stack ? count : stack;

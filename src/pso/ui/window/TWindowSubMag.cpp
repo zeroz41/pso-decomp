@@ -366,7 +366,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     } else {
         window->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     }
-    TItemData::deserialize_mag(mag, &stats);
+    mag->deserialize_mag(&stats);
     if (stats.get_photon_blast(0) != -1) {
         window->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     } else {
@@ -400,7 +400,7 @@ TWindowMessage *TWindowSubMag::create_learned_blast_toast() {
     s32 n;
     TWindowMessage *win;
     stats.init();
-    TItemData::deserialize_mag(mag, &stats);
+    mag->deserialize_mag(&stats);
     n = stats.get_photon_blast(this->slots);
     if (n == -1) {
         return 0;
@@ -444,7 +444,7 @@ s32 TWindowSubMag::count_slots() {
     s32 slot;
 
     stats.init();
-    TItemData::deserialize_mag(mag, &stats);
+    mag->deserialize_mag(&stats);
     slot = 0;
 loop_1:
     if (stats.get_photon_blast(slot) == -1) {
