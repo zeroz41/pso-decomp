@@ -466,7 +466,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: its 8-byte leader selection 0x805011D8 sits in .bss, not .sbss.
     "pso/ui/font/TFontSmallTask.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
-    "pso/ui/window/TWindowSubStatusDisp_80338740.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TGameListRow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class-name string sits in .rodata ahead of the list size pair: readonly strings.
     "pso/ui/window/TWindowSubShortCutList.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class name ("TChCrCharSelect", 0x80464E60) opens its .rodata ahead of its tables: readonly strings.
@@ -628,7 +628,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/TEF_LensFlare.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     # -fp_contract on: 0x80257024 fuses its depth math (0.299f * depth + parent depth) into fmadds; the
     # unit's other functions are the same either way (its twin draw_gauge in _8025737C needs it too).
-    "pso/ui/window/TWindowSubStatusDisp_80256B94.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    "pso/ui/window/TWindowStatusGauge.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     # -fp_contract on: the scroll bar render 0x80340A78 fuses its cap and thumb math into fmadds/fnmsubs;
     # init, set_value_f32 and set_scale are the same either way.
     "pso/ui/window/TWindowDD_WS_ScrollBar.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
@@ -827,7 +827,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TObjFreezeShell.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte texture lists (lbl_804CC868, technique_ringwave_texture_list) are outside small data.
     "pso/technique/TTecGrants.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
-    "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/ui/window/WindowHeading.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -inline off,deferred: the named float constants 0x805DE9C8-0x805DEA04 sit in .sdata2, are loaded
     # by address (not folded), and precede the TU's own literal pool (76.0/-75.0): written last to first.
     "pso/boss/barbaray/TBoss7BreakUp.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
@@ -888,13 +888,13 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TObjDFJisin: the Jisin, Horming and Yutai class-name strings sit in .rodata.
     # vtables come out TObjDFTenchuFuru then TObjDFUsoTower (text order of their dtors): written last to first, deferred.
     "pso/boss/darkfalz/TObjDFJisin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # TWindowSubTradeMain_80330A84 (+_80332148): "TWindowSubTradeMain" sits in .rodata;
+    # TWindowSubTradeMain (+_80332148): "TWindowSubTradeMain" sits in .rodata;
     # .data holds the vtable (0x804EDF90) ahead of run_task's jump tables: deferred generation of the last-to-first source.
-    "pso/ui/window/TWindowSubTradeMain_80330A84.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/ui/window/TWindowSubTradeMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TCharaMaking (+TCharaMaking_8028E3F4): its motion names and file names sit in .rodata.
     "pso/ui/charcreate/TCharaMaking.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # TWindowSubStatusDisp_802671F0 (+7 folded parts): "TWindowMenuIconLine" sits in .rodata and "/" in .sdata2.
-    "pso/ui/window/TWindowSubStatusDisp_802671F0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TWindowMenuIconLine (+7 folded parts): "TWindowMenuIconLine" sits in .rodata and "/" in .sdata2.
+    "pso/ui/window/TWindowMenuIconLine.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TWindowSubSymbolChat_80076F88 (+TWindowChat_800774C0): its only string "symbolchat.dat" sits in .rodata.
     "pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TQuestListOnline: vtable before vfunc_11's switch table and .sdata2 literals in .text order need deferred with the
@@ -1162,7 +1162,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # Deferred inlining: __vt__19TShopItemListWindow sits before vfunc_11's switch table in .data
     # although the dtor (its only early user) follows vfunc_11, so the source runs backwards.
     "pso/ui/city/TShopItemListWindow.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-inline off,deferred")},
-    "pso/ui/window/TWindowShortListCtrl_8026E7DC.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/ui/window/TWindowShortListCtrl.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Deferred inlining: functions come out in reverse source order and the
     # vtables before the switch tables in .data.
     "pso/ui/city/TMedicalCenterSequence.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-str reuse,readonly")},
@@ -1514,7 +1514,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -str readonly: the class name "TWindowStatus" of TWindowStatus__name sits in .rodata (0x8044F640).
     "pso/ui/window/TWindowStatus.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/window/TWindowTradeRequest_802E0170.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowTradeRequest.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/network/TGameProtocol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMcCheckGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TEF_PvrWave.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
