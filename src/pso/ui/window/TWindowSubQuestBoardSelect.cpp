@@ -52,14 +52,6 @@ struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 
 
-// inferred: window_sub_quest_board_select_layout_entries, the layout table
-// TWindowSubQuestBoardSelect__window_parameters points at (two text entries, six slot sprites).
-struct SubQuestBoardSelectWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord text[2];
-    SpritePartLayoutRecord slot[6];
-};
 SubQuestBoardSelectWindowLayout window_sub_quest_board_select_layout_entries = {
     8, 1,
     {

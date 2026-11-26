@@ -53,30 +53,6 @@ static const NJS_POINT2 custom_equip_cursor_frame_uv_table[16] = {
     {0.0f, 192.0f}, {64.0f, 192.0f}, {128.0f, 192.0f}, {192.0f, 192.0f},
 };
 
-// Window layout: two rows of panel, three palette icons, three count labels and two tabs.
-struct CustomEquipLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    SpritePartLayoutRecord rec_1;
-    SpritePartLayoutRecord rec_2;
-    SpritePartLayoutRecord rec_3;
-    ValueLayoutRecord rec_4;
-    ValueLayoutRecord rec_5;
-    ValueLayoutRecord rec_6;
-    SpritePartLayoutRecord rec_7;
-    SpritePartLayoutRecord rec_8;
-    SpritePartLayoutRecord rec_9;
-    SpritePartLayoutRecord rec_10;
-    SpritePartLayoutRecord rec_11;
-    SpritePartLayoutRecord rec_12;
-    ValueLayoutRecord rec_13;
-    ValueLayoutRecord rec_14;
-    ValueLayoutRecord rec_15;
-    SpritePartLayoutRecord rec_16;
-    SpritePartLayoutRecord rec_17;
-};
-
 CustomEquipLayout custom_equip_layout_entries = {
     18, 1,
     {6, {51.0f, 59.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.1f, -1, &hud_texlist, 2, 4},

@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 class TItemTexLoad;
 struct NJS_TEXLIST;
@@ -34,5 +35,14 @@ void bind_item_texture(TWindowLoadItemTexture *window);
 extern "C" {
 void fn_80262C2C(TWindowLoadItemTexture *window);
 }
+
+// TWindowLoadItemTexture__window_descriptor (passed to the TWindowBase constructor by the window's constructor) and
+// TWindowLoadItemTexture__layout_entries, the layout table it points at.
+struct LoadItemTextureWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+};
+
 
 #endif

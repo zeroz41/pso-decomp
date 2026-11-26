@@ -28,26 +28,6 @@ const char *TWindowStatus::class_name = "TWindowStatus";
 
 #pragma readonly_strings on
 
-struct StatusWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-    LayoutEntryCopyRecord rec_3;
-    LayoutEntryCopyRecord rec_4;
-    TextLayoutRecord rec_5;
-    TextLayoutRecord rec_6;
-    ValueLayoutRecord rec_7;
-    TextLayoutRecord rec_8;
-    ValueLayoutRecord rec_9;
-    TextLayoutRecord rec_10;
-    ValueLayoutRecord rec_11;
-    TextLayoutRecord rec_12;
-    ValueLayoutRecord rec_13;
-    ValueLayoutRecord rec_14;
-};
-
 StatusWindowLayout status_window_layout_entries = {
     15, 1,
     {6, {27.0f, 16.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},

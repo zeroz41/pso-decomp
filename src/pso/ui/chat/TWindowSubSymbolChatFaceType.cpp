@@ -203,13 +203,6 @@ TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
 
 
 
-// inferred: symbol_chat_face_type_layout_entries, the layout table
-// symbol_chat_face_type_window_layout points at (a 2x2 grid of face-type sprites).
-struct SymbolChatFaceTypeWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec[4];
-};
 SymbolChatFaceTypeWindowLayout symbol_chat_face_type_layout_entries = {
     4, 1,
     {

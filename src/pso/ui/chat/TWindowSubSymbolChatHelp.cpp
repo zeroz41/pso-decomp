@@ -13,10 +13,6 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-struct HelpEntryUv { f32 u, v; };
-
-
-struct HelpIconUv { f32 u, v; };
 
 const char *window_sub_symbol_chat_help_name = "TWindowSubSymbolChatHelp";
 const HelpIconUv symbol_chat_help_icon_uv_table[6] = {

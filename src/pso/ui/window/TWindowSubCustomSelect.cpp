@@ -32,15 +32,6 @@ struct Big_80277AEC { u8 pad[0x85C]; Sub_80277AEC sub; };
 struct Ent_802776D0 { u16 id; u16 sub; };
 
 
-// inferred: window_sub_custom_select_layout_entries, the layout table
-// TWindowSubCustomSelect__window_settings points at (two sprite parts and a value entry).
-struct SubCustomSelectWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    SpritePartLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-};
 SubCustomSelectWindowLayout window_sub_custom_select_layout_entries = {
     3, 1,
     {6, {3.0f, 9.0f}, {56.0f, 47.0f}, 196.0f, 0.0f, 0.2f, -1, &hud_texlist, 1, 4},

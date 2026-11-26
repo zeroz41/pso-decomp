@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TItem;
 
@@ -23,5 +24,14 @@ LAYOUT_ASSERT(TWindowQuantity_scale_offset, offsetof(TWindowQuantity, scale) == 
 LAYOUT_ASSERT(TWindowQuantity_size, sizeof(TWindowQuantity) == 0x6C);
 
 TWindowQuantity *create_window_quantity(s32 client);
+
+// quantity_window_layout_entries, the layout table quantity_window_layout points at.
+struct QuantityWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    ValueLayoutRecord rec_1;
+};
+
 
 #endif

@@ -44,7 +44,7 @@
 const char *TWindowSimpleStatus::class_name = "TWindowSimpleStatus";
 #pragma pop
 
-// inferred: photon_blast_gauge_ring_offset, the ring's offset inside the window that
+// photon_blast_gauge_ring_offset, the ring's offset inside the window that
 // draw_background passes to draw_photon_blast_gauge_ring.
 static const NJS_POINT2 photon_blast_gauge_ring_offset = {24.0f, 19.0f};
 
@@ -54,20 +54,6 @@ const u32 photon_blast_gauge_ring_color_table[7] = {
 };
 
 
-// inferred: simple_status_window_layout_entries, the layout table simple_status_window_layout
-// points at (frame sprite, two text/value entries, the HP and TP gauges, three icon sprites).
-struct SimpleStatusWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-    LayoutEntryCopyRecord rec_3;
-    LayoutEntryCopyRecord rec_4;
-    SpritePartLayoutRecord rec_5;
-    SpritePartLayoutRecord rec_6;
-    SpritePartLayoutRecord rec_7;
-};
 SimpleStatusWindowLayout simple_status_window_layout_entries = {
     8, 1,
     {6, {7.0f, 5.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},

@@ -168,13 +168,6 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-// inferred: choice_setting_popup_layout_entries, the layout table choice_setting_popup_window_descriptor
-// points at (one type-9 record; set_choice_setting_popup_size fills in the row count).
-struct ChoiceSettingPopupLayout {
-    u32 cols;
-    u32 rows;
-    TypeLayoutRecord rec;
-};
 ChoiceSettingPopupLayout choice_setting_popup_layout_entries = {1, 0, {9}};
 WindowDescriptor choice_setting_popup_window_descriptor = {
     {0.0f, 0.0f}, 50050.0f, &choice_setting_popup_layout_entries, 3,

@@ -19,12 +19,6 @@ struct Win_8026B148 {
 
 const char *TWindowMessageQuest::class_name = "TWindowMessageQuest";
 
-// create_quest_message_window_at's second argument (384 x 80: the window's size, inferred)
-struct DefaultQuestMessageExtent {
-    NJS_POINT2 size;
-    f32 reserved;
-};
-
 static const DefaultQuestMessageExtent default_quest_message_extent = {{384.0f, 80.0f}, 0.0f};
 
 

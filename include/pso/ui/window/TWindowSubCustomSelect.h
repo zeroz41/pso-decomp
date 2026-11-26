@@ -6,6 +6,7 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct WindowScrollBar;
 
@@ -37,5 +38,16 @@ struct TWindowSubCustomSelect : public TWindowAddition {
 LAYOUT_ASSERT(TWindowSubCustomSelect_size, sizeof(TWindowSubCustomSelect) == 0x84);
 
 LAYOUT_ASSERT(TWindowSubCustomSelectFieldsOffset, offsetof(TWindowSubCustomSelect, column) == 0x70);
+
+// window_sub_custom_select_layout_entries, the layout table
+// TWindowSubCustomSelect__window_settings points at (two sprite parts and a value entry).
+struct SubCustomSelectWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    SpritePartLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+};
+
 
 #endif

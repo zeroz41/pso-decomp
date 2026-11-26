@@ -51,4 +51,9 @@ f32 calc_title_overflow_width(f32 text_width);
 f32 get_heading_frame_width(HeadingEntry *heading);
 void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context);
 
+struct WindowTabUV {
+    f32 u, v;
+};
+
+
 #endif

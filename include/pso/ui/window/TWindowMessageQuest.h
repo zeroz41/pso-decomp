@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-struct NJS_POINT2;
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowMessage.h"
 
 struct TWindowMessageQuest : public TWindowMessage {
@@ -18,5 +18,12 @@ struct TWindowMessageQuest : public TWindowMessage {
 LAYOUT_ASSERT(TWindowMessageQuest_size, sizeof(TWindowMessageQuest) == 0x94);
 
 TWindowMessageQuest *create_quest_message_window();
+
+// create_quest_message_window_at's second argument (384 x 80: the window's size)
+struct DefaultQuestMessageExtent {
+    NJS_POINT2 size;
+    f32 reserved;
+};
+
 
 #endif

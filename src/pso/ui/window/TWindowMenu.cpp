@@ -43,13 +43,6 @@
 void set_window_menu_rows(s32 rows);
 
 const f64 com_card_minimum_entry_height = 0.0;
-// The TWindowMenu layout table (one type-3 text record; set_window_menu_rows sets the row count) and
-// the window descriptor the TWindowMenu constructor passes to TWindowAddition.
-struct MenuWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec;
-};
 MenuWindowLayout menu_window_layout = {1, 0, {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0}};
 WindowDescriptor menu_window_descriptor = {{0.0f, 0.0f}, 50050.0f, &menu_window_layout, 3};
 const char *TWindowMenu::class_name = "TWindowMenu";

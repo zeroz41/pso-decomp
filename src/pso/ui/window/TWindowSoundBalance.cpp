@@ -23,29 +23,6 @@
 
 #pragma readonly_strings on
 
-// inferred: GaugeLayoutRecord, the type 1 record (0x24 bytes) behind entries 2 and 3, which
-// set_music_gain (entry 2) and set_sound_effect_gain (entry 3) drive as gauges (TWindowStatusGauge::target).
-struct GaugeLayoutRecord {
-    s32 type;
-    f32 pos[2];
-    f32 pad_0C;
-    u32 pad_10;
-    s32 pad_14;
-    f32 pad_18;
-    f32 pad_1C;
-    f32 pad_20;
-};
-
-// inferred: window_sound_balance_layout_entries, the layout table window_sound_balance_settings
-// points at (the "BGM" and "SE" labels and their two gauges).
-struct SoundBalanceWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    GaugeLayoutRecord rec_2;
-    GaugeLayoutRecord rec_3;
-};
 SoundBalanceWindowLayout window_sound_balance_layout_entries = {
     4, 1,
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, "BGM"},

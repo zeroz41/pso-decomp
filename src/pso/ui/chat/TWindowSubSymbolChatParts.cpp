@@ -31,13 +31,6 @@ const char *TWindowSubSymbolChatParts::class_name = "TWindowSubSymbolChatParts";
 #pragma pop
 
 
-// inferred: symbol_chat_parts_layout_entries, the layout table symbol_chat_parts_window_layout
-// points at (three sprite parts).
-struct SymbolChatPartsWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec[3];
-};
 SymbolChatPartsWindowLayout symbol_chat_parts_layout_entries = {
     3, 1,
     {

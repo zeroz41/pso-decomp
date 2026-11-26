@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSimpleStatus : public TWindowBase {
     TWindowSimpleStatus(void *position, s32 client, u8 *descriptor);
@@ -26,5 +27,21 @@ struct TWindowSimpleStatus : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowSimpleStatus_size, sizeof(TWindowSimpleStatus) == 0x78);
+
+// simple_status_window_layout_entries, the layout table simple_status_window_layout
+// points at (frame sprite, two text/value entries, the HP and TP gauges, three icon sprites).
+struct SimpleStatusWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    LayoutEntryCopyRecord rec_3;
+    LayoutEntryCopyRecord rec_4;
+    SpritePartLayoutRecord rec_5;
+    SpritePartLayoutRecord rec_6;
+    SpritePartLayoutRecord rec_7;
+};
+
 
 #endif

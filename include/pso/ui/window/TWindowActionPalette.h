@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/ActionPaletteTag.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 class WindowSpritePart;
 
@@ -42,5 +43,23 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot);
 }
 s32 get_palette_consumable_count(u16 slot, s32 client_id);
+
+struct PaletteItemKind { u8 group; u8 index; };
+
+struct PaletteIconUV { f32 u; f32 v; };
+
+struct ActionPaletteWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    SpritePartLayoutRecord rec_1;
+    SpritePartLayoutRecord rec_2;
+    ValueLayoutRecord rec_3;
+    SpritePartLayoutRecord rec_4;
+    ValueLayoutRecord rec_5;
+    SpritePartLayoutRecord rec_6;
+    ValueLayoutRecord rec_7;
+};
+
 
 #endif

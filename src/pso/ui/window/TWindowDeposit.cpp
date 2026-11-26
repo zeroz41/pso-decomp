@@ -21,14 +21,6 @@ void TWindowDeposit::set_meseta(s32 meseta) {
     *(s32 *)((s8 *)get_array_entry(1) + 0x20) = meseta;
 }
 
-// inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
-struct DepositWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    ValueLayoutRecord rec_1;
-};
-
 DepositWindowLayout window_deposit_layout_entries = {
     2, 1,
     {3, {8.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},

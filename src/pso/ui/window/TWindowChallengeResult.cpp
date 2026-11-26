@@ -22,13 +22,6 @@ const char *TWindowChallengeResult__name = "TWindowChallengeResult";
 
 extern const char challenge_time_limit_text[];
 
-struct ChallengeResultLayout {
-    u32 columns;
-    u32 rows;
-    TextLayoutRecord text[5];
-    ValueLayoutRecord deaths;
-};
-
 ChallengeResultLayout challenge_result_window_layout = {
     6, 1,
     {

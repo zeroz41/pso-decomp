@@ -8,6 +8,7 @@ class WindowHeading;
 struct NJS_POINT2;
 #include <stddef.h>
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 class TWindowLayoutNumber;
 
@@ -54,5 +55,13 @@ LAYOUT_ASSERT(NumberMinimumOffset, offsetof(TWindowInputNumber, minimum) == 0x64
 LAYOUT_ASSERT(NumberMaximumOffset, offsetof(TWindowInputNumber, maximum) == 0x68);
 LAYOUT_ASSERT(NumberInitialOffset, offsetof(TWindowInputNumber, value) == 0x6C);
 LAYOUT_ASSERT(NumberScaleOffset, offsetof(TWindowInputNumber, scaleX) == 0x74);
+
+// window_input_number_layout_entries, the layout table window_input_number_layout points at.
+struct InputNumberWindowLayout {
+    u32 cols;
+    u32 rows;
+    ValueLayoutRecord rec_0;
+};
+
 
 #endif

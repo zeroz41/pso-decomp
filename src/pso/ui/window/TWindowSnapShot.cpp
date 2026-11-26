@@ -45,15 +45,6 @@ struct Stack_802A7F00 {
 const char *TWindowSnapShot::class_name = "TWindowSnapShot";
 #pragma pop
 
-// inferred: window_snapshot_layout_entries, the layout table window_snapshot_layout points at
-// (a sprite part and a text line).
-struct SnapShotWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-};
-
 
 SnapShotWindowLayout window_snapshot_layout_entries = {
     2, 1,

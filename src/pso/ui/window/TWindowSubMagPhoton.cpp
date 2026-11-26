@@ -68,13 +68,6 @@ const char *TWindowSubMagPhoton::class_name = "TWindowSubMagPhoton";
 #pragma pop
 
 
-// inferred: window_sub_mag_photon_layout_entries, the layout table
-// TWindowSubMagPhoton__layout_descriptor points at (a frame sprite and three photon blast icons).
-struct SubMagPhotonWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec[4];
-};
 SubMagPhotonWindowLayout window_sub_mag_photon_layout_entries = {
     4, 1,
     {

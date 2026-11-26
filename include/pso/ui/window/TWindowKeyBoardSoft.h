@@ -62,4 +62,10 @@ LAYOUT_ASSERT(TWindowKeyBoardSoft_control_offset, offsetof(TWindowKeyBoardSoft, 
 // of the wide keys (it picks the key width and colour). Defined after profanity_word_table (name inferred).
 extern u8 soft_keyboard_key_class[7 * 16];
 
+struct KeyUV {
+    f32 u;
+    f32 v;
+};
+
+
 #endif

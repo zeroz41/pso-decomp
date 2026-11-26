@@ -257,14 +257,6 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
 
 }
 
-// inferred: message_window_layout_entries, the layout table message_window_settings points at: one
-// text record per row, rows set to the line count by set_message_window_size.
-struct MessageWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
-
 MessageWindowLayout message_window_layout_entries = {
     1, 0,
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},

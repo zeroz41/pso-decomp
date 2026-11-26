@@ -9,10 +9,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
-struct WindowTabUV {
-    f32 u, v;
-};
-
 const WindowTabUV window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
 
 f32 get_heading_frame_width(HeadingEntry *heading) {

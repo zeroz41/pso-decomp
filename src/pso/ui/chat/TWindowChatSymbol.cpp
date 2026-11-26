@@ -25,12 +25,6 @@
 
 extern "C" {
 
-struct SymbolChatSpriteLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord recs[25];
-};
-
 
 SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
     25, 1,

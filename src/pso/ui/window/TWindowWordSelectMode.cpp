@@ -13,8 +13,6 @@
 
 
 
-struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; };
-
 __declspec(section ".data") f32 TWindowDD__layout_constant_pair[2] = { mode_window_x, mode_window_y };
 TWindowPlacement TWindowDD__layout_constants = { mode_window_placement_x, mode_window_placement_y, mode_window_depth, 0, 3 };
 

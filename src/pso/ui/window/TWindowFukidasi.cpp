@@ -67,7 +67,6 @@ extern const u32 TWindowFukidasi__balloon_color_table[16] = {
 };
 
 extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
-struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
 WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x3F000000, 0xFFFFFFFF, 0, 0}};
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;

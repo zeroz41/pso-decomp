@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <stddef.h>
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowRoom : public TWindowBase {
     f32 tabParameter;
@@ -20,5 +21,13 @@ struct TWindowRoom : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowRoomSize, sizeof(TWindowRoom) == 0x64);
 LAYOUT_ASSERT(RoomTabParameterOffset, offsetof(TWindowRoom, tabParameter) == 0x60);
+
+// room_window_layout_entries, the layout table room_window_base_parameters points at.
+struct RoomWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+};
+
 
 #endif

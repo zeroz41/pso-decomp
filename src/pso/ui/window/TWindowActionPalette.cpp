@@ -44,8 +44,6 @@ LAYOUT_ASSERT(palette_size, sizeof(TWindowActionPalette) == 0x78);
 const char *TWindowActionPalette__name = "TWindowActionPalette";
 #pragma pop
 
-struct PaletteItemKind { u8 group; u8 index; };
-
 
 
 // update_palette_item_count_label is the first caller of these two: their copies close the TU.
@@ -62,8 +60,6 @@ const PaletteItemKind action_palette_item_kinds[13] = {
     {0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {6, 0},
     {6, 1}, {3, 0}, {4, 0}, {5, 0}, {7, 0}, {8, 0},
 };
-
-struct PaletteIconUV { f32 u; f32 v; };
 
 PaletteIconUV action_palette_icon_uv_tables[19] = {
     {50.0f, 0.0f}, {50.0f, 43.0f}, {50.0f, 86.0f}, {100.0f, 0.0f},
@@ -98,19 +94,6 @@ const f32 TWindowActionPalette::bank_panel_uv_origins[4][2] = {
 const u8 action_palette_slot_icon_entries[3] = {2, 4, 6};
 const u8 action_palette_slot_channels[3] = {1, 2, 3};
 const u8 action_palette_slot_count_entries[3] = {3, 5, 7};
-
-struct ActionPaletteWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    SpritePartLayoutRecord rec_1;
-    SpritePartLayoutRecord rec_2;
-    ValueLayoutRecord rec_3;
-    SpritePartLayoutRecord rec_4;
-    ValueLayoutRecord rec_5;
-    SpritePartLayoutRecord rec_6;
-    ValueLayoutRecord rec_7;
-};
 
 ActionPaletteWindowLayout action_palette_layout_entries = {
     8, 1,

@@ -22,13 +22,6 @@
 
 #pragma readonly_strings on
 
-// inferred: window_timer_layout_entries, the layout table window_timer_layout points at.
-struct TimerWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
-
 TimerWindowLayout window_timer_layout_entries = {
     1, 1,
     {3, {0.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},

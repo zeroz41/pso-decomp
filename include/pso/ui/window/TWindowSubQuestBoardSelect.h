@@ -5,6 +5,7 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSubStatusDisp;
 
@@ -38,5 +39,15 @@ extern "C" {
 void TWindowCtrl__sub_8027D1F8(void);
 void TWindowCtrl__sub_8027D214(void);
 }
+
+// window_sub_quest_board_select_layout_entries, the layout table
+// TWindowSubQuestBoardSelect__window_parameters points at (two text entries, six slot sprites).
+struct SubQuestBoardSelectWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text[2];
+    SpritePartLayoutRecord slot[6];
+};
+
 
 #endif

@@ -25,15 +25,10 @@
 
 /* Layout table of the soft keyboard: one 16-column key-code grid per page. */
 struct SoftKeyboardLayout {
-    u8 page_count; /* inferred: bound of the page-tab loop */
-    u8 tab_width;  /* inferred: page tab width in pixels */
+    u8 page_count; /* bound of the page-tab loop */
+    u8 tab_width;  /* page tab width in pixels */
     u8 pad_2[2];
     u16 **pages;
-};
-
-struct KeyUV {
-    f32 u;
-    f32 v;
 };
 
 #include <stddef.h>

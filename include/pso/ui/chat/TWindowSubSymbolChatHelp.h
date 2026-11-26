@@ -37,5 +37,10 @@ LAYOUT_ASSERT(TWindowSubSymbolChatHelp_size, sizeof(TWindowSubSymbolChatHelp) ==
 LAYOUT_ASSERT(TWindowSubSymbolChatHelp_m64, offsetof(TWindowSubSymbolChatHelp, color_selection) == 0x64);
 LAYOUT_ASSERT(TWindowSubSymbolChatHelp_m70, offsetof(TWindowSubSymbolChatHelp, flip_v) == 0x70);
 
+struct HelpEntryUv { f32 u, v; };
+
+struct HelpIconUv { f32 u, v; };
+
+
 
 #endif

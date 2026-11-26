@@ -13,14 +13,6 @@
 const char *TWindowBreakIn__name = "TWindowBreakIn";
 #pragma pop
 
-// inferred: window_break_in_layout_entries, the layout table window_break_in_layout points at
-// (eight sprite parts, cf. window_timer_layout_entries).
-struct BreakInWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec[8];
-};
-
 
 BreakInWindowLayout window_break_in_layout_entries = {
     8, 1,

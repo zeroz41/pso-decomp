@@ -5,6 +5,7 @@
 
 struct NJS_POINT2;
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct SymbolChatPreset;
 
@@ -30,5 +31,12 @@ void apply_face_appearance_sprite(WindowLayoutEntries *entries, u8 appearance);
 }
 int set_symbol_chat_face_sprite(WindowSpritePart *sprite, u8 b);
 void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data);
+
+struct SymbolChatSpriteLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord recs[25];
+};
+
 
 #endif

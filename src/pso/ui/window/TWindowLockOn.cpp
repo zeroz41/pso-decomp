@@ -33,37 +33,6 @@
 
 const char *TWindowLockOn__name = "TWindowLockOn";
 
-// Other player: portrait sprite, name text.
-struct LockOnPlayerLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-};
-
-// Ground item: item row, grade stars.
-struct LockOnItemLayout {
-    u32 cols;
-    u32 rows;
-    TypeLayoutRecord rec_0;
-    PointLayoutRecord rec_1;
-};
-
-// Enemy: name, label, type, four status icons, two gauges.
-struct LockOnEnemyLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    TextLayoutRecord rec_2;
-    SpritePartLayoutRecord rec_3;
-    SpritePartLayoutRecord rec_4;
-    SpritePartLayoutRecord rec_5;
-    SpritePartLayoutRecord rec_6;
-    LayoutEntryCopyRecord rec_7;
-    LayoutEntryCopyRecord rec_8;
-};
-
 LockOnPlayerLayout lock_on_window_params = {
     2, 1,
     {6, {10.0f, 0.0f}, {34.0f, 29.0f}, 34.0f, 202.0f, 0.5f, -1, &hud_texlist, 0, 4},

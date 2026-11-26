@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TItemData;
 struct NJS_POINT2;
@@ -32,4 +33,13 @@ struct TWindowSubMagPhoton : public TWindowBase {
 LAYOUT_ASSERT(TWindowSubMagPhoton_blasts_offset, offsetof(TWindowSubMagPhoton, photon_blasts) == 0x64);
 LAYOUT_ASSERT(TWindowSubMagPhoton_item_offset, offsetof(TWindowSubMagPhoton, mag_item) == 0x70);
 LAYOUT_ASSERT(TWindowSubMagPhoton_size, sizeof(TWindowSubMagPhoton) == 0x74);
+
+// window_sub_mag_photon_layout_entries, the layout table
+// TWindowSubMagPhoton__layout_descriptor points at (a frame sprite and three photon blast icons).
+struct SubMagPhotonWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec[4];
+};
+
 #endif

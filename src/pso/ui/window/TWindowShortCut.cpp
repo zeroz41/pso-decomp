@@ -29,23 +29,6 @@
 const char *TWindowShortCut::class_name = "TWindowShortCut";
 
 
-// The shortcut window's entries: three rows of label, ":" and icons or text, filled by
-// show_shortcut (entries 0, 2, 3, 4, 6, 7, 8 and 10).
-struct ShortCutWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    SpritePartLayoutRecord rec_2;
-    SpritePartLayoutRecord rec_3;
-    TextLayoutRecord rec_4;
-    TextLayoutRecord rec_5;
-    SpritePartLayoutRecord rec_6;
-    TextLayoutRecord rec_7;
-    TextLayoutRecord rec_8;
-    TextLayoutRecord rec_9;
-    TextLayoutRecord rec_10;
-};
 ShortCutWindowLayout window_short_cut_layout_entries = {
     11, 1,
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},

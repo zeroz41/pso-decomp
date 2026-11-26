@@ -16,14 +16,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
-// inferred: quantity_window_layout_entries, the layout table quantity_window_layout points at.
-struct QuantityWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    ValueLayoutRecord rec_1;
-};
-
 QuantityWindowLayout quantity_window_layout_entries = {
     2, 1,
     {3, {8.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},

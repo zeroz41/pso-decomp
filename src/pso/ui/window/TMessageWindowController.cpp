@@ -18,10 +18,6 @@
 #include "pso/network/client_id.h"
 #pragma readonly_strings on
 __declspec(section ".rodata") extern const char message_tag_error[];
-struct MessageTagCommand {
-    const char *name;
-    void (TMessageWindowController::*callback)();
-};
 
 void TMessageWindowController::append_file_number() {
     char buf[0x20];

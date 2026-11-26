@@ -14,8 +14,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #pragma readonly_strings on
 
-struct StarUV { f32 u; f32 v; };
-
 extern const StarUV item_rarity_star_uv_table[4] = {
     { 0.0f, 239.0f }, { 17.0f, 239.0f }, { 34.0f, 239.0f }, { 51.0f, 239.0f },
 };

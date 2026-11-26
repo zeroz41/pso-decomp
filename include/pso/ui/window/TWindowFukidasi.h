@@ -95,4 +95,7 @@ extern "C" {
 void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);
 }
 
+struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
+
+
 #endif

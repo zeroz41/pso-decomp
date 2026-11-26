@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/RlcArchive.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSnapShot : public TWindowBase {
     TWindowSnapShot(saddr arg1);
@@ -55,5 +56,15 @@ void upload_player_motion_data();
 void alloc_player_motion_aram();
 s32 load_player_motion_data(void);
 void free_player_motion_archive();
+
+// window_snapshot_layout_entries, the layout table window_snapshot_layout points at
+// (a sprite part and a text line).
+struct SnapShotWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+};
+
 
 #endif

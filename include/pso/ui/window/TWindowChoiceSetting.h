@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowChoiceSetting : public TWindowMenuInfomation {
     TWindowChoiceSetting(void *parent, s32 rows);
@@ -27,5 +28,14 @@ extern "C" {
 void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows);
 }
 TWindowMenuInfomation *create_information_counter_window(s32 rows);
+
+// choice_setting_popup_layout_entries, the layout table choice_setting_popup_window_descriptor
+// points at (one type-9 record; set_choice_setting_popup_size fills in the row count).
+struct ChoiceSettingPopupLayout {
+    u32 cols;
+    u32 rows;
+    TypeLayoutRecord rec;
+};
+
 
 #endif

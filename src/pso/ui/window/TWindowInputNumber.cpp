@@ -25,13 +25,6 @@ const char *TWindowInputNumber__name = "TWindowInputNumber";
 // Value of one step at each digit position (1 .. 1000000).
 static const s32 number_input_decimal_place_values[7] = {1, 10, 100, 1000, 10000, 100000, 1000000};
 
-// inferred: window_input_number_layout_entries, the layout table window_input_number_layout points at.
-struct InputNumberWindowLayout {
-    u32 cols;
-    u32 rows;
-    ValueLayoutRecord rec_0;
-};
-
 InputNumberWindowLayout window_input_number_layout_entries = {
     1, 6,
     {4, {52.0f, 18.0f}, 0.5f, 0xFFFFFFFF, 0, 0},

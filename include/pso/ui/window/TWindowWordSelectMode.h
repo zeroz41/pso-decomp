@@ -26,4 +26,7 @@ LAYOUT_ASSERT(TWindowWordSelectMode_highlight_hidden, offsetof(TWindowWordSelect
 LAYOUT_ASSERT(TWindowWordSelectMode_grey_row_count, offsetof(TWindowWordSelectMode, grey_row_count) == 0x64);
 LAYOUT_ASSERT(TWindowWordSelectMode_selected_row, offsetof(TWindowWordSelectMode, selected_row) == 0x68);
 
+struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; };
+
+
 #endif

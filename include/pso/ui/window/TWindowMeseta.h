@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowMeseta : public TWindowBase {
     TWindowMeseta(void *position, s32 client, s32 text);
@@ -21,4 +22,15 @@ struct TWindowMeseta : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowMeseta_scale_offset, offsetof(TWindowMeseta, draw_scale) == 0x6C);
 LAYOUT_ASSERT(TWindowMeseta_size, sizeof(TWindowMeseta) == 0x74);
+
+// window_meseta_layout_entries, the layout table TWindowMeseta__window_descriptor points at
+// (a label and the meseta counter, then an all-zero record).
+struct MesetaWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    ValueLayoutRecord rec_1;
+    TextLayoutRecord rec_2;
+};
+
 #endif

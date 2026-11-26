@@ -34,4 +34,10 @@ public:
     TWindowMessagePage *create_window(const NJS_POINT2 *position, s32 extent);
 };
 LAYOUT_ASSERT(TMessageWindowController_size_check, sizeof(TMessageWindowController)==0x210);
+
+struct MessageTagCommand {
+    const char *name;
+    void (TMessageWindowController::*callback)();
+};
+
 #endif

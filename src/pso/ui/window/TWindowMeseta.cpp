@@ -50,15 +50,6 @@ void TWindowMeseta::render() {
 
 const char *TWindowMeseta::class_name = "TWindowMeseta";
 
-// inferred: window_meseta_layout_entries, the layout table TWindowMeseta__window_descriptor points at
-// (a label and the meseta counter, then an all-zero record).
-struct MesetaWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    ValueLayoutRecord rec_1;
-    TextLayoutRecord rec_2;
-};
 MesetaWindowLayout window_meseta_layout_entries = {
     2, 1,
     {3, {10.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},

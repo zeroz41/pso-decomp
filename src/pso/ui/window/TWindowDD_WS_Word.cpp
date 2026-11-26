@@ -27,14 +27,6 @@ const char *TWindowDD_WS_Word::class_name = "TWindowDD_WS_Word";
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
-// Entry layout table of the window: one column, one text record (type 3); the row count is
-// written before each build (init_layout_entries, TWindowDD_WS_Word::create).
-struct TWindowDD_WS_WordLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
-
 
 TWindowDD_WS_WordLayout word_select_page_layout = {
     1, 1,

@@ -48,7 +48,6 @@ void *com_card_status_text_table[6] = {
     (void *)"Jpn.", (void *)"Eng.", (void *)"Ger.", (void *)"Fr.",
     (void *)"Span.", (void *)"??????",
 };
-struct ComCardHelpRect { f32 x, y; };
 const ComCardHelpRect com_card_help_panel_rect_table[14] = {
     {0.0f, 180.0f}, {32.0f, 180.0f}, {64.0f, 180.0f}, {96.0f, 180.0f}, {128.0f, 180.0f},
     {0.0f, 208.0f}, {32.0f, 208.0f}, {64.0f, 208.0f}, {96.0f, 208.0f}, {128.0f, 208.0f},

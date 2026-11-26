@@ -81,13 +81,6 @@ void TWindowDD_WS_String::set_first_entry_text(u32 str) {
 
 const char *TWindowDD_WS_String::class_name = "TWindowDD_WS_String";
 
-// Entry layout table of the window: one column, one row, one text record (type 3).
-struct TWindowDD_WS_StringLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
-
 
 TWindowDD_WS_StringLayout word_select_string_layout_entries = {
     1, 1,

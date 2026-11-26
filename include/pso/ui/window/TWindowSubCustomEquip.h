@@ -6,6 +6,7 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 class TWindowSubStatusDisp;
 class WindowSpritePart;
@@ -55,5 +56,30 @@ struct TWindowSubCustomEquip : public TWindowBase {
 LAYOUT_ASSERT(TWindowSubCustomEquip_size, sizeof(TWindowSubCustomEquip) == 0x70);
 
 LAYOUT_ASSERT(TWindowSubCustomEquipHeadingOffset, offsetof(TWindowSubCustomEquip, status_disp) == 0x6C);
+
+// Window layout: two rows of panel, three palette icons, three count labels and two tabs.
+struct CustomEquipLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    SpritePartLayoutRecord rec_1;
+    SpritePartLayoutRecord rec_2;
+    SpritePartLayoutRecord rec_3;
+    ValueLayoutRecord rec_4;
+    ValueLayoutRecord rec_5;
+    ValueLayoutRecord rec_6;
+    SpritePartLayoutRecord rec_7;
+    SpritePartLayoutRecord rec_8;
+    SpritePartLayoutRecord rec_9;
+    SpritePartLayoutRecord rec_10;
+    SpritePartLayoutRecord rec_11;
+    SpritePartLayoutRecord rec_12;
+    ValueLayoutRecord rec_13;
+    ValueLayoutRecord rec_14;
+    ValueLayoutRecord rec_15;
+    SpritePartLayoutRecord rec_16;
+    SpritePartLayoutRecord rec_17;
+};
+
 
 #endif

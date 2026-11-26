@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct NJS_POINT2;
 
@@ -38,5 +39,14 @@ struct TWindowMessage : public TWindowAddition {
 
 LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
 TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);
+
+// message_window_layout_entries, the layout table message_window_settings points at: one
+// text record per row, rows set to the line count by set_message_window_size.
+struct MessageWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+};
+
 
 #endif

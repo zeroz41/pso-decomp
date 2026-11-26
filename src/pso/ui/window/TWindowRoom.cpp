@@ -13,13 +13,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
-// inferred: room_window_layout_entries, the layout table room_window_base_parameters points at.
-struct RoomWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
-
 RoomWindowLayout room_window_layout_entries = {
     1, 1,
     {3, {10.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},

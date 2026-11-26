@@ -25,16 +25,6 @@ const char *TWindowPartyStatus::class_name = "TWindowPartyStatus";
 
 
 
-struct PartyStatusWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-    LayoutEntryCopyRecord rec_3;
-    TextLayoutRecord rec_4;
-};
-
 PartyStatusWindowLayout party_status_layout_entries = {
     5, 1,
     {6, {7.0f, 7.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},

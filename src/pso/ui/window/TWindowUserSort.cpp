@@ -18,13 +18,6 @@ struct TCameraCtrl;
 #pragma readonly_strings on
 const char *TWindowUserSort::class_name = "TWindowUserSort";
 
-// inferred: window_user_sort_layout_entries, the layout table window_user_sort_settings points at
-// (label/value rows for name, ship, block and team; fill_card_text_entries fills the values).
-struct UserSortWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec[9];
-};
 UserSortWindowLayout window_user_sort_layout_entries = {
     9, 1,
     {
