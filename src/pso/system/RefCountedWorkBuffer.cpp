@@ -71,7 +71,7 @@ u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk
 #pragma push
 #pragma scheduling off
 extern "C" {
-void TLobby__sub_803D3130(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChunk *remainder) {
+void sj_chunk_split(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChunk *remainder) {
     *(ByteBlock_8 *)(prefix) = *(const ByteBlock_8 *)(chunk);
     remainder->size = prefix->size;
     if (prefix->size > size) {

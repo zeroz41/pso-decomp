@@ -371,7 +371,7 @@ void TObjEneBalClawClaw::run_death_sequence() {
         refresh_lobby_state();
         requested_action = 4;
         fade.start_fade_out();
-        fn_800D911C(&body_center);
+        create_particle_emitter_pair(&body_center);
         play_sound_effect(0x4003AD37, &position, 0, 0);
         state = 1;
     case 1:

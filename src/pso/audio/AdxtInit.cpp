@@ -30,11 +30,11 @@ static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 1
 AdxtPlayer adx_stream_player_pool[16];
 
 void adxt_finish() {
-    s32 temp_r0;
+    s32 remaining;
 
-    temp_r0 = TLobby_init_ref_count - 1;
-    TLobby_init_ref_count = temp_r0;
-    if (temp_r0 == 0) {
+    remaining = TLobby_init_ref_count - 1;
+    TLobby_init_ref_count = remaining;
+    if (remaining == 0) {
         gcrna_bridge_shutdown();
         adxf_finish();
         adxstm_finish_fs();

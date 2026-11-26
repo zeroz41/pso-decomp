@@ -227,7 +227,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
         }
         return NULL;
     }
-    res = (NJS_TEXLIST *)TQuestVmDownLoadServer__sub_8007EBDC(1, count * 0x2C + 8);
+    res = (NJS_TEXLIST *)alloc_zeroed_array(1, count * 0x2C + 8);
     res->nbTexture = count;
     i = 0;
     res->textures = (NJS_TEXNAME *)(res + 1);

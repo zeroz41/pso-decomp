@@ -528,7 +528,7 @@ s32 TObjEneMoja::calc_technique_level() {
 
 void TObjPlayer__sub_800ACA0C(void *) {  }
 
-void TObjEneShark::sub_800AC9DC(s32 i) {
+void TObjEneShark::set_model_variant(s32 i) {
     model = shark_bml_resource->models[i].model;
     texlist = shark_bml_resource->models[i].texlist;
 }
@@ -544,7 +544,7 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TObjEneBeastBase(pa
     init_position_vectors();
     subtype = variant;
     apply_clamped_mode_param();
-    sub_800AC9DC(variant);
+    set_model_variant(variant);
     action_table = shark_action_table;
     set_action_table(action_table);
     motion_list = shark_bml_resource->motions;

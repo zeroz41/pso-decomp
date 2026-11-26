@@ -841,7 +841,7 @@ void TObjEneDarkGunner::update_dying() {
         refresh_lobby_state();
         send_entity_set_flags();
         render_control.start_fade_out();
-        fn_800D911C(&body_center);
+        create_particle_emitter_pair(&body_center);
         behavior_flags |= 4;
         play_sound_effect(0x4003AD37, &position, 0, 0);
         state = 1;

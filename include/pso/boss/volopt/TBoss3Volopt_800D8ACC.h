@@ -23,7 +23,7 @@ void enable_player_particle_effect(void);
 void TObjPlayer__sub_800D93F0(const Vec *point, s32 selector, s32 delay, f32 maxScale);
 // Dead-stripped (no code in the DOL); names inferred, see TBoss3Volopt_800D8ACC.cpp.
 
-void fn_800D911C(Vec *position);
+void create_particle_emitter_pair(Vec *position);
 
 // Particle 0xF8 at pos for duration frames, with a TDeadSpotEmitter of radius on it.
 void create_dead_spot(Vec *pos, s32 duration, f32 radius);

@@ -42,7 +42,7 @@ s32 query_available_size(GcrnaStream *stream) {
     return get_available_size(stream);
 }
 
-void TLobby__sub_803CC030(GcrnaStream *stream, s32 enabled) {
+void gcrna_bridge_set_play_sw(GcrnaStream *stream, s32 enabled) {
     GCRNA_SetPlaySw(stream, enabled);
 }
 

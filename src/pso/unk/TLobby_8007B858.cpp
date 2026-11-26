@@ -127,7 +127,7 @@ const char *TObjPlayer::get_name() { return name; }
 
 
 extern "C" {
-void TSceneSora__sub_80207430(void);
+void release_sky_scene(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
 s32 restore_floor_telepipes();
@@ -142,7 +142,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {create_reflection_target, destroy_reflection_target},
     {init_camera_render_target, free_camera_render_target},
     {TScene::load_current_floor, TScene::free_scene_resources},
-    {TSceneSora::load_sky_resources, TSceneSora__sub_80207430},
+    {TSceneSora::load_sky_resources, release_sky_scene},
     {TRaderMapCore::load_map_resources, TRaderMapCore::unload_floor_map},
     {setup_floor_decorations, clear_floor_flags_and_depart},
     {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},

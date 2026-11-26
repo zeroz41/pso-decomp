@@ -83,7 +83,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
         if ((s8)info[0x33] < 2) {
             return 0;
         }
-        text_builder_append(TWindowSubStatusDisp__sub_80071820(&lobby_player_status_records[client_id].challenge));
+        text_builder_append(decode_challenge_rank_title(&lobby_player_status_records[client_id].challenge));
         break;
     case 4:
         return 0;

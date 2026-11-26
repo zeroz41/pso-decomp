@@ -34,7 +34,7 @@
 const char *window_chat_type_name_pointer = "TWindowChat";
 #pragma pop
 extern "C" {
-s32 fn_8002AE08(s32 client_id);
+s32 get_control_button_mask(s32 client_id);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
     extern int chat_help_color_table[];
 int get_chat_help_color(int a0);
@@ -165,7 +165,7 @@ void TWindowChat::handle_dpad_shortcuts() {
     if (player->is_controls_locked() != 0) {
         return;
     }
-    if (test_previous_buttons_packed(pad, fn_8002AE08(local_client_id)) == 0) {
+    if (test_previous_buttons_packed(pad, get_control_button_mask(local_client_id)) == 0) {
         if (test_pressed_buttons_packed(pad, 0x10) != 0) {
             send_chat_shortcut(0);
         }
@@ -272,7 +272,7 @@ void TWindowChat::handle_chat_input() {
     if (flags & 2)
     {
       context = &controller_input_state.controllers[0];
-      if ((test_pressed_buttons_packed((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), fn_8002AE08(local_client_id)) == 0))
+      if ((test_pressed_buttons_packed((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), get_control_button_mask(local_client_id)) == 0))
       {
         flags = (u16) (flags & 0xFFFFFFFD);
         close_all_children();

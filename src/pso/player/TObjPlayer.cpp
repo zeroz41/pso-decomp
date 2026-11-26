@@ -538,8 +538,8 @@ void emit_photon_blast_feedback_effects(saddr owner, u16 target_id) {
 }
 
 void TObjPlayer::emit_photon_blast_feedback_from_packet() {
-    u16 *arg0 = (u16 *)this;
-    emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), *arg0);
+    u16 *record = (u16 *)this;
+    emit_photon_blast_feedback_effects((saddr)((s8 *)record + 4), *record);
 }
 
 Vec *PlayerFollowParticles::get_grass_contact_point() { return &contact_points[1]; }
@@ -559,8 +559,8 @@ void emit_sand_footstep_effect(PlayerFollowParticles *particles) {
 }
 
 void TObjPlayer::check_hit_by_id_431_from_packet() {
-    u16 *arg0 = (u16 *)this;
-    TObjPlayer::check_hit_by_id_431((s8 *)arg0 + 4, *arg0);
+    u16 *record = (u16 *)this;
+    TObjPlayer::check_hit_by_id_431((s8 *)record + 4, *record);
 }
 
 int PlayerHandParticles::emit_movement_effect(u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)this, target_id, 276); }
@@ -1604,13 +1604,13 @@ s32 TObjPlayer::free_owned_buffer_b(saddr buffer, s16 flags) {
 
 
 extern "C" {
-s32 __ct__12TPlyCharDataFv(s32 arg0);
+s32 __ct__12TPlyCharDataFv(s32 self);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 cls, s16 tech, u8 level);
 
 
 PlayerAttackController::PlayerAttackController() {
     __ct__8FlagWordFv(&flags);
-    TObjPlayer__sub_8012AF00(&lockon_targets);
+    construct_captured_target_list(&lockon_targets);
     evp_scale = player_one;
     reset();
 }

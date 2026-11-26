@@ -466,14 +466,14 @@ void TItemData::convert_from_version(s32) {}
 
 void TItemData::unpack_from_item(ObjectSetData *set) {
     s32 mag;
-    u8 temp_r0;
+    u8 item_kind;
 
     if (set != NULL) {
         init();
         this->data1.data_u8[0] = (u8) (((u32) set->set_params[0] >> 0x18U) & 0xF);
         this->data1.data_u8[1] = (u8) ((u32) set->set_params[0] >> 0x10U);
-        temp_r0 = this->data1.data_u8[0];
-        if ((temp_r0 == 0) || (temp_r0 == 1)) {
+        item_kind = this->data1.data_u8[0];
+        if ((item_kind == 0) || (item_kind == 1)) {
             this->data1.data_u8[1] = (u8) (this->data1.data_u8[1] + 1);
         }
         this->data1.data_u8[2] = (u8) ((u32) set->set_params[0] >> 8U);
@@ -704,12 +704,12 @@ void TItemData::set_dfp_bonus(s16 dfp_bonus) {
 }
 
 s16 TItemData::get_technique_level() {
-    void *temp_r3;
+    void *tech_params;
 
     if (((u8) this->data1.data_u8[0] == 3) && ((u8) this->data1.data_u8[1] == 2)) {
-        temp_r3 = calc_technique_parameters(this->data1.data_u8[4], this->data1.data_u8[2], 0xFFFF);
-        if (temp_r3 != NULL) {
-            return *(s16 *)((s8 *)temp_r3 + 0x14);
+        tech_params = calc_technique_parameters(this->data1.data_u8[4], this->data1.data_u8[2], 0xFFFF);
+        if (tech_params != NULL) {
+            return *(s16 *)((s8 *)tech_params + 0x14);
         }
     }
     return 0;
@@ -1433,11 +1433,11 @@ void TItemData::init() {
 }
 
 saddr TItemData::calc_buy_price() {
-    u8 temp_r0;
+    u8 special;
 
     if ((u8) this->data1.data_u8[0] == 0) {
-        temp_r0 = this->data1.data_u8[4];
-        if ((temp_r0 != 0) && (temp_r0 < 0x29U) && (TItemData::is_rare_item(this) == 0)) {
+        special = this->data1.data_u8[4];
+        if ((special != 0) && (special < 0x29U) && (TItemData::is_rare_item(this) == 0)) {
             if (check_item_flags() == 1) {
                 return get_item_description_text(this->data1.data_u8[4] + 0x1CB);
             }
@@ -1642,7 +1642,7 @@ void *lookup_item_pmt_record(u8 *item) {
 }
 
 int TItemData::calc_display_grade() {
-    s16 temp_r3;
+    s16 rarity_modifier;
     u8 temp_b;
     int base_rarity;
 
@@ -1660,10 +1660,10 @@ int TItemData::calc_display_grade() {
         break;
     case 1:
         if ((u8) this->data1.data_u8[1] == 3) {
-            temp_r3 = TItemData::get_field6_bswap(this);
-            if (temp_r3 < 0) {
+            rarity_modifier = TItemData::get_field6_bswap(this);
+            if (rarity_modifier < 0) {
                 base_rarity -= 1;
-            } else if (temp_r3 > 0) {
+            } else if (rarity_modifier > 0) {
                 base_rarity += 1;
             }
         }

@@ -200,7 +200,7 @@ void create_dead_spot(Vec *pos, s32 particle, s32 duration, f32 radius) {
 }
 
 
-void fn_800D911C(Vec *position) {
+void create_particle_emitter_pair(Vec *position) {
     create_timed_particle_emitter(position, 232, 10, 1);
     create_timed_particle_emitter(position, 236, 10, 1);
 }

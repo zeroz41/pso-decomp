@@ -15,7 +15,7 @@ struct TWindowChoiceSetting : public TWindowMenuInfomation {
     void sub_80249144();
     static TWindowChoiceSetting *create_choice_setting_window(
         const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows);
-    static void sub_80249220(const NJS_POINT2 *extent, s32 rows);
+    static void set_popup_size(const NJS_POINT2 *extent, s32 rows);
     virtual void render();
     u16 m_80;
     virtual void run_task();

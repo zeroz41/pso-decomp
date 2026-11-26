@@ -215,7 +215,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
     switch (phase) {
     case 0:
         phase = 1;
-        fn_800D911C(&position);
+        create_particle_emitter_pair(&position);
         body_fade.start_fade_out();
         apply_actor_gravity(this, NULL, 0.0f);
         play_sound_effect(remap_sound_for_area(0x4003B207), &position, 0, 0);

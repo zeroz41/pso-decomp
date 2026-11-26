@@ -40,7 +40,7 @@ s32 TWindowKeyBoardHard::has_non_modifier_key() {
     }
     n = hardware_keyboard_state.get_pending_count();
     for (i = 0; i < n; i++) {
-        c = hardware_keyboard_state.sub_8013239C(i);
+        c = hardware_keyboard_state.get_pending_key(i);
         if (c != 0x61 && c != 0x4C && c != 0x50 && c != 0x5E && c != 0x5D && c != 0x5C && c != 0x5F) {
             return 1;
         }
@@ -440,7 +440,7 @@ void TWindowKeyBoardHard::process_all_key_states() {
     if (!(input_flags & 2)) {
         n = hardware_keyboard_state.get_pending_count();
         for (i = 0; i < n; i++) {
-            process_key_input(hardware_keyboard_state.sub_8013239C(i));
+            process_key_input(hardware_keyboard_state.get_pending_key(i));
         }
     }
 }

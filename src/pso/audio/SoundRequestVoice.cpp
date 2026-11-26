@@ -43,11 +43,11 @@ void SoundRequestVoice::clamp_reverb(f32 scale) {
     reverb = reverb_value;
 }
 
-void TLobby__sub_802409E4(SoundRequestVoice *voice) { voice->refresh = 5; }
+void sound_request_voice_set_refresh(SoundRequestVoice *voice) { voice->refresh = 5; }
 
 extern "C" s32 sndFXCtrl14(u32 vid, u8 ctrl, u16 value);
 
-void TLobby__sub_802409F0(SoundRequestVoice *v) {
+void sound_request_voice_update_pitch(SoundRequestVoice *v) {
     switch (v->kind) {
     case 0:
         if (v->previousPitch != v->pitch) {
@@ -221,7 +221,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             v->state = 0;
         } else {
             send_voice_controller_updates(v);
-            TLobby__sub_802409F0(v);
+            sound_request_voice_update_pitch(v);
             if ((v->flags & 1) && v->refresh < 0) {
                 sndFXKeyOff(v->token);
                 v->state = 0;

@@ -582,8 +582,8 @@ s32 is_valid_drop_floor(s32 floor) {
     }
     return 0;
 }
-s32 TObjPlayer__sub_80104840(s32 arg0) {
-    if ((arg0 >= 0) && (arg0 < 0x24)) {
+s32 TObjPlayer__sub_80104840(s32 index) {
+    if ((index >= 0) && (index < 0x24)) {
         return 1;
     }
     return 0;
@@ -772,7 +772,7 @@ void TMainTask::cleanup_game_objects() {
 // ---- TItemData_80104D0C.cpp
 
 
-s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
+s32 TItemData::is_item_usable(saddr player, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
         return (u8)(1U);
     }
@@ -780,12 +780,12 @@ s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
         if (*(s32 *)((s8 *)(lookup_item_pmt_record(item)) + 0x10) & 1) {
             return (u8)(1U);
         }
-        return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
+        return (u8)((u8) (find_eligible_combination_recipe(player, item) != 0));
     }
-    return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
+    return (u8)((u8) (find_eligible_combination_recipe(player, item) != 0));
 }
-#define o ((TObjPlayer *)arg0)
-saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
+#define o ((TObjPlayer *)player)
+saddr find_eligible_combination_recipe(saddr player, u8 *item) {
     TItemData d;
     TItemData d2;
     MagStats mag;
@@ -1152,7 +1152,7 @@ int check_class_equip_permission(TObjPlayer *player, s32 perm) {
     return 1;
 }
 
-u8 roll_weapon_special_channel15(u8 arg0) { return roll_weapon_special_for_stars(arg0); }
+u8 roll_weapon_special_channel15(u8 stars) { return roll_weapon_special_for_stars(stars); }
 
 TItem *construct_item(TItemData *data) {
     TItemData *src = data;
@@ -1349,9 +1349,9 @@ extern "C" {
 
 s32 test_flags_any(s32 *, s32);
 
-s32 TItemMenuCtrl::query_flag(s32 arg0) {
+s32 TItemMenuCtrl::query_flag(s32 flag_bit) {
     if (TItemMenuCtrl::instance != NULL) {
-        return test_flags_any(&TItemMenuCtrl::instance->menu_flags.bits, 1 << arg0);
+        return test_flags_any(&TItemMenuCtrl::instance->menu_flags.bits, 1 << flag_bit);
     }
     return 0;
 }

@@ -45,11 +45,11 @@ extern "C" {
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 
 }
-void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1);
+void spawn_scattered_lightning_strikes(u8 *origin, s32 pattern);
 #pragma push
 #pragma fp_contract on
-void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
-    Vec *p = (Vec *)arg0;
+void spawn_scattered_lightning_strikes(u8 *origin, s32 pattern) {
+    Vec *p = (Vec *)origin;
     Strike_80357B2C strikes[14];
     Strike_80357B2C *s;
     Vec *d;
@@ -61,7 +61,7 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
     for (i = 0; i < 14; i++) {
         s = &strikes[i];
         s->pos.y = 100.0f + p->y;
-        if (arg1 == 5 && i == 0) {
+        if (pattern == 5 && i == 0) {
             s->pos.y = 500.0f + p->y;
         }
         s->pos.x = 13.0f * ((f32) i * (3.0517578e-05f * (f32) rand())) + p->x;
@@ -76,7 +76,7 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
         }
     }
     scale = 0.5f;
-    switch (arg1) {
+    switch (pattern) {
     case 0:
         new TTecZondeEff(tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, 0.5f);
         break;

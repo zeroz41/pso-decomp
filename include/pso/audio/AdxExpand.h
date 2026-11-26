@@ -35,7 +35,7 @@ LAYOUT_ASSERT(AdxDecoderChannel_size, sizeof(AdxDecoderChannel) == 0x34);
 extern "C" {
 extern AdxDecoderChannel adx_decoder_channel_pool[16];
 extern s32 adx_expand_odd_result_flag;
-void TLobby__sub_803CB4A4(AdxDecoderChannel *channel);
+void start_adx_decoder_channel(AdxDecoderChannel *channel);
 void TLobby__sub_803CB570(AdxDecoderChannel *channel, u8 *header, s16 *out_coefs);
 AdxDecoderChannel *adx_allocate_decoder_channel(void);
 }

@@ -448,9 +448,9 @@ void TWindowSubCustomEquip::handle_cursor_input() {
         array_entry->color = 0xFF666666;
     }
     window_choice_setting = &controller_input_state.controllers[controller_index];
-    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
+    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_pressed_buttons_packed(window_choice_setting, (int) (get_control_button_mask((int)this->client_index))) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
-        if (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) {
+        if (test_pressed_buttons_packed(window_choice_setting, (int) (get_control_button_mask((int)this->client_index))) != 0) {
             this->bank = (u8) (1 - this->bank);
             this->bank_swap_timer = 3U;
         }

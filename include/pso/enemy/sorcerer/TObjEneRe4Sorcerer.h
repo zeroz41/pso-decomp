@@ -75,7 +75,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     void update_fade_out_state(s32 reason);
     void update_enter_state(s32 reason);
     void update_hidden_state(s32 reason);
-    void sub_800EF214();
+    void play_idle_sound();
     void enable_hits();
     void disable_hits();
     void warp_around_target(f32 speed);

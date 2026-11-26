@@ -60,15 +60,15 @@ const char *lazer_fence4_class_name = "TObjLazerFence4";
 
 extern "C" {
 
-s32 TObjLazerFence4::update_object_view_visibility(f32 farg0, f32 farg1) {
+s32 TObjLazerFence4::update_object_view_visibility(f32 far_depth, f32 radius) {
     if (TMainTask::get_render_pass() == 1) {
         return this->visibility;
     }
-    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (farg1 * farg1)) {
+    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (radius * radius)) {
         this->visibility = 1;
         return this->visibility;
     }
-    return TObjBase::update_object_view_visibility(farg0, farg1);
+    return TObjBase::update_object_view_visibility(far_depth, radius);
 }
 
 void TObjLazerFence4::init_models() {

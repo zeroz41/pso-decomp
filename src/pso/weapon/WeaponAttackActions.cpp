@@ -164,11 +164,11 @@ void TItemWeapon::roll_technique() {
 }
 
 void TItemWeapon::set_flag_8_unless_on_ground() {
-    u8 *var_r31;
+    u8 *self;
     if (this != NULL) {
-        var_r31 = (u8 *)this;
+        self = (u8 *)this;
         if (((TItem *)(this))->get_mode() != 0) {
-            ((TItemWeapon *)var_r31)->set_flag_8();
+            ((TItemWeapon *)self)->set_flag_8();
         }
     }
 }

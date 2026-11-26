@@ -172,7 +172,7 @@ void TWindowActionPalette::run_task() {
         open_tick = 0x01000000;
     }
     slot = is_player_input_active(client_index);
-    if (test_previous_buttons_packed(&controller_input_state.controllers[slot], fn_8002AE08(client_index)) != 0) {
+    if (test_previous_buttons_packed(&controller_input_state.controllers[slot], get_control_button_mask(client_index)) != 0) {
         state = 3;
     }
     help = (TWindowHelpItem *)get_array_entry(0);

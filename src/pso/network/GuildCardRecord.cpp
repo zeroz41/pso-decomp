@@ -117,10 +117,10 @@ void load_selected_guild_card_record(Src_8024220C *src) {
 }
 }
 
-void TLobby__sub_802422EC(void *arg0, void *arg1) {
-    *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
+void TLobby__sub_802422EC(void *dst, void *src) {
+    *(s32 *)((s8 *)dst + 0) = (s32) *(s32 *)((s8 *)src + 0);
+    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    *(s16 *)((s8 *)dst + 8) = (s16) *(s16 *)((s8 *)src + 8);
 }
 
 void find_and_load_com_card(u32 serial) {
@@ -205,26 +205,26 @@ char *build_text_from_comma_list(char *list) {
     return get_shared_text_buffer();
 }
 
-void TLobby__sub_8024259C(saddr arg0) {
+void TLobby__sub_8024259C(saddr entry) {
     if (TLobby::protocol_instance != NULL) {
         memset(lobby_ship_name, 0, 0x11);
-        strncpy(lobby_ship_name, (char *)(arg0 + 0x19), 0x10);
+        strncpy(lobby_ship_name, (char *)(entry + 0x19), 0x10);
         lobby_ship_name[0x10] = 0;
-        TLobby::protocol_instance->seq_jump((u8 *)(arg0 + 0x4C), *(TPlyMeetUserExtension *)(arg0 + 0x58));
+        TLobby::protocol_instance->seq_jump((u8 *)(entry + 0x4C), *(TPlyMeetUserExtension *)(entry + 0x58));
     }
 }
 #pragma pop
 
 
 void init_player_entry(GuildCardRecord *entry, u8 *response) {
-    s32 temp_r5;
+    s32 serial_no;
     char *p;
 
     entry->id = *(s32 *)((s8 *)response + 0xC);
-    temp_r5 = lbl_805D63D8;
-    lbl_805D63D8 = temp_r5 + 1;
-    entry->serial = temp_r5;
-    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, temp_r5);
+    serial_no = lbl_805D63D8;
+    lbl_805D63D8 = serial_no + 1;
+    entry->serial = serial_no;
+    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, serial_no);
     __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {

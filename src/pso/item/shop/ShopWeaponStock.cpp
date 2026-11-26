@@ -425,7 +425,7 @@ s32 shop_weapon_stock_counts[4];
 s32 shop_weapon_stock_generated_flags[4];
 TItemData *shop_weapon_stock_buffers[4];  // each stock table's generated items, 16 of 0x14 bytes
 void generate_shop_weapon_stock(s32 tbl) {
-  long long new_var;
+  long long row_offset;
   TItemData item;
   ShopPool pool;
   TItemData *stock;
@@ -449,8 +449,8 @@ void generate_shop_weapon_stock(s32 tbl) {
     i = 0;
     n = t->count;
     ents = t->ents;
-    new_var = n * shop_section_id;
-    e = ents + new_var;
+    row_offset = n * shop_section_id;
+    e = ents + row_offset;
     while ((i++) < n)
     {
       for (c = e->count; c != 0; c--)

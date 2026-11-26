@@ -83,20 +83,20 @@ s32 launch_switcher_dol(const char *url) {
     return 1;
 }
 
-void TAdTrialModemChkGC__sub_8007FA24(s32 arg0) {
-  s32 temp_r31;
-  s32 var_r31;
-  var_r31 = 0;
+void TAdTrialModemChkGC__sub_8007FA24(s32 use_modem_url) {
+  s32 url_index;
+  s32 modem_ready;
+  modem_ready = 0;
   init_modem_check_params();
   if (TLobby__sub_8014618C() != 0)
   {
-    var_r31 = 1;
+    modem_ready = 1;
   }
-  temp_r31 = ~(0 - (arg0 == 0));
-  temp_r31 = (var_r31 + 1) & temp_r31;
-  if ((temp_r31 == 1) != 0)
+  url_index = ~(0 - (use_modem_url == 0));
+  url_index = (modem_ready + 1) & url_index;
+  if ((url_index == 1) != 0)
   {
     init_modem_check_params();
   }
-  launch_switcher_dol(trial_modem_check_urls[temp_r31]);
+  launch_switcher_dol(trial_modem_check_urls[url_index]);
 }

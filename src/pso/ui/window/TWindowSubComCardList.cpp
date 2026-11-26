@@ -89,7 +89,7 @@ TWindowSubComCardList *TWindowSubComCard::create_card_list(const NJS_POINT2 *pos
     return new TWindowSubComCardList(position, card_slot, count, empty_message);
 }
 
-TWindowSubComCardList *TWindowSubComCard::sub_802754EC(const NJS_POINT2 *position) {
+TWindowSubComCardList *TWindowSubComCard::create_all_cards_list(const NJS_POINT2 *position) {
     set_window_menu_rows(7);
     return new TWindowSubComCardList(position);
 }

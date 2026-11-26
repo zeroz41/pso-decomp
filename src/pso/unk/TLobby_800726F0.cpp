@@ -171,14 +171,14 @@ s32 TLobby::is_ready_to_draw() {
     }
     return 1;
 }
-void TObjChallengeRetry::sub_80072B70() {
+void TObjChallengeRetry::close_message() {
     if (this->message != NULL) {
         this->message->close();
         this->message = NULL;
     }
 }
 
-void TObjChallengeRetry::sub_80072BB0() {
+void TObjChallengeRetry::open_message() {
     if (this->message != NULL) {
         this->message->close();
         this->message = NULL;
@@ -243,7 +243,7 @@ void TObjChallengeRetry::update_destroy_countdown() {
         confirm_challenge_retry();
         TLobby::send_45_and_close_windows(this);
         close_window_2c();
-        sub_80072B70();
+        close_message();
         queue_destruction();
     }
 }
@@ -254,14 +254,14 @@ void TObjChallengeRetry::handle_loss_sequence() {
         play_cue_stream_file("lose.adx");
         TLobby::send_45_and_close_windows(this);
         close_window_2c();
-        sub_80072B70();
+        close_message();
         queue_destruction();
         return;
     case 1:
         play_sound_effect(0x52812, 0, 0, 0);
         TLobby::send_45_and_close_windows(this);
         TLobby::play_default_effect(this);
-        sub_80072B70();
+        close_message();
         close_window_2c();
         this->countdown = 0x1E;
         this->state = 4;
@@ -270,7 +270,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
         if (((s32) this->m_20 != 0) && ((s32) this->m_24 == 0)) {
             TLobby::send_45_and_close_windows(this);
             TLobby::show_ctrl_and_play_effect(this);
-            sub_80072B70();
+            close_message();
             open_loss_menu();
             this->state = 2;
         }
@@ -369,7 +369,7 @@ void TObjChallengeRetry::sub_8007313C() {
         }
         TLobby::send_45_and_close_windows((void *) ((u8 *)this));
         ((TLobby *)this)->play_player_default_effect();
-        sub_80072BB0();
+        open_message();
         this->state = 3;
       }
     }
@@ -399,7 +399,7 @@ void TObjChallengeRetry::run_task() {
     if (TLobby::is_ready_to_draw() == 0) {
         TLobby::send_45_and_close_windows(self);
         this->close_window_2c();
-        this->sub_80072B70();
+        this->close_message();
         this->queue_destruction();
     }
 }

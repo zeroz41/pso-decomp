@@ -1590,7 +1590,7 @@ void TWindowSubComCard::cleanup(void *p) {
     const GuildCardSlot *slot = TWindowSubComCard::get_card_entry(menu->get_selected_value());
     TLobby::send_find_user_self_tag(slot->get_card_id());
 }
-TWindowSubComCardList *TWindowSubComCard::send_cmd_133() { return sub_802754EC(get_window_layout_position(133)); }
+TWindowSubComCardList *TWindowSubComCard::send_cmd_133() { return create_all_cards_list(get_window_layout_position(133)); }
 TWindowSubComCardList *TWindowSubComCard::init_layout() {
     s32 card_slot;
 

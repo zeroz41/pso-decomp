@@ -45,7 +45,7 @@ s32 get_csn_group_flags(u8 ch) {
     return __ctype_map[ch] & __letter;
 }
 
-void TObjPlayer__sub_80079108(void) {  }
+void csn_debug_hook_under_query(void) {  }
 }
 void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color) {  }
 void csn_debug_hook_hit_record(CsnHit *hit) {  }
@@ -53,7 +53,7 @@ void csn_debug_hook_group_list(CsnGroup *const *groups) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
 void csn_debug_hook_query_name(const char *name) {  }
 extern "C" {
-void TObjPlayer__sub_8007911C(void) {  }
+void csn_debug_hook_query_begin(void) {  }
 }
 void csn_debug_hook_origin_vector(const Vec *) {  }
 void csn_debug_hook_segment(const Vec *, const Vec *) {  }
@@ -557,7 +557,7 @@ CsnGroup *select_ground_query_groups(const Vec *origin, u32 mask) {
   return csn_query_groups[0];
 }
 
-CsnGroup *TObjPlayer__sub_80079DE0(Vec *a, Vec *b) {
+CsnGroup *select_segment_query_groups(Vec *a, Vec *b) {
     Vec d;
     s32 n;
     CsnGroup *w;
@@ -727,7 +727,7 @@ CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask) {
 
 WallRayResult *query_prepared_wall_polygons(WallRayQuery *query) {
     WallRayResult *r;
-    TObjPlayer__sub_8007911C();
+    csn_debug_hook_query_begin();
     r = &csn_query_map_object;
     if (select_deepest_wall_ray(query, r) == 0) {
         r = 0;
@@ -738,7 +738,7 @@ WallRayResult *query_prepared_wall_polygons(WallRayQuery *query) {
 
 WallRayResult *query_wall_radial(WallRayQuery *query) {
     WallRayResult *r;
-    TObjPlayer__sub_8007911C();
+    csn_debug_hook_query_begin();
     r = &csn_query_map_object;
     if (prepare_wall_query_polygons(&query->origin, query->radius, query->mask) == 0) {
         r = 0;
@@ -751,10 +751,10 @@ WallRayResult *query_wall_radial(WallRayQuery *query) {
 
 CsnHit *csnLookAt(const Vec *from, const Vec *to) {
     CsnHit *hit;
-    TObjPlayer__sub_8007911C();
+    csn_debug_hook_query_begin();
     hit = &lbl_80500140;
     csn_debug_hook_segment(from, to);
-    if (TObjPlayer__sub_80079DE0((Vec *)from, (Vec *)to) == NULL) {
+    if (select_segment_query_groups((Vec *)from, (Vec *)to) == NULL) {
         hit = NULL;
     } else if (check_line_hits_walls((Vec *)from, (Vec *)to, 0x8000, csn_query_groups) == 0) {
         hit = NULL;
@@ -765,8 +765,8 @@ CsnHit *csnLookAt(const Vec *from, const Vec *to) {
 
 CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask) {
     CsnHit *hit;
-    TObjPlayer__sub_80079108();
-    TObjPlayer__sub_8007911C();
+    csn_debug_hook_under_query();
+    csn_debug_hook_query_begin();
     csn_debug_hook_origin_vector(origin);
     hit = &lbl_80500140;
     if (*cached_groups == NULL) {
@@ -791,8 +791,8 @@ done:
 }
 CsnHit *csnVecterUnder(Vec *origin, u32 mask) {
     CsnHit *hit;
-    TObjPlayer__sub_80079108();
-    TObjPlayer__sub_8007911C();
+    csn_debug_hook_under_query();
+    csn_debug_hook_query_begin();
     csn_debug_hook_origin_vector(origin);
     hit = &lbl_80500140;
     if (select_ground_query_groups(origin, mask) == NULL) {
@@ -807,7 +807,7 @@ CsnHit *csnVecterUnder(Vec *origin, u32 mask) {
 
 CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     CsnHit *hit;
-    TObjPlayer__sub_8007911C();
+    csn_debug_hook_query_begin();
     hit = &lbl_80500140;
     if (query_collision_segment_groups((Vec *)from, (Vec *)to, mask) == NULL) {
         hit = NULL;

@@ -51,7 +51,7 @@ struct AudioStreamInputState {
 
 extern "C" {
 AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channels, SjRingBuffer **rings);
-void sub_803C0018(void);
+void process_audio_stream_inputs(void);
 s32 get_stream_loop_end_byte(AudioStreamInputState *st);
 s32 get_stream_loop_type(AudioStreamInputState *st);
 s32 audio_stream_get_format(AudioStreamInputState *st);

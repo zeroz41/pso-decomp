@@ -113,7 +113,7 @@ s32 audio_stream_get_output_samples(AudioStreamInputState *st) {
 
 struct AudioStreamGetOutputSamplesObject;
 
-void sub_803C0018(void) {
+void process_audio_stream_inputs(void) {
     s32 i;
     for (i = 0; i < 0x10; i++) {
         if ((s32)((Rec_803C0018 *)&audio_stream_input_pool)[i].state == 1) {
@@ -150,7 +150,7 @@ inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
     if (h->get_format() == 10) {
         s->interface->unget_chunk(s, 1, &b);
     } else {
-        TLobby__sub_803D3130(&b, n, &b, &b2);
+        sj_chunk_split(&b, n, &b, &b2);
         s->interface->put_chunk(s, 0, &b);
         s->interface->unget_chunk(s, 1, &b2);
     }
@@ -210,11 +210,11 @@ inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
     avail = h->get_decoded_samples();
     n -= st->decoded_samples;
     n = avail < n ? avail : n;
-    TLobby__sub_803D3130(&st->src_chunk, bytes, &head, &tail);
+    sj_chunk_split(&st->src_chunk, bytes, &head, &tail);
     s->interface->put_chunk(s, 0, &head);
     s->interface->unget_chunk(s, 1, &tail);
     for (i = 0; i < st->decoder->get_channels(); i++) {
-        TLobby__sub_803D3130(&st->out_chunks[i], n * 2, &head, &tail);
+        sj_chunk_split(&st->out_chunks[i], n * 2, &head, &tail);
         if (st->output_callback != NULL) {
             st->output_callback(st->output_context, i, head.data, head.size);
         }

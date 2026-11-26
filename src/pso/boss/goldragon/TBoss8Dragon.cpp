@@ -3599,7 +3599,7 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (this->mask_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss8_dragon_control_client_id)) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, get_control_button_mask(boss8_dragon_control_client_id)) != 0) {
             send_action_packet(9);
         }
         return;
@@ -3688,7 +3688,7 @@ void TBoss8Dragon::update_controlled_walk_state(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (this->mask_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss8_dragon_control_client_id)) != 0) {
+        if (this->mask_flags(this->controller_input->pressed_buttons, get_control_button_mask(boss8_dragon_control_client_id)) != 0) {
             send_action_packet(9);
             return;
         }

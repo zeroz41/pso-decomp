@@ -31,7 +31,7 @@ void TWindowCheckBox::set_selected_index(s16 selected_index) {
     refresh_selected_entry(0);
 }
 
-void TWindowCheckBox::sub_80248994(u32 color, s32 item) {
+void TWindowCheckBox::set_item_color(u32 color, s32 item) {
     s32 i;
     ItemListRow *e;
     for (i = 0; i < entry_capacity; i++) {

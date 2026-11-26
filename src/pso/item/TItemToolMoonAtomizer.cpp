@@ -11,7 +11,7 @@
 void TItemToolMoonAtomizer::apply_use_effect() {
     LockOnActionSlot *slot;
     TLockOnCursor *cursor;
-    if (((TObjPlayer *)this->owner)->sub_801A1DDC() != 0) {
+    if (((TObjPlayer *)this->owner)->is_local_or_split_screen() != 0) {
         cursor = this->owner->lock_on_cursor;
         if (cursor != NULL) {
             slot = cursor->find_by_pos(4, 9);

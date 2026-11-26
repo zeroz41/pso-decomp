@@ -153,7 +153,7 @@ void send_star_atomizer_targets(TObjPlayer *player) {
     G_UseStarAtomizer_6x66 cmd;
     LockOnActionSlot *slot;
     s32 i;
-    if (player != NULL && player->sub_801A1DDC() != 0 && player->lock_on_cursor != NULL) {
+    if (player != NULL && player->is_local_or_split_screen() != 0 && player->lock_on_cursor != NULL) {
         slot = player->lock_on_cursor->find_by_pos(4, 0xA);
         if (slot != NULL) {
             cmd.init_header();
@@ -171,7 +171,7 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
     s32 j;
     u16 i;
     TObjPlayer *player;
-    if (self != NULL && self->sub_801A1DDC() != 0) {
+    if (self != NULL && self->is_local_or_split_screen() != 0) {
         cmd.init_header();
         j = 0;
         for (i = 0; i != 4; i++) {
@@ -190,8 +190,8 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
     }
 }
 
-void handle_6x66_use_star_atomizer(u8 *arg0) {
-    G_UseStarAtomizer_6x66 *cmd = (G_UseStarAtomizer_6x66 *)arg0;
+void handle_6x66_use_star_atomizer(u8 *packet) {
+    G_UseStarAtomizer_6x66 *cmd = (G_UseStarAtomizer_6x66 *)packet;
     TObjPlayer *user;
     s32 i;
     TObjPlayer *target;

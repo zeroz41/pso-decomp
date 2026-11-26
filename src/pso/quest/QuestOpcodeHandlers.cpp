@@ -630,7 +630,6 @@ void qst_op_arg_pushr(u8 a0) {
 }
 
 void qst_op_va_call(s32 label) {
-  int new_var;
   qst_arg_count = 0;
   qst_registers[1] = qst_args[0];
   qst_registers[2] = qst_args[1];
@@ -2604,7 +2603,7 @@ void qst_op_enable_techs(s32 slot_reg) {
 void qst_op_disable_stealth_suit_effect(s32 slot_reg) {
     TObjPlayer *player;
     player = get_player_by_client_id((int)(qst_registers[(u8)slot_reg]));
-    if ((player != NULL) && (player->sub_801A1DDC() != 0)) {
+    if ((player != NULL) && (player->is_local_or_split_screen() != 0)) {
         player->send_disable_stealth_suit_effect();
     }
 }
@@ -2612,7 +2611,7 @@ void qst_op_disable_stealth_suit_effect(s32 slot_reg) {
 void qst_op_enable_stealth_suit_effect(s32 slot_reg) {
     TObjPlayer *player;
     player = get_player_by_client_id((int)(qst_registers[(u8)slot_reg]));
-    if ((player != NULL) && (player->sub_801A1DDC() != 0)) {
+    if ((player != NULL) && (player->is_local_or_split_screen() != 0)) {
         player->send_enable_stealth_suit_effect();
     }
 }

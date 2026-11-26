@@ -8,8 +8,8 @@ struct TObjItemLight : public TObjBase {
     TObjItemLight(TObject *parent, saddr set_data);
     virtual ~TObjItemLight();
     void run_task();
-    u8 unk_90[0x4];
-    s32 m_94;
+    f32 m_radius;
+    struct TParticleCtrl *m_particle;
     static void *create(void *set_data);
     static const char *class_name;
 };

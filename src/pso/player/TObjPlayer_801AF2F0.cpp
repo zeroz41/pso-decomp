@@ -2812,7 +2812,7 @@ s32 TObjPlayer::check_actor_blocking_move() {
 
 void TObjPlayer::update_ground_contact() {
     if (this->is_locally_controlled() != 0) {
-        if (pad_binding.is_button_held(fn_8002AE08(this->get_entity_id())) != 0) {
+        if (pad_binding.is_button_held(get_control_button_mask(this->get_entity_id())) != 0) {
             action_palettes.set_primary_bank();
             if (this->photon_blast_gauge.has_ready_flag() != 0) {
                 action_palettes.set_secondary_bank();

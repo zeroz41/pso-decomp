@@ -84,9 +84,9 @@ s32 get_class_name_text(s32 class_index) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (class_index * 4));
 }
 
-extern "C" s8 TWindowComCard__sub_80249C20(void* p) { return ((GuildCardEntry *)p)->language; }
+extern "C" s8 get_guild_card_language(void* p) { return ((GuildCardEntry *)p)->language; }
 
-extern "C" s8 TWindowComCard__sub_80249C18(void* p) { return ((GuildCardEntry *)p)->section_id; }
+extern "C" s8 get_guild_card_section_id(void* p) { return ((GuildCardEntry *)p)->section_id; }
 
 void*TWindowComCard::get_kbd_ptr() { return (char*)this + 0x20; }
 
@@ -169,7 +169,7 @@ extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data
     t4 = (WindowTextEntry *)s[1];
     t14 = (WindowTextEntry *)s[5];
     set_text_entry_string(t0, (uaddr)reinterpret_cast<GuildCardEntry *>(data)->get_name(), 0x220);
-    n = TWindowComCard__sub_80249C20(data);
+    n = get_guild_card_language(data);
     if (n > 5) {
         n = 5;
     }
@@ -179,7 +179,7 @@ extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data
         n = 0xC;
     }
     TWindowDuelResult::set_default_status(t8, get_class_name_text(n));
-    n = TWindowComCard__sub_80249C18(data);
+    n = get_guild_card_section_id(data);
     if (n > 0xA) {
         n = 0xA;
     }

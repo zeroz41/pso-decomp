@@ -14,7 +14,7 @@ void TLobby__sub_803CBF90(GcrnaStream *stream, s32 rate);
 void TLobby__sub_803CBFB0(GcrnaStream *stream, s32 stream_count);
 s32 TLobby__sub_803CBFF0(GcrnaStream *stream);
 s32 query_available_size(GcrnaStream *stream);
-void TLobby__sub_803CC030(GcrnaStream *stream, s32 enabled);
+void gcrna_bridge_set_play_sw(GcrnaStream *stream, s32 enabled);
 void gcrna_bridge_update_streams(void);
 void gcrna_bridge_set_trans_sw(GcrnaStream *stream, s32 enabled);
 GcrnaStream *gcrna_bridge_create(SjRingBuffer **inputs, s32 channels);

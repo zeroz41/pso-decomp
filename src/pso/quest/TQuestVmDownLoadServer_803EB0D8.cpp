@@ -1110,16 +1110,16 @@ s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr) {
   s32 hi;
   u16 c;
   s32 lo;
-  int new_var;
+  int lo_byte;
   u16 a;
   c = ch;
   a = (attr & 0xF) << 12;
-  new_var = ch & 0xFF;
+  lo_byte = ch & 0xFF;
   hi = (ch >> 8) & 0xFF;
-  lo = new_var;
-  if (is_sjis_char(new_var, hi))
+  lo = lo_byte;
+  if (is_sjis_char(lo_byte, hi))
   {
-    if (sjis_code_kind(c, new_var) == 1)
+    if (sjis_code_kind(c, lo_byte) == 1)
     {
       a |= 0x300;
     }
@@ -1129,7 +1129,7 @@ s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr) {
     }
   }
   else
-    if (is_jis_char(new_var, hi))
+    if (is_jis_char(lo_byte, hi))
   {
     a |= 0x500;
     if (ch == 0x2474)
@@ -2192,7 +2192,7 @@ void TQuestVmDownLoadServer__sub_803EE580(s32 pos, s32 len, QuestDownloadTextNod
   s32 r;
   QuestDownloadTextNode *q2;
   u32 prev;
-  QuestDownloadRequest *new_var;
+  QuestDownloadRequest *request;
   s32 pad;
   s32 *pp = &pad;
   q2 = cmd;
@@ -2242,9 +2242,9 @@ void TQuestVmDownLoadServer__sub_803EE580(s32 pos, s32 len, QuestDownloadTextNod
     obj->pad6 = 0;
     obj->x7 = 0x19;
     obj->x8 = 0;
-    new_var = obj;
+    request = obj;
     obj->text = lbl_8058DCE8;
-    TQuestVmDownLoadServer__sub_803EEDC0(new_var, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values, buf - ((0, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values)));
+    TQuestVmDownLoadServer__sub_803EEDC0(request, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values, buf - ((0, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values)));
   }
   else
   {

@@ -100,7 +100,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void state_t_wait(s32 reason);
     void cast_resta();
     void state_backstep(s32 reason);
-    void sub_800E7268();
+    void halve_evp();
 };
 
 LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, fade) == 0x3E8);

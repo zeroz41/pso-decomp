@@ -46,14 +46,14 @@ CsnHit *csnLookAt(const Vec *from, const Vec *to);
 }
 
 extern "C" {
-void TObjPlayer__sub_80079108(void);
+void csn_debug_hook_under_query(void);
 }
 void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color);
 void csn_debug_hook_hit_record(CsnHit *hit);
 void csn_debug_hook_group_list(CsnGroup *const *groups);
 void csn_debug_hook_query_name(const char *name);
 extern "C" {
-void TObjPlayer__sub_8007911C(void);
+void csn_debug_hook_query_begin(void);
 }
 void csn_debug_hook_origin_vector(const Vec *origin);
 void csn_debug_hook_segment(const Vec *from, const Vec *to);
@@ -67,7 +67,7 @@ s32 check_line_hits_walls(Vec *from, Vec *to, u32 mask, CsnGroup **groups);
 s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *face, Vec *vertices, s32 mode);
 extern "C" {
 CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **cache, u32 mask);
-CsnGroup *TObjPlayer__sub_80079DE0(Vec *from, Vec *to);
+CsnGroup *select_segment_query_groups(Vec *from, Vec *to);
 }
 CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask);
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);

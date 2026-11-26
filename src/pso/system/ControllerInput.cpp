@@ -75,7 +75,7 @@ s32 TKeyBoardControl__sub_801A58B0(void) {
 }
 
 s32 TKeyBoardControl__sub_801A58D8(void) {
-    return hardware_keyboard_state.sub_80132310();
+    return hardware_keyboard_state.is_shift_held();
 }
 
 s32 TKeyBoardControl::check_and_read(s32 key) {
@@ -97,7 +97,7 @@ s32 TKeyBoardControl::is_key_down(s32 key) {
     s32 n;
     n = hardware_keyboard_state.get_pending_count();
     for (i = 0; i < n; i++) {
-        if ((u8)key == hardware_keyboard_state.sub_8013239C(i)) {
+        if ((u8)key == hardware_keyboard_state.get_pending_key(i)) {
             return 1;
         }
     }
@@ -152,9 +152,9 @@ s32 TKeyBoardControl::get_ascii_key() {
   {
     return 0;
   }
-  result = hardware_keyboard_state.sub_8013239C(0);
+  result = hardware_keyboard_state.get_pending_key(0);
   key = result;
-  shift_held = hardware_keyboard_state.sub_80132310();
+  shift_held = hardware_keyboard_state.is_shift_held();
   if ((((s32) key) >= 0x2A) && (((s32) key) <= 0x32))
   {
     return key + 7;
@@ -582,7 +582,7 @@ s32 ControllerInputContext::poll_key_state() {
     }
     n = hardware_keyboard_state.get_pending_count();
     for (j = 0; j < n; j++) {
-        accumulate_key_bits(hardware_keyboard_state.sub_8013239C(j), &pressed_buttons);
+        accumulate_key_bits(hardware_keyboard_state.get_pending_key(j), &pressed_buttons);
     }
     held_with_sticks = buttons;
     pressed_with_sticks = pressed_buttons;

@@ -638,7 +638,7 @@ void TObjPlayer::send_6x57() {
 #pragma opt_dead_assignments off
 void TObjPlayer::update_off_floor_state() {
   f32 alpha;
-  s16 *new_var;
+  s16 *phase_ptr;
   if (is_on_current_floor() != 0)
   {
     this->clear_state_flags(4);
@@ -655,8 +655,8 @@ void TObjPlayer::update_off_floor_state() {
       if (alpha < 0.0f)
     {
       alpha = 0.0f;
-      new_var = &this->phase;
-      *new_var = 1;
+      phase_ptr = &this->phase;
+      *phase_ptr = 1;
       this->set_actor_flags(0x02000000);
       this->clear_player_status_flag(0, 1);
     }
@@ -5204,7 +5204,7 @@ void G_AttackFinished_6x46::bswap_received() {
 }
 
 G_AttackFinished_6x46::G_AttackFinished_6x46() {
-    TObjPlayer__sub_8012AF00(&targets);
+    construct_captured_target_list(&targets);
     header.subcommand = 0x46;
     header.size = sizeof(G_AttackFinished_6x46) / 4;
 }
@@ -5703,8 +5703,8 @@ void PlayerAttackController::set_recovery_timer(s32 frames) { recovery_timer = f
 s32 PlayerAttackController::get_recovery_timer() { return recovery_timer; }
 
 void TObjPlayer::request_heavy_attack_particles() {
-    u16 *arg0 = (u16 *)this;
-    emit_heavy_attack_particles((saddr)((s8 *)arg0 + 4), *arg0);
+    u16 *record = (u16 *)this;
+    emit_heavy_attack_particles((saddr)((s8 *)record + 4), *record);
 }
 
 #pragma push

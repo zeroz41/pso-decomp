@@ -369,7 +369,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       {
         color = 0xFFFF00FF;
       }
-      player_list_window->sub_80248994(color, j);
+      player_list_window->set_item_color(color, j);
     }
   }
 }

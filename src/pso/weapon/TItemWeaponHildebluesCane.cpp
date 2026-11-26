@@ -9,13 +9,13 @@
 #include <stdlib.h>
 
 void TItemWeaponHildebluesCane::emit_marker_effects() {
-    Vec sp8;
+    Vec muzzle;
     TObjPlayer *owner;
 
     if (is_mode_two_and_ready() != 0) {
-        if (get_joint_position(0, &sp8) != 0) {
+        if (get_joint_position(0, &muzzle) != 0) {
             owner = this->owner;
-            TTecGiBarta::create_ex(owner, &sp8, owner->rotation_y, (((TItemWeapon *)this)->get_tp()));
+            TTecGiBarta::create_ex(owner, &muzzle, owner->rotation_y, (((TItemWeapon *)this)->get_tp()));
             roll_technique();
         }
     } else {

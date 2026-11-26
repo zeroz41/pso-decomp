@@ -344,7 +344,7 @@ void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, void *arg2_
 
 void TWindowShortListCtrl::cycle_list_page() {
     s32 port = is_player_input_active(client_id);
-    if (test_pressed_buttons_packed(&controller_input_state.controllers[port], fn_8002AE08(client_id)) != 0) {
+    if (test_pressed_buttons_packed(&controller_input_state.controllers[port], get_control_button_mask(client_id)) != 0) {
         s8 old_page = page;
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {

@@ -550,7 +550,7 @@ void bswap_32(u32 *val) {
 void TObjEneRe4Sorcerer__sub_801E3F14(void) {  }
 void TObjEneRe4Sorcerer__sub_801E3F18(void) {  }
 
-void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32) {  }
+void set_texture_scroll(f32, f32) {  }
 
 void TObjEneRe4Sorcerer__sub_801E3F20(void) {  }
 

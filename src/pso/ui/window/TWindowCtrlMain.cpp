@@ -83,7 +83,7 @@ struct Poly_8024CE68 {
     s32 count;
 };
 }
-extern "C" s32 fn_8002AE08(s32 client_id);
+extern "C" s32 get_control_button_mask(s32 client_id);
 
 // -inline off,deferred: these sit at the end of the TU's text, so they come first in the source.
 s32 TWindowCtrlPlayer::is_main_menu_locked() { return (flags >> 6) & 0x1; }
@@ -292,7 +292,7 @@ void TWindowCtrlPlayer::update_short_list_request() {
                     short_list = NULL;
                 }
             } else if (short_list == NULL && is_keyboard_held() == 0) {
-                if (test_previous_buttons_packed(btn = &controller_input_state.controllers[idx], fn_8002AE08(client_id)) != 0 &&
+                if (test_previous_buttons_packed(btn = &controller_input_state.controllers[idx], get_control_button_mask(client_id)) != 0 &&
                     test_pressed_buttons_packed(btn, 0x200) != 0) {
                     short_list = new TWindowShortListCtrl(this, client_id);
                 }

@@ -205,7 +205,7 @@ struct TObjPlayer : public TObjChara {
     void init_body_parts(void *visual);
     void init_model_and_idle_pose();
     void init_model_buffer_and_actions(void *data);
-    s32 sub_801A1DDC();
+    s32 is_local_or_split_screen();
     void gain_photon_blast_chain_charge(f32 amount);
     void spend_photon_blast_charge(f32 charge);
     void gain_photon_blast_charge(f32);

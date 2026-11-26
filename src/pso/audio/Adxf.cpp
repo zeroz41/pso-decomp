@@ -232,7 +232,7 @@ s32 ADXF_Seek(AdxfHandle *adxf, s32 pos, s32 type) {
     return adxf->sector_position;
 }
 
-void TLobby__sub_803CC884(void) {
+void adxf_update_file_states(void) {
     AdxfHandle *p;
     s32 i;
     s32 position;
@@ -628,13 +628,13 @@ s32 ADXF_GetPtStat(s32 id) {
         s32 n;
         if (memcmp(afs_toc_buffer, "AFS", 3) != 0) {
             adxerr_report("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
-            TLobby__sub_803CD804();
+            adxf_end_partition_load();
             return 4;
         }
         n = rd32_803CD5C4(afs_toc_buffer + 4);
         if (n > 0x10000) {
             adxerr_report("E0040702:Illigal number of file.(ADXF_GetPtStat)");
-            TLobby__sub_803CD804();
+            adxf_end_partition_load();
             return 4;
         }
         e->fc = n;
@@ -650,14 +650,14 @@ s32 ADXF_GetPtStat(s32 id) {
         arr[lobby_afs_toc_entry_index++] = (LE32_803CD5C4(q) + 0x7FF) / 2048;
         if (lobby_afs_toc_entry_index >= e->f8) {
             st = 3;
-            TLobby__sub_803CD804();
+            adxf_end_partition_load();
             break;
         }
     }
     if (i >= 0x200) {
         if (ADXF_ReadNw32(lobby_adxf_open_file_handle, 1, afs_toc_buffer) < 0) {
             st = 4;
-            TLobby__sub_803CD804();
+            adxf_end_partition_load();
         } else {
             st = lobby_adxf_open_file_handle->state;
         }
@@ -665,7 +665,7 @@ s32 ADXF_GetPtStat(s32 id) {
     return st;
 }
 
-void TLobby__sub_803CD804(void) {
+void adxf_end_partition_load(void) {
     ADXF_Close(lobby_adxf_open_file_handle);
     lobby_adxf_open_file_handle = 0;
     lobby_adxf_current_file_id = -1;

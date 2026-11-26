@@ -93,11 +93,11 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
             s16 *dst = adxb->buf;
             dst += adxb->pos;
             channel->post_request((s8 *)adxb->src, n * 2, dst, dst + adxb->rOff);
-            TLobby__sub_803CB4A4(channel);
+            start_adx_decoder_channel(channel);
         } else {
             AdxDecoderChannel *channel = adxb->channel;
             channel->try_post_command((s8 *)adxb->src, n, adxb->buf + adxb->pos);
-            TLobby__sub_803CB4A4(channel);
+            start_adx_decoder_channel(channel);
         }
         adxb->state = 2;
     }

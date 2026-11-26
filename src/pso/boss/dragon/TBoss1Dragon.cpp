@@ -347,7 +347,7 @@ void MaterialColorFade::set_speed(f32 v) { rate = v; }
 s32 TWindowKeyBoardHard::test_card_flag_2(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 2); }
 
 extern "C" {
-s32 fn_8002AE08(s32 client_id) {
+s32 get_control_button_mask(s32 client_id) {
     return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x20000 : 0x10000;
 }
 
@@ -4127,7 +4127,7 @@ void TBoss1Dragon::update_controlled_stand_state(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss1_dragon_control_client_id)) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, get_control_button_mask(boss1_dragon_control_client_id)) != 0) {
             this->request_state_change(9);
         }
         return;
@@ -4219,7 +4219,7 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss1_dragon_control_client_id)) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, get_control_button_mask(boss1_dragon_control_client_id)) != 0) {
             this->request_state_change(9);
             return;
         }

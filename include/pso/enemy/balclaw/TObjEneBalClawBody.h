@@ -11,7 +11,7 @@ class TParticleCtrl;
 struct TObjEneBalClawBody : public TObjEneBalClaw {
     TObjEneBalClawBody(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneBalClawBody();
-    void sub_800C73F4();
+    void return_home_or_idle();
     int is_form_1();
     s32 get_int_parameter(s32 i);  // balclaw_body_behavior_params[variant]->int_params[i]
     virtual void run_task();

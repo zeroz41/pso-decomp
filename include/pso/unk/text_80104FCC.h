@@ -6,7 +6,7 @@
 struct TObjPlayer;
 struct TItemData;
 
-u8 roll_weapon_special_channel15(u8 arg0);
+u8 roll_weapon_special_channel15(u8 stars);
 // Whether the player's class has every class bit perm asks for.
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 extern "C" {
@@ -21,7 +21,7 @@ struct TItemData;
 TItem *construct_item(TItemData *data);
 
 // --- C functions defined in text_80104FCC.cpp ---
-u8 roll_weapon_special_channel15(u8 arg0);
+u8 roll_weapon_special_channel15(u8 stars);
 // --- end of C functions
 
 #endif

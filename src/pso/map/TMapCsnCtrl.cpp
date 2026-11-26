@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_80140FF4.h"
 
-void fn_80140DFC(TMapCsnCtrl *controller, TObjMapCsn *object) {
+void remove_map_collision(TMapCsnCtrl *controller, TObjMapCsn *object) {
     remove_collision_group(controller, get_map_collision_group(object));
 }
 
@@ -29,7 +29,7 @@ void remove_collision_group(TMapCsnCtrl *controller, CsnGroup *group) {
     }
 }
 
-void fn_80140EA8(TMapCsnCtrl *controller, TObjMapCsn *object) {
+void register_map_collision(TMapCsnCtrl *controller, TObjMapCsn *object) {
     register_slot(controller, get_map_collision_group(object));
 }
 
@@ -57,7 +57,7 @@ void collect_collision_groups(TMapCsnCtrl *controller, CsnGroup *groups) {
 // TObjMapCsn.cpp.
 const char *TObjMapCsn::class_name = "TObjMapCsn";
 
-void TMapCsnCtrl::sub_80140F44() {
+void TMapCsnCtrl::clear_groups() {
     groups[0] = NULL;
 }
 
@@ -65,5 +65,5 @@ TMapCsnCtrl::~TMapCsnCtrl() {}
 
 TMapCsnCtrl::TMapCsnCtrl(TObject *parent) : TObject(parent) {
     m_name = TMapCsnCtrl::class_name;
-    sub_80140F44();
+    clear_groups();
 }

@@ -70,11 +70,11 @@ void TWindowChoiceSetting::sub_80249144() {
 
 TWindowChoiceSetting *TWindowChoiceSetting::create_choice_setting_window(
     const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows) {
-    sub_80249220(extent, rows);
+    set_popup_size(extent, rows);
     return new TWindowChoiceSetting(const_cast<NJS_POINT2 *>(position), rows);
 }
 
-void TWindowChoiceSetting::sub_80249220(const NJS_POINT2 *extent, s32 rows) {
+void TWindowChoiceSetting::set_popup_size(const NJS_POINT2 *extent, s32 rows) {
     set_choice_setting_popup_size(extent, rows);
 }
 

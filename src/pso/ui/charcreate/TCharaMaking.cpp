@@ -1,3 +1,4 @@
+#include "pso/render/model_render_state.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -204,11 +205,6 @@ P_8028DCCC character_proportion_height_table[12] = {
 extern "C" {
 s32 TCharaMaking__sub_8028E3A0(f32 *uv);
 }
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {

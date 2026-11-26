@@ -323,7 +323,7 @@ void TAdRicoRingCtrl::start_fade_all(f32 x) {
     }
 }
 
-void TAdRicoRingCtrl::sub_8001B4A0(f32 x) {
+void TAdRicoRingCtrl::start_rings_anim(f32 x) {
     s32 i;
     for (i = 0; i != 2; i++) {
         if (rings[i] != NULL) {

@@ -68,7 +68,7 @@ void TObjEneRe2Flower::state_die(s32 reason) {
                 vec3_add_to(&effect_pos, &position);
                 if (is_tower_variant() != 0) {
                     TDeadSpot::spawn_kind0_scale7_5(&effect_pos, 0x32);
-                    fn_800D911C(&effect_pos);
+                    create_particle_emitter_pair(&effect_pos);
                     appear_fade.init_death_params();
                 } else {
                     TDeadSpot::spawn_kind1_scale2_5(&effect_pos, 0x32);

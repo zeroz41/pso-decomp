@@ -18,7 +18,7 @@ void TLobby__sub_803C96A8(AdxtPlayer *player, s32 freq);
 s16 TLobby__sub_803C96B0(AdxtPlayer *player);
 s32 TLobby__sub_803C9740(AdxtPlayer *player);
 s32 TLobby__sub_803C97B8(AdxtPlayer *player);
-void TLobby__sub_803C97F4(AdxtPlayer *player, s32 *pos, s32 *rate);
+void adxt_get_play_position(AdxtPlayer *player, s32 *pos, s32 *rate);
 s32 TLobby__sub_803C9CB0(AdxtPlayer *player);
 void TLobby__sub_803C9DB4(AdxtPlayer *player);
 void adx_destroy_stream_player(AdxtPlayer *player);

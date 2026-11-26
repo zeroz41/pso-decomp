@@ -220,7 +220,7 @@ void TObjCityMainWarpChallenge::update_warp_dialogs() {
                 (player)->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
-            this->player_list_window->sub_80248994(color, j);
+            this->player_list_window->set_item_color(color, j);
         }
     }
 }

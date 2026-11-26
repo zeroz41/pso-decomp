@@ -32,22 +32,22 @@
 
 
 void TWindowSubAreaMapDisp::update_visibility() {
-    if ((s32) this->m_6c != 0) {
+    if (this->manual_scroll != 0) {
         if (this->is_closed() != 0) {
-            this->m_6c = 0;
+            this->manual_scroll = 0;
             TWindowCtrl::clear_active_flag();
             TRaderMapCore::clear();
         }
     } else if (!(this->window_flags & 2) && (this->is_closed() == 0)) {
-        this->m_6c = 1;
+        this->manual_scroll = 1;
         TRaderMapCore::open_free_map_view();
         TRaderMapCore::show_radar();
         TWindowCtrl::set_flag_bit0();
         {
             f32 c = 0.0f;
-            *(f32 *)&this->unk_60 = c;
-            this->m_64 = c;
-            *(f32 *)&this->unk_68 = c;
+            this->pan_x_speed = c;
+            this->pan_y_speed = c;
+            this->zoom_speed = c;
         }
     }
 }
@@ -145,7 +145,7 @@ void TWindowSubAreaMapDisp::render() {
     WindowDrawContext *context = draw_default_entry();
     draw_window_frame(context);
     heading->render(context);
-    if ((s32) this->m_6c != 0) {
+    if (this->manual_scroll != 0) {
         ((s32 (*)(void *, s32))TWindowSubStatusDisp__sub_80271A6C)(this, reinterpret_cast<saddr>(context));
         ((s32 (*)(void *, s32))fn_80271848)(this, reinterpret_cast<saddr>(context));
     }
@@ -164,7 +164,7 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
         mem_free(title);
         title = NULL;
     }
-    if ((s32) this->m_6c != 0) {
+    if (this->manual_scroll != 0) {
         TWindowCtrl::clear_active_flag();
         TRaderMapCore::clear();
     }
@@ -191,6 +191,6 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&area_map_dis
     strncpy(title, (const char *)str, (u32)title_len + 1);
     display = new WindowHeading(reinterpret_cast<saddr>(title), client_index);
     heading = display;
-    this->m_6c = 0;
+    this->manual_scroll = 0;
 }
 

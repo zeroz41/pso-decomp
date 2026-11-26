@@ -675,7 +675,7 @@ void TObjEneRe4Sorcerer::create_effect() {
     play_persistent_sound(remap_sound_for_area(0x4003AB13), this, &position, 0, 0);
 }
 
-void TObjEneRe4Sorcerer::sub_800EF214() {
+void TObjEneRe4Sorcerer::play_idle_sound() {
     play_persistent_sound(this->remap_sound_for_area(0x4003A81D), this, &this->position, 0, 0);
 }
 
@@ -813,7 +813,7 @@ void TObjEneRe4Sorcerer::update_enter_state(s32 reason) {
             break;
         }
         this->update_ground_contact();
-        sub_800EF214();
+        play_idle_sound();
         break;
     case 5:
         this->effect_scale = 1.0f;
@@ -868,7 +868,7 @@ void TObjEneRe4Sorcerer::update_fade_out_state(s32 reason) {
                 this->state_step = 1;
                 this->behavior_flags &= 0xFFFFFFF9;
             }
-            sub_800EF214();
+            play_idle_sound();
             break;
         case 1:
             this->state_timer = this->state_timer + 1;
@@ -1007,7 +1007,7 @@ void TObjEneRe4Sorcerer::update_attack_state(s32 reason) {
         }
         this->check_collisions();
         this->update_body_colliders();
-        sub_800EF214();
+        play_idle_sound();
         return;
     case 5:
         if (bit != NULL) {
@@ -1202,7 +1202,7 @@ void TObjEneRe4Sorcerer::update_cure_state(s32 reason) {
         }
         this->check_collisions();
         this->update_body_colliders();
-        sub_800EF214();
+        play_idle_sound();
         return;
     case 5:
         if (bit != NULL) {
@@ -1234,7 +1234,7 @@ void TObjEneRe4Sorcerer::update_damage_state(s32 reason) {
         this->move_to_wall_clamped_destination(v.x, v.z, c);
         this->velocity.x *= 0.8f;
         this->velocity.z *= 0.8f;
-        sub_800EF214();
+        play_idle_sound();
         break;
     case 5:
         this->clear_attack_receipts();
@@ -1249,7 +1249,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 mode) {
         behavior_flags |= 6;
         refresh_and_send_entity_flags();
         state_timer = 0;
-        fn_800D911C(&body_center);
+        create_particle_emitter_pair(&body_center);
         fade.start_fade_out();
         effect_scale = 0.0f;
         play_sound_effect(remap_sound_for_area(0x4003AD19), &position, 0, 0);
@@ -1334,7 +1334,7 @@ void TObjEneRe4Sorcerer::render() {
         TObjEneDD::clear_global_flag_400();
         re4_sorcerer_uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         model_render_flags |= 0x20000;
-        TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
+        set_texture_scroll(0.0f, texture_scroll);
         toggle_particle_effect();
         draw_model = 1;
         if (behavior_flags & 4) {
@@ -1400,7 +1400,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         re4_sorcerer_uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         texture_scroll += 0.01f;
         model_render_flags |= 0x20000;
-        TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
+        set_texture_scroll(0.0f, texture_scroll);
         toggle_particle_effect();
         draw_chunk_object(model);
         TParticleCtrl::end_effect_render();

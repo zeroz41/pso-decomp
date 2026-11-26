@@ -25,8 +25,8 @@ struct Pair_803C8678 { u32 a, b; };
 void adxt_trap_entry_update(void *context);
 
 extern "C" {
-void TLobby__sub_803CB194(void *context);
-void TLobby__sub_803CA8B4(AdxtPlayer *);
+void adxt_loop_callback(void *context);
+void adxt_exec_handle(AdxtPlayer *);
 }
 extern "C" {
 
@@ -73,7 +73,7 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
         audio_stream_get_state(self->input_state) == 3) {
         if (self->auto_start_flag == 0) {
             if (self->pause_flag == 0) {
-                TLobby__sub_803CC030(rna, 1);
+                gcrna_bridge_set_play_sw(rna, 1);
                 self->base_time = 0;
                 self->base_vblank = adxt_vblank_count;
             }
@@ -96,14 +96,14 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
 inline void end_803CA8B4(AdxtPlayer *self) {
     lbl_805D7578 = query_available_size(self->rna_handle);
     if (query_available_size(self->rna_handle) <= 0) {
-        TLobby__sub_803CC030(self->rna_handle, 0);
+        gcrna_bridge_set_play_sw(self->rna_handle, 0);
         self->stat = 5;
     }
 }
 // Inferred: CRI ADXT_ExecHndl (per-handle state step of the ADXT server).
 #pragma push
 #pragma opt_common_subs off
-void TLobby__sub_803CA8B4(AdxtPlayer *self) {
+void adxt_exec_handle(AdxtPlayer *self) {
     s8 stat = self->stat;
     if (stat == 3) {
         prep_803CA8B4(self);
@@ -165,7 +165,7 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
                 self->reserved_50 = self->reserved_50 % 0x800;
                 self->total_pages = pages;
                 set_adx_stream_end_sector(self->stream_file, pages);
-                set_adx_stream_completion(self->stream_file, TLobby__sub_803CB194, self);
+                set_adx_stream_completion(self->stream_file, adxt_loop_callback, self);
             }
             s32 e = input_state->get_loop_end_sample();
             self->loop_end_sample = e;
@@ -271,14 +271,14 @@ void TLobby__sub_803CAEB4(void *context) {
     if (r1 == 0)
     {
       ring->interface->unget_chunk(ring, 1, &b);
-      TLobby__sub_803D3130(&a, n, &a, &c);
+      sj_chunk_split(&a, n, &a, &c);
       ring->interface->put_chunk(ring, 0, &a);
       ring->interface->unget_chunk(ring, 1, &c);
     }
     else
     {
       ring->interface->put_chunk(ring, 0, &a);
-      TLobby__sub_803D3130(&b, m, &b, &d);
+      sj_chunk_split(&b, m, &b, &d);
       ring->interface->put_chunk(ring, 0, &b);
       ring->interface->unget_chunk(ring, 1, &d);
     }
@@ -298,7 +298,7 @@ void TLobby__sub_803CAEB4(void *context) {
   }
 }
 
-void TLobby__sub_803CB194(void *context) {
+void adxt_loop_callback(void *context) {
     AdxtPlayer *player = static_cast<AdxtPlayer *>(context);
     AdxStreamFile *file = player->stream_file;
     s32 loop_start_byte = player->input_state->get_loop_start_byte();

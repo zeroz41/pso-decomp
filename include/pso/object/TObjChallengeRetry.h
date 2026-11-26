@@ -27,8 +27,8 @@ public:
     void update_destroy_countdown();
     void open_loss_menu();
     void close_window_2c();
-    void sub_80072BB0();
-    void sub_80072B70();
+    void open_message();
+    void close_message();
     virtual void run_task();
 };
 
