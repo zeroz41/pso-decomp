@@ -75,8 +75,8 @@ TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 stop_switch, s32 requi
 }
 
 
-void TOSwitchAttack::create_sub(saddr parent, s32 stop_switch, s32 required_switch, s32 type, f32 scale) {
-    new TOSwitchAttackSub((TObject *)parent, stop_switch, required_switch, (u32)type, scale);
+void TOSwitchAttack::create_sub(s32 stop_switch, s32 required_switch, s32 type, f32 scale) {
+    new TOSwitchAttackSub(this, stop_switch, required_switch, (u32)type, scale);
 }
 
 

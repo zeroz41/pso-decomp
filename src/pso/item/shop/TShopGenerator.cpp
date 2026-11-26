@@ -84,12 +84,12 @@ bool TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
 }
 #pragma pop
 
-s32 TShopGenerator::is_no_service_active(void *self, saddr player) {
+s32 TShopGenerator::is_no_service_active(void *self, TObjBase *player) {
     s32 i;
     int (*get_slot_flag)(int);
     for (i = 0; i < 7; i++) {
         get_slot_flag = service_dispatch_table[i].get_slot_flag;
-        if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(player))->get_entity_id())) == 1) {
+        if (get_slot_flag((u16)get_client_split_screen_slot(player->get_entity_id())) == 1) {
             return 0;
         }
     }
@@ -138,7 +138,7 @@ void TShopGenerator::run_task() {
         if (TMedicalCenterMes::get_slot_flag(q->get_entity_id()) == 1) return;
         if (q->is_action_input_disabled() == 1) return;
         if (q->is_controls_locked() == 1) return;
-        if (is_no_service_active(this, (saddr)q) == 0) return;
+        if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)get_client_split_screen_slot(q->get_entity_id())) == 1) return;
         if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)q, 20.0f) == 0) return;

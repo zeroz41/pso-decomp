@@ -64,7 +64,7 @@ void TTecShot::dispatch_all_technique_contacts() {
         return;
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active((uaddr) list->actors[i]) != 0) {
+        if (TObjPlayer::is_valid_and_active(list->actors[i]) != 0) {
             TObjChara *p = (TObjChara *) list->actors[i];
             if (p != NULL) {
                 contact = list->bodies[i];
@@ -94,7 +94,7 @@ void TTecShot::dispatch_technique_contact(s32) {
         queue_destruction();
         return;
     }
-    if (TObjPlayer::is_valid_and_active((uaddr) list->actors[0]) != 0) {
+    if (TObjPlayer::is_valid_and_active(list->actors[0]) != 0) {
         TObjChara *p = (TObjChara *) list->actors[0];
         if (p != NULL) {
             contact = list->bodies[0];
@@ -134,7 +134,7 @@ void TTecReverser::run_task() {
         return;
     }
     entity = find_entity_by_id(targets.records[0].id);
-    if ((entity->is_active() == 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0)) {
+    if ((entity->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
         apply_to_target((TObjChara *)entity);
     }
     queue_destruction();

@@ -461,7 +461,7 @@ void TObjEneGibbles::refresh_target() {
         best = movementParameters->search_range * movementParameters->search_range;
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != (TObjChara *)this) {
+            if (TObjPlayer::is_valid_and_active(p) != 0 && p != (TObjChara *)this) {
                 id = p->get_entity_id();
                 if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x02000800)) {
                     VecCopy(&v, &p->body_center);
@@ -980,7 +980,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
         }
         for (i = 0; i < entity_table_count; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p->get_entity_id() < 0x1000) {
+            if (TObjPlayer::is_valid_and_active(p) != 0 && p->get_entity_id() < 0x1000) {
                 d = horizontal_distance_squared(&p->body_center, &v);
                 if (d <= gibbles_combat_stat_entries[0]->get_damage_radius() * gibbles_combat_stat_entries[0]->get_damage_radius()) {
                     a.kind = 0;
@@ -1000,7 +1000,7 @@ s32 TObjEneGibbles::landing_damage_players() {
 
     for (i = 0; i < entity_table_count; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl->get_entity_id() < 0x1000U) {
+        if (TObjPlayer::is_valid_and_active(pl) != 0 && pl->get_entity_id() < 0x1000U) {
             f32 dist = horizontal_distance_squared(&pl->body_center, &position);
             if (dist <= gibbles_combat_stat_entries[1]->get_damage_radius() * gibbles_combat_stat_entries[1]->get_damage_radius()) {
                 DirectAttackPayload attack;

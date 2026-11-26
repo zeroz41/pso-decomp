@@ -71,7 +71,7 @@ void TItemWeaponYasminkov9000M::yasminkov_9000m_eject_casing(Vec *pos, s32 angle
         angle[0] = 0x4000;
         angle[1] = owner->rotation_y;
         angle[2] = 0;
-        TObjPlayer::spawn_weapon_casing((saddr)tl_05, (uaddr)this, (uaddr)pos, (uaddr)&dir, (uaddr)angle);
+        TObjPlayer::spawn_weapon_casing(tl_05, this, pos, &dir, angle);
     }
 }
 

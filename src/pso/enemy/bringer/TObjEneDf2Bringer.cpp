@@ -471,7 +471,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 }
                 eff = (u8 *)TObject::operator new(0x34);
                 if (eff != NULL) {
-                    construct_bringer_rush_effect(eff, (saddr)this, (u8 *)this, (saddr)player, 12.0f);
+                    construct_bringer_rush_effect(eff, (saddr)this, (u8 *)this, player, 12.0f);
                 }
             }
         }

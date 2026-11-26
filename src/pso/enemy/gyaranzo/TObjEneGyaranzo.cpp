@@ -820,7 +820,7 @@ void TObjEneGyaranzo::select_targets() {
     }
     for (i = 0; i < count; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)p) == 0) continue;
+        if (TObjPlayer::is_valid_and_active(p) == 0) continue;
         if (p == this) continue;
         if (p->actorFlags & 0x2000800) continue;
         VecCopy(&d, &p->body_center);

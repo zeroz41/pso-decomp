@@ -384,7 +384,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
             }
             if (target_player != 0xFFFF) {
                 TObjPlayer *player = TObjPlayer::get_player_data(target_player);
-                if (TObjPlayer::is_valid_and_active((uaddr)player) != 0) {
+                if (TObjPlayer::is_valid_and_active(player) != 0) {
                     if (check_path_obstructed(this, &player->body_center) == 1) {
                         action_timer = 0;
                         target_player = 0xFFFF;
@@ -410,7 +410,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
                 target_slot++;
                 target_player = select_slot_target(target_slot);
                 if (target_player != 0xFFFF) {
-                    if (TObjPlayer::is_valid_and_active((uaddr)TObjPlayer::get_player_data(target_player)) != 0) {
+                    if (TObjPlayer::is_valid_and_active(TObjPlayer::get_player_data(target_player)) != 0) {
                         VecCopy(d, &position);
                         d->y += 10.0f;
                         if (project_actor_to_ground(this, d, 0) != 0) {
@@ -1157,7 +1157,7 @@ u32 TObjEneEpsilonBody::select_slot_target(s32 slot) {
     }
     for (id = 0; id < count; id++) {
         player = TObjPlayer::get_player_data(id);
-        if (TObjPlayer::is_valid_and_active((uaddr)player) == 0) continue;
+        if (TObjPlayer::is_valid_and_active(player) == 0) continue;
         if (player->actorFlags & 0x2000800) continue;
         VecCopy(&d, &player->body_center);
         subtract_vector(&d, &body_center);

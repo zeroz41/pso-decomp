@@ -210,7 +210,7 @@ s32 CharacterSaveRecord::is_bank_full() {
     return (u8)(bank_item_count >= 200);
 }
 
-s32 CharacterSaveRecord::find_bank_item(saddr item) {
+s32 CharacterSaveRecord::find_bank_item(TItemData *item) {
     BankItemRecord *entry;
     s32 i;
 

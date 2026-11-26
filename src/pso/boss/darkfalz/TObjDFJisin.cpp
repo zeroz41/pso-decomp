@@ -223,18 +223,18 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     }
 }
 
-void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
+void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
     if (0.0f != alpha) {
         TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
         if (alpha < 1.0f) {
             begin_alpha_blend(alpha);
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(body_texlist));
+        set_texture_list(body_texlist);
         draw_chunk_object((void *)body);
         if (part != 0U) {
             push_matrix();
             post_translate_matrix(&dark_falz_part_node_position.x);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(part_texlist));
+            set_texture_list(part_texlist);
             draw_chunk_object((void *)part);
             pop_matrix();
         }
@@ -242,7 +242,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(head_texlist));
+            set_texture_list(head_texlist);
             draw_chunk_object((void *)head);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -254,7 +254,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(head_texlist));
+            set_texture_list(head_texlist);
             draw_colored_hair(alpha, (s32)hair, (CharacterAppearanceFields *)appearance, 0);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();

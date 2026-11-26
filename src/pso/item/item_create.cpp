@@ -435,9 +435,9 @@ s32 get_item_data(u32 item) {
     }
     return 0;
 }
-void forward_message(saddr buf, uaddr item) {
+void forward_message(char *buf, TItemData *item) {
     if (item != 0U) {
-        ((TItemData *)item)->format_item_name((char *)buf);
+        item->format_item_name(buf);
     }
 }
 void mark_selected() { lobby_drop_flag = 1; }

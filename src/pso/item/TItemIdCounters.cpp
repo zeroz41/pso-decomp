@@ -91,7 +91,7 @@ void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request) {
                 item.init();
                 item.data1.data_u8[0] = data0;
                 item.data1.data_u8[1] = data1;
-                TObjPlayer::drop_meseta_from_slot(extended.effective_area, (saddr)&item);
+                TObjPlayer::drop_meseta_from_slot(extended.effective_area, &item);
             }
             item.id = id;
             if (item.isValidGroundDrop() != 0) {
@@ -143,7 +143,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
             row.drop_id_base = 0xFFFF;
             set_quest_object_entry(source, &row);
             item.init();
-            TObjPlayer::drop_item(slot, (saddr)&item);
+            TObjPlayer::drop_item(slot, &item);
             item.id = id;
             if (item.isValidGroundDrop() != 0) {
                 item.encode_for_network();
@@ -172,7 +172,7 @@ void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int 
             row.drop_id = 0xFFFF;
             TObjEnemy::apply_by_index(source, &row);
             item.init();
-            TObjPlayer::drop_item_from_slot(area, slot, reinterpret_cast<saddr>(&item));
+            TObjPlayer::drop_item_from_slot(area, slot, &item);
             item.id = id;
             if (item.isValidGroundDrop() != 0) {
                 item.encode_for_network();

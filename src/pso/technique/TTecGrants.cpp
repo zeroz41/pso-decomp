@@ -126,12 +126,12 @@ void TTecGrants::run_task() {
         return;
     }
     entity = find_entity_by_id(targets.records[0].id);
-    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0) && (frames == 0)) {
+    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (frames == 0)) {
         new TTecGrantsEffect(entity, level, tl_07);
     }
     frames = frames + 1;
     if (frames > 0x1E) {
-        if ((entity != NULL) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0)) {
+        if ((entity != NULL) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
             apply_to_target((TObjChara *)entity);
         }
         queue_destruction();

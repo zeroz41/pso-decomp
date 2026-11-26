@@ -2048,10 +2048,9 @@ void TObjPlayer::run_action11_phase(s16 phase) {
 
 void TObjPlayer::switch_interaction_phase6_nop() {  }
 
-void TObjPlayer::apply_velocity_if_ready(saddr player) {
-    TObjPlayer *p = (TObjPlayer *)player;
-    if (p->resolve_move_collision() == 0U) {
-        p->apply_velocity();
+void TObjPlayer::apply_velocity_if_ready() {
+    if (resolve_move_collision() == 0U) {
+        apply_velocity();
     }
 }
 
@@ -2125,7 +2124,7 @@ void TObjPlayer::run_switch_interaction_phase(s16 phase) {
         this->start_action_c();
         return;
       case 1:
-        TObjPlayer::apply_velocity_if_ready((saddr)this);
+        apply_velocity_if_ready();
         return;
       case 6:
         switch_interaction_phase6_nop();
@@ -4242,21 +4241,20 @@ void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840));
 
 void TObjPlayer::exit_idle_state() {  }
 
-void TObjPlayer::update_action(saddr owner) {
+void TObjPlayer::update_action() {
     u32 collision;
-    TObjPlayer *p = (TObjPlayer *)owner;
 
-    collision = p->resolve_move_collision();
+    collision = resolve_move_collision();
     if (collision == 0U) {
-        p->apply_velocity();
+        apply_velocity();
     } else if (collision == 1U) {
-        p->rewind_position_history();
+        rewind_position_history();
     }
-    if ((p->is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (p->tick_regen_timer() != 0)) {
-        add_actor_tp(p, 1);
+    if ((is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (tick_regen_timer() != 0)) {
+        add_actor_tp(this, 1);
     }
-    if ((is_android_player(p) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (p->tick_regen_timer() != 0)) {
-        add_actor_hp(p, 1);
+    if ((is_android_player(this) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (tick_regen_timer() != 0)) {
+        add_actor_hp(this, 1);
     }
 }
 
@@ -4423,7 +4421,7 @@ void TObjPlayer::run_idle_state_phase(s16 phase) {
         start_animation();
         return;
       case 1:
-        TObjPlayer::update_action((saddr)this);
+        update_action();
         return;
       case 6:
         TObjPlayer::exit_idle_state();

@@ -366,12 +366,12 @@ void TObjPlayer::init_from_source(PlayerSyncRecord *record) {
     item_node_matrices = player_shared_buffer_base[get_entity_id()];
 }
 
-void TObjPlayer::update_recobox(saddr player) {
+void TObjPlayer::update_recobox() {
     if (is_current_area_item_enabled() != 0) {
-        ((TObjPlayer *)player)->clear_flag_20000();
+        clear_flag_20000();
         return;
     }
-    ((TObjPlayer *)player)->set_flag_20000();
+    set_flag_20000();
 }
 
 void TObjPlayer::destroy_child() {

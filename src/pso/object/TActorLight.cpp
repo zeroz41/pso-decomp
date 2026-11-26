@@ -145,11 +145,11 @@ extern "C" {
 
 const f64 actor_light_half[1] = {0.5};
 
-s32 TObjPlayer::is_valid_and_active(uaddr actor) {
+s32 TObjPlayer::is_valid_and_active(const TObjCollidable *actor) {
     if (actor == 0U) {
         return 0;
     }
-    if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(actor))) {
+    if (obj_is_hit_receivable(actor)) {
         return 1;
     }
     return 0;

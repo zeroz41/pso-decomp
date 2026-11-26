@@ -697,7 +697,7 @@ void TObjEneRecon::state_attack(s32 reason) {
             if (hit_window == 1) {
                 for (i = 0; i < entity_table_count; i++) {
                     p = TObjPlayer::get_player_data(i);
-                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->is_actor_dead() == 0) {
+                    if (TObjPlayer::is_valid_and_active(p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->is_actor_dead() == 0) {
                         d = horizontal_distance_squared(&p->body_center, &root_node_position);
                         if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                             DirectAttackPayload attack;

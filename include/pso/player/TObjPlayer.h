@@ -431,9 +431,9 @@ struct TObjPlayer : public TObjChara {
     static saddr get_item_pmt_entry(u8 index);
     static saddr get_shield_pmt_entry(u8 index);
     static f32 get_drop_random_float(u32 channel);
-    static void drop_item_from_slot(s32 area, s32 slot, saddr item);
-    static void drop_item(s32 slot, saddr item);
-    static void drop_meseta_from_slot(s32 slot, saddr item);
+    static void drop_item_from_slot(s32 area, s32 slot, TItemData *item);
+    static void drop_item(s32 slot, TItemData *item);
+    static void drop_meseta_from_slot(s32 slot, TItemData *item);
     static saddr get_item_by_slot_flag(u8 flags);
     void set_flag_10000();
     void set_state_flags(u32 v);
@@ -464,7 +464,7 @@ struct TObjPlayer : public TObjChara {
     void init_player_data(player_stats *src);
     void init_remote_pad_binding(PlayerSyncRecord *record);
     void init_data_table_ptr();
-    static void update_recobox(saddr player);
+    void update_recobox();
     void destroy_child();
     void load_character_state(TPlyCharData *record);
     void update_action_animation();
@@ -617,7 +617,7 @@ struct TObjPlayer : public TObjChara {
     void run_off_floor_state_phase(s16 phase);
     void run_lobby_animation_state_phase(s16 phase);
     void run_lobby_chair_state_phase(s16 phase);
-    static void apply_velocity_if_ready(saddr player);
+    void apply_velocity_if_ready();
     void start_action_c();
     void send_6x50_switch_interaction();
     void update_if_flag_set();
@@ -681,7 +681,7 @@ struct TObjPlayer : public TObjChara {
     void select_walk_request();
     void cleanup_idle_entry();
     static void exit_idle_state();
-    static void update_action(saddr owner);
+    void update_action();
     void start_animation();
     void send_6x3E_stop_at_position();
     // 6x3F: tells the other clients the player is at pos, facing angle.
@@ -737,7 +737,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_valid_technique_slot(u8 slot);
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
-    static s32 is_valid_and_active(uaddr actor);
+    static s32 is_valid_and_active(const TObjCollidable *actor);
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
     static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();
@@ -753,8 +753,8 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_80000();
     void set_flag_80000();
     // The ending movie's finish callback: TMovie::run_task calls it with the movie.
-    static void enable_foot_stamp(saddr owner, saddr player);
-    static void clear_foot_stamp(saddr owner, saddr player);
+    static void enable_foot_stamp(saddr owner, void *player);
+    static void clear_foot_stamp(saddr owner, void *player);
     static void alloc_and_init(s32 item_id, saddr position, saddr direction);
     static void create_and_init_effect(s32 item_id, u32 *hit, saddr direction);
     static void start_guardianna_hit_card(s32 item_id, u32 *hit, saddr direction);
@@ -777,8 +777,8 @@ struct TObjPlayer : public TObjChara {
     static void spawn_appearance_effect(u16 client);
     // A weapon shot callback: news the shoot model that draws the shot.
     static saddr create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames);
-    static void spawn_weapon_casing(saddr parent, uaddr item, uaddr pos, uaddr velocity, uaddr angle);
-    static void launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr velocity, uaddr angle);
+    static void spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle);
+    static void launch_weapon_casing(TObject *parent, uaddr item, s32 joint, Vec *velocity, s32 *angle);
     static void clear_photon_blast_slots();
     void place_on_area_entry();
     void release_child_object();

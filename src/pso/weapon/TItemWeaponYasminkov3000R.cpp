@@ -28,7 +28,7 @@ void TItemWeaponYasminkov3000R::emit_marker_effects() {
     angle[0] = 0x4000;
     angle[1] = owner->rotation_y;
     angle[2] = 0;
-    TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&dir, (uaddr)angle);
+    TObjPlayer::launch_weapon_casing(tl_05, (uaddr)this, 3, &dir, angle);
     get_joint_position(2, &muzzle);
     spawn_particle_effect(&muzzle, 9);
 }

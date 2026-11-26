@@ -1100,7 +1100,7 @@ s32 TObjEneNanoDrago::collect_beam_targets() {
     beamTargetCount = 0;
     for (i = 0; i < registered_player_count + registered_enemy_count; i++) {
         candidate = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)candidate) != 0) {
+        if (TObjPlayer::is_valid_and_active(candidate) != 0) {
             add_target_in_front_arc(candidate);
         }
     }

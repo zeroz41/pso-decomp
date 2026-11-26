@@ -199,11 +199,11 @@ void PlayerFollowParticles::create_hand_particles(TObjBase *owner) {
     hands.create_right_hand(owner);
 }
 
-void TObjPlayer::clear_foot_stamp(saddr owner, saddr player) {
-    TPlayerFootStamp::create((void *)player, (void *)0);
+void TObjPlayer::clear_foot_stamp(saddr owner, void *player) {
+    TPlayerFootStamp::create(player, (void *)0);
 }
 
-void TObjPlayer::enable_foot_stamp(saddr owner, saddr player) {
-    TPlayerFootStamp::create((void *)player, (void *)1);
+void TObjPlayer::enable_foot_stamp(saddr owner, void *player) {
+    TPlayerFootStamp::create(player, (void *)1);
 }
 

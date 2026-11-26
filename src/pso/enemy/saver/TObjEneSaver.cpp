@@ -1398,7 +1398,7 @@ void TObjEneSaver::damage_targets_in_reach() {
     }
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != this &&
+        if (TObjPlayer::is_valid_and_active(p) != 0 && p != this &&
             p->get_entity_id() < limit && !(p->actorFlags & 0x02000800) &&
             p->select_melee_contact_body(this, 1.0f) != 0) {
             f32 damage = p->receive_physical_attack(this, 1.0f);

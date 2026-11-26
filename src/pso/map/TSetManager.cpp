@@ -1055,11 +1055,11 @@ extern "C" {
 s32 is_battle_mode_running();
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
-void apply_room_transform(saddr matrix, u8 *rotation, u8 *room);
+void apply_room_transform(void *matrix, u8 *rotation, u8 *room);
 void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
 s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq);
 void spawn_decorations_in_range(TSetManager *manager);
-void apply_room_transform(saddr matrix, u8 *rotation, u8 *room_arg) {
+void apply_room_transform(void *matrix, u8 *rotation, u8 *room_arg) {
     SceneMaterialSection *room = (SceneMaterialSection *)room_arg;
     s32 *angles = (s32 *)rotation;
     push_matrix_from(&identity_matrix.value);
@@ -1067,7 +1067,7 @@ void apply_room_transform(saddr matrix, u8 *rotation, u8 *room_arg) {
     rotate_matrix_z(0, room->angles[2]);
     rotate_matrix_x(0, room->angles[0]);
     rotate_matrix_y(0, room->angles[1]);
-    matrix_mult_vec(0, (void *)matrix, (void *)matrix);
+    matrix_mult_vec(0, matrix, matrix);
     pop_matrix();
     angles[0] = angles[0] + room->angles[0];
     angles[1] = angles[1] + room->angles[1];
@@ -1086,7 +1086,7 @@ void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord
             cached_id = row->room;
         }
         if (cached_room) {
-            apply_room_transform((saddr)&row->position, (u8 *)&row->angles, (u8 *)cached_room);
+            apply_room_transform(&row->position, (u8 *)&row->angles, (u8 *)cached_room);
         }
     }
 }
@@ -1105,7 +1105,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
             key = p->placement.room;
         }
         if (sec != NULL) {
-            apply_room_transform((saddr)&p->placement.position, (u8 *)p->placement.rotation, (u8 *)sec);
+            apply_room_transform(&p->placement.position, (u8 *)p->placement.rotation, (u8 *)sec);
         }
     }
 }

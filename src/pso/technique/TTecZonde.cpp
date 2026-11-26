@@ -175,7 +175,7 @@ void TTecZonde::run_task() {
             }
         }
     }
-    if (t != NULL && TTecLuker::is_parents_unqueued(t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
+    if (t != NULL && TTecLuker::is_parents_unqueued(t) != 0 && TObjPlayer::is_valid_and_active(t) != 0) {
         apply_to_target(t);
     }
     queue_destruction();

@@ -47,7 +47,7 @@ struct CharacterSaveRecord {
     // Whether every row of bank_items is in use.
     s32 is_bank_full();
     // Whether the bank holds an item of the same kind as item.
-    s32 find_bank_item(saddr item);
+    s32 find_bank_item(TItemData *item);
     // Puts item in the first free bank row; 0 when the bank is full.
     s32 register_in_free_room_slot(TItemData *item);
 

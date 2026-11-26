@@ -510,7 +510,7 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
     this->status_icon = 51;
     item_data = get_item_data((uaddr)item);
     select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], item->is_wrapped());
-    forward_message((saddr)get_shared_text_buffer(), (uaddr)(void *)item);
+    forward_message(get_shared_text_buffer(), item);
     this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
     update_stat_line_if_positive(count);
     update_item_colors(item);
@@ -532,7 +532,7 @@ void ItemListRow::set_ground_item(TItemData *item, s32 index) {
     this->status_icon = 0x33;
     item_data = get_item_data((uaddr)item);
     select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], item->is_wrapped());
-    forward_message((saddr)get_shared_text_buffer(), (uaddr)(void *)item);
+    forward_message(get_shared_text_buffer(), item);
     this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();

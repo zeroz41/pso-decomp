@@ -140,7 +140,7 @@ void roll_item_channel_below(u32 count, s32 channel) {
     __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(channel));
 }
 
-void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
+void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 idx;
     floor_slot = slot;
@@ -148,10 +148,10 @@ void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
         normalize_drop_area(&floor_slot);
         idx = floor_slot - 1;
         floor_slot = idx;
-        item_mgr->select_enemy_drop(area, idx, (TItemData *)item);
+        item_mgr->select_enemy_drop(area, idx, item);
     }
 }
-void TObjPlayer::drop_item(s32 slot, saddr item) {
+void TObjPlayer::drop_item(s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 off;
     floor_slot = slot;
@@ -159,10 +159,10 @@ void TObjPlayer::drop_item(s32 slot, saddr item) {
         normalize_drop_area(&floor_slot);
         off = floor_slot - 1;
         floor_slot = off;
-        item_mgr->select_box_item(off, (TItemData *)item);
+        item_mgr->select_box_item(off, item);
     }
 }
-void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
+void TObjPlayer::drop_meseta_from_slot(s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 idx;
     floor_slot = slot;
@@ -170,7 +170,7 @@ void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
         normalize_drop_area(&floor_slot);
         idx = floor_slot - 1;
         floor_slot = idx;
-        item_mgr->generate_drop_item(idx, (TItemData *)item);
+        item_mgr->generate_drop_item(idx, item);
     }
 }
 

@@ -109,7 +109,7 @@ void TOSwitchAttack::run_task() {
         case 11: case 12: case 13: case 14: case 15: case 16: case 17:
         case 18: case 19: case 20:
             if (m_down == 0) {
-                TOSwitchAttack::create_sub((saddr)this, stop_switch, trigger_switch, effect_type - 3, size);
+                create_sub(stop_switch, trigger_switch, effect_type - 3, size);
             }
             break;
         }

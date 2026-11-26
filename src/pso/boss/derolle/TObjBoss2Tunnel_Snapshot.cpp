@@ -919,7 +919,7 @@ s32 take_snapshot(void) {
         cmd.sound_id = 0x52B20;
         send_6xB2_play_sound(&cmd);
         if (memcard_check_snapshot(0, NULL) != 0) {
-            if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)frame->save_image, 0xF) == 0) {
+            if (TAdSinglePlyChrSelectGC::load_player(1, snapshot_card_filename, frame->save_image, 0xF) == 0) {
                 t = 0.0f;
                 graph = (TDLGraph *)TDLGraph::create();
                 if (get_main_phase() == 0xF) {
@@ -1139,7 +1139,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     c.size = sizeof(ScreenSnapshot);
     TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel::snapshot_buffer, &c);
     release_card_banner_and_icon(&c);
-    if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)TObjBoss2Tunnel::snapshot_buffer, 0xF) != 0) {
+    if (TAdSinglePlyChrSelectGC::load_player(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer, 0xF) != 0) {
         return 0;
     }
     memcard_access_active = 1;
