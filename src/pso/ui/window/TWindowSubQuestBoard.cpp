@@ -230,7 +230,7 @@ TWindowCheckBox *TWindowSubOption::create_option_value_window(s32 option) {
         window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x7A)), 1);
         window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x7B)), 2);
         window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x7C)), 3);
-        value = fn_801A51F0(client_id);
+        value = get_idle_timeout_index(client_id);
         break;
     }
     window->set_selected_index(value);

@@ -154,7 +154,7 @@ void *BmlResource::allocate_bml_chunk(u8 *file, u32 *offset, u32 *tag) {
     u32 size;
     if (arena != NULL) {
         u8 *destination = static_cast<u8 *>(arena) + arena_offset;
-        TLobby__sub_801E38A0(file, offset, tag, destination, &size);
+        read_ninja_chunk(file, offset, tag, destination, &size);
         size = ((size >> 5U) + 1) << 5;
         arena_offset += size;
         return destination;

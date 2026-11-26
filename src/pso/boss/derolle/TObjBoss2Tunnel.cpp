@@ -946,7 +946,7 @@ s32 take_snapshot(void) {
                         graph->render();
                     }
                     TLobby::update_pulse_colors(1);
-                    TLobby__sub_80338534();
+                    draw_info_icon_overlay();
                     TParticleCtrl::end_effect_render();
                     render_tick();
                 } while (poll_memcard_result(1) == 0xFFFFFFFF);

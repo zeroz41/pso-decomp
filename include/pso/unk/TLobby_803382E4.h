@@ -5,7 +5,7 @@
 
 void draw_loading_compass(void);
 void render_info_icon_overlay(void);
-void TLobby__sub_80338534(void);
+void draw_info_icon_overlay(void);
 void free_info_icon_texture(void);
 void load_info_icon(void);
 
