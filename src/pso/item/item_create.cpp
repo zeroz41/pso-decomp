@@ -49,6 +49,8 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/map/FloorArea.h"
+#include "pso/quest/QuestFloorDesignation.h"
+#include "pso/unk/text_801057A8.h"
 #include "pso/item/MagStats.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/PlayerRequirementStats.h"
@@ -884,21 +886,6 @@ ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { NULL, NULL },
 };
 
-struct Entry_8010567C { u16 a; u16 b; };
-
-struct Obj_80105538 {
-    u8 pad[0x28];
-    s16 f28;
-    u8 pad2a[2];
-    s16 f2c;
-    u8 pad2e[0x38 - 0x2E];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0x370 - 0x44];
-    s32 f370;
-};
-
 extern "C" {
 // Item factories by item group (item[0]) and, for armor, by subgroup (item[1]).
 ItemCreateFunction item_pro_create_fn_table[4] = {
@@ -908,8 +895,7 @@ ItemCreateFunction item_create_fn_table[5] = {
     create_weapon_for_item, create_armor_for_item, TItemMag::create, TItemObject::create_tool,
     TItemMoney::create,
 };
-extern Entry_8010567C *quest_object_entries;
-void send_6x60_standard_drop_item_request(Obj_80105538 *self);
+void send_6x60_standard_drop_item_request(TObjEnemy *self);
 }
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
@@ -1190,7 +1176,7 @@ void clear_drop_request_position(Vec *v) {
     v->z = 0.0f;
 }
 
-void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
+void send_6x60_standard_drop_item_request(TObjEnemy *self) {
     TObjPlayer *p1;
     TObjPlayer *p2;
     if (self != 0) {
@@ -1200,18 +1186,18 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
             if (is_valid_drop_floor(get_current_floor()) != 0 &&
                 (p1->get_floor() != p2->get_floor() ||
                  designated_client_id == local_client_id)) {
-                if (self->f2c != -1) {
-                    EnemyStateRecord e = enemy_state_records[self->f2c];
+                if (self->set_index != -1) {
+                    EnemyStateRecord e = enemy_state_records[self->set_index];
                     if (e.drop_id != 0xFFFF) {
                         G_StandardDropItemRequest_PC_V3_BB_6x60 pkt;
                         G_StandardDropItemRequest_DC_6x60 &drop = pkt.__base_G_StandardDropItemRequest_DC_6x60;
                         pkt.init();
                         drop.floor = get_current_floor();
-                        drop.rt_index = self->f370;
-                        drop.entity_index = self->f2c;
-                        drop.pos.x = self->x;
-                        drop.pos.z = self->z;
-                        drop.room = self->f28;
+                        drop.rt_index = self->rt_index;
+                        drop.entity_index = self->set_index;
+                        drop.pos.x = self->position.x;
+                        drop.pos.z = self->position.z;
+                        drop.room = self->room;
                         pkt.effective_area = get_current_floor_area();
                         Vec v;
                         v.x = drop.pos.x;
@@ -1237,8 +1223,8 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
             (p1->get_floor() != p2->get_floor() ||
              designated_client_id == local_client_id)) {
             if (this->set_index != -1) {
-                Entry_8010567C e = quest_object_entries[this->set_index];
-                if (e.b != 0xFFFF) {
+                QuestObjectEntry e = quest_object_entries[this->set_index];
+                if (e.drop_id_base != 0xFFFF) {
                     G_SpecializableItemDropRequest_6xA2 packet;
                     G_StandardDropItemRequest_PC_V3_BB_6x60 &extended =
                         packet.__base_G_StandardDropItemRequest_PC_V3_BB_6x60;
@@ -1264,28 +1250,9 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
 }
 }
 
-struct Msg_801057A8 {
-    s8 client;
-    u8 pad1[3];
-    f32 x;
-    f32 z;
-    s16 area;
-    u8 pad2[2];
-    u8 item[1];
-};
-
-struct Item_801057A8 {
-    u8 pad[0x28];
-    s16 area;
-    u8 pad2[0xE];
-    f32 x;
-    f32 y;
-    f32 z;
-};
-
 extern "C" {
-Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *drop, s32 quiet) {
-    Item_801057A8 *item;
+TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
+    TItem *item;
     s8 me;
     s32 act;
     u8 ok;
@@ -1294,20 +1261,20 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *drop, s32 quiet) {
         me = get_current_floor();
         act = is_local_player_off_current_floor();
         ok = 0;
-        if (drop->client == me && act != 1) {
+        if (drop->floor == me && act != 1) {
             ok = 1;
         }
         if (ok != 0) {
-            item = (Item_801057A8 *)construct_item((TItemData *)drop->item);
+            item = construct_item(&drop->item);
             if (item != NULL) {
-                item->x = drop->x;
-                item->z = drop->z;
-                item->area = drop->area;
-                ((TItem *)item)->place_on_ground(drop->client, &item->x, 1);
+                item->position.x = drop->pos.x;
+                item->position.z = drop->pos.z;
+                item->room = drop->room_id;
+                item->place_on_ground(drop->floor, &item->position.x, 1);
             }
         }
         if (quiet == 0) {
-            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(drop->client, drop->area, drop->item, drop->x, drop->z);
+            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(drop->floor, drop->room_id, drop->item.data1.data_u8, drop->pos.x, drop->pos.z);
         }
     }
     return item;

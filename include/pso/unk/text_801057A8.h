@@ -4,10 +4,11 @@
 #include "types.h"
 
 struct FloorItem;
+struct TItem;
 
 extern "C" {
 // Creates the item a 6x5D/6x5F drop describes and puts it on the floor.
-void *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet);
+TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet);
 }
 
 #endif
