@@ -370,7 +370,7 @@ pso/enemy/mericarol/TObjEneBm9Mericarol.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp
 pso/enemy/dd/TObjEneDD.cpp
-pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp
+pso/enemy/flower/TObjEneRe2Flower_Render.cpp
 pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp
 pso/enemy/deldepth/TObjEneDelDepth.cpp
 pso/enemy/dellbiter/TObjEneDellBiter.cpp

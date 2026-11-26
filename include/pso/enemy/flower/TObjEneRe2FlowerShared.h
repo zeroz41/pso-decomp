@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// Flower literals the split parts share (TObjEneRe2Flower_800C20D0.cpp and TObjEneRe2FlowerStates.cpp define them).
+// Flower literals the split parts share (TObjEneRe2Flower_Render.cpp and TObjEneRe2FlowerStates.cpp define them).
 extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FBC;
 extern const f32 lbl_805D9FC0;

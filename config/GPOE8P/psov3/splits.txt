@@ -1445,7 +1445,7 @@ pso/enemy/lappy/TObjEneLappy.cpp:
 	.sbss       start:0x805D5160 end:0x805D5170
 	.sdata2     start:0x805D9F20 end:0x805D9FA0
 
-pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp:
+pso/enemy/flower/TObjEneRe2Flower_Render.cpp:
 	.text       start:0x800C20D0 end:0x800C2A88
 	.sdata2     start:0x805D9FA0 end:0x805D9FC8
 
