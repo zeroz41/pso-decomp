@@ -76,13 +76,8 @@ s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
 extern const f32 lbl_805DAC94;
 extern A12_8011E3E8 weapon_light_direction[];
 extern A16_8011E3E8 weapon_light_color[];
-struct Stack_8011E56C {
-    s32 sp8;
-    f32 spC;
-};
 
 
-struct ShotVector { f32 x,y,z; };
 
 
 TObjChara *resolve_hittable_target(s32, s32);
@@ -139,10 +134,10 @@ void TItemWeapon::remap_extra_attack_type() {
 }
 
 CsnHit *TItemWeapon::trace_from_owner(u8 *point) {
-    Stack_8011E56C stack;
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)((u8 *)owner + 0x2FC));
-    stack.spC = *(f32 *)((s8 *)point + 4);
-    return csnVector((const Vec *)&stack.sp8, (const Vec *)point, 0x8100);
+    Vec from;
+    VecCopy(&from, &owner->body_center);
+    from.y = ((Vec *)point)->y;
+    return csnVector(&from, (const Vec *)point, 0x8100);
 }
 
 void TItemWeapon::transform_model_node() {  }
@@ -439,18 +434,18 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 aim_target = ((TObjChara *(*)(u16, s16))resolve_hittable_target)(aim_entry->get_uid(), aim_entry->get_captured_target_collider_index());
                 if (aim_target != NULL) {
                     target_body = &aim_target->bodies[aim_entry->get_captured_target_collider_index()];
-                    VecCopy((Vec *)(&endpoint.x), &target_body->center);
-                    subtract_vector((Vec *)&endpoint.x, (const Vec *)origin);
-                    distance_scale = normalize_vector((Vec *)&endpoint.x) - target_body->radius;
+                    VecCopy(&endpoint, &target_body->center);
+                    subtract_vector(&endpoint, (const Vec *)origin);
+                    distance_scale = normalize_vector(&endpoint) - target_body->radius;
                     endpoint.x *= distance_scale;
                     endpoint.y *= distance_scale;
                     endpoint.z *= distance_scale;
-                    vec3_add_to((Vec *)&endpoint.x, (const Vec *)origin);
+                    vec3_add_to(&endpoint, (const Vec *)origin);
                     has_aim_target = 1;
                 }
             }
             if (has_aim_target == 0) {
-                ShotVector fallback;
+                Vec fallback;
                 push_matrix_from(identity_matrix);
                 range_record = (f32 *)(get_weapon_range_record(this, owner->is_status_subsystem_ready()));
                 fallback.y = lbl_805DAC98;
@@ -459,11 +454,11 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 rotate_matrix_y(0, owner->rotation_y + angle);
                 transform_point_by_current_matrix(&fallback.x, &endpoint);
                 pop_matrix();
-                vec3_add_to((Vec *)&endpoint.x, (const Vec *)origin);
+                vec3_add_to(&endpoint, (const Vec *)origin);
             }
-            ShotVector rayOrigin = *(ShotVector *)((u8 *)owner + 0x2FC);
+            Vec rayOrigin = owner->body_center;
             rayOrigin.y = ((Vec *)origin)->y;
-            wall_hit = (csnVector((const Vec *)&rayOrigin.x, (const Vec *)&endpoint.x, 0x8100));
+            wall_hit = csnVector(&rayOrigin, &endpoint, 0x8100);
             if (wall_hit == NULL) {
                 if (aim_target != NULL) {
                     last_entry = targets->get_captured_target_entry(i);
@@ -486,10 +481,10 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                     flight_frames = xyz_distance(origin, &endpoint.x) / shot_speed;
                 }
             } else {
-                VecCopy((Vec *)(&endpoint.x), &wall_hit->contact->point);
+                VecCopy(&endpoint, &wall_hit->contact->point);
                 flight_frames = xyz_distance(origin, &endpoint.x) / shot_speed;
                 if ((wall_hit->contact->flags & 0x100) && (impact_callback != NULL)) {
-                    spawn_land_hit_effect(tl_05, this, (Vec *)origin, (Vec *)&endpoint.x, (s32)flight_frames);
+                    spawn_land_hit_effect(tl_05, this, (Vec *)origin, &endpoint, (s32)flight_frames);
                 }
             }
             this->spawn_light_task();
@@ -997,11 +992,10 @@ void TItemWeapon::on_equip() {
 }
 
 // ---- pso/player/TObjPlayer_801207E8
-typedef struct { f32 sp8; f32 spC; f32 sp10; } FloatTriplet;
 
 
 s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
-    FloatTriplet floats;
+    Vec joint_origin;
     TObjPlayer *player;
 
     player = owner;
@@ -1013,13 +1007,13 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
     } else if (joint == -2) {
         player->get_anim_node_position(0x23, (Vec *)out);
     } else if (item_model != NULL) {
-        floats.sp10 = lbl_805DAC98;
-        floats.spC = lbl_805DAC98;
-        floats.sp8 = lbl_805DAC98;
+        joint_origin.z = lbl_805DAC98;
+        joint_origin.y = lbl_805DAC98;
+        joint_origin.x = lbl_805DAC98;
         push_matrix();
         ::copy_matrix(NULL, get_model_joint_matrix(owner, joint));
         premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
-        transform_point_by_current_matrix(&floats.sp8, static_cast<Vec *>(out));
+        transform_point_by_current_matrix(&joint_origin.x, static_cast<Vec *>(out));
         pop_matrix();
     } else {
         player->get_anim_node_position(0x30, (Vec *)out);
