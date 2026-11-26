@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/charcreate/TChCrEffFade.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"

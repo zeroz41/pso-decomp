@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
 #include "pso/unk/text_80076BC4.h"
 

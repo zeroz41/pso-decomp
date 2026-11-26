@@ -16,7 +16,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/network/TProtocol.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/item/TObjItemNameSelect.h"
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/network/TLobby.h"

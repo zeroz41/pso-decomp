@@ -4,7 +4,7 @@
 #include "pso/network/TLobby.h"
 
 
-void *TLobby::create_dialing_message_window(const char *message, u32 delay) {
+TAdDialingMessageWindow *TLobby::create_dialing_message_window(const char *message, u32 delay) {
     return new TAdDialingMessageWindow(message, delay);
 }
 

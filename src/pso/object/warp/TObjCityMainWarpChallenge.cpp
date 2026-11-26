@@ -17,7 +17,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"

@@ -15,7 +15,6 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"

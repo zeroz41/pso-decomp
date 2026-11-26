@@ -76,7 +76,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/network/client_id.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -1138,12 +1137,12 @@ void TLobby::update_block_jump_list() {
     }
 }
 
-void queue_join_entry_exit_on_input(void *self) {
+void queue_join_entry_exit_on_input(TObject *task) {
     if ((controller_input_state.sources[0]->pressed & 8) || TLobby::join_lobby_idle_timer++ > 0xe10) {
         TAdSinglePlyChrSelectGC::init();
         set_queued_main_phase(2);
         request_main_phase(0x12);
-        ((void (*)(void *))queue_destruction__7TObjectFv)(self);
+        queue_destruction__7TObjectFv(task);
     }
 }
 void TLobby::update() {
@@ -2558,7 +2557,7 @@ void TLobby::send_logout() {
 void TLobby::run_join_lobby_connect(TObject *parent) {
     DateStamp date;
     void *p;
-    void *win;
+    TAdDialingMessageWindow *win;
     s32 res;
 
     if (lbl_805D55C0 == 0) {

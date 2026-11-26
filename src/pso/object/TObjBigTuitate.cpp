@@ -5,7 +5,6 @@
 #include "pso/object/TObjBigTuitate.h"
 #include "pso/object/TObjTuitate.h"
 #include "pso/render/render_util.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaMaterial.h"

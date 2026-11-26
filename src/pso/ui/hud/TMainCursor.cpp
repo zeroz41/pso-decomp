@@ -24,7 +24,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/camera/TCameraConversation.h"
 #include "pso/camera/TCameraCtrl.h"

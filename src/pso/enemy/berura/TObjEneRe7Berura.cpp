@@ -26,7 +26,6 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/effect/TAttackTrace.h"

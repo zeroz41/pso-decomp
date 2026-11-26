@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

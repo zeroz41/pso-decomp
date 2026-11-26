@@ -4,7 +4,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"

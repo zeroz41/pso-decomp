@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdSelectTxtSubGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"

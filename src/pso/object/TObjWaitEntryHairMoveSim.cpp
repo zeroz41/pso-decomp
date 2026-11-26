@@ -2,7 +2,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 #include "pso/object/T_OWEHMS_Exp.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/object/TObjEZBoneRotBase.h"
 #include "pso/player/TObjPlayer.h"

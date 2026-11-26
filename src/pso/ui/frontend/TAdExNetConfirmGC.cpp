@@ -5,7 +5,6 @@
 #include "pso/network/NetworkConnect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/unk/text_80145A94.h"
 

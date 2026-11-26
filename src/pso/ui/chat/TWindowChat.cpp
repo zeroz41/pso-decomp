@@ -10,7 +10,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"

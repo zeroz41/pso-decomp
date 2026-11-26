@@ -6,7 +6,6 @@
 #include "types.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/barbaray/TBoss7BreakUp.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 

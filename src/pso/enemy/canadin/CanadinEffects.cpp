@@ -5,7 +5,6 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLight.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffDischarge.h"

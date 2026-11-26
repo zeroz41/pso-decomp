@@ -16,7 +16,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDrawBuffer.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"

@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/render_util.h"
-#include "pso/system/task/TObject_80019A50.h"
+#include "pso/ui/frontend/TAdDrawLineTask.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/task/TObject.h"
 

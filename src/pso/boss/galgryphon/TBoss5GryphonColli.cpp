@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli_C.h"
 #include <stddef.h>
 #include "pso/system/vector.h"

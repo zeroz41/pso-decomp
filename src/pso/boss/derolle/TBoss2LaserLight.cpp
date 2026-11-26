@@ -5,7 +5,6 @@
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/PointLight.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject_80019A50.h"
 
 #pragma readonly_strings on
 

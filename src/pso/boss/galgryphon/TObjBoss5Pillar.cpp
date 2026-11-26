@@ -4,7 +4,6 @@
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarSmoke.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"

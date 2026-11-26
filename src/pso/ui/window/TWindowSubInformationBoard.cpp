@@ -5,7 +5,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowSubInformationBoard.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMenu.h"

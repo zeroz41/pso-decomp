@@ -23,7 +23,6 @@
 #include "pso/player/GamePlayerActionProvider.h"
 #include "pso/player/PlayerClassTechniques.h"
 #include "pso/player/PlayerRequirementStats.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/map/FloorArea.h"

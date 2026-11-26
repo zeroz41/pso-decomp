@@ -26,7 +26,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/shark/TObjEneShark.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"

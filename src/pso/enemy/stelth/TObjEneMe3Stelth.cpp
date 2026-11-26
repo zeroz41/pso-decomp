@@ -59,7 +59,6 @@
 #include "pso/technique/TTecSifta.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"

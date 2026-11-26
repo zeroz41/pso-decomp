@@ -9,7 +9,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
-#include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/system/vector.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"

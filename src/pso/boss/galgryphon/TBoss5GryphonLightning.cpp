@@ -2,7 +2,6 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"

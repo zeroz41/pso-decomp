@@ -4,7 +4,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D96A8.h"

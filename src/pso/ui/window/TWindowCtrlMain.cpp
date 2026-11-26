@@ -6,7 +6,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrlClipOut.h"
 #include "pso/ui/window/TWindowCtrlSub.h"

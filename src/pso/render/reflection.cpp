@@ -25,7 +25,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/render/FloorReflection.h"
 #include "pso/effect/TEffIndirectSampler.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"

@@ -6,7 +6,6 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/item/TItemReverseTechBG.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemReverseTechPart2.h"

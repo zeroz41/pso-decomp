@@ -10,7 +10,6 @@
 #include "pso/boss/barbaray/TObjBoss7TunnelCol.h"
 #include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/render/GinjaMaterial.h"

@@ -8,7 +8,6 @@
 #include "pso/effect/TEffIndirectSampler.h"
 
 #include "pso/effect/TEffIndirectCtrl.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/render_util.h"

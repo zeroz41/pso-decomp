@@ -28,7 +28,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/task/TObject.h"

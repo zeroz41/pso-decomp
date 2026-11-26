@@ -4,7 +4,6 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"

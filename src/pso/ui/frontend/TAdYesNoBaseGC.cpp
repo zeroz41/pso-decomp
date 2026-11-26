@@ -7,7 +7,6 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
 

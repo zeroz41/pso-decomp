@@ -3,7 +3,6 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/frontend/TAdDrawLineTask.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/system/task/TMainTask.h"

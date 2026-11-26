@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/boss/dragon/TObjBoss1Rock.h"
 #include "pso/render/render_util.h"

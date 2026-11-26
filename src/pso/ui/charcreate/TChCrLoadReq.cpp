@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/player/TObjPlayer.h"

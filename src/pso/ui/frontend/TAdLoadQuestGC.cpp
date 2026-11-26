@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/frontend/TAdLoadQuestGC.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/camera/TCameraCtrl.h"
 
 #include "types.h"

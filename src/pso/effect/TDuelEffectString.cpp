@@ -11,7 +11,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/sprite/TQuadSprite.h"
 
 const char *TDuelEffectString::class_name = "TDuelEffectString";

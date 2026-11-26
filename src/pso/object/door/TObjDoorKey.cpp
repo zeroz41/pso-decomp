@@ -7,7 +7,6 @@
 #include "pso/object/door/TObjDoorKey.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/ambient/TObjEnvSoundGlobal.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"

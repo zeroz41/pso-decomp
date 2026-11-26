@@ -659,7 +659,7 @@ force_active:
   - handle_lobby_text__Fl
   - handle_server_message__Fl
   - handle_error__Fl
-  - queue_join_entry_exit_on_input__FPv
+  - queue_join_entry_exit_on_input__FP7TObject
   - show_join_entry_message__Fl
   - show_dialog_value_line__Fl
   - lobby_init_hook__Fv

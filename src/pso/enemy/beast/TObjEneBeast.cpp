@@ -246,9 +246,6 @@ void TObjEneBeast::render() {
 }
 
 #include "pso/enemy/saver/TObjEneSaver.h"
-
-
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 
 

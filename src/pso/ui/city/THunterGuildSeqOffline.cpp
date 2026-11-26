@@ -12,7 +12,6 @@
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/item/shop/TShopGenerator.h"

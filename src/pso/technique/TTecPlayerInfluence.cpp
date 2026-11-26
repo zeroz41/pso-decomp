@@ -4,7 +4,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/technique/TTecPlayerInfluence.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecRaBarta.h"
 

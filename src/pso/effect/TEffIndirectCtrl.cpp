@@ -12,7 +12,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaTextureInput.h"

@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowLoadItemTexture.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/item/TItemTexLoad.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"

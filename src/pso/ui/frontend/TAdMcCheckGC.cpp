@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/ui/window/TWindowSubComCard.h"

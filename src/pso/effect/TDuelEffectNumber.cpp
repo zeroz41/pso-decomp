@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/effect/TDuelEffectNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/system/task/TObject_80019A50.h"
 
 #include "types.h"
 #include "pso/ui/window/TWindowCtrlMain.h"

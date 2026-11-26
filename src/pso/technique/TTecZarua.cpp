@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecZarua.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecCircle.h"
 

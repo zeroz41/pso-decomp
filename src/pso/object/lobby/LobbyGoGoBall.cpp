@@ -16,7 +16,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTimedSoundEffect.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"

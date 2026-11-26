@@ -3,7 +3,6 @@
 #include "pso/boss/olgaflow/TBoss6DPB.h"
 #include "pso/effect/photon/TDPBShower.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"

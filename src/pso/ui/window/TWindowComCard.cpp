@@ -9,7 +9,6 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowTradeRequest.h"

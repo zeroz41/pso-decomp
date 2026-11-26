@@ -3,7 +3,6 @@
 #include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaMirage.h"
 

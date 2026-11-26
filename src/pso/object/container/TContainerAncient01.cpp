@@ -94,8 +94,6 @@ static const NpcAnimationBinding container_ancient_anim_binding = {
 
 const char *container_ancient01_r_name = "TContainerAncient01R";
 
-#include "pso/system/task/TObject_80019A50.h"
-
 #include "pso/render/GinjaMaterial.h"
 
 #include "pso/unk/text_803D96A8.h"

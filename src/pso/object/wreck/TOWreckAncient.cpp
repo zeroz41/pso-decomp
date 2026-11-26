@@ -21,7 +21,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"

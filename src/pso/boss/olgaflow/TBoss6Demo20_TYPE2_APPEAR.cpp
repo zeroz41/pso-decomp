@@ -11,7 +11,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/olgaflow/Boss6Type2Appearance.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"

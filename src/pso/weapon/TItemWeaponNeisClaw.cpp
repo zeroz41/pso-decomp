@@ -19,7 +19,6 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"

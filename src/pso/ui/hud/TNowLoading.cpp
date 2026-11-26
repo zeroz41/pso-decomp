@@ -4,7 +4,6 @@
 #include "pso/ui/hud/TLoadingCur.h"
 #include "pso/ui/frontend/TAdLoadNetworkGC.h"
 #include "pso/render/render_util.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 
 #include <stddef.h>

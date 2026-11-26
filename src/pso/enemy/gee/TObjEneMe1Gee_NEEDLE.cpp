@@ -7,7 +7,6 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"

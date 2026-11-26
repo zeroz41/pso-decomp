@@ -8,7 +8,6 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/unk/text_803D96A8.h"

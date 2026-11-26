@@ -6,7 +6,6 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/network/client_id.h"

@@ -8,7 +8,6 @@
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/city/CityTraffic.h"
 #include "pso/object/city/CityTrafficTables.h"
 #include "pso/unk/text_803D96A8.h"

@@ -15,7 +15,6 @@
 #include "pso/technique/TTecCtrl.h"
 
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TFireExplosion.h"

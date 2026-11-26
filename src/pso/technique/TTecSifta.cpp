@@ -3,7 +3,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecSifta.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/technique/TTecShot.h"
 
 #include "pso/technique/TTecAnti.h"

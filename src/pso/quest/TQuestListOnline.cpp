@@ -8,7 +8,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/prs.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/city/TShopArmorListWindow.h"

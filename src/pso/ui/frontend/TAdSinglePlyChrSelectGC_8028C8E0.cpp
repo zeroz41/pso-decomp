@@ -7,7 +7,6 @@
 #include "pso/system/NinjaChunk.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

@@ -19,7 +19,6 @@
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/network/TUdpSocket.h"
 #include "pso/network/TLobby.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/gjSystem.h"
 
 // Game code; structure adapted from pso-gc-reference, verified against PsoV3.dol.

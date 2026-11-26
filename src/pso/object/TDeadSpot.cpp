@@ -6,7 +6,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TDeadSpot.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"

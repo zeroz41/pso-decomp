@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/morfos/TObjEneMorfosArm.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"

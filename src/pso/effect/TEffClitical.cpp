@@ -3,7 +3,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/TEffClitical.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"

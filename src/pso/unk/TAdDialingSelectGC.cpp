@@ -19,7 +19,6 @@
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/save/TCheckMemoryCard.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TLobby.h"

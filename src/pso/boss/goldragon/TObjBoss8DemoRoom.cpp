@@ -2,7 +2,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom.h"
 #include "pso/render/GinjaUvScroll.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "types.h"

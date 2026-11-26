@@ -4,7 +4,6 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/technique/TTecLuker.h"
-#include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/ui/window/TWindowCtrl.h"

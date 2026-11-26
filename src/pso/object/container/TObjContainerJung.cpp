@@ -26,7 +26,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjContainerCommon.h"
 #include "pso/object/TObjChip.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/container/TObjContainerJungEx.h"
 #include "pso/object/container/TObjContainerItem.h"

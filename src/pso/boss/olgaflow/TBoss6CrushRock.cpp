@@ -5,7 +5,6 @@
 #include "pso/boss/olgaflow/TBoss6CrushPtcl.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/GinjaMaterial.h"

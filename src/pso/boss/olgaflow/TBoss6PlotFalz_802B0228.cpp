@@ -12,7 +12,6 @@
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/network/TLobby.h"

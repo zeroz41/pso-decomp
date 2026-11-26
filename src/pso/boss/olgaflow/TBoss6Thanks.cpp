@@ -3,7 +3,6 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/text_803D96A8.h"

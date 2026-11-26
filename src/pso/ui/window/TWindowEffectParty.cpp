@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowEffectParty.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"

@@ -16,7 +16,6 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"

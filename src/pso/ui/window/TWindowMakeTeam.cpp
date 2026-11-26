@@ -3,7 +3,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"

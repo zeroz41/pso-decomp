@@ -25,7 +25,6 @@
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 

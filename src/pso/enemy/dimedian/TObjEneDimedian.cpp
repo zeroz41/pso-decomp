@@ -15,7 +15,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEnemy.h"

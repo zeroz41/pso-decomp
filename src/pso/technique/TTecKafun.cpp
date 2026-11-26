@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/technique/TTecKafun.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/system/SoundEffect.h"

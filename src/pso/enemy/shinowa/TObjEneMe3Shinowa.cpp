@@ -49,7 +49,6 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/NinjaUtil.h"

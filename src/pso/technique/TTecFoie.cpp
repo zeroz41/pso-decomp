@@ -13,7 +13,6 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/technique/TTecShot.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"

@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
 #include "pso/unk/text_8026A14C.h"

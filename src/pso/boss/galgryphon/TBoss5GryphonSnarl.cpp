@@ -7,7 +7,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 
 #include "types.h"

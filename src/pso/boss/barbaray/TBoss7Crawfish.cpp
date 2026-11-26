@@ -6,7 +6,6 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/DebugFont.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include <stddef.h>

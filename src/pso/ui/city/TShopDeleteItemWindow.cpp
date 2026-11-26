@@ -8,7 +8,6 @@
 #include "pso/ui/city/TShopDeleteItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"

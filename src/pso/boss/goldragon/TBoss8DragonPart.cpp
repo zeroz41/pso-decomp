@@ -2,7 +2,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8DragonPart.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/dd/TObjEneDD.h"

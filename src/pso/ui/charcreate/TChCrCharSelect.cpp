@@ -3,7 +3,6 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"

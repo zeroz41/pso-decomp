@@ -10,7 +10,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/render/render_util.h"
 #include "pso/render/DebugFont.h"

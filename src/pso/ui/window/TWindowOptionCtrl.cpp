@@ -7,7 +7,6 @@
 #include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8036A3CC.h"
 #include "pso/network/TLobby.h"

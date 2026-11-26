@@ -11,7 +11,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/TLanguage.h"

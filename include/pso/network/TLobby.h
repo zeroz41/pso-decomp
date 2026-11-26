@@ -15,6 +15,7 @@ struct ShortMailEntry;
 struct player_stats;
 struct AttackParams;
 struct SymbolChatPayload;
+struct TAdDialingMessageWindow;
 struct ActorParamBlock;
 union BattleMovementParams;
 #include "pso/audio/AdxCallbacks.h"
@@ -316,7 +317,7 @@ struct TLobby : public TObject {
     static saddr get_card_window_field();
     static void set_info_board_text(char *text);
     static void reset_info_board();
-    static void *create_dialing_message_window(const char *message, u32 delay);
+    static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
     static void release_bg_multi_textures();
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);
@@ -701,7 +702,7 @@ class TObject;
 
 s32 get_online_message_text(s32 id);
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
-void queue_join_entry_exit_on_input(void *self);
+void queue_join_entry_exit_on_input(TObject *task);
 void show_card_list_message(void *msg);
 void show_join_entry_message(s32 id);
 

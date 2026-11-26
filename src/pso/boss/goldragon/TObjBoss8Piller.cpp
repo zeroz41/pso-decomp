@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/goldragon/TObjBoss8Piller.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"

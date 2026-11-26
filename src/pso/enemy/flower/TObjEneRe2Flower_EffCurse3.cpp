@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
