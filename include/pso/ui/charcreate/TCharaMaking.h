@@ -31,8 +31,6 @@ struct TCharaMaking : public TObject {
     u32 light_yaw;
     static s32 query_state();
     static void setup_from_data(s32 model, CharacterAppearanceFields *appearance);
-    void free_loaded_buffers();
-    void update_body_parts();
     static void clear_flag_bit0();
     static void enable_making();
     static s32 is_end();

@@ -35,7 +35,7 @@ static const Vec font_small_forward_vec = {0.0f, 0.0f, -1.0f};
 void update_card_window_flags(saddr client_id, s32 card_status_bits) {
     TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
 }
-s32 get_player_status_color(void *player) { return *(s32 *)((char *)player + 0x874); }
+s32 get_player_status_color(TObjPlayer *player) { return player->name_colour; }
 
 f32 TFontSmallTask::calc_font_scale() {
     f32 view_scale;

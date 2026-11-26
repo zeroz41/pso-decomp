@@ -16,6 +16,7 @@
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -302,37 +303,33 @@ CharacterAppearanceFields *get_class_appearance_preset(s32 class_id) {
     return &class_appearance_preset_table[index];
 }
 
-void TCharaMaking::free_loaded_buffers() {
-    u8 *base = (u8 *)this;
-    if ((s32) *(s32 *)((s8 *)base + 0x8B8) != 0) {
-        if (!(*(s32 *)((s8 *)base + 0xCFC) & 1)) {
-            release_texture_list(base + 0xA1C);
+void TObjPlayer::free_loaded_buffers() {
+    if (head_textures.present != 0) {
+        if (!(model_load_flags & 1)) {
+            release_texture_list(&head_textures.list);
         }
-        *(s32 *)((s8 *)base + 0x8B8) = 0;
+        head_textures.present = 0;
     }
-    if ((s32) *(s32 *)((s8 *)base + 0xA24) != 0) {
-        if (!(*(s32 *)((s8 *)base + 0xCFC) & 2)) {
-            release_texture_list(base + 0xB88);
+    if (attachment_textures.present != 0) {
+        if (!(model_load_flags & 2)) {
+            release_texture_list(&attachment_textures.list);
         }
-        *(s32 *)((s8 *)base + 0xA24) = 0;
+        attachment_textures.present = 0;
     }
-    if ((s32) *(s32 *)((s8 *)base + 0xB90) != 0) {
-        if (!(*(s32 *)((s8 *)base + 0xCFC) & 4)) {
-            release_texture_list(base + 0xCF4);
+    if (body_textures.present != 0) {
+        if (!(model_load_flags & 4)) {
+            release_texture_list(&body_textures.list);
         }
-        *(s32 *)((s8 *)base + 0xB90) = 0;
+        body_textures.present = 0;
     }
 }
 
-void TCharaMaking::update_body_parts() {
-    u8 *base = (u8 *)this;
-    validate_player_visual_record(base + 0x85C);
-    *(f32 *)((s8 *)base + 0xD48) = calc_character_height((CharacterAppearanceFields *)(base + 0x85C));
-    bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(base + 0x8B8),
-        reinterpret_cast<CharacterTextureLoadSet *>(base + 0xA24),
-        reinterpret_cast<CharacterTextureLoadSet *>(base + 0xB90),
-        reinterpret_cast<CharacterAppearanceFields *>(base + 0x85C));
-    TChCrLoadReq::create(base);
+void TObjPlayer::update_body_parts() {
+    validate_player_visual_record(name);
+    base_stats.proportions = calc_character_height(reinterpret_cast<CharacterAppearanceFields *>(name));
+    bind_appearance_texture_lists(&head_textures, &attachment_textures, &body_textures,
+        reinterpret_cast<CharacterAppearanceFields *>(name));
+    TChCrLoadReq::create(this);
 }
 
 s32 validate_player_visual_record(void *record) {

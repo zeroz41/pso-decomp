@@ -42,6 +42,7 @@ struct PhotonBlastRegistry;
 #include "pso/player/PlayerIntraMapWarp.h"
 #include "pso/player/PhotonBlastAim.h"
 #include "pso/player/PlayerBattleScore.h"
+#include "pso/ui/charcreate/CharacterCreationTextureCache.h"
 
 struct TItemData;
 struct PhotonBlastRequest;
@@ -208,6 +209,8 @@ struct TObjPlayer : public TObjChara {
     void set_hp_bonus(s16);
     void set_tp_bonus(s16);
     void update_body_parts(void *visual);
+    void update_body_parts();
+    void free_loaded_buffers();
     void init_body_parts(void *visual);
     void init_model_and_idle_pose();
     void init_model_buffer_and_actions(void *data);
@@ -296,7 +299,8 @@ struct TObjPlayer : public TObjChara {
     PlayerMarkerPosition marker_position;  // above the head (calc_marker_position), where the lobby marker is drawn
     FlagWord death_flags;
     // name through height are the player's CharacterAppearanceFields record.
-    char name[0x1C];
+    char name[0x18];
+    u32 name_colour;  // CharacterAppearanceFields::nameColor
     u8 extra_model;
     u8 pad_879[0xF];
     u32 name_colour_checksum;
@@ -320,11 +324,10 @@ struct TObjPlayer : public TObjChara {
     void* hair_model;
     void* head_model;
     uaddr attachment_model;
-    u8 unk_8B8[0x164];
-    // Texture lists TChCrLoadReq fills for the head/hair, the attachment and the body.
-    u8 head_textures[0x16C];
-    u8 attachment_textures[0x16C];
-    NJS_TEXLIST body_textures;
+    // Texture sets TChCrLoadReq fills for the head/hair, the attachment and the body.
+    CharacterTextureLoadSet head_textures;
+    CharacterTextureLoadSet attachment_textures;
+    CharacterTextureLoadSet body_textures;
     s32 model_load_flags;  // nonzero while the models load (update_body_parts sets 255); not drawn until 0
     TPlyItem *inventory_objects;  // created by create_inventory
     EquippedItems equipped_items;  // read through get_equipped_item
@@ -1232,9 +1235,9 @@ LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, extra_model) == 0x8
 LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, v2_flags) == 0x88E);
 LAYOUT_ASSERT(PlayerHairOffset, offsetof(TObjPlayer, hair) == 0x89C);
 LAYOUT_ASSERT(PlayerHairModelOffset, offsetof(TObjPlayer, hair_model) == 0x8AC);
-LAYOUT_ASSERT(PlayerHeadTexturesOffset, offsetof(TObjPlayer, head_textures) == 0xA1C);
-LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_textures) == 0xB88);
-LAYOUT_ASSERT(PlayerBodyTexturesOffset, offsetof(TObjPlayer, body_textures) == 0xCF4);
+LAYOUT_ASSERT(PlayerHeadTexturesOffset, offsetof(TObjPlayer, head_textures) == 0x8B8);
+LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_textures) == 0xA24);
+LAYOUT_ASSERT(PlayerBodyTexturesOffset, offsetof(TObjPlayer, body_textures) == 0xB90);
 LAYOUT_ASSERT(PlayerModelLoadFlagsOffset, offsetof(TObjPlayer, model_load_flags) == 0xCFC);
 LAYOUT_ASSERT(PlayerInventoryObjectOffset, offsetof(TObjPlayer, inventory_objects) == 0xD00);
 LAYOUT_ASSERT(PlayerBaseStatsOffset, offsetof(TObjPlayer, base_stats) == 0xD38);

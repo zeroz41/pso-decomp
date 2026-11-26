@@ -102,7 +102,7 @@ void TObjEndingPlayer::render() {
         rotate_matrix_y(0, rotation_y);
         render_material_state.save();
         apply_material_color_override();
-        set_texture_list(&body_textures);
+        set_texture_list(&body_textures.list);
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();

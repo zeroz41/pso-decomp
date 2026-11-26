@@ -2031,15 +2031,15 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
     }
     possessed_client = client_id;
     grab_appearance = player->name;
-    copy_texlist(&saved_look.body_textures, &player->body_textures);
-    copy_texlist(&saved_look.head_textures, (NJS_TEXLIST *)player->head_textures);
-    copy_texlist(&saved_look.attachment_textures, (NJS_TEXLIST *)player->attachment_textures);
+    copy_texlist(&saved_look.body_textures, &player->body_textures.list);
+    copy_texlist(&saved_look.head_textures, &player->head_textures.list);
+    copy_texlist(&saved_look.attachment_textures, &player->attachment_textures.list);
     saved_look.model = player->model;
     saved_look.head_model = player->head_model;
     saved_look.hair_model = player->hair_model;
     saved_look.attachment_model = player->attachment_model;
-    copy_texlist(&player->body_textures, grab_texlists[0]);
-    copy_texlist((NJS_TEXLIST *)player->attachment_textures, grab_texlists[1]);
+    copy_texlist(&player->body_textures.list, grab_texlists[0]);
+    copy_texlist(&player->attachment_textures.list, grab_texlists[1]);
     player->model = grab_models[0];
     player->head_model = NULL;
     player->hair_model = NULL;
@@ -2058,8 +2058,8 @@ void TBoss6Type2::restore_target_player_state() {
             reset_fish_fields();
             return;
         }
-        copy_texlist(&player->body_textures, &saved_look.body_textures);
-        copy_texlist((NJS_TEXLIST *)player->attachment_textures, &saved_look.attachment_textures);
+        copy_texlist(&player->body_textures.list, &saved_look.body_textures);
+        copy_texlist(&player->attachment_textures.list, &saved_look.attachment_textures);
         player->model = (NJS_OBJECT *)saved_look.model;
         player->head_model = saved_look.head_model;
         player->hair_model = saved_look.hair_model;

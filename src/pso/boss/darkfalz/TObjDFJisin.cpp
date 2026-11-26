@@ -181,12 +181,12 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         return;
     }
     body = player->model;
-    head_textures = (NJS_TEXLIST *)player->head_textures;
+    head_textures = &player->head_textures.list;
     head = player->head_model;
-    attachment_textures = (NJS_TEXLIST *)player->attachment_textures;
+    attachment_textures = &player->attachment_textures.list;
     hair = player->hair_model;
     attachment = player->attachment_model;
-    body_textures = &player->body_textures;
+    body_textures = &player->body_textures.list;
     TObjDFTenchuFuru::draw_node_tree(body);
     if (alpha < 1.0f) {
         begin_alpha_blend(alpha);
@@ -282,12 +282,12 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     if (player == NULL || player->model_load_flags != 0) {
         return;
     }
-    head_textures = (NJS_TEXLIST *)player->head_textures;
+    head_textures = &player->head_textures.list;
     head = player->head_model;
-    attachment_textures = (NJS_TEXLIST *)player->attachment_textures;
+    attachment_textures = &player->attachment_textures.list;
     hair = player->hair_model;
     attachment = player->attachment_model;
-    body_textures = &player->body_textures;
+    body_textures = &player->body_textures.list;
     body = player->model;
     if (alpha < 1.0f) {
         begin_alpha_blend(alpha);

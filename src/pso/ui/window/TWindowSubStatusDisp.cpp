@@ -334,7 +334,7 @@ void TWindowSubStatusDisp::vt0() {
         }
         portrait = (WindowSpritePart *)get_array_entry(5);
         portrait->texture_list_slot = &this->body_textures;
-        this->body_textures = &pl->body_textures;
+        this->body_textures = &pl->body_textures.list;
     }
 }
 
