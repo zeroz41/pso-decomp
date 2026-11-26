@@ -31,6 +31,7 @@ NJS_TEXLIST *menu_selection_cursor_texture_list;
 extern "C" {
 extern const s32 current_language;
 void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
+}
 
 void TAdSelectCurGC::run_task() {
     s32 ok;
@@ -142,6 +143,3 @@ void load_select_cursor_texture() {
 }
 
 void TAdSelectCurGC::set_draw_depth(f32 depth) { draw_depth = depth; }
-
-
-}
