@@ -714,7 +714,6 @@ void TObjEneIllGill::run_attack_action() {
 }
 
 void TObjEneIllGill::update_weapon_attack() {
-    u8 *actor = (u8 *)this;
     f32 special_param;
     f32 damage;
     s32 angle_left;
@@ -739,11 +738,11 @@ void TObjEneIllGill::update_weapon_attack() {
         this->targetId = 0xFFFFU;
         this->target = NULL;
     }
-    ((TObjBase *)actor)->clear_actor_flags(0x04040000);
+    this->clear_actor_flags(0x04040000);
     {
         play_speed = illGillAttackBehavior->animationSpeed * action_table[requested_action].speed;
     }
-    ((TObjMotion *)actor)->advance_animation();
+    this->advance_animation();
     switch (this->phase) {
     default:
         this->phase = 0;
@@ -755,8 +754,8 @@ void TObjEneIllGill::update_weapon_attack() {
         } else {
             Vec v = chase_target->body_center;
             subtract_vector(&v, &body_center);
-            angle_left = ((TObjEnemy *)actor)->turn_toward_direction((((IllGillMovementParameters *)movementParameters)->turn), &v);
-            apply_actor_gravity((TObjEnemy *)actor, (s32 *)(0), 0.0f);
+            angle_left = this->turn_toward_direction((((IllGillMovementParameters *)movementParameters)->turn), &v);
+            apply_actor_gravity(this, (s32 *)(0), 0.0f);
             if (angle_left < this->attack_params->get_attack_angle()) {
                 this->phase = 2;
                 special_param = this->parameters[1];
@@ -818,11 +817,11 @@ void TObjEneIllGill::update_weapon_attack() {
         }
         break;
     case 2:
-        apply_actor_gravity((TObjEnemy *)actor, (s32 *)(0), 0.0f);
-        if (((TObjMotion *)actor)->is_passing_frame(5.0f) != 0) {
+        apply_actor_gravity(this, (s32 *)(0), 0.0f);
+        if (this->is_passing_frame(5.0f) != 0) {
             play_sound_effect(0x4003A353, &position, 0, 0);
         }
-        if (((TObjMotion *)actor)->is_passing_frame((f32)((f32) this->hitFrame)) != 0) {
+        if (this->is_passing_frame((f32)((f32) this->hitFrame)) != 0) {
             this->hitFrame = 0;
             hit_target = this->target;
             if ((hit_target != NULL) && (hit_target->select_melee_contact_body(this, 1.0f) != 0)) {
@@ -875,7 +874,7 @@ void TObjEneIllGill::update_weapon_attack() {
         }
         break;
     case 3:
-        apply_actor_gravity((TObjEnemy *)actor, (s32 *)(0), 0.0f);
+        apply_actor_gravity(this, (s32 *)(0), 0.0f);
         this->actionTimer = (this->actionTimer - 1);
         if ((s32) this->actionTimer < 0) {
             this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);

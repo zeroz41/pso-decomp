@@ -640,11 +640,11 @@ void TObjEneDD::init_model(CollisionBody *bodies, s32 count) {
     transform_part_positions();
 }
 
-void TObjEneDD::set_part_local_pos(void *v, s32 i) {
+void TObjEneDD::set_part_local_pos(Vec *v, s32 i) {
     Vec *p;
-    VecCopy(&bodies[i].center, (const Vec *)v);
+    VecCopy(&bodies[i].center, v);
     p = &bodies[i].offset;
-    VecCopy(p, (const Vec *)v);
+    VecCopy(p, v);
     subtract_vector(p, &position);
     rotate_xz_pair_by_angle(&p->x, &p->z, -rotation_y);
 }
@@ -663,13 +663,13 @@ void TObjEneDD::update_local_colliders_from_world(Vec *world_points) {
     pop_matrix();
 }
 
-void TObjEneDD::set_part_position(void *actor, void *v, int i) {
+void TObjEneDD::set_part_position(TObjCollidable *actor, Vec *v, int i) {
     Vec *p;
-    VecCopy(&((TObjCollidable *)actor)->bodies[i].offset, (const Vec *)v);
-    p = &((TObjCollidable *)actor)->bodies[i].center;
-    VecCopy(p, (const Vec *)v);
-    rotate_xz_pair_by_angle(&p->x, &p->z, ((TObjCollidable *)actor)->rotation_y);
-    vec3_add_to(p, &((TObjCollidable *)actor)->position);
+    VecCopy(&actor->bodies[i].offset, v);
+    p = &actor->bodies[i].center;
+    VecCopy(p, v);
+    rotate_xz_pair_by_angle(&p->x, &p->z, actor->rotation_y);
+    vec3_add_to(p, &actor->position);
 }
 
 void TObjEneDD::transform_part_positions() {

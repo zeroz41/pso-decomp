@@ -13,8 +13,8 @@ struct TargetCandidate;
 struct TObjEneDD : public TObjEnemy {
     TObjEneDD(TObject *parent);
     virtual ~TObjEneDD();
-    void set_part_local_pos(void *, s32);
-    static void set_part_position(void *actor, void *v, int i);
+    void set_part_local_pos(Vec *v, s32 i);
+    static void set_part_position(TObjCollidable *actor, Vec *v, int i);
     void transition_enemy_state(s32);
     void save_mode();
     void invoke_initialization_hook(void *set_data);

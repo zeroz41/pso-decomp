@@ -710,7 +710,7 @@ void TObjEneDarkGunner::update_attack() {
         state = 4;
         find_target_in_range(200.0f);
         if (targetId == 0xFFFF) break;
-        new TObjEneDarkGunnerShot((u8 *)this, (saddr)&shadow_pos, (saddr)&((TObjChara *)target)->body_center);
+        new TObjEneDarkGunnerShot(this, &shadow_pos, &target->body_center);
         play_sound_effect(0x40039E2B, &position, 0, 0);
         break;
     case 4:

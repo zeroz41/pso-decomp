@@ -271,7 +271,7 @@ void TObjEneMe1Gee::init_state() {
     this->fade_step_timer = 0;
     this->fade_cursor = 0;
     this->copy_pos();
-    TObjEneDD::set_part_position(this, this->bodies, 0);
+    TObjEneDD::set_part_position(this, &this->bodies->offset, 0);
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
     if (this->leader != NULL) {

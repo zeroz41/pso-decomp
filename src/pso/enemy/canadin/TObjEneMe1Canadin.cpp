@@ -286,7 +286,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     fade_step_timer = 0;
     fade_cursor = 0;
     copy_pos();
-    TObjEneDD::set_part_position(this, bodies, 0);
+    TObjEneDD::set_part_position(this, &bodies->offset, 0);
     mode = 0;
     dispatch_action(mode, 4);
     if (leader != NULL) {
