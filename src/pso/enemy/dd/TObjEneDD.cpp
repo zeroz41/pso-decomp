@@ -990,7 +990,7 @@ void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance)
 
 void TObjEneDD::get_target_state_b() { TObjPlayer::freeze_all_players(); }
 
-void TObjEneDD::get_target_state_a() { release_players_from_cutscene(); }
+void TObjEneDD::release_cutscene_players() { release_players_from_cutscene(); }
 
 s32 TObjEneDD::check_v2_mode() {
     if (((s32) enable_v2_features != 0) && ((s32) game_difficulty_selection == 3)) {

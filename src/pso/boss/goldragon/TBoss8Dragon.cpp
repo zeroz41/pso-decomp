@@ -4369,7 +4369,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
         enable_all_bodies();
         *flag = 0;
         TWindowCtrl::unsuppress_all_slots();
-        this->get_target_state_a();
+        this->release_cutscene_players();
         break;
     }
 }

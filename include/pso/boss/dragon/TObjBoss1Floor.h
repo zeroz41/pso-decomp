@@ -16,6 +16,8 @@ public:
     TParticleCtrl *player_emitters[4];  // run_task keeps particle 0x144 under each present player
 public:
     static void create_instance();
+    static void free_resources();
+    static void load_resources();
     static const char *name;
 };
 LAYOUT_ASSERT(TObjBoss1Floor_size, sizeof(TObjBoss1Floor) == 0x38);

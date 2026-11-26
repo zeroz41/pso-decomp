@@ -4931,7 +4931,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
         enable_all_bodies();
         *demo = 0;
         TWindowCtrl::unsuppress_all_slots();
-        this->get_target_state_a();
+        this->release_cutscene_players();
         break;
     }
 }

@@ -580,11 +580,11 @@ void init_adx_audio_system(void) {
     AIInit(NULL);
     VISetPostRetraceCallback(post_retrace_callback);
     VISetPreRetraceCallback(pre_retrace_callback);
-    adxt_set_error_callback(TLobby__sub_80227A90, 0);
+    adxt_set_error_callback(bgm_adxt_error_callback, 0);
     ARAlloc(0xC00000);
     sndSetHooks(&hooks);
     sndInit(48, 48, 48, 4, 1, 0xC00000);
-    adxt_set_error_callback(TLobby__sub_80227A90, 0);
+    adxt_set_error_callback(bgm_adxt_error_callback, 0);
     for (i = 0; i < 2; i++) {
         adxt_players[i] = adx_create_stream_player(2, bgm_stream_buffers[i], 0x2D1E4);
         if (adxt_players[i] == NULL) {
@@ -618,4 +618,4 @@ void TLobby::free(void *p) { xfree(p); }
 void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
 void pre_retrace_callback(u32 retrace_count) {}
 void post_retrace_callback(u32 retrace_count) { run_sound_retrace_hook(); }
-void TLobby__sub_80227A90(s32, const char *) {  }
+void bgm_adxt_error_callback(s32, const char *) {  }

@@ -1944,7 +1944,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
     case 5:
         restore_player_cameras();
         TWindowCtrl::unsuppress_all_slots();
-        get_target_state_a();
+        release_cutscene_players();
         break;
     }
 }

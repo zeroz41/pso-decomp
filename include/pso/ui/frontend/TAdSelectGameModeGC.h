@@ -28,9 +28,7 @@ public:
 
 LAYOUT_ASSERT(TAdSelectGameModeGC_size, sizeof(TAdSelectGameModeGC) == 0x24);
 
-extern "C" {
-int fn_802C4748(void *p);
-}
+int sync_char_select_on_player_created(void *p);
 
 struct SelectGameModeButtonRects { NJS_POINT2 x[2]; };
 

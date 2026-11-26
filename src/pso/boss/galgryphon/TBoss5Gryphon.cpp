@@ -1665,7 +1665,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
         *demo_flag = 0;
         this->flags = (s32) (this->flags & 0xFFFFFF7F);
         TWindowCtrl::unsuppress_all_slots();
-        this->get_target_state_a();
+        this->release_cutscene_players();
         break;
     }
 }

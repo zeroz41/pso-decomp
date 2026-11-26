@@ -22,7 +22,7 @@ s32 copy_player_visual_record(void *, void *);
 s32 capture_local_player_state(TPlyCharData *record) {
     TObjPlayer *player = get_local_player();
     if (player == NULL) {
-        TPlyOnCreated::create((u16)local_client_id, fn_802C4748);
+        TPlyOnCreated::create((u16)local_client_id, sync_char_select_on_player_created);
         return 0;
     }
     player->export_state_to_record(record);
