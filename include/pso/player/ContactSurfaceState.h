@@ -19,7 +19,7 @@ struct ContactSurfaceFlags {
 // keeps leaving foot stamps while it runs.
 struct ContactSurfaceState : ContactSurfaceFlags {
     s32 timer;       // -1 when stopped
-    s32 prev_flags;  // the flags of the previous frame, stored by update_field8
+    s32 prev_flags;  // the flags of the previous frame, stored by save_prev_flags
 
     ContactSurfaceState();
     ~ContactSurfaceState();
@@ -33,7 +33,7 @@ struct ContactSurfaceState : ContactSurfaceFlags {
     int get_flags();
     s32 update_timer();
     void stop_timer();
-    void update_field8();
+    void save_prev_flags();
     void test_flag_16();
     void set_sand();
     void set_flag_4();

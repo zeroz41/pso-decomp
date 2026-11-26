@@ -152,8 +152,8 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
 
 
 void TObjPlayer::reset_state() {
-    ((FlagWord *)((u8 *)this + 0x858))->clear(2);
-    battle_music.reset_counter_field4();
+    death_flags.clear(2);
+    battle_music.reset();
     protection.reset_type();
     attack_state.reset();
     movement_hold.reset();
@@ -632,11 +632,11 @@ void TObjPlayer::refresh_player_lobby_headers() {
     client = 0;
     entry = char_data_array;
     do {
-        ((TObjPlayer *)entry)->init_select_txt();
+        entry->clear();
         player = get_player_by_client_id(client);
         if (player != NULL) {
             if (player->is_locally_controlled() != 0) {
-                ((TObjPlayer *)entry)->copy_lobby_header((saddr)player);
+                entry->copy_from_player(player);
             }
             delete player;
         }
@@ -658,11 +658,11 @@ TObjPlayer *TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {
     return created;
 }
 
-u8 *TObjPlayer::create_player_instance(s32 slot, PlayerCharDataEntry *player) {
-    u8 *p;
-    p = (u8 *)new TObjPlayer(tl_03, slot & 0xFFFF, player->get_role(), player->get_char_data());
-    ((TLobby *)(p + 0xDAC))->copy_header_struct(player->get_lobby_header());
-    ((TObjPlayer *)p)->reset_motion_fields();
+TObjPlayer *TObjPlayer::create_player_instance(s32 slot, PlayerCharDataEntry *player) {
+    TObjPlayer *p;
+    p = new TObjPlayer(tl_03, slot & 0xFFFF, player->get_role(), player->get_char_data());
+    ((TLobby *)&p->guild_card_tag)->copy_header_struct(player->get_lobby_header());
+    p->reset_motion_fields();
     return p;
 }
 

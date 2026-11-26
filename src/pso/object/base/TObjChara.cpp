@@ -3213,7 +3213,7 @@ void TObjChara::send_status_effect_add(StatStatusReceipt) {  }
 #pragma push
 #pragma opt_pointer_analysis on
 void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage) {
-  if ((((lobby_rule_settings.get_rule_field_0() == 1) && (((TObjChara *)mine_trap)->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
+  if ((((lobby_rule_settings.get_rules_active() == 1) && (((TObjChara *)mine_trap)->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
   {
     record_damage_stats__10TOMineTrapFUiUis(mine_trap, att, (void *) damage);
   }

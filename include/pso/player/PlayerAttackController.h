@@ -63,6 +63,9 @@ struct PlayerAttackController {
     void increment_hit_count();
     void set_recovery_timer(s32 frames);
     s32 get_recovery_timer();
+    s16 get_hit_count();
+    // The stage begin() started the swing at.
+    s32 get_begun_stage();
 
     s16 get_validated_queued_kind();
     s16 get_validated_attack_kind();

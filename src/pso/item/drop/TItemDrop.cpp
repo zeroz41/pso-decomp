@@ -125,7 +125,7 @@ void TItemDrop::apply_drop_restrictions(TItemData *it) {
         }
     }
     p = &lobby_rule_settings;
-    if (lobby_rule_settings.get_rule_field_0() == TItemDrop__sub_80107B04(p)) {
+    if (lobby_rule_settings.get_rules_active() == TItemDrop__sub_80107B04(p)) {
         return;
     }
     if (it->data1.data_u8[0] == 0 || it->data1.data_u8[0] == 1) {

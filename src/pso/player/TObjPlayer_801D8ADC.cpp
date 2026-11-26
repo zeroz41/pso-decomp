@@ -39,7 +39,6 @@ extern "C" {
 s32 clamp_class_index(s32);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 s32 get_class_max_exp(saddr player);
-s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 }
 // The PlyLevelTbl.cpt archive: its first word points to the per-class level rows.
 PlayerLevelTableRow ***ply_level_table;
@@ -170,7 +169,7 @@ f32 TObjPlayer::select_normal_attack_marker() {
   s16 stage_strikes;
   s32 class_flags;
   class_flags = get_class_flags();
-  stage_strikes = ((TObjPlayer *)(((u8 *)this) + 0x7CC))->get_stage_strike_count();
+  stage_strikes = attack_state.get_hit_count();
   strike_count = stage_strikes;
   falz_phase = this->get_falz_phase();
   return lookup_attack_marker((s32) get_handle_value(), falz_phase, strike_count, class_flags);
@@ -334,11 +333,11 @@ f32 TObjPlayer::get_class_hp_factor() {
 }
 
 int TObjPlayer::get_floor_surface_type() { return contact_surface.get_contact_surface_type(); }
-s32 TObjPlayer::get_falz_phase() { return TBoss4DarkFalz__sub_801D94C0((void*)((char*)this + 0x7cc)); }
+s32 TObjPlayer::get_falz_phase() { return attack_state.get_begun_stage(); }
 
 int TBoss4DarkFalz::get_instance_count() {  return dark_falz_form_index; }
 
-s32 TBoss4DarkFalz__sub_801D94C0(void* p) { return *(s32*)((char*)p + 0x14); }
+s32 PlayerAttackController::get_begun_stage() { return begun_stage; }
 
 const Vec *hospital_position_table_by_episode[2] = {
     hospital_positions_ep1, hospital_positions_ep2,

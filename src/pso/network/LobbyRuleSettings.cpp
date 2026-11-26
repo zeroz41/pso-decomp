@@ -193,7 +193,7 @@ u8 LobbyRuleSettings::get_tech_disk_mode() {
     return tech_disk_mode;
 }
 
-u8 LobbyRuleSettings::get_rule_field_0() {
+u8 LobbyRuleSettings::get_rules_active() {
     if (rules_active >= 2) {
         return TItemDrop__sub_80107B04(this);
     }

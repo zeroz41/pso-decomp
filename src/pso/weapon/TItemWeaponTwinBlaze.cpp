@@ -24,7 +24,7 @@
 void TItemWeaponTwinBlaze::emit_marker_effects() {
     Vec pos;
     if (is_mode_two_and_ready() != 0) {
-        if ((((TObjPlayer *)&owner->attack_state)->get_stage_strike_count() == 0) && (get_joint_position(0, &pos) != 0)) {
+        if ((owner->attack_state.get_hit_count() == 0) && (get_joint_position(0, &pos) != 0)) {
             TTecGiFoie::create(owner, &pos, get_tp());
             roll_technique();
         }

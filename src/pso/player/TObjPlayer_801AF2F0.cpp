@@ -2334,7 +2334,7 @@ void TObjPlayer::update_position_history() {
         this->set_position_history_entry(this->movement_history.index, this->position.x, this->position.z);
     }
     VecCopy(&this->prev_position, &this->position);
-    this->contact_surface.update_field8();
+    this->contact_surface.save_prev_flags();
 }
 
 void TObjPlayer::update_status_effects() {
@@ -4629,7 +4629,7 @@ s16 TObjPlayer::get_mode_animation(u32 mode) {
     }
 }
 
-int TObjPlayer::get_field_828() { return this->pk_state.is_enabled(); }
+int TObjPlayer::is_pk_enabled() { return this->pk_state.is_enabled(); }
 
 void TObjPlayer::send_enable_pk_mode(TObjPlayer *player) {
     G_EnablePKModeForPlayer_6x1B pkt;
@@ -4901,7 +4901,7 @@ s32 TTecCtrl::is_technique_ready() {
     int result;
 
     result = 0;
-    if ((TObjPlayer::get_player_count() == 1) && (TObjPlayer::get_rule_field_0() == 1)) {
+    if ((TObjPlayer::get_player_count() == 1) && (TObjPlayer::get_rules_active() == 1)) {
         result = 1;
     }
     return (u8)result;
@@ -4921,7 +4921,7 @@ void apply_battle_rules_to_players() {
             continue;
         }
         ((TLobby *)&p->battle_score)->update_all_children();
-        if (q->get_rule_field_0() == 1) {
+        if (q->get_rules_active() == 1) {
             p->set_state_flag_6043();
             if (p->is_locally_controlled() != 0) {
                 lobby_player_count = 1;
@@ -5000,7 +5000,7 @@ void apply_battle_rules_to_players() {
         p->set_flag_4096();
         p->recover_full();
         p->cancel_status_effects();
-        ((TObjPlayer *)(&lobby_char_slot_array[i]))->copy_lobby_header((saddr)p);
+        lobby_char_slot_array[i].copy_from_player(p);
     }
 }
 

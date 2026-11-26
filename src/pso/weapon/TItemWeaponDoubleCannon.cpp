@@ -103,7 +103,7 @@ void TItemWeaponDoubleCannon::fire_special_shots() {
 }
 void TItemWeaponDoubleCannon::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        if (((TObjPlayer *)&owner->attack_state)->get_stage_strike_count() == 0) {
+        if (owner->attack_state.get_hit_count() == 0) {
             drain_owner_hp_fraction(0.05f);
             fire_special_shots();
         }
@@ -150,5 +150,5 @@ TItem *TItemWeaponDoubleCannon::create(u8 *item) {
 }
 
 
-s16 TObjPlayer::get_stage_strike_count() { return ((s16 *)this)[9]; }
+s16 PlayerAttackController::get_hit_count() { return hit_count; }
 

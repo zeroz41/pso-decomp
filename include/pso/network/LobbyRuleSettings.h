@@ -67,7 +67,7 @@ public:
     u8 get_mag_mode();
     u8 get_weapon_and_armor_mode();
     u8 get_tech_disk_mode();
-    u8 get_rule_field_0();
+    u8 get_rules_active();
     void set_death_tech_level_up(u8 value);
     void set_death_level_up(s16 value);
     void set_forbid_scape_dolls(u8 value);

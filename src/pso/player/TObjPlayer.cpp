@@ -92,8 +92,8 @@ void TObjPlayer::set_flag_41c_bit1() { pending_actions.set(2); }
 void TObjPlayer::clamp_stat_41c() { pending_actions.set(8); }
 
 
-s8 TObjPlayer::get_rule_field_0() {
-    return lobby_rule_settings.get_rule_field_0();
+s8 TObjPlayer::get_rules_active() {
+    return lobby_rule_settings.get_rules_active();
 }
 
 
@@ -337,7 +337,7 @@ void UnitScale::reset() {
     z = y = x = player_one;
 }
 
-void BattleMusicState::reset_counter_field4() {
+void BattleMusicState::reset() {
     timer = 0;
     flags.reset();
 }
@@ -407,7 +407,7 @@ void PlayerAnimationState::set_state(s16 v) { state = v; }
 
 void PlayerAnimationState::set_angle(s32 v) { angle = v; }
 
-void ContactSurfaceState::update_field8() {
+void ContactSurfaceState::save_prev_flags() {
     prev_flags = get_flags();
 }
 
@@ -764,7 +764,7 @@ PlayerIntraMapWarp::PlayerIntraMapWarp() {
 
 ProtectionTimer::ProtectionTimer() { reset_type(); }
 
-BattleMusicState::BattleMusicState() { reset_counter_field4(); }
+BattleMusicState::BattleMusicState() { reset(); }
 PlayerAppearFade::PlayerAppearFade() { reset(); }
 
 void PlayerAppearFade::reset() {

@@ -125,7 +125,7 @@ void PhotonBlastGauge::send_6x39_photon_blast_ready() {
 }
 
 s32 PhotonBlastGauge::is_ready() {
-    if ((donation.get_field_04() < 3) && (charge > 10.0f) && (donation.get_state() < 0)) {
+    if ((donation.get_count() < 3) && (charge > 10.0f) && (donation.get_state() < 0)) {
         return 1;
     }
     return 0;
@@ -185,7 +185,7 @@ s32 PhotonBlastGauge::subtract_photon_blast_charge(f32 amount) {
         if (charge < 100.0f) {
             send_6x3A_clear_photon_blast_ready_flag();
         } else if (charge < 400.0f) {
-            update_field_40();
+            clear_charge_capped();
         }
     }
     return 1;
@@ -289,13 +289,13 @@ G_ClearPhotonBlastReadyFlag_6x3A &G_ClearPhotonBlastReadyFlag_6x3A::operator=(co
 void PhotonBlastGauge::update_ready() { flags.set(2); }
 
 s32 PhotonBlastDonation::get_state() { return state; }
-s32 PhotonBlastDonation::get_field_04() { return count; }
+s32 PhotonBlastDonation::get_count() { return count; }
 void PhotonBlastGauge::check_flag_at_40() { flags.clear(32); }
 void PhotonBlastDonation::set_target_count(s32 v) { count = v; }
 void PhotonBlastDonation::set_target_index(s32 v) { state = v; }
 void PhotonBlastDonation::add_count(int n) { count = count + n; }
 void PhotonBlastGauge::set_flag_40_bit5() { flags.set(32); }
-void PhotonBlastGauge::update_field_40() { flags.clear(16); }
+void PhotonBlastGauge::clear_charge_capped() { flags.clear(16); }
 void PhotonBlastGauge::set_charge_capped() { flags.set(16); }
 u16 PhotonBlastGauge::get_type() { return client_id; }
 

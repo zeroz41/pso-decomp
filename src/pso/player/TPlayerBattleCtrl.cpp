@@ -1312,7 +1312,7 @@ void TPlayerBattleCtrl::update_battle_sync(s32 t) {
 }
 
 s32 TPlayerBattleCtrl::check_battle_end() {
-    u8 *p;
+    TObjPlayer *p;
     s32 cnt;
     s32 i;
     s32 ok;
@@ -1320,23 +1320,23 @@ s32 TPlayerBattleCtrl::check_battle_end() {
     s32 seen[2] = {0, 0};
     cnt = 0;
     for (i = 0; i < 4; i++) {
-        p = (u8 *)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (p != NULL) {
             ok = 1;
             if (battle_team_table[i] == 0) {
                 ok = 0;
-            } else if (*(s32 *)(p + 0x30) & 0x800) {
+            } else if (p->actorFlags & 0x800) {
                 if (lobby_rule_settings.get_respawn_mode() == 1) {
                     ok = 0;
                 } else if (lobby_rule_settings.get_respawn_mode() == 2 &&
-                           ((PlayerBattleScore *)(p + 0x754))->get_timer() == 0) {
+                           p->battle_score.get_timer() == 0) {
                     ok = 0;
                 }
             }
             if (ok != 0) {
                 cnt++;
                 if (lobby_rule_settings.get_is_teams() == 1) {
-                    idx = ((TObjPlayer *)p)->pk_state.get_team() - 1;
+                    idx = p->pk_state.get_team() - 1;
                     if (idx >= 0 && idx < 2) {
                         seen[idx] = 1;
                     }

@@ -456,7 +456,6 @@ struct TObjPlayer : public TObjChara {
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();
     int test_flag30_bit0x100000();
-    s16 get_stage_strike_count();
     static void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);
     s16 get_kill_count();
     static void set_camera_mode(s32 camera_mode);
@@ -753,10 +752,6 @@ struct TObjPlayer : public TObjChara {
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
     static s32 is_valid_and_active(uaddr actor);
-    void init_select_txt();
-    void copy_lobby_header(saddr player);
-    void initialize_player_data();
-    void init_item_counts_max();
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
     static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();
@@ -808,9 +803,9 @@ struct TObjPlayer : public TObjChara {
     void init_idle_animation();
     static void create_active_players();
     static void refresh_player_lobby_headers();
-    static u8 *create_player_instance(s32 slot, PlayerCharDataEntry *player);
+    static TObjPlayer *create_player_instance(s32 slot, PlayerCharDataEntry *player);
     static void alloc_shared_buffers();
-    static s8 get_rule_field_0();
+    static s8 get_rules_active();
     static void draw_effect();
     void draw_trail_pair();
     static void update_particle_by_phase(NJS_OBJECT *);
@@ -865,7 +860,7 @@ struct TObjPlayer : public TObjChara {
     void send_enable_drop_weapon_on_death();
     void send_disable_drop_weapon_on_death();
     void send_level_up_all_techniques(u8 num_levels);
-    int get_field_828();
+    int is_pk_enabled();
     static void play_phase_transition_sound(saddr child);
     int check_flag_40000();
     s32 is_in_tl03_state();

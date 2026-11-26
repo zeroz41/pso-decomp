@@ -573,11 +573,11 @@ void qst_op_get_recent_symbol_chat() {
 
 void qst_op_get_guildcard_num(void) {
     u8 dest_reg;
-    u8 *player;
+    TObjPlayer *player;
     dest_reg = (u8) qst_args[1];
-    player = (u8 *)(get_player_by_client_id((s32) (u16) qst_args[0]));
+    player = get_player_by_client_id((s32) (u16) qst_args[0]);
     if (player != NULL) {
-        qst_registers[dest_reg] = *(s32 *)((s8 *)player + 0xDB0);
+        qst_registers[dest_reg] = player->guild_card_tag.guildcard_number;
         return;
     }
     qst_registers[dest_reg] = -1;
@@ -1036,7 +1036,7 @@ void qst_op_get_coord_player_detect(u8 i, u8 out) {
     f32 r;
     f32 r2;
     s32 p;
-    u8 *player;
+    TObjPlayer *player;
 
     pos.x = qst_registers[i++];
     pos.y = 0.0f;
@@ -1045,9 +1045,9 @@ void qst_op_get_coord_player_detect(u8 i, u8 out) {
     r2 = r * r;
     for (p = 0; p < 4; p++, out++) {
         qst_registers[out] = 0;
-        player = (u8 *)get_player_by_client_id(p);
+        player = get_player_by_client_id(p);
         if (player != NULL) {
-            if (xz_distance_squared((Vec *)(player + 0x38), &pos) < r2) {
+            if (xz_distance_squared(&player->position, &pos) < r2) {
                 qst_registers[out] = 1;
             }
         }
@@ -1868,7 +1868,7 @@ void qst_op_chl_set_min_time_online(s32 reg) {
 void qst_op_check_for_hacking(u8 out) {
     u32 *p;
     s16 i;
-    u8 *player;
+    TObjPlayer *player;
     qst_registers[out] = 0;
     p = (u32 *)0x8C007220;
     for (i = 0; i < 0xC0U; i++) {
@@ -1885,8 +1885,8 @@ void qst_op_check_for_hacking(u8 out) {
     if (get_drop_flag() == 1) {
         qst_registers[out] |= 8;
     }
-    player = ((u8 *)get_player_by_client_id(local_client_id));
-    if (player != NULL && static_cast<u32>(((FlagWord *)(player + 0x41C))->get_bits()) != 0) {
+    player = get_player_by_client_id(local_client_id);
+    if (player != NULL && static_cast<u32>(player->pending_actions.get_bits()) != 0) {
         qst_registers[out] |= 0x10;
     }
 }
@@ -3690,7 +3690,7 @@ void qst_op_item_check(u32 first, u32 destination) {
         item.data[0] = qst_registers[(u8)first++];
         item.data[1] = qst_registers[(u8)first++];
         item.data[2] = qst_registers[(u8)first];
-        slot = ((TPlyItem *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object(&item);
+        slot = player->inventory_objects->set_mode_and_refresh_object(&item);
         if (slot != 0) {
             owner = (void *)slot->get_owner_if_alive();
             if (owner != 0) {
@@ -3720,7 +3720,7 @@ void qst_op_item_delete2(u32 src, u32 dst) {
         item.data[0] = qst_registers[(u8)src++];
         item.data[1] = qst_registers[(u8)src++];
         item.data[2] = qst_registers[(u8)src];
-        slot = ((TPlyItem *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object(&item);
+        slot = player->inventory_objects->set_mode_and_refresh_object(&item);
         if (slot != 0) {
             owner = (void *)slot->get_owner_if_alive();
             if (owner != 0) {
@@ -3759,7 +3759,7 @@ void qst_op_item_delete(u32 src, u32 dst) {
     }
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        slot = ((TPlyItem *)(*(void **)((s8 *)player + 0xD00)))->start_inventory_update(qst_registers[(u8)src]);
+        slot = player->inventory_objects->start_inventory_update(qst_registers[(u8)src]);
         if (slot != 0) {
             owner = (void *)slot->get_owner_if_alive();
             if (owner != 0) {
@@ -4505,7 +4505,7 @@ void qst_op_npc_crptalk_id(u8 first) {
     TLobby::free_luker_object();
     player = new TObjPlayer((TObject *)tl_03, slot, 6, load_npc_player_template(appearance));
     if (player != NULL) {
-        *(s16 *)((u8 *)player + 0x324) = 6;
+        player->control_state = 6;
         send_6x24_teleport_player(slot, &pos, heading);
         set_arrival_override_coords(slot, heading, pos.x, pos.y, pos.z);
         player->reset_motion_fields();
@@ -4534,7 +4534,7 @@ void qst_op_npc_crptalk(u8 first) {
     TLobby::free_luker_object();
     player = new TObjPlayer((TObject *)tl_03, 3, 6, load_npc_player_template(appearance));
     if (player != NULL) {
-        *(s16 *)((u8 *)player + 0x324) = 6;
+        player->control_state = 6;
         send_6x24_teleport_player(3, &pos, heading);
         set_arrival_override_coords(3, heading, pos.x, pos.y, pos.z);
         player->reset_motion_fields();

@@ -29,7 +29,7 @@ void copy_tech_params(PhotonBlastTarget *dst, PhotonBlastTarget *src);
 struct PhotonBlastDonation {
     void reset_fields();
     s32 get_state();
-    s32 get_field_04();
+    s32 get_count();
     void set_target_count(s32 v);
     void set_target_index(s32 v);
     void add_count(int n);
@@ -57,8 +57,8 @@ struct PhotonBlastGauge {
     s32 get_countdown();
     void decrement_countdown();
     f32 get_frame_step();
-    void set_field_0c(f32 v);
-    void set_field8(s32 v);
+    void set_frame_step(f32 v);
+    void set_countdown(s32 v);
     PhotonBlastTarget *get_target(s32 i);
     int has_ready_flag();
     s32 get_target_count();
@@ -81,7 +81,7 @@ struct PhotonBlastGauge {
     void update_ready();
     void check_flag_at_40();
     void set_flag_40_bit5();
-    void update_field_40();
+    void clear_charge_capped();
     void set_charge_capped();
     u16 get_type();
     s32 is_photon_blast_charge_full();
@@ -89,7 +89,7 @@ struct PhotonBlastGauge {
     void clear_photon_blast_state();
     void trigger_photon_blast();
     void check_photon_blast_flag();
-    void set_field_3c(f32 v);
+    void set_charge(f32 v);
     void start_photon_blast_action();
     f32 get_dist();
     // Flag 4: the player has an open photon blast request others can donate to.

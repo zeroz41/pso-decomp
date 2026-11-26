@@ -2454,8 +2454,8 @@ void TObjPlayer::update_photon_blast_action() {
     {
       this->phase = 1;
       this->motion_flags = (s32) ((this->motion_flags) | 0x40);
-      this->photon_blast_gauge.set_field8((int) (*((s16 *) (((s8 *) get_photon_blast_entry(this->photon_blast_gauge.get_valid_index())) + 0x12))));
-      this->photon_blast_gauge.set_field_0c(-0.2f);
+      this->photon_blast_gauge.set_countdown((int) (*((s16 *) (((s8 *) get_photon_blast_entry(this->photon_blast_gauge.get_valid_index())) + 0x12))));
+      this->photon_blast_gauge.set_frame_step(-0.2f);
     }
       play_persistent_sound(0x4002A823,this, NULL, 0, 0);
       break;
@@ -2465,7 +2465,7 @@ void TObjPlayer::update_photon_blast_action() {
     {
       if ((this->frame) >= this->get_photon_blast_upper_bound())
       {
-        this->photon_blast_gauge.set_field_0c(-0.2f);
+        this->photon_blast_gauge.set_frame_step(-0.2f);
       }
     }
     else
@@ -2473,7 +2473,7 @@ void TObjPlayer::update_photon_blast_action() {
     {
       if (1)
       {
-        this->photon_blast_gauge.set_field_0c(0.2f);
+        this->photon_blast_gauge.set_frame_step(0.2f);
       }
     }
       this->photon_blast_gauge.decrement_countdown();
@@ -2800,7 +2800,7 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
         if (this == 0 || this->obj_isState2_324() == 0) {
             G_CastTechniqueComplete_6x48 pkt;
             this->phase = 4;
-            tech = this->technique_state.get_or_init_field_4();
+            tech = this->technique_state.get_technique_id();
             this->tp -= calc_technique_parameters(tech, this->technique_state.get_castable_technique_level(), get_entity_id())->tp_cost;
             if (this->tp < 0) {
                 this->tp = 0;
@@ -2866,8 +2866,8 @@ void TObjPlayer::update_technique_cast() {
     case 0:
         this->phase = 1;
         this->set_state_flags(0x80);
-        create_technique_charge_light((s16) (technique_state.get_or_init_field_4()),this);
-        technique_state.set_technique_state(calc_technique_parameters(technique_state.get_or_init_field_4(), technique_state.get_castable_technique_level(), this->get_entity_id())->charge_speed);
+        create_technique_charge_light((s16) (technique_state.get_technique_id()),this);
+        technique_state.set_technique_state(calc_technique_parameters(technique_state.get_technique_id(), technique_state.get_castable_technique_level(), this->get_entity_id())->charge_speed);
         technique_state.set_charge_step(0.05f);
         break;
     case 1:
@@ -3017,12 +3017,12 @@ void TObjPlayer::request_technique_cast() {
     s32 count;
     PhotonBlastTarget *src;
     PhotonBlastTarget *dst;
-    capture_technique_targets(technique_state.get_or_init_field_4(), this);
+    capture_technique_targets(technique_state.get_technique_id(), this);
     if (lock_on_cursor != NULL) {
         td = technique_state.get_technique_data();
         ((TLockOnCursor *)lock_on_cursor)->set_cursor_pos(td->entity_id, td->index);
     }
-    tech = technique_state.get_or_init_field_4();
+    tech = technique_state.get_technique_id();
     TObjPlayer::split_capped_value(get_cast_technique_level(&technique_state, tech), &hi, &lo);
     if (this == NULL || obj_isState2_324() == 0) {
         m1.init();
@@ -4582,7 +4582,7 @@ Vec *PhotonBlastAim::get_position() { return &position; }
 Vec *PhotonBlastAim::set_position(const Vec *src) { return VecCopy(&position, src); }
 
 void TObjPlayer::set_float_param(s16 value) {
-    this->photon_blast_gauge.set_field_3c((f32) (s32) value);
+    this->photon_blast_gauge.set_charge((f32) (s32) value);
 }
 
 void update_player_action_palette(TObjPlayer *player, u8 slot) {
@@ -5557,14 +5557,14 @@ f32 PhotonBlastGauge::get_frame_step() { return frame_step; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void PhotonBlastGauge::set_field_0c(f32 v) { frame_step = v; }
+void PhotonBlastGauge::set_frame_step(f32 v) { frame_step = v; }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void PhotonBlastGauge::set_field8(s32 v) { countdown = v; }
+void PhotonBlastGauge::set_countdown(s32 v) { countdown = v; }
 #pragma pop
 
 #pragma push
@@ -5579,7 +5579,7 @@ PhotonBlastTarget *PhotonBlastGauge::get_target(s32 i) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void PhotonBlastGauge::set_field_3c(f32 v) { charge = v; }
+void PhotonBlastGauge::set_charge(f32 v) { charge = v; }
 #pragma pop
 
 #pragma push

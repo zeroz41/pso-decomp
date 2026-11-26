@@ -4,30 +4,27 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlyCharData.h"
-
-struct P_802A1544 { u8 pad0[0x408]; s8 v[0x14]; };
+#include "pso/player/PlayerCharDataEntry.h"
 
 extern "C" {
 
 int clear_player_data_block(void*);
 
-void TObjPlayer::init_select_txt() { *(int*)(this) = 0; TAdSelectTxtGC__sub_802A16A8((char*)this + 0x4); ((FlagWord *)((char*)this + 0x428))->reset(); ((TObjPlayer *)((char*)this + 0xc))->initialize_player_data(); }
+void PlayerCharDataEntry::clear() { role = 0; TAdSelectTxtGC__sub_802A16A8(&lobby_header); flags.reset(); char_data.initialize_player_data(); }
 
-void TObjPlayer::copy_lobby_header(saddr player) {
-    s32 *arg0 = (s32 *)this;
-    ((FlagWord *)((s8 *)arg0 + 0x428))->set(1);
-    *arg0 = TAdSelectTxtGC__sub_802A16C0((void *)player);
-    ((TLobby *)((s8 *)arg0 + 4))->copy_header_struct((void *) ((s8 *)player + 0xDAC));
-    reinterpret_cast<TObjPlayer *>(player)->export_character_data(reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(arg0) + 0xC));
+void PlayerCharDataEntry::copy_from_player(TObjPlayer *player) {
+    flags.set(1);
+    role = TAdSelectTxtGC__sub_802A16C0(player);
+    ((TLobby *)&lobby_header)->copy_header_struct(&player->guild_card_tag);
+    player->export_character_data(&char_data);
 }
 
-void TObjPlayer::initialize_player_data() { *(unsigned char*)((char*)this + 0x3) = 0; *(unsigned char*)((char*)this + 0x2) = 0; *(unsigned char*)((char*)this + 0x1) = 0; *(unsigned char*)(this) = 0; ((TPlyCharData *)this)->init_inventory_items(); ((TAdSelectTxtGC *)((char*)this + 0x34c))->reset_state(); clear_player_data_block((char*)this + 0x370); ((TPlyDispConfig *)((char*)this + 0x3c0))->init(); init_item_counts_max(); }
+void TPlyCharData::initialize_player_data() { m_inventory.m_language = 0; m_inventory.m_tp_materials_used = 0; m_inventory.m_hp_materials_used = 0; m_inventory.m_num_items = 0; init_inventory_items(); ((TAdSelectTxtGC *)&m_stats)->reset_state(); clear_player_data_block(&m_disp_part2); m_config.init(); clear_technique_levels(); }
 
-void TObjPlayer::init_item_counts_max() {
-    P_802A1544 *arg0 = (P_802A1544 *)this;
+void TPlyCharData::clear_technique_levels() {
     s32 i;
     for (i = 0; i < 0x14; i++) {
-        arg0->v[i] = TObjPlayer::get_item_count_max();
+        m_tech_levels[i] = TObjPlayer::get_item_count_max();
     }
 }
 

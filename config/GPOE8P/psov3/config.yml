@@ -354,7 +354,7 @@ force_active:
   - __ct__14TBoss4DarkFalzFP7TObjectP22TBoss4DarkFalzSetEntry
   - name__14TBoss4DarkFalz
   - spawn_defeat_effects__14TBoss4DarkFalzFv
-  - TBoss4DarkFalz__sub_801D94C0
+  - get_begun_stage__22PlayerAttackControllerFv
   - clear_particle_emitters__12TBoss4ThanksFv
   - attack_pattern_table__11TBoss4Type2
   - __ct__11TBoss4Type2FP7TObjectP17TBoss4FormSetData
@@ -7071,7 +7071,7 @@ force_active:
   - __ct__9TTecZaruaFP8TObjBaseP3VecP3Vecl
   - init_inventory__10TObjPlayerFv
   - __ct__20EquippedWeaponAndMagFv
-  - init_item_counts_max__10TObjPlayerFv
+  - clear_technique_levels__12TPlyCharDataFv
   - init_item_entry__18TCheckRoomSequenceFP14BankItemRecord
   - init_joint_offset__11TBoss2JointFl
   - init_kind_params__18TObjSeabedSuiso_CHFv
@@ -7217,7 +7217,7 @@ force_active:
   - initialize_from_placement__13TObjRaderIconFv
   - initialize_lobby_pigeon_path__15TObjLobbyPigeonFv
   - initialize_materials__6TSceneFv
-  - initialize_player_data__10TObjPlayerFv
+  - initialize_player_data__12TPlyCharDataFv
   - initialize_selection_state__22TAdMultiPlyChrSelectGCFl
   - initialize_slime_instance_state__15TObjEneSlimeOneFv
   - initialize_windows__10TChallengeFv
@@ -16868,7 +16868,7 @@ force_active:
   - update_fall__10TBoss6RockFv
   - update_fall_to_ground__15TObjEneDelDepthFv
   - update_farthest_target__18TObjEneRe4SorcererFP9TObjCharaPf
-  - update_field_40__16PhotonBlastGaugeFv
+  - clear_charge_capped__16PhotonBlastGaugeFv
   - update_held_target__17TObjEneDf2BringerFv
   - update_flags
   - update_flight__21TObjEneRe7BeruraPunchFv

@@ -401,7 +401,7 @@ void TWindowCtrl::update_party_status_rows() {
                 TWindowCtrl::is_slot_visible(local_client_id) != 0 || is_flag_bit2_set() != 0 ||
                 ((TObjPlayer *)pl)->is_script_controlled() != 0 ||
                 (((TObjChara *)pl)->obj_isState3_324() != 0 &&
-                 (((TObjPlayer *)pl)->get_field_828() != 0 || static_cast<TObjPlayer *>(pl)->get_npc_controller() == 0xFFFF))) {
+                 (((TObjPlayer *)pl)->is_pk_enabled() != 0 || static_cast<TObjPlayer *>(pl)->get_npc_controller() == 0xFFFF))) {
                 w->request_close();
             } else {
                 window_request_show(w);

@@ -16,7 +16,7 @@ s16 PlayerTechniqueState::get_section_clamped() {
     return this->target_count;
 }
 
-s16 PlayerTechniqueState::get_or_init_field_4() {
+s16 PlayerTechniqueState::get_technique_id() {
     if (is_valid_technique_id(technique) == 0) {
         set_technique_id((s16)0);
     }

@@ -337,9 +337,9 @@ void rebuild_players_for_stage(s32 stage) {
         p = get_player_by_client_id(i);
         PlayerGuildCardTag hdr;
         if (p != NULL) {
-            VecCopy(&pos, (const Vec *)((u8 *)p + 0x38));
+            VecCopy(&pos, &p->position);
             copy_player_visual_record(&info, (u8 *)p + 0x85C);
-            ((TLobby *)(&hdr))->copy_header_struct((u8 *)p + 0xDAC);
+            ((TLobby *)(&hdr))->copy_header_struct(&p->guild_card_tag);
             map = (p)->get_controller_port();
             delete p;
             switch (info.flags & 0xE0) {
@@ -366,7 +366,7 @@ void rebuild_players_for_stage(s32 stage) {
                     return;
                 }
             }
-            ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&hdr);
+            ((TLobby *)&p->guild_card_tag)->copy_header_struct(&hdr);
             p->set_position_from(&pos);
             p->save_previous_position();
             p->reset_motion_fields();
@@ -376,7 +376,7 @@ void rebuild_players_for_stage(s32 stage) {
                     TObjPlayer::set_technique_level_clamped(p, e->level, e->technique);
                 }
             }
-            *(s32 *)((s8 *)p + 0xD58) = 0;
+            p->base_stats.meseta = 0;
         }
     }
 }
