@@ -39,14 +39,6 @@ extern "C" {
 void append_word_select_token(s16, saddr, void *);
 void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos);
 void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos);
-extern const f32 lbl_805DFB94;
-extern const f32 lbl_805DFB60;
-extern const f32 lbl_805DFBDC;
-extern const f32 lbl_805DFBE0;
-extern const f32 lbl_805DFBE4;
-extern const f32 lbl_805DFBE8;
-extern const f32 lbl_805DFBEC;
-extern const f32 lbl_805DFC28;
 s32 is_id_in_special_range__9TWindowDDFs(s16);
 s32 TWindowDD__sub_80347238();
 
@@ -278,7 +270,7 @@ void TWindowDD::destroy_menu_entry(s32 offset) {
 void TWindowDD::set_item_pos(s32 i) {
     TWindowDD_WS_Word *page = word_windows[depth + i];
     if (page != NULL) {
-        page->set_pos_and_data(lbl_805DFB94);
+        page->set_pos_and_data(last_word_page_x);
     }
 }
 
@@ -442,17 +434,17 @@ void TWindowDD::create_word_select_cursor_label(s32 slot) {
     r = word_windows[depth]->get_selected_row_text();
     if (r != 0) {
         if (slot == 0) {
-            a.x = lbl_805DFBDC;
-            a.y = lbl_805DFBE0;
+            a.x = cursor_label_x;
+            a.y = cursor_label_y;
         } else {
-            a.x = lbl_805DFBE8;
-            a.y = lbl_805DFBEC;
+            a.x = cursor_label2_x;
+            a.y = cursor_label2_y;
         }
-        b.x = lbl_805DFB60;
+        b.x = word_label_hidden_x;
         b.y = a.y;
-        o = TWindowDD_WS_String::create(lbl_805DFBE4, (f32 *)&a, (f32 *)&b, (u32)r, 1);
+        o = TWindowDD_WS_String::create(cursor_label_width, (f32 *)&a, (f32 *)&b, (u32)r, 1);
         if (o != NULL) {
-            o->set_depth(lbl_805DFC28);
+            o->set_depth(word_cursor_depth);
             o->fit_width_to_text();
             copy_vec2(o->frame_position, &v);
             o->move_to_start(window_dd_tween_ticks);
@@ -472,15 +464,14 @@ s32 TWindowDD::get_current_child_index() {
 #pragma pop
 
 
-extern const f32 TWindowDD__data_805DFC10;
 
 TWindowDDStateEntry *TWindowDD::get_state_entry(s32 state) { return &word_select_state_table[state]; }
 
-void TWindowDD::move_label_to_third_page() {
+void TWindowDD::move_next_label_after_wide_page() {
     TWindowDD_WS_String *label;
     label = labels[1];
     if (label != NULL) {
-        label->target_position[0] = TWindowDD__data_805DFC10;
+        label->target_position[0] = wide_next_word_page_x;
         label->tween_ticks = window_dd_tween_ticks;
     }
 }
@@ -528,35 +519,28 @@ void TWindowDD::update(TWindowDD_WS_Word *window_dd) {
 
 extern "C" {
 
-        extern const float lbl_805DFB98;
-    extern const float lbl_805DFB9C;
-    extern const float lbl_805DFBA0;
 void TWindowDD::set_default_coords(TWindowDD_WS_Word *win) {
     refresh_sub(win);
-    win->target_position[0] = lbl_805DFB94;
-    win->frame_position[0] = lbl_805DFB94;
-    win->target_position[1] = lbl_805DFB98;
-    win->frame_position[1] = lbl_805DFB98;
-    win->target_size[0] = lbl_805DFB9C;
-    win->frame_size[0] = lbl_805DFB9C;
-    win->target_size[1] = lbl_805DFBA0;
-    win->frame_size[1] = lbl_805DFBA0;
+    win->target_position[0] = last_word_page_x;
+    win->frame_position[0] = last_word_page_x;
+    win->target_position[1] = last_word_page_y;
+    win->frame_position[1] = last_word_page_y;
+    win->target_size[0] = last_word_page_width;
+    win->frame_size[0] = last_word_page_width;
+    win->target_size[1] = last_word_page_height;
+    win->frame_size[1] = last_word_page_height;
 }
 
-    extern const float lbl_805DFB80;
-    extern const float lbl_805DFB84;
-    extern const float lbl_805DFB88;
-    extern const float lbl_805DFB8C;
 void TWindowDD::init_layout(TWindowDD_WS_Word *child) {
     dim_next_page(child);
-    child->target_position[0] = lbl_805DFB80;
-    child->frame_position[0] = lbl_805DFB80;
-    child->target_position[1] = lbl_805DFB84;
-    child->frame_position[1] = lbl_805DFB84;
-    child->target_size[0] = lbl_805DFB88;
-    child->frame_size[0] = lbl_805DFB88;
-    child->target_size[1] = lbl_805DFB8C;
-    child->frame_size[1] = lbl_805DFB8C;
+    child->target_position[0] = next_word_page_x;
+    child->frame_position[0] = next_word_page_x;
+    child->target_position[1] = next_word_page_y;
+    child->frame_position[1] = next_word_page_y;
+    child->target_size[0] = next_word_page_width;
+    child->frame_size[0] = next_word_page_width;
+    child->target_size[1] = next_word_page_height;
+    child->frame_size[1] = next_word_page_height;
 }
 
 void TWindowDD::set_default_positions(TWindowDD_WS_Word *child) {
@@ -778,12 +762,10 @@ void append_word_select_token(s16 id, saddr window_dd, void *pos) {
 
 
 
-extern f32 lbl_805DFB1C;
 WindowTexturePoint TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
 extern s32 *TWindowDD__data_805D6E28;
 extern s16 *lbl_805D6E34;
-extern const f32 lbl_805DFB5C;
 typedef struct { char pad[0xBC]; } Buf;
 
 void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
@@ -852,13 +834,13 @@ void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices)
   center_x = context->x + half_width;
   x = (0, center_x - half_scaled);
   right = center_x + half_scaled;
-  if (half_scaled < lbl_805DFB1C)
+  if (half_scaled < window_dd_cap_width)
   {
     edge = (right - x) / 3.0f;
   }
   else
   {
-    edge = lbl_805DFB1C;
+    edge = window_dd_cap_width;
   }
   right_vertex = ((s8 *) ((0, vertices))) + 0x90;
   *((f32 *) (((s8 *) vertices) + 0x18)) = x;
@@ -911,7 +893,7 @@ void TWindowBase::calc_inner_rect(WindowDrawContext *context) {
     f32 h;
     x = frame_position[0];
     y = frame_position[1];
-    ky = lbl_805DFB5C;
+    ky = window_dd_frame_margin_y;
     x0 = x + window_dd_frame_margin;
     w = frame_size[0];
     h = frame_size[1];

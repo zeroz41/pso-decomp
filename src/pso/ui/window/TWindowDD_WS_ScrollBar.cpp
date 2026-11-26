@@ -45,10 +45,6 @@ f32 lbl_805D6DF4;
 f32 lbl_805D6DF8;
 f32 lbl_805D6DFC;
 f32 lbl_805D6E00;
-extern const f32 lbl_805DFB24;
-extern const f32 lbl_805DFB28;
-extern const f32 lbl_805DFB38;
-extern const f32 lbl_805DFBCC;
 
 __declspec(section ".data") void *lbl_804EFBC8[2] = {
     (void *)0x0, (void *)0x0,
@@ -57,16 +53,6 @@ void *lbl_804EFBD0[5] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x3,
 };
-extern const f32 TWindowDD__data_805DFB18;
-extern const f32 lbl_805DFB34;
-extern const f32 lbl_805DFB3C;
-extern const f32 lbl_805DFB2C;
-extern const f32 lbl_805DFB30;
-extern const f32 lbl_805DFBC4;
-extern const f32 lbl_805DFBBC;
-extern const f32 lbl_805DFBC8;
-extern const f32 lbl_805DFBC0;
-extern const f32 lbl_805DFC24;
 
 #pragma push
 #pragma dont_inline off
@@ -118,7 +104,7 @@ void TWindowDD_WS_ScrollBar::render() {
     c = self->frame_position[1] + half;
     lo = c - t;
     hi = c + t;
-    if (t < lbl_805DFB28) {
+    if (t < scroll_bar_tile_height) {
         d = (hi - lo) / 3.0f;
     } else {
         d = 16.0f;
@@ -130,7 +116,7 @@ void TWindowDD_WS_ScrollBar::render() {
 
     half = 0.5f * self->frame_size[0];
     c = self->frame_position[0] + half;
-    step = lbl_805DFB24 * rect->scale[0];
+    step = scroll_bar_tile_width * rect->scale[0];
     t = half * rect->scale[0];
     x0 = span_start(c, t);
     v = verts;
@@ -139,7 +125,7 @@ void TWindowDD_WS_ScrollBar::render() {
         v[1].x = x0 + step;
         v += 2;
     }
-    half = 0.5f * lbl_805DFB38 * rect->scale[0];
+    half = 0.5f * scroll_arrow_size * rect->scale[0];
     quad[0] = span_start(c, half);
     quad[2] = span_end(c, half);
     draw_window_vertices(verts, 8, tex, 1);
@@ -153,14 +139,14 @@ void TWindowDD_WS_ScrollBar::render() {
     quad[7] = lbl_805D6DD0;
     quad[4] = lbl_805D6DD4;
     quad[6] = lbl_805D6DD8;
-    quad[1] = lbl_805DFBCC * s + lo;
-    quad[3] = s * (lbl_805DFBCC + lbl_805DFB38) + lo;
+    quad[1] = scroll_arrow_margin * s + lo;
+    quad[3] = s * (scroll_arrow_margin + scroll_arrow_size) + lo;
     draw_textured_quad_at_depth(quad, z);
 
     quad[4] = lbl_805D6DDC;
     quad[6] = lbl_805D6DE0;
-    quad[1] = hi - s * (lbl_805DFBCC + lbl_805DFB38);
-    quad[3] = hi - lbl_805DFBCC * s;
+    quad[1] = hi - s * (scroll_arrow_margin + scroll_arrow_size);
+    quad[3] = hi - scroll_arrow_margin * s;
     draw_textured_quad_at_depth(quad, z);
 
     quad[4] = lbl_805D6DE4;
@@ -202,15 +188,15 @@ void TWindowDD_WS_ScrollBar::render() {
 #pragma defer_codegen on
 
 void __sinit_TWindowDD_WS_ScrollBar_cpp(void) {
-    lbl_805D6DC0 = 17.0f + lbl_805DFBCC;
-    lbl_805D6DC4 = 14.0f + (17.0f + lbl_805DFBCC);
-    lbl_805D6DC8 = TWindowDD__data_805DFB18;
-    lbl_805D6DCC = lbl_805DFB34 * lbl_805D6DC8;
-    lbl_805D6DD0 = lbl_805D6DC8 * (lbl_805DFB34 + lbl_805DFB3C);
-    lbl_805D6DD4 = lbl_805DFB2C * lbl_805D6DC8;
-    lbl_805D6DD8 = lbl_805D6DC8 * (lbl_805DFB2C + lbl_805DFB38);
-    lbl_805D6DDC = lbl_805DFB30 * lbl_805D6DC8;
-    lbl_805D6DE0 = lbl_805D6DC8 * (lbl_805DFB30 + lbl_805DFB38);
+    lbl_805D6DC0 = 17.0f + scroll_arrow_margin;
+    lbl_805D6DC4 = 14.0f + (17.0f + scroll_arrow_margin);
+    lbl_805D6DC8 = window_dd_texel_scale;
+    lbl_805D6DCC = scroll_arrow_v * lbl_805D6DC8;
+    lbl_805D6DD0 = lbl_805D6DC8 * (scroll_arrow_v + scroll_arrow_texture_height);
+    lbl_805D6DD4 = scroll_arrow_up_u * lbl_805D6DC8;
+    lbl_805D6DD8 = lbl_805D6DC8 * (scroll_arrow_up_u + scroll_arrow_size);
+    lbl_805D6DDC = scroll_arrow_down_u * lbl_805D6DC8;
+    lbl_805D6DE0 = lbl_805D6DC8 * (scroll_arrow_down_u + scroll_arrow_size);
     lbl_805D6DE4 = 224.0f * lbl_805D6DC8;
     lbl_805D6DE8 = 238.0f * lbl_805D6DC8;
     lbl_805D6DEC = 58.0f * lbl_805D6DC8;
@@ -219,11 +205,11 @@ void __sinit_TWindowDD_WS_ScrollBar_cpp(void) {
     lbl_805D6DF8 = 100.0f * lbl_805D6DC8;
     lbl_805D6DFC = 72.0f * lbl_805D6DC8;
     lbl_805D6E00 = 86.0f * lbl_805D6DC8;
-    ((f32 *)lbl_804EFBC8)[0] = lbl_805DFBC4;
-    ((f32 *)lbl_804EFBC8)[1] = lbl_805DFBC8;
-    ((f32 *)lbl_804EFBD0)[0] = lbl_805DFBBC;
-    ((f32 *)lbl_804EFBD0)[1] = lbl_805DFBC0;
-    ((f32 *)lbl_804EFBD0)[2] = lbl_805DFC24;
+    ((f32 *)lbl_804EFBC8)[0] = scroll_bar_x;
+    ((f32 *)lbl_804EFBC8)[1] = scroll_bar_y;
+    ((f32 *)lbl_804EFBD0)[0] = scroll_bar_width;
+    ((f32 *)lbl_804EFBD0)[1] = scroll_bar_height;
+    ((f32 *)lbl_804EFBD0)[2] = scroll_bar_depth;
 }
 
 __declspec(section ".ctors") static void *const __sinit_TWindowDD_WS_ScrollBar_cpp_ref = (void *)__sinit_TWindowDD_WS_ScrollBar_cpp;
