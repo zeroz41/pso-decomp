@@ -5,6 +5,8 @@
 #include <stddef.h>
 #include "pso/object/base/TObjChara.h"
 
+struct BmlResource;
+
 struct TContainerAncient01 : public TObjChara {
     TContainerAncient01(TObject *parent, void *set_data);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
@@ -13,9 +15,9 @@ struct TContainerAncient01 : public TObjChara {
     virtual s32 select_melee_contact_body(void *, f32);
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_physical_attack(void *, f32);
-    void sub_8018B700();
-    void sub_8018B48C();
-    void sub_8018B284();
+    void open_container();
+    void update_spawning();
+    void update_blast();  // name inferred: the open blast (sounds, effects, attack_nearby_players) until active_limit
     virtual void apply_saved_state(s16 *, s32);
     virtual s32 try_start_action(void *, s32, f32);
     virtual void apply_knockback_from_attacker(u8 *, f32);
@@ -38,8 +40,13 @@ struct TContainerAncient01 : public TObjChara {
     static void release_static_resource();
     static void load_resources();
     static s32 is_global_state_in_table();
-    u32 m_36c;
+    u32 effect_rate;     // set param 2 + 4; the blast spawns an effect every 30 / effect_rate frames
     static int get_table_entry(int a0);
+    // Hits every player on this floor within range (squared, xz) with a kind 0xF
+    // direct attack of power 100. Name inferred.
+    void attack_nearby_players(f32 range);
+    // The archive load_resources loaded; TContainerAncient01R shares it.
+    static BmlResource *get_bml_resource();
 };
 
 LAYOUT_ASSERT(TContainerAncient01_size, sizeof(TContainerAncient01) == 0x370);

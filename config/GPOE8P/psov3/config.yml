@@ -509,9 +509,9 @@ force_active:
   - __ct__19TContainerAncient01FP7TObjectPv
   - container_ancient01_resource_descriptor
   - container_ancient01_resource_descriptor_2
-  - TContainerAncient01__sub_8018A584
-  - TContainerAncient01__sub_8018B180
-  - TContainerAncient01__sub_8018BE90
+  - attack_nearby_players__20TContainerAncient01RFf
+  - attack_nearby_players__19TContainerAncient01Ff
+  - get_bml_resource__19TContainerAncient01Fv
   - __ct__10TDPBShowerFP7TObjectPv
   - class_name__9TEffGuard
   - class_name__7TEffHit
@@ -14585,7 +14585,7 @@ force_active:
   - reset_global__6TLobbyFv
   - reset_globals__15TObjEneDelDepthFv
   - reset_gstream_buffer__Fv
-  - reset_hp__20TContainerAncient01RFv
+  - reset_state__20TContainerAncient01RFv
   - reset__21EquippedItemDrawQueueFv
   - reset_if_door_closed__15TObjLazerFence4Fv
   - reset_inactive_keys__16KeyboardKeyStateFv
@@ -16215,10 +16215,10 @@ force_active:
   - is_in_view__21TOHangceilingCaveBaseFv
   - draw_area_box__28TObjCity_Season_FireWorkCtrlFv
   - get_model_variant__25TObjCity_Season_SonicAdv2Fv
-  - sub_8018A688__20TContainerAncient01RFv
-  - sub_8018B284__19TContainerAncient01Fv
-  - sub_8018B48C__19TContainerAncient01Fv
-  - sub_8018B700__19TContainerAncient01Fv
+  - update_blast__20TContainerAncient01RFv
+  - update_blast__19TContainerAncient01Fv
+  - update_spawning__19TContainerAncient01Fv
+  - open_container__19TContainerAncient01Fv
   - sub_801933C8__15TObjLazerFence4Fv
   - start_throw__12TObjGoGoBallFl
   - delay_before_fade_in__14TObjWarpStringFv

@@ -18,8 +18,8 @@ struct TContainerAncient01R : public TObjChara {
     void open_container();
     void check_open_trigger();
     void update_spawning();
-    void sub_8018A688();
-    void reset_hp();
+    void update_blast();
+    void reset_state();
     virtual void apply_saved_state(s16 *, s32);
     virtual s32 try_start_action(void *, s32, f32);
     virtual void apply_knockback_from_attacker(u8 *, f32);
@@ -27,19 +27,22 @@ struct TContainerAncient01R : public TObjChara {
     virtual void run_task();
     static void init_table_entries();
     u8 unk_334[0x4];
-    s16 m_338;
+    s16 damage_taken;    // hits taken; it opens when hp - damage_taken <= 0
     u8 unk_33A[0x2];
-    f32 m_33c;
-    f32 m_340;
+    f32 wait_limit;
+    f32 active_limit;
     f32 range;
     Vec lower_effect_position;
     Vec upper_effect_position;
     void init_positions();
     void trigger_spawn(const Vec *position, s32 effect_id);
-    s32 m_360;
+    s32 opened;
     Vec open_scale;
-    u32 m_370;
+    u32 effect_rate;
     static void *create(void *set_data);
+    // Forgets the archive it shares with TContainerAncient01 (which frees it).
+    static void release_static_resource();
+    void attack_nearby_players(f32 range);
 };
 
 LAYOUT_ASSERT(TContainerAncient01R_size, sizeof(TContainerAncient01R) == 0x374);
