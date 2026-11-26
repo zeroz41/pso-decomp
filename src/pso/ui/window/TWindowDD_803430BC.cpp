@@ -29,6 +29,41 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/TWindowDD_80348D0C.h"
+#include "pso/ui/city/TShopEquipmentSellWindow.h"
+
+TWindowDDStateEntry word_select_state_table[21] = {
+    { 0x04, 0x687 },
+    { 0x03, -1 },
+    { 0x0b, -1 },
+    { 0x03, -1 },
+    { 0x03, -1 },
+    { 0x02, 0x689 },
+    { 0x03, -1 },
+    { 0x04, 0x68a },
+    { 0x02, -1 },
+    { 0x02, -1 },
+    { 0x03, -1 },
+    { 0x0b, -1 },
+    { 0x04, 0x68a },
+    { 0x02, 0x68b },
+    { 0x02, -1 },
+    { 0x02, -1 },
+    { 0x0b, -1 },
+    { 0x02, 0x688 },
+    { 0x02, -1 },
+    { 0x0b, -1 },
+    { 0x0b, 0x688 },
+};
+
+const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
+
+extern "C" {
+s32 TWindowDD__sub_80348424(void *, s16);
+s16 TWindowDD__sub_80348448(void *, s32);
+s32 push_recent_id(s32);
+}
+
 
 s32 TWindowDD::window_mode;
 
@@ -776,4 +811,421 @@ s32 TWindowDD::update_close_flag() {
     }
     return 0;
 }
+}
+
+
+s32 TWindowDD::update_numeric_parameter_input() {
+    s32 kind;
+    s32 result;
+    result = 0;
+    if (number_window == NULL) {
+        get_current_child_index();
+        kind = classify_id__9TWindowDDFs();
+        if (kind != 7) {
+            open_numeric_parameter_input(0, word_select_numeric_limits[kind], message.get_numeric_parameter());
+            return 0;
+        }
+        return 1;
+    }
+    refresh_word_select_message(&message);
+    if (number_window != NULL || number_window->all_parents_unqueued_for_destruction() != 0) {
+        message.set_numeric_parameter(number_window->get_value());
+        if (number_window->is_cancelled() != 0) {
+            result = 2;
+            message.reset_numeric_parameter();
+            number_window->close();
+        } else if (number_window->is_confirmed() != 0) {
+            result = 1;
+            number_window->close();
+        }
+    } else {
+        result = 2;
+    }
+    if (result != 0) {
+        word_windows[depth]->enable_input();
+        number_window = NULL;
+        dialog_locked = 0;
+    }
+    return result == 1;
+}
+
+void TWindowDD::handle_confirm_input() {
+    s32 id;
+    refresh_word_select_child_list();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        id = word_windows[depth]->get_selected_id();
+        message.type = TWindowDD__sub_80348448(this, id);
+        next_state = TWindowDD__sub_80348424(this, id);
+        push_recent_id(id);
+        pad_104 = 0;
+        begin_word_select_state();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_se();
+        set_state();
+    }
+}
+
+void TWindowDD::update() {
+    this->update_selection_state();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        if (state == 1) {
+            next_state = 0x14;
+            list_ids[1] = -0x3C;
+            begin_word_select_state();
+            return;
+        }
+        finish_word_select();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_se();
+        apply_entry_layout();
+    }
+}
+
+void TWindowDD::handle_state_3() {
+    s32 done;
+    done = 0;
+    message.type = 1;
+    switch (dialog_locked) {
+    case 0:
+        refresh_word_select_child_list();
+        update_selection_state();
+        if (test_input_flag_4() != 0) {
+            TWindowDD::play_sound();
+            done = !update_close_flag();
+        } else if (is_word_select_cancel_input() != 0) {
+            TWindowDD::play_se();
+            selection_confirmed = 0;
+            apply_entry_layout();
+        }
+        break;
+    case 1:
+        done = update_numeric_parameter_input();
+        break;
+    }
+    if (done) {
+        selection_confirmed = 1;
+        if (list_ids[1] == -0x3C) {
+            next_state = 0x14;
+        } else {
+            switch (TWindowDD::window_mode) {
+            case 0:
+                store_selected_word_plain();
+                message.init();
+                message.type = 3;
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            default:
+                message.init();
+                message.type = 4;
+                store_selected_word();
+                break;
+            }
+        }
+        begin_word_select_state();
+    }
+}
+
+void TWindowDD::update_transition() {
+    refresh_word_select_child_list();
+    update_selection_state();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        next_state = 6;
+        begin_word_select_state();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_se();
+        apply_entry_layout();
+    }
+}
+
+void TWindowDD::update_layout() {
+    this->update_selection_state();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        next_state = 0x14;
+        list_ids[1] = -0x3C;
+        begin_word_select_state();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_se();
+        apply_entry_layout();
+    }
+}
+
+void TWindowDD::update_dispatch() {
+    refresh_word_select_child_list();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        store_selected_word_plain();
+        begin_word_select_state();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_sound();
+        apply_entry_layout();
+    }
+}
+
+void TWindowDD::store_selected_word_plain() {
+    TWindowDD_WS_Word *word_window;
+    next_state = 8;
+    selected_word = 0x37;
+    word_window = word_windows[depth];
+    if (word_window != NULL) {
+        selected_word = word_window->get_selected_id();
+    }
+}
+
+void TWindowDD::enter_state_9() {
+    s32 confirmed;
+
+    confirmed = 0;
+    switch (dialog_locked) {
+    case 0:
+        refresh_word_select_child_list();
+        update_selection_state();
+        if (test_input_flag_4() != 0) {
+            TWindowDD::play_sound();
+            confirmed = update_close_flag() == 0;
+        } else if (is_word_select_cancel_input() != 0) {
+            TWindowDD::play_se();
+            apply_entry_layout();
+        }
+        break;
+    case 1:
+        confirmed = update_numeric_parameter_input();
+        break;
+    }
+    if (confirmed != 0) {
+        next_state = 9;
+        begin_word_select_state();
+    }
+}
+
+void TWindowDD::handle_state_9() {
+    s32 done;
+    done = 0;
+    switch (dialog_locked) {
+    case 0:
+        update_selection_state();
+        if (test_input_flag_4() != 0) {
+            TWindowDD::play_sound();
+            done = update_close_flag() == 0;
+        } else if (is_word_select_cancel_input() != 0) {
+            TWindowDD::play_se();
+            apply_entry_layout();
+        }
+        break;
+    case 1:
+        done = update_numeric_parameter_input();
+        break;
+    }
+    if (done != 0) {
+        if (TWindowDD_is_id_in_range_5AC_5F9(word_windows[depth]->get_selected_id()) != 0) {
+            next_state = 0xA;
+        } else {
+            next_state = 0xB;
+            list_ids[2] = -1;
+        }
+        list_ids[1] = -0x32;
+        begin_word_select_state();
+    }
+}
+
+void TWindowDD::handle_state_12() {
+    refresh_word_select_child_list();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        store_selected_word();
+        begin_word_select_state();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_se();
+        apply_entry_layout();
+    }
+}
+
+void TWindowDD::store_selected_word() {
+    TWindowDD_WS_Word *page;
+    next_state = 0xD;
+    selected_word = 0x37;
+    page = word_windows[depth];
+    if (page != NULL) {
+        selected_word = page->get_selected_id();
+        if (selected_word == 0x43) {
+            next_state = 0x11;
+            message.type = 5;
+        }
+        message.count = 0;
+    }
+}
+
+void TWindowDD::handle_state_13() {
+    refresh_word_select_child_list();
+    update_selection_state();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        if (static_cast<s16>(word_windows[depth]->get_selected_id()) == 0x2C8) {
+            next_state = 0x11;
+            message.type = 5;
+            message.count = 0;
+        } else {
+            next_state = 0xE;
+            message.type = 4;
+            message.count = 1;
+        }
+        begin_word_select_state();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_se();
+        apply_entry_layout();
+    }
+}
+
+void TWindowDD::update_state() {
+    refresh_word_select_child_list();
+    update_selection_state();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        next_state = 0xF;
+        begin_word_select_state();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_se();
+        apply_entry_layout();
+    }
+}
+
+void TWindowDD::enter_state_16() {
+    s32 done;
+
+    done = 0;
+    switch (dialog_locked) {
+    case 0:
+        refresh_word_select_child_list();
+        update_selection_state();
+        if (test_input_flag_4() != 0) {
+            TWindowDD::play_sound();
+            done = update_close_flag() == 0;
+        } else if (is_word_select_cancel_input() != 0) {
+            TWindowDD::play_se();
+            apply_entry_layout();
+        }
+        break;
+    case 1:
+        done = update_numeric_parameter_input();
+        break;
+    }
+    if (done != 0) {
+        next_state = 0x10;
+        begin_word_select_state();
+    }
+}
+
+void TWindowDD::enter_state_18() {
+    s32 confirmed;
+
+    confirmed = 0;
+    switch (dialog_locked) {
+    case 0:
+        refresh_word_select_child_list();
+        update_selection_state();
+        if (test_input_flag_4() != 0) {
+            TWindowDD::play_sound();
+            confirmed = update_close_flag() == 0;
+        } else if (is_word_select_cancel_input() != 0) {
+            TWindowDD::play_se();
+            apply_entry_layout();
+        }
+        break;
+    case 1:
+        confirmed = update_numeric_parameter_input();
+        break;
+    }
+    if (confirmed != 0) {
+        next_state = 0x12;
+        begin_word_select_state();
+    }
+}
+
+void TWindowDD::enter_state_19() {
+    s32 confirmed;
+
+    confirmed = 0;
+    switch (dialog_locked) {
+    case 0:
+        refresh_word_select_child_list();
+        update_selection_state();
+        if (test_input_flag_4() != 0) {
+            TWindowDD::play_sound();
+            confirmed = update_close_flag() == 0;
+        } else if (is_word_select_cancel_input() != 0) {
+            TWindowDD::play_se();
+            apply_entry_layout();
+        }
+        break;
+    case 1:
+        confirmed = update_numeric_parameter_input();
+        break;
+    }
+    if (confirmed != 0) {
+        next_state = 0x13;
+        begin_word_select_state();
+    }
+}
+
+void TWindowDD::handle_input() {
+    update_selection_state();
+    if (test_input_flag_4() != 0) {
+        TWindowDD::play_sound();
+        finish_word_select();
+        return;
+    }
+    if (is_word_select_cancel_input() != 0) {
+        TWindowDD::play_se();
+        apply_entry_layout();
+    }
+}
+
+void TWindowDD::handle_final_word_state() {
+  refresh_word_select_child_list();
+  update_selection_state();
+  if (test_input_flag_4())
+  {
+    TWindowDD::play_sound();
+    if (state == 0xA)
+    {
+      if (static_cast<s16>(word_windows[depth]->get_selected_id()) == 0x685)
+      {
+        next_state = 0x14;
+        list_ids[1] = -0x3C;
+        begin_word_select_state();
+        return;
+      }
+      finish_word_select();
+      return;
+    }
+    finish_word_select();
+    return;
+  }
+  if (is_word_select_cancel_input() != 0)
+  {
+    TWindowDD::play_se();
+    apply_entry_layout();
+  }
 }

@@ -8708,38 +8708,10 @@ pso/ui/window/TWindowDD_WS_Word.cpp:
 	.sdata      start:0x805D42E0 end:0x805D42E8
 	.sdata2     start:0x805DFCA0 end:0x805DFCB0
 
-pso/ui/window/TWindowDDEntryTable.cpp:
-	.data       start:0x804EFCA8 end:0x804EFD50
-
-pso/ui/window/TWindowDD_80342428.cpp:
-	.text       start:0x80342428 end:0x803424EC
-
-pso/ui/window/TWindowDD_803424EC.cpp:
-	.text       start:0x803424EC end:0x80342554
-
-pso/ui/window/TWindowDD_80342554.cpp:
-	.text       start:0x80342554 end:0x803426CC
-
-pso/ui/window/TWindowDD_803426CC.cpp:
-	.text       start:0x803426CC end:0x80342AA0
-
-pso/ui/window/TWindowDD_80342AA0.cpp:
-	.text       start:0x80342AA0 end:0x80342BB4
-
-pso/ui/window/TWindowDD_80342BB4.cpp:
-	.text       start:0x80342BB4 end:0x80342C9C
-
-pso/ui/window/TWindowDD_80342C9C.cpp:
-	.text       start:0x80342C9C end:0x80342E40
-
-pso/ui/window/TWindowDD_80342E40.cpp:
-	.text       start:0x80342E40 end:0x803430BC
-	.rodata     start:0x80478618 end:0x80478630
-
 pso/ui/window/TWindowDD_803430BC.cpp:
-	.text       start:0x803430BC end:0x8034435C
-	.rodata     start:0x80478630 end:0x80478650
-	.data       start:0x804EFD50 end:0x804EFDBC
+	.text       start:0x80342428 end:0x8034435C
+	.rodata     start:0x80478618 end:0x80478650
+	.data       start:0x804EFCA8 end:0x804EFDBC
 	.sdata      start:0x805D42E8 end:0x805D42F0
 	.sbss       start:0x805D6E08 end:0x805D6E38
 	.sdata2     start:0x805DFCB0 end:0x805DFCC0

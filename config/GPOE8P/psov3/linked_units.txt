@@ -1096,15 +1096,6 @@ pso/ui/window/TWindowWordSelectMode.cpp
 pso/ui/window/TWindowDD_WS_ScrollBar.cpp
 pso/ui/window/TWindowDD_WS_String.cpp
 pso/ui/window/TWindowDD_WS_Word.cpp
-pso/ui/window/TWindowDDEntryTable.cpp
-pso/ui/window/TWindowDD_80342428.cpp
-pso/ui/window/TWindowDD_803424EC.cpp
-pso/ui/window/TWindowDD_80342554.cpp
-pso/ui/window/TWindowDD_803426CC.cpp
-pso/ui/window/TWindowDD_80342AA0.cpp
-pso/ui/window/TWindowDD_80342BB4.cpp
-pso/ui/window/TWindowDD_80342C9C.cpp
-pso/ui/window/TWindowDD_80342E40.cpp
 pso/ui/window/TWindowDD_803430BC.cpp
 pso/ui/window/TWindowDD_8034435C.cpp
 pso/ui/window/TWindowDD_80346A84.cpp
