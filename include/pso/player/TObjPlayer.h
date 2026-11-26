@@ -534,7 +534,7 @@ struct TObjPlayer : public TObjChara {
     void set_evade_materials_used(u8 v);
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
-    int sub_802a7290_fwd();
+    int get_action_motion_type();
     int is_handle_valid();
     static u8 get_item_count_max();
     static s32 decrement_clamp(s32 *value, s32 amount);

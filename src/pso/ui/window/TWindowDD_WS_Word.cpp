@@ -66,12 +66,12 @@ TWindowDD_WS_Word::~TWindowDD_WS_Word() {
     }
 }
 
-s32 TWindowDD_WS_Word::sub_80342268() {
+s32 TWindowDD_WS_Word::can_accept_input() {
     TWindowDD_WS_Word *self = this;
     return !(self->state_flags & 1);
 }
 
-s32 TWindowDD_WS_Word::sub_80342254() {
+s32 TWindowDD_WS_Word::is_input_enabled() {
     TWindowDD_WS_Word *self = this;
     return !(self->state_flags & 1);
 }
@@ -199,7 +199,7 @@ void TWindowDD_WS_Word::run_task() {
     s32 last_visible;
     s32 steps;
     s32 steps_up;
-    if (sub_80342268() != 0) {
+    if (can_accept_input() != 0) {
         if (TWindowDD::apply_both_choices(&state_flags, 0x20) != 0) {
             index = selected_token_index;
             if (index < (s32) (token_count - 1)) {
@@ -420,7 +420,7 @@ void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         }
         draw_window_vertices(verts, 8, tex, 1);
     }
-    if (self->token_count > 0 && self->sub_80342254() != 0) {
+    if (self->token_count > 0 && self->is_input_enabled() != 0) {
         depth = word_select_inverse_depth(self->draw_depth, 0.1f);
         reset_window_vertices(verts, depth, -1);
         copy_window_point_table(verts, 1);
@@ -461,7 +461,7 @@ void TWindowDD_WS_Word::render() {
             item->reveal_all();
             item->color = window_dd_color_white;
         }
-        if (sub_80342254() != 0) {
+        if (is_input_enabled() != 0) {
             for (j = 0; j < visible_entry_count; j++) {
                 item = (WindowTextEntry *)get_array_entry(j);
                 if (j == selected_row) {

@@ -126,7 +126,7 @@ void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
 void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt);
-s32 TLobby__sub_801A3E8C();
+s32 online_lobby_check_stub();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
@@ -228,7 +228,7 @@ void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     return object;
 }
 
-TQuestThread *TLobby__sub_80134A20(void *p) { return TQuestThread::create_in_root((saddr)p); }
+TQuestThread *create_quest_stats_thread(void *p) { return TQuestThread::create_in_root((saddr)p); }
 }
 
 
@@ -2159,7 +2159,7 @@ void TLobby::handle_game_join(TPlyJoinGame *pkt) {
 void TLobby::make_players() {
     TObjPlayer *p;
     TObjPlayer *q;
-    if (TLobby__sub_801A3E8C() != 0) {
+    if (online_lobby_check_stub() != 0) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
         ((TLobby *)&p->guild_card_tag)->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
@@ -2510,7 +2510,7 @@ void TLobby::run_join_lobby_connect(TObject *parent) {
         }
         join_state_flag = 1;
         win = TLobby::create_dialing_message_window((const char *)get_connection_message_text(7), 1);
-        switch (TAdSinglePlyChrSelectGC__sub_8033605C()) {
+        switch (lobby_server_choice_stub()) {
         case 0:
         case 1:
             CONNECT_TO_LOBBY_SERVER(res, join_lobby_server_table)
@@ -2636,7 +2636,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)TLobby::apply_trade_items;
     protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = TLobby::handle_info_board;
     protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = TLobby::set_lobby_event_theme;
-    protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = (recv_packet_handler_handle_AB_quest_stats_response_packet)TLobby__sub_80134A20;
+    protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = (recv_packet_handler_handle_AB_quest_stats_response_packet)create_quest_stats_thread;
     lobby_challenge_mode = 0;
 }
 const char *TLobby::get_seq_phase(int id) { return get_online_message_text(id); }

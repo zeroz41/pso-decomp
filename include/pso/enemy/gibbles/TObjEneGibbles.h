@@ -99,8 +99,8 @@ struct TObjEneGibbles : public TObjEnemy {
     void slam_damage_players(s32 node);
     // shakes the camera when the local player is in Gibbles' room (landing)
     void shake_camera_in_room();
-    void sub_802D7E3C();
-    void sub_802D8034();
+    void run_task_stub();
+    void attack_stub();
     void render_and_get_joint_pos(Vec *out, s32 node);
     bool attack_from_joint_31(s32 trigger_hit_reaction, f32 power);
     bool attack_from_joint_53(s32 trigger_hit_reaction, f32 power);

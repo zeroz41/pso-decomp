@@ -10,7 +10,7 @@ struct TObjEneDelDepthBomb : public TObjChara {
     virtual ~TObjEneDelDepthBomb();
     virtual void render();
     virtual void run_task();
-    s32 fn_80313268();
+    s32 render_check_stub();
     static TObjEneDelDepthBomb *create(struct TObjEneDelDepth *parent, TObjChara *source, const Vec *position, s32 level);
 
     Vec velocity;

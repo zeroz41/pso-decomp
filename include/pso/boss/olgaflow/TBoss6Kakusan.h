@@ -22,7 +22,7 @@ struct TBoss6Kakusan : public TObject {
     Vec prev_position;        // position at the start of the frame
     TParticleCtrl *particle;  // emitter 0x214
     void check_beam_player_hits();
-    s32 sub_8032263C();
+    s32 run_task_check_stub();
     s32 is_out_of_range();
     virtual void render();
     virtual void run_task();

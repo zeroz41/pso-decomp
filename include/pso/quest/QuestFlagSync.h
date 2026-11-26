@@ -9,7 +9,7 @@ struct TLobby;
 extern char offline_quest_filename_buffer_a[0x20];
 extern char offline_quest_filename_buffer_b[0x20];
 
-void TLobby__sub_801F3774(void);
+void quest_flag_sync_stub(void);
 void build_6x75_update_quest_flag_dc(void *p);
 void handle_6x75_update_quest_flag_dc(TLobby *lobby);
 void prepare_offline_quest_filenames(const char *identity);

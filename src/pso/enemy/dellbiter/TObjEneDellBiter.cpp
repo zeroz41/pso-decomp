@@ -598,7 +598,7 @@ void TObjEneDellBiter::confuse_nearby_players() {
     }
 }
 
-void TObjEneDellBiter::fn_80305684() {}
+void TObjEneDellBiter::walk_state_stub() {}
 
 s32 TObjEneDellBiter::acquire_target(f32 distance) {
     if (is_confused() != 0) {
@@ -768,7 +768,7 @@ void TObjEneDellBiter::update_emerge_walk_state(s32 reason) {
             }
             play_step_effect();
             this->move_with_wall_slide_on_ground(destination_direction.x, destination_direction.z, 1.2f);
-            fn_80305684();
+            walk_state_stub();
             break;
         case 1:
             update_front_particle();
@@ -950,7 +950,7 @@ void TObjEneDellBiter::update_walk_state(s32 reason) {
             this->move_clamped_on_ground(sin_table_lookup(rotation_y), cos_table_lookup(rotation_y), delbiter_movement_parameters->walk_speed);
         }
         this->check_collisions();
-        fn_80305684();
+        walk_state_stub();
         if ((is_passing_frame(7.0f) != 0) || (is_passing_frame(21.0f) != 0)) {
             this->update_attack_effect();
         }
@@ -1269,7 +1269,7 @@ void TObjEneDellBiter::update_laser_state(s32 reason) {
                 state_timer = 2;
                 this->requested_action = 5;
             }
-            fn_80305684();
+            walk_state_stub();
             break;
         case 2:
             if (this->get_flag_b4() != 0) {

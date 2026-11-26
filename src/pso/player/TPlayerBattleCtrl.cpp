@@ -114,8 +114,8 @@ const char *player_battle_ctrl_name = "TPlayerBattleCtrl";
 
 
 extern "C" {
-void TObjEneRe4Sorcerer__sub_801E3F14(s32);
-void TObjEneRe4Sorcerer__sub_801E3F18(void);
+void start_duel_stub_a(s32);
+void start_duel_stub_b(void);
 extern const char *dead_spot_class_name;
 
 }
@@ -1087,8 +1087,8 @@ void TPlayerBattleCtrl::start_duel_battle() {
     uaddr p;
     s32 area;
     s32 i;
-    TObjEneRe4Sorcerer__sub_801E3F14(4);
-    TObjEneRe4Sorcerer__sub_801E3F18();
+    start_duel_stub_a(4);
+    start_duel_stub_b();
     start_time = OSGetTime();
     TLobby::handle_battle_result((u16)local_client_id, 1);
     if ((p = (saddr)get_local_player()) != 0) {
@@ -1121,7 +1121,7 @@ void TPlayerBattleCtrl::init() {
     TOMineTrap::destroy_matching_traps();
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
-    TLobby__sub_8020BCE4();
+    mark_floor_enemies_dead();
     TBattleProximitySound::destroy();
     destroy_floor_decoration_objects();
     i = 0;

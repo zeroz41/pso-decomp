@@ -161,7 +161,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
 
     m_name = re2_flower_class_name;
     invoke_initialization_hook(setData);
-    sub_800C3BA8();
+    init_stub();
     flags = 0;
     if (get_current_floor_area() == AREA_TOWER) {
         flags |= 0x800;
@@ -393,7 +393,7 @@ TObjPlayer *TObjEneRe2Flower::find_target_in_range() {
     return NULL;
 }
 
-void TObjEneRe2Flower::sub_800C3BA8() {  }
+void TObjEneRe2Flower::init_stub() {  }
 
 s32 TObjEneRe2Flower::is_rare_variant() {
     u32 variant = flags;

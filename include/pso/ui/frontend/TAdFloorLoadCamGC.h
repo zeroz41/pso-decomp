@@ -21,9 +21,9 @@ struct TAdFloorLoadCamGC : public TObject {
 LAYOUT_ASSERT(TAdFloorLoadCamGC_size, sizeof(TAdFloorLoadCamGC) == 0x4C);
 
 extern "C" {
-u16 fn_8034BE30(void *p);
-void fn_8034BE38(void *p);
-void fn_8034BE48(void *p);
+u16 get_challenge_result_slot_index(void *p);
+void clear_player_hold_flag(void *p);
+void set_player_hold_flag(void *p);
 }
 
 #endif

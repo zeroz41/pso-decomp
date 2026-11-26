@@ -287,7 +287,7 @@ void destroy_current_floor_objects(void) {
 }
 extern "C" {
 
-void TLobby__sub_8020BCE4(void) {
+void mark_floor_enemies_dead(void) {
     EnemySetRecord *p;
     s32 n;
     s32 i;

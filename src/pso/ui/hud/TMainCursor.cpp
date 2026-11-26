@@ -270,10 +270,10 @@ void TLockOnCursor::reset_and_spawn_cursors() {
 
 void TLockOnCursor::run_task() {
     if (((TMainCursor *)&palette_override)->is_channel_active() != 0) {
-        TLockOnCursor__sub_8013EB8C(&palette_override);
+        enable_palette_override(&palette_override);
         return;
     }
-    TLockOnCursor__sub_8013EB80(&palette_override);
+    disable_palette_override(&palette_override);
 }
 
 #pragma push
@@ -1172,7 +1172,7 @@ void TMainCursor::validate_target() {
         }
     }
     if (TObjPlayer::is_any_teammate_in_state() != 0) {
-        TMainCursor__sub_8013E310(this);
+        set_main_cursor_state_flag_2(this);
         return;
     }
     switch (get_target_palette_mode(&target.palette_tag)) {
@@ -1537,7 +1537,7 @@ TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
 u16 CursorTarget::get_entity_id() { return entity_id; }
 
 
-void TMainCursor__sub_8013E310(void* p) { ((TMainCursor *)p)->state_flags.set(2); }
+void set_main_cursor_state_flag_2(void* p) { ((TMainCursor *)p)->state_flags.set(2); }
 
 u8 get_target_palette_slot(void* p) { return get_action_palette_tag_slot(static_cast<const ActionPaletteTag *>(p)); }
 
@@ -1716,9 +1716,9 @@ LockOnActionSlot *TLockOnCursor::get_action_slot(s32 i) {
     return &action_slots[i];
 }
 
-void TLockOnCursor__sub_8013EB80(void* p) { *(s32*)((char*)p + 0x4) = 0; }
+void disable_palette_override(void* p) { *(s32*)((char*)p + 0x4) = 0; }
 
-void TLockOnCursor__sub_8013EB8C(void* p) { *(s32*)((char*)p + 0x4) = 1; }
+void enable_palette_override(void* p) { *(s32*)((char*)p + 0x4) = 1; }
 
 TObject *TLockOnCursor::get_list_clear_task() { return tasks.get_list_clear_task(); }
 

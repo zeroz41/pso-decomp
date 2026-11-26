@@ -67,8 +67,8 @@
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern "C" {
 extern const char *dead_spot_class_name;
-s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
-void TObjEneRe4Sorcerer__sub_801E3F18(void);
+s32 start_duel_stub_a(int);
+void start_duel_stub_b(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 s32 TPlayerBattleCtrl4P::reload_ready;
@@ -546,8 +546,8 @@ void TPlayerBattleCtrl4P::start_duel() {
     TObjBase *p;
     const char *name;
     s32 st;
-    TObjEneRe4Sorcerer__sub_801E3F14(4);
-    TObjEneRe4Sorcerer__sub_801E3F18();
+    start_duel_stub_a(4);
+    start_duel_stub_b();
     battle_start_ticks = OSGetTime();
     for (i = 0; i < 4; i++) {
         release_player(i, 1);
@@ -584,7 +584,7 @@ void TPlayerBattleCtrl4P::update() {
     } while (i < 4);
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
-    TLobby__sub_8020BCE4();
+    mark_floor_enemies_dead();
     destroy_floor_decoration_objects();
     j = 0;
     do {

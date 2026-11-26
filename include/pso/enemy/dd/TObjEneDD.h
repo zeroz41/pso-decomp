@@ -145,7 +145,7 @@ int is_target_ranger(void *p);
 void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src);
 void debug_effect_hook(void *self, int id);
 void debug_effect_hook_scaled(void *self, s32 id, f32 scale);
-void TBoss8Dragon__sub_800BB7DC(void *self);
+void enemy_death_stub(void *self);
 
 void set_collider_contact_high(CollisionBody *body);
 void set_collider_contact_low(CollisionBody *body);

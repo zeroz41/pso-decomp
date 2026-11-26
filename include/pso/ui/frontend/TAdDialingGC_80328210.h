@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TAdDialingGC__sub_803284F8(s32 _w0);
+s32 is_skip_pressed(s32 _w0);
 }
 
 #endif

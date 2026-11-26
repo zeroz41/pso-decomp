@@ -5,7 +5,7 @@
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 
 
-void TBoss6Type2__sub_80356E50(s32 ids, s32 cnt, s32 force) {
+void send_subordinate_actions_group0(s32 ids, s32 cnt, s32 force) {
     TBoss6Type2::send_subordinate_actions(0, ids, cnt, force, ids);
 }
 

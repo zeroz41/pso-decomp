@@ -84,10 +84,10 @@ void set_ult_map(void);
 void override_warp_dest_floor(void);
 void disable_quest_warp(void);
 extern "C" {
-int TLobby__sub_801F36F0(s32);
-int TLobby__sub_801F36F8(s32, s32, s32, TItemData *);
-int TLobby__sub_801F3700(s32);
-int TLobby__sub_801F3708(s32, s32, s32, TItemData *);
+int quest_op_F822_stub(s32);
+int quest_op_F821_stub(s32, s32, s32, TItemData *);
+int quest_op_F822_split_screen_stub(s32);
+int quest_op_F821_split_screen_stub(s32, s32, s32, TItemData *);
 char *get_entered_item_name(void);
 }
 quest_suspend_reason dispatch_quest_opcode(void);

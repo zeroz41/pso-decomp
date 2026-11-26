@@ -26,7 +26,7 @@ struct TQuestListChallenge : public TShopWindowBase {
     void handle_confirm_select();
     void invoke_callback_and_destroy();
     void destroy();
-    void sub_80288BE4();
+    void state_stub();
 
     void (*on_cancel)(TShopWindowBase *);
     void (*on_accept)(TShopWindowBase *);

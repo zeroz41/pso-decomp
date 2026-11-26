@@ -978,7 +978,7 @@ void TObjEneBm3Fly::action(s32 msg) {
         if (nest != NULL) {
             nest->remove_child(this);
         }
-        TBoss8Dragon__sub_800BB7DC(this);
+        enemy_death_stub(this);
         debug_effect_hook_scaled(this, 0xF1, 1.0f);
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
         TBoss3Volopt::create_breakup_mdl(bm3_fly_breakup_model, &bm3_fly_breakup_params,
@@ -1011,7 +1011,7 @@ void TObjEneBm3Fly::state_death_fall(s32 msg) {
         if (nest != NULL) {
             nest->remove_child(this);
         }
-        TBoss8Dragon__sub_800BB7DC(this);
+        enemy_death_stub(this);
         this->step = 0;
         this->counter = 0;
         this->vertical_speed = 0.0f;

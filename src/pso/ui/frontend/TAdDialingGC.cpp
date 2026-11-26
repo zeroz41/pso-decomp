@@ -90,7 +90,7 @@ void TAdDialingGC::run_task() {
 }
 
 void TAdDialingGC::render() {
-    TAdDialingGC__sub_80328B20(this);
+    dialing_render_stub(this);
     render_if_flag_set();
     draw_if_flag_set();
     update();
@@ -138,7 +138,7 @@ void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size) {
     draw_polygon_2d(&poly, 4, 7, -120.0f);
 }
 
-void TAdDialingGC__sub_80328B20(TAdDialingGC *) {}
+void dialing_render_stub(TAdDialingGC *) {}
 
 void TAdDialingGC::draw_dialing_status() {
     char a[0x20];
@@ -374,7 +374,7 @@ void TAdDialingGC::update_selection() {
     }
 }
 
-s32 TAdDialingGC__sub_803284F8(s32 _w0) {
+s32 is_skip_pressed(s32 _w0) {
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x706) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 0x606) != 0)) {
         return 1;
     }
@@ -421,7 +421,7 @@ void TAdDialingGC::update_idle_dial_state() {
             return;
         default:
             show_guide_button();
-            if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
+            if (is_skip_pressed((saddr)this) != 0) {
                 this->dial_step = 3;
                 return;
             }
@@ -450,7 +450,7 @@ void TAdDialingGC::update_state() {
             this->dial_step = 3;
             return;
         }
-        if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
+        if (is_skip_pressed((saddr)this) != 0) {
             this->dial_step = 3;
         }
         break;
@@ -476,7 +476,7 @@ void TAdDialingGC::update_dial_state() {
             this->dial_step = 3;
             return;
         }
-        if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
+        if (is_skip_pressed((saddr)this) != 0) {
             this->dial_step = 3;
         }
         break;

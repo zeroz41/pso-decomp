@@ -1723,10 +1723,10 @@ void qst_op_check_for_hacking(u8 out) {
             qst_registers[out].i |= 1;
         }
     }
-    if (fn_80077790() == 1) {
+    if (quest_hack_check_a_stub() == 1) {
         qst_registers[out].i |= 2;
     }
-    if (fn_80077788() == 1) {
+    if (quest_hack_check_b_stub() == 1) {
         qst_registers[out].i |= 4;
     }
     if (get_drop_flag() == 1) {
@@ -3073,10 +3073,10 @@ void qst_op_set_cmode_char_template() {
 
 void qst_op_nop_F822(s32 reg) {
     if (is_split_screen() == 1) {
-        TLobby__sub_801F3700((int) (qst_registers[(u8)reg].i));
+        quest_op_F822_split_screen_stub((int) (qst_registers[(u8)reg].i));
         return;
     }
-    TLobby__sub_801F36F0((int) (qst_registers[(u8)reg].i));
+    quest_op_F822_stub((int) (qst_registers[(u8)reg].i));
 }
 
 void qst_op_nop_F821(u8 regs) {
@@ -3096,9 +3096,9 @@ void qst_op_nop_F821(u8 regs) {
     item.data1.data_u8[5] = qst_registers[regs].i;
     item.id = advance_item_id_counter(local_client_id);
     if (is_split_screen() == 1) {
-        TLobby__sub_801F3708(a, b, c, &item);
+        quest_op_F821_split_screen_stub(a, b, c, &item);
     } else {
-        TLobby__sub_801F36F8(a, b, c, &item);
+        quest_op_F821_stub(a, b, c, &item);
     }
 }
 
@@ -3812,7 +3812,7 @@ void qst_op_p_return_guild(void) {
 
 void qst_op_npc_text_clear_all() { clear_partner_dialogue_flags(); }
 
-void qst_op_load_midi() { TLobby::free_luker_object(); TLobby__sub_80197F74(); TLobby::clear_quest_vm_flag(); }
+void qst_op_load_midi() { TLobby::free_luker_object(); load_midi_stub(); TLobby::clear_quest_vm_flag(); }
 
 void qst_op_load_pvr() { TLobby::free_luker_object(); load_memcard_file(); TLobby::clear_quest_vm_flag(); }
 
@@ -5443,7 +5443,7 @@ void override_warp_dest_floor(void) { lobby_quest_progress_flag = 1; }
 
 void disable_quest_warp(void) { quest_warp_enabled = 0; }
 
-int TLobby__sub_801F36F0(s32) { return -1; }
-int TLobby__sub_801F36F8(s32, s32, s32, TItemData *) { return 0; }
-int TLobby__sub_801F3700(s32) { return -1; }
-int TLobby__sub_801F3708(s32, s32, s32, TItemData *) { return 0; }
+int quest_op_F822_stub(s32) { return -1; }
+int quest_op_F821_stub(s32, s32, s32, TItemData *) { return 0; }
+int quest_op_F822_split_screen_stub(s32) { return -1; }
+int quest_op_F821_split_screen_stub(s32, s32, s32, TItemData *) { return 0; }

@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void TWindowSnapShot__sub_802A7DA0(void);
+void snapshot_shutdown_stub(void);
 }
 
 // --- C functions defined in TWindowSnapShot_802A7D68.cpp ---
 extern "C" {
-void TWindowSnapShot__sub_802A7DA0(void);
+void snapshot_shutdown_stub(void);
 }
 // --- end of C functions
 

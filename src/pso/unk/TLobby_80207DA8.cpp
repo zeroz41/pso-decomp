@@ -102,9 +102,9 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-void TLobby__sub_80207E24(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
-void TLobby__sub_80207E44(void) {  }
-void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
+void copy_game_variations(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
+void init_city_area_stub(void) {  }
+void randomize_offline_maps(void) { randomize_adventure_maps(); }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
     return get_floor_map_selection(floor, selection);
 }
@@ -120,7 +120,7 @@ saddr get_floor_scene_table(s32 area) {
 
 
 void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
-void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
+void reset_online_story_select(void) { TLobby::reset_story_select(); }
 typedef FloorLifecycleEntry E_80207F80;
 typedef FloorLifecycleCallback Fn_80208020;
 typedef FloorLifecycleEntry E_80208020;
@@ -363,7 +363,7 @@ int wave_event_spawn_objects(void *p) { return ((int (*)(void *))spawn_objects_a
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
-void TLobby__sub_80208648(void) {  }
+void command_exit_stub(void) {  }
 
 // Wave event script opcodes, indexed by the opcode byte: decode reads the opcode's operands from the script
 // stream and calls action with them, so each action has the signature its decoder calls it with.
@@ -374,7 +374,7 @@ struct WaveEventAction {
 };
 
 WaveEventAction wave_event_action_table[16] = {
-    { TLobby::invoke_command, TLobby__sub_80208648 },
+    { TLobby::invoke_command, command_exit_stub },
     { TLobby::invoke_command, request_wave_event_stop },
     { 0, 0 },
     { 0, 0 },

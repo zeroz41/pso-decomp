@@ -10,8 +10,8 @@ struct AdxtPlayer;
 // --- C functions defined in SoundPlayback.cpp ---
 void update_voice_stream_mix(AdxtPlayer *tracks);
 void set_sound_request_position(s32 slot, const Vec *position);
-void TLobby__sub_80227D38(void);
-void TLobby__sub_8022804C(void);
+void fade_all_voice_channels(void);
+void run_sound_retrace(void);
 void reset_sound_control_state(void);
 void set_sound_reverb_level(f32 level);
 s32 get_sound_voice_volume_adjustment(void);

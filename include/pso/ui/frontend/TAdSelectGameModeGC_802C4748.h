@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-int fn_802C4748(void *p);
+int on_local_player_created(void *p);
 }
 
 #endif

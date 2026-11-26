@@ -141,7 +141,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TSceneSora::load_sky_resources, TSceneSora::release_sky_scene},
     {TRaderMapCore::load_map_resources, TRaderMapCore::unload_floor_map},
     {setup_floor_decorations, clear_floor_flags_and_depart},
-    {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},
+    {TLobby::clear_flag_on_phase_e, object_control_on_floor_free_stub},
     {clear_legacy_enemy_kill_flags, release_legacy_enemy_kill_flags},
     {load_particle_entry_resources, TParticleCtrl::free_all},
     {TFogCtrl::update_fog_entries, TFogCtrl::release_fog_entries},

@@ -60,6 +60,6 @@ void TWindowCtrl::set_close_flag() {
     }
 }
 
-bool fn_800FD8A0(s32 target) {
+bool is_stored_target(s32 target) {
     return lbl_805D53B0 == target;
 }

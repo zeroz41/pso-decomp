@@ -119,7 +119,7 @@ void TObjBagWarnWin::run_task() {
 
 s32 TObjBagWarnWin::should_show_warning() {
     TObjPlayer *ctrl;
-    if (TLobby__sub_80211C3C() != 3) {
+    if (get_guild_quest_list_stage() != 3) {
         return 0;
     }
     if (get_challenge_record_window_mode() != 0) {

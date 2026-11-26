@@ -163,11 +163,11 @@ const f32 card_window_scale_table[4] = {34.0f, 51.0f, 68.0f, 0.0f};
 const s32 short_list_ctrl_interval_table[6] = {900, 1800, 2700, 3600, 0, 0};
 
 s32 get_idle_timeout_limit(u32 client_id) {
-    return short_list_ctrl_interval_table[fn_801A51F0(client_id)];
+    return short_list_ctrl_interval_table[get_idle_timeout_setting(client_id)];
 }
 
 // Bits 10-12 of the client's character save record word at +0x10 (the idle timeout setting).
-s32 fn_801A51F0(u32 client) {
+s32 get_idle_timeout_setting(u32 client) {
     u32 *record = (u32 *)get_character_save_record(client);
     if (record == NULL) {
         return 0;

@@ -66,7 +66,7 @@ void TWindowSubEquip::run_task() {
     case 0:
     case 1:
         if (this->equip_kind_list != NULL) {
-            TWindowSubEquip__sub_80263AF4(this->parent, 1);
+            equip_window_stub(this->parent, 1);
             this->equip_kind_list->close();
             this->equip_kind_list = 0U;
         }

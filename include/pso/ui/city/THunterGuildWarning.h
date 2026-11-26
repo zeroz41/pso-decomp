@@ -28,12 +28,12 @@ void update_hunter_guild_phase();
 
 void clear_windows(THunterGuildWarning *warning);
 extern "C" {
-void THunterGuildWarning__sub_80211700(void);
-void THunterGuildWarning__sub_8021170C(void);
+void clear_guild_warning_on_guild_exit(void);
+void clear_guild_warning_on_quest_exit(void);
 }
 
 extern "C" {
-s32 TLobby__sub_80211C3C(void);
+s32 get_guild_quest_list_stage(void);
 }
 s32 is_in_hunter_guild(s32 client_id);
 

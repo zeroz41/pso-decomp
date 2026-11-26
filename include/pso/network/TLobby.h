@@ -584,7 +584,7 @@ s32 is_local_player_off_current_floor();
 class TPlyCharData;
 
 extern "C" {
-void fn_801058E8(TPlyCharData *chr);
+void set_first_inventory_item_flag(TPlyCharData *chr);
 }
 
 char *get_lobby_name();

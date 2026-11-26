@@ -39,7 +39,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     virtual void dispatch_action(u32 state, s32 reason);
     void set_effect_pos_above_self();
     void retarget_attacker();
-    void sub_800994F8();
+    void demo_stub();
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();

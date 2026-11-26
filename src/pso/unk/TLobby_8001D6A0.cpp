@@ -597,7 +597,7 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
     }
 }
 #pragma fp_contract reset
-void TLobby__sub_8001ED70(void) {  }
+void clock_bar_on_floor_free_stub(void) {  }
 void reset_clock_bar_pulse(void) {
     clock_bar_pulse = 0.0f;
 }

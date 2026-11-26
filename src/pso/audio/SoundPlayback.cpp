@@ -93,7 +93,7 @@ void TLobby::set_menu_index_main(s32 index) {
 
 void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
 
-void TLobby__sub_80227D38(void) { fade_voice_channels(0); }
+void fade_all_voice_channels(void) { fade_voice_channels(0); }
 
 s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 offset, s32 options) {
     s32 r;
@@ -218,15 +218,15 @@ void load_floor_sound_bank(s32 floor) {
                 exec_adx_server();
                 TLobby::run_frame();
             } while (sound_control_state.is_ready() == 0);
-            TLobby__sub_80226B64(0);
+            enable_sound_requests(0);
         }
     }
 }
 
 }
 
-void TLobby__sub_8022804C(void) {
-    TLobby__sub_802401C8(&sound_control_state);
+void run_sound_retrace(void) {
+    sound_retrace_stub(&sound_control_state);
 }
 
 void update_global_sound_frame(void) {

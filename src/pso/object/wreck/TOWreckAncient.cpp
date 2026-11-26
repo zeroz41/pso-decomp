@@ -270,7 +270,7 @@ void TOWreckAncientBrakable::run_task() {
     s32 id;
 
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_8017D444();
+        run_task_stub();
         return;
     }
     switch (state) {
@@ -316,7 +316,7 @@ void TOWreckAncientBrakable::spawn_debris() {
     }
 }
 
-void TOWreckAncientBrakable::sub_8017D444() {  }
+void TOWreckAncientBrakable::run_task_stub() {  }
 
 
 // --- TOWreckAncientBrakable05 ---

@@ -117,8 +117,8 @@ void reset_current_char_appearance(s32 _w0) {
     copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
-int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
-int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { reset_current_char_appearance((saddr)p); return 1; }
+int char_select_check_stub(void) { return 1; }
+int reset_char_appearance_callback(void* p) { reset_current_char_appearance((saddr)p); return 1; }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -581,7 +581,7 @@ void request_chara_making_archives(void) {
     }
 }
 
-void TCharaMaking__sub_8028E790(void) {  }
+void chara_making_init_stub(void) {  }
 
 extern TObject *tl_03;
 

@@ -28,7 +28,7 @@
 
 void upload_player_motion_data() { aram_transfer_sync(1, player_motion_archive->get_buffer(), player_motion_aram_addr, player_motion_aram_size); }
 
-void TWindowSnapShot__sub_802A7DA0(void) {  }
+void snapshot_shutdown_stub(void) {  }
 
 void alloc_player_motion_aram() {
     s32 file_size = TGStream::get_resource_file_size(get_player_motion_filename());

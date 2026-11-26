@@ -70,7 +70,7 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
     set_text_entry_string(entry_3, (get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append(":");
-    text_builder_append(TWindowSubComCard__sub_8027523C(record));
+    text_builder_append(get_guild_card_s2a(record));
     set_text_entry_string(entry_5, (get_shared_text_buffer()), 0x60);
     if ((s8) *(u8 *)record->get_card_data_ptr() != 0) {
         text_builder_reset();

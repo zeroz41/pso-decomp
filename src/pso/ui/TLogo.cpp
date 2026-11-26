@@ -55,7 +55,7 @@ extern int sega_logo_done_flag;
 
 int is_logo_clear_flag_set(void) {  return logo_clear_flag; }
 
-s32 TLogo__sub_8013F800(void* p) { return *(s32*)((char*)p + 0x48); }
+s32 is_vi_config_answered(void* p) { return *(s32*)((char*)p + 0x48); }
 
 int is_sega_logo_done(TAdSEGAlogo *logo) {  return sega_logo_done_flag; }
 
@@ -149,7 +149,7 @@ void TLogo::run_task() {
         state = 4U;
         return;
     case 1:
-        if ((vi_config != NULL) && (TLogo__sub_8013F800(vi_config) != 0)) {
+        if ((vi_config != NULL) && (is_vi_config_answered(vi_config) != 0)) {
             sega_logo = new TAdSEGAlogo(this);
             state = 4U;
             return;

@@ -325,7 +325,7 @@ void TObjChallengeRetry::handle_challenge_retry_confirm() {
 }
 
 
-void TObjChallengeRetry::sub_8007313C() {
+void TObjChallengeRetry::update_state_0() {
   s32 area;
   s32 no_player_flagged;
   int first_client;
@@ -388,7 +388,7 @@ void TObjChallengeRetry::run_task() {
     this->is_designated = is_designated_client();
     switch (this->state) {
     case 0:
-        this->sub_8007313C();
+        this->update_state_0();
         break;
     case 1:
         this->handle_challenge_retry_confirm();

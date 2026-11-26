@@ -98,7 +98,7 @@ void TShopEquipmentSequence::update_state() {
         set_state(9);
         return;
     case 7:
-        TShopEquipmentSequence__sub_8021D65C();
+        equipment_shop_state_stub();
         return;
     case 9:
         close_if_done();
@@ -180,7 +180,7 @@ void TShopEquipmentSequence::close_if_done() {
     }
 }
 
-void TShopEquipmentSequence__sub_8021D65C(void) {  }
+void equipment_shop_state_stub(void) {  }
 
 void TShopEquipmentSequence::handle_confirm() {
     if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {

@@ -55,7 +55,7 @@ FlagWord lbl_805D5430;
 }
 void build_6x63_packet(void *packet);
 extern "C" {
-void TLobby__sub_801041D8(void);
+void set_floor_items_synced_flag(void);
 }
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 #pragma inline_depth(1)
@@ -152,7 +152,7 @@ void TLobby::apply_sync_item_state() {
     if (lbl_805D5440.test_flags_any(1) != 0) {
         TLobby::respawn_missing_floor_items(0);
     }
-    TLobby__sub_801041D8();
+    set_floor_items_synced_flag();
 }
 
 #pragma push
@@ -419,7 +419,7 @@ void build_6x63_packet(void *packet) {
     destroy->header.subcommand = 0x63;
     destroy->header.size = 3;
 }
-void TLobby__sub_801041D8(void) {
+void set_floor_items_synced_flag(void) {
     lbl_805D5430.set(1);
 }
 void bswap_item(void *record) {

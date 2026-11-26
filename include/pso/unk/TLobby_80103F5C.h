@@ -5,7 +5,7 @@
 
 // --- C functions defined in TLobby_80103F5C.cpp ---
 extern "C" {
-void TLobby__sub_80104464(void);
+void select_confirm_exit_stub(void);
 }
 // --- end of C functions
 

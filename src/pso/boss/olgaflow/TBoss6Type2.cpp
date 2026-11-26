@@ -95,7 +95,7 @@ Vec boss6_type2_follow_camera_target = { 0.0f, 10.43f, 70.42f };
 
 
 extern "C" {
-void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec);
+void copy_move_target(s32 *dest, s32 *boss6_type2_zero_vec);
 
 
 struct ByteBlock_C { u8 bytes[0xc]; };
@@ -152,7 +152,7 @@ TBoss6Type2 *TBoss6Type2::create(Boss6BodySpawnParams *params) {
     return new TBoss6Type2(new TObjControl(tl_04), params);
 }
 
-void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec) {
+void copy_move_target(s32 *dest, s32 *boss6_type2_zero_vec) {
     *dest = *boss6_type2_zero_vec;
     *(ByteBlock_C *)((saddr) dest + 4) = *(const ByteBlock_C *)((saddr) boss6_type2_zero_vec + 4);
 }
@@ -207,7 +207,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     trail_effect = TBoss6Zanzo::create(this, 7, 0xF);
     random_factor = 0;
     next_motion = 0x11;
-    TBoss6Type2__sub_802BE4E0((s32 *)&move_target, (s32 *)boss6_type2_zero_vec);
+    copy_move_target((s32 *)&move_target, (s32 *)boss6_type2_zero_vec);
     move_target.heading = rotation_y;
     VecCopy(&move_target.position, &position);
     action_flags = 0;
@@ -1671,7 +1671,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
         buf[k] = j;
         avail_tbl[j] = 0;
     }
-    TBoss6Type2__sub_80356E50((saddr)buf, cnt, force);
+    send_subordinate_actions_group0((saddr)buf, cnt, force);
     mem_free(buf);
     play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }

@@ -24,7 +24,7 @@ const PillerGridStep boss8_piller_ctrl_params[41] = {
 TObjBoss8PillerCtrl::TObjBoss8PillerCtrl(TObject *parent, f32, const Vec *pos, u16 id) : TObject(parent) {
     m_name = TObjBoss8PillerCtrl::class_name;
     VecCopy(&position, pos);
-    sub_8035C034(&position);
+    position_stub(&position);
     position.y = 0.0f;
     frame = 0;
     piller_arg = id;
@@ -69,7 +69,7 @@ void TObjBoss8PillerCtrl::run_task() {
 
 void TObjBoss8PillerCtrl::render() {  }
 
-void TObjBoss8PillerCtrl::sub_8035C034(Vec *pos) {  }
+void TObjBoss8PillerCtrl::position_stub(Vec *pos) {  }
 
 s32 TObjBoss8PillerCtrl::is_outside_arena(const Vec *pos) {
     Vec position;

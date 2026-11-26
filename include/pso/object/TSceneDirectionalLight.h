@@ -11,7 +11,7 @@ public:
     virtual ~TSceneDirectionalLight();
     void set_scene_light_diffuse();
     void submit_scene_light_direction();
-    void sub_8013397C();
+    void update_stub();
 };
 LAYOUT_ASSERT(TSceneDirectionalLight_size, sizeof(TSceneDirectionalLight) == 0x1C);
 

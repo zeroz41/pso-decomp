@@ -43,7 +43,7 @@ void TObjPlayer::clear_state_flags(s32 mask) {
   state_flags = state_flags & ~mask;
 }
 
-void fn_8011E1D4(TObjPlayer *player) {
+void clear_timer_flag_unless_android(TObjPlayer *player) {
     if (!(player->class_flags & CLASS_FLAG_ANDROID)) {
         player->clear_state_flags(0x10000);
     }
@@ -68,7 +68,7 @@ void TItemTimerEvent::notify_if_active(int client) {
 void TItemTimerEvent::check_battle_ctrl(int client) {
     uaddr player = (uaddr)get_player_by_client_id((u16)client);
     if (player != 0U) {
-        fn_8011E1D4((TObjPlayer *)player);
+        clear_timer_flag_unless_android((TObjPlayer *)player);
     }
 }
 

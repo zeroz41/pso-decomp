@@ -156,9 +156,8 @@
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-s32 TMainCursor__sub_80154098(int, int, int);
-s32 TMainCursor__sub_801540B8(int, int, int);
-saddr TObjPlayer__sub_80116620(void *, int);
+s32 set_collision_body_team0(int, int, int);
+s32 set_collision_body_team1(int, int, int);
 bool is_trap_stock_empty(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
@@ -181,7 +180,7 @@ s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 ind
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
 void release_players_from_cutscene(void);
-void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
+void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
 void *__ct__12StatusEffectFv(void *);
 
@@ -386,7 +385,7 @@ void TObjPlayer::release_action_palettes() {  }
 
 void TObjPlayer::reset_action_input() { enable_action_input(); }
 
-void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record) {}
+void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record) {}
 
 void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     this->hp = (s16) this->hpmax;
@@ -5135,9 +5134,9 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
     team = cmd.team_number;
     p->pk_state.set_team(team);
     if (team == 1) {
-        TMainCursor__sub_801540B8((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
+        set_collision_body_team1((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     } else {
-        TMainCursor__sub_80154098((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
+        set_collision_body_team0((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     }
 }
 int TObjPlayer::get_pk_team() { return pk_state.get_team(); }
@@ -5373,13 +5372,13 @@ s32 TObjPlayer::get_language() {
 s32 TObjPlayer::get_controller_port() { return this->controller_port; }
 
 void TObjPlayer::set_action_provider_variant(s16 variant) {
-    if (variant != ((TObjPlayer *)action_provider)->sub_802a7290_fwd() && is_game_scene_phase(&main_phase_state) != 0) {
+    if (variant != ((TObjPlayer *)action_provider)->get_action_motion_type() && is_game_scene_phase(&main_phase_state) != 0) {
         action_provider->load_motion_set(get_entity_id(), has_valid_handle(), variant);
         this->apply_motion_entry();
     }
 }
 
-s16 TObjPlayer::get_handle_value() { return (s16)(((TObjPlayer *)this->action_provider)->sub_802a7290_fwd()); }
+s16 TObjPlayer::get_handle_value() { return (s16)(((TObjPlayer *)this->action_provider)->get_action_motion_type()); }
 
 f32 TObjPlayer::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (obj_isState2_324() != 0) {

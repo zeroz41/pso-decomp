@@ -4,9 +4,9 @@
 #include "types.h"
 
 void set_cue_stream_user_gain(s32 gain);
-int TLobby__sub_80226308(void);
+int init_sound_output_mode(void);
 void reset_sound_pitch_requests(void);
-void TTecRaFoie__sub_80226254(void);
+void cleanup_city_area_stub(void);
 void stop_sound_request(s32 idx);
 void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration);
 void update_music_stream_gain(s32 user);

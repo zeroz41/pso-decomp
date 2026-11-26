@@ -82,7 +82,7 @@ struct TObjEneLappy : public TObjEnemy {
     void update_attacking();
     void update_moving();
     void update_idle_state();
-    void sub_800BFF54();
+    void run_task_stub();
     static void *create(void *set);
     static void load_resources();
     static void free_resources();

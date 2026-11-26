@@ -127,7 +127,7 @@ static TAdTimeSetGCState time_set_state_table[25] = {
     {&TAdTimeSetGC::enter_state_19, &TAdTimeSetGC::run_states_19_21},
     {&TAdTimeSetGC::init_menu_window, &TAdTimeSetGC::run_states_19_21},
     {&TAdTimeSetGC::build_selection_summary, &TAdTimeSetGC::run_states_19_21},
-    {&TAdTimeSetGC::create_result_bg, &TAdTimeSetGC::sub_802E2158},
+    {&TAdTimeSetGC::create_result_bg, &TAdTimeSetGC::result_bg_exit_stub},
     {&TAdTimeSetGC::show_confirm_dialog, &TAdTimeSetGC::run_state_23},
     {&TAdTimeSetGC::enter_state_24, &TAdTimeSetGC::update_state},
 };
@@ -370,7 +370,7 @@ void TAdTimeSetGC::update_load_countdown() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -404,7 +404,7 @@ void TAdTimeSetGC::update_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -437,7 +437,7 @@ void TAdTimeSetGC::update_char_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -468,7 +468,7 @@ void TAdTimeSetGC::run_state_12() {
         message_frames = 0;
     }
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -494,7 +494,7 @@ void TAdTimeSetGC::update_close_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -642,7 +642,7 @@ void TAdTimeSetGC::create_result_bg() {
     close_and_dispatch(get_localized_text_entry(0x1C, 0x1C), -1, 0, 0);
 }
 
-void TAdTimeSetGC::sub_802E2158() {
+void TAdTimeSetGC::result_bg_exit_stub() {
 }
 
 void TAdTimeSetGC::show_confirm_dialog() {
@@ -697,7 +697,7 @@ void TAdTimeSetGC::update_state() {
             return;
         default:
         case 1:
-            sub_802E18C8();
+            restart_main_phase();
             break;
         }
     }
@@ -898,11 +898,11 @@ void TAdTimeSetGC::apply_settings() {
     TAdMultiChgGameModeGC::open_title_scene();
 }
 
-void TAdTimeSetGC::sub_802E18C8() {
+void TAdTimeSetGC::restart_main_phase() {
     request_main_phase(0);
 }
 
-s32 TAdTimeSetGC::sub_802E1868() {
+s32 TAdTimeSetGC::is_decide_pressed() {
     if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 4) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         return 1;

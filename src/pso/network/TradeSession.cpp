@@ -776,7 +776,7 @@ void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal) {
     case 0:
         trade_partner_client_id = proposal->header.client_id;
         trade_partner_meseta = proposal->amount;
-        TLobby__sub_802D3AA8();
+        set_trade_active();
         trade_proposal_state = 2;
         break;
     case 1:

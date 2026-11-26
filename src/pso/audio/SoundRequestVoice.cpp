@@ -135,10 +135,10 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             v->delay--;
             break;
         }
-        TLobby__sub_80241A0C(v);
+        voice_pitch_stub(v);
         apply_sound_pitch_wobble(v);
     start:
-        TLobby__sub_80240F38(v);
+        voice_start_stub(v);
         apply_random_sound_pitch(v);
         calc_sound_spatial_params(v);
         v->clamp_params();
@@ -233,7 +233,7 @@ void SoundRequestVoice::update_random_flip_flag() {
     }
 }
 
-void TLobby__sub_80240F38(SoundRequestVoice *) {}
+void voice_start_stub(SoundRequestVoice *) {}
 
 void apply_random_sound_pitch(SoundRequestVoice *v) {
     s32 num = 1;
@@ -631,7 +631,7 @@ void apply_sound_pitch_wobble(SoundRequestVoice *sound) {
     }
 }
 
-void TLobby__sub_80241A0C(SoundRequestVoice *) {}
+void voice_pitch_stub(SoundRequestVoice *) {}
 
 
 void send_sound_request_reverb(SoundRequestVoice *voice) {

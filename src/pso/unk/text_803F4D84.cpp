@@ -405,7 +405,7 @@ s32 get_network_config_pc_name(char *buf, u32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5B20(char *buf, s32 n) {
+s32 get_network_config_string_s5(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -436,7 +436,7 @@ s32 TLobby__sub_803F5B20(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5C58(char *buf, s32 n) {
+s32 get_network_config_string_s0(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -467,7 +467,7 @@ s32 TLobby__sub_803F5C58(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5D90(char *buf, s32 n) {
+s32 get_network_config_string_s1(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -498,7 +498,7 @@ s32 TLobby__sub_803F5D90(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5EC8(char *buf, s32 n) {
+s32 get_network_config_string_s2(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -529,7 +529,7 @@ s32 TLobby__sub_803F5EC8(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F6000(char *buf, s32 n) {
+s32 get_network_config_string_s3(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -560,7 +560,7 @@ s32 TLobby__sub_803F6000(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F6138(char *buf, s32 n) {
+s32 get_network_config_string_s4(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -591,7 +591,7 @@ s32 TLobby__sub_803F6138(char *buf, s32 n) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F6270(u16 *out) {
+s32 get_network_config_word_ec(u16 *out) {
     NetConfigVersionView *s;
     s16 i;
     if (get_network_config_mode() == 0) {

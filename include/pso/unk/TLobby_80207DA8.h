@@ -6,12 +6,12 @@
 struct EnemyPlacement;
 struct ObjectSetData;
 
-void TLobby__sub_80207E24(void *p, s32 size);
-void TLobby__sub_80207E44(void);
-void TLobby__sub_80207E48(void);
-void TLobby__sub_80207F10(void);
+void copy_game_variations(void *p, s32 size);
+void init_city_area_stub(void);
+void randomize_offline_maps(void);
+void reset_online_story_select(void);
 void free_forest_rel_work_buffer(void);
-void TLobby__sub_80208648(void);
+void command_exit_stub(void);
 void set_wave_event_stream(void *a0);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void activate_triggered_floor_events(void);

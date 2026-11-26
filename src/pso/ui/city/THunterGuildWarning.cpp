@@ -41,9 +41,9 @@ s32 THunterGuildWarning::is_active() {
     return (u8)((u8) (THunterGuildWarning::instance != 0));
 }
 
-void THunterGuildWarning__sub_80211700(void) { THunterGuildWarning::instance = 0; }
+void clear_guild_warning_on_guild_exit(void) { THunterGuildWarning::instance = 0; }
 
-void THunterGuildWarning__sub_8021170C(void) { THunterGuildWarning::instance = 0; }
+void clear_guild_warning_on_quest_exit(void) { THunterGuildWarning::instance = 0; }
 
 void THunterGuildWarning::close_windows() {
     s32 i = 0;
@@ -202,7 +202,7 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 
-s32 TLobby__sub_80211C3C(void) {
+s32 get_guild_quest_list_stage(void) {
     if (get_main_phase() != 0xF) {
         return 3;
     }
@@ -313,7 +313,7 @@ s32 is_in_hunter_guild(s32 client_id) {
 
 void update_hunter_guild_phase(void) {
     if (get_main_phase() == 0xE) {
-        THunterGuildWarning__sub_80211700();
+        clear_guild_warning_on_guild_exit();
         THunterGuildSeqOffline::clear_instance_table();
     }
     if (get_main_phase() == 0xF) {
@@ -326,7 +326,7 @@ void update_hunter_guild_phase(void) {
 void TLobby::update_guild_or_quest_phase() {
     if (get_main_phase() == 0xE) {
         clear_offline_instance_table();
-        THunterGuildWarning__sub_8021170C();
+        clear_guild_warning_on_quest_exit();
     }
     if (get_main_phase() == 0xF) {
         TQuestListOnline::init_download_buffers();

@@ -740,7 +740,7 @@ TBoss7DeRolLeC::~TBoss7DeRolLeC() {
 void TBoss7DeRolLeC::run_task() {
     s32 teammate_state;
     s32 flags;
-    TObjPlayer__sub_802ED984();
+    boss7_run_task_stub();
     flags = this->state_flags;
     if (flags & 0x8000) {
         this->send_entity_set_flags();
@@ -829,7 +829,7 @@ void TBoss7DeRolLeC::run_task() {
     }
 }
 
-void TObjPlayer__sub_802ED984(void) {  }
+void boss7_run_task_stub(void) {  }
 
 void TBoss7DeRolLeC::update_or_dispatch() {
     if (is_ready() != 0) {
@@ -1492,7 +1492,7 @@ void TBoss7DeRolLeC::update_projectile_spawns() {
     }
 }
 
-void TBoss7DeRolLeC::sub_802EC32C() {}
+void TBoss7DeRolLeC::position_travel_stub() {}
 
 void TBoss7DeRolLeC::play_sound_at(s32 id, Vec *pos) { play_sound_effect(id, pos, 0, 0); }
 
@@ -2048,7 +2048,7 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
         break;
     case 0:
         this->advance_animation();
-        sub_802EC32C();
+        position_travel_stub();
         done = 0;
         switch (state_ints[0]) {
         case 0:

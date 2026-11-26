@@ -66,7 +66,7 @@ void TQuestListChallenge::close_windows() {
     }
 }
 
-void TQuestListChallenge::sub_80288BE4() {}
+void TQuestListChallenge::state_stub() {}
 
 void TQuestListChallenge::invoke_callback_and_destroy() {
     void (*callback)(TShopWindowBase *) = on_accept;
@@ -204,7 +204,7 @@ void TQuestListChallenge::update_state() {
         &TQuestListChallenge::handle_confirm_select,
         &TQuestListChallenge::invoke_callback_and_destroy,
         &TQuestListChallenge::destroy,
-        &TQuestListChallenge::sub_80288BE4,
+        &TQuestListChallenge::state_stub,
     };
     (this->*tbl[state])();
 }

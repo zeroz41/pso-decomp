@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TLobby__sub_8001ED88(void *p);
+s32 get_bml_request_data_size(void *p);
 }
 
 #endif

@@ -363,7 +363,7 @@ void free_chr_select_data() {
         xfree(bml_load_buffer);
         bml_load_buffer = NULL;
     }
-    TItemDrop__sub_800FE2D8();
+    free_chr_select_stub();
     safe_free(lobby_download_buffer);
     lobby_download_buffer = 0;
 }

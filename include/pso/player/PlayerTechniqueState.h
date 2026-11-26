@@ -45,7 +45,7 @@ public:
     u8 pad_3;
     s16 technique;
     s16 target_count;
-    s16 pad_8;
+    s16 reserved;
     s16 pad_a;
     s32 state;
     FlagWord flags;
@@ -69,7 +69,7 @@ public:
     void level_up_all_techniques(u8 add);
     static s32 is_valid_technique_id(s16 technique);
     void clear_technique_level(s16 technique);
-    void sub_801D9E10(s16 value);
+    void set_reserved(s16 value);
 };
 
 LAYOUT_ASSERT(PlayerTechniqueStateSize, sizeof(PlayerTechniqueState) == 0x84);

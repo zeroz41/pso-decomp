@@ -73,7 +73,7 @@ LAYOUT_ASSERT(NetworkConfig_size, sizeof(NetworkConfig) == 0x124);
 
 // --- C functions defined in NetworkConnect.cpp ---
 extern "C" {
-void TLobby__sub_80147978(void);
+void network_shutdown_stub(void);
 }
 int has_modem_adapter(void);
 s32 apply_static_network_config(s32 *netmask);

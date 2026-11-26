@@ -406,13 +406,13 @@ void set_scene_light_color(f32 r, f32 g, f32 b) {
 
 TSceneDirectionalLight::TSceneDirectionalLight(TObject *parent) : TSceneLight(parent) {
     rotate_vector_by_matrix(0, &scene_light_state.direction, &scene_light_state.view_direction);
-    sub_8013397C();
+    update_stub();
     submit_scene_light_direction();
     set_scene_light_diffuse();
     directional_light_instance = this;
 }
 
-void TSceneDirectionalLight::sub_8013397C() {}
+void TSceneDirectionalLight::update_stub() {}
 
 void TSceneDirectionalLight::submit_scene_light_direction() {
     init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
@@ -440,13 +440,13 @@ void TSceneDirectionalLight::render() {
     submit_light0(0, 1);
     submit_scene_light_direction();
     set_scene_light_diffuse();
-    sub_8013397C();
+    update_stub();
     GXInitLightSpot(gx_light_objects, 180.0f, 1);
     GXInitLightDistAttn(gx_light_objects, 100000000.0f, 0.9f, 0);
     load_gx_light_slot(0);
 }
 
-void TObjLight__sub_801337FC(void *light) {}
+void init_light_stub(void *light) {}
 
 void TObjLight::debug_scene_light_hook() {}
 
@@ -455,28 +455,28 @@ void TObjLight::init_directional_light() {
     GXInitLightDir(gx_light_objects, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
 }
 
-void TObjLight::sub_8013379C(TObjLightSceneLightState *state) {}
+void TObjLight::apply_scene_light_stub(TObjLightSceneLightState *state) {}
 
 TSceneAmbientLight::TSceneAmbientLight(TObject *parent) : TSceneLight(parent) {
     s32 i;
     ambient_light_instance = this;
     active_light_count = 1;
     submit_scene_ambient_color();
-    sub_80133714();
-    sub_801336DC();
+    init_stub();
+    update_stub();
     for (i = 0; i < 3; i++) {
         light_slots[i] = 0;
     }
 }
 
-void TSceneAmbientLight::sub_80133714() {}
+void TSceneAmbientLight::init_stub() {}
 
 void TSceneAmbientLight::submit_scene_ambient_color() {
     set_light_ambient_color(scene_light_state.ambient_color.r, scene_light_state.ambient_color.g, scene_light_state.ambient_color.b);
 }
 
 
-void TSceneAmbientLight::sub_801336DC() {}
+void TSceneAmbientLight::update_stub() {}
 
 PointLight *TObjLight::alloc_light_slot() {
     s32 i;

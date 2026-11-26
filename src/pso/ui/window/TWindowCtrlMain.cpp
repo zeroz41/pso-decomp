@@ -72,8 +72,8 @@ void TWindowMainMenu::close_main_menu() {  }
 void TWindowMainMenu::open_main_menu() {  }
 s32 TWindowMainMenu::is_open() { return menu_flags & 0x1; }
 s32 TWindowMainMenu::is_log_active() { return (menu_flags >> 3) & 0x1; }
-void TWindowMainMenu__sub_8024E3D0(void) {  }
-void TWindowMainMenu__sub_8024E3CC(void) {  }
+void window_ctrl_close_stub(void) {  }
+void window_ctrl_shutdown_stub(void) {  }
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(parent) {
     m_name = window_ctrl_player_class_name;

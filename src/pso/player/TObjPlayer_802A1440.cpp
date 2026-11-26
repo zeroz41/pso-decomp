@@ -10,11 +10,11 @@ extern "C" {
 
 int clear_player_data_block(void*);
 
-void PlayerCharDataEntry::clear() { role = 0; TAdSelectTxtGC__sub_802A16A8(&lobby_header); flags.reset(); char_data.initialize_player_data(); }
+void PlayerCharDataEntry::clear() { role = 0; clear_lobby_header(&lobby_header); flags.reset(); char_data.initialize_player_data(); }
 
 void PlayerCharDataEntry::copy_from_player(TObjPlayer *player) {
     flags.set(1);
-    role = TAdSelectTxtGC__sub_802A16C0(player);
+    role = get_player_role(player);
     ((TLobby *)&lobby_header)->copy_header_struct(&player->guild_card_tag);
     player->export_character_data(&char_data);
 }

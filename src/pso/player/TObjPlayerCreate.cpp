@@ -518,7 +518,7 @@ TObjPlayer::~TObjPlayer() {
 
 extern "C" {
 void load_pending_actions_from_sync_record(TObjPlayer *player, u8 *record);
-void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
+void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record);
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(parent) {
@@ -545,7 +545,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     this->init_from_source(record);
     init_session_area_sync(record);
     init_battle(record);
-    TObjPlayer__sub_801BBB70(this, record);
+    init_from_sync_record_stub(this, record);
     this->init_class_flags(record);
     load_pending_actions_from_sync_record(this, (u8 *)record);
     this->hp = record->current_hp;

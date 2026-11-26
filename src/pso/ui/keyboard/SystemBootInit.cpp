@@ -123,7 +123,7 @@ int get_video_standard() {
 
 void shutdown_and_reset_system(void) {
     free_player_data_load_buffer();
-    fn_800FFE0C();
+    system_shutdown_stub();
     init_depth_alpha_state();
     release_blob_shadow_texture();
     free_banner_buffers();
@@ -133,7 +133,7 @@ void shutdown_and_reset_system(void) {
     free_menu_font();
     free_ply_level_tbl();
     free_item_drop_memory_pool();
-    TWindowSnapShot__sub_802A7DA0();
+    snapshot_shutdown_stub();
     reset_aram_state();
     destroy_game_heap();
     reset_sound_control_state();
@@ -141,7 +141,7 @@ void shutdown_and_reset_system(void) {
     TAdSinglePlyChrSelectGC::release_all();
     free_info_icon_texture();
     reset_display_copy_filter();
-    TLobby__sub_80147978();
+    network_shutdown_stub();
     xfree(texture_state_buffer);
     xfree(texture_surface_buffer);
     xfree(resource_decompress_buffer);
@@ -304,12 +304,12 @@ void init_game_systems(void) {
     hardware_keyboard_state.reset_input();
     init_buffers();
     main_task.init_main_task();
-    TLobby__sub_8007EB70();
+    init_quest_vm_stub();
     init_adx_audio_system();
     init_download_state();
     load_menu_font();
     TLobby::load_now_loading_texture();
-    TCharaMaking__sub_8028E790();
+    chara_making_init_stub();
     TAdSinglePlyChrSelectGC::init_char_select_globals();
     reset_sound_request_state();
     TLobby::wait_for_sound_init();
@@ -329,7 +329,7 @@ void init_game_systems(void) {
     TLobby::load_player_data();
     init_account_entries();
     load_ha_u032_kage();
-    fn_800FFE10();
+    system_init_stub();
     TLobby::reset_story_select();
     gba_init();
     load_ply_level_tbl();

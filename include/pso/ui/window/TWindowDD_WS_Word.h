@@ -23,8 +23,8 @@ public:
     void get_cursor_pos(NJS_POINT2 *position);
     s32 needs_scroll();
     s32 can_scroll(s32 direction);
-    s32 sub_80342268();
-    s32 sub_80342254();
+    s32 can_accept_input();
+    s32 is_input_enabled();
     void load_element_list();
     void reset_fields();
     void init_layout_entries();

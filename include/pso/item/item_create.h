@@ -23,6 +23,6 @@ void normalize_drop_area(s32 *p);
 
 saddr find_eligible_combination_recipe(saddr player, u8 *item);
 
-void TItemDisconnectCtrl__sub_80105BE8(void);
+void item_class_slot7_load(void);
 
 #endif

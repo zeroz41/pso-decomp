@@ -106,7 +106,7 @@ s32 KeyboardKeyState::is_control_held() {
     return is_key_pressed(0x5B) != 0;
 }
 
-s32 KeyboardKeyState::sub_80132274() {
+s32 KeyboardKeyState::is_menu_key_held() {
     if ((hardware_keyboard_state.get_key_state() == 0) || (hardware_keyboard_state.get_key_state() == 1)) {
         return 0;
     }

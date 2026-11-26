@@ -17,7 +17,7 @@ extern const s32 player_class_texture_archive_length[19];
 s32 validate_player_visual_record(void *record);
 
 extern "C" {
-void TCharaMaking__sub_8028E790(void);
+void chara_making_init_stub(void);
 }
 // The section id a character name hashes to.
 s32 calc_section_id_from_name(s8 *name);
@@ -50,8 +50,8 @@ void copy_char_name(const char *name);
 void select_char_menu();
 s32 get_current_char_flag();
 extern "C" {
-int TAdSinglePlyChrSelectGC__sub_8028DC14(void);
-int TAdSinglePlyChrSelectGC__sub_8028DC1C(void *p);
+int char_select_check_stub(void);
+int reset_char_appearance_callback(void *p);
 }
 CharacterAppearanceFields *get_creation_visual_record(void);
 void load_creation_visual_record(CharacterAppearanceFields *record);

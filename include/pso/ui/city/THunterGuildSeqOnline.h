@@ -72,7 +72,7 @@ void clear_online_client_instance_table(void);
 void on_guild_quest_downloaded(void);
 void on_guild_quest_list_cancelled(void);
 extern "C" {
-void THunterGuildSeqOffline__sub_80213EBC(void);
+void on_quest_list_state_10(void);
 }
 // --- end of C functions
 

@@ -21,7 +21,7 @@ public:
     virtual void run_task();
     virtual void render();
     // run_task's demo-mode step, empty in this build.
-    void sub_80158604();
+    void run_task_stub();
     s32 object_state;           // the object's state (TODoorBase: DOOR_CLOSED..DOOR_CLOSING); compared signed
     f32 animation_frame;        // the motion frame update_anim_phase advances
     f32 animation_end_frame;    // where animation_frame wraps

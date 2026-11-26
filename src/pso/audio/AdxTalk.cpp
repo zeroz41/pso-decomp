@@ -134,7 +134,7 @@ inline void adxt_run_server(void) {
         adx_unlock();
     }
 }
-s32 TLobby__sub_803C9358(AdxtPlayer *player) {
+s32 adxt_resync_paused_time(AdxtPlayer *player) {
     s32 ret;
     s32 save;
     s32 pos;
@@ -157,7 +157,7 @@ void adxt_set_error_callback(AdxMessageCallback callback, s32 context) {
     adxerr_set_callback(callback, context);
 }
 
-void TLobby__sub_803C94D8(void) {
+void adx_talk_stub(void) {
 
 }
 

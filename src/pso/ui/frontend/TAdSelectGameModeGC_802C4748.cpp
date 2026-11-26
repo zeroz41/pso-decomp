@@ -42,7 +42,7 @@ const SelectGameModeButtonRects select_game_mode_button_rect = {{{185.0f, 198.0f
 s32 TAdSelectGameModeGC::cached_mode_value;
 
 
-int fn_802C4748(void* p) { return TObjPlayer::sync_char_select_state(); }
+int on_local_player_created(void* p) { return TObjPlayer::sync_char_select_state(); }
 
 void TAdSelectGameModeGC::render() {  }
 

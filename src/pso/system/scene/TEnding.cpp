@@ -164,7 +164,7 @@ TEnding::~TEnding() {
 
 TEnding::TEnding() : TObject(tl_window) {
     m_name = TEnding::class_name;
-    TEnding__sub_8008C9F8();
+    reset_ending_stub();
     TMainTask::cleanup_game_objects();
     set_current_floor_area(1);
     switch (get_video_standard()) {
@@ -184,4 +184,4 @@ TEnding::TEnding() : TObject(tl_window) {
     new TAdEndText(this);
 }
 
-void TEnding__sub_8008C9F8() {}
+void reset_ending_stub() {}

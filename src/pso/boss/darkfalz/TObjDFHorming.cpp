@@ -348,7 +348,7 @@ int TBoss4DarkFalz::is_ending_or_split_screen() {
     }
     return result;
 }
-s32 TBoss4DarkFalz::sub_8004B07C() { return 0; }
+s32 TBoss4DarkFalz::force_action_stub() { return 0; }
 
 void TBoss4DarkFalz::run_state_update() {
     TBoss4DarkFalzHandler action = dark_falz_state_table[state_index].update;

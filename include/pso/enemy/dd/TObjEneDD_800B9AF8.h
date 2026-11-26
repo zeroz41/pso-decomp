@@ -4,6 +4,6 @@
 #include "types.h"
 
 // Empty in the release build.
-void TObjEneDD__sub_800B9B24(f32);
+void lappy_render_scale_stub(f32);
 
 #endif

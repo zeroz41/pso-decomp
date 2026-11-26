@@ -123,7 +123,7 @@ void set_action_channel_inactive(u8 *entry);
 void set_action_channel_active(u8 *entry);
 int get_lock_on_cursor_model(void);
 extern "C" {
-void TMainCursor__sub_8013E310(void *p);
+void set_main_cursor_state_flag_2(void *p);
 }
 u8 get_target_palette_slot(void *p);
 u8 get_target_palette_mode(void *p);
@@ -135,7 +135,7 @@ int get_empty_action_entry(void);
 }
 int get_target_cursor_model(void);
 extern "C" {
-void TLockOnCursor__sub_8013EB80(void *p);
-void TLockOnCursor__sub_8013EB8C(void *p);
+void disable_palette_override(void *p);
+void enable_palette_override(void *p);
 }
 #endif

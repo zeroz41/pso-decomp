@@ -13,7 +13,7 @@ struct TObjBoss8PillerCtrl : public TObject {
     virtual void run_task();
     virtual void render();
     s32 is_outside_arena(const Vec *pos);  // farther than 373 from the centre in xz; run_task drops pillars there
-    void sub_8035C034(Vec *pos);
+    void position_stub(Vec *pos);
 
     Vec position;
     s32 frame;          // run_task: spawns a ring on frames 0, 5, 10 and 15, ends after 0x32

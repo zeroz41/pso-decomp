@@ -40,7 +40,7 @@ struct KeyboardKeyState {
     void reset_inactive_keys();
     s32 check_input_ready();
     s32 is_control_held();
-    s32 sub_80132274();
+    s32 is_menu_key_held();
     s32 is_alt_held();
     s32 is_shift_held();
     u8 get_pending_key(u8 index);

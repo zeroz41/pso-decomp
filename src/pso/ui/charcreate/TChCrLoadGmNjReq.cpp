@@ -43,7 +43,7 @@ void TChCrLoadGmNjReq::update_model_load() {
         bml_model = get_bml_model(loaded_bml, 0);
         *model_out = bml_model;
         if (bml_model != NULL) {
-            advance_character_load_buffer(load_slot, TLobby__sub_8001ED88(loaded_bml));
+            advance_character_load_buffer(load_slot, get_bml_request_data_size(loaded_bml));
             delete loaded_bml;
             loaded_bml = NULL;
             release_slot();

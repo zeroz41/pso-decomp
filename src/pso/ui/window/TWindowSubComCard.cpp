@@ -93,7 +93,7 @@ void TKeyBoardControl::set_soft_flag60_bit1() {
 }
 char *GuildCardRecord::get_sub_obj() { return name; }
 char *GuildCardRecord::get_name() { return s19; }
-char *TWindowSubComCard__sub_8027523C(GuildCardRecord *entry) { return entry->s2A; }
+char *get_guild_card_s2a(GuildCardRecord *entry) { return entry->s2A; }
 
 char *GuildCardRecord::get_card_data_ptr() { return s3B; }
 
@@ -1552,7 +1552,7 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
         text_builder_append(result->info);
         text_builder_append(guild_card_record->get_name());
         text_builder_append("\n");
-        text_builder_append(TWindowSubComCard__sub_8027523C(guild_card_record));
+        text_builder_append(get_guild_card_s2a(guild_card_record));
         text_builder_append("\n");
         text_builder_append(guild_card_record->get_card_data_ptr());
         this->message_window->append_line(get_shared_text_buffer(), 0x82);

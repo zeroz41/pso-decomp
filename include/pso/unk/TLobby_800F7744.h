@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_800F7744(void);
+void object_control_on_floor_free_stub(void);
 }
 
 

@@ -833,7 +833,7 @@ s32 connect_with_any_phone_number(s32 id) {
     return result;
 }
 
-void TLobby__sub_80147978(void) {  }
+void network_shutdown_stub(void) {  }
 void init_account_entries() {
     memset(&lobby_account_entries[0], 0, sizeof(AccountEntry));
     memset(&lobby_account_entries[1], 0, sizeof(AccountEntry));
