@@ -113,13 +113,6 @@ struct LobbyPlayerEntry {
     char name[16];
     u8 char_data[0x41C];
 };
-/* An entry of a server menu (commands 07 and 1F: ship, block and information lists). */
-struct ServerMenuEntry {
-    u32 menu_id;
-    u32 item_id;
-    u16 flags;
-    char name[0x12];
-};
 struct GameStateSyncScratch {
     u16 total_size;
     u16 floor_flags_size;
@@ -135,17 +128,6 @@ struct RecoveredGlobal_80135198_lbl_804A7008 { s32 value; u8 remaining[0x14]; };
 LAYOUT_ASSERT(RecoveredGlobal_80135198_lbl_804A7008_size, sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18);
 struct Row_80135208 { u8 pad[8]; u32 ip_addr; s32 client_id; char name[16]; };
 typedef char LobbyPlayerName[16];
-/* An entry of the game list (command 08). */
-struct GameMenuEntry {
-    u32 menu_id;
-    u32 game_id;
-    s8 difficulty_tag; /* the difficulty + 0x22 */
-    u8 num_players;
-    char name[0x10];
-    u8 episode;
-    s8 flags;
-};
-struct DownloadListEntry { u8 pad0[5]; u8 kind; u8 pad6[6]; u8 name[0x8C]; };
 typedef struct LobbyServerAddress {
     const char *host;
     s32 port;
@@ -170,7 +152,6 @@ extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 }
-void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
 extern "C" {
 void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
@@ -1615,7 +1596,7 @@ void TLobby::return_to_main_menu() {
         t->close();
         list_window = 0U;
     }
-    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
+    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = TLobby::open_ship_block_select_menu;
     protocol_instance->send_ship_list_request();
     lobby_state = 7;
 }
@@ -1625,7 +1606,7 @@ void TLobby::close_menu_windows() {
     TLobby_warp_menu_window = NULL;
     lobby_com_card_window->close();
     lobby_com_card_window = NULL;
-    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
+    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = TLobby::open_ship_block_select_menu;
     protocol_instance->send_block_list_request();
     lobby_state = 8;
 }
@@ -2060,7 +2041,7 @@ void handle_lobby_text(s32 text) {
     TLobby::lobby_state = 0x16;
 }
 void TLobby::disable_window_flags(void*flags) { TWindowCtrl::append_client_message(local_client_id, (const char *)flags); }
-void TLobby::open_ship_block_select_menu(int count, ServerMenuEntry *list, ServerMenuEntry *entry) {
+void TLobby::open_ship_block_select_menu(int count, GameListEntry *list, GameListEntry &entry) {
     static void *tblA = (void *)lobby_window_title_ship_select;
     static void *tblB = (void *)lobby_window_title_block_select;
     void *tbl;
@@ -2087,12 +2068,12 @@ void TLobby::open_ship_block_select_menu(int count, ServerMenuEntry *list, Serve
     } else {
         TLobby::set_menu_mode_0();
     }
-    if (strncmp(entry->name, lobby_list_header_block, 5) != 0) {
+    if (strncmp(entry.name, lobby_list_header_block, 5) != 0) {
         memset(lobby_ship_name, 0, 0x11);
-        strncpy(lobby_ship_name, entry->name, 0x10);
+        strncpy(lobby_ship_name, entry.name, 0x10);
     }
 }
-void TLobby::open_information_list(int count, ServerMenuEntry *list) {
+void TLobby::open_information_list(int count, GameListEntry *list, GameListEntry &) {
     void *w = (void *)lobby_window_title_information;
     s32 i;
     TObject *old = list_window;
@@ -2108,7 +2089,7 @@ void TLobby::open_information_list(int count, ServerMenuEntry *list) {
     TLobby::set_menu_mode_2();
 }
 
-void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected) {
+void handle_game_list(int count, GameListEntry *entries, GameListEntry &selected) {
     static void *tbl = (void *)lobby_msg_information_counter;
     TWindowMenuTeamStatus *w;
     s32 i;
@@ -2119,7 +2100,7 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
     }
     w = TWindowMenuTeamStatus::create(tbl);
     for (i = 0; i < count; i++) {
-        GameMenuEntry *e = &entries[i];
+        GameListEntry *e = &entries[i];
         s32 flags = e->flags;
         s32 mode = 0;
         s8 episode;
@@ -2141,7 +2122,7 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
     w->calc_content_extent();
     TLobby::list_window = w;
     memset(selected_game_name, 0, 0x11);
-    strncpy(selected_game_name, selected->name, 0x11);
+    strncpy(selected_game_name, selected.name, 0x11);
 }
 void TLobby::handle_game_join(TPlyJoinGame *pkt) {
     PlayerGuildCardTag tag;
@@ -2460,10 +2441,9 @@ void TLobby::retire_lobby_player(int idx, int v) {
 }
 
 void handle_generate_id(void) {  }
-void TLobby::open_download_list_window(int count, DownloadListEntry *list) {
+void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 0> &list) {
     static void *tbl = (void *)lobby_window_title_download;
     s32 i;
-    DownloadListEntry *e;
     const NJS_POINT2 *w;
 
     if (list_window != 0) {
@@ -2472,19 +2452,18 @@ void TLobby::open_download_list_window(int count, DownloadListEntry *list) {
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((saddr)tbl);
     for (i = 0; i < count; i++) {
-        e = &list[i];
-        switch (e->kind) {
+        switch (list.entries[i].tag.m_tag1) {
         case 0:
-            list_window->add_list_entry(0x2C, (saddr)e->name, i);
+            list_window->add_list_entry(0x2C, (saddr)list.entries[i].name, i);
             break;
         case 1:
-            list_window->add_list_entry(0x17, (saddr)e->name, i);
+            list_window->add_list_entry(0x17, (saddr)list.entries[i].name, i);
             break;
         case 2:
-            list_window->add_list_entry(0x31, (saddr)e->name, i);
+            list_window->add_list_entry(0x31, (saddr)list.entries[i].name, i);
             break;
         default:
-            list_window->add_list_entry(0x2C, (saddr)e->name, i);
+            list_window->add_list_entry(0x2C, (saddr)list.entries[i].name, i);
             break;
         }
     }
@@ -2497,7 +2476,7 @@ void TLobby::open_download_list_window(int count, DownloadListEntry *list) {
         NJS_POINT2 p = { 224.0f, 188.0f };
         w = get_window_layout_position(0xC7);
         download_list_window = TWindowMessage::create(w, (const f32 *)(&p), 1);
-        download_list_window->append_line((saddr)((char *)list + 0x2C), (int)3);
+        download_list_window->append_line((saddr)list.entries[0].short_description, (int)3);
     }
     card_list_selected_index = 0;
     lobby_state = 0x11;
@@ -2626,8 +2605,8 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_05_recv_logout = TLobby::queue_static_object_destruction;
     protocol_instance->m_recv_handlers.handle_06_recv_chat = NULL;
     protocol_instance->m_recv_handlers.handle_01_recv_error = (recv_packet_handler_handle_01_recv_error)handle_error;
-    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
-    protocol_instance->m_recv_handlers.handle_08_recv_game_list = (recv_packet_handler_handle_08_recv_game_list)handle_game_list;
+    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = TLobby::open_ship_block_select_menu;
+    protocol_instance->m_recv_handlers.handle_08_recv_game_list = handle_game_list;
     protocol_instance->m_recv_handlers.handle_11_recv_message = (recv_packet_handler_handle_11_recv_message)handle_server_message;
     protocol_instance->m_recv_handlers.handle_0E_recv_start_game = NULL;
     protocol_instance->m_recv_handlers.unused7 = NULL;
@@ -2659,7 +2638,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = TQuestVmDownLoadServer::begin_file_download;
     protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = TQuestVmDownLoadServer::receive_file_chunk;
     protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;
-    protocol_instance->m_recv_handlers.handle_1F_recv_text_list = (recv_packet_handler_handle_1F_recv_text_list)TLobby::open_information_list;
+    protocol_instance->m_recv_handlers.handle_1F_recv_text_list = TLobby::open_information_list;
     protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = (recv_packet_handler_handle_88_player_arrow_color_list_packet)apply_arrow_colors;
     protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = TLobby::copy_player_records;
     protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;

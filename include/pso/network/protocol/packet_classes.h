@@ -84,11 +84,11 @@ TMenuListEntry(GameListEntry,
     GameListEntry(const GameListEntry &other);
     GameListEntry &operator=(const GameListEntry &other);
 
-    u8 difficulty_tag;
+    s8 difficulty_tag; // the difficulty + 0x22
     u8 num_players;
     char name[16];
     u8 episode;
-    u8 flags;
+    s8 flags;
 );
 
 TMenuListEntry(LobbyListEntry,
