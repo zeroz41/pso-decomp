@@ -38,6 +38,8 @@ extern u32 game_variations[16][2];
 extern void copy_packet(union packet *pkt);
 void set_lobby_count_value();
 
+// C6: the guild card numbers of the players the client blocks; header.flags is the count
+// (TProtocol::send_c6_packet).
 class TBlockedSenders {
 public:
     packet_header header;
@@ -45,7 +47,10 @@ public:
 public:
     void bswap();
 };
+LAYOUT_ASSERT(TBlockedSendersSize, sizeof(TBlockedSenders) == 0x7C);
 
+// 90: the serial number and access key the client answers the port map's 91 greeting with
+// (TProtocol::recv_pso_regist_connect).
 class TSendPsoRegistConnect {
 public:
     packet_header header;
@@ -56,6 +61,9 @@ public:
     void bswap();
 };
 
+// 02, 17/9B and 91: a server greeting with its copyright text and the two encryption keys.
+// TProtocol::handle_cmd_02 answers the lobby server's 02 with 9E (TSendLogin); handle_cmd_9B answers the
+// port map's 17 and 9B with DB (TSendVerifyLicense); recv_pso_regist_connect answers 91 with 90.
 class TRecvPsoRegistConnect {
 public:
     packet_header header;
@@ -65,6 +73,7 @@ public:
 public:
     void bswap();
 };
+LAYOUT_ASSERT(TRecvPsoRegistConnectSize, sizeof(TRecvPsoRegistConnect) == 0x4C);
 
 // DB: the account check the client answers a 9B greeting with.
 class TSendVerifyLicense {
@@ -125,13 +134,15 @@ union packet {
     u8 bytes[0x7c00];
 };
 
-// 8A: the name of the lobby the client is in.
+// 8A: the name of the lobby the client is in, the answer to TProtocol::send_lobby_name_request.
+// start_lobby_name_request installs receive_lobby_name as the handler before it asks.
 struct TRecvLobbyName {
     packet_header header;
     char name[16];
 
     void bswap();
 };
+LAYOUT_ASSERT(TRecvLobbyNameSize, sizeof(TRecvLobbyName) == 0x14);
 
 // 88: one player's lobby arrow colour.
 struct TArrowColorEntry {
@@ -140,19 +151,25 @@ struct TArrowColorEntry {
 
     void bswap();
 };
+LAYOUT_ASSERT(TArrowColorEntrySize, sizeof(TArrowColorEntry) == 0xC);
 
-// 88: the lobby arrow colours of the players in the lobby.
+// 88: the lobby arrow colours of the players in the lobby (TProtocol::handle_cmd_88 passes them to
+// apply_arrow_colors). The client sets its own with 89 (TProtocol::send_lobby_arrow, colour in
+// header.flags).
 struct TArrowColorList {
     packet_header header;
     TArrowColorEntry entries[16];
 
     void bswap();
 };
+LAYOUT_ASSERT(TArrowColorListSize, sizeof(TArrowColorList) == 0xC4);
 
 TArrowColorList *copy_arrow_color_list(TArrowColorList *dst, TArrowColorList *src);
 TArrowColorEntry *copy_arrow_color_entry(TArrowColorEntry *dst, TArrowColorEntry *src);
 
-// B1: the server's current time as text; the bytes after it carry the lobby state flags.
+// B1: the server's current time as text, the answer to TProtocol::send_server_time_request. The three
+// bytes after it carry the lobby state flags (lobby_state_flags). TProtocol::handle_cmd_B1 passes the text
+// to TLobby::reset_lobby_state.
 struct TRecvServerTime {
     packet_header header;
     char time[0x19];
@@ -162,8 +179,10 @@ struct TRecvServerTime {
 
     void bswap();
 };
+LAYOUT_ASSERT(TRecvServerTimeSize, sizeof(TRecvServerTime) == 0x20);
 
-// 96: the character's creation time and save counter, sent before it is saved.
+// 96: the character's creation time and save counter, sent before it is saved
+// (TProtocol::send_character_save_info).
 struct CharacterSaveInfoPacket {
     packet_header header;
     u32 creation_timestamp;
@@ -172,7 +191,8 @@ struct CharacterSaveInfoPacket {
     void bswap();
 };
 
-// A0/A1: ask for the ship or block list.
+// A0 and A1: ask for the ship or block list (TProtocol::send_ship_list_request,
+// send_block_list_request). The server answers with a menu list of the same command.
 struct ChangeShipOrBlockPacket {
     ChangeShipOrBlockPacket();
 
@@ -183,28 +203,35 @@ struct ChangeShipOrBlockPacket {
     void bswap();
 };
 
-// D8: the info boards of the players in the lobby.
+// D8: one player's name and info board text.
 struct TInfoBoardEntry {
     char name[16];
     char text[0xAC];
 };
+LAYOUT_ASSERT(TInfoBoardEntrySize, sizeof(TInfoBoardEntry) == 0xBC);
 
+// D8: the info boards of the players in the lobby, the answer to TProtocol::send_info_board_request.
+// TProtocol::handle_cmd_D8 passes them to TLobby::handle_info_board.
 struct TRecvInfoBoard {
     packet_header header;
     TInfoBoardEntry entries[12];
 
     void bswap();
 };
+LAYOUT_ASSERT(TRecvInfoBoardSize, sizeof(TRecvInfoBoard) == 0x8D4);
 
 // C5: the challenge mode records of the players in the lobby; header.flags is the record count.
+// TProtocol::handle_cmd_C5 passes them to TLobby::copy_player_records.
 struct TRecvChallengeData {
     packet_header header;
     TPlyChallenge records[12];
 
     void bswap();
 };
+LAYOUT_ASSERT(TRecvChallengeDataSize, sizeof(TRecvChallengeData) == 0xD54);
 
-// D0/D3: the items one player offers in a trade.
+// D0 and D3: the items one player offers in a trade. TProtocol::send_trade_list sends the client's offer
+// (D0); TProtocol::handle_cmd_D3 passes the partner's (D3) to handle_trade_received_items.
 struct TTradeList {
     packet_header header;
     u16 target_client_id;
@@ -215,8 +242,10 @@ struct TTradeList {
     // Fills the list with the local player's offer, addressed to the trade partner.
     void build_from_trade_window();
 };
+LAYOUT_ASSERT(TTradeListSize, sizeof(TTradeList) == 0x288);
 
-// AA: a quest statistic the client reports to the server.
+// AA: a quest statistic the client reports to the server (TProtocol::send_statistic, the quest opcode
+// send_statistic).
 struct TSendQuestStatistic {
     packet_header header;
     u16 id;
@@ -229,7 +258,8 @@ struct TSendQuestStatistic {
 };
 LAYOUT_ASSERT(TSendQuestStatisticSize, sizeof(TSendQuestStatistic) == 0x2C);
 
-// AB: the server's answer to a quest statistic query.
+// AB: the server's answer to a quest statistic query. TProtocol::handle_cmd_AB passes the value to the
+// lobby's AB handler.
 struct TRecvQuestStats {
     packet_header header;
     u16 value;
@@ -237,13 +267,14 @@ struct TRecvQuestStats {
     void bswap();
 };
 
-// 9F: the client config the server asked for.
+// 9F: the client config, the answer to the server's 9F (TProtocol::handle_cmd_9F).
 struct TSendClientConfig {
     packet_header header;
     TPlyClientConfig config;
 
     void bswap();
 };
+LAYOUT_ASSERT(TSendClientConfigSize, sizeof(TSendClientConfig) == 0x24);
 
 #define RECV_PACKET_HANDLERS \
     o(handle_unused_login, void) \

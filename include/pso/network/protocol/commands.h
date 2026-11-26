@@ -1,381 +1,117 @@
-/* PSO main command formats (S_/C_/SC_*).
+/* The lobby server commands of Episode I & II Plus on GameCube, and the types that carry them.
  *
- * Shared PSO wire-protocol structures for Episode I & II Plus (GameCube / V3).
- * These command/subcommand formats are identical between server and client by
- * definition, so they are safe to use to type the GameCube client decomp's
- * network handlers.
+ * Every command starts with a packet_header (protocol.h): the command number, a flags byte whose
+ * meaning depends on the command, and the size in bytes with the header. TProtocol::handle_command
+ * (TProtocol.cpp) looks a received command up in its handler table. The handler copies the packet
+ * into its type, swaps the bytes and passes it to the callback in TProtocol::m_recv_handlers, which
+ * the TLobby constructor installs. The client sends its commands with the TProtocol::send_*
+ * functions. The game subcommands that 60, 62, 6C and 6D carry are in subcmd_6x.h.
  *
- * Field names and byte offsets are derived from newserv
- * (fuzziqersoftware/newserv), an MIT-licensed PSO server reimplementation, via
- * tools/newserv_match.py. newserv is MIT (Copyright (c) 2024 Martin Michelsen);
- * its LICENSE is bundled at reference/newserv-LICENSE and permits this reuse.
+ * The types are our own (TProtocol.h, packet_classes.h, choice_search.h); their comments give the
+ * details. Their sizes agree with newserv (MIT licence, Copyright (c) 2024 Martin Michelsen; see
+ * third_party/LICENSES/newserv-MIT.txt) except where our code says otherwise. Commands this client
+ * neither sends nor handles are not listed.
  *
- * The decomp's own integer types (u8/u16/u32/s8/s16/s32/f32 ...) replace
- * newserv's phosg le_/be_ wire-endian wrappers; on the big-endian PowerPC
- * client these are plain scalars. The `size 0xNN` trailer reflects newserv's
- * static_assert/check_struct_size (0 computed-vs-declared mismatches at
- * generation time). V3/GC-relevant structs are kept; BB/DC/Ep3/XB-only
- * variants are skipped.
+ * Received (handler table of TProtocol::handle_command):
+ *   01        TMessageBox           recv_error -> handle_error
+ *   02        TRecvPsoRegistConnect handle_cmd_02 (lobby server greeting; answered with 9E)
+ *   03        packet_header         recv_regist -> TLobby::handle_register_name_result (flags)
+ *   04        TPlyRecvLogin         recv_login -> TLobby::handle_login_result (flags: error code)
+ *   05        packet_header         recv_logout -> TLobby::queue_static_object_destruction
+ *   06        TMessageBox           recv_chat -> TWindowCtrl::handle_recv_chat
+ *   07 A0 A1  TMenuList<GameListEntry, 64, 1>  recv_dir_list -> TLobby::open_ship_block_select_menu
+ *   08        TMenuList<GameListEntry, 64, 1>  recv_game_list -> handle_game_list
+ *   0E        TPlyStartGame         recv_start_game (no handler installed)
+ *   11        TMessageBox           recv_message -> handle_server_message
+ *   12 16 1C 14                     recv_banner, recv_banner_head, recv_system_file, recv_upload: empty
+ *   13 A7     TRecvDownload         recv_download, recv_vm_download (acknowledged with TSendDownloadHead)
+ *   17 9B     TRecvPsoRegistConnect handle_cmd_9B (port map greeting; answered with DB)
+ *   18 90 9A  packet_header         handle_cmd_90, handle_cmd_9A -> TLobby::handle_verify_result (flags)
+ *   19        TRecvPort             recv_port (reconnect to the address it carries)
+ *   1A D5     TPlyText<1024>, TPlyText<0x1000>  recv_text, handle_cmd_D5 -> TLobby::open_scroll_text_window
+ *   1B        packet_header         recv_battle_data (ignored)
+ *   1D        packet_header         recv_ping (answered with 1D)
+ *   1F        TMenuList<GameListEntry, 64, 1>  recv_text_list -> TLobby::open_information_list
+ *   41        TUserAns              recv_user_ans -> handle_user_search_answer
+ *   44 A6     TRecvDownloadHead     recv_download_head, recv_vm_download_head (acknowledged)
+ *   60 62     TRecvPsoData          recv_pso_data (game subcommand)
+ *   6C 6D     TRecvPsoDataLong      recv_pso_data_long (long game subcommand)
+ *   64        TPlyJoinGame          recv_start_game3 -> TLobby::handle_game_join
+ *   65 68     TPlyJoinLobby         recv_burst_game, recv_burst_lobby -> TLobby::on_game_player_add,
+ *                                   TLobby::on_lobby_player_add
+ *   66 69     TRecvExit             recv_exit_game, recv_exit_lobby -> TLobby::remove_player,
+ *                                   TLobby::retire_lobby_player
+ *   67        TPlyJoinLobby         recv_start_lobby2 -> TLobby::handle_lobby_enter
+ *   80        TRecvGenerateID       recv_generate_id -> handle_generate_id
+ *   81        TChatMessage          recv_chat_message -> receive_short_mail
+ *   83        TMenuList<LobbyListEntry, 16, 0>  recv_room_info (keeps the lobby list)
+ *   88        TArrowColorList       handle_cmd_88 -> apply_arrow_colors
+ *   8A        TRecvLobbyName        handle_cmd_8A -> receive_lobby_name
+ *   91        TRecvPsoRegistConnect recv_pso_regist_connect (port map greeting; answered with 90)
+ *   92 9C     packet_header         handle_cmd_92, handle_cmd_9C -> TLobby::handle_register_result (flags)
+ *   95        packet_header         handle_cmd_95 -> TLobby::send_selected_character (sends 61)
+ *   97        packet_header         handle_cmd_97 -> TLobby::handle_state (flags)
+ *   9F        packet_header         handle_cmd_9F (answered with TSendClientConfig)
+ *   A2 A4     TMenuList<QuestListEntry, 30, 0>  recv_quest_menu_list, recv_quest_list ->
+ *                                   copy_quest_list_data, TLobby::open_download_list_window
+ *   A3 A5     TPlyText<288>         recv_quest_menu_info, recv_quest_info ->
+ *                                   TQuestListOnline::receive_quest_info, show_card_list_message
+ *   AB        TRecvQuestStats       handle_cmd_AB -> the lobby's AB handler
+ *   AC        packet_header         handle_cmd_AC -> TQuestListOnline::handle_quest_ready (flags 0)
+ *   B0        TMessageBox           recv_emergency_call -> TLobby::disable_window_flags
+ *   B1        TRecvServerTime       handle_cmd_B1 -> TLobby::reset_lobby_state
+ *   C0        TRecvChoiceSearchOptions  handle_cmd_C0 -> TLobby::handle_choice_search_options
+ *   C4        ChoiceSearchResultList    handle_cmd_C4 -> TLobby::handle_choice_search_results
+ *   C5        TRecvChallengeData    handle_cmd_C5 -> TLobby::copy_player_records
+ *   D1 D4     packet_header         recv_advance_trade_state, recv_trade_result -> TLobby::apply_trade_items,
+ *                                   TLobby::handle_reset_choice (flags)
+ *   D3        TTradeList            handle_cmd_D3 -> handle_trade_received_items
+ *   D7        packet_header         handle_cmd_D7 (sets lobby_count_value)
+ *   D8        TRecvInfoBoard        handle_cmd_D8 -> TLobby::handle_info_board
+ *   DA        packet_header         handle_cmd_DA -> TLobby::set_lobby_event_theme (flags: theme)
  *
- * GENERATED — verify offsets against the DOL before relying on a field.
+ * Sent (TProtocol):
+ *   03 04     TRegister             send_regist, send_login2
+ *   05        packet_header         send_logout
+ *   06        TMessageBox           send_chat
+ *   08 1F     packet_header         send_game_list, send_text_list
+ *   09 10     TSendAction           send_info, send_action
+ *   13 44 A6 A7  TSendDownloadHead  acknowledgements from the download handlers
+ *   1D        packet_header         send_keepalive, recv_ping
+ *   40        TFindUser             send_find_user
+ *   60 62     TRecvPsoData          send_pso_data, send_pso_data2
+ *   61 98     TPlyJoinData          send_chara_data_v2, send_update_chara_data_v2
+ *   6D        TRecvPsoDataLong      send_pso_data_long2
+ *   6F        packet_header         send_6F_burst_done
+ *   81        TChatMessage          send_simple_mail
+ *   84        TRoomChange           send_room_change
+ *   89        packet_header         send_lobby_arrow (flags: arrow colour)
+ *   8A        packet_header         send_lobby_name_request
+ *   90        TSendPsoRegistConnect recv_pso_regist_connect
+ *   96        CharacterSaveInfoPacket  send_character_save_info
+ *   99        packet_header         send_server_time_accepted
+ *   9C        TSendPsoRegist        send_register_9c
+ *   9E        TSendLogin            send_login_9e_extended, handle_cmd_02
+ *   9F        TSendClientConfig     handle_cmd_9F
+ *   A0 A1     ChangeShipOrBlockPacket  send_ship_list_request, send_block_list_request
+ *   A2 A9     packet_header         send_quest_menu_request, send_quest_menu_closed
+ *   AA        TSendQuestStatistic   send_statistic
+ *   AC        packet_header         send_quest_barrier
+ *   B1        packet_header         send_server_time_request
+ *   C0 C8     packet_header         send_choice_search_options_request, send_disable_auto_reply
+ *   C1        TCreateGame           send_create_game
+ *   C2 C3     ChoiceSearchPacket    send_choice_search_parameters, send_choice_search
+ *   C6        TBlockedSenders       send_c6_packet
+ *   C7        TPlyText<512>         send_text_packet_c7
+ *   D0        TTradeList            send_trade_list
+ *   D2 D4 D6  packet_header         send_trade_ready, send_cancel_trade, send_message_box_closed
+ *   D7        TSendDownloadHead     send_download_head
+ *   D8        packet_header         send_info_board_request
+ *   D9        TPlyText<172>         send_text_packet_D9
+ *   DB        TSendVerifyLicense    handle_cmd_9B
  */
 
 #ifndef PSO_PROTOCOL_COMMANDS_H
 #define PSO_PROTOCOL_COMMANDS_H
-
-#include "types.h"
-#include "pso/network/protocol/protocol_types.h"
-
-struct C_ChangeShipOrBlock_A0_A1 {
- u32 player_tag;
- u32 guild_card_number;
- u8 unused[0x10];
-};
-
-struct C_CharSaveInfo_DCv2_PC_V3_BB_96 {
- u32 creation_timestamp;
- u32 event_counter;
-};
-
-struct C_CharacterData_PC_61_98 {
- u8 inventory[0x34C];
- u8 disp[0xD0];
- struct PlayerRecordsEntry_PC records;
- u8 choice_search_config[0x18];
- u32 blocked_senders[0x1E];
- u32 auto_reply_enabled;
-};
-
-struct C_CharacterData_V3_61_98 {
- u8 inventory[0x34C];
- u8 disp[0xD0];
- struct PlayerRecordsEntry_V3 records;
- u8 choice_search_config[0x18];
- char info_board[0xAC];
- u32 blocked_senders[0x1E];
- u32 auto_reply_enabled;
-};
-
-struct C_ClientConfig_V3_9F {
- u8 data[0x20];
-};
-
-struct C_ExecuteCodeResult_B3 {
- u32 return_value;
- u32 checksum;
-};
-
-struct C_FileInformation_Patch_0F {
- u32 request_id;
- u32 checksum;
- u32 size;
-};
-
-struct C_GBAGameRequest_V3_D7 {
- char filename[0x10];
-};
-
-struct C_GuildCardChecksum_01E8 {
- u32 checksum;
- u32 unused;
-};
-
-struct C_GuildCardSearch_40 {
- u32 player_tag;
- u32 searcher_guild_card_number;
- u32 target_guild_card_number;
-};
-
-struct C_LegacyLogin_PC_V3_03 {
- u64 hardware_id;
- u32 sub_version;
- u8 is_extended;
- u8 language[0x1];
- u16 unused;
- char serial_number2[0x10];
- char access_key2[0x10];
-};
-
-struct C_LegacyLogin_PC_V3_04 {
- u64 hardware_id;
- u32 sub_version;
- u8 is_extended;
- u8 language[0x1];
- u16 unused;
- char serial_number[0x10];
- char access_key[0x10];
-};
-
-struct C_LobbySelection_84 {
- u32 menu_id;
- u32 item_id;
-};
-
-struct C_Login_DC_PC_GC_9D {
- u32 player_tag;
- u32 guild_card_number;
- u64 hardware_id;
- u32 sub_version;
- u8 is_extended;
- u8 language[0x1];
- u8 unused3[0x2];
- char v1_serial_number[0x10];
- char v1_access_key[0x10];
- char serial_number[0x10];
- char access_key[0x10];
- char serial_number2[0x30];
- char access_key2[0x30];
- char login_character_name[0x10];
-};
-
-struct C_LoginExtended_DC_GC_9D {
- struct C_Login_DC_PC_GC_9D __base_C_Login_DC_PC_GC_9D;
- u8 extension[0x64];
-};
-
-struct C_Login_PC_GC_9E {
- struct C_Login_DC_PC_GC_9D __base_C_Login_DC_PC_GC_9D;
- u8 client_config[0x20];
-};
-
-struct C_LoginExtended_GC_9E {
- struct C_Login_PC_GC_9E __base_C_Login_PC_GC_9E;
- u8 extension[0x64];
-};
-
-struct C_LoginExtended_PC_9D {
- struct C_Login_DC_PC_GC_9D __base_C_Login_DC_PC_GC_9D;
- u8 extension[0x84];
-};
-
-struct C_LoginExtended_PC_9E {
- struct C_Login_PC_GC_9E __base_C_Login_PC_GC_9E;
- u8 extension[0x84];
-};
-
-struct C_LoginV1_DC_PC_V3_90 {
- char serial_number[0x11];
- char access_key[0x11];
-};
-
-struct C_Login_DC_PC_V3_9A {
- char v1_serial_number[0x10];
- char v1_access_key[0x10];
- char serial_number[0x10];
- char access_key[0x10];
- u32 player_tag;
- u32 guild_card_number;
- u32 sub_version;
- char serial_number2[0x30];
- char access_key2[0x30];
- char email_address[0x30];
-};
-
-struct C_Login_Patch_04 {
- u32 unused[3];
- char username[0x10];
- char password[0x10];
- char email_address[0x40];
-};
-
-struct C_MenuItemInfoRequest_09 {
- u32 menu_id;
- u32 item_id;
-};
-
-struct C_MenuSelectionBase_10 {
- u32 menu_id;
- u32 item_id;
-};
-
-struct C_OpenFileConfirmation_44_A6 {
- char filename[0x10];
-};
-
-struct C_Register_DC_PC_V3_9C {
- u64 hardware_id;
- u32 sub_version;
- u8 unused1;
- u8 language[0x1];
- u8 unused2[2];
- char serial_number[0x30];
- char access_key[0x30];
- char password[0x30];
-};
-
-struct C_WriteFileConfirmation_V3_BB_13_A7 {
- char filename[0x10];
-};
-
-struct SC_SimpleMail_DC_V3_81 {
- u32 player_tag;
- u32 from_guild_card_number;
- char from_name[0xF];
- u8 from_name_term;
- u32 to_guild_card_number;
- char text[0x1FF];
- u8 text_term;
-};
-
-struct SC_SimpleMail_PC_81 {
- u32 player_tag;
- u32 from_guild_card_number;
- char from_name[0x1E];
- u16 from_name_term;
- u32 to_guild_card_number;
- char text[0x3FE];
- u16 text_term;
-};
-
-struct SC_TextHeader_01_06_11_B0_EE {
- u32 unused;
- u32 guild_card_number;
-};
-
-struct SC_TradeItems_D0_D3 {
- u16 target_client_id;
- u16 item_count;
- TItemData item_datas[0x20];
-};
-
-struct S_ArrowUpdateEntry_88 {
- u32 player_tag;
- u32 guild_card_number;
- u32 arrow_color;
-};
-
-struct S_CloseCurrentFile_Patch_08 {
- u32 unused;
-};
-
-struct S_EnterDirectory_Patch_09 {
- char name[0x40];
-};
-
-struct S_ExecuteCode_B2 {
- u32 code_size;
- u32 checksum_start;
- u32 checksum_size;
-};
-
-struct S_FileChecksumRequest_Patch_0C {
- u32 request_id;
- char filename[0x20];
-};
-
-struct S_GenerateID_DC_PC_V3_80 {
- u32 client_id;
- u32 unused;
- u32 next_item_id;
-};
-
-struct S_GuildCardFileChunk_02DC {
- u32 unknown_a1;
- u32 chunk_index;
- u8 data[0x6800];
-};
-
-struct S_JoinGame_GC_64 {
- u8 __base_S_JoinGameT_DC_PC[0x10C];
- u8 episode;
- u8 unused[3];
-};
-
-struct S_LegacyJoinGame_GC_0E {
- struct PlayerLobbyDataDCGC lobby_data[4];
- u8 meet_user_extension[0x64];
- u8 unknown_a3[4];
-};
-
-struct S_LegacyJoinGame_PC_0E {
- u32 lobby_data[4];
- u8 unknown_a3[0x20];
-};
-
-struct S_LobbyListEntry_83 {
- u32 menu_id;
- u32 item_id;
- u32 player_count;
-};
-
-struct S_OpenFile_PC_GC_44_A6 {
- char name[0x22];
- u16 type;
- char filename[0x10];
- u32 file_size;
-};
-
-struct S_OpenFile_Patch_06 {
- u32 unused;
- u32 size;
- char filename[0x30];
-};
-
-struct S_ReconnectIPv6_Extension_19 {
- u8 address[0x10];
- u16 port;
- u16 unused;
-};
-
-struct S_ReconnectSplit_19 {
- u32 pc_address;
- u16 pc_port;
- u8 unused1[0x0F];
- u8 gc_command;
- u8 gc_flag;
- u16 gc_size;
- u32 gc_address;
- u16 gc_port;
- u8 unused2[0xB0 - 0x23];
-};
-
-struct S_ServerInitDefault_DC_PC_V3_02_17_91_9B {
- char copyright[0x40];
- u32 server_key;
- u32 client_key;
-};
-
-struct S_ServerInit_Patch_02 {
- char copyright[0x40];
- u32 server_key;
- u32 client_key;
-};
-
-struct S_ServerTime_B1 {
- char time_str[0x19];
- u8 time_flags_low;
- u8 time_flags_mid;
- u8 time_flags_high;
-};
-
-struct S_StartFileDownloads_Patch_11 {
- u32 total_bytes;
- u32 num_files;
-};
-
-struct S_TournamentList_Ep3NTE_E0 {
- u32 entries[0x20];
- u8 unknown_a1;
- u8 unknown_a2;
- u8 unknown_a3;
- u8 unknown_a4;
-};
-
-struct S_UpdateClientConfig_DC_PC_04 {
- u32 player_tag;
- u32 guild_card_number;
-};
-
-struct S_WriteFileHeader_Patch_07 {
- u32 chunk_index;
- u32 chunk_checksum;
- u32 chunk_size;
-};
-
-struct S_WriteFile_13_A7 {
- char filename[0x10];
- u8 data[0x400];
- u32 data_size;
-};
 
 #endif

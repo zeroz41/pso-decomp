@@ -7,7 +7,8 @@
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "types.h"
 
-// C2/C3: the player's choice search settings.
+// C2 and C3: the player's choice search settings. TProtocol::send_choice_search_parameters sends C2,
+// TProtocol::send_choice_search sends C3.
 struct ChoiceSearchPacket {
     packet_header header;
     TPlyChoiceSearchConfig parameters;
@@ -25,7 +26,9 @@ struct ChoiceSearchOption {
     void bswap();
 };
 
-// C0: the choice search options the server offers; header.flags is the entry count.
+// C0: the choice search options the server offers, the answer to
+// TProtocol::send_choice_search_options_request; header.flags is the entry count.
+// TProtocol::handle_cmd_C0 passes them to TLobby::handle_choice_search_options.
 struct TRecvChoiceSearchOptions {
     packet_header header;
     ChoiceSearchOption entries[56];
@@ -57,7 +60,8 @@ struct ChoiceSearchResult {
     void bswap();
 };
 
-// C4: the choice-search results the server sends.
+// C4: the players the choice search found. TProtocol::handle_cmd_C4 passes them to
+// TLobby::handle_choice_search_results.
 struct ChoiceSearchResultList {
     ChoiceSearchResultList();
 
