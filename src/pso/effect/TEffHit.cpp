@@ -45,6 +45,6 @@ TEffHit::TEffHit(const Vec* initial_position) : TEffect() {
     state = 0;
 }
 
-extern "C" void create_hit_effect__10TObjPlayerFPv(const Vec* position) {
+void TEffHit::create(const Vec *position) {
     new TEffHit(position);
 }

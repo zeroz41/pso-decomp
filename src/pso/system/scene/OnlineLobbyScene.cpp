@@ -86,6 +86,10 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/unk/TObjFreezeShell.h"
+#include "pso/ui/frontend/TAdDialingGC_801A4C90.h"
+#include "pso/unk/text_801F3774.h"
+#include "pso/unk/TLobby_80209524.h"
+#include "pso/unk/TLobby_801F487C.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -142,20 +146,11 @@ extern "C" {
 void TLobby__sub_801A3E94(void);
 }
 extern "C" {
-s32 init_network_and_connect();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
-u32 TAdDialingGC__sub_801A4C9C();
-s32 TLobby__sub_801F3774();
-s32 TLobby__sub_8020A6B0(int);
 s32 TAdDialingGC__sub_80328730();
-void TLobby__sub_801F494C(u16 client);
 s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
-void TWindowCtrlMain__sub_8024D838(void);
-void TRaderMapCore__sub_801F95CC(void);
-void TWindowDD__sub_80344114(void);
-void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 }
 void clear_received_symbol_chat(void);

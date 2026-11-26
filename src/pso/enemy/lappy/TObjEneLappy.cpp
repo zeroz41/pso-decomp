@@ -186,7 +186,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *, f32 hover_height);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
-f32 atan2_float(f32 y, f32 x);
 s32 lappy_variant_id;
 }
 BmlResource *rappy_bml_resource;

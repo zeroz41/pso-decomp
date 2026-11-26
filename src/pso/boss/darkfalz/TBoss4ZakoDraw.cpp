@@ -28,9 +28,9 @@
 #include "pso/render/Draw2D.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/GinjaDrawUtil.h"
 
 extern "C" {
-f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
 }
 

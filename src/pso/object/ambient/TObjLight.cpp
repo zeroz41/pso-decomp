@@ -29,6 +29,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];
@@ -67,7 +68,6 @@ typedef struct Light_80193FE8 {
 } Light_80193FE8;
 
 extern "C" {
-s32 is_split_screen(void);
 
 const char *light_class_name = "TObjLight";
 

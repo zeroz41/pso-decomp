@@ -11,10 +11,10 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SubtractiveRng.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 // TObjCharaHelpers.h declares these, but its calc_random_ratio prototype takes no rng.
-BOOL is_split_screen(void);
 }
 
 TBoss8DragonLeaderPart *boss8_dragon_leader_part;

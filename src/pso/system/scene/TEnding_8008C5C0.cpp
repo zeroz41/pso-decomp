@@ -33,7 +33,6 @@
 
 extern const char TEnding__class_name_string[] = "TEnding";
 extern "C" {
-void request_main_phase(s32 arg0);
 }
 void create_player_ending_motion(void);
 

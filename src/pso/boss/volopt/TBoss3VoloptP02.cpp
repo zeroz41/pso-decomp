@@ -59,10 +59,10 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 void release_players_from_cutscene(void);
-s32 submit_cursor_candidate(void *, int);
 }
 
 

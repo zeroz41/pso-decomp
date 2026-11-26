@@ -91,7 +91,6 @@ const char *TODoorJungleMain::class_name = "TODoorJungleMain";
 
 extern "C" {
 
-void TLobby__sub_8029B2A4(void* p);
 
 
 

@@ -34,7 +34,6 @@ const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/network/TLobby.h"
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
 }
 extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
@@ -84,13 +83,11 @@ TAttackCollider *obj_ene_dd_instance;
 
 
 extern "C" {
-f32 newton_sqrtf(f32);
 }
 #include <dolphin/mtx.h>
 
 
 extern "C" {
-f32 fabs_float(f32);
 }
 
 
@@ -113,6 +110,7 @@ int submit_cursor_candidate(void*, int);
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 int fn_800FD8A0(void*);

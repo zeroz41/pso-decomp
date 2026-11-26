@@ -651,7 +651,7 @@ void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(TObjWaitEntryHairMoveSim
             } else {
                 continue;
             }
-            ((void (*)(s32))TObjWaitEntryHairMoveSim__sub_800FE3BC)(v);
+            TObjWaitEntryHairMoveSim__sub_800FE3BC(v);
             if (e->p4 != NULL) {
                 TObjEZBoneRotPlayer::create(self->pl, (void *)v, e->p4);
             } else if (e->p8 != NULL) {

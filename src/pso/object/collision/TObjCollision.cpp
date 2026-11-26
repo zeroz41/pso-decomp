@@ -8,11 +8,11 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-u32 init_collision_body_parts(void *, void *, s32);
 }
 const char *TObjCollision__name = "TObjCollision";
 

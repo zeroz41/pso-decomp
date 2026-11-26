@@ -58,6 +58,7 @@ struct game_command_header;
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -108,15 +109,12 @@ int mine_trap_count;
 
 extern "C" {
 // ---- declarations carried over from the fragment text_8016F1C0.cpp
-s32 is_split_screen();
 }
 extern "C" {
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
-s32 get_current_floor(void);
 }
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
 extern const char *mine_icon01_name;
 extern const char *mine_icon02_name;
 extern const char *mine_icon03_name;

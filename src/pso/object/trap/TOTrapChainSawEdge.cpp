@@ -58,7 +58,6 @@
 
 #pragma readonly_strings on
 extern "C" {
-NJS_TEXLIST *fn_802C9924(s32 index);
 }
 
 
@@ -112,7 +111,6 @@ f32 fabs_float(f32);
 
 
 
-void TParticleCtrl__sub_802C8464(NJS_OBJECT *object);
 
 
 s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
@@ -120,7 +118,6 @@ s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound
 void vfunc_14__14TOTrapChainSawFv(void);
 
 
-void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 
 void rotate_matrix_y(int, void *);
 
@@ -672,7 +669,7 @@ void TOTrapChainSawKey::update_state() {
 }
 
 void TOTrapChainSawKey::vfunc_14() {
-    ((s32 (*)(void))vfunc_14__14TOTrapChainSawFv)();
+    vfunc_14__14TOTrapChainSawFv();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x13001E, "<- SELECT A MODEL");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);

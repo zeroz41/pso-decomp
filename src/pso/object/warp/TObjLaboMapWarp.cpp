@@ -94,9 +94,7 @@ extern "C" {
 
 
 
-void unlock_main_warp_destination(s32 id);
 
-void clear_enabled_main_warps(void);
 
 
 s32 rotate_matrix_y(s32, s32);
@@ -113,7 +111,6 @@ extern "C" {
 
 extern s32 lbl_805D55C0;
 
-char *TObjCityMainWarp__sub_80186AF4(void);
 
 
 }
@@ -163,7 +160,6 @@ const char *TObjLaboMapWarp::class_name = "TObjLaboMapWarp";
 void update_main_warp_visible_mask(s32 select_type);
 extern "C" {
 
-void TObjCityMainWarp__sub_80186AB8(void);
 }
 
 

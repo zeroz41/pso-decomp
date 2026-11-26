@@ -42,6 +42,8 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 // The enemy's row of the floor's set data (what set_entry points at).
@@ -62,9 +64,7 @@ extern uaddr registered_object_table[];
 
 
 
-s32 is_split_screen();
 
-s32 get_current_floor();
 
 
 
@@ -87,7 +87,6 @@ int send_6x60_standard_drop_item_request(void*);
 
 s32 draw_player_status(void *, void *, const char *);
 
-s32 submit_cursor_candidate(void *, int);
 }
 
 void init_6x9C_enemy_low_game_flags_packet(u8 *packet);

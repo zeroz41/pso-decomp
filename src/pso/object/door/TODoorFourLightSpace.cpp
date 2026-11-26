@@ -24,6 +24,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -43,7 +44,6 @@ struct Tbl_80289EE0 { s32 v[8]; };
 
 
 extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
 u8 is_current_floor_switch_set(u16);
 void fn_802898E8(void);
 void fn_802898EC(void);

@@ -101,9 +101,6 @@ struct NJS_OBJECT;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
-s32 get_current_floor();
-f32 newton_sqrtf(f32);
-s32 is_split_screen();
 }
 void dragon_capture_node_points(NJS_OBJECT *);
 extern "C" {
@@ -241,7 +238,6 @@ static Vec boss1_dragon_held_camera_eye_offsets[4] = {
     {0.0f, 40.0f, 0.0f},
     {300.0f, 120.0f, 50.0f},
 };
-f32 atan2_float(f32 y, f32 x);
 }
 void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet);
 void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
@@ -252,6 +248,7 @@ static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 extern "C" {
 AttackParams *boss1_dragon_part_hp_stats[5];
 Boss1DragonParams *boss1_dragon_behavior_params[3];

@@ -8,6 +8,7 @@ public:
     virtual ~TEffHit();
     virtual void run_task();
     static const char *class_name;
+    static void create(const Vec *position);
 
     s32 state;
 };

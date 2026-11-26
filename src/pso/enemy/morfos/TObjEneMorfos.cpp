@@ -685,7 +685,7 @@ void TObjEneMorfos::state_walk(s32 ev) {
         switch (counter) {
         case 0:
             if (this->enemy_has_live_target() != 0) {
-                target_angle = (s32) (u16) (s32) (10430.38043493439 * ((f64 (*)(f32, f32)) atan2_float)((f32) (destination_direction.x), (f32) (destination_direction.z)));
+                target_angle = (s32) (u16) (s32) (10430.38043493439 * atan2_float((f32) (destination_direction.x), (f32) (destination_direction.z)));
             } else {
                 target_angle = (s32) this->rotation_y;
             }
@@ -705,7 +705,7 @@ void TObjEneMorfos::state_walk(s32 ev) {
                     this->update_velocity();
                     counter = 3;
                 } else if (this->enemy_has_live_target() != 0) {
-                    target_angle = (s32) (u16) (s32) (10430.38043493439 * ((f64 (*)(f32, f32)) atan2_float)((f32) (destination_direction.x), (f32) (destination_direction.z)));
+                    target_angle = (s32) (u16) (s32) (10430.38043493439 * atan2_float((f32) (destination_direction.x), (f32) (destination_direction.z)));
                 } else {
                     target_angle = (s32) this->rotation_y;
                 }
