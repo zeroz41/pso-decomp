@@ -1183,7 +1183,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/city/THunterGuildSeqOffline.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds the client vtable (0x804C9740) ahead of both vfunc_11 switch tables although the
     # client dtor follows its vfunc_11: deferred generation of the last-to-first source.
-    "pso/ui/city/THunterGuildSeqOffline_80213788.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/ui/city/THunterGuildSeqOnline.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/boss/barbaray/TBoss7LaserLight.cpp": {"cflags": _switch(cflags_pso, "-inline deferred")},
     # Its two string literals, the class names, sit in the unit's .rodata after the level table.
     "pso/boss/barbaray/TBoss7PhotonBullet.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

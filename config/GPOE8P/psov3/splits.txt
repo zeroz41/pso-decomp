@@ -5218,7 +5218,7 @@ pso/ui/city/THunterGuildSeqOffline.cpp:
 	.sbss       start:0x805D6188 end:0x805D6190
 	.sdata2     start:0x805DC650 end:0x805DC658
 
-pso/ui/city/THunterGuildSeqOffline_80213788.cpp:
+pso/ui/city/THunterGuildSeqOnline.cpp:
 	.text       start:0x80213788 end:0x80214BC4
 	.data       start:0x804C9740 end:0x804C9828
 	.bss        start:0x80513DE8 end:0x80513E80

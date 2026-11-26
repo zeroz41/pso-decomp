@@ -19,7 +19,7 @@
 #include "pso/quest/OnlineQuestDownloadState.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/main_loop.h"

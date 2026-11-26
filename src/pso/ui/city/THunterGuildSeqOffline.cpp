@@ -24,7 +24,7 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/system/task/TObject.h"
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"

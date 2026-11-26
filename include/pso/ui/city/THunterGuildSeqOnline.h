@@ -1,5 +1,5 @@
-#ifndef PSO_UI_CITY_THUNTERGUILDSEQOFFLINE_80213788_H
-#define PSO_UI_CITY_THUNTERGUILDSEQOFFLINE_80213788_H
+#ifndef PSO_UI_CITY_THUNTERGUILDSEQONLINE_H
+#define PSO_UI_CITY_THUNTERGUILDSEQONLINE_H
 
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
@@ -64,7 +64,7 @@ extern s32 quest_download_active;
 void set_random_enemies_mode(TObject *fade);
 void reset_random_enemies_mode(TObject *fade);
 
-// --- C functions defined in THunterGuildSeqOffline_80213788.cpp ---
+// --- C functions defined in THunterGuildSeqOnline.cpp ---
 extern "C" {
 void clear_online_client_instance_table(void);
 void THunterGuildSeqOffline__sub_80213E64(void);

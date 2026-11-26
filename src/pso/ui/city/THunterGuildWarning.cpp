@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TObject.h"

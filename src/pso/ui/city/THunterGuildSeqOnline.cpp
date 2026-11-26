@@ -7,7 +7,7 @@
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/item/shop/TShopGenerator.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/OnlineQuestMenuRecords.h"
