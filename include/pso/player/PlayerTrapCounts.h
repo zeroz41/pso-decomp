@@ -9,6 +9,7 @@ class PlayerSonarStock {
 public:
     s32 count;
 
+    void clear();
     s32 consume(s32 amount);
     s32 get_count();
     void set_count(s32 count);

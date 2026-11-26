@@ -67,6 +67,8 @@ public:
     f32 get_attack_range();
     s32 get_attack_angle();
     s16 test_immunity_flags(s32);
+    void add_immunity_flags(s32 mask);
+    void remove_immunity_flags(s32 mask);
     f32 get_status_effect_amount(s32 i);
     s32 get_status_effect_type(s32 i);
     void set_status_effect_timer(s32 i, s32 timer);

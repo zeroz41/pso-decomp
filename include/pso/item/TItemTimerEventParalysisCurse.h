@@ -4,13 +4,13 @@
 #include "pso/item/TItemTimerEvent.h"
 
 // The paralysis curse timer (its constructor was paralysis_curse_timer_ct): every
-// period frames it applies the curse with probability unk_2C.
+// period frames it applies the curse with probability chance.
 class TItemTimerEventParalysisCurse : public TItemTimerEvent {
 public:
     TItemTimerEventParalysisCurse(TItemHeapObject *parent, u16 client, s32 period, f32 rate);
-    virtual void vfunc_6();
+    virtual void apply_effect();
     virtual ~TItemTimerEventParalysisCurse();
-    f32 unk_2C;
+    f32 chance;
 };
 LAYOUT_ASSERT(TItemTimerEventParalysisCurse_size, sizeof(TItemTimerEventParalysisCurse) == 0x30);
 

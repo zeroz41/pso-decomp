@@ -1,5 +1,6 @@
 // ---- pso/unk/text_8020E700
 #include "types.h"
+#include "pso/item/shop/ShopPool.h"
 #include <string.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_8020E700.h"
@@ -19,13 +20,6 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 struct ClearShopEntryValueEntry { u8 pad[0x10]; s32 v; };
 
 struct IsDuplicateShopShieldOrUnitItem { u8 b[0x14]; };
-
-// Shop stock draw pool: up to 100 entry ids and their count (pop_byte/push_shop_pool_entry).
-struct ShopPool {
-    u8 entries[0x64];
-    s32 count;
-    u8 pad_68[0xC];
-};
 
 struct GenerateShopShieldPoolTable { u8 pad[8]; u8 *pairs; u8 count; };
 

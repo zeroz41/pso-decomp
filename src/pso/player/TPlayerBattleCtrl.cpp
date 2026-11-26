@@ -66,9 +66,9 @@ s32 lbl_805D5D9C;
 s32 battle_config_ptr;
 s32 lbl_805D5DA4;
 s32 lbl_805D5DA8;
-s32 lbl_805D5DAC;
-s32 lbl_805D5DB0;
-s32 lbl_805D5DB4;
+s32 battle_scores_received;
+s32 battle_team_report_count;
+s32 battle_fadeout_done;
 void *lobby_char_slot_array;
 u8 battle_player_ready_flags[4];
 s32 battle_ctrl_default_value;
@@ -534,7 +534,7 @@ void TPlayerBattleCtrl::update_duel_result() {
     case 0:
         init();
         lbl_805D5DA8 = 0;
-        lbl_805D5DAC = 0;
+        battle_scores_received = 0;
         new TDuelEffectCtrl((TObject *)this, 1);
         timer = 0x78;
         TWindowCtrl::close_timer_window();
@@ -954,13 +954,13 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl) {
                 TQuestThread::clear_buffer(quest_mission_manager);
             }
             TLobby::stop_audio_streams();
-            lbl_805D5DB4 = 0;
+            battle_fadeout_done = 0;
             TLobby::init_fadeout_state(init_and_set_flag);
             ctrl->state_20 = 2;
         }
         break;
     case 2:
-        if (lbl_805D5DB4 != 0) {
+        if (battle_fadeout_done != 0) {
             finish_chr_select_scene_init();
             TLobby::set_fade_params(TLobby__sub_801C38A4);
             ctrl->state_20 = 3;
@@ -972,7 +972,7 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl) {
     }
 }
 
-void init_and_set_flag(void) { TLobby__sub_801B09A4(); advance_item_system_generation(); lbl_805D5DB4 = 1; }
+void init_and_set_flag(void) { TLobby__sub_801B09A4(); advance_item_system_generation(); battle_fadeout_done = 1; }
 
 void TLobby__sub_801C38A4(void) {
     if ((void *) battle_mode_data_ptr != NULL) {
@@ -1003,7 +1003,7 @@ void handle_6x7D_set_battle_mode_data(Handle6x7DSetBattleModeDataPacket *pkt) {
             }
             battle_team_table[pkt->v[0]] = pkt->team;
         }
-        lbl_805D5DB0++;
+        battle_team_report_count++;
         break;
     case 4:
         battle_player_ready_flags[pkt->v[0]] = 1;
@@ -1029,7 +1029,7 @@ void handle_6x7E(void) {  }
 void handle_6x7F_battle_scores(saddr command) {
     bswap_client_id_header((G_ClientIDHeader *)command);
     memcpy(duel_result_table, (void *)(command + 4), 0x20);
-    lbl_805D5DAC = 1;
+    battle_scores_received = 1;
 }
 
 void copy_battle_ranking(BattleRanking *dst, BattleRanking *src) {
@@ -1419,13 +1419,13 @@ void TPlayerBattleCtrl::send_battle_mode_state() {
 }
 
 s32 TPlayerBattleCtrl::check_timeout(s32 timer) {
-    if (lbl_805D5DB0 >= TLobby::get_game_mode()) {
+    if (battle_team_report_count >= TLobby::get_game_mode()) {
         *(s32 *)((s8 *)this + 0x270) = 2;
     }
     return *(s32 *)((s8 *)this + 0x270) == 2;
 }
 
-void TLobby::clear_counter(void* a0) { *(int*)((char*)a0 + 0x270) = 0; lbl_805D5DB0 = 0; }
+void TLobby::clear_counter(void* a0) { *(int*)((char*)a0 + 0x270) = 0; battle_team_report_count = 0; }
 
 void TLobby::send_battle_mode_data(void * _w0) {
     struct SendBattleModeDataS801C295C sp8;

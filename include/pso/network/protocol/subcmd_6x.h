@@ -1063,10 +1063,11 @@ struct G_SetPosition_6x20 {
 struct G_SetPosition_6x3F {
  struct G_ClientIDHeader header;
  s16 is_near_enemy;
- u16 angle;
+ s16 angle;
  s16 floor;
  s16 room;
  Vec pos;
+ G_SetPosition_6x3F &operator=(G_SetPosition_6x3F &src);
  void send();
  void bswap();
  void init();
@@ -1150,10 +1151,11 @@ struct G_SpecializableItemDropRequest_6xA2 {
 struct G_StopAtPosition_6x3E {
  struct G_ClientIDHeader header;
  s16 is_near_enemy;
- u16 angle;
+ s16 angle;
  s16 floor;
  s16 room;
  Vec pos;
+ G_StopAtPosition_6x3E &operator=(G_StopAtPosition_6x3E &src);
  void init();
  void bswap();
  void send();

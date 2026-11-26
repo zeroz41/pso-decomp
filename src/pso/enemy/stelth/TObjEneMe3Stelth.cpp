@@ -169,10 +169,10 @@ TObjMotionAction me3_stelth_animation_descriptors[13] = {
 void TObjEneMe3Stelth::draw_model() {
     this->draw_ginja_motion_model();
 }
-void TObjEneDD_ST::sub_800F5874(s32 mask) {
+void TObjChara::add_immunity_flags(s32 mask) {
     this->immunity_flags = (s16) (this->immunity_flags | mask);
 }
-void TObjEneDD_ST::sub_800F5864(s32 mask) {
+void TObjChara::remove_immunity_flags(s32 mask) {
     this->immunity_flags = (s16) (this->immunity_flags & ~mask);
 }
 void TObjEneMe3Stelth::load_shared_resources() {
@@ -535,8 +535,8 @@ s32 TObjEneMe3Stelth::check_flag() {
     return 0;
 }
 void TObjEneMe3Stelth::on_target_lost() {  }
-void TObjEneMe3Stelth::set_intangible() { TObjEneDD::set_intangible(); sub_800F5874(38); }
-void TObjEneMe3Stelth::clear_intangible() { TObjEneDD::clear_intangible(); sub_800F5864(38); }
+void TObjEneMe3Stelth::set_intangible() { TObjEneDD::set_intangible(); add_immunity_flags(38); }
+void TObjEneMe3Stelth::clear_intangible() { TObjEneDD::clear_intangible(); remove_immunity_flags(38); }
 void TObjEneMe3Stelth::vfunc_112() {  }
 void TObjEneMe3Stelth::update_distance_state() {
     if (body_y - position.y > 30.0f) {

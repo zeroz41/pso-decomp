@@ -401,9 +401,9 @@ void TObjEneMe3SinowZoa::update_body_colliders() {
     bodies->offset.y = this->body_center.y - this->position.y;
 }
 
-void TObjEneMe3SinowZoa::set_intangible() { TObjEneDD::set_intangible(); sub_800F5874(38); }
+void TObjEneMe3SinowZoa::set_intangible() { TObjEneDD::set_intangible(); add_immunity_flags(38); }
 
-void TObjEneMe3SinowZoa::clear_intangible() { TObjEneDD::clear_intangible(); sub_800F5864(38); }
+void TObjEneMe3SinowZoa::clear_intangible() { TObjEneDD::clear_intangible(); remove_immunity_flags(38); }
 
 void TObjEneMe3SinowZoa::setup_move_bounds() {
     if (starts_stealthed() != 0) {

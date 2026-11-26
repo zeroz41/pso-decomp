@@ -23,7 +23,17 @@ s32 destroy__10TObjPlayerFis(saddr ctrl, s16 flags) {
     return ctrl;
 }
 
-void*TObjPlayer::init_sub_objects() { TObjPlayer::init_sub_object((saddr)((char*)this + 0x8)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x18)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x28)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x38)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x48)); clear_player_sub_object_slots((char*)this + 0x58); *(int*)((char*)this + 0x4) = 0; TObjPlayer::reset_particle_ctrl((s32 *)this); return this; }
+PlayerBattleScore *PlayerBattleScore::init() {
+    TObjPlayer::init_sub_object((saddr)&damage_stats[0]);
+    TObjPlayer::init_sub_object((saddr)&damage_stats[1]);
+    TObjPlayer::init_sub_object((saddr)&damage_stats[2]);
+    TObjPlayer::init_sub_object((saddr)&damage_stats[3]);
+    TObjPlayer::init_sub_object((saddr)&damage_stats[4]);
+    clear_player_sub_object_slots(&slots);
+    pad_4 = 0;
+    TObjPlayer::reset_particle_ctrl((s32 *)this);
+    return this;
+}
 
 s32 TObjPlayer__sub_801D6D28(void *record) {
     s32 level = *(s8 *)((s8 *)record + 0x13);

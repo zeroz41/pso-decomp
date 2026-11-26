@@ -548,7 +548,7 @@ void G_StopAtPosition_6x3E::send() {
 void G_StopAtPosition_6x3E::bswap() {
     header.bswap();
     bswap_16((u16 *)&is_near_enemy);
-    bswap_16(&angle);
+    bswap_16((u16 *)&angle);
     bswap_16((u16 *)&floor);
     bswap_16((u16 *)&room);
     bswap_32((u32 *)&pos.x);

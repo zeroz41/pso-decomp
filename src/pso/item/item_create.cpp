@@ -542,10 +542,10 @@ void TLobby::handle_player_event(s32 client, s32 slot) {
             item = TObjPlayer::get_equipped_weapon(player);
             break;
         case 1:
-            item = (TItem *)((TItemData *)player)->get_item_field_2();
+            item = (TItem *)(player)->get_equipped_armor();
             break;
         case 2:
-            item = (TItem *)((TItemData *)player)->test_flag3();
+            item = (TItem *)(player)->get_equipped_shield();
             break;
         case 3:
             item = (TItem *)player->activate_d04_slot();
@@ -568,11 +568,11 @@ void TLobby::handle_player_event(s32 client, s32 slot) {
 // ---- TShopEquipmentSellWindow_801047B4.cpp
 
 s32 TShopEquipmentSellWindow::get_item_data_value(uaddr item) {
-    s32 item_data[4];
+    TItemData item_data;
 
     if (item != 0U) {
-        ((TItem *)item)->copy_to_item_data((TItemData *)item_data);
-        return ((TItemData *)item_data)->calc_price();
+        ((TItem *)item)->copy_to_item_data(&item_data);
+        return item_data.calc_price();
     }
     return 0;
 }
@@ -1347,8 +1347,8 @@ s32 TObjPlayer::is_script_controlled() {
 
 saddr TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
 
-saddr TItemData::test_flag3() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
-saddr TItemData::get_item_field_2() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }
+saddr TObjPlayer::get_equipped_shield() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
+saddr TObjPlayer::get_equipped_armor() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }
 
 
 }

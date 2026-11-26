@@ -21,7 +21,7 @@ struct ItemDataBytes {
 };
 
 // The shop's pool of weighted picks (reset_counter_64, push, pop_byte).
-struct ShopPool {
+struct ShopWeaponPool {
     u8 b[0x68];
 };
 
@@ -448,7 +448,7 @@ TItemData *shop_weapon_stock_buffers[4];  // each stock table's generated items,
 void generate_shop_weapon_stock(s32 tbl) {
   long long new_var;
   TItemData item;
-  ShopPool pool;
+  ShopWeaponPool pool;
   TItemData *buf;
   s32 n;
   ShopStockEntry *e;

@@ -1,6 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/item/shop/ShopToolStock.h"
+#include "pso/item/shop/ShopPool.h"
 #include "pso/unk/text_80223B98.h"
 #include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
@@ -30,9 +31,6 @@ TItemData *shop_tool_stock_buffers[4];
 #pragma auto_inline off
 #pragma dont_inline off
 struct ByteBlock_14 { u8 bytes[0x14]; };
-
-// The shop's pool of weighted picks (reset_counter_64, push, pop_byte).
-struct ShopToolPool { u8 buf[0x74]; };
 
 struct ShopToolGroupSubtype { s32 a; s32 b; };
 
@@ -208,7 +206,7 @@ void roll_shop_technique_level(TItemData *item, s32 arg1) {
 
 void generate_shop_technique_pool(s32 shop) {
     TItemData it;
-    ShopToolPool ctr;
+    ShopPool ctr;
     ShopToolPoolEntry *e;
     s32 n;
     TItemData *arr;
@@ -252,7 +250,7 @@ void generate_shop_technique_pool(s32 shop) {
 
 void generate_shop_rare_tool_pool(s32 shop) {
     TItemData it;
-    ShopToolPool ctr;
+    ShopPool ctr;
     ShopToolPoolTable *t;
     s32 j;
     TItemData *arr;

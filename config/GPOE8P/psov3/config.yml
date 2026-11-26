@@ -1726,7 +1726,7 @@ force_active:
   - TShopEquipmentListWindow__sub_8021C85C
   - TShopEquipmentSequence__sub_8021D65C
   - TShopGenerator__ct
-  - TShopGenerator__slot_active_table
+  - slot_active_table__14TShopGenerator
   - TSwitch__floor_switch_table
   - switch_name
   - __ct__8TTecAntiFPvPvPvl

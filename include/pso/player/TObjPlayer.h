@@ -6,6 +6,7 @@
 
 struct NJS_OBJECT;
 struct PhotonBlastRequest;
+struct PhotonBlastRegistry;
 struct PhotonBlastRequestSlot;
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/player/PlayerTechniqueState.h"
@@ -194,8 +195,8 @@ struct TObjPlayer : public TObjChara {
     s16 get_ata();
     s16 get_dfp();
     s16 obj_getS16_116();
-    void sub_801BEE2C(s16);
-    void sub_801BEE24(s16);
+    void set_hp_bonus(s16);
+    void set_tp_bonus(s16);
     void update_body_parts(void *visual);
     void init_body_parts(void *visual);
     void init_model_and_idle_pose();
@@ -215,9 +216,9 @@ struct TObjPlayer : public TObjChara {
     void request_normal_attack_stage1();
     void show_miss_for_collider(s32 collider);
     u32 state_flags;
-    u8 unk_338[0x1];
+    u8 mag_level;  // class flag 0 of a character record
     s8 m_339;
-    u8 unk_33A[0x1];
+    u8 battle_mode;  // class flag 2 of a character record
     s8 m_33b;
     s32 action_state;
     PlayerActionPaletteState action_palette_state;
@@ -344,6 +345,9 @@ struct TObjPlayer : public TObjChara {
     static void set_shared_flag(int flag);
     // Twelve 0xC00-byte joint matrix blocks, one per player slot.
     static u8 *shared_model_buffer;
+    // The photon blast requests every player shares (alloc_shared_buffers creates it).
+    static PhotonBlastRegistry *shared_photon_blast_state;
+    static u8 char_data_array[0x42C * 0xC];
     static void set_shared_count(int count);
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 meseta);
@@ -428,7 +432,7 @@ struct TObjPlayer : public TObjChara {
     static void *spawn_shoot_particle(uaddr owner, saddr pos, saddr dir, f32 life);
     static saddr create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life);
     static saddr get_item_pmt_entry(u8 arg0);
-    static saddr get_shield_pmt_entry(u8 arg0);
+    static saddr get_shield_pmt_entry(u8 index);
     static f32 get_drop_random_float(u32 arg0);
     static void drop_item_from_slot(s32 area, s32 slot, saddr item);
     static void drop_item(s32 slot, saddr item);
@@ -440,6 +444,9 @@ struct TObjPlayer : public TObjChara {
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();
     int test_flag30_bit0x100000();
+    // The items equipped in the armor and shield slots (2 and 3), or 0.
+    saddr get_equipped_armor();
+    saddr get_equipped_shield();
     static int get_player_list();
     s16 get_stage_strike_count();
     static void notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos);
@@ -495,6 +502,8 @@ struct TObjPlayer : public TObjChara {
     short get_state();
     short get_attack1_action();
     short get_run_action();
+    // The slow walk while the move speed is slowed (PlayerMoveSpeed flag 8), else the walk.
+    short get_walk_action();
     void clear_flag_200000();
     int check_flag_4();
     static void clear_flag_4000_callback(TObjPlayer *player);
@@ -516,7 +525,6 @@ struct TObjPlayer : public TObjChara {
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
     static s32 reset_and_return(saddr p);
-    void clear_base();
     int sub_802a7290_fwd();
     int is_handle_valid();
     static u8 get_item_count_max();
@@ -723,7 +731,6 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_128();
     static s32 decrement_timer(s32 *timer);
     static void reset_particle_ctrl(s32 *ctrl);
-    void*init_sub_objects();
     void set_level(s32 lvl);
     static s32 init_sub_object(saddr lobby);
     static void init_sub_object_vectors(saddr lobby);

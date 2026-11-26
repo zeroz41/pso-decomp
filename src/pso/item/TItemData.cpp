@@ -972,7 +972,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         break;
       case 15:
       {
-        void *mag = (void *) ((TItemData *)player)->get_item_field_2();
+        void *mag = (void *) ((TObjPlayer *)player)->get_equipped_armor();
         if (mag != 0)
         {
           if (((TItem *)mag)->get_slot_count() >= 4)
@@ -1071,7 +1071,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
       break;
     case 38:
       item = TObjPlayer::get_equipped_weapon(player);
-      partner = ((TItemData *)player)->get_item_field_2();
+      partner = ((TObjPlayer *)player)->get_equipped_armor();
       if (((((item != NULL) && (((u32) partner) != 0U)) && (item->get_item_group() == 1)) && (item->get_item_index() == 5)) && (((TItem *)partner)->get_item_index() == 0x28))
     {
       multiplier = 1.5f;
@@ -1079,7 +1079,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
       break;
     case 36:
       weapon_2 = TObjPlayer::get_equipped_weapon(player);
-      partner_2 = ((TItemData *)player)->get_item_field_2();
+      partner_2 = ((TObjPlayer *)player)->get_equipped_armor();
       if (((((weapon_2 != NULL) && (((u32) partner_2) != 0U)) && (weapon_2->get_item_group() == 2)) && (weapon_2->get_item_index() == 5)) && (((TItem *)partner_2)->get_item_index() == 0x26))
     {
       multiplier = 1.5f;
@@ -1087,7 +1087,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
       break;
     case 37:
       weapon_3 = TObjPlayer::get_equipped_weapon(player);
-      partner_3 = ((TItemData *)player)->get_item_field_2();
+      partner_3 = ((TObjPlayer *)player)->get_equipped_armor();
       if (((((weapon_3 != NULL) && (((u32) partner_3) != 0U)) && (weapon_3->get_item_group() == 6)) && (weapon_3->get_item_index() == 6)) && (((TItem *)partner_3)->get_item_index() == 0x27))
     {
       multiplier = 1.5f;
@@ -1120,7 +1120,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
         for (i = 0; i != 12 && found != 1; i++) {
             p = (saddr)get_player_by_client_id(i);
             if ((u32)p != 0) {
-                p = ((TItemData *)p)->get_item_field_2();
+                p = ((TObjPlayer *)p)->get_equipped_armor();
                 if ((u32)p != 0) {
                     c = ((TItem *)p)->get_item_index();
                     if (c == 0x19 || c == 0x1A) {
@@ -1136,7 +1136,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
         for (j = 0; j != 12 && hit != 1; j++) {
             p = (saddr)get_player_by_client_id(j);
             if ((u32)p != 0) {
-                p = ((TItemData *)p)->get_item_field_2();
+                p = ((TObjPlayer *)p)->get_equipped_armor();
                 if ((u32)p != 0) {
                     c = ((TItem *)p)->get_item_index();
                     if (c == 0x1A || c == 0x18) {
@@ -1152,7 +1152,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
         for (k = 0; k != 12 && hit2 != 1; k++) {
             p = (saddr)get_player_by_client_id(k);
             if ((u32)p != 0) {
-                p = ((TItemData *)p)->get_item_field_2();
+                p = ((TObjPlayer *)p)->get_equipped_armor();
                 if ((u32)p != 0) {
                     c = ((TItem *)p)->get_item_index();
                     if (c == 0x19 || c == 0x18) {
@@ -1165,21 +1165,21 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
         break;
     case 40:
         a1 = TObjPlayer::get_equipped_weapon(player);
-        b1 = ((TItemData *)player)->test_flag3();
+        b1 = ((TObjPlayer *)player)->get_equipped_shield();
         if (a1 != NULL && (u32)b1 != 0 && a1->get_item_group() == 1 && a1->get_item_index() == 5 && ((TItem *)b1)->get_item_index() == 0x26) {
             v = 1.5f;
         }
         break;
     case 38:
         a2 = TObjPlayer::get_equipped_weapon(player);
-        b2 = ((TItemData *)player)->test_flag3();
+        b2 = ((TObjPlayer *)player)->get_equipped_shield();
         if (a2 != NULL && (u32)b2 != 0 && a2->get_item_group() == 2 && a2->get_item_index() == 5 && ((TItem *)b2)->get_item_index() == 0x24) {
             v = 1.5f;
         }
         break;
     case 39:
         a3 = TObjPlayer::get_equipped_weapon(player);
-        b3 = ((TItemData *)player)->test_flag3();
+        b3 = ((TObjPlayer *)player)->get_equipped_shield();
         if (a3 != NULL && (u32)b3 != 0 && a3->get_item_group() == 6 && a3->get_item_index() == 6 && ((TItem *)b3)->get_item_index() == 0x25) {
             v = 1.5f;
         }
@@ -1210,8 +1210,8 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     case 1:
       if (((u8) (this->data1.data_u8[2])) == 5)
     {
-      first = ((TItemData *)item_data)->test_flag3();
-      second = ((TItemData *)item_data)->get_item_field_2();
+      first = ((TObjPlayer *)item_data)->get_equipped_shield();
+      second = ((TObjPlayer *)item_data)->get_equipped_armor();
       if ((((((u32) first) != 0U) && (((u32) second) != 0U)) && (((TItem *)first)->get_item_index() == 0x26)) && (((TItem *)second)->get_item_index() == 0x28))
       {
         multiplier = 1.5f;
@@ -1221,8 +1221,8 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     case 2:
       if (((u8) (this->data1.data_u8[2])) == 5)
     {
-      first_2 = ((TItemData *)item_data)->test_flag3();
-      second_2 = ((TItemData *)item_data)->get_item_field_2();
+      first_2 = ((TObjPlayer *)item_data)->get_equipped_shield();
+      second_2 = ((TObjPlayer *)item_data)->get_equipped_armor();
       if ((((((u32) first_2) != 0U) && (((u32) second_2) != 0U)) && (((TItem *)first_2)->get_item_index() == 0x24)) && (((TItem *)second_2)->get_item_index() == 0x26))
       {
         multiplier = 1.5f;
@@ -1232,8 +1232,8 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     case 6:
       if (((u8) (this->data1.data_u8[2])) == 6)
     {
-      first_3 = ((TItemData *)item_data)->test_flag3();
-      second_3 = ((TItemData *)item_data)->get_item_field_2();
+      first_3 = ((TObjPlayer *)item_data)->get_equipped_shield();
+      second_3 = ((TObjPlayer *)item_data)->get_equipped_armor();
       if ((((((u32) first_3) != 0U) && (((u32) second_3) != 0U)) && (((TItem *)first_3)->get_item_index() == 0x25)) && (((TItem *)second_3)->get_item_index() == 0x27))
       {
         multiplier = 1.5f;
@@ -1241,7 +1241,7 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     }
       break;
     case 26:
-      item = (u8 *) ((TItemData *)item_data)->test_flag3();
+      item = (u8 *) ((TObjPlayer *)item_data)->get_equipped_shield();
       if ((item != 0) && (((TItem *)item)->get_item_index() == 0x1A))
     {
       multiplier = 2.0f;

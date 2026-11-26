@@ -46,7 +46,8 @@ struct CharacterSaveRecord {
     u32 save_count;         // raised before every save; the copy with the higher count is newer
     u8 account[0x1C];       // the account's entry, copied in when the character is created
     u8 user_name[0x10];
-    u8 pad_44[0x248 - 0x44];
+    u8 pad_44[0x244 - 0x44];
+    s32 death_count;        // raised when a local player dies (enter_death_state)
     s32 bank_item_count;    // rows of bank_items in use
     s32 pad_24C;
     BankItemRecord bank_items[200];

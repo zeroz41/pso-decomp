@@ -66,5 +66,5 @@ TItem *TItemWeaponDarkBridge::create(u8 *item) {
 // calls it first).
 TItemTimerEventParalysisCurse::TItemTimerEventParalysisCurse(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {
-    unk_2C = rate;
+    chance = rate;
 }
