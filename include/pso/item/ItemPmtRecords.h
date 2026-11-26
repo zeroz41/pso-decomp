@@ -12,7 +12,7 @@ struct PmtArmorRecord {
     s16 evp;
     u8 block_particle;
     s8 block_effect;
-    u8 pad_e[2];
+    u16 class_flags;
     u8 required_level;
     s8 efr;
     s8 eth;
@@ -33,14 +33,23 @@ struct PmtUnitRecord {
 // A weapon record: its attack power range, ATA, the MST it adds and the
 // grind it stops at.
 struct PmtWeaponRecord {
-    u8 pad_0[0xA];
+    u8 pad_0[8];
+    u16 class_flags;
     u16 atp_min;
     u16 atp_max;
-    u8 pad_e[6];
+    u16 atp_required;
+    u16 mst_required;
+    u16 ata_required;
     u16 mst;
     u8 max_grind;
     u8 pad_17[2];
     u8 ata;
+};
+
+// A mag record: the classes that can equip it.
+struct PmtMagRecord {
+    u8 pad_0[0x14];
+    u16 class_flags;
 };
 
 // A tool record: its price and flags (bit 0x80: rare).

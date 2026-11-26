@@ -1349,7 +1349,7 @@ void qst_op_get_total_deaths() {
     dest_reg = (u8) qst_args[1];
     TObjPlayer *player = get_player_by_client_id(qst_args[0]);
     if (player != NULL) {
-        qst_registers[dest_reg] = player->get_card_window_field_244();
+        qst_registers[dest_reg] = player->get_total_deaths();
     }
 }
 

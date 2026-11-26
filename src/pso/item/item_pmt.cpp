@@ -261,7 +261,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
         pos = (u8 *)((TObjCollidable *)target)->bodies + request->collider * 0x2C + 0x1C;
         type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
-            cls = *(s8 *)&((TObjPlayer *)target)->m_88d;
+            cls = *(s8 *)&((TObjPlayer *)target)->class_index;
             mode = 1;
         } else if (type < 0x4000) {
             cls = *(s32 *)(target + 0x370);

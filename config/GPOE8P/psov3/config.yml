@@ -582,7 +582,7 @@ force_active:
   - TItemObject_name
   - TItemTexLoad_class_name
   - TItemTexLoad_name
-  - TItemTimer__sub_8011D598
+  - set__18TItemTimerCallbackFll
   - __ct__19TItemWeaponPartisanFP7TObjectPUc
   - TItem__name
   - on_judgment_closed__17TJudgmentSequenceFP15TShopWindowBase
@@ -7237,7 +7237,7 @@ force_active:
   - invoke_callback_16C_and_destroy__23TShopJudgmentItemWindowFv
   - invoke_callback_170_and_destroy__23TShopJudgmentItemWindowFv
   - invoke_callback_174_and_destroy__23TShopJudgmentItemWindowFv
-  - invoke_callback__10TItemTimerFv
+  - invoke__18TItemTimerCallbackFv
   - invoke_callback_and_destroy__19TQuestListChallengeFv
   - invoke_callback_and_queue_destruction__12TQuestListVMFv
   - trigger_impact__15TItemEffLandHitFv
@@ -14580,7 +14580,7 @@ force_active:
   - reset_field28__10TObjPlayerFv
   - reset_fields_1e__26TTecSlicerTargets_8023B454Fv
   - clear_flags__13NpcPlayerViewFv
-  - reset_fields__10TItemTimerFv
+  - reset__18TItemTimerCallbackFv
   - clear__18TObjEneBm5WolfListFv
   - clear__20TObjEneBm5GibonUListFv
   - reset_fish_fields__11TBoss6Type2Fv

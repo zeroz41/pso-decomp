@@ -712,6 +712,7 @@ struct G_ModifyTradeProposal_6xA6 {
 struct G_MoveToPosition_6x41_6x42 {
  struct G_ClientIDHeader header;
  struct VectorXZF pos;
+ G_MoveToPosition_6x41_6x42 &operator=(const G_MoveToPosition_6x41_6x42 &src);
  // Clears the position and sets the 6x42 header.
  void init();
  void bswap();

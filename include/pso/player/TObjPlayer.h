@@ -241,8 +241,8 @@ struct TObjPlayer : public TObjChara {
     u32 m_3cc;
     s32 controller_port; // 0-3, set by init_control_mode for a local player
     s32 freeze_escape_step; // added to the freeze timer on each stick escape (negative)
-    s32 m_3d8;
-    s32 m_3dc;
+    s32 input_mode;
+    s32 move_mode;
     s32 current_area;
     s32 current_floor;
     u8 unk_3E8[0x4];
@@ -250,9 +250,7 @@ struct TObjPlayer : public TObjChara {
     s32 target_heading;
     s32 m_3f4;
     Vec move_target;  // (name inferred) run/walk-to target: calc_movement_target and handle_6x40/6x42 set x/z, update_*_movement steer to it
-    f32 m_404;
-    u8 unk_408[0x4];
-    f32 m_40c;
+    Vec facing;  // (sin, 0, cos) of rotation_y (update_facing_vector)
     Vec ground_normal;
     FlagWord pending_actions;  // action bits apply_pending_action copies into the save record
     u8 unk_420[0x4];
@@ -291,7 +289,7 @@ struct TObjPlayer : public TObjChara {
     u8 m_878;
     u8 unk_879[0x13];
     u8 section_id;
-    u8 m_88d;
+    u8 class_index;
     s8 m_88e;
     u8 unk_88F[0x1];
     s32 class_flags;
@@ -713,19 +711,11 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_200();
     void set_flag_200();
     void set_float_param(s16 value);
-    void byteswap_6x49_packet();
-    void swap_endian_shorts();
-    void byteswap_pb_targets_packet();
-    void bswap_field4_sub();
-    void*build_packet_header();
     void *copy_6x40_walk_to_position_packet(void *pkt);
     // The speed of the requested action in the action table.
     f32 get_action_rate_entry();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
-    void *copy_packet_pos_6x42(void *pkt);
-    void bswap_u16_pair_list();
-    void bswap_u16_pair();
     void request_heavy_attack_particles();
     void set_action_palette_state_mode(u8 mode);
     void clear_flag_128();
@@ -837,7 +827,7 @@ struct TObjPlayer : public TObjChara {
     int is_flag_b0_4();
     static u32 spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames);
     static void start_photon_blast(s32 kind, s32 client_id);
-    s32 get_card_window_field_244();
+    s32 get_total_deaths();
     void init_local_pad_binding();
     void stop_force_if_alive();
     void update_battle_control_if_unlocked();
@@ -1017,7 +1007,6 @@ struct TObjPlayer : public TObjChara {
     void swap_inventory_items(s32 first_id, s32 second_id);
     void update_warp_relocation();
     s32 try_camera_action(s32 tech);
-    void bswap_entry_list();
     static void update_party_cursors(saddr cursors, saddr player);
     s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);

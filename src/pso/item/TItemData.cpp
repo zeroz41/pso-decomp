@@ -638,11 +638,11 @@ s32 TItemData::is_custom_name_srank(void *data) {
 void TItemData::decode_from_network() {}
 void TItemData::encode_for_network() {}
 u8 TItemData::get_entry_field16() {
-    void *item_pmt_record;
+    PmtWeaponRecord *item_pmt_record;
 
-    item_pmt_record = lookup_item_pmt_record();
+    item_pmt_record = (PmtWeaponRecord *)lookup_item_pmt_record();
     if (item_pmt_record != NULL) {
-        return *(u8 *)((s8 *)item_pmt_record + 0x16);
+        return item_pmt_record->max_grind;
     }
     return 0U;
 }
@@ -880,7 +880,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
           {
             result |= 0x10001;
           }
-          lim = get_technique_learn_limit(pl->m_88d, (short) data1.data_u8[4]);
+          lim = get_technique_learn_limit(pl->class_index, (short) data1.data_u8[4]);
           if ((lim == 0xFF) || (lim < lvl))
           {
             result |= 0x10001;

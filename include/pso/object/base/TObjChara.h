@@ -269,12 +269,11 @@ public:
     ControllerInputContext *controller_input;
     AttackParams *attack_params;
     ActorParamBlock *param_block;  // get_actor_param_block
-    u8 unk_320[0x2];
-    u8 pad_322[0x2];
+    s32 mode_mask;  // 1 << mode, kept by set_action_state
     s16 control_state;  // who drives it: 6 a script, 7 a fixed pose
     s16 mode;
     s16 phase;
-    u8 pad_32A[0x2];
+    s16 prev_mode;  // the mode before the last set_action_state
     s16 hp;
     s16 tp;
     u32 low_game_flags;  // the enemy's status effect bits (actorFlags & 0x3F) the 6x9C packet last sent

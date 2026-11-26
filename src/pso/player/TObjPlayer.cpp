@@ -287,8 +287,8 @@ InventoryItemList::InventoryItemList() {
 }
 
 
-void TObjPlayer::set_move_mode(s32 v) { this->m_3dc = v; }
-void TObjPlayer::set_input_mode(s32 v) { this->m_3d8 = v; }
+void TObjPlayer::set_move_mode(s32 v) { this->move_mode = v; }
+void TObjPlayer::set_input_mode(s32 v) { this->input_mode = v; }
 
 
 s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask) {

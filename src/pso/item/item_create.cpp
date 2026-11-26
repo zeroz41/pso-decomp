@@ -141,6 +141,7 @@
 #include "pso/item/TItemBuff.h"
 #include "pso/unk/TLobby_80105A2C.h"
 #include "pso/item/item_pmt.h"
+#include "pso/item/ItemPmtRecords.h"
 #include "pso/item/TItemDisconnectCtrl_80105BE8.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemTimerEvent.h"
@@ -961,14 +962,14 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   if (is_quest_active() != 0)
   {
     k = 0;
-    switch (((u8 *) item)[0])
+    switch (item->data1.data_u8[0])
     {
       case 0:
         k = 1;
         break;
 
       case 1:
-        switch (((u8 *) item)[1])
+        switch (item->data1.data_u8[1])
       {
         case 1:
           k = 2;
@@ -998,26 +999,27 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     }
   }
   flags = 0;
-  switch (((u8 *) item)[0])
+  switch (item->data1.data_u8[0])
   {
-    case 0:
-      if ((saddr) (item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
+    case 0: {
+      PmtWeaponRecord *weapon;
+      if ((saddr) (weapon = (PmtWeaponRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) player, (s16) (*((u16 *) ((u8 *) item + 8)))) == 0)
+      if (check_class_equip_permission((TObjPlayer *) player, (s16) weapon->class_flags) == 0)
       {
         flags |= 1;
       }
       st.clear_fields();
       build_player_equipment_requirement_stats((TObjPlayer *) player_alias, &st);
-      if (st.atp < (*((u16 *) ((u8 *) item + 0xe))))
+      if (st.atp < weapon->atp_required)
       {
         flags |= 2;
       }
-      if (st.ata < (*((u16 *) ((u8 *) item + 0x12))))
+      if (st.ata < weapon->ata_required)
       {
         flags |= 4;
       }
-      if (st.mst < (*((u16 *) ((u8 *) item + 0x10))))
+      if (st.mst < weapon->mst_required)
       {
         flags |= 8;
       }
@@ -1027,18 +1029,20 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       flags |= 0x20;
     }
       break;
+    }
 
     case 1:
-      if (((u8 *) item)[1] != 3)
+      if (item->data1.data_u8[1] != 3)
     {
-      if ((saddr) (item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
+      PmtArmorRecord *armor;
+      if ((saddr) (armor = (PmtArmorRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) (*((u16 *) ((u8 *) item + 0xe)))) == ((0, 0)))
+        if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) armor->class_flags) == ((0, 0)))
         {
           flags |= 1;
         }
         r = ((TObjChara *) player_alias)->get_actor_level_index();
-        if (r < ((u8 *) item)[0x10])
+        if (r < armor->required_level)
         {
           flags |= 0x10;
         }
@@ -1051,9 +1055,10 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     else
       if (check_class_equip_permission((TObjPlayer *) player, 0xd7) != 0)
     {
-      if ((item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
+      PmtUnitRecord *unit;
+      if ((unit = (PmtUnitRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        switch (*((s16 *) ((u8 *) item + 8)))
+        switch (unit->stat)
         {
           case 1:
 
@@ -1080,10 +1085,11 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     }
       break;
 
-    case 2:
-      if ((item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
+    case 2: {
+      PmtMagRecord *mag;
+      if ((mag = (PmtMagRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) (*((u16 *) ((u8 *) item + 0x14)))) == 0)
+      if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) mag->class_flags) == 0)
       {
         flags |= 1;
       }
@@ -1093,15 +1099,16 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       flags |= 0x20;
     }
       break;
+    }
 
     case 3:
-      switch (((u8 *) item)[1])
+      switch (item->data1.data_u8[1])
     {
       case 2:
-        r = ((u8 *) item)[4];
+        r = item->data1.data_u8[4];
       {
-        u8 lim = get_technique_learn_limit(*((u8 *) (((u8 *) player) + 0x88d)), r);
-        if ((lim == 0xff) || (lim < ((u8 *) item)[2]))
+        u8 lim = get_technique_learn_limit(((TObjPlayer *)player)->class_index, r);
+        if ((lim == 0xff) || (lim < item->data1.data_u8[2]))
         {
           flags |= 1;
         }
@@ -1121,7 +1128,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
 
     case 4:
       meseta_limit = 0xf423f;
-      if (meseta_limit < (*((s32 *) ((u8 *) item + 0x10))))
+      if (meseta_limit < item->data2.price)
     {
       flags |= 0x20;
     }
