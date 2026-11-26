@@ -9,7 +9,7 @@ public:
     virtual void run_task();
     TParticleBallistic(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent, u16 particle_flags,
                   u16 target);
-    TParticleBallistic(void *param, void *pos, void *parent);
+    TParticleBallistic(ParticleParam *entry, Vec *position, TObject *parent);
     void retire_ballistic_particle_if_done();
     void draw_sprite_quad(s32);
     virtual void render();

@@ -32,9 +32,9 @@ s32 csn_query_hit_count;
 f32 csn_query_nearest_hit_t;
 CsnHit *csn_query_hit_buffer;
 CsnContact *wall_query_hit_result;
-CsnContact lbl_804FF9C0[0x20];
+CsnContact csn_query_contacts[0x20];
 CsnGroup *csn_query_groups[0x100];
-__declspec(section ".data") CsnHit lbl_80500140;
+__declspec(section ".data") CsnHit csn_query_hit;
 WallRayResult csn_query_map_object;
 extern Vec scratch_vec3;
 extern Vec scratch_vec4;
@@ -58,7 +58,7 @@ void csn_debug_hook_segment(const Vec *, const Vec *) {  }
 
 #pragma push
 #pragma fp_contract on
-s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 hsq, f32 inv) {
+s32 calc_segment_xz_distance_sq(const Vec *c, const Vec *o, const Vec *e, const Vec *d, f32 radius, f32 hsq, f32 inv) {
     f32 x;
     f32 z;
     f32 cx;
@@ -121,9 +121,9 @@ s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg
   f32 oz;
   CsnContact *hit;
   CsnHit *hdr;
-  lbl_80500140.hit_mask = 0;
-  hdr = &lbl_80500140;
-  hits = lbl_80500140.contact;
+  csn_query_hit.hit_mask = 0;
+  hdr = &csn_query_hit;
+  hits = csn_query_hit.contact;
   minT = GT_TMAX;
   scratch_vec5.x = origin->x;
   scratch_vec5.y = GT_DOWN + origin->y;
@@ -344,7 +344,7 @@ s32 query_segment_wall_meshes(Vec *from, Vec *to, u32 mask, CsnGroup **groups) {
     Vec *vertices;
     CsnFace *face;
     csn_debug_hook_segment(from, to);
-    csn_query_hit_buffer = &lbl_80500140;
+    csn_query_hit_buffer = &csn_query_hit;
     csn_query_hit_buffer->hit_mask = 0;
     wall_query_hit_result = csn_query_hit_buffer->contact;
     csn_query_nearest_hit_t = 2.0f;
@@ -369,7 +369,7 @@ s32 check_line_hits_walls(Vec *from, Vec *to, u32 mask, CsnGroup **groups) {
     s32 n;
     Vec *vertices;
     CsnFace *face;
-    csn_query_hit_buffer = &lbl_80500140;
+    csn_query_hit_buffer = &csn_query_hit;
     csn_query_hit_buffer->hit_mask = 0;
     wall_query_hit_result = csn_query_hit_buffer->contact;
     vsub(from, to, &dir);
@@ -555,7 +555,7 @@ CsnGroup *select_ground_query_groups(const Vec *origin, u32 mask) {
   return csn_query_groups[0];
 }
 
-CsnGroup *select_segment_query_groups(Vec *a, Vec *b) {
+CsnGroup *select_segment_query_groups(const Vec *a, const Vec *b) {
     Vec d;
     s32 n;
     CsnGroup *w;
@@ -750,9 +750,9 @@ WallRayResult *query_wall_radial(WallRayQuery *query) {
 CsnHit *csnLookAt(const Vec *from, const Vec *to) {
     CsnHit *hit;
     csn_debug_hook_query_begin();
-    hit = &lbl_80500140;
+    hit = &csn_query_hit;
     csn_debug_hook_segment(from, to);
-    if (select_segment_query_groups((Vec *)from, (Vec *)to) == NULL) {
+    if (select_segment_query_groups(from, to) == NULL) {
         hit = NULL;
     } else if (check_line_hits_walls((Vec *)from, (Vec *)to, 0x8000, csn_query_groups) == 0) {
         hit = NULL;
@@ -766,7 +766,7 @@ CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask) {
     csn_debug_hook_ground_query();
     csn_debug_hook_query_begin();
     csn_debug_hook_origin_vector(origin);
-    hit = &lbl_80500140;
+    hit = &csn_query_hit;
     if (*cached_groups == NULL) {
         if (refill_csn_candidate_cache(origin, cached_groups, mask) == NULL) {
             hit = NULL;
@@ -792,7 +792,7 @@ CsnHit *csnVecterUnder(Vec *origin, u32 mask) {
     csn_debug_hook_ground_query();
     csn_debug_hook_query_begin();
     csn_debug_hook_origin_vector(origin);
-    hit = &lbl_80500140;
+    hit = &csn_query_hit;
     if (select_ground_query_groups(origin, mask) == NULL) {
         hit = NULL;
     } else if (evaluate_ground_triangles(origin, mask, csn_query_groups) == 0) {
@@ -806,7 +806,7 @@ CsnHit *csnVecterUnder(Vec *origin, u32 mask) {
 CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     CsnHit *hit;
     csn_debug_hook_query_begin();
-    hit = &lbl_80500140;
+    hit = &csn_query_hit;
     if (query_collision_segment_groups((Vec *)from, (Vec *)to, mask) == NULL) {
         hit = NULL;
     } else if (query_segment_wall_meshes((Vec *)from, (Vec *)to, mask, csn_query_groups) == 0) {
@@ -831,8 +831,8 @@ void __construct_array(void *, CsnContact *(*)(CsnContact *), s32, s32, s32);
 extern "C" {
 
 void __sinit_CsnQuery_cpp(void) {
-    __construct_array(lbl_804FF9C0, init_csn_contact, 0, sizeof(CsnContact), 0x20);
-    lbl_80500140.init_and_return();
+    __construct_array(csn_query_contacts, init_csn_contact, 0, sizeof(CsnContact), 0x20);
+    csn_query_hit.init_and_return();
     csn_query_map_object.init();
 }
 
@@ -862,7 +862,7 @@ CsnHit *CsnHit::init_and_return() {
 
 void init_csn_hit(CsnHit *hit) {
     hit->hit_mask = 0;
-    hit->contact = lbl_804FF9C0;
+    hit->contact = csn_query_contacts;
 }
 
 CsnContact *init_csn_contact(CsnContact *contact) {

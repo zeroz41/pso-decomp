@@ -38,7 +38,7 @@ void aix_exec_handle(AixPlayer *player) {
             set_adx_stream_end_sector(player->stream, (offset + size) / 2048);
             set_adx_stream_completion(player->stream, update_file_stream_range, player);
             set_client_slot(demuxer, 0);
-            if ((s32)player->loop == 1 || (s32)player->continue_segments == 1) {
+            if (player->loop == 1 || player->continue_segments == 1) {
                 set_flag_4(demuxer, 1);
             }
             count = get_demuxer_layer_count(demuxer);
@@ -72,20 +72,20 @@ void aix_exec_handle(AixPlayer *player) {
 }
 
 extern "C" void update_file_stream_range(void *context) {
-    u8 *player_bytes = static_cast<u8 *>(context);
+    AixPlayer *player = static_cast<AixPlayer *>(context);
     s32 offset;
     s32 size;
 
-    *(s32 *)((s8 *)player_bytes + 0x1B0) = (s32) (*(s32 *)((s8 *)player_bytes + 0x1B0) + 1);
-    if (((s32) *(u8 *)((s8 *)player_bytes + 0x1A8) == 1) && ((s32) *(s32 *)((s8 *)player_bytes + 0x1B0) >= (s32) *(s32 *)((s8 *)player_bytes + 0x1BC))) {
-        *(s32 *)((s8 *)player_bytes + 0x1B0) = (s32) *(s32 *)((s8 *)player_bytes + 0x1B8);
+    player->segment++;
+    if (player->loop == 1 && player->segment >= player->loop_end) {
+        player->segment = player->loop_start;
     }
-    if (((s32) *(u8 *)((s8 *)player_bytes + 0x1A9) == 1) && ((s32) *(s32 *)((s8 *)player_bytes + 0x1B0) < get_demuxer_segment_count(*reinterpret_cast<AixDemuxer **>(player_bytes + 4)))) {
+    if (player->continue_segments == 1 && player->segment < get_demuxer_segment_count(player->demuxer)) {
         adx_interrupt_lock_enter();
-        get_entry_pair(*reinterpret_cast<AixDemuxer **>(player_bytes + 4), (s32)((int) (*(s32 *)((s8 *)player_bytes + 0x1B0))), &offset, &size);
-        seek_adx_stream_sector(((AixPlayer *)player_bytes)->stream, offset / 2048);
-        set_adx_stream_end_sector(((AixPlayer *)player_bytes)->stream, (offset + size) / 2048);
-        init_adx_stream_position(((AixPlayer *)player_bytes)->stream);
+        get_entry_pair(player->demuxer, player->segment, &offset, &size);
+        seek_adx_stream_sector(player->stream, offset / 2048);
+        set_adx_stream_end_sector(player->stream, (offset + size) / 2048);
+        init_adx_stream_position(player->stream);
         adx_interrupt_lock_leave();
     }
 }

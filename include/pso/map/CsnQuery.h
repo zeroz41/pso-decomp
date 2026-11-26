@@ -59,7 +59,7 @@ void csn_debug_hook_segment(const Vec *from, const Vec *to);
 extern "C" {
 s32 get_csn_group_flags(u8 ch);
 }
-s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 hsq, f32 inv);
+s32 calc_segment_xz_distance_sq(const Vec *c, const Vec *o, const Vec *e, const Vec *d, f32 radius, f32 hsq, f32 inv);
 s32 select_deepest_wall_ray(WallRayQuery *query, WallRayResult *result);
 s32 query_segment_wall_meshes(Vec *from, Vec *to, u32 mask, CsnGroup **groups);
 s32 check_line_hits_walls(Vec *from, Vec *to, u32 mask, CsnGroup **groups);
@@ -67,7 +67,7 @@ s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *
 extern "C" {
 CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **cache, u32 mask);
 }
-CsnGroup *select_segment_query_groups(Vec *from, Vec *to);
+CsnGroup *select_segment_query_groups(const Vec *from, const Vec *to);
 CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask);
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
 s32 prepare_wall_query_polygons(const Vec *pos, f32 r, u32 mask);

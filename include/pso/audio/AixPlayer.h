@@ -74,8 +74,8 @@ struct AixPlayer {
     AdxStreamFile *stream;
     AdxtPlayer *tracks[33];
     SjRingBuffer *track_inputs[70];
-    u8 loop;
-    u8 continue_segments;
+    s8 loop;
+    s8 continue_segments;
     u8 pad_1aa[6];
     s32 segment;
     s32 start_segment;

@@ -48,7 +48,7 @@ TParticle *create_radial_particle(ParticleParam *entry, Vec *position, TObject *
     return new TParticleRadial(entry, position, parent, flags, target_id);
 }
 
-TParticle *create_random_particle(void *param, void *pos, void *parent) {
+TParticle *create_random_particle(ParticleParam *param, Vec *pos, TObject *parent) {
     return new TParticleRadial(param, pos, parent);
 }
 
@@ -296,10 +296,10 @@ TParticleRadial::TParticleRadial(ParticleParam *entry, Vec *position, TObject *p
 }
 #pragma pop
 
-TParticleRadial::TParticleRadial(void *entry, void *position, void *parent)
-    : TParticle((ParticleParam *)entry, (TObject *)parent) {
-    ParticleParam *src = (ParticleParam *)entry;
-    Vec *at = (Vec *)position;
+TParticleRadial::TParticleRadial(ParticleParam *entry, Vec *position, TObject *parent)
+    : TParticle(entry, parent) {
+    ParticleParam *src = entry;
+    Vec *at = position;
     s32 life;
     sprite.pos.x = (src->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->x;
     sprite.pos.y = (src->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->y;

@@ -6,7 +6,7 @@
 class TParticleRadial : public TParticle {
 public:
     TParticleRadial(ParticleParam *entry, Vec *position, TObject *parent, u16 particle_flags, u16 target);
-    TParticleRadial(void *param, void *pos, void *parent);
+    TParticleRadial(ParticleParam *entry, Vec *position, TObject *parent);
     virtual ~TParticleRadial();
     virtual void run_task();
     void check_radial_particle_retire();

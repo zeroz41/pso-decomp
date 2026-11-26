@@ -17753,10 +17753,10 @@ force_active:
   - csn_debug_hook_group_list__FPCP8CsnGroup
   - csn_debug_hook_origin_vector__FPC3Vec
   - csn_debug_hook_segment__FPC3VecPC3Vec
-  - select_segment_query_groups__FP3VecP3Vec
+  - select_segment_query_groups__FPC3VecPC3Vec
   - adx_stream_ring_buffer
   - adx_stream_ring_buffer_storage
-  - calc_segment_xz_distance_sq__FP3VecP3VecP3VecP3Vecfff
+  - calc_segment_xz_distance_sq__FPC3VecPC3VecPC3VecPC3Vecfff
   - check_line_hits_walls__FP3VecP3VecUlPP8CsnGroup
   - is_phase_e__18TObjCityDoor_LobbyFv
   - copy_wall_polygon__11WallPolygonFPC7CsnFace

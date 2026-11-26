@@ -42,12 +42,12 @@ public:
     void set_owner_id(u16 id);
     void set_tint_color(s32 tint);
     void clear_active_flag();
-    static TParticle *create_random_spread(void *param, void *pos, void *parent);
+    static TParticle *create_random_spread(ParticleParam *param, Vec *pos, TObject *parent);
     // The fallback pool particles are allocated from when the alt heap is full.
     static THeap *heap;
     static void free_heap();
     static void init_heap(u32 size);
-    static TParticle *generate_child_default(void *param, void *pos, void *parent);
+    static TParticle *generate_child_default(ParticleParam *param, Vec *pos, TObject *parent);
     static NJS_OBJECT *get_particle_model(s32 model);
     // The particle texture list.
     static NJS_TEXLIST *get_instance();
@@ -58,7 +58,7 @@ public:
     static void reset_emitter_table();
     static void create_quad_sprites();
 public:
-    static TParticle *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
+    static TParticle *alloc_child_particle(ParticleParam *param, Vec *pos, ParticleAngles *dir, TObject *parent);
     void enable();
     static void free_system();
     static void free_all();
@@ -103,7 +103,7 @@ LAYOUT_ASSERT(TParticleCtrl_size, sizeof(TParticleCtrl) == 0x78);
 // particle_ctrl_generator_table[kind].create(param, &pos, parent).
 struct ParticleGenerator {
     const char *name;
-    TParticle *(*create)(void *param, void *pos, void *parent);
+    TParticle *(*create)(ParticleParam *param, Vec *pos, TObject *parent);
 };
 
 extern ParticleGenerator particle_ctrl_generator_table[];
