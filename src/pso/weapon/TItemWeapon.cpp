@@ -153,8 +153,8 @@ void TItemWeapon::request_equipped_model() {
 TItemWeapon::~TItemWeapon() {}
 
 
-extern const f32 lbl_805DAC98;
-extern const u8 lbl_805DACA4;
+extern const f32 weapon_float_zero;
+extern const u8 weapon_unidentified_flag;
 
 TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
     s32 identified;
@@ -172,7 +172,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
         special_selector = special;
     }
     if (identified == 0) {
-        special_selector = (u8) (special_selector | lbl_805DACA4);
+        special_selector = (u8) (special_selector | weapon_unidentified_flag);
     }
     memcpy(attributes, item + 6, 6);
     impact_callback = 0;
@@ -202,12 +202,12 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
         color_node = -1;
     }
     stage = -1;
-    motion_frame = lbl_805DAC98;
+    motion_frame = weapon_float_zero;
     if (get_item_group() == 0) {
         photon_color_id = -1;
     } else {
         item_render_state.reset();
-        photon_phase = lbl_805DAC98;
+        photon_phase = weapon_float_zero;
     }
     set_weapon_category_flags();
     if (parameters->flags & 1) {

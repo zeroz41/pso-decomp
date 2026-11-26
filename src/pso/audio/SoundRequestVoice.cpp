@@ -116,7 +116,7 @@ extern "C" {
 s32 sndFXCtrl(int, int, int);
 s32 sndFXKeyOff(int);
 void TLobby__sub_80240F3C(SoundRequestVoice *);
-extern s8 TLobby__data_805434A8[];
+extern s8 gba_joyboot_state[];
 void TLobby__sub_80241798(Sound_80241798 *sound);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
@@ -166,12 +166,12 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         params.paraArray = ctl;
         ctl[0].ctrl = 0x80;
         ctl[0].paraData.value14 = v->pitch;
-        if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
+        if (!(lobby_state_flags & 2) && gba_joyboot_state[7] == 0) {
             level = OSDisableInterrupts();
         }
         v->token = sndFXStartParaInfo(v->effect, 0x7F, v->pan, v->studio, &params);
         send_voice_controller_updates(v);
-        if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
+        if (!(lobby_state_flags & 2) && gba_joyboot_state[7] == 0) {
             OSRestoreInterrupts(level);
         }
         send_sound_request_reverb((v));

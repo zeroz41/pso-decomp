@@ -51,7 +51,7 @@ struct ItemIconIndexTable { s32 w[19]; };
 static const ItemIconIndexTable item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
 static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
 extern "C" {
-extern const u8 lbl_805DAB68 = 0x40;
+extern const u8 item_wrapped_flag = 0x40;
 }
 extern "C" {
 
@@ -386,15 +386,15 @@ void TItemData::set_wrapped() {
     switch (data1.data_u8[0]) {
     case 0:
     case 1:
-        data1.data_u8[4] |= lbl_805DAB68;
+        data1.data_u8[4] |= item_wrapped_flag;
         break;
     case 3:
         if (TItemData::lookup_item_def(this) == 0) {
-            data1.data_u8[3] |= lbl_805DAB68;
+            data1.data_u8[3] |= item_wrapped_flag;
         }
         break;
     case 2:
-        data2.data_u8[2] |= lbl_805DAB68;
+        data2.data_u8[2] |= item_wrapped_flag;
         break;
     }
 }

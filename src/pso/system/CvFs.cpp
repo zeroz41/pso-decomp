@@ -15,14 +15,14 @@ struct CvFsHandle {
 
 extern s8 fs_default_device_name[];
 extern TLobbyEntry cvfs_entry_table[];
-s32 lbl_805D7600;
-u32 lbl_80581A30[75];
+s32 cvfs_init_count;
+u32 cvfs_filename_copy[75];
 // CVFS version banner: the first string of this file's pool.
-char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";
+char *const volatile cvfs_version_pointer = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";
 s8 fs_default_device_name[12];
 TLobbyEntry cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
-extern const char lbl_805E0DA4[6] = "%s:%s";
+extern const char cvfs_device_path_format[6] = "%s:%s";
 extern "C" {
 
 inline void cvfs_split_path(char *dev, char *file, char *path) {
@@ -103,8 +103,8 @@ inline void cvfs_add_device_prefix(char *dev, char *file) {
         need = 0;
     }
     if (need == 1) {
-        strcpy((char *)lbl_80581A30, file);
-        sprintf(file, lbl_805E0DA4, dev, (char *)lbl_80581A30);
+        strcpy((char *)cvfs_filename_copy, file);
+        sprintf(file, cvfs_device_path_format, dev, (char *)cvfs_filename_copy);
     }
 }
 
@@ -155,7 +155,7 @@ void cvFsInit(void) {
     CvFsHandle *h;
     s32 i;
 
-    if (lbl_805D7600++ == 0) {
+    if (cvfs_init_count++ == 0) {
         for (h = si_type_info_table, i = 0; i < 40; i++, h++) {
             h->vtbl = NULL;
             h->fd = NULL;
@@ -695,7 +695,7 @@ void cvFsAddDev(char *name, CvFsDeviceFactory getif, s32 arg) {
     CvFsDeviceInterface *dev;
     u32 n;
     u32 i;
-    lbl_805E0DA0;
+    cvfs_version_pointer;
     if (name == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsAddDev #1:illegal device name", 0);
@@ -731,7 +731,7 @@ void cvFsFinish(void) {
     CvFsHandle *h;
     s32 i;
 
-    if (--lbl_805D7600 == 0) {
+    if (--cvfs_init_count == 0) {
         for (h = si_type_info_table, i = 0; i < 40; i++, h++) {
             if (h->vtbl != NULL) {
                 h->vtbl->close(h->fd);

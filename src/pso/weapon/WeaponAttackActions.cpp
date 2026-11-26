@@ -66,7 +66,7 @@ struct Skel_8011EB84 { u8 pad[0x1C]; Node_8011EB84 n[1]; };
 extern "C" {
 f32 * get_weapon_range_record(void *, s16);
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
-extern const f32 lbl_805DAC94;
+extern const f32 weapon_float_tenth;
 extern Vec weapon_light_direction[];
 extern NJS_ARGB weapon_light_color[];
 
@@ -77,7 +77,7 @@ TObjChara *resolve_hittable_target(s32, s32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
 
-extern const f32 lbl_805DAC98;
+extern const f32 weapon_float_zero;
 
 void TItemWeapon::set_weapon_category_flags() {
     s32 r = this->get_attack_flags();
@@ -310,7 +310,7 @@ void TItemWeapon::fire_shot_at_target(Vec *origin, void *model, s32 angle) {
             }
         }
         if (atk.attack_kind == 2 && this->is_identified() == 0) {
-            atk.accuracy *= lbl_805DAC94;
+            atk.accuracy *= weapon_float_tenth;
         }
         TItemAttackCol::create((TObject *)tl_05, &atk);
         this->restore_action_type();
@@ -359,7 +359,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         f32 *rec;
         push_matrix_from(identity_matrix);
         rec = get_weapon_range_record(this, 2);
-        v.x = v.y = lbl_805DAC98;
+        v.x = v.y = weapon_float_zero;
         v.z = rec[0];
         rotate_matrix_y(0, owner->rotation_y);
         transform_point_by_current_matrix(&v.x, &pos);
@@ -441,8 +441,8 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 Vec fallback;
                 push_matrix_from(identity_matrix);
                 range_record = (f32 *)(get_weapon_range_record(this, owner->is_status_subsystem_ready()));
-                fallback.y = lbl_805DAC98;
-                fallback.x = lbl_805DAC98;
+                fallback.y = weapon_float_zero;
+                fallback.x = weapon_float_zero;
                 fallback.z = *range_record;
                 rotate_matrix_y(0, owner->rotation_y + angle);
                 transform_point_by_current_matrix(&fallback.x, &endpoint);
@@ -527,13 +527,13 @@ void TItemWeaponPartisan::apply_scale_if_active(f32 damage_scale) {
     }
 }
 
-extern const f32 lbl_805DAC9C;
+extern const f32 weapon_float_one;
 
 void TItemWeapon::update_active_game_effect() {
 
     if (is_active_in_game() != 0) {
         remap_extra_attack_type();
-        owner->deliver_attack_hits(lbl_805DAC9C);
+        owner->deliver_attack_hits(weapon_float_one);
         restore_action_type();
     }
 }
@@ -608,17 +608,17 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
         if ((player != NULL) && (target != NULL)) {
             accuracy = player->attack_state.get_attack_accuracy_scale();
             if ((attack_kind == 2) && (is_identified() == 0)) {
-                accuracy *= lbl_805DAC94;
+                accuracy *= weapon_float_tenth;
             }
             if (target->calc_distance_accuracy_penalty(owner, &target->bodies[body], NULL, accuracy) != 0) {
-                damage_dealt = lbl_805DAC98;
+                damage_dealt = weapon_float_zero;
                 switch (attack_kind) {
                 case 0:
                     damage_dealt = target->receive_physical_attack(owner, scale);
                     break;
                 case 1:
                     damage_dealt = target->receive_physical_attack(owner, scale);
-                    target->apply_knockback_from_attacker(owner, lbl_805DAC94 * damage_dealt);
+                    target->apply_knockback_from_attacker(owner, weapon_float_tenth * damage_dealt);
                     break;
                 case 2:
                     target->receive_weapon_special_attack(owner, &target->bodies[body]);
@@ -760,7 +760,7 @@ void TItemWeapon::update_equipped() {
         if(stage>=0 || ((TObjPlayer *)self->owner)->test_flag30_bit0x100000()) self->update_attack();
         else self->update_idle();
         if(self->model_motion) {
-            self->motion_frame+=lbl_805DAC9C;
+            self->motion_frame+=weapon_float_one;
             frames=self->model_motion->nbFrame;
             if((f32)frames<=self->motion_frame) self->motion_frame-=(f32)frames;
         }
@@ -811,12 +811,12 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 struct WeaponColorDescriptor_80120304 { s32 mode; NJS_ARGB first, second; };
 
-extern const f32 lbl_805DACA0;
+extern const f32 weapon_photon_phase_step;
 s16 weapon_node_material_index;
 __declspec(section ".data") s16 weapon_node_ids[4];
 u8* weapon_render_callback_object;
 extern "C" {
-extern const u8 lbl_805DACA4;
+extern const u8 weapon_unidentified_flag;
 }
 
 void apply_weapon_node_material(NJS_OBJECT *) {
@@ -845,16 +845,16 @@ void apply_weapon_node_material(NJS_OBJECT *) {
 
 void TItemWeapon::advance_weapon_photon_phase() {
     if (test_weapon_flags(0x02000000U) == 0U) {
-        photon_phase = photon_phase + lbl_805DACA0;
+        photon_phase = photon_phase + weapon_photon_phase_step;
     } else {
-        photon_phase = photon_phase - lbl_805DACA0;
+        photon_phase = photon_phase - weapon_photon_phase_step;
     }
-    if (lbl_805DAC9C <= photon_phase) {
-        photon_phase = lbl_805DAC9C;
+    if (weapon_float_one <= photon_phase) {
+        photon_phase = weapon_float_one;
         set_weapon_flags(0x02000000U);
     }
-    if (photon_phase <= lbl_805DAC98) {
-        photon_phase = lbl_805DAC98;
+    if (photon_phase <= weapon_float_zero) {
+        photon_phase = weapon_float_zero;
         clear_weapon_flags(0x02000000U);
     }
 }
@@ -876,7 +876,7 @@ NJS_ARGB TItemWeapon::get_weapon_color() {
             first.g = photon_phase * (second.g - first.g) + first.g;
             first.b = photon_phase * (second.b - first.b) + first.b;
             override_alpha = get_owner_alpha();
-            if (lbl_805DAC9C != override_alpha) {
+            if (weapon_float_one != override_alpha) {
                 first.a = override_alpha;
             }
             return first;
@@ -885,8 +885,8 @@ NJS_ARGB TItemWeapon::get_weapon_color() {
         }
     } else {
         NJS_ARGB fallback;
-        fallback.a = lbl_805DAC9C;
-        fallback.b = fallback.g = fallback.r = lbl_805DAC98;
+        fallback.a = weapon_float_one;
+        fallback.b = fallback.g = fallback.r = weapon_float_zero;
         return fallback;
     }
 }
@@ -912,7 +912,7 @@ void TItemWeapon::write_item_data(TItemData *data) {
         data->data1.data_u8[4] = 0;
     }
     if (ok == 0) {
-        data->data1.data_u8[4] = data->data1.data_u8[4] | lbl_805DACA4;
+        data->data1.data_u8[4] = data->data1.data_u8[4] | weapon_unidentified_flag;
     }
 }
 
@@ -997,9 +997,9 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
     } else if (joint == -2) {
         player->get_anim_node_position(0x23, (Vec *)out);
     } else if (item_model != NULL) {
-        joint_origin.z = lbl_805DAC98;
-        joint_origin.y = lbl_805DAC98;
-        joint_origin.x = lbl_805DAC98;
+        joint_origin.z = weapon_float_zero;
+        joint_origin.y = weapon_float_zero;
+        joint_origin.x = weapon_float_zero;
         push_matrix();
         ::copy_matrix(NULL, get_model_joint_matrix(owner, joint));
         premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
@@ -1017,8 +1017,8 @@ void TItemWeapon::get_gun_point(Vec *out) {
 
 }
 
-__declspec(section ".sdata2") extern const f32 lbl_805DAC94 = 0.1f;
-__declspec(section ".sdata2") extern const f32 lbl_805DAC98 = 0.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DAC9C = 1.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DACA0 = 0.03f;
-__declspec(section ".sdata2") extern const u8 lbl_805DACA4 = 0x80;
+__declspec(section ".sdata2") extern const f32 weapon_float_tenth = 0.1f;
+__declspec(section ".sdata2") extern const f32 weapon_float_zero = 0.0f;
+__declspec(section ".sdata2") extern const f32 weapon_float_one = 1.0f;
+__declspec(section ".sdata2") extern const f32 weapon_photon_phase_step = 0.03f;
+__declspec(section ".sdata2") extern const u8 weapon_unidentified_flag = 0x80;

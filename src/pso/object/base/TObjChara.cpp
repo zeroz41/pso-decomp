@@ -167,16 +167,16 @@ s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 void matrix_mult_vec(s32, void *, void *);
 extern const f64 angle_units_per_radian;
 extern TObjCollidable *entity_table[];
-extern const f64 lbl_80434098;
-extern const f64 lbl_804340A0;
-extern u8 lbl_804340A8[];
-extern const char lbl_804340B0[];
+extern const f64 newton_sqrt_half;
+extern const f64 newton_sqrt_three;
+extern u8 meseta_label_text[];
+extern const char miss_label_text[];
 extern s32 current_floor_index;
 extern TObject *tl_07;
 void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
-const f32 TObjPlayer__data_80434060[3] = {0.0f, 1.0f, 0.0f};
+const f32 stat_status_light_direction[3] = {0.0f, 1.0f, 0.0f};
 
 // inferred: update_poison_status adds entry [game_difficulty_selection] to each poison tick's damage
 const s16 poison_damage_bonus_by_difficulty[4] = {0, 2, 5, 10};
@@ -184,7 +184,7 @@ const s16 poison_damage_bonus_by_difficulty[4] = {0, 2, 5, 10};
 // inferred: the zero vector find_nearest_visible_player starts its player-distance vector from
 const Vec nearest_player_zero_vec = {0.0f, 0.0f, 0.0f};
 
-static const f32 lbl_805D7D3C = 65536.0f;
+static const f32 subtractive_rng_ratio_divisor = 65536.0f;
 }
 void apply_actor_gravity(TObjEnemy *enemy, s32 *ground_position, f32 hover_height);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
@@ -199,7 +199,7 @@ f64 fabs_double(f64 x);
 
 #pragma push
 #pragma fp_contract on
-extern const double lbl_80434090;
+extern const double accuracy_distance_penalty_scale;
 
 #pragma pop
 
@@ -221,9 +221,9 @@ f32 newton_sqrtf(f32 x) {
     volatile f32 y;
     if (x > (0.0f)) {
         f64 guess = __frsqrte(x);
-        guess = lbl_80434098 * guess * (lbl_804340A0 - (f64) x * (guess * guess));
-        guess = lbl_80434098 * guess * (lbl_804340A0 - (f64) x * (guess * guess));
-        guess = lbl_80434098 * guess * (lbl_804340A0 - (f64) x * (guess * guess));
+        guess = newton_sqrt_half * guess * (newton_sqrt_three - (f64) x * (guess * guess));
+        guess = newton_sqrt_half * guess * (newton_sqrt_three - (f64) x * (guess * guess));
+        guess = newton_sqrt_half * guess * (newton_sqrt_three - (f64) x * (guess * guess));
         y = (f32) ((f64) x * guess);
         return y;
     }
@@ -259,7 +259,7 @@ s32 get_current_floor(void) {
 
 f32 SubtractiveRng::next_ratio() {
     const u32 sample = static_cast<u32>(subtractive_rng_next(this));
-    return (f32) (sample >> 16) / *(const volatile f32 *)&lbl_805D7D3C;
+    return (f32) (sample >> 16) / *(const volatile f32 *)&subtractive_rng_ratio_divisor;
 }
 
 bool is_split_screen(void) {
@@ -1293,7 +1293,7 @@ s32 TObjChara::update_attack_stat_status() {
                     }
                     break;
                 }
-                new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
+                new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)stat_status_light_direction, 0x2D, this, tl_07);
             }
             return 1;
         }
@@ -1331,7 +1331,7 @@ s32 TObjChara::update_defense_stat_status() {
                     }
                     break;
                 }
-                new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
+                new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)stat_status_light_direction, 0x2D, this, tl_07);
             }
             return 1;
         }
@@ -1431,7 +1431,7 @@ void TObjPlayer::show_miss_for_collider(s32 collider) {
 void TObjChara::show_miss_popup(const float *pos) {
     if (this->test_actor_flags(0x02000000) == 0 && this->is_locally_controlled() == 0 && pos != NULL) {
         if (TObjPlayer::get_player_count() == 0 || this->entity_id >= 0x1000) {
-            TOCtrlDubchik::create_font((saddr)pos, 0xFFFF0000, 0x14, lbl_804340B0);
+            TOCtrlDubchik::create_font((saddr)pos, 0xFFFF0000, 0x14, miss_label_text);
         }
     }
 }
@@ -1461,7 +1461,7 @@ void show_meseta_label(saddr player, u32 pos, s32 delay, s32 value) {
         if (((TObjChara *)player)->is_locally_controlled() != 0) {
             size <<= 1;
         }
-        create_font_small_task(pos, -0x100, size, delay, (s32 *)lbl_804340A8, value, ((TObjBase *)(player))->get_entity_id());
+        create_font_small_task(pos, -0x100, size, delay, (s32 *)meseta_label_text, value, ((TObjBase *)(player))->get_entity_id());
     }
 }
 
@@ -1486,7 +1486,7 @@ int TObjChara::calc_distance_accuracy_penalty(TObjChara *attacker, CollisionBody
             }
             const float squared = delta.x * delta.x + delta.z * delta.z;
             const float dist = newton_sqrtf(squared);
-            float pen = (float)(dist * lbl_80434090);
+            float pen = (float)(dist * accuracy_distance_penalty_scale);
             pen *= 0.33333334f;
             chance -= pen;
         }
@@ -1743,7 +1743,7 @@ void TObjChara::apply_attack_stat_status(StatStatusReceipt *receipt) {
         this->adjust_atp_range((s32) (new_amount * (f32) this->get_base_atp_range()));
         this->set_status_effect_timer(2, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
         if (this->test_actor_flags(0x02000000) == 0) {
-            new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
+            new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)stat_status_light_direction, 0x2D, this, tl_07);
         }
     }
 }
@@ -1772,7 +1772,7 @@ void TObjChara::apply_defense_stat_status(StatStatusReceipt *receipt) {
         this->adjust_dfp((s32) (new_amount * (f32) this->get_base_dfp()));
         this->set_status_effect_timer(3, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
         if (this->test_actor_flags(0x02000000) == 0) {
-            new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
+            new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)stat_status_light_direction, 0x2D, this, tl_07);
         }
     }
 }
@@ -3139,7 +3139,7 @@ void TObjEnemy::draw_ground_shadow(const Vec *scale, s32 forceDraw) {
     s32 rotationX;
     s32 rotationZ;
 
-    (void)&lbl_805D7D3C;
+    (void)&subtractive_rng_ratio_divisor;
     push_matrix();
     direction_to_rotation_xz((u8 *)&ground_normal, &rotationX, &rotationZ);
     translate_matrix(0, position.x, 0.3f + position.y, position.z);

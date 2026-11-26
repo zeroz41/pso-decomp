@@ -7882,10 +7882,10 @@ force_active:
   - hair_bone_rotation_desc_38
   - hair_bone_rotation_desc_39
   - hair_bone_rotation_bone_list_of_descriptor
-  - lbl_804A0440
-  - lbl_804A044C
-  - lbl_804A0458
-  - lbl_804A0468
+  - uraending_code_letters
+  - gyakukaiten_code_letters
+  - kousokukaiten_code_letters
+  - reverse_tech_codes
   - npc_normal_set_00
   - npc_normal_set_10
   - npc_normal_set_16
@@ -8139,7 +8139,7 @@ force_active:
   - tonedown_tab
   - lbl_804F6EE0
   - sndSintab
-  - lbl_804F9E60
+  - hex_digit_values
   - boss1_dragon_node_origin
   - boss1_dragon_breath_local_points
   - boss1_dragon_capture_chunk_model
@@ -8497,7 +8497,7 @@ force_active:
   - lbl_805D7ACC
   - lbl_805D7AEC
   - lbl_805D7CC8
-  - lbl_805D7D3C
+  - subtractive_rng_ratio_divisor
   - draw_line_one
   - draw_line_zero
   - draw_line_minus_one

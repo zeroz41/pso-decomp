@@ -14,7 +14,7 @@ struct CaneScaleTable {
     Vec remaining[7];
 };
 
-const CaneScaleTable lbl_8043E878 = {
+const CaneScaleTable cane_node1_scale_steps = {
     {1.0f, 1.0f, 1.0f},
     {
         {150000.5f, 150000.5f, 5000.5f},
@@ -26,7 +26,7 @@ const CaneScaleTable lbl_8043E878 = {
         {100000.0f, 100000.0f, 100000.0f},
     },
 };
-const CaneScaleTable lbl_8043E8D8 = {
+const CaneScaleTable cane_node4_scale_steps = {
     {1.0f, 1.0f, 1.0f},
     {
         {150000.5f, 150000.5f, 5000.5f},
@@ -49,12 +49,12 @@ void TItemWeaponSorcerersCane::transform_model_node() {
     case 1:
         TItem::begin_effect_render();
         scale_step = this->scale_step;
-        scale_current_matrix((const f32 *)((u8 *)&lbl_8043E878.value + (scale_step * 0xC)));
+        scale_current_matrix((const f32 *)((u8 *)&cane_node1_scale_steps.value + (scale_step * 0xC)));
         return;
     case 4:
         TItem::begin_effect_render();
         step = this->scale_step;
-        scale_current_matrix((const f32 *)((u8 *)&lbl_8043E8D8.value + (step * 0xC)));
+        scale_current_matrix((const f32 *)((u8 *)&cane_node4_scale_steps.value + (step * 0xC)));
         return;
     case 7:
         TItem::begin_effect_render();
