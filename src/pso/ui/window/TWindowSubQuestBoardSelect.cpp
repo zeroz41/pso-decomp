@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
+#include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -68,7 +69,6 @@ WindowDescriptor TWindowSubQuestBoardSelect__window_parameters = {
 
 
 
-extern "C" {
 extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::update_slot_title() {
@@ -137,7 +137,7 @@ void TWindowSubQuestBoardSelect::select_next() {
     }
 }
 
-void draw_selection_corners(void *, void *, f32, f32);
+extern "C" {
 
 void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, WindowDrawContext *ctx) {
     ColorLineVertex v[3];
@@ -269,6 +269,7 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
 
 u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
+}
 #pragma push
 #pragma fp_contract on
 TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
@@ -290,5 +291,3 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
 }
 
 #pragma pop
-
-}

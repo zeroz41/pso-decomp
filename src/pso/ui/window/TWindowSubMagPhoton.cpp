@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowSubOption.h"
@@ -35,8 +36,6 @@
 #pragma push
 #pragma readonly_strings on
 
-extern "C" {
-void draw_action_palette_icon(void *e, s32 a, u16 b);
 extern const s8 photon_blast_slot_order[4] = { 1, 2, 0, 0 };
 extern const u8 photon_blast_entry_indices[4] = { 3, 1, 2, 0 };
 
@@ -53,15 +52,13 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
     for (i = 0; i < 3; i++) {
         s32 blast = stats.get_photon_blast(i);
         photon_blasts[photon_blast_slot_order[i]] = blast;
-        void *e = (void *)this->get_array_entry(i + 1);
+        WindowSpritePart *e = (WindowSpritePart *)this->get_array_entry(i + 1);
         if (blast != -1) {
             draw_action_palette_icon(e, 5, blast);
         } else {
             draw_action_palette_icon(e, 0, 0);
         }
     }
-}
-
 }
 
 const char *TWindowSubMagPhoton::class_name = "TWindowSubMagPhoton";

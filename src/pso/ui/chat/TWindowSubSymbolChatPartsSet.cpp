@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -138,11 +139,9 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
 const char *window_sub_symbol_chat_parts_set_name = "TWindowSubSymbolChatPartsSet";
 static const NJS_POINT2 parts_set_window_size = {178.0f, 188.0f};
 
-extern "C" {
-void draw_selection_corners(void *, void *, f32, f32);
 
 
-void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
+void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(WindowDrawContext *ctx) {
     NJS_POINT2 corner;
     WindowSpritePart *e;
     switch (selection_mode) {
@@ -151,7 +150,7 @@ void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
         e = TWindowSubSymbolChatPartsSet::get_parts_entry(this, first_part_index);
         corner.x = e->x - 3.0f;
         corner.y = e->y - 3.0f;
-        draw_selection_corners(ctx, &corner, 38.0f, 0.1f);
+        draw_selection_corners(ctx, &corner.x, 38.0f, 0.1f);
         break;
     case 0:
     case 2:
@@ -198,7 +197,7 @@ void TWindowSubSymbolChatPartsSet::update_part_sprites() {
     case 3:
         a3 = get_parts_entry(this, (u32)second_part_index);
         b3 = get_parts_entry((saddr)(u32)second_part_index);
-        c = get_shortcut_icon_entry(this, (u32)second_part_index);
+        c = get_shortcut_icon_entry(this, second_part_index);
         setup_part_sprites(a3, b3, c, 0xFF, 0, 0, 0, 0);
     case 1:
         a1 = get_parts_entry(this, first_part_index);
@@ -332,8 +331,6 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     }
     update_window();
     this->update_window_entry_list(&entry_list);
-}
-
 }
 TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
     delete heading_display;

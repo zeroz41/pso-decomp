@@ -38,6 +38,8 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TWindowLayoutRect.h"
+#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/system/scene/TScene.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -47,17 +49,7 @@ struct UVPair_8024503C { UV_8024503C e[2]; };
 const char *TWindowBase::class_name = "TWindowBase";
 static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
 
-void reset_line_width(void);
-void set_line_width(int a0);
 void draw_window_scanline(TWindowBase *window, s32 row, WindowDrawContext *r, f32 len);
-extern "C" {
-
-
-
-
-
-
-extern int area_total;
 
 
 int get_area_total(void) {  return area_total; }
@@ -132,8 +124,6 @@ s32 TWindowBase::is_open_and_unblocked() {
     return (s32) ((u32) __cntlzw(this->window_flags & 4) >> 5);
 }
 #pragma pop
-
-}
 void hide_window(u8 *object) {
     TWindowBase *window = (TWindowBase *)object;
     window->window_flags = (s32) (window->window_flags & 0xFFFFFFF8);

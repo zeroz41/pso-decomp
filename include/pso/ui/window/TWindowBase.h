@@ -83,9 +83,7 @@ struct TWindowSubComCard;
 class TWindowFukidasi;
 BOOL scanline_crosses_window(void *ctx, void *position, void *size);
 void hide_window(u8 *object);
-extern "C" {
 int get_area_total(void);
-}
 void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s32 active);
 // The highlight sweep drawn over a status window: begin sets the texture and blend
 // (skipped for UI themes 0 and 1), draw_window_sweep_strip draws it over quad, end restores.

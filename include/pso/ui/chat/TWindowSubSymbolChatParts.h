@@ -19,7 +19,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     virtual ~TWindowSubSymbolChatParts();
     static const char *class_name;
     void scroll_to_cursor_row();
-    void draw_selected_cursor(u8 *);
+    void draw_selected_cursor(WindowDrawContext *ctx);
     void update_cursor_input();
     s32 calc_symbol_index();
     s32 is_confirmed();

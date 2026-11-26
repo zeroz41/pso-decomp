@@ -11,6 +11,7 @@ struct NJS_POINT2;
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSubStatusDisp;
+struct WindowDrawContext;
 
 struct TWindowSubSymbolChatFaceType : public TWindowBase {
     TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selected);
@@ -36,6 +37,8 @@ LAYOUT_ASSERT(TWindowSubSymbolChatFaceType_size, sizeof(TWindowSubSymbolChatFace
 
 LAYOUT_ASSERT(FaceType_selection, offsetof(TWindowSubSymbolChatFaceType, selection) == 0x64);
 LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, status_disp) == 0x68);
+
+void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp);
 
 
 void draw_face_selection(TWindowSubSymbolChatFaceType *window, WindowDrawContext *context);

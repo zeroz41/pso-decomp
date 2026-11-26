@@ -24,9 +24,6 @@
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/chat/SymbolChatPayload.h"
 
-extern "C" {
-
-
 SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
     25, 1,
     {
@@ -215,6 +212,7 @@ WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(saddr index) {
 WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(void *window, int sel) {
     return (WindowSpritePart *)((TWindowBase *)window)->get_array_entry(sel + 5);
 }
+extern "C" {
 
 void apply_facial_part_sprites(WindowLayoutEntries *entries, s32 packed, s32 cur) {
     WindowSpritePart **p = (WindowSpritePart **)entries->items + cur;

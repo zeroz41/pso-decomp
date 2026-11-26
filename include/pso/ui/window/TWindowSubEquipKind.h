@@ -22,8 +22,6 @@ extern const char *TWindowSubEquipKind__class_name;
 
 struct NJS_POINT2;
 
-extern "C" {
 TWindowSubEquipKind *create_equip_kind_window(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client);
-}
 
 #endif

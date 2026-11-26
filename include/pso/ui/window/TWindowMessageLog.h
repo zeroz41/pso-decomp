@@ -34,8 +34,6 @@ LAYOUT_ASSERT(TWindowMessageLog_size, sizeof(TWindowMessageLog) == 0x98);
 extern char *chat_log_lines[30];
 
 TWindowMessageLog *create_message_log_window(const NJS_POINT2 *position, const f32 *size, s32 client);
-extern "C" {
 void post_chat_log_message(u16 id, const char *text);
-}
 
 #endif

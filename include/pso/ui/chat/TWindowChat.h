@@ -56,10 +56,8 @@ public:
     int is_open();
     static struct SymbolChatPreset *open_symbol_chat(s32 *index);
 };
-extern "C" {
 void consume_input_active_flag(TWindowChat *chat);
 void consume_active_flag(TWindowChat *chat);
-}
 
 #include <stddef.h>
 LAYOUT_ASSERT(ChatBaseSize, sizeof(TObject)==0x1C);

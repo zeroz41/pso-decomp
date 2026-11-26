@@ -9,8 +9,6 @@ extern "C" {
 void TLobby__sub_80077608(void);
 }
 
-extern "C" {
 void init_symbol_chat_header(void *p);
-}
 
 #endif

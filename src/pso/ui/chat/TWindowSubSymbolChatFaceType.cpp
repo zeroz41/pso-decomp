@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/unk/text_803DA798.h"
@@ -35,10 +36,6 @@ void TWindowSubSymbolChatFaceType::confirm_selection() {
 }
 
 
-
-extern "C" {
-
-extern s32 actor_frame_tick;
 
 
 void TWindowSubSymbolChatFaceType::handle_input() {
@@ -138,8 +135,6 @@ void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp)
     ctx->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     end_screen_draw();
-}
-
 }
 void draw_face_selection(TWindowSubSymbolChatFaceType *window, WindowDrawContext *context) {
   int entry_index;

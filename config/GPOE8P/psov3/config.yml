@@ -1863,7 +1863,7 @@ force_active:
   - symbol_chat_parts_set_part_uv_table
   - TWindowSubSymbolChat__sub_80281840
   - create_new_parts_menu__20TWindowSubSymbolChatFv
-  - get_symbol_chat_receive_buffer
+  - get_symbol_chat_receive_buffer__Fv
   - get_technique_description_text__Fl
   - TWindowSubTradeMessage__name
   - TWindowTimer__sub_8019886C
@@ -5886,7 +5886,7 @@ force_active:
   - draw_segment__15TEffStarLight2DFP15ColorLineVertexP15ColorLineVertexP15ColorLineVertexP15ColorLineVertexl
   - draw_selected_bar__11TWindowMenuFP17WindowDrawContext
   - draw_selected_entry__20TWindowSubSymbolChatFv
-  - draw_selected_part_cursor__28TWindowSubSymbolChatPartsSetFPv
+  - draw_selected_part_cursor__28TWindowSubSymbolChatPartsSetFP17WindowDrawContext
   - draw_serial_chars__22TAdEnterSerialAccessGCFPv
   - draw_serial_plates__22TAdEnterSerialAccessGCFv
   - draw_serial_separators__22TAdEnterSerialAccessGCFv
@@ -6383,7 +6383,7 @@ force_active:
   - is_placed__13PlacementSlotFv
   - update_area_count_text__FP11TWindowArea
   - apply_facial_part_sprites
-  - apply_face_appearance_sprite
+  - apply_face_appearance_sprite__FP19WindowLayoutEntriesUc
   - has_unconvertible_char__19TWindowKeyBoardBaseFPUc
   - fn_80262C2C
   - draw_pan_arrows__21TWindowSubAreaMapDispFP17WindowDrawContext
@@ -17782,7 +17782,7 @@ force_active:
   - render__19TAdSelectGameModeGCFv
   - run_task__19TAdSelectGameModeGCFv
   - update_cursor_input__25TWindowSubSymbolChatPartsFv
-  - draw_selected_cursor__25TWindowSubSymbolChatPartsFPUc
+  - draw_selected_cursor__25TWindowSubSymbolChatPartsFP17WindowDrawContext
   - "get_adx_threshold_and_chunk"
   - "adxt_insert_silence"
   - "adxt_set_time_offset"

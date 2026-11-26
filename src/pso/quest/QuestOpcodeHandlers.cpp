@@ -73,6 +73,7 @@
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/trap/TOMineTrap.h"
@@ -254,7 +255,7 @@ const s32 forbid_scape_dolls_values[2] = { 0, 1 };
 const StartOrUpdateGbaJoybootTable lobby_index_identity_table_a = { { 0, 1, 2, 3, 4 } };
 
 // The position qst_op_open_pack_select opens the equip kind window at
-const f32 pack_select_window_pos[2] = { 308.0f, 184.0f };
+const NJS_POINT2 pack_select_window_pos = { 308.0f, 184.0f };
 
 const InitialFloorTable lobby_index_identity_table_b = {
     { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 }
@@ -700,9 +701,6 @@ extern "C" {
 s32 delete_bank_item(u8 *item, s32 slot);
 }
 extern "C" {
-saddr create_equip_kind_window(saddr, const f32 *, s32);
-}
-extern "C" {
 int update_alloc_size__6TLobbyFv(void*);
 }
 
@@ -861,7 +859,7 @@ void qst_op_prevent_item_select(s32 reg) {
 }
 
 void qst_op_open_pack_select() {
-    qst_pack_select_window = (void *)create_equip_kind_window((saddr)get_window_layout_position(3), pack_select_window_pos, local_client_id);
+    qst_pack_select_window = (void *)create_equip_kind_window(get_window_layout_position(3), &pack_select_window_pos, local_client_id);
     ((TWindowMenuIconLine *)qst_pack_select_window)->refresh_judgment_item_list();
     qst_pack_select_help_window = new TWindowHelpItem((void *)get_window_layout_position(2), local_client_id);
 }

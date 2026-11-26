@@ -44,11 +44,9 @@ struct PaletteAction {
     u16 slot;
 };
 
-extern "C" {
 void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index);
 void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id);
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot);
-}
 s32 get_palette_consumable_count(u16 slot, s32 client_id);
 
 struct PaletteItemKind { u8 group; u8 index; };

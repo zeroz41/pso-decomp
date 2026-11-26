@@ -15,6 +15,7 @@
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatParts.h"
+#include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -45,9 +46,6 @@ WindowDescriptor symbol_chat_parts_window_layout = {
 
 
 
-extern "C" {
-void draw_selection_corners(void *, void *, f32, f32);
-}
 
 #pragma push
 #pragma fp_contract on
@@ -193,11 +191,11 @@ void TWindowSubSymbolChatParts::update_cursor_input() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChatParts::draw_selected_cursor(u8 *ctx) {
+void TWindowSubSymbolChatParts::draw_selected_cursor(WindowDrawContext *ctx) {
     NJS_POINT2 corner;
     corner.x = ((40.0f * (f32) (s8) this->cursor_col) + 10.0f) - 3.0f;
     corner.y = ((40.0f * (f32) (s8) this->cursor_row) + 9.0f) - 3.0f;
-    draw_selection_corners(ctx, &corner, 38.0f, 0.1f);
+    draw_selection_corners(ctx, &corner.x, 38.0f, 0.1f);
 }
 #pragma pop
 
@@ -399,7 +397,7 @@ void TWindowSubSymbolChatParts::render() {
         break;
     }
     draw_window_scrollbar(scrollbar, ctx, scroll_offset);
-    draw_selected_cursor((u8 *)ctx);
+    draw_selected_cursor(ctx);
     heading->render(ctx);
 }
 

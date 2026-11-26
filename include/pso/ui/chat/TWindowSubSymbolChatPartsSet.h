@@ -9,6 +9,7 @@ class WindowHeading;
 
 struct TWindowSubStatusDisp;
 struct SymbolChatPart;
+struct WindowDrawContext;
 
 struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second);
@@ -34,7 +35,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     s32 *second_flag_out;
     s32 *result_out;
     WindowHeading *heading_display;
-    void draw_selected_part_cursor(void *ctx);
+    void draw_selected_part_cursor(WindowDrawContext *ctx);
     void handle_cancel();
     void handle_decide();
     void toggle_selected_part();
@@ -54,7 +55,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     static void setup_part_sprites(WindowSpritePart *help, WindowSpritePart *alternate, WindowSpritePart *shortcut_icon, u16 code, s32 color, s32 flip_u, s32 flip_v, s32 uv_index);
 };
 
-extern "C" WindowSpritePart *get_shortcut_icon_entry(void *window, s32 index);
+WindowSpritePart *get_shortcut_icon_entry(void *window, s32 index);
 
 LAYOUT_ASSERT(TWindowSubSymbolChatPartsSet_size, sizeof(TWindowSubSymbolChatPartsSet) == 0x98);
 #endif
