@@ -6452,12 +6452,9 @@ pso/object/door/TODoorFourLightSpace.cpp:
 	.sdata2     start:0x805DD8F0 end:0x805DD8FC
 
 pso/object/door/GreenDoorResource.cpp:
-	.text       start:0x8028A714 end:0x8028A8F8
+	.text       start:0x8028A714 end:0x8028A998
 	.rodata     start:0x80450C50 end:0x80450C88
 	.sbss       start:0x805D64C8 end:0x805D64D0
-
-pso/boss/goldragon/TBoss8Dragon_8028A8F8.cpp:
-	.text       start:0x8028A8F8 end:0x8028A998
 	.sdata2     start:0x805DD900 end:0x805DD904
 
 pso/unk/text_8028A998.cpp:

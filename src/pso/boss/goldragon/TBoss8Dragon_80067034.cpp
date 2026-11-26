@@ -3,7 +3,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8028A8F8.h"
+#include "pso/object/door/GreenDoorResource.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
