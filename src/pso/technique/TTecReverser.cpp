@@ -13,6 +13,7 @@
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/technique/TechniqueContact.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
@@ -22,20 +23,15 @@
 
 #pragma readonly_strings on
 
-struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
+// A particle emitter of the revival effect: it starts after `delay` frames, `count` times.
+struct RevivalEmitter { s32 delay; s32 count; s32 id; s32 pad; };
 
-
-struct List_8023A244 { uaddr objs[16]; s32 vals[16]; s32 count; };
-
-extern "C" {
 const char *lbl_805D3818 = "TTecReverser";
-Entry_80239E44 revival_particle_table[3] = {
+RevivalEmitter revival_particle_table[3] = {
     {0, 0x1E, 0x35, 0},
     {0x23, 1, 0x36, 0},
     {0x2D, 1, 0x37, 0},
 };
-
-}
 
 void TTecShot::debug_print_tech_params() {
     debug_printf_at(0x1E0014, "POWER  : %f", params.power);
@@ -47,20 +43,20 @@ void TTecShot::debug_print_tech_params() {
 }
 
 void TTecShot::dispatch_all_technique_contacts() {
-    List_8023A244 *list;
+    TechniqueContactList *list;
     s32 i;
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x128) == 0U) {
+    if (collidable == NULL) {
         queue_destruction();
         return;
     }
-    if ((u16) ((TObjBase *)((saddr)(*(s32 *)((s8 *)((u8 *)this) + 0x1C))))->get_entity_id() < 4U) {
-        if (((TObjPlayer *)*(saddr *)((s8 *)((u8 *)this) + 0x1C))->pk_state.is_enabled() != 0) {
-            list = (List_8023A244 *) query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
+    if ((u16) ((TObjBase *)source)->get_entity_id() < 4U) {
+        if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
+            list = (TechniqueContactList *) query_technique_player_contacts(source);
         } else {
-            list = (List_8023A244 *) query_technique_enemy_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
+            list = (TechniqueContactList *) query_technique_enemy_contacts(source);
         }
     } else {
-        list = (List_8023A244 *) query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
+        list = (TechniqueContactList *) query_technique_player_contacts(source);
     }
     if (list == NULL) {
         this->vfunc_6();
@@ -68,10 +64,10 @@ void TTecShot::dispatch_all_technique_contacts() {
         return;
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active((int) list->objs[i]) != 0) {
-            TObjChara *p = (TObjChara *) list->objs[i];
+        if (TObjPlayer::is_valid_and_active((int) list->actors[i]) != 0) {
+            TObjChara *p = (TObjChara *) list->actors[i];
             if (p != NULL) {
-                *(s32 *)((s8 *)((u8 *)this) + 0xF8) = list->vals[i];
+                contact = (TechniqueContactBody *) list->bodies[i];
                 this->apply_to_target(p);
             }
         }
@@ -79,46 +75,44 @@ void TTecShot::dispatch_all_technique_contacts() {
 }
 
 void TTecShot::dispatch_technique_contact(s32) {
-    u8 *var_r31;
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x128) == 0U) {
+    TechniqueContactList *list;
+    if (collidable == NULL) {
         queue_destruction();
         return;
     }
-    if ((u16) ((TObjBase *)((saddr)(*(s32 *)((s8 *)((u8 *)this) + 0x1C))))->get_entity_id() < 4U) {
-        if (((TObjPlayer *)*(saddr *)((s8 *)((u8 *)this) + 0x1C))->pk_state.is_enabled() != 0) {
-            var_r31 = query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
+    if ((u16) ((TObjBase *)source)->get_entity_id() < 4U) {
+        if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
+            list = (TechniqueContactList *) query_technique_player_contacts(source);
         } else {
-            var_r31 = query_technique_enemy_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
+            list = (TechniqueContactList *) query_technique_enemy_contacts(source);
         }
     } else {
-        var_r31 = query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
+        list = (TechniqueContactList *) query_technique_player_contacts(source);
     }
-    if (var_r31 == NULL) {
+    if (list == NULL) {
         this->vfunc_6();
         queue_destruction();
         return;
     }
-    if (TObjPlayer::is_valid_and_active((int) (*(u32 *)((s8 *)var_r31 + 0))) != 0) {
-        TObjChara *p = *(TObjChara **)((s8 *)var_r31 + 0);
+    if (TObjPlayer::is_valid_and_active((int) list->actors[0]) != 0) {
+        TObjChara *p = (TObjChara *) list->actors[0];
         if (p != NULL) {
-            *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (s32) *(s32 *)((s8 *)var_r31 + 0x40);
+            contact = (TechniqueContactBody *) list->bodies[0];
             this->apply_to_target(p);
         }
     }
 }
 
-#define tec_reverser ((u8 *)this)
-TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level) : TTecCircle(arg1, origin, level) {
-    ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
-    ((TechniqueParams *)(tec_reverser + 0x88))->copy(&technique_param_table[17]);
-    ((TTecReverser *)tec_reverser)->apply_params((TechniqueParams *)(tec_reverser + 0x88), level);
-    copy_technique_target_list(&((TTecReverser *)tec_reverser)->targets, (TargetCursorList *)targets);
+TTecReverser::TTecReverser(saddr owner, saddr origin, saddr targets, saddr level) : TTecCircle(owner, origin, level) {
+    this->m_name = lbl_805D3818;
+    this->params.copy(&technique_param_table[17]);
+    this->apply_params(&this->params, level);
+    copy_technique_target_list(&this->targets, (TargetCursorList *)targets);
     play_sound_effect(0x4002A812, &position, 0, 0);
-    if (((TTecReverser *)tec_reverser)->source != 0U) {
-        ((TTecReverser *)tec_reverser)->sourceId = ((TObjBase *)(saddr)((TTecReverser *)tec_reverser)->source)->get_entity_id();
+    if (this->source != 0U) {
+        this->sourceId = ((TObjBase *)(saddr)this->source)->get_entity_id();
     }
 }
-#undef tec_reverser
 
 TTecReverser::~TTecReverser() {
 
@@ -157,9 +151,9 @@ TTecReverserEff::TTecReverserEff(TObjChara *chara, TObject *parent) : TObject(pa
             Vec v;
             VecCopy(&v, &m_pos);
             v.y += 20.0f;
-            m_emitters[i] = create_timed_particle_emitter(&v, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
+            m_emitters[i] = create_timed_particle_emitter(&v, revival_particle_table[i].id, revival_particle_table[i].delay, revival_particle_table[i].count);
         } else {
-            m_emitters[i] = create_timed_particle_emitter(&m_pos, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
+            m_emitters[i] = create_timed_particle_emitter(&m_pos, revival_particle_table[i].id, revival_particle_table[i].delay, revival_particle_table[i].count);
         }
     }
 }

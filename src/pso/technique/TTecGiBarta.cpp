@@ -14,6 +14,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecShot.h"
 #include "pso/technique/TTecGiBarta.h"
+#include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
@@ -27,26 +28,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/TObjMotion.h"
-
-
-struct Row_802304A0 { u32 entry; u32 flags; f32 scale; };
-struct Band_802304A0 { const Row_802304A0 *rows; u32 count; };
-struct Angles_802304A0 { s32 a[3]; };
-struct Shot_802304A0 {
-    u8 pad0[0x20];
-    Vec pos;
-    u8 pad2C[0x54 - 0x2C];
-    s32 f54;
-    s32 angle;
-    s32 f5C;
-    u8 pad60[0xC6 - 0x60];
-    s16 band;
-    u16 source;
-    u8 padCA[0x130 - 0xCA];
-    void **emitters;
-};
-
-extern "C" {
 
 
 #pragma push
@@ -91,47 +72,46 @@ void TTecGiBarta::update_technique_by_phase() {
 #pragma inline_depth(1)
 #pragma auto_inline on
 #pragma dont_inline off
-}
 
-const Row_802304A0 lbl_8044D180[3] = {
+const TechniqueEmitterSourceRow giBarta_band0_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.0f},
     {0x182, 0x20022, 0.0f},
 };
-const Row_802304A0 lbl_8044D1A4[3] = {
+const TechniqueEmitterSourceRow giBarta_band1_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.2f},
     {0x183, 0x20062, 1.4f},
 };
-const Row_802304A0 lbl_8044D1C8[3] = {
+const TechniqueEmitterSourceRow giBarta_band2_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.4f},
     {0x184, 0x20062, 1.4f},
 };
-const Row_802304A0 lbl_8044D1EC[3] = {
+const TechniqueEmitterSourceRow giBarta_band3_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.6f},
     {0x185, 0x30062, 1.6f},
 };
-const Row_802304A0 lbl_8044D210[3] = {
+const TechniqueEmitterSourceRow giBarta_band4_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.8f},
     {0x186, 0x30062, 1.8f},
 };
-const Row_802304A0 lbl_8044D234[2] = {
+const TechniqueEmitterSourceRow giBarta_band5_emitters[2] = {
     {0x181, 0x42, 2.2f},
     {0x18E, 0x30062, 2.2f},
 };
-const Band_802304A0 TTecGiBarta__emitter_profile_table[6] = {
-    {lbl_8044D180, 3}, {lbl_8044D1A4, 3}, {lbl_8044D1C8, 3},
-    {lbl_8044D1EC, 3}, {lbl_8044D210, 3}, {lbl_8044D234, 2},
+const TechniqueEmitterSourceTable TTecGiBarta__emitter_profile_table[6] = {
+    {giBarta_band0_emitters, 3}, {giBarta_band1_emitters, 3}, {giBarta_band2_emitters, 3},
+    {giBarta_band3_emitters, 3}, {giBarta_band4_emitters, 3}, {giBarta_band5_emitters, 2},
 };
 const char *TTecGiBarta__class_name = "TTecGiBarta";
-const Vec lbl_8044D288 = {0.0f, 0.0f, 3.0f};
+const Vec giBarta_emitter_offset = {0.0f, 0.0f, 3.0f};
 
 
 void TTecGiBarta::create_particles() {
-    Angles_802304A0 angles;
+    s32 dir[3];
     Vec pos;
     Vec off;
     Vec p2;
@@ -140,9 +120,9 @@ void TTecGiBarta::create_particles() {
     TParticleCtrl *emitter;
     TObjCollidable *src;
 
-    angles.a[0] = this->angles[0];
-    angles.a[1] = 0;
-    angles.a[2] = this->angles[2];
+    dir[0] = angles[0];
+    dir[1] = 0;
+    dir[2] = angles[2];
     emitters = static_cast<TParticleCtrl **>(mem_alloc(TTecGiBarta__emitter_profile_table[band].count * sizeof(*emitters)));
     for (i = 0; i < TTecGiBarta__emitter_profile_table[band].count; i++) {
 #ifdef __MWERKS__
@@ -155,15 +135,15 @@ void TTecGiBarta::create_particles() {
         }
         if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 2) {
             emitter = static_cast<TParticleCtrl *>(spawn_continuous_particle_with_direction(
-                &pos, &angles, TTecGiBarta__emitter_profile_table[band].rows[i].entry));
+                &pos, dir, TTecGiBarta__emitter_profile_table[band].rows[i].entry));
         } else {
 #ifdef __MWERKS__
-            __memcpy(&off, &lbl_8044D288, sizeof(off));
+            __memcpy(&off, &giBarta_emitter_offset, sizeof(off));
 #else
-            off = lbl_8044D288;
+            off = giBarta_emitter_offset;
 #endif
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, this->angles[1]);
+            rotate_matrix_y(0, angles[1]);
             matrix_mult_vec(0, &off, &off);
             pop_matrices(1);
             p2.x = position.x + off.x;

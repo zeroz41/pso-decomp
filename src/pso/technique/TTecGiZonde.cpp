@@ -68,8 +68,6 @@ void TTecGiZonde::apply_to_target(TObjChara *target) {
     target->receive_direct_attack((void *)this->source, hit, 0, 7, -1);
 }
 
-extern "C" {
-
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {
     Vec d;
@@ -248,6 +246,4 @@ TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TTe
     if (this->source != 0U) {
         sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
-}
-
 }

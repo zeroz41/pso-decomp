@@ -16,10 +16,10 @@ struct TTecMegid : public TTecShot {
     void update_by_state();
     void spawn_particle_emitters();
     void init_parameters();
-    static void create(saddr source, saddr pos, saddr arg2, s32 level);
-    static void create_ex(saddr source, saddr pos, s32 arg2, s32 level);
+    static void create(saddr source, saddr pos, saddr target, s32 level);
+    static void create_ex(saddr source, saddr pos, s32 angle, s32 level);
     void render();
-    u8 unk_178[0x4];
+    f32 m_178;
 };
 
 LAYOUT_ASSERT(TTecMegid_size, sizeof(TTecMegid) == 0x17C);
