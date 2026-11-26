@@ -16195,7 +16195,7 @@ force_active:
   - save_bone_angles__17TObjEZBoneRotBaseFv
   - set_photon_color_id__21TItemWeaponPArmsBladeFs
   - get_photon_color_id__21TItemWeaponPArmsBladeFv
-  - sub_80140F44__11TMapCsnCtrlFv
+  - clear_groups__11TMapCsnCtrlFv
   - set_object_number__11TObjNpcBaseFl
   - set_message_label__11TObjNpcBaseFl
   - clear_hit_receive_state__14TObjCollidableFv

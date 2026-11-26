@@ -515,7 +515,7 @@ void TScene::load_scene_data(saddr name) {
     }
     if ((scene_collision_data != NULL) && (TObjMapCsn::get_collision_controller() != NULL)) {
         TMapCsnCtrl *csn = TObjMapCsn::get_collision_controller();
-        collect_collision_groups(csn, *scene_collision_data);
+        csn->set_groups(*scene_collision_data);
         return;
     }
     TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
@@ -774,7 +774,7 @@ void load_scene_collision_file(saddr name) {
             scene_collision_data = (CsnGroup **)load_relocatable_file(filename, collision_file_buffer);
             if (scene_collision_data != NULL && TObjMapCsn::get_collision_controller() != NULL) {
                 TMapCsnCtrl *csn = TObjMapCsn::get_collision_controller();
-                collect_collision_groups(csn, *scene_collision_data);
+                csn->set_groups(*scene_collision_data);
                 return;
             }
             TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
