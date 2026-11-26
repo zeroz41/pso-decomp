@@ -60,7 +60,7 @@ void TObjPlayer::process_trade_target(TItemData *item_data) {
         TItem *slot_item = (TItem *)get_slot_value(equipped_items.items, slot);
         if (slot_item != NULL) {
             send_6x29_delete_item(this, slot_item->get_item_id(), 1);
-            set_equip_slot_entry((saddr)equipped_items.items, slot, 0);
+            set_equip_slot_entry(equipped_items.items, slot, 0);
         }
         if (pickup_item(item) != 0U) {
             set_flag_20000();

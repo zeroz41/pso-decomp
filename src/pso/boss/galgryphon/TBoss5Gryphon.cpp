@@ -848,8 +848,7 @@ void TBoss5Gryphon::set_low_flight_height() { this->position.y = gryphon_sixty_s
 void TBoss5Gryphon::set_offscreen_height() { this->position.y = gryphon_offscreen_height; }
 
 void TBoss5Gryphon::reload_stats_for_type() {
-    saddr self = (saddr)this;
-    ((TObjEneDD *)self)->reload_stats_keep_hp_tp(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]], boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]], boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]);
+    reload_stats_keep_hp_tp(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]], boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]], boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]);
 }
 
 void TBoss5Gryphon::reload_stats_for_phase(void *) {

@@ -364,12 +364,11 @@ void TAdSystemFileCheckGC::enter_state_3() {
     create_back_objects();
 }
 void TAdSystemFileCheckGC::update_mode_selection() {
-    s32 this_addr = (saddr)this;
     if ((handle_mode_selection() == 0) && (TAdPlayerLoadGC::get_instance() == 0)) {
         set_state(2);
     }
 }
-void TAdSystemFileCheckGC::load_system_on_mode_default() { if (handle_mode_selection() == 0) { load_system_file((saddr)((void*)0)); } }
+void TAdSystemFileCheckGC::load_system_on_mode_default() { if (handle_mode_selection() == 0) { load_system_file(0); } }
 s32 TAdSystemFileCheckGC::handle_mode_selection() {
     s32 selection;
     selection = this->status;
@@ -397,14 +396,13 @@ void TAdSystemFileCheckGC::run_state_7() {
 }
 void TAdSystemFileCheckGC::enter_state_7() {  }
 void TAdSystemFileCheckGC::update_mode_selection_and_save() {
-    s32 this_addr = (saddr)this;
     if (((int)handle_mode_selection()) == 0) {
         TAdSinglePlyChrSelectGC::refresh_char_slots();
         if (TAdSinglePlyChrSelectGC::encrypt_save_and_write() != 0) {
-            set_state((s32)((saddr)((void*)(7))));
+            set_state(7);
             return;
         }
-        set_state((s32)((saddr)((void*)(8))));
+        set_state(8);
     }
 }
 void TAdSystemFileCheckGC::enter_state_6() {  }
@@ -473,7 +471,7 @@ s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
     return 0;
 }
 
-void TAdSystemFileCheckGC::confirm_mode_selection() { if (((int)handle_mode_selection()) == 0) { set_state((s32)((saddr)((void*)((void*)1)))); } }
+void TAdSystemFileCheckGC::confirm_mode_selection() { if (((int)handle_mode_selection()) == 0) { set_state(1); } }
 void TAdSystemFileCheckGC::enter_state_0() { close_window_30(); open_message_window(4); }
 
 void TAdSystemFileCheckGC::run_task() {

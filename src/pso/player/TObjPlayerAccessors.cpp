@@ -375,8 +375,8 @@ void EquippedItems::clear() {
     }
 }
 
-void set_equip_slot_entry(saddr slots, s32 slot, s32 item) {
-    ((s32 *)slots)[slot] = item;
+void set_equip_slot_entry(void **slots, s32 slot, void *item) {
+    slots[slot] = item;
 }
 
 void ContactSurfaceState::reset_flags() { word.reset(); }

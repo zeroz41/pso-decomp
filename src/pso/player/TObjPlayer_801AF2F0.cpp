@@ -1128,11 +1128,11 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
     }
     TItem *current = (TItem *)get_slot_value(equipped_items.items, slot);
     if (current == NULL) {
-        set_equip_slot_entry((saddr)equipped_items.items, slot, (saddr)item);
+        set_equip_slot_entry(equipped_items.items, slot, item);
         item->equip();
     } else if (current != item) {
         unequip_item(current);
-        set_equip_slot_entry((saddr)equipped_items.items, slot, (saddr)item);
+        set_equip_slot_entry(equipped_items.items, slot, item);
         item->equip();
     }
     if (test_action_mask(2) != 0) {
@@ -1177,7 +1177,7 @@ void handle_6x26_unequip_item(G_UnequipItem_6x26 *command) {
 
 
 void TObjPlayer::unequip_item(TItem *item) {
-    set_equip_slot_entry((saddr)equipped_items.items, item->get_attach_slot(), 0);
+    set_equip_slot_entry(equipped_items.items, item->get_attach_slot(), 0);
     item->unequip();
     if (item->get_item_type() == 1 && item->get_item_group() == 1) {
         unequip_all_units();
@@ -1188,15 +1188,14 @@ void TObjPlayer::unequip_item(TItem *item) {
 }
 
 void TObjPlayer::unequip_all_units() {
-    saddr player = (saddr)this;
     s32 i;
     TItem *slot_value;
 
     i = 9;
     do {
-        slot_value = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), i);
+        slot_value = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
         if (slot_value != NULL) {
-            set_equip_slot_entry(player + 0xD04, i, 0);
+            set_equip_slot_entry(this->equipped_items.items, i, 0);
             slot_value->unequip();
         }
         i += 1;
@@ -1830,7 +1829,7 @@ void handle_6x2B_create_inventory_item(G_CreateInventoryItem_PC_V3_BB_6x2B *comm
             pkt.item_data.decode_from_network();
             item = create_item(&pkt.item_data);
             if ((item != NULL) && (player->pickup_item(item) != 0U) && (kind == 2) && (pkt.equip_item != 0) && (TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot()) == 0U)) {
-                set_equip_slot_entry((saddr)player->equipped_items.items, item->get_attach_slot(), (saddr)item);
+                set_equip_slot_entry(player->equipped_items.items, item->get_attach_slot(), item);
                 player->set_flag_20000();
                 item->equip();
                 player->clear_flag_20000();
@@ -1876,7 +1875,7 @@ void TObjPlayer::equip_saved_item_if_slot_empty(TObjPlayer *player, TPlyInventor
     TItem *item = create_item(&record->m_data);
     if (item != NULL && player->pickup_item(item) != 0 && (record->m_flags & 8) &&
         TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot()) == 0U) {
-        set_equip_slot_entry((saddr)player->equipped_items.items, item->get_attach_slot(), (saddr)item);
+        set_equip_slot_entry(player->equipped_items.items, item->get_attach_slot(), item);
         player->set_flag_20000();
         item->equip();
         player->clear_flag_20000();

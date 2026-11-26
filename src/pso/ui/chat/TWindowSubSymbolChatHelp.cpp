@@ -211,10 +211,9 @@ void TWindowSubSymbolChatHelp::handle_page_input() {
 }
 
 void TWindowSubSymbolChatHelp::render() {
-    saddr self_addr = (saddr)this;
     WindowDrawContext *entry;
     entry = draw_default_entry();
-    ((TWindowBase *)self_addr)->draw_window_frame(entry);
+    draw_window_frame(entry);
     draw_help_entries(entry);
 }
 
