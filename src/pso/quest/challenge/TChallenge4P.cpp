@@ -285,14 +285,12 @@ void set_split_screen_name(const char *name) {
     strncpy(split_screen_player_name, name, 0x20);
     split_screen_player_name[0x1F] = 0;
 }
-extern "C" {
 void update_challenge_timer(s32 time) {
     if (is_challenge_mode_active() != 0) {
         fabs_float((f32) (time - challenge4p_mode_state.base_time));
         challenge4p_mode_state.base_time = time;
         set_challenge_time_window_timer(time);
     }
-}
 }
 
 
@@ -303,6 +301,7 @@ extern "C" {
 void copy_player_visual_record(void *, void *);
 
 
+}
 s32 set_camera_height_if_valid(f32 multiplier) {
     if (is_challenge_mode_active() == 0) {
         return 0;
@@ -313,7 +312,6 @@ s32 set_camera_height_if_valid(f32 multiplier) {
     challenge4p_mode_state.exp_multiplier = multiplier;
     return 1;
 }
-
 
 s32 try_set_split_screen(s32 difficulty) {
     if (is_challenge_mode_active() == 0) {
@@ -379,8 +377,6 @@ void rebuild_players_for_stage(s32 stage) {
             *(s32 *)((s8 *)p + 0xD58) = 0;
         }
     }
-}
-
 }
 
 
@@ -539,8 +535,6 @@ s32 count_card_layout_entries(s32 client) {
 
 
 
-extern "C" {
-
 s32 calc_min_challenge_progress() {
     s32 progress;
     s32 min_progress;
@@ -559,6 +553,7 @@ s32 calc_min_challenge_progress() {
     } while (i < 4);
     return min_progress;
 }
+extern "C" {
 s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     s32 result;
     s32 total;

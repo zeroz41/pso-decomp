@@ -215,9 +215,9 @@ void TTextureWave::distort_image() {
     u16 *out;
     s32 x;
     y = 0;
-    out = ((GvrTexture *)output)->texels;
-    dx = (u8 *)displacement;
-    image = ((GvrTexture *)image_data)->texels;
+    out = reinterpret_cast<GvrTexture *>(output)->texels;
+    dx = reinterpret_cast<u8 *>(displacement);
+    image = reinterpret_cast<GvrTexture *>(image_data)->texels;
     dy = dx + height * width;
     for (; y < height; y++) {
         for (x = 0; x < width; x++) {

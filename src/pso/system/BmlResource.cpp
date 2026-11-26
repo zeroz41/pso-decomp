@@ -97,7 +97,6 @@ s32 is_bml_loaded(BmlResource *resource) {
 }
 
 extern "C" {
-extern "C" {
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }
@@ -151,6 +150,7 @@ u8 *tmp_buf_use_req(const char *name) {
     return 0;
 }
 
+extern "C" {
 void BmlResource::free_if_not_in_arena(void *ptr) {
     if (arena == NULL) {
         xfree(ptr);

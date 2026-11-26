@@ -161,13 +161,13 @@ void TObjTombstoneRecord::bswap() {
 void bswap_packet_field(s32 *value) {
     bswap_32((u32 *)value);
 }
-extern "C" {
 s32 is_ready_to_draw() {
     if ((is_challenge_retry_menu_disabled() != 0) || (count_challenge_players() <= 1)) {
         return 0;
     }
     return 1;
 }
+extern "C" {
 void TObjChallengeRetry::sub_80072B70() {
     if (this->message != NULL) {
         this->message->close();

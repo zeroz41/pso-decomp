@@ -115,12 +115,14 @@ extern "C" {
 const char *obj_challenge4p_retry_class_name = "TObjChallenge4PRetry";
 
 
+}
 s32 is_multi_ready() {
     if ((get_challenge_mode_flag() != 0) || (get_camera_view_count() <= 1)) {
         return 0;
     }
     return 1;
 }
+extern "C" {
 
 void TObjChallenge4PRetry::close_window_field30() {
     if (this->message != NULL) {
