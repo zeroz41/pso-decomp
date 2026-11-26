@@ -7,7 +7,6 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/system/date.h"
 #include "pso/system/byteswap.h"
@@ -442,10 +441,10 @@ s32 TLobby::calc_alpha_shifted(f32 alpha) {
 
 void TLobby::close_result_windows() {
     text_builder_reset();
-    text_builder_append((u8 *)lobby_ship_name);
-    text_builder_append((u8 *)":");
+    text_builder_append(lobby_ship_name);
+    text_builder_append(":");
     append_padded_number(block_number, 2);
-    text_builder_append((u8 *)"-");
+    text_builder_append("-");
     append_padded_number(lobby_number + 1, 2);
 }
 
@@ -560,12 +559,12 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
             elapsed -= TLobby::date_seconds;
             text_builder_reset();
             if (elapsed / 3600 > 99) {
-                text_builder_append((u8 *)"99:59");
+                text_builder_append("99:59");
             } else {
                 append_padded_number(elapsed / 3600, 2);
-                text_builder_append((u8 *)":");
+                text_builder_append(":");
                 append_padded_number((elapsed / 60) % 60, 2);
-                text_builder_append((u8 *)"/");
+                text_builder_append("/");
             }
             draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)get_shared_text_buffer(), x,
                                  -1.0f + y, scale);

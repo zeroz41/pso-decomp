@@ -116,7 +116,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/system/MainPhaseState.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/player/TPlyCharData.h"
@@ -5170,19 +5170,19 @@ extern "C" {
 
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value) {
     text_builder_reset();
-    text_builder_append((u8 *)str);
-    text_builder_append((u8 *)name);
-    text_builder_append((u8 *)status_line_break);
+    text_builder_append((const char *)str);
+    text_builder_append((const char *)name);
+    text_builder_append(status_line_break);
     text_builder_append_int(value);
-    text_builder_append((u8 *)status_line_break);
+    text_builder_append(status_line_break);
     TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
 }
 
 void show_sub_status_window(void *window, s32 *str, s32 *name) {
     text_builder_reset();
-    text_builder_append((u8 *)str);
-    text_builder_append((u8 *)name);
-    text_builder_append((u8 *)status_line_break);
+    text_builder_append((const char *)str);
+    text_builder_append((const char *)name);
+    text_builder_append(status_line_break);
     TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
 }
 

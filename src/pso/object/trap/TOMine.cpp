@@ -52,7 +52,7 @@ struct game_command_header;
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -968,9 +968,9 @@ s32 TOMineTrap::show_owner_message(TObjChara *player) {
             name = p->get_name();
             if (name != NULL) {
                 text_builder_reset();
-                text_builder_append((u8 *)("\x09""C4"));
-                text_builder_append((u8 *)name);
-                text_builder_append((u8 *)(" TRAP\n"));
+                text_builder_append("\x09""C4");
+                text_builder_append(name);
+                text_builder_append(" TRAP\n");
                 TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
                 return 1;
             }

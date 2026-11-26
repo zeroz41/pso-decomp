@@ -12,6 +12,7 @@
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "dolphin/mtx.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"
@@ -74,11 +75,7 @@ typedef struct Entry_80242380 {
     Ext_80242380 ext;
 } Entry_80242380;
 
-extern "C" {
-char *get_shared_text_buffer();
-void text_builder_append(char *);
-}
-void text_builder_reset();
+extern "C" char *get_shared_text_buffer();
 s32 lbl_805D63D8;
 int com_card_entry_count;
 extern "C" {
