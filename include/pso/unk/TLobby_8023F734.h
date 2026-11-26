@@ -27,6 +27,7 @@ public:
     s32 get_field_308();
     // Steps the sound random generator (x * 0x10DCD + 1) and returns it.
     s32 advance_rng();
+    f32 get_surround_scale();
     s32 get_voice_volume_adjustment();
     void set_voice_volume_adjustment(s32 adjustment);
     // Clamps to 0..1.
@@ -56,7 +57,7 @@ public:
     s32 load_state;
     s32 next_group_state;
     s32 output_mode;              // 0, 1 or 2: what set_output_mode gave sndOutputMode
-    f32 f2A4;
+    f32 surround_scale;           // weight of the surround term of a voice's spatial mix
     s32 f2A8;
     s32 rng_seed;
     s32 route_pos;

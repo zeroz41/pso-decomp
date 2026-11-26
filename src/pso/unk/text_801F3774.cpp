@@ -24,7 +24,7 @@ void TLobby::send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty) {
     packet.__base_G_UpdateQuestFlag_DC_PC_6x75.action = action;
     packet.difficulty16 = difficulty;
     packet.unused = 0;
-    send_and_handle_6x75((TLobby *)&packet);
+    send_and_handle_6x75(&packet);
 }
 
 void TLobby::send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action) {
@@ -34,19 +34,19 @@ void TLobby::send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action) {
     packet.__base_G_UpdateQuestFlag_DC_PC_6x75.action = action;
     packet.difficulty16 = (s16) game_difficulty_selection;
     packet.unused = 0;
-    send_and_handle_6x75((TLobby *)&packet);
+    send_and_handle_6x75(&packet);
 }
 
-void handle_6x75_update_quest_flag_dc(TLobby *lobby) {
-    u16 id;
-    lobby->byteswap_6x75_packet();
-    id = lobby->m_id;
-    if (id == 0) {
-        set_story_flag_in_bank(((s32) *(s16 *)((s8 *)lobby + 8)), ((s32) lobby->m_flags));
+void handle_6x75_update_quest_flag_dc(G_UpdateQuestFlag_V3_BB_6x75 *packet) {
+    u16 action;
+    packet->bswap();
+    action = packet->__base_G_UpdateQuestFlag_DC_PC_6x75.action;
+    if (action == 0) {
+        set_story_flag_in_bank(packet->difficulty16, packet->__base_G_UpdateQuestFlag_DC_PC_6x75.flag);
         return;
     }
-    if (id == 1) {
-        clear_story_flag_in_bank(((s32) *(s16 *)((s8 *)lobby + 8)), ((s32) lobby->m_flags));
+    if (action == 1) {
+        clear_story_flag_in_bank(packet->difficulty16, packet->__base_G_UpdateQuestFlag_DC_PC_6x75.flag);
     }
 }
 
@@ -62,20 +62,23 @@ void prepare_offline_quest_filenames(const char* identity) {
  TLobby::replace_file_extension(offline_quest_filename_buffer_b, (char *)identity, (char *)"_j.dat");
 }
 
-void send_and_handle_6x75(TLobby *lobby) {
-    lobby->byteswap_6x75_packet();
-    send_subcommand((u8 *)lobby);
+void send_and_handle_6x75(G_UpdateQuestFlag_V3_BB_6x75 *packet) {
+    packet->bswap();
+    send_subcommand(packet);
 }
 
-void TLobby::byteswap_6x75_packet() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_16((u16 *)((void *)((char *)this + 4)));
-    bswap_16((u16 *)((void *)((char *)this + 6)));
-    bswap_16((u16 *)((void *)((char *)this + 8)));
-    bswap_16((u16 *)((void *)((char *)this + 10)));
+void G_UpdateQuestFlag_V3_BB_6x75::bswap() {
+    ((G_ClientIDHeader *)&__base_G_UpdateQuestFlag_DC_PC_6x75.header)->bswap();
+    bswap_16(&__base_G_UpdateQuestFlag_DC_PC_6x75.flag);
+    bswap_16(&__base_G_UpdateQuestFlag_DC_PC_6x75.action);
+    bswap_16((u16 *)&difficulty16);
+    bswap_16(&unused);
 }
 
-void build_6x75_update_quest_flag_dc(void* p) { *(u8*)((char*)p + 0x0) = 117; *(u8*)((char*)p + 0x1) = 3; }
+void build_6x75_update_quest_flag_dc(G_UpdateQuestFlag_V3_BB_6x75 *packet) {
+    packet->__base_G_UpdateQuestFlag_DC_PC_6x75.header.subcommand = 0x75;
+    packet->__base_G_UpdateQuestFlag_DC_PC_6x75.header.size = 3;
+}
 
 
 char offline_quest_filename_buffer_a[0x20];

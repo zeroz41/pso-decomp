@@ -4700,7 +4700,7 @@ force_active:
   - buffer_init__Fv
   - build_6x05_write_switch_flag__FPv
   - init__17G_NPCControl_6x69Fv
-  - build_6x75_update_quest_flag_dc__FPv
+  - build_6x75_update_quest_flag_dc__FP28G_UpdateQuestFlag_V3_BB_6x75
   - build_6xAD_olga_flow_subordinate_boss_actions__FPv
   - build_beam_points__21TeneFakeTecThunderEffFv
   - build_box_triangles__10TObjMapCsnFv
@@ -4721,7 +4721,7 @@ force_active:
   - build_status_text__20TWindowSubStatusDispFl
   - build_trade_menu__19TWindowSubTradeMainFv
   - build_weapon_type_weights__9TItemDropFiPvi
-  - byteswap_6x75_packet__6TLobbyFv
+  - bswap__28G_UpdateQuestFlag_V3_BB_6x75Fv
   - byteswap_entry__17SymbolChatPayloadFv
   - bswap__17G_NPCControl_6x69Fv
   - bswap__23G_SetTelepipeState_6x68Fv
@@ -15312,7 +15312,7 @@ force_active:
   - send__31G_DropStackedItem_PC_V3_BB_6x5DFv
   - send__9TProtocolFPUcUl
   - send_action_packet_if_idle__11TBoss6Type2FlP14Boss6GridBytes
-  - send_and_handle_6x75__FP6TLobby
+  - send_and_handle_6x75__FP28G_UpdateQuestFlag_V3_BB_6x75
   - send_attack_code__11TBoss4Type2FlUs
   - send_battle_mode_data__6TLobbyFPv
   - send_battle_mode_params__6TLobbyFcii

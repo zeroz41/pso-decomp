@@ -570,7 +570,7 @@ void set_sound_slot_special_scale(s32 slot, f32 scale) {
     sound_request_voices[slot].clamp_reverb(scale);
 }
 
-f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
+f32 SoundControlState::get_surround_scale() { return surround_scale; }
 s32 SoundControlState::get_voice_volume_adjustment() { return voice_volume_adjustment; }
 void SoundControlState::set_voice_volume_adjustment(s32 adjustment) { voice_volume_adjustment = adjustment; }
 
@@ -1112,7 +1112,7 @@ SoundControlState::SoundControlState() {
     route_pos = -1;
     route = NULL;
     f2A8 = 0;
-    f2A4 = 4.0f;
+    surround_scale = 4.0f;
     rng_seed = 123456;
 }
 

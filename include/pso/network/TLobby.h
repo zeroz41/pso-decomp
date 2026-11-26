@@ -171,7 +171,6 @@ struct TLobby : public TObject {
     void send_set_battle_mode_data();
     void bswap_set_battle_mode_data();
     void send_6x7D_set_battle_mode_data();
-    void update_all_children();
     static void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
     static void backup_story_select();
     static void sync_story_select();
@@ -182,7 +181,6 @@ struct TLobby : public TObject {
     static u32 clamp_min_drop(u32 min, u32 max);
     static void free_boss4rock();
     void bswap_vec3();
-    void swap_header_endian();
     static void init_sub_objects();
     static int rebuild_entry();
     static int init_sub_state();
@@ -296,7 +294,6 @@ struct TLobby : public TObject {
     static void teardown_scene();
     static void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
     static void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
-    void byteswap_6x75_packet();
     void pick_random_entry();
     static void pick_weighted_entry(s32 *key, s32 *slot);
     void copy_record_entry(saddr src);
@@ -424,7 +421,6 @@ struct TLobby : public TObject {
     s32 get_lobby_id();
     static int get_short_mail_ctrl();
     static void clear_lobby_flag();
-    f32 get_field_2a4();
     static void send_find_user_self_tag(s32 gc_num);
     static void*get_com_card_entry(int a0);
     // Empties the com card list and clears its flag.

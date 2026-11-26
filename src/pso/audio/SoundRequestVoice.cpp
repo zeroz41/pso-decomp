@@ -774,7 +774,7 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
                 const Vec *pos = v->position;
                 f64 direction = 10430.38043493439 * atan2_float(pos->z - listener.z, pos->x - listener.x);
                 s32 angle = (s32)direction + camera_ctrl_instance->yaw - 0x4000;
-                surround = (s32)(dist * (cos_table_lookup(angle) * ((TLobby *)(v->owner))->get_field_2a4()));
+                surround = (s32)(dist * (cos_table_lookup(angle) * v->owner->get_surround_scale()));
             }
             if (v->flags & 4) {
                 volume = 0;

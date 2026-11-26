@@ -191,7 +191,7 @@ void TLobby::pick_random_entry() {
     PickRandomEntryOut *out = (PickRandomEntryOut *)this;
     s32 i = next_event_shuffle_entry(challenge_event_shuffle);
     DestroyEventShuffleTableEntry e = lbl_805D60B8[i];
-    ((TLobby *)(&e))->swap_header_endian();
+    e.bswap();
     out->a = e.a;
     out->b = e.b;
     out->c = e.c;
@@ -556,7 +556,16 @@ void TLobby::bswap_vec3() {
     bswap_32((u32 *)&vec->z);
 }
 
-void TLobby::swap_header_endian() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); bswap_16((u16 *)((char*)this + 0x18)); bswap_16((u16 *)((char*)this + 0x1a)); }
+void DestroyEventShuffleTableEntry::bswap() {
+    bswap_32((u32 *)&a);
+    bswap_32((u32 *)&b);
+    bswap_32((u32 *)&c);
+    bswap_32(&d);
+    bswap_32(&e);
+    bswap_32(&f);
+    bswap_16(&g);
+    bswap_16(&h);
+}
 
 void bswap_item_data_record(void* p) {
     AppendRecord *record = (AppendRecord *)p;

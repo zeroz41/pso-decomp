@@ -1401,8 +1401,9 @@ struct G_UpdateQuestFlag_DC_PC_6x75 {
 
 struct G_UpdateQuestFlag_V3_BB_6x75 {
  struct G_UpdateQuestFlag_DC_PC_6x75 __base_G_UpdateQuestFlag_DC_PC_6x75;
- u16 difficulty16;
+ s16 difficulty16;
  u16 unused;
+ void bswap();
 };
 
 struct G_UseItem_6x27 {

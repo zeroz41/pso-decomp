@@ -49,7 +49,12 @@ extern s32 map_object_id_counter;
 extern s32 map_set_enemy_id_counter;
 extern saddr item_drop_server_seed;
 
-struct DestroyEventShuffleTableEntry { f32 a, b, c; u32 d, e, f, g; };
+struct DestroyEventShuffleTableEntry {
+    f32 a, b, c;
+    u32 d, e, f;
+    u16 g, h;
+    void bswap();
+};
 
 struct PickRandomEntryOut { u8 pad[0x14]; f32 a, b, c; u32 d, e, f; };
 

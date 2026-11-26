@@ -4905,7 +4905,7 @@ void apply_battle_rules_to_players() {
         if (p == NULL) {
             continue;
         }
-        ((TLobby *)&p->battle_score)->update_all_children();
+        p->battle_score.reset();
         if (q->get_rules_active() == 1) {
             p->set_state_flag_6043();
             if (p->is_locally_controlled() != 0) {
