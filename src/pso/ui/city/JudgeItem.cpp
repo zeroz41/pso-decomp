@@ -15,10 +15,10 @@ ItemAppraisalRules *item_appraisal_rules;
 s32 item_appraisal_favored_weapon;
 s32 item_appraisal_score;
 
-u8 lookup_appraisal_grind_score(s8 x) {
+u8 lookup_appraisal_grind_score(s8 roll) {
     const AppraisalScoreEntry *p = item_appraisal_rules->grind_scores;
     while (p->roll != -1) {
-        if (p->roll == x) {
+        if (p->roll == roll) {
             return p->score;
         }
         p++;
@@ -26,10 +26,10 @@ u8 lookup_appraisal_grind_score(s8 x) {
     return 0;
 }
 
-u8 lookup_appraisal_score(s8 x) {
+u8 lookup_appraisal_score(s8 roll) {
     const AppraisalScoreEntry *p = item_appraisal_rules->special_and_percentage_scores;
     while (p->roll != -1) {
-        if (p->roll == x) {
+        if (p->roll == roll) {
             return p->score;
         }
         p++;

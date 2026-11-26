@@ -38,8 +38,6 @@ public:
 LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 
 int is_adx_logo_done(TAdADXlogo *logo);
-extern "C" {
-}
 int is_logo_clear_flag_set(void);
 
 #endif
