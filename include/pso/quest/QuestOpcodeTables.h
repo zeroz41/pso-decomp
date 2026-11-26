@@ -235,7 +235,7 @@ void qst_op_get_eventflag16(u8 a0, u8 a1);
 void qst_op_set_enemy_movement_data(s32 label);
 void qst_op_set_enemy_resist_data(s32 label);
 void qst_op_set_enemy_attack_data(s32 label);
-void qst_op_set_enemy_physical_data(int _w0);
+void qst_op_set_enemy_physical_data(int label);
 void qst_op_set_cmode_grave_rates(s32 reg);
 void qst_op_chl_get_timerecord(s32 reg);
 void qst_op_chl_set_timerecord(s32 reg);

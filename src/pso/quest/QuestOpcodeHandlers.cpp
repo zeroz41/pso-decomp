@@ -603,13 +603,6 @@ void qst_op_va_call(s32 label) {
   qst_pc = qst_function_table[(u16)label];
 }
 extern "C" {
-
-
-struct ByteBlock_20 { u8 bytes[0x20]; };
-
-struct ByteBlock_24 { u8 bytes[0x24]; };
-
-
 s32 copy_player_visual_record(void *, void *);
 }
 
@@ -1987,33 +1980,30 @@ void qst_op_set_enemy_movement_data(s32 label) {
 }
 
 void qst_op_set_enemy_resist_data(s32 label) {
-    ActorParamBlock packet;
-    const u8 *data;
-    data = qst_label_address(label);
+    const ActorParamBlock *data;
+    data = (const ActorParamBlock *)qst_label_address(label);
     if (data != NULL) {
-        *reinterpret_cast<ByteBlock_20 *>(&packet) = *reinterpret_cast<const ByteBlock_20 *>(data);
-        packet.swap_endian();
-        set_enemy_resist_data(&packet);
+        ActorParamBlock params = *data;
+        params.swap_endian();
+        set_enemy_resist_data(&params);
     }
 }
 
 void qst_op_set_enemy_attack_data(s32 label) {
-    AttackParams packet;
-    const u8 *data;
-    data = qst_label_address(label);
+    const AttackParams *data;
+    data = (const AttackParams *)qst_label_address(label);
     if (data != NULL) {
-        *reinterpret_cast<ByteBlock_30 *>(&packet) = *reinterpret_cast<const ByteBlock_30 *>(data);
-        packet.byteswap_packet();
-        set_enemy_attack_data(&packet);
+        AttackParams params = *data;
+        params.byteswap_packet();
+        set_enemy_attack_data(&params);
     }
 }
 
-void qst_op_set_enemy_physical_data(int _w0) {
-    player_stats stats;
-    const u8 *data;
-    data = qst_label_address(_w0);
+void qst_op_set_enemy_physical_data(int label) {
+    const player_stats *data;
+    data = (const player_stats *)qst_label_address(label);
     if (data != NULL) {
-        *reinterpret_cast<ByteBlock_24 *>(&stats) = *reinterpret_cast<const ByteBlock_24 *>(data);
+        player_stats stats = *data;
         stats.bswap();
         set_enemy_physical_data(&stats);
     }

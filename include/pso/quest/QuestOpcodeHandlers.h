@@ -74,8 +74,6 @@ struct GetVectorFromPathGlobals {
     u32 id;
 };
 
-struct ByteBlock_30 { u8 bytes[0x30]; };
-
 // The quest event flags of the selected character's record (get/set_eventflag16/32).
 struct QuestEventFlagRecord { u8 pad_0[0x10]; u8 event_flags[0x100]; };
 
