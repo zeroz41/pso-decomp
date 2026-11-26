@@ -10,7 +10,7 @@
  * The types are our own (TProtocol.h, packet_classes.h, choice_search.h); their comments give the
  * details. Their sizes agree with newserv (MIT licence, Copyright (c) 2024 Martin Michelsen; see
  * third_party/LICENSES/newserv-MIT.txt) except where our code says otherwise. Commands this client
- * neither sends nor handles are not listed.
+ * neither sends nor handles are listed by number at the end.
  *
  * Received (handler table of TProtocol::handle_command):
  *   01        TMessageBox           recv_error -> handle_error
@@ -109,6 +109,11 @@
  *   D8        packet_header         send_info_board_request
  *   D9        TPlyText<172>         send_text_packet_D9
  *   DB        TSendVerifyLicense    handle_cmd_9B
+ *
+ * Not handled by this client (GameCube command numbers that other builds use):
+ *   9D        login without the client config; this client logs in with 9E instead
+ *   B2 B3     server code execution or memory checksum request, and the client's reply
+ *   B7-BB C9-CC DC E0-EF  Episode III card game commands
  */
 
 #ifndef PSO_PROTOCOL_COMMANDS_H

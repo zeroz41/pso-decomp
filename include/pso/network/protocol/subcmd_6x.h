@@ -1796,4 +1796,20 @@ LAYOUT_ASSERT(G_WalkToPosition_6x40Size, sizeof(G_WalkToPosition_6x40) == 0x10);
 // 6x05: our code carries this as G_SwitchStateChanged_6x05
 // (pso/network/protocol/protocol_types.h).
 
+// Subcommands the dispatch table sends to empty handlers. Neither our code nor other PSO versions
+// give them a layout.
+// 6x34: handled by handle_6x34 (ignored); no known layout.
+// 6x62: handled by handle_6x62 (ignored); no known layout.
+// 6x64: handled by handle_6x64 (ignored); no known layout.
+// 6x65: handled by handle_6x65 (ignored); no known layout.
+// 6x7E: handled by handle_6x7E (ignored); no known layout.
+// 6x8B: handled by handle_6x8B (ignored); no known layout.
+// 6x8C: handled by handle_6x8C (ignored); no known layout.
+// 6x8E: handled by handle_6x8E (ignored); no known layout.
+// 6x96: handled by handle_6x96 (ignored); no known layout.
+// 6x98: handled by handle_6x98 (ignored); no known layout.
+// 6x99: handled by handle_6x99 (ignored); no known layout.
+// 6xA7: handled by handle_6xA7 (ignored); no known layout.
+// 6xB1: handled by handle_6xB1 (ignored); no known layout.
+
 #endif
