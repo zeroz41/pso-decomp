@@ -39,9 +39,9 @@ struct QuestDownloadNameCacheImage {
     u8 pages[8][0x400];
 };
 
-extern u8 lbl_8058DC48[0x50];
-extern u8 lbl_8058DC98[0x50];
-extern u8 lbl_8058DCE8[0x50];
+extern u8 name_entry_text_buffer[0x50];
+extern u8 name_entry_name_buffer[0x50];
+extern u8 learned_name_text_buffer[0x50];
 extern u8 quest_request_text_buffer[0x50];
 extern s32 lbl_805D7880;
 extern s32 lbl_805D7884;
