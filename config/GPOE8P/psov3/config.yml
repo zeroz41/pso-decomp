@@ -1822,7 +1822,7 @@ force_active:
   - __ct__13TWindowStatusFPvlPUc
   - class_name__21TWindowSubComCardList
   - update_matching_card
-  - draw_window_scanline__FPUclP17WindowDrawContextf
+  - draw_window_scanline__FP11TWindowBaselP17WindowDrawContextf
   - set_popup_size__20TWindowChoiceSettingFPC10NJS_POINT2l
   - TWindowSubComCard__sub_80272640
   - TWindowSubComCard__sub_802728CC
@@ -5916,7 +5916,7 @@ force_active:
   - draw_tunnel_segment__FPUc
   - draw_value__13TWindowMesetaFP17WindowDrawContext
   - draw_window_frame_strips__11TWindowBaseFP12TexturedQuadP17WindowDrawContext
-  - draw_window_scanlines__FPUcPUc
+  - draw_window_scanlines__FP11TWindowBaseP17WindowDrawContext
   - render__16WindowSpritePartFP17WindowDrawContext
   - draw_with_fade__18TObjEneEpsilonBodyFl
   - draw_wrapped_text__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2

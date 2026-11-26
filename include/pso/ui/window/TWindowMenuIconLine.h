@@ -49,6 +49,8 @@ public:
     void reset_list();
     void set_flag70_bit10();
     void start_scroll(f32 height);
+    // Grows the window to fit the row under the cursor, once.
+    void init_scroll_pos();
     void add_status_entry(s8 flags, s32 src, s32 item);
     void add_list_entry(u8 icon, s32 src, s32 item);
     void add_list_entry(TItem *item, s32 index);

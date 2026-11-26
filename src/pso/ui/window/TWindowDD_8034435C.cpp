@@ -2264,7 +2264,7 @@ s32 TWindowDD::is_word_select_cancel_input() {
 
 
 
-int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)this + 0x1c, 4); }
+int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask(&menu_index, 4); }
 
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index) {
     switch ((s32) TWindowDD::window_mode) {
@@ -2504,41 +2504,34 @@ void fn_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
 #pragma pop
 
 void fn_80348A2C(WindowDrawContext *context, WindowVertex *vertices) {
-  f32 center_x;
-  f32 inner_right;
-  f32 half_scaled;
-  f32 inner_left;
-  s8 *right_vertex;
-  f32 half_width;
-  f32 x;
-  f32 right;
-  s8 *base_vertex;
-  f32 edge;
-  half_width = 0.5f * context->w;
-  half_scaled = half_width * context->scale[0];
-  center_x = context->x + half_width;
-  x = (0, center_x - half_scaled);
-  right = center_x + half_scaled;
-  if (half_scaled < window_dd_cap_width)
-  {
-    edge = (right - x) / 3.0f;
-  }
-  else
-  {
-    edge = window_dd_cap_width;
-  }
-  right_vertex = ((s8 *) ((0, vertices))) + 0x90;
-  *((f32 *) (((s8 *) vertices) + 0x18)) = x;
-  inner_left = x + edge;
-  inner_right = right - edge;
-  vertices->x = x;
-  *((f32 *) (((s8 *) vertices) + 0x48)) = inner_left;
-  *((f32 *) (((s8 *) vertices) + 0x30)) = inner_left;
-  base_vertex = (s8 *) vertices;
-  *((f32 *) (((s8 *) vertices) + 0x78)) = inner_right;
-  *((f32 *) (((s8 *) vertices) + 0x60)) = inner_right;
-  *((f32 *)(base_vertex + 0xA8)) = right;
-  *((f32 *) right_vertex) = right;
+    f32 center_x;
+    f32 inner_right;
+    f32 half_scaled;
+    f32 inner_left;
+    f32 half_width;
+    f32 x;
+    f32 right;
+    f32 edge;
+    half_width = 0.5f * context->w;
+    half_scaled = half_width * context->scale[0];
+    center_x = context->x + half_width;
+    x = (0, center_x - half_scaled);
+    right = center_x + half_scaled;
+    if (half_scaled < window_dd_cap_width) {
+        edge = (right - x) / 3.0f;
+    } else {
+        edge = window_dd_cap_width;
+    }
+    vertices[1].x = x;
+    inner_left = x + edge;
+    inner_right = right - edge;
+    vertices[0].x = x;
+    vertices[3].x = inner_left;
+    vertices[2].x = inner_left;
+    vertices[5].x = inner_right;
+    vertices[4].x = inner_right;
+    vertices[7].x = right;
+    vertices[6].x = right;
 }
 
 void copy_window_point_table(WindowVertex *vertices, s32 idx) {

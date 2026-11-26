@@ -32,6 +32,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/HeadingEntry.h"
+#include "pso/unk/TWindowLayoutRect.h"
 
 #pragma readonly_strings on
 
@@ -574,24 +575,24 @@ TWindowMenu *create_titled_window_menu_default(const NJS_POINT2 *pos, s32 entrie
 
 void TWindowMenu::draw_selected_bar(WindowDrawContext *context) {
     s16 selected_row;
-    u16 *entry;
+    TWindowLayoutRect *entry;
     if (!(actor_frame_tick & 0x10)) {
         selected_row = marked_row;
         if (selected_row >= 0) {
-            entry = (u16 *)(((saddr)get_array_entry((s32) selected_row)));
-            if (*entry & 1) {
-                draw_selection_bar(context, (u8 *)entry, 1);
+            entry = (TWindowLayoutRect *)get_array_entry((s32) selected_row);
+            if (entry->flags & 1) {
+                draw_selection_bar(context, entry, 1);
             }
         }
     }
 }
 
 void TWindowMenu::render_selected_entry(WindowDrawContext *context) {
-    u16 *entry;
+    TWindowLayoutRect *entry;
 
-    entry = (u16 *)this->get_array_entry(selected_row);
-    if (*entry & 1) {
-        draw_selection_bar(context, (u8 *)entry, is_decided());
+    entry = (TWindowLayoutRect *)this->get_array_entry(selected_row);
+    if (entry->flags & 1) {
+        draw_selection_bar(context, entry, is_decided());
     }
 }
 

@@ -45,6 +45,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/LabelValueRow.h"
+#include "pso/unk/TWindowLayoutRect.h"
 
 const char *TWindowMenuIconLine::class_name = "TWindowMenuIconLine";
 
@@ -508,15 +509,15 @@ void TWindowMenuIconLine::start_scroll(f32 height) {
     }
 }
 
-void TWindowSubStatusDisp::init_scroll_pos() {
-    u16 temp_r4;
-    void *temp;
+void TWindowMenuIconLine::init_scroll_pos() {
+    u16 flags;
+    TWindowLayoutRect *entry;
 
-    temp_r4 = *(u16 *)((s8 *)this + 0x70);
-    if (!(temp_r4 & 0x20)) {
-        *(u16 *)((s8 *)this + 0x70) = (u16) (temp_r4 | 0x20);
-        temp = (u16 *)this->get_array_entry((s16)((*(s16 *)((s8 *)this + 0x74))));
-        this->target_size[1] = (f32) (20.0f + *(f32 *)((s8 *)temp + 0x14));
+    flags = state_flags;
+    if (!(flags & 0x20)) {
+        state_flags = flags | 0x20;
+        entry = (TWindowLayoutRect *)this->get_array_entry(cursor);
+        this->target_size[1] = 20.0f + entry->height;
         if (this->window_flags & 0x40) {
             this->target_size[1] += 6.0f;
         }
@@ -577,12 +578,12 @@ void TWindowMenuIconLine::update_scroll_offset() {
 }
 
 void TWindowMenuIconLine::draw_selected_list_entry(WindowDrawContext *context) {
-    u16 *entry;
+    TWindowLayoutRect *entry;
 
     if (!(this->state_flags & 0x80)) {
-        entry = (u16 *)this->get_array_entry(this->cursor);
-        if (*entry & 1) {
-            draw_selection_bar(context, (u8 *)entry, this->is_decided());
+        entry = (TWindowLayoutRect *)this->get_array_entry(this->cursor);
+        if (entry->flags & 1) {
+            draw_selection_bar(context, entry, this->is_decided());
         }
     }
 }
@@ -624,7 +625,7 @@ void TWindowMenuIconLine::render() {
     draw_window_frame(draw_context);
     draw_visible_window_entries(
         this,
-        reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        &entry_list,
         draw_context);
     this->draw_selected_list_entry(draw_context);
     if (this->status_display != NULL) {
@@ -682,7 +683,7 @@ void TWindowMenuIconLine::run_task() {
     this->step_window_tween();
     this->center_list_selection();
     this->clamp_item_list_scroll();
-    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24));
+    this->update_window_entry_list(&entry_list);
 }
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {

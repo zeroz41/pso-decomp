@@ -22,6 +22,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/TWindowLayoutRect.h"
 
 const char *TWindowMenuInfomation::class_name = "TWindowMenuInfomation";
 static const NJS_POINT2 choice_setting_popup_extent = {425.0f, 188.0f};
@@ -139,11 +140,11 @@ void TWindowMenuInfomation::clamp_scroll() {
 
 
 void TWindowMenuInfomation::draw_setting(WindowDrawContext *context) {
-    u16 *entry;
+    TWindowLayoutRect *entry;
 
-    entry = (u16 *)this->get_array_entry(this->index);
-    if (*entry & 1) {
-        draw_selection_bar(context, (u8 *)entry, this->is_open());
+    entry = (TWindowLayoutRect *)this->get_array_entry(this->index);
+    if (entry->flags & 1) {
+        draw_selection_bar(context, entry, this->is_open());
     }
 }
 

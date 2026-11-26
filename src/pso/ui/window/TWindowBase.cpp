@@ -37,6 +37,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
+#include "pso/unk/TWindowLayoutRect.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -48,7 +49,7 @@ static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0
 
 void reset_line_width(void);
 void set_line_width(int a0);
-void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len);
+void draw_window_scanline(TWindowBase *window, s32 row, WindowDrawContext *r, f32 len);
 extern "C" {
 
 
@@ -301,7 +302,7 @@ void TWindowBase::init_window(u8 *descriptor, u8 *parent, s16 client) {
     }
 }
 
-void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
+void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s32 active) {
     UVPair_8024503C uv = selection_bar_texture_coordinates;
     UV_8024503C *p;
     TexturedQuad q;
@@ -318,7 +319,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     if (active != 0) {
         p = &uv.e[1];
     }
-    y = context->inner_y + *(f32 *)((s8 *)entry + 0xC);
+    y = context->inner_y + entry->y;
     x = context->inner_x;
     z = -1.0f / (0.22424999f + context->depth);
     set_additive_blend();
@@ -328,7 +329,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     q.x0 = x - 2.0f;
     q.y0 = y;
     q.x1 = x1 = (16.0f + x) - 2.0f;
-    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
+    q.y1 = y + entry->height;
     q.u0 = p->u / 256.0f;
     q.v0 = p->v / 256.0f;
     q.u1 = (16.0f + p->u) / 256.0f;
@@ -340,7 +341,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     q.x0 = 2.0f + (t - 16.0f);
     q.y0 = y;
     q.x1 = 2.0f + t;
-    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
+    q.y1 = y + entry->height;
     u = 32.0f + p->u;
     q.u0 = u / 256.0f;
     q.v0 = p->v / 256.0f;
@@ -352,7 +353,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     q.x0 = x1;
     q.y0 = y;
     q.x1 = 2.0f + ((x + context->inner_w) - 16.0f);
-    q.y1 = y + *(f32 *)((s8 *)entry + 0x14);
+    q.y1 = y + entry->height;
     q.u0 = (16.0f + p->u) / 256.0f;
     q.v0 = p->v / 256.0f;
     q.u1 = (16.0f + (16.0f + p->u)) / 256.0f;
@@ -518,8 +519,7 @@ void TWindowBase::draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *
 #pragma pop
 
 #pragma fp_contract on
-void TWindowBase::draw_quest_message_frame(void *context) {
-  WindowDrawContext *c = (WindowDrawContext *)context;
+void TWindowBase::draw_quest_message_frame(WindowDrawContext *context) {
   TexturedQuad q;
   f32 step;
   f32 rem;
@@ -535,36 +535,36 @@ void TWindowBase::draw_quest_message_frame(void *context) {
   {
     half = 32.0f;
   }
-  q.y0 = c->y;
-  q.y1 = c->y + half;
+  q.y0 = context->y;
+  q.y1 = context->y + half;
   q.v0 = 0.0f;
   q.v1 = 0.125f;
-  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
-  q.y1 = (c->scale[1] * (q.y1 - c->pivot[1])) + c->pivot[1];
-  draw_message_frame_row(&q, c);
-  q.y1 = c->y + frame_size[1];
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  q.y1 = (context->scale[1] * (q.y1 - context->pivot[1])) + context->pivot[1];
+  draw_message_frame_row(&q, context);
+  q.y1 = context->y + frame_size[1];
   q.y0 = q.y1 - half;
   q.v0 = 0.25f;
   q.v1 = 0.375f;
-  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
-  q.y1 = (c->scale[1] * (q.y1 - c->pivot[1])) + c->pivot[1];
-  draw_message_frame_row(&q, c);
-  q.y0 = 32.0f + c->y;
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  q.y1 = (context->scale[1] * (q.y1 - context->pivot[1])) + context->pivot[1];
+  draw_message_frame_row(&q, context);
+  q.y0 = 32.0f + context->y;
   q.v0 = 0.125f;
   q.v1 = 0.25f;
-  step = 32.0f * c->scale[1];
+  step = 32.0f * context->scale[1];
   rem = frame_size[1] - 64.0f;
-  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
-  step = 32.0f * c->scale[1];
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  step = 32.0f * context->scale[1];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      step = rem * c->scale[1];
+      step = rem * context->scale[1];
       q.v1 = (32.0f + rem) / 256.0f;
     }
     q.y1 = q.y0 + step;
-    draw_message_frame_row(&q, c);
+    draw_message_frame_row(&q, context);
     rem -= 32.0f;
     q.y0 += step;
   }
@@ -573,7 +573,7 @@ void TWindowBase::draw_quest_message_frame(void *context) {
 
 #pragma push
 #pragma fp_contract on
-void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
+void draw_window_scanline(TWindowBase *window, s32 row, WindowDrawContext *r, f32 len) {
     ColorLineList lines;
     u32 colors[3];
     ColorLineVertex pts[3];
@@ -585,7 +585,7 @@ void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
     if (len <= 0.0f) {
         return;
     }
-    if (len >= *(f32 *)(card + 0x48) - 24.0f) {
+    if (len >= window->frame_size[0] - 24.0f) {
         return;
     }
     lines.verts = pts;
@@ -619,7 +619,7 @@ void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
 
 #pragma push
 #pragma fp_contract on
-void draw_window_scanlines(u8 *card, u8 *context) {
+void draw_window_scanlines(TWindowBase *window, WindowDrawContext *context) {
     s32 n1;
     s32 i;
     s32 n2;
@@ -630,20 +630,20 @@ void draw_window_scanlines(u8 *card, u8 *context) {
     case 1:
         return;
     }
-    n1 = trunc_float((12.0f + *(f32 *)((s8 *)card + 0x44)) / 4.0f);
-    n2 = trunc_float((*(f32 *)((s8 *)card + 0x4C) - 24.0f) / 4.0f);
-    y = ((5.0f * ((f32)window_scanline_timer - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)card + 0x40);
+    n1 = trunc_float((12.0f + window->frame_position[1]) / 4.0f);
+    n2 = trunc_float((window->frame_size[1] - 24.0f) / 4.0f);
+    y = ((5.0f * ((f32)window_scanline_timer - 0.2f * (f32)n1) - 100.0f) - 12.0f) - window->frame_position[0];
     if (y <= 0.0f) {
         return;
     }
-    if (y - (f32)n2 >= *(f32 *)((s8 *)card + 0x48) - 24.0f) {
+    if (y - (f32)n2 >= window->frame_size[0] - 24.0f) {
         return;
     }
-    set_line_width(12.0f * *(f32 *)((s8 *)context + 0x2C));
+    set_line_width(12.0f * context->scale[1]);
     set_additive_blend();
     step = 1.0f;
     for (i = 0; i < n2; i++) {
-        draw_window_scanline(card, i, (WindowDrawContext *)context, y);
+        draw_window_scanline(window, i, context, y);
         y -= step;
     }
     set_default_alpha_blend();
@@ -757,7 +757,7 @@ void TWindowBase::draw_window_frame(WindowDrawContext *context) {
     q.y0 += dy;
   }
   end_screen_draw();
-  draw_window_scanlines((u8 *)this, (u8 *)context);
+  draw_window_scanlines(this, context);
 }
 
 void TWindowBase::update_fade() {

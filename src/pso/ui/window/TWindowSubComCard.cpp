@@ -329,7 +329,7 @@ void TWindowSubComCard::run_task() {
             src = (saddr)this->keyboard->realloc_buffer();
             TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
             keyboard_mode = TWindowSubComCard::get_keyboard_mode();
-            ((TWindowSubComCard *)keyboard_mode)->set_text((void *)(get_shared_text_buffer()));
+            ((GuildCardEntry *)keyboard_mode)->set_text((const char *)get_shared_text_buffer());
             mem_free((void *)src);
             this->state = 1U;
             return;

@@ -24,7 +24,7 @@ s32 TWindowSubComCard::scroll_list(s32 ply_guild_card_tag) {
 
 void TWindowSubComCard::handle_press_a(saddr ply_guild_card_tag, s32 id) {
     clear((void *)ply_guild_card_tag);
-    if ((fill_guild_card_from_short_mail((u8 *)ply_guild_card_tag, id) != 0) && (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0)) {
+    if ((fill_guild_card_from_short_mail(reinterpret_cast<GuildCardEntry *>(ply_guild_card_tag), id) != 0) && (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0)) {
         TWindowSubComCard::select_card_entry(ply_guild_card_tag);
     }
 }

@@ -89,7 +89,7 @@ void TWindowSubEquip::run_task() {
         }
         break;
     case 3:
-        ((TWindowSubStatusDisp *)(this->equip_list))->init_scroll_pos();
+        this->equip_list->init_scroll_pos();
         if (this->equip_kind_list == NULL) {
             this->equip_kind_list = open_equip_kind_list(this->equip_list->get_cursor_value());
         }

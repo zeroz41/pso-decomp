@@ -5,6 +5,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
@@ -232,7 +233,10 @@ void apply_face_appearance_sprite(WindowLayoutEntries *entries, u8 appearance) {
     set_symbol_chat_face_sprite(static_cast<WindowSpritePart *>(entries->items[0]), appearance);
 }
 
-void get_symbol_chat_frame_size(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }
+void get_symbol_chat_frame_size(WindowLayoutEntries *entries, f32 *size) {
+    size[0] = 136.0f;
+    size[1] = 90.0f;
+}
 
 void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data) {
     SymbolChatPayload *payload = static_cast<SymbolChatPayload *>(data);
@@ -282,27 +286,24 @@ void TWindowChatSymbol::set_from_key(s32 index) {
 #pragma push
 #pragma fp_contract on
 void TWindowChatSymbol::render() {
-    u8 *c_arg;
+    WindowDrawContext *c_arg;
 
-    c_arg = reinterpret_cast<u8 *>(draw_default_entry());
-    if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
-        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) this->open_tick / 7.5f);
-        *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
+    c_arg = draw_default_entry();
+    if (c_arg->open_tick < 0) {
+        c_arg->scale[0] = (f32) this->open_tick / 7.5f;
+        c_arg->scale[1] = c_arg->scale[0];
     }
     draw_quest_message_frame(c_arg);
-    *(f32 *)((s8 *)c_arg + 0x10) = (f32) ((0.5f * (frame_size[0] - 136.0f)) + *(f32 *)((s8 *)c_arg + 0x10));
-    *(f32 *)((s8 *)c_arg + 0x14) = (f32) ((0.5f * (this->frame_size[1] - 90.0f)) + *(f32 *)((s8 *)c_arg + 0x14));
-    draw_visible_window_entries(
-        this,
-        &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(c_arg));
+    c_arg->inner_x = (0.5f * (frame_size[0] - 136.0f)) + c_arg->inner_x;
+    c_arg->inner_y = (0.5f * (this->frame_size[1] - 90.0f)) + c_arg->inner_y;
+    draw_visible_window_entries(this, &this->entry_list, c_arg);
 }
 #pragma pop
 
 void TWindowChatSymbol::run_task() {
     update_window();
     update_fade();
-    update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char *)this + 0x24));
+    update_window_entry_list(&entry_list);
 }
 
 

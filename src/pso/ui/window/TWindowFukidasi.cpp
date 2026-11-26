@@ -1072,7 +1072,7 @@ void TWindowFukidasi::calc_text_size(f32 *out) {
         out[1] = 0.1f + (20.0f + e->height);
         break;
     case 1:
-        get_symbol_chat_frame_size((saddr)&entry_list, out);
+        get_symbol_chat_frame_size(&entry_list, out);
         break;
     case 2:
         break;

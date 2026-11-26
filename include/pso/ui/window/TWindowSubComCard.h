@@ -101,7 +101,6 @@ struct TWindowSubComCard : public TObject {
     static void start_player_data_load(s32 ply_guild_card_tag);
     static s32 count_active_cards();
     static s32 count_leading_active(GuildCardEntry *cards, s32 count);
-    void set_text(void *text);
     static void handle_press_a(saddr ply_guild_card_tag, s32 id);
     static void handle_press_b(saddr ply_guild_card_tag, s32 client_id);
 
