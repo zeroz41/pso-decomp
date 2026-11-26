@@ -9,6 +9,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -19,9 +20,6 @@
 
 extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
-s32 begin_screen_draw(s32, f32, f32, f32);
-void end_screen_draw(void);
-void set_draw_texture_and_color(s32 idx, s32 color);
 }
 void set_constant_material_color(u32 x);
 extern "C" {
@@ -174,7 +172,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
         pos.y = context->inner_y + this->y;
         sz = this->depth;
         scale = -1.0f / (0.299f * sz + context->depth);
-        begin_screen_draw(1, sz, 0.299f, -1.0f);
+        begin_screen_draw(1);
         TObjFish::set_global_param(hud_texlist);
         set_draw_texture_and_color(0xB, -1);
         if (this->flags & 8) {
