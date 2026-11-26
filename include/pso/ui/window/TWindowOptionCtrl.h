@@ -21,10 +21,10 @@ struct TWindowOptionCtrl : public TObject {
     s16 saved_sound_mode; // the sound output mode when the window opened
     s16 sound_mode;
     u8 pad_22[0x2];
-    s32 m_24;
+    s32 option_state;
     TWindowMenu *main_menu;
     TWindowMenu *sub_menu;
-    void *m_30;
+    TWindowMenu *confirm_menu;
     TWindowCheckBox *option_menu;
     TWindowBase *sound_balance_window;
     TWindowBase *snap_shot_window;

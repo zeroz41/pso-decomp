@@ -63,7 +63,7 @@ TWindowUserSort::~TWindowUserSort() {}
 #define self ((u8 *)this)
 TWindowUserSort::TWindowUserSort(saddr arg1, GuildCardRecord *record) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1) {
     m_name = TWindowUserSort::class_name;
-    m_60 = record;
+    this->record = record;
     ((TWindowSubStatusDisp *)(self + 0x24))->fill_card_text_entries(record);
 }
 #undef self

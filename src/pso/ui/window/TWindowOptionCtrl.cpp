@@ -76,7 +76,7 @@ TWindowOptionCtrl::TWindowOptionCtrl(TObject *parent) : TObject(parent) {
     m_name = class_name;
     main_menu = NULL;
     sub_menu = NULL;
-    m_30 = NULL;
+    confirm_menu = NULL;
     option_menu = NULL;
     sound_balance_window = NULL;
     snap_shot_window = NULL;
@@ -85,7 +85,7 @@ TWindowOptionCtrl::TWindowOptionCtrl(TObject *parent) : TObject(parent) {
     card_format_dialog = NULL;
     player_load = new TAdPlayerLoadGC(this, 2);
     init_selection_indices();
-    m_24 = 4;
+    option_state = 4;
     flags = 0;
     state = 0;
 }
@@ -112,9 +112,9 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         option_menu->close();
         option_menu = NULL;
     }
-    if (m_30 != NULL) {
-        ((TWindowBase *)m_30)->close();
-        m_30 = NULL;
+    if (confirm_menu != NULL) {
+        confirm_menu->close();
+        confirm_menu = NULL;
     }
     if (sub_menu != NULL) {
         sub_menu->close();
@@ -288,9 +288,9 @@ void TWindowOptionCtrl::run_task() {
             option_menu->close();
             option_menu = NULL;
         }
-        if (m_30 != NULL) {
-            ((TWindowBase *)m_30)->close();
-            m_30 = NULL;
+        if (confirm_menu != NULL) {
+            confirm_menu->close();
+            confirm_menu = NULL;
         }
         if (sub_menu == NULL) {
             sub_menu = (TWindowMenu *)create_sub_menu_window();
@@ -323,10 +323,10 @@ void TWindowOptionCtrl::run_task() {
         state = 0x17;
         break;
     case 22:
-        if (((TWindowMenu *)(m_30))->is_cancelled() != 0) {
+        if (confirm_menu->is_cancelled() != 0) {
             state = 0x10;
         }
-        if (((TWindowMenu *)(m_30))->is_decided() != 0) {
+        if (confirm_menu->is_decided() != 0) {
             state = 0x17;
         }
         break;
@@ -349,9 +349,9 @@ void TWindowOptionCtrl::run_task() {
         } else if (yes_no_window->is_child_visible() != 0) {
             if (yes_no_window->get_selected_value() == 0) {
                 if (sub_menu->get_selected_value() == 0x14) {
-                    m_24 = 1;
+                    option_state = 1;
                 } else {
-                    m_24 = 3;
+                    option_state = 3;
                 }
                 state = 0x1B;
             } else {

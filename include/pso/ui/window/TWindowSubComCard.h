@@ -50,8 +50,8 @@ struct TWindowSubComCard : public TObject {
     u8 _pad1E[0x2];
     uaddr client_id;
     uaddr selected_card;
-    uaddr m_28;
-    uaddr m_2c;
+    uaddr shown_card_index;
+    uaddr idle_time;
     ChoiceSearchSelection choice_selections[5];
     // The options the server offered, taken from get_choice_search_options once they arrive.
     TRecvChoiceSearchOptions *search_options;

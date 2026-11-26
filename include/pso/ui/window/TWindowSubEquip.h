@@ -12,10 +12,10 @@ struct TWindowSubEquip : public TObject {
     TWindowSubEquip(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubEquip();
     static const char *class_name;
-    u8 m_1c;
+    u8 state;
     u8 _pad1D[0x3];
-    u32 m_20;
-    u32 m_24;
+    u32 shown_item_id;
+    u32 shown_cursor_value;
     u32 client_id;
     TWindowMainMenu *parent;
     TWindowHelpItem *window_help_item;

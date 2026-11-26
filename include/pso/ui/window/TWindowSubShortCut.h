@@ -22,7 +22,7 @@ struct TWindowSubShortCut : public TObject {
     u8 pad_1D[0x1];
     u16 m_1e;
     uaddr client_id;
-    uaddr m_24;
+    uaddr shortcut_slot;
     TWindowMainMenu *parent_menu;
     TWindowSubShortCutList *com_card_list;
     TWindowMenu *menu;

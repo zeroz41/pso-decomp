@@ -228,7 +228,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->message_window == 0U) {
             this->message_window = this->open_layout_window();
-            this->m_28 = -1;
+            this->shown_card_index = -1;
         }
         this->menu_window->clear_flag_and_release();
         this->state = 2U;
@@ -342,7 +342,7 @@ void TWindowSubComCard::run_task() {
         if (this->message_window == 0U) {
             this->message_window = this->create();
             hide_window((u8 *)this->message_window);
-            this->m_28 = -1;
+            this->shown_card_index = -1;
         }
         if (this->card_list == NULL) {
             this->card_list = TWindowSubComCard::send_cmd_133();
@@ -420,7 +420,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->message_window == 0U) {
             this->message_window = this->create();
-            this->m_28 = -1;
+            this->shown_card_index = -1;
         }
         this->set_card_index((int) (this->card_list->get_selected_value()));
         this->state = 0x12U;
@@ -635,11 +635,11 @@ void TWindowSubComCard::run_task() {
         get_selected_guild_card_record();
         TLobby__sub_8024259C();
         TWindowCtrl::lock_client_main_menu((this->client_id));
-        this->m_2c = 0;
+        this->idle_time = 0;
         this->state = 0x26U;
     case 0x26:
-        idle_ticks = this->m_2c;
-        this->m_2c = (idle_ticks + 1);
+        idle_ticks = this->idle_time;
+        this->idle_time = (idle_ticks + 1);
         if ((f32) idle_ticks > 450.0f) {
             TWindowCtrl::unlock_client_main_menu((this->client_id));
             this->parent_menu->on_submenu_closed();
@@ -746,7 +746,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->message_window == 0U) {
             this->message_window = this->open_mode4_window();
-            this->m_28 = -1;
+            this->shown_card_index = -1;
         }
         this->sub_menu->clear_flag_and_release();
         this->state = 0x30U;
@@ -1538,8 +1538,8 @@ void TWindowSubComCard::update_selection(TWindowMenu *list_window, TWindowComCar
 }
 
 void TWindowSubComCard::set_help_message(s32 help_index) {
-    if ((s32) this->m_28 != help_index) {
-        this->m_28 = help_index;
+    if ((s32) this->shown_card_index != help_index) {
+        this->shown_card_index = help_index;
         this->message_window->append_line((s32)(saddr)TWindowSubStatusDisp::get_message_10((saddr)((void *)com_card_help_message_ids[help_index])), 0x80);
     }
 }
@@ -1547,8 +1547,8 @@ void TWindowSubComCard::set_help_message(s32 help_index) {
 void TWindowSubComCard::set_selected_card(s32 card_index) {
     ChoiceSearchResult *result;
     GuildCardRecord *guild_card_record;
-    if ((s32)this->m_28 != card_index) {
-        this->m_28 = (uaddr)card_index;
+    if ((s32)this->shown_card_index != card_index) {
+        this->shown_card_index = (uaddr)card_index;
         result = &TWindowSubComCard::get_choice_search_results()->entries[card_index];
         load_selected_guild_card_record(result);
         guild_card_record = get_selected_guild_card_record();
@@ -1564,8 +1564,8 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
 }
 
 void TWindowSubComCard::set_card_index(s32 card_index) {
-    if ((s32) this->m_28 != card_index) {
-        this->m_28 = card_index;
+    if ((s32) this->shown_card_index != card_index) {
+        this->shown_card_index = card_index;
         this->message_window->append_line((saddr)get_card_note_text(card_index), 0x82);
     }
 }
