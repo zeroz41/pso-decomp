@@ -135,7 +135,7 @@
 #include "pso/weapon/TItemWeaponRikasClaw.h"
 #include "pso/weapon/TItemWeaponSRankKnuckle.h"
 #include "pso/unk/text_80103674.h"
-#include "pso/unk/text_8010F168.h"
+#include "pso/unk/LoadUnloadSet.h"
 #include "pso/item/TItemBuff.h"
 #include "pso/item/item_pmt.h"
 #include "pso/item/TItemLockCountCtrl.h"
@@ -224,7 +224,7 @@ s32 get_item_icon_index();
 void *item_object_set_data;
 s32 item_ground_placement_enabled;
 FlagWord lbl_805D5440;
-saddr item_class_load_handle;
+LoadUnloadSet *item_class_load_handle;
 int lobby_drop_flag;
 
 // Weapon item factories, indexed by the weapon type byte (get_weapon_factory_for_item); 0 = none.
@@ -1315,7 +1315,7 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *drop, s32 quiet) {
     return item;
 }
 
-void TObjPlayer::free_item_globals() { TItemDrop__sub_8010F168((void *)item_class_load_handle, (s16)1); item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
+void TObjPlayer::free_item_globals() { delete item_class_load_handle; item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
 
 void TObjPlayer::init_game_resources() {
     init_item_chunk_buffers();

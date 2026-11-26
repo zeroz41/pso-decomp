@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_8010F168.h"
+#include "pso/unk/LoadUnloadSet.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/TLevelSelect.h"
@@ -854,7 +854,7 @@ u8 TItemDrop::select_weighted_byte(u8 *weights, s32 column, s32 count, s32 strid
 
 TItemDrop::~TItemDrop() {
     s32 i;
-    TItemDrop__sub_8010F168((void *)load_unload_set, 1);
+    delete load_unload_set;
     load_unload_set = 0;
     safe_free(relocatable_load_buffer);
     relocatable_load_buffer = 0;

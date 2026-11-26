@@ -6,6 +6,7 @@
 
 struct SubtractiveRng;
 struct TItemData;
+class LoadUnloadSet;
 
 // A {lo, hi} range of a drop table: meseta amounts and technique levels.
 // 0xFF in either end, or hi below lo, is no range.
@@ -120,7 +121,7 @@ struct TItemDrop : public TObject {
     s8 get_bool_from_1d6ddc();
 
     // create_load_unload_set(item_drop_load_unload_table).
-    saddr load_unload_set;
+    LoadUnloadSet *load_unload_set;
     // The 17 random channels the constructor seeds.
     SubtractiveRng **rngs;
 

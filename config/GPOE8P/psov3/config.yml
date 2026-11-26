@@ -6348,8 +6348,8 @@ force_active:
   - check_radius_collisions__22TObjEnePanarmsAtkColliFv
   - update_trail_position__15TObjEneSlimeOneFv
   - release_child_slot__12TObjEneSlimeFl
-  - load_unload_set_shuffle_order__FP27LoadUnloadSetShuffleOrderO2
-  - load_unload_set_init_order__FP26LoadUnloadSetShuffleOrderO
+  - shuffle_order__13LoadUnloadSetFv
+  - init_order__13LoadUnloadSetFv
   - remove_poison_immunity__Fi
   - init_6x91_subcommand__FP31G_UpdateAttackableColState_6x91
   - get_path_speed__18TObjCityAirCar_CarFv
