@@ -90,12 +90,13 @@ struct TWindowSubSymbolChat : public TObject {
     void set_selection_and_refresh(s32 arg1);
     void init_layout_entries(saddr player);
     void set_from_key(s32 arg1);
+    // The "New Parts" menu.
+    TWindowMenu *create_new_parts_menu();
 };
 
 LAYOUT_ASSERT(TWindowSubSymbolChat_size, sizeof(TWindowSubSymbolChat) == 0x60);
 
 extern "C" {
-TWindowMenu *TWindowSubSymbolChat__sub_8028233C(TWindowSubSymbolChat *chat);
 SymbolChatPreset *get_symbol_chat_receive_buffer(void);
 }
 #endif

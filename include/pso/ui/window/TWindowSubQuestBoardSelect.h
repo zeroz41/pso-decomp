@@ -35,11 +35,6 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSubQuestBoardSelect_size, sizeof(TWindowSubQuestBoardSelect) == 0x68);
 
-extern "C" {
-void TWindowCtrl__sub_8027D1F8(void);
-void TWindowCtrl__sub_8027D214(void);
-}
-
 // window_sub_quest_board_select_layout_entries, the layout table
 // TWindowSubQuestBoardSelect__window_parameters points at (two text entries, six slot sprites).
 struct SubQuestBoardSelectWindowLayout {

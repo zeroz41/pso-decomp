@@ -23,10 +23,10 @@ struct TWindowMessageLog : public TWindowMessage {
     void update_scroll_position();
     void append_line(s32 shared_text_buffer);
     void load_chat_history();
-    void fn_8026A5F8();
+    void reset_scroll();
     void advance_scroll(f32 v);
-    void fn_8026A61C(f32 v);
-    void fn_8026A664(f32 height);
+    void scroll_back(f32 v);
+    void set_target_height(f32 height);
 };
 
 LAYOUT_ASSERT(TWindowMessageLog_size, sizeof(TWindowMessageLog) == 0x98);

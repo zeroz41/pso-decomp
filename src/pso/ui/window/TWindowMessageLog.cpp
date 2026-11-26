@@ -119,8 +119,8 @@ void TWindowMessageLog::update_scroll_animation() {
 
 extern "C" {
 
-// Inferred: resets the scroll position (target, current and pending scroll to 0).
-void TWindowMessageLog::fn_8026A5F8() {
+// Scrolls back to the newest line.
+void TWindowMessageLog::reset_scroll() {
     target_scroll_y = 0.0f;
     scroll_offset[1] = 0.0f;
     pending_scroll = 0.0f;
@@ -129,15 +129,15 @@ void TWindowMessageLog::fn_8026A5F8() {
 void TWindowMessageLog::advance_scroll(f32 v) { pending_scroll += v; }
 
 // Same body as advance_scroll; called with the opposite direction.
-void TWindowMessageLog::fn_8026A61C(f32 v) { pending_scroll += v; }
+void TWindowMessageLog::scroll_back(f32 v) { pending_scroll += v; }
 
 void TWindowMessageLog::append_line(s32 shared_text_buffer) {
     ((TWindowMessage *)(this))->append_line(shared_text_buffer, 0x502);
     update_scroll_position();
 }
 
-// Inferred: tweens the window to a new height over 3 ticks.
-void TWindowMessageLog::fn_8026A664(f32 height) {
+// Grows or shrinks the window to a new height over 3 ticks.
+void TWindowMessageLog::set_target_height(f32 height) {
     if (height != target_size[1]) {
         target_size[1] = height;
         tween_ticks = 3;

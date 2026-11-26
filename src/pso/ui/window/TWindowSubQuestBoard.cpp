@@ -8,6 +8,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubOption.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/TLobby.h"
@@ -53,11 +54,11 @@ TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *client) : TObj
     select_window = new TWindowSubQuestBoardSelect();
     this->quest_thread_board = NULL;
     this->state = 0;
-    TWindowCtrl__sub_8027D214();
+    TWindowCtrl::set_quest_board_open();
 }
 
 TWindowSubQuestBoard::~TWindowSubQuestBoard() {
-    TWindowCtrl__sub_8027D1F8();
+    TWindowCtrl::clear_quest_board_open();
     if (select_window != NULL) { select_window->close(); select_window = NULL; }
 }
 

@@ -19,7 +19,6 @@ struct TWindowReturnCity : public TObject {
     s32 query_battle_state();
     virtual void render();
     virtual void run_task();
-    static void clear_flag_bit5();
 };
 
 LAYOUT_ASSERT(TWindowReturnCity_size, sizeof(TWindowReturnCity) == 0x28);

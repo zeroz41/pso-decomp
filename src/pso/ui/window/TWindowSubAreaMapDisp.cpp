@@ -59,7 +59,7 @@ const char *TWindowSubAreaMapDisp::class_name = "TWindowSubAreaMapDisp";
 
 
 
-void fn_80271848(s32 window, WindowDrawContext *context) {
+void TWindowSubAreaMapDisp::draw_pan_arrows(WindowDrawContext *context) {
     TexturedQuad r;
     s32 color;
     f32 scale;
@@ -112,7 +112,7 @@ void fn_80271848(s32 window, WindowDrawContext *context) {
     end_screen_draw();
 }
 
-void TWindowSubStatusDisp__sub_80271A6C(s32 window, WindowDrawContext *context) {
+void TWindowSubAreaMapDisp::draw_zoom_help(WindowDrawContext *context) {
     NJS_POINT2 pos;
     s32 color;
     f32 scale;
@@ -136,8 +136,8 @@ void TWindowSubAreaMapDisp::render() {
     draw_window_frame(context);
     heading->render(context);
     if ((s32) this->map_open != 0) {
-        ((s32 (*)(void *, s32))TWindowSubStatusDisp__sub_80271A6C)(this, reinterpret_cast<saddr>(context));
-        ((s32 (*)(void *, s32))fn_80271848)(this, reinterpret_cast<saddr>(context));
+        draw_zoom_help(context);
+        draw_pan_arrows(context);
     }
 }
 

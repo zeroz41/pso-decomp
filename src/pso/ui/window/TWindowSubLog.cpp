@@ -35,13 +35,13 @@ void TWindowSubLog::run_task() {
         consume_input_active_flag(chat);
     }
     if (TWindowCtrl__sub_8024701C(chat) != 0) {
-        log_window->fn_8026A664(200.0f);
+        log_window->set_target_height(200.0f);
         return;
     }
-    log_window->fn_8026A664(408.0f);
+    log_window->set_target_height(408.0f);
     context = &controller_input_state.controllers[0];
     if ((test_previous_buttons_packed(context, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
-        log_window->fn_8026A61C(-6.0f);
+        log_window->scroll_back(-6.0f);
     }
     if ((test_previous_buttons_packed(context, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
         log_window->advance_scroll(6.0f);

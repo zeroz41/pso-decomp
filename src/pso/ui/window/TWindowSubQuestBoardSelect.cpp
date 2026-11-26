@@ -27,20 +27,16 @@ void TWindowSubQuestBoardSelect::sub_8027D1E8() {
     state_flags &= ~1;
 }
 
-extern "C" {
-
-void TWindowCtrl__sub_8027D1F8(void) {
+void TWindowCtrl::clear_quest_board_open() {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags &= ~0x10;
     }
 }
 
-void TWindowCtrl__sub_8027D214(void) {
+void TWindowCtrl::set_quest_board_open() {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags |= 0x10;
     }
-}
-
 }
 
 #pragma push

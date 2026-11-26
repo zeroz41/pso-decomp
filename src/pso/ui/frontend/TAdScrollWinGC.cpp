@@ -53,7 +53,7 @@ TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, s32 text) : TObject(pa
     }
     m_window->complete_reveal();
     m_window->update_scroll_position();
-    m_window->fn_8026A5F8();
+    m_window->reset_scroll();
     m_marker.u0 = 0.71875f;
     m_marker.v0 = 0.4765625f;
     m_marker.u1 = 1.0f;
@@ -94,7 +94,7 @@ void TAdScrollWinGC::run_task() {
     if (d < 0) {
         d += 0x19;
         if (m_window != NULL) {
-            m_window->fn_8026A61C(0.3f * d);
+            m_window->scroll_back(0.3f * d);
         }
     }
     if (d > 0 && m_window != NULL) {

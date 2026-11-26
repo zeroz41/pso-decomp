@@ -62,6 +62,12 @@ struct TWindowCtrl : public TObject {
     static void update_focused();
     static s32 get_active_sub();
     static s32 fn_8024A314();
+    // Flag 0x10 is held while a quest board is open.
+    static void set_quest_board_open();
+    static void clear_quest_board_open();
+    // Flag 0x20 is held while the return-to-city prompt is open.
+    static void set_return_city_open();
+    static void clear_return_city_open();
     static void open_status_111();
     static void open_status_112();
     static void close_active_window();

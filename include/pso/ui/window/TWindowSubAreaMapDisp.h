@@ -7,6 +7,7 @@ class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubStatusDisp;
+struct WindowDrawContext;
 
 struct TWindowSubAreaMapDisp : public TWindowBase {
     TWindowSubAreaMapDisp();
@@ -22,15 +23,13 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
     virtual void render();
     virtual void run_task();
     void update_visibility();
+    // The four pan arrows around the map.
+    void draw_pan_arrows(WindowDrawContext *context);
+    // "L Button / Zoom in" and "R Button / Zoom out".
+    void draw_zoom_help(WindowDrawContext *context);
 };
 
 LAYOUT_ASSERT(TWindowSubAreaMapDisp_size, sizeof(TWindowSubAreaMapDisp) == 0x78);
 
-struct WindowDrawContext;
-
-extern "C" {
-void TWindowSubStatusDisp__sub_80271A6C(s32 window, WindowDrawContext *context);
-void fn_80271848(s32 window, WindowDrawContext *context);
-}
 
 #endif

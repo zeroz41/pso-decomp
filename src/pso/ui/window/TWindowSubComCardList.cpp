@@ -46,7 +46,7 @@ void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) 
   }
 }
 
-void TWindowSubComCardList::sub_80275360() {
+void TWindowSubComCardList::show_card_page() {
     GuildCardEntry *card;
     s32 n;
     s32 index;
@@ -89,7 +89,7 @@ TWindowSubComCardList *TWindowSubComCard::create_card_list(const NJS_POINT2 *pos
     return new TWindowSubComCardList(position, card_slot, count, empty_message);
 }
 
-TWindowSubComCardList *TWindowSubComCard::sub_802754EC(const NJS_POINT2 *position) {
+TWindowSubComCardList *TWindowSubComCard::create_all_card_list(const NJS_POINT2 *position) {
     set_window_menu_rows(7);
     return new TWindowSubComCardList(position);
 }
@@ -122,7 +122,7 @@ void TWindowSubComCardList::run_task() {
     TWindowMenu::run_task();
     if ((is_decided() == 0) && (handle_list_page_flip_input(this->storage) != 0)) {
         set_selected_index(0);
-        sub_80275360();
+        show_card_page();
     }
 }
 
@@ -144,7 +144,7 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWind
     empty_message = 0;
     set_flag70_bit100();
     set_selected_index(0);
-    sub_80275360();
+    show_card_page();
     set_flag70_bit10();
     set_scroll_target(223.0f, 184.0f);
 }
@@ -163,7 +163,7 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr c
     empty_message = arg4;
     set_flag70_bit100();
     set_selected_index(0);
-    sub_80275360();
+    show_card_page();
     set_flag70_bit10();
     set_scroll_target(223.0f, 184.0f);
 }

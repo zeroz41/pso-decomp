@@ -1773,7 +1773,7 @@ force_active:
   - draw_viewport_fill__Fl
   - window_ctrl_sub_class_name
   - update_countdown__17TWindowCtrlPlayerFv
-  - TWindowCtrl__sub_8026D4E8
+  - set_return_city_open__11TWindowCtrlFv
   - __sinit_TWindowDD_WS_ScrollBar_cpp
   - __ct__19TWindowDD_WS_StringFPfPfUll
   - __sinit_TWindowDD_WS_String_cpp
@@ -1823,7 +1823,7 @@ force_active:
   - class_name__21TWindowSubComCardList
   - update_matching_card
   - draw_window_scanline__FPUclP17WindowDrawContextf
-  - sub_80249220__20TWindowChoiceSettingFPC10NJS_POINT2l
+  - set_popup_size__20TWindowChoiceSettingFPC10NJS_POINT2l
   - TWindowSubComCard__sub_80272640
   - TWindowSubComCard__sub_802728CC
   - TWindowSubComCard__sub_80272A98
@@ -1851,7 +1851,7 @@ force_active:
   - update__13LabelValueRowFv
   - draw_composition_background__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUl
   - layout_wrapped_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUll
-  - TWindowSubStatusDisp__sub_80271A6C
+  - draw_zoom_help__21TWindowSubAreaMapDispFP17WindowDrawContext
   - draw_heading_text__FP12HeadingEntryP17WindowDrawContext
   - is_enabled__12HeadingEntryFv
   - get_difficulty_text__12TGameListRowFSc
@@ -1862,7 +1862,7 @@ force_active:
   - window_sub_symbol_chat_help_name
   - symbol_chat_parts_set_part_uv_table
   - TWindowSubSymbolChat__sub_80281840
-  - TWindowSubSymbolChat__sub_8028233C
+  - create_new_parts_menu__20TWindowSubSymbolChatFv
   - get_symbol_chat_receive_buffer
   - get_technique_description_text__Fl
   - TWindowSubTradeMessage__name
@@ -5151,7 +5151,7 @@ force_active:
   - clear_flag_and_notify__18CameraDistanceFadeFv
   - clear_flag_and_release__14TWindowSubItemFv
   - clear_flag_and_update__15TObjEneGyaranzoFv
-  - clear_flag_bit5__17TWindowReturnCityFv
+  - clear_return_city_open__11TWindowCtrlFv
   - clear_flag_in_state7__14TObjEneBalClawFv
   - clear_flags_60__12TObjEneLappyFv
   - clear_flags__11TItemMagSubFUl
@@ -6386,7 +6386,7 @@ force_active:
   - apply_face_appearance_sprite
   - sub_8025CE00__19TWindowKeyBoardBaseFPUc
   - fn_80262C2C
-  - fn_80271848
+  - draw_pan_arrows__21TWindowSubAreaMapDispFP17WindowDrawContext
   - reset_current_char_appearance__Fl
   - fn_80293D84
   - draw_bolt__12TBGLightningFP3Vec
@@ -16253,7 +16253,7 @@ force_active:
   - handle_gain_input__19TWindowSoundBalanceFv
   - set_choice_search_option__17TWindowSubComCardFP21ChoiceSearchSelectionll
   - send_short_mail__17TWindowSubComCardFv
-  - sub_802730E0__17TWindowSubComCardFv
+  - open_delete_entry_prompt__17TWindowSubComCardFv
   - get_cursor_origin__21TWindowSubCustomEquipFP10NJS_POINT2
   - update_slot_title__26TWindowSubQuestBoardSelectFv
   - set_face_part_from_cursor__20TWindowSubSymbolChatFv
