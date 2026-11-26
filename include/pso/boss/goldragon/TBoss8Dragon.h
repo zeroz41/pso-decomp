@@ -93,7 +93,7 @@ public:
     Vec node_positions[0x22];  // the model's node positions; update_body_colliders reads seven
     Vec target_vector;  // as TBoss1Dragon::target_vector: calc_target_vector's normalized xz direction
     f32 target_distance;  // its length before normalizing
-    f32 m_5dc;
+    f32 height;  // as TBoss1Dragon::height
     Vec last_flight_direction;  // as TBoss1Dragon::last_flight_direction: destination_direction when the flight state is left
     AccelerationCurve curve0;  // fed to init_acceleration_curve / sample_acceleration_curve
     AccelerationCurve curve1;

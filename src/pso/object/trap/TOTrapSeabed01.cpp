@@ -204,7 +204,7 @@ void TOTrapSeabed01::update_effects() {}
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
         (projected == 0 || is_split_screen() != 0 || TDeferredRenderQueue::enqueue_in_instance(this) == 0) &&
-        m_340 == 1) {
+        visible == 1) {
         switch (mode) {
         case 0:
         case 1:

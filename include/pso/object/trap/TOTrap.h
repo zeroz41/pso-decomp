@@ -45,7 +45,7 @@ struct TOTrap : public TObjChara {
     f32 dist;
     u16 player;
     u8 _pad33E[0x2];
-    s32 m_340;
+    s32 visible;  // update_object_view_visibility in render: 1 draws the trap
 };
 
 // The radius of an actor's collision body `body` (TOTrapAncient01's TU); the traps

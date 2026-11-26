@@ -496,7 +496,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->target_vector.y = 0.0f;
     this->target_vector.z = 0.0f;
     this->target_distance = 0.0f;
-    this->m_5dc = 0.0f;
+    this->height = 0.0f;
     this->last_flight_direction.x = 0.0f;
     this->last_flight_direction.y = 0.0f;
     this->last_flight_direction.z = 0.0f;

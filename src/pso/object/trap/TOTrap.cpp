@@ -186,8 +186,8 @@ void TOTrap::run_task() {
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        this->m_340 = this->update_object_view_visibility(4e+02f, 2e+01f);
-        if (this->m_340 == 1) {
+        this->visible = this->update_object_view_visibility(4e+02f, 2e+01f);
+        if (this->visible == 1) {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -209,7 +209,7 @@ TOTrap::TOTrap(TObject *parent) : TObjChara(parent) {
     m_name = TOTrap::class_name;
     range = dist = 0.0f;
     player = 0xFFFF;
-    m_340 = 1;
+    visible = 1;
 }
 
 void TOTrap::update_effects() {}

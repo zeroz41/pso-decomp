@@ -5232,7 +5232,7 @@ force_active:
   - close_window__17TCharSaveSequenceFv
   - close_window__9TSaveChCrFv
   - close_window_and_destroy__18TAdEnterPasswordGCFPv
-  - close_window_field30__20TObjChallenge4PRetryFv
+  - close_message_window__20TObjChallenge4PRetryFv
   - close_windows__12TObjWarpBossFv
   - close_windows__12TQuestListVMFv
   - close_windows__14TWindowSubItemFl
