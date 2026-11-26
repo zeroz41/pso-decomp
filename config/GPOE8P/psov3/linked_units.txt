@@ -1662,7 +1662,7 @@ pso/ui/UISprite.cpp
 pso/unk/text_802948A8.cpp
 pso/unk/text_80299420.cpp
 pso/unk/text_802A0A30.cpp
-pso/unk/text_802A1020.cpp
+pso/ui/frontend/OpeningMovie.cpp
 pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
 pso/unk/text_802D1C84.cpp

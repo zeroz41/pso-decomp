@@ -19,12 +19,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80320358.h"
 #include "pso/ui/frontend/EndingSequence.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 
 extern "C" {
 s32 DVDCheckDisk();
-}
-extern "C" {
-s8 get_opening_movie_purpose();
 }
 
 extern int opening_movie_selector;
@@ -42,7 +40,7 @@ MovieState::~MovieState() {
     TLobby::stop_audio_streams();
 }
 
-MovieState::MovieState(s8 *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending) {
+MovieState::MovieState(const char *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending) {
     this->movie_mode = movie_mode;
     pad_00 = 0;
     init(filename);
@@ -185,14 +183,14 @@ void MovieState::free_buffer() {
     reset_and_release_capture_texture();
 }
 
-void MovieState::init(const s8 *filename) {
+void MovieState::init(const char *filename) {
     reset_movie_state();
     memset(&handle, 0, 0xC8);
     buffer = xmalloc(0x420000);
     handle = NULL;
     pad_C8 = 1;
     pad_C4 = 0;
-    strcpy(this->filename, (const char *)filename);
+    strcpy(this->filename, filename);
     init_params.vsync_hz = 59.94f;
     init_params.display_cycle = 1;
     init_params.display_latency = 2;
@@ -330,13 +328,13 @@ void TMovie::run_task() {
     this->queue_destruction();
 }
 
-TMovie::TMovie(TObject *parent, s8 *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending) : TObject(parent) {
+TMovie::TMovie(TObject *parent, const char *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending, s32) : TObject(parent) {
     m_name = TMovie::class_name;
     this->finish_callback = finish_callback;
     module = NULL;
     this->movie_mode = movie_mode;
     player = NULL;
-    strncpy(this->filename, (const char *)filename, 0x20);
+    strncpy(this->filename, filename, 0x20);
     RelModuleBuffer *loaded = new RelModuleBuffer;
     if (loaded != NULL) {
         loaded = load_rel_module(loaded, "movie.rel");

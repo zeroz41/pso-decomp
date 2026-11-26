@@ -6789,7 +6789,7 @@ pso/ui/frontend/TAdTitleGC.cpp:
 	.sbss       start:0x805D6630 end:0x805D6638
 	.sdata2     start:0x805DDDC8 end:0x805DDDF4
 
-pso/unk/text_802A1020.cpp:
+pso/ui/frontend/OpeningMovie.cpp:
 	.text       start:0x802A1020 end:0x802A1438
 	.rodata     start:0x80466240 end:0x804662D8
 	.data       start:0x804DCAB8 end:0x804DCB7C

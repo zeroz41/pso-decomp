@@ -2,7 +2,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
-#include "pso/unk/text_802A1020.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TUnk_804DCB64.h"
 #include "pso/network/TLobby.h"
@@ -19,14 +19,12 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/AsyncFileRead.h"
+#include "pso/system/movie/TMovie.h"
 
 
 s32 opening_movie_selector = 1;
-extern "C" {
-u8 *__ct__6TMovieFP7TObjectPScPFP6TMovie_vll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
-}
 s8 movie_finished_flag;
-u8 opening_movie_purpose;
+s8 opening_movie_purpose;
 s32 game_files_modified_flag;
 
 // File size and CRC-32 of the files checked by verify_game_file_integrity (crc 0: size check only).
@@ -94,12 +92,12 @@ s32 verify_game_file_integrity(void) {
     return 0;
 }
 
-unsigned char get_opening_movie_purpose(void) { return opening_movie_purpose; }
+s8 get_opening_movie_purpose(void) { return opening_movie_purpose; }
 
 void set_opening_movie_purpose(int a0) { opening_movie_purpose = a0; }
 
 
-void fn_802A1154(void) {
+void exit_movie_phase(void) {
     main_task.delete_layer_children();
     render_tick();
 }
@@ -114,7 +112,7 @@ void update_movie_phase(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::noop();
-    if ((s32) (movie_finished_flag) == 1) {
+    if (movie_finished_flag == 1) {
         request_queued_main_phase();
     }
     if (static_cast<s8>(poll_reset_request()) != 0) {
@@ -126,11 +124,11 @@ void update_movie_phase(void) {
     render_tick();
 }
 
-void TKeyBoardControl::update_menu_scene() {
+void init_movie_phase(void) {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     set_fallback_main_phase(2);
-    switch ((s8) opening_movie_purpose) {
+    switch (opening_movie_purpose) {
     case 0:
         set_queued_main_phase(1);
         set_fallback_main_phase(9);
@@ -149,7 +147,7 @@ void TKeyBoardControl::update_menu_scene() {
 
 void TUnk_804DCB64::render() {  }
 void TUnk_804DCB64::run_task() {  }
-void set_movie_finished_flag(s32) { (*(unsigned char *)&movie_finished_flag) = 1; }
+void set_movie_finished_flag(TMovie *) { movie_finished_flag = 1; }
 TUnk_804DCB64::~TUnk_804DCB64() {
 
 }
@@ -159,19 +157,13 @@ TUnk_804DCB64::~TUnk_804DCB64() {
 TUnk_804DCB64::TUnk_804DCB64() : TObject(tl_01) {
     TLobby::update_menu_cursor();
     if ((TAdSinglePlyChrSelectGC::get_data() == 1) && (TAdSelectGameModeGC::get_mode_data() == 1)) {
-        set_movie_finished_flag(0);
+        set_movie_finished_flag(NULL);
         return;
     }
-    if ((s8) opening_movie_purpose == 0) {
-        u8 *movie = (u8 *)TObject::operator new(0x4C);
-        if (movie != NULL) {
-            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(movie, tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 1, 1, 0);
-        }
+    if (opening_movie_purpose == 0) {
+        new TMovie(tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 1, 1, 0);
         opening_movie_selector = 1 - opening_movie_selector;
     } else {
-        u8 *movie = (u8 *)TObject::operator new(0x4C);
-        if (movie != NULL) {
-            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(movie, tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
-        }
+        new TMovie(tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
     }
 }

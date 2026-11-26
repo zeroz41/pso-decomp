@@ -67,7 +67,7 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/unk/text_80290BEC.h"
-#include "pso/unk/text_802A1020.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -341,7 +341,7 @@ MainPhaseEntry main_phase_table[] = {
     { NULL, NULL, NULL },
     { TLogo::init_logo_scene, TLogo::run_frame, TLogo::exit_logo_scene },
     { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TKeyBoardControl::update_menu_scene, update_movie_phase, fn_802A1154 },
+    { init_movie_phase, update_movie_phase, exit_movie_phase },
     { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TKeyBoardControl::update_main_menu_scene, run_main_frame, fn_80290BEC },
     { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },

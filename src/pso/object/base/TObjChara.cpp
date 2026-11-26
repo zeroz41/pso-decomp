@@ -80,7 +80,7 @@
 
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 
-#include "pso/unk/text_802A1020.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 
 
 #include "pso/unk/text_80290BEC.h"

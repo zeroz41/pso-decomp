@@ -902,8 +902,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/quest/TQuestListOnline.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TEnding: "ending.adx" sits in .rodata; start_ending_scene reaches each .rodata object with its own lis/addi.
     "pso/system/scene/TEnding.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    # text_802A1020: the file-name strings its two .data tables point at sit in .rodata.
-    "pso/unk/text_802A1020.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # OpeningMovie: the file-name strings its two .data tables point at sit in .rodata.
+    "pso/ui/frontend/OpeningMovie.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TAdEnterBaseGC (+5 folded parts): the source is written last function first (validate_input's templates precede
     # draw_masked's double in .rodata); "%08X" sits in .rodata; the 8-byte status-line position sits in .data;
     # draw_masked_password_field reaches each .rodata object with its own lis/addi.

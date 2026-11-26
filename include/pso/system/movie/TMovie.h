@@ -11,7 +11,7 @@ struct MovieState;
 // finish_callback with itself when it is destroyed.
 struct TMovie : public TObject {
     static const char *class_name;
-    TMovie(TObject *parent, s8 *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending);
+    TMovie(TObject *parent, const char *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending, s32);
     virtual ~TMovie();
     virtual void run_task();
     RelModuleBuffer *module;
@@ -91,9 +91,9 @@ struct MovieState {
     s32 pad_C8;
     s32 movie_mode;
 
-    MovieState(s8 *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending);
+    MovieState(const char *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending);
     ~MovieState();
-    void init(const s8 *filename);
+    void init(const char *filename);
     s32 stop_if_advanced();
     s32 check_finished();
     s32 is_playback_finished();

@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/TLobby_802A0F3C.h"
-#include "pso/unk/text_802A1020.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/NinjaTypes.h"
