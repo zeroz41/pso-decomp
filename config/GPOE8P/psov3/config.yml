@@ -5722,7 +5722,7 @@ force_active:
   - dispatch_state__20TBoss3VoloptHiraisinFv
   - dispatch_action__19TObjEneBm9MericarolFUll
   - display_copy_filter_enabled
-  - display_exp_gain__FlUlll
+  - display_exp_gain__FP9TObjCharaP3Vecls
   - display_guild_message__12TQuestListVMFll
   - display_message__12TQuestListVMFPCcl
   - distribute_part_damage__15TBoss3VoloptP02Fv
@@ -5831,7 +5831,7 @@ force_active:
   - draw_help_entries__24TWindowSubSymbolChatHelpFP17WindowDrawContext
   - draw_help_entry__24TWindowSubSymbolChatHelpFP17WindowDrawContextll
   - draw_help_icon__24TWindowSubSymbolChatHelpFP17WindowDrawContextll
-  - draw_hp_label__FPvUlls
+  - draw_hp_label__FP9TObjCharaP3Vecls
   - draw_if_visible__15TObjEneDelDepthFv
   - draw_inactive_badge__11TObjDoorKeyFv
   - draw_label__16TAdGuideButtonGCFiPCc
@@ -15640,7 +15640,7 @@ force_active:
   - show_score_results__6TLobbyFPv
   - show_seq_phase_message__6TLobbyFi
   - show_status_message__22TQuestVmDownLoadServerFll
-  - show_tp_font__FlUlll
+  - show_tp_font__FP9TObjCharaP3Vecls
   - shuffle_event_entries__FP17EventShuffleTable
   - shuffle_p01_order__12TBoss3VoloptFv
   - shuffle__8ShopPoolFv

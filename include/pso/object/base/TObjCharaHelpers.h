@@ -24,7 +24,12 @@ BOOL is_split_screen(void);
 void main(void);
 f32 newton_sqrtf(f32 x);
 }
-void show_meseta_label(saddr player, u32 pos, s32 delay, s32 value);
+// Floating damage/heal numbers over a character: green HP, blue TP, yellow meseta and
+// magenta EXP, shown at `pos`.
+void display_exp_gain(TObjChara *chara, Vec *pos, s32 delay, s16 value);
+void show_meseta_label(TObjChara *chara, Vec *pos, s32 delay, s16 value);
+void show_tp_font(TObjChara *chara, Vec *pos, s32 delay, s16 value);
+void draw_hp_label(TObjChara *chara, Vec *pos, s32 delay, s16 value);
 
 // 1 when csnLookAt finds a wall between the body centre and `target` (a far target is
 // pulled in to 300 units along the same heading), else 0.

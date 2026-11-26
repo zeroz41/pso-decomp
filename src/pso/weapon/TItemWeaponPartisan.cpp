@@ -19,7 +19,7 @@ void TItemWeaponPartisan::emit_marker_effects() {
     case 6:
         if (is_mode_two_and_ready() && owner->get_actor_meseta() >= 10000) {
             owner->try_spend_actor_meseta(10000);
-            show_meseta_label((saddr)owner, (uaddr)&owner->body_center, 0, -10000);
+            show_meseta_label(owner, &owner->body_center, 0, -10000);
             apply_scale_if_active(3.0f);
             spawn_particle_effect(&owner->body_center, 0x66);
             spawn_particle_effect(&owner->body_center, 0x66);

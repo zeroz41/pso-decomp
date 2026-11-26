@@ -14,9 +14,7 @@ __declspec(section ".rodata") extern const u32 newton_sqrt_three[2] = {
     0x40080000, 0x00000000,
 };
 
-__declspec(section ".rodata") extern const u8 meseta_label_text[7] ATTRIBUTE_ALIGN(4) = {
-    0x4D, 0x45, 0x53, 0x45, 0x54, 0x41, 0x00,
-};
+__declspec(section ".rodata") extern const char meseta_label_text[7] ATTRIBUTE_ALIGN(4) = "MESETA";
 
 __declspec(section ".rodata") extern const char miss_label_text[5] ATTRIBUTE_ALIGN(4) = "MISS";
 
