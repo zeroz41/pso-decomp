@@ -8,8 +8,6 @@
 #include "pso/unk/TWindowLayoutRect.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TGameListRow.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

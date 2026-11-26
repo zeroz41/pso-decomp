@@ -5,8 +5,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/unk/TWindowLayoutRect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -379,17 +377,17 @@ void ItemListRow::init_entry(u8 status_icon, u8 category_icon, u8 status_style, 
     this->flags |= 0x245;
 }
 
-void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 value, s32 item) {
-    row->x = 0.0f;
-    row->status_icon = 0x33;
-    row->category_icon = 9;
+void ItemListRow::init_count_entry(s32 count, s32 item) {
+    this->x = 0.0f;
+    this->status_icon = 0x33;
+    this->category_icon = 9;
     text_builder_reset();
-    text_builder_append_int(value);
+    text_builder_append_int(count);
     text_builder_append((u8 *)((s32 *) (TWindowSubStatusDisp::get_download_server())));
-    row->suffix = (char *)row->replace_owned_string((s32)((int) (get_shared_text_buffer())), (s32)((int) ((saddr)row->suffix)), 0x10, 1);
-    row->suffix_style = -1;
-    row->item = item;
-    row->flags |= 0x45;
+    this->suffix = (char *)replace_owned_string((s32)((int) (get_shared_text_buffer())), (s32)((int) ((saddr)this->suffix)), 0x10, 1);
+    this->suffix_style = -1;
+    this->item = item;
+    this->flags |= 0x45;
 }
 
 void ItemListRow::setup_stat_line(s32 src, s32 stat, s32 item) {

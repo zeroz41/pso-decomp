@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -82,7 +81,7 @@ void TWindowStatusGauge::render(WindowDrawContext *ctx) {
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(11, -1);
     if (this->flags & 8) {
-        TWindowSubStatusDisp__sub_80256C40(this, ctx, &pos, depth);
+        draw_status_gauge_frame(ctx, &pos, depth);
     }
     if (avail > 0.0f) {
         set_constant_material_color(this->color);
@@ -147,10 +146,10 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     }
 }
 
-void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth) {
+void TWindowStatusGauge::draw_status_gauge_frame(WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth) {
     TexturedQuad q;
     f32 w;
-    w = self->scale - -2.0f;
+    w = this->scale - -2.0f;
     q.x0 = -1.0f + pos->x;
     q.y0 = -1.0f + pos->y;
     q.x1 = 20.0f + q.x0;

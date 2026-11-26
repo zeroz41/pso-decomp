@@ -1854,8 +1854,8 @@ force_active:
   - TWindowSubStatusDisp__sub_80271A6C
   - draw_heading_text__FP12HeadingEntryP17WindowDrawContext
   - is_enabled__12HeadingEntryFv
-  - TWindowSubStatusDisp__sub_803387F8
-  - TWindowSubStatusDisp__sub_80338B88
+  - get_difficulty_text__12TGameListRowFSc
+  - get_flag_4_bit__12TGameListRowFv
   - TWindowSubStatusDisp__sub_8036D994
   - window_layout__20TWindowSubStatusDisp
   - draw_face_selection__FPUcPUc
@@ -6623,7 +6623,7 @@ force_active:
   - get_flags__14ShortMailEntryFv
   - stick_enabled__16PlayerPadBindingFv
   - get_flag_bit0__14TObjEneBm5WolfFPv
-  - get_flag_or_zero__20TWindowSubStatusDispFPvSc
+  - get_level_text__12TGameListRowFSc
   - get_floor_surface_type__10TObjPlayerFv
   - get_floor_switch_flag__FUls
   - get_function_key_menu__16TKeyBoardControlFPv
@@ -13841,7 +13841,7 @@ force_active:
   - qst_label_address__Fi
   - query_battle_state__17TWindowReturnCityFv
   - query_default__13TBoss5GryphonFv
-  - query_status_field__20TWindowSubStatusDispFPvSc
+  - get_mark_text__12TGameListRowFSc
   - quest_bgm_area_filename_table
   - quest_bgm_carnaval_filename
   - quest_bgm_chu_f_filename

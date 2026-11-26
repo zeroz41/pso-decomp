@@ -31,7 +31,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
@@ -204,7 +203,7 @@ void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 src, s3
 
 void TWindowMenuIconLine::push_status_disp_entry(s32 count, s32 id) {
     if (entry_count < entry_capacity) {
-        TWindowSubStatusDisp__sub_80258A28((ItemListRow *)get_array_entry(entry_count), count, id);
+        static_cast<ItemListRow *>(get_array_entry(entry_count))->init_count_entry(count, id);
         entry_count++;
     }
 }

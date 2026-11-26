@@ -18,9 +18,6 @@
 #include "pso/system/SoundEffect.h"
 
 
-extern "C" {
-s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
-}
 void set_constant_material_color(u32 x);
 #define CLAMP_8025737C(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
 
@@ -171,7 +168,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
         set_texture_list(hud_texlist);
         set_draw_texture_and_color(0xB, -1);
         if (this->flags & 8) {
-            TWindowSubStatusDisp__sub_80256C40(this, context, &pos, scale);
+            draw_status_gauge_frame(context, &pos, scale);
         }
         if (hi > 0.0f) {
             set_constant_material_color(col);

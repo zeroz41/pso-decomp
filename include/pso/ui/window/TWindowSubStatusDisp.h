@@ -85,8 +85,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void init_scroll_pos();
     static f32 get_base_y(f32 width);
     void fill_card_text_entries(GuildCardRecord *record);
-    static saddr query_status_field(void *arg0, s8 arg1);
-    static saddr get_flag_or_zero(void *arg0, s8 arg1);
     static void draw_split_screen_dividers();
     static void draw_tiled_background();
     static void draw_bottom_bar();
