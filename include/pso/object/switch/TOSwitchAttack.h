@@ -27,4 +27,7 @@ struct TOSwitchAttack : public TObjBase {
 };
 
 LAYOUT_ASSERT(TOSwitchAttack_size, sizeof(TOSwitchAttack) == 0xAC);
+
+// "TOSwitchAttack", the name a switch-attack object takes.
+extern const char *switch_attack_name;
 #endif

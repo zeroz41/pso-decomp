@@ -15,8 +15,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/switch/TSwitch.h"
 
-extern "C" {
-extern const char *switch_attack_name;
 
 void TOSwitchAttack::render() {  }
 
@@ -128,7 +126,6 @@ void *TOSwitchAttack::create(void *set_data) {
 void TOSwitchAttack::free_resources() {  }
 void TOSwitchAttack::load_resources() {  }
 
-}
 TOSwitchAttack::~TOSwitchAttack() {
 
 }
