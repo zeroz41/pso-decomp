@@ -47,8 +47,6 @@ s32 door_jung_signal_blue_texture;
 s32 door_jung_beam_red_texture;
 s32 door_jung_beam_blue_texture;
 
-struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
-
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 }
@@ -158,18 +156,18 @@ void TObjDoorJung::render() {
 void TObjDoorJung::update_door_switch_state() {
     s32 ok = 1;
     s32 i = 0;
-    while (i < ((Jung_8018F808 *)this)->fD4) {
-        s32 t = is_current_floor_switch_set((u16)(((Jung_8018F808 *)this)->fC8 + i)) - 1;
+    while (i < active_light_count) {
+        s32 t = is_current_floor_switch_set((u16)(switch_id + i)) - 1;
         i++;
         ok = (t == 0) ? (ok & 1) : 0;
     }
     if (ok != 0) {
-        ((Jung_8018F808 *)this)->fD0 |= 1;
+        door_flags |= 1;
         set_indexed_flags(0, 8);
         return;
     }
-    ((Jung_8018F808 *)this)->fD0 &= ~1;
-    ((TObjCollidable *)((Jung_8018F808 *)this))->clear_player_status_flag(0, 8);
+    door_flags &= ~1;
+    clear_player_status_flag(0, 8);
 }
 
 void TObjDoorJung::run_task() {

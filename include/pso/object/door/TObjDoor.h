@@ -4,10 +4,19 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct CollisionBody;
-struct DoorModelSet;
-struct DoorMotionHeader;
+struct AnimationMotion;
+struct NJS_OBJECT;
 struct NJS_TEXLIST;
 struct NJS_ARGB;
+
+// The door BML's models, named after their files.
+struct DoorModelSet {
+    NJS_OBJECT *body;          // taiki_fe_obj_doa_oya: the door, opened by motion 0
+    NJS_OBJECT *laser;         // taiki_fe_obj_doa_laz_oya: animated by motion 1
+    NJS_OBJECT *sign;          // fe_obj_doa_kanban: drawn in the door's label colour
+    NJS_OBJECT *signal_front;  // fs_obj_doa_shingo_omote
+    NJS_OBJECT *signal_back;   // fs_obj_doa_shingo_ura
+};
 
 struct TObjDoor : public TObjCollidable {
     TObjDoor(TObject *parent, void *set_data);
@@ -50,7 +59,7 @@ struct TObjDoor : public TObjCollidable {
     static CollisionBody collision_desc;
     static NJS_ARGB label_color_table[10];
     static const char *name;
-    static DoorMotionHeader *motion_table[2];
+    static AnimationMotion *motion_table[2];
     static DoorModelSet model_resource_ptrs;
     static NJS_TEXLIST *resource_param;
 };

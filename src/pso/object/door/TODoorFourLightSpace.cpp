@@ -2,6 +2,7 @@
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/object/door/TODoorFourLightRuins.h"
 #include "pso/object/door/TODoorFourLightSpace.h"
+#include "pso/object/door/TODoorFourLightBase.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/unk/text_8028A714.h"
 #include "pso/object/base/TObjMapObject.h"
@@ -39,23 +40,16 @@ BmlResourceDescriptor bm_obj_door_space_resource_descriptor = {"bm_obj_door_spac
 
 CollisionBody door_four_light_collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-struct Tbl_80289EE0 { s32 v[8]; };
-
-
-
 extern "C" {
 u8 is_current_floor_switch_set(u16);
 void fn_802898E8(void);
 void fn_802898EC(void);
 }
 
-
-struct Tbl_8028A5C4 { s32 v[8]; };
-
 const char *door_four_light_ruins_class_name = "TODoorFourLightRuins";
-const Tbl_8028A5C4 door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
+const FourLightNodeTable door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
 const char *door_four_light_space_class_name = "TODoorFourLightSpace";
-const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11};
+const FourLightNodeTable door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11};
 #pragma defer_codegen on
 
 #pragma push
@@ -76,9 +70,9 @@ TODoorFourLightRuins::TODoorFourLightRuins(saddr parent, saddr set_data) : TODoo
     this->animation_end_frame = (f32)motion->frameCount - 1.0f;
     this->animation_step = 0.5f;
     {
-        Tbl_8028A5C4 t = door_four_light_ruins_index_table;
+        FourLightNodeTable t = door_four_light_ruins_index_table;
         for (i = 0; i < 8; i++) {
-            this->light_nodes[i] = find_object_node((NJS_OBJECT *)(this->model_tree), t.v[i]);
+            this->light_nodes[i] = find_object_node((NJS_OBJECT *)(this->model_tree), t.node[i]);
         }
     }
 }
@@ -278,9 +272,9 @@ TODoorFourLightSpace::TODoorFourLightSpace(saddr parent, saddr set_data) : TODoo
     this->animation_end_frame = (f32)motion->frameCount - 1.0f;
     this->animation_step = 0.5f;
     {
-        Tbl_80289EE0 t = door_four_light_space_index_table;
+        FourLightNodeTable t = door_four_light_space_index_table;
         for (i = 0; i < 8; i++) {
-            light_nodes[i] = find_object_node((NJS_OBJECT *)(this->model_tree), t.v[i]);
+            light_nodes[i] = find_object_node((NJS_OBJECT *)(this->model_tree), t.node[i]);
         }
     }
 }
