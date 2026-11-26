@@ -11,9 +11,9 @@ public:
     virtual void run_task();
     virtual void render();
 
-    u8 pad_1c;
-    u32 pad_20;
-    u32 pad_24;
+    u8 m_1c;
+    u32 m_20;
+    u32 m_24;
 };
 
 void clear_current_floor_switch(s32 id);

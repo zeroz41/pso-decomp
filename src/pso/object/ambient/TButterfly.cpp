@@ -33,7 +33,7 @@ void TButterfly::draw_model() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, -0x2000);
-    draw_ginja_model_with_motion(get_bml_model((BmlResource *)butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
+    draw_ginja_model_with_motion(get_bml_model(butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
     pop_matrix();
 }
 
@@ -52,7 +52,7 @@ void TButterfly::init_motion() {
 
 void TButterfly::render() {
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)butterfly_bml_resource, 0));
+        TObjFish::set_global_param(get_bml_texlist(butterfly_bml_resource, 0));
         draw_model();
     }
 }
