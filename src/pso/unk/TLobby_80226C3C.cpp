@@ -39,8 +39,7 @@ u32 lbl_804CB838[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 // [0] and [1] play the music, [2] the cue stream ("can't create ADXT-BGM #%d", "can't create ADXT-SE #%d").
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
 
-extern "C" {
-    extern int lbl_805D62B8;
+extern int lbl_805D62B8;
 void *lbl_805D62D8;
 void *lbl_805D62DC;
 s32 music_active;
@@ -65,7 +64,6 @@ f32 music_fade_step;
 s32 music_fade_frames_remaining;
 s32 bgm_stream_active;
 s16 music_current_slot;
-}
 
 extern "C" char music_slot_entries[2][0x20];
 u8 *TLobby::get_current_slot_entry() {
