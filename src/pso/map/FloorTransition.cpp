@@ -6,7 +6,7 @@
 #include "pso/map/FloorMapSelection.h"
 #include <stddef.h>
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -19,7 +19,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 
-// Area set-up functions of TLobby_80299A60/B90/C4C.cpp, which have no header.
+// Area set-up functions of Dragon2Scene.cpp and Delo2Scene.cpp, which have no header.
 s32 init_scene_delo2();
 s32 load_dragon2_scene();
 

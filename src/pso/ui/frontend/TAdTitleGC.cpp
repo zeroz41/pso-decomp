@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/unk/text_802A0A30.h"
+#include "pso/ui/frontend/TitleMenuText.h"
 #include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"

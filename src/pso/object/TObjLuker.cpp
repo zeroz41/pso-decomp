@@ -3,7 +3,7 @@
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/object/TActorLight.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/data/FlagWord.h"

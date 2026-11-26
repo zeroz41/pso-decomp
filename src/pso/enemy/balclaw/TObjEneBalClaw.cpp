@@ -7,7 +7,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 
 static const char balclaw_body_model[] = "re6_b_bal_body.nj";

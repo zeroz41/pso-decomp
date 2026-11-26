@@ -22,7 +22,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include <dolphin/base/PPCArch.h>
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 // Written from its last function back: the unit is built -inline off,deferred
 // (configure.py), which emits the functions in reverse and puts the vtable

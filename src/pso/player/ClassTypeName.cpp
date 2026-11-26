@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_8013292C.h"
+#include "pso/player/ClassTypeName.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/PlayerClassFlags.h"

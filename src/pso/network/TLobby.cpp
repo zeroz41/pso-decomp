@@ -2,7 +2,7 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/unk/GuildCardRecord.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"

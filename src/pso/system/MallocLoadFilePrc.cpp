@@ -35,7 +35,7 @@
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_800FFE04.h"
+#include "pso/system/GslArchiveStubs.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/system/ControllerInput.h"

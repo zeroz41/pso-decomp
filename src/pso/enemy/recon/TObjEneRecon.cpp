@@ -52,7 +52,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 #pragma readonly_strings on
 

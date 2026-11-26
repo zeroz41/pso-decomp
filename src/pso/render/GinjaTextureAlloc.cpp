@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_803DA12C.h"
+#include "pso/render/GinjaTextureAlloc.h"
 extern "C" {
 s32 init_ginja_texture_header(void *p);
 void alloc_buffer_from_heap(void *header);

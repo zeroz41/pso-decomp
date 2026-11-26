@@ -5,7 +5,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/MatrixStack.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/protocol/protocol_types.h"
 
 #include "pso/player/TObjPlayer.h"

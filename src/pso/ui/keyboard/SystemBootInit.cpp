@@ -57,7 +57,7 @@
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/TLobby_802268F4.h"
@@ -73,7 +73,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/text_800FFE04.h"
+#include "pso/system/GslArchiveStubs.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 
 GXLightObj gx_default_light_obj[4];

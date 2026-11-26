@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_8021B268.h"
+#include "pso/item/shop/ShopStockCount.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/item/shop/ShopArmorStock.h"
 

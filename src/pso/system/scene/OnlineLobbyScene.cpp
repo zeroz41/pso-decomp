@@ -12,7 +12,7 @@
 #include "types.h"
 #include "pso/render/gjSystem.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/system/debug_print.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"

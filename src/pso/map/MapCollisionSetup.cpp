@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/map/MapCollisionSetup.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/TMapCsnCtrl.h"

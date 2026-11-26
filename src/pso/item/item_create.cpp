@@ -33,7 +33,7 @@
 #include "pso/item/TItemToolMaterial.h"
 #include "pso/item/TItemToolMagCell.h"
 #include "pso/item/TItemToolAddSlot.h"
-#include "pso/item/TUnk_804F112C.h"
+#include "pso/item/ItemUseEffects.h"
 #include "pso/item/TItemToolRandomItem.h"
 #include "pso/item/TItemToolQuestBgm.h"
 #include "pso/item/TItemToolKillCounter.h"

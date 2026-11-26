@@ -245,7 +245,7 @@
 #include "pso/object/TObjJungleBird.h"
 #include "pso/object/TObjJungleEbi.h"
 #include "pso/object/TObjLobbyPigeon.h"
-#include "pso/unk/text_802F0F04.h"
+#include "pso/object/warp/Boss7TunnelAreaWarp.h"
 #include "pso/object/city/CityVerticalModel.h"
 extern "C" {
 }

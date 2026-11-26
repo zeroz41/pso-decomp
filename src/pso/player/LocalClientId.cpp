@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/client_id.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
 #include "pso/ui/window/TWindowCtrl.h"

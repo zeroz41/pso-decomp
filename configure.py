@@ -848,10 +848,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The 1-byte chr_select_state at 0x805D4A78 is followed by 7 pad bytes, so 0x805D4A80 starts a new TU: 0x8001C5F8 cuts the unit.
     "pso/system/TLoadCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/TObjChallenge4PRetry.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/unk/TLobby_80299B90.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/map/area/Delo2Scene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the scene music names and the retry class name sit in .rodata 0x804651A0-0x804651F8: -str reuse,readonly.
     # Each zero word before an 8-aligned string restart (0x804651B0, 0x804651C0) ends one TU string pool.
-    "pso/unk/TLobby_80299A60.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/map/area/Dragon2Scene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # "TChallenge4P" and "Area00" sit in .rodata 0x80464E48-0x80464E60: -str reuse,readonly.
     "pso/quest/challenge/TChallenge4P.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the class name and ":%04d:%02d'" sit in .rodata, ":%s" in .sdata2: -str reuse,readonly.
@@ -1235,7 +1235,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/jungle/TORockJungleL01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/mine/TODragonflyMachine01.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-sdata 4")},
     # GC/2.0: apply_use_effect only schedules its effect-table copy as the original with 2.0, like TItem.cpp.
-    "pso/item/TUnk_804F112C.cpp": {"mw_version": "GC/2.0"},
+    "pso/item/ItemUseEffects.cpp": {"mw_version": "GC/2.0"},
     "pso/item/TItem.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TItemProArmor.cpp, TItemProShield.cpp and TItemProUnit.cpp are written
     # from their last function back (deferred code generation, which also puts

@@ -26,7 +26,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraScripted.h"
-#include "pso/unk/TLobby_802D79EC.h"
+#include "pso/npc/NpcEnemyAnimReset.h"
 #include "pso/render/reflection.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjControl.h"

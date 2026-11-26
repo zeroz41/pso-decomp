@@ -2,7 +2,7 @@
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/item/TItemData_8010EDA8.h"
+#include "pso/item/MaterialStats.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"

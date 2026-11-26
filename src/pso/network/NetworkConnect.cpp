@@ -25,7 +25,7 @@
 #include "pso/system/ControllerInput.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #undef PSO_SDK_COMPACT_MATH
 
 s32 lobby_local_ip_addr;

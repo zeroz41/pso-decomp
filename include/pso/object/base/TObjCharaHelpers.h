@@ -5,7 +5,7 @@
 #include "pso/object/base/HitEligibility.h"
 #include "types.h"
 #include "pso/system/SubtractiveRng.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 struct Vec;
 struct TObjEnemy;

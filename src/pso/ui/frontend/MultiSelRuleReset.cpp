@@ -1,7 +1,7 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/quest/challenge/TChallenge4P.h"
-#include "pso/unk/TLobby_80300098.h"
+#include "pso/ui/frontend/MultiSelRuleReset.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/network/TLobby.h"
 

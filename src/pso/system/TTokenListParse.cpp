@@ -4,7 +4,7 @@
 #include "pso/system/TTokenList.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorMapSelection.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/render/DebugFont.h"
 
 FloorTransition::FloorTransition() {

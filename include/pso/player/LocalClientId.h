@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TLOBBY_800FD78C_H
-#define PSO_UNK_TLOBBY_800FD78C_H
+#ifndef PSO_PLAYER_LOCALCLIENTID_H
+#define PSO_PLAYER_LOCALCLIENTID_H
 
 #include "types.h"
 #include <stddef.h>
@@ -47,7 +47,7 @@ void promote_area_floor(FloorTransition *transition);
 // The control role create_player_object hands the local player(s) (name inferred).
 extern s32 player_control_role_base;
 
-// --- C functions defined in TLobby_800FD78C.cpp ---
+// --- C functions defined in LocalClientId.cpp ---
 extern "C" {
 u8 is_xz_nonfinite(f32 *xz);
 }

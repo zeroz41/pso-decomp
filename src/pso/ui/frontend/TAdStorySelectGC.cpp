@@ -8,7 +8,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/unk/text_80299420.h"
+#include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/object/TObjPathObj.h"
 
 #include "types.h"

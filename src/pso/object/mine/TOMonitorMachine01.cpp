@@ -14,7 +14,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 
 const char *bm_fs_obj_monitor_model_names[] = {"fs_obj_monitor.gj", NULL};

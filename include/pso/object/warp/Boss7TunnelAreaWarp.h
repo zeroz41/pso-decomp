@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_802F0F04_H
-#define PSO_UNK_TEXT_802F0F04_H
+#ifndef PSO_OBJECT_WARP_BOSS7TUNNELAREAWARP_H
+#define PSO_OBJECT_WARP_BOSS7TUNNELAREAWARP_H
 
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarpForest.h"

@@ -27,7 +27,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/render/ChunkModelDraw.h"
 
 extern "C" {

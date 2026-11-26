@@ -13,7 +13,7 @@ Sections:
 	.sdata2     type:rodata align:8
 	.sbss2      type:bss align:16
 
-pso/unk/text_8000F740.cpp:
+pso/system/MainPhaseCheck.cpp:
 	.text       start:0x8000F740 end:0x8000F764
 
 pso/ui/keyboard/SystemBootInit.cpp:
@@ -41,7 +41,7 @@ pso/ui/frontend/TAdADXlogo.cpp:
 	.sbss       start:0x805D49C8 end:0x805D49D8
 	.sdata2     start:0x805D7DD0 end:0x805D7DD8
 
-pso/system/task/TObject_80019A50.cpp:
+pso/network/NetworkWaitIconUpdate.cpp:
 	.text       start:0x80019A68 end:0x80019A8C
 
 pso/ui/frontend/TAdDrawLineCtrl.cpp:
@@ -55,7 +55,7 @@ pso/ui/frontend/TAdDrawLineCtrl.cpp:
 pso/system/scene/EndingSceneTables.cpp:
 	.rodata     start:0x80434118 end:0x80434580
 
-pso/item/mag/TItemMag_8001A468.cpp:
+pso/item/RelocatedFileRoot.cpp:
 	.text       start:0x8001A468 end:0x8001A4CC
 
 pso/system/scene/TEndingPicStage.cpp:
@@ -842,7 +842,7 @@ pso/ui/window/TObjDeadListWin.cpp:
 	.sdata      start:0x805D2868 end:0x805D2870
 	.sdata2     start:0x805D9140 end:0x805D9148
 
-pso/unk/TLobby_80073DAC.cpp:
+pso/quest/QuestActiveFlag.cpp:
 	.text       start:0x80073DAC end:0x80073DB8
 
 pso/ui/window/TWindowSubComCard_80073DB8.cpp:
@@ -1826,7 +1826,7 @@ pso/ui/font/TFontSmallTask.cpp:
 	.sdata      start:0x805D2B30 end:0x805D2B34
 	.sdata2     start:0x805DAA00 end:0x805DAA36
 
-pso/unk/TLobby_800FD78C.cpp:
+pso/player/LocalClientId.cpp:
 	.text       start:0x800FD78C end:0x800FD8B4
 	.sbss       start:0x805D53A0 end:0x805D53B8
 
@@ -1873,7 +1873,7 @@ pso/object/TObjTailsTailsMove.cpp:
 pso/ui/keyboard/KeyboardCharacterMaps.cpp:
 	.data       start:0x8049DD78 end:0x8049E8F8
 
-pso/unk/text_800FFE04.cpp:
+pso/system/GslArchiveStubs.cpp:
 	.text       start:0x800FFE04 end:0x800FFE1C
 
 pso/item/TItem.cpp:
@@ -2023,7 +2023,7 @@ pso/item/TItemData.cpp:
 pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp:
 	.text       start:0x8010ED54 end:0x8010EDA8
 
-pso/item/TItemData_8010EDA8.cpp:
+pso/item/MaterialStats.cpp:
 	.text       start:0x8010EDA8 end:0x8010EEF0
 
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp:
@@ -2747,7 +2747,7 @@ pso/ui/keyboard/KeyboardKeyState.cpp:
 	.data       start:0x804A6ED0 end:0x804A6EE0
 	.bss        start:0x80506270 end:0x80506320
 
-pso/unk/TLobby_8013292C.cpp:
+pso/player/ClassTypeName.cpp:
 	.text       start:0x8013292C end:0x801329B0
 
 pso/object/TObjLuker_801329B0.cpp:
@@ -4166,7 +4166,7 @@ pso/object/collision/TObjInfoCol.cpp:
 	.data       start:0x804B7E60 end:0x804B7E98
 	.sdata      start:0x805D3388 end:0x805D3390
 
-pso/unk/TLobby_80191F80.cpp:
+pso/network/LobbyIdleState.cpp:
 	.text       start:0x80191F80 end:0x80191F90
 
 pso/item/TObjItemLight.cpp:
@@ -4391,7 +4391,7 @@ pso/object/DoorWarpFactories.cpp:
 pso/object/warp/TObjWarpBoss03_801A2AEC.cpp:
 	.text       start:0x801A2AEC end:0x801A2B38
 
-pso/unk/text_801A2B38.cpp:
+pso/object/ObjectCreators.cpp:
 	.text       start:0x801A2B38 end:0x801A2D90
 
 pso/system/scene/OfflineGameScene.cpp:
@@ -4452,7 +4452,7 @@ pso/effect/photon/PhotonBlastSummon.cpp:
 	.sbss       start:0x805D5D10 end:0x805D5D24
 	.sdata2     start:0x805DC0D0 end:0x805DC0F8
 
-pso/system/scene/TScene_801A7E40.cpp:
+pso/system/scene/SceneReadyFlag.cpp:
 	.text       start:0x801A7E40 end:0x801A7E58
 
 pso/effect/photon/TPhotonConcentrate.cpp:
@@ -4645,7 +4645,7 @@ pso/player/PhotonBlastGauge.cpp:
 	.rodata     start:0x80447170 end:0x80447178
 	.sdata2     start:0x805DC3D8 end:0x805DC3F0
 
-pso/effect/particle/TParticleCtrl_801D6B3C.cpp:
+pso/effect/particle/ParticleCtrlHandle.cpp:
 	.text       start:0x801D6B3C end:0x801D6BC8
 
 pso/player/TObjPlayer_801D6BC8.cpp:
@@ -4909,7 +4909,7 @@ pso/ui/hud/TRaderMapCore.cpp:
 	.sbss       start:0x805D5F28 end:0x805D5F58
 	.sdata2     start:0x805DC528 end:0x805DC5B8
 
-pso/system/scene/TScene_801FBA20.cpp:
+pso/system/scene/SceneResourceIndex.cpp:
 	.text       start:0x801FBA20 end:0x801FBA28
 
 pso/ui/window/TWindowCtrl_801FBA28.cpp:
@@ -5112,7 +5112,7 @@ pso/ui/city/TShopArmorListWindow.cpp:
 	.sdata      start:0x805D3698 end:0x805D36A0
 	.sdata2     start:0x805DC6C0 end:0x805DC6C4
 
-pso/unk/TLobby_8021B268.cpp:
+pso/item/shop/ShopStockCount.cpp:
 	.text       start:0x8021B268 end:0x8021B288
 
 pso/ui/city/TShopEquipmentGearSequence.cpp:
@@ -5186,7 +5186,7 @@ pso/ui/city/TShopJudgmentItemWindow.cpp:
 	.sdata      start:0x805D36E0 end:0x805D36E8
 	.sdata2     start:0x805DC708 end:0x805DC70C
 
-pso/unk/TLobby_80221820.cpp:
+pso/ui/city/AppraisalScore.cpp:
 	.text       start:0x80221820 end:0x80221828
 
 pso/ui/window/TWindowShortListCtrl_80221828.cpp:
@@ -6633,7 +6633,7 @@ pso/ui/charcreate/TObjCMProportion.cpp:
 	.bss        start:0x805409C8 end:0x805409E0
 	.sdata2     start:0x805DDC20 end:0x805DDC34
 
-pso/unk/text_80299420.cpp:
+pso/ui/frontend/MultiChrSelectSlot.cpp:
 	.text       start:0x80299420 end:0x8029945C
 
 pso/ui/charcreate/TObjCMIcon.cpp:
@@ -6645,11 +6645,11 @@ pso/ui/charcreate/TObjCMIcon.cpp:
 	.sbss       start:0x805D65A8 end:0x805D65AC
 	.sdata2     start:0x805DDC38 end:0x805DDC58
 
-pso/unk/TLobby_80299A60.cpp:
+pso/map/area/Dragon2Scene.cpp:
 	.text       start:0x80299A60 end:0x80299B90
 	.rodata     start:0x804651A0 end:0x804651B0
 
-pso/unk/TLobby_80299B90.cpp:
+pso/map/area/Delo2Scene.cpp:
 	.text       start:0x80299B90 end:0x80299C4C
 	.rodata     start:0x804651B0 end:0x804651C0
 
@@ -6763,7 +6763,7 @@ pso/object/door/TODoorLabo.cpp:
 	.sbss       start:0x805D6600 end:0x805D6630
 	.sdata2     start:0x805DDDB8 end:0x805DDDC4
 
-pso/unk/text_802A0A30.cpp:
+pso/ui/frontend/TitleMenuText.cpp:
 	.text       start:0x802A0A30 end:0x802A0A60
 
 pso/ui/frontend/TAdTitleGC.cpp:
@@ -7315,7 +7315,7 @@ pso/npc/TObjNpcEnemy.cpp:
 	.sdata      start:0x805D3F58 end:0x805D3F60
 	.sdata2     start:0x805DE7D8 end:0x805DE7DC
 
-pso/unk/TLobby_802D79EC.cpp:
+pso/npc/NpcEnemyAnimReset.cpp:
 	.text       start:0x802D79EC end:0x802D7A2C
 
 pso/enemy/gibbles/TObjEneGibbles.cpp:
@@ -7470,7 +7470,7 @@ pso/boss/barbaray/Boss7CommonResource.cpp:
 	.sbss       start:0x805D6950 end:0x805D6958
 	.sdata2     start:0x805DEC68 end:0x805DEC6C
 
-pso/unk/text_802F0F04.cpp:
+pso/object/warp/Boss7TunnelAreaWarp.cpp:
 	.text       start:0x802F0F04 end:0x802F105C
 	.data       start:0x804E48D8 end:0x804E4930
 
@@ -7608,7 +7608,7 @@ pso/ui/frontend/TAdMultiChgGameModeGC.cpp:
 	.sbss       start:0x805D69E8 end:0x805D69F0
 	.sdata2     start:0x805DEF38 end:0x805DEF3C
 
-pso/unk/TLobby_80300098.cpp:
+pso/ui/frontend/MultiSelRuleReset.cpp:
 	.text       start:0x80300098 end:0x803000C8
 
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp:
@@ -7743,7 +7743,7 @@ pso/system/GameModeQueries.cpp:
 pso/ui/hud/TRaderMapCore_8030A808.cpp:
 	.text       start:0x8030A808 end:0x8030A834
 
-pso/unk/TLobby_8030A834.cpp:
+pso/boss/darkfalz/TBoss4ZakoDrawCreate.cpp:
 	.text       start:0x8030A834 end:0x8030A884
 
 pso/boss/darkfalz/TBoss4ZakoDraw.cpp:
@@ -8647,7 +8647,7 @@ pso/system/scene/TEndingPic.cpp:
 	.sbss       start:0x805D6EE0 end:0x805D6EE8
 	.sdata2     start:0x805DFEF0 end:0x805DFF2C
 
-pso/item/TUnk_804F112C.cpp:
+pso/item/ItemUseEffects.cpp:
 	.text       start:0x80353018 end:0x8035346C
 	.rodata     start:0x80479100 end:0x80479170
 	.data       start:0x804F10C0 end:0x804F11E0
@@ -10279,7 +10279,7 @@ pso/system/StringCharTable.cpp:
 pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.cpp:
 	.text       start:0x803DA038 end:0x803DA12C
 
-pso/unk/text_803DA12C.cpp:
+pso/render/GinjaTextureAlloc.cpp:
 	.text       start:0x803DA12C end:0x803DA16C
 
 pso/render/TextureListRelease.cpp:

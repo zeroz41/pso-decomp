@@ -2,7 +2,7 @@
 #include "pso/system/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"

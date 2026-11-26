@@ -117,7 +117,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TObjFreezeShell.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/DebugFont.h"
 

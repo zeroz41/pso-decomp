@@ -1,7 +1,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/render/GinjaTexture.h"

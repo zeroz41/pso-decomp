@@ -16,7 +16,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/object/TActorLight.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/TPlyOnCountOver.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ChunkMaterialState.h"

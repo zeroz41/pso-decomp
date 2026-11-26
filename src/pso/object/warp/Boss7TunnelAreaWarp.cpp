@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
-#include "pso/unk/text_802F0F04.h"
+#include "pso/object/warp/Boss7TunnelAreaWarp.h"
 #include "pso/object/warp/TObjAreaWarpForest.h"
 #include "pso/system/task/TMainTask.h"
 

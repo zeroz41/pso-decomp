@@ -3,7 +3,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/unk/text_80299420.h"
+#include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"

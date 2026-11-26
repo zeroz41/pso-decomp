@@ -24,7 +24,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/HeadingEntry.h"

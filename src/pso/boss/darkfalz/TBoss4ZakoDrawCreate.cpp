@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_8030A834.h"
+#include "pso/boss/darkfalz/TBoss4ZakoDrawCreate.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"

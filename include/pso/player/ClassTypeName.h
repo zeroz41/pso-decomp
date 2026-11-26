@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TLOBBY_8013292C_H
-#define PSO_UNK_TLOBBY_8013292C_H
+#ifndef PSO_PLAYER_CLASSTYPENAME_H
+#define PSO_PLAYER_CLASSTYPENAME_H
 
 #include "types.h"
 
@@ -7,7 +7,7 @@ extern "C" {
 void select_main_menu_item_10(s32 id);
 }
 
-// --- C functions defined in TLobby_8013292C.cpp ---
+// --- C functions defined in ClassTypeName.cpp ---
 extern "C" {
 void select_main_menu_item_10(s32 id);
 }

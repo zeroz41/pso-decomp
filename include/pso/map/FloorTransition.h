@@ -2,7 +2,7 @@
 #define PSO_MAP_FLOORTRANSITION_H
 
 #include "types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 // --- C functions defined in FloorTransition.cpp ---
 struct NJS_SPRITE;

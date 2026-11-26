@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_802D79EC.h"
+#include "pso/npc/NpcEnemyAnimReset.h"
 #include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 

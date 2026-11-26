@@ -2,7 +2,7 @@
 #define PSO_MAP_MAPCOLLISIONSETUP_H
 
 #include "types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 struct CsnGroup;
 struct TObjMapCsn;

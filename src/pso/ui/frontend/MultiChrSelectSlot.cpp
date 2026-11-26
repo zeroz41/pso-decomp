@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_80299420.h"
+#include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 
 void fn_80299420(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); *(u32*)((char*)p + 0x8) = *(u32*)((char*)q + 0x8); *(u32*)((char*)p + 0xc) = *(u32*)((char*)q + 0xc); *(u32*)((char*)p + 0x10) = *(u32*)((char*)q + 0x10); *(u32*)((char*)p + 0x14) = *(u32*)((char*)q + 0x14); }

@@ -33,7 +33,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 
 // One kind of TObjSeabedSuiso_CH.

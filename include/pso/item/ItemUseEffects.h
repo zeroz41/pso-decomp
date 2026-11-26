@@ -1,5 +1,5 @@
-#ifndef PSO_ITEM_TUNK_804F112C_H
-#define PSO_ITEM_TUNK_804F112C_H
+#ifndef PSO_ITEM_ITEMUSEEFFECTS_H
+#define PSO_ITEM_ITEMUSEEFFECTS_H
 #include "types.h"
 #include "pso/item/TItemObject.h"
 

@@ -13,7 +13,7 @@
 #include "pso/item/item_pmt.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/item/TItemData_8010EDA8.h"
+#include "pso/item/MaterialStats.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjBase.h"

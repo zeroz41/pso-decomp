@@ -2,7 +2,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/ResourceFile.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "types.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/map/MapCollisionSetup.h"

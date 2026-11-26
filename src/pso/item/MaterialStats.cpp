@@ -1,6 +1,6 @@
 #include "pso/system/TLanguage.h"
 #include "types.h"
-#include "pso/item/TItemData_8010EDA8.h"
+#include "pso/item/MaterialStats.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/MagStats.h"
 #include "pso/player/PlayerAttackParams.h"

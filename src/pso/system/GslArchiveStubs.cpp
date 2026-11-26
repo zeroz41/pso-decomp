@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_800FFE04.h"
+#include "pso/system/GslArchiveStubs.h"
 
 int fn_800FFE04(void) { return 0; }
 void fn_800FFE0C(void) {}

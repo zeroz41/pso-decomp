@@ -5,7 +5,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/render_util.h"
 #include "types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"

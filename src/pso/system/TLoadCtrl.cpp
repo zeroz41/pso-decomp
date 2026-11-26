@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/map/FloorTransition.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/audio/BgmStream.h"

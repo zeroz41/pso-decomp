@@ -37,7 +37,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/TObjControl.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_8030A834.h"
+#include "pso/boss/darkfalz/TBoss4ZakoDrawCreate.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"

@@ -11,7 +11,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 
 // The game's frame counter (main's .sbss; no module header owns it yet).
 

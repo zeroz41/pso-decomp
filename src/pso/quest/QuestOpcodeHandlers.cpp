@@ -18,7 +18,7 @@
 #include <string.h>
 #include "pso/system/byteswap.h"
 #include "pso/network/FloorEventCommand.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/WindowMenuFactory.h"
