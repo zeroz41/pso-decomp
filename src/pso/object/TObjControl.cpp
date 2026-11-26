@@ -363,46 +363,42 @@ void TObjEneBeastBase::link_into_group_chain() {
 
 #undef FIND_TAIL_800F7118
 void TObjEneBeastBase::unlink_enemy_group_relations() {
-    TObjEnemy *temp_r0;
-    TObjEnemy *temp_r0_2;
+    TObjEnemy *next_kids1;
     TObjEnemy *children;
-    TObjEnemy *temp_r0_4;
-    TObjEnemy *temp_r0_5;
-    TObjEnemy *temp_r0_6;
-    TObjEnemy *temp_r0_7;
-    TObjEnemy *temp_r0_8;
-    TObjEnemy *temp_r0_9;
-    TObjEnemy *temp_r4;
-    TObjEnemy *temp_r4_2;
-    TObjEnemy *temp_r4_3;
-    TObjEnemy *temp_r4_4;
-    TObjEnemy *temp_r4_5;
+    TObjEnemy *next_kids2;
+    TObjEnemy *prev_kids3;
+    TObjEnemy *next_kids4;
+    TObjEnemy *next1;
+    TObjEnemy *next2;
+    TObjEnemy *kids3;
+    TObjEnemy *next4;
+    TObjEnemy *kids5;
     TObjEnemy *group;
-    TObjEnemy *temp_r5_2;
+    TObjEnemy *kids1;
     TObjEnemy *previous;
-    TObjEnemy *temp_r5_4;
-    TObjEnemy *temp_r5_5;
-    TObjEnemy *var_r5;
-    TObjEnemy *var_r6;
-    TObjEnemy *var_r6_2;
-    TObjEnemy *var_r6_3;
+    TObjEnemy *kids2;
+    TObjEnemy *kids4;
+    TObjEnemy *tail3;
+    TObjEnemy *tail1;
+    TObjEnemy *tail2;
+    TObjEnemy *tail4;
     group = this->group;
     if (group != NULL) {
-        temp_r4 = this->next;
-        if (temp_r4 != NULL) {
-            temp_r5_2 = this->children;
-            if (temp_r5_2 != NULL) {
-                temp_r0 = temp_r4->children;
-                if (temp_r0 != NULL) {
-                    var_r6 = temp_r0;
-                    while (var_r6->next != NULL) {
-                        var_r6 = var_r6->next;
+        next1 = this->next;
+        if (next1 != NULL) {
+            kids1 = this->children;
+            if (kids1 != NULL) {
+                next_kids1 = next1->children;
+                if (next_kids1 != NULL) {
+                    tail1 = next_kids1;
+                    while (tail1->next != NULL) {
+                        tail1 = tail1->next;
                     }
-                    var_r6->next = temp_r5_2;
+                    tail1->next = kids1;
                     this->children->group = NULL;
-                    this->children->previous = var_r6;
+                    this->children->previous = tail1;
                 } else {
-                    temp_r4->children = temp_r5_2;
+                    next1->children = kids1;
                     this->children->group = this->next;
                 }
             }
@@ -421,69 +417,69 @@ void TObjEneBeastBase::unlink_enemy_group_relations() {
     } else {
         previous = this->previous;
         if (previous != NULL) {
-            temp_r4_2 = this->next;
-            if (temp_r4_2 != NULL) {
-                temp_r5_4 = this->children;
-                if (temp_r5_4 != NULL) {
-                    temp_r0_4 = temp_r4_2->children;
-                    if (temp_r0_4 != NULL) {
-                        var_r6_2 = temp_r0_4;
-                        while (var_r6_2->next != NULL) {
-                            var_r6_2 = var_r6_2->next;
+            next2 = this->next;
+            if (next2 != NULL) {
+                kids2 = this->children;
+                if (kids2 != NULL) {
+                    next_kids2 = next2->children;
+                    if (next_kids2 != NULL) {
+                        tail2 = next_kids2;
+                        while (tail2->next != NULL) {
+                            tail2 = tail2->next;
                         }
-                        var_r6_2->next = temp_r5_4;
+                        tail2->next = kids2;
                         this->children->group = NULL;
-                        this->children->previous = var_r6_2;
+                        this->children->previous = tail2;
                     } else {
-                        temp_r4_2->children = temp_r5_4;
+                        next2->children = kids2;
                         this->children->group = this->next;
                     }
                 }
                 this->previous->next = this->next;
                 this->next->previous = this->previous;
             } else {
-                temp_r4_3 = this->children;
-                if (temp_r4_3 != NULL) {
-                    temp_r0_6 = previous->children;
-                    if (temp_r0_6 != NULL) {
-                        var_r5 = temp_r0_6;
-                        while (var_r5->next != NULL) {
-                            var_r5 = var_r5->next;
+                kids3 = this->children;
+                if (kids3 != NULL) {
+                    prev_kids3 = previous->children;
+                    if (prev_kids3 != NULL) {
+                        tail3 = prev_kids3;
+                        while (tail3->next != NULL) {
+                            tail3 = tail3->next;
                         }
-                        var_r5->next = temp_r4_3;
+                        tail3->next = kids3;
                         this->children->group = NULL;
-                        this->children->previous = var_r5;
+                        this->children->previous = tail3;
                     } else {
-                        previous->children = temp_r4_3;
+                        previous->children = kids3;
                         this->children->group = this->previous;
                     }
                 }
                 this->previous->next = NULL;
             }
         } else {
-            temp_r4_4 = this->next;
-            if (temp_r4_4 != NULL) {
-                temp_r5_5 = this->children;
-                if (temp_r5_5 != NULL) {
-                    temp_r0_8 = temp_r4_4->children;
-                    if (temp_r0_8 != NULL) {
-                        var_r6_3 = temp_r0_8;
-                        while (var_r6_3->next != NULL) {
-                            var_r6_3 = var_r6_3->next;
+            next4 = this->next;
+            if (next4 != NULL) {
+                kids4 = this->children;
+                if (kids4 != NULL) {
+                    next_kids4 = next4->children;
+                    if (next_kids4 != NULL) {
+                        tail4 = next_kids4;
+                        while (tail4->next != NULL) {
+                            tail4 = tail4->next;
                         }
-                        var_r6_3->next = temp_r5_5;
+                        tail4->next = kids4;
                         this->children->group = NULL;
-                        this->children->previous = var_r6_3;
+                        this->children->previous = tail4;
                     } else {
-                        temp_r4_4->children = temp_r5_5;
+                        next4->children = kids4;
                         this->children->group = this->next;
                     }
                 }
                 this->next->previous = NULL;
             } else {
-                temp_r4_5 = this->children;
-                if (temp_r4_5 != NULL) {
-                    temp_r4_5->group = NULL;
+                kids5 = this->children;
+                if (kids5 != NULL) {
+                    kids5->group = NULL;
                 }
             }
         }

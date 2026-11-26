@@ -367,11 +367,11 @@ void TScene::tick_material_fmt2() {
     SceneMaterialAnimated *anim;
     SceneMaterialNode *node;
     SceneMaterialUv *uv;
-    if (texture_animation_buffer == NULL || (*(SceneMaterialRoot * *)&scene_material_root) == NULL) {
+    if (texture_animation_buffer == NULL || (*&scene_material_root) == NULL) {
         return;
     }
-    room = (*(SceneMaterialRoot * *)&scene_material_root)->sections;
-    for (section = 0; section < (*(SceneMaterialRoot * *)&scene_material_root)->count; section++, room++) {
+    room = (*&scene_material_root)->sections;
+    for (section = 0; section < (*&scene_material_root)->count; section++, room++) {
         SceneMaterialStatic *o2;
         s32 k;
         o2 = room->objects;
@@ -387,8 +387,8 @@ void TScene::tick_material_fmt2() {
             }
         }
     }
-    room = (*(SceneMaterialRoot * *)&scene_material_root)->sections;
-    for (section = 0; section < (*(SceneMaterialRoot * *)&scene_material_root)->count; section++, room++) {
+    room = (*&scene_material_root)->sections;
+    for (section = 0; section < (*&scene_material_root)->count; section++, room++) {
         object = room->objects;
         for (i = 0; i < room->count; i++, object++) {
             if (object->flags & 0x20000) {
@@ -397,7 +397,7 @@ void TScene::tick_material_fmt2() {
             if (object->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_node_record(this, (SceneMaterialStatic*)(object)));
+            node = ((SceneMaterialNode *)resolve_indirect_node_record(this, (object)));
             if (object->flags & 0x20) {
                 uv = object->uv;
                 uv->u += uv->du;
@@ -431,7 +431,7 @@ void TScene::tick_material_fmt2() {
             if (anim->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_object_record(this, (SceneMaterialAnimated*)(anim)));
+            node = ((SceneMaterialNode *)resolve_indirect_object_record(this, (anim)));
             if (anim->flags & 0x20) {
                 uv = anim->uv;
                 uv->u += uv->du;
@@ -466,11 +466,11 @@ void TScene::tick_material_fmt1() {
     SceneMaterialAnimated *anim;
     SceneMaterialNode *node;
     SceneMaterialUv *uv;
-    if (texture_animation_buffer == NULL || (*(SceneMaterialRoot * *)&scene_material_root) == NULL) {
+    if (texture_animation_buffer == NULL || (*&scene_material_root) == NULL) {
         return;
     }
-    room = (*(SceneMaterialRoot * *)&scene_material_root)->sections;
-    for (section = 0; section < (*(SceneMaterialRoot * *)&scene_material_root)->count; section++, room++) {
+    room = (*&scene_material_root)->sections;
+    for (section = 0; section < (*&scene_material_root)->count; section++, room++) {
         SceneMaterialStatic *o2;
         s32 k;
         o2 = room->objects;
@@ -486,8 +486,8 @@ void TScene::tick_material_fmt1() {
             }
         }
     }
-    room = (*(SceneMaterialRoot * *)&scene_material_root)->sections;
-    for (section = 0; section < (*(SceneMaterialRoot * *)&scene_material_root)->count; section++, room++) {
+    room = (*&scene_material_root)->sections;
+    for (section = 0; section < (*&scene_material_root)->count; section++, room++) {
         object = room->objects;
         for (i = 0; i < room->count; i++, object++) {
             if (object->flags & 0x20000) {
@@ -496,7 +496,7 @@ void TScene::tick_material_fmt1() {
             if (object->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_node_record(this, (SceneMaterialStatic*)(object)));
+            node = ((SceneMaterialNode *)resolve_indirect_node_record(this, (object)));
             if (object->flags & 0x20) {
                 uv = object->uv;
                 uv->u += uv->du;
@@ -528,7 +528,7 @@ void TScene::tick_material_fmt1() {
             if (anim->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_object_record(this, (SceneMaterialAnimated*)(anim)));
+            node = ((SceneMaterialNode *)resolve_indirect_object_record(this, (anim)));
             if (anim->flags & 0x20) {
                 uv = anim->uv;
                 uv->u += uv->du;
@@ -717,19 +717,19 @@ void TScene::load_map_texture_archive(saddr name) {
     size = 0;
     texture_animation_size_limit = 0;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TLobby::replace_file_extension((char *)(filename), (char *)(name), (char *)("m.tam"));
-        size = get_resource_file_size((const char *)filename);
+        TLobby::replace_file_extension((filename), (char *)(name), (char *)("m.tam"));
+        size = get_resource_file_size(filename);
     }
     if (size <= 0) {
-        TLobby::replace_file_extension((char *)(filename), (char *)(name), (char *)(".tam"));
-        size = get_resource_file_size((const char *)filename);
+        TLobby::replace_file_extension((filename), (char *)(name), (char *)(".tam"));
+        size = get_resource_file_size(filename);
     }
     if (area == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x100U)) {
             lobby_buffer = TQuestVmDownLoadServer::alloc(0x100);
             texture_animation_buffer = lobby_buffer;
             if (lobby_buffer != NULL) {
-                read_disc_file((const char *)filename, lobby_buffer);
+                read_disc_file(filename, lobby_buffer);
                 texture_animation_size_limit = 0x100;
             }
         }
@@ -737,7 +737,7 @@ void TScene::load_map_texture_archive(saddr name) {
         buffer = TQuestVmDownLoadServer::alloc(size);
         texture_animation_buffer = buffer;
         if (buffer != NULL) {
-            read_disc_file((const char *)filename, buffer);
+            read_disc_file(filename, buffer);
             texture_animation_size_limit = size;
         }
     }
@@ -1905,20 +1905,20 @@ void TScene::update_room_visibility_from_camera() {
             if (d < room->radius * room->radius) {
                 room->flags |= 0x10000;
             } else {
-                VecCopy((Vec *)(&dir), (const Vec *)room->position);
+                VecCopy((&dir), (const Vec *)room->position);
                 subtract_vector(&dir, &camera_ctrl_instance->pos);
-                normalize_vector((Vec *)(&dir));
+                normalize_vector((&dir));
                 fwd.x = 0.0f;
                 fwd.y = 0.0f;
                 fwd.z = -1.0f;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
-                rotate_vector_by_matrix(0, &fwd, (Vec *)(&out));
+                rotate_vector_by_matrix(0, &fwd, (&out));
                 pop_matrix();
-                normalize_vector((Vec *)(&out));
+                normalize_vector((&out));
                 if (vec3_dot(&dir, &out) < 0.0f) {
                     room->flags &= ~0x10000;
-                } else if (d < (*(SceneMaterialRoot * *)&scene_material_root)->radius * (*(SceneMaterialRoot * *)&scene_material_root)->radius) {
+                } else if (d < (*&scene_material_root)->radius * (*&scene_material_root)->radius) {
                     room->flags |= 0x10000;
                 } else {
                     room->flags &= ~0x10000;
@@ -1933,11 +1933,11 @@ void TScene::update_room_visibility_from_camera() {
         s32 k;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, camera_ctrl_instance->yaw);
-        rotate_vector_by_matrix(0, (const Vec *)&w, (Vec *)(&out2));
-        normalize_vector((Vec *)(&out2));
+        rotate_vector_by_matrix(0, (const Vec *)&w, (&out2));
+        normalize_vector((&out2));
         pop_matrix();
-        s = (*(SceneMaterialRoot * *)&scene_material_root)->sections;
-        for (k = 0; k < (*(SceneMaterialRoot * *)&scene_material_root)->count; k++, s++) {
+        s = (*&scene_material_root)->sections;
+        for (k = 0; k < (*&scene_material_root)->count; k++, s++) {
             if (s->flags & 0x80000) {
                 update_room_object_visibility(s);
             } else if (s->id < 0) {

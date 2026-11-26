@@ -506,7 +506,7 @@ s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound
     return p[sound_index];
 }
 TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
-    void *o;
+    TOTrapChainSawEdge *o;
     *(saddr *)(((u8 *)((u8 *)this)) + 0) = (saddr) TOTrapChainSawDamage_class_name;
     this->decode_params();
     this->vfunc_16();
@@ -518,10 +518,10 @@ TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TO
         Copy_802C8E24 c = *(Copy_802C8E24 *)set_data;
         *(f32 *)((u8 *)&c + 0x10) += (1e+01f);
         o = new TOTrapChainSawEdge((TObject *)this, &c);
-        *(void **)(((u8 *)((u8 *)this)) + 0x104) = o;
+        edge_a = o;
         *(f32 *)((u8 *)&c + 0x10) += (5.0f);
         o = new TOTrapChainSawEdge((TObject *)this, &c);
-        *(void **)(((u8 *)((u8 *)this)) + 0x108) = o;
+        edge_b = o;
     }
 }
 TOTrapChainSawDamage::~TOTrapChainSawDamage() {
@@ -588,27 +588,27 @@ void TOTrapChainSawDamage::vfunc_14() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-void TOTrapChainSawDamage::vfunc_26() { *(s32*)((char*)this + 0x100) = 0; }
+void TOTrapChainSawDamage::vfunc_26() { tick = 0; }
 #pragma push
 #pragma fp_contract on
 void TOTrapChainSawDamage::vfunc_27() {
-    *(s32 *)((s8 *)((u8 *)this) + 0x100) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x100) + 1);
+    tick = (s32) (tick + 1);
     void *p;
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x100) == 5) && ((p = *(void **)((s8 *)((u8 *)this) + 0x104)) != NULL)) {
+    if (((s32) tick == 5) && ((p = edge_a) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x100) == 0xA) && ((p = *(void **)((s8 *)((u8 *)this) + 0x108)) != NULL)) {
+    if (((s32) tick == 0xA) && ((p = edge_b) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
     play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, &position, 0, 0);
 }
 #pragma pop
 void TOTrapChainSawDamage::vfunc_28() {
-    if (*(void **)((s8 *)this + 0x104) != NULL) {
-        ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x104)))->set_damage((saddr)(*(void **)((s8 *)this + 0xD4)));
+    if (edge_a != NULL) {
+        ((TOTrapChainSawDamage *)edge_a)->set_damage((saddr)yaw_offset);
     }
-    if (*(void **)((s8 *)this + 0x108) != NULL) {
-        ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x108)))->set_damage((saddr)(*(void **)((s8 *)this + 0xD4)));
+    if (edge_b != NULL) {
+        ((TOTrapChainSawDamage *)edge_b)->set_damage((saddr)yaw_offset);
     }
 }
 TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
@@ -724,8 +724,8 @@ TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, void *set_data) : TOTrap
     *(saddr *)((s8 *)trap_chain_saw_edge + 0) = (saddr) TOTrapChainSawEdge_class_name;
     ((TOTrapChainSawEdge *)(trap_chain_saw_edge))->decode_params();
     ((TOTrapChainSawEdge *)(trap_chain_saw_edge))->vfunc_16();
-    *(s32 *)((s8 *)trap_chain_saw_edge + 0x100) = 0;
-    *(s32 *)((s8 *)trap_chain_saw_edge + 0x104) = 0;
+    pending_starts = 0;
+    phase = 0;
 }
 
 #undef trap_chain_saw_edge
@@ -735,25 +735,25 @@ void TOTrapChainSawEdge::update_extension() {
     s32 temp_r4;
     s32 temp_r4_2;
 
-    switch (*(saddr *)((s8 *)this + 0x104)) {
+    switch (phase) {
     case 0:
-        temp_r4 = *(s32 *)((s8 *)this + 0x100);
+        temp_r4 = pending_starts;
         if (temp_r4 > 0) {
-            *(s32 *)((s8 *)this + 0x100) = (temp_r4 - 1);
-            *(s32 *)((s8 *)this + 0xF8) = (saddr) *(s32 *)((s8 *)this + 0xCC);
-            *(s32 *)((s8 *)this + 0x104) = 1;
+            pending_starts = (temp_r4 - 1);
+            extent = (saddr) max_offset;
+            phase = 1;
         }
         break;
     case 1:
-        yaw_offset = (saddr) (yaw_offset + *(s32 *)((s8 *)this + 0xD0));
+        yaw_offset = (saddr) (yaw_offset + step);
         if ((s32) yaw_offset < 0) {
             yaw_offset = 0;
-            *(s32 *)((s8 *)this + 0xD0) = (saddr) ((f32) *(s32 *)((s8 *)this + 0xD0) * *(const volatile f32 *)&lbl_805DE620);
-            *(s32 *)((s8 *)this + 0x104) = 0;
+            step = (saddr) ((f32) step * *(const volatile f32 *)&lbl_805DE620);
+            phase = 0;
         }
-        if (yaw_offset > (temp_r4_2 = *(s32 *)((s8 *)this + 0xCC))) {
+        if (yaw_offset > (temp_r4_2 = max_offset)) {
             yaw_offset = temp_r4_2;
-            *(s32 *)((s8 *)this + 0xD0) = (saddr) ((f32) *(s32 *)((s8 *)this + 0xD0) * *(const volatile f32 *)&lbl_805DE620);
+            step = (saddr) ((f32) step * *(const volatile f32 *)&lbl_805DE620);
         }
         break;
     }
@@ -762,17 +762,17 @@ void TOTrapChainSawEdge::update_extension() {
 void TOTrapChainSawEdge::update_sweep() {
     s32 temp_r4;
 
-    switch (*(s32 *)((s8 *)this + 0x104)) {
+    switch (phase) {
     case 0:
-        temp_r4 = *(s32 *)((s8 *)this + 0x100);
+        temp_r4 = pending_starts;
         if (temp_r4 > 0) {
-            *(s32 *)((s8 *)this + 0x100) = (temp_r4 - 1);
-            *(s32 *)((s8 *)this + 0xF8) = (s32) *(s32 *)((s8 *)this + 0xCC);
-            *(s32 *)((s8 *)this + 0x104) = 1;
+            pending_starts = (temp_r4 - 1);
+            extent = (s32) max_offset;
+            phase = 1;
         }
         return;
     case 1:
-        yaw_offset = (s32) (yaw_offset + *(s32 *)((s8 *)this + 0xD0));
+        yaw_offset = (s32) (yaw_offset + step);
         return;
     }
 }
@@ -793,11 +793,11 @@ void TOTrapChainSawEdge::vfunc_16() {
     Pair_802C80F0 a = *(Pair_802C80F0 *)lbl_80471F70;
     Pair_802C80F0 b = *(Pair_802C80F0 *)lbl_80471F78;
     s32 x;
-    *(s32 *)((s8 *)this + 0xFC) = (s32) this->scale.z;
-    x = *(s32 *)((s8 *)this + 0xFC);
-    *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
-    *(s32 *)((s8 *)this + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)this + 0xFC)]);
-    *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
+    variant = (s32) this->scale.z;
+    x = variant;
+    variant = x < 0 ? 0 : (x > 1 ? 1 : x);
+    *(s32 *)((s8 *)this + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[variant]);
+    *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[variant]);
     this->texlist = fn_802C9924(0);
     this->animation_end_frame = (0.0f);
     this->animation_step = (1.0f);

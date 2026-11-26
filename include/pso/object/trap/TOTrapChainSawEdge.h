@@ -12,7 +12,10 @@ struct TOTrapChainSawEdge : public TOTrapChainSaw {
     virtual void vfunc_25();
     virtual void vfunc_16();
     virtual void check_player_contact();
-    u8 unk_F8[0x10];
+    s32 extent;         // the extent of the current move (max_offset when a start is taken)
+    s32 variant;        // scale.z clamped to 0-1: which model and motion
+    s32 pending_starts; // starts queued by the damage saw (TOTrapChainSawDamage tick 5 / 10)
+    s32 phase;          // 0 waiting for a start, 1 moving
 };
 
 LAYOUT_ASSERT(TOTrapChainSawEdge_size, sizeof(TOTrapChainSawEdge) == 0x108);

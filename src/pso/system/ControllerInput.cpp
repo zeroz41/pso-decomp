@@ -146,30 +146,30 @@ StickEscapeDetector::StickEscapeDetector() {
 
 s32 TKeyBoardControl::get_ascii_key() {
   short new_var;
-  s32 temp_r3;
-  s32 var_r3;
-  u8 temp_r31;
+  s32 shift_held;
+  s32 result;
+  u8 key;
   if (hardware_keyboard_state.get_pending_count() == 0)
   {
     return 0;
   }
-  var_r3 = hardware_keyboard_state.sub_8013239C(0);
-  temp_r31 = var_r3;
-  temp_r3 = hardware_keyboard_state.sub_80132310();
-  if ((((s32) temp_r31) >= 0x2A) && (((s32) temp_r31) <= 0x32))
+  result = hardware_keyboard_state.sub_8013239C(0);
+  key = result;
+  shift_held = hardware_keyboard_state.sub_80132310();
+  if ((((s32) key) >= 0x2A) && (((s32) key) <= 0x32))
   {
-    return temp_r31 + 7;
+    return key + 7;
   }
-  if ((((s32) temp_r31) >= 0x10) && (((s32) temp_r31) <= 0x29))
+  if ((((s32) key) >= 0x10) && (((s32) key) <= 0x29))
   {
-    var_r3 = temp_r31 + 0x51;
-    if (temp_r3 != 0)
+    result = key + 0x51;
+    if (shift_held != 0)
     {
-      return temp_r31 + 0x31;
+      return key + 0x31;
     }
-    return var_r3;
+    return result;
   }
-  switch (temp_r31)
+  switch (key)
   {
     case 0x33:
       return 0x30;
@@ -182,41 +182,41 @@ s32 TKeyBoardControl::get_ascii_key() {
     case 0x51:
       return (float) 9;
     case 0x3C:
-      var_r3 = 0x2C;
-      if (temp_r3 != 0)
+      result = 0x2C;
+      if (shift_held != 0)
     {
       return 0x3C;
     }
-      return var_r3;
+      return result;
     case 0x3D:
-      var_r3 = 0x2E;
-      if (temp_r3 != 0)
+      result = 0x2E;
+      if (shift_held != 0)
     {
       return 0x3E;
     }
-      return var_r3;
+      return result;
     case 0x39:
-      var_r3 = 0x3B;
-      if (temp_r3 != 0)
+      result = 0x3B;
+      if (shift_held != 0)
     {
       return 0x2B;
     }
-      return var_r3;
+      return result;
     case 0x3A:
-      var_r3 = 0x3A;
-      if (new_var = temp_r3 != 0)
+      result = 0x3A;
+      if (new_var = shift_held != 0)
     {
       return 0x2A;
     }
-      return var_r3;
+      return result;
     case 0x52:
-      if (temp_r3 != 0)
+      if (shift_held != 0)
     {
       return 0x5F;
     }
     default:
-      var_r3 = 0;
-      return var_r3;
+      result = 0;
+      return result;
   }
 }
 
