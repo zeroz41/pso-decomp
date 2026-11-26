@@ -26,6 +26,8 @@ struct game_command_header {
     };
 };
 
+// The header of a subcommand whose game_command_header size is 0: size is the whole subcommand in
+// bytes. TPsoDataBuf::recv_pso_data_buf steps over such a subcommand by it.
 struct extended_game_command_header {
     game_command_header header;
     u32 size;
@@ -47,6 +49,7 @@ struct long_game_command {
 };
 LAYOUT_ASSERT(long_game_commandSize, sizeof(long_game_command) == 0x5B4);
 
+// One 0x5B4-byte piece of an extended long subcommand.
 struct extended_long_game_command {
     extended_game_command_header header;
     u8 data[1460-sizeof(extended_game_command_header)];
@@ -70,6 +73,7 @@ struct game_command {
     void send();
 };
 
+// An extended game subcommand of up to 0x400 bytes.
 struct extended_game_command {
     extended_game_command_header header;
     u8 data[1024-sizeof(extended_game_command_header)];
@@ -439,6 +443,8 @@ struct PsoCommandHandler {
 
 LAYOUT_ASSERT(PsoCommandHandler_size, sizeof(PsoCommandHandler) == 8);
 
+// The subcommands of a received 60, 62, 6C or 6D command. recv_pso_data_buf runs each through
+// pso_command_dispatch_table, the handlers allowed on the current floor area only.
 class TPsoDataBuf {
 public:
 	void recv_pso_data_buf(size_t size);

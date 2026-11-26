@@ -4,6 +4,10 @@
 #include "pso/network/protocol/protocol_types.h"
 #include <stddef.h>
 
+// 6x67: Triggers a set event on a floor. Sent by send_6x67_wave_trigger_event, TObjEvtCollision::run_task,
+// the enemy containers' receive_physical_attack and the quest opcodes setevt and start_setevt; received
+// by handle_6x67_trigger_set_event, which runs the event on the current floor or flags it on another.
+// Size checked: G_FloorEvent_6x67::init sets the header size to 4 words.
 struct G_FloorEvent_6x67 {
     G_ClientIDHeader header;  // client_id is the event source entity or 0/0xFFFF.
     s32 floor;
