@@ -2,6 +2,8 @@
 #include "types.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/network/TLobby.h"
+#include "pso/network/TProtocol.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/WordSelectMessage.h"
@@ -12,12 +14,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 
-struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
-
-
-extern "C" {
-void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, char *);
-}
 
 char *get_chat_shortcut_text(s32 *text) { return (char *)text; }
 void submit_chat_text(char *text) {
@@ -28,7 +24,7 @@ void submit_chat_text(char *text) {
         if (get_main_phase() == 0xF) {
             const TPlyGuildCardTag &made = TPlyGuildCardTag(0, 0);
             SubmitChatTextTag tmp = *(SubmitChatTextTag *)&made;
-            send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby::protocol_instance, (TPlyGuildCardTag *)&tmp, text);
+            TLobby::protocol_instance->send_chat(*(TPlyGuildCardTag *)&tmp, text);
         } else {
             TWindowCtrl::open(player->get_entity_id(), text, 0xCB);
         }
