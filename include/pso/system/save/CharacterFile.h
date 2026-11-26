@@ -34,7 +34,7 @@ struct CharacterFile {
     char serial_number[0x10];
     char access_key[0x10];
     char password[0x10];
-    u8 pad_1155C[0x11564 - 0x1155C];
+    u32 music_flags[2]; // songs unlocked in the options jukebox, one bit per music flag
     u32 save_count;  // raised on every save; the two cards' copies are compared by it
     s32 cipher_seed; // seeds the cipher over everything before it
 };

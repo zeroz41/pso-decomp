@@ -94,7 +94,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 has_valid_slot();
     static int get_selection();
     static void set_global_flags(s32 flags);
-    static saddr get_instance();
+    static CharacterFile *get_instance();
     static void set_player_index(int a0);
     static void set_save_slot(int a0);
     static void clear_flags(s32 flags);

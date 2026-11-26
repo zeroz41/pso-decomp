@@ -21,6 +21,7 @@
 
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 
@@ -209,35 +210,35 @@ char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *serial) {
 }
 
 void TAdEnterSerialAccessGC::store_serial_access_key(saddr serial, saddr access_key, saddr password) {
-    saddr instance;
+    CharacterFile *instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != 0) {
-        strncpy((char *)(instance + 0x1152C), (const char *)serial, 0xF);
-        strncpy((char *)(instance + 0x1153C), (const char *)access_key, 0xF);
+        strncpy(instance->serial_number, (const char *)serial, 0xF);
+        strncpy(instance->access_key, (const char *)access_key, 0xF);
         if (TAdPsoPassSaveGC__sub_8032B584() != 0) {
-            strncpy((char *)(instance + 0x1154C), (const char *)password, 0xF);
+            strncpy(instance->password, (const char *)password, 0xF);
         }
     }
 }
 
 void clear_state(void) {
-    u8 *instance;
+    CharacterFile *instance;
 
-    instance = (u8 *)TAdSinglePlyChrSelectGC::get_instance();
+    instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != NULL) {
-        memset(instance + 0x1152C, 0, 0x10);
-        memset(instance + 0x1153C, 0, 0x10);
-        memset(instance + 0x1154C, 0, 0x10);
+        memset(instance->serial_number, 0, 0x10);
+        memset(instance->access_key, 0, 0x10);
+        memset(instance->password, 0, 0x10);
     }
 }
 
 void TAdEnterSerialAccessGC::clear_serial_buffer() {
-    u8 *instance;
+    CharacterFile *instance;
 
-    instance = (u8 *)TAdSinglePlyChrSelectGC::get_instance();
+    instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != NULL) {
-        memset(instance + 0x1154C, 0, 0x10);
+        memset(instance->password, 0, 0x10);
     }
 }
 
@@ -252,14 +253,14 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
     if (field == 2 && TAdPsoPassSaveGC__sub_8032B584() == 0) {
         return (u8 *)"";
     }
-    if (*(s8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1152C) != 0) {
+    if (TAdSinglePlyChrSelectGC::get_instance()->serial_number[0] != 0) {
         switch (field) {
         case 0:
-            return (u8 *) TAdEnterSerialAccessGC::serial_to_hex_string((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C));
+            return (u8 *) TAdEnterSerialAccessGC::serial_to_hex_string(TAdSinglePlyChrSelectGC::get_instance()->serial_number);
         case 1:
-            return (u8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1153C);
+            return (u8 *)TAdSinglePlyChrSelectGC::get_instance()->access_key;
         case 2:
-            return (u8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C);
+            return (u8 *)TAdSinglePlyChrSelectGC::get_instance()->password;
         }
     } else if (serial_access_entered_value_table[field] == TAdEnterSerialAccessGC::get_serial_seed()) {
         switch (field) {

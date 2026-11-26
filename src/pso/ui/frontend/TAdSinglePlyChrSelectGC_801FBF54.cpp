@@ -682,7 +682,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
             get_selected_save_record(file),
             (CharacterSaveRecord *)get_character_save_record(0xFFFF),
             file,
-            (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+            TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
             if (buf != 0) {
                 safe_free(buf);
@@ -808,7 +808,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
             get_selected_save_record(file),
             (CharacterSaveRecord *)get_character_save_record(0xFFFF),
             file,
-            (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+            TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
             if (buf != 0) {
                 safe_free(buf);
@@ -1656,7 +1656,7 @@ s32 TAdSinglePlyChrSelectGC::encrypt_save_and_write() {
 void TAdSinglePlyChrSelectGC::increment_counter() {
     CharacterFile *instance;
 
-    instance = (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance();
+    instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != NULL) {
         instance->save_count++;
     }
@@ -1860,7 +1860,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             memset(file, 0, 0x1156C);
             memcpy(file, buf + 0x2048, 0x1156C);
             TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-            ret = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+            ret = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance());
             if (ret != 7) {
                 if (buf != 0) {
                     safe_free(buf);
@@ -2398,7 +2398,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
         memset(file, 0, 0x1156C);
         memcpy(file, buf + 0x2048, 0x1156C);
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-        if (TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance()) != 7) {
+        if (TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance()) != 7) {
             if (buf != 0) {
                 safe_free(buf);
             }

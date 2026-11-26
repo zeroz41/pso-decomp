@@ -100,7 +100,7 @@ void TAdSinglePlyChrSelectGC::set_global_flags(s32 flags) {
     }
 }
 
-saddr TAdSinglePlyChrSelectGC::get_instance() {  return (saddr)card_character_save_buffer; }
+CharacterFile *TAdSinglePlyChrSelectGC::get_instance() { return card_character_save_buffer; }
 
 void TAdSinglePlyChrSelectGC::set_player_index(int a0) { card_load_sequence_state = a0; }
 

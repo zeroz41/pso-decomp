@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 #include "pso/system/TLanguage.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8036A3CC.h"
@@ -69,7 +70,7 @@ void TWindowMenu::set_flag70_bit100() { this->menu_flags |= 0x100; }
 void TWindowOptionCtrl::set_flag70_bit400() { *(u16*)((char*)this + 0x70) |= 0x400; }
 
 saddr TWindowOptionCtrl::get_chr_select_base_plus_1154c() {
-    return TAdSinglePlyChrSelectGC::get_instance() + 0x1154C;
+    return (saddr)TAdSinglePlyChrSelectGC::get_instance()->password;
 }
 
 TWindowOptionCtrl::TWindowOptionCtrl(TObject *parent) : TObject(parent) {

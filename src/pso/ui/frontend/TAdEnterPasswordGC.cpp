@@ -16,6 +16,7 @@
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
@@ -186,8 +187,8 @@ TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent)
     sub_8032B460(2);
     password_entry_dispatch_state = 0;
     len = 0;
-    if ((s8) *(u8 *)((s8 *)(TAdSinglePlyChrSelectGC::get_instance()) + 0x1154C) != 0) {
-        set_password((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1154C));
+    if (TAdSinglePlyChrSelectGC::get_instance()->password[0] != 0) {
+        set_password(TAdSinglePlyChrSelectGC::get_instance()->password);
         request_main_phase(0xF);
         queue_destruction();
         return;

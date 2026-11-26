@@ -4,6 +4,7 @@
 #include "pso/unk/text_8036A3CC.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 
 
 
@@ -152,7 +153,7 @@ u32 *get_flag_word_mask(s32 flag, u32 *mask) {
         return 0;
     }
     *mask = 1 << (flag & 0x1F);
-    return &((GetFlagWordMaskInst *)TAdSinglePlyChrSelectGC::get_instance())->flags[word];
+    return &TAdSinglePlyChrSelectGC::get_instance()->music_flags[word];
 }
 
 void unlock_sequencer_flag(s32 program) {

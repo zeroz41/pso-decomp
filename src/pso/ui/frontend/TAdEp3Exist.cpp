@@ -16,6 +16,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
@@ -134,7 +135,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     }
     go = false;
     if (ok) {
-        if ((s8)((u8 *)TAdSinglePlyChrSelectGC::get_instance())[0x1152C] == 0) {
+        if (TAdSinglePlyChrSelectGC::get_instance()->serial_number[0] == 0) {
             go = true;
         }
     }

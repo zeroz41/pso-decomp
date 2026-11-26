@@ -251,7 +251,7 @@ void TCharSaveSequence::handle_load_result() {
                 delete obj;
             }
         } else {
-            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (CharacterSaveRecord *)get_character_save_record(0xFFFF), obj, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (CharacterSaveRecord *)get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
                 char_save_message_flags &= ~1;
@@ -263,7 +263,7 @@ void TCharSaveSequence::handle_load_result() {
                 }
             } else {
                 seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
-                TAdSinglePlyChrSelectGC::encrypt_save_data((CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+                TAdSinglePlyChrSelectGC::encrypt_save_data(TAdSinglePlyChrSelectGC::get_instance());
                 TAdSinglePlyChrSelectGC::save_character_file(1);
                 state = 4;
             }
