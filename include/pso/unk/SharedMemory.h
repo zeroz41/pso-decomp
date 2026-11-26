@@ -18,25 +18,25 @@ struct SharedMemoryConnectParam {
     u8 unk_000[4];
     char name[0xF0];
     s32 check_param;
-    u8 unk_0F8[0x44];
+    u8 pad_0F8[0x44];
     s8 dial_type;
     s8 unk_13D;
-    u8 unk_13E[0x82];
+    u8 pad_13E[0x82];
     s16 trial_param;
     s16 unk_1C2;
-    u8 unk_1C4[0x78];
+    u8 pad_1C4[0x78];
     s8 modem_flag;
     s8 check_char;
     s16 modem_param;
-    u8 unk_240[0x120];
+    u8 pad_240[0x120];
     s8 check_param_360;
-    u8 unk_361[0x49F];
+    u8 pad_361[0x49F];
 };
 
 // Disc error messages.
 struct SharedMemoryDiscMessages {
     s8 unk_000;
-    u8 unk_001[0x8B];
+    u8 pad_001[0x8B];
     char message[5][0x100];
 };
 
@@ -44,20 +44,20 @@ struct SharedMemoryDiscMessages {
 struct SharedMemory {
     u32 magic;
     s32 flags;
-    u32 unk_008;
+    u32 pad_008;
     u32 upload_data_size;
     u32 download_data_size;
     u32 data_size;
-    u8 unk_018[4];
+    u8 pad_018[4];
     s32 connect_param_size;
-    u8 unk_020[0x2000];
+    u8 pad_020[0x2000];
     u8 upload_data[0x2000];
     u8 download_data[0x2000];
     u8 data[0x800];
     u8 unk_6820[0x800];
     SharedMemoryConnectParam connect_param;
     SharedMemoryDiscMessages disc_messages;
-    u8 unk_7DAC[0x254];
+    u8 pad_7DAC[0x254];
 };
 
 LAYOUT_ASSERT(SharedMemory_size, sizeof(SharedMemory) == 0x8000);
@@ -86,7 +86,7 @@ struct DolHeader {
     u32 bss_address;
     u32 bss_size;
     u32 entry_point;
-    u8 unk_0E4[0x1C];
+    u8 pad_0E4[0x1C];
 };
 
 LAYOUT_ASSERT(DolHeader_size, sizeof(DolHeader) == 0x100);
@@ -98,7 +98,7 @@ struct LaunchDolContext {
     s32 unk_100;
     DolHeader *dol_image;
     s32 keep_size;
-    u8 unk_10C[4];
+    u8 pad_10C[4];
     SharedMemory shared_memory;
 };
 
