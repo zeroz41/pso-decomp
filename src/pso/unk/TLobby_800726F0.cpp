@@ -377,7 +377,6 @@ void TObjChallengeRetry::sub_8007313C() {
   }
 }
 
-extern const char *obj_challenge_retry_class_name;
 void TObjChallengeRetry::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(arg0);

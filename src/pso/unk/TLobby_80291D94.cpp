@@ -635,9 +635,7 @@ s32 is_challenge_time_limit_invalid(s32 limit) {
     }
     return 0;
 }
-extern "C" {
 int get_camera_view_count(void) { return TCameraCtrl::get_view_count(); }
-}
 #pragma push
 #pragma fp_contract on
 s32 TLobby::get_challenge_mode_flag() {
