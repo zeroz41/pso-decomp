@@ -5980,7 +5980,7 @@ force_active:
   - enable_keyboard_polling
   - enable_particles__13TBoss5GryphonFv
   - enable_progressive_mode__13TAdVIConfigGCFPv
-  - encrypt_download_data__22TQuestVmDownLoadServerFl
+  - encrypt_download_data__22TQuestVmDownLoadServerFPUll
   - end_battle_mode_cleanup__6TLobbyFPv
   - end_invincibility__8TItemMagFv
   - end_of_render_root_dtor_chain

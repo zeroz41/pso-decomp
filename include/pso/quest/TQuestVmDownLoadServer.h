@@ -86,7 +86,7 @@ public:
     static s32 poll_serial_access();
     static void reset_download();
 public:
-    void encrypt_download_data(s32 size);
+    static void encrypt_download_data(u32 *data, s32 size);
     static void unshuffle_and_decrypt(void *data, s32 size);
 public:
 };

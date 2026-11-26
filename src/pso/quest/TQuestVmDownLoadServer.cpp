@@ -283,8 +283,8 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
             }
             download_rng_seed_pair[1] = v;
             download_rng_seed_pair[0] = v;
-            ((TQuestVmDownLoadServer *)quest_download_file_state.data)->encrypt_download_data(quest_download_file_state.size);
-            ((TQuestVmDownLoadServer *)quest_download_file_slot.data)->encrypt_download_data(quest_download_file_slot.size);
+            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_state.data, quest_download_file_state.size);
+            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_slot.data, quest_download_file_slot.size);
             TQuestVmDownLoadServer::create();
         }
         break;
@@ -301,8 +301,8 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
             }
             download_rng_seed_pair[1] = v;
             download_rng_seed_pair[0] = v;
-            ((TQuestVmDownLoadServer *)quest_download_file_state.data)->encrypt_download_data(quest_download_file_state.size);
-            ((TQuestVmDownLoadServer *)quest_download_file_slot.data)->encrypt_download_data(quest_download_file_slot.size);
+            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_state.data, quest_download_file_state.size);
+            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_slot.data, quest_download_file_slot.size);
             TQuestVmDownLoadServer::create();
         }
         break;
@@ -317,25 +317,25 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
         break;
     }
 }
-void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
+void TQuestVmDownLoadServer::encrypt_download_data(u32 *data, s32 size) {
     u32 *body;
     void *src;
     void *dst;
-    body = ((u32 *)this) + 1;
-    ((u32 *)this)[0] = quest_download_cipher_state.next();
+    body = data + 1;
+    data[0] = quest_download_cipher_state.next();
     *body = 0;
-    *body = calc_download_crc32(this, size);
-    quest_download_cipher_state.set_seed(((u32 *)this)[0]);
+    *body = calc_download_crc32(data, size);
+    quest_download_cipher_state.set_seed(data[0]);
     quest_download_cipher_state.xor_buffer(body, (s32)((size - 4) & ~3));
     quest_download_cipher_state.set_seed(download_rng_seed_pair[0]);
-    quest_download_cipher_state.apply_rng_cipher(((u32 *)this), size & ~3);
+    quest_download_cipher_state.apply_rng_cipher(data, size & ~3);
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((src), ((const void *)this), size);
+    move_data(src, data, size);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
     quest_download_cipher_state.make_shuffle();
     quest_download_cipher_state.permute_save_blocks((const u8*)src, (u8*)dst, (u32)size);
-    move_data((this), (dst), size);
+    move_data(data, dst, size);
     safe_free(dst);
     safe_free(src);
 }
@@ -344,17 +344,17 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     void *dst;
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((src), ((const void *)((u32 *)data)), size);
+    move_data((src), data, size);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
     quest_download_cipher_state.make_shuffle();
     quest_download_cipher_state.unshuffle((const u8 *)src, (u8 *)dst, (u32)size);
-    move_data((((u32 *)data)), (dst), size);
+    move_data(data, dst, size);
     safe_free(dst);
     safe_free(src);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[0]);
-    quest_download_cipher_state.apply_rng_cipher(((u32 *)data), size & ~3);
+    quest_download_cipher_state.apply_rng_cipher((u32 *)data, size & ~3);
     quest_download_cipher_state.set_seed(((u32 *)data)[0]);
-    quest_download_cipher_state.xor_buffer((u32 *)(((u32 *)data) + 1), (s32)((size - 4) & ~3));
+    quest_download_cipher_state.xor_buffer((u32 *)data + 1, (s32)((size - 4) & ~3));
 }
 s32 calc_download_crc32(void *data, s32 size) {
     u32 crc = -1;
