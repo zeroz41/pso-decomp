@@ -154,7 +154,11 @@ symbols that leave a `force_active` entry in `config.yml` naming nothing are lis
 - No commented-out code, address comments, or notes about how a match was found. Comment only what the code
   can't say itself.
 - Names come from evidence in the executable: strings, class-name tables, vtables, call patterns. Keep the
-  placeholder (`fn_<address>`) rather than guess.
+  placeholder (`fn_<address>`) rather than guess. Names from other projects are not evidence.
+- A unit takes its true name when the game carries one: most classes store their own name in `m_name` in their
+  constructor, and a unit holding that constructor, or defining that class-name string, is named after the class
+  (`TObjEneSaver.cpp`). Name a unit after what its code does (`ChallengeRank.cpp`) only when no such string names
+  it. `python tools/true_unit_names.py` lists the units named otherwise.
 - Code copied or adapted from another project keeps its notices. Add the project to `third_party/README.md`,
   with its license text under `third_party/LICENSES/` if its terms require a copy.
 
