@@ -11,7 +11,7 @@ void clear_chat_shortcut(s32 i);
 char *get_chat_shortcut_text(s32 *text);
 ChatShortcut *get_chat_shortcut(s32 index);
 extern "C" {
-bool is_chat_shortcut_set(s32 index);
+s32 is_chat_shortcut_set(s32 index);
 }
 void send_chat_shortcut(s32 index);
 ChatShortcut *store_chat_shortcut(s32 index, const ChatShortcut *src);

@@ -82,8 +82,11 @@ ChatShortcutKind &ChatShortcutKind::operator=(const ChatShortcutKind &src) {
     return *this;
 }
 
-bool is_chat_shortcut_set(s32 index) {
-    return get_chat_shortcut(index)->kind.value != 0;
+s32 is_chat_shortcut_set(s32 index) {
+    if (get_chat_shortcut(index)->kind.value != 0) {
+        return 1;
+    }
+    return 0;
 }
 ChatShortcut *get_chat_shortcut(s32 index) {
     u8 *p = (u8 *)((ChatShortcut *)get_character_save_record(0xFFFF) + index);

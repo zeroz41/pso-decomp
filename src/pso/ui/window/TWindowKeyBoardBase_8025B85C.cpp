@@ -1,3 +1,4 @@
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
@@ -13,7 +14,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-s32 is_chat_shortcut_set(int);
 
 int TWindowKeyBoardBase::is_alnum(u16 code) {
     if ((s32) code < 0x30) {
