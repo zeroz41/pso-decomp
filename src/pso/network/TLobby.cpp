@@ -101,7 +101,7 @@
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/object/TObjControl.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
