@@ -39,7 +39,6 @@ typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode);
 }
 
 saddr TObjPlayer::get_item_pmt_entry(u8 index) {

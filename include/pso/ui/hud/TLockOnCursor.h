@@ -238,7 +238,7 @@ struct TLockOnCursor : public TObject {
     LockOnActionSlot *find_by_pos(s16 mode, s16 kind);
     // Fills the four action slots from the player's action palette.
     void bind_action_channels();
-    void setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s32 id);
+    void setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s16 id);
     void init_slots();
     void init_slot(s32 i);
     void reset_slots();

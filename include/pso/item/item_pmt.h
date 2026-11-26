@@ -5,6 +5,7 @@
 
 struct TObjPlayer;
 class TObjChara;
+struct TItem;
 
 // What the item sound players read: the item's group and index, the player
 // using it and, for a hit, what it hit and which of its colliders.
@@ -105,10 +106,14 @@ struct ItemCombinationList {
     ItemCombination *recipes;
 };
 
-// A weapon's range record; its callers read the range as the first float.
+// A weapon's lock-on cursor: how far it reaches past the cone's apex, the
+// cone's angles and how many targets it locks at once.
 struct WeaponRangeRecord {
-    f32 range;
-    u8 pad_4[0x10];
+    f32 reach;
+    f32 apex_offset;
+    s32 horizontal_angle;
+    s32 vertical_angle;
+    s32 max_targets;
 };
 
 // The per-group range records, then the special ones the rules pick.
@@ -207,5 +212,7 @@ struct ItemPmt {
 };
 
 extern ItemPmt *item_pmt_tbl;
+
+WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode);
 
 #endif

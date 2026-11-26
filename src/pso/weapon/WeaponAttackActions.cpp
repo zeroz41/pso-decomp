@@ -64,8 +64,6 @@ struct Node_8011EB84 { u8 b[0x2C]; };
 struct Skel_8011EB84 { u8 pad[0x1C]; Node_8011EB84 n[1]; };
 
 extern "C" {
-f32 * get_weapon_range_record(void *, s16);
-s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
 extern const f32 weapon_float_tenth;
 extern Vec weapon_light_direction[];
 extern NJS_ARGB weapon_light_color[];
@@ -274,19 +272,19 @@ void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 ra
 void TItemWeapon::fire_shot_at_target(Vec *origin, void *model, s32 angle) {
     Vec v;
     WeaponEffectDescriptor atk;
-    f32 *scale;
+    WeaponRangeRecord *range;
     CapturedTargetList *state;
     CapturedTarget *item;
     TObjCollidable *ph;
     CsnHit *hit;
     s32 off;
     if (is_active_in_game() != 0) {
-        scale = ((f32 *(*)(void *, s32))get_weapon_range_record)(this, ((s32 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)(owner));
+        range = get_weapon_range_record(this, owner->is_status_subsystem_ready());
         reset_weapon_effect_descriptor(&atk);
         fill_status_info(&atk);
         VecCopy(&atk.position, origin);
         atk.rotation_y = owner->rotation_y + angle;
-        atk.range = *scale;
+        atk.range = range->reach;
         atk.speed = shot_speed;
         atk.model = (NJS_OBJECT *)model;
         atk.texlist = this->texlist;
@@ -356,11 +354,11 @@ void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale)
     }
     if (found == 0) {
         Vec v;
-        f32 *rec;
+        WeaponRangeRecord *range;
         push_matrix_from(identity_matrix);
-        rec = get_weapon_range_record(this, 2);
+        range = get_weapon_range_record(this, 2);
         v.x = v.y = weapon_float_zero;
-        v.z = rec[0];
+        v.z = range->reach;
         rotate_matrix_y(0, owner->rotation_y);
         transform_point_by_current_matrix(&v.x, &pos);
         pop_matrix();
@@ -405,7 +403,7 @@ void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale)
 s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
     s32 launched;
     DelayedWeaponHit hit;
-    f32 *range_record;
+    WeaponRangeRecord *range_record;
     f32 distance_scale;
     f32 flight_frames;
     s32 has_aim_target;
@@ -440,10 +438,10 @@ s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
             if (has_aim_target == 0) {
                 Vec fallback;
                 push_matrix_from(identity_matrix);
-                range_record = (f32 *)(get_weapon_range_record(this, owner->is_status_subsystem_ready()));
+                range_record = get_weapon_range_record(this, owner->is_status_subsystem_ready());
                 fallback.y = weapon_float_zero;
                 fallback.x = weapon_float_zero;
-                fallback.z = *range_record;
+                fallback.z = range_record->reach;
                 rotate_matrix_y(0, owner->rotation_y + angle);
                 transform_point_by_current_matrix(&fallback.x, &endpoint);
                 pop_matrix();
@@ -567,7 +565,6 @@ s32 TItemWeapon::is_active_in_game() {
 
 // ---- pso/unk/text_8011F710
 
-struct Item_8011F760 { u8 pad[0x10]; s32 count; };
 
 extern "C" {
 s32 add_weapon_grind(TItemWeapon *weapon, s32 amount);
@@ -584,14 +581,14 @@ s32 add_weapon_grind(TItemWeapon *weapon, s32 amount) {
 
 u32 TItemWeapon::get_attack_flags() {
     u32 flags = 0;
-    Item_8011F760 *it;
+    WeaponRangeRecord *range;
     if (this->get_icon_index() == 3) {
         flags |= 2;
     } else {
         flags |= 1;
     }
-    it = (Item_8011F760 *)get_weapon_range_record(this, 0);
-    if (it != 0 && it->count > 1) {
+    range = get_weapon_range_record(this, 0);
+    if (range != 0 && range->max_targets > 1) {
         flags |= 4;
     }
     return flags;

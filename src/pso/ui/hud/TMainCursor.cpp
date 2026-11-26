@@ -55,6 +55,7 @@
 #include "pso/math/ScratchVectors.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/effect/TEffect.h"
+#include "pso/item/item_pmt.h"
 #undef PSO_SDK_COMPACT_MATH
 
 
@@ -77,7 +78,7 @@ void draw_chunk_object(void);
 
 s32 rotate_matrix_y(s32, s32);
 
-u8 get_cast_technique_level(void *, s32);
+u8 get_cast_technique_level(void *, s16);
 s16 get_action_palette_mode(TObjPlayer *player, s32 index);
 }
 
@@ -122,10 +123,7 @@ struct TLockOnCursor;
 
 struct TechniqueCursorParams { u8 pad0[8]; f32 reach; f32 apex_offset; u8 pad10[0x18 - 0x10]; s32 horizontal_angle; s32 vertical_angle; u8 pad20[2]; s8 cursor_type; };
 
-struct WeaponRangeRecord { f32 reach; f32 apex_offset; s32 horizontal_angle; s32 vertical_angle; s32 cursor_type; };
-
 extern "C" {
-WeaponRangeRecord *get_weapon_range_record(void *, s32);
 extern f32 scratch_vec5[3];
 #define APPLY_TECH_RANGE(t)                                          \
     cur->cone_apex_offset = (t)->apex_offset;                                           \
@@ -458,11 +456,10 @@ void TLockOnCursor::sort_list(s32 index) {
 #pragma push
 #pragma fp_contract on
 
-void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s32 id) {
+void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s16 id) {
     LockOnActionSlot *cur;
     TechniqueCursorParams *tech;
     WeaponRangeRecord *wpn;
-    s16 sid;
     if (player == NULL) {
         return;
     }
@@ -492,7 +489,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         }
         break;
     case 4:
-        switch ((s16)id) {
+        switch (id) {
         case 10:
             tech = (TechniqueCursorParams *)calc_technique_parameters(0xF, 0xE, player->get_entity_id());
             activate_action_channel(cur);
@@ -524,17 +521,17 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         cur->vertical_cone_angle = wpn->vertical_angle;
         cur->horizontal_cone_cos = cos_table_lookup(cur->horizontal_cone_angle);
         cur->vertical_cone_cos = cos_table_lookup(cur->vertical_cone_angle);
-        cur->set_max_targets(wpn->cursor_type);
+        cur->set_max_targets(wpn->max_targets);
         break;
     case 3: {
         u16 client = player->get_entity_id();
         s32 lvl = get_cast_technique_level(&player->technique_state, id);
-        sid = id;
-        tech = (TechniqueCursorParams *)calc_technique_parameters(sid, lvl, client);
+        s32 technique = id;
+        tech = (TechniqueCursorParams *)calc_technique_parameters(technique, lvl, client);
         activate_action_channel(cur);
         APPLY_TECH_RANGE(tech)
         cur->set_max_targets(tech->cursor_type);
-        switch (sid) {
+        switch (technique) {
         case 0:
         case 1:
         case 2:
@@ -589,8 +586,8 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         break;
     }
     case 5: {
-        s16 pid = id;
-        tech = (TechniqueCursorParams *)get_photon_blast_entry((s16)pid);
+        s32 blast = id;
+        tech = (TechniqueCursorParams *)get_photon_blast_entry(blast);
         activate_action_channel(cur);
         if (player->pk_state.is_enabled() == 0) {
             cur->set_body_include_mask(0x8000);
@@ -602,7 +599,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         cur->set_body_exclude_mask(0);
         cur->set_actor_exclude_mask(0xD0040800);
         APPLY_TECH_RANGE(tech)
-        switch (pid) {
+        switch (blast) {
         case 0:
         case 1:
         case 2:
@@ -738,7 +735,7 @@ void TLockOnCursor::bind_action_channels() {
     slot = 0;
     for (i = 0; i < count; i++) {
         if (entry->get_priority() != 0) {
-            setup_action_channel((TObjPlayer *)player, slot, get_action_palette_mode((TObjPlayer *)player, entry->get_index()), (s16)((TObjPlayer *)player)->get_action_palette_entry(entry->get_index()));
+            setup_action_channel((TObjPlayer *)player, slot, get_action_palette_mode((TObjPlayer *)player, entry->get_index()), ((TObjPlayer *)player)->get_action_palette_entry(entry->get_index()));
             slot++;
         }
         entry++;
