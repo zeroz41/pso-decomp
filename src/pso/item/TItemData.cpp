@@ -770,7 +770,7 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
   {
     return 0;
   }
-  if (TItemData::is_item_usable((saddr)player, data1.data_u8) != 0)
+  if (TItemData::is_item_usable(player, this) != 0)
   {
     result |= 2;
   }

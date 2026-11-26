@@ -70,7 +70,7 @@ saddr TObjPlayer::get_shield_pmt_entry(u8 index) {
     return (saddr)&item_pmt_tbl->technique_boosts[index * 0x18];
 }
 
-ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
+ItemCombination *find_item_combination_recipe(u8 *id, TItem *item) {
     ItemCombination *r;
     s32 n;
     ItemCombinationList *t;
@@ -82,9 +82,9 @@ ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
             if ((id[0] == r->use_item[0] || r->use_item[0] == 0xFF) &&
                 (id[1] == r->use_item[1] || r->use_item[1] == 0xFF) &&
                 (id[2] == r->use_item[2] || r->use_item[2] == 0xFF) &&
-                (r->equipped_item[0] == ((TItem *)item)->get_item_type() || r->equipped_item[0] == 0xFF) &&
-                (r->equipped_item[1] == ((TItem *)item)->get_item_group() || r->equipped_item[1] == 0xFF) &&
-                (r->equipped_item[2] == ((TItem *)item)->get_item_index() || r->equipped_item[2] == 0xFF)) {
+                (r->equipped_item[0] == item->get_item_type() || r->equipped_item[0] == 0xFF) &&
+                (r->equipped_item[1] == item->get_item_group() || r->equipped_item[1] == 0xFF) &&
+                (r->equipped_item[2] == item->get_item_index() || r->equipped_item[2] == 0xFF)) {
                 return r;
             }
             r++;

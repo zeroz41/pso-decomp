@@ -770,20 +770,20 @@ void TMainTask::cleanup_game_objects() {
 // ---- TItemData_80104D0C.cpp
 
 
-s32 TItemData::is_item_usable(saddr player, u8 *item) {
-    if (((TItemData *)item)->is_wrapped() != 0) {
+s32 TItemData::is_item_usable(TObjPlayer *player, TItemData *item) {
+    if (item->is_wrapped() != 0) {
         return (u8)(1U);
     }
-    if ((u8) *item == 3) {
-        if (*(s32 *)((s8 *)(lookup_item_pmt_record(item)) + 0x10) & 1) {
+    if ((u8) item->data1.data_u8[0] == 3) {
+        if (((ItemToolPmt *)lookup_item_pmt_record(item->data1.data_u8))->flags & 1) {
             return (u8)(1U);
         }
         return (u8)((u8) (find_eligible_combination_recipe(player, item) != 0));
     }
     return (u8)((u8) (find_eligible_combination_recipe(player, item) != 0));
 }
-#define o ((TObjPlayer *)player)
-saddr find_eligible_combination_recipe(saddr player, u8 *item) {
+
+ItemCombination *find_eligible_combination_recipe(TObjPlayer *player, TItemData *item) {
     TItemData d;
     TItemData d2;
     MagStats mag;
@@ -792,12 +792,12 @@ saddr find_eligible_combination_recipe(saddr player, u8 *item) {
     TItem *it;
     u8 v;
     rec = NULL;
-    if (o != NULL && item != NULL) {
-        it = find_unique_combination_target(o, (TItemData *)item);
+    if (player != NULL && item != NULL) {
+        it = find_unique_combination_target(player, item);
         if (it != NULL) {
             d.init();
             it->copy_to_item_data(&d);
-            rec = find_item_combination_recipe(item, it);
+            rec = find_item_combination_recipe(item->data1.data_u8, it);
         } else {
             return 0;
         }
@@ -822,13 +822,13 @@ saddr find_eligible_combination_recipe(saddr player, u8 *item) {
         }
         v = rec->level;
         if (v != 0xFF) {
-            if (o->get_actor_level_index() < v - 1) {
+            if (player->get_actor_level_index() < v - 1) {
                 return 0;
             }
         }
         v = rec->section_id;
         if (v != 0xFF) {
-            if (v != o->get_section_id()) {
+            if (v != player->get_section_id()) {
                 return 0;
             }
         }
@@ -836,11 +836,11 @@ saddr find_eligible_combination_recipe(saddr player, u8 *item) {
         d2.data1.data_u8[0] = rec->result_item[0];
         d2.data1.data_u8[1] = rec->result_item[1];
         d2.data1.data_u8[2] = rec->result_item[2];
-        if (check_equip_requirements(o, &d2, NULL) == 0) {
+        if (check_equip_requirements(player, &d2, NULL) == 0) {
             return 0;
         }
     }
-    return (saddr)rec;
+    return rec;
 }
 
 // ---- text_80104F4C.cpp
@@ -851,7 +851,7 @@ TItem *find_unique_combination_target(TObjPlayer *player, TItemData *item) {
     TItem *e;
     for (i = 0; i != 13; i++) {
         e = player->get_equipped_item(i);
-        if (find_item_combination_recipe((u8 *)item, e) != NULL) {
+        if (find_item_combination_recipe(item->data1.data_u8, e) != NULL) {
             found = e;
             count++;
         }

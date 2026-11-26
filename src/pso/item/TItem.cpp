@@ -44,6 +44,7 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/item_create.h"
+#include "pso/item/item_pmt.h"
 #include "pso/render/render_util.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/unk/text_801057A8.h"
@@ -1561,12 +1562,12 @@ void TItem::use_combination_recipe() {
     if (owner != NULL) {
         copy_to_item_data(&data);
         TItem *target = find_unique_combination_target(owner, &data);
-        u8 *recipe = (u8 *)find_eligible_combination_recipe((saddr)owner, (u8 *)&data);
+        ItemCombination *recipe = find_eligible_combination_recipe(owner, &data);
         if (recipe != NULL && target != NULL) {
             result.init();
-            result.data1.data_u8[0] = recipe[6];
-            result.data1.data_u8[1] = recipe[7];
-            result.data1.data_u8[2] = recipe[8];
+            result.data1.data_u8[0] = recipe->result_item[0];
+            result.data1.data_u8[1] = recipe->result_item[1];
+            result.data1.data_u8[2] = recipe->result_item[2];
             int had_flag_80 = target->is_at_tekker();
             s32 target_id = target->get_item_id();
             replace_item_with_new_code(&result, target);
