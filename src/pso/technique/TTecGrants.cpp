@@ -38,8 +38,6 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TargetCursorList.h"
 
-// ---- pso/unk/text_80232934
-
 struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
 
@@ -47,18 +45,12 @@ extern "C" {
 
 void draw_ginja_object(void);
 
-// ---- pso/unk/text_80232AA4
-
 }
 
 // One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
 // TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
 NJS_TEXNAME grants_ring_texname[1];
 NJS_TEXLIST grants_ring_texlist = { grants_ring_texname, 1 };
-
-// ---- pso/unk/text_80232B24
-
-// ---- pso/unk/text_80232B7C
 
 struct GrantsEmitterPart { s32 id; u32 flags; u8 pad_08[4]; };
 

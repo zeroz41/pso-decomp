@@ -1,7 +1,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TextBuilder.h"
-// ---- pso/ui/window/TWindowSubTrade_802B1AB4
 #include "types.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/window/TWindowMessage.h"

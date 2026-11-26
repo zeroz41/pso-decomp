@@ -57,8 +57,6 @@ struct NJS_OBJECT;
 #include "pso/render/render_util.h"
 
 
-// ---- pso/item/WeaponAttackActions
-
 struct Node_8011EB84 { u8 b[0x2C]; };
 
 struct Skel_8011EB84 { u8 pad[0x1C]; Node_8011EB84 n[1]; };
@@ -514,8 +512,6 @@ void TItemWeaponWindmill::for_each_target_in_range(f32 range) {
     }
 }
 
-// ---- pso/player/TObjPlayer_8011F578
-
 void TItemWeaponPartisan::apply_scale_if_active(f32 damage_scale) {
 
     if (this->is_active_in_game() != 0) {
@@ -536,7 +532,6 @@ void TItemWeapon::update_active_game_effect() {
     }
 }
 
-// ---- pso/unk/text_8011F63C
 s32 TItemWeapon::get_attack_stage() {
     if (owner != NULL) {
         if (owner->test_action_mask(0x20) != 0) {
@@ -553,8 +548,6 @@ s32 TItemWeapon::get_attack_stage() {
 }
 
 
-// ---- pso/player/TObjPlayer_8011F6C4
-
 s32 TItemWeapon::is_active_in_game() {
     u8 active = 0;
     if (owner != NULL && get_mode() == ITEM_MODE_EQUIPPED) {
@@ -562,8 +555,6 @@ s32 TItemWeapon::is_active_in_game() {
     }
     return active;
 }
-
-// ---- pso/unk/text_8011F710
 
 
 extern "C" {
@@ -674,16 +665,12 @@ void TItemWeapon::perform_action() {
     }
 }
 
-// ---- pso/player/TObjPlayer_8011FBCC
-
 void TItemWeapon::sample_dual_muzzles(Vec *primary, Vec *secondary) {
     draw_weapon_model();
     get_gun_point(primary);
     draw_weapon_at_joint(0x23);
     get_gun_point(secondary);
 }
-
-// ---- pso/unk/text_8011FC24
 
 void TItemWeapon::update_trails() {
     if (test_weapon_flags(0x400U) != 0U) {
@@ -804,8 +791,6 @@ void TItemWeapon::update_owned() {
 
 void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
-// ---- pso/unk/text_80120150
-
 struct WeaponColorDescriptor { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 weapon_photon_phase_step;
@@ -913,8 +898,6 @@ void TItemWeapon::write_item_data(TItemData *data) {
     }
 }
 
-// ---- pso/player/TObjPlayer_80120500
-
 void TItemWeapon::remove_owner_bonuses() {
     s32 i;
     WeaponAttribute *attribute_entry;
@@ -977,8 +960,6 @@ void TItemWeapon::on_equip() {
     on_equipped();
     clear_weapon_flags(0x03000000);
 }
-
-// ---- pso/player/TObjPlayer_801207E8
 
 
 s32 TItemWeapon::get_joint_position(s32 joint, Vec *out) {

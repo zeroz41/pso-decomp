@@ -1,5 +1,4 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
-// ---- pso/ui/window/TWindowSubStatusDisp_80228CC0
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/TextBuilder.h"
@@ -61,8 +60,6 @@ void append_padded_number(s32 v, u8 n) {
     *text_builder_write_cursor = 0;
 }
 
-// ---- pso/unk/text_80228E98
-
 
 char *format_int_decimal(s32 v, char *out) {
     u8 digits[16];
@@ -97,8 +94,6 @@ char *format_int_decimal(s32 v, char *out) {
     *out = 0;
     return out;
 }
-
-// ---- pso/ui/window/TWindowSubStatusDisp_80228F5C
 
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"

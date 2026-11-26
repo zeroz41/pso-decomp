@@ -1,4 +1,4 @@
-// ---- pso/misc/TLobby_80335E08: separate TU (own .sdata2 pool)
+// Its own TU: the title textures have their own .sdata2 pool.
 #include "types.h"
 #include "pso/ui/TitleTextureResources.h"
 #include "pso/ui/window/WindowDrawContext.h"

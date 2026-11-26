@@ -27,8 +27,6 @@
 #include "pso/render/GinjaTextureMatrices.h"
 
 
-// ---- pso/unk/text_80120908
-
 void set_shadow_material_state(void);
 
 extern s16 weapon_node_ids[];
@@ -120,7 +118,6 @@ void TItemWeapon::draw_weapon_at_joint(s8 joint) {
     draw_weapon_model();
     set_attach_joint(saved_joint);
 }
-// ---- pso/unk/text_80120C5C
 void TItemWeapon::release_model() { memset(trails, 0, 16); clear_weapon_flags((uaddr)((void*)12)); TItemEquipBase::release_model(); }
 
 
@@ -143,8 +140,6 @@ void TItemWeapon::request_equipped_model() {
     this->create_weapon_trail_effects();
 }
 
-
-// ---- pso/item/TItemWeapon
 
 TItemWeapon::~TItemWeapon() {}
 
@@ -217,14 +212,10 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     }
 }
 
-// ---- pso/player/TObjPlayer_80120FC4
-
 // weapon_factory_table's entry for weapons without a class of their own.
 TItem *create_common_weapon(u8 *item) {
     return new TItemWeapon(tl_05, item);
 }
-
-// ---- pso/player/TObjPlayer_80121010
 
 TItem *create_weapon_for_item(u8 *item) {
     if (item != NULL) {
@@ -233,8 +224,6 @@ TItem *create_weapon_for_item(u8 *item) {
     }
     return NULL;
 }
-
-// ---- pso/player/TObjPlayer_8012105C
 
 void TItemWeapon::free() {}
 void TItemWeapon::load_data() {}
@@ -257,19 +246,13 @@ int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((voi
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint) { return player->item_node_matrices[joint]; }
 void PlayerAttackController::set_attack_kind(s16 kind) { attack_kind = kind; }
 
-// ---- pso/player/TObjPlayer_80121178
-
 CapturedTargetList *PlayerAttackController::get_lockon_targets() { return &lockon_targets; }
-
-// ---- pso/unk/text_80121180
 
 f32 PlayerAttackController::get_attack_damage_scale() { return attack_damage_scale_table[attack_kind]; }
 
 f32 PlayerAttackController::get_attack_accuracy_scale() {
     return attack_type_accuracy_scales[attack_kind] * attack_combo_accuracy_multipliers[get_validated_attack_stage()];
 }
-
-// ---- pso/player/TObjPlayer_801211F0
 
 void increment_model_node_counter(void) {
     int count = model_node_counter;
@@ -281,8 +264,6 @@ int get_model_node_counter() {  return model_node_counter; }
 void TItemWeapon::set_model_node_callback(void (*callback)(NJS_OBJECT *)) { model_node_callback = callback; }
 
 void reset_model_node_counter(void) { model_node_counter = 0; }
-
-// ---- pso/player/TObjPlayer_8012121C
 
 int TObjPlayer::is_flag_b0_4() { return this->motion_flags & 0x4; }
 void TItemEffectWeapon::set_flags(u32 mask) { flags |= mask; }

@@ -67,8 +67,6 @@ TItemWeaponBaranzLauncher::TItemWeaponBaranzLauncher(TObject *parent, u8 *item) 
     shot_speed = 7.0f;
 }
 
-// ---- pso/unk/text_80126740
-
 
 TItem *TItemWeaponBaranzLauncher::create(u8 *item) {
     if (item != NULL) {

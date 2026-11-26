@@ -189,16 +189,12 @@ s32 THunterGuildWarning::get_warning_kind(s32 id) {
 }
 #pragma pop
 
-// ---- pso/unk/TLobby_80211C1C
-
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListOnline.h"
 
 
 int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
 
-
-// ---- pso/unk/text_80211C3C
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 
@@ -226,8 +222,6 @@ s32 TLobby__sub_80211C3C(void) {
     }
 }
 
-// ---- pso/unk/TLobby_80211CE0
-
 
 
 
@@ -244,8 +238,6 @@ s32 handle_main_phase(saddr player) {
     return 0;
 }
 
-
-// ---- pso/unk/text_80211D58
 
 
 
@@ -302,8 +294,6 @@ s32 is_in_hunter_guild(s32 client_id) {
     }
     return 0;
 }
-
-// ---- pso/unk/TLobby_80211F0C
 
 
 #include "pso/player/PlayerSlots.h"

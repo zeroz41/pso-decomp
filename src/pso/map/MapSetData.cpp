@@ -36,8 +36,6 @@
 
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-// ---- pso/map/MapSetData
-
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {
         mem_free(table->entries);
@@ -66,8 +64,6 @@ s32 challenge_event_count;
 u8 *challenge_action_buffer;
 s32 challenge_action_size;
 s32 challenge_event_source_size;
-
-// ---- pso/unk/text_80209584
 
 EventShuffleTable *construct_event_shuffle_table(EventShuffleTable *table, s32 capacity) {
     table->rngState = new SubtractiveRng;
@@ -117,8 +113,6 @@ QuestChunkHeader *find_chunk_by_id(QuestChunkHeader *chunks, s32 id) {
     return NULL;
 }
 
-// ---- pso/unk/TLobby_8020970C
-
 
 void TLobby::append_swapped_u32(s32 *value) {
     s32 src;
@@ -137,8 +131,6 @@ void ChallengeEventCommand::append() const {
         challenge_action_size += 1;
     }
 }
-
-// ---- pso/unk/text_802097B0
 
 
 
@@ -268,8 +260,6 @@ void TLobby::pick_weighted_entry(s32 *key, s32 *slot) {
     *key = -1;
 }
 
-// ---- pso/unk/TLobby_80209BD8
-
 
 extern const s32 lobby_random_slot_id_table[42] = {
     68, 67, 65, 66, 64, 96, 97, 98, 99, 100, 101, 128, 129, 130,
@@ -292,7 +282,6 @@ s32 TLobby::pick_random_slot(s16 *slot) {
 }
 
 
-// ---- pso/unk/text_80209C58
 QuestChunkHeader *find_header_by_id(QuestChunkHeader *chunks, s32 id) {
     QuestChunkHeader *p;
     if ((p = chunks) != NULL) {
@@ -314,8 +303,6 @@ QuestChunkHeader *find_header_by_id(QuestChunkHeader *chunks, s32 id) {
     challenge_event_source_size = -1;
     return NULL;
 }
-
-// ---- pso/unk/TLobby_80209CF8
 
 
 // A random value in [0, max) from the item drop RNG, raised to at least min.
@@ -491,8 +478,6 @@ void TLobby::free_boss4rock() {
     item_drop_rng = 0;
 }
 
-// ---- pso/unk/text_8020A2AC
-
 saddr item_drop_server_seed;
 s32 lbl_805D60D4;
 s32 map_set_data_handle_a;
@@ -517,8 +502,6 @@ void init_item_drop_rng(void) {
     }
     challenge_event_shuffle = table;
 }
-
-// ---- pso/unk/TLobby_8020A350
 
 void QuestChunkHeader::bswap() {
     bswap_32((u32 *)&type);
@@ -575,8 +558,6 @@ void bswap_item_data_record(void* p) {
     bswap_16((u16 *)&record->h[5]);
 }
 
-// ---- pso/unk/text_8020A508
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -592,8 +573,6 @@ void TLobby::copy_record_entry(saddr src) {
     dst->h[4] = from->h[4];
     dst->h[5] = from->h[5];
 }
-
-// ---- pso/unk/TLobby_8020A568
 
 void bswap_table_header(void* p) {
     TLobbyHdr *header = (TLobbyHdr *)p;
@@ -635,8 +614,6 @@ void ChallengeEventHeader::swap_endian() {
     bswap_32(reinterpret_cast<u32 *>(&eventCount));
 }
 
-// ---- pso/unk/text_8020A6B0
-
 void load_floor_object_set(s32 player) {
     s32 area = get_floor_area(player);
     s32 terrain = get_floor_map_terrain(player);
@@ -654,13 +631,9 @@ void load_floor_object_set(s32 player) {
     load_map_set_data(player, entries[0].object_set_name);
 }
 
-// ---- pso/unk/TLobby_8020A744
-
 
 void TLobby::init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entry(); }
 
-
-// ---- pso/unk/text_8020A768
 
 
 
@@ -777,11 +750,7 @@ void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area) {
     }
 }
 
-// ---- pso/unk/TLobby_8020AB30
-
 int TLobby::rebuild_entry() { return clear_record_flags_a(); }
-
-// ---- pso/unk/text_8020AB50
 
 s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     char buf[0x28];
@@ -836,13 +805,9 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     return 1;
 }
 
-// ---- pso/unk/TLobby_8020AD20
-
 
 int TLobby::init_sub_state() { return clear_record_flags_b(); }
 
-
-// ---- pso/unk/text_8020AD40
 
 
 
@@ -935,8 +900,6 @@ s32 TLobby::load_all_floor_object_sets() {
     get_total_object_set_count();
     return 1;
 }
-
-// ---- pso/unk/TLobby_8020B03C
 
 
 void TLobby::free_data_60F0() {
@@ -1054,13 +1017,10 @@ s32 get_total_object_set_count(void) {
     return sum;
 }
 
-// ---- pso/unk/TLobby_8020B334
-
 
 EnemySetRecord *get_active_floor_enemy_rows(s32) { return get_loaded_enemy_set_rows(); }
 FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_set_rows(); }
 
-// ---- pso/unk/text_8020B374
 s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, s32 size) {
     if (init_quest_floor_enemies(floor, (EnemySetRecord *)source, size) == 1) {
         floor_enemy_set_counts[floor] = size / 72U;
@@ -1082,7 +1042,6 @@ s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, s32 byte_size) {
 int TLobby::get_object_type(int a0) {  return floor_enemy_set_counts[a0]; }
 
 int TLobby::get_obj_table_entry(int a0) {  return floor_object_set_counts[a0]; }
-// ---- pso/unk/text_8020B47C
 // Copies the received object and enemy set flags of every floor into the floor tables.
 void unpack_floor_set_flags(FloorSetFlagsHeader *block) {
     s32 j;
@@ -1121,8 +1080,6 @@ void unpack_floor_set_flags(FloorSetFlagsHeader *block) {
         }
     }
 }
-
-// ---- pso/unk/TLobby_8020B588
 
 void swap_floor_set_flags_header(FloorSetFlagsHeader *header) {
     bswap_32(&header->object_offset);

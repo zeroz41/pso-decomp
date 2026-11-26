@@ -1,4 +1,3 @@
-// ---- pso/unk/text_800A0320
 #include "types.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/MaterialShadeFade.h"
@@ -25,8 +24,6 @@ s32 MaterialShadeFade::decay_value_toward_floor() {
     return this->phase <= 0.0f;
 }
 
-
-// ---- pso/player/TObjPlayer_800A0408
 
 #include "pso/object/TObjControl.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"

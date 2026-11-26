@@ -4,7 +4,6 @@
 #include "pso/technique/TechniqueBandSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/MatrixStack.h"
-// ---- pso/technique/TTecMegid
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"

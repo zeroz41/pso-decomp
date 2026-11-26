@@ -12,14 +12,10 @@
 #include "pso/player/PlayerAttackController.h"
 #include "pso/effect/item/TItemEffCane.h"
 
-// ---- pso/unk/text_80126740
-
 
 void TItemWeaponFist::on_unequipped() {
     owner->attack_state.set_evp(1.0f);
 }
-
-// ---- pso/player/TObjPlayer_801267C4
 
 
 void TItemWeaponFist::on_equipped() {
