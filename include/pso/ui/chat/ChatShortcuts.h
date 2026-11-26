@@ -13,7 +13,7 @@ ChatShortcut *get_chat_shortcut(s32 index);
 s32 is_chat_shortcut_set(s32 index);
 void send_chat_shortcut(s32 index);
 ChatShortcut *store_chat_shortcut(s32 index, const ChatShortcut *src);
-void submit_chat_text(u8 *lobby);
+void submit_chat_text(char *text);
 
 struct SubmitChatTextTag { u32 a; u32 b; };
 

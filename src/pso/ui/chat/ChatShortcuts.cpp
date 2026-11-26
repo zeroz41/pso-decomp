@@ -16,21 +16,21 @@ struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 
 
 extern "C" {
-void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
+void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, char *);
 }
 
 char *get_chat_shortcut_text(s32 *text) { return (char *)text; }
-void submit_chat_text(u8 *lobby) {
+void submit_chat_text(char *text) {
     TObjBase *player;
     player = (TObjBase *)get_player_by_client_id(local_client_id);
-    if (player != NULL && (s8) *lobby != 0) {
-        ((TLobby *)lobby)->capture_chat_sensor();
+    if (player != NULL && *text != 0) {
+        ((TLobby *)text)->capture_chat_sensor();
         if (get_main_phase() == 0xF) {
             const TPlyGuildCardTag &made = TPlyGuildCardTag(0, 0);
             SubmitChatTextTag tmp = *(SubmitChatTextTag *)&made;
-            send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby::protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
+            send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby::protocol_instance, (TPlyGuildCardTag *)&tmp, text);
         } else {
-            TWindowCtrl::open(player->get_entity_id(), (const char *)lobby, 0xCB);
+            TWindowCtrl::open(player->get_entity_id(), text, 0xCB);
         }
     }
 }
@@ -39,7 +39,7 @@ void chat_dispatch_accepted_result(ChatShortcut *submission) {
 
     switch (submission->kind.value) {
     case 1:
-        ((s32 (*)(void *)) submit_chat_text)(submission->body.text);
+        submit_chat_text(submission->body.text);
         return;
     case 2:
         G_WordSelect_6x74::send_message(&submission->body.message);
