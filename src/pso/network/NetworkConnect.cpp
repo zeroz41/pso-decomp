@@ -143,8 +143,8 @@ AccountEntry lobby_account_entries[3]; /* cleared by TLobby::init_account_entrie
 u32 lbl_8050CCE8[73];
 __declspec(section ".data") s32 lbl_8050CE0C[2];
 }
-s32 init_struct(u8 *arg0);
-s32 init_work(s32 arg0, u8 *arg1);
+s32 init_struct(u8 *info);
+s32 init_work(s32 arg0, u8 *work);
 s32 get_network_config_buffer_size(s32 mode);
 char lbl_8050CE14[0x20];
 char lbl_8050CE34[0x20];

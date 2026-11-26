@@ -63,7 +63,7 @@ struct TWindowSubComCard : public TObject {
     TWindowChoiceSetting *entry_list_window;
     TKeyBoardControl *keyboard;
     TWindowSubComCardList *card_list;
-    static saddr get_card_slot(s32 arg0);
+    static saddr get_card_slot(s32 slot);
     static TWindowComCard *send_command(s32 index);
     static TWindowComCard *apply_selection(s32 index);
     static saddr get_com_count();

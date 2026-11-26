@@ -239,7 +239,7 @@ __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {
 }
 void load_creation_shape_rel(TCMCharacter *character);
 s32 scan_creation_resources(void *context);
-uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
+uaddr relocate_data_block_pointers(uaddr data, u32 size);
 void reset_character_creation_figure_rotation(void);
 
 extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint creation_shape_corners[9];
