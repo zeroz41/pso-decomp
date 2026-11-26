@@ -472,7 +472,7 @@ void reset_story_select_state() {
 }
 
 s32 request_story_select_state(s32 state) {
-    if ((s32) story_select_pending_state == -1) {
+    if (story_select_pending_state == -1) {
         story_select_pending_state = state;
         return 1;
     }
