@@ -1443,7 +1443,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/render/render_util.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/render/render_util_head.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/quest/QuestOpcodeHandlers.cpp": {"cflags": _switch(cflags_pso, "-inline on", "-str reuse,readonly")},
-    "pso/quest/TQuestThread.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
+    # TObjItemOKWindow's vtable sits ahead of the run_task jump tables and the other
+    # vtables follow in class order: deferred generation of the last-to-first source.
+    "pso/quest/TQuestThread.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred")},
     # The quest-list vtable precedes its switch table: deferred, written from
     # its last function back. Its titles and window sizes are addressed one
     # by one (no shared .rodata base), and its strings are read-only.
