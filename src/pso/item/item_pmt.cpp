@@ -59,11 +59,11 @@ s32 __cvt_fp2unsigned(f32);
 WeaponRangeRecord *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
 }
 
-saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
+saddr TObjPlayer::get_item_pmt_entry(u8 index) {
     ItemChoiceListTable *table = item_pmt_tbl->random_items;
 
-    if (table->count > arg0) {
-        return (saddr)&table->lists[arg0];
+    if (table->count > index) {
+        return (saddr)&table->lists[index];
     }
     return 0;
 }
@@ -81,11 +81,11 @@ s32 is_unsealable_item(u8 *id) {
     return 0;
 }
 
-saddr TObjPlayer::get_shield_pmt_entry(u8 arg0) {
-    if (arg0 == 0) {
+saddr TObjPlayer::get_shield_pmt_entry(u8 index) {
+    if (index == 0) {
         return 0;
     }
-    return (saddr)&item_pmt_tbl->technique_boosts[arg0 * 0x18];
+    return (saddr)&item_pmt_tbl->technique_boosts[index * 0x18];
 }
 
 ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
@@ -143,9 +143,9 @@ void find_tool_pmt_base_id(s32 tool_id, u8 *item) {
     }
 }
 
-f32 TObjPlayer::get_drop_random_float(u32 arg0) {
+f32 TObjPlayer::get_drop_random_float(u32 channel) {
     if (item_mgr != NULL) {
-        return item_mgr->roll_table_ratio(arg0);
+        return item_mgr->roll_table_ratio(channel);
     }
     return 3.0517578e-05f * (f32) rand();
 }

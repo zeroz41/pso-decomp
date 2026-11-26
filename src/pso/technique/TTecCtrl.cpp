@@ -718,9 +718,9 @@ void create_technique_charge_light(u32 kind, void *owner) {
     }
 }
 
-s32 TObjPlayer::get_level_tier(s32 arg0) {
+s32 TObjPlayer::get_level_tier(s32 level) {
 
-    switch (arg0 / 5) {
+    switch (level / 5) {
     case 0:
         return 0;
     case 1:

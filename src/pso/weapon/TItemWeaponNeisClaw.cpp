@@ -135,8 +135,8 @@ void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
     new TFireExplosion(10.0f, &info.position, 0, tl_particle);
 }
 
-void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr arg1) {
-    Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
+void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr context) {
+    Ctx_80125628 *ctx = (Ctx_80125628 *)context;
     uaddr p = (uaddr)find_item_by_id(id);
     if (p != 0U) {
         TObjPlayer::spawn_fire_explosion(p, (s32)((saddr)ctx->obj->elems[ctx->idx].f1c));

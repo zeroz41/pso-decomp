@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803D9FF0.h"
-#include "ctype.h"
+extern u8 __upper_map[];
 void convert_string_chars_via_table(u8 *buf) {
     u8 *p = buf;
     u8 t;

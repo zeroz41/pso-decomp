@@ -95,12 +95,12 @@ void TItemWeaponRappysFan::emit_marker_effects() {
     }
 }
 
-void TObjPlayer::spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 id, s32 arg3) {
+void TObjPlayer::spawn_particle_at_entity_slot(s32 layer, s32 weapon, s32 id, s32 body) {
     TObjCollidable *entity = static_cast<TObjCollidable *>(find_entity_by_id(id));
     if (entity != NULL) {
         CollisionBody *bodies = entity->bodies;
-        if (bodies != NULL && arg3 < entity->body_count) {
-            spawn_particle_effect(&bodies[arg3].center, 0x1BF);
+        if (bodies != NULL && body < entity->body_count) {
+            spawn_particle_effect(&bodies[body].center, 0x1BF);
         }
     }
 }

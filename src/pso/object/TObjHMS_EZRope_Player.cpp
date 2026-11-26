@@ -254,8 +254,8 @@ void TObjHMS_EZRope_Player::sub_800FF2D0() {
     }
 }
 
-void *TObjPlayer::create_hairmove(void *arg1, void *arg2) {
-    return new TObjHMS_EZRope_Player(this, static_cast<TObjHMSRopeSpec *>(arg1), static_cast<TObjHMSColliderSpec *>(arg2));
+void *TObjPlayer::create_hairmove(void *rope_spec, void *collider_spec) {
+    return new TObjHMS_EZRope_Player(this, static_cast<TObjHMSRopeSpec *>(rope_spec), static_cast<TObjHMSColliderSpec *>(collider_spec));
 }
 
 void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src) {
