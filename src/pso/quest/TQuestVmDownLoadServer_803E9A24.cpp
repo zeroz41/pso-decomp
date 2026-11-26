@@ -556,7 +556,7 @@ s32 is_download_cmd_allowed(u8 cmd) {
 #pragma inline_depth(1)
 #pragma opt_common_subs off
 extern "C" {
-inline s32 IsX_803E9FFC(u8 cmd) {
+inline s32 is_non_initial_kana(u8 cmd) {
     if ((lbl_805D7888 - 1) <= 1U) {
         return 0;
     }
@@ -580,7 +580,7 @@ inline s32 IsX_803E9FFC(u8 cmd) {
     }
 }
 // Inferred: true for the characters that end a name (space, punctuation, SJIS-range markers).
-inline s32 IsBreakChar_803E9A74(u8 c) {
+inline s32 is_name_break_char(u8 c) {
     if (c >= 0xA0) {
         return 0;
     }
@@ -618,7 +618,7 @@ QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 
     if ((uaddr)e == 0xFFFFFFFF) {
         return (QuestDownloadSegment *)-1;
     }
-    if (e == NULL && IsBreakChar_803E9A74(quest_download_scratch_storage[pos])) {
+    if (e == NULL && is_name_break_char(quest_download_scratch_storage[pos])) {
         if (a == 0 || is_valid_item_for_slot(a, b)) {
             QuestDownloadSegment *s = alloc_quest_segment();
             if (s != NULL) {
@@ -638,7 +638,7 @@ QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 
             if (a == 0 || TQuestVmDownLoadServer__sub_803E7390(a, b, e->a)) {
                 u8 *text = quest_download_scratch_storage + pos;
                 n = quest_download_lz_match_strings[e->off];
-                if (pos + n >= end || !IsX_803E9FFC(text[n])) {
+                if (pos + n >= end || !is_non_initial_kana(text[n])) {
                     QuestDownloadSegment *s = alloc_quest_segment();
                     if (s != NULL) {
                         s->off = n;
@@ -821,7 +821,7 @@ QuestDownloadEntryNode *TQuestVmDownLoadServer__sub_803E9FFC(s32 start, s32 end,
     }
     free_quest_segment_chain(first);
     if (off > 0 && is_valid_item_for_slot(t->a, t->b) != 0) {
-        if (pos >= end || IsX_803E9FFC(quest_download_scratch_storage[pos]) == 0) {
+        if (pos >= end || is_non_initial_kana(quest_download_scratch_storage[pos]) == 0) {
             o = alloc_quest_entry_node();
             if (o != NULL) {
                 if (head == NULL) {
