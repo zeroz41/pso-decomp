@@ -65,20 +65,8 @@ extern TObject *tl_01;
 extern TObject *tl_window;
 extern TObject *tl_clipout;
 extern TObject *tl_fadeafter;
-struct VObj_8024C820 {
-    char pad[0x18];
-    virtual void m0(int);
-};
 void draw_viewport_fill(s32 viewport_index);
 WindowControlState TWindowCtrlMain::viewport_states[6];
-extern "C" {
-struct Poly_8024CE68 {
-    NJS_POINT2 *verts;
-    u32 *colors;
-    s32 flags;
-    s32 count;
-};
-}
 extern "C" s32 fn_8002AE08(s32 client_id);
 
 // -inline off,deferred: these sit at the end of the TU's text, so they come first in the source.
@@ -423,7 +411,7 @@ void TWindowCtrlMain::free_all_windows() {
         TWindowCtrlMain::screen_controller = NULL;
     }
     for (i = 5; i >= 0; i--) {
-        TWindowCtrlMain::release_ptr((void **)&TWindowCtrlMain::viewport_states[i].window_root);
+        TWindowCtrlMain::release_ptr(&TWindowCtrlMain::viewport_states[i].window_root);
     }
     if (TWindowCtrlMain::instance != NULL) {
         delete TWindowCtrlMain::instance;
@@ -480,7 +468,7 @@ TWindowCtrlMain::~TWindowCtrlMain() {
         TWindowCtrlMain::screen_controller = NULL;
     }
     for (i = 5; i >= 0; i--) {
-        TWindowCtrlMain::release_ptr((void **)&TWindowCtrlMain::viewport_states[i].window_root);
+        TWindowCtrlMain::release_ptr(&TWindowCtrlMain::viewport_states[i].window_root);
     }
     if (TWindowCtrlMain::instance != NULL) {
         delete TWindowCtrlMain::instance;
@@ -504,39 +492,39 @@ void TWindowCtrlMain::render() {
 
 void draw_viewport_fill(s32 viewport_index) {
     NJS_POINT2 verts[4];
-    Poly_8024CE68 poly;
-    u32 colors[4];
+    NJS_POINT2COL poly;
+    NJS_COLOR colors[4];
     u32 color;
 
     color = get_window_control_state(viewport_index)->fill_color;
     if (color == 0) {
         return;
     }
-    poly.verts = verts;
-    poly.colors = colors;
-    poly.flags = 0;
-    poly.count = 4;
-    poly.verts[0].x = 0.0f;
-    poly.verts[0].y = 0.0f;
-    poly.colors[0] = color;
-    poly.verts[1].x = 640.0f;
-    poly.verts[1].y = 0.0f;
-    poly.colors[1] = color;
-    poly.verts[2].x = 640.0f;
-    poly.verts[2].y = 480.0f;
-    poly.colors[2] = color;
-    poly.verts[3].x = 0.0f;
-    poly.verts[3].y = 480.0f;
-    poly.colors[3] = color;
-    draw_polygon_2d((NJS_POINT2COL *)&poly, 4, 0x16, -10.0f);
+    poly.p = verts;
+    poly.col = colors;
+    poly.tex = NULL;
+    poly.num = 4;
+    poly.p[0].x = 0.0f;
+    poly.p[0].y = 0.0f;
+    poly.col[0].color = color;
+    poly.p[1].x = 640.0f;
+    poly.p[1].y = 0.0f;
+    poly.col[1].color = color;
+    poly.p[2].x = 640.0f;
+    poly.p[2].y = 480.0f;
+    poly.col[2].color = color;
+    poly.p[3].x = 0.0f;
+    poly.p[3].y = 480.0f;
+    poly.col[3].color = color;
+    draw_polygon_2d(&poly, 4, 0x16, -10.0f);
 }
 
 #pragma push
 #pragma fp_contract on
 void draw_menu_backdrop_gradients(s32 viewport_index) {
-    NJS_POINT2 verts[4];
+    ColorLineVertex verts[4];
     TexturedQuad q;
-    Poly_8024CE68 poly;
+    ColorLineList poly;
     u32 colors[4];
     ColorLineList line;
     ColorLineVertex lverts[2];
@@ -554,7 +542,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     }
     poly.verts = verts;
     poly.colors = colors;
-    poly.flags = 0;
+    poly.tex = NULL;
     poly.count = 4;
     colors[0] = 0xFF000000;
     colors[1] = 0xFF000000;
@@ -568,7 +556,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f;
     verts[3].x = 0.0f;
     verts[3].y = 480.0f;
-    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
+    poly.draw_strip_swap_color(4, 22, -10.0f);
 
     verts[0].x = 0.5f * s->left;
     verts[0].y = 480.0f - 0.5f * (480.0f - s->bottom);
@@ -578,7 +566,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f;
     verts[3].x = 0.5f * s->left;
     verts[3].y = 480.0f;
-    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
+    poly.draw_strip_swap_color(4, 22, -10.0f);
 
     colors[2] = 0;
     colors[3] = 0;
@@ -590,7 +578,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f - 0.5f * (480.0f - s->bottom);
     verts[3].x = s->left;
     verts[3].y = 0.0f;
-    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
+    poly.draw_strip_swap_color(4, 22, -10.0f);
 
     verts[0].x = 0.5f * s->left;
     verts[0].y = 480.0f - 0.5f * (480.0f - s->bottom);
@@ -600,7 +588,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = s->bottom;
     verts[3].x = 0.5f * s->left;
     verts[3].y = s->bottom;
-    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
+    poly.draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
@@ -751,7 +739,7 @@ void TWindowCtrlMain::disable_display() {
     TWindowCtrlMain::display_flags |= 1;
 }
 
-f32 TWindowCtrlMain::get_scale() {
+f32 TWindowCtrlMain::get_scale(s32 viewport) {
     return window_depth_order_cursor;
 }
 
@@ -822,12 +810,10 @@ void WindowControlState::init() {
     bottom = 480.0f;
 }
 
-void TWindowCtrlMain::release_ptr(void **ptr) {
-    VObj_8024C820 *obj = (VObj_8024C820 *)*ptr;
+void TWindowCtrlMain::release_ptr(TObject **ptr) {
+    TObject *obj = *ptr;
     if (obj) {
-        if (obj) {
-            obj->m0(1);
-        }
+        delete obj;
         *ptr = NULL;
     }
 }

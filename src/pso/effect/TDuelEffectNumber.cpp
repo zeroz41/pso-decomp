@@ -37,8 +37,7 @@ void TDuelEffectNumber::draw_echo(QuadSpriteRect *quad) {
     f32 half;
 
     if (timer >= 5 && timer < 20) {
-        TCameraCtrl::get_camera_no();
-        depth = -1.0f / TWindowCtrlMain::get_scale();
+        depth = -1.0f / TWindowCtrlMain::get_scale(TCameraCtrl::get_camera_no());
         half = 0.5f;
         scale = half * ((timer - 5) / 15.0f) + 1.0f;
         draw_digit_quad(quad, pos, depth, scale, timer < 10 ? half : half - half * ((timer - 10) / 10.0f));
@@ -54,8 +53,7 @@ void TDuelEffectNumber::draw_digit(QuadSpriteRect *quad) {
     f32 scale;
     f32 alpha;
 
-    TCameraCtrl::get_camera_no();
-    depth = -1.0f / TWindowCtrlMain::get_scale();
+    depth = -1.0f / TWindowCtrlMain::get_scale(TCameraCtrl::get_camera_no());
     if (timer < 5) {
         scale = 2.0f - ((f32)timer / 5.0f);
         alpha = 0.5f;

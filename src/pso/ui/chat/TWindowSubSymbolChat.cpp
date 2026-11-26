@@ -141,7 +141,6 @@ s32 symbol_chat_flip_v;
 s32 symbol_chat_mirror_mode;
 extern "C" {
 s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
-f32 get_scale__15TWindowCtrlMainFv(s32);
 
 void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window);
 
@@ -1096,7 +1095,7 @@ void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window) {
         } else {
             color = 0xFFFFFFFF;
         }
-        scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(window->ctrl);
+        scale = (-1.0f) / TWindowCtrlMain::get_scale(window->ctrl);
         begin_screen_draw(1);
         set_texture_list(hud_texlist);
         set_draw_texture_and_color(0, color);

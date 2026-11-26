@@ -102,8 +102,7 @@ void TFontSmallTask::render() {
     x = screen[0] += offset_x;
     y = screen[1] += offset_y;
     {
-        TCameraCtrl::get_camera_no();
-        f32 sc = TWindowCtrlMain::get_scale();
+        f32 sc = TWindowCtrlMain::get_scale(TCameraCtrl::get_camera_no());
         depth = -1.0f / (0.1495f + sc);
     }
     cursor = text;
