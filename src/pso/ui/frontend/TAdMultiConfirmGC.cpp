@@ -24,8 +24,6 @@ extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *);
 void TAdMultiConfirmGC__sub_802E0448(void *);
 s32 fn_802E0454(void *);
-void fn_802FF760(void *);
-void fn_802FF7EC(void *);
 extern const u8 lbl_805DEF30 = 0;
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
@@ -69,13 +67,13 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     guide = p;
     guide->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
     guide->set_line(1, reinterpret_cast<const char *>(&lbl_805DEF30));
-    fn_802FF7EC(this);
+    fn_802FF7EC();
 }
 
 #pragma pop
 
 TAdMultiConfirmGC::~TAdMultiConfirmGC() {
-    fn_802FF760(this);
+    fn_802FF760();
 }
 void TAdMultiConfirmGC::run_task() {
     u32 j;
@@ -120,8 +118,7 @@ void TAdMultiConfirmGC::run_task() {
     }
 }
 void TAdMultiConfirmGC::render() {  }
-extern "C" {
-void fn_802FF7EC(void *) {
+void TAdMultiConfirmGC::fn_802FF7EC() {
     CameraParams cam;
     Vec b = {0.0f, 0.0f, 0.0f};
     Vec a = {0.0f, 0.0f, -100.0f};
@@ -131,7 +128,7 @@ void fn_802FF7EC(void *) {
     activate_camera_mode(9);
     set_active_camera_pose_from_params(&cam);
 }
-void fn_802FF760(void *) {
+void TAdMultiConfirmGC::fn_802FF760() {
     CameraParams cam;
     Vec b = {0.0f, 0.0f, 0.0f};
     Vec a = {0.0f, 0.0f, -100.0f};
@@ -140,5 +137,4 @@ void fn_802FF760(void *) {
     cam.fov = 0x36C1;
     activate_camera_mode(9);
     set_active_camera_pose_from_params(&cam);
-}
 }
