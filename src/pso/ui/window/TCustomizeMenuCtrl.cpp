@@ -150,7 +150,7 @@ void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
         if (TObjPlayer::validate_and_clear_slot(pl + 0x428, ev->id) != 0) {
             break;
         }
-        text_builder_append((const char *)get_technique_name(ev->id));
+        text_builder_append(get_technique_name(ev->id));
         if (ev->id != 0x11 && ev->id != 0xE) {
             lvl = get_cast_technique_level(pl + 0x428, ev->id);
             if (current_language != LANGUAGE_JAPANESE) {

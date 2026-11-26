@@ -480,6 +480,6 @@ void TWindowSubMag::update_mag_help() {
             ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)mag_empty_line), 0x80);
             return;
         }
-        ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), 0x80);
+        ((TWindowMessage *)(this->message))->append_line((saddr)get_help_text_string(selected_blast + 0x27), 0x80);
     }
 }

@@ -120,7 +120,7 @@ void TWindowSubTrade::run_task() {
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window == NULL) {
-            this->m_message_window = this->open_player_message_window(this->selected_player, (saddr) (TWindowSubStatusDisp::get_message_10(0xD7)));
+            this->m_message_window = this->open_player_message_window(this->selected_player, (const char *)TWindowSubStatusDisp::get_message_10(0xD7));
         }
         send_6xA6_modify_trade_proposal((this->selected_player));
         this->state = 6U;
@@ -173,14 +173,14 @@ TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *) {
     return list;
 }
 
-TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 message) {
+TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, const char *message) {
     TWindowMessage *window;
     TObjPlayer *p = get_player_by_client_id(player);
     text_builder_reset();
     if (p != NULL) {
         text_builder_append(p->get_name());
     }
-    text_builder_append((const char *)message);
+    text_builder_append(message);
     window = TWindowMessage::create(get_window_layout_position(0x5B), trade_message_window_size, 1, this->client_id);
     window->append_line((saddr)get_shared_text_buffer(), 0x82);
     return window;
