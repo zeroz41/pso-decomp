@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/THeap.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/map/FloorArea.h"
@@ -331,7 +332,7 @@ void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_ev
 void send_6x67_wave_trigger_event(s32 event_id) {
     G_FloorEvent_6x67 pkt;
     wave_event_trigger_count++;
-    TLobby::set_destroy_event(1);
+    set_destroy_event_id(1);
     pkt.init();
     pkt.header.client_id = 0xFFFF;
     pkt.floor = get_current_floor();

@@ -9,6 +9,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/text_80209584.h"
 #include "pso/system/byteswap.h"
@@ -444,7 +445,7 @@ void build_challenge_enemy_set(s32 floor) {
 
     if (challenge_event_count > 0) {
         addedSize = (challenge_action_size + 3) & ~3;
-        output = TLobby::alloc_heap_slot(
+        output = alloc_floor_event_set(
             floor, sizeof(ChallengeEventHeader) + challenge_event_count * sizeof(ChallengeFixedEvent) +
                        commandSize + addedSize);
         if (output != NULL) {

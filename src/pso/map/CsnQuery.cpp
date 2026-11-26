@@ -816,14 +816,14 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     return hit;
 }
 
-void TObjButterflyLobby::free_singleton_805D4E6C() {
+void free_wall_query_buffer(void) {
     if (wall_query_scene_buffer != NULL) {
         mem_free(wall_query_scene_buffer);
         wall_query_scene_buffer = NULL;
     }
 }
 
-void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
+void alloc_wall_query_buffer(void) { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
 
 extern "C" {
 void __construct_array(void *, CsnContact *(*)(CsnContact *), s32, s32, s32);

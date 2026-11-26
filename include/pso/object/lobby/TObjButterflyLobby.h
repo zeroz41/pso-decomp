@@ -26,8 +26,6 @@ struct TObjButterflyLobby : public TObjBase {
     u8 turn_dir;
     NJS_OBJECT *lobby_model;
     NJS_TEXLIST *model_textures;
-    static void free_singleton_805D4E6C();
-    static void alloc_scene_buffer();
     void init_params();
     void draw_butterfly();
     virtual void render();

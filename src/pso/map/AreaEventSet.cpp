@@ -41,13 +41,13 @@ typedef void (*FloorEventCreateFunc)(SetDestroyEventRecord *event);
 
 FloorEventSet *floor_event_sets[18];
 
-void TLobby::set_destroy_event(int destroy_event) { set_event_destroy_id = destroy_event; }
+void set_destroy_event_id(int destroy_event) { set_event_destroy_id = destroy_event; }
 void spawn_destroy_event(SetDestroyEventRecord *event) {
-    if (TLobby::get_destroy_event_obj() != -1) {
+    if (get_destroy_event_id() != -1) {
         show_partner_chatter_for_key(event->spawn_arg0);
     }
     new TSetEvtDestroy(tl_01, event);
-    TLobby::set_destroy_event(-1);
+    set_destroy_event_id(-1);
 }
 
 void create_empty_floor_event(SetDestroyEventRecord *event) {}
@@ -103,7 +103,7 @@ void clear_floor_event_flags(void) {
     } while (i < 0x12);
 }
 
-s32 TLobby::count_sync_record_bytes() {
+s32 count_floor_event_sync_bytes() {
     s32 sum = 0;
     s32 i;
     for (i = 0; i < 18; i++) {
@@ -112,7 +112,7 @@ s32 TLobby::count_sync_record_bytes() {
     return sum * 2;
 }
 
-void TLobby::import_sync_records(s16 *records, u16 size) {
+void import_floor_event_flags(s16 *records, u16 size) {
     FloorEventSet **t;
     s16 *src;
     s32 i;
@@ -120,7 +120,7 @@ void TLobby::import_sync_records(s16 *records, u16 size) {
     SetDestroyEventRecord *r;
     s32 j;
     s16 tmp;
-    TLobby::count_sync_record_bytes();
+    count_floor_event_sync_bytes();
     src = records;
     t = floor_event_sets;
     i = 0;
@@ -139,7 +139,7 @@ void TLobby::import_sync_records(s16 *records, u16 size) {
     } while (i < 0x12);
 }
 
-s32 TLobby::export_sync_records(s16 *dest) {
+s32 export_floor_event_flags(s16 *dest) {
     s32 ret;
     FloorEventSet **t;
     s16 *src;
@@ -148,7 +148,7 @@ s32 TLobby::export_sync_records(s16 *dest) {
     SetDestroyEventRecord *r;
     s32 j;
     s16 tmp;
-    ret = TLobby::count_sync_record_bytes();
+    ret = count_floor_event_sync_bytes();
     src = dest;
     t = floor_event_sets;
     i = 0;
@@ -225,7 +225,7 @@ s32 activate_first_floor_event(s32 floor, s32 id) {
     return 0;
 }
 
-u8 *TLobby::alloc_heap_slot(s32 floor, s32 size) {
+u8 *alloc_floor_event_set(s32 floor, s32 size) {
     u8 *set;
     if (floor > 0x11) {
         return NULL;
@@ -243,7 +243,7 @@ u8 *TLobby::alloc_heap_slot(s32 floor, s32 size) {
 
 #pragma fp_contract on
 
-s32 TLobby::add_player(s32 floor, saddr data, s32 size) {
+s32 add_floor_event_set(s32 floor, saddr data, s32 size) {
     u8 *set;
 
     if (floor > 0x11) {
@@ -262,7 +262,7 @@ s32 TLobby::add_player(s32 floor, saddr data, s32 size) {
     return 0;
 }
 
-void TLobby::free_team_buffers() {
+void free_floor_event_sets() {
     s32 i;
     for (i = 17; i >= 0; i--) {
         if (floor_event_sets[i] != NULL) {
@@ -296,7 +296,7 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     return 0;
 }
 
-s32 TLobby::load_all_floor_event_sets() {
+s32 load_all_floor_event_sets() {
     FloorMapSelection selection;
     s32 floor;
     for (floor = 0; floor < 0x12; floor++) {
@@ -310,9 +310,9 @@ s32 TLobby::load_all_floor_event_sets() {
     return 1;
 }
 
-void TLobby::get_team_state() { TLobby::free_team_buffers(); }
+void free_area_event_sets() { free_floor_event_sets(); }
 
-void TLobby::load_set_event_gsl() {
+void load_area_event_sets() {
     s32 i;
     for (i = 0; i < 0x12; i++) {
         floor_event_sets[i] = NULL;
@@ -320,18 +320,18 @@ void TLobby::load_set_event_gsl() {
     set_event_destroy_id = -1;
     lbl_805D6098 = 0;
     open_gsl_archive("gsl_set_event.gsl");
-    if (TLobby::load_all_floor_event_sets() == 0) {
+    if (load_all_floor_event_sets() == 0) {
         close_gsl_archive();
         return;
     }
     close_gsl_archive();
 }
 
-void TLobby::free_heap() {
+void free_area_event_set_heap() {
     delete area_event_set_heap;
     area_event_set_heap = NULL;
 }
 
-void TLobby::create_heap_8000() { area_event_set_heap = new THeap(0x8000, 0x20); }
+void create_area_event_set_heap() { area_event_set_heap = new THeap(0x8000, 0x20); }
 
-int TLobby::get_destroy_event_obj() {  return set_event_destroy_id; }
+int get_destroy_event_id() {  return set_event_destroy_id; }

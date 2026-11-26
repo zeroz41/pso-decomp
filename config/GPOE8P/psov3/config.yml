@@ -5416,7 +5416,7 @@ force_active:
   - count_plist_strips_by_texture__15StripBufferPairFPsl
   - count_selected_flags__12TAdTimeSetGCFv
   - count_slots__13TWindowSubMagFv
-  - count_sync_record_bytes__6TLobbyFv
+  - count_floor_event_sync_bytes__Fv
   - count_unit_star_buckets__9TItemDropFv
   - count_unlocked_difficulties__12TLevelSelectFv
   - count_used_slots__16SymbolChatPresetFv
@@ -6474,7 +6474,7 @@ force_active:
   - free_parts__13TBoss5GryphonFv
   - free_resources__14TObjEneIllGillFv
   - free_lobby_action_motion_buffer__Fv
-  - free_team_buffers__6TLobbyFv
+  - free_floor_event_sets__Fv
   - freeze_shell_grow__15TObjFreezeShellFv
   - freeze_shell_hold__15TObjFreezeShellFv
   - frozen_shooter_ct__FPUcPUcl
@@ -6600,7 +6600,7 @@ force_active:
   - get_color__8MagStatsFv
   - get_condition__13NpcPlayerViewFv
   - get_forest_box_model__Fl
-  - get_destroy_event_obj__6TLobbyFv
+  - get_destroy_event_id__Fv
   - get_distance_to_local_player_xz__13TObjTombstoneFv
   - get_dominant_stats__8TItemMagFv
   - get_download_seed__12TQuestListVMFv
@@ -8812,7 +8812,7 @@ force_active:
   - light_machine01_resource_desc
   - light_node__13TOCapsuleLabo
   - light_slot_mask_table
-  - load_all_floor_event_sets__6TLobbyFv
+  - load_all_floor_event_sets__Fv
   - load_and_verify_data__Fl
   - load_battle_params__11TBoss6Type2Fv
   - LoadBinModel__11BmlResourceFPCcl
@@ -15407,7 +15407,7 @@ force_active:
   - set_depth__15TAdDrawLineTaskFf
   - set_depth_all_nodes__15TAdDrawLineCtrlFf
   - set_depth_offset__15TObjEneDelDepthFll
-  - set_destroy_event__6TLobbyFi
+  - set_destroy_event_id__Fi
   - set_battle_param_episode__Fl
   - set_display_flags__11TMainCursorFllP16LockOnActionSlot
   - set_display_mode__15TObjEneSlimeOneFl

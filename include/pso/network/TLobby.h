@@ -171,12 +171,7 @@ struct TLobby : public TObject {
     static void sync_story_select();
     void copy_table_entries(u32 size);
     static void reset_story_select_state();
-    static void free_team_buffers();
-    static void get_team_state();
     static void call_funcs_reverse(void* table, unsigned int size);
-    static void load_set_event_gsl();
-    static void free_heap();
-    static void create_heap_8000();
     static void append_swapped_u32(s32 *value);
     static u32 clamp_min_drop(u32 min, u32 max);
     static void free_boss4rock();
@@ -379,13 +374,6 @@ struct TLobby : public TObject {
     static void dispatch_stream_command(u8 opcode);
     static void invoke_command(u8 opcode);
     static void free(void *p);
-    static s32 count_sync_record_bytes();
-    static void import_sync_records(s16 *records, u16 size);
-    static s32 export_sync_records(s16 *dest);
-    static u8 *alloc_heap_slot(s32 floor, s32 size);
-    static s32 add_player(s32 floor, saddr data, s32 size);
-    static s32 load_all_floor_event_sets();
-    static int get_destroy_event_obj();
     static void free_data_60F0();
     static s32 init_handle(s32 size);
     void bswap_player_fields();
@@ -539,7 +527,6 @@ struct TLobby : public TObject {
     static void send_position_update();
     static void send_room_change(int);
     static void send_selected_character();
-    static void set_destroy_event(int);
     static void set_menu_mode_0();
     static void set_menu_mode_1();
     static void set_menu_mode_2();

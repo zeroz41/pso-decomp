@@ -8,6 +8,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -209,10 +210,10 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
-    {TLobby::create_heap_8000, TLobby::free_heap},
+    {create_area_event_set_heap, free_area_event_set_heap},
     {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
     {TLobby::load_set_gsl_files, clear_map_set_data},
-    {TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state},
+    {load_area_event_sets, (FloorResourceCallback)free_area_event_sets},
     {alloc_work_buffer, free_deferred_packet_buffer},
     {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
     {load_word_select_data, TWindowDD::free_buffers},
@@ -270,7 +271,7 @@ void TLobby::reload_offline_area() {
     promote_area_floor(&floor_transition_state);
     TLobby::backup_story_select();
     TKeyBoardControl::update();
-    TLobby::get_team_state();
+    free_area_event_sets();
     clear_floor_population();
     TLobby__sub_80207E48();
     TLobby::create_map_csn_ctrl();
@@ -279,7 +280,7 @@ void TLobby::reload_offline_area() {
     TLoadCtrl::start_loading(1);
     reset_enemy_and_object_ids();
     TLobby::load_set_gsl_files();
-    TLobby::load_set_event_gsl();
+    load_area_event_sets();
     load_battle_param_entry();
     initialize_floor_transition(&floor_transition_state, 0, 0);
     load_area_scene_and_init((u8 *)&floor_transition_state);
@@ -328,7 +329,7 @@ void TLobby::rebuild_area_keep_players() {
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
     TLobby::reset_quest_state();
-    TLobby::get_team_state();
+    free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();

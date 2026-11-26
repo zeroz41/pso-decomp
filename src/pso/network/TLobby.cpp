@@ -27,6 +27,7 @@
 #include "pso/network/TPacket.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/TLobby_8020BFC4.h"
@@ -604,7 +605,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
         TLobby::bswap_6x6E_sync_game_state(buf);
         apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(buf->payload), buf->floor_flags_size);
         n = buf->floor_flags_size;
-        TLobby::import_sync_records(reinterpret_cast<s16 *>(&buf->payload[n]), buf->sync_records_size);
+        import_floor_event_flags(reinterpret_cast<s16 *>(&buf->payload[n]), buf->sync_records_size);
 
         if ((buf->sync_records_size && buf->sync_records_size) && buf->sync_records_size)
         {
@@ -704,7 +705,7 @@ void TLobby::send_6x6E_sync_game_state(int size) {
             memset(hdr, 0, sizeof(*hdr));
             hdr->floor_flags_size = serialize_area_set_flags(reinterpret_cast<FloorSetFlagsPayload *>(hdr->payload));
             n = hdr->floor_flags_size;
-            hdr->sync_records_size = TLobby::export_sync_records(reinterpret_cast<s16 *>(&hdr->payload[n]));
+            hdr->sync_records_size = export_floor_event_flags(reinterpret_cast<s16 *>(&hdr->payload[n]));
             n += hdr->sync_records_size;
             hdr->switch_table_size = copy_switch_table(&hdr->payload[n]);
             n += hdr->switch_table_size;

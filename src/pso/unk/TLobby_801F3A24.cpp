@@ -15,6 +15,7 @@
 #include "pso/unk/text_8020AD40.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -214,7 +215,7 @@ bool load_quest_encounter_section(s32 floor) {
             bswap_32((u32 *)&record_floor);
             bswap_32((u32 *)&size);
             if ((type == 3) && (record_floor == floor)) {
-                return TLobby::add_player(record_floor, (saddr)(record + 1), size) != 0;
+                return add_floor_event_set(record_floor, (saddr)(record + 1), size) != 0;
             }
             if (type == 0) {
                 break;

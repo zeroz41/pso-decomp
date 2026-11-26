@@ -490,7 +490,7 @@ void TScene::load_scene_data(saddr name) {
     void *lobby_buffer;
     void *buffer;
 
-    TObjButterflyLobby::alloc_scene_buffer();
+    alloc_wall_query_buffer();
     scene_collision_data = NULL;
     collision_file_buffer = NULL;
     collision_file_size_limit = 0;
@@ -711,7 +711,7 @@ void TScene::free_scene_resources() {
         safe_free(buffer);
         collision_file_buffer = NULL;
     }
-    TObjButterflyLobby::free_singleton_805D4E6C();
+    free_wall_query_buffer();
     buffer = map_rel_load_buffer;
     if (buffer != NULL) {
         safe_free(buffer);

@@ -22,6 +22,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/network/TProtocol.h"
@@ -146,7 +147,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {init_item_system, free_item_system},
     {TLobby::load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
-    {TLobby::create_heap_8000, TLobby::free_heap},
+    {create_area_event_set_heap, free_area_event_set_heap},
     {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
     {alloc_work_buffer, free_deferred_packet_buffer},
     {init_switch_table, clear_switch_table},
@@ -178,7 +179,7 @@ FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { TLobby::update_drop_item, NULL },
     { clear_floor_population, NULL },
     { TLobby::load_set_gsl_files, clear_map_set_data },
-    { TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state },
+    { load_area_event_sets, (FloorResourceCallback)free_area_event_sets },
     { init_switch_table, clear_switch_table },
     { reset_shop_stock_and_params, clear_all_shop_stock },
     { update_battle_params, NULL },
@@ -252,7 +253,7 @@ void reload_lobby_floor_scene(void) {
     promote_area_floor(&floor_transition_state);
     TLobby::reset_counter();
     reset_story_select__6TLobbyFPv();
-    TLobby::get_team_state();
+    free_area_event_sets();
     clear_floor_population();
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
@@ -400,7 +401,7 @@ void start_quest_mission(void) {
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
     TLobby::free_objects();
-    TLobby::get_team_state();
+    free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
