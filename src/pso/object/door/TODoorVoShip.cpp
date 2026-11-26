@@ -70,7 +70,7 @@ void TODoorVoShip::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, (f32)animation_frame);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(light_texlist));
         u32 flags = model_render_flags;

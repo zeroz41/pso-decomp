@@ -110,7 +110,7 @@ void TODragonflyMachine01::render() {
             rotate_matrix_y(NULL, rotation_y);
             break;
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         node_index = 0;
         node_yaw = animation_yaw;
         set_chunk_model_node_callback(rotate_animated_node);

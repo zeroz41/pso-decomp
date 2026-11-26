@@ -98,7 +98,7 @@ void TODoorCave03::update_closed() {
 void TODoorCave03::render() {
     NJS_OBJECT *node;
     if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

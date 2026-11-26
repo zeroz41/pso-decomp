@@ -73,7 +73,7 @@ void TOSparkMachine01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         n = model->child;
         TParticleCtrl::begin_effect_render();
         for (i = 0; i < 4; i++) {

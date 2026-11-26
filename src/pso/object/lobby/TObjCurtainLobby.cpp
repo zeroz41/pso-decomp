@@ -38,7 +38,7 @@ void TObjCurtainLobby::demo_step() {}
 void TObjCurtainLobby::render() {
     if (state != 0 && texlist != NULL) {
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -96,8 +96,7 @@ void TObjCurtainLobby::free_resources() {
 }
 
 void TObjCurtainLobby::load_resources() {
-    void *resource = new BmlResource(5, &bm_obj_lobby_curtain_resource_descriptor, 0, 0, NULL);
-    model_resource = (BmlResource *)resource;
+    model_resource = new BmlResource(5, &bm_obj_lobby_curtain_resource_descriptor, 0, 0, NULL);
     lobby_texlist = get_lobby_main_texlist();
 }
 

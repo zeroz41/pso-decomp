@@ -237,7 +237,7 @@ void TOTrapAncient02::render() {
 void TOTrapAncient02::draw_effect_chain() {
     NJS_OBJECT *n;
     push_matrix();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     n = model;
@@ -272,7 +272,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     setup_particle_tev(0);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -280,7 +280,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
     setup_particle_tev(0);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -289,7 +289,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = n->child;
     post_translate_matrix(n->pos);
     setup_particle_tev(1);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -299,7 +299,7 @@ void TOTrapAncient02::render_particle_chain() {
     post_translate_matrix(n->pos);
     rotate_matrix_y(0, spin_angle);
     setup_particle_tev(0);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();

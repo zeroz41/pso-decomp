@@ -60,7 +60,7 @@ void TOKeyGenericSw::render() {
     model = key_generic_sw_shared_resource_ptrs[0]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     draw_ginja_object(model);
     pop_matrix();
     TParticleCtrl::begin_effect_render();
@@ -76,7 +76,7 @@ void TOKeyGenericSw::render() {
     model = key_generic_sw_shared_resource_ptrs[1]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     draw_ginja_model_with_motion(model, motion, animation_frame);
     pop_matrix();
     TParticleCtrl::end_effect_render();

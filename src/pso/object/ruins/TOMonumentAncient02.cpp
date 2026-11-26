@@ -133,7 +133,7 @@ void TOMonumentAncient02::render() {
         }
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);

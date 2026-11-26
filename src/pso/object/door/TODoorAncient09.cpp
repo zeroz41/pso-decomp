@@ -174,7 +174,7 @@ void TODoorAncient09::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(texlist);
             draw_ginja_model_with_motion(model, motion, animation_frame);
             pop_matrix();
             return;
@@ -182,7 +182,7 @@ void TODoorAncient09::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(texlist);
             draw_ginja_model_with_motion(model, motion, animation_end_frame - 1.0f);
             pop_matrix();
             return;

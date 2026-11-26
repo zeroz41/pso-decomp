@@ -171,7 +171,7 @@ void TOTrapAncient01::render() {
             v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             post_translate_matrix(&v.x);
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         n = model;
         push_matrix();
         translate_matrix(0, 0.0f, scale.y, 0.0f);

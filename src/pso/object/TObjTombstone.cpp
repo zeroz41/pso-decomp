@@ -471,7 +471,7 @@ void TObjTombstone::update_render_flags() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
     }

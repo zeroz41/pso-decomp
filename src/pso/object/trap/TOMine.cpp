@@ -199,7 +199,7 @@ void TOMine::render() {
         pop_matrix();
     }
 }
-void TOMine::draw_body() { set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist)); draw_ginja_object(this->model); }
+void TOMine::draw_body() { set_texture_list(this->texlist); draw_ginja_object(this->model); }
 void TOMine::draw_light() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(light_textures));
     draw_ginja_object(light_model);

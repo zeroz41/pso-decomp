@@ -46,7 +46,7 @@ void TORainbowCave01::render() {
     u32 flags;
     if (update_object_view_visibility(view_range, model_radius) != 0 && -1.0f < fade) {
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         flags = model_render_flags;
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;

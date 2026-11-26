@@ -191,7 +191,7 @@ void TOTrap::render() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object(this->model);
             } else {

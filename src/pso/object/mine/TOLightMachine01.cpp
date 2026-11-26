@@ -48,7 +48,7 @@ void TOLightMachine01::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_model(model->model);
         push_matrix();
         translate_matrix(0, 0.0f, this->bob_offset, 0.0f);
@@ -95,7 +95,7 @@ TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
     light_machine01->model = get_bml_model(light_machine01_shared_bml_archive, 1);
     light_machine01->texlist = get_bml_texlist(light_machine01_shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;
-    light_machine01->model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
+    light_machine01->model_radius = ((GinjaModelBounds *)light_machine01->model->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);
     light_machine01->bob_speed = (f32) ((0.1f * (f32) light_machine01->set_params[0]) + 1.0f);
     light_machine01->bob_angle_step = (s32) (182.04445f * (360.0f / (30.0f / light_machine01->bob_speed)));

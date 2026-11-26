@@ -28,7 +28,7 @@ void TOMonumentAncient01::update_demo() {}
 
 void TOMonumentAncient01::render() {
     if (update_object_view_visibility(view_range, model_radius) == 1) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

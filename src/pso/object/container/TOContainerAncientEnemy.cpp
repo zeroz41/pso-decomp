@@ -262,7 +262,7 @@ void TUnk_804B08BC::draw_model() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             obj = this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
@@ -421,7 +421,7 @@ void TOContainerAncientEnemy::draw_model() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             obj = this->model;
             push_matrix();
             post_translate_matrix(obj->pos);

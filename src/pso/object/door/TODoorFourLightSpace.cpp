@@ -144,7 +144,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
     {
     NJS_OBJECT *body = (NJS_OBJECT *)this->model_tree;
     push_matrix();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_model(body->model);
@@ -155,7 +155,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
         if (lit[i] == 1) {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
         } else {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
         }
         if (*lamp != 0) {
             push_matrix();
@@ -345,7 +345,7 @@ void TODoorFourLightSpace::draw_lights() {
     pa = &light_nodes[0];
     pb = &light_nodes[4];
     push_matrix();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     post_translate_matrix(mdl->pos);
@@ -363,7 +363,7 @@ void TODoorFourLightSpace::draw_lights() {
         if (flags[i] == 1) {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
         } else {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
         }
         if (*pa != NULL) {
             push_matrix();

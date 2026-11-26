@@ -88,7 +88,7 @@ void TODragonfly::render() {
         translate_matrix(0, 0.0f, bob_offset, 0.0f);
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         draw_ginja_model_with_motion(model, motion, animation_frame);
         pop_matrix();
     }

@@ -314,7 +314,7 @@ void TOVS2::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -422,7 +422,7 @@ void TOVS2Wall01::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
         if (fading != 0) {

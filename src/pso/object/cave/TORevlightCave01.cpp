@@ -38,7 +38,7 @@ void TORevlightCave01::render() {
         rotate_matrix_z(NULL, rotation_z);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         draw_ginja_model(model->model);
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model(model->child->model);

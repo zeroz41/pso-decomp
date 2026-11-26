@@ -27,7 +27,7 @@ BmlResource *TObjRainbowLobby::shared_model_resource;
 void TObjRainbowLobby::render() {
     if (state != 0) {
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -82,8 +82,7 @@ void TObjRainbowLobby::free_resources() {
 }
 
 void TObjRainbowLobby::load_resources() {
-    void *resource = new BmlResource(1, &bm_obj_lobby_rainbow_resource_descriptor, 0, 0, NULL);
-    shared_model_resource = (BmlResource *)resource;
+    shared_model_resource = new BmlResource(1, &bm_obj_lobby_rainbow_resource_descriptor, 0, 0, NULL);
 }
 
 TObjRainbowLobby::~TObjRainbowLobby() {}

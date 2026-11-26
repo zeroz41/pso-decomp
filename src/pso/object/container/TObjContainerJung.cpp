@@ -444,7 +444,7 @@ void TObjContainerJungEnemy::draw_model() {
 
     switch (this->mode) {
     case 0:
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -501,7 +501,7 @@ void TObjContainerJungEnemy::spawn_break_effects() const {
         a.pos.z = za;
         a.floor_y = ya;
         a.model = large_fragment_model;
-        a.textures = reinterpret_cast<NJS_TEXLIST *>(texlist);
+        a.textures = texlist;
         TObjChipParams b = container_jung_enemy_spawn_params_b;
         f32 zb;
         f32 yb;
@@ -514,7 +514,7 @@ void TObjContainerJungEnemy::spawn_break_effects() const {
         b.pos.z = zb;
         b.floor_y = yb;
         b.model = small_fragment_model;
-        b.textures = reinterpret_cast<NJS_TEXLIST *>(texlist);
+        b.textures = texlist;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         new TObjChip(tl_05, &a);

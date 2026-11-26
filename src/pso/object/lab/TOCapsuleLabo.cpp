@@ -55,7 +55,7 @@ void TOCapsuleLabo::render() {
     NJS_OBJECT *light;
     visible = update_object_view_visibility(view_range, model_radius);
     if (visible == 1) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         if (active == 1) {
             if (light_node != NULL) {
                 light_node->evalflags &= ~NJD_EVAL_HIDE;
