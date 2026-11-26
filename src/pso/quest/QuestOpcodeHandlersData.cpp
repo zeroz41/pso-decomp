@@ -3,4 +3,4 @@
 
 // Data-only unit (.rodata): QuestOpcodeHandlers keeps these extern.
 
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_80449A38[1] = { { 394.0f, 80.0f } };
+__declspec(section ".rodata") extern const NJS_POINT2 qb_message_window_size[1] = { { 394.0f, 80.0f } };

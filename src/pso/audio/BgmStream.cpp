@@ -43,7 +43,7 @@ u32 ar_stack_index[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 // [0] and [1] play the music, [2] the cue stream ("can't create ADXT-BGM #%d", "can't create ADXT-SE #%d").
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
 
-void *lbl_805D62D8;
+void *se_stream_buffer;
 void *adx_rna_work_buffer;
 s32 music_active;
 s32 music_state;
@@ -568,7 +568,7 @@ void init_adx_audio_system(void) {
 
     bgm_stream_buffers[0] = xmalloc(0x2D1E4);
     bgm_stream_buffers[1] = xmalloc(0x2D1E4);
-    lbl_805D62D8 = xmalloc(0xA924);
+    se_stream_buffer = xmalloc(0xA924);
     adx_rna_work_buffer = xmalloc(0xA000);
     gcrna_bridge_init_buffers(adx_rna_work_buffer, 0xA000, 5);
     adxt_init();
@@ -594,7 +594,7 @@ void init_adx_audio_system(void) {
         }
     }
     for (i = 0; i < 1; i++) {
-        adxt_players[2 + i] = adx_create_stream_player(1, (&lbl_805D62D8)[i], 0xA924);
+        adxt_players[2 + i] = adx_create_stream_player(1, (&se_stream_buffer)[i], 0xA924);
         if (adxt_players[2 + i] == NULL) {
             TLobby::debug_print("can't create ADXT-SE #%d", i);
         }

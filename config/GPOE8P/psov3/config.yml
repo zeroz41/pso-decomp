@@ -7799,8 +7799,8 @@ force_active:
   - stelth_motion_names
   - stelth_low_model_names
   - stelth_low_motion_names
-  - lbl_8049C5E0
-  - lbl_8049C61C
+  - er_mes_texnames
+  - er_mes_texlist
   - hair_bone_rotation_bone_list_00
   - hair_bone_rotation_bone_list_01
   - hair_bone_rotation_bone_list_02
@@ -7973,9 +7973,9 @@ force_active:
   - __vt__13TPhotonFarlla
   - __vt__12TPhotonGolla
   - __vt__12TPhotonPilla
-  - lbl_804C46B0
-  - lbl_804C4794
-  - lbl_804C4878
+  - photon_blast_motion_timing_0
+  - photon_blast_motion_timing_1
+  - photon_blast_motion_timing_2
   - particle_full_texture_uv
   - memory_card_system_dir_name
   - lbl_804C8A44
@@ -8031,7 +8031,7 @@ force_active:
   - floor_map_set_aboss02
   - floor_map_set_aboss03
   - lbl_804C9C9C
-  - lbl_804CB838
+  - ar_stack_index
   - card_file_search_channels
   - com_card_layout_entries
   - com_card_follower_layout_entries
@@ -8157,7 +8157,7 @@ force_active:
   - wolf_param_table
   - bm5_wolf_zero_vector
   - lbl_80500B6C
-  - lbl_80500C30
+  - player_render_texlist
   - gibon_stat_handle_a_table
   - gibon_stat_handle_b_table
   - gibon_param_table
@@ -8184,8 +8184,8 @@ force_active:
   - short_mail_entries
   - music_slot_cues
   - music_slot_progress
-  - lbl_80514CF0
-  - lbl_80514D40
+  - music_slot_sample_counts
+  - music_afs_work_buffer
   - lbl_8051607C
   - bm9_mericarol_phase_attack_table
   - bm9_mericarol_phase_resist_table
@@ -8360,7 +8360,7 @@ force_active:
   - lbl_805D600C
   - collision_file_size_limit
   - texture_animation_size_limit
-  - lbl_805D60B8
+  - destroy_event_entries
   - lbl_805D60D4
   - lbl_805D6160
   - shop_gear_sequence_instance
@@ -8368,7 +8368,7 @@ force_active:
   - shop_equipment_pending_message
   - shop_equipment_pending_state
   - short_mail_next_id
-  - lbl_805D62D8
+  - se_stream_buffer
   - adx_rna_work_buffer
   - temporary_texture_entries
   - temporary_texture_names

@@ -614,7 +614,7 @@ s32 copy_player_visual_record(void *, void *);
 
 int quest_active_flag;
 int evt2_random_enemies_mode;
-extern VaCallPair lbl_80449A38[];
+extern VaCallPair qb_message_window_size[];
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -4505,7 +4505,7 @@ void qst_op_close_msg_qb(void) {
 
 void qst_op_disp_msg_qb(void) {
     s32 t = qst_args[0];
-    VaCallPair pr = lbl_80449A38[0];
+    VaCallPair pr = qb_message_window_size[0];
     if (qst_message_window_qb != 0) {
         qst_message_window_qb->close();
         qst_message_window_qb = 0;
