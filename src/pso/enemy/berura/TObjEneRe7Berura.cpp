@@ -280,7 +280,7 @@ void TObjEneRe7Berura::destroy_children() {
 TObjEneRe7Berura::TObjEneRe7Berura(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = re7_berura_name;
     invoke_initialization_hook(set_data);
-    sub_80095328();
+    apply_parameters();
     init_enemy();
 }
 
@@ -406,7 +406,7 @@ void TObjEneRe7Berura::update_body_colliders() {
     bodies->offset.y = body_center.y - position.y;
 }
 
-void TObjEneRe7Berura::sub_80095328() {  }
+void TObjEneRe7Berura::apply_parameters() {  }
 #pragma push
 #pragma fp_contract on
 s32 TObjEneRe7Berura::acquire_target_in_view() {
@@ -1501,7 +1501,7 @@ void TObjEneRe7Berura::render() {
     }
 }
 
-void TObjEneRe7Berura::run_demo_task() { if (get_target_info() != 0) { sub_80095328(); } }
+void TObjEneRe7Berura::run_demo_task() { if (get_target_info() != 0) { apply_parameters(); } }
 
 void TObjEneRe7Berura::render_demo() {
     s32 idx;

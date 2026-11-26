@@ -227,7 +227,7 @@ void TObjEneRe4Sorcerer::free_bits() {
 TObjEneRe4Sorcerer::TObjEneRe4Sorcerer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = re4_sorcerer_name;
     invoke_initialization_hook(set_data);
-    sub_800EFE30();
+    apply_parameters();
     init_enemy();
 }
 
@@ -364,7 +364,7 @@ void TObjEneRe4Sorcerer::update_body_colliders() {
     bodies->offset.y = 22.0f;
 }
 
-void TObjEneRe4Sorcerer::sub_800EFE30() {  }
+void TObjEneRe4Sorcerer::apply_parameters() {  }
 
 CsnHit *TObjEneRe4Sorcerer::move_xz_on_ground(const Vec *dest) {
     CsnHit *ground = TObjEneDD::move_xz_on_ground(dest);
@@ -1383,7 +1383,7 @@ void TObjEneRe4Sorcerer::render() {
 extern "C" {
 void TObjEneRe4Sorcerer::run_demo_task() {
     if (get_target_info() != 0) {
-        sub_800EFE30();
+        apply_parameters();
     }
 }
 

@@ -285,7 +285,7 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 index, f32 speed) {
 TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = df2_bringer_name;
     invoke_initialization_hook(set_data);
-    sub_800994F8();
+    apply_parameters();
     this->init_enemy();
 }
 
@@ -408,7 +408,7 @@ void TObjEneDf2Bringer::set_effect_pos_above_self() {
 
 void TObjEneDf2Bringer::update_body_colliders() {  }
 
-void TObjEneDf2Bringer::sub_800994F8() {  }
+void TObjEneDf2Bringer::apply_parameters() {  }
 
 // The slash: from the swing's start frame to frame 13 the attack collider follows the blade
 // points sampled from the motion and hits through attack_history.
@@ -1378,7 +1378,7 @@ void TObjEneDf2Bringer::render() {
 
 #pragma pop
 
-void TObjEneDf2Bringer::run_demo_task() { if (get_target_info() != 0) { sub_800994F8(); } }
+void TObjEneDf2Bringer::run_demo_task() { if (get_target_info() != 0) { apply_parameters(); } }
 
 void TObjEneDf2Bringer::render_demo() {
     f32 frame;

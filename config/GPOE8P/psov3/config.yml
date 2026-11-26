@@ -1332,7 +1332,7 @@ force_active:
   - enable_hits__18TObjEneRe4SorcererFv
   - disable_hits__18TObjEneRe4SorcererFv
   - warp_around_target__18TObjEneRe4SorcererFf
-  - sub_800EFE30__18TObjEneRe4SorcererFv
+  - apply_parameters__18TObjEneRe4SorcererFv
   - dispatch_action__18TObjEneRe4SorcererFUll
   - re7_berura_punch_collision_body_templates
   - TObjEneRe7BeruraPunch__data_805D97A0
@@ -1523,7 +1523,7 @@ force_active:
   - damage_targets_in_reach__12TObjEneSaverFv
   - __dt__15TObjEneDimedianFv
   - sub_800BFF54__12TObjEneLappyFv
-  - TObjPlayer__sub_800D93F0__FPC3Vecllf
+  - spawn_corpse_mark__FPC3Vecllf
   - get_slime_tail_pose__FP13SlimeTailPose
   - copy_slime_tail_pose__FP13SlimeTailPoseP13SlimeTailPose
   - capture_slime_tail_node__FP10NJS_OBJECT

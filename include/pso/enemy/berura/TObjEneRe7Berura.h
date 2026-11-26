@@ -55,7 +55,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     void run_hit_reaction();
     void run_miss_reaction();
     void refresh_target();
-    void sub_80095328();
+    void apply_parameters();
     void render();
     void run_task();
     virtual void dispatch_action(u32 state, s32 reason);
