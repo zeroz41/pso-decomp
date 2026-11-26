@@ -624,7 +624,7 @@ void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {
     }
 }
 
-void TAdChrSelPlyPlateGC::add_slot_position(const void *src, s32 col) {
+void TAdChrSelPlyPlateGC::add_slot_position(const NJS_POINT2 *src, s32 col) {
     if ((u32)slot_count[col] < 4) {
         copy_vec2(&home[slot_count[col]][col], (void *)src);
         quad[slot_count[col]][col].x = home[slot_count[col]][col].x;
@@ -647,7 +647,7 @@ void TAdChrSelPlyPlateGC::clear_slot_entries(s32 column) {
     slot_count[column] = 0;
 }
 
-void TAdChrSelPlyPlateGC::init_slot_position(saddr position, s32 row, s32 column) {
+void TAdChrSelPlyPlateGC::init_slot_position(const NJS_POINT2 *position, s32 row, s32 column) {
     copy_vec2(&home[row][column], (void *)position);
     quad[row][column].x = home[row][column].x;
     quad[row][column].y = home[row][column].y;

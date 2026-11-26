@@ -160,8 +160,4 @@ LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_player_preview_offset, offsetof(TAdMultiPly
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_unk_68_offset, offsetof(TAdMultiPlyChrSelectGC, a_slot) == 0x68);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_m_6c_offset, offsetof(TAdMultiPlyChrSelectGC, b_slot) == 0x6C);
 
-// TAdMultiPlyChrSelectGC__character_slot_positions: layout known from its uses only.
-struct TAdMultiPlyChrSelectGCCharacterSlotPositions { s32 value; u8 remaining[0x1C]; };
-extern TAdMultiPlyChrSelectGCCharacterSlotPositions TAdMultiPlyChrSelectGC__character_slot_positions;
-
 #endif

@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/math/TMath.h"
+#include "pso/system/NinjaTypes.h"
 
 // A selection cell or cursor quad carries screen bounds and texture coordinates.
 struct CharacterSelectionQuad {
@@ -40,7 +41,7 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 get_active_card_slot();
     void set_active_card_slot(s32 slot);
     void set_cursor_fields(s32 field_4f4, s32 field_4f0);
-    void init_slot_position(saddr position, s32 row, s32 column);
+    void init_slot_position(const NJS_POINT2 *position, s32 row, s32 column);
     void clear_slot_entries(s32 column);
     int get_instance();
     void set_select_mode(int mode);
@@ -48,7 +49,7 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void draw_slot_tags_shifted();
     void draw_slot_tags();
     void show_selected_slot_tags();
-    void add_slot_position(const void *src, s32 col);
+    void add_slot_position(const NJS_POINT2 *src, s32 col);
     void select_slot_at_cursor();
     void start_selected_slot_anim();
     void update_cell_uvs();
