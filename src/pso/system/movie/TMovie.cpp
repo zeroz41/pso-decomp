@@ -243,24 +243,24 @@ s32 TMovie::check_skip_input() {
     switch (get_opening_movie_purpose()) {
     case 0:
         context = &controller_physical_port_bank.controllers[0];
-        if (test_pressed_buttons_packed(context, 4) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 2) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x400) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x200) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 8) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x10) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x20) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x40) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x80) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x20000) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x10000) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 4) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 2) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x400) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x200) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 8) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x10) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x20) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x40) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x80) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x20000) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x10000) != 0) goto end_movie;
         context = &controller_input_state.keyboard;
-        if (test_controller_flag_4c_color(context, 4) != 0) goto block_fn_8000F91C;
-        if (test_controller_flag_4c_color(context, 2) != 0) goto block_fn_8000F91C;
-        if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
-        if (check_reset_button() != 0) goto block_fn_8000F91C;
+        if (test_controller_flag_4c_color(context, 4) != 0) goto end_movie;
+        if (test_controller_flag_4c_color(context, 2) != 0) goto end_movie;
+        if (TLobby::run_disk_error_check() == 0) goto end_movie;
+        if (check_reset_button() != 0) goto end_movie;
         if (this->player->is_playback_finished() == 0) goto block_return0;
-block_fn_8000F91C:
+end_movie:
         set_queued_main_phase(9);
         return 1;
     case 1:

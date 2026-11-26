@@ -63,7 +63,7 @@ void TAdRicoRingCtrl::load_static_resource() {
     TAdRicoRing::resource_bundle = new BmlResource(1, &TAdRicoRingCtrl::resource_descriptor, 0, 0, NULL);
 }
 
-void TAdRicoRingCtrl::release_global_805D4A00() {
+void TAdRicoRingCtrl::release_static_resource() {
     if (TAdRicoRing::resource_bundle != NULL) {
         delete TAdRicoRing::resource_bundle;
         TAdRicoRing::resource_bundle = NULL;

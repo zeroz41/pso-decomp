@@ -119,9 +119,6 @@ saddr get_floor_scene_table(s32 area) {
 
 void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
 void reset_lobby_story_select(void) { TLobby::reset_story_select(); }
-typedef FloorLifecycleEntry E_80207F80;
-typedef FloorLifecycleCallback Fn_80208020;
-typedef FloorLifecycleEntry E_80208020;
 
 s32 init_object_set_data(ObjectSetData *set) {
     s32 r;
@@ -133,7 +130,7 @@ s32 init_object_set_data(ObjectSetData *set) {
     return r;
 }
 void TLobby::run_floor_cleanup_callbacks(int floor) {
-    E_80207F80 *p = (E_80207F80 *)floor_lifecycle_callback_tables[floor];
+    FloorLifecycleEntry *p = floor_lifecycle_callback_tables[floor];
     s32 n;
     s32 i;
     if (p != 0) {
@@ -150,8 +147,8 @@ void TLobby::run_floor_cleanup_callbacks(int floor) {
 
 void TLobby::update_current_floor() { run_floor_cleanup_callbacks(get_current_floor_area()); }
 s32 run_floor_initialize_callbacks(s32 floor) {
-    E_80208020 *p = floor_lifecycle_callback_tables[floor];
-    Fn_80208020 f;
+    FloorLifecycleEntry *p = floor_lifecycle_callback_tables[floor];
+    FloorLifecycleCallback f;
     if (p == 0) {
         return 1;
     }

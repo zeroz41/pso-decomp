@@ -104,7 +104,7 @@ void TObjCGrass::run_task() {
     }
 }
 
-void TObjCGrass::release_global_805D5130() {
+void TObjCGrass::release_resources() {
     if (TObjCGrass_bml_resource != NULL) {
         delete (BmlResource *)TObjCGrass_bml_resource;
         TObjCGrass_bml_resource = NULL;

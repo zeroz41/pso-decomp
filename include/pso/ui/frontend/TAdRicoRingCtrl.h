@@ -16,7 +16,7 @@ struct TAdRicoRingCtrl : public TObject {
     void set_position(const Vec *position);
     void start_rings_anim(f32 duration);
     static TAdRicoRing *create(TObject *parent);
-    static void release_global_805D4A00();
+    static void release_static_resource();
     static void load_static_resource();
     void start_fade_all(f32 duration);
     TAdRicoRing *rings[2];

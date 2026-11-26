@@ -108,7 +108,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void turn_pose_to_target();
     void remove_from_pack_member_list();
     void add_to_pack_member_list();
-    static void release_global_805D5120();
+    static void release_resources();
     static void *create(void *set_data);
     static void load_resources();
     static void register_global_objects();

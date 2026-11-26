@@ -64,7 +64,7 @@ TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
     {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
     {set_ending_callback, free_ending_callback},
-    {TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00},
+    {TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_static_resource},
     {TAdEndText::load_ending_font, TAdEndText::free_resources},
     {TItemReverseTech::load_textures, TItemReverseTech::free},
 };

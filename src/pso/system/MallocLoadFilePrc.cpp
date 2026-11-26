@@ -90,13 +90,7 @@ u8 lobby_wait_ready_flag;
 u8 area_transfer_pending_flag;
 extern void *er_mes_texnames[15];
 char load_file_prc_buffer_tag[] = "MallocLoadFilePrc";
-typedef struct {
-    const char *str;
-    f32 x;
-    f32 y;
-} Msg_800F8FB8;
-
-Msg_800F8FB8 disk_error_msg_table[5] = {
+DiskErrorMsg disk_error_msg_table[5] = {
     { "An error has occurred.\nTurn the power off and refer to the Nintendo\nGameCube Instruction Booklet \nfor more information.", 80.0f, 230.0f },
     { "Please insert the PSO Episode 1 & 2 Plus Game Disc.", 80.0f, 230.0f },
     { "The Disc Cover is open. \nIf you want to continue the game,\nplease close the Disc Cover.", 80.0f, 230.0f },
@@ -989,15 +983,8 @@ void TLobby::wait_ready_loop() {
     }
 }
 
-typedef struct {
-    f32 *pos;
-    s32 *ids;
-    s32 a;
-    s32 n;
-} Desc_800F8FB8;
 
-
-#define disk_error_msg_last ((Msg_800F8FB8 *)disk_error_msg_last)
+#define disk_error_msg_last ((DiskErrorMsg *)disk_error_msg_last)
 #define show_disk_error_msg(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
 
 s32 TLobby::run_disk_error_check() {

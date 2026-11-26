@@ -9,6 +9,13 @@ struct RelFileTrailer;
 class TRelDataFile;
 class TObject;
 
+// A disk error message and where run_disk_error_check draws it.
+struct DiskErrorMsg {
+    const char *str;
+    f32 x;
+    f32 y;
+};
+
 // The name copy_name last copied (16 characters, not terminated when full).
 extern char player_name_copy_buffer[16];
 // What __sinit stores into disc_read_filename: an empty file name.

@@ -57,7 +57,7 @@ void (*ending_scene_callbacks[26])(void) = {
     create_player_ending_motion, free_player_ending_motion,
     init_game_player_actions, release_game_player_actions,
     TAdEndText::load_ending_font, TAdEndText::free_resources,
-    TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00,
+    TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_static_resource,
 };
 
 void release_ending_scene(void) {
