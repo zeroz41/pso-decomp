@@ -98,8 +98,8 @@ extern const Vec slime_full_scale = {1.0f, 1.0f, 1.0f};
 extern const char slime_water_bomb_class_name_string[] = "TObjEneSlimeWaterBomb";
 }
 SlimeTailNodeCapture slime_tail_node_capture;
-extern "C" {
 BmlResource *slime_bml_resource;
+extern "C" {
 int slime_tail_node_index;  // capture_slime_tail_node's count of the nodes drawn
 
 const char *slime_model_name_ptr_table[7] = {

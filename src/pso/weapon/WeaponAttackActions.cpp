@@ -73,7 +73,6 @@ TObjChara *resolve_hittable_target(s32, s32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
 
-extern const f32 weapon_float_zero;
 
 void TItemWeapon::set_weapon_category_flags() {
     s32 r = this->get_attack_flags();
@@ -797,9 +796,6 @@ extern const f32 weapon_photon_phase_step;
 s16 weapon_node_material_index;
 __declspec(section ".data") s16 weapon_node_ids[4];
 u8* weapon_render_callback_object;
-extern "C" {
-extern const u8 weapon_unidentified_flag;
-}
 
 void apply_weapon_node_material(NJS_OBJECT *) {
     const s32 node = get_model_node_counter();
