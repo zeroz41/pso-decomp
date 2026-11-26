@@ -126,28 +126,8 @@ s32 classify_id__9TWindowDDFs();
 
 
 void clear_window_dd_nodes(void);
-extern "C" {
-
-
-
-
-
-
-
-extern "C++" void ws_data_load(void);
-
-
-
-extern const NJS_POINT2 window_dd_quad_positions[];
-
-extern const f32 window_dd_quad_scales[];
-
-
-
-
 #pragma push
 #pragma opt_common_subs off
-}
 void load_word_select_data(void) {
     s32 i;
     s16 *list;
