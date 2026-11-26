@@ -133,11 +133,11 @@ void TItemWeapon::remap_extra_attack_type() {
     }
 }
 
-CsnHit *TItemWeapon::trace_from_owner(u8 *point) {
+CsnHit *TItemWeapon::trace_from_owner(Vec *point) {
     Vec from;
     VecCopy(&from, &owner->body_center);
-    from.y = ((Vec *)point)->y;
-    return csnVector(&from, (const Vec *)point, 0x8100);
+    from.y = point->y;
+    return csnVector(&from, point, 0x8100);
 }
 
 void TItemWeapon::transform_model_node() {  }
@@ -299,7 +299,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
         atk.texlist = this->texlist;
         init_weapon_effect_descriptor(&atk);
         remap_extra_attack_type();
-        hit = trace_from_owner((u8 *)origin);
+        hit = trace_from_owner((Vec *)origin);
         if (hit != NULL) {
             VecCopy(&atk.position, &hit->contact->point);
             atk.flags |= 0x800;

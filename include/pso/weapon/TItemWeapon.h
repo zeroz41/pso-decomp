@@ -99,7 +99,7 @@ struct TItemWeapon : public TItemEquipBase {
     void fire_shot_at_target(void *origin, void *model, s32 angle);
     // csnVector from the owner's centre at point's height to point: the
     // wall in between, or NULL.
-    CsnHit *trace_from_owner(u8 *point);
+    CsnHit *trace_from_owner(Vec *point);
     void remap_extra_attack_type();
     void draw_weapon_model();
     void create_weapon_trail_effects();
