@@ -21,7 +21,7 @@ void TJudgmentSequence::on_judgment_closed(TShopWindowBase *window) {
     }
 }
 
-void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window) {
+void close_judgment_window(TShopWindowBase *window) {
     if (window != NULL) {
         window->set_state(4);
     }
@@ -43,7 +43,7 @@ void TJudgmentSequence::handle_close_input() {
 
 void TJudgmentSequence::open_judgment_window() {
     TShopJudgmentItemWindow *o = new TShopJudgmentItemWindow(tl_05, this, player);
-    o->m_16c = TJudgmentSequence__sub_80215BCC;
+    o->m_16c = close_judgment_window;
     o->on_close = on_judgment_closed;
     o->on_cancel = on_judgment_cancelled;
     set_state(5);

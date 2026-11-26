@@ -175,8 +175,8 @@ void TAdVIConfigGC::render() {
 }
 
 
-void TAdVIConfigGC::set_field48_clear_global() {
-    this->m_48 = 1;
+void TAdVIConfigGC::mark_answered() {
+    this->answered = 1;
     logo_clear_flag = 0;
 }
 
@@ -194,14 +194,14 @@ saddr TAdVIConfigGC::get_message_text() { return get_localized_text_entry(29, 0)
 
 void TAdVIConfigGC::on_cancel() {
     disable_progressive_mode();
-    set_field48_clear_global();
+    mark_answered();
 }
 
 void TAdVIConfigGC::on_accept() {
     if (VIGetDTVStatus() != 0) {
         enable_progressive_mode();
     }
-    set_field48_clear_global();
+    mark_answered();
 }
 
 void TAdVIConfigGC::run_task() {
@@ -217,7 +217,7 @@ TAdVIConfigGC::~TAdVIConfigGC() {
 TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     m_name = TAdVIConfigGC::class_name;
     set_default_choice(0);
-    m_48 = 0;
+    answered = 0;
 }
 
 }

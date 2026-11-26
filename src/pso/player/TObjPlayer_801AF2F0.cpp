@@ -156,8 +156,8 @@
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-s32 TMainCursor__sub_80154098(int, int, int);
-s32 TMainCursor__sub_801540B8(int, int, int);
+s32 mark_body_team0(int, int, int);
+s32 mark_body_team1(int, int, int);
 bool is_trap_stock_empty(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 s8 clamp_class_index(s8 cls);
@@ -5137,9 +5137,9 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
     team = cmd.team_number;
     p->pk_state.set_team(team);
     if (team == 1) {
-        TMainCursor__sub_801540B8((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
+        mark_body_team1((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     } else {
-        TMainCursor__sub_80154098((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
+        mark_body_team0((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     }
 }
 int TObjPlayer::get_pk_team() { return pk_state.get_team(); }

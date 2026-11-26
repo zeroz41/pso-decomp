@@ -60,7 +60,7 @@ __declspec(section ".data") u32 creation_models_ready;
 s32 creation_resource_ready_state;
 extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
-void TCharaMaking__sub_8028E3A0();
+void reset_uv_if_out_of_range();
 void copy_player_visual_record(void *, void *);
 
 void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 part);
@@ -692,7 +692,7 @@ void get_sorted_character_proportion_samples(const f32 *point, s32 *samples) {
     s32 y;
     s32 x;
     s32 i;
-    TCharaMaking__sub_8028E3A0();
+    reset_uv_if_out_of_range();
     map_shape_region_samples(find_shape_triangle_region((u8 *)point), samples);
     for (i = 0; i < 2; i++) {
         for (j = 2; j > i; j--) {
@@ -840,7 +840,7 @@ void blend_creation_proportion_shapes(f32 *point) {
     u32 flags;
     s32 n;
     s32 m;
-    TCharaMaking__sub_8028E3A0();
+    reset_uv_if_out_of_range();
     calc_shape_region_coefficients(point);
     map_shape_region_samples(creation_shape_blend.region, samples);
     creation_shape_blend.destination = creation_head_shape_destination.nodes;

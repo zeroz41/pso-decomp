@@ -27,7 +27,7 @@ public:
 LAYOUT_ASSERT(TChCrEffCtrlPl_size, sizeof(TChCrEffCtrlPl) == 0x38);
 
 extern "C" {
-int TChCrEffCtrlPl__sub_80298F6C();
+int is_controller_plate_shown();
 }
 
 #endif

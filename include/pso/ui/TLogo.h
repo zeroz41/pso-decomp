@@ -39,7 +39,6 @@ LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 
 int is_adx_logo_done(TAdADXlogo *logo);
 extern "C" {
-s32 TLogo__sub_8013F800(void *p);
 }
 int is_logo_clear_flag_set(void);
 

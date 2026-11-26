@@ -53,12 +53,12 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const
 }
 
 extern "C" {
-s32 TAdPsoPassSaveGC__sub_8032B584(void);
+s32 is_pso_pass_save_accepted(void);
 }
 
 void draw_masked_password_field(saddr context);
 extern "C" {
-void fn_8032AC24(void);
+void draw_entry_field_box(void);
 }
 void render_entry_window(void *window, void *context);
 

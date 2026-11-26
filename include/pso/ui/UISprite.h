@@ -50,8 +50,8 @@ void draw_ui_sprite(s32 sprite_id, const vec2f* position, f32 depth, f32 alpha);
 // Points *table at the cell table of sprite *id; ids from 143 on index the language's own table.
 void resolve_creation_sprite_table(NJS_TEXANIM** table, s32* id);
 extern "C" {
-void fn_80291138(void);
-void fn_80291178(void);
+void free_creation_sprites(void);
+void load_creation_sprites(void);
 }
 
 #include <stddef.h>

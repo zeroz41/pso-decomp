@@ -5,8 +5,8 @@
 
 void alloc_quest_download_buffer(void);
 extern "C" {
-void fn_8028D8F4(void);
-void fn_8028D940(void);
+void destroy_character_creation_effects(void);
+void create_character_creation_effects(void);
 }
 
 class TChCrEffWall;

@@ -21,7 +21,7 @@ s32 TChCrEffCtrlPl::get_clamped_player_index() {
     }
     return index;
 }
-int TChCrEffCtrlPl__sub_80298F6C() { return is_multi_chr_select_slot_chosen(); }
+int is_controller_plate_shown() { return is_multi_chr_select_slot_chosen(); }
 
 __declspec(section ".rodata") CreationInputState default_creation_input_state = { 0 };
 

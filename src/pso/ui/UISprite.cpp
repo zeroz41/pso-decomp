@@ -468,7 +468,7 @@ void resolve_creation_sprite_table(NJS_TEXANIM **table, s32 *id) {
     *table = creation_sprite_cells_other_language;
 }
 
-void fn_80291138(void) {
+void free_creation_sprites(void) {
     if (cmicon_instance != NULL) {
         ((TObject *)cmicon_instance)->queue_destruction();
     }
@@ -476,7 +476,7 @@ void fn_80291138(void) {
     release_texture_list(&creation_sprite_table);
 }
 
-void fn_80291178(void) {
+void load_creation_sprites(void) {
     creation_sprite_table_index = 0;
     ui_sprite_scale = 1.0f;
     if (current_language != LANGUAGE_JAPANESE) {

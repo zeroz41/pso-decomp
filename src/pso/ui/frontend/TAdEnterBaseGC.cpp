@@ -119,7 +119,7 @@ extern TObject *tl_clipout;
 char serial_access_hex_string_buf[0x40];
 
 
-s32 TAdPsoPassSaveGC__sub_8032B584(void) {
+s32 is_pso_pass_save_accepted(void) {
     return pso_pass_save_accepted;
 }
 
@@ -215,7 +215,7 @@ void TAdEnterSerialAccessGC::store_serial_access_key(saddr serial, saddr access_
     if (instance != 0) {
         strncpy(instance->serial_number, (const char *)serial, 0xF);
         strncpy(instance->access_key, (const char *)access_key, 0xF);
-        if (TAdPsoPassSaveGC__sub_8032B584() != 0) {
+        if (is_pso_pass_save_accepted() != 0) {
             strncpy(instance->password, (const char *)password, 0xF);
         }
     }
@@ -249,7 +249,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
     if (field == 3) {
         return (u8 *)"";
     }
-    if (field == 2 && TAdPsoPassSaveGC__sub_8032B584() == 0) {
+    if (field == 2 && is_pso_pass_save_accepted() == 0) {
         return (u8 *)"";
     }
     if (TAdSinglePlyChrSelectGC::get_instance()->serial_number[0] != 0) {
@@ -313,7 +313,7 @@ void render_entry_window(void *window, void *context) {
         fn_8032AC94();
         return;
     case 2:
-        fn_8032AC24();
+        draw_entry_field_box();
         return;
     case 3:
         draw_masked_password_field((saddr)context);
@@ -325,7 +325,7 @@ void TAdEnterBaseGC::render() {  }
 
 void fn_8032AC94(void) {  }
 
-void fn_8032AC24(void) {
+void draw_entry_field_box(void) {
     ChrSelPlateLayout layout;
     const f32 *src = entry_field_box_size;
     layout.width = src[0];
