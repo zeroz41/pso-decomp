@@ -86,9 +86,9 @@ void TGameListRow::render(WindowDrawContext *context) {
   pos.x += 126.0f;
   text_builder_reset();
   text_builder_append_int(this->player_count);
-  text_builder_append((u8 *)separator);
+  text_builder_append(separator);
   text_builder_append_int(this->max_players);
-  draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, get_shared_text_buffer(), -1, 0, 100000.0f);
 }
 
 void TGameListRow::update() {}

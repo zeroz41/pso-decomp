@@ -138,8 +138,8 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
     if (TWindowSubComCard::init_com_card() != 0) {
         GuildCardEntry *card = get_received_guild_card_tags();
         text_builder_reset();
-        text_builder_append(reinterpret_cast<u8 *>(card->get_name()));
-        text_builder_append(static_cast<u8 *>(TWindowSubStatusDisp::get_message_10(0x36)));
+        text_builder_append((const char *)reinterpret_cast<u8 *>(card->get_name()));
+        text_builder_append((const char *)static_cast<u8 *>(TWindowSubStatusDisp::get_message_10(0x36)));
         message->append_line((saddr) (get_shared_text_buffer()), 2);
         timer = 0;
     } else {

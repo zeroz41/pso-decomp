@@ -167,7 +167,7 @@ void TWindowSubSymbolChatParts::update_cursor_input() {
     ControllerInputContext *input;
     input = &controller_input_state.controllers[0];
     if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
-        ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x54100, 0U, 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
         if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
             cursor_col = (u8) (cursor_col + 1);
         }

@@ -8,12 +8,12 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/Language.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 s32 is_chat_shortcut_set(int);
-saddr get_shared_text_buffer();
 
 int TWindowKeyBoardBase::is_alnum(u16 code) {
     if ((s32) code < 0x30) {
@@ -450,17 +450,17 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
         cursor = m_text.cursor;
         if (cursor != 0U) {
             if (cursor == m_text.length) {
-                text_builder_append((u8 *)" > ");
-                text_builder_append(name);
+                text_builder_append(" > ");
+                text_builder_append((const char *)name);
             } else {
-                text_builder_append((u8 *)" ");
-                text_builder_append(name);
-                text_builder_append((u8 *)" ");
+                text_builder_append(" ");
+                text_builder_append((const char *)name);
+                text_builder_append(" ");
             }
         } else {
-            text_builder_append(name);
+            text_builder_append((const char *)name);
             if (m_text.length != 0U) {
-                text_builder_append((u8 *)" ");
+                text_builder_append(" ");
             }
         }
         m_text.append_text((u8 *)get_shared_text_buffer());

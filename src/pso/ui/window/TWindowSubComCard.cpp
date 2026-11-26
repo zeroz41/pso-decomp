@@ -325,9 +325,9 @@ void TWindowSubComCard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             text = this->keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(text, (char *)get_shared_text_buffer());
+            TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
             own_card = TWindowSubComCard::get_own_guild_card();
-            own_card->set_text((char *)get_shared_text_buffer());
+            own_card->set_text(get_shared_text_buffer());
             mem_free(text);
             this->state = 1U;
             return;
@@ -361,7 +361,7 @@ void TWindowSubComCard::run_task() {
             if (this->message_window->is_open_and_unblocked() != 0) {
                 this->message_window->request_close();
             } else {
-                window_request_show(this->message_window);
+                this->message_window->request_show();
             }
         }
         if (this->card_list->is_cancelled() != 0) {
@@ -452,7 +452,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             text = this->keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(text, (char *)get_shared_text_buffer());
+            TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
             ((TWindowSubComCard *)(this->selected_card))->set_card_text((saddr) (get_shared_text_buffer()));
             mem_free(text);
             this->state = 1U;
@@ -1549,12 +1549,12 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
         load_selected_guild_card_record(result);
         guild_card_record = get_selected_guild_card_record();
         text_builder_reset();
-        text_builder_append((u8 *)result->info);
-        text_builder_append((u8 *)guild_card_record->get_name());
-        text_builder_append((u8 *)"\n");
-        text_builder_append((u8 *)TWindowSubComCard__sub_8027523C(guild_card_record));
-        text_builder_append((u8 *)"\n");
-        text_builder_append((u8 *)guild_card_record->get_card_data_ptr());
+        text_builder_append(result->info);
+        text_builder_append(guild_card_record->get_name());
+        text_builder_append("\n");
+        text_builder_append(TWindowSubComCard__sub_8027523C(guild_card_record));
+        text_builder_append("\n");
+        text_builder_append(guild_card_record->get_card_data_ptr());
         this->message_window->append_line((saddr)get_shared_text_buffer(), 0x82);
     }
 }
@@ -1574,7 +1574,7 @@ void TWindowSubComCard::send_short_mail() {
   u8 *message;
   text = this->keyboard->realloc_buffer();
   record = get_selected_guild_card_record();
-  TWindowSubComCard::mask_profanity_words(text, (char *)get_shared_text_buffer());
+  TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
   buffer = (u8 *)get_shared_text_buffer();
   message = buffer;
   TLobby::send_simple_mail(record->get_id(), message);

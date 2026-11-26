@@ -11,6 +11,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
 #pragma readonly_strings on
 
@@ -18,22 +19,19 @@
 
 void TWindowDD_WS_String::render() {
     f32 y;
-    u8 *entry;
+    WindowDrawContext *context;
 
-    entry = reinterpret_cast<u8 *>(draw_default_entry());
-    calc_inner_rect(reinterpret_cast<WindowDrawContext *>(entry));
-    draw_entry_if_visible(entry);
-    y = *(f32 *)((s8 *)entry + 0x14);
-    *(f32 *)((s8 *)entry + 0x14) += 1.0f;
-    draw_visible_window_entries(
-        this,
-        &entry_list,
-        reinterpret_cast<WindowDrawContext *>(entry));
+    context = draw_default_entry();
+    calc_inner_rect(context);
+    draw_entry_if_visible(context);
+    y = context->inner_y;
+    context->inner_y += 1.0f;
+    draw_visible_window_entries(this, &entry_list, context);
 }
 
-void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
-    if (*(s32 *)((s8 *)entry + 0x30) >= 0) {
-        draw((saddr)entry, text_style, 0.0f);
+void TWindowDD_WS_String::draw_entry_if_visible(WindowDrawContext *context) {
+    if (context->open_tick >= 0) {
+        draw(context, text_style, 0.0f);
     }
 }
 

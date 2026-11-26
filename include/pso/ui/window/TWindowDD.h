@@ -34,7 +34,7 @@ struct TWindowDD : public TObject
     static void * ws_data_fr;
     static TWindowDDValueList * ws_data_table;
     static TWindowDDValueList * ws_data_base;
-    static uaddr work_buffer;
+    static char *work_buffer;
     static s32 window_mode;
     TWindowDD(TObject *parent, WordSelectMessage *output);
     virtual ~TWindowDD();
@@ -83,7 +83,7 @@ struct TWindowDD : public TObject
     static void copy_chat_entry(WordSelectMessage *dst, WordSelectMessage *src);
     static void build_player_word_lists();
     static void free_buffers();
-    static void open(void *message, u16 speaker);
+    static void open(WordSelectMessage *message, u16 speaker);
     static s32 is_levelled_technique_word(s16 id);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
@@ -94,7 +94,7 @@ struct TWindowDD : public TObject
     s32 setup_entry(s16 id);
     s32 get_current_child_index();
     TWindowDDStateEntry *get_state_entry(s32 state);
-    void init_entry_field_64(s32 index);
+    void move_label_to_start(s32 index);
     void refresh_sub(TWindowDD_WS_Word *page);
     void apply_input(TWindowDD_WS_Word *page);
     void dim_next_page(TWindowDD_WS_Word *page);

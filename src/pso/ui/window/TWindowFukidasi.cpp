@@ -52,10 +52,6 @@ f32 xyz_distance(void *, void *);
 }
 
 extern "C" {
-s32 measure_message_text_width(int, f32);
-}
-
-extern "C" {
 f32 vec3_dot(void *, void *);
 void rotate_matrix_y(s32, s32);
 __declspec(section ".rodata") extern const char window_fukidasi_class_name_string[] = "TWindowFukidasi";
@@ -472,11 +468,11 @@ void TWindowFukidasi::init_flags(s32 flags) {
     this->balloon_flags = (u8) (this->balloon_flags & 0xFFFFFFFD);
 }
 
-// Dead-stripped from the DOL: no code of it survives, only its literal (1e6 at
-// 0x805DCD54, pooled between set_text's 200 and init_flags's 60000). It measures a
-// text entry the way set_text does but without its 200 wrap width, using the
+// Dead-stripped from the DOL: no code of it survives, only its literal (1e6,
+// pooled between set_text's 200 and init_flags's 60000). It measures a text entry
+// the way set_text does but without its 200 wrap width, using the
 // 1e6 "no limit" width draw_name_plate clips names with. Name inferred from that role.
-void TWindowFukidasi::measure_text_unbounded(int entry) {
+void TWindowFukidasi::measure_text_unbounded(WindowTextEntry *entry) {
     measure_message_text_width(entry, 1000000.0f);
 }
 
@@ -512,7 +508,7 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
   }
   else
   {
-    measure_message_text_width((saddr) entry, 200.0f);
+    measure_message_text_width(entry, 200.0f);
   }
   if (flags & 0x80)
   {
@@ -795,9 +791,9 @@ s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
     return 1;
 }
 
-// Dead-stripped from the DOL: no code of it survives, only its literal (0.0 at
-// 0x805DCD30, pooled between rest_balloon's 65536 and project_anchor's 320). It
-// clears the width init_balloon zeroes when it sets the balloon up. Name inferred
+// Dead-stripped from the DOL: no code of it survives, only its literal (0.0,
+// pooled between rest_balloon's 65536 and project_anchor's 320). It clears
+// the width init_balloon zeroes when it sets the balloon up. Name inferred
 // from that role.
 void TWindowFukidasi::clear_width() {
     frame_size[0] = 0.0f;
@@ -1036,8 +1032,8 @@ void TWindowFukidasi::place_rect_at_head_or_slot() {
 }
 
 #pragma pop
-// Dead-stripped from the DOL: no code of it survives, only its literals (1000, 0.5
-// and 19 at 0x805DCD08-0x805DCD13 and 10430.38 at 0x8044ED70), pooled between
+// Dead-stripped from the DOL: no code of it survives, only its literals (1000, 0.5,
+// 19 and 10430.38), pooled between
 // approach's 0.011 and find_random_free_position's 2^-15. It aims from the
 // middle of the 19-unit name plate draw_name_plate puts on the balloon's top edge at
 // the tail tip draw_tail places 1000/distance short of the speaker, with the

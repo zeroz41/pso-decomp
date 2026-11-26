@@ -387,9 +387,9 @@ void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_ite
     map_char_to_font_code(0x2F);
     advance = get_font_char_advance();
     pt.x -= 0.5f * advance;
-    text_builder_append((u8 *)"/");
+    text_builder_append("/");
     text_builder_append_int(capacity);
-    draw_window_text((f32 *)&pt, (const char *)(get_shared_text_buffer()), -1, 0, (f32)100000.0f);
+    draw_window_text((f32 *)&pt, get_shared_text_buffer(), -1, 0, (f32)100000.0f);
   }
 }
 

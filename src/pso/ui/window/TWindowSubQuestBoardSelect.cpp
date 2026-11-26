@@ -83,7 +83,6 @@ WindowDescriptor quest_board_select_window_parameters = {
 
 
 extern "C" {
-void measure_message_text_width(void *, f32);
 
 void TWindowSubQuestBoardSelect::update_slot_title() {
     char *str;

@@ -190,7 +190,7 @@ void TWindowSubMag::run_task() {
             list2 = NULL;
         }
         if (help != NULL) {
-            window_request_show(help);
+            help->request_show();
             help->unlock_page_flip();
             help->enable_help_toggle();
             call_if_split_screen((uaddr)help, client_id);
@@ -240,8 +240,8 @@ void TWindowSubMag::run_task() {
         }
         break;
     case 8:
-        window_request_show(help);
-        window_request_refresh((u8 *)help);
+        help->request_show();
+        help->request_refresh();
         help->disable_help_toggle();
         help->refresh_copied_items();
         list->refresh_mag_item_list(2);

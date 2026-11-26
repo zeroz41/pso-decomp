@@ -44,7 +44,6 @@
 void set_window_menu_rows(s32 rows);
 extern "C" {
 
-void measure_message_text_width(WindowTextEntry *e, f32 x);
 }
 
 const f64 com_card_minimum_entry_height = 0.0;

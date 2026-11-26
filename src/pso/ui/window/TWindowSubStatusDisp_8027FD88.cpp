@@ -341,13 +341,13 @@ s32 is_battle_mode_running();
 }
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 extern "C" {
-s32 get_shared_text_buffer();
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
 
 #include "types.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowComCard.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 
 // list type of page_indicator per page: the page-flip list kind passed to fn_8026C7AC
@@ -772,7 +772,7 @@ void TWindowSubStatusDisp::vt4() {
         }
         text_builder_reset();
         TWindowSubStatusDisp::append_play_time(time);
-        set_text_entry_string(value, get_shared_text_buffer(), 0x20);
+        set_text_entry_string(value, (uaddr)get_shared_text_buffer(), 0x20);
     }
 
     slot = RECORD_SET_EP2;
@@ -810,7 +810,7 @@ void TWindowSubStatusDisp::vt4() {
         set_text_entry_string(title, (uaddr)TWindowSubStatusDisp::get_message_10(0x96), 0);
         text_builder_reset();
         TWindowSubStatusDisp::append_play_time(time);
-        set_text_entry_string(value, get_shared_text_buffer(), 0x20);
+        set_text_entry_string(value, (uaddr)get_shared_text_buffer(), 0x20);
     }
 }
 
@@ -848,9 +848,9 @@ void TWindowSubStatusDisp::vt5() {
                 e->flags &= ~2;
                 text_builder_reset();
                 append_padded_number(i + 1, 2);
-                text_builder_append((u8 *)":");
+                text_builder_append(":");
                 TWindowSubStatusDisp::append_play_time(time);
-                set_text_entry_string(e, get_shared_text_buffer(), 0x20);
+                set_text_entry_string(e, (uaddr)get_shared_text_buffer(), 0x20);
             }
         }
         i++;

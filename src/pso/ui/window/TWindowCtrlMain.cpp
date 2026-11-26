@@ -160,7 +160,7 @@ void TWindowCtrlPlayer::update_trade_window_visibility() {
             simple_status->request_close();
             return;
         }
-        window_request_show(simple_status);
+        simple_status->request_show();
     }
 }
 
@@ -172,7 +172,7 @@ void TWindowCtrlPlayer::update_child_window_visibility() {
             action_palette->request_close();
             return;
         }
-        window_request_show(action_palette);
+        action_palette->request_show();
     }
 }
 
@@ -256,7 +256,7 @@ void TWindowCtrlPlayer::show_active_window() {
             message_information->request_close();
             return;
         }
-        window_request_show(message_information);
+        message_information->request_show();
         if (is_main_menu_open() != 0) {
             message_information->set_position((f32 *)get_window_layout_position(0x21));
             return;
@@ -683,7 +683,7 @@ TObject *get_viewport_window_root(s32 viewport_index) {
     return TWindowCtrlMain::viewport_states[0].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((saddr)p); }
+TObject *get_client_window_root(s32 client) { return get_viewport_window_root(client); }
 
 void TWindowCtrlMain::set_fill_color(s32 viewport_index, s32 color) {
     get_window_control_state(viewport_index)->fill_color = color;

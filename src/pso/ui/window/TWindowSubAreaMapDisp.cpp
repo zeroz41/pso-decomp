@@ -179,10 +179,10 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&area_map_dis
     this->m_name = TWindowSubAreaMapDisp::class_name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
-        text_builder_append((u8 *)(get_message_text(0x67)));
+        text_builder_append((const char *)(get_message_text(0x67)));
         append_text_space();
         append_padded_number((get_window_count_ratio_value()), (2U));
-        str = (u8 *)(get_shared_text_buffer());
+        str = (u8 *)get_shared_text_buffer();
     } else {
         str = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }

@@ -36,12 +36,12 @@ s32 battle_parameter_difficulty;
 s32 battle_param_lab_variant;
 s32 override_enemy_bp_index;
 
-extern TextBuilderBuffer text_builder_buffer;
+extern char text_builder_buffer[0x100];
 
 
 
-s32 *get_shared_text_buffer(void) {
-    return &text_builder_buffer.value;
+char *get_shared_text_buffer(void) {
+    return text_builder_buffer;
 }
 
 void load_battle_param_entry(void) {
@@ -442,10 +442,10 @@ s32 TLobby::calc_alpha_shifted(f32 alpha) {
 
 void TLobby::close_result_windows() {
     text_builder_reset();
-    text_builder_append((u8 *)lobby_ship_name);
-    text_builder_append((u8 *)":");
+    text_builder_append(lobby_ship_name);
+    text_builder_append(":");
     append_padded_number(block_number, 2);
-    text_builder_append((u8 *)"-");
+    text_builder_append("-");
     append_padded_number(lobby_number + 1, 2);
 }
 
@@ -523,7 +523,7 @@ void draw_lobby_location_text(f32 x, f32 y, f32 size, f32 alpha) {
         color = TLobby::calc_alpha_shifted(clamped);
         if (get_main_phase() == 0xF) {
             TLobby::close_result_windows();
-            draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)get_shared_text_buffer(), x, (f32)(-1.0f + y), scale);
+            draw_small_font_text(color | 0xFF0000 | 0xFFFF, get_shared_text_buffer(), x, (f32)(-1.0f + y), scale);
         }
     }
 }
@@ -560,14 +560,14 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
             elapsed -= TLobby::date_seconds;
             text_builder_reset();
             if (elapsed / 3600 > 99) {
-                text_builder_append((u8 *)"99:59");
+                text_builder_append("99:59");
             } else {
                 append_padded_number(elapsed / 3600, 2);
-                text_builder_append((u8 *)":");
+                text_builder_append(":");
                 append_padded_number((elapsed / 60) % 60, 2);
-                text_builder_append((u8 *)"/");
+                text_builder_append("/");
             }
-            draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)get_shared_text_buffer(), x,
+            draw_small_font_text(color | 0xFF0000 | 0xFFFF, get_shared_text_buffer(), x,
                                  -1.0f + y, scale);
             x += 57.0f;
         }

@@ -533,7 +533,7 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
             main_menu = NULL;
         }
         main_menu = (TWindowMenu *)create_menu();
-        window_request_refresh((u8 *)main_menu);
+        main_menu->request_refresh();
         return 1;
     }
     return 0;

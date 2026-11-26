@@ -24,6 +24,8 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/os/OSInterrupt.h>
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
 
 typedef struct Src_8024220C
@@ -75,10 +77,7 @@ typedef struct Entry_80242380 {
 } Entry_80242380;
 
 extern "C" {
-char *get_shared_text_buffer();
-void text_builder_append(char *);
 }
-void text_builder_reset();
 s32 lbl_805D63D8;
 int com_card_entry_count;
 extern "C" {

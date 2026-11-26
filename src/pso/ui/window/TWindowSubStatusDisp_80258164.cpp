@@ -27,6 +27,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_create.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 #pragma readonly_strings on
 
@@ -120,18 +122,14 @@ void ItemListRow::reset() {
     this->flags = (u16) (this->flags & ~0x1BFD);
 }
 
-saddr get_shared_text_buffer();
-s32 text_builder_append_int(s32);
-void text_builder_append(u8 *str);
 }
-void text_builder_reset(void);
 
 
 void ItemListRow::update_stat_line(s32 value) {
     text_builder_reset();
-    text_builder_append((u8 *)"\xD7");
+    text_builder_append("\xD7");
     text_builder_append_int(value);
-    this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
+    this->suffix = replace_owned_string(get_shared_text_buffer(), this->suffix, 0x10, 1);
 }
 
 void ItemListRow::update_stat_line_if_positive(s32 count) {
@@ -341,7 +339,7 @@ void ItemListRow::setup_entry_msg_d1(s32 item) {
     this->x = -18.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
-    this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xD1))), (s32)((int) ((saddr)this->label)), 8, 1);
+    this->label = replace_owned_string((const char *)TWindowSubStatusDisp::get_message_10(0xD1), this->label, 8, 1);
     this->style = 0xFF909090;
     this->item = item;
     this->flags |= 0xC5;
@@ -351,7 +349,7 @@ void ItemListRow::setup_entry_msg_d0(s32 item) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
-    this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xD0))), (s32)((int) ((saddr)this->label)), 8, 1);
+    this->label = replace_owned_string((const char *)TWindowSubStatusDisp::get_message_10(0xD0), this->label, 8, 1);
     this->style = 0xFF909090;
     this->item = item;
     this->flags |= 0xC5;
@@ -361,7 +359,7 @@ void ItemListRow::init_no_item_entry(s32 item) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
-    this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xCF))), (s32)((int) ((saddr)this->label)), 8, 1);
+    this->label = replace_owned_string((const char *)TWindowSubStatusDisp::get_message_10(0xCF), this->label, 8, 1);
     this->style = 0xFF909090;
     this->item = item;
     this->flags |= 0xC5;
@@ -373,7 +371,7 @@ void ItemListRow::init_entry(u8 status_icon, u8 category_icon, u8 status_style, 
     this->category_icon = category_icon;
     this->status_style = (s32) status_style;
     this->category_style = -1;
-    this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
+    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
     this->style = -1;
     this->item = item;
     this->flags |= 0x245;
@@ -385,8 +383,8 @@ void ItemListRow::init_meseta(s32 meseta, s32 item) {
     this->category_icon = 9;
     text_builder_reset();
     text_builder_append_int(meseta);
-    text_builder_append((u8 *)TWindowSubStatusDisp::get_meseta_unit());
-    this->suffix = (char *)replace_owned_string((saddr)get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
+    text_builder_append((const char *)TWindowSubStatusDisp::get_meseta_unit());
+    this->suffix = replace_owned_string(get_shared_text_buffer(), this->suffix, 0x10, 1);
     this->suffix_style = -1;
     this->item = item;
     this->flags |= 0x45;
@@ -396,7 +394,7 @@ void ItemListRow::setup_stat_line(s32 src, s32 stat, s32 item) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x2D;
-    this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
+    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
     update_stat_line(stat);
     this->item = item;
     if (stat <= 0) {
@@ -437,7 +435,7 @@ void ItemListRow::init_list_entry(u8 icon, s32 src, s32 item) {
     this->category_icon = 0x33;
     this->status_style = -1;
     this->category_style = -1;
-    this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
+    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
     this->style = -1;
     this->suffix_style = -1;
     this->item = item;
@@ -453,7 +451,7 @@ void ItemListRow::init_status_entry(u8 category_icon, u32 src, s32 item) {
     this->category_icon = category_icon;
     this->status_style = -1;
     this->category_style = -1;
-    this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
+    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
     this->style = -1;
     this->suffix_style = -1;
     this->item = item;
@@ -467,7 +465,7 @@ void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     this->x = 0.0f;
     item_data = item->get_icon_index();
     select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
+    this->label = replace_owned_string(item->get_name(), this->label, 8, 1);
     if (item->is_stackable() != 0) {
         update_stat_line_if_positive(count);
     }
@@ -483,11 +481,11 @@ void ItemListRow::update_from_player(TItem *item, s32 price, s32 index) {
     this->x = 0.0f;
     item_data = item->get_icon_index();
     select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
+    this->label = replace_owned_string(item->get_name(), this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
         text_builder_append_int(price);
-        this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
+        this->suffix = replace_owned_string(get_shared_text_buffer(), this->suffix, 0x10, 1);
     }
     update_item_icon_colors(item);
     this->item = index;
@@ -498,7 +496,7 @@ void ItemListRow::init_item_row(TItem *item, s32 index) {
     this->x = 0.0f;
     item_data = item->get_icon_index();
     select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
+    this->label = replace_owned_string(item->get_name(), this->label, 8, 1);
     if (item->is_stackable() != 0) {
         s32 v = item->get_amount();
         update_stat_line_if_positive(v);
@@ -519,8 +517,8 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
     this->status_icon = 51;
     item_data = get_item_data((uaddr)item);
     select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], TItemData::is_wrapped(item));
-    forward_message(get_shared_text_buffer(), (uaddr)(void *)item);
-    this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
+    forward_message((saddr)get_shared_text_buffer(), (uaddr)(void *)item);
+    this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
     update_stat_line_if_positive(count);
     update_item_colors(item);
     this->suffix_style = this->style;
@@ -541,12 +539,12 @@ void ItemListRow::set_ground_item(TItemData *item, s32 index) {
     this->status_icon = 0x33;
     item_data = get_item_data((uaddr)item);
     select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], TItemData::is_wrapped(item));
-    forward_message(get_shared_text_buffer(), (uaddr)(void *)item);
-    this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
+    forward_message((saddr)get_shared_text_buffer(), (uaddr)(void *)item);
+    this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
         text_builder_append_int(item->data2.data_u32);
-        this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
+        this->suffix = replace_owned_string(get_shared_text_buffer(), this->suffix, 0x10, 1);
     }
     update_item_colors(item);
     this->item = index;
@@ -558,25 +556,25 @@ void ItemListRow::init_display(s32 src, s32 item) {
     this->x = -36.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
-    this->label = (char *)replace_owned_string(src, (s32)((saddr)this->label), 8, 1);
+    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
     this->style = -1;
     this->item = item;
     this->flags |= 0x45;
 }
 
-saddr ItemListRow::replace_owned_string(saddr src, saddr buf, s32 mask, s32 copy) {
+char *ItemListRow::replace_owned_string(const char *src, char *buf, s32 mask, s32 copy) {
     s32 n;
-    if (buf != 0 && (this->flags & mask)) {
+    if (buf != NULL && (this->flags & mask)) {
         this->flags &= ~mask;
-        mem_free((void *)buf);
+        mem_free(buf);
     }
-    if ((u32)src != 0 && copy != 0) {
-        n = (s32)measure_string_len((const char *)(src));
-        buf = reinterpret_cast<saddr>(mem_alloc(n + 1U));
-        strncpy((char *)buf, (const char *)src, n + 1);
+    if (src != NULL && copy != 0) {
+        n = (s32)measure_string_len(src);
+        buf = (char *)mem_alloc(n + 1U);
+        strncpy(buf, src, n + 1);
         this->flags |= mask;
     } else {
-        buf = src;
+        buf = (char *)src;
     }
     return buf;
 }

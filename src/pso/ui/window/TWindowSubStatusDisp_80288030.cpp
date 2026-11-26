@@ -62,21 +62,21 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
     entry_6 = items[6];
     entry_8 = items[8];
     text_builder_reset();
-    text_builder_append((u8 *)":");
-    text_builder_append((u8 *)(record->get_sub_disp_ptr()));
+    text_builder_append(":");
+    text_builder_append((record->get_sub_disp_ptr()));
     set_text_entry_string((WindowTextEntry *)entry_1, (uaddr)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
-    text_builder_append((u8 *)":");
-    text_builder_append((u8 *)(record->get_name()));
+    text_builder_append(":");
+    text_builder_append((record->get_name()));
     set_text_entry_string((WindowTextEntry *)entry_3, (uaddr)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
-    text_builder_append((u8 *)":");
-    text_builder_append((u8 *)(TWindowSubComCard__sub_8027523C(record)));
+    text_builder_append(":");
+    text_builder_append((TWindowSubComCard__sub_8027523C(record)));
     set_text_entry_string((WindowTextEntry *)entry_5, (uaddr)(get_shared_text_buffer()), 0x60);
     if ((s8) *(u8 *)record->get_card_data_ptr() != 0) {
         text_builder_reset();
-        text_builder_append((u8 *)":");
-        text_builder_append(((u8 *)record->get_card_data_ptr()));
+        text_builder_append(":");
+        text_builder_append((const char *)((u8 *)record->get_card_data_ptr()));
         set_text_entry_string((WindowTextEntry *)entry_7, (uaddr)(get_shared_text_buffer()), 0x60);
         ((TWindowLayoutEntry *)entry_6)->show();
         ((TWindowLayoutEntry *)entry_7)->show();
@@ -86,8 +86,8 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
     }
     if (strcmp((const char *)(record->get_sub_obj()), (const char *)(record->get_sub_disp_ptr())) != 0) {
         text_builder_reset();
-        text_builder_append((u8 *)(record->get_sub_obj()));
-        text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x45)));
+        text_builder_append((record->get_sub_obj()));
+        text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x45)));
         set_text_entry_string((WindowTextEntry *)entry_8, (uaddr)(get_shared_text_buffer()), 0x60);
         ((TWindowLayoutEntry *)entry_8)->show();
         return;

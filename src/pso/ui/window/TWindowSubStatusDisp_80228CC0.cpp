@@ -14,15 +14,15 @@ void TWindowSubStatusDisp::append_play_time(u32 time) {
     u32 h = time / 3600U;
     u32 rem = time % 3600U;
     if (h > 99U) {
-        text_builder_append((u8 *)"99'59\"59");
+        text_builder_append("99'59\"59");
         return;
     }
     append_padded_number(h, 2);
-    text_builder_append((u8 *)"'");
+    text_builder_append("'");
     u32 m = rem / 60U;
     rem = rem % 60U;
     append_padded_number(m, 2);
-    text_builder_append((u8 *)"\"");
+    text_builder_append("\"");
     append_padded_number(rem, 2);
 }
 
@@ -146,10 +146,10 @@ s8 *TWindowSubStatusDisp::copy_message_page_text() {
     return const_cast<s8 *>(s + 2);
 }
 
-void text_builder_append(u8 *str) {
+void text_builder_append(const char *str) {
   s32 num;
-  num = TWindowKeyBoardSoft::strnlen((const char *)str, (u32)0xFFU);
-  strncpy(text_builder_write_cursor, (char *)str, num);
+  num = TWindowKeyBoardSoft::strnlen(str, (u32)0xFFU);
+  strncpy(text_builder_write_cursor, str, num);
   text_builder_write_cursor[num] = 0;
   text_builder_write_cursor += num;
 }

@@ -71,10 +71,10 @@ void update_area_count_text(TWindowArea *area) {
 
 void TWindowSubStatusDisp::set_count_ratio_text(s32 count, s32 total) {
     text_builder_reset();
-    text_builder_append((u8 *)(get_message_text(0x67)));
+    text_builder_append((const char *)(get_message_text(0x67)));
     append_text_space();
     append_padded_number((count), (2U));
-    text_builder_append((u8 *)"/");
+    text_builder_append("/");
     append_padded_number((total), (2U));
     this->set_entry_display_value((saddr) (get_shared_text_buffer()));
     status_disp_count_ratio_value = count;

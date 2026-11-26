@@ -34,11 +34,11 @@ void HelpItemStatCompareRow::draw_number_value(f32 *pos, s32 value, s32 color, s
     text_builder_reset();
     text_builder_append_int(value);
     if (percent) {
-        text_builder_append((u8 *)"%");
+        text_builder_append("%");
     }
-    xy[0] = pos[0] - (f32)calc_text_width((char *)get_shared_text_buffer());
+    xy[0] = pos[0] - (f32)calc_text_width(get_shared_text_buffer());
     xy[1] = pos[1];
-    draw_window_text(xy, (const char *)get_shared_text_buffer(), color, 0, 1000000.0f);
+    draw_window_text(xy, get_shared_text_buffer(), color, 0, 1000000.0f);
 }
 
 void HelpItemStatCompareRow::set_compare_enabled(s32 enable) {

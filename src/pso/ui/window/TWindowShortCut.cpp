@@ -64,9 +64,6 @@ WindowDescriptor window_short_cut_layout = {
     {405.0f, 188.0f}, 50100.0f, &window_short_cut_layout_entries, 0x63,
 };
 
-extern "C" {
-void measure_message_text_width(void *entry, f32 max_width);
-}
 
 // A shortcut's preview text entry: its flags word and the measured size of its text.
 struct ShortcutPreviewEntry {
@@ -146,9 +143,9 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         break;
     }
     case 2: {
-        s32 *buffer = get_shared_text_buffer();
+        char *buffer = get_shared_text_buffer();
         u16 player = (u16)local_client_id;
-        TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(shortcut + 1), reinterpret_cast<char *>(buffer), player);
+        TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(shortcut + 1), buffer, player);
         set_text_entry_string(preview, (uaddr)get_shared_text_buffer(), 0);
         measure_message_text_width_default(preview);
         preview->flags |= 2;

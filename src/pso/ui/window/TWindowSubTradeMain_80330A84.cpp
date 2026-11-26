@@ -174,7 +174,7 @@ void TWindowSubTradeMain::run_task() {
         if (this->menu == NULL) {
             this->menu = build_trade_menu();
         }
-        window_request_show(this->menu);
+        this->menu->request_show();
         this->menu->clear_flag_and_release();
         ((TWindowMenu *)this->menu)->clear_cancelled();
         this->state = 2;
@@ -379,11 +379,11 @@ void TWindowSubTradeMain::run_task() {
         if (this->menu != NULL) {
             this->menu->open();
         }
-        window_request_show(this->menu);
+        this->menu->request_show();
         if (this->confirm == NULL) {
             this->confirm = create_trade_menu();
         }
-        window_request_show(this->confirm);
+        this->confirm->request_show();
         this->confirm->clear_flag_and_release();
         set_local_trade_offer_confirmation();
         this->state = 0x15;

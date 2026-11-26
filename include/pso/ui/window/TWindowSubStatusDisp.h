@@ -88,7 +88,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void draw_split_screen_hud();
     void set_entry_display_value(s32 str);
     s32 get_display_mode();
-    static s32 build_status_text(s32 client_id);
+    static char *build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
     void update_entry_visibility();
     static void *find_cached_glyph(u16 code);

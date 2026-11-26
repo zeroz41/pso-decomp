@@ -1157,9 +1157,9 @@ void TWindowHelpItem::update_tech_disk_details() {
         m_callback = &TWindowHelpItem::update_tech_disk_stats;
         e0 = (WindowTextEntry *)this->get_array_entry(0);
         text_builder_reset();
-        text_builder_append((u8 *)format_item_description((u8 *)active_item));
+        text_builder_append((const char *)format_item_description((u8 *)active_item));
         if (current_language == LANGUAGE_JAPANESE) {
-            text_builder_append((u8 *)get_help_text_string(active_item->data1.data_u8[4]));
+            text_builder_append((const char *)get_help_text_string(active_item->data1.data_u8[4]));
         }
         set_text_entry_string(e0, (uaddr)((void *)get_shared_text_buffer()), 0x20);
         e0->reveal_all();
@@ -1229,9 +1229,9 @@ void TWindowHelpItem::idle_update() {}
 
 void TWindowHelpItem::format_description_with_price() {
     text_builder_reset();
-    text_builder_append((u8 *)(format_item_description(reinterpret_cast<u8 *>(active_item))));
-    text_builder_append((u8 *)"\n");
-    text_builder_append((u8 *)(active_item->calc_buy_price()));
+    text_builder_append((const char *)(format_item_description(reinterpret_cast<u8 *>(active_item))));
+    text_builder_append("\n");
+    text_builder_append((const char *)(active_item->calc_buy_price()));
 }
 
 s32 TWindowHelpItem::is_item_already_equipped() {

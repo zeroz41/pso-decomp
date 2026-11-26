@@ -1780,7 +1780,7 @@ force_active:
   - __ct__17TWindowDD_WS_WordFll
   - __sinit_TWindowDD_WS_Word_cpp
   - has_menu_selection__FP9TWindowDD
-  - TWindowDD__sub_80346FC0
+  - is_rememberable_word
   - layout_entries__17TWindowDuelResult
   - TWindowEffectLight__sub_802AD040
   - class_name__18TWindowEffectParty	symbol
@@ -5812,7 +5812,7 @@ force_active:
   - draw_effect_chain__15TOTrapAncient02Fv
   - draw_empty_warp_overlay__Fv
   - draw_entry__12TAdMultiOkGCFi
-  - draw_entry_if_visible__19TWindowDD_WS_StringFPv
+  - draw_entry_if_visible__19TWindowDD_WS_StringFP17WindowDrawContext
   - draw_tab__12HeadingEntryFP17WindowDrawContext
   - draw_fade__9TAdFadeGCFv
   - draw_fading_model_1_pair__25TBoss6Demo20_TYPE2_APPEARFv
@@ -14512,7 +14512,7 @@ force_active:
   - render_with_fade__19TObjEneEpsilonGuardFPvi
   - render_with_state_debug__17TObjEneBm3FlyNestFv
   - replace_gvm_texture_directory
-  - replace_owned_string__11ItemListRowFllll
+  - replace_owned_string__11ItemListRowFPcPcll
   - repositioning_state__14TObjEneBm5WolfFl
   - request_action__11TObjNpcBaseFl
   - request_action__12TObjNpcEnemyFl

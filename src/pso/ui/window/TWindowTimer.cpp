@@ -97,9 +97,9 @@ void TWindowTimer::draw(s32 minutes, s32 seconds) {
 
     array_entry = reinterpret_cast<saddr>(get_array_entry(0));
     text_builder_reset();
-    text_builder_append((u8 *)"\tC8");
+    text_builder_append("\tC8");
     append_padded_number(minutes, 3);
-    text_builder_append((u8 *)"\tC7:\tC3");
+    text_builder_append("\tC7:\tC3");
     append_padded_number(seconds, 3);
     set_text_entry_string((WindowTextEntry *)array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
     ((WindowTextEntry *)array_entry)->reveal_all();
@@ -114,14 +114,14 @@ void TWindowTimer::set_time(u32 secs) {
     hours = secs / 3600;
     secs %= 3600;
     if (hours > 9) {
-        text_builder_append((u8 *)"9'59\"59");
+        text_builder_append("9'59\"59");
     } else {
         append_padded_number((hours), 1);
-        text_builder_append((u8 *)"'");
+        text_builder_append("'");
         mins = secs / 60;
         secs %= 60;
         append_padded_number((mins), 2);
-        text_builder_append((u8 *)"\"");
+        text_builder_append("\"");
         append_padded_number((secs), 2);
     }
     set_text_entry_string((WindowTextEntry *)entry, (uaddr)(get_shared_text_buffer()), 0x20);

@@ -81,14 +81,14 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
     hours = clear_seconds / 3600;
     clear_seconds = clear_seconds % 3600;
     if (hours > 99) {
-        text_builder_append((u8 *)challenge_time_limit_text);
+        text_builder_append(challenge_time_limit_text);
     } else {
         append_padded_number(hours, 2);
-        text_builder_append((u8 *)":");
+        text_builder_append(":");
         s32 minutes = clear_seconds / 60;
         clear_seconds = clear_seconds % 60;
         append_padded_number(minutes, 2);
-        text_builder_append((u8 *)":");
+        text_builder_append(":");
         append_padded_number(clear_seconds, 2);
     }
     set_text_entry_string(e, (uaddr)(get_shared_text_buffer()), 0x20);

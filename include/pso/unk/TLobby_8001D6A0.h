@@ -38,11 +38,10 @@ void reset_clock_bar_pulse(void);
 void alloc_battle_param_tables(void);
 s32 default_clock_offset_frames(void);
 extern "C" {
-s32 *get_shared_text_buffer(void);
+char *get_shared_text_buffer(void);
 }
 void load_battle_param_entry(void);
 
-struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
 
 struct CopyDataBlk { s32 w[6]; };
 

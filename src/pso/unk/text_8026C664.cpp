@@ -95,9 +95,9 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     pos.x -= (f32)calc_text_width(reinterpret_cast<char *>(get_shared_text_buffer()));
     u8 advance = get_font_char_advance(map_char_to_font_code('/'));
     pos.x -= 0.5f * (f32)advance;
-    text_builder_append((u8 *)"/");
+    text_builder_append("/");
     text_builder_append_int(self->count);
-    draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, (f32)1e+05f);
+    draw_window_text((f32 *)&pos, get_shared_text_buffer(), -1, 0, (f32)1e+05f);
 }
 #pragma pop
 #pragma push

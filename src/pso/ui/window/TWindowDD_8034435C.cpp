@@ -1672,11 +1672,11 @@ void TWindowDD::reset_selection(WordSelectMessage *message) {
 }
 
 void WordSelectMessage::remember_selected_id() {
-    if ((type == 1) && (TWindowDD__sub_80346FC0(ids[0]) != 0)) {
+    if ((type == 1) && (is_rememberable_word(ids[0]) != 0)) {
         remembered_word_select_id = ids[0];
     }
 }
-s32 TWindowDD__sub_80346FC0(s16 id) {
+s32 is_rememberable_word(s16 id) {
     u8 in_range;
     in_range = 0;
     if ((id >= 0x7F) && (id <= 0x138)) {
@@ -1742,8 +1742,8 @@ void TWindowDD::build_player_word_lists() {
 }
 
 
-void TWindowDD::open(void *message, u16 speaker) {
-    format_message(static_cast<WordSelectMessage *>(message), window_dd_buffer_a, speaker);
+void TWindowDD::open(WordSelectMessage *message, u16 speaker) {
+    format_message(message, window_dd_buffer_a, speaker);
     TWindowCtrl::open(speaker, window_dd_buffer_a, 0x4F);
 }
 
@@ -2118,7 +2118,7 @@ void TWindowDD::refresh_word_select_message(WordSelectMessage *message) {
     f32 c;
     f32 max;
     f32 f10;
-    TWindowDD::format_message(message, reinterpret_cast<char *>(TWindowDD::work_buffer), local_client_id);
+    TWindowDD::format_message(message, TWindowDD::work_buffer, local_client_id);
     s = labels[3];
     if (s != NULL) {
         e = (WindowTextEntry *)s->get_array_entry(0);
@@ -2208,7 +2208,7 @@ void TWindowDD::move_next_label_after_wide_page() {
     }
 }
 
-void TWindowDD::init_entry_field_64(s32 index) {
+void TWindowDD::move_label_to_start(s32 index) {
     TWindowDD_WS_String *label;
     label = labels[index];
     if (label != NULL) {
@@ -2303,7 +2303,7 @@ s32 TWindowDD::is_word_select_cancel_input() {
 
 
 
-int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)this + 0x1c, 4); }
+int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask(&menu_index, 4); }
 
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index) {
     switch ((s32) TWindowDD::window_mode) {
@@ -2338,10 +2338,10 @@ s32 TWindowDD::get_word_select_context() {
     return (enemies_active != 0 ? 1 : 0) + 2;
 }
 
-int TWindowDD__sub_80348424(s32 _w0, s32 _w1) { return get_word_select_type_state((saddr)((void*)(1)), (_w1)); }
+s32 get_word_next_state(TWindowDD *window, s32 id) { return get_word_select_type_state(1, id); }
 
-void TWindowDD__sub_80348448(s32 unused, s16 id) {
-    get_word_select_type_state(0, ((s32) id));
+s32 get_word_message_type(TWindowDD *window, s16 id) {
+    return get_word_select_type_state(0, id);
 }
 
 s32 TWindowDD::get_mode_code() {
@@ -2505,15 +2505,15 @@ void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
 }
 
 
-void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
+void TWindowDD_WS_String::draw(WindowDrawContext *ctx, s32 idx, f32 offset) {
     WindowVertex vertices[8];
     s32 draw_count;
 
     draw_count = TWindowDD::get_draw_count(hud_texlist);
     reset_window_vertices(vertices, word_select_inverse_depth(draw_depth, offset), -1);
     copy_window_point_table(vertices, idx);
-    set_frame_column_vertices_x(reinterpret_cast<WindowDrawContext *>(ctx), vertices);
-    set_frame_row_vertices_y(reinterpret_cast<WindowDrawContext *>(ctx), vertices, 0);
+    set_frame_column_vertices_x(ctx, vertices);
+    set_frame_row_vertices_y(ctx, vertices, 0);
     draw_window_vertices(vertices, 8, draw_count, 1);
 }
 

@@ -224,7 +224,7 @@ void TWindowMainMenu::update_trade_submenu() {
 
 void TWindowMainMenu::show_child_window() {
     if (menu_window != NULL) {
-        window_request_show(menu_window);
+        menu_window->request_show();
         menu_window->update_scaled_position();
     }
 }

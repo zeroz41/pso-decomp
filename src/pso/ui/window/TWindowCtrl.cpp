@@ -407,7 +407,7 @@ void TWindowCtrl::update_party_status_rows() {
                  (pl->get_field_828() != 0 || pl->get_npc_controller() == 0xFFFF))) {
                 w->request_close();
             } else {
-                window_request_show(w);
+                w->request_show();
                 if (w->target_position[1] != y) {
                     w->target_position[1] = y;
                     w->tween_ticks = 0xF;
@@ -511,7 +511,7 @@ void TWindowCtrl::update_trade_window() {
             this->area_window->request_close();
             return;
         }
-        window_request_show(this->area_window);
+        this->area_window->request_show();
     }
 }
 
@@ -524,7 +524,7 @@ void update_timer_window(void *ctrl_arg) {
             ctrl->timer_window->request_close();
             return;
         }
-        window_request_show(ctrl->timer_window);
+        ctrl->timer_window->request_show();
     }
 }
 

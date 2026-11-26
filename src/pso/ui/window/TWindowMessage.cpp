@@ -21,6 +21,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 const char *TWindowMessage::class_name = "TWindowMessage";
 
 extern "C" {
@@ -148,7 +149,6 @@ void TWindowMessage::update_scroll() {
 
 #pragma push
 #pragma fp_contract on
-s32 get_shared_text_buffer(void);
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
 
 #pragma readonly_strings on
@@ -160,11 +160,11 @@ s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u
 
     sep = " : ";
     text_builder_reset();
-    text_builder_append((u8 *)label);
-    text_builder_append((u8 *)sep);
-    text_builder_append((u8 *)value);
+    text_builder_append(label);
+    text_builder_append(sep);
+    text_builder_append(value);
     e = (WindowTextEntry *)get_array_entry(next_line);
-    r = append_message_window_line(this, get_shared_text_buffer(), flags | 2, -1);
+    r = append_message_window_line(this, (saddr)get_shared_text_buffer(), flags | 2, -1);
     if (r != 0) {
         x = (0.5f) * (target_size[0] - 8.0f);
         x -= (f32)calc_text_width((char *)label);
@@ -179,7 +179,6 @@ s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u
 }
 
 extern "C" {
-void measure_message_text_width(void *, f32);
 
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color) {
     WindowTextEntry *e;

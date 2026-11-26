@@ -41,12 +41,10 @@
 #include "pso/unk/TLobby_801E2F94.h"
 
 
-struct UV_8024503C { f32 u, v; };
-
-struct UVPair_8024503C { UV_8024503C e[2]; };
+struct SelectionBarCoordinates { NJS_POINT2 e[2]; };
 
 const char *TWindowBase::class_name = "TWindowBase";
-static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
+static const SelectionBarCoordinates selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
 
 void draw_window_scanline(TWindowBase *window, s32 row, WindowDrawContext *r, f32 len);
 extern "C" {
@@ -168,34 +166,32 @@ s32 TWindowBase::is_window_reveal_complete() {
 NJS_TEXLIST *hud_texlist;
 u16 window_ui_theme_index;
 s16 window_scanline_timer;
-void window_request_refresh(u8 *help) {
-    TWindowBase *window = (TWindowBase *)help;
-    if (!((f32) window->open_tick >= 7.5f)) {
-        window->open_tick = 7;
+void TWindowBase::request_refresh() {
+    if (!((f32) open_tick >= 7.5f)) {
+        open_tick = 7;
     }
 }
 
-void window_request_show(void *object) {
-    TWindowBase *window = (TWindowBase *)object;
+void TWindowBase::request_show() {
     s32 state_flags;
 
-    state_flags = window->window_flags;
+    state_flags = window_flags;
     if (state_flags & 1) {
-        window->window_flags = (s32) (state_flags & 0xFFFFFFFB);
+        window_flags = (s32) (state_flags & 0xFFFFFFFB);
         return;
     }
     if (state_flags & 2) {
-        window->window_flags = (s32) (state_flags | 4);
+        window_flags = (s32) (state_flags | 4);
         return;
     }
-    if (TWindowSubStatusDisp::get_card_window_scale(window->client_index) > 0.0f) {
-        window->open_tick = 0;
+    if (TWindowSubStatusDisp::get_card_window_scale(client_index) > 0.0f) {
+        open_tick = 0;
     }
-    window->window_flags = (s32) (window->window_flags | 3);
-    if (!(window->window_flags & 0x20)) {
+    window_flags = (s32) (window_flags | 3);
+    if (!(window_flags & 0x20)) {
         play_sound_effect(0x53703, 0, 0, 0);
     }
-    ((TObject *)object)->allow_rendering();
+    allow_rendering();
 }
 
 WindowDrawContext *TWindowBase::setup_window_draw_context(f32 *scale) {
@@ -252,7 +248,7 @@ s32 is_balloon_overlapping(const TWindowFukidasi *balloon, const f32 *position, 
 }
 
 TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, const f32 *size, TWindowFukidasi *first) {
-    if (TWindowFukidasi__sub_8024695C(this) == 0) {
+    if (test_flag2c_bit100() == 0) {
         return NULL;
     }
     if (is_overlapped() != 0) {
@@ -262,7 +258,7 @@ TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, 
         return NULL;
     }
     for (TWindowFukidasi *p = first; p != NULL; p = static_cast<TWindowFukidasi *>(p->m_next)) {
-        if (TWindowFukidasi__sub_8024695C(p) != 0 && p->is_overlapped() == 0 &&
+        if (p->test_flag2c_bit100() != 0 && p->is_overlapped() == 0 &&
             p->is_open_and_unblocked() != 0 && p != this &&
             (get_visible_flag() == 0 || p->get_visible_flag() == 0) &&
             is_balloon_overlapping(p, position, size)) {
@@ -294,7 +290,7 @@ void TWindowBase::init_window(u8 *descriptor, u8 *parent, s16 client) {
         disallow_rendering();
     }
     if ((window_flags & 1) && (window_flags & 2) && !(window_flags & 0x20)) {
-        ((s32 (*)(int, int, int, int))play_sound_effect)(0x53703, 0, 0, 0);
+        play_sound_effect(0x53703, 0, 0, 0);
     }
     if (TWindowSubStatusDisp::get_card_window_scale((int) (client_index)) <= 0.0f) {
         open_tick = 0x01000000;
@@ -302,8 +298,8 @@ void TWindowBase::init_window(u8 *descriptor, u8 *parent, s16 client) {
 }
 
 void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s32 active) {
-    UVPair_8024503C uv = selection_bar_texture_coordinates;
-    UV_8024503C *p;
+    SelectionBarCoordinates uv = selection_bar_texture_coordinates;
+    NJS_POINT2 *p;
     TexturedQuad q;
     f32 x1;
     f32 x;
@@ -329,10 +325,10 @@ void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s3
     q.y0 = y;
     q.x1 = x1 = (16.0f + x) - 2.0f;
     q.y1 = y + entry->height;
-    q.u0 = p->u / 256.0f;
-    q.v0 = p->v / 256.0f;
-    q.u1 = (16.0f + p->u) / 256.0f;
-    q.v1 = (18.0f + p->v) / 256.0f;
+    q.u0 = p->x / 256.0f;
+    q.v0 = p->y / 256.0f;
+    q.u1 = (16.0f + p->x) / 256.0f;
+    q.v1 = (18.0f + p->y) / 256.0f;
     if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth(&q.x0, z);
     }
@@ -341,11 +337,11 @@ void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s3
     q.y0 = y;
     q.x1 = 2.0f + t;
     q.y1 = y + entry->height;
-    u = 32.0f + p->u;
+    u = 32.0f + p->x;
     q.u0 = u / 256.0f;
-    q.v0 = p->v / 256.0f;
+    q.v0 = p->y / 256.0f;
     q.u1 = (16.0f + u) / 256.0f;
-    q.v1 = (18.0f + p->v) / 256.0f;
+    q.v1 = (18.0f + p->y) / 256.0f;
     if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth(&q.x0, z);
     }
@@ -353,10 +349,10 @@ void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s3
     q.y0 = y;
     q.x1 = 2.0f + ((x + context->inner_w) - 16.0f);
     q.y1 = y + entry->height;
-    q.u0 = (16.0f + p->u) / 256.0f;
-    q.v0 = p->v / 256.0f;
-    q.u1 = (16.0f + (16.0f + p->u)) / 256.0f;
-    q.v1 = (18.0f + p->v) / 256.0f;
+    q.u0 = (16.0f + p->x) / 256.0f;
+    q.v0 = p->y / 256.0f;
+    q.u1 = (16.0f + (16.0f + p->x)) / 256.0f;
+    q.v1 = (18.0f + p->y) / 256.0f;
     if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth(&q.x0, z);
     }
@@ -813,7 +809,7 @@ void TWindowBase::update_open_close() {
         if ((f32) open_tick >= 7.5f) {
             if (state_flags & 4) {
                 if (!(state_flags & 0x20)) {
-                    ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x53704, 0U, 0, 0);
+                    play_sound_effect(0x53704, 0, 0, 0);
                 }
                 window_flags = (s32) (window_flags & ~5);
                 return;
@@ -831,7 +827,7 @@ void TWindowBase::update_open_close() {
             card_window_flags = window_flags;
             if (card_window_flags & 4) {
                 if (!(card_window_flags & 0x20)) {
-                    ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x53703, 0U, 0, 0);
+                    play_sound_effect(0x53703, 0, 0, 0);
                 }
                 window_flags = (s32) (window_flags & 0xFFFFFFFB);
                 window_flags = (s32) (window_flags | 1);
@@ -855,7 +851,7 @@ TWindowBase::~TWindowBase() {
     bring_to_front();
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
-    : TObject(TWindowCtrlMain__sub_8024CDB0((void *)(saddr)client)) {
+    : TObject(get_client_window_root(client)) {
     init_window(descriptor, parent, client);
 }
 
@@ -930,7 +926,7 @@ s32 TWindowBase::is_closed() {
     return (u8)(!(window_flags & 1));
 }
 
-int TWindowFukidasi__sub_8024695C(void* p) { return (*(u32*)((char*)p + 0x2c) >> 8) & 0x1; }
+int TWindowFukidasi::test_flag2c_bit100() { return ((u32)window_flags >> 8) & 0x1; }
 
 int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1; }
 

@@ -20,6 +20,8 @@ public:
     void resort_window_order();
     void close();
     void request_close();
+    void request_refresh();
+    void request_show();
     // The per-frame open/close animation every window runs from its run_task.
     void update_open_close();
     void update_window();
@@ -94,7 +96,5 @@ void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context);
 void end_window_sweep_draw(s32 texture);
 void draw_window_scanlines(TWindowBase *window, WindowDrawContext *context);
 bool is_balloon_overlapping(u8 *balloon, u8 *position, u8 *size);
-void window_request_refresh(u8 *help);
-void window_request_show(void *object);
 
 #endif
