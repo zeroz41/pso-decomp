@@ -874,7 +874,7 @@ pso/object/quest/TObjTagChallenge.cpp:
 	.data       start:0x8048D1F0 end:0x8048D208
 	.sdata      start:0x805D2888 end:0x805D2890
 
-pso/unk/text_80074BD0.cpp:
+pso/network/LobbyName.cpp:
 	.text       start:0x80074BD0 end:0x80074C94
 	.data       start:0x8048D208 end:0x8048D220
 
@@ -6538,7 +6538,7 @@ pso/object/door/TODoorFourLightSpace.cpp:
 	.sdata      start:0x805D3B18 end:0x805D3B20
 	.sdata2     start:0x805DD8F0 end:0x805DD8FC
 
-pso/unk/text_8028A820.cpp:
+pso/object/door/GreenDoorResource.cpp:
 	.text       start:0x8028A714 end:0x8028A8F8
 	.rodata     start:0x80450C50 end:0x80450C88
 	.sbss       start:0x805D64C8 end:0x805D64D0

@@ -39,6 +39,7 @@
 #include "pso/unk/text_8026A14C.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/network/LobbyName.h"
 
 extern const char TChallenge_name_text[] = "TChallenge";
 const char *TChallenge::class_name = TChallenge_name_text;
@@ -617,7 +618,7 @@ void start_challenge_mode() {
             lobby_challenge_mode = 0;
             return;
         }
-        TLobby::start_lobby_name_request();
+        start_lobby_name_request();
         if (lobby_challenge_mode != 0) {
             challenge_task = static_cast<TChallenge *>(TChallenge::create());
             challenge_task_created = 1;

@@ -4,7 +4,6 @@
 #include "pso/object/door/TODoorFourLightSpace.h"
 #include "pso/object/door/TODoorFourLightBase.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/text_8028A714.h"
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/door/TODoorBase.h"
@@ -12,7 +11,7 @@
 
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_8028A820.h"
+#include "pso/object/door/GreenDoorResource.h"
 
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/ui/hud/TRaderMapCore.h"

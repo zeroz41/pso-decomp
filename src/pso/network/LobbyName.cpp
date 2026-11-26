@@ -2,6 +2,7 @@
 #include <string.h>
 #include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
+#include "pso/network/LobbyName.h"
 
 char lobby_name[0x18] = { 0 };
 
@@ -11,13 +12,13 @@ void receive_lobby_name(char *name) {
     lobby_name[0x10] = 0;
 }
 
-s32 TLobby::start_lobby_name_request() {
+s32 start_lobby_name_request() {
     clear_lobby_name();
-    if (protocol_instance == NULL) {
+    if (TLobby::protocol_instance == NULL) {
         return 0;
     }
-    protocol_instance->m_recv_handlers.handle_8A_lobby_name_packet = receive_lobby_name;
-    protocol_instance->send_lobby_name_request();
+    TLobby::protocol_instance->m_recv_handlers.handle_8A_lobby_name_packet = receive_lobby_name;
+    TLobby::protocol_instance->send_lobby_name_request();
     return 1;
 }
 

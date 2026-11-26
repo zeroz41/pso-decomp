@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/unk/text_8028A714.h"
-#include "pso/unk/text_8028A820.h"
+#include "pso/object/door/GreenDoorResource.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaTexture.h"
@@ -20,13 +19,13 @@ u8 *get_green_door_motion(s32 index) {
 }
 NJS_TEXLIST *get_green_door_texlist(s32 index) {
     if (green_door_bml_resource != NULL) {
-        return get_bml_texlist((BmlResource *)green_door_bml_resource, index);
+        return get_bml_texlist(green_door_bml_resource, index);
     }
     return NULL;
 }
 u8 *get_green_door_model(s32 index) {
     if (green_door_bml_resource != NULL) {
-        return (u8 *)get_bml_model((BmlResource *)green_door_bml_resource, index);
+        return (u8 *)get_bml_model(green_door_bml_resource, index);
     }
     return NULL;
 }
@@ -34,7 +33,7 @@ u8 *get_green_door_model(s32 index) {
 BmlResource *green_door_bml_resource;
 NJS_TEXLIST *green_door_texture_handle;
 
-void TLobby::free_shared_objects() {
+void free_green_door_resources() {
     if (green_door_texture_handle != NULL) {
         release_texture_list(green_door_texture_handle);
         safe_free(green_door_texture_handle);

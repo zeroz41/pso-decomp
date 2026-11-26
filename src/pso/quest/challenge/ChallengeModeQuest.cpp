@@ -18,6 +18,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
 #include "libc/ctype.h"
+#include "pso/network/LobbyName.h"
 
 #pragma readonly_strings on
 

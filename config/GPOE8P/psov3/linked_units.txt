@@ -1615,7 +1615,7 @@ pso/unk/text_80066F5C.cpp
 pso/unk/text_80071A9C.cpp
 pso/unk/text_80071B30.cpp
 pso/unk/text_80072230.cpp
-pso/unk/text_80074BD0.cpp
+pso/network/LobbyName.cpp
 pso/unk/text_80076BC4.cpp
 pso/unk/text_80076E84.cpp
 pso/network/protocol/choice_search.cpp
@@ -1683,7 +1683,7 @@ pso/unk/text_8026ACDC.cpp
 pso/unk/text_8026C664.cpp
 pso/unk/text_8026CB5C.cpp
 pso/unk/text_80278460.cpp
-pso/unk/text_8028A820.cpp
+pso/object/door/GreenDoorResource.cpp
 pso/unk/text_8028A998.cpp
 pso/unk/text_8028EC70.cpp
 pso/unk/text_80290B3C.cpp

@@ -249,7 +249,6 @@ struct TLobby : public TObject {
     static saddr get_global_63e0();
     static void load_player_data();
     static void send_card_window_state();
-    static void free_shared_objects();
     static void free_single_player_chr_select();
     static void alloc_download_server();
     static void free_chr_select_singleton();
@@ -308,7 +307,6 @@ struct TLobby : public TObject {
     static void send_challenge_retry_cmd(s32 choice);
     static void send_challenge_with_value(s32 challenge, s32 window_mode);
     static void send_challenge_records(u32 _w0);
-    static s32 start_lobby_name_request();
     static void init_fadeout_state(void (*callback)());
     static void set_fade_params(void (*callback)());
     static s32 get_quest_thread_state();
@@ -637,10 +635,6 @@ extern "C" {
 void fn_801058E8(TPlyCharData *chr);
 }
 
-// The lobby name the server sends (packet 0x8A) after start_lobby_name_request.
-extern char lobby_name[0x18];
-void receive_lobby_name(char *name);
-void clear_lobby_name();
 char *get_lobby_name();
 
 // The battle rule settings (0x24 bytes) the TLobby rule accessors read and write.
