@@ -84,5 +84,6 @@ void run_game_mode_select_frame(void);
 struct MultiChgGameModeTextLayouts { TAdSelectTxtLayout v[3]; };
 
 struct MultiChgGameModePositions { NJS_POINT2 v[3]; };
+extern s32 multi_chr_select_state;
 
 #endif

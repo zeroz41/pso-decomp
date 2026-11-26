@@ -15969,7 +15969,7 @@ force_active:
   - spawn_particle_at_entity_slot__10TObjPlayerFllll
   - spawn_particle_emitters__9TTecMegidFv
   - spawn_particle_if_in_band__17TObjEneDf2BringerFv
-  - spawn_particles_at__Fl
+  - spawn_particles_at__FP3Vec
   - spawn_parts__12TBoss3VoloptFv
   - spawn_player_hit_effects__14TBoss6PlotFalzFv
   - spawn_player_tombstones2__Fv

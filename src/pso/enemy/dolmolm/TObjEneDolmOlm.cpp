@@ -68,9 +68,9 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 extern const f64 dolmolm_radians_to_angle[];
-extern int multi_chr_select_state;
 
 __declspec(section ".rodata") extern const char dolmolm_model_name_abgc01_wola_body_nj[0x14] ATTRIBUTE_ALIGN(4) = "abgc01_wola_body.nj";
 __declspec(section ".rodata") extern const char dolmolm_model_name_abgc01l_wola_body_nj[0x15] ATTRIBUTE_ALIGN(4) = "abgc01l_wola_body.nj";

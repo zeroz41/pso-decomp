@@ -3,8 +3,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
-
-extern int multi_chr_select_state;
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 void TAdSelectCurGC::lock_navigation() { navigation_locked = 1; }
 

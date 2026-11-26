@@ -158,7 +158,6 @@ const char *format_item_description(TItemData *item);
 LAYOUT_ASSERT(ItemDataSize, sizeof(TItemData) == 0x14);
 LAYOUT_ASSERT(ItemDataIDOffset, offsetof(TItemData, id) == 0xC);
 LAYOUT_ASSERT(ItemDataExtensionOffset, offsetof(TItemData, data2) == 0x10);
-saddr format_item_description(u8 *item);
 
 // get_item_icon_index copies the table whole.
 struct ItemIconIndexTable { s32 w[19]; };
