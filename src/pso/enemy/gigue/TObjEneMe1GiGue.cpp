@@ -8,7 +8,6 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/technique/TTecZarua.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/ChunkModelDraw.h"
 #include <dolphin/mtx.h>

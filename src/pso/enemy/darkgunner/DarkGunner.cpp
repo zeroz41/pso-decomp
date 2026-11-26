@@ -98,7 +98,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
 

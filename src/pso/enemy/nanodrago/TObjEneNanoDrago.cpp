@@ -43,7 +43,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 
 
 #include <stddef.h>

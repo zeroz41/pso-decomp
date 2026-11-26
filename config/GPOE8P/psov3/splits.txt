@@ -1759,14 +1759,8 @@ pso/render/ChunkTextureStripCollector.cpp:
 pso/ui/window/TWindowLockOn_800F5DD8.cpp:
 	.text       start:0x800F5DD8 end:0x800F5DE0
 
-pso/enemy/lappy/TObjEneLappy_800F5DE0.cpp:
-	.text       start:0x800F5DE0 end:0x800F5E90
-
-pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp:
-	.text       start:0x800F5E90 end:0x800F5EE0
-
 pso/object/TObjControl.cpp:
-	.text       start:0x800F5EE0 end:0x800F795C
+	.text       start:0x800F5DE0 end:0x800F795C
 	.rodata     start:0x8043D760 end:0x8043D788
 	.data       start:0x80497C60 end:0x80497DC4
 	.sdata      start:0x805D2B00 end:0x805D2B08

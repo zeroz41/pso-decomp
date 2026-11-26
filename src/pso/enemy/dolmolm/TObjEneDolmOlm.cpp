@@ -65,7 +65,6 @@
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"

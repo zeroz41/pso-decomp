@@ -47,6 +47,11 @@
 #include "pso/unk/TLobby_800F795C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/font/TFontSmallTask.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/render_util.h"
+#include "pso/enemy/AreaSoundRemap.h"
+#include "pso/object/TObjLuker_801329B0.h"
 
 
 // The enemy's row of the floor's set data (what set_entry points at).
@@ -864,3 +869,23 @@ void TObjControl::run_task() {
         }
     }
 }
+
+s32 TObjEnemy::remap_sound_for_area(s32 sound_id) { return ::remap_area_sound_id(sound_id, (saddr)this->control); }
+
+const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index((saddr)this->control); }
+
+void TObjEnemy::render_shadows() {
+    if (test_actor_flags(0x800) == 0) {
+        this->set_shadow_flag();
+        model_render_flags |= 0xC10;
+        set_chunk_material_override_pair(-1, 0x800);
+        set_shadow_material_state();
+        this->render();
+        this->clear_shadow_flag();
+        model_render_flags &= ~0xC10;
+    }
+}
+
+void initialize_enemy_photon_effect(TObjEnemy *enemy) { enemy->register_by_id(); }
+
+void TObjEnemy::set_param(s32 v) { *(s32 *)&this->control = v; }

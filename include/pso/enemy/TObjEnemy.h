@@ -61,4 +61,6 @@ struct TObjEnemy : public TObjChara {
     s32 mask_sub_flags(s32 mask);
 };
 LAYOUT_ASSERT(EnemyBaseSize, sizeof(TObjEnemy)==0x374);
+
+void initialize_enemy_photon_effect(TObjEnemy *enemy);
 #endif

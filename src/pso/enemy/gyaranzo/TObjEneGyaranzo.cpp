@@ -32,7 +32,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkModelDraw.h"

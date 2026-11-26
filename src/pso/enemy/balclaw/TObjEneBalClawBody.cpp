@@ -9,7 +9,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
+#include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowLockOn.h"

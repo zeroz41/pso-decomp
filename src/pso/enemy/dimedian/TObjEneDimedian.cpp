@@ -10,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "types.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/AreaSound.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjMotion.h"
