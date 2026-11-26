@@ -323,7 +323,7 @@ void TWindowSubStatusDisp::vt0() {
     set_text_entry_string(e, TWindowSubStatusDisp::get_meseta_unit(), 0x20);
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        st = (CharacterAppearanceFields *)pl->name;
+        st = &pl->appearance;
         if (st != NULL) {
             v = (saddr)pl->get_name();
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(0)), v, 0x20);

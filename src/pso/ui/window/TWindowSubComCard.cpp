@@ -1139,7 +1139,7 @@ TWindowMenu *TWindowSubComCard::create_player_list_menu() {
     do {
         if (i != local_client_id && (player = get_player_by_client_id(i)) != NULL &&
             player->is_script_controlled() == 0 && player->obj_isState3_324() == 0 &&
-            (name = player->name) != NULL) {
+            (name = player->appearance.name) != NULL) {
             w->add_text_entry((saddr)name, 7, i);
         }
         i++;

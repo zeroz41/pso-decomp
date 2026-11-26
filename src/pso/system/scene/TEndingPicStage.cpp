@@ -42,7 +42,7 @@ void TEndingPicStage::pose_player(player_class_type class_type, s8 picture) {
 struct ColorF { f32 r, g, b, a; };
 
 player_class_type TObjPlayer::get_class_type() {
-    s32 flags = this->class_flags;
+    s32 flags = this->appearance.classFlags;
     player_class_type class_type = CLASS_TYPE_HUNTER;
 
     if (flags & CLASS_FLAG_HUNTER) {

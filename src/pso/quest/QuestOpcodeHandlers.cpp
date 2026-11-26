@@ -465,7 +465,7 @@ void append_episode_progress_string(void) {
 void append_hero_class_name(void) {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        append_string((const char *)get_class_type_name(player->class_flags));
+        append_string((const char *)get_class_type_name(player->appearance.classFlags));
     } else {
         append_string("Error Job");
     }
@@ -2340,7 +2340,7 @@ void qst_op_get_pl_job(s32 reg) {
     TObjPlayer *player;
     player = get_player_by_client_id(qst_registers[(u8)reg]);
     if (player != NULL) {
-        strncpy(quest_player_class_name_buffer, (const char *)(get_class_type_name((int) (player->class_flags))), 0xF);
+        strncpy(quest_player_class_name_buffer, (const char *)(get_class_type_name((int) (player->appearance.classFlags))), 0xF);
         quest_player_class_name_buffer[0xF] = 0;
         qst_registers[(u8)reg] = 1;
         return;
@@ -2418,7 +2418,7 @@ void qst_op_take_slot_meseta(s32 regs, s32 dst) {
 void qst_op_get_chara_class(s32 slot_reg, s32 dst) {
     TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
     if (player != NULL) {
-        s32 f = player->class_flags;
+        s32 f = player->appearance.classFlags;
         if (f & CLASS_FLAG_HUMAN) {
             qst_registers[(u8)dst] = RACE_HUMAN;
         } else if (f & CLASS_FLAG_NEWMAN) {
@@ -2448,7 +2448,7 @@ void qst_op_get_gender(s32 slot_reg, s32 dst) {
     TObjPlayer *player;
     player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
     if (player != NULL) {
-        class_flags = player->class_flags;
+        class_flags = player->appearance.classFlags;
         if (class_flags & CLASS_FLAG_MALE) {
             qst_registers[(u8)dst] = GENDER_MALE;
             return;

@@ -319,7 +319,7 @@ s32 fill_guild_card_from_player(GuildCardEntry *card, u32 client) {
   card->flags |= 3;
   strncpy(card->name, (const char *)((TPlyPhotonChair *)(player))->get_name(), 0x17);
   card->name[0x17] = 0;
-  card->char_class = player->class_index;
+  card->char_class = player->appearance.classId;
   card->section_id = player->get_section_id();
   language = player->get_language();
   player_tag = &player->guild_card_tag;

@@ -1679,7 +1679,7 @@ void TWindowDD::build_player_word_lists() {
     for (i = 0; i < 12; i++) {
         player = get_player_by_client_id(i);
         if (player != NULL) {
-            strncpy(player_name_buffers[i], player->name, 0x18);
+            strncpy(player_name_buffers[i], player->appearance.name, 0x18);
             if (i != local_client_id) {
                 list[n++] = i + 0x68c;
                 if (n >= 16) {
@@ -1778,7 +1778,7 @@ s32 TWindowDD::get_player_battle_flag_state(u16 client) {
 
     player = get_player_by_client_id(client);
     if (player != NULL) {
-        class_flags = player->class_flags;
+        class_flags = player->appearance.classFlags;
         if (class_flags & CLASS_FLAG_MALE) {
             return 0;
         }

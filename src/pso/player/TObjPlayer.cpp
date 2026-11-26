@@ -495,7 +495,7 @@ void TObjPlayer::init_model_and_idle_pose() {
 void TObjPlayer::init_body_parts(void *visual) { update_body_parts(visual); }
 void TObjPlayer::reset_body_parts() {  }
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); free_loaded_buffers(); }
-void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record(name, visual); this->model_load_flags = 255; update_body_parts(); create_hair_move_sim(this); }
+void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record(&appearance, visual); this->model_load_flags = 255; update_body_parts(); create_hair_move_sim(this); }
 
 TObjPlayer::~TObjPlayer() {
     release_child_object();

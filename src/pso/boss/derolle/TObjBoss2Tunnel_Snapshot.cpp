@@ -877,22 +877,22 @@ s32 take_snapshot(void) {
         count = TLobby::get_game_mode();
         me = (TObjPlayer *)find_entity_by_id(local_client_id);
         if (me != NULL) {
-            *flags++ = me->class_flags;
+            *flags++ = me->appearance.classFlags;
             if (me->get_stats() != NULL) {
                 *levels++ = me->get_actor_level_index();
             }
-            strncpy(name, me->name, sizeof(snap->names[0]));
+            strncpy(name, me->appearance.name, sizeof(snap->names[0]));
             name += sizeof(snap->names[0]);
         }
         for (i = 0; i < count; i++) {
             if (i != local_client_id) {
                 player = (TObjPlayer *)find_entity_by_id(i);
                 if (player != NULL) {
-                    *flags++ = player->class_flags;
+                    *flags++ = player->appearance.classFlags;
                     if (player->get_stats() != NULL) {
                         *levels++ = player->get_actor_level_index();
                     }
-                    strncpy(name, player->name, sizeof(snap->names[0]));
+                    strncpy(name, player->appearance.name, sizeof(snap->names[0]));
                     name += sizeof(snap->names[0]);
                 }
             }

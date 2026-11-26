@@ -119,11 +119,10 @@ s32 ShortMailEntry::get_sender_card_id() { return sender_card_id; }
 char *ShortMailEntry::get_sender_name() { return sender_name; }
 
 s32 TObjPlayer::get_section_id() {
-    s8 id = *((s8 *)this + 0x88C);
-    return id;
+    return appearance.section;
 }
 
-const char *TObjPlayer::get_name() { return name; }
+const char *TObjPlayer::get_name() { return appearance.name; }
 
 
 

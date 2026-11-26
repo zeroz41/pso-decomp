@@ -1165,7 +1165,7 @@ void TItemMag::evolve_third_form() {
     if (owner != NULL) {
         dominant = get_dominant_stats();
         player = owner;
-        section_id = player->section_id;
+        section_id = (u8)player->appearance.section;
         pow = get_pow_level();
         dex = get_dex_level();
         mind = get_mind_level();
@@ -1341,7 +1341,7 @@ s32 TItemMag::evolve_rare_form() {
 
     before = get_item_group();
     if (owner != NULL && stats.get_level() >= 100) {
-        section = (s8)owner->section_id % 3;
+        section = owner->appearance.section % 3;
         pow = get_pow_level();
         dex = get_dex_level();
         mind = get_mind_level();
@@ -1622,14 +1622,14 @@ void TItemMag::evolve_special_form(u8 kind) {
     before = get_item_group();
     switch (kind) {
     case 0:
-        if (owner->section_id & 1) {
+        if (owner->appearance.section & 1) {
             evolve_into(0x1D);
         } else {
             evolve_into(0x21);
         }
         break;
     case 1:
-        if (owner->section_id & 1) {
+        if (owner->appearance.section & 1) {
             evolve_into(0x22);
         } else {
             evolve_into(0x27);
@@ -1864,9 +1864,9 @@ void TItemMag::resolve_color() {
     u8 color;
 
     if (check_class_equip_permission(owner, 0xD7) != 0) {
-        color = owner->skin;
+        color = owner->appearance.skin;
     } else {
-        color = owner->costume;
+        color = owner->appearance.costume;
     }
     color = color % 9;
     if (color >= 7) {

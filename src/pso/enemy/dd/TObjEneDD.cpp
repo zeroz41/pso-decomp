@@ -766,9 +766,9 @@ s32 TObjBase::is_alive() {
     return (u8)alive;
 }
 
-int is_target_ranger(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_RANGER) != 0; }
+int is_target_ranger(void* p) { return (((TObjPlayer *)p)->appearance.classFlags & CLASS_FLAG_RANGER) != 0; }
 
-int is_target_android(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
+int is_target_android(void* p) { return (((TObjPlayer *)p)->appearance.classFlags & CLASS_FLAG_ANDROID) != 0; }
 
 void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history) {
     obj_ene_dd_instance->set_owner(owner);

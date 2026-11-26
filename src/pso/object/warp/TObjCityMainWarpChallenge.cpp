@@ -251,7 +251,7 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
                 }
             }
             player_in_range[player_count] = inside;
-            strcpy(player_names[player_count], pl->name);
+            strcpy(player_names[player_count], pl->appearance.name);
             player_count++;
         }
     }

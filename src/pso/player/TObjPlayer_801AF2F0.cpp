@@ -788,7 +788,7 @@ void TObjPlayer::draw_head_attachments() {
         TCharaMaking::enable_making();
         f32 alpha = this->render_material_state.get_alpha();
         draw_colored_hair(alpha, (saddr)this->hair_model,
-            (CharacterAppearanceFields *)this->name, special_color);
+            &this->appearance, special_color);
         TCharaMaking::clear_flag_bit0();
         set_default_alpha_blend();
         pop_matrix();
@@ -3214,7 +3214,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     record->floor = get_floor();
     record->player_flags = state_flags;
     record->language = get_language();
-    copy_player_visual_record(&record->visual, name);
+    copy_player_visual_record(&record->visual, &appearance);
     record->inventory.count = inventory_objects->run_state_query(record->inventory.items);
     saved_hp = get_actor_hp();
     saved_tp = get_actor_tp();
@@ -5356,10 +5356,10 @@ s8 clamp_class_index(s8 cls) {
 }
 
 s8 TObjPlayer::get_class_index() {
-    return (s8) this->class_index;
+    return (s8) this->appearance.classId;
 }
 
-s32 TObjPlayer::get_class_flags() { return this->class_flags; }
+s32 TObjPlayer::get_class_flags() { return this->appearance.classFlags; }
 
 s32 TObjPlayer::get_language() {
     s32 lang;

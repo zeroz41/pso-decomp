@@ -55,7 +55,7 @@ void TObjPlayer::clear_state_flags(s32 mask) {
 }
 
 void fn_8011E1D4(TObjPlayer *player) {
-    if (!(player->class_flags & CLASS_FLAG_ANDROID)) {
+    if (!(player->appearance.classFlags & CLASS_FLAG_ANDROID)) {
         player->clear_state_flags(0x10000);
     }
 }

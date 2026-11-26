@@ -55,7 +55,7 @@ char *TWindowMessageLog::get_active_photon_object(u16 id) {
     if ((entity->obj_isState2_324() == 0) && (entity->is_locally_controlled() == 0)) {
         return 0;
     }
-    name = entity->name;
+    name = entity->appearance.name;
     if (name == 0) {
         name = 0;
     }

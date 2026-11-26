@@ -130,7 +130,7 @@ void TMemberCheck::open_member_name_window() {
         for (i = 0; i < 4; i++) {
             TObjPlayer *p = get_player_by_client_id(i);
             if (p != 0) {
-                strcpy(names[i], p->name);
+                strcpy(names[i], p->appearance.name);
                 member_window->dispatch_without_flags((saddr)names[i], i);
             } else {
                 names[i][0] = 0;

@@ -42,6 +42,7 @@ struct PhotonBlastRegistry;
 #include "pso/player/PlayerIntraMapWarp.h"
 #include "pso/player/PhotonBlastAim.h"
 #include "pso/player/PlayerBattleScore.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterCreationTextureCache.h"
 
 struct TItemData;
@@ -298,27 +299,7 @@ struct TObjPlayer : public TObjChara {
     PlayerTelepipe telepipe;  // TTecLuker::init_fields, TelepipeState::send_telepipe_packet
     PlayerMarkerPosition marker_position;  // above the head (calc_marker_position), where the lobby marker is drawn
     FlagWord death_flags;
-    // name through height are the player's CharacterAppearanceFields record.
-    char name[0x18];
-    u32 name_colour;  // CharacterAppearanceFields::nameColor
-    u8 extra_model;
-    u8 pad_879[0xF];
-    u32 name_colour_checksum;
-    u8 section_id;
-    s8 class_index;
-    s8 v2_flags;
-    u8 version;
-    s32 class_flags;
-    s16 costume;
-    s16 skin;  // an android's body colour
-    s16 face;
-    s16 head;
-    s16 hair;
-    s16 hair_r;
-    s16 hair_g;
-    s16 hair_b;
-    f32 proportion_x;
-    f32 height;  // the body height the mag scales its follow height by
+    CharacterAppearanceFields appearance;
     // The part models TChCrLoadReq loads after the body (TObjMotion::model):
     // the hair and head hang from node 0x3B, the attachment from node 0x3A.
     void* hair_model;
@@ -1231,9 +1212,7 @@ LAYOUT_ASSERT(PlayerPaletteModifierOffset, offsetof(TObjPlayer, photon_blast_gau
 LAYOUT_ASSERT(PlayerActionPalettesOffset, offsetof(TObjPlayer, action_palettes) == 0x500);
 LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, pad_binding) == 0x550);
 LAYOUT_ASSERT(PlayerCollisionBodyOffset, offsetof(TObjPlayer, collision_body) == 0x680);
-LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, extra_model) == 0x878);
-LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, v2_flags) == 0x88E);
-LAYOUT_ASSERT(PlayerHairOffset, offsetof(TObjPlayer, hair) == 0x89C);
+LAYOUT_ASSERT(PlayerAppearanceOffset, offsetof(TObjPlayer, appearance) == 0x85C);
 LAYOUT_ASSERT(PlayerHairModelOffset, offsetof(TObjPlayer, hair_model) == 0x8AC);
 LAYOUT_ASSERT(PlayerHeadTexturesOffset, offsetof(TObjPlayer, head_textures) == 0x8B8);
 LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_textures) == 0xA24);

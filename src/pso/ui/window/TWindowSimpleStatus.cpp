@@ -286,7 +286,7 @@ void WindowTextEntry::show_player_name(s32 client_id) {
         hide();
         return;
     }
-    appearance = (CharacterAppearanceFields *)player->name;
+    appearance = &player->appearance;
     if (appearance == NULL) {
         hide();
         return;

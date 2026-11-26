@@ -247,7 +247,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
     creation_figure_object = this;
-    res = (saddr)new BmlResource(6, ((BmlResourceDescriptor **)character_making_resource_descriptor_table)[character_display_index((uaddr)cm)], 0, 0, NULL);
+    res = (saddr)new BmlResource(6, ((BmlResourceDescriptor **)character_making_resource_descriptor_table)[character_display_index(cm)], 0, 0, NULL);
     chara_select_preview_resource = res;
     for (p = creation_texture_cache; p < creation_texture_cache + CREATION_TEXTURE_CACHE_CAPACITY; p++) {
         p->in_use = 0;
@@ -316,13 +316,13 @@ void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
 }
 void TCMCharacter::load_model_parts() {
     CharacterAppearanceFields *appearance = creation_player_character;
-    CharacterClassAppearance *entry = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(creation_player_character))];
+    CharacterClassAppearance *entry = &class_appearance_table[character_display_index(creation_player_character)];
     creation_models_ready = 1;
     model = get_bml_model((BmlResource *)chara_select_preview_resource, 0);
     s32 next = bind_model_parts(&chara_select_hair_node_b, entry->capModels, creation_cap_model_parts, 4, 1);
     next = bind_model_parts(&chara_select_hair_node_a, entry->hairModels, creation_hair_model_parts, 4, next);
     bind_model_parts(&chara_select_head_node, entry->headModels, creation_head_model_parts, 3, next);
-    character_display_index(reinterpret_cast<uaddr>(appearance));
+    character_display_index(appearance);
 }
 
 s32 TCMCharacter::bind_model_parts(uaddr *selected, const char **names, CreationModelPart *parts,
@@ -332,7 +332,7 @@ s32 TCMCharacter::bind_model_parts(uaddr *selected, const char **names, Creation
         return model_index;
     }
     CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)creation_player_character;
-    s32 count = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(creation_player_character))].counts[part];
+    s32 count = class_appearance_table[character_display_index(creation_player_character)].counts[part];
     if (count == 0) {
         count = 1;
     }
@@ -468,7 +468,7 @@ void load_creation_shape_rel(TCMCharacter *character) {
     s32 rc;
     character->shape_rel = TQuestVmDownLoadServer::alloc(0x44000);
     rc = request_file_read(
-        chara_select_creation_shape_rel_files[character_display_index(reinterpret_cast<uaddr>(creation_player_character))],
+        chara_select_creation_shape_rel_files[character_display_index(creation_player_character)],
         character->shape_rel, &character->shape_rel_ready, NULL);
     character->shape_rel_size = rc;
     if (rc >= 0) {
@@ -962,7 +962,7 @@ void CreationTextureCacheEntry::request_textures(CharacterAppearanceFields *appe
     CreationTextureLoadSlot *slot;
     saddr index;
     bind_appearance_texture_lists(&hair_textures.textures, &head_textures.textures, &body_textures.textures, appearance);
-    index = character_display_index(reinterpret_cast<uaddr>(appearance));
+    index = character_display_index(appearance);
     slot = &hair_textures;
     if (slot->textures.present != 0) {
         slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
@@ -1014,7 +1014,7 @@ s32 select_unused_appearance_part(void *appearance, s32 part) {
     s32 max;
     s32 cur;
     s32 v;
-    max = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(&c))].counts[part];
+    max = class_appearance_table[character_display_index(&c)].counts[part];
     cur = (&c.costume)[part];
     v = cur;
     do {

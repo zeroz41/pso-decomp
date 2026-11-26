@@ -50,7 +50,7 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     character->set_luck_materials_used(get_luck_materials_used());
     character->m_stats = *get_stats();
     clamp_stats(&character->m_stats, get_class_stat_entry());
-    copy_player_visual_record(&character->m_disp_part2, name);
+    copy_player_visual_record(&character->m_disp_part2, &appearance);
     copy_disp_config(&character->m_config, &action_palettes);
     for (j = 0; j < 0x13; j++) {
         overflow = character->technique_level_overflow(j);
@@ -124,7 +124,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     record->set_def_materials_used(get_def_materials_used());
     record->set_luck_materials_used(get_luck_materials_used());
     clamp_stats(&record->m_stats, get_class_stat_entry());
-    copy_player_visual_record(&record->m_disp_part2, name);
+    copy_player_visual_record(&record->m_disp_part2, &appearance);
     copy_disp_config(&record->m_config, &action_palettes);
     for (k = 0; k < 19; k++) {
         overflow = record->technique_level_overflow(k);

@@ -1004,7 +1004,7 @@ void TObjEneSaver::refresh_target() {
             VecCopy(&v, &p->body_center);
             subtract_vector(&v, &body_center);
             d = v.x * v.x + v.z * v.z;
-            if ((p->class_flags & parameter_mask) && d < best &&
+            if ((p->appearance.classFlags & parameter_mask) && d < best &&
                 check_path_obstructed(this, &p->body_center) != 1) {
                 best_id = p->get_entity_id();
                 best = d;

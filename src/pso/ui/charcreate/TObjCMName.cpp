@@ -851,7 +851,7 @@ TObjCMAssignMenu::TObjCMAssignMenu(TObject *parent, s32 kind) : TObject(parent) 
     appearance = creation_player_character;
     enabled = 0;
     this->kind = kind;
-    limit = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))].counts[this->kind];
+    limit = class_appearance_table[character_display_index(appearance)].counts[this->kind];
     value = (&appearance->costume)[this->kind];
     item_count = 0;
     item_mask = 0;
@@ -1274,7 +1274,7 @@ TObjCMHairMenu::TObjCMHairMenu(TObject *parent) : TObject(parent) {
     appearance = creation_player_character;
     initialized = 0;
     selection = 0;
-    count = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))].counts[4];
+    count = class_appearance_table[character_display_index(appearance)].counts[4];
     active = 1;
     fade = 0.0f;
     for (i = 0; i < 3; i++) {
@@ -1652,7 +1652,7 @@ void TObjCMAutoMkData::run_task() {
     {
       break;
     }
-      lim = class_appearance_table[character_display_index((uaddr)appearance)].counts;
+      lim = class_appearance_table[character_display_index(appearance)].counts;
       sel = &appearance->costume;
       for (i = 0; i <= 4; i++, lim++, sel++)
     {

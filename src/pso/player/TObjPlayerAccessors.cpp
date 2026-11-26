@@ -84,8 +84,8 @@ s32 TObjPlayer::check_camera_mode() {
 }
 void TObjPlayer::set_regen_timer(s32 v) { this->regen_timer = v; }
 s32 TObjPlayer::get_regen_timer() { return this->regen_timer; }
-int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
-int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
+int TObjPlayer::is_newman() { return (this->appearance.classFlags & CLASS_FLAG_NEWMAN) != 0; }
+int TObjPlayer::is_android() { return (this->appearance.classFlags & CLASS_FLAG_ANDROID) != 0; }
 void TObjPlayer::check_stat_flag_41c() { pending_actions.set(32); }
 void TObjPlayer::check_flag_at_41c() { pending_actions.set(4); }
 void TObjPlayer::set_flag_41c_bit1() { pending_actions.set(2); }

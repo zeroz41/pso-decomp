@@ -61,7 +61,7 @@ TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadA
 
 TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
     m_name = TChCrLoadReq::name;
-    inputs.appearance = (CharacterAppearanceFields *)player->name;
+    inputs.appearance = &player->appearance;
     inputs.completion_flags = (u32 *)&player->model_load_flags;
     inputs.load_slot = player->get_entity_id();
     inputs.body_model = (s32 *)&player->model;
@@ -96,7 +96,7 @@ void TChCrLoadReq::reset_request() {
     s32 i;
     s32 index;
     head_model_slot = inputs.part_models + 2;
-    index = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
+    index = character_display_index(inputs.appearance);
     class_appearance = &class_appearance_table[index];
     reset_character_load_buffer(inputs.load_slot);
     inputs.body_model[0] = 0;
@@ -244,7 +244,7 @@ void TChCrLoadReq::request_texture_loads() {
     TChCrLoadAfsTextureReqArgs body;
     TChCrLoadAfsTextureReqArgs head;
     TChCrLoadAfsTextureReqArgs other;
-    s32 display = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
+    s32 display = character_display_index(inputs.appearance);
 
     body.textures = inputs.body_textures;
     body.completion_mask = 4;
@@ -279,7 +279,7 @@ void TChCrLoadReq::start_preview_loads() {
     s32 id;
     TChCrLoadAfs *load;
     get_sorted_character_proportion_samples(reinterpret_cast<const f32 *>(&inputs.appearance->width), sample_indices);
-    disp = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
+    disp = character_display_index(inputs.appearance);
     for (i = 0; i < 3; i++) {
         id = sample_indices[i];
         load = TChCrLoadAfs::create(this, 0xDB, calc_preview_offset(disp, inputs.appearance->head, id));

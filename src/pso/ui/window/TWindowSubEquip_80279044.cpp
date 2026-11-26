@@ -20,7 +20,7 @@ void TWindowMenuIconLine::refresh_equipment_list() {
 }
 
 u8 TWindowMenuIconLine::get_class_weapon_icon_index(TObjPlayer *player) {
-    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+    CharacterAppearanceFields *appearance = &player->appearance;
     if (appearance == NULL) return 0x33;
     if (appearance->classFlags & 0x20) return 0;
     if (appearance->classFlags & 0x40) return 1;

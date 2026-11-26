@@ -94,7 +94,7 @@ void TObjEneBeastBase::update_target_near_flag() {
     if (((TObjBase *)target)->get_entity_id() < 0x1000 && is_actor_cadence_frame(0x1E) != 0) {
         player = (TObjPlayer *)target;
         dist = horizontal_distance_squared(&player->position, &position);
-        switch (player->class_flags & CLASS_FLAG_TYPE_MASK) {
+        switch (player->appearance.classFlags & CLASS_FLAG_TYPE_MASK) {
         case CLASS_FLAG_HUNTER:
             if (test_actor_flags(0x100000) != 0) {
                 if (BEAST_HUNTER_NEAR_EXIT_DISTANCE_SQ < dist) {

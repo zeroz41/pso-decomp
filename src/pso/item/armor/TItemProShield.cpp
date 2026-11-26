@@ -291,12 +291,12 @@ s32 is_opposite_sex_player_near(u16 idx) {
     TObjPlayer *other;
     me = get_player_by_client_id(idx);
     if (me != NULL) {
-        mask = (me->class_flags & 1) ? 2 : 1;
+        mask = (me->appearance.classFlags & 1) ? 2 : 1;
         floor = me->get_floor();
         for (i = 0; i != 4; i++) {
             if (i != idx) {
                 other = get_player_by_client_id(i);
-                if (other != NULL && (other->class_flags & mask) && floor == other->get_floor() &&
+                if (other != NULL && (other->appearance.classFlags & mask) && floor == other->get_floor() &&
                     horizontal_distance_squared(&me->position, &other->position) < 400.0) {
                     found = 1;
                     break;

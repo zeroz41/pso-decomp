@@ -337,7 +337,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
     if (player == NULL) {
         return 0;
     }
-    p = (CharacterAppearanceFields *)player->name;
+    p = &player->appearance;
     if (p == NULL) {
         return 0;
     }

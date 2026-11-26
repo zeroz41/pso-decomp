@@ -312,7 +312,7 @@ void TObjTombstone::format_player_name() {
     player = get_player_by_client_id(this->client_id);
     dst[0] = 0;
     if (player != NULL) {
-        strncpy(buf, player->name, 0x2F);
+        strncpy(buf, player->appearance.name, 0x2F);
         buf[0x2F] = 0;
         for (p = buf + strlen(buf) - 1; p > buf && *p == ' '; p--) {
             *p = 0;

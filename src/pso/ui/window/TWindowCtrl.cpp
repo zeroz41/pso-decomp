@@ -1101,7 +1101,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, char **name) {
         *height = 0.92f * q->proportions;
     }
     if (obj->obj_isState2_324() != 0 || obj->is_locally_controlled() != 0) {
-        char *p = obj->name;
+        char *p = obj->appearance.name;
         if (p == NULL) {
             *name = 0;
             return;

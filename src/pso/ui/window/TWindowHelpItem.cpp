@@ -1194,7 +1194,7 @@ void TWindowHelpItem::update_tech_disk_stats() {
     stats.clear_fields();
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        appearance = (CharacterAppearanceFields *)player->name;
+        appearance = &player->appearance;
         if (appearance != NULL) {
             mst_entry = (TWindowLayoutNumber *)get_array_entry(5);
             if (!(appearance->classFlags & 0x10) && (build_player_equipment_requirement_stats(player, &stats) != 0)) {

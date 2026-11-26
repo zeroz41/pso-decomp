@@ -2030,7 +2030,7 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
         return 0;
     }
     possessed_client = client_id;
-    grab_appearance = player->name;
+    grab_appearance = player->appearance.name;
     copy_texlist(&saved_look.body_textures, &player->body_textures.list);
     copy_texlist(&saved_look.head_textures, &player->head_textures.list);
     copy_texlist(&saved_look.attachment_textures, &player->attachment_textures.list);

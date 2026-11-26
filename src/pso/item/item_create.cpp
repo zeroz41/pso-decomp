@@ -1085,7 +1085,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       case 2:
         r = item->data1.data_u8[4];
       {
-        u8 lim = get_technique_learn_limit(*(u8 *)&((TObjPlayer *)player)->class_index, r);
+        u8 lim = get_technique_learn_limit(*(u8 *)&((TObjPlayer *)player)->appearance.classId, r);
         if ((lim == 0xff) || (lim < item->data1.data_u8[2]))
         {
           flags |= 1;
@@ -1127,7 +1127,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
 
 
 int check_class_equip_permission(TObjPlayer *player, s32 perm) {
-    s32 t = player->class_flags;
+    s32 t = player->appearance.classFlags;
     if (t & CLASS_FLAG_HUNTER) {
         if (!(perm & 1)) return 0;
     } else if (t & CLASS_FLAG_RANGER) {

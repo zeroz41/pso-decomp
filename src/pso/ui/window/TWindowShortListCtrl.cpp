@@ -72,7 +72,7 @@ TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TOb
         queue_destruction();
         return;
     }
-    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+    CharacterAppearanceFields *appearance = &player->appearance;
     if (appearance == NULL) {
         queue_destruction();
         return;
@@ -343,7 +343,7 @@ void TWindowShortListCtrl::cycle_list_page() {
         s8 old_page = page;
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {
-            CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+            CharacterAppearanceFields *appearance = &player->appearance;
             if (appearance != NULL && help_window == NULL) {
                 page++;
                 if (page >= 4) {
@@ -426,7 +426,7 @@ s32 TWindowShortListCtrl::is_technique_usable() {
     if (player == NULL) {
         return 0;
     }
-    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+    CharacterAppearanceFields *appearance = &player->appearance;
     if (appearance == NULL) {
         return 0;
     }

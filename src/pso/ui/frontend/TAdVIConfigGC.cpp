@@ -103,7 +103,7 @@ void TAdVIConfigGC::open_player_names_window() {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != NULL) {
-                strncpy(((WarpPartyCheck *)this)->names[i].s, p->name, 0x17);
+                strncpy(((WarpPartyCheck *)this)->names[i].s, p->appearance.name, 0x17);
                 ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
                 ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
             } else {

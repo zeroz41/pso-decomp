@@ -254,7 +254,7 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
     if (player == NULL) {
         return;
     }
-    q = (CharacterAppearanceFields *)player->name;
+    q = &player->appearance;
     if (q == NULL) {
         return;
     }

@@ -325,10 +325,10 @@ void TObjPlayer::free_loaded_buffers() {
 }
 
 void TObjPlayer::update_body_parts() {
-    validate_player_visual_record(name);
-    base_stats.proportions = calc_character_height(reinterpret_cast<CharacterAppearanceFields *>(name));
+    validate_player_visual_record(&appearance);
+    base_stats.proportions = calc_character_height(&appearance);
     bind_appearance_texture_lists(&head_textures, &attachment_textures, &body_textures,
-        reinterpret_cast<CharacterAppearanceFields *>(name));
+        &appearance);
     TChCrLoadReq::create(this);
 }
 
@@ -444,7 +444,7 @@ void bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextu
   CharacterTextureList *source;
   CharacterClassAppearance *class_entry;
   CharacterTextureList *head_source;
-  class_entry = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
+  class_entry = &class_appearance_table[character_display_index(appearance)];
   hair->present = 0;
   definition = class_entry;
   hairTextures = definition->hairTextures;
@@ -488,8 +488,7 @@ s32 TCharaMaking::is_end() {
     return 0;
 }
 
-s32 character_display_index(uaddr appearance_record) {
-    const CharacterAppearanceFields *appearance = reinterpret_cast<const CharacterAppearanceFields *>(appearance_record);
+s32 character_display_index(CharacterAppearanceFields *appearance) {
     u8 model;
 
     if (!(appearance->flags & 0xA)) {

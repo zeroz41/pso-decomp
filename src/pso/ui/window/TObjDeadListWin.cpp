@@ -67,7 +67,7 @@ void TObjDeadListWin::refresh_names() {
     for (i = 0; i < 4; i++) {
         player = get_player_by_client_id(i);
         if (m_names[i].text[0] == 0 && player != NULL && challenge_client_died(i) != 0) {
-            strncpy(m_names[i].text, player->name, 15);
+            strncpy(m_names[i].text, player->appearance.name, 15);
             m_names[i].terminator = 0;
         }
     }

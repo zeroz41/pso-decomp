@@ -217,7 +217,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         push_matrix();
         post_translate_matrix(&dark_falz_head_node_position.x);
         set_texture_list(head_textures);
-        draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
+        draw_colored_hair(alpha, (saddr)hair, &player->appearance, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
@@ -317,7 +317,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
         set_texture_list(head_textures);
-        draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
+        draw_colored_hair(alpha, (saddr)hair, &player->appearance, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
@@ -630,7 +630,7 @@ void TObjDFJisin::damage_players_near_point(Vec *point) {
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != NULL && is_player_in_boss_area(p->get_entity_id()) != 0 &&
-            !(p->class_flags & CLASS_FLAG_ANDROID) &&
+            !(p->appearance.classFlags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->position) > 20.0f)) {
             DirectAttackPayload h = hit;
             p->receive_direct_attack(TBoss4DarkFalz::get_type2_instance(), h, NULL, -1, -1);

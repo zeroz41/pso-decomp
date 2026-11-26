@@ -322,7 +322,7 @@ player_stats *TObjPlayer::get_class_stat_entry() {
 }
 
 f32 TObjPlayer::get_tp_class_factor() {
-    if (this->class_flags & CLASS_FLAG_ANDROID) {
+    if (this->appearance.classFlags & CLASS_FLAG_ANDROID) {
         return 0.0f;
     }
     return player_profession_stat_factors[this->get_clamped_index()].tp;

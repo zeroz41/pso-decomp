@@ -45,7 +45,7 @@ char *build_status_text(s32 client_id) {
     if (p == NULL) {
         return 0;
     }
-    info = (u8 *)p->name;
+    info = (u8 *)p->appearance.name;
     if (info == NULL) {
         return 0;
     }
