@@ -2794,13 +2794,13 @@ inline void tail_801CCD38(TObjPlayer *p, s32 t, s8 lvl) {
     case 13:
     case 15:
     case 16:
-        p->technique_state.set_technique_state(calc_technique_parameters(t, lvl, p->get_entity_id())->pad_20);
+        p->technique_state.set_technique_state(calc_technique_parameters(t, lvl, p->get_entity_id())->duration);
         p->phase = 4;
         launch_technique(t, lvl, p);
         return;
     }
     if (p->check_flag_4() == 0 && p->m_up == tl_03) {
-        p->technique_state.set_technique_state(calc_technique_parameters(t, lvl, p->get_entity_id())->pad_20);
+        p->technique_state.set_technique_state(calc_technique_parameters(t, lvl, p->get_entity_id())->duration);
         p->phase = 4;
         launch_technique(t, lvl, p);
     }
@@ -2924,7 +2924,7 @@ void TObjPlayer::update_technique_cast() {
         this->phase = 1;
         this->set_state_flags(0x80);
         create_technique_charge_light((s16) (technique_state.get_or_init_field_4()),this);
-        technique_state.set_technique_state(calc_technique_parameters(technique_state.get_or_init_field_4(), technique_state.get_castable_technique_level(), this->get_entity_id())->pad_12);
+        technique_state.set_technique_state(calc_technique_parameters(technique_state.get_or_init_field_4(), technique_state.get_castable_technique_level(), this->get_entity_id())->charge_speed);
         technique_state.set_charge_step(0.05f);
         break;
     case 1:

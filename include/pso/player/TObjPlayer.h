@@ -757,7 +757,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_valid_technique_slot(u8 slot);
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
-    static s32 get_level_tier(s32 arg0);
+    static s32 get_level_tier(s32 level);
     static s32 is_valid_and_active(uaddr actor);
     void init_select_txt();
     void copy_lobby_header(saddr player);

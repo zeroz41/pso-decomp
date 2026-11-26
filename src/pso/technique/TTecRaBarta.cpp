@@ -200,7 +200,7 @@ void TTecRaBarta::run_task() {
     }
     this->age = this->age + 1;
     apply_technique_to_area_targets();
-    if ((s32) this->age > (s16) this->params.pad_20) {
+    if ((s32) this->age > (s16) this->params.duration) {
         queue_destruction();
     }
 }

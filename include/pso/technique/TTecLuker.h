@@ -24,7 +24,7 @@ struct TTecLuker : public TTecCircle {
     s32 phase;  // 0 placing, 1 open, 2 warping, 3 warp, 4 done
     s32 warp_frames;  // frames spent in phase 2
     static void apply_all_players();
-    static void create_for_player(int arg0, saddr arg1);
+    static void create_for_player(int client, saddr pos);
     void create(void *pos, void *target, void *level);
     void setup_telepipe_field();
     void set_state(s32 v);
