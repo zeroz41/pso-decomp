@@ -37,7 +37,6 @@ extern "C" {
 
 s32 TObjEneSlimeOne::get_attack_target() { return variant; }
 
-extern BmlResource *slime_bml_resource;
 
 s32 TObjEneSlimeOne::is_in_water_bomb_states() {
     O_800EC39C *self = (O_800EC39C *)this;

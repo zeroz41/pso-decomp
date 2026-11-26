@@ -58,4 +58,5 @@ struct SlimeTailNodeCapture {
 };
 extern SlimeTailNodeCapture slime_tail_node_capture;
 
+extern BmlResource *slime_bml_resource;
 #endif

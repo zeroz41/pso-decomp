@@ -55,7 +55,6 @@ s32 epsilon_guard_camera_sample_phase;
 s32 *epsilon_guard_angle_sample_write_ptr;
 Vec *epsilon_guard_camera_sample_read_ptr;
 Vec *epsilon_guard_camera_sample_end_ptr;
-s16 obj_getS16_118(u8 *p);
 
 Vec epsilon_body_node_origin;
 Vec epsilon_body_debug_line_points[2];
