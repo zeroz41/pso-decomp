@@ -6,8 +6,7 @@ struct Ref_803278B0 { GinjaVertexArray *ent; s16 *pts; };
 
 Ref_803278B0 *scroll_uv_entry_write_cursor;
 s16 *scroll_uv_coordinate_write_cursor;
-extern "C" {
-void collect_scroll_uv_entries__19TOComputerMachine01FiPvi(s32 arg0, GinjaModel *model, s32 id) {
+void collect_scroll_uv_entries(s32, GinjaModel *model, s32 id) {
     s32 hit;
     GinjaVertexArray *e;
     s16 *q;
@@ -38,6 +37,4 @@ void collect_scroll_uv_entries__19TOComputerMachine01FiPvi(s32 arg0, GinjaModel 
             }
         }
     }
-}
-
 }

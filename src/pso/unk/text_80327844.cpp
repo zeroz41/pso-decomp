@@ -9,7 +9,7 @@ void visit_matching_models(s32 machine, u8 *root, s32 texture_id) {
     do {
         id = texture_id;
         if (node->model != NULL) {
-            collect_scroll_uv_entries__19TOComputerMachine01FiPvi(machine, static_cast<GinjaModel *>(node->model), id);
+            collect_scroll_uv_entries(machine, static_cast<GinjaModel *>(node->model), id);
         }
         if (node->child != NULL) {
             visit_matching_models(machine, (u8 *)node->child, id);
