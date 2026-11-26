@@ -2827,7 +2827,7 @@ pso/object/TObjLuker_801329B0.cpp:
 	.rodata     start:0x8043E9F0 end:0x8043EAE8
 	.data       start:0x804A6EE0 end:0x804A6F10
 
-pso/system/TLanguage_80132A5C.cpp:
+pso/system/TLanguage.cpp:
 	.text       start:0x80132A5C end:0x80132ED0
 	.rodata     start:0x8043EAE8 end:0x8043ED18
 	.sbss       start:0x805D5538 end:0x805D5550
@@ -4510,7 +4510,7 @@ pso/network/TPacket.cpp:
 	.data       start:0x804C22D8 end:0x804C2304
 	.sdata      start:0x805D34C0 end:0x805D34C8
 
-pso/system/TLanguage.cpp:
+pso/system/TLanguageFontPalette.cpp:
 	.text       start:0x801A5694 end:0x801A5778
 
 pso/unk/text_801A5778.cpp:
@@ -4759,11 +4759,11 @@ pso/player/TPlyDispConfigSmth.cpp:
 	.text       start:0x801D7CF4 end:0x801D7D4C
 
 pso/player/TObjPlayer_801D84A8.cpp:
-	.text       start:0x801D7D4C end:0x801D859C
+	.text       start:0x801D7D4C end:0x801D84F8
 	.data       start:0x804C44C8 end:0x804C453C
 
-pso/player/TObjPlayer_801D84CC.cpp:
-	.text       start:0x801D859C end:0x801D8ADC
+pso/player/TObjEndingPlayer.cpp:
+	.text       start:0x801D84F8 end:0x801D8ADC
 	.rodata     start:0x80447190 end:0x804471A8
 	.data       start:0x804C4540 end:0x804C4680
 	.sbss       start:0x805D5E08 end:0x805D5E10
@@ -8931,7 +8931,7 @@ pso/weapon/TItemWeaponDarkMeteor.cpp:
 	.text       start:0x80357734 end:0x80357B2C
 	.data       start:0x804F14A8 end:0x804F15C4
 
-pso/player/TObjPlayer_80357B2C.cpp:
+pso/player/WeaponSpecialEffects.cpp:
 	.text       start:0x80357B2C end:0x80358AE8
 	.rodata     start:0x804793D8 end:0x804793F8
 	.data       start:0x804F15C8 end:0x804F1688

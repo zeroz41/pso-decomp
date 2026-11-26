@@ -785,7 +785,6 @@ struct TObjPlayer : public TObjChara {
     static void create_aux_object(s32 item_id, u32 *hit, saddr direction);
     static void create_network_object(s32 item_id, u32 *hit, saddr direction);
     void free_indexed_entry(s32 _w1);
-    static void update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase);
     static void create_cleanup_object(void *parent);
     static void free_static_buffer();
     static void alloc_and_run_object();
@@ -1008,9 +1007,8 @@ struct TObjPlayer : public TObjChara {
     s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
     s32 can_use_palette_action(u8 kind, u8 arg);
-    static void set_animation_from_data(saddr player, s32 picture);
-    static void assign_lobby_slot_if_flagged(saddr player, void *records);
-    static void free_shared_lobby_data();
+    void process_trade_target(TItemData *item_data);
+    void create_and_equip_item(s16 group, s16 kind);
     f32 select_normal_attack_marker();
     static void spawn_particle_at_entity_slot(s32 layer, s32 weapon, s32 id, s32 body);
     static void spawn_fire_explosion_for_item(s32 id, s32 item);

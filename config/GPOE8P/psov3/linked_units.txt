@@ -696,7 +696,7 @@ pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/audio/AdxUiBridge.cpp
 pso/ui/keyboard/KBDXfer.c
 pso/effect/TKomorebi.cpp
-pso/system/TLanguage.cpp
+pso/system/TLanguageFontPalette.cpp
 pso/object/container/TContainerAncient01R.cpp
 pso/ui/TLevelSelect.cpp
 pso/system/TLoadCtrl.cpp
@@ -1431,7 +1431,7 @@ pso/player/TObjPlayer_801D6C4C.cpp
 pso/player/DamageStatSlot.cpp
 pso/player/TObjPlayer_801D7C5C.cpp
 pso/player/TObjPlayer_801D84A8.cpp
-pso/player/TObjPlayer_801D84CC.cpp
+pso/player/TObjEndingPlayer.cpp
 pso/player/TObjPlayer_801D8ADC.cpp
 pso/player/TObjPlayer_801D95B8.cpp
 pso/player/TObjPlayerTechniqueLevels.cpp
@@ -1455,7 +1455,7 @@ pso/player/Palettex.cpp
 pso/player/PalettexState.cpp
 pso/weapon/TItemWeaponTsumikiri.cpp
 pso/weapon/TItemWeaponDarkMeteor.cpp
-pso/player/TObjPlayer_80357B2C.cpp
+pso/player/WeaponSpecialEffects.cpp
 pso/weapon/TItemWeaponSRankCard.cpp
 pso/player/EquippedItemDraw.cpp
 pso/render/GinjaTextureTable.cpp
@@ -1612,7 +1612,7 @@ pso/ui/frontend/TAdWarningBaseGC.cpp
 pso/ui/frontend/TAdYesNoBaseGC.cpp
 pso/quest/challenge/TChallenge4PItemSelect.cpp
 pso/ui/font/TFontSmallTask.cpp
-pso/system/TLanguage_80132A5C.cpp
+pso/system/TLanguage.cpp
 pso/ui/window/TMessageWindowController.cpp
 pso/ui/window/TObjBagWarnWin.cpp
 pso/ui/charcreate/TObjCMHexTile.cpp

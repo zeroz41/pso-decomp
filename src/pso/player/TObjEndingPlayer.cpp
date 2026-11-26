@@ -3,7 +3,10 @@
 #include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
 #include "pso/player/TPlyItem.h"
-#include "pso/player/TObjPlayer_801D84CC.h"
+#include "pso/item/TItemIdCounters.h"
+#include "pso/network/client_id.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
@@ -29,46 +32,55 @@
 
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
+}
 
-s32 advance_item_id_counter();
+// Poses the player for ending picture `picture`: equips the picture's item and starts its animation.
+void TObjEndingPlayer::set_animation_from_data(s32 picture) {
+    s16 *entry = (s16 *)get_anim_table_entry(picture);
+    create_and_equip_item(entry[0], entry[1]);
+    set_animation_default(picture);
+}
 
-void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) {
+// Equips `item` from the ending record when its flag 8 is set, under a new item id.
+void TObjEndingPlayer::assign_lobby_slot_if_flagged(TPlyInventoryItem *item) {
+    if (item->m_flags & 8) {
+        item->m_data.id = advance_item_id_counter((u16)local_client_id);
+        equip_saved_item_if_slot_empty(this, item);
+    }
+}
+
+// Creates the item `item_data` describes and equips it, deleting the item in its slot first.
+void TObjPlayer::process_trade_target(TItemData *item_data) {
     TItem *item;
 
-    ((TObjBase *)player)->get_entity_id();
-    item_data->id = advance_item_id_counter();
+    item_data->id = advance_item_id_counter(get_entity_id());
     item = create_item(item_data);
     if (item != NULL) {
-        s8 val = item->get_attach_slot();
-        s32 val_ext = (s32)val;
-        TItem *slot_item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), val_ext);
+        s32 slot = item->get_attach_slot();
+        TItem *slot_item = (TItem *)get_slot_value(equipped_items.items, slot);
         if (slot_item != NULL) {
-            TObjPlayer::send_6x29_delete_item((TObjPlayer *)player, slot_item->get_item_id(), 1);
-            set_equip_slot_entry(player + 0xD04, val_ext, 0);
+            send_6x29_delete_item(this, slot_item->get_item_id(), 1);
+            set_equip_slot_entry((saddr)equipped_items.items, slot, 0);
         }
-        TObjPlayer *owner = (TObjPlayer *)player;
-        if (owner->pickup_item(item) != 0U) {
-            owner->set_flag_20000();
-            owner->equip_item_to_slot(item, 0);
-            owner->clear_flag_20000();
+        if (pickup_item(item) != 0U) {
+            set_flag_20000();
+            equip_item_to_slot(item, 0);
+            clear_flag_20000();
         }
     }
 }
-void TObjPlayer__sub_801D8664(s32 player, s8 group, s8 kind) {
+
+// Creates and equips a new item of the given group and kind.
+void TObjPlayer::create_and_equip_item(s16 group, s16 kind) {
     TItemData item_data;
     item_data.init();
     item_data.data1.data_u8[1] = group;
     item_data.data1.data_u8[0] = 0;
     item_data.data1.data_u8[2] = kind;
-    process_trade_target__10TObjPlayerFiPv(player, &item_data);
+    process_trade_target(&item_data);
 }
 
-}
 BmlMotionEntry **player_ending_motion_object;
-extern "C" {
-void translate_matrix_vec3(u8 *matrix, u8 *vec);
-s32 rotate_matrix_y(int, int);
-
 int TObjEndingPlayer::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
 void TObjEndingPlayer::set_animation_default(s16 index) { set_animation(index); }
 
@@ -110,15 +122,20 @@ void TObjEndingPlayer::render() {
 
 void TObjEndingPlayer::run_task() {}
 
-void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(player_ending_motion_object)); player_ending_motion_object = NULL; TObjPlayer::free_shared_data(); }
+void free_player_ending_motion() {
+    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(player_ending_motion_object));
+    player_ending_motion_object = NULL;
+    TObjPlayer::free_shared_data();
 }
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TPlyInventory.h"
 
 
-void create_player_ending_motion(void);
-void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = static_cast<BmlMotionEntry **>(create_named_object("PlyEndingMotionData.rel")); }
+void create_player_ending_motion() {
+    TObjPlayer::alloc_shared_buffers();
+    player_ending_motion_object = static_cast<BmlMotionEntry **>(create_named_object("PlyEndingMotionData.rel"));
+}
 
 TObjEndingPlayer::TObjEndingPlayer(TObject *parent, EndingPlayerRecord *src) : TObjPlayer(parent, src) {
     set_floor_index(1);
@@ -135,8 +152,8 @@ TObjEndingPlayer::TObjEndingPlayer(TObject *parent, EndingPlayerRecord *src) : T
     rotate_matrix_y(0, rotation_y);
     calc_joint_matrices(current_motion, 0.0f, (saddr)joint_matrices);
     pop_matrix();
-    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->equipment.items[0]);
-    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->equipment.items[1]);
+    assign_lobby_slot_if_flagged(&src->equipment.items[0]);
+    assign_lobby_slot_if_flagged(&src->equipment.items[1]);
 }
 
 TObjEndingPlayer::~TObjEndingPlayer() {}

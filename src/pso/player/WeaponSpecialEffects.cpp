@@ -45,7 +45,7 @@ extern "C" {
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 
 }
-void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1);
+
 #pragma push
 #pragma fp_contract on
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
@@ -160,9 +160,9 @@ TMirrorPairParticle::TMirrorPairParticle(TObject *parent, Vec *pos, s32 start_an
 }
 #pragma pop
 
-void TObjPlayer::update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase) {
+void update_battle_control_on_unlock(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        ((TObjPlayer *)player)->update_battle_control_if_unlocked();
+        player->update_battle_control_if_unlocked();
     }
 }
 
@@ -480,7 +480,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
         return;
     }
     if (weapon->test_weapon_flags(0x400020) != 0U) {
-        TObjPlayer::update_battle_control_on_unlock(player, target, pos, phase);
+        update_battle_control_on_unlock(player, target, pos, phase);
         return;
     }
     selector = weapon->get_special_selector();

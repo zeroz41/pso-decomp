@@ -511,9 +511,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TItemLoad.cpp's six vtables (0x8049F3F4..0x8049F448) follow its text in
     # forward order: deferred code generation, written from its last function back.
     "pso/item/TItemLoad.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # -str reuse,readonly: "PlyEndingMotionData.rel" 0x80447190 (801D84CC) and "PlyLevelTbl.cpt" 0x804492E8
+    # -str reuse,readonly: "PlyEndingMotionData.rel" (TObjEndingPlayer) and "PlyLevelTbl.cpt" 0x804492E8
     # (801D8ADC) sit in .rodata.
-    "pso/player/TObjPlayer_801D84CC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/player/TObjEndingPlayer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/player/TObjPlayer_801D8ADC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # vtables come out TCameraConversation, TCameraPan then TCameraFixed (the text order of their
     # dtors): written last to first, deferred.

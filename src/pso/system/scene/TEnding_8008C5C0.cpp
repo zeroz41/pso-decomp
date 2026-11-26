@@ -24,6 +24,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjEndingPlayer.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -33,7 +34,6 @@
 #include "pso/unk/TLobby_802268F4.h"
 
 const char TEnding::class_name_string[] = "TEnding";
-void create_player_ending_motion(void);
 
 // Load and release hooks of the ending scene, in pairs: run_load_callback_table
 // calls the first of each pair, call_funcs_reverse the second, last pair first.
@@ -47,7 +47,7 @@ void (*ending_scene_callbacks[26])(void) = {
     TScene::bind_ending_wall_textures, TEndingAB::destroy_instance,
     alloc_quest_download_buffer, TLobby::free_chr_select_singleton,
     init_item_system, free_item_system,
-    create_player_ending_motion, TObjPlayer::free_shared_lobby_data,
+    create_player_ending_motion, free_player_ending_motion,
     init_game_player_actions, release_game_player_actions,
     TAdEndText::load_ending_font, TAdEndText::free_resources,
     TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00,
