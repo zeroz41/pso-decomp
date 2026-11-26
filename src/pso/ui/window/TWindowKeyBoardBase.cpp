@@ -1,4 +1,5 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/quest/QuestDownloadAramFile.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/render/ScreenSpriteDraw.h"
@@ -60,7 +61,6 @@ struct InputTextCursors {
 };
 
 void draw_textured_quad_at_depth(void *, f32);
-extern s32 actor_frame_tick;
 
 
 void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {

@@ -12,7 +12,6 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-extern f32 window_depth_order_cursor;
 const NJS_POINT2 *TWindowOptionCtrl::get_option_entry(int a0) { return &window_layout_rect_table[a0]; }
 }
 const NJS_POINT2 *get_window_layout_position(s32 idx) {

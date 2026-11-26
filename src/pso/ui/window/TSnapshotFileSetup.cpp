@@ -14,10 +14,10 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 s32 start_memcard_format(int, int, int, int, int);
-extern TObject *tl_01;
 
 TSnapshotFileSetup::TSnapshotFileSetup(TObject *parent) : TObject(parent) {
     this->state = 0;

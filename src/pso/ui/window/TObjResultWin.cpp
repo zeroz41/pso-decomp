@@ -10,6 +10,8 @@
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/scene/TScene.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include <string.h>
@@ -22,8 +24,6 @@
 
 extern "C" {
 char* get_message_text(s32);
-extern s32 current_lobby_id;
-extern TObject* tl_07;
 __declspec(section ".rodata") extern const char TObjResultWin_class_name[];
 __declspec(section ".rodata") extern const char challenge_result_time_format[];
 __declspec(section ".rodata") extern const char challenge_result_total_time_format[];

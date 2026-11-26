@@ -17,14 +17,12 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include <string.h>
 
 extern "C" {
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
-extern SubtractiveRng chr_select_rng_state;
 extern s32 chr_select_serial_seeds[];
-extern char memory_card_character_dir_name[];
-extern s32 memcard_access_active;
 }
 s32 TWindowKeyBoardHard::is_card_flag_set(s32 client_id) { return test_card_flag(client_id, 1); }
 void draw_ginja_box_tree(NJS_OBJECT *node) {

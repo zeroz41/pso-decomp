@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/WindowControlState.h"
 
+extern f32 window_depth_order_cursor;
+
 struct TWindowCtrlScreen;
 class TWindowCtrlSub;
 
