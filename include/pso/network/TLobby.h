@@ -138,7 +138,7 @@ struct TLobby : public TObject {
     void update_and_send();
     static TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
     static int get_sync_counter(u16 a0);
-    static void forward_to_player(int id, void *item);
+    static void forward_to_player(int id, TItemData *item);
     static void handle_player_event(s32 client, s32 slot);
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();
@@ -683,8 +683,10 @@ extern s32 item_ground_placement_enabled;
 // 1 when the local player stands on another floor than the current one (never in split screen).
 s32 is_local_player_off_current_floor();
 
+class TPlyCharData;
+
 extern "C" {
-void fn_801058E8(void *p);
+void fn_801058E8(TPlyCharData *chr);
 }
 
 // The lobby name the server sends (packet 0x8A) after start_lobby_name_request.

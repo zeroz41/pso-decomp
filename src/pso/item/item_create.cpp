@@ -516,13 +516,13 @@ void normalize_drop_area(s32 *p) {
     }
 }
 
-void TLobby::forward_to_player(int id, void *item) {
+void TLobby::forward_to_player(int id, TItemData *item) {
     TObjPlayer *player;
     if (item != NULL) {
         player = get_player_by_client_id((u16)id);
         if ((player != NULL) && ((player->is_locally_controlled() == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) designated_client_id)))) {
-            player->request_inventory_item((TItemData*)item);
-            send_6x25_equip_item(player, *(s32 *)((s8 *)item + 0xC), 0);
+            player->request_inventory_item(item);
+            send_6x25_equip_item(player, item->id, 0);
         }
     }
 }
@@ -1325,7 +1325,7 @@ void TObjPlayer::init_game_resources() {
     lbl_805D5440.reset();
 }
 
-void fn_801058E8(void* p) { *(u8*)((char*)p + 0x7) |= 0x1; }
+void fn_801058E8(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }
 
 s32 TObjPlayer::is_script_controlled() {
     return this->control_state == 6;
