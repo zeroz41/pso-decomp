@@ -26,6 +26,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "types.h"
+#include "pso/camera/CameraAngles.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
@@ -845,7 +846,7 @@ void place_players_in_warp_circle(void) {
             pos.z += 350.0f * cos_table_lookup(ang);
             p->set_position_from(&pos);
             p->save_previous_position();
-            *(s32 *)((u8 *)p->get_rotation() + 4) = ang + 0x8000;
+            p->get_rotation()->yaw = ang + 0x8000;
             p->refresh_equipment_slot();
             if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
