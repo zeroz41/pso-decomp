@@ -118,7 +118,7 @@ void fn_80271848(s32 window, WindowDrawContext *context) {
     r.v1 = 0.15625f;
     context->transform_quad(&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TWindowSubStatusDisp__sub_80271A6C(s32 window, WindowDrawContext *context) {

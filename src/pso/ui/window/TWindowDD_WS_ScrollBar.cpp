@@ -180,7 +180,7 @@ void TWindowDD_WS_ScrollBar::render() {
         quad[3] = quad[1] + len;
     }
     draw_textured_quad_at_depth(quad, z);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 

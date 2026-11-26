@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
@@ -77,12 +78,12 @@ void TObjNpcBase::draw_debug_info() {
     }
     message_label = parameters[4];
     object_number = parameters[3];
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x1A001D, "<- DISP ON FLAG NO : %4.0f", parameters[1]);
     debug_printf_at(0x1A001E, "<- DISP OFF FLAG NO: %4.0f", parameters[2]);
     debug_printf_at(0x1A001F, "<- OBJECT NUMBER : %4d", object_number);
     debug_printf_at(0x1A0020, "<- MESSAGE LABEL : %4d", message_label);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 #pragma pool_data reset
 

@@ -1,4 +1,6 @@
 #include "pso/render/GinjaTexture.h"
+#include "pso/math/FloatRound.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "pso/render/ColorLineList.h"
 #include <stdlib.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -357,7 +359,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, z);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 
@@ -565,7 +567,7 @@ void TWindowBase::draw_quest_message_frame(void *context) {
     rem -= 32.0f;
     q.y0 += step;
   }
-  TWindowSubStatusDisp::get_player();
+  end_screen_draw();
 }
 
 #pragma push
@@ -627,8 +629,8 @@ void draw_window_scanlines(u8 *card, u8 *context) {
     case 1:
         return;
     }
-    n1 = TWindowSubComCard::trunc_float((12.0f + *(f32 *)((s8 *)card + 0x44)) / 4.0f);
-    n2 = TWindowSubComCard::trunc_float((*(f32 *)((s8 *)card + 0x4C) - 24.0f) / 4.0f);
+    n1 = trunc_float((12.0f + *(f32 *)((s8 *)card + 0x44)) / 4.0f);
+    n2 = trunc_float((*(f32 *)((s8 *)card + 0x4C) - 24.0f) / 4.0f);
     y = ((5.0f * ((f32)lbl_805D63F6 - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)card + 0x40);
     if (y <= 0.0f) {
         return;
@@ -753,7 +755,7 @@ void TWindowBase::draw_window_frame(void *context) {
     rem -= 32.0f;
     q.y0 += dy;
   }
-  TWindowSubStatusDisp::get_player();
+  end_screen_draw();
   draw_window_scanlines((u8 *)this, (u8 *)((WindowDrawContext *)context));
 }
 
@@ -787,7 +789,7 @@ void TWindowSubComCard__sub_8024634C(void) {
         break;
     case 2:
         lbl_805D63F6++;
-        if (5.0f * ((f32)lbl_805D63F6 - 0.2f * TWindowSubComCard::trunc_float(120.0f)) >= 840.0f) {
+        if (5.0f * ((f32)lbl_805D63F6 - 0.2f * trunc_float(120.0f)) >= 840.0f) {
             window_ui_theme_index = 0;
         }
         break;
@@ -896,19 +898,19 @@ void load_hud_palette_textures(void) {
     load_disc_prs_texture(lbl_8044E758, &f256_hyouji_texlist);
     hud_texlist = &f256_hyouji_texlist;
     TObjFish::set_global_param(&f256_hyouji_texlist);
-    TLanguage::set_entry_index(0, 0x40);
-    TLanguage::set_entry_index(1, 0x41);
-    TLanguage::set_entry_index(2, 0x42);
-    TLanguage::set_entry_index(3, 0x45);
-    TLanguage::set_entry_index(4, 0x46);
-    TLanguage::set_entry_index(5, 0x47);
-    TLanguage::set_entry_index(0xB, 0x44);
-    TLanguage::set_entry_index(0xC, 0x43);
-    TLanguage::set_entry_index(6, 0x4A);
-    TLanguage::set_entry_index(7, 1);
-    TLanguage::set_entry_index(8, 1);
-    TLanguage::set_entry_index(9, 1);
-    TLanguage::set_entry_index(0xA, 1);
+    set_context_texture_palette_bank(0, 0x40);
+    set_context_texture_palette_bank(1, 0x41);
+    set_context_texture_palette_bank(2, 0x42);
+    set_context_texture_palette_bank(3, 0x45);
+    set_context_texture_palette_bank(4, 0x46);
+    set_context_texture_palette_bank(5, 0x47);
+    set_context_texture_palette_bank(0xB, 0x44);
+    set_context_texture_palette_bank(0xC, 0x43);
+    set_context_texture_palette_bank(6, 0x4A);
+    set_context_texture_palette_bank(7, 1);
+    set_context_texture_palette_bank(8, 1);
+    set_context_texture_palette_bank(9, 1);
+    set_context_texture_palette_bank(0xA, 1);
     window_ui_theme_index = 0;
 }
 

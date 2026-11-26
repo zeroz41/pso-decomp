@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/audio/AdxUiBridge.h"
 #include "pso/render/gjSystem.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
@@ -92,7 +93,7 @@ s32 keyboard_input_flag;
 void poll_input_devices_frame(void) {
     read_pads();
     hardware_keyboard_state.disable_disconnected_ports();
-    TKeyBoardControl::flush_input();
+    flush_input();
     update_pad_rumble();
     TLobby::reset_state_byte();
 }
@@ -295,7 +296,7 @@ void init_game_systems(void) {
     set_shape_vertex_buffer((u32 *)motion_blend_buffer);
     keyboard_input_buffer = (DebugTextRecord *)xmalloc(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
-    TObjNpcEnemy::set_global_count(-1);
+    set_debug_text_color(-1);
     set_debug_text_scale(0xC);
     init_gx_lighting_defaults();
     install_depth_alpha_state();

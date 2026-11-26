@@ -98,7 +98,7 @@ void TQuadSpriteCol::render() {
             }
             n = n->next;
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
     TParticleCtrl::end_effect_render();
     quad_sprite_reset_entries();

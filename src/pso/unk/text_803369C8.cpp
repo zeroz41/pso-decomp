@@ -56,7 +56,7 @@ void draw_title_background_pulse(s32 owner, f32 depth, s32 frame) {
         q.u1 = 0.82421875f;
         q.v1 = 0.25f;
         draw_textured_quad_at_depth((f32 *)&q, -1.0f / depth);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_default_alpha_blend();
     }
 }
@@ -130,7 +130,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
         rotate_title_background_quad(owner, (u8 *)&q, (u8 *)pos, -angle * 2, 104.0f);
         draw_rotated_quad((f32 *)&q);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 #pragma pop

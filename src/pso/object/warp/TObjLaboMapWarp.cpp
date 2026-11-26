@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -547,9 +548,9 @@ void TObjCityMainWarp::debug_print_area_num() {
         select_type = 2;
     }
     const char *type_names[3] = {"SELECT TYPE NORMAL", "SELECT TYPE VR", "SELECT TYPE CTRL CENTER"};
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "%s", type_names[select_type]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
@@ -686,14 +687,14 @@ const char *labo_map_warp_dest_name_table_a[3] = {"GOVERNOR", "CITY", "LABO"};
 
 void TObjCityMapWarp::draw_debug_destinations() {
     clamp_destination_index();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- DST POS X");
     debug_printf_at(0x13001D, "<- DST POS Y");
     debug_printf_at(0x13001E, "<- DST POS Z");
     debug_printf_at(0x130020, "<- DST ANG Y");
     debug_printf_at(0x130021, "<- MODEL TYPE");
     debug_printf_at(0x130022, "<- MESSAGE : %s", labo_map_warp_dest_name_table_a[set_params[2]]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
@@ -783,13 +784,13 @@ const char *labo_map_warp_dest_name_table_b[3] = {"GOVERNOR", "CITY", "LABO"};
 
 void TObjLaboMapWarp::draw_debug_destinations() {
     clamp_index();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- DST POS X");
     debug_printf_at(0x13001D, "<- DST POS Y");
     debug_printf_at(0x13001E, "<- DST POS Z");
     debug_printf_at(0x130020, "<- DST ANG Y");
     debug_printf_at(0x130021, "<- MODEL TYPE");
     debug_printf_at(0x130022, "<- MESSAGE : %s", labo_map_warp_dest_name_table_b[set_params[2]]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 

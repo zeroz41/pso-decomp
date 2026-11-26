@@ -363,7 +363,6 @@ struct TLobby : public TObject {
     static void reset_info_board();
     static void *create_dialing_message_window(const char *message, u32 delay);
     static void release_bg_multi_textures();
-    s32 get_scroll_offset();
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);
     void send_6x71_to_player();
@@ -427,8 +426,6 @@ struct TLobby : public TObject {
     static void update_trade_proposal_state();
     static s32 check_trade_items_and_show_error();
     static void apply_trade_items();
-    static s32 get_afs_file_info(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *offset, s32 *size);
-    static s32 read_afs_toc(s32 id);
 
     static void update_alloc_size();
     void bswap_challenge_dead_flag();
@@ -539,7 +536,6 @@ struct TLobby : public TObject {
     void apply_sync_item_state();
     static s32 init_floor_enemy_count(s32 floor, u8 *source, s32 size);
     static s32 load_object_set_entries(s32 floor, u8 *rows, s32 byte_size);
-    s32 copy_current_entry_name(s32 len);
     void capture_chat_sensor();
     static void parse_message_tag();
     static void append_unit_list_name();

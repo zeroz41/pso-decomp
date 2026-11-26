@@ -263,7 +263,7 @@ void TWindowFukidasi::draw_body(WindowDrawContext *context, u32 argb, f32 *offse
         s.edge_b_y = mid;
         draw_body_row(&s, context, offset[0], 32.0f, width, d);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TWindowFukidasi::draw_body_row(RotatedQuadSpriteRect *slice, WindowDrawContext *context, f32 offsetX, f32 rowTop, f32 fullWidth, f32 rowHeight) {
@@ -414,7 +414,7 @@ void TWindowFukidasi::draw_name_plate(WindowDrawContext *context, u32 argb) {
       context->transform_quad(&q);
       draw_textured_quad_at_depth(&q.x0, scale);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     pos[0] += 6.0f;
     if (textW < 20.0f)
     {

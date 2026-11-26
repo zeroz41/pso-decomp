@@ -1,4 +1,5 @@
 #include "pso/object/city/CityTraffic.h"
+#include "pso/unk/text_803D8030.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include <string.h>
@@ -142,7 +143,7 @@ void TObjCityMainWarpChallenge::debug_print_area_num() {
     } else {
         key_id = v;
     }
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         debug_printf_at(0x130020, next_stage_format, set_params[0]);
     }

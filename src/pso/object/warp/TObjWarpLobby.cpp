@@ -1,4 +1,5 @@
 #include "pso/animation/ActorAnimationState.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/NinjaTypes.h"
@@ -67,9 +68,9 @@ void TObjWarpLobby::debug_print_area_num() {
         show_beam = 1;
         break;
     }
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- BEAM DISP ON/OFF");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 

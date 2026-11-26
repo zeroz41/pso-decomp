@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/unk/text_803D619C.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
 
 f32 lbl_805D76A8;
 
@@ -8,7 +7,7 @@ f32 lbl_805D76A8;
 #pragma optimize_for_size off
 #pragma scheduling off
 #pragma peephole off
-s32 TBoss8Dragon::calc_binomial_coefficient(s32 n, s32 k) {
+s32 calc_binomial_coefficient(s32 n, s32 k) {
     s32 d = 1;
     s32 r = 1;
     s32 i;

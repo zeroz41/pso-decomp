@@ -83,7 +83,7 @@ extern NetConfigBuffer *lobby_net_config_buffer;
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby::copy_current_entry_name(s32 len) {
+s32 copy_current_entry_name(char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -102,8 +102,8 @@ s32 TLobby::copy_current_entry_name(s32 len) {
     if (len <= 0) {
         return -2;
     }
-    memset(this, 0, len);
-    strncpy(((char *)this), lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].name, len - 1);
+    memset(dst, 0, len);
+    strncpy(dst, lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].name, len - 1);
     if ((u32)len <= strlen(lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].name)) {
         return -2;
     }

@@ -42,14 +42,6 @@ struct Vec;
 // The De Rol Le tunnel the raft travels through: it scrolls the tunnel segments past the
 // camera (segment_queue, models of the bm_obj_boss2_common resource), sways and rolls them,
 // flickers the fog and drives the brake to the boss arena (state 3).
-// Vertex of TObjBoss2Tunnel::draw_projected_quads: a view-space position and an RGBA colour.
-struct ProjectedVertex {
-    f32 x;
-    f32 y;
-    f32 z;
-    u32 color;
-};
-
 struct TObjBoss2Tunnel : public TObject {
     static void free_resources();
     TObjBoss2Tunnel(TObject *parent);
@@ -123,7 +115,6 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 turn_toward_angle_limited(s32 angle, s32 cur, s32 target, s32 step, s32 limit);
     static f32 calc_scaled_value(s32 angle, f32 length);
     static void enable_and_trigger();
-    static void reset_player_state();
     static void create_particle_effect(const Vec *position, s32 particle_index, f32 speed);
     // Hand the emitter's particles over to TObjBoss2Tunnel_parent_object, adding offset to their
     // step or speed to its z, so they outlive the emitter (TObjBoss2Tunnel_8003B1FC.cpp).
@@ -139,11 +130,6 @@ struct TObjBoss2Tunnel : public TObject {
     static void start_sway_negative_x();
     static void start_sway_positive_x();
     static void set_global_flag_100();
-    // Draws n vertices as a triangle strip, dividing x and y by -z.
-    static void draw_projected_quads(ProjectedVertex *vertices, s32 n);
-    // Loads the screen-space matrix and the colour vertex state for draw_projected_quads,
-    // blended when mode != 0.
-    static void setup_projected_color_draw(s32 mode);
     static const Vec raft_splash_offset_table[2];
     static const char *name;
     static u32 global_flags;

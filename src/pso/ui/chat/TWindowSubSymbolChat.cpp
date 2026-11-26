@@ -1110,7 +1110,7 @@ void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window) {
         q.u1 = 0.9296875f;
         q.v1 = 0.38671875f;
         draw_textured_quad_at_depth((f32 *)&q, scale);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 

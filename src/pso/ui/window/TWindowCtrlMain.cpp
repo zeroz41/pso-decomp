@@ -634,7 +634,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     q.u1 = 0.06640625f;
     q.v1 = 0.99609375f;
     draw_textured_quad_at_depth((f32 *)&q, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 
     line.verts = lverts;
     line.colors = lcolors;

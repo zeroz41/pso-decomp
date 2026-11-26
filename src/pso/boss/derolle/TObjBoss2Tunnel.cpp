@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/render/ProjectedColorDraw.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
@@ -686,9 +687,9 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = snapshot_frame_center.y - 96.0f;
     v[3].x = 640.0f;
     v[3].y = snapshot_frame_center.y - 96.0f;
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(v, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(v, 4);
+    end_projected_color_draw();
     v[0].x = 0.0f;
     v[0].y = snapshot_frame_center.y - 96.0f;
     v[1].x = snapshot_frame_center.x - 128.0f;
@@ -697,9 +698,9 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 480.0f;
     v[3].x = snapshot_frame_center.x - 128.0f;
     v[3].y = 480.0f;
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(v, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(v, 4);
+    end_projected_color_draw();
     v[0].x = 128.0f + snapshot_frame_center.x;
     v[0].y = snapshot_frame_center.y - 96.0f;
     v[1].x = 640.0f;
@@ -708,9 +709,9 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 96.0f + snapshot_frame_center.y;
     v[3].x = 640.0f;
     v[3].y = 96.0f + snapshot_frame_center.y;
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(v, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(v, 4);
+    end_projected_color_draw();
     v[0].x = snapshot_frame_center.x - 128.0f;
     v[0].y = 96.0f + snapshot_frame_center.y;
     v[1].x = 640.0f;
@@ -719,9 +720,9 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 480.0f;
     v[3].x = 640.0f;
     v[3].y = 480.0f;
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(v, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(v, 4);
+    end_projected_color_draw();
     TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(1, -1);
     begin_screen_draw(1);
@@ -769,7 +770,7 @@ void draw_snapshot_capture_overlay(void) {
     q.u0 = 0.423529416f;
     q.u1 = 0.31764707f;
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     restore_saved_depth_alpha_state();
 }
 

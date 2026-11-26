@@ -93,7 +93,6 @@ struct TWindowSubComCard : public TObject {
     static TWindowSubComCardList *create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
     static TWindowSubComCardList *sub_802754EC(const NJS_POINT2 *position);
-    static f32 trunc_float(f32 value);
     void set_card_text(saddr src);
     static GuildCardSlot *find_card_by_id(u32 id);
     static void swap_cards(s32 first_index, s32 second_index);

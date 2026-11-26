@@ -29,7 +29,7 @@ void TAdMcSelectCursorGC::render_cursor() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdMcSelectCursorGC::texture_entry));
     set_draw_texture_and_color(0, ((this->cursor_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&quads[0].x0, 0.9f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdMcSelectCursorGC::render() {

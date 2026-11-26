@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/math/FloatRound.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -136,8 +137,8 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
         size.y = 3.0f + (20.0f + preview->height);
-        position.x = TWindowSubStatusDisp::round_away_from_zero(position.x - 0.5f * size.x);
-        position.y = TWindowSubStatusDisp::round_away_from_zero(position.y - 0.5f * size.y);
+        position.x = round_away_from_zero(position.x - 0.5f * size.x);
+        position.y = round_away_from_zero(position.y - 0.5f * size.y);
         preview_window = create_quest_message_window_at(&position, &size);
         dispatch_message_window_text(preview_window, (saddr)text, 0x402);
         preview_window->set_depth(50060.0f);
@@ -152,8 +153,8 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
         size.y = 3.0f + (20.0f + preview->height);
-        position.x = TWindowSubStatusDisp::round_away_from_zero(position.x - 0.5f * size.x);
-        position.y = TWindowSubStatusDisp::round_away_from_zero(position.y - 0.5f * size.y);
+        position.x = round_away_from_zero(position.x - 0.5f * size.x);
+        position.y = round_away_from_zero(position.y - 0.5f * size.y);
         preview_window = create_quest_message_window_at(&position, &size);
         dispatch_message_window_text(preview_window, (saddr)get_shared_text_buffer(), 2);
         preview_window->set_depth(50060.0f);

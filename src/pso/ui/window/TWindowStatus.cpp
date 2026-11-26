@@ -156,7 +156,7 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
     q.v1 = 0.296875f;
     context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, s);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     if (TWindowSubComCard__sub_80245558(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&q, context);

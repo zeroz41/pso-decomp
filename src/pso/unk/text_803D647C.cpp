@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/math/FloatRound.h"
 #include "pso/math/AngleLookup.h"
 #include <math.h>
 
 #pragma push
 #pragma scheduling off
-f32 TWindowSubStatusDisp::round_away_from_zero(f32 value) {
+f32 round_away_from_zero(f32 value) {
     if (value < 0.0f) {
         return -(f32) ceil(-value);
     }

@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
@@ -61,9 +62,9 @@ void TMotorcycle::debug_draw_label() {
     m_bc = (s32)fabs_float(scale.x);
     m_bc = m_bc % 2;
     m_bc = lbl_80445DF4[m_bc];
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- MODEL SELECT");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TMotorcycle::render() {

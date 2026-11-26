@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -162,9 +163,9 @@ void TObjDoorKey::debug_draw_key_id() {
     TOKey::debug_draw_key_id();
     VecCopy(&center, &position);
     center.y += 8.0f;
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130022, "PLATE NUM : %d", set_params[2]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }

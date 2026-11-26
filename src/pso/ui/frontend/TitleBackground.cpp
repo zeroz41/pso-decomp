@@ -36,7 +36,7 @@ void draw_title_background_quads(void *texture_list, s32 tex_base, s32 color, s3
         q[7] = 1.0f;
         draw_textured_quad_at_depth(q, -1.0f / depth);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 TitleBackgroundTile title_background_tiles[8] = {

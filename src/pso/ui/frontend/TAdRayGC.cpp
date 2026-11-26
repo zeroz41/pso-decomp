@@ -26,7 +26,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
             TObjFish::set_global_param(TAdRayGC::ray_texture_list);
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
         }
         break;
     case 1:
@@ -36,7 +36,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
             TObjFish::set_global_param(TAdRayGC::ray_texture_list);
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
         }
         break;
     }

@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/math/FloatRound.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
@@ -400,7 +401,7 @@ void draw_photon_blast_gauge_ring(TWindowSimpleStatus *window, WindowDrawContext
     if (charge > 500.0f) {
         charge = 500.0f;
     }
-    n = TWindowSubComCard::trunc_float(0.01f * charge);
+    n = trunc_float(0.01f * charge);
     charge -= 100.0f * n;
     if (ctx->open_tick >= 0) {
         p.x = ctx->x + pos->x;
@@ -443,7 +444,7 @@ void TWindowSimpleStatus::draw_background(WindowDrawContext *ctx) {
     r.v1 = 0.44921875f;
     ctx->transform_quad(&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     if (TWindowSubComCard__sub_80245558(ctx, &pos, &size) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&r, ctx);

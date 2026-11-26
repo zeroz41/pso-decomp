@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/math/FloatRound.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -358,7 +359,7 @@ s32 TObjEneRecobox::can_spawn_recons() {
     if (has_child_in_anim_5() == 1) {
         return 0;
     }
-    t = (s32)TWindowSubComCard::trunc_float(recon_max / 2.0f);
+    t = (s32)trunc_float(recon_max / 2.0f);
     r = 0;
     if (live_recons <= t && spawned_recons < recon_total) {
         r = 1;

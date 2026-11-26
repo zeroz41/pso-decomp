@@ -662,7 +662,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 
@@ -837,7 +837,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
     tab_x += 1.0f + (f32)(layout->tab_width * layout->page_count);
     fn_8026C708((u8 *)ctx, 5.0f + (ctx->x + tab_x),
                 3.0f + (-1.0f + ctx->y), depth, page_slide);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 

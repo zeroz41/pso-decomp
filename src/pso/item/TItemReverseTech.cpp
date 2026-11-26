@@ -492,5 +492,5 @@ void TItemReverseTechBG::render() {
     begin_screen_draw(1);
     set_draw_texture_and_color(texture, color);
     draw_textured_quad_at_depth((f32 *)&quad, depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }

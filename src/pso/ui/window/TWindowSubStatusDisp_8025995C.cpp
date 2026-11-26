@@ -14,6 +14,7 @@ u8 get_small_font_glyph_width();
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 s32 build_small_font_glyph_quad(s32, TexturedQuad *);
 void begin_screen_draw(s32 mode);
+void end_screen_draw(void);
 s32 draw_textured_quad_at_depth(TexturedQuad *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
 
@@ -124,7 +125,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
       TWindowSubStatusDisp::end_render_forward();
       break;
     case 1:
-      TWindowSubStatusDisp::get_player();
+      end_screen_draw();
       break;
   }
 }

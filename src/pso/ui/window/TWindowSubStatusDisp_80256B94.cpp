@@ -88,7 +88,7 @@ void TWindowStatusGauge::render(WindowDrawContext *ctx) {
         set_constant_material_color(this->color);
         this->draw_status_gauge_bar(ctx, &pos, depth, len);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth, f32 len) {

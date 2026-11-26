@@ -32,7 +32,7 @@ void TAdPlyPltAnimGC::render() {
         TObjFish::set_global_param(player_prate_texture_list_ptr);
         set_draw_texture_and_color(0, (alpha << 0x18) | 0xFF0000 | 0xFFFF);
         draw_textured_quad_at_depth(&quad.x0, (0.001f * (f32)index) + 0.99f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_default_alpha_blend();
     }
 }

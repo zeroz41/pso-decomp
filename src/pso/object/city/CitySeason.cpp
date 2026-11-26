@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/city/CitySeasonResources.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -385,9 +386,9 @@ void TObjCity_Season_SonicAdv2::render() {
 
 void TObjCity_Season_SonicAdv2::debug_draw_model_index() {
     get_model_variant();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- MDL IDX");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjCity_Season_Board::TObjCity_Season_Board(TObject *parent, void *set_data) : TObjBase(parent) {
@@ -475,12 +476,12 @@ void TObjCity_Season_FireWorkCtrl::draw_area_box() {
 }
 void TObjCity_Season_FireWorkCtrl::draw_debug_labels(s32) {
     draw_area_box();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- AREA WIDTH");
     debug_printf_at(0x13001D, "<- RISE HEIGHT");
     debug_printf_at(0x13001E, "<- AREA DEPTH");
     debug_printf_at(0x130020, "<- FREQ");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjCity_Season_FireWork::TObjCity_Season_FireWork(TObject *parent, const Vec *position, f32 riseHeight) : TObject(parent) {

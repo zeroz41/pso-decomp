@@ -109,7 +109,7 @@ void draw_window_uv_sprite_part(WindowSpritePart *sprite, WindowDrawContext *con
     } else if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 #pragma pop

@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/object/container/ContainerResources.h"
@@ -341,10 +342,10 @@ void TObjContainerCommon::debug_print_item_box_info() {
         this->random_item = 0;
     }
     if (this->random_item != 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x13001C, container_random_item_message);
     } else {
-        TObjNpcEnemy::set_global_count(0xFF00FF);
+        set_debug_text_color(0xFF00FF);
         debug_printf_at(0x13001C, container_fixed_item_message);
         debug_printf_at(0x130020, container_item_parameter_message);
         item.data[0] = set_params[0];
@@ -352,7 +353,7 @@ void TObjContainerCommon::debug_print_item_box_info() {
         item.data[2] = set_params[2];
         debug_print_item_param(&item);
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 #pragma pool_data reset
 
@@ -557,9 +558,9 @@ void TObjContainerEnemy::draw_model() {
 }
 
 void TObjContainerEnemy::debug_print_item_box_info() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, container_event_number_format, this->set_params[0]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     debug_draw_sphere(&position, &debug_color_blue_alpha30, lbl_805DBCF8);
 }
 
@@ -864,9 +865,9 @@ void TObjContainerAbeEnemy::draw_model() {
 }
 
 void TObjContainerAbeEnemy::debug_print_item_box_info() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, container_event_number_format, this->set_params[0]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     debug_draw_sphere(&position, &debug_color_blue_alpha30, lbl_805DBCF8);
 }
 

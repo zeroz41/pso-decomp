@@ -136,6 +136,6 @@ void TAdScrollWinGC::render_status_value() {
     TObjFish::set_global_param(scroll_win_texture_handle);
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_marker.x0, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 

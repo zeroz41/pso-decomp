@@ -245,7 +245,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber
     q.v1 = (13.0f + (12.0f + uv->v)) / 256.0f;
     ctx->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 

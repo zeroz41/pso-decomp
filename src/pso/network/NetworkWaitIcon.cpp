@@ -66,7 +66,7 @@ void draw_network_wait_icon(void) {
     scale[0] = 1.0f;
     scale[1] = (0.5f);
     draw_wait_icon_quad(pos, scale, -0x2000, uv_angle);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 

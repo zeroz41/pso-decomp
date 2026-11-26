@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/math/FloatRound.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/window/WindowScrollBar.h"
@@ -60,7 +61,7 @@ void draw_selection_corners(void *, void *, f32, f32);
 #pragma fp_contract on
 void TWindowSubSymbolChatParts::update_row_count() {
     NJS_POINT2 extent;
-    row_count = (s8) TWindowSubStatusDisp::round_away_from_zero((f32) item_count / 4.0f);
+    row_count = (s8) round_away_from_zero((f32) item_count / 4.0f);
     extent.x = 170.0f;
     extent.y = (40.0f * (f32) row_count) + 18.0f;
     scrollbar->set_extent(&extent);

@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -423,12 +424,12 @@ void TObjMapWarp::process_player_warps() {
 void TObjMapWarp::draw_debug_destinations() {
     Vec *end;
     s32 i;
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001C, "<- DST POS X");
     ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001D, "<- DST POS Y");
     ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001E, "<- DST POS Z");
     ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x130020, "<- DST ANG Y");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     for (i = 0; i < 4; i++) {
         Vec b;
         Vec a = {0.0f, 0.0f, -3.0f};
@@ -616,9 +617,9 @@ void handle_6x94_inter_level_warp(game_command_header *command) {
 
 void TObjAreaWarp::debug_print_area_num() {
     dest_floor = set_params[0];
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- AREA NUM : %d", dest_floor);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 const char *TObjAreaWarpForest::class_name = "TObjAreaWarpForest";
@@ -703,19 +704,19 @@ void TObjAreaWarpForest::render() {
 
 void TObjAreaWarpForest::debug_print_area_num() {
     this->TObjAreaWarp::debug_print_area_num();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
     set_params[2] = set_params[2] % 2;
     if (set_params[2] == 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 const char *TObjAreaWarpQuest::class_name = "TObjAreaWarpQuest";
@@ -803,16 +804,16 @@ void TObjAreaWarpQuest::debug_print_area_num() {
         set_params[2] = 0;
     }
     set_params[2] = set_params[2] % 2;
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- PLAYER SET ID : %d", player_set_id);
     if (set_params[2] == 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
@@ -909,19 +910,19 @@ void TObjAreaWarpEnding::render() {
 
 void TObjAreaWarpEnding::debug_print_area_num() {
     this->TObjAreaWarp::debug_print_area_num();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
     set_params[2] = set_params[2] % 2;
     if (set_params[2] == 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
@@ -991,14 +992,14 @@ void TObjMapForceWarp::draw_debug_destinations() {
     } else {
         display_number = 1;
     }
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- FLOOR NUMBER");
     if (display_number != 0) {
         debug_printf_at(0x130022, "<- DISP NUMBER");
     } else {
         debug_printf_at(0x130022, "<- NO DISP NUMBER");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 s32 TObjMapForceWarp::is_choice_confirmed_by(s32 client_id) {
@@ -1185,19 +1186,19 @@ void TObjAreaWarpEndingJung::render() {
 }
 
 void TObjAreaWarpEndingJung::debug_print_area_num() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (set_params[2] < 0) {
         set_params[2] = 0;
     }
     set_params[2] = set_params[2] % 2;
     if (set_params[2] == 0) {
-        TObjNpcEnemy::set_global_count(0xFFFFFF);
+        set_debug_text_color(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     } else {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void *TObjAreaWarpEndingJung::create(void *set_data) {

@@ -163,7 +163,7 @@ void TLightGlare::render() {
     quad.v1 = 1.0f;
     set_constant_material_color(color.color);
     draw_textured_quad_at_depth(&quad.x0, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     TParticleCtrl::end_effect_render();
 }
 

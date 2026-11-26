@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/render/ProjectedColorDraw.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/UISprite.h"
@@ -172,9 +173,9 @@ void TLobby__sub_80338534(void) {
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
-    TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(overlay->title, 4);
-    TObjBoss2Tunnel::reset_player_state();
+    setup_projected_color_draw(1);
+    draw_projected_quads(overlay->title, 4);
+    end_projected_color_draw();
     if ((u32)info_icon_texture != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(info_icon_texture));
         if (lobby_request_flags & 4) {

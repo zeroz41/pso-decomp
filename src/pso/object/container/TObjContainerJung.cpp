@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -466,10 +467,10 @@ void TObjContainerJungEnemy::draw_model() {
 void TObjContainerJungEnemy::debug_print_item_box_info() {
     Obj_8018CBF0 *self = (Obj_8018CBF0 *)this;
     ((TObjContainerJungEnemy *)self)->load_models();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
     debug_printf_at(0x130021, "MODEL SELECT");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {

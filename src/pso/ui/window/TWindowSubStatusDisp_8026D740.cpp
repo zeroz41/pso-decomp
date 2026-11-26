@@ -83,7 +83,7 @@ void draw_window_scrollbar(const WindowScrollBar *scroll, WindowDrawContext *con
     q.v1 = 0.25f;
     context->transform_quad(&q);
     draw_textured_quad_at_depth(&q.x0, depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void WindowScrollBar::increment_counter() {

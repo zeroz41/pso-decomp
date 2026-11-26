@@ -20,7 +20,7 @@ void TAdGameStartLineGC::draw_lines() {
     for (u32 i = 0; i < 4; i++) {
         draw_textured_quad_at_depth(&m_quads[i].x0, 0.0001f * i + 0.795f);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 

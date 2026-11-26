@@ -129,7 +129,7 @@ void TEF_LensFlare::render() {
                 quad[7] = 1.0f;
                 set_constant_material_color(sprite->color);
                 draw_textured_quad_at_depth(quad, 0.5f);
-                TWindowSubStatusDisp::get_player();
+                end_screen_draw();
             }
 
             if (d > 0.6f) {
@@ -179,7 +179,7 @@ void TEF_LensFlare::render() {
             quad[7] = 1.0f;
             set_constant_material_color(sprite->color);
             draw_textured_quad_at_depth(quad, 0.5f);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
             s32 i;
             LensFlareElement *e = elements;
             fade = 1.0f - t;
@@ -224,7 +224,7 @@ void TEF_LensFlare::render() {
                 quad[7] = 1.0f;
                 set_constant_material_color(sprite->color);
                 draw_textured_quad_at_depth(quad, 0.5f);
-                TWindowSubStatusDisp::get_player();
+                end_screen_draw();
                 ++e;
             }
             restore_saved_depth_alpha_state();

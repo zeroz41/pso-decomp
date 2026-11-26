@@ -89,9 +89,9 @@ void TBGLightning::draw_flash(Vec *dir) {
     pos.z = position.z + dir->z * (-3.0f * size) - 0.5f * extent.z;
     bind_lightning_texture();
     set_texture_num(0);
-    TParticleCtrl::setup_particle_draw(1);
+    setup_particle_draw(1);
     submit_particle_quad(this, &pos.x, &extent.x, (u32)(4278190080.0f * alpha) | 0xFFFFFF);
-    TParticleCtrl::reset_particles();
+    end_particle_draw();
 }
 
 void TBGLightning::draw_bolt(Vec *dir) {
@@ -124,9 +124,9 @@ void TBGLightning::draw_bolt(Vec *dir) {
     pos.z = position.z - 0.5f * extent.z;
     bind_lightning_texture();
     set_texture_num(step + bolt_first_texture[bolt_set]);
-    TParticleCtrl::setup_particle_draw(1);
+    setup_particle_draw(1);
     submit_particle_quad(this, &pos.x, &extent.x, (u32)(4278190080.0f * alpha) | 0xFFFFFF);
-    TParticleCtrl::reset_particles();
+    end_particle_draw();
 }
 
 void submit_particle_quad(void *owner, f32 *pos, f32 *extent, s32 color) {

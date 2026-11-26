@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D8030.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -278,7 +279,7 @@ void TObjWarpBoss::debug_print_area_num() {
     } else {
         key_id = id;
     }
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         debug_printf_at(0x130020, boss_warp_next_stage_label);
     }
@@ -891,12 +892,12 @@ void TObjWarpBossMulti::render() {
 
 void TObjWarpBossMulti::debug_print_area_num() {
     update();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         debug_printf_at(0x130020, boss_warp_next_stage_label);
     }
     debug_printf_at(0x130021, boss_warp_key_id_format, key_id);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjWarpBossMulti::update() {

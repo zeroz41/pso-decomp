@@ -129,7 +129,7 @@ void TAdEndText::draw_end_font_text(s32 col, char *str, f32 x, f32 y, f32 depth)
         draw_textured_quad_at_depth(quad, depth);
     }
 
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdEndText::render() {
@@ -163,14 +163,14 @@ void TAdEndText::render() {
             begin_screen_draw(1);
             set_draw_texture_and_color(3, -1);
             draw_textured_quad_at_depth(&m_adx_logo.x0, text_depth);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
             break;
         case 0x40:
             TObjFish::set_global_param(loaded_font_texture_list);
             begin_screen_draw(1);
             set_draw_texture_and_color(4, -1);
             draw_textured_quad_at_depth(&m_sofdec_logo.x0, text_depth);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
             break;
         default:
             if (col != 0xFFFFFF) {

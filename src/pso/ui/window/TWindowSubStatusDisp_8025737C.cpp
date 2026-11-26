@@ -20,6 +20,7 @@
 extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
 s32 begin_screen_draw(s32, f32, f32, f32);
+void end_screen_draw(void);
 void set_draw_texture_and_color(s32 idx, s32 color);
 }
 void set_constant_material_color(u32 x);
@@ -185,7 +186,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
             set_constant_material_color(this->color);
             draw_status_gauge_bar(context, &pos, scale, lo);
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 #pragma pop

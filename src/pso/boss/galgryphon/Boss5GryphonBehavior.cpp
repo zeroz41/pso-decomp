@@ -1,4 +1,5 @@
 #include "pso/system/SubtractiveRng.h"
+#include "pso/math/FloatRound.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #pragma defer_codegen on
@@ -2705,8 +2706,8 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
         subtractive_rng_seed(&this->rng, this->motion->args.seed);
         this->rotation_x = 0x4000;
         this->dive.frame = 0;
-        this->dive.frame_limit = (f32)this->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_seventy_five);
-        this->dive.fall_speed = gryphon_offscreen_drop / ((f32)this->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_thirty_two_and_half));
+        this->dive.frame_limit = (f32)this->motion->timer - round_away_from_zero(gryphon_seventy_five);
+        this->dive.fall_speed = gryphon_offscreen_drop / ((f32)this->motion->timer - round_away_from_zero(gryphon_thirty_two_and_half));
         this->dive.step = 0;
         break;
     case ENEMY_STATE_UPDATE:

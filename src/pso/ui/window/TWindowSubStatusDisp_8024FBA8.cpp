@@ -25,6 +25,7 @@ s32 TWindowSubStatusDisp__sub_800FC248(s32);
 void calc_plain_glyph_quad(s32, void *);
 void build_small_font_glyph_quad(s32, void *);
 void begin_screen_draw(s32);
+void end_screen_draw(void);
 void draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32, u32);
 s32 get_font_char_advance(s32);
@@ -81,7 +82,7 @@ s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width
             }
         }
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     return ok;
 }
 

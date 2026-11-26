@@ -95,7 +95,7 @@ void TDuelEffectNumber::render() {
     set_draw_texture_and_color(6, -1);
     draw_digit(&quad);
     draw_echo(&quad);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 

@@ -44,7 +44,7 @@ void TAdChrSelSlotGC::draw_slot_icons() {
             TObjFish::set_global_param(chr_sel_slot_texlist_current);
             set_draw_texture_and_color(0, colors[i]);
             draw_textured_quad_at_depth((f32 *)&quads[i], 0.1f);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
         }
     }
 }

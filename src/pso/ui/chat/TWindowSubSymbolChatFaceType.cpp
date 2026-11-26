@@ -137,7 +137,7 @@ void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp)
     q.u1 = 0.91796875f;
     ctx->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {

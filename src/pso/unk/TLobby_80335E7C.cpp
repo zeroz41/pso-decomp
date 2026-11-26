@@ -47,7 +47,7 @@ void TUnk_804EE470::render() {
   quad.x1 = 576.0f;
   quad.y1 = 317.0f;
   draw_textured_quad_at_depth((&quad.x0), 0.1f);
-  TWindowSubStatusDisp::get_player();
+  end_screen_draw();
   TCameraCtrl::restore_saved_view();
   TParticleCtrl::end_effect_render();
 }

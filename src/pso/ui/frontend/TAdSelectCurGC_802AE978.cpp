@@ -15,7 +15,7 @@ void TAdSelectCurGC::draw_quads() {
         draw_textured_quad_at_depth(&quads[i].x0, draw_depth);
         draw_textured_quad_at_depth(&quads[i + 16].x0, draw_depth);
         draw_textured_quad_at_depth(&quads[i + 32].x0, draw_depth);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 

@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -185,9 +186,9 @@ void TObjComputer::debug_draw_label() {
     this->TObjMesBase::debug_draw_label();
     this->set_params[1] = this->set_params[1] % 2;
     screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer__data_805DBCD8[this->set_params[1]]));
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- MODEL SELECT");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 TObjGbAdvance::TObjGbAdvance(TObject *parent, ObjectSetData *placement) : TObjMesBase(parent, placement) {

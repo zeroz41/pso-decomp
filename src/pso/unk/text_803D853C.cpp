@@ -17,7 +17,6 @@
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include <stdio.h>
 #include "pso/unk/text_803D8030.h"
-#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
@@ -50,8 +49,8 @@ void set_debug_text_scale(u16 scale) {
     debug_text_scale = (f32)scale;
 }
 
-void TObjNpcEnemy::set_global_count(s32 global_count) {
-    debug_text_global_count = global_count;
+void set_debug_text_color(s32 color) {
+    debug_text_global_count = color;
 }
 
 void queue_debug_text(s32 position, const char *text) {

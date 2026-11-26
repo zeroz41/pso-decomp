@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -59,11 +60,11 @@ void TMainMenuEntry::draw_item_labels(WindowDrawContext *context) {
             color = rgb | ((s32)(255.0f * a) << 24);
             break;
         case 1:
-            TLanguage::set_entry_index(2, 0x4C);
+            set_context_texture_palette_bank(2, 0x4C);
             color = 0xFFFF6121;
             break;
         case 2:
-            TLanguage::set_entry_index(2, 0x4C);
+            set_context_texture_palette_bank(2, 0x4C);
             color = 0xFF51EAFF;
             break;
         }
@@ -80,8 +81,8 @@ void TMainMenuEntry::draw_item_labels(WindowDrawContext *context) {
         if (context->clip_and_transform_quad(&r) != 0) {
             draw_textured_quad_at_depth(&r.x0, scale);
         }
-        TWindowSubStatusDisp::get_player();
-        TLanguage::set_entry_index(2, 0x4B);
+        end_screen_draw();
+        set_context_texture_palette_bank(2, 0x4B);
     }
 }
 
@@ -419,7 +420,7 @@ void TWindowMenuMainMenu::draw_frame(WindowDrawContext *frame) {
     q.v1 = 174.0f / 256.0f;
     frame->transform_quad(&q);
     draw_textured_quad_at_depth(&q.x0, quad_depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 WindowDrawContext *TWindowMenuMainMenu::setup_content_frame() {
     f32 v;

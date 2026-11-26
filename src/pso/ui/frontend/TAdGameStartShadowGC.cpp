@@ -19,7 +19,7 @@ void TAdGameStartShadowGC::draw_band() {
     for (i = 0; i < 5; i++) {
         draw_textured_quad_at_depth(&m_quads[i].x0, 0.74f);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdGameStartShadowGC::render() { if (TMainTask::get_render_pass() != 1) { draw_band(); } }

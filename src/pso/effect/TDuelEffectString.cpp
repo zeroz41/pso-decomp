@@ -89,7 +89,7 @@ void TDuelEffectString::render() {
         render_end_banner(scale);
         break;
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 #pragma pop

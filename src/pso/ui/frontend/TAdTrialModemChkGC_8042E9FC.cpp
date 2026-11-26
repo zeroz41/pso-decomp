@@ -2,7 +2,6 @@
 #include "pso/unk/SharedMemory.h"
 #include "pso/unk/ResetConnectParam.h"
 #include "pso/unk/text_8042EE4C.h"
-#include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/unk/text_8042EAD4.h"
 #include "pso/network/eth.h"
 #include <stdio.h>
@@ -49,7 +48,7 @@ static asm void pad_03_8042E9FC_text(void) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 TAdTrialModemChkGC::init_modem_check_params() {
+s32 init_modem_check_params() {
     return reset_connect_param("Shared Memory Connect Parameter");
 }
 #pragma pop

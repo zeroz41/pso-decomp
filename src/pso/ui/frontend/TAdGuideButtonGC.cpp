@@ -32,7 +32,7 @@ void TAdGuideButtonGC::draw_quad(int style) {
         begin_screen_draw(1);
         set_draw_texture_and_color(0,-1);
         draw_textured_quad_at_depth((f32 *)quads, 0.5f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 void TAdGuideButtonGC::render() {

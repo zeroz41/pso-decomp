@@ -155,7 +155,7 @@ void TWindowSubSymbolChatHelp::draw_help_entries(WindowDrawContext *context) {
             draw_help_icon(context, 5, (s32)(0xFF808080));
         }
         draw_color_palette(context);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         begin_screen_draw(1);
         TWindowSubStatusDisp::begin_render();
         set_draw_texture_and_color(1, -1);
@@ -178,7 +178,7 @@ void TWindowSubSymbolChatHelp::draw_help_entries(WindowDrawContext *context) {
             draw_help_entry(context, 4, (s32)(0xFF808080));
             draw_help_entry(context, 5, (s32)(0xFF808080));
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 

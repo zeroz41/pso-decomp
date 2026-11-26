@@ -855,7 +855,7 @@ void TObjPlayer::draw_capture_caption_bar() {
     rect.u1 = 1.0f;
     rect.v1 = 1.0f;
     draw_textured_quad_at_depth(&rect.x0, 0.5f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 #pragma pop

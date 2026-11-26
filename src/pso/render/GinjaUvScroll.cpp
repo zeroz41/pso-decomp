@@ -228,6 +228,6 @@ void draw_compass_sprite(const NJS_SPRITE *sprite, s32 idx, s32 color, s32 flags
     }
     set_draw_texture_and_color(idx, color);
     draw_rotated_quad(&info.x);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop

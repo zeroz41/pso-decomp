@@ -18,7 +18,7 @@ void TAdChrSelMovePlateGC::draw_move_plate_quads() {
         TObjFish::set_global_param(chr_sel_move_plate_texture);
         set_draw_texture_and_color(0, ((u32)opacity[i] << 24) | 0xFFFFFF);
         draw_textured_quad_at_depth(quads[i].values, 0.52f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 

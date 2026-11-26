@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/math/FloatRound.h"
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -299,7 +300,7 @@ TWindowMessage *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, s
 }
 
 TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
-    return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
+    return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
 }
 
 void TLobby__sub_80269DA4(const void *extent, u32 rows) {

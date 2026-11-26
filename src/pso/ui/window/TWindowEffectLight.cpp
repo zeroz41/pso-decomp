@@ -87,7 +87,7 @@ void TWindowEffectLight::render() {
           break;
       }
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
     TCameraCtrl::restore_saved_view();
     TParticleCtrl::end_effect_render();

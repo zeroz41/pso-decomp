@@ -1,4 +1,5 @@
 #include "pso/unk/TQuestManager.h"
+#include "pso/unk/text_803D8030.h"
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/object/TMotorcycle.h"
@@ -27,10 +28,10 @@ void TObjMesBase::debug_draw_label() {
         messageBank = 1;
     }
     const char *names[2] = {"QUEST", "RICO"};
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- LABEL : %d", messageLabel);
     debug_printf_at(0x130022, "<- %s", names[messageBank]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjMesBase::interact(u16) {

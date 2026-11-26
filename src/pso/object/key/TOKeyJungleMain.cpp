@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D8030.h"
 #include "types.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
@@ -78,9 +79,9 @@ void TOKeyJungleMain::debug_draw_key_id() {
     if (switch_id > 2) {
         switch_id = 2;
     }
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- GLOBAL FLAG : %d", jungle_key_flag_ids[switch_id]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TOKeyJungleMain::render() {

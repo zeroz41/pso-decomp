@@ -786,7 +786,7 @@ void TAdChrSelPlyPlateGC::draw_selection_cursors() {
                 draw_textured_quad_at_depth(cursor[0], 0.53f);
                 draw_textured_quad_at_depth(cursor[1], 0.53f);
                 draw_textured_quad_at_depth(cursor[2], 0.53f);
-                TWindowSubStatusDisp::get_player();
+                end_screen_draw();
                 set_color_blending_mode(0, 8);
                 set_color_blending_mode(1, 6);
             }
@@ -805,7 +805,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags() {
             TObjFish::set_global_param(lbl_805D67D0);
             set_draw_texture_and_color(0, (alpha << 24) | 0xFFFFFF);
             draw_textured_quad_at_depth(&quad[i + 4][0].x, 0.54f);
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
             multi_ply_chr_select_tag_alpha[i] += 0.16666667f;
             multi_ply_chr_select_tag_alpha[i] = multi_ply_chr_select_tag_alpha[i] >= 1.0f ? 1.0f : multi_ply_chr_select_tag_alpha[i];
         }
@@ -836,7 +836,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags_shifted() {
             }
             multi_ply_chr_select_tag_alpha[i] += 0.16666667f;
             multi_ply_chr_select_tag_alpha[i] = multi_ply_chr_select_tag_alpha[i] >= 1.0f ? 1.0f : multi_ply_chr_select_tag_alpha[i];
-            TWindowSubStatusDisp::get_player();
+            end_screen_draw();
         }
     }
 }

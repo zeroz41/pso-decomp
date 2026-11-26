@@ -18,7 +18,7 @@ void TAdGameStartBackGC::render_background_status() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(game_start_background_texture_list));
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_quad.x0, 0.79f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdGameStartBackGC::render() { if (TMainTask::get_render_pass() != 1) { set_additive_blend(); render_background_status(); set_default_alpha_blend(); } }

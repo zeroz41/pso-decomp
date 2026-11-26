@@ -3,6 +3,7 @@
 // Deferred code generation (configure.py): the functions come out in reverse
 // order, so this file is written from its last function back.
 #include "types.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/render/render_util.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/map/FloorArea.h"
@@ -106,9 +107,9 @@ void TOKey::debug_draw_key_id() {
         switch_id = set_params[0];
         mode = KEY_MODE_ONCE;
     }
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- KEY ID : %d", switch_id);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     vfunc_25();
 }
 

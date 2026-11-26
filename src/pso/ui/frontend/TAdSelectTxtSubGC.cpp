@@ -20,7 +20,7 @@ void TAdSelectTxtSubGC::render_status() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(status_disp_texture_handle));
     set_draw_texture_and_color(m_texture, m_color);
     draw_textured_quad_at_depth(&m_quad.x0, 0.25f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdSelectTxtSubGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); render_status(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }

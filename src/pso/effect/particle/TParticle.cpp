@@ -191,14 +191,14 @@ void TParticle::draw_particle_refraction_quad() {
     load_projected_texture_matrix(1.1333334f);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[9].texlist));
     set_texture_num(sprite_index);
-    TParticleCtrl::setup_particle_draw(1);
+    setup_particle_draw(1);
     GXSetNumTevStages(2);
     GXSetNumTexGens(2);
     GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     play_indirect_effect_recipe(0x1F, 0, 1);
     setup_capture_blend_tev();
     emit_particle_strip_vertices(v, 4);
-    TParticleCtrl::reset_particles();
+    end_particle_draw();
     reset_particle_tev();
     reset_indirect_tev(1);
     pop_matrix();
@@ -302,7 +302,7 @@ void TParticleBallistic::draw_sprite_quad(s32 kind) {
         quad.edge_b_y = sy * c;
         draw_rotated_quad(&quad.x);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     TParticleCtrl::end_effect_render();
     set_default_alpha_blend();
 }

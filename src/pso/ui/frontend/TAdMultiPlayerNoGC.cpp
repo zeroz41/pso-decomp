@@ -96,5 +96,5 @@ void TAdMultiPlayerNoGC::render_status() {
     TObjFish::set_global_param(player_ad_texture_list_ptr);
     set_draw_texture_and_color(0, -1);
     draw_textured_quad_at_depth(quad, 0.25f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }

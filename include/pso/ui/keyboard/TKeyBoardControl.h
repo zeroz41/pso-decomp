@@ -48,7 +48,6 @@ struct TKeyBoardControl : public TObject {
     void set_composer_flag62_bit4();
     static void update_main_menu_scene();
     static void update_menu_scene();
-    static void flush_input();
     static void init_char_select(TObject *fade);
     static void dispatch_select_phase(TObject *fade);
     static s32 get_ascii_key();

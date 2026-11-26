@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
@@ -28,7 +27,7 @@ void begin_screen_draw(s32 mode) {
     setup_opaque_textured_draw();
 }
 
-void TWindowSubStatusDisp::get_player() {
+void end_screen_draw() {
     end_primitive_draw();
 }
 

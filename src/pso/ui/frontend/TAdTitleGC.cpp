@@ -25,7 +25,6 @@ const char *ad_title_gc_class_name = "TAdTitleGC";
 
 extern "C" {
 u32 calc_text_width(char *s);
-s32 get_player__20TWindowSubStatusDispFv();
 uaddr title_midashi_texlist_current;
 saddr get_localized_text_entry(s32, s32);
 
@@ -133,7 +132,7 @@ block_5:
     }
 }
 
-s32 TAdTitleGC::draw_title_layer(s32 layer, s32 color) {
+void TAdTitleGC::draw_title_layer(s32 layer, s32 color) {
     s32 i;
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(title_midashi_texlist_current));
@@ -141,5 +140,5 @@ s32 TAdTitleGC::draw_title_layer(s32 layer, s32 color) {
     for (i = 0; i < 8; i++) {
         draw_textured_quad_at_depth(&rects[i].x0, (-1.0f) / -((113.0f) - (f32)i));
     }
-    return get_player__20TWindowSubStatusDispFv();
+    end_screen_draw();
 }

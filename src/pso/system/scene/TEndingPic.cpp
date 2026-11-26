@@ -83,7 +83,7 @@ void TEndingPic::draw_current_pic() {
     default:
         break;
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TEndingPic::init_positions() {

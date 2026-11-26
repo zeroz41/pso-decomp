@@ -137,7 +137,7 @@ void TWindowSubCustomEquip::draw_cursor_sprite(f32 depth_scale, WindowDrawContex
     if (context->clip_and_transform_quad(&r) != 0) {
         draw_textured_quad_at_depth(&r.x0, scale);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 #pragma pop

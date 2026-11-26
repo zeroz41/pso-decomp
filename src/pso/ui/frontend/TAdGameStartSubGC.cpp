@@ -24,7 +24,7 @@ void TAdGameStartSubGC::draw_background() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(game_start_player_instance));
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_quad.x0, 0.01f * (f32)m_cell + 0.8f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 

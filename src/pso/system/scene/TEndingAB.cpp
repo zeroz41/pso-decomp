@@ -219,26 +219,26 @@ void TEndingAB::draw_overlay() {
     case 2:
         begin_screen_draw(1);
         set_draw_texture_and_color(wall_index * 2 + 2, -1);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_depth_buffer_settings_2();
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
         draw_textured_quad_at_depth((f32 *)&quads[0], 0.9f);
         draw_textured_quad_at_depth((f32 *)&quads[1], 0.9f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         restore_saved_depth_alpha_state();
         break;
     case 4:
     case 5:
         begin_screen_draw(1);
         set_draw_texture_and_color(wall_index * 2 + 3, -1);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_depth_buffer_settings_2();
         begin_screen_draw(1);
         set_draw_texture_and_color(1, -1);
         draw_textured_quad_at_depth((f32 *)&quads[2], 0.9f);
         draw_textured_quad_at_depth((f32 *)&quads[3], 0.9f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         restore_saved_depth_alpha_state();
         break;
     }

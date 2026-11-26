@@ -128,12 +128,12 @@ void TAdTitleTexGC::render_status_pair(s32 color) {
     TObjFish::set_global_param(player_tex_texture_list_ptr);
     set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[0].x0, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     begin_screen_draw(1);
     TObjFish::set_global_param(player_tex_texture_list_ptr);
     set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[1].x0, 0.1f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 #pragma push

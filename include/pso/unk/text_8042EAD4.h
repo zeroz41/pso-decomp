@@ -9,4 +9,9 @@ void launch_iwanaga_dol(DolHeader *dol_image, s32 param);
 void init_shared_memory();
 s32 set_disc_error_message(s32 index, const char *text);
 
+extern "C" {
+// Resets the shared-memory connect parameters to the modem check defaults.
+s32 init_modem_check_params();
+}
+
 #endif

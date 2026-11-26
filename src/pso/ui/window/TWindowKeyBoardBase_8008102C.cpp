@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/math/FloatRound.h"
 #include "pso/system/memory.h"
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
@@ -23,7 +24,7 @@ void KeyboardTextBuffer::init(u32 width, u32 lines) {
     if (lines == 0) {
         capacity = width;
     } else {
-        capacity = __cvt_fp2unsigned((f32) lines * TWindowSubStatusDisp::round_away_from_zero((f32) (width / 6U)));
+        capacity = __cvt_fp2unsigned((f32) lines * round_away_from_zero((f32) (width / 6U)));
     }
     if (capacity != 0) {
         buffer = (u16 *)mem_alloc((capacity + 1) * 2);

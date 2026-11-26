@@ -157,7 +157,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void init_logo_state(s32 state);
     static void noop();
     static void run_frame();
-    void append_extension_if_missing(char *name, char *ext);
     static TPlyCharData *get_char_index(unsigned int index);
     static TPlyCharData *get_char_table_entry(int index);
     static void run_save_load_sequence();

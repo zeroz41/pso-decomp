@@ -1,6 +1,7 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os/OSThread.h>
 #include "pso/audio/AdxError.h"
+#include "pso/system/Adxf.h"
 #include "pso/audio/AdxLock.h"
 #include "pso/audio/AdxtEntryAfs.h"
 #include "pso/network/TLobby.h"
@@ -85,7 +86,7 @@ void ADXT_EntryAfs(AdxtPlayer *player, s32 partition_id, s32 file_id) {
     s32 c;
     LscStream *h;
     h = player->lsc_stream;
-    if (TLobby::get_afs_file_info(partition_id, file_id, music_stream_afs_filename_buffer, &a, &b, &c) == 0) {
+    if (ADXF_GetFnameRangeEx(partition_id, file_id, music_stream_afs_filename_buffer, &a, &b, &c) == 0) {
         lsc_enqueue_range(h, music_stream_afs_filename_buffer, a, b, c);
         return;
     }

@@ -140,7 +140,7 @@ void TFontSmallTask::render() {
         x = adv * scale + x;
         reveal = reveal - 5.5f * (adv / text_width);
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 #pragma pop
 

@@ -98,10 +98,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void draw_tiled_background();
     static void draw_bottom_bar();
     static void draw_split_screen_hud();
-    static void get_player();
     void set_entry_display_value(s32 str);
     s32 get_display_mode();
-    static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
     static s32 destroy_status_display(saddr window, s16 delete_flag);

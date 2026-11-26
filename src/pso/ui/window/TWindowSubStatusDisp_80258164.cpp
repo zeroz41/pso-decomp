@@ -644,7 +644,7 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
         if (win->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
             draw_textured_quad_at_depth(q.v, depth);
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 

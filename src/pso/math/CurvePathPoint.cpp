@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_803D619C.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/TDuelEffectString.h"

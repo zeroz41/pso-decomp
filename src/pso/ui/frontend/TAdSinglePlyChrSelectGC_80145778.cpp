@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "pso/render/GinjaTextureInput.h"
 #pragma readonly_strings on
 
@@ -111,7 +112,7 @@ void load_menu_font(void) {
     menu_font_palette[3] = 0x7FFF;
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
     for (i = 0; i < 2; i++) {
-        TLanguage::set_entry_index(i, 0);
+        set_context_texture_palette_bank(i, 0);
     }
     g = (Glyph_80145804 *)mem_alloc(0xB40);
     menu_font_glyph_table = g;

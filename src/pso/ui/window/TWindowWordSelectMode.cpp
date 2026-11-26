@@ -157,5 +157,5 @@ void TWindowWordSelectMode::render() {
         q.v0 = q.v1;
         q.v1 += dv;
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }

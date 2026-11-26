@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/TLanguage.h"
@@ -108,11 +109,11 @@ void TLanguage::load_fonts(s32 language) {
 
     TWindowSubStatusDisp::begin_render();
 
-    TLanguage::set_entry_index(LANGUAGE_JAPANESE, 0x48);
-    TLanguage::set_entry_index(LANGUAGE_GERMAN, 0x4B);
-    TLanguage::set_entry_index(LANGUAGE_ENGLISH, 0x49);
-    TLanguage::set_entry_index(LANGUAGE_FRENCH, 2);
-    TLanguage::set_entry_index(LANGUAGE_SPANISH, 3);
+    set_context_texture_palette_bank(LANGUAGE_JAPANESE, 0x48);
+    set_context_texture_palette_bank(LANGUAGE_GERMAN, 0x4B);
+    set_context_texture_palette_bank(LANGUAGE_ENGLISH, 0x49);
+    set_context_texture_palette_bank(LANGUAGE_FRENCH, 2);
+    set_context_texture_palette_bank(LANGUAGE_SPANISH, 3);
 }
 
 void TLanguage::load_text_resources(s32 language) {

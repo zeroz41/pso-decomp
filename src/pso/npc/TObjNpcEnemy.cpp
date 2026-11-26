@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_803D8030.h"
 #include <string.h>
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -214,19 +215,19 @@ void TObjNpcEnemy::set_npc_data(TObjNpcEnemyEntry *data) {
 void TObjNpcEnemy::draw_debug_info() {
     TObjNpcEnemyEntry *p;
     TObjNpcBase::draw_debug_info();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130018, "<- ENEMY NUMBER");
     debug_printf_at(0x13001A, "<- MOTION TEST");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     p = TObjNpcEnemy::get_entry_by_index((s16) this->rotation_x);
     if (p != this->entry) {
         set_npc_data(p);
     }
     p = this->entry;
     if (p == NULL) {
-        TObjNpcEnemy::set_global_count(0xFF0000FF);
+        set_debug_text_color(0xFF0000FF);
         debug_printf_at(0x240018, "ERROR");
-        TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+        set_debug_text_color(0xF0F0F0FF);
         return;
     }
     switch (p->kind) {
@@ -237,9 +238,9 @@ void TObjNpcEnemy::draw_debug_info() {
     case 1:
     case 3:
         if (p->animation.debug_action_limit <= this->rotation_z || this->rotation_z < 0) {
-            TObjNpcEnemy::set_global_count(0xFF0000FF);
+            set_debug_text_color(0xFF0000FF);
             debug_printf_at(0x24001A, "ERROR");
-            TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+            set_debug_text_color(0xF0F0F0FF);
             this->requested_action = 0;
         } else {
             this->requested_action = this->rotation_z;

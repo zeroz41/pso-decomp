@@ -205,5 +205,5 @@ void TEndingC::render() {
     draw_textured_quad_at_depth(render_geometry[1], 0.98f);
     set_draw_texture_and_color(0, ((s32) (255.0f * secondary_opacity) << 0x18) | 0xFF0000 | 0xFFFF);
     draw_textured_quad_at_depth(render_geometry[2], 0.99f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }

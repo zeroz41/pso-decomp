@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D8030.h"
 #pragma defer_codegen on
 
 #include "pso/object/trap/TOTrapAncient02R.h"
@@ -489,10 +490,10 @@ void TOTrapChainSawDamage::draw_model() {
 
 void TOTrapChainSawDamage::draw_debug_labels() {
     TOTrapChainSaw::draw_debug_labels();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001D, "<- DAMAGE POWER");
     debug_printf_at(0x13001E, "<- SELECT A MODEL");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TOTrapChainSawDamage::start_run() { run_frames = 0; }
@@ -583,9 +584,9 @@ void TOTrapChainSawKey::update_state() {
 
 void TOTrapChainSawKey::draw_debug_labels() {
     TOTrapChainSaw::draw_debug_labels();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001E, "<- SELECT A MODEL");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TOTrapChainSawKey::draw_model() {

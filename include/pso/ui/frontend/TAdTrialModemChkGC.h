@@ -15,7 +15,6 @@ struct TAdTrialModemChkGC : public TAdWarningBaseGC {
     static void exit_modem_check_phase();
     virtual void render();
     virtual void run_task();
-    static s32 init_modem_check_params();
 };
 
 LAYOUT_ASSERT(TAdTrialModemChkGC_size, sizeof(TAdTrialModemChkGC) == 0x30);

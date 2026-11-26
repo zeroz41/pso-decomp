@@ -95,7 +95,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *context)
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
         draw_textured_quad_at_depth((f32 *)&box, 0.8f);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
     ((TAdPlyStatusGC *)items)->format_status_strings();
     set_text_draw_params(reinterpret_cast<WindowDrawContext *>(context), 1, 1, 0.8f, 100000.0f);

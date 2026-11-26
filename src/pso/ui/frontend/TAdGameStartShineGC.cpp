@@ -21,7 +21,7 @@ void TAdGameStartShineGC::render_status_box() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6E88));
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_quad.x0, 0.899f);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 // Shine quad origin and extent the constructor lays the quad out from.

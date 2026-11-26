@@ -944,7 +944,7 @@ void TLobby::draw_fullscreen_texture_quad() {
     begin_screen_draw(0);
     set_draw_texture_and_color((saddr)this, -1);
     draw_textured_quad_at_depth(v, (0.5f));
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TLobby::release_menu_font() {

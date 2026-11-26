@@ -1,4 +1,5 @@
 #include "pso/player/GuildCardEntry.h"
+#include "pso/math/FloatRound.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -132,7 +133,7 @@ TWindowSubComCardList::~TWindowSubComCardList() {
 TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
-    n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
+    n = round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
     if (n <= 0) {
         n = 1;
     }
@@ -151,7 +152,7 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWind
 TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
-    n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);
+    n = round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;
     }

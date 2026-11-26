@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D8030.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -102,15 +103,15 @@ void TObjMapWarpAncient::run_task() {
 
 void TObjMapWarpAncient::draw_debug_destinations() {
     if ((s32)set_params[1] < 0) {
-        TObjNpcEnemy::set_global_count(0xFF00FF);
+        set_debug_text_color(0xFF00FF);
         debug_printf_at(0x130021, "<- ONE WAY (POSITIVE: NORMAL)");
-        TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+        set_debug_text_color(0xF0F0F0FF);
         return;
     }
     TObjMapWarp::draw_debug_destinations();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- NORMAL (NEGATIVE: ONE WAY)");
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjMapWarpAncient::render() {
@@ -182,7 +183,7 @@ void TObjGoalWarpAncient::run_task() {
 
 void TObjGoalWarpAncient::debug_print_area_num() {
     TObjAreaWarp::debug_print_area_num();
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     if ((s32)set_params[2] < 0) {
         beam_textures = get_goal_beam_textures();
         debug_printf_at(0x130022, "<- GOAL (POSITIVE: START)");
@@ -190,7 +191,7 @@ void TObjGoalWarpAncient::debug_print_area_num() {
         beam_textures = get_archive_textures(1);
         debug_printf_at(0x130022, "<- START (NEGATIVE: GOAL)");
     }
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjGoalWarpAncient::render() {

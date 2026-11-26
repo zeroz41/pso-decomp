@@ -90,7 +90,7 @@ void HelpItemRarityStarRow::render(WindowDrawContext *context) {
         }
         x += 17.0f;
     }
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
     set_default_alpha_blend();
 }
 

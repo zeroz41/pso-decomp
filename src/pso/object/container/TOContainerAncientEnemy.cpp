@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
@@ -449,9 +450,9 @@ void TOContainerAncientEnemy::draw_model() {
 }
 
 void TOContainerAncientEnemy::debug_print_item_box_info() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, ancient_enemy_event_format, this->set_params[0]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
     debug_draw_sphere(&this->position, &debug_color_blue_alpha30, lbl_805DB3A0);
 }
 

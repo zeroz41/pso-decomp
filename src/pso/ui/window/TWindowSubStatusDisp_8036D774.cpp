@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
@@ -83,7 +84,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
         buf[0] += 64.0f;
         buf[2] += 64.0f;
     } while (i < 10);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 #pragma push
@@ -111,7 +112,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
             buf[0] += 64.0f;
             buf[2] += 64.0f;
         } while (i < 10);
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
         set_default_alpha_blend();
     }
 }
@@ -141,7 +142,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
     buffer_8[2] += (64.0f);
   }
   while (i < 0xA);
-  TWindowSubStatusDisp::get_player();
+  end_screen_draw();
 }
 void TWindowSubStatusDisp::draw_split_screen_hud() {
     s32 var_r3;
@@ -183,7 +184,7 @@ void TBGMulti__ct(void) {
         TLanguage::draw_string((void *)"f128_gr.gvp", palette, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
         TObjFish::set_global_param(TBGMulti__textures = LoadPvmFileTls("bg_multi.gvm"));
-        TLanguage::set_entry_index(0, 0x4D);
+        set_context_texture_palette_bank(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;
 }

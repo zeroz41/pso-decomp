@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/unk/text_803D8030.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -152,9 +153,9 @@ void TLazerFenceSw::debug_draw_key_id() {
         set_params[2] = 0;
     }
     color_slot = lazer_fence_sw_color_slots[set_params[2] % 4];
-    TObjNpcEnemy::set_global_count(0xFF00FF);
+    set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130022, lbl_80445CD8);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    set_debug_text_color(0xF0F0F0FF);
 }
 
 void TLazerFenceSw::trigger_activate_sound() {

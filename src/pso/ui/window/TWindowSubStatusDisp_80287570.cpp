@@ -79,7 +79,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
     r3.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
     context->transform_quad(&r3);
     draw_textured_quad_at_depth((f32 *)&r3, scale);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 f32 TWindowSubStatusDisp::get_base_y(f32 width) {

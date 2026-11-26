@@ -28,7 +28,7 @@ void TAdBackTxtGC::draw_character_background_frame(s32 texture_index, s32 color)
     quad[6] = 1.0f;
     quad[7] = 1.0f;
     draw_textured_quad_at_depth(quad, m_depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void TAdBackTxtGC::render() {

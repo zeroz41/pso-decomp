@@ -1,4 +1,6 @@
 #include "pso/ui/window/WindowVertexBufferAbi.h"
+#include "pso/audio/AdxUiBridge.h"
+#include "pso/system/Adxf.h"
 #include "pso/system/memory.h"
 #include "pso/render/TriangleFan3D.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -516,9 +518,9 @@ s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size) {
     result = TLobby::adxf_open_file(id, (void *)name, 0, buf);
     if (result >= 0) {
 loop_2:
-        if (TLobby::read_afs_toc(id) != 3) {
+        if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
-            TKeyBoardControl::flush_input();
+            flush_input();
             update_global_sound_frame();
             read_pads();
             hardware_keyboard_state.disable_disconnected_ports();
@@ -534,7 +536,7 @@ s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
     result = TLobby::adxf_open_file(id, (void *)name, 0, buf);
     if (result >= 0) {
 loop_1:
-        if (TLobby::read_afs_toc(id) != 3) {
+        if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
             TLobby__sub_803382E4();
             TLobby::run_frame();

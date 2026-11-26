@@ -16,7 +16,7 @@
 
 struct LoadNetworkInfoIds { s32 v[2]; };
 
-struct LoadNetworkInfoBuf { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
+struct LoadNetworkInfoBuf { s32 hdr; char name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 
 extern s16 disc_error_code;
@@ -160,7 +160,7 @@ s32 load_network_info(void) {
             return 1;
         }
         memset(&buf, 0, 0x270);
-        ((TLobby *)(buf.name))->copy_current_entry_name(0x80);
+        copy_current_entry_name(buf.name, 0x80);
         TLobby__sub_803F53A0(0, (char *)buf.x, 0x40);
         if (buf.name[0] == 0 || buf.x[0] == 0) {
             return 0;
@@ -248,7 +248,7 @@ s32 init_struct(u8 *info) {
     TLobby__sub_803F6138((char *)(info + 0x204), 0x20);
     TLobby__sub_803F6138((char *)(info + 0x204), 0x20);
     TLobby__sub_803F6270((u16 *)(info + 0x244));
-    ((TLobby *)(info + 8))->copy_current_entry_name(0x80);
+    copy_current_entry_name((char *)(info + 8), 0x80);
     TLobby__sub_803F4EBC((char *)(info + 0x88), 0x20);
     TLobby__sub_803F4FF4(info + 0xB4);
     TLobby__sub_803F50B8(info + 0xB8);
@@ -263,7 +263,7 @@ s32 init_work(s32 arg0, u8 *work) {
     if (!(network_info_flags & 1)) {
         return 0;
     }
-    ((TLobby *)(work + 0x4))->copy_current_entry_name(0x80);
+    copy_current_entry_name((char *)(work + 0x4), 0x80);
     TLobby__sub_803F4EBC((char *)(work + 0x84), 0x20);
     TLobby__sub_803F4FF4(work + 0x164);
     TLobby__sub_803F50B8(work + 0x168);

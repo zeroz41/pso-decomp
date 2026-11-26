@@ -111,7 +111,7 @@ void draw_screen_sprite(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 dept
     begin_screen_draw(0x20 == (flags & 0x20));
     set_draw_texture_and_color(frame->texid, color.packed);
     draw_textured_quad_at_depth(&quad.x0, depth);
-    TWindowSubStatusDisp::get_player();
+    end_screen_draw();
 }
 
 void FloorTransition::clear_ready_flag_unless_locked() {

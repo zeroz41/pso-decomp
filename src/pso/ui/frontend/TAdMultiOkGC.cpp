@@ -176,7 +176,7 @@ void TAdMultiOkGC::draw_entry(int index) {
                 draw_textured_quad_at_depth(&m_entries[index].quads[i].x0, depth + base);
             }
         }
-        TWindowSubStatusDisp::get_player();
+        end_screen_draw();
     }
 }
 #pragma pop

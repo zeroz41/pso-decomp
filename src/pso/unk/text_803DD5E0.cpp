@@ -3,6 +3,7 @@
 #include <dolphin/gx/GXStruct.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/render/GinjaMaterialState.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/render/GvmTextureArchive.h"
@@ -85,7 +86,7 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
     if (r != 0) {
         return r;
     }
-    ((TAdSinglePlyChrSelectGC *)name)->append_extension_if_missing(list->textures[index].filename, ".GVR");
+    append_extension_if_missing(name, list->textures[index].filename, ".GVR");
     pfile = &file;
     if (DVDOpen(name, pfile) == 0) {
         texture_error.code = 2;
