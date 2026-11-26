@@ -544,9 +544,9 @@ force_active:
   - reset_blast__16PhotonBlastGaugeFv
   - resolve_active_quest_result__28THunterGuildSeqOnline_ClientFv
   - open_greeting__28THunterGuildSeqOnline_ClientFv
-  - THunterGuildSeqOffline__sub_80213E64
+  - on_quest_downloaded__28THunterGuildSeqOnline_ServerFv
   - THunterGuildSeqOffline__sub_80213EBC
-  - THunterGuildSeqOffline__sub_80213F78
+  - on_quest_list_cancelled__28THunterGuildSeqOnline_ServerFv
   - handle_party_check__28THunterGuildSeqOnline_ServerFv
   - name__13TItemAttacker
   - deliver_attacker_timer_hit__FP7TObject
@@ -14597,7 +14597,7 @@ force_active:
   - reset_oscillation__11TItemMagSubFll
   - reset_pad_rumble_effects_and_channels__Fs
   - reset_placement_search_ring__16TPlacementSearchFv
-  - reset_quest_list_vm__22THunterGuildSeqOfflineFv
+  - reset_quest_list_vm__28THunterGuildSeqOnline_ServerFv
   - reset_random_enemies_mode__19TPlayerBattleCtrl4PFP7TObject
   - reset_random_enemies_mode__6TLobbyFP7TObject
   - reset_request__12TChCrLoadReqFv
