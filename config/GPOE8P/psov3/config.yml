@@ -5118,8 +5118,8 @@ force_active:
   - class_name__9TObjHashi
   - class_starting_inventory_table
   - class_technique_boost_table
-  - classify_level_bracket_narrow__6TLobbyFl
-  - classify_level_bracket_wide__6TLobbyFl
+  - classify_level_bracket_narrow__Fl
+  - classify_level_bracket_wide__Fl
   - classify_tool_shop_level_bracket__Fl
   - cleanup__17TWindowSubComCardFPv
   - cleanup__23TAdSinglePlyChrSelectGCFv
@@ -6646,8 +6646,8 @@ force_active:
   - get_jungle_rock_texture_resource__Fl
   - get_labo_design_entry__Fi
   - get_labo_design_object__Fi
-  - get_level_bracket__6TLobbyFl
-  - get_level_tier__6TLobbyFl
+  - get_level_bracket__Fl
+  - get_level_tier__Fl
   - get_owner_id__22TPlyFollowParticleCtrlFv
   - get_list_item8__24TShopEquipmentListWindowFv
   - get_lobby_theme_clamped__16TObjCurtainLobbyFv
@@ -7270,7 +7270,7 @@ force_active:
   - is_downloadable_new_entry__12TQuestListVMFP14QuestBinHeader
   - is_duplicate_shop_armor__FP26IsDuplicateShopArmorRecordl
   - is_duplicate_shop_shield_or_unit__FP31IsDuplicateShopShieldOrUnitIteml
-  - is_duplicate_shop_weapon
+  - is_duplicate_shop_weapon__FP9TItemDatal
   - is_enabled__9TItemDropFv
   - is_end__12TCharaMakingFv
   - is_entity_locally_controlled__Fl
@@ -8811,7 +8811,7 @@ force_active:
   - lbl_805E03E4
   - lerp_follow_anchor__FP3VecP3VecPf
   - level_text_buffer
-  - level_to_reward__6TLobbyFl
+  - level_to_reward__Fl
   - light_machine01_resource_desc
   - light_node__13TOCapsuleLabo
   - light_slot_mask_table
@@ -14663,10 +14663,10 @@ force_active:
   - roll_physical_accuracy__20TContainerAncient01RFPvlf
   - roll_rare_weapon_attributes__9TItemDropFiPvi
   - roll_shop_technique_level__FP9TItemDatal
-  - roll_shop_weapon_first_bonus
-  - roll_shop_weapon_grind
-  - roll_shop_weapon_second_bonus
-  - roll_shop_weapon_special
+  - roll_shop_weapon_first_bonus__FP9TItemData
+  - roll_shop_weapon_grind__FP9TItemData
+  - roll_shop_weapon_second_bonus__FP9TItemData
+  - roll_shop_weapon_special__FP9TItemData
   - roll_technique_level__9TItemDropFv
   - roll_trigger__8TItemMagFl
   - roll_weapon_special__9TItemDropFiPvi

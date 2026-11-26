@@ -72,13 +72,6 @@ struct TLobby : public TObject {
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
     static void free_nodes_with_id(uaddr root);
-    static s32 classify_level_bracket_wide(s32 shop_weapon_stock_level);
-    static s32 get_level_bracket(s32 shop_weapon_stock_level);
-    static s32 classify_level_bracket_narrow(s32 shop_weapon_stock_level);
-    static s32 get_level_tier(s32 level);
-    static s32 level_to_reward(s32 shop_weapon_stock_level);
-    static void mark_shop_weapon_sold_out(s32 index, s32 slot);
-    static void free_lobby_resources();
     static void stop_audio_streams();
     static void set_pre_retrace_callback();
     static void shutdown_buffers();

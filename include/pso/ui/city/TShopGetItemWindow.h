@@ -47,4 +47,7 @@ void init_shop_world_context(void);
 extern s32 shop_section_id;
 void clear_all_shop_stock(void);
 void reset_shop_stock_and_params(void);
+// The game difficulty the shops stock for (0 Normal .. 3 Ultimate).
+extern s32 shop_difficulty_tier;
+
 #endif

@@ -3,11 +3,32 @@
 
 #include "types.h"
 
-s32 TLobby__sub_80224840(s32 shop_weapon_stock_level);
-void TLobby__sub_80225238(int tbl, int a1);
-void clear_shop_weapon_flags(void);
-void generate_shop_weapon_stock(s32 tbl);
+struct TItemData;
+
 void load_weapon_random_tables(void);
+void free_weapon_random_tables(void);
+
+s32 classify_level_bracket_wide(s32 shop_weapon_stock_level);
+s32 get_level_bracket(s32 shop_weapon_stock_level);
+s32 get_special_level_bracket(s32 shop_weapon_stock_level);
+s32 classify_level_bracket_narrow(s32 shop_weapon_stock_level);
+s32 get_level_tier(s32 level);
+s32 level_to_reward(s32 shop_weapon_stock_level);
+s32 is_duplicate_shop_weapon(TItemData *item, s32 shop);
+void roll_shop_weapon_second_bonus(TItemData *item);
+void roll_shop_weapon_first_bonus(TItemData *item);
+void roll_shop_weapon_special(TItemData *item);
+void roll_shop_weapon_grind(TItemData *item);
+void generate_shop_weapon_stock_at_level(s32 shop, s32 level);
+void generate_shop_weapon_stock(s32 shop);
+void get_shop_weapon_stock_item(TItemData *dst, s32 index, s32 shop);
+void clear_shop_weapon_flags(void);
+void mark_shop_weapon_sold_out(s32 index, s32 shop);
+
+// Per shop list (four in split screen): the stock array (16 items, allocated by
+// load_weapon_random_tables) and its item count.
+extern TItemData *shop_weapon_stock_buffers[4];
+extern s32 shop_weapon_stock_counts[4];
 
 // A weapon's item code bytes (item data1[1] and data1[2]) as the shop tables list them.
 struct ShopWeaponCode {
@@ -49,18 +70,15 @@ struct WeaponRandomTier {
 // WeaponRandomNormal/Hard/VeryHard/Ultimate.rel: what the weapon shop stocks
 // at each level bracket.
 struct WeaponRandomTables {
-    WeaponRandomTier *tiers;                // by TLobby::get_level_tier
-    WeaponRandomWeight *first_bonus_types;  // 6 per TLobby::get_level_bracket
-    WeaponRandomWeight *second_bonus_types; // 6 per TLobby::classify_level_bracket_wide
+    WeaponRandomTier *tiers;                // by get_level_tier
+    WeaponRandomWeight *first_bonus_types;  // 6 per get_level_bracket
+    WeaponRandomWeight *second_bonus_types; // 6 per classify_level_bracket_wide
     WeaponRandomRange *first_bonus_ranges;
     WeaponRandomRange *second_bonus_ranges;
-    WeaponRandomWeight *specials;           // 3 per bracket: none, channel 0, channel 1
-    WeaponRandomRange *grinds;              // by TLobby::classify_level_bracket_narrow
+    WeaponRandomWeight *specials;           // 3 per get_special_level_bracket: none, channel 0, channel 1
+    WeaponRandomRange *grinds;              // by classify_level_bracket_narrow
     WeaponRandomRange *favored_grinds;      // weapons of the section ID's favoured group
 };
 
-// shop_weapon_stock_generated_flags: layout known from its uses only.
-struct ShopWeaponStockGeneratedFlags { s32 value; u8 remaining[0xC]; };
-extern ShopWeaponStockGeneratedFlags shop_weapon_stock_generated_flags;
 
 #endif

@@ -30,7 +30,7 @@ void load_judge_item(void);
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*TLobby_scene_load_callback_table[24])(void) = {
     TLobby::create_named_lobby_object, TLobby::free_singleton,
-    load_weapon_random_tables, TLobby::free_lobby_resources,
+    load_weapon_random_tables, free_weapon_random_tables,
     load_armor_random_table, TLobby::free_rocks,
     load_tool_random_rel, free_tool_random_rel,
     load_judge_item, TLobby::free_window,
