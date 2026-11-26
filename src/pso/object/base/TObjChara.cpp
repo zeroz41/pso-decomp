@@ -55,6 +55,9 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 
 #include "pso/player/DamageBookkeeping.h"
+#include "pso/object/base/TObjCharaData.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/scene/TScene.h"
 
 #include "dolphin/mtx.h"
 
@@ -153,15 +156,7 @@ struct CharaResetView {
 extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
-void * find_entity_by_id(s32 id);
 s32 record_damage_stats(void *, void *, void *);
-extern const f64 angle_units_per_radian;
-extern TObjCollidable *entity_table[];
-extern const f64 newton_sqrt_half;
-extern const f64 newton_sqrt_three;
-extern const char meseta_label_text[];
-extern const char miss_label_text[];
-extern s32 current_floor_index;
 void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
@@ -177,7 +172,7 @@ static const f32 subtractive_rng_ratio_divisor = 65536.0f;
 }
 void apply_actor_gravity(TObjEnemy *enemy, s32 *ground_position, f32 hover_height);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-s32 is_entity_locally_controlled(s32 id);
+s32 is_entity_locally_controlled(u16 id);
 f64 fabs_double(f64 x);
 #pragma push
 #pragma fp_contract on
@@ -188,7 +183,6 @@ f64 fabs_double(f64 x);
 
 #pragma push
 #pragma fp_contract on
-extern const double accuracy_distance_penalty_scale;
 
 #pragma pop
 
@@ -1041,7 +1035,7 @@ s32 TObjChara::is_target_in_attack_range() {
     f32 prod;
     if (target != NULL && attack_params != NULL &&
         target->all_parents_unqueued_for_destruction() != 0 &&
-        ((u8 * (*)(u16))find_entity_by_id)(target->get_entity_id()) != NULL) {
+        find_entity_by_id(target->get_entity_id()) != NULL) {
         t = target;
         if (!(t->actorFlags & 0x800)) {
             if (t->bodies != NULL) {
@@ -3275,16 +3269,16 @@ void handle_6x9A_update_entity_stat(G_UpdateEntityStat_6x9A *command) {
     }
 }
 
-s32 is_entity_locally_controlled(s32 id) {
-    void *p;
-    if ((u16)id == 0xFFFF || (u16)id >= 0x1000) {
+s32 is_entity_locally_controlled(u16 id) {
+    TObjCollidable *p;
+    if (id == 0xFFFF || id >= 0x1000) {
         return 0;
     }
     p = find_entity_by_id(id);
     if (p == 0) {
         return 0;
     }
-    return ((TObjChara *)p)->is_locally_controlled();
+    return static_cast<TObjChara *>(p)->is_locally_controlled();
 }
 
 void TObjChara::apply_switch_attack() {
