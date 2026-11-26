@@ -135,4 +135,17 @@ LAYOUT_ASSERT(MagChild_material_parameters, offsetof(TItemMagSub,material_parame
 LAYOUT_ASSERT(MagChild_owner_height_scale, offsetof(TItemMagSub,owner_height_scale)==0xC8);
 LAYOUT_ASSERT(MagChild_oscillations, offsetof(TItemMagSub,oscillations)==0xCC);
 LAYOUT_ASSERT(MagChild_cached_position, offsetof(TItemMagSub,cached_position)==0xDC);
+
+// The owner's current current_motion (TObjMotion::motion): the heading its root
+// node adds to the owner's.
+struct MagOwnerPoseNode {
+    u8 pad_0[0x4];
+    s16 heading;
+};
+
+struct MagOwnerPose {
+    u8 pad_0[0x4];
+    MagOwnerPoseNode *node;
+};
+
 #endif

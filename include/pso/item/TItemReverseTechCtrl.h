@@ -16,4 +16,10 @@ public:
 
 LAYOUT_ASSERT(TItemReverseTechCtrl_size, sizeof(TItemReverseTechCtrl) == 0x28);
 
+struct ReverseTechCode {
+    s8 *keys;
+    s32 length;
+    void (*activate)(void);
+};
+
 #endif

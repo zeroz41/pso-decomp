@@ -45,8 +45,6 @@ extern "C" {
 u8 get_cast_technique_level(void *, int);
 }
 
-// get_item_icon_index copies the table whole.
-struct ItemIconIndexTable { s32 w[19]; };
 
 static const ItemIconIndexTable item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
 static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
@@ -54,7 +52,6 @@ extern "C" {
 extern const u8 item_wrapped_flag = 0x40;
 }
 extern "C" {
-
 
 
 void TItemData::set_present_color(s8 box_color) {

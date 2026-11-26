@@ -27,7 +27,6 @@
 #include "pso/item/item_create.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 
-struct DifficultyLetters { char *n[4]; };
 
 void *TItemDrop::relocatable_load_buffer;
 void *TItemDrop::second_relocatable_load_buffer;

@@ -5,12 +5,6 @@
 
 #pragma readonly_strings on
 
-struct ReverseTechCode {
-    s8 *keys;
-    s32 length;
-    void (*activate)(void);
-};
-
 
 const char *TItemReverseTechCtrl_name = "TItemReverseTechCtrl";
 extern ReverseTechCode reverse_tech_codes[3];

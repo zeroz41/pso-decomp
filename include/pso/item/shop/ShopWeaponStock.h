@@ -81,4 +81,7 @@ struct ShopWeaponRandomTables {
     ShopRollRange *favored_grind_ranges; // weapons of the section ID's favoured group
 };
 
+// A stocked item copied as plain bytes, word by word.
+struct ItemDataBytes { u8 bytes[0x14]; };
+
 #endif

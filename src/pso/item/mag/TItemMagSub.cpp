@@ -42,16 +42,6 @@ const char *TItemMagGrowEff_name = "TItemMagGrowEff";
 // is at.
 TItemMagSub *TItemMagSub::drawing;
 s32 TItemMagSub::drawn_node;
-// The owner's current current_motion (TObjMotion::motion): the heading its root
-// node adds to the owner's.
-struct MagOwnerPoseNode {
-    u8 pad_0[0x4];
-    s16 heading;
-};
-struct MagOwnerPose {
-    u8 pad_0[0x4];
-    MagOwnerPoseNode *node;
-};
 // The follow motion's steps (update_follow).
 void accumulate_mag_axis_oscillation(f32 *out, s32 *phase, MagAxisOscillationParameters *axis);
 void lerp_follow_anchor(Vec *target, Vec *anchor, f32 *t);
