@@ -23,7 +23,7 @@ public:
     void bswap_6xAD_subordinate_action();
     void update_segments();
     void update_position_from_velocity();
-    static void create(void *parent, void *params);
+    static void create(TObject *parent, OrgaFlowShotParams *params);
     static const char *class_name;
 
     // Pairs: a point pushed forward by length, then the spine point (joints 0 to 4,

@@ -429,7 +429,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     Vec hand;
     Vec ofs;
     TargetCursorList list;
-    void *td;
+    PlayerTechniqueState *td;
     s32 n;
     PhotonBlastTarget *targets;
     s32 i;
@@ -462,7 +462,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     if (targets == NULL) {
         return;
     }
-    n = reinterpret_cast<PlayerTechniqueState *>(td)->get_section_clamped();
+    n = td->get_section_clamped();
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, pl->rotation_y);
     matrix_mult_vec(0, &ofs, &ofs);
