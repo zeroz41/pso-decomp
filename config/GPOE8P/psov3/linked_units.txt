@@ -599,7 +599,7 @@ pso/ui/charcreate/TChCrLoadGmNjReq.cpp
 pso/object/quest/TObjTagChallenge.cpp
 pso/quest/TQuestBgmCtrl.cpp
 pso/camera/CameraDistanceFade.cpp
-pso/quest/challenge/ChallengeMode.cpp
+pso/quest/challenge/TChallenge.cpp
 pso/ui/charcreate/CharacterAppearanceTables.cpp
 pso/ui/charcreate/CreationMotion.cpp
 pso/system/scene/EndingSceneTables.cpp
@@ -1365,11 +1365,11 @@ pso/weapon/TItemWeaponYasminkov7000V.cpp
 pso/player/PhotonBlastResults.cpp
 pso/player/PlayerClassStats.cpp
 pso/player/PlayerClassTechniques.cpp
-pso/player/PlayerTaskEffects.cpp
+pso/player/TPlyOnCountOver.cpp
 pso/ui/city/THunterGuildSeqOnlineTask.cpp
 pso/ui/city/JudgeItem.cpp
 pso/weapon/TItemWeaponFist.cpp
-pso/player/TObjPlayer.cpp
+pso/player/TObjPlayerAccessors.cpp
 pso/player/TObjPlayerSet.cpp
 pso/object/base/TObjChara.cpp
 pso/boss/derolle/TBoss2BreakUp.cpp
@@ -1385,7 +1385,7 @@ pso/render/AltModel.cpp
 pso/object/TObjHMS_EZRope_Player.cpp
 pso/object/base/TObjCollidable.cpp
 pso/player/TObjPlayer_801AF2F0.cpp
-pso/player/TObjPlayerCreate.cpp
+pso/player/TObjPlayer.cpp
 pso/player/PlayerTrapCounts.cpp
 pso/player/TObjPlayerActions.cpp
 pso/player/PlayerAttackController.cpp

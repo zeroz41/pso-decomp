@@ -778,7 +778,7 @@ pso/quest/challenge/ChallengeHunterLoadouts.cpp:
 pso/quest/challenge/ChallengeRangerLoadouts.cpp:
 	.data       start:0x8048B1F8 end:0x8048C348
 
-pso/quest/challenge/ChallengeMode.cpp:
+pso/quest/challenge/TChallenge.cpp:
 	.text       start:0x8006EF80 end:0x80070AB0
 	.ctors      start:0x80433F48 end:0x80433F4C
 	.rodata     start:0x80438570 end:0x804385B8
@@ -4560,14 +4560,14 @@ pso/player/TObjPlayer_801AF2F0.cpp:
 	.sdata      start:0x805D3530 end:0x805D3538
 	.sdata2     start:0x805DC278 end:0x805DC2E0
 
-pso/player/TObjPlayerCreate.cpp:
+pso/player/TObjPlayer.cpp:
 	.text       start:0x801BC194 end:0x801BE210
 	.ctors      start:0x80433F8C end:0x80433F90
 	.rodata     start:0x80446F70 end:0x80446F78
 	.bss        start:0x8050E920 end:0x80511C80
 	.sbss       start:0x805D5D68 end:0x805D5D90
 
-pso/player/TObjPlayer.cpp:
+pso/player/TObjPlayerAccessors.cpp:
 	.text       start:0x801BE210 end:0x801C23A8
 	.data       start:0x804C3E38 end:0x804C3E60
 
@@ -4603,7 +4603,7 @@ pso/unk/TBattleProximitySound.cpp:
 pso/player/PlayerTrapCounts.cpp:
 	.text       start:0x801C53D4 end:0x801C57D0
 
-pso/player/PlayerTaskEffects.cpp:
+pso/player/TPlyOnCountOver.cpp:
 	.text       start:0x801C57D0 end:0x801C7430
 	.rodata     start:0x80447020 end:0x80447128
 	.data       start:0x804C3F60 end:0x804C4020
