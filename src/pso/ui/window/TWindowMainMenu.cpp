@@ -490,10 +490,7 @@ void TWindowMainMenu::reset_depth_base() { depth_base = 50300.0f; }
 f32 get_main_menu_layer_depth(u8 *parent, u32 layer) {
     return ((TWindowMainMenu *)parent)->depth_base - (f32) layer;
 }
-extern "C" {
-
 void equip_window_stub(void *, s32) {}
-}
 
 void call_if_split_screen(TWindowBase *window, s32 client_id) {
     if ((is_split_screen() != 0) && (window != NULL)) {

@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_800FD8A0.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/npc/TObjNpcEnemy.h"
 

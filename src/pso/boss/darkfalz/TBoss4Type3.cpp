@@ -78,7 +78,7 @@ typedef TBoss4Type3Handler Type3Handler;
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraFollow.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"

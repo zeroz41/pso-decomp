@@ -74,9 +74,7 @@ void reset_random_enemies_mode(TObject *fade);
 
 // --- C functions defined in THunterGuildSeqOnline.cpp ---
 void clear_online_client_instance_table(void);
-extern "C" {
 void on_quest_list_state_10(void);
-}
 // --- end of C functions
 
 #endif

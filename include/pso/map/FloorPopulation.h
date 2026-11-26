@@ -141,9 +141,7 @@ int get_floor_set_flags_size(void);
 void init_scene_objects();
 void destroy_current_floor_objects(void);
 void destroy_floor_decoration_objects(void);
-extern "C" {
 void mark_floor_enemies_dead(void);
-}
 void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags);
 void set_wave_object_flags(s32 pl, s16 b, s16 a, s32 mask, s32 set);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);

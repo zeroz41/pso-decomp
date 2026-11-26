@@ -3,7 +3,6 @@
 #include "pso/network/client_id.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/text_800FD8A0.h"
 #include "pso/camera/TCameraCtrl.h"
 
 s32 local_client_id;
@@ -12,7 +11,7 @@ s32 actor_frame_tick;
 // to setup_control_role; name inferred from that use.
 s32 player_control_role_base;
 s32 designated_client_id;
-s32 lbl_805D53B0;
+TObject *lbl_805D53B0;
 
 void FloorTransition::init_range(s32 floor) {
     current_floor = floor;
@@ -60,6 +59,6 @@ void TWindowCtrl::set_close_flag() {
     }
 }
 
-bool is_stored_target(s32 target) {
-    return lbl_805D53B0 == target;
+s32 is_stored_target(TObject *target) {
+    return lbl_805D53B0 == target ? TRUE : FALSE;
 }

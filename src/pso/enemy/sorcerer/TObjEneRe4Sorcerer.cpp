@@ -96,7 +96,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/TDeadSpot.h"

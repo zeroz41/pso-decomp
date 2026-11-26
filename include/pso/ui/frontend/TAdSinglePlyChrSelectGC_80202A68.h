@@ -81,9 +81,7 @@ LAYOUT_ASSERT(Pso3CharacterFileSlot_record_offset, offsetof(Pso3CharacterFileSlo
 LAYOUT_ASSERT(Pso3CharacterFileSlot_size, sizeof(Pso3CharacterFileSlot) == 0x39B4);
 LAYOUT_ASSERT(Pso3CharacterFile_size, sizeof(Pso3CharacterFile) == 0x194B0);
 
-extern "C" {
 void *copy_character_file_slot(void *a0, void *a1);
-}
 
 struct BattleRecordBlock { u32 w[7]; };
 

@@ -62,14 +62,11 @@
 #include "pso/item/FloorItemSync.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/render/ScreenSpriteDraw.h"
 
 
 
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
-extern "C" {
-s32 start_duel_stub_a(int);
-void start_duel_stub_b(void);
-}
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];

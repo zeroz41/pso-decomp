@@ -16,9 +16,7 @@ extern const s32 player_class_texture_archive_length[19];
 // Resets out-of-range appearance fields (name, section, class, parts); returns 0 if any were bad.
 s32 validate_player_visual_record(void *record);
 
-extern "C" {
 void chara_making_init_stub(void);
-}
 // The section id a character name hashes to.
 s32 calc_section_id_from_name(s8 *name);
 
@@ -47,14 +45,12 @@ void request_chara_making_archives(void);
 void copy_char_name(const char *name);
 void select_char_menu();
 s32 get_current_char_flag();
-extern "C" {
 int char_select_check_stub(void);
-int reset_char_appearance_callback(void *p);
-}
+int reset_char_appearance_callback(void);
 CharacterAppearanceFields *get_creation_visual_record(void);
 void load_creation_visual_record(CharacterAppearanceFields *record);
 void invalidate_creation_visual_record(void);
-void reset_current_char_appearance(s32 _w0);
+void reset_current_char_appearance(void);
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
 // The height of a class at the top and the bottom of the height slider.

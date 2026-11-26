@@ -5,7 +5,6 @@
 #include "pso/system/NinjaTypes.h"
 
 class TObjBase;
-class TQuestThread;
 class TSceneAmbientLight;
 class TSceneDirectionalLight;
 struct TObjLight;
@@ -13,7 +12,6 @@ struct PointLight;
 struct LightEntry;
 
 extern "C" {
-TQuestThread *create_quest_stats_thread(void *p);
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1);
 }
 void init_light_stub(void *light);

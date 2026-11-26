@@ -283,8 +283,6 @@ void destroy_current_floor_objects(void) {
         }
     }
 }
-extern "C" {
-
 void mark_floor_enemies_dead(void) {
     EnemySetRecord *p;
     s32 n;
@@ -297,7 +295,6 @@ void mark_floor_enemies_dead(void) {
             ((TObjBase *)(saddr)r)->set_actor_flags(0x800);
         }
     }
-}
 }
 void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
     FloorSavedSetRow *e;

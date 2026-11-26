@@ -18,7 +18,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowCtrl.h"

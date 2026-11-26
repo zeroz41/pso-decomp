@@ -28,14 +28,10 @@ public:
 void update_hunter_guild_phase();
 
 void clear_windows(THunterGuildWarning *warning);
-extern "C" {
 void clear_guild_warning_on_guild_exit(void);
 void clear_guild_warning_on_quest_exit(void);
-}
 
-extern "C" {
 s32 get_guild_quest_list_stage(void);
-}
 s32 is_in_hunter_guild(s32 client_id);
 
 void *create_lobby_object_05(void *player);

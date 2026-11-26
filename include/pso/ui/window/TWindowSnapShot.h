@@ -55,6 +55,7 @@ void alloc_player_motion_directory();
 void get_player_motion_entry(s32 index, PlayerMotionAramEntry *entry);
 void read_player_motion(s32 aram_addr, void *dest, s32 size);
 void upload_player_motion_data();
+void snapshot_shutdown_stub(void);
 void alloc_player_motion_aram();
 s32 load_player_motion_data(void);
 void free_player_motion_archive();

@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/window/ActionPaletteTag.h"
 
@@ -10,13 +9,13 @@ s32 TPlyDispConfigSmth::find_action_slot_for_target(TObjPlayer *player, s16 type
 }
 
 s32 TPlyDispConfigSmth::find_action_slot(TObjPlayer *player, s16 type, s32 enabled, s32 row) {
-    ActionPaletteTag *forced;
+    LockOnPaletteOverride *forced;
     s32 slot;
     ActionPaletteTag *tag;
 
     if (player != NULL && player->lock_on_cursor != NULL) {
         forced = &player->lock_on_cursor->palette_override;
-        if (is_palette_override_set(forced) != 0) {
+        if (forced->is_active() != 0) {
             if (get_action_palette_tag_mode(forced) == 1) {
                 if (type == get_action_palette_tag_mode(forced)) {
                     return 0;

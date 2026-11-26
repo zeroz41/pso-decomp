@@ -6,7 +6,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"

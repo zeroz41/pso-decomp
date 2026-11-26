@@ -51,4 +51,8 @@ extern s32 player_control_role_base;
 s32 is_xz_nonfinite(f32 *xz);
 s32 has_nonfinite_position(f32 *xz);
 
+class TObject;
+// Nonzero when `target` is the stored target object (TObjEneDD::get_target_info asks).
+s32 is_stored_target(TObject *target);
+
 #endif

@@ -54,6 +54,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/ui/charcreate/TCharaMaking.h"
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;
@@ -517,7 +518,6 @@ void load_tables(int a0) { TAdSinglePlyChrSelectGC::selection_index = a0; memcpy
 
 extern "C" {
 s32 is_challenge_task_running();
-s32 char_select_check_stub();
 }
 
 void TAdSinglePlyChrSelectGC::free_char_data_slots(CharacterBufferTable *table) {
@@ -2418,10 +2418,6 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
     return 0;
 }
 
-
-extern "C" {
-void reset_char_appearance_callback();
-}
 
 s32 TAdSinglePlyChrSelectGC::increment_frame() {
     if (active_character_save_record != NULL) {

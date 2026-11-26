@@ -34,10 +34,7 @@ struct TAdEnterBaseGC : public TObject {
 
 LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x40);
 
-extern "C" {
 void entry_window_render_stub(void);
-// TAdEnterBaseGC::TAdEnterBaseGC(TObject *), called by the constructors that are still written by hand.
-}
 
 extern u32 serial_access_entered_value_table[4];
 extern s32 password_entry_dispatch_state;

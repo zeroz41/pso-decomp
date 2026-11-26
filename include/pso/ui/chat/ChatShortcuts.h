@@ -10,9 +10,7 @@ void chat_dispatch_accepted_result(s32 *submission);
 void clear_chat_shortcut(s32 i);
 char *get_chat_shortcut_text(s32 *text);
 ChatShortcut *get_chat_shortcut(s32 index);
-extern "C" {
 s32 is_chat_shortcut_set(s32 index);
-}
 void send_chat_shortcut(s32 index);
 ChatShortcut *store_chat_shortcut(s32 index, const ChatShortcut *src);
 void submit_chat_text(u8 *lobby);

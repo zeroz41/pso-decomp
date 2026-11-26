@@ -98,9 +98,9 @@ struct TPlyChoiceSearchConfig;
 
 extern "C" {
 u8 *copy_struct28__17TWindowSubComCardFii(saddr dest, saddr src);
+}
 int quest_hack_check_b_stub(void);
 int quest_hack_check_a_stub(void);
-}
 
 // The option picked in the category `parent_choice_id` of the five selections, or 0.
 s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choice_id);

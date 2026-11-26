@@ -33,7 +33,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_800FD8A0.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/SoundEffect.h"

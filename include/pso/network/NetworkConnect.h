@@ -39,9 +39,7 @@ struct NetworkConfig {
 LAYOUT_ASSERT(NetworkConfig_size, sizeof(NetworkConfig) == 0x124);
 
 // --- C functions defined in NetworkConnect.cpp ---
-extern "C" {
 void network_shutdown_stub(void);
-}
 int has_modem_adapter(void);
 s32 apply_static_network_config(s32 *netmask);
 s32 apply_dhcp_network_config(s32 *netmask);

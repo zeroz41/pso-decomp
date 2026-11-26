@@ -28,7 +28,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_800FD8A0.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"

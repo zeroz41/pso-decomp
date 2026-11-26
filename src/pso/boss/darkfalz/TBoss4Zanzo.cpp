@@ -71,7 +71,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/camera/TCameraFollow.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/model_render_state.h"
 #include "pso/boss/darkfalz/DrainPlayerHp.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"

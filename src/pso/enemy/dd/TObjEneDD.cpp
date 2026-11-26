@@ -97,10 +97,8 @@ TargetCandidate enemy_target_candidate_table[4];
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/LocalClientId.h"
 
-extern "C" {
-int is_stored_target(void*);
-}
 
 s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit) {
     s32 count;

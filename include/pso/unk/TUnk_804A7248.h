@@ -13,6 +13,7 @@ public:
     virtual ~LockOnPaletteOverride();
     void clear_active();
     void set_active();
+    s32 is_active();
 };
 
 LAYOUT_ASSERT(LockOnPaletteOverride_size, sizeof(LockOnPaletteOverride) == 0xC);

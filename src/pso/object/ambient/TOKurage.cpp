@@ -19,7 +19,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_800FD8A0.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"

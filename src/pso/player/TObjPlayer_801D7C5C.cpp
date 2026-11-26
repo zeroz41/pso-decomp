@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TObjPlayer.h"
 

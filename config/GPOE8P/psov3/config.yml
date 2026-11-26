@@ -239,7 +239,7 @@ force_active:
   - decrypt_guild_card_payload__FP17GuildCardSaveData
   - encrypt_guild_card_payload__FP17GuildCardSaveDataPv
   - decrypt_secondary_card_buffer__Fv
-  - copy_character_file_slot
+  - copy_character_file_slot__FPvPv
   - __ct__21Pso3CharacterFileSlotFv
   - __ct__23Pso3CharacterSaveRecordFv
   - item_type_greater__FP14BankItemRecordP14BankItemRecord
@@ -544,7 +544,7 @@ force_active:
   - open_greeting__28THunterGuildSeqOnline_ClientFv
   - on_quest_downloaded__28THunterGuildSeqOnline_ServerFv
   - on_quest_list_cancelled__28THunterGuildSeqOnline_ServerFv
-  - on_quest_list_state_10
+  - on_quest_list_state_10__Fv
   - handle_party_check__28THunterGuildSeqOnline_ServerFv
   - name__13TItemAttacker
   - deliver_attacker_timer_hit__FP7TObject
@@ -1718,7 +1718,7 @@ force_active:
   - post_step__11TSetManagerFv
   - TShopDeleteItemWindow__sub_80337E2C
   - get_shop_weapon_stock_count__Fi
-  - equipment_shop_state_stub
+  - equipment_shop_state_stub__Fv
   - TShopGenerator__ct
   - slot_active_table__14TShopGenerator
   - floor_switch_table__7TSwitch
@@ -6358,7 +6358,7 @@ force_active:
   - apply_face_appearance_sprite__FP19WindowLayoutEntriesUc
   - has_unconvertible_char__19TWindowKeyBoardBaseFPUc
   - draw_pan_arrows__21TWindowSubAreaMapDispFP17WindowDrawContext
-  - reset_current_char_appearance__Fl
+  - reset_current_char_appearance__Fv
   - enable_item_texture_frame__FP22TWindowLoadItemTexture
   - draw_hexagon__FPvPvUlff
   - draw_bolt__12TBGLightningFP3Vec

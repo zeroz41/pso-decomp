@@ -117,6 +117,7 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
     to->cipher_seed = from->cipher_seed;
     return to;
 }
+}
 
 #define dst ((P_801FDFB8 *)a0)
 #define src ((P_801FDFB8 *)a1)
@@ -186,6 +187,7 @@ Pso3CharacterFileSlot::Pso3CharacterFileSlot() {}
 Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
     ((TAdSinglePlyChrSelectGC *)guild_card)->init_guild_card_tag();
 }
+extern "C" {
 
 // The generated GuildCardEntry constructor (emitted in TWindowSubComCard_8007A810.cpp).
 void *__ct__14GuildCardEntryFv(void *card);

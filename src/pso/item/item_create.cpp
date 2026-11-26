@@ -1287,7 +1287,6 @@ void TObjPlayer::init_game_resources() {
     lbl_805D5440.reset();
 }
 
-extern "C" {
 void set_first_inventory_item_flag(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }
 
 s32 TObjPlayer::is_script_controlled() {
@@ -1298,9 +1297,6 @@ TItem *TObjPlayer::get_equipped_mag() { return (TItem *)get_slot_value(equipped_
 
 TItem *TObjPlayer::get_equipped_shield() { return (TItem *)get_slot_value(equipped_items.items, 3); }
 TItem *TObjPlayer::get_equipped_armor() { return (TItem *)get_slot_value(equipped_items.items, 2); }
-
-
-}
 
 MagStats *MagStats::init() { clear(); return this; }
 

@@ -8,7 +8,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowBase.h"

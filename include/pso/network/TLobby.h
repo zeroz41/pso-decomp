@@ -525,9 +525,11 @@ s32 is_local_player_off_current_floor();
 
 class TPlyCharData;
 
-extern "C" {
 void set_first_inventory_item_flag(TPlyCharData *chr);
-}
+
+class TQuestThread;
+// The AB (quest stats response) handler: starts the quest thread at `label`.
+TQuestThread *create_quest_stats_thread(s32 label);
 
 char *get_lobby_name();
 

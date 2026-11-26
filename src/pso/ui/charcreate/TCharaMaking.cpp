@@ -113,14 +113,14 @@ s32 get_current_char_flag() {
     s32 x = (s8)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.section_id;
     return (u32) __cntlzw(-1 - x) >> 5;
 }
-void reset_current_char_appearance(s32 _w0) {
+void reset_current_char_appearance(void) {
     CharacterAppearanceFields *character_appearance_fields;
     character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
     copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
 int char_select_check_stub(void) { return 1; }
-int reset_char_appearance_callback(void* p) { reset_current_char_appearance((saddr)p); return 1; }
+int reset_char_appearance_callback(void) { reset_current_char_appearance(); return 1; }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 

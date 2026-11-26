@@ -241,9 +241,9 @@ void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     }
     return object;
 }
-
-TQuestThread *create_quest_stats_thread(void *p) { return TQuestThread::create_in_root((saddr)p); }
 }
+
+TQuestThread *create_quest_stats_thread(s32 label) { return TQuestThread::create_in_root(label); }
 
 
 

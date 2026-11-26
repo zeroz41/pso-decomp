@@ -12,7 +12,6 @@
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/map/FloorTransition.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/unk/text_801E3F24.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
@@ -544,7 +543,7 @@ void bswap_32(u32 *val) {
 }
 
 // Empty hooks after the byte-swap helpers; callers in the battle, Dark Falz and Sorcerer code.
-void start_duel_stub_a(void) {  }
+void start_duel_stub_a(s32) {  }
 void start_duel_stub_b(void) {  }
 
 void set_texture_scroll(f32, f32) {  }

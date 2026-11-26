@@ -13,7 +13,6 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TPlayerFootStamp.h"

@@ -28,6 +28,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -105,11 +106,6 @@ f32 battle_enemy_death_score = 7.0f;
 const char *player_battle_ctrl_name = "TPlayerBattleCtrl";
 
 
-extern "C" {
-void start_duel_stub_a(s32);
-void start_duel_stub_b(void);
-
-}
 
 
 extern "C" {

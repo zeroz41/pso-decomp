@@ -4,8 +4,6 @@
 #include "types.h"
 #include "pso/system/MainPhaseState.h"
 
-extern "C" {
 s32 is_game_scene_phase(MainPhaseState *state);
-}
 
 #endif

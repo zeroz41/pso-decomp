@@ -55,7 +55,6 @@
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/window/TWindowSnapShot.h"
-#include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/network/NetworkConnect.h"
