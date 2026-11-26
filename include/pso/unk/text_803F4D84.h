@@ -22,13 +22,13 @@ s32 get_network_config_subnet_mask(void *dst);
 s32 get_network_config_default_gateway(void *dst);
 s32 get_network_config_pc_name(char *buf, u32 n);
 extern "C" {
-s32 get_network_config_string_s5(char *buf, s32 n);
-s32 get_network_config_string_s0(char *buf, s32 n);
-s32 get_network_config_string_s1(char *buf, s32 n);
-s32 get_network_config_string_s2(char *buf, s32 n);
-s32 get_network_config_string_s3(char *buf, s32 n);
-s32 get_network_config_string_s4(char *buf, s32 n);
-s32 get_network_config_word_ec(u16 *out);
+s32 get_network_config_mail_name(char *buf, s32 n);
+s32 get_network_config_mail_address(char *buf, s32 n);
+s32 get_network_config_mail_server(char *buf, s32 n);
+s32 get_network_config_pop_server(char *buf, s32 n);
+s32 get_network_config_pop_id(char *buf, s32 n);
+s32 get_network_config_pop_password(char *buf, s32 n);
+s32 get_network_config_proxy_port(u16 *out);
 }
 
 typedef struct NetConfigSlot {
@@ -79,15 +79,15 @@ struct NetConfigRecordNames {
 };
 
 struct NetConfigStringSet {
-    char s0[0x40];
-    char s1[0x40];
-    char s2[0x40];
-    char s3[0x20];
-    char s4[0x20];
-    char s5[0x24];
+    char mail_address[0x40];
+    char mail_server[0x40];
+    char pop_server[0x40];
+    char pop_id[0x20];
+    char pop_password[0x20];
+    char mail_name[0x24];
 };
 
-struct NetConfigRecordVersion { u8 pad[0xEC]; u16 v; s16 state; u8 pad2[0x210 - 0xF0]; };
+struct NetConfigRecordVersion { u8 pad[0xEC]; u16 proxy_port; s16 state; u8 pad2[0x210 - 0xF0]; };
 
 struct NetConfigVersionView { u8 pad0[2]; s16 cur; u8 pad4[0x24]; NetConfigSlot recs[6]; NetConfigRecordVersion ents[6]; };
 

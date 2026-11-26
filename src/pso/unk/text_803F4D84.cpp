@@ -405,7 +405,7 @@ s32 get_network_config_pc_name(char *buf, u32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 get_network_config_string_s5(char *buf, s32 n) {
+s32 get_network_config_mail_name(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -425,8 +425,8 @@ s32 get_network_config_string_s5(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s5, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s5)) {
+    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].mail_name, n - 1);
+    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].mail_name)) {
         return -2;
     }
     return 0;
@@ -436,7 +436,7 @@ s32 get_network_config_string_s5(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 get_network_config_string_s0(char *buf, s32 n) {
+s32 get_network_config_mail_address(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -456,8 +456,8 @@ s32 get_network_config_string_s0(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s0, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s0)) {
+    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].mail_address, n - 1);
+    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].mail_address)) {
         return -2;
     }
     return 0;
@@ -467,7 +467,7 @@ s32 get_network_config_string_s0(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 get_network_config_string_s1(char *buf, s32 n) {
+s32 get_network_config_mail_server(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -487,8 +487,8 @@ s32 get_network_config_string_s1(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s1, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s1)) {
+    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].mail_server, n - 1);
+    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].mail_server)) {
         return -2;
     }
     return 0;
@@ -498,7 +498,7 @@ s32 get_network_config_string_s1(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 get_network_config_string_s2(char *buf, s32 n) {
+s32 get_network_config_pop_server(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -518,8 +518,8 @@ s32 get_network_config_string_s2(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s2, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s2)) {
+    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].pop_server, n - 1);
+    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].pop_server)) {
         return -2;
     }
     return 0;
@@ -529,7 +529,7 @@ s32 get_network_config_string_s2(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 get_network_config_string_s3(char *buf, s32 n) {
+s32 get_network_config_pop_id(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -549,8 +549,8 @@ s32 get_network_config_string_s3(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s3, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s3)) {
+    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].pop_id, n - 1);
+    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].pop_id)) {
         return -2;
     }
     return 0;
@@ -560,7 +560,7 @@ s32 get_network_config_string_s3(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 get_network_config_string_s4(char *buf, s32 n) {
+s32 get_network_config_pop_password(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -580,8 +580,8 @@ s32 get_network_config_string_s4(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s4, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s4)) {
+    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].pop_password, n - 1);
+    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].pop_password)) {
         return -2;
     }
     return 0;
@@ -591,7 +591,7 @@ s32 get_network_config_string_s4(char *buf, s32 n) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 get_network_config_word_ec(u16 *out) {
+s32 get_network_config_proxy_port(u16 *out) {
     NetConfigVersionView *s;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -609,7 +609,7 @@ s32 get_network_config_word_ec(u16 *out) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    *out = s->ents[i].v;
+    *out = s->ents[i].proxy_port;
     return 0;
 }
 #pragma pop
