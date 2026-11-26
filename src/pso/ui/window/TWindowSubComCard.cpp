@@ -187,7 +187,7 @@ void TWindowSubComCard::run_task() {
     case 0x0:
     case 0x1:
         this->send_state_if_dirty();
-        if ((u32) this->keyboard != 0U) {
+        if (this->keyboard != NULL) {
             this->keyboard->queue_destruction();
             this->keyboard = 0U;
         }
@@ -195,11 +195,11 @@ void TWindowSubComCard::run_task() {
             this->entry_list_window->close();
             this->entry_list_window = NULL;
         }
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = NULL;
         }
-        if ((u32) this->card_list != 0U) {
+        if (this->card_list != NULL) {
             this->card_list->close();
             this->card_list = 0U;
         }
@@ -344,7 +344,7 @@ void TWindowSubComCard::run_task() {
             hide_window((u8 *)this->message_window);
             this->m_28 = -1;
         }
-        if ((u32) this->card_list == 0U) {
+        if (this->card_list == NULL) {
             this->card_list = TWindowSubComCard::send_cmd_133();
         }
         if (this->com_card_window == NULL) {
@@ -379,7 +379,7 @@ void TWindowSubComCard::run_task() {
             this->message_window->close();
             this->message_window = 0U;
         }
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = NULL;
         }
@@ -435,7 +435,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_menu->close();
             this->com_card_menu = 0U;
         }
-        if ((u32) this->card_list != 0U) {
+        if (this->card_list != NULL) {
             this->selected_card = this->card_list->get_selected_value();
             this->card_list->close();
             this->card_list = 0U;
@@ -498,7 +498,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_menu->close();
             this->com_card_menu = 0U;
         }
-        if ((u32) this->card_list == 0U) {
+        if (this->card_list == NULL) {
             this->card_list = TWindowSubComCard::send_cmd_133();
         }
         if (this->com_card_window == NULL) {
@@ -574,7 +574,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x21:
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = NULL;
         }
@@ -594,7 +594,7 @@ void TWindowSubComCard::run_task() {
             this->menu_window->close();
             this->menu_window = 0U;
         }
-        if ((u32) this->keyboard == 0U) {
+        if (this->keyboard == NULL) {
             this->keyboard = TWindowSubShortMail::create_keyboard();
         }
         this->keyboard->set_position((void *)(get_window_layout_position(0xBB)));
@@ -830,7 +830,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_window->close();
             this->com_card_window = NULL;
         }
-        if ((u32) this->card_list != 0U) {
+        if (this->card_list != NULL) {
             this->card_list->close();
             this->card_list = 0U;
         }
@@ -850,7 +850,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x3B:
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = NULL;
         }
@@ -862,7 +862,7 @@ void TWindowSubComCard::run_task() {
             this->message_window->close();
             this->message_window = 0U;
         }
-        if ((u32) this->card_list == 0U) {
+        if (this->card_list == NULL) {
             this->card_list = TWindowSubComCard::init_layout();
         }
         if (this->com_card_window == NULL) {
@@ -887,7 +887,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_window->close();
             this->com_card_window = NULL;
         }
-        if ((u32) this->confirm_window == 0U) {
+        if (this->confirm_window == NULL) {
             this->confirm_window = this->sub_802730E0();
         }
         this->state = 0x3EU;
@@ -921,7 +921,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x41:
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = NULL;
         }
@@ -933,7 +933,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_menu->close();
             this->com_card_menu = 0U;
         }
-        if ((u32) this->card_list == 0U) {
+        if (this->card_list == NULL) {
             this->card_list = TWindowSubComCard::send_cmd_133();
         }
         if (this->com_card_window == NULL) {
@@ -958,7 +958,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_window->close();
             this->com_card_window = NULL;
         }
-        if ((u32) this->confirm_window == 0U) {
+        if (this->confirm_window == NULL) {
             this->confirm_window = this->open_yesno_dialog();
         }
         this->state = 0x44U;
@@ -984,7 +984,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_menu = 0U;
         }
     case 0x46:
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = NULL;
         }
@@ -1008,7 +1008,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x48:
-        if ((u32) this->confirm_window == 0U) {
+        if (this->confirm_window == NULL) {
             this->confirm_window = this->open_yesno_dialog();
         }
         this->state = 0x49U;
@@ -1034,7 +1034,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_menu = 0U;
         }
     case 0x4B:
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             this->confirm_window->close();
             this->confirm_window = NULL;
         }
@@ -1058,7 +1058,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x4D:
-        if ((u32) this->confirm_window == 0U) {
+        if (this->confirm_window == NULL) {
             this->confirm_window = this->open_yesno_dialog();
         }
         this->state = 0x4EU;

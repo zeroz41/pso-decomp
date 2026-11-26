@@ -523,7 +523,7 @@ void TWindowCtrl::update_trade_window() {
 
 void update_timer_window(void *ctrl_arg) {
     TWindowCtrl *ctrl = (TWindowCtrl *)ctrl_arg;
-    if ((u32)ctrl->timer_window != 0U) {
+    if (ctrl->timer_window != NULL) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
             ctrl->timer_window->request_close();
             return;

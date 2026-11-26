@@ -68,7 +68,7 @@ void TWindowSubEquip::run_task() {
     switch ((s32) this->m_1c) {
     case 0:
     case 1:
-        if ((u32) this->equip_kind_list != 0U) {
+        if (this->equip_kind_list != NULL) {
             TWindowSubEquip__sub_80263AF4(this->parent, 1);
             this->equip_kind_list->close();
             this->equip_kind_list = 0U;
@@ -93,7 +93,7 @@ void TWindowSubEquip::run_task() {
         break;
     case 3:
         ((TWindowSubStatusDisp *)(this->equip_list))->init_scroll_pos();
-        if ((u32) this->equip_kind_list == 0U) {
+        if (this->equip_kind_list == NULL) {
             this->equip_kind_list = open_equip_kind_list(this->equip_list->get_cursor_value());
         }
         this->equip_kind_list->clear_decided();
