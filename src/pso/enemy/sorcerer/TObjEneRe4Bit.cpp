@@ -40,9 +40,9 @@ __declspec(section ".data") AttackParams *TObjEneRe4Bit_attack_handles[2];
 __declspec(section ".data") ActorParamBlock *TObjEneRe4Bit_resistance_handles[2];
 __declspec(section ".data") void *TObjEneRe4Bit_behavior_params[2];
 
-void TObjEneRe4Bit::apply_defense_stat_status(void *) {  }
+void TObjEneRe4Bit::apply_defense_stat_status(StatStatusReceipt *) {  }
 
-void TObjEneRe4Bit::apply_attack_stat_status(void *) {  }
+void TObjEneRe4Bit::apply_attack_stat_status(StatStatusReceipt *) {  }
 
 void TObjEneRe4Bit::clear_harmful_statuses() {  }
 

@@ -1714,8 +1714,7 @@ void TObjChara::clear_harmful_statuses() {
 
 #pragma push
 #pragma fp_contract on
-void TObjChara::apply_attack_stat_status(void *receipt_data) {
-    StatStatusReceipt *receipt = (StatStatusReceipt *)receipt_data;
+void TObjChara::apply_attack_stat_status(StatStatusReceipt *receipt) {
     f32 new_amount;
     f32 scale;
     f32 status_effect_amount;
@@ -1751,8 +1750,7 @@ void TObjChara::apply_attack_stat_status(void *receipt_data) {
     }
 }
 
-void TObjChara::apply_defense_stat_status(void *receipt_arg) {
-    StatStatusReceipt *receipt = (StatStatusReceipt *)receipt_arg;
+void TObjChara::apply_defense_stat_status(StatStatusReceipt *receipt) {
     f32 scale;
     f32 new_amount;
     f32 status_effect_amount;

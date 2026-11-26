@@ -54,9 +54,9 @@ CollisionBody boss2_mine_collision_body = {
 
 #pragma inline_depth(1)
 
-void TBoss2Mine::apply_defense_stat_status(void *) {  }
+void TBoss2Mine::apply_defense_stat_status(StatStatusReceipt *) {  }
 
-void TBoss2Mine::apply_attack_stat_status(void *) {  }
+void TBoss2Mine::apply_attack_stat_status(StatStatusReceipt *) {  }
 
 void TBoss2Mine::clear_harmful_statuses() {  }
 

@@ -29,8 +29,8 @@ struct TBoss2Mine : public TObjEneDD {
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
-    void apply_defense_stat_status(void *);
-    void apply_attack_stat_status(void *);
+    void apply_defense_stat_status(StatStatusReceipt *);
+    void apply_attack_stat_status(StatStatusReceipt *);
     void clear_harmful_statuses();
     void apply_shock_status();
     void apply_movement_ailment(CollisionBody *);

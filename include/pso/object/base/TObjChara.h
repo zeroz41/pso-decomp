@@ -159,8 +159,8 @@ public:
     virtual void apply_movement_ailment(CollisionBody *body);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
-    virtual void apply_attack_stat_status(void *);
-    virtual void apply_defense_stat_status(void *);
+    virtual void apply_attack_stat_status(StatStatusReceipt *receipt);
+    virtual void apply_defense_stat_status(StatStatusReceipt *receipt);
     virtual void cure_poison_ailment();
     virtual void cure_paralysis();
     virtual void clear_all_status_effects();
