@@ -258,11 +258,6 @@ struct TLobby : public TObject {
     static void assign_display_objects(EnemySetRecord *rows, s32 enemy_count);
     static void attach_objects_by_id(s32 floor);
     static void assign_objects_to_slots(u8 *rows, s32 object_count);
-    static s32 get_lobby_group(s32 level);
-    static s32 get_shield_shop_tier_for_level(s32 level);
-    static s32 get_armor_shop_tier_for_level(s32 level);
-    static void set_shop_armor_list_flag(int a0, int a1);
-    static void free_rocks();
     static int get_selected_quest_id();
     static s32 handle_main_phase(saddr player);
     static void *create_tl05_object(void *player);
@@ -405,8 +400,6 @@ struct TLobby : public TObject {
     static int get_obj_table_entry(int a0);
     static s32 find_floor_object_factory(s32 area, s16 *object_type);
     static s32 count_quest_enemies_flag8();
-    static void clear_shop_entry_value(s32 i, s32 j);
-    void copy_armor_shop_entry(s32 index, s32 base);
     static void release_scene_resources();
     static void send_trade_proposal_modify();
     static void update_trade_list_send();

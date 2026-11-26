@@ -5212,10 +5212,10 @@ pso/map/TSetManager.cpp:
 	.sbss       start:0x805D60F8 end:0x805D6158
 
 pso/unk/TLobby_8020E400.cpp:
-	.text       start:0x8020E400 end:0x8020E700
+	.text       start:0x8020E400 end:0x8020E4C0
 
-pso/unk/text_8020E700.cpp:
-	.text       start:0x8020E700 end:0x8020F034
+pso/item/shop/ShopArmorStock.cpp:
+	.text       start:0x8020E4C0 end:0x8020F034
 	.rodata     start:0x8044BC38 end:0x8044BC50
 	.bss        start:0x80513D58 end:0x80513D88
 	.sbss       start:0x805D6158 end:0x805D6160

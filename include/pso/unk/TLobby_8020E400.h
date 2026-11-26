@@ -4,6 +4,5 @@
 #include "types.h"
 
 void build_6x76_set_entity_set_flags(void *p);
-s32 get_shop_unit_count(s32 level);
 
 #endif

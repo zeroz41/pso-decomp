@@ -5,6 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/item/shop/ShopArmorStock.h"
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/item/shop/ShopWeaponStock.h"
 #include "pso/object/city/CityTraffic.h"
@@ -20,7 +21,6 @@
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8006EBC4.h"
-#include "pso/unk/text_8020EE2C.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/object/city/CitySeasonResources.h"
 
@@ -31,7 +31,7 @@ void load_judge_item(void);
 void (*TLobby_scene_load_callback_table[24])(void) = {
     TLobby::create_named_lobby_object, TLobby::free_singleton,
     load_weapon_random_tables, free_weapon_random_tables,
-    load_armor_random_table, TLobby::free_rocks,
+    load_armor_random_table, free_armor_random_table,
     load_tool_random_rel, free_tool_random_rel,
     load_judge_item, TLobby::free_window,
     TQuestListOffline::reset_global_if_not_split_screen, TQuestListOffline::free_global,

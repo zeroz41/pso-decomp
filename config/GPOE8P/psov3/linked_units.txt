@@ -618,6 +618,7 @@ pso/quest/QuestDownloadAramFile.cpp
 pso/quest/QuestDownloadBuffers.cpp
 pso/quest/QuestDownloadCharTables.c
 pso/render/RenderFadeState.cpp
+pso/item/shop/ShopArmorStock.cpp
 pso/item/shop/ShopToolStock.cpp
 pso/item/shop/ShopWeaponTables.cpp
 pso/item/shop/ShopWeaponStock.cpp
@@ -1735,7 +1736,6 @@ pso/unk/text_8020CCF4.cpp
 pso/unk/text_8020CF40.cpp
 pso/unk/text_8020CFEC.cpp
 pso/unk/text_8020D2B4.cpp
-pso/unk/text_8020E700.cpp
 pso/unk/text_80222DE8.cpp
 pso/unk/text_802233F8.cpp
 pso/unk/text_80225CD8.cpp

@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/shop/ShopWeaponStock.h"
-#include "pso/unk/text_8020E700.h"
+#include "pso/item/shop/ShopArmorStock.h"
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/player/PlayerSlots.h"
