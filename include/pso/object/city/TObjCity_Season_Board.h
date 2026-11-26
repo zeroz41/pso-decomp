@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCity_Season_Board : public TObjBase {
+    static const char *class_name;
     TObjCity_Season_Board(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_Board();
     virtual void render();

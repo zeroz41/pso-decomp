@@ -8,7 +8,8 @@ class TParticleCtrl;
 
 class TObjCity_Season_FireWork : public TObject {
 public:
-    TObjCity_Season_FireWork(TObject* parent, void* position, f32 riseHeight);
+    static const char *class_name;
+    TObjCity_Season_FireWork(TObject *parent, const Vec *position, f32 riseHeight);
     virtual ~TObjCity_Season_FireWork();
     virtual void run_task();
     Vec pos;

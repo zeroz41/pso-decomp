@@ -7,12 +7,15 @@
 class TParticleCtrl;
 
 struct TObjCity_Season_EasterEgg : public TObjCitySeasonBase {
+    static const char *class_name;
     TObjCity_Season_EasterEgg(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_EasterEgg();
     virtual void render();
     virtual void run_task();
 
-    s32 unk_B4;
+    // Stepped by 2 and wrapped at 0xFF each frame like the board's uv_scroll,
+    // never read (name inferred).
+    s32 uv_scroll;
     // Particle emitter created at the decoration (create_particle_emitter id
     // 0x90) and queued for destruction by the destructor (name inferred).
     TParticleCtrl *emitter;

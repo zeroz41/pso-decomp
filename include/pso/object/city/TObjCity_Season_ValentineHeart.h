@@ -7,6 +7,7 @@
 class TParticleCtrl;
 
 struct TObjCity_Season_ValentineHeart : public TObjCitySeasonBase {
+    static const char *class_name;
     TObjCity_Season_ValentineHeart(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_ValentineHeart();
     virtual void render();

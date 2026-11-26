@@ -969,24 +969,24 @@ force_active:
   - __ct__16TObjCityMainWarpFP7TObjectPv
   - __ct__15TObjCityMapWarpFP7TObjectPv
   - TObjCity_Season_21_21__ct
-  - TObjCity_Season_21_21__name
+  - class_name__21TObjCity_Season_21_21
   - TObjCity_Season_Board__ct
-  - TObjCity_Season_Board__name
+  - class_name__21TObjCity_Season_Board
   - TObjCity_Season_EasterEgg__ct
-  - TObjCity_Season_EasterEgg__name
+  - class_name__25TObjCity_Season_EasterEgg
   - TObjCity_Season_FireWorkCtrl__ct
-  - TObjCity_Season_FireWorkCtrl__name
-  - TObjCity_Season_FireWork__name
+  - class_name__28TObjCity_Season_FireWorkCtrl
+  - class_name__24TObjCity_Season_FireWork
   - TObjCity_Season_HalloweenPumpkin__ct
-  - TObjCity_Season_HalloweenPumpkin__name
+  - class_name__32TObjCity_Season_HalloweenPumpkin
   - TObjCity_Season_SonicAdv2__ct
-  - TObjCity_Season_SonicAdv2__name
+  - class_name__25TObjCity_Season_SonicAdv2
   - TObjCity_Season_ValentineHeart__ct
-  - TObjCity_Season_ValentineHeart__name
+  - class_name__30TObjCity_Season_ValentineHeart
   - TObjCity_Season_XmasTree__ct
-  - TObjCity_Season_XmasTree__name
+  - class_name__24TObjCity_Season_XmasTree
   - TObjCity_Season_XmasWreath__ct
-  - TObjCity_Season_XmasWreath__name
+  - class_name__26TObjCity_Season_XmasWreath
   - __ct__13TObjCollisionFP7TObjectP13ObjectSetData
   - __ct__12TObjComputerFP7TObjectP13ObjectSetData
   - container_abe_enemy_name
@@ -2155,7 +2155,7 @@ force_active:
   - __ct__23TPlyPtclObjectRightHandFP8TObjBase
   - __ct__24G_ActivateMagEffect_6x61Fv
   - __ct__24G_PickUpItemRequest_6x5AFv
-  - __ct__24TObjCity_Season_FireWorkFP7TObjectPvf
+  - __ct__24TObjCity_Season_FireWorkFP7TObjectPC3Vecf
   - __ct__24TObjWaitEntryHairMoveSimFP10TObjPlayer
   - __ct__25G_DropStackedItem_DC_6x5DFv
   - __ct__25TBoss6Demo10_TYPE1_APPEARFP14TBoss6PlotFalz
@@ -16213,8 +16213,8 @@ force_active:
   - play_mode_sound__21TOHangceilingCaveBaseFv
   - hit_touching_players__21TOHangceilingCaveBaseFv
   - is_in_view__21TOHangceilingCaveBaseFv
-  - sub_8018355C__28TObjCity_Season_FireWorkCtrlFv
-  - sub_80183C38__25TObjCity_Season_SonicAdv2Fv
+  - draw_area_box__28TObjCity_Season_FireWorkCtrlFv
+  - get_model_variant__25TObjCity_Season_SonicAdv2Fv
   - sub_8018A688__20TContainerAncient01RFv
   - sub_8018B284__19TContainerAncient01Fv
   - sub_8018B48C__19TContainerAncient01Fv

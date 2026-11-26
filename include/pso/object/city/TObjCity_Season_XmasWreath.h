@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCity_Season_XmasWreath : public TObjBase {
+    static const char *class_name;
     TObjCity_Season_XmasWreath(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_XmasWreath();
     virtual void render();

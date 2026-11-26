@@ -5,11 +5,13 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCity_Season_FireWorkCtrl : public TObjBase {
+    static const char *class_name;
     TObjCity_Season_FireWorkCtrl(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_FireWorkCtrl();
-    virtual void vfunc_13(s32);
+    // Slot 13: labels the set parameters next to the area box (name inferred).
+    virtual void draw_debug_labels(s32);
     // Draws the area the fireworks start in as a debug box (name inferred).
-    void sub_8018355C();
+    void draw_area_box();
     virtual void run_task();
 
     // Frames until the next firework: run_task counts it down and rolls a new
