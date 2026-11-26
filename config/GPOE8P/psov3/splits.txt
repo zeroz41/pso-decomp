@@ -6692,26 +6692,20 @@ pso/ui/charcreate/TChCrLoadAfs.cpp:
 	.sdata2     start:0x805DD920 end:0x805DD924
 
 pso/ui/charcreate/TChCrLoadAfsTextureReq.cpp:
-	.text       start:0x8028C054 end:0x8028C650
+	.text       start:0x8028C054 end:0x8028C530
 	.data       start:0x804D36C8 end:0x804D3728
 	.sdata      start:0x805D3B50 end:0x805D3B58
 	.sbss       start:0x805D64E0 end:0x805D64E8
 
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C650.cpp:
-	.text       start:0x8028C650 end:0x8028C6EC
-
 pso/ui/charcreate/TChCrLoadGmNjReq.cpp:
-	.text       start:0x8028C6EC end:0x8028C8A8
+	.text       start:0x8028C530 end:0x8028C938
 	.rodata     start:0x80450D48 end:0x80450D60
 	.data       start:0x804D3728 end:0x804D3740
 	.sdata      start:0x805D3B58 end:0x805D3B60
-
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.cpp:
-	.text       start:0x8028C8A8 end:0x8028D088
 	.sbss       start:0x805D64E8 end:0x805D64F0
 
 pso/ui/charcreate/TChCrLoadReq.cpp:
-	.text       start:0x8028D088 end:0x8028D5D4
+	.text       start:0x8028C938 end:0x8028D5D4
 	.rodata     start:0x80450D60 end:0x80450D70
 	.data       start:0x804D3740 end:0x804D3838
 	.sdata      start:0x805D3B60 end:0x805D3B68

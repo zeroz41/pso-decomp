@@ -141,36 +141,3 @@ TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoa
 extern "C" f32 TLobby__sub_8028C50C(f32 x) {
     return (f32) log(x);
 }
-void TChCrLoadGmNjReq::update_model_load() {
-    s32 timer;
-    NJS_OBJECT *bml_model;
-    BmlResource *request;
-    timer = load_timer - 1;
-    load_timer = timer;
-    if (timer < 0) {
-        if (loaded_bml != NULL) {
-            delete loaded_bml;
-        } else {
-            return;
-        }
-        request = static_cast<BmlResource *>(::operator new(sizeof(BmlResource)));
-        if (request != NULL) {
-            request = init_bin_model_request(request, 6, model_ids, &model_ids[1], NULL, NULL, get_character_load_buffer(load_slot));
-        }
-        loaded_bml = request;
-        if (request != NULL) {
-            load_timer = 0x12C;
-        }
-    } else if (is_bml_loaded(loaded_bml) != 0) {
-        bml_model = get_bml_model(loaded_bml, 0);
-        *model_out = bml_model;
-        if (bml_model != NULL) {
-            advance_character_load_buffer(load_slot, TLobby__sub_8001ED88(loaded_bml));
-            delete loaded_bml;
-            loaded_bml = NULL;
-            release_slot();
-            *completion_flags &= ~completion_mask;
-            queue_destruction();
-        }
-    }
-}
