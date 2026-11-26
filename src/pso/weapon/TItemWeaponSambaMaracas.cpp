@@ -21,7 +21,7 @@ TItemWeaponSambaMaracas::~TItemWeaponSambaMaracas() {}
 
 TItemWeaponSambaMaracas::TItemWeaponSambaMaracas(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(515);
-    shot_callback = (WeaponShotCallback)spawn_shoot_particle_9f;
+    shot_callback = spawn_shoot_particle_9f;
     shot_speed = 11.0f;
 }
 

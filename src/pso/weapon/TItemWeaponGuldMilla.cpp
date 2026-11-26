@@ -9,10 +9,10 @@
 
 void TItemWeaponGuldMilla::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        shot_callback = (WeaponShotCallback)create_shoot_model_rot_z;
+        shot_callback = create_shoot_model_rot_z;
         impact_callback = NULL;
     } else {
-        shot_callback = (WeaponShotCallback)create_gun_shot;
+        shot_callback = create_gun_shot;
         impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     }
     if (launch_shot(&gun_point, 0, 0, 1) != 0) {

@@ -50,7 +50,7 @@ TItemWeaponSRankBazooka::TItemWeaponSRankBazooka(TObject *parent, u8 *item) : TI
     impact_callback = (WeaponHitCallback)spawn_flame_wall_impact;
     recoil_state = 0;
     hit_callback = (WeaponHitCallback)play_target_impact_effect;
-    shot_callback = (WeaponShotCallback)create_shoot_model_with_particles;
+    shot_callback = create_shoot_model_with_particles;
     shot_speed = 15.0f;
 }
 

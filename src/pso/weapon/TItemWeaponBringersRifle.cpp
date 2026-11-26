@@ -15,7 +15,7 @@ void TItemWeaponBringersRifle::update_weapon() {
 
 TItemWeaponBringersRifle::TItemWeaponBringersRifle(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     uv_scroll = 2;
-    shot_callback = (WeaponShotCallback)TItemEffBringer::create;
+    shot_callback = TItemEffBringer::create;
 }
 
 TItem *TItemWeaponBringersRifle::create(u8 *item) {

@@ -51,6 +51,9 @@ struct SceneSectionAngles;
 
 struct TItem;
 class TPlyItem;
+struct TItemWeapon;
+class TItemShoot;
+class TItemShootParticle;
 class TItemList;
 class TPlayerLobbyMarker;
 class TPlyInventoryItem;
@@ -426,8 +429,8 @@ struct TObjPlayer : public TObjChara {
     TItem *get_equipped_armor();
     TItem *get_equipped_shield();
     static s32 count_nearby_players_with_shield(u16 idx, u8 *item);
-    static void *spawn_shoot_particle(uaddr owner, saddr pos, saddr dir, f32 life);
-    static saddr create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life);
+    static TItemShootParticle *spawn_shoot_particle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
+    static TItemShoot *create_shoot_model(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
     static saddr get_item_pmt_entry(u8 index);
     static saddr get_shield_pmt_entry(u8 index);
     static f32 get_drop_random_float(u32 channel);
@@ -776,7 +779,7 @@ struct TObjPlayer : public TObjChara {
     static void rebuild_players_for_stage(s32 stage);
     static void spawn_appearance_effect(u16 client);
     // A weapon shot callback: news the shoot model that draws the shot.
-    static saddr create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames);
+    static TItemShoot *create_item_shoot_model(TItemWeapon *weapon, const Vec *origin, const Vec *end, f32 frames);
     static void spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle);
     static void launch_weapon_casing(TObject *parent, uaddr item, s32 joint, Vec *velocity, s32 *angle);
     static void clear_photon_blast_slots();
@@ -797,7 +800,7 @@ struct TObjPlayer : public TObjChara {
     void set_flag_8_if_check_passes();
     static void new_child_object(u16 player_id);
     int is_flag_b0_4();
-    static u32 spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames);
+    static TItemShoot *spawn_shot_effect(TItemWeapon *owner, const Vec *origin, const Vec *end, f32 frames);
     static void start_photon_blast(s32 kind, s32 client_id);
     s32 get_total_deaths();
     void init_local_pad_binding();

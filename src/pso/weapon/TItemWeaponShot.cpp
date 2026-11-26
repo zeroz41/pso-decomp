@@ -66,7 +66,7 @@ void TItemWeaponShot::update_attack() {
 
 TItemWeaponShot::TItemWeaponShot(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
-    shot_callback = (WeaponShotCallback)create_gun_shot;
+    shot_callback = create_gun_shot;
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     shot_speed = 15.0f;
     barrel_angle = 0x2000;

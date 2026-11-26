@@ -62,18 +62,18 @@ TItemShootSRankPunch::TItemShootSRankPunch(void *owner, const Vec *pos, const Ve
     set_render_model(get_punch_shot_model((u8 *)owner), (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist());
 }
 
-u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames) {
+TItemShoot *TObjPlayer::spawn_shot_effect(TItemWeapon *owner, const Vec *origin, const Vec *end, f32 frames) {
     TItemShootSRankPunch *model = NULL;
     TItemShootParticle *particle;
-    if (owner != 0) {
-        model = new TItemShootSRankPunch((void *)owner, (const Vec *)origin, (const Vec *)end, frames);
-        particle = (TItemShootParticle *)spawn_shoot_particle(owner, origin, end, frames);
+    if (owner != NULL) {
+        model = new TItemShootSRankPunch(owner, origin, end, frames);
+        particle = spawn_shoot_particle(owner, origin, end, frames);
         if ((model != NULL) && (particle != NULL)) {
             particle->spawn_slot_emitter(0x1BB, 0);
-            ((TObject *)particle)->set_parent(model);
+            particle->set_parent(model);
         }
     }
-    return (uaddr)model;
+    return model;
 }
 
 extern "C" {
@@ -146,7 +146,7 @@ TItemWeaponSRankPunch::TItemWeaponSRankPunch(TObject *parent, u8 *item) : TItemW
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)TObjPlayer::notify_hit_target;
     hit_callback = (WeaponHitCallback)s_rank_punch_hit_effect;
-    shot_callback = (WeaponShotCallback)TObjPlayer::spawn_shot_effect;
+    shot_callback = TObjPlayer::spawn_shot_effect;
     shot_speed = 10.0f;
     flags.reset();
 }

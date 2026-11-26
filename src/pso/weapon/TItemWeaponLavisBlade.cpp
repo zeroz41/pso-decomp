@@ -21,7 +21,7 @@ TItemWeaponLavisBlade::~TItemWeaponLavisBlade() {}
 
 TItemWeaponLavisBlade::TItemWeaponLavisBlade(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(0x100622);
-    shot_callback = (WeaponShotCallback)create_lavis_shot;
+    shot_callback = create_lavis_shot;
     shot_speed = 10.0f;
 }
 

@@ -396,7 +396,7 @@ void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale)
         n = 0;
     }
     if (shot_callback != NULL && is_model_shown() == 1) {
-        shot_callback(this, origin, &pos.x, (f32)n);
+        shot_callback(this, origin, &pos, (f32)n);
     }
 }
 
@@ -480,7 +480,7 @@ s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
             }
             this->spawn_light_task();
             if ((shot_callback != NULL) && (is_model_shown() == 1)) {
-                shot_callback(this, origin, &endpoint.x, flight_frames);
+                shot_callback(this, origin, &endpoint, flight_frames);
             }
         }
     }

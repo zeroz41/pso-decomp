@@ -7,7 +7,7 @@
 #include "pso/item/TItem.h"
 
 TItemWeaponEggBlaster::TItemWeaponEggBlaster(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    shot_callback = (WeaponShotCallback)spawn_shoot_particle_9f;
+    shot_callback = spawn_shoot_particle_9f;
     shot_speed = 11.0f;
 }
 

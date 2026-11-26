@@ -23,7 +23,7 @@ TItem *create_dark_meteor_weapon(u8 *item) {
 TItemWeaponDarkMeteor::TItemWeaponDarkMeteor(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(34);
     rotation_z = 0;
-    shot_callback = (WeaponShotCallback)TItemShoot::spawn_shoot_particle;
+    shot_callback = TItemShoot::spawn_shoot_particle;
 }
 
 TItemWeaponDarkMeteor::~TItemWeaponDarkMeteor() {}

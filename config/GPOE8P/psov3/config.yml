@@ -5922,7 +5922,7 @@ force_active:
   - draw_wrapped_text__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2
   - drawing__11TItemMagSub
   - drawn_node__11TItemMagSub
-  - drill_launcher_create_shot__Flllf
+  - drill_launcher_create_shot__FP11TItemWeaponPC3VecPC3Vecf
   - __ct__24TItemWeaponDrillLauncherFP7TObjectPUc
   - drill_launcher_return_timer__FPv
   - drop_item__9TItemDropFiii
@@ -14647,7 +14647,7 @@ force_active:
   - rock_cave_model_resource
   - rock_jungle_collision_body_parts
   - rock_jungle_vec3_table
-  - rocket_punch_create_shot__Flllf
+  - rocket_punch_create_shot__FP11TItemWeaponPC3VecPC3Vecf
   - rocket_punch_return_timer__FUl
   - rocket_punch_target_impact__FPvUlUll
   - rocket_punch_wall_impact__FUlUlUlUl

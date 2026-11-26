@@ -26,7 +26,7 @@ void TItemWeaponLavisCannon::transform_model_node() {
 
 TItemWeaponLavisCannon::TItemWeaponLavisCannon(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(34);
-    shot_callback = (WeaponShotCallback)create_lavis_shot;
+    shot_callback = create_lavis_shot;
     shot_speed = 10.0f;
     rotation_z = 0;
 }

@@ -32,8 +32,6 @@ struct TItemEquipBase;
 #include "pso/system/MatrixStack.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 
-saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life);
-
 
 void TItemShootDrillLauncher::render() {
     NJS_OBJECT *render_node;
@@ -62,18 +60,18 @@ void TItemShootDrillLauncher::hook() {  }
 TItemShootDrillLauncher::TItemShootDrillLauncher(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {}
 
-saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
+TItemShoot *drill_launcher_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
     TItemShootDrillLauncher *shot = NULL;
     TItemShootParticle *particle;
 
-    if (owner != 0) {
-        shot = new TItemShootDrillLauncher((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
+    if (owner != NULL) {
+        shot = new TItemShootDrillLauncher(owner, pos, dir, life);
     }
-    particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (particle != NULL) {
         particle->spawn_slot_emitter(0x1BB, 0);
     }
-    return (saddr)shot;
+    return shot;
 }
 
 void TItemWeaponDrillLauncher::emit_marker_effects() {
@@ -151,7 +149,7 @@ TItemWeaponDrillLauncher::~TItemWeaponDrillLauncher() {
 
 }
 TItemWeaponDrillLauncher::TItemWeaponDrillLauncher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    shot_callback = (WeaponShotCallback)drill_launcher_create_shot;
+    shot_callback = drill_launcher_create_shot;
     shot_speed = 9.0f;
     set_weapon_flags(0x22);
     projectile_visible = 1;

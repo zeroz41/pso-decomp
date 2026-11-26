@@ -74,19 +74,19 @@ TItemShootRocketPunch::TItemShootRocketPunch(TItemWeaponRocketPunch *owner, cons
     set_render_model(owner->get_shot_model(), (NJS_TEXLIST *)owner->get_texlist());
 }
 
-uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
+TItemShoot *rocket_punch_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
     TItemShootRocketPunch *shot = NULL;
     TItemShootParticle *particle;
 
-    if (owner != 0) {
-        shot = new TItemShootRocketPunch((TItemWeaponRocketPunch *)owner, (const Vec *)pos, (const Vec *)dir, life);
-        particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    if (owner != NULL) {
+        shot = new TItemShootRocketPunch((TItemWeaponRocketPunch *)owner, pos, dir, life);
+        particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
         if ((shot != NULL) && (particle != NULL)) {
             particle->spawn_slot_emitter(0x1BB, 0);
             particle->set_parent(shot);
         }
     }
-    return (uaddr)shot;
+    return shot;
 }
 
 void TItemWeaponRocketPunch::emit_marker_effects() {
@@ -153,7 +153,7 @@ TItemWeaponRocketPunch::TItemWeaponRocketPunch(TObject *parent, u8 *item) : TIte
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)rocket_punch_wall_impact;
     hit_callback = (WeaponHitCallback)rocket_punch_target_impact;
-    shot_callback = (WeaponShotCallback)rocket_punch_create_shot;
+    shot_callback = rocket_punch_create_shot;
     shot_speed = 8.0f;
     punch_flags.reset();
 }

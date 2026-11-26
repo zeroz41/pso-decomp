@@ -173,7 +173,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     memcpy(attributes, item + 6, 6);
     impact_callback = 0;
     hit_callback = 0;
-    shot_callback = (WeaponShotCallback)create_gun_shot;
+    shot_callback = create_gun_shot;
     this->gun_point_joint = parameters->gun_point_joint;
     set_weapon_trail_joints(this, 0, parameters->trail_joints[0], parameters->trail_joints[1]);
     set_weapon_trail_joints(this, 1, parameters->trail_joints[2], parameters->trail_joints[3]);

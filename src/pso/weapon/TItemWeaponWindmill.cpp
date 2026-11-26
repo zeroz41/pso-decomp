@@ -42,12 +42,12 @@ TItemShootWindmill::TItemShootWindmill(void *owner, const Vec *pos, const Vec *d
     rot_x = 0;
 }
 
-saddr create_shoot_model(saddr owner, saddr pos, saddr dir, f32 life) {
+TItemShoot *create_shoot_model(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
     TItemShootWindmill *shot = NULL;
-    if (owner != 0) {
-        shot = new TItemShootWindmill((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
+    if (owner != NULL) {
+        shot = new TItemShootWindmill(owner, pos, dir, life);
     }
-    return (saddr)shot;
+    return shot;
 }
 
 void TItemWeaponWindmill::activate_effect(s32) {
@@ -125,7 +125,7 @@ TItemWeaponWindmill::~TItemWeaponWindmill() {}
 
 TItemWeaponWindmill::TItemWeaponWindmill(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(35);
-    shot_callback = (WeaponShotCallback)create_shoot_model;
+    shot_callback = create_shoot_model;
     rotation = 0;
     spin_speed = 3276;
     attack_frames = 0;

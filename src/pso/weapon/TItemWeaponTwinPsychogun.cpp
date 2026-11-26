@@ -15,12 +15,12 @@ void TItemWeaponTwinPsychogun::emit_marker_effects() {
         for (i = 0; i != 2; i++) {
             increment_burst_counter(counter);
         }
-        shot_callback = (WeaponShotCallback)create_shoot_model_rot_z;
+        shot_callback = create_shoot_model_rot_z;
         impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
         ((TItemWeapon *)this)->launch_rare_weapon_special(&gun_point, 1, 3.0f);
         ((TItemWeapon *)this)->launch_rare_weapon_special(&second_gun_point, 0, 3.0f);
     } else {
-        shot_callback = (WeaponShotCallback)create_gun_shot;
+        shot_callback = create_gun_shot;
         impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
         if (launch_shot(&gun_point, 0, 0, 1) != 0) {
             launch_shot(&second_gun_point, 0, 0, 0);

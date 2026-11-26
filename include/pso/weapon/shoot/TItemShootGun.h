@@ -16,7 +16,7 @@ public:
     virtual void hook();
     virtual ~TItemShootGun();
 public:
-    static u32 create(saddr owner, saddr pos, saddr endpoint, f32 life);
+    static TItemShoot *create(TItemWeapon *owner, const Vec *pos, const Vec *endpoint, f32 life);
     void set_texture_id(s32 id);
 };
 

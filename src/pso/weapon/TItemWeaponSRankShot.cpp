@@ -54,7 +54,7 @@ void TItemWeaponSRankShot::update_attack() {
 TItemWeaponSRankShot::TItemWeaponSRankShot(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     barrel_angle = 0x2000;
     set_weapon_flags(2);
-    shot_callback = (WeaponShotCallback)create_gun_shot;
+    shot_callback = create_gun_shot;
     shot_speed = 15.0f;
 }
 
