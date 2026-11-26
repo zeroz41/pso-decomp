@@ -183,13 +183,13 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     ok = 0;
     if (TLobby__sub_8014618C() != 0) {
         if (is_state_active() != 0) {
-            if (*TLobby__sub_80146D14() != 0) {
+            if (*get_ppp_password() != 0) {
                 ok = 1;
             }
         } else {
             ok = 1;
         }
-    } else if (TLobby__sub_80145DB4(1) != 0 && *TLobby__sub_80146D44() != 0) {
+    } else if (TLobby__sub_80145DB4(1) != 0 && *get_modem_user_name() != 0) {
         ok = 1;
     }
     if (ok != 0) {

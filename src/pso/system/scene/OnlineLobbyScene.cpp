@@ -726,7 +726,7 @@ void run_online_lobby_scene(void) {
     load_floor_object_set(0xF);
     TAdDialingGC::open();
     ((TAdDialingGC *)tl_window)->create();
-    online_lobby_scene_handle = TLobby__sub_80146908();
+    online_lobby_scene_handle = start_connection();
     TAdDialingGC__sub_80328730();
     TLoadCtrl::set_field1C(0);
     while (TAdDialingGC__sub_801A4C9C() != 0) {

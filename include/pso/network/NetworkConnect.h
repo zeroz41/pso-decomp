@@ -5,20 +5,20 @@
 
 // --- C functions defined in NetworkConnect.cpp ---
 extern "C" {
-s32 TLobby__sub_80146588(s32 *arg0);
-s32 TLobby__sub_801465C0(s32 *netmask);
-s32 TLobby__sub_801466F4(u32 arg0);
-int TLobby__sub_80146724(void);
-void TLobby__sub_8014672C(s32 *arg0);
+s32 apply_static_ip_config(s32 *netmask);
+s32 connect_dhcp(s32 *netmask);
+s32 should_dial_next_number(u32 result);
+int get_modem_phone_number_count(void);
+void get_local_ip_addr(s32 *out_addr);
 int TLobby__sub_8014677C(void);
-s32 TLobby__sub_80146908(void);
-void TLobby__sub_801469B8(void);
-char *TLobby__sub_80146D14(void);
-char *TLobby__sub_80146D44(void);
+s32 start_connection(void);
+void disconnect_lan(void);
+char *get_ppp_password(void);
+char *get_modem_user_name(void);
 char *get_account_user_name(s32 idx);
-void TLobby__sub_8014715C(void *p, void *q);
-s32 TLobby__sub_80147284(void);
-s32 TLobby__sub_801478C4(s32 id);
+void copy_dns_addr(u32 *dst, const u32 *src);
+s32 disconnect_modem(void);
+s32 dial_modem_numbers(s32 id);
 void TLobby__sub_80147978(void);
 }
 // What follows the online character save: 0 asks the server for the time, 1 and 2
