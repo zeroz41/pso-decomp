@@ -85,18 +85,11 @@ CollisionBody TODoorJungleMain_collision_body_parts[1] = {
 
 
 // Story-flag ids of the three jungle switches (shared with TOKeyJungleMain).
-const s32 TOKeyJungleMain__data_804653C8[3] = {0x46, 0x47, 0x48};
+const s32 TOKeyJungleMain::story_flags[3] = {0x46, 0x47, 0x48};
 
 const char *TODoorJungleMain::class_name = "TODoorJungleMain";
 
-extern "C" {
-
-void TLobby__sub_8029B2A4(void* p);
-
-
-
-}
-s32 is_any_player_near(saddr arg0);
+s32 is_any_player_near(saddr object);
 
 
 #pragma inline_depth(1)
@@ -189,7 +182,7 @@ void TODoorJungleMain::run_task() {
 }
 
 void TODoorJungleMain::update_door_switch_state() {
-    s16 sp8;
+    s16 saved_state;
     s32 lvl;
     s32 prev;
     s32 i;
@@ -199,7 +192,7 @@ void TODoorJungleMain::update_door_switch_state() {
         prev = switch_count;
         switch_count = 0;
         for (i = 0; i < 3; i++) {
-            if (TLevelSelect::get_difficulty_flag_bit(lvl, TOKeyJungleMain__data_804653C8[i]) != 0) {
+            if (TLevelSelect::get_difficulty_flag_bit(lvl, TOKeyJungleMain::story_flags[i]) != 0) {
                 switch_count++;
             }
         }
@@ -211,9 +204,9 @@ void TODoorJungleMain::update_door_switch_state() {
         } else {
             door_flags &= ~1;
         }
-        if ((door_flags & 1) && access_object_saved_state(&sp8, 1) == 1) {
-            sp8 = 1;
-            send_object_state_update(&sp8);
+        if ((door_flags & 1) && access_object_saved_state(&saved_state, 1) == 1) {
+            saved_state = 1;
+            send_object_state_update(&saved_state);
         }
     }
 }
@@ -266,7 +259,7 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
     s32 j;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 3; j++) {
-            clear_story_flag_in_bank(i, TOKeyJungleMain__data_804653C8[j]);
+            clear_story_flag_in_bank(i, TOKeyJungleMain::story_flags[j]);
         }
     }
 }
@@ -274,27 +267,27 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
 void TLobby__sub_8029B2A4(void* p) { TOKeyJungleMain::init_key_slots(p); }
 
 
-s32 is_any_player_near(saddr arg0) {
-  f32 temp_f31;
-  s32 temp_r31;
-  s32 var_r29;
-  s32 new_var;
+s32 is_any_player_near(saddr object) {
+  f32 max_dist_sq;
+  s32 player_floor;
+  s32 client;
+  s32 current_floor;
   u8 *player;
-  temp_f31 = 2500.0f;
-  var_r29 = 0;
+  max_dist_sq = 2500.0f;
+  client = 0;
   loop_1:
-  player = (u8 *) get_player_by_client_id(var_r29);
+  player = (u8 *) get_player_by_client_id(client);
   if (player != 0)
   {
-    temp_r31 = ((TObjPlayer *)player)->get_floor();
-    new_var = get_current_floor();
-    if ((new_var == temp_r31) && (((f32 (*)(void *, void *))xz_distance_squared)((void *)(player + 0x38), (void *)(arg0 + 0x38)) < temp_f31))
+    player_floor = ((TObjPlayer *)player)->get_floor();
+    current_floor = get_current_floor();
+    if ((current_floor == player_floor) && (((f32 (*)(void *, void *))xz_distance_squared)((void *)(player + 0x38), (void *)(object + 0x38)) < max_dist_sq))
     {
       return 1;
     }
   }
-  var_r29 += 1;
-  if (var_r29 >= 4)
+  client += 1;
+  if (client >= 4)
   {
     return 0;
   }

@@ -13,9 +13,7 @@
 FloorMapSelection floor_map_registry[18];
 
 
-struct TLobbyIds { s32 w[18]; };
 
-struct GetBossWarpDestinationTable { s32 w[2][18]; };
 
 // File names of the floor maps: the first three are the sky model extensions
 // TSceneSora::load_sky_resources passes to TLobby::replace_file_extension, the rest
@@ -303,16 +301,9 @@ extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
     { 0, 14, 14, 15, 15, 12, 12, 12, 12, 12, 13, 13, 0, 0, 0, 0, 0, 0 },
 } };
 
-s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities);
 extern "C" {
 int selected_episode;
 }
-void randomize_adventure_maps(void);
-extern "C" {
-void TLobby__sub_80207BB0(void);
-}
-s32 get_floor_map_terrain(s32 floor);
-s32 get_boss_warp_destination(void);
 saddr story_select_pending_state = -1;
 int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }
@@ -338,7 +329,6 @@ saddr get_floor_area(s32 floor) {
     }
     return -1;
 }
-void init_floor_map_registry(void);
 
 void set_floor_map_variant(s32 floor, s32 terrain) {
     if (floor <= 0x11) {
@@ -413,10 +403,10 @@ void TLobby::copy_table_entries(u32 size) {
 }
 
 void randomize_adventure_maps(void) {
-  FloorMapSelection *var_r31;
+  FloorMapSelection *map;
   s32 main_phase;
   s32 i;
-  var_r31 = floor_map_registry;
+  map = floor_map_registry;
   TAdStorySelectGC::set_state((saddr)selected_episode);
   main_phase = get_main_phase();
   if (TRaderMapCore::is_not_split_screen() == 1)
@@ -426,26 +416,26 @@ void randomize_adventure_maps(void) {
   i = 0;
   do
   {
-    if (var_r31->area >= 0)
+    if (map->area >= 0)
     {
       switch (main_phase)
       {
         case 14:
-          var_r31->terrain = (s32)((f32)adventure_map_variation_count_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
-          var_r31->entities = (s32)((f32)adventure_map_variation_count_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
+          map->terrain = (s32)((f32)adventure_map_variation_count_table[map->area][0] * (0.000030517578f * (f32)rand()));
+          map->entities = (s32)((f32)adventure_map_variation_count_table[map->area][1] * (0.000030517578f * (f32)rand()));
           break;
         case 15:
-          var_r31->terrain = (s32)((f32)online_floor_map_variation_dimension_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
-          var_r31->entities = (s32)((f32)online_floor_map_variation_dimension_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
+          map->terrain = (s32)((f32)online_floor_map_variation_dimension_table[map->area][0] * (0.000030517578f * (f32)rand()));
+          map->entities = (s32)((f32)online_floor_map_variation_dimension_table[map->area][1] * (0.000030517578f * (f32)rand()));
           break;
         default:
-          var_r31->terrain = (s32)((f32)adventure_map_variation_count_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
-          var_r31->entities = (s32)((f32)adventure_map_variation_count_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
+          map->terrain = (s32)((f32)adventure_map_variation_count_table[map->area][0] * (0.000030517578f * (f32)rand()));
+          map->entities = (s32)((f32)adventure_map_variation_count_table[map->area][1] * (0.000030517578f * (f32)rand()));
           break;
       }
     }
     i += 1;
-    ++var_r31;
+    ++map;
   }
   while (i < 0x12);
 }

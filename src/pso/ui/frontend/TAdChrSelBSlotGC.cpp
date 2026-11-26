@@ -51,7 +51,7 @@ void TAdChrSelBSlotGC::render() {
 }
 
 s32 TAdChrSelBSlotGC::is_character_transferred(u32 i) {
-    CardSlotSummary *e = (CardSlotSummary *)TAdSinglePlyChrSelectGC__sub_801FE3E4(i);
+    CardSlotSummary *e = (CardSlotSummary *)get_secondary_slot_summary(i);
     if (e == 0) {
         return 0;
     }
@@ -59,7 +59,7 @@ s32 TAdChrSelBSlotGC::is_character_transferred(u32 i) {
 }
 
 PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
-    CardSlotSummary *e = (CardSlotSummary *)TAdSinglePlyChrSelectGC__sub_801FE3E4(slot);
+    CardSlotSummary *e = (CardSlotSummary *)get_secondary_slot_summary(slot);
     chr_select_b_slot_entry.slot = index;
     chr_select_b_slot_entry.name = reinterpret_cast<const char *>(
         e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C));
@@ -68,7 +68,7 @@ PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, void *p
     return &chr_select_b_slot_entry;
 }
 
-void TAdChrSelBSlotGC::sub_8030E458() {  }
+void TAdChrSelBSlotGC::run_state_29() {  }
 void TAdChrSelBSlotGC::set_load_state() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
         state = 0x1D;
@@ -90,7 +90,7 @@ void TAdChrSelBSlotGC::reset_slot_state() {
         state = 1;
     }
 }
-void TAdChrSelBSlotGC::sub_8030E550() {  }
+void TAdChrSelBSlotGC::run_state_24() {  }
 void TAdChrSelBSlotGC::update_load_state() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
         if ((u32) (TAdPlayerLoadGC::get_load_result(1) + 0x10000) == 0xFF83U) {
@@ -110,7 +110,7 @@ void TAdChrSelBSlotGC::enter_state17() {
     TAdSinglePlyChrSelectGC::open_confirm_window();
     state = 0x17;
 }
-void TAdChrSelBSlotGC::sub_8030E620() {  }
+void TAdChrSelBSlotGC::run_state_20() {  }
 
 void TAdChrSelBSlotGC::populate_slot_entries() {
     u32 i;
@@ -712,16 +712,16 @@ void TAdChrSelBSlotGC::run_task() {
         &TAdChrSelBSlotGC::show_pso12_character_message,
         &TAdChrSelBSlotGC::reset_plate_positions,
         &TAdChrSelBSlotGC::populate_slot_entries,
-        &TAdChrSelBSlotGC::sub_8030E620,
+        &TAdChrSelBSlotGC::run_state_20,
         &TAdChrSelBSlotGC::enter_state17,
         &TAdChrSelBSlotGC::set_state_confirm,
         &TAdChrSelBSlotGC::update_load_state,
-        &TAdChrSelBSlotGC::sub_8030E550,
+        &TAdChrSelBSlotGC::run_state_24,
         &TAdChrSelBSlotGC::reset_slot_state,
         &TAdChrSelBSlotGC::reset_load_state,
         &TAdChrSelBSlotGC::init,
         &TAdChrSelBSlotGC::set_load_state,
-        &TAdChrSelBSlotGC::sub_8030E458,
+        &TAdChrSelBSlotGC::run_state_29,
     };
     (this->*handlers[state])();
     if (state != prev_state) {

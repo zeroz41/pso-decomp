@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities);
+s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities);
 
 #endif

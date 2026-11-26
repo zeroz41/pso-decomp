@@ -6,7 +6,7 @@
 class TItemTimerEventPbCharge : public TItemTimerEvent {
 public:
     TItemTimerEventPbCharge(TItemHeapObject *parent, u16 client, s32 period);
-    virtual void vfunc_6();
+    virtual void apply_effect();
     virtual ~TItemTimerEventPbCharge();
 };
 LAYOUT_ASSERT(TItemTimerEventPbCharge_size, sizeof(TItemTimerEventPbCharge) == 0x2C);

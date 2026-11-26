@@ -60,7 +60,7 @@ void TWindowSubSymbolChatHelp::draw_color_palette(WindowDrawContext *context) {
         q.y0 = 50.0f + context->inner_y;
         q.x1 = 14.0f + q.x0;
         q.y1 = 14.0f + q.y0;
-        context->transform_quad((TexturedQuad *)&q);
+        context->transform_quad(&q);
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
     if (feature_flags & 2) {
@@ -76,7 +76,7 @@ void TWindowSubSymbolChatHelp::draw_color_palette(WindowDrawContext *context) {
     q.v0 = (0.15234375f);
     q.u1 = (0.92578125f);
     q.v1 = (0.20703125f);
-    context->transform_quad((TexturedQuad *)&q);
+    context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
@@ -103,7 +103,7 @@ void TWindowSubSymbolChatHelp::draw_help_entry(WindowDrawContext *context, s32 r
     q.v0 = uv->v / 256.0f;
     q.u1 = (231.0f + uv->u) / 256.0f;
     q.v1 = ((16.0f) + uv->v) / 256.0f;
-    context->transform_quad((TexturedQuad *)&q);
+    context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
@@ -125,7 +125,7 @@ void TWindowSubSymbolChatHelp::draw_help_icon(WindowDrawContext *context, s32 ro
     q.v0 = uv->v / 256.0f;
     q.u1 = ((16.0f) + uv->u) / 256.0f;
     q.v1 = ((16.0f) + uv->v) / 256.0f;
-    context->transform_quad((TexturedQuad *)&q);
+    context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop

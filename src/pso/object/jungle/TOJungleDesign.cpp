@@ -33,8 +33,8 @@ void TOJungleDesign::init_design_variant() {
     if ((s32) this->m_b0 > 2) {
         this->m_b0 = 2;
     }
-    this->m_ac = (saddr)fn_802FF064(jungle_design_variant_table[this->m_b0]);
-    this->texlist = fn_802FF028(0);
+    this->m_ac = (saddr)get_jungle_design_model(jungle_design_variant_table[this->m_b0]);
+    this->texlist = get_jungle_design_texlist(0);
 }
 
 
@@ -74,15 +74,15 @@ TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((T
 }
 
 
-NJS_TEXLIST *fn_802FF028(s32 index) {
+NJS_TEXLIST *get_jungle_design_texlist(s32 index) {
     if (jungle_design_shared_model_resource != NULL) {
-        return get_bml_texlist((BmlResource *)jungle_design_shared_model_resource, index);
+        return get_bml_texlist(jungle_design_shared_model_resource, index);
     }
     return NULL;
 }
-NJS_OBJECT *fn_802FF064(s32 index) {
+NJS_OBJECT *get_jungle_design_model(s32 index) {
     if (jungle_design_shared_model_resource != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_design_shared_model_resource, index);
+        return (NJS_OBJECT *)get_bml_model(jungle_design_shared_model_resource, index);
     }
     return NULL;
 }
@@ -90,12 +90,12 @@ NJS_OBJECT *fn_802FF064(s32 index) {
 
 void TOJungleDesign::free_shared_resource() {
     if (jungle_design_shared_model_resource != NULL) {
-        delete (BmlResource *)jungle_design_shared_model_resource;
+        delete jungle_design_shared_model_resource;
         jungle_design_shared_model_resource = NULL;
     }
 }
 
 void TOJungleDesign::load_shared_resource() {
-    BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&bm_obj_jungle_tree_resource_descriptor, 0, 0, NULL);
+    BmlResource *archive = new BmlResource(1, &bm_obj_jungle_tree_resource_descriptor, 0, 0, NULL);
     jungle_design_shared_model_resource = archive;
 }

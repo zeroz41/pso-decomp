@@ -27,44 +27,6 @@
 #include "pso/object/base/TObjBase.h"
 
 
-struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
-
-struct Data_80235740 { Row_80235740 *rows; u32 count; };
-
-struct Row_802351B4
-{
-  u32 entry;
-  u32 flags;
-  f32 scale;
-};
-
-struct Data_802351B4
-{
-  Row_802351B4 *rows;
-  u32 count;
-};
-
-struct Arg_802351B4
-{
-  s32 a;
-  s32 b;
-  s32 c;
-};
-
-struct Obj_802351B4
-{
-  u8 pad0[0x20];
-  Vec pos;
-  u8 pad2c[0x54 - 0x2C];
-  s32 f54;
-  s32 f58;
-  s32 f5c;
-  u8 pad60[0xC6 - 0x60];
-  s16 band;
-  u8 padc8[0x130 - 0xC8];
-  void **emitters;
-};
-
 // inferred: the per-band emitter lists of TTecMegid__emitter_bands, named after their band (technique level tier)
 static const TechniqueEmitterSourceRow megid_band0_emitters[2] = {
     {0x1C5, 0, 0.0f}, {0x1C8, 0, 0.0f},
@@ -91,12 +53,6 @@ const TechniqueEmitterSourceTable TTecMegid__emitter_bands[6] = {
 // inferred: same <Class>__class_name pattern as TTecBarta__class_name
 const char *TTecMegid__class_name = "TTecMegid";
 static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
-
-extern "C" {
-void mem_free(void *p);
-}
-u32 get_technique_caster_flags(s32 technique, u16 actor);
-extern "C" {
 
 
 #pragma push
@@ -139,28 +95,21 @@ void TTecMegid::update_by_state() {
 #pragma pop
 
 
-typedef struct Arg_802351B4 Arg_802351B4;
-typedef struct Data_802351B4 Data_802351B4;
-typedef struct Obj_802351B4 Obj_802351B4;
-typedef struct Row_802351B4 Row_802351B4;
-typedef struct TTecGiBartaData_80230B48 TTecGiBartaData_80230B48;
 void TTecMegid::spawn_particle_emitters() {
-  Obj_802351B4 *self = (Obj_802351B4 *) this;
-  u32 fl;
   u32 flags;
-  Row_802351B4 *row;
+  const TechniqueEmitterSourceRow *row;
   u32 i;
-  long long new_var;
+  long long icon;
   s32 mode;
-  Arg_802351B4 dir;
-  dir.a = self->f54;
-  dir.b = 0;
-  dir.c = self->f5c;
-  self->emitters = static_cast<void **>(mem_alloc(TTecMegid__emitter_bands[band].count * sizeof(*self->emitters)));
-  for (i = 0; i < ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].count; i++)
+  s32 dir[3];
+  dir[0] = angles[0];
+  dir[1] = 0;
+  dir[2] = angles[2];
+  emitters = static_cast<void **>(mem_alloc(TTecMegid__emitter_bands[band].count * sizeof(*emitters)));
+  for (i = 0; i < TTecMegid__emitter_bands[this->band].count; i++)
   {
     mode = 0;
-    row = &((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i];
+    row = &TTecMegid__emitter_bands[this->band].rows[i];
     flags = row->flags;
     if (flags & 0x1000)
     {
@@ -168,23 +117,23 @@ void TTecMegid::spawn_particle_emitters() {
     }
     if (flags & 2)
     {
-      self->emitters[i] = spawn_particle_effect_with_rotation(&self->pos, &dir, row->entry, mode | 0x1000);
+      emitters[i] = spawn_particle_effect_with_rotation(&position, dir, row->entry, mode | 0x1000);
     }
     else
     {
-      self->emitters[i] = spawn_continuous_particle_effect_with_flags(&self->pos, row->entry, mode | 0x1000);
+      emitters[i] = spawn_continuous_particle_effect_with_flags(&position, row->entry, mode | 0x1000);
     }
-    if (self->emitters[i] != 0)
+    if (emitters[i] != 0)
     {
-      row = &((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i];
+      row = &TTecMegid__emitter_bands[this->band].rows[i];
       if (row->flags & 0x40)
       {
-        ((TParticleCtrl *)(self->emitters[i]))->set_scale(row->scale, row->scale);
+        ((TParticleCtrl *)(emitters[i]))->set_scale(row->scale, row->scale);
       }
-      if (((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags & 0x20)
+      if (TTecMegid__emitter_bands[this->band].rows[i].flags & 0x20)
       {
-        new_var = ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model(static_cast<TParticleCtrl *>(self->emitters[i]), get_bml_model(technique_effect_bml, new_var), technique_texture_list, 0, 1, 1.0f);
+        icon = TTecMegid__emitter_bands[this->band].rows[i].flags >> 16;
+        attach_particle_model(static_cast<TParticleCtrl *>(emitters[i]), get_bml_model(technique_effect_bml, icon), technique_texture_list, 0, 1, 1.0f);
       }
     }
   }
@@ -235,11 +184,11 @@ void TTecMegid::apply_to_target(TObjChara *target) {
     }
 }
 
-void TTecMegid::create(saddr source, saddr pos, saddr arg2, s32 level) {
-    new TTecMegid(source, (u8 *)pos, (u8 *)arg2, level);
+void TTecMegid::create(saddr source, saddr pos, saddr target, s32 level) {
+    new TTecMegid(source, (u8 *)pos, (u8 *)target, level);
 }
-void TTecMegid::create_ex(saddr source, saddr pos, s32 arg2, s32 level) {
-    new TTecMegid(source, (Vec *)pos, arg2, level);
+void TTecMegid::create_ex(saddr source, saddr pos, s32 angle, s32 level) {
+    new TTecMegid(source, (Vec *)pos, angle, level);
 }
 void TTecMegid::render() {  }
 
@@ -285,17 +234,16 @@ TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(so
     s32 i;
     m_name = TTecMegid__class_name;
     init_parameters();
-    *(f32 *)((s8 *)this + 0x178) = 0.0f;
+    m_178 = 0.0f;
     for (i = 0; i < 0x20; i++) {
         hitIds[i] = 0xFFFF;
     }
     hitCursor = 0;
     spawn_particle_emitters();
     update_by_state();
-    if (*(void **)((s8 *)this + 0x1C) != 0) {
-        sourceId = ((TObjBase *)(*(void **)((s8 *)this + 0x1C)))->get_entity_id();
+    if (TEffect::source != 0) {
+        sourceId = ((TObjBase *)TEffect::source)->get_entity_id();
     }
-}
 }
 
 // The facing form: the technique starts at `pos` and flies along the y angle `angle`.
@@ -303,14 +251,14 @@ TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TTecShot(so
     s32 i;
     m_name = TTecMegid__class_name;
     init_parameters();
-    *(f32 *)((s8 *)this + 0x178) = 0.0f;
+    m_178 = 0.0f;
     for (i = 0; i < 0x20; i++) {
         hitIds[i] = 0xFFFF;
     }
     hitCursor = 0;
     spawn_particle_emitters();
     update_by_state();
-    if (*(void **)((s8 *)this + 0x1C) != 0) {
-        sourceId = ((TObjBase *)(*(void **)((s8 *)this + 0x1C)))->get_entity_id();
+    if (TEffect::source != 0) {
+        sourceId = ((TObjBase *)TEffect::source)->get_entity_id();
     }
 }

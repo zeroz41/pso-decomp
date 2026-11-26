@@ -55,5 +55,5 @@ struct TObjDoor : public TObjCollidable {
     static NJS_TEXLIST *resource_param;
 };
 LAYOUT_ASSERT(TObjDoor_size, sizeof(TObjDoor)==0xD4);
-extern "C" s32 TObjDoor__data_805D5BC8;
+extern "C" s32 door_force_locked_flag;
 #endif

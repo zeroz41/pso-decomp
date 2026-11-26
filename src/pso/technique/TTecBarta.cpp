@@ -23,31 +23,30 @@
 #include "pso/object/base/TObjBase.h"
 
 
-const TechniqueEmitterSourceRow lbl_8044CC78[3] = {
+const TechniqueEmitterSourceRow barta_band0_emitters[3] = {
     {0x190, 2, 1.0f}, {0x191, 0, 1.0f}, {0x192, 0, 1.0f},
 };
-const TechniqueEmitterSourceRow lbl_8044CC9C[3] = {
+const TechniqueEmitterSourceRow barta_band1_emitters[3] = {
     {0x190, 2, 1.2f}, {0x191, 2, 1.2f}, {0x192, 0, 1.0f},
 };
-const TechniqueEmitterSourceRow lbl_8044CCC0[3] = {
+const TechniqueEmitterSourceRow barta_band2_emitters[3] = {
     {0x190, 2, 1.4f}, {0x191, 2, 1.4f}, {0x192, 0, 1.0f},
 };
-const TechniqueEmitterSourceRow lbl_8044CCE4[4] = {
+const TechniqueEmitterSourceRow barta_band3_emitters[4] = {
     {0x190, 2, 1.0f}, {0x191, 2, 1.0f}, {0x192, 0, 1.0f}, {0x198, 1, 1.0f},
 };
-const TechniqueEmitterSourceRow lbl_8044CD14[4] = {
+const TechniqueEmitterSourceRow barta_band4_emitters[4] = {
     {0x190, 2, 1.2f}, {0x191, 2, 1.2f}, {0x192, 0, 1.0f}, {0x198, 1, 1.0f},
 };
-const TechniqueEmitterSourceRow lbl_8044CD44[7] = {
+const TechniqueEmitterSourceRow barta_band5_emitters[7] = {
     {0x190, 2, 1.6f}, {0x191, 2, 1.6f}, {0x192, 0, 1.0f}, {0x198, 1, 1.0f},
     {0x193, 0x20, 1.0f}, {0x1D8, 0x20, 1.0f}, {0x1D7, 0x20, 1.0f},
 };
 const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
-    {lbl_8044CC78, 3}, {lbl_8044CC9C, 3}, {lbl_8044CCC0, 3},
-    {lbl_8044CCE4, 4}, {lbl_8044CD14, 4}, {lbl_8044CD44, 7},
+    {barta_band0_emitters, 3}, {barta_band1_emitters, 3}, {barta_band2_emitters, 3},
+    {barta_band3_emitters, 4}, {barta_band4_emitters, 4}, {barta_band5_emitters, 7},
 };
 const char *TTecBarta__class_name = "TTecBarta";
-extern "C" {
 
 #pragma push
 #pragma dont_inline off
@@ -95,7 +94,6 @@ void TTecBarta::create_particle_emitters() {
     u32 i;
     const TechniqueEmitterSourceRow *row;
     u32 flags;
-    saddr base = (saddr)this;
     angles[0] = this->angles[0];
     angles[1] = 0;
     angles[2] = this->angles[2];
@@ -104,14 +102,14 @@ void TTecBarta::create_particle_emitters() {
         row = &TTecBarta__emitter_bands[this->band].rows[i];
         flags = row->flags;
         if (flags & 2) {
-            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), angles, row->entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, angles, row->entry);
         } else if (flags & 1) {
             reverse[0] = this->angles[0] + 0x8000;
             reverse[1] = 0;
             reverse[2] = this->angles[2];
-            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), reverse, TTecBarta__emitter_bands[this->band].rows[i].entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, reverse, TTecBarta__emitter_bands[this->band].rows[i].entry);
         } else {
-            this->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter((f32 *)(base + 0x20), row->entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter(&position, row->entry);
         }
         if (this->emitters[i] != NULL) {
             row = &TTecBarta__emitter_bands[this->band].rows[i];
@@ -182,11 +180,11 @@ void TTecBarta::run_task() {
     s32 i;
     this->source = (uaddr)find_entity_by_id(this->sourceId);
     if (this->source == NULL) {
-        ((TObject *)this)->queue_destruction();
+        queue_destruction();
         return;
     }
     for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
-        Vec pos = *(Vec *)&this->position;
+        Vec pos = this->position;
         if (TTecBarta__emitter_bands[this->band].rows[i].flags & 0x20) {
             pos.y -= 10.0f;
         }
@@ -209,8 +207,6 @@ void TTecBarta::run_task() {
 }
 
 void TTecBarta::render() {  }
-
-}
 
 TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
     : TTecShot(source, pos, target, level) {

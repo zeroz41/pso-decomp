@@ -8,7 +8,7 @@
 struct TechniqueParams;
 
 struct TTecReverser : public TTecCircle {
-    TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level);
+    TTecReverser(saddr owner, saddr origin, saddr targets, saddr level);
     virtual ~TTecReverser();
     // Takes speed and lifetime from the parameters and adds the level to their power.
     void apply_params(TechniqueParams *params, s32 level);

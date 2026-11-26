@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 fn_801908F8(saddr arg0, f32 farg0);
+s32 is_within_camera_distance_sq(saddr object, f32 distance_sq);
 }
 
 #endif

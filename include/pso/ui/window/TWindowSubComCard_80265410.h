@@ -7,8 +7,8 @@
 struct NJS_POINT2;
 struct TWindowMenu;
 extern "C" {
-void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
-void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
+void clamp_menu_scroll(TWindowMenu *menu);
+void disable_menu_row(TWindowMenu *menu, s16 row);
 }
 TWindowMenu *create_titled_window_menu(const NJS_POINT2 *position, s32 count, saddr title, s32 client_id);
 TWindowMenu *create_window_menu_default(const NJS_POINT2 *pos, s32 entries);

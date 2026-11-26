@@ -319,20 +319,20 @@ s32 validate_6x22_set_player_invisible(G_ClientIDHeader *packet) {
 struct LobbyAnimationState { G_ClientIDHeader header; s16 animation_number; u16 unused; u32 player_flags; f32 animation_timer; };
 
 extern "C" {
-s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0);
-s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0) {
-    saddr player;
-    player = (saddr)get_player_by_client_id(arg0->header.client_id);
+s32 validate_6xAE_set_animation_state(LobbyAnimationState *packet);
+s32 validate_6xAE_set_animation_state(LobbyAnimationState *packet) {
+    TObjPlayer *player;
+    player = get_player_by_client_id(packet->header.client_id);
     if (player == 0) {
         return 0;
     }
-    if (((G_ClientIDHeader *)arg0)->is_local(arg0->header.client_id) != 0) {
+    if (packet->header.is_local(packet->header.client_id) != 0) {
         return 0;
     }
-    if (((is_action_id_none(arg0->animation_number) == 0) && (arg0->animation_number < 0)) || (arg0->animation_number >= get_player_action_motion_count())) {
+    if (((is_action_id_none(packet->animation_number) == 0) && (packet->animation_number < 0)) || (packet->animation_number >= get_player_action_motion_count())) {
         return 0;
     }
-    if ((arg0->animation_timer < 0.0f) || (arg0->animation_timer >= ((TObjPlayer *)player)->get_action_frame_count(arg0->animation_number))) {
+    if ((packet->animation_timer < 0.0f) || (packet->animation_timer >= player->get_action_frame_count(packet->animation_number))) {
         return 0;
     }
     return 1;

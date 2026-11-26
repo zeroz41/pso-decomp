@@ -95,8 +95,8 @@ void TOVS2Wall01__sub_8017B9AC(void *) {  }
 
 void handle_6x86_hit_destructible_object(game_command_header *command) {
     WallHitPacket *wall_hit_packet = reinterpret_cast<WallHitPacket *>(command);
-    Ent_8017B9B0 spC;
-    Ent_8017B9B0 sp8;
+    Ent_8017B9B0 saved_state;
+    Ent_8017B9B0 table_state;
     TOVS2Wall01 *o;
     u16 id;
     if (wall_hit_packet == NULL) {
@@ -134,25 +134,25 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
             o->break_wall();
             break;
         }
-        o->access_object_saved_state(&spC, 1);
-        spC.a = o->mode;
-        o->access_object_saved_state(&spC, 0);
-        o->apply_saved_state(&spC.a, 0);
+        o->access_object_saved_state(&saved_state, 1);
+        saved_state.a = o->mode;
+        o->access_object_saved_state(&saved_state, 0);
+        o->apply_saved_state(&saved_state.a, 0);
     } else {
-        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->object_index];
-        if (sp8.a != 1) {
-            sp8.a = wall_hit_packet->flags;
-            TLobby::apply_table_entry(wall_hit_packet->object_index, &sp8);
+        *(s32 *)&table_state = *(s32 *)&quest_object_entries[wall_hit_packet->object_index];
+        if (table_state.a != 1) {
+            table_state.a = wall_hit_packet->flags;
+            TLobby::apply_table_entry(wall_hit_packet->object_index, &table_state);
         }
     }
 }
 
-void TOVS2Wall01::save_and_send_state(u16 arg1) {
+void TOVS2Wall01::save_and_send_state(u16 update_reason) {
     s16 state;
     WallHitPacket pkt;
     s16 v = mode;
     WallSetEntry *entry;
-    if (arg1 == 1) {
+    if (update_reason == 1) {
         v = 1;
     }
     if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
@@ -163,7 +163,7 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
         pkt.header.entity_id = entity_id;
         pkt.flags = state;
         pkt.object_index = entry->m_4;
-        pkt.update_reason = arg1;
+        pkt.update_reason = update_reason;
         pkt.remaining_hits = hits_left;
         pkt.send();
     }
@@ -290,7 +290,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(vs2_wall01_bml_resource, index);
     model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
-    texlist = get_bml_texlist((BmlResource *)vs2_wall01_bml_resource, index);
+    texlist = get_bml_texlist(vs2_wall01_bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
     m_c8 = TObjMapCsn::create(set_data);
@@ -306,11 +306,10 @@ TOVS2::~TOVS2() {
 }
 
 void TOVS2Wall01::load_resources() {
-  saddr temp_r3;
   saddr resource;
   resource = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
   vs2_wall01_bml_resource = (BmlResource *)resource;
-  TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)vs2_wall01_bml_resource, 5)),
+  TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model(vs2_wall01_bml_resource, 5)),
                         reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
@@ -392,8 +391,8 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     apply_object_set_data(set_data);
     calc_attach_pos();
     set_actor_flags(0x60000000);
-    model = (void *)get_bml_model((BmlResource *)vs2_wall01_bml_resource, 6);
-    texlist = get_bml_texlist((BmlResource *)vs2_wall01_bml_resource, 6);
+    model = (void *)get_bml_model(vs2_wall01_bml_resource, 6);
+    texlist = get_bml_texlist(vs2_wall01_bml_resource, 6);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
     set_indexed_flags(0, 0x08000000);
     register_object_by_id();
@@ -415,16 +414,16 @@ void *TOVS2Wall01::create(void *set_data) {
     return new TOVS2Wall01(set_data);
 }
 void TOVS2Wall01::render() {
-    s32 var_r31;
+    s32 fading;
     fade.update();
     this->in_view = this->update_object_view_visibility(view_range, model_radius);
     if ((s32) this->in_view == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            var_r31 = 0;
+            fading = 0;
         } else {
-            var_r31 = fade.updateFromCamera(&position);
+            fading = fade.updateFromCamera(&position);
         }
-        if (var_r31 != 0) {
+        if (fading != 0) {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -436,7 +435,7 @@ void TOVS2Wall01::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
-        if (var_r31 != 0) {
+        if (fading != 0) {
             fade.clear_flag_and_notify();
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

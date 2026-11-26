@@ -48,10 +48,10 @@ extern QuestDownloadInputEntry *lbl_805D78C4;
 extern QuestDownloadInputEntry *lbl_805D78C8;
 
 // Native character codes are halfwords; the single-byte conversion returns a byte.
-s32 TQuestVmDownLoadServer__sub_803E6F98(u16 code);
-s32 TQuestVmDownLoadServer__sub_803E7018(u16 code);
+s32 kana_takes_handakuten(u16 code);
+s32 kana_takes_dakuten(u16 code);
 // The output must have room for two bytes, even when the caller expects one.
-s32 TQuestVmDownLoadServer__sub_803E7098(u8 *output, u16 code);
+s32 jis_to_halfwidth_kana(u8 *output, u16 code);
 u16 sjis_to_jis(u16 code);
 }
 u8 jis_to_single_byte(u16 code);

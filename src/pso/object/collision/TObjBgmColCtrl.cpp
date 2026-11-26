@@ -26,22 +26,21 @@ const char *area_music_filename_table[6] = {
     "SHOP.adx", "GUILD.adx", "MEDICAL.adx", "soutoku.adx", "city.adx", "labo.adx",
 };
 
-struct Names_8017E1E4 { const char *name[2]; };
+struct LobbyThemeNames { const char *name[2]; };
 
 
 s32 bgm_zone_category;
-s32 lbl_805D5B04;
+s32 bgm_zone_claimed;
 // The root the BGM collision zones hang under (created next to the controller).
 TObject *bgm_col_ctrl_instance;
 u32 bgm_col_ctrl_current_theme_id;
 
-void create_bgm_col_zones(void);
 extern s32 tl_05;
 
 
-struct Row_8017E550 { Vec pos; f32 radius; s32 category; };
+struct BgmZoneRow { Vec pos; f32 radius; s32 category; };
 
-const Row_8017E550 lbl_80443690[12] = {
+const BgmZoneRow pioneer2_ep1_bgm_zones[12] = {
     {{-2.11f, 0.0f, -0.24f}, 72.0f, 4},
     {{-165.09f, 0.0f, 100.0f}, 41.0f, 4},
     {{184.49f, 0.0f, 144.57f}, 38.0f, 4},
@@ -55,7 +54,7 @@ const Row_8017E550 lbl_80443690[12] = {
     {{0.66f, 0.0f, -1728.83f}, 52.0f, 3},
     {{0.0f, 0.0f, -2000.0f}, 81.0f, 3},
 };
-const Row_8017E550 lbl_80443780[12] = {
+const BgmZoneRow pioneer2_ep2_bgm_zones[12] = {
     {{160.7f, 0.0f, 40.87f}, 41.0f, 4},
     {{32.6f, 0.0f, 62.73f}, 28.0f, 4},
     {{-21.28f, 0.0f, -60.15f}, 27.0f, 4},
@@ -70,8 +69,6 @@ const Row_8017E550 lbl_80443780[12] = {
     {{12.82f, 0.0f, -204.0f}, 26.0f, 2},
 };
 
-struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
-
 
 const char *bgm_col_name = "TObjBgmCol";
 const char *bgm_col_ctrl_name = "TObjBgmColCtrl";
@@ -85,15 +82,15 @@ s32 TObjBgmColCtrl::is_active() {
     return (u8)((u8) (music_state != 0));
 }
 
-TObjBgmCol::TObjBgmCol(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjBgmCol::TObjBgmCol(TObject *parent, void *set_data) : TObjBase(parent) {
 #define bgm_col this
     *(saddr *)((s8 *)bgm_col + 0) = (saddr) bgm_col_name;
-    bgm_col->apply_object_set_data(arg2);
-    bgm_col->m_90 = 1;
-    bgm_col->m_98 = (f32) bgm_col->scale.x;
-    bgm_col->m_9c = (s32) (bgm_col->set_params[0] % 6);
-    if ((s32) bgm_col->m_9c < 0) {
-        bgm_col->m_9c = 0;
+    bgm_col->apply_object_set_data(set_data);
+    bgm_col->outside = 1;
+    bgm_col->radius = (f32) bgm_col->scale.x;
+    bgm_col->category = (s32) (bgm_col->set_params[0] % 6);
+    if ((s32) bgm_col->category < 0) {
+        bgm_col->category = 0;
     }
 #undef bgm_col
 }
@@ -103,22 +100,21 @@ TObjBgmCol::~TObjBgmCol() {
 }
 
 void TObjBgmCol::run_task() {
-    Zone_8017E748 *zone = (Zone_8017E748 *)this;
     if (get_quest_bgm_issued_flag() == 0) {
         switch (check()) {
         case 1:
-            if (bgm_zone_category != zone->category) {
-                if (zone->category == 4) {
+            if (bgm_zone_category != category) {
+                if (category == 4) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 } else {
-                    play_area_music((char *)area_music_filename_table[zone->category]);
+                    play_area_music((char *)area_music_filename_table[category]);
                 }
-                bgm_zone_category = zone->category;
+                bgm_zone_category = category;
             }
-            lbl_805D5B04 = 1;
+            bgm_zone_claimed = 1;
             return;
         case 0:
-            lbl_805D5B04 = 1;
+            bgm_zone_claimed = 1;
             break;
         case 2:
             break;
@@ -127,26 +123,26 @@ void TObjBgmCol::run_task() {
 }
 
 s32 TObjBgmCol::check() {
-    f32 temp_f0;
+    f32 radius;
 
-    temp_f0 = this->m_98;
-    if (is_within_distance(temp_f0 * temp_f0) != 0) {
-        if ((s32) this->m_90 != 0) {
-            this->m_90 = 0;
+    radius = this->radius;
+    if (is_within_distance(radius * radius) != 0) {
+        if ((s32) this->outside != 0) {
+            this->outside = 0;
             return 1;
         }
         return 0;
     }
-    if ((s32) this->m_90 != 0) {
+    if ((s32) this->outside != 0) {
         return 2;
     }
-    this->m_90 = 1;
+    this->outside = 1;
     return 3;
 }
 
-s32 TObjBgmCol::is_within_distance(f32 farg0) {
+s32 TObjBgmCol::is_within_distance(f32 distance_sq) {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
-    if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < farg0)) {
+    if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < distance_sq)) {
         return 1;
     }
     return 0;
@@ -160,17 +156,17 @@ void create_bgm_col_zones(void) {
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
         for (i = 0; i < 12; i++) {
-            VecCopy(&set.position, &lbl_80443690[i].pos);
-            set.scale.x = lbl_80443690[i].radius;
-            set.set_params[0] = lbl_80443690[i].category;
+            VecCopy(&set.position, &pioneer2_ep1_bgm_zones[i].pos);
+            set.scale.x = pioneer2_ep1_bgm_zones[i].radius;
+            set.set_params[0] = pioneer2_ep1_bgm_zones[i].category;
             new TObjBgmCol(bgm_col_ctrl_instance, &set);
         }
         break;
     case AREA_PIONEER2_EP2:
         for (i = 0; i < 12; i++) {
-            VecCopy(&set.position, &lbl_80443780[i].pos);
-            set.scale.x = lbl_80443780[i].radius;
-            set.set_params[0] = lbl_80443780[i].category;
+            VecCopy(&set.position, &pioneer2_ep2_bgm_zones[i].pos);
+            set.scale.x = pioneer2_ep2_bgm_zones[i].radius;
+            set.set_params[0] = pioneer2_ep2_bgm_zones[i].category;
             new TObjBgmCol(bgm_col_ctrl_instance, &set);
         }
         break;
@@ -204,22 +200,22 @@ void TObjBgmColCtrl::create_controller() {
 }
 
 void TObjBgmColCtrl::run_task() {
-    s32 temp_r4;
+    s32 frames_left;
 
-    temp_r4 = this->m_1c;
-    this->m_1c = (temp_r4 - 1);
-    if ((temp_r4 <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
+    frames_left = this->m_1c;
+    this->m_1c = (frames_left - 1);
+    if ((frames_left <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             if (TObjBgmColCtrl::is_active() == 0) {
                 TObjBgmColCtrl::play_lobby_theme_music();
             }
         } else {
-            lbl_805D5B04 = 0;
+            bgm_zone_claimed = 0;
             TObject *root = bgm_col_ctrl_instance;
             if (root != NULL) {
                 root->run_tasks();
             }
-            if ((s32) lbl_805D5B04 == 0) {
+            if ((s32) bgm_zone_claimed == 0) {
                 if (TObjBgmColCtrl::is_active() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
@@ -235,7 +231,7 @@ void TObjBgmColCtrl::render() {  }
 
 
 void TObjBgmColCtrl::play_lobby_theme_music() {
-    Names_8017E1E4 names = {{"city.adx", "LOBBY.ADX"}};
+    LobbyThemeNames names = {{"city.adx", "LOBBY.ADX"}};
     const char *name;
     if (get_current_floor_area() == AREA_LOBBY) {
         name = names.name[1];

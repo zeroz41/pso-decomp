@@ -105,7 +105,6 @@ int current_line_width = 12;
 s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
-s32 select_texture_by_surface_id(u32 id);
 }
 
 void set_viewport_scissor(int mode, const TileRect *r) {
@@ -148,23 +147,13 @@ void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
 void draw_window_vertices(WindowVertex *vertices, s32 count, u32 surface_id, s32 blended) { select_texture_by_surface_id(surface_id); draw_screen_textured_strip((ScreenTexturedVertex *)vertices, count, blended); }
 
-struct Ctrl_801E352C {
-    u8 pad[4];
-    u32 *data;
-};
 
-struct DrawTransformedPrimitiveLines {
-    Vec *positions;
-    u32 *colors;
-};
 
 
 extern "C" {
 void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags);
 }
-void reset_line_width(void);
 
-void set_line_width(int a0);
 
 void draw_color_lines(ColorLineList *l, s32 count, s32 flags, f32 scale) {
     u32 c;
@@ -477,27 +466,25 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 extern "C" {
 void TLobby__sub_803382E4(void);
-s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2);
-s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2);
 void run_end_of_render_tasks(void);
 
 
 void TObjPlayer::render_tree(void *model) {
-    void *var_r31;
+    void *node;
 
-    var_r31 = model;
+    node = model;
     do {
         push_matrix();
-        compose_motion_node_matrix(var_r31);
+        compose_motion_node_matrix(node);
         if (chunk_model_node_callback != NULL) {
-            chunk_model_node_callback(static_cast<NJS_OBJECT *>(var_r31));
+            chunk_model_node_callback(static_cast<NJS_OBJECT *>(node));
         }
-        if ((u32) *(u32 *)((s8 *)var_r31 + 0x2C) != 0U) {
-            TObjPlayer::render_tree((void *)(*(void **)((s8 *)var_r31 + 0x2C)));
+        if ((u32) *(u32 *)((s8 *)node + 0x2C) != 0U) {
+            TObjPlayer::render_tree((void *)(*(void **)((s8 *)node + 0x2C)));
         }
         pop_matrix();
-        var_r31 = *(void **)((s8 *)var_r31 + 0x30);
-    } while (var_r31 != NULL);
+        node = *(void **)((s8 *)node + 0x30);
+    } while (node != NULL);
 }
 
 
@@ -518,10 +505,10 @@ void render_tick(void) {
     run_end_of_render_tasks();
 }
 
-s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2) {
-    s32 temp_r3;
-    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, (void *)arg2);
-    if (temp_r3 >= 0) {
+s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr work) {
+    s32 handle;
+    handle = TLobby::adxf_open_file(id, (void *)name, 0, (void *)work);
+    if (handle >= 0) {
 loop_2:
         if (TLobby::read_afs_toc(id) != 3) {
             TLobby::run_disk_error_check();
@@ -533,13 +520,13 @@ loop_2:
             goto loop_2;
         }
     }
-    return temp_r3;
+    return handle;
 }
 
-s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2) {
-    s32 temp_r3;
-    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, (void *)arg2);
-    if (temp_r3 >= 0) {
+s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr work) {
+    s32 handle;
+    handle = TLobby::adxf_open_file(id, (void *)name, 0, (void *)work);
+    if (handle >= 0) {
 loop_1:
         if (TLobby::read_afs_toc(id) != 3) {
             TLobby::run_disk_error_check();
@@ -548,7 +535,7 @@ loop_1:
             goto loop_1;
         }
     }
-    return temp_r3;
+    return handle;
 }
 void bswap_16(u16 *val) {
     u32 v = *val;

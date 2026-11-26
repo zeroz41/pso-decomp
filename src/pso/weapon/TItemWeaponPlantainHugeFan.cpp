@@ -15,7 +15,7 @@ void TItemShootPlantainHugeFan::render() {
         TParticleCtrl::begin_effect_render();
         set_texlist(texture_list);
         post_translate_matrix(&m_pos.x);
-        rotate_matrix_by_node_angles(&m_28, 1);
+        rotate_matrix_by_node_angles(&rot_x, 1);
         draw_ginja_object(model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -23,12 +23,12 @@ void TItemShootPlantainHugeFan::render() {
 }
 
 void TItemShootPlantainHugeFan::hook() {
-    rot_b = rot_b + 0x3333;
+    rot_z = rot_z + 0x3333;
 }
 
 TItemShootPlantainHugeFan::TItemShootPlantainHugeFan(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    rot_b = 0;
+    rot_z = 0;
 }
 
 saddr TObjPlayer::create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames) {

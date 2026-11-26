@@ -165,15 +165,15 @@ void TObjFish::render() {
                 switch (f->anim) {
                 case 1:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 1));
-                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 1));
+                    draw_ginja_object(get_bml_model(fish_area_bml_resource, 1));
                     break;
                 case 2:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 2));
-                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 2));
+                    draw_ginja_object(get_bml_model(fish_area_bml_resource, 2));
                     break;
                 default:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 0));
-                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 0));
+                    draw_ginja_object(get_bml_model(fish_area_bml_resource, 0));
                     break;
                 }
             } else {
@@ -181,15 +181,15 @@ void TObjFish::render() {
                 switch (f->anim) {
                 case 1:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 1));
-                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 1), get_bml_motion(fish_area_bml_resource, 1), f->frame);
+                    draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 1), get_bml_motion(fish_area_bml_resource, 1), f->frame);
                     break;
                 case 2:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 2));
-                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 2), get_bml_motion(fish_area_bml_resource, 2), f->frame);
+                    draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 2), get_bml_motion(fish_area_bml_resource, 2), f->frame);
                     break;
                 default:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 0));
-                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 0), get_bml_motion(fish_area_bml_resource, 0), f->frame);
+                    draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 0), get_bml_motion(fish_area_bml_resource, 0), f->frame);
                     break;
                 }
                 clear_motion_packed_rotation();
@@ -339,7 +339,7 @@ void TObjFish::run_task() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
+s32 TObjFish::init_fish_school(Vec *extent, s32 anim0_count, s32 anim1_count) {
     TObjFishEntry *p;
     s32 i;
 
@@ -358,15 +358,15 @@ s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
     }
     p = fish;
     for (i = 0; i < (s32)fish_count; i++) {
-        p->pos.x = 2.0f * (arg1->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
-        p->pos.y = 2.0f * (arg1->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
-        p->pos.z = 2.0f * (arg1->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.x = 2.0f * (extent->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.y = 2.0f * (extent->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.z = 2.0f * (extent->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
         p->velocity.x = 0.0f;
         p->velocity.y = 0.0f;
         p->velocity.z = 0.0f;
-        if (i < arg2) {
+        if (i < anim0_count) {
             p->anim = 0;
-        } else if (i < arg2 + arg3) {
+        } else if (i < anim0_count + anim1_count) {
             p->anim = 1;
         } else {
             p->anim = 2;
@@ -411,22 +411,22 @@ struct TObjFishSetData {
 TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
     f32 y;
-    f32 var_f1;
+    f32 radius_max;
     m_name = fish_class_name;
     fish = NULL;
     VecCopy(&position, &data->position);
     copy_xyz(&rotation_x, data->rotation);
     VecCopy(&scale, &data->scale);
-    var_f1 = scale.x;
+    radius_max = scale.x;
     y = scale.y;
-    if (var_f1 < y) {
-        var_f1 = y;
+    if (radius_max < y) {
+        radius_max = y;
     }
     // The original compares scale.y twice here, rather than reading scale.z.
-    if (var_f1 < y) {
-        var_f1 = y;
+    if (radius_max < y) {
+        radius_max = y;
     }
-    school_radius = var_f1;
+    school_radius = radius_max;
     fish_count = data->counts[0] + data->counts[1] + data->counts[2];
     frame_counter = 0;
     if ((s32)fish_count < 1) {

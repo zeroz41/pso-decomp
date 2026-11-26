@@ -5,7 +5,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 
 void TObjDoor__sub_801F3754(void) {
-    TObjDoor__data_805D5BC8 = 1;
+    door_force_locked_flag = 1;
 }
 
 void force_switch_doors_closed(void) { switch_doors_force_closed = 1; }

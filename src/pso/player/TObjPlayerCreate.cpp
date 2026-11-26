@@ -103,9 +103,9 @@ void TObjPlayer::place_on_area_entry() {
         }
     }
 }
-void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
-void TObjPlayer__sub_801BEEE0(void *p, void *q);
-void TObjPlayer__sub_801BEF30(void *p, void *q);
+void copy_movement_hold(MovementHold *dst, MovementHold *src);
+void copy_death_flags(void *dst, void *src);
+void copy_pk_state(void *dst, void *src);
 
 s32 TObjPlayer::has_active_camera_event() {
     if (TLobby::get_instance() == 0) {
@@ -130,10 +130,10 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     mode = record->phase;
     hp = record->current_hp;
     ((TLobby *)&guild_card_tag)->copy_header_struct(&record->player_tag);
-    TObjPlayer__sub_801BEF30(&pk_state, &record->unknown_a6);
+    copy_pk_state(&pk_state, &record->unknown_a6);
     ((TObjPlayer *)&telepipe)->copy_player_record_header((u8 *)&record->telepipe);
-    TObjPlayer__sub_801BEEE0(&death_flags, &record->death_flags);
-    TObjPlayer__sub_801BEEAC(&movement_hold, (MovementHold *)&record->hold_state);
+    copy_death_flags(&death_flags, &record->death_flags);
+    copy_movement_hold(&movement_hold, (MovementHold *)&record->hold_state);
     set_floor_index(record->area);
     set_floor(record->floor);
     state_flags = record->player_flags;
@@ -148,7 +148,7 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
 
 extern "C" {
 // Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp).
-void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
+void copy_status_effect(StatusEffect *dst, StatusEffect *src);
 }
 
 void TObjPlayer::reset_state() {
@@ -185,9 +185,9 @@ void TObjPlayer::init_action_provider() {
         action_provider = new LobbyPlayerActionProvider;
     }
     m_33b = 0;
-    unk_33A[0] = 0;
+    battle_mode = 0;
     m_339 = 0;
-    unk_338[0] = 0;
+    mag_level = 0;
     action_state = 0;
     return_city_window = 0;
     regen_timer = 0;
@@ -256,7 +256,7 @@ void TObjPlayer::init_session_technique_caps(PlayerSyncRecord *record) {
         set_technique_level_clamped(this, record->technique_levels[i] + record->items[i].m_present[2], i);
     }
     for (i = 0; i < 5; i++) {
-        TObjPlayer__sub_801BEF44(&status_effects[i], &record->status_effects[i]);
+        copy_status_effect(&status_effects[i], &record->status_effects[i]);
     }
 }
 
@@ -303,8 +303,8 @@ void TObjPlayer::update_if_active() {
 }
 
 void TObjPlayer::load_char_data(PlayerSyncRecord *record) {
-    sub_801BEE2C(record->hp_material_bonus);
-    sub_801BEE24(record->tp_material_bonus);
+    set_hp_bonus(record->hp_material_bonus);
+    set_tp_bonus(record->tp_material_bonus);
     set_power_materials_used(record->get_power_materials_used());
     set_mind_materials_used(record->get_mind_materials_used());
     set_evade_materials_used(record->get_evade_materials_used());
@@ -518,23 +518,23 @@ TObjPlayer::~TObjPlayer() {
 }
 
 extern "C" {
-void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
+void load_pending_actions_from_sync_record(TObjPlayer *player, u8 *record);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(parent) {
     movement_hold.init();
     photon_blast_aim.reset();
-    ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
+    battle_score.init();
     trap_counts.init();
-    ((TObjPlayer *)((char *)this + 1992))->clear_base();
+    sonar_stock.clear();
     attack_state.init();
     pk_state.init();
     telepipe.init();
     clear_marker_position(&marker_position);
-    __ct__8FlagWordFv(((char *)this + 2136));
-    TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
-    ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
+    __ct__8FlagWordFv(&death_flags);
+    TObjPlayer::reset_and_return((saddr)equipped_items);
+    ((TObjPlayer *)guild_card_tag)->clear_header_struct();
     this->m_name = TObjPlayer_name;
     this->init_action_provider();
     this->entity_id = 0;
@@ -547,16 +547,16 @@ TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(par
 TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(parent) {
     movement_hold.init();
     photon_blast_aim.reset();
-    ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
+    battle_score.init();
     trap_counts.init();
-    ((TObjPlayer *)((char *)this + 1992))->clear_base();
+    sonar_stock.clear();
     attack_state.init();
     pk_state.init();
     telepipe.init();
     clear_marker_position(&marker_position);
-    __ct__8FlagWordFv(((char *)this + 2136));
-    TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
-    ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
+    __ct__8FlagWordFv(&death_flags);
+    TObjPlayer::reset_and_return((saddr)equipped_items);
+    ((TObjPlayer *)guild_card_tag)->clear_header_struct();
     this->m_name = TObjPlayer_name;
     this->init_from_data(record);
     this->setup_control_role(4);
@@ -572,30 +572,30 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     init_battle(record);
     TObjPlayer__sub_801BBB70(this, record);
     this->init_class_flags(record);
-    TObjPlayer__sub_801BB85C(this, (u8 *)record);
+    load_pending_actions_from_sync_record(this, (u8 *)record);
     this->hp = record->current_hp;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record) : TObjChara(parent) {
     movement_hold.init();
     photon_blast_aim.reset();
-    ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();
+    battle_score.init();
     trap_counts.init();
-    ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
+    sonar_stock.clear();
     attack_state.init();
     pk_state.init();
     telepipe.init();
     clear_marker_position(&marker_position);
-    __ct__8FlagWordFv((((u8 *)this) + 0x858));
-    TObjPlayer::reset_and_return((saddr)((((u8 *)this) + 0xD04)));
-    ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();
+    __ct__8FlagWordFv(&death_flags);
+    TObjPlayer::reset_and_return((saddr)equipped_items);
+    ((TObjPlayer *)guild_card_tag)->clear_header_struct();
     m_name = TObjPlayer_name;
     this->init_action_provider();
     this->entity_id = slot;
     this->setup_control_role(role);
     update_body_parts(&record->m_disp_part2);
-    sub_801BEE2C(record->m_inventory.m_hp_materials_used);
-    sub_801BEE24(record->m_inventory.m_tp_materials_used);
+    set_hp_bonus(record->m_inventory.m_hp_materials_used);
+    set_tp_bonus(record->m_inventory.m_tp_materials_used);
     this->set_power_materials_used(record->get_power_materials_used());
     this->set_mind_materials_used(record->get_mind_materials_used());
     this->set_evade_materials_used(record->get_evade_materials_used());
@@ -611,7 +611,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->update_if_active();
     assign_owner_ids();
     this->setup_fresh_player_state((u8 *)record);
-    this->sub_801BB8B0((u8 *)record);
+    this->load_pending_actions((u8 *)record);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
 }
 
@@ -654,7 +654,7 @@ void TObjPlayer::create_active_players() {
     s32 slot;
     PlayerCharDataEntry *entry;
     slot = 0;
-    entry = TObjPlayer__char_data_array;
+    entry = (PlayerCharDataEntry *)TObjPlayer::char_data_array;
     do {
         if (entry->has_character() != 0) {
             create(slot & 0xFFFF, entry);
@@ -669,7 +669,7 @@ void TObjPlayer::refresh_player_lobby_headers() {
     TObjPlayer *player;
     PlayerCharDataEntry *entry;
     client = 0;
-    entry = TObjPlayer__char_data_array;
+    entry = (PlayerCharDataEntry *)TObjPlayer::char_data_array;
     do {
         ((TObjPlayer *)entry)->init_select_txt();
         player = get_player_by_client_id(client);

@@ -18,6 +18,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/item/TItemData_8010EDA8.h"
+#include "pso/item/ItemPmtRecords.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueParams.h"
@@ -35,76 +36,22 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/weapon/TItemAttacker.h"
 
-struct Parm_8010C1E0;
-struct Item_8010C498;
-struct Item_8010C52C;
-struct Parm_8010C0A4;
-struct Stats2_8010BEC4;
-struct Bonus_8010BA9C;
-struct Stats_8010BA9C;
-struct Tbl_8010C8B4;
-struct Raw_8010D614;
-struct Mag_8010D614;
-struct Pair_8010E344;
-struct TItemData_8010E344;
-struct Mag_8010D510;
-struct Item_8010D510;
-struct Parm_8010EBD8;
-struct Params_8010E414;
-struct Item_8010E59C;
-struct Parm_8010C320
-{
-  u8 pad[0xA];
-  u16 atp_min;
-  u16 atp_max;
-  u8 padE[6];
-  u16 x14;
-  u8 pad16[3];
-  u8 x19;
-};
-
+struct ItemIconIndexTable;
 extern "C" {
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out);
 void *lookup_item_pmt_record(u8 *item);
 u8 get_cast_technique_level(void *, int);
-void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 f32 calc_clock_bonus__9TItemDataFPv(u8 *item);
 void * lookup_item_pmt_record(u8 *item);
 void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
 void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
-void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, void *res, EquipStats *st, Stats2_8010BEC4 *st2);
-void apply_bonuses(u8 *item, s32 player, u8 *a, u8 *b, Stats_8010BA9C *st);
+void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, TItemData *res, EquipStats *st, s16 *st2);
+void apply_bonuses(u8 *item, s32 player, AttackParams *a, u8 *b, EquipStats *st);
 }
-#define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
+u8 get_technique_learn_limit(u8, u8);
+struct ItemIconIndexTable { s32 w[19]; };
 
-struct Parm_8010C1E0 { u8 pad[8]; s16 dfp; s16 evp; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
-
-struct Item_8010C498 {
-    u8 kind;
-    u8 b1, b2;
-    u8 b3;
-    u8 b4;
-    u8 pad05[0xD];
-    u8 b12;
-};
-
-struct Item_8010C52C { u8 kind; u8 pad1[2]; u8 b3; u8 b4; u8 pad5[0xD]; u8 b12; };
-
-struct Parm_8010C0A4 { u8 pad[8]; s16 x8; s16 xa; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
-
-struct Stats2_8010BEC4 { s16 s0; s16 s2; };
-
-struct Raw_8010D614 { u8 b[4]; u16 s[4]; u32 id; u8 c[4]; };
-
-struct Mag_8010D614 { u16 a0; u16 a2; u16 s[4]; u8 c; u8 d; u8 e; };
-
-struct Bonus_8010BA9C { u8 kind; u8 pad; s16 val; };
-
-struct Stats_8010BA9C { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 x6; u8 pad8[4]; s16 xC; };
-
-struct Tbl_8010C8B4 { s32 w[19]; };
-
-static const Tbl_8010C8B4 item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
+static const ItemIconIndexTable item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
 static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
 extern "C" {
 extern const u8 lbl_805DAB68 = 0x40;
@@ -114,15 +61,15 @@ extern "C" {
 
 
 void TItemData::set_present_color(s8 box_color) {
-    switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0))) {
+    switch ((s32) (data1.data_u8[0])) {
     case 0:
-        *(u8 *)((s8 *)((u8 *)this) + 5) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 5) | (box_color & 0xF));
+        data1.data_u8[5] = (u8) (data1.data_u8[5] | (box_color & 0xF));
         return;
     case 1:
-        *(u8 *)((s8 *)((u8 *)this) + 4) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 4) | (box_color & 0xF));
+        data1.data_u8[4] = (u8) (data1.data_u8[4] | (box_color & 0xF));
         return;
     case 3:
-        *(u8 *)((s8 *)((u8 *)this) + 3) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 3) | (box_color & 0xF));
+        data1.data_u8[3] = (u8) (data1.data_u8[3] | (box_color & 0xF));
         return;
     case 2:
         return;
@@ -130,13 +77,13 @@ void TItemData::set_present_color(s8 box_color) {
 }
 
 s32 TItemData::get_type_nibble() {
-    switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0))) {
+    switch ((s32) (data1.data_u8[0])) {
     case 0:
-        return *(u8 *)((s8 *)((u8 *)this) + 5) & 0xF;
+        return data1.data_u8[5] & 0xF;
     case 1:
-        return *(u8 *)((s8 *)((u8 *)this) + 4) & 0xF;
+        return data1.data_u8[4] & 0xF;
     case 3:
-        return *(u8 *)((s8 *)((u8 *)this) + 3) & 0xF;
+        return data1.data_u8[3] & 0xF;
     default:
     case 2:
         return 0;
@@ -186,76 +133,76 @@ void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData 
 }
 #pragma pop
 
-void apply_bonuses(u8 *item, s32 player, u8 *a, u8 *b, Stats_8010BA9C *st) {
-    Bonus_8010BA9C *bn;
+void apply_bonuses(u8 *item, s32 player, AttackParams *a, u8 *b, EquipStats *st) {
+    PmtStatBoost *bn;
     u8 t = item[0];
     switch (t) {
     case 0:
     case 1:
-        bn = (Bonus_8010BA9C *)get_item_stat_boost_record(t, item[1], item[2]);
+        bn = (PmtStatBoost *)get_item_stat_boost_record(t, item[1], item[2]);
         if (bn != NULL && a != NULL && b != NULL && st != NULL)
         switch (bn->kind) {
         case 1:
-            ((AttackParams *)a)->add_atp_min(bn->val);
-            ((AttackParams *)a)->add_atp_max(bn->val);
+            a->add_atp_min(bn->amount);
+            a->add_atp_max(bn->amount);
             break;
         case 2:
-            ((AttackParams *)a)->add_ata((s16)(bn->val * 10));
+            a->add_ata((s16)(bn->amount * 10));
             break;
         case 3:
-            TItemData::add_stat_ptr((s16 *)b, bn->val);
+            TItemData::add_stat_ptr((s16 *)b, bn->amount);
             break;
         case 4:
-            ((TItemData *)b)->add_bonus(bn->val);
+            ((TItemData *)b)->add_bonus(bn->amount);
             break;
         case 5:
-            st->x2 += bn->val;
+            st->s2 += bn->amount;
             break;
         case 6:
-            st->x6 += bn->val;
+            st->s6 += bn->amount;
             break;
         case 7:
-            st->xC += bn->val;
+            st->sC += bn->amount;
             break;
         case 8:
-            ((AttackParams *)a)->add_atp_min(bn->val);
-            ((AttackParams *)a)->add_atp_max(bn->val);
-            ((AttackParams *)a)->add_ata((s16)(bn->val * 10));
-            TItemData::add_stat_ptr((s16 *)b, bn->val);
-            ((TItemData *)b)->add_bonus(bn->val);
-            st->x2 += bn->val;
-            st->xC += bn->val;
+            a->add_atp_min(bn->amount);
+            a->add_atp_max(bn->amount);
+            a->add_ata((s16)(bn->amount * 10));
+            TItemData::add_stat_ptr((s16 *)b, bn->amount);
+            ((TItemData *)b)->add_bonus(bn->amount);
+            st->s2 += bn->amount;
+            st->sC += bn->amount;
             break;
         case 9:
-            ((AttackParams *)a)->sub_atp_min(bn->val);
-            ((AttackParams *)a)->sub_atp_max(bn->val);
+            a->sub_atp_min(bn->amount);
+            a->sub_atp_max(bn->amount);
             break;
         case 10:
-            ((AttackParams *)a)->sub_ata((s16)(bn->val * 10));
+            a->sub_ata((s16)(bn->amount * 10));
             break;
         case 11:
-            subtract_stat_ptr((s16 *)b, bn->val);
+            subtract_stat_ptr((s16 *)b, bn->amount);
             break;
         case 12:
-            subtract_dfp(b, bn->val);
+            subtract_dfp(b, bn->amount);
             break;
         case 13:
-            st->x2 -= bn->val;
+            st->s2 -= bn->amount;
             break;
         case 14:
-            st->x6 -= bn->val;
+            st->s6 -= bn->amount;
             break;
         case 15:
-            st->xC -= bn->val;
+            st->sC -= bn->amount;
             break;
         case 16:
-            ((AttackParams *)a)->sub_atp_min(bn->val);
-            ((AttackParams *)a)->sub_atp_max(bn->val);
-            ((AttackParams *)a)->sub_ata((s16)(bn->val * 10));
-            subtract_stat_ptr((s16 *)b, bn->val);
-            subtract_dfp(b, bn->val);
-            st->x2 -= bn->val;
-            st->xC -= bn->val;
+            a->sub_atp_min(bn->amount);
+            a->sub_atp_max(bn->amount);
+            a->sub_ata((s16)(bn->amount * 10));
+            subtract_stat_ptr((s16 *)b, bn->amount);
+            subtract_dfp(b, bn->amount);
+            st->s2 -= bn->amount;
+            st->sC -= bn->amount;
             break;
         }
         break;
@@ -263,26 +210,26 @@ void apply_bonuses(u8 *item, s32 player, u8 *a, u8 *b, Stats_8010BA9C *st) {
 }
 
 void TItemData::add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5) {
-    Mag_8010D614 mag;
+    MagStats mag;
 
-    ((MagStats *)&mag)->init();
-    TItemData::deserialize_mag((Raw_8010D614 *)((u8 *)this), &mag);
+    mag.init();
+    TItemData::deserialize_mag(this, &mag);
     if (st != NULL && st != NULL) {
-        st->s0 += (s16)(mag_stat_bonus_scale[0] * (f32)((MagStats *)&mag)->get_pow_level());
-        st->sA += (s16)(mag_stat_bonus_scale[1] * (f32)(((MagStats *)&mag)->get_dex_level() * 10));
-        st->s8 += (s16)(mag_stat_bonus_scale[2] * (f32)((MagStats *)&mag)->get_def_level());
-        st->s2 += (s16)(mag_stat_bonus_scale[3] * (f32)((MagStats *)&mag)->get_mind_level());
+        st->s0 += (s16)(mag_stat_bonus_scale[0] * (f32)mag.get_pow_level());
+        st->sA += (s16)(mag_stat_bonus_scale[1] * (f32)(mag.get_dex_level() * 10));
+        st->s8 += (s16)(mag_stat_bonus_scale[2] * (f32)mag.get_def_level());
+        st->s2 += (s16)(mag_stat_bonus_scale[3] * (f32)mag.get_mind_level());
     }
 }
 
-void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, void *res, EquipStats *st, Stats2_8010BEC4 *st2) {
-    Parm_8010C1E0 *parm;
+void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, TItemData *res, EquipStats *st, s16 *st2) {
+    PmtUnitRecord *parm;
     s32 kind;
     s16 amount;
-    parm = lookup_item_pmt_record(self);
+    parm = (PmtUnitRecord *)lookup_item_pmt_record((u8 *)self);
     if (parm != NULL && st != NULL && res != NULL) {
-    kind = parm->dfp;
-    amount = parm->evp + TItemData::get_field6_bswap(self);
+    kind = parm->stat;
+    amount = parm->amount + TItemData::get_field6_bswap(self);
     switch (kind) {
     case 0:
         st->s0 += amount;
@@ -298,12 +245,12 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 un
         break;
     case 4:
         if (st2 != NULL) {
-            st2->s0 += amount;
+            st2[0] += amount;
         }
         break;
     case 5:
         if (st2 != NULL) {
-            st2->s2 += amount;
+            st2[1] += amount;
         }
         break;
     case 6:
@@ -321,7 +268,7 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 un
         st->sC += amount;
         break;
     case 9:
-        ((TItemData *)res)->adjust_count(amount);
+        res->adjust_count(amount);
         break;
     case 10:
         TItemData__sub_8010EDD8(res, amount);
@@ -333,14 +280,14 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 un
         add_elt_resist(res, amount);
         break;
     case 13:
-        ((TItemData *)res)->add_quantity(amount);
+        res->add_quantity(amount);
         break;
     case 14:
-        ((TItemData *)res)->adjust_count(amount);
+        res->adjust_count(amount);
         TItemData__sub_8010EDD8(res, amount);
         add_eth_resist(res, amount);
         add_elt_resist(res, amount);
-        ((TItemData *)res)->add_quantity(amount);
+        res->add_quantity(amount);
         break;
     }
     }
@@ -350,22 +297,22 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 un
 #pragma fp_contract on
 void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out) {
     s32 b06;
-    Parm_8010C0A4 *parm;
+    PmtArmorRecord *parm;
     f32 mult = ((TItemData *)self)->get_set_bonus_multiplier(player);
     f32 add = ((f32 (*)(u8 *, s32))calc_clock_bonus__9TItemDataFPv)(self, player);
-    parm = ((Parm_8010C0A4 *)lookup_item_pmt_record(self));
+    parm = (PmtArmorRecord *)lookup_item_pmt_record(self);
     if (parm != 0) {
         b06 = ((s32 (*)(void *))TItemData::getS16_06)(self);
         s32 b08 = ((s32 (*)(void *))TItemData::get_bswap16_field8)(self);
-        s32 v = (s32)(parm->xa * mult + add);
+        s32 v = (s32)(parm->evp * mult + add);
         if (out != 0) {
             TItemData::add_stat_ptr(out, (s16)(v + b08));
-            ((TItemData *)out)->add_bonus(parm->x8 + b06);
-            ((TItemData *)out)->adjust_count(parm->x11);
-            TItemData__sub_8010EDD8(out, parm->x13);
-            add_eth_resist(out, parm->x12);
-            add_elt_resist(out, parm->x15);
-            ((TItemData *)out)->add_quantity(parm->x14);
+            ((TItemData *)out)->add_bonus(parm->dfp + b06);
+            ((TItemData *)out)->adjust_count(parm->efr);
+            TItemData__sub_8010EDD8(out, parm->eic);
+            add_eth_resist(out, parm->eth);
+            add_elt_resist(out, parm->elt);
+            ((TItemData *)out)->add_quantity(parm->edk);
         }
     }
 }
@@ -375,10 +322,10 @@ void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 u
 #pragma fp_contract on
 void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out) {
     s32 dfpBonus;
-    Parm_8010C1E0 *parm;
+    PmtArmorRecord *parm;
     f32 mult = ((TItemData *)self)->get_set_bonus_multiplier(player);
     f32 add = ((f32 (*)(u8 *, s32))calc_clock_bonus__9TItemDataFPv)(self, player);
-    parm = lookup_item_pmt_record(self);
+    parm = (PmtArmorRecord *)lookup_item_pmt_record(self);
     if (parm != 0) {
         dfpBonus = ((s32 (*)(void *))TItemData::getS16_06)(self);
         s16 evpBonus = TItemData::get_bswap16_field8(self);
@@ -386,11 +333,11 @@ void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 un
         if (out != 0) {
             TItemData::add_stat_ptr(out, (s16)(parm->evp + evpBonus));
             ((TItemData *)out)->add_bonus(dfp + dfpBonus);
-            ((TItemData *)out)->adjust_count(parm->x11);
-            TItemData__sub_8010EDD8(out, parm->x13);
-            add_eth_resist(out, parm->x12);
-            add_elt_resist(out, parm->x15);
-            ((TItemData *)out)->add_quantity(parm->x14);
+            ((TItemData *)out)->adjust_count(parm->efr);
+            TItemData__sub_8010EDD8(out, parm->eic);
+            add_eth_resist(out, parm->eth);
+            add_elt_resist(out, parm->elt);
+            ((TItemData *)out)->add_quantity(parm->edk);
         }
     }
 }
@@ -398,15 +345,13 @@ void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 un
 
 #pragma push
 #pragma fp_contract on
-typedef struct Parm_8010C1E0 Parm_8010C1E0;
-typedef struct Parm_8010C320 Parm_8010C320;
 void TItemData::add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5) {
   s16 hi;
   s32 i;
-  Parm_8010C320 *parm;
+  PmtWeaponRecord *parm;
   f32 mult = get_set_bonus_multiplier(player);
   f32 add = ((f32 (*)(u8 *, s32)) calc_clock_bonus__9TItemDataFPv)(((u8 *)this), player);
-  parm = (Parm_8010C320 *) ((Parm_8010C1E0 *)lookup_item_pmt_record(this));
+  parm = (PmtWeaponRecord *)lookup_item_pmt_record((u8 *)this);
   if (parm != 0)
   {
     if (out != 0)
@@ -416,36 +361,36 @@ void TItemData::add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *o
       hi = (mult * ((f32) (parm->atp_max + grind))) + add;
       ((AttackParams *)out)->add_atp_min(lo);
       ((AttackParams *)out)->add_atp_max(hi);
-      ((AttackParams *)out)->add_ata((s16) (parm->x19 * 10));
+      ((AttackParams *)out)->add_ata((s16) (parm->ata * 10));
       for (i = 0; i != 3; i++)
       {
-        if (((u8 *)this)[6 + (i * 2)] == 5)
+        if (data1.data_u8[6 + (i * 2)] == 5)
         {
-          ((AttackParams *)out)->add_ata((s16) (((s8) ((u8 *)this)[7 + (i * 2)]) * 10));
+          ((AttackParams *)out)->add_ata((s16) (((s8) data1.data_u8[7 + (i * 2)]) * 10));
         }
       }
     }
     if (out2 != 0)
     {
-      out2[1] += parm->x14;
+      out2[1] += parm->mst;
     }
   }
 }
 #pragma pop
 
 void TItemData::set_wrapped() {
-    switch (((struct Item_8010C498 *)this)->kind) {
+    switch (data1.data_u8[0]) {
     case 0:
     case 1:
-        ((struct Item_8010C498 *)this)->b4 |= lbl_805DAB68;
+        data1.data_u8[4] |= lbl_805DAB68;
         break;
     case 3:
         if (TItemData::lookup_item_def(this) == 0) {
-            ((struct Item_8010C498 *)this)->b3 |= lbl_805DAB68;
+            data1.data_u8[3] |= lbl_805DAB68;
         }
         break;
     case 2:
-        ((struct Item_8010C498 *)this)->b12 |= lbl_805DAB68;
+        data2.data_u8[2] |= lbl_805DAB68;
         break;
     }
 }
@@ -564,7 +509,7 @@ void TItemData::unpack_from_item(ObjectSetData *set) {
 s32 get_item_icon_index(const u8 *q) {
     u8 v;
     if (q[0] == 0) {
-        Tbl_8010C8B4 t = item_icon_index_by_category_table;
+        ItemIconIndexTable t = item_icon_index_by_category_table;
         if ((v = q[1]) < 0xAA) {
             v = get_weapon_class_motion_type(v);
         }
@@ -643,7 +588,7 @@ void TItemData::decode_packed_name_chars(s8 *out) {
     i = 0;
     do
     {
-      u8 *q = &((u8 *)this)[i * 2];
+      u8 *q = &data1.data_u8[i * 2];
       u8 hi = q[6] & 0xFFFFFFFFFFFFFFFFu;
       u8 lo = q[7];
       h = lo | ((hi << 8) & 0x7F00);
@@ -667,7 +612,7 @@ void TItemData::pack_three_colors(u8 *in) {
       s8 b = TItemData::char_to_letter_index(this, (s8) in[(i * 3) + 1]);
       s8 c = TItemData::char_to_letter_index(this, (s8) in[(i * 3) + 2]);
       u32 v = c | (((a << 1) << 9) | (b << 5));
-      u8 *o = &((u8 *)this)[i * 2];
+      u8 *o = &data1.data_u8[i * 2];
       a = ((u8) (v >> 8)) | 0x80;
       o[6] = a;
       o[7] = v;
@@ -693,11 +638,11 @@ s32 TItemData::is_custom_name_srank(void *data) {
 void TItemData::decode_from_network() {}
 void TItemData::encode_for_network() {}
 u8 TItemData::get_entry_field16() {
-    void *item_pmt_record;
+    PmtWeaponRecord *item_pmt_record;
 
-    item_pmt_record = lookup_item_pmt_record();
+    item_pmt_record = (PmtWeaponRecord *)lookup_item_pmt_record();
     if (item_pmt_record != NULL) {
-        return *(u8 *)((s8 *)item_pmt_record + 0x16);
+        return item_pmt_record->max_grind;
     }
     return 0U;
 }
@@ -723,32 +668,6 @@ s32 TItemData::get_max_stack_size() {
 #define apply_unit_stat_bonus__9TItemDataFPviiPvPvPv ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_unit_stat_bonus__9TItemDataFPviiPvPvPv)
 #define apply_bonuses ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_bonuses)
 
-struct Pair_8010E344 { u8 a; u8 b; };
-
-struct TItemData_8010E344 { u8 data[6]; Pair_8010E344 stats[3]; s32 id; s32 data2; };
-
-struct Mag_8010D510 { s16 f0; s16 f2; s16 stat[4]; u8 b0c; u8 b0d; u8 b0e; };
-
-struct Item_8010D510 {
-    u8 b0; u8 b1; u8 level; u8 b3;
-    s16 stat[4];
-    u32 word;
-    u8 b16; u8 b17; u8 b18; u8 b19;
-};
-
-struct Parm_8010EBD8 { s32 name; u8 pad04[0xC]; u32 flags; };
-
-struct Params_8010E414 { s32 name; u8 pad4[4]; s16 stat; s16 amount; };
-
-struct Item_8010E59C {
-    u8 type;
-    u8 sub;
-    u8 b2;
-    u8 grind;
-    u8 flags;
-    u8 pad5[0xB];
-    s32 meseta;
-};
 
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
@@ -804,20 +723,20 @@ s16 TItemData::get_technique_level() {
 }
 
 s32 TItemData::has_bonus_stats() {
-    TItemData_8010E344 *item = (TItemData_8010E344 *)this;
+    TItemData *item = this;
     s32 i;
-    switch (item->data[0]) {
+    switch (item->data1.data_u8[0]) {
     case 0:
         for (i = 0; i < 3; i++) {
-            if (item->stats[i].a != 0) {
+            if (item->data1.data_u8[6 + i * 2] != 0) {
                 return 1;
             }
         }
         break;
     case 1:
-        switch (item->data[1]) {
+        switch (item->data1.data_u8[1]) {
         case 1:
-            if (item->data[5] != 0) {
+            if (item->data1.data_u8[5] != 0) {
                 return 1;
             }
         case 2:
@@ -833,7 +752,7 @@ s32 TItemData::has_bonus_stats() {
         }
         break;
     case 2:
-        switch (item->data[1]) {
+        switch (item->data1.data_u8[1]) {
         case 0x1D:
         case 0x21:
         case 0x22:
@@ -850,7 +769,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   s32 result;
   u16 id;
   s32 hit;
-  u8 *rec;
+  PmtToolRecord *rec;
   s32 flags;
   s32 lvl;
   u8 buf[0x14];
@@ -868,6 +787,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   {
     return 0;
   }
+  TObjPlayer *pl = (TObjPlayer *)player;
   if (TItemData::is_item_usable((saddr)player, (u8 *)this) != 0)
   {
     result |= 2;
@@ -876,7 +796,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   {
     return result & mask;
   }
-  if (((u8 *)this)[0] != 3)
+  if (data1.data_u8[0] != 3)
   {
     result |= 8;
     if (check_equip_requirements(player, this, 0) == 0)
@@ -887,11 +807,11 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   else
   {
     s32 perm;
-    rec = (u8 *) lookup_item_pmt_record(((u8 *)this));
-    perm = check_class_equip_permission((TObjPlayer *)player, 0xD7);
+    rec = (PmtToolRecord *) lookup_item_pmt_record((u8 *)this);
+    perm = check_class_equip_permission(pl, 0xD7);
     if (rec != 0)
     {
-      flags = *((s32 *)(rec + 0x10));
+      flags = rec->flags;
       if (!(flags & 2))
       {
         result |= 0x10;
@@ -917,19 +837,19 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         result |= 1;
       }
     }
-    switch (((u8 *)this)[1])
+    switch (data1.data_u8[1])
     {
       case 6:
-        switch (((u8 *)this)[2])
+        switch (data1.data_u8[2])
       {
         case 0:
-          if (((TObjChara *)player)->get_status_effect_type(0) != 0xF)
+          if (pl->get_status_effect_type(0) != 0xF)
         {
           result |= 1;
         }
           break;
         case 1:
-          if (((TObjChara *)player)->get_status_effect_type(0) != 0x10)
+          if (pl->get_status_effect_type(0) != 0x10)
         {
           result |= 1;
         }
@@ -947,20 +867,20 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         u8 *tech;
         u8 cur;
         u8 lim;
-        lvl = ((u8 *)this)[2];
-        tech = (u8 *) calc_technique_parameters(((u8 *)this)[4], lvl, 0xFFFF);
+        lvl = data1.data_u8[2];
+        tech = (u8 *) calc_technique_parameters(data1.data_u8[4], lvl, 0xFFFF);
         if (tech != 0)
         {
-          if (((TObjPlayer *)player)->get_stats()->stats.mst < (*((s16 *)(tech + 0x14))))
+          if (pl->get_stats()->stats.mst < (*((s16 *)(tech + 0x14))))
           {
             result |= 0x10001;
           }
-          cur = get_cast_technique_level(player + 0x428, (s16) ((u8 *)this)[4]);
-          if ((TObjPlayer::is_invalid_slot(cur) == 0) && (((u8 *)this)[2] <= cur))
+          cur = get_cast_technique_level(&pl->technique_state, (s16) data1.data_u8[4]);
+          if ((TObjPlayer::is_invalid_slot(cur) == 0) && (data1.data_u8[2] <= cur))
           {
             result |= 0x10001;
           }
-          lim = get_technique_learn_limit(player[0x88D], (short) ((u8 *)this)[4]);
+          lim = get_technique_learn_limit(pl->class_index, (short) data1.data_u8[4]);
           if ((lim == 0xFF) || (lim < lvl))
           {
             result |= 0x10001;
@@ -974,8 +894,8 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         if (it != 0)
         {
           ((TItem *)it)->copy_to_item_data((TItemData *)buf);
-          rec = (u8 *) lookup_item_pmt_record(buf);
-          if ((rec != 0) && (rec[0x16] <= buf[3]))
+          PmtWeaponRecord *weapon = (PmtWeaponRecord *) lookup_item_pmt_record(buf);
+          if ((weapon != 0) && (weapon->max_grind <= buf[3]))
           {
             result |= 1;
           }
@@ -988,26 +908,26 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       }
       case 11:
       {
-        player_stats *quest = ((TObjPlayer *)player)->get_stats();
+        player_stats *quest = pl->get_stats();
         if (quest != 0)
         {
           hit = 0;
-          switch (((u8 *)this)[2])
+          switch (data1.data_u8[2])
           {
             case 0:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[0 / 2] <= quest->stats.atp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)pl->get_class_stat_entry())[0 / 2] <= quest->stats.atp) || (pl->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 1:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[2 / 2] <= quest->stats.mst) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)pl->get_class_stat_entry())[2 / 2] <= quest->stats.mst) || (pl->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 2:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[4 / 2] <= quest->stats.evp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)pl->get_class_stat_entry())[4 / 2] <= quest->stats.evp) || (pl->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
@@ -1025,13 +945,13 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
             }
               break;
             case 5:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[8 / 2] <= quest->stats.dfp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)pl->get_class_stat_entry())[8 / 2] <= quest->stats.dfp) || (pl->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 6:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[0xC / 2] <= quest->stats.lck) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)pl->get_class_stat_entry())[0xC / 2] <= quest->stats.lck) || (pl->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
@@ -1045,14 +965,14 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         break;
       }
       case 12:
-        if (TItemMag::check_evolution_cond((TObjPlayer *)player, (s32)(((u8 *)this)[2])) == 0)
+        if (TItemMag::check_evolution_cond(pl, (s32)(data1.data_u8[2])) == 0)
       {
         result |= 1;
       }
         break;
       case 15:
       {
-        void *mag = (void *) ((TItemData *)player)->get_item_field_2();
+        void *mag = (void *) ((TObjPlayer *)player)->get_equipped_armor();
         if (mag != 0)
         {
           if (((TItem *)mag)->get_slot_count() >= 4)
@@ -1068,28 +988,42 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       }
     }
   }
-  if (((is_quest_active() != 0) && (((u8 *)this)[0] == 3)) && (TItemMenuCtrl::query_flag(6) == 1))
+  if (((is_quest_active() != 0) && (data1.data_u8[0] == 3)) && (TItemMenuCtrl::query_flag(6) == 1))
   {
     result |= 0x10001;
   }
   return result & mask;
 }
 
-void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag) {
-    Item_8010D510 copy;
-    copy.b0 = item->b0;
-    copy.b1 = item->b1;
+// A mag's item data as serialize_mag fills it (TItemData's layout).
+struct MagItemData {
+    u8 kind;
+    u8 group;
+    u8 level;
+    u8 photon_blasts;
+    s16 stat[4];
+    u32 id;
+    u8 synchro;
+    u8 iq;
+    u8 photon_blast_flags;
+    u8 color;
+};
+
+void serialize_mag__9TItemDataFPvPv(MagItemData *item, const MagStats *mag) {
+    MagItemData copy;
+    copy.kind = item->kind;
+    copy.group = item->group;
     copy.level = ((MagStats *)((void *)mag))->get_level();
-    copy.b3 = mag->b0d;
-    copy.stat[0] = mag->stat[0] & 0x7FFE;
-    copy.stat[1] = mag->stat[1] & 0x7FFE;
-    copy.stat[2] = mag->stat[2] & 0x7FFE;
-    copy.stat[3] = mag->stat[3] & 0x7FFE;
-    copy.word = item->word;
-    copy.b16 = mag->f2;
-    copy.b17 = mag->f0;
-    copy.b18 = mag->b0c;
-    copy.b19 = mag->b0e;
+    copy.photon_blasts = mag->photon_blasts;
+    copy.stat[0] = mag->def & 0x7FFE;
+    copy.stat[1] = mag->pow & 0x7FFE;
+    copy.stat[2] = mag->dex & 0x7FFE;
+    copy.stat[3] = mag->mind & 0x7FFE;
+    copy.id = item->id;
+    copy.synchro = mag->synchro;
+    copy.iq = mag->iq;
+    copy.photon_blast_flags = mag->photon_blast_flags;
+    copy.color = mag->color;
     ((TItemData *)(&copy))->bswap_fields();
     ((TItemData *)item)->copy_from((TItemData *)(&copy));
 }
@@ -1097,20 +1031,20 @@ void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag
 void TItemData::bswap_fields() { bswap_16(&this->data1.data_u16[2]); bswap_16(&this->data1.data_u16[3]); bswap_16(&this->data1.data_u16[4]); bswap_16(&this->data1.data_u16[5]); }
 
 void TItemData::deserialize_mag(void *item_data, void *mag_data) {
-    Raw_8010D614 *src = (Raw_8010D614 *)item_data;
-    Mag_8010D614 *dst = (Mag_8010D614 *)mag_data;
+    TItemData *src = (TItemData *)item_data;
+    MagStats *dst = (MagStats *)mag_data;
     if (dst != 0) {
-        Raw_8010D614 tmp = *src;
-        ((TItemData *)(&tmp))->bswap_fields();
-        dst->d = tmp.b[3];
-        dst->s[0] = tmp.s[0] & 0x7ffe;
-        dst->s[1] = tmp.s[1] & 0x7ffe;
-        dst->s[2] = tmp.s[2] & 0x7ffe;
-        dst->s[3] = tmp.s[3] & 0x7ffe;
-        dst->a2 = tmp.c[0];
-        dst->a0 = tmp.c[1];
-        dst->c = tmp.c[2];
-        dst->e = tmp.c[3];
+        TItemData tmp = *src;
+        tmp.bswap_fields();
+        dst->photon_blasts = tmp.data1.data_u8[3];
+        dst->def = tmp.data1.data_u16[2] & 0x7ffe;
+        dst->pow = tmp.data1.data_u16[3] & 0x7ffe;
+        dst->dex = tmp.data1.data_u16[4] & 0x7ffe;
+        dst->mind = tmp.data1.data_u16[5] & 0x7ffe;
+        dst->synchro = tmp.data2.data_u8[0];
+        dst->iq = tmp.data2.data_u8[1];
+        dst->photon_blast_flags = tmp.data2.data_u8[2];
+        dst->color = tmp.data2.data_u8[3];
     }
 }
 
@@ -1137,7 +1071,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
       break;
     case 38:
       item = TObjPlayer::get_equipped_weapon(player);
-      partner = ((TItemData *)player)->get_item_field_2();
+      partner = ((TObjPlayer *)player)->get_equipped_armor();
       if (((((item != NULL) && (((u32) partner) != 0U)) && (item->get_item_group() == 1)) && (item->get_item_index() == 5)) && (((TItem *)partner)->get_item_index() == 0x28))
     {
       multiplier = 1.5f;
@@ -1145,7 +1079,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
       break;
     case 36:
       weapon_2 = TObjPlayer::get_equipped_weapon(player);
-      partner_2 = ((TItemData *)player)->get_item_field_2();
+      partner_2 = ((TObjPlayer *)player)->get_equipped_armor();
       if (((((weapon_2 != NULL) && (((u32) partner_2) != 0U)) && (weapon_2->get_item_group() == 2)) && (weapon_2->get_item_index() == 5)) && (((TItem *)partner_2)->get_item_index() == 0x26))
     {
       multiplier = 1.5f;
@@ -1153,7 +1087,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
       break;
     case 37:
       weapon_3 = TObjPlayer::get_equipped_weapon(player);
-      partner_3 = ((TItemData *)player)->get_item_field_2();
+      partner_3 = ((TObjPlayer *)player)->get_equipped_armor();
       if (((((weapon_3 != NULL) && (((u32) partner_3) != 0U)) && (weapon_3->get_item_group() == 6)) && (weapon_3->get_item_index() == 6)) && (((TItem *)partner_3)->get_item_index() == 0x27))
     {
       multiplier = 1.5f;
@@ -1186,7 +1120,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
         for (i = 0; i != 12 && found != 1; i++) {
             p = (saddr)get_player_by_client_id(i);
             if ((u32)p != 0) {
-                p = ((TItemData *)p)->get_item_field_2();
+                p = ((TObjPlayer *)p)->get_equipped_armor();
                 if ((u32)p != 0) {
                     c = ((TItem *)p)->get_item_index();
                     if (c == 0x19 || c == 0x1A) {
@@ -1202,7 +1136,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
         for (j = 0; j != 12 && hit != 1; j++) {
             p = (saddr)get_player_by_client_id(j);
             if ((u32)p != 0) {
-                p = ((TItemData *)p)->get_item_field_2();
+                p = ((TObjPlayer *)p)->get_equipped_armor();
                 if ((u32)p != 0) {
                     c = ((TItem *)p)->get_item_index();
                     if (c == 0x1A || c == 0x18) {
@@ -1218,7 +1152,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
         for (k = 0; k != 12 && hit2 != 1; k++) {
             p = (saddr)get_player_by_client_id(k);
             if ((u32)p != 0) {
-                p = ((TItemData *)p)->get_item_field_2();
+                p = ((TObjPlayer *)p)->get_equipped_armor();
                 if ((u32)p != 0) {
                     c = ((TItem *)p)->get_item_index();
                     if (c == 0x19 || c == 0x18) {
@@ -1231,21 +1165,21 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
         break;
     case 40:
         a1 = TObjPlayer::get_equipped_weapon(player);
-        b1 = ((TItemData *)player)->test_flag3();
+        b1 = ((TObjPlayer *)player)->get_equipped_shield();
         if (a1 != NULL && (u32)b1 != 0 && a1->get_item_group() == 1 && a1->get_item_index() == 5 && ((TItem *)b1)->get_item_index() == 0x26) {
             v = 1.5f;
         }
         break;
     case 38:
         a2 = TObjPlayer::get_equipped_weapon(player);
-        b2 = ((TItemData *)player)->test_flag3();
+        b2 = ((TObjPlayer *)player)->get_equipped_shield();
         if (a2 != NULL && (u32)b2 != 0 && a2->get_item_group() == 2 && a2->get_item_index() == 5 && ((TItem *)b2)->get_item_index() == 0x24) {
             v = 1.5f;
         }
         break;
     case 39:
         a3 = TObjPlayer::get_equipped_weapon(player);
-        b3 = ((TItemData *)player)->test_flag3();
+        b3 = ((TObjPlayer *)player)->get_equipped_shield();
         if (a3 != NULL && (u32)b3 != 0 && a3->get_item_group() == 6 && a3->get_item_index() == 6 && ((TItem *)b3)->get_item_index() == 0x25) {
             v = 1.5f;
         }
@@ -1276,8 +1210,8 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     case 1:
       if (((u8) (this->data1.data_u8[2])) == 5)
     {
-      first = ((TItemData *)item_data)->test_flag3();
-      second = ((TItemData *)item_data)->get_item_field_2();
+      first = ((TObjPlayer *)item_data)->get_equipped_shield();
+      second = ((TObjPlayer *)item_data)->get_equipped_armor();
       if ((((((u32) first) != 0U) && (((u32) second) != 0U)) && (((TItem *)first)->get_item_index() == 0x26)) && (((TItem *)second)->get_item_index() == 0x28))
       {
         multiplier = 1.5f;
@@ -1287,8 +1221,8 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     case 2:
       if (((u8) (this->data1.data_u8[2])) == 5)
     {
-      first_2 = ((TItemData *)item_data)->test_flag3();
-      second_2 = ((TItemData *)item_data)->get_item_field_2();
+      first_2 = ((TObjPlayer *)item_data)->get_equipped_shield();
+      second_2 = ((TObjPlayer *)item_data)->get_equipped_armor();
       if ((((((u32) first_2) != 0U) && (((u32) second_2) != 0U)) && (((TItem *)first_2)->get_item_index() == 0x24)) && (((TItem *)second_2)->get_item_index() == 0x26))
       {
         multiplier = 1.5f;
@@ -1298,8 +1232,8 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     case 6:
       if (((u8) (this->data1.data_u8[2])) == 6)
     {
-      first_3 = ((TItemData *)item_data)->test_flag3();
-      second_3 = ((TItemData *)item_data)->get_item_field_2();
+      first_3 = ((TObjPlayer *)item_data)->get_equipped_shield();
+      second_3 = ((TObjPlayer *)item_data)->get_equipped_armor();
       if ((((((u32) first_3) != 0U) && (((u32) second_3) != 0U)) && (((TItem *)first_3)->get_item_index() == 0x25)) && (((TItem *)second_3)->get_item_index() == 0x27))
       {
         multiplier = 1.5f;
@@ -1307,7 +1241,7 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     }
       break;
     case 26:
-      item = (u8 *) ((TItemData *)item_data)->test_flag3();
+      item = (u8 *) ((TObjPlayer *)item_data)->get_equipped_shield();
       if ((item != 0) && (((TItem *)item)->get_item_index() == 0x1A))
     {
       multiplier = 2.0f;
@@ -1334,34 +1268,34 @@ f32 TItemData::get_set_bonus_multiplier(saddr player) {
     return 1.0f;
 }
 
-void TItemData::apply_equip_effects(s32 owner, saddr attack_bonus, saddr param_bonus, saddr stat_bonus, s32 hp_tp_bonus) {
+void TItemData::apply_equip_effects(s32 owner, saddr attack, saddr resists, saddr stats, s32 unused) {
 
     if ((owner != 0) || (owner = (saddr)get_player_by_client_id(local_client_id), ((owner == 0) == 0))) {
         get_set_bonus_multiplier(owner);
         calc_clock_bonus__9TItemDataFPv(this, owner);
         switch ((s32) (this->data1.data_u8[0])) {
         case 0:
-            add_weapon_stat_bonuses(owner, (s16 *)attack_bonus, (s32)param_bonus, (s16 *)stat_bonus, hp_tp_bonus);
+            add_weapon_stat_bonuses(owner, (s16 *)attack, (s32)resists, (s16 *)stats, unused);
             break;
         case 1:
             switch ((s32) (this->data1.data_u8[1])) {
             case 1:
-                add_armor_stat_contribution__9TItemDataFPviiPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
+                add_armor_stat_contribution__9TItemDataFPviiPv(this, owner, attack, resists, stats, unused);
                 break;
             case 2:
-                add_shield_stat_contribution__9TItemDataFPviiPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
+                add_shield_stat_contribution__9TItemDataFPviiPv(this, owner, attack, resists, stats, unused);
                 break;
             case 3:
-                apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
+                apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(this, owner, attack, resists, stats, unused);
                 break;
             }
             break;
         case 2:
-            add_mag_stat_bonuses(owner, (u8 *)attack_bonus, (u8 *)param_bonus, (EquipStats *)stat_bonus, hp_tp_bonus);
+            add_mag_stat_bonuses(owner, (u8 *)attack, (u8 *)resists, (EquipStats *)stats, unused);
             break;
         }
-        apply_bonuses(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
-        apply_custom_shield_bonus(owner, (TItemData *)attack_bonus, (TItemData *)param_bonus, (EquipStats *)stat_bonus, hp_tp_bonus);
+        apply_bonuses(this, owner, attack, resists, stats, unused);
+        apply_custom_shield_bonus(owner, (TItemData *)attack, (TItemData *)resists, (EquipStats *)stats, unused);
     }
 }
 
@@ -1373,38 +1307,12 @@ s32 TItemData::is_rare_item(void *item) {
 #pragma fp_contract on
 extern "C" {
 
-typedef struct Item_8010DF9C Item_8010DF9C;
-typedef struct Pct_8010DF9C Pct_8010DF9C;
-typedef struct Pmt_8010DF9C Pmt_8010DF9C;
-struct Pct_8010DF9C
-{
-  u8 type;
-  s8 value;
-};
-struct Item_8010DF9C
-{
-  u8 type;
-  u8 sub;
-  u8 b2;
-  u8 grind;
-  u8 flags;
-  u8 slots;
-  Pct_8010DF9C pct[3];
-  u8 pad_c[4];
-  s32 meseta;
-};
-struct Pmt_8010DF9C
-{
-  u8 pad0[8];
-  s16 dfp;
-  s16 evp;
-  u16 atp;
-  u8 pad_e[2];
-  u8 level;
-};
+f32 get_item_price_coefficient(u8 type, u8 sub);
 s32 TItemData::calc_price() {
-  Item_8010DF9C *item = (Item_8010DF9C *) this;
-  Pmt_8010DF9C *pmt;
+  TItemData *item = this;
+  PmtWeaponRecord *weapon;
+  PmtArmorRecord *armor;
+  PmtToolRecord *tool;
   s32 price;
   f32 coef;
   f32 power;
@@ -1413,32 +1321,32 @@ s32 TItemData::calc_price() {
   s32 bonus;
   s32 i;
   price = 0;
-  switch (item->type)
+  switch (item->data1.data_u8[0])
   {
     case 0:
-      if (item->flags & 0x80)
+      if (item->data1.data_u8[4] & 0x80)
     {
       price = 8;
     }
     else
-      if (TItemData::is_rare_item(((u8 *)this)) != 0)
+      if (TItemData::is_rare_item(this) != 0)
     {
       price = 0x50;
     }
     else
     {
-      pmt = (Pmt_8010DF9C *) lookup_item_pmt_record(((u8 *)this));
-      coef = get_item_price_coefficient(item->type, (unsigned long) item->sub);
-      if ((0.0f != coef) && (pmt != 0))
+      weapon = (PmtWeaponRecord *) lookup_item_pmt_record(((u8 *)this));
+      coef = get_item_price_coefficient(item->data1.data_u8[0], (unsigned long) item->data1.data_u8[1]);
+      if ((0.0f != coef) && (weapon != 0))
       {
-        atp = ((f32) pmt->atp) + ((f32) item->grind);
+        atp = ((f32) weapon->atp_max) + ((f32) item->data1.data_u8[3]);
         power = (atp * atp) / coef;
         bonus = 0;
         for (i = 0; i < 3; i++)
         {
-          if ((item->pct[i].type != 0) && (item->pct[i].type <= 5))
+          if ((item->data1.data_u8[6 + i * 2] != 0) && (item->data1.data_u8[6 + i * 2] <= 5))
           {
-            bonus = (item->pct[i].value + bonus) + 100;
+            bonus = ((s8)item->data1.data_u8[7 + i * 2] + bonus) + 100;
           }
           else
           {
@@ -1446,63 +1354,63 @@ s32 TItemData::calc_price() {
           }
         }
 
-        stars = (f32) ((u8) get_unit_attribute_index__10TObjPlayerFUc(item->flags));
+        stars = (f32) ((u8) get_unit_attribute_index__10TObjPlayerFUc(item->data1.data_u8[4]));
         price = (s32) (((power * ((f32) bonus)) / 100.0f) + (1000.0f * (stars * stars)));
       }
     }
       break;
 
     case 1:
-      if (TItemData::is_rare_item(((u8 *)this)) != 0)
+      if (TItemData::is_rare_item(this) != 0)
     {
       price = 0x50;
     }
     else
-      if (item->sub != 3)
+      if (item->data1.data_u8[1] != 3)
     {
-      coef = get_item_price_coefficient(item->type, item->sub);
-      pmt = (Pmt_8010DF9C *) lookup_item_pmt_record(((u8 *)this));
-      if ((0.0f != coef) && (pmt != 0))
+      coef = get_item_price_coefficient(item->data1.data_u8[0], item->data1.data_u8[1]);
+      armor = (PmtArmorRecord *) lookup_item_pmt_record(((u8 *)this));
+      if ((0.0f != coef) && (armor != 0))
       {
         s32 a = TItemData::getS16_06(this);
-        atp = (f32) (((pmt->dfp + pmt->evp) + a) + TItemData::get_bswap16_field8(this));
+        atp = (f32) (((armor->dfp + armor->evp) + a) + TItemData::get_bswap16_field8(this));
         {
           s32 dv = (s32) ((atp * atp) / coef);
-          f32 sl = 70.0f * ((f32)(item->slots + 1));
-          f32 lv = (f32)(pmt->level + 1);
+          f32 sl = 70.0f * ((f32)(item->data1.data_u8[5] + 1));
+          f32 lv = (f32)(armor->required_level + 1);
           price = (s32) ((sl * lv) + ((f32) dv));
         }
       }
     }
     else
     {
-      coef = get_item_price_coefficient(item->type, item->sub);
+      coef = get_item_price_coefficient(item->data1.data_u8[0], item->data1.data_u8[1]);
       stars = (f32) ((u8) this->calc_display_grade());
       price = (s32) (stars * coef);
     }
       break;
 
     case 4:
-      price = item->meseta;
+      price = item->data2.data_u32;
       break;
 
     case 3:
-      pmt = (Pmt_8010DF9C *) lookup_item_pmt_record(((u8 *)this));
-      if (pmt != 0)
+      tool = (PmtToolRecord *) lookup_item_pmt_record(((u8 *)this));
+      if (tool != 0)
     {
-      if (item->sub != 2)
+      if (item->data1.data_u8[1] != 2)
       {
-        price = *((s32 *) (((u8 *) pmt) + 0xC));
+        price = tool->price;
       }
       else
       {
-        price = (*((s32 *) (((u8 *) pmt) + 0xC))) * ((u8)(item->b2 + 1));
+        price = (tool->price) * ((u8)(item->data1.data_u8[2] + 1));
       }
     }
       break;
 
     case 2:
-      price = (s32) (((f32)(item->b2 + 1)) * get_item_price_coefficient(item->type, item->sub));
+      price = (s32) (((f32)(item->data1.data_u8[2] + 1)) * get_item_price_coefficient(item->data1.data_u8[0], item->data1.data_u8[1]));
       break;
 
   }
@@ -1551,10 +1459,10 @@ saddr TItemData::calc_buy_price() {
 
 s32 format_item_description(u8 *item) {
     char *format;
-    Params_8010E414 *p;
+    PmtUnitRecord *p;
     char *out;
     s32 name;
-    p = (Params_8010E414 *)lookup_item_pmt_record(item);
+    p = (PmtUnitRecord *)lookup_item_pmt_record(item);
     out = (char *)get_item_chunk_buffer(0);
     if (p != NULL && out != NULL) {
         format = NULL;
@@ -1594,7 +1502,7 @@ s32 format_item_description(u8 *item) {
 
 void TItemData::format_item_name(char *buf) {
     u8 *bytes = (u8 *)this;
-    Item_8010E59C *item = (Item_8010E59C *)bytes;
+    TItemData *item = (TItemData *)bytes;
     s8 *slot;
     char *name;
     s32 *pmt;
@@ -1606,8 +1514,8 @@ void TItemData::format_item_name(char *buf) {
     if (buf == NULL) {
         return;
     }
-    if (item->type == 4) {
-        sprintf(buf, "%d%s", item->meseta, TWindowSubStatusDisp::get_download_server());
+    if (item->data1.data_u8[0] == 4) {
+        sprintf(buf, "%d%s", item->data2.data_u32, TWindowSubStatusDisp::get_download_server());
         return;
     }
     pmt = (s32 *)lookup_item_pmt_record(bytes);
@@ -1620,29 +1528,29 @@ void TItemData::format_item_name(char *buf) {
         sprintf(buf, "%s", get_text_collection(0x77));
         return;
     }
-    t = item->type;
+    t = item->data1.data_u8[0];
     if (t == 0) {
         if (TItemData::is_custom_name_srank(bytes) != 0) {
             memset(tmp, 0, 10);
             ((TItemData *)bytes)->decode_packed_name_chars(tmp);
             if (tmp[0] - 0x41 == 1) {
-                if (item->grind != 0) {
-                    sprintf(buf, "%s +%d", &tmp[1], item->grind);
+                if (item->data1.data_u8[3] != 0) {
+                    sprintf(buf, "%s +%d", &tmp[1], item->data1.data_u8[3]);
                 } else {
                     sprintf(buf, "%s", &tmp[1]);
                 }
-            } else if (item->grind != 0) {
-                sprintf(buf, "%s %s +%d", &tmp[1], name, item->grind);
+            } else if (item->data1.data_u8[3] != 0) {
+                sprintf(buf, "%s %s +%d", &tmp[1], name, item->data1.data_u8[3]);
             } else {
                 sprintf(buf, "%s %s", &tmp[1], name);
             }
             return;
         }
-        slot = (s8 *)TObjPlayer::get_item_by_slot_flag(item->flags);
+        slot = (s8 *)TObjPlayer::get_item_by_slot_flag(item->data1.data_u8[4]);
         if (TItemData::is_rare_item(bytes) != 0) {
             if (check_item_flags() == 1) {
-                if (item->grind != 0) {
-                    sprintf(buf, "%s +%d", name, item->grind);
+                if (item->data1.data_u8[3] != 0) {
+                    sprintf(buf, "%s +%d", name, item->data1.data_u8[3]);
                 } else {
                     sprintf(buf, "%s", name);
                 }
@@ -1652,18 +1560,18 @@ void TItemData::format_item_name(char *buf) {
             return;
         }
         if (*slot != 0) {
-            if (item->grind != 0) {
-                sprintf(buf, "%s %s +%d", slot, name, item->grind);
+            if (item->data1.data_u8[3] != 0) {
+                sprintf(buf, "%s %s +%d", slot, name, item->data1.data_u8[3]);
             } else {
                 sprintf(buf, "%s %s", slot, name);
             }
-        } else if (item->grind != 0) {
-            sprintf(buf, "%s +%d", name, item->grind);
+        } else if (item->data1.data_u8[3] != 0) {
+            sprintf(buf, "%s +%d", name, item->data1.data_u8[3]);
         } else {
             sprintf(buf, "%s", name);
         }
-    } else if (t == 3 && item->sub == 2) {
-        u8 f = item->flags;
+    } else if (t == 3 && item->data1.data_u8[1] == 2) {
+        u8 f = item->data1.data_u8[4];
         if (f < 0x13) {
             switch (f) {
             case 0xE:
@@ -1676,16 +1584,16 @@ void TItemData::format_item_name(char *buf) {
                 break;
             default:
                 if (current_language == LANGUAGE_JAPANESE) {
-                    sprintf(buf, "%sLV%d%s", get_technique_name(f), item->b2 + 1, name);
+                    sprintf(buf, "%sLV%d%s", get_technique_name(f), item->data1.data_u8[2] + 1, name);
                 } else {
-                    sprintf(buf, "%s%s Lv.%d", name, get_technique_name(f), item->b2 + 1);
+                    sprintf(buf, "%s%s Lv.%d", name, get_technique_name(f), item->data1.data_u8[2] + 1);
                 }
                 break;
             }
         } else {
             sprintf(buf, name);
         }
-    } else if (t == 1 && item->sub == 3) {
+    } else if (t == 1 && item->data1.data_u8[1] == 3) {
         memset(sign, 0, 3);
         pmt = (s32 *)lookup_item_pmt_record(bytes);
         if (pmt != NULL) {
@@ -1780,17 +1688,17 @@ int TItemData::calc_display_grade() {
 
 s32 TItemData::get_base_rarity() {
     u8 *item = (u8 *)this;
-    struct Parm_8010EBD8 *p;
+    PmtToolRecord *p;
     switch (item[0]) {
     case 0:
     case 1:
-        p = (struct Parm_8010EBD8 *)lookup_item_pmt_record(item);
+        p = (PmtToolRecord *)lookup_item_pmt_record(item);
         if (p != NULL) {
             return get_item_star_count(p->name);
         }
         break;
     case 3:
-        p = (struct Parm_8010EBD8 *)lookup_item_pmt_record(item);
+        p = (PmtToolRecord *)lookup_item_pmt_record(item);
         if (p != NULL && (p->flags & 0x80)) {
             return 0xC;
         }

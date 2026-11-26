@@ -9,7 +9,7 @@
 #include "pso/enemy/sinowzoa/SinowZoaData.h"
 
 // String objects are named after their contents.
-// .rodata 0x80475DF0-0x80476098 of the Sinow Zoa code (the DelDepthData.cpp shape): the code
+// .rodata block of the Sinow Zoa code (the DelDepthData.cpp shape): the code
 // addresses each object on its own, so it did not compile them itself.
 
 

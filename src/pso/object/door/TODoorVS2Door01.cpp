@@ -80,14 +80,14 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         node = node->child;
         push_matrix();
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::begin_effect_render();
@@ -96,7 +96,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
         node = node->sibling;
@@ -104,7 +104,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
         node = ((NJS_OBJECT *)model)->child->sibling;
@@ -112,7 +112,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
         node = node->sibling;
@@ -120,7 +120,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();

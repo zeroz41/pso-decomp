@@ -30,17 +30,17 @@ void SoundRequestVoice::set_field0(SoundControlState *owner) { this->owner = own
 
 
 void SoundRequestVoice::clamp_reverb(f32 scale) {
-    f32 var_f1;
+    f32 reverb_value;
 
-    var_f1 = scale;
-    if (var_f1 < 0.0f) {
+    reverb_value = scale;
+    if (reverb_value < 0.0f) {
         reverb = -1.0f;
         return;
     }
-    if (var_f1 > 1.0f) {
-        var_f1 = 1.0f;
+    if (reverb_value > 1.0f) {
+        reverb_value = 1.0f;
     }
-    reverb = var_f1;
+    reverb = reverb_value;
 }
 
 void TLobby__sub_802409E4(SoundRequestVoice *voice) { voice->refresh = 5; }
@@ -59,23 +59,23 @@ void TLobby__sub_802409F0(SoundRequestVoice *v) {
 }
 
 void SoundRequestVoice::update() {
-    s32 temp_r0;
-    s32 temp_r4;
+    s32 remaining;
+    s32 duration;
 
     if ((u32) (pitchDuration + 0x77780000) == 0x8888U) {
         pitchRemaining = 0;
         pitchDuration = 0;
         pitchSlide = (s32) pitchTarget;
     }
-    temp_r4 = pitchDuration;
-    if (temp_r4 > 0) {
-        temp_r0 = pitchRemaining;
-        if (temp_r0 <= 0) {
+    duration = pitchDuration;
+    if (duration > 0) {
+        remaining = pitchRemaining;
+        if (remaining <= 0) {
             pitchRemaining = 0;
             pitchDuration = 0;
             pitchSlide = (s32) pitchTarget;
         } else {
-            pitchSlide = (s32) ((s32) (pitchTarget * (temp_r4 - temp_r0)) / temp_r4);
+            pitchSlide = (s32) ((s32) (pitchTarget * (duration - remaining)) / duration);
             pitchRemaining = (s32) (pitchRemaining - owner->get_field_308());
         }
     }
@@ -119,20 +119,20 @@ s32 sndFXCtrl(int, int, int);
 s32 sndFXKeyOff(int);
 void TLobby__sub_80240F3C(SoundRequestVoice *);
 extern s8 TLobby__data_805434A8[];
-void TLobby__sub_80241798(Sound_80241798 *arg0);
+void TLobby__sub_80241798(Sound_80241798 *sound);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
 void send_voice_controller_updates(SoundRequestVoice *voice);
 
 s32 set_voice_pitch_slide(SoundRequestVoice *voice, s32 target, s32 duration) {
-    s32 var_r5;
-    var_r5 = duration;
-    if (var_r5 <= 0) {
-        var_r5 = 0x88888888;
+    s32 duration_ticks;
+    duration_ticks = duration;
+    if (duration_ticks <= 0) {
+        duration_ticks = 0x88888888;
     }
     voice->pitchTarget = target;
-    voice->pitchDuration = var_r5;
-    voice->pitchRemaining = var_r5;
+    voice->pitchDuration = duration_ticks;
+    voice->pitchRemaining = duration_ticks;
     return 0;
 }
 
@@ -176,7 +176,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
             OSRestoreInterrupts(level);
         }
-        send_sound_request_reverb((SoundRequestVoice *)(v));
+        send_sound_request_reverb((v));
         v->state = 1;
         break;
     case 0:
@@ -211,7 +211,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             calc_sound_spatial_params(v);
         }
         v->refresh--;
-        send_sound_request_reverb((SoundRequestVoice *)(v));
+        send_sound_request_reverb((v));
         v->clamp_params();
         v->update();
         if (sndFXCheck(v->token) == 0xFFFFFFFF) {
@@ -549,105 +549,105 @@ void TLobby__sub_80240F3C(SoundRequestVoice *v) {
     }
 }
 
-void TLobby__sub_80241798(Sound_80241798 *arg0) {
+void TLobby__sub_80241798(Sound_80241798 *sound) {
     s32 num = 1;
     s32 den = 1;
     s32 mask = 0;
     s32 min = 0;
-    switch (arg0->owner->field_288) {
+    switch (sound->owner->field_288) {
     case 16:
-        switch (arg0->group) {
+        switch (sound->group) {
         case 4:
-            switch (arg0->id) {
+            switch (sound->id) {
             case 5: case 6: case 7: case 8: case 9:
                 mask = 0x3F;
                 min = 0x40;
-                arg0->flags |= 0x80;
+                sound->flags |= 0x80;
                 break;
             }
             break;
         }
         break;
     case 2:
-        switch (arg0->group) {
+        switch (sound->group) {
         case 4:
-            switch (arg0->id) {
+            switch (sound->id) {
             case 6:
                 mask = 0x3F;
                 min = 0x20;
-                arg0->flags |= 0x80;
+                sound->flags |= 0x80;
                 break;
             }
             break;
         }
         break;
     case 9:
-        switch (arg0->group) {
+        switch (sound->group) {
         case 3:
-            switch (arg0->id) {
+            switch (sound->id) {
             case 0: case 1:
                 mask = 0x3F;
                 min = 0x80;
-                arg0->flags |= 0x80;
+                sound->flags |= 0x80;
                 break;
             }
             break;
         }
         break;
     case 12:
-        switch (arg0->group) {
+        switch (sound->group) {
         case 4:
-            switch (arg0->id) {
+            switch (sound->id) {
             case 11:
                 mask = 0x3F;
                 min = 0x20;
-                arg0->flags |= 0x80;
+                sound->flags |= 0x80;
                 break;
             case 12: case 13:
                 mask = 0x3F;
                 min = 0x60;
-                arg0->flags |= 0x80;
+                sound->flags |= 0x80;
                 break;
             }
             break;
         case 3:
-            switch (arg0->id) {
+            switch (sound->id) {
             case 20:
                 den = 6;
                 mask = 0x3F;
                 min = 0x20;
-                arg0->flags |= 0x80;
-                arg0->field_8C = 0x1000;
+                sound->flags |= 0x80;
+                sound->field_8C = 0x1000;
                 break;
             }
             break;
         }
         break;
     case 13:
-        switch (arg0->group) {
+        switch (sound->group) {
         case 3:
-            switch (arg0->id) {
+            switch (sound->id) {
             case 5:
                 num = 2;
                 mask = 0x3F;
                 min = 0xC0;
-                arg0->flags |= 0x80;
+                sound->flags |= 0x80;
                 break;
             case 21: case 22:
                 mask = 0x3F;
                 min = 0x40;
-                arg0->flags |= 0x80;
+                sound->flags |= 0x80;
                 break;
             }
             break;
         }
         break;
     }
-    if (arg0->flags & 0x80) {
-        arg0->pitch = num * ((s32)((((TLobby *)(arg0->owner))->advance_rng() >> 16) & 0x3FFF) - 0x2000) / den;
-        arg0->velocity = min + (mask & ((TLobby *)(arg0->owner))->advance_rng());
-        if ((s32)(((TLobby *)(arg0->owner))->advance_rng() & 0x3F) < 0x20) {
-            arg0->velocity = -arg0->velocity;
+    if (sound->flags & 0x80) {
+        sound->pitch = num * ((s32)((((TLobby *)(sound->owner))->advance_rng() >> 16) & 0x3FFF) - 0x2000) / den;
+        sound->velocity = min + (mask & ((TLobby *)(sound->owner))->advance_rng());
+        if ((s32)(((TLobby *)(sound->owner))->advance_rng() & 0x3F) < 0x20) {
+            sound->velocity = -sound->velocity;
         }
     }
 }
@@ -835,47 +835,47 @@ s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step) {
 
 #pragma push
 s32 SoundRequestVoice::init_sound_voice(s32 kind, s32 bank, s32 index, s32 flags) {
-    *(s32 *)((s8 *)this + 4) = 0;
-    *(s32 *)((s8 *)this + 8) = flags;
-    *(s32 *)((s8 *)this + 0xC) = kind;
-    *(s32 *)((s8 *)this + 0x10) = bank;
-    *(s32 *)((s8 *)this + 0x14) = index;
-    *(s32 *)((s8 *)this + 0x1C) = 0;
-    *(s32 *)((s8 *)this + 0x20) = 0;
-    *(s32 *)((s8 *)this + 0x28) = 0x7F;
-    *(s32 *)((s8 *)this + 0x24) = 0x88888888;
-    *(s32 *)((s8 *)this + 0x30) = 0x40;
-    *(s32 *)((s8 *)this + 0x2C) = 0x88888888;
-    *(s32 *)((s8 *)this + 0x38) = 0;
-    *(s32 *)((s8 *)this + 0x34) = 0x88888888;
-    *(s32 *)((s8 *)this + 0x3C) = 0;
-    *(s32 *)((s8 *)this + 0x40) = 0;
-    *(s32 *)((s8 *)this + 0x44) = 0;
-    *(s32 *)((s8 *)this + 0x48) = 0;
-    *(s32 *)((s8 *)this + 0x4C) = 0;
-    *(s32 *)((s8 *)this + 0x50) = 0;
-    *(s32 *)((s8 *)this + 0x54) = 0;
-    *(s32 *)((s8 *)this + 0x58) = 0;
-    *(s32 *)((s8 *)this + 0x60) = 0;
-    *(s32 *)((s8 *)this + 0x64) = 0;
-    *(s32 *)((s8 *)this + 0x68) = 0x88888888;
-    *(s32 *)((s8 *)this + 0x6C) = 0;
-    *(s32 *)((s8 *)this + 0x70) = 0;
-    *(s32 *)((s8 *)this + 0x74) = 0;
-    *(s32 *)((s8 *)this + 0x78) = 0;
-    *(s32 *)((s8 *)this + 0x7C) = 0;
-    *(s32 *)((s8 *)this + 0x80) = 0;
-    *(s32 *)((s8 *)this + 0x84) = 0;
-    *(s16 *)((s8 *)this + 0x8C) = 0x3F00;
-    *(s32 *)((s8 *)this + 0x98) = 0;
-    *(s16 *)((s8 *)this + 0x90) = 0;
-    *(s16 *)((s8 *)this + 0x92) = 0;
-    *(s32 *)((s8 *)this + 0x94) = 0;
-    *(f32 *)((s8 *)this + 0x9C) = -1.0f;
-    *(s32 *)((s8 *)this + 0x88) = 0;
-    switch (*(s32 *)((s8 *)this + 0xC)) {
+    state = 0;
+    this->flags = flags;
+    this->kind = kind;
+    this->bank = bank;
+    this->index = index;
+    actor = NULL;
+    token = 0;
+    volume = 0x7F;
+    previousVolume = 0x88888888;
+    pan = 0x40;
+    previousPan = 0x88888888;
+    surround = 0;
+    previousSurround = 0x88888888;
+    base = 0;
+    extra = 0;
+    spatial = 0;
+    fade = 0;
+    fadeStep = 0;
+    panExtra = 0;
+    panSpatial = 0;
+    surroundExtra = 0;
+    surroundSpatial = 0;
+    pitch = 0;
+    previousPitch = 0x88888888;
+    pitchStatic = 0;
+    pitchMoving = 0;
+    pitchVelocity = 0;
+    pitchSlide = 0;
+    pitchTarget = 0;
+    pitchDuration = 0;
+    pitchRemaining = 0;
+    pitchLimit = 0x3F00;
+    age = 0;
+    delay = 0;
+    refresh = 0;
+    studio = 0;
+    reverb = -1.0f;
+    position = NULL;
+    switch (this->kind) {
     case 0:
-        *(s32 *)((s8 *)this + 4) = -1;
+        state = -1;
         update_random_flip_flag();
         break;
     }

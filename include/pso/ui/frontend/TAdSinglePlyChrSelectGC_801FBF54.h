@@ -21,13 +21,13 @@ u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
 int start_system_file_write(s32 chan);
 s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void);
-s32 TAdSinglePlyChrSelectGC__sub_801FDC14(s32 slot);
-s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
+s32 load_character_file_slot_b(s32 slot);
+s32 *get_secondary_slot_summary(u32 i);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void);
-void TAdSinglePlyChrSelectGC__sub_801FFF14(void);
-void TAdSinglePlyChrSelectGC__sub_80200418(void);
+s32 poll_secondary_card_load(void);
+void rebuild_guild_card_save_file(void);
+void decrypt_secondary_card_buffer(void);
 }
 void set_character_file_seed(u8 *file, s32 value);
 s32 get_character_file_seed(u8 *file);

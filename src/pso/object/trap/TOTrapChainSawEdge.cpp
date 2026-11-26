@@ -57,11 +57,6 @@
 #include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
-extern "C" {
-NJS_TEXLIST *fn_802C9924(s32 index);
-}
-
-
 typedef struct P_802C86D4 {
     u8 pad0[2];
     u16 sA;
@@ -112,15 +107,13 @@ f32 fabs_float(f32);
 
 
 
-void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
 
 
-s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
+s32 get_chain_saw_sound_id(TOTrapChainSaw *trap, s32 sound_index);
 
 void vfunc_14__14TOTrapChainSawFv(void);
 
 
-void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 
 void rotate_matrix_y(int, void *);
 
@@ -184,7 +177,7 @@ CollisionBody chain_saw_collision_body_part_table[2][2] = {
 
 static const f32 lbl_805DE620 = -1.0f;
 
-BmlResource *lbl_805D6808;
+BmlResource *jungle_nokogiri_resource;
 
 }
 
@@ -222,7 +215,7 @@ void TOTrapChainSaw::load_shared_resource() {
     s32 i;
     NJS_OBJECT *root;
     p = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, NULL);
-    lbl_805D6808 = p;
+    jungle_nokogiri_resource = p;
     for (i = 0; i < 5; i++) {
         seabed_suiso_linked_switch_counts[i] = NULL;
     }
@@ -230,14 +223,14 @@ void TOTrapChainSaw::load_shared_resource() {
         seabed_suiso_switch_counts[i] = NULL;
     }
     if (p != NULL) {
-        root = (NJS_OBJECT *)get_bml_model((BmlResource *)p, 3);
+        root = (NJS_OBJECT *)get_bml_model(p, 3);
         if (root != NULL) {
             seabed_suiso_linked_switch_counts[1] = find_object_node(root, 3);
             seabed_suiso_linked_switch_counts[2] = find_object_node(root, 4);
             seabed_suiso_linked_switch_counts[3] = find_object_node(root, 5);
             seabed_suiso_linked_switch_counts[4] = find_object_node(root, 6);
         }
-        root = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, 4);
+        root = (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_nokogiri_resource, 4);
         if (root != NULL) {
             seabed_suiso_switch_counts[1] = find_object_node(root, 3);
             seabed_suiso_switch_counts[2] = find_object_node(root, 4);
@@ -249,9 +242,9 @@ void TOTrapChainSaw::load_shared_resource() {
 
 void TOTrapChainSaw::unload_static_data() {
     s32 i;
-    if (lbl_805D6808 != NULL) {
-        delete (BmlResource *)lbl_805D6808;
-        lbl_805D6808 = NULL;
+    if (jungle_nokogiri_resource != NULL) {
+        delete (BmlResource *)jungle_nokogiri_resource;
+        jungle_nokogiri_resource = NULL;
     }
     for (i = 0; i < 5; i++) {
         seabed_suiso_linked_switch_counts[i] = NULL;
@@ -262,22 +255,22 @@ void TOTrapChainSaw::unload_static_data() {
 }
 
 NJS_OBJECT *TOTrapChainSawKey::get_model(s32 index) {
-    if (lbl_805D6808 != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_nokogiri_resource, index);
     }
     return NULL;
 }
 
 AnimationMotion *TOTrapChainSawKey::get_motion(s32 index) {
-    if (lbl_805D6808 != NULL) {
-        return get_bml_motion(lbl_805D6808, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return get_bml_motion(jungle_nokogiri_resource, index);
     }
     return NULL;
 }
 
 NJS_TEXLIST *fn_802C9924(s32 index) {
-    if (lbl_805D6808 != NULL) {
-        return get_bml_texlist((BmlResource *)lbl_805D6808, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return get_bml_texlist((BmlResource *)jungle_nokogiri_resource, index);
     }
     return NULL;
 }
@@ -298,22 +291,22 @@ TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TObjMapObject(
 TOTrapChainSaw::~TOTrapChainSaw() {}
 
 void TOTrapChainSaw::decode_params() {
-    s32 var_r0;
-    s32 temp_r3;
-    u32 var_r0_2;
-    u32 temp_r3_2;
+    s32 clamped_switch_id;
+    s32 raw_switch_id;
+    u32 clamped_behavior;
+    u32 raw_behavior;
 
     switch_id = (s32) (u16) this->set_params[0];
-    temp_r3 = switch_id;
-    if (temp_r3 < 0) {
-        var_r0 = 0;
+    raw_switch_id = switch_id;
+    if (raw_switch_id < 0) {
+        clamped_switch_id = 0;
     } else {
-        var_r0 = 0xFF;
-        if (temp_r3 <= 0xFF) {
-            var_r0 = temp_r3;
+        clamped_switch_id = 0xFF;
+        if (raw_switch_id <= 0xFF) {
+            clamped_switch_id = raw_switch_id;
         }
     }
-    switch_id = var_r0;
+    switch_id = clamped_switch_id;
     if (is_current_floor_switch_set((u16) switch_id) == 1) {
         switch_on = 1;
     } else {
@@ -322,16 +315,16 @@ void TOTrapChainSaw::decode_params() {
     max_offset = (u32) ((u32) set_params[1] >> 0x10U);
     step = (s32) (u16) set_params[1];
     behavior = (u32) ((u32) set_params[2] >> 0x10U);
-    temp_r3_2 = behavior;
-    if ((s32) temp_r3_2 < 0) {
-        var_r0_2 = 0;
+    raw_behavior = behavior;
+    if ((s32) raw_behavior < 0) {
+        clamped_behavior = 0;
     } else {
-        var_r0_2 = 1;
-        if ((s32) temp_r3_2 <= 1) {
-            var_r0_2 = temp_r3_2;
+        clamped_behavior = 1;
+        if ((s32) raw_behavior <= 1) {
+            clamped_behavior = raw_behavior;
         }
     }
-    behavior = var_r0_2;
+    behavior = clamped_behavior;
 }
 
 void TOTrapChainSaw::run_task() {
@@ -471,13 +464,13 @@ void TOTrapChainSaw::render() {
 void TOTrapChainSaw::vfunc_14() {  }
 
 void TOTrapChainSaw::update_demo() {
-    s32 temp_r31;
+    s32 base_yaw;
 
     if (TObjPlayer::check_demo_mode() == 1) {
-        temp_r31 = rotation_y;
-        rotation_y = (saddr) (temp_r31 + yaw_offset);
+        base_yaw = rotation_y;
+        rotation_y = (saddr) (base_yaw + yaw_offset);
         sub_80154D78();
-        rotation_y = temp_r31;
+        rotation_y = base_yaw;
     }
 }
 
@@ -492,7 +485,7 @@ f32 TOTrapChainSaw::scale_by_level(f32 level) {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_depth(1)
-s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index) {
+s32 get_chain_saw_sound_id(TOTrapChainSaw *trap, s32 sound_index) {
     T_802C8F68 t = chainsaw_area_table_values;
     s32 *p = t.r[0];
     switch (get_current_floor_area()) {
@@ -506,7 +499,7 @@ s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound
     return p[sound_index];
 }
 TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
-    void *o;
+    TOTrapChainSawEdge *o;
     *(saddr *)(((u8 *)((u8 *)this)) + 0) = (saddr) TOTrapChainSawDamage_class_name;
     this->decode_params();
     this->vfunc_16();
@@ -518,10 +511,10 @@ TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TO
         Copy_802C8E24 c = *(Copy_802C8E24 *)set_data;
         *(f32 *)((u8 *)&c + 0x10) += (1e+01f);
         o = new TOTrapChainSawEdge((TObject *)this, &c);
-        *(void **)(((u8 *)((u8 *)this)) + 0x104) = o;
+        edge_a = o;
         *(f32 *)((u8 *)&c + 0x10) += (5.0f);
         o = new TOTrapChainSawEdge((TObject *)this, &c);
-        *(void **)(((u8 *)((u8 *)this)) + 0x108) = o;
+        edge_b = o;
     }
 }
 TOTrapChainSawDamage::~TOTrapChainSawDamage() {
@@ -573,7 +566,7 @@ void TOTrapChainSawDamage::vfunc_25() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     push_matrix();
-    rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
+    rotate_matrix_y(0, (void *)this->rotation_y);
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), this->animation_end_frame);
     pop_matrix();
@@ -588,27 +581,27 @@ void TOTrapChainSawDamage::vfunc_14() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-void TOTrapChainSawDamage::vfunc_26() { *(s32*)((char*)this + 0x100) = 0; }
+void TOTrapChainSawDamage::vfunc_26() { tick = 0; }
 #pragma push
 #pragma fp_contract on
 void TOTrapChainSawDamage::vfunc_27() {
-    *(s32 *)((s8 *)((u8 *)this) + 0x100) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x100) + 1);
+    tick = (s32) (tick + 1);
     void *p;
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x100) == 5) && ((p = *(void **)((s8 *)((u8 *)this) + 0x104)) != NULL)) {
+    if (((s32) tick == 5) && ((p = edge_a) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x100) == 0xA) && ((p = *(void **)((s8 *)((u8 *)this) + 0x108)) != NULL)) {
+    if (((s32) tick == 0xA) && ((p = edge_b) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
-    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, &position, 0, 0);
+    play_persistent_sound(get_chain_saw_sound_id(this, 0), this, &position, 0, 0);
 }
 #pragma pop
 void TOTrapChainSawDamage::vfunc_28() {
-    if (*(void **)((s8 *)this + 0x104) != NULL) {
-        ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x104)))->set_damage((saddr)(*(void **)((s8 *)this + 0xD4)));
+    if (edge_a != NULL) {
+        ((TOTrapChainSawDamage *)edge_a)->set_damage((saddr)yaw_offset);
     }
-    if (*(void **)((s8 *)this + 0x108) != NULL) {
-        ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x108)))->set_damage((saddr)(*(void **)((s8 *)this + 0xD4)));
+    if (edge_b != NULL) {
+        ((TOTrapChainSawDamage *)edge_b)->set_damage((saddr)yaw_offset);
     }
 }
 TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
@@ -665,14 +658,14 @@ void TOTrapChainSawKey::update_state() {
     if (*(f32 *)((s8 *)this + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x100)) + 4) - 1)) {
         *(f32 *)((s8 *)this + 0x104) = 0.0f;
     }
-    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 2), this, &position, 0, 0);
+    play_persistent_sound(get_chain_saw_sound_id(this, 2), this, &position, 0, 0);
     if ((s32) *(s32 *)((s8 *)this + 0xF0) == 1) {
-        play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 1), this, &position, 0, 0);
+        play_persistent_sound(get_chain_saw_sound_id(this, 1), this, &position, 0, 0);
     }
 }
 
 void TOTrapChainSawKey::vfunc_14() {
-    ((s32 (*)(void))vfunc_14__14TOTrapChainSawFv)();
+    vfunc_14__14TOTrapChainSawFv();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x13001E, "<- SELECT A MODEL");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
@@ -683,7 +676,7 @@ void TOTrapChainSawKey::vfunc_25() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     push_matrix();
-    rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
+    rotate_matrix_y(0, (void *)this->rotation_y);
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     set_model_node_callback(TParticleCtrl__sub_802C8464);
     draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), this->animation_end_frame);
@@ -702,16 +695,16 @@ void TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0)
 
 void TOTrapChainSawKey::vfunc_27() {  }
 
-void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0) {
+void TParticleCtrl__sub_802C8464(NJS_OBJECT *object) {
     s32 i;
     for (i = 0; i < 5; i++) {
-        if (arg0 == seabed_suiso_linked_switch_counts[i]) {
+        if (object == seabed_suiso_linked_switch_counts[i]) {
             TParticleCtrl::begin_effect_render();
             return;
         }
     }
     for (i = 0; i < 5; i++) {
-        if (arg0 == seabed_suiso_switch_counts[i]) {
+        if (object == seabed_suiso_switch_counts[i]) {
             TParticleCtrl::begin_effect_render();
             return;
         }
@@ -724,55 +717,55 @@ TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, void *set_data) : TOTrap
     *(saddr *)((s8 *)trap_chain_saw_edge + 0) = (saddr) TOTrapChainSawEdge_class_name;
     ((TOTrapChainSawEdge *)(trap_chain_saw_edge))->decode_params();
     ((TOTrapChainSawEdge *)(trap_chain_saw_edge))->vfunc_16();
-    *(s32 *)((s8 *)trap_chain_saw_edge + 0x100) = 0;
-    *(s32 *)((s8 *)trap_chain_saw_edge + 0x104) = 0;
+    pending_starts = 0;
+    phase = 0;
 }
 
 #undef trap_chain_saw_edge
 TOTrapChainSawEdge::~TOTrapChainSawEdge() {}
 
 void TOTrapChainSawEdge::update_extension() {
-    s32 temp_r4;
-    s32 temp_r4_2;
+    s32 pending;
+    s32 limit;
 
-    switch (*(saddr *)((s8 *)this + 0x104)) {
+    switch (phase) {
     case 0:
-        temp_r4 = *(s32 *)((s8 *)this + 0x100);
-        if (temp_r4 > 0) {
-            *(s32 *)((s8 *)this + 0x100) = (temp_r4 - 1);
-            *(s32 *)((s8 *)this + 0xF8) = (saddr) *(s32 *)((s8 *)this + 0xCC);
-            *(s32 *)((s8 *)this + 0x104) = 1;
+        pending = pending_starts;
+        if (pending > 0) {
+            pending_starts = (pending - 1);
+            extent = (saddr) max_offset;
+            phase = 1;
         }
         break;
     case 1:
-        yaw_offset = (saddr) (yaw_offset + *(s32 *)((s8 *)this + 0xD0));
+        yaw_offset = (saddr) (yaw_offset + step);
         if ((s32) yaw_offset < 0) {
             yaw_offset = 0;
-            *(s32 *)((s8 *)this + 0xD0) = (saddr) ((f32) *(s32 *)((s8 *)this + 0xD0) * *(const volatile f32 *)&lbl_805DE620);
-            *(s32 *)((s8 *)this + 0x104) = 0;
+            step = (saddr) ((f32) step * *(const volatile f32 *)&lbl_805DE620);
+            phase = 0;
         }
-        if (yaw_offset > (temp_r4_2 = *(s32 *)((s8 *)this + 0xCC))) {
-            yaw_offset = temp_r4_2;
-            *(s32 *)((s8 *)this + 0xD0) = (saddr) ((f32) *(s32 *)((s8 *)this + 0xD0) * *(const volatile f32 *)&lbl_805DE620);
+        if (yaw_offset > (limit = max_offset)) {
+            yaw_offset = limit;
+            step = (saddr) ((f32) step * *(const volatile f32 *)&lbl_805DE620);
         }
         break;
     }
 }
 
 void TOTrapChainSawEdge::update_sweep() {
-    s32 temp_r4;
+    s32 pending;
 
-    switch (*(s32 *)((s8 *)this + 0x104)) {
+    switch (phase) {
     case 0:
-        temp_r4 = *(s32 *)((s8 *)this + 0x100);
-        if (temp_r4 > 0) {
-            *(s32 *)((s8 *)this + 0x100) = (temp_r4 - 1);
-            *(s32 *)((s8 *)this + 0xF8) = (s32) *(s32 *)((s8 *)this + 0xCC);
-            *(s32 *)((s8 *)this + 0x104) = 1;
+        pending = pending_starts;
+        if (pending > 0) {
+            pending_starts = (pending - 1);
+            extent = (s32) max_offset;
+            phase = 1;
         }
         return;
     case 1:
-        yaw_offset = (s32) (yaw_offset + *(s32 *)((s8 *)this + 0xD0));
+        yaw_offset = (s32) (yaw_offset + step);
         return;
     }
 }
@@ -782,7 +775,7 @@ void TOTrapChainSawEdge::vfunc_25() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     push_matrix();
-    rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
+    rotate_matrix_y(0, (void *)this->rotation_y);
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), this->animation_end_frame);
     pop_matrix();
@@ -793,11 +786,11 @@ void TOTrapChainSawEdge::vfunc_16() {
     Pair_802C80F0 a = *(Pair_802C80F0 *)lbl_80471F70;
     Pair_802C80F0 b = *(Pair_802C80F0 *)lbl_80471F78;
     s32 x;
-    *(s32 *)((s8 *)this + 0xFC) = (s32) this->scale.z;
-    x = *(s32 *)((s8 *)this + 0xFC);
-    *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
-    *(s32 *)((s8 *)this + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)this + 0xFC)]);
-    *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
+    variant = (s32) this->scale.z;
+    x = variant;
+    variant = x < 0 ? 0 : (x > 1 ? 1 : x);
+    *(s32 *)((s8 *)this + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[variant]);
+    *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[variant]);
     this->texlist = fn_802C9924(0);
     this->animation_end_frame = (0.0f);
     this->animation_step = (1.0f);

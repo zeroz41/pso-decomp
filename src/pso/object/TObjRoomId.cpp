@@ -18,6 +18,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/render/gjSystem.h"
 
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
@@ -56,7 +57,6 @@ void TObjRoomId::render() {
         draw_debug_line(0x13, 0x22, "<- - 10000 : BLOCK ID ");
     }
 }
-extern u8 identity_matrix[];
 void set_player_room_control_flag(TObjPlayer *player);
 #pragma pop
 

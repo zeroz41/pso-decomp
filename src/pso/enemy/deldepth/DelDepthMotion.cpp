@@ -69,13 +69,13 @@ void DelDepthMotion::set_motion(s32 arg1) {
 }
 
 s32 DelDepthMotion::is_state_complete() {
-    s32 temp_r0;
+    s32 current_motion;
 
-    temp_r0 = motion;
-    if (temp_r0 == -1) {
+    current_motion = motion;
+    if (current_motion == -1) {
         return 1;
     }
-    if (temp_r0 < 6) {
+    if (current_motion < 6) {
         return 0;
     }
     static f32 last_frame = endFrame - 1.0f;
@@ -107,15 +107,15 @@ void DelDepthMotion::update_animation_frame() {
 #pragma push
 #pragma fp_contract on
 void DelDepthMotion::draw_model_part() {
-    s32 temp_r0;
-    temp_r0 = motion;
-    if (temp_r0 != -1) {
-        if (temp_r0 < 6) {
+    s32 current_motion;
+    current_motion = motion;
+    if (current_motion != -1) {
+        if (current_motion < 6) {
             TObjFish::set_global_param(get_bml_texlist(TObjEneDelDepth::get_data(), 0));
             actor->draw();
             return;
         }
-        if (temp_r0 < 0xA) {
+        if (current_motion < 0xA) {
             TObjFish::set_global_param(texture);
             set_motion_packed_rotation();
             draw_model_motion(model, animation, frame);

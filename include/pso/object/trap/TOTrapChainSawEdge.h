@@ -12,7 +12,10 @@ struct TOTrapChainSawEdge : public TOTrapChainSaw {
     virtual void vfunc_25();
     virtual void vfunc_16();
     virtual void check_player_contact();
-    u8 unk_F8[0x10];
+    s32 extent;         // the extent of the current move (max_offset when a start is taken)
+    s32 variant;        // scale.z clamped to 0-1: which model and motion
+    s32 pending_starts; // starts queued by the damage saw (TOTrapChainSawDamage tick 5 / 10)
+    s32 phase;          // 0 waiting for a start, 1 moving
 };
 
 LAYOUT_ASSERT(TOTrapChainSawEdge_size, sizeof(TOTrapChainSawEdge) == 0x108);
@@ -23,12 +26,7 @@ struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 extern "C" {
-void update_state__20TOTrapChainSawDamageFv(void *arg0);
-void update_state__17TOTrapChainSawKeyFv(u8 *arg0);
-u8 *__ct__14TOTrapChainSawFP7TObjectPv(u8 *arg0, s32 arg1, s32 arg2);
-void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
-void *__dt__14TOTrapChainSawFv(void *arg0, s16 arg1);
-void update_state__14TOTrapChainSawFv(u8 *arg0);
+void TParticleCtrl__sub_802C8464(NJS_OBJECT *object);
 }
 
 // The unit's C-named helpers (formerly the text_802C9924 / text_802C99D8 /

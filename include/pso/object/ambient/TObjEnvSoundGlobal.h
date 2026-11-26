@@ -19,9 +19,7 @@ struct TObjEnvSoundGlobal : public TObjBase {
 LAYOUT_ASSERT(TObjEnvSoundGlobal_size, sizeof(TObjEnvSoundGlobal) == 0x9C);
 
 extern "C" {
-void *__dt__14TObjEnvSoundExFv(void *arg0, s16 arg1);
-void *__dt__18TObjEnvSoundGlobalFv(void *arg0, s16 arg1);
-void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
+void copy_env_sound_row(void *p, void *q);
 }
 
 #endif

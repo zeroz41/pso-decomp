@@ -41,9 +41,9 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/player/PlayerSlots.h"
-const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
-static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
-static const char lbl_80444A58[] = "<- KEY ID : %d";
+const char *TObjCityMainWarpChallenge::class_name = "TObjCityMainWarpChallenge";
+static const char debug_next_stage_format[] = "<- NEXT STAGE No.%d";
+static const char debug_key_id_format_challenge[] = "<- KEY ID : %d";
 
 
 extern "C" {
@@ -51,7 +51,7 @@ s32 is_local_client_floor_leader(s32);
 void request_active_window_close(void);
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    m_name = lbl_805D32B8;
+    m_name = TObjCityMainWarpChallenge::class_name;
     frame = 0.0f;
     warp_range = 19.0f;
     dest_floor = set_params[0];
@@ -126,9 +126,9 @@ block_4:
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((void *)city_common_model_archive->models[12].model);
+        draw_ginja_object(city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)city_common_model_archive->models[0].model, (void *)city_common_model_archive->motions[5].motion, (f32)frame);
+        draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, (f32)frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -143,9 +143,9 @@ void TObjCityMainWarpChallenge::debug_print_area_num() {
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        debug_printf_at(0x130020, lbl_80444A44, set_params[0]);
+        debug_printf_at(0x130020, debug_next_stage_format, set_params[0]);
     }
-    debug_printf_at(0x130021, lbl_80444A58, key_id);
+    debug_printf_at(0x130021, debug_key_id_format_challenge, key_id);
 }
 
 void TObjCityMainWarpChallenge::update_state() {
@@ -217,7 +217,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
             this->player_list_window->advance_matching_entries(this->player_in_range[j] != 0, j);
             color = 0xF0F0F0FF;
             if (this->state == 1 && (player = get_player_by_client_id(j)) != NULL &&
-                ((TObjPlayer *)player)->check_player_flag1() != 0) {
+                (player)->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
             this->player_list_window->sub_80248994(color, j);

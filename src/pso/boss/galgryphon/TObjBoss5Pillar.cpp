@@ -20,7 +20,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3B40 = "TObjBoss5Pillar";
+const char *TObjBoss5Pillar::class_name = "TObjBoss5Pillar";
 
 }
 
@@ -80,7 +80,7 @@ TObjBoss5Pillar::~TObjBoss5Pillar() {
 }
 
 TObjBoss5Pillar::TObjBoss5Pillar(TObject *parent, Vec *pos) : TObject(parent) {
-    m_name = lbl_805D3B40;
+    m_name = TObjBoss5Pillar::class_name;
     VecCopy(&this->position, pos);
     this->state = 0;
     this->frame = 0.0f;

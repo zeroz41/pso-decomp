@@ -133,11 +133,11 @@ void TObjEneShark::update_attack_trail() {
 }
 
 void TObjEneShark::apply_clamped_mode_param() {
-    s32 temp_r0;
-    temp_r0 = subtype;
-    if (temp_r0 < 0) {
+    s32 raw_subtype;
+    raw_subtype = subtype;
+    if (raw_subtype < 0) {
         subtype = 0;
-    } else if (temp_r0 > 2) {
+    } else if (raw_subtype > 2) {
         subtype = 2;
     }
     switch ((s32)subtype) {

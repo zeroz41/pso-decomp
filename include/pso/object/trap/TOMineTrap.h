@@ -9,6 +9,7 @@ struct TObjPlayer;
 extern "C" s32 fn_80171314(TObjPlayer *player);
 
 struct TOMineTrap : public TOMine {
+    static const char *class_name;
     // owner: the actor that placed it; kind 0-3 picks the attack; slot is its index among the owner's traps.
     TOMineTrap(TObjBase *owner, s16 kind, s16 slot);
     virtual ~TOMineTrap();
@@ -19,8 +20,8 @@ struct TOMineTrap : public TOMine {
     virtual const char *get_name();
     virtual void run_task();
     u8 _pad37C[0x2];
-    u16 m_37e;
-    s32 m_380;
+    u16 trap_number;
+    s32 owner_message_state;
     u16 get_trap_type();
     // Names inferred: the mode, the trap number 6x80 packets match, the instance flag set_instance writes.
     s16 get_mode();

@@ -205,7 +205,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     s32 k;
     for (k = 0; k < 2; k++) {
         TBoss6Type2Model *e = &body_models[k];
-        id = lbl_8047128C[k];
+        id = boss6_type2_body_model_indices[k];
         e->texlist = get_bml_texlist(archive, id);
         e->model = get_bml_model(archive, id);
     }
@@ -1222,7 +1222,7 @@ void TBoss6Type2::update_collision_bodies() {
         for (i = 0; i < 3; i++) {
             const Tbl_802BBE20 *t;
             e = &this->bodies[i];
-            t = &lbl_8047130C[i];
+            t = &boss6_type2_collision_body_nodes[i];
             base = NULL;
             switch (t->kind) {
             case 0:
@@ -1414,8 +1414,8 @@ void TBoss6Type2::create_mags(f32) {
     params.variant = variant;
     for (i = 0; i < 2; i++) {
         params.index = i;
-        params.x = x + lbl_8047133C[i];
-        params.z = z + lbl_8047133C[i];
+        params.x = x + boss6_type2_mag_spawn_offsets[i];
+        params.z = z + boss6_type2_mag_spawn_offsets[i];
         mags[i] = TBoss6Type2::create_mag(&params);
     }
     if (mags[0] == 0 || mags[1] == 0) {
@@ -1573,7 +1573,7 @@ void TBoss6Type2::request_player_camera_offsets(f32 a, f32 b) {
         t = 0.0f;
         while (fabs_float(t) <= lim) {
             flag = 0;
-            VecCopy(&off, &lbl_80471344);
+            VecCopy(&off, &boss6_type2_player_aim_offset);
             VecCopy(&pp, &p->position);
             pp.y += off.y;
             VecCopy(&me, &this->position);

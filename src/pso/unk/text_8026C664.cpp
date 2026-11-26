@@ -16,81 +16,66 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
-struct Stack_8026C708
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-  f32 sp14;
-  f32 sp18;
-  f32 sp1C;
-  f32 sp20;
-  f32 sp24;
-};
-
 extern "C" {
-void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
-  f32 buffer_8[8];
-  buffer_8[0] = farg0;
-  buffer_8[1] = farg1;
+void fn_8026C664(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
+  TexturedQuad quad;
+  quad.x0 = x;
+  quad.y0 = y;
   if (arrow_offset < 0.0f)
   {
-    buffer_8[0] = ((f32) ((double) farg0)) + arrow_offset;
+    quad.x0 = ((f32) ((double) x)) + arrow_offset;
   }
-  buffer_8[2] = 29.0f + buffer_8[0];
-  buffer_8[3] = 15.0f + buffer_8[1];
-  buffer_8[4] = 0.72265625f;
-  buffer_8[5] = 0.3984375f;
-  buffer_8[6] = 0.8359375f;
-  buffer_8[7] = 0.45703125f;
-  ((WindowDrawContext *)arg0)->transform_quad((TexturedQuad *)&buffer_8[0]);
-  draw_textured_quad_at_depth(&buffer_8[0], depth);
+  quad.x1 = 29.0f + quad.x0;
+  quad.y1 = 15.0f + quad.y0;
+  quad.u0 = 0.72265625f;
+  quad.v0 = 0.3984375f;
+  quad.u1 = 0.8359375f;
+  quad.v1 = 0.45703125f;
+  ((WindowDrawContext *)context)->transform_quad(&quad);
+  draw_textured_quad_at_depth(&quad.x0, depth);
 }
-typedef struct Stack_8026C708 Stack_8026C708;
-void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
+void fn_8026C708(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   float new_var;
-  Stack_8026C708 stack;
-  stack.sp8 = farg0;
-  stack.spC = farg1;
+  TexturedQuad quad;
+  quad.x0 = x;
+  quad.y0 = y;
   if (arrow_offset > 0.0f)
   {
-    stack.sp8 = ((f32) ((double) farg0)) + arrow_offset;
+    quad.x0 = ((f32) ((double) x)) + arrow_offset;
   }
-  stack.sp10 = 29.0f + stack.sp8;
-  new_var = 15.0f + stack.spC;
-  stack.sp14 = new_var;
-  stack.sp18 = 0.84375f;
-  stack.sp1C = 0.3984375f;
-  stack.sp20 = 0.95703125f;
-  stack.sp24 = 0.45703125f;
-  ((WindowDrawContext *)arg0)->transform_quad((TexturedQuad *)&stack.sp8);
-  draw_textured_quad_at_depth(&stack.sp8, depth);
+  quad.x1 = 29.0f + quad.x0;
+  new_var = 15.0f + quad.y0;
+  quad.y1 = new_var;
+  quad.u0 = 0.84375f;
+  quad.v0 = 0.3984375f;
+  quad.u1 = 0.95703125f;
+  quad.v1 = 0.45703125f;
+  ((WindowDrawContext *)context)->transform_quad(&quad);
+  draw_textured_quad_at_depth(&quad.x0, depth);
 }
 
-void text_builder_append_int(s32);
-void text_builder_append(u8 *str);
 }
 
 
-s32 fn_8026C7AC(void *arg0, s8 arg1) {
-    *(s8 *)((s8 *)arg0 + 0) = 0;
-    *(s8 *)((s8 *)arg0 + 1) = arg1;
+s32 fn_8026C7AC(void *indicator, s8 page) {
+    *(s8 *)((s8 *)indicator + 0) = 0;
+    *(s8 *)((s8 *)indicator + 1) = page;
     return 1;
 }
 
-s32 fn_8026C7C0(void *arg0, s8 arg1) {
-    u8 temp_r0;
+s32 fn_8026C7C0(void *indicator, s8 page) {
+    u8 old_page;
 
-    temp_r0 = *(u8 *)((s8 *)arg0 + 0);
-    if (arg1 == (s8) temp_r0) {
+    old_page = *(u8 *)((s8 *)indicator + 0);
+    if (page == (s8) old_page) {
         return 0;
     }
-    if (arg1 > (s8) temp_r0) {
-        *(f32 *)((s8 *)arg0 + 8) = (f32) 1e+01f;
+    if (page > (s8) old_page) {
+        *(f32 *)((s8 *)indicator + 8) = (f32) 1e+01f;
     } else {
-        *(f32 *)((s8 *)arg0 + 8) = (f32) (-1e+01f);
+        *(f32 *)((s8 *)indicator + 8) = (f32) (-1e+01f);
     }
-    *(u8 *)((s8 *)arg0 + 0) = (u8) arg1;
+    *(u8 *)((s8 *)indicator + 0) = (u8) page;
     return 1;
 }
 #pragma push

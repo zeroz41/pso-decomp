@@ -6,9 +6,6 @@
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/camera/TCameraCtrl.h"
 
-// One TU 0x800FD78C-0x800FD8B4: its .sbss 0x805D53A0-0x805D53B4 is one run (no pad inside) whose only user
-// here is fn_800FD8A0; the zero word at 0x805D53B4 before the 8-aligned 0x805D53B8 closes it (the next TU,
-// TObjRoomId_800FD8C8, owns 0x805D53B8-0x805D53C0). The fragments around it have no data of their own.
 s32 local_client_id;
 s32 actor_frame_tick;
 // Never stored: the control role create_player_object hands each local player (base + split-screen slot)
@@ -31,23 +28,23 @@ void FloorTransition::init_range(s32 floor) {
 
 // The validators pass the two packed floats of a position subcommand (x, z).
 u8 fn_800FD7C0(f32 *xz) {
-    int var_r31;
+    int result;
 
-    var_r31 = 0;
+    result = 0;
     if ((is_float_nonfinite(xz[0]) != 0) || (is_float_nonfinite(xz[1]) != 0)) {
-        var_r31 = 1;
+        result = 1;
     }
-    return (u8)var_r31;
+    return (u8)result;
 }
 
 s32 has_nonfinite_position(f32 *xz) {
-    int var_r31;
+    int result;
 
-    var_r31 = 0;
+    result = 0;
     if ((is_float_nonfinite(xz[0]) != 0) || (is_float_nonfinite(xz[1]) != 0)) {
-        var_r31 = 1;
+        result = 1;
     }
-    return (u8) var_r31;
+    return (u8) result;
 }
 
 
@@ -63,6 +60,6 @@ void TWindowCtrl::set_close_flag() {
     }
 }
 
-bool fn_800FD8A0(s32 arg0) {
-    return lbl_805D53B0 == arg0;
+bool fn_800FD8A0(s32 target) {
+    return lbl_805D53B0 == target;
 }

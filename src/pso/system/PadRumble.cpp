@@ -8,8 +8,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
-extern s32 local_client_id;
 
 static PadRumbleEffect pad_rumble_effect_slots[PAD_RUMBLE_EFFECT_COUNT];
 static PadRumbleChannel pad_rumble_channel_states[PAD_RUMBLE_CHANNEL_COUNT];

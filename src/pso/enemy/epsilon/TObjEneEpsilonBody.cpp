@@ -155,7 +155,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     }
     warp_emitter = NULL;
     emitter = NULL;
-    sub_800F5874(0x3F);
+    add_immunity_flags(0x3F);
 }
 
 TObjEneEpsilonBody::~TObjEneEpsilonBody() {

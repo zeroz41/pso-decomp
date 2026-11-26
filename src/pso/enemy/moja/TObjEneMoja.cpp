@@ -200,17 +200,17 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     add_flags_2e4(1);
     actorFlags |= 0x40000;
     sinkOffset = 0.0f;
-    unknown_398 = TAttackTraceStrip::create(0xFF303030, 0x0A303030);
+    attack_trace = TAttackTraceStrip::create(0xFF303030, 0x0A303030);
     for (s32 i = 0; i < 4; i++) {
-        unknown_39C[i].activate_and_dispatch();
+        camera_fades[i].activate_and_dispatch();
     }
     clear_lobby_object_state();
 }
 
 TObjEneMoja::~TObjEneMoja() {
-    if (unknown_398 != NULL) {
-        unknown_398->queue_destruction();
-        unknown_398 = NULL;
+    if (attack_trace != NULL) {
+        attack_trace->queue_destruction();
+        attack_trace = NULL;
     }
     free_collision_body_parts(this);
 }
@@ -384,7 +384,7 @@ void TObjEneMoja::render() {
     select_actor_lighting(this);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     id = model_render_flags;
-    fade = &unknown_39C[cam];
+    fade = &camera_fades[cam];
     saved_model_render_flags = id;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -617,15 +617,15 @@ void TObjEneMoja::update_appearance_jump() {
         rotate_matrix_y(0, rotation_y);
         rotate_vector_by_matrix(0, &off, &off);
         pop_matrices(1);
-        VecCopy((Vec *)&tmp, &home_position);
+        VecCopy(&tmp, &home_position);
         subtract_vector(&tmp, &off);
-        VecCopy(&position, (const Vec *)&tmp);
+        VecCopy(&position, &tmp);
         if (is_passing_frame(8.0f) == 0) {
             return;
         }
         VecCopy(&move_destination, &home_position);
         VecCopy(&move_origin, &position);
-        VecCopy((Vec *)&delta, &move_destination);
+        VecCopy(&delta, &move_destination);
         subtract_vector(&delta, &position);
         rotation_y = (s32)(10430.38043493439 * atan2_float(delta.x, delta.z));
         jumpSpeed = newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
@@ -975,7 +975,7 @@ void TObjEneMoja::update_punch_attack() {
                 rotate_matrix_y(0, rotation_y);
                 matrix_mult_vec_array(NULL, e, trail, 2);
                 pop_matrix();
-                trace = unknown_398;
+                trace = attack_trace;
                 if (trace != NULL) {
                     trace->add_segment(&trail[0], &trail[1]);
                 }
@@ -1065,9 +1065,9 @@ void TObjEneMoja::update_technique_state() {
                 enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->move_speed, this, rotation_y);
                 move_with_wall_slide(this);
             } else {
-                VecCopy((Vec *)&dir, (const Vec *)&target->body_center);
+                VecCopy(&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
-                a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
+                a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, &dir);
             }
             if (a < 0x100) {
                 phase = 1;
@@ -1088,9 +1088,9 @@ void TObjEneMoja::update_technique_state() {
             pop_matrices(1);
             vec3_add_to(&pos, &body_center);
             if (target != NULL) {
-                VecCopy((Vec *)&dir, (const Vec *)&target->body_center);
+                VecCopy(&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
-                ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
+                ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, &dir);
             } else {
                 ang2 = attack_params->get_attack_angle();
             }

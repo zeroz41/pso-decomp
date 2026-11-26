@@ -39,7 +39,7 @@ class TObjBase;
 
 extern "C" {
 // Copies position into object's TObjBase position.
-void TObjPlayer__sub_800A7774(TObjBase *object, const Vec *position);
+void set_object_position(TObjBase *object, const Vec *position);
 }
 
 #endif

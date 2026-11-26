@@ -43,8 +43,8 @@ extern Vec scratch_vec4;
 extern Vec scratch_vec5;
 extern "C" {
 
-s32 get_csn_group_flags(u8 arg0) {
-    return __ctype_map[arg0] & __letter;
+s32 get_csn_group_flags(u8 ch) {
+    return __ctype_map[ch] & __letter;
 }
 
 void TObjPlayer__sub_80079108(void) {  }
@@ -487,7 +487,7 @@ s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *
 
 #pragma push
 #pragma fp_contract on
-extern "C" CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **arg1, u32 mask) {
+extern "C" CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **out_groups, u32 mask) {
     f32 rr;
     f32 dz;
     f32 dx;
@@ -496,7 +496,7 @@ extern "C" CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **arg1, u3
     CsnGroup *m;
     CsnGroup **first;
     it = TObjMapCsn::get_collision_controller()->get_collision_groups();
-    first = arg1;
+    first = out_groups;
     while ((m = *it++) != 0) {
         if ((m->flags & mask) && !(m->flags & 0x40000000)) {
             dz = m->center.z - origin->z;
@@ -508,11 +508,11 @@ extern "C" CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **arg1, u3
                 if (n >= 0xF) {
                     break;
                 }
-                *arg1++ = m;
+                *out_groups++ = m;
             }
         }
     }
-    *arg1 = 0;
+    *out_groups = 0;
     return *first;
 }
 #pragma pop
@@ -835,7 +835,7 @@ void __construct_array(void *, void *, s32, s32, s32);
 extern "C" {
 
 void __sinit_CsnQuery_cpp(void) {
-    __construct_array(lbl_804FF9C0, (void *)init_csn_contact, 0, sizeof(CsnContact), 0x20);
+    __construct_array(lbl_804FF9C0, init_csn_contact, 0, sizeof(CsnContact), 0x20);
     lbl_80500140.init_and_return();
     csn_query_map_object.init();
 }

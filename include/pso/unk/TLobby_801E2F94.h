@@ -8,9 +8,9 @@
 #include "pso/render/Draw2D.h"
 
 extern "C" {
-s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2);
+s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr work);
 void TLobby__sub_801E3CF0(u32 *p);
-s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2);
+s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr work);
 }
 void reset_line_width(void);
 void set_line_width(int a0);
@@ -20,5 +20,15 @@ void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags);
 
 // Draw a model posed by a motion at a frame.
 void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
+
+struct Ctrl_801E352C {
+    u8 pad[4];
+    u32 *data;
+};
+
+struct DrawTransformedPrimitiveLines {
+    Vec *positions;
+    u32 *colors;
+};
 
 #endif

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/FloorPopulation.h"
 
 struct VBase_8020d1bc { char pad[0x18]; };
 struct VObj_8020d1bc : VBase_8020d1bc {
@@ -17,31 +18,31 @@ u8 *create_set_object_from_row(void *);
 extern s32 quest_object_entries;
 
 void TLobby::assign_objects_to_slots(u8 *rows, s32 object_count) {
-    s16 temp_r3;
-    s16 temp_r0;
-    u8 *ptr;
+    s16 flags;
+    s16 set_index;
+    FloorObjectSetRow *row;
     s32 i;
     u8 *set_object;
 
-    ptr = rows;
-    for (i = 0; i < object_count; i++, ptr += 0x44) {
-        temp_r3 = *(s16 *)((s8 *)ptr + 2);
-        if (!(temp_r3 & 8) && !(temp_r3 & 2) && (*(s16 *)((s8 *)ptr + 0) != -1) && ((temp_r3 & 0x10) || (temp_r3 & 1) || (*(s16 *)((s8 *)ptr + 0xA) == 0))) {
-            set_object = create_set_object_from_row(ptr);
+    row = (FloorObjectSetRow *)rows;
+    for (i = 0; i < object_count; i++, row++) {
+        flags = row->flags;
+        if (!(flags & 8) && !(flags & 2) && (row->type != -1) && ((flags & 0x10) || (flags & 1) || (row->placement.wave == 0))) {
+            set_object = create_set_object_from_row(row);
             if (set_object != NULL) {
-                *(void **)((s8 *)ptr + 0x40) = set_object;
-                *(s16 *)((s8 *)ptr + 2) = (s16) (*(s16 *)((s8 *)ptr + 2) | 2);
-                *(s16 *)((s8 *)set_object + 0x28) = (s16) *(s16 *)((s8 *)ptr + 0xC);
-                *(s16 *)((s8 *)set_object + 0x2C) = (s16) *(s16 *)((s8 *)ptr + 4);
-                *(void **)((s8 *)set_object + 0x80) = ptr;
-                temp_r0 = *(s16 *)((s8 *)set_object + 0x2C);
-                if (temp_r0 != -1) {
-                    ((VObj_8020d1bc *) set_object)->m4(quest_object_entries + (temp_r0 * 4), 0);
+                row->object = (TObject *)set_object;
+                row->flags = (s16) (row->flags | 2);
+                *(s16 *)((s8 *)set_object + 0x28) = row->placement.room;
+                *(s16 *)((s8 *)set_object + 0x2C) = row->placement.set_index;
+                *(void **)((s8 *)set_object + 0x80) = row;
+                set_index = *(s16 *)((s8 *)set_object + 0x2C);
+                if (set_index != -1) {
+                    ((VObj_8020d1bc *) set_object)->m4(quest_object_entries + (set_index * 4), 0);
                 }
             } else {
-                *(void **)((s8 *)ptr + 0x40) = NULL;
+                row->object = NULL;
             }
-            *(s16 *)((s8 *)ptr + 2) = (s16) (*(s16 *)((s8 *)ptr + 2) & 0xFFFFFFFE);
+            row->flags = (s16) (row->flags & 0xFFFFFFFE);
         }
     }
 }

@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit split off TDeadSpot float constants at 0x805DA380.
+// Data-only unit split off TDeadSpot float constants.
 
 
 __declspec(section ".sdata2") extern u32 lbl_805DA380[2] = {

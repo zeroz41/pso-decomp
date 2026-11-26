@@ -40,7 +40,7 @@ void TObjMistCtrl::sub_802AF64C() {
     }
 }
 
-const char *lbl_805D3E80 = "TObjMistCtrl";
+const char *TObjMistCtrl::class_name = "TObjMistCtrl";
 
 void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
 
@@ -51,11 +51,11 @@ TObjMistCtrl::~TObjMistCtrl() {
 
 
 TObjMistCtrl::TObjMistCtrl(saddr parent, uaddr set_data) : TObjBase((TObject *)((void *)parent)) {
-    this->m_name = lbl_805D3E80;
+    this->m_name = TObjMistCtrl::class_name;
     if (set_data != 0U) {
         ((TObjMistCtrl *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     }
-    *(saddr *)((s8 *)this + 0x90) = (saddr)spawn_continuous_particle_effect_with_flags((((u8 *)this) + 0x38), 0x200, 0x800);
+    *(saddr *)((s8 *)this + 0x90) = (saddr)spawn_continuous_particle_effect_with_flags((&this->position), 0x200, 0x800);
 }
 
 __declspec(section ".rodata") Vec lbl_804707E8 = { 0, 0, -1.0f };

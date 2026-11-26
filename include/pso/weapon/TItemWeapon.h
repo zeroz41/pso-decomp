@@ -112,7 +112,7 @@ struct TItemWeapon : public TItemEquipBase {
     // Timer callback of on_equip: sets flag 8 unless the item is on the ground.
     void set_flag_8_unless_on_ground();
     // Calls impact_callback (if set) with the task layer, this, and both arguments.
-    void call_impact_callback(saddr arg1, saddr arg2);
+    void call_impact_callback(saddr target, saddr extra);
     void set_model_node_callback(void (*callback)(NJS_OBJECT *));
     void advance_weapon_photon_phase();
     // The photon colour (blended by photon_phase), white when the weapon has none.

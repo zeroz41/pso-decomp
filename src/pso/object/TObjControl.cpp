@@ -42,6 +42,8 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 // The enemy's row of the floor's set data (what set_entry points at).
@@ -52,7 +54,7 @@ struct EnemySetData {
 extern "C" {
 
 
-extern uaddr TObjPlayer__data_8050D460[];
+extern uaddr registered_object_table[];
 
 
 
@@ -62,9 +64,7 @@ extern uaddr TObjPlayer__data_8050D460[];
 
 
 
-s32 is_split_screen();
 
-s32 get_current_floor();
 
 
 
@@ -87,7 +87,6 @@ int send_6x60_standard_drop_item_request(void*);
 
 s32 draw_player_status(void *, void *, const char *);
 
-s32 submit_cursor_candidate(void *, int);
 }
 
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
@@ -176,9 +175,6 @@ void TLobby::clear_flag_on_phase_e() {
 void TLobby__sub_800F7744(void) {  }
 
 s32 TObjEnemy::bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
-    f32 temp_f31;
-    f32 temp_f31_2;
-    f32 temp_f31_3;
     s16 atp;
     s16 atp_range;
     s16 evp;
@@ -363,46 +359,42 @@ void TObjEneBeastBase::link_into_group_chain() {
 
 #undef FIND_TAIL_800F7118
 void TObjEneBeastBase::unlink_enemy_group_relations() {
-    TObjEnemy *temp_r0;
-    TObjEnemy *temp_r0_2;
+    TObjEnemy *next_kids1;
     TObjEnemy *children;
-    TObjEnemy *temp_r0_4;
-    TObjEnemy *temp_r0_5;
-    TObjEnemy *temp_r0_6;
-    TObjEnemy *temp_r0_7;
-    TObjEnemy *temp_r0_8;
-    TObjEnemy *temp_r0_9;
-    TObjEnemy *temp_r4;
-    TObjEnemy *temp_r4_2;
-    TObjEnemy *temp_r4_3;
-    TObjEnemy *temp_r4_4;
-    TObjEnemy *temp_r4_5;
+    TObjEnemy *next_kids2;
+    TObjEnemy *prev_kids3;
+    TObjEnemy *next_kids4;
+    TObjEnemy *next1;
+    TObjEnemy *next2;
+    TObjEnemy *kids3;
+    TObjEnemy *next4;
+    TObjEnemy *kids5;
     TObjEnemy *group;
-    TObjEnemy *temp_r5_2;
+    TObjEnemy *kids1;
     TObjEnemy *previous;
-    TObjEnemy *temp_r5_4;
-    TObjEnemy *temp_r5_5;
-    TObjEnemy *var_r5;
-    TObjEnemy *var_r6;
-    TObjEnemy *var_r6_2;
-    TObjEnemy *var_r6_3;
+    TObjEnemy *kids2;
+    TObjEnemy *kids4;
+    TObjEnemy *tail3;
+    TObjEnemy *tail1;
+    TObjEnemy *tail2;
+    TObjEnemy *tail4;
     group = this->group;
     if (group != NULL) {
-        temp_r4 = this->next;
-        if (temp_r4 != NULL) {
-            temp_r5_2 = this->children;
-            if (temp_r5_2 != NULL) {
-                temp_r0 = temp_r4->children;
-                if (temp_r0 != NULL) {
-                    var_r6 = temp_r0;
-                    while (var_r6->next != NULL) {
-                        var_r6 = var_r6->next;
+        next1 = this->next;
+        if (next1 != NULL) {
+            kids1 = this->children;
+            if (kids1 != NULL) {
+                next_kids1 = next1->children;
+                if (next_kids1 != NULL) {
+                    tail1 = next_kids1;
+                    while (tail1->next != NULL) {
+                        tail1 = tail1->next;
                     }
-                    var_r6->next = temp_r5_2;
+                    tail1->next = kids1;
                     this->children->group = NULL;
-                    this->children->previous = var_r6;
+                    this->children->previous = tail1;
                 } else {
-                    temp_r4->children = temp_r5_2;
+                    next1->children = kids1;
                     this->children->group = this->next;
                 }
             }
@@ -421,69 +413,69 @@ void TObjEneBeastBase::unlink_enemy_group_relations() {
     } else {
         previous = this->previous;
         if (previous != NULL) {
-            temp_r4_2 = this->next;
-            if (temp_r4_2 != NULL) {
-                temp_r5_4 = this->children;
-                if (temp_r5_4 != NULL) {
-                    temp_r0_4 = temp_r4_2->children;
-                    if (temp_r0_4 != NULL) {
-                        var_r6_2 = temp_r0_4;
-                        while (var_r6_2->next != NULL) {
-                            var_r6_2 = var_r6_2->next;
+            next2 = this->next;
+            if (next2 != NULL) {
+                kids2 = this->children;
+                if (kids2 != NULL) {
+                    next_kids2 = next2->children;
+                    if (next_kids2 != NULL) {
+                        tail2 = next_kids2;
+                        while (tail2->next != NULL) {
+                            tail2 = tail2->next;
                         }
-                        var_r6_2->next = temp_r5_4;
+                        tail2->next = kids2;
                         this->children->group = NULL;
-                        this->children->previous = var_r6_2;
+                        this->children->previous = tail2;
                     } else {
-                        temp_r4_2->children = temp_r5_4;
+                        next2->children = kids2;
                         this->children->group = this->next;
                     }
                 }
                 this->previous->next = this->next;
                 this->next->previous = this->previous;
             } else {
-                temp_r4_3 = this->children;
-                if (temp_r4_3 != NULL) {
-                    temp_r0_6 = previous->children;
-                    if (temp_r0_6 != NULL) {
-                        var_r5 = temp_r0_6;
-                        while (var_r5->next != NULL) {
-                            var_r5 = var_r5->next;
+                kids3 = this->children;
+                if (kids3 != NULL) {
+                    prev_kids3 = previous->children;
+                    if (prev_kids3 != NULL) {
+                        tail3 = prev_kids3;
+                        while (tail3->next != NULL) {
+                            tail3 = tail3->next;
                         }
-                        var_r5->next = temp_r4_3;
+                        tail3->next = kids3;
                         this->children->group = NULL;
-                        this->children->previous = var_r5;
+                        this->children->previous = tail3;
                     } else {
-                        previous->children = temp_r4_3;
+                        previous->children = kids3;
                         this->children->group = this->previous;
                     }
                 }
                 this->previous->next = NULL;
             }
         } else {
-            temp_r4_4 = this->next;
-            if (temp_r4_4 != NULL) {
-                temp_r5_5 = this->children;
-                if (temp_r5_5 != NULL) {
-                    temp_r0_8 = temp_r4_4->children;
-                    if (temp_r0_8 != NULL) {
-                        var_r6_3 = temp_r0_8;
-                        while (var_r6_3->next != NULL) {
-                            var_r6_3 = var_r6_3->next;
+            next4 = this->next;
+            if (next4 != NULL) {
+                kids4 = this->children;
+                if (kids4 != NULL) {
+                    next_kids4 = next4->children;
+                    if (next_kids4 != NULL) {
+                        tail4 = next_kids4;
+                        while (tail4->next != NULL) {
+                            tail4 = tail4->next;
                         }
-                        var_r6_3->next = temp_r5_5;
+                        tail4->next = kids4;
                         this->children->group = NULL;
-                        this->children->previous = var_r6_3;
+                        this->children->previous = tail4;
                     } else {
-                        temp_r4_4->children = temp_r5_5;
+                        next4->children = kids4;
                         this->children->group = this->next;
                     }
                 }
                 this->next->previous = NULL;
             } else {
-                temp_r4_5 = this->children;
-                if (temp_r4_5 != NULL) {
-                    temp_r4_5->group = NULL;
+                kids5 = this->children;
+                if (kids5 != NULL) {
+                    kids5->group = NULL;
                 }
             }
         }
@@ -560,7 +552,7 @@ void TObjEnemy::award_enemy_experience(u16 client) {
         }
     }
     p->add_actor_exp(val);
-    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
+    create_font_small_task(&this->body_center, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
 }
 
 void TObjEnemy::distribute_experience() {
@@ -585,23 +577,23 @@ int TObjEnemy::query_lobby_state() { return send_6x60_standard_drop_item_request
 
 void TObjEnemy::refresh_lobby_state() { distribute_experience(); query_lobby_state(); }
 
-TObjChara *get_enemy_entity(u16 arg0) {
+TObjChara *get_enemy_entity(u16 entity_id) {
     s32 low;
     s32 mid;
     s32 high;
-    if (arg0 >= 0x1000 && arg0 < 0x4000) {
+    if (entity_id >= 0x1000 && entity_id < 0x4000) {
         high = (registered_player_count + registered_enemy_count) - 1;
         low = registered_player_count;
         while (low < high) {
             mid = (low + high) / 2;
-            if (((TObjBase *)TObjPlayer__data_8050D460[mid])->get_entity_id() < arg0) {
+            if (((TObjBase *)registered_object_table[mid])->get_entity_id() < entity_id) {
                 low = mid + 1;
             } else {
                 high = mid;
             }
         }
-        TObjChara *e = reinterpret_cast<TObjChara *>(TObjPlayer__data_8050D460[low]);
-        if (e != 0 && arg0 == e->get_entity_id()) {
+        TObjChara *e = reinterpret_cast<TObjChara *>(registered_object_table[low]);
+        if (e != 0 && entity_id == e->get_entity_id()) {
             return e;
         }
     }
@@ -630,15 +622,15 @@ void TObjEnemy::apply_enemy_state(s32 *state) {
     apply_hit_message_flags(state);
 }
 
-void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
-    EnemyStateRecord *arg1 = (EnemyStateRecord *)arg1_arg;
+void TObjEnemy::apply_hit_message_flags(void *state_data) {
+    EnemyStateRecord *record = (EnemyStateRecord *)state_data;
     s32 flags;
     StatStatusReceipt p;
-    this->hp = this->hpmax - arg1->damage;
+    this->hp = this->hpmax - record->damage;
     if (game_difficulty_selection == 3) {
-        flags = arg1->flags & ~0x3F;
+        flags = record->flags & ~0x3F;
     } else {
-        flags = arg1->flags;
+        flags = record->flags;
         if ((flags & 2) && test_actor_flags(2) == 0) {
             this->apply_paralysis();
         }
@@ -653,10 +645,10 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
         }
     }
     set_actor_flags(flags);
-    p.kind = arg1->attack_status;
-    p.power = arg1->attack_status_level;
-    arg1->attack_status = 0;
-    arg1->attack_status_level = 0;
+    p.kind = record->attack_status;
+    p.power = record->attack_status_level;
+    record->attack_status = 0;
+    record->attack_status_level = 0;
     switch (p.kind) {
     case 9:
     case 11: {
@@ -665,10 +657,10 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
         break;
     }
     }
-    p.kind = arg1->defense_status;
-    p.power = arg1->defense_status_level;
-    arg1->defense_status = 0;
-    arg1->defense_status_level = 0;
+    p.kind = record->defense_status;
+    p.power = record->defense_status_level;
+    record->defense_status = 0;
+    record->defense_status_level = 0;
     switch (p.kind) {
     case 10:
     case 12: {

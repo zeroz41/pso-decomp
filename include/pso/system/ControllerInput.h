@@ -23,7 +23,7 @@ extern "C" {
 s32 TKeyBoardControl__sub_801A58B0(void);
 s32 TKeyBoardControl__sub_801A58D8(void);
 s32 update_state_from_input__16TKeyBoardControlFPv(u8 key);
-void fn_801A6A28(ControllerInputContext *pad, u32 mask, u32 previous);
+void set_stick_button_bits(ControllerInputContext *pad, u32 mask, u32 previous);
 }
 void map_c_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous);
 void map_main_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous);

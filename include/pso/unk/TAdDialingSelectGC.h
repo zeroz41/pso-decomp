@@ -28,4 +28,8 @@ public:
 };
 LAYOUT_ASSERT(TAdDialingSelectGC_size, sizeof(TAdDialingSelectGC) == 0x30);
 
+typedef struct DialingWindowPos {
+    f32 a, b;
+} DialingWindowPos;
+
 #endif

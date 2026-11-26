@@ -5,7 +5,7 @@
 
 // Relocates a loaded data block in place through a temporary resource file
 // object (the same pass as apply_rel_relocations) and returns its root.
-uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1) {
+uaddr relocate_data_block_pointers(uaddr data, u32 size) {
     TRelDataFile c;
     u16 *idx;
     uaddr p;
@@ -13,8 +13,8 @@ uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1) {
     u32 i;
     u32 n;
     uaddr r;
-    c.data = (u8 *)arg0;
-    c.size = arg1;
+    c.data = (u8 *)data;
+    c.size = size;
     h = (RelFileTrailer *)((uaddr)c.data + c.size) - 1;
     p = (uaddr)c.data;
     idx = (u16 *)(h->reloc_offset + (uaddr)c.data);

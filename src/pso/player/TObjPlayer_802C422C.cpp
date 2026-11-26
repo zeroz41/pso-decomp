@@ -59,7 +59,7 @@ void TPlyCharData::copy_from_player(TObjPlayer *player) {
     copy_player_visual_record(&m_disp_part2, player->name);
     m_inventory.m_num_items = player->query_state_if_present(m_inventory.get_items());
     player->inventory_objects->set_flag_and_update(player);
-    player->clamp_stats(&m_stats, TObjPlayer::get_class_stat_entry((u8 *)player));
+    player->clamp_stats(&m_stats, player->get_class_stat_entry());
     m_inventory.m_hp_materials_used = player->get_hp_material_points();
     m_inventory.m_tp_materials_used = player->get_tp_materials_clamped();
     set_power_materials_used(player->get_power_materials_used());

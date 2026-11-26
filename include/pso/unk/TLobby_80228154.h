@@ -9,8 +9,13 @@ struct NJS_SPRITE;
 
 extern "C" {
 void TLobby__sub_80228154(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
-void load_area_scene_and_init(u8 *arg0);
+void load_area_scene_and_init(u8 *transition);
 }
 // --- end of C functions
+
+struct TLobbyScreenQuad {
+    f32 x0, y0, x1, y1;
+    f32 u0, v0, u1, v1;
+};
 
 #endif

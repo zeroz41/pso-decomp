@@ -6,7 +6,7 @@
 #include "pso/technique/TTecShot.h"
 
 struct TTecZonde : public TTecShot {
-    TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level);
+    TTecZonde(s32 source, u8 *origin, u8 *targets, s32 level);
     virtual ~TTecZonde();
     virtual void apply_to_target(TObjChara *);
     void init_parameters();

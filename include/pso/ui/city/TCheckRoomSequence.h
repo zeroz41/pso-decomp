@@ -40,10 +40,10 @@ struct TCheckRoomSequence : public TShopSequence {
     void open_get_item_window();
     void handle_withdraw_choice();
     void accept_meseta_withdrawal();
-    void sub_802100FC();
-    void sub_802100F8();
+    void noop_state_14();
+    void noop_state_15();
     void handle_error_ack();
-    void sub_8020F1DC();
+    void noop_state_17();
     void set_quest_list_mode_19();
     void open_delete_item_window();
     void close_extra_window();

@@ -20,16 +20,13 @@ struct TOSwitchTimer : public TObjBase {
     u8 trigger_state;    // the trigger switch's state last frame
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
+    static void free_assets();
+    static void load_assets();
     u8 unk_B1[0x3];
     s32 floor;
 };
 
 LAYOUT_ASSERT(TOSwitchTimer_size, sizeof(TOSwitchTimer) == 0xB8);
-
-extern "C" {
-void TOSwitchTimer__sub_80178584(void);
-void TOSwitchTimer__sub_80178588(void);
-}
 
 #endif

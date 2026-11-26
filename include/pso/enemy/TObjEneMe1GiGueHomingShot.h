@@ -9,7 +9,7 @@ class TParticleCtrl;
 struct GiGueShotAngles { s32 x, y, z; };
 
 // GiGue's homing shot: waits `timer` frames, then flies from *start toward target_id and hits it
-// (made by TObjEneMe1GiGue::sub_802CB824; the vtable at 0x804E14E8 overrides only the dtor and run_task).
+// It overrides only the dtor and run_task (made by TObjEneMe1GiGue::sub_802CB824).
 class TObjEneMe1GiGueHomingShot : public TObjCollidable {
 public:
     TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id);

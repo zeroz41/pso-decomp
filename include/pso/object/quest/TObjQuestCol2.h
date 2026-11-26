@@ -10,8 +10,8 @@ struct TObjQuestCol2 : public TObjQuestColBase {
     virtual int is_triggered();
     virtual TQuestThread *start_quest_thread();
     virtual ~TObjQuestCol2();
-    TQuestManager *thread_root;  // quest_mission_manager or quest_area_manager, per m_c0 (inferred name)
-    s32 m_c0;
+    TQuestManager *thread_root;  // quest_mission_manager or quest_area_manager, per manager_kind (inferred name)
+    s32 manager_kind;
     static void *create(void *set_data);
 };
 

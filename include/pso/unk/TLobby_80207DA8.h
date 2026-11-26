@@ -35,17 +35,35 @@ u16 read_stream_u16(void);
 unsigned char read_stream_u8(void);
 void request_wave_event_stop(void);
 extern "C" {
-void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0);
+void run_floor_cleanup_callbacks__6TLobbyFi(s32 floor);
 }
 s32 run_floor_initialize_callbacks(s32 floor);
 s32 run_wave_event_actions(void);
-void send_6x05_wave_clear_switch(s32 arg0);
-void send_6x05_wave_set_switch(s16 arg0);
-void send_6x67_wave_trigger_event(s32 arg0);
+void send_6x05_wave_clear_switch(s32 switch_id);
+void send_6x05_wave_set_switch(s16 switch_id);
+void send_6x67_wave_trigger_event(s32 event_id);
 s32 set_floor_event_flags(s32 floor, s32 id, s32 flags);
 extern "C" {
 int spawn_objects_at_pos__6TLobbyFPv(void *p);
 }
 void swap_object_row_endian(void *row_ptr);
+
+struct FloorSceneEntry {
+    const char **names;
+    s32 count;
+};
+
+struct Send6x05WaveSetSwitchPacket { u8 hdr[2]; u16 a; s16 b; s16 pad; s16 c; s8 d; s8 e; };
+
+struct Send6x05WaveClearSwitchPacket {
+    u8 cmd;
+    u8 size;
+    u16 a;
+    u16 b;
+    u16 pad;
+    u16 c;
+    u8 d;
+    u8 e;
+};
 
 #endif

@@ -5,7 +5,7 @@
 
 // --- C functions defined in AdxLock.cpp ---
 extern "C" {
-void TLobby__sub_803C4698(void);
+void reset_init_ref_count(void);
 }
 // --- end of C functions
 

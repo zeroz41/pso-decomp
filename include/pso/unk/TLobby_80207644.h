@@ -27,4 +27,8 @@ saddr get_floor_area(s32 floor);
 s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities);
 void set_floor_map_variant(s32 floor, s32 terrain);
 
+struct TLobbyIds { s32 w[18]; };
+
+struct GetBossWarpDestinationTable { s32 w[2][18]; };
+
 #endif

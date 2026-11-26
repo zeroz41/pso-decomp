@@ -33,9 +33,6 @@
 
 
 
-extern "C" {
-}
-
 const char *sin_board_class_name = "TObjSinBoard";
 
 void *sin_board_texture_buffer;

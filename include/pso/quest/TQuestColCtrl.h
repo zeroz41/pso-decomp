@@ -35,7 +35,7 @@ struct TQuestColCtrl : public TObject {
     static TObjQuestColBase *find_by_id(u16 entity_id);
     static void delete_by_param(s32 id);
     static void init();
-    static void sub_80196EC0();  // clears quest_collision_warp_pending
+    static void clear_warp_pending();  // clears quest_collision_warp_pending
 };
 
 LAYOUT_ASSERT(TQuestColCtrl_size, sizeof(TQuestColCtrl) == 0x1C);

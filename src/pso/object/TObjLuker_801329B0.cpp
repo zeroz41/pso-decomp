@@ -28,16 +28,16 @@ saddr get_floor_destination_name(u32 area) {
 
 const char *TObjLuker::get_stat_table_entry(int a0) { return luker_stat_entry_ptr_table[a0]; }
 saddr enemy_name_for_rt_index(s32 rt_index) {
-    s32 var_r3;
-    var_r3 = rt_index;
-    if (var_r3 < 0) {
-        var_r3 = 0;
+    s32 index;
+    index = rt_index;
+    if (index < 0) {
+        index = 0;
     }
-    if (var_r3 >= 0x58) {
-        var_r3 = 0;
+    if (index >= 0x58) {
+        index = 0;
     }
     if ((s32) game_difficulty_selection >= 3) {
-        return *(saddr *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0xC)) + (var_r3 * 4));
+        return *(saddr *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0xC)) + (index * 4));
     }
-    return *(saddr *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 8)) + (var_r3 * 4));
+    return *(saddr *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 8)) + (index * 4));
 }

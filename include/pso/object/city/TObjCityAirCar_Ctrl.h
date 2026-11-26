@@ -8,6 +8,7 @@ class TObjCityAirCar_Car;
 // Spawns the city's air cars, at most two per lane.
 class TObjCityAirCar_Ctrl : public TObject {
 public:
+    static const char *class_name;
     struct Lane {
         s32 timer;  // frames to the next spawn
         s32 count;

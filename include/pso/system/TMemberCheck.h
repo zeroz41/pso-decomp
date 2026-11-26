@@ -8,6 +8,7 @@ class TWindowCheckBox;
 
 class TMemberCheck : public TObject {
 public:
+    static s32 previous_member_count;
     TMemberCheck(TObject* parent);
     virtual ~TMemberCheck();
     void update_member_proximity();

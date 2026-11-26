@@ -182,11 +182,8 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 // Kept here: the owner headers (TObjCharaHelpers.h, text_800FD930.h)
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
 // return, and these callers zero-extend an int result.
-void apply_actor_gravity(TObjEnemy *enemy, s32 *, f32 hover_height);
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
-f32 atan2_float(f32 y, f32 x);
 s32 lappy_variant_id;
 }
 BmlResource *rappy_bml_resource;
@@ -550,7 +547,7 @@ void TObjEneLappy::update_moving() {
     if ((actorFlags & 0x1000) && !(lappy_flags & 2)) {
         chased = target;
         if (chased != NULL) {
-            enemy_backstep_from_point(this, ((TObjChara *)chased)->body_center, ((LappyMovementParameters *)movementParameters)->move_speed);
+            enemy_backstep_from_point(this, (chased)->body_center, ((LappyMovementParameters *)movementParameters)->move_speed);
             turn_toward_direction(((LappyMovementParameters *)movementParameters)->turn_speed, &velocity);
             apply_actor_gravity(this, NULL, 0.0f);
             update_collisions();
@@ -563,7 +560,7 @@ void TObjEneLappy::update_moving() {
         case 0:
             chased = target;
             if (chased != NULL) {
-                dist = update_enemy_wander_move(this, ((TObjChara *)chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
+                dist = update_enemy_wander_move(this, (chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
                 if ((test_actor_flags(2) == 0) && (dist < 10000.0f)) {
                     move_phase = 1;
                     pad_398 = 0;
@@ -584,7 +581,7 @@ void TObjEneLappy::update_moving() {
         case 1:
             chased = target;
             if (chased != NULL) {
-                dist = update_enemy_wander_move(this, ((TObjChara *)chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
+                dist = update_enemy_wander_move(this, (chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
                 if (dist > 22500.0f) {
                     move_phase = 0;
                 }
@@ -633,9 +630,7 @@ void TObjEneLappy::update_moving() {
                     dust_timer = 2;
                 }
                 play_persistent_sound(remap_sound_for_area(0x3AF12), this, &position, 0, 0);
-                goto block_47;
             }
-block_47:
             apply_actor_gravity(this, NULL, 0.0f);
             refresh_collision_body_centers();
             return;

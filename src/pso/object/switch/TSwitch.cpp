@@ -8,14 +8,14 @@
 void TSwitch::render() {  }
 void TSwitch::run_task() {  }
 
-u8 TSwitch__floor_switch_table[18][32];
+u8 TSwitch::floor_switch_table[18][32];
 
 void restore_switch_table(saddr src, s32 arg1) {
-    memcpy(TSwitch__floor_switch_table, (void *)src, arg1);
+    memcpy(TSwitch::floor_switch_table, (void *)src, arg1);
 }
 
 u32 copy_switch_table(void* destination) {
-    memcpy(destination, TSwitch__floor_switch_table, 0x240);
+    memcpy(destination, TSwitch::floor_switch_table, 0x240);
     return 0x240;
 }
 
@@ -30,7 +30,7 @@ s32 get_floor_switch_flag(u32 id, s16 floor) {
         return -1;
     }
     id++;
-    row = TSwitch__floor_switch_table[floor];
+    row = TSwitch::floor_switch_table[floor];
     idx = (u16)id / 8;
     bit = (u16)id % 8;
     if (bit > 0) {
@@ -62,7 +62,7 @@ void clear_floor_switch_flag(u32 id, s16 floor) {
         return;
     }
     id++;
-    row = TSwitch__floor_switch_table[floor];
+    row = TSwitch::floor_switch_table[floor];
     idx = (u16)id / 8;
     bit = (u16)id % 8;
     if (bit != 0) {
@@ -87,7 +87,7 @@ void set_floor_switch_flag(u32 id, s16 floor) {
         return;
     }
     id++;
-    row = TSwitch__floor_switch_table[floor];
+    row = TSwitch::floor_switch_table[floor];
     idx = (u16)id / 8;
     bit = (u16)id % 8;
     if (bit > 0) {
@@ -108,10 +108,10 @@ TSwitch::TSwitch(TObject *parent) : TObject(parent) {
     m_24 = 0;
 }
 void clear_switch_table(void) {
-    memset((void *) TSwitch__floor_switch_table, 0, 0x240);
+    memset(TSwitch::floor_switch_table, 0, 0x240);
 }
 void init_switch_table(void) {
-    memset((void *) TSwitch__floor_switch_table, 0, 0x240);
+    memset(TSwitch::floor_switch_table, 0, 0x240);
 }
 
 TSwitch::~TSwitch() {}

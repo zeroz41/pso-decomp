@@ -22,16 +22,8 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800FA464.h"
 
-typedef struct Entry_802A1020 {
-    const char *file;
-    u32 size;
-    u32 crc;
-} Entry_802A1020;
 
 s32 opening_movie_selector = 1;
-extern "C" {
-void request_main_phase(s32 phase);
-}
 extern "C" {
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
 }

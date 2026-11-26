@@ -47,16 +47,14 @@ typedef struct AudioStreamGetWriteWindowState {
 struct Rec_803C0018 { u8 state; u8 pad[0x9B]; };
 
 
-RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
+AudioStreamInputPool audio_stream_input_pool;
 
 extern "C" {
 void adxb_exec_wav_pcm16(AdxbDecoder *adxb);
 void adxb_exec_wav_split16(AdxbDecoder *adxb);
 void adxb_exec_wav_pcm8(AdxbDecoder *adxb);
 
-void sub_803C0018(void);
 void decode_audio_stream_step(AudioStreamInputState *st);
-void process_audio_stream_input(AudioStreamInputState *st);
 u8 *AudioStreamInputState::get_offset_58() {
     return header;
 }
@@ -118,8 +116,8 @@ struct AudioStreamGetOutputSamplesObject;
 void sub_803C0018(void) {
     s32 i;
     for (i = 0; i < 0x10; i++) {
-        if ((s32)((Rec_803C0018 *)&lbl_80570AC0)[i].state == 1) {
-            process_audio_stream_input((AudioStreamInputState *)(&((Rec_803C0018 *)&lbl_80570AC0)[i]));
+        if ((s32)((Rec_803C0018 *)&audio_stream_input_pool)[i].state == 1) {
+            process_audio_stream_input((AudioStreamInputState *)(&((Rec_803C0018 *)&audio_stream_input_pool)[i]));
         }
     }
 }
@@ -263,29 +261,29 @@ void decode_audio_stream_step(AudioStreamInputState *st) {
     }
 }
 
-s16 *audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
-    AudioStreamGetWriteWindowState *arg0 = (AudioStreamGetWriteWindowState *)arg0_;
+s16 *audio_stream_get_write_window(void *state_ptr, s32 *out_offset, s32 *out_available, s32 *out_remaining) {
+    AudioStreamGetWriteWindowState *state = (AudioStreamGetWriteWindowState *)state_ptr;
     saddr h;
     s32 i;
     s32 t;
     s32 v;
-    h = (saddr)arg0->objs[0];
-    for (i = 0; i < arg0->decoder->get_channels(); i++) {
-        arg0->objs[i]->vt->fn18(arg0->objs[i], 0, 0x4000, &arg0->recs[i]);
+    h = (saddr)state->objs[0];
+    for (i = 0; i < state->decoder->get_channels(); i++) {
+        state->objs[i]->vt->fn18(state->objs[i], 0, 0x4000, &state->recs[i]);
     }
-    *arg1 = (arg0->recs[0].a - (saddr)sj_ring_buffer_get_buffer((SjRingBuffer*)h)) / 2;
-    v = arg0->f38;
-    t = arg0->recs[0].b / 2;
+    *out_offset = (state->recs[0].a - (saddr)sj_ring_buffer_get_buffer((SjRingBuffer*)h)) / 2;
+    v = state->f38;
+    t = state->recs[0].b / 2;
     if (t < v) {
         v = t;
     }
-    *arg2 = v;
-    if (arg0->f3C >= 0) {
-        *arg3 = arg0->f3C - arg0->f40;
+    *out_available = v;
+    if (state->f3C >= 0) {
+        *out_remaining = state->f3C - state->f40;
     } else {
-        *arg3 = 0x1FFFFFFF;
+        *out_remaining = 0x1FFFFFFF;
     }
-    return arg0->decoder->get_output_buffer();
+    return state->decoder->get_output_buffer();
 }
 
 void AudioStreamInputState::reset_flag() {
@@ -334,14 +332,14 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
     SjRingBuffer *ring = rings[0];
     s32 size;
     for (i = 0; i < 0x10; i++) {
-        if (((AudioStreamInputState *)&lbl_80570AC0)[i].in_use == 0) {
+        if (((AudioStreamInputState *)&audio_stream_input_pool)[i].in_use == 0) {
             break;
         }
     }
     if (i == 0x10) {
         return NULL;
     }
-    st = &((AudioStreamInputState *)&lbl_80570AC0)[i];
+    st = &((AudioStreamInputState *)&audio_stream_input_pool)[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
     st->decoder = AdxbDecoder::alloc_record(channels, (saddr)buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
@@ -373,11 +371,11 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
 }
 
 void adxb_finish(void) {
-    memset((void *) (&lbl_80570AC0.value), 0, 0x9C0);
+    memset((&audio_stream_input_pool.value), 0, 0x9C0);
 }
 void adxb_init(void) {
     AdxbDecoder::clear_pool();
-    memset(&lbl_80570AC0.value, 0, 0x9C0);
+    memset(&audio_stream_input_pool.value, 0, 0x9C0);
 }
 void adxb_exec_one_wav(AdxbDecoder *adxb) {
     s16 encoding;
@@ -550,9 +548,9 @@ s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
 
 typedef void (*RecoveredCallback_1268626c296b)(void *);
 
-s32 (*lbl_805D7510)();
-RecoveredCallback_1268626c296b lbl_805D7514;
-extern s32 (*lbl_805D7510)();
+s32 (*ahx_exec_callback)();
+RecoveredCallback_1268626c296b ahx_notify_callback;
+extern s32 (*ahx_exec_callback)();
 
 
 // "fmt " chunk of a WAVE file.
@@ -592,7 +590,7 @@ s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
     s32 data_size;
     s16 payload_offset;
     for (offset = 0; offset < size; ++offset) {
-        if (memcmp((void *)(buffer + offset), wav_fmt_chunk_id, 4) == 0) {
+        if (memcmp((buffer + offset), wav_fmt_chunk_id, 4) == 0) {
             break;
         }
     }
@@ -607,7 +605,7 @@ s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
         return -1;
     }
     for (offset = 0; offset < size; ++offset) {
-        if (memcmp((void *)(buffer + offset), wav_data_chunk_id, 4) == 0) {
+        if (memcmp((buffer + offset), wav_data_chunk_id, 4) == 0) {
             break;
         }
     }
@@ -652,7 +650,7 @@ s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
 #undef WAVE_SWAP32
 
 void adxb_exec_one_ahx(AdxbDecoder *adxb) {
-    lbl_805D7510();
+    ahx_exec_callback();
 }
 void AdxbDecoder::set_max_samples(s32 limit) {
     max_samples = limit;
@@ -660,7 +658,7 @@ void AdxbDecoder::set_max_samples(s32 limit) {
 }
 void AdxbDecoder::invoke_notify_callback() {
     if (ahx_handle != NULL) {
-        lbl_805D7514(ahx_handle);
+        ahx_notify_callback(ahx_handle);
     }
 }
 

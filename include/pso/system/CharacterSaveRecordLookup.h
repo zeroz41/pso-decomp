@@ -46,7 +46,8 @@ struct CharacterSaveRecord {
     u32 save_count;         // raised before every save; the copy with the higher count is newer
     u8 account[0x1C];       // the account's entry, copied in when the character is created
     u8 user_name[0x10];
-    u8 pad_44[0x248 - 0x44];
+    u8 pad_44[0x244 - 0x44];
+    s32 death_count;        // raised when a local player dies (enter_death_state)
     s32 bank_item_count;    // rows of bank_items in use
     s32 pad_24C;
     BankItemRecord bank_items[200];
@@ -60,7 +61,7 @@ struct CharacterSaveRecord {
     u8 pad_22C4[0x22EC - 0x22C4];
     // Choice search settings, sent in C2/C3 and with the character data.
     ChoiceSearchSelection choice_search[5];
-    u8 pad_2314[0x2354 - 0x2314];
+    s32 quest_counters[16];  // the quest counter opcodes (write_counter, read_counter) read and write these
     // Split-screen battles finished in each place (first to fourth), and battles left early.
     u16 battle_place_counts[4];
     u16 battle_disconnect_count;
@@ -70,6 +71,7 @@ struct CharacterSaveRecord {
 LAYOUT_ASSERT(CharacterSaveRecord_online_battle, offsetof(CharacterSaveRecord, online_battle) == 0x21A8);
 LAYOUT_ASSERT(CharacterSaveRecord_challenge, offsetof(CharacterSaveRecord, challenge) == 0x21C4);
 LAYOUT_ASSERT(CharacterSaveRecord_choice_search, offsetof(CharacterSaveRecord, choice_search) == 0x22EC);
+LAYOUT_ASSERT(CharacterSaveRecord_quest_counters, offsetof(CharacterSaveRecord, quest_counters) == 0x2314);
 LAYOUT_ASSERT(CharacterSaveRecord_battle_place_counts, offsetof(CharacterSaveRecord, battle_place_counts) == 0x2354);
 LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);
 

@@ -3,62 +3,14 @@
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/unk/text_803F4D84.h"
 #include "pso/network/TLobby.h"
-typedef struct NetConfigSlot {
-    s16 v;
-    u8 pad[0x26];
-} NetConfigSlot;
-
-typedef struct NetConfigRecord {
-    char name[0x80];
-    char name2[0x20];
-    s32 f1B8;
-    s32 f1BC;
-    u8 padA8[0xEE - 0xA8];
-    s16 kind;
-    u8 f208;
-    u8 padF1[3];
-    char str20C[0x20];
-    char strs[3][0x20];
-    u8 pad174[4];
-    char str290[0x20];
-    u8 f2B0;
-    u8 pad199[3];
-    s32 f2B4;
-    u8 pad1A0[0x210 - 0x1A0];
-} NetConfigRecord;
-
-typedef struct NetConfigBuffer {
-    s16 f0;
-    s16 cur;
-    u8 pad4[0x24];
-    NetConfigSlot ent[6];
-    NetConfigRecord rec[6];
-} NetConfigBuffer;
 
 
-struct NetConfigRecordData { u8 pad[0xEE]; s16 state; u8 pad2[0xB0]; u8 data[4]; u8 pad3[0x210 - 0x1A4]; };
 
-struct NetConfigDataView { u8 pad0[2]; s16 cur; u8 pad4[0x24]; NetConfigSlot recs[6]; NetConfigRecordData ents[6]; };
 
-struct NetConfigSlotWord { s16 v; s16 w; u8 pad[0x24]; };
 
-struct NetConfigRecordNames {
-    u8 pad0[0xEE];
-    s16 state;
-    u8 pad1[0xB0];
-    u8 data0[4];
-    u8 data1[4];
-    char name[0x210 - 0x1A8];
-};
 
-struct NetConfigStringSet {
-    char s0[0x40];
-    char s1[0x40];
-    char s2[0x40];
-    char s3[0x20];
-    char s4[0x20];
-    char s5[0x24];
-};
+
+
 
 struct NetConfigBufferView {
     u8 pad0[2];
@@ -74,9 +26,7 @@ struct NetConfigBufferView {
     } u;
 };
 
-struct NetConfigRecordVersion { u8 pad[0xEC]; u16 v; s16 state; u8 pad2[0x210 - 0xF0]; };
 
-struct NetConfigVersionView { u8 pad0[2]; s16 cur; u8 pad4[0x24]; NetConfigSlot recs[6]; NetConfigRecordVersion ents[6]; };
 
 
 extern NetConfigBuffer *lobby_net_config_buffer;
@@ -389,7 +339,7 @@ s32 TLobby__sub_803F5748(void *dst) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5824(void *arg0) {
+s32 TLobby__sub_803F5824(void *dst) {
     if (get_network_config_mode() == 0) return -1;
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) return -5;
     NetConfigDataView *s = (*(NetConfigDataView * *)&lobby_net_config_buffer); s16 i;
@@ -398,7 +348,7 @@ s32 TLobby__sub_803F5824(void *arg0) {
     i = s->recs[i].v;
     if (i < 0 || i >= 6) return -3;
     if (s->ents[i].state != 4) return -3;
-    memcpy(arg0, s->ents[i].data, 4);
+    memcpy(dst, s->ents[i].data, 4);
     return 0;
 }
 #pragma pop
@@ -406,7 +356,7 @@ s32 TLobby__sub_803F5824(void *arg0) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5900(void *arg0) {
+s32 TLobby__sub_803F5900(void *dst) {
     NetConfigBufferView *s;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -427,7 +377,7 @@ s32 TLobby__sub_803F5900(void *arg0) {
     if (s->u.ents[i].state != 4) {
         return -3;
     }
-    memcpy(arg0, s->u.ents[i].data1, 4);
+    memcpy(dst, s->u.ents[i].data1, 4);
     return 0;
 }
 #pragma pop
@@ -654,7 +604,7 @@ s32 TLobby__sub_803F6138(char *buf, s32 n) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F6270(u16 *arg0) {
+s32 TLobby__sub_803F6270(u16 *out) {
     NetConfigVersionView *s;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -672,7 +622,7 @@ s32 TLobby__sub_803F6270(u16 *arg0) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    *arg0 = s->ents[i].v;
+    *out = s->ents[i].v;
     return 0;
 }
 #pragma pop

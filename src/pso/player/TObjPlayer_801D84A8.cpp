@@ -20,7 +20,7 @@ u8 get_cast_technique_level(void *, int);
 s32 get_game_play_mode();
 extern "C" {
 
-s32 TObjPlayer__sub_801AF694(void *, s32);
+s32 is_trap_stock_empty(void *, s32);
 s32 get_empty_action_entry(void *);
 }
 void TPlyDispConfigSmth::init() {
@@ -222,7 +222,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
             }
             switch (arg) {
             case 0xd:
-                if (TObjPlayer__sub_801AF694(this, 0) != 0) {
+                if (is_trap_stock_empty(this, 0) != 0) {
                     return 0;
                 }
                 if (TWindowCtrl::is_client_countdown_done(get_entity_id()) == 0) {
@@ -230,7 +230,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
                 }
                 break;
             case 0xe:
-                if (TObjPlayer__sub_801AF694(this, 1) != 0) {
+                if (is_trap_stock_empty(this, 1) != 0) {
                     return 0;
                 }
                 if (TWindowCtrl::is_client_countdown_done(get_entity_id()) == 0) {
@@ -238,7 +238,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
                 }
                 break;
             case 0xf:
-                if (TObjPlayer__sub_801AF694(this, 2) != 0) {
+                if (is_trap_stock_empty(this, 2) != 0) {
                     return 0;
                 }
                 if (TWindowCtrl::is_client_countdown_done(get_entity_id()) == 0) {
@@ -246,7 +246,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
                 }
                 break;
             case 0x10:
-                if (TObjPlayer__sub_801AF694(this, 3) != 0) {
+                if (is_trap_stock_empty(this, 3) != 0) {
                     return 0;
                 }
                 if (TWindowCtrl::is_client_countdown_done(get_entity_id()) == 0) {

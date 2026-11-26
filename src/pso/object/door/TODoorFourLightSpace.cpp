@@ -24,6 +24,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -43,7 +44,6 @@ struct Tbl_80289EE0 { s32 v[8]; };
 
 
 extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
 u8 is_current_floor_switch_set(u16);
 void fn_802898E8(void);
 void fn_802898EC(void);
@@ -101,7 +101,7 @@ void TODoorFourLightRuins::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -109,7 +109,7 @@ void TODoorFourLightRuins::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -184,7 +184,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
 }
 
 void TODoorFourLightRuins::update_door_switch_state() {
-    s16 sp8;
+    s16 saved_state;
     s32 off;
     s32 i;
     s32 off2;
@@ -224,10 +224,10 @@ void TODoorFourLightRuins::update_door_switch_state() {
             this->play_door_sound();
             this->door_flags |= 1;
         }
-        if (off2 == 0 && this->set_entry != 0 && this->access_object_saved_state(&sp8, 1) == 1) {
-            sp8 = 1;
-            this->send_object_state_update(&sp8);
-            this->access_object_saved_state(&sp8, 0);
+        if (off2 == 0 && this->set_entry != 0 && this->access_object_saved_state(&saved_state, 1) == 1) {
+            saved_state = 1;
+            this->send_object_state_update(&saved_state);
+            this->access_object_saved_state(&saved_state, 0);
         }
         break;
     default:
@@ -301,7 +301,7 @@ void TODoorFourLightSpace::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -309,7 +309,7 @@ void TODoorFourLightSpace::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -393,7 +393,7 @@ void TODoorFourLightSpace::draw_lights() {
 }
 
 void TODoorFourLightSpace::update_door_switch_state() {
-    s16 sp8;
+    s16 saved_state;
     s32 fail;
     s32 i;
     switch (this->lock_mode) {
@@ -432,10 +432,10 @@ void TODoorFourLightSpace::update_door_switch_state() {
                 this->door_flags &= ~1;
             }
             if (bad == 0 && this->set_entry != 0 &&
-                this->access_object_saved_state(&sp8, 1) == 1) {
-                sp8 = 1;
-                this->send_object_state_update(&sp8);
-                this->access_object_saved_state(&sp8, 0);
+                this->access_object_saved_state(&saved_state, 1) == 1) {
+                saved_state = 1;
+                this->send_object_state_update(&saved_state);
+                this->access_object_saved_state(&saved_state, 0);
             }
         }
         break;

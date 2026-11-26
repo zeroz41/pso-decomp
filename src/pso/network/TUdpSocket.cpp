@@ -50,7 +50,7 @@ short TUdpSocket::send(u8 *data, size_t size) {
     u16 port;
     dst.family = 4;
     dst.ipv4 = m_dst_addr.addr;
-    TLobby__sub_8014672C((s32 *)&m_src_addr);
+    get_local_ip_address((s32 *)&m_src_addr);
     src.family = 4;
     src.ipv4 = m_src_addr.addr;
     options.family = 4;
@@ -72,7 +72,7 @@ short TUdpSocket::send(u8 *data) {
     u16 port;
     dst.family = 4;
     dst.ipv4 = m_dst_addr.addr;
-    TLobby__sub_8014672C((s32 *)&m_src_addr);
+    get_local_ip_address((s32 *)&m_src_addr);
     src.family = 4;
     src.ipv4 = m_src_addr.addr;
     options.family = 4;

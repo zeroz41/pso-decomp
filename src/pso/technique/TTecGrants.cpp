@@ -54,8 +54,8 @@ void draw_ginja_object(void);
 
 // One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
 // TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
-NJS_TEXNAME lbl_80516140[1];
-NJS_TEXLIST lbl_804CC868 = { lbl_80516140, 1 };
+NJS_TEXNAME grants_ring_texname[1];
+NJS_TEXLIST grants_ring_texlist = { grants_ring_texname, 1 };
 
 // ---- pso/unk/text_80232B24
 
@@ -101,11 +101,11 @@ const char *tec_grants_class_name = "TTecGrants";
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 #pragma defer_codegen on
 
-TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr target_list, saddr level) : TTecCircle(arg1, origin, level) {
+TTecGrants::TTecGrants(saddr owner, saddr origin, saddr target_list, saddr level) : TTecCircle(owner, origin, level) {
     m_name = tec_grants_class_name;
     init_parameters();
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
-    m_148 = 0;
+    frames = 0;
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
     }
@@ -127,11 +127,11 @@ void TTecGrants::run_task() {
         return;
     }
     entity = (uaddr)find_entity_by_id(targets.records[0].id);
-    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (m_148 == 0)) {
+    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (frames == 0)) {
         new TTecGrantsEffect((u8 *)entity, level, tl_07);
     }
-    m_148 = m_148 + 1;
-    if (m_148 > 0x1E) {
+    frames = frames + 1;
+    if (frames > 0x1E) {
         if ((entity != 0) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
             apply_to_target((TObjChara *)entity);
         }
@@ -312,7 +312,7 @@ void TTecGrantsFlash::render() {
         get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    init_texture_copy_rect(&ctx, &lbl_804CC868, &technique_ringwave_texture_list, 0, frame + 1);
+    init_texture_copy_rect(&ctx, &grants_ring_texlist, &technique_ringwave_texture_list, 0, frame + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
     Quad_80232934 q = { 0, 0, 0, 0 };
     approach_alpha_clamped(&color.a, (const f32 *)&q, 0.1f);
@@ -328,7 +328,7 @@ void TTecGrantsFlash::render() {
     post_translate_matrix(&position.x);
     scale_matrix(0, scale.x, scale.y, scale.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
-    TObjFish::set_global_param(&lbl_804CC868);
+    TObjFish::set_global_param(&grants_ring_texlist);
     get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();

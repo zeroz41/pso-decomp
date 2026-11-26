@@ -714,7 +714,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     collider = new TObjCollidable(NULL);
     init_collision_body_parts(collider, &epsilon_guard_model_desc[1], 1);
     emitter = NULL;
-    sub_800F5874(0x3F);
+    add_immunity_flags(0x3F);
 }
 
 TObjEneEpsilonGuard::TObjEneEpsilonGuard(TObject *parent, TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle)

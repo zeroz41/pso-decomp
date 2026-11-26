@@ -61,7 +61,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void play_move_sound();
     s32 attack_visible_players();
     s32 target_farthest_visible_player();
-    s32 update_flag_0x3C0();
+    s32 update_held_target();
     s32 check_rush_hits();
     void update_attack_child();
     void init_enemy();

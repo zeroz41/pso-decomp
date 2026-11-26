@@ -101,22 +101,22 @@ void TODoorAncient01::render() {
         if (object_state == DOOR_CLOSED) {
             NJS_OBJECT *node = (NJS_OBJECT *)model;
             post_translate_matrix(node->pos);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
             node = node->child;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
             pop_matrix();
             TParticleCtrl::begin_effect_render();
             node = node->sibling;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
             pop_matrix();
             node = node->sibling;
             push_matrix();
             post_translate_matrix(node->pos);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
             pop_matrix();
             TParticleCtrl::end_effect_render();
         } else {

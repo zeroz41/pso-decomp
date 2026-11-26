@@ -4,9 +4,11 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowMenu;
+
 class TObjItemNameSelect : public TObject {
 public:
-    void *selection_menu;
+    TWindowMenu *selection_menu;
     void *message_window;
 
     TObjItemNameSelect(TObject *parent);

@@ -17,7 +17,7 @@ extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *);
 void TAdMultiConfirmGC__sub_802E0448(void *);
 s32 fn_802E0454(void *);
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 group, s32 id);
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;

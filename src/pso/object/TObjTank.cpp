@@ -43,7 +43,7 @@ void TObjTank::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)tank_bml_resource, 0)));
+        draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(tank_bml_resource, 0)));
         pop_matrix();
     }
 }
@@ -55,17 +55,15 @@ TObjTank::~TObjTank() {
 }
 
 
-#define arg0 ((u8 *)this)
-TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
-    *(saddr *)((s8 *)arg0 + 0) = (saddr) tank_class_name;
-    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
-    copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
-    VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));
-    init_collision_body_parts(arg0, &tobjtank_collision_body_parts, 1);
-    ((TObjTank *)arg0)->actorFlags = (s32) (((TObjTank *)arg0)->actorFlags | 0x40000000);
-    ((TObjPlayer *)arg0)->register_object_by_id();
+TObjTank::TObjTank(TObject *parent, saddr set_data) : TObjCollidable(parent) {
+    this->m_name = tank_class_name;
+    VecCopy(&this->position, (const Vec *)(set_data + 0xC));
+    copy_xyz(&this->rotation_x, (void *)(set_data + 0x18));
+    VecCopy(&this->scale, (const Vec *)(set_data + 0x24));
+    init_collision_body_parts(this, &tobjtank_collision_body_parts, 1);
+    this->actorFlags = (s32) (this->actorFlags | 0x40000000);
+    this->register_object_by_id();
 }
-#undef arg0
 
 void *TObjTank::create(void *set_data) {
     return new TObjTank(tl_05, (saddr)set_data);
@@ -78,12 +76,12 @@ void TObjTank::free_globals() {
         tank_texture_list = NULL;
     }
     if (tank_bml_resource != NULL) {
-        delete (BmlResource *)tank_bml_resource;
+        delete tank_bml_resource;
         tank_bml_resource = NULL;
     }
 }
 void TObjTank::load_globals() {
-    BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tank_resource_descriptor, 0, 0, NULL);
+    BmlResource *storage = new BmlResource(5, &fs_obj_tank_resource_descriptor, 0, 0, NULL);
     tank_bml_resource = storage;
     tank_texture_list = LoadPvmFileTls("fs_obj_tank.GVM");
 }

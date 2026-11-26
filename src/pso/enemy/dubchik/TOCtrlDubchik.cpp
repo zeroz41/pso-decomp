@@ -133,28 +133,28 @@ void TOCtrlDubchik::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1] + part_spread, node->pos[2]);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         push_matrix();
         node = node->sibling;
         translate_matrix(0, node->pos[0], node->pos[1] - part_spread, node->pos[2]);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         push_matrix();
         node = node->sibling;
         post_translate_matrix(node->pos);
         rotate_matrix_y(NULL, spin_angle);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         node = node->child;
         post_translate_matrix(node->pos);
         scale_matrix(NULL, effect_scale, 1.0f, effect_scale);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -332,7 +332,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
 void TOCtrlDubchik::run_demo_task() {  }
 
 // Dead-stripped from the DOL: no code of it survives. The TU's .sdata2 pool opens
-// with 0.0 (0x805DB3A8) ahead of receive_weapon_special_attack's 1.0 although that
+// with 0.0 ahead of receive_weapon_special_attack's 1.0 although that
 // function loads 1.0 first, so a function before it used 0.0 first. Minimal body:
 // it clears the two part offsets the constructor zeroes and render reads.
 // Name inferred from that role.

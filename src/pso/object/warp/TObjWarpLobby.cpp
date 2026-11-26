@@ -171,12 +171,12 @@ TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(par
 
 
 void TObjWarpLobby::release_static() {
-    delete (BmlResource *)lobby_warp_bml_resource;
+    delete lobby_warp_bml_resource;
     lobby_warp_bml_resource = NULL;
 }
 
 void TObjWarpLobby::load_resources() {
-    BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&warp_lobby_resource_descriptor, 0, 0, NULL);
+    BmlResource *resource = new BmlResource(1, &warp_lobby_resource_descriptor, 0, 0, NULL);
     lobby_warp_bml_resource = resource;
     lobby_warp_textures = lobby_warp_bml_resource->models[0].texlist;
 }

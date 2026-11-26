@@ -67,7 +67,7 @@ void TAdFloorLoadCamGC::run_task() {
     this->up.x += dx;
     this->up.y += dy;
     this->up.z += dz;
-    VecCopy((Vec *)&up, (const Vec *)&this->up);
+    VecCopy(&up, (const Vec *)&this->up);
     if (vec_squared_length(&this->up) == (*(const f32 *)&floor_load_cam_zero)) {
         up.y = 1.0f;
     } else {

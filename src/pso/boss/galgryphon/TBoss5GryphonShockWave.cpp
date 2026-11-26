@@ -23,7 +23,7 @@
 #include "pso/math/MatrixTransforms.h"
 
 static const s32 lbl_80437F40[3] = {0x208, 0x20A, 0x20B};
-const char *lbl_805D2818 = "TBoss5GryphonShockWave";
+const char *TBoss5GryphonShockWave::class_name = "TBoss5GryphonShockWave";
 
 extern "C" {
 const s32 *gryphon_shockwave_particle_ids_ptr;
@@ -84,7 +84,7 @@ TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *parent, TBoss5Gryphon *o
                                                Vec *velocity, u16 target_client_id)
     : TObject(parent) {
     Vec to_target;
-    m_name = lbl_805D2818;
+    m_name = TBoss5GryphonShockWave::class_name;
     VecCopy(&this->path[0].pos, origin);
     VecCopy(&this->path[1].pos, origin);
     vec3_add_to(&this->path[1].pos, velocity);

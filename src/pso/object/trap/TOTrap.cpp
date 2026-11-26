@@ -16,7 +16,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
 
-const char *lbl_805D3198 = "TOTrap";
+const char *TOTrap::class_name = "TOTrap";
 
 
 f32 TOTrap::scale_by_table_value(f32 table_value) {
@@ -199,7 +199,7 @@ void TOTrap::render() {
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object(this->model);
             } else {
-                draw_model_motion((void *)this->model, (void *)this->current_motion, this->frame);
+                draw_model_motion(this->model, this->current_motion, this->frame);
             }
             pop_matrix();
         }
@@ -212,7 +212,7 @@ void TOTrap::render() {
 TOTrap::~TOTrap() {}
 
 TOTrap::TOTrap(TObject *parent) : TObjChara(parent) {
-    m_name = lbl_805D3198;
+    m_name = TOTrap::class_name;
     range = dist = 0.0f;
     player = 0xFFFF;
     m_340 = 1;

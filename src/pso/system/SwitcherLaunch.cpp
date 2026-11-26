@@ -43,7 +43,6 @@ s16 lbl_805D4EBC;
 s16 disc_error_code;
 s32 lbl_805D4EC0;
 s32 lbl_805D4EC4;
-void init_disc_error_messages(void);
 #pragma push
 // O2 preserves the retail argument setup with the shared declarations.
 #pragma optimization_level 2

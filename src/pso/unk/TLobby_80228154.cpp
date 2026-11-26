@@ -28,10 +28,6 @@ extern "C" {
 
 
 // The screen quad draw_textured_quad_at_depth reads.
-struct TLobbyScreenQuad {
-    f32 x0, y0, x1, y1;
-    f32 u0, v0, u1, v1;
-};
 
 union TLobbySpriteColor {
     struct { u8 a, r, g, b; } channels;
@@ -223,13 +219,13 @@ void run_area_scene_cleanup(FloorTransition *transition) {
 }
 
 
-void load_area_scene_and_init(u8 *arg0) {
+void load_area_scene_and_init(u8 *transition) {
     FloorMapSelection selection;
     FloorMapSelection *selection_ptr;
     s32 value;
     u8 *trans;
-    trans = arg0;
-    value = *(s32 *)((s8 *)arg0 + 4);
+    trans = transition;
+    value = *(s32 *)((s8 *)transition + 4);
     set_current_floor_area((value));
     value = *(s32 *)((s8 *)trans + 0x10);
     TScene::set_scene(value);

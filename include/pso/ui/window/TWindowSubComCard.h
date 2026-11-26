@@ -59,7 +59,7 @@ struct TWindowSubComCard : public TObject {
     uaddr entry_list_window;
     TKeyBoardControl *keyboard;
     TWindowSubComCardList *card_list;
-    static saddr get_card_slot(s32 arg0);
+    static saddr get_card_slot(s32 index);
     static void *send_command(saddr index);
     static u8 *apply_selection(s32 index);
     static saddr get_com_count();

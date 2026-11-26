@@ -244,8 +244,8 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
 }
 #pragma pool_data reset
 
-void TAdChrSelASlotGC::sub_8030CBD0() {}
-void TAdChrSelASlotGC::sub_8030CBD4() {}
+void TAdChrSelASlotGC::run_state_20() {}
+void TAdChrSelASlotGC::run_state_19() {}
 void TAdChrSelASlotGC::update_load_state() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
         if ((u32) (TAdPlayerLoadGC::get_load_result(0) + 0x10000) == 0xFF81U) {
@@ -270,7 +270,7 @@ void TAdChrSelASlotGC::init_selection() {
     TAdSinglePlyChrSelectGC__sub_801FDAAC();
     this->state = 0x10;
 }
-void TAdChrSelASlotGC::sub_8030CCE0() {}
+void TAdChrSelASlotGC::run_state_14() {}
 
 #pragma pool_data off
 void TAdChrSelASlotGC::populate_slot_entries() {
@@ -685,13 +685,13 @@ void TAdChrSelASlotGC::run_task() {
         &TAdChrSelASlotGC::update_window_78,
         &TAdChrSelASlotGC::push_plate_positions,
         &TAdChrSelASlotGC::populate_slot_entries,
-        &TAdChrSelASlotGC::sub_8030CCE0,
+        &TAdChrSelASlotGC::run_state_14,
         &TAdChrSelASlotGC::init_selection,
         &TAdChrSelASlotGC::check_load_state,
         &TAdChrSelASlotGC::set_state,
         &TAdChrSelASlotGC::update_load_state,
-        &TAdChrSelASlotGC::sub_8030CBD4,
-        &TAdChrSelASlotGC::sub_8030CBD0,
+        &TAdChrSelASlotGC::run_state_19,
+        &TAdChrSelASlotGC::run_state_20,
     };
     (this->*handlers[this->state])();
     if (this->state != this->prev_state) {

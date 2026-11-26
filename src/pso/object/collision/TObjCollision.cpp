@@ -8,52 +8,50 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
 
-extern "C" {
-u32 init_collision_body_parts(void *, saddr, s32);
-}
-const char *lbl_805D2830 = "TObjCollision";
+const char *TObjCollision::class_name = "TObjCollision";
 
 void TObjCollision::render() {  }
 void TObjCollision::run_task() {  }
 
 
-void *TObjCollision::create(void *arg0) {
-    return new TObjCollision(tl_06, arg0);
+void *TObjCollision::create(void *set_data) {
+    return new TObjCollision(tl_06, set_data);
 }
 TObjCollision::~TObjCollision() {
     free_collision_body_parts(this);
     this->unregister_object_by_id();
 }
 
-TObjCollision::TObjCollision(TObject *parent, void *arg2_) : TObjCollidable(parent) {
-    s32 var_r0;
-    saddr arg2 = (saddr)arg2_;
-    this->m_name = lbl_805D2830;
-    VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0xC));
-    copy_xyz(((u8 *)this) + 0x5C, (void *)(arg2 + 0x18));
-    VecCopy((Vec *)(((u8 *)this) + 0x68), (const Vec *)(arg2 + 0x24));
+TObjCollision::TObjCollision(TObject *parent, void *set_data) : TObjCollidable(parent) {
+    s32 flag;
+    saddr data = (saddr)set_data;
+    this->m_name = TObjCollision::class_name;
+    VecCopy(&this->position, (const Vec *)(data + 0xC));
+    copy_xyz(&this->rotation_x, (void *)(data + 0x18));
+    VecCopy(&this->scale, (const Vec *)(data + 0x24));
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    *(f32 *)((s8 *)((u8 *)this) + 0xAC) = 0.0f;
-    *(f32 *)((s8 *)((u8 *)this) + 0xB0) = 0.0f;
-    this->m_b4 = 0.0f;
-    *(f32 *)((s8 *)((u8 *)this) + 0xB8) = (f32) this->scale.x;
-    this->m_bc = (f32) this->scale.y;
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x70) < 0.0f) {
-        var_r0 = 1;
+    this->body.offset.x = 0.0f;
+    this->body.offset.y = 0.0f;
+    this->body.offset.z = 0.0f;
+    this->body.radius = (f32) this->scale.x;
+    this->body.half_width = (f32) this->scale.y;
+    if (this->scale.z < 0.0f) {
+        flag = 1;
     } else {
-        var_r0 = 0;
+        flag = 0;
     }
-    this->m_c0 = var_r0;
-    this->m_c4 = 0x10001;
-    if (fabs_float(*(f32 *)((s8 *)((u8 *)this) + 0x70)) < 1000.0f) {
-        this->m_c4 = (s32) (this->m_c4 & 0xFFFFFEFF);
+    this->body.shape = flag;
+    this->body.flags = 0x10001;
+    if (fabs_float(this->scale.z) < 1000.0f) {
+        this->body.flags = (s32) (this->body.flags & 0xFFFFFEFF);
     } else {
-        this->m_c4 = (s32) (this->m_c4 | 0x100);
+        this->body.flags = (s32) (this->body.flags | 0x100);
     }
-    init_collision_body_parts(((u8 *)this), (saddr)(((u8 *)this) + 0xAC), 1);
+    init_collision_body_parts(this, &this->body, 1);
     this->register_object_by_id();
 }
 

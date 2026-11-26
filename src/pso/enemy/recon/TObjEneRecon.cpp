@@ -52,6 +52,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 #pragma readonly_strings on
 
@@ -219,7 +220,6 @@ void TObjEneRecon::advance_intro_stage(NJS_OBJECT *) {
 
 void TObjEneRecon::run_demo_task() {  }
 
-extern s32 actor_frame_tick;
 void TObjEneRecon::update_ground_probe() {
     Vec probe;
     CsnHit *hit;
@@ -682,7 +682,7 @@ void TObjEneRecon::state_attack(s32 reason) {
                 requested_action = 2;
                 play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A808), &position, 0, 0);
             }
-            update_flag_0x444();
+            update_flag2_from_ground_contact();
             break;
         case 2:
             if (is_passing_frame(3.0f) != 0 || is_passing_frame((f32)(4.0f)) != 0) {
@@ -712,7 +712,7 @@ void TObjEneRecon::state_attack(s32 reason) {
             if (get_flag_b4() != 0) {
                 state_step = 3;
             }
-            update_flag_0x444();
+            update_flag2_from_ground_contact();
             break;
         }
         check_collisions();
@@ -835,7 +835,7 @@ void TObjEneRecon::state_launch(s32 reason) {
             }
             break;
         }
-        update_flag_0x444();
+        update_flag2_from_ground_contact();
         prev_position.x = body_center.x;
         prev_position.z = body_center.z;
         clamp_min_height();
@@ -1035,7 +1035,7 @@ void TObjEneRecon::set_flag2(f32 x, f32 z, f32 r) {
     recon_flags &= ~2;
 }
 
-void TObjEneRecon::update_flag_0x444() {
+void TObjEneRecon::update_flag2_from_ground_contact() {
     if (update_ground_contact() != 0U) {
         recon_flags |= 2;
         return;

@@ -382,7 +382,7 @@ s32 TWindowCtrlPlayer::is_countdown_done() {
 
 void TWindowCtrlPlayer::start_countdown() { this->countdown = 60; }
 
-void TWindowCtrlMain__sub_8024D838(void) { TWindowCtrlMain::reset_all((void*)((void*)(0))); }
+void TWindowCtrlMain__sub_8024D838(void) { TWindowCtrlMain::reset_all(((void*)(0))); }
 
 void TWindowCtrlMain::reset_all(void* _w0) {
     s32 i;

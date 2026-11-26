@@ -15,26 +15,23 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 
-struct Elem_80128A74 { u8 pad[0x1c]; u8 position[0x2c - 0x1c]; };
-
-struct Obj_80128A74 { u8 pad[0xa4]; Elem_80128A74 *elems; s32 count; };
-
 extern "C" {
-Obj_80128A74 *find_entity_by_id(s32);
+TObjCollidable *find_entity_by_id(s32);
 
 void TObjPlayer__sub_80128A70(void) {  }
 
 void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
-    Obj_80128A74 *o;
+    TObjCollidable *o;
     TItemWeaponSRankPunch::clear_rico_ring_flag((TObject *)player);
     o = find_entity_by_id(target_id);
-    if (o != 0 && o->elems != 0 && body < o->count) {
-        spawn_particle_effect((const Vec *)o->elems[body].position, 0x45);
+    if (o != 0 && o->bodies != 0 && body < o->body_count) {
+        spawn_particle_effect(&o->bodies[body].center, 0x45);
     }
 }
 
@@ -53,8 +50,8 @@ void TItemShootSRankPunch::render() {
         push_matrix();
         set_texlist(texture_list);
         post_translate_matrix(&m_pos.x);
-        rotate_matrix_y(NULL, m_count);
-        rotate_matrix_x(NULL, m_28 - 0x4000);
+        rotate_matrix_y(NULL, rot_y);
+        rotate_matrix_x(NULL, rot_x - 0x4000);
         draw_ginja_object(model);
         pop_matrix();
     }

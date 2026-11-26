@@ -64,18 +64,6 @@
 
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/object/base/TObjBase.h"
-extern "C" {
-
-
-
-
-
-
-
-
-
-}
-
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -112,55 +100,6 @@ extern "C" {
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/TDeadSpot.h"
-extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
 extern "C" {
 
 

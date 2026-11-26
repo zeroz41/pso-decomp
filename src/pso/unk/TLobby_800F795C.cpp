@@ -129,10 +129,10 @@ void TLobby::bswap_field() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 
 void TLobby::broadcast_state() { bswap_field(); send_subcommand((u8 *)this); }
 }
 
-void init_6x9C_enemy_low_game_flags_packet(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(u8 *)((s8 *)arg0 + 0) = 0x9C;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void init_6x9C_enemy_low_game_flags_packet(u8 *packet) {
+    *(s32 *)((s8 *)packet + 4) = 0;
+    *(u8 *)((s8 *)packet + 0) = 0x9C;
+    *(s8 *)((s8 *)packet + 1) = 2;
 }
 
 void TLobby::bswap_enemy_state() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
@@ -356,7 +356,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_10[11] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_11[6] = {
     { TDeadSpot::load_resource, TDeadSpot::free_resource },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { TBoss1DragonDemo__sub_8002B690, TBoss1DragonDemo__sub_8002B68C },
+    { TBoss1DragonDemo::load_assets, TBoss1DragonDemo::free_assets },
     { TBoss1Dragon::load_resources, TBoss1Dragon::free_resources },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },

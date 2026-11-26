@@ -301,7 +301,7 @@ s32 ntUtlExSetDialType(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->unk_13C = value;
+    shared_memory_connect_param->dial_type = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }

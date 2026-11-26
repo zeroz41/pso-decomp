@@ -126,7 +126,7 @@ void TMemberCheck::open_member_name_window() {
         ((TWindowBase *)member_window)->close();
         member_window = 0;
     }
-    member_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0xBD), (const void *)member_name_window_pos);
+    member_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0xBD), member_name_window_pos);
     if (member_window != 0) {
         member_window->set_flag_40();
         member_window->set_close_flag();

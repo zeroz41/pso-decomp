@@ -16,4 +16,10 @@ s32 verify_game_file_integrity(void);
 void set_movie_finished_flag(s32);
 void update_movie_phase(void);
 
+typedef struct Entry_802A1020 {
+    const char *file;
+    u32 size;
+    u32 crc;
+} Entry_802A1020;
+
 #endif

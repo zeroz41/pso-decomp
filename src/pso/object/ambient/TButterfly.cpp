@@ -24,25 +24,6 @@ BmlResourceDescriptor bm_o_abe_butterfly_resource_descriptor = {
 };
 const char *butterfly_name = "TButterfly";
 
-struct Butterfly_8017EA74 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 rotY;
-    u8 pad64[0x94 - 0x64];
-    f32 baseY;
-    u8 pad98[0x9C - 0x98];
-    Vec vel;
-    f32 phase;
-    f32 phaseSpeed;
-    f32 lift;
-    s16 timer;
-    s16 angle;
-    u8 state;
-    u8 flag;
-    u8 dir;
-};
-
 extern "C" {
 
 BmlResource *butterfly_bml_resource;
@@ -52,21 +33,21 @@ void TButterfly::draw_model() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, -0x2000);
-    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
+    draw_ginja_model_with_motion(get_bml_model((BmlResource *)butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
     pop_matrix();
 }
 
 void TButterfly::init_motion() {
-    VecCopy((Vec *)&this->unk_90, (const Vec *)&this->position);
-    *(f32 *)&this->m_9c = 0.0f;
-    *(f32 *)&this->unk_A0 = 0.0f;
-    this->m_a4 = 0.0f;
+    VecCopy(&this->home_position, &this->position);
+    this->velocity.x = 0.0f;
+    this->velocity.y = 0.0f;
+    this->velocity.z = 0.0f;
     this->motion_frame = (f32) ((0.5f) * ((3.0517578e-05f) * (f32) rand()));
-    this->m_b0 = 0.0f;
-    this->m_b8 = 0;
-    this->m_b9 = 0;
-    this->m_b4 = 0x1E;
-    this->m_b6 = 0;
+    this->lift = 0.0f;
+    this->state = 0;
+    this->flag = 0;
+    this->timer = 0x1E;
+    this->angle = 0;
 }
 
 void TButterfly::render() {
@@ -80,138 +61,137 @@ void TButterfly::render() {
 #pragma push
 #pragma fp_contract on
 void TButterfly::run_task() {
-    Butterfly_8017EA74 *self = (Butterfly_8017EA74 *)this;
     f32 target;
     f32 lift;
-    target = 3.2f * sin_table_lookup(self->angle) + self->baseY;
-    if (self->flag == 0) {
-        self->lift = 5.0f * (target - self->pos.y);
-        lift = self->lift;
+    target = 3.2f * sin_table_lookup(this->angle) + this->home_position.y;
+    if (this->flag == 0) {
+        this->lift = 5.0f * (target - this->position.y);
+        lift = this->lift;
         if (lift < 0.1f) {
-            self->lift = 0.1f;
+            this->lift = 0.1f;
         } else if (lift > 4.0f) {
-            self->lift = 4.0f;
+            this->lift = 4.0f;
         }
-        self->phaseSpeed = 2.0f * (0.01f * self->lift) + 0.3f;
-        self->vel.y = 0.1f * (0.027f * self->lift) + self->vel.y;
-        self->vel.y = self->vel.y - 0.027f;
-        self->phase = self->phase + self->phaseSpeed;
-        if (self->phase > 5.0f) {
-            self->phase = 0.0f;
+        this->phase_speed = 2.0f * (0.01f * this->lift) + 0.3f;
+        this->velocity.y = 0.1f * (0.027f * this->lift) + this->velocity.y;
+        this->velocity.y = this->velocity.y - 0.027f;
+        this->motion_frame = this->motion_frame + this->phase_speed;
+        if (this->motion_frame > 5.0f) {
+            this->motion_frame = 0.0f;
         }
     } else {
-        self->lift = -7.0f * (target - self->pos.y);
-        lift = self->lift;
+        this->lift = -7.0f * (target - this->position.y);
+        lift = this->lift;
         if (lift < 0.1f) {
-            self->lift = 0.1f;
+            this->lift = 0.1f;
         } else if (lift > 4.0f) {
-            self->lift = 4.0f;
+            this->lift = 4.0f;
         }
-        self->phaseSpeed = 2.0f * (0.1f * self->lift) + 0.32f;
-        self->vel.y = self->vel.y - 0.5f * (0.027f * self->lift);
-        self->vel.y = self->vel.y - 0.027f;
-        self->phase = self->phase + self->phaseSpeed;
-        if (self->phase > 5.0f) {
-            self->phase = 0.0f;
-            self->flag = 0;
+        this->phase_speed = 2.0f * (0.1f * this->lift) + 0.32f;
+        this->velocity.y = this->velocity.y - 0.5f * (0.027f * this->lift);
+        this->velocity.y = this->velocity.y - 0.027f;
+        this->motion_frame = this->motion_frame + this->phase_speed;
+        if (this->motion_frame > 5.0f) {
+            this->motion_frame = 0.0f;
+            this->flag = 0;
         }
     }
-    switch (self->state) {
+    switch (this->state) {
     case 0:
-        self->vel.x *= (0.8f);
-        self->vel.z *= (0.8f);
+        this->velocity.x *= (0.8f);
+        this->velocity.z *= (0.8f);
         break;
     case 1:
-        if (self->flag == 0) {
+        if (this->flag == 0) {
             Vec dir;
             Vec out;
             dir.x = 2.0f * (0.0015f * (2.0f * (3.0517578125e-05f * (f32)rand()) - 1.0f));
             dir.y = 0.0f;
             dir.z = 2.0f * (0.0015f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(NULL, self->rotY);
+            rotate_matrix_y(NULL, this->rotation_y);
             rotate_vector_by_matrix(NULL, &dir, &out);
             pop_matrices(1);
-            self->vel.x = self->vel.x + out.x;
-            self->vel.z = self->vel.z + out.z;
-            self->vel.x *= (0.72f);
-            self->vel.z *= (0.72f);
+            this->velocity.x = this->velocity.x + out.x;
+            this->velocity.z = this->velocity.z + out.z;
+            this->velocity.x *= (0.72f);
+            this->velocity.z *= (0.72f);
         } else {
-            self->vel.x *= (0.85f);
-            self->vel.z *= (0.85f);
+            this->velocity.x *= (0.85f);
+            this->velocity.z *= (0.85f);
         }
         break;
     case 2:
-        if (self->dir == 0) {
-            self->rotY = (f32)self->rotY + (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
+        if (this->turn_dir == 0) {
+            this->rotation_y = (f32)this->rotation_y + (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
         } else {
-            self->rotY = (f32)self->rotY - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
+            this->rotation_y = (f32)this->rotation_y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
         }
-        if (self->flag == 0) {
+        if (this->flag == 0) {
             Vec dir;
             Vec out;
             dir.x = 2.0f * (0.025f * (2.0f * (3.0517578125e-05f * (f32)rand()) - 1.0f));
             dir.y = 0.0f;
             dir.z = 2.0f * (0.025f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(NULL, self->rotY);
+            rotate_matrix_y(NULL, this->rotation_y);
             rotate_vector_by_matrix(NULL, &dir, &out);
             pop_matrices(1);
-            self->vel.x = self->vel.x + out.x;
-            self->vel.z = self->vel.z + out.z;
-            self->vel.x *= (0.85f);
-            self->vel.z *= (0.85f);
+            this->velocity.x = this->velocity.x + out.x;
+            this->velocity.z = this->velocity.z + out.z;
+            this->velocity.x *= (0.85f);
+            this->velocity.z *= (0.85f);
         } else {
-            self->vel.x *= (0.75f);
-            self->vel.z *= (0.75f);
+            this->velocity.x *= (0.75f);
+            this->velocity.z *= (0.75f);
         }
         break;
     }
-    vec3_add_to(&self->pos, &self->vel);
-    if (self->pos.y > 12.0f + target) {
-        self->pos.y = 12.0f + target;
-    } else if (self->pos.y < target - 6.0f) {
-        self->pos.y = target - 6.0f;
+    vec3_add_to(&this->position, &this->velocity);
+    if (this->position.y > 12.0f + target) {
+        this->position.y = 12.0f + target;
+    } else if (this->position.y < target - 6.0f) {
+        this->position.y = target - 6.0f;
     }
-    if (self->timer != 0) {
-        self->timer--;
+    if (this->timer != 0) {
+        this->timer--;
     } else {
-        switch (self->state) {
+        switch (this->state) {
         case 0:
-            self->state = 1;
-            self->timer = 2.0f * (20.0f * (3.0517578125e-05f * (f32)rand())) + 20.0f;
+            this->state = 1;
+            this->timer = 2.0f * (20.0f * (3.0517578125e-05f * (f32)rand())) + 20.0f;
             break;
         case 1:
             if (3.0517578125e-05f * (f32)rand() < 0.5f) {
-                self->state = 2;
-                self->timer = 50.0f * (3.0517578125e-05f * (f32)rand()) + 50.0f;
+                this->state = 2;
+                this->timer = 50.0f * (3.0517578125e-05f * (f32)rand()) + 50.0f;
                 if (3.0517578125e-05f * (f32)rand() < 0.5f) {
-                    self->dir = 0;
+                    this->turn_dir = 0;
                 } else {
-                    self->dir = 1;
+                    this->turn_dir = 1;
                 }
             } else {
-                self->state = 0;
-                self->timer = 30.0f * (3.0517578125e-05f * (f32)rand()) + 30.0f;
+                this->state = 0;
+                this->timer = 30.0f * (3.0517578125e-05f * (f32)rand()) + 30.0f;
             }
             break;
         case 2:
             if (3.0517578125e-05f * (f32)rand() < 0.4f) {
-                self->state = 2;
-                self->timer = 50.0f * (3.0517578125e-05f * (f32)rand()) + 50.0f;
+                this->state = 2;
+                this->timer = 50.0f * (3.0517578125e-05f * (f32)rand()) + 50.0f;
                 if (3.0517578125e-05f * (f32)rand() < 0.5f) {
-                    self->dir = 0;
+                    this->turn_dir = 0;
                 } else {
-                    self->dir = 1;
+                    this->turn_dir = 1;
                 }
             } else {
-                self->state = 1;
-                self->timer = 2.0f * (30.0f * (3.0517578125e-05f * (f32)rand())) + 30.0f;
+                this->state = 1;
+                this->timer = 2.0f * (30.0f * (3.0517578125e-05f * (f32)rand())) + 30.0f;
             }
             break;
         }
     }
-    self->angle = self->angle + (s32)(40.0f * (3.0517578125e-05f * (f32)rand()) + 160.0f);
+    this->angle = this->angle + (s32)(40.0f * (3.0517578125e-05f * (f32)rand()) + 160.0f);
 }
 #pragma pop
 
@@ -219,17 +199,17 @@ void TButterfly::run_task() {
 TButterfly::~TButterfly() {
 
 }
-TButterfly::TButterfly(TObject *parent, void *arg2) : TObjBase(parent) {
+TButterfly::TButterfly(TObject *parent, void *set_data) : TObjBase(parent) {
     this->m_name = butterfly_name;
-    VecCopy(&this->position, (const Vec *)((char *)arg2 + 12));
-    copy_xyz((char *)this + 92, (void *)((char *)arg2 + 24));
-    VecCopy(&this->scale, (const Vec *)((char *)arg2 + 36));
+    VecCopy(&this->position, (const Vec *)((char *)set_data + 12));
+    copy_xyz((char *)this + 92, ((char *)set_data + 24));
+    VecCopy(&this->scale, (const Vec *)((char *)set_data + 36));
     this->init_motion();
 }
 
 
 void *TButterfly::create(void *set_data) {
-    void *o = (void *)new TButterfly(tl_05, (void *)set_data);
+    void *o = (void *)new TButterfly(tl_05, set_data);
     return o;
 }
 

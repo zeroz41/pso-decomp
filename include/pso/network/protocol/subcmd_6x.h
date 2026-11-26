@@ -596,8 +596,8 @@ struct G_IdentifyItemRequest_6xB8 {
 
 struct G_ImposeHold_6x2C {
  struct G_ClientIDHeader header;
- u16 unknown_a1;
- u16 unknown_a2;
+ s16 frames;
+ s16 effect_type;
  struct VectorXZF pos;
  f32 trigger_radius2;
  void bswap();
@@ -712,6 +712,7 @@ struct G_ModifyTradeProposal_6xA6 {
 struct G_MoveToPosition_6x41_6x42 {
  struct G_ClientIDHeader header;
  struct VectorXZF pos;
+ G_MoveToPosition_6x41_6x42 &operator=(const G_MoveToPosition_6x41_6x42 &src);
  // Clears the position and sets the 6x42 header.
  void init();
  void bswap();
@@ -1063,10 +1064,11 @@ struct G_SetPosition_6x20 {
 struct G_SetPosition_6x3F {
  struct G_ClientIDHeader header;
  s16 is_near_enemy;
- u16 angle;
+ s16 angle;
  s16 floor;
  s16 room;
  Vec pos;
+ G_SetPosition_6x3F &operator=(G_SetPosition_6x3F &src);
  void send();
  void bswap();
  void init();
@@ -1150,10 +1152,11 @@ struct G_SpecializableItemDropRequest_6xA2 {
 struct G_StopAtPosition_6x3E {
  struct G_ClientIDHeader header;
  s16 is_near_enemy;
- u16 angle;
+ s16 angle;
  s16 floor;
  s16 room;
  Vec pos;
+ G_StopAtPosition_6x3E &operator=(G_StopAtPosition_6x3E &src);
  void init();
  void bswap();
  void send();

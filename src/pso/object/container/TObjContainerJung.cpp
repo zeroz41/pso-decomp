@@ -139,7 +139,7 @@ NJS_OBJECT *TObjContainerJungEx::get_model(s32 index) {
 
 NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     if (jungle_container_ex_archive != NULL) {
-        return get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
+        return get_bml_texlist(jungle_container_ex_archive, index);
     }
     return 0;
 }
@@ -181,9 +181,9 @@ void TObjContainerJung::draw_model() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
-            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 0));
+            draw_ginja_object(get_bml_model(jungle_container_archive, 0));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 3));
+            draw_ginja_object(get_bml_model(jungle_container_archive, 3));
             TParticleCtrl::end_effect_render();
             pop_matrix();
             break;
@@ -253,7 +253,7 @@ void TObjContainerJung::spawn_break_effects() const {
 void TObjContainerJung::load_resources() {
     BmlResource *archive = new BmlResource(5, &container_jung_resource_descriptor, 0, 0, NULL);
     jungle_container_archive = archive;
-    jungle_container_textures = get_bml_texlist((BmlResource *)archive, 0);
+    jungle_container_textures = get_bml_texlist(archive, 0);
 }
 
 void TObjContainerJung::release() {
@@ -314,9 +314,9 @@ void TObjContainerJungEx::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
-        draw_ginja_object((void *)TObjContainerJungEx::get_model(0));
+        draw_ginja_object(TObjContainerJungEx::get_model(0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((void *)TObjContainerJungEx::get_model(3));
+        draw_ginja_object(TObjContainerJungEx::get_model(3));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     case 1:
@@ -404,13 +404,13 @@ void *TObjContainerJungEnemy::create(void *set_data) {
 
 void TObjContainerJungEnemy::load_models() {
     saddr created;
-    s32 temp_r3 = this->set_params[1];
-    if (temp_r3 < 0) {
+    s32 param = this->set_params[1];
+    if (param < 0) {
         created = 0;
     } else {
         created = 1;
-        if (temp_r3 <= 1) {
-            created = temp_r3;
+        if (param <= 1) {
+            created = param;
         }
     }
     switch (created) {
@@ -473,12 +473,12 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        access_object_saved_state(&saved_state, 0);
+        send_object_state_update(&saved_state);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();

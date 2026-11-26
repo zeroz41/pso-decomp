@@ -34,17 +34,16 @@
 #include "pso/render/model_render_state.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/render_util.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 const char *fog_collision_name = "TObjFogCollision";
 const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
 const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
-void record_fog_collision_hit(s32 index, s32 level, s32 link);
 extern "C" {
 u8 is_current_floor_switch_set(u16);
 
-s32 is_split_screen();
 }
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
@@ -98,9 +97,7 @@ s32 TObjFogCollision::check_collision(u16 client) {
         if ((2.5e+03f + radius_sq) < distance_sq) {
             this->far_timer = 0x3C;
         }
-        goto block_5;
     }
-block_5:
     return 0;
 }
 
@@ -164,7 +161,7 @@ void TObjFogCollision::draw_volume() {
         s = 0.5f * this->scale.x;
         post_translate_matrix(&this->position.x);
         scale_matrix(0, s, 3.0f, s);
-        draw_chunk_object((void *)debug_cylinder_object);
+        draw_chunk_object(debug_cylinder_object);
         pop_matrix();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -242,10 +239,10 @@ TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjF
     init_params();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
-            new TObjFogCollisionPoison_Ticker((TObject *)parent, i);
+            new TObjFogCollisionPoison_Ticker(parent, i);
         }
     } else {
-        new TObjFogCollisionPoison_Ticker((TObject *)parent, local_client_id);
+        new TObjFogCollisionPoison_Ticker(parent, local_client_id);
     }
 }
 
@@ -291,7 +288,7 @@ void TObjFogCollisionPoison::run_task() {
 
 // inferred: name pointer of TObjFogCollision_Manager (its string is the class name; the
 // manager ctor stores it in m_name like the other three X__name pointers).
-const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
+const char *TObjFogCollision_Manager::class_name = "TObjFogCollision_Manager";
 
 TObjFogCollision_Manager *fog_collision_poison_instances[12];
 
@@ -383,7 +380,7 @@ void TObjFogCollisionPoison::create() {
 
 // One manager per client: registers itself in fog_collision_poison_instances[index].
 TObjFogCollision_Manager::TObjFogCollision_Manager(TObject *parent, s32 index) : TObject(parent) {
-    m_name = TObjFogCollision_Manager__name;
+    m_name = TObjFogCollision_Manager::class_name;
     player = index;
     fog_collision_poison_instances[player] = this;
     hit_count = 0;

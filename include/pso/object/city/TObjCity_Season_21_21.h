@@ -7,6 +7,7 @@
 class TParticleCtrl;
 
 struct TObjCity_Season_21_21 : public TObjCitySeasonBase {
+    static const char *class_name;
     TObjCity_Season_21_21(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_21_21();
     virtual void render();

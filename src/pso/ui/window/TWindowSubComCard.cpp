@@ -119,13 +119,13 @@ struct ComEntry_8027375C { u8 data[0xD4]; };
 
 struct ComList_8027375C { u8 pad[4]; ComEntry_8027375C entries[1]; };
 extern "C" {
-s32 TWindowSubComCard__sub_800778B4(void *, int);
+s32 rebuild_choice_search_selections(void *, int);
 void TWindowSubComCard__sub_8007AF10(s32 client_id);
 s32 TLobby__sub_8024259C();
 }
 extern "C" {
 
-void TWindowSubComCard__sub_80077980(void *);
+void clear_choice_search_selections(void *);
 }
 
 struct SelectedGuildCardRecord { s32 value; u8 remaining[0xB8]; };
@@ -173,7 +173,7 @@ TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(pare
     this->chr_select = 0;
     this->m_1d = 0;
     this->selected_card = -1;
-    TWindowSubComCard__sub_80077980(choice_selections);
+    clear_choice_search_selections(choice_selections);
     this->state = 0;
 }
 
@@ -718,8 +718,8 @@ void TWindowSubComCard::run_task() {
             if ((u32) this->chr_select == 0U) {
                 this->chr_select = TWindowSubComCard::get_chr_select();
                 character_save_record = get_character_save_record(0xFFFF);
-                TWindowSubComCard__sub_800778B4(choice_selections, this->chr_select);
-                TWindowSubComCard__sub_800778B4((void *)(character_save_record + 0x22EC), (int)this->chr_select);
+                rebuild_choice_search_selections(choice_selections, this->chr_select);
+                rebuild_choice_search_selections((void *)(character_save_record + 0x22EC), (int)this->chr_select);
             }
             if ((u8) this->state == 0x28) {
                 this->state = 0x29U;

@@ -30,6 +30,7 @@
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 #pragma defer_codegen on
 
@@ -58,9 +59,7 @@ const char *live_monitor_small_name = "TObjLiveMonitorSmall";
 const s32 live_camera_view_ids[2] = { 0xF44E8, 0xF44E9 };
 
 extern "C" {
-s32 is_split_screen();
 extern void *tl_05;
-s32 get_current_floor();
 extern TObject *tl_particlemodel;
 }
 

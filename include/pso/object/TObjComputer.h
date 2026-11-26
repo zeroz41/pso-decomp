@@ -14,10 +14,11 @@ struct TObjComputer : public TObjMesBase {
     virtual void debug_draw_label();
     NJS_OBJECT *screen_model;
     f32 uv_scroll_time; /* UV scroll accumulator: +0.2 per tick, the mesh scrolls once it reaches 1 (name inferred) */
-    u32 m_c4;
+    u32 last_scroll_tick;
     void draw_model();
     virtual void render();
     static void free_resources();
+    static const s16 screen_model_indices[2];  // the archive model each set param 1 picks
 };
 
 LAYOUT_ASSERT(TObjComputer_size, sizeof(TObjComputer) == 0xC8);

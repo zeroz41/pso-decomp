@@ -6,6 +6,8 @@
 #include "pso/quest/QuestVm.h"
 
 class TQuestManager;
+struct TKeyBoardControl;
+struct TWindowMenu;
 struct G_SyncQuestRegister_6x77;
 
 class TQuestThread : public TObject {
@@ -51,8 +53,8 @@ public:
 
 class TObjItemNameEntry : public TObject {
 public:
-    void *keyboard;      // TKeyBoardControl for the name
-    void *prompt_menu;
+    TKeyBoardControl *keyboard;  // for the name
+    TWindowMenu *prompt_menu;
 
     TObjItemNameEntry(TObject *parent);
     virtual void render();

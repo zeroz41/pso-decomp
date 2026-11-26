@@ -48,8 +48,6 @@ s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h);
 
 s32 is_level_in_table__24TObjWaitEntryHairMoveSimFPv(Obj_800FE698 *o);
 
-extern "C" void render__7TObjectFv();
-extern "C" void render_shadows__7TObjectFv();
 extern EZBoneRotKey hair_bone_rotation_bone_list_00[4];
 extern EZBoneRotKey hair_bone_rotation_bone_list_01[5];
 extern EZBoneRotKey hair_bone_rotation_bone_list_02[4];
@@ -604,7 +602,7 @@ EZBoneRotDesc hair_bone_rotation_descriptor[1] = {
 }
 
 const char *wait_entry_hair_move_sim_name = "TObjWaitEntryHairMoveSim";
-const char *T_OWEHMS_Exp__name = "T_OWEHMS_Exp";
+const char *T_OWEHMS_Exp::class_name = "T_OWEHMS_Exp";
 
 TObjWaitEntryHairMoveSim::~TObjWaitEntryHairMoveSim() {}
 
@@ -651,11 +649,11 @@ void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(TObjWaitEntryHairMoveSim
             } else {
                 continue;
             }
-            ((void (*)(s32))TObjWaitEntryHairMoveSim__sub_800FE3BC)(v);
+            TObjWaitEntryHairMoveSim__sub_800FE3BC(v);
             if (e->p4 != NULL) {
                 TObjEZBoneRotPlayer::create(self->pl, (void *)v, e->p4);
             } else if (e->p8 != NULL) {
-                ((TObjPlayer *)(self->pl))->create_hairmove((void *)e->p8, (void *)e->pc);
+                ((TObjPlayer *)(self->pl))->create_hairmove(e->p8, (void *)e->pc);
             }
         }
     }
@@ -681,7 +679,7 @@ T_OWEHMS_Exp* T_OWEHMS_Exp::create(TObjPlayer* p) {
 }
 
 T_OWEHMS_Exp::T_OWEHMS_Exp(TObjPlayer *p) : TObject(p) {
-    m_name = T_OWEHMS_Exp__name;
+    m_name = T_OWEHMS_Exp::class_name;
     player = p;
     descriptor_index = get_move_done_result__24TObjWaitEntryHairMoveSimFPv((H_800FE32C*)player);
 }
@@ -700,7 +698,7 @@ void TObjWaitEntryHairMoveSim__sub_800FE3BC(int bone) {  }
 void T_OWEHMS_Exp::start_bone_rotation() {
     saddr bone = (saddr)player->hair_model;
     TObjWaitEntryHairMoveSim__sub_800FE3BC(bone);
-    TObjEZBoneRotPlayer::create((void *)player, (void *)bone, &hair_bone_rotation_descriptor[descriptor_index]);
+    TObjEZBoneRotPlayer::create(player, (void *)bone, &hair_bone_rotation_descriptor[descriptor_index]);
 }
 
 s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h) {

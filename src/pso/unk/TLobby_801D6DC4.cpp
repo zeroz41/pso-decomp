@@ -3,23 +3,14 @@
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
-struct ClampValueBelow200Object { u8 pad[0x16]; s16 v; };
 
-struct NormalizeBattleRuleValueObject { u8 pad[0xB]; u8 v; };
 
-struct TLobbyObject { u8 pad[0xE]; u8 v; };
 
-struct ClampValueBelow2Object { u8 pad[0xD]; u8 v; };
 
-struct TLobbyObject2 { u8 pad[0xC]; u8 v; };
 
-struct GetRuleFieldAObject { u8 pad[0xA]; u8 v; };
 
-struct ClampRuleValue2Object { u8 pad[0x8]; u8 v; };
 
-struct NormalizeBattleRuleValueBObject { u8 pad[0x9]; u8 v; };
 
-struct TLobbyObject3 { u8 pad[0x7]; u8 v; };
 
 extern "C" {
 u8 default_setting_16(ClampValueBelow200Object *p);
@@ -37,19 +28,19 @@ u8 TLobby__sub_801D7100(TLobbyObject3 *p);
 u8 default_setting_18();
 
 void TLobby::set_volume(u8 vol) {
-    u8 var_r4;
+    u8 value;
 
-    var_r4 = vol;
-    if (var_r4 > 0x63U) {
-        var_r4 = 0;
+    value = vol;
+    if (value > 0x63U) {
+        value = 0;
     }
-    *(u8 *)&this->m_up = var_r4;
+    *(u8 *)&this->m_up = value;
 }
 
-u8 TLobby__sub_801D6DDC(void *arg0) {
+u8 TLobby__sub_801D6DDC(void *record) {
     u8 v;
     s32 t;
-    t = *(u8 *)((s8 *)arg0 + 0x11);
+    t = *(u8 *)((s8 *)record + 0x11);
     v = t;
     if (TObjPlayer::is_invalid_slot(t) == 0 && v > 0x1DU) {
         v = 0;
@@ -68,13 +59,13 @@ void TLobby::set_max_tech_level(u8 level) {
 }
 
 s16 TLobby::clamp_player_index() {
-    s16 var_r31;
+    s16 index;
 
-    var_r31 = *(s16 *)&this->m_down;
-    if ((var_r31 < 0) || (var_r31 > TObjPlayer::get_max_level())) {
-        var_r31 = 0;
+    index = *(s16 *)&this->m_down;
+    if ((index < 0) || (index > TObjPlayer::get_max_level())) {
+        index = 0;
     }
-    return var_r31;
+    return index;
 }
 
 void TLobby::set_clamped_index(s16 level) {
@@ -88,23 +79,23 @@ void TLobby::set_clamped_index(s16 level) {
 }
 
 void TLobby::set_clamped_value_1c(s32 value) {
-    s32 var_r4;
+    s32 clamped;
 
-    var_r4 = value;
-    if ((var_r4 < 0) || (var_r4 > 0x278D0)) {
-        var_r4 = 0;
+    clamped = value;
+    if ((clamped < 0) || (clamped > 0x278D0)) {
+        clamped = 0;
     }
-    *(s32 *)((s8 *)this + 0x1C) = var_r4;
+    *(s32 *)((s8 *)this + 0x1C) = clamped;
 }
 
 u8 TLobby::get_clamped_level() {
-    s16 temp_r0;
+    s16 level;
 
-    temp_r0 = *(s16 *)((s8 *)this + 0x18);
-    if (temp_r0 >= 0x1E) {
+    level = *(s16 *)((s8 *)this + 0x18);
+    if (level >= 0x1E) {
         return default_setting_18();
     }
-    return (u8) temp_r0;
+    return (u8) level;
 }
 s16 TLobby::clamp_value_below_200() {
     ClampValueBelow200Object *p = (ClampValueBelow200Object *)this;

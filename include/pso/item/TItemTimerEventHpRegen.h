@@ -6,7 +6,7 @@
 class TItemTimerEventHpRegen : public TItemTimerEvent {
 public:
     TItemTimerEventHpRegen(TItemHeapObject *parent, u16 client, s32 period);
-    virtual void vfunc_6();
+    virtual void apply_effect();
     virtual ~TItemTimerEventHpRegen();
 };
 LAYOUT_ASSERT(TItemTimerEventHpRegen_size, sizeof(TItemTimerEventHpRegen) == 0x2C);

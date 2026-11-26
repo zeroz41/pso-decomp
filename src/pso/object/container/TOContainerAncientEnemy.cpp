@@ -93,12 +93,12 @@ const char *container_ancient_item_rare_name = "TOContainerAncientItemRare";
 const char *container_ancient_item_none_name = "TOContainerAncientItemNone";
 const char *container_ancient_enemy_name = "TOContainerAncientEnemy";
 const char *container_ancient_enemy_common_name = "TOContainerAncientEnemyCommon";
-const char *lbl_805D2F10 = "TOContainerAncientEnemyRare";
+const char *TOContainerAncientEnemyRare::class_name = "TOContainerAncientEnemyRare";
 
 // The three fragment texture lists of the current floor, loaded with the
 // archive (ancient_container_resource_bundle) by
 // TLanguage::load_container_fragment_textures. Both share one 8-aligned
-// .sbss block (0x805D58E8) that stays unclaimed until the bundle can be
+// .sbss block that stays unclaimed until the bundle can be
 // defined here (see spawn_break_effects).
 extern NJS_TEXLIST **ancient_container_fragment_texture_lists;
 
@@ -236,8 +236,8 @@ TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_da
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
-    texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
+    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
 TUnk_804B08BC::~TUnk_804B08BC() {
@@ -269,17 +269,17 @@ void TUnk_804B08BC::draw_model() {
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
-            draw_ginja_model((void *)obj->model);
+            draw_ginja_model(obj->model);
             child = obj->child;
             push_matrix();
             post_translate_matrix(child->pos);
-            draw_ginja_model((void *)child->model);
+            draw_ginja_model(child->model);
             pop_matrix();
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model((void *)sibling->model);
+            draw_ginja_model(sibling->model);
             TParticleCtrl::end_effect_render();
             pop_matrix();
             pop_matrix();
@@ -395,8 +395,8 @@ TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainer
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
-    texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
+    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
 TOContainerAncientEnemy::~TOContainerAncientEnemy() {
@@ -428,17 +428,17 @@ void TOContainerAncientEnemy::draw_model() {
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
-            draw_ginja_model((void *)obj->model);
+            draw_ginja_model(obj->model);
             child = obj->child;
             push_matrix();
             post_translate_matrix(child->pos);
-            draw_ginja_model((void *)child->model);
+            draw_ginja_model(child->model);
             pop_matrix();
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model((void *)sibling->model);
+            draw_ginja_model(sibling->model);
             TParticleCtrl::end_effect_render();
             pop_matrix();
             pop_matrix();
@@ -456,12 +456,12 @@ void TOContainerAncientEnemy::debug_print_item_box_info() {
 }
 
 f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     G_FloorEvent_6x67 pk;
-    if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&sp8, 1) != 0) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
+    if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&saved_state, 1) != 0) {
+        saved_state = 1;
+        access_object_saved_state(&saved_state, 0);
+        send_object_state_update(&saved_state);
         pk.init();
         pk.header.client_id = this->entity_id;
         pk.floor = get_current_floor();
@@ -488,7 +488,7 @@ void TOContainerAncientEnemy::spawn_break_effects() const {
         b.floor_y = this->position.y;
         b.model = get_bml_model(ancient_container_resource_bundle, 2);
         b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
-        if (check_value_equals(lbl_805D2F10) != 0) {
+        if (check_value_equals(TOContainerAncientEnemyRare::class_name) != 0) {
             a.textures = ancient_container_fragment_texture_lists[1];
             b.textures = ancient_container_fragment_texture_lists[2];
         }
@@ -526,7 +526,7 @@ void *TOContainerAncientEnemyCommon::create(void *set_data) {
 }
 
 TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOContainerAncientEnemy(set_data) {
-    m_name = lbl_805D2F10;
+    m_name = TOContainerAncientEnemyRare::class_name;
     texlist = *ancient_container_fragment_texture_lists;
 }
 

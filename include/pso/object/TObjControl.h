@@ -19,7 +19,7 @@ public:
 };
 
 extern "C" {
-TObjChara *get_enemy_entity(u16 arg0);
+TObjChara *get_enemy_entity(u16 entity_id);
 }
 
 #endif

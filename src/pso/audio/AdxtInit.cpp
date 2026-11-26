@@ -23,7 +23,7 @@ extern "C" {
 s32 lbl_805D4658 = 1;
 s32 TLobby_init_ref_count;
 s32 svm_cb_svr_handle;
-s32 lbl_805D7540;
+s32 adxt_vblank_count;
 static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 13 2002 19:01:36\n";
 }
 
@@ -57,7 +57,7 @@ void adxt_finish() {
 void adxt_init() {
     lbl_805E0D30;
     if (TLobby_init_ref_count == 0) {
-        TLobby__sub_803C4698();
+        reset_init_ref_count();
         adx_lock();
         ref_counted_work_buffer_init();
         sj_ring_buffer_init();
@@ -75,7 +75,7 @@ void adxt_init() {
             SVM_SetCbSvrId(2, 3, adxt_exec_fs_server_cb, 0);
             svm_cb_svr_handle = SVM_SetCbSvr(4, adxt_exec_vsync_server_cb, 0);
         }
-        lbl_805D7540 = 0;
+        adxt_vblank_count = 0;
         adx_unlock();
     }
     TLobby_init_ref_count += 1;

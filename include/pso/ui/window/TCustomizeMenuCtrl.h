@@ -14,15 +14,15 @@ public:
     void update_customize_help_text(void *);
     virtual void render();
     virtual void run_task();
-    s8 state;
+    u8 state;
     u8 pad_1D[0x3];
     s32 client_id;
     TWindowMainMenu *main_menu;
     uaddr custom_equip;
     uaddr custom_select;
     uaddr help_window;
-    s16 help_kind;
-    s16 help_id;
+    u16 help_kind;
+    u16 help_id;
 };
 LAYOUT_ASSERT(TCustomizeMenuCtrl_size, sizeof(TCustomizeMenuCtrl) == 0x38);
 

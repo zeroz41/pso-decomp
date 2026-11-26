@@ -325,15 +325,15 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     if (is_split_screen() == 0) {
         target_size[1] += 29.0f;
     }
-    if (((TObjChara *)enemy)->obj_testFlag_2E4(0x40) != 0) {
+    if ((enemy)->obj_testFlag_2E4(0x40) != 0) {
         kind = 4;
-    } else if (((TObjChara *)enemy)->obj_testFlag_2E4(1) != 0) {
+    } else if ((enemy)->obj_testFlag_2E4(1) != 0) {
         kind = 0;
-    } else if (((TObjChara *)enemy)->obj_testFlag_2E4(2) != 0) {
+    } else if ((enemy)->obj_testFlag_2E4(2) != 0) {
         kind = 1;
-    } else if (((TObjChara *)enemy)->obj_testFlag_2E4(4) != 0) {
+    } else if ((enemy)->obj_testFlag_2E4(4) != 0) {
         kind = 2;
-    } else if (((TObjChara *)enemy)->obj_testFlag_2E4(8) != 0) {
+    } else if ((enemy)->obj_testFlag_2E4(8) != 0) {
         kind = 3;
     } else {
         kind = 4;

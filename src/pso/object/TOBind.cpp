@@ -35,13 +35,13 @@ void TOBind::sub_80158608() {  }
 
 
 void TOBind::sub_8015860C() {
-    f32 temp_f0;
+    f32 frame;
     f32 bc;
     motion_frame += motion_step;
     bc = this->m_bc;
-    temp_f0 = motion_frame;
-    if (bc < temp_f0) {
-        motion_frame = temp_f0 - bc;
+    frame = motion_frame;
+    if (bc < frame) {
+        motion_frame = frame - bc;
     }
 }
 
@@ -95,7 +95,7 @@ void TOBind::free_static_model() {
 }
 
 void TOBind::load_static_resource() {
-    BmlResource *storage = new BmlResource(1, (BmlResourceDescriptor *)&bm_o_bind_resource_descriptor, 0, 0, NULL);
+    BmlResource *storage = new BmlResource(1, &bm_o_bind_resource_descriptor, 0, 0, NULL);
     static_model_resource = storage;
 }
 

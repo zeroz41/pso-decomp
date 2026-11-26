@@ -255,7 +255,7 @@ s32 lsc_enqueue_file(LscStream *lsc_stream, const char *filename) {
         lsc_log_printf("E0004: Can not open '%s'", filename);
         return -1;
     }
-    sectors = (get_field_14__6TLobbyFv(file) + 0x7FF) / 0x800;
+    sectors = (get_adx_stream_size(file) + 0x7FF) / 0x800;
     adxstm_close(file);
     return lsc_enqueue_range(lsc_stream, filename, 0, 0, sectors);
 }

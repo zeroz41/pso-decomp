@@ -111,13 +111,13 @@ void TObjContainerIdo::render() {
         post_translate_matrix(&home_position.x);
         rotate_matrix_y(0, rotation_y);
         rotate_matrix_x(0, rotation_x);
-        draw_ginja_object((void *)get_bml_model(container_ido_model_archive, 0));
+        draw_ginja_object(get_bml_model(container_ido_model_archive, 0));
         pop_matrix();
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         rotate_matrix_x(0, rotation_x);
-        draw_ginja_object((void *)get_bml_model(container_ido_model_archive, 1));
+        draw_ginja_object(get_bml_model(container_ido_model_archive, 1));
         pop_matrix();
         if (fading != 0) {
             fade.clear_flag_and_notify();

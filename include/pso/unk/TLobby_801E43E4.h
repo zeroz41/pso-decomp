@@ -10,4 +10,11 @@ void send_subcommand_to_leader(void *cmd);
 // Sends a 6x subcommand to every client (queued per client in a game) and runs it here too.
 void broadcast_subcommand(void *cmd);
 
+struct GvmFileHeader {
+    u8 magic[4];
+    u32 size;
+    u16 flags;
+    u16 count;
+};
+
 #endif

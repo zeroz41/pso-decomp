@@ -12,7 +12,7 @@ struct TObjDoaEx01 : public TODoorBase {
     virtual void update_opening();
     virtual void update_closed();
     virtual void render();
-    void draw_object_tree(saddr arg1);
+    void draw_object_tree(saddr object);
     static void free_resource();
     static void load_resources();
     u8 unk_D4[0x4];

@@ -19,39 +19,39 @@ u8 *create_set_object_from_row(void *);
 extern s32 quest_object_entries;
 
 s32 TLobby::spawn_objects_at_pos(s16 room, s16 wave) {
-    s16 temp_r0;
-    s16 temp_r3;
+    s16 set_index;
+    s16 flags;
     s32 obj_table_entry;
-    s32 var_r30;
-    u8 *var_r29;
+    s32 spawned;
+    FloorObjectSetRow *row;
     s32 k;
     u8 *set_object;
 
-    var_r30 = 0;
-    var_r29 = reinterpret_cast<u8 *>(get_active_floor_object_rows(active_set_floor));
+    spawned = 0;
+    row = get_active_floor_object_rows(active_set_floor);
     obj_table_entry = TLobby::get_obj_table_entry(active_set_floor);
-    for (k = 0; k < obj_table_entry; k++, var_r29 += 0x44) {
-        temp_r3 = *(s16 *)((s8 *)var_r29 + 2);
-        if (!(temp_r3 & 8) && !(temp_r3 & 2) && ((s16) *(s16 *)((s8 *)var_r29 + 0xC) == room) && ((s16) *(s16 *)((s8 *)var_r29 + 0xA) == wave)) {
-            set_object = create_set_object_from_row(var_r29);
+    for (k = 0; k < obj_table_entry; k++, row++) {
+        flags = row->flags;
+        if (!(flags & 8) && !(flags & 2) && (row->placement.room == room) && (row->placement.wave == wave)) {
+            set_object = create_set_object_from_row(row);
             if (set_object != NULL) {
-                *(void **)((s8 *)var_r29 + 0x40) = set_object;
-                *(s16 *)((s8 *)var_r29 + 2) = (s16) (*(s16 *)((s8 *)var_r29 + 2) | 0x12);
-                *(s16 *)((s8 *)set_object + 0x28) = (s16) *(s16 *)((s8 *)var_r29 + 0xC);
-                *(s16 *)((s8 *)set_object + 0x2A) = (s16) *(s16 *)((s8 *)var_r29 + 0xA);
-                *(s16 *)((s8 *)set_object + 0x2C) = (s16) *(s16 *)((s8 *)var_r29 + 4);
-                *(void **)((s8 *)set_object + 0x80) = var_r29;
-                temp_r0 = *(s16 *)((s8 *)set_object + 0x2C);
-                if (temp_r0 != -1) {
-                    ((VObj8020*)set_object)->m4(quest_object_entries + (temp_r0 * 4), 0);
+                row->object = (TObject *)set_object;
+                row->flags = (s16) (row->flags | 0x12);
+                *(s16 *)((s8 *)set_object + 0x28) = row->placement.room;
+                *(s16 *)((s8 *)set_object + 0x2A) = row->placement.wave;
+                *(s16 *)((s8 *)set_object + 0x2C) = row->placement.set_index;
+                *(void **)((s8 *)set_object + 0x80) = row;
+                set_index = *(s16 *)((s8 *)set_object + 0x2C);
+                if (set_index != -1) {
+                    ((VObj8020*)set_object)->m4(quest_object_entries + (set_index * 4), 0);
                 }
-                var_r30 += 1;
+                spawned += 1;
             } else {
-                *(void **)((s8 *)var_r29 + 0x40) = NULL;
+                row->object = NULL;
             }
         }
     }
-    return var_r30;
+    return spawned;
 }
 
 }

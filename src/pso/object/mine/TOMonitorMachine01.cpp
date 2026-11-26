@@ -85,42 +85,42 @@ void TOMonitorMachine01::render() {
         n = ((NJS_OBJECT *)model)->child;
         push_matrix();
         translate_matrix(0, -slide, 0.0f, 0.0f);
-        draw_ginja_model((void *)n->model);
+        draw_ginja_model(n->model);
         pop_matrix();
         TParticleCtrl::begin_effect_render();
         n = n->sibling;
         if (set_params[0] == 2) {
             push_matrix();
             scale_matrix(NULL, screen_scale, screen_scale, 1.0f);
-            draw_ginja_model((void *)n->model);
+            draw_ginja_model(n->model);
             pop_matrix();
         }
         n = n->sibling;
         if (set_params[0] == 1) {
             push_matrix();
             scale_matrix(NULL, screen_scale, screen_scale, 1.0f);
-            draw_ginja_model((void *)n->model);
+            draw_ginja_model(n->model);
             pop_matrix();
         }
         TParticleCtrl::end_effect_render();
         n = n->sibling;
         push_matrix();
         translate_matrix(0, slide, 0.0f, 0.0f);
-        draw_ginja_model((void *)n->model);
+        draw_ginja_model(n->model);
         pop_matrix();
         TParticleCtrl::begin_effect_render();
         n = n->sibling;
         if (set_params[0] == 0) {
             push_matrix();
             scale_matrix(NULL, screen_scale, screen_scale, 1.0f);
-            draw_ginja_model((void *)n->model);
+            draw_ginja_model(n->model);
             pop_matrix();
         }
         n = n->sibling;
         if (set_params[0] == 3) {
             push_matrix();
             scale_matrix(NULL, screen_scale, screen_scale, 1.0f);
-            draw_ginja_model((void *)n->model);
+            draw_ginja_model(n->model);
             pop_matrix();
         }
         TParticleCtrl::end_effect_render();
@@ -159,8 +159,8 @@ TOMonitorMachine01::~TOMonitorMachine01() {}
 TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = monitor_machine01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)monitor_machine01_bml_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)monitor_machine01_bml_resource, 0);
+    model = (void *)get_bml_model(monitor_machine01_bml_resource, 0);
+    texlist = get_bml_texlist(monitor_machine01_bml_resource, 0);
     view_range = 500.0f;
     model_radius = 15.0f;
     actorFlags |= 0x40000000;

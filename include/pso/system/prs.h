@@ -20,7 +20,7 @@ public:
     u8 *src;
 };
 
-// PRS decoder with a 0x17FF-byte window at 0x80001800 (names inferred from behaviour).
+// PRS decoder with a 0x17FF-byte window (names inferred from behaviour).
 class PrsDecoder : public PrsReader {
 public:
     PrsDecoder();

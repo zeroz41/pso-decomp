@@ -14,8 +14,8 @@ struct TOMineDisp : public TObjBase {
     virtual void run_task();
     u32 m_90;
     NJS_ARGB color;  // the constant material colour render draws it with
-    u32 m_a4;
-    u16 m_a8;
+    u32 state;
+    u16 client_id;
     u8 unk_AA[0x2];
 };
 

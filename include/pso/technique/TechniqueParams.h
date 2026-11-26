@@ -11,13 +11,12 @@ struct TechniqueParams {
     f32 range;       // a shot's range, an area's radius; raised by range_step
     f32 pad_0C;
     s16 tp_cost;     // the TP the cast takes (callers subtract it from the player's TP)
-    s16 pad_12;      // charge speed, "CH_SPD" in TTecShot's readout; lowered per level above 4, at least 0
-                     // (named once PR 394, which reads it in TObjPlayer, lands)
+    s16 charge_speed;      // charge speed, "CH_SPD" in TTecShot's readout; lowered per level above 4, at least 0
     s16 mental;      // "MENTAL" in TTecShot's readout; raised by mental_per_level per level
     s16 pad_16;
     s32 angle;       // degrees in the table; Foie, Rafoie, Barta, Gibarta and Megid turn it into angle units (65536 / 360)
     s32 pad_1C;
-    s16 pad_20;      // frames an area lasts (RaBarta); lowered every 5 or 10 levels, at least 10
+    s16 duration;       // frames an area lasts (RaBarta); lowered every 5 or 10 levels, at least 10
     u8 pad_22;
     u8 tp_cost_percent;  // percent of a level added to tp_cost
     s16 power_per_level;  // added to power once per level

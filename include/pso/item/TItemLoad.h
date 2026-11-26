@@ -7,6 +7,7 @@
 #include "types.h"
 
 struct AdxfHandle;
+struct BmlResource;
 struct NJS_OBJECT;
 struct AnimationMotion;
 struct NJS_TEXLIST;
@@ -138,6 +139,12 @@ public:
     static void free_all();
     static void init_resources();
     static void create();
+
+    static const char *name;
+    static BmlResource *bml_resource;
+    static TObject *model_load_task_root;
+    static TObject *completed_model_load_task_root;
+    static s32 *model_slot_in_use;
 };
 
 // Starts loading the model of `item` into a free slot; returns the slot or -1.

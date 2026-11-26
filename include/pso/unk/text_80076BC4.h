@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr dst, saddr src);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void *p, void *q);
 }
 s32 chat_accept_submission(saddr submission);
@@ -16,7 +16,9 @@ saddr get_chat_shortcut(s32 index);
 bool is_chat_shortcut_set(s32 index);
 void send_chat_shortcut(void);
 }
-s32 store_chat_shortcut(s32 index, s32 arg1);
+s32 store_chat_shortcut(s32 index, s32 value);
 void submit_chat_text(u8 *lobby);
+
+struct SubmitChatTextTag { u32 a; u32 b; };
 
 #endif

@@ -67,12 +67,12 @@ void TItemWeaponSlicer::emit_marker_effects() {
 }
 
 void TItemWeaponSlicer::update_idle() {
-    int new_var;
+    int limit;
     switch (get_item_index()) {
     case 5:
         ::add_angle_clamped(&rotation, 0x1555, 0x8000);
-        new_var = 0x8000;
-        if (new_var <= rotation) {
+        limit = 0x8000;
+        if (limit <= rotation) {
             ::approach_value(&scale.z, -0.1f, 0.6f);
         }
         break;

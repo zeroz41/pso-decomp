@@ -47,9 +47,9 @@ struct Win_802656D8 { u8 p0[0x80]; Rec_802656D8 *f80; };
 extern "C" {
 
 void measure_message_text_width(WindowTextEntry *e, f32 x);
-void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
-s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row);
-void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
+void clamp_menu_scroll(TWindowMenu *menu);
+s32 is_menu_row_enabled(TWindowMenu *menu, s16 row);
+void disable_menu_row(TWindowMenu *menu, s16 row);
 void fn_80266378(s32 rows);
 }
 
@@ -92,7 +92,7 @@ void TWindowSubComCardList::update_scroll_target_position() {
     }
 }
 
-void TWindowSubComCard__sub_80265500(TWindowMenu *menu) {
+void clamp_menu_scroll(TWindowMenu *menu) {
     NJS_POINT2 scroll_range;
     f32 max_scroll_y;
     if (menu->scroll_bar != NULL) {
@@ -106,7 +106,7 @@ void TWindowSubComCard__sub_80265500(TWindowMenu *menu) {
     }
 }
 
-void TWindowSubComCardList::sub_8026556C() {
+void TWindowSubComCardList::ensure_scroll_bar() {
     NJS_POINT2 extent;
     f32 extent_x;
     if (scroll_bar == NULL) {
@@ -134,12 +134,12 @@ void TWindowSubComCardList::reset_entries() {
     }
 }
 
-s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row) {
+s32 is_menu_row_enabled(TWindowMenu *menu, s16 row) {
     if (menu->rows[row].flags & 0x10) return 0;
     return 1;
 }
 
-void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row) {
+void disable_menu_row(TWindowMenu *menu, s16 row) {
     WindowTextEntry *entry = static_cast<WindowTextEntry *>(menu->get_array_entry(row));
     TWindowMenuRow *state = &menu->rows[row];
     entry->color = 0xFF909090;
@@ -378,7 +378,7 @@ void TWindowMenu::calc_layout_height(f32 width) {
 void TWindowSubComCardList::set_scroll_target(f32 width, f32 max_height) {
     update_layout_height(width);
     if (this->target_size[1] > max_height) {
-        sub_8026556C();
+        ensure_scroll_bar();
     }
     this->target_size[1] = max_height;
     layout_height = (f32) (max_height - 20.0f);

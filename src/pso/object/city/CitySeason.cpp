@@ -58,16 +58,16 @@ const char TObjCity_Season_FireWork__class_name[] = "TObjCity_Season_FireWork";
 // The firework area's debug box colour.
 const NJS_ARGB lbl_804441FC = {0.8f, 0.2f, 1.0f, 0.9f};
 
-const char *TObjCity_Season_EasterEgg__name = TObjCity_Season_EasterEgg__class_name;
-const char *TObjCity_Season_ValentineHeart__name = TObjCity_Season_ValentineHeart__class_name;
-const char *TObjCity_Season_XmasTree__name = TObjCity_Season_XmasTree__class_name;
-const char *TObjCity_Season_XmasWreath__name = TObjCity_Season_XmasWreath__class_name;
-const char *TObjCity_Season_HalloweenPumpkin__name = TObjCity_Season_HalloweenPumpkin__class_name;
-const char *TObjCity_Season_21_21__name = TObjCity_Season_21_21__class_name;
-const char *TObjCity_Season_SonicAdv2__name = TObjCity_Season_SonicAdv2__class_name;
-const char *TObjCity_Season_Board__name = TObjCity_Season_Board__class_name;
-const char *TObjCity_Season_FireWorkCtrl__name = TObjCity_Season_FireWorkCtrl__class_name;
-const char *TObjCity_Season_FireWork__name = TObjCity_Season_FireWork__class_name;
+const char *TObjCity_Season_EasterEgg::class_name = TObjCity_Season_EasterEgg__class_name;
+const char *TObjCity_Season_ValentineHeart::class_name = TObjCity_Season_ValentineHeart__class_name;
+const char *TObjCity_Season_XmasTree::class_name = TObjCity_Season_XmasTree__class_name;
+const char *TObjCity_Season_XmasWreath::class_name = TObjCity_Season_XmasWreath__class_name;
+const char *TObjCity_Season_HalloweenPumpkin::class_name = TObjCity_Season_HalloweenPumpkin__class_name;
+const char *TObjCity_Season_21_21::class_name = TObjCity_Season_21_21__class_name;
+const char *TObjCity_Season_SonicAdv2::class_name = TObjCity_Season_SonicAdv2__class_name;
+const char *TObjCity_Season_Board::class_name = TObjCity_Season_Board__class_name;
+const char *TObjCity_Season_FireWorkCtrl::class_name = TObjCity_Season_FireWorkCtrl__class_name;
+const char *TObjCity_Season_FireWork::class_name = TObjCity_Season_FireWork__class_name;
 
 TObjCitySeasonBase::TObjCitySeasonBase(TObject *parent, void *set_data, s32 kind, f32 radius) : TObjCollidable(parent) {
     apply_object_set_data(set_data);
@@ -111,7 +111,7 @@ s32 TObjCitySeasonBase::advance_anim_time(s32 motion, f32 step) {
 TObjCity_Season_EasterEgg::TObjCity_Season_EasterEgg(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 0, 13.0f) {
     Vec pos;
-    m_name = TObjCity_Season_EasterEgg__name;
+    m_name = TObjCity_Season_EasterEgg::class_name;
     unk_B4 = 0;
     if (get_anim_frame() != NULL) {
         VecCopy(&pos, &position);
@@ -165,7 +165,7 @@ void TObjCity_Season_EasterEgg::render() {
 TObjCity_Season_ValentineHeart::TObjCity_Season_ValentineHeart(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 1, 13.0f) {
     Vec pos;
-    m_name = TObjCity_Season_ValentineHeart__name;
+    m_name = TObjCity_Season_ValentineHeart::class_name;
     if (get_anim_frame() != NULL) {
         VecCopy(&pos, &position);
         pos.y += 4.0f;
@@ -202,7 +202,7 @@ void TObjCity_Season_ValentineHeart::render() {
 TObjCity_Season_XmasTree::TObjCity_Season_XmasTree(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 2, 22.5f) {
     Vec pos;
-    m_name = TObjCity_Season_XmasTree__name;
+    m_name = TObjCity_Season_XmasTree::class_name;
     if (get_anim_frame() != NULL) {
         VecCopy(&pos, &position);
         pos.y += 4.0f;
@@ -241,7 +241,7 @@ void TObjCity_Season_XmasTree::render() {
 }
 
 TObjCity_Season_XmasWreath::TObjCity_Season_XmasWreath(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjCity_Season_XmasWreath__name;
+    m_name = TObjCity_Season_XmasWreath::class_name;
     apply_object_set_data(set_data);
 }
 
@@ -265,7 +265,7 @@ void TObjCity_Season_XmasWreath::render() {
 }
 
 TObjCity_Season_HalloweenPumpkin::TObjCity_Season_HalloweenPumpkin(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjCity_Season_HalloweenPumpkin__name;
+    m_name = TObjCity_Season_HalloweenPumpkin::class_name;
     apply_object_set_data(set_data);
 }
 
@@ -297,7 +297,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
 TObjCity_Season_21_21::TObjCity_Season_21_21(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 4, 23.0f) {
     Vec pos;
-    m_name = TObjCity_Season_21_21__name;
+    m_name = TObjCity_Season_21_21::class_name;
     uv_scroll = 0;
     if (get_anim_frame() != NULL) {
         VecCopy(&pos, &position);
@@ -345,7 +345,7 @@ void TObjCity_Season_21_21::render() {
 
 TObjCity_Season_SonicAdv2::TObjCity_Season_SonicAdv2(TObject *parent, void *set_data)
     : TObjCitySeasonBase(parent, set_data, 5, 3.0f) {
-    m_name = TObjCity_Season_SonicAdv2__name;
+    m_name = TObjCity_Season_SonicAdv2::class_name;
 }
 
 TObjCity_Season_SonicAdv2::~TObjCity_Season_SonicAdv2() {}
@@ -399,7 +399,7 @@ void TObjCity_Season_SonicAdv2::debug_draw_model_index() {
 }
 
 TObjCity_Season_Board::TObjCity_Season_Board(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjCity_Season_Board__name;
+    m_name = TObjCity_Season_Board::class_name;
     apply_object_set_data(set_data);
     uv_scroll = 0;
 }
@@ -430,7 +430,7 @@ void TObjCity_Season_Board::render() {
 }
 
 TObjCity_Season_FireWorkCtrl::TObjCity_Season_FireWorkCtrl(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjCity_Season_FireWorkCtrl__name;
+    m_name = TObjCity_Season_FireWorkCtrl::class_name;
     apply_object_set_data(set_data);
     spawn_delay = 0;
 }
@@ -492,7 +492,7 @@ void TObjCity_Season_FireWorkCtrl::vfunc_13(s32) {
 }
 
 TObjCity_Season_FireWork::TObjCity_Season_FireWork(TObject* parent, void* position, f32 riseHeight) : TObject(parent) {
-    m_name = TObjCity_Season_FireWork__name;
+    m_name = TObjCity_Season_FireWork::class_name;
     VecCopy(&pos, (const Vec *)position);
     state = 0;
     handle = NULL;

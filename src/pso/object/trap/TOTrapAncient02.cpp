@@ -74,9 +74,9 @@ const char *trap_ancient02_name = "TOTrapAncient02";
 const char *trap_ancient02_r_name = "TOTrapAncient02R";
 
 BmlResource *trap_ancient02_shared_resource;
-s32 lbl_805D5ADC;   // the actor_frame_tick the uv scroll last ran on
-GinjaModel *lbl_805D5AE0; // the model vfunc_84 scrolls the uvs of
-s32 lbl_805D5AE4;   // the mesh of it that scrolls
+s32 uv_scroll_last_tick;   // the actor_frame_tick the uv scroll last ran on
+GinjaModel *uv_scroll_model; // the model vfunc_84 scrolls the uvs of
+s32 uv_scroll_mesh_index;   // the mesh of it that scrolls
 
 void TOTrapAncient02R::init_trap_object_id() {
     switch_id = set_params[1];
@@ -179,9 +179,9 @@ void TOTrapAncient02::load_resources() {
     case AREA_VR_TEMPLE_BETA:
         resource = new BmlResource(1, &records[1].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        lbl_805D5AE0 = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
-        lbl_805D5AE4 = 2;
-        lbl_805D5ADC = 0;
+        uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
+        uv_scroll_mesh_index = 2;
+        uv_scroll_last_tick = 0;
         break;
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
@@ -194,16 +194,16 @@ void TOTrapAncient02::load_resources() {
     case AREA_TOWER:
         resource = new BmlResource(1, &records[2].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        lbl_805D5AE0 = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
-        lbl_805D5AE4 = 1;
-        lbl_805D5ADC = 0;
+        uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
+        uv_scroll_mesh_index = 1;
+        uv_scroll_last_tick = 0;
         break;
     default:
         resource = new BmlResource(1, &records[0].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        lbl_805D5AE0 = static_cast<GinjaModel *>(resource->models->model->child->child->model);
-        lbl_805D5AE4 = 1;
-        lbl_805D5ADC = 0;
+        uv_scroll_model = static_cast<GinjaModel *>(resource->models->model->child->child->model);
+        uv_scroll_mesh_index = 1;
+        uv_scroll_last_tick = 0;
         break;
     }
 }
@@ -242,22 +242,22 @@ void TOTrapAncient02::draw_effect_chain() {
     rotate_matrix_y(0, rotation_y);
     n = (NJS_OBJECT *)model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
-    draw_ginja_model((void *)n->model);
+    draw_ginja_model(n->model);
     push_matrix();
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
-    draw_ginja_model((void *)n->model);
+    draw_ginja_model(n->model);
     TParticleCtrl::begin_effect_render();
     push_matrix();
     n = n->child;
     post_translate_matrix(n->pos);
-    draw_ginja_model((void *)n->model);
+    draw_ginja_model(n->model);
     pop_matrix();
     push_matrix();
     n = n->sibling;
     post_translate_matrix(n->pos);
     rotate_matrix_y(0, spin_angle);
-    draw_ginja_model((void *)n->model);
+    draw_ginja_model(n->model);
     pop_matrix();
     TParticleCtrl::end_effect_render();
     pop_matrix();
@@ -274,7 +274,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((void *)n->model);
+    draw_ginja_model(n->model);
     reset_particle_tev();
     push_matrix();
     n = n->child;
@@ -282,7 +282,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((void *)n->model);
+    draw_ginja_model(n->model);
     reset_particle_tev();
     TParticleCtrl::begin_effect_render();
     push_matrix();
@@ -291,7 +291,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(1);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((void *)n->model);
+    draw_ginja_model(n->model);
     reset_particle_tev();
     pop_matrix();
     push_matrix();
@@ -301,7 +301,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((void *)n->model);
+    draw_ginja_model(n->model);
     reset_particle_tev();
     pop_matrix();
     TParticleCtrl::end_effect_render();
@@ -428,9 +428,9 @@ void TOTrapAncient02::vfunc_82() {
 }
 
 void TOTrapAncient02::vfunc_84() {
-    if (lbl_805D5ADC != actor_frame_tick && lbl_805D5AE0 != NULL) {
-        lbl_805D5ADC = actor_frame_tick;
-        scroll_ginja_mesh_uvs(lbl_805D5AE0, 0, 0xE, lbl_805D5AE4, 1);
+    if (uv_scroll_last_tick != actor_frame_tick && uv_scroll_model != NULL) {
+        uv_scroll_last_tick = actor_frame_tick;
+        scroll_ginja_mesh_uvs(uv_scroll_model, 0, 0xE, uv_scroll_mesh_index, 1);
     }
     spin_angle += 0x888;
     switch (mode) {

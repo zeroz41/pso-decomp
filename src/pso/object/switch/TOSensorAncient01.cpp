@@ -73,7 +73,7 @@ void TOSensorAncient01::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)ancient_sensor_resource_pair_table[set_params[2]].red));
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         object = object->child;
@@ -81,7 +81,7 @@ void TOSensorAncient01::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
         }
         post_translate_matrix(object->pos);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         pop_matrix();
         push_matrix();
         object = object->sibling;
@@ -89,7 +89,7 @@ void TOSensorAncient01::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
         }
         post_translate_matrix(object->pos);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         pop_matrix();
         push_matrix();
         object = object->sibling;
@@ -97,7 +97,7 @@ void TOSensorAncient01::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
         }
         post_translate_matrix(object->pos);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         push_matrix();
@@ -105,27 +105,27 @@ void TOSensorAncient01::render() {
         post_translate_matrix(object->pos);
         rotate_matrix_y(NULL, spin_angle);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         TParticleCtrl::end_effect_render();
         push_matrix();
         object = object->child;
         translate_matrix(0, object->pos[0] + pulse_offset, object->pos[1], object->pos[2]);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         pop_matrix();
         push_matrix();
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2] - pulse_offset);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         pop_matrix();
         push_matrix();
         object = object->sibling;
         translate_matrix(0, object->pos[0] - pulse_offset, object->pos[1], object->pos[2]);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         pop_matrix();
         push_matrix();
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2] + pulse_offset);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
         pop_matrix();

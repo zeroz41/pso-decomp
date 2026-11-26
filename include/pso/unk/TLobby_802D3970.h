@@ -14,14 +14,5 @@ extern "C" {
 void close_trade_request__6TLobbyFPv(void *p);
 }
 
-// --- C functions defined in TLobby_802D3970.cpp ---
-extern "C" {
-void TLobby__sub_802D39BC(void *p);
-void TLobby__sub_802D39DC(void *p);
-void TLobby__sub_802D39FC(void *p);
-void TLobby__sub_802D3AA8(void);
-void close_trade_request__6TLobbyFPv(void *p);
-}
-// --- end of C functions
 
 #endif

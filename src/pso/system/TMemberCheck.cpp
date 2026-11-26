@@ -7,15 +7,14 @@
 
 extern "C" {
 const char *member_check_name_ptr = "TMemberCheck";
-s32 TMemberCheck__previous_member_count;
+s32 TMemberCheck::previous_member_count;
 extern const char *member_check_name_ptr;
-extern s32 TMemberCheck__previous_member_count;
 }
 
 void TMemberCheck::run_task() {
     s32 n = TLobby::count_members();
-    if (TMemberCheck__previous_member_count != n) {
-        TMemberCheck__previous_member_count = n;
+    if (TMemberCheck::previous_member_count != n) {
+        TMemberCheck::previous_member_count = n;
         open_member_name_window();
     }
     update_member_proximity();
@@ -31,6 +30,6 @@ TMemberCheck::TMemberCheck(TObject* parent) : TObject(parent) {
     m_name = member_check_name_ptr;
     member_window = 0;
     memset(names, 0, 0x60);
-    TMemberCheck__previous_member_count = TLobby::count_members();
+    TMemberCheck::previous_member_count = TLobby::count_members();
     open_member_name_window();
 }

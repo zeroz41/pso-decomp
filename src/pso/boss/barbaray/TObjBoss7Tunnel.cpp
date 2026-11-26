@@ -354,14 +354,14 @@ void TObjBoss7Tunnel::start_sway_positive_x() {
     boss2_tunnel_state_flags &= ~0x1000;
 }
 
-void TObjBoss7Tunnel::clear_flags_0x3000() { boss2_tunnel_state_flags &= ~0x3000; }
+void TObjBoss7Tunnel::stop_sway() { boss2_tunnel_state_flags &= ~0x3000; }
 
-void TObjBoss7Tunnel::set_flag_0x200() {
+void TObjBoss7Tunnel::request_phase_1() {
     boss2_tunnel_state_flags |= 0x200;
-    clear_flags_0x3000();
+    stop_sway();
 }
 
-void TObjBoss7Tunnel::set_flag_0x8() { boss2_tunnel_state_flags |= 0x8; }
+void TObjBoss7Tunnel::notify_end_segment_spawned() { boss2_tunnel_state_flags |= 0x8; }
 
 void TObjBoss7Tunnel::spawn(s32 kind, Vec *position) {
     new TObjBoss7TunnelSegment(effect_nodes, kind, position, half_length);
@@ -411,7 +411,7 @@ TObjBoss7TunnelSegment::TObjBoss7TunnelSegment(TObject *parent, s32 kind, Vec *p
     this->half_length = half_length;
     if (kind == 4) {
         controller->copy_position(&position);
-        TObjBoss7Tunnel::set_flag_0x8();
+        TObjBoss7Tunnel::notify_end_segment_spawned();
     }
     update_collision();
 }

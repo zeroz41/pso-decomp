@@ -18,7 +18,6 @@ extern BmlResourceDescriptor bm_o_wreck_ancient_resource_descriptor;
 extern BmlResourceDescriptor wreck_ancient_resource_descriptor;
 extern BmlResource *wreck_ancient_bml_resource;
 extern BmlResource *wreck_ancient_brakable_bml_resource;
-extern const CollisionBody TOWreckAncient__collision_body_templates[7];
 extern const AncientWreckDebrisOffsets wreck_ancient_brakable_debris_table;
 extern const TObjChipParams wreck_ancient_brakable_debris_param_table;
 }

@@ -39,6 +39,8 @@ struct PlayerBattleScore {
     DamageStatSlot damage_stats[5];
     PlayerSubObjectSlots slots;
 
+    // Clears the timer and every stat slot.
+    PlayerBattleScore *init();
     void set_timer(s32 v);
     s32 get_timer();
 };

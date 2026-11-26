@@ -3,8 +3,4 @@
 
 #include "types.h"
 
-extern "C" {
-u32 *fn_80077B34(u32 *dst, u32 *src);
-}
-
 #endif

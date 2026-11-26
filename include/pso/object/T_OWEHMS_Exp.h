@@ -5,6 +5,7 @@ class TObjPlayer;
 
 class T_OWEHMS_Exp : public TObject {
 public:
+    static const char *class_name;
     T_OWEHMS_Exp(TObjPlayer *player);
     virtual ~T_OWEHMS_Exp();
     virtual void run_task();

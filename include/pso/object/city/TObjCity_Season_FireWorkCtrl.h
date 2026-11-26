@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCity_Season_FireWorkCtrl : public TObjBase {
+    static const char *class_name;
     TObjCity_Season_FireWorkCtrl(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_FireWorkCtrl();
     virtual void vfunc_13(s32);

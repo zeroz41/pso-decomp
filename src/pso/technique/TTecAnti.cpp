@@ -32,18 +32,18 @@ const char *TTecAnti::class_name = "TTecAnti";
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct AntiRow_8022AE10 { s32 a; s32 b; s32 c; s32 flags; };
+// A particle emitter of the Anti effect: it starts after `delay` frames, `count` times; bit 0 of flags puts it at the
+// ground position instead of the body position.
+struct AntiEmitterRow { s32 delay; s32 count; s32 id; s32 flags; };
 
 
 
-extern "C" {
-AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
+AntiEmitterRow TTecAnti__self_effect_rows[4] = {
     {0xF, 1, 0x30, 0},
     {0xF, 1, 0x32, 0},
     {0, 0xF, 0x31, 1},
     {0xA, 1, 0x1EC, 1},
 };
-}
 void TTecAnti::render() {  }
 
 TargetCursorList *copy_technique_target_list(TargetCursorList *d, TargetCursorList *s) {
@@ -57,12 +57,12 @@ void TechniqueParams::copy(TechniqueParams *src) {
     range = src->range;
     pad_0C = src->pad_0C;
     tp_cost = src->tp_cost;
-    pad_12 = src->pad_12;
+    charge_speed = src->charge_speed;
     mental = src->mental;
     pad_16 = src->pad_16;
     angle = src->angle;
     pad_1C = src->pad_1C;
-    pad_20 = src->pad_20;
+    duration = src->duration;
     pad_22 = src->pad_22;
     tp_cost_percent = src->tp_cost_percent;
     power_per_level = src->power_per_level;
@@ -165,15 +165,15 @@ TTecAntiEff::TTecAntiEff(Vec *body_pos, Vec *ground_pos, u16 owner_id, TObject *
     VecCopy(&m_body_pos, body_pos);
     VecCopy(&m_ground_pos, ground_pos);
     for (i = 0; i < 4; i++) {
-        AntiRow_8022AE10 *row = &TTecAnti__self_effect_rows[i];
+        AntiEmitterRow *row = &TTecAnti__self_effect_rows[i];
         TParticleCtrl *p;
         if (row->flags & 1) {
-            p = create_timed_particle_emitter_with_flags(&m_ground_pos, row->c, row->a, row->b, 0x10);
+            p = create_timed_particle_emitter_with_flags(&m_ground_pos, row->id, row->delay, row->count, 0x10);
             if (p != NULL) {
                 p->set_owner_id(owner_id);
             }
         } else {
-            p = create_timed_particle_emitter_with_flags(&m_body_pos, row->c, row->a, row->b, 0x10);
+            p = create_timed_particle_emitter_with_flags(&m_body_pos, row->id, row->delay, row->count, 0x10);
             if (p != NULL) {
                 p->set_owner_id(owner_id);
             }

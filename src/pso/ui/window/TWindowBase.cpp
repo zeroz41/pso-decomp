@@ -727,14 +727,14 @@ void TWindowBase::draw_window_frame(void *context) {
   q.v1 = h / 256.0f;
   q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
   q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+  draw_window_frame_strips((&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
   q.y0 = (((WindowDrawContext *)context)->y + n) - h;
   q.y1 = ((WindowDrawContext *)context)->y + n;
   q.v0 = (96.0f - h) / 256.0f;
   q.v1 = 0.375f;
   q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
   q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+  draw_window_frame_strips((&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
   q.y0 = 32.0f + ((WindowDrawContext *)context)->y;
   q.v0 = 0.125f;
   q.v1 = 0.25f;
@@ -749,7 +749,7 @@ void TWindowBase::draw_window_frame(void *context) {
       q.v1 = (32.0f + rem) / 256.0f;
     }
     q.y1 = q.y0 + dy;
-    draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+    draw_window_frame_strips((&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
     rem -= 32.0f;
     q.y0 += dy;
   }

@@ -95,7 +95,7 @@ void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
 
 void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
 
-s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 arg3, s32 arg4) {
+s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 offset, s32 options) {
     s32 r;
     s32 m;
     s32 flags;
@@ -105,15 +105,15 @@ s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 
     if (position == 0) {
         flags |= 0xE;
     }
-    if (arg4 & 1) {
+    if (options & 1) {
         flags |= 0xC;
     }
-    if (arg4 & 2) {
+    if (options & 2) {
         v = -(s32)((id >> 8U) & 0x7F);
-        if (arg3 >= 0) {
-            arg3 = 0;
+        if (offset >= 0) {
+            offset = 0;
         }
-        v += arg3;
+        v += offset;
     } else {
         v = -(s32)((id >> 8U) & 0x7F);
     }
@@ -139,7 +139,7 @@ s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 
     return -1;
 }
 
-s32 play_packed_sound_once(u32 id, saddr position, s32 arg2, s32 arg3) {
+s32 play_packed_sound_once(u32 id, saddr position, s32 offset, s32 options) {
     s32 r;
     s32 m;
     s32 flags;
@@ -149,15 +149,15 @@ s32 play_packed_sound_once(u32 id, saddr position, s32 arg2, s32 arg3) {
     if (position == 0) {
         flags |= 0xE;
     }
-    if (arg3 & 1) {
+    if (options & 1) {
         flags |= 0xC;
     }
-    if (arg3 & 2) {
+    if (options & 2) {
         v = -(s32)((id >> 8U) & 0x7F);
-        if (arg2 >= 0) {
-            arg2 = 0;
+        if (offset >= 0) {
+            offset = 0;
         }
-        v += arg2;
+        v += offset;
     } else {
         v = -(s32)((id >> 8U) & 0x7F);
     }
@@ -205,18 +205,18 @@ extern const f32 floor_sound_bank_volume_table[36] = {
 
 void TLobby::refresh_render_state() { TLobby::pop_sound_groups((void *)&sound_control_state, (saddr)((void*)0)); ((int (*)(float))apply_clamped_field_27c__6TLobbyFv)(0.0f); render_tick(); }
 
-void load_floor_sound_bank(s32 arg0) {
-    s32 temp_r0;
-    s32 temp_r31;
+void load_floor_sound_bank(s32 floor) {
+    s32 byte_offset;
+    s32 bank;
 
-    if (arg0 >= 0) {
-        temp_r0 = arg0 * 4;
-        temp_r31 = *(s32 *)((s8 *)((u8 *)floor_sound_bank_table + temp_r0) + 0);
-        if (temp_r31 >= 0) {
-            if (arg0 < 0x24) {
-                ((s32 (*)(void *, f32))apply_clamped_field_27c__6TLobbyFv)((void *)floor_sound_bank_volume_table, (f32) (*(f32 *)((s8 *)((u8 *)floor_sound_bank_volume_table + temp_r0) + 0)));
+    if (floor >= 0) {
+        byte_offset = floor * 4;
+        bank = *(s32 *)((s8 *)((u8 *)floor_sound_bank_table + byte_offset) + 0);
+        if (bank >= 0) {
+            if (floor < 0x24) {
+                ((s32 (*)(void *, f32))apply_clamped_field_27c__6TLobbyFv)((void *)floor_sound_bank_volume_table, (f32) (*(f32 *)((s8 *)((u8 *)floor_sound_bank_volume_table + byte_offset) + 0)));
             }
-            ((TLobby *)((void *)&sound_control_state))->validate_and_set_selection((int)temp_r31);
+            ((TLobby *)((void *)&sound_control_state))->validate_and_set_selection((int)bank);
             do {
                 TLobby::run_disk_error_check();
                 exec_adx_server();

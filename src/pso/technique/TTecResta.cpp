@@ -28,13 +28,13 @@
 const char *TTecResta::class_name = "TTecResta";
 
 
-struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
+struct RecoveryEffectRow { s32 delay; s32 duration; s32 entry; u32 flags; };
 
 
 
 
 extern "C" {
-Row_8023967C TTecResta__self_recovery_effect_table[3] = {
+RecoveryEffectRow TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},
     {0, 1, 0x2D, 1},
     {0x14, 1, 0x2E, 0},
@@ -170,7 +170,7 @@ void TTecResta::create(void *source, void *origin, void *targets, s32 level) {
 TTecRestaEff::TTecRestaEff(Vec *pos, s32 owner, TObject *parent) : TObject(parent) {
     Vec v;
     s32 i;
-    Row_8023967C *row;
+    RecoveryEffectRow *row;
     m_timer = 0;
     for (i = 0; i < 3; i++) {
         m_emitters[i] = 0;

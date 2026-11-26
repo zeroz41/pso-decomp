@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit split off the berura enemy at 0x80439DA0; the referencing unit keeps these extern.
+// Data-only unit split off the berura enemy; the referencing unit keeps these extern.
 
 __declspec(section ".rodata") extern const u32 berura_attack_stat_ids[2] = {
     0x0000000E, 0x00000013,

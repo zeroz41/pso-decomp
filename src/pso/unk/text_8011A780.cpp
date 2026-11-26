@@ -28,26 +28,7 @@
 #include "pso/item/item_create.h"
 
 
-// FloorItem::FloorItem() on a record built here.
-extern "C" void *__ct__9FloorItemFv(void *item);
-struct AddItemConditionStack {
-    s8 sp8;
-    u8 pad_9[0x3];
-    f32 spC;
-    f32 sp10;
-    s16 sp14;
-    u8 pad_16[0x2];
-    s32 sp18;
-    u8 trailing_storage[0x10];
-};
 
-struct BoxDrop_8011A868 {
-    u8 cmd; u8 size; u16 pad2; u8 client; u8 area; s16 source;
-    f32 x; f32 z; s16 room; s16 x12; s8 slot; u8 pad15[3];
-    f32 fixed; u32 params[3];
-};
-
-struct Source_8011AB64 { u32 a; u16 claim; u16 b; u32 c; };
 
 s32 lbl_805D54E0;
 s32 build_item_id_mode;
@@ -285,20 +266,14 @@ void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt) {
 }
 
 void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(AddItemConditionStack, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(AddItemConditionStack, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(AddItemConditionStack, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(AddItemConditionStack, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(AddItemConditionStack, sp18) == 0x10);
-    AddItemConditionStack stack;
-    __ct__9FloorItemFv(&stack.sp8);
-    stack.sp8 = floor;
-    stack.spC = x;
-    stack.sp10 = z;
-    stack.sp14 = room;
-    ((TItemData *)(&stack.sp18))->copy_from((TItemData *)(item));
+    FloorItem entry;
+    entry.floor = floor;
+    entry.pos.x = x;
+    entry.pos.z = z;
+    entry.room_id = room;
+    ((TItemData *)(&entry.item))->copy_from((TItemData *)(item));
     observe_item_id(*(s32 *)((s8 *)item + 0xC));
-    insert_item_condition((FloorItem *)&stack.sp8);
+    insert_item_condition(&entry);
 }
 
 void handle_6x62(void) {  }

@@ -12,6 +12,7 @@
 #include "pso/system/scene/TEndingC_8008D00C.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/system/scene/TEndingPic.h"
+#include "pso/system/scene/TEndingAB.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/GinjaTexture.h"
@@ -53,9 +54,9 @@ void TObjEneBalClaw::clear_flag_in_state7() {
 
 u32 get_ending_frame_counter(void) { return ending_frame_counter; }
 
-void start_ending_pic_sequence(void) { TEndingPic__animation_state = 1; }
+void start_ending_pic_sequence(void) { TEndingPic::animation_state = 1; }
 
-void start_ending_ab_fade(void) { TEndingAB__fade_sequence_state = 1; }
+void start_ending_ab_fade(void) { TEndingAB::fade_sequence_state = 1; }
 
 void register_texture_ed_512kabe_c(void) { ending_c_wall_texture_list = &ending_c_wall_texlist; bind_gvm_texture_list(ending_c_texture_ed_512kabe_c, &ending_c_wall_texlist); }
 

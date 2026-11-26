@@ -8,19 +8,19 @@ extern "C" {
 
 
 s32 TObjAreaWarp::find_active_player() {
-    u32 temp_r31;
-    s32 var_r30;
+    u32 present_mask;
+    s32 client;
     TObjPlayer *player;
 
     if ((s32) *(s32 *)&this->m_down != 0) {
-        temp_r31 = *(s32 *)&this->entity_id & *(s32 *)((s8 *)this + 0x20);
-        var_r30 = 0;
+        present_mask = *(s32 *)&this->entity_id & *(s32 *)((s8 *)this + 0x20);
+        client = 0;
 loop_2:
-        if (!((temp_r31 >> var_r30) & 1) && (player = get_player_by_client_id(var_r30)) != NULL) {
+        if (!((present_mask >> client) & 1) && (player = get_player_by_client_id(client)) != NULL) {
             return player->get_entity_id();
         }
-        var_r30 += 1;
-        if (var_r30 >= 4) {
+        client += 1;
+        if (client >= 4) {
             goto block_6;
         }
         goto loop_2;

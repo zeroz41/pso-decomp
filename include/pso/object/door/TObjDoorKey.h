@@ -32,10 +32,7 @@ struct TObjDoorKey : public TOKey {
 LAYOUT_ASSERT(TObjDoorKey_size, sizeof(TObjDoorKey) == 0xFC);
 
 extern "C" {
-void *__ct__11TObjDoorKeyFP7TObjectPv(TObjDoorKey *arg0, void *arg1, void *arg2);
 void TObjDoorKey__sub_8018FAEC(u16 id, u16);
-void trigger_activate_sound__11TObjDoorKeyFv(u8 *arg0);
-void *__dt__11TObjDoorKeyFv(void *arg0, s16 arg1);
 }
 
 #endif

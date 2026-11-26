@@ -1065,7 +1065,7 @@ void T_ATS_DrawCalendar::render() {
         T_ATS_DrawCalendarPos p = pos;
         s = (char *)get_localized_text_entry(0x1C, 0xC);
         // The text drawing function at 0x80145778 is declared as a member of TAdSinglePlyChrSelectGC.
-        draw_menu_font_string_white((const char *)s, -(0.5f * (f32)calc_text_width(s) - p.x), p.y);
+        draw_menu_font_string_white(s, -(0.5f * (f32)calc_text_width(s) - p.x), p.y);
         p.y += 30.0f;
         getDateStamp(&date);
         wd = date.weekday + 13;
@@ -1081,10 +1081,10 @@ void T_ATS_DrawCalendar::render() {
             w = -0.5f * (f32)calc_fullwidth_text_width(s);
             break;
         }
-        draw_menu_font_string_white((const char *)s, p.x + w, p.y);
+        draw_menu_font_string_white(s, p.x + w, p.y);
         p.y += 22.0f;
         sprintf(buf, "%02d:%02d:%02d", date.hour, date.minute, date.second);
-        draw_menu_font_string_white((const char *)buf, -(0.5f * (f32)calc_text_width(buf) - p.x), p.y);
+        draw_menu_font_string_white(buf, -(0.5f * (f32)calc_text_width(buf) - p.x), p.y);
     }
 }
 

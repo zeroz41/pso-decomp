@@ -9,7 +9,7 @@
 #include "pso/enemy/stelth/StelthData.h"
 
 // String objects are named after their contents.
-// .rodata 0x8043D450-0x8043D750 of the Stelth code (the SinowZoaData.cpp shape): the code
+// .rodata block of the Stelth code (the SinowZoaData.cpp shape): the code
 // addresses each object on its own, so it did not compile them itself.
 
 

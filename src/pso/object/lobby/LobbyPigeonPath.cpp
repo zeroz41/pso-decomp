@@ -35,13 +35,10 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/lobby/LobbyPigeonTheme.h"
 
-struct Entry_802C0CAC { s32 a; union { f32 pa; s32 b; }; union { f32 pb; s32 c; }; f32 d; s32 e; };
+struct PathProfileMixed { s32 path_motion; union { f32 path_speed; s32 path_speed_bits; }; union { f32 motion_speed; s32 motion_speed_bits; }; f32 look_ahead; s32 turn_step; };
 
-struct Entry_802C1660 { s32 a; f32 b; f32 c; f32 d; s32 e; };
-struct Entry_802C1E34 { s32 a; f32 b; f32 c; f32 d; s32 e; };
-struct Entry_802C2548 { s32 a; f32 b; f32 c; f32 d; s32 e; s32 f; };
-struct Entry_802C2C48 { s32 a; f32 b; f32 c; f32 d; s32 e; };
-typedef Entry_802C0CAC Ent_802C0F3C;
+struct PathProfile { s32 path_motion; f32 path_speed; f32 motion_speed; f32 look_ahead; s32 turn_step; };
+struct PathProfileEx { s32 path_motion; f32 path_speed; f32 motion_speed; f32 look_ahead; s32 turn_step; s32 extra; };
 
 // Resource descriptors of the path-following objects: seabed dolphin, jungle ebi, jungle bird,
 // jungle kamome and lobby pigeon.
@@ -77,7 +74,7 @@ const char *path_obj_name = "TObjPathObj";
 
 // Path profiles: {path motion, path speed, motion speed, look-ahead frames, turn step};
 // a turn step of 182 is one degree in 0x10000 units.
-extern const Entry_802C2C48 seabed_dolphin_path_profiles[5] = {
+extern const PathProfile seabed_dolphin_path_profiles[5] = {
     {0, 0.2f, 0.6f, 0.1f, 182},
     {1, 0.2f, 0.6f, 0.1f, 182},
     {2, 0.2f, 0.6f, 0.1f, 182},
@@ -90,29 +87,29 @@ TObjMotionAction seabed_dolphin_actions[1] = {
     {1, 0, 5, 0.6f, 0},
 };
 extern const NpcAnimationBinding seabed_dolphin_anim_binding = { NULL, seabed_dolphin_actions, 0, 0, 1 };
-extern const Entry_802C2548 jungle_ebi_path_profiles[3] = {
+extern const PathProfileEx jungle_ebi_path_profiles[3] = {
     {1, 0.01f, 0.6f, 0.1f, 182, 5},
     {2, 0.01f, 0.6f, 0.1f, 182, 5},
     {3, 0.01f, 0.6f, 0.1f, 364, 5},
 };
-extern const Entry_802C1E34 lobby_pigeon_path_parameters[3] = {
+extern const PathProfile lobby_pigeon_path_parameters[3] = {
     {1, 0.1f, 0.6f, 0.1f, 364},
     {2, 0.1f, 0.6f, 0.1f, 364},
     {3, 0.1f, 0.6f, 0.1f, 546},
 };
-extern const Entry_802C1660 jungle_seagull_path_profiles[3] = {
+extern const PathProfile jungle_seagull_path_profiles[3] = {
     {1, 0.1f, 0.6f, 0.1f, 364},
     {2, 0.1f, 0.6f, 0.1f, 364},
     {3, 0.1f, 0.6f, 0.1f, 546},
 };
-extern const Vec lbl_80471908 = {0.0f, 0.0f, 0.0f};
-extern const Ent_802C0F3C lobby_pigeon_path_profiles[3] = {
+extern const Vec path_zero_vec = {0.0f, 0.0f, 0.0f};
+extern const PathProfileMixed lobby_pigeon_path_profiles[3] = {
     {1, 0.1f, 2.0f, 0.1f, 364},
     {2, 0.1f, 2.0f, 0.1f, 364},
     {3, 0.1f, 2.0f, 0.1f, 546},
 };
 extern const Vec lobby_pigeon_zero_vec = {0.0f, 0.0f, 0.0f};
-extern const f64 lbl_80471960[1] = {10430.38043493439};
+extern const f64 path_angle_units_per_radian[1] = {10430.38043493439};
 
 
 #include "pso/map/CsnGroundQuery.h"
@@ -122,8 +119,8 @@ extern const f64 lbl_80471960[1] = {10430.38043493439};
 
 extern "C" {
 
-struct Ent_802C1FD0 { s32 a; f32 b; f32 c; s32 d; s32 e; };
-struct Ent_802C26E4 { s32 a; f32 b; f32 c; s32 d; s32 e; s32 f; };
+struct PathProfileView { s32 path_motion; f32 path_speed; f32 motion_speed; s32 look_ahead; s32 turn_step; };
+struct PathProfileExView { s32 path_motion; f32 path_speed; f32 motion_speed; s32 look_ahead; s32 turn_step; s32 extra; };
 
 struct Mtx_802C0F3C { f32 m[3][4]; };
 
@@ -230,7 +227,7 @@ TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPath
     }
   }
   profile = clamped_profile;
-  path = get_bml_motion(seabed_dolphin_bml_archive, seabed_dolphin_path_profiles[profile].a);
+  path = get_bml_motion(seabed_dolphin_bml_archive, seabed_dolphin_path_profiles[profile].path_motion);
   path_frame = 0.0f;
   motion_frame = 0.0f;
   initialize_path();
@@ -239,15 +236,15 @@ TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPath
 TObjSeabedDolphin::~TObjSeabedDolphin() {}
 
 void TObjSeabedDolphin::update() {
-    const Entry_802C2C48 *e = seabed_dolphin_path_profiles;
+    const PathProfile *e = seabed_dolphin_path_profiles;
     f32 ox;
     e += this->profile;
     ox = this->path_frame;
-    this->path_frame = ox + e->b;
+    this->path_frame = ox + e->path_speed;
     if (update_path_steering() == 0) {
         this->path_frame = (0.0f);
     }
-    this->motion_frame = this->motion_frame + seabed_dolphin_path_profiles[this->profile].c;
+    this->motion_frame = this->motion_frame + seabed_dolphin_path_profiles[this->profile].motion_speed;
     if (this->motion_frame > (f32)(this->motion->frameCount - 1)) {
         this->motion_frame = (0.0f);
     }
@@ -282,11 +279,11 @@ s32 TObjSeabedDolphin::initialize_path() {
     this->roll_speed = 0;
     sample_clamped_path_position(this->model, this->path, &a, (0.0f));
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, seabed_dolphin_path_profiles[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, seabed_dolphin_path_profiles[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -301,14 +298,14 @@ s32 TObjSeabedDolphin::update_path_steering() {
     s32 diff;
     sample_clamped_path_position(this->model, this->path, &a, this->path_frame);
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + seabed_dolphin_path_profiles[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + seabed_dolphin_path_profiles[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
-    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, seabed_dolphin_path_profiles[this->profile].e);
+    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, seabed_dolphin_path_profiles[this->profile].turn_step);
     old = this->path_yaw;
-    tmp = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
-    this->path_yaw = approach_angle_limited(old, tmp, seabed_dolphin_path_profiles[this->profile].e);
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = approach_angle_limited(old, tmp, seabed_dolphin_path_profiles[this->profile].turn_step);
     diff = angle_diff_s16(old, tmp);
     if (diff > 0x30) {
         if (this->roll_speed > 0) {
@@ -399,7 +396,7 @@ TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(pare
     }
   }
   profile = clamped_profile;
-  path = get_bml_motion(jungle_ebi_model_resource, jungle_ebi_path_profiles[profile].a);
+  path = get_bml_motion(jungle_ebi_model_resource, jungle_ebi_path_profiles[profile].path_motion);
   path_frame = 0.0f;
   motion_frame = 0.0f;
   initialize_path();
@@ -408,14 +405,14 @@ TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(pare
 TObjJungleEbi::~TObjJungleEbi() {}
 
 void TObjJungleEbi::update() {
-    Ent_802C26E4 *e = (Ent_802C26E4 *)jungle_ebi_path_profiles;
+    PathProfileExView *e = (PathProfileExView *)jungle_ebi_path_profiles;
     e += this->profile;
     f32 ox = this->path_frame;
-    this->path_frame = ox + e->b;
-    if (update_path_follow_rotation((Ent_802C26E4 *)(e), ox) == 0) {
+    this->path_frame = ox + e->path_speed;
+    if (update_path_follow_rotation((e), ox) == 0) {
         this->path_frame = (0.0f);
     }
-    this->motion_frame = this->motion_frame + jungle_ebi_path_profiles[this->profile].c;
+    this->motion_frame = this->motion_frame + jungle_ebi_path_profiles[this->profile].motion_speed;
     if (this->motion_frame > (f32)(this->motion->frameCount - 1)) {
         this->motion_frame = (0.0f);
     }
@@ -448,17 +445,17 @@ s32 TObjJungleEbi::initialize_path() {
     this->roll_speed = 0;
     sample_clamped_path_position(this->model, this->path, &a, (0.0f));
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, jungle_ebi_path_profiles[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, jungle_ebi_path_profiles[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
 s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
     s32 r;
-    const Entry_802C2548 *e;
+    const PathProfileEx *e;
     s32 old;
     s32 diff;
     Vec a;
@@ -466,12 +463,12 @@ s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
     s32 tmp;
     s32 tmp2;
     e = &jungle_ebi_path_profiles[this->profile];
-    if (!(e->f & 1)) {
+    if (!(e->extra & 1)) {
         return 1;
     }
     sample_clamped_path_position(this->model, this->path, &a, this->path_frame);
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + e->d);
+    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + e->look_ahead);
     if (this->visibility != 0) {
         Vec p = this->path_position;
         CsnHit *hit;
@@ -488,13 +485,13 @@ s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)(&d), &tmp, &tmp2);
     }
-    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, e->e);
+    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, e->turn_step);
     old = this->path_yaw;
-    tmp = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
-    if (!(e->f & 2)) {
-        this->path_yaw = approach_angle_limited(old, tmp, e->e);
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
+    if (!(e->extra & 2)) {
+        this->path_yaw = approach_angle_limited(old, tmp, e->turn_step);
     }
-    if (!(e->f & 4)) {
+    if (!(e->extra & 4)) {
         diff = angle_diff_s16(old, tmp);
         if (diff > 0x30) {
             if (this->roll_speed > 0) {
@@ -574,7 +571,7 @@ TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(pa
     }
   }
   profile = clamped_profile;
-  path = get_bml_motion(jungle_bird_bml_resource, lobby_pigeon_path_parameters[profile].a);
+  path = get_bml_motion(jungle_bird_bml_resource, lobby_pigeon_path_parameters[profile].path_motion);
   path_frame = 0.0f;
   motion_frame = 0.0f;
   initialize_path();
@@ -585,13 +582,13 @@ TObjJungleBird::~TObjJungleBird() {}
 void TObjJungleBird::update() {
     u8 *t = (u8 *)lobby_pigeon_path_parameters;
     t = t + this->profile * 0x14;
-    Ent_802C1FD0 *e = (Ent_802C1FD0 *)t;
+    PathProfileView *e = (PathProfileView *)t;
     f32 ox = this->path_frame;
-    this->path_frame = ox + e->b;
+    this->path_frame = ox + e->path_speed;
     if (update_path_steering() == 0) {
         this->path_frame = (0.0f);
     }
-    this->motion_frame = this->motion_frame + lobby_pigeon_path_parameters[this->profile].c;
+    this->motion_frame = this->motion_frame + lobby_pigeon_path_parameters[this->profile].motion_speed;
     if (this->motion_frame > (f32)(this->motion->frameCount - 1)) {
         this->motion_frame = (0.0f);
     }
@@ -624,11 +621,11 @@ s32 TObjJungleBird::initialize_path() {
     this->roll_speed = 0;
     sample_clamped_path_position(this->model, this->path, &a, (0.0f));
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, lobby_pigeon_path_parameters[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, lobby_pigeon_path_parameters[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -643,14 +640,14 @@ s32 TObjJungleBird::update_path_steering() {
     s32 diff;
     sample_clamped_path_position(this->model, this->path, &a, this->path_frame);
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + lobby_pigeon_path_parameters[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + lobby_pigeon_path_parameters[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
-    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, lobby_pigeon_path_parameters[this->profile].e);
+    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, lobby_pigeon_path_parameters[this->profile].turn_step);
     old = this->path_yaw;
-    tmp = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
-    this->path_yaw = approach_angle_limited(old, tmp, lobby_pigeon_path_parameters[this->profile].e);
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = approach_angle_limited(old, tmp, lobby_pigeon_path_parameters[this->profile].turn_step);
     diff = angle_diff_s16(old, tmp);
     if (diff > 0x30) {
         if (this->roll_speed > 0) {
@@ -726,7 +723,7 @@ TObjJungleKamome::TObjJungleKamome(TObject *parent, void *set_data) : TObjPathOb
     raw_profile = set_params[0];
     clamped_profile = (raw_profile < 0) ? 0 : (raw_profile > 2) ? 2 : raw_profile;
     profile = clamped_profile;
-    path = get_bml_motion(lobby_kamome_model_resource, jungle_seagull_path_profiles[profile].a);
+    path = get_bml_motion(lobby_kamome_model_resource, jungle_seagull_path_profiles[profile].path_motion);
     path_frame = 0.0f;
     motion_frame = 0.0f;
     initialize_path();
@@ -738,25 +735,25 @@ TObjJungleKamome::~TObjJungleKamome() {}
 
 void TObjJungleKamome::update() {
     Mtx_802C17FC m;
-    s32 temp_r0;
+    s32 cry_delay_left;
 
-    this->path_frame += jungle_seagull_path_profiles[this->profile].b;
+    this->path_frame += jungle_seagull_path_profiles[this->profile].path_speed;
     if (update_path_steering() == 0) {
         this->path_frame = (0.0f);
     }
-    this->motion_frame += jungle_seagull_path_profiles[this->profile].c;
+    this->motion_frame += jungle_seagull_path_profiles[this->profile].motion_speed;
     if (this->motion_frame > (f32) (this->motion->frameCount - 1)) {
         this->motion_frame = (0.0f);
     }
-    temp_r0 = this->cry_delay - 1;
-    this->cry_delay = temp_r0;
-    if (temp_r0 < 0) {
-        Vec v = lbl_80471908;
+    cry_delay_left = this->cry_delay - 1;
+    this->cry_delay = cry_delay_left;
+    if (cry_delay_left < 0) {
+        Vec v = path_zero_vec;
         set_matrix_identity((u8 *)&m);
         translate_matrix_vec3((u8 *)&m, (u8 *)&this->position);
         ((s32 (*)(void *, int))rotate_matrix_y)(&m, this->rotation_y);
         translate_matrix_vec3((u8 *)&m, (u8 *)&this->path_position);
-        ((s32 (*)(void *, void *, void *))matrix_mult_vec)(&m, &v, &v);
+        matrix_mult_vec(&m, &v, &v);
         play_sound_effect(0x4BC04, &this->position, 0x7F, 0);
         this->cry_delay = (s32) (((3e+01f) * ((4.0f) * ((3.0517578e-05f) * (f32) rand()))) + (1.5e+02f));
     }
@@ -789,11 +786,11 @@ s32 TObjJungleKamome::initialize_path() {
     this->roll_speed = 0;
     sample_clamped_path_position(this->model, this->path, &a, (0.0f));
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, jungle_seagull_path_profiles[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, jungle_seagull_path_profiles[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -808,14 +805,14 @@ s32 TObjJungleKamome::update_path_steering() {
     s32 diff;
     sample_clamped_path_position(this->model, this->path, &a, this->path_frame);
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + jungle_seagull_path_profiles[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + jungle_seagull_path_profiles[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
-    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, jungle_seagull_path_profiles[this->profile].e);
+    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, jungle_seagull_path_profiles[this->profile].turn_step);
     old = this->path_yaw;
-    tmp = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
-    this->path_yaw = approach_angle_limited(old, tmp, jungle_seagull_path_profiles[this->profile].e);
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = approach_angle_limited(old, tmp, jungle_seagull_path_profiles[this->profile].turn_step);
     diff = angle_diff_s16(old, tmp);
     if (diff > 0x30) {
         if (this->roll_speed > 0) {
@@ -889,7 +886,7 @@ TObjLobbyPigeon::TObjLobbyPigeon(TObject *parent, void *set_data) : TObjPathObj(
         if (selector <= 2) movement = selector;
     }
     this->profile = movement;
-    this->path = get_bml_motion(lobby_pigeon_bml_archive, lobby_pigeon_path_profiles[this->profile].a);
+    this->path = get_bml_motion(lobby_pigeon_bml_archive, lobby_pigeon_path_profiles[this->profile].path_motion);
     this->path_frame = (0.0f);
     this->motion_frame = (0.0f);
     initialize_lobby_pigeon_path();
@@ -938,11 +935,11 @@ void TObjLobbyPigeon::update_lobby_pigeon_visibility() {
 #pragma fp_contract on
 void TObjLobbyPigeon::update() {
   update_lobby_pigeon_visibility();
-  this->path_frame += lobby_pigeon_path_profiles[this->profile].pa;
+  this->path_frame += lobby_pigeon_path_profiles[this->profile].path_speed;
   if (advance_lobby_pigeon_path() == 0) {
     this->path_frame = (0.0f);
   }
-  this->motion_frame += lobby_pigeon_path_profiles[this->profile].pb;
+  this->motion_frame += lobby_pigeon_path_profiles[this->profile].motion_speed;
   if (this->motion_frame > (f32)(u32)(this->motion->frameCount - 1)) {
     this->motion_frame = (0.0f);
   }
@@ -981,18 +978,18 @@ void TObjLobbyPigeon::draw() {
 #pragma pop
 
 void TObjLobbyPigeon::select_lobby_pigeon_model() {
-    s32 temp_r3;
+    s32 param;
 
     if ((s32) this->set_params[2] < 1) {
         this->model_index = 0;
     } else {
         this->model_index = 1;
     }
-    temp_r3 = this->set_params[1];
-    if (temp_r3 < 1) {
+    param = this->set_params[1];
+    if (param < 1) {
         this->theme = 0;
     } else if (this->model_index == 0) {
-        if (temp_r3 > 1) {
+        if (param > 1) {
             this->theme = 3;
         } else {
             this->theme = 0xA;
@@ -1019,11 +1016,11 @@ s32 TObjLobbyPigeon::initialize_lobby_pigeon_path() {
     this->roll_speed = 0;
     sample_clamped_path_position(this->model, this->path, &a, (0.0f));
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, lobby_pigeon_path_profiles[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, lobby_pigeon_path_profiles[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -1038,14 +1035,14 @@ s32 TObjLobbyPigeon::advance_lobby_pigeon_path() {
     s32 diff;
     sample_clamped_path_position(this->model, this->path, &a, this->path_frame);
     VecCopy(&this->path_position, &a);
-    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + lobby_pigeon_path_profiles[this->profile].d);
+    r = sample_clamped_path_position(this->model, this->path, &b, this->path_frame + lobby_pigeon_path_profiles[this->profile].look_ahead);
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
-    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, lobby_pigeon_path_profiles[this->profile].e);
+    this->path_pitch = approach_angle_limited(this->path_pitch, tmp, lobby_pigeon_path_profiles[this->profile].turn_step);
     old = this->path_yaw;
-    tmp = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
-    this->path_yaw = approach_angle_limited(old, tmp, lobby_pigeon_path_profiles[this->profile].e);
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = approach_angle_limited(old, tmp, lobby_pigeon_path_profiles[this->profile].turn_step);
     diff = angle_diff_s16(old, tmp);
     if (diff > 0x30) {
         if (this->roll_speed > 0) {
@@ -1099,14 +1096,13 @@ s32 filter_lobby_pigeon_theme(void *) {
 }
 
 void TObjLobbyPigeon::load_static_resource() {
-    saddr temp_r3;
     lobby_pigeon_bml_archive = new BmlResource(5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, NULL);
     lobby_pigeon_lobby_type = get_lobby_main_texlist();
 }
 
 void TObjLobbyPigeon::destroy_instance() {
     if (lobby_pigeon_bml_archive != NULL) {
-        delete (BmlResource *)lobby_pigeon_bml_archive;
+        delete lobby_pigeon_bml_archive;
         lobby_pigeon_bml_archive = NULL;
     }
 }

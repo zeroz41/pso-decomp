@@ -5,6 +5,8 @@
 #include "pso/audio/AdxTalk.h"
 #include "pso/audio/AdxtEntryAfs.h"
 #include "types.h"
+#include <dolphin/ar.h>
+#include <dolphin/ai.h>
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLoadCtrl.h"
@@ -15,9 +17,7 @@
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8036A3CC.h"
 
-struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next; };
 
-struct TLoadCtrlProgram { char archive[32]; s32 count, ntsc, pal; UpdateMusicSequencerPassage *modes[2]; };
 
 s32 lbl_805D3710 = -140;
 s32 area_music_fade_frame_count = 60;
@@ -57,17 +57,8 @@ f32 music_fade_step;
 s32 music_fade_frames_remaining;
 s32 bgm_stream_active;
 s16 music_current_slot;
-void turn_on_bgm_p2(void);
 }
-void set_cue_stream_gain(s32 arg0);
-extern "C" {
-void turn_off_bgm_p2(void);
-}
-void set_dark_falz_music_request(s32 arg0);
-void stop_cue_stream(void);
-void set_music_streams_volume(s32 total);
 void update_music_fade(void);
-void update_music_sequencer(void);
 
 extern "C" char music_slot_entries[2][0x20];
 u8 *TLobby::get_current_slot_entry() {
@@ -80,27 +71,27 @@ u8 *TLobby::get_current_slot_entry() {
 void TLobby::set_and_notify_default() { TLobby::set_and_notify(0); }
 void TLobby::send_neg30() { TLobby::set_and_notify(-30); }
 
-void set_cue_stream_gain(s32 arg0) {
-    s32 var_r4;
-    var_r4 = arg0;
-    if (var_r4 <= -0x140) {
-        var_r4 = -0x3E7;
+void set_cue_stream_gain(s32 gain) {
+    s32 value;
+    value = gain;
+    if (value <= -0x140) {
+        value = -0x3E7;
     }
     if (adxt_players[2] != NULL) {
-        set_field_40_and_notify(adxt_players[2], var_r4);
+        set_field_40_and_notify(adxt_players[2], value);
     }
 }
 
 void set_music_streams_volume(s32 total) {
-    s32 var_r31;
-    var_r31 = total;
-    if (var_r31 <= -0x140) {
-        var_r31 = -0x3E7;
+    s32 value;
+    value = total;
+    if (value <= -0x140) {
+        value = -0x3E7;
     }
     if ((s32) bgm_stream_active == 0) {
-        set_field_40_and_notify(adxt_players[0], var_r31);
+        set_field_40_and_notify(adxt_players[0], value);
     }
-    set_field_40_and_notify(adxt_players[1], var_r31);
+    set_field_40_and_notify(adxt_players[1], value);
 }
 void TLobby::release_bgm_resource() {
     if ((s32) bgm_stream_active != 0) {
@@ -249,9 +240,9 @@ void update_music_sequencer(void) {
     lbl_80514CF0[music_fade_slot_index] = TLobby__sub_803C97B8(adxt_players[music_fade_slot_index]);
 }
 
-void set_dark_falz_music_request(s32 arg0) {
+void set_dark_falz_music_request(s32 request) {
     if ((s32) music_program_index == 4) {
-        music_target_id = arg0;
+        music_target_id = request;
     }
 }
 
@@ -273,11 +264,11 @@ void play_cue_stream_file(const char *name) {
     }
 }
 void turn_on_bgm_p2(void) {
-    s32 temp_r3;
+    s32 status;
     TLobby__sub_803C94DC(adxt_players[music_fade_slot_index], 0);
     TLobby__sub_803C94DC(adxt_players[2], 0);
-    temp_r3 = TLobby__sub_803C9CB0(adxt_players[music_fade_slot_index]);
-    if ((temp_r3 == 0) || (temp_r3 == 5)) {
+    status = TLobby__sub_803C9CB0(adxt_players[music_fade_slot_index]);
+    if ((status == 0) || (status == 5)) {
         music_state = 0;
         return;
     }
@@ -296,7 +287,7 @@ s32 VISetPreRetraceCallback(void (*callback)(void));
 void update_all_zones__14TObjBgmColCtrlFl(void);
 extern char music_slot_entries[][0x20];
 void play_area_music(char *name);
-void TWindowOptionCtrl__sub_802273B4(s32 arg0);
+void TWindowOptionCtrl__sub_802273B4(s32 frames);
 struct SndHooks {
     void *(*malloc)(u32 size);
     void (*free)(void *ptr);
@@ -304,11 +295,7 @@ struct SndHooks {
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
 void setup_adx_file_systems(s32 *read_mode);
 void init_runtime_threads(s32 *cfg);
-u32 ARInit(u32 *stack_index_addr, u32 num_entries);
-void ARQInit(void);
-void AIInit(u8 *stack);
 s32 VISetPostRetraceCallback(int (*callback)(void *));
-u32 ARAlloc(u32 length);
 void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
@@ -316,7 +303,7 @@ void init_adx_audio_system(void);
 
 // The four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
-extern const SndHooks snd_hooks = { TLobby__sub_80227A4C, TLobby::free };
+extern const SndHooks snd_hooks = { musyx_malloc_hook, TLobby::free };
 const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
 
 // Area music: each program names its .afs archive and two passage lists (modes[0]/[1]).
@@ -489,15 +476,15 @@ extern f32 music_fade_volumes[];
 
 void TLoadCtrl::step() { TLobby::stop_audio_streams(); stop_cue_stream(); }
 
-void TWindowOptionCtrl__sub_802273B4(s32 arg0) {
+void TWindowOptionCtrl__sub_802273B4(s32 frames) {
     if (music_active != 0) {
         TLobby::stop_audio_streams();
         return;
     }
     music_fade_slot_index = 1 - music_fade_slot_index;
-    music_fade_frames_remaining = arg0;
+    music_fade_frames_remaining = frames;
     music_fade_volumes[1 - music_fade_slot_index] = 0.0f;
-    music_fade_step = music_fade_full_scale / (f32)arg0;
+    music_fade_step = music_fade_full_scale / (f32)frames;
 }
 
 void TLobby::stop_audio_streams() {
@@ -575,7 +562,7 @@ void update_music_fade(void) {
 }
 
 void TLobby::set_pre_retrace_callback() {
-    VISetPreRetraceCallback(TLobby__sub_80227A6C);
+    VISetPreRetraceCallback(pre_retrace_callback);
 }
 void TLobby::shutdown_buffers() {
     s32 i;
@@ -609,8 +596,8 @@ void init_adx_audio_system(void) {
     ARInit(lbl_804CB838, 6);
     ARQInit();
     AIInit(NULL);
-    VISetPostRetraceCallback(TLobby__sub_80227A70);
-    VISetPreRetraceCallback(TLobby__sub_80227A6C);
+    VISetPostRetraceCallback(post_retrace_callback);
+    VISetPreRetraceCallback(pre_retrace_callback);
     TLobby__sub_803C94B8(TLobby__sub_80227A90, 0);
     ARAlloc(0xC00000);
     sndSetHooks(&hooks);
@@ -643,12 +630,12 @@ void init_adx_audio_system(void) {
 #pragma pool_data reset
 
 
-// TLobby::free and TLobby__sub_80227A4C are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
+// TLobby::free and musyx_malloc_hook are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
 void TLobby::free(void *p) { xfree(p); }
 
 extern "C" {
-void *TLobby__sub_80227A4C(u32 size) { return xmalloc(size); }
-void TLobby__sub_80227A6C(void) {  }
-int TLobby__sub_80227A70(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
+void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
+void pre_retrace_callback(void) {  }
+int post_retrace_callback(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
 void TLobby__sub_80227A90(s32, const char *) {  }
 }

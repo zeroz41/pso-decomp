@@ -18,13 +18,13 @@
 #include "pso/audio/GcrnaBridgeStatus.h"
 #include "pso/audio/GcrnaBridge.h"
 #include "pso/unk/text_803D31A4.h"
+#include "pso/audio/AdxManager.h"
 
 struct Pair_803C8678 { u32 a, b; };
 
 void adxt_trap_entry_update(void *context);
 
 extern "C" {
-extern s32 lbl_805D7540;
 void TLobby__sub_803CB194(void *context);
 void TLobby__sub_803CA8B4(AdxtPlayer *);
 }
@@ -75,7 +75,7 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
             if (self->pause_flag == 0) {
                 TLobby__sub_803CC030(rna, 1);
                 self->base_time = 0;
-                self->base_vblank = lbl_805D7540;
+                self->base_vblank = adxt_vblank_count;
             }
             self->stat = 3;
         }

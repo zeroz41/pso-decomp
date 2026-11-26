@@ -26,6 +26,7 @@ struct NJS_TEXLIST;
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 const char *bm_obj_beamdoa_model_names[3] = {"fe_obj_beamdoa.gj", "fe_obj_beamdoa_singo.gj", NULL};
@@ -49,18 +50,13 @@ s32 door_jung_beam_blue_texture;
 
 struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
-extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-}
-
-
 void TObjDoorJung::free_buffers() {
     if (door_jung_door_scene_buffer != NULL) {
         ((TScene *)door_jung_door_scene_buffer)->destroy_buffers(1);
         door_jung_door_scene_buffer = NULL;
     }
     if (door_jung_resource_handle != NULL) {
-        delete (BmlResource *)door_jung_resource_handle;
+        delete door_jung_resource_handle;
         door_jung_resource_handle = NULL;
     }
 }
@@ -74,8 +70,8 @@ void load_door_jung_resources(void) {
 
     handle = (saddr)new BmlResource(5, &bm_obj_beamdoa_resource_descriptor, 0, 0, NULL);
     door_jung_resource_handle = (BmlResource *)handle;
-    door_jung_texlist = get_bml_texlist((BmlResource *)door_jung_resource_handle, 0);
-    model = (NJS_OBJECT *)get_bml_model((BmlResource *)door_jung_resource_handle, 1);
+    door_jung_texlist = get_bml_texlist(door_jung_resource_handle, 0);
+    model = (NJS_OBJECT *)get_bml_model(door_jung_resource_handle, 1);
     node = model->child;
     door_jung_child_table[0] = node->model;
     door_jung_child_table[1] = node->child->model;
@@ -146,9 +142,9 @@ void TObjDoorJung::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((NJS_OBJECT *)get_bml_model((BmlResource *)door_jung_resource_handle, 0));
+        draw_ginja_object((NJS_OBJECT *)get_bml_model(door_jung_resource_handle, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((NJS_OBJECT *)get_bml_model((BmlResource *)door_jung_resource_handle, 1));
+        draw_ginja_object((NJS_OBJECT *)get_bml_model(door_jung_resource_handle, 1));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

@@ -224,21 +224,21 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
 }
 extern "C" {
 
-void set_keyboard_input_flag(void);
 s32 TLobby__sub_80291F9C();
 }
 
 extern s32 evt2_random_enemies_mode;
 
 void giveup_window_handle_select(void *retry) {
+    TObjChallenge4PRetry *window = (TObjChallenge4PRetry *)retry;
 
     TLobby::play_effect_all_players(retry);
     switch (TLobby__sub_80291F9C()) {
     case 0:
         play_cue_stream_file("lose.adx");
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(retry);
-        ((TObjChallenge4PRetry *)retry)->close_window();
-        ((TObjChallenge4PRetry *)retry)->close_window_field30();
+        window->close_window();
+        window->close_window_field30();
         ((TObject *)retry)->queue_destruction();
         if (is_quest_active() == 1) {
             TLobby::clear_counter();
@@ -250,18 +250,18 @@ void giveup_window_handle_select(void *retry) {
         play_sound_effect(0x52812, 0, 0, 0);
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(retry);
         TLobby::play_all_players_effect(retry);
-        ((TObjChallenge4PRetry *)retry)->close_window_field30();
-        ((TObjChallenge4PRetry *)retry)->close_window();
-        ((TObjChallenge4PRetry *)retry)->countdown = 0x1E;
-        ((TObjChallenge4PRetry *)retry)->state = 4;
+        window->close_window_field30();
+        window->close_window();
+        window->countdown = 0x1E;
+        window->state = 4;
         return;
     default:
-        if (((s32) ((TObjChallenge4PRetry *)retry)->m_20 != 0) && ((s32) ((TObjChallenge4PRetry *)retry)->m_24 == 0)) {
+        if (((s32) window->m_20 != 0) && ((s32) window->m_24 == 0)) {
             ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(retry);
             TLobby::close_giveup_window(retry);
-            ((TObjChallenge4PRetry *)retry)->close_window_field30();
-            ((TObjChallenge4PRetry *)retry)->open_giveup_window();
-            ((TObjChallenge4PRetry *)retry)->state = 2;
+            window->close_window_field30();
+            window->open_giveup_window();
+            window->state = 2;
         }
         break;
     }
@@ -342,8 +342,8 @@ void TObjChallenge4PRetry::update_giveup() {
 void *__ct__20TObjChallenge4PRetryFP7TObject(void *, void *);
 
 void TObjChallenge4PRetry::run_task() {
-    u8 *arg0 = (u8 *)this;
-    this->m_20 = ((s32 (*)(void *))is_designated_client)(arg0);
+    u8 *self = (u8 *)this;
+    this->m_20 = ((s32 (*)(void *))is_designated_client)(self);
     switch (this->state) {
     case 0:
         this->update_giveup();
@@ -355,14 +355,14 @@ void TObjChallenge4PRetry::run_task() {
         this->handle_retry_menu_select();
         break;
     case 3:
-        giveup_window_handle_select(arg0);
+        giveup_window_handle_select(self);
         break;
     case 4:
         this->countdown_and_destroy();
         break;
     }
     if (TLobby::is_multi_ready() == 0) {
-        ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
+        ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(self);
         this->close_window();
         this->close_window_field30();
         this->queue_destruction();
@@ -385,10 +385,10 @@ TObjChallenge4PRetry::TObjChallenge4PRetry(TObject *parent) : TObject(parent) {
     this->state = 0;
 }
 
-void *TObjChallenge4PRetry::create(void *arg0) {
+void *TObjChallenge4PRetry::create(void *parent) {
     void *o = TObject::operator new(0x34);
     if (o != NULL) {
-        o = __ct__20TObjChallenge4PRetryFP7TObject(o, arg0);
+        o = __ct__20TObjChallenge4PRetryFP7TObject(o, parent);
     }
     return o;
 }

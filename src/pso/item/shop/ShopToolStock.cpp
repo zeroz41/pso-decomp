@@ -1,6 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/item/shop/ShopToolStock.h"
+#include "pso/item/shop/ShopPool.h"
 #include "pso/unk/text_80223B98.h"
 #include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
@@ -15,53 +16,14 @@
 struct SRock_80224544_8022448C;
 
 
-typedef struct Item_8022525C
-{
-  u8 b0;
-  u8 b1;
-  u8 b2;
-  u8 pad3[7];
-  u8 b12;
-  u8 b13;
-  u8 padC[8];
-} Item_8022525C;
-
-typedef struct Pool_8022525C
-{
-  u8 b[0x68];
-} Pool_8022525C;
-
-typedef struct Pair_8022525C
-{
-  s32 a;
-  s32 b;
-} Pair_8022525C;
-
-typedef struct ToolStockEntry
-{
-  u8 id;
-  u8 count;
-} ToolStockEntry;
-
-typedef struct ToolStockTier
-{
-  ToolStockEntry *ents;
-  u8 n;
-} ToolStockTier;
-
-typedef struct ToolStockTable
-{
-  ToolStockTier *tiers;
-} ToolStockTable;
-
 extern "C" {
 void sort_shop_items(s32, s32, s32);
-void *lobby_tool_random_rel;
+ShopToolRandomTables *lobby_tool_random_rel;
 int shop_tool_stock_level;
 s32 shop_tool_stock_counts[4];
 s32 shop_tool_stock_table[4];
 s32 shop_tool_flags[4];
-saddr shop_tool_stock_buffers[4];
+TItemData *shop_tool_stock_buffers[4];
 
 }
 
@@ -70,35 +32,9 @@ saddr shop_tool_stock_buffers[4];
 #pragma dont_inline off
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-struct E_8022444C { u8 pad[0x10]; s32 f10; };
+struct ShopToolGroupSubtype { s32 a; s32 b; };
 
-struct Item_802242F8 { u8 b[0x14]; };
-
-struct Pair_802242F8 { s32 a; s32 b; };
-
-struct Tbl_802242F8 { u8 *base; u8 count; };
-
-struct Tbl_802242F8;
-struct Tbl_80223EE0 { u8 *base; u8 count; };
-
-struct Ent_80223EE0 { u8 kind; u8 a; u8 b; };
-
-struct Obj_80223EE0 { u8 pad[2]; s8 lv; };
-
-struct Obj_80223EE0;
-struct Ent_8022403C { u8 id; u8 n; };
-
-struct Tbl_8022403C { u8 pad[8]; Ent_8022403C *base; u8 count; };
-
-struct Ctr_8022403C { u8 buf[0x74]; };
-
-struct Ent_80224190 { u8 id; u8 n; };
-
-struct Tbl_80224190 { Ent_80224190 *base; u8 count; };
-
-struct Ctr_80224190 { u8 buf[0x74]; };
-
-const Pair_802242F8 shop_tool_group_subtype_table[16] = {
+const ShopToolGroupSubtype shop_tool_group_subtype_table[16] = {
     { 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 6, 0 }, { 6, 1 },
     { 3, 0 }, { 4, 0 }, { 5, 0 }, { 7, 0 }, { 8, 0 }, { 9, 0 }, { 10, 0 }, { -1, -1 },
 };
@@ -107,10 +43,10 @@ const s32 shop_technique_pool_table[19] = {
 };
 
 extern "C" {
-void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
+void roll_shop_technique_level(TItemData *item, s32 arg1);
 void push_shop_pool_entry(void *, u8);
-s32 shop_stock_lacks_technique(Item_802242F8 *, s32);
-s32 shop_stock_lacks_tool(Item_802242F8 *, s32);
+s32 shop_stock_lacks_technique(TItemData *, s32);
+s32 shop_stock_lacks_tool(TItemData *, s32);
 }
 s32 get_shop_technique_pool_count(s32 shop_tool_stock_level) {
     if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
@@ -199,23 +135,23 @@ s32 get_tool_pool_table_row(s32 shop_tool_stock_level) {
     }
     return -1;
 }
-s32 shop_stock_lacks_technique(Item_802242F8 *item, s32 shop) {
-    Item_802242F8 *stock = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
+s32 shop_stock_lacks_technique(TItemData *item, s32 shop) {
+    TItemData *stock = shop_tool_stock_buffers[shop];
     s32 i = 0;
     while (i++ < shop_tool_stock_counts[shop]) {
-        if (item->b[0] == stock[i].b[0] && item->b[1] == stock[i].b[1] && item->b[2] == stock[i].b[2] &&
-            item->b[4] == stock[i].b[4]) {
+        if (item->data1.data_u8[0] == stock[i].data1.data_u8[0] && item->data1.data_u8[1] == stock[i].data1.data_u8[1] && item->data1.data_u8[2] == stock[i].data1.data_u8[2] &&
+            item->data1.data_u8[4] == stock[i].data1.data_u8[4]) {
             return 0;
         }
     }
     return 1;
 }
 
-s32 shop_stock_lacks_tool(Item_802242F8 *item, s32 shop) {
-    Item_802242F8 *stock = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
+s32 shop_stock_lacks_tool(TItemData *item, s32 shop) {
+    TItemData *stock = shop_tool_stock_buffers[shop];
     s32 i = 0;
     while (i++ < shop_tool_stock_counts[shop]) {
-        if (item->b[0] == stock[i].b[0] && item->b[1] == stock[i].b[1] && item->b[2] == stock[i].b[2]) {
+        if (item->data1.data_u8[0] == stock[i].data1.data_u8[0] && item->data1.data_u8[1] == stock[i].data1.data_u8[1] && item->data1.data_u8[2] == stock[i].data1.data_u8[2]) {
             return 0;
         }
     }
@@ -223,20 +159,20 @@ s32 shop_stock_lacks_tool(Item_802242F8 *item, s32 shop) {
 }
 
 
-void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1) {
-    Tbl_80223EE0 *t = ((Tbl_80223EE0 **)lobby_tool_random_rel)[2];
+void roll_shop_technique_level(TItemData *item, s32 arg1) {
+    ShopTechniqueLevelTable *t = lobby_tool_random_rel->technique_levels;
     s32 idx = get_tool_pool_table_row(shop_tool_stock_level);
-    Ent_80223EE0 *e;
+    ShopTechniqueLevelEntry *e;
     s32 level;
     idx *= t->count;
-    e = &((Ent_80223EE0 *)t->base)[idx + arg1];
+    e = &t->ents[idx + arg1];
     level = shop_tool_stock_level;
     if (level > 99) {
         level = 99;
     }
     switch (e->kind) {
     case 0:
-        arg0->lv = 0;
+        item->data1.data_u8[2] = 0;
         break;
     case 1: {
         s8 v = level / e->a - 1;
@@ -246,7 +182,7 @@ void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1) {
         if (v > 14) {
             v = 14;
         }
-        arg0->lv = v;
+        item->data1.data_u8[2] = v;
         break;
     }
     case 2: {
@@ -262,31 +198,31 @@ void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1) {
         if (v > 14) {
             v = 14;
         }
-        arg0->lv = v;
+        item->data1.data_u8[2] = v;
         break;
     }
     }
 }
 
 void generate_shop_technique_pool(s32 shop) {
-    Item_802242F8 it;
-    Ctr_8022403C ctr;
-    Ent_8022403C *e;
+    TItemData it;
+    ShopPool ctr;
+    ShopToolPoolEntry *e;
     s32 n;
-    Item_802242F8 *arr;
-    Tbl_8022403C *t;
+    TItemData *arr;
+    ShopToolPoolTable *t;
     s32 i;
     s32 c;
     u8 k;
-    arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
+    arr = shop_tool_stock_buffers[shop];
     n = get_shop_technique_pool_count(shop_tool_stock_level);
     if (n > 0) {
         ((TLobby *)(&ctr))->reset_counter_64();
         i = get_tool_pool_table_row(shop_tool_stock_level);
-        t = ((Tbl_8022403C **)lobby_tool_random_rel)[1];
-        e = &t->base[i * t->count];
+        t = lobby_tool_random_rel->pools;
+        e = &t->technique_ents[i * t->technique_count];
         c = 0;
-        while (c++ < t->count) {
+        while (c++ < t->technique_count) {
             k = e->n;
             while (k-- != 0) {
                 push_shop_pool_entry(&ctr, e->id);
@@ -298,13 +234,13 @@ void generate_shop_technique_pool(s32 shop) {
         while (i < n) {
             s32 b = ((TLobby *)(&ctr))->pop_byte();
             if (b != -1) {
-                ((TItemData *)(&it))->init();
-                it.b[0] = 3;
-                it.b[1] = 2;
-                it.b[4] = shop_technique_pool_table[b];
-                roll_shop_technique_level((Obj_80223EE0 *)&it, b);
+                it.init();
+                it.data1.data_u8[0] = 3;
+                it.data1.data_u8[1] = 2;
+                it.data1.data_u8[4] = shop_technique_pool_table[b];
+                roll_shop_technique_level(&it, b);
                 if (shop_stock_lacks_technique(&it, shop) == 1) {
-                    ((TItemData *)(&arr[shop_tool_stock_counts[shop]++]))->copy_from((TItemData *)(&it));
+                    arr[shop_tool_stock_counts[shop]++].copy_from(&it);
                     i++;
                 }
             }
@@ -313,27 +249,27 @@ void generate_shop_technique_pool(s32 shop) {
 }
 
 void generate_shop_rare_tool_pool(s32 shop) {
-    Item_802242F8 it;
-    Ctr_80224190 ctr;
-    Tbl_80224190 *t;
+    TItemData it;
+    ShopPool ctr;
+    ShopToolPoolTable *t;
     s32 j;
-    Item_802242F8 *arr;
+    TItemData *arr;
     s32 n;
-    Ent_80224190 *e;
+    ShopToolPoolEntry *e;
     s32 orig;
     s32 i;
     s32 b;
     s32 c;
     u8 k;
-    arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
+    arr = shop_tool_stock_buffers[shop];
     n = get_shop_rare_tool_pool_count(shop_tool_stock_level);
     if (n > 0) {
         ((TLobby *)(&ctr))->reset_counter_64();
         i = get_tool_pool_table_row(shop_tool_stock_level);
-        t = ((Tbl_80224190 **)lobby_tool_random_rel)[1];
-        e = &t->base[i * t->count];
+        t = lobby_tool_random_rel->pools;
+        e = &t->rare_ents[i * t->rare_count];
         c = 0;
-        while (c++ < t->count) {
+        while (c++ < t->rare_count) {
             k = e->n;
             while (k-- != 0) {
                 push_shop_pool_entry(&ctr, e->id);
@@ -351,12 +287,12 @@ void generate_shop_rare_tool_pool(s32 shop) {
                         n--;
                     }
                 } else if (b != -1) {
-                    ((TItemData *)(&it))->init();
-                    it.b[0] = 3;
-                    it.b[1] = shop_tool_group_subtype_table[b].a;
-                    it.b[2] = shop_tool_group_subtype_table[b].b;
+                    it.init();
+                    it.data1.data_u8[0] = 3;
+                    it.data1.data_u8[1] = shop_tool_group_subtype_table[b].a;
+                    it.data1.data_u8[2] = shop_tool_group_subtype_table[b].b;
                     if (shop_stock_lacks_tool(&it, shop) == 1) {
-                        ((TItemData *)(&arr[shop_tool_stock_counts[shop]++]))->copy_from((TItemData *)(&it));
+                        arr[shop_tool_stock_counts[shop]++].copy_from(&it);
                         j++;
                     }
                 }
@@ -366,25 +302,25 @@ void generate_shop_rare_tool_pool(s32 shop) {
 }
 
 void generate_shop_common_tool_pool(s32 idx) {
-    Item_802242F8 it;
-    Item_802242F8 *arr;
-    Tbl_802242F8 *t;
+    TItemData it;
+    TItemData *arr;
+    ShopToolCommonTable *t;
     u8 *p;
     s32 i;
     s32 row;
-    arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[idx];
+    arr = shop_tool_stock_buffers[idx];
     row = classify_tool_shop_level_bracket(shop_tool_stock_level);
     if (row >= 0) {
-        t = *(Tbl_802242F8 **)lobby_tool_random_rel;
+        t = lobby_tool_random_rel->common;
         row *= t->count;
-        p = t->base + row;
+        p = t->ids + row;
         for (i = 0; i < t->count; i++, p++) {
             if (*p != 0xf) {
-                ((TItemData *)(&it))->init();
-                it.b[0] = 3;
-                it.b[1] = shop_tool_group_subtype_table[*p].a;
-                it.b[2] = shop_tool_group_subtype_table[*p].b;
-                ((TItemData *)(&arr[shop_tool_stock_counts[idx]++]))->copy_from((TItemData *)(&it));
+                it.init();
+                it.data1.data_u8[0] = 3;
+                it.data1.data_u8[1] = shop_tool_group_subtype_table[*p].a;
+                it.data1.data_u8[2] = shop_tool_group_subtype_table[*p].b;
+                arr[shop_tool_stock_counts[idx]++].copy_from(&it);
             }
         }
     }
@@ -396,13 +332,13 @@ void clear_shop_tool_flags(void) {
 
 void TLobby::copy_shop_item_entry(s32 index, s32 buffer) {
     saddr arg0 = (saddr)this;
-    *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(shop_tool_stock_buffers[buffer] + (index * 0x14));
+    *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)((saddr)shop_tool_stock_buffers[buffer] + (index * 0x14));
 }
 void mark_shop_tool_sold_out(s32 a, s32 b) {
-    E_8022444C *arr = ((E_8022444C * *)&shop_tool_stock_buffers)[b];
+    TItemData *arr = shop_tool_stock_buffers[b];
     if (a >= 0 && a <= 0x11) {
-        if (arr[a].f10 != -1) {
-            arr[a].f10 = -1;
+        if (arr[a].data2.price != -1) {
+            arr[a].data2.price = -1;
         }
     }
 }
@@ -419,21 +355,21 @@ void TLobby::generate_shop_inventory(s32 idx) {
             generate_shop_common_tool_pool(idx);
             generate_shop_rare_tool_pool(idx);
             generate_shop_technique_pool(idx);
-            sort_shop_items(shop_tool_stock_buffers[idx], shop_tool_stock_counts[idx], 2);
+            sort_shop_items((saddr)shop_tool_stock_buffers[idx], shop_tool_stock_counts[idx], 2);
         }
     }
 }
 
 void TLobby::free_all_rocks() {
     s32 i = 3;
-    saddr *var_r29 = shop_tool_stock_buffers;
+    TItemData **buffers = shop_tool_stock_buffers;
     s32 var_r30 = 0;
     s32 var_r31 = 3;
     do {
-        uaddr v = (u32)var_r29[var_r31];
-        if (v != 0U) {
-            mem_free((void *)v);
-            var_r29[var_r31] = var_r30;
+        TItemData *v = buffers[var_r31];
+        if (v != NULL) {
+            mem_free(v);
+            buffers[var_r31] = NULL;
         }
         i -= 1;
         var_r31 -= 1;
@@ -445,16 +381,16 @@ void TLobby::free_all_rocks() {
 }
 void load_tool_random_rel(void) {
     s32 i;
-    lobby_tool_random_rel = create_named_object("ToolRandom.rel");
+    lobby_tool_random_rel = (ShopToolRandomTables *)create_named_object("ToolRandom.rel");
     for (i = 0; i < 4; i++) {
-        ((saddr *)&shop_tool_stock_buffers)[i] = 0;
+        shop_tool_stock_buffers[i] = NULL;
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((saddr *)&shop_tool_stock_buffers)[i] = (saddr)mem_alloc(0x168);
+            shop_tool_stock_buffers[i] = (TItemData *)mem_alloc(0x168);
         }
     } else {
-        ((saddr *)&shop_tool_stock_buffers)[0] = (saddr)mem_alloc(0x168);
+        shop_tool_stock_buffers[0] = (TItemData *)mem_alloc(0x168);
     }
     (*(s32 *)&shop_tool_stock_level) = 0;
 }

@@ -20,7 +20,6 @@ s32 lbl_805D7550;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
 }
-void update_active_stream_reads(void);
 
 extern "C" {
 s32 adx_stream_request_count_ex = 0x10;
@@ -29,12 +28,10 @@ s32 adx_stream_fname_slot_count = 0x18;
 static const char lbl_8047C600[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't open ";
 static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
 static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
-AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
-AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
 
-void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset) {
-    file->f10 = offset;
-    cvFsSeek(file->handle, file->f10, 0);
+void set_adx_stream_base_offset(AdxStreamFile *file, s32 offset) {
+    file->base_offset = offset;
+    cvFsSeek(file->handle, file->base_offset, 0);
     cvFsTell(file->handle);
 }
 
@@ -42,14 +39,14 @@ void set_adx_stream_size_sectors(AdxStreamFile *file, s32 sectors) {
     file->size = sectors << 11;
 }
 
-void set_buffer__6TLobbyFPPv(AdxStreamFile *file, SjRingBuffer *buffer) {
+void set_adx_stream_buffer(AdxStreamFile *file, SjRingBuffer *buffer) {
     file->buffer = buffer;
     s32 available = buffer->interface->get_available(buffer, 0);
     file->read_chunk_size = available;
     file->read_threshold = available;
 }
 
-s32 get_field_14__6TLobbyFv(AdxStreamFile *file) {
+s32 get_adx_stream_size(AdxStreamFile *file) {
     return file->size;
 }
 
@@ -74,17 +71,17 @@ s32 get_adx_stream_position(const AdxStreamFile *file, s32 *position) {
     s32 offset;
     CvFsHandle *handle = file->handle;
     if (handle != NULL) {
-        offset = cvFsTell(handle) - file->f10;
+        offset = cvFsTell(handle) - file->base_offset;
     } else {
         offset = 0;
     }
-    *position = offset - file->fC;
+    *position = offset - file->start_position;
     return 1;
 }
 
 static inline s32 get_stream_position(AdxStreamFile *file) {
     if (file->handle != NULL) {
-        return cvFsTell(file->handle) - file->f10;
+        return cvFsTell(file->handle) - file->base_offset;
     }
     return 0;
 }
@@ -94,7 +91,7 @@ void update_active_stream_reads(void) {
     AdxStreamFile *requests = adx_stream_read_requests;
     s32 index = 0;
     do {
-        if ((s32)(u8)requests[index].used == 1 && (s32)(u8)requests[index].b1 == 2) {
+        if ((s32)(u8)requests[index].used == 1 && (s32)(u8)requests[index].stat == 2) {
             update_adx_stream_read(&requests[index]);
         }
         index++;
@@ -110,7 +107,7 @@ void update_adx_stream_read(AdxStreamFile *file) {
     s32 m;
     s32 r;
 
-    if (file->b2 == 1) {
+    if (file->read_pending == 1) {
         r = cvFsGetStat(file->handle);
         if (r == 1) {
             n = file->sectors_read << 11;
@@ -121,24 +118,24 @@ void update_adx_stream_read(AdxStreamFile *file) {
                 file->on_completion(file->completion_context);
             }
             file->field34 += n;
-            file->b2 = 0;
+            file->read_pending = 0;
             if (get_stream_position(file) >= (file->size + 0x7FF) / 2048) {
-                file->b1 = 3;
+                file->stat = 3;
             }
             file->retry = 0;
         } else if (r == 3) {
             stream->interface->unget_chunk(stream, 0, &file->pending_read);
             if (tlobby_stream_read_retry_limit >= 0) {
                 if (file->retry >= tlobby_stream_read_retry_limit) {
-                    file->b1 = 4;
+                    file->stat = 4;
                 } else {
                     file->retry++;
                 }
             }
-            file->b2 = 0;
+            file->read_pending = 0;
         }
     }
-    if (file->b2 == 0) {
+    if (file->read_pending == 0) {
         if (stream == NULL || stream->interface == NULL) {
             lbl_805D7558++;
             return;
@@ -166,13 +163,13 @@ void update_adx_stream_read(AdxStreamFile *file) {
                 stream->interface->unget_chunk(stream, 0, &file->pending_read);
                 if (cvFsGetStat(file->handle) == 3 && tlobby_stream_read_retry_limit >= 0) {
                     if (file->retry >= tlobby_stream_read_retry_limit) {
-                        file->b1 = 4;
+                        file->stat = 4;
                     } else {
                         file->retry++;
                     }
                 }
             } else {
-                file->b2 = 1;
+                file->read_pending = 1;
             }
         }
     }
@@ -192,61 +189,61 @@ void set_adx_stream_completion(AdxStreamFile *file, AdxStreamCompletion callback
 }
 
 void stop_adx_stream(AdxStreamFile *file) {
-    file->b1 = 1;
+    file->stat = 1;
     adx_lock();
     CvFsHandle *handle = file->handle;
     if (handle != NULL) {
         cvFsStopTr(handle);
-        file->b2 = 0;
+        file->read_pending = 0;
     }
     adx_unlock();
 }
 
 static inline s32 get_pos_803C8A14(AdxStreamFile *s) {
     if (s->handle != 0) {
-        return cvFsTell(s->handle) - s->f10;
+        return cvFsTell(s->handle) - s->base_offset;
     }
     return 0;
 }
-s32 init_stream_position__6TLobbyFv(AdxStreamFile *file) {
+s32 init_adx_stream_position(AdxStreamFile *file) {
     if (file->size == 0) {
         file->field34 = 0;
-        file->fC = 0;
-        file->b1 = 3;
+        file->start_position = 0;
+        file->stat = 3;
     } else {
-        file->b1 = 2;
+        file->stat = 2;
         file->field34 = 0;
-        file->fC = get_pos_803C8A14(file);
+        file->start_position = get_pos_803C8A14(file);
         file->retry = 0;
     }
     return 1;
 }
 
-s32 get_file_offset_relative__6TLobbyFv(AdxStreamFile *file) {
+s32 get_adx_stream_file_offset(AdxStreamFile *file) {
     CvFsHandle *handle = file->handle;
     if (handle != NULL) {
-        return cvFsTell(handle) - file->f10;
+        return cvFsTell(handle) - file->base_offset;
     }
     return 0;
 }
 
 s32 seek_adx_stream_sector(AdxStreamFile *file, s32 offset) {
-    cvFsSeek(file->handle, file->f10 + offset, 0);
-    return cvFsTell(file->handle) - file->f10;
+    cvFsSeek(file->handle, file->base_offset + offset, 0);
+    return cvFsTell(file->handle) - file->base_offset;
 }
 
 s32 get_adx_stream_status(const AdxStreamFile *file) {
-    return file->b1;
+    return file->stat;
 }
 
 void adxstm_close(AdxStreamFile *file) {
     if (file != NULL) {
-        file->b1 = 1;
+        file->stat = 1;
         adx_lock();
         CvFsHandle *handle = file->handle;
         if (handle != NULL) {
             cvFsStopTr(handle);
-            file->b2 = 0;
+            file->read_pending = 0;
         }
         adx_unlock();
         handle = file->handle;
@@ -269,12 +266,12 @@ inline AdxStreamFile *alloc_803C8BAC(s32 arg, CvFsHandle *h, s32 size) {
     if (i == adx_stream_request_count_ex) {
         return NULL;
     }
-    p->b1 = 1;
-    p->b2 = 0;
+    p->stat = 1;
+    p->read_pending = 0;
     p->arg = arg;
     p->handle = h;
-    p->fC = 0;
-    p->f10 = 0;
+    p->start_position = 0;
+    p->base_offset = 0;
     p->size = size;
     p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
@@ -293,13 +290,13 @@ AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg) {
     }
     p = alloc_803C8BAC(arg, h, size);
     if (p != NULL) {
-        cvFsSeek(p->handle, p->f10, 0);
+        cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
     }
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8CDC(s32 arg, CvFsHandle *h, s32 f10, s32 size) {
+inline AdxStreamFile *alloc_803C8CDC(s32 arg, CvFsHandle *h, s32 base_offset, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_fname_slot_count; i++) {
@@ -311,12 +308,12 @@ inline AdxStreamFile *alloc_803C8CDC(s32 arg, CvFsHandle *h, s32 f10, s32 size) 
     if (i == adx_stream_fname_slot_count) {
         return NULL;
     }
-    p->b1 = 1;
-    p->b2 = 0;
+    p->stat = 1;
+    p->read_pending = 0;
     p->arg = arg;
     p->handle = h;
-    p->fC = 0;
-    p->f10 = f10;
+    p->start_position = 0;
+    p->base_offset = base_offset;
     p->size = size;
     p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
@@ -339,13 +336,13 @@ AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg) {
     }
     p = alloc_803C8CDC(arg, h, 0, size);
     if (p != NULL) {
-        cvFsSeek(p->handle, p->f10, 0);
+        cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
     }
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8E28(saddr arg, CvFsHandle *h, s32 f10, s32 size) {
+inline AdxStreamFile *alloc_803C8E28(saddr arg, CvFsHandle *h, s32 base_offset, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
@@ -357,12 +354,12 @@ inline AdxStreamFile *alloc_803C8E28(saddr arg, CvFsHandle *h, s32 f10, s32 size
     if (i == adx_stream_request_count_ex) {
         return NULL;
     }
-    p->b1 = 1;
-    p->b2 = 0;
+    p->stat = 1;
+    p->read_pending = 0;
     p->arg = arg;
     p->handle = h;
-    p->fC = 0;
-    p->f10 = f10;
+    p->start_position = 0;
+    p->base_offset = base_offset;
     p->size = size;
     p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
@@ -379,13 +376,13 @@ AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s3
     }
     p = alloc_803C8E28(arg, h, off, nsect << 11);
     if (p != NULL) {
-        cvFsSeek(p->handle, p->f10, 0);
+        cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
     }
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8F5C(s32 arg, CvFsHandle *h, s32 f10, s32 size) {
+inline AdxStreamFile *alloc_803C8F5C(s32 arg, CvFsHandle *h, s32 base_offset, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_fname_slot_count; i++) {
@@ -397,12 +394,12 @@ inline AdxStreamFile *alloc_803C8F5C(s32 arg, CvFsHandle *h, s32 f10, s32 size) 
     if (i == adx_stream_fname_slot_count) {
         return NULL;
     }
-    p->b1 = 1;
-    p->b2 = 0;
+    p->stat = 1;
+    p->read_pending = 0;
     p->arg = arg;
     p->handle = h;
-    p->fC = 0;
-    p->f10 = f10;
+    p->start_position = 0;
+    p->base_offset = base_offset;
     p->size = size;
     p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
@@ -419,7 +416,7 @@ AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 ns
     }
     p = alloc_803C8F5C(arg, h, off, nsect << 11);
     if (p != NULL) {
-        cvFsSeek(p->handle, p->f10, 0);
+        cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
     }
     return p;

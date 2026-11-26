@@ -30,11 +30,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/unk/text_800FA464.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 extern const char TEnding__class_name_string[] = "TEnding";
-extern "C" {
-void request_main_phase(s32 arg0);
-}
 void create_player_ending_motion(void);
 
 // Load and release hooks of the ending scene, in pairs: run_load_callback_table
@@ -62,24 +61,13 @@ void fn_8008C4F4(void) {
     TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
 }
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 void run_game_frame(void) {
-    s32 *var_r3;
     begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.begin_frame();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.run_task();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.render();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
@@ -88,7 +76,6 @@ void run_game_frame(void) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        var_r3 = NULL;
         request_main_phase(0);
     }
     render_tick();

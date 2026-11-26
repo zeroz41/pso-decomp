@@ -39,11 +39,11 @@ void TORevlightCave01::render() {
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        draw_ginja_model((void *)((NJS_OBJECT *)model)->model);
+        draw_ginja_model(((NJS_OBJECT *)model)->model);
         rotate_matrix_y(NULL, spin_angle);
-        draw_ginja_model((void *)((NJS_OBJECT *)model)->child->model);
+        draw_ginja_model(((NJS_OBJECT *)model)->child->model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((void *)((NJS_OBJECT *)model)->child->child->model);
+        draw_ginja_model(((NJS_OBJECT *)model)->child->child->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

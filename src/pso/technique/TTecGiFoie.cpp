@@ -11,6 +11,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecCircle.h"
+#include "pso/technique/TTecBarta.h"
+#include "pso/unk/text_803D853C.h"
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"
@@ -27,27 +29,16 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct Rot_802312E4 { s32 x, y, z; };
-
-// Same layout as TTecGiBarta's Row_802304A0 {entry, flags, scale}.
-struct Part_802312E4 { s32 id; u32 flags; f32 scale; };
-
-struct Profile_802312E4 { const Part_802312E4 *parts; u32 count; };
-
-extern "C" {
-
-void matrix_mult_vec(void *, void *, void *);
-
 const char *TTecGiFoie__name = "TTecGiFoie";
 
-// emitter_parts_N: the N particle parts an entry of TTecGiFoie__emitter_profile_table spawns.
-static const Part_802312E4 emitter_parts_1[1] = {{34, 2, 0.0f}};
-static const Part_802312E4 emitter_parts_2[2] = {{34, 2, 0.0f}, {172, 1, 0.0f}};
-static const Part_802312E4 emitter_parts_3[3] = {{34, 2, 0.0f}, {172, 1, 0.0f}, {414, 0x1000, 1.0f}};
+// emitter_rows_N: the N particle parts an entry of TTecGiFoie__emitter_profile_table spawns.
+static const TechniqueEmitterSourceRow emitter_rows_1[1] = {{34, 2, 0.0f}};
+static const TechniqueEmitterSourceRow emitter_rows_2[2] = {{34, 2, 0.0f}, {172, 1, 0.0f}};
+static const TechniqueEmitterSourceRow emitter_rows_3[3] = {{34, 2, 0.0f}, {172, 1, 0.0f}, {414, 0x1000, 1.0f}};
 
-const Profile_802312E4 TTecGiFoie__emitter_profile_table[6] = {
-    {emitter_parts_1, 1}, {emitter_parts_1, 1}, {emitter_parts_1, 1},
-    {emitter_parts_2, 2}, {emitter_parts_2, 2}, {emitter_parts_3, 3},
+const TechniqueEmitterSourceTable TTecGiFoie__emitter_profile_table[6] = {
+    {emitter_rows_1, 1}, {emitter_rows_1, 1}, {emitter_rows_1, 1},
+    {emitter_rows_2, 2}, {emitter_rows_2, 2}, {emitter_rows_3, 3},
 };
 
 // orbit_counts: per band, how many orbits TTecGiFoie__ct spaces evenly (360 / count degrees) around the caster.
@@ -145,7 +136,7 @@ void TTecGiFoie::run_task() {
         return;
     }
     if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[0]) != 0) {
-        distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pad_2C, &this->position));
+        distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pos, &this->position));
         if (this->collidable != NULL) {
             this->collidable->bodies->radius = 5.0f + distance;
         }
@@ -192,44 +183,44 @@ void TTecGiFoie::create(void *source, void *origin, s32 level) {
 }
 
 TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single) : TObject(parent) {
-    this->pad_46 = 0;
-    this->pad_20.x = pos->x;
-    this->pad_20.y = pos->y;
-    this->pad_20.z = pos->z;
-    this->pad_44 = band;
-    this->pad_45 = level;
-    VecCopy(&this->pad_2C, &this->pad_20);
-    this->pad_3C = angle;
-    this->pad_38 = 0.0f;
-    this->pad_40 = 0;
-    this->pad_47 = single;
-    if (this->pad_47 != 0) {
-        Rot_802312E4 r;
-        this->pad_1C = (TParticleCtrl **)mem_alloc(4);
-        r.x = 0;
-        r.y = 0;
-        r.z = 0x4000;
-        this->pad_1C[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&this->pad_20, &r, 0x19D);
-        this->pad_38 = 5.0f;
+    this->planar = 0;
+    this->center.x = pos->x;
+    this->center.y = pos->y;
+    this->center.z = pos->z;
+    this->band = band;
+    this->level = level;
+    VecCopy(&this->pos, &this->center);
+    this->angle = angle;
+    this->radius = 0.0f;
+    this->frames = 0;
+    this->single = single;
+    if (this->single != 0) {
+        s32 r[3];
+        this->particles = (TParticleCtrl **)mem_alloc(4);
+        r[0] = 0;
+        r[1] = 0;
+        r[2] = 0x4000;
+        this->particles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&this->center, r, 0x19D);
+        this->radius = 5.0f;
     } else {
         s32 i;
-        this->pad_1C = (TParticleCtrl **)mem_alloc(TTecGiFoie__emitter_profile_table[this->pad_44].count * 4);
-        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->pad_44].count; i++) {
-            Rot_802312E4 r;
-            const Part_802312E4 *p;
-            r.x = 0;
-            r.y = 0;
-            r.z = 0x4000;
-            p = &TTecGiFoie__emitter_profile_table[this->pad_44].parts[i];
-            this->pad_1C[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->pad_20, &r, p->id, (p->flags & 0x1000) ? (u16)0x2000 : (u16)0);
-            if (this->pad_44 == 2) {
+        this->particles = (TParticleCtrl **)mem_alloc(TTecGiFoie__emitter_profile_table[this->band].count * 4);
+        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->band].count; i++) {
+            s32 r[3];
+            const TechniqueEmitterSourceRow *p;
+            r[0] = 0;
+            r[1] = 0;
+            r[2] = 0x4000;
+            p = &TTecGiFoie__emitter_profile_table[this->band].rows[i];
+            this->particles[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->center, r, p->entry, (p->flags & 0x1000) ? (u16)0x2000 : (u16)0);
+            if (this->band == 2) {
                 if (level >= 0xF && level < 0x19) {
-                    if (i <= 1 && this->pad_1C[i] != NULL) {
-                        this->pad_1C[i]->set_scale(1.3f, 1.3f);
+                    if (i <= 1 && this->particles[i] != NULL) {
+                        this->particles[i]->set_scale(1.3f, 1.3f);
                     }
                 } else if (level >= 0x19 && level < 0x1E) {
-                    if (i <= 1 && this->pad_1C[i] != NULL) {
-                        this->pad_1C[i]->set_scale(1.3f, 1.8f);
+                    if (i <= 1 && this->particles[i] != NULL) {
+                        this->particles[i]->set_scale(1.3f, 1.8f);
                     }
                 }
             }
@@ -239,14 +230,14 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
 
 TTecGiFoieFlame::~TTecGiFoieFlame() {
     u32 i;
-    if (this->pad_47 != 0) {
-        this->pad_1C[0]->queue_destruction();
+    if (this->single != 0) {
+        this->particles[0]->queue_destruction();
     } else {
-        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->pad_44].count; i++) {
-            this->pad_1C[i]->queue_destruction();
+        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->band].count; i++) {
+            this->particles[i]->queue_destruction();
         }
     }
-    mem_free(this->pad_1C);
+    mem_free(this->particles);
 }
 
 // Flame bob height per orbit slot, scaled by the sine of the bob phase.
@@ -255,7 +246,7 @@ static const f32 flame_bob_heights[3] = {0.0f, 3.5f, 7.0f};
 void TTecGiFoieFlame::run_task() {
     s32 rot[3];
     s32 bob;
-    switch (pad_44) {
+    switch (band) {
     case 0:
         bob = 0;
         break;
@@ -278,52 +269,52 @@ void TTecGiFoieFlame::run_task() {
         bob = 0;
         break;
     }
-    pad_40++;
-    if (pad_46) {
+    frames++;
+    if (planar) {
         Vec offset;
-        pad_38 += 0.015;
-        pad_3C += 0x1C71;
-        offset.x = pad_38 * cos_table_lookup(pad_3C);
-        offset.z = pad_38 * sin_table_lookup(pad_3C);
+        radius += 0.015;
+        angle += 0x1C71;
+        offset.x = radius * cos_table_lookup(angle);
+        offset.z = radius * sin_table_lookup(angle);
         offset.y = 0.0f;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, pad_48);
+        rotate_matrix_y(0, yaw);
         rotate_matrix_x(0, 0x4000);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
-        pad_2C.x = pad_20.x + offset.x;
-        pad_2C.y = pad_20.y + offset.y;
-        pad_2C.z = pad_20.z + offset.z;
+        pos.x = center.x + offset.x;
+        pos.y = center.y + offset.y;
+        pos.z = center.z + offset.z;
     } else {
-        pad_38 += 0.55f;
-        pad_3C += (s32)(182.04445f * (pad_44 + 9));
-        pad_2C.y = flame_bob_heights[bob] * sin_table_lookup((s32)(182.04445f * (f32)(pad_40 * 15))) + pad_20.y;
-        pad_2C.x = pad_38 * cos_table_lookup(pad_3C) + pad_20.x;
-        pad_2C.z = pad_38 * sin_table_lookup(pad_3C) + pad_20.z;
+        radius += 0.55f;
+        angle += (s32)(182.04445f * (band + 9));
+        pos.y = flame_bob_heights[bob] * sin_table_lookup((s32)(182.04445f * (f32)(frames * 15))) + center.y;
+        pos.x = radius * cos_table_lookup(angle) + center.x;
+        pos.z = radius * sin_table_lookup(angle) + center.z;
     }
-    if (pad_47) {
+    if (single) {
         Vec dir = {0.0f, 0.0f, 1.0f};
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, pad_48);
+        rotate_matrix_y(0, yaw);
         rotate_vector_by_matrix(0, &dir, &dir);
         pop_matrix();
         rot[0] = 0;
         rot[1] = 0;
         rot[2] = 0;
         direction_to_rotation_xz((u8 *)&dir, &rot[0], &rot[2]);
-        pad_1C[0]->set_position(&pad_2C);
-        pad_1C[0]->set_direction(rot);
+        particles[0]->set_position(&pos);
+        particles[0]->set_direction(rot);
     } else {
         u32 i;
         s16 roll;
-        rot[1] = (s32)(10430.38043493439 * atan2_float(pad_2C.x - pad_20.x, pad_2C.z - pad_20.z));
+        rot[1] = (s32)(10430.38043493439 * atan2_float(pos.x - center.x, pos.z - center.z));
         roll = i = 0;
         rot[0] = rot[1] - 0x8000;
         rot[1] = roll;
         rot[2] = 0x4000;
-        for (; i < TTecGiFoie__emitter_profile_table[pad_44].count; i++) {
-            pad_1C[i]->set_position(&pad_2C);
-            pad_1C[i]->set_direction(rot);
+        for (; i < TTecGiFoie__emitter_profile_table[band].count; i++) {
+            particles[i]->set_position(&pos);
+            particles[i]->set_direction(rot);
         }
     }
 }
@@ -342,5 +333,3 @@ void TTecGiFoie::calc_params() {
 }
 
 #pragma defer_codegen off
-
-}

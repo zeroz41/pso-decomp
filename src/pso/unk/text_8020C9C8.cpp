@@ -4,18 +4,7 @@
 #include "pso/unk/text_8020C9C8.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-struct UnhideRoomSetObjectsSet {
-    s16 f0;
-    s16 flags;
-    s16 f4;
-    u8 pad6[4];
-    s16 z;
-    s16 x;
-    u8 padE[0x32];
-    void *obj;
-};
 
-struct ObjBase_8020C9C8 { u8 pad[0x18]; };
 
 struct Obj_8020C9C8 : ObjBase_8020C9C8 {
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();

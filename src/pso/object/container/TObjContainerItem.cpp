@@ -194,18 +194,18 @@ void load_forest_box_resources(void) {
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
     case AREA_OLGA_FLOW:
-        bundle = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_seabed_con_resource_descriptor, 0, 0, NULL);
+        bundle = new BmlResource(5, &bm_obj_seabed_con_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
         forest_box_textures = LoadPvmFileTls(seabed_container_texture_filename);
         forest_box_debris_primary = &forest_box_break_params[2];
         forest_box_debris_secondary = &forest_box_break_params[3];
-        node = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)forest_box_model_archive, 1), 2);
+        node = find_object_node((NJS_OBJECT *)get_bml_model(forest_box_model_archive, 1), 2);
         if (node != NULL) {
             node->evalflags |= 0x100000;
         }
         break;
     default:
-        bundle = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_hako01_hahen02_resource_descriptor, 0, 0, NULL);
+        bundle = new BmlResource(5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
         forest_box_textures = TLobby::is_online_ready() != 0 ? LoadPvmFileTls(forest_box_texture_filename_a) : LoadPvmFileTls(forest_box_texture_filename_n);
         forest_box_debris_primary = &forest_box_break_params[0];
@@ -222,12 +222,12 @@ void free_forest_box_resources() {
         forest_box_textures = NULL;
     }
     if ((uaddr) forest_box_model_archive != 0U) {
-        delete (BmlResource *)forest_box_model_archive;
+        delete forest_box_model_archive;
         forest_box_model_archive = NULL;
     }
 }
 
-NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model((BmlResource *)forest_box_model_archive, index); }
+NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_box_model_archive, index); }
 
 void load_container_breakup_resources() {
     void *p;
@@ -262,7 +262,7 @@ void free_container_breakup_resources() {
 }
 
 NJS_OBJECT *get_container_breakup_model(s32 index) {
-    return (NJS_OBJECT *)get_bml_model((BmlResource *)container_breakup_model_archive, index);
+    return (NJS_OBJECT *)get_bml_model(container_breakup_model_archive, index);
 }
 
 #pragma push
@@ -289,7 +289,7 @@ s32 TObjContainerCommon::select_melee_contact_body(void *target, f32) {
     return xyz_distance_squared(&((TObjBase *)target)->position, &position) < melee_range_sq;
 }
 
-f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
+f32 TObjContainerCommon::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;
@@ -300,11 +300,11 @@ f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload p
 }
 
 f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
-    s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        this->access_object_saved_state(&sp8, 0);
-        this->send_object_state_update(&sp8);
+    s16 saved_state;
+    if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        this->access_object_saved_state(&saved_state, 0);
+        this->send_object_state_update(&saved_state);
     }
     return lbl_805DBCF4;
 }
@@ -564,12 +564,12 @@ void TObjContainerEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        access_object_saved_state(&saved_state, 0);
+        send_object_state_update(&saved_state);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();
@@ -669,11 +669,11 @@ void TObjContainerNoItem::draw_model() {
 }
 
 f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
-    s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        this->access_object_saved_state(&sp8, 0);
-        this->send_object_state_update(&sp8);
+    s16 saved_state;
+    if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        this->access_object_saved_state(&saved_state, 0);
+        this->send_object_state_update(&saved_state);
     }
     return lbl_805DBCF4;
 }
@@ -871,12 +871,12 @@ void TObjContainerAbeEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        access_object_saved_state(&saved_state, 0);
+        send_object_state_update(&saved_state);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();

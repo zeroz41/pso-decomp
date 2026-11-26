@@ -5,6 +5,9 @@
 
 class TObjPlayer;
 class TWindowBase;
+struct BattleRuleConfig;
+class TWindowMessage;
+class TWindowMenu;
 
 extern BattleRanking split_screen_battle_rankings[4];
 
@@ -67,9 +70,9 @@ public:
     void initialize_battle();
     virtual void run_task();
 
-    u8* rule_data;
-    void* intro_window;
-    void* menu_window;
+    BattleRuleConfig *rule_data;
+    TWindowMessage *intro_window;
+    TWindowMenu *menu_window;
     TWindowBase *player_windows[4];
     char intro_text[0x200];
     s8 timed_event_flags[8];

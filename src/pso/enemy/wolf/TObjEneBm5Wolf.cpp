@@ -145,8 +145,8 @@ s32 actor_rand_int(saddr actor, s32 range) {
 
 void TObjEneBm5Wolf::register_global_objects() {
     Globals_800B8A40 *g = (Globals_800B8A40 *)bm5_wolf_stat_params;
-    __register_global_object(g->list0.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain0);
-    __register_global_object(g->list1.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain1);
+    __register_global_object(g->list0.reset(), __dt__18TObjEneBm5WolfListFv, g->chain0);
+    __register_global_object(g->list1.reset(), __dt__18TObjEneBm5WolfListFv, g->chain1);
 }
 
 TObjEneBm5WolfNode::TObjEneBm5WolfNode() {
@@ -236,7 +236,7 @@ void TObjEneBm5Wolf::load_resources() {
     }
 }
 
-// dead-stripped: only its literals survive. The int-to-float double (.rodata 0x8043B5B8) is pooled before
+// dead-stripped: only its literals survive. The int-to-float double is pooled before
 // load_resources' file name, but its only live user actor_rand_int is compiled after load_resources
 // (defer_codegen runs this file bottom-up). Minimal body after actor_rand_int's conversion; name inferred.
 static f32 actor_rand_float(saddr actor, s32 range) {
@@ -882,15 +882,15 @@ void TObjEneBm5Wolf::sleeping_state(s32 event) {
 }
 
 void TObjEneBm5Wolf::alerted_state(s32 event) {
-  s32 new_var;
+  s32 wait_frames;
   switch (event)
   {
     case 4:
       this->requested_action = 4;
       this->set_next_mode(4);
       (this->set_intangible());
-      new_var = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
-      this->substate = new_var;
+      wait_frames = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
+      this->substate = wait_frames;
       return;
     case 3:
       if ((this->substate) <= 0)
@@ -1452,9 +1452,9 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
                         this->near_target = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
                             if (this->is_leader != 0) {
-                                TObjEneDD__sub_800BA378(this, this->current_target);
+                                TObjEneDD::inflict_paralysis(this, this->current_target);
                             } else {
-                                TObjEneDD::send_damage_message(this, this->current_target);
+                                TObjEneDD::inflict_slow(this, this->current_target);
                             }
                         }
                     }

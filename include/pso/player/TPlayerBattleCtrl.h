@@ -5,6 +5,10 @@
 #include "types.h"
 #include "pso/player/BattleRanking.h"
 
+class TWindowMessage;
+class TWindowMenu;
+class TWindowBase;
+
 class TPlayerBattleCtrl : public TObject {
 public:
     TPlayerBattleCtrl(TObject *parent);
@@ -39,13 +43,17 @@ public:
     const char **text;  // player_battle_ctrl_text_japanese or _english
     s32 timeout;
     s32 end_wait;
-    void *window_4c;
-    void *window_50;
-    void *window_54;
-    u8 pad_58[0x8];
+    TWindowMessage *window_4c;
+    TWindowMenu *window_50;
+    TWindowBase *window_54;
+    s32 mode_data[2];  // the two values of 6x7D mode 0 (handle_6x7D_set_battle_mode_data)
     s32 state_send_wait;
     s32 pad_64;
-    u8 pad_68[0x210];
+    u8 msg[0x80];      // the intro message update_battle_intro shows first
+    u8 pad_E8[0x180];
+    s8 pending[8];     // one flag per battle event second (battle_event_second_table)
+    s32 sync_state;    // 2 once the battle ended (set_flag_270, check_timeout)
+    u8 pad_274[0x4];
 };
 
 #include <stddef.h>

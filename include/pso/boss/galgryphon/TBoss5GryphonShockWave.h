@@ -11,6 +11,7 @@ class TParticleCtrl;
 // Gal Gryphon's ground shock wave: travels along a curve from the gryphon to the floor at the target, then bursts
 // and leaves a tornado there.
 struct TBoss5GryphonShockWave : public TObject {
+    static const char *class_name;
     TBoss5GryphonShockWave(TObject *parent, TBoss5Gryphon *owner, Vec *origin, Vec *target, Vec *velocity,
                            u16 target_client_id);
     virtual ~TBoss5GryphonShockWave();

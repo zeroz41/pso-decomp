@@ -9,6 +9,7 @@ class TObjBoss5FloorStone;
 
 class TObjBoss5Ctrl : public TObject {
 public:
+    static const char *class_name;
     TObject *floor_grass;
     TObjBoss5FloorStone *floor_stone;
     TObjBoss5PillarCtrl *pillar_controller;

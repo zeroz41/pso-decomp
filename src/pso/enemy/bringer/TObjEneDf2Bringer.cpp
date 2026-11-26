@@ -472,7 +472,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {
-                        TObjEneDD__sub_800BA438(this, player);
+                        TObjEneDD::inflict_confusion(this, player);
                     }
                 }
                 eff = (u8 *)TObject::operator new(0x34);
@@ -509,7 +509,7 @@ void TObjEneDf2Bringer::update_if_in_band() {
 
 // Without a held target (flag 8) it follows the linked position; a held target that is no
 // longer valid clears the flag.
-s32 TObjEneDf2Bringer::update_flag_0x3C0() {
+s32 TObjEneDf2Bringer::update_held_target() {
     s32 valid;
     if (!(status_flags & 8)) {
         return update_linked_position(300.0f);
@@ -817,7 +817,7 @@ void TObjEneDf2Bringer::update_walk_state(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (update_flag_0x3C0() != 0) {
+        if (update_held_target() != 0) {
             enemy_copy_target_destination();
             update_velocity();
         }
@@ -1283,7 +1283,7 @@ void bringer_render_node_callback(NJS_OBJECT *) {
     case 41:
         pos = df2_bringer_render_point_cursor;
         df2_bringer_render_point_cursor = pos + 1;
-        forward_transform_to_view((const Vec *)&bringer_camera_ctrl_target_vec, pos);
+        forward_transform_to_view(&bringer_camera_ctrl_target_vec, pos);
         break;
     }
     df2_bringer_render_node_index += 1;

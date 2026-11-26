@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/object/trap/TOTrapChainSaw.h"
 
+struct TOTrapChainSawEdge;
 struct TOTrapChainSawDamage : public TOTrapChainSaw {
     TOTrapChainSawDamage(TObject *parent, void *set_data);
     virtual ~TOTrapChainSawDamage();
@@ -18,9 +19,9 @@ struct TOTrapChainSawDamage : public TOTrapChainSaw {
     virtual void vfunc_28();
     u32 m_f8;
     u8 _padFC[0x4];
-    u32 m_100;
-    u32 m_104;
-    u32 m_108;
+    s32 tick;                 // frames since the sweep started: at 5 and 10 the next edge is triggered
+    TOTrapChainSawEdge *edge_a;
+    TOTrapChainSawEdge *edge_b;
     void set_damage(s32 v);
     static void *create(void *set_data);
 };

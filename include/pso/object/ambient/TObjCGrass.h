@@ -35,8 +35,4 @@ LAYOUT_ASSERT(TObjCGrassFragmentsOffset, offsetof(TObjCGrass, fragments) == 0xFC
 LAYOUT_ASSERT(TObjCGrassGroundCandidatesOffset, offsetof(TObjCGrass, ground_candidates) == 0x10C);
 LAYOUT_ASSERT(TObjCGrass_size, sizeof(TObjCGrass) == 0x14C);
 
-extern "C" {
-void *__dt__10TObjCGrassFv(void *arg0, s16 arg1);
-}
-
 #endif

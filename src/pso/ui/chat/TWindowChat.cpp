@@ -66,7 +66,7 @@ s32 TWindowChat::update_symbol_chat_window() {
     preset_index = (s32 *)((saddr)this->result + 4);
     *preset_index = this->symbolChatWindow->get_selected_index();
     if (this->flags & 0x80) {
-        TWindowChat::open_symbol_chat((s32 *)preset_index)->update_selected_symbol();
+        TWindowChat::open_symbol_chat(preset_index)->update_selected_symbol();
     }
     return 1;
 }

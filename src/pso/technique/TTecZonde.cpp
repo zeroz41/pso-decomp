@@ -35,8 +35,6 @@ void TTecZonde::init_parameters() {
 
 
 
-extern "C" {
-
 void TObjPlayer::create_tec_zonde(void *source, void *origin, void *targets, s32 level) {
     new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
 }
@@ -49,8 +47,6 @@ void TTecZonde::apply_to_target(TObjChara *target) {
     }
 }
 
-}
-
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/technique/TTecZondeHitEffect.h"
@@ -59,20 +55,8 @@ void TTecZonde::apply_to_target(TObjChara *target) {
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/MatrixVector.h"
 
-struct Seg_8023C79C { Vec a; Vec b; f32 len; };
-struct Zonde_8023C79C {
-    u8 pad0[0x18];
-    void *vt;
-    void *target;
-    u8 pad20[0xC6 - 0x20];
-    s16 level;
-    u16 id;
-    u8 padca[0x130 - 0xCA];
-    s32 f130;
-    u16 f134;
-};
-
-extern "C" {
+// One bolt of Zonde: it starts at `start`, travels along the unit vector `dir` for `len`.
+struct ZondeBolt { Vec start; Vec dir; f32 len; };
 
 TTecZonde::~TTecZonde() {
 }
@@ -85,86 +69,84 @@ void TTecZonde::render() {  }
 extern u8 *tl_07;
 
 void TTecZonde::run_task() {
-    Zonde_8023C79C *self = (Zonde_8023C79C *)this;
-    Seg_8023C79C segs[14];
-    Seg_8023C79C *s;
+    ZondeBolt segs[14];
+    ZondeBolt *s;
     Vec *pb;
     s32 i;
     s32 j;
     s32 k;
     s32 l;
     TObjChara *t;
-    void *o;
     f32 scale;
 
-    self->target = find_entity_by_id(self->id);
-    if (self->target == NULL) {
-        ((TObject *)self)->queue_destruction();
+    source = (uaddr)find_entity_by_id(sourceId);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    if (self->f130 == 0) {
-        ((TObject *)self)->queue_destruction();
+    if (targets.count == 0) {
+        queue_destruction();
         return;
     }
-    t = static_cast<TObjChara *>(find_entity_by_id(self->f134));
+    t = static_cast<TObjChara *>(find_entity_by_id(targets.records[0].id));
     if (TTecLuker::is_parents_unqueued((uaddr)t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
-            s->a.y = 100.0f + t->position.y;
-            if (self->level == 5 && i == 0) {
-                s->a.y = 500.0f + t->position.y;
+            s->start.y = 100.0f + t->position.y;
+            if (band == 5 && i == 0) {
+                s->start.y = 500.0f + t->position.y;
             }
-            s->a.x = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.x;
-            s->a.z = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.z;
-            s->b.x = t->position.x - s->a.x;
-            s->b.y = t->position.y - s->a.y;
-            pb = &s->b;
-            s->b.z = t->position.z - s->a.z;
+            s->start.x = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.x;
+            s->start.z = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.z;
+            s->dir.x = t->position.x - s->start.x;
+            s->dir.y = t->position.y - s->start.y;
+            pb = &s->dir;
+            s->dir.z = t->position.z - s->start.z;
             s->len = vector_length(pb);
             if (0.0f != s->len) {
                 normalize_vector(pb);
             }
         }
         scale = 0.5f;
-        switch (self->level) {
+        switch (band) {
         case 0:
-            new TTecZondeEff((TObject *)tl_07, &segs[0].a, &segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
+            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            new TTecZondeEff((TObject *)tl_07, &segs[0].a, &segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
+            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 2:
             scale *= 1.4f;
-            new TTecZondeEff((TObject *)tl_07, &segs[0].a, &segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
+            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 3:
             for (j = 0; j < 3; j++) {
-                new TTecZondeEff((TObject *)tl_07, &segs[j].a, &segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
+                new TTecZondeEff((TObject *)tl_07, &segs[j].start, &segs[j].dir, 0x14000000, 0x14, segs[j].len, 0.5f);
             }
             break;
         case 4:
             scale *= 1.4f;
             for (k = 0; k < 3; k++) {
-                new TTecZondeEff((TObject *)tl_07, &segs[k].a, &segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
+                new TTecZondeEff((TObject *)tl_07, &segs[k].start, &segs[k].dir, 0x14000000, 0x14, segs[k].len, scale);
             }
             break;
         case 5:
             for (l = 0; l < 14; l++) {
                 if (l == 0) {
-                    new TTecZondeEff((TObject *)tl_07, &segs[l].a, &segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
+                    new TTecZondeEff((TObject *)tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 5.0f);
                 } else {
-                    new TTecZondeEff((TObject *)tl_07, &segs[l].a, &segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
+                    new TTecZondeEff((TObject *)tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 0.5f);
                 }
             }
             break;
         }
-        if (self->level != 5) {
-            new TTecZondeHitEffect(&segs[0].a, &t->position, (TObject *)tl_07, 0x19F);
+        if (band != 5) {
+            new TTecZondeHitEffect(&segs[0].start, &t->position, (TObject *)tl_07, 0x19F);
         }
         {
             s32 h;
-            switch (self->level) {
+            switch (band) {
             case 0:
                 h = play_sound_effect(0x4002A408, &t->position, 0, 0);
                 if (h >= 0) {
@@ -199,17 +181,15 @@ void TTecZonde::run_task() {
     if (t != NULL && TTecLuker::is_parents_unqueued((uaddr)t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
         apply_to_target(t);
     }
-    ((TObject *)self)->queue_destruction();
+    queue_destruction();
 }
 
 #pragma pop
-TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *target_list, s32 level) : TTecShot(source, (Vec *)arg2, 0, level) {
+TTecZonde::TTecZonde(s32 source, u8 *origin, u8 *target_list, s32 level) : TTecShot(source, (Vec *)origin, 0, level) {
     m_name = lbl_805D3838;
     init_parameters();
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     if (this->source != 0) {
         sourceId = ((TObjBase *)(saddr)this->source)->get_entity_id();
     }
-}
-
 }

@@ -106,7 +106,7 @@ void TObjEneEpsilonGuard::free_shared_resources() {
 
 void TObjEneEpsilonGuard::calc_joint_position(Vec *out, s32 joint) {
     Vec origin = { 0.0f, 0.0f, 0.0f };
-    push_matrix_from((void *)&identity_matrix);
+    push_matrix_from(&identity_matrix);
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
     calc_joint_matrices(frame);

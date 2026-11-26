@@ -135,7 +135,7 @@ void TSceneSora::load_sky_resources() {
         TLobby::replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
         if (TRaderMapCore::is_not_split_screen() == 1) {
             TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
-            ok = get_resource_file_size((const char *)name2);
+            ok = get_resource_file_size(name2);
         }
         if (ok <= 0) {
             TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
@@ -168,8 +168,6 @@ void TSceneSora::load_sky_resources() {
 
 void release_adventure_maps(void) {  }
 
-extern s32 pending_adventure_map_floor;
-void prepare_adventure_maps(void);
 void prepare_adventure_maps(void) {
     randomize_adventure_maps();
     if ((s32) pending_adventure_map_floor != -1) {

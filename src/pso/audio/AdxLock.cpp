@@ -32,7 +32,7 @@ void adx_lock() {
     init_ref_count += 1;
 }
 
-void TLobby__sub_803C4698(void) {
+void reset_init_ref_count(void) {
     init_ref_count = 0;
 }
 

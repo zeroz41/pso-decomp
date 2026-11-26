@@ -99,11 +99,11 @@ struct Send6x76SetEntitySetFlagsPacket { u8 hdr[2]; s16 a; s16 b; s16 c; };
 
 void build_6x76_set_entity_set_flags(void *);
 
-void send_6x76_set_entity_set_flags(void *arg0, s16 arg1) {
+void send_6x76_set_entity_set_flags(void *object, s16 flags) {
     Send6x76SetEntitySetFlagsPacket pkt;
     build_6x76_set_entity_set_flags(&pkt);
-    pkt.a = ((TObjBase *)(arg0))->get_entity_id();
+    pkt.a = ((TObjBase *)(object))->get_entity_id();
     pkt.b = ((s16 (*)())get_current_floor)();
-    pkt.c = arg1;
+    pkt.c = flags;
     ((TLobby *)(&pkt))->send_player_update();
 }

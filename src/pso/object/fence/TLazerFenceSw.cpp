@@ -54,7 +54,7 @@ extern BmlResourceDescriptor laser_fence_switch_resource_descriptor;
 extern "C" {
 
 void debug_printf_at(int, void *, ...);
-extern u8 lbl_80445CD8[];
+extern u8 debug_select_color_label[];
 
 
 __declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
@@ -145,7 +145,7 @@ void TLazerFenceSw::render() {
 }
 #pragma pop
 
-__declspec(section ".rodata") u8 lbl_80445CD8[16] = "<- SELECT COLOR";
+__declspec(section ".rodata") u8 debug_select_color_label[16] = "<- SELECT COLOR";
 void TLazerFenceSw::debug_draw_key_id() {
     TOKey::debug_draw_key_id();
     if (set_params[2] < 0) {
@@ -153,7 +153,7 @@ void TLazerFenceSw::debug_draw_key_id() {
     }
     color_slot = lbl_80445CB8[set_params[2] % 4];
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130022, lbl_80445CD8);
+    debug_printf_at(0x130022, debug_select_color_label);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
@@ -171,16 +171,16 @@ void TLazerFenceSw::trigger_deactivate_sound() {
 
 void TLazerFenceSw::update_switch_on() {
     u32 animation_frame;
-    u32 temp_r4_2;
+    u32 last_frame;
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
     animation_frame = *(s32 *)((s8 *)lazer_fence_beam_motions[0] + 4) - 1;
     if (this->animation_frame > (f32) animation_frame) {
         this->animation_frame = (f32) animation_frame;
     }
     switch_frame = (f32) (switch_frame + this->animation_step);
-    temp_r4_2 = *(s32 *)((s8 *)lazer_fence_beam_motions[1] + 4) - 1;
-    if (switch_frame > (f32) temp_r4_2) {
-        switch_frame = (f32) temp_r4_2;
+    last_frame = *(s32 *)((s8 *)lazer_fence_beam_motions[1] + 4) - 1;
+    if (switch_frame > (f32) last_frame) {
+        switch_frame = (f32) last_frame;
     }
 }
 
@@ -227,7 +227,7 @@ void TLazerFenceSw::load_resources() {
         lazer_fence_switch_bml_resource = obj;
         lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_j_gvm);
     } else {
-        obj = new BmlResource(5, (BmlResourceDescriptor *)&laser_fence_switch_resource_descriptor, 0, 0, NULL);
+        obj = new BmlResource(5, &laser_fence_switch_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
             lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_a_gvm);

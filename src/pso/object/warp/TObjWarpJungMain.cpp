@@ -36,6 +36,8 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -61,11 +63,9 @@ GinjaModel *warp_jung_beam_models[6];
 // The texture entry names load_warp_beam_resources looks up.
 
 extern "C" {
-saddr get_localized_text_entry(s32, s32);
 void request_active_window_close(void);
 }
 
-s32 get_game_play_mode(void);
 
 void TObjWarpJungMain::render() {
     s32 i;
@@ -97,9 +97,9 @@ void TObjWarpJungMain::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_object((void *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, 0));
+        draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, m_c4);
+        draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, beam_frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -136,9 +136,9 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
 }
 
 void TObjWarpJungMain::run_task() {
-    m_c4 += 4.0f;
-    if (m_c4 > (warp_jung_beam_motion->frameCount - 1)) {
-        m_c4 = 0.0f;
+    beam_frame += 4.0f;
+    if (beam_frame > (warp_jung_beam_motion->frameCount - 1)) {
+        beam_frame = 0.0f;
     }
     handle_area_selection();
 }
@@ -147,7 +147,7 @@ TObjWarpJungMain::~TObjWarpJungMain() {}
 
 TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = warp_jung_main_name;
-    m_c4 = 0.0f;
+    beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
     if (get_game_play_mode() == 1 && set_params[2] == 0) {
         this->queue_destruction();
@@ -233,11 +233,11 @@ f32 TObjWarpJung::get_static_field4_as_float() {
 void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param(warp_jung_textures); }
 
 void TObjWarpJung::render_warp_effect(s32 model_index, s32 frame) {
-    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
+    draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
 }
 
 void TObjWarpJung::render_warp(s32 model_index) {
-    draw_ginja_object((void *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, model_index));
+    draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, model_index));
 }
 
 s32 TObjWarpJung__sub_801A0404(s32 arg0) {
@@ -288,8 +288,8 @@ void load_warp_beam_resources(void) {
     BmlResource *resource = new BmlResource(5, &jungle_warp_beam_resource_descriptor, 0, 0, NULL);
     warp_jung_beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
-    warp_jung_textures = get_bml_texlist((BmlResource *)warp_jung_beam_bml_resource, 0);
-    root = ((NJS_OBJECT *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, 1))->child;
+    warp_jung_textures = get_bml_texlist(warp_jung_beam_bml_resource, 0);
+    root = ((NJS_OBJECT *)get_bml_model(warp_jung_beam_bml_resource, 1))->child;
     warp_jung_beam_models[0] = (GinjaModel *)root->child->model;
     warp_jung_beam_models[1] = (GinjaModel *)root->child->sibling->model;
     warp_jung_beam_models[2] = (GinjaModel *)root->child->sibling->sibling->model;

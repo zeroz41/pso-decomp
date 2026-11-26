@@ -19,7 +19,7 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     static void set_active_bit(s32 floor);
     static void reset();
     static s32 get_phase_flag();
-    static void notify_player_warp(void *arg0, s32 local_client_id);
+    static void notify_player_warp(void *warp, s32 local_client_id);
     void update_floor_switch_state();
     void update_state();
     void render();

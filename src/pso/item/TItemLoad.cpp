@@ -46,12 +46,12 @@ const s16 item_class_texture_offsets[4] = { 0, 0x11F, 0xDC, 0 };
 const char *item_texture_archive_path = "ItemTexture.afs";
 const char *item_model_archive_path = "ItemModel.afs";
 const char *item_load_tmp_buffer = "ItemLoad";
-const char *TItemLoad__name = "TItemLoad";
+const char *TItemLoad::name = "TItemLoad";
 
-BmlResource *TItemLoad__bml_resource;
-TObject *TItemLoad__model_load_task_root;
-TObject *TItemLoad__completed_model_load_task_root;
-s32 *TItemLoad__model_slot_in_use;
+BmlResource *TItemLoad::bml_resource;
+TObject *TItemLoad::model_load_task_root;
+TObject *TItemLoad::completed_model_load_task_root;
+s32 *TItemLoad::model_slot_in_use;
 s32 item_load_resource_handle;
 u8 *item_load_compressed_work_buffer;
 s32 item_load_work_buffer_busy;
@@ -104,35 +104,35 @@ void TItemLoad::init_resources() {
     TItemLoad::alloc_work_buffer();
     TItemLoad::alloc_all_models();
     resource = new BmlResource(5, &item_bml_resource_descriptor, 0, 0, NULL);
-    TItemLoad__bml_resource = resource;
-    TItemLoad__completed_model_load_task_root = new TObject(NULL);
-    TItemLoad__model_load_task_root = new TObject(NULL);
+    TItemLoad::bml_resource = resource;
+    TItemLoad::completed_model_load_task_root = new TObject(NULL);
+    TItemLoad::model_load_task_root = new TObject(NULL);
     slots = (s32 *)mem_alloc(0x30);
-    TItemLoad__model_slot_in_use = slots;
+    TItemLoad::model_slot_in_use = slots;
     item_load_resource_handle = 0;
     if (slots != NULL) {
         for (i = 0; i < 12; i++) {
-            TItemLoad__model_slot_in_use[i] = 0;
+            TItemLoad::model_slot_in_use[i] = 0;
         }
     }
 }
 
 void TItemLoad::free_all() {
-    mem_free(TItemLoad__model_slot_in_use);
-    delete TItemLoad__model_load_task_root;
-    delete TItemLoad__completed_model_load_task_root;
-    delete TItemLoad__bml_resource;
+    mem_free(TItemLoad::model_slot_in_use);
+    delete TItemLoad::model_load_task_root;
+    delete TItemLoad::completed_model_load_task_root;
+    delete TItemLoad::bml_resource;
     item_load_resource_handle = 0;
-    TItemLoad__bml_resource = NULL;
-    TItemLoad__model_load_task_root = NULL;
-    TItemLoad__completed_model_load_task_root = NULL;
-    TItemLoad__model_slot_in_use = NULL;
+    TItemLoad::bml_resource = NULL;
+    TItemLoad::model_load_task_root = NULL;
+    TItemLoad::completed_model_load_task_root = NULL;
+    TItemLoad::model_slot_in_use = NULL;
     TItemLoad::free_all_models();
     TItemLoad::free_work_buffer();
 }
 
 TItemLoad::TItemLoad(TObject *parent) : TObject(parent) {
-    m_name = TItemLoad__name;
+    m_name = TItemLoad::name;
     disallow_rendering();
 }
 
@@ -144,19 +144,19 @@ void TItemLoad::update() {
     TItemModelLoadTask *task;
 
     TItemLoad::update_all();
-    if (TItemLoad__model_load_task_root != NULL && TItemLoad__completed_model_load_task_root != NULL) {
-        task = (TItemModelLoadTask *)TItemLoad__model_load_task_root->m_down;
+    if (TItemLoad::model_load_task_root != NULL && TItemLoad::completed_model_load_task_root != NULL) {
+        task = (TItemModelLoadTask *)TItemLoad::model_load_task_root->m_down;
         if (task != NULL) {
             task->run_task();
             if (task->is_done() == 1) {
-                task->set_parent(TItemLoad__completed_model_load_task_root);
+                task->set_parent(TItemLoad::completed_model_load_task_root);
             }
         }
     }
 }
 
 void TItemLoad::release_resource_by_id(s32 id) {
-    TObject *roots[2] = { TItemLoad__completed_model_load_task_root, TItemLoad__model_load_task_root };
+    TObject *roots[2] = { TItemLoad::completed_model_load_task_root, TItemLoad::model_load_task_root };
     s32 i;
     TItemModelLoadTask *task;
     for (i = 0; i != 2; i++) {
@@ -164,7 +164,7 @@ void TItemLoad::release_resource_by_id(s32 id) {
             for (task = (TItemModelLoadTask *)roots[i]->m_down; task != NULL; task = (TItemModelLoadTask *)task->m_next) {
                 if (id == task->get_slot()) {
                     delete task;
-                    TItemLoad__model_slot_in_use[id] = 0;
+                    TItemLoad::model_slot_in_use[id] = 0;
                     return;
                 }
             }
@@ -174,8 +174,8 @@ void TItemLoad::release_resource_by_id(s32 id) {
 
 ItemModelResource *TItemLoad::find_node_by_id(s32 id) {
     TItemModelLoadTask *task;
-    if (TItemLoad__completed_model_load_task_root != NULL) {
-        for (task = (TItemModelLoadTask *)TItemLoad__completed_model_load_task_root->m_down; task != NULL;
+    if (TItemLoad::completed_model_load_task_root != NULL) {
+        for (task = (TItemModelLoadTask *)TItemLoad::completed_model_load_task_root->m_down; task != NULL;
              task = (TItemModelLoadTask *)task->m_next) {
             if (id == task->get_slot()) {
                 return task->get_resource();
@@ -198,11 +198,11 @@ s32 request_item_model_load(u8 *item) {
             if (model != -1 && texture != -1) {
                 model += item_class_model_offsets[item[0]];
                 texture += item_class_texture_offsets[item[0]];
-                if (TItemLoad__model_load_task_root != NULL && TItemLoad__model_slot_in_use != NULL) {
+                if (TItemLoad::model_load_task_root != NULL && TItemLoad::model_slot_in_use != NULL) {
                     for (i = 0; i < 12; i++) {
-                        if (TItemLoad__model_slot_in_use[i] == 0) {
-                            TItemLoad__model_slot_in_use[i] = 1;
-                            new TItemModelLoadTask(TItemLoad__model_load_task_root, i, model, texture);
+                        if (TItemLoad::model_slot_in_use[i] == 0) {
+                            TItemLoad::model_slot_in_use[i] = 1;
+                            new TItemModelLoadTask(TItemLoad::model_load_task_root, i, model, texture);
                             return i;
                         }
                     }
@@ -215,35 +215,35 @@ s32 request_item_model_load(u8 *item) {
 
 void TItemLoad::get_drop_model(u8 index, NJS_OBJECT **model, NJS_TEXLIST **texlist) {
     if ((model != NULL) && (texlist != NULL)) {
-        *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, index + 2);
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
+        *model = (NJS_OBJECT *)get_bml_model(TItemLoad::bml_resource, index + 2);
+        *texlist = get_bml_texlist(TItemLoad::bml_resource, 0);
     }
 }
 
 void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, AnimationMotion **motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
-        *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, 1);
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
-        *motion = get_bml_motion(TItemLoad__bml_resource, 0);
+        *model = (NJS_OBJECT *)get_bml_model(TItemLoad::bml_resource, 1);
+        *texlist = get_bml_texlist(TItemLoad::bml_resource, 0);
+        *motion = get_bml_motion(TItemLoad::bml_resource, 0);
     }
 }
 
 void TItemLoad::get_item_model(s32 index, NJS_OBJECT **model) {
     if (model != NULL) {
-        *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, index);
+        *model = (NJS_OBJECT *)get_bml_model(TItemLoad::bml_resource, index);
     }
 }
 
 void TItemLoad::get_item_texture_list(s32 index, NJS_TEXLIST **texlist) {
     if (texlist != NULL) {
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = get_bml_texlist(TItemLoad::bml_resource, 0);
     }
 }
 
 s32 TItemLoad::has_resource_id(s32 id) {
     TItemModelLoadTask *task;
-    if (TItemLoad__completed_model_load_task_root != NULL) {
-        for (task = (TItemModelLoadTask *)TItemLoad__completed_model_load_task_root->m_down; task != NULL;
+    if (TItemLoad::completed_model_load_task_root != NULL) {
+        for (task = (TItemModelLoadTask *)TItemLoad::completed_model_load_task_root->m_down; task != NULL;
              task = (TItemModelLoadTask *)task->m_next) {
             if (id == task->get_slot()) {
                 return 1;

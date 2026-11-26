@@ -141,6 +141,7 @@
 #include "pso/item/TItemBuff.h"
 #include "pso/unk/TLobby_80105A2C.h"
 #include "pso/item/item_pmt.h"
+#include "pso/item/ItemPmtRecords.h"
 #include "pso/item/TItemDisconnectCtrl_80105BE8.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemTimerEvent.h"
@@ -542,10 +543,10 @@ void TLobby::handle_player_event(s32 client, s32 slot) {
             item = TObjPlayer::get_equipped_weapon(player);
             break;
         case 1:
-            item = (TItem *)((TItemData *)player)->get_item_field_2();
+            item = (TItem *)(player)->get_equipped_armor();
             break;
         case 2:
-            item = (TItem *)((TItemData *)player)->test_flag3();
+            item = (TItem *)(player)->get_equipped_shield();
             break;
         case 3:
             item = (TItem *)player->activate_d04_slot();
@@ -567,12 +568,12 @@ void TLobby::handle_player_event(s32 client, s32 slot) {
 
 // ---- TShopEquipmentSellWindow_801047B4.cpp
 
-s32 TShopEquipmentSellWindow::get_item_data_value(uaddr arg0) {
-    s32 sp8[4];
+s32 TShopEquipmentSellWindow::get_item_data_value(uaddr item) {
+    TItemData item_data;
 
-    if (arg0 != 0U) {
-        ((TItem *)arg0)->copy_to_item_data((TItemData *)sp8);
-        return ((TItemData *)sp8)->calc_price();
+    if (item != 0U) {
+        ((TItem *)item)->copy_to_item_data(&item_data);
+        return item_data.calc_price();
     }
     return 0;
 }
@@ -614,16 +615,16 @@ s32 is_local_player_off_current_floor() {
 
 
 u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
-    s16 spC;
-    s16 spA;
-    s16 sp8;
+    s16 prev_amount;
+    s16 amount;
+    s16 unused;
     int prev;
 
     prev = slot - 1;
-    get_weapon_special_type_amount((u8) prev, &spC, &sp8);
-    get_weapon_special_type_amount(slot, &spA, &sp8);
-    if ((spC != -1) && (spA != -1)) {
-        if (spC == spA) {
+    get_weapon_special_type_amount((u8) prev, &prev_amount, &unused);
+    get_weapon_special_type_amount(slot, &amount, &unused);
+    if ((prev_amount != -1) && (amount != -1)) {
+        if (prev_amount == amount) {
             return (u8) prev;
         }
         return slot;
@@ -632,15 +633,15 @@ u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
 }
 
 u8 TObjPlayer::get_next_matching_special_index(u8 slot) {
-    s16 spC;
-    s16 spA;
-    s16 sp8;
+    s16 amount;
+    s16 next_amount;
+    s16 unused;
     int next;
-    get_weapon_special_type_amount(slot, &spC, &sp8);
+    get_weapon_special_type_amount(slot, &amount, &unused);
     next = slot + 1;
-    get_weapon_special_type_amount((u8)next, &spA, &sp8);
-    if ((spC != -1) && (spA != -1)) {
-        if (spC == spA) {
+    get_weapon_special_type_amount((u8)next, &next_amount, &unused);
+    if ((amount != -1) && (next_amount != -1)) {
+        if (amount == next_amount) {
             return (u8)next;
         }
         return slot;
@@ -777,9 +778,6 @@ void TMainTask::cleanup_game_objects() {
 
 // ---- TItemData_80104D0C.cpp
 
-struct ItemData_80104DAC { u8 b[0x14]; };
-
-struct MagData_80104DAC { u8 b[0x10]; };
 
 s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
@@ -795,9 +793,9 @@ s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
 }
 #define o ((TObjPlayer *)arg0)
 saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
-    ItemData_80104DAC d;
-    ItemData_80104DAC d2;
-    MagData_80104DAC mag;
+    TItemData d;
+    TItemData d2;
+    MagStats mag;
     s16 m;
     ItemCombination *rec;
     void *it;
@@ -806,28 +804,28 @@ saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
     if (o != NULL && item != NULL) {
         it = find_unique_combination_target(o, (TItemData *)item);
         if (it != NULL) {
-            ((TItemData *)(&d))->init();
-            ((TItem *)it)->copy_to_item_data((TItemData *)&d);
+            d.init();
+            ((TItem *)it)->copy_to_item_data(&d);
             rec = find_item_combination_recipe(item, it);
         } else {
             return 0;
         }
         if (rec->mag_level != 0xFF) {
-            if (d.b[0] != 2) {
+            if (d.data1.data_u8[0] != 2) {
                 return 0;
             }
-            ((MagStats *)(&mag))->init();
+            mag.init();
             TItemData::deserialize_mag(&d, &mag);
             m = rec->mag_level;
-            if (((MagStats *)(&mag))->get_level() < m) {
+            if (mag.get_level() < m) {
                 return 0;
             }
         }
         if (rec->grind != 0xFF) {
-            if (d.b[0] != 0) {
+            if (d.data1.data_u8[0] != 0) {
                 return 0;
             }
-            if (d.b[3] < rec->grind) {
+            if (d.data1.data_u8[3] < rec->grind) {
                 return 0;
             }
         }
@@ -843,11 +841,11 @@ saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
                 return 0;
             }
         }
-        ((TItemData *)(&d2))->init();
-        d2.b[0] = rec->result_item[0];
-        d2.b[1] = rec->result_item[1];
-        d2.b[2] = rec->result_item[2];
-        if (check_equip_requirements(o, (TItemData *)&d2, NULL) == 0) {
+        d2.init();
+        d2.data1.data_u8[0] = rec->result_item[0];
+        d2.data1.data_u8[1] = rec->result_item[1];
+        d2.data1.data_u8[2] = rec->result_item[2];
+        if (check_equip_requirements(o, &d2, NULL) == 0) {
             return 0;
         }
     }
@@ -895,8 +893,6 @@ ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { NULL, NULL },
 };
 
-struct Blk_8010542C { u32 w[4]; };
-struct Item_8010542C { u32 a; Blk_8010542C b; };
 struct Entry_8010567C { u16 a; u16 b; };
 
 struct Pkt_80105538 {
@@ -939,13 +935,13 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 void *build_6x06_send_guild_card(void *arg0);
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
-  void *new_var;
+  void *player_alias;
   s32 flags;
   PlayerRequirementStats st;
   u32 k;
-  int new_var3;
+  int meseta_limit;
   s32 r;
-  void *new_var2;
+  void *player;
   if (((saddr) self == 0) || (item == 0))
   {
     if (out != 0)
@@ -954,8 +950,8 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     }
     return 0;
   }
-  new_var2 = self;
-  if ((((TObjChara *)new_var2)->obj_isState3_324() != 0) || (is_script_controlled__10TObjPlayerFv(new_var = new_var2) != 0))
+  player = self;
+  if ((((TObjChara *)player)->obj_isState3_324() != 0) || (is_script_controlled__10TObjPlayerFv(player_alias = player) != 0))
   {
     if (out != 0)
     {
@@ -966,14 +962,14 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   if (is_quest_active() != 0)
   {
     k = 0;
-    switch (((u8 *) item)[0])
+    switch (item->data1.data_u8[0])
     {
       case 0:
         k = 1;
         break;
 
       case 1:
-        switch (((u8 *) item)[1])
+        switch (item->data1.data_u8[1])
       {
         case 1:
           k = 2;
@@ -1003,26 +999,27 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     }
   }
   flags = 0;
-  switch (((u8 *) item)[0])
+  switch (item->data1.data_u8[0])
   {
-    case 0:
-      if ((saddr) (item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
+    case 0: {
+      PmtWeaponRecord *weapon;
+      if ((saddr) (weapon = (PmtWeaponRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) new_var2, (s16) (*((u16 *) ((u8 *) item + 8)))) == 0)
+      if (check_class_equip_permission((TObjPlayer *) player, (s16) weapon->class_flags) == 0)
       {
         flags |= 1;
       }
       st.clear_fields();
-      build_player_equipment_requirement_stats((TObjPlayer *) new_var, &st);
-      if (st.atp < (*((u16 *) ((u8 *) item + 0xe))))
+      build_player_equipment_requirement_stats((TObjPlayer *) player_alias, &st);
+      if (st.atp < weapon->atp_required)
       {
         flags |= 2;
       }
-      if (st.ata < (*((u16 *) ((u8 *) item + 0x12))))
+      if (st.ata < weapon->ata_required)
       {
         flags |= 4;
       }
-      if (st.mst < (*((u16 *) ((u8 *) item + 0x10))))
+      if (st.mst < weapon->mst_required)
       {
         flags |= 8;
       }
@@ -1032,18 +1029,20 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       flags |= 0x20;
     }
       break;
+    }
 
     case 1:
-      if (((u8 *) item)[1] != 3)
+      if (item->data1.data_u8[1] != 3)
     {
-      if ((saddr) (item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
+      PmtArmorRecord *armor;
+      if ((saddr) (armor = (PmtArmorRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) item + 0xe)))) == ((0, 0)))
+        if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) armor->class_flags) == ((0, 0)))
         {
           flags |= 1;
         }
-        r = ((TObjChara *) new_var)->get_actor_level_index();
-        if (r < ((u8 *) item)[0x10])
+        r = ((TObjChara *) player_alias)->get_actor_level_index();
+        if (r < armor->required_level)
         {
           flags |= 0x10;
         }
@@ -1054,11 +1053,12 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       }
     }
     else
-      if (check_class_equip_permission((TObjPlayer *) new_var2, 0xd7) != 0)
+      if (check_class_equip_permission((TObjPlayer *) player, 0xd7) != 0)
     {
-      if ((item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
+      PmtUnitRecord *unit;
+      if ((unit = (PmtUnitRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        switch (*((s16 *) ((u8 *) item + 8)))
+        switch (unit->stat)
         {
           case 1:
 
@@ -1085,10 +1085,11 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     }
       break;
 
-    case 2:
-      if ((item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
+    case 2: {
+      PmtMagRecord *mag;
+      if ((mag = (PmtMagRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) item + 0x14)))) == 0)
+      if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) mag->class_flags) == 0)
       {
         flags |= 1;
       }
@@ -1098,15 +1099,16 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       flags |= 0x20;
     }
       break;
+    }
 
     case 3:
-      switch (((u8 *) item)[1])
+      switch (item->data1.data_u8[1])
     {
       case 2:
-        r = ((u8 *) item)[4];
+        r = item->data1.data_u8[4];
       {
-        u8 lim = get_technique_learn_limit(*((u8 *) (((u8 *) new_var2) + 0x88d)), r);
-        if ((lim == 0xff) || (lim < ((u8 *) item)[2]))
+        u8 lim = get_technique_learn_limit(((TObjPlayer *)player)->class_index, r);
+        if ((lim == 0xff) || (lim < item->data1.data_u8[2]))
         {
           flags |= 1;
         }
@@ -1114,7 +1116,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
         break;
 
       case 8:
-        if (check_class_equip_permission((TObjPlayer *) new_var2, 0xd7) != 0)
+        if (check_class_equip_permission((TObjPlayer *) player, 0xd7) != 0)
       {
         flags |= 1;
       }
@@ -1125,8 +1127,8 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       break;
 
     case 4:
-      new_var3 = 0xf423f;
-      if (new_var3 < (*((s32 *) ((u8 *) item + 0x10))))
+      meseta_limit = 0xf423f;
+      if (meseta_limit < item->data2.price)
     {
       flags |= 0x20;
     }
@@ -1173,16 +1175,16 @@ int check_class_equip_permission(TObjPlayer *player, s32 perm) {
 u8 roll_weapon_special_channel15(u8 arg0) { return roll_weapon_special_for_stars(arg0); }
 
 TItem *construct_item(TItemData *data) {
-    Item_8010542C *src = (Item_8010542C *)data;
+    TItemData *src = data;
     ItemCreateFunction fn;
     if (src != 0) {
-        Item_8010542C item = *src;
-        ((TItemData *)&item)->decode_from_network();
-        if (((TItemData *)(&item))->isValidGroundDrop() != 0) {
-            if (*(u8 *)src < 5) {
-                fn = item_create_fn_table[*(u8 *)src];
+        TItemData item = *src;
+        item.decode_from_network();
+        if (item.isValidGroundDrop() != 0) {
+            if (src->data1.data_u8[0] < 5) {
+                fn = item_create_fn_table[src->data1.data_u8[0]];
                 if (fn != 0) {
-                    observe_item_id(item.b.w[2]);
+                    observe_item_id(item.id);
                     return fn((u8 *)&item);
                 }
             }
@@ -1352,8 +1354,8 @@ s32 TObjPlayer::is_script_controlled() {
 
 saddr TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
 
-saddr TItemData::test_flag3() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
-saddr TItemData::get_item_field_2() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }
+saddr TObjPlayer::get_equipped_shield() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
+saddr TObjPlayer::get_equipped_armor() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }
 
 
 }

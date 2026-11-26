@@ -105,14 +105,14 @@ void TLobby__sub_8022614C(s32 gain) {
 }
 
 void update_music_stream_gain(s32 user) {
-  unsigned int new_var;
+  unsigned int offset;
   s32 total;
-  new_var = music_gain_offset;
+  offset = music_gain_offset;
   total = user + (*(s32 *)&music_gain_adjust);
   if (music_gain_offset && music_gain_offset)
   {
   }
-  total = new_var + total;
+  total = offset + total;
   music_user_gain = user;
   music_stream_base_gain = total;
   music_stream_gain = (s32) (0.42333332f * ((f32) total));
@@ -129,8 +129,7 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
     }
 }
 extern SetSoundPitchRequestSndEnt sound_pitch_requests[];
-// Defined here: CodeWarrior emits it in definition order, and its .sdata2 slot
-// (0x805DC748) lies between update_music_stream_gain's literal and the 0.0 below.
+// Defined here: CodeWarrior emits it in definition order.
 const u32 lbl_805DC748 = 1;
 
 void stop_sound_request(s32 idx) {
@@ -162,7 +161,7 @@ int TLobby::init_sound_mode() {
 }
 
 void TLobby::set_sound_output_mode(s32 mode) {
-    s32 var_r30;
+    s32 mode_id;
     u8 *global_state;
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
     if (global_state != NULL) {
@@ -170,7 +169,7 @@ void TLobby::set_sound_output_mode(s32 mode) {
     }
     switch (mode) {
     case 0:
-        var_r30 = 1;
+        mode_id = 1;
         OSSetSoundMode(1);
         break;
     case 2:
@@ -178,14 +177,14 @@ void TLobby::set_sound_output_mode(s32 mode) {
         if (global_state != NULL) {
             *(s16 *)((s8 *)global_state + 0xE) = 1;
         }
-        var_r30 = 2;
+        mode_id = 2;
         break;
     case 1:
         OSSetSoundMode(0);
-        var_r30 = 0;
+        mode_id = 0;
         break;
     }
-    TLobby::set_mode(var_r30);
+    TLobby::set_mode(mode_id);
 }
 void TLobby__sub_8022644C(void) {
     s32 i;
@@ -218,17 +217,17 @@ s32 fn_802264B8(s32 slot, s32) {
 
 SetSoundPitchRequestSndEnt sound_pitch_requests[40];
 u8 lbl_80514C30[0x20];
-f32 lbl_80514C50[4];
+f32 sound_listener_position[4];
 
 s32 check_sound_admission(const Vec *position, s32 flags) {
-    s32 var_r3;
+    s32 range;
 
     if (flags & 0x2000) {
-        var_r3 = 0;
+        range = 0;
     } else {
-        var_r3 = check_sound_admission_range(position);
+        range = check_sound_admission_range(position);
     }
-    if (var_r3 == -0x100) {
+    if (range == -0x100) {
         return 0;
     }
     return 1;
@@ -335,16 +334,13 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
 
 void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }
 
-// Dead-stripped from the DOL: no code of it survives. This part of the .sdata2 pool opens
-// with 0.0 (0x805DC74C) ahead of check_sound_admission_range's 90000/40/260/127
-// although that function loads 0.0 last, so a function before it used 0.0 first.
-// Minimal body: it clears the sound listener position (lbl_80514C50) the way
+// Dead-stripped from the DOL: no code of it survives. Minimal body: it clears the sound listener position the way
 // update_sound_request_slots does when there is neither a player nor a camera.
 // Name inferred from that role.
 void clear_sound_listener_position(void) {
-    lbl_80514C50[2] = 0.0f;
-    lbl_80514C50[1] = 0.0f;
-    lbl_80514C50[0] = 0.0f;
+    sound_listener_position[2] = 0.0f;
+    sound_listener_position[1] = 0.0f;
+    sound_listener_position[0] = 0.0f;
 }
 
 }
@@ -355,7 +351,7 @@ s32 check_sound_admission_range(const Vec *pos) {
     if (camera_ctrl_instance == NULL) {
         return 0;
     }
-    f32 dist_sq = xz_distance_squared(pos, (const Vec *)lbl_80514C50);
+    f32 dist_sq = xz_distance_squared(pos, (const Vec *)sound_listener_position);
     if (dist_sq < 90000.0f) {
         f32 t = (newton_sqrtf(dist_sq) - 40.0f) / 260.0f;
         return (s32)-(127.0f * (t > 0.0f ? t : 0.0f));
@@ -372,13 +368,13 @@ void update_sound_request_slots(void) {
     if (sound_requests_enabled != 0) {
         p = (uaddr)get_player_by_client_id((local_client_id));
         if (p != 0U) {
-            VecCopy((Vec *)lbl_80514C50, (const Vec *)(p + 0x38));
+            VecCopy((Vec *)sound_listener_position, (const Vec *)(p + 0x38));
         } else if (camera_ctrl_instance != NULL) {
-            VecCopy((Vec *)lbl_80514C50, &camera_ctrl_instance->pos);
+            VecCopy((Vec *)sound_listener_position, &camera_ctrl_instance->pos);
         } else {
-            lbl_80514C50[2] = 0.0f;
-            lbl_80514C50[1] = 0.0f;
-            lbl_80514C50[0] = 0.0f;
+            sound_listener_position[2] = 0.0f;
+            sound_listener_position[1] = 0.0f;
+            sound_listener_position[0] = 0.0f;
         }
         if (lbl_805D6279 == 0) {
             for (i = 0; i < 0x28; i++) {

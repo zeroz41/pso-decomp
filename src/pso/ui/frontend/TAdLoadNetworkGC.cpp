@@ -40,7 +40,7 @@ TAdLoadNetworkGC::~TAdLoadNetworkGC() {
 TAdLoadNetworkGC::TAdLoadNetworkGC(TObject *parent, Vec *pos) : TObject(parent) {
     u32 i;
     m_name = TAdLoadNetworkGC__class_name;
-    VecCopy(&this->position, (const Vec *)pos);
+    VecCopy(&this->position, pos);
     this->position.x = 100.0f * ninja_camera.vx + ninja_camera.px;
     this->position.y = 100.0f * ninja_camera.vy + ninja_camera.py;
     this->position.z = 100.0f * ninja_camera.vz + ninja_camera.pz;

@@ -230,7 +230,7 @@ void request_main_phase(s32 arg0);
     extern int lbl_805D68C8;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 int TKeyBoardControl__sub_8000F828(void);
-void TWindowOptionCtrl__sub_802273B4(s32 arg0);
+void TWindowOptionCtrl__sub_802273B4(s32 frames);
 }
 
 // Read as const here: Language.h's non-const declaration changes the load scheduling.

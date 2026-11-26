@@ -53,15 +53,15 @@ void TOComputerMachine01::render() {
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         body = (NJS_OBJECT *)model;
-        draw_ginja_model((void *)body->model);
+        draw_ginja_model(body->model);
         TParticleCtrl::begin_effect_render();
         screen = body->child;
-        draw_ginja_model((void *)screen->model);
+        draw_ginja_model(screen->model);
         screen = screen->sibling;
-        draw_ginja_model((void *)screen->model);
+        draw_ginja_model(screen->model);
         screen = screen->sibling;
-        draw_ginja_model((void *)screen->model);
-        draw_ginja_model((void *)screen->sibling->model);
+        draw_ginja_model(screen->model);
+        draw_ginja_model(screen->sibling->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

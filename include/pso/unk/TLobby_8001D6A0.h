@@ -11,34 +11,50 @@ union BattleMovementParams;
 extern "C" {
 void TLobby__sub_8001DE30(void *a0);
 }
-void set_lobby_instance(s32 arg0);
+void set_lobby_instance(s32 instance);
 extern "C" {
-void TLobby__sub_8001DF58(s32 arg0, saddr ent);
+void TLobby__sub_8001DF58(s32 lobby, saddr data);
 }
 AttackParams *get_battle_param_attack(int a0, int a1);
 player_stats *get_battle_param_stats(int a0, int a1);
-s32 parse_two_digit_number(void *arg0);
+s32 parse_two_digit_number(void *text);
 extern "C" {
-void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3);
+void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 size, f32 fade);
 void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha);
 void TLobby__sub_8001ED70(void);
 void reset_clock_bar_pulse(void);
 }
 void alloc_battle_param_tables(void);
 extern "C" {
-void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1);
-void bswap__12player_statsFv(void *arg0);
-void copy_all_data__6TLobbyFii(s32 arg0, saddr src);
-void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1);
+void broadcast_to_players__6TLobbyFii(s32 lobby, saddr data);
+void bswap__12player_statsFv(void *stats);
+void copy_all_data__6TLobbyFii(s32 lobby, saddr data);
+void copy_all_entries__6TLobbyFii(s32 lobby, saddr data);
 }
 s32 default_clock_offset_frames(void);
 extern "C" {
 s32 *get_shared_text_buffer(void);
-u8 is_valid_player_index__6TLobbyFi(s32 arg0);
+u8 is_valid_player_index__6TLobbyFi(s32 index);
 }
 void load_battle_param_entry(void);
 extern "C" {
-void set_difficulty__6TLobbyFi(s32 arg0);
+void set_difficulty__6TLobbyFi(s32 variant);
 }
+
+struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
+
+struct CopyDataBlk { s32 w[6]; };
+
+struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
+
+struct GetInternetBeatDateStamp
+{
+  u8 pad0[4];
+  u8 h;
+  u8 m;
+  u8 s;
+  u8 pad7;
+  u8 pad8[4];
+};
 
 #endif

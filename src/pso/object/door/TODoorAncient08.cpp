@@ -1,3 +1,4 @@
+#include "pso/object/door/DoorSavedState.h"
 #include "pso/object/door/TODoorAncient08.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -247,11 +248,11 @@ void TODoorAncient08::draw_switch_lights() {
         push_matrix();
         pair = pairs[i];
         post_translate_matrix(pair[0]->pos);
-        draw_ginja_model((void *)pair[0]->model);
+        draw_ginja_model(pair[0]->model);
         pop_matrix();
         push_matrix();
         post_translate_matrix(pair[1]->pos);
-        draw_ginja_model((void *)pair[1]->model);
+        draw_ginja_model(pair[1]->model);
         pop_matrix();
     }
     TParticleCtrl::end_effect_render();
@@ -346,25 +347,23 @@ void TODoorAncient08::apply_saved_state(s16 *state, s32) {
 
 // The 6x0B object-state message (see the lane report: the stack structs
 // still call the packet helpers under their TLobby / TOBarrierEnergy01 names).
-struct State_8015FC40 { s16 a; s16 b; };
-struct Obj_8015FC40 { u8 pad[4]; s16 kind; };
 
 void TODoorAncient08::door_ancient08_sync_state(void *src_arg) {
-    State_8015FC40 *src = (State_8015FC40 *)src_arg;
-    State_8015FC40 st;
-    Obj_8015FC40 *obj;
+    DoorSavedState *src = (DoorSavedState *)src_arg;
+    DoorSavedState st;
+    DoorSetEntryView *obj;
     if (src != NULL) {
         ((TLobby *)&st)->copy_short_fields(src);
     } else {
         access_object_saved_state(&st, 1);
     }
-    obj = (Obj_8015FC40 *)set_entry;
+    obj = (DoorSetEntryView *)set_entry;
     if (obj != NULL) {
         G_UpdateObjectState_6x0B pkt;
         init_collision_subcommand_header(&pkt);
         pkt.header.entity_id = entity_id;
-        pkt.flags = st.a;
-        pkt.object_index = obj->kind;
+        pkt.flags = st.flags;
+        pkt.object_index = obj->object_index;
         send_object_state(&pkt);
     }
 }

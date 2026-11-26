@@ -8,6 +8,7 @@ class TParticleCtrl;
 // One air car of the city traffic: flies along its lane's path motion.
 class TObjCityAirCar_Car : public TObjBase {
 public:
+    static const char *class_name;
     TObjCityAirCar_Car(TObject *parent, s32 lane, s32 model_type, f32 path_speed);
     virtual ~TObjCityAirCar_Car();
     virtual void run_task();

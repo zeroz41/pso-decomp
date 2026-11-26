@@ -8,11 +8,5 @@ void TLobby__sub_8015ABD0(void);
 void TLobby__sub_8015ABD4(void);
 }
 
-// --- C functions defined in TOChatSensor.cpp ---
-extern "C" {
-void TLobby__sub_8015ABD0(void);
-void TLobby__sub_8015ABD4(void);
-}
-// --- end of C functions
 
 #endif

@@ -11,19 +11,12 @@
 #include "pso/render/GinjaTexture.h"
 #include <dolphin/mtx.h>
 
-struct ConcatQuaternionRotationQ { f32 x, y, z, w; };
 
-struct ApplyQuatRotationQ { f32 x, y, z, w; };
 
-struct InitTextureFromGvrDescA { u8 pad[0xC]; u8 *p; };
 
-struct InitTextureFromGvrDescB { s32 a; u16 b; u16 c; };
 
-struct Matrix34 { f32 elements[3][4]; };
 
-struct Ent_803D9E38 { u8 *p; s32 a; s32 b; };
 
-struct ResolveTexlistEntryTable { u8 pad[8]; Ent_803D9E38 arr[1]; };
 
 extern "C" {
 s32 fn_803DA12C(u8 *, s32, s32, s32);
@@ -85,9 +78,9 @@ s32 push_matrix_from(void *src) {
 }
 }
 
-s32 pop_matrices(s32 arg0) {
+s32 pop_matrices(s32 count) {
     GC_Mtx *new_top;
-    new_top = current_matrix - arg0;
+    new_top = current_matrix - count;
     if (new_top < matrix_stack_base) {
         return 0;
     }
@@ -112,10 +105,10 @@ void concat_quaternion_rotation(const f32 *quat) {
     PSMTXConcat(*current_matrix, mtx, *current_matrix);
 }
 
-void apply_quat_rotation(f32 farg0, f32 *xyz) {
+void apply_quat_rotation(f32 w, f32 *xyz) {
     Mtx34 mtx;
     ApplyQuatRotationQ q;
-    q.w = farg0;
+    q.w = w;
     q.x = xyz[0];
     q.y = xyz[1];
     q.z = xyz[2];
@@ -164,11 +157,11 @@ void swap_gvrt_word(u32 *p) {
     *p = ((v & 0xFF000000) >> 24) | ((v & 0xFF0000) >> 8) | ((v & 0xFF00) << 8) | ((v & 0xFF) << 24);
 }
 
-u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
+u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *out_id, u32 *data) {
     u32 tag;
-    u32 *p = arg2;
-    if (arg1 != NULL) {
-        *arg1 = 0xFFFFFFFF;
+    u32 *p = data;
+    if (out_id != NULL) {
+        *out_id = 0xFFFFFFFF;
     }
     do {
         tag = *p;
@@ -182,8 +175,8 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
             p++;
             len = *p++;
             swap_gvrt_word(&len);
-            if (arg1 != NULL) {
-                *arg1 = *p;
+            if (out_id != NULL) {
+                *out_id = *p;
             }
             p += len >> 2;
             break;
@@ -211,58 +204,58 @@ s32 is_gvm_load_ok() {
     return -1;
 }
 
-s32 resolve_texlist_entry(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
-    saddr sp8;
+s32 resolve_texlist_entry(s32 *texlist, u32 idx, s32 *out_surface, u32 *out_tlut) {
+    saddr slot;
     u32 j;
-    s32 *temp_r4;
-    s32 *temp_r4_2;
-    s32 temp_r0;
-    s32 temp_r3;
+    s32 *surface;
+    s32 *surface_hit;
+    s32 state;
+    s32 flags;
     s32 record_index;
-    saddr temp_r6;
-    u8 *temp_r29;
-    u8 *temp_r31;
-    temp_r6 = *(s32 *)((s8 *)arg0 + 0);
-    temp_r31 = (u8 *)(temp_r6 + (idx * 0xC));
-    temp_r3 = *(s32 *)((s8 *)temp_r31 + 4);
-    if (((u32) (temp_r3 & 0x10000) != 0) && (idx != 0)) {
-        *(u32 *)((s8 *)arg3 + 0) = (u32) (*(s32 *)((s8 *)temp_r31 + 8) & 0xFC000000) >> 0x1AU;
+    saddr table;
+    u8 *prev_entry;
+    u8 *entry;
+    table = *(s32 *)((s8 *)texlist + 0);
+    entry = (u8 *)(table + (idx * 0xC));
+    flags = *(s32 *)((s8 *)entry + 4);
+    if (((u32) (flags & 0x10000) != 0) && (idx != 0)) {
+        *(u32 *)((s8 *)out_tlut + 0) = (u32) (*(s32 *)((s8 *)entry + 8) & 0xFC000000) >> 0x1AU;
         j = idx - 1;
-        temp_r29 = ((ResolveTexlistEntryTable *)temp_r6)->arr[j].p;
-        *(s32 *)((s8 *)arg2 + 0) = *(s32 *)((s8 *)(*(s32 **)((s8 *)temp_r29 + 0xC)) + 0);
-        record_index = find_texture_by_surface_and_tlut((int) (*(s32 *)((s8 *)arg2 + 0)), (int) (*(u32 *)((s8 *)arg3 + 0)));
+        prev_entry = ((ResolveTexlistEntryTable *)table)->arr[j].p;
+        *(s32 *)((s8 *)out_surface + 0) = *(s32 *)((s8 *)(*(s32 **)((s8 *)prev_entry + 0xC)) + 0);
+        record_index = find_texture_by_surface_and_tlut((int) (*(s32 *)((s8 *)out_surface + 0)), (int) (*(u32 *)((s8 *)out_tlut + 0)));
         if (record_index < 0) {
-            if (find_free_texture_slot((GinjaTextureState **)&sp8, NULL) < 0) {
+            if (find_free_texture_slot((GinjaTextureState **)&slot, NULL) < 0) {
                 return -1;
             }
-            *(s32 *)((s8 *)temp_r31 + 8) = sp8;
-            *(u32 *)((s8 *)sp8 + 8) = (u32) *(u32 *)((s8 *)arg3 + 0);
-            *(s32 **)((s8 *)sp8 + 0xC) = (s32 *) *(s32 **)((s8 *)temp_r29 + 0xC);
-            *(s32 *)((s8 *)sp8 + 0x10) = 1;
-            temp_r4 = (s32 *)(*(s32 **)((s8 *)sp8 + 0xC));
-            *(s32 *)((s8 *)temp_r4 + 0x24) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x24) + 1);
-            *(s32 *)((s8 *)sp8 + 0x14) = (s32) *(s32 *)((s8 *)temp_r29 + 0x14);
-            notify_texture_state_ready((int)sp8, (saddr)temp_r4);
+            *(s32 *)((s8 *)entry + 8) = slot;
+            *(u32 *)((s8 *)slot + 8) = (u32) *(u32 *)((s8 *)out_tlut + 0);
+            *(s32 **)((s8 *)slot + 0xC) = (s32 *) *(s32 **)((s8 *)prev_entry + 0xC);
+            *(s32 *)((s8 *)slot + 0x10) = 1;
+            surface = (s32 *)(*(s32 **)((s8 *)slot + 0xC));
+            *(s32 *)((s8 *)surface + 0x24) = (s32) (*(s32 *)((s8 *)surface + 0x24) + 1);
+            *(s32 *)((s8 *)slot + 0x14) = (s32) *(s32 *)((s8 *)prev_entry + 0x14);
+            notify_texture_state_ready((int)slot, (saddr)surface);
             goto block_7;
         }
-        temp_r0 = (saddr)&texture_states[record_index];
-        sp8 = temp_r0;
-        *(s32 *)((s8 *)temp_r31 + 8) = temp_r0;
-        temp_r4_2 = (s32 *)(*(s32 **)((s8 *)sp8 + 0xC));
-        *(s32 *)((s8 *)temp_r4_2 + 0x24) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0x24) + 1);
-        *(s32 *)((s8 *)sp8 + 0x10) = (s32) (*(s32 *)((s8 *)sp8 + 0x10) + 1);
+        state = (saddr)&texture_states[record_index];
+        slot = state;
+        *(s32 *)((s8 *)entry + 8) = state;
+        surface_hit = (s32 *)(*(s32 **)((s8 *)slot + 0xC));
+        *(s32 *)((s8 *)surface_hit + 0x24) = (s32) (*(s32 *)((s8 *)surface_hit + 0x24) + 1);
+        *(s32 *)((s8 *)slot + 0x10) = (s32) (*(s32 *)((s8 *)slot + 0x10) + 1);
 block_7:
         return 1;
     }
-    if ((u32) (temp_r3 & 0x800000) != 0) {
-        *(s32 *)((s8 *)arg2 + 0) = *(s32 *)((s8 *)temp_r31 + 8);
-        *(u32 *)((s8 *)arg3 + 0) = -1U;
-    } else if ((u32) (temp_r3 & 0x01000000) != 0) {
-        *(s32 *)((s8 *)arg2 + 0) = *(s32 *)((s8 *)temp_r31 + 8) & 0x03FFFFFF;
-        *(u32 *)((s8 *)arg3 + 0) = (u32) (*(s32 *)((s8 *)temp_r31 + 8) & 0xFC000000) >> 0x1AU;
+    if ((u32) (flags & 0x800000) != 0) {
+        *(s32 *)((s8 *)out_surface + 0) = *(s32 *)((s8 *)entry + 8);
+        *(u32 *)((s8 *)out_tlut + 0) = -1U;
+    } else if ((u32) (flags & 0x01000000) != 0) {
+        *(s32 *)((s8 *)out_surface + 0) = *(s32 *)((s8 *)entry + 8) & 0x03FFFFFF;
+        *(u32 *)((s8 *)out_tlut + 0) = (u32) (*(s32 *)((s8 *)entry + 8) & 0xFC000000) >> 0x1AU;
     } else {
-        *(s32 *)((s8 *)arg2 + 0) = -1;
-        *(u32 *)((s8 *)arg3 + 0) = (u32) (*(s32 *)((s8 *)temp_r31 + 8) & 0xFC000000) >> 0x1AU;
+        *(s32 *)((s8 *)out_surface + 0) = -1;
+        *(u32 *)((s8 *)out_tlut + 0) = (u32) (*(s32 *)((s8 *)entry + 8) & 0xFC000000) >> 0x1AU;
     }
     return 0;
 }

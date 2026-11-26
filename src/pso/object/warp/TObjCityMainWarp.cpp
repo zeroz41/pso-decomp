@@ -26,10 +26,7 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-
-struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
-
-struct Obj_80186CC8 { u8 pad[0x1c]; u16 id; };
+#include "pso/network/protocol/subcmd_6x.h"
 
 struct Obj_80186DA0 {
     u8 pad0[0xD0];
@@ -63,15 +60,14 @@ void TObjCityMainWarpChallenge::close_windows() {
 }
 
 void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
-    Obj_80186CC8 *self = (Obj_80186CC8 *)this;
-    Pkt_80186CC8 pkt;
+    G_SetBossWarpFlags_6x6A pkt;
     ((TWindowSubTradeMain *)(&pkt))->init_pkt_cmd_6A();
-    pkt.id = self->id;
-    pkt.value = value;
+    pkt.header.entity_id = this->entity_id;
+    pkt.flags = value;
     ((TWindowSubTradeMain *)(&pkt))->send_60_update();
 }
 
-void TObjCityMainWarp::notify_player_warp(void *arg0, s32 local_client_id) {
+void TObjCityMainWarp::notify_player_warp(void *warp, s32 local_client_id) {
     TObjPlayer *player;
 
     player = get_player_by_client_id(local_client_id);
@@ -167,7 +163,7 @@ extern "C" {
 s32 is_local_client_floor_leader(s32);
 
 void TObjCityMainWarp::update_state() {
-    s32 temp_r0_2;
+    s32 frames_left;
     TObjPlayer *player;
 
     switch (*(s16 *)((s8 *)this + 0xE0)) {
@@ -188,9 +184,9 @@ void TObjCityMainWarp::update_state() {
                 *(s16 *)((s8 *)this + 0xE0) = 2;
             }
         }
-        temp_r0_2 = *(s32 *)((s8 *)this + 0x17C) - 1;
-        *(s32 *)((s8 *)this + 0x17C) = temp_r0_2;
-        if (temp_r0_2 <= 0) {
+        frames_left = *(s32 *)((s8 *)this + 0x17C) - 1;
+        *(s32 *)((s8 *)this + 0x17C) = frames_left;
+        if (frames_left <= 0) {
             *(s16 *)((s8 *)this + 0xE0) = 2;
         }
     case -1:

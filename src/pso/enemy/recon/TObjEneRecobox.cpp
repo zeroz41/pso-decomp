@@ -788,9 +788,7 @@ block_18:
                         return;
                     }
                     camera_fade->set_flags_and_apply_damage_color();
-                    goto block_23;
                 }
-block_23:
                 update_secondary_light();
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
                 push_matrix();

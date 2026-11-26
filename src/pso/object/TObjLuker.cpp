@@ -37,6 +37,7 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/client_id.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 #pragma readonly_strings on
@@ -46,7 +47,6 @@ const char *luker_name = "TObjLuker";
 
 
 extern "C" {
-s32 is_split_screen(void);
 s32 TTecLuker__sub_8023401C(void *);
 extern s32 lbl_805D55C0;
 
@@ -59,18 +59,18 @@ void TObjLuker::hide_part(u16 part) {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjLuker::show_part(u16 arg1) {
+void TObjLuker::show_part(u16 part_index) {
     saddr arg0 = (saddr)this;
-    u8 *temp_r31;
-    u8 *temp_r3;
-    temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)temp_r31 + 0x90));
-    if (temp_r3 != NULL) {
-        if (*(u16 *)((s8 *)temp_r3 + 4) & 4) {
+    u8 *slot_base;
+    u8 *slot;
+    slot_base = (u8 *)(arg0 + ((part_index * 4) & 0x3FFFC));
+    slot = (u8 *)(*(u8 **)((s8 *)slot_base + 0x90));
+    if (slot != NULL) {
+        if (*(u16 *)((s8 *)slot + 4) & 4) {
             play_sound_effect(0x53703, NULL, 0, 0);
         }
-        ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_update_suspension();
-        ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->allow_rendering();
+        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->clear_update_suspension();
+        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->allow_rendering();
     }
 }
 #pragma pop
@@ -305,7 +305,7 @@ void TObjLuker::render() {  }
 
 
 void TObjLuker::run_task() {
-    s32 sp8;
+    s32 player_index;
     Vec effect_position;
     TObjPlayer *p;
     s32 flag;
@@ -333,18 +333,18 @@ void TObjLuker::run_task() {
             play_persistent_sound(0x4002B219, this, &this->position, 0, 0);
             switch (this->state) {
             case 0:
-                sp8 = 0;
+                player_index = 0;
                 if (is_player_in_range(10.0f) != 0) {
                     flag = 0;
                     if (is_split_screen() != 0) {
-                        if (are_players_gathered_near(&this->position, &sp8, 10.0f) != 0) {
+                        if (are_players_gathered_near(&this->position, &player_index, 10.0f) != 0) {
                             flag = 1;
                             this->partner_id = this->owner_id;
                         }
                     } else {
                         p = get_player_by_client_id(local_client_id);
                         if (p != NULL && p->is_controls_locked() == 0 &&
-                            test_pressed_buttons_packed(&controller_input_state.controllers[sp8], 4) != 0) {
+                            test_pressed_buttons_packed(&controller_input_state.controllers[player_index], 4) != 0) {
                             flag = 1;
                         }
                     }

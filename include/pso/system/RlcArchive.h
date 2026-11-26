@@ -29,7 +29,7 @@ LAYOUT_ASSERT(RlcHeader_size, sizeof(RlcHeader) == 0x20);
 
 // An RLC archive read whole from a disc file (name inferred from its RlcHeader/RlcDirectoryEntry reads and
 // TGStream::read_whole_file); the player motion data is loaded into player_motion_archive. Its vtable
-// (0x804DD098) holds only the destructor. CW places the vptr after the members
+// holds only the destructor. CW places the vptr after the members
 // declared before the first virtual, here at 0x3C.
 class RlcArchive {
 public:

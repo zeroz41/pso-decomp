@@ -50,6 +50,7 @@
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 #pragma readonly_strings on
 
@@ -312,7 +313,6 @@ TBoss4DarkFalzSetEntry dark_falz_set_entry;
 
 extern "C" {
 s32 is_local_client_floor_leader();
-s32 get_main_phase();
 
 s32 TBoss4DarkFalz::alloc_child_ids(s16 *set_index_out, s16 *entity_id_out) {
     s32 n = next_child_index;

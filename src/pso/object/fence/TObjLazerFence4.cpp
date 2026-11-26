@@ -31,6 +31,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 #pragma readonly_strings on
@@ -171,13 +172,6 @@ void TObjLazerFence4::run_task() {
 }
 
 }
-
-
-extern "C" {
-
-s32 init_collision_body_parts(void *, void *, int);
-}
-
 
 
 void *TObjLazerFence4::create(void *set_data) {

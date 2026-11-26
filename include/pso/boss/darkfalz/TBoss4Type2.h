@@ -28,7 +28,7 @@ struct TBoss4Type2Params
     s32 power;
 };
 
-// Dark Falz's second form. Its vtable is at 0x80486924 (emitted by TBoss4Zanzo.cpp), its ctor
+// Dark Falz's second form. Its vtable is emitted by TBoss4Zanzo.cpp, its ctor
 // names it "TBoss4Type2" and create builds it with new(0x474). It circles the arena centre and
 // relays every action it picks through its owner (send_code_25_4), so all clients run the same
 // one. Field names inferred from their uses in TBoss4Zanzo.cpp.

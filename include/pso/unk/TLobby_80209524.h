@@ -38,7 +38,7 @@ extern "C" {
 void TLobby__sub_8020A2AC(void);
 }
 void bswap_event_table_entry(void *p);
-void copy_event_table_entry(void *arg0, void *arg1);
+void copy_event_table_entry(void *dst, void *src);
 void bswap_item_data_record(void *p);
 void bswap_table_header(void *p);
 extern "C" {
@@ -55,5 +55,53 @@ extern s32 map_object_id_counter;
 extern s32 map_set_enemy_id_counter;
 extern saddr item_drop_server_seed;
 
+struct DestroyEventShuffleTableEntry { f32 a, b, c; u32 d, e, f, g; };
+
+struct PickRandomEntryOut { u8 pad[0x14]; f32 a, b, c; u32 d, e, f; };
+
+struct TLobbyHdr { s32 table; s32 b; s32 count; s32 d; };
+
+struct AppendRecord { f32 f[5]; s16 h[6]; };
+
+struct AppendOut {
+    u8 pad0[6];
+    s16 f6;
+    u8 pad8[0x2C - 8];
+    f32 f[5];
+    s16 f40;
+    s16 f42;
+};
+
+struct PickWeightedEntryHdr { s32 a; s32 table; s32 c; s32 count; };
+
+struct PickWeightedEntryEntry { u8 b0; u8 b1; u8 weight; u8 pad; };
+
+struct BsearchRecordTmp { u8 pad[0x18]; s16 v; u8 pad2[2]; };
+
+struct TLobbyHdr2 { s32 table; s32 data; s32 count; };
+
+struct EventShuffleTableIndexEntry { s16 id; s16 count; s32 offset; };
+
+struct DestroyEventShuffleTableSpawnRecord {
+    s16 type;
+    u16 flags;
+    s16 index;
+    s16 children;
+    u16 reserved;
+    s16 actor_id;
+    s16 room;
+    s16 wave;
+    u8 placement[0x48 - 0x10];
+};
+
+struct LoadEnemySetFileEntry { s16 a; s16 b; u8 pad[0x48 - 4]; };
+
+struct LoadEnemySetFileName { char s[0x20]; };
+
+struct LoadObjectSetFileEntry { s16 a; s16 b; u8 pad[0x44 - 4]; };
+
+struct LoadObjectSetFileName { char s[0x20]; };
+
+struct LoadAreaObjectSetRecord { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 #endif

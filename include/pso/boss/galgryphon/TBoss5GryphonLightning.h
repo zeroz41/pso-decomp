@@ -10,6 +10,7 @@ class TParticleCtrl;
 
 class TBoss5GryphonLightning : public TObject {
 public:
+    static const char *class_name;
     TBoss5GryphonLightning(TObject *parent, Vec *pos, f32 scale);
     virtual ~TBoss5GryphonLightning();
     void get_end_position(Vec *out);
