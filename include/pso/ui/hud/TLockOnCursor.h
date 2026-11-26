@@ -11,6 +11,8 @@
 #include "pso/ui/hud/MarkerColor.h"
 
 // A priority and an index into the player's action palette.
+struct CollisionBody;
+
 class ActionPriorityEntry {
 public:
     s16 priority;
@@ -217,7 +219,7 @@ struct TLockOnCursor : public TObject {
     u16 get_target_id();
     void set_target_id(u16 target_id);
     virtual void render();
-    void renderSecondaryCursor(u8 *body, s16 type, s32 action);
+    void renderSecondaryCursor(CollisionBody *body, s16 type, s32 action);
     virtual void run_task();
     static void free_cursor_resources();
     int is_inactive();

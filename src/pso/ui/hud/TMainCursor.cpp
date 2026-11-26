@@ -299,7 +299,7 @@ void TLockOnCursor::render() {
     LockOnActionSlot *c;
     s32 n;
     LockOnTargetRecord *p;
-    saddr e;
+    CollisionBody *body;
     TObjCollidable *o;
     if (is_split_screen() != 0) {
         if (TCameraCtrl::get_camera_no() != TCameraCtrl::get_split_screen_view_index(get_target_id())) {
@@ -318,9 +318,9 @@ void TLockOnCursor::render() {
                     p->get_entity_id() != 0xFFFF) {
                     o = find_entity_by_id(p->id);
                     if (o != NULL) {
-                        e = (saddr)&o->bodies[p->flag];
-                        if (e != 0) {
-                            renderSecondaryCursor((u8*)e, (s32)(get_cursor_palette_mode(c)), (s32)(((TMainCursor *)c)->get_active()));
+                        body = &o->bodies[p->flag];
+                        if (body != NULL) {
+                            renderSecondaryCursor(body, (s32)(get_cursor_palette_mode(c)), (s32)(((TMainCursor *)c)->get_active()));
                         }
                     }
                 }
@@ -330,7 +330,7 @@ void TLockOnCursor::render() {
 }
 #pragma pop
 
-void TLockOnCursor::renderSecondaryCursor(u8 *body, s16 type, s32 action) {
+void TLockOnCursor::renderSecondaryCursor(CollisionBody *body, s16 type, s32 action) {
     f32 offset[3];
     f32 y;
     s32 color_index;
@@ -341,9 +341,9 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s16 type, s32 action) {
             color_index = TMainCursor::check_visible(&player->action_palettes.m_smth, player, type, action);
             if (color_index != -1) {
                 TObjFish::set_global_param(&shared_effect_texture_list);
-                y = *(f32 *)((s8 *)body + 0xC);
+                y = body->radius;
                 push_matrix();
-                offset_point_toward_camera((Vec *)(body + 0x1C), (Vec *)&offset, (f32)y);
+                offset_point_toward_camera(&body->center, (Vec *)&offset, y);
                 translate_matrix_vec3((u8 *)(0), (u8 *)&offset);
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 TParticleCtrl::begin_effect_render();
@@ -488,7 +488,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             cur->set_actor_include_mask(0xC0000000);
             cur->set_actor_exclude_mask(0x30040800);
             cur->set_max_targets(1);
-            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            VecCopy(&cur->origin, &player->body_center);
             cur->cone_apex_offset = cursor_float_zero;
             cur->lock_range = 15.0f;
             cur->horizontal_cone_angle = 0x8000;
@@ -504,7 +504,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             activate_action_channel(cur);
             APPLY_TECH_RANGE(tech)
             cur->set_max_targets(tech->cursor_type);
-            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            VecCopy(&cur->origin, &player->body_center);
             TMainCursor::set_display_flags((saddr)this, (saddr)player, cur);
             break;
         case 9:
@@ -512,7 +512,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             activate_action_channel(cur);
             APPLY_TECH_RANGE(tech)
             cur->set_max_targets(tech->cursor_type);
-            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            VecCopy(&cur->origin, &player->body_center);
             TMainCursor::setup_flags((saddr)this, (saddr)player, cur);
             break;
         }
@@ -523,7 +523,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         TMainCursor::set_cursor_color((saddr)this, (saddr)player, cur);
         cur->set_body_exclude_mask(0);
         cur->set_actor_exclude_mask(0x40800);
-        VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+        VecCopy(&cur->origin, &player->body_center);
         cur->cone_apex_offset = wpn->apex_offset;
         cur->lock_range = wpn->reach + cur->cone_apex_offset;
         cur->horizontal_cone_angle = wpn->horizontal_angle;
@@ -555,23 +555,23 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             TMainCursor::set_cursor_color((saddr)this, (saddr)player, cur);
             cur->set_body_exclude_mask(0);
             cur->set_actor_exclude_mask(0x40800);
-            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            VecCopy(&cur->origin, &player->body_center);
             break;
         case 14:
             cur->set_body_include_mask(0x8000);
             cur->set_body_exclude_mask(0);
             cur->set_actor_include_mask(0x60000000);
             cur->set_actor_exclude_mask(0x40800);
-            scratch_vec5[0] = 50.0f * sin_table_lookup(player->rotation_y) + *(f32 *)((u8 *)player + 0x2FC);
-            scratch_vec5[1] = *(f32 *)((u8 *)player + 0x300);
-            scratch_vec5[2] = 50.0f * cos_table_lookup(player->rotation_y) + *(f32 *)((u8 *)player + 0x304);
+            scratch_vec5[0] = 50.0f * sin_table_lookup(player->rotation_y) + player->body_center.x;
+            scratch_vec5[1] = player->body_center.y;
+            scratch_vec5[2] = 50.0f * cos_table_lookup(player->rotation_y) + player->body_center.z;
             VecCopy(&cur->origin, (const Vec *)scratch_vec5);
             break;
         case 10:
         case 13:
         case 15:
         case 16:
-            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            VecCopy(&cur->origin, &player->body_center);
             TMainCursor::set_display_flags((saddr)this, (saddr)player, cur);
             break;
         case 11:
@@ -585,10 +585,10 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             }
             cur->set_body_exclude_mask(0x30000);
             cur->set_actor_exclude_mask(0xC0040800);
-            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            VecCopy(&cur->origin, &player->body_center);
             break;
         case 17:
-            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            VecCopy(&cur->origin, &player->body_center);
             TMainCursor::setup_flags((saddr)this, (saddr)player, cur);
             break;
         }
@@ -615,7 +615,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         case 3:
         case 4:
         case 5:
-            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            VecCopy(&cur->origin, &player->body_center);
             cur->set_max_targets(0xA);
             break;
         }
