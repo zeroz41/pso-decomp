@@ -37,11 +37,11 @@ struct CornerRow {
 
 extern "C" {
 extern const f32 lbl_805DA380;
+}
 
 #pragma push
 #pragma readonly_strings on
 const char *dead_spot_class_name = "TDeadSpot";
-}
 #pragma pop
 
 
