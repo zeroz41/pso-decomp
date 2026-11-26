@@ -97,7 +97,7 @@ extern const char abeast_attribute_label[];
 extern const char machine_attribute_label[];
 extern const char dark_attribute_label[];
 
-saddr get_help_text_string(s32 id);
+const char *get_help_text_string(s32 id);
 
 struct TWindowHelpItem : public TWindowBase
 {

@@ -20,7 +20,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
@@ -178,7 +177,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     this->m_name = TWindowSubAreaMapDisp::class_name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
-        text_builder_append((u8 *)(get_message_text(0x67)));
+        text_builder_append((const char *)(get_message_text(0x67)));
         append_text_space();
         append_padded_number((get_window_count_ratio_value()), (2U));
         str = (u8 *)(get_shared_text_buffer());

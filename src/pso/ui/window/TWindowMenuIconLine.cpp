@@ -38,7 +38,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -388,7 +388,7 @@ void TWindowMenuIconLine::draw_item_list_capacity(WindowDrawContext *context, s3
     map_char_to_font_code(0x2F);
     new_var = get_font_char_advance();
     pt.x -= 0.5f * new_var;
-    text_builder_append((u8 *)"/");
+    text_builder_append("/");
     text_builder_append_int(capacity);
     draw_window_text((f32 *)&pt, (const char *)(get_shared_text_buffer()), -1, 0, (f32)100000.0f);
   }

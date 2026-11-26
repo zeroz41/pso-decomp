@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/player/PlayerSlots.h"
 
 
@@ -49,13 +49,13 @@ void TWindowSetLevelUp::update_stat_messages() {
     TObjPlayer *player;
 
     text_builder_reset();
-    text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x46)));
+    text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x46)));
     switch (state) {
     case 0:
     case 1:
         player = get_player_by_client_id(client);
         if (player != NULL && player->get_stats() != 0) {
-            text_builder_append((u8 *)"LEVEL ");
+            text_builder_append("LEVEL ");
             text_builder_append_int(player->get_actor_level_index() + 1);
             TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
             state = 2;
@@ -63,7 +63,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         break;
     case 2:
         if (stat_gains.hp_max > 0) {
-            text_builder_append((u8 *)"HP +");
+            text_builder_append("HP +");
             text_builder_append_int(stat_gains.hp_max);
             TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
             state = 3;
@@ -71,7 +71,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         }
     case 3:
         if (stat_gains.tp_max > 0) {
-            text_builder_append((u8 *)"TP +");
+            text_builder_append("TP +");
             text_builder_append_int(stat_gains.tp_max);
             TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
             state = 4;
@@ -79,8 +79,8 @@ void TWindowSetLevelUp::update_stat_messages() {
         }
     case 4:
         if (stat_gains.atp > 0) {
-            text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x83)));
-            text_builder_append((u8 *)" +");
+            text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x83)));
+            text_builder_append(" +");
             text_builder_append_int(stat_gains.atp);
             TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
             state = 5;
@@ -88,8 +88,8 @@ void TWindowSetLevelUp::update_stat_messages() {
         }
     case 5:
         if (stat_gains.dfp > 0) {
-            text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x84)));
-            text_builder_append((u8 *)" +");
+            text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x84)));
+            text_builder_append(" +");
             text_builder_append_int(stat_gains.dfp);
             TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
             state = 6;
@@ -97,8 +97,8 @@ void TWindowSetLevelUp::update_stat_messages() {
         }
     case 6:
         if (stat_gains.mst > 0) {
-            text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x85)));
-            text_builder_append((u8 *)" +");
+            text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x85)));
+            text_builder_append(" +");
             text_builder_append_int(stat_gains.mst);
             TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
             state = 7;
@@ -106,8 +106,8 @@ void TWindowSetLevelUp::update_stat_messages() {
         }
     case 7:
         if (stat_gains.ata > 0) {
-            text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x86)));
-            text_builder_append((u8 *)" +");
+            text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x86)));
+            text_builder_append(" +");
             text_builder_append_int(stat_gains.ata);
             TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
             state = 8;
@@ -115,8 +115,8 @@ void TWindowSetLevelUp::update_stat_messages() {
         }
     case 8:
         if (stat_gains.evp > 0) {
-            text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x87)));
-            text_builder_append((u8 *)" +");
+            text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x87)));
+            text_builder_append(" +");
             text_builder_append_int(stat_gains.evp);
             TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
             state = 9;

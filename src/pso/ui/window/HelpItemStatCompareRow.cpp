@@ -5,7 +5,7 @@
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -34,7 +34,7 @@ void HelpItemStatCompareRow::draw_number_value(f32 *pos, s32 value, s32 color, s
     text_builder_reset();
     text_builder_append_int(value);
     if (percent) {
-        text_builder_append((u8 *)"%");
+        text_builder_append("%");
     }
     xy[0] = pos[0] - (f32)calc_text_width((char *)get_shared_text_buffer());
     xy[1] = pos[1];

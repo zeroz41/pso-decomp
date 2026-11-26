@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowCtrlMain_800FC91C.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/font/TFontSmallHelp.h"
@@ -17,12 +18,7 @@
 
 extern "C" {
 s32 get_shared_text_buffer(void);
-void text_builder_append_int(s32);
-void text_builder_append(const char *);
 }
-void append_text_space(void);
-void append_padded_number(s32 v, u8 n);
-void text_builder_reset(void);
 const char *TFontSmallLobby__name = "TFontSmallLobby";
 
 // One letter per language (J/E/G/F/S), appended after the player name.

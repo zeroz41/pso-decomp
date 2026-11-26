@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -160,9 +160,9 @@ s32 TWindowOptionCtrl::add_label_value_line(const char *label, const char *value
 
     sep = " : ";
     text_builder_reset();
-    text_builder_append((u8 *)label);
-    text_builder_append((u8 *)sep);
-    text_builder_append((u8 *)value);
+    text_builder_append(label);
+    text_builder_append(sep);
+    text_builder_append(value);
     e = (u8 *)((TWindowBase *)this)->get_array_entry(*(s32 *)(((u8 *)this) + 0x88));
     r = append_message_window_line((TWindowMessage *)this, get_shared_text_buffer(), flags | 2, -1);
     if (r != 0) {

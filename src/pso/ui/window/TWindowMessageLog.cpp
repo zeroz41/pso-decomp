@@ -22,7 +22,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 
@@ -246,12 +246,12 @@ void post_chat_log_message(u16 id, const char *text) {
     str = TWindowMessageLog::get_active_photon_object(id);
     text_builder_reset();
     if (str != NULL) {
-        text_builder_append((u8 *)str);
+        text_builder_append(str);
         append_text_space();
-        text_builder_append((u8 *)">");
+        text_builder_append(">");
         append_text_space();
     }
-    text_builder_append((u8 *)text);
+    text_builder_append(text);
     text = (const char *)get_shared_text_buffer();
     chat_log_add_line(text);
     {

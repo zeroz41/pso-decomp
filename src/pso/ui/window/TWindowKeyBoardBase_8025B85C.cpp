@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/quest/QuestDownloadRequests.h"
@@ -434,7 +434,7 @@ void TWindowKeyBoardBase::key_enter() {
 }
 
 void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
-    u8 *name;
+    const char *name;
     u16 flags;
     u32 cursor;
     flags = state_flags;
@@ -444,23 +444,23 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
         }
         commit_composition_text();
     }
-    name = (u8 *)get_party_member_name(slot);
+    name = (const char *)get_party_member_name(slot);
     if (name != NULL) {
         text_builder_reset();
         cursor = m_text.cursor;
         if (cursor != 0U) {
             if (cursor == m_text.length) {
-                text_builder_append((u8 *)" > ");
+                text_builder_append(" > ");
                 text_builder_append(name);
             } else {
-                text_builder_append((u8 *)" ");
+                text_builder_append(" ");
                 text_builder_append(name);
-                text_builder_append((u8 *)" ");
+                text_builder_append(" ");
             }
         } else {
             text_builder_append(name);
             if (m_text.length != 0U) {
-                text_builder_append((u8 *)" ");
+                text_builder_append(" ");
             }
         }
         m_text.append_text((u8 *)get_shared_text_buffer());

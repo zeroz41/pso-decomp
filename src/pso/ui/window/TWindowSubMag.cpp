@@ -25,6 +25,8 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -51,10 +53,6 @@
 struct Item_8027B424 { u8 b[0x10]; };
 
 extern u8 *text_language_group_table;
-extern "C" {
-s32 calc_text_width();
-s32 text_builder_append();
-}
 
 const char *TWindowSubMag::class_name = "TWindowSubMag";
 
@@ -63,8 +61,6 @@ extern const f32 mag_texture_window_extent[2] = {144.0f, 68.0f};
 extern const NJS_POINT2 mag_equip_kind_window_size = {206.0f, 184.0f};
 extern const NJS_POINT2 mag_feed_equip_kind_window_size = {308.0f, 124.0f};
 extern const f32 mag_message_window_size[2] = {214.0f, 184.0f};
-void append_text_space(void);
-void text_builder_reset(void);
 
 extern "C" const char mag_empty_line[] = "";
 // Deferred code generation: the functions are written last to first (see configure.py).
@@ -87,8 +83,8 @@ s32 TWindowSubMagPhoton::get_selected_blast() {
     return photon_blasts[static_cast<s8>(selected_blast_index)];
 }
 
-s32 get_photon_blast_name(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x20)) + (arg0 * 4));
+const char *get_photon_blast_name(s32 blast) {
+    return ((const char ***)text_language_group_table)[8][blast];
 }
 
 TWindowSubMag::TWindowSubMag(TWindowMainMenu *parent, s32 client) : TObject(parent) {
@@ -412,15 +408,11 @@ void *TWindowSubMag::create_learned_blast_toast() {
         return 0;
     }
     text_builder_reset();
-    TWindowSubStatusDisp::get_message_10(0x64);
-    text_builder_append();
+    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0x64));
     append_text_space();
-    get_photon_blast_name(n);
-    text_builder_append();
-    TWindowSubStatusDisp::get_message_10(0x4C);
-    text_builder_append();
-    get_shared_text_buffer();
-    n = calc_text_width();
+    text_builder_append(get_photon_blast_name(n));
+    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0x4C));
+    n = calc_text_width((char *)get_shared_text_buffer());
     if (TCameraCtrl::get_camera_id() > 2) {
         scale = 0.85f;
     } else {

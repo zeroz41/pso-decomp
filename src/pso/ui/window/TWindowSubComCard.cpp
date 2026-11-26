@@ -23,7 +23,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -1553,12 +1553,12 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
         load_selected_guild_card_record(result);
         guild_card_record = get_selected_guild_card_record();
         text_builder_reset();
-        text_builder_append((u8 *)result->info);
-        text_builder_append((u8 *)guild_card_record->get_name());
-        text_builder_append((u8 *)"\n");
-        text_builder_append((u8 *)TWindowSubComCard__sub_8027523C(guild_card_record));
-        text_builder_append((u8 *)"\n");
-        text_builder_append((u8 *)guild_card_record->get_card_data_ptr());
+        text_builder_append(result->info);
+        text_builder_append(guild_card_record->get_name());
+        text_builder_append("\n");
+        text_builder_append(TWindowSubComCard__sub_8027523C(guild_card_record));
+        text_builder_append("\n");
+        text_builder_append(guild_card_record->get_card_data_ptr());
         this->message_window->append_line((saddr)get_shared_text_buffer(), 0x82);
     }
 }

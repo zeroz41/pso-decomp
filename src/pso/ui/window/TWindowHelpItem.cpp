@@ -30,7 +30,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -166,8 +166,8 @@ void HelpItemStatCompareRow::set_flag0_bit20() { flags |= 0x20; }
 
 s32 HelpItemStatCompareRow::get_value() { return value; }
 
-saddr get_help_text_string(s32 id) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x18)) + (id * 4));
+const char *get_help_text_string(s32 id) {
+    return ((const char ***)text_language_group_table)[6][id];
 }
 
 TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
@@ -1165,9 +1165,9 @@ void TWindowHelpItem::update_tech_disk_details() {
         m_callback = &TWindowHelpItem::update_tech_disk_stats;
         e0 = (WindowTextEntry *)this->get_array_entry(0);
         text_builder_reset();
-        text_builder_append((u8 *)format_item_description((u8 *)active_item));
+        text_builder_append((const char *)format_item_description((u8 *)active_item));
         if (current_language == LANGUAGE_JAPANESE) {
-            text_builder_append((u8 *)get_help_text_string(active_item->data1.data_u8[4]));
+            text_builder_append(get_help_text_string(active_item->data1.data_u8[4]));
         }
         set_text_entry_string(e0, (uaddr)((void *)get_shared_text_buffer()), 0x20);
         ((TWindowHelpItem *)e0)->reset_float_field();
@@ -1237,9 +1237,9 @@ void TWindowHelpItem::idle_update() {}
 
 void TWindowHelpItem::format_description_with_price() {
     text_builder_reset();
-    text_builder_append((u8 *)(format_item_description(reinterpret_cast<u8 *>(active_item))));
-    text_builder_append((u8 *)"\n");
-    text_builder_append((u8 *)(active_item->calc_buy_price()));
+    text_builder_append((const char *)format_item_description(reinterpret_cast<u8 *>(active_item)));
+    text_builder_append("\n");
+    text_builder_append((const char *)(active_item->calc_buy_price()));
 }
 
 s32 TWindowHelpItem::is_item_already_equipped() {

@@ -38,11 +38,7 @@ struct RunTaskEv {
 
 extern "C" {
 u8 get_cast_technique_level(void *, s16);
-void text_builder_append_int(s32);
-void text_builder_append();
 }
-
-void text_builder_reset();
 
 extern "C" {
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
@@ -148,36 +144,30 @@ void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
                 break;
             }
         }
-        get_help_text_string(ev->id + 0x13);
-        text_builder_append();
+        text_builder_append(get_help_text_string(ev->id + 0x13));
         break;
     case 3:
         if (TObjPlayer::validate_and_clear_slot(pl + 0x428, ev->id) != 0) {
             break;
         }
-        get_technique_name(ev->id);
-        text_builder_append();
+        text_builder_append((const char *)get_technique_name(ev->id));
         if (ev->id != 0x11 && ev->id != 0xE) {
             lvl = get_cast_technique_level(pl + 0x428, ev->id);
             if (current_language != LANGUAGE_JAPANESE) {
                 append_text_space();
             }
-            get_help_text_string(0x2D);
-            text_builder_append();
+            text_builder_append(get_help_text_string(0x2D));
             text_builder_append_int(lvl + 1);
         }
-        get_help_text_string(0x2E);
-        text_builder_append();
+        text_builder_append(get_help_text_string(0x2E));
         text_builder_append_int(calc_technique_parameters(ev->id, lvl, 0xFFFF)->tp_cost);
-        get_help_text_string(ev->id);
-        text_builder_append();
+        text_builder_append(get_help_text_string(ev->id));
         break;
     case 4:
         if (get_palette_consumable_count(ev->id, client_id) == -1) {
             break;
         }
-        get_help_text_string(ev->id + 0x16);
-        text_builder_append();
+        text_builder_append(get_help_text_string(ev->id + 0x16));
         break;
     case 7:
         break;

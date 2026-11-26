@@ -7,6 +7,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/unk/text_803DA798.h"
@@ -83,8 +84,6 @@ extern const f32 status_disp_item_icon_coord_table[51][2] = {
     { 233.0f, 62.0f },
 };
 
-extern "C" {
-
 void ItemListRow::advance_state() {
     if ((u8) this->category_icon == 0x14) {
         this->category_icon = 0x15U;
@@ -117,16 +116,12 @@ void ItemListRow::reset() {
     this->flags = (u16) (this->flags & ~0x1BFD);
 }
 
-saddr get_shared_text_buffer();
-s32 text_builder_append_int(s32);
-void text_builder_append(u8 *str);
-}
-void text_builder_reset(void);
+extern "C" saddr get_shared_text_buffer();
 
 
 void ItemListRow::update_stat_line(s32 value) {
     text_builder_reset();
-    text_builder_append((u8 *)"\xD7");
+    text_builder_append("\xD7");
     text_builder_append_int(value);
     this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
 }
@@ -382,7 +377,7 @@ void ItemListRow::init_count_entry(s32 count, s32 item) {
     this->category_icon = 9;
     text_builder_reset();
     text_builder_append_int(count);
-    text_builder_append((u8 *)((s32 *) (TWindowSubStatusDisp::get_download_server())));
+    text_builder_append((const char *)TWindowSubStatusDisp::get_download_server());
     this->suffix = (char *)replace_owned_string((s32)((int) (get_shared_text_buffer())), (s32)((int) ((saddr)this->suffix)), 0x10, 1);
     this->suffix_style = -1;
     this->item = item;

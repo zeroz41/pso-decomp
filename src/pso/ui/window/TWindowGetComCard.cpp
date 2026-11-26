@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowGetComCard.h"
@@ -136,8 +136,8 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
     if (TWindowSubComCard::init_com_card() != 0) {
         GuildCardEntry *card = get_received_guild_card_tags();
         text_builder_reset();
-        text_builder_append(reinterpret_cast<u8 *>(card->get_name()));
-        text_builder_append(static_cast<u8 *>(TWindowSubStatusDisp::get_message_10(0x36)));
+        text_builder_append(card->get_name());
+        text_builder_append(static_cast<const char *>(TWindowSubStatusDisp::get_message_10(0x36)));
         message->append_line((saddr) (get_shared_text_buffer()), 2);
         timer = 0;
     } else {

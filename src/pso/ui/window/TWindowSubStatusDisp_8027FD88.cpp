@@ -8,7 +8,6 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/object/base/TObjChara.h"
@@ -852,7 +851,7 @@ void TWindowSubStatusDisp::vt5() {
                 e->flags &= ~2;
                 text_builder_reset();
                 append_padded_number(i + 1, 2);
-                text_builder_append((u8 *)":");
+                text_builder_append(":");
                 TWindowSubStatusDisp::append_play_time(time);
                 set_text_entry_string(e, get_shared_text_buffer(), 0x20);
             }
