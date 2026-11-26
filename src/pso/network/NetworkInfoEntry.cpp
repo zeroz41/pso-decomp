@@ -34,8 +34,8 @@ s32 get_network_config_login_user(char *dst, s32 len) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].li, len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].li)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].login_user, len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].login_user)) {
         return -2;
     }
     return 0;
@@ -65,8 +65,8 @@ s32 get_network_config_login_password(char *dst, s32 len) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].lp, len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].lp)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].login_password, len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].login_password)) {
         return -2;
     }
     return 0;
@@ -94,7 +94,7 @@ s32 get_network_config_dns_server1(void *dst) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    memcpy(dst, &cfg->b[i].d1, 4);
+    memcpy(dst, &cfg->b[i].dns_server1, 4);
     return 0;
 }
 #pragma pop
@@ -120,7 +120,7 @@ s32 get_network_config_dns_server2(void *dst) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    memcpy(dst, &cfg->b[i].d2, 4);
+    memcpy(dst, &cfg->b[i].dns_server2, 4);
     return 0;
 }
 #pragma pop
@@ -146,10 +146,10 @@ s32 get_network_config_dial_type(u8 *dst) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (cfg->b[i].at != 1) {
+    if (cfg->b[i].device_type != 1) {
         return -3;
     }
-    *dst = cfg->b[i].dt;
+    *dst = cfg->b[i].dial_type;
     return 0;
 }
 #pragma pop
@@ -173,15 +173,15 @@ s32 get_network_config_outside_line_number(char *dst, s32 len) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (lobby_net_config_buffer->b[i].at != 1) {
+    if (lobby_net_config_buffer->b[i].device_type != 1) {
         return -3;
     }
     if (len <= 0) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].ol, len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].ol)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].outside_line_number, len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].outside_line_number)) {
         return -2;
     }
     return 0;
@@ -210,15 +210,15 @@ s32 get_network_config_phone_number(s32 n, char *dst, s32 len) {
     if (n < 0 || n >= 3) {
         return -2;
     }
-    if (lobby_net_config_buffer->b[i].at != 1) {
+    if (lobby_net_config_buffer->b[i].device_type != 1) {
         return -3;
     }
     if (len <= 0) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].t1 + (n *= 0x20), len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].t1 + n)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].phone_numbers[0] + (n *= 0x20), len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].phone_numbers[0] + n)) {
         return -2;
     }
     return 0;
@@ -244,15 +244,15 @@ s32 get_network_config_modem_command(char *dst, s32 len) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (lobby_net_config_buffer->b[i].at != 1) {
+    if (lobby_net_config_buffer->b[i].device_type != 1) {
         return -3;
     }
     if (len <= 0) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].mi, len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].mi)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].modem_command, len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].modem_command)) {
         return -2;
     }
     return 0;
@@ -280,10 +280,10 @@ s32 get_network_config_ip_set_type(u8 *dst) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (cfg->b[i].at != 4) {
+    if (cfg->b[i].device_type != 4) {
         return -3;
     }
-    *dst = cfg->b[i].dy;
+    *dst = cfg->b[i].ip_set_type;
     return 0;
 }
 #pragma pop
@@ -309,10 +309,10 @@ s32 get_network_config_ip_address(void *dst) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (cfg->b[i].at != 4) {
+    if (cfg->b[i].device_type != 4) {
         return -3;
     }
-    memcpy(dst, &cfg->b[i].ip, 4);
+    memcpy(dst, &cfg->b[i].ip_address, 4);
     return 0;
 }
 #pragma pop
@@ -328,8 +328,8 @@ s32 get_network_config_subnet_mask(void *dst) {
     if (i < 0 || i >= 6) return -3;
     i = s->a[i].pan;
     if (i < 0 || i >= 6) return -3;
-    if (s->b[i].at != 4) return -3;
-    memcpy(dst, &s->b[i].snm, 4);
+    if (s->b[i].device_type != 4) return -3;
+    memcpy(dst, &s->b[i].subnet_mask, 4);
     return 0;
 }
 #pragma pop
@@ -355,10 +355,10 @@ s32 get_network_config_default_gateway(void *dst) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (s->b[i].at != 4) {
+    if (s->b[i].device_type != 4) {
         return -3;
     }
-    memcpy(dst, &s->b[i].g1, 4);
+    memcpy(dst, &s->b[i].default_gateway, 4);
     return 0;
 }
 #pragma pop
@@ -384,12 +384,12 @@ s32 get_network_config_pc_name(char *buf, u32 n) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (s->b[i].at != 4) {
+    if (s->b[i].device_type != 4) {
         return -3;
     }
     memset(buf, 0, n);
-    strncpy(buf, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].hn, n - 1);
-    if (n <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].hn)) {
+    strncpy(buf, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].pc_name, n - 1);
+    if (n <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].pc_name)) {
         return -2;
     }
     return 0;
@@ -419,8 +419,8 @@ s32 get_network_config_mail_name(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mn, n - 1);
-    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mn)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mail_name, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mail_name)) {
         return -2;
     }
     return 0;
@@ -450,8 +450,8 @@ s32 get_network_config_mail_address(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ma, n - 1);
-    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ma)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mail_address, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mail_address)) {
         return -2;
     }
     return 0;
@@ -481,8 +481,8 @@ s32 get_network_config_mail_server(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ms, n - 1);
-    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ms)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mail_server, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mail_server)) {
         return -2;
     }
     return 0;
@@ -512,8 +512,8 @@ s32 get_network_config_pop_server(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ps, n - 1);
-    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ps)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pop_server, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pop_server)) {
         return -2;
     }
     return 0;
@@ -543,8 +543,8 @@ s32 get_network_config_pop_id(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pi, n - 1);
-    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pi)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pop_id, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pop_id)) {
         return -2;
     }
     return 0;
@@ -574,8 +574,8 @@ s32 get_network_config_pop_password(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pp, n - 1);
-    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pp)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pop_password, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pop_password)) {
         return -2;
     }
     return 0;
@@ -603,7 +603,7 @@ s32 get_network_config_proxy_port(u16 *out) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    *out = s->b[i].pxp;
+    *out = s->b[i].proxy_port;
     return 0;
 }
 #pragma pop

@@ -122,55 +122,55 @@ s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q) {
     }
     if (network_info_config_field_handled == 0 && i < 6) {
         if (strncmp(s, network_info_config_key_pn, 3) == 0) {
-            copy_network_info_config_string(q->b[i].pn, s, n, 0x20);
+            copy_network_info_config_string(q->b[i].provider_name, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_li, 3) == 0) {
-            copy_network_info_config_string(q->b[i].li, s, n, 0x80);
+            copy_network_info_config_string(q->b[i].login_user, s, n, 0x80);
         } else if (strncmp(s, network_info_config_key_lp, 3) == 0) {
-            copy_network_info_config_string(q->b[i].lp, s, n, 0x20);
+            copy_network_info_config_string(q->b[i].login_password, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_d1, 3) == 0) {
-            q->b[i].d1 = parse_network_info_config_hex(s, n);
+            q->b[i].dns_server1 = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_d2, 3) == 0) {
-            q->b[i].d2 = parse_network_info_config_hex(s, n);
+            q->b[i].dns_server2 = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_it, 3) == 0) {
             q->b[i].it = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_pxs, 3) == 0) {
-            copy_network_info_config_string(q->b[i].pxs, s, n, 0x40);
+            copy_network_info_config_string(q->b[i].proxy_server, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_pxp, 3) == 0) {
-            q->b[i].pxp = parse_network_info_config_hex(s, n);
+            q->b[i].proxy_port = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_at, 3) == 0) {
-            q->b[i].at = parse_network_info_config_decimal(s, n);
+            q->b[i].device_type = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_dt, 3) == 0) {
-            q->b[i].dt = parse_network_info_config_decimal(s, n);
+            q->b[i].dial_type = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_pa, 3) == 0) {
             q->b[i].pa = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_ol, 3) == 0) {
-            copy_network_info_config_string(q->b[i].ol, s, n, 0x10);
+            copy_network_info_config_string(q->b[i].outside_line_number, s, n, 0x10);
         } else if (strncmp(s, network_info_config_key_od, 3) == 0) {
             copy_network_info_config_string(q->b[i].od, s, n, 0x10);
         } else if (strncmp(s, network_info_config_key_t1, 3) == 0) {
-            copy_network_info_config_string(q->b[i].t1, s, n, 0x20);
+            copy_network_info_config_string(q->b[i].phone_numbers[0], s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_t2, 3) == 0) {
-            copy_network_info_config_string(q->b[i].t2, s, n, 0x20);
+            copy_network_info_config_string(q->b[i].phone_numbers[1], s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_t3, 3) == 0) {
-            copy_network_info_config_string(q->b[i].t3, s, n, 0x20);
+            copy_network_info_config_string(q->b[i].phone_numbers[2], s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_rc, 3) == 0) {
             q->b[i].rc = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_ri, 3) == 0) {
             q->b[i].ri = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_mi, 3) == 0) {
-            copy_network_info_config_string(q->b[i].mi, s, n, 0x20);
+            copy_network_info_config_string(q->b[i].modem_command, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_dy, 3) == 0) {
-            q->b[i].dy = parse_network_info_config_decimal(s, n);
+            q->b[i].ip_set_type = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_py, 3) == 0) {
             q->b[i].py = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_ip, 3) == 0) {
-            q->b[i].ip = parse_network_info_config_hex(s, n);
+            q->b[i].ip_address = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_snm, 3) == 0) {
-            q->b[i].snm = parse_network_info_config_hex(s, n);
+            q->b[i].subnet_mask = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_g1, 3) == 0) {
-            q->b[i].g1 = parse_network_info_config_hex(s, n);
+            q->b[i].default_gateway = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_hn, 3) == 0) {
-            copy_network_info_config_string(q->b[i].hn, s, n, 0x40);
+            copy_network_info_config_string(q->b[i].pc_name, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_mt, 3) == 0) {
             q->b[i].mt = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_mr, 3) == 0) {
@@ -185,17 +185,17 @@ s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q) {
         } else if (strncmp(s, network_info_config_key_iv, 3) == 0) {
             q->c[i].iv = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_ma, 3) == 0) {
-            copy_network_info_config_string(q->c[i].ma, s, n, 0x40);
+            copy_network_info_config_string(q->c[i].mail_address, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_ms, 3) == 0) {
-            copy_network_info_config_string(q->c[i].ms, s, n, 0x40);
+            copy_network_info_config_string(q->c[i].mail_server, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_ps, 3) == 0) {
-            copy_network_info_config_string(q->c[i].ps, s, n, 0x40);
+            copy_network_info_config_string(q->c[i].pop_server, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_pi, 3) == 0) {
-            copy_network_info_config_string(q->c[i].pi, s, n, 0x20);
+            copy_network_info_config_string(q->c[i].pop_id, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_pp, 3) == 0) {
-            copy_network_info_config_string(q->c[i].pp, s, n, 0x20);
+            copy_network_info_config_string(q->c[i].pop_password, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_mn, 3) == 0) {
-            copy_network_info_config_string(q->c[i].mn, s, n, 0x20);
+            copy_network_info_config_string(q->c[i].mail_name, s, n, 0x20);
         }
     }
     if (network_info_config_field_handled == 0 && i < 1) {
