@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player);
-}
 
 #endif

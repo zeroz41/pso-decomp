@@ -23,8 +23,6 @@ extern const s32 category2_id_count;
 extern const s32 category3_id_count;
 extern const s32 category4_id_count;
 
-extern "C" {
 s32 get_word_select_type_state(s32 state, s32 item);
-}
 
 #endif

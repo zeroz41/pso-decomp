@@ -50,7 +50,7 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
     u8 col;
 
     if (((Win_8027831C *)win)->f30 >= 0) {
-        pos.x = ((Win_8027831C *)win)->x + get_heading_frame_width((void *)((Disp_8027831C *)this)->f80);
+        pos.x = ((Win_8027831C *)win)->x + get_heading_frame_width((HeadingEntry *)((Disp_8027831C *)this)->f80);
         pos.y = ((Win_8027831C *)win)->y - 13.0f;
         col = lbl_805DD5F8[((Disp_8027831C *)this)->f88];
         fl = ((Disp_8027831C *)this)->f8A;

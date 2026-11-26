@@ -26,10 +26,8 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 
-extern "C" {
-void draw_text_cursor(void *context, NJS_POINT2 *cursor);
-}
 
 char serial_hex_buffer[0x40];
 char serial_decimal_buffer[0x40];
@@ -478,7 +476,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
         }
         pos.x = row[keyboard_control->get_cursor_position()];
         pos.y = 230.0f;
-        draw_text_cursor(context, &pos);
+        draw_text_cursor(static_cast<WindowDrawContext *>(context), &pos);
     }
 }
 

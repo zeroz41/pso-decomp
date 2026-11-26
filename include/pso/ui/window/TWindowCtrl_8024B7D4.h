@@ -3,10 +3,6 @@
 
 #include "types.h"
 
-// --- C functions defined in TWindowCtrl_8024B7D4.cpp ---
-extern "C" {
 saddr get_party_member_name(s32 n);
-}
-// --- end of C functions
 
 #endif

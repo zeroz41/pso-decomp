@@ -38,9 +38,7 @@ void text_builder_reset(void);
 const char *TWindowSubTrade::class_name = "TWindowSubTrade"; // TWindowSubTrade::class_name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
-extern "C" {
 TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *);
-}
 
 // Built with deferred code generation (the vtable precedes run_task's jump
 // table in .data), so the functions are written from the last one back.

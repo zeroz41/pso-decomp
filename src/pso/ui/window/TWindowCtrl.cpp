@@ -92,11 +92,7 @@ static const s16 open_times[4] = {24, 30, 36, 0};
 
 
 
-extern "C" {
-
 void prune_destroyed_balloons(TWindowCtrl *ctrl);
-
-}
 
 
 

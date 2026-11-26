@@ -90,7 +90,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void update(void* a1);
     static s32 deleting_destructor(s32 object, s16 delete_flag);
     void forward_render(void *level);
-    int update_subwindow();
+    void update_subwindow();
     void fill_card_text_entries(GuildCardRecord *record);
     static saddr query_status_field(void *arg0, s8 arg1);
     static saddr get_flag_or_zero(void *arg0, s8 arg1);

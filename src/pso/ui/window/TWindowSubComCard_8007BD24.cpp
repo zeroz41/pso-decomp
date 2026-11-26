@@ -5,12 +5,11 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 
 extern "C" {
-s32 has_free_guild_card_slot(s32, s32);
 s32 TWindowSubComCard__sub_8007B0D0(s32, s32, s32);
 }
 
 s32 TWindowSubComCard::init_card() {
-    return has_free_guild_card_slot(TWindowSubComCard::get_card_slot(0), 0x1C);
+    return has_free_guild_card_slot(reinterpret_cast<GuildCardEntry *>(TWindowSubComCard::get_card_slot(0)), 0x1C);
 }
 
 void TWindowSubComCard::remove_entry(s32 index) {

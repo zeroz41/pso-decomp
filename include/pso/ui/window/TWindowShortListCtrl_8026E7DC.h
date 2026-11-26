@@ -3,10 +3,6 @@
 
 #include "types.h"
 
-// --- C functions defined in TWindowShortListCtrl_8026E7DC.cpp ---
-extern "C" {
 void init_default_short_list_order(s16 *dst);
-}
-// --- end of C functions
 
 #endif

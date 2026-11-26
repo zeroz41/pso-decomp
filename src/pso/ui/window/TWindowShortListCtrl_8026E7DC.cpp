@@ -42,9 +42,10 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
+// Compared as a signed word here (cmpwi) while TWindowCtrl.cpp defines it as bool.
+s32 is_com_card_window_open();
 extern "C" {
 s32 try_send_6x27_use_item(void *player, s32 key);
-s32 is_com_card_window_open();
 }
 
 // The class name TObject::m_name points at.

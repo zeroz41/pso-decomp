@@ -22,9 +22,9 @@ struct TWindowChoiceSetting : public TWindowMenuInfomation {
 };
 
 LAYOUT_ASSERT(TWindowChoiceSetting_size, sizeof(TWindowChoiceSetting) == 0x84);
+void set_choice_setting_popup_size(const NJS_POINT2 *extent, s32 rows);
 extern "C" {
 void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows);
-void set_choice_setting_popup_size(const NJS_POINT2 *extent, s32 rows);
 }
 TWindowMenuInfomation *create_information_counter_window(s32 rows);
 

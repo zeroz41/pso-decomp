@@ -47,8 +47,8 @@ static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0
 
 void reset_line_width(void);
 void set_line_width(int a0);
-extern "C" {
 void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len);
+extern "C" {
 
 
 
@@ -131,12 +131,12 @@ s32 TWindowBase::is_open_and_unblocked() {
 }
 #pragma pop
 
+}
 void hide_window(u8 *object) {
     TWindowBase *window = (TWindowBase *)object;
     window->window_flags = (s32) (window->window_flags & 0xFFFFFFF8);
     window->closing_tick = 0;
     ((TObject *)object)->disallow_rendering();
-}
 }
 
 void TWindowBase::close() {
@@ -774,8 +774,6 @@ void TWindowBase::update_fade() {
     this->tween_ticks = (u32) (this->tween_ticks - 1);
 }
 
-extern "C" {
-
 void update_window_scanline(void) {
     switch (window_ui_theme_index) {
     case 0:
@@ -794,7 +792,6 @@ void update_window_scanline(void) {
         }
         break;
     }
-}
 }
 
 void TWindowBase::update_open_close() {

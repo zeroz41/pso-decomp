@@ -32,9 +32,9 @@ u32 calc_text_width(char *s);
 const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
 void __dl__FPv(void);
 
-f32 get_heading_frame_width(void *heading) {
-    return (1.6e+02f) + ((HeadingEntry *)heading)->width;
 }
+f32 get_heading_frame_width(HeadingEntry *heading) {
+    return (1.6e+02f) + heading->width;
 }
 
 void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
@@ -85,8 +85,6 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
 f32 TWindowSubStatusDisp::get_base_y(f32 width) {
     return (1.6e+02f) + width;
 }
-extern "C" {
-
 f32 calc_title_overflow_width(f32 text_width) {
     f32 extra = (16.0f + text_width) - 160.0f;
     if (extra < 0.0f) {
@@ -94,6 +92,7 @@ f32 calc_title_overflow_width(f32 text_width) {
     }
     return extra;
 }
+extern "C" {
 
 void TWindowSubStatusDisp::update_entry_color() {
     HeadingEntry *e = (HeadingEntry *)this;
@@ -127,6 +126,7 @@ void TWindowSubStatusDisp::draw_entry_tab(void *context) {
     ((void (*)(f32, WindowDrawContext *, f32 *, u8))draw_window_tab)(e->width, (WindowDrawContext *)context, pos, e->state);
 }
 
+}
 void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context) {
   NJS_POINT2 pos;
   if (context->open_tick >= 0)
@@ -137,13 +137,12 @@ void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context) {
     draw_window_text(&pos.x, (const char *)heading->text, heading->color, 1, heading->reveal_pos);
   }
 }
-
 void TWindowSubStatusDisp::update(void* a1) { draw_entry_tab(a1); draw_heading_text((HeadingEntry *)this, (WindowDrawContext *)a1); }
-
 void advance_heading_reveal(void *heading) {
     HeadingEntry *e = (HeadingEntry *)heading;
     e->reveal_pos = (f32) (e->reveal_pos + e->reveal_step);
 }
+extern "C" {
 
 s32 TWindowSubStatusDisp::deleting_destructor(s32 object, s16 delete_flag) {
     if ((object != 0) && (delete_flag > 0)) {

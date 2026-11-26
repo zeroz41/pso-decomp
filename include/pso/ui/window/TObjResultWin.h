@@ -46,15 +46,8 @@ LAYOUT_ASSERT(ResultTimerField, offsetof(TObjResultWin,m_countdown)==0x24);
 LAYOUT_ASSERT(ResultTextField, offsetof(TObjResultWin,m_text)==0x28);
 LAYOUT_ASSERT(ResultRecordField, offsetof(TObjResultWin,m_result)==0x128);
 
-extern "C" {
 int get_current_lobby_id(void);
-}
 ChallengeResultRecord *copy_challenge_result_record(ChallengeResultRecord *destination, const ChallengeResultRecord *source);
 
-// --- C functions defined in TObjResultWin.cpp ---
-extern "C" {
-int get_current_lobby_id(void);
-}
-// --- end of C functions
 
 #endif

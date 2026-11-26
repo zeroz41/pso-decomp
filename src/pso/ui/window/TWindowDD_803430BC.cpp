@@ -129,6 +129,7 @@ extern const f32 window_dd_quad_scales[];
 
 #pragma push
 #pragma opt_common_subs off
+}
 void load_word_select_data(void) {
     s32 i;
     u8 *list;
@@ -209,6 +210,7 @@ void load_word_select_data(void) {
     }
     TWindowDD::init_ws_data_tables();
 }
+extern "C" {
 
 void TWindowDD::free_buffers() {
     clear_window_dd_nodes();

@@ -140,6 +140,7 @@ void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp)
     end_screen_draw();
 }
 
+}
 void draw_face_selection(u8 *window_base, u8 *ctx) {
   int entry_index;
   u8 *entry;
@@ -150,6 +151,7 @@ void draw_face_selection(u8 *window_base, u8 *ctx) {
   corner.y = (*((f32 *) (((s8 *) entry) + 0xC))) - 3.0f;
   draw_selection_corners((WindowDrawContext *)ctx, (f32 *)&corner, 66.0f, 0.3f);
 }
+extern "C" {
 
 void TWindowSubSymbolChatFaceType::update_parts_entries() {
     s32 i;

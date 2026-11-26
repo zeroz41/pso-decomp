@@ -170,9 +170,7 @@ LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
-extern "C" {
 void load_word_select_data(void);
-}
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.
 extern const s32 word_select_numeric_limits[6];

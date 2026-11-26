@@ -54,6 +54,7 @@ class TChCrTagPlBack;
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 
 const char *TWindowSubComCard::class_name = "TWindowSubComCard";
 
@@ -71,7 +72,6 @@ void load_selected_guild_card_record(ChoiceSearchResult *result);
 }
 extern "C" {
 s32 TWindowSubComCard__sub_800778B4(ChoiceSearchSelection *, TRecvChoiceSearchOptions *);
-void send_guild_card_to_client(s32 client_id);
 s32 TLobby__sub_8024259C();
 }
 extern "C" {

@@ -615,6 +615,7 @@ void TWindowKeyBoardBase::sub_8025DBDC(s32 finalize) {
     }
 }
 
+}
 void draw_text_cursor(WindowDrawContext *context, NJS_POINT2 *cursor) {
     NJS_POINT2 pos[4];
     NJS_POINT2COL d;
@@ -645,6 +646,7 @@ void draw_text_cursor(WindowDrawContext *context, NJS_POINT2 *cursor) {
     pos[3].y = bottom;
     draw_polygon_2d(&d, 4, 6, depth);
 }
+extern "C" {
 
 void TWindowKeyBoardBase::draw_text_glyphs(WindowDrawContext *context, NJS_POINT2 *cursor) {
     TexturedQuad q;

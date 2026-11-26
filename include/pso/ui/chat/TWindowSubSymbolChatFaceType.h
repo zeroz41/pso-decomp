@@ -35,7 +35,5 @@ LAYOUT_ASSERT(FaceType_selection, offsetof(TWindowSubSymbolChatFaceType, selecti
 LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, status_disp) == 0x68);
 
 
-extern "C" {
 void draw_face_selection(u8 *window_base, u8 *ctx);
-}
 #endif

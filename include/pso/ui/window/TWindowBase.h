@@ -80,10 +80,10 @@ LAYOUT_ASSERT(WindowOpenTickOffset, offsetof(TWindowBase, open_tick) == 0x5C);
 
 struct TWindowSubComCard;
 class TWindowFukidasi;
-extern "C" {
-int get_area_total(void);
 BOOL scanline_crosses_window(void *ctx, void *position, void *size);
 void hide_window(u8 *object);
+extern "C" {
+int get_area_total(void);
 }
 void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active);
 // The highlight sweep drawn over a status window: begin sets the texture and blend

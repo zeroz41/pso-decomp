@@ -25,14 +25,7 @@ public:
 
 LAYOUT_ASSERT(TObjNewFloorWin_size, sizeof(TObjNewFloorWin) == 0x50);
 
-extern "C" {
 void close_current_window(void);
-}
 
-// --- C functions defined in TObjNewFloorWin.cpp ---
-extern "C" {
-void close_current_window(void);
-}
-// --- end of C functions
 
 #endif

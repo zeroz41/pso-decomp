@@ -46,6 +46,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_8013ADE4.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 
 struct LengthLimits { u32 n[4]; };
 
@@ -108,7 +109,6 @@ s32 TAdEnterBaseGC::entry_mode;
 
 extern "C" {
 
-void draw_text_cursor(WindowDrawContext *context, NJS_POINT2 *cursor);
 
 
 extern char serial_access_hex_string_buf[];

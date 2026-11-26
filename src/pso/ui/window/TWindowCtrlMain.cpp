@@ -74,7 +74,7 @@ struct VObj_8024C820 {
     char pad[0x18];
     virtual void m0(int);
 };
-extern "C" void draw_viewport_fill(s32 viewport_index);
+void draw_viewport_fill(s32 viewport_index);
 WindowControlState TWindowCtrlMain::viewport_states[6];
 extern "C" {
 struct Poly_8024CE68 {

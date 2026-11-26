@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/GuildCardEntry.h"
@@ -27,10 +28,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
-
-extern "C" {
-s32 is_guild_card_invalid(s32);
-}
 
 ComCardLayout com_card_layout_entries = {
     6, 1,
@@ -119,7 +116,7 @@ TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *posi
     if (keyboard_mode == 0) {
         return 0;
     }
-    if (is_guild_card_invalid(keyboard_mode) != 0) {
+    if (is_guild_card_invalid(reinterpret_cast<u8 *>(keyboard_mode)) != 0) {
         ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
     }
     return new TWindowComCard(position, (void *)keyboard_mode);

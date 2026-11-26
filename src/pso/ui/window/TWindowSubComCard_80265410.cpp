@@ -39,10 +39,10 @@
 
 
 
+void set_window_menu_rows(s32 rows);
 extern "C" {
 
 void measure_message_text_width(WindowTextEntry *e, f32 x);
-void set_window_menu_rows(s32 rows);
 }
 
 const f64 lbl_8044F330 = 0.0;

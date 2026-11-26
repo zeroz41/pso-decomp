@@ -5,8 +5,6 @@
 
 class TObjBagWarnWin4P;
 
-extern "C" {
 TObjBagWarnWin4P *create_bag_warn_window_4p(saddr parent);
-}
 
 #endif

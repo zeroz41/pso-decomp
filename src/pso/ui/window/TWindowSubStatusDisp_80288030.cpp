@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 extern "C" {
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *position, saddr title, s8 entry_state, s32 client_id);
@@ -37,10 +38,11 @@ NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texl
 NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };
 
 extern "C" {
-int advance_heading_reveal(void*);
 
 void TWindowSubStatusDisp::forward_render(void *level) { this->update(level); }
-int TWindowSubStatusDisp::update_subwindow() { return advance_heading_reveal(this); }
+}
+void TWindowSubStatusDisp::update_subwindow() { advance_heading_reveal(this); }
+extern "C" {
 s32 TWindowSubStatusDisp::destroy_status_display(saddr window, s16 delete_flag) {
     if (window != 0) {
         TWindowSubStatusDisp::deleting_destructor(window, 0);
