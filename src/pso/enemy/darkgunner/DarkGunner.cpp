@@ -36,7 +36,7 @@
 
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/system/SoundEffect.h"
 
@@ -49,9 +49,9 @@
 
 #include "pso/render/render_util.h"
 
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/map/CsnQuery.h"
@@ -73,7 +73,7 @@
 
 #include "pso/ui/hud/TNowLoading.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 

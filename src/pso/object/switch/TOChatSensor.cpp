@@ -48,11 +48,11 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "pso/system/byteswap.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_80225CD8.h"
+#include "pso/ui/chat/ChatKeyword.h"
 
 // ChatSensor.prs: how many trigger texts there are and the texts (a sensor's text_index picks one, from 1).
 struct ChatSensorTable {

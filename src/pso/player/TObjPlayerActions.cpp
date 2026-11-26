@@ -51,7 +51,7 @@
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/enemy/TObjEneBeastBase.h"

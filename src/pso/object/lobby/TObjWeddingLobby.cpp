@@ -6,14 +6,14 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/ModelDrawContext.h"
 
 #pragma readonly_strings on

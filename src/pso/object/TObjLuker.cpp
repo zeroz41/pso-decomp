@@ -29,7 +29,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjBase.h"

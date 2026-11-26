@@ -23,9 +23,9 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/system/vector.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
@@ -44,7 +44,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"

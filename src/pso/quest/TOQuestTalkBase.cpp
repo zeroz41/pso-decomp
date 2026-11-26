@@ -8,15 +8,15 @@
 #include "pso/unk/TQuestManager.h"
 #include "pso/network/client_id.h"
 #include "pso/object/CursorAction.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/player/PlayerSlots.h"
 
 

@@ -1,9 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/TLobby_80228154.h"
+#include "pso/map/FloorTransition.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/BgmStream.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdFloorLoadGC.h"

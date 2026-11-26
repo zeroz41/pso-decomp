@@ -1,7 +1,7 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/quest/QuestDownloadAramFile.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "types.h"

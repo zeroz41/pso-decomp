@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 

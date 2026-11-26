@@ -10,7 +10,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/BmlResource.h"
@@ -20,7 +20,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #pragma readonly_strings on
 // Built with deferred code generation: functions come out in reverse order

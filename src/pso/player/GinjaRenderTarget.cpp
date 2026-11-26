@@ -1,7 +1,7 @@
 #include "pso/render/GinjaRenderTarget.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaTextureInput.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 
 void GinjaRenderTarget::release_texture() {
     load_result = 0;

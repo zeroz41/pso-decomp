@@ -6,9 +6,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D96A8.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include <stdlib.h>

@@ -16,7 +16,7 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 // Text of one card message: the entry is replaced by keyboard_entry while the keyboard controller is in use.

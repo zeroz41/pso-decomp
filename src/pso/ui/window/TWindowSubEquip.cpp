@@ -23,7 +23,7 @@
 #include "pso/ui/window/TWindowSubEquipList.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80278460.h"
+#include "pso/ui/window/EquipItemFilter.h"
 
 #pragma readonly_strings on
 

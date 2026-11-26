@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"

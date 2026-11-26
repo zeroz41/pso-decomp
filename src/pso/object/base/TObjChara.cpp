@@ -12,7 +12,7 @@
 #include "pso/system/MainPhaseTable.h"
 #include "pso/render/BlobShadow.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/player/PlayerAttackParams.h"
 
@@ -83,7 +83,7 @@
 #include "pso/ui/frontend/OpeningMovie.h"
 
 
-#include "pso/unk/text_80290BEC.h"
+#include "pso/system/MainFrame.h"
 
 #include "pso/ui/frontend/TAdEndText.h"
 
@@ -103,7 +103,7 @@
 #include "pso/effect/TEffHit.h"
 
 #include "pso/item/TItemReverseTech.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixTransforms.h"

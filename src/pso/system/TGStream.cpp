@@ -2,7 +2,7 @@
 #include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/prs.h"
 #include "pso/system/memory.h"
@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/AsyncFileRead.h"
 

@@ -15,7 +15,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/unk/TWindowLayoutNumber.h"

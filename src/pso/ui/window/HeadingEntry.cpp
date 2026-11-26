@@ -3,7 +3,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/NinjaTypes.h"

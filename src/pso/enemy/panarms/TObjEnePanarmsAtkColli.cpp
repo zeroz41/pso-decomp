@@ -12,7 +12,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"

@@ -19,7 +19,7 @@
 
 #include "pso/map/FloorArea.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/system/SoundEffect.h"
 
@@ -40,7 +40,7 @@ static const f32 ancient01_zero[1] = {0.0f};
 
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -95,7 +95,7 @@ const char *container_ancient01_r_name = "TContainerAncient01R";
 
 #include "pso/render/GinjaMaterial.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/npc/TObjNpcEnemy.h"

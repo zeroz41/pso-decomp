@@ -5,8 +5,8 @@
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
 #include <stdlib.h>
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -17,7 +17,7 @@
 
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/DebugFont.h"
 #include "pso/object/TObjChip.h"

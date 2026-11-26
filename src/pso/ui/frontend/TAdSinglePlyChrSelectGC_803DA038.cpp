@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_803D9FF0.h"
+#include "pso/system/StringCharTable.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
 #include <string.h>
 

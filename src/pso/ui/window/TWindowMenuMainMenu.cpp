@@ -8,7 +8,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -17,7 +17,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 
 const char *TWindowMenuMainMenu::class_name = "TWindowMenuMainMenu";

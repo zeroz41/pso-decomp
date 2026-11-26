@@ -10,7 +10,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/player/PlayerSlots.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/render/NinjaUtil.h"

@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/TLevelSelect.h"
 

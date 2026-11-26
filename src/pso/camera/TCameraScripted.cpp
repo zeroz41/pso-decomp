@@ -9,8 +9,8 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/system/memory.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 
 s32 scripted_camera_saved_fov;
 s32 scripted_camera_fov;

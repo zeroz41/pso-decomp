@@ -7,7 +7,7 @@
 
 #include "pso/system/NinjaTypes.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 
@@ -17,9 +17,9 @@
 
 #include <stdlib.h>
 
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "types.h"
@@ -46,7 +46,7 @@
 
 #include "pso/enemy/dd/TObjEneDD.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 

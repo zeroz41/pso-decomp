@@ -19,7 +19,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"

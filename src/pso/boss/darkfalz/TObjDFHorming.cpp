@@ -33,7 +33,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/TObjControl.h"
 #include "pso/camera/TCameraCtrl.h"

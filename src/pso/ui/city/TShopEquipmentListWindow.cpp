@@ -31,8 +31,8 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/text_80222C28.h"
-#include "pso/unk/text_80222DE8.h"
+#include "pso/ui/CounterTextLookup.h"
+#include "pso/item/shop/ShopSinglePurchase.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/system/SoundEffect.h"
 

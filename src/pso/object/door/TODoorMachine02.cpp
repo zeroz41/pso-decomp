@@ -9,7 +9,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -21,7 +21,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *fs_obj_ki_doa2_model_names[] = {"fs_obj_ki_doa.gj", NULL};
 const char *fs_obj_ki_doa2_motion_names[] = {"fs_obj_ki_doa.njm", NULL};

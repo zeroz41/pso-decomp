@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/weapon/shoot/TItemShootWindmill.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -16,10 +16,10 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponYasminkov9000M.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/MatrixStack.h"
 
 void TItemShootWindmill::render() {

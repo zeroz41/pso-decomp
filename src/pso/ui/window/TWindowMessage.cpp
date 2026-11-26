@@ -21,7 +21,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 const char *TWindowMessage::class_name = "TWindowMessage";
 
 extern "C" {

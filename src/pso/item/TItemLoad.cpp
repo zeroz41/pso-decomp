@@ -15,11 +15,11 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/prs.h"
 #include "pso/system/Adxf.h"
 #include "pso/weapon/TItemAttacker.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 
 // The loaders are written from their last function back: the unit is built
 // with deferred code generation, which emits functions in reverse order.

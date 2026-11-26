@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

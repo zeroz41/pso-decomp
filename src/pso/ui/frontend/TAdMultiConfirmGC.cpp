@@ -12,7 +12,7 @@
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 

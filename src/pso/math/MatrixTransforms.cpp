@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D9650.h"
+#include "pso/math/MatrixTranslate.h"
 #include "dolphin/mtx.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/system/MatrixOps.h"

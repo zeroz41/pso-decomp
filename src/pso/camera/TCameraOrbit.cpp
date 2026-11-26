@@ -7,8 +7,8 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 
 TCameraController *TCameraOrbit::create() {
     return new TCameraOrbit();

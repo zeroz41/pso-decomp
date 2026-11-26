@@ -11,14 +11,14 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/memory.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 #include <dolphin/gx/GXBump.h>
 
 typedef void (TEffIndirectCtrl::*IndirectTask)();

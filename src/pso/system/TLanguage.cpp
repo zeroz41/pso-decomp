@@ -1,7 +1,7 @@
 #include "pso/system/memory.h"
 #include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/TLanguage.h"
 #include "pso/unk/text_803DAFA8.h"
 #include "pso/network/TLobby.h"

@@ -11,7 +11,7 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/EndingSequence.h"
 #include "pso/system/scene/TEnding.h"
 

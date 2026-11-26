@@ -18,7 +18,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/enemy/dd/TObjEneDD.h"

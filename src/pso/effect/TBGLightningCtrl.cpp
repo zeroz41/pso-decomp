@@ -15,7 +15,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 #include "pso/render/psoLoadTexture.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

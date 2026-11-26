@@ -18,7 +18,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/object/door/TObjDoorJung.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -32,7 +32,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/unk/TLobby_800FD78C.h"
 
 

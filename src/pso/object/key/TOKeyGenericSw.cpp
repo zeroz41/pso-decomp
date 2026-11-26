@@ -7,7 +7,7 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyGenericSw.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -15,7 +15,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
 const char *fs_obj_hanyousu_body1_model_names[] = {"fs_obj_hanyousu_body1.gj", NULL};

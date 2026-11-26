@@ -16,7 +16,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TObjLiveCamera.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"

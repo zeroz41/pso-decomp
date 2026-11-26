@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/window/TWindowComCardFollower.h"

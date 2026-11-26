@@ -28,7 +28,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 s32 TObjSeabedSuisoBrakable::texture_entries[5];
 NJS_OBJECT *TObjSeabedSuisoBrakable::model12_nodes[3];

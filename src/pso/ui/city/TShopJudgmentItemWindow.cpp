@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/TLobby_802268F4.h"

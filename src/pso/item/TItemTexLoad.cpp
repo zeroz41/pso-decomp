@@ -8,7 +8,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/prs.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 
 const char item_kt_archive_filename[] = "ItemKT.afs";
 const char TItemTexLoad_class_name[] = "TItemTexLoad";

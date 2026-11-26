@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 
 #include "pso/player/PlayerSlots.h"

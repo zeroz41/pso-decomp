@@ -39,7 +39,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/text_800C7FEC.h"
+#include "pso/network/LegacyEnemyKill.h"
 #include <string.h>
 #include "pso/ui/Language.h"
 
@@ -66,9 +66,9 @@
 #include "pso/map/FloorPopulation.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/unk/TLobby_80226C3C.h"
-#include "pso/unk/TLobby_801C4F80.h"
-#include "pso/unk/TLobby_80103F5C.h"
+#include "pso/audio/BgmStream.h"
+#include "pso/network/BattleModeDataCmd.h"
+#include "pso/item/FloorItemSync.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};

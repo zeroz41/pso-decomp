@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80066F5C.h"
+#include "pso/render/ShadowedObjectDraw.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/NinjaTypes.h"

@@ -27,7 +27,7 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 
 #pragma push
 #pragma readonly_strings on

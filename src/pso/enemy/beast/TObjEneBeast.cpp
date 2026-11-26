@@ -25,13 +25,13 @@
 #include "pso/player/TObjPlayer.h"
 
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 
 #include "pso/render/RenderFadeState.h"

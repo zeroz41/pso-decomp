@@ -32,7 +32,7 @@
 #include "pso/item/shop/ShopItemSort.h"
 #include "pso/network/client_id.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/text_80222DE8.h"
+#include "pso/item/shop/ShopSinglePurchase.h"
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyItem.h"
@@ -41,7 +41,7 @@
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 
 
 #pragma readonly_strings on

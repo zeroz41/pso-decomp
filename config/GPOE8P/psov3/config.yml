@@ -650,8 +650,8 @@ force_active:
   - TLobby__sub_80072AB8
   - reset_to_fallback_main_phase__Fv
   - request_pending_file_read_flush__Fv
-  - __sinit_TLobby_800F8AA8_cpp
-  - __sinit_TLobby_80103F5C_cpp
+  - __sinit_MallocLoadFilePrc_cpp
+  - __sinit_FloorItemSync_cpp
   - init_idle_timeout_timer__FPUcP7TObject
   - show_card_list_message__FPv
   - handle_generate_id__Fv

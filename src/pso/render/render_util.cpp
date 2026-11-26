@@ -19,7 +19,7 @@
 
 #define RAD_TO_ANGLE (32768.0 / 3.141592f)
 #include "pso/render/render_util_tail.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 
 NJS_ARGB chunk_material_color_half_alpha_f32 = {0.5f, 0.0f, 0.0f, 0.0f};

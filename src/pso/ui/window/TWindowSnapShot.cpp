@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/ui/window/WindowTextDraw.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowDD.h"

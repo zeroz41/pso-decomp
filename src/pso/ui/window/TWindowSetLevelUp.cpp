@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/player/PlayerSlots.h"
 

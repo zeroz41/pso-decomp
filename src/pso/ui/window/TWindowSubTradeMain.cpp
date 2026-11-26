@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/network/TradeSession.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"

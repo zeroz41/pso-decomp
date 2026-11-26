@@ -2,7 +2,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_802C367C.h"
-#include "pso/unk/text_802C3AC0.h"
+#include "pso/player/StartingInventory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_802C422C.h"
 

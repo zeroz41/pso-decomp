@@ -3,7 +3,7 @@
 #include "pso/ui/frontend/TAdExNetConfirmGC.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/network/NetworkSettings.h"
 

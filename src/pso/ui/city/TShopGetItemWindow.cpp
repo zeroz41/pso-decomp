@@ -16,7 +16,7 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowMenu.h"

@@ -3,7 +3,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
-#include "pso/unk/text_80076E84.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include <string.h>
 
@@ -17,7 +17,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/network/client_id.h"
 static const s32 symbol_chat_sound_ids[9] = {
     0x53507, 0x52608, 0x52A09, 0x5250A, 0x5230B, 0x5250C, 0x5280D, 0x5250E, 0x53719,

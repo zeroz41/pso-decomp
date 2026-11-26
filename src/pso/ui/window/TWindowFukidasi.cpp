@@ -3,7 +3,7 @@
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
@@ -20,7 +20,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

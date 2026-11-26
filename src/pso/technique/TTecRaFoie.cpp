@@ -1,13 +1,13 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/system/BmlAccessors.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TechniqueEmitter.h"
 #include "pso/player/TargetCursorList.h"
@@ -18,7 +18,7 @@
 #include "pso/effect/TEffIndirectCtrl.h"
 
 #include "pso/system/vector.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/ActorCollision.h"
@@ -135,7 +135,7 @@ void TTecRaFoie::spawn_effects(Vec *) {
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TMainTask.h"
 
 

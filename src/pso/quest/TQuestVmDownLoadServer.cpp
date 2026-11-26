@@ -25,7 +25,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 
 // .rodata: window_size {444,84} (the layout position is the other argument), "TQuestVmDownLoadServer",
@@ -68,7 +68,7 @@ extern uaddr lobby_player_construction_window;
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/window/TMessageWindowController.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 

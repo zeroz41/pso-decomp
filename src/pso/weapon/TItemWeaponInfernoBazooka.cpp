@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/weapon/TWeaponCasing.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
@@ -13,7 +13,7 @@
 #include "pso/weapon/TItemWeaponInfernoBazooka.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/effect/item/TItemEffFlame.h"

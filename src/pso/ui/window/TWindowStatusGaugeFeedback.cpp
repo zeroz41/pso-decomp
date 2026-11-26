@@ -11,9 +11,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/SoundEffect.h"
 
 

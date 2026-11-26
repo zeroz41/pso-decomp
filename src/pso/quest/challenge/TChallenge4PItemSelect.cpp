@@ -29,7 +29,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 

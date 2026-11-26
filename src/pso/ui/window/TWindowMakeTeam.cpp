@@ -19,7 +19,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *TWindowMakeTeam::class_name = "TWindowMakeTeam";
 const char *make_team_empty_text = "";

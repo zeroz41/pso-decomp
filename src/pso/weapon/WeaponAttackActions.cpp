@@ -36,15 +36,15 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/effect/item/TItemEffEquip.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 #include <stdlib.h>
 
 
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/technique/TechniqueContact.h"

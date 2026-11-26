@@ -18,11 +18,11 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include <stdlib.h>
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 
 
@@ -42,7 +42,7 @@
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/TLevelSelect.h"

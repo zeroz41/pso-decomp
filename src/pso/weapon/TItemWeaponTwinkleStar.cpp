@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponTwinkleStar.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffCane.h"
 

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 
 extern s32 story_select_pending_state;

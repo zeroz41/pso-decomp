@@ -100,7 +100,7 @@ void SymbolChatPreset::set_flag_bit2() {
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/chat/TWindowSubSymbolChatParts.h"
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 #include "pso/ui/window/TWindowMenu.h"

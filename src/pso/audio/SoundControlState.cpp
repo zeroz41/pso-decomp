@@ -493,7 +493,7 @@ u16 sound_bank_group_ids[38] = {
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/TLobby_80242910.h"
-#include "pso/unk/TLobby_803382E4.h"
+#include "pso/ui/LoadingInfoIcon.h"
 #include "pso/system/main_loop.h"
 #include <string.h>
 #define PSO_SDK_COMPACT_MATH
@@ -503,7 +503,7 @@ u16 sound_bank_group_ids[38] = {
 #pragma push
 
 #include "types.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 
 
 SoundRequestVoice sound_request_voices[0x28];

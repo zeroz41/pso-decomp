@@ -6,14 +6,14 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
 #include "pso/boss/goldragon/TBoss8DragonColli_C.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/network/TLobby.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/ActorCollision.h"
 
 #pragma defer_codegen on

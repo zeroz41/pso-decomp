@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
@@ -46,7 +46,7 @@ void TTecZonde::apply_to_target(TObjChara *target) {
 }
 
 #include "pso/technique/TTecLuker.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/technique/TTecZondeHitEffect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjMotion.h"

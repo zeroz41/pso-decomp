@@ -17,14 +17,14 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *dummy_key_cave01_class_name = "TODummyKeyCave01";
 const char *dummy_key_cave01_sound_class_name = "TODummyKeyCave01Sound";

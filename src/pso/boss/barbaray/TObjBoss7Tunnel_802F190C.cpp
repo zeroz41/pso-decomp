@@ -6,7 +6,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/boss/TObjBoss7TunnelNode.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include "pso/effect/particle/TParticle.h"

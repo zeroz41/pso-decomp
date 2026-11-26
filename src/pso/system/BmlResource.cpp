@@ -17,9 +17,9 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 
 
 struct BmlModelLoadRequest {

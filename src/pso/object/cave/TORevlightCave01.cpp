@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/object/cave/TORevlightCave01.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -12,7 +12,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *bm_fs_obj_yukakaiten01_model_names[] = {"fs_obj_yukakaiten01.gj", NULL};
 const char *bm_fs_obj_yukakaiten01_motion_names[] = {"fs_obj_yukakaiten01.njm", NULL};

@@ -11,7 +11,7 @@
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

@@ -2,7 +2,7 @@
 #include "pso/item/item_create.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/system/save/CardFileInfo.h"
 #include <string.h>
 #include <dolphin/os/OSThread.h>
@@ -48,11 +48,11 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_802C3AC0.h"
+#include "pso/system/GameModeQueries.h"
+#include "pso/player/StartingInventory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
-#include "pso/unk/text_80076BC4.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/chat/ChatShortcuts.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/unk/TLobby_80269C6C.h"
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;

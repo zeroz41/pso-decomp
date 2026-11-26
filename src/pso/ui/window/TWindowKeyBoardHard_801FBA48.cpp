@@ -8,7 +8,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

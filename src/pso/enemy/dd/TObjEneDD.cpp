@@ -5,7 +5,7 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/DragonAttackParams.h"
@@ -50,7 +50,7 @@ int release_players_from_cutscene(void*);
 
 
 #include "pso/render/BlobShadow.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/ui/hud/TRaderMapCore.h"

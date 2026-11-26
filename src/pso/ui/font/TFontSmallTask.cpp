@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/vector.h"
@@ -16,12 +16,12 @@
 #include <string.h>
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/TPlyPhotonChair.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"

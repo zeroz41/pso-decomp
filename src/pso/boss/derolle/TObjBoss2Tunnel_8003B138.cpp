@@ -13,7 +13,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TObjBoss2TunnelSlide.h"

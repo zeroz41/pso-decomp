@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

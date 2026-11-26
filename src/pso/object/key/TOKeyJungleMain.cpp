@@ -8,7 +8,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -17,7 +17,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/quest/QuestStoryFlags.h"
 

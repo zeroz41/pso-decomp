@@ -2,7 +2,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowArea.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowAddition.h"

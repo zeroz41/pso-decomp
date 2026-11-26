@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 struct TitleBackgroundTile {
     u32 x;

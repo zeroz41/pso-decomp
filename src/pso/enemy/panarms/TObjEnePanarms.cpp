@@ -7,7 +7,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -24,7 +24,7 @@
 #include "pso/enemy/TObjEnePanBARA.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -37,7 +37,7 @@
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 
 

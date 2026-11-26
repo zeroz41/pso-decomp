@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/unk/text_803D619C.h"
+#include "pso/math/BinomialCoefficient.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 const char *TWindowDD_WS_Word::class_name = "TWindowDD_WS_Word";

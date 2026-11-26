@@ -8,7 +8,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/TLobby.h"

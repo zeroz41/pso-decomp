@@ -9,10 +9,10 @@
 #include "pso/network/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 #include "pso/system/MatrixOps.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXLighting.h>

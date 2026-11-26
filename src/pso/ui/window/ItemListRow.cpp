@@ -10,7 +10,7 @@
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TItemData.h"
@@ -25,7 +25,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_create.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 

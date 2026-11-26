@@ -10,7 +10,7 @@
 #include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/network/PppApi.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdDialingGC_80328210.h"

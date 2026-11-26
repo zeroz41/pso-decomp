@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/chat/TSymbolChatCapture.h"
-#include "pso/unk/text_80076E84.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"

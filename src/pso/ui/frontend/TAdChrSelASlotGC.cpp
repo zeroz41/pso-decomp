@@ -4,7 +4,7 @@
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"

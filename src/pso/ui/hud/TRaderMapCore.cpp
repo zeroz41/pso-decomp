@@ -4,7 +4,7 @@
 #include "pso/system/memory.h"
 #include "pso/camera/RadarMapViewState.h"
 #include "pso/system/BmlAccessors.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
@@ -32,7 +32,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/player/TObjPlayer.h"
@@ -52,11 +52,11 @@
 #include <dolphin/gx/GXCull.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_800F8A18.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -65,7 +65,7 @@
 #include "pso/ui/hud/RadarMapData.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
 f32 radar_camera_height_default = 2000.0f;

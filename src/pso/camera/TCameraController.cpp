@@ -15,10 +15,10 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/TLobby_801E2F94.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ScreenSpriteDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 
 static const Vec camera_forward_axis = {0.0f, 0.0f, -1.0f};

@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TLoadingCur.h"
 #include <stddef.h>
@@ -17,7 +17,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/gjSystem.h"
 
 #pragma push

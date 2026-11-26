@@ -27,7 +27,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TGameProtocol.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -48,7 +48,7 @@
 #include "pso/unk/text_801036CC.h"
 #include "pso/unk/text_801057A8.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/data/FlagWord.h"
@@ -72,7 +72,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 
 #include "pso/effect/TEffIndirectSampler.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_create.h"
 

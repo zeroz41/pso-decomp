@@ -1,12 +1,12 @@
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/map/AreaEventSet.h"
 #include "pso/map/MapSetArchive.h"
 // Area event sets: the per-floor event records (".evt" files from gsl_set_event.gsl), their
 // byte swapping, sync records and the destroy-event spawn. One TU: its .rodata opens 8-aligned
-// after TLobby_80207DA8's padded strings, its .sbss after that unit's 4-byte pad.
+// after FloorWaveEvents's padded strings, its .sbss after that unit's 4-byte pad.
 #include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/THeap.h"
@@ -23,10 +23,10 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/GslArchive.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 #pragma readonly_strings on
 

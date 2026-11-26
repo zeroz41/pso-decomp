@@ -27,7 +27,7 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/save/TCheckMemoryCard.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/BgmStream.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"

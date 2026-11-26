@@ -32,7 +32,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/system/BmlResource.h"
 

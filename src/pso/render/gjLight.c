@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/render/gjLight.h"
 #include "pso/render/RenderSbssGlobals.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 
 #pragma scheduling off
 

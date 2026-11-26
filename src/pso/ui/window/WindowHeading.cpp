@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <string.h>
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"

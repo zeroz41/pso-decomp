@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

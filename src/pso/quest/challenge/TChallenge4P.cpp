@@ -18,7 +18,7 @@
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_8026A328.h"
+#include "pso/ui/chat/ChatLogLastLine.h"
 #include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TObjPlayer.h"

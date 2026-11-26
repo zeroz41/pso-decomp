@@ -13,7 +13,7 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 #define PSO_SDK_COMPACT_MATH

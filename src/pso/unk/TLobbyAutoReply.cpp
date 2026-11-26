@@ -4,7 +4,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/unk/TLobbyAutoReply.h"
 
 s32 auto_reply_flags;

@@ -32,7 +32,7 @@
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/unk/text_801E3F24.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -46,7 +46,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
-#include "pso/unk/text_80290BE0.h"
+#include "pso/ui/charcreate/FigureRotationReset.h"
 
 
 

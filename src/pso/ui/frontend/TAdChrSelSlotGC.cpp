@@ -27,7 +27,7 @@ NJS_TEXLIST *const chr_sel_slot_texlist_table[6] = { &chr_sel_slot_texlist, &chr
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 #include "pso/render/GinjaTexture.h"
 

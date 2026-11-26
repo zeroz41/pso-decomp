@@ -1,4 +1,4 @@
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/object/door/TODoorCave01.h"
 
@@ -10,13 +10,13 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80160804.h"
+#include "pso/network/ObjectStateSend.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -28,7 +28,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *fs_obj_do_doa01_model_names[] = {"fs_obj_do_doa01.gj", NULL};
 const char *fs_obj_do_doa01_motion_names[] = {"fs_obj_do_doa01.njm", NULL};

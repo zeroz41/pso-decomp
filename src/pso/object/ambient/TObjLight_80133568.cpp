@@ -21,11 +21,11 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -30,11 +30,11 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80156B18.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/network/UpdateObjectStateCmd.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/map/FloorPopulation.h"
 
 

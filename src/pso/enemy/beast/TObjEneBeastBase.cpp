@@ -18,13 +18,13 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 
 
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjCharaHelpers.h"

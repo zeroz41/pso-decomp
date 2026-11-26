@@ -13,8 +13,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/quest/TQuestListOnline.h"
-#include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/system/GameModeQueries.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/network/client_id.h"
 #pragma readonly_strings on
 __declspec(section ".rodata") extern const char message_tag_error[];

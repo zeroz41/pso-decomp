@@ -1,9 +1,9 @@
-// LOBBY's scene hooks in area_initializer_dispatch_table (TLobby_80228154.cpp): cleanup, then init.
+// LOBBY's scene hooks in area_initializer_dispatch_table (FloorTransition.cpp): cleanup, then init.
 #include "pso/map/area/AreaScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80227AA0.h"
+#include "pso/audio/SoundPlayback.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

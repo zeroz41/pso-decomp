@@ -7,7 +7,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 u32 baranz_launcher_create_shot(TItemWeapon *player, s32 pos, s32 dir, f32 life) {
     uaddr model_shot;

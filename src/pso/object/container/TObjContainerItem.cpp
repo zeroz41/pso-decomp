@@ -17,11 +17,11 @@
 #include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjChip.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjContainerCommon.h"
 #include "pso/object/container/TObjContainerBase.h"
@@ -43,7 +43,7 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/object/container/TContainerAncient01.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixOps.h"
 
 

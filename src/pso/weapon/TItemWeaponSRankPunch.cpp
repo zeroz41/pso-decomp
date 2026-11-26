@@ -8,7 +8,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/weapon/TItemAttacker.h"

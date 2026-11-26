@@ -7,7 +7,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 
 #include <stddef.h>
@@ -16,7 +16,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/ui/city/TShopEquipmentSequence.h"
@@ -28,7 +28,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 

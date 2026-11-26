@@ -18,7 +18,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 const NpcCameraDestination fixed_npc_camera_destination_table[20] = {
     {-158.0f, 15.0f, 269.0f, -165.0f, 19.0f, 287.0f},

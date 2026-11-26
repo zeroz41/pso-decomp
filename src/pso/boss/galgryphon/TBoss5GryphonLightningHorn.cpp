@@ -14,7 +14,7 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"

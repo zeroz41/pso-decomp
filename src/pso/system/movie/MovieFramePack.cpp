@@ -7,7 +7,7 @@
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/movie/TMovie.h"
 #include "pso/render/CameraCapture.h"
-#include "pso/unk/text_80320358.h"
+#include "pso/system/RelModule.h"
 
 // Packs a planar 4:2:0 frame into the YUYV external frame buffer, centred,
 // two lines per pass, one cache touch per four words.

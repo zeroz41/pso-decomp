@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/network/NetworkConnect.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/SwitcherLaunch.h"
 #include "pso/network/NetworkSettings.h"

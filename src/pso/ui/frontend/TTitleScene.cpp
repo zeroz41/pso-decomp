@@ -32,7 +32,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/BgmStream.h"
 #include "pso/system/ControllerInput.h"
 
 

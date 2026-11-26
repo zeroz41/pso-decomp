@@ -11,7 +11,7 @@
 #include "pso/ui/city/TShopKeepItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopSequence.h"

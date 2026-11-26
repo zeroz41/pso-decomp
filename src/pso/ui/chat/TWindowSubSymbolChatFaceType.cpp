@@ -11,7 +11,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"

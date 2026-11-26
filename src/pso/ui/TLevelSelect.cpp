@@ -8,7 +8,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"

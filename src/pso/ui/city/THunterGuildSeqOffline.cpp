@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestListOffline.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/item/shop/TShopGenerator.h"
@@ -29,7 +29,7 @@
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_802233F8.h"
+#include "pso/player/OtherPlayersHold.h"
 
 // The quest-list callbacks before the guild sequence proper are built in source order;
 // the rest of the file uses deferred code generation (reverse order in .text).

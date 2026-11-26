@@ -433,7 +433,7 @@ GAME_COMPILER = "GC/2.6"
 # entry is here because a function or data section matches only this way.
 GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str readonly: the string literals of these files sit in .rodata.
-    "pso/unk/TLobby_80103F5C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/item/FloorItemSync.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # The ending credits keep their 8-byte texture list in .data.
     "pso/ui/frontend/TAdEndText.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # pack_movie_frame keeps every named local in one register, recomputes its pad and
@@ -462,7 +462,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/TEffClitical.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/effect/item/TItemEffArmor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/barbaray/TObjBoss7Tunnel.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/unk/TLobby_803382E4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/LoadingInfoIcon.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: its 8-byte leader selection 0x805011D8 sits in .bss, not .sbss.
     "pso/ui/font/TFontSmallTask.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
@@ -505,7 +505,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdEnterSerialAccessGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/city/TShopDeleteItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/unk/TLobby_80207DA8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/map/FloorWaveEvents.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/item/TItemReverseTech.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/hud/TNowLoading.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TItemLoad.cpp's six vtables (0x8049F3F4..0x8049F448) follow its text in
@@ -715,10 +715,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TTitleScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/network/NetworkConnect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # load_area_enemy_set/load_area_object_set reach each .rodata object with their own lis/addi: -pool off.
-    "pso/unk/TLobby_80209524.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    "pso/unk/TLobby_80226C3C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/unk/TLobby_80228818.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/unk/TLobby_800F8AA8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/map/MapSetData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/audio/BgmStream.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/system/TTokenListParse.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/system/MallocLoadFilePrc.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/galgryphon/Boss5CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcNgcBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/object/fence/TOVS2Wall01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -942,7 +942,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # run_task reaches each of its four .rodata initialiser templates with its own lis/addi: -pool off.
     "pso/unk/TAdDialingSelectGC.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # prepare_offline_quest_filenames reaches each language suffix string with its own lis/addi: -pool off.
-    "pso/unk/text_801F3774.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    "pso/quest/QuestFlagCommand.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     "pso/object/warp/TObjWarpBossMulti.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/chat/TWindowSubSymbolChatHelp.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/door/TODoorFourLightSpace.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1142,7 +1142,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TLobby_80228154: its sprite draw keeps the frame size and flag tests only under 1.3.2.
     # -str reuse,readonly: the area names of area_initializer_dispatch_table sit in .rodata right after the
     # unit's double (0x8044C9F0), in table order.
-    "pso/unk/TLobby_80228154.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/map/FloorTransition.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TBoss7DeRolLeC: deferred codegen (its vtable sits before the jump tables in .data).
     "pso/boss/barbaray/TBoss7DeRolLeC.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred")},
     # TBoss7Crawfish: one GC/1.3.2 TU (the five former parts compile identically under 1.3.2, not under 2.6);
@@ -1450,7 +1450,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/quest/TQuestListVM.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-pool off", "-str reuse,readonly")},
     # load_battle_param_entry reaches each .rodata object with its own lis/addi: -pool off.
     "pso/unk/TLobbyAutoReply.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
-    "pso/unk/TLobby_8001D6A0.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    "pso/enemy/BattleParamTables.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # TItemData.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/item/TItemData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # TObjNpcEnemy.cpp reaches each .rodata object with its own lis/addi: -pool off.
@@ -1459,7 +1459,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # order (deferred); every string is in .rodata; draw_volume reaches each colour template with its own lis/addi.
     "pso/object/collision/TObjFogCollision.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-pool off")},
     # TLobby_801F3A24.cpp reaches each .rodata object with its own lis/addi: -pool off.
-    "pso/unk/TLobby_801F3A24.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/quest/QuestFloorDesignation.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # TWindowChatSymbol.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/ui/chat/TWindowChatSymbol.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # TSymbolChatMenu.cpp's ctor reaches each .rodata point with its own lis/addi: -pool off.
@@ -1475,14 +1475,14 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/goldragon/TObjBoss8PillerCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/epsilon/TObjEneEpsilon.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte name tables sit in .data while 4-byte objects sit in .sdata.
-    "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/npc/NightsNpcResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -fp_contract on: fn_80293D84 fuses each hexagon vertex's scale and offset into fmadds; no other
     # function of the unit has an unfused multiply-add. Readonly strings: its class name
     # ("TChCrEffFade", 0x80464EC8) opens its .rodata ahead of its tables, as in TChCrCharSelect.
     "pso/ui/charcreate/TChCrEffFade.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
     # Same as its nights sibling: the chao file names sit in .rodata (0x80479808) and the 8-byte
     # model-name table in .data (0x804F1D00) while the 4-byte resource handle sits in .sbss.
-    "pso/unk/text_8035B6B0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/npc/ChaoNpcSpawn.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # Readonly strings: the class name ("TAdPlyPltAnimCtrlGC", 0x804792C4) sits in .rodata after
     # its threshold table while the unit's .data holds only run_task's switch jump table.
     "pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1590,14 +1590,14 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # -sdata 4: its last .bss object (0x8058D520) is 8 bytes.
         "pso/render/gjSystem.c": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-sdata 4")},
         # Saves registers through _savegpr_N everywhere (no stmw in the unit).
-        "pso/unk/text_803E2D70.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
+        "pso/render/ProjectedStripDraw.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
         "pso/render/ChunkModelDraw.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
     }),
     # mcFsGc ("Ver 1.10.00 Build:Sep 17 2002") with ACCESS's file transfer.
     ("mcfs", 0x803E5668, "GC/1.2.5", cflags_middleware, {
         # Epilogue order (mtlr before the restores) only 1.2.5n produces.
         "pso/ui/keyboard/KBDXfer.c": {"mw_version": "GC/1.2.5n"},
-        "pso/unk/text_803F1804.cpp": {"mw_version": "GC/1.2.5n"},
+        "pso/system/SiPollingCallback.cpp": {"mw_version": "GC/1.2.5n"},
         # Its loops keep base + index offsets instead of walking pointers
         # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.
         # -str reuse,readonly: the version banner and sprintf format strings sit in .rodata.

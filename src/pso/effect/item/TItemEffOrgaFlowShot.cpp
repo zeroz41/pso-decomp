@@ -17,7 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/enemy/TObjEnemyCustom.h"

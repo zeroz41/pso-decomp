@@ -2,14 +2,14 @@
 #include "pso/object/fence/TOFenceBase.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 // TSwitch.h declares is_current_floor_switch_set(u32); these callers saw a
 // u16 id (clrlwi before the call), hence the (u16) below.

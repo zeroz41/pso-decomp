@@ -2,7 +2,7 @@
 
 #include "pso/map/TObjMapCsn.h"
 #include "types.h"
-#include "pso/unk/TLobby_80140FF4.h"
+#include "pso/map/MapCollisionSetup.h"
 
 void TMapCsnCtrl::remove_object(TObjMapCsn *object) {
     remove_group(get_map_collision_group(object));

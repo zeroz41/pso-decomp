@@ -6,7 +6,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"

@@ -7,7 +7,7 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/memory.h"
 
 #include "pso/item/TItemLoad.h"

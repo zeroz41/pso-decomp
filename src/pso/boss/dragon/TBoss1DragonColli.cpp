@@ -13,7 +13,7 @@
 
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #include "types.h"
 
@@ -34,7 +34,7 @@ const char *TBoss1DragonColli::name = "TBoss1DragonColli";
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/ActorCollision.h"
 
 #pragma inline_depth(1)

@@ -17,7 +17,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/hud/TMainCursor.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl.h"

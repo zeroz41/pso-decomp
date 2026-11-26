@@ -19,7 +19,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
@@ -31,8 +31,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/BattleParameters.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 
 const char *boss06_rock_dat_model_names[8] = {

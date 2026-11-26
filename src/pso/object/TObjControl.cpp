@@ -44,7 +44,7 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_800F795C.h"
+#include "pso/enemy/EnemyStateSync.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/render/ChunkMaterialState.h"

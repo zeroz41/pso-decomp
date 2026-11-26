@@ -19,13 +19,13 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_801D84A8.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/WindowLayout.h"
 
 s32 TWindowSubTechnique::category_changed() {

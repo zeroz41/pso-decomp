@@ -7,7 +7,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/door/TODoorAncient07.h"
 #include "pso/render/psoLoadTexture.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -17,7 +17,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *door_ancient06_class_name = "TODoorAncient06";
 

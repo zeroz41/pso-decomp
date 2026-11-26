@@ -3,7 +3,7 @@
 #include "pso/render/DebugFont.h"
 #include "types.h"
 #include "pso/render/GinjaView.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/math/FloatRounding.h"

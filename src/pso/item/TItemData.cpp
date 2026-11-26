@@ -18,7 +18,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/item/TItemData_8010EDA8.h"
-#include "pso/unk/text_80076E84.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
@@ -38,7 +38,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/weapon/TItemAttacker.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 
 extern "C" {

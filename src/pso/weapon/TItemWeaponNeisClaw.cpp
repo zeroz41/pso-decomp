@@ -21,7 +21,7 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"

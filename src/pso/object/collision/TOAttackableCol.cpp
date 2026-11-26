@@ -22,7 +22,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/object/base/TObjCollidable.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 

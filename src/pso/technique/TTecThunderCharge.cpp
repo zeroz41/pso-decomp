@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/technique/TTecThunderCharge.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"

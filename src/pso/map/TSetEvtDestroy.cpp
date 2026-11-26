@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TEnemyTaskList.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/TLobby.h"

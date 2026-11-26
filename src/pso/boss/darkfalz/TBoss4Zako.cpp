@@ -28,7 +28,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma defer_codegen on
 

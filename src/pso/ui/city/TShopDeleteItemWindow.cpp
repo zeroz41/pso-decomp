@@ -24,7 +24,7 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
 

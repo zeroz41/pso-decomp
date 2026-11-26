@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// Scene hooks of area_initializer_dispatch_table (TLobby_80228154.cpp), one source file per area
+// Scene hooks of area_initializer_dispatch_table (FloorTransition.cpp), one source file per area
 // under src/pso/map/area/, linked in the table's alphabetical area order. An init loads its area
 // (0 while a disconnect is pending) and starts the area's bgm; a cleanup releases it.
 s32 init_ancient1_area(void);           // ANCIENT01

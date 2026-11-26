@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 
 char *debug_text_pool_cursor;

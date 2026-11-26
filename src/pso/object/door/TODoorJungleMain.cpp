@@ -7,7 +7,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 
@@ -43,7 +43,7 @@ struct AnimationMotion;
 #include "pso/object/base/TObjCharaHelpers.h"
 
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
@@ -51,7 +51,7 @@ struct AnimationMotion;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/render/GinjaMaterial.h"
 

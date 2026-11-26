@@ -1,6 +1,6 @@
 // ---- pso/unk/text_800A0320
 #include "types.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/player/TObjPlayer.h"
 

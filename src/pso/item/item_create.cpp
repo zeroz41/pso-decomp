@@ -134,7 +134,7 @@
 #include "pso/weapon/TItemWeaponNeisClaw.h"
 #include "pso/weapon/TItemWeaponRikasClaw.h"
 #include "pso/weapon/TItemWeaponSRankKnuckle.h"
-#include "pso/unk/text_80103674.h"
+#include "pso/item/ItemChunkBuffers.h"
 #include "pso/unk/LoadUnloadSet.h"
 #include "pso/item/TItemBuff.h"
 #include "pso/item/item_pmt.h"
@@ -142,7 +142,7 @@
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
-#include "pso/unk/TLobby_80103F5C.h"
+#include "pso/item/FloorItemSync.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/network/protocol/choice_search.h"
@@ -212,7 +212,7 @@
 #include "pso/weapon/TItemWeaponSRankGun.h"
 #include "pso/weapon/TItemWeaponSRankHarisen.h"
 #include "pso/weapon/TItemWeaponTwinkleStar.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 
 // ---- TLobby_80104374.cpp
 

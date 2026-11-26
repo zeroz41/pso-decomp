@@ -4,14 +4,14 @@
 
 #include "types.h"
 #include <stdlib.h>
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/system/BmlResource.h"
 

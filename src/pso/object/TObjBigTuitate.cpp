@@ -5,11 +5,11 @@
 #include "pso/object/TObjBigTuitate.h"
 #include "pso/object/TObjTuitate.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
@@ -23,7 +23,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 

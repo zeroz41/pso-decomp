@@ -8,7 +8,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -20,7 +20,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/unk/TLobby_800FD78C.h"
 

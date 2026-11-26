@@ -9,7 +9,7 @@
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_801C4F80.h"
+#include "pso/network/BattleModeDataCmd.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
@@ -59,7 +59,7 @@
 #include <dolphin/os/OSTime.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/unk/TLobby_80103F5C.h"
+#include "pso/item/FloorItemSync.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 

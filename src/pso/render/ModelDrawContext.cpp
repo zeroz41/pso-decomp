@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/MatrixStack.h"

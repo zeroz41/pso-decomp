@@ -7,10 +7,10 @@
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/npc/TObjNpcMoja.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -22,7 +22,7 @@
 #include "pso/enemy/moja/TObjEneMoja.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaTextureMatrices.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 
 TObjMotionAction moja_action_table[2] = {

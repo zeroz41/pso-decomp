@@ -49,7 +49,7 @@
 
 #include "pso/player/TObjPlayer.h"
 
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 
 #include "pso/map/FloorArea.h"
 
@@ -64,23 +64,23 @@
 
 #include "pso/render/DebugFont.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 
 s32 city_main_warp_enabled_destinations;

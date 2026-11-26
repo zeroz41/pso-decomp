@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"

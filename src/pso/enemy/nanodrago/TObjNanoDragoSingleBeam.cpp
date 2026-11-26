@@ -24,7 +24,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixVector.h"
 

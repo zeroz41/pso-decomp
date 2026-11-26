@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/unk/text_8026934C.h"
+#include "pso/ui/window/MesetaWindowCreate.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDeposit.h"
 #include "pso/ui/window/TWindowMeseta.h"
@@ -22,8 +22,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/system/GameModeQueries.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -35,7 +35,7 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/shop/ShopItemSort.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on

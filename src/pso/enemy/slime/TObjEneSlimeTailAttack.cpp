@@ -21,12 +21,12 @@ struct NJS_OBJECT;
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
 #include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/system/vector.h"
@@ -39,7 +39,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -206,7 +206,7 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 // ---- folded from src/pso/enemy/TObjEneSlime.cpp ----
 
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
 
 

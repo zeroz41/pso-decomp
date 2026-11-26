@@ -13,11 +13,11 @@
 #include "pso/system/memory.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/BgmStream.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_80320358.h"
+#include "pso/system/RelModule.h"
 #include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 

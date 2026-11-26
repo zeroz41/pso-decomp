@@ -20,7 +20,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

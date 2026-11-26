@@ -15,7 +15,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 

@@ -7,7 +7,7 @@
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -24,7 +24,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -41,7 +41,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 

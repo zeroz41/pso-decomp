@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/unk/text_80299420.h"
 #include "pso/object/TObjPathObj.h"
 

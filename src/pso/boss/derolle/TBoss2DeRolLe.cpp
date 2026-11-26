@@ -51,14 +51,14 @@ struct NJS_OBJECT;
 
 #include "pso/boss/derolle/TBoss2MotionProfile.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/math/AngleLookup.h"
 
 
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -124,7 +124,7 @@ struct NJS_OBJECT;
 
 #include "pso/ui/window/TWindowCtrl.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/math/AngleUnits.h"
 

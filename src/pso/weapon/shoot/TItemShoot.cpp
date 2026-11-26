@@ -35,7 +35,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 // The task layers (TMainTask.h), tl_07 read-only: the gun shot's constructor

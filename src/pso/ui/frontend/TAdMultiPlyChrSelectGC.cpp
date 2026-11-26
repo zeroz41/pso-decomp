@@ -31,7 +31,7 @@
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include <stdio.h>

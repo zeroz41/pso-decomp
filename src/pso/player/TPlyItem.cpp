@@ -8,7 +8,7 @@
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"

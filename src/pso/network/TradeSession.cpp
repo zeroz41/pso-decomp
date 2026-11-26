@@ -1,5 +1,5 @@
 #include "pso/player/TPlyDispData.h"
-#include "pso/unk/TLobby_80228C84.h"
+#include "pso/player/PlayerStatusRefresh.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -15,7 +15,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
-#include "pso/unk/TLobby_802D3970.h"
+#include "pso/network/TradeProposalCmd.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
@@ -32,7 +32,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 void TWindowTradeRequest::reset_trade() {
     if ((s32) trade_proposal_state == 2) {

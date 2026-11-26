@@ -36,7 +36,7 @@
 
 #include "pso/network/TLobby.h"
 
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 #include "pso/system/NinjaTypes.h"

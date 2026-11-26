@@ -6,7 +6,7 @@
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/object/base/TObjMotion.h"
@@ -20,13 +20,13 @@
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 __declspec(section ".rodata") char TBoss6RockChase::class_name_string[] = "TBoss6RockChase";
 extern const TBoss6RockChaseKind boss6_rock_chase_model_radius_table[2];

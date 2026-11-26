@@ -27,7 +27,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/ObjectSetData.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/ActorCollision.h"
 
 #include "pso/map/FloorArea.h"
@@ -36,7 +36,7 @@
 
 #include "pso/render/DebugFont.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/object/base/TObjMapObject.h"
@@ -51,7 +51,7 @@
 
 #include "pso/npc/TObjNpcEnemy.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/network/client_id.h"
 #include "pso/object/switch/TSwitch.h"

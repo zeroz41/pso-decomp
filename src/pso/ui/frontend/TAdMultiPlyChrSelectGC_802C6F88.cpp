@@ -1,6 +1,6 @@
 #include "types.h"
 #include <stddef.h>
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"

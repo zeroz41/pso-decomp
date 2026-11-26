@@ -8,7 +8,7 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/Language.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 

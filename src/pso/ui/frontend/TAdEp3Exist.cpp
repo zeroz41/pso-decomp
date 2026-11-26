@@ -19,7 +19,7 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/MenuText.h"
 

@@ -15,7 +15,7 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-// Defined in text_801D9870.cpp, which has no header yet.
+// Defined in CastTechniqueLevel.cpp, which has no header yet.
 u8 get_cast_technique_level(void *levels, s16 technique);
 }
 

@@ -11,7 +11,7 @@
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"

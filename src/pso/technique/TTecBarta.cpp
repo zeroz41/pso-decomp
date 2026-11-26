@@ -17,7 +17,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"

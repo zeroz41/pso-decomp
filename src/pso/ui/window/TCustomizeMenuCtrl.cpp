@@ -8,8 +8,8 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/unk/text_80076E84.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TCustomizeMenuCtrl.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -27,7 +27,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 extern "C" {

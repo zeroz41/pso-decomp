@@ -9,7 +9,7 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/ui/charcreate/CharacterCreationTextureCache.h"
@@ -31,7 +31,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
 
 extern "C" {

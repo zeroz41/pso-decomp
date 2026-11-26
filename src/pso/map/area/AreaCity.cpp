@@ -1,9 +1,9 @@
-// CITY's (and LABO's) scene hooks in area_initializer_dispatch_table (TLobby_80228154.cpp): cleanup, then init.
+// CITY's (and LABO's) scene hooks in area_initializer_dispatch_table (FloorTransition.cpp): cleanup, then init.
 #include "pso/map/area/AreaScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80227AA0.h"
+#include "pso/audio/SoundPlayback.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/item/shop/ShopArmorStock.h"
 #include "pso/item/shop/ShopToolStock.h"
@@ -18,8 +18,8 @@
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/unk/TLobby_80207DA8.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/map/FloorWaveEvents.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/object/city/CitySeasonResources.h"

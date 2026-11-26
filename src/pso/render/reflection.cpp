@@ -10,7 +10,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/reflection.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/memory.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
@@ -20,7 +20,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/render/FloorReflection.h"
@@ -42,7 +42,7 @@ static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGe
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 s32 is_central_control_area() {
     if ((get_current_floor_area() == AREA_SEABED_UPPER) || (get_current_floor_area() == AREA_SEABED_LOWER) || (get_current_floor_area() == AREA_BARBA_RAY) || (get_current_floor_area() == AREA_OLGA_FLOW)) {

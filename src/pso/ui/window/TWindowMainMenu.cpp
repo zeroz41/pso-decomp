@@ -30,7 +30,7 @@ struct TWindowSubItem;
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/unk/TWindowStatusCategoryMenu.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/window/TWindowSubEquip.h"

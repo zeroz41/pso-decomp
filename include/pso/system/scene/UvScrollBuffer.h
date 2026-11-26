@@ -2,7 +2,7 @@
 #define PSO_SYSTEM_SCENE_UVSCROLLBUFFER_H
 
 #include "types.h"
-#include "pso/unk/text_803279CC.h"
+#include "pso/render/ScrolledStripCount.h"
 
 struct NJS_OBJECT;
 struct GinjaVertexArray;

@@ -1,10 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
-#include "pso/unk/text_8026A14C.h"
+#include "pso/ui/chat/ChatLogText.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInputState.h"
 

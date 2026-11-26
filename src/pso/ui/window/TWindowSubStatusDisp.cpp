@@ -6,7 +6,7 @@
 #include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/ChallengeRank.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
@@ -21,7 +21,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_8026C664.h"
+#include "pso/ui/window/ListPageIndicator.h"
 #include "pso/player/PlayerRequirementStats.h"
 
 const char *TWindowSubStatusDisp::class_name = "TWindowSubStatusDisp";
@@ -192,7 +192,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 #include "types.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowComCard.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 // list type of page_indicator per page: the page-flip list kind passed to reset_list_page_indicator

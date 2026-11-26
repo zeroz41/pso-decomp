@@ -71,7 +71,7 @@ struct NJS_OBJECT;
 
 #include "pso/ui/window/TWindowCtrl.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/player/TObjPlayer.h"
 
@@ -104,7 +104,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/math/AngleLookup.h"
 
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/object/base/TObjChara.h"

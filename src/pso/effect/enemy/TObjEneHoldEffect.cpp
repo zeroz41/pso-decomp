@@ -9,7 +9,7 @@
 
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"

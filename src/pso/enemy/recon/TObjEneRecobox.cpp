@@ -12,9 +12,9 @@
 #include "pso/object/base/TObjMotion.h"
 
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
 #include "pso/system/vector.h"
 
@@ -34,11 +34,11 @@
 
 #include "pso/render/RenderFadeState.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/player/TObjPlayer.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 

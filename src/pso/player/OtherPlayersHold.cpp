@@ -1,0 +1,47 @@
+#include "pso/player/PlayerSlots.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "types.h"
+#include "pso/player/OtherPlayersHold.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/network/TLobby.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/PlayerSlots.h"
+
+void release_other_players_hold(TObject *caller) {
+    u16 self_slot;
+    s32 i;
+    TObjPlayer *p;
+    if (TRaderMapCore::is_not_split_screen() == 1) {
+        self_slot = TCameraCtrl::get_nth_view_player_id(0);
+        for (i = 0; i < 4; i++) {
+            if (self_slot != i) {
+                p = get_player_by_client_id(i);
+                if (p != NULL && p->check_player_flag1() != 0) {
+                    send_release_hold(p);
+                    TWindowCtrl::enable_client_main_menu(p->get_entity_id());
+                }
+            }
+        }
+    }
+}
+void impose_other_players_hold(TObject *caller) {
+    u16 self_slot;
+    s32 i;
+    TObjPlayer *p;
+    if (TRaderMapCore::is_not_split_screen() == 1) {
+        self_slot = TCameraCtrl::get_nth_view_player_id(0);
+        for (i = 0; i < 4; i++) {
+            if (self_slot != i) {
+                p = get_player_by_client_id(i);
+                if (p != NULL && p->check_player_flag1() == 0) {
+                    send_impose_hold(p, -1);
+                    TWindowCtrl::disable_client_main_menu(p->get_entity_id());
+                }
+            }
+        }
+    }
+}

@@ -1,6 +1,6 @@
 #include "pso/system/TLanguage.h"
 #include "types.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/TLevelSelect.h"

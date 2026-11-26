@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *TFontSmallLobby_class_name = "TFontSmallLobby";
 

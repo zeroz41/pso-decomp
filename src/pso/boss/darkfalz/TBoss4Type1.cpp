@@ -20,8 +20,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/TextureState.h"
 
 
 #include <stddef.h>
@@ -50,7 +50,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"

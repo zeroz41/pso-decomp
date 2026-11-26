@@ -2,7 +2,7 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/mine/TOCapsuleMachine01.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -10,7 +10,7 @@
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/unk/TLobby_800FD78C.h"
 
 // The game's frame counter (main's .sbss; no module header owns it yet).

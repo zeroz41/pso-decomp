@@ -14,7 +14,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/technique/TTecShot.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"

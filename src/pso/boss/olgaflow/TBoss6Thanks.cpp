@@ -4,14 +4,14 @@
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/quest/QuestStoryFlags.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
 
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"

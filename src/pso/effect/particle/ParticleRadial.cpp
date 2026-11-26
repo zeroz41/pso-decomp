@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSprite.h"
 #include "pso/effect/particle/ParticleRadial.h"
@@ -29,14 +29,14 @@
 
 #include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyMachine01.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 

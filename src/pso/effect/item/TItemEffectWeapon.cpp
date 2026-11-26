@@ -11,7 +11,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/render/GinjaDrawUtil.h"

@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_FLOOR_MAP_NAMES_H
 #define PSO_UNK_FLOOR_MAP_NAMES_H
 
-// The map file names of each floor, defined in TLobby_80207644.cpp.
+// The map file names of each floor, defined in FloorMapSelection.cpp.
 extern const char floor_map_name_acity00[];
 extern const char floor_map_name_acity00_00[];
 extern const char floor_map_name_aforest01[];

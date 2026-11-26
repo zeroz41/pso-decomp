@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowMenu.h"

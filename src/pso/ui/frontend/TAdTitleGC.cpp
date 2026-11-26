@@ -6,7 +6,7 @@
 #include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -15,7 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 // The title banner textures: English (title_midashi_texnames_eng/78) and Japanese (title_midashi_texnames/98) name lists and texlists.
 NJS_TEXNAME title_midashi_texnames_eng[2] = { { "f512_midashi_eng", 0, 0 }, { "f512_midashi_eng_b", 0, 0 } };

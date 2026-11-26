@@ -10,7 +10,7 @@
 #include "pso/system/scene/TEnding.h"
 #include "pso/render/GinjaView.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/BgmStream.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/text_800F9B84.h"

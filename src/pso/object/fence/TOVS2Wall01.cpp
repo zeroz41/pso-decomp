@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
@@ -14,7 +14,7 @@
 #include "pso/object/fence/TOVS2WallResources.h"
 
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TOVS2Wreck06.h"
 #include "pso/object/TOVS2Wreck05.h"
@@ -26,7 +26,7 @@
 #include "pso/render/GinjaModel.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/TOVS2.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
@@ -42,7 +42,7 @@
 
 #include "pso/system/SoundEffect.h"
 #include "pso/object/fence/WallHitPacket.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 

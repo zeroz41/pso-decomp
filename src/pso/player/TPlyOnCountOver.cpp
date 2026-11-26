@@ -51,7 +51,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 
 #undef get_player_by_client_id
@@ -74,7 +74,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/effect/TEffect.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjCharaHelpers.h"

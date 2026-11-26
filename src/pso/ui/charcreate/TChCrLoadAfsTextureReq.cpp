@@ -13,7 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/math/FloatRounding.h"

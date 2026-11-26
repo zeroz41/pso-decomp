@@ -1,11 +1,11 @@
-// BOSS05's scene hooks in area_initializer_dispatch_table (TLobby_80228154.cpp): cleanup, then init.
+// BOSS05's scene hooks in area_initializer_dispatch_table (FloorTransition.cpp): cleanup, then init.
 #include "pso/map/area/AreaScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80227AA0.h"
+#include "pso/audio/SoundPlayback.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/BgmStream.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"

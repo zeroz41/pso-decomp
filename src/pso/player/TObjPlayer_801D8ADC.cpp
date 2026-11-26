@@ -25,7 +25,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 
 // Photon blast motion frames of one weapon handle.

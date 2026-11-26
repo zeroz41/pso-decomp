@@ -8,7 +8,7 @@
 #include "pso/enemy/deldepth/TObjEneDelDepth.h"
 #include "pso/enemy/deldepth/TObjEneDelDepthBomb.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 
 struct DelDepthMotionBinding { s32 motion; f32 speed; };

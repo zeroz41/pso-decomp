@@ -2,7 +2,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"

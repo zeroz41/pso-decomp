@@ -8,7 +8,7 @@
 #include "pso/system/vector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 

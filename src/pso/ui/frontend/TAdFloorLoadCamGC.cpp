@@ -5,7 +5,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/quest/challenge/TChallenge4PResult.h"

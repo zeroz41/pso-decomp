@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/TObjMapCsn.h"
@@ -7,7 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 

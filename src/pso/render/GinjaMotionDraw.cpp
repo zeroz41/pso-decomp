@@ -1,5 +1,5 @@
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"

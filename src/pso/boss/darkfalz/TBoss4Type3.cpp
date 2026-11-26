@@ -22,18 +22,18 @@
 #include "pso/enemy/BattleParameters.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 
 extern const char TObjBs4CutAtk_type_name[] = "TObjBs4CutAtk";

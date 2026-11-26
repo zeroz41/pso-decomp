@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCost.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"

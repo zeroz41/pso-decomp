@@ -26,7 +26,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/gjSystem.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/AsyncFileRead.h"

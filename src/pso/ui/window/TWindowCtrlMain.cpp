@@ -23,7 +23,7 @@
 #include "pso/unk/WindowControlState.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -39,7 +39,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/unk/text_80269FE8.h"
+#include "pso/ui/window/MessageInformationWindow.h"
 #include "pso/ui/window/TWindowStatus.h"
 
 #include "pso/ui/window/TWindowDD.h"

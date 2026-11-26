@@ -33,10 +33,10 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/math/MatrixReflect.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
 
@@ -134,7 +134,7 @@ inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjControl.h"
 

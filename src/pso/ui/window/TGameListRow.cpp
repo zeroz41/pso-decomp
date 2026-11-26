@@ -2,7 +2,7 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TGameListRow.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/system/memory.h"

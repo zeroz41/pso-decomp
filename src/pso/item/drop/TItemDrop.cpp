@@ -20,7 +20,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/LoadUnloadSet.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/GslArchive.h"

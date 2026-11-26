@@ -7,7 +7,7 @@
 #include "pso/system/memory.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/system/BmlResource.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

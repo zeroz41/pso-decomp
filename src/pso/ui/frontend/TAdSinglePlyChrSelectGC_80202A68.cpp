@@ -1,7 +1,7 @@
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/TProtocol.h"

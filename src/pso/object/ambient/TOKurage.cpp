@@ -6,7 +6,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/ambient/TOKurage.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaDrawUtil.h"
@@ -21,8 +21,8 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 
 const char *bm_fs_obj_kurage_model_names[] = {"fs_obj_kurage.nj", NULL};
 const char *bm_fs_obj_kurage_motion_names[] = {"fs_obj_kurage.njm", "fs_obj_kurage.njs", NULL};

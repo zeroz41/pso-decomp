@@ -13,7 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/system/vector.h"
 #include "pso/ui/TLevelSelect.h"
@@ -27,13 +27,13 @@
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/client_id.h"
 #include <stdlib.h>
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 
 BmlResource *fish_area_bml_resource;

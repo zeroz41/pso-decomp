@@ -1,7 +1,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/city/TShopSequence.h"
 

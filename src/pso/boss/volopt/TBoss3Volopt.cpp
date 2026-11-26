@@ -29,7 +29,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/BgmStream.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -49,7 +49,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include <stdlib.h>
 #include "pso/object/base/TObjChara.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/TObjEnemyCustom.h"

@@ -19,15 +19,15 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/text_80290B3C.h"
-#include "pso/unk/text_80290BE0.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/DataBlockRelocation.h"
+#include "pso/ui/charcreate/FigureRotationReset.h"
+#include "pso/math/MatrixReflect.h"
 
 
 

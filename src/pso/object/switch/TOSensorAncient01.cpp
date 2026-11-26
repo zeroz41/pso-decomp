@@ -5,7 +5,7 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TOSensorAncient01.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -13,7 +13,7 @@
 #include "pso/render/GinjaModel.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *bm_fs_obj_o_sensor01_model_names[] = {"fs_obj_o_sensor01.gj", NULL};
 const char *bm_fs_obj_o_sensor01_motion_names[] = {"fe_obj_o_sensor01.njm", NULL};
