@@ -49,14 +49,14 @@ void TTecShot::dispatch_all_technique_contacts() {
         queue_destruction();
         return;
     }
-    if ((u16) ((TObjBase *)source)->get_entity_id() < 4U) {
+    if ((u16) source->get_entity_id() < 4U) {
         if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
-            list = (TechniqueContactList *) query_technique_player_contacts(source);
+            list = query_technique_player_contacts(source);
         } else {
-            list = (TechniqueContactList *) query_technique_enemy_contacts(source);
+            list = query_technique_enemy_contacts(source);
         }
     } else {
-        list = (TechniqueContactList *) query_technique_player_contacts(source);
+        list = query_technique_player_contacts(source);
     }
     if (list == NULL) {
         this->vfunc_6();
@@ -80,14 +80,14 @@ void TTecShot::dispatch_technique_contact(s32) {
         queue_destruction();
         return;
     }
-    if ((u16) ((TObjBase *)source)->get_entity_id() < 4U) {
+    if ((u16) source->get_entity_id() < 4U) {
         if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
-            list = (TechniqueContactList *) query_technique_player_contacts(source);
+            list = query_technique_player_contacts(source);
         } else {
-            list = (TechniqueContactList *) query_technique_enemy_contacts(source);
+            list = query_technique_enemy_contacts(source);
         }
     } else {
-        list = (TechniqueContactList *) query_technique_player_contacts(source);
+        list = query_technique_player_contacts(source);
     }
     if (list == NULL) {
         this->vfunc_6();
@@ -103,14 +103,14 @@ void TTecShot::dispatch_technique_contact(s32) {
     }
 }
 
-TTecReverser::TTecReverser(saddr owner, saddr origin, saddr targets, saddr level) : TTecCircle(owner, origin, level) {
+TTecReverser::TTecReverser(TObjBase *owner, Vec *origin, TargetCursorList *targets, s32 level) : TTecCircle(owner, origin, level) {
     this->m_name = lbl_805D3818;
     this->params.copy(&technique_param_table[17]);
     this->apply_params(&this->params, level);
-    copy_technique_target_list(&this->targets, (TargetCursorList *)targets);
+    copy_technique_target_list(&this->targets, targets);
     play_sound_effect(0x4002A812, &position, 0, 0);
-    if (this->source != 0U) {
-        this->sourceId = ((TObjBase *)(saddr)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        this->sourceId = this->source->get_entity_id();
     }
 }
 
@@ -118,14 +118,14 @@ TTecReverser::~TTecReverser() {
 
 }
 
-void TTecReverser::create(void *source, void *origin, void *targets, s32 level) {
-    new TTecReverser((saddr)source, (saddr)origin, (saddr)targets, level);
+void TTecReverser::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecReverser(source, origin, targets, level);
 }
 
 void TTecReverser::run_task() {
     uaddr entity;
-    source = (uaddr)find_entity_by_id(sourceId);
-    if (source == 0) {
+    source = find_entity_by_id(sourceId);
+    if (source == NULL) {
         queue_destruction();
         return;
     }

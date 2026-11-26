@@ -50,7 +50,7 @@ static const u8 orbit_counts[6] = {1, 1, 1, 2, 2, 3};
 
 void TTecGiFoie::render() {  }
 
-TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
+TTecGiFoie::TTecGiFoie(TObjBase *source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 i;
     s32 j;
     s32 k;
@@ -117,7 +117,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
         break;
     }
     if (this->source != NULL) {
-        this->sourceId = ((TObjBase *)this->source)->get_entity_id();
+        this->sourceId = this->source->get_entity_id();
     }
 }
 
@@ -131,8 +131,8 @@ void TTecGiFoie::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
-    if (this->source == 0) {
+    this->source = find_entity_by_id(this->sourceId);
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
@@ -175,12 +175,12 @@ void TTecGiFoie::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 1;
         hit.power = params.power;
-        target->receive_direct_attack((TObjBase *)source, hit, contact, 1, -1);
+        target->receive_direct_attack(source, hit, contact, 1, -1);
     }
 }
 
-void TTecGiFoie::create(void *source, void *origin, s32 level) {
-    new TTecGiFoie((saddr)source, (Vec *)origin, level);
+void TTecGiFoie::create(TObjBase *source, Vec *origin, s32 level) {
+    new TTecGiFoie(source, origin, level);
 }
 
 TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single) : TObject(parent) {

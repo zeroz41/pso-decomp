@@ -21,8 +21,8 @@
 
 const char *TTecZarua::name = "TTecZarua";
 
-void TTecZarua::create_instance(void *caster, Vec *pos, TargetCursorList *targets, s32 level) {
-    new TTecZarua((saddr)caster, pos, targets, level);
+void TTecZarua::create_instance(TObjBase *caster, Vec *pos, TargetCursorList *targets, s32 level) {
+    new TTecZarua(caster, pos, targets, level);
 }
 
 
@@ -36,10 +36,10 @@ void TTecZarua::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0xc;
     hit.power = this->params.power;
-    target->receive_direct_attack((TObjBase *)this->source, hit, this->contact, 0xc, -1);
+    target->receive_direct_attack(this->source, hit, this->contact, 0xc, -1);
 }
 
-void TTecZarua::create_instance(saddr source, Vec *pos, Vec *target, saddr level) {
+void TTecZarua::create_instance(TObjBase *source, Vec *pos, Vec *target, s32 level) {
     new TTecZarua(source, pos, target, level);
 }
 void TTecZarua::render() {  }
@@ -47,8 +47,8 @@ void TTecZarua::render() {  }
 void TTecZarua::run_task() {
     s32 i;
     uaddr id;
-    source = (uaddr)find_entity_by_id(sourceId);
-    if (source == 0) {
+    source = find_entity_by_id(sourceId);
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -69,7 +69,7 @@ TTecZarua::~TTecZarua() {
 
 }
 
-TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TTecCircle(source, (saddr)pos, level) {
+TTecZarua::TTecZarua(TObjBase *source, Vec *pos, TargetCursorList *list, s32 level) : TTecCircle(source, pos, level) {
     s32 r;
     m_name = TTecZarua::name;
     has_targets = 1;
@@ -99,12 +99,12 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         }
         break;
     }
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
 }
 
-TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
+TTecZarua::TTecZarua(TObjBase *source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
     s32 r;
     m_name = TTecZarua::name;
     has_targets = 0;
@@ -133,7 +133,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         }
         break;
     }
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
 }

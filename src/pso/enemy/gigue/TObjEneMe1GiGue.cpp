@@ -740,7 +740,7 @@ void TObjEneMe1GiGue::update_technique_state() {
             if (frame >= 10.0f) {
                 capture_shot_origins();
                 state = 3;
-                TTecZarua::create_instance((saddr)this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
+                TTecZarua::create_instance(this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
                 TTecJelin::create(this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
             }
             break;

@@ -498,9 +498,9 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     switch (technique_type) {
                     case 1:
                         if (r < attack_params->get_attack_angle() / 2 && current_target != 0) {
-                            TTecMegid::create((saddr)this, (saddr)&p, (saddr)&destination, (s32)(get_clamped_level()));
+                            TTecMegid::create(this, &p, &destination, (s32)(get_clamped_level()));
                         } else {
-                            TTecMegid::create_ex((saddr)this, (saddr)&p, rotation_y, (s32)(get_clamped_level()));
+                            TTecMegid::create_ex(this, &p, rotation_y, (s32)(get_clamped_level()));
                         }
                         play_sound_effect(0x4002A60B, &p, 0, 0);
                         break;

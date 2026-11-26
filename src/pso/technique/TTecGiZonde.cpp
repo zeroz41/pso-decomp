@@ -43,7 +43,7 @@ void TTecGiZonde::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 3;
     hit.power = this->params.power;
-    target->receive_direct_attack((TObjBase *)this->source, hit, 0, 7, -1);
+    target->receive_direct_attack(this->source, hit, 0, 7, -1);
 }
 
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)
@@ -157,8 +157,8 @@ s32 TTecGiZonde::find_chain_targets() {
     return 1;
 }
 
-void TTecGiZonde::create(void *caster, Vec *pos, void *targets, s32 level) {
-    new TTecGiZonde((saddr)caster, pos, targets, level);
+void TTecGiZonde::create(TObjBase *caster, Vec *pos, TargetCursorList *targets, s32 level) {
+    new TTecGiZonde(caster, pos, targets, level);
 }
 
 TTecGiZonde::~TTecGiZonde() {}
@@ -175,8 +175,8 @@ void TTecGiZonde::deliver_chain_hits() {
 }
 
 void TTecGiZonde::run_task() {
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
-    if ((u32) this->source == 0U) {
+    this->source = find_entity_by_id(this->sourceId);
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
@@ -190,11 +190,11 @@ void TTecGiZonde::run_task() {
     queue_destruction();
 }
 // The chain starts at `pos` with no facing (angle 0).
-TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TTecShot(source, pos, 0, level) {
+TTecGiZonde::TTecGiZonde(TObjBase *source, Vec *pos, TargetCursorList *targets, s32 level) : TTecShot(source, pos, 0, level) {
     s32 h;
     m_name = TTecGiZonde_name_ref;
     init_parameters();
-    copy_technique_target_list(&this->targetList, (TargetCursorList *)targets);
+    copy_technique_target_list(&this->targetList, targets);
     switch (band) {
     case 0:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
@@ -221,7 +221,7 @@ TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TTe
         }
         break;
     }
-    if (this->source != 0U) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
 }

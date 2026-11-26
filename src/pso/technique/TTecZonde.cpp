@@ -35,15 +35,15 @@ void TTecZonde::init_parameters() {
 
 
 
-void TTecZonde::create(void *source, void *origin, void *targets, s32 level) {
-    new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
+void TTecZonde::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecZonde(source, origin, targets, level);
 }
 void TTecZonde::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 3;
     hit.power = this->params.power;
     if (static_cast<TObjEneBeastBase *>(target)->test_elt_flag(0, 0x80) == 0) {
-        target->receive_direct_attack((TObjBase *)source, hit, 0, 6, -1);
+        target->receive_direct_attack(source, hit, 0, 6, -1);
     }
 }
 
@@ -79,8 +79,8 @@ void TTecZonde::run_task() {
     TObjChara *t;
     f32 scale;
 
-    source = (uaddr)find_entity_by_id(sourceId);
-    if (source == 0) {
+    source = find_entity_by_id(sourceId);
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -185,11 +185,11 @@ void TTecZonde::run_task() {
 }
 
 #pragma pop
-TTecZonde::TTecZonde(s32 source, u8 *origin, u8 *target_list, s32 level) : TTecShot(source, (Vec *)origin, 0, level) {
+TTecZonde::TTecZonde(TObjBase *source, Vec *origin, TargetCursorList *target_list, s32 level) : TTecShot(source, origin, 0, level) {
     m_name = lbl_805D3838;
     init_parameters();
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)(saddr)this->source)->get_entity_id();
+    copy_technique_target_list(&targets, target_list);
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
 }

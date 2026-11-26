@@ -10,7 +10,7 @@
 extern "C" {
 
 void TItemWeaponDragonsClaw::emit_marker_effects() {
-    s32 origin;
+    Vec origin;
     TObjPlayer *owner;
 
     if (is_mode_two_and_ready() != 0) {

@@ -31,7 +31,7 @@ LAYOUT_ASSERT(TTecGiFoieFlame_size, sizeof(TTecGiFoieFlame) == 0x4C);
 
 struct TTecGiFoie : public TTecCircle {
     static const char *name;
-    TTecGiFoie(saddr source, Vec *origin, s32 level);
+    TTecGiFoie(TObjBase *source, Vec *origin, s32 level);
     virtual ~TTecGiFoie();
     virtual void apply_to_target(TObjChara *);
     virtual void run_task();
@@ -39,7 +39,7 @@ struct TTecGiFoie : public TTecCircle {
     u16 hitIds[32];            // entity ids apply_to_target has already hit
     s32 hitCursor;
     void calc_params();
-    static void create(void *source, void *origin, s32 level);
+    static void create(TObjBase *source, Vec *origin, s32 level);
     virtual void render();
 };
 

@@ -4155,7 +4155,7 @@ void qst_op_pos_pipe(u8 regs) {
     point.x = (f32)qst_registers[i++];
     point.y = (f32)qst_registers[i++];
     point.z = (f32)qst_registers[i++];
-    TTecLuker::create_for_player((int)((u16)qst_registers[i]), (saddr)&point);
+    TTecLuker::create_for_player((int)((u16)qst_registers[i]), &point);
 }
 
 void qst_op_create_pipe(void) {

@@ -11,13 +11,13 @@
 
 extern "C" {
 void TItemWeaponMagicalPiece::emit_marker_effects() {
-    u8 pos[12];
+    Vec pos;
     CapturedTargetList *st;
-    get_joint_position(2, pos);
-    spawn_particle_effect((const Vec *)pos, 0x1BE);
-    get_joint_position(3, pos);
-    spawn_particle_effect((const Vec *)pos, 0x1BE);
-    get_joint_position(0, pos);
+    get_joint_position(2, &pos);
+    spawn_particle_effect(&pos, 0x1BE);
+    get_joint_position(3, &pos);
+    spawn_particle_effect(&pos, 0x1BE);
+    get_joint_position(0, &pos);
     if (owner->is_status_subsystem_ready() == 2) {
         if (is_identified() == 1) {
             st = owner->get_extended_state();
@@ -27,7 +27,7 @@ void TItemWeaponMagicalPiece::emit_marker_effects() {
                 targets.count = 1;
                 targets.records[0].id = e->get_uid();
                 targets.records[0].flag = e->get_captured_target_collider_index();
-                TTecZonde::create(owner, pos, &targets, 3);
+                TTecZonde::create(owner, &pos, &targets, 3);
             }
         }
     } else {

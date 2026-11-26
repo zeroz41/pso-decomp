@@ -294,7 +294,7 @@ void TTecRaFoie::apply_to_target(TObjChara *target) {
     DirectAttackPayload attack;
     attack.kind = 1;
     attack.power = params.power;
-    target->receive_direct_attack((TObjBase *)source, attack, contact, 2, -1);
+    target->receive_direct_attack(source, attack, contact, 2, -1);
 }
 
 void TTecRaFoie::render() {  }
@@ -305,8 +305,8 @@ void TTecRaFoie::run_task() {
         queue_destruction();
         return;
     }
-    source = (uaddr)find_entity_by_id(sourceId);
-    if (source == 0) {
+    source = find_entity_by_id(sourceId);
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -368,12 +368,12 @@ void TTecRaFoie::update_detonation(void *pos) {
     queue_destruction();
 }
 
-void TTecRaFoie::create(TObject *source, Vec *origin, Vec *pos, s32 level) {
-    new TTecRaFoie((saddr)source, origin, pos, level);
+void TTecRaFoie::create(TObjBase *source, Vec *origin, Vec *pos, s32 level) {
+    new TTecRaFoie(source, origin, pos, level);
 }
 
-void TTecRaFoie::create_ex(void *source, void *origin, void *targets, s32 level) {
-    new TTecRaFoie((saddr)source, (Vec *)origin, (TargetCursorList *)targets, level);
+void TTecRaFoie::create_ex(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecRaFoie(source, origin, targets, level);
 }
 
 TTecRaFoie::~TTecRaFoie() {
@@ -382,7 +382,7 @@ TTecRaFoie::~TTecRaFoie() {
 
 #pragma push
 #pragma opt_common_subs off
-TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
+TTecRaFoie::TTecRaFoie(TObjBase *source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     clear_target_cursor_list(&m_targets);
@@ -390,21 +390,21 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;
     }
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
     spawn_effects(0);
     play_cast_sound();
 }
 #pragma pop
 
-TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 level) : TTecCircle(source, origin, origin, level) {
+TTecRaFoie::TTecRaFoie(TObjBase *source, Vec *origin, TargetCursorList *list, s32 level) : TTecCircle(source, origin, origin, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     m_148 = 0;
     copy_technique_target_list(&m_targets, list);
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;

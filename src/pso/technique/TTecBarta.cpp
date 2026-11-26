@@ -137,12 +137,12 @@ void TTecBarta::init_parameters() {
     range = params.range;
 }
 
-void TTecBarta::create(void *source, void *origin, void *aim, s32 level) {
-    new TTecBarta((saddr)source, (u8 *)origin, (u8 *)aim, level);
+void TTecBarta::create(TObjBase *source, Vec *origin, Vec *aim, s32 level) {
+    new TTecBarta(source, origin, aim, level);
 }
 
-void TTecBarta::create_ex(void *source, void *origin, s32 angle, s32 level) {
-    new TTecBarta((saddr)source, (Vec *)origin, angle, level);
+void TTecBarta::create_ex(TObjBase *source, Vec *origin, s32 angle, s32 level) {
+    new TTecBarta(source, origin, angle, level);
 }
 
 void TTecBarta::apply_to_target(TObjChara *target) {
@@ -162,7 +162,7 @@ void TTecBarta::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 19;
         hit.power = params.power;
-        target->receive_direct_attack((TObjBase *)source, hit, contact, 3, -1);
+        target->receive_direct_attack(source, hit, contact, 3, -1);
     }
 }
 
@@ -178,7 +178,7 @@ TTecBarta::~TTecBarta() {
 
 void TTecBarta::run_task() {
     s32 i;
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
+    this->source = find_entity_by_id(this->sourceId);
     if (this->source == NULL) {
         queue_destruction();
         return;
@@ -208,7 +208,7 @@ void TTecBarta::run_task() {
 
 void TTecBarta::render() {  }
 
-TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
+TTecBarta::TTecBarta(TObjBase *source, Vec *pos, Vec *target, s32 level)
     : TTecShot(source, pos, target, level) {
     s32 i;
     m_name = TTecBarta::class_name;
@@ -221,12 +221,12 @@ TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
     create_particle_emitters();
     update_technique_by_state();
     if (this->source) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }
 
 // The facing form starts 5 units higher.
-TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
+TTecBarta::TTecBarta(TObjBase *source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     s32 i;
     m_name = TTecBarta::class_name;
@@ -240,7 +240,7 @@ TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     create_particle_emitters();
     update_technique_by_state();
     if (this->source) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }
 
@@ -254,7 +254,7 @@ void TTecCircle::apply_technique_to_area_targets() {
         queue_destruction();
         return;
     }
-    if (((TObjBase *)source)->get_entity_id() < 4) {
+    if (source->get_entity_id() < 4) {
         if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
             list = collect_body_contacts_for_target(source);
         } else {

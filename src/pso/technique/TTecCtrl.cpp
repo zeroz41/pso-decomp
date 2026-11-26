@@ -535,7 +535,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
         break;
     case 10:
         COLLECT_TARGETS()
-        TTecDeband::create((saddr)pl, (saddr)(&hand), (saddr)(&list), (s32)(get_cast_technique_level(td, 10)));
+        TTecDeband::create(pl, &hand, &list, get_cast_technique_level(td, 10));
         break;
     case 11:
         COLLECT_TARGETS()
@@ -551,9 +551,9 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
         break;
     case 14:
         if (is_split_screen() != 0) {
-            ((TTecLuker *)pl)->create(&hand, &ofs, 0);
+            TTecLuker::create(pl, &hand, &ofs, 0);
         } else if (local_client_id == pl->get_entity_id()) {
-            ((TTecLuker *)pl)->create(&hand, &ofs, 0);
+            TTecLuker::create(pl, &hand, &ofs, 0);
         }
         break;
     case 15:
@@ -574,9 +574,9 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     case 18:
         if (n != 0) {
             AIM_AT_TARGET()
-            TTecMegid::create((saddr)pl, (saddr)&hand, (saddr)&aim, (s32)(get_cast_technique_level(td, 18)));
+            TTecMegid::create(pl, &hand, &aim, get_cast_technique_level(td, 18));
         } else {
-            TTecMegid::create_ex((saddr)pl, (saddr)&hand, pl->rotation_y, (s32)(get_cast_technique_level(td, 18)));
+            TTecMegid::create_ex(pl, &hand, pl->rotation_y, get_cast_technique_level(td, 18));
         }
         break;
     }

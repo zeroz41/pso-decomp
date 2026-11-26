@@ -1727,40 +1727,40 @@ force_active:
   - slot_active_table__14TShopGenerator
   - floor_switch_table__7TSwitch
   - switch_name
-  - __ct__8TTecAntiFPvPvPvl
+  - __ct__8TTecAntiFP8TObjBaseP3VecP16TargetCursorListl
   - TTecAnti__self_effect_rows
   - spawn_anti_range_effect__8TTecAntiFv
   - setup_params__8TTecAntiFv
   - class_name__8TTecAnti
   - class_name__9TTecBarta
-  - __ct__9TTecBartaFlPUcPUcl
-  - __ct__10TTecDebandFPvPvPvl
-  - __ct__10TTecDebandFPvPvl
+  - __ct__9TTecBartaFP8TObjBaseP3VecP3Vecl
+  - __ct__10TTecDebandFP8TObjBaseP3VecP16TargetCursorListl
+  - __ct__10TTecDebandFP8TObjBaseP3Vecl
   - class_name__11TTecGiBarta
-  - __ct__11TTecGiBartaFlPUcPUcl
-  - __ct__11TTecGiZondeFlP3VecPvl
-  - __ct__10TTecGrantsFllll
-  - __ct__9TTecLukerFlP3VecP3Vecl
+  - __ct__11TTecGiBartaFP8TObjBaseP3VecP3Vecl
+  - __ct__11TTecGiZondeFP8TObjBaseP3VecP16TargetCursorListl
+  - __ct__10TTecGrantsFP8TObjBaseP3VecP16TargetCursorListl
+  - __ct__9TTecLukerFP8TObjBaseP3VecP3Vecl
   - TTecLuker__sub_8023503C
   - TTecLuker__sub_80235048
   - TTecLuker__sub_80235054
-  - __ct__9TTecMegidFlPUcPUcl
-  - __ct__11TTecRaBartaFlP3VecP3Vecl
+  - __ct__9TTecMegidFP8TObjBaseP3VecP3Vecl
+  - __ct__11TTecRaBartaFP8TObjBaseP3VecP3Vecl
   - TTecRaBarta_class_name
-  - __ct__10TTecRaFoieFlP3VecP3Vecl
+  - __ct__10TTecRaFoieFP8TObjBaseP3VecP3Vecl
   - TTecRaFoie_class_name
   - razonde_band_emitter_table
-  - __ct__11TTecRaZondeFlP3Vecl
+  - __ct__11TTecRaZondeFP8TObjBaseP3Vecl
   - TTecRaZonde_class_name
-  - __ct__9TTecRestaFPvPvPvl
+  - __ct__9TTecRestaFP8TObjBaseP3VecP16TargetCursorListl
   - TTecResta__self_recovery_effect_table
-  - __ct__9TTecRestaFPvPvl
-  - __ct__12TTecReverserFllll
-  - __ct__9TTecSiftaFPvPvPvl
+  - __ct__9TTecRestaFP8TObjBaseP3Vecl
+  - __ct__12TTecReverserFP8TObjBaseP3VecP16TargetCursorListl
+  - __ct__9TTecSiftaFP8TObjBaseP3VecP16TargetCursorListl
   - spawn_sifta_range_effect__9TTecSiftaFv
-  - __ct__9TTecSiftaFPvPvl
+  - __ct__9TTecSiftaFP8TObjBaseP3Vecl
   - TTecSlicer__ct
-  - __ct__9TTecZondeFlPUcPUcl
+  - __ct__9TTecZondeFP8TObjBaseP3VecP16TargetCursorListl
   - is_first_bank__18TPlyDispConfigSmthFv
   - TWindowChat__sub_80247D50
   - is_cancelled__15TSymbolChatMenuFv
@@ -5275,9 +5275,9 @@ force_active:
   - __ct__12T_OWEHMS_ExpFP10TObjPlayer
   - __ct__24ItemTextureArchiveLoaderFPCcll
   - __ct__17TCharSaveSequenceFv
-  - __ct__9TTecJelinFlP3VecP3Vecl
+  - __ct__9TTecJelinFP8TObjBaseP3VecP3Vecl
   - __ct__16TItemWeaponAgitoFP7TObjectPUc
-  - __ct__11TTecRaBartaFlP3Vecl
+  - __ct__11TTecRaBartaFP8TObjBaseP3Vecl
   - __ct__15TItemWeaponCaneFP7TObjectPUc
   - __sinit_TWindowSubComCard_8007A810_cpp
   - __ct__13GuildCardListFv
@@ -5287,8 +5287,8 @@ force_active:
   - __ct__17TItemWeaponDaggerFP7TObjectPUc
   - __ct__22ChoiceSearchResultListFv
   - __ct__12TPlyJoinGameFv
-  - __ct__11TTecGiBartaFlP3Vecll
-  - __ct__9TTecMegidFlP3Vecll
+  - __ct__11TTecGiBartaFP8TObjBaseP3Vecll
+  - __ct__9TTecMegidFP8TObjBaseP3Vecll
   - construct_gi_gue_bazooka__FPUcPUcl
   - construct_global_arrays__6TLobbyFv
   - __ct__15TTecGrantsFlashFlP7TObjectP3Vecf
@@ -5302,12 +5302,12 @@ force_active:
   - __ct__23TItemWeaponSRankJCutterFP7TObjectPUc
   - __ct__22TItemWeaponSRankSlicerFP7TObjectPUc
   - __ct__11TTecAntiEffFP3VecP3VecUsP7TObject
-  - __ct__12TTecRestaEffFP3VeclP7TObject
+  - __ct__12TTecRestaEffFP3VecP8TObjBaseP7TObject
   - __ct__15TItemWeaponShotFP7TObjectPUc
   - __ct__17TItemWeaponSlicerFP7TObjectPUc
   - __ct__20TItemWeaponSoulEaterFP7TObjectPUc
-  - __ct__10TTecRaFoieFlP3VecP16TargetCursorListl
-  - __ct__9TTecBartaFlP3Vecll
+  - __ct__10TTecRaFoieFP8TObjBaseP3VecP16TargetCursorListl
+  - __ct__9TTecBartaFP8TObjBaseP3Vecll
   - __ct__22TWindowDD_WS_ScrollBarFv
   - __ct__13TWeaponCasingFP7TObjectP5TItemP3VecP3VecPl
   - __ct__14TItemWeaponRodFP7TObjectPUc
@@ -7068,7 +7068,7 @@ force_active:
   - init_hp_state__11TBoss6Type1Fv
   - init_id_tables__6TLobbyFv
   - init_instance__13TObjEneMorfosFv
-  - __ct__9TTecZaruaFlP3VecP3Vecl
+  - __ct__9TTecZaruaFP8TObjBaseP3VecP3Vecl
   - init_inventory__10TObjPlayerFv
   - __ct__20EquippedWeaponAndMagFv
   - init_item_counts_max__10TObjPlayerFv

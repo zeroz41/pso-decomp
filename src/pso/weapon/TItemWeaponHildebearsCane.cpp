@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponHildebearsCane::emit_marker_effects() {
-    WeaponVector pos;
+    Vec pos;
     TObjPlayer *player;
 
     if (is_mode_two_and_ready() != 0) {

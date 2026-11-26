@@ -19,7 +19,7 @@
 
 // Built with deferred code generation (configure.py): the functions run last to first.
 
-TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect() {
+TTecCircle::TTecCircle(TObjBase *source, Vec *pos, Vec *target, s32 level) : TEffect() {
     this->sourceId = 0xFFFF;
     VecCopy(&this->position, pos);
     VecCopy(&this->target, target);
@@ -49,7 +49,7 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     this->collisionBody.radius = 10.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 0;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
+    if (this->source->get_entity_id() < 4U) {
         if (((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
             this->collisionBody.flags = 0x40007;
         } else {
@@ -64,9 +64,9 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     }
 }
 
-TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
+TTecCircle::TTecCircle(TObjBase *source, Vec *pos, s32 level) : TEffect() {
     this->sourceId = 0xFFFF;
-    VecCopy(&this->position, (const Vec *)pos);
+    VecCopy(&this->position, pos);
     this->target.x = 0.0f;
     this->target.y = 0.0f;
     this->target.z = 0.0f;
@@ -96,7 +96,7 @@ TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
     this->collisionBody.radius = 10.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 0;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
+    if (this->source->get_entity_id() < 4U) {
         if (((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
             this->collisionBody.flags = 0x40007;
         } else {

@@ -27,10 +27,10 @@ const char *TTecPlayerInfluence::class_name = "TTecPlayerInfluence";
 
 void TTecPlayerInfluence::apply_to_player(TObjPlayer *) {  }
 
-TTecPlayerInfluence::TTecPlayerInfluence(void *owner, void *pos, s32 level) : TEffect() {
+TTecPlayerInfluence::TTecPlayerInfluence(TObjBase *owner, Vec *pos, s32 level) : TEffect() {
   m_name = class_name;
   sourceId = 0xFFFF;
-  VecCopy(&position, (const Vec *)pos);
+  VecCopy(&position, pos);
   if (level < 0)
   {
     this->level = 0;
@@ -50,7 +50,7 @@ TTecPlayerInfluence::TTecPlayerInfluence(void *owner, void *pos, s32 level) : TE
   scale.x = 1.0f;
   scale.y = 1.0f;
   scale.z = 1.0f;
-  source = (uaddr)owner;
+  source = owner;
   color.a = 0.2f;
   color.r = 1.0f;
   color.g = 1.0f;
@@ -69,7 +69,7 @@ TTecPlayerInfluence::TTecPlayerInfluence(void *owner, void *pos, s32 level) : TE
     init_collision_body_parts(target, &collisionBody, 1);
   }
   show_effects = 1;
-  if (source != 0 && ((TObjBase *)source)->get_entity_id() < 4 && (((TObjBase *)source)->actorFlags & 0x02000000))
+  if (source != NULL && source->get_entity_id() < 4 && (source->actorFlags & 0x02000000))
   {
     show_effects = 0;
   }
@@ -107,7 +107,7 @@ void TTecPlayerInfluence::deliver_technique_to_party_targets() {
         queue_destruction();
         return;
     }
-    if (((TObjBase *)source)->get_entity_id() < 4) {
+    if (source->get_entity_id() < 4) {
         list = gather_contacts_for_self(source);
     } else {
         list = find_support_technique_contact_for_target(source);

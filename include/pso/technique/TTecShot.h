@@ -10,12 +10,13 @@
 class TObjChara;
 struct CsnGroup;
 struct CollisionBody;
+struct TechniqueContactList;
 
 class TTecShot : public TEffect {
 public:
     // Flies from `pos` towards the point `target`.
-    TTecShot(saddr source, u8 *pos, u8 *target, s32 level);
-    TTecShot(saddr source, Vec *pos, s32 angle, s32 level);
+    TTecShot(TObjBase *source, Vec *pos, Vec *target, s32 level);
+    TTecShot(TObjBase *source, Vec *pos, int angle, s32 level);
     virtual ~TTecShot();
     void check_technique_projectile_wall_hit();
     // Slides along the floor (Barta) instead of flying straight.
@@ -30,8 +31,8 @@ public:
     void advance_lifetime_or_destroy();
     void dispatch_all_technique_contacts();
     void dispatch_technique_contact(s32);
-    u8 *query_technique_player_contacts(saddr);
-    u8 *query_technique_enemy_contacts(saddr);
+    TechniqueContactList *query_technique_player_contacts(TObjBase *source);
+    TechniqueContactList *query_technique_enemy_contacts(TObjBase *source);
     Vec *get_pos_ptr();
     f32 range;
     f32 traveled;

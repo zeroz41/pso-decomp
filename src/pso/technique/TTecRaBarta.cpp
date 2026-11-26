@@ -53,7 +53,7 @@ void TTecRaBarta::spawn_effects(Vec *pos) {
     const TechniqueEmitter *binding;
     emitters = (TParticleCtrl **)mem_alloc(rabarta_band_emitter_table[band].count * sizeof(TParticleCtrl *));
     for (i = 0; i < rabarta_band_emitter_table[band].count; i++) {
-        VecCopy(&point, &((TObjBase *)source)->position);
+        VecCopy(&point, &source->position);
         if (pos != NULL) {
             VecCopy(&point, pos);
         }
@@ -78,7 +78,7 @@ void TTecRaBarta::spawn_effects(Vec *pos) {
         if (pos != NULL) {
             VecCopy(&top, pos);
         } else {
-            VecCopy(&top, &((TObjBase *)source)->position);
+            VecCopy(&top, &source->position);
         }
         top.y += height;
         emitter = spawn_particle_effect(&top, effect->entry);
@@ -96,32 +96,32 @@ void TTecRaBarta::play_cast_sound() {
 
     switch (this->band) {
     case 0:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         return;
     case 2:
     case 3:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
@@ -160,16 +160,16 @@ void TTecRaBarta::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 2;
         hit.power = params.power;
-        target->receive_direct_attack((TObjBase *)source, hit, contact, 5, -1);
+        target->receive_direct_attack(source, hit, contact, 5, -1);
     }
 }
 
-void TTecRaBarta::create(void *source, void *origin, void *pos, s32 level) {
-    new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, level);
+void TTecRaBarta::create(TObjBase *source, Vec *origin, Vec *pos, s32 level) {
+    new TTecRaBarta(source, origin, pos, level);
 }
 
-void TTecRaBarta::create(void *source, void *origin, s32 level) {
-    new TTecRaBarta((saddr)source, (Vec *)origin, level);
+void TTecRaBarta::create(TObjBase *source, Vec *origin, s32 level) {
+    new TTecRaBarta(source, origin, level);
 }
 
 TTecRaBarta::~TTecRaBarta() {
@@ -192,8 +192,8 @@ void TTecRaBarta::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id((this->sourceId));
-    if ((u32) this->source == 0U) {
+    this->source = find_entity_by_id((this->sourceId));
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
@@ -207,7 +207,7 @@ void TTecRaBarta::run_task() {
 #pragma push
 #pragma opt_common_subs off
 
-TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
+TTecRaBarta::TTecRaBarta(TObjBase *source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     calc_parameters();
@@ -222,13 +222,13 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     hitCursor = 0;
     spawn_effects(&position);
     play_cast_sound();
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
 }
 #pragma pop
 
-TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
+TTecRaBarta::TTecRaBarta(TObjBase *source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     has_point = 0;
@@ -242,7 +242,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     hitCursor = 0;
     spawn_effects(0);
     play_cast_sound();
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
 }

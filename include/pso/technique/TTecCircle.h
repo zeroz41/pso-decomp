@@ -12,16 +12,16 @@ struct TechniqueContactList;
 // TTecRaFoie, TTecRaZonde, TTecGiFoie, TTecLuker and TTecKafun derive from it.
 class TTecCircle : public TEffect {
 public:
-    TTecCircle(saddr source, saddr pos, s32 level);
-    TTecCircle(saddr source, Vec *pos, Vec *target, s32 level);
+    TTecCircle(TObjBase *source, Vec *pos, s32 level);
+    TTecCircle(TObjBase *source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecCircle();
     virtual void apply_to_target(TObjChara *);
     virtual void tick_lifetime();
     virtual void spawn_effects(Vec *pos);
     virtual void play_cast_sound();
-    TechniqueContactList *find_area_contact(saddr);
+    TechniqueContactList *find_area_contact(TObjBase *player);
     TechniqueContactList *collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player);
-    TechniqueContactList *collect_body_contacts_for_target(saddr player);
+    TechniqueContactList *collect_body_contacts_for_target(TObjBase *player);
     void apply_technique_to_area_targets();
     void move_toward_target();
     void count_if_within_range();

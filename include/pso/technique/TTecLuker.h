@@ -13,7 +13,7 @@ class TTelepipeEffect;
 struct TTecLuker : public TTecCircle {
     static const char *name;
     static u8 visit_counts[4];
-    TTecLuker(saddr source, Vec *pos, Vec *target, s32 level);
+    TTecLuker(TObjBase *source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecLuker();
     virtual void apply_to_target(TObjChara *);
     virtual void run_task();
@@ -26,8 +26,8 @@ struct TTecLuker : public TTecCircle {
     s32 phase;  // 0 placing, 1 open, 2 warping, 3 warp, 4 done
     s32 warp_frames;  // frames spent in phase 2
     static void apply_all_players();
-    static void create_for_player(int client, saddr pos);
-    void create(void *pos, void *target, void *level);
+    static void create_for_player(int client, Vec *pos);
+    static void create(TObjBase *source, Vec *pos, Vec *target, s32 level);
     void setup_telepipe_field();
     static s32 is_parents_unqueued(uaddr object);
 };

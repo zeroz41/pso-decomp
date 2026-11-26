@@ -618,7 +618,7 @@ void TObjEneRe2Flower::state_shoot(s32 reason) {
             VecCopy(&pos, &node_points[0]);
             pos.y = lbl_805D9FDC + position.y;
             if (is_tower_variant() != 0 || TObjEneDD::check_v2_mode() != 0) {
-                TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
+                TTecMegid::create_ex(this, &pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
             } else {
                 new TObjEneRe2Flower_Bomb(this, &pos, rotation_y);
             }

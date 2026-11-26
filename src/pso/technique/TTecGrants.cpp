@@ -100,13 +100,13 @@ const char *tec_grants_class_name = "TTecGrants";
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 #pragma defer_codegen on
 
-TTecGrants::TTecGrants(saddr owner, saddr origin, saddr target_list, saddr level) : TTecCircle(owner, origin, level) {
+TTecGrants::TTecGrants(TObjBase *owner, Vec *origin, TargetCursorList *target_list, s32 level) : TTecCircle(owner, origin, level) {
     m_name = tec_grants_class_name;
     init_parameters();
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    copy_technique_target_list(&targets, target_list);
     frames = 0;
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
 }
 
@@ -116,8 +116,8 @@ TTecGrants::~TTecGrants() {
 
 void TTecGrants::run_task() {
     uaddr entity;
-    source = (uaddr)find_entity_by_id(sourceId);
-    if (source == 0) {
+    source = find_entity_by_id(sourceId);
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -138,15 +138,15 @@ void TTecGrants::run_task() {
     }
 }
 
-void TTecGrants::create(void *source, void *origin, void *targets, s32 level) {
-    new TTecGrants((saddr)source, (saddr)origin, (saddr)targets, level);
+void TTecGrants::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecGrants(source, origin, targets, level);
 }
 
 void TTecGrants::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0x4;
     hit.power = this->params.power;
-    target->receive_direct_attack((TObjBase *)this->source, hit, this->contact, 0x9, -1);
+    target->receive_direct_attack(this->source, hit, this->contact, 0x9, -1);
 }
 
 void TTecGrants::render() {  }

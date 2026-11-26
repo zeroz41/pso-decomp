@@ -70,19 +70,19 @@ void TechniqueParams::copy(TechniqueParams *src) {
     angle_step = src->angle_step;
 }
 
-TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecAnti::TTecAnti(TObjBase *owner, Vec *pos, TargetCursorList *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
     m_name = class_name;
     use_targets = 1;
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    copy_technique_target_list(&targets, target_list);
     params.copy(&technique_param_table[16]);
     setup_params();
     t = target;
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.range;
     }
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
     if (show_effects != 0) {
         play_anti_cast_sound();
@@ -93,8 +93,8 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecP
 void TTecAnti::run_task() {
     uaddr member;
     s32 i;
-    source = (uaddr)find_entity_by_id(sourceId);
-    if (source == 0) {
+    source = find_entity_by_id(sourceId);
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -124,7 +124,7 @@ TTecAnti::~TTecAnti() {
 
 }
 
-void TTecAnti::create(void *source, void *origin, void *targets, s32 level) {
+void TTecAnti::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
     new TTecAnti(source, origin, targets, level);
 }
 
@@ -136,11 +136,11 @@ void TTecAnti::apply_to_player(TObjPlayer *player) {
     if (player->is_script_controlled() != 0) {
         return;
     }
-    player->receive_direct_attack((TObjBase *)source, hit, 0, 0x10, level);
+    player->receive_direct_attack(source, hit, 0, 0x10, level);
     if (is_split_screen() == 0) {
-        TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 7);
+        TWindowCtrl::show_party_effect(source->get_entity_id(), player->get_entity_id(), 7);
     }
-    if (((TObjBase *)source)->get_entity_id() == player->get_entity_id()) {
+    if (source->get_entity_id() == player->get_entity_id()) {
         if (show_effects != 0) {
             new TTecAntiEff(&player->body_center, &player->position, player->get_entity_id(), tl_07);
         }

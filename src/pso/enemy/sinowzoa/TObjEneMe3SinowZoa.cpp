@@ -607,7 +607,7 @@ void TObjEneMe3SinowZoa::cast_technique() {
             TTecSifta::create(this, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
             TTecDeband::create(this, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
         } else {
-            TTecZarua::create_instance((saddr)this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
+            TTecZarua::create_instance(this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
             TTecJelin::create(this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
         }
     } else {

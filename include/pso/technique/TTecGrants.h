@@ -6,14 +6,14 @@
 #include "pso/technique/TTecCircle.h"
 
 struct TTecGrants : public TTecCircle {
-    TTecGrants(saddr owner, saddr origin, saddr targets, saddr level);
+    TTecGrants(TObjBase *owner, Vec *origin, TargetCursorList *targets, s32 level);
     virtual ~TTecGrants();
     virtual void apply_to_target(TObjChara *);
     virtual void run_task();
     TargetCursorList targets;
     s32 frames;
     virtual void render();
-    static void create(void *source, void *origin, void *targets, s32 level);
+    static void create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level);
     void init_parameters();
 };
 

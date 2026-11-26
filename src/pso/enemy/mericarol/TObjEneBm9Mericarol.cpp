@@ -1095,7 +1095,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
             if (is_passing_frame(10.0f) != 0) {
                 VecCopy(&pos, &position);
                 pos.y += 20.0f;
-                TTecKafun::create((saddr)this, (saddr)&pos, 5, 0x20B, 0x20C,
+                TTecKafun::create(this, &pos, 5, 0x20B, 0x20C,
                     mericarol_phase_param_table[get_phase()]->technique_value, get_clamped_level(),
                     mericarol_phase_param_table[get_phase()]->technique_radius);
                 play_sound_effect(remap_sound_for_area(0x3A80A), &position, 0, 0);

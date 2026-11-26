@@ -1096,9 +1096,9 @@ void TObjEneMoja::update_technique_state() {
                 switch (variant) {
                 case 1:
                     if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
-                        TTecMegid::create((saddr)this, (saddr)&pos, (saddr)&target->body_center, calc_technique_level());
+                        TTecMegid::create(this, &pos, &target->body_center, calc_technique_level());
                     } else {
-                        TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, calc_technique_level());
+                        TTecMegid::create_ex(this, &pos, rotation_y, calc_technique_level());
                     }
                     play_sound_effect(0x4002A60B, &pos, 0, 0);
                     break;

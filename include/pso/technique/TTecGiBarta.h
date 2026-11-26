@@ -8,8 +8,8 @@ class TParticleCtrl;
 
 struct TTecGiBarta : public TTecShot {
     static const char *class_name;
-    TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level);
-    TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level);
+    TTecGiBarta(TObjBase *source, Vec *pos, Vec *target, s32 level);
+    TTecGiBarta(TObjBase *source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecGiBarta();
     virtual void apply_to_target(TObjChara *);
     TParticleCtrl **emitters;
@@ -18,8 +18,8 @@ struct TTecGiBarta : public TTecShot {
     void update_technique_by_phase();
     void create_particles();
     void calc_params();
-    static void create(void *owner, Vec *position, Vec *target, s32 level);
-    static void create_ex(void *owner, Vec *position, s32 angle, s32 level);
+    static void create(TObjBase *owner, Vec *position, Vec *target, s32 level);
+    static void create_ex(TObjBase *owner, Vec *position, s32 angle, s32 level);
     void run_task();
     void render();
 };

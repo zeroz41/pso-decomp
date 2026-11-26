@@ -752,7 +752,7 @@ void TObjEneMerillLia::update_kafun_attack() {
                 matrix_mult_vec(0, &offset, &pos);
             }
             pop_matrix();
-            TTecKafun::create((saddr)this, (saddr)&pos, 0xF, 0xD3, get_clamped_level(), merill_lia_behavior_params[subtype]->kafun_value, 20.0f);
+            TTecKafun::create(this, &pos, 0xF, 0xD3, get_clamped_level(), merill_lia_behavior_params[subtype]->kafun_value, 20.0f);
             play_kafun_sound();
         }
         if (action_flags != 4) {

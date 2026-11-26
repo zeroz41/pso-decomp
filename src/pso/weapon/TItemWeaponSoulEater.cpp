@@ -81,13 +81,13 @@ void TItemWeaponSoulEater::on_equipped() {
 }
 
 void TItemWeaponSoulEater::emit_marker_effects() {
-    WeaponVector pos;
+    Vec pos;
 
     if (get_item_index() == 1) {
         TItemEffCane::create(tl_05, this, 2, 0x101);
         if (is_mode_two_and_ready() != 0) {
             if (get_joint_position(2, &pos) != 0) {
-                TTecMegid::create_ex((saddr)owner, (saddr)&pos, owner->rotation_y, 0);
+                TTecMegid::create_ex(owner, &pos, owner->rotation_y, 0);
                 ((TItemWeapon *)this)->drain_owner_hp_fraction(0.07f);
             }
         } else {

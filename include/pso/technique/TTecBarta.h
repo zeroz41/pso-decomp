@@ -10,8 +10,8 @@ struct TechniqueParticleEmitter;
 
 struct TTecBarta : public TTecShot {
     static const char *class_name;
-    TTecBarta(saddr source, u8 *pos, u8 *target, s32 level);
-    TTecBarta(saddr source, Vec *pos, s32 angle, s32 level);
+    TTecBarta(TObjBase *source, Vec *pos, Vec *target, s32 level);
+    TTecBarta(TObjBase *source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecBarta();
     virtual void apply_to_target(TObjChara *);
     TechniqueParticleEmitter** emitters;
@@ -20,8 +20,8 @@ struct TTecBarta : public TTecShot {
     void update_technique_by_state();
     void create_particle_emitters();
     void init_parameters();
-    static void create(void *source, void *origin, void *aim, s32 level);
-    static void create_ex(void *source, void *origin, s32 angle, s32 level);
+    static void create(TObjBase *source, Vec *origin, Vec *aim, s32 level);
+    static void create_ex(TObjBase *source, Vec *origin, s32 angle, s32 level);
     virtual void run_task();
     virtual void render();
 };

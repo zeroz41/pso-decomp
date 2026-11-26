@@ -222,16 +222,16 @@ void TTecGiBarta::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 2;
         hit.power = params.power;
-        target->receive_direct_attack((TObjBase *)source, hit, contact, 4, -1);
+        target->receive_direct_attack(source, hit, contact, 4, -1);
     }
 }
 
-void TTecGiBarta::create(void *owner, Vec *position, Vec *target, s32 level) {
-    new TTecGiBarta((saddr)owner, (u8 *)position, (u8 *)target, level);
+void TTecGiBarta::create(TObjBase *owner, Vec *position, Vec *target, s32 level) {
+    new TTecGiBarta(owner, position, target, level);
 }
 
-void TTecGiBarta::create_ex(void *owner, Vec *position, s32 angle, s32 level) {
-    new TTecGiBarta((saddr)owner, position, angle, level);
+void TTecGiBarta::create_ex(TObjBase *owner, Vec *position, s32 angle, s32 level) {
+    new TTecGiBarta(owner, position, angle, level);
 }
 
 TTecGiBarta::~TTecGiBarta() {
@@ -244,8 +244,8 @@ TTecGiBarta::~TTecGiBarta() {
 }
 
 void TTecGiBarta::run_task() {
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
-    if ((u32) this->source == 0U) {
+    this->source = find_entity_by_id(this->sourceId);
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
@@ -254,7 +254,7 @@ void TTecGiBarta::run_task() {
     dispatch_all_technique_contacts();
 }
 
-TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
+TTecGiBarta::TTecGiBarta(TObjBase *source, Vec *pos, Vec *target, s32 level)
     : TTecShot(source, pos, target, level) {
     s32 i;
     m_name = TTecGiBarta::class_name;
@@ -265,13 +265,13 @@ TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
     }
     hitCursor = 0;
     if (this->source) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     create_particles();
     update_technique_by_phase();
 }
 
-TTecGiBarta::TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level)
+TTecGiBarta::TTecGiBarta(TObjBase *source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     s32 i;
     m_name = TTecGiBarta::class_name;
@@ -280,8 +280,8 @@ TTecGiBarta::TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level)
         hitIds[i] = 0xFFFF;
     }
     hitCursor = 0;
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
     create_particles();
     update_technique_by_phase();

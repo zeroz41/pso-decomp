@@ -61,12 +61,12 @@ s32 draw_weapon_at_joint(void *, s32, void *);
 
 
 void TItemWeaponEvilCurst::emit_marker_effects() {
-    s32 joint_position;
-    void *owner;
+    Vec joint_position;
+    TObjPlayer *owner;
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(5, &joint_position) != 0) {
             owner = this->owner;
-            TTecMegid::create_ex((saddr)owner, (saddr)(&joint_position), (s32)(*(s32 *)((s8 *)owner + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
+            TTecMegid::create_ex(owner, &joint_position, owner->rotation_y, ((TItemWeapon *)this)->get_tp());
             this->roll_technique();
         }
     } else {

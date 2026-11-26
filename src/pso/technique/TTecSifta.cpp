@@ -61,11 +61,11 @@ void TTecSifta::update_effect_params() {
     this->params.power = (f32) (this->params.power_per_level * this->level);
 }
 
-void TTecSifta::create_instance(void *source, void *origin, void *targets, s32 level) {
+void TTecSifta::create_instance(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
     new TTecSifta(source, origin, targets, level);
 }
 
-void TTecSifta::create(void *owner, void *pos, s32 level) {
+void TTecSifta::create(TObjBase *owner, Vec *pos, s32 level) {
     new TTecSifta(owner, pos, level);
 }
 
@@ -75,9 +75,9 @@ void TTecSifta::apply_to_player(TObjPlayer *player) {
         hit.kind = 9;
         hit.power = params.power;
         if (is_split_screen() == 0) {
-            TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 9);
+            TWindowCtrl::show_party_effect(source->get_entity_id(), player->get_entity_id(), 9);
         }
-        player->receive_direct_attack((TObjBase *)source, hit, 0, 0xD, -1);
+        player->receive_direct_attack(source, hit, 0, 0xD, -1);
     }
 }
 
@@ -89,8 +89,8 @@ TTecSifta::~TTecSifta() {
 void TTecSifta::run_task() {
     uaddr member;
     s32 i;
-    source = (uaddr)find_entity_by_id(sourceId);
-    if (source == 0) {
+    source = find_entity_by_id(sourceId);
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -118,18 +118,18 @@ void TTecSifta::run_task() {
 
 #pragma push
 #pragma opt_common_subs off
-TTecSifta::TTecSifta(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecSifta::TTecSifta(TObjBase *owner, Vec *pos, TargetCursorList *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
     m_name = class_name;
     use_targets = 1;
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    copy_technique_target_list(&targets, target_list);
     update_effect_params();
     t = target;
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.range;
     }
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
     if (show_effects != 0) {
         spawn_sifta_range_effect();
@@ -138,7 +138,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, void *target_list, s32 level) : TTe
 }
 #pragma pop
 
-TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecSifta::TTecSifta(TObjBase *owner, Vec *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
     m_name = class_name;
     use_targets = 0;
@@ -147,8 +147,8 @@ TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.range;
     }
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
     spawn_sifta_range_effect();
     play_sifta_cast_sound();

@@ -1257,7 +1257,7 @@ void TBoss4Type3::update_dark_magic() {
                 v.y *= s;
                 v.z *= s;
                 vec3_add_to(&v, target);
-                TTecMegid::create((saddr)this, (saddr)&v, (saddr)target, level);
+                TTecMegid::create(this, &v, target, level);
             }
         }
         start_pad_rumble_all(0xC0, 0xF);

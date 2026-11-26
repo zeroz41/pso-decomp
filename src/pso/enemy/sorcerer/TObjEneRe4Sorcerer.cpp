@@ -639,7 +639,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
                 TTecRaFoie::create_ex(this, src, &targets, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             }
         } else if (TObjEneDD::check_v2_mode() != 0) {
-            TTecMegid::create((saddr)this, (saddr)src, (saddr)&current_target->position, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]));
+            TTecMegid::create(this, src, &current_target->position, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]));
         } else {
             VecCopy(&v, &current_target->position);
             subtract_vector(&v, src);

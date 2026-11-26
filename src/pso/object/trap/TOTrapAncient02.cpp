@@ -638,7 +638,7 @@ void TOTrapAncient02R::update_springing() {
                         TTecGiBarta::create_ex(this, &scratch_vec, ang, tech_level);
                         break;
                     case 3:
-                        TTecMegid::create((saddr)this, (saddr)&scratch_vec, (saddr)&((TObjChara *)target)->body_center, tech_level);
+                        TTecMegid::create(this, &scratch_vec, &((TObjChara *)target)->body_center, tech_level);
                         break;
                     case 4:
                         TTecGiFoie::create(this, &scratch_vec, tech_level);

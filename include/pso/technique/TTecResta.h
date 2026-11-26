@@ -7,8 +7,8 @@
 
 struct TTecResta : public TTecPlayerInfluence {
     static const char *class_name;
-    TTecResta(void *owner, void *pos, void *targets, s32 level);
-    TTecResta(void *owner, void *pos, s32 level);
+    TTecResta(TObjBase *owner, Vec *pos, TargetCursorList *targets, s32 level);
+    TTecResta(TObjBase *owner, Vec *pos, s32 level);
     virtual ~TTecResta();
     virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
@@ -20,8 +20,8 @@ struct TTecResta : public TTecPlayerInfluence {
     void init_cast();
     static f32 calc_heal_amount(s32 level);
     void init_parameters();
-    static void create(void *owner, void *pos, s32 level);
-    static void create(void *source, void *origin, void *targets, s32 level);
+    static void create(TObjBase *owner, Vec *pos, s32 level);
+    static void create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level);
     virtual void render();
 };
 
