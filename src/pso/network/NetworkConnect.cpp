@@ -404,7 +404,6 @@ void cleanup() {
         avetcp_work_area = 0U;
     }
 }
-extern "C" {
 s32 start_connection() {
     NetTransportParams params;
     s32 size;
@@ -428,7 +427,6 @@ s32 start_connection() {
     return dial_modem_numbers(ppp_init());
 }
 void disconnect_lan(void) { flush_pending_flags(); }
-}
 void flush_pending_flags() {
     NetLinkStatus status;
     NetWaitParam stop;

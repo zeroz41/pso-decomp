@@ -5,12 +5,14 @@
 
 // --- C functions defined in NetworkConnect.cpp ---
 extern "C" {
+int TLobby__sub_8014677C(void);
+void TLobby__sub_80147978(void);
+}
 s32 apply_static_ip_config(s32 *netmask);
 s32 connect_dhcp(s32 *netmask);
 s32 should_dial_next_number(u32 result);
 int get_modem_phone_number_count(void);
 void get_local_ip_addr(s32 *out_addr);
-int TLobby__sub_8014677C(void);
 s32 start_connection(void);
 void disconnect_lan(void);
 char *get_ppp_password(void);
@@ -19,8 +21,6 @@ char *get_account_user_name(s32 idx);
 void copy_dns_addr(u32 *dst, const u32 *src);
 s32 disconnect_modem(void);
 s32 dial_modem_numbers(s32 id);
-void TLobby__sub_80147978(void);
-}
 // What follows the online character save: 0 asks the server for the time, 1 and 2
 // close the lobby with state 0x13 or 0x14. Always 0 in this build.
 int get_post_save_lobby_action();
