@@ -523,17 +523,7 @@ struct TLobby : public TObject {
     s32 get_lobby_id();
     static int get_short_mail_ctrl();
     static void clear_lobby_flag();
-    s32 advance_rng();
     f32 get_field_2a4();
-    s32 get_field_0x280();
-    void set_menu_index(s32 v);
-    void set_clamped_field27c(f32 value);
-    static void reset_sound_group_fade();
-    static void fade_voice_channels(s32 step);
-    s32 reset_sound_state();
-    static s32 pop_sound_groups(void *p, s32 pop_all);
-    s32 validate_and_set_selection(s32 bank);
-    static u16 update_crc16_ccitt(u16 crc, u8 c);
     static void send_find_user_self_tag(s32 gc_num);
     static void*get_com_card_entry(int a0);
     // Empties the com card list and clears its flag.

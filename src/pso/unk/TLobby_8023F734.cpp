@@ -558,9 +558,9 @@ extern "C" {
 s32 sndOutputMode(s32);
 }
 
-s32 TLobby::advance_rng() {
-    *(s32 *)((s8 *)this + 0x2AC) = (s32) ((*(s32 *)((s8 *)this + 0x2AC) * 0x10DCD) + 1);
-    return *(s32 *)((s8 *)this + 0x2AC);
+s32 SoundControlState::advance_rng() {
+    rng_seed = rng_seed * 0x10DCD + 1;
+    return rng_seed;
 }
 
 void set_sound_voice_position(s32 slot, const Vec *position) {
@@ -576,8 +576,8 @@ void set_sound_slot_special_scale(s32 slot, f32 scale) {
 }
 
 f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
-s32 TLobby::get_field_0x280() { return *(s32*)((char*)this + 0x280); }
-void TLobby::set_menu_index(s32 v) { *(s32*)((char*)this + 0x280) = v; }
+s32 SoundControlState::get_voice_volume_adjustment() { return voice_volume_adjustment; }
+void SoundControlState::set_voice_volume_adjustment(s32 adjustment) { voice_volume_adjustment = adjustment; }
 
 void SoundControlState::set_output_mode(s32 mode) {
     switch (mode) {
@@ -597,17 +597,17 @@ void SoundControlState::set_output_mode(s32 mode) {
 }
 
 
-void TLobby::set_clamped_field27c(f32 value) {
+void SoundControlState::set_reverb_level(f32 level) {
     f32 clamped;
 
-    clamped = value;
+    clamped = level;
     if (clamped < 0.0f) {
         clamped = 0.0f;
     }
     if (clamped > 1.0f) {
         clamped = 1.0f;
     }
-    *(f32 *)((s8 *)this + 0x27C) = clamped;
+    reverb_level = clamped;
 }
 #pragma opt_common_subs off
 #pragma opt_propagation off
@@ -810,12 +810,12 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
             return;
         }
     }
-    sndPushGroup((void *)self->ents[id].h[0], sound_bank_group_ids[id], (void *)self->ents[id].h[3],
-                 musyx_sdir_buffers[self->ents[id].k[2] / 4], (void *)self->ents[id].h[1]);
-    self->stack[self->depth] = id;
+    sndPushGroup(self->ents[id].h[0], sound_bank_group_ids[id], self->ents[id].h[3],
+                 musyx_sdir_buffers[self->ents[id].k[2] / 4], self->ents[id].h[1]);
+    self->stack[self->depth + 1] = id;
     self->depth++;
     if (self->ents[id].h[3] != 0) {
-        xfree((void *)self->ents[id].h[3]);
+        xfree(self->ents[id].h[3]);
         self->ents[id].h[3] = 0;
     }
     self->route_pos++;
@@ -830,13 +830,13 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
 }
 
-void TLobby::reset_sound_group_fade() {
+void reset_sound_group_fade() {
     s32 i;
     for (i = 0; i < 0x20; i++) {
         sound_request_voices[i].extra = -0x100;
     }
 }
-void TLobby::fade_voice_channels(s32 step) {
+void fade_voice_channels(s32 step) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
         ((void (*)(void*, s32))start_voice_fade)(&sound_request_voices[i], step);
@@ -846,25 +846,25 @@ s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
     s32 i;
     s32 ret;
     if (self->ents[id].h[3] != 0) {
-        xfree((void *)self->ents[id].h[3]);
+        xfree(self->ents[id].h[3]);
         self->ents[id].h[3] = 0;
     }
     if (self->ents[id].h[2] != 0) {
-        xfree((void *)self->ents[id].h[2]);
+        xfree(self->ents[id].h[2]);
         self->ents[id].h[2] = 0;
     }
     if (self->ents[id].h[1] != 0) {
-        xfree((void *)self->ents[id].h[1]);
+        xfree(self->ents[id].h[1]);
         self->ents[id].h[1] = 0;
     }
     if (self->ents[id].h[0] != 0) {
-        xfree((void *)self->ents[id].h[0]);
+        xfree(self->ents[id].h[0]);
         self->ents[id].h[0] = 0;
     }
     for (i = 0; i < 4; i++) {
         self->bank_file_sizes[i] = sound_bank_file_sizes[sound_bank_file_indices[id][i]];
         self->bank_file_sizes[i] = (self->bank_file_sizes[i] + 0x7FF) & ~0x7FF;
-        self->ents[id].h[i] = (uaddr)xmalloc(self->bank_file_sizes[i]);
+        self->ents[id].h[i] = xmalloc(self->bank_file_sizes[i]);
         if (self->ents[id].h[i] == 0) {
             ret = 3;
             goto fail;
@@ -877,42 +877,31 @@ s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
         }
     }
     for (i = 0; i < 4; i++) {
-        ADXF_ReadNw(self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), (void *)self->ents[id].h[i]);
-        ((TLobby *)(&self->bank_file_handles[i]))->set_entry_params(i, self->bank_file_sizes[i] / 2048, self->ents[id].h[i]);
+        ADXF_ReadNw(self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), self->ents[id].h[i]);
+        ((TLobby *)(&self->bank_file_handles[i]))->set_entry_params(i, self->bank_file_sizes[i] / 2048, (saddr)self->ents[id].h[i]);
     }
     return 0;
 fail:
     if (self->ents[id].h[3] != 0) {
-        xfree((void *)self->ents[id].h[3]);
+        xfree(self->ents[id].h[3]);
         self->ents[id].h[3] = 0;
     }
     if (self->ents[id].h[2] != 0) {
-        xfree((void *)self->ents[id].h[2]);
+        xfree(self->ents[id].h[2]);
         self->ents[id].h[2] = 0;
     }
     if (self->ents[id].h[1] != 0) {
-        xfree((void *)self->ents[id].h[1]);
+        xfree(self->ents[id].h[1]);
         self->ents[id].h[1] = 0;
     }
     if (self->ents[id].h[0] != 0) {
-        xfree((void *)self->ents[id].h[0]);
+        xfree(self->ents[id].h[0]);
         self->ents[id].h[0] = 0;
     }
     return ret;
 }
 }
 
-
-struct IfSlot { void *buf[4]; u8 pad[0x24 - 0x10]; };
-
-struct InitSoundAuxEffectsMgr {
-    u8 pad0[0x288];
-    s32 state;
-    u8 pad28c[0x2B8 - 0x28C];
-    s32 depth;
-    s32 stack[(0x310 - 0x2BC) / 4];
-    IfSlot slots[8];
-};
 
 extern "C" {
 s32 sndPopGroup();
@@ -928,7 +917,7 @@ s32 update_sound_frame(SoundControlState *self) {
     self->tick = t;
     self->ms = self->elapsed / ((*(u32 *)0x800000F8 >> 2) / 1000);
     TLobby__sub_8023FCC0(self);
-    ((TLobby *)self)->advance_rng();
+    self->advance_rng();
     for (i = 0; i < 40; i++) {
         tick_sound_voice(&sound_request_voices[i]);
     }
@@ -948,9 +937,9 @@ s32 update_sound_frame(SoundControlState *self) {
     return 0;
 }
 
-s32 TLobby::reset_sound_state() {
-    TLobby::pop_sound_groups(((u8 *)this), 1);
-    *(s32 *)((s8 *)((u8 *)this) + 0x298) = 4;
+s32 SoundControlState::reset_sound_state() {
+    pop_sound_groups(1);
+    load_state = 4;
     return 0;
 }
 extern "C" {
@@ -971,7 +960,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     self->route_pos = -1;
     self->route = NULL;
     self->group_state = -1;
-    self->f2BC = 0;
+    self->stack[0] = 0;
     self->depth = 0;
     self->set_output_mode(1);
     memset(lbl_80517BEC, 0, sizeof(lbl_80517BEC));
@@ -1021,68 +1010,66 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     return result;
 }
 
-#define M ((InitSoundAuxEffectsMgr *)p)
-s32 TLobby::pop_sound_groups(void *p, s32 pop_all) {
+s32 SoundControlState::pop_sound_groups(s32 pop_all) {
     s32 idx;
     s32 n;
-    TLobby::fade_voice_channels(0);
-    TLobby::reset_sound_group_fade();
-    if (M->state == -1) {
+    fade_voice_channels(0);
+    reset_sound_group_fade();
+    if (group_state == -1) {
         return 8;
     }
     if (pop_all == 0) {
-        while ((n = M->depth) > 0) {
-            idx = M->stack[n];
+        while ((n = depth) > 0) {
+            idx = stack[n];
             if (idx < 4) {
                 break;
             }
             sndPopGroup();
-            if (M->slots[idx].buf[3] != NULL) {
-                xfree(M->slots[idx].buf[3]);
-                M->slots[idx].buf[3] = NULL;
+            if (ents[idx].h[3] != NULL) {
+                xfree(ents[idx].h[3]);
+                ents[idx].h[3] = NULL;
             }
-            if (M->slots[idx].buf[2] != NULL) {
-                xfree(M->slots[idx].buf[2]);
-                M->slots[idx].buf[2] = NULL;
+            if (ents[idx].h[2] != NULL) {
+                xfree(ents[idx].h[2]);
+                ents[idx].h[2] = NULL;
             }
-            if (M->slots[idx].buf[1] != NULL) {
-                xfree(M->slots[idx].buf[1]);
-                M->slots[idx].buf[1] = NULL;
+            if (ents[idx].h[1] != NULL) {
+                xfree(ents[idx].h[1]);
+                ents[idx].h[1] = NULL;
             }
-            if (M->slots[idx].buf[0] != NULL) {
-                xfree(M->slots[idx].buf[0]);
-                M->slots[idx].buf[0] = NULL;
+            if (ents[idx].h[0] != NULL) {
+                xfree(ents[idx].h[0]);
+                ents[idx].h[0] = NULL;
             }
-            M->depth--;
+            depth--;
         }
-        M->state = 0;
+        group_state = 0;
     } else {
-        while ((n = M->depth) > 0) {
-            idx = M->stack[n];
+        while ((n = depth) > 0) {
+            idx = stack[n];
             sndPopGroup();
-            if (M->slots[idx].buf[3] != NULL) {
-                xfree(M->slots[idx].buf[3]);
-                M->slots[idx].buf[3] = NULL;
+            if (ents[idx].h[3] != NULL) {
+                xfree(ents[idx].h[3]);
+                ents[idx].h[3] = NULL;
             }
-            if (M->slots[idx].buf[2] != NULL) {
-                xfree(M->slots[idx].buf[2]);
-                M->slots[idx].buf[2] = NULL;
+            if (ents[idx].h[2] != NULL) {
+                xfree(ents[idx].h[2]);
+                ents[idx].h[2] = NULL;
             }
-            if (M->slots[idx].buf[1] != NULL) {
-                xfree(M->slots[idx].buf[1]);
-                M->slots[idx].buf[1] = NULL;
+            if (ents[idx].h[1] != NULL) {
+                xfree(ents[idx].h[1]);
+                ents[idx].h[1] = NULL;
             }
-            if (M->slots[idx].buf[0] != NULL) {
-                xfree(M->slots[idx].buf[0]);
-                M->slots[idx].buf[0] = NULL;
+            if (ents[idx].h[0] != NULL) {
+                xfree(ents[idx].h[0]);
+                ents[idx].h[0] = NULL;
             }
-            M->depth--;
+            depth--;
         }
-        M->state = -1;
+        group_state = -1;
     }
     return 0;
 }
-#undef M
 
 #pragma push
 
@@ -1091,23 +1078,23 @@ extern "C" {
 s32 sndVolume(s32, s32, s32);
 }
 
-s32 TLobby::validate_and_set_selection(s32 bank) {
+s32 SoundControlState::validate_and_set_selection(s32 bank) {
     if ((bank < 0) || (bank >= 0x16)) {
         return 4;
     }
-    if ((bank != 0) && ((s32) *(s32 *)((s8 *)this + 0x288) == -1)) {
+    if ((bank != 0) && (group_state == -1)) {
         return 8;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x288) > 0) {
-        TLobby::pop_sound_groups(this, 0);
+    if (group_state > 0) {
+        pop_sound_groups(0);
     }
     sndVolume(0x7F, 0, 0xFF);
-    if ((s32) *(s32 *)((s8 *)this + 0x298) != 1) {
+    if (load_state != 1) {
         return 9;
     }
-    *(s32 *)((s8 *)this + 0x2B0) = -1;
-    *(s32 *)((s8 *)this + 0x2B4) = (saddr) sound_bank_load_routes[bank];
-    *(s32 *)((s8 *)this + 0x29C) = bank;
+    route_pos = -1;
+    route = sound_bank_load_routes[bank];
+    next_group_state = bank;
     return 0;
 }
 
@@ -1120,7 +1107,7 @@ SoundControlState::~SoundControlState() {
 }
 
 SoundControlState::SoundControlState() {
-    f2BC = 0;
+    stack[0] = 0;
     depth = 0;
     f294 = 0;
     f290 = 0;
@@ -1131,19 +1118,19 @@ SoundControlState::SoundControlState() {
     route = NULL;
     f2A8 = 0;
     f2A4 = 4.0f;
-    f2AC = 123456;
+    rng_seed = 123456;
 }
 
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count) {
     u16 crc = 0;
     while (count-- > 0) {
-        crc = TLobby::update_crc16_ccitt(crc, *bytes);
+        crc = update_crc16_ccitt(crc, *bytes);
         ++bytes;
     }
     return crc;
 }
 
-u16 TLobby::update_crc16_ccitt(u16 crc, u8 c) {
+u16 update_crc16_ccitt(u16 crc, u8 c) {
     s32 i;
     u32 r = crc;
     r ^= c << 8;
