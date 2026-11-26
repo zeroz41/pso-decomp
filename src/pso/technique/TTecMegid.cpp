@@ -27,44 +27,6 @@
 #include "pso/object/base/TObjBase.h"
 
 
-struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
-
-struct Data_80235740 { Row_80235740 *rows; u32 count; };
-
-struct Row_802351B4
-{
-  u32 entry;
-  u32 flags;
-  f32 scale;
-};
-
-struct Data_802351B4
-{
-  Row_802351B4 *rows;
-  u32 count;
-};
-
-struct Arg_802351B4
-{
-  s32 a;
-  s32 b;
-  s32 c;
-};
-
-struct Obj_802351B4
-{
-  u8 pad0[0x20];
-  Vec pos;
-  u8 pad2c[0x54 - 0x2C];
-  s32 f54;
-  s32 f58;
-  s32 f5c;
-  u8 pad60[0xC6 - 0x60];
-  s16 band;
-  u8 padc8[0x130 - 0xC8];
-  void **emitters;
-};
-
 // inferred: the per-band emitter lists of megid_emitter_bands, named after their band (technique level tier)
 static const TechniqueEmitterSourceRow megid_band0_emitters[2] = {
     {0x1C5, 0, 0.0f}, {0x1C8, 0, 0.0f},
@@ -139,28 +101,22 @@ void TTecMegid::update_by_state() {
 #pragma pop
 
 
-typedef struct Arg_802351B4 Arg_802351B4;
-typedef struct Data_802351B4 Data_802351B4;
-typedef struct Obj_802351B4 Obj_802351B4;
-typedef struct Row_802351B4 Row_802351B4;
-typedef struct TTecGiBartaData_80230B48 TTecGiBartaData_80230B48;
 void TTecMegid::spawn_particle_emitters() {
-  Obj_802351B4 *self = (Obj_802351B4 *) this;
   u32 fl;
   u32 flags;
-  Row_802351B4 *row;
+  const TechniqueEmitterSourceRow *row;
   u32 i;
-  long long new_var;
+  long long model_index;
   s32 mode;
-  Arg_802351B4 dir;
-  dir.a = self->f54;
-  dir.b = 0;
-  dir.c = self->f5c;
-  self->emitters = static_cast<void **>(mem_alloc(megid_emitter_bands[band].count * sizeof(*self->emitters)));
-  for (i = 0; i < ((Data_802351B4 *) megid_emitter_bands)[this->band].count; i++)
+  ParticleAngles dir;
+  dir.x = angles[0];
+  dir.y = 0;
+  dir.z = angles[2];
+  emitters = static_cast<void **>(mem_alloc(megid_emitter_bands[band].count * sizeof(*emitters)));
+  for (i = 0; i < megid_emitter_bands[this->band].count; i++)
   {
     mode = 0;
-    row = &((Data_802351B4 *) megid_emitter_bands)[this->band].rows[i];
+    row = &megid_emitter_bands[this->band].rows[i];
     flags = row->flags;
     if (flags & 0x1000)
     {
@@ -168,23 +124,23 @@ void TTecMegid::spawn_particle_emitters() {
     }
     if (flags & 2)
     {
-      self->emitters[i] = spawn_particle_effect_with_rotation(&self->pos, &dir, row->entry, mode | 0x1000);
+      emitters[i] = spawn_particle_effect_with_rotation(&position, &dir, row->entry, mode | 0x1000);
     }
     else
     {
-      self->emitters[i] = spawn_continuous_particle_effect_with_flags(&self->pos, row->entry, mode | 0x1000);
+      emitters[i] = spawn_continuous_particle_effect_with_flags(&position, row->entry, mode | 0x1000);
     }
-    if (self->emitters[i] != 0)
+    if (emitters[i] != 0)
     {
-      row = &((Data_802351B4 *) megid_emitter_bands)[this->band].rows[i];
+      row = &megid_emitter_bands[this->band].rows[i];
       if (row->flags & 0x40)
       {
-        ((TParticleCtrl *)(self->emitters[i]))->set_scale(row->scale, row->scale);
+        ((TParticleCtrl *)(emitters[i]))->set_scale(row->scale, row->scale);
       }
-      if (((Data_802351B4 *) megid_emitter_bands)[this->band].rows[i].flags & 0x20)
+      if (megid_emitter_bands[this->band].rows[i].flags & 0x20)
       {
-        new_var = ((Data_802351B4 *) megid_emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model(static_cast<TParticleCtrl *>(self->emitters[i]), get_bml_model(technique_effect_bml, new_var), technique_texture_list, 0, 1, 1.0f);
+        model_index = megid_emitter_bands[this->band].rows[i].flags >> 16;
+        attach_particle_model(static_cast<TParticleCtrl *>(emitters[i]), get_bml_model(technique_effect_bml, model_index), technique_texture_list, 0, 1, 1.0f);
       }
     }
   }

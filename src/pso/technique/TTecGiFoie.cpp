@@ -26,13 +26,10 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/technique/TechniqueEmitterTable.h"
 
-struct Rot_802312E4 { s32 x, y, z; };
 
-// Same layout as TTecGiBarta's Row_802304A0 {entry, flags, scale}.
-struct Part_802312E4 { s32 id; u32 flags; f32 scale; };
 
-struct Profile_802312E4 { const Part_802312E4 *parts; u32 count; };
 
 extern "C" {
 
@@ -42,12 +39,12 @@ void matrix_mult_vec(void *, void *, void *);
 const char *TTecGiFoie::name = "TTecGiFoie";
 extern "C" {
 
-// emitter_parts_N: the N particle parts an entry of TTecGiFoie__emitter_profile_table spawns.
-static const Part_802312E4 emitter_parts_1[1] = {{34, 2, 0.0f}};
-static const Part_802312E4 emitter_parts_2[2] = {{34, 2, 0.0f}, {172, 1, 0.0f}};
-static const Part_802312E4 emitter_parts_3[3] = {{34, 2, 0.0f}, {172, 1, 0.0f}, {414, 0x1000, 1.0f}};
+// emitter_parts_N: the N particle parts an entry of gifoie_emitter_bands spawns.
+static const TechniqueEmitterSourceRow emitter_parts_1[1] = {{34, 2, 0.0f}};
+static const TechniqueEmitterSourceRow emitter_parts_2[2] = {{34, 2, 0.0f}, {172, 1, 0.0f}};
+static const TechniqueEmitterSourceRow emitter_parts_3[3] = {{34, 2, 0.0f}, {172, 1, 0.0f}, {414, 0x1000, 1.0f}};
 
-const Profile_802312E4 TTecGiFoie__emitter_profile_table[6] = {
+static const TechniqueEmitterSourceTable gifoie_emitter_bands[6] = {
     {emitter_parts_1, 1}, {emitter_parts_1, 1}, {emitter_parts_1, 1},
     {emitter_parts_2, 2}, {emitter_parts_2, 2}, {emitter_parts_3, 3},
 };
@@ -206,7 +203,7 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
     this->pad_40 = 0;
     this->pad_47 = single;
     if (this->pad_47 != 0) {
-        Rot_802312E4 r;
+        ParticleAngles r;
         this->pad_1C = (TParticleCtrl **)mem_alloc(4);
         r.x = 0;
         r.y = 0;
@@ -215,15 +212,15 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
         this->pad_38 = 5.0f;
     } else {
         s32 i;
-        this->pad_1C = (TParticleCtrl **)mem_alloc(TTecGiFoie__emitter_profile_table[this->pad_44].count * 4);
-        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->pad_44].count; i++) {
-            Rot_802312E4 r;
-            const Part_802312E4 *p;
+        this->pad_1C = (TParticleCtrl **)mem_alloc(gifoie_emitter_bands[this->pad_44].count * 4);
+        for (i = 0; i < gifoie_emitter_bands[this->pad_44].count; i++) {
+            ParticleAngles r;
+            const TechniqueEmitterSourceRow *p;
             r.x = 0;
             r.y = 0;
             r.z = 0x4000;
-            p = &TTecGiFoie__emitter_profile_table[this->pad_44].parts[i];
-            this->pad_1C[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->pad_20, &r, p->id, (p->flags & 0x1000) ? (u16)0x2000 : (u16)0);
+            p = &gifoie_emitter_bands[this->pad_44].rows[i];
+            this->pad_1C[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->pad_20, &r, p->entry, (p->flags & 0x1000) ? (u16)0x2000 : (u16)0);
             if (this->pad_44 == 2) {
                 if (level >= 0xF && level < 0x19) {
                     if (i <= 1 && this->pad_1C[i] != NULL) {
@@ -244,7 +241,7 @@ TTecGiFoieFlame::~TTecGiFoieFlame() {
     if (this->pad_47 != 0) {
         this->pad_1C[0]->queue_destruction();
     } else {
-        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->pad_44].count; i++) {
+        for (i = 0; i < gifoie_emitter_bands[this->pad_44].count; i++) {
             this->pad_1C[i]->queue_destruction();
         }
     }
@@ -323,7 +320,7 @@ void TTecGiFoieFlame::run_task() {
         rot[0] = rot[1] - 0x8000;
         rot[1] = roll;
         rot[2] = 0x4000;
-        for (; i < TTecGiFoie__emitter_profile_table[pad_44].count; i++) {
+        for (; i < gifoie_emitter_bands[pad_44].count; i++) {
             pad_1C[i]->set_position(&pad_2C);
             pad_1C[i]->set_direction(rot);
         }
