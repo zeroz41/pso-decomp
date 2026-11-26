@@ -421,7 +421,7 @@ void TObjGoGoBall::render() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
+s32 TObjGoGoBall::reflect_velocity_off_collision(Vec *pos, Vec *vel) {
     Vec end;
     Vec dir;
     Vec a;
@@ -433,14 +433,14 @@ s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
     f32 len;
     f32 d;
     f32 px, py, pz, nx, ny, nz;
-    end.x = ((Vec *)p)->x + ((Vec *)v)->x;
-    end.y = ((Vec *)p)->y + ((Vec *)v)->y;
-    end.z = ((Vec *)p)->z + ((Vec *)v)->z;
-    VecCopy(&dir, (const Vec *)v);
+    end.x = pos->x + vel->x;
+    end.y = pos->y + vel->y;
+    end.z = pos->z + vel->z;
+    VecCopy(&dir, vel);
     len = vector_length(&dir);
     if ((0.0f) != len) {
         normalize_vector(&dir);
-        VecCopy(&a, (const Vec *)p);
+        VecCopy(&a, pos);
         a.x -= (3.0f) * (dir.x * len);
         a.y -= (3.0f) * (dir.y * len);
         a.z -= (3.0f) * (dir.z * len);
@@ -456,33 +456,33 @@ s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
     nx = tri->normal.x;
     ny = tri->normal.y;
     nz = tri->normal.z;
-    r.x = ((Vec *)v)->x;
-    r.y = ((Vec *)v)->y;
-    r.z = ((Vec *)v)->z;
+    r.x = vel->x;
+    r.y = vel->y;
+    r.z = vel->z;
     d = (2.0f) * vec3_dot(&r, &tri->normal);
     r.x -= d * nx;
     r.y -= d * ny;
     r.z -= d * nz;
-    q.x = px - ((Vec *)p)->x;
-    q.z = pz - ((Vec *)p)->z;
+    q.x = px - pos->x;
+    q.z = pz - pos->z;
     q.y = (0.0f);
     vector_length(&q);
-    ((Vec *)v)->x = r.x * restitution;
-    ((Vec *)v)->z = r.z * restitution;
+    vel->x = r.x * restitution;
+    vel->z = r.z * restitution;
     normalize_vector(&r);
     throw_up_speed *= restitution;
-    ((Vec *)v)->y = r.y * throw_up_speed;
-    s.x = ((Vec *)v)->x;
-    s.z = ((Vec *)v)->z;
+    vel->y = r.y * throw_up_speed;
+    s.x = vel->x;
+    s.z = vel->z;
     s.y = throw_up_speed;
     if (vector_length(&s) < (1.0f) - restitution) {
-        ((Vec *)v)->x = (0.0f);
-        ((Vec *)v)->y = (0.0f);
-        ((Vec *)v)->z = (0.0f);
+        vel->x = (0.0f);
+        vel->y = (0.0f);
+        vel->z = (0.0f);
     }
-    ((Vec *)p)->x += ((Vec *)v)->x;
-    ((Vec *)p)->z += ((Vec *)v)->z;
-    ((Vec *)p)->y = (0.001f) * r.y + py;
+    pos->x += vel->x;
+    pos->z += vel->z;
+    pos->y = (0.001f) * r.y + py;
     return 1;
     }
     return 0;
