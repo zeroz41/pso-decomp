@@ -87,7 +87,6 @@ const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTabl
 
 
 
-    extern int story_select_pending_state;
 void TLobby::reset_story_select() { TAdStorySelectGC::set_state((saddr)((void*)0)); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
@@ -360,8 +359,8 @@ void send_6x05_wave_set_switch(s16 switch_id) {
     }
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
-int link_matching_objects__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::link_matching_objects)(p); }
-int spawn_objects_at_pos__6TLobbyFPv(void *p) { return ((int (*)(void *))spawn_objects_at_pos)(p); }
+s32 wave_link_objects(s16 room, s16 wave) { return TLobby::link_matching_objects(room, wave); }
+s32 wave_spawn_objects(s16 room, s16 wave) { return spawn_objects_at_pos(room, wave); }
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
@@ -384,8 +383,8 @@ WaveEventAction wave_event_action_table[16] = {
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)spawn_objects_at_pos__6TLobbyFPv },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)link_matching_objects__6TLobbyFPv },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_spawn_objects },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_link_objects },
     { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_set_switch },
     { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_clear_switch },
     { dispatch_wave_event_action, (WaveEventActionFunc)send_6x67_wave_trigger_event },

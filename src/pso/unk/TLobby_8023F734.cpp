@@ -511,7 +511,6 @@ u8 lbl_80517BEC[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effec
 void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
-s32 sndStreamMixParameter(u32, u8, u8, u8, u8);
 s32 adxt_get_stat(s32);
 s32 adx_ui_bridge_get_stream_id(s32, s32);
 }
@@ -549,9 +548,6 @@ void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 
     }
 }
 
-extern "C" {
-s32 sndOutputMode(s32);
-}
 
 s32 SoundControlState::advance_rng() {
     rng_seed = rng_seed * 0x10DCD + 1;
@@ -738,7 +734,6 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 extern "C" {
 
 s32 free_sound_entry_data(SoundControlState *self, int id);
-u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
 s32 SoundControlState::is_ready() {
     return (u8) (load_state == 1);
@@ -898,9 +893,6 @@ fail:
 }
 
 
-extern "C" {
-s32 sndPopGroup();
-}
 int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
 s32 update_sound_frame(SoundControlState *self) {
     s32 t;
@@ -1069,9 +1061,6 @@ s32 SoundControlState::pop_sound_groups(s32 pop_all) {
 #pragma push
 
 #pragma fp_contract on
-extern "C" {
-s32 sndVolume(s32, s32, s32);
-}
 
 s32 SoundControlState::validate_and_set_selection(s32 bank) {
     if ((bank < 0) || (bank >= 0x16)) {

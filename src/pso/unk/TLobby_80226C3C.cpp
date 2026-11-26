@@ -5,6 +5,7 @@
 #include "pso/audio/AdxTalk.h"
 #include "pso/audio/AdxtEntryAfs.h"
 #include "types.h"
+#include "musyx/musyx.h"
 #include <dolphin/ar.h>
 #include <dolphin/ai.h>
 #include "pso/system/vector.h"
@@ -279,22 +280,16 @@ void turn_off_bgm_p2(void) {
 extern "C" {
 s32 VISetPreRetraceCallback(void (*callback)(void));
 }
-struct SndHooks {
-    void *(*malloc)(u32 size);
-    void (*free)(void *ptr);
-};
 extern "C" {
 void gcrna_bridge_init_buffers(void *work, s32 size, s32 count);
 }
 extern "C" {
 s32 VISetPostRetraceCallback(int (*callback)(void *));
-void sndSetHooks(SndHooks *hooks);
-s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
 
 // The four .acx streams start_bgm_stream starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
-extern const SndHooks snd_hooks = { musyx_malloc_hook, TLobby::free };
+extern const SND_HOOKS snd_hooks = { musyx_malloc_hook, TLobby::free };
 const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
 
 // Area music: each program names its .afs archive and two passage lists (modes[0]/[1]).
@@ -582,7 +577,7 @@ void init_adx_audio_system(void) {
     adxt_init();
     setup_adx_file_systems(NULL);
     init_runtime_threads(NULL);
-    SndHooks hooks = snd_hooks;
+    SND_HOOKS hooks = snd_hooks;
     ARInit(lbl_804CB838, 6);
     ARQInit();
     AIInit(NULL);

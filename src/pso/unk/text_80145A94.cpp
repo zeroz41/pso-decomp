@@ -13,11 +13,11 @@
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80145E40.h"
+#include "pso/system/SwitcherLaunch.h"
 
 
 
 
-extern s16 disc_error_code;
 void *network_info_work;
 u16 network_info_flags;
 u16 network_config_open;

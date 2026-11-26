@@ -22,9 +22,8 @@ void create_empty_floor_event(SetDestroyEventRecord *event);
 void spawn_destroy_event(SetDestroyEventRecord *event);
 void dispatch_wave_event_action(u8 opcode);
 saddr get_floor_scene_table(s32 area);
-extern "C" {
-int link_matching_objects__6TLobbyFPv(void *p);
-}
+// Wave event opcode 9: links the objects of a room's wave.
+s32 wave_link_objects(s16 room, s16 wave);
 s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities);
 s32 read_be_u32(void);
 u16 read_stream_u16(void);
@@ -36,9 +35,8 @@ void send_6x05_wave_clear_switch(s32 switch_id);
 void send_6x05_wave_set_switch(s16 switch_id);
 void send_6x67_wave_trigger_event(s32 event_id);
 s32 set_floor_event_flags(s32 floor, s32 id, s32 flags);
-extern "C" {
-int spawn_objects_at_pos__6TLobbyFPv(void *p);
-}
+// Wave event opcode 8: spawns the objects of a room's wave.
+s32 wave_spawn_objects(s16 room, s16 wave);
 void swap_object_row_endian(void *row_ptr);
 
 struct FloorSceneEntry {
