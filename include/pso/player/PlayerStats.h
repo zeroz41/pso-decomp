@@ -20,6 +20,7 @@ struct stats {
 struct player_stats {
     void bswap();
     player_stats &operator=(player_stats &src);
+    void clear();
 
     struct stats stats;
     short esp;

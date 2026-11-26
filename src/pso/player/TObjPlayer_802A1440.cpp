@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlyCharData.h"
@@ -8,18 +7,16 @@
 
 extern "C" {
 
-int clear_player_data_block(void*);
-
-void PlayerCharDataEntry::clear() { role = 0; TAdSelectTxtGC__sub_802A16A8(&lobby_header); flags.reset(); char_data.initialize_player_data(); }
+void PlayerCharDataEntry::clear() { role = 0; lobby_header.clear(); flags.reset(); char_data.initialize_player_data(); }
 
 void PlayerCharDataEntry::copy_from_player(TObjPlayer *player) {
     flags.set(1);
-    role = TAdSelectTxtGC__sub_802A16C0(player);
+    role = player->get_control_role();
     lobby_header.copy_from(&player->guild_card_tag);
     player->export_character_data(&char_data);
 }
 
-void TPlyCharData::initialize_player_data() { m_inventory.m_language = 0; m_inventory.m_tp_materials_used = 0; m_inventory.m_hp_materials_used = 0; m_inventory.m_num_items = 0; init_inventory_items(); ((TAdSelectTxtGC *)&m_stats)->reset_state(); clear_player_data_block(&m_disp_part2); m_config.init(); clear_technique_levels(); }
+void TPlyCharData::initialize_player_data() { m_inventory.m_language = 0; m_inventory.m_tp_materials_used = 0; m_inventory.m_hp_materials_used = 0; m_inventory.m_num_items = 0; init_inventory_items(); m_stats.clear(); m_disp_part2.clear(); m_config.init(); clear_technique_levels(); }
 
 void TPlyCharData::clear_technique_levels() {
     s32 i;

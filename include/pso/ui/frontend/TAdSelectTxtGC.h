@@ -29,8 +29,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void reset_state();
-public:
     void reset_slots(TAdSelectTxtLayout *layout, s32 value);
 
     TAdSelectTxtEntry entries[8];
@@ -39,11 +37,6 @@ public:
 };
 
 extern uaddr ad_select_text_texture_handle;
-
-extern "C" {
-void TAdSelectTxtGC__sub_802A16A8(void *p);
-s32 TAdSelectTxtGC__sub_802A16C0(void *p);
-}
 
 void load_select_gamen_texture();
 void free_select_gamen_texture();

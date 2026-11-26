@@ -526,6 +526,7 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_0x2();
     int unregister_sub();
     void set_control_role(s32 v);
+    s32 get_control_role();
     void set_language(s32 v);
     void reset_entrance_id();
     void set_def_materials_used(u8 v);
