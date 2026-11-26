@@ -866,7 +866,7 @@ s32 SoundControlState::start_sound_bank_load(int id) {
     }
     for (i = 0; i < 4; i++) {
         ADXF_ReadNw(bank_file_handles[i], (s32)(bank_file_sizes[i] / 2048), ents[id].file_data[i]);
-        set_entry_params(&bank_file_handles[i], i, bank_file_sizes[i] / 2048, (saddr)ents[id].file_data[i]);
+        set_entry_params(&bank_file_handles[i], i, bank_file_sizes[i] / 2048, ents[id].file_data[i]);
     }
     return 0;
 fail:

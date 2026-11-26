@@ -76,7 +76,7 @@ void clear_player_name_copy_buffer(void) {
 
 AdxfHandle **lobby_checked_read_ptr_table[4] = { 0, 0, 0, 0 };
 s32 lobby_checked_read_sector_counts[4] = { 0, 0, 0, 0 };
-uaddr lobby_checked_read_buffers[4] = { 0, 0, 0, 0 };
+void *lobby_checked_read_buffers[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
 u8 lobby_font_texture_loaded;
 AdxfHandle **pending_file_read_handle_ref;
@@ -877,7 +877,7 @@ void flush_checked_reads() {
 
     for (i = 0; i < 4; i++) {
         if (lobby_checked_read_ptr_table[i] != NULL && lobby_checked_read_sector_counts[i] != 0 && lobby_checked_read_buffers[i] != 0) {
-            ADXF_ReadNw(*lobby_checked_read_ptr_table[i], lobby_checked_read_sector_counts[i], (void *)lobby_checked_read_buffers[i]);
+            ADXF_ReadNw(*lobby_checked_read_ptr_table[i], lobby_checked_read_sector_counts[i], lobby_checked_read_buffers[i]);
         }
     }
 }
@@ -900,7 +900,7 @@ void clear_player_slot_tables(s32 n) {
     lbl_80499A30[n] = 0;
 }
 
-void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, s32 buffer) {
+void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, void *buffer) {
     lobby_checked_read_ptr_table[index] = handle;
     lobby_checked_read_sector_counts[index] = sector_count;
     lobby_checked_read_buffers[index] = buffer;
@@ -908,7 +908,7 @@ void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, s32 buff
 
 #pragma push
 
-void set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
+void set_read_params(AdxfHandle **handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
 
 void request_pending_file_read_flush(void) { pending_file_read_flush_requested = 1; }
 
