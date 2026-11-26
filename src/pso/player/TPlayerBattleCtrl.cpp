@@ -34,7 +34,7 @@
 
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_801C23A8.h"
+#include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800C7FEC.h"
 #include <string.h>

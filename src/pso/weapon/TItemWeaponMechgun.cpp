@@ -2,7 +2,7 @@
 #include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemMenuCtrl.h"
-#include "pso/unk/text_80120D50.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffLandHit.h"

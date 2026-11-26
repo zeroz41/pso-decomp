@@ -19,7 +19,7 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/effect/item/TItemEffFlame.h"
-#include "pso/unk/text_8011BE50.h"
+#include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"

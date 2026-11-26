@@ -40,7 +40,6 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80072004.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"

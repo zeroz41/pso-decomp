@@ -43,7 +43,7 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/text_80269FE8.h"
-#include "pso/unk/text_80271400.h"
+#include "pso/ui/window/TWindowStatus.h"
 
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/base/TObjCharaHelpers.h"

@@ -43,7 +43,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_8015C534.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResource.h"

@@ -29,7 +29,6 @@
 #include "pso/system/task/TObject.h"
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/text_802233F8.h"
 

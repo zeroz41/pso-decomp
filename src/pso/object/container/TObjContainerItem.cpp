@@ -38,7 +38,6 @@
 #include "pso/object/fence/TLazerFenceSw.h"
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/object/cave/TOAirconCave01.h"
-#include "pso/unk/text_8018A3E0.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixStack.h"

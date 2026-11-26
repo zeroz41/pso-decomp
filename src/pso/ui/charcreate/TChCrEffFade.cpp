@@ -10,7 +10,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include <stddef.h>
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_80293D84.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 
 const char *TChCrEffFade::class_name = "TChCrEffFade";

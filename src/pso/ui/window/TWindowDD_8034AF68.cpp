@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowDD_8034AF68.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/unk/text_8034AD38.h"
 
 #pragma pool_data off
 

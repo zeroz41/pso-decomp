@@ -5,4 +5,8 @@
 
 u32 pack_weapon_trail_color(void *weapon);
 
+struct NJS_OBJECT;
+
+void apply_weapon_node_material(NJS_OBJECT *);
+
 #endif

@@ -7,8 +7,6 @@
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_8007A7B8.h"
-#include "pso/unk/text_8007A7A0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixVector.h"

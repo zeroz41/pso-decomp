@@ -19,7 +19,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/text_80222C28.h"
 

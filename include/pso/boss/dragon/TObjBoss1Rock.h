@@ -27,4 +27,9 @@ struct TObjBoss1Rock : public TObject {
 };
 
 LAYOUT_ASSERT(TObjBoss1Rock_size, sizeof(TObjBoss1Rock) == 0x54);
+
+extern "C" {
+void TObjBoss1Rock__sub_8002E3CC(void);
+void TObjBoss1Rock__sub_8002E3D0(void);
+}
 #endif

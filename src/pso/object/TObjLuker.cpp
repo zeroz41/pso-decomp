@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
-#include "pso/unk/text_8023601C.h"
+#include "pso/object/TActorLight.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"

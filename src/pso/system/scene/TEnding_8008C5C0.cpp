@@ -2,7 +2,6 @@
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"
 #include "pso/render/gjSystem.h"
-#include "pso/unk/text_8008C4F4.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

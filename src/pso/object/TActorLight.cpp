@@ -8,7 +8,6 @@
 #include "pso/system/vector.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/text_8023601C.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/technique/TTecShot.h"

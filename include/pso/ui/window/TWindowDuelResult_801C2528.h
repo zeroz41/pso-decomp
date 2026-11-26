@@ -7,4 +7,6 @@
 // The rankings of the running battle: the split-screen table offline, the network duel table online.
 BattleRanking *get_battle_rankings(void);
 
+void show_duel_result_window(saddr gain, saddr duration);
+
 #endif

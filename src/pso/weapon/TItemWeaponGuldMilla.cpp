@@ -4,8 +4,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffLandHit.h"
-#include "pso/unk/text_8011B328.h"
-#include "pso/unk/text_8011B620.h"
+#include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
 

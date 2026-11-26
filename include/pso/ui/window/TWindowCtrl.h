@@ -148,5 +148,6 @@ LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 
 extern u16 short_mail_flags;
 
+void close_window_if_active(s32 client);
 
 #endif

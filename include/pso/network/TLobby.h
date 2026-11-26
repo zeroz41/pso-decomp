@@ -705,4 +705,10 @@ void queue_join_entry_exit_on_input(void *self);
 void show_card_list_message(void *msg);
 void show_join_entry_message(s32 id);
 
+class TPlyCharData;
+
+TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src);
+
+u8 *get_password_input_buffer(void);
+
 #endif

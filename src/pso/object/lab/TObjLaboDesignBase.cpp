@@ -13,7 +13,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_80365348.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/object/base/ObjectSetData.h"

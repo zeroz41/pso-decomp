@@ -20,7 +20,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_8026C7AC.h"
+#include "pso/unk/text_8026C664.h"
 #include "pso/player/PlayerRequirementStats.h"
 
 const char *TWindowSubStatusDisp::class_name = "TWindowSubStatusDisp";

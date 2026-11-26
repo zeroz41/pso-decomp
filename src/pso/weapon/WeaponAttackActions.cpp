@@ -33,7 +33,6 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/item/item_param.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/unk/text_80120150.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/effect/item/TItemEffEquip.h"
 #include "pso/unk/text_803D8F74.h"

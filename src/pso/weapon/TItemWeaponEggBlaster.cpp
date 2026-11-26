@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponEggBlaster.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_8011BEF0.h"
+#include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/unk/text_80125428.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"

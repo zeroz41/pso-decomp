@@ -37,7 +37,6 @@
 #include "pso/item/shop/ShopItemSort.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8022350C.h"
 
 #pragma readonly_strings on
 

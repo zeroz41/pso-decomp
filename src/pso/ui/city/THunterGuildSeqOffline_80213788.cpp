@@ -31,7 +31,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8022350C.h"
 
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;

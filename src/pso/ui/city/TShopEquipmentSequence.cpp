@@ -20,7 +20,6 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
 s32 TShopEquipmentSequence::slot_active_flags[4];

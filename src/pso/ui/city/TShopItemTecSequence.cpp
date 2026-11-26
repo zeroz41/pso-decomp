@@ -22,7 +22,6 @@
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
 s32 TShopItemTecSequence::slot_table[4];

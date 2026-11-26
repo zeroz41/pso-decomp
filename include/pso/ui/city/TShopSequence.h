@@ -5,6 +5,7 @@
 
 struct NJS_POINT2;
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/camera/TCameraConversation.h"
 
 struct TObjPlayer;
 class TMessageWindowController;
@@ -28,5 +29,9 @@ struct TShopSequence : public TShopWindowBase {
 };
 
 LAYOUT_ASSERT(TShopSequence_size, sizeof(TShopSequence) == 0x2C);
+
+// Opens the conversation camera of a service counter (an index into
+// service_counter_camera_table); sequence, the counter's sequence, is unused.
+TCameraConversation *set_service_counter_camera(void *sequence, s32 counter);
 
 #endif

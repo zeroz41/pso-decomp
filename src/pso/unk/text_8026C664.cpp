@@ -6,7 +6,6 @@
 #include "pso/unk/text_8026C664.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/unk/text_8026C7AC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/object/ambient/TObjFish.h"

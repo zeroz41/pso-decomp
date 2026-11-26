@@ -15,7 +15,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/text_803516F8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>

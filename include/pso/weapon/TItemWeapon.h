@@ -201,4 +201,10 @@ void increment_model_node_counter(void);
 TItem *create_common_weapon(u8 *item);
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
 void reset_model_node_counter(void);
+
+extern "C" {
+// TItemWeapon's constructor under its own symbol, for the derived classes
+// still written as C functions.
+u8 *__ct__11TItemWeaponFP7TObjectPUc(TItemWeapon *weapon, void *parent, u8 *item);
+}
 #endif

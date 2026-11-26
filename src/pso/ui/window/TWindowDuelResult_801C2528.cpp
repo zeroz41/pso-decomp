@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"

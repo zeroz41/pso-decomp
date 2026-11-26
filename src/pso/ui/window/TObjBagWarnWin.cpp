@@ -22,7 +22,6 @@
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80211C3C.h"
 
 #include "pso/unk/text_8006EBC4.h"
 

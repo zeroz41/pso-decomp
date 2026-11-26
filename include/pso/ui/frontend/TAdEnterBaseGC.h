@@ -58,4 +58,10 @@ extern "C" {
 s32 TAdPsoPassSaveGC__sub_8032B584(void);
 }
 
+void draw_masked_password_field(saddr context);
+extern "C" {
+void fn_8032AC24(void);
+void fn_8032AC9C(void *window, void *context);
+}
+
 #endif

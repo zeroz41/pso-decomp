@@ -28,7 +28,6 @@ extern const char *medical_center_mes_class_name;
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_8022350C.h"
 
 s32 medical_center_slot_active_flags[4];
 s32 TMedicalCenterMes::slot_flags[4];

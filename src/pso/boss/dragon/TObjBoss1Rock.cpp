@@ -12,7 +12,6 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_8002E174.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/system/BmlResource.h"
 

@@ -25,7 +25,6 @@
 #include "pso/effect/item/TItemEffCane.h"
 #include "pso/effect/item/TItemWpnCardEffect.h"
 #include "pso/unk/text_80120908.h"
-#include "pso/unk/text_80120D50.h"
 #include "pso/unk/text_803D96A8.h"
 
 struct W_802D5B78 { s32 a; s32 b; s32 c; };

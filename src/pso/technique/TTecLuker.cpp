@@ -13,7 +13,7 @@
 #include "pso/technique/TTelepipeSelectField.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
-#include "pso/unk/text_8023601C.h"
+#include "pso/object/TActorLight.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"

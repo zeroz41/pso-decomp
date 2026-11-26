@@ -6,4 +6,6 @@
 void append_padded_number(s32 v, u8 n);
 void append_text_space(void);
 
+char *format_int_decimal(s32 v, char *out);
+
 #endif

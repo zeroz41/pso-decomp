@@ -41,7 +41,6 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowMakeTeam_8026534C.h"
-#include "pso/unk/text_8013ADE4.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
@@ -58,7 +57,6 @@
 #include <stdio.h>
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLobby_8013A874.h"
-#include "pso/unk/text_8013AAD4.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
@@ -72,7 +70,6 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_8013ADD0.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/TSetManager.h"

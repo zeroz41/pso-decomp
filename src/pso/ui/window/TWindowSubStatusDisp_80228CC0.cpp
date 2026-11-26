@@ -64,7 +64,6 @@ void append_padded_number(s32 v, u8 n) {
 
 // ---- pso/unk/text_80228E98
 
-#include "pso/unk/text_80228E98.h"
 
 char *format_int_decimal(s32 v, char *out) {
     u8 digits[16];

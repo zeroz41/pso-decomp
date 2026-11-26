@@ -13,7 +13,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/text_8030C340.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"

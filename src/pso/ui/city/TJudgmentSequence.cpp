@@ -10,7 +10,6 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
 s32 TJudgmentSequence::slot_flags[4];

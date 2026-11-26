@@ -14,7 +14,6 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/text_8013ADE4.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

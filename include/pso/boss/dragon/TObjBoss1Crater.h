@@ -40,4 +40,6 @@ s32 attack_target_list_count(PointerBuffer *buffer);
 // Drops entry index, moving the last entry into its place.
 void attack_target_list_remove(PointerBuffer *buffer, s32 index);
 
+void load_dragon_ground_assets(void);
+
 #endif

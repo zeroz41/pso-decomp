@@ -80,7 +80,6 @@
 
 #include "pso/unk/text_802A1020.h"
 
-#include "pso/unk/text_802A1154.h"
 
 #include "pso/unk/text_80290BEC.h"
 
@@ -90,7 +89,7 @@
 
 #include "pso/system/scene/TEnding.h"
 
-#include "pso/unk/text_8008C4F4.h"
+#include "pso/system/scene/TEnding_8008C5C0.h"
 
 #include "pso/system/scene/OfflineGameScene.h"
 

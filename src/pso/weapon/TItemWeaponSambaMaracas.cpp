@@ -2,7 +2,7 @@
 #include "pso/weapon/TItemWeaponSambaMaracas.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_8011BEF0.h"
+#include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponSambaMaracas::emit_marker_effects() {

@@ -13,7 +13,7 @@
 #include "pso/unk/TTitleScene.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/text_802A1144.h"
+#include "pso/unk/text_802A1020.h"
 #include "pso/ui/frontend/TTitleBackground.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"

@@ -25,4 +25,8 @@ extern const s32 category4_id_count;
 
 s32 get_word_select_type_state(s32 state, s32 item);
 
+extern "C" {
+void push_recent_id(s16 id);
+}
+
 #endif

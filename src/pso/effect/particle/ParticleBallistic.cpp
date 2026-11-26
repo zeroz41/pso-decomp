@@ -8,7 +8,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/unk/text_8023601C.h"
+#include "pso/object/TActorLight.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"

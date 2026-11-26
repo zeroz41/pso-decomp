@@ -17,7 +17,7 @@
 #include "pso/ui/window/TWindowWordSelectMode.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80228E98.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include <string.h>
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"

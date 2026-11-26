@@ -39,13 +39,10 @@
 
 #include "pso/unk/TLobby_80132ED0.h"
 
-#include "pso/unk/text_8032AACC.h"
 
-#include "pso/unk/text_8032AC9C.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_8013ADE4.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 
 struct LengthLimits { u32 n[4]; };

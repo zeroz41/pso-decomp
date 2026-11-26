@@ -38,4 +38,6 @@ CollisionBody *get_labo_design_entry(int design);
 BmlResource *get_labo_design_object(int design);
 
 LAYOUT_ASSERT(TObjLaboDesignBase_size, sizeof(TObjLaboDesignBase) == 0xC0);
+
+void load_labo_design_object_table(void);
 #endif

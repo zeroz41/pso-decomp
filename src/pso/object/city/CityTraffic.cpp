@@ -15,7 +15,6 @@
 #include "pso/system/vector.h"
 #include "pso/object/city/TObjCityAirCar_Car.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
-#include "pso/unk/text_801811FC.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/system/task/TObject.h"
