@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLanguage.h"
+#include "pso/unk/text_803DAFA8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/render/GinjaTexture.h"
@@ -178,10 +179,10 @@ void TLobby::release_bg_multi_textures() {
     }
 }
 void TBGMulti__ct(void) {
-    s32 palette[4];
+    GvplPalette palette;
     if (TCameraCtrl::get_camera_id() == 3) {
-        palette[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
-        TLanguage::draw_string((void *)"f128_gr.gvp", palette, 0x4D);
+        palette.data = TLobby::tmp_buf_use_req("TBGMulti");
+        TLanguage::load_palette_tlut("f128_gr.gvp", &palette, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
         TObjFish::set_global_param(TBGMulti__textures = LoadPvmFileTls("bg_multi.gvm"));
         set_context_texture_palette_bank(0, 0x4D);

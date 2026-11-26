@@ -29,6 +29,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TLanguage.h"
+#include "pso/unk/text_803DAFA8.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/vector.h"
@@ -879,18 +880,18 @@ void TWindowCtrlMain::free_window() {
 }
 
 void load_hud_palette_textures(void) {
-    s32 palette[3];
-    palette[0] = (saddr)TLobby::tmp_buf_use_req("TWindowBase");
-    TLanguage::draw_string((void *)f256_hyouji_a_palette_file, (void *)palette, 0x40);
-    TLanguage::draw_string((void *)hud_palette_texture_filename, (void *)palette, 0x41);
-    TLanguage::draw_string((void *)f256_hyouji_c_palette_file, (void *)palette, 0x42);
-    TLanguage::draw_string((void *)b256_mainmenu_palette_file, (void *)palette, 0x44);
-    TLanguage::draw_string((void *)f256_actionpallet_a_palette_file, (void *)palette, 0x45);
-    TLanguage::draw_string((void *)f256_actionpallet_b_palette_file, (void *)palette, 0x46);
-    TLanguage::draw_string((void *)f256_actionpallet_c_palette_file, (void *)palette, 0x47);
-    TLanguage::draw_string((void *)r256_symparts_palette_file, (void *)palette, 1);
-    TLanguage::draw_string((void *)f256_duelcount_palette_file, (void *)palette, 0x4A);
-    TLanguage::draw_string((void *)f256_carsol_palette_file, (void *)palette, 0x43);
+    GvplPalette palette;
+    palette.data = TLobby::tmp_buf_use_req("TWindowBase");
+    TLanguage::load_palette_tlut(f256_hyouji_a_palette_file, &palette, 0x40);
+    TLanguage::load_palette_tlut(hud_palette_texture_filename, &palette, 0x41);
+    TLanguage::load_palette_tlut(f256_hyouji_c_palette_file, &palette, 0x42);
+    TLanguage::load_palette_tlut(b256_mainmenu_palette_file, &palette, 0x44);
+    TLanguage::load_palette_tlut(f256_actionpallet_a_palette_file, &palette, 0x45);
+    TLanguage::load_palette_tlut(f256_actionpallet_b_palette_file, &palette, 0x46);
+    TLanguage::load_palette_tlut(f256_actionpallet_c_palette_file, &palette, 0x47);
+    TLanguage::load_palette_tlut(r256_symparts_palette_file, &palette, 1);
+    TLanguage::load_palette_tlut(f256_duelcount_palette_file, &palette, 0x4A);
+    TLanguage::load_palette_tlut(f256_carsol_palette_file, &palette, 0x43);
     TLobby::tmp_buf_release("TWindowBase");
     load_disc_prs_texture(f256_hyouji_texture_file, &f256_hyouji_texlist);
     hud_texlist = &f256_hyouji_texlist;

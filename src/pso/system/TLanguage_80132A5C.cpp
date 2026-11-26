@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/TLanguage.h"
+#include "pso/unk/text_803DAFA8.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
@@ -60,49 +61,49 @@ void TLanguage::free_text_resources() {
 }
 
 void TLanguage::load_fonts(s32 language) {
-    s32 palette;
-    palette = (saddr)TLobby::tmp_buf_use_req(class_name);
-    TLanguage::draw_string((void *)f256_alphabet_gvp, &palette, 0x48);
+    GvplPalette palette;
+    palette.data = TLobby::tmp_buf_use_req(class_name);
+    TLanguage::load_palette_tlut(f256_alphabet_gvp, &palette, 0x48);
     TLobby::tmp_buf_release(class_name);
 
     switch (language) {
         case LANGUAGE_JAPANESE:
-            TLanguage::draw_string((void *)f256_symbolsetumei_jpn_gvp, &palette, 0x49);
-            TLanguage::draw_string((void *)f128_keyjpn_gvp, &palette, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_jpn_gvp, &palette, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_j_gvp, &palette, 0x4B, 0x4C);
+            TLanguage::load_palette_tlut(f256_symbolsetumei_jpn_gvp, &palette, 0x49);
+            TLanguage::load_palette_tlut(f128_keyjpn_gvp, &palette, 2);
+            TLanguage::load_palette_tlut(f064_wordmojitex_jpn_gvp, &palette, 3);
+            TLanguage::decode_font_data(b256_menutext01_j_gvp, &palette, 0x4B, 0x4C);
             localized_alphabet_list = LoadPvmFileTls(TextureJapanese_gvm);
             break;
 
         case LANGUAGE_GERMAN:
-            TLanguage::draw_string((void *)f256_symbolsetumei_ger_gvp, &palette, 0x49);
-            TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_ger_gvp, &palette, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
+            TLanguage::load_palette_tlut(f256_symbolsetumei_ger_gvp, &palette, 0x49);
+            TLanguage::load_palette_tlut(f128_keyeng_gvp, &palette, 2);
+            TLanguage::load_palette_tlut(f064_wordmojitex_ger_gvp, &palette, 3);
+            TLanguage::decode_font_data(b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
             localized_alphabet_list = LoadPvmFileTls(TextureGerman_gvm);
             break;
 
         case LANGUAGE_FRENCH:
-            TLanguage::draw_string((void *)f256_symbolsetumei_fre_gvp, &palette, 0x49);
-            TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_fre_gvp, &palette, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
+            TLanguage::load_palette_tlut(f256_symbolsetumei_fre_gvp, &palette, 0x49);
+            TLanguage::load_palette_tlut(f128_keyeng_gvp, &palette, 2);
+            TLanguage::load_palette_tlut(f064_wordmojitex_fre_gvp, &palette, 3);
+            TLanguage::decode_font_data(b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
             localized_alphabet_list = LoadPvmFileTls(TextureFrench_gvm);
             break;
 
         case LANGUAGE_SPANISH:
-            TLanguage::draw_string((void *)f256_symbolsetumei_spa_gvp, &palette, 0x49);
-            TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_spa_gvp, &palette, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
+            TLanguage::load_palette_tlut(f256_symbolsetumei_spa_gvp, &palette, 0x49);
+            TLanguage::load_palette_tlut(f128_keyeng_gvp, &palette, 2);
+            TLanguage::load_palette_tlut(f064_wordmojitex_spa_gvp, &palette, 3);
+            TLanguage::decode_font_data(b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
             localized_alphabet_list = LoadPvmFileTls(TextureSpanish_gvm);
             break;
 
         default:
-            TLanguage::draw_string((void *)f256_symbolsetumei_eng_gvp, &palette, 0x49);
-            TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_eng_gvp, &palette, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
+            TLanguage::load_palette_tlut(f256_symbolsetumei_eng_gvp, &palette, 0x49);
+            TLanguage::load_palette_tlut(f128_keyeng_gvp, &palette, 2);
+            TLanguage::load_palette_tlut(f064_wordmojitex_eng_gvp, &palette, 3);
+            TLanguage::decode_font_data(b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
             localized_alphabet_list = LoadPvmFileTls(TextureEnglish_gvm);
             break;
     }
