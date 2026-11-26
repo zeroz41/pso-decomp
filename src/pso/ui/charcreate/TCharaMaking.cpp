@@ -39,19 +39,19 @@ extern CharacterAppearanceFields character_creation_visual_record;
 }
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
-CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void) {
+CharacterAppearanceFields *get_character_creation_visual_record(void) {
     return &character_creation_visual_record;
 }
 
-void TObjCMMainMenu__sub_8028D9B4(CharacterAppearanceFields *record) {
+void set_character_creation_visual_record(CharacterAppearanceFields *record) {
     if (record->flags & 0xA) {
-        TObjCMMainMenu__sub_8028D9F8();
+        clear_character_creation_class();
         return;
     }
     copy_player_visual_record(&character_creation_visual_record, record);
 }
 
-void TObjCMMainMenu__sub_8028D9F8(void) {
+void clear_character_creation_class(void) {
     character_creation_visual_record.classId = -1;
 }
 
@@ -110,14 +110,14 @@ s32 get_current_char_flag() {
     s32 x = (s8)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.section_id;
     return (u32) __cntlzw(-1 - x) >> 5;
 }
-void fn_8028DBC4(s32 _w0) {
+void reset_current_char_appearance(s32 _w0) {
     CharacterAppearanceFields *character_appearance_fields;
     character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
     copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
-int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { fn_8028DBC4((saddr)p); return 1; }
+int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { reset_current_char_appearance((saddr)p); return 1; }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 

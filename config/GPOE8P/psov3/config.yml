@@ -134,7 +134,7 @@ force_active:
   - show_card_incompatible_message__16TAdChrSelBSlotGCFv
   - show_unsupported_device_message__16TAdChrSelBSlotGCFv
   - name__15TAdChrSelSlotGC
-  - sub_802C754C__15TAdChrSelSlotGCFl
+  - hide_slot__15TAdChrSelSlotGCFl
   - TAdDialingGC__sub_803284F8
   - name__23TAdDialingMessageWindow
   - class_name__15TAdDrawLineCtrl
@@ -275,11 +275,11 @@ force_active:
   - get_spawn_point__17TObjEneBm3FlyNestFv
   - update_down_state__17TObjEneBm3FlyNestFl
   - has_pending_spawns__17TObjEneBm3FlyNestFv
-  - sub_802E1528__12TAdTimeSetGCFv
-  - sub_802E15C8__12TAdTimeSetGCFv
+  - is_system_card_file_missing__12TAdTimeSetGCFv
+  - is_system_card_file_absent__12TAdTimeSetGCFv
   - sub_802E1868__12TAdTimeSetGCFv
   - sub_802E18C8__12TAdTimeSetGCFv
-  - sub_802E1A04__12TAdTimeSetGCFllll
+  - open_localized_message_choice__12TAdTimeSetGCFllll
   - report_missing_file__17TCharSaveSequenceFv
   - on_chr_select_fade_out_done
   - close_message_window__17TCharSaveSequenceFv
@@ -943,9 +943,9 @@ force_active:
   - horizontal_scroll_offset__10TObjCMIcon
   - copy_icon_state__10TObjCMIconFP17CreationIconStateP17CreationIconState
   - get_sprite_id__10TObjCMIconFl
-  - TObjCMMainMenu__sub_8028EC18
-  - TObjCMMainMenu__sub_8028EC24
-  - TObjCMMainMenu__sub_8028EC34
+  - set_creation_dressing_room_mode__Fv
+  - clear_character_creation_name__Fv
+  - clear_creation_dressing_room_mode__Fv
   - obj_challenge_retry_class_name
   - __ct__18TObjChallengeRetryFP7TObject
   - __ct__16TObjCityAreaWarpFP7TObjectPv
@@ -1443,7 +1443,7 @@ force_active:
   - shared_model_resource__12TObjNpcHosa2
   - name__11TObjNpcHosa
   - static_model_resource__11TObjNpcHosa
-  - TObjNpcHosa__sub_802A39B0
+  - get_ad_select_text_texture_handle__Fv
   - name__14TObjNpcKenkyu2
   - resource_descriptor__14TObjNpcKenkyu2
   - shared_model_resource__14TObjNpcKenkyu2
@@ -1721,7 +1721,7 @@ force_active:
   - TSetEvtDestroy_name
   - post_step__11TSetManagerFv
   - TShopDeleteItemWindow__sub_80337E2C
-  - TShopEquipmentListWindow__sub_8021C85C
+  - get_shop_weapon_stock_count__Fi
   - TShopEquipmentSequence__sub_8021D65C
   - TShopGenerator__ct
   - slot_active_table__14TShopGenerator
@@ -6387,7 +6387,7 @@ force_active:
   - sub_8025CE00__19TWindowKeyBoardBaseFPUc
   - fn_80262C2C
   - fn_80271848
-  - fn_8028DBC4
+  - reset_current_char_appearance__Fl
   - fn_80293D84
   - draw_bolt__12TBGLightningFP3Vec
   - draw_flash__12TBGLightningFP3Vec
@@ -16301,7 +16301,7 @@ force_active:
   - update_orbit_points__26TItemWeaponDancingHitogataFv
   - is_not_jungle_grass__12TObjNpcEnemyFv
   - init_model_animation__17TAdChrSelPlayerGCFv
-  - sub_802E1F14__12TAdTimeSetGCFv
+  - reset_file_checks__12TAdTimeSetGCFv
   - enter_sway__14TBoss7TentacleFv
   - request_strike__14TBoss7TentacleFv
   - update_stopped__15TObjBoss7TunnelFv

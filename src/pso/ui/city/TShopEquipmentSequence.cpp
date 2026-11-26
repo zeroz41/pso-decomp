@@ -29,14 +29,14 @@ s32 shop_equipment_pending_state;
 
 #pragma readonly_strings on
 const char *shop_equipment_sequence_class_name = "TShopEquipmentSequence";
-void TShopEquipmentSequence__sub_8021DC08(void) {
+void TShopEquipmentSequence::init_slot_active_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TShopEquipmentSequence::slot_active_flags[i] = 0;
     }
 }
 
-void TShopEquipmentSequence__sub_8021DBE0(void) {
+void TShopEquipmentSequence::release_slot_active_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TShopEquipmentSequence::slot_active_flags[i] = 0;

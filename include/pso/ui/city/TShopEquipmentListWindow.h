@@ -44,9 +44,7 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
 
 LAYOUT_ASSERT(TShopEquipmentListWindow_size, sizeof(TShopEquipmentListWindow) == 0x194);
 // --- C functions defined in TShopEquipmentListWindow.cpp ---
-extern "C" {
-int TShopEquipmentListWindow__sub_8021C85C(int a0);
-}
+int get_shop_weapon_stock_count(int slot);
 // --- end of C functions
 
 LAYOUT_ASSERT(TShopEquipmentListWindow_stock_offset, offsetof(TShopEquipmentListWindow, stock) == 0x50);

@@ -118,14 +118,14 @@ TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TSho
 }
 
 
-void TJudgmentSequence__sub_80216030(void) {
+void TJudgmentSequence::release_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TJudgmentSequence::slot_flags[i] = 0;
     }
 }
 
-void TJudgmentSequence__sub_80216058(void) {
+void TJudgmentSequence::init_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TJudgmentSequence::slot_flags[i] = 0;

@@ -570,7 +570,7 @@ void TAdTimeSetGC::run_states_17_18() {
     }
     menu_window->get_selected_value();
     TAdPlayerLoadGC::poll_card_load(0);
-    sub_802E1F14();
+    reset_file_checks();
     change_state(0);
 }
 
@@ -609,12 +609,12 @@ void TAdTimeSetGC::run_states_19_21() {
             delete_guild_card_save_file();
         }
         TAdPlayerLoadGC::poll_card_load(0);
-        sub_802E1F14();
+        reset_file_checks();
         change_state(0);
         break;
     case 1:
         TAdPlayerLoadGC::poll_card_load(0);
-        sub_802E1F14();
+        reset_file_checks();
         change_state(0);
         break;
     }
@@ -680,7 +680,7 @@ void TAdTimeSetGC::run_state_23() {
         change_state(0x18);
         break;
     case 1:
-        sub_802E1F14();
+        reset_file_checks();
         change_state(0);
         break;
     }
@@ -704,7 +704,7 @@ void TAdTimeSetGC::update_state() {
     }
 }
 
-void TAdTimeSetGC::sub_802E1F14() {
+void TAdTimeSetGC::reset_file_checks() {
     system_file_check = -1;
     character_file_check = -1;
     guild_card_file_check = -1;
@@ -715,7 +715,7 @@ void TAdTimeSetGC::sub_802E1F14() {
 }
 
 void TAdTimeSetGC::init() {
-    sub_802E1F14();
+    reset_file_checks();
     back = NULL;
     back_text = NULL;
     message_window = NULL;
@@ -770,7 +770,7 @@ s32 TAdTimeSetGC::count_selected_flags() {
         count += TAdSinglePlyChrSelectGC::get_flag_count();
     }
     if (load_status & 0x1000) {
-        count += TAdSinglePlyChrSelectGC__sub_8001C5F0();
+        count += get_guild_card_save_file_block_count();
     }
     return count;
 }
@@ -862,7 +862,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     ((TWindowOptionCtrl *)menu_window)->clear_flag70_bit4();
 }
 
-void TAdTimeSetGC::sub_802E1A04(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
+void TAdTimeSetGC::open_localized_message_choice(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
     s32 text;
     s32 first_text;
 
@@ -884,7 +884,7 @@ void TAdTimeSetGC::close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 sec
 
 void TAdTimeSetGC::close_and_next(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
     close_windows();
-    sub_802E1A04(entry, sel, first_entry, second_entry);
+    open_localized_message_choice(entry, sel, first_entry, second_entry);
 }
 
 void TAdTimeSetGC::apply_settings() {
@@ -928,7 +928,7 @@ s32 TAdTimeSetGC::poll_load_status() {
     }
     busy_count = 0;
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
-        sub_802E1F14();
+        reset_file_checks();
         return 1;
     }
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
@@ -946,7 +946,7 @@ s32 TAdTimeSetGC::poll_load_status() {
         if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
             return 0x40;
         }
-        if (sub_802E1528() != 0) {
+        if (is_system_card_file_missing() != 0) {
             return 0x80;
         }
         damaged = 0;
@@ -968,7 +968,7 @@ s32 TAdTimeSetGC::poll_load_status() {
         if (system_file_check == 1) {
             return 0x80;
         }
-        if (sub_802E15C8() != 0) {
+        if (is_system_card_file_absent() != 0) {
             if (character_file_check == -1) {
                 character_file_check = 0;
                 if (TAdSinglePlyChrSelectGC::load_character_and_wait() != 0) {
@@ -993,7 +993,7 @@ s32 TAdTimeSetGC::poll_load_status() {
             }
         }
         absent = 0;
-        if (sub_802E15C8() == 0) {
+        if (is_system_card_file_absent() == 0) {
             absent |= 0x400;
         }
         if (is_card_file_absent_b() == 0) {
@@ -1013,7 +1013,7 @@ s32 TAdTimeSetGC::is_load_complete() {
     return 0;
 }
 
-s32 TAdTimeSetGC::sub_802E15C8() {
+s32 TAdTimeSetGC::is_system_card_file_absent() {
     return TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) == 0;
 }
 
@@ -1025,7 +1025,7 @@ s32 TAdTimeSetGC::is_card_file_absent_a() {
     return TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) == 0;
 }
 
-s32 TAdTimeSetGC::sub_802E1528() {
+s32 TAdTimeSetGC::is_system_card_file_missing() {
     return TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) == -0xBF;
 }
 

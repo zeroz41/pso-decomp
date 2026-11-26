@@ -117,7 +117,7 @@ void TAdPlyPltAnimCtrlGC__sub_80355168(TAdPlyPltAnimCtrlGC *ctrl) {
     do {
         TAdPlyPltAnimGC *anim = TAdPlyPltAnimCtrlGC::get_table_value(i);
         if (anim != NULL) {
-            anim->sub_80355D38();
+            anim->reset_anim_state();
         }
         i += 1;
     } while (i < 5);

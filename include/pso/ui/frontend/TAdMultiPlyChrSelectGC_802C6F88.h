@@ -5,8 +5,6 @@
 
 struct NJS_TEXLIST;
 
-extern "C" {
-NJS_TEXLIST *TAdMultiPlyChrSelectGC__sub_802C6FA8(void);
-}
+NJS_TEXLIST *get_player_tex_texture_list(void);
 
 #endif

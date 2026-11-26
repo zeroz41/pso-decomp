@@ -19,6 +19,7 @@ public:
 
     static s32 get_slot_flag(u16 client);
     static void clear_slot_flags();
+    static void init_slot_flags();
 };
 LAYOUT_ASSERT(TMedicalCenterMes_size_check, sizeof(TMedicalCenterMes) == 0x234);
 

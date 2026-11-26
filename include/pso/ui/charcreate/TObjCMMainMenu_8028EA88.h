@@ -6,13 +6,13 @@
 class TObjCMMainMenu;
 struct BmlResource;
 
-extern "C" {
 extern BmlResource *creation_menu_main_obj;
+extern "C" {
 s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu);
-void TObjCMMainMenu__sub_8028EC18(void);
-void TObjCMMainMenu__sub_8028EC24(void);
-void TObjCMMainMenu__sub_8028EC34(void);
 }
+void set_creation_dressing_room_mode(void);
+void clear_character_creation_name(void);
+void clear_creation_dressing_room_mode(void);
 void init_creation_menu_scene(void);
 // The name typed on the creation name screen.
 extern char character_creation_name_buffer[0x18];

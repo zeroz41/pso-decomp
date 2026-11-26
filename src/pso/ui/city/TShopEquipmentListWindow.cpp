@@ -49,9 +49,9 @@ const char *shop_equipment_list_window_class_name = "TShopEquipmentListWindow";
 extern "C" {
 void try_buy_item(void *player, TItemData *item);
 extern const s32 local_client_id;
-
-int TShopEquipmentListWindow__sub_8021C85C(int a0) {  return shop_weapon_stock_counts[a0]; }
 }
+
+int get_shop_weapon_stock_count(int slot) { return shop_weapon_stock_counts[slot]; }
 
 TShopEquipmentListWindow::TShopEquipmentListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
@@ -131,7 +131,7 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
     s32 k;
     u8 *e;
     TWindowCost *c;
-    this->item_count = TShopEquipmentListWindow__sub_8021C85C(get_split_screen_slot());
+    this->item_count = get_shop_weapon_stock_count(get_split_screen_slot());
     for (i = 0; i < this->item_count; i++) {
         get_shop_weapon_stock_item(&tmp, i, get_split_screen_slot());
         this->stock[i].copy_from(&tmp);

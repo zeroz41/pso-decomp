@@ -67,7 +67,7 @@ TAdSelectTxtSubGC *__ct__17TAdSelectTxtSubGCFP7TObjectP17TAdSelectTxtEntry(TAdSe
     self->m_frame = -1;
     self->m_scale_x = 2.0f;
     self->m_scale_y = 2.0f;
-    status_disp_texture_handle = TObjNpcHosa__sub_802A39B0();
+    status_disp_texture_handle = get_ad_select_text_texture_handle();
     self->m_texture = self->m_row > 8;
     self->m_row -= (self->m_row > 8) ? 9 : 0;
     self->m_rest.x0 = 32.0f * (f32)self->m_column + self->m_origin.x;
@@ -84,5 +84,5 @@ TAdSelectTxtSubGC *__ct__17TAdSelectTxtSubGCFP7TObjectP17TAdSelectTxtEntry(TAdSe
 }
 #pragma pop
 
-int TObjNpcHosa__sub_802A39B0(void) {  return ad_select_text_texture_handle; }
+int get_ad_select_text_texture_handle(void) {  return ad_select_text_texture_handle; }
 

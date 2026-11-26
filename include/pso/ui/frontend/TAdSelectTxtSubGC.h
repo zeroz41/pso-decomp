@@ -35,8 +35,6 @@ public:
 
 LAYOUT_ASSERT(TAdSelectTxtSubGC_size, sizeof(TAdSelectTxtSubGC) == 0x88);
 
-extern "C" {
-int TObjNpcHosa__sub_802A39B0(void);
-}
+int get_ad_select_text_texture_handle(void);
 
 #endif

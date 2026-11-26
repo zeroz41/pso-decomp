@@ -35,7 +35,7 @@ struct TAdMcSelectCursorGC : public TObject {
     static TAdMcCheckGC *get_cursor_type(int slot);
     void unlock_selection(); // clears selection_locked; defined in TAdMcSelectGC.cpp
     void lock_selection(); // sets selection_locked to 1; defined in TAdMcSelectGC.cpp
-    s32 sub_8032AAC4(); // returns selected_slot, the selected slot; defined in TAdMcSelectMcGC.cpp, its only caller
+    s32 get_selected_slot(); // returns selected_slot, the selected slot; defined in TAdMcSelectMcGC.cpp, its only caller
 };
 
 LAYOUT_ASSERT(TAdMcSelectCursorGC_quads_offset, offsetof(TAdMcSelectCursorGC, quads) == 0x28);

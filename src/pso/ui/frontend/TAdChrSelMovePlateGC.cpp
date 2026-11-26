@@ -65,7 +65,7 @@ TAdChrSelMovePlateGC::~TAdChrSelMovePlateGC() {}
 TAdChrSelMovePlateGC::TAdChrSelMovePlateGC(TObject *parent) : TObject(parent) {
     s32 i;
     m_name = lbl_805D4190;
-    chr_sel_move_plate_texture = TAdMultiPlyChrSelectGC__sub_802C6FA8();
+    chr_sel_move_plate_texture = get_player_tex_texture_list();
     mode = -1;
     count = 0;
     init_plate_rects();

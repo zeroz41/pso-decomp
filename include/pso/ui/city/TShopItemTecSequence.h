@@ -29,16 +29,14 @@ struct TShopItemTecSequence : public TShopSequence {
     // Window callbacks: the player left the window / has nothing the shop buys.
     static void close(TShopWindowBase *window);
     static void select_and_advance(TShopWindowBase *window);
+    static void init_slot_table();
+    static void release_slot_table();
 };
 
 LAYOUT_ASSERT(TShopItemTecSequence_size, sizeof(TShopItemTecSequence) == 0x38);
 LAYOUT_ASSERT(TShopItemTecSequence_choice_menu_offset, offsetof(TShopItemTecSequence, choice_menu) == 0x30);
 
-extern "C" {
-int TShopItemTecSequence__sub_8021FE6C(int a0);
-void TShopItemTecSequence__sub_80220538(void);
-void TShopItemTecSequence__sub_80220560(void);
-}
+int get_shop_tool_stock_count(int slot);
 void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item);
 
 #endif

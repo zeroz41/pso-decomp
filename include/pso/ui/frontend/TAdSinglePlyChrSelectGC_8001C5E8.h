@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_8001C5F0(void);
-}
+s32 get_guild_card_save_file_block_count(void);
 
 #endif

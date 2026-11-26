@@ -57,15 +57,15 @@ void init_creation_menu_scene(void) {
         load_floor_sound_bank(0);
         play_area_music("CHARA.adx");
         if (get_current_char_flag() != 0) {
-            TObjCMMainMenu__sub_8028EC34();
-            TObjCMMainMenu__sub_8028EC24();
-            TObjCMMainMenu__sub_8028D9F8();
+            clear_creation_dressing_room_mode();
+            clear_character_creation_name();
+            clear_character_creation_class();
             TChCrCharSelect::init_and_create(tl_03);
             create_fade_effect((void *)0xF, (void *)1);
         } else {
-            TObjCMMainMenu__sub_8028EC18();
+            set_creation_dressing_room_mode();
             select_char_menu();
-            TObjCMMainMenu__sub_8028D9F8();
+            clear_character_creation_class();
             TCharaMaking::create(tl_03, (void *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             create_fade_effect((void *)0xF, (void *)1);
         }
@@ -84,10 +84,10 @@ s32 TObjCMMainMenu::is_state_3() {
     return TObjCMMainMenu::state == 3;
 }
 
-void TObjCMMainMenu__sub_8028EC18(void) { creation_dressing_room_mode_flag = 1; }
+void set_creation_dressing_room_mode(void) { creation_dressing_room_mode_flag = 1; }
 
-void TObjCMMainMenu__sub_8028EC24(void) {
+void clear_character_creation_name(void) {
     character_creation_name_buffer[0] = 0;
 }
 
-void TObjCMMainMenu__sub_8028EC34(void) { creation_dressing_room_mode_flag = 0; }
+void clear_creation_dressing_room_mode(void) { creation_dressing_room_mode_flag = 0; }

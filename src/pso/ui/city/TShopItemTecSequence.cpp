@@ -48,14 +48,14 @@ void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item) 
     }
 }
 
-void TShopItemTecSequence__sub_80220560(void) {
+void TShopItemTecSequence::init_slot_table() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TShopItemTecSequence::slot_table[i] = 0;
     }
 }
 
-void TShopItemTecSequence__sub_80220538(void) {
+void TShopItemTecSequence::release_slot_table() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TShopItemTecSequence::slot_table[i] = 0;
@@ -214,5 +214,5 @@ void TShopItemTecSequence::select_and_advance(TShopWindowBase *window) {
     }
 }
 
-int TShopItemTecSequence__sub_8021FE6C(int a0) {  return shop_tool_stock_counts[a0]; }
+int get_shop_tool_stock_count(int slot) { return shop_tool_stock_counts[slot]; }
 

@@ -56,7 +56,7 @@ void TAdMcSelectMcGC::run_task() {
         quads[i].y1 = 256.0f + quads[i].y0;
     }
     cursor = TAdMcSelectGC::get_mc_count();
-    if (cursor != NULL && pad_12c == cursor->sub_8032AAC4()) {
+    if (cursor != NULL && pad_12c == cursor->get_selected_slot()) {
         pad_120 >>= 1;
     }
     slot_cursor = TAdMcSelectCursorGC::get_cursor_type(pad_12c);
@@ -119,4 +119,4 @@ void TAdMcSelectMcGC::init_memorycard() {
     load_streamed_prs_texture("f256_memorycard", &mc_select_memorycard_texture_list);
 }
 
-s32 TAdMcSelectCursorGC::sub_8032AAC4() { return selected_slot; }
+s32 TAdMcSelectCursorGC::get_selected_slot() { return selected_slot; }
