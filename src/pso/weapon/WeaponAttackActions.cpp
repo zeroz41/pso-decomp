@@ -896,7 +896,7 @@ void TItemWeapon::write_item_data(TItemData *data) {
     u8 t;
     s32 ok;
     for (i = 0, off = 0; i != 3; i++, off += 2) {
-        ((TObjPlayer *)(data->data1.data_u8 + 6 + off))->copy_entry_bytes(&attributes[off]);
+        ((WeaponAttribute *)(data->data1.data_u8 + 6 + off))->copy((WeaponAttribute *)&attributes[off]);
     }
     ok = 1;
     data->data1.data_u8[3] = grind;
@@ -950,7 +950,7 @@ void TItemWeapon::apply_owner_bonuses() {
     apply_model_params();
     if (!(this->parameters->flags & 8)) {
         for (i = 0; i != 3; i++) {
-            owner->set_attribute_entry(i, &this->attributes[i * 2]);
+            owner->set_attribute_entry(i, (WeaponAttribute *)&this->attributes[i * 2]);
         }
     }
 }

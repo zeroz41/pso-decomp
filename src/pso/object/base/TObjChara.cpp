@@ -1505,11 +1505,14 @@ WeaponAttribute *TObjPlayer::get_attribute_entry(s32 i) {
     return 0;
 }
 
-void TObjPlayer::copy_entry_bytes(void* q) { *(u8*)((char*)this + 0x0) = *(u8*)((char*)q + 0x0); *(u8*)((char*)this + 0x1) = *(u8*)((char*)q + 0x1); }
+void WeaponAttribute::copy(WeaponAttribute *src) {
+    area = src->area;
+    percent = src->percent;
+}
 
-void TObjPlayer::set_attribute_entry(s32 i, void *q) {
+void TObjPlayer::set_attribute_entry(s32 i, WeaponAttribute *attribute) {
     if (i < 3) {
-        ((TObjPlayer *)&attack_attributes[i])->copy_entry_bytes(q);
+        attack_attributes[i].copy(attribute);
     }
 }
 

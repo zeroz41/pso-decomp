@@ -890,9 +890,9 @@ void TCheckRoomSequence::copy_data(BankItemRecord *p, void *item) {
     dst->data1.data_u8[3] = p->item.data1.data_u8[3];
     dst->data1.data_u8[4] = p->item.data1.data_u8[4];
     dst->data1.data_u8[5] = p->item.data1.data_u8[5];
-    ((TObjPlayer *)&dst->data1.data_u16[3])->copy_entry_bytes(&p->item.data1.data_u16[3]);
-    ((TObjPlayer *)&dst->data1.data_u16[4])->copy_entry_bytes(&p->item.data1.data_u16[4]);
-    ((TObjPlayer *)&dst->data1.data_u16[5])->copy_entry_bytes(&p->item.data1.data_u16[5]);
+    ((WeaponAttribute *)&dst->data1.data_u16[3])->copy((WeaponAttribute *)&p->item.data1.data_u16[3]);
+    ((WeaponAttribute *)&dst->data1.data_u16[4])->copy((WeaponAttribute *)&p->item.data1.data_u16[4]);
+    ((WeaponAttribute *)&dst->data1.data_u16[5])->copy((WeaponAttribute *)&p->item.data1.data_u16[5]);
     dst->id = p->item.id;
     dst->data2.data_u32 = p->item.data2.data_u32;
 }
@@ -906,9 +906,9 @@ void TCheckRoomSequence::copy_item_to_bank_entry(BankItemRecord *entry, TItemDat
     entry->item.data1.data_u8[3] = item->data1.data_u8[3];
     entry->item.data1.data_u8[4] = item->data1.data_u8[4];
     entry->item.data1.data_u8[5] = item->data1.data_u8[5];
-    ((TObjPlayer *)&entry->item.data1.data_u16[3])->copy_entry_bytes(&item->data1.data_u16[3]);
-    ((TObjPlayer *)&entry->item.data1.data_u16[4])->copy_entry_bytes(&item->data1.data_u16[4]);
-    ((TObjPlayer *)&entry->item.data1.data_u16[5])->copy_entry_bytes(&item->data1.data_u16[5]);
+    ((WeaponAttribute *)&entry->item.data1.data_u16[3])->copy((WeaponAttribute *)&item->data1.data_u16[3]);
+    ((WeaponAttribute *)&entry->item.data1.data_u16[4])->copy((WeaponAttribute *)&item->data1.data_u16[4]);
+    ((WeaponAttribute *)&entry->item.data1.data_u16[5])->copy((WeaponAttribute *)&item->data1.data_u16[5]);
     entry->item.id = item->id;
     entry->item.data2.data_u32 = item->data2.data_u32;
     entry->amount = 1;

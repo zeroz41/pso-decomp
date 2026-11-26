@@ -8,6 +8,8 @@
 struct WeaponAttribute {
     u8 area;
     s8 percent;
+
+    void copy(WeaponAttribute *src);
 };
 
 #endif

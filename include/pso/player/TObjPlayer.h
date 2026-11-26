@@ -384,8 +384,7 @@ struct TObjPlayer : public TObjChara {
     s32 clamp_hp_value(s16 *value);
     void set_hp_clamped(s16 value);
     void spawn_recovery_effect();
-    void set_attribute_entry(s32 i, void *q);
-    void copy_entry_bytes(void* q);
+    void set_attribute_entry(s32 i, WeaponAttribute *attribute);
     WeaponAttribute *get_attribute_entry(s32 i);
     static f32 calc_distance_to_client(const TObjBase *actor, u16 client, Vec *delta);
     // Thunder and ice resistance (element_resist 1 and 2), named as in the item help window.
