@@ -73,8 +73,8 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
     input_state = 0;
     next_state = 0;
     serial_length = 0;
-    input_valid = 0;
-    prev_input_valid = 0;
+    serial_valid = 0;
+    prev_serial_valid = 0;
     title = NULL;
     cursor = NULL;
     message_window = NULL;
@@ -124,7 +124,7 @@ void TAdEnterSerialAccessGC::run_task() {
         input_state = 1;
         break;
     case 1:
-        input_valid = 0;
+        serial_valid = 0;
         title = new TAdTitleGC(this, 0xA);
         message_window = open_message_window(0);
         draw_window = create_draw_callback();
@@ -140,7 +140,7 @@ void TAdEnterSerialAccessGC::run_task() {
         update_serial_input();
         break;
     case 3:
-        input_valid = 0;
+        serial_valid = 0;
         if (cursor != NULL) {
             cursor->reset_entries();
             cursor->append_entry(&selection_positions[0]);
@@ -234,15 +234,15 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
         mem_free(text);
         return;
     }
-    prev_input_valid = input_valid;
+    prev_serial_valid = serial_valid;
     if (keyboard_control != NULL) {
         if (forward_input(this, field, text) != 0) {
-            input_valid = 1;
+            serial_valid = 1;
             if (cursor != NULL) {
                 cursor->request_navigation_unlock();
             }
         } else {
-            input_valid = 0;
+            serial_valid = 0;
             if (cursor != NULL) {
                 cursor->lock_navigation();
             }
@@ -252,8 +252,8 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
             play_sound_effect(0x53F06, 0, 0, 0);
         }
     }
-    if (prev_input_valid != input_valid) {
-        if (input_valid) {
+    if (prev_serial_valid != serial_valid) {
+        if (serial_valid) {
             if (cursor != NULL) {
                 cursor->reset_entries();
                 cursor->append_entry(&selection_positions[1]);

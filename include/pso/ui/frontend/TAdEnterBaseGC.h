@@ -28,9 +28,11 @@ struct TAdEnterBaseGC : public TObject {
     TAdSelectCurGC *select_cursor;
     TWindowBase *prompt_window;
     TWindowCallBack *callback_window;
+    s32 input_valid;
+    s32 prev_input_valid;
 };
 
-LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x38);
+LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x40);
 
 extern "C" {
 void fn_8032AC94(void);

@@ -134,7 +134,7 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
     if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
 }
 
-void TAdEnterBaseGC::reset(int a1) { this->close_delay_ticks = 0; this->pending_dispatch_state = 0; TAdEnterBaseGC::entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
+void TAdEnterBaseGC::reset(int a1) { this->close_delay_ticks = 0; this->pending_dispatch_state = 0; TAdEnterBaseGC::entry_mode = a1; input_valid = 0; prev_input_valid = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
     new TAdBackGC(this);

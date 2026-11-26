@@ -19,8 +19,6 @@ struct TAdEnterPasswordGC : public TAdEnterBaseGC {
     void open_sn_ak_pass_confirm(void *);
     void close_window_and_destroy(void *);
     static void set_password(const char *password);
-    s32 input_valid;
-    s32 prev_input_valid;
     s32 len; // strlen of the keyboard buffer (update_password_input)
 };
 

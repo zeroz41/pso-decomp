@@ -17,7 +17,6 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     virtual ~TAdEnterSerialAccessGC();
     virtual void render();
     virtual void run_task();
-    u8 pad_38[0x8];
     s32 prev_state;
     s32 next_state;
     s32 state_timer;
@@ -26,8 +25,8 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     TAdSelectCurGC *cursor;
     TWindowBase *message_window;
     TWindowBase *draw_window;
-    s32 input_valid;
-    s32 prev_input_valid;
+    s32 serial_valid;
+    s32 prev_serial_valid;
     // The word at +0x118 of the system save payload (of the second card's for get_serial_result); get_serial_seed seeds the character select serial RNG.
     static s32 get_serial_seed();
     static s32 get_serial_result();
