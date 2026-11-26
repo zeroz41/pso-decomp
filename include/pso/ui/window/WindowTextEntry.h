@@ -23,6 +23,7 @@ public:
     virtual void render(WindowDrawContext *context);
     // Sets width and height from the text, wrapping lines at max_width.
     void measure_text(f32 max_width);
+    char *get_text();
     // Shows the whole text at once (reveal_pos = 900000).
     void reveal_all();
     // Shows the name of the player with client_id in its name colour (red while dead); hides the entry

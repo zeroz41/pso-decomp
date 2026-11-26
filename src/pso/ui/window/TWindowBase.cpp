@@ -6,6 +6,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
@@ -60,7 +61,7 @@ extern int area_total;
 
 int get_area_total(void) {  return area_total; }
 
-uaddr TWindowSubComCard::get_field_20() { return this->client_id; }
+char *WindowTextEntry::get_text() { return text; }
 
 f32 TWindowBase::get_transition_progress() {
     f32 v = get_close_progress();

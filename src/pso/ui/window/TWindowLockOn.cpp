@@ -7,6 +7,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -66,9 +67,6 @@ WindowDescriptor lock_on_window_descriptor = {
 
 extern "C" {
 s32 is_split_screen(void);
-}
-extern "C" {
-u32 calc_text_width(int);
 }
 s32 get_status_effect_icon_index(u32);
 
@@ -246,11 +244,11 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     e = (WindowTextEntry *)get_array_entry(1);
     TWindowDuelResult::set_default_status(e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
     e->reveal_all();
-    width = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
+    width = calc_text_width(e->get_text());
     e = (WindowTextEntry *)get_array_entry(0);
     TWindowDuelResult::set_default_status(e, enemy_name_for_rt_index(((TWindowLockOn *)enemy)->get_target_id()));
     e->reveal_all();
-    target_size[0] = (f32)calc_text_width(((TWindowSubComCard *)e)->get_field_20());
+    target_size[0] = (f32)calc_text_width(e->get_text());
     target_size[1] = 64.0f;
     if (is_split_screen() == 0) {
         target_size[1] += 29.0f;
@@ -273,7 +271,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     e->reveal_all();
     e->x = 10.0f + (f32)width;
     e->color = type_colors[kind];
-    w2 = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
+    w2 = calc_text_width(e->get_text());
     w2 += width;
     if ((f32)w2 > target_size[0]) {
         target_size[0] = (f32)w2;

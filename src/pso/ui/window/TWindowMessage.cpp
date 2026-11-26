@@ -46,10 +46,10 @@ void TWindowMessage::scroll_up_line(u8 *line_entry) {
 }
 
 void TWindowMessage::advance_reveal_cursor() {
-    u16 *e;
+    WindowTextEntry *e;
     s32 t;
-    e = ((u16 *)get_array_entry(reveal_line));
-    while (((TWindowSubComCard *)e)->get_field_20() != 0 && (*e & 0x10)) {
+    e = static_cast<WindowTextEntry *>(get_array_entry(reveal_line));
+    while (e->get_text() != 0 && (e->flags & 0x10)) {
         t = reveal_line + 1;
         reveal_line = t;
         if (t >= line_count) {
@@ -58,10 +58,10 @@ void TWindowMessage::advance_reveal_cursor() {
         if (reveal_line == oldest_line) {
             break;
         }
-        e = ((u16 *)get_array_entry(reveal_line));
+        e = static_cast<WindowTextEntry *>(get_array_entry(reveal_line));
         if (lines[reveal_line].flags & 8) {
             lines[reveal_line].flags &= ~8;
-            *e &= ~8;
+            e->flags &= ~8;
         }
     }
 }
@@ -73,7 +73,7 @@ void TWindowMessage::update_line_timers() {
     s32 idx;
     f32 h;
     for (i = 0; i < (u32)line_count; i++) {
-        if (((TWindowSubComCard *)((u8 *)this->get_array_entry(i)))->get_field_20() != 0) {
+        if (static_cast<WindowTextEntry *>(get_array_entry(i))->get_text() != 0) {
             if ((lines[i].flags & 4) && lines[i].timer > 0) {
                 lines[i].timer--;
             }
@@ -82,7 +82,7 @@ void TWindowMessage::update_line_timers() {
     idx = oldest_line;
     e = static_cast<WindowTextEntry *>(get_array_entry(idx));
     m = &lines[idx];
-    while (((TWindowSubComCard *)e)->get_field_20() != 0 && m->timer <= 0 && (m->flags & 4)) {
+    while (e->get_text() != 0 && m->timer <= 0 && (m->flags & 4)) {
         m->flags &= ~4;
         h = (1.0f) + (e->y + e->height);
         if (target_scroll_y < h) {
@@ -105,7 +105,7 @@ void TWindowMessage::retire_scrolled_lines() {
     TWindowMessageLine *m;
     e = static_cast<WindowTextEntry *>(get_array_entry(oldest_line));
     m = &lines[oldest_line];
-    while (((TWindowSubComCard *)e)->get_field_20() != 0 && e->y + e->height < scroll_offset[1]) {
+    while (e->get_text() != 0 && e->y + e->height < scroll_offset[1]) {
         scroll_up_line(reinterpret_cast<u8 *>(e));
         m->flags = 0;
         m->timer = 0;
@@ -190,7 +190,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
     }
     e = (WindowTextEntry *)self->get_array_entry(self->next_line);
     rec = &self->lines[self->next_line];
-    if (((TWindowSubComCard *)e)->get_field_20() != 0U) {
+    if (e->get_text() != 0U) {
         self->scroll_up_line((u8 *)e);
     }
     if (flags & 0x80) {

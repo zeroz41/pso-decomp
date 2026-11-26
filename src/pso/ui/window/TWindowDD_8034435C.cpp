@@ -2123,7 +2123,7 @@ void TWindowDD::create_word_select_cursor_label(s32 slot) {
     NJS_POINT2 v;
     NJS_POINT2 a;
     NJS_POINT2 b;
-    u32 r;
+    char *r;
     TWindowDD_WS_String *o;
     word_windows[depth]->get_cursor_pos(&v);
     r = word_windows[depth]->get_selected_row_text();
@@ -2137,7 +2137,7 @@ void TWindowDD::create_word_select_cursor_label(s32 slot) {
         }
         b.x = word_label_hidden_x;
         b.y = a.y;
-        o = TWindowDD_WS_String::create(cursor_label_width, (f32 *)&a, (f32 *)&b, (u32)r, 1);
+        o = TWindowDD_WS_String::create(cursor_label_width, (f32 *)&a, (f32 *)&b, (uaddr)r, 1);
         if (o != NULL) {
             o->set_depth(word_cursor_depth);
             o->fit_width_to_text();

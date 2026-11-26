@@ -302,7 +302,7 @@ void WindowTextEntry::show_player_name(s32 client_id) {
         return;
     }
     show();
-    if ((((TWindowSubComCard *)(this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)(this))->get_field_20(), (const char *)str) != 0)) {
+    if ((get_text() == NULL) || (strcmp(get_text(), (const char *)str) != 0)) {
         set_text_entry_string(this, str, 0x20);
     }
     if (player->is_actor_dead() != 0) {

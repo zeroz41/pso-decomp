@@ -263,7 +263,7 @@ void TWindowMenu::advance_past_disabled_menu_rows() {
     s16 t;
     if (row_cursor < row_count) {
         e = static_cast<WindowTextEntry *>(get_array_entry((s32)row_cursor));
-        while (((u32)((TWindowSubComCard *)e)->get_field_20()) != 0 && (e->flags & 0x10)) {
+        while (e->get_text() != 0 && (e->flags & 0x10)) {
             t = row_cursor + 1;
             row_cursor = t;
             if (t >= row_count) {
@@ -324,7 +324,7 @@ void align_menu_entry_positions(TWindowMenu *self) {
     u32 i;
     for (i = 0; i < self->row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(self->get_array_entry(i));
-        if (((TWindowSubComCard *)e)->get_field_20() != 0) {
+        if (e->get_text() != 0) {
             e->measure_text(left);
             if (e->height > 18.0f) {
                 e->x = 0.0f;
@@ -343,7 +343,7 @@ void TWindowMenu::calc_layout_height(f32 width) {
     h = 0.0f;
     for (i = 0; i < row_count; i++) {
         e = static_cast<WindowTextEntry *>(get_array_entry(i));
-        if (((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->height <= com_card_minimum_entry_height)) {
+        if (e->get_text() != 0 && !(e->height <= com_card_minimum_entry_height)) {
             e->measure_text(width);
             h += 2.0f + e->height;
         }
@@ -374,7 +374,7 @@ void TWindowMenu::update_layout_height(f32 x) {
     u32 i;
     for (i = 0; i < row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(this->TWindowBase::get_array_entry(i));
-        if (((TWindowSubComCard *)e)->get_field_20() != 0) {
+        if (e->get_text() != 0) {
             if (!(e->height <= com_card_minimum_entry_height)) {
                 sum += 2.0f + e->height;
             }
@@ -398,7 +398,7 @@ void TWindowMenu::calc_window_size() {
     u32 i;
     for (i = 0; i < row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(get_array_entry(i));
-        if (((TWindowSubComCard *)e)->get_field_20() != 0) {
+        if (e->get_text() != 0) {
             if (e->width > width) {
                 width = e->width;
             }
@@ -429,7 +429,7 @@ void TWindowMenu::layout_entries() {
     zero = com_card_minimum_entry_height;
     for (i = 0; i < row_count; i++) {
         e = static_cast<WindowTextEntry *>(get_array_entry(i));
-        if (((TWindowSubComCard *)e)->get_field_20() != 0) {
+        if (e->get_text() != 0) {
             e->y = y;
             h = e->height;
             if (!(h <= zero)) {

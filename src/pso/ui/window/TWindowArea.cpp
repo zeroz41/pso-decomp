@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
@@ -37,12 +38,12 @@ void TWindowArea::run_task() { update_window(); this->update_window_entry_list(&
 #pragma fp_contract on
 TWindowArea *create_window_area() {
     TWindowArea *object;
-    u8 *title_entry;
+    WindowTextEntry *title_entry;
     object = new TWindowArea();
     hide_window((u8 *)object);
     update_area_count_text(object);
-    title_entry = (u8 *)object->get_title_entry();
-    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)title_entry)->get_field_20()));
+    title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
+    title_entry->x = 80.0f - 0.5f * (f32) calc_text_width(title_entry->get_text());
     return object;
 }
 #pragma pop

@@ -34,7 +34,7 @@ public:
     s32 get_selected_token_index();
     s32 get_selected_row();
     s32 get_token_count();
-    s32 get_selected_row_text();
+    char *get_selected_row_text();
     void set_pos_and_data(f32 x);
     void use_active_strips();
     void use_dim_strips();
