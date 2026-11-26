@@ -212,7 +212,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     VecCopy(&move_origin, VecCopy(&move_destination, VecCopy(&prev_position, &position)));
     motion_list = dubchik_resource->motions;
     variant = ((EnemyPlacement *)set_data)->variant ? 1 : 0;
-    state36C = ((EnemyPlacement *)set_data)->unknown3e;
+    state36C = ((EnemyPlacement *)set_data)->state;
     init_level_stats(variant);
     action_table = dubchik_action_table;
     set_action_table(action_table);

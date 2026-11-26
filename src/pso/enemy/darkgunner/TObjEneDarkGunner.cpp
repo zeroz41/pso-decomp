@@ -307,7 +307,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     variant = 0;
     set_param(0x22);
     add_flags_2e4(8);
-    state36C = ((EnemyPlacement *)set_data)->unknown3e;
+    state36C = ((EnemyPlacement *)set_data)->state;
     resetTimer = 0xF;
     timer = resetTimer;
     VecCopy(&prev_position, &position);

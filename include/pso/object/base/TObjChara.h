@@ -201,11 +201,12 @@ public:
     void clear_attack_credit_slot(s32 index);
     void set_model_param(s16 v);
     void set_model_id(s16 v);
+    // The union and its byte view are kept: dropping these two anonymous types
+    // renumbers the compiler's local statics in every includer.
     union {
         u16 attack_credit_slots[4];
         struct {
-            u8 pad_FC[0x7];
-            u8 m_103;
+            u8 pad_FC[0x8];
         } credit_slot_bytes;
     };
     u8 pad_104[0xC];
@@ -214,8 +215,7 @@ public:
     s16 special_power;  // that attack's strength (set_model_param)
     s16 kill_count;  // TObjPlayer::get_kill_count, capped at 999
     s16 immunity_flags;  // test_immunity_flags
-    u8 pad_11E[0x1];
-    u8 m_11f;
+    u8 pad_11E[0x2];
     CsnGroundCandidates ground_candidates;  // ground_cache points here
     SubtractiveRng rng;
     Vec ground_normal;

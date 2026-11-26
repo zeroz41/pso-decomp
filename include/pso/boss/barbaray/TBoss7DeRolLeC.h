@@ -250,7 +250,7 @@ struct Boss7CrawfishSetData {
     Boss7Angles rotation;
     f32 parameters[5];
     s16 variant;
-    s16 unk_3E;
+    s16 state;  // apply_set_data copies it to state36C
 };
 // Spawns a crawfish in child slot `slot` unless one with that entity id is
 // already alive.

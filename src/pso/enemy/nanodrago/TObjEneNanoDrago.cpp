@@ -179,7 +179,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     motion_list = nano_drago_entry_params_resource->motions;
     variant = 0;
     add_flags_2e4(2);
-    state36C = ((EnemyPlacement *)setData)->unknown3e;
+    state36C = ((EnemyPlacement *)setData)->state;
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
     set_action_table(action_table);

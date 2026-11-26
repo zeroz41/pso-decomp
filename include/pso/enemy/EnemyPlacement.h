@@ -18,7 +18,7 @@ struct EnemyPlacement {
     s32 rotation[3];
     f32 parameters[5];
     s16 variant;
-    s16 unknown3e;
+    s16 state;  // copied to TObjEnemy::state36C, as EnemySetData::state
 };
 
 LAYOUT_ASSERT(EnemyPlacementSize, sizeof(EnemyPlacement) == 0x40);

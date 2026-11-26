@@ -192,7 +192,7 @@ void bswap_enemy_set_row_fields(void *placement_ptr) {
     bswap_32((u32 *)&placement->parameters[3]);
     bswap_32((u32 *)&placement->parameters[4]);
     bswap_16((u16 *)&placement->variant);
-    bswap_16((u16 *)&placement->unknown3e);
+    bswap_16((u16 *)&placement->state);
 }
 
 void swap_object_row_endian(void *row_ptr) {

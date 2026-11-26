@@ -157,7 +157,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     motion_list = gigue_resource->motions;
     variant = 0;
     add_flags_2e4(0x11);
-    state36C = ((EnemyPlacement *)set_data)->unknown3e;
+    state36C = ((EnemyPlacement *)set_data)->state;
     load_params_from_table(variant);
     action_table = gigue_enemy_param_table;
     set_action_table(action_table);

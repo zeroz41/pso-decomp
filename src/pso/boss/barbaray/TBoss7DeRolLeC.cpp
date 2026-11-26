@@ -3737,7 +3737,7 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7An
         set.parameters[3] = 0.0f;
         set.parameters[4] = 0.0f;
         set.variant = 0;
-        set.unk_3E = 0;
+        set.state = 0;
         new TBoss7Crawfish((TObject *)crawfish_parent, &set);
     }
 }
