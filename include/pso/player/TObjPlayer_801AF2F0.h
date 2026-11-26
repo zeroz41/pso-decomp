@@ -10,6 +10,7 @@ class TObject;
 
 // Thin wrapper: sends 6x29 to delete the item with this id (count of it) from the player.
 void delete_item(TObjPlayer *player, s32 id, s32 count);
+s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
 extern "C" {
 void submit_cursor_candidate(void *object, s32 id);
 // Lets every player move again after a boss cutscene.

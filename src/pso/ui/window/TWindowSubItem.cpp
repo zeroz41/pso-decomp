@@ -1,4 +1,5 @@
 #include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/window/HeadingEntry.h"
 #pragma defer_codegen on
 
@@ -51,9 +52,6 @@
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id);
 
-extern "C" {
-s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
-}
 
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item);
 

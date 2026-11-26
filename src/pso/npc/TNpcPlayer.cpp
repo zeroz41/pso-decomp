@@ -1,4 +1,5 @@
 #include "pso/player/TPlyDispData.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdlib.h>
@@ -61,7 +62,6 @@ s32 __dt__12TPlyCharDataFv(s32 object, s16 free_flags);
 void * __ct__12TPlyCharDataFv(void *object);
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
 s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
-s32 try_send_6x27_use_item(void *player, s32 key);
 s8 get_cast_technique_level(void *, s16);
 void __register_global_object(void *obj, void *dtor, void *link);
 

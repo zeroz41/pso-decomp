@@ -177,7 +177,6 @@ void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 extern "C" {
 s32 fn_801B7CEC(TObjPlayer *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
-s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
 void release_players_from_cutscene(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 
