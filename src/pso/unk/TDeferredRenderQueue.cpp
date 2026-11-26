@@ -63,8 +63,8 @@ TDeferredRenderQueue::TDeferredRenderQueue(TObject *parent) : TObject(parent) {
     rendering = 0;
 }
 
-void TLobby__sub_8032BE30(void) { TDeferredRenderQueue::instance = NULL; }
+void clear_deferred_render_queue_on_floor_free(void) { TDeferredRenderQueue::instance = NULL; }
 
-void TLobby__sub_8032BE3C(void) { TDeferredRenderQueue::instance = NULL; }
+void clear_deferred_render_queue_on_floor_load(void) { TDeferredRenderQueue::instance = NULL; }
 
 s32 TDeferredRenderQueue::is_rendering() { return rendering; }

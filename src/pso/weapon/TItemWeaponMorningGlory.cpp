@@ -11,7 +11,7 @@ void TItemWeaponMorningGlory::update_weapon() {
 }
 
 void TItemWeaponMorningGlory::draw_held_model() {
-    draw_weapon_at_joint((saddr)this, 0x30);
+    draw_weapon_at_joint(this, 0x30);
     update_trail_slot(0);
     update_trail_slot(1);
     update_trail_slot(2);

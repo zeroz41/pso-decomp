@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemObject.h"
 #include "pso/item/TItemToolQuestBgm.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/object/TItemQuestBgmTask.h"
 #include "pso/player/TObjPlayer.h"

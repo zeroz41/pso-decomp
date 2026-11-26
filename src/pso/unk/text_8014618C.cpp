@@ -11,7 +11,7 @@ s32 is_confirmed() {
     return (u32) __cntlzw(1 - adapter_type) >> 5;
 }
 
-s32 TLobby__sub_8014618C(void) {
+s32 has_broadband_adapter(void) {
     s32 status;
 
     get_network_adapter_type(&status);

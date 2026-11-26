@@ -27,7 +27,7 @@ struct TWindowMessageYesNo : public TObject {
     virtual void run_task();
     static TWindowMessageYesNo *create(TObject *parent, s32 client_id, const char *yes_label, const char *no_label);
     void set_menu_selected_index(s16 index);
-    void open_yes_no_prompt_with_text(s32 text, const NJS_POINT2 *pos, f32 width);
+    void open_yes_no_prompt_with_text(const char *text, const NJS_POINT2 *pos, f32 width);
     void get_choice_menu_position(NJS_POINT2 *position);
     void move_to(const NJS_POINT2 *position);
     void reparent_to_main_ctrl();
@@ -35,8 +35,8 @@ struct TWindowMessageYesNo : public TObject {
     void enable_choice_input();
 };
 
-void initialize_option_dialog(TWindowMessageYesNo *dialog, s32 message, const NJS_POINT2 *position, f32 width);
-void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, const NJS_POINT2 *position, f32 width);
+void initialize_option_dialog(TWindowMessageYesNo *dialog, const char *message, const NJS_POINT2 *position, f32 width);
+void open_yes_no_prompt(TWindowMessageYesNo *dialog, const char *title, const char *text, const NJS_POINT2 *position, f32 width);
 
 LAYOUT_ASSERT(TWindowMessageYesNoChoiceMenuOffset, offsetof(TWindowMessageYesNo, choice_menu) == 0x2C);
 LAYOUT_ASSERT(TWindowMessageYesNo_size, sizeof(TWindowMessageYesNo) == 0x30);

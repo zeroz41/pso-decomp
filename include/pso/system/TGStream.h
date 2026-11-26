@@ -35,9 +35,9 @@ LAYOUT_ASSERT(TGStreamReadModeOffset, offsetof(TGStream, direct_read_mode) == 0x
 LAYOUT_ASSERT(TGStreamEntryOffset, offsetof(TGStream, archive_entry) == 0x28);
 
 void reset_gstream_buffer(void);
-void TGStream__sub_800FDD64(void);
+void async_file_read_stub(void);
 void load_area_gsl(void);
-void TItemDrop__sub_800FE2D8(void);
+void free_chr_select_stub(void);
 s32 get_gstream_buffered_bytes(void);
 s32 refill_gstream_buffer(saddr adxf_handle);
 void reset_gstream_globals(void);

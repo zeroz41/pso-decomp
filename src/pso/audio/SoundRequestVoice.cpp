@@ -9,7 +9,7 @@
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/TLobby_8023F734.h"
+#include "pso/audio/SoundControlState.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "dolphin/mtx.h"
@@ -96,9 +96,9 @@ void SoundRequestVoice::update() {
 extern "C" {
 s32 sndFXCtrl(int, int, int);
 s32 sndFXKeyOff(int);
-void TLobby__sub_80240F3C(SoundRequestVoice *);
+void apply_random_sound_pitch(SoundRequestVoice *);
 extern s8 gba_joyboot_states[];
-void TLobby__sub_80241798(SoundRequestVoice *sound);
+void apply_sound_pitch_wobble(SoundRequestVoice *sound);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
 void send_voice_controller_updates(SoundRequestVoice *voice);
@@ -135,11 +135,11 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             v->delay--;
             break;
         }
-        TLobby__sub_80241A0C(v);
-        TLobby__sub_80241798(v);
+        voice_pitch_stub(v);
+        apply_sound_pitch_wobble(v);
     start:
-        TLobby__sub_80240F38(v);
-        TLobby__sub_80240F3C(v);
+        voice_start_stub(v);
+        apply_random_sound_pitch(v);
         calc_sound_spatial_params(v);
         v->clamp_params();
         v->update();
@@ -233,9 +233,9 @@ void SoundRequestVoice::update_random_flip_flag() {
     }
 }
 
-void TLobby__sub_80240F38(SoundRequestVoice *) {}
+void voice_start_stub(SoundRequestVoice *) {}
 
-void TLobby__sub_80240F3C(SoundRequestVoice *v) {
+void apply_random_sound_pitch(SoundRequestVoice *v) {
     s32 num = 1;
     s32 den = 1;
     s32 extra = 0;
@@ -528,7 +528,7 @@ void TLobby__sub_80240F3C(SoundRequestVoice *v) {
     }
 }
 
-void TLobby__sub_80241798(SoundRequestVoice *sound) {
+void apply_sound_pitch_wobble(SoundRequestVoice *sound) {
     s32 num = 1;
     s32 den = 1;
     s32 mask = 0;
@@ -631,7 +631,7 @@ void TLobby__sub_80241798(SoundRequestVoice *sound) {
     }
 }
 
-void TLobby__sub_80241A0C(SoundRequestVoice *) {}
+void voice_pitch_stub(SoundRequestVoice *) {}
 
 
 void send_sound_request_reverb(SoundRequestVoice *voice) {

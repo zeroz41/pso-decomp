@@ -16,7 +16,7 @@ struct TLoadingCur : public TObject {
     virtual void run_task();
     void update_camera_facing_offset();
     s32 calc_clamp_offset(const f32 *screen, NJS_POINT2 *push);
-    void sub_8001CCD4();
+    void keep_on_screen();
 
     static const char *class_name;
 

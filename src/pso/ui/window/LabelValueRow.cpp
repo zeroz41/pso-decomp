@@ -12,28 +12,28 @@
 #pragma readonly_strings on
 #pragma fp_contract on
 
-void LabelValueRow::set_string(void *string) {
+void LabelValueRow::set_string(const char *string) {
     s32 len;
 
     mem_free(value);
     value = NULL;
     if (string != NULL) {
         x = 0.0f;
-        len = measure_string_len((const char *)string);
+        len = measure_string_len(string);
         value = (char *)mem_alloc(len + 1);
-        strncpy(value, (const char *)string, (u32)len + 1);
+        strncpy(value, string, (u32)len + 1);
     }
 }
 
-void LabelValueRow::set_text(void *label_text, void *string, s32 id) {
+void LabelValueRow::set_text(const char *label_text, const char *string, s32 id) {
     s32 len;
 
     mem_free(label);
     label = NULL;
     if (label_text != NULL) {
-        len = measure_string_len((const char *)label_text);
+        len = measure_string_len(label_text);
         label = (char *)mem_alloc(len + 1);
-        strncpy(label, (const char *)label_text, (u32)len + 1);
+        strncpy(label, label_text, (u32)len + 1);
     }
     this->id = id;
     x = 0.0f;
@@ -41,15 +41,15 @@ void LabelValueRow::set_text(void *label_text, void *string, s32 id) {
     set_string(string);
 }
 
-void LabelValueRow::set_text(uaddr label_text, s32 id) {
+void LabelValueRow::set_text(const char *label_text, s32 id) {
     s32 len;
 
     mem_free(label);
     label = NULL;
     if (label_text != 0U) {
-        len = measure_string_len((const char *)label_text);
+        len = measure_string_len(label_text);
         label = (char *)mem_alloc(len + 1);
-        strncpy(label, (const char *)label_text, (u32)len + 1);
+        strncpy(label, label_text, (u32)len + 1);
     }
     this->id = id;
     flags |= 0x15;

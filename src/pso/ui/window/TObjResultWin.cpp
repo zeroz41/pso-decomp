@@ -15,13 +15,13 @@
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #pragma defer_codegen off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
 extern "C" {
-char* get_message_text(s32);
 extern s32 current_lobby_id;
 extern TObject* tl_07;
 __declspec(section ".rodata") extern const char TObjResultWin_class_name[];
@@ -63,7 +63,7 @@ void TObjResultWin::build_result_text() {
     s32 i;
     s32 d;
     char c;
-    char *n;
+    const char *n;
     for (i = 0; i < 0x100; i++) {
         m_text[i] = 0;
     }
@@ -141,7 +141,7 @@ void TObjResultWin::create_window() {
         if (TCameraCtrl::get_camera_id() == 4) {
             ((TWindowAddition *)m_window)->set_position_xy(0.75f, 0.75f);
         }
-        ((TWindowMessage *)m_window)->append_line((saddr)m_text, (int)0);
+        ((TWindowMessage *)m_window)->append_line(m_text, (int)0);
         ((TWindowBase *)m_window)->set_depth(36999.0f);
     }
 }

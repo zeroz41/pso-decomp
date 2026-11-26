@@ -17,8 +17,6 @@ void release_players_from_cutscene(void);
 // Offers target to the lock-on cursor of player `id` (a client id below 0x1000).
 void submit_target_to_player_cursor(void *target, s32 id);
 void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
-void TObjPlayer__sub_801B1BA4(void);
-void TObjPlayer__sub_801B1C8C(void);
 }
 // 6x2F: sets a player's HP (sender 0xFFFF for an object).
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);

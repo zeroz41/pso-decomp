@@ -451,14 +451,14 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
         if (cursor != 0U) {
             if (cursor == m_text.length) {
                 text_builder_append(" > ");
-                text_builder_append((const char *)name);
+                text_builder_append(name);
             } else {
                 text_builder_append(" ");
-                text_builder_append((const char *)name);
+                text_builder_append(name);
                 text_builder_append(" ");
             }
         } else {
-            text_builder_append((const char *)name);
+            text_builder_append(name);
             if (m_text.length != 0U) {
                 text_builder_append(" ");
             }
@@ -467,7 +467,7 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
     }
 }
 
-void TWindowKeyBoardBase::set_text(char *s) { m_text.set_text_from_string(s); }
+void TWindowKeyBoardBase::set_text(const char *s) { m_text.set_text_from_string(s); }
 
 void TWindowKeyBoardBase::insert_character(u16 code) {
     s32 f;

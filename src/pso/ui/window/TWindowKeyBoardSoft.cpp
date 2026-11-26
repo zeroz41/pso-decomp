@@ -533,7 +533,7 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 col, s32 row) {
 #pragma push
 #pragma fp_contract on
 #pragma pool_data off
-void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
+void TWindowKeyBoardSoft::draw_key_labels(WindowDrawContext *ctx) {
     u32 tab_color;
     u32 page;
     s32 cursor;
@@ -662,7 +662,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
 }
 #pragma pop
 
-void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
+void TWindowKeyBoardSoft::draw_key_area_borders(WindowDrawContext *ctx) {
     ColorLineVertex v[5];
     u32 col[5];
     ColorLineList d;
@@ -829,9 +829,9 @@ void TWindowKeyBoardSoft::draw_key_frames(WindowDrawContext *ctx) {
 
     set_constant_material_color(ctx->color);
     tab_x = get_tab_bar_x();
-    fn_8026C664(ctx, (ctx->x + tab_x) - 34.0f, 3.0f + (-1.0f + ctx->y), depth, page_slide);
+    draw_page_arrow_left(ctx, (ctx->x + tab_x) - 34.0f, 3.0f + (-1.0f + ctx->y), depth, page_slide);
     tab_x += 1.0f + (f32)(layout->tab_width * layout->page_count);
-    fn_8026C708(ctx, 5.0f + (ctx->x + tab_x),
+    draw_page_arrow_right(ctx, 5.0f + (ctx->x + tab_x),
                 3.0f + (-1.0f + ctx->y), depth, page_slide);
     end_screen_draw();
 }
@@ -841,8 +841,8 @@ void TWindowKeyBoardSoft::render() {
     WindowDrawContext *ctx;
     ctx = (WindowDrawContext *)(draw_default_entry());
     draw_key_frames(ctx);
-    sub_80261DD8(ctx);
-    sub_802616BC(ctx);
+    draw_key_area_borders(ctx);
+    draw_key_labels(ctx);
 }
 
 #pragma push

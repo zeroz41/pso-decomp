@@ -13,9 +13,9 @@
 const char *floor_load_cam_class_name = "TAdFloorLoadCamGC";
 extern const f32 floor_load_cam_zero;
 
-u16 fn_8034BE30(void* p) { return *(u16*)((char*)p + 0x24); }
-void fn_8034BE38(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
-void fn_8034BE48(void* p) { *(u32*)((char*)p + 0x334) |= 0x40000000; }
+u16 get_challenge_result_slot_index(void* p) { return *(u16*)((char*)p + 0x24); }
+void clear_player_hold_flag(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
+void set_player_hold_flag(void* p) { *(u32*)((char*)p + 0x334) |= 0x40000000; }
 void TAdFloorLoadCamGC::render() {  }
 
 extern const f32 floor_load_cam_angle_units_per_degree = 182.04445f;

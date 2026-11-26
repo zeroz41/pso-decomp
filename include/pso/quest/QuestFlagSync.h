@@ -1,0 +1,18 @@
+#ifndef PSO_QUEST_QUESTFLAGSYNC_H
+#define PSO_QUEST_QUESTFLAGSYNC_H
+
+#include "types.h"
+
+struct TLobby;
+
+// The offline quest's file names (prepare_offline_quest_filenames).
+extern char offline_quest_filename_buffer_a[0x20];
+extern char offline_quest_filename_buffer_b[0x20];
+
+void quest_flag_sync_stub(void);
+void build_6x75_update_quest_flag_dc(void *p);
+void handle_6x75_update_quest_flag_dc(TLobby *lobby);
+void prepare_offline_quest_filenames(const char *identity);
+void send_and_handle_6x75(TLobby *lobby);
+
+#endif

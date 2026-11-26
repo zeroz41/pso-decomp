@@ -27,8 +27,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/WeaponSpecialEffectsTypes.h"
 
-struct InwardOrbitDir { s32 x, y, z; };
 
 static const Vec zonde_bolt_direction = {0.0f, -1.0f, 0.0f};
 static const InwardOrbitDir inward_orbit_particle_dir = {0, 0, 0x4000};

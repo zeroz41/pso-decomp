@@ -230,7 +230,7 @@ void SavedSymbolChatPresets::load_symbol_chat_data() {
     }
 }
 
-void TLobby__sub_80077608(void) {  }
+void symbol_chat_on_floor_free_stub(void) {  }
 
 int selected_symbol_chat_preset;
 unsigned char pending_symbol_chat_count;

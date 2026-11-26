@@ -60,15 +60,15 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/unk/TLobby_80103F5C.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 
 
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern "C" {
 extern const char *dead_spot_class_name;
-s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
-void TObjEneRe4Sorcerer__sub_801E3F18(void);
-void request_active_window_close(void);
+s32 start_duel_stub_a(int);
+void start_duel_stub_b(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 s32 TPlayerBattleCtrl4P::reload_ready;
@@ -192,7 +192,7 @@ void TPlayerBattleCtrl4P::open_intro_window() {
 
 void TPlayerBattleCtrl4P::show_intro_text() {
     if (this->intro_window != NULL) {
-        this->intro_window->append_line((saddr)intro_text, 128);
+        this->intro_window->append_line(intro_text, 128);
     }
     this->frame_timer = 240;
     set_phase_state(2);
@@ -228,7 +228,7 @@ void TPlayerBattleCtrl4P::show_team_matchup() {
         }
     }
     sprintf(team_matchup_message_buffer, message_table[6], names[0], names[1], names[2], names[3]);
-    intro_window->append_line((saddr)team_matchup_message_buffer, 0x80);
+    intro_window->append_line(team_matchup_message_buffer, 0x80);
     frame_timer = 0xF0;
     set_phase_state(4);
 }
@@ -362,13 +362,13 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
         if (intro_window == NULL) {
             intro_window = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)(&size), 1);
             if (intro_window != NULL) {
-                intro_window->append_line((saddr)message_table[0], 0x80);
+                intro_window->append_line(message_table[0], 0x80);
             }
         }
         if (menu_window == NULL) {
             menu_window = create_window_menu_default(get_window_layout_position(0x54), 2);
-            menu_window->add_text_entry((saddr)message_table[1], 6, 1);
-            menu_window->add_text_entry((saddr)message_table[3], 6, 3);
+            menu_window->add_text_entry(message_table[1], 6, 1);
+            menu_window->add_text_entry(message_table[3], 6, 3);
             menu_window->calc_window_size();
             align_menu_entry_positions(menu_window);
             menu_window->set_ready_flag();
@@ -546,8 +546,8 @@ void TPlayerBattleCtrl4P::start_duel() {
     TObjBase *p;
     const char *name;
     s32 st;
-    TObjEneRe4Sorcerer__sub_801E3F14(4);
-    TObjEneRe4Sorcerer__sub_801E3F18();
+    start_duel_stub_a(4);
+    start_duel_stub_b();
     battle_start_ticks = OSGetTime();
     for (i = 0; i < 4; i++) {
         release_player(i, 1);
@@ -584,7 +584,7 @@ void TPlayerBattleCtrl4P::update() {
     } while (i < 4);
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
-    TLobby__sub_8020BCE4();
+    mark_floor_enemies_dead();
     destroy_floor_decoration_objects();
     j = 0;
     do {

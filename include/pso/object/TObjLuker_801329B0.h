@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-saddr enemy_name_for_rt_index(s32 rt_index);
+const char *enemy_name_for_rt_index(s32 rt_index);
 // The localized destination name of a floor area (text group 9).
-saddr get_floor_destination_name(u32 area);
+const char *get_floor_destination_name(u32 area);
 
 #endif

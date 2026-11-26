@@ -26,7 +26,7 @@ struct TQuestListChallenge : public TShopWindowBase {
     void handle_confirm_select();
     void invoke_callback_and_destroy();
     void destroy();
-    void sub_80288BE4();
+    void state_stub();
 
     void (*on_cancel)(TShopWindowBase *);
     void (*on_accept)(TShopWindowBase *);
@@ -55,5 +55,9 @@ const char *get_selected_quest_text(void);
 void reset_globals2(void);
 void reset_globals__19TQuestListChallengeFv(void);
 }
+
+struct ChallengeWindowExtent { f32 dimensions[2]; };
+
+struct ChallengeWindowExtentResource { ChallengeWindowExtent extent; u32 reserved; };
 
 #endif

@@ -117,8 +117,8 @@ void reset_current_char_appearance(s32 _w0) {
     copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
-int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
-int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { reset_current_char_appearance((saddr)p); return 1; }
+int char_select_check_stub(void) { return 1; }
+int reset_char_appearance_callback(void* p) { reset_current_char_appearance((saddr)p); return 1; }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -203,7 +203,7 @@ CharacterHeightRange character_proportion_height_table[12] = {
 };
 
 extern "C" {
-s32 TCharaMaking__sub_8028E3A0(f32 *uv);
+s32 reset_invalid_proportions(f32 *proportions);
 }
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
@@ -428,7 +428,7 @@ s32 validate_player_visual_record(void *record) {
             ok = 0;
         }
     }
-    if (TCharaMaking__sub_8028E3A0(&d->width) != 0) {
+    if (reset_invalid_proportions(&d->width) != 0) {
         ok = 0;
     }
     if (flags != 0) {
@@ -447,7 +447,7 @@ void bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextu
   CharacterTextureList *source;
   CharacterClassAppearance *class_entry;
   CharacterTextureList *head_source;
-  class_entry = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
+  class_entry = &class_appearance_table[character_display_index(appearance)];
   hair->present = 0;
   definition = class_entry;
   hairTextures = definition->hairTextures;
@@ -474,10 +474,10 @@ void bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextu
   body->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
   body->present = 1;
 }
-s32 TCharaMaking__sub_8028E3A0(f32 *uv) {
-    if (uv[0] < 0.0f || uv[0] >= 1.0f || uv[1] < 0.0f || uv[1] >= 1.0f) {
-        uv[0] = 0.0f;
-        uv[1] = 0.0f;
+s32 reset_invalid_proportions(f32 *proportions) {
+    if (proportions[0] < 0.0f || proportions[0] >= 1.0f || proportions[1] < 0.0f || proportions[1] >= 1.0f) {
+        proportions[0] = 0.0f;
+        proportions[1] = 0.0f;
         return 1;
     }
     return 0;
@@ -491,8 +491,7 @@ s32 TCharaMaking::is_end() {
     return 0;
 }
 
-s32 character_display_index(uaddr appearance_record) {
-    const CharacterAppearanceFields *appearance = reinterpret_cast<const CharacterAppearanceFields *>(appearance_record);
+s32 character_display_index(CharacterAppearanceFields *appearance) {
     u8 model;
 
     if (!(appearance->flags & 0xA)) {
@@ -582,7 +581,7 @@ void request_chara_making_archives(void) {
     }
 }
 
-void TCharaMaking__sub_8028E790(void) {  }
+void chara_making_init_stub(void) {  }
 
 extern TObject *tl_03;
 
@@ -594,22 +593,22 @@ void TCharaMaking::update_light_direction() {
     scene_light_state.direction.z = cos_pitch * cos_table_lookup(light_yaw);
 }
 
-s32 TCharaMaking::update_main_menu(saddr task) {
+s32 TCharaMaking::update_main_menu() {
     saddr dressing_room;
 
     if (creation_main_menu_obj->is_state_3() != 0) {
-        fn_8028D8F4();
+        destroy_character_creation_effects();
         dressing_room = 0;
         if ((s32) creation_dressing_room_mode_flag == 1) {
             dressing_room = 1;
         }
         TSaveChCr::create(dressing_room);
         end_creation_view();
-        ((TObject *)task)->queue_destruction();
+        queue_destruction();
         return 1;
     }
     if (creation_main_menu_obj->is_state_4() != 0) {
-        ((TObject *)task)->queue_destruction();
+        queue_destruction();
         TChCrCharSelect::create(tl_03);
         return 1;
     }
@@ -618,7 +617,7 @@ s32 TCharaMaking::update_main_menu(saddr task) {
 
 void TCharaMaking::run_task() {
     if (!TAdSinglePlyChrSelectGC::is_active()) return;
-    if (TCharaMaking::update_main_menu((saddr)this)) return;
+    if (update_main_menu()) return;
 }
 
 void *TCharaMaking::create(void *parent, void *appearance) {

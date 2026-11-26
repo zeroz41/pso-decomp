@@ -5,7 +5,7 @@
 
 class TExplosionCollider : public TItemAttackColBase {
 public:
-    TExplosionCollider(TObject *parent, S_802E451C *params);
+    TExplosionCollider(TObject *parent, AttackColParams *params);
     virtual ~TExplosionCollider();
     virtual void run_task();
     f32 max_radius; // run_task grows body.radius up to it, then destroys the collider

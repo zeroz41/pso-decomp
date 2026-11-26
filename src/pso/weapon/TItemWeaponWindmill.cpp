@@ -19,7 +19,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/MatrixStack.h"
 
 void TItemShootWindmill::render() {

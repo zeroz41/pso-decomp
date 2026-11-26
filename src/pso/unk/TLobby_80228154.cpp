@@ -26,10 +26,6 @@ s32 load_dragon2_scene();
 
 // The screen quad draw_textured_quad_at_depth reads.
 
-union TLobbySpriteColor {
-    struct { u8 a, r, g, b; } channels;
-    u32 packed;
-};
 
 // Draws one frame of a sprite on the screen; flags 1 rotates the quad by the
 // sprite's angle, 2 tints it with the model material colour, 0x20 blends.
@@ -151,13 +147,6 @@ s32 select_area_entrance(FloorTransition *transition) {
 }
 #pragma pop
 
-// inferred: the area's name, the function that loads and sets it up, and the one that tears it down
-// (load_area_scene_and_init calls init; run_area_scene_cleanup and promote_area_floor call cleanup).
-struct AreaInitializer {
-    const char *name;
-    s32 (*init)();
-    void (*cleanup)();
-};
 
 AreaInitializer area_initializer_dispatch_table[] = {
     { "CITY", init_city_area, cleanup_city_area },

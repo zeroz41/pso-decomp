@@ -11,7 +11,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_801F3774.h"
+#include "pso/quest/QuestFlagSync.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
@@ -26,8 +26,6 @@ s32 lbl_805D64AC;
 TQuestListChallenge *quest_list_challenge_active_instance;
 void *__ct__11TObjControlFP7TObject(void *, void *);
 
-struct ChallengeWindowExtent { f32 dimensions[2]; };
-struct ChallengeWindowExtentResource { ChallengeWindowExtent extent; u32 reserved; };
 extern __declspec(section ".rodata") const QuestListStageEntry TQuestListChallenge__stage_table[5];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_challenge_stage_table[9];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_battle_stage_table[8];
@@ -68,7 +66,7 @@ void TQuestListChallenge::close_windows() {
     }
 }
 
-void TQuestListChallenge::sub_80288BE4() {}
+void TQuestListChallenge::state_stub() {}
 
 void TQuestListChallenge::invoke_callback_and_destroy() {
     void (*callback)(TShopWindowBase *) = on_accept;
@@ -133,8 +131,8 @@ static inline TWindowMessage *create_quest_detail_window(const NJS_POINT2 *posit
 void TQuestListChallenge::update_selection() {
     s32 sel;
     s32 id;
-    s32 text;
-    s32 text2;
+    const char *text;
+    const char *text2;
     if (sequence->is_message_ready() == 0) {
         return;
     }
@@ -184,7 +182,7 @@ void TQuestListChallenge::update_selection() {
 void TQuestListChallenge::create_quest_list_window() {
     s32 id;
     s32 i;
-    s32 e;
+    const char *e;
 
     if (sequence->is_message_ready() != 0 && list_window == NULL) {
         id = player->get_entity_id();
@@ -206,7 +204,7 @@ void TQuestListChallenge::update_state() {
         &TQuestListChallenge::handle_confirm_select,
         &TQuestListChallenge::invoke_callback_and_destroy,
         &TQuestListChallenge::destroy,
-        &TQuestListChallenge::sub_80288BE4,
+        &TQuestListChallenge::state_stub,
     };
     (this->*tbl[state])();
 }

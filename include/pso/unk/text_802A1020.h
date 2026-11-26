@@ -21,7 +21,7 @@ unsigned char get_opening_movie_purpose(void);
 }
 void set_opening_movie_purpose(int a0);
 
-void fn_802A1154(void);
+void exit_movie_phase(void);
 
 typedef struct Entry_802A1020 {
     const char *file;

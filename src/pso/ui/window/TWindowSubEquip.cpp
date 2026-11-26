@@ -42,7 +42,7 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
     m_name = TWindowSubEquip::class_name;
     this->parent = parent;
     this->client_id = client;
-    this->equip_list = (TWindowMenuIconLine *)create_equip_list_window((saddr)get_window_layout_position(0), (saddr)&equip_list_window_size, this->client_id);
+    this->equip_list = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->client_id);
     this->equip_list->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 0));
     this->equip_list->set_flag70_bit10();
     this->window_help_item = new TWindowHelpItem(get_window_layout_position(2), this->client_id);
@@ -66,7 +66,7 @@ void TWindowSubEquip::run_task() {
     case 0:
     case 1:
         if (this->equip_kind_list != NULL) {
-            TWindowSubEquip__sub_80263AF4(this->parent, 1);
+            equip_window_stub(this->parent, 1);
             this->equip_kind_list->close();
             this->equip_kind_list = 0U;
         }
@@ -130,7 +130,7 @@ TWindowMenuIconLine *TWindowSubEquip::open_equip_kind_list(u32 slot) {
     equip_kind_window = create_equip_kind_window(
         get_window_layout_position(1), &equip_kind_window_size, this->client_id);
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 1));
-    equip_kind_window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
+    equip_kind_window->ensure_status_display(TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
     switch (slot) {
     case 6:

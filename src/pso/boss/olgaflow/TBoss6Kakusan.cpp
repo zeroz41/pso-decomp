@@ -82,7 +82,7 @@ void TBoss6Kakusan::check_beam_player_hits() {
     }
 }
 
-s32 TBoss6Kakusan::sub_8032263C() { return 0; }
+s32 TBoss6Kakusan::run_task_check_stub() { return 0; }
 
 s32 TBoss6Kakusan::is_out_of_range() {
     if (position.y < -200.0f || position.y > 200.0f) {
@@ -149,7 +149,7 @@ void TBoss6Kakusan::run_task() {
         rot[1] = 0;
         particle->set_direction(rot);
     }
-    if (is_out_of_range() != 0 || sub_8032263C() != 0) {
+    if (is_out_of_range() != 0 || run_task_check_stub() != 0) {
         queue_destruction();
         return;
     }

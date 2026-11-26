@@ -32,14 +32,14 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/ControllerInput.h"
 
 
     extern int lobby_game_mode_state;
 int TAdSinglePlyChrSelectGC::get_data() {  return lobby_game_mode_state; }
 
-s8 TAdSinglePlyChrSelectGC__sub_8033605C(void) { return 0; }
+s8 lobby_server_choice_stub(void) { return 0; }
 
 
 s32 TTitleScene::start_offline_seq() {
@@ -269,7 +269,7 @@ void TTitleScene::set_flag_and_clear_download() {
 }
 
 
-void TLobby__sub_803361FC(TTitleScene *scene) {}
+void title_choice_stub(TTitleScene *scene) {}
 void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phase(19); }
 void TTitleScene::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::open_dialing_select_scene(); }
 void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::open_select_game_mode_scene(); }
@@ -278,7 +278,7 @@ void TTitleScene::dispatch_title_choice() {
     if (transition_controller->is_title_choice_confirmed() != 0) {
         set_fallback_main_phase(2);
         if (start_offline_seq() != 0) {
-            TLobby__sub_803361FC(this);
+            title_choice_stub(this);
             TitleStateHandler handler = state_handler_pmf_table[get_transition_cursor(this)];
             (this->*handler)();
         }

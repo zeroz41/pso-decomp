@@ -15,11 +15,11 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/item/TItemIdCounters.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
 }
-s32 get_game_play_mode();
 extern "C" {
 
 s32 is_trap_stock_empty(void *, s32);
@@ -274,7 +274,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
 
 extern "C" {
 
-s32 TObjPlayer__sub_801D84F0(void* p);
+s32 is_palette_override_set(void* p);
 
 // `this` is an action palette tag whose first byte is signed (s8 -> u8 argument moves through r0),
 // unlike gc_tag::tag0.
@@ -294,6 +294,6 @@ gc_tag *TPlyDispConfigSmth::get_current_row() {
 }
 
 void gc_tag::bswap_disp_config_field() { bswap_16(&tag2); }
-s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
+s32 is_palette_override_set(void* p) { return *(s32*)((char*)p + 0x4); }
 
 }

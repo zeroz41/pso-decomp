@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_801F3774.h"
+#include "pso/quest/QuestFlagSync.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -158,7 +158,7 @@ void TQuestListOffline::init_quest_list_window() {
     }
     refresh_story_quest_availability(story_quest_list_resource);
     if (list_window == NULL) {
-        s32 title = get_guild_text(0);
+        const char *title = get_guild_text(0);
         list_window = create_item_list_window(title, 0x40, player->get_entity_id());
         if (are_all_story_quests_complete() == 1) {
             OfflineQuestEntry *quest = quests;
@@ -211,7 +211,7 @@ void TQuestListOffline::update_list_navigation() {
     if (list_window != NULL && description_window != NULL) {
         sel = list_window->get_cursor_value();
         if (sel != shown_index) {
-            s32 text = get_quest_list_text(0xE, quests[sel].description_text);
+            const char *text = get_quest_list_text(0xE, quests[sel].description_text);
             description_window->append_line(text, 0x80);
             shown_index = sel;
             if (confirm_window != NULL) {
@@ -233,7 +233,7 @@ void TQuestListOffline::update_list_navigation() {
         if (confirm_window == NULL) {
             f32 size[2] = {332.0f, 210.0f};
             confirm_window = TWindowMessage::create(get_window_layout_position(0x2E), size, 1, player->get_entity_id());
-            s32 text = get_quest_list_text(0xE, quests[sel].confirm_text);
+            const char *text = get_quest_list_text(0xE, quests[sel].confirm_text);
             confirm_window->append_line(text, 0x80);
             confirm_window->set_depth(-13000.0f);
             if (TCameraCtrl::get_camera_id() >= 2) {

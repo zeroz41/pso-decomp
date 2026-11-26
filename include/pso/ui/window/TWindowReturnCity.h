@@ -24,8 +24,6 @@ struct TWindowReturnCity : public TObject {
 LAYOUT_ASSERT(TWindowReturnCity_size, sizeof(TWindowReturnCity) == 0x28);
 
 // Floor-resource release/load pair run from the lobby session load table.
-extern "C" {
-void TWindowReturnCity__sub_8026D4BC(void);
-void TWindowReturnCity__sub_8026D4C0(void);
-}
+void return_city_on_floor_free(void);
+void reset_return_city_scan_on_floor_load(void);
 #endif

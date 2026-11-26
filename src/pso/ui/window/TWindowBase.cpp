@@ -8,7 +8,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/HeadingEntry.h"

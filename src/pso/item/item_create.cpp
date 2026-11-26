@@ -461,15 +461,15 @@ ItemCreateFunction get_weapon_factory_for_item(u8 *item) {
     return create_common_weapon;
 }
 
-void TLobby__sub_80104464(void) {  }
+void select_confirm_exit_stub(void) {  }
 void handle_select_confirm() {
     TPlyCharData *chr;
 
-    if ((fn_80077790() == 1) || (fn_80077788() == 1)) {
+    if ((quest_hack_check_a_stub() == 1) || (quest_hack_check_b_stub() == 1)) {
         mark_selected();
         chr = (TPlyCharData *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
         if (chr != NULL) {
-            fn_801058E8(chr);
+            set_first_inventory_item_flag(chr);
         }
     }
 }
@@ -744,7 +744,7 @@ void TMainTask::cleanup_game_objects() {
     s32 main_phase;
     s32 area;
 
-    TEnding__sub_8008C9F8();
+    reset_ending_stub();
     TItemLoad::create();
     TEquippedWeaponDrawTask::create(tl_particlemodel);
     TEquippedItemDrawTask::create(tl_item_equip);
@@ -876,13 +876,13 @@ ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { TItemProShield::load_data, TItemProShield::free },
     { TItemProUnit::load_data, TItemProUnit::free },
     { TLobby::alloc_objects, TLobby::free_boss_rocks },
-    { TItemDisconnectCtrl__sub_80105BE8, NULL },
+    { item_class_slot7_load, NULL },
     { TItemLockCountCtrl::create_instance, TItemTimerEvent::clear_active },
     { TItemLockCountCtrl::init_effect_table, TItemLockCountCtrl::free_all },
     { load_item_kt_afs, TItemTexLoad::free_textures },
     { TItemEffectWeapon::initialize_static_effects, TItemEffectWeapon::free_static_effects },
     { init_item_drop_globals, unload_item_drop_globals },
-    { handle_select_confirm, TLobby__sub_80104464 },
+    { handle_select_confirm, select_confirm_exit_stub },
     { NULL, NULL },
 };
 
@@ -1324,7 +1324,7 @@ void TObjPlayer::init_game_resources() {
     lbl_805D5440.reset();
 }
 
-void fn_801058E8(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }
+void set_first_inventory_item_flag(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }
 
 s32 TObjPlayer::is_script_controlled() {
     return this->control_state == 6;
@@ -1411,4 +1411,4 @@ G_SpecializableItemDropRequest_6xA2 *G_SpecializableItemDropRequest_6xA2::init()
 
 // ---- TItemDisconnectCtrl_80105BE8.cpp
 
-void TItemDisconnectCtrl__sub_80105BE8(void) { lbl_805D54E0 = 0; }
+void item_class_slot7_load(void) { lbl_805D54E0 = 0; }

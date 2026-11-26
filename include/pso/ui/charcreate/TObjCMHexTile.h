@@ -25,9 +25,7 @@ public:
 
 LAYOUT_ASSERT(TObjCMHexTile_size, sizeof(TObjCMHexTile) == 0x54);
 
-extern "C" {
-void fn_802947A8(void);
-}
+void create_hex_tile_grid(void);
 
 
 #endif

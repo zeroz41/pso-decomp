@@ -16,6 +16,7 @@ struct PlayerTelepipe {
     // No telepipe: owner 0xFFFF, floor 0, at the origin.
     PlayerTelepipe();
     s32 is_placed();  // a telepipe is open (floor set)
+    void bswap();
 };
 
 LAYOUT_ASSERT(PlayerTelepipeFlagsOffset, offsetof(PlayerTelepipe, flags) == 0x18);

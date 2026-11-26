@@ -25,6 +25,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/item/mag/TItemMagSubTypes.h"
 // The mag data files TItemMag::load_data_files reads.
 extern const char item_mag_motion_path[20] = "itemmagmotion.dat";
 extern const char item_mag_edit_path[20] = "ItemMagEdit.prs";
@@ -42,16 +43,6 @@ const char *TItemMagGrowEff_name = "TItemMagGrowEff";
 // is at.
 TItemMagSub *TItemMagSub::drawing;
 s32 TItemMagSub::drawn_node;
-// The owner's current current_motion (TObjMotion::motion): the heading its root
-// node adds to the owner's.
-struct MagOwnerPoseNode {
-    u8 pad_0[0x4];
-    s16 heading;
-};
-struct MagOwnerPose {
-    u8 pad_0[0x4];
-    MagOwnerPoseNode *node;
-};
 // The follow motion's steps (update_follow).
 void accumulate_mag_axis_oscillation(f32 *out, s32 *phase, MagAxisOscillationParameters *axis);
 void lerp_follow_anchor(Vec *target, Vec *anchor, f32 *t);

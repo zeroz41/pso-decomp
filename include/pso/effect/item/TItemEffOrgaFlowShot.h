@@ -7,7 +7,7 @@
 
 // The spawn parameters TItemWeaponDarkMeteor::emit_marker_effects fills after
 // reset_defaults and hands to create.
-struct OrgaFlowShotParams : S_802E451C {
+struct OrgaFlowShotParams : AttackColParams {
     OrgaFlowShotParams *reset_defaults();
     s32 rotation_y;
     Vec joints[5];

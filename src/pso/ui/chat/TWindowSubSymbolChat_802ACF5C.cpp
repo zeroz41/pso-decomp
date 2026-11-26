@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 

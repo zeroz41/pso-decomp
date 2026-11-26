@@ -1,7 +1,7 @@
 #include <string.h>
 #include "types.h"
 #include "pso/unk/text_8014618C.h"
-#include "pso/unk/text_803F3BF8.h"
+#include "pso/network/NetworkConfig.h"
 #include "pso/unk/text_803F4D84.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoRequests.h"
@@ -154,19 +154,19 @@ s32 load_network_info(void) {
     check_card_lib_ready();
     TLobby::load_player_data();
     if (found != 0) {
-        if (TLobby__sub_8014618C() != 0) {
+        if (has_broadband_adapter() != 0) {
             return 1;
         }
         memset(&buf, 0, 0x270);
-        copy_current_entry_name(buf.name, 0x80);
-        TLobby__sub_803F53A0(0, (char *)buf.x, 0x40);
+        get_network_config_login_user(buf.name, 0x80);
+        get_network_config_phone_number(0, (char *)buf.x, 0x40);
         if (buf.name[0] == 0 || buf.x[0] == 0) {
             return 0;
         }
     }
     return found;
 }
-s32 TLobby__sub_80145DB4(s32 mode) {
+s32 has_network_adapter(s32 mode) {
     s32 adapter_type;
     get_network_adapter_type(&adapter_type);
     switch (adapter_type) {
@@ -192,19 +192,19 @@ s32 TLobby__sub_80145DB4(s32 mode) {
 
 int is_network_info_loaded(void) {  return (network_info_flags & 0x1); }
 
-s32 TLobby::is_status_zero() {
+s32 TLobby::is_tone_dialing() {
     u8 status;
 
-    if ((TLobby__sub_803F517C(&status) == 0) && (status == 0)) {
+    if ((get_network_config_dial_type(&status) == 0) && (status == 0)) {
         return 1;
     }
     return 0;
 }
 
-s32 is_state_active() {
+s32 is_pppoe_selected() {
     u8 state;
 
-    if (TLobby__sub_803F5678((&state)) != 0) {
+    if (get_network_config_ip_set_type((&state)) != 0) {
         return 0;
     }
     if (state == 0) {
@@ -212,9 +212,9 @@ s32 is_state_active() {
     }
     return (u32) __cntlzw(1 - state) >> 5;
 }
-s32 TLobby__sub_80145EE4(void) {
+s32 is_dhcp_selected(void) {
     u8 state;
-    if (TLobby__sub_803F5678((&state)) != 0) {
+    if (get_network_config_ip_set_type((&state)) != 0) {
         return 0;
     }
     if (state == 0) {
@@ -231,25 +231,25 @@ s32 init_struct(u8 *info) {
         return 0;
     }
     memset((info), 0, 0x26C);
-    if (TLobby__sub_803F5678(&state) != 0) {
+    if (get_network_config_ip_set_type(&state) != 0) {
         return 0;
     }
     *(s32 *)((s8 *)info + 4) = (s32) state;
-    TLobby__sub_803F5748(info + 0xA8);
-    TLobby__sub_803F5824(info + 0xAC);
-    TLobby__sub_803F5900(info + 0xBC);
-    TLobby__sub_803F59DC((char *)(info + 0xC4), 0x40);
-    TLobby__sub_803F5B20((char *)(info + 0x144), 0x20);
-    TLobby__sub_803F5C58((char *)(info + 0x164), 0x40);
-    TLobby__sub_803F5EC8((char *)(info + 0x1A4), 0x40);
-    TLobby__sub_803F6000((char *)(info + 0x1E4), 0x20);
-    TLobby__sub_803F6138((char *)(info + 0x204), 0x20);
-    TLobby__sub_803F6138((char *)(info + 0x204), 0x20);
-    TLobby__sub_803F6270((u16 *)(info + 0x244));
-    copy_current_entry_name((char *)(info + 8), 0x80);
-    TLobby__sub_803F4EBC((char *)(info + 0x88), 0x20);
-    TLobby__sub_803F4FF4(info + 0xB4);
-    TLobby__sub_803F50B8(info + 0xB8);
+    get_network_config_ip_address(info + 0xA8);
+    get_network_config_subnet_mask(info + 0xAC);
+    get_network_config_default_gateway(info + 0xBC);
+    get_network_config_pc_name((char *)(info + 0xC4), 0x40);
+    get_network_config_mail_name((char *)(info + 0x144), 0x20);
+    get_network_config_mail_address((char *)(info + 0x164), 0x40);
+    get_network_config_pop_server((char *)(info + 0x1A4), 0x40);
+    get_network_config_pop_id((char *)(info + 0x1E4), 0x20);
+    get_network_config_pop_password((char *)(info + 0x204), 0x20);
+    get_network_config_pop_password((char *)(info + 0x204), 0x20);
+    get_network_config_proxy_port((u16 *)(info + 0x244));
+    get_network_config_login_user((char *)(info + 8), 0x80);
+    get_network_config_login_password((char *)(info + 0x88), 0x20);
+    get_network_config_dns_server1(info + 0xB4);
+    get_network_config_dns_server2(info + 0xB8);
     return 0;
 }
 
@@ -261,20 +261,20 @@ s32 init_work(s32 unused, u8 *info) {
     if (!(network_info_flags & 1)) {
         return 0;
     }
-    copy_current_entry_name((char *)(info + 0x4), 0x80);
-    TLobby__sub_803F4EBC((char *)(info + 0x84), 0x20);
-    TLobby__sub_803F4FF4(info + 0x164);
-    TLobby__sub_803F50B8(info + 0x168);
-    TLobby__sub_803F5C58((char *)(info + 0x16C), 0x20);
-    TLobby__sub_803F5D90((char *)(info + 0x18C), 0x40);
-    TLobby__sub_803F5EC8((char *)(info + 0x1CC), 0x40);
-    TLobby__sub_803F6000((char *)(info + 0x20C), 0x20);
-    TLobby__sub_803F6138((char *)(info + 0x22C), 0x20);
+    get_network_config_login_user((char *)(info + 0x4), 0x80);
+    get_network_config_login_password((char *)(info + 0x84), 0x20);
+    get_network_config_dns_server1(info + 0x164);
+    get_network_config_dns_server2(info + 0x168);
+    get_network_config_mail_address((char *)(info + 0x16C), 0x20);
+    get_network_config_mail_server((char *)(info + 0x18C), 0x40);
+    get_network_config_pop_server((char *)(info + 0x1CC), 0x40);
+    get_network_config_pop_id((char *)(info + 0x20C), 0x20);
+    get_network_config_pop_password((char *)(info + 0x22C), 0x20);
     memset(dst, 0, 0x20);
     memset(scratch, 0, 0x40);
-    TLobby__sub_803F524C((char *)((s32 *)dst), 0x20);
-    TLobby__sub_803F53A0(0, (char *)(info + 0xA4), 0x40);
-    TLobby__sub_803F53A0(1, (char *)(info + 0xE4), 0x40);
-    TLobby__sub_803F53A0(2, (char *)(info + 0x124), 0x40);
+    get_network_config_outside_line_number((char *)((s32 *)dst), 0x20);
+    get_network_config_phone_number(0, (char *)(info + 0xA4), 0x40);
+    get_network_config_phone_number(1, (char *)(info + 0xE4), 0x40);
+    get_network_config_phone_number(2, (char *)(info + 0x124), 0x40);
     return 0;
 }

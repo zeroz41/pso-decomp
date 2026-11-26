@@ -17,9 +17,9 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 extern "C" {
-saddr get_message_text(s32);
 }
 
 static const f32 save_message_window_pos[2] = { 80.0f, 176.0f };

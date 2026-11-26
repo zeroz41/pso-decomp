@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/system/scene/TEndingPicStageTypes.h"
 
 TObjEndingPlayer *ending_player;
 s8 player_light_index;
@@ -39,7 +40,6 @@ void TEndingPicStage::pose_player(player_class_type class_type, s8 picture) {
     }
 }
 
-struct ColorF { f32 r, g, b, a; };
 
 player_class_type TObjPlayer::get_class_type() {
     s32 flags = this->class_flags;

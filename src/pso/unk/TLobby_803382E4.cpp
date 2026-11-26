@@ -153,11 +153,11 @@ void render_info_icon_overlay(void) {
     case 15:
     case 19:
         TLobby::update_pulse_colors(0);
-        TLobby__sub_80338534();
+        draw_loading_overlay();
         return;
     case 18:
         TLobby::update_pulse_colors(1);
-        TLobby__sub_80338534();
+        draw_loading_overlay();
     default:
         return;
     }
@@ -166,7 +166,7 @@ void render_info_icon_overlay(void) {
 #pragma push
 #pragma opt_propagation off
 
-void TLobby__sub_80338534(void) {
+void draw_loading_overlay(void) {
     LobbyOverlayVertices *overlay = reinterpret_cast<LobbyOverlayVertices *>(loading_texture_names);
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();

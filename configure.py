@@ -716,7 +716,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/network/NetworkConnect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # load_area_enemy_set/load_area_object_set reach each .rodata object with their own lis/addi: -pool off.
     "pso/unk/TLobby_80209524.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    "pso/unk/TLobby_80226C3C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/audio/MusicControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_80228818.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_800F8AA8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/galgryphon/Boss5CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -942,7 +942,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # run_task reaches each of its four .rodata initialiser templates with its own lis/addi: -pool off.
     "pso/unk/TAdDialingSelectGC.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # prepare_offline_quest_filenames reaches each language suffix string with its own lis/addi: -pool off.
-    "pso/unk/text_801F3774.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    "pso/quest/QuestFlagSync.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     "pso/object/warp/TObjWarpBossMulti.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/chat/TWindowSubSymbolChatHelp.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/door/TODoorFourLightSpace.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1597,7 +1597,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     ("mcfs", 0x803E5668, "GC/1.2.5", cflags_middleware, {
         # Epilogue order (mtlr before the restores) only 1.2.5n produces.
         "pso/ui/keyboard/KBDXfer.c": {"mw_version": "GC/1.2.5n"},
-        "pso/unk/text_803F1804.cpp": {"mw_version": "GC/1.2.5n"},
+        "pso/system/SiPolling.cpp": {"mw_version": "GC/1.2.5n"},
         # Its loops keep base + index offsets instead of walking pointers
         # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.
         # -str reuse,readonly: the version banner and sprintf format strings sit in .rodata.

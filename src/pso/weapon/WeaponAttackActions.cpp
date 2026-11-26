@@ -44,7 +44,7 @@ struct NJS_OBJECT;
 
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/technique/TechniqueContact.h"
@@ -56,6 +56,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
+#include "pso/weapon/WeaponAttackActionsTypes.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -316,7 +317,7 @@ void TItemWeapon::fire_shot_at_target(Vec *origin, NJS_OBJECT *model, s32 angle)
     }
 }
 
-void TItemWeapon::fill_status_info(S_802E451C *params) {
+void TItemWeapon::fill_status_info(AttackColParams *params) {
     remap_extra_attack_type();
     params->client_id = static_cast<s16>(owner->get_entity_id());
     params->room = owner->get_room();
@@ -680,7 +681,7 @@ void TItemWeapon::perform_action() {
 void TItemWeapon::sample_dual_muzzles(Vec *primary, Vec *secondary) {
     draw_weapon_model();
     get_gun_point(primary);
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(this, 0x23);
     get_gun_point(secondary);
 }
 
@@ -688,9 +689,9 @@ void TItemWeapon::sample_dual_muzzles(Vec *primary, Vec *secondary) {
 
 void TItemWeapon::update_trails() {
     if (test_weapon_flags(0x400U) != 0U) {
-        draw_weapon_at_joint((saddr)this, 0x30);
+        draw_weapon_at_joint(this, 0x30);
         update_trail_slot(0);
-        draw_weapon_at_joint((saddr)this, 0x23);
+        draw_weapon_at_joint(this, 0x23);
         update_trail_slot(1);
         return;
     }
@@ -711,8 +712,8 @@ void TItemWeapon::render_equipped_shadow() {
     if (((uaddr) this->owner != 0U) && (test_weapon_flags(0xCU) == 0xCU) && (test_weapon_flags(0x80U) == 0U) && (test_weapon_flags(0x1000U) == 0U)) {
         this->draw_held_model();
         if (test_weapon_flags(0x400U) != 0U) {
-            draw_weapon_at_joint((saddr)this, 0x30);
-            draw_weapon_at_joint((saddr)this, 0x23);
+            draw_weapon_at_joint(this, 0x30);
+            draw_weapon_at_joint(this, 0x23);
             return;
         }
         if (test_weapon_flags(1U) == 0U) {
@@ -807,7 +808,6 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 // ---- pso/unk/text_80120150
 
-struct WeaponColorDescriptor { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 weapon_photon_phase_step;
 s16 weapon_node_material_index;

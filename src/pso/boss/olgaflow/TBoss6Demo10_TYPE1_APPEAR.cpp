@@ -30,7 +30,7 @@ extern Boss6StripDesc boss6_type1_appear_model_node_descriptors[];
 extern CameraAngles boss6_type1_appear_camera_angles;
 extern CameraPlayback boss6_type1_appear_camera_script;
 extern s32 boss6_type1_appear_motion_indices[];
-__declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name;
+__declspec(section ".sdata") extern AppearanceClassTag boss6_type1_appear_name_tag;
 __declspec(section ".sdata2") extern const AppearanceZero lbl_805DFA50;
 }
 
@@ -139,7 +139,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TOb
     s32 k;
     BmlResource *archive;
     saddr i;
-    m_name = TBoss6Demo10_TYPE1_APPEAR__name.value;
+    m_name = boss6_type1_appear_name_tag.value;
     this->plot = plot;
     archive = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++)
@@ -164,13 +164,13 @@ TBoss6Demo10_TYPE1_APPEAR *TBoss6Demo10_TYPE1_APPEAR::create(TBoss6PlotFalz *plo
     return new TBoss6Demo10_TYPE1_APPEAR(plot);
 }
 
-extern const char TBoss6Demo10_TYPE1_APPEAR__class_name[];
-__declspec(section ".rodata") const char TBoss6Demo10_TYPE1_APPEAR__class_name[] ATTRIBUTE_ALIGN(4) = "TBoss6Demo10_TYPE1_APPEAR";
+extern const char boss6_type1_appear_class_name[];
+__declspec(section ".rodata") const char boss6_type1_appear_class_name[] ATTRIBUTE_ALIGN(4) = "TBoss6Demo10_TYPE1_APPEAR";
 __declspec(section ".rodata") Vec boss6_type1_appear_origin = {0.0f, 25.0f, 75.0f};
 __declspec(section ".rodata") ModelNodePositionEntry boss6_type1_appear_node_desc[] = {{0}, {-1}};
 __declspec(section ".rodata") Boss6StripDesc boss6_type1_appear_model_node_descriptors[] = {{3, 1, 0}, {6, 1, 0}};
 __declspec(section ".rodata") CameraAngles boss6_type1_appear_camera_angles = {0, 0, 0};
 __declspec(section ".rodata") CameraPlayback boss6_type1_appear_camera_script = {1, 2, 0, 0.0f, 0.7f};
 s32 boss6_type1_appear_motion_indices[] = {35, 36};
-__declspec(section ".sdata") AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name = {TBoss6Demo10_TYPE1_APPEAR__class_name, 0};
+__declspec(section ".sdata") AppearanceClassTag boss6_type1_appear_name_tag = {boss6_type1_appear_class_name, 0};
 __declspec(section ".sdata2") const AppearanceZero lbl_805DFA50 = {0.0f, 0};

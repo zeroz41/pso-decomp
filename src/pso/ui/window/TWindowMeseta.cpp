@@ -76,7 +76,7 @@ void TWindowMeseta::run_task() {
 }
 
 TWindowMeseta::~TWindowMeseta() {}
-TWindowMeseta::TWindowMeseta(void *position, s32 client, s32 str)
+TWindowMeseta::TWindowMeseta(void *position, s32 client, const char *str)
     : TWindowBase((u8 *)&TWindowMeseta::window_descriptor, (s16)client, (u8 *)position) {
     WindowTextEntry *a;
     TWindowLayoutCountingNumber *b;

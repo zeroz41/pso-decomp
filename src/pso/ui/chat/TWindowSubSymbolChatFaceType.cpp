@@ -221,7 +221,7 @@ TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *pos
     cursor_col = 0;
     cursor_row = 0;
     selection = selected;
-    heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
+    heading = new WindowHeading(TWindowSubStatusDisp::get_message_10(0x33), client_index);
     status_disp = heading;
 }
 

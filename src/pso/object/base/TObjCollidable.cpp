@@ -386,7 +386,7 @@ TObjCollidable *find_entity_by_id(u16 id) {
     return NULL;
 }
 
-void TObjCollidable::sub_80154D78() {}
+void TObjCollidable::collision_update_stub() {}
 
 void clear_battle_param_slots() {
     int i;

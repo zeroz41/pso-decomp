@@ -3,7 +3,6 @@
 
 #include "types.h"
 
-void bswap_u32_pair(void *p);
 u8 *copy_join_lobby_entry(u8 *dst, u8 *src);
 
 

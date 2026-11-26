@@ -23,8 +23,8 @@ public:
     void get_cursor_pos(NJS_POINT2 *position);
     s32 needs_scroll();
     s32 can_scroll(s32 direction);
-    s32 sub_80342268();
-    s32 sub_80342254();
+    s32 can_accept_input();
+    s32 is_input_enabled();
     void load_element_list();
     void reset_fields();
     void init_layout_entries();
@@ -53,9 +53,7 @@ public:
 };
 struct WindowDrawContext;
 
-extern "C" {
-void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect);
-}
+void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect);
 
 LAYOUT_ASSERT(TWindowDD_WS_Word_size, sizeof(TWindowDD_WS_Word) == 0x90);
 

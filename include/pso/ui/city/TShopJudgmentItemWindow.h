@@ -53,7 +53,7 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     void handle_input();
     void build_item_list();
     void close();
-    static TWindowShop *open_default(s32 title);
+    static TWindowShop *open_default(const char *title);
     void handle_pay_confirm();
     void update_judge_confirm();
     void handle_judge_confirm();

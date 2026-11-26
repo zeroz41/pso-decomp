@@ -7,12 +7,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/weapon/TItemWeaponSorcerersCaneTypes.h"
 
-// Eight x/y/z scales, indexed by scale_step.
-struct CaneScaleTable {
-    Vec value;
-    Vec remaining[7];
-};
 
 const CaneScaleTable cane_node1_scale_steps = {
     {1.0f, 1.0f, 1.0f},
@@ -39,7 +35,6 @@ const CaneScaleTable cane_node4_scale_steps = {
     },
 };
 
-LAYOUT_ASSERT(CaneScaleTable_size, sizeof(CaneScaleTable) == 0x60);
 void TItemWeaponSorcerersCane::transform_model_node() {
     s32 player_list;
     s32 scale_step;

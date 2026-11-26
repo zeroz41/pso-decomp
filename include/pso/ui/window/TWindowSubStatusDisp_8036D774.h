@@ -3,9 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
-void TWindowSubStatusDisp__sub_8036D994(void);
-}
+void draw_scanline_sweep(void);
 
 extern "C" {
 void TBGMulti__ct(void);

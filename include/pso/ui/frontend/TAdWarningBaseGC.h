@@ -12,7 +12,7 @@ struct TAdWarningBaseGC : public TObject {
     TAdWarningBaseGC(TObject *parent);
     virtual ~TAdWarningBaseGC();
     virtual void on_close() = 0;
-    virtual saddr get_message_text() = 0;  // the warning text: get_localized_text_entry
+    virtual const char *get_message_text() = 0;  // the warning text: get_localized_text_entry
     virtual void update_state();
     virtual void render_dialog();
     saddr create_message_window();   // creates the message window holding get_message_text's text

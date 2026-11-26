@@ -10,7 +10,7 @@
 #include "pso/system/scene/TEnding.h"
 #include "pso/render/GinjaView.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/text_800F9B84.h"
@@ -164,7 +164,7 @@ TEnding::~TEnding() {
 
 TEnding::TEnding() : TObject(tl_window) {
     m_name = TEnding::class_name;
-    TEnding__sub_8008C9F8();
+    reset_ending_stub();
     TMainTask::cleanup_game_objects();
     set_current_floor_area(1);
     switch (get_video_standard()) {
@@ -184,4 +184,4 @@ TEnding::TEnding() : TObject(tl_window) {
     new TAdEndText(this);
 }
 
-void TEnding__sub_8008C9F8() {}
+void reset_ending_stub() {}

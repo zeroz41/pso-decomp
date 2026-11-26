@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void fn_80290BEC(void);
+void exit_main_menu_scene(void);
 extern "C" {
 void run_main_frame(void);
 }

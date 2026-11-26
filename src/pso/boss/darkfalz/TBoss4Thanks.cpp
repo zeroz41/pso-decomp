@@ -220,7 +220,7 @@ s32 TBoss4Thanks::is_door_open_and_ready() {
     return 0;
 }
 
-s32 TBoss4Thanks__sub_8035C96C(void) { return TBoss4Thanks::is_door_0x97_open(); }
+s32 is_boss4_door_open(void) { return TBoss4Thanks::is_door_0x97_open(); }
 
 s32 TBoss4Thanks::check_ready() {
     if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_item() == 0)) {

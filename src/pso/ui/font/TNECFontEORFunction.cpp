@@ -109,7 +109,7 @@ void set_glyph_quad_extents(u8 advance, TexturedQuad *quad) {
 }
 #pragma pop
 
-u32 TWindowSubStatusDisp::calc_text_width(char *s) {
+u32 TWindowSubStatusDisp::calc_text_width(const char *s) {
     f32 max = 0.0f;
     u32 w = 0;
     u8 c;
@@ -144,7 +144,7 @@ u32 TWindowSubStatusDisp::calc_text_width(char *s) {
     return max;
 }
 
-u32 calc_text_width(char *s) {
+u32 calc_text_width(const char *s) {
   f32 max = 0.0f;
   u32 w = 0;
   u8 c;
@@ -195,7 +195,7 @@ u32 calc_text_width(char *s) {
   return max;
 }
 
-u32 calc_fullwidth_text_width(char *s) {
+u32 calc_fullwidth_text_width(const char *s) {
     f32 max = 0.0f;
     u32 w = 0;
     u8 c;

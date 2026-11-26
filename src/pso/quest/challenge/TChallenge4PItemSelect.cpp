@@ -32,16 +32,10 @@
 #include "pso/object/base/TObjBase.h"
 
 
-// One selectable item: the first three item-code bytes, stored as words.
-struct Challenge4PItemCode {
-    s32 type;
-    s32 group;
-    s32 subtype;
-};
 
 extern "C" {
 
-s32 fn_8034BE30(TChallenge4PResult *);
+s32 get_challenge_result_slot_index(TChallenge4PResult *);
 
 }
 s32 challenge4p_item_select_text_ids[8] = { 0x120, 0x13D, 0x159, 0x11D, 0x12A, 0x147, 0x11F, 0x14E };
@@ -56,9 +50,9 @@ extern "C" {
 
 
 
-void fn_8034BE48(TObjPlayer *);
+void set_player_hold_flag(TObjPlayer *);
 void request_active_window_close();
-void fn_8034BE38(TObjPlayer *);
+void clear_player_hold_flag(TObjPlayer *);
 
 }
 void resume_challenge_result_processing(void *result);
@@ -230,10 +224,10 @@ void TChallenge4PResult::init_timer() {
     this->state_1c = 5;
 }
 
-void TChallenge4PResult::show_message(saddr text_handle) {
+void TChallenge4PResult::show_message(const char *text_handle) {
     if (message_window == NULL) {
-        f32 pos[2] = {332.0f, 80.0f};
-        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (saddr)pos, 1, slot_index);
+        NJS_POINT2 pos = {332.0f, 80.0f};
+        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), &pos, 1, slot_index);
     }
     if (message_window != NULL) {
         message_window->set_message((void *)text_handle, 0x81);
@@ -276,7 +270,7 @@ s32 update_challenge_result_player_locks() {
                 player->disable_palette_slot(1);
                 player->disable_palette_slot(2);
                 player->disable_palette_slot(3);
-                if ((player)->check_flag_0x40000000() == 0) fn_8034BE48(player);
+                if ((player)->check_flag_0x40000000() == 0) set_player_hold_flag(player);
                 TWindowCtrl::disable_client_main_menu(player->get_entity_id());
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
@@ -289,7 +283,7 @@ s32 update_challenge_result_player_locks() {
                 send_release_hold(player);
                 obj_clear_flag30_20000(player);
                 player->enable_all_palette_slots();
-                if ((player)->check_flag_0x40000000()) fn_8034BE38(player);
+                if ((player)->check_flag_0x40000000()) clear_player_hold_flag(player);
                 TWindowCtrl::enable_client_main_menu(player->get_entity_id());
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();
@@ -360,7 +354,7 @@ void TChallenge4PItemSelect::open_menu() {
     frames_left = waitFrames - 1;
     waitFrames = frames_left;
     if (frames_left <= 0) {
-        client_id = fn_8034BE30(result);
+        client_id = get_challenge_result_slot_index(result);
         menu_window = create_window_menu(get_window_layout_position(0x42), 8, client_id);
         if (menu_window != NULL) {
             i = 0;

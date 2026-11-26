@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void TLobby__sub_802D7A0C(void *p);
+void reset_npc_enemy_anims_on_floor_load(void *p);
 
 #endif

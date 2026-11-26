@@ -15,9 +15,9 @@ const char *TWindowSubEquipList::class_name = "TWindowSubEquipList";
 
 
 
-u8 *create_equip_list_window(saddr parent, saddr position, s32 client) {
-    set_menu_icon_line_params(reinterpret_cast<const NJS_POINT2 *>(position), 8);
-    return (u8 *)new TWindowSubEquipList((u8 *)parent, client);
+TWindowSubEquipList *create_equip_list_window(const NJS_POINT2 *parent, const NJS_POINT2 *position, s32 client) {
+    set_menu_icon_line_params(position, 8);
+    return new TWindowSubEquipList((u8 *)parent, client);
 }
 
 
@@ -44,5 +44,5 @@ TWindowSubEquipList::~TWindowSubEquipList() {}
 
 TWindowSubEquipList::TWindowSubEquipList(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 8, client) {
     m_name = TWindowSubEquipList::class_name;
-    ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x25));
+    ensure_status_display(TWindowSubStatusDisp::get_message_10(0x25));
 }

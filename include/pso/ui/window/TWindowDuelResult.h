@@ -22,7 +22,7 @@ struct TWindowDuelResult : public TWindowBase {
     f32 scale_x;
     f32 scale_y;
     PageIndicator *page_indicator;
-    static int set_default_status(void *p, int a1);
+    static int set_default_status(void *p, const char *text);
 };
 
 LAYOUT_ASSERT(TWindowDuelResult_size, sizeof(TWindowDuelResult) == 0x6C);

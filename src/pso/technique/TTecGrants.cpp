@@ -20,7 +20,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecGrantsEffect.h"
 #include "pso/technique/TTimedSoundEffect.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecGrants.h"
@@ -37,6 +37,7 @@
 #include <stddef.h>
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/technique/TTecGrantsTypes.h"
 
 // ---- pso/unk/text_80232934
 
@@ -60,13 +61,9 @@ NJS_TEXLIST grants_ring_texlist = { grants_ring_texname, 1 };
 
 // ---- pso/unk/text_80232B7C
 
-struct GrantsEmitterPart { s32 id; u32 flags; u8 pad_08[4]; };
 
-struct GrantsEmitterSet { const GrantsEmitterPart *parts; u32 count; };
 
-struct GrantsEffectEntry { s32 effect; u32 flags; s32 pad_08; };
 
-struct GrantsEffectSet { const GrantsEffectEntry *ents; u32 count; };
 
 // Per level tier (get_technique_level_tier): the particle emitters TTecGrantsEffect keeps alive and
 // the effects it spawns when it ends.

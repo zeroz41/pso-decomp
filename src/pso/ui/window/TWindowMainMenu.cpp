@@ -53,7 +53,7 @@ extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
 
 
 extern "C" {
-s32 select_main_menu_item_10(s32);
+#include "pso/unk/TLobby_8013292C.h"
 }
 
 #include "pso/ui/window/TWindowMainMenu1P.h"
@@ -495,7 +495,7 @@ f32 get_main_menu_layer_depth(u8 *parent, u32 layer) {
 }
 extern "C" {
 
-void TWindowSubEquip__sub_80263AF4(void *, s32) {}
+void equip_window_stub(void *, s32) {}
 }
 
 void call_if_split_screen(uaddr object, s32 client_id) {

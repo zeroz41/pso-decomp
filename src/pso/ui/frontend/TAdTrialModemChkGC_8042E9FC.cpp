@@ -212,7 +212,7 @@ s32 get_network_adapter_type(s32 *out_type) {
 }
 
 
-s32 fn_8042EF48(s8 value) {
+s32 set_disc_messages_byte0(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
@@ -266,7 +266,7 @@ s32 set_modem_check_param(s32 value) {
     return 0;
 }
 
-s32 TAdTrialModemChkGC__sub_8042F080(s16 value) {
+s32 set_connect_param_1C2(s16 value) {
     shared_memory_connect_param->unk_1C2 = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
@@ -281,7 +281,7 @@ s32 set_modem_trial_param(s16 value) {
     return 0;
 }
 
-s32 TAdTrialModemChkGC__sub_8042F0D4(s8 value) {
+s32 set_connect_param_13D(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }

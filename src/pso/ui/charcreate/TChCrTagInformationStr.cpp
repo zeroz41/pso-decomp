@@ -35,7 +35,7 @@ void TChCrTagInformationStr::render() {
         radius_step = 1.5f * spread;
         s32 line;
         for (line = 0; line < 7; line++) {
-            const char *text = (const char *)get_localized_text_entry(text_group, first_text_entry + line);
+            const char *text = get_localized_text_entry(text_group, first_text_entry + line);
             draw_menu_text(pos.x, pos.y, text, color);
             if (spread > 0.0f) {
                 s32 ring;

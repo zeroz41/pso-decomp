@@ -102,9 +102,9 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-void TLobby__sub_80207E24(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
-void TLobby__sub_80207E44(void) {  }
-void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
+void copy_game_variations(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
+void init_city_area_stub(void) {  }
+void randomize_offline_maps(void) { randomize_adventure_maps(); }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
     return get_floor_map_selection(floor, selection);
 }
@@ -120,7 +120,7 @@ saddr get_floor_scene_table(s32 area) {
 
 
 void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
-void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
+void reset_online_story_select(void) { TLobby::reset_story_select(); }
 typedef FloorLifecycleEntry E_80207F80;
 typedef FloorLifecycleCallback Fn_80208020;
 typedef FloorLifecycleEntry E_80208020;
@@ -174,8 +174,7 @@ void bswap_enemy_set_row(void *row_ptr) {
     bswap_enemy_set_row_fields(&row->placement);
 }
 
-void bswap_enemy_set_row_fields(void *placement_ptr) {
-    EnemyPlacement *placement = (EnemyPlacement *)placement_ptr;
+void bswap_enemy_set_row_fields(EnemyPlacement *placement) {
     bswap_16((u16 *)&placement->child_count);
     bswap_16((u16 *)&placement->unknown04[0]);
     bswap_16((u16 *)&placement->unknown0c[0]);
@@ -202,8 +201,7 @@ void swap_object_row_endian(void *row_ptr) {
     bswap_object_row_fields(&row->placement);
 }
 
-void bswap_object_row_fields(void *placement_ptr) {
-    ObjectSetData *placement = (ObjectSetData *)placement_ptr;
+void bswap_object_row_fields(ObjectSetData *placement) {
     bswap_16((u16 *)&placement->floor);
     bswap_16((u16 *)&placement->wave);
     bswap_16((u16 *)&placement->room);
@@ -360,12 +358,12 @@ void send_6x05_wave_set_switch(s16 switch_id) {
     }
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
-int link_matching_objects__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::link_matching_objects)(p); }
-int spawn_objects_at_pos__6TLobbyFPv(void *p) { return ((int (*)(void *))spawn_objects_at_pos)(p); }
+int wave_event_link_objects(void *p) { return ((int (*)(void *))TLobby::link_matching_objects)(p); }
+int wave_event_spawn_objects(void *p) { return ((int (*)(void *))spawn_objects_at_pos)(p); }
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
-void TLobby__sub_80208648(void) {  }
+void command_exit_stub(void) {  }
 
 // Wave event script opcodes, indexed by the opcode byte: decode reads the opcode's operands from the script
 // stream and calls action with them, so each action has the signature its decoder calls it with.
@@ -376,7 +374,7 @@ struct WaveEventAction {
 };
 
 WaveEventAction wave_event_action_table[16] = {
-    { TLobby::invoke_command, TLobby__sub_80208648 },
+    { TLobby::invoke_command, command_exit_stub },
     { TLobby::invoke_command, request_wave_event_stop },
     { 0, 0 },
     { 0, 0 },
@@ -384,8 +382,8 @@ WaveEventAction wave_event_action_table[16] = {
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)spawn_objects_at_pos__6TLobbyFPv },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)link_matching_objects__6TLobbyFPv },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_spawn_objects },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_link_objects },
     { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_set_switch },
     { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_clear_switch },
     { dispatch_wave_event_action, (WaveEventActionFunc)send_6x67_wave_trigger_event },

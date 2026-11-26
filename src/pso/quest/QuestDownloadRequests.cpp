@@ -584,31 +584,10 @@ u8 lbl_8058DCE8[80];
 u8 quest_request_text_buffer[80];
 QuestConvertString quest_convert_string;
 
-// A conversion request: the handler id followed by its arguments.
-struct ImeRequest {
-    s32 id;
-};
 
-struct ImeTextRequest : ImeRequest {
-    char *text;
-    char *rest;
-};
 
-struct ImeOpenRequest : ImeRequest {
-    const char *a;
-    const char *b;
-};
 
-struct ImeConvertRequest : ImeRequest {
-    const u8 *reading;
-    char *text;
-    char *rest;
-};
 
-struct ImeRomajiRequest : ImeRequest {
-    const char *romaji;
-    char *kana;
-};
 
 s32 ime_dispatch_request(ImeRequest *request) {
     s32 i = request->id;

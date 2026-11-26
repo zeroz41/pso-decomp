@@ -131,11 +131,11 @@ void TItemWeaponSRankPunch::draw_held_model() {
 
     saved_model = item_model;
     this->flags.set(1);
-    draw_weapon_at_joint((saddr)this, 0x30);
+    draw_weapon_at_joint(this, 0x30);
     get_joint_position(1, &shot_origins[0]);
     item_model = (NJS_OBJECT *)model_data[0];
     this->flags.clear(1);
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(this, 0x23);
     get_joint_position(1, &shot_origins[1]);
     item_model = saved_model;
 }

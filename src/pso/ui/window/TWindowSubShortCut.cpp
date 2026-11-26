@@ -146,7 +146,7 @@ void TWindowSubShortCut::run_task() {
             this->chat_window = 0U;
         }
         if (this->shortcut_window == NULL) {
-            this->shortcut_window = new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->shortcut_slot, (s32 *)&this->chat_submission);
+            this->shortcut_window = new TWindowShortCut(get_window_layout_position(0x73), this->shortcut_slot, (s32 *)&this->chat_submission);
         }
         if (this->confirm_window == NULL) {
             this->confirm_window = open_confirm_prompt();
@@ -203,10 +203,10 @@ TWindowMenu *TWindowSubShortCut::open_menu() {
     ChatShortcut *chat_shortcut;
 
     chat_shortcut = get_chat_shortcut(com_card_list->get_cursor_value());
-    list = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
+    list = create_titled_window_menu_default(get_window_layout_position(0x74), 2, TWindowSubStatusDisp::get_message_10(0x2C));
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if (chat_shortcut->kind.value != 0) {
-        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     }
@@ -218,7 +218,7 @@ TWindowMenu *TWindowSubShortCut::open_menu() {
 
 TWindowMessageYesNo *TWindowSubShortCut::open_confirm_prompt() {
     TWindowMessageYesNo *dialog = TWindowMessageYesNo::create(this, this->client_id, 0, 0);
-    open_yes_no_prompt(dialog, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), get_window_layout_position(0x75), 205.0f);
+    open_yes_no_prompt(dialog, (TWindowSubStatusDisp::get_message_10(0x20)), (TWindowSubStatusDisp::get_message_10(0x3D)), get_window_layout_position(0x75), 205.0f);
     dialog->set_choice_menu_flag70_bit10();
     return dialog;
 }
@@ -227,7 +227,7 @@ TWindowMessageYesNo *TWindowSubShortCut::open_confirm_message() {
     TWindowMessageYesNo *dialog;
 
     dialog = TWindowMessageYesNo::create(this, this->client_id, 0, 0);
-    open_yes_no_prompt(dialog, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x76), 205.0f);
+    open_yes_no_prompt(dialog, (TWindowSubStatusDisp::get_message_10(0x20)), (TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x76), 205.0f);
     dialog->set_menu_selected_index(1);
     dialog->set_choice_menu_flag70_bit10();
     return dialog;

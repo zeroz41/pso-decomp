@@ -221,8 +221,8 @@ void *TOTrapAncient02::create(void *set_data) {
 
 void TOTrapAncient02::render() {
     if (TMainTask::get_render_pass() != 1) {
-        m_340 = update_object_view_visibility(400.0f, 20.0f);
-        if (m_340 == 1 && (particle_tev == 0 || is_split_screen() != 0 || TDeferredRenderQueue::enqueue_in_instance(this) == 0)) {
+        visible = update_object_view_visibility(400.0f, 20.0f);
+        if (visible == 1 && (particle_tev == 0 || is_split_screen() != 0 || TDeferredRenderQueue::enqueue_in_instance(this) == 0)) {
             set_draw_list_mask(3);
             if (particle_tev != 0) {
                 render_particle_chain();
@@ -735,6 +735,6 @@ void TOTrapAncient02R::run_demo() {}
 void TOTrapAncient02R::vfunc_86() {
     if (is_current_room(this) == 1) {
         debug_draw_scaled(&home_position, &scratch_vec, &trap_ancient_light_color);
-        sub_80154D78();
+        collision_update_stub();
     }
 }

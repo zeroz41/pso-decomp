@@ -3,7 +3,7 @@
 #include "pso/technique/TTimedSoundEffect.h"
 #include "pso/technique/TDelayedSoundEffect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 
 // defer_codegen emits these in reverse source order: the last function in the file comes first in .text.
 #pragma defer_codegen on

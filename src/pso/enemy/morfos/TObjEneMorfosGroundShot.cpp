@@ -47,8 +47,6 @@ s32 TObjEneMorfosGroundShot::snap_to_ground(Vec *position) {
     return 1;
 }
 
-struct O_80337500;
-struct V_80337500;
 void TObjEneMorfosGroundShot::run_task() {
     TObjCollidable *owner;
     s32 i;

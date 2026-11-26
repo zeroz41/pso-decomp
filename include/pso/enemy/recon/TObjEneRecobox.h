@@ -21,7 +21,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();
-    virtual void update_if_800BB858();
+    virtual void update_demo_mode();
     virtual void draw_with_debug_info();
     s32 render_trap_model_if_visible();
     void apply_set_parameters();

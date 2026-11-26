@@ -6,7 +6,7 @@
 void clear_received_symbol_chat(void);
 
 extern "C" {
-void TLobby__sub_80077608(void);
+void symbol_chat_on_floor_free_stub(void);
 }
 
 void init_symbol_chat_header(void *p);

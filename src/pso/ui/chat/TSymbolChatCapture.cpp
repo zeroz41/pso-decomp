@@ -75,5 +75,5 @@ void TSymbolChatCapture::create_singleton(TObject *parent) {
     }
 }
 
-void TLobby__sub_8036B50C(void) {  }
-void TLobby__sub_8036B510(void) {  }
+void symbol_chat_capture_on_floor_free(void) {  }
+void symbol_chat_capture_on_floor_load(void) {  }

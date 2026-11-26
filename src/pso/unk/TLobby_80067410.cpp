@@ -8,9 +8,9 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-void fn_802898EC(void);
+void cleanup_pillar_demo_stub_b(void);
 int forward_pillar_2B710__19TObjBoss5PillarCtrlFv(void);
-void fn_802898E8(void);
+void cleanup_pillar_demo_stub_a(void);
 s32 update_pillar__19TObjBoss5PillarCtrlFv();
 
 void TLobby::cleanup_pillar_demo() {
@@ -18,12 +18,12 @@ void TLobby::cleanup_pillar_demo() {
         boss5_ctrl_instance->queue_destruction();
         boss5_ctrl_instance = NULL;
     }
-    TObjBoss5PillarDemo__sub_8028ACE0();
+    pillar_demo_stub_a();
     update_pillar__19TObjBoss5PillarCtrlFv();
-    fn_802898E8();
+    cleanup_pillar_demo_stub_a();
     clear_pillar_target_refs();
     free_boss5_common_assets();
 }
-void TLobby::cleanup_boss5_pillars() { load_boss5_common_assets(); TObjBoss5PillarDemo::update_active_pillar(); fn_802898EC(); forward_pillar_2B710__19TObjBoss5PillarCtrlFv(); TObjBoss5PillarDemo__sub_8028ACE4(); boss5_ctrl_instance = NULL; }
+void TLobby::cleanup_boss5_pillars() { load_boss5_common_assets(); TObjBoss5PillarDemo::update_active_pillar(); cleanup_pillar_demo_stub_b(); forward_pillar_2B710__19TObjBoss5PillarCtrlFv(); pillar_demo_stub_b(); boss5_ctrl_instance = NULL; }
 
 }

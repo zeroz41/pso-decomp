@@ -18,8 +18,8 @@ typedef union {
     u32 u32;
     s32 s32;
     f32 f32;
-} WGPipe_803E2BCC;
-#define GXWGFifo_803E2BCC (*(volatile WGPipe_803E2BCC *)0xCC008000)
+} PPCWGPipe;
+#define GXWGFifo (*(volatile PPCWGPipe *)0xCC008000)
 void draw_projected_quads(ProjectedVertex *p, s32 n) {
     s32 i;
     f32 one;
@@ -33,11 +33,11 @@ void draw_projected_quads(ProjectedVertex *p, s32 n) {
         w = one / p->z;
         y = p->y * w;
         x = p->x * w;
-        GXWGFifo_803E2BCC.f32 = x;
-        GXWGFifo_803E2BCC.f32 = y;
-        GXWGFifo_803E2BCC.f32 = w;
+        GXWGFifo.f32 = x;
+        GXWGFifo.f32 = y;
+        GXWGFifo.f32 = w;
         c = p->color;
-        GXWGFifo_803E2BCC.u32 = ((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24);
+        GXWGFifo.u32 = ((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24);
         p++;
     }
 }

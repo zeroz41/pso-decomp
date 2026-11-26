@@ -16,7 +16,7 @@ const char *TChCrEffFade::class_name = "TChCrEffFade";
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
 
-void fn_80293D84(void *context, void *center, u32 color, f32 scale, f32 alpha) {
+void draw_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha) {
     // inferred: the unit hexagon the cells are scaled from
     static const ColorLineVertex hexagon[7] = {
         { 0.5f, -0.865f }, { 1.0f, 0.0f }, { 0.5f, 0.865f }, { -0.5f, 0.865f },
@@ -43,7 +43,7 @@ void fn_80293D84(void *context, void *center, u32 color, f32 scale, f32 alpha) {
     prim.draw_strip_swap_color(6, 6, (-1.5f));
 }
 
-void fn_80293E58(void *context, f32 scale) {
+void draw_hexagon_grid(void *context, f32 scale) {
     // The hexagon grid covers the 640x480 screen plus a 12-unit margin.
     static const NJS_POINT2 grid_start = { -12.0f, -12.0f };
     static const NJS_POINT2 grid_end = { 652.0f, 492.0f };
@@ -57,7 +57,7 @@ void fn_80293E58(void *context, f32 scale) {
             p.x += -18.0f;
         }
         for (; p.x < grid_end.x; p.x += 36.0f) {
-            fn_80293D84(context, &p, 0, s, scale);
+            draw_hexagon(context, &p, 0, s, scale);
         }
         odd ^= 1;
     }
@@ -98,7 +98,7 @@ void TChCrEffFade::render() {
         draw_fade_strip(alpha);
         break;
     case 1:
-        fn_80293E58(this, alpha);
+        draw_hexagon_grid(this, alpha);
         alpha_now = alpha;
         draw_fade_strip(alpha_now * alpha_now);
         break;

@@ -26,11 +26,12 @@
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/text_80120908.h"
+#include "pso/weapon/TItemWeaponTypes.h"
+#include "pso/render/render_util.h"
 
 
 // ---- pso/unk/text_80120908
 
-void set_shadow_material_state(void);
 
 extern s16 weapon_node_ids[];
 extern s16 weapon_node_material_index;
@@ -115,18 +116,17 @@ void TItemWeapon::draw_weapon_model() {
     }
 }
 
-void draw_weapon_at_joint(saddr weapon, s8 joint) {
+void draw_weapon_at_joint(TItemWeapon *weapon, s8 joint) {
     s8 saved_joint;
-    saved_joint = (s32)((TItemEquipBase *)weapon)->get_attach_joint();
-    ((TItemEquipBase *)weapon)->set_attach_joint(joint);
-    ((TItemWeapon *)weapon)->draw_weapon_model();
-    ((TItemEquipBase *)weapon)->set_attach_joint(saved_joint);
+    saved_joint = (s32)weapon->get_attach_joint();
+    weapon->set_attach_joint(joint);
+    weapon->draw_weapon_model();
+    weapon->set_attach_joint(saved_joint);
 }
 // ---- pso/unk/text_80120C5C
 void TItemWeapon::release_model() { memset(trails, 0, 16); clear_weapon_flags((uaddr)((void*)12)); TItemEquipBase::release_model(); }
 
 
-struct SRankModelIds { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
 
 extern SRankModelIds srank_weapon_model_ids[];

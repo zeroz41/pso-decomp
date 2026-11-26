@@ -245,7 +245,7 @@ s32 TAdMultiSelGameModeGC::get_max_difficulty_for_party_level() {
     if (multi_sel_rule == 2) {
         return 0;
     }
-    m = TObjEneDolmOlm__sub_80300CF0();
+    m = max_difficulty_level_stub();
     for (i = 0; i < 4; i++) {
         if (is_multiplayer_character_slot_selected(i) != 0) {
             s32 t = TAdSinglePlyChrSelectGC::get_char_table_entry(i)->m_stats.level + 1;

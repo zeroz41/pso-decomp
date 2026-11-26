@@ -1,0 +1,92 @@
+#include "types.h"
+#include "pso/network/NetworkConfig.h"
+#include "pso/network/NetworkInfoLoader.h"
+#include <dolphin/os/OSAlloc.h>
+
+// First function of the ntInf library: it publishes the library's version
+// string ("ntInf Ver 1.17.00 Build:Jul  9 2002").
+// 32-byte aligned like the other ntInf globals.
+u32 lobby_net_config_mode __attribute__((aligned(32)));
+
+extern "C" {
+extern const char *ntinf_version_ref;
+char ntinf_version_string[] = "\nntInf Ver 1.17.00 Build:Jul  9 2002 09:41:44\n";
+extern const char *const ntinf_version_string_ref = ntinf_version_string;
+// A second copy of the requested mode; nothing reads it.
+s32 lobby_net_config_requested_mode;
+extern s32 lobby_net_config_load_state;
+extern u8 *lobby_net_config_buffer;
+extern u8 *lobby_net_config_card_base;
+
+#pragma push
+#pragma scheduling off
+#pragma opt_dead_assignments off
+// The caller's work buffer is declared 32-byte aligned like lobby_net_config_buffer it lands in; GC/1.3 gives
+// the parameter an aligned home, hence the 32-aligned frame.
+s32 open_network_config(s32 backup_mode, void *buffer ATTRIBUTE_ALIGN_PARAM(32), s32 mode) {
+    ntinf_version_ref = ntinf_version_string_ref;
+    if (get_network_config_mode() != 0) {
+        return -1;
+    }
+    lobby_net_config_mode = mode;
+    lobby_net_config_requested_mode = mode;
+    if (backup_mode != 0) {
+        return -2;
+    }
+    get_or_set_network_config_mode(1);
+    get_or_set_network_config_backup_mode(backup_mode);
+    lobby_net_config_load_state = 0;
+    if (buffer == NULL) {
+        lobby_net_config_buffer = (u8 *)OSAllocFromHeap(__OSCurrHeap, get_network_config_buffer_size(backup_mode));
+        if (lobby_net_config_buffer == NULL) {
+            return -4;
+        }
+        lobby_net_config_load_state = 1;
+    } else {
+        lobby_net_config_buffer = (u8 *)buffer;
+    }
+    if (backup_mode == 1) {
+        lobby_net_config_card_base = lobby_net_config_buffer + 0x19D4;
+    }
+    set_network_config_card_channel(2);
+    return 0;
+}
+#pragma pop
+
+}
+
+#pragma push
+#pragma peephole off
+s32 update_network_info_request(void) {
+    if (get_network_config_mode() == 0) {
+        return -1;
+    }
+    switch (network_info_load_state.request_kind) {
+    case 2:
+        update_network_info_load();
+        break;
+    case 1:
+        update_network_info_exists();
+        break;
+    case 3:
+    case 4:
+        break;
+    }
+    return 0;
+}
+#pragma pop
+
+
+s32 close_network_config(void) {
+    if (get_network_config_mode() == 0) {
+        return -1;
+    }
+    if (lobby_net_config_load_state == 1 && lobby_net_config_buffer != NULL) {
+        OSFreeToHeap(__OSCurrHeap, lobby_net_config_buffer);
+        lobby_net_config_buffer = NULL;
+    }
+    get_or_set_network_config_mode(0);
+    get_or_set_network_config_backup_mode(0);
+    set_network_config_card_channel(2);
+    return 0;
+}

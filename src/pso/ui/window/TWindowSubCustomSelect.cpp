@@ -273,7 +273,7 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
         e += 3;
         (this->row_count)++;
     }
-    o = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x22), client_index);
+    o = new WindowHeading(TWindowSubStatusDisp::get_message_10(0x22), client_index);
     status_display = o;
     pos.x = 196.0f;
     pos.y = 51.0f * (f32)(s8)row_count + 18.0f;

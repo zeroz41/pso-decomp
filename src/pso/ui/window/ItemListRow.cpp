@@ -333,7 +333,7 @@ void ItemListRow::setup_entry_msg_d1(s32 item) {
     this->x = -18.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
-    this->label = replace_owned_string((const char *)TWindowSubStatusDisp::get_message_10(0xD1), this->label, 8, 1);
+    this->label = replace_owned_string(TWindowSubStatusDisp::get_message_10(0xD1), this->label, 8, 1);
     this->style = 0xFF909090;
     this->item = item;
     this->flags |= 0xC5;
@@ -343,7 +343,7 @@ void ItemListRow::setup_entry_msg_d0(s32 item) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
-    this->label = replace_owned_string((const char *)TWindowSubStatusDisp::get_message_10(0xD0), this->label, 8, 1);
+    this->label = replace_owned_string(TWindowSubStatusDisp::get_message_10(0xD0), this->label, 8, 1);
     this->style = 0xFF909090;
     this->item = item;
     this->flags |= 0xC5;
@@ -353,19 +353,19 @@ void ItemListRow::init_no_item_entry(s32 item) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
-    this->label = replace_owned_string((const char *)TWindowSubStatusDisp::get_message_10(0xCF), this->label, 8, 1);
+    this->label = replace_owned_string(TWindowSubStatusDisp::get_message_10(0xCF), this->label, 8, 1);
     this->style = 0xFF909090;
     this->item = item;
     this->flags |= 0xC5;
 }
 
-void ItemListRow::init_entry(u8 status_icon, u8 category_icon, u8 status_style, u32 src, s32 item) {
+void ItemListRow::init_entry(u8 status_icon, u8 category_icon, u8 status_style, const char *src, s32 item) {
     this->x = 0.0f;
     this->status_icon = status_icon;
     this->category_icon = category_icon;
     this->status_style = (s32) status_style;
     this->category_style = -1;
-    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
+    this->label = replace_owned_string(src, this->label, 8, 1);
     this->style = -1;
     this->item = item;
     this->flags |= 0x245;
@@ -377,18 +377,18 @@ void ItemListRow::init_meseta(s32 meseta, s32 item) {
     this->category_icon = 9;
     text_builder_reset();
     text_builder_append_int(meseta);
-    text_builder_append((const char *)TWindowSubStatusDisp::get_meseta_unit());
+    text_builder_append(TWindowSubStatusDisp::get_meseta_unit());
     this->suffix = replace_owned_string(get_shared_text_buffer(), this->suffix, 0x10, 1);
     this->suffix_style = -1;
     this->item = item;
     this->flags |= 0x45;
 }
 
-void ItemListRow::setup_stat_line(s32 src, s32 stat, s32 item) {
+void ItemListRow::setup_stat_line(const char *src, s32 stat, s32 item) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x2D;
-    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
+    this->label = replace_owned_string(src, this->label, 8, 1);
     update_stat_line(stat);
     this->item = item;
     if (stat <= 0) {
@@ -406,7 +406,7 @@ void ItemListRow::setup_stat_line(s32 src, s32 stat, s32 item) {
     }
     this->suffix_style = (s32) this->style;
 }
-void ItemListRow::init_status_entry_by_flag(s32 flag, u32 src, s32 item) {
+void ItemListRow::init_status_entry_by_flag(s32 flag, const char *src, s32 item) {
     u8 category_icon;
     if (flag) {
         category_icon = 0x14;
@@ -417,7 +417,7 @@ void ItemListRow::init_status_entry_by_flag(s32 flag, u32 src, s32 item) {
     this->x = -18.0f;
 }
 
-void ItemListRow::init_list_entry(u8 icon, s32 src, s32 item) {
+void ItemListRow::init_list_entry(u8 icon, const char *src, s32 item) {
     u8 status_icon_value;
 
     status_icon_value = icon;
@@ -429,7 +429,7 @@ void ItemListRow::init_list_entry(u8 icon, s32 src, s32 item) {
     this->category_icon = 0x33;
     this->status_style = -1;
     this->category_style = -1;
-    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
+    this->label = replace_owned_string(src, this->label, 8, 1);
     this->style = -1;
     this->suffix_style = -1;
     this->item = item;
@@ -439,13 +439,13 @@ void ItemListRow::init_list_entry(u8 icon, s32 src, s32 item) {
         this->style = 0xFF909090;
     }
 }
-void ItemListRow::init_status_entry(u8 category_icon, u32 src, s32 item) {
+void ItemListRow::init_status_entry(u8 category_icon, const char *src, s32 item) {
     this->x = -18.0f;
     this->status_icon = 0x33;
     this->category_icon = category_icon;
     this->status_style = -1;
     this->category_style = -1;
-    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
+    this->label = replace_owned_string(src, this->label, 8, 1);
     this->style = -1;
     this->suffix_style = -1;
     this->item = item;
@@ -546,11 +546,11 @@ void ItemListRow::set_ground_item(TItemData *item, s32 index) {
 }
 
 
-void ItemListRow::init_display(s32 src, s32 item) {
+void ItemListRow::init_display(const char *src, s32 item) {
     this->x = -36.0f;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
-    this->label = replace_owned_string((const char *)src, this->label, 8, 1);
+    this->label = replace_owned_string(src, this->label, 8, 1);
     this->style = -1;
     this->item = item;
     this->flags |= 0x45;

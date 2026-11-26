@@ -20,7 +20,7 @@ extern "C" {
 extern u8 adx_stream_ring_buffer_storage[];
 extern u8 adx_stream_ring_buffer[];
 
-void TLobby__sub_803C5B50(AdxtPlayer *player, s32 channels, s32 sample_rate, s32 total_samples) {
+void adxt_encode_into_input(AdxtPlayer *player, s32 channels, s32 sample_rate, s32 total_samples) {
     SjRingBuffer *arr[2];
     SjChunk b1;
     SjChunk b2;
@@ -95,11 +95,11 @@ void ADXT_EntryAfs(AdxtPlayer *player, s32 partition_id, s32 file_id) {
 }
 
 
-void TLobby__sub_803C5E58(void) {
+void adxt_entry_count_decrement(void) {
     lbl_805D7548 -= 1;
 }
 
-void TLobby__sub_803C5E68(void) {
+void adxt_entry_count_increment(void) {
     lbl_805D7548 += 1;
 }
 

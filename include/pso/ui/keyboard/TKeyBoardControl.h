@@ -28,7 +28,7 @@ struct TKeyBoardControl : public TObject {
     void set_soft_position(u8 *pos);
     void set_hard_position(u8 *pos);
     void set_sub_position(u8 *pos);
-    void set_text(char *s);
+    void set_text(const char *s);
     char *realloc_buffer();
     int is_cancelled();
     int is_confirmed();

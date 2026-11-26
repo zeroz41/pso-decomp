@@ -14,7 +14,7 @@ struct TObjSinBoard : public TObjBase {
 
 LAYOUT_ASSERT(TObjSinBoard_size, sizeof(TObjSinBoard) == 0x90);
 
-void TLobby__sub_80197F74(void);
+void load_midi_stub(void);
 // Copies a size-byte signboard picture into a fresh buffer and makes it the
 // signboard's texture (quest opcode call_image_data, load_memcard_file).
 void load_sin_board_image(const void *image, u32 size);

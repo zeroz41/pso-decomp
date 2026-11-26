@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4CheckEmpty.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/MusicControl.h"
 
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"

@@ -31,7 +31,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -158,7 +158,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
 }
 void TBoss4DarkFalz::update_type3() {  }
 void TBoss4DarkFalz::request_action_e() {
-    if ((TBoss4DarkFalz::type3_instance == NULL) || (TBoss4DarkFalz::type3_instance->get_action_state() == 3) || (TBoss4DarkFalz::type3_instance->get_action_state() == 2) || (sub_8004B07C() != 0)) {
+    if ((TBoss4DarkFalz::type3_instance == NULL) || (TBoss4DarkFalz::type3_instance->get_action_state() == 3) || (TBoss4DarkFalz::type3_instance->get_action_state() == 2) || (force_action_stub() != 0)) {
         send_action_packet(0xE);
     }
 }
@@ -298,7 +298,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
 void TBoss4DarkFalz::update_type2() {  }
 
 void TBoss4DarkFalz::request_action_9() {
-    if ((TBoss4DarkFalz::type2_instance == NULL) || (TBoss4DarkFalz::type2_instance->get_phase() == 3) || (TBoss4DarkFalz::type2_instance->get_phase() == 2) || (sub_8004B07C() != 0)) {
+    if ((TBoss4DarkFalz::type2_instance == NULL) || (TBoss4DarkFalz::type2_instance->get_phase() == 3) || (TBoss4DarkFalz::type2_instance->get_phase() == 2) || (force_action_stub() != 0)) {
         send_action_packet(9);
     }
 }
@@ -345,7 +345,7 @@ void TBoss4DarkFalz::spawn_ancient_trap() {
 }
 
 void TBoss4DarkFalz::request_action_7() {
-    if ((TBoss4DarkFalz::type1_instance == NULL) || (TBoss4DarkFalz::type1_instance->get_state() == 3) || (TBoss4DarkFalz::type1_instance->get_state() == 4) || (sub_8004B07C() != 0)) {
+    if ((TBoss4DarkFalz::type1_instance == NULL) || (TBoss4DarkFalz::type1_instance->get_state() == 3) || (TBoss4DarkFalz::type1_instance->get_state() == 4) || (force_action_stub() != 0)) {
         send_action_packet(7);
     }
 }
@@ -408,7 +408,7 @@ void TBoss4DarkFalz::spawn_trap() {
     play_persistent_sound(0x4003A30A, this, NULL, -0x18, 2);
 }
 void TBoss4DarkFalz::check_timeout() {
-    if ((is_timer_expired() != 0) || (sub_8004B07C() != 0)) {
+    if ((is_timer_expired() != 0) || (force_action_stub() != 0)) {
         send_action_packet(5);
     }
 }
@@ -481,7 +481,7 @@ void TBoss4DarkFalz::check_players_near_center() {
             return;
         }
     }
-    if (sub_8004B07C() != 0) {
+    if (force_action_stub() != 0) {
         send_action_packet(2);
     }
 }

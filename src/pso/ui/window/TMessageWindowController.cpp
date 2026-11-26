@@ -166,7 +166,7 @@ void TMessageWindowController::display_message(const char *text, s32 flags) {
 void TMessageWindowController::format_shop_message(s32 index, s32 flags) {
     const char *text;
     if (window != NULL) {
-        text = (const char *)get_shop_text(index);
+        text = get_shop_text(index);
         memset(buffer, 0, 0x200);
         parse_message_text(text, buffer);
         window->set_message(buffer, (s32)(flags | 0x80));
@@ -178,7 +178,7 @@ void TMessageWindowController::close() {
         window = NULL;
     }
 }
-TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_POINT2 *position, s32 extent, s32 flags) {
+TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 flags) {
     f32 scale;
     if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
@@ -189,7 +189,7 @@ TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_PO
     }
     return NULL;
 }
-TWindowMessagePage *TMessageWindowController::create_window(const NJS_POINT2 *position, s32 extent) {
+TWindowMessagePage *TMessageWindowController::create_window(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
     f32 scale;
     if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;

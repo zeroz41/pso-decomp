@@ -11,13 +11,13 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-int append_message_window_line(TWindowMessage *window, s32 text, s32 flags, s32 color);
+int append_message_window_line(TWindowMessage *window, const char *text, s32 flags, s32 color);
 void TWindowMessageQuest::set_frame_mode(s32 mode) {
     frame_mode = mode;
 }
 }
 
-int dispatch_message_window_text(TWindowMessageQuest *window, s32 text, s32 flags) {
+int dispatch_message_window_text(TWindowMessageQuest *window, const char *text, s32 flags) {
     switch (window->frame_mode) {
     case 0:
         return append_message_window_line(window, text, flags, 0xFF000000);

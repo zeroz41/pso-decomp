@@ -16,10 +16,10 @@ void TAdTrialModemChkGC::exit_modem_check_phase() {  }
 void TAdTrialModemChkGC::check_modem_result() {
     if (load_network_info() != 0) {
         init_account_entries();
-        TAdTrialModemChkGC__sub_8007FA24(0);
+        launch_browser(0);
         return;
     }
-    TAdTrialModemChkGC__sub_8007FA24(1);
+    launch_browser(1);
 }
 void TAdTrialModemChkGC::init_modem_check_phase() { TLobby::stop_audio_streams(); }
 
@@ -27,7 +27,7 @@ void TAdTrialModemChkGC::render() {
     render_dialog();
 }
 
-saddr TAdTrialModemChkGC::get_message_text() { return get_localized_text_entry(35, 0); }
+const char *TAdTrialModemChkGC::get_message_text() { return get_localized_text_entry(35, 0); }
 void TAdTrialModemChkGC::on_close() { request_main_phase(0); }
 
 void TAdTrialModemChkGC::run_task() {

@@ -64,8 +64,8 @@ const char *TObjBagWarnWin4P::class_name = "TObjBagWarnWin4P";
 
 
 
-saddr get_message_text(s32 text) {
-    return (saddr)text_language_group_table[11][text];
+const char *get_message_text(s32 text) {
+    return text_language_group_table[11][text];
 }
 
 void *TObjBagWarnWin::create(void *bag_warn_win) {
@@ -87,9 +87,9 @@ void TObjBagWarnWin::open_message_window() {
         if (TCameraCtrl::get_camera_id() == 4) {
             message_window->set_position_xy(0.8f, 0.8f);
         }
-        strncpy(message_text, (const char *)get_message_text(0x59), 0x7F);
+        strncpy(message_text, get_message_text(0x59), 0x7F);
         message_text[0x7F] = 0;
-        message_window->append_line((saddr)message_text, (int)0);
+        message_window->append_line(message_text, (int)0);
     }
 }
 
@@ -119,7 +119,7 @@ void TObjBagWarnWin::run_task() {
 
 s32 TObjBagWarnWin::should_show_warning() {
     TObjPlayer *ctrl;
-    if (TLobby__sub_80211C3C() != 3) {
+    if (get_guild_quest_list_stage() != 3) {
         return 0;
     }
     if (get_challenge_record_window_mode() != 0) {
@@ -167,9 +167,9 @@ void TObjBagWarnWin4P::create_window() {
     const NJS_POINT2 *position = get_window_layout_position(0x5B);
     message_window = TWindowMessage::create(position, message_window_size, 1, 4);
     if (message_window != NULL) {
-        strncpy(message_text, (const char *)get_message_text(0x69), 0x7F);
+        strncpy(message_text, get_message_text(0x69), 0x7F);
         message_text[0x7F] = 0;
-        message_window->append_line((saddr)message_text, (int)0);
+        message_window->append_line(message_text, (int)0);
     }
 }
 

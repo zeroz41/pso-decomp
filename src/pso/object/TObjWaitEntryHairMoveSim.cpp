@@ -487,7 +487,7 @@ const char *T_OWEHMS_Exp::class_name = "T_OWEHMS_Exp";
 TObjWaitEntryHairMoveSim::~TObjWaitEntryHairMoveSim() {}
 
 TObject *create_hair_move_sim(TObjPlayer *player) {
-    if (character_display_index((uaddr)player->name) == 0xE) {
+    if (character_display_index((CharacterAppearanceFields *)player->name) == 0xE) {
         TObjTailsTailsMove::create(player);
         return 0;
     }
@@ -530,7 +530,7 @@ void TObjWaitEntryHairMoveSim::create_hair_effects() {
             } else {
                 continue;
             }
-            sub_800FE3BC(model);
+            hair_model_stub(model);
             if (e->bone_rotation != NULL) {
                 TObjEZBoneRotPlayer::create(player, model, e->bone_rotation);
             } else if (e->rope_spec != NULL) {
@@ -574,11 +574,11 @@ void T_OWEHMS_Exp::run_task() {
     }
 }
 
-void TObjWaitEntryHairMoveSim::sub_800FE3BC(NJS_OBJECT *model) {  }
+void TObjWaitEntryHairMoveSim::hair_model_stub(NJS_OBJECT *model) {  }
 
 void T_OWEHMS_Exp::start_bone_rotation() {
     NJS_OBJECT *model = (NJS_OBJECT *)player->hair_model;
-    TObjWaitEntryHairMoveSim::sub_800FE3BC(model);
+    TObjWaitEntryHairMoveSim::hair_model_stub(model);
     TObjEZBoneRotPlayer::create(player, model, &hair_bone_rotation_descriptor[descriptor_index]);
 }
 

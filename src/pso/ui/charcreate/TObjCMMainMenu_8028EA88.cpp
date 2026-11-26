@@ -3,8 +3,8 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
-#include "pso/unk/TLobby_80226C3C.h"
-#include "pso/unk/TLobby_80227AA0.h"
+#include "pso/audio/MusicControl.h"
+#include "pso/audio/SoundPlayback.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -51,8 +51,8 @@ void init_creation_menu_scene(void) {
     p = new BmlResource(1, (BmlResourceDescriptor *)&creation_menu_resource_descriptor, 0, 0, NULL);
     creation_menu_main_obj = p;
     if (p != NULL) {
-        fn_80291178();
-        fn_8028D940();
+        load_creation_sprites();
+        create_character_creation_effects();
         load_floor_sound_bank(0);
         play_area_music("CHARA.adx");
         if (get_current_char_flag() != 0) {

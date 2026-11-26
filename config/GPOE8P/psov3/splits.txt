@@ -815,7 +815,7 @@ pso/ui/window/TObjCHTimeWin.cpp:
 pso/player/TPlyCharData.cpp:
 	.text       start:0x80071DFC end:0x80072230
 
-pso/unk/text_80072230.cpp:
+pso/network/ChallengePackets.cpp:
 	.text       start:0x80072230 end:0x800726F0
 
 pso/object/TObjChallengeRetry.cpp:
@@ -2728,7 +2728,7 @@ pso/render/NinjaUtil.cpp:
 	.sbss       start:0x805D5520 end:0x805D5538
 	.sdata2     start:0x805DB068 end:0x805DB070
 
-pso/unk/TLobby_80131794.cpp:
+pso/system/FileExtension.cpp:
 	.text       start:0x80131794 end:0x80131998
 	.sdata2     start:0x805DB070 end:0x805DB078
 
@@ -4855,7 +4855,7 @@ pso/ui/city/THunterGuildSeqOffline_801F3718.cpp:
 pso/object/door/TObjDoor_801F3754.cpp:
 	.text       start:0x801F3754 end:0x801F3774
 
-pso/unk/text_801F3774.cpp:
+pso/quest/QuestFlagSync.cpp:
 	.text       start:0x801F3774 end:0x801F3A24
 	.rodata     start:0x80449CD8 end:0x80449D08
 	.bss        start:0x80512790 end:0x805127D0
@@ -5280,7 +5280,7 @@ pso/ui/window/TWindowSubComCard_80225E0C.cpp:
 	.rodata     start:0x8044C828 end:0x8044C850
 	.data       start:0x804CA3A0 end:0x804CB838
 
-pso/unk/TLobby_80226070.cpp:
+pso/audio/SoundRequests.cpp:
 	.text       start:0x8022602C end:0x80226C3C
 	.rodata     start:0x8044C850 end:0x8044C858
 	.bss        start:0x805145F0 end:0x80514C60
@@ -5288,7 +5288,7 @@ pso/unk/TLobby_80226070.cpp:
 	.sbss       start:0x805D6278 end:0x805D62D8
 	.sdata2     start:0x805DC740 end:0x805DC760
 
-pso/unk/TLobby_80226C3C.cpp:
+pso/audio/MusicControl.cpp:
 	.text       start:0x80226C3C end:0x80227AA0
 	.ctors      start:0x80433FA0 end:0x80433FA4
 	.rodata     start:0x8044C858 end:0x8044C8D0
@@ -5298,7 +5298,7 @@ pso/unk/TLobby_80226C3C.cpp:
 	.sbss       start:0x805D62D8 end:0x805D6338
 	.sdata2     start:0x805DC760 end:0x805DC768
 
-pso/unk/TLobby_80227AA0.cpp:
+pso/audio/SoundPlayback.cpp:
 	.text       start:0x80227AA0 end:0x80228154
 	.ctors      start:0x80433FA4 end:0x80433FA8
 	.rodata     start:0x8044C8D0 end:0x8044C9F0
@@ -5600,7 +5600,7 @@ pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp:
 	.sbss       start:0x805D63C8 end:0x805D63D4
 	.sdata2     start:0x805DC9B8 end:0x805DC9C0
 
-pso/unk/TLobby_8023F734.cpp:
+pso/audio/SoundControlState.cpp:
 	.text       start:0x8023F660 end:0x802409AC
 	.ctors      start:0x80433FB4 end:0x80433FB8
 	.rodata     start:0x8044DD28 end:0x8044E5C0
@@ -6067,7 +6067,7 @@ pso/unk/text_8026C664.cpp:
 	.rodata     start:0x8044F4C0 end:0x8044F4C8
 	.sdata2     start:0x805DD270 end:0x805DD2C8
 
-pso/unk/text_8026CB5C.cpp:
+pso/math/Vec2Constants.cpp:
 	.text       start:0x8026CB5C end:0x8026CB80
 	.rodata     start:0x8044F4C8 end:0x8044F4E0
 
@@ -7274,7 +7274,7 @@ pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp:
 	.sdata      start:0x805D3F38 end:0x805D3F3C
 	.sdata2     start:0x805DE778 end:0x805DE780
 
-pso/unk/text_802D1C84.cpp:
+pso/render/MericarolTexture.cpp:
 	.text       start:0x802D1C84 end:0x802D1D48
 	.bss        start:0x80540B98 end:0x80540BD0
 	.sbss       start:0x805D6880 end:0x805D6884
@@ -7886,7 +7886,7 @@ pso/enemy/recon/TObjEneRecobox.cpp:
 	.sbss       start:0x805D6B10 end:0x805D6B28
 	.sdata2     start:0x805DF438 end:0x805DF470
 
-pso/unk/text_80320358.cpp:
+pso/system/RelModule.cpp:
 	.text       start:0x80320358 end:0x803204B8
 	.sbss       start:0x805D6B28 end:0x805D6C10
 
@@ -8234,7 +8234,7 @@ pso/ui/TTitleMenu.cpp:
 	.data       start:0x804EE458 end:0x804EE470
 	.sdata2     start:0x805DF8B0 end:0x805DF8C4
 
-pso/unk/TLobby_80335E7C.cpp:
+pso/ui/TitleTextures.cpp:
 	.text       start:0x80335E7C end:0x80336054
 	.data       start:0x804EE470 end:0x804EE488
 	.sdata2     start:0x805DF8C8 end:0x805DF8E8
@@ -8551,14 +8551,14 @@ pso/ui/frontend/TAdFloorLoadCamGC.cpp:
 	.sdata      start:0x805D4340 end:0x805D4344
 	.sdata2     start:0x805DFDA8 end:0x805DFDD0
 
-pso/unk/TLobby_8034C18C.cpp:
+pso/network/InfoBoardState.cpp:
 	.text       start:0x8034C18C end:0x8034C224
 	.sbss       start:0x805D6E98 end:0x805D6EA0
 
 pso/ui/window/TWindowSubInformationBoard_8034C224.cpp:
 	.text       start:0x8034C224 end:0x8034C23C
 
-pso/unk/TLobby_8034C23C.cpp:
+pso/network/InfoBoardRequests.cpp:
 	.text       start:0x8034C23C end:0x8034C384
 
 pso/ui/window/TSnapshotFileSetup.cpp:
@@ -10222,7 +10222,7 @@ pso/ui/window/TWindowSubComCard_803D6438.cpp:
 	.text       start:0x803D6438 end:0x803D647C
 	.sdata2     start:0x805E0DE0 end:0x805E0DE4
 
-pso/unk/text_803D647C.cpp:
+pso/math/SinCosTable.cpp:
 	.text       start:0x803D647C end:0x803D64F8
 	.sdata2     start:0x805E0DE8 end:0x805E0DEC
 
@@ -10524,7 +10524,7 @@ pso/ui/keyboard/KBDXfer.c:
 	.bss        start:0x805A2720 end:0x805A28C0
 	.sbss       start:0x805D7930 end:0x805D7934
 
-pso/unk/text_803F1804.cpp:
+pso/system/SiPolling.cpp:
 	.text       start:0x803F1804 end:0x803F18B8
 	.sbss       start:0x805D7938 end:0x805D7940
 
@@ -10540,7 +10540,7 @@ pso/system/save/McFsGc.cpp:
 pso/system/save/McFsGcRequests.cpp:
 	.text       start:0x803F339C end:0x803F3BF8
 
-pso/unk/text_803F3BF8.cpp:
+pso/network/NetworkConfig.cpp:
 	.text       start:0x803F3BF8 end:0x803F3DD4
 	.data       start:0x804FCE38 end:0x804FCE68
 	.sbss       start:0x805D7980 end:0x805D7988 align:32

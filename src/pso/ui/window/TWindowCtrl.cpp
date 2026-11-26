@@ -217,7 +217,7 @@ void TWindowChat::set_flag1e_bit40() { flags |= 0x40; }
 
 
 
-s32 fn_8024C5C4(const TWindowChat *chat) {
+s32 is_chat_flag2_clear(const TWindowChat *chat) {
     if (chat->flags & 2) return 0;
     return 1;
 }
@@ -230,7 +230,7 @@ void TWindowChat::set_flag1e_bit8() { flags |= 0x8; }
 int TWindowCtrl::is_flag_2_set() { return this->m_flags & 0x4; }
 
 void TWindowCtrl::close() {
-    TWindowMainMenu__sub_8024E3D0();
+    window_ctrl_close_stub();
     init_chat_log_heap();
     instance = NULL;
 }
@@ -241,7 +241,7 @@ void TWindowCtrl::shutdown() {
         instance = NULL;
     }
     free_chat_log_lines();
-    TWindowMainMenu__sub_8024E3CC();
+    window_ctrl_shutdown_stub();
 }
 
 
@@ -1220,7 +1220,7 @@ s32 TWindowCtrl::get_active_sub() {
     if (instance->chat_window == NULL) {
         return 0;
     }
-    return fn_8024C5C4(instance->chat_window);
+    return is_chat_flag2_clear(instance->chat_window);
 }
 
 

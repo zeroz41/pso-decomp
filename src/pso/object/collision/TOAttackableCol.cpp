@@ -37,7 +37,7 @@ const char *attackable_col_name = "TOAttackableCol";
 
 
 // Inferred: run_demo_task (run_task calls it in demo mode).
-void TOAttackableCol::sub_80157310() {  }
+void TOAttackableCol::run_task_stub() {  }
 
 void TOAttackableCol::init_params() {
     s32 hits;
@@ -249,7 +249,7 @@ void TOAttackableCol::check_door_trigger() {
 
 void TOAttackableCol::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_80157310();
+        run_task_stub();
         return;
     }
     switch (this->mode) {

@@ -6,7 +6,7 @@
 // --- C functions defined in TAdDialingSelectGC.cpp ---
 extern "C" {
 // The idle timeout setting of the client's character save record (name inferred).
-s32 fn_801A51F0(u32 client);
+s32 get_idle_timeout_setting(u32 client);
 }
 // --- end of C functions
 

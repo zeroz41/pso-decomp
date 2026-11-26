@@ -14,7 +14,7 @@ const TBoss6Type2DefaultParams TBoss6Type2::default_battle_parameters = {
     120,
 };
 const s32 TBoss6Type2::initial_actor_flag_masks[4] = { 0x41, 0x42, 0x44, 0x48 };
-const Tbl_802B9C00 TBoss6Type2::particle_attachment_table[14] = {
+const ParticleAttachment TBoss6Type2::particle_attachment_table[14] = {
     { 0x22D, 8 }, { 0x22D, 9 }, { 0x22D, 10 }, { 0x22D, 3 }, { 0x22D, 4 }, { 0x22D, 5 }, { 0x228, -1 },
     { 0x22A, -1 }, { 0x137, 16 }, { 0x138, 16 }, { 0x139, 16 }, { 0x13A, 16 }, { 0x13B, 16 }, { 0x22C, 13 },
 };
@@ -27,10 +27,10 @@ const s32 boss6_type2_variant_id_table[4] = { 1, 2, 3, 4 };
 const s32 boss6_type2_body_model_indices[2] = { 4, 5 };
 const Boss6StripDesc boss6_type2_plot_falz_entry_table[2] = { { 4, 0x69, 0 }, { 5, 0x69, 0 } };
 const s32 boss6_type2_zero_vec[4] = { 0, 0, 0, 0 };
-const Blk_802BCFD4 boss6_type2_zero_motion_block = { 0 };
+const MotionIndexBlock boss6_type2_zero_motion_block = { 0 };
 const TBoss6Type2MotionTrack boss6_type2_motion_entry_transform = { NULL, 0.0f, 0.0f, 0.0f, 1.0f / 15.0f, NULL, 0.0f };
 const s32 TBoss6Type2::no_target_sound_ids[4] = { 0x68528, 0x68529, 0x6852A, 0x6852B };
-const Tbl_802BBE20 boss6_type2_collision_body_nodes[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
+const CollisionBodyNode boss6_type2_collision_body_nodes[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
 const s32 TBoss6Type2::player_hit_rock_indices[6] = { 3, 4, 5, 8, 9, 10 };
 const s32 boss6_type2_mag_spawn_offsets[2] = { 0x1FE, 0x1FD };
 const Vec boss6_type2_player_aim_offset = { 0.0f, 19.8f, -5.0f };

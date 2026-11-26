@@ -173,7 +173,7 @@ struct DebugChunkVertices58 {
     DebugChunkVertexVN vertex[58];
     s32 end;
 };
-struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
+struct ScreenQuad { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 // screen.bin / the PSO_SCREEN card file: a 256x192 capture and who was in the room.
 struct ScreenSnapshot {
     u32 checksum;

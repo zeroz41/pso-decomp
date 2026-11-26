@@ -1,6 +1,6 @@
 #include "pso/unk/TQuestManager.h"
 #include "pso/quest/TQuestBgmCtrl.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/quest/TQuestThread.h"
 
 s32 quest_bgm_ctrl_bgm_issued_flag;

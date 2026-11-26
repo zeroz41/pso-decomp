@@ -12,7 +12,7 @@
 #include "pso/item/item_param.h"
 #include "pso/item/item_pmt.h"
 #include "pso/item/TItemLoad.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/SoundEffect.h"
@@ -402,10 +402,10 @@ u8 get_weapon_class_motion_type(u8 group) {
 saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
     if (flags & 0x3F) {
         if (flags & 0x80) {
-            return get_text_collection(0x1F4);
+            return (saddr)get_text_collection(0x1F4);
         }
         if ((flags != 0) && (flags < 0x29U)) {
-            return get_text_collection(flags + 0x1CB);
+            return (saddr)get_text_collection(flags + 0x1CB);
         }
         goto block_6;
     }

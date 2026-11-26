@@ -9,7 +9,7 @@
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/TLobby_8023F734.h"
+#include "pso/audio/SoundControlState.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
@@ -76,7 +76,6 @@ typedef struct Entry_80242380 {
     Ext_80242380 ext;
 } Entry_80242380;
 
-extern "C" char *get_shared_text_buffer();
 s32 lbl_805D63D8;
 int com_card_entry_count;
 extern "C" {
@@ -109,12 +108,12 @@ void load_selected_guild_card_record(Src_8024220C *src) {
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   parse_csv_token(cursor, selected_guild_card_record.s3B);
-  TLobby__sub_802422EC(selected_guild_card_record.f4C, src->f64);
+  copy_guild_card_f4c(selected_guild_card_record.f4C, src->f64);
   __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->ext);
 }
 }
 
-void TLobby__sub_802422EC(void *dst, void *src) {
+void copy_guild_card_f4c(void *dst, void *src) {
     *(s32 *)((s8 *)dst + 0) = (s32) *(s32 *)((s8 *)src + 0);
     *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
     *(s16 *)((s8 *)dst + 8) = (s16) *(s16 *)((s8 *)src + 8);
@@ -221,7 +220,7 @@ void init_player_entry(GuildCardRecord *entry, u8 *response) {
     serial_no = lbl_805D63D8;
     lbl_805D63D8 = serial_no + 1;
     entry->serial = serial_no;
-    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, serial_no);
+    ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(entry->f4C, response + 0x10, serial_no);
     __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {

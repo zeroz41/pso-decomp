@@ -33,7 +33,7 @@ struct TAdEnterBaseGC : public TObject {
 LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x38);
 
 extern "C" {
-void fn_8032AC94(void);
+void entry_window_render_stub(void);
 // TAdEnterBaseGC::TAdEnterBaseGC(TObject *), called by the constructors that are still written by hand.
 }
 
@@ -51,13 +51,13 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const
 }
 
 extern "C" {
-s32 TAdPsoPassSaveGC__sub_8032B584(void);
+s32 is_pso_pass_save_accepted(void);
 }
 
 void draw_masked_password_field(saddr context);
 extern "C" {
-void fn_8032AC24(void);
 void render_entry_window(void *window, void *context);
 }
+void draw_entry_field_box(void);
 
 #endif

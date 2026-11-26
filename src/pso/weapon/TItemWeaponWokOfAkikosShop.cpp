@@ -10,7 +10,7 @@ void TItemWeaponWokOfAkikosShop::draw_held_model() {
     NJS_OBJECT *saved_model = item_model;
     draw_weapon_model();
     item_model = second_model;
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(this, 0x23);
     item_model = saved_model;
 }
 

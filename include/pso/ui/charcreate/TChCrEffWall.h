@@ -14,6 +14,6 @@ public:
     static void draw_default_sprite(s32 sprite_id, const vec2f *position, f32 depth);
 };
 
-extern "C" TChCrEffWall *fn_8029AE88(TObject *parent);
+TChCrEffWall *create_TChCrEffWall(TObject *parent);
 
 #endif

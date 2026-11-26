@@ -18,22 +18,10 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/system/save/TCheckMemoryCardTypes.h"
 
 
-// Text of one card message: the entry is replaced by keyboard_entry while the keyboard controller is in use.
-struct CheckMemoryCardText {
-    s32 group;
-    s32 entry;
-    s32 keyboard_entry;
-};
 
-// One entry per state: enter is called by set_state, run by run_task every frame.
-struct CheckMemoryCardState {
-    void (TCheckMemoryCard::*enter)();
-    void (TCheckMemoryCard::*run)();
-};
-LAYOUT_ASSERT(CheckMemoryCardState_size, sizeof(CheckMemoryCardState) == 0x18);
-LAYOUT_ASSERT(CheckMemoryCardState_run_offset, offsetof(CheckMemoryCardState, run) == 0xC);
 
 const char *TCheckMemoryCard::class_name = "TCheckMemoryCard";
 
@@ -133,14 +121,14 @@ void TCheckMemoryCard::update_card_display(s32 kind, s32 sel, s32 sub_entry, s32
     create_card_message(kind, sel, sub_entry, alt_sub_entry);
 }
 
-void TCheckMemoryCard::recreate_message_and_menu(u32 text, s32 sel, u32 first_entry, u32 second_entry) {
+void TCheckMemoryCard::recreate_message_and_menu(const char *text, s32 sel, const char *first_entry, const char *second_entry) {
     close_windows();
     create_message_and_menu(text, sel, first_entry, second_entry);
 }
 
 void TCheckMemoryCard::create_card_message(s32 kind, s32 sel, s32 sub_entry, s32 alt_sub_entry) {
-    s32 text;
-    s32 sub_text;
+    const char *text;
+    const char *sub_text;
     s32 group;
     s32 entry;
 
@@ -165,8 +153,8 @@ void TCheckMemoryCard::create_card_message(s32 kind, s32 sel, s32 sub_entry, s32
 }
 
 // sel -1: message only; -2: one menu entry; otherwise two entries with entry sel selected.
-void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entry, u32 second_entry) {
-    u32 entry_text;
+void TCheckMemoryCard::create_message_and_menu(const char *text, s32 sel, const char *first_entry, const char *second_entry) {
+    const char *entry_text;
 
     if (message_window != NULL || menu_window != NULL) {
         return;
@@ -202,13 +190,13 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
     }
     entry_text = first_entry;
     if (first_entry == 0) {
-        entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5B);
+        entry_text = TWindowSubStatusDisp::get_message_10(0x5B);
     }
     menu_window->add_text_entry(entry_text, 5, 0);
     if (sel != -2) {
         entry_text = second_entry;
         if (second_entry == 0) {
-            entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5C);
+            entry_text = TWindowSubStatusDisp::get_message_10(0x5C);
         }
         menu_window->add_text_entry(entry_text, 5, 1);
     }
@@ -299,8 +287,8 @@ void TCheckMemoryCard::handle_menu_selection() {
 }
 
 void TCheckMemoryCard::enter_prompt_state() {
-    s32 text;
-    s32 first_entry;
+    const char *text;
+    const char *first_entry;
 
     if (get_previous_main_phase() == 0xF) {
         text = get_message_text(0xA);

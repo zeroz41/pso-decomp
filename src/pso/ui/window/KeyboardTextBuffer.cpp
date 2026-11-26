@@ -25,7 +25,7 @@ void KeyboardTextBuffer::append_text(u8 *text) {
     }
 }
 
-void KeyboardTextBuffer::set_text_from_string(char *s) {
+void KeyboardTextBuffer::set_text_from_string(const char *s) {
     u16 *dst;
     s32 jp;
     s32 c;

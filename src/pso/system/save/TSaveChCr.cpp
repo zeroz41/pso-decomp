@@ -24,6 +24,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/save/TSaveChCrTypes.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -38,11 +39,6 @@ const char *TSaveChCr::class_name = "TSaveChCr";
 static const NJS_POINT2 save_ch_cr_message_window_pos = {46.0f, 131.0f};
 static const NJS_POINT2 save_ch_cr_message_window_size = {548.0f, 220.0f};
 
-// Text group and entry of each message set_message_by_index shows.
-struct SaveChCrMessageText {
-    s32 group;
-    s32 entry;
-};
 
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
 void TSaveChCr::enter_close_state() { close_window(); }
@@ -153,9 +149,9 @@ void TSaveChCr::close_and_advance(s32 message) {
 void TSaveChCr::set_message_by_index(s32 message) {
     SaveChCrMessageText texts[4] = {{0x20, 0}, {0xB, 0x62}, {0xB, 0xC}, {0xB, 0xB}};
     SaveChCrMessageText *text = &texts[message];
-    open_message_window((u32)get_localized_text_entry(text->group, text->entry));
+    open_message_window(get_localized_text_entry(text->group, text->entry));
 }
-void TSaveChCr::open_message_window(u32 text) {
+void TSaveChCr::open_message_window(const char *text) {
     if ((uaddr) this->owned_window == 0U) {
         *(u32 *)&this->owned_window = (uaddr)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
         if ((uaddr) this->owned_window != 0U) {

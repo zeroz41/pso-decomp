@@ -96,7 +96,7 @@ void TChCrLoadReq::reset_request() {
     s32 i;
     s32 index;
     head_model_slot = inputs.part_models + 2;
-    index = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
+    index = character_display_index(inputs.appearance);
     class_appearance = &class_appearance_table[index];
     reset_character_load_buffer(inputs.load_slot);
     inputs.body_model[0] = 0;
@@ -244,7 +244,7 @@ void TChCrLoadReq::request_texture_loads() {
     TChCrLoadAfsTextureReqArgs body;
     TChCrLoadAfsTextureReqArgs head;
     TChCrLoadAfsTextureReqArgs other;
-    s32 display = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
+    s32 display = character_display_index(inputs.appearance);
 
     body.textures = inputs.body_textures;
     body.completion_mask = 4;
@@ -279,7 +279,7 @@ void TChCrLoadReq::start_preview_loads() {
     s32 id;
     TChCrLoadAfs *load;
     get_sorted_character_proportion_samples(reinterpret_cast<const f32 *>(&inputs.appearance->width), sample_indices);
-    disp = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
+    disp = character_display_index(inputs.appearance);
     for (i = 0; i < 3; i++) {
         id = sample_indices[i];
         load = TChCrLoadAfs::create(this, 0xDB, calc_preview_offset(disp, inputs.appearance->head, id));
@@ -301,10 +301,10 @@ void TChCrLoadReq::load_preview_models() {
     uaddr p;
     for (i = 0; i < 6; i++) {
         len = 0;
-        p = (uaddr)TLobby__sub_801E38A0(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
+        p = (uaddr)read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (p == 0 || tag != 0x4E4A544C) return;
         safe_free(reinterpret_cast<void *>(p));
-        bufs[i] = (uaddr)TLobby__sub_801E38A0(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
+        bufs[i] = (uaddr)read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
             for (i = 0; i < 6; i++) safe_free(reinterpret_cast<void *>(bufs[i]));
             return;

@@ -1,3 +1,4 @@
+#include "pso/enemy/flower/TObjEneRe2FlowerShared.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "types.h"
@@ -35,7 +36,6 @@ extern Vec re2_flower_shadow_scale[];
 extern s32 re2_flower_node_index;
 extern s32 re2_flower_node_yaw;
 extern f32 *re2_flower_node_points;
-extern const f32 lbl_805D9FAC;
 extern const f32 re2_flower_node_point0_y;
 extern const f32 re2_flower_node_point1_y;
 extern const f32 re2_flower_draw_scale;
@@ -44,8 +44,6 @@ extern const f32 re2_flower_draw_scale;
 extern DragonAttackParams enemy_dd_attack_param_block;
 extern DragonAttackParams re2_flower_tower_attack_params;
 extern f32 *const re2_flower_movement_params;
-extern const f32 lbl_805D9FBC;
-extern const f32 lbl_805D9FC0;
 
 void TObjEneRe2Flower::render_demo() {
     s32 save8;

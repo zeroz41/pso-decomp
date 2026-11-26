@@ -20,7 +20,7 @@
 
 
 extern "C" {
-s32 fn_803DA12C(u8 *, s32, s32, s32);
+s32 init_texture_header_and_alloc(u8 *, s32, s32, s32);
 s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
 
@@ -190,7 +190,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *out_id, u32 *data) {
 }
 
 s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc) {
-    if (fn_803DA12C(texture->p + 4, desc->b, desc->c, desc->a) != 0) {
+    if (init_texture_header_and_alloc(texture->p + 4, desc->b, desc->c, desc->a) != 0) {
         texture_error.code = 6;
         return -1;
     }

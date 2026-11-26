@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-u8 fn_8000F740(s32 *p);
+u8 is_game_scene_phase(s32 *p);
 }
 
 #endif

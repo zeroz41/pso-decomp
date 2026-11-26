@@ -18,4 +18,17 @@ struct TLobbyScreenQuad {
     f32 u0, v0, u1, v1;
 };
 
+union TLobbySpriteColor {
+    struct { u8 a, r, g, b; } channels;
+    u32 packed;
+};
+
+// inferred: the area's name, the function that loads and sets it up, and the one that tears it down
+// (load_area_scene_and_init calls init; run_area_scene_cleanup and promote_area_floor call cleanup).
+struct AreaInitializer {
+    const char *name;
+    s32 (*init)();
+    void (*cleanup)();
+};
+
 #endif

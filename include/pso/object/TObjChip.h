@@ -37,8 +37,8 @@ public:
     static void copy_debris_params(TObjChipParams *dst, const TObjChipParams *src);
     static TObjChipSpawnParams *copy_transform(TObjChipSpawnParams *spawn, TObjChipParams *params);
 
-    f32 pad_1c;
-    f32 pad_20;
+    f32 view_depth;   // inferred name: 200, the max_depth is_in_view takes
+    f32 view_radius;  // inferred name: 40, the radius is_in_view takes
     TObjChipParams params;  // params.count pieces, of params.model
     TObjChipPiece pieces[8];
     s32 alive;  // 1 until no piece is left (or init_chips fails)

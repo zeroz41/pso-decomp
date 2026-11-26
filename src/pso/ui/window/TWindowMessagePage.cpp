@@ -30,7 +30,7 @@ void TWindowMessagePage::update_message() {
     if ((u32) this->page_text != 0U) {
         text_builder_reset();
         this->page_text = (uaddr)((TWindowSubStatusDisp *)this->page_text)->copy_message_page_text();
-        append_line((saddr)get_shared_text_buffer(), this->line_mode);
+        append_line(get_shared_text_buffer(), this->line_mode);
     }
 }
 
@@ -43,12 +43,12 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
     update_message();
 }
 
-u8 *TWindowMessagePage::create(const NJS_POINT2 *position, saddr extent, saddr rows, s32 client) {
+u8 *TWindowMessagePage::create(const NJS_POINT2 *position, const NJS_POINT2 *extent, saddr rows, s32 client) {
     set_message_window_size((void *)extent, (u32)rows);
     return (u8 *)new TWindowMessagePage(position, rows, client);
 }
 
-u8 *TWindowMessagePage::set_text(const NJS_POINT2 *position, saddr extent, saddr rows) {
+u8 *TWindowMessagePage::set_text(const NJS_POINT2 *position, const NJS_POINT2 *extent, saddr rows) {
     return TWindowMessagePage::create(position, extent, rows, local_client_id);
 }
 

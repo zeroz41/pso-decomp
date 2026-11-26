@@ -3,10 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_8015ABD0(void);
-void TLobby__sub_8015ABD4(void);
-}
+void chat_sensor_on_floor_free(void);
+void chat_sensor_on_floor_load(void);
 
 
 #endif

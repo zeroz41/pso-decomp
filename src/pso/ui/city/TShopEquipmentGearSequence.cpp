@@ -91,7 +91,7 @@ void TShopEquipmentGearSequence::update_state() {
         open_greeting();
         return;
     case 2:
-        TShopEquipmentGearSequence::update_buy_sell_choice(this);
+        update_buy_sell_choice();
         return;
     case 3:
         open_armor_list_window();
@@ -110,10 +110,10 @@ void TShopEquipmentGearSequence::update_state() {
 }
 
 void TShopEquipmentGearSequence::open_greeting() {
-    f32 pos[2];
-    pos[0] = 332.0f;
-    pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), (saddr)pos);
+    NJS_POINT2 pos;
+    pos.x = 332.0f;
+    pos.y = 80.0f;
+    create_message_window(get_window_layout_position(0x2C), &pos);
     display_shop_message(0x2b, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_player_entity_id());
     set_state(2);
@@ -121,39 +121,39 @@ void TShopEquipmentGearSequence::open_greeting() {
 }
 
 
-void TShopEquipmentGearSequence::update_buy_sell_choice(TShopEquipmentGearSequence *sequence) {
+void TShopEquipmentGearSequence::update_buy_sell_choice() {
     s32 id;
     s32 r;
-    if (sequence->choice_menu == NULL) {
-        id = ((TObjBase *)(sequence->player))->get_entity_id();
-        sequence->choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);
-        sequence->choice_menu->add_text_entry(get_shop_text(4), 6, 0);
-        sequence->choice_menu->add_text_entry(get_shop_text(6), 6, 1);
-        sequence->choice_menu->calc_window_size();
-        align_menu_entry_positions(sequence->choice_menu);
-        sequence->choice_menu->set_ready_flag();
-        sequence->choice_menu->set_position_xy(sequence->get_scale(), sequence->get_scale());
+    if (choice_menu == NULL) {
+        id = ((TObjBase *)(player))->get_entity_id();
+        choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);
+        choice_menu->add_text_entry(get_shop_text(4), 6, 0);
+        choice_menu->add_text_entry(get_shop_text(6), 6, 1);
+        choice_menu->calc_window_size();
+        align_menu_entry_positions(choice_menu);
+        choice_menu->set_ready_flag();
+        choice_menu->set_position_xy(get_scale(), get_scale());
     }
-    if (sequence->choice_menu != NULL && sequence->choice_menu->is_decided() != 0) {
-        r = sequence->choice_menu->get_selected_value();
+    if (choice_menu != NULL && choice_menu->is_decided() != 0) {
+        r = choice_menu->get_selected_value();
         if (r == 0) {
-            sequence->set_state(3);
-            sequence->choice_menu->close();
-            sequence->choice_menu = NULL;
+            set_state(3);
+            choice_menu->close();
+            choice_menu = NULL;
             return;
         }
         if (r == 1) {
-            sequence->set_state(4);
-            sequence->choice_menu->close();
-            sequence->choice_menu = NULL;
+            set_state(4);
+            choice_menu->close();
+            choice_menu = NULL;
             return;
         }
     }
-    if (sequence->choice_menu != NULL && sequence->choice_menu->is_cancelled() != 0) {
-        sequence->display_shop_message(0x2C, 1);
-        sequence->set_state(6);
-        sequence->choice_menu->close();
-        sequence->choice_menu = NULL;
+    if (choice_menu != NULL && choice_menu->is_cancelled() != 0) {
+        display_shop_message(0x2C, 1);
+        set_state(6);
+        choice_menu->close();
+        choice_menu = NULL;
     }
 }
 

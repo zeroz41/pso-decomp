@@ -31,9 +31,9 @@ void THunterGuildWarning::queue_destruction() {
     }
 }
 
-void THunterGuildWarning::create_instance(saddr mode) {
+void THunterGuildWarning::create_instance(s32 mode) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
-        new THunterGuildWarning(tl_05, (void *)mode);
+        new THunterGuildWarning(tl_05, mode);
     }
 }
 
@@ -41,9 +41,9 @@ s32 THunterGuildWarning::is_active() {
     return (u8)((u8) (THunterGuildWarning::instance != 0));
 }
 
-void THunterGuildWarning__sub_80211700(void) { THunterGuildWarning::instance = 0; }
+void clear_guild_warning_on_guild_exit(void) { THunterGuildWarning::instance = 0; }
 
-void THunterGuildWarning__sub_8021170C(void) { THunterGuildWarning::instance = 0; }
+void clear_guild_warning_on_quest_exit(void) { THunterGuildWarning::instance = 0; }
 
 void THunterGuildWarning::close_windows() {
     s32 i = 0;
@@ -133,9 +133,9 @@ THunterGuildWarning::~THunterGuildWarning() {
     THunterGuildWarning::instance = NULL;
 }
 
-THunterGuildWarning::THunterGuildWarning(TObject *object, void *initial_mode) : TObject(object) {
+THunterGuildWarning::THunterGuildWarning(TObject *object, s32 initial_mode) : TObject(object) {
     m_name = hunter_guild_warning_name;
-    mode = (saddr)initial_mode;
+    mode = initial_mode;
     timer = 90;
     clear_windows(this);
     open_warning_windows((void *)mode);
@@ -149,7 +149,7 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *initial_mode) : 
 
 #pragma push
 #pragma optimization_level 3
-s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
+s32 TPlayerBattleCtrl4P::get_party_not_ready_reason(s32 id) {
     TObjPlayer *self;
     u16 client_id;
     s32 result;
@@ -202,7 +202,7 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 
-s32 TLobby__sub_80211C3C(void) {
+s32 get_guild_quest_list_stage(void) {
     if (get_main_phase() != 0xF) {
         return 3;
     }
@@ -271,7 +271,7 @@ s32 is_in_hunter_guild(s32 client_id) {
             if (THunterGuildWarning::is_active() != 0) {
                 return 1;
             }
-            kind = TPlayerBattleCtrl4P::fn_80211B10(player);
+            kind = TPlayerBattleCtrl4P::get_party_not_ready_reason(player);
             if (kind != 0) {
                 TObjPlayer *view_player = get_player_by_client_id((u16)player);
                 if (view_player != NULL) {
@@ -313,7 +313,7 @@ s32 is_in_hunter_guild(s32 client_id) {
 
 void update_hunter_guild_phase(void) {
     if (get_main_phase() == 0xE) {
-        THunterGuildWarning__sub_80211700();
+        clear_guild_warning_on_guild_exit();
         THunterGuildSeqOffline::clear_instance_table();
     }
     if (get_main_phase() == 0xF) {
@@ -326,7 +326,7 @@ void update_hunter_guild_phase(void) {
 void TLobby::update_guild_or_quest_phase() {
     if (get_main_phase() == 0xE) {
         clear_offline_instance_table();
-        THunterGuildWarning__sub_8021170C();
+        clear_guild_warning_on_quest_exit();
     }
     if (get_main_phase() == 0xF) {
         TQuestListOnline::init_download_buffers();

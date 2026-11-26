@@ -139,15 +139,15 @@ void TLobby::update_trade_proposal_state() {
 
 #pragma push
 #pragma scheduling off
-saddr build_trade_partner_status_text(void) {
+const char *build_trade_partner_status_text(void) {
     text_builder_reset();
     refresh_player_status(trade_partner_client_id);
-    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xF6));
-    return (saddr)get_shared_text_buffer();
+    text_builder_append(TWindowSubStatusDisp::get_message_10(0xF6));
+    return get_shared_text_buffer();
 }
 #pragma pop
 
-s32 TLobby::check_trade_items_and_show_error() {
+const char *TLobby::check_trade_items_and_show_error() {
     s32 code;
     TradeSide buf;
     s32 r;
@@ -342,10 +342,10 @@ void TLobby::handle_reset_choice(s32 choice) {
     if ((s8) trade_proposal_state != 0) {
         switch (choice) {
         case 0:
-            reset_trade_session((const char *)TWindowSubStatusDisp::get_message_10(0xEC));
+            reset_trade_session(TWindowSubStatusDisp::get_message_10(0xEC));
             return;
         case 1:
-            reset_trade_session((const char *)TWindowSubStatusDisp::get_message_10(0xEB));
+            reset_trade_session(TWindowSubStatusDisp::get_message_10(0xEB));
             break;
         }
     }
@@ -422,15 +422,15 @@ void TLobby::cancel_trade() {
 
 const char *format_trade_out_of_range_message(s32 client_id) {
     if ((s32) local_client_id == client_id) {
-        return (const char *)TWindowSubStatusDisp::get_message_10(0xF0);
+        return TWindowSubStatusDisp::get_message_10(0xF0);
     }
     text_builder_reset();
     refresh_player_status(client_id);
-    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xEF));
+    text_builder_append(TWindowSubStatusDisp::get_message_10(0xEF));
     return get_shared_text_buffer();
 }
 
-s32 TLobby::show_event_message(s32 client_id, s32 result, s32 item_id) {
+const char *TLobby::show_event_message(s32 client_id, s32 result, s32 item_id) {
     TItem *item;
 
     switch (result) {
@@ -438,12 +438,12 @@ s32 TLobby::show_event_message(s32 client_id, s32 result, s32 item_id) {
         return 0;
     case 1:
         if (client_id == (s32) local_client_id) {
-            return (saddr)TWindowSubStatusDisp::get_message_10(0xF4);
+            return TWindowSubStatusDisp::get_message_10(0xF4);
         }
         text_builder_reset();
         refresh_player_status(client_id);
-        text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xEA));
-        return (saddr)get_shared_text_buffer();
+        text_builder_append(TWindowSubStatusDisp::get_message_10(0xEA));
+        return get_shared_text_buffer();
     case 2:
         item = find_item_by_id(item_id);
         if (item == NULL) {
@@ -451,24 +451,24 @@ s32 TLobby::show_event_message(s32 client_id, s32 result, s32 item_id) {
         }
         text_builder_reset();
         if (client_id == (s32) local_client_id) {
-            text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xF3));
+            text_builder_append(TWindowSubStatusDisp::get_message_10(0xF3));
         } else {
             refresh_player_status(client_id);
-            text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xE8));
+            text_builder_append(TWindowSubStatusDisp::get_message_10(0xE8));
         }
         text_builder_append(item->get_name());
-        text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xE9));
-        return (saddr)get_shared_text_buffer();
+        text_builder_append(TWindowSubStatusDisp::get_message_10(0xE9));
+        return get_shared_text_buffer();
     case 3:
         if (client_id == (s32) local_client_id) {
-            return (saddr)TWindowSubStatusDisp::get_message_10(0xF2);
+            return TWindowSubStatusDisp::get_message_10(0xF2);
         }
         text_builder_reset();
         refresh_player_status(client_id);
-        text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xE7));
-        return (saddr)get_shared_text_buffer();
+        text_builder_append(TWindowSubStatusDisp::get_message_10(0xE7));
+        return get_shared_text_buffer();
     case 4:
-        return (saddr)TWindowSubStatusDisp::get_message_10(0xEE);
+        return TWindowSubStatusDisp::get_message_10(0xEE);
     default:
         return 0;
     }
@@ -636,7 +636,7 @@ void handle_trade_partner_cancel(G_ModifyTradeProposal_6xA6 *proposal) {
     case 4:
         text_builder_reset();
         refresh_player_status(trade_partner_client_id);
-        text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xED));
+        text_builder_append(TWindowSubStatusDisp::get_message_10(0xED));
         reset_trade_session(get_shared_text_buffer());
         break;
     case 3:
@@ -742,7 +742,7 @@ void update_status_message(G_ModifyTradeProposal_6xA6 *proposal) {
     case 0:
         text_builder_reset();
         refresh_player_status(trade_partner_client_id);
-        text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xF1));
+        text_builder_append(TWindowSubStatusDisp::get_message_10(0xF1));
         reset_trade_session(get_shared_text_buffer());
         break;
     case 1:
@@ -761,7 +761,7 @@ void handle_trade_request_reply(G_ModifyTradeProposal_6xA6 *proposal) {
     case 3:
         text_builder_reset();
         refresh_player_status(trade_partner_client_id);
-        text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xD8));
+        text_builder_append(TWindowSubStatusDisp::get_message_10(0xD8));
         reset_trade_session(get_shared_text_buffer());
         return;
     case 0:
@@ -776,7 +776,7 @@ void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal) {
     case 0:
         trade_partner_client_id = proposal->header.client_id;
         trade_partner_meseta = proposal->amount;
-        TLobby__sub_802D3AA8();
+        set_trade_active();
         trade_proposal_state = 2;
         break;
     case 1:

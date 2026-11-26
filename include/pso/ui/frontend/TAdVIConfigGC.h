@@ -24,7 +24,7 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     void update_visibility();
     virtual void on_accept();
     virtual void on_cancel();
-    virtual saddr get_message_text();
+    virtual const char *get_message_text();
     static void *destroy(void *, s16);
 };
 

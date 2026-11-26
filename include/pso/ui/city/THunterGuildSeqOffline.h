@@ -45,14 +45,14 @@ struct THunterGuildSeqOffline : public TShopSequence {
     TQuestThread *quest_thread;       // 0x34: TQuestThread::create_in_root
     s32 exit_action;       // 0: close; 1-4: leave through a fade-out that sets enemy mode 0, 1, 3 or 5
     static void clear_slots();
-    static void reset_quest_list_vm();
+    static void on_quest_download_failed();
     static void clear_slot_flags();
     static void zero_four_slots();
 };
 
 LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
 
-extern "C" void THunterGuildSeqOffline__sub_80213410(void);
+void reset_quest_result_callbacks_on_unload(void);
 // Quest thread ids started per quest result ([1] success, [2] cancel, [3] exit); -1 when unset.
 extern "C" s32 quest_result_callbacks[4];
 

@@ -79,7 +79,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     void enable_hits();
     void disable_hits();
     void warp_around_target(f32 speed);
-    void sub_800EFE30();
+    void demo_stub();
 };
 
 LAYOUT_ASSERT(TObjEneRe4Sorcerer_m_3c0_offset, offsetof(TObjEneRe4Sorcerer, strip_scroll) == 0x3C0);

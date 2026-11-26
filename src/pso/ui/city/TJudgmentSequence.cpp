@@ -21,7 +21,7 @@ void TJudgmentSequence::on_judgment_closed(TShopWindowBase *window) {
     }
 }
 
-void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window) {
+void on_judgment_item_window_state_8(TShopWindowBase *window) {
     if (window != NULL) {
         window->set_state(4);
     }
@@ -43,7 +43,7 @@ void TJudgmentSequence::handle_close_input() {
 
 void TJudgmentSequence::open_judgment_window() {
     TShopJudgmentItemWindow *o = new TShopJudgmentItemWindow(tl_05, this, player);
-    o->m_16c = TJudgmentSequence__sub_80215BCC;
+    o->m_16c = on_judgment_item_window_state_8;
     o->on_close = on_judgment_closed;
     o->on_cancel = on_judgment_cancelled;
     set_state(5);
@@ -56,12 +56,12 @@ void TJudgmentSequence::handle_confirm() {
 }
 
 void TJudgmentSequence::setup_counter_camera() {
-    f32 pos[2];
+    NJS_POINT2 pos;
     f32 x;
-    pos[0] = 332.0f;
-    pos[1] = 80.0f;
+    pos.x = 332.0f;
+    pos.y = 80.0f;
     x = 332.0f;
-    create_message_window(get_window_layout_position(0x2C), (saddr)pos);
+    create_message_window(get_window_layout_position(0x2C), &pos);
     send_message(1, 1);
     meseta_window = (TWindowBase *)create_meseta_window(((s32)get_player_entity_id()) & 0xFFFF);
     set_state(2);

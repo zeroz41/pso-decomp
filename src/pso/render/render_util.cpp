@@ -208,7 +208,7 @@ void *delete_object_if_delete_flag(void *self, s16 del) {
     return self;
 }
 
-void *TObjMapWarp__sub_80141CA4(void *self) {
+void *clear_first_word(void *self) {
     *(s32 *)self = 0;
     return self;
 }

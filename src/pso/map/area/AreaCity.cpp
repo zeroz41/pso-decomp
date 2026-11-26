@@ -3,7 +3,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80227AA0.h"
+#include "pso/audio/SoundPlayback.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/item/shop/ShopArmorStock.h"
 #include "pso/item/shop/ShopToolStock.h"
@@ -19,7 +19,7 @@
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/unk/TLobby_80207DA8.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/object/city/CitySeasonResources.h"
@@ -46,7 +46,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
 void cleanup_city_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
-    TTecRaFoie__sub_80226254();
+    cleanup_city_area_stub();
     TLobby::call_funcs_reverse(TLobby_scene_load_callback_table, sizeof(TLobby_scene_load_callback_table));
     unload_current_floor_resources();
     TLobby::update_current_floor();
@@ -55,7 +55,7 @@ void cleanup_city_area(void) {
 
 s32 init_city_area(void) {
     load_floor_sound_bank(get_current_floor_area());
-    TLobby__sub_80207E44();
+    init_city_area_stub();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }

@@ -6,4 +6,4 @@ u8 *TAdSinglePlyChrSelectGC::get_global_state() {
     return (u8 *)system_save_payload;
 }
 
-s32 TLobby__sub_8001ED88(void* p) { return *(s32*)((char*)p + 0x428); }
+s32 get_bml_request_data_size(void* p) { return *(s32*)((char*)p + 0x428); }

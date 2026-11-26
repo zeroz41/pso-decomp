@@ -348,7 +348,7 @@ int TBoss4DarkFalz::is_ending_or_split_screen() {
     }
     return result;
 }
-s32 TBoss4DarkFalz::sub_8004B07C() { return 0; }
+s32 TBoss4DarkFalz::force_action_stub() { return 0; }
 
 void TBoss4DarkFalz::run_state_update() {
     TBoss4DarkFalzHandler action = dark_falz_state_table[state_index].update;
@@ -504,7 +504,7 @@ void TBoss4DarkFalz::spawn_defeat_effects() {
     TObjPlayer *p;
     s32 i;
     f32 k;
-    if (TBoss4Thanks__sub_8035C96C() != 0) {
+    if (is_boss4_door_open() != 0) {
         play_sound_effect(0x40033231, 0, 0, 0);
         k = 12.5f;
         for (i = 0; i < registered_player_count; i++) {

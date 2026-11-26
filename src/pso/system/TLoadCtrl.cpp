@@ -3,7 +3,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdFloorLoadGC.h"

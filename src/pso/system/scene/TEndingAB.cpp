@@ -12,16 +12,12 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/system/scene/TEndingABTypes.h"
 
 extern "C" {
-void TEndingAB__sub_8008CCC0(TEndingAB *);
+void render_ending_ab_stub(TEndingAB *);
 }
 
-struct EndingWallTextureSet {
-    NJS_TEXNAME names[14];
-    NJS_TEXLIST list;
-};
-LAYOUT_ASSERT(EndingWallTextureSetSize, sizeof(EndingWallTextureSet) == 0xB0);
 
 const char ending_texture_name_ed_512kabe_a[] = "ed_512kabe_A";
 const char ending_texture_name_ed_512kabe_b[] = "ed_512kabe_B";
@@ -257,7 +253,7 @@ void TEndingAB::set_fish_global_param() {
     }
 }
 
-extern "C" void TEndingAB__sub_8008CCC0(TEndingAB *) {}
+extern "C" void render_ending_ab_stub(TEndingAB *) {}
 
 void TEndingAB::init_float_table() {
     quads[0].x0 = 228.0f;
@@ -314,7 +310,7 @@ void TEndingAB::render() {
     if (TEndingAB::fade_sequence_state != 0) {
         set_fish_global_param();
         draw_overlay();
-        TEndingAB__sub_8008CCC0(this);
+        render_ending_ab_stub(this);
     }
 }
 

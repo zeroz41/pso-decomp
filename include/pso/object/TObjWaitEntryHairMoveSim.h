@@ -30,7 +30,7 @@ public:
     static s32 get_move_done_result(TObjPlayer *player);
     static int is_move_done(TObjPlayer *player);
     static s32 is_level_in_table(TObjPlayer *player);
-    static void sub_800FE3BC(NJS_OBJECT *model);
+    static void hair_model_stub(NJS_OBJECT *model);
 
     TObjPlayer *player;
 };

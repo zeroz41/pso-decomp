@@ -54,11 +54,11 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
     m_name = TWindowChallengeResult::class_name;
     for (i = 0; i < 3; i++) {
         e = (WindowTextEntry *)get_array_entry(i * 2);
-        set_text_entry_string(e, (uaddr)challenge_result_labels[i], 0);
+        set_text_entry_string(e, challenge_result_labels[i], 0);
         measure_message_text_width_default(e);
         e->x = 233.0f - e->width;
     }
-    set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), (uaddr)team_name, 0x20);
+    set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), team_name, 0x20);
     e = (WindowTextEntry *)get_array_entry(3);
     text_builder_reset();
     hours = clear_seconds / 3600;
@@ -74,7 +74,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
         text_builder_append(":");
         append_padded_number(clear_seconds, 2);
     }
-    set_text_entry_string(e, (uaddr)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string(e, (get_shared_text_buffer()), 0x20);
     count = static_cast<TWindowLayoutNumber *>(get_array_entry(5));
     count->value = death_count;
     count->calc_size();

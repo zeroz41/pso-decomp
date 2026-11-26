@@ -36,7 +36,7 @@ LAYOUT_ASSERT(TShopEquipmentSequence_choice_menu_offset, offsetof(TShopEquipment
 
 // --- C functions defined in TShopEquipmentSequence.cpp ---
 extern "C" {
-void TShopEquipmentSequence__sub_8021D65C(void);
+void equipment_shop_state_stub(void);
 }
 
 #endif

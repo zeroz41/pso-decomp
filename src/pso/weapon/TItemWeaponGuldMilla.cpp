@@ -30,7 +30,7 @@ void TItemWeaponGuldMilla::draw_held_model() {
     draw_weapon_model();
     get_gun_point(&gun_point);
     item_model = (NJS_OBJECT *)model_data[0];
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(this, 0x23);
     get_gun_point(&second_gun_point);
     item_model = model;
 }

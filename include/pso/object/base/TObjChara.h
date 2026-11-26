@@ -22,6 +22,7 @@ struct StatusEffect {
     StatusEffect();
     StatusEffect &operator=(StatusEffect &src);
     void clear();
+    void bswap();
     s32 type;
     f32 amount;
     s32 timer;  // frames left

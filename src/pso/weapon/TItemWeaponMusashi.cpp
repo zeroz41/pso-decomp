@@ -6,7 +6,7 @@
 void TItemWeaponMusashi::draw_held_model() {
     NJS_OBJECT *second;
     NJS_OBJECT *model;
-    saddr weapon = (saddr)this;
+    TItemWeapon *weapon = this;
 
     draw_weapon_at_joint(weapon, 0x30);
     update_trail_slot(0);

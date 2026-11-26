@@ -22,10 +22,8 @@ LAYOUT_ASSERT(TSymbolChatCapture_size, sizeof(TSymbolChatCapture) == 0x30);
 
 extern TSymbolChatCapture *slot_entity_dispatcher_instance;
 
-extern "C" {
-void TLobby__sub_8036B50C(void);
-void TLobby__sub_8036B510(void);
-}
+void symbol_chat_capture_on_floor_free(void);
+void symbol_chat_capture_on_floor_load(void);
 
 void send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf);
 

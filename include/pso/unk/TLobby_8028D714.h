@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void TLobby__sub_8028D7D0(s32 i);
+void check_load_buffer_slot_stub(s32 i);
 
 #endif

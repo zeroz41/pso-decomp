@@ -14,6 +14,7 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TShopItemListWindow.h"
+#include "pso/item/shop/ShopWeaponStockTypes.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -512,8 +513,6 @@ void generate_shop_weapon_stock(s32 tbl) {
 #pragma push
 #pragma optimization_level 1
 
-// A stocked item copied as plain bytes, word by word.
-struct ItemDataBytes { u8 bytes[0x14]; };
 
 void get_shop_weapon_stock_item(TItemData *dst, s32 idx, s32 tbl) {
     ItemDataBytes *arr = (ItemDataBytes *)shop_weapon_stock_buffers[tbl];

@@ -40,4 +40,16 @@ void render_quest_text_page(void);
 void reset_entry_text_accumulator(void);
 void seek_quest_text_page(s32 pos, s32 mode);
 
+struct FormatNumberTextAllModesTable {
+    u8 units[0x14];
+    u8 fullwidth_digits[0x18];
+    u8 kanji_digits[0x18];
+    const u8 *sets[3];
+};
+
+struct DownloadDecoderState {
+    u16 lead;
+    DownloadDecoderState() : lead(0) {}
+};
+
 #endif

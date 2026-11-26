@@ -9,7 +9,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/system/NinjaTypes.h"
@@ -77,8 +77,8 @@ void WindowSpritePart::set_help_mode(s32 help_mode) {
     this->set_sprite_uv_from_pixels(rect->x, rect->y);
 }
 
-s32 get_class_name_text(s32 class_index) {
-    return (saddr)text_language_group_table[7][class_index];
+const char *get_class_name_text(s32 class_index) {
+    return text_language_group_table[7][class_index];
 }
 
 s8 GuildCardEntry::get_language() { return language; }
@@ -165,12 +165,12 @@ void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card)
     t10 = s[4];
     t4 = (WindowTextEntry *)s[1];
     t14 = (WindowTextEntry *)s[5];
-    set_text_entry_string(t0, (uaddr)card->get_name(), 0x220);
+    set_text_entry_string(t0, card->get_name(), 0x220);
     n = card->get_language();
     if (n > 5) {
         n = 5;
     }
-    TWindowDuelResult::set_default_status(tC, (saddr)com_card_status_text_table[n]);
+    TWindowDuelResult::set_default_status(tC, com_card_status_text_table[n]);
     n = card->get_char_class();
     if (n > 0xC) {
         n = 0xC;
@@ -180,7 +180,7 @@ void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card)
     if (n > 0xA) {
         n = 0xA;
     }
-    TWindowDuelResult::set_default_status(t10, reinterpret_cast<saddr>(TObjLuker::get_stat_table_entry(n)));
+    TWindowDuelResult::set_default_status(t10, TObjLuker::get_stat_table_entry(n));
     if (card->is_own_card() != 0) {
         id = card->get_card_id();
         if (id == 0) {
@@ -188,7 +188,7 @@ void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card)
         } else {
             text_builder_reset();
             text_builder_append_int(id);
-            set_text_entry_string(t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
+            set_text_entry_string(t4, get_shared_text_buffer(), 0x20);
             measure_message_text_width_default(t4);
             t4->x = 198.0f - t4->width;
             t4->flags &= ~2;
@@ -196,5 +196,5 @@ void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card)
     } else {
         t4->flags |= 2;
     }
-    set_text_entry_string(t14, (uaddr)card->get_text(), 0x220);
+    set_text_entry_string(t14, card->get_text(), 0x220);
 }

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TObjPlayer__sub_801D84F0(void *p);
+s32 is_palette_override_set(void *p);
 }
 
 #endif

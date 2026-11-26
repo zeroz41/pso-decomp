@@ -52,7 +52,7 @@ u8 TLobby::lookup_table_value(s8 x) {
     return 0;
 }
 
-u8 lookup_key_value__6TLobbyFc(s8 x) {
+u8 TLobby::lookup_key_value(s8 x) {
     const AppraisalScoreEntry *p = item_appraisal_rules->special_and_percentage_scores;
     while (p->roll != -1) {
         if (p->roll == x) {
@@ -104,7 +104,7 @@ void adjust_appraisal_percentages(TItemData *appraisal) {
     if (appraisal->data1.data_s8[11] > 100) {
         appraisal->data1.data_s8[11] = 100;
     }
-    item_appraisal_score += ((s8 (*)(s8))lookup_key_value__6TLobbyFc)(r);
+    item_appraisal_score += (s8)TLobby::lookup_key_value(r);
 }
 
 void TLobby::roll_item_grind_bonus() {
@@ -179,7 +179,7 @@ void adjust_appraisal_special(TItemData *obj) {
             break;
         }
     }
-    item_appraisal_score += (s8)lookup_key_value__6TLobbyFc(r);
+    item_appraisal_score += (s8)TLobby::lookup_key_value(r);
 }
 
 bool TLobby::is_slot_match() {

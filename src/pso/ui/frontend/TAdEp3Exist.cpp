@@ -40,8 +40,8 @@ extern "C" {
 
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
     ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)frame_context);
-    f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
-    draw_menu_text_scaled(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
+    f32 x = 320.0f - (f32)(calc_text_width(get_localized_text_entry(0x2C, 0xA)) >> 1U);
+    draw_menu_text_scaled(x, 394.0f, 0.8f, get_localized_text_entry(0x2C, 0xA), -1);
 }
 
 void TAdEp3Exist::render() {
@@ -52,7 +52,7 @@ void TAdEp3Exist::render() {
 
 void TAdEp3Exist::request_game_mode_transition() { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 void TAdEp3Exist::request_scene_change() { TAdMultiChgGameModeGC::open_time_set_scene(); }
-void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p) { TAdMultiChgGameModeGC::open_enter_ppp_pass_scene(); }
+void open_ppp_pass_scene(TAdEp3Exist *p) { TAdMultiChgGameModeGC::open_enter_ppp_pass_scene(); }
 void TAdEp3Exist::close_window() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 
 void TAdEp3Exist::run_task() {
@@ -91,7 +91,7 @@ void TAdEp3Exist::run_task() {
         }
         break;
     case 3:
-        TAdEp3Exist__sub_8036F0AC(this);
+        open_ppp_pass_scene(this);
         break;
     case 4:
         request_scene_change();
@@ -145,7 +145,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     }
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    scroll_window = new TAdScrollWinGC(this, 3, (s32)get_localized_text_entry(0x2C, 9));
+    scroll_window = new TAdScrollWinGC(this, 3, get_localized_text_entry(0x2C, 9));
     cursor = new TAdSelectCurGC(tl_clipout, (const NJS_POINT2 *)ep3_exist_cursor_pos, (const NJS_POINT2 *)ep3_exist_cursor_size);
     cursor->append_entry(ep3_exist_cursor_pos);
     cursor->set_wait_directions_released();

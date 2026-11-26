@@ -119,7 +119,7 @@ extern TObject *tl_clipout;
 char serial_access_hex_string_buf[0x40];
 
 
-s32 TAdPsoPassSaveGC__sub_8032B584(void) {
+s32 is_pso_pass_save_accepted(void) {
     return pso_pass_save_accepted;
 }
 
@@ -153,7 +153,7 @@ void TAdEnterBaseGC::create_parts() {
 void TAdEnterBaseGC::run_task() {  }
 
 void TAdEnterBaseGC::get_title_position(Position *position) {
-    u32 half_width = calc_text_width((char *)get_localized_text_entry(23, 4)) >> 1;
+    u32 half_width = calc_text_width(get_localized_text_entry(23, 4)) >> 1;
     f32 offset = half_width;
     f32 x = enter_base_text_anchor[0];
     offset = x - offset;
@@ -215,7 +215,7 @@ void TAdEnterSerialAccessGC::store_serial_access_key(saddr serial, saddr access_
     if (instance != 0) {
         strncpy(instance->serial_number, (const char *)serial, 0xF);
         strncpy(instance->access_key, (const char *)access_key, 0xF);
-        if (TAdPsoPassSaveGC__sub_8032B584() != 0) {
+        if (is_pso_pass_save_accepted() != 0) {
             strncpy(instance->password, (const char *)password, 0xF);
         }
     }
@@ -249,7 +249,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
     if (field == 3) {
         return (u8 *)"";
     }
-    if (field == 2 && TAdPsoPassSaveGC__sub_8032B584() == 0) {
+    if (field == 2 && is_pso_pass_save_accepted() == 0) {
         return (u8 *)"";
     }
     if (TAdSinglePlyChrSelectGC::get_instance()->serial_number[0] != 0) {
@@ -274,9 +274,9 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
     return (u8 *)"";
 }
 
-TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, void *message_index) {
+TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, s32 message_index) {
     TWindowMessage *window = create_message_window_for_size((NJS_POINT2 *)enter_base_message_window_position, (NJS_POINT2 *)enter_base_message_window_size);
-    window->append_line(get_localized_text_entry(0x17, (saddr)message_index), 1);
+    window->append_line(get_localized_text_entry(0x17, message_index), 1);
     return window;
 }
 
@@ -306,14 +306,14 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, 
 
 void render_entry_window(void *window, void *context) {
     ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
-    draw_menu_text_scaled(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
+    draw_menu_text_scaled(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC::entry_mode) {
     case 0:
     case 1:
-        fn_8032AC94();
+        entry_window_render_stub();
         return;
     case 2:
-        fn_8032AC24();
+        draw_entry_field_box();
         return;
     case 3:
         draw_masked_password_field((saddr)context);
@@ -323,9 +323,9 @@ void render_entry_window(void *window, void *context) {
 
 void TAdEnterBaseGC::render() {  }
 
-void fn_8032AC94(void) {  }
+void entry_window_render_stub(void) {  }
 
-void fn_8032AC24(void) {
+void draw_entry_field_box(void) {
     ChrSelPlateLayout layout;
     const f32 *src = entry_field_box_size;
     layout.width = src[0];

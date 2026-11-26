@@ -6,7 +6,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 
 __declspec(section ".data") u32 ice_technique_charge_particle_ids[2] = {0xBB, 0xBC};
 

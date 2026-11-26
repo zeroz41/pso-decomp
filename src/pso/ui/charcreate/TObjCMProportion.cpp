@@ -21,7 +21,7 @@ s32 TChCrEffCtrlPl::get_clamped_player_index() {
     }
     return index;
 }
-int TChCrEffCtrlPl__sub_80298F6C() { return is_multi_chr_select_slot_chosen(); }
+int should_show_controller_plate() { return is_multi_chr_select_slot_chosen(); }
 
 __declspec(section ".rodata") CreationInputState default_creation_input_state = { 0 };
 
@@ -141,5 +141,5 @@ __declspec(section ".sdata2") extern const f32 creation_stick_zero = 0.0f;
 void TChCrCharSelect::reset_proportions() { TObjCMProportion::poll_pad_buttons(); update_creation_direction_repeat(); }
 
 void reset_creation_input_state() {
-    fn_80299420(&creation_input_state, &default_creation_input_state);
+    copy_creation_input_state(&creation_input_state, &default_creation_input_state);
 }

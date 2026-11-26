@@ -457,7 +457,7 @@ void TCheckRoomSequence::open_bank() {
     NJS_POINT2 position;
     position.x = 332.0f;
     position.y = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), (saddr)&position);
+    create_message_window(get_window_layout_position(0x2C), &position);
     display_shop_message(0x31, 1);
     meseta_window = create_meseta_window(get_player_entity_id());
     deposit_window = new TWindowDeposit(get_player_entity_id());

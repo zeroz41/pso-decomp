@@ -55,11 +55,11 @@ TWindowDeposit::TWindowDeposit(s16 client)
     WindowTextEntry *label;
     TWindowLayoutRect *amount;
     f32 text_width;
-    saddr text;
+    const char *text;
 
     m_name = class_name;
     text = get_message_text(2);
-    text_width = (f32)calc_text_width((char *)text);
+    text_width = (f32)calc_text_width(text);
     width = calc_title_overflow_width(96.0f + (12.0f + text_width));
     label = (WindowTextEntry *)get_array_entry(0);
     amount = (TWindowLayoutRect *)get_array_entry(1);

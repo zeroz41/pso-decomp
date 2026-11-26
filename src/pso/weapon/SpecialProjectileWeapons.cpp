@@ -38,21 +38,11 @@ struct TItemEquipBase;
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/scene/TScene.h"
-
-struct RecoilWeaponView : TItemWeapon {
-    s32 projectileVisible;
-    s32 projectileSpin;
-    s32 recoilAngle;
-    s32 recoilPhase;
-};
+#include "pso/weapon/SpecialProjectileWeaponsTypes.h"
 
 
 
-LAYOUT_ASSERT(RecoilVisibleOffset, offsetof(RecoilWeaponView, projectileVisible) == 0x1F8);
-LAYOUT_ASSERT(RecoilSpinOffset, offsetof(RecoilWeaponView, projectileSpin) == 0x1FC);
-LAYOUT_ASSERT(RecoilAngleOffset, offsetof(RecoilWeaponView, recoilAngle) == 0x200);
-LAYOUT_ASSERT(RecoilPhaseOffset, offsetof(RecoilWeaponView, recoilPhase) == 0x204);
-LAYOUT_ASSERT(RecoilWeaponExtent, sizeof(RecoilWeaponView) == 0x208);
+
 
 extern "C" {
 

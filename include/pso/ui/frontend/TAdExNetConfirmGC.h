@@ -7,7 +7,7 @@
 struct TAdExNetConfirmGC : public TAdWarningBaseGC {
     TAdExNetConfirmGC(TObject *parent);
     virtual ~TAdExNetConfirmGC();
-    virtual saddr get_message_text();
+    virtual const char *get_message_text();
     virtual void on_close();
     virtual void render();
     virtual void run_task();

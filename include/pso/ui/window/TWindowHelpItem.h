@@ -113,7 +113,7 @@ struct TWindowHelpItem : public TWindowBase
     void update_tech_disk_details();
     void update_tech_disk_stats();
     void idle_update();
-    void init_text(void *);
+    void init_text(const char *);
     void unlock_page_flip();
     void lock_page_flip();
     void disable_help_toggle();

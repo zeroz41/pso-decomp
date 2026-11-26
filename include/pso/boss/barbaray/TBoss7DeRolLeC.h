@@ -115,7 +115,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void handle_laser_attack_state(u32 event);
     void handle_tentacle_attack_state(u32 event, s32 position_index);
     void handle_roll_dive_state(u32 event, s32 position_index);
-    void sub_802EC32C();
+    void position_travel_stub();
     void reload_stats_for_phase(s32 phase);
     void update_particle_ctrls();
     void release_splash_particles(TParticleCtrl *ctrl);
@@ -213,7 +213,7 @@ LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);
 // them under model node 0x4D in place of its own child while state_flags & 0x40.
 extern NJS_OBJECT boss7_derolle_light_pool[11];
 
-void TObjPlayer__sub_802ED984(void);
+void boss7_run_task_stub(void);
 
 // Functions defined in TBoss7DeRolLeC.cpp.
 struct TObjEneDD;

@@ -23,7 +23,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/map/FloorArea.h"
@@ -204,7 +204,7 @@ void TOTrapSeabed01::update_effects() {}
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
         (projected == 0 || is_split_screen() != 0 || TDeferredRenderQueue::enqueue_in_instance(this) == 0) &&
-        m_340 == 1) {
+        visible == 1) {
         switch (mode) {
         case 0:
         case 1:

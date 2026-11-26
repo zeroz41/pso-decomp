@@ -281,7 +281,7 @@ void process_async_file_reads(void) {
         }
         break;
     }
-    TGStream__sub_800FDD64();
+    async_file_read_stub();
 }
 
 void destroy_game_heap() { process_pending_resources(); safe_free(async_file_read_sector_buffer); free_chr_select_data(); delete game_heap; }

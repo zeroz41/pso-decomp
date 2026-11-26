@@ -121,7 +121,7 @@ TQuestListVM::~TQuestListVM() {
 
 void TQuestListVM::update_state() {
     if (update_load_status() != 0) {
-        display_message((const char *)get_message_text(0x44), 1);
+        display_message(get_message_text(0x44), 1);
         set_state(0x12);
     }
     switch (state) {
@@ -206,7 +206,7 @@ void TQuestListVM::load_quest_vm() {
         decrypted_quest_buffer = tmp_buffer;
         decompression_capacity = 0x40000;
         set_state(2);
-        display_message((const char *)get_message_text(0x3F), 1);
+        display_message(get_message_text(0x3F), 1);
     }
 }
 
@@ -273,7 +273,7 @@ void TQuestListVM::scan_memcard_quest_files() {
             return;
         }
         if (scan_card_error != 0) {
-            display_message((const char *)get_message_text(0x66), 1);
+            display_message(get_message_text(0x66), 1);
             set_state_after_message(5);
             return;
         }
@@ -287,11 +287,11 @@ void TQuestListVM::scan_memcard_quest_files() {
         return;
     }
     if (scan_card_error != 0) {
-        display_message((const char *)get_message_text(0x66), 1);
+        display_message(get_message_text(0x66), 1);
         set_state(0x12);
         return;
     }
-    display_message((const char *)get_message_text(0x44), 1);
+    display_message(get_message_text(0x44), 1);
     set_state(0x12);
 }
 
@@ -382,14 +382,14 @@ void TQuestListVM::build_download_list() {
         } else {
             switch (current_language) {
             case LANGUAGE_JAPANESE:
-                list_window = create_item_list_window((saddr)download_list_title_jp, 0x40, player->get_entity_id());
+                list_window = create_item_list_window(download_list_title_jp, 0x40, player->get_entity_id());
                 break;
             case LANGUAGE_ENGLISH:
             case LANGUAGE_GERMAN:
             case LANGUAGE_FRENCH:
             case LANGUAGE_SPANISH:
             default:
-                list_window = create_item_list_window((saddr)download_list_title, 0x40, player->get_entity_id());
+                list_window = create_item_list_window(download_list_title, 0x40, player->get_entity_id());
                 break;
             }
         }
@@ -397,13 +397,13 @@ void TQuestListVM::build_download_list() {
             for (i = 0; i < entry_count; i++) {
                 switch (entries[i].episode) {
                 case 0:
-                    list_window->add_list_entry(0x17, (saddr)entries[i].title, i);
+                    list_window->add_list_entry(0x17, entries[i].title, i);
                     break;
                 case 1:
-                    list_window->add_list_entry(0x31, (saddr)entries[i].title, i);
+                    list_window->add_list_entry(0x31, entries[i].title, i);
                     break;
                 default:
-                    list_window->add_list_entry(0x17, (saddr)entries[i].title, i);
+                    list_window->add_list_entry(0x17, entries[i].title, i);
                     break;
                 }
             }
@@ -413,7 +413,7 @@ void TQuestListVM::build_download_list() {
         if (description_window == NULL) {
             WindowSize size = description_window_size;
             description_window = TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
-            description_window->append_line((saddr)entries[0].description, 0x80);
+            description_window->append_line(entries[0].description, 0x80);
             described_entry = 0;
         }
     }
@@ -434,7 +434,7 @@ void TQuestListVM::update_lobby_selection() {
     if (list_window != NULL && description_window != NULL) {
         index = list_window->get_cursor_value();
         if (index != described_entry) {
-            description_window->append_line((saddr)entries[index].description, 0x80);
+            description_window->append_line(entries[index].description, 0x80);
             described_entry = index;
             if (detail_window != NULL) {
                 detail_window->close();
@@ -515,7 +515,7 @@ void TQuestListVM::open_confirm_window() {
     if (detail_window == NULL) {
         WindowSize size = detail_window_size;
         detail_window = TWindowMessage::create(get_window_layout_position(0x2E), size.dimensions, 1, player->get_entity_id());
-        detail_window->append_line((saddr)((QuestBinHeader *)decrypted_quest_buffer)->long_description, 1);
+        detail_window->append_line(((QuestBinHeader *)decrypted_quest_buffer)->long_description, 1);
         detail_window->set_depth(-13000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
             detail_window->set_position_xy(0.75f, 0.75f);

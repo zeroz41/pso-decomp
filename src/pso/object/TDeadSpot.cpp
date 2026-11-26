@@ -204,7 +204,7 @@ void TDeadSpot::render() {
 }
 #pragma push
 #pragma fp_contract on
-TUnk_80494A10::TUnk_80494A10(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale) : TDeadSpot(parent, point, texture, selector, delay, maxScale) {
+TDeadSpotFade::TDeadSpotFade(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale) : TDeadSpot(parent, point, texture, selector, delay, maxScale) {
     ParticleStripVertex *p;
     s32 i;
     f32 bx, by, bz, s;
@@ -223,9 +223,9 @@ TUnk_80494A10::TUnk_80494A10(TObject *parent, const Vec *point, NJS_TEXLIST *tex
     }
 }
 #pragma pop
-TUnk_80494A10::~TUnk_80494A10() {}
+TDeadSpotFade::~TDeadSpotFade() {}
 
-void TUnk_80494A10::run_task() {
+void TDeadSpotFade::run_task() {
     ParticleStripVertex *p;
     s32 i;
     u32 c;

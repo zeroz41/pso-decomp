@@ -50,7 +50,7 @@ TWindowQuantity::~TWindowQuantity() {}
 TWindowQuantity::TWindowQuantity(s32 client) : TWindowBase((u8 *)&quantity_window_layout, (s16)client, (u8 *)(get_window_layout_position(0x2A))) {
     u8 *e1;
     WindowTextEntry *e0;
-    s32 id;
+    const char *id;
     f32 n;
     m_name = TWindowQuantity::class_name;
     id = get_message_text(1);

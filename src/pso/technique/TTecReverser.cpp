@@ -20,11 +20,10 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/technique/TTecReverserTypes.h"
 
 #pragma readonly_strings on
 
-// A particle emitter of the revival effect: it starts after `delay` frames, `count` times.
-struct RevivalEmitter { s32 delay; s32 count; s32 id; s32 pad; };
 
 const char *lbl_805D3818 = "TTecReverser";
 RevivalEmitter revival_particle_table[3] = {

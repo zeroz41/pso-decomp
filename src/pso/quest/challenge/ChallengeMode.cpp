@@ -8,7 +8,7 @@
 #include "pso/unk/text_8026A328.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80072230.h"
+#include "pso/network/ChallengePackets.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "pso/map/FloorArea.h"
@@ -870,7 +870,7 @@ void TChallenge::update_battle_cleanup_flag() {
     if (player->check_player_state_flag_2() != 0) {
         if (records_save_pending != 0 && challenge_mode_state.retry_menu_disabled == 0) {
             update_card_save_info();
-            TLobby__sub_800722AC(local_client_id);
+            send_challenge_dead_flag(local_client_id);
             send_own_challenge_records();
         }
         records_save_pending = 0;

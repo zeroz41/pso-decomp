@@ -45,7 +45,7 @@ void TBoss6Tube::start_wobble() {
     state = 2;
 }
 
-s32 TBoss6Tube::sub_802B1018() { return 0; }
+s32 TBoss6Tube::run_task_check_stub() { return 0; }
 
 void TBoss6Tube::render() {
     f32 lo = (-1.6e+03f);
@@ -168,7 +168,7 @@ void TBoss6Tube::update_timer() {
 
 void TBoss6Tube::run_task() {
 
-    if ((sub_802B1018() == 0) && (TObjEneDD::query_teammate_state() == 0)) {
+    if ((run_task_check_stub() == 0) && (TObjEneDD::query_teammate_state() == 0)) {
         switch (state) {
         case 0:
             update_timer();

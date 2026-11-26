@@ -22,17 +22,9 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/weapon/TItemWeaponRocketPunchTypes.h"
 
-struct TargetEntityPosition {
-    u8 pad[0x1c];
-    u8 position[0x10];
-};
 
-struct TargetEntityManager {
-    u8 pad[0xa4];
-    TargetEntityPosition *ents;
-    s32 count;
-};
 
 extern "C" {
 TargetEntityManager *find_entity_by_id(u32);
@@ -140,7 +132,7 @@ void TItemWeaponRocketPunch::draw_held_model() {
     get_joint_position(1, &shot_origins[0]);
     item_model = (NJS_OBJECT *)model_data[0];
     punch_flags.clear(1);
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(this, 0x23);
     get_joint_position(1, &shot_origins[1]);
     item_model = saved_model;
 }

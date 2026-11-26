@@ -12,6 +12,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/effect/item/TItemEffCane.h"
+#include "pso/weapon/TItemWeaponFistTypes.h"
 
 // ---- pso/unk/text_80126740
 
@@ -47,15 +48,6 @@ void TItemWeaponFist::on_equipped() {
 }
 
 
-// Mirror plane for the second hand: a point and a normal.
-struct MirrorPlane {
-    f32 point_x;
-    f32 point_y;
-    f32 point_z;
-    f32 normal_x;
-    f32 normal_y;
-    f32 normal_z;
-};
 
 
 extern "C" {
@@ -108,10 +100,10 @@ s32 knuckle_marker_joint_table[18] = {
 
 
 void TItemWeaponFist::draw_held_model() {
-    saddr weapon = (saddr)this;
+    TItemWeapon *weapon = this;
     if (get_item_index() == 3) {
         knuckle_second_hand_pass = 0;
-        ((TItemWeapon *)weapon)->draw_weapon_model();
+        weapon->draw_weapon_model();
         knuckle_second_hand_pass = 1;
         draw_weapon_at_joint(weapon, 0x23);
     }

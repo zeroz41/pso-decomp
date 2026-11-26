@@ -25,7 +25,7 @@ public:
     virtual void run_task();
 
     void close_window();
-    void show_message(s32 text, s32 flags);
+    void show_message(const char *text, s32 flags);
     void check_memcard_load_result();
     void process_format_result();
     void open_windows();

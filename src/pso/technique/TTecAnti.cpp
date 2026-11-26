@@ -14,12 +14,13 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/technique/TTecAntiTypes.h"
 
 #pragma readonly_strings on
 
@@ -31,9 +32,6 @@ const char *TTecAnti::class_name = "TTecAnti";
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-// A particle emitter of the Anti effect: it starts after `delay` frames, `count` times; bit 0 of flags puts it at the
-// ground position instead of the body position.
-struct AntiEmitterRow { s32 delay; s32 count; s32 id; s32 flags; };
 
 
 

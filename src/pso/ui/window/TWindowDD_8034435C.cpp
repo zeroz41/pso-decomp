@@ -534,14 +534,14 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *buf, u16 play
     case 4: {
         s32 id1;
         s32 k;
-        char *s1;
-        char *s2;
+        const char *s1;
+        const char *s2;
         s32 id4;
         id4 = src->ids[0];
         s1 = 0;
         k = 0;
         if (id4 == 0x2C4) {
-            s1 = (char *)get_word_select_token_text(0x2C4);
+            s1 = get_word_select_token_text(0x2C4);
         } else if (id4 == 0x2C7) {
             append_word_select_token(id4, buf, &pos);
             TWindowDD::append_char(0x2C, buf, &pos);
@@ -560,7 +560,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *buf, u16 play
             id1 = src->ids[1];
             kind = k;
             if (kind == 0) {
-                s2 = (char *)get_word_select_token_text(id1);
+                s2 = get_word_select_token_text(id1);
             } else {
                 TWindowDDValueList *pp;
                 if (kind == 1) {
@@ -595,13 +595,13 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *buf, u16 play
     case 5: {
         s32 mode;
         char *s3;
-        char *s1;
+        const char *s1;
         id = src->ids[0];
         s3 = 0;
         if (id == 0x2C4) {
             mode = 0;
             kind = TWindowDD::get_player_battle_flag_state(player);
-            s1 = (char *)get_word_select_token_text(id);
+            s1 = get_word_select_token_text(id);
         } else if (id == 0x2C7) {
             append_word_select_token(id, buf, &pos);
             TWindowDD::append_char(0x2C, buf, &pos);
@@ -640,7 +640,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *buf, u16 play
                     break;
                 }
             }
-            s1 = (char *)get_word_select_token_text(id);
+            s1 = get_word_select_token_text(id);
         }
         if (n > 1) {
             s32 found;
@@ -1409,7 +1409,7 @@ void TWindowDD::build_item_list() {
 }
 
 // Appends the phrase's first word (capitalised), the word for id with its number, then the rest of the phrase.
-void TWindowDD::append_word_inside_phrase(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *buf, s32 *pos) {
+void TWindowDD::append_word_inside_phrase(WordSelectMessage *src, s16 id, const char *verb, const char *phrase, char *buf, s32 *pos) {
     s32 n;
     s32 len;
     s32 i;
@@ -1819,11 +1819,11 @@ void TWindowDD::append_word_select_entry_words(WordSelectMessage *entry, char *b
 }
 
 void TWindowDD::append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos) {
-    char *word = (char *)get_word_select_token_text(id);
+    const char *word = get_word_select_token_text(id);
     append_word_select_word_with_number(entry, id, word, buf, pos);
 }
 
-void TWindowDD::append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos) {
+void TWindowDD::append_word_select_word_with_number(WordSelectMessage *entry, s16 id, const char *word, char *buf, s32 *pos) {
     char num[20];
     s32 kind;
     s32 value;
@@ -1832,7 +1832,7 @@ void TWindowDD::append_word_select_word_with_number(WordSelectMessage *entry, s1
     s32 split;
     s32 next;
     s32 c;
-    char *p;
+    const char *p;
     s32 i;
 
     kind = TWindowDD::classify_id(id);
@@ -2116,7 +2116,7 @@ s32 TWindowDD::setup_entry(s16 id) {
     s32 result;
     TWindowDD_WS_String *label;
 
-    s32 str;
+    const char *str;
     result = 0;
     label = labels[2];
     if ((label != NULL) && ((str = get_word_select_token_text(id)) != 0)) {
@@ -2146,7 +2146,7 @@ void TWindowDD::create_word_select_cursor_label(s32 slot) {
         }
         b.x = word_label_hidden_x;
         b.y = a.y;
-        o = TWindowDD_WS_String::create(cursor_label_width, (f32 *)&a, (f32 *)&b, (uaddr)r, 1);
+        o = TWindowDD_WS_String::create(cursor_label_width, (f32 *)&a, (f32 *)&b, r, 1);
         if (o != NULL) {
             o->set_depth(word_cursor_depth);
             o->fit_width_to_text();
@@ -2454,7 +2454,7 @@ void TWindowDD::append_char(s8 c, char *buf, s32 *pos) {
 }
 
 void TWindowDD::append_word_select_token(s16 id, char *buf, s32 *pos) {
-    TWindowDD::append_string((const char *)get_word_select_token_text(id), buf, pos);
+    TWindowDD::append_string(get_word_select_token_text(id), buf, pos);
 }
 
 
@@ -2597,15 +2597,15 @@ void TWindowBase::calc_inner_rect(WindowDrawContext *context) {
 }
 #pragma pop
 
-saddr get_word_select_token_text(s16 id) {
+const char *get_word_select_token_text(s16 id) {
     char **names = TWindowDD::player_name_buffers;
     if (id >= 0x68C && id <= 0x697) {
-        return (saddr)names[id - 0x68C];
+        return names[id - 0x68C];
     }
     if (id == 0x698) {
         return 0;
     }
-    return (saddr)ws_word_strings[ws_word_string_index[id]];
+    return ws_word_strings[ws_word_string_index[id]];
 }
 
 TWindowDDValueList *TWindowDD::get_entry(s32 index) {

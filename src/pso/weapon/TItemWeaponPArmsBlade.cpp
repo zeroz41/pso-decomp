@@ -34,7 +34,7 @@ void TItemWeaponPArmsBlade::draw_held_model() {
     } else {
         set_photon_color_id(saved);
     }
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(this, 0x23);
     if (get_photon_color_id() != 8) {
         update_trail_slot(1);
     }

@@ -112,7 +112,7 @@ void spawn_faust_wall_explosion(s32 id, Vec *pos) {
     }
 }
 
-TExplosionCollider::TExplosionCollider(TObject *parent, S_802E451C *params) : TItemAttackColBase(parent, params) {
+TExplosionCollider::TExplosionCollider(TObject *parent, AttackColParams *params) : TItemAttackColBase(parent, params) {
     max_radius = 50.0f;
 }
 

@@ -330,7 +330,7 @@ void THunterGuildSeqOffline::reset_quest_result_callbacks() {
 }
 extern "C" {
 
-void THunterGuildSeqOffline__sub_80213410(void) { THunterGuildSeqOffline::reset_quest_result_callbacks(); }
+void reset_quest_result_callbacks_on_unload(void) { THunterGuildSeqOffline::reset_quest_result_callbacks(); }
 }
 
 void THunterGuildSeqOffline::notify_quest_thread() {
@@ -399,13 +399,13 @@ void THunterGuildSeqOffline::update_state() {
     }
 }
 
-void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); impose_other_players_hold(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_state((saddr)((void*)((void*)1))); }
+void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); impose_other_players_hold(this); THunterGuildWarning::create_instance(2); set_state((saddr)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
     NJS_POINT2 window_size;
     window_size.x = 332.0f;
     window_size.y = 80.0f;
-    this->create_message_window(get_window_layout_position(0x2C), (saddr)&window_size);
+    this->create_message_window(get_window_layout_position(0x2C), &window_size);
     this->display_guild_message(1, 1);
     counter_camera = set_service_counter_camera(this, 1);
     this->set_state((saddr)((void*)(2)));

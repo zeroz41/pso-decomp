@@ -10,6 +10,7 @@ struct InventoryItemList {
     TPlyInventoryItem items[30];
 
     InventoryItemList();
+    void bswap();
 };
 
 #endif

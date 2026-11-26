@@ -2697,7 +2697,7 @@ int GamePlayerActionProvider::load_motion_set(s32 set, s32 body_type, s32 motion
 
 int GamePlayerActionProvider::load_motions(s32 set) {
     s32 body_type = ((TObjPlayer *)this)->is_handle_valid();
-    s32 motion_type = ((TObjPlayer *)this)->sub_802a7290_fwd();
+    s32 motion_type = ((TObjPlayer *)this)->get_action_motion_type();
     s32 loaded = load_action_motion_pairs(set, body_type, motion_type);
     if (loaded != 0) {
         mark_attack_motions();

@@ -54,7 +54,7 @@ const char *window_ctrl_clip_out_class_name = "TWindowCtrlClipOut";
 const char *window_ctrl_player_class_name = "TWindowCtrlPlayer";
 
 // width, height of the player message window (set_message_window_size stores it as the window size)
-const f32 message_information_window_extent[2] = {255.0f, 120.0f};
+const NJS_POINT2 message_information_window_extent = {255.0f, 120.0f};
 s32 TWindowCtrlMain::display_flags;
 TObject *TWindowCtrlMain::instance;
 TObject *TWindowCtrlMain::window_task_root;
@@ -72,8 +72,8 @@ void TWindowMainMenu::close_main_menu() {  }
 void TWindowMainMenu::open_main_menu() {  }
 s32 TWindowMainMenu::is_open() { return menu_flags & 0x1; }
 s32 TWindowMainMenu::is_log_active() { return (menu_flags >> 3) & 0x1; }
-void TWindowMainMenu__sub_8024E3D0(void) {  }
-void TWindowMainMenu__sub_8024E3CC(void) {  }
+void window_ctrl_close_stub(void) {  }
+void window_ctrl_shutdown_stub(void) {  }
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(parent) {
     m_name = window_ctrl_player_class_name;
@@ -92,7 +92,7 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(p
     } else {
         main_menu = new TWindowMainMenu1P(this, this->client_id);
     }
-    message_information = (TWindowMessageInfomation *)create_message_information_window(get_window_layout_position(0x20), (saddr)message_information_window_extent, this->client_id);
+    message_information = create_message_information_window(get_window_layout_position(0x20), &message_information_window_extent, this->client_id);
     simple_status = create_status_window(this->client_id);
     simple_status->suspend_update();
     action_palette = new TWindowActionPalette(this->client_id);
@@ -361,7 +361,7 @@ void TWindowCtrlPlayer::spawn_palette_slot_light(s32 kind) {
 
 void TWindowCtrlPlayer::append_message_line(const char *text, s32 mode) {
     if (message_information != NULL) {
-        message_information->append_line((saddr)text, mode);
+        message_information->append_line(text, mode);
     }
 }
 

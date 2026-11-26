@@ -2,6 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWSHORTCUT_H
 
 #include "types.h"
+struct NJS_POINT2;
 
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
@@ -11,7 +12,7 @@ struct TWindowChatSymbol;
 struct TWindowMessageQuest;
 
 struct TWindowShortCut : public TWindowBase {
-    TWindowShortCut(saddr position, s32 index, s32 *chat_shortcut);
+    TWindowShortCut(const NJS_POINT2 *position, s32 index, s32 *chat_shortcut);
     virtual ~TWindowShortCut();
     static const char *class_name;
     virtual void render();

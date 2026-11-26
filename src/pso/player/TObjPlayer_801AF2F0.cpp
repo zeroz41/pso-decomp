@@ -140,6 +140,7 @@
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TPlayerLobbyMarker.h"
+#include "pso/player/EquippedItemSlot.h"
 
 #pragma readonly_strings on
 
@@ -155,9 +156,8 @@
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-s32 TMainCursor__sub_80154098(int, int, int);
-s32 TMainCursor__sub_801540B8(int, int, int);
-saddr TObjPlayer__sub_80116620(void *, int);
+s32 set_collision_body_team0(int, int, int);
+s32 set_collision_body_team1(int, int, int);
 bool is_trap_stock_empty(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
@@ -176,11 +176,11 @@ void get_action_palette_mode(TObjPlayer *player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 }
 extern "C" {
-s32 fn_801B7CEC(TObjPlayer *player, s8 kind, s8 group, s8 index);
+s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
 void release_players_from_cutscene(void);
-void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
+void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
 void *__ct__12StatusEffectFv(void *);
 
@@ -188,7 +188,7 @@ void *__ct__12StatusEffectFv(void *);
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
 s32 get_class_max_exp(void *, void *);
 s32 validate_6xAE_set_animation_state(void *);
-s32 fn_8000F740(void *);
+s32 is_game_scene_phase(void *);
 void *__construct_array(void *, void *, void *, u32, u32);
 }
 
@@ -224,16 +224,6 @@ extern const f32 player_feedback_light_green;
 extern const f32 player_feedback_light_blue;
 extern const f32 player_feedback_light_step;
 
-// An equipped item and the slot it sits in, kept while apply_battle_level_reset rebuilds the stats.
-struct EquippedItemSlot {
-    EquippedItemSlot() {
-        slot = 0;
-        item = NULL;
-    }
-
-    s16 slot;
-    TItem *item;
-};
 
 extern "C" {
 
@@ -395,7 +385,7 @@ void TObjPlayer::release_action_palettes() {  }
 
 void TObjPlayer::reset_action_input() { enable_action_input(); }
 
-void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record) {}
+void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record) {}
 
 void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     this->hp = (s16) this->hpmax;
@@ -418,7 +408,7 @@ void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     this->battle_mode = record->get_class_flag_2();
 }
 
-void TObjPlayer::sub_801BB950() {
+void TObjPlayer::restore_state_on_area_entry() {
   u32 lobby_font;
   TItem *equipped_weapon;
   if (is_current_area_item_enabled() != 0)
@@ -505,7 +495,7 @@ void TObjPlayer::reset_motion_fields() {
     this->reset_area_entry_state();
     this->update_lock_on_cursor();
     reset_action_input();
-    this->sub_801BB950();
+    this->restore_state_on_area_entry();
     reset_pending_action();
     if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_key_machine_ready() != 0) && (this->check_flag(0x800) == 0) && ((this->test_actor_flags(0x800) != 0) || (this->get_actor_hp() <= 0))) {
         this->clear_actor_flags((u32)(0x800));
@@ -2001,7 +1991,7 @@ void handle_6x28_feed_mag(G_FeedMag_6x28 *command) {
     }
 }
 
-s32 fn_801B7CEC(TObjPlayer *player, s8 kind, s8 group, s8 index) {
+s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 index) {
     TItemData item;
     item.init();
     item.data1.data_u8[0] = kind;
@@ -5144,9 +5134,9 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
     team = cmd.team_number;
     p->pk_state.set_team(team);
     if (team == 1) {
-        TMainCursor__sub_801540B8((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
+        set_collision_body_team1((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     } else {
-        TMainCursor__sub_80154098((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
+        set_collision_body_team0((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     }
 }
 int TObjPlayer::get_pk_team() { return pk_state.get_team(); }
@@ -5382,13 +5372,13 @@ s32 TObjPlayer::get_language() {
 s32 TObjPlayer::get_controller_port() { return this->controller_port; }
 
 void TObjPlayer::set_action_provider_variant(s16 variant) {
-    if (variant != ((TObjPlayer *)action_provider)->sub_802a7290_fwd() && fn_8000F740(&main_phase_state) != 0) {
+    if (variant != ((TObjPlayer *)action_provider)->get_action_motion_type() && is_game_scene_phase(&main_phase_state) != 0) {
         action_provider->load_motion_set(get_entity_id(), has_valid_handle(), variant);
         this->apply_motion_entry();
     }
 }
 
-s16 TObjPlayer::get_handle_value() { return (s16)(((TObjPlayer *)this->action_provider)->sub_802a7290_fwd()); }
+s16 TObjPlayer::get_handle_value() { return (s16)(((TObjPlayer *)this->action_provider)->get_action_motion_type()); }
 
 f32 TObjPlayer::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (obj_isState2_324() != 0) {
