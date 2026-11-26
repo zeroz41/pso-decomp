@@ -283,7 +283,7 @@ u8 PlayerSyncRecord::get_power_materials_used() { return inventory.items[8].m_pr
 
 
 
-int TPlyPhotonChair::is_mounted() { return (*(u32*)((char*)this + 0x334) >> 26) & 0x1; }
+int TObjPlayer::is_mounted() { return (state_flags >> 26) & 0x1; }
 
 PhotonBlastAim::PhotonBlastAim() {
     target_id = 0xFFFF;

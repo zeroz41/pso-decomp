@@ -1268,12 +1268,12 @@ s32 TObjPlayer::preview_equip_stats(PlayerRequirementStats *out, u8 *incoming) {
         }
     }
     ((TItemData *)incoming)->apply_equip_effects(this, &a, &d, (EquipStatBonus *)&b, NULL);
-    b.stats.atp = clamp_s32(b.stats.atp, 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[0]);
-    b.stats.mst = clamp_s32(b.stats.mst, 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[1]);
-    b.stats.evp = clamp_s32(b.stats.evp, 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[2]);
-    b.stats.dfp = clamp_s32(b.stats.dfp, 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[4]);
-    b.stats.ata = clamp_s32(b.stats.ata, 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[5]);
-    b.stats.lck = clamp_s32(b.stats.lck, 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[6]);
+    b.stats.atp = clamp_s32(b.stats.atp, 0, ((s16 *)get_class_stat_entry())[0]);
+    b.stats.mst = clamp_s32(b.stats.mst, 0, ((s16 *)get_class_stat_entry())[1]);
+    b.stats.evp = clamp_s32(b.stats.evp, 0, ((s16 *)get_class_stat_entry())[2]);
+    b.stats.dfp = clamp_s32(b.stats.dfp, 0, ((s16 *)get_class_stat_entry())[4]);
+    b.stats.ata = clamp_s32(b.stats.ata, 0, ((s16 *)get_class_stat_entry())[5]);
+    b.stats.lck = clamp_s32(b.stats.lck, 0, ((s16 *)get_class_stat_entry())[6]);
     out->set(this, &b, &a, &d);
     rate = this->get_status_effect_amount(2);
     {
@@ -2671,31 +2671,31 @@ void TObjPlayer::recalc_stats() {
 }
 
 s16 TObjPlayer::add_stat(s32 amount) {
-    return add_stat_clamped(amount, &this->stat_block->stats.atp, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.atp);
+    return add_stat_clamped(amount, &this->stat_block->stats.atp, get_class_stat_entry()->stats.atp);
 }
 
 s16 TObjPlayer::add_dfp(s32 amount) {
-    return add_stat_clamped(amount, &this->stat_block->stats.dfp, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.dfp);
+    return add_stat_clamped(amount, &this->stat_block->stats.dfp, get_class_stat_entry()->stats.dfp);
 }
 
 s16 TObjPlayer::add_hp(s32 amount) {
-    return add_stat_clamped(amount, &this->stat_block->stats.hp, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.hp);
+    return add_stat_clamped(amount, &this->stat_block->stats.hp, get_class_stat_entry()->stats.hp);
 }
 
 s16 TObjPlayer::add_mst(s32 amount) {
-    return add_stat_clamped(amount, &this->stat_block->stats.mst, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.mst);
+    return add_stat_clamped(amount, &this->stat_block->stats.mst, get_class_stat_entry()->stats.mst);
 }
 
 s16 TObjPlayer::add_ata(s32 amount) {
-    return add_stat_clamped(amount, &this->stat_block->stats.ata, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.ata);
+    return add_stat_clamped(amount, &this->stat_block->stats.ata, get_class_stat_entry()->stats.ata);
 }
 
 s16 TObjPlayer::add_evp(s32 amount) {
-    return add_stat_clamped(amount, &this->stat_block->stats.evp, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.evp);
+    return add_stat_clamped(amount, &this->stat_block->stats.evp, get_class_stat_entry()->stats.evp);
 }
 
 s16 TObjPlayer::add_lck(s32 amount) {
-    return add_stat_clamped(amount, &this->stat_block->stats.lck, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.lck);
+    return add_stat_clamped(amount, &this->stat_block->stats.lck, get_class_stat_entry()->stats.lck);
 }
 
 s16 TObjPlayer::add_stat_clamped(s32 amount, s16 *stat, s16 max) {
@@ -4034,7 +4034,7 @@ s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats 
         return 0;
     }
     defense = get_class_defense_template(player);
-    out->set(player, TObjPlayer::get_class_stat_entry((u8 *)player), get_class_attack_template(player), defense);
+    out->set(player, player->get_class_stat_entry(), get_class_attack_template(player), defense);
     return 1;
 }
 #pragma pop

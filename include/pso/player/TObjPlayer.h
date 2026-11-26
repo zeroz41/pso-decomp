@@ -7,6 +7,7 @@
 struct NJS_OBJECT;
 struct PhotonBlastRequest;
 struct PhotonBlastRequestSlot;
+struct PhotonBlastRegistry;
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/player/PlayerTechniqueState.h"
 #include "pso/player/PlayerPadBinding.h"
@@ -357,6 +358,8 @@ struct TObjPlayer : public TObjChara {
     static u8 *shared_model_buffer;
     // Twelve PlayerJointMatrixSet blocks of item node matrices, one per player slot.
     static PlayerJointMatrixSet *player_shared_buffer_base;
+    // The party's photon blast requests (alloc_shared_buffers makes them, free_shared_data frees them).
+    static PhotonBlastRegistry *shared_photon_blast_state;
     static void set_shared_count(int count);
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 meseta);
@@ -735,7 +738,7 @@ struct TObjPlayer : public TObjChara {
     f32 get_attack_recovery_count();
     static s32 get_current_state_field(s32 cls, s32 lvl);
     s32 get_class_state_field(s32 lvl);
-    static player_stats *get_class_stat_entry(u8 *player);
+    player_stats *get_class_stat_entry();
     f32 get_tp_class_factor();
     f32 get_class_hp_factor();
     int get_floor_surface_type();
@@ -1202,6 +1205,8 @@ struct TObjPlayer : public TObjChara {
     void clear_anim_flag();
     int create_photon_chair();
     void set_chair_seated();
+    // The chair-seated bit set_chair_seated sets.
+    int is_mounted();
     void clear_lobby_pose_hold();
     s32 get_lobby_entry_yaw();
     u8 * get_cast_motion_record();

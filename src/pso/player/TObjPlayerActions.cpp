@@ -2273,58 +2273,58 @@ void TObjPlayer::run_guard_reaction_phase(s16 phase) {
 }
 
 void TObjPlayer::create_photon_blast_party_effects(u16 id) {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        TObjPlayer__shared_photon_blast_state->create_party_effects(id);
+    if (shared_photon_blast_state != NULL) {
+        shared_photon_blast_state->create_party_effects(id);
     }
 }
 
 PhotonBlastRequestSlot *TObjPlayer::find_photon_blast_by_section_id(u16 section_id) {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        return TObjPlayer__shared_photon_blast_state->find_by_section_id(section_id);
+    if (shared_photon_blast_state != NULL) {
+        return shared_photon_blast_state->find_by_section_id(section_id);
     }
     return NULL;
 }
 
 u16 TObjPlayer::get_current_target_id() {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        return TObjPlayer__shared_photon_blast_state->find_first_valid_target_id();
+    if (shared_photon_blast_state != NULL) {
+        return shared_photon_blast_state->find_first_valid_target_id();
     }
     return 0xFFFF;
 }
 
 void remove_photon_blast_participant(s32 id) {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        TObjPlayer__shared_photon_blast_state->sub_80312E98(id);
+    if (TObjPlayer::shared_photon_blast_state != NULL) {
+        TObjPlayer::shared_photon_blast_state->sub_80312E98(id);
     }
 }
 
 void TObjPlayer::update_photon_blast_state() {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        TObjPlayer__shared_photon_blast_state->process_all_elements();
+    if (shared_photon_blast_state != NULL) {
+        shared_photon_blast_state->process_all_elements();
     }
 }
 
 PhotonBlastRequest *TObjPlayer::get_photon_blast_element(s32 index) {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        return TObjPlayer__shared_photon_blast_state->get_element(index);
+    if (shared_photon_blast_state != NULL) {
+        return shared_photon_blast_state->get_element(index);
     }
     return NULL;
 }
 
 void TObjPlayer::apply_photon_blast(u16 client_id, s16 kind) {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        append_photon_blast_request(TObjPlayer__shared_photon_blast_state, client_id, kind);
+    if (shared_photon_blast_state != NULL) {
+        append_photon_blast_request(shared_photon_blast_state, client_id, kind);
     }
 }
 
 // index (the 0x4AC slot's valid index the caller passes in r4) is not read.
 void TObjPlayer::update_active_instance(int index) {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
+    if (shared_photon_blast_state != NULL) {
         if (this->reset_volopt_state() == 0) {
-            TObjPlayer__shared_photon_blast_state->process_all_elements();
+            shared_photon_blast_state->process_all_elements();
             return;
         }
-        release_photon_blast_requests(TObjPlayer__shared_photon_blast_state);
+        release_photon_blast_requests(shared_photon_blast_state);
         admit_photon_blast_sequence(TObjPlayer::get_photon_blast_element(0), this);
     }
 }

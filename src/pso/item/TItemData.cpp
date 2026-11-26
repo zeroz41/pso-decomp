@@ -919,19 +919,19 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
           switch (data1.data_u8[2])
           {
             case 0:
-              if ((TObjPlayer::get_class_stat_entry((u8 *)player)->stats.atp <= stats->stats.atp) || (player->can_use_more_materials_for_class() != 0))
+              if ((player->get_class_stat_entry()->stats.atp <= stats->stats.atp) || (player->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 1:
-              if ((TObjPlayer::get_class_stat_entry((u8 *)player)->stats.mst <= stats->stats.mst) || (player->can_use_more_materials_for_class() != 0))
+              if ((player->get_class_stat_entry()->stats.mst <= stats->stats.mst) || (player->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 2:
-              if ((TObjPlayer::get_class_stat_entry((u8 *)player)->stats.evp <= stats->stats.evp) || (player->can_use_more_materials_for_class() != 0))
+              if ((player->get_class_stat_entry()->stats.evp <= stats->stats.evp) || (player->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
@@ -949,13 +949,13 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
             }
               break;
             case 5:
-              if ((TObjPlayer::get_class_stat_entry((u8 *)player)->stats.dfp <= stats->stats.dfp) || (player->can_use_more_materials_for_class() != 0))
+              if ((player->get_class_stat_entry()->stats.dfp <= stats->stats.dfp) || (player->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 6:
-              if ((TObjPlayer::get_class_stat_entry((u8 *)player)->stats.lck <= stats->stats.lck) || (player->can_use_more_materials_for_class() != 0))
+              if ((player->get_class_stat_entry()->stats.lck <= stats->stats.lck) || (player->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }

@@ -1662,7 +1662,7 @@ force_active:
   - copy_guild_card_tag_triplet__FP6gc_tagP6gc_tag
   - __ct__14LobbyListEntryFRC14LobbyListEntry
   - class_name__13TPlyOnCreated
-  - TPlyPhotonChair__shared_model_resource
+  - shared_model_resource__15TPlyPhotonChair
   - set_speed__12TMotionModelFf
   - class_name__22TPlyPtclObjectLeftHand
   - class_name__23TPlyPtclObjectRightHand

@@ -115,7 +115,6 @@ void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern const char *dead_spot_class_name;
 
-extern u16 battle_mode_data_table[];
 }
 
 

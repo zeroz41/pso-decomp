@@ -319,8 +319,8 @@ const player_stats *get_class_stat_caps(s32 cls) {
     return &player_class_stat_caps[(s8)TObjPlayer__sub_801AFDBC(cls)];
 }
 
-player_stats *TObjPlayer::get_class_stat_entry(u8 *player) {
-    return (player_stats*)&player_class_stat_caps[(s8)((TObjPlayer *)player)->get_class_index()];
+player_stats *TObjPlayer::get_class_stat_entry() {
+    return (player_stats*)&player_class_stat_caps[(s8)get_class_index()];
 }
 
 f32 TObjPlayer::get_tp_class_factor() {

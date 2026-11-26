@@ -406,7 +406,6 @@ void TObjPlayer::load_character_state(TPlyCharData *record) {
 
 
 void TObjPlayer::update_action_animation() {
-    u8 *arg0 = (u8 *)this;
     if (this->obj_isState2_324() == 0) {
         this->update_position_from_target();
         return;
@@ -424,7 +423,7 @@ void TObjPlayer::update_action_animation() {
             this->revive_or_spawn_marker();
             return;
         }
-        if ((TFontSmallLobby::is_lobby_floor_15() != 0) && (((TPlyPhotonChair *)arg0)->is_mounted() != 0)) {
+        if ((TFontSmallLobby::is_lobby_floor_15() != 0) && (is_mounted() != 0)) {
             run_action_state_phase(0x18, 0);
             return;
         }
@@ -676,7 +675,7 @@ TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
     return new TObjPlayer(tl_03, slot, role, record);
 }
 
-PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
+PhotonBlastRegistry *TObjPlayer::shared_photon_blast_state;
 s32 lobby_player_count;
 int shared_count;
 int shared_flag;
@@ -687,9 +686,9 @@ PlayerJointMatrixSet *TObjPlayer::player_shared_buffer_base;
 u32 shared_state_flags[2];
 
 void TObjPlayer::free_shared_data() {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        delete TObjPlayer__shared_photon_blast_state;
-        TObjPlayer__shared_photon_blast_state = NULL;
+    if (shared_photon_blast_state != NULL) {
+        delete shared_photon_blast_state;
+        shared_photon_blast_state = NULL;
     }
     if (player_shared_buffer_base != NULL) {
         mem_free(player_shared_buffer_base);
@@ -708,8 +707,8 @@ void TObjPlayer::alloc_shared_buffers() {
     if (player_shared_buffer_base == NULL) {
         player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
     }
-    if (TObjPlayer__shared_photon_blast_state == NULL) {
-        TObjPlayer__shared_photon_blast_state = new PhotonBlastRegistry();
+    if (shared_photon_blast_state == NULL) {
+        shared_photon_blast_state = new PhotonBlastRegistry();
     }
 }
 

@@ -25,12 +25,13 @@ struct TPlyPhotonChair : public TObjBase {
     static s32 load_resources();
     void set_owner_id(s32 owner_id);
     static void free_instance();
-    int is_mounted();
+    // Whether the owner still sits in it (owner_dismounted is clear).
+    int is_owner_seated();
+
+    static const char *class_name;
+    // The photon chair models and motions, loaded by load_resources.
+    static BmlResource *shared_model_resource;
 };
-extern const char *TPlyPhotonChair__class_name;
-class BmlResource;
-// The photon chair models and motions, loaded by load_resources.
-extern "C" BmlResource *TPlyPhotonChair__shared_model_resource;
 
 LAYOUT_ASSERT(TPlyPhotonChair_size, sizeof(TPlyPhotonChair) == 0xE4);
 #endif
