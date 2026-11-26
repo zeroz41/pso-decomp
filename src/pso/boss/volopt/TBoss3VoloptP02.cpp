@@ -112,9 +112,9 @@ static NJS_OBJECT *breakup_flags_d[16];
 static NJS_OBJECT *chain_nodes_a[5];
 static NJS_OBJECT *chain_nodes_b[5];
 
-static void *boss_stat_handle;
-static void *shared_handler_b;
-static void *object_handle;
+static player_stats *boss_stat_handle;
+static AttackParams *shared_handler_b;
+static ActorParamBlock *object_handle;
 VoloptP02Params *volopt_p02_params;
 static s32 *part_params;
 BmlResource *volopt_p02_resources;
@@ -187,7 +187,7 @@ void TBoss3VoloptP02::init_params() {
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;
     movementParameters = &movement_params;
-    recalc_combat_stats((player_stats *)boss_stat_handle, (AttackParams *)shared_handler_b, (ActorParamBlock *)object_handle, 1.0f, 1.0f);
+    recalc_combat_stats(boss_stat_handle, shared_handler_b, object_handle, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);

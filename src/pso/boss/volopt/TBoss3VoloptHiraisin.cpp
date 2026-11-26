@@ -49,10 +49,10 @@ static CollisionBody volopt_hiraisin_body_parts[1] = {
 };
 
 
-static void *volopt_hiraisin_stats;
-static void *volopt_hiraisin_stats_b;
-static void *volopt_hiraisin_object_params;
-static void *volopt_hiraisin_stat_table;
+static player_stats *volopt_hiraisin_stats;
+static AttackParams *volopt_hiraisin_stats_b;
+static ActorParamBlock *volopt_hiraisin_object_params;
+static BattleMovementParams *volopt_hiraisin_stat_table;
 static BmlResource *volopt_hiraisin_resources;
 static NJS_OBJECT *volopt_hiraisin_spin_node;
 static TBreakUpMdlData *volopt_hiraisin_breakup_model;
@@ -305,7 +305,7 @@ void TBoss3VoloptHiraisin::init_params() {
     init_collision_body_parts(this, volopt_hiraisin_body_parts, 1);
     variant = 0;
     movementParameters = &volopt_hiraisin_movement;
-    recalc_combat_stats((player_stats *)volopt_hiraisin_stats, (AttackParams *)volopt_hiraisin_stats_b, (ActorParamBlock *)volopt_hiraisin_object_params, 1.0f, 1.0f);
+    recalc_combat_stats(volopt_hiraisin_stats, volopt_hiraisin_stats_b, volopt_hiraisin_object_params, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);

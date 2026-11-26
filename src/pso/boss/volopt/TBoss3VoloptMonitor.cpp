@@ -105,8 +105,8 @@ static NJS_TEXLIST volopt_monitor_texture_table = { volopt_monitor_texture_entri
 
 
 static BossStats *volopt_monitor_stats;
-static void *volopt_monitor_stats_b;
-static void *volopt_monitor_object_params;
+static AttackParams *volopt_monitor_stats_b;
+static ActorParamBlock *volopt_monitor_object_params;
 static MonitorStatTable *volopt_monitor_stat_table;
 static BmlResource *volopt_monitor_resources;
 static NJS_TEXLIST *volopt_monitor_textures;
@@ -174,7 +174,7 @@ TBoss3VoloptMonitor::~TBoss3VoloptMonitor() {
 void TBoss3VoloptMonitor::init_params() {
     movementParameters = &volopt_monitor_movement;
     volopt_monitor_stats->hp = get_monitor_hp(slot % 4 ? 1 : 0);
-    recalc_combat_stats((player_stats *)volopt_monitor_stats, (AttackParams *)volopt_monitor_stats_b, (ActorParamBlock *)volopt_monitor_object_params, 1.0f, 1.0f);
+    recalc_combat_stats((player_stats *)volopt_monitor_stats, volopt_monitor_stats_b, volopt_monitor_object_params, 1.0f, 1.0f);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;
