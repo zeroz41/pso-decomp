@@ -65,7 +65,7 @@
 #include "pso/unk/TLobby_80243370.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/system/scene/TEnding_8008C5C0.h"
-#include "pso/unk/text_80145804.h"
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/unk/text_80290BEC.h"
 #include "pso/unk/text_802A1020.h"
@@ -128,7 +128,7 @@ void shutdown_and_reset_system(void) {
     TParticleCtrl::free_system();
     TParticleCtrl::reset_emitter_table();
     free_effect_resources();
-    TAdSinglePlyChrSelectGC::free_resources();
+    free_menu_font();
     free_ply_level_tbl();
     free_item_drop_memory_pool();
     TWindowSnapShot__sub_802A7DA0();

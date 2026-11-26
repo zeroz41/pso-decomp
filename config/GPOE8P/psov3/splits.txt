@@ -3015,21 +3015,13 @@ pso/system/movie/TMovie.cpp:
 	.sdata2     start:0x805DB178 end:0x805DB18C
 
 pso/ui/font/TNECFontEORFunction.cpp:
-	.text       start:0x801449FC end:0x8014572C
-	.rodata     start:0x8043F390 end:0x8043F3D8
+	.text       start:0x801449FC end:0x80145A28
+	.rodata     start:0x8043F390 end:0x8043F3E8
 	.data       start:0x804A74E8 end:0x804A7808
-	.sdata      start:0x805D2CF8 end:0x805D2D00
-	.sdata2     start:0x805DB190 end:0x805DB1A8
-
-pso/ui/frontend/TAdSubPlyItemGC.cpp:
-	.text       start:0x8014572C end:0x80145750
-
-pso/ui/frontend/TAdSinglePlyChrSelectGC_80145778.cpp:
-	.text       start:0x80145750 end:0x80145A28
-	.rodata     start:0x8043F3D8 end:0x8043F3E8
 	.bss        start:0x8050C040 end:0x8050C0A8
+	.sdata      start:0x805D2CF8 end:0x805D2D00
 	.sbss       start:0x805D56B0 end:0x805D56C8
-	.sdata2     start:0x805DB1A8 end:0x805DB1AC
+	.sdata2     start:0x805DB190 end:0x805DB1AC
 
 pso/ui/window/TWindowCtrl_80145A28.cpp:
 	.text       start:0x80145A28 end:0x80145A44
