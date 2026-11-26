@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+class WindowHeading;
+
 struct NJS_POINT2;
 #include "pso/ui/window/TWindowAddition.h"
 
@@ -34,7 +36,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     s32 *flip_u;
     s32 *flip_v;
     s32 *help;
-    TWindowSubStatusDisp *heading;
+    WindowHeading *heading;
     WindowScrollBar *scrollbar;
     void select_index_and_scroll(s32 index);
     void update_height();

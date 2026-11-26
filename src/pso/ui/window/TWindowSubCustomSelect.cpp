@@ -20,6 +20,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 #pragma readonly_strings on
 
@@ -63,7 +64,7 @@ void TWindowSubCustomSelect::handle_cancel() {
 void TWindowSubCustomSelect::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->state_flags = (u8) (this->state_flags | 1);
-    ((TWindowSubStatusDisp *)(this->status_display))->set_entry_state(2);
+    this->status_display->set_state(2);
 }
 
 #pragma fp_contract on
@@ -191,7 +192,7 @@ void TWindowSubCustomSelect::render() {
     window_sub_custom_select->draw_window_frame(draw_context);
     window_sub_custom_select->draw_palette_cells(draw_context);
     window_sub_custom_select->draw_cursor(draw_context);
-    ((TWindowSubStatusDisp *)(window_sub_custom_select->status_display))->forward_render(draw_context);
+    window_sub_custom_select->status_display->render(draw_context);
     draw_window_scrollbar(window_sub_custom_select->scroll_bar, draw_context, window_sub_custom_select->scroll_offset);
 }
 
@@ -214,7 +215,7 @@ void TWindowSubCustomSelect::run_task() {
     }
     update_list_scroll();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(saddr *)&this->status_display))->update_subwindow();
+        this->status_display->update();
         scroll_bar->increment_counter();
     }
     update_window();
@@ -224,7 +225,7 @@ void TWindowSubCustomSelect::run_task() {
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
     TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)status_display, (s16)1);
+    delete status_display;
 }
 const u32 custom_select_organic_action_table[40] = {
     0x20000, 0x20001, 0x20002, 0x30000, 0x30006, 0x30003, 0x30001, 0x30007,
@@ -249,7 +250,7 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
     Big_80277AEC *p;
     Sub_80277AEC *q;
     Ent_80277AEC *e;
-    void *o;
+    WindowHeading *o;
     m_name = TWindowSubCustomSelect::class_name;
     client_index = client;
     p = (Big_80277AEC *)get_player_by_client_id(client_index);
@@ -275,11 +276,8 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
         e++;
         (this->row_count)++;
     }
-    o = ::operator new(0x24);
-    if (o != NULL) {
-        o = ((TWindowSubStatusDisp *)o)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x22), client_index);
-    }
-    status_display = (uaddr)o;
+    o = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x22), client_index);
+    status_display = o;
     pos.x = 196.0f;
     pos.y = 51.0f * (f32)(s8)row_count + 18.0f;
     scroll_bar = new WindowScrollBar(&pos);

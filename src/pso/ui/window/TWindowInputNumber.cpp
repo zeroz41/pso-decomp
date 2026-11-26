@@ -21,6 +21,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 const char *TWindowInputNumber__name = "TWindowInputNumber";
 // Value of one step at each digit position (1 .. 1000000).
@@ -61,7 +62,7 @@ void TWindowInputNumber::confirm_input() {
     this->inputFlags = (u16) (this->inputFlags | 2);
     temp = (u32) this->heading;
     if (temp != 0U) {
-        ((TWindowSubStatusDisp *)temp)->set_entry_state(2);
+        ((WindowHeading *)temp)->set_state(2);
     }
 }
 
@@ -125,14 +126,10 @@ static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 
 void TWindowInputNumber::create(s32 title) {
-    uaddr created;
+    WindowHeading *created;
 
     if ((u32) this->heading == 0U) {
-        created = (saddr)::operator new(0x24);
-        if (created != 0U) {
-            uaddr saved = created;
-            created = (uaddr)((TWindowSubStatusDisp *)saved)->construct_type1_heading(title, this->client_index);
-        }
+        created = new WindowHeading(title, this->client_index);
         this->heading = created;
         this->window_flags = (s32) (this->window_flags | 0x40);
         this->target_size[1] += 6.0f;
@@ -254,16 +251,16 @@ void TWindowInputNumber::render() {
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
     draw_arrows(context, static_cast<TWindowLayoutNumber *>(get_array_entry(selectedDigit)), is_confirmed());
-    void *heading_window = reinterpret_cast<void *>(heading);
+    WindowHeading *heading_window = heading;
     if (heading_window != NULL) {
-        static_cast<TWindowSubStatusDisp *>(heading_window)->forward_render(context);
+        heading_window->render(context);
     }
 }
 
 void TWindowInputNumber::run_task() {
     TWindowInputNumber *self = this;
     s32 port;
-    uaddr heading_window;
+    WindowHeading *heading_window;
     ControllerInputContext *input;
     ControllerInputContext *pad;
     ControllerInputContext *context;
@@ -311,8 +308,8 @@ void TWindowInputNumber::run_task() {
         }
     }
     heading_window = self->heading;
-    if ((heading_window != 0U) && ((f32) self->open_tick >= 7.5f)) {
-        ((TWindowSubStatusDisp *)heading_window)->update_subwindow();
+    if ((heading_window != NULL) && ((f32) self->open_tick >= 7.5f)) {
+        heading_window->update();
     }
     self->update_window();
     self->update_fade();
@@ -320,7 +317,7 @@ void TWindowInputNumber::run_task() {
 }
 
 TWindowInputNumber::~TWindowInputNumber() {
-    if ((void *)heading != NULL) { TWindowSubStatusDisp::destroy_status_display(heading, (s16)1); }
+    if (heading != NULL) { delete heading; }
 }
 
 

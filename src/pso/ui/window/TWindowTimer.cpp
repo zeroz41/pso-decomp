@@ -129,7 +129,7 @@ void TWindowTimer::set_time(u32 secs) {
 }
 
 void TWindowTimer::draw_tab(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, -64.0f);
+    draw_window_tab(context, &context->inner_x, -64.0f, 3);
 }
 
 TWindowTimer *TWindowTimer::create() {

@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+class WindowHeading;
+
 struct NJS_POINT2;
 #include <stddef.h>
 #include "pso/ui/window/TWindowBase.h"
@@ -24,7 +26,7 @@ struct TWindowInputNumber : public TWindowBase {
     s32 minimum;
     s32 maximum;
     s32 value;
-    saddr heading;  // the title window made by create()
+    WindowHeading *heading;  // the title window made by create()
     f32 scaleX;
     f32 scaleY;
 

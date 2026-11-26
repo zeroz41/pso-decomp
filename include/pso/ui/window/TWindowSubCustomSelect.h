@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
 
 struct WindowScrollBar;
@@ -18,7 +20,7 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     u8 state_flags;
     u32 cursor_frame;
     uaddr action_table;
-    uaddr status_display;
+    WindowHeading *status_display;
     WindowScrollBar *scroll_bar;
     void handle_cancel();
     void handle_decide();

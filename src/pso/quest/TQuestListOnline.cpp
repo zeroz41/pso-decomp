@@ -34,6 +34,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_80222C28.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 
 // A window's width and height.
@@ -72,7 +73,7 @@ void TWindowMenu::clear_flag_and_release() {
     m_70 &= ~2;
     temp = reinterpret_cast<uaddr>(heading);
     if (temp != 0U) {
-        ((TWindowSubStatusDisp *)temp)->set_entry_state(1);
+        ((WindowHeading *)temp)->set_state(1);
     }
 }
 

@@ -39,7 +39,7 @@ u32 calc_text_width(void);
 }
 const char *TWindowQuantity::class_name = "TWindowQuantity";
 void TWindowQuantity::set_position(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, width);
+    draw_window_tab(context, &context->inner_x, width, 3);
 }
 
 void TWindowQuantity::render() {

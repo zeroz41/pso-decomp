@@ -32,7 +32,7 @@ s32 TWindowMeseta::get_meseta_value() {
     return stats->meseta;
 }
 void TWindowMeseta::draw_value(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, width);
+    draw_window_tab(context, &context->inner_x, width, 3);
 }
 void TWindowMeseta::render() {
     WindowDrawContext *context = setup_window_draw_context(draw_scale);

@@ -61,7 +61,7 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
                 col = 2;
             }
         }
-        draw_window_tab((WindowDrawContext *)win, &pos.x, col, 0.0f);
+        draw_window_tab((WindowDrawContext *)win, &pos.x, 0.0f, col);
         pos.x += 80.0f;
         pos.y += 4.0f;
         set_text_draw_params(reinterpret_cast<WindowDrawContext *>(win), 0, 0, (f32)(-1.0f / (0.1794f + ((Win_8027831C *)win)->f38)), 100000.0f);

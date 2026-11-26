@@ -29,6 +29,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
   s16 page_row;
   u16 *array_entry;
@@ -111,7 +112,7 @@ void TWindowSubComCardList::render() {
     this->render_selected_entry(ctx);
     this->draw_card_list_selection((u8 *)ctx);
     if (this->heading != 0) {
-        this->heading->forward_render(ctx);
+        this->heading->render(ctx);
     }
     if (this->storage != 0) {
         draw_list_page_indicator(this->storage, ctx);

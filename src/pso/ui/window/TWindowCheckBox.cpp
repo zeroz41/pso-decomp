@@ -19,6 +19,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowSubItem.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 s32 TWindowCheckBox::update_selected_item() {
     return static_cast<ItemListRow *>(get_array_entry(selected_index))->get_item();
@@ -112,7 +113,7 @@ void TWindowCheckBox::render() {
     draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     if (status_display != NULL) {
-        status_display->forward_render(context);
+        status_display->render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);
@@ -121,7 +122,7 @@ void TWindowCheckBox::render() {
 
 void TWindowCheckBox::run_task() {
     s32 controller_index;
-    TWindowSubStatusDisp *status;
+    WindowHeading *status;
     WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
     ControllerInputContext *temp_r29_2;
@@ -157,7 +158,7 @@ void TWindowCheckBox::run_task() {
     if ((f32)open_tick >= 7.5f) {
         status = status_display;
         if (status != NULL) {
-            status->update_subwindow();
+            status->update();
         }
         window_scroll_bar = scroll_bar;
         if (window_scroll_bar != NULL) {

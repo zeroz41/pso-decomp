@@ -1854,7 +1854,7 @@ force_active:
   - layout_wrapped_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUll
   - TWindowSubStatusDisp__sub_80271A6C
   - draw_heading_text__FP12HeadingEntryP17WindowDrawContext
-  - TWindowSubStatusDisp__sub_80287AC4
+  - is_enabled__12HeadingEntryFv
   - TWindowSubStatusDisp__sub_803387F8
   - TWindowSubStatusDisp__sub_80338B88
   - TWindowSubStatusDisp__sub_8036D994
@@ -5815,7 +5815,7 @@ force_active:
   - draw_empty_warp_overlay__Fv
   - draw_entry__12TAdMultiOkGCFi
   - draw_entry_if_visible__19TWindowDD_WS_StringFPv
-  - draw_entry_tab__20TWindowSubStatusDispFPv
+  - draw_tab__12HeadingEntryFP17WindowDrawContext
   - draw_fade__9TAdFadeGCFv
   - draw_fading_model_1_pair__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_fading_model_4__23TBoss6Demo21_TYPE2_DEADFv
@@ -16840,7 +16840,7 @@ force_active:
   - update_emergence_state__12TBoss1DragonFUl
   - update_emitter_positions__13TObjLobbyMainFv
   - update_entry_animation__12TAdMultiOkGCFi
-  - update_entry_color__20TWindowSubStatusDispFv
+  - update_color__12HeadingEntryFv
   - update_entry_motion__12TObjEneSaverFv
   - update_equipped__12TItemProUnitFv
   - update_equipped__13TItemProArmorFv

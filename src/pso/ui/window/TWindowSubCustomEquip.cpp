@@ -28,6 +28,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 
 
@@ -108,7 +109,7 @@ int TWindowSubCustomEquip::is_selected() { return this->state_flags & 0x1; }
 int TWindowSubCustomEquip__sub_80275DA8(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
 void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
     *(s8 *)&this->state_flags &= ~1;
-    status_disp->set_entry_state(1);
+    status_disp->set_state(1);
 }
 
 #pragma push
@@ -423,7 +424,7 @@ void TWindowSubCustomEquip::handle_cancel() {
 void TWindowSubCustomEquip::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->state_flags = (u8) (this->state_flags | 1);
-    status_disp->set_entry_state(2);
+    status_disp->set_state(2);
 }
 
 void TWindowSubCustomEquip::handle_cursor_input() {
@@ -481,7 +482,7 @@ void TWindowSubCustomEquip::render() {
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
     draw_cursor(context);
-    status_disp->forward_render(context);
+    status_disp->render(context);
 }
 
 void TWindowSubCustomEquip::run_task() {
@@ -502,7 +503,7 @@ void TWindowSubCustomEquip::run_task() {
     reset_selection();
     refresh_palette_slots();
     if ((f32)open_tick >= 7.5f) {
-        status_disp->update_subwindow();
+        status_disp->update();
     }
     update_window();
     this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
@@ -510,11 +511,11 @@ void TWindowSubCustomEquip::run_task() {
 }
 
 TWindowSubCustomEquip::~TWindowSubCustomEquip() {
-    TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(status_disp), 1);
+    delete status_disp;
 }
 
 TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&custom_equip_window_descriptor, slot, (u8 *)get_window_layout_position(0xF)) {
-    TWindowSubStatusDisp *heading;
+    WindowHeading *heading;
     this->m_name = TWindowSubCustomEquip::class_name;
     this->client_index = slot;
     this->state_flags = 0;
@@ -525,10 +526,7 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&cust
     this->back_bank = 1;
     this->cursor_frame = 0;
     this->angle = 0xB200;
-    heading = (TWindowSubStatusDisp *)::operator new(0x24);
-    if (heading != NULL) {
-        heading = heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
-    }
+    heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
     status_disp = heading;
     this->refresh_palette_slots();
 }

@@ -73,9 +73,9 @@ void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player) {
 void TWindowMenuIconLine::activate() {
     if (status_display != NULL) {
         if (is_decided() != 0) {
-            status_display->set_entry_state(2);
+            status_display->set_state(2);
         } else {
-            status_display->set_entry_state(1);
+            status_display->set_state(1);
         }
     }
     clear_close_flag();
@@ -87,7 +87,7 @@ void TWindowMenuIconLine::deactivate() {
     set_flag_40();
     set_close_flag();
     if (status_display != NULL) {
-        status_display->set_entry_state(0);
+        status_display->set_state(0);
     }
 }
 
@@ -380,7 +380,7 @@ void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_ite
   {
     pt.x = (166.0f + context->x) - 8.0f;
     pt.y = context->y - 13.0f;
-    draw_window_tab(context, &pt.x, 0, -60.0f);
+    draw_window_tab(context, &pt.x, -60.0f, 0);
     pt.x += 50.0f;
     pt.y += 4.0f;
     set_text_draw_params(context, 0, 0, (f32)(-1.0f / (0.1794f + context->depth)), (f32)100000.0f);
@@ -416,7 +416,7 @@ void TWindowMenuIconLine::handle_open() {
     }
     this->state_flags = (u16) (this->state_flags | 2);
     if (this->status_display != NULL) {
-        this->status_display->set_entry_state(2);
+        this->status_display->set_state(2);
     }
 }
 
@@ -493,13 +493,10 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
 }
 
 void TWindowMenuIconLine::ensure_status_display(s32 title) {
-    TWindowSubStatusDisp *heading;
+    WindowHeading *heading;
 
     if (this->status_display == NULL) {
-        heading = (TWindowSubStatusDisp *)::operator new(0x24);
-        if (heading != NULL) {
-            heading = heading->construct_type1_heading(title, this->client_index);
-        }
+        heading = new WindowHeading(title, this->client_index);
         this->status_display = heading;
         (this->window_flags) = (s32) ((this->window_flags) | 0x40);
     }
@@ -634,7 +631,7 @@ void TWindowMenuIconLine::render() {
         draw_context);
     this->draw_selected_list_entry(draw_context);
     if (this->status_display != NULL) {
-        this->status_display->forward_render(draw_context);
+        this->status_display->render(draw_context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
@@ -676,7 +673,7 @@ void TWindowMenuIconLine::run_task() {
     }
     if ((f32) this->open_tick >= 7.5f) {
         if (status_display != NULL) {
-            status_display->update_subwindow();
+            status_display->update();
         }
         bar = scroll_bar;
         if (bar != NULL) {
@@ -693,7 +690,7 @@ void TWindowMenuIconLine::run_task() {
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {
     TWindowSubStatusDisp::destroy_allocation((saddr)this->scroll_bar, (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)this->status_display, (s16)1);
+    delete this->status_display;
 }
 
 // The descriptor-taking form; the window layout comes from the caller.

@@ -31,6 +31,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 #pragma readonly_strings on
 
@@ -70,7 +71,7 @@ int TWindowMenuInfomation::get_flag() { return (state_flags >> 2) & 1; }
 void TWindowMenuInfomation::clear_flag_and_release2() {
     state_flags &= ~2;
     if (heading != NULL) {
-        heading->set_entry_state(1);
+        heading->set_state(1);
     }
 }
 
@@ -184,7 +185,7 @@ void TWindowMenu::confirm_selection() {
             this->m_70 = (u16) (this->m_70 | 2);
             window_sub_status_disp = (u8 *)this->heading;
             if (window_sub_status_disp != NULL) {
-                ((TWindowSubStatusDisp *)window_sub_status_disp)->set_entry_state(2);
+                ((WindowHeading *)window_sub_status_disp)->set_state(2);
             }
         }
     }
@@ -572,10 +573,7 @@ TWindowMenu *create_window_menu_default(const NJS_POINT2 *pos, s32 entries) {
 
 TWindowMenu *create_titled_window_menu(const NJS_POINT2 *position, s32 count, saddr title, s32 client_id) {
     TWindowMenu *menu = create_window_menu(position, count, client_id);
-    TWindowSubStatusDisp *heading = (TWindowSubStatusDisp *)::operator new(0x24);
-    if (heading != NULL) {
-        heading = heading->construct_type1_heading(title, client_id);
-    }
+    WindowHeading *heading = new WindowHeading(title, client_id);
     menu->heading = heading;
     menu->window_flags |= 0x40;
     return menu;
@@ -622,7 +620,7 @@ void TWindowMenu::render() {
         this->draw_selected_bar(ctx);
     }
     if (this->heading != 0) {
-        this->heading->forward_render(ctx);
+        this->heading->render(ctx);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, ctx, scroll_offset);
@@ -668,7 +666,7 @@ void TWindowMenu::run_task() {
     }
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         if (this->heading != 0) {
-            this->heading->update_subwindow();
+            this->heading->update();
         }
         if (scroll_bar != NULL) {
             scroll_bar->increment_counter();
@@ -685,7 +683,7 @@ void TWindowMenu::run_task() {
 
 TWindowMenu::~TWindowMenu() {
     TWindowSubStatusDisp::destroy_allocation((saddr)scroll_bar, (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)heading, (s16)1);
+    delete heading;
     mem_free(rows);
 }
 

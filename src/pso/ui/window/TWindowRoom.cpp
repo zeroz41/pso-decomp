@@ -41,7 +41,7 @@ void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
 }
 
 void TWindowRoom::draw_tab(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, tabParameter);
+    draw_window_tab(context, &context->inner_x, tabParameter, 3);
 }
 
 void TWindowRoom::render() {

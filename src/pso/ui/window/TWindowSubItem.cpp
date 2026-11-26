@@ -1,4 +1,5 @@
 #include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #pragma defer_codegen on
 
 #include "types.h"
@@ -157,7 +158,7 @@ void TWindowSubItemList::select_cursor_entry() {
 void TWindowSubItem::clear_flag_and_release() {
     *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) & 0xFFFFFFFD);
     if ((u32) *(u32 *)((s8 *)this + 0x70) != 0U) {
-        ((TWindowSubStatusDisp *)(*(saddr *)((s8 *)this + 0x70)))->set_entry_state(1);
+        ((WindowHeading *)(*(saddr *)((s8 *)this + 0x70)))->set_state(1);
     }
 }
 

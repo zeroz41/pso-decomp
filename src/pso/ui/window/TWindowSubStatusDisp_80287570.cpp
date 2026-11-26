@@ -7,37 +7,19 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
-// A heading line of a window (text, position, width) that reveals its text over time.
-struct HeadingEntry {
-    saddr text;
-    f32 x;
-    f32 y;
-    f32 width;
-    f32 text_width;
-    u32 color;
-    u8 state;
-    u8 flags;
-    u8 pad_1A[2];
-    f32 reveal_pos;
-    f32 reveal_step;
+struct WindowTabUV {
+    f32 u, v;
 };
 
-typedef struct UV_80287580 {
-    f32 u, v;
-} UV_80287580;
+const WindowTabUV window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
 
-extern "C" {
-u32 calc_text_width(char *s);
-const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
-void __dl__FPv(void);
-
-}
 f32 get_heading_frame_width(HeadingEntry *heading) {
     return (1.6e+02f) + heading->width;
 }
 
-void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
+void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
     TexturedQuad r3;
     TexturedQuad r2;
     TexturedQuad r1;
@@ -85,6 +67,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
 f32 TWindowSubStatusDisp::get_base_y(f32 width) {
     return (1.6e+02f) + width;
 }
+
 f32 calc_title_overflow_width(f32 text_width) {
     f32 extra = (16.0f + text_width) - 160.0f;
     if (extra < 0.0f) {
@@ -92,41 +75,37 @@ f32 calc_title_overflow_width(f32 text_width) {
     }
     return extra;
 }
-extern "C" {
 
-void TWindowSubStatusDisp::update_entry_color() {
-    HeadingEntry *e = (HeadingEntry *)this;
-    switch (e->state) {
+void HeadingEntry::update_color() {
+    switch (state) {
     case 0:
-        if (((s32 (*)(u8 *))TWindowSubStatusDisp__sub_80287AC4)((u8 *)e) != 0) {
-            e->color = 0xFFFFFFFF;
+        if (is_enabled() != 0) {
+            color = 0xFFFFFFFF;
         } else {
-            e->color = 0xFF909090;
+            color = 0xFF909090;
         }
         break;
     case 1:
     case 2:
-        e->color = 0xFF000000;
+        color = 0xFF000000;
         break;
     }
 }
 
-void TWindowSubStatusDisp::set_entry_state(s8 entry_state) {
-    ((HeadingEntry *)this)->state = entry_state;
-    update_entry_color();
+void HeadingEntry::set_state(s8 entry_state) {
+    state = entry_state;
+    update_color();
 }
 
 #pragma fp_contract on
 
-void TWindowSubStatusDisp::draw_entry_tab(void *context) {
-    HeadingEntry *e = (HeadingEntry *)this;
+void HeadingEntry::draw_tab(WindowDrawContext *context) {
     f32 pos[2];
-    pos[0] = ((f32 *)context)[0] + e->x;
-    pos[1] = ((f32 *)context)[1] + e->y;
-    ((void (*)(f32, WindowDrawContext *, f32 *, u8))draw_window_tab)(e->width, (WindowDrawContext *)context, pos, e->state);
+    pos[0] = context->x + x;
+    pos[1] = context->y + y;
+    draw_window_tab(context, pos, width, state);
 }
 
-}
 void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context) {
   NJS_POINT2 pos;
   if (context->open_tick >= 0)
@@ -137,38 +116,33 @@ void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context) {
     draw_window_text(&pos.x, (const char *)heading->text, heading->color, 1, heading->reveal_pos);
   }
 }
-void TWindowSubStatusDisp::update(void* a1) { draw_entry_tab(a1); draw_heading_text((HeadingEntry *)this, (WindowDrawContext *)a1); }
-void advance_heading_reveal(void *heading) {
-    HeadingEntry *e = (HeadingEntry *)heading;
-    e->reveal_pos = (f32) (e->reveal_pos + e->reveal_step);
-}
-extern "C" {
 
-s32 TWindowSubStatusDisp::deleting_destructor(s32 object, s16 delete_flag) {
-    if ((object != 0) && (delete_flag > 0)) {
-        __dl__FPv();
+void HeadingEntry::draw(WindowDrawContext *context) {
+    draw_tab(context);
+    draw_heading_text(this, context);
+}
+
+void advance_heading_reveal(HeadingEntry *heading) {
+    heading->reveal_pos = heading->reveal_pos + heading->reveal_step;
+}
+
+HeadingEntry::~HeadingEntry() {}
+
+HeadingEntry::HeadingEntry(f32 *position, saddr title, s8 entry_state, s32 client_id) {
+    x = position[0];
+    y = position[1];
+    text_width = calc_text_width((char *)title);
+    width = calc_title_overflow_width(text_width);
+    text = title;
+    flags = 0;
+    reveal_pos = 0.0f;
+    set_state(entry_state);
+    reveal_step = TWindowSubStatusDisp::get_card_window_scale(client_id);
+    if (reveal_step <= 0.0f) {
+        reveal_pos = 1e+05f;
     }
-    return object;
 }
 
-u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *position, saddr title, s8 entry_state, s32 client_id) {
-    HeadingEntry *e = (HeadingEntry *)window_sub_status_disp;
-    e->x = (f32) *(f32 *)((s8 *)position + 0);
-    e->y = (f32) *(f32 *)((s8 *)position + 4);
-    e->text_width = (f32) calc_text_width((char *)(title));
-    e->width = calc_title_overflow_width(e->text_width);
-    e->text = title;
-    e->flags = 0;
-    e->reveal_pos = (f32) (0.0f);
-    ((TWindowSubStatusDisp *)window_sub_status_disp)->set_entry_state(entry_state);
-    e->reveal_step = TWindowSubStatusDisp::get_card_window_scale(client_id);
-    if (e->reveal_step <= (0.0f)) {
-        e->reveal_pos = (f32) (1e+05f);
-    }
-    return window_sub_status_disp;
-}
-
-u8 TWindowSubStatusDisp__sub_80287AC4(u8 *heading) {
-    return (u8) ((u32) __cntlzw(((HeadingEntry *)heading)->flags & 1) >> 5);
-}
+s32 HeadingEntry::is_enabled() {
+    return !(flags & 1);
 }

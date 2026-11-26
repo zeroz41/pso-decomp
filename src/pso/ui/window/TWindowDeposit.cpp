@@ -42,7 +42,7 @@ const char *TWindowDeposit::class_name = "TWindowDeposit";
 
 
 void TWindowDeposit::render_status(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, this->width);
+    draw_window_tab(context, &context->inner_x, this->width, 3);
 }
 
 void TWindowDeposit::render() {

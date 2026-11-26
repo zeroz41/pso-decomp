@@ -84,13 +84,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void update_palette_sprite();
     void init_scroll_pos();
     static f32 get_base_y(f32 width);
-    void update_entry_color();
-    void set_entry_state(s8 entry_state);
-    void draw_entry_tab(void *context);
-    void update(void* a1);
-    static s32 deleting_destructor(s32 object, s16 delete_flag);
-    void forward_render(void *level);
-    void update_subwindow();
     void fill_card_text_entries(GuildCardRecord *record);
     static saddr query_status_field(void *arg0, s8 arg1);
     static saddr get_flag_or_zero(void *arg0, s8 arg1);
@@ -102,8 +95,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s32 get_display_mode();
     static s32 build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
-    static s32 destroy_status_display(saddr window, s16 delete_flag);
-    TWindowSubStatusDisp *construct_type1_heading(s32 title, s32 client_index);
     void update_entry_visibility();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);

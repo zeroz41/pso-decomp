@@ -14,10 +14,8 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
-extern "C" {
-u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *position, saddr title, s8 entry_state, s32 client_id);
-extern const f32 heading_title_offset[2] = { 0.0f, -13.0f };
-}
+const f32 heading_title_offset[2] = { 0.0f, -13.0f };
+
 // The HUD palette texture names; load_hud_palette_textures loads the archive into this list.
 NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texlist
     { "f256_hyouji_a", 0, 0 },
@@ -37,26 +35,14 @@ NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texl
 
 NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };
 
-extern "C" {
+void WindowHeading::render(WindowDrawContext *context) { draw(context); }
 
-void TWindowSubStatusDisp::forward_render(void *level) { this->update(level); }
-}
-void TWindowSubStatusDisp::update_subwindow() { advance_heading_reveal(this); }
-extern "C" {
-s32 TWindowSubStatusDisp::destroy_status_display(saddr window, s16 delete_flag) {
-    if (window != 0) {
-        TWindowSubStatusDisp::deleting_destructor(window, 0);
-        if (delete_flag > 0) {
-            ::operator delete((void *)window);
-        }
-    }
-    return window;
-}
+void WindowHeading::update() { advance_heading_reveal(this); }
 
-TWindowSubStatusDisp *TWindowSubStatusDisp::construct_type1_heading(s32 title, s32 client_index) {
-    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), (u8 *)heading_title_offset, title, 1, client_index);
-    return this;
-}
+WindowHeading::~WindowHeading() {}
+
+WindowHeading::WindowHeading(saddr title, s32 client_id)
+    : HeadingEntry((f32 *)heading_title_offset, title, 1, client_id) {}
 
 #pragma push
 #pragma scheduling off
@@ -107,6 +93,5 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
         return;
     }
     ((TWindowHelpItem *)entry_8)->set_flag0_bit2();
-}
 }
 #pragma pop

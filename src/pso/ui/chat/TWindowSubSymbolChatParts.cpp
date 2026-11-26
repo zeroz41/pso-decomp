@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
@@ -131,7 +132,7 @@ void TWindowSubSymbolChatParts::add_part() {
     play_sound_effect(0x52D01, 0, 0, 0);
     *help = 1;
     this->result_flags = (u8) (this->result_flags | 1);
-    this->heading->set_entry_state(2);
+    this->heading->set_state(2);
 }
 
 void TWindowSubSymbolChatParts::handle_add() {
@@ -141,7 +142,7 @@ void TWindowSubSymbolChatParts::handle_add() {
     }
     play_sound_effect(0x52D01, 0, 0, 0);
     this->result_flags = (u8) (this->result_flags | 1);
-    this->heading->set_entry_state(2);
+    this->heading->set_state(2);
 }
 
 #pragma push
@@ -408,7 +409,7 @@ void TWindowSubSymbolChatParts::render() {
     }
     draw_window_scrollbar(scrollbar, ctx, scroll_offset);
     draw_selected_cursor((u8 *)ctx);
-    heading->forward_render(ctx);
+    heading->render(ctx);
 }
 
 void TWindowSubSymbolChatParts::run_task() {
@@ -432,7 +433,7 @@ void TWindowSubSymbolChatParts::run_task() {
     }
     scroll_to_cursor_row();
     if ((f32)open_tick >= 7.5f) {
-        heading->update_subwindow();
+        heading->update();
         scrollbar->increment_counter();
     }
     this->update_window();
@@ -440,13 +441,13 @@ void TWindowSubSymbolChatParts::run_task() {
 
 TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
     TWindowSubStatusDisp::destroy_allocation((saddr)scrollbar, (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)heading, (s16)1);
+    delete heading;
 }
 
 TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(const NJS_POINT2 *position, s32 *flip_u_flag, s32 *flip_v_flag)
     : TWindowAddition((u8 *)&symbol_chat_parts_window_layout, 4, (u8 *)position) {
     NJS_POINT2 v;
-    TWindowSubStatusDisp *p;
+    WindowHeading *p;
 
     m_name = class_name;
     result_flags = 0;
@@ -455,10 +456,7 @@ TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(const NJS_POINT2 *position,
     item_count = 0;
     flip_u = flip_u_flag;
     flip_v = flip_v_flag;
-    p = (TWindowSubStatusDisp *)::operator new(0x24);
-    if (p != NULL) {
-        p = p->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
-    }
+    p = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
     heading = p;
     v.x = 0.0f;
     v.y = 0.0f;

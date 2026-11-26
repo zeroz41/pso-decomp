@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubItem.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #pragma readonly_strings on
 
 extern s32 actor_frame_tick;
@@ -43,7 +44,7 @@ void TWindowSubItemList::render() {
     draw_blinking_selection(context);
     draw_item_list_capacity(this, context, item_count, 0x1E);
     if (status_display != NULL) {
-        status_display->forward_render(context);
+        status_display->render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);

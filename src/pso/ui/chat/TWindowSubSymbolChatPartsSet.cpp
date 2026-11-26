@@ -7,6 +7,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -168,7 +169,7 @@ void TWindowSubSymbolChatPartsSet::handle_cancel() {
 void TWindowSubSymbolChatPartsSet::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->result_flags = (u8) (this->result_flags | 1);
-    this->heading_display->set_entry_state(2);
+    this->heading_display->set_state(2);
 }
 
 void TWindowSubSymbolChatPartsSet::update_part_sprites() {
@@ -308,7 +309,7 @@ void TWindowSubSymbolChatPartsSet::render() {
     this->draw_selected_part_cursor(c_arg);
     copy_vec2((&c_arg->inner_x), &saved_pos);
     copy_vec2((c_arg->scale), &saved_scale);
-    this->heading_display->forward_render(c_arg);
+    this->heading_display->render(c_arg);
 }
 
 void TWindowSubSymbolChatPartsSet::run_task() {
@@ -327,7 +328,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     toggle_selected_part();
     this->update_part_sprites();
     if ((f32) this->open_tick >= 7.5f) {
-        this->heading_display->update_subwindow();
+        this->heading_display->update();
     }
     update_window();
     this->update_window_entry_list(&entry_list);
@@ -335,7 +336,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
 
 }
 TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
-    TWindowSubStatusDisp::destroy_status_display((saddr)heading_display, 1);
+    delete heading_display;
 }
 
 TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second)
@@ -349,10 +350,7 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *pos
     selection_out = NULL;
     first_flag_out = first;
     second_flag_out = second;
-    TWindowSubStatusDisp *heading = static_cast<TWindowSubStatusDisp *>(::operator new(0x24));
-    if (heading != NULL) {
-        heading = heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);
-    }
+    WindowHeading *heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);
     heading_display = heading;
     offset_x = 21.0f;
     offset_y = 49.0f;

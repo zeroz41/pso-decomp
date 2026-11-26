@@ -2,6 +2,8 @@
 #define PSO_UI_WINDOW_TWINDOWSUBQUESTBOARDSELECT_H
 
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubStatusDisp;
@@ -22,7 +24,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     s8 state_flags;
     s8 slot;
     u8 _pad62[0x2];
-    TWindowSubStatusDisp *status_disp;
+    WindowHeading *status_disp;
     void handle_cancel();
     void handle_decide();
     void select_next();

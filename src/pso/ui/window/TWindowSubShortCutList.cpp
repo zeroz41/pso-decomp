@@ -16,6 +16,7 @@
 #include "pso/network/client_id.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_80076BC4.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 const char *TWindowSubShortCutList::class_name = "TWindowSubShortCutList";
 // Size argument of the shortcut list window.
@@ -71,7 +72,7 @@ void TWindowSubShortCutList::render() {
     draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     if (status_display != NULL) {
-        status_display->forward_render(context);
+        status_display->render(context);
     }
     if (storage != NULL) {
         draw_list_page_indicator(storage, context);

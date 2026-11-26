@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 
 TWindowSubEquipKind *create_equip_kind_window(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client) {
@@ -29,7 +30,7 @@ void TWindowSubEquipKind::render() {
         draw_tab_label(context);
     }
     if (status_display != NULL) {
-        status_display->forward_render(context);
+        status_display->render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);

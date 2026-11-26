@@ -2,6 +2,8 @@
 #define PSO_UI_WINDOW_TWINDOWSHORTCUT_H
 
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowChatSymbol;
@@ -12,7 +14,7 @@ struct TWindowShortCut : public TWindowBase {
     virtual ~TWindowShortCut();
     static const char *class_name;
     virtual void render();
-    uaddr heading;                       // type-1 status heading titled with message 0x35
+    WindowHeading *heading;                       // type-1 status heading titled with message 0x35
     TWindowMessageQuest *preview_window;       // text preview of a text or word-select shortcut
     TWindowChatSymbol *symbol_preview; // preview of a symbol-chat shortcut
     s32 shortcut_index;

@@ -1,6 +1,8 @@
 #ifndef PSO_UI_WINDOW_TWINDOW_MENU_INFOMATION_H
 #define PSO_UI_WINDOW_TWINDOW_MENU_INFOMATION_H
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
 
 class TWindowSubStatusDisp;
@@ -37,7 +39,7 @@ public:
     s16 next_entry;
     s16 index;
     s16 entry_capacity;
-    TWindowSubStatusDisp *heading;  // type-1 heading made by create_sub_window
+    WindowHeading *heading;  // type-1 heading made by create_sub_window
     WindowScrollBar *scroll_bar;
 };
 LAYOUT_ASSERT(TWindowMenuInfomation_size, sizeof(TWindowMenuInfomation) == 0x80);

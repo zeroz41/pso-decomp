@@ -14,6 +14,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 void TWindowMenuIconLine::add_list_entry(u8 icon, s32 arg2, s32 arg3) {
     if (this->entry_count < this->entry_capacity) {
@@ -88,7 +89,7 @@ void TWindowShop::render() {
         draw_item_list_capacity(this, context, this->entry_count, n);
     }
     if (status_display != NULL) {
-        status_display->forward_render(context);
+        status_display->render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);

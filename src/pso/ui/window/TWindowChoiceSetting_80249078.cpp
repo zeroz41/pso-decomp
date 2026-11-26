@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 // One TU (.text 0x80249078-0x802495FC): the class-name string 0x8044EAF0 comes before
 // update_scroll_tween's u32->f32 double (0x8044EB08) and run_task's s32->f32 double (0x8044EB10)
@@ -86,7 +87,7 @@ void TWindowChoiceSetting::render() {
         context);
     draw_setting(context);
     if (heading != 0) {
-        ((TWindowSubStatusDisp *)((saddr)heading))->forward_render(context);
+        heading->render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);
@@ -126,7 +127,7 @@ void TWindowChoiceSetting::run_task() {
     }
     if ((f32) this->open_tick >= 7.5f) {
         if (this->heading != 0) {
-            this->heading->update_subwindow();
+            this->heading->update();
         }
         scroll = scroll_bar;
         if (scroll != NULL) {

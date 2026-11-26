@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/chat/TWindowChat.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -187,10 +188,10 @@ void TWindowShortCut::render() {
     ctx = draw_default_entry();
     draw_window_frame(ctx);
     draw_visible_window_entries(this, &this->entry_list, ctx);
-    ((TWindowSubStatusDisp *)this->heading)->forward_render((void *)ctx);
+    this->heading->render(ctx);
 }
 
-void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); update_window(); update_fade(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowShortCut::run_task() { this->heading->update(); update_window(); update_fade(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowShortCut::~TWindowShortCut() {
     if (this->symbol_preview != NULL) {
@@ -201,16 +202,13 @@ TWindowShortCut::~TWindowShortCut() {
         this->preview_window->close();
         this->preview_window = NULL;
     }
-    TWindowSubStatusDisp::destroy_status_display(this->heading, 1);
+    delete this->heading;
 }
 TWindowShortCut::TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
-    saddr var_r31;
+    WindowHeading *heading;
     m_name = TWindowShortCut::class_name;
-    var_r31 = (saddr)::operator new(0x24);
-    if (var_r31 != 0) {
-        var_r31 = (saddr)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x35), this->client_index);
-    }
-    this->heading = var_r31;
+    heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x35), this->client_index);
+    this->heading = heading;
     this->preview_window = NULL;
     this->symbol_preview = NULL;
     this->shortcut_index = index;

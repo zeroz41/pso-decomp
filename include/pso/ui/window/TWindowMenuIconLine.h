@@ -1,6 +1,8 @@
 #ifndef PSO_UI_WINDOW_TWINDOWMENUICONLINE_H
 #define PSO_UI_WINDOW_TWINDOWMENUICONLINE_H
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/network/TradeItemEntry.h"
 
@@ -106,7 +108,7 @@ public:
     s16 saved_cursor;           // save_cursor_selection, before the list is rebuilt
     u8 unk_7A[0x2];
     s32 saved_cursor_value;
-    TWindowSubStatusDisp *status_display;
+    WindowHeading *status_display;
     WindowScrollBar *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
 LAYOUT_ASSERT(TWindowMenuIconLine_size, sizeof(TWindowMenuIconLine) == 0x88);

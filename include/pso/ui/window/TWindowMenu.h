@@ -2,6 +2,8 @@
 #define PSO_UI_WINDOW_TWINDOWMENU_H
 
 #include "types.h"
+
+class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
 
 struct NJS_POINT2;
@@ -56,7 +58,7 @@ struct TWindowMenu : public TWindowAddition {
     f32 layout_height;
     TWindowMenuRow *rows;
     WindowScrollBar *scroll_bar;  // the list scroll bar, made on demand by create_scroll_bar
-    TWindowSubStatusDisp *heading;  // type-1 heading made by create_titled_window_menu
+    WindowHeading *heading;  // type-1 heading made by create_titled_window_menu
     void set_active_flag();
     void confirm_selection();
     void select_next_item();

@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/WindowLayoutRecord.h"
@@ -39,7 +40,7 @@ void TWindowMenuInfomation::draw() {
         play_sound_effect(0x52D01, 0, 0, 0);
         this->state_flags = (u16) (this->state_flags | 2);
         if (this->heading != 0) {
-            this->heading->set_entry_state(2);
+            this->heading->set_state(2);
         }
     }
 }
@@ -90,13 +91,10 @@ block_4:
     }
 }
 void TWindowMenuInfomation::create_sub_window(const char *title) {
-    TWindowSubStatusDisp *heading;
+    WindowHeading *heading;
 
     if (this->heading == NULL) {
-        heading = (TWindowSubStatusDisp *)::operator new(0x24);
-        if (heading != NULL) {
-            heading = heading->construct_type1_heading((saddr)title, this->client_index);
-        }
+        heading = new WindowHeading((saddr)title, this->client_index);
         this->heading = heading;
         this->window_flags |= 0x40;
     }
@@ -211,7 +209,7 @@ void TWindowMenuInfomation::render() {
         draw_context);
     draw_setting(draw_context);
     if (this->heading != 0) {
-        ((TWindowSubStatusDisp *)((saddr)this->heading))->forward_render(draw_context);
+        this->heading->render(draw_context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
@@ -219,7 +217,7 @@ void TWindowMenuInfomation::render() {
 }
 
 void TWindowMenuInfomation::run_task() {
-    TWindowSubStatusDisp *heading_window;
+    WindowHeading *heading_window;
     WindowScrollBar *scroll;
     ControllerInputContext *input;
     ControllerInputContext *pad;
@@ -253,7 +251,7 @@ void TWindowMenuInfomation::run_task() {
     if ((f32) open_tick >= 7.5f) {
         heading_window = heading;
         if (heading_window != NULL) {
-            heading_window->update_subwindow();
+            heading_window->update();
         }
         scroll = scroll_bar;
         if (scroll != NULL) {
@@ -269,7 +267,7 @@ void TWindowMenuInfomation::run_task() {
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {
     TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)this->heading, (s16)1);
+    delete this->heading;
 }
 TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)
     : TWindowAddition((u8 *)&choice_setting_popup_window_descriptor, 4, (u8 *)parent) {
