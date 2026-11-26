@@ -342,15 +342,15 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
         } else if (id == 0x2C7) {
             append_word_select_token(id, window_dd, &pos);
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA58 / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA58 / 4], window_dd, &pos);
             k = 2;
         } else if (id >= 0x68C && id <= 0x697) {
             append_word_select_token(id, window_dd, &pos);
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA4C / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA4C / 4], window_dd, &pos);
             k = 1;
         } else if (id == 0x698) {
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA4C / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA4C / 4], window_dd, &pos);
             k = 1;
         }
         if (n > 1) {
@@ -365,7 +365,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
                 } else {
                     p = &TWindowDD__data_805D6E40[0];
                 }
-                TWindowDD::append_string(TWindowDD__data_805D6E28[p->list[i - 0x5AC]], window_dd, &pos);
+                TWindowDD::append_string(ws_word_strings[p->list[i - 0x5AC]], window_dd, &pos);
             }
         }
         if (n > 2) {
@@ -387,7 +387,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
             i = TWindowDD::get_player_battle_flag_state(player);
         } else if (k == 0x2C7) {
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA58 / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA58 / 4], window_dd, &pos);
             mode = 2;
             if (TWindowDD::get_player_battle_flag_state(player) == 2) {
                 i = 3;
@@ -396,7 +396,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
             }
         } else if (k >= 0x68C && k <= 0x697) {
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA4C / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA4C / 4], window_dd, &pos);
             mode = 1;
             i = TWindowDD::get_player_battle_flag_state(k - 0x68C);
         } else {
@@ -437,16 +437,16 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
             if (found != 0) {
                 switch (mode) {
                 case 0:
-                    TWindowDD::append_string(TWindowDD__data_805D6E28[0x1A8C / 4], window_dd, &pos);
+                    TWindowDD::append_string(ws_word_strings[0x1A8C / 4], window_dd, &pos);
                     break;
                 case 1:
-                    TWindowDD::append_string(TWindowDD__data_805D6E28[0x1A94 / 4], window_dd, &pos);
+                    TWindowDD::append_string(ws_word_strings[0x1A94 / 4], window_dd, &pos);
                     break;
                 case 2:
-                    TWindowDD::append_string(TWindowDD__data_805D6E28[0x1A90 / 4], window_dd, &pos);
+                    TWindowDD::append_string(ws_word_strings[0x1A90 / 4], window_dd, &pos);
                     break;
                 case 3:
-                    TWindowDD::append_string(TWindowDD__data_805D6E28[0x1A98 / 4], window_dd, &pos);
+                    TWindowDD::append_string(ws_word_strings[0x1A98 / 4], window_dd, &pos);
                     break;
                 }
                 TWindowDD::show_message_by_count(window_dd, &pos);
@@ -462,7 +462,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
                 } else {
                     p = &TWindowDD__data_805D6E44[2];
                 }
-                append_word_select_word_with_number(src, k, TWindowDD__data_805D6E28[p->list[TWindowDD::clamp_range_5FA_682(k)]], window_dd, &pos);
+                append_word_select_word_with_number(src, k, ws_word_strings[p->list[TWindowDD::clamp_range_5FA_682(k)]], window_dd, &pos);
             }
         }
         if (n > 2) {
@@ -537,15 +537,15 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
             append_word_select_token(id4, window_dd, &pos);
             TWindowDD::append_char(0x2C, window_dd, &pos);
             k = 2;
-            s1 = TWindowDD__data_805D6E28[0x2A6];
+            s1 = ws_word_strings[0x2A6];
         } else if (id4 >= 0x68C && id4 <= 0x697) {
             append_word_select_token(id4, window_dd, &pos);
             TWindowDD::append_char(0x2C, window_dd, &pos);
             k = 1;
-            s1 = TWindowDD__data_805D6E28[0x2A3];
+            s1 = ws_word_strings[0x2A3];
         } else if (id4 == 0x698) {
             k = 1;
-            s1 = TWindowDD__data_805D6E28[0x2A3];
+            s1 = ws_word_strings[0x2A3];
         }
         if (n > 1) {
             id1 = src->ids[1];
@@ -559,7 +559,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
                 } else {
                     pp = &TWindowDD__data_805D6E40[0];
                 }
-                s2 = TWindowDD__data_805D6E28[pp->list[id1 - 0x5AC]];
+                s2 = ws_word_strings[pp->list[id1 - 0x5AC]];
             }
             if (n > 3 && src->ids[3] == 0x685) {
                 if (s1 != 0 && s2 != 0) {
@@ -604,13 +604,13 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
                 kind = 3;
             }
             }
-            s1 = TWindowDD__data_805D6E28[0x2A6];
+            s1 = ws_word_strings[0x2A6];
         } else if (id >= 0x68C && id <= 0x697) {
             append_word_select_token(id, window_dd, &pos);
             TWindowDD::append_char(0x2C, window_dd, &pos);
             mode = 1;
             kind = TWindowDD::get_player_battle_flag_state(id - 0x68C);
-            s1 = TWindowDD__data_805D6E28[0x2A3];
+            s1 = ws_word_strings[0x2A3];
         } else {
             mode = 3;
             if (id == 0x2C5) {
@@ -651,16 +651,16 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
             if (found) {
                 switch (mode) {
                 case 0:
-                    s3 = TWindowDD__data_805D6E28[0x6A6];
+                    s3 = ws_word_strings[0x6A6];
                     break;
                 case 1:
-                    s3 = TWindowDD__data_805D6E28[0x6A8];
+                    s3 = ws_word_strings[0x6A8];
                     break;
                 case 2:
-                    s3 = TWindowDD__data_805D6E28[0x6A7];
+                    s3 = ws_word_strings[0x6A7];
                     break;
                 case 3:
-                    s3 = TWindowDD__data_805D6E28[0x6A9];
+                    s3 = ws_word_strings[0x6A9];
                     break;
                 }
                 if (n > 2 && src->ids[2] == 0x685) {
@@ -690,7 +690,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
                 } else {
                     pp = &TWindowDD__data_805D6E44[3];
                 }
-                append_word_select_word_with_number(src, id, TWindowDD__data_805D6E28[pp->list[TWindowDD::clamp_range_5FA_682(id)]], window_dd, &pos);
+                append_word_select_word_with_number(src, id, ws_word_strings[pp->list[TWindowDD::clamp_range_5FA_682(id)]], window_dd, &pos);
             }
         } else if (src->ids[0] == 0x2C7) {
             TWindowDD::append_string(s1, window_dd, &pos);
@@ -728,7 +728,7 @@ static inline void append_second_term(s32 id, s32 mode, char *window_dd, s32 *po
         } else {
             p = &TWindowDD__data_805D6E40[0];
         }
-        TWindowDD::append_string(TWindowDD__data_805D6E28[p->list[id - 0x5AC]], window_dd, pos);
+        TWindowDD::append_string(ws_word_strings[p->list[id - 0x5AC]], window_dd, pos);
     }
 }
 
@@ -788,14 +788,14 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
         i = 0;
         if (s == 0x2C7) {
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA8C / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA8C / 4], window_dd, &pos);
             i = 2;
         } else if (s >= 0x68C && s <= 0x697) {
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA80 / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA80 / 4], window_dd, &pos);
             i = 1;
         } else if (s == 0x698) {
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA80 / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA80 / 4], window_dd, &pos);
             i = 1;
         }
         if (n > 1) {
@@ -828,7 +828,7 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
         } else if (k == 0x2C7) {
             mode = 2;
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA8C / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA8C / 4], window_dd, &pos);
             if (TWindowDD::get_player_battle_flag_state(player) == 2) {
                 i = 3;
             } else {
@@ -837,7 +837,7 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
         } else if (k >= 0x68C && k <= 0x697) {
             mode = 1;
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[0xA80 / 4], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[0xA80 / 4], window_dd, &pos);
             i = TWindowDD::get_player_battle_flag_state(k - 0x68C);
         } else {
             mode = 3;
@@ -907,7 +907,7 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
                 break;
             }
             if (found != 0) {
-                TWindowDD::append_string(TWindowDD__data_805D6E28[s], window_dd, &pos);
+                TWindowDD::append_string(ws_word_strings[s], window_dd, &pos);
                 TWindowDD::show_message_by_count(window_dd, &pos);
             }
             if (i == 0) {
@@ -921,7 +921,7 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
                 } else {
                     p = &TWindowDD__data_805D6E44[2];
                 }
-                append_word_select_word_with_number(src, k, TWindowDD__data_805D6E28[p->list[TWindowDD::clamp_range_5FA_682(k)]], window_dd, &pos);
+                append_word_select_word_with_number(src, k, ws_word_strings[p->list[TWindowDD::clamp_range_5FA_682(k)]], window_dd, &pos);
             }
         }
         if (n > 2) {
@@ -990,14 +990,14 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
         k = 0;
         if (id == 711) {
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[(0xA60 / 4)], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[(0xA60 / 4)], window_dd, &pos);
             k = 2;
         } else if (id >= 1676 && id <= 1687) {
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[(0xA54 / 4)], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[(0xA54 / 4)], window_dd, &pos);
             k = 2;
         } else if (id == 1688) {
-            TWindowDD::append_string(TWindowDD__data_805D6E28[(0xA54 / 4)], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[(0xA54 / 4)], window_dd, &pos);
             k = 2;
         }
         if (n > 1) {
@@ -1006,18 +1006,18 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
             if (k == 0) {
                 append_word_select_token(i, window_dd, &pos);
             } else {
-                TWindowDD::append_string(TWindowDD__data_805D6E28[(TWindowDD__data_805D6E40->list[i - 1452])], window_dd, &pos);
+                TWindowDD::append_string(ws_word_strings[(TWindowDD__data_805D6E40->list[i - 1452])], window_dd, &pos);
             }
         }
         if (n > 2) {
             TWindowDD::show_message_by_count(window_dd, &pos);
             switch (TWindowDD__data_805D6E48[TWindowDD::clamp_range_2C9_552(src->ids[2])]) {
             case 1:
-                TWindowDD::append_string(TWindowDD__data_805D6E28[(0x19E4 / 4)], window_dd, &pos);
+                TWindowDD::append_string(ws_word_strings[(0x19E4 / 4)], window_dd, &pos);
                 TWindowDD::append_char(0x20, window_dd, &pos);
                 break;
             case 2:
-                TWindowDD::append_string(TWindowDD__data_805D6E28[(0x19E8 / 4)], window_dd, &pos);
+                TWindowDD::append_string(ws_word_strings[(0x19E8 / 4)], window_dd, &pos);
                 TWindowDD::append_char(0x20, window_dd, &pos);
                 break;
             }
@@ -1039,11 +1039,11 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
         } else if (id == 711) {
             kind = 2;
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[(0xA60 / 4)], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[(0xA60 / 4)], window_dd, &pos);
         } else if (id >= 1676 && id <= 1687) {
             kind = 1;
             TWindowDD::append_char(0x2C, window_dd, &pos);
-            TWindowDD::append_string(TWindowDD__data_805D6E28[(0xA54 / 4)], window_dd, &pos);
+            TWindowDD::append_string(ws_word_strings[(0xA54 / 4)], window_dd, &pos);
         } else {
             kind = 3;
             window_dd[0] = to_upper_latin1(window_dd[0]);
@@ -1063,14 +1063,14 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
             if (notfound != 0) {
                 switch (kind) {
                 case 0:
-                    TWindowDD::append_string(TWindowDD__data_805D6E28[(6012 / 4)], window_dd, &pos);
+                    TWindowDD::append_string(ws_word_strings[(6012 / 4)], window_dd, &pos);
                     break;
                 case 1:
                 case 2:
-                    TWindowDD::append_string(TWindowDD__data_805D6E28[(6016 / 4)], window_dd, &pos);
+                    TWindowDD::append_string(ws_word_strings[(6016 / 4)], window_dd, &pos);
                     break;
                 case 3:
-                    TWindowDD::append_string(TWindowDD__data_805D6E28[(6020 / 4)], window_dd, &pos);
+                    TWindowDD::append_string(ws_word_strings[(6020 / 4)], window_dd, &pos);
                     break;
                 }
                 TWindowDD::show_message_by_count(window_dd, &pos);
@@ -1079,7 +1079,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
             if (kind == 2) {
                 for (i = 0; i < TWindowDD__data_805D6E44[1].n; i++) {
                     if (b == TWindowDD__data_805D6E44[1].list[i]) {
-                        str = TWindowDD__data_805D6E28[(TWindowDD__data_805D6E44[2].list[i])];
+                        str = ws_word_strings[(TWindowDD__data_805D6E44[2].list[i])];
                         break;
                     }
                 }

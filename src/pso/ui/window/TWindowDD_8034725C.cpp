@@ -764,8 +764,8 @@ void append_word_select_token(s16 id, saddr window_dd, void *pos) {
 
 WindowTexturePoint TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
-extern s32 *TWindowDD__data_805D6E28;
-extern s16 *lbl_805D6E34;
+extern s32 *ws_word_strings;
+extern s16 *ws_word_string_index;
 typedef struct { char pad[0xBC]; } Buf;
 
 void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
@@ -919,7 +919,7 @@ saddr get_word_select_token_text(s16 id) {
     if (id == 0x698) {
         return 0;
     }
-    return TWindowDD__data_805D6E28[lbl_805D6E34[id]];
+    return ws_word_strings[ws_word_string_index[id]];
 }
 
 saddr TWindowDD::get_entry(s32 index) {

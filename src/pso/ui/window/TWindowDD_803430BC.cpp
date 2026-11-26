@@ -46,13 +46,13 @@ uaddr lbl_805D6E20;
 
 s16 lbl_805D6E24;
 
-char **TWindowDD__data_805D6E28;
+char **ws_word_strings;
 
 TWindowDDValueList *TWindowDD::ws_data_base;
 
 TWindowDDValueList *TWindowDD::ws_data_table;
 
-u32 lbl_805D6E34;
+u32 ws_word_string_index;
 extern "C" {
 
 
@@ -141,10 +141,10 @@ void TWindowDD__sub_80344114(void) {
     f32 x2;
     f32 dy;
 
-    TWindowDD__data_805D6E28 = 0;
+    ws_word_strings = 0;
     TWindowDD::ws_data_base = 0;
     TWindowDD::ws_data_table = 0;
-    lbl_805D6E34 = 0;
+    ws_word_string_index = 0;
     TWindowDD__data_805D6E40 = 0;
     TWindowDD__data_805D6E44 = 0;
     TWindowDD__data_805D6E48 = 0;
