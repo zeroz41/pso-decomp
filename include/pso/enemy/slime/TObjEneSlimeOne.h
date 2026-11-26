@@ -25,7 +25,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     virtual void run_task();
     Vec trail_position;
     BmlResource *model_archive;  // get_instance(); its texlist and bml models
-    u32 state;  // index into the {enter, update} state table; set_state
+    s32 state;  // index into the {enter, update} state table; set_state
     SlimeAnimationState *animation;
     CollisionBody *collision_body_parts;  // init_collision_body_parts / free_collision_body_parts
     s32 state_timer;  // set_random_timer, counted down by the states

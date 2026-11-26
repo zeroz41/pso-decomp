@@ -108,7 +108,6 @@ extern const TObjChipParams container_jung_enemy_spawn_params_b = {
 };
 
 
-struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 
 // This TU was compiled -inline deferred: the functions below are written
 // last-to-first, so the compiler emits them (and the three vtables) in
@@ -460,8 +459,7 @@ void TObjContainerJungEnemy::draw_model() {
 }
 
 void TObjContainerJungEnemy::debug_print_item_box_info() {
-    Obj_8018CBF0 *self = (Obj_8018CBF0 *)this;
-    ((TObjContainerJungEnemy *)self)->load_models();
+    load_models();
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
     debug_printf_at(0x130021, "MODEL SELECT");

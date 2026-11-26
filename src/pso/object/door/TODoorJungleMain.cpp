@@ -61,9 +61,6 @@ struct AnimationMotion;
 #include "pso/quest/QuestStoryFlags.h"
 
 
-struct Ids_8029B428 {
-    s32 v[3];
-};
 
 
 const char *bm_o_jungle_doormain_model_names[5] = {
@@ -209,7 +206,7 @@ void TODoorJungleMain::update_door_switch_state() {
 }
 
 void TODoorJungleMain::render() {
-    Ids_8029B428 ids = {{2, 1, 0}};
+    s32 ids[3] = {2, 1, 0};
     s32 i;
     if (update_object_view_visibility(view_range, model_radius) == 1) {
         set_texture_list(door_jungle_main_gvm_texture);
@@ -221,7 +218,7 @@ void TODoorJungleMain::render() {
         } else {
             draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, 3));
             for (i = 0; i < 3 - switch_count; i++) {
-                draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, ids.v[i]));
+                draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, ids[i]));
             }
         }
         pop_matrix();

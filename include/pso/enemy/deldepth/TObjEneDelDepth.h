@@ -10,6 +10,12 @@ struct DelDepthParameters;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
+// DelDepthMotion::set_motion ids 6-9 play a motion of model 1 at a speed; ids 10-11 two
+// model/motion pairs.
+struct DelDepthMotionBinding { s32 motion; f32 speed; };
+struct DelDepthModelMotion { s32 model; s32 motion; };
+struct DelDepthPairBinding { DelDepthModelMotion first, second; f32 speed; };
+
 struct DelDepthMotion {
     DelDepthMotion(TObjMotion *actor);
     ~DelDepthMotion();

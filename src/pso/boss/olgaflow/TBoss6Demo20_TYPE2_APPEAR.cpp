@@ -256,7 +256,6 @@ TBoss6Demo20_TYPE2_APPEAR::~TBoss6Demo20_TYPE2_APPEAR() {
 
 extern "C" {
 __declspec(section ".data") extern s32 boss6_type2_appear_motion_indices[];
-struct AppearanceClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name;
 }
 

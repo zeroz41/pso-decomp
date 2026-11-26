@@ -43,4 +43,7 @@ public:
 
 LAYOUT_ASSERT(TOHangceilingCaveBase_size, sizeof(TOHangceilingCaveBase) == 0x360);
 
+// calc_damage's damage multiplier for each difficulty (hang_ceiling_cave_scale_params).
+struct HangCeilingCaveDamageScale { f32 by_difficulty[4]; };
+
 #endif

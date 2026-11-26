@@ -99,11 +99,6 @@
 // and "%xF" in first-use order) comes out exactly as in the original .sdata2.
 #pragma defer_codegen on
 
-struct Ids_8019BD84 { u16 id[2]; };
-
-struct Colors_8019C250 { u16 c[2]; };
-
-struct Colors_8019C604 { u16 c[2]; };
 
 
 // The table is 4-aligned in the original, so its entries are float pairs, not s64.
@@ -650,11 +645,11 @@ void TObjAreaWarpForest::render() {
     NJS_OBJECT *m;
     NJS_OBJECT *n;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        Colors_8019C604 cols = {3, 2};
+        u16 cols[2] = {3, 2};
         n = beam_model->child;
         while (n != NULL) {
             if (n->model != 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>((n->model)), cols.c[this->set_params[2]]);
+                set_ginja_model_texture_slot(reinterpret_cast<void *>((n->model)), cols[this->set_params[2]]);
             }
             n = n->child;
         }
@@ -742,11 +737,11 @@ void TObjAreaWarpQuest::render() {
     NJS_OBJECT *m;
     NJS_OBJECT *n;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        Colors_8019C250 cols = {3, 2};
+        u16 cols[2] = {3, 2};
         n = beam_model->child;
         while (n != NULL) {
             if (n->model != 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>((n->model)), cols.c[set_params[2]]);
+                set_ginja_model_texture_slot(reinterpret_cast<void *>((n->model)), cols[set_params[2]]);
             }
             n = n->child;
         }
@@ -861,10 +856,10 @@ void TObjAreaWarpEnding::render() {
     if (update_object_view_visibility(400.0f, 20.0f) == 0) {
         return;
     }
-    Ids_8019BD84 ids = {3, 2};
+    u16 ids[2] = {3, 2};
     for (node = beam_model->child; node != 0; node = node->child) {
         if (node->model != 0) {
-            set_ginja_model_texture_slot(reinterpret_cast<void *>((node->model)), ids.id[set_params[2]]);
+            set_ginja_model_texture_slot(reinterpret_cast<void *>((node->model)), ids[set_params[2]]);
         }
     }
     root = warp_model;

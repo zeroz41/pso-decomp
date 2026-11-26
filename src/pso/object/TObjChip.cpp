@@ -26,7 +26,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 struct ByteBlock_C { u8 bytes[0xc]; };
-struct Color_8017FE58 { f32 a; s32 b; s32 c; s32 d; };
 extern "C" {
 
 #pragma readonly_strings on
@@ -268,9 +267,9 @@ void TObjChip::draw_chips() {
             model_render_flags = model_render_flags | 0x810;
             set_chunk_material_override_pair(-1, 0x800);
             for (s32 i = 0; i < params.count; i++, c++) {
-                Color_8017FE58 col = { 0.0f, 0x3F800000, 0x3F800000, 0x3F800000 };
+                NJS_ARGB col = { 0.0f, 1.0f, 1.0f, 1.0f };
                 col.a = c->alpha;
-                set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
+                set_constant_material(&col);
                 push_matrix();
                 post_translate_matrix(&c->pos.x);
                 rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
@@ -299,9 +298,9 @@ void TObjChip::draw_chips() {
         model_render_flags = model_render_flags | 0x810;
         set_chunk_material_override_pair(-1, 0x800);
         for (s32 i = 0; i < params.count; i++, c++) {
-            Color_8017FE58 col = { 0.0f, 0x3F800000, 0x3F800000, 0x3F800000 };
+            NJS_ARGB col = { 0.0f, 1.0f, 1.0f, 1.0f };
             col.a = c->alpha;
-            set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
+            set_constant_material(&col);
             push_matrix();
             post_translate_matrix(&c->pos.x);
             rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);

@@ -35,7 +35,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
 
-struct Q_801681D0 { f32 w[4]; };
 
 
 BmlResource *hangceiling_cave01_model_archive;
@@ -57,7 +56,7 @@ __declspec(section ".data") const char *bm_obj_ruins_turiten_motion_names[] = {"
 BmlResourceDescriptor turiten_singo_resource_descriptor = {
     "bm_obj_ruins_turiten.bml", bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
 #pragma pop
-__declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
+__declspec(section ".rodata") extern HangCeilingCaveDamageScale hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
 extern const char hangceiling_cave01_normal_class_name_string[] = "TOHangceilingCave01Normal";
 extern const char hangceiling_cave01_key_class_name_string[] = "TOHangceilingCave01Key";
 extern const char hangceiling_cave01_key_quick_class_name_string[] = "TOHangceilingCave01KeyQuick";
@@ -392,8 +391,8 @@ void TOHangceilingCaveBase::advance_frame() {
 }
 
 f32 TOHangceilingCaveBase::calc_damage(f32 power) {
-    Q_801681D0 q = hang_ceiling_cave_scale_params;
-    return power * q.w[game_difficulty_selection];
+    HangCeilingCaveDamageScale scale = hang_ceiling_cave_scale_params;
+    return power * scale.by_difficulty[game_difficulty_selection];
 }
 
 TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, void *set_data)

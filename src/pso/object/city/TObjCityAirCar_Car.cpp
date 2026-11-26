@@ -40,23 +40,6 @@
 // Deferred TU: code is generated last-defined-first, so the functions are written in
 // reverse address order (.text and the vtables then come out in the original order).
 
-struct Info_80181698 { s32 f0; u32 n; };
-
-typedef struct
-{
-  f32 x;
-  f32 y;
-  f32 z;
-  f32 w;
-} Quat_801817AC;
-
-
-typedef struct
-{
-  f32 len[5];
-  f32 ratio[5];
-  s32 objs[5];
-} Tbl_801817AC;
 
 extern "C" {
 BmlResource *city_air_car_model_resource;
@@ -87,10 +70,10 @@ void measure_traffic_path_lengths(void) {
   Vec cur;
   Vec a;
   Vec b;
-  Quat_801817AC q;
+  f32 q[4];
   Vec a2;
   Vec b2;
-  Quat_801817AC q2;
+  f32 q2[4];
   AnimationMotion *m;
   s32 i;
   s32 j;
@@ -102,11 +85,11 @@ void measure_traffic_path_lengths(void) {
     frame = 0.0f;
     f32 total = frame;
     bind_motion_context((NJS_MOTION *)m, frame);
-    sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &prev.x, (s32 *)&a, &b.x, (f32 *)&q);
+    sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &prev.x, (s32 *)&a, &b.x, q);
     for (frame += 0.5f; frame < end; frame += 0.5f)
     {
       bind_motion_context((NJS_MOTION *)m, frame);
-      sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &cur.x, (s32 *)&a2, &b2.x, (f32 *)&q2);
+      sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &cur.x, (s32 *)&a2, &b2.x, q2);
       subtract_vector(&prev, &cur);
       total += normalize_vector_safe(&prev);
       VecCopy(&prev, &cur);
@@ -147,8 +130,8 @@ s32 sample_aircar_path_position(s32 lane, void *pos, f32 frame) {
     f32 quat[4];
     f32 lim;
     s32 r;
-    Info_80181698 *m = ((Info_80181698 * (*)(s32))get_city_common_motion)(city_traffic_path_motion_index_table[lane]);
-    u32 n = m->n;
+    AnimationMotion *m = get_city_common_motion(city_traffic_path_motion_index_table[lane]);
+    u32 n = m->frameCount;
     r = 1;
     lim = (n - 1);
     if (frame > lim) {

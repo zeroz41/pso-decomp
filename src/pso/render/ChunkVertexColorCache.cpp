@@ -2,21 +2,6 @@
 #include "dolphin/mtx.h"
 #include "pso/render/DebugFont.h"
 
-struct ColoredChunkVertex {
-    Vec position;
-    u32 color;
-};
-
-struct CachedChunkVertex {
-    Vec position;
-    Vec normal;
-    u32 color;
-    u32 padding;
-};
-
-LAYOUT_ASSERT(ColoredChunkVertexSize, sizeof(ColoredChunkVertex) == 0x10);
-LAYOUT_ASSERT(CachedChunkVertexSize, sizeof(CachedChunkVertex) == 0x20);
-
 void cache_chunk_vertex_colors(ChunkVertexJob *job, GC_Mtx *) {
     s32 count = job->count;
     const ColoredChunkVertex *src = reinterpret_cast<const ColoredChunkVertex *>(job->src);
