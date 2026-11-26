@@ -41,7 +41,7 @@ void TWindowSubShortCutList::refresh_entries() {
             draw_entry(index, 0x33, 0, index);
             break;
         case 1:
-            temp_r0 = (saddr)fn_80076BC4(chat_shortcut + 1);
+            temp_r0 = (saddr)get_chat_shortcut_text(chat_shortcut + 1);
             draw_entry(index, 0x12, temp_r0, index);
             break;
         case 2:

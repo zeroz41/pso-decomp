@@ -22,7 +22,7 @@
 #include "pso/npc/NpcPartnerControl.h"
 
 extern "C" {
-void TWindowCtrl__sub_8026D4E8(void);
+void set_ctrl_flag_bit5(void);
 }
 
 #pragma push
@@ -115,7 +115,7 @@ TWindowReturnCity::TWindowReturnCity(TObject *parent, s32 client) : TObject(pare
     yes_no_window->set_menu_selected_index(1);
     TWindowCtrl::hide_client_lock_on_window(this->client);
     TWindowCtrl::set_close_flag();
-    TWindowCtrl__sub_8026D4E8();
+    set_ctrl_flag_bit5();
     state = 0;
 }
 
@@ -130,7 +130,7 @@ void TWindowReturnCity::clear_flag_bit5() {
     }
 }
 
-void TWindowCtrl__sub_8026D4E8(void) {
+void set_ctrl_flag_bit5(void) {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags |= 0x20;
     }

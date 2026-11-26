@@ -91,7 +91,7 @@ void TCustomizeMenuCtrl::run_task() {
     case 2:
         ((TWindowSubCustomEquip *)(this->custom_equip))->get_cursor_pos(&ev);
         update_customize_help_text(&ev);
-        if (TWindowSubCustomEquip__sub_80275DA8((void *)this->custom_equip) != 0) {
+        if (is_custom_equip_cancelled((void *)this->custom_equip) != 0) {
             main_menu->on_submenu_closed();
             state = 5;
         } else if (((TWindowSubCustomEquip *)(this->custom_equip))->is_selected() != 0) {

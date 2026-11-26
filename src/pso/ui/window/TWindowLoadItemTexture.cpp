@@ -74,7 +74,7 @@ WindowDescriptor load_item_texture_window_descriptor = {
 #pragma readonly_strings on
 const char *TWindowLoadItemTexture::class_name = "TWindowLoadItemTexture";
 #pragma pop
-extern saddr tl_07;
+extern TObject *tl_07;
 
 
 extern const f32 load_item_texture_window_extent[2] = { 160.0f, 120.0f };
@@ -131,7 +131,7 @@ TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 
     WindowSpritePart *entry = static_cast<WindowSpritePart *>(get_array_entry(0));
     entry->w = extent[0];
     entry->h = extent[1];
-    texture_loader = TItemTexLoad::create((TObject *)tl_07);
+    texture_loader = TItemTexLoad::create(tl_07);
     m_61 = 0;
     m_60 = 2;
 }

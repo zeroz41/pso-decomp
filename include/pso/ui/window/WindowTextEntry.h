@@ -21,6 +21,7 @@ public:
     virtual ~WindowTextEntry();
     virtual void update();
     virtual void render(WindowDrawContext *context);
+    char *get_text();
 };
 
 LAYOUT_ASSERT(WindowTextEntry_size, sizeof(WindowTextEntry) == 0x2C);

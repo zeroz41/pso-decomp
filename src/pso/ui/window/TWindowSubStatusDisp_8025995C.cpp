@@ -15,8 +15,8 @@ u8 get_small_font_glyph_width();
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 s32 build_small_font_glyph_quad(s32, TexturedQuad *);
 
-void draw_right_aligned_number(void *arg0) {
-    TWindowLayoutNumber *digit = static_cast<TWindowLayoutNumber *>(arg0);
+void draw_right_aligned_number(void *digit_window) {
+    TWindowLayoutNumber *digit = static_cast<TWindowLayoutNumber *>(digit_window);
     s32 n;
     n = digit->value;
     if (digit->flags & 4) {

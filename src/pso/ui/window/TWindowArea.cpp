@@ -16,6 +16,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 // The functions are generated last to first.
 #pragma defer_codegen on
@@ -43,7 +44,7 @@ TWindowArea *create_window_area() {
     hide_window((u8 *)object);
     update_area_count_text(object);
     title_entry = (u8 *)object->get_title_entry();
-    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)title_entry)->get_field_20()));
+    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((WindowTextEntry *)title_entry)->get_text()));
     return object;
 }
 #pragma pop

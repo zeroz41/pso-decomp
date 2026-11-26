@@ -54,11 +54,11 @@ TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *client) : TObj
     select_window = new TWindowSubQuestBoardSelect();
     this->quest_thread_board = NULL;
     this->state = 0;
-    TWindowCtrl__sub_8027D214();
+    set_ctrl_flag_bit4();
 }
 
 TWindowSubQuestBoard::~TWindowSubQuestBoard() {
-    TWindowCtrl__sub_8027D1F8();
+    clear_ctrl_flag_bit4();
     if (select_window != NULL) { select_window->close(); select_window = NULL; }
 }
 

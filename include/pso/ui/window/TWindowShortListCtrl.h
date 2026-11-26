@@ -22,10 +22,11 @@ struct TWindowShortListCtrl : public TObject {
     u8 state;
     // Frames since open (run_task counts it, wraps to 2; the close button is ignored below 3).
     s16 timer;
-    // TWindowSubTechnique::get_current_selection / update_selection snapshot (s16, then s32 at 0x28).
-    void* m_20;
+    // tp and hold status the technique list was built for (TWindowSubTechnique::update_selection).
+    s16 shown_tp;
+    u8 pad_22[2];
     u32 client_id;
-    void* m_28;
+    s32 shown_hold_status;
     // Technique list (create_window, page 3).
     TWindowMenu *tech_window;
     // Item / shortcut list (create_equip_kind_window, pages 0-2).

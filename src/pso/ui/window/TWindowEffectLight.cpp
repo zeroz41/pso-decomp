@@ -23,7 +23,7 @@
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 const char *TWindowEffectLight::class_name = "TWindowEffectLight";
-extern saddr tl_window;
+extern TObject *tl_window;
 
 
 #pragma fp_contract on
@@ -35,7 +35,7 @@ void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id)
 
 }
 
-TWindowEffectLight::TWindowEffectLight(void *position, s16 kind, u32 id) : TObject((TObject *)tl_window) {
+TWindowEffectLight::TWindowEffectLight(void *position, s16 kind, u32 id) : TObject(tl_window) {
     this->m_name = TWindowEffectLight::class_name;
     copy_vec2(&x, position);
     WindowDrawContext::adjust_pos_for_split_screen(reinterpret_cast<NJS_POINT2 *>(&x), TCameraCtrl::get_split_screen_view_index(id));

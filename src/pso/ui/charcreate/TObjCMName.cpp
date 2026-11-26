@@ -50,25 +50,6 @@
 #include "pso/unk/text_80290BE0.h"
 
 
-struct Menu_80296D68
-{
-  u8 pad0[0x1C];
-  u8 *app;
-  s32 enabled;
-  s32 index;
-  s32 value;
-  s32 limit;
-  s32 wrap;
-  u8 pad34[4];
-  s32 ticks;
-  s32 active;
-  f32 fade;
-  s32 step;
-  s32 target;
-  s32 columns;
-  u8 pad50[8];
-  f32 scroll;
-};
 
 
 typedef void (TObjCMMainMenu::*MainMenuStateHandler)();
@@ -923,7 +904,7 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
   s32 t;
   f32 fade;
   s32 off;
-  Menu_80296D68 *self = (Menu_80296D68 *) menu;
+  TObjCMAssignMenu *self = (TObjCMAssignMenu *)menu;
   u8 *app;
   s32 delta;
   self->ticks++;
@@ -932,7 +913,7 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
     if ((self->fade += -0.083333336f) <= 0.0f)
     {
       self->fade = 0.0f;
-      ((TObject *)self)->queue_destruction();
+      self->queue_destruction();
     }
     return;
   }
@@ -952,23 +933,23 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
     {
       delta = -1;
     }
-    if (self->columns > 1)
+    if (self->pages > 1)
     {
       if (creation_direction_repeated(0x20) != 0)
       {
-        delta = self->step;
+        delta = self->columns;
       }
       else
         if (creation_direction_repeated(0x10) != 0)
       {
-        delta = -self->step;
+        delta = -self->columns;
       }
     }
   }
   if (delta != 0)
   {
-    app = self->app;
-    off = (self->index * 2) + 0x38;
+    app = (u8 *)self->appearance;
+    off = (self->kind * 2) + 0x38;
     old = *((s16 *) (((s8 *) app) + off));
     *((s16 *) (((s8 *) app) + off)) = old + delta;
     if ((delta == 1) || (delta == (-1)))
@@ -986,10 +967,10 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
     }
     else
     {
-      step = self->step;
+      step = self->columns;
       v = *((s16 *) (((s8 *) app) + off));
       r = old % step;
-      wrap = self->wrap;
+      wrap = self->item_count;
       if (v >= wrap)
       {
         *((s16 *) (((s8 *) app) + off)) = r;
@@ -1017,22 +998,22 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
     }
     self->value = *target;
   }
-  ((TObjCMAssignMenu *)self)->calc_grid_layout();
-  if (self->scroll < ((f32) self->target))
+  self->calc_grid_layout();
+  if (self->scroll < ((f32) self->page))
   {
     self->scroll += 0.33333334f;
-    if (self->scroll > ((f32) self->target))
+    if (self->scroll > ((f32) self->page))
     {
-      self->scroll = (f32) self->target;
+      self->scroll = (f32) self->page;
     }
   }
   else
-    if (self->scroll > ((f32) self->target))
+    if (self->scroll > ((f32) self->page))
   {
     self->scroll -= 0.33333334f;
-    if (self->scroll < ((f32) self->target))
+    if (self->scroll < ((f32) self->page))
     {
-      self->scroll = (f32) self->target;
+      self->scroll = (f32) self->page;
     }
   }
   if ((self->enabled != 0) && (creation_buttons_pressed(6) != 0))

@@ -54,7 +54,7 @@ extern "C" {
 s32 copy_player_visual_record(void *, void *);
 }
 
-extern saddr tl_03;
+extern TObject *tl_03;
 
 void TChCrCharSelect::tick_and_apply_selection() {
     s32 delay;

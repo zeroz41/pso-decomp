@@ -22,6 +22,7 @@
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlyItem.h"
 
 
 #include "pso/ui/window/TObjBagWarnWin.h"
@@ -58,19 +59,6 @@ const char *TObjBagWarnWin4P::class_name = "TObjBagWarnWin4P";
 
 
 
-struct Sub_8006EC20 {
-    u8 pad[0x1C];
-    s16 v1C;
-};
-
-struct Ctrl_8006EC20 {
-    u8 pad0[0x38];
-    f32 f38;
-    u8 pad3C[4];
-    f32 f40;
-    u8 pad44[0xD00 - 0x44];
-    Sub_8006EC20 *pD00;
-};
 
 
 
@@ -130,31 +118,31 @@ void TObjBagWarnWin::run_task() {
 }
 
 s32 TObjBagWarnWin::should_show_warning() {
-    Ctrl_8006EC20 *ctrl;
+    TObjPlayer *ctrl;
     if (TLobby__sub_80211C3C() != 3) {
         return 0;
     }
     if (get_challenge_record_window_mode() != 0) {
         return 0;
     }
-    ctrl = (Ctrl_8006EC20 *)get_player_by_client_id(local_client_id);
+    ctrl = get_player_by_client_id(local_client_id);
     if (ctrl == NULL) {
         return 0;
     }
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
-        if (ctrl->f38 <= -100.0f || ctrl->f38 >= 330.0f) {
+        if (ctrl->position.x <= -100.0f || ctrl->position.x >= 330.0f) {
             return 0;
         }
         break;
     case AREA_PIONEER2_EP2:
-        if (ctrl->f38 <= -40.0f || ctrl->f40 <= -175.0f) {
+        if (ctrl->position.x <= -40.0f || ctrl->position.z <= -175.0f) {
             return 0;
         }
         break;
     }
-    ctrl = (Ctrl_8006EC20 *)get_player_by_client_id(local_client_id);
-    if (ctrl == NULL || ctrl->pD00->v1C < 30) {
+    ctrl = get_player_by_client_id(local_client_id);
+    if (ctrl == NULL || ctrl->inventory_objects->item_count < 30) {
         return 0;
     }
     return 1;

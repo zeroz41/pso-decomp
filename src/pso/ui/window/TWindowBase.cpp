@@ -36,6 +36,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -60,7 +61,7 @@ extern int area_total;
 
 int get_area_total(void) {  return area_total; }
 
-uaddr TWindowSubComCard::get_field_20() { return this->client_id; }
+char *WindowTextEntry::get_text() { return this->text; }
 
 f32 TWindowBase::get_transition_progress() {
     f32 v = get_close_progress();

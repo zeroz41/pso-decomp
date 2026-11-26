@@ -30,20 +30,20 @@ void fill_game_list_row(void *row, s32 locked, const char *name, s8 player_count
     *(u16 *)((s8 *)row + 0) = (u16) (*(u16 *)((s8 *)row + 0) | 5);
 }
 
-void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
-    (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
+void TWindowSubStatusDisp__sub_803387F8(void *unused, s8 value) {
+    (saddr)TWindowSubStatusDisp::get_message_10(value + 0x113);
 }
-saddr TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
-    if (arg1 == 0) {
+saddr TWindowSubStatusDisp::query_status_field(void *unused, s8 value) {
+    if (value == 0) {
         return 0;
     }
-    return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x110);
+    return (saddr)TWindowSubStatusDisp::get_message_10(value + 0x110);
 }
-saddr TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
-    if (arg1 == 0) {
+saddr TWindowSubStatusDisp::get_flag_or_zero(void *unused, s8 value) {
+    if (value == 0) {
         return 0;
     }
-    return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x10D);
+    return (saddr)TWindowSubStatusDisp::get_message_10(value + 0x10D);
 }
 
 void TGameListRow::render(WindowDrawContext *context) {

@@ -104,8 +104,8 @@ char *format_int_decimal(s32 v, char *out) {
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
 
-void text_builder_append_int(s32 arg0) {
-    text_builder_write_cursor = format_int_decimal(arg0, text_builder_write_cursor);
+void text_builder_append_int(s32 value) {
+    text_builder_write_cursor = format_int_decimal(value, text_builder_write_cursor);
 }
 
 s8 *TWindowSubStatusDisp::copy_message_page_text() {

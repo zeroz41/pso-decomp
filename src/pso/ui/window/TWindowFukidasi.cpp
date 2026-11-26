@@ -1107,7 +1107,7 @@ s32 TWindowFukidasi::check_card_match_enabled(const char *text) {
     if (content_kind != 0) {
         return 0;
     }
-    return (u32) __cntlzw(strcmp((const char *)((TWindowSubComCard *)this->get_array_entry(0))->get_field_20(), text)) >> 5;
+    return (u32) __cntlzw(strcmp((const char *)((WindowTextEntry *)this->get_array_entry(0))->get_text(), text)) >> 5;
 }
 
 #pragma push
@@ -1121,7 +1121,7 @@ void TWindowFukidasi::rearm_balloon(saddr flags) {
     init_flags(flags);
     switch (content_kind) {
     case 0:
-        n = TWindowKeyBoardSoft::strnlen((const char *)((TWindowSubComCard *)(void *)this->get_array_entry(0))->get_field_20(), (u32)0x100);
+        n = TWindowKeyBoardSoft::strnlen((const char *)((WindowTextEntry *)(void *)this->get_array_entry(0))->get_text(), (u32)0x100);
         hide_ticks = (s16) ((3.3f * (f32) n) + 55.5f);
         break;
     case 1:

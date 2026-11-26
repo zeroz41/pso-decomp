@@ -38,7 +38,7 @@ s32 get_control_button_mask(s32 client_id);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
     extern int chat_help_color_table[];
 int get_chat_help_color(int a0);
-s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
+s32 is_chat_in_use(TWindowChat *w) {
     if (w->composer->has_text() != 0) {
         return 1;
     }
@@ -61,7 +61,7 @@ s32 TWindowChat::update_symbol_chat_window() {
         return 0;
     }
     this->set_active_flag();
-    preset_index = (s32 *)((saddr)this->result + 4);
+    preset_index = this->result + 1;
     *preset_index = this->symbolChatWindow->get_selected_index();
     if (this->flags & 0x80) {
         TWindowChat::open_symbol_chat(preset_index)->update_selected_symbol();
@@ -109,11 +109,11 @@ s32 TWindowChat::submit_keyboard_input() {
     this->set_active_flag();
     if (composer->get_flag() != 0) {
         *(ChatShortcut *)this->result = *get_chat_shortcut((s8)composer->get_input_mode());
-        if (((u32) **(u32 * *)&this->result == 3U) && (this->is_mode_bit6() == 0)) {
-            TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4))->update_selected_symbol();
+        if (((u32) *this->result == 3U) && (this->is_mode_bit6() == 0)) {
+            TWindowChat::open_symbol_chat(this->result + 1)->update_selected_symbol();
         }
     } else {
-        this->composer->export_text((char *)this->result + 4);
+        this->composer->export_text((char *)(this->result + 1));
     }
     composer->reset_input();
     return 1;
@@ -317,14 +317,14 @@ void TWindowChat::handle_chat_input() {
 
 void TWindowChat::open_next_input_window() {
     if (flags & 2) {
-        *static_cast<s32 *>(result) = 1;
+        *result = 1;
         copy_vec2(composer->target_position, (void *)(get_window_layout_position(0xB7)));
         composer->tween_ticks = 3;
         return;
     }
     switch (static_cast<s8>(inputMode)) {
     case 0:
-        *static_cast<s32 *>(result) = 1;
+        *result = 1;
         softKeyboard = new TWindowKeyBoardSoft(composer, local_client_id);
         softKeyboard->set_flag60_bit1();
         copy_vec2(composer->target_position, (void *)(get_window_layout_position(0xB8)));
@@ -333,14 +333,14 @@ void TWindowChat::open_next_input_window() {
         return;
     case 1: {
         composer->reset_input();
-        *static_cast<s32 *>(result) = 2;
-        wordSelectWindow = new TWindowDD(this, reinterpret_cast<WordSelectMessage *>(static_cast<s32 *>(result) + 1));
+        *result = 2;
+        wordSelectWindow = new TWindowDD(this, reinterpret_cast<WordSelectMessage *>(result + 1));
         hardKeyboard->sub_8025EC04();
         return;
     }
     case 2:
         composer->reset_input();
-        *static_cast<s32 *>(result) = 3;
+        *result = 3;
         symbolChatWindow = new TSymbolChatMenu(this);
         hardKeyboard->sub_8025EC04();
         return;
@@ -408,7 +408,7 @@ TWindowChat::TWindowChat(TObject *object, void *result) : TObject(object) {
     auxiliaryWindow = NULL;
     wordSelectWindow = NULL;
     symbolChatWindow = NULL;
-    this->result = result;
+    this->result = (s32 *)result;
     this->open_next_input_window();
 }
 

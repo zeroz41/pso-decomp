@@ -116,15 +116,15 @@ void draw_window_uv_sprite_part(WindowSpritePart *sprite, WindowDrawContext *con
 
 void TWindowSubStatusDisp::update_palette_sprite() {  }
 
-void *TWindowSubStatusDisp__sub_8025B2DC(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 4) = window_uv_sprite_part_vtable;
-        __dt__18TWindowLayoutEntryFv(arg0, 0);
-        if (arg1 > 0) {
-            ::operator delete(arg0);
+void *TWindowSubStatusDisp__sub_8025B2DC(void *part, s16 flags) {
+    if (part != NULL) {
+        *(void ***)((s8 *)part + 4) = window_uv_sprite_part_vtable;
+        __dt__18TWindowLayoutEntryFv(part, 0);
+        if (flags > 0) {
+            ::operator delete(part);
         }
     }
-    return arg0;
+    return part;
 }
 
 WindowSpritePart *WindowSpritePart::init_part_direct(DirectSpritePartLayoutRecord *source, s32 client) {

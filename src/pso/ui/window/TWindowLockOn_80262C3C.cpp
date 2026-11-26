@@ -27,6 +27,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TObjLuker_801329B0.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 
 #pragma readonly_strings on
@@ -137,7 +138,7 @@ extern "C" {
 s32 is_split_screen(void);
 }
 extern "C" {
-u32 calc_text_width(int);
+u32 calc_text_width(char *s);
 }
 s32 get_status_effect_icon_index(u32);
 
@@ -315,11 +316,11 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     e = reinterpret_cast<saddr>(get_array_entry(1));
     TWindowDuelResult::set_default_status((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
     ((TWindowHelpItem *)e)->reset_float_field();
-    width = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
+    width = calc_text_width(((WindowTextEntry *)e)->get_text());
     e = reinterpret_cast<saddr>(get_array_entry(0));
     TWindowDuelResult::set_default_status((void *)e, enemy_name_for_rt_index(((TWindowLockOn *)enemy)->get_target_id()));
     ((TWindowHelpItem *)e)->reset_float_field();
-    target_size[0] = (f32)calc_text_width(((TWindowSubComCard *)e)->get_field_20());
+    target_size[0] = (f32)calc_text_width(((WindowTextEntry *)e)->get_text());
     target_size[1] = 64.0f;
     if (is_split_screen() == 0) {
         target_size[1] += 29.0f;
@@ -342,7 +343,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     ((TWindowHelpItem *)e)->reset_float_field();
     ((LockOnEntryText *)e)->y = 10.0f + (f32)width;
     ((LockOnEntryColor *)e)->color = type_colors[kind];
-    w2 = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
+    w2 = calc_text_width(((WindowTextEntry *)e)->get_text());
     w2 += width;
     if ((f32)w2 > target_size[0]) {
         target_size[0] = (f32)w2;

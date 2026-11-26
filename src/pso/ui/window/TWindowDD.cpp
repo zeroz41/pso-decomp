@@ -3,6 +3,7 @@
 #include "pso/system/ControllerInputState.h"
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 
 // Window layout constants shared by the TWindowDD files (one definition here, extern elsewhere).
@@ -98,44 +99,38 @@ void fill_window_point_table(NJS_POINT2 *points, f32 x, f32 y, f32 width) {
   f32 inner_right_u;
   f32 inner_left;
   f32 inner_left_u;
-  s8 *point_7;
   f32 right_u;
   f32 right;
   float right_scaled;
   f32 bottom_v;
-  int offset_30;
   f32 top_v;
   f32 left_u;
-  s8 *point_5;
   right = x + width;
   left_u = window_dd_texel_scale * x;
   top_v = window_dd_texel_scale * y;
-  *((f32 *) (((s8 *) points) + 0)) = left_u;
+  points[0].x = left_u;
   bottom_v = window_dd_texel_scale * (window_dd_row_height + y);
   right_scaled = window_dd_texel_scale * right;
-  *((f32 *) (((s8 *) points) + 4)) = top_v;
+  points[0].y = top_v;
   inner_left = 48.0f + x;
   right_u = right_scaled;
-  *((f32 *) (((s8 *) points) + 8)) = left_u;
+  points[1].x = left_u;
   inner_left_u = window_dd_texel_scale * inner_left;
-  *((f32 *) (((s8 *) points) + 0xC)) = bottom_v;
+  points[1].y = bottom_v;
   inner_right_u = inner_left;
   inner_right_u = window_dd_texel_scale * (inner_right_u - width);
-  point_5 = ((s8 *) points) + 0x28;
-  *((f32 *) (((s8 *) points) + 0x10)) = right_u;
-  *((f32 *) (((s8 *) points) + 0x14)) = top_v;
-  *((f32 *) (((s8 *) points) + 0x18)) = right_u;
-  *((f32 *) (((s8 *) points) + 0x1C)) = bottom_v;
-  *((f32 *) (((s8 *) points) + 0x20)) = inner_right_u;
-  *((f32 *) (((s8 *) points) + 0x24)) = top_v;
-  offset_30 = 0x30;
-  *((f32 *) point_5) = inner_right_u;
-  *((f32 *) (((s8 *) points) + 0x2C)) = bottom_v;
-  *((f32 *) (((s8 *) points) + offset_30)) = inner_left_u;
-  *((f32 *) (((s8 *) points) + 0x34)) = top_v;
-  point_7 = ((s8 *) points) + 0x38;
-  *((f32 *) point_7) = inner_left_u;
-  *((f32 *) (((s8 *) points) + 0x3C)) = bottom_v;
+  points[2].x = right_u;
+  points[2].y = top_v;
+  points[3].x = right_u;
+  points[3].y = bottom_v;
+  points[4].x = inner_right_u;
+  points[4].y = top_v;
+  points[5].x = inner_right_u;
+  points[5].y = bottom_v;
+  points[6].x = inner_left_u;
+  points[6].y = top_v;
+  points[7].x = inner_left_u;
+  points[7].y = bottom_v;
 }
 
 #pragma push

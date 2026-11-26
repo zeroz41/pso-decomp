@@ -128,10 +128,10 @@ void TChCrEffFade::run_task() {
     }
 }
 
-extern saddr tl_fade;
+extern TObject *tl_fade;
 
 TChCrEffFade::~TChCrEffFade() {}
-TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject((TObject *)tl_fade) {
+TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject(tl_fade) {
     s32 len;
     s32 direction;
     m_name = TChCrEffFade::class_name;

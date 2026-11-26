@@ -18,7 +18,7 @@ extern "C" {
 saddr get_localized_text_entry(s32);
 s32 start_memcard_format(int, int, int, int, int);
 extern s32 local_client_id;
-extern saddr tl_01;
+extern TObject *tl_01;
 
 TSnapshotFileSetup::TSnapshotFileSetup(TObject *parent) : TObject(parent) {
     this->state = 0;

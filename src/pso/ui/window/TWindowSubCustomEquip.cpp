@@ -106,7 +106,7 @@ WindowDescriptor custom_equip_window_descriptor = {
 
 
 int TWindowSubCustomEquip::is_selected() { return this->state_flags & 0x1; }
-int TWindowSubCustomEquip__sub_80275DA8(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
+int is_custom_equip_cancelled(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
 void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
     *(s8 *)&this->state_flags &= ~1;
     status_disp->set_state(1);
@@ -160,14 +160,14 @@ void TWindowSubCustomEquip::draw_cursor(WindowDrawContext *context) {
     draw_cursor_sprite(0.8f, context, &position, cursor_frame);
 }
 
-void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
+void TWindowSubCustomEquip::update_palette_slot(s32 slot, u16 kind, u16 index) {
     TObjPlayer *pl;
     WindowSpritePart *icon;
     TWindowLayoutNumber *label;
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        icon = static_cast<WindowSpritePart *>(get_array_entry(custom_equip_slot_icon_entries[arg1]));
-        label = static_cast<TWindowLayoutNumber *>(get_array_entry(custom_equip_slot_number_entries[arg1]));
+        icon = static_cast<WindowSpritePart *>(get_array_entry(custom_equip_slot_icon_entries[slot]));
+        label = static_cast<TWindowLayoutNumber *>(get_array_entry(custom_equip_slot_number_entries[slot]));
         if (pl->can_use_palette_action(kind, index) != 0) {
             icon->color = -1;
         } else {
@@ -278,7 +278,7 @@ void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry) {
     position->y = entry->y - 15.0f;
 }
 
-void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
+void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
     NJS_POINT2 pos;
     WindowSpritePart *p;
     WindowSpritePart *a;

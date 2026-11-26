@@ -90,11 +90,11 @@ void WindowScrollBar::increment_counter() {
     frame++;
 }
 
-s32 TWindowSubStatusDisp::destroy_allocation(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
+s32 TWindowSubStatusDisp::destroy_allocation(s32 allocation, s16 flags) {
+    if ((allocation != 0) && (flags > 0)) {
         __dl__FPv();
     }
-    return arg0;
+    return allocation;
 }
 
 WindowScrollBar::WindowScrollBar(const NJS_POINT2 *extent) {

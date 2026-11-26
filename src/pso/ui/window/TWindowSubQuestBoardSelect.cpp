@@ -30,13 +30,13 @@ void TWindowSubQuestBoardSelect::sub_8027D1E8() {
 
 extern "C" {
 
-void TWindowCtrl__sub_8027D1F8(void) {
+void clear_ctrl_flag_bit4(void) {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags &= ~0x10;
     }
 }
 
-void TWindowCtrl__sub_8027D214(void) {
+void set_ctrl_flag_bit4(void) {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags |= 0x10;
     }
@@ -296,7 +296,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&qu
     state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
     set_text_entry_string(entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
-    ((TWindowSubComCard *)entry_0)->get_field_20();
+    ((WindowTextEntry *)entry_0)->get_text();
     title_width = (f32) calc_text_width();
     entry_0->x = 210.0f - 0.5f * title_width;
     slot = -1;

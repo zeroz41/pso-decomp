@@ -3,4 +3,4 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/quest/TQuestListVM.h"
 
-int TWindowMenu::is_cancelled() { return (this->m_70 >> 2) & 0x1; }
+int TWindowMenu::is_cancelled() { return (this->menu_flags >> 2) & 0x1; }

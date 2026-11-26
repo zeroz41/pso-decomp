@@ -181,7 +181,7 @@ char *get_area_title() {
     return area_title;
 }
 
-void TWindowMenu::set_flag70_bit10() { this->m_70 |= 0x10; }
+void TWindowMenu::set_flag70_bit10() { this->menu_flags |= 0x10; }
 
 void TObjCityMainWarp::reset() { clear_enabled_main_warps(); update_main_warp_visible_mask(0); }
 

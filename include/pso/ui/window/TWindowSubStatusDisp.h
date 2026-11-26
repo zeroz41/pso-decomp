@@ -57,7 +57,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void dispatch_page_init();
     void set_count_ratio_text(s32 count, s32 total);
     void clear_visible_flag();
-    static s32 destroy_allocation(s32 arg0, s16 arg1);
+    static s32 destroy_allocation(s32 allocation, s16 flags);
 
     static void *get_message_10(s32 index);
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
@@ -85,8 +85,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void init_scroll_pos();
     static f32 get_base_y(f32 width);
     void fill_card_text_entries(GuildCardRecord *record);
-    static saddr query_status_field(void *arg0, s8 arg1);
-    static saddr get_flag_or_zero(void *arg0, s8 arg1);
+    static saddr query_status_field(void *unused, s8 value);
+    static saddr get_flag_or_zero(void *unused, s8 value);
     static void draw_split_screen_dividers();
     static void draw_tiled_background();
     static void draw_bottom_bar();

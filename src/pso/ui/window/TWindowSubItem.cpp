@@ -485,7 +485,7 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
     return storage;
 }
 
-void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, TWindowMenu *titled_window_menu) {
+void TWindowSubItem::add_meseta_purpose_actions(saddr owner, TWindowMenu *titled_window_menu) {
     if (get_current_floor_area() == AREA_LOBBY) {
         add_gray_text_entry(titled_window_menu, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
         return;
@@ -493,7 +493,7 @@ void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, TWindowMenu *titled_
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
-void TWindowSubItem::draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 item_id) {
+void TWindowSubItem::draw_slot(saddr owner, TWindowMenu *titled_window_menu, s32 item_id) {
     s32 id;
 
     id = ((u32)__cntlzw(4 - (item_id & 0xF)) >> 5) + 4;
@@ -626,10 +626,10 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 command) {
     }
 }
 
-void TWindowSubItem::close_windows(s32 arg1) {
+void TWindowSubItem::close_windows(s32 mode) {
     TObjPlayer *player = get_player_by_client_id(this->client_id);
     if (player != NULL) {
-        switch (arg1) {
+        switch (mode) {
         case 0:
             player->close_sub_window();
             this->state = 0x16;

@@ -214,12 +214,6 @@ const TitleTextureFilenameTable title_texture_filename_table = {
 };
 
 
-typedef struct {
-    s32 pad0[2];
-    f32 f8, fC;
-    s32 pad10[6];
-    f32 f28, f2C, f30, f34, f38, f3C, f40, f44;
-} Cam_80336520;
 
 TTitleScene *title_scene_instance;
 int lobby_game_mode_state;
@@ -365,17 +359,17 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     }
     TAdMultiChgGameModeGC::apply_bgm_col_ctrl("title.adx");
     {
-        Cam_80336520 cam;
-        cam.f8 = 320.0f;
-        cam.fC = 200.0f;
-        cam.f28 = 640.0f;
-        cam.f2C = 480.0f;
-        cam.f34 = cam.f30 = 0.0f;
-        cam.f38 = 20.0f;
-        cam.f3C = 15.0f;
-        cam.f40 = 1.0f;
-        cam.f44 = 0.85f;
-        ((CameraViewParams *)&cam)->begin_override();
+        CameraViewParams cam;
+        cam.screen.projection.center_x = 320.0f;
+        cam.screen.projection.center_y = 200.0f;
+        cam.screen.viewport_width = 640.0f;
+        cam.screen.viewport_height = 480.0f;
+        cam.scissor.y0 = cam.scissor.x0 = 0.0f;
+        cam.scissor.x1 = 20.0f;
+        cam.scissor.y1 = 15.0f;
+        cam.pad_40[0] = 1.0f;
+        cam.pad_40[1] = 0.85f;
+        cam.begin_override();
     }
     {
         NJS_POINT3 v = {0.0f, 0.0f, -47.0f};

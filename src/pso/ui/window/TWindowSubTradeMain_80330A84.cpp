@@ -153,7 +153,7 @@ void TWindowSubTradeMain::run_task() {
     if (this->chat->is_visible() != 0) {
         consume_input_active_flag(this->chat);
     }
-    if (TWindowCtrl__sub_8024701C(this->chat) != 0) {
+    if (is_chat_in_use(this->chat) != 0) {
         this->set_labels(0xA);
         this->set_child_windows_enabled(0);
         this->flags |= 1;
@@ -786,7 +786,7 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
 }
 
 void TWindowSubTradeMain::update_position_if_changed(saddr owner, u8 *window, u8 *position) {
-    if ((*(f32 *)((s8 *)window + 0x30) != *(f32 *)((s8 *)position + 0)) || (*(f32 *)((s8 *)window + 0x34) != *(f32 *)((s8 *)position + 4))) {
+    if ((((TWindowBase *)window)->target_position[0] != ((f32 *)position)[0]) || (((TWindowBase *)window)->target_position[1] != ((f32 *)position)[1])) {
         ((TWindowBase *)window)->slide_to((f32 *)position);
     }
 }

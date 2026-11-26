@@ -112,7 +112,7 @@ void TLobby::free_chr_select_singleton() {
     }
 }
 
-extern saddr tl_03;
+extern TObject *tl_03;
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {
@@ -130,10 +130,10 @@ void fn_8028D8F4(void) {
 }
 
 void fn_8028D940(void) {
-    character_creation_effects.wall = fn_8029AE88((TObject *)tl_03);
-    character_creation_effects.heading = create_TChCrEffTag((TObject *)tl_03);
+    character_creation_effects.wall = fn_8029AE88(tl_03);
+    character_creation_effects.heading = create_TChCrEffTag(tl_03);
     character_creation_effects.controller_plate = NULL;
     if (TChCrEffCtrlPl__sub_80298F6C() != 0) {
-        character_creation_effects.controller_plate = TChCrEffCtrlPl::create((TObject *)tl_03);
+        character_creation_effects.controller_plate = TChCrEffCtrlPl::create(tl_03);
     }
 }

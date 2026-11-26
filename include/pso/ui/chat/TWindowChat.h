@@ -38,7 +38,7 @@ public:
     class TWindowBase *auxiliaryWindow;
     class TSymbolChatMenu *symbolChatWindow;
     class TWindowDD *wordSelectWindow;
-    void* result;
+    s32 *result;  // the kind of input (1 text, 2 word select, 3 symbol chat), then its payload
 public:
     void update();
     void handle_input();
@@ -52,7 +52,7 @@ public:
     static struct SymbolChatPreset *open_symbol_chat(s32 *index);
 };
 extern "C" {
-s32 TWindowCtrl__sub_8024701C(TWindowChat *chat);
+s32 is_chat_in_use(TWindowChat *chat);
 void consume_input_active_flag(TWindowChat *chat);
 void consume_active_flag(TWindowChat *chat);
 }

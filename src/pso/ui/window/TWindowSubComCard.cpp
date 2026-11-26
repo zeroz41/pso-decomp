@@ -55,6 +55,7 @@ class TChCrTagPlBack;
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowSubComCard::class_name = "TWindowSubComCard";
 
@@ -1643,7 +1644,7 @@ void TWindowSubComCard::set_choice_search_option(ChoiceSearchSelection *selectio
     } else if (val != find_choice_search_value(selections, key)) {
         this->dirty_flags |= 1;
         set_value_by_key(selections, key, val);
-        this->entry_list_window->set_entry_string_by_id((void *)((TWindowSubComCard *)(this->com_card_menu->get_selected_entry()))->get_field_20(), key);
+        this->entry_list_window->set_entry_string_by_id((void *)((WindowTextEntry *)(this->com_card_menu->get_selected_entry()))->get_text(), key);
     }
 }
 

@@ -35,7 +35,7 @@ void TWindowSubLog::run_task() {
     if (chat->is_visible() != 0) {
         consume_input_active_flag(chat);
     }
-    if (TWindowCtrl__sub_8024701C(chat) != 0) {
+    if (is_chat_in_use(chat) != 0) {
         TWindowSubLog__sub_8026A664((u8 *)log_window, 200.0f);
         return;
     }

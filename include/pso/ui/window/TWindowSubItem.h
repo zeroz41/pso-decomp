@@ -30,11 +30,11 @@ struct TWindowSubItem : public TObject {
     static const char *class_name;
     void set_displayed_item(s32 id);
     void use_selected_item();
-    void close_windows(s32 arg1);
+    void close_windows(s32 mode);
     void exec_item_command(saddr item_id, s32 command);
     void set_cursor_row_for_mode(s32 mode);
-    static void draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 item_id);
-    static void add_meseta_purpose_actions(saddr arg0, TWindowMenu *titled_window_menu);
+    static void draw_slot(saddr owner, TWindowMenu *titled_window_menu, s32 item_id);
+    static void add_meseta_purpose_actions(saddr owner, TWindowMenu *titled_window_menu);
     s32 create_count_input(s32 maximum);
     TWindowMenu *create_menu_window();
     virtual void render();

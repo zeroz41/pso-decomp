@@ -262,14 +262,14 @@ void TWindowShortListCtrl::run_task() {
         return;
     case 9:
         if (tech_window == NULL) {
-            TWindowSubTechnique::get_current_selection((s16 *)&m_20, (s32 *)&m_28, client_id);
+            TWindowSubTechnique::get_current_selection(&shown_tp, &shown_hold_status, client_id);
             tech_window = (TWindowMenu *)create_window(get_window_layout_position(1), (saddr)&short_list_window_pos);
         }
         tech_window->clear_flag_and_release();
         state = 10;
     case 10:
         player->update_cursor((s16)tech_window->get_selected_value());
-        if (TWindowSubTechnique::update_selection((s16 *)&m_20, (s32 *)&m_28, client_id) != 0) {
+        if (TWindowSubTechnique::update_selection(&shown_tp, &shown_hold_status, client_id) != 0) {
             refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
         }
         if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x400) != 0) {

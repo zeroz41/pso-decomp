@@ -317,7 +317,7 @@ void TWindowLockOn::update_for_player_index(s32 id) {
         return;
     }
     ((TWindowSubStatusDisp *)(this))->clear_visible_flag();
-    if ((((TWindowSubComCard *)(this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)(this))->get_field_20(), (const char *)str) != 0)) {
+    if ((((WindowTextEntry *)(this))->get_text() == 0U) || (strcmp((const char *)((WindowTextEntry *)(this))->get_text(), (const char *)str) != 0)) {
         set_text_entry_string(((WindowTextEntry *)this), str, 0x20);
     }
     if (player->is_actor_dead() != 0) {

@@ -584,7 +584,7 @@ void request_chara_making_archives(void) {
 
 void TCharaMaking__sub_8028E790(void) {  }
 
-extern saddr tl_03;
+extern TObject *tl_03;
 
 void TCharaMaking::update_light_direction() {
     f32 cos_pitch;
@@ -610,7 +610,7 @@ s32 TCharaMaking::update_main_menu(saddr task) {
     }
     if (creation_main_menu_obj->is_state_4() != 0) {
         ((TObject *)task)->queue_destruction();
-        TChCrCharSelect::create((TObject *)tl_03);
+        TChCrCharSelect::create(tl_03);
         return 1;
     }
     return 0;

@@ -47,7 +47,6 @@ struct LengthLimits { u32 n[4]; };
 
 struct KeyboardModes { u8 b[4]; };
 
-// The TU's .rodata starts at 0x80477178, right after TAdMcSelectMcGC's int->float double; only this file uses these.
 // show_message_window: position and size of the message window it opens.
 const f32 enter_base_message_window_position[2] = {46.0f, 110.0f};
 
@@ -65,13 +64,13 @@ const TAdEnterBaseGC::Position enter_base_cursor_sizes[2] = {{330.0f, 20.0f}, {4
 
 const s32 serial_keyboard_field_width_table[4] = {10, 12, 8, 31};
 
-// fn_8032B318: anchor of the centred text.
+// The anchor of the centred prompt text.
 const f32 enter_base_text_anchor[2] = {320.0f, 250.0f};
 
 const f32 serial_keyboard_position_table[4][2] = {{234.0f, 500.0f}, {234.0f, 500.0f}, {256.0f, 230.0f}, {87.0f, 500.0f}};
 
-// inferred: names follow the users. fn_8032AC24 and draw_masked_password_field each draw a box
-// (TAdEnterSerialAccessGC__sub_802C4B64: position, 4-byte vertex color) on a TAdPlyChrSelPlateGC of the given size.
+// inferred: names follow the users. The entry field and the password field each draw a box
+// (position, 4-byte vertex color) on a TAdPlyChrSelPlateGC of the given size.
 const NJS_POINT2 entry_field_box_pos = {256.0f, 230.0f};
 
 const f32 entry_field_box_size[2] = {120.0f, 18.0f};
@@ -114,7 +113,7 @@ u8 *get_raw_serial_input_buffer();
 
 
 }
-extern s32 tl_clipout;
+extern TObject *tl_clipout;
 char serial_access_hex_string_buf[0x40];
 
 
@@ -128,7 +127,7 @@ TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {
 }
 
 TAdEnterBaseGC::~TAdEnterBaseGC() {
-    if (this->select_cursor != NULL) { ((TObject *)this->select_cursor)->queue_destruction(); *(s32 *)((s8 *)this + 0x2C) = 0; }
+    if (this->select_cursor != NULL) { ((TObject *)this->select_cursor)->queue_destruction(); this->select_cursor = NULL; }
     if (prompt_window != NULL) { prompt_window->queue_destruction(); prompt_window = NULL; }
     if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
 }
@@ -139,12 +138,12 @@ void TAdEnterBaseGC::create_parts() {
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     if (TAdEnterBaseGC::entry_mode == 3) {
-        this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
+        this->select_cursor = new TAdSelectCurGC(tl_clipout,
             reinterpret_cast<const NJS_POINT2 *>(&enter_base_cursor_positions[2]),
             reinterpret_cast<const NJS_POINT2 *>(&enter_base_cursor_sizes[1]));
         return;
     }
-    this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
+    this->select_cursor = new TAdSelectCurGC(tl_clipout,
         reinterpret_cast<const NJS_POINT2 *>(enter_base_cursor_positions),
         reinterpret_cast<const NJS_POINT2 *>(enter_base_cursor_sizes));
 }
@@ -329,7 +328,7 @@ void fn_8032AC24(void) {
     const f32 *src = entry_field_box_size;
     layout.width = src[0];
     layout.height = src[1];
-    TAdPlyChrSelPlateGC plate(reinterpret_cast<TObject *>(tl_clipout), &layout);
+    TAdPlyChrSelPlateGC plate(tl_clipout, &layout);
     NJS_COLOR w = entry_field_box_color;
     draw_selection_plate(&plate, const_cast<NJS_POINT2 *>(&entry_field_box_pos), w, 0);
 }
@@ -344,7 +343,7 @@ void draw_masked_password_field(saddr context) {
         ChrSelPlateLayout layout;
         layout.width = password_field_box_size[0];
         layout.height = password_field_box_size[1];
-        TAdPlyChrSelPlateGC plate(reinterpret_cast<TObject *>(tl_clipout), &layout);
+        TAdPlyChrSelPlateGC plate(tl_clipout, &layout);
         NJS_COLOR w = password_field_box_color;
         draw_selection_plate(&plate, const_cast<NJS_POINT2 *>(&password_field_box_pos), w, 0);
         str = password_entry_keyboard_control->realloc_buffer();

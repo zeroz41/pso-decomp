@@ -5,7 +5,7 @@
 
 // --- C functions defined in TWindowSubStatusDisp_8025995C.cpp ---
 extern "C" {
-void draw_right_aligned_number(void *arg0);
+void draw_right_aligned_number(void *digit_window);
 }
 // --- end of C functions
 

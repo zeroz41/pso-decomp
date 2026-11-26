@@ -18,7 +18,7 @@ struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 extern "C" {
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
 
-char *fn_80076BC4(s32 *text) { return (char *)text; }
+char *get_chat_shortcut_text(s32 *text) { return (char *)text; }
 }
 void submit_chat_text(u8 *lobby) {
     void *player;

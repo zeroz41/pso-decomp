@@ -101,8 +101,8 @@ void TWindowDD_WS_Word::get_cursor_pos(NJS_POINT2 *position) {
 
 s32 TWindowDD_WS_Word::get_selected_row_text() {
     if (entry_list.items != NULL) {
-        TWindowSubComCard *entry = (TWindowSubComCard *)get_array_entry(selected_row);
-        return entry->get_field_20();
+        WindowTextEntry *entry = (WindowTextEntry *)get_array_entry(selected_row);
+        return (s32)entry->get_text();
     }
     return 0;
 }

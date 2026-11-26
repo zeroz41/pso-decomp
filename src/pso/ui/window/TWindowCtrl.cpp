@@ -461,7 +461,7 @@ void TWindowCtrl::update_com_card_window() {
     if ((card_before != NULL) && (card_before->all_parents_unqueued_for_destruction() == 0)) {
         this->com_card_window = NULL;
     }
-    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((chat = chat_window, ((chat == NULL) == 0)) && (TWindowCtrl__sub_8024701C(chat) != 0))) {
+    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((chat = chat_window, ((chat == NULL) == 0)) && (is_chat_in_use(chat) != 0))) {
         card = this->com_card_window;
         if (card != NULL) {
             card->queue_destruction();
@@ -475,7 +475,7 @@ void TWindowCtrl::update_com_card_window() {
 
 
 void TWindowCtrl::update_trade_request_window() {
-    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->com_card_window != 0U) || ((chat_window != NULL) && (TWindowCtrl__sub_8024701C(chat_window) != 0))) {
+    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->com_card_window != 0U) || ((chat_window != NULL) && (is_chat_in_use(chat_window) != 0))) {
         if (trade_request != NULL) {
             trade_request->queue_destruction();
             trade_request = NULL;
@@ -1209,14 +1209,14 @@ void TWindowCtrl::open_status_111() {
 
 
 
-s32 TWindowCtrl__sub_8024A314(void) {
+s32 is_chat_window_in_use(void) {
     if (TWindowCtrl::instance == NULL) {
         return 0;
     }
     if (TWindowCtrl::instance->chat_window == NULL) {
         return 0;
     }
-    return TWindowCtrl__sub_8024701C(TWindowCtrl::instance->chat_window);
+    return is_chat_in_use(TWindowCtrl::instance->chat_window);
 }
 
 

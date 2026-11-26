@@ -122,7 +122,7 @@ TWindowGetComCard::~TWindowGetComCard() {
     }
     TWindowCtrl::show_client_lock_on_window(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
-    if ((TWindowCtrl__sub_8024A314() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
+    if ((is_chat_window_in_use() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
         player->init_parts();
     }
 }

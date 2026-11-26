@@ -35,8 +35,8 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
 LAYOUT_ASSERT(TWindowSubQuestBoardSelect_size, sizeof(TWindowSubQuestBoardSelect) == 0x68);
 
 extern "C" {
-void TWindowCtrl__sub_8027D1F8(void);
-void TWindowCtrl__sub_8027D214(void);
+void clear_ctrl_flag_bit4(void);
+void set_ctrl_flag_bit4(void);
 }
 
 #endif

@@ -43,7 +43,7 @@ static const f32 short_mail_item_size[2] = {218.0f, 184.0f};
 static const f32 short_mail_text_window_size[2] = {206.0f, 120.0f};
 
 
-extern saddr tl_00;
+extern TObject *tl_00;
 
 s8 ShortMailEntry::get_flags() { return flags; }
 
@@ -464,7 +464,7 @@ TWindowMenu *TWindowSubShortMail::build_menu(void) {
 
 #pragma pop
 TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
-    TKeyBoardControl *keyboard = new TKeyBoardControl(reinterpret_cast<TObject *>(tl_00), 0xC6, 5, 4, local_client_id);
+    TKeyBoardControl *keyboard = new TKeyBoardControl(tl_00, 0xC6, 5, 4, local_client_id);
     keyboard->set_composer_flag62_bit4();
     keyboard->set_sub_position(reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBB))));
     keyboard->set_flag62_bit2();

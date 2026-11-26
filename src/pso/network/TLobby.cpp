@@ -2943,7 +2943,7 @@ void set_quest_list_online_state(s32 state) {
     }
 }
 
-void TWindowMenu::set_ready_flag() { m_70 |= 0x1; }
+void TWindowMenu::set_ready_flag() { menu_flags |= 0x1; }
 
 extern "C" {
 extern u8 *text_language_group_table;

@@ -20,6 +20,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 #pragma readonly_strings on
 
@@ -200,11 +201,11 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     this->music_gain = 1;
     this->sound_effect_gain = 1;
     e = (u8 *)get_array_entry(0);
-    char *label = reinterpret_cast<char *>(reinterpret_cast<TWindowSubComCard *>(e)->get_field_20());
+    char *label = reinterpret_cast<char *>(reinterpret_cast<WindowTextEntry *>(e)->get_text());
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     e = (u8 *)get_array_entry(1);
-    label = reinterpret_cast<char *>(reinterpret_cast<TWindowSubComCard *>(e)->get_field_20());
+    label = reinterpret_cast<char *>(reinterpret_cast<WindowTextEntry *>(e)->get_text());
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();

@@ -3,8 +3,8 @@
 
 extern u32 information_board_response_buffer;
 
-void TWindowSubInformationBoard::clear_if_current(u32 arg0) {
-    if ((u32) information_board_response_buffer == arg0) {
+void TWindowSubInformationBoard::clear_if_current(u32 response) {
+    if ((u32) information_board_response_buffer == response) {
         information_board_response_buffer = 0U;
     }
 }
