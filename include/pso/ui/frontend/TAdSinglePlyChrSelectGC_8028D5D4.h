@@ -4,10 +4,8 @@
 #include "types.h"
 
 void alloc_quest_download_buffer(void);
-extern "C" {
 void destroy_character_creation_effects(void);
 void create_character_creation_effects(void);
-}
 
 class TChCrEffWall;
 class TChCrEffTag;

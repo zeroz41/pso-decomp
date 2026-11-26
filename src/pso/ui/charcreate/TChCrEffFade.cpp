@@ -15,6 +15,7 @@ const char *TChCrEffFade::class_name = "TChCrEffFade";
 
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
+}
 
 void draw_fade_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha) {
     // inferred: the unit hexagon the cells are scaled from
@@ -61,8 +62,6 @@ void draw_fade_hexagon_grid(void *context, f32 scale) {
         }
         odd ^= 1;
     }
-}
-
 }
 
 struct FadeStrip : ColorLineList {

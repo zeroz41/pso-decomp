@@ -30,8 +30,6 @@ struct TJudgmentSequence : public TShopSequence {
 LAYOUT_ASSERT(TJudgmentSequence_size, sizeof(TJudgmentSequence) == 0x34);
 
 // --- C functions defined in TJudgmentSequence.cpp ---
-extern "C" {
 void close_judgment_window(TShopWindowBase *window);
-}
 
 #endif

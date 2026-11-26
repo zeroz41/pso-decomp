@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 s32 is_dial_cancel_pressed(s32 _w0);
-}
 
 #endif
