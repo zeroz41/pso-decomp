@@ -87,6 +87,7 @@ TWindowDDValueList *TWindowDD::ws_data_base;
 TWindowDDValueList *TWindowDD::ws_data_table;
 
 s16 *ws_word_string_index;
+const char *TWindowDD::class_name = "TWindowDD";
 extern "C" {
 
 
@@ -96,7 +97,6 @@ extern "C" {
 
 
 
-const char *word_select_type_name_pointer = "TWindowDD";
 
 
 
@@ -266,7 +266,7 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
   TWindowDD_WS_String *text;
   s32 floor;
   s32 v;
-  m_name = word_select_type_name_pointer;
+  m_name = class_name;
   menu_index = (floor = remembered_word_select_id);
   build_item_list();
   *TWindowDD::work_buffer = 0;

@@ -32,6 +32,7 @@ extern TWindowDDStateEntry word_select_state_table[21];
 
 struct TWindowDD : public TObject
 {
+    static const char *class_name;
     static void * ws_data_fr;
     static TWindowDDValueList * ws_data_table;
     static TWindowDDValueList * ws_data_base;
