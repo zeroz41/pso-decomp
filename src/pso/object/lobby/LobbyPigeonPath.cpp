@@ -412,7 +412,7 @@ void TObjJungleEbi::update() {
     e += this->profile;
     f32 ox = this->path_frame;
     this->path_frame = ox + e->b;
-    if (update_path_follow_rotation((Ent_802C26E4 *)(e), ox) == 0) {
+    if (update_path_follow_rotation((e), ox) == 0) {
         this->path_frame = (0.0f);
     }
     this->motion_frame = this->motion_frame + jungle_ebi_path_profiles[this->profile].c;
@@ -1105,7 +1105,7 @@ void TObjLobbyPigeon::load_static_resource() {
 
 void TObjLobbyPigeon::destroy_instance() {
     if (lobby_pigeon_bml_archive != NULL) {
-        delete (BmlResource *)lobby_pigeon_bml_archive;
+        delete lobby_pigeon_bml_archive;
         lobby_pigeon_bml_archive = NULL;
     }
 }

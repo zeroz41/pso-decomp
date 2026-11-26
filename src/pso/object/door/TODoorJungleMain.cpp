@@ -96,7 +96,7 @@ void TLobby__sub_8029B2A4(void* p);
 
 
 }
-s32 is_any_player_near(saddr arg0);
+s32 is_any_player_near(saddr object);
 
 
 #pragma inline_depth(1)
@@ -189,7 +189,7 @@ void TODoorJungleMain::run_task() {
 }
 
 void TODoorJungleMain::update_door_switch_state() {
-    s16 sp8;
+    s16 saved_state;
     s32 lvl;
     s32 prev;
     s32 i;
@@ -211,9 +211,9 @@ void TODoorJungleMain::update_door_switch_state() {
         } else {
             door_flags &= ~1;
         }
-        if ((door_flags & 1) && access_object_saved_state(&sp8, 1) == 1) {
-            sp8 = 1;
-            send_object_state_update(&sp8);
+        if ((door_flags & 1) && access_object_saved_state(&saved_state, 1) == 1) {
+            saved_state = 1;
+            send_object_state_update(&saved_state);
         }
     }
 }
@@ -274,11 +274,11 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
 void TLobby__sub_8029B2A4(void* p) { TOKeyJungleMain::init_key_slots(p); }
 
 
-s32 is_any_player_near(saddr arg0) {
+s32 is_any_player_near(saddr object) {
   f32 max_dist_sq;
   s32 player_floor;
   s32 client;
-  s32 new_var;
+  s32 current_floor;
   u8 *player;
   max_dist_sq = 2500.0f;
   client = 0;
@@ -287,8 +287,8 @@ s32 is_any_player_near(saddr arg0) {
   if (player != 0)
   {
     player_floor = ((TObjPlayer *)player)->get_floor();
-    new_var = get_current_floor();
-    if ((new_var == player_floor) && (((f32 (*)(void *, void *))xz_distance_squared)((void *)(player + 0x38), (void *)(arg0 + 0x38)) < max_dist_sq))
+    current_floor = get_current_floor();
+    if ((current_floor == player_floor) && (((f32 (*)(void *, void *))xz_distance_squared)((void *)(player + 0x38), (void *)(object + 0x38)) < max_dist_sq))
     {
       return 1;
     }

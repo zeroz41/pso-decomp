@@ -86,11 +86,11 @@ void TObjDoor::load_resources() {
     BmlResource *p = new BmlResource(5, &door_resource_descriptor, 0, 0, NULL);
     door_resource_handle = p;
     resource_param = LoadPvmFileTls("fe_obj_door.gvm");
-    model_resource_ptrs.f0 = get_bml_model((BmlResource *)door_resource_handle, 4);
-    model_resource_ptrs.f4 = get_bml_model((BmlResource *)door_resource_handle, 3);
-    model_resource_ptrs.c = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 0);
-    model_resource_ptrs.a = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 1);
-    model_resource_ptrs.b = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 2);
+    model_resource_ptrs.f0 = get_bml_model(door_resource_handle, 4);
+    model_resource_ptrs.f4 = get_bml_model(door_resource_handle, 3);
+    model_resource_ptrs.c = (Node_8018E358 *)get_bml_model(door_resource_handle, 0);
+    model_resource_ptrs.a = (Node_8018E358 *)get_bml_model(door_resource_handle, 1);
+    model_resource_ptrs.b = (Node_8018E358 *)get_bml_model(door_resource_handle, 2);
     motion_table[0] = (DoorMotionHeader *)get_bml_motion(door_resource_handle, 0);
     motion_table[1] = (DoorMotionHeader *)get_bml_motion(door_resource_handle, 1);
 }
@@ -99,7 +99,7 @@ void TObjDoor::free_resources() {
     TObjPlayer::free_if_valid((saddr)resource_param);
     resource_param = NULL;
     if (door_resource_handle != NULL) {
-        delete (BmlResource *)door_resource_handle;
+        delete door_resource_handle;
         door_resource_handle = NULL;
     }
 }

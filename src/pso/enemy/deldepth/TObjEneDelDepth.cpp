@@ -573,8 +573,8 @@ void TObjEneDelDepth::update_movement() {
         f32 d;
         this->position.x += this->movementSpeed * this->direction.x;
         this->position.z += this->movementSpeed * this->direction.z;
-        VecCopy((Vec *)&p, (const Vec *)&this->position);
-        VecCopy((Vec *)&n, (const Vec *)&this->direction);
+        VecCopy(&p, (const Vec *)&this->position);
+        VecCopy(&n, (const Vec *)&this->direction);
         normalize_vector(&n);
         d = 1.3f * TObjEneDelDepth_collision_body_parts[0].radius;
         p.x += d * n.x;
@@ -585,10 +585,10 @@ void TObjEneDelDepth::update_movement() {
             hit = csnVector(&this->prev_position, &p, 0x88E0);
             if (hit != 0) {
                 Vec w;
-                VecCopy((Vec *)&p, (const Vec *)&this->position);
+                VecCopy(&p, (const Vec *)&this->position);
                 w.x = hit->contact->normal.z;
                 w.z = -hit->contact->normal.x;
-                normalize_vector_xz((Vec *)(&w));
+                normalize_vector_xz((&w));
                 if (n.x * w.x + n.z * w.z >= 0.0f) {
                     n.x = w.x;
                     n.z = w.z;
@@ -821,7 +821,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         pop_matrix();
         clear_motion_packed_rotation();
         play_sound_effect(0x4003A81D, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
-        TObjEneDelDepthBomb::create(this, this, (Vec *)&out, tune_params->techniqueLevel);
+        TObjEneDelDepthBomb::create(this, this, &out, tune_params->techniqueLevel);
     }
     if (--this->timer <= 0) {
         if (get_flag_bit4() != 0) {
@@ -994,12 +994,12 @@ void TObjEneDelDepth::update_fall_to_ground() {
     tries = 4;
     this->fallVelocity.y += -0.075f;
     do {
-        VecCopy((Vec *)&a, (const Vec *)&this->position);
+        VecCopy(&a, (const Vec *)&this->position);
         vec3_add_to(&a, &this->fallVelocity);
-        VecCopy((Vec *)&b, (const Vec *)&a);
+        VecCopy(&b, &a);
         b.y += k + fabs_float(this->fallVelocity.y);
         if (project_actor_to_ground(this, &b, 0) != 0) {
-            VecCopy((Vec *)&this->position, (const Vec *)&a);
+            VecCopy((Vec *)&this->position, &a);
             if (!(this->position.y > b.y)) {
                 this->position.y = b.y;
                 done = 1;
@@ -1014,7 +1014,7 @@ void TObjEneDelDepth::update_fall_to_ground() {
     } while (tries > 0);
     if (tries == 0) {
         this->fallVelocity.x = this->fallVelocity.z = 0.0f;
-        VecCopy((Vec *)&c, (const Vec *)&this->position);
+        VecCopy(&c, (const Vec *)&this->position);
         c.y += 5.0f + fabs_float(this->fallVelocity.y);
         if (project_actor_to_ground(this, &c, 0) != 0) {
             if (!(this->position.y > c.y)) {
@@ -1038,7 +1038,7 @@ void TObjEneDelDepth::update_ground_check() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy(&point, &position);
         point.y += 15.0f;
-        hit = csnVectorUnder((Vec *)&point, ground_candidates.groups, 0x4000);
+        hit = csnVectorUnder(&point, ground_candidates.groups, 0x4000);
         if (hit != NULL) {
             groundFlags = hit->contact->flags;
             VecCopy(&groundPoint, &hit->contact->point);

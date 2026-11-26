@@ -98,9 +98,7 @@ s32 TObjFogCollision::check_collision(u16 client) {
         if ((2.5e+03f + radius_sq) < distance_sq) {
             this->far_timer = 0x3C;
         }
-        goto block_5;
     }
-block_5:
     return 0;
 }
 
@@ -242,10 +240,10 @@ TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjF
     init_params();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
-            new TObjFogCollisionPoison_Ticker((TObject *)parent, i);
+            new TObjFogCollisionPoison_Ticker(parent, i);
         }
     } else {
-        new TObjFogCollisionPoison_Ticker((TObject *)parent, local_client_id);
+        new TObjFogCollisionPoison_Ticker(parent, local_client_id);
     }
 }
 

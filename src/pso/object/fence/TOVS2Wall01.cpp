@@ -290,7 +290,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(vs2_wall01_bml_resource, index);
     model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
-    texlist = get_bml_texlist((BmlResource *)vs2_wall01_bml_resource, index);
+    texlist = get_bml_texlist(vs2_wall01_bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
     m_c8 = TObjMapCsn::create(set_data);
@@ -309,7 +309,7 @@ void TOVS2Wall01::load_resources() {
   saddr resource;
   resource = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
   vs2_wall01_bml_resource = (BmlResource *)resource;
-  TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)vs2_wall01_bml_resource, 5)),
+  TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model(vs2_wall01_bml_resource, 5)),
                         reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
@@ -391,8 +391,8 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     apply_object_set_data(set_data);
     calc_attach_pos();
     set_actor_flags(0x60000000);
-    model = (void *)get_bml_model((BmlResource *)vs2_wall01_bml_resource, 6);
-    texlist = get_bml_texlist((BmlResource *)vs2_wall01_bml_resource, 6);
+    model = (void *)get_bml_model(vs2_wall01_bml_resource, 6);
+    texlist = get_bml_texlist(vs2_wall01_bml_resource, 6);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
     set_indexed_flags(0, 0x08000000);
     register_object_by_id();

@@ -176,7 +176,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
             OSRestoreInterrupts(level);
         }
-        send_sound_request_reverb((SoundRequestVoice *)(v));
+        send_sound_request_reverb((v));
         v->state = 1;
         break;
     case 0:
@@ -211,7 +211,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             calc_sound_spatial_params(v);
         }
         v->refresh--;
-        send_sound_request_reverb((SoundRequestVoice *)(v));
+        send_sound_request_reverb((v));
         v->clamp_params();
         v->update();
         if (sndFXCheck(v->token) == 0xFFFFFFFF) {

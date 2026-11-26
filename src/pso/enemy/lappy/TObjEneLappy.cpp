@@ -550,7 +550,7 @@ void TObjEneLappy::update_moving() {
     if ((actorFlags & 0x1000) && !(lappy_flags & 2)) {
         chased = target;
         if (chased != NULL) {
-            enemy_backstep_from_point(this, ((TObjChara *)chased)->body_center, ((LappyMovementParameters *)movementParameters)->move_speed);
+            enemy_backstep_from_point(this, (chased)->body_center, ((LappyMovementParameters *)movementParameters)->move_speed);
             turn_toward_direction(((LappyMovementParameters *)movementParameters)->turn_speed, &velocity);
             apply_actor_gravity(this, NULL, 0.0f);
             update_collisions();
@@ -563,7 +563,7 @@ void TObjEneLappy::update_moving() {
         case 0:
             chased = target;
             if (chased != NULL) {
-                dist = update_enemy_wander_move(this, ((TObjChara *)chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
+                dist = update_enemy_wander_move(this, (chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
                 if ((test_actor_flags(2) == 0) && (dist < 10000.0f)) {
                     move_phase = 1;
                     pad_398 = 0;
@@ -584,7 +584,7 @@ void TObjEneLappy::update_moving() {
         case 1:
             chased = target;
             if (chased != NULL) {
-                dist = update_enemy_wander_move(this, ((TObjChara *)chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
+                dist = update_enemy_wander_move(this, (chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
                 if (dist > 22500.0f) {
                     move_phase = 0;
                 }
@@ -633,9 +633,7 @@ void TObjEneLappy::update_moving() {
                     dust_timer = 2;
                 }
                 play_persistent_sound(remap_sound_for_area(0x3AF12), this, &position, 0, 0);
-                goto block_47;
             }
-block_47:
             apply_actor_gravity(this, NULL, 0.0f);
             refresh_collision_body_centers();
             return;

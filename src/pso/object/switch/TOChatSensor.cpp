@@ -106,22 +106,22 @@ void *TOChatSensor::create(void *set) {
     return NULL;
 }
 
-void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
+void TOChatSensor::dispatch_chat_message_to_children(saddr message) {
     void *sensor;
     if (chat_sensor_folder_instance != 0U) {
         sensor = *(void **)((s8 *)chat_sensor_folder_instance + 0x14);
         while (sensor != NULL) {
-            ((TOChatSensor *)sensor)->handle_chat_message((void *)arg0);
+            ((TOChatSensor *)sensor)->handle_chat_message((void *)message);
             sensor = *(void **)((s8 *)sensor + 0xC);
         }
     }
 }
 
-TOChatSensor::TOChatSensor(TObject *parent, void *arg2) : TObjBase(parent) {
+TOChatSensor::TOChatSensor(TObject *parent, void *set_data) : TObjBase(parent) {
     s32 n;
     char **t;
     m_name = chat_sensor_name;
-    apply_object_set_data(arg2);
+    apply_object_set_data(set_data);
     script_thread = 0;
     player_inside = 0;
     init_params();
@@ -200,16 +200,16 @@ void TOChatSensor::init_params() {
     *(s32 *)&this->state = 0;
 }
 
-void TOChatSensor::handle_chat_message(void *arg1) {
+void TOChatSensor::handle_chat_message(void *message) {
     Packet_8015AD54 pkt;
     s32 r;
     u32 mode;
     void *o;
-    if (arg1 != NULL && player_inside == 1) {
+    if (message != NULL && player_inside == 1) {
         mode = match_mode;
         r = -1;
         if (mode == 0) {
-            r = find_chat_keyword((char *)arg1, (char (*)[0x20])trigger_text, current_language);
+            r = find_chat_keyword((char *)message, (char (*)[0x20])trigger_text, current_language);
         } else if (mode == 1) {
             r = 0;
         }

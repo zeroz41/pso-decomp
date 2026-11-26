@@ -143,9 +143,9 @@ void TOKeyAncient02::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorswitch01_resource_descriptor, 0, 0, NULL);
     key_ancient02_model_archive = resource;
     key_ancient02_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*key_ancient02_texture_lists));
-    key_ancient02_texture_lists[0] = get_bml_texlist((BmlResource *)key_ancient02_model_archive, 0);
+    key_ancient02_texture_lists[0] = get_bml_texlist(key_ancient02_model_archive, 0);
     key_ancient02_texture_lists[1] = LoadPvmFileTls("o_key_ancient02.gvm");
-    key_ancient02_glass_model = (NJS_OBJECT *)get_bml_model((BmlResource *)key_ancient02_model_archive, 0);
+    key_ancient02_glass_model = (NJS_OBJECT *)get_bml_model(key_ancient02_model_archive, 0);
 }
 
 TOKeyAncient02::~TOKeyAncient02() {
@@ -157,8 +157,8 @@ TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = key_ancient02_class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    model = (void *)get_bml_model((BmlResource *)key_ancient02_model_archive, 1);
-    texlist = get_bml_texlist((BmlResource *)key_ancient02_model_archive, 1);
+    model = (void *)get_bml_model(key_ancient02_model_archive, 1);
+    texlist = get_bml_texlist(key_ancient02_model_archive, 1);
     init_collision_body_parts(this, key_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

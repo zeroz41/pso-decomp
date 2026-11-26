@@ -136,7 +136,7 @@ void load_boss_warp_resources() {
     if (area >= 8 && area <= 0xA) {
         resource = new BmlResource(5, &lbl_804B94D8, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
         boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 2);
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
@@ -148,7 +148,7 @@ void load_boss_warp_resources() {
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         resource = new BmlResource(5, &lbl_804B94FC, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
         boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
@@ -159,7 +159,7 @@ void load_boss_warp_resources() {
     }
     resource = new BmlResource(5, &lbl_804B94AC, 0, 0, NULL);
     boss_warp_resource_bundle = resource;
-    boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+    boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
     boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 2);
     warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);

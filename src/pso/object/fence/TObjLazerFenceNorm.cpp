@@ -98,7 +98,7 @@ void load_lazer_fence_norm_resources(void) {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        obj = new BmlResource(5, (BmlResourceDescriptor *)&lazer_fence_norm_episode2_resource_descriptor, 0, 0, NULL);
+        obj = new BmlResource(5, &lazer_fence_norm_episode2_resource_descriptor, 0, 0, NULL);
         lazer_fence_norm_bml_resource = obj;
         lazer_fence_norm_texture_list = LoadPvmFileTls("fe_obj_lazer2_2.gvm");
         break;
@@ -112,7 +112,7 @@ void load_lazer_fence_norm_resources(void) {
 
 void TObjLazerFenceNorm::free_resources() {
     if (lazer_fence_norm_bml_resource != NULL) {
-        delete (BmlResource *)lazer_fence_norm_bml_resource;
+        delete lazer_fence_norm_bml_resource;
         lazer_fence_norm_bml_resource = NULL;
     }
     if (lazer_fence_norm_texture_list != NULL) {
@@ -226,12 +226,12 @@ void TObjLazerFenceNorm::select_models() {
     NJS_OBJECT *node;
     s32 j;
     if (this->set_params[2] % 2 == 0) {
-        this->base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 1);
-        beam_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 0);
+        this->base_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 1);
+        beam_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 0);
         this->beam_motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
-        this->base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 3);
-        beam_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 2);
+        this->base_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 3);
+        beam_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 2);
         this->beam_motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {

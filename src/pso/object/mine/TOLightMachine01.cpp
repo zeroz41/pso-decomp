@@ -76,9 +76,9 @@ void TOLightMachine01::destroy_instance() {
 }
 
 void TOLightMachine01::load_assets() {
-    BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&light_machine01_resource_desc, 0, 0, NULL);
+    BmlResource *archive = new BmlResource(1, &light_machine01_resource_desc, 0, 0, NULL);
     light_machine01_shared_bml_archive = archive;
-    light_machine_ginja_model_handle = (NJS_OBJECT *)get_bml_model((BmlResource *)archive, 0);
+    light_machine_ginja_model_handle = (NJS_OBJECT *)get_bml_model(archive, 0);
     light_machine_ginja_param = get_bml_texlist((BmlResource *)light_machine01_shared_bml_archive, 0);
 }
 
@@ -92,7 +92,7 @@ TOLightMachine01::~TOLightMachine01() {
 #define light_machine01 this
 TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
     ((TOLightMachine01 *)light_machine01)->m_name = light_machine01_name;
-    ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)set_data);
+    ((TOLightMachine01 *)(light_machine01))->apply_object_set_data(set_data);
     light_machine01->model = (void *)get_bml_model((BmlResource *)light_machine01_shared_bml_archive, 1);
     light_machine01->texlist = get_bml_texlist((BmlResource *)light_machine01_shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;

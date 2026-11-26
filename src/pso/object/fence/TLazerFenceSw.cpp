@@ -227,7 +227,7 @@ void TLazerFenceSw::load_resources() {
         lazer_fence_switch_bml_resource = obj;
         lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_j_gvm);
     } else {
-        obj = new BmlResource(5, (BmlResourceDescriptor *)&laser_fence_switch_resource_descriptor, 0, 0, NULL);
+        obj = new BmlResource(5, &laser_fence_switch_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
             lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_a_gvm);

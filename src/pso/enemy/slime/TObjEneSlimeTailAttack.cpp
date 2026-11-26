@@ -437,7 +437,7 @@ s32 TObjEneSlime::try_spawn_child(void *position) {
     if (i == n) {
         return 0;
     }
-    VecCopy((Vec *)&pos, (const Vec *)position);
+    VecCopy(&pos, (const Vec *)position);
     pos.y += 10.0f;
     ang = (s16) (65535.0f * random_ratio());
     dir.x = sin_table_lookup(ang);
@@ -1238,7 +1238,7 @@ void TObjEneSlimeOne::render_trail() {
     a.x *= 0.5f;
     a.y *= 0.5f;
     a.z *= 0.5f;
-    VecCopy((Vec *)&c, (const Vec *)&this->trail_position);
+    VecCopy(&c, (const Vec *)&this->trail_position);
     vec3_add_to(&c, &a);
     c.y += -1.125f;
     ang = 10430.38043493439 * atan2_float(a.x, a.z);

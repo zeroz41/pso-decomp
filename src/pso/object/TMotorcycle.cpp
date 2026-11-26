@@ -74,7 +74,7 @@ void TMotorcycle::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
-            draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)motorcycle_bml_resource, m_bc)));
+            draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(motorcycle_bml_resource, m_bc)));
             pop_matrix();
         }
         restore_draw_list_mask();
@@ -95,18 +95,18 @@ void TMotorcycle::free_statics() {
         motorcycle_texture_list = NULL;
     }
     if (motorcycle_bml_resource != NULL) {
-        delete (BmlResource *)motorcycle_bml_resource;
+        delete motorcycle_bml_resource;
         motorcycle_bml_resource = NULL;
     }
 }
 
 void TMotorcycle::load_resources() {
-    BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&motorcycle_resource_descriptor, 0, 0, NULL);
+    BmlResource *storage = new BmlResource(5, &motorcycle_resource_descriptor, 0, 0, NULL);
     motorcycle_bml_resource = storage;
     motorcycle_texture_list = LoadPvmFileTls("obj_motorcycle.GVM");
-    TObjNpcEnemy::register_ginja(0x3C, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)motorcycle_bml_resource, 0)),
+    TObjNpcEnemy::register_ginja(0x3C, reinterpret_cast<NJS_OBJECT *>(get_bml_model(motorcycle_bml_resource, 0)),
                            motorcycle_texture_list, 16.0f, 0.0f);
-    TObjNpcEnemy::register_ginja(0x3D, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)motorcycle_bml_resource, 1)),
+    TObjNpcEnemy::register_ginja(0x3D, reinterpret_cast<NJS_OBJECT *>(get_bml_model(motorcycle_bml_resource, 1)),
                            motorcycle_texture_list, 16.0f, 0.0f);
 }
 

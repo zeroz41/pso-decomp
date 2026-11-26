@@ -194,18 +194,18 @@ void load_forest_box_resources(void) {
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
     case AREA_OLGA_FLOW:
-        bundle = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_seabed_con_resource_descriptor, 0, 0, NULL);
+        bundle = new BmlResource(5, &bm_obj_seabed_con_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
         forest_box_textures = LoadPvmFileTls(seabed_container_texture_filename);
         forest_box_debris_primary = &forest_box_break_params[2];
         forest_box_debris_secondary = &forest_box_break_params[3];
-        node = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)forest_box_model_archive, 1), 2);
+        node = find_object_node((NJS_OBJECT *)get_bml_model(forest_box_model_archive, 1), 2);
         if (node != NULL) {
             node->evalflags |= 0x100000;
         }
         break;
     default:
-        bundle = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_hako01_hahen02_resource_descriptor, 0, 0, NULL);
+        bundle = new BmlResource(5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
         forest_box_textures = TLobby::is_online_ready() != 0 ? LoadPvmFileTls(forest_box_texture_filename_a) : LoadPvmFileTls(forest_box_texture_filename_n);
         forest_box_debris_primary = &forest_box_break_params[0];
@@ -222,12 +222,12 @@ void free_forest_box_resources() {
         forest_box_textures = NULL;
     }
     if ((uaddr) forest_box_model_archive != 0U) {
-        delete (BmlResource *)forest_box_model_archive;
+        delete forest_box_model_archive;
         forest_box_model_archive = NULL;
     }
 }
 
-NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model((BmlResource *)forest_box_model_archive, index); }
+NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_box_model_archive, index); }
 
 void load_container_breakup_resources() {
     void *p;
@@ -262,7 +262,7 @@ void free_container_breakup_resources() {
 }
 
 NJS_OBJECT *get_container_breakup_model(s32 index) {
-    return (NJS_OBJECT *)get_bml_model((BmlResource *)container_breakup_model_archive, index);
+    return (NJS_OBJECT *)get_bml_model(container_breakup_model_archive, index);
 }
 
 #pragma push

@@ -184,7 +184,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
 }
 
 void TODoorFourLightRuins::update_door_switch_state() {
-    s16 sp8;
+    s16 saved_state;
     s32 off;
     s32 i;
     s32 off2;
@@ -224,10 +224,10 @@ void TODoorFourLightRuins::update_door_switch_state() {
             this->play_door_sound();
             this->door_flags |= 1;
         }
-        if (off2 == 0 && this->set_entry != 0 && this->access_object_saved_state(&sp8, 1) == 1) {
-            sp8 = 1;
-            this->send_object_state_update(&sp8);
-            this->access_object_saved_state(&sp8, 0);
+        if (off2 == 0 && this->set_entry != 0 && this->access_object_saved_state(&saved_state, 1) == 1) {
+            saved_state = 1;
+            this->send_object_state_update(&saved_state);
+            this->access_object_saved_state(&saved_state, 0);
         }
         break;
     default:
@@ -393,7 +393,7 @@ void TODoorFourLightSpace::draw_lights() {
 }
 
 void TODoorFourLightSpace::update_door_switch_state() {
-    s16 sp8;
+    s16 saved_state;
     s32 fail;
     s32 i;
     switch (this->lock_mode) {
@@ -432,10 +432,10 @@ void TODoorFourLightSpace::update_door_switch_state() {
                 this->door_flags &= ~1;
             }
             if (bad == 0 && this->set_entry != 0 &&
-                this->access_object_saved_state(&sp8, 1) == 1) {
-                sp8 = 1;
-                this->send_object_state_update(&sp8);
-                this->access_object_saved_state(&sp8, 0);
+                this->access_object_saved_state(&saved_state, 1) == 1) {
+                saved_state = 1;
+                this->send_object_state_update(&saved_state);
+                this->access_object_saved_state(&saved_state, 0);
             }
         }
         break;

@@ -228,7 +228,7 @@ void close_gsl_archive(void) {
     } else {
         n = strlen(gsl_archive_path_buffer_ptr);
         if (n > 0) {
-            TLobby::change_file_extension((char *)buf, (char *)gsl_archive_filename, (char *)"txt");
+            TLobby::change_file_extension(buf, gsl_archive_filename, (char *)"txt");
             fn_800F93B4(buf, gsl_archive_entries, n);
         }
         TItemDrop__data_805D53D0 = 0;
@@ -270,13 +270,13 @@ void open_gsl_archive(char *name) {
 }
 
 void TLobby::read_data_sync(saddr handle, s32 sector_count, saddr destination) {
-    saddr sp8;
+    saddr handle_addr;
 
-    sp8 = handle;
-    ADXF_ReadNw((AdxfHandle *)sp8, sector_count, (void *)destination);
-    TLobby::set_read_params(&sp8, (int)sector_count, (int)destination);
+    handle_addr = handle;
+    ADXF_ReadNw((AdxfHandle *)handle_addr, sector_count, (void *)destination);
+    TLobby::set_read_params(&handle_addr, (int)sector_count, (int)destination);
 loop_1:
-    if (ADXF_GetStat((AdxfHandle *)sp8) != 3) {
+    if (ADXF_GetStat((AdxfHandle *)handle_addr) != 3) {
         TLobby::run_frame();
         goto loop_1;
     }
@@ -311,11 +311,11 @@ s32 TGStream::read_data(void *dst, s32 size) {
 }
 
 s32 get_gstream_buffered_bytes(void) {
-  unsigned long new_var;
-  new_var = gstream_buffer_read_offset;
-  new_var = gstream_buffer_valid_size - new_var;
+  unsigned long unread;
+  unread = gstream_buffer_read_offset;
+  unread = gstream_buffer_valid_size - unread;
   gstream_buffer_read_offset = gstream_buffer_read_offset;
-  return (gstream_buffer_valid_size - gstream_buffer_read_offset) & (((s32) ((-new_var) & (~new_var))) >> 0x1F);
+  return (gstream_buffer_valid_size - gstream_buffer_read_offset) & (((s32) ((-unread) & (~unread))) >> 0x1F);
 }
 
 s32 refill_gstream_buffer(saddr handle) {
@@ -343,7 +343,7 @@ TGStream::~TGStream() {
         ADXF_Close(adxf_handle);
     }
     if (direct_read_mode == 0) {
-        TLobby::tmp_buf_release((const char *)TGStream__class_name_string);
+        TLobby::tmp_buf_release(TGStream__class_name_string);
     }
 }
 
@@ -375,7 +375,7 @@ TGStream::TGStream(void *file, s32 direct_read_mode) {
         while (TLobby::tmp_buf_is_free() == 0) {
             TLobby::pump_frames();
         }
-        gstream_tmp_buffer = (saddr)TLobby::tmp_buf_use_req((const char *)TGStream__class_name_string);
+        gstream_tmp_buffer = (saddr)TLobby::tmp_buf_use_req(TGStream__class_name_string);
     }
 }
 

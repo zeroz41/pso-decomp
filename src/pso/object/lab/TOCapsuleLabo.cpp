@@ -42,7 +42,7 @@ void TOCapsuleLabo::load_resources() {
     NJS_OBJECT *root;
     BmlResource *resource = new BmlResource(1, &bm_obj_labo_infocapsule_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
-    root = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+    root = (NJS_OBJECT *)get_bml_model(resource, 0);
     if (root != NULL) {
         light_node = find_object_node(root, 3);
     }

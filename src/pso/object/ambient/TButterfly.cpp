@@ -229,7 +229,7 @@ TButterfly::TButterfly(TObject *parent, void *arg2) : TObjBase(parent) {
 
 
 void *TButterfly::create(void *set_data) {
-    void *o = (void *)new TButterfly(tl_05, (void *)set_data);
+    void *o = (void *)new TButterfly(tl_05, set_data);
     return o;
 }
 

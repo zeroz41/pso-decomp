@@ -617,15 +617,15 @@ void TObjEneMoja::update_appearance_jump() {
         rotate_matrix_y(0, rotation_y);
         rotate_vector_by_matrix(0, &off, &off);
         pop_matrices(1);
-        VecCopy((Vec *)&tmp, &home_position);
+        VecCopy(&tmp, &home_position);
         subtract_vector(&tmp, &off);
-        VecCopy(&position, (const Vec *)&tmp);
+        VecCopy(&position, &tmp);
         if (is_passing_frame(8.0f) == 0) {
             return;
         }
         VecCopy(&move_destination, &home_position);
         VecCopy(&move_origin, &position);
-        VecCopy((Vec *)&delta, &move_destination);
+        VecCopy(&delta, &move_destination);
         subtract_vector(&delta, &position);
         rotation_y = (s32)(10430.38043493439 * atan2_float(delta.x, delta.z));
         jumpSpeed = newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
@@ -1065,9 +1065,9 @@ void TObjEneMoja::update_technique_state() {
                 enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->move_speed, this, rotation_y);
                 move_with_wall_slide(this);
             } else {
-                VecCopy((Vec *)&dir, (const Vec *)&target->body_center);
+                VecCopy(&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
-                a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
+                a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, &dir);
             }
             if (a < 0x100) {
                 phase = 1;
@@ -1088,9 +1088,9 @@ void TObjEneMoja::update_technique_state() {
             pop_matrices(1);
             vec3_add_to(&pos, &body_center);
             if (target != NULL) {
-                VecCopy((Vec *)&dir, (const Vec *)&target->body_center);
+                VecCopy(&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
-                ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
+                ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, &dir);
             } else {
                 ang2 = attack_params->get_attack_angle();
             }

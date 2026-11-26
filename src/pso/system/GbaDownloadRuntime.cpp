@@ -67,8 +67,8 @@ void gba_download_alloc_buffer() {
     gba_download_data_size = 0;
 }
 
-void gba_joyboot_transfer_callback(s32 channel, s32 arg1) {
-    switch (arg1) {
+void gba_joyboot_transfer_callback(s32 channel, s32 status) {
+    switch (status) {
     case 0:
         gba_download_state = 4;
         break;

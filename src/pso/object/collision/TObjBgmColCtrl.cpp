@@ -127,10 +127,10 @@ void TObjBgmCol::run_task() {
 }
 
 s32 TObjBgmCol::check() {
-    f32 temp_f0;
+    f32 radius;
 
-    temp_f0 = this->m_98;
-    if (is_within_distance(temp_f0 * temp_f0) != 0) {
+    radius = this->m_98;
+    if (is_within_distance(radius * radius) != 0) {
         if ((s32) this->m_90 != 0) {
             this->m_90 = 0;
             return 1;
@@ -204,11 +204,11 @@ void TObjBgmColCtrl::create_controller() {
 }
 
 void TObjBgmColCtrl::run_task() {
-    s32 temp_r4;
+    s32 frames_left;
 
-    temp_r4 = this->m_1c;
-    this->m_1c = (temp_r4 - 1);
-    if ((temp_r4 <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
+    frames_left = this->m_1c;
+    this->m_1c = (frames_left - 1);
+    if ((frames_left <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             if (TObjBgmColCtrl::is_active() == 0) {
                 TObjBgmColCtrl::play_lobby_theme_music();

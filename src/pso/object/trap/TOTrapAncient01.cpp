@@ -77,8 +77,8 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = (void *)get_bml_model((BmlResource *)trap_ancient01_bml_resource, 3);
-    texlist = get_bml_texlist((BmlResource *)trap_ancient01_bml_resource, 3);
+    model = (void *)get_bml_model(trap_ancient01_bml_resource, 3);
+    texlist = get_bml_texlist(trap_ancient01_bml_resource, 3);
     mode = 0;
     range = 0.5f * scale.x + 30.0f;
     if (scale.y < 0.0f) {
@@ -346,17 +346,17 @@ void TOTrapAncient01::play_sounds() {
     const TObjChipParams chip0 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        get_bml_model((BmlResource *)trap_ancient01_bml_resource, 0), get_bml_texlist((BmlResource *)trap_ancient01_bml_resource, 0), 22,
+        get_bml_model(trap_ancient01_bml_resource, 0), get_bml_texlist(trap_ancient01_bml_resource, 0), 22,
     };
     const TObjChipParams chip1 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        get_bml_model((BmlResource *)trap_ancient01_bml_resource, 1), get_bml_texlist((BmlResource *)trap_ancient01_bml_resource, 1), 22,
+        get_bml_model(trap_ancient01_bml_resource, 1), get_bml_texlist(trap_ancient01_bml_resource, 1), 22,
     };
     const TObjChipParams chip2 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        get_bml_model((BmlResource *)trap_ancient01_bml_resource, 2), get_bml_texlist((BmlResource *)trap_ancient01_bml_resource, 2), 22,
+        get_bml_model(trap_ancient01_bml_resource, 2), get_bml_texlist(trap_ancient01_bml_resource, 2), 22,
     };
     new TObjChip(tl_06, &chip0);
     new TObjChip(tl_06, &chip1);

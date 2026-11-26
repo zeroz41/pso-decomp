@@ -20,21 +20,21 @@ void TObjCollision::render() {  }
 void TObjCollision::run_task() {  }
 
 
-void *TObjCollision::create(void *arg0) {
-    return new TObjCollision(tl_06, arg0);
+void *TObjCollision::create(void *set_data) {
+    return new TObjCollision(tl_06, set_data);
 }
 TObjCollision::~TObjCollision() {
     free_collision_body_parts(this);
     this->unregister_object_by_id();
 }
 
-TObjCollision::TObjCollision(TObject *parent, void *arg2_) : TObjCollidable(parent) {
+TObjCollision::TObjCollision(TObject *parent, void *set_data) : TObjCollidable(parent) {
     s32 flag;
-    saddr arg2 = (saddr)arg2_;
+    saddr data = (saddr)set_data;
     this->m_name = lbl_805D2830;
-    VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0xC));
-    copy_xyz(((u8 *)this) + 0x5C, (void *)(arg2 + 0x18));
-    VecCopy((Vec *)(((u8 *)this) + 0x68), (const Vec *)(arg2 + 0x24));
+    VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(data + 0xC));
+    copy_xyz(((u8 *)this) + 0x5C, (void *)(data + 0x18));
+    VecCopy((Vec *)(((u8 *)this) + 0x68), (const Vec *)(data + 0x24));
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
     *(f32 *)((s8 *)((u8 *)this) + 0xAC) = 0.0f;
     *(f32 *)((s8 *)((u8 *)this) + 0xB0) = 0.0f;

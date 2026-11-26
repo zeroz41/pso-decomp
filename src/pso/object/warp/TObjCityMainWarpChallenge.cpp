@@ -217,7 +217,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
             this->player_list_window->advance_matching_entries(this->player_in_range[j] != 0, j);
             color = 0xF0F0F0FF;
             if (this->state == 1 && (player = get_player_by_client_id(j)) != NULL &&
-                ((TObjPlayer *)player)->check_player_flag1() != 0) {
+                (player)->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
             this->player_list_window->sub_80248994(color, j);

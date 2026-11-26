@@ -236,8 +236,8 @@ TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_da
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
-    texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
+    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
 TUnk_804B08BC::~TUnk_804B08BC() {
@@ -395,8 +395,8 @@ TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainer
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
-    texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
+    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
 TOContainerAncientEnemy::~TOContainerAncientEnemy() {
@@ -456,12 +456,12 @@ void TOContainerAncientEnemy::debug_print_item_box_info() {
 }
 
 f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     G_FloorEvent_6x67 pk;
-    if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&sp8, 1) != 0) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
+    if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&saved_state, 1) != 0) {
+        saved_state = 1;
+        access_object_saved_state(&saved_state, 0);
+        send_object_state_update(&saved_state);
         pk.init();
         pk.header.client_id = this->entity_id;
         pk.floor = get_current_floor();

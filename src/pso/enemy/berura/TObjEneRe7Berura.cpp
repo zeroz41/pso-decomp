@@ -433,7 +433,7 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
             VecCopy(&v, &p->position);
             subtract_vector(&v, &body_center);
             v.y = 0.0f;
-            d = normalize_vector_xz((Vec *)(&v));
+            d = normalize_vector_xz((&v));
             if (d < 400.0f && d > best &&
                 s * v.x + c * v.z > limit &&
                 csnLookAt(&body_center, &p->body_center) == 0) {

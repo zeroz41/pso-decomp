@@ -159,8 +159,8 @@ TOMonitorMachine01::~TOMonitorMachine01() {}
 TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = monitor_machine01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)monitor_machine01_bml_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)monitor_machine01_bml_resource, 0);
+    model = (void *)get_bml_model(monitor_machine01_bml_resource, 0);
+    texlist = get_bml_texlist(monitor_machine01_bml_resource, 0);
     view_range = 500.0f;
     model_radius = 15.0f;
     actorFlags |= 0x40000000;

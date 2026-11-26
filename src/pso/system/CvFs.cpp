@@ -424,8 +424,8 @@ s32 cvFsGetFileSize(const char *name) {
 
 s32 cvFsGetStat(CvFsHandle *handle) {
     s32 (*operation)(void *);
-    s32 var_r31;
-    var_r31 = 3;
+    s32 result;
+    result = 3;
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsGetStat #1:handle error", 0);
@@ -434,11 +434,11 @@ s32 cvFsGetStat(CvFsHandle *handle) {
     }
     operation = handle->vtbl->get_status;
     if (operation != NULL) {
-        var_r31 = operation(handle->fd);
+        result = operation(handle->fd);
     } else if (cvfs_completion_callback != NULL) {
         cvfs_completion_callback(cvfs_completion_context, "cvFsGetStat #2:vtbl error", 0);
     }
-    return var_r31;
+    return result;
 }
 extern "C" {
 
@@ -486,7 +486,7 @@ s32 cvFsReqWr(CvFsHandle *fd, s32 nsct, void *buf) {
 
 s32 cvFsReqRd(CvFsHandle *handle, s32 sector_count, void *buffer) {
     s32 (*operation)(void *, s32, void *);
-    s32 var_r31;
+    s32 result;
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsReqRd #1:handle error", 0);
@@ -495,19 +495,19 @@ s32 cvFsReqRd(CvFsHandle *handle, s32 sector_count, void *buffer) {
     }
     operation = handle->vtbl->request_read;
     if (operation != NULL) {
-        var_r31 = operation(handle->fd, sector_count, buffer);
+        result = operation(handle->fd, sector_count, buffer);
     } else {
-        var_r31 = 0;
+        result = 0;
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsReqRd #2:vtbl error", 0);
         }
     }
-    return var_r31;
+    return result;
 }
 
 s32 cvFsSeek(CvFsHandle *handle, s32 sector, s32 origin) {
     s32 (*operation)(void *, s32, s32);
-    s32 var_r31;
+    s32 result;
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsSeek #1:handle error", 0);
@@ -516,19 +516,19 @@ s32 cvFsSeek(CvFsHandle *handle, s32 sector, s32 origin) {
     }
     operation = handle->vtbl->seek;
     if (operation != NULL) {
-        var_r31 = operation(handle->fd, sector, origin);
+        result = operation(handle->fd, sector, origin);
     } else {
-        var_r31 = 0;
+        result = 0;
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsSeek #2:vtbl error", 0);
         }
     }
-    return var_r31;
+    return result;
 }
 
 s32 cvFsTell(CvFsHandle *handle) {
     s32 (*operation)(void *);
-    s32 var_r31;
+    s32 result;
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsTell #1:handle error", 0);
@@ -537,14 +537,14 @@ s32 cvFsTell(CvFsHandle *handle) {
     }
     operation = handle->vtbl->tell;
     if (operation != NULL) {
-        var_r31 = operation(handle->fd);
+        result = operation(handle->fd);
     } else {
-        var_r31 = 0;
+        result = 0;
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsTell #2:vtbl error", 0);
         }
     }
-    return var_r31;
+    return result;
 }
 void cvFsClose(CvFsHandle *handle) {
     void (*operation)(void *);
@@ -743,6 +743,6 @@ void cvFsFinish(void) {
             cvfs_entry_table[i].name[0] = 0;
         }
         memset(fs_default_device_name, 0, 9);
-        ((s8 *)fs_default_device_name)[0] = 0;
+        (fs_default_device_name)[0] = 0;
     }
 }

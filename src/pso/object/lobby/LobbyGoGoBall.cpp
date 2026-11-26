@@ -654,7 +654,7 @@ void load_lobby_textures() {
     sync->mode = 0;
     scores[0] = 0;
     scores[1] = 0;
-    obj = new BmlResource(5, (BmlResourceDescriptor *)&language_lobby_texture_descriptor, 0, 0, NULL);
+    obj = new BmlResource(5, &language_lobby_texture_descriptor, 0, 0, NULL);
     gogo_ball_bml_resource = obj;
     lobby_gvm_texture_handles[0] = LoadPvmFileTls("robby_chu.gvm");
     lobby_gvm_texture_handles[1] = LoadPvmFileTls("biri_ball.gvm");
@@ -677,7 +677,7 @@ void free_lobby_textures() {
     gogo_ball_sync_state.position.y = 0.0f;
     gogo_ball_sync_state.position.z = 63.0f;
     gogo_ball_sync_state.angle = 0;
-    delete (BmlResource *)gogo_ball_bml_resource;
+    delete gogo_ball_bml_resource;
     gogo_ball_bml_resource = NULL;
     for (i = 0; i < 9; i++) {
         TObjPlayer::free_if_valid((saddr)lobby_gvm_texture_handles[i]);

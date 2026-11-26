@@ -230,7 +230,7 @@ void TOTrapChainSaw::load_shared_resource() {
         seabed_suiso_switch_counts[i] = NULL;
     }
     if (p != NULL) {
-        root = (NJS_OBJECT *)get_bml_model((BmlResource *)p, 3);
+        root = (NJS_OBJECT *)get_bml_model(p, 3);
         if (root != NULL) {
             seabed_suiso_linked_switch_counts[1] = find_object_node(root, 3);
             seabed_suiso_linked_switch_counts[2] = find_object_node(root, 4);

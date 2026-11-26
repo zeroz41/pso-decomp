@@ -1283,7 +1283,7 @@ void bringer_render_node_callback(NJS_OBJECT *) {
     case 41:
         pos = df2_bringer_render_point_cursor;
         df2_bringer_render_point_cursor = pos + 1;
-        forward_transform_to_view((const Vec *)&bringer_camera_ctrl_target_vec, pos);
+        forward_transform_to_view(&bringer_camera_ctrl_target_vec, pos);
         break;
     }
     df2_bringer_render_node_index += 1;

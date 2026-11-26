@@ -497,7 +497,7 @@ void calc_wall_slide_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 dis
     e->wall_probe_failures++;
     v.x = n->contact->normal.z;
     v.z = -n->contact->normal.x;
-    normalize_vector_xz((Vec *)(&v));
+    normalize_vector_xz((&v));
     if (dx * v.x + dz * v.z >= 0.0f) {
         dx = v.x;
         dz = v.z;

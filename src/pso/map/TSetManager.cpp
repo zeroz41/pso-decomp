@@ -109,11 +109,11 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
+        TLobby::replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
     } else {
-        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
+        TLobby::replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
     }
-    size = get_resource_file_size((const char *)path);
+    size = get_resource_file_size(path);
     if (size < 0) {
         return 0;
     }

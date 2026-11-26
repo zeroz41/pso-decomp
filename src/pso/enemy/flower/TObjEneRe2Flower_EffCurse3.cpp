@@ -43,7 +43,7 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
     if (target->is_alive() != 0) {
         VecCopy(&a, &target->position);
         a.y += (14.0f);
-        VecCopy((Vec *)&b, &camera_ctrl_instance->pos);
+        VecCopy(&b, &camera_ctrl_instance->pos);
         subtract_vector(&b, &a);
         normalize_vector_safe(&b);
         a.x = (2e+01f) * b.x + a.x;

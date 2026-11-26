@@ -193,7 +193,7 @@ TObjMapWarpForest::~TObjMapWarpForest() {}
 
 void TObjMapForceWarp::open_confirm_window(s32) {}
 
-NJS_OBJECT *get_forest_warp_model(s32 index) { return (NJS_OBJECT *)get_bml_model((BmlResource *)forest_warp_bml_resource, index); }
+NJS_OBJECT *get_forest_warp_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_warp_bml_resource, index); }
 
 AnimationMotion *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
 
@@ -451,7 +451,7 @@ void TObjMapWarp::draw_debug_destinations() {
         rotate_matrix_y(0, set_params[0]);
         matrix_mult_vec(NULL, &a, &a);
         pop_matrix();
-        VecCopy(&b, (const Vec *)end);
+        VecCopy(&b, end);
         b.y += 5.0f;
         a.y += 5.0f;
         debug_draw_line(&b, &a, 0xFFFF0000, 0xFFFF0000);

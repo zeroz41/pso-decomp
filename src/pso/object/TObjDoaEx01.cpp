@@ -129,8 +129,8 @@ void TObjDoaEx01::update_closed() {
 }
 
 
-void TObjDoaEx01::draw_object_tree(saddr arg1) {
-    NJS_OBJECT *obj = (NJS_OBJECT *)arg1;
+void TObjDoaEx01::draw_object_tree(saddr object) {
+    NJS_OBJECT *obj = (NJS_OBJECT *)object;
     u32 flags = obj->evalflags;
     push_matrix();
     if (!(flags & 1)) {
@@ -251,11 +251,11 @@ void TObjDoaEx01::free_resource() {
 }
 void TObjDoaEx01::load_resources() {
     BmlResource *resource;
-    u8 *temp_r3_2;
+    u8 *alpha_node;
     resource = new BmlResource(1, &doa_ex01_resource_descriptor, 0, 0, NULL);
     doa_ex01_resource_bundle = resource;
-    temp_r3_2 = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model(resource, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
-    doa_ex01_alpha_model_node = temp_r3_2;
-    doa_ex01_alpha_model_sibling = (u8 *)*(saddr *)((s8 *)temp_r3_2 + 0x30);
+    alpha_node = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model(resource, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
+    doa_ex01_alpha_model_node = alpha_node;
+    doa_ex01_alpha_model_sibling = (u8 *)*(saddr *)((s8 *)alpha_node + 0x30);
 }
 

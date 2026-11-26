@@ -1317,9 +1317,7 @@ s32 TObjChara::update_slow_status() {
         ((TObjBase *)((u8 *)this))->clear_actor_flags((u32)0x3C);
         this->low_game_flags = (s32) (this->actorFlags & 0x3F);
         this->status_effects[1].clear();
-        goto block_7;
     }
-block_7:
     return 0;
 }
 
@@ -1339,9 +1337,7 @@ s32 TObjChara::update_flag30_timer() {
         this->clear_actor_flags((u32)0x3C);
         this->low_game_flags = (s32) (this->actorFlags & 0x3F);
         this->status_effects[1].clear();
-        goto block_6;
     }
-block_6:
     return 0;
 }
 
@@ -1366,9 +1362,7 @@ s32 TObjChara::update_movement_status() {
         fv = (f32) this->get_base_evp();
         this->adjust_evp((s32) (fv * evp_scale));
         this->status_effects[1].clear();
-        goto block_6;
     }
-block_6:
     return 0;
 }
 
@@ -1394,9 +1388,7 @@ s32 TObjChara::update_shock_clock() {
             this->adjust_evp((s32) (fv * evp_scale));
         }
         this->status_effects[1].clear();
-        goto block_8;
     }
-block_8:
     return 0;
 }
 
@@ -1656,16 +1648,16 @@ void TObjChara::trigger_switch_attack(const Vec *pos) {
     if (this->test_actor_flags(0x02000000) == 0) {
         switch (this->target_attribute_mask) {
         case 1:
-            spawn_particle_effect_with_flags((const Vec *)pos, 0xF1, 0x40);
+            spawn_particle_effect_with_flags(pos, 0xF1, 0x40);
             return;
         case 2:
-            spawn_particle_effect_with_flags((const Vec *)pos, 0xF2, 0x40);
+            spawn_particle_effect_with_flags(pos, 0xF2, 0x40);
             return;
         case 4:
-            spawn_particle_effect_with_flags((const Vec *)pos, 0xE3, 0x40);
+            spawn_particle_effect_with_flags(pos, 0xE3, 0x40);
             return;
         case 8:
-            spawn_particle_effect_with_flags((const Vec *)pos, 0x10D, 0x40);
+            spawn_particle_effect_with_flags(pos, 0x10D, 0x40);
             break;
         }
     }
@@ -3031,13 +3023,13 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *ground_position, f32 hover_heigh
         VecCopy((Vec *)ground_position, &position);
     }
     if (grounded != 0) {
-        ((TObjEnemy *)enemy)->velocity.y += (-0.10888889f);
-        enemy->position.y = (f32) (enemy->position.y + ((TObjEnemy *)enemy)->velocity.y);
+        (enemy)->velocity.y += (-0.10888889f);
+        enemy->position.y = (f32) (enemy->position.y + (enemy)->velocity.y);
         y = position.y + hover_height;
         position.y = y;
         if (enemy->position.y <= y) {
             enemy->position.y = y;
-            ((TObjEnemy *)enemy)->velocity.y = 0.0f;
+            (enemy)->velocity.y = 0.0f;
             enemy->actorFlags = (s32) (enemy->actorFlags | 0x800000);
             return;
         }
@@ -3069,7 +3061,7 @@ u16 find_nearest_visible_player(TObjChara *searcher, Vec *direction, f32 range) 
                 VecCopy(&diff, &player->pos);
                 ((s32 (*)(void *, void *))subtract_vector)(&diff, &searcher->body_center);
                 dist = (diff.x * diff.x) + (diff.z * diff.z);
-                if (dist < best && check_path_obstructed((TObjChara *)searcher, &player->pos) == 0) {
+                if (dist < best && check_path_obstructed(searcher, &player->pos) == 0) {
                     best = dist;
                     result = player->id;
                     if (direction != NULL) {
@@ -3376,7 +3368,7 @@ void TObjChara::send_status_effect_add(StatStatusReceipt) {  }
 void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage) {
   if ((((((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) && (((TObjChara *)mine_trap)->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
   {
-    record_damage_stats__10TOMineTrapFUiUis((void *) mine_trap, (void *) att, (void *) damage);
+    record_damage_stats__10TOMineTrapFUiUis(mine_trap, att, (void *) damage);
   }
 }
 
@@ -3640,36 +3632,36 @@ void TObjChara::clear_velocity() {
 }
 
 s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target) {
-    f32 var_f31;
+    f32 chance;
 
     if ((attacker->get_entity_id() >= 0x1000U) && (target->get_entity_id() < 0x1000U)) {
-        var_f31 = 0.75f - ((f32) ((TObjPlayer *)actor)->get_item_index() / 100.0f);
-        if (var_f31 < 0.0f) {
-            var_f31 = 0.0f;
+        chance = 0.75f - ((f32) (actor)->get_item_index() / 100.0f);
+        if (chance < 0.0f) {
+            chance = 0.0f;
         }
     } else if ((s32) game_difficulty_selection == 3) {
-        var_f31 = (0.025f);
+        chance = (0.025f);
     } else {
-        var_f31 = (0.06666667f);
+        chance = (0.06666667f);
     }
-    return ((TObjChara *)actor)->random_ratio() < var_f31;
+    return ((TObjChara *)actor)->random_ratio() < chance;
 }
 
 s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target, f32 base_chance) {
-    f32 var_f31;
+    f32 chance;
 
-    var_f31 = base_chance;
+    chance = base_chance;
     if ((attacker->get_entity_id() >= 0x1000U) && (attacker->get_entity_id() < 0x4000U) && (target->get_entity_id() < 0x1000U)) {
-        var_f31 = 0.75f - ((f32) ((TObjPlayer *)actor)->get_class_id() / 100.0f);
-        if (var_f31 < 0.0f) {
-            var_f31 = 0.0f;
+        chance = 0.75f - ((f32) (actor)->get_class_id() / 100.0f);
+        if (chance < 0.0f) {
+            chance = 0.0f;
         }
-    } else if (((s32) game_difficulty_selection == 3) && ((0.2f) < var_f31)) {
-        var_f31 = (0.2f);
-    } else if ((0.4f) < var_f31) {
-        var_f31 = (0.4f);
+    } else if (((s32) game_difficulty_selection == 3) && ((0.2f) < chance)) {
+        chance = (0.2f);
+    } else if ((0.4f) < chance) {
+        chance = (0.4f);
     }
-    return ((TObjChara *)actor)->random_ratio() < var_f31;
+    return ((TObjChara *)actor)->random_ratio() < chance;
 }
 
 void TObjChara::spawn_poison_effect(s32 play_sound) {

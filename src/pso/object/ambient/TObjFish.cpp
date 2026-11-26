@@ -339,7 +339,7 @@ void TObjFish::run_task() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
+s32 TObjFish::init_fish_school(Vec *extent, s32 anim0_count, s32 anim1_count) {
     TObjFishEntry *p;
     s32 i;
 
@@ -358,15 +358,15 @@ s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
     }
     p = fish;
     for (i = 0; i < (s32)fish_count; i++) {
-        p->pos.x = 2.0f * (arg1->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
-        p->pos.y = 2.0f * (arg1->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
-        p->pos.z = 2.0f * (arg1->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.x = 2.0f * (extent->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.y = 2.0f * (extent->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.z = 2.0f * (extent->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
         p->velocity.x = 0.0f;
         p->velocity.y = 0.0f;
         p->velocity.z = 0.0f;
-        if (i < arg2) {
+        if (i < anim0_count) {
             p->anim = 0;
-        } else if (i < arg2 + arg3) {
+        } else if (i < anim0_count + anim1_count) {
             p->anim = 1;
         } else {
             p->anim = 2;

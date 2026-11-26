@@ -1456,7 +1456,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
                 behavior_flags |= 2;
                 TBoss3Volopt::create_breakup_mdl(me3_stelth_breakup_model, &me3_stelth_breakup_params,
                                    texlist, &position, rotation_y);
-                VecCopy((Vec *)&v, (const Vec *)&position);
+                VecCopy(&v, (const Vec *)&position);
                 v.x += 20.0f * sin_table_lookup(rotation_y);
                 v.z += 20.0f * cos_table_lookup(rotation_y);
                 trigger_dell_biter_events(&v);

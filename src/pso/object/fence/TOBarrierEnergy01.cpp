@@ -58,7 +58,7 @@ static void *barrier_energy_model;
 TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = TOBarrierEnergy01_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)barrier_energy_shared_bml_archive, 1);
+    model = (void *)get_bml_model(barrier_energy_shared_bml_archive, 1);
     texlist = barrier_energy_texlists[0];
     motion = get_bml_motion(barrier_energy_shared_bml_archive, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
@@ -79,11 +79,11 @@ TOBarrierEnergy01::~TOBarrierEnergy01() {
 void TOBarrierEnergy01::load_resources() {
     BmlResource *archive = new BmlResource(1, &bm_fs_obj_lazerguard_resource_descriptor, 0, 0, NULL);
     barrier_energy_shared_bml_archive = archive;
-    barrier_energy_model = (void *)get_bml_model((BmlResource *)archive, 0);
+    barrier_energy_model = (void *)get_bml_model(archive, 0);
     barrier_energy_texlists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*barrier_energy_texlists));
     barrier_energy_texlists[0] = LoadPvmFileTls("fs_obj_laz_guard_r.gvm");
-    barrier_energy_texlists[1] = get_bml_texlist((BmlResource *)barrier_energy_shared_bml_archive, 1);
-    barrier_energy_texlists[2] = get_bml_texlist((BmlResource *)barrier_energy_shared_bml_archive, 0);
+    barrier_energy_texlists[1] = get_bml_texlist(barrier_energy_shared_bml_archive, 1);
+    barrier_energy_texlists[2] = get_bml_texlist(barrier_energy_shared_bml_archive, 0);
 }
 
 void TOBarrierEnergy01::free_resources() {

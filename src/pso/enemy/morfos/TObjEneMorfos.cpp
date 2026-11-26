@@ -431,7 +431,7 @@ s32 TObjEneMorfos::select_target_in_view() {
         VecCopy(&v, &p->position);
         subtract_vector(&v, &body_center);
         v.y = 0.0f;
-        d = normalize_vector_xz((Vec *)(&v));
+        d = normalize_vector_xz((&v));
         if (d < 400.0f && d > best && dx * v.x + dz * v.z > cosLim &&
             csnLookAt(&body_center, &p->body_center) == 0) {
             id = p->get_entity_id();
@@ -1149,7 +1149,7 @@ void TObjEneMorfos::record_camera_path_point(NJS_OBJECT *) {
     case 6:
     case 10: {
         Vec pos = morfos_camera_path_origin;
-        forward_transform_to_view((const Vec *)&pos, morfos_camera_path_cursor);
+        forward_transform_to_view(&pos, morfos_camera_path_cursor);
         morfos_camera_path_cursor++;
         break;
     }
