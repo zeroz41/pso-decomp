@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct TWindowMessage;
 class TWindowMenuIconLine;
 struct TWindowMenu;
 struct TWindowLoadItemTexture;
@@ -33,15 +34,15 @@ struct TWindowSubMag : public TObject {
     TWindowHelpItem *help;
     TWindowLoadItemTexture *slotwin;
     TWindowSubMagPhoton *photon;
-    void *message;
+    TWindowMessage *message;
 
     static const char *class_name;
     void update_mag_help();
     void update_displayed_item();
     s32 count_slots();
     void set_mag_mode(s32 mag_mode);
-    void *create_learned_blast_toast();
-    void *create();
+    TWindowMessage *create_learned_blast_toast();
+    TWindowMessage *create();
     void *create_action_menu(s32 id);
     saddr create_list();
     saddr setup_list();

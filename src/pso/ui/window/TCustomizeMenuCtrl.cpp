@@ -43,8 +43,8 @@ TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TO
     client_id = client;
     custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
     ((TWindowBase *)custom_equip)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 0));
-    help_window = (uaddr)TWindowMessage::create(get_window_layout_position(0x11), lbl_8044F718, 1, client_id);
-    ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
+    help_window = TWindowMessage::create(get_window_layout_position(0x11), lbl_8044F718, 1, client_id);
+    help_window->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
     call_if_split_screen(help_window, client_id);
     custom_select = NULL;
     help_kind = 0;
@@ -57,9 +57,9 @@ TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
         custom_select->close();
         custom_select = NULL;
     }
-    if ((void *)help_window != NULL) {
-        ((TWindowBase *)help_window)->close();
-        help_window = 0;
+    if (help_window != NULL) {
+        help_window->close();
+        help_window = NULL;
     }
     if ((void *)custom_equip != NULL) {
         ((TWindowBase *)custom_equip)->close();
@@ -165,5 +165,5 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
     case 7:
         break;
     }
-    ((TWindowMessage *)(help_window))->append_line((saddr)get_shared_text_buffer(), 0x82);
+    help_window->append_line((saddr)get_shared_text_buffer(), 0x82);
 }

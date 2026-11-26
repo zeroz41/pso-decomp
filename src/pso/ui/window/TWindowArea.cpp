@@ -41,7 +41,7 @@ TWindowArea *create_window_area() {
     TWindowArea *object;
     WindowTextEntry *title_entry;
     object = new TWindowArea();
-    hide_window((u8 *)object);
+    hide_window(object);
     update_area_count_text(object);
     title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
     title_entry->x = 80.0f - 0.5f * (f32) calc_text_width(title_entry->get_text());
@@ -56,7 +56,7 @@ TWindowArea *create_area_window(void *text) {
     WindowTextEntry *title_entry;
     object = new TWindowArea();
     ((TWindowSubStatusDisp *)object)->set_entry_display_value((saddr)text);
-    hide_window((u8 *)object);
+    hide_window(object);
     title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
     title_entry->x = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
     return object;

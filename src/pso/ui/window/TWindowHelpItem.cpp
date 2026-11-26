@@ -173,7 +173,7 @@ TWindowHelpItem::TWindowHelpItem(const NJS_POINT2 *pos, s32 idx) : TWindowBase((
     this->scale_x = 1.0f;
     this->scale_y = 1.0f;
     this->dispatch_item_help();
-    call_if_split_screen((uaddr)this, this->client_index);
+    call_if_split_screen(this, this->client_index);
 }
 
 TWindowHelpItem::~TWindowHelpItem() {
@@ -198,7 +198,7 @@ void TWindowHelpItem::run_task() {
     this->update_fade();
     this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     if (!(this->help_flags & 8)) {
-        toggle_help_window_on_button((uaddr)this, this->client_index);
+        toggle_help_window_on_button(this, this->client_index);
     }
 }
 

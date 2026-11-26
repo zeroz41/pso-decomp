@@ -7,12 +7,12 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
-void toggle_help_window_on_button(uaddr object, s32 client_index) {
-    if ((is_split_screen() != 0) && (object != 0U) && (test_pressed_buttons_packed(&controller_input_state.controllers[is_player_input_active(client_index)], 0x400) != 0)) {
-        if (((TWindowBase *)object)->is_closed() != 0) {
-            ((TWindowBase *)object)->request_show();
+void toggle_help_window_on_button(TWindowBase *window, s32 client_index) {
+    if ((is_split_screen() != 0) && (window != NULL) && (test_pressed_buttons_packed(&controller_input_state.controllers[is_player_input_active(client_index)], 0x400) != 0)) {
+        if (window->is_closed() != 0) {
+            window->request_show();
             return;
         }
-        reinterpret_cast<TWindowBase *>(object)->request_close();
+        window->request_close();
     }
 }

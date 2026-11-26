@@ -336,7 +336,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->message_window == 0U) {
             this->message_window = this->create();
-            hide_window((u8 *)this->message_window);
+            hide_window(this->message_window);
             this->shown_message = -1;
         }
         if (this->card_list == NULL) {

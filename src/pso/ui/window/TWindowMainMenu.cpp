@@ -317,7 +317,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
             const NJS_POINT2 *tmp = get_window_layout_position(0x1B);
             help_window = TWindowMessage::create(tmp, main_menu_help_message_size, 1, this->client_index);
             help_window->set_depth(49999.0f);
-            call_if_split_screen((uaddr)help_window, this->client_index);
+            call_if_split_screen(help_window, this->client_index);
         }
         help_window->append_line(select_main_menu_item_10(id), 0x80);
     }
@@ -326,7 +326,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
 void TWindowMainMenu::close_child_window() { if (help_window != NULL) { this->help_window->close(); help_window = NULL; } }
 
 void TWindowMainMenu::toggle_help_window() {
-    toggle_help_window_on_button((uaddr)help_window, this->client_index);
+    toggle_help_window_on_button(help_window, this->client_index);
 }
 
 s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
@@ -495,8 +495,8 @@ extern "C" {
 void TWindowSubEquip__sub_80263AF4(void *, s32) {}
 }
 
-void call_if_split_screen(uaddr object, s32 client_id) {
-    if ((is_split_screen() != 0) && (object != 0U)) {
-        hide_window((u8 *)object);
+void call_if_split_screen(TWindowBase *window, s32 client_id) {
+    if ((is_split_screen() != 0) && (window != NULL)) {
+        hide_window(window);
     }
 }

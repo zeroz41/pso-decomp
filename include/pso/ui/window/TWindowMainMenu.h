@@ -18,6 +18,7 @@ extern TWindowMainMenuEntry main_menu_4p_entries[];
 extern TWindowMainMenuEntry main_menu_4p_android_entries[];
 
 struct TWindowMenuMainMenu;
+class TWindowBase;
 class TWindowMessage;
 struct NJS_POINT2;
 
@@ -92,7 +93,7 @@ extern "C" {
 void TWindowSubEquip__sub_80263AF4(void *, s32);
 }
 f32 get_main_menu_layer_depth(u8 *parent, u32 layer);
-void call_if_split_screen(uaddr object, s32 client_id);
+void call_if_split_screen(TWindowBase *window, s32 client_id);
 // Two empty functions after TWindowMainMenu's inlines; TWindowCtrl::shutdown and TWindowCtrl::close call them.
 extern "C" {
 void TWindowMainMenu__sub_8024E3CC(void);

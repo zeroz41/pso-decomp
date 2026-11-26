@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-void toggle_help_window_on_button(uaddr object, s32 client_index);
+class TWindowBase;
+
+void toggle_help_window_on_button(TWindowBase *window, s32 client_index);
 
 #endif

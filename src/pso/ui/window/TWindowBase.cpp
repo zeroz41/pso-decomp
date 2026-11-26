@@ -123,11 +123,10 @@ s32 TWindowBase::is_open_and_unblocked() {
     return (s32) ((u32) __cntlzw(this->window_flags & 4) >> 5);
 }
 #pragma pop
-void hide_window(u8 *object) {
-    TWindowBase *window = (TWindowBase *)object;
+void hide_window(TWindowBase *window) {
     window->window_flags = (s32) (window->window_flags & 0xFFFFFFF8);
     window->closing_tick = 0;
-    ((TObject *)object)->disallow_rendering();
+    window->disallow_rendering();
 }
 
 void TWindowBase::close() {
