@@ -2542,11 +2542,11 @@ void TObjPlayer::enter_photon_blast_action() {
     TObjPlayer::start_photon_blast(this->photon_blast_gauge.get_valid_index(), (u16)this->get_entity_id());
 }
 }
-void handle_6x49_execute_photon_blast(G_ExecutePhotonBlast_Header_6x49 *command) {
+void handle_6x49_execute_photon_blast(G_ExecutePhotonBlast_6x49 *command) {
     s32 i;
     TObjPlayer *p;
     G_ExecutePhotonBlast_6x49 cmd;
-    cmd = *(G_ExecutePhotonBlast_6x49 *)command;
+    cmd = *command;
     cmd.bswap_received();
     if (validate_6x49_execute_photon_blast(&cmd) != 0) {
         p = get_player_by_client_id(cmd.header.client_id);

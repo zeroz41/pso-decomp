@@ -478,15 +478,6 @@ struct G_EquipItem_6x25 {
  void send();
 };
 
-struct G_ExecutePhotonBlast_Header_6x49 {
- struct G_ClientIDHeader header;
- s8 photon_blast; // -1, or which of the six
- u8 unused1;
- s16 target_count;
- u16 pb_meter_value;
- u16 unused2;
-};
-
 struct G_ExitQuest_6x73 {
  struct G_UnusedHeader header;
 };
