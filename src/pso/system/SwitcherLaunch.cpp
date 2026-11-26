@@ -8,7 +8,7 @@
 #include "types.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/SharedMemory.h"
-#include "pso/unk/text_8014618C.h"
+#include "pso/network/NetworkSettings.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"

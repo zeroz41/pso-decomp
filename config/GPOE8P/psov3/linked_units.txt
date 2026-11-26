@@ -1613,9 +1613,7 @@ pso/unk/text_80103674.cpp
 pso/unk/LoadUnloadSet.cpp
 pso/item/TItemIdCounters.cpp
 pso/system/Lzss.cpp
-pso/unk/text_80145A44.cpp
-pso/unk/text_80145A94.cpp
-pso/unk/text_8014618C.cpp
+pso/network/NetworkSettings.cpp
 pso/unk/text_8018E258.cpp
 pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp

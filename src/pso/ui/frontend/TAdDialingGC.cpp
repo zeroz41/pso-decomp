@@ -19,12 +19,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_8014618C.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include "pso/network/NetworkConnect.h"
-#include "pso/unk/text_80145A94.h"
-#include "pso/unk/text_80145A44.h"
+#include "pso/network/NetworkSettings.h"
 
 void TAdDialingGC::open() {
     TAdDialingGC::instance = NULL;

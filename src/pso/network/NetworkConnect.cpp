@@ -2,7 +2,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/unk/text_80145A94.h"
+#include "pso/network/NetworkSettings.h"
 #include "pso/network/PppApi.h"
 #include "pso/network/NetStack.h"
 #include "pso/network/NetApi.h"
@@ -16,7 +16,6 @@
 #include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/ModemSession.h"
-#include "pso/unk/text_80145A44.h"
 #include "pso/unk/text_803F4D84.h"
 #include <string.h>
 #include <string.h>
@@ -27,8 +26,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/text_8014618C.h"
-#include "pso/unk/TLobby_80145E40.h"
 #undef PSO_SDK_COMPACT_MATH
 
 s32 lobby_local_ip_addr;

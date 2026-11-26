@@ -2954,16 +2954,10 @@ pso/ui/font/TNECFontEORFunction.cpp:
 pso/ui/window/TWindowCtrl_80145A28.cpp:
 	.text       start:0x80145A28 end:0x80145A44
 
-pso/unk/text_80145A44.cpp:
-	.text       start:0x80145A44 end:0x80145A94
-
-pso/unk/text_80145A94.cpp:
-	.text       start:0x80145A94 end:0x80146158
+pso/network/NetworkSettings.cpp:
+	.text       start:0x80145A44 end:0x801461EC
 	.rodata     start:0x8043F3E8 end:0x8043F3F0
 	.sbss       start:0x805D56C8 end:0x805D56D8
-
-pso/unk/text_8014618C.cpp:
-	.text       start:0x80146158 end:0x801461EC
 
 pso/network/NetworkConnect.cpp:
 	.text       start:0x801461EC end:0x80147A80

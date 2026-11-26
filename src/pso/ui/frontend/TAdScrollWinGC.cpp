@@ -11,7 +11,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/unk/text_80145A94.h"
+#include "pso/network/NetworkSettings.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/base/TObjMotion.h"

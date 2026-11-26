@@ -4,7 +4,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/SwitcherLaunch.h"
-#include "pso/unk/text_80145A94.h"
+#include "pso/network/NetworkSettings.h"
 
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
