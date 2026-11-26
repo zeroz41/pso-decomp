@@ -398,14 +398,14 @@ void TLobby::reset_floor_items() {
 }
 
 void TLobby::free_boss_rocks() {
-    mem_free((void *)floor_item_next_sort_keys);
+    mem_free(floor_item_next_sort_keys);
     floor_item_next_sort_keys = 0;
     mem_free(floor_item_free_id_stack);
     floor_item_free_id_stack = NULL;
     floor_item_free_id_count = 0;
-    mem_free((void *)floor_item_counts_by_floor);
+    mem_free(floor_item_counts_by_floor);
     floor_item_counts_by_floor = 0;
-    mem_free((void *)floor_item_row_table);
+    mem_free(floor_item_row_table);
     floor_item_row_table = 0;
     if (floor_item_entry_pool != NULL) {
         mem_free((char *)floor_item_entry_pool - 0x10);

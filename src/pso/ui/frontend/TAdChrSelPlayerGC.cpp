@@ -1,4 +1,5 @@
 #pragma defer_codegen on
+#include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
@@ -19,11 +20,12 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/render/model_render_state.h"
 
-extern const char lbl_804728D0[] = "TAdChrSelPlayerGC";
+extern const char chr_sel_player_class_name_string[] = "TAdChrSelPlayerGC";
 BmlResource *multi_ply_chr_select_resource_bundle;
 
-const char *lbl_805D3F78 = lbl_804728D0;
+const char *chr_sel_player_class_name = chr_sel_player_class_name_string;
 
 void load_multi_ply_chr_select_resources(void) {
     multi_ply_chr_select_resource_bundle = new BmlResource(1, &creation_menu_resource_descriptor, 0, 0, NULL);
@@ -50,7 +52,7 @@ TAdChrSelPlayerGC::TAdChrSelPlayerGC(TObject *parent, s32 mode, s32 index, s32 s
 }
 
 void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
-    this->m_name = lbl_805D3F78;
+    this->m_name = chr_sel_player_class_name;
     state = 0;
     this->pending_state = 0;
     this->status_index = 0;
@@ -63,15 +65,6 @@ void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
 
 
 extern "C" {
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-
-s32 post_translate_matrix(void *);
-
-extern TObjMotionAction lbl_804E2F78[9];
 
 void copy_player_visual_record(void *, const void *);
 
@@ -275,7 +268,7 @@ void TAdChrSelPlayerGC::run_task() {
 }
 
 void TAdChrSelPlayerGC::init_model_animation() {
-    this->set_action_table(lbl_804E2F78);
+    this->set_action_table(chr_sel_player_actions);
     this->set_motion_list(multi_ply_chr_select_resource_bundle->motions);
     set_cursor_index(0);
     set_animation((this->requested_action));
@@ -305,7 +298,7 @@ void TAdChrSelPlayerGC::render() {
 
 void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
-    post_translate_matrix((u8 *)&position);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     set_texture_list(preview_data->get_status_sub());
     draw_model_with_arg((void *)preview_data->get_body_model());
@@ -379,7 +372,7 @@ void TAdChrSelPlayerGC::set_cursor_index_2() { set_cursor_index(2); }
 
 void TAdMultiConfirmGC__sub_802E03D0(void* p) { *(s32*)((char*)p + 0x118) = 0; }
 
-TObjMotionAction lbl_804E2F78[9] = {
+TObjMotionAction chr_sel_player_actions[9] = {
     { 1, 0, 0x21, 1.0f, 0 },
     { 1, 0, 0x1, 1.0f, 0 },
     { 1, 0, 0x0, 1.0f, 0 },

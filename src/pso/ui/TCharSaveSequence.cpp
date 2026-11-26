@@ -53,8 +53,8 @@ struct CharacterSelectCallbackTable {
 
 
 // Window position and size setup passes to create_message_window_for_size
-static const f32 lbl_80477D48[2] = { 80.0f, 146.0f };
-static const f32 lbl_80477D50[2] = { 479.0f, 267.0f };
+static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
+static const f32 char_save_message_window_size[2] = { 479.0f, 267.0f };
 // Window position init_warp and init_warps pass to create_window_menu_default
 static const NJS_POINT2 char_save_menu_position = { 324.0f, 374.0f };
 // Camera position and target of init_single_player_char_select_scene
@@ -312,7 +312,7 @@ void TCharSaveSequence::wait_card_check() {
             check_memory_card->queue_destruction();
             check_memory_card = NULL;
             state = 2;
-            message_window = create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
+            message_window = create_message_window_for_size((NJS_POINT2 *)char_save_message_window_pos, (NJS_POINT2 *)char_save_message_window_size);
             char_save_message_flags |= 1;
             return;
         }

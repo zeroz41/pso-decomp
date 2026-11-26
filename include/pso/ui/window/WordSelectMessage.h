@@ -21,7 +21,7 @@ struct WordSelectMessage {
     void push_token(s32 id);
     void bswap();
     void remember_selected_id();
-    void format_type6_message(saddr buffer, void *pos);
+    void format_type6_message(char *buf, s32 *pos);
 };
 
 LAYOUT_ASSERT(WordSelectMessage_size, sizeof(WordSelectMessage) == 0x1C);

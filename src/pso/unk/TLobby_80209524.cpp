@@ -232,7 +232,7 @@ void lookup_item_data_record(AppendOut *out, s32 key) {
     TLobbyHdr hdr = *(TLobbyHdr *)item_data_table_buffer;
     AppendRecord *p;
     bswap_table_header(&hdr);
-    p = (AppendRecord *)TLobby::bsearch_record((void *)(item_data_table_buffer + hdr.table), hdr.count, key);
+    p = (AppendRecord *)TLobby::bsearch_record((item_data_table_buffer + hdr.table), hdr.count, key);
     if (p != NULL) {
         AppendRecord r = *p;
         bswap_item_data_record(&r);

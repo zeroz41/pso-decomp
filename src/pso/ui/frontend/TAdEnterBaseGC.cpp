@@ -119,7 +119,7 @@ char serial_access_hex_string_buf[0x40];
 
 
 s32 TAdPsoPassSaveGC__sub_8032B584(void) {
-    return TAdPsoPassSaveGC__data_805D6E80;
+    return pso_pass_save_accepted;
 }
 
 TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {

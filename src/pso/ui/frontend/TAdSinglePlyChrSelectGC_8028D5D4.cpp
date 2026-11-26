@@ -121,19 +121,19 @@ void alloc_quest_download_buffer(void) {
 }
 
 void fn_8028D8F4(void) {
-    if (lbl_8051C070.wall != NULL) {
-        lbl_8051C070.wall->queue_destruction();
+    if (character_creation_effects.wall != NULL) {
+        character_creation_effects.wall->queue_destruction();
     }
-    if (lbl_8051C070.heading != NULL) {
-        lbl_8051C070.heading->queue_destruction();
+    if (character_creation_effects.heading != NULL) {
+        character_creation_effects.heading->queue_destruction();
     }
 }
 
 void fn_8028D940(void) {
-    lbl_8051C070.wall = fn_8029AE88((TObject *)tl_03);
-    lbl_8051C070.heading = create_TChCrEffTag((TObject *)tl_03);
-    lbl_8051C070.controller_plate = NULL;
+    character_creation_effects.wall = fn_8029AE88((TObject *)tl_03);
+    character_creation_effects.heading = create_TChCrEffTag((TObject *)tl_03);
+    character_creation_effects.controller_plate = NULL;
     if (TChCrEffCtrlPl__sub_80298F6C() != 0) {
-        lbl_8051C070.controller_plate = TChCrEffCtrlPl::create((TObject *)tl_03);
+        character_creation_effects.controller_plate = TChCrEffCtrlPl::create((TObject *)tl_03);
     }
 }

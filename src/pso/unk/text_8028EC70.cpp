@@ -73,7 +73,7 @@ void TAdSinglePlyChrSelectGC__sub_8028ED54(saddr part) {
             }
             goto block_7;
         }
-        if ((TAdSinglePlyChrSelectGC::has_matching_entry((void *)&buf) == 0) || (select_unused_appearance_part(&buf, part) != 0)) {
+        if ((TAdSinglePlyChrSelectGC::has_matching_entry(&buf) == 0) || (select_unused_appearance_part(&buf, part) != 0)) {
 block_7:
             h = (uaddr)TAdSinglePlyChrSelectGC::find_free_slot();
             if (h == 0U) {

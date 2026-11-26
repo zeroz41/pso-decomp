@@ -13,6 +13,9 @@ struct GuildCardEntry {
     s8 get_char_class();
     s32 sub_8007B6F4() const;
     void bswap();
+    void set_text(char *text);
+    void clear_and_fill_from_char(s32 index);
+    void fill_from_char(s32 index);
 
     TPlyGuildCardTag tag;
     char name[0x18];
@@ -50,6 +53,6 @@ LAYOUT_ASSERT(GuildCardSlotNoteOffset, offsetof(GuildCardSlot, note) == 0x94);
 
 // Fills a GuildCardEntry with the name, section id, class and language of the player of
 // client; 0 when there is none or it has no guild card number.
-s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client);
+s32 fill_guild_card_from_player(GuildCardEntry *card, u32 client);
 
 #endif

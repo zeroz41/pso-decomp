@@ -176,15 +176,15 @@ extern "C" {
 
 s32 EXIGetType(int, int, void *);
 }
-u32 lbl_805D7CC8;
+u32 cached_adapter_type;
 
 s32 get_network_adapter_type(s32 *out_type) {
     s32 adapter_type;
-    if (lbl_805D7CC8 == 2U) {
+    if (cached_adapter_type == 2U) {
         *out_type = 2;
         goto block_18;
     }
-    if (lbl_805D7CC8 == 5U) {
+    if (cached_adapter_type == 5U) {
         *out_type = 5;
         goto block_18;
     }
@@ -195,12 +195,12 @@ s32 get_network_adapter_type(s32 *out_type) {
             break;
         case 33685504:
             *out_type = 2;
-            lbl_805D7CC8 = 2U;
+            cached_adapter_type = 2U;
             break;
         case 67240448:
             if (exi_read_status_byte() == 0U) {
                 *out_type = 5;
-                lbl_805D7CC8 = 5U;
+                cached_adapter_type = 5U;
             } else {
                 *out_type = 1;
             }

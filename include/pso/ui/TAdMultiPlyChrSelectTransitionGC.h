@@ -6,7 +6,7 @@
 class TWindowBase;
 
 /* Character-select transition task (vtable 0x804E0B28): slides two status panels between position and target;
- * lbl_805D67E8 holds the live instance for the TWindowSubSymbolChat display callback. */
+ * multi_chr_select_transition_instance holds the live instance for the TWindowSubSymbolChat display callback. */
 class TAdMultiPlyChrSelectTransitionGC : public TObject {
 public:
     TAdMultiPlyChrSelectTransitionGC(TObject *parent, s32 client);

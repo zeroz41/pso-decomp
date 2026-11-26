@@ -22,12 +22,12 @@ s32 warning_aram_load_done_flag;
 int TAdWarningBaseGC::aram_alloc_size;
 int lobby_count_value;
 s32 aram_request_busy_flag;
-const char *lbl_805D4208 = "TAdWarningBaseGC";
+const char *TAdWarningBaseGC_class_name = "TAdWarningBaseGC";
 static const f32 lbl_80477334[2] = {46.0f, 131.0f};
 static const f32 lbl_8047733C[2] = {548.0f, 220.0f};
 
 TAdWarningBaseGC::TAdWarningBaseGC(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D4208;
+    m_name = TAdWarningBaseGC_class_name;
     frames = 0;
     state = 0;
     next_state = 0;

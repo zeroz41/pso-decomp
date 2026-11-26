@@ -423,7 +423,7 @@ s32 read_be_u32(void) {
     s32 value;
     s32 cursor;
 
-    memcpy(&value, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
+    memcpy(&value, (wave_event_stream_base + wave_event_stream_cursor), 4);
     cursor = wave_event_stream_cursor;
     wave_event_stream_cursor = cursor + 4;
     bswap_32__FPUl(&value, cursor);

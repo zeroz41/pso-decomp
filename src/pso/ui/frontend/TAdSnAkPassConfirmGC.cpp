@@ -10,7 +10,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
-const char *lbl_805D41F0 = "TAdSnAkPassConfirmGC";
+const char *TAdSnAkPassConfirmGC_class_name = "TAdSnAkPassConfirmGC";
 // Serial info window position, then the message window position and size given to init_parts.
 static const NJS_POINT2 sn_ak_pass_confirm_info_window_pos = {85.0f, 131.0f};
 static const NJS_POINT2 sn_ak_pass_confirm_message_pos = {44.0f, 231.0f};
@@ -38,7 +38,7 @@ TAdSnAkPassConfirmGC::~TAdSnAkPassConfirmGC() {
 }
 
 TAdSnAkPassConfirmGC::TAdSnAkPassConfirmGC(TObject *parent) : TAdYesNoBaseGC(parent) {
-    m_name = lbl_805D41F0;
+    m_name = TAdSnAkPassConfirmGC_class_name;
     new TAdTitleGC(this, 0x11);
     m_48 = TWindowOptionCtrl::create_serial_info_window(&sn_ak_pass_confirm_info_window_pos, 0);
     init_parts((void *)&sn_ak_pass_confirm_message_pos, (void *)&sn_ak_pass_confirm_message_size);

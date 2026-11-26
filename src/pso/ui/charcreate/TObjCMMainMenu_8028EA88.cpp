@@ -28,7 +28,7 @@
 #pragma readonly_strings on
 
 
-CharacterCreationEffects lbl_8051C070;
+CharacterCreationEffects character_creation_effects;
 char character_creation_name_buffer[0x18];
 CharacterAppearanceFields character_creation_visual_record;
 BmlResource *creation_menu_main_obj;

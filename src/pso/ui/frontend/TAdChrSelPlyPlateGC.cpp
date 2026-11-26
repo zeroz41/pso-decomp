@@ -22,7 +22,7 @@ typedef struct Jump_802C5C84 {
 } Jump_802C5C84;
 
 extern s32 multi_ply_chr_select_slot_table[][5];
-NJS_TEXLIST *lbl_805D67D0;
+NJS_TEXLIST *chr_sel_plate_texlist;
 s32 lbl_805D67D4;
 
 s32 multi_ply_chr_select_player_slot[4] = {
@@ -88,7 +88,7 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     u32 i;
     u32 j;
     m_name = TAdChrSelPlyPlateGC::name;
-    lbl_805D67D0 = TAdMultiPlyChrSelectGC__sub_802C6FA8();
+    chr_sel_plate_texlist = TAdMultiPlyChrSelectGC__sub_802C6FA8();
     lbl_805D67D4 = TAdMultiPlyChrSelectGC::get_global_6700();
     TAdMultiPlyChrSelectGC::select_mode = 0;
     copy_vec2(&this->pos, pos);
@@ -802,7 +802,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags() {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             s32 alpha = (s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f);
             begin_screen_draw(1);
-            set_texture_list(lbl_805D67D0);
+            set_texture_list(chr_sel_plate_texlist);
             set_draw_texture_and_color(0, (alpha << 24) | 0xFFFFFF);
             draw_textured_quad_at_depth(&quad[i + 4][0].x, 0.54f);
             end_screen_draw();
@@ -821,7 +821,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags_shifted() {
     for (i = 0; i < 4; i++) {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             begin_screen_draw(1);
-            set_texture_list(lbl_805D67D0);
+            set_texture_list(chr_sel_plate_texlist);
             set_draw_texture_and_color(0, ((s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f) << 24) | 0xFFFFFF);
             q.u0 = quad[i + 4][0].u0;
             q.u1 = quad[i + 4][0].u1;

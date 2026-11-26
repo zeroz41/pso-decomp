@@ -6,9 +6,9 @@
 
 // Character-creation screen textures and sprite cells.
 extern NJS_TEXLIST creation_sprite_table;
-extern NJS_TEXANIM lbl_804D9670[143];
-extern NJS_TEXANIM lbl_804DA19C[49];  // Japanese cells (creation_sprite_table_index 0)
-extern NJS_TEXANIM lbl_804DA570[49];  // other-language cells
+extern NJS_TEXANIM creation_sprite_cells_common[143];
+extern NJS_TEXANIM creation_sprite_cells_japanese[49];  // Japanese cells (creation_sprite_table_index 0)
+extern NJS_TEXANIM creation_sprite_cells_other_language[49];  // other-language cells
 extern const char *ccconsole_pvm_file_name_table[2];
 
 // The ruler lines (16 point pairs) and quad drawn by draw_creation_ruler_lines.

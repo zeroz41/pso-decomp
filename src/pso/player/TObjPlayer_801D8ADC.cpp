@@ -334,7 +334,7 @@ f32 TObjPlayer::get_class_hp_factor() {
 }
 
 int TObjPlayer::get_floor_surface_type() { return contact_surface.get_contact_surface_type(); }
-s32 TObjPlayer::get_falz_phase() { return TBoss4DarkFalz__sub_801D94C0((void*)((char*)this + 0x7cc)); }
+s32 TObjPlayer::get_falz_phase() { return TBoss4DarkFalz__sub_801D94C0(((char*)this + 0x7cc)); }
 
     extern int dark_falz_form_index;
 int TBoss4DarkFalz::get_instance_count() {  return dark_falz_form_index; }

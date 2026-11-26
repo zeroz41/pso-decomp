@@ -115,8 +115,8 @@ TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *posi
     if (keyboard_mode == 0) {
         return 0;
     }
-    if (is_guild_card_invalid(reinterpret_cast<u8 *>(keyboard_mode)) != 0) {
-        ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
+    if (is_guild_card_invalid(reinterpret_cast<GuildCardEntry *>(keyboard_mode)) != 0) {
+        ((GuildCardEntry *)keyboard_mode)->clear_and_fill_from_char(local_client_id);
     }
     return new TWindowComCard(position, (void *)keyboard_mode);
 }

@@ -1581,7 +1581,7 @@ void TObjPlayer::enter_death_state() {
                 culprit = find_entity_by_id(killer);
                 record_death(culprit, 1);
             }
-            draw_player_status(this, (void *) (entity), "\tC9");
+            draw_player_status(this, (entity), "\tC9");
         }
         draw_player_status(this, this, "\tC8");
         if (this->is_locally_controlled() != 0) {

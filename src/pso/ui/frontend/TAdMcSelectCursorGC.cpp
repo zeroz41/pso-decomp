@@ -17,8 +17,8 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TObject.h"
 
-NJS_TEXNAME lbl_804ED990 = { "f256_memorycard_select", 0, NULL };
-__declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
+NJS_TEXNAME mc_select_cursor_texname = { "f256_memorycard_select", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &mc_select_cursor_texname, 1 };
 
 const char *TAdMcSelectCursorGC::class_name = "TAdMcSelectCursorGC";
 

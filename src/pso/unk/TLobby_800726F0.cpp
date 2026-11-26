@@ -362,12 +362,12 @@ void TObjChallengeRetry::sub_8007313C() {
       {
         if ((this->m_20) != 0)
         {
-          TLobby::send_45_and_close_windows((void *) ((u8 *)this));
-          TLobby::show_ctrl_and_play_effect((void *) ((u8 *)this));
+          TLobby::send_45_and_close_windows(((u8 *)this));
+          TLobby::show_ctrl_and_play_effect(((u8 *)this));
           this->state = 2;
           return;
         }
-        TLobby::send_45_and_close_windows((void *) ((u8 *)this));
+        TLobby::send_45_and_close_windows(((u8 *)this));
         ((TLobby *)this)->play_player_default_effect();
         open_message();
         this->state = 3;

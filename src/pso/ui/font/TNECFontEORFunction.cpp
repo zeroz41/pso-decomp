@@ -23,9 +23,9 @@ const u32 text_control_color_palette[10] = {
 
 extern s32 menu_font_upload_flags;
 extern u8 menu_font_upload_epoch;
-extern u8 lbl_8050C090[];
+extern u8 menu_font_texnames[];
 __declspec(section ".data") void *menu_font_texture_list[2] = {
-    (void *)&lbl_8050C090, (void *)0x2,
+    (void *)&menu_font_texnames, (void *)0x2,
 };
 s32 menu_font_char_advance_table[191] = {
     7, 9, 13, 11, 15, 14, 7, 8, 8, 11, 11, 7, 11, 7, 11, 12,

@@ -26,7 +26,7 @@ struct TAdFloorLoadPrtGC : public TObject {
 LAYOUT_ASSERT(TAdFloorLoadPrtGC_size, sizeof(TAdFloorLoadPrtGC) == 0x3A0);
 
 extern const Vec floor_load_particle_positions[12];
-extern const Vec lbl_80478B48[1];
-extern const ParticleAngles lbl_80478B54[1];
+extern const Vec origin_particle_position[1];
+extern const ParticleAngles origin_particle_angles[1];
 
 #endif

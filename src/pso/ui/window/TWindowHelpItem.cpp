@@ -892,7 +892,7 @@ void TWindowHelpItem::update_stat_disp() {
 #pragma push
 #pragma fp_contract on
 void TWindowHelpItem::show_mag_growth() {
-    s32 mag[4];
+    MagStats mag;
     TWindowHelpItem *a;
     TWindowLayoutNumber *b;
     TWindowStatusGaugeFeedback *c;
@@ -900,13 +900,13 @@ void TWindowHelpItem::show_mag_growth() {
     HelpItemStatCompareRow *sy;
     HelpItemStatCompareRow *iq;
     saddr up;
-    ((MagStats *)mag)->init();
+    mag.init();
     init_window_layout_entries(
         &entry_list,
         &help_item_stats_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
-    TItemData::deserialize_mag(active_item, (void *)mag);
+    TItemData::deserialize_mag(active_item, &mag);
     lv = (HelpItemStatCompareRow *)get_array_entry(0);
     sy = (HelpItemStatCompareRow *)get_array_entry(1);
     iq = (HelpItemStatCompareRow *)get_array_entry(2);
@@ -915,9 +915,9 @@ void TWindowHelpItem::show_mag_growth() {
     sy->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA3));
     iq->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA4));
     sy->set_flag0_bit20();
-    lv->set_value(((MagStats *)(mag))->get_level());
-    sy->set_value(((MagStats *)mag)->get_synchro());
-    iq->set_value(((MagStats *)mag)->get_iq());
+    lv->set_value(mag.get_level());
+    sy->set_value(mag.get_synchro());
+    iq->set_value(mag.get_iq());
     measure_message_text_width_default((void *)up);
     *(f32 *)((s8 *)up + 8) = 110.0f - 0.5f * *(f32 *)((s8 *)up + 0x10);
     ((TWindowHelpItem *)up)->set_flag0_bit2();
@@ -925,29 +925,29 @@ void TWindowHelpItem::show_mag_growth() {
     b = (TWindowLayoutNumber *)get_array_entry(4);
     c = (TWindowStatusGaugeFeedback *)get_array_entry(5);
     a->reset_float_field();
-    b->value = ((MagStats *)mag)->get_def_level();
-    c->target = (f32) ((MagStats *)(mag))->get_def_progress();
+    b->value = mag.get_def_level();
+    c->target = (f32) mag.get_def_progress();
     c->calc_bar_width();
     a = (TWindowHelpItem *)get_array_entry(6);
     b = (TWindowLayoutNumber *)get_array_entry(7);
     c = (TWindowStatusGaugeFeedback *)get_array_entry(8);
     a->reset_float_field();
-    b->value = ((MagStats *)mag)->get_pow_level();
-    c->target = (f32) ((MagStats *)(mag))->get_pow_progress();
+    b->value = mag.get_pow_level();
+    c->target = (f32) mag.get_pow_progress();
     c->calc_bar_width();
     a = (TWindowHelpItem *)get_array_entry(9);
     b = (TWindowLayoutNumber *)get_array_entry(0xA);
     c = (TWindowStatusGaugeFeedback *)get_array_entry(0xB);
     a->reset_float_field();
-    b->value = ((MagStats *)mag)->get_dex_level();
-    c->target = (f32) ((MagStats *)(mag))->get_dex_progress();
+    b->value = mag.get_dex_level();
+    c->target = (f32) mag.get_dex_progress();
     c->calc_bar_width();
     a = (TWindowHelpItem *)get_array_entry(0xC);
     b = (TWindowLayoutNumber *)get_array_entry(0xD);
     c = (TWindowStatusGaugeFeedback *)get_array_entry(0xE);
     a->reset_float_field();
-    b->value = ((MagStats *)mag)->get_mind_level();
-    c->target = (f32) ((MagStats *)(mag))->get_mind_progress();
+    b->value = mag.get_mind_level();
+    c->target = (f32) mag.get_mind_progress();
     c->calc_bar_width();
 }
 #pragma pop

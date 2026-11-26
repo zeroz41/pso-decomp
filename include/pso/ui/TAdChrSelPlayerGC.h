@@ -40,6 +40,7 @@ public:
     CharacterPreview *preview_data;  // the character being shown, while it loads and after
 };
 extern TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4];
+extern TObjMotionAction chr_sel_player_actions[9];
 LAYOUT_ASSERT(CharacterSelectPlayerAppearanceOffset, offsetof(TAdChrSelPlayerGC, visual_record) == 0x120);
 LAYOUT_ASSERT(CharacterSelectPlayerPreviewOffset, offsetof(TAdChrSelPlayerGC, preview_data) == 0x170);
 LAYOUT_ASSERT(CharacterSelectPlayerSpinOffset, offsetof(TAdChrSelPlayerGC, spin_model) == 0x11C);

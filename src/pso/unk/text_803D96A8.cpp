@@ -72,7 +72,7 @@ s32 push_matrix_from(void *src) {
     if (next > matrix_stack_limit) {
         return 0;
     }
-    move_data(next, (src == NULL) ? (void *)current_matrix : src, 0x30);
+    move_data(next, (src == NULL) ? current_matrix : src, 0x30);
     current_matrix = next;
     return 1;
 }

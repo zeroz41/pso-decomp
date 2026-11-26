@@ -19,6 +19,6 @@ struct CharacterCreationEffects {
     TChCrEffCtrlPl *controller_plate;
 };
 LAYOUT_ASSERT(CharacterCreationEffectsSize, sizeof(CharacterCreationEffects) == 0xC);
-extern CharacterCreationEffects lbl_8051C070;
+extern CharacterCreationEffects character_creation_effects;
 
 #endif

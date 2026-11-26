@@ -164,7 +164,7 @@ TItemList *TItemList::find_inventory_item_matching_data() {
             owner = node->get_owner_if_alive();
             if (owner != NULL) {
                 owner->copy_to_item_data((TItemData *)data);
-                if (compare_item_data_masked((void *)data, (void *)inventory_search_item_data, 0) != 0) {
+                if (compare_item_data_masked(data, inventory_search_item_data, 0) != 0) {
                     return node;
                 }
             }

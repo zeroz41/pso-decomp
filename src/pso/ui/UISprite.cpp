@@ -47,7 +47,7 @@ NJS_TEXNAME creation_chara_sprite_entries[20] = {
 
 NJS_TEXLIST creation_sprite_table = { creation_chara_sprite_entries, 20 };
 
-NJS_TEXANIM lbl_804D9670[143] = {
+NJS_TEXANIM creation_sprite_cells_common[143] = {
     { 46, 40, 0, 0, 0, 0, 46, 40, 19, 0 },
     { 46, 40, 0, 0, 48, 0, 94, 40, 19, 0 },
     { 46, 40, 0, 0, 96, 0, 142, 40, 19, 0 },
@@ -193,7 +193,7 @@ NJS_TEXANIM lbl_804D9670[143] = {
     { 128, 28, 64, 14, 0, 219, 128, 247, 9, 0 },
 };
 
-NJS_TEXANIM lbl_804DA19C[49] = {
+NJS_TEXANIM creation_sprite_cells_japanese[49] = {
     { 49, 16, 0, 0, 119, 72, 168, 88, 11, 0 },
     { 64, 16, 0, 0, 0, 36, 64, 52, 11, 0 },
     { 50, 16, 0, 0, 66, 36, 116, 52, 11, 0 },
@@ -245,7 +245,7 @@ NJS_TEXANIM lbl_804DA19C[49] = {
     { 94, 15, 47, 7, 86, 196, 180, 211, 11, 0 },
 };
 
-NJS_TEXANIM lbl_804DA570[49] = {
+NJS_TEXANIM creation_sprite_cells_other_language[49] = {
     { 59, 16, 0, 0, 140, 72, 199, 88, 11, 0 },
     { 58, 16, 0, 0, 0, 36, 58, 52, 11, 0 },
     { 52, 16, 0, 0, 60, 36, 112, 52, 11, 0 },
@@ -456,15 +456,15 @@ s32 creation_sprite_table_index;
 
 void resolve_creation_sprite_table(NJS_TEXANIM **table, s32 *id) {
     if (*id < 143) {
-        *table = lbl_804D9670;
+        *table = creation_sprite_cells_common;
         return;
     }
     *id -= 143;
     if (creation_sprite_table_index == 0) {
-        *table = lbl_804DA19C;
+        *table = creation_sprite_cells_japanese;
         return;
     }
-    *table = lbl_804DA570;
+    *table = creation_sprite_cells_other_language;
 }
 
 void fn_80291138(void) {

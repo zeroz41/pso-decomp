@@ -7687,7 +7687,7 @@ force_active:
   - bolt_first_texture__12TBGLightning
   - lbl_8046FCA0
   - TAdFadeGC__class_name_string
-  - lbl_80472C28
+  - multiplay_texture_name
   - TAdGameStartGC__class_name_string
   - TAdGameStartSubGC__class_name_string
   - lbl_80472C68
@@ -7724,10 +7724,10 @@ force_active:
   - boss6_type2_dead_camera_angles
   - boss6_type2_dead_camera_script
   - boss6_type2_dead_trail_colors
-  - lbl_80478B48
-  - lbl_80478B54
+  - origin_particle_position
+  - origin_particle_angles
   - lbl_8047B928
-  - lbl_80480A70
+  - texture_logo_e_texnames
   - boss1_dragon_primary_sequence_table_b
   - boss1_dragon_sequence_remap_table_b
   - boss1_dragon_model_names
@@ -8041,14 +8041,14 @@ force_active:
   - __vt__15WindowTextEntry
   - status_window_layout_entries
   - lbl_804D4090
-  - lbl_804D9670
-  - lbl_804DA19C
-  - lbl_804DA570
+  - creation_sprite_cells_common
+  - creation_sprite_cells_japanese
+  - creation_sprite_cells_other_language
   - creation_ruler_line_verts
   - creation_ruler_line_desc
   - TAdBackTxtGC_backtext_tex_names
-  - lbl_804DC0F8
-  - lbl_804DC2D8
+  - ray_texnames
+  - ray_texture_list
   - lbl_804DC448
   - male_action_tables
   - female_action_tables
@@ -8074,7 +8074,7 @@ force_active:
   - mericarol_low_model_names
   - mericarol_low_motion_names
   - online_ending_scene_origin
-  - lbl_804E3B60
+  - texture_f512_multiplay_texnames
   - boss7_tunnel_particle_pos_table
   - __vt__19TBoss8DragonColli_C
   - dolmolm_model_names
@@ -8104,8 +8104,8 @@ force_active:
   - lobby_action_tables
   - lobby_male_motion_file_tables
   - lobby_female_motion_file_tables
-  - lbl_804ED990
-  - lbl_804ED9C0
+  - mc_select_cursor_texname
+  - mc_select_memorycard_texname
   - __vt__9TBoss6Mag
   - lbl_804EE0C0
   - loading_texture_names
@@ -8301,7 +8301,7 @@ force_active:
   - name__14TBoss6PlotFalz
   - name__15TBoss6EmptyWarp
   - trap_chain_saw_key_name
-  - lbl_805D3FB0
+  - game_start_sub_class_name
   - name__16TBoss8DragonDemo
   - me1_gi_gue_barrier_name
   - name__12TAdDialingGC
@@ -8496,7 +8496,7 @@ force_active:
   - lbl_805D7A74
   - lbl_805D7ACC
   - lbl_805D7AEC
-  - lbl_805D7CC8
+  - cached_adapter_type
   - lbl_805D7D3C
   - draw_line_one
   - draw_line_zero

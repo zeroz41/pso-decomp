@@ -24,7 +24,7 @@ s32 TWindowSubComCard::scroll_list(s32 ply_guild_card_tag) {
 
 void TWindowSubComCard::handle_press_a(saddr ply_guild_card_tag, s32 id) {
     clear((void *)ply_guild_card_tag);
-    if ((fill_guild_card_from_short_mail((u8 *)ply_guild_card_tag, id) != 0) && (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0)) {
+    if ((fill_guild_card_from_short_mail((GuildCardEntry *)ply_guild_card_tag, id) != 0) && (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0)) {
         TWindowSubComCard::select_card_entry(ply_guild_card_tag);
     }
 }
@@ -37,7 +37,7 @@ void TWindowSubComCard::init_and_press_a(s32 id) {
 
 void TWindowSubComCard::handle_press_b(saddr ply_guild_card_tag, s32 client_id) {
     clear((void *)ply_guild_card_tag);
-    if ((fill_guild_card_from_player((u8 *)ply_guild_card_tag, client_id) != 0) && (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0)) {
+    if ((fill_guild_card_from_player((GuildCardEntry *)ply_guild_card_tag, client_id) != 0) && (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0)) {
         TWindowSubComCard::select_card_entry(ply_guild_card_tag);
     }
 }

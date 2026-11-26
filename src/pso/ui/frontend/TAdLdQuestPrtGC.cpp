@@ -12,7 +12,7 @@ int ansi_fp_abs(int x);
 }
 
 // ARGB tints the button cycles through.
-const u32 lbl_80476610[6] = {
+const u32 particle_tint_colors[6] = {
     0xFF77FF3F, 0xFF333377, 0xFFB31A77, 0xFFB31A1A, 0xFFFF4D1A, 0xFFB34D00,
 };
 #pragma readonly_strings on
@@ -55,7 +55,7 @@ void TAdLdQuestPrtGC::run_task() {
     for (i = 0; i < 4; i++) {
         if (particles[i] != NULL) {
             particles[i]->set_direction(&particle_angles[i]);
-            particles[i]->set_tint_color(lbl_80476610[tint_index]);
+            particles[i]->set_tint_color(particle_tint_colors[tint_index]);
         }
     }
     tint_timer++;
@@ -82,10 +82,10 @@ TAdLdQuestPrtGC::TAdLdQuestPrtGC(TObject *parent) : TObject(parent) {
     tint_timer = 0;
     frame_count = 0;
     for (i = 0; i < 4; i++) {
-        tints[i].a = (u8)(lbl_80476610[0] >> 24);
-        tints[i].r = (u8)(lbl_80476610[0] >> 16);
-        tints[i].g = (u8)(lbl_80476610[0] >> 8);
-        tints[i].b = (u8)lbl_80476610[0];
+        tints[i].a = (u8)(particle_tint_colors[0] >> 24);
+        tints[i].r = (u8)(particle_tint_colors[0] >> 16);
+        tints[i].g = (u8)(particle_tint_colors[0] >> 8);
+        tints[i].b = (u8)particle_tint_colors[0];
         particle_pos[i].x = ninja_camera.px + 100.0f * ninja_camera.vx - 11.0f;
         particle_pos[i].y = ninja_camera.py + 100.0f * ninja_camera.vy;
         particle_pos[i].z = ninja_camera.pz + 100.0f * ninja_camera.vz;

@@ -799,7 +799,7 @@ void TChallenge4P::refresh_challenge_windows() {
         old = challenge4p_mode_state.current_floor;
         challenge4p_mode_state.current_floor = -1;
         if (old != -1) {
-            create_obj_tag_challenge((void *)tl_07);
+            create_obj_tag_challenge(tl_07);
             if (challenge4p_mode_state.failed == 0) {
                 create_ch_time_win(tl_07);
             }

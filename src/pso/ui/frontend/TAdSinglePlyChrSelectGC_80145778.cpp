@@ -68,7 +68,7 @@ typedef struct Font_80145804 {
 extern "C" {
 __declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];
 GinjaTextureInput menu_font_render_rects[2];
-NJS_TEXNAME lbl_8050C090[2];
+NJS_TEXNAME menu_font_texnames[2];
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -96,7 +96,7 @@ void load_menu_font(void) {
     TLobby::release_menu_font();
     for (i = 0; i < 2; i++) {
         menu_font_render_rects[i].set_render_rect(NULL, 0x208, 0x100, 0x100);
-        set_texture_name(lbl_8050C090 + i, menu_font_render_rects + i, i + 0xDCF28, 0x08800000);
+        set_texture_name(menu_font_texnames + i, menu_font_render_rects + i, i + 0xDCF28, 0x08800000);
     }
     load_texture_list(menu_font_texture_list);
     for (m = 0; m < 2; m++) {

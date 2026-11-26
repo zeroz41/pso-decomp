@@ -11,8 +11,8 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
-NJS_TEXNAME lbl_804ED9C0 = { "f256_memorycard", 0, NULL };
-__declspec(section ".data") NJS_TEXLIST mc_select_memorycard_texture_list = { &lbl_804ED9C0, 1 };
+NJS_TEXNAME mc_select_memorycard_texname = { "f256_memorycard", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST mc_select_memorycard_texture_list = { &mc_select_memorycard_texname, 1 };
 const char *TAdMcSelectMcGC::class_name = "TAdMcSelectMcGC";
 NJS_TEXLIST *TAdMcSelectMcGC::texture_list_ptr;
 

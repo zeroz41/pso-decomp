@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_803DA798.h"
 
-const char *lbl_805D4190 = "TAdChrSelMovePlateGC";
+const char *TAdChrSelMovePlateGC_class_name = "TAdChrSelMovePlateGC";
 NJS_TEXLIST *chr_sel_move_plate_texture;
 
 void TAdChrSelMovePlateGC::draw_move_plate_quads() {
@@ -64,7 +64,7 @@ void TAdChrSelMovePlateGC::run_task() {
 TAdChrSelMovePlateGC::~TAdChrSelMovePlateGC() {}
 TAdChrSelMovePlateGC::TAdChrSelMovePlateGC(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = lbl_805D4190;
+    m_name = TAdChrSelMovePlateGC_class_name;
     chr_sel_move_plate_texture = TAdMultiPlyChrSelectGC__sub_802C6FA8();
     mode = -1;
     count = 0;
