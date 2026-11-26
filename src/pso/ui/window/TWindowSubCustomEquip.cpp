@@ -26,7 +26,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
 #include "pso/ui/window/HeadingEntry.h"
 
 

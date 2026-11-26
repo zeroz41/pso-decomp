@@ -22,7 +22,6 @@
 #include "pso/player/PlayerSlots.h"
 #include <string.h>
 #include "pso/map/FloorArea.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/ui/window/TWindowDD.h"
 
 #include "pso/unk/WindowLayoutRecord.h"

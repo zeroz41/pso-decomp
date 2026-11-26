@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
-#include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubItem.h"

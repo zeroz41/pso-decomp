@@ -40,7 +40,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
-#include "pso/ui/window/TWindowMakeTeam_8026534C.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"

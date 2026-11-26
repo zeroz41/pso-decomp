@@ -16,7 +16,6 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"

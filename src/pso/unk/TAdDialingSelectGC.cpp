@@ -8,7 +8,6 @@
 #include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"

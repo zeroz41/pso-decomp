@@ -17,7 +17,7 @@
 #include "types.h"
 #include "pso/render/gjSystem.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
-#include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
+#include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/PadRumble.h"

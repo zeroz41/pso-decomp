@@ -9,7 +9,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubTechnique_80286BD4.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/object/warp/TObjCityMainWarp.h"

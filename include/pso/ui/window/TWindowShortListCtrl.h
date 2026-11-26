@@ -49,4 +49,7 @@ struct TWindowShortListCtrl : public TObject {
 };
 
 LAYOUT_ASSERT(TWindowShortListCtrl_size, sizeof(TWindowShortListCtrl) == 0x3C);
+
+void init_default_short_list_order(s16 *dst);
+
 #endif

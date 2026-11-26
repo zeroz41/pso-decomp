@@ -24,7 +24,6 @@
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include <stddef.h>
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"

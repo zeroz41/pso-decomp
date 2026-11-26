@@ -25,7 +25,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/PadRumble.h"
-#include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
+#include "pso/unk/TAdDialingSelectGC.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 
 #pragma readonly_strings on

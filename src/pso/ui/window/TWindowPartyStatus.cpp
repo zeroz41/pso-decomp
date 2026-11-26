@@ -15,7 +15,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 
 
 #pragma readonly_strings on
