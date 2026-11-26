@@ -885,7 +885,7 @@ pso/object/lab/TOCapsuleLabo.cpp
 pso/object/mine/TOCapsuleMachine01.cpp
 pso/object/switch/TOChatSensor.cpp
 pso/object/mine/TOComputerMachine01.cpp
-pso/object/mine/TOComputerMachine01_8023DD0C.cpp
+pso/render/GinjaUvScroll.cpp
 pso/object/container/TOContainerAncientEnemy.cpp
 pso/enemy/dubchik/TOCtrlDubchik.cpp
 pso/object/door/TODoorAncient01.cpp

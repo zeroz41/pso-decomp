@@ -66,7 +66,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"

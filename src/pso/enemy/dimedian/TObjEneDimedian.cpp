@@ -45,7 +45,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"

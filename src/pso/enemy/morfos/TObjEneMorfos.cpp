@@ -46,7 +46,7 @@
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/network/IPv6.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/animation/ActorAnimationState.h"

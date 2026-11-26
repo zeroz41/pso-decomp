@@ -5808,7 +5808,7 @@ pso/object/door/TObjDoorJung_8023DBEC.cpp:
 pso/unk/text_8023DCB8.cpp:
 	.text       start:0x8023DCB8 end:0x8023DD0C
 
-pso/object/mine/TOComputerMachine01_8023DD0C.cpp:
+pso/render/GinjaUvScroll.cpp:
 	.text       start:0x8023DD0C end:0x8023E480
 	.rodata     start:0x8044DCD8 end:0x8044DCE0
 	.sdata2     start:0x805DC9B0 end:0x805DC9B8

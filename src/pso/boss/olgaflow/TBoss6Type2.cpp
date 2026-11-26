@@ -48,7 +48,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/ui/TLevelSelect.h"
