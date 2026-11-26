@@ -6208,21 +6208,12 @@ pso/ui/window/TWindowSubEquip.cpp:
 	.sdata      start:0x805D3A30 end:0x805D3A38
 	.sdata2     start:0x805DD5F0 end:0x805DD5F4
 
-pso/ui/window/TWindowSubEquipKind_80278300.cpp:
-	.text       start:0x80278300 end:0x80278460
+pso/ui/window/TWindowSubEquipKind.cpp:
+	.text       start:0x80278300 end:0x80279044
 	.rodata     start:0x8044F928 end:0x8044F958
+	.data       start:0x804D15B8 end:0x804D15D4
 	.sdata      start:0x805D3A38 end:0x805D3A40
 	.sdata2     start:0x805DD5F8 end:0x805DD61C
-
-pso/ui/window/EquipItemFilter.cpp:
-	.text       start:0x80278460 end:0x802785B0
-
-pso/ui/window/TWindowMenuIconLineLists.cpp:
-	.text       start:0x802785B0 end:0x80278E48
-
-pso/ui/window/TWindowSubEquipKind.cpp:
-	.text       start:0x80278E48 end:0x80279044
-	.data       start:0x804D15B8 end:0x804D15D4
 
 pso/ui/window/TWindowSubEquip_80279044.cpp:
 	.text       start:0x80279044 end:0x8027929C

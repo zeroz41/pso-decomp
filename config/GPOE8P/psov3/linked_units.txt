@@ -745,7 +745,6 @@ pso/player/PlayerStatusRefresh.cpp
 pso/audio/SoundControlState.cpp
 pso/audio/SoundRequestVoice.cpp
 pso/network/GuildCardRecord.cpp
-pso/ui/window/TWindowMenuIconLineLists.cpp
 pso/unk/TLobby_8028EA28.cpp
 pso/quest/challenge/TChallenge4P.cpp
 pso/map/area/Dragon2Scene.cpp
@@ -1180,7 +1179,6 @@ pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp
 pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTrade.cpp
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp
-pso/ui/window/TWindowSubEquipKind_80278300.cpp
 pso/ui/window/TWindowSubTradeMain.cpp
 pso/ui/window/TWindowTimer.cpp
 pso/ui/window/TWindowTradeRequest.cpp
@@ -1647,7 +1645,6 @@ pso/ui/chat/ChatLogLines.cpp
 pso/ui/chat/ChatLogHeap.cpp
 pso/ui/window/ListPageIndicator.cpp
 pso/math/Vec2Constants.cpp
-pso/ui/window/EquipItemFilter.cpp
 pso/object/door/GreenDoorResource.cpp
 pso/render/NodeChainFlags.cpp
 pso/system/DataBlockRelocation.cpp

@@ -67,7 +67,6 @@
 #include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/ui/window/EquipItemFilter.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/quest/QuestOpcodeTables.h"
