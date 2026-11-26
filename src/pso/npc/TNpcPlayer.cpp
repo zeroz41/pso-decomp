@@ -44,7 +44,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"

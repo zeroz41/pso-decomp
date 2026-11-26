@@ -7,7 +7,7 @@
 #include "pso/object/base/TObjBase.h"
 
 #include "pso/animation/MotionContext.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 struct NJS_OBJECT;
 

@@ -26,7 +26,7 @@
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixVector.h"

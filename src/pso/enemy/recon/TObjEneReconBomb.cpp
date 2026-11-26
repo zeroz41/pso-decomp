@@ -13,7 +13,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/base/TObjChara.h"

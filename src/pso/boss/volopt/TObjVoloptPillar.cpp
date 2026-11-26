@@ -25,7 +25,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
 const char *TObjVoloptPillar_name = "TObjVoloptPillar";

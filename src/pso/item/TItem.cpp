@@ -52,7 +52,7 @@
 #include "pso/unk/text_80104FCC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/weapon/TItemAttacker.h"

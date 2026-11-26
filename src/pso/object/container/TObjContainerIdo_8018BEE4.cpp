@@ -31,7 +31,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/camera/TCameraCtrl.h"

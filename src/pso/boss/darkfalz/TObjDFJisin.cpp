@@ -53,7 +53,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjBase.h"
 
 

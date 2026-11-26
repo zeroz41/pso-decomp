@@ -22,7 +22,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/ObjectSetData.h"
 #include "pso/map/TObjMapCsn.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/unk/text_803D8F74.h"

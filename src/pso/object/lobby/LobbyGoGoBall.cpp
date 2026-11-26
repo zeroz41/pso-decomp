@@ -61,7 +61,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)

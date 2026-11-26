@@ -29,7 +29,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/unk/text_800FD930.h"
 #include "pso/object/TObjRoomId.h"

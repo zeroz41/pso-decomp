@@ -45,7 +45,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/camera/CameraHelpers.h"

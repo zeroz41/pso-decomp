@@ -3,7 +3,7 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/RenderSbssGlobals.h"

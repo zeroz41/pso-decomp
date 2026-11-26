@@ -25,7 +25,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

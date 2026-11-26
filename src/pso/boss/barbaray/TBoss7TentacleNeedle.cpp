@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/barbaray/TBoss7Tentacle.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"

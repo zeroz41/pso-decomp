@@ -24,7 +24,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 extern const f32 breakup_unit;
 extern const f32 breakup_zero;

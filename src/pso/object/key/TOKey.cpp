@@ -21,7 +21,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/network/TProtocol.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/player/PlayerSlots.h"
 

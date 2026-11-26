@@ -23,7 +23,7 @@
 
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/boss/derolle/RandomAngle.h"
 
 static const int boss2_tentacle_rest_angles[] = {-2048, 2048, -4864, 4864};

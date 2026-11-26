@@ -29,7 +29,7 @@
 #include "pso/system/vector.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 
 s32 TObjSeabedSuisoBrakable::texture_entries[5];

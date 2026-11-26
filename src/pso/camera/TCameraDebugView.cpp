@@ -7,7 +7,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 static const Vec default_target_position = {0.0f, 0.0f, 0.0f};
 

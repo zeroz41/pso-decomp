@@ -36,7 +36,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZondeEff.h"

@@ -26,7 +26,7 @@
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/text_800F8A18.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/map/TObjMapCsn.h"

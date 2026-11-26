@@ -40,7 +40,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/technique/TTecRaBarta.h"

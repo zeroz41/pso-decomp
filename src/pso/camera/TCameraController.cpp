@@ -17,7 +17,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 
 

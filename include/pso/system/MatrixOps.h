@@ -5,7 +5,7 @@
 #include <dolphin/mtx.h>
 #include "pso/render/gjSystem.h"
 
-// The matrix stack's transforms (text_803D853C .. text_803D96A8) that the
+// The matrix stack's transforms (DebugFont.cpp .. text_803D96A8) that the
 // other module headers do not declare yet. A NULL matrix is the current one.
 extern "C" {
 void rotate_matrix_x(MtxP matrix, s32 angle);

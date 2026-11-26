@@ -94,7 +94,7 @@ typedef TBoss4Type3Handler Type3Handler;
 #include "pso/system/vector.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/boss/darkfalz/DrainPlayerHp.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #pragma defer_codegen on
 

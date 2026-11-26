@@ -22,7 +22,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/network/client_id.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"

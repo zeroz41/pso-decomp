@@ -23,7 +23,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/PlayerSlots.h"

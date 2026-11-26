@@ -6,7 +6,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/SceneFog.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/render/ChunkModelDraw.h"

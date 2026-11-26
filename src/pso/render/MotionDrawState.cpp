@@ -3,7 +3,7 @@
 #include "pso/render/ModelDrawContext.h"
 
 // Interim data-only unit: these two .sbss words sit between MotionContext.cpp's .sbss (which ends on its
-// 4 B pad) and text_803D853C's, and the .text between those two units is contiguous, so the code that defines these
+// 4 B pad) and DebugFont.cpp's, and the .text between those two units is contiguous, so the code that defines these
 // two has not been found yet. Fold this file into that unit once it is.
 
 // Called for every node while draw_motion_node_tree_with_context walks a motion tree; init_projection_state

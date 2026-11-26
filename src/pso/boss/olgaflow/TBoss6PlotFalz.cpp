@@ -65,7 +65,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"

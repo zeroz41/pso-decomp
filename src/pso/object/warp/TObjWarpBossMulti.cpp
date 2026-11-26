@@ -32,7 +32,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/animation/ActorAnimationState.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "pso/player/TObjPlayer.h"

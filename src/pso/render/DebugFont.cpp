@@ -1,5 +1,4 @@
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D853C.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXStruct.h>
 #undef PSO_SDK_COMPACT_MATH
@@ -201,7 +200,7 @@ void render_debug_text(u32 enabled) {
 extern "C" {
 
 asm void vec3_add_to(Vec *dst, const Vec *src) {
-#include "orig_asm/pso/unk/text_803D853C/vec3_add_to.inc"
+#include "orig_asm/pso/render/DebugFont/vec3_add_to.inc"
 }
 
 #pragma push
@@ -238,7 +237,7 @@ void get_current_matrix(GC_Mtx *dest) {
 #pragma pop
 
 asm f32 vec3_dot(const Vec *a, const Vec *b) {
-#include "orig_asm/pso/unk/text_803D853C/vec3_dot.inc"
+#include "orig_asm/pso/render/DebugFont/vec3_dot.inc"
 }
 
 #pragma push
@@ -253,7 +252,7 @@ void invert_matrix_in_place(MtxP matrix) {
 #pragma pop
 
 asm f32 vec3_cross(const Vec *a, const Vec *b, Vec *out) {
-#include "orig_asm/pso/unk/text_803D853C/vec3_cross.inc"
+#include "orig_asm/pso/render/DebugFont/vec3_cross.inc"
 }
 
 #pragma push

@@ -88,7 +88,7 @@
 #pragma dont_inline off
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"

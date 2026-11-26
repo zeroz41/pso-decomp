@@ -34,7 +34,7 @@ struct NJS_OBJECT;
 #include "pso/render/model_render_state.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

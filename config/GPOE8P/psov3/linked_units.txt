@@ -1768,7 +1768,7 @@ pso/unk/text_803D619C.cpp
 pso/ui/window/TWindowSubComCard_803D6438.cpp
 pso/unk/text_803D647C.cpp
 pso/unk/text_803D64F8.cpp
-pso/unk/text_803D853C.cpp
+pso/render/DebugFont.cpp
 pso/unk/text_803D8DE0.cpp
 pso/unk/text_803D8F74.cpp
 pso/unk/text_803D9650.cpp

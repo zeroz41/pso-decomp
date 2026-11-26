@@ -48,7 +48,7 @@
 #include "pso/technique/TTecLightCharge.h"
 #include "pso/technique/TTecSupportCharge.h"
 #include "pso/object/TTecMegidCharge.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/CollisionActorLookup.h"

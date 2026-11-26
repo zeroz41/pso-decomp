@@ -51,7 +51,7 @@ struct AnimationMotion;
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 
 #include "pso/render/GinjaMaterial.h"

@@ -20,7 +20,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/boss/DragonAttackParams.h"
 
 #pragma inline_depth(1)

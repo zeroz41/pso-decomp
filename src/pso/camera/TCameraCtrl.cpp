@@ -33,7 +33,7 @@
 #include "pso/camera/TCameraVolOpt.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraVolOptFollow.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/CameraHelpers.h"

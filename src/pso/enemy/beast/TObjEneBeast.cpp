@@ -17,7 +17,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #include "pso/effect/TAttackTrace.h"
 #include "types.h"

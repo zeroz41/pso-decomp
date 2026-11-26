@@ -58,7 +58,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"

@@ -69,7 +69,7 @@
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/unk/text_80290BEC.h"
 #include "pso/unk/text_802A1020.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"

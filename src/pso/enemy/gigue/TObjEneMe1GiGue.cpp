@@ -40,7 +40,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"

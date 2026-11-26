@@ -13,7 +13,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/memory.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"

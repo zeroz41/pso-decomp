@@ -31,7 +31,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjBase.h"
 

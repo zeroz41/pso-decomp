@@ -15,7 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TechniqueContact.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"

@@ -37,7 +37,7 @@
 #include "pso/map/TObjMapCsn.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"

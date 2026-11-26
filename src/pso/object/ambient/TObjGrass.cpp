@@ -25,7 +25,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/render/TObjEnemyColorFade.h"

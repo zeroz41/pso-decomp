@@ -16,7 +16,7 @@
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"

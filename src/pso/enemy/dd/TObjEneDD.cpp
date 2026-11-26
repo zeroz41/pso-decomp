@@ -76,7 +76,7 @@ TAttackCollider *obj_ene_dd_instance;
 #include "pso/math/MatrixVector.h"
 
 
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 
 #include <dolphin/mtx.h>

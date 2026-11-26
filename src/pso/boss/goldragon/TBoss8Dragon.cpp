@@ -84,7 +84,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/system/SubtractiveRng.h"

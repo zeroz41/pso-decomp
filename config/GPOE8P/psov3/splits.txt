@@ -10484,7 +10484,7 @@ pso/animation/MotionContext.cpp:
 pso/render/MotionDrawState.cpp:
 	.sbss       start:0x805D76B8 end:0x805D76C0
 
-pso/unk/text_803D853C.cpp:
+pso/render/DebugFont.cpp:
 	.text       start:0x803D8030 end:0x803D8BAC
 	.data       start:0x804FA540 end:0x804FC540
 	.bss        start:0x8058CB48 end:0x8058CB68

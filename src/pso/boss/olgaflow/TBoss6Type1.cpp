@@ -51,7 +51,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/object/base/TObjBase.h"
