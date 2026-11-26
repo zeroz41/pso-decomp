@@ -137,7 +137,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {reset_clock_bar_pulse, TLobby__sub_8001ED70},
-    {alloc_battle_param_tables, TLobby::free_boss4_rock},
+    {alloc_battle_param_tables, free_battle_param_tables},
     {reset_id_counters, free_id_counters},
     {init_entity_tables, clear_entity_tables},
     {init_scene_fog_system, TFogCtrl::reset},
@@ -181,7 +181,7 @@ FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state },
     { init_switch_table, clear_switch_table },
     { reset_shop_stock_and_params, clear_all_shop_stock },
-    { TLobby::update_difficulty, NULL },
+    { update_battle_params, NULL },
     { clear_boss6_player_snapshots, NULL },
 };
 Pair_801A3CFC lobby_udp_test_game_entries[2] = {

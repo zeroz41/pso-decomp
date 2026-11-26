@@ -202,7 +202,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {reset_clock_bar_pulse, TLobby__sub_8001ED70},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
-    {alloc_battle_param_tables, TLobby::free_boss4_rock},
+    {alloc_battle_param_tables, free_battle_param_tables},
     {reset_id_counters, free_id_counters},
     {init_entity_tables, clear_entity_tables},
     {init_scene_fog_system, TFogCtrl::reset},

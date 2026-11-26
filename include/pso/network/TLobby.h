@@ -87,9 +87,6 @@ struct TLobby : public TObject {
     static ActorParamBlock *register_object(s32 index);
     static AttackParams *dispatch_shared_handler_b(s32 index);
     static player_stats *register_boss(s32 index);
-    static void clamp_difficulty(s32 difficulty);
-    static void update_difficulty();
-    static void free_boss4_rock();
     static s32 get_instance();
     s32 calc_time_from_hms();
     static s32 calc_alpha_shifted(f32 alpha);

@@ -39,6 +39,7 @@
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/unk/TDeferredRenderQueue.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
@@ -171,7 +172,7 @@ FloorResourceCallbacks lbl_8048D5A8[4] = {
     {load_technique_resources, TLobby__sub_8022F068},
     {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
-    {TLobby::update_difficulty, NULL},
+    {update_battle_params, NULL},
 };
 
 void TLobby::create_tasks() {

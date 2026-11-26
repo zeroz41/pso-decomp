@@ -23,6 +23,10 @@ ActorParamBlock *get_battle_param_resistance(s32 difficulty, s32 index);
 AttackParams *get_battle_param_attack(s32 difficulty, s32 index);
 player_stats *get_battle_param_stats(s32 difficulty, s32 index);
 void set_battle_param_episode(s32 episode);
+void set_battle_param_difficulty(s32 difficulty);
+// reloads the tables when the difficulty or episode changed (name inferred)
+void update_battle_params();
+void free_battle_param_tables();
 s32 parse_two_digit_number(void *text);
 // Draws the "ship:block-lobby" location text built by TLobby::close_result_windows.
 void draw_lobby_location_text(f32 x, f32 y, f32 size, f32 alpha);

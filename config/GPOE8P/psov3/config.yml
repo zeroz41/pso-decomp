@@ -5079,7 +5079,7 @@ force_active:
   - select_subtype__16TObjEneMerillLiaFv
   - clamp_pad_axes
   - clamp_destination_index__15TObjCityMapWarpFv
-  - clamp_difficulty__6TLobbyFl
+  - set_battle_param_difficulty__Fl
   - clamp_flight_height__13TObjEneBm3FlyFv
   - clamp_hp_value__10TObjPlayerFPs
   - clamp_item_list_scroll__19TWindowMenuIconLineFv

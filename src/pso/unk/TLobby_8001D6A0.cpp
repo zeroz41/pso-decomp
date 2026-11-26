@@ -276,7 +276,7 @@ void set_battle_param_episode(s32 episode) {
 }
 
 
-void TLobby::clamp_difficulty(s32 difficulty) {
+void set_battle_param_difficulty(s32 difficulty) {
     s32 clamped;
 
     clamped = difficulty;
@@ -292,20 +292,20 @@ void TLobby::clamp_difficulty(s32 difficulty) {
     battle_parameter_difficulty = clamped;
 }
 
-void TLobby::update_difficulty() {
+void update_battle_params() {
     s32 old_difficulty;
     s32 old_variant;
 
     old_difficulty = battle_parameter_difficulty;
     old_variant = battle_param_lab_variant;
-    TLobby::clamp_difficulty(game_difficulty_selection);
+    set_battle_param_difficulty(game_difficulty_selection);
     set_battle_param_episode(TLobby::get_instance());
     if ((battle_parameter_difficulty != old_difficulty) || (battle_param_lab_variant != old_variant)) {
         load_battle_param_entry();
     }
 }
 
-void TLobby::free_boss4_rock() {
+void free_battle_param_tables() {
     if (battle_parameter_buffer != NULL) {
         mem_free(battle_parameter_buffer);
         battle_parameter_buffer = NULL;
@@ -328,7 +328,7 @@ void alloc_battle_param_tables(void) {
     battle_param_attacks = bank->attacks;
     battle_param_resistances = bank->resistances;
     battle_param_movement = bank->movement;
-    TLobby::clamp_difficulty(game_difficulty_selection);
+    set_battle_param_difficulty(game_difficulty_selection);
     set_battle_param_episode(TLobby::get_instance());
     load_battle_param_entry();
     override_enemy_bp_index = 0;
