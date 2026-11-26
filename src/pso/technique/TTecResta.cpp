@@ -28,11 +28,6 @@
 const char *TTecResta::class_name = "TTecResta";
 
 
-struct RecoveryEffectRow { s32 delay; s32 duration; s32 entry; u32 flags; };
-
-
-
-
 extern "C" {
 RecoveryEffectRow resta_self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},

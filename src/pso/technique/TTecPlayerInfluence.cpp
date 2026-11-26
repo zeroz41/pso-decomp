@@ -18,7 +18,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/ActorCollision.h"
-struct SupportEffectParticles { TParticleCtrl *w[3]; };
 
 const char *TTecPlayerInfluence::class_name = "TTecPlayerInfluence";
 

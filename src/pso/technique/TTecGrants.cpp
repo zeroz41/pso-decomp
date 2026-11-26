@@ -52,13 +52,6 @@ void draw_ginja_object(void);
 NJS_TEXNAME grants_ring_texname[1];
 NJS_TEXLIST grants_ring_texlist = { grants_ring_texname, 1 };
 
-struct GrantsEmitterPart { s32 id; u32 flags; u8 pad_08[4]; };
-
-struct GrantsEmitterSet { const GrantsEmitterPart *parts; u32 count; };
-
-struct GrantsEffectEntry { s32 effect; u32 flags; s32 pad_08; };
-
-struct GrantsEffectSet { const GrantsEffectEntry *ents; u32 count; };
 
 // Per level tier (get_technique_level_tier): the particle emitters TTecGrantsEffect keeps alive and
 // the effects it spawns when it ends.
@@ -193,11 +186,6 @@ TTecGrantsEffect::TTecGrantsEffect(TObjBase *src, s32 level, TObject *parent) : 
         break;
     }
 }
-
-
-
-
-
 
 
 TTecGrantsEffect::~TTecGrantsEffect() {

@@ -23,8 +23,6 @@
 
 #pragma readonly_strings on
 
-// A particle emitter of the revival effect: it starts after `delay` frames, `count` times.
-struct RevivalEmitter { s32 delay; s32 count; s32 id; s32 pad; };
 
 const char *TTecReverser_class_name = "TTecReverser";
 RevivalEmitter revival_particle_table[3] = {

@@ -18,4 +18,13 @@ struct TTecGrants : public TTecCircle {
 };
 
 LAYOUT_ASSERT(TTecGrants_size, sizeof(TTecGrants) == 0x14C);
+
+struct GrantsEmitterPart { s32 id; u32 flags; u8 pad_08[4]; };
+
+struct GrantsEmitterSet { const GrantsEmitterPart *parts; u32 count; };
+
+struct GrantsEffectEntry { s32 effect; u32 flags; s32 pad_08; };
+
+struct GrantsEffectSet { const GrantsEffectEntry *ents; u32 count; };
+
 #endif

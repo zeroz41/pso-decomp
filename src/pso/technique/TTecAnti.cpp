@@ -27,14 +27,9 @@
 const char *TTecAnti::class_name = "TTecAnti";
 
 
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-// A particle emitter of the Anti effect: it starts after `delay` frames, `count` times; bit 0 of flags puts it at the
-// ground position instead of the body position.
-struct AntiEmitterRow { s32 delay; s32 count; s32 id; s32 flags; };
-
 
 
 AntiEmitterRow anti_self_effect_rows[4] = {

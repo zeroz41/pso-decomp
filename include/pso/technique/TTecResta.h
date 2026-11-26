@@ -26,4 +26,7 @@ struct TTecResta : public TTecPlayerInfluence {
 };
 
 LAYOUT_ASSERT(TTecResta_size, sizeof(TTecResta) == 0x140);
+
+struct RecoveryEffectRow { s32 delay; s32 duration; s32 entry; u32 flags; };
+
 #endif
