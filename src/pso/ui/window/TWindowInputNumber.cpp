@@ -51,7 +51,7 @@ void TWindowInputNumber::mark_confirmed() {
 }
 void TWindowInputNumber::confirm_input() {
     s32 current;
-    uaddr temp;
+    WindowHeading *heading_window;
 
     current = this->value;
     if ((current < (s32) this->minimum) || (current > (s32) this->maximum)) {
@@ -60,9 +60,9 @@ void TWindowInputNumber::confirm_input() {
     }
     play_sound_effect(0x52D01, 0, 0, 0);
     this->inputFlags = (u16) (this->inputFlags | 2);
-    temp = (u32) this->heading;
-    if (temp != 0U) {
-        ((WindowHeading *)temp)->set_state(2);
+    heading_window = this->heading;
+    if (heading_window != NULL) {
+        heading_window->set_state(2);
     }
 }
 
@@ -128,7 +128,7 @@ static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 void TWindowInputNumber::create(s32 title) {
     WindowHeading *created;
 
-    if ((u32) this->heading == 0U) {
+    if (this->heading == NULL) {
         created = new WindowHeading(title, this->client_index);
         this->heading = created;
         this->window_flags = (s32) (this->window_flags | 0x40);

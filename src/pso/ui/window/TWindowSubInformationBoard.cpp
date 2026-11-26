@@ -31,11 +31,7 @@ struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 
 struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
-extern "C" {
-
 const char *TWindowSubInformationBoard::class_name = "TWindowSubInformationBoard";
-
-}
 
 TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *parent, s32 client) : TObject(parent) {
     this->m_name = class_name;
