@@ -7,6 +7,7 @@
 
 class TItemShoot : public TObject {
 public:
+ static const char *class_name;
  Vec m_pos;
  s32 m_28;
  s32 m_count;

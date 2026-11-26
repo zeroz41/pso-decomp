@@ -31,6 +31,7 @@ public:
 LAYOUT_ASSERT(TTecGiFoieFlame_size, sizeof(TTecGiFoieFlame) == 0x4C);
 
 struct TTecGiFoie : public TTecCircle {
+    static const char *name;
     TTecGiFoie(saddr source, Vec *origin, s32 level);
     virtual ~TTecGiFoie();
     virtual void apply_to_target(TObjChara *);
@@ -45,5 +46,4 @@ struct TTecGiFoie : public TTecCircle {
 
 LAYOUT_ASSERT(TTecGiFoie_size, sizeof(TTecGiFoie) == 0x13C);
 
-extern "C" const char *TTecGiFoie__name;
 #endif

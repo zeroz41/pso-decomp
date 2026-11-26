@@ -32,7 +32,7 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TLobby_802268F4.h"
 
-extern const char TEnding__class_name_string[] = "TEnding";
+const char TEnding::class_name_string[] = "TEnding";
 extern "C" {
 void request_main_phase(s32 arg0);
 }

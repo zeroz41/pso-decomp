@@ -20,7 +20,7 @@
 
 #pragma readonly_strings on
 
-const char *TTecZarua__name = "TTecZarua";
+const char *TTecZarua::name = "TTecZarua";
 
 void TTecZarua::create_instance(void *caster, Vec *pos, TargetCursorList *targets, s32 level) {
     new TTecZarua((saddr)caster, pos, targets, level);
@@ -73,7 +73,7 @@ TTecZarua::~TTecZarua() {
 
 TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TTecCircle(source, (saddr)pos, level) {
     s32 r;
-    m_name = TTecZarua__name;
+    m_name = TTecZarua::name;
     has_targets = 1;
     copy_technique_target_list(&targets, list);
     calc_range();
@@ -108,7 +108,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
 
 TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
     s32 r;
-    m_name = TTecZarua__name;
+    m_name = TTecZarua::name;
     has_targets = 0;
     calc_range();
     VecCopy(&position, &this->target);

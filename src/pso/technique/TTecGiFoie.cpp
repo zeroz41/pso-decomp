@@ -38,7 +38,9 @@ extern "C" {
 
 void matrix_mult_vec(void *, void *, void *);
 
-const char *TTecGiFoie__name = "TTecGiFoie";
+}
+const char *TTecGiFoie::name = "TTecGiFoie";
+extern "C" {
 
 // emitter_parts_N: the N particle parts an entry of TTecGiFoie__emitter_profile_table spawns.
 static const Part_802312E4 emitter_parts_1[1] = {{34, 2, 0.0f}};
@@ -63,7 +65,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
     s32 j;
     s32 k;
     s32 r;
-    this->m_name = TTecGiFoie__name;
+    this->m_name = TTecGiFoie::name;
     calc_params();
     if (this->collidable != NULL) {
         this->collidable->bodies->radius = 5.0f + this->params.range;

@@ -9,6 +9,7 @@ struct ParticleStripVertex;
 
 class TTecZondeEff : public TObject {
 public:
+    static s32 beam_texture_id;
     TTecZondeEff(TObject *parent, s32 decay, s32 start, f32 scale);
     TTecZondeEff(TObject *parent, Vec *from, Vec *dir, s32 decay, s32 start, f32 length, f32 scale);
     TTecZondeEff(TObject *parent, Vec *from, Vec *dir, f32 length);

@@ -12,6 +12,8 @@ extern s32 ending_scene_active;
 
 class TEnding : public TObject {
 public:
+    static const char *class_name;
+    static const char class_name_string[];
     TEnding();
     virtual ~TEnding();
     virtual void run_task();

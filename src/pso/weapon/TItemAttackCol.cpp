@@ -35,26 +35,19 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/item/item_pmt.h"
 
-extern "C" {
-
-
-
-
 // The collider render() is drawing, and how many of its model's nodes have been drawn.
 TItemAttackCol *attack_collider_render_owner;
 
 int attack_collider_active_count;
 
 
-void apply_extra_node_transform(TItemAttackCol *col, void *node);
+extern "C" void apply_extra_node_transform(TItemAttackCol *col, void *node);
 
 
-const char *TItemAttackCol__name = "TItemAttackCol";
+const char *TItemAttackCol::name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
-
-}
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 TItemAttackColBase::TItemAttackColBase(TObject *parent, S_802E451C *params) : TObject(parent) {
     TObjPlayer *player;
@@ -256,7 +249,7 @@ void TItemAttackCol::create(TObject *parent, WeaponEffectDescriptor *params) {
 }
 
 TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) : TItemAttackColBase(parent, params) {
-    m_name = TItemAttackCol__name;
+    m_name = TItemAttackCol::name;
     VecCopy(&start_position, &params->position);
     if (params->flags & 1) {
         VecCopy(&velocity, &params->direction);

@@ -66,7 +66,7 @@ bool TTecLuker__sub_8023401C(u8 *arg0);
 // The collision body every telepipe field collider starts from: a 0.01 sphere.
 CollisionBody telepipe_field_collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 0.01f, 0.0f, 0, 0x8031F0B, {0.0f, 0.0f, 0.0f}, 0.0f};
-u8 TTecLuker__visit_counts[4] = { 0, 0, 0, 0 };
+u8 TTecLuker::visit_counts[4] = { 0, 0, 0, 0 };
 void reset_telepipe_visit_counts(void);
 extern "C" {
 void TTecLuker__sub_80234F08(void);
@@ -89,7 +89,9 @@ static const s32 telepipe_visual_template_table[12][3] = {
 static const s32 telepipe_owner_tint_table[12] = {
     0x00FFB2B2, 0x0099FFB2, 0x00FFFFB2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
-const char *TTecLuker__name = "TTecLuker";
+}
+const char *TTecLuker::name = "TTecLuker";
+extern "C" {
 static const Vec lbl_8044D72C = { 0.0f, 0.0f, 0.2f };
 static const Vec telepipe_town_position_table[4] = {
     { -312.0f, 0.0f, -113.0f },
@@ -162,26 +164,26 @@ void CursorAction::set_telepipe() { kind = CURSOR_ACTION_TELEPIPE; }
 void TTecLuker__sub_80234F48(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TTecLuker__visit_counts[i] = 0;
+        TTecLuker::visit_counts[i] = 0;
     }
 }
 
 void reset_telepipe_visit_counts(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TTecLuker__visit_counts[i] = 0;
+        TTecLuker::visit_counts[i] = 0;
     }
 }
 
 void TTecLuker__sub_80234F08(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TTecLuker__visit_counts[i] = 0;
+        TTecLuker::visit_counts[i] = 0;
     }
 }
 
 TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
-    m_name = TTecLuker__name;
+    m_name = TTecLuker::name;
     phase = 0;
     warp_frames = 0;
     field = NULL;
@@ -264,7 +266,7 @@ void TTecLuker::run_task() {
             }
             if (TTecLuker__sub_80235054(tgt) != 0) {
                 VecCopy(&pipe_pos, &((TObjBase *)source)->position);
-                if ((telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker__visit_counts[sourceId] >= 1)) {
+                if ((telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker::visit_counts[sourceId] >= 1)) {
                     queue_destruction();
                     return;
                 }
@@ -275,7 +277,7 @@ void TTecLuker::run_task() {
     case 1:
         temp_r5 = sourceId;
         if (temp_r5 < 4U) {
-            TTecLuker__visit_counts[temp_r5] = TTecLuker__visit_counts[temp_r5] + 1;
+            TTecLuker::visit_counts[temp_r5] = TTecLuker::visit_counts[temp_r5] + 1;
         }
         if (telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) != 0) {
             queue_destruction();

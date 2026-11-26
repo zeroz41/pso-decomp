@@ -8,6 +8,7 @@ struct NJS_OBJECT;
 
 class TItemShootModel : public TItemShoot {
 public:
+ static const char *class_name;
  NJS_OBJECT *model;
  NJS_TEXLIST *texture_list;
  s32   ang;

@@ -20,7 +20,7 @@
 #pragma readonly_strings on
 
 
-const char *TItemAttacker__name = "TItemAttacker";
+const char *TItemAttacker::name = "TItemAttacker";
 
 
 s32 item_buffer_temp_mode;
@@ -57,7 +57,7 @@ void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, Delay
 
 TItemAttacker::TItemAttacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record) : TObject(parent) {
     TObjCollidable *entity;
-    m_name = TItemAttacker__name;
+    m_name = TItemAttacker::name;
     this->hit.copy_from(attack_record);
     done = 0;
     VecCopy(&this->origin, position);

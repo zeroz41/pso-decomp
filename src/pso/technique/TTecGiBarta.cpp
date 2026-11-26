@@ -126,7 +126,7 @@ const Band_802304A0 TTecGiBarta__emitter_profile_table[6] = {
     {lbl_8044D180, 3}, {lbl_8044D1A4, 3}, {lbl_8044D1C8, 3},
     {lbl_8044D1EC, 3}, {lbl_8044D210, 3}, {lbl_8044D234, 2},
 };
-const char *TTecGiBarta__class_name = "TTecGiBarta";
+const char *TTecGiBarta::class_name = "TTecGiBarta";
 const Vec lbl_8044D288 = {0.0f, 0.0f, 3.0f};
 
 
@@ -278,7 +278,7 @@ void TTecGiBarta::run_task() {
 TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
     : TTecShot(source, pos, target, level) {
     s32 i;
-    m_name = TTecGiBarta__class_name;
+    m_name = TTecGiBarta::class_name;
     calc_params();
     halfWidth = 12.0f;
     for (i = 0; i < 32; i++) {
@@ -295,7 +295,7 @@ TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
 TTecGiBarta::TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     s32 i;
-    m_name = TTecGiBarta__class_name;
+    m_name = TTecGiBarta::class_name;
     calc_params();
     for (i = 0; i < 0x20; i++) {
         hitIds[i] = 0xFFFF;

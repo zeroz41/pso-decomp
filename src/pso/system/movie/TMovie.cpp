@@ -41,7 +41,7 @@ s8 get_opening_movie_purpose();
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 
-const char *TMovie__name = "TMovie";
+const char *TMovie::name = "TMovie";
 // The eye, target and up of the view a movie plays in.
 static const Vec movie_camera_eye = {0.0f, 0.0f, 0.0f};
 static const Vec movie_camera_target = {0.0f, 0.0f, 1.0f};
@@ -426,7 +426,7 @@ void TMovie::run_task() {
 
 TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(parent) {
     u8 *p;
-    ((TMovie_80144910 *)this)->name = TMovie__name;
+    ((TMovie_80144910 *)this)->name = TMovie::name;
     ((TMovie_80144910 *)this)->f44 = a3;
     module = NULL;
     ((TMovie_80144910 *)this)->f48 = a4;

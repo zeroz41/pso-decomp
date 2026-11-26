@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/technique/TechniqueContact.h"
+#include "pso/technique/TechniqueEmitterTable.h"
 #include "pso/technique/TTecShot.h"
 
 struct TechniqueDamagePayload { s32 kind; f32 power; };
@@ -17,10 +18,9 @@ struct TechniqueHitRecipient {
     TechniqueHitRecipientVtable* vtable;
 };
 struct TechniqueParticleEmitter;
-struct TechniqueEmitterSourceRow { u32 entry; u32 flags; f32 scale; };
-struct TechniqueEmitterSourceTable { const TechniqueEmitterSourceRow *rows; u32 count; };
 
 struct TTecBarta : public TTecShot {
+    static const char *class_name;
     TTecBarta(saddr source, u8 *pos, u8 *target, s32 level);
     TTecBarta(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecBarta();

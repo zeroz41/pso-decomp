@@ -9,6 +9,7 @@ struct CsnGroup;
 
 class TMapCsnCtrl : public TObject {
 public:
+    static const char *class_name;
     TMapCsnCtrl(TObject *parent);
     virtual ~TMapCsnCtrl();
     void sub_80140F44();
@@ -17,9 +18,6 @@ public:
     CsnGroup *groups[0x200];
 };
 LAYOUT_ASSERT(TMapCsnCtrlExtent, sizeof(TMapCsnCtrl) == 0x81C);
-
-// Defined by the map collision unit (TObjMapCsn.cpp), whose .sdata and .rodata it opens.
-extern const char *TMapCsnCtrl__class_name;
 
 LAYOUT_ASSERT(TMapCsnCtrlGroupsOffset, offsetof(TMapCsnCtrl, groups) == 0x1C);
 

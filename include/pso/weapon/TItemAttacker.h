@@ -23,6 +23,7 @@ struct DelayedWeaponHit {
 
 class TItemAttacker : public TObject {
 public:
+    static const char *name;
     TItemAttacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record);
     virtual ~TItemAttacker();
     virtual void run_task();

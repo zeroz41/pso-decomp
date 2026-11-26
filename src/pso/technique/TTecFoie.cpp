@@ -101,7 +101,9 @@ const TTecFoieData_80230144 TTecFoie__emitter_profile_table[6] = {
     {foie_emitter_parts_0, 1}, {foie_emitter_parts_1, 1}, {foie_emitter_parts_2, 1},
     {foie_emitter_parts_3, 2}, {foie_emitter_parts_4, 2}, {foie_emitter_parts_5, 4},
 };
-const char *TTecFoie__name = "TTecFoie";
+}
+const char *TTecFoie::name = "TTecFoie";
+extern "C" {
 
 typedef struct Angles_8022FC94 Angles_8022FC94;
 typedef struct Binding_8022FC94 Binding_8022FC94;
@@ -227,7 +229,7 @@ TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
 // The facing form (create): flies along the y angle `angle`.
 TTecFoie::TTecFoie(saddr source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
-    m_name = TTecFoie__name;
+    m_name = TTecFoie::name;
     if (this->source != NULL) {
         sourceId = ((TObjBase *)this->source)->get_entity_id();
     }

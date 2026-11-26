@@ -548,7 +548,7 @@ force_active:
   - THunterGuildSeqOffline__sub_80213EBC
   - THunterGuildSeqOffline__sub_80213F78
   - handle_party_check__28THunterGuildSeqOnline_ServerFv
-  - TItemAttacker__name
+  - name__13TItemAttacker
   - TItemAttacker__sub_8010349C
   - TItemData__sub_8010CAB0
   - TItemDisconnectCtrl__name
@@ -750,7 +750,7 @@ force_active:
   - is_body_flag_valid__14TObjCollidableFlUs
   - TMainTask_name
   - slot_flags__17TMedicalCenterMes
-  - TMemberCheck__previous_member_count
+  - previous_member_count__12TMemberCheck
   - motorcycle_collision_parts
   - __ct__11TMotorcycleFP7TObjectP13ObjectSetData
   - name__10TNpcPlayer
@@ -1734,11 +1734,11 @@ force_active:
   - spawn_anti_range_effect__8TTecAntiFv
   - setup_params__8TTecAntiFv
   - class_name__8TTecAnti
-  - TTecBarta__class_name
+  - class_name__9TTecBarta
   - __ct__9TTecBartaFlPUcPUcl
   - __ct__10TTecDebandFPvPvPvl
   - __ct__10TTecDebandFPvPvl
-  - TTecGiBarta__class_name
+  - class_name__11TTecGiBarta
   - __ct__11TTecGiBartaFlPUcPUcl
   - __ct__11TTecGiZondeFlP3VecPvl
   - __ct__10TTecGrantsFllll
@@ -8290,7 +8290,7 @@ force_active:
   - check_room_sequence_name
   - class_name__9TTecResta
   - class_name__9TTecSifta
-  - TTecZarua__name
+  - name__9TTecZarua
   - TWindowBreakIn__name
   - TWindowChallengeResult__name
   - lbl_805D38B0

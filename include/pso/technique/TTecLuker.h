@@ -11,6 +11,8 @@ class TTelepipeEffect;
 // The telepipe technique: places a pipe (field + visual) near its caster and, once a player
 // selects it, warps everyone back to the city. Field names below are inferred from use.
 struct TTecLuker : public TTecCircle {
+    static const char *name;
+    static u8 visit_counts[4];
     TTecLuker(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecLuker();
     virtual void apply_to_target(TObjChara *);

@@ -17,6 +17,7 @@ typedef void (*TItemAttackColHitWall)(s32 item_id, Vec *position, Vec *velocity)
 typedef void (*TItemAttackColHitObject)(s32 item_id, s32 *hit, Vec *velocity);
 
 struct TItemAttackCol : public TItemAttackColBase {
+    static const char *name;
     TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params);
     virtual ~TItemAttackCol();
     virtual void move_by_velocity();
