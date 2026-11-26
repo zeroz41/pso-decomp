@@ -463,7 +463,7 @@ void TWindowSubStatusDisp::vt0() {
     WindowTextEntry *e;
     u8 *gauge;
     u8 *pl;
-    s32 v;
+    saddr v;
     s8 *st;
     if ((f32) this->open_tick > 7.5f) {
         this->open_tick = 7;
@@ -484,7 +484,7 @@ void TWindowSubStatusDisp::vt0() {
     if (pl != NULL) {
         st = (s8 *)(pl + 0x85C);
         if (st != NULL) {
-            v = (s32)((TObjPlayer *)pl)->get_name();
+            v = (saddr)((TObjPlayer *)pl)->get_name();
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(0)), v, 0x20);
             v = get_class_name_text(st[0x31]);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(3)), v, 0);
