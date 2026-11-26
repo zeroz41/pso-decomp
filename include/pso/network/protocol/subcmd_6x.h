@@ -88,17 +88,19 @@ struct G_RemoveStatusEffect_6x0D {
 LAYOUT_ASSERT(G_RemoveStatusEffect_6x0DSize, sizeof(G_RemoveStatusEffect_6x0D) == 0xC);
 
 // 6x0C/6x0D: The layout the receive handlers read. Received by
-// handle_6x0C_add_or_remove_status_effect and handle_6x0D_add_or_remove_status_effect. Used by our
-// code; size not checked against a sender yet.
+// handle_6x0C_add_or_remove_status_effect and handle_6x0D_add_or_remove_status_effect. Size
+// checked: G_AddStatusEffect_6x0C::init and G_RemoveStatusEffect_6x0D::init set the header size to
+// 3 words.
 struct G_AddOrRemoveStatusEffect_6x0C_6x0D {
  struct G_ClientIDHeader header;
  u32 effect_type;
  f32 amount;
 };
+LAYOUT_ASSERT(G_AddOrRemoveStatusEffect_6x0C_6x0DSize, sizeof(G_AddOrRemoveStatusEffect_6x0C_6x0D) == 0xC);
 
 // 6x46: a player's attack ends; the lock-on targets it hit follow the header.
-// Sent by TObjPlayer::send_attack_target_packet; received by handle_6x46_attack_finished. Used by
-// our code; size not checked against a sender yet.
+// Sent by TObjPlayer::send_attack_target_packet; received by handle_6x46_attack_finished. Size
+// checked: the G_AttackFinished_6x46 constructor sets the header size to 12 words.
 struct G_AttackFinished_6x46 {
     G_AttackFinished_6x46();
     G_AttackFinished_6x46 &operator=(G_AttackFinished_6x46 &src);
@@ -114,14 +116,16 @@ struct G_AttackFinished_6x46 {
     G_ClientIDHeader header;
     CapturedTargetList targets;
 };
+LAYOUT_ASSERT(G_AttackFinished_6x46Size, sizeof(G_AttackFinished_6x46) == 0x30);
 
-// 6x43/6x44/6x45: The fields shared by the three attack stage packets. Used by our code; size not
-// checked against a sender yet.
+// 6x43/6x44/6x45: The fields shared by the three attack stage packets. Size checked:
+// G_Attack_6x43::init, G_Attack_6x44::init and G_Attack_6x45::init set the header size to 2 words.
 struct G_Attack_6x43_6x44_6x45 {
  struct G_ClientIDHeader header;
  s16 angle_y;
  s16 action_type; // the receiver passes it to the attack state's set_attack_kind
 };
+LAYOUT_ASSERT(G_Attack_6x43_6x44_6x45Size, sizeof(G_Attack_6x43_6x44_6x45) == 0x8);
 
 // The three stages of a physical attack combo (6x43, then 6x44, then 6x45),
 // one packet class each over the same fields.
@@ -161,8 +165,8 @@ LAYOUT_ASSERT(G_Attack_6x45Size, sizeof(G_Attack_6x45) == 0x8);
 // 6xA9/6xAA: Barba Ray (TBoss7DeRolLeC) action changes. The client swaps
 // their header through G_ClientIDHeader::bswap; client_id holds the boss's
 // entity id.
-// Sent by TBoss7DeRolLeC::set_state_and_send; received by handle_6xA9_barba_ray_boss_actions. Used
-// by our code; size not checked against a sender yet.
+// Sent by TBoss7DeRolLeC::set_state_and_send; received by handle_6xA9_barba_ray_boss_actions. Size
+// checked: G_BarbaRayBossActions_6xA9::init sets the header size to 2 words.
 struct G_BarbaRayBossActions_6xA9 {
  struct G_ClientIDHeader header;
  s16 what; // the boss state (transition_enemy_state)
@@ -171,10 +175,11 @@ struct G_BarbaRayBossActions_6xA9 {
  void send();
  void init();
 };
+LAYOUT_ASSERT(G_BarbaRayBossActions_6xA9Size, sizeof(G_BarbaRayBossActions_6xA9) == 0x8);
 
-// 6xAA: Barba Ray's state with its parameters. Sent by TBoss7DeRolLeC::set_state_and_send;
-// received by handle_6xAA_barba_ray_boss_actions. Used by our code; size not checked against a
-// sender yet.
+// 6xAA: Barba Ray's state with its parameters. Sent by TBoss7DeRolLeC::set_state_and_send; received
+// by handle_6xAA_barba_ray_boss_actions. Size checked: G_BarbaRayBossActions_6xAA::init sets the
+// header size to 3 words.
 struct G_BarbaRayBossActions_6xAA {
  struct G_ClientIDHeader header;
  s16 what; // the boss state (transition_enemy_state)
@@ -184,6 +189,7 @@ struct G_BarbaRayBossActions_6xAA {
  void send();
  void init();
 };
+LAYOUT_ASSERT(G_BarbaRayBossActions_6xAASize, sizeof(G_BarbaRayBossActions_6xAA) == 0xC);
 
 // 6x5E: A player buys an item from a shop. Sent by send_buy_shop_item; received by
 // handle_6x5E_buy_shop_item. Size checked: its constructor sets the header size to 6 words.
@@ -434,12 +440,13 @@ struct G_DonateToPhotonBlast_6x38 {
 };
 LAYOUT_ASSERT(G_DonateToPhotonBlast_6x38Size, sizeof(G_DonateToPhotonBlast_6x38) == 0x8);
 
-// 6x72: A joining player has finished loading into the game. Sent by TLobby::on_game_player_add
-// and init_6x72_resume_packet; received by handle_6x72_done_loading_into_game. Used by our code;
-// size not checked against a sender yet.
+// 6x72: A joining player has finished loading into the game. Sent by TLobby::on_game_player_add and
+// init_6x72_resume_packet; received by handle_6x72_done_loading_into_game. Size checked:
+// init_6x72_resume_packet sets the header size to 1 word.
 struct G_DoneLoadingIntoGame_6x72 {
  struct G_UnusedHeader header;
 };
+LAYOUT_ASSERT(G_DoneLoadingIntoGame_6x72Size, sizeof(G_DoneLoadingIntoGame_6x72) == 0x4);
 
 // 6x10/6x11: The Dragon's action state and target. Received by handle_6x10_dragon_boss_actions and
 // handle_6x11_dragon_boss_actions. Used by our code; size not checked against a sender yet.
@@ -628,7 +635,8 @@ LAYOUT_ASSERT(G_GalGryphonBossActions_6xA0Size, sizeof(G_GalGryphonBossActions_6
 // 6xA8: The Gol Dragon's next action (TBoss8Dragon::send_action_packet / send_6xA8_action,
 // applied by TBoss8Dragon::apply_6xA8_action); header.client_id holds the dragon's entity id.
 // Sent by TBoss8Dragon::send_6xA8_action and TBoss8Dragon::send_action_packet; received by
-// handle_6xA8_gol_dragon_boss_actions. Used by our code; size not checked against a sender yet.
+// handle_6xA8_gol_dragon_boss_actions. Size checked: G_GolDragonBossActions_6xA8::init sets the
+// header size to 6 words.
 struct G_GolDragonBossActions_6xA8 {
  struct G_ClientIDHeader header;
  s16 what;          // the boss state (transition_enemy_state)
@@ -641,6 +649,7 @@ struct G_GolDragonBossActions_6xA8 {
  void send();
  void init();
 };
+LAYOUT_ASSERT(G_GolDragonBossActions_6xA8Size, sizeof(G_GolDragonBossActions_6xA8) == 0x18);
 
 // The velocity the hit packets carry: copied as two words and byte-swapped by
 // its own helper, not by VectorXZF::bswap.
@@ -650,14 +659,15 @@ struct PacketVelocityXZ {
  void bswap();
 };
 
-// 6x4B/6x4C: The fields shared by the two hit packets. Used by our code; size not checked against
-// a sender yet.
+// 6x4B/6x4C: The fields shared by the two hit packets. Size checked: G_HitByEnemy_6x4B::init and
+// G_HitByEnemy_6x4C::init set the header size to 4 words.
 struct G_HitByEnemy_6x4B_6x4C {
  struct G_ClientIDHeader header;
  s16 angle;
  s16 current_hp;
  struct PacketVelocityXZ velocity;
 };
+LAYOUT_ASSERT(G_HitByEnemy_6x4B_6x4CSize, sizeof(G_HitByEnemy_6x4B_6x4C) == 0x10);
 
 // 6x4B (hurt) and 6x4C (knocked down) share the hit fields; each has its own
 // packet class.
@@ -708,12 +718,14 @@ struct G_UpdateObjectState_6x0B {
 LAYOUT_ASSERT(G_UpdateObjectState_6x0BSize, sizeof(G_UpdateObjectState_6x0B) == 0xC);
 
 // 6x86: A player hits a destructible object. Received by handle_6x86_hit_destructible_object.
-// Layout from newserv, not used by our code yet.
+// Layout from newserv. Size checked: WallHitPacket::init (TOVS2Wall01.cpp) sets the header size to
+// 4 words.
 struct G_HitDestructibleObject_6x86 {
  struct G_UpdateObjectState_6x0B __base_G_UpdateObjectState_6x0B;
  u16 is_destroyed;
  u16 remaining_hits;
 };
+LAYOUT_ASSERT(G_HitDestructibleObject_6x86Size, sizeof(G_HitDestructibleObject_6x86) == 0x10);
 
 // 6x2C: Holds a player in place. Sent by send_6x2C_impose_hold; received by
 // handle_6x2C_impose_hold. Size checked: G_ImposeHold_6x2C::init sets the header size to 5 words.
@@ -838,8 +850,8 @@ LAYOUT_ASSERT(G_MedicalCenterReviveAllPlayers_6x32Size, sizeof(G_MedicalCenterRe
 
 // 6xA6: Changes a trade proposal between two players. Sent by TLobby::send_trade_proposal_modify,
 // cancel_trade_for_member_out_of_range, send_trade_busy_reply, TLobby::send_modify_trade_proposal
-// and 2 more; received by handle_6xA6_modify_trade_proposal. Used by our code; size not checked
-// against a sender yet.
+// and 2 more; received by handle_6xA6_modify_trade_proposal. Size checked:
+// build_6xA6_modify_trade_proposal sets the header size to 4 words.
 struct G_ModifyTradeProposal_6xA6 {
  struct G_ClientIDHeader header;
  u8 what;
@@ -853,6 +865,7 @@ struct G_ModifyTradeProposal_6xA6 {
  void prepare();
  void prepare_and_send(u32 client_id);
 };
+LAYOUT_ASSERT(G_ModifyTradeProposal_6xA6Size, sizeof(G_ModifyTradeProposal_6xA6) == 0x10);
 
 // 6x41/6x42: A player runs to a position. Sent by TNpcPlayer::send_run_request,
 // TObjPlayer::send_6x42_run_to_position and qst_op_run_to_coord; received by
@@ -886,17 +899,19 @@ struct G_NPCControl_6x69 {
 LAYOUT_ASSERT(G_NPCControl_6x69Size, sizeof(G_NPCControl_6x69) == 0xC);
 
 // 6xA3: Olga Flow's action state. Received by handle_6xA3_olga_flow_boss_actions. Layout from
-// newserv, not used by our code yet.
+// newserv. Size checked: OlgaFlowPlotActionMsg::initialize sets the header size to 5 words.
 struct G_OlgaFlowBossActions_6xA3 {
  struct G_EntityIDHeader header;
  u8 unknown_a1;
  u8 unknown_a2;
  u8 unknown_a3[0x0E];
 };
+LAYOUT_ASSERT(G_OlgaFlowBossActions_6xA3Size, sizeof(G_OlgaFlowBossActions_6xA3) == 0x14);
 
 // 6xA4/6xA5: Olga Flow's action state with its parameters. Received by
-// handle_6xA4_olga_flow_boss_actions and handle_6xA5_olga_flow_boss_actions. Layout from newserv,
-// not used by our code yet.
+// handle_6xA4_olga_flow_boss_actions and handle_6xA5_olga_flow_boss_actions. Layout from newserv.
+// Size checked: OlgaFlowActionMsg::initialize (6xA4) and OlgaFlowType2ActionMsg::initialize (6xA5)
+// set the header size to 5 words.
 struct G_OlgaFlowBossActions_6xA4_6xA5 {
  struct G_EntityIDHeader header;
  u8 what;
@@ -906,6 +921,7 @@ struct G_OlgaFlowBossActions_6xA4_6xA5 {
  u8 ext_state_bytes[4];
  u8 unused2[4];
 };
+LAYOUT_ASSERT(G_OlgaFlowBossActions_6xA4_6xA5Size, sizeof(G_OlgaFlowBossActions_6xA4_6xA5) == 0x14);
 
 // 6xAD: The actions of Olga Flow's subordinate parts. Received by
 // handle_6xAD_olga_flow_subordinate_boss_actions. Used by our code; size not checked against a
@@ -1049,8 +1065,8 @@ struct G_RevivePlayer_V3_BB_6xA1 {
 LAYOUT_ASSERT(G_RevivePlayer_V3_BB_6xA1Size, sizeof(G_RevivePlayer_V3_BB_6xA1) == 0x4);
 
 // 6x97: A player's choice after failing a challenge mode stage. Sent by send_and_handle_60_wrapper
-// and send_challenge_retry_cmd; received by handle_6x97_select_challenge_mode_failure_option. Used
-// by our code; size not checked against a sender yet.
+// and send_challenge_retry_cmd; received by handle_6x97_select_challenge_mode_failure_option. Size
+// checked: build_6x97_packet sets the header size to 5 words.
 struct G_SelectChallengeModeFailureOption_6x97 {
  struct G_UnusedHeader header;
  u32 client_id;
@@ -1058,6 +1074,7 @@ struct G_SelectChallengeModeFailureOption_6x97 {
  u32 unused1;
  u32 unused2;
 };
+LAYOUT_ASSERT(G_SelectChallengeModeFailureOption_6x97Size, sizeof(G_SelectChallengeModeFailureOption_6x97) == 0x14);
 
 // 6x06: our code carries this as G_SendGuildCard_6x06
 // (pso/network/protocol/SendGuildCardPacket.h).
@@ -1130,22 +1147,26 @@ struct G_SetBossWarpFlags_6x6A {
 };
 LAYOUT_ASSERT(G_SetBossWarpFlags_6x6ASize, sizeof(G_SetBossWarpFlags_6x6A) == 0x8);
 
-// 6x95: The challenge mode stage time. Received by handle_6x95_set_challenge_time. Used by our
-// code; size not checked against a sender yet.
+// 6x95: The challenge mode stage time. Received by handle_6x95_set_challenge_time. Size checked:
+// build_6x95_packet sets the header size to 5 words.
 struct G_SetChallengeTime_6x95 {
  struct G_UnusedHeader header;
  s32 client_id;
  s32 time;
+ // Sent and byte-swapped (TLobby::byteswap_challenge_time_packet) but never set; newserv's 6x95 ends at time.
+ u32 unused[2];
 };
+LAYOUT_ASSERT(G_SetChallengeTime_6x95Size, sizeof(G_SetChallengeTime_6x95) == 0x14);
 
 // 6x9D: A player has died in challenge mode. Sent by send_challenge_dead_flag_packet and
-// send_challenge_dead_flag_cmd; received by handle_6x9D_set_challenge_dead_flag. Used by our code;
-// size not checked against a sender yet.
+// send_challenge_dead_flag_cmd; received by handle_6x9D_set_challenge_dead_flag. Size checked:
+// build_6x9D_packet sets the header size to 2 words.
 struct G_SetChallengeDeadFlag_6x9D {
  struct G_ClientIDHeader header;
  u32 client_id;
  void bswap();
 };
+LAYOUT_ASSERT(G_SetChallengeDeadFlag_6x9DSize, sizeof(G_SetChallengeDeadFlag_6x9D) == 0x8);
 
 // 6x7C: The start of 6x7C. Layout from newserv, not used by our code yet.
 struct G_SetChallengeRecordsBase_6x7C {
@@ -1392,12 +1413,13 @@ struct G_ShieldAttack_6x4A {
 LAYOUT_ASSERT(G_ShieldAttack_6x4ASize, sizeof(G_ShieldAttack_6x4A) == 0x4);
 
 // 6x8A: Shows the challenge mode time records window. Sent by TLobby::send_challenge_with_value;
-// received by handle_6x8A_show_challenge_time_records_window. Used by our code; size not checked
-// against a sender yet.
+// received by handle_6x8A_show_challenge_time_records_window. Size checked: build_6x8A_packet sets
+// the header size to 2 words.
 struct G_ShowChallengeTimeRecordsWindow_6x8A {
  struct G_ClientIDHeader header;
  s32 which;
 };
+LAYOUT_ASSERT(G_ShowChallengeTimeRecordsWindow_6x8ASize, sizeof(G_ShowChallengeTimeRecordsWindow_6x8A) == 0x8);
 
 // 6x87: our code carries this as PlayerShrinkPacket (pso/player/PlayerScaleState.h), which
 // handle_6x87_shrink_player reads.
@@ -1448,7 +1470,8 @@ LAYOUT_ASSERT(G_SpecializableItemDropRequest_6xA2Size, sizeof(G_SpecializableIte
 
 // 6x3E: A player stops at a position. Sent by send_6x3e_to_all_players, send_stop_at_position,
 // quest_player_look_at_partner, quest_player_face_actor and 2 more; received by
-// handle_6x3E_stop_at_position. Used by our code; size not checked against a sender yet.
+// handle_6x3E_stop_at_position. Size checked: G_StopAtPosition_6x3E::init sets the header size to 6
+// words.
 struct G_StopAtPosition_6x3E {
  struct G_ClientIDHeader header;
  s16 is_near_enemy;
@@ -1461,6 +1484,7 @@ struct G_StopAtPosition_6x3E {
  void send();
  G_StopAtPosition_6x3E &operator=(G_StopAtPosition_6x3E &src);
 };
+LAYOUT_ASSERT(G_StopAtPosition_6x3ESize, sizeof(G_StopAtPosition_6x3E) == 0x18);
 
 // 6x50: A player uses a switch. Sent by TObjPlayer::send_6x50_switch_interaction; received by
 // handle_6x50_switch_interaction. Size checked: G_SwitchInteraction_6x50::init sets the header
@@ -1567,12 +1591,13 @@ struct G_TriggerTrap_6x80 {
 LAYOUT_ASSERT(TriggerTrapPacketSize, sizeof(G_TriggerTrap_6x80) == 8);
 
 // 6xAF/6xB0: The fields shared by the lobby chair packets. Received by
-// handle_6xAF_turn_or_move_lobby_chair and handle_6xB0_turn_or_move_lobby_chair. Used by our code;
-// size not checked against a sender yet.
+// handle_6xAF_turn_or_move_lobby_chair and handle_6xB0_turn_or_move_lobby_chair. Size checked:
+// G_TurnLobbyChair_6xAF::init and G_MoveLobbyChair_6xB0::init set the header size to 2 words.
 struct G_TurnOrMoveLobbyChair_6xAF_6xB0 {
  struct G_ClientIDHeader header;
  u32 angle;
 };
+LAYOUT_ASSERT(G_TurnOrMoveLobbyChair_6xAF_6xB0Size, sizeof(G_TurnOrMoveLobbyChair_6xAF_6xB0) == 0x8);
 
 // 6xAF: turn the lobby chair toward the stick angle.
 // Sent by TObjPlayer::update_lobby_chair_controls. Size checked: G_TurnLobbyChair_6xAF::init sets
@@ -1597,10 +1622,11 @@ struct G_MoveLobbyChair_6xB0 : G_TurnOrMoveLobbyChair_6xAF_6xB0 {
 LAYOUT_ASSERT(G_MoveLobbyChair_6xB0Size, sizeof(G_MoveLobbyChair_6xB0) == 0x8);
 
 // 6x71: Lets other players join the game again. Received by handle_6x71_unblock_game_join. Layout
-// from newserv, not used by our code yet.
+// from newserv. Size checked: TLobby::send_6x71_to_player sets the header size to 1 word.
 struct G_UnblockGameJoin_6x71 {
  struct G_UnusedHeader header;
 };
+LAYOUT_ASSERT(G_UnblockGameJoin_6x71Size, sizeof(G_UnblockGameJoin_6x71) == 0x4);
 
 // 6x26: A player unequips an item. Sent by TObjPlayer::send_6x26_unequip_item and
 // TObjPlayer::send_unequip_held_item; received by handle_6x26_unequip_item. Size checked:
@@ -1692,8 +1718,8 @@ struct G_UpdateAttackableColState_6x91 : G_UpdateObjectState_6x0B {
 LAYOUT_ASSERT(G_UpdateAttackableColState_6x91Size, sizeof(G_UpdateAttackableColState_6x91) == 0x14);
 
 // 6x9A: a player's HP, TP or meseta changes; the header carries the player's client id.
-// Sent by TObjChara::send_update_entity_stat; received by handle_6x9A_update_entity_stat. Used by
-// our code; size not checked against a sender yet.
+// Sent by TObjChara::send_update_entity_stat; received by handle_6x9A_update_entity_stat. Size
+// checked: G_UpdateEntityStat_6x9A::init sets the header size to 2 words.
 struct G_UpdateEntityStat_6x9A {
  struct G_ClientIDHeader header;
  u16 entity_index;
@@ -1704,6 +1730,7 @@ struct G_UpdateEntityStat_6x9A {
  void bswap();
  void send();
 };
+LAYOUT_ASSERT(G_UpdateEntityStat_6x9ASize, sizeof(G_UpdateEntityStat_6x9A) == 0x8);
 
 // 6x75: The first part of 6x75: the flag and what to do with it. Layout from newserv, not used by
 // our code yet.

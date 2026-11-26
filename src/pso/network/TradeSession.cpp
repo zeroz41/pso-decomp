@@ -492,7 +492,6 @@ void reset_trade_session() {
     }
 }
 
-LAYOUT_ASSERT(TradeProposalSize, sizeof(G_ModifyTradeProposal_6xA6) == 0x10);
 LAYOUT_ASSERT(TradeProposalAmountOffset, offsetof(G_ModifyTradeProposal_6xA6, amount) == 0xC);
 
 void reset_trade_session(const char *message) {
