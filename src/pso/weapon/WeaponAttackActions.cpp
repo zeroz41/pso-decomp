@@ -278,7 +278,7 @@ void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 ra
     this->restore_action_type();
 }
 
-void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
+void TItemWeapon::fire_shot_at_target(Vec *origin, void *model, s32 angle) {
     Vec v;
     WeaponEffectDescriptor atk;
     f32 *scale;
@@ -291,7 +291,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
         scale = ((f32 *(*)(void *, s32))get_weapon_range_record)(this, ((s32 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)(owner));
         reset_weapon_effect_descriptor(&atk);
         fill_status_info(&atk);
-        VecCopy(&atk.position, (const Vec *)origin);
+        VecCopy(&atk.position, origin);
         atk.rotation_y = owner->rotation_y + angle;
         atk.range = *scale;
         atk.speed = shot_speed;
@@ -299,7 +299,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
         atk.texlist = this->texlist;
         init_weapon_effect_descriptor(&atk);
         remap_extra_attack_type();
-        hit = trace_from_owner((Vec *)origin);
+        hit = trace_from_owner(origin);
         if (hit != NULL) {
             VecCopy(&atk.position, &hit->contact->point);
             atk.flags |= 0x800;
@@ -307,7 +307,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
             if ((item = state->get_captured_target_entry(0)) != 0) {
                 if ((ph = (TObjCollidable *)find_entity_by_id(item->get_uid())) != NULL && ph->bodies != NULL) {
                     VecCopy((Vec *)&v, &ph->bodies[item->get_captured_target_collider_index()].center);
-                    subtract_vector(&v, ((Vec *)origin));
+                    subtract_vector(&v, origin);
                     push_matrix_from(identity_matrix);
                     rotate_matrix_y(0, angle);
                     transform_point_by_current_matrix(&v.x, &atk.direction);

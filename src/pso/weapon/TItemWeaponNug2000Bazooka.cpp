@@ -41,7 +41,7 @@ void TItemWeaponNug2000Bazooka::init_weapon_effect_descriptor(WeaponEffectDescri
 }
 
 void TItemWeaponNug2000Bazooka::emit_marker_effects() {
-    s32 origin;
+    Vec origin;
     get_joint_position(1, &origin);
     fire_shot_at_target(&origin, second_model, 0);
 }
