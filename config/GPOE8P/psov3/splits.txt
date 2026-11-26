@@ -5707,7 +5707,7 @@ pso/ui/window/TWindowCheckBox.cpp:
 	.sdata      start:0x805D38B0 end:0x805D38B8
 	.sdata2     start:0x805DCBA8 end:0x805DCBAC
 
-pso/ui/window/TWindowChoiceSetting_80249078.cpp:
+pso/ui/window/TWindowChoiceSetting.cpp:
 	.text       start:0x80249078 end:0x802495FC
 	.rodata     start:0x8044EAF0 end:0x8044EB18
 	.data       start:0x804CE808 end:0x804CE820
@@ -5970,7 +5970,7 @@ pso/ui/window/TWindowMenuIconLine.cpp:
 	.sdata      start:0x805D3968 end:0x805D3970
 	.sdata2     start:0x805DD180 end:0x805DD1D8
 
-pso/ui/window/TWindowChoiceSetting.cpp:
+pso/ui/window/TWindowMenuInfomation.cpp:
 	.text       start:0x80268794 end:0x80269078
 	.rodata     start:0x8044F388 end:0x8044F3D0
 	.data       start:0x804D0638 end:0x804D0670

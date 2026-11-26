@@ -1032,7 +1032,7 @@ pso/ui/chat/TWindowChat.cpp
 pso/ui/chat/TWindowChatSymbol.cpp
 pso/ui/chat/TSymbolChatMenu.cpp
 pso/ui/window/TWindowCheckBox.cpp
-pso/ui/window/TWindowChoiceSetting.cpp
+pso/ui/window/TWindowMenuInfomation.cpp
 pso/ui/window/TWindowChoiceSetting_80249610.cpp
 pso/ui/window/TWindowComCard.cpp
 pso/ui/window/TWindowComCardFollower.cpp
@@ -1635,7 +1635,7 @@ pso/unk/text_80228C54.cpp
 pso/technique/TTecCircle.cpp
 pso/unk/text_802432F0.cpp
 pso/ui/window/TWindowAddition.cpp
-pso/ui/window/TWindowChoiceSetting_80249078.cpp
+pso/ui/window/TWindowChoiceSetting.cpp
 pso/ui/window/TWindowHelpItem.cpp
 pso/unk/text_8025CD10.cpp
 pso/ui/window/TWindowLockOn.cpp

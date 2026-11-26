@@ -746,7 +746,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/ending/TObjOnlineEndingHexLine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/galgryphon/TBoss5GryphonShockWave.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/gyaranzo/TObjGyaranzoMissile.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/window/TWindowChoiceSetting.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowMenuInfomation.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # .data holds lbl_804D2B48 and the vtable ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/chat/TWindowSubSymbolChat.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
