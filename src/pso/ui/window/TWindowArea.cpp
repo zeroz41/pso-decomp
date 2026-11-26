@@ -20,7 +20,7 @@
 // The functions are generated last to first.
 #pragma defer_codegen on
 
-s32 TWindowSubStatusDisp__count_ratio_value;
+s32 TWindowSubStatusDisp::count_ratio_value;
 const char *TWindowArea::class_name = "TWindowArea";
 
 TWindowArea::TWindowArea() : TWindowRoom(NULL) {
@@ -76,7 +76,7 @@ void TWindowSubStatusDisp::set_count_ratio_text(s32 count, s32 total) {
     text_builder_append("/");
     append_padded_number((total), (2U));
     this->set_entry_display_value((saddr) (get_shared_text_buffer()));
-    TWindowSubStatusDisp__count_ratio_value = count;
+    TWindowSubStatusDisp::count_ratio_value = count;
 }
 
 TWindowAddition::TWindowAddition(u8 *descriptor, s16 client, u8 *parent)

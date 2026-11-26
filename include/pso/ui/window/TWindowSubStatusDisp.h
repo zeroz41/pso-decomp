@@ -18,6 +18,7 @@ struct SummaryPageLayout;
 class ItemListRow;
 
 struct TWindowSubStatusDisp : public TWindowBase {
+    static s32 count_ratio_value;
     static void * window_layout[5];
     static NumberedTimesLayout numbered_times_layout;
     static RankTimeRecordsLayout rank_time_records_layout;

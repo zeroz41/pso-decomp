@@ -12,6 +12,7 @@ struct WindowScrollBar;
 struct PaletteAction;
 
 struct TWindowSubCustomSelect : public TWindowAddition {
+    static WindowDescriptor window_settings;
     TWindowSubCustomSelect(s32 client);
     virtual ~TWindowSubCustomSelect();
     static const char *class_name;
@@ -41,7 +42,7 @@ LAYOUT_ASSERT(TWindowSubCustomSelect_size, sizeof(TWindowSubCustomSelect) == 0x8
 LAYOUT_ASSERT(TWindowSubCustomSelectFieldsOffset, offsetof(TWindowSubCustomSelect, column) == 0x70);
 
 // window_sub_custom_select_layout_entries, the layout table
-// TWindowSubCustomSelect__window_settings points at (two sprite parts and a value entry).
+// TWindowSubCustomSelect::window_settings points at (two sprite parts and a value entry).
 struct SubCustomSelectWindowLayout {
     u32 cols;
     u32 rows;

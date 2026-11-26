@@ -51,13 +51,13 @@ TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f3
 
 #pragma pop
 
-LoadItemTextureWindowLayout TWindowLoadItemTexture__layout_entries = {
+LoadItemTextureWindowLayout TWindowLoadItemTexture::layout_entries = {
     1, 1,
     {6, {-4.0f, -10.0f}, {0.0f, 0.0f}, 0.0f, 0.0f, 0.5f, -1, NULL, 0, 6},
 };
 
-WindowDescriptor TWindowLoadItemTexture__window_descriptor = {
-    {0.0f, 0.0f}, 38000.0f, &TWindowLoadItemTexture__layout_entries, 0x2B,
+WindowDescriptor TWindowLoadItemTexture::window_descriptor = {
+    {0.0f, 0.0f}, 38000.0f, &TWindowLoadItemTexture::layout_entries, 0x2B,
 };
 
 
@@ -102,7 +102,7 @@ TWindowLoadItemTexture::~TWindowLoadItemTexture() {
 }
 
 TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 client)
-    : TWindowBase((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)client, (u8 *)position) {
+    : TWindowBase((u8 *)&TWindowLoadItemTexture::window_descriptor, (s16)client, (u8 *)position) {
     m_name = TWindowLoadItemTexture::class_name;
     switch (TCameraCtrl::get_camera_id()) {
     case 1:

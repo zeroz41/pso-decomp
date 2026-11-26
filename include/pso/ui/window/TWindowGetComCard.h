@@ -4,12 +4,13 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/player/GuildCardEntry.h"
 
-struct GuildCardEntry;
 struct TWindowMenu;
 struct TWindowMessage;
 
 struct TWindowGetComCard : public TObject {
+    static GuildCardEntry received_guild_card_tags[4];
     explicit TWindowGetComCard(TObject *parent);
     virtual ~TWindowGetComCard();
     virtual void run_task();

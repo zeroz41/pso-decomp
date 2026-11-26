@@ -74,7 +74,7 @@ SubMagPhotonWindowLayout window_sub_mag_photon_layout_entries = {
         {6, {20.0f, 77.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &hud_texlist, 3, 4},
     },
 };
-WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
+WindowDescriptor TWindowSubMagPhoton::layout_descriptor = {
     {186.0f, 160.0f}, 50050.0f, &window_sub_mag_photon_layout_entries, 3,
 };
 
@@ -160,7 +160,7 @@ void TWindowSubMagPhoton::run_task() {
 TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
 TWindowSubMagPhoton::TWindowSubMagPhoton(const NJS_POINT2 *position, TItemData *mag_state, s32 client)
-    : TWindowBase((u8 *)&TWindowSubMagPhoton__layout_descriptor, client, (u8 *)position) {
+    : TWindowBase((u8 *)&TWindowSubMagPhoton::layout_descriptor, client, (u8 *)position) {
     m_name = class_name;
     copy_vec2(target_position, const_cast<NJS_POINT2 *>(position));
     save_position();

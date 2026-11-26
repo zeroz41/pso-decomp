@@ -31,7 +31,7 @@ SubCustomSelectWindowLayout window_sub_custom_select_layout_entries = {
     {6, {6.0f, 11.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.3f, -1, &hud_texlist, 3, 4},
     {4, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
 };
-WindowDescriptor TWindowSubCustomSelect__window_settings = {
+WindowDescriptor TWindowSubCustomSelect::window_settings = {
     {204.0f, 188.0f}, 50050.0f, &window_sub_custom_select_layout_entries, 0x43,
 };
 
@@ -240,7 +240,7 @@ const PaletteAction custom_select_android_action_table[20] = {
 #pragma fp_contract on
 #pragma fp_contract on
 TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
-    : TWindowAddition((u8 *)&TWindowSubCustomSelect__window_settings,
+    : TWindowAddition((u8 *)&TWindowSubCustomSelect::window_settings,
                       static_cast<s16>(client), (u8 *)get_window_layout_position(0x10)) {
     NJS_POINT2 pos;
     TObjPlayer *p;

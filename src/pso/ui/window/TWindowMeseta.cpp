@@ -55,7 +55,7 @@ MesetaWindowLayout window_meseta_layout_entries = {
     {3, {10.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},
     {5, {152.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 8, 0},
 };
-WindowDescriptor TWindowMeseta__window_descriptor = {
+WindowDescriptor TWindowMeseta::window_descriptor = {
     {226.0f, 27.0f}, 50100.0f, &window_meseta_layout_entries, 0x82B,
 };
 
@@ -77,7 +77,7 @@ void TWindowMeseta::run_task() {
 
 TWindowMeseta::~TWindowMeseta() {}
 TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
-    : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)position) {
+    : TWindowBase((u8 *)&TWindowMeseta::window_descriptor, (s16)arg2, (u8 *)position) {
     WindowTextEntry *a;
     TWindowLayoutCountingNumber *b;
     m_name = TWindowMeseta::class_name;

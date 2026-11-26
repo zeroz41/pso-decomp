@@ -51,7 +51,7 @@ void TWindowSubAreaMapDisp::update_visibility() {
 }
 
 
-WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
+WindowDescriptor TWindowSubAreaMapDisp::window_parameters = {
     {610.0f, 188.0f}, 50150.0f, NULL, 3,
 };
 
@@ -160,7 +160,7 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
     }
     delete heading;
 }
-TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
+TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp::window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
     s32 title_len;
     WindowHeading *display;
     u8 *str;

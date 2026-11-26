@@ -169,8 +169,8 @@ void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
     card = reinterpret_cast<saddr>(&cmd->card);
     if ((is_guild_card_invalid(&cmd->card) == 0) && (((TWindowSubComCard *)card)->send_guild_card() == 0)) {
         set_guild_card_receive_active();
-        if (((s32 (*)(int, void *, int))update_matching_card_slot)(card, TWindowGetComCard__received_guild_card_tags, 4) == 0) {
-            ((s32 (*)(int, void *, int))replace_matching_card)(card, TWindowGetComCard__received_guild_card_tags, 4);
+        if (((s32 (*)(int, void *, int))update_matching_card_slot)(card, TWindowGetComCard::received_guild_card_tags, 4) == 0) {
+            ((s32 (*)(int, void *, int))replace_matching_card)(card, TWindowGetComCard::received_guild_card_tags, 4);
         }
     }
 }
@@ -387,16 +387,16 @@ void TObjPlayer::set_com_card_window(s32 client) {
     }
 }
 
-GuildCardEntry TWindowGetComCard__received_guild_card_tags[4];
+GuildCardEntry TWindowGetComCard::received_guild_card_tags[4];
 
 void remove_first_received_card(void) {
-    TWindowGetComCard::remove_entry(0, TWindowGetComCard__received_guild_card_tags, 4);
-    if (TWindowGetComCard__received_guild_card_tags[0].is_active() == 0) {
+    TWindowGetComCard::remove_entry(0, TWindowGetComCard::received_guild_card_tags, 4);
+    if (TWindowGetComCard::received_guild_card_tags[0].is_active() == 0) {
         destroy_com_card_window();
     }
 }
 GuildCardEntry *get_received_guild_card_tags(void) {
-    return TWindowGetComCard__received_guild_card_tags;
+    return TWindowGetComCard::received_guild_card_tags;
 }
 extern "C" {
 
@@ -413,7 +413,7 @@ void TWindowGetComCard::remove_entry(s32 index, GuildCardEntry *entries, s32 cou
 void clear_received_guild_cards(s32 _w0) {
     destroy_com_card_window();
     for (s32 i = 0; i < 4; i++) {
-        clear_entry_active_flag(&TWindowGetComCard__received_guild_card_tags[i]);
+        clear_entry_active_flag(&TWindowGetComCard::received_guild_card_tags[i]);
     }
 }
 void TWindowGetComCard__sub_8007B65C(void* p) { clear_received_guild_cards((saddr)p); }

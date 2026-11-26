@@ -6,7 +6,10 @@
 #include "pso/ui/window/KeyboardTextBuffer.h"
 #include "pso/ui/window/WindowDrawContext.h"
 
+struct WindowDescriptor;
+
 struct TWindowKeyBoardBase : public TWindowBase {
+    static WindowDescriptor window_descriptor;
     TWindowKeyBoardBase();
     virtual ~TWindowKeyBoardBase();
     void init_keyboard_text_field(u32, u32);

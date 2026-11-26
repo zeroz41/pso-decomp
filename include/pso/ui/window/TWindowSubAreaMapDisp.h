@@ -8,8 +8,10 @@ class WindowHeading;
 
 struct TWindowSubStatusDisp;
 struct WindowDrawContext;
+struct WindowDescriptor;
 
 struct TWindowSubAreaMapDisp : public TWindowBase {
+    static WindowDescriptor window_parameters;
     TWindowSubAreaMapDisp();
     virtual ~TWindowSubAreaMapDisp();
     static const char *class_name;

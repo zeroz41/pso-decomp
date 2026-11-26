@@ -9,6 +9,7 @@ struct TItemData;
 struct NJS_POINT2;
 
 struct TWindowSubMagPhoton : public TWindowBase {
+    static WindowDescriptor layout_descriptor;
     TWindowSubMagPhoton(const NJS_POINT2 *position, TItemData *mag_state, s32 client);
     virtual ~TWindowSubMagPhoton();
     static const char *class_name;
@@ -35,7 +36,7 @@ LAYOUT_ASSERT(TWindowSubMagPhoton_item_offset, offsetof(TWindowSubMagPhoton, mag
 LAYOUT_ASSERT(TWindowSubMagPhoton_size, sizeof(TWindowSubMagPhoton) == 0x74);
 
 // window_sub_mag_photon_layout_entries, the layout table
-// TWindowSubMagPhoton__layout_descriptor points at (a frame sprite and three photon blast icons).
+// TWindowSubMagPhoton::layout_descriptor points at (a frame sprite and three photon blast icons).
 struct SubMagPhotonWindowLayout {
     u32 cols;
     u32 rows;

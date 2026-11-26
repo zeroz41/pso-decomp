@@ -63,7 +63,7 @@ SubQuestBoardSelectWindowLayout window_sub_quest_board_select_layout_entries = {
         {6, {392.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
     },
 };
-WindowDescriptor TWindowSubQuestBoardSelect__window_parameters = {
+WindowDescriptor TWindowSubQuestBoardSelect::window_parameters = {
     {434.0f, 184.0f}, 50150.0f, &window_sub_quest_board_select_layout_entries, 3,
 };
 
@@ -271,7 +271,7 @@ u32 calc_text_width();
 }
 #pragma push
 #pragma fp_contract on
-TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
+TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect::window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 title_width;
     WindowTextEntry *entry_0;
     WindowHeading *heading;
