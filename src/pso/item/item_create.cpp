@@ -1344,10 +1344,10 @@ s32 TObjPlayer::is_script_controlled() {
     return this->control_state == 6;
 }
 
-TItem *TObjPlayer::get_equipped_mag() { return (TItem *)get_slot_value(equipped_items, 1); }
+TItem *TObjPlayer::get_equipped_mag() { return (TItem *)get_slot_value(equipped_items.items, 1); }
 
-TItem *TObjPlayer::get_equipped_shield() { return (TItem *)get_slot_value(equipped_items, 3); }
-TItem *TObjPlayer::get_equipped_armor() { return (TItem *)get_slot_value(equipped_items, 2); }
+TItem *TObjPlayer::get_equipped_shield() { return (TItem *)get_slot_value(equipped_items.items, 3); }
+TItem *TObjPlayer::get_equipped_armor() { return (TItem *)get_slot_value(equipped_items.items, 2); }
 
 
 }
