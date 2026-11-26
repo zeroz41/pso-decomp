@@ -18,7 +18,7 @@ struct TOMineDisp : public TObjBase {
     NJS_ARGB color;  // the constant material colour render draws it with
     s32 state;
     u16 client_id;
-    u8 unk_AA[0x2];
+    u8 pad_AA[0x2];
 };
 
 extern const char *mine_disp_name;

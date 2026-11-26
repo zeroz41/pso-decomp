@@ -27,7 +27,7 @@ struct TContainerAncient01R : public TObjChara {
     static void init_table_entries();
     u8 unk_334[0x4];
     s16 hit_count; // hits taken: it opens when hp runs out
-    u8 unk_33A[0x2];
+    u8 pad_33A[0x2];
     f32 wait_limit;
     f32 active_limit;
     f32 range;

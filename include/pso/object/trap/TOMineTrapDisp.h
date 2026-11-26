@@ -9,7 +9,7 @@ struct TOMineTrapDisp : public TOMineDisp {
     virtual ~TOMineTrapDisp();
     virtual void run_task();
     u16 owner_id;
-    u8 unk_AE[0x2];
+    u8 pad_AE[0x2];
 };
 
 LAYOUT_ASSERT(TOMineTrapDisp_size, sizeof(TOMineTrapDisp) == 0xB0);

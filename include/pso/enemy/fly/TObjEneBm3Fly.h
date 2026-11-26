@@ -20,7 +20,7 @@ struct Bm3FlyParameters {
 struct Bm3FlyAnimationBinding {
     BmlMotionEntry *motions;
     TObjMotionAction *actions;
-    u32 unknown_08;
+    u32 pad_08;
     u16 actionCount;
     u16 unknown_0E;
 };

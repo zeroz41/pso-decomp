@@ -127,7 +127,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 pad_75c;
     s32 player_controlled;  // init_control_mode: a player (target_client_id) steers the Dragon
     u16 target_client_id;
-    u8 unk_766[0x2];
+    u8 pad_766[0x2];
     s32 controlTimer;
     s32 facingAngle;
     s32 attack_kind;  // the fire attacks' DragonAttackParams kind: 1, 0x13 in V2

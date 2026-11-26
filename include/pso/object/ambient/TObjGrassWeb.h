@@ -18,7 +18,7 @@ struct TObjGrassWeb : public TObjBase {
     void apply_to_player();
     // Plays the area's web sound and counts set_params[0] down to the end of the hold.
     void update_hold();
-    u8 unk_A6[0x2];
+    u8 pad_A6[0x2];
 };
 
 LAYOUT_ASSERT(TObjGrassWeb_size, sizeof(TObjGrassWeb) == 0xA8);

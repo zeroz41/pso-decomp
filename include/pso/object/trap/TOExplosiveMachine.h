@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 struct GinjaTextureList;
 
 struct ExplosiveMachineModel {
-    u8 unknown00[0x14];
+    u8 pad_00[0x14];
     f32 radius;
 };
 
