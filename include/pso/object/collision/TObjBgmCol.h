@@ -5,15 +5,15 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjBgmCol : public TObjBase {
-    TObjBgmCol(TObject *parent, void *arg2);
+    TObjBgmCol(TObject *parent, void *set_data);
     virtual ~TObjBgmCol();
     u32 player_outside;
-    u8 unk_94[0x4];
+    u8 pad_94[0x4];
     f32 trigger_radius;
-    u32 m_9c;
+    s32 category; // area_music_filename_table index (set_params[0] % 6)
     s32 check();
     virtual void run_task();
-    s32 is_within_distance(f32 farg0);
+    s32 is_within_distance(f32 radius_squared);
     static void *create(void *set_data);
 };
 

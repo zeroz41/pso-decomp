@@ -13,6 +13,9 @@ public:
     virtual void run_task();
 };
 
+// Set while a quest has issued its own BGM; the music zones leave the music alone then.
+extern s32 quest_bgm_ctrl_bgm_issued_flag;
+
 LAYOUT_ASSERT(TQuestBgmCtrlSize, sizeof(TQuestBgmCtrl) == 0x1C);
 
 #endif
