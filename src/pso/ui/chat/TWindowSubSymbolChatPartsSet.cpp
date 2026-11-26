@@ -296,7 +296,7 @@ void TWindowSubSymbolChatPartsSet::render() {
         c_arg->scale[0] = (f32) ((f32) this->open_tick / 7.5f);
         c_arg->scale[1] = c_arg->scale[0];
     }
-    draw_quest_message_frame((void *)c_arg);
+    draw_quest_message_frame(c_arg);
     c_arg->inner_x = (f32) (c_arg->inner_x + this->offset_x);
     c_arg->inner_y = (f32) (c_arg->inner_y + this->offset_y);
     c_arg->scale[0] = (f32) (c_arg->scale[0] * this->scale);

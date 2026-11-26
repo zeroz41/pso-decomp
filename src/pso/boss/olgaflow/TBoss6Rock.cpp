@@ -185,7 +185,7 @@ void TBoss6Rock::draw_model() {
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_z(NULL, rotation_z);
     TObjFish::set_global_param(boss6_rock_texture_list);
-    draw_ginja_object((void *)get_bml_model(boss6_rock_resource, boss6_rock_kind_params[kind_index].model_id));
+    draw_ginja_object(get_bml_model(boss6_rock_resource, boss6_rock_kind_params[kind_index].model_id));
     pop_matrix();
 }
 

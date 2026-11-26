@@ -34,9 +34,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
-}
-
 #pragma readonly_strings on
 static const char *TBoss3VoloptCore_name = "TBoss3VoloptCore";
 static void *core_combat_stats_a;

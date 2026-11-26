@@ -24,13 +24,13 @@ const ModelNodePositionEntry boss6_type2_effect_desc_table[20] = {
     { 0x50 }, { 0x51 }, { 0x51, { 0.0f, 1.0f, 0.0f } }, { -1 },
 };
 const s32 boss6_type2_variant_id_table[4] = { 1, 2, 3, 4 };
-const s32 lbl_8047128C[2] = { 4, 5 };
+const s32 boss6_type2_body_model_indices[2] = { 4, 5 };
 const Boss6StripDesc boss6_type2_plot_falz_entry_table[2] = { { 4, 0x69, 0 }, { 5, 0x69, 0 } };
 const s32 boss6_type2_zero_vec[4] = { 0, 0, 0, 0 };
 const Blk_802BCFD4 boss6_type2_zero_motion_block = { 0 };
 const TBoss6Type2MotionTrack boss6_type2_motion_entry_transform = { NULL, 0.0f, 0.0f, 0.0f, 1.0f / 15.0f, NULL, 0.0f };
 const s32 TBoss6Type2::no_target_sound_ids[4] = { 0x68528, 0x68529, 0x6852A, 0x6852B };
-const Tbl_802BBE20 lbl_8047130C[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
+const Tbl_802BBE20 boss6_type2_collision_body_nodes[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
 const s32 TBoss6Type2::player_hit_rock_indices[6] = { 3, 4, 5, 8, 9, 10 };
-const s32 lbl_8047133C[2] = { 0x1FE, 0x1FD };
-const Vec lbl_80471344 = { 0.0f, 19.8f, -5.0f };
+const s32 boss6_type2_mag_spawn_offsets[2] = { 0x1FE, 0x1FD };
+const Vec boss6_type2_player_aim_offset = { 0.0f, 19.8f, -5.0f };

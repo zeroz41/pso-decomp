@@ -16,7 +16,7 @@ struct TObjWarpJungMain : public TObjAreaWarp {
     virtual void confirm_area_transfer(TObjPlayer *player);
     void render();
     void run_task();
-    f32 beam_frame;
+    f32 beam_frame;  // frame of the beam motion, advanced 4 a task
     static void *create(void *set_data);
 };
 

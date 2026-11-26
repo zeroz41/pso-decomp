@@ -109,9 +109,9 @@ void TTecRaZonde::run_task() {
     for (i = 0; i < razonde_band_emitter_table[this->band].count; i++) {
         if (this->sourceId < 12) {
             if (i == 1) {
-                create_timed_particle_emitter((u8 *)this->source + 0x2FC, razonde_band_emitter_table[this->band].emitters[i].entry, 0, 60);
+                create_timed_particle_emitter(&((TObjChara *)this->source)->body_center, razonde_band_emitter_table[this->band].emitters[i].entry, 0, 60);
             } else {
-                spawn_particle_effect((const Vec *)((u8 *)this->source + 0x2FC), razonde_band_emitter_table[this->band].emitters[i].entry);
+                spawn_particle_effect(&((TObjChara *)this->source)->body_center, razonde_band_emitter_table[this->band].emitters[i].entry);
             }
         }
     }
@@ -153,8 +153,8 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
         bolt_points[i].z = r * sin_table_lookup(ang) + position.z;
     }
     for (j = 0; j < 7; j++) {
-        VecCopy((Vec *)&a, (const Vec *)&bolt_points[j]);
-        VecCopy((Vec *)&b, (const Vec *)&bolt_points[j + 1]);
+        VecCopy(&a, (const Vec *)&bolt_points[j]);
+        VecCopy(&b, (const Vec *)&bolt_points[j + 1]);
         b.x = b.x - a.x;
         b.y = b.y - a.y;
         b.z = b.z - a.z;

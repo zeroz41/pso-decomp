@@ -76,15 +76,4 @@ LAYOUT_ASSERT(PlyCharDataInventoryOffset, offsetof(TPlyCharData, m_inventory) ==
 LAYOUT_ASSERT(PlyCharDataStatsOffset, offsetof(TPlyCharData, m_stats) == 0x34C);
 LAYOUT_ASSERT(PlyCharDataAppearanceOffset, offsetof(TPlyCharData, m_disp_part2) == 0x370);
 
-// gc_tag's out-of-line constructor, destructor and init() (the copies kept
-// are pso/player/TPlyDispConfig.cpp's), called by hand on raw memory from
-// functions that are not real constructors/destructors yet:
-// - the lock-on cursor code constructs and destroys gc_tag base subobjects.
-// Drop these once those callers are the real constructors/destructors.
-extern "C" {
-gc_tag *__ct__6gc_tagFv(gc_tag *self);
-gc_tag *__dt__6gc_tagFv(gc_tag *self, s16 flags);
-void init__6gc_tagFv(gc_tag *self);
-}
-
 #endif

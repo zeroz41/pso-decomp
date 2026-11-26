@@ -19,13 +19,13 @@ struct G_CastTechniqueParams_6x47 {
 // 6x47: a player casts a technique on up to ten targets.
 struct G_CastTechnique_6x47 {
     G_CastTechnique_6x47();
+    G_CastTechnique_6x47 &operator=(const G_CastTechnique_6x47 &src);
 
     // Bytes actually sent: the header, the parameters and target_count targets.
     u8 get_size();
     void bswap();
     // Sets the header size, byte-swaps and sends the packet.
     void send();
-    G_CastTechnique_6x47 &operator=(G_CastTechnique_6x47 &src);
 
     G_ClientIDHeader header;
     G_CastTechniqueParams_6x47 params;
@@ -51,12 +51,12 @@ struct G_ExecutePhotonBlastParams_6x49 {
 struct G_ExecutePhotonBlast_6x49 {
     G_ExecutePhotonBlast_6x49();
     G_ExecutePhotonBlast_6x49 &operator=(G_ExecutePhotonBlast_6x49 &src);
-    // (name inferred) the receive-side swap: the parameters first, so target_count is native for the loop.
+    // The receive-side swap: the parameters first, so target_count is native for the loop.
     void bswap_received();
     // Bytes actually sent: the header, the parameters and target_count targets.
     u8 get_size();
     // Send-side swap: the targets while target_count is still native, then the parameters.
-    void bswap();
+    void bswap_for_send();
     // Sets the header size, byte-swaps and sends the packet.
     void send();
 

@@ -29,7 +29,7 @@
 #include "pso/render/GinjaTexture.h"
 
 
-// These records are consecutive in the overlay data, beginning at lbl_804EF1B8.
+// These records are consecutive in the overlay data, beginning at loading_texture_names.
 struct LobbyOverlayVertices {
     NJS_TEXNAME texture_names[3];
     NJS_TEXLIST texture_list;
@@ -44,12 +44,12 @@ int info_icon_texture;
 s32 lobby_pulse_color_phase;
 u32 __cvt_fp2unsigned(f32);
 
-NJS_TEXNAME lbl_804EF1B8[3] = {
+NJS_TEXNAME loading_texture_names[3] = {
     { "f256_nowloading", 0, 0 },
     { "f256_nowloading_b", 0, 0 },
     { "f064_mahourot", 0, 0 },
 };
-__declspec(section ".data") NJS_TEXLIST lbl_804EF1DC = {lbl_804EF1B8, 3};
+__declspec(section ".data") NJS_TEXLIST loading_texture_list = {loading_texture_names, 3};
 ProjectedVertex title_pulse_color_table[4] = {
     { 528.0f, 289.0f, 0.5f, 0xB4000000 },
     { 592.0f, 289.0f, 0.5f, 0xB4000000 },
@@ -66,25 +66,25 @@ ProjectedStripVertex lobby_pulse_color_table[8] = {
     { 496.0f, 411.0f, 0.5f, 0.390625f, 0.21875f, 0xFFFFFFFF },
     { 624.0f, 411.0f, 0.5f, 0.890625f, 0.21875f, 0xFFFFFFFF },
 };
-ProjectedStripVertex lbl_804EF2E4[4] = {
+ProjectedStripVertex loading_image_left[4] = {
     { 368.0f, 352.0f, 0.5f, 0.0f, 0.0f, 0xFFFFFFFF },
     { 368.0f, 480.0f, 0.5f, 0.0f, 1.0f, 0xFFFFFFFF },
     { 497.0f, 352.0f, 0.5f, 1.0f, 0.0f, 0xFFFFFFFF },
     { 497.0f, 480.0f, 0.5f, 1.0f, 1.0f, 0xFFFFFFFF },
 };
-ProjectedStripVertex lbl_804EF344[4] = {
+ProjectedStripVertex loading_image_right[4] = {
     { 496.0f, 352.0f, 0.5f, 0.0f, 0.0f, 0xFFFFFFFF },
     { 496.0f, 480.0f, 0.5f, 0.0f, 1.0f, 0xFFFFFFFF },
     { 624.0f, 352.0f, 0.5f, 1.0f, 0.0f, 0xFFFFFFFF },
     { 624.0f, 480.0f, 0.5f, 1.0f, 1.0f, 0xFFFFFFFF },
 };
-NJS_TEXANIM lbl_804EF3A4[3] = {
+NJS_TEXANIM loading_compass_texanim[3] = {
     { 64, 64, 32, 32, 0, 0, 256, 256, 2, 0 },
     { 64, 64, 32, 32, 0, 0, 256, 256, 2, 0 },
     { 64, 64, 32, 32, 0, 0, 256, 256, 2, 0 },
 };
-NJS_SPRITE lbl_804EF3E0 = {
-    { 496.0f, 416.0f, 0.0f }, 1.0f, 1.0f, 0, &lbl_804EF1DC, lbl_804EF3A4,
+NJS_SPRITE loading_compass_sprite = {
+    { 496.0f, 416.0f, 0.0f }, 1.0f, 1.0f, 0, &loading_texture_list, loading_compass_texanim,
 };
 
 #pragma push
@@ -95,24 +95,24 @@ void TLobby__sub_803382E4(void) {
     f32 alpha;
 
     if (lobby_request_flags & 2) {
-        lbl_804EF3E0.ang += 0x16C;
-        alpha = 0.5f + (1.0f + cos_table_lookup(lbl_804EF3E0.ang)) / 4.0f;
+        loading_compass_sprite.ang += 0x16C;
+        alpha = 0.5f + (1.0f + cos_table_lookup(loading_compass_sprite.ang)) / 4.0f;
         set_perspective_projection_from_fov(0x3555, 1.1333334f, 1.0f, 21000.0f);
         set_depth_buffer_settings_2();
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
-        TObjFish::set_global_param(&lbl_804EF1DC);
+        TObjFish::set_global_param(&loading_texture_list);
         set_texture_num(0);
         begin_screen_textured_draw(0);
-        draw_projected_textured_strip(lbl_804EF2E4, 4);
+        draw_projected_textured_strip(loading_image_left, 4);
         end_screen_textured_draw();
         set_texture_num(1);
         begin_screen_textured_draw(0);
-        draw_projected_textured_strip(lbl_804EF344, 4);
+        draw_projected_textured_strip(loading_image_right, 4);
         end_screen_textured_draw();
         set_additive_blend();
-        draw_compass_sprite(&lbl_804EF3E0, 2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
+        draw_compass_sprite(&loading_compass_sprite, 2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
@@ -124,7 +124,7 @@ void TLobby__sub_803382E4(void) {
 
 void TLobby::handle_flag2_request() {
     if (lobby_request_flags & 2) {
-        release_texture_list(&lbl_804EF1DC);
+        release_texture_list(&loading_texture_list);
         lobby_request_flags &= 0xFFFFFFFD;
     }
 }
@@ -137,7 +137,7 @@ void TLobby::load_now_loading_texture() {
         packed = TQuestVmDownLoadServer::alloc(0x2000);
         read_disc_file_sectors("NowLoading.prs", packed);
         prs_decompress_buffer(packed, archive);
-        load_gvm_texture_archive(archive, &lbl_804EF1DC);
+        load_gvm_texture_archive(archive, &loading_texture_list);
         safe_free(packed);
         safe_free(archive);
         lobby_request_flags |= 2;
@@ -169,7 +169,7 @@ void render_info_icon_overlay(void) {
 #pragma opt_propagation off
 
 void TLobby__sub_80338534(void) {
-    LobbyOverlayVertices *overlay = reinterpret_cast<LobbyOverlayVertices *>(lbl_804EF1B8);
+    LobbyOverlayVertices *overlay = reinterpret_cast<LobbyOverlayVertices *>(loading_texture_names);
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();

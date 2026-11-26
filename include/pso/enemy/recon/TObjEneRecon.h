@@ -39,7 +39,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     virtual void run_demo_task();
     virtual void render_demo();
     virtual void dispatch_action(u32 state, s32 reason);
-    void update_flag_0x444();
+    void update_flag2_from_ground_contact();
     void state_launch(s32);
     void state_death(s32 reason);
     void state_damage(s32 reason);

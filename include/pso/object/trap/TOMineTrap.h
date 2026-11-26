@@ -9,10 +9,9 @@ struct TObjPlayer;
 // The player flag (0x10000) that shows a mine to a player beyond 200 units or
 // another room.
 s32 can_see_traps(TObjPlayer *player);
-// m_name of every TOMineTrap; TObjPlayer counts and finds traps by it.
-extern const char *mine_trap_name;
 
 struct TOMineTrap : public TOMine {
+    static const char *class_name;  // m_name of every TOMineTrap; TObjPlayer counts and finds traps by it
     // owner: the actor that placed it; kind 0-3 picks the attack; slot is its index among the owner's traps.
     TOMineTrap(TObjBase *owner, s16 kind, s16 slot);
     virtual ~TOMineTrap();
@@ -25,7 +24,7 @@ struct TOMineTrap : public TOMine {
     virtual void run_task();
     u8 _pad37C[0x2];
     u16 trap_number;
-    s32 owner_message_shown;
+    s32 owner_message_state;
     u16 get_trap_type();
     // Names inferred: the mode, the trap number 6x80 packets match, the instance flag set_instance writes.
     s16 get_mode();

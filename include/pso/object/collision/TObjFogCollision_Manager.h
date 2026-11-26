@@ -5,6 +5,7 @@
 
 class TObjFogCollision_Manager : public TObject {
 public:
+    static const char *class_name;
     TObjFogCollision_Manager(TObject *parent, s32 index);
     virtual ~TObjFogCollision_Manager();
     virtual void run_task();

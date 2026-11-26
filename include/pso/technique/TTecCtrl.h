@@ -42,5 +42,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl);
 void capture_technique_targets(int kind, TObjPlayer *owner);
 
 void load_technique_resources(void);
+// The flags the technique's caster gets from its boosts and battle values.
+u32 get_technique_caster_flags(s32 technique, u16 actor);
 
 #endif

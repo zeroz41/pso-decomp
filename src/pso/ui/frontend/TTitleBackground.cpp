@@ -13,18 +13,7 @@
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/math/AngleLookup.h"
 
-struct TitlePulseQuad {
-    f32 x0, y0, x1, y1;
-    f32 u0, v0, u1, v1;
-};
 
-struct TitleQuad {
-    f32 x, y, z;
-    f32 bx, by, cx, cy;
-    u8 pad_1C[0x4];
-    f32 u, v, uw, ux, vx, vh;
-    u8 pad_38[0x8];
-};
 
 int lobby_global_flags;
 

@@ -99,7 +99,7 @@ void TWindowMenu::clamp_scroll_offset() {
     }
 }
 
-void TWindowMenu::create_scroll_bar() {
+void TWindowMenu::ensure_scroll_bar() {
     NJS_POINT2 extent;
     f32 extent_x;
     if (scroll_bar == NULL) {
@@ -372,7 +372,7 @@ void TWindowMenu::calc_layout_height(f32 width) {
 void TWindowMenu::set_scroll_target(f32 width, f32 max_height) {
     update_layout_height(width);
     if (this->target_size[1] > max_height) {
-        create_scroll_bar();
+        ensure_scroll_bar();
     }
     this->target_size[1] = max_height;
     layout_height = (f32) (max_height - 20.0f);

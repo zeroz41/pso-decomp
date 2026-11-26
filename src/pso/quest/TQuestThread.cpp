@@ -680,9 +680,9 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     m_name = obj_item_name_entry_class_name;
     keyboard = new TKeyBoardControl(this, 8, 0, 1, local_client_id);
     if (keyboard != NULL) {
-        ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)get_window_layout_position(0xBF));
-        ((TKeyBoardControl *)keyboard)->set_soft_position((u8 *)get_window_layout_position(0xC0));
-        ((TKeyBoardControl *)keyboard)->set_hard_position((u8 *)get_large_vec2());
+        keyboard->set_sub_position((u8 *)get_window_layout_position(0xBF));
+        keyboard->set_soft_position((u8 *)get_window_layout_position(0xC0));
+        keyboard->set_hard_position((u8 *)get_large_vec2());
     }
     prompt_menu = create_window_menu_default(get_window_layout_position(0x56), 1);
     if (prompt_menu != NULL) {
@@ -695,7 +695,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
 
 TObjItemNameEntry::~TObjItemNameEntry() {
     if (prompt_menu != nullptr) { prompt_menu->close(); prompt_menu = nullptr; }
-    if (keyboard != nullptr) { ((TObject *)keyboard)->queue_destruction(); keyboard = nullptr; }
+    if (keyboard != nullptr) { keyboard->queue_destruction(); keyboard = nullptr; }
 }
 
 void *TObjItemNameEntry::create(void *parent) {
@@ -705,15 +705,15 @@ void *TObjItemNameEntry::create(void *parent) {
 s32 TObjItemNameEntry::process_keyboard_input() {
     saddr text;
 
-    if (keyboard != NULL && ((TKeyBoardControl *)keyboard)->is_confirmed() != 0) {
-        text = (saddr)((TKeyBoardControl *)keyboard)->realloc_buffer();
+    if (keyboard != NULL && keyboard->is_confirmed() != 0) {
+        text = (saddr)keyboard->realloc_buffer();
         if (strcmp((const char *)text, "") == 0) {
             mem_free((void *)text);
-            ((TKeyBoardControl *)keyboard)->clear_keyboard_flag60_bit1();
+            keyboard->clear_keyboard_flag60_bit1();
             return 0;
         }
         if (TWindowSubComCard::contains_profanity((char *)text) != 0) {
-            ((TKeyBoardControl *)keyboard)->clear_keyboard_flag60_bit1();
+            keyboard->clear_keyboard_flag60_bit1();
             mem_free((void *)text);
             return 0;
         }

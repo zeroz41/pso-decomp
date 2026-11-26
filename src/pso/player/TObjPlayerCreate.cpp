@@ -112,7 +112,7 @@ void TObjPlayer::place_on_area_entry() {
         }
     }
 }
-void TObjPlayer__sub_801BEEE0(void *p, void *q);
+void copy_death_flags(void *dst, void *src);
 
 s32 TObjPlayer::has_active_camera_event() {
     if (TLobby::get_instance() == 0) {
@@ -139,7 +139,7 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     ((TLobby *)&guild_card_tag)->copy_header_struct(&record->guild_card_tag);
     pk_state = record->pk_state;
     telepipe = record->telepipe;
-    TObjPlayer__sub_801BEEE0(&death_flags, &record->death_flags);
+    copy_death_flags(&death_flags, &record->death_flags);
     movement_hold = record->hold_state;
     set_floor_index(record->area);
     set_floor(record->floor);
@@ -187,9 +187,9 @@ void TObjPlayer::init_action_provider() {
         action_provider = new LobbyPlayerActionProvider;
     }
     m_33b = 0;
-    class_flag_2 = 0;
+    battle_mode = 0;
     class_flag_1 = 0;
-    class_flag_0 = 0;
+    mag_level = 0;
     action_state = 0;
     return_city_window = 0;
     regen_timer = 0;
@@ -305,8 +305,8 @@ void TObjPlayer::update_if_active() {
 }
 
 void TObjPlayer::load_char_data(PlayerSyncRecord *record) {
-    sub_801BEE2C(record->hp_material_bonus);
-    sub_801BEE24(record->tp_material_bonus);
+    set_hp_bonus(record->hp_material_bonus);
+    set_tp_bonus(record->tp_material_bonus);
     set_power_materials_used(record->get_power_materials_used());
     set_mind_materials_used(record->get_mind_materials_used());
     set_evade_materials_used(record->get_evade_materials_used());
@@ -519,7 +519,7 @@ TObjPlayer::~TObjPlayer() {
 }
 
 extern "C" {
-void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
+void load_pending_actions_from_sync_record(TObjPlayer *player, u8 *record);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 }
 
@@ -549,7 +549,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     init_battle(record);
     TObjPlayer__sub_801BBB70(this, record);
     this->init_class_flags(record);
-    TObjPlayer__sub_801BB85C(this, (u8 *)record);
+    load_pending_actions_from_sync_record(this, (u8 *)record);
     this->hp = record->current_hp;
 }
 
@@ -559,8 +559,8 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->entity_id = slot;
     this->setup_control_role(role);
     update_body_parts(&record->m_disp_part2);
-    sub_801BEE2C(record->m_inventory.m_hp_materials_used);
-    sub_801BEE24(record->m_inventory.m_tp_materials_used);
+    set_hp_bonus(record->m_inventory.m_hp_materials_used);
+    set_tp_bonus(record->m_inventory.m_tp_materials_used);
     this->set_power_materials_used(record->get_power_materials_used());
     this->set_mind_materials_used(record->get_mind_materials_used());
     this->set_evade_materials_used(record->get_evade_materials_used());
@@ -576,7 +576,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->update_if_active();
     assign_owner_ids();
     this->setup_fresh_player_state((u8 *)record);
-    this->unpack_record_flags(record);
+    this->load_pending_actions(record);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
 }
 

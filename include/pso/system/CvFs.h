@@ -8,7 +8,7 @@ struct CvFsHandle;
 
 void cvFsFinish(void);
 extern "C" {
-void TLobby__sub_803CEF60(void);
+void exec_device_servers(void);
 s32 cvFsAddVolume(char *dev, char *vol, void *img);
 s32 cvFsChangeDir(char *path);
 void cvFsDelDev(char *dev);

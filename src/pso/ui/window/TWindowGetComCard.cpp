@@ -71,7 +71,7 @@ void TWindowGetComCard::run_task() {
         state = 3;
     case 3:
         if (confirmation->is_cancelled() != 0) {
-            pop_received_guild_card();
+            remove_first_received_card();
             queue_destruction();
             state = 6;
         } else if (confirmation->is_decided() != 0) {
@@ -80,7 +80,7 @@ void TWindowGetComCard::run_task() {
                 state = 4;
             }
             if (r == 1) {
-                pop_received_guild_card();
+                remove_first_received_card();
                 queue_destruction();
                 state = 6;
             }
@@ -89,7 +89,7 @@ void TWindowGetComCard::run_task() {
     case 4:
         if (TAdPlayerLoadGC::get_instance() == 0) {
             TWindowSubComCard::start_player_data_load((saddr)get_received_guild_card_tags());
-            pop_received_guild_card();
+            remove_first_received_card();
             queue_destruction();
             state = 6;
         } else if (test_pressed_buttons_packed(&controller_input_state.controllers[port], 2) != 0 ||
@@ -100,7 +100,7 @@ void TWindowGetComCard::run_task() {
         break;
     case 5:
         if (timer-- <= 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
-            pop_received_guild_card();
+            remove_first_received_card();
             queue_destruction();
             state = 6;
         }
@@ -132,7 +132,7 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
     static const f32 pos[2] = {10.0f, 277.0f};
     static const f32 size[3] = {264.0f, 104.0f, 0.0f};
     m_name = class_name;
-    message = TWindowMessage::create((const NJS_POINT2 *)pos, (const f32 *)size, 1);
+    message = TWindowMessage::create((const NJS_POINT2 *)pos, size, 1);
     confirmation = NULL;
     if (TWindowSubComCard::init_com_card() != 0) {
         GuildCardEntry *card = get_received_guild_card_tags();

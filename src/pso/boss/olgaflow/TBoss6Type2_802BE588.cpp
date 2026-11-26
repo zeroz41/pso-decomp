@@ -564,9 +564,7 @@ void TBoss6Type2::select_next_state() {
                     return;
                 }
             }
-            goto block_7;
         }
-block_7:
         if (should_back_jump() != 0) {
             send_action_packet(0xD);
             return;

@@ -1054,9 +1054,9 @@ void TObjEneBm5GibonU::update_lunge(s32 msg) {
                         this->near_target = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
                             if ((s32) this->is_leader != 0) {
-                                TObjEneDD__sub_800BA378(this, this->current_target);
+                                TObjEneDD::inflict_paralysis(this, this->current_target);
                             } else {
-                                TObjEneDD::send_damage_message(this, this->current_target);
+                                TObjEneDD::inflict_slow(this, this->current_target);
                             }
                         }
                     }
@@ -1884,8 +1884,8 @@ s32 TObjEneBm5GibonU::get_group_id() { return this->group_id; }
 #pragma opt_propagation off
 void TObjEneBm5GibonU::register_global_objects() {
     TObjEneBm5GibonUStaticData *data = (TObjEneBm5GibonUStaticData *)bm5_gibon_u_stat_params;
-    __register_global_object(data->node_list.reset(), (void *)__dt__20TObjEneBm5GibonUListFv, data->node_list_chain);
-    __register_global_object(data->enemy_list.reset(), (void *)__dt__20TObjEneBm5GibonUListFv, data->enemy_list_chain);
+    __register_global_object(data->node_list.reset(), __dt__20TObjEneBm5GibonUListFv, data->node_list_chain);
+    __register_global_object(data->enemy_list.reset(), __dt__20TObjEneBm5GibonUListFv, data->enemy_list_chain);
 }
 #pragma pop
 

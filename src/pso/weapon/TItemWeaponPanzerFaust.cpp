@@ -115,7 +115,7 @@ void spawn_faust_wall_explosion(s32 id, Vec *pos) {
 }
 
 TExplosionCollider::TExplosionCollider(TObject *parent, S_802E451C *params) : TItemAttackColBase(parent, params) {
-    pad_C4 = 50.0f;
+    max_radius = 50.0f;
 }
 
 TExplosionCollider::~TExplosionCollider() {}
@@ -125,9 +125,9 @@ void TExplosionCollider::run_task() {
 
     if (has_game_join_id() != 0) {
         radius = body.radius;
-        if (radius < pad_C4) {
+        if (radius < max_radius) {
             body.radius += 10.0f;
-            radius = pad_C4;
+            radius = max_radius;
             if (radius < body.radius) {
                 body.radius = radius;
             }

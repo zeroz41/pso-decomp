@@ -18,6 +18,6 @@ const char *wreck_ancient02_name = "TOWreckAncient02";
 TOWreckAncient02::TOWreckAncient02(void *set_data) : TOWreckAncient(0) {
     m_name = wreck_ancient02_name;
     apply_object_set_data(set_data);
-    init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[0], 1);
+    init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[0], 1);
     register_object_by_id();
 }

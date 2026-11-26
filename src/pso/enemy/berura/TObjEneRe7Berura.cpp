@@ -433,7 +433,7 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
             VecCopy(&v, &p->position);
             subtract_vector(&v, &body_center);
             v.y = 0.0f;
-            d = normalize_vector_xz((Vec *)(&v));
+            d = normalize_vector_xz((&v));
             if (d < 400.0f && d > best &&
                 s * v.x + c * v.z > limit &&
                 csnLookAt(&body_center, &p->body_center) == 0) {
@@ -1118,10 +1118,10 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
                     if (current_target->receive_physical_attack(this, 1.0f) > 0.0f) {
                         if (TObjEneDD::check_v2_mode() != 0) {
                             if (random_ratio() <= 0.1f) {
-                                TObjEneDD__sub_800BA378(this, current_target);
+                                TObjEneDD::inflict_paralysis(this, current_target);
                             }
                         } else if (random_ratio() <= 0.3333f) {
-                            TObjEneDD__sub_800BA378(this, current_target);
+                            TObjEneDD::inflict_paralysis(this, current_target);
                         }
                     }
                     current_target->apply_knockback_from_attacker((u8 *)this, 5.0f);

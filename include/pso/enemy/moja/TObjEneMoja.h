@@ -46,8 +46,8 @@ struct TObjEneMoja : public TObjEnemy {
     f32 sinkOffset;
     f32 techniqueChance;
     f32 jumpChance;
-    TAttackTraceStrip *unknown_398;
-    RenderFadeState unknown_39C[4];
+    TAttackTraceStrip *attack_trace;
+    RenderFadeState camera_fades[4];
     static void *create(void *setData);
     static void free_resources();
     s32 calc_technique_level();

@@ -168,44 +168,44 @@ void TODoorFourLightBase::render_lights() {
 }
 
 void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
-    saddr flags;
+    saddr eval_flags;
     NJS_OBJECT *child;
-    NJS_OBJECT *current;
-    current = (NJS_OBJECT *)node_data;
+    NJS_OBJECT *cur;
+    cur = (NJS_OBJECT *)node_data;
     do {
-        flags = current->evalflags;
-        if (flags & 0x100000) {
+        eval_flags = cur->evalflags;
+        if (eval_flags & 0x100000) {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         } else {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_unlit_textures()));
         }
-        if (current->evalflags & 0x200000) {
+        if (cur->evalflags & 0x200000) {
             TParticleCtrl::begin_effect_render();
         } else {
             TParticleCtrl::end_effect_render();
         }
         push_matrix();
-        if (!(flags & 1)) {
-            post_translate_matrix(current->pos);
+        if (!(eval_flags & 1)) {
+            post_translate_matrix(cur->pos);
         }
-        if (!(flags & 2)) {
-            rotate_matrix_by_node_angles(current->ang, flags & 0x20);
+        if (!(eval_flags & 2)) {
+            rotate_matrix_by_node_angles(cur->ang, eval_flags & 0x20);
         }
-        if (!(flags & 4)) {
-            scale_current_matrix(current->scl);
+        if (!(eval_flags & 4)) {
+            scale_current_matrix(cur->scl);
         }
-        if (!(flags & 8)) {
-            draw_ginja_model(current->model);
+        if (!(eval_flags & 8)) {
+            draw_ginja_model(cur->model);
         }
-        if (!(flags & 0x10)) {
-            child = current->child;
+        if (!(eval_flags & 0x10)) {
+            child = cur->child;
             if (child != NULL) {
                 draw_node_tree((u8 *)child);
             }
         }
         pop_matrix();
-        current = current->sibling;
-    } while (current != NULL);
+        cur = cur->sibling;
+    } while (cur != NULL);
 }
 
 void TODoorFourLightBase::update_door_switch_state() {

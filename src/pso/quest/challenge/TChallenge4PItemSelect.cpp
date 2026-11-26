@@ -60,11 +60,10 @@ extern "C" {
 void fn_8034BE48(TObjPlayer *);
 void request_active_window_close();
 void fn_8034BE38(TObjPlayer *);
-s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
 
 }
 s32 update_challenge_result_player_locks();
-void resume_challenge_result_processing(void *owner);
+void resume_challenge_result_processing(void *result);
 extern saddr tl_01;
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
 
@@ -106,7 +105,7 @@ void TChallenge4PResult::run_task() {
             queue_destruction();
             return;
         case 5:
-            tick_message_wait();
+            wait_for_reward_message();
             break;
         }
     }
@@ -150,7 +149,7 @@ void TChallenge4PResult::handle_result_code() {
         handle_first_reward();
         return;
     case -1:
-        skip_reward();
+        finish_result();
         return;
     case -2:
         init();
@@ -179,7 +178,7 @@ void TChallenge4PResult::update_wait_input() {
     }
 }
 void TChallenge4PResult::queue_destruction() { TObject::queue_destruction(); }
-void TChallenge4PResult::tick_message_wait() {
+void TChallenge4PResult::wait_for_reward_message() {
     s32 wait_frames;
     wait_frames = this->wait_frames - 1;
     this->wait_frames = wait_frames;
@@ -216,7 +215,7 @@ void TChallenge4PResult::handle_first_reward() {
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }
-void TChallenge4PResult::skip_reward() { this->state_1c = 3; }
+void TChallenge4PResult::finish_result() { this->state_1c = 3; }
 void TChallenge4PResult::init() {
     show_message(get_localized_text_entry(0x2B, 3));
     this->wait_frames = 0x5A;
@@ -258,14 +257,9 @@ void TChallenge4PResult::clear_slot_entries() {
         challenge4p_result_slot_entries[i] = NULL;
     }
 }
-void TChallenge4PResult::create(int client, s32 result_code) {
-    void *temp;
-
+void TChallenge4PResult::create(u16 client, s32 result_code) {
     if (get_player_by_client_id((u16)client) != NULL) {
-        temp = (void *) TObject::operator new(0x7C);
-        if (temp != NULL) {
-            __ct__18TChallenge4PResultFP7TObjectUsl(temp, tl_01, client, result_code);
-        }
+        new TChallenge4PResult((TObject *)tl_01, client, result_code);
     }
 }
 
@@ -322,9 +316,9 @@ void TChallenge4PResult::update_entries(TItemData *item, s32 slot) {
     } while (i < 4);
 }
 
-void resume_challenge_result_processing(void *owner) {
-    if (owner != NULL) {
-        ((TChallenge4PResult *)owner)->state_1c = 1;
+void resume_challenge_result_processing(void *result) {
+    if (result != NULL) {
+        ((TChallenge4PResult *)result)->state_1c = 1;
     }
 }
 

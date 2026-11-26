@@ -483,7 +483,7 @@ EZBoneRotDesc hair_bone_rotation_descriptor[1] = {
 };
 
 const char *wait_entry_hair_move_sim_name = "TObjWaitEntryHairMoveSim";
-const char *owehms_exp_name = "T_OWEHMS_Exp";
+const char *T_OWEHMS_Exp::class_name = "T_OWEHMS_Exp";
 
 TObjWaitEntryHairMoveSim::~TObjWaitEntryHairMoveSim() {}
 
@@ -507,8 +507,8 @@ s32 TObjWaitEntryHairMoveSim::is_level_in_table(TObjPlayer *player) {
     if (player->v2_flags & 0xA) {
         return 0;
     }
-    for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->char_class; e++) {
-        if (player->char_class == e->class_id &&
+    for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->class_index; e++) {
+        if (player->class_index == e->class_id &&
             (player->hair == e->head_model_hair || player->hair == e->hair_model_hair ||
              player->head == e->attachment_model_head)) {
             return 1;
@@ -520,8 +520,8 @@ s32 TObjWaitEntryHairMoveSim::is_level_in_table(TObjPlayer *player) {
 void TObjWaitEntryHairMoveSim::create_hair_effects() {
     HairEffectEntry *e;
     NJS_OBJECT *model;
-    for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->char_class; e++) {
-        if (player->char_class == e->class_id) {
+    for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->class_index; e++) {
+        if (player->class_index == e->class_id) {
             if (player->hair == e->head_model_hair) {
                 model = (NJS_OBJECT *)player->head_model;
             } else if (player->hair == e->hair_model_hair) {
@@ -561,7 +561,7 @@ T_OWEHMS_Exp* T_OWEHMS_Exp::create(TObjPlayer* p) {
 }
 
 T_OWEHMS_Exp::T_OWEHMS_Exp(TObjPlayer *p) : TObject(p) {
-    m_name = owehms_exp_name;
+    m_name = T_OWEHMS_Exp::class_name;
     player = p;
     descriptor_index = TObjWaitEntryHairMoveSim::get_move_done_result(player);
 }

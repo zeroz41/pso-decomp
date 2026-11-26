@@ -41,8 +41,4 @@ struct TObjLight : public TObjBase {
 
 LAYOUT_ASSERT(TObjLight_size, sizeof(TObjLight) == 0x100);
 
-extern "C" {
-void *__dt__9TObjLightFv(void *arg0, s16 arg1);
-}
-
 #endif

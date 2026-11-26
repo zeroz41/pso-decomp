@@ -35,7 +35,7 @@ TItemProArmorParticle::~TItemProArmorParticle() {}
 // This object's copy of the timer event constructor (on_equip calls it).
 TItemTimerEventArmorParticle::TItemTimerEventArmorParticle(TItemHeapObject *parent, u16 client, s32 duration, s32 particle)
     : TItemTimerEvent(parent, client, duration) {
-    unk_2C = particle;
+    particle_id = particle;
 }
 
 TItemProArmorParticle::TItemProArmorParticle(TObject *parent, u8 *item) : TItemProArmor(parent, item) {

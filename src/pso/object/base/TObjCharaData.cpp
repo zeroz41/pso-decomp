@@ -20,6 +20,6 @@ __declspec(section ".rodata") extern const u8 lbl_804340A8[7] ATTRIBUTE_ALIGN(4)
 
 __declspec(section ".rodata") extern const char lbl_804340B0[5] ATTRIBUTE_ALIGN(4) = "MISS";
 
-__declspec(section ".rodata") extern const u32 TObjPlayer__data_804340B8[2] = {
+__declspec(section ".rodata") extern const u32 angle_units_per_radian[2] = {
     0x40C45F30, 0xB21788BB,
 };

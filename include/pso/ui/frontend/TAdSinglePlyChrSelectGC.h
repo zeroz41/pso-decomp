@@ -132,10 +132,10 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void handle_menu_selection();
     void handle_slot_selection();
     void finish_character_selection_transition();
-    void sub_802D4570();
-    void sub_802D4664();
-    void sub_802D4730();
-    void sub_802D486C();
+    void run_state_4();
+    void run_state_3();
+    void run_state_2();
+    void run_state_1();
     static int get_flag_count();
     static int get_selected_count();
     static int get_data();

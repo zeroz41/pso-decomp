@@ -350,20 +350,20 @@ s32 TObjEneMorfos::try_enter_low_hp_state() {
 }
 
 s32 TObjEneMorfos::approach_value(s32 goal, s32 max_step) {
-    s32 temp_r3;
-    s32 var_r31;
+    s32 diff;
+    s32 reached;
 
-    var_r31 = 0;
-    temp_r3 = angle_diff_s16(this->rotation_y, goal);
-    if (temp_r3 > max_step) {
+    reached = 0;
+    diff = angle_diff_s16(this->rotation_y, goal);
+    if (diff > max_step) {
         this->rotation_y = (s32) (this->rotation_y + max_step);
-    } else if (temp_r3 < (s32) -max_step) {
+    } else if (diff < (s32) -max_step) {
         this->rotation_y = (s32) (this->rotation_y - max_step);
     } else {
         this->rotation_y = goal;
-        var_r31 = 1;
+        reached = 1;
     }
-    return var_r31;
+    return reached;
 }
 
 void TObjEneMorfos::set_hover_target_position() {
@@ -430,7 +430,7 @@ s32 TObjEneMorfos::select_target_in_view() {
         VecCopy(&v, &p->position);
         subtract_vector(&v, &body_center);
         v.y = 0.0f;
-        d = normalize_vector_xz((Vec *)(&v));
+        d = normalize_vector_xz((&v));
         if (d < 400.0f && d > best && dx * v.x + dz * v.z > cosLim &&
             csnLookAt(&body_center, &p->body_center) == 0) {
             id = p->get_entity_id();
@@ -484,7 +484,7 @@ void TObjEneMorfos::handle_event_transition(s32 ev) {
 }
 
 void TObjEneMorfos::state_fade_in(s32 ev) {
-    s32 temp_r31;
+    s32 wall_done;
     switch (ev) {
     case 4:
         this->requested_action = 0;
@@ -497,8 +497,8 @@ void TObjEneMorfos::state_fade_in(s32 ev) {
         play_area_se_with_particle(&position);
         return;
     case 3:
-        temp_r31 = wall_fade.advance_toward_max();
-        if ((body_fade.advance_toward_max() != 0) && (temp_r31 != 0)) {
+        wall_done = wall_fade.advance_toward_max();
+        if ((body_fade.advance_toward_max() != 0) && (wall_done != 0)) {
             this->transition_enemy_state((s32)3);
         }
         return;
@@ -584,9 +584,9 @@ void TObjEneMorfos::state_hidden(s32 ev) {
 }
 
 void TObjEneMorfos::state_fade_out(s32 ev) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r31;
+    s32 current_step;
+    s32 switch_step;
+    s32 wall_done;
 
     switch (ev) {
     case 4:
@@ -599,10 +599,10 @@ void TObjEneMorfos::state_fade_out(s32 ev) {
         return;
     case 3:
         if (check_confused() == 0) {
-            temp_r0 = step;
-            if (temp_r0 == 2) {
+            current_step = step;
+            if (current_step == 2) {
                 this->transition_enemy_state((s32)4);
-            } else if (temp_r0 == 3) {
+            } else if (current_step == 3) {
                 this->transition_enemy_state((s32)2);
             }
         }
@@ -611,8 +611,8 @@ void TObjEneMorfos::state_fade_out(s32 ev) {
         break;
     case 0:
         this->advance_animation();
-        temp_r0_2 = step;
-        switch (temp_r0_2) {
+        switch_step = step;
+        switch (switch_step) {
         case 0:
             if (this->update_linked_position(400.0f) != 0) {
                 this->enemy_copy_target_destination();
@@ -630,8 +630,8 @@ void TObjEneMorfos::state_fade_out(s32 ev) {
             }
             break;
         case 1:
-            temp_r31 = wall_fade.decay_value_toward_floor();
-            if ((body_fade.decay_value_toward_floor() != 0) && (temp_r31 != 0)) {
+            wall_done = wall_fade.decay_value_toward_floor();
+            if ((body_fade.decay_value_toward_floor() != 0) && (wall_done != 0)) {
                 step = 3;
             }
             break;
@@ -684,7 +684,7 @@ void TObjEneMorfos::state_walk(s32 ev) {
         switch (counter) {
         case 0:
             if (this->enemy_has_live_target() != 0) {
-                target_angle = (s32) (u16) (s32) (10430.38043493439 * ((f64 (*)(f32, f32)) atan2_float)((f32) (destination_direction.x), (f32) (destination_direction.z)));
+                target_angle = (s32) (u16) (s32) (10430.38043493439 * atan2_float((f32) (destination_direction.x), (f32) (destination_direction.z)));
             } else {
                 target_angle = (s32) this->rotation_y;
             }
@@ -704,7 +704,7 @@ void TObjEneMorfos::state_walk(s32 ev) {
                     this->update_velocity();
                     counter = 3;
                 } else if (this->enemy_has_live_target() != 0) {
-                    target_angle = (s32) (u16) (s32) (10430.38043493439 * ((f64 (*)(f32, f32)) atan2_float)((f32) (destination_direction.x), (f32) (destination_direction.z)));
+                    target_angle = (s32) (u16) (s32) (10430.38043493439 * atan2_float((f32) (destination_direction.x), (f32) (destination_direction.z)));
                 } else {
                     target_angle = (s32) this->rotation_y;
                 }
@@ -1051,7 +1051,7 @@ void TObjEneMorfos::state_patrol(s32 ev) {
 }
 
 void TObjEneMorfos::state_damage(s32 ev) {
-    s32 temp_r3;
+    s32 flags;
     switch (ev) {
     case 4:
         this->requested_action = 3;
@@ -1062,9 +1062,9 @@ void TObjEneMorfos::state_damage(s32 ev) {
         return;
     case 3:
         if (this->get_flag_b4() != 0) {
-            temp_r3 = morfos_flags;
-            if (temp_r3 & 0x20) {
-                morfos_flags = (s32) (temp_r3 & 0xFFFFFFDF);
+            flags = morfos_flags;
+            if (flags & 0x20) {
+                morfos_flags = (s32) (flags & 0xFFFFFFDF);
                 if (this->try_enter_low_hp_state() == 0) {
                     this->transition_enemy_state((s32)((s32)((int) (this->next_mode))));
                 }
@@ -1089,7 +1089,7 @@ void TObjEneMorfos::state_damage(s32 ev) {
 
 void TObjEneMorfos::state_death(s32 ev) {
     s32 counter;
-    s32 temp_r30;
+    s32 wall_done;
 
     switch (ev) {
     case 4:
@@ -1115,8 +1115,8 @@ void TObjEneMorfos::state_death(s32 ev) {
         switch (counter) {
         case 0:
             this->advance_animation();
-            temp_r30 = wall_fade.decay_value_toward_floor();
-            if ((this->get_flag_b4() != 0) && (temp_r30 != 0)) {
+            wall_done = wall_fade.decay_value_toward_floor();
+            if ((this->get_flag_b4() != 0) && (wall_done != 0)) {
                 fn_800D911C(&position);
                 play_sound_effect(0x4003A830, &position, 0, 0);
                 body_fade.start_fade_out();
@@ -1148,7 +1148,7 @@ void TObjEneMorfos::record_camera_path_point(NJS_OBJECT *) {
     case 6:
     case 10: {
         Vec pos = morfos_camera_path_origin;
-        forward_transform_to_view((const Vec *)&pos, morfos_camera_path_cursor);
+        forward_transform_to_view(&pos, morfos_camera_path_cursor);
         morfos_camera_path_cursor++;
         break;
     }

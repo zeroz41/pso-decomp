@@ -142,7 +142,7 @@ void *ppp_password_buffer[8] = {
 void TAdEnterPPPPassGC::run_task() {
     TAdEnterPPPPassGC *self = this;
     self->fn_8032B318(password_screen_status_line_position);
-    self->m_1c = password_entry_dispatch_state;
+    self->prev_state = password_entry_dispatch_state;
     static StateHandler tbl[5] = {
         (StateHandler)&TAdEnterPPPPassGC::open_keyboard_window,
         (StateHandler)&TAdEnterPPPPassGC::update_password_input,
@@ -151,7 +151,7 @@ void TAdEnterPPPPassGC::run_task() {
         (StateHandler)&TAdEnterPPPPassGC::close_windows_and_advance,
     };
     (self->*tbl[password_entry_dispatch_state])();
-    if (self->m_1c != password_entry_dispatch_state) {
+    if (self->prev_state != password_entry_dispatch_state) {
         self->close_delay_ticks = 0;
     }
 }

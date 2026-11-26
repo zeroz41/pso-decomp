@@ -651,23 +651,22 @@ TChallenge::~TChallenge() {
 }
 
 void TChallenge::run_task() {
-    TChallenge *self = this;
     if (get_card_wait_state() == 1) {
         return;
     }
-    self->request_missing_challenge_records();
+    request_missing_challenge_records();
     static Step_80070674 table[3] = {
         &TChallenge::initialize_windows,
         &TChallenge::wait_for_quest,
         &TChallenge::update_active,
     };
-    Step_80070674 step = table[self->state];
+    Step_80070674 step = table[state];
     if (step) {
-        (self->*step)();
+        (this->*step)();
     } else {
         return;
     }
-    self->frame_count++;
+    frame_count++;
 }
 
 void *lbl_8048D0B0[22] = {
@@ -680,7 +679,6 @@ void *lbl_8048D0B0[22] = {
 };
 
 void TChallenge::initialize_windows() {
-    TChallenge *self = this;
     s32 flag = 0;
     switch (get_main_phase()) {
     case 0xf:
@@ -693,9 +691,9 @@ void TChallenge::initialize_windows() {
         break;
     }
     if (flag != 0) {
-        create_obj_tag_challenge((void *)tl_07);
-        TObjBagWarnWin::create((void *)tl_07);
-        self->state = 1;
+        create_obj_tag_challenge(tl_07);
+        TObjBagWarnWin::create(tl_07);
+        state = 1;
     }
 }
 
@@ -792,7 +790,7 @@ void TChallenge::refresh_challenge_windows() {
         old = challenge_mode_state.current_floor;
         challenge_mode_state.current_floor = -1;
         if (old != -1) {
-            create_obj_tag_challenge((void *)tl_07);
+            create_obj_tag_challenge(tl_07);
             if (challenge_mode_state.failed == 0) {
                 create_ch_time_win((TObject *)tl_07);
             }

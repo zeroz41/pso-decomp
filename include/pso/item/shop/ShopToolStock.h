@@ -11,44 +11,47 @@ struct ShopToolCode {
     s32 subtype;
 };
 
+// The tools always stocked: `count` tool ids per classify_tool_shop_level_bracket row, 0xF for none.
+struct ShopToolCommonTable {
+    u8 *ids;
+    u8 count;
+};
+
 // A tool of shop_tool_group_subtype_table (or a technique of shop_technique_pool_table) and
 // how many times it goes into the draw pool.
-struct ToolRandomKind {
-    u8 kind;
+struct ShopToolPoolEntry {
+    u8 id;
     u8 weight;
 };
 
-// One level row's kinds: `count` per get_tool_pool_table_row row.
-struct ToolRandomPool {
-    ToolRandomKind *kinds;
-    u8 count;
+// The rare tool pool (`rare_ents`) and the technique pool (`technique_ents`), `*_count` columns
+// per get_tool_pool_table_row row each.
+struct ShopToolPoolTable {
+    ShopToolPoolEntry *rare_ents;
+    u8 rare_count;
+    ShopToolPoolEntry *technique_ents;
+    u8 technique_count;
 };
 
-// The tools always stocked: `count` kinds per classify_tool_shop_level_bracket row, 0xF for none.
-struct ToolRandomCommon {
-    u8 *kinds;
-    u8 count;
-};
-
-// How a technique's level is rolled: mode 0 gives level 1, mode 1 the shop level divided by
-// `base`, mode 2 a random level up to `range` but not below `base`.
-struct ToolRandomTechniqueLevel {
-    u8 mode;
+// How a technique's level is rolled: kind 0 gives level 1, kind 1 the shop level divided by
+// `base`, kind 2 a random level up to `range` but not below `base`.
+struct ShopTechniqueLevelEntry {
+    u8 kind;
     u8 base;
     u8 range;
 };
 
 // One level row's technique level rules: `count` per get_tool_pool_table_row row.
-struct ToolRandomTechniqueLevels {
-    ToolRandomTechniqueLevel *levels;
+struct ShopTechniqueLevelTable {
+    ShopTechniqueLevelEntry *ents;
     u8 count;
 };
 
-// ToolRandom.rel: what the tool shop stocks at each level bracket.
-struct ToolRandomTables {
-    ToolRandomCommon *common;                   // by classify_tool_shop_level_bracket
-    ToolRandomPool *pools;                      // [0] rare tools, [1] techniques
-    ToolRandomTechniqueLevels *technique_levels; // by get_tool_pool_table_row
+// ToolRandom.rel, loaded by load_tool_random_rel: what the tool shop stocks at each level bracket.
+struct ShopToolRandomTables {
+    ShopToolCommonTable *common;                // by classify_tool_shop_level_bracket
+    ShopToolPoolTable *pools;
+    ShopTechniqueLevelTable *technique_levels;  // by get_tool_pool_table_row
 };
 
 void load_tool_random_rel(void);

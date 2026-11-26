@@ -1,6 +1,6 @@
 #include "pso/object/city/CityTrafficTables.h"
 
-// .rodata 0x80443B18-0x80443B68, between TObjChip and CityTraffic: CityTraffic.cpp
+// .rodata block, between TObjChip and CityTraffic: CityTraffic.cpp
 // addresses each table on its own (no shared .rodata base), so it did not compile them itself.
 
 const s32 city_traffic_path_motion_index_table[5] = {0, 1, 2, 3, 4};

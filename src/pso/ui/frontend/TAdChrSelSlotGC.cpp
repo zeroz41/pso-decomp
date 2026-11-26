@@ -135,7 +135,7 @@ TAdChrSelSlotGC::~TAdChrSelSlotGC() {}
 
 #pragma push
 #pragma fp_contract on
-TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((TObject*)(object)) {
+TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((object)) {
     u32 i;
     u32 j;
     u32 k;

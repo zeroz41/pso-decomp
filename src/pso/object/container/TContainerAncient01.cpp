@@ -290,14 +290,14 @@ f32 TContainerAncient01::receive_direct_attack(void *arg1, DirectAttackPayload p
 }
 
 f32 TContainerAncient01::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
 
     if ((u16) this->entity_id >= 0x1000U) {
         reset_state();
-        if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
-            sp8 = 1;
-            access_object_saved_state(&sp8, 0);
-            send_object_state_update(&sp8);
+        if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved_state, 1) != 0)) {
+            saved_state = 1;
+            access_object_saved_state(&saved_state, 0);
+            send_object_state_update(&saved_state);
         }
     }
     return ancient01_zero[0];
@@ -332,7 +332,7 @@ void TContainerAncient01::init_state_vectors() {
     this->wait_limit = (f32) (3e+02f + (this->scale.x - ancient01_one[0]));
     this->active_limit = (f32) (2.1e+02f + (this->scale.y - ancient01_one[0]));
     this->range = (f32) (4e+02f + (this->scale.z - ancient01_one[0]));
-    this->effect_rate = this->set_params[2] + 4;
+    this->spawns_per_second = this->set_params[2] + 4;
     VecCopy(&this->lower_effect_position, &this->position);
     this->lower_effect_position.y = (f32) (this->lower_effect_position.y + container_ancient01_collision_body_parts.offset.y);
     VecCopy(&this->upper_effect_position, &this->lower_effect_position);
@@ -413,7 +413,7 @@ void TContainerAncient01::update_blast() {
     if (4e+01f == this->frame_timer) {
         spawn_effect(&this->lower_effect_position, 0x7E);
     }
-    period = (u32)(3e+01f / (f32)this->effect_rate);
+    period = (u32)(3e+01f / (f32)this->spawns_per_second);
     phase = (u32)(t = this->frame_timer) % period;
     if (14.0f < t && t < 6e+01f && phase == 0) {
         spawn_effect(&this->upper_effect_position, 0x7E);
@@ -570,13 +570,13 @@ f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload 
 }
 
 f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     if ((u16) this->entity_id >= 0x1000U) {
-        this->damage_taken = (this->damage_taken + 1);
-        if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
-            sp8 = this->damage_taken;
-            access_object_saved_state(&sp8, 0);
-            send_object_state_update(&sp8);
+        this->hit_count = (this->hit_count + 1);
+        if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved_state, 1) != 0)) {
+            saved_state = this->hit_count;
+            access_object_saved_state(&saved_state, 0);
+            send_object_state_update(&saved_state);
         }
     }
     return ancient01_zero[0];
@@ -596,14 +596,14 @@ void TContainerAncient01R::open_container() {
 }
 
 void TContainerAncient01R::apply_saved_state(s16 *state, s32 live) {
-    this->damage_taken = (s16) *state;
+    this->hit_count = (s16) *state;
     if (live != 0) {
-        if ((this->hp - this->damage_taken) <= 0) {
+        if ((this->hp - this->hit_count) <= 0) {
             this->reset_state();
             this->open_container();
             this->opened = 1;
         }
-    } else if ((this->hp - this->damage_taken) <= 0) {
+    } else if ((this->hp - this->hit_count) <= 0) {
         this->opened = 1;
     }
 }
@@ -613,7 +613,7 @@ void TContainerAncient01R::init_positions() {
     this->wait_limit = (f32) (3e+02f + (this->scale.x - ancient01_one[0]));
     this->active_limit = (f32) (2.1e+02f + (this->scale.y - ancient01_one[0]));
     this->range = (f32) (4e+02f + (this->scale.z - ancient01_one[0]));
-    this->effect_rate = (this->set_params[2] + 4);
+    this->spawns_per_second = (this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
     this->lower_effect_position.y = (f32) (this->lower_effect_position.y + container_ancient01_collision_body_parts.offset.y);
     VecCopy(&this->upper_effect_position, &this->lower_effect_position);
@@ -626,7 +626,7 @@ void TContainerAncient01R::init_positions() {
     if ((s16) this->hp < 1) {
         this->hp = 1;
     }
-    this->damage_taken = 0;
+    this->hit_count = 0;
 }
 #pragma pop
 void TContainerAncient01R::check_open_trigger() {
@@ -701,7 +701,7 @@ void TContainerAncient01R::update_blast() {
     if (4e+01f == this->frame_timer) {
         trigger_spawn(&this->lower_effect_position, 0x7E);
     }
-    period = (u32)(3e+01f / (f32)this->effect_rate);
+    period = (u32)(3e+01f / (f32)this->spawns_per_second);
     rem = (u32)(t = this->frame_timer) % period;
     if (14.0f < t && t < 6e+01f && rem == 0) {
         trigger_spawn(&this->upper_effect_position, 0x7E);

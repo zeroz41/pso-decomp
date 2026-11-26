@@ -16,7 +16,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
 extern "C" {
-void fn_8026C664(u8 *window_draw_context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
+void fn_8026C664(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   TexturedQuad quad;
   quad.x0 = x;
   quad.y0 = y;
@@ -30,12 +30,11 @@ void fn_8026C664(u8 *window_draw_context, f32 x, f32 y, f32 depth, f32 arrow_off
   quad.v0 = 0.3984375f;
   quad.u1 = 0.8359375f;
   quad.v1 = 0.45703125f;
-  ((WindowDrawContext *)window_draw_context)->transform_quad(&quad);
+  ((WindowDrawContext *)context)->transform_quad(&quad);
   draw_textured_quad_at_depth(&quad.x0, depth);
 }
-typedef struct Stack_8026C708 Stack_8026C708;
-void fn_8026C708(u8 *window_draw_context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
-  float bottom;
+void fn_8026C708(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
+  float new_var;
   TexturedQuad quad;
   quad.x0 = x;
   quad.y0 = y;
@@ -44,38 +43,38 @@ void fn_8026C708(u8 *window_draw_context, f32 x, f32 y, f32 depth, f32 arrow_off
     quad.x0 = ((f32) ((double) x)) + arrow_offset;
   }
   quad.x1 = 29.0f + quad.x0;
-  bottom = 15.0f + quad.y0;
-  quad.y1 = bottom;
+  new_var = 15.0f + quad.y0;
+  quad.y1 = new_var;
   quad.u0 = 0.84375f;
   quad.v0 = 0.3984375f;
   quad.u1 = 0.95703125f;
   quad.v1 = 0.45703125f;
-  ((WindowDrawContext *)window_draw_context)->transform_quad(&quad);
+  ((WindowDrawContext *)context)->transform_quad(&quad);
   draw_textured_quad_at_depth(&quad.x0, depth);
 }
 
 }
 
 
-s32 fn_8026C7AC(void *state, s8 value) {
-    *(s8 *)((s8 *)state + 0) = 0;
-    *(s8 *)((s8 *)state + 1) = value;
+s32 fn_8026C7AC(void *indicator, s8 page) {
+    *(s8 *)((s8 *)indicator + 0) = 0;
+    *(s8 *)((s8 *)indicator + 1) = page;
     return 1;
 }
 
-s32 fn_8026C7C0(void *state, s8 target) {
-    u8 current;
+s32 fn_8026C7C0(void *indicator, s8 page) {
+    u8 old_page;
 
-    current = *(u8 *)((s8 *)state + 0);
-    if (target == (s8) current) {
+    old_page = *(u8 *)((s8 *)indicator + 0);
+    if (page == (s8) old_page) {
         return 0;
     }
-    if (target > (s8) current) {
-        *(f32 *)((s8 *)state + 8) = (f32) 1e+01f;
+    if (page > (s8) old_page) {
+        *(f32 *)((s8 *)indicator + 8) = (f32) 1e+01f;
     } else {
-        *(f32 *)((s8 *)state + 8) = (f32) (-1e+01f);
+        *(f32 *)((s8 *)indicator + 8) = (f32) (-1e+01f);
     }
-    *(u8 *)((s8 *)state + 0) = (u8) target;
+    *(u8 *)((s8 *)indicator + 0) = (u8) page;
     return 1;
 }
 #pragma push

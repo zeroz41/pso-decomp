@@ -29,7 +29,7 @@ extern "C" {
 void * player_render_texture_buffer;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
-const char *TObjEneRe2Flower_EffCurse3__name = TObjEneRe2Flower_EffCurse3__class_name_string;
+const char *TObjEneRe2Flower_EffCurse3::class_name = TObjEneRe2Flower_EffCurse3__class_name_string;
 #pragma push
 #pragma fp_contract on
 void TObjEneRe2Flower_EffCurse3::run_task() {
@@ -43,7 +43,7 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
     if (target->is_alive() != 0) {
         VecCopy(&a, &target->position);
         a.y += (14.0f);
-        VecCopy((Vec *)&b, &camera_ctrl_instance->pos);
+        VecCopy(&b, &camera_ctrl_instance->pos);
         subtract_vector(&b, &a);
         normalize_vector_safe(&b);
         a.x = (2e+01f) * b.x + a.x;
@@ -63,7 +63,7 @@ TObjEneRe2Flower_EffCurse3::~TObjEneRe2Flower_EffCurse3() {
 }
 
 TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(TObject *parent, TObjBase *target) : TObject(parent) {
-    m_name = TObjEneRe2Flower_EffCurse3__name;
+    m_name = TObjEneRe2Flower_EffCurse3::class_name;
     timer = 0;
     this->target = target;
     if (this->target->is_alive() != 0) {
@@ -77,7 +77,7 @@ GinjaTextureInput player_render_target;
 NJS_TEXNAME player_render_texture_name;
 __declspec(section ".data") Node_800C4D88 lbl_80500C30;
 
-void TObjPlayer__sub_800C4D44(void) {
+void free_curse_resources(void) {
     void *p = &lbl_80500C30;
     if (p != 0) {
         release_texture_list((NJS_TEXLIST *)p);

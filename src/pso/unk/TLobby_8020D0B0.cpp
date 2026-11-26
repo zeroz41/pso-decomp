@@ -1,6 +1,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/FloorPopulation.h"
 
 struct VBase { char pad[0x18]; };
 struct VObj : VBase {
@@ -19,32 +20,32 @@ extern s32 quest_object_entries;
 
 void TLobby::attach_objects_by_id(s32 floor) {
     s16 flags;
-    s16 quest_entry;
+    s16 set_index;
     s32 count;
-    u8 *ptr;
+    FloorObjectSetRow *row;
     s32 i;
     u8 *set_object;
 
-    ptr = reinterpret_cast<u8 *>(get_active_floor_object_rows(floor));
+    row = get_active_floor_object_rows(floor);
     count = TLobby::get_obj_table_entry(floor);
-    for (i = 0; i < count; i++, ptr += 0x44) {
-        flags = *(s16 *)((s8 *)ptr + 2);
-        if (!(flags & 8) && !(flags & 2) && (*(s16 *)((s8 *)ptr + 0) != -1) && ((flags & 0x10) || (flags & 1) || (*(s16 *)((s8 *)ptr + 0xA) == 0))) {
-            set_object = create_set_object_from_row(ptr);
+    for (i = 0; i < count; i++, row++) {
+        flags = row->flags;
+        if (!(flags & 8) && !(flags & 2) && (row->type != -1) && ((flags & 0x10) || (flags & 1) || (row->placement.wave == 0))) {
+            set_object = create_set_object_from_row(row);
             if (set_object != NULL) {
-                *(void **)((s8 *)ptr + 0x40) = set_object;
-                *(s16 *)((s8 *)ptr + 2) = (s16) (*(s16 *)((s8 *)ptr + 2) | 2);
-                *(s16 *)((s8 *)set_object + 0x28) = (s16) *(s16 *)((s8 *)ptr + 0xC);
-                *(s16 *)((s8 *)set_object + 0x2C) = (s16) *(s16 *)((s8 *)ptr + 4);
-                *(void **)((s8 *)set_object + 0x80) = ptr;
-                quest_entry = *(s16 *)((s8 *)set_object + 0x2C);
-                if (quest_entry != -1) {
-                    ((VObj *) set_object)->m4(quest_object_entries + (quest_entry * 4), 0);
+                row->object = (TObject *)set_object;
+                row->flags = (s16) (row->flags | 2);
+                *(s16 *)((s8 *)set_object + 0x28) = row->placement.room;
+                *(s16 *)((s8 *)set_object + 0x2C) = row->placement.set_index;
+                *(void **)((s8 *)set_object + 0x80) = row;
+                set_index = *(s16 *)((s8 *)set_object + 0x2C);
+                if (set_index != -1) {
+                    ((VObj *) set_object)->m4(quest_object_entries + (set_index * 4), 0);
                 }
             } else {
-                *(void **)((s8 *)ptr + 0x40) = NULL;
+                row->object = NULL;
             }
-            *(s16 *)((s8 *)ptr + 2) = (s16) (*(s16 *)((s8 *)ptr + 2) & 0xFFFFFFFE);
+            row->flags = (s16) (row->flags & 0xFFFFFFFE);
         }
     }
 }

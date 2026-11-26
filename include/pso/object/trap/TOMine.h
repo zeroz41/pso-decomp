@@ -80,6 +80,6 @@ extern CollisionBody mine_collision_body_parts[1];
 struct game_command_header;
 
 void handle_6x80_trigger_trap(game_command_header *command);
-void set_mine_trap_damage(f32 damage);
+void set_mine_trap_damage(f32 power);
 
 #endif

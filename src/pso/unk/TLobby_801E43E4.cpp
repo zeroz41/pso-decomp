@@ -190,12 +190,6 @@ void TObjPlayer::free_if_valid(saddr texlist) {
 }
 
 // A GVM texture archive's header ("GVMH").
-struct GvmFileHeader {
-    u8 magic[4];
-    u32 size;
-    u16 flags;
-    u16 count;
-};
 
 u8 *language_read_cursor;
 

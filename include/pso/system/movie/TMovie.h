@@ -10,7 +10,7 @@ struct MovieState;
 // A movie task: loads movie.rel (CRI Sofdec), plays one SFD file through a MovieState and calls
 // finish_callback with itself when it is destroyed.
 struct TMovie : public TObject {
-    static const char *name;
+    static const char *class_name;
     TMovie(TObject *parent, s8 *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending);
     virtual ~TMovie();
     virtual void run_task();

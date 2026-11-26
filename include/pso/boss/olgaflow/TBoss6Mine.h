@@ -28,6 +28,7 @@ struct TBoss6MineSetData {
 };
 
 struct TBoss6Mine : public TObjEnemy {
+    static const char *class_name;
     TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data);
     virtual ~TBoss6Mine();
     virtual void run_task();

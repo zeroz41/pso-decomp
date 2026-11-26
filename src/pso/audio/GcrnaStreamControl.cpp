@@ -7,6 +7,7 @@
 #include <string.h>
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/GcrnaBufferQuery.h"
+#include "pso/audio/GcrnaMusyxStream.h"
 
 void gcrna_interrupt_lock_leave(void) {
     middleware_interrupt_lock_leave();
@@ -44,8 +45,6 @@ void gcrna_set_sample_bits(GcrnaStream *stream, s32 sample_bits) {
 }
 
 extern "C" {
-void sndStreamMixParameterEx(u32 stream_id, u8 volume, u8 pan, u8 surround_pan, u8 aux_a, u8 aux_b);
-void sndStreamFrq(u32 stream_id, s32 frequency);
 extern u8 gcrna_volume_table[1000];
 extern u32 gcrna_pan_table[31];
 

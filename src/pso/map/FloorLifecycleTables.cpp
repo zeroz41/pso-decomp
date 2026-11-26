@@ -14,6 +14,10 @@
 #include "pso/object/container/TObjContainerJung.h"
 #include "pso/object/container/TObjContainerJungEx.h"
 #include "pso/effect/TBGLightningCtrl.h"
+#include "pso/object/fence/TObjLazerFenceNorm.h"
+#include "pso/object/warp/TObjWarpJung.h"
+#include "pso/unk/text_8028A820.h"
+#include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/object/ambient/TButterfly.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
@@ -140,16 +144,8 @@
 extern "C" {
 void release_boss_warp_resources();
 }
-void load_labo_design_object_table();
 void load_chat_sensor();
-void load_turiten_singo_resources();
 void load_city_common_resources();
-void load_lazer_fence_norm_resources();
-void free_warp_jung_beam_resources();
-void load_warp_beam_resources();
-void load_green_door_resources();
-void load_labo_door_resources();
-void load_bg_lightning();
 void free_object_table();
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_00[12] = {
     { load_area_dialogue_script, TQuestThread::destroy_quest_obj },

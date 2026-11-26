@@ -62,7 +62,7 @@ __declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params =
 extern const char hangceiling_cave01_normal_class_name_string[] = "TOHangceilingCave01Normal";
 extern const char hangceiling_cave01_key_class_name_string[] = "TOHangceilingCave01Key";
 extern const char hangceiling_cave01_key_quick_class_name_string[] = "TOHangceilingCave01KeyQuick";
-CollisionBody hangceiling_collision_body = {{0.0f, 80.0f, 0.0f}, 17.0f, 17.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+CollisionBody hangceiling_cave01_collision_body_parts = {{0.0f, 80.0f, 0.0f}, 17.0f, 17.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 const char *hangceiling_cave01_normal_class_name = hangceiling_cave01_normal_class_name_string;
 const char *hangceiling_cave01_key_class_name = hangceiling_cave01_key_class_name_string;
@@ -89,7 +89,7 @@ TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, void *set_data) : 
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(hangceiling_cave01_model_archive, turiten_singo_key_model_index);
     current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
-    init_collision_body_parts(this, &hangceiling_collision_body, 1);
+    init_collision_body_parts(this, &hangceiling_cave01_collision_body_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     clear_hit_players();

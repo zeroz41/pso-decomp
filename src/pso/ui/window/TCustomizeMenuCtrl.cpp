@@ -32,15 +32,6 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 
 
-struct UpdateCustomizeHelpTextWindow {
-    u8 pad0[0x20];
-    s32 player;
-    u8 pad24[0x30 - 0x24];
-    saddr lobby;
-    u16 kind;
-    u16 id;
-};
-
 struct RunTaskEv {
     u16 kind;
     u16 id;
@@ -51,16 +42,6 @@ public:
     u8 pad0[0x18];
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-};
-
-struct RunTaskSelf {
-    u8 pad0[0x1C];
-    u8 state;
-    u8 pad1d[3];
-    s32 f20;
-    VObj_80275A8C *f24;
-    s32 f28;
-    void *f2c;
 };
 
 extern "C" {
@@ -105,40 +86,39 @@ TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
 }
 
 void TCustomizeMenuCtrl::run_task() {
-    RunTaskSelf *self = (RunTaskSelf *)this;
     RunTaskEv ev;
-    switch (self->state) {
+    switch (state) {
     case 0:
     case 1:
-        if (self->f2c != NULL) {
-            ((TWindowBase *)self->f2c)->close();
-            self->f2c = NULL;
+        if ((void *)custom_select != NULL) {
+            ((TWindowBase *)custom_select)->close();
+            custom_select = 0;
         }
         ((TWindowSubCustomEquip *)(this->custom_equip))->clear_flag_and_set_entry_state();
-        self->state = 2;
+        state = 2;
     case 2:
         ((TWindowSubCustomEquip *)(this->custom_equip))->get_cursor_pos(&ev);
-        ((TCustomizeMenuCtrl *)self)->update_customize_help_text(&ev);
+        update_customize_help_text(&ev);
         if (TWindowSubCustomEquip__sub_80275DA8((void *)this->custom_equip) != 0) {
-            self->f24->v7();
-            self->state = 5;
+            ((VObj_80275A8C *)main_menu)->v7();
+            state = 5;
         } else if (((TWindowSubCustomEquip *)(this->custom_equip))->is_selected() != 0) {
-            self->state = 3;
+            state = 3;
         }
         break;
     case 3:
-        self->f2c = new TWindowSubCustomSelect(client_id);
-        ((TWindowBase *)self->f2c)->set_depth(get_main_menu_layer_depth((u8 *)self->f24, 1));
-        self->state = 4;
+        custom_select = (uaddr)new TWindowSubCustomSelect(client_id);
+        ((TWindowBase *)custom_select)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 1));
+        state = 4;
     case 4:
-        ((TCustomizeMenuCtrl *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());
-        if (fn_80275D90(self->f2c) != 0) {
-            self->state = 1;
+        update_customize_help_text(reinterpret_cast<TWindowSubCustomSelect *>(custom_select)->get_selected_action());
+        if (fn_80275D90((void *)custom_select) != 0) {
+            state = 1;
         }
-        if (((TWindowSubCustomSelect *)(self->f2c))->is_active() != 0) {
-            void *e = static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action();
+        if (((TWindowSubCustomSelect *)custom_select)->is_active() != 0) {
+            void *e = reinterpret_cast<TWindowSubCustomSelect *>(custom_select)->get_selected_action();
             ((TWindowSubCustomEquip *)(this->custom_equip))->toggle_action_binding(e);
-            self->state = 1;
+            state = 1;
         }
         break;
     case 5:
@@ -149,23 +129,22 @@ void TCustomizeMenuCtrl::run_task() {
 void TCustomizeMenuCtrl::render() {  }
 
 void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
-    UpdateCustomizeHelpTextWindow *self = (UpdateCustomizeHelpTextWindow *)this;
     RunTaskEv *ev = (RunTaskEv *)ev_arg;
     u8 *pl;
     s32 lvl;
-    toggle_help_window_on_button(self->lobby, self->player);
+    toggle_help_window_on_button(help_window, client_id);
     if (ev == NULL) {
         return;
     }
-    pl = (u8 *)get_player_by_client_id(self->player);
+    pl = (u8 *)get_player_by_client_id(client_id);
     if (pl == NULL) {
         return;
     }
-    if (self->id == ev->id && self->kind == ev->kind) {
+    if (help_id == ev->id && help_kind == ev->kind) {
         return;
     }
-    self->kind = ev->kind;
-    self->id = ev->id;
+    help_kind = ev->kind;
+    help_id = ev->id;
     text_builder_reset();
     switch (ev->kind) {
     case 0:
@@ -202,7 +181,7 @@ void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
         text_builder_append();
         break;
     case 4:
-        if (get_palette_consumable_count(ev->id, self->player) == -1) {
+        if (get_palette_consumable_count(ev->id, client_id) == -1) {
             break;
         }
         get_help_text_string(ev->id + 0x16);
@@ -211,5 +190,5 @@ void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
     case 7:
         break;
     }
-    ((TWindowMessage *)(self->lobby))->append_line((saddr)get_shared_text_buffer(), 0x82);
+    ((TWindowMessage *)(help_window))->append_line((saddr)get_shared_text_buffer(), 0x82);
 }

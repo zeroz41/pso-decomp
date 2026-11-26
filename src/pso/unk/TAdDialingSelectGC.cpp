@@ -26,9 +26,6 @@
 #include "pso/unk/TLobbyIdleTimer.h"
 #include "pso/camera/TCameraCtrl.h"
 
-typedef struct WindowPos {
-    f32 a, b;
-} WindowPos;
 
 extern void *tl_00;
 
@@ -83,8 +80,8 @@ void TAdDialingSelectGC::run_task() {
         if (TAdPlayerLoadGC::get_instance() == 0) {
             this->state = 8;
         } else {
-            WindowPos a = {80.0f, 176.0f};
-            WindowPos b = {479.0f, 207.0f};
+            DialingWindowPos a = {80.0f, 176.0f};
+            DialingWindowPos b = {479.0f, 207.0f};
             this->window = create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
             ((TWindowMessage *)(this->window))->append_line(get_message_text(0xC), 1);
             this->state = 7;

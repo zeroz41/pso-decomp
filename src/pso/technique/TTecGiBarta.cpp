@@ -14,6 +14,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecShot.h"
 #include "pso/technique/TTecGiBarta.h"
+#include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
@@ -28,11 +29,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/technique/TechniqueEmitterTable.h"
-
-
-
-extern "C" {
-
 
 #pragma push
 #pragma dont_inline off
@@ -76,43 +72,42 @@ void TTecGiBarta::update_technique_by_phase() {
 #pragma inline_depth(1)
 #pragma auto_inline on
 #pragma dont_inline off
-}
 
-static const TechniqueEmitterSourceRow gibarta_band0_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band0_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.0f},
     {0x182, 0x20022, 0.0f},
 };
-static const TechniqueEmitterSourceRow gibarta_band1_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band1_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.2f},
     {0x183, 0x20062, 1.4f},
 };
-static const TechniqueEmitterSourceRow gibarta_band2_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band2_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.4f},
     {0x184, 0x20062, 1.4f},
 };
-static const TechniqueEmitterSourceRow gibarta_band3_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band3_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.6f},
     {0x185, 0x30062, 1.6f},
 };
-static const TechniqueEmitterSourceRow gibarta_band4_emitters[3] = {
+static const TechniqueEmitterSourceRow giBarta_band4_emitters[3] = {
     {0x180, 0x4, 0.0f},
     {0x181, 0x42, 1.8f},
     {0x186, 0x30062, 1.8f},
 };
-static const TechniqueEmitterSourceRow gibarta_band5_emitters[2] = {
+static const TechniqueEmitterSourceRow giBarta_band5_emitters[2] = {
     {0x181, 0x42, 2.2f},
     {0x18E, 0x30062, 2.2f},
 };
 static const TechniqueEmitterSourceTable gibarta_emitter_bands[6] = {
-    {gibarta_band0_emitters, 3}, {gibarta_band1_emitters, 3}, {gibarta_band2_emitters, 3},
-    {gibarta_band3_emitters, 3}, {gibarta_band4_emitters, 3}, {gibarta_band5_emitters, 2},
+    {giBarta_band0_emitters, 3}, {giBarta_band1_emitters, 3}, {giBarta_band2_emitters, 3},
+    {giBarta_band3_emitters, 3}, {giBarta_band4_emitters, 3}, {giBarta_band5_emitters, 2},
 };
 const char *TTecGiBarta::class_name = "TTecGiBarta";
-const Vec lbl_8044D288 = {0.0f, 0.0f, 3.0f};
+const Vec giBarta_emitter_offset = {0.0f, 0.0f, 3.0f};
 
 
 void TTecGiBarta::create_particles() {
@@ -143,9 +138,9 @@ void TTecGiBarta::create_particles() {
                 &pos, &angles, gibarta_emitter_bands[band].rows[i].entry));
         } else {
 #ifdef __MWERKS__
-            __memcpy(&off, &lbl_8044D288, sizeof(off));
+            __memcpy(&off, &giBarta_emitter_offset, sizeof(off));
 #else
-            off = lbl_8044D288;
+            off = giBarta_emitter_offset;
 #endif
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, this->angles[1]);

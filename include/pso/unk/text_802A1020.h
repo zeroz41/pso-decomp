@@ -25,4 +25,10 @@ extern "C" {
 void fn_802A1154(void);
 }
 
+typedef struct Entry_802A1020 {
+    const char *file;
+    u32 size;
+    u32 crc;
+} Entry_802A1020;
+
 #endif

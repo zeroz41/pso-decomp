@@ -622,16 +622,8 @@ void qst_op_arg_pushb(u8 a0) {
     qst_args[qst_arg_count++] = a0;
 }
 
-void qst_op_arg_pushl(int a0)
-{
-  unsigned long new_var3;
-  int new_var;
-  int *new_var2;
-  new_var = qst_arg_count;
-  new_var2 = &a0;
-  new_var3 = *new_var2;
-  qst_arg_count = qst_arg_count + 0x1;
-  qst_args[new_var] = new_var3;
+void qst_op_arg_pushl(int a0) {
+    qst_args[qst_arg_count++] = a0;
 }
 void qst_op_arg_pushr(u8 a0) {
     qst_args[qst_arg_count++] = qst_registers[a0];
@@ -650,8 +642,6 @@ void qst_op_va_call(s32 label) {
   qst_call_stack_push(qst_pc);
   qst_pc = qst_function_table[(u16)label];
 }
-struct WriteCounterWindow { u8 pad[0x2314]; s32 t[16]; };
-
 struct GetSlotMesetaCard {
     u8 pad[0x24C];
     s32 v;
@@ -690,18 +680,18 @@ union IntFloat { s32 i; f32 f; };
 
 struct ComputeBezierCurvePointGlobals {
     s32 count;
-    f32 f4;
-    f32 f8;
-    s32 fC;
+    f32 scale;
+    f32 step;
+    s32 closed;
     s32 out;
     u32 id;
 };
 
 struct GetVectorFromPathGlobals {
     s32 count;
-    f32 f4;
-    f32 f8;
-    s32 fC;
+    f32 scale;
+    f32 step;
+    s32 closed;
     s32 out;
     u32 id;
 };
@@ -841,7 +831,7 @@ void qst_op_scroll_text() {
     s32 y = qst_args[1];
     s32 cols = qst_args[2];
     s32 rows = qst_args[3];
-    s32 field90 = qst_args[4];
+    s32 frame_mode = qst_args[4];
     f32 timer = *(f32 *)&qst_args[5];
     s32 msg = qst_args[6];
     s32 arg = qst_args[7];
@@ -855,7 +845,7 @@ void qst_op_scroll_text() {
     size.x = 8.0f + (f32)(cols * 0x12);
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     win = open_message_scroll_window(&pos, &size, &qst_registers[msg]);
-    win->set_frame_mode(field90);
+    win->set_frame_mode(frame_mode);
     dispatch_message_window_text(win, arg, 0x13);
     win->set_scroll_speed(timer);
     qst_message_window = win;
@@ -937,7 +927,7 @@ void qst_op_chat_box() {
     s32 y = qst_args[1];
     s32 cols = qst_args[2];
     s32 rows = qst_args[3];
-    s32 field90 = qst_args[4];
+    s32 frame_mode = qst_args[4];
     s32 arg = qst_args[5];
 
     if (qst_message_window != NULL) {
@@ -948,7 +938,7 @@ void qst_op_chat_box() {
     size.x = 8.0f + (f32)(cols * 0x12);
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     qst_message_window = create_quest_message_window_at(&pos, &size);
-    qst_message_window->set_frame_mode(field90);
+    qst_message_window->set_frame_mode(frame_mode);
     dispatch_message_window_text(qst_message_window, arg, 3);
     qst_suspend_reason = QST_WAIT_MESSAGE;
     TWindowCtrl::set_flag_bit2();
@@ -1021,32 +1011,23 @@ void qst_op_find_bank_item(u8 i, u8 out) {
 void qst_op_write_counter() {
     s32 idx = qst_args[0];
     s32 val = qst_args[1];
-    WriteCounterWindow *w = ((WriteCounterWindow *)get_character_save_record(0xFFFFU));
-    if (w != NULL && idx >= 0 && idx < 0x10) {
-        w->t[idx] = val;
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    if (record != NULL && idx >= 0 && idx < 0x10) {
+        record->quest_counters[idx] = val;
     }
 }
 
 void qst_op_read_counter(void) {
-  long long new_var;
-  s32 counter_index;
-  u32 character_save_record;
-  u8 dest_reg;
-  counter_index = qst_args[0];
-  dest_reg = (u8) qst_args[1];
-  character_save_record = get_character_save_record(0xFFFFU);
-  if (character_save_record != 0U)
-  {
-    if ((counter_index >= 0) && (counter_index < 0x10))
-    {
-      new_var = character_save_record + (counter_index * 4);
-      qst_registers[dest_reg] = *((s32 *) (((s8 *) new_var) + 0x2314));
+    s32 counter_index = qst_args[0];
+    u8 dest_reg = (u8)qst_args[1];
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    if (record != NULL) {
+        if (counter_index >= 0 && counter_index < 0x10) {
+            qst_registers[dest_reg] = record->quest_counters[counter_index];
+        }
+    } else {
+        qst_registers[dest_reg] = -1;
     }
-  }
-  else
-  {
-    qst_registers[dest_reg] = -1;
-  }
 }
 
 void qst_op_get_coord_player_detect(u8 i, u8 out) {
@@ -1324,7 +1305,7 @@ void qst_op_get_total_deaths() {
     dest_reg = (u8) qst_args[1];
     TObjPlayer *player = get_player_by_client_id(qst_args[0]);
     if (player != NULL) {
-        qst_registers[dest_reg] = player->get_card_window_field_244();
+        qst_registers[dest_reg] = player->get_total_deaths();
     }
 }
 
@@ -1569,9 +1550,9 @@ void qst_op_compute_bezier_curve_point() {
     Vec v;
     ComputeBezierCurvePointGlobals *g = (ComputeBezierCurvePointGlobals *)qst_args;
     s32 count = g->count;
-    f32 f4 = g->f4;
-    f32 f8 = g->f8;
-    s32 fC = g->fC;
+    f32 scale = g->scale;
+    f32 step = g->step;
+    s32 closed = g->closed;
     s32 out = g->out;
     CurvePathPoint *pts;
     s32 i;
@@ -1585,7 +1566,7 @@ void qst_op_compute_bezier_curve_point() {
     for (i = 0; i < count; i++) {
         pts[i].bswap();
     }
-    ret = compute_bezier_curve_point(pts, f4, count, f8, fC, &v, 100);
+    ret = compute_bezier_curve_point(pts, scale, count, step, closed, &v, 100);
     dst = (Vec *)&qst_registers[out];
     dst->x = v.x;
     dst->y = v.y;
@@ -1601,9 +1582,9 @@ void qst_op_get_vector_from_path() {
     Vec v;
     GetVectorFromPathGlobals *g = (GetVectorFromPathGlobals *)qst_args;
     s32 count = g->count;
-    f32 f4 = g->f4;
-    f32 f8 = g->f8;
-    s32 fC = g->fC;
+    f32 scale = g->scale;
+    f32 step = g->step;
+    s32 closed = g->closed;
     s32 out = g->out;
     CurvePathPoint *pts;
     s32 i;
@@ -1617,7 +1598,7 @@ void qst_op_get_vector_from_path() {
     for (i = 0; i < count; i++) {
         pts[i].bswap();
     }
-    ret = get_vector_from_path(pts, f4, count, f8, fC, &v);
+    ret = get_vector_from_path(pts, scale, count, step, closed, &v);
     dst = (Vec *)&qst_registers[out];
     dst->x = v.x;
     dst->y = v.y;
@@ -4220,15 +4201,11 @@ void qst_op_p_dead(void) {
                 qst_registers[dest_reg] = 1;
                 return;
             }
-            goto block_7;
-        }
-        if (player->check_player_state_flag_2() != 0) {
+        } else if (player->check_player_state_flag_2() != 0) {
             qst_registers[dest_reg] = 1;
             return;
         }
-        goto block_7;
     }
-block_7:
     qst_registers[dest_reg] = 0;
 }
 

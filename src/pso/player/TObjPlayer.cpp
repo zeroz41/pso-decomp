@@ -176,11 +176,11 @@ void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
 
 int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }
 void PlayerSyncRecord::set_class_flag_2(u8 v) { inventory.items[15].m_present[3] = v; }
-u8 TObjPlayer::get_battle_mode() { return class_flag_2; }
+u8 TObjPlayer::get_battle_mode() { return battle_mode; }
 void PlayerSyncRecord::set_class_flag_1(u8 v) { inventory.items[14].m_present[3] = v; }
 u8 TObjPlayer::get_byte_339() { return this->class_flag_1; }
 void PlayerSyncRecord::set_class_flag_0(u8 v) { inventory.items[13].m_present[3] = v; }
-u8 TObjPlayer::get_mag_level() { return class_flag_0; }
+u8 TObjPlayer::get_mag_level() { return mag_level; }
 void PlayerSyncRecord::set_luck_materials_used(u8 v) { inventory.items[12].m_present[3] = v; }
 u8 TObjPlayer::get_luck_materials_used() { return materials.get_luck_used(); }
 void PlayerSyncRecord::set_def_materials_used(u8 v) { inventory.items[11].m_present[3] = v; }
@@ -313,7 +313,7 @@ s32 TObjPlayer::get_entrance_id() { return entrance_id; }
 #pragma dont_inline off
 
 extern "C" {
-void TObjPlayer__sub_801BEEE0(void* p, void* q);
+void copy_death_flags(void *dst, void *src);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 }
 void emit_grass_footstep_effect(PlayerFollowParticles *particles);
@@ -647,7 +647,7 @@ PlayerTelepipe &PlayerTelepipe::operator=(PlayerTelepipe &src) {
     return *this;
 }
 
-void TObjPlayer__sub_801BEEE0(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
+void copy_death_flags(void *dst, void *src) { ((u32 *)dst)[0] = ((u32 *)src)[0]; }
 
 MovementHold &MovementHold::operator=(MovementHold &src) {
     frames = src.frames;
@@ -669,9 +669,9 @@ void StatusEffectChange::bswap() {
     bswap_32((u32 *)&power);
 }
 
-void TObjPlayer::sub_801BEE2C(s16 v) { this->hp_bonus = v; }
+void TObjPlayer::set_hp_bonus(s16 v) { this->hp_bonus = v; }
 
-void TObjPlayer::sub_801BEE24(s16 v) { this->tp_bonus = v; }
+void TObjPlayer::set_tp_bonus(s16 v) { this->tp_bonus = v; }
 
 void TObjPlayer::set_meseta(s32 meseta) {
     this->stat_block->meseta = meseta;
@@ -1411,9 +1411,9 @@ G_InterLevelWarp_6x21 &G_InterLevelWarp_6x21::operator=(const G_InterLevelWarp_6
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct C_801C1BA8 { u32 w[5]; };
+struct ItemDataWords { u32 w[5]; };
 
-struct S_801C1BA8 { u8 a; u8 b; u8 c; u8 d; s32 e; C_801C1BA8 f; };
+struct InventoryEntryLayout { u8 a; u8 b; u8 c; u8 d; s32 e; ItemDataWords f; };
 
 
 void G_InterLevelWarp_6x21::init() {
@@ -1501,8 +1501,8 @@ u16 LockOnNearestTarget::get_published_target_id() { return published_target_id;
 s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 
 TPlyInventoryItem *fn_801C1BA8(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
-    S_801C1BA8 *dst = (S_801C1BA8 *)destination;
-    const S_801C1BA8 *src = (const S_801C1BA8 *)source;
+    InventoryEntryLayout *dst = (InventoryEntryLayout *)destination;
+    const InventoryEntryLayout *src = (const InventoryEntryLayout *)source;
     dst->a = src->a;
     dst->b = src->b;
     dst->c = src->c;

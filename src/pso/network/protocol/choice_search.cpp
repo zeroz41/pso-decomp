@@ -4,6 +4,7 @@
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/system/ChoiceSearchSelection.h"
 #include "pso/system/memory.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -14,20 +15,10 @@
 #pragma dont_inline off
 struct ByteBlock_28 { u8 bytes[0x28]; };
 
-struct S_80077814 { u32 key; s32 val; };
-
-struct S_80077980 { s32 key; s32 val; };
-
-struct Ent_800777C4 { u16 a; u16 b; u8 pad[0x1C]; };
-
-struct Tbl_800777C4 { u8 f0; u8 count; u8 pad[2]; Ent_800777C4 e[1]; };
-
-struct Out_800778B4 { s32 a; s32 b; };
-
 TRecvChoiceSearchOptions *choice_search_options;
 ChoiceSearchResultList *choice_search_results;
 extern "C" {
-void TWindowSubComCard__sub_80077980(S_80077980 *arr);
+void clear_choice_search_selections(ChoiceSearchSelection *arr);
 
 int fn_80077788(void) { return 0; }
 int fn_80077790(void) { return 0; }
@@ -47,27 +38,27 @@ void copy_choice_search_selections(ChoiceSearchSelection *selections, TPlyChoice
 
 extern "C" {
 
-u32 find_table_entry_id(Tbl_800777C4 *t, u16 a, u32 b) {
+u32 find_table_entry_id(TRecvChoiceSearchOptions *t, u16 a, u32 b) {
     s32 i;
-    Ent_800777C4 *e;
+    ChoiceSearchOption *e;
     if (b == 0) {
         return 0;
     }
-    e = t->e;
-    for (i = 0; i < t->count; i++) {
-        if (e->a == a && e->b == b) {
-            return e->b;
+    e = t->entries;
+    for (i = 0; i < t->header.flags; i++) {
+        if (e->choice.parent_choice_id == a && e->choice.choice_id == b) {
+            return e->choice.choice_id;
         }
         e++;
     }
     return 0;
 }
 
-void set_value_by_key(S_80077814 *arr, u16 key, s32 val) {
+void set_value_by_key(ChoiceSearchSelection *arr, u16 key, s32 val) {
     s32 i;
     for (i = 0; i < 5; i++) {
-        if (arr->key == key) {
-            arr->val = val;
+        if (arr->parent_choice_id == key) {
+            arr->choice_id = val;
             return;
         }
         arr++;
@@ -102,25 +93,25 @@ TRecvChoiceSearchOptions *TWindowSubComCard::get_choice_search_options() {
     return choice_search_options;
 }
 
-void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select) {
+void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSearchOptions *chr_select) {
     s32 i;
     s32 n;
     u16 id;
     u32 k;
-    Out_800778B4 *dst;
-    Ent_800777C4 *e;
+    ChoiceSearchSelection *dst;
+    ChoiceSearchOption *e;
     ChoiceSearchSelection tmp[5];
     copy_struct28__17TWindowSubComCardFii((saddr) tmp, (saddr) arr);
-    TWindowSubComCard__sub_80077980((S_80077980 *) arr);
-    n = chr_select->count;
+    clear_choice_search_selections((ChoiceSearchSelection *) arr);
+    n = chr_select->header.flags;
     dst = arr;
-    e = chr_select->e;
+    e = chr_select->entries;
     i = 0;
     while (i < n) {
-        if (e->a == 0) {
-            id = dst->a = e->b;
+        if (e->choice.parent_choice_id == 0) {
+            id = dst->parent_choice_id = e->choice.choice_id;
             k = find_choice_search_value(tmp, id);
-            dst->b = (u16) find_table_entry_id(chr_select, id, k);
+            dst->choice_id = (u16) find_table_entry_id(chr_select, id, k);
             dst++;
         }
         i++;
@@ -132,11 +123,11 @@ u8 * copy_struct28__17TWindowSubComCardFii(saddr dest, saddr src) {
     *(ByteBlock_28 *)(dest) = *(const ByteBlock_28 *)(src);
     return (u8 *)dest;
 }
-void TWindowSubComCard__sub_80077980(S_80077980 *arr) {
+void clear_choice_search_selections(ChoiceSearchSelection *arr) {
     s32 i;
     for (i = 0; i < 5; i++) {
-        arr->key = 0;
-        arr->val = 0;
+        arr->parent_choice_id = 0;
+        arr->choice_id = 0;
         arr++;
     }
 }

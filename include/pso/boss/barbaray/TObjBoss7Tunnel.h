@@ -37,18 +37,18 @@ public:
     f32 get_scroll_speed();
     f32 get_segment_x();
     // The tunnel's state flags (boss2_tunnel_state_flags): 0x1000 and 0x2000 pick the sway
-    // direction (update_phase_motion swings to -x on 0x1000), 0x8 is set by the kind-4 segment.
+    // direction (update_phase_motion swings to -x on 0x1000), 0x8 is set by the kind-4 segment (the end of the tunnel).
     s32 check_both();
     s32 is_phase_active();
     static s32 is_swaying_positive_x();
-    static void set_flag_0x8();
+    static void notify_end_segment_spawned();
     // Set 0x1000 (sway to -x) or 0x2000 (sway to +x) and clear the other (TBoss7DeRolLeC picks
-    // by the side its position slot is on); clear_flags_0x3000 ends the sway.
+    // by the side its position slot is on); stop_sway ends the sway.
     static void start_sway_negative_x();
     static void start_sway_positive_x();
     // Sets 0x200, which moves init_effect on to phase 1, and clears the sway.
-    static void set_flag_0x200();
-    static void clear_flags_0x3000();
+    static void request_phase_1();
+    static void stop_sway();
     // Bit 0x8000: set when the tunnel reaches its end (phase 2, scroll_speed 0).
     static s32 has_stopped();
     // Twins of TObjBoss2Tunnel's detach_children/release_children/create_parent_object (TObjBoss7Tunnel_802F190C.cpp).

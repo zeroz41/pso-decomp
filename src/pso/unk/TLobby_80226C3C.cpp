@@ -5,6 +5,8 @@
 #include "pso/audio/AdxTalk.h"
 #include "pso/audio/AdxtEntryAfs.h"
 #include "types.h"
+#include <dolphin/ar.h>
+#include <dolphin/ai.h>
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLoadCtrl.h"
@@ -24,9 +26,7 @@
 #include "dolphin/ai.h"
 #include "pso/unk/TLobby_801E2F94.h"
 
-struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next; };
 
-struct TLoadCtrlProgram { char archive[32]; s32 count, ntsc, pal; UpdateMusicSequencerPassage *modes[2]; };
 
 s32 lbl_805D3710 = -140;
 s32 area_music_fade_frame_count = 60;
@@ -77,26 +77,26 @@ void TLobby::set_and_notify_default() { TLobby::set_and_notify(0); }
 void TLobby::send_neg30() { TLobby::set_and_notify(-30); }
 
 void set_cue_stream_gain(s32 gain) {
-    s32 volume;
-    volume = gain;
-    if (volume <= -0x140) {
-        volume = -0x3E7;
+    s32 value;
+    value = gain;
+    if (value <= -0x140) {
+        value = -0x3E7;
     }
     if (adxt_players[2] != NULL) {
-        set_field_40_and_notify(adxt_players[2], volume);
+        set_field_40_and_notify(adxt_players[2], value);
     }
 }
 
 void set_music_streams_volume(s32 total) {
-    s32 volume;
-    volume = total;
-    if (volume <= -0x140) {
-        volume = -0x3E7;
+    s32 value;
+    value = total;
+    if (value <= -0x140) {
+        value = -0x3E7;
     }
     if ((s32) bgm_stream_active == 0) {
-        set_field_40_and_notify(adxt_players[0], volume);
+        set_field_40_and_notify(adxt_players[0], value);
     }
-    set_field_40_and_notify(adxt_players[1], volume);
+    set_field_40_and_notify(adxt_players[1], value);
 }
 void TLobby::release_bgm_resource() {
     if ((s32) bgm_stream_active != 0) {
@@ -240,9 +240,9 @@ void update_music_sequencer(void) {
     lbl_80514CF0[music_fade_slot_index] = TLobby__sub_803C97B8(adxt_players[music_fade_slot_index]);
 }
 
-void set_dark_falz_music_request(s32 track) {
+void set_dark_falz_music_request(s32 request) {
     if ((s32) music_program_index == 4) {
-        music_target_id = track;
+        music_target_id = request;
     }
 }
 
@@ -302,7 +302,7 @@ s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 
 // The four .acx streams start_bgm_stream starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
-extern const SndHooks snd_hooks = { sound_malloc_hook, TLobby::free };
+extern const SndHooks snd_hooks = { musyx_malloc_hook, TLobby::free };
 const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
 
 // Area music: each program names its .afs archive and two passage lists (modes[0]/[1]).
@@ -561,7 +561,7 @@ void update_music_fade(void) {
 }
 
 void TLobby::set_pre_retrace_callback() {
-    VISetPreRetraceCallback(TLobby__sub_80227A6C);
+    VISetPreRetraceCallback(pre_retrace_callback);
 }
 void TLobby::shutdown_buffers() {
     s32 i;
@@ -595,8 +595,8 @@ void init_adx_audio_system(void) {
     ARInit(lbl_804CB838, 6);
     ARQInit();
     AIInit(NULL);
-    VISetPostRetraceCallback(sound_post_retrace_callback);
-    VISetPreRetraceCallback(TLobby__sub_80227A6C);
+    VISetPostRetraceCallback(post_retrace_callback);
+    VISetPreRetraceCallback(pre_retrace_callback);
     TLobby__sub_803C94B8(TLobby__sub_80227A90, 0);
     ARAlloc(0xC00000);
     sndSetHooks(&hooks);
@@ -629,14 +629,14 @@ void init_adx_audio_system(void) {
 #pragma pool_data reset
 
 
-// TLobby::free and sound_malloc_hook are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
+// TLobby::free and musyx_malloc_hook are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
 void TLobby::free(void *p) { xfree(p); }
 
-void *sound_malloc_hook(u32 size) { return xmalloc(size); }
+void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
 extern "C" {
-void TLobby__sub_80227A6C(void) {  }
+void pre_retrace_callback(void) {  }
 }
-int sound_post_retrace_callback(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
+int post_retrace_callback(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
 extern "C" {
 void TLobby__sub_80227A90(s32, const char *) {  }
 }

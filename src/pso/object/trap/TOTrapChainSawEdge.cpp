@@ -97,7 +97,7 @@ CollisionBody chain_saw_collision_body_part_table[2][2] = {
       { { -20.0f, 0.0f, 0.0f }, 2.0f, 18.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
 };
 
-BmlResource *chain_saw_resource;
+BmlResource *jungle_nokogiri_resource;
 
 #include "pso/render/NinjaUtil.h"
 
@@ -110,9 +110,9 @@ void TOTrapChainSaw::select_model() {  }
 
 void TOTrapChainSaw::draw_model() {  }
 
-void TOTrapChainSawEdge::queue_runs(s32 count) { queued_runs += count; }
+void TOTrapChainSawEdge::queue_runs(s32 count) { pending_starts += count; }
 
-void TOTrapChainSawEdge::set_target_offset(s32 offset) { target_offset = offset; }
+void TOTrapChainSawEdge::set_target_offset(s32 offset) { extent = offset; }
 
 void TOTrapChainSaw::reach_home() {  }
 
@@ -131,7 +131,7 @@ void TOTrapChainSaw::load_shared_resource() {
     s32 i;
     NJS_OBJECT *root;
     p = new BmlResource(5, &bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, NULL);
-    chain_saw_resource = p;
+    jungle_nokogiri_resource = p;
     for (i = 0; i < 5; i++) {
         chain_saw_sekigai2m_light_nodes[i] = NULL;
     }
@@ -146,7 +146,7 @@ void TOTrapChainSaw::load_shared_resource() {
             chain_saw_sekigai2m_light_nodes[3] = find_object_node(root, 5);
             chain_saw_sekigai2m_light_nodes[4] = find_object_node(root, 6);
         }
-        root = get_bml_model(chain_saw_resource, 4);
+        root = get_bml_model(jungle_nokogiri_resource, 4);
         if (root != NULL) {
             chain_saw_sekigai4m_light_nodes[1] = find_object_node(root, 3);
             chain_saw_sekigai4m_light_nodes[2] = find_object_node(root, 4);
@@ -158,9 +158,9 @@ void TOTrapChainSaw::load_shared_resource() {
 
 void TOTrapChainSaw::unload_static_data() {
     s32 i;
-    if (chain_saw_resource != NULL) {
-        delete chain_saw_resource;
-        chain_saw_resource = NULL;
+    if (jungle_nokogiri_resource != NULL) {
+        delete jungle_nokogiri_resource;
+        jungle_nokogiri_resource = NULL;
     }
     for (i = 0; i < 5; i++) {
         chain_saw_sekigai2m_light_nodes[i] = NULL;
@@ -171,22 +171,22 @@ void TOTrapChainSaw::unload_static_data() {
 }
 
 NJS_OBJECT *TOTrapChainSaw::get_model(s32 index) {
-    if (chain_saw_resource != NULL) {
-        return get_bml_model(chain_saw_resource, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return get_bml_model(jungle_nokogiri_resource, index);
     }
     return NULL;
 }
 
 AnimationMotion *TOTrapChainSaw::get_motion(s32 index) {
-    if (chain_saw_resource != NULL) {
-        return get_bml_motion(chain_saw_resource, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return get_bml_motion(jungle_nokogiri_resource, index);
     }
     return NULL;
 }
 
 NJS_TEXLIST *TOTrapChainSaw::get_texlist(s32 index) {
-    if (chain_saw_resource != NULL) {
-        return get_bml_texlist(chain_saw_resource, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return get_bml_texlist(jungle_nokogiri_resource, index);
     }
     return NULL;
 }
@@ -207,22 +207,22 @@ TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TObjMapObject(
 TOTrapChainSaw::~TOTrapChainSaw() {}
 
 void TOTrapChainSaw::decode_params() {
-    s32 clamped_id;
-    s32 id;
-    u32 clamped_kind;
-    u32 kind;
+    s32 clamped_switch_id;
+    s32 raw_switch_id;
+    u32 clamped_behavior;
+    u32 raw_behavior;
 
     switch_id = (u16)set_params[0];
-    id = switch_id;
-    if (id < 0) {
-        clamped_id = 0;
+    raw_switch_id = switch_id;
+    if (raw_switch_id < 0) {
+        clamped_switch_id = 0;
     } else {
-        clamped_id = 0xFF;
-        if (id <= 0xFF) {
-            clamped_id = id;
+        clamped_switch_id = 0xFF;
+        if (raw_switch_id <= 0xFF) {
+            clamped_switch_id = raw_switch_id;
         }
     }
-    switch_id = clamped_id;
+    switch_id = clamped_switch_id;
     if (is_current_floor_switch_set((u16)switch_id) == 1) {
         switch_on = 1;
     } else {
@@ -231,16 +231,16 @@ void TOTrapChainSaw::decode_params() {
     max_offset = (u32)set_params[1] >> 16;
     step = (u16)set_params[1];
     behavior = (u32)set_params[2] >> 16;
-    kind = behavior;
-    if ((s32)kind < 0) {
-        clamped_kind = 0;
+    raw_behavior = behavior;
+    if ((s32)raw_behavior < 0) {
+        clamped_behavior = 0;
     } else {
-        clamped_kind = 1;
-        if ((s32)kind <= 1) {
-            clamped_kind = kind;
+        clamped_behavior = 1;
+        if ((s32)raw_behavior <= 1) {
+            clamped_behavior = raw_behavior;
         }
     }
-    behavior = clamped_kind;
+    behavior = clamped_behavior;
 }
 
 void TOTrapChainSaw::run_task() {
@@ -378,13 +378,13 @@ void TOTrapChainSaw::render() {
 void TOTrapChainSaw::draw_debug_labels() {  }
 
 void TOTrapChainSaw::update_demo() {
-    s32 yaw;
+    s32 base_yaw;
 
     if (TObjPlayer::check_demo_mode() == 1) {
-        yaw = rotation_y;
-        rotation_y = yaw + yaw_offset;
+        base_yaw = rotation_y;
+        rotation_y = base_yaw + yaw_offset;
         sub_80154D78();
-        rotation_y = yaw;
+        rotation_y = base_yaw;
     }
 }
 
@@ -495,16 +495,16 @@ void TOTrapChainSawDamage::draw_debug_labels() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-void TOTrapChainSawDamage::start_run() { run_frames = 0; }
+void TOTrapChainSawDamage::start_run() { tick = 0; }
 #pragma push
 #pragma fp_contract on
 void TOTrapChainSawDamage::update_run() {
     TOTrapChainSawEdge *edge;
-    run_frames = run_frames + 1;
-    if (run_frames == 5 && (edge = edges[0]) != NULL) {
+    tick = tick + 1;
+    if (tick == 5 && (edge = edges[0]) != NULL) {
         edge->queue_runs(1);
     }
-    if (run_frames == 10 && (edge = edges[1]) != NULL) {
+    if (tick == 10 && (edge = edges[1]) != NULL) {
         edge->queue_runs(1);
     }
     play_persistent_sound(get_area_sound(0), this, &position, 0, 0);
@@ -616,16 +616,16 @@ void TOTrapChainSawKey::check_player_contact() {
 
 void TOTrapChainSawKey::update_run() {  }
 
-void TOTrapChainSawKey::draw_node_callback(NJS_OBJECT *node) {
+void TOTrapChainSawKey::draw_node_callback(NJS_OBJECT *object) {
     s32 i;
     for (i = 0; i < 5; i++) {
-        if (node == chain_saw_sekigai2m_light_nodes[i]) {
+        if (object == chain_saw_sekigai2m_light_nodes[i]) {
             TParticleCtrl::begin_effect_render();
             return;
         }
     }
     for (i = 0; i < 5; i++) {
-        if (node == chain_saw_sekigai4m_light_nodes[i]) {
+        if (object == chain_saw_sekigai4m_light_nodes[i]) {
             TParticleCtrl::begin_effect_render();
             return;
         }
@@ -640,23 +640,23 @@ TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, void *set_data) : TOTrap
     m_name = TOTrapChainSawEdge_class_name;
     decode_params();
     select_model();
-    queued_runs = 0;
-    running = 0;
+    pending_starts = 0;
+    phase = 0;
 }
 
 TOTrapChainSawEdge::~TOTrapChainSawEdge() {}
 
 void TOTrapChainSawEdge::update_extension() {
-    s32 queued;
+    s32 pending;
     s32 limit;
 
-    switch (running) {
+    switch (phase) {
     case 0:
-        queued = queued_runs;
-        if (queued > 0) {
-            queued_runs = queued - 1;
-            target_offset = max_offset;
-            running = 1;
+        pending = pending_starts;
+        if (pending > 0) {
+            pending_starts = pending - 1;
+            extent = max_offset;
+            phase = 1;
         }
         break;
     case 1:
@@ -664,7 +664,7 @@ void TOTrapChainSawEdge::update_extension() {
         if (yaw_offset < 0) {
             yaw_offset = 0;
             step *= -1.0f;
-            running = 0;
+            phase = 0;
         }
         if (yaw_offset > (limit = max_offset)) {
             yaw_offset = limit;
@@ -675,15 +675,15 @@ void TOTrapChainSawEdge::update_extension() {
 }
 
 void TOTrapChainSawEdge::update_sweep() {
-    s32 queued;
+    s32 pending;
 
-    switch (running) {
+    switch (phase) {
     case 0:
-        queued = queued_runs;
-        if (queued > 0) {
-            queued_runs = queued - 1;
-            target_offset = max_offset;
-            running = 1;
+        pending = pending_starts;
+        if (pending > 0) {
+            pending_starts = pending - 1;
+            extent = max_offset;
+            phase = 1;
         }
         return;
     case 1:

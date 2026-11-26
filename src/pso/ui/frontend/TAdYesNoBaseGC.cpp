@@ -34,7 +34,7 @@ s32 TAdYesNoBaseGC::create_menu_window() {
     TWindowMenu *menu = init_shop_judgment_window(&pos);
     menu->update_layout_height(470.0f);
     align_menu_entry_positions(menu);
-    menu->set_selected_index((s16)owner->default_choice);
+    menu->set_selected_index((s16)owner->default_selection);
     return (saddr)menu;
 }
 
@@ -124,7 +124,7 @@ TAdYesNoBaseGC::TAdYesNoBaseGC(TObject *parent) : TObject(parent) {
     message_size.y = 220.0f;
     state = 0;
     exit_state = 0;
-    default_choice = 1;
+    default_selection = 1;
     message_window = 0;
     menu_window = 0;
     o = new TAdBackGC(this);

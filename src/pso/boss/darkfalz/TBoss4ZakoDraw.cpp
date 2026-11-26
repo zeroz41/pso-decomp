@@ -28,10 +28,10 @@
 #include "pso/render/Draw2D.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/GinjaDrawUtil.h"
 
 extern "C" {
-f32 xyz_distance(void *, void *);
-void TObjPlayer__sub_8030A9B0();
+void draw_boss4_zako_entries();
 }
 
 NJS_TEXLIST *falz_zako_texture_list;
@@ -69,7 +69,7 @@ TBoss4ZakoDraw::TBoss4ZakoDraw(TObject *parent) : TObject(parent) {
 extern "C" {
 #pragma push
 #pragma fp_contract on
-void TObjPlayer__sub_8030A9B0() {
+void draw_boss4_zako_entries() {
     Vec pos;
     Boss4ZakoDrawBuffer *tbl;
     Boss4ZakoDrawEntry *e;
@@ -159,7 +159,7 @@ void TBoss4ZakoDraw::draw_queued() {
         NJS_OBJECT *model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
         model->child->ang[1] = TBoss4ZakoDraw::rotation_phase << 12;
         TObjPlayer::draw_area_chunk_objects();
-        TObjPlayer__sub_8030A9B0();
+        draw_boss4_zako_entries();
     }
 }
 

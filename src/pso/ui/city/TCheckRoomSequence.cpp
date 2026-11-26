@@ -125,7 +125,7 @@ s32 get_bank_meseta_capacity(s32 i);
 s32 bank_credit_meseta(s32 v, s32 i);
 s32 bank_debit_meseta(s32 v, s32 i);
 void copy_bank_from_card_window(s32 slot);
-void TCheckRoomSequence::sub_8020F1DC() {  }
+void TCheckRoomSequence::noop_state_17() {  }
 
 
 void TCheckRoomSequence::handle_error_ack() {
@@ -450,8 +450,8 @@ void TCheckRoomSequence::handle_root_choice() {
     }
 }
 
-void TCheckRoomSequence::sub_802100F8() {  }
-void TCheckRoomSequence::sub_802100FC() {  }
+void TCheckRoomSequence::noop_state_15() {  }
+void TCheckRoomSequence::noop_state_14() {  }
 
 void TCheckRoomSequence::close_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0)) && (poll_memcard_result(((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) == 0)) {
@@ -498,10 +498,10 @@ void TCheckRoomSequence::update_state() {
         (StateHandler)&TCheckRoomSequence::close_window,
         (StateHandler)&TCheckRoomSequence::accept_meseta_withdrawal,
         (StateHandler)&TCheckRoomSequence::close_window,
-        (StateHandler)&TCheckRoomSequence::sub_802100FC,
-        (StateHandler)&TCheckRoomSequence::sub_802100F8,
+        (StateHandler)&TCheckRoomSequence::noop_state_14,
+        (StateHandler)&TCheckRoomSequence::noop_state_15,
         (StateHandler)&TCheckRoomSequence::handle_error_ack,
-        (StateHandler)&TCheckRoomSequence::sub_8020F1DC,
+        (StateHandler)&TCheckRoomSequence::noop_state_17,
         (StateHandler)&TCheckRoomSequence::set_quest_list_mode_19,
         (StateHandler)&TCheckRoomSequence::open_delete_item_window,
     };
@@ -884,11 +884,11 @@ void TCheckRoomSequence::alloc_item_buffers() {
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             bank_item_records_by_slot[i] = (BankItemRecord *)__construct_new_array(mem_alloc(200 * sizeof(BankItemRecord) + 0x10),
-                (void *)__ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
+                __ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
         }
     } else {
         bank_item_records_by_slot[0] = (BankItemRecord *)__construct_new_array(mem_alloc(200 * sizeof(BankItemRecord) + 0x10),
-            (void *)__ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
+            __ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
     }
 }
 

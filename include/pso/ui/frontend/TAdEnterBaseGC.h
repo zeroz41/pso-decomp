@@ -21,7 +21,7 @@ struct TAdEnterBaseGC : public TObject {
     TWindowCallBack *create_default_callback();
     virtual void render();
     virtual void run_task();
-    s32 m_1c;
+    s32 prev_state;
     int pending_dispatch_state;  // copied to password_entry_dispatch_state once the close delay ends
     u32 close_delay_ticks;
     int m_28;

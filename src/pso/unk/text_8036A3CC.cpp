@@ -5,12 +5,7 @@
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct GetFlagWordMaskInst { u8 pad0[0x1155C]; u32 flags[2]; };
 
-struct FlagLink_8036A514 {
-    s32 flag;
-    s32 linked;
-};
 
 
 // Song titles shown in the options jukebox, one per music flag.

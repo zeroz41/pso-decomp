@@ -7,6 +7,6 @@ void destroy_current_floor_objects(void);
 extern "C" {
 void TLobby__sub_8020BCE4(void);
 }
-void send_6x76_set_entity_set_flags(void *base, s16 flags);
+void send_6x76_set_entity_set_flags(void *object, s16 flags);
 
 #endif

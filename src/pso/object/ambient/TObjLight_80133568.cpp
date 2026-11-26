@@ -408,7 +408,7 @@ TSceneDirectionalLight::TSceneDirectionalLight(TObject *parent) : TSceneLight(pa
     sub_8013397C();
     submit_scene_light_direction();
     set_scene_light_diffuse();
-    current_directional_light = this;
+    directional_light_instance = this;
 }
 
 void TSceneDirectionalLight::sub_8013397C() {}
@@ -458,7 +458,7 @@ void TObjLight::sub_8013379C(TObjLightSceneLightState *state) {}
 
 TSceneAmbientLight::TSceneAmbientLight(TObject *parent) : TSceneLight(parent) {
     s32 i;
-    current_ambient_light = this;
+    ambient_light_instance = this;
     active_light_count = 1;
     submit_scene_ambient_color();
     sub_80133714();
@@ -546,10 +546,10 @@ LightEntry default_scene_light_config = {
     { 0.0f, 1.0f, 1.0f, 1.0f },
 };
 
-TSceneDirectionalLight *current_directional_light;
+TSceneDirectionalLight *directional_light_instance;
 void *lbl_805D555C;
 TObjLight *current_scene_light;
-TSceneAmbientLight *current_ambient_light;
+TSceneAmbientLight *ambient_light_instance;
 s32 active_light_count;
 s32 actor_light_count;
 s32 light_count;

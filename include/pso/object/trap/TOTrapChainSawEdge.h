@@ -14,10 +14,10 @@ struct TOTrapChainSawEdge : public TOTrapChainSaw {
     virtual void draw_model();
     virtual void select_model();
     virtual void check_player_contact();
-    s32 target_offset;  // the parent's yaw_offset when it turned at its far end
+    s32 extent;         // the extent of the current move (max_offset when a start is taken)
     s32 variant;        // scale.z clamped to 0-1: the 2 m or 4 m saw
-    s32 queued_runs;
-    s32 running;
+    s32 pending_starts; // starts queued by the damage saw (TOTrapChainSawDamage tick 5 / 10)
+    s32 phase;          // 0 waiting for a start, 1 moving
     void set_target_offset(s32 offset);
     void queue_runs(s32 count);
 };

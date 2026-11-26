@@ -140,9 +140,9 @@ public:
     static void begin_reflection_pass();
     static void end_reflection_pass();
     static void set_visibility_radius_margin(f32 margin);
-    void offset_position(s32 arg1, s32 arg2);
-    void apply_uv_offset(s16 arg1, s16 arg2);
-    void *destroy_buffers(s16 arg1);
+    void offset_position(s32 dx, s32 dy);
+    void apply_uv_offset(s16 u_offset, s16 v_offset);
+    void *destroy_buffers(s16 delete_flag);
     void *init_buffers(saddr arg1, s32 arg2);
 };
 

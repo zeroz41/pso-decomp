@@ -73,8 +73,8 @@ TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
     parent_menu->hide_for_subwindow();
     parent_menu->set_log_active();
     log_window = (saddr)create_message_log_window(&message_log_window_position, (saddr)message_log_window_extent, (saddr)this->client);
-    chat = new TWindowChat((TObject *)this, (void *)&submission);
-    fn_8027B2A8((void*)chat);
+    chat = new TWindowChat((TObject *)this, &submission);
+    fn_8027B2A8(chat);
 }
 
 void TWindowMainMenu::clear_log_active() { menu_flags &= ~8; }

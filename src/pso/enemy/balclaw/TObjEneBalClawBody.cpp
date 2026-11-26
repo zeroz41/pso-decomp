@@ -82,7 +82,7 @@ s32 TObjEneBalClawBody::get_int_parameter(s32 i) {
     return balclaw_body_behavior_params[variant]->int_params[i];
 }
 
-int TObjEneBalClawBody::get_flag_0x388_b24() { return (behavior_flags >> 24) & 0x1; }
+int TObjEneBalClawBody::is_form_1() { return (behavior_flags >> 24) & 0x1; }
 
 void TObjEneBalClaw::set_attack_distance_flag() { this->behavior_flags |= 0x10000; }
 
@@ -147,7 +147,7 @@ TObjEneBalClawBody::~TObjEneBalClawBody() {
     if (effects[3] != NULL) {
         effects[3]->queue_destruction();
     }
-    if (get_flag_0x388_b24() != 0) {
+    if (is_form_1() != 0) {
         for (i = 0; i < child_count; i++) {
             child = find_entity_by_id(child_ids[i]);
             if (child != NULL) {
@@ -169,7 +169,7 @@ void TObjEneBalClawBody::run_task() {
         run_demo_task();
         return;
     }
-    if ((behavior_flags & 0x02000000) && get_flag_0x388_b24() == 0) {
+    if ((behavior_flags & 0x02000000) && is_form_1() == 0) {
         update_if_active(2);
     } else {
         update_attack_distance_state();
@@ -236,7 +236,7 @@ void TObjEneBalClawBody::update_attack_distance_state() {
     if (mode != 0 && mode != 8) {
         form_timer++;
     }
-    if (get_flag_0x388_b24() != 0) {
+    if (is_form_1() != 0) {
         switch (mode) {
         case 0:
         case 1:
@@ -384,7 +384,7 @@ void TObjEneBalClawBody::update_damage() {
         break;
     case 0:
         this->actorFlags &= ~0x200000;
-        this->requested_action = this->get_flag_0x388_b24() != 0 ? 3 : 8;
+        this->requested_action = this->is_form_1() != 0 ? 3 : 8;
         this->state = 1;
     case 1: {
         this->advance_animation();
@@ -406,7 +406,7 @@ void TObjEneBalClawBody::update_damage() {
             this->referenceHp = this->hp;
             this->actorFlags &= ~0x200;
             this->behavior_flags &= ~1;
-            if (this->get_flag_0x388_b24() == 0) {
+            if (this->is_form_1() == 0) {
                 percent = this->get_int_parameter(0);
                 if (percent <= 0) {
                     percent = 0xA;
@@ -433,7 +433,7 @@ void TObjEneBalClawBody::run_death_sequence() {
     case 0:
         refresh_lobby_state();
         this->behavior_flags &= ~0x20000;
-        if (this->get_flag_0x388_b24() != 0) {
+        if (this->is_form_1() != 0) {
             this->requested_action = 4;
             this->state = 1;
             for (i = 0; i < this->child_count; i++) {
@@ -485,7 +485,7 @@ void TObjEneBalClawBody::run_death_sequence() {
 void TObjEneBalClawBody::update_attack() {
     switch (this->state) {
     case 0:
-        if (this->get_flag_0x388_b24() != 0) {
+        if (this->is_form_1() != 0) {
             this->reset_enemy_state();
             return;
         }
@@ -601,7 +601,7 @@ void TObjEneBalClawBody::update_attack() {
 void TObjEneBalClawBody::update_combined_attack() {
     switch (this->state) {
     case 0:
-        if (this->get_flag_0x388_b24() == 0) {
+        if (this->is_form_1() == 0) {
             this->reset_enemy_state();
             return;
         }
@@ -874,7 +874,7 @@ void TObjEneBalClawBody::render() {
 }
 
 void TObjEneBalClawBody::run_attack_action() {
-    update_if_active(get_flag_0x388_b24() ? 9 : 2);
+    update_if_active(is_form_1() ? 9 : 2);
 }
 
 void TObjEneBalClawBody::update_combine() {
@@ -884,7 +884,7 @@ void TObjEneBalClawBody::update_combine() {
     f32 lim;
     switch (this->state) {
     case 0:
-        if (this->get_flag_0x388_b24() != 0) {
+        if (this->is_form_1() != 0) {
             this->reset_enemy_state();
             return;
         }
@@ -974,7 +974,7 @@ void TObjEneBalClawBody::update_combine() {
             this->set_form(1);
             this->advance_animation();
         }
-        if (this->get_flag_0x388_b24() == 0) {
+        if (this->is_form_1() == 0) {
             for (s32 i = 0; i < this->child_count; i++) {
                 claw = (TObjEneBalClawClaw *)find_entity_by_id(this->child_ids[i]);
                 if (claw != NULL) {
@@ -1000,7 +1000,7 @@ void TObjEneBalClawBody::update_split() {
     case -1:
         break;
     case 0:
-        if (this->get_flag_0x388_b24() == 0) {
+        if (this->is_form_1() == 0) {
             this->reset_enemy_state();
             return;
         }
@@ -1063,7 +1063,7 @@ void TObjEneBalClawBody::update_retreat() {
         break;
     case 0: {
         this->actorFlags &= ~0x100;
-        this->requested_action = this->get_flag_0x388_b24() != 0 ? 1 : 6;
+        this->requested_action = this->is_form_1() != 0 ? 1 : 6;
         Vec d = this->body_center;
         subtract_vector(&d, &((TObjChara *)this->target)->body_center);
         this->pick_open_direction((f32 *)&d, 60.0f, 30.0f);

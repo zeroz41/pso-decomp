@@ -75,7 +75,7 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
             if (self->pause_flag == 0) {
                 TLobby__sub_803CC030(rna, 1);
                 self->base_time = 0;
-                self->base_vblank = lbl_805D7540;
+                self->base_vblank = adxt_vblank_count;
             }
             self->stat = 3;
         }

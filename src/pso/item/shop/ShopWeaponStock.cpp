@@ -20,7 +20,7 @@
 #pragma dont_inline off
 
 
-WeaponRandomTables *lobby_weapon_random_tables_ptr;
+ShopWeaponRandomTables *lobby_weapon_random_tables_ptr;
 int shop_weapon_stock_level;
 
 s32 classify_level_bracket_wide(s32 shop_weapon_stock_level) {
@@ -239,8 +239,8 @@ s32 is_duplicate_shop_weapon(TItemData *item, s32 tbl) {
 #pragma optimization_level 1
 void roll_shop_weapon_second_bonus(TItemData *item) {
     ShopPool pool;
-    WeaponRandomWeight *e;
-    WeaponRandomRange *r;
+    ShopPoolEntry *e;
+    ShopRollRange *r;
     s32 idx;
     s32 i;
     s32 n;
@@ -249,7 +249,7 @@ void roll_shop_weapon_second_bonus(TItemData *item) {
     s32 hi;
     s32 lo;
     pool.clear();
-    e = lobby_weapon_random_tables_ptr->second_bonus_types;
+    e = lobby_weapon_random_tables_ptr->second_bonus_ents;
     r = lobby_weapon_random_tables_ptr->second_bonus_ranges;
     idx = classify_level_bracket_wide(shop_weapon_stock_level);
     lo = r[idx].min;
@@ -259,7 +259,7 @@ void roll_shop_weapon_second_bonus(TItemData *item) {
     while (i++ < 6) {
         n = e[idx].weight;
         while (n != 0) {
-            pool.push(e[idx].value);
+            pool.push(e[idx].id);
             n--;
         }
         idx++;
@@ -293,8 +293,8 @@ void roll_shop_weapon_second_bonus(TItemData *item) {
 #pragma optimization_level 1
 void roll_shop_weapon_first_bonus(TItemData *item) {
     ShopPool pool;
-    WeaponRandomWeight *e;
-    WeaponRandomRange *r;
+    ShopPoolEntry *e;
+    ShopRollRange *r;
     s32 idx;
     s32 i;
     s32 n;
@@ -303,7 +303,7 @@ void roll_shop_weapon_first_bonus(TItemData *item) {
     s32 lo;
     s32 hi;
     pool.clear();
-    e = lobby_weapon_random_tables_ptr->first_bonus_types;
+    e = lobby_weapon_random_tables_ptr->first_bonus_ents;
     r = lobby_weapon_random_tables_ptr->first_bonus_ranges;
     idx = get_level_bracket(shop_weapon_stock_level);
     lo = r[idx].min;
@@ -313,7 +313,7 @@ void roll_shop_weapon_first_bonus(TItemData *item) {
     while (i++ < 6) {
         n = e[idx].weight;
         while (n != 0) {
-            pool.push(e[idx].value);
+            pool.push(e[idx].id);
             n--;
         }
         idx++;
@@ -347,19 +347,19 @@ void roll_shop_weapon_first_bonus(TItemData *item) {
 #pragma optimization_level 1
 void roll_shop_weapon_special(TItemData *item) {
     ShopPool pool;
-    WeaponRandomWeight *e;
+    ShopPoolEntry *e;
     s32 idx;
     s32 i;
     s32 n;
     pool.clear();
-    e = lobby_weapon_random_tables_ptr->specials;
+    e = lobby_weapon_random_tables_ptr->special_ents;
     idx = get_special_level_bracket(shop_weapon_stock_level);
     i = 0;
     idx *= 3;
     while (i++ < 3) {
         n = e[idx].weight;
         while (n != 0) {
-            pool.push(e[idx].value);
+            pool.push(e[idx].id);
             n--;
         }
         idx++;
@@ -383,13 +383,13 @@ void roll_shop_weapon_special(TItemData *item) {
 #pragma push
 #pragma optimization_level 1
 void roll_shop_weapon_grind(TItemData *item) {
-    WeaponRandomRange *lo;
-    WeaponRandomRange *hi;
+    ShopRollRange *lo;
+    ShopRollRange *hi;
     s32 b;
     u8 v;
     u8 m;
-    lo = lobby_weapon_random_tables_ptr->grinds;
-    hi = lobby_weapon_random_tables_ptr->favored_grinds;
+    lo = lobby_weapon_random_tables_ptr->grind_ranges;
+    hi = lobby_weapon_random_tables_ptr->favored_grind_ranges;
     b = classify_level_bracket_narrow(shop_weapon_stock_level);
     if (b != -1) {
         if (section_id_favored_grind_table[shop_section_id] != -1 && item->data1.data_u8[1] == section_id_favored_grind_table[shop_section_id]) {
@@ -430,12 +430,12 @@ void generate_shop_weapon_stock(s32 tbl) {
   ShopPool pool;
   TItemData *stock;
   s32 n;
-  WeaponRandomKind *e;
+  ShopStockEntry *e;
   s32 i;
   u8 c;
   s32 id;
-  WeaponRandomTier *t;
-  WeaponRandomKind *ents;
+  ShopStockTier *t;
+  ShopStockEntry *ents;
   if ((lobby_weapon_random_tables_ptr != NULL) && (shop_weapon_stock_generated_flags[tbl] == 0))
   {
     shop_weapon_stock_generated_flags[tbl] = 1;
@@ -445,17 +445,17 @@ void generate_shop_weapon_stock(s32 tbl) {
     shop_weapon_stock_target_counts[tbl] = level_to_reward(shop_weapon_stock_level);
     pool.clear();
     id = get_level_tier(shop_weapon_stock_level);
-    t = &lobby_weapon_random_tables_ptr->tiers[id];
+    t = &lobby_weapon_random_tables_ptr->stock_tiers[id];
     i = 0;
     n = t->count;
-    ents = t->kinds;
+    ents = t->ents;
     new_var = n * shop_section_id;
     e = ents + new_var;
     while ((i++) < n)
     {
-      for (c = e->weight; c != 0; c--)
+      for (c = e->count; c != 0; c--)
       {
-        pool.push(e->kind);
+        pool.push(e->id);
       }
       e++;
     }
@@ -563,19 +563,19 @@ void load_weapon_random_tables(void) {
     s32 j;
     switch (shop_difficulty_tier) {
     case 0:
-        lobby_weapon_random_tables_ptr = (WeaponRandomTables *)create_named_object("WeaponRandomNormal.rel");
+        lobby_weapon_random_tables_ptr = (ShopWeaponRandomTables *)create_named_object("WeaponRandomNormal.rel");
         break;
     case 1:
-        lobby_weapon_random_tables_ptr = (WeaponRandomTables *)create_named_object("WeaponRandomHard.rel");
+        lobby_weapon_random_tables_ptr = (ShopWeaponRandomTables *)create_named_object("WeaponRandomHard.rel");
         break;
     case 2:
-        lobby_weapon_random_tables_ptr = (WeaponRandomTables *)create_named_object("WeaponRandomVeryHard.rel");
+        lobby_weapon_random_tables_ptr = (ShopWeaponRandomTables *)create_named_object("WeaponRandomVeryHard.rel");
         break;
     case 3:
-        lobby_weapon_random_tables_ptr = (WeaponRandomTables *)create_named_object("WeaponRandomUltimate.rel");
+        lobby_weapon_random_tables_ptr = (ShopWeaponRandomTables *)create_named_object("WeaponRandomUltimate.rel");
         break;
     default:
-        lobby_weapon_random_tables_ptr = (WeaponRandomTables *)create_named_object("WeaponRandomNormal.rel");
+        lobby_weapon_random_tables_ptr = (ShopWeaponRandomTables *)create_named_object("WeaponRandomNormal.rel");
         break;
     }
     for (j = 0; j < 4; j++) {

@@ -8,14 +8,14 @@
 #include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/unk/text_8020BFE4.h"
 
 #pragma readonly_strings on
 #pragma fp_contract on
 
 
 extern "C" {
-s32 is_room_enemy_set_cleared(s32, s32);
-const char *lbl_805D2828 = "TObjBoss5Ctrl";
+const char *TObjBoss5Ctrl::class_name = "TObjBoss5Ctrl";
 }
 
 void TObjBoss5Ctrl::play_pillar_sound() {
@@ -53,7 +53,7 @@ TObjBoss5Ctrl::~TObjBoss5Ctrl() {
 }
 
 TObjBoss5Ctrl::TObjBoss5Ctrl(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D2828;
+    m_name = TObjBoss5Ctrl::class_name;
     floor_grass = NULL;
     floor_stone = NULL;
     pillar_controller = NULL;

@@ -42,7 +42,6 @@ const char *fog_collision_name = "TObjFogCollision";
 const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
 const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
-void record_fog_collision_hit(s32 index, s32 level, s32 link);
 extern "C" {
 u8 is_current_floor_switch_set(u16);
 }
@@ -98,9 +97,7 @@ s32 TObjFogCollision::check_collision(u16 client) {
         if ((2.5e+03f + radius_sq) < distance_sq) {
             this->far_timer = 0x3C;
         }
-        goto block_5;
     }
-block_5:
     return 0;
 }
 
@@ -291,7 +288,7 @@ void TObjFogCollisionPoison::run_task() {
 
 // inferred: name pointer of TObjFogCollision_Manager (its string is the class name; the
 // manager ctor stores it in m_name like the other three X__name pointers).
-const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
+const char *TObjFogCollision_Manager::class_name = "TObjFogCollision_Manager";
 
 TObjFogCollision_Manager *fog_collision_poison_instances[12];
 
@@ -380,7 +377,7 @@ void TObjFogCollisionPoison::create() {
 
 // One manager per client: registers itself in fog_collision_poison_instances[index].
 TObjFogCollision_Manager::TObjFogCollision_Manager(TObject *parent, s32 index) : TObject(parent) {
-    m_name = TObjFogCollision_Manager__name;
+    m_name = TObjFogCollision_Manager::class_name;
     player = index;
     fog_collision_poison_instances[player] = this;
     hit_count = 0;

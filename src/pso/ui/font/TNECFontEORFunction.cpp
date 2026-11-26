@@ -437,7 +437,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
   quad.x0 = x;
   quad.y0 = y;
   set_default_alpha_blend();
-  TWindowSubStatusDisp::reset_gauge((void*)(0));
+  TWindowSubStatusDisp::reset_gauge((0));
   flags &= 1;
   while ((*s) != 0)
   {

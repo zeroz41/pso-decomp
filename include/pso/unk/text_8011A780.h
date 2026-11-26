@@ -20,4 +20,12 @@ void handle_6x62(void);
 void handle_6xA2_specializable_item_drop_request(void *lobby);
 void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int slot, f32 x, f32 z);
 
+struct BoxDrop_8011A868 {
+    u8 cmd; u8 size; u16 pad2; u8 client; u8 area; s16 source;
+    f32 x; f32 z; s16 room; s16 x12; s8 slot; u8 pad15[3];
+    f32 fixed; u32 params[3];
+};
+
+struct Source_8011AB64 { u32 a; u16 claim; u16 b; u32 c; };
+
 #endif

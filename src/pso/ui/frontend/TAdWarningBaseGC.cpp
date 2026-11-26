@@ -105,7 +105,7 @@ void TAdWarningBaseGC::init_heap() {
     lobby_count_value = 0;
 }
 
-void TAdWarningBaseGC__sub_8032D188(void) {
+void reset_aram_state(void) {
     TAdWarningBaseGC::aram_capacity = 0;
     ad_warning_aram_base = 0;
     TAdWarningBaseGC::aram_alloc_size = 0;
@@ -131,7 +131,7 @@ s32 TAdWarningBaseGC::post_aram_request(void *buf, int size) {
     return 1;
 }
 
-int TAdWarningBaseGC__sub_8032D020(void) { return (TAdWarningBaseGC::aram_alloc_size + 0x1F) & ~0x1F; }
+int get_aligned_aram_alloc_size(void) { return (TAdWarningBaseGC::aram_alloc_size + 0x1F) & ~0x1F; }
 
 int TAdWarningBaseGC::get_alloc_size() { return TAdWarningBaseGC::aram_alloc_size; }
 

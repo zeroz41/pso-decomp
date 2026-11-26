@@ -40,12 +40,9 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 
-struct Mag_8010D510;
-struct Item_8010D510;
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
-void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 }
 
 // get_item_icon_index copies the table whole.
@@ -592,7 +589,7 @@ void TItemData::decode_packed_name_chars(s8 *out) {
     i = 0;
     do
     {
-      u8 *q = &((u8 *)this)[i * 2];
+      u8 *q = &data1.data_u8[i * 2];
       u8 hi = q[6] & 0xFFFFFFFFFFFFFFFFu;
       u8 lo = q[7];
       h = lo | ((hi << 8) & 0x7F00);
@@ -616,7 +613,7 @@ void TItemData::pack_three_colors(u8 *in) {
       s8 b = char_to_letter_index((s8) in[(i * 3) + 1]);
       s8 c = char_to_letter_index((s8) in[(i * 3) + 2]);
       u32 v = c | (((a << 1) << 9) | (b << 5));
-      u8 *o = &((u8 *)this)[i * 2];
+      u8 *o = &data1.data_u8[i * 2];
       a = ((u8) (v >> 8)) | 0x80;
       o[6] = a;
       o[7] = v;
@@ -665,15 +662,6 @@ s32 TItemData::get_max_stack_size() {
 
 
 
-
-struct Mag_8010D510 { s16 f0; s16 f2; s16 stat[4]; u8 b0c; u8 b0d; u8 b0e; };
-
-struct Item_8010D510 {
-    u8 b0; u8 b1; u8 level; u8 b3;
-    s16 stat[4];
-    u32 word;
-    u8 b16; u8 b17; u8 b18; u8 b19;
-};
 
 s32 format_item_description(u8 *item);
 extern "C" {
@@ -999,21 +987,35 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
   return result & mask;
 }
 
-void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag) {
-    Item_8010D510 copy;
-    copy.b0 = item->b0;
-    copy.b1 = item->b1;
+// A mag's item data as serialize_mag fills it (TItemData's layout).
+struct MagItemData {
+    u8 kind;
+    u8 group;
+    u8 level;
+    u8 photon_blasts;
+    s16 stat[4];
+    u32 id;
+    u8 synchro;
+    u8 iq;
+    u8 photon_blast_flags;
+    u8 color;
+};
+
+void serialize_mag__9TItemDataFPvPv(MagItemData *item, const MagStats *mag) {
+    MagItemData copy;
+    copy.kind = item->kind;
+    copy.group = item->group;
     copy.level = ((MagStats *)((void *)mag))->get_level();
-    copy.b3 = mag->b0d;
-    copy.stat[0] = mag->stat[0] & 0x7FFE;
-    copy.stat[1] = mag->stat[1] & 0x7FFE;
-    copy.stat[2] = mag->stat[2] & 0x7FFE;
-    copy.stat[3] = mag->stat[3] & 0x7FFE;
-    copy.word = item->word;
-    copy.b16 = mag->f2;
-    copy.b17 = mag->f0;
-    copy.b18 = mag->b0c;
-    copy.b19 = mag->b0e;
+    copy.photon_blasts = mag->photon_blasts;
+    copy.stat[0] = mag->def & 0x7FFE;
+    copy.stat[1] = mag->pow & 0x7FFE;
+    copy.stat[2] = mag->dex & 0x7FFE;
+    copy.stat[3] = mag->mind & 0x7FFE;
+    copy.id = item->id;
+    copy.synchro = mag->synchro;
+    copy.iq = mag->iq;
+    copy.photon_blast_flags = mag->photon_blast_flags;
+    copy.color = mag->color;
     ((TItemData *)(&copy))->bswap_fields();
     ((TItemData *)item)->copy_from((TItemData *)(&copy));
 }

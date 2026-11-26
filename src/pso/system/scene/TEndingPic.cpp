@@ -10,7 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 
-s32 TEndingPic__animation_state;
+s32 TEndingPic::animation_state;
 
 #pragma readonly_strings on
 const char *TEndingPic::name = "TEndingPic";
@@ -20,12 +20,12 @@ NJS_TEXLIST *ending_pic_wall_texture_list;
 }
 
 void TEndingPic::advance_animation_state() {
-    switch (TEndingPic__animation_state) {
+    switch (TEndingPic::animation_state) {
     case 1: {
         s32 ticks = ++elapsed_ticks;
         s32 rate = timing_rate;
         if (ticks > rate * 3 - rate) {
-            TEndingPic__animation_state = 2;
+            TEndingPic::animation_state = 2;
             TEndingPicStage::set_picture(next_picture);
             ++next_picture;
         }
@@ -33,7 +33,7 @@ void TEndingPic::advance_animation_state() {
     }
     case 2:
         if (++elapsed_ticks > timing_rate * 13) {
-            TEndingPic__animation_state = 3;
+            TEndingPic::animation_state = 3;
             return;
         }
         break;
@@ -41,7 +41,7 @@ void TEndingPic::advance_animation_state() {
         s32 ticks = ++elapsed_ticks;
         s32 rate = timing_rate;
         if (ticks > rate * 14 - rate) {
-            TEndingPic__animation_state = 4;
+            TEndingPic::animation_state = 4;
             TEndingPicStage::set_picture(next_picture);
             ++next_picture;
             return;
@@ -51,10 +51,10 @@ void TEndingPic::advance_animation_state() {
     case 4:
         if (++elapsed_ticks > timing_rate * 24) {
             elapsed_ticks = 0;
-            TEndingPic__animation_state = 1;
+            TEndingPic::animation_state = 1;
             if (++picture_pair > 5) {
                 picture_pair = 5;
-                TEndingPic__animation_state = 5;
+                TEndingPic::animation_state = 5;
                 return;
             }
         }
@@ -67,7 +67,7 @@ void TEndingPic::advance_animation_state() {
 
 void TEndingPic::draw_current_pic() {
     begin_screen_draw(1);
-    switch (TEndingPic__animation_state) {
+    switch (TEndingPic::animation_state) {
     case 1:
     case 3:
         break;
@@ -138,7 +138,7 @@ void TEndingPic::init_positions() {
 }
 
 void TEndingPic::render() {
-    if (TEndingPic__animation_state != 0) {
+    if (TEndingPic::animation_state != 0) {
         TObjFish::set_global_param(ending_pic_wall_texture_list);
         draw_current_pic();
     }
@@ -150,7 +150,7 @@ TEndingPic::~TEndingPic() {}
 TEndingPic::TEndingPic(TObject *parent) : TObject(parent) {
     m_name = name;
     elapsed_ticks = -1;
-    TEndingPic__animation_state = 0;
+    TEndingPic::animation_state = 0;
     field_20 = 0xFF;
     picture_pair = 0;
     next_picture = 0;

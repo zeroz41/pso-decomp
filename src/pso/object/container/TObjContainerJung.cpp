@@ -471,12 +471,12 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        access_object_saved_state(&saved_state, 0);
+        send_object_state_update(&saved_state);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();

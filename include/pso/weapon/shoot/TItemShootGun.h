@@ -6,8 +6,8 @@
 
 class TItemShootGun : public TItemShootModel {
 public:
- s32 m_6C;
- uaddr m_70;
+ s32 spin;
+ uaddr texture_id;
 
 public:
     TItemShootGun(void* owner, const Vec* pos, const Vec* endpoint, f32 life);

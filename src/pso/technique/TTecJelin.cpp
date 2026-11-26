@@ -28,10 +28,9 @@ void TTecJelin::create(void *caster, Vec *pos, TargetCursorList *targets, s32 le
 
 
 void TTecJelin::init_tech_params() {
-    u8 *arg0 = (u8 *)this;
     TechniqueParams *res;
     res = calc_technique_parameters(0xB, this->level, 0xFFFF);
-    ((TechniqueParams *)(arg0 + 0x88))->copy(res);
+    this->params.copy(res);
     this->params.power = (f32)(this->params.power_per_level * this->level);
 }
 

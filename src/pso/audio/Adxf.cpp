@@ -62,16 +62,16 @@ void adxf_set_req_rd_sct(AdxfHandle *adxf, s32 nsct) {
     adxf->requested_read_sectors = nsct;
 }
 
-inline s32 check_803CC294(s32 arg0, s32 arg1) {
-    if (arg0 < 0 || arg0 >= 0x100) {
+inline s32 check_803CC294(s32 partition, s32 file_index) {
+    if (partition < 0 || partition >= 0x100) {
         adxerr_report("E9040828:'ptid' is range outside.");
         return -3;
     }
-    if (afs_archive_toc_table[arg0] == NULL) {
+    if (afs_archive_toc_table[partition] == NULL) {
         adxerr_report("E9040828:'ptid' is range outside.");
         return -3;
     }
-    if (arg1 < 0 || arg1 >= afs_archive_toc_table[arg0]->f8) {
+    if (file_index < 0 || file_index >= afs_archive_toc_table[partition]->f8) {
         adxerr_report("E9040828:'flid' is range outside.");
         return -3;
     }
@@ -169,7 +169,7 @@ s32 adxf_tell(AdxfHandle *adxf) {
 }
 
 inline s32 adxf_stop_logged(AdxfHandle *adxf) {
-    s32 sp8;
+    s32 position;
     log_adxf_command(5, 0, adxf_log_header.stop_sequence, adxf, -1, -1);
     if (adxf == NULL) {
         adxerr_report("E9040822:'adxf' is NULL.(ADXF_Stop)");
@@ -188,8 +188,8 @@ inline s32 adxf_stop_logged(AdxfHandle *adxf) {
     }
     adx_lock();
     stop_adx_stream(adxf->stream);
-    get_adx_stream_position(adxf->stream, &sp8);
-    adxf->sectors_read = sp8;
+    get_adx_stream_position(adxf->stream, &position);
+    adxf->sectors_read = position;
     if (adxf->buffer != NULL && adxf->f2 == 0) {
         if (lbl_805D75E4 == 1) {
             adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
@@ -235,14 +235,14 @@ s32 ADXF_Seek(AdxfHandle *adxf, s32 pos, s32 type) {
 void TLobby__sub_803CC884(void) {
     AdxfHandle *p;
     s32 i;
-    s32 sp8;
+    s32 position;
     adx_lock();
     for (i = 0; i < 0x10; i++) {
         p = &adxf_file_handle_pool[i];
         if (p->used == 1 && p->state == 2) {
             p->state = get_adx_stream_status(p->stream);
-            get_adx_stream_position(p->stream, &sp8);
-            p->sectors_read = sp8;
+            get_adx_stream_position(p->stream, &position);
+            p->sectors_read = position;
             if (p->state == 3 || p->state == 4) {
                 p->sector_position += p->sectors_read;
                 if (p->buffer != NULL && p->f2 == 0) {
@@ -316,11 +316,11 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     } else {
         set_adx_stream_size_sectors(adxf->stream, adxf->read_sector_count);
         set_adx_stream_end_sector(adxf->stream, -1);
-        set_buffer__6TLobbyFPPv(adxf->stream, sj);
-        set_field_10_and_notify__6TLobbyFl(adxf->stream, adxf->archive_start_sector + adxf->sector_position);
+        set_adx_stream_buffer(adxf->stream, sj);
+        set_adx_stream_base_offset(adxf->stream, adxf->archive_start_sector + adxf->sector_position);
         set_adx_max_read_sectors(adxf->stream, adxf->requested_read_sectors);
         adxf->state = 2;
-        init_stream_position__6TLobbyFv(adxf->stream);
+        init_adx_stream_position(adxf->stream);
         rqsct = adxf->read_sector_count;
     }
     adx_unlock();
@@ -359,11 +359,11 @@ s32 adxf_read_sj32(AdxfHandle *adxf, s32 nsct, SjRingBuffer *sj) {
     } else {
         set_adx_stream_size_sectors(adxf->stream, adxf->read_sector_count);
         set_adx_stream_end_sector(adxf->stream, -1);
-        set_buffer__6TLobbyFPPv(adxf->stream, sj);
-        set_field_10_and_notify__6TLobbyFl(adxf->stream, adxf->archive_start_sector + adxf->sector_position);
+        set_adx_stream_buffer(adxf->stream, sj);
+        set_adx_stream_base_offset(adxf->stream, adxf->archive_start_sector + adxf->sector_position);
         set_adx_max_read_sectors(adxf->stream, adxf->requested_read_sectors);
         adxf->state = 2;
-        init_stream_position__6TLobbyFv(adxf->stream);
+        init_adx_stream_position(adxf->stream);
         rqsct = adxf->read_sector_count;
     }
     adx_unlock();
@@ -408,13 +408,13 @@ inline AdxfHandle *alloc_803CD16C(void) {
     s->used = 1;
     return s;
 }
-inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 arg1) {
+inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 file_index) {
     char filename[0x10C];
     s32 c;
     s32 b;
     s32 a;
     AdxStreamFile *h;
-    if (ADXF_GetFnameRangeEx(partition, arg1, filename, &a, &b, &c) < 0) {
+    if (ADXF_GetFnameRangeEx(partition, file_index, filename, &a, &b, &c) < 0) {
         return -3;
     }
     s->archive_start_sector = b;
@@ -534,7 +534,7 @@ inline s32 open_803CD3A8(AdxfHandle *s, const void *name, s32 mode) {
         return -1;
     }
     s->stream = h;
-    sz = get_field_14__6TLobbyFv(h);
+    sz = get_adx_stream_size(h);
     s->sector_count = (sz + 0x7FF) / 2048;
     s->byte_size = sz;
     return 0;

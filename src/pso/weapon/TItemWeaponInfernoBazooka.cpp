@@ -51,12 +51,10 @@ TItemWeaponInfernoBazooka::TItemWeaponInfernoBazooka(TObject *parent, u8 *item) 
     shot_speed = 15.0f;
 }
 
-struct Ang_8012E5A0 { s32 x, y, z; };
-
 void TItemWeaponInfernoBazooka::update_weapon() {
     s32 ang;
     Vec v;
-    Ang_8012E5A0 a;
+    s32 rotation[3];
     if (this->recoil_state == 1) {
         ::approach_value(&barrel_offset, (-0.5f), (-2.0f));
         if ((-2.0f) == barrel_offset) {
@@ -65,10 +63,10 @@ void TItemWeaponInfernoBazooka::update_weapon() {
             v.x = sin_table_lookup(ang);
             v.y = 0.0f;
             v.z = cos_table_lookup(ang);
-            a.x = 0x4000;
-            a.y = owner->rotation_y;
-            a.z = 0;
-            TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&v, (uaddr)&a);
+            rotation[0] = 0x4000;
+            rotation[1] = owner->rotation_y;
+            rotation[2] = 0;
+            TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&v, (uaddr)rotation);
         }
     } else if (this->recoil_state == 2) {
         ::approach_value(&barrel_offset, 0.2f, 0.0f);

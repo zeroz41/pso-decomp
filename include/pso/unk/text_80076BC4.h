@@ -15,4 +15,6 @@ void send_chat_shortcut(void);
 s32 store_chat_shortcut(s32 index, s32 src);
 void submit_chat_text(u8 *lobby);
 
+struct SubmitChatTextTag { u32 a; u32 b; };
+
 #endif

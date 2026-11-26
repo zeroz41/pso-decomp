@@ -22,9 +22,9 @@ public:
     saddr build_mode_menu(s32 menu);
     void exit_keyboard_mode();
     void update_transition_state();
-    void sub_803003A4();
-    void sub_80300648();
-    void sub_80300764();
+    void run_state_2();
+    void run_state_1();
+    void run_state_0();
 
     s32 state;                        // 0x1C: run_task's step: 0 start, 1 cursor, 2 menu open, 3 leave, 4 exit
     s32 mode;                         // 0x20: the ctor's mode; update_transition_state picks the next scene by it

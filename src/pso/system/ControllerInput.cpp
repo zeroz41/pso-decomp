@@ -146,28 +146,28 @@ StickEscapeDetector::StickEscapeDetector() {
 
 s32 TKeyBoardControl::get_ascii_key() {
   short new_var;
-  s32 shift;
-  s32 ascii;
+  s32 shift_held;
+  s32 result;
   u8 key;
   if (hardware_keyboard_state.get_pending_count() == 0)
   {
     return 0;
   }
-  ascii = hardware_keyboard_state.sub_8013239C(0);
-  key = ascii;
-  shift = hardware_keyboard_state.sub_80132310();
+  result = hardware_keyboard_state.sub_8013239C(0);
+  key = result;
+  shift_held = hardware_keyboard_state.sub_80132310();
   if ((((s32) key) >= 0x2A) && (((s32) key) <= 0x32))
   {
     return key + 7;
   }
   if ((((s32) key) >= 0x10) && (((s32) key) <= 0x29))
   {
-    ascii = key + 0x51;
-    if (shift != 0)
+    result = key + 0x51;
+    if (shift_held != 0)
     {
       return key + 0x31;
     }
-    return ascii;
+    return result;
   }
   switch (key)
   {
@@ -182,41 +182,41 @@ s32 TKeyBoardControl::get_ascii_key() {
     case 0x51:
       return (float) 9;
     case 0x3C:
-      ascii = 0x2C;
-      if (shift != 0)
+      result = 0x2C;
+      if (shift_held != 0)
     {
       return 0x3C;
     }
-      return ascii;
+      return result;
     case 0x3D:
-      ascii = 0x2E;
-      if (shift != 0)
+      result = 0x2E;
+      if (shift_held != 0)
     {
       return 0x3E;
     }
-      return ascii;
+      return result;
     case 0x39:
-      ascii = 0x3B;
-      if (shift != 0)
+      result = 0x3B;
+      if (shift_held != 0)
     {
       return 0x2B;
     }
-      return ascii;
+      return result;
     case 0x3A:
-      ascii = 0x3A;
-      if (new_var = shift != 0)
+      result = 0x3A;
+      if (new_var = shift_held != 0)
     {
       return 0x2A;
     }
-      return ascii;
+      return result;
     case 0x52:
-      if (shift != 0)
+      if (shift_held != 0)
     {
       return 0x5F;
     }
     default:
-      ascii = 0;
-      return ascii;
+      result = 0;
+      return result;
   }
 }
 
@@ -437,7 +437,7 @@ struct ControllerHoldFrameBlock {
 };
 
 extern "C" {
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *dst, ControllerInputContext *src);
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *destination, ControllerInputContext *source);
 
 void bind_controller_devices(void) {
     PadSlot *slot;
@@ -526,31 +526,31 @@ void reset_controller_input_state(void) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *dst, ControllerInputContext *src) {
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *destination, ControllerInputContext *source) {
   ControllerInputContext *new_var;
   ControllerInputContext *new_var2;
   ControllerHoldFrameBlock *s;
   ControllerHoldFrameBlock *d;
-  dst->buttons = src->buttons;
-  dst->not_held = src->not_held;
-  dst->pressed_buttons = src->pressed_buttons;
-  dst->released = src->released;
-  dst->trigger_r = src->trigger_r;
-  dst->trigger_l = src->trigger_l;
-  dst->stick_x = src->stick_x;
-  new_var = (new_var2 = dst);
-  new_var2->stick_y = src->stick_y;
-  dst->cstick_x = src->cstick_x;
-  new_var2->cstick_y = src->cstick_y;
-  new_var->stick_angle = src->stick_angle;
-  new_var2->cstick_angle = src->cstick_angle;
-  dst->stick_magnitude = src->stick_magnitude;
-  dst->cstick_magnitude = src->cstick_magnitude;
-  s = reinterpret_cast<ControllerHoldFrameBlock *>(src->hold_frames);
+  destination->buttons = source->buttons;
+  destination->not_held = source->not_held;
+  destination->pressed_buttons = source->pressed_buttons;
+  destination->released = source->released;
+  destination->trigger_r = source->trigger_r;
+  destination->trigger_l = source->trigger_l;
+  destination->stick_x = source->stick_x;
+  new_var = (new_var2 = destination);
+  new_var2->stick_y = source->stick_y;
+  destination->cstick_x = source->cstick_x;
+  new_var2->cstick_y = source->cstick_y;
+  new_var->stick_angle = source->stick_angle;
+  new_var2->cstick_angle = source->cstick_angle;
+  destination->stick_magnitude = source->stick_magnitude;
+  destination->cstick_magnitude = source->cstick_magnitude;
+  s = reinterpret_cast<ControllerHoldFrameBlock *>(source->hold_frames);
   d = reinterpret_cast<ControllerHoldFrameBlock *>((new_var = new_var2)->hold_frames);
   *d = *s;
-  dst->held_with_sticks = src->held_with_sticks;
-  new_var->pressed_with_sticks = src->pressed_with_sticks;
+  destination->held_with_sticks = source->held_with_sticks;
+  new_var->pressed_with_sticks = source->pressed_with_sticks;
 }
 
 void TKeyBoardControl::init_pad_state() {
@@ -605,7 +605,7 @@ void accumulate_key_bits(s32 key, u32 *buttons) {
 
 extern "C" {
 
-void fn_801A6A28(ControllerInputContext *pad, u32 mask, u32 previous) {
+void set_stick_button_bits(ControllerInputContext *pad, u32 mask, u32 previous) {
     pad->held_with_sticks |= mask;
     if (previous & mask) {
         pad->pressed_with_sticks &= ~mask;
@@ -617,31 +617,31 @@ void fn_801A6A28(ControllerInputContext *pad, u32 mask, u32 previous) {
 
 void map_c_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous) {
     if (y > 0x30) {
-        fn_801A6A28(pad, 0x08000000, previous);
+        set_stick_button_bits(pad, 0x08000000, previous);
     } else if (y < -0x30) {
-        fn_801A6A28(pad, 0x04000000, previous);
+        set_stick_button_bits(pad, 0x04000000, previous);
     }
     if (x > 0x30) {
-        fn_801A6A28(pad, 0x20000000, previous);
+        set_stick_button_bits(pad, 0x20000000, previous);
         return;
     }
     if (x < -0x30) {
-        fn_801A6A28(pad, 0x10000000, previous);
+        set_stick_button_bits(pad, 0x10000000, previous);
     }
 }
 
 void map_main_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous) {
     if (y > 0x30) {
-        fn_801A6A28(pad, 0x200000, previous);
+        set_stick_button_bits(pad, 0x200000, previous);
     } else if (y < -0x30) {
-        fn_801A6A28(pad, 0x100000, previous);
+        set_stick_button_bits(pad, 0x100000, previous);
     }
     if (x > 0x30) {
-        fn_801A6A28(pad, 0x800000, previous);
+        set_stick_button_bits(pad, 0x800000, previous);
         return;
     }
     if (x < -0x30) {
-        fn_801A6A28(pad, 0x400000, previous);
+        set_stick_button_bits(pad, 0x400000, previous);
     }
 }
 

@@ -5,16 +5,20 @@
 
 // The MusyX allocation hook and the retrace and stream callbacks the sound
 // setup installs.
-void *sound_malloc_hook(u32 size);
+void *musyx_malloc_hook(u32 size);
 extern "C" {
-void TLobby__sub_80227A6C(void);
+void pre_retrace_callback(void);
 }
-int sound_post_retrace_callback(void *p);
+int post_retrace_callback(void *p);
 extern "C" {
 void TLobby__sub_80227A90(s32, const char *);
 }
 
 // Starts the loading music stream of the given index (0-3).
 void start_bgm_stream(s32 index);
+
+struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next; };
+
+struct TLoadCtrlProgram { char archive[32]; s32 count, ntsc, pal; UpdateMusicSequencerPassage *modes[2]; };
 
 #endif

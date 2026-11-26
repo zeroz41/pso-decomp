@@ -160,7 +160,7 @@ void TAdEnterPasswordGC::open_keyboard_window(void *arg) {
 
 void TAdEnterPasswordGC::run_task() {
     fn_8032B318(password_screen_status_line_position);
-    m_1c = password_entry_dispatch_state;
+    prev_state = password_entry_dispatch_state;
     static StateHandler tbl[5] = {
         (StateHandler)&TAdEnterPasswordGC::open_keyboard_window,
         (StateHandler)&TAdEnterPasswordGC::update_password_input,
@@ -169,7 +169,7 @@ void TAdEnterPasswordGC::run_task() {
         (StateHandler)&TAdEnterPasswordGC::close_window_and_destroy,
     };
     (this->*tbl[password_entry_dispatch_state])();
-    if (m_1c != password_entry_dispatch_state) {
+    if (prev_state != password_entry_dispatch_state) {
         close_delay_ticks = 0;
     }
 }

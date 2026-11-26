@@ -8,7 +8,7 @@
 struct NJS_OBJECT;
 
 struct TObjLazerFence4 : public TObjCollidable {
-    TObjLazerFence4(TObject *parent, void *arg2);
+    TObjLazerFence4(TObject *parent, void *set_data);
     virtual ~TObjLazerFence4();
     void wait_for_switch();
     virtual s32 update_object_view_visibility(f32, f32);

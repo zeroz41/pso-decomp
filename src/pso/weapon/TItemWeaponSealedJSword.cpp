@@ -58,5 +58,5 @@ s16 TObjPlayer::get_kill_count() { return this->kill_count; }
 // it first).
 TItemTimerEventSlowCurse::TItemTimerEventSlowCurse(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {
-    unk_2C = rate;
+    chance = rate;
 }

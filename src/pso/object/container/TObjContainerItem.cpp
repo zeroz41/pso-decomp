@@ -278,7 +278,7 @@ s32 TObjContainerCommon::select_melee_contact_body(void *target, f32) {
     return xyz_distance_squared(&((TObjBase *)target)->position, &position) < melee_range_sq;
 }
 
-f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
+f32 TObjContainerCommon::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;
@@ -289,11 +289,11 @@ f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload p
 }
 
 f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
-    s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        this->access_object_saved_state(&sp8, 0);
-        this->send_object_state_update(&sp8);
+    s16 saved_state;
+    if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        this->access_object_saved_state(&saved_state, 0);
+        this->send_object_state_update(&saved_state);
     }
     return container_item_zero;
 }
@@ -553,12 +553,12 @@ void TObjContainerEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        access_object_saved_state(&saved_state, 0);
+        send_object_state_update(&saved_state);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();
@@ -658,11 +658,11 @@ void TObjContainerNoItem::draw_model() {
 }
 
 f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
-    s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        this->access_object_saved_state(&sp8, 0);
-        this->send_object_state_update(&sp8);
+    s16 saved_state;
+    if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        this->access_object_saved_state(&saved_state, 0);
+        this->send_object_state_update(&saved_state);
     }
     return container_item_zero;
 }
@@ -860,12 +860,12 @@ void TObjContainerAbeEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
+    s16 saved_state;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
+        saved_state = 1;
+        access_object_saved_state(&saved_state, 0);
+        send_object_state_update(&saved_state);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();

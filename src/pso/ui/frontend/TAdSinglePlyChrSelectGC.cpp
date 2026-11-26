@@ -352,7 +352,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
 
 #pragma pool_data reset
 
-void TAdSinglePlyChrSelectGC::sub_802D4570() {
+void TAdSinglePlyChrSelectGC::run_state_4() {
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->state = 0xB;
@@ -369,7 +369,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4570() {
     this->state = 5;
 }
 
-void TAdSinglePlyChrSelectGC::sub_802D4664() {
+void TAdSinglePlyChrSelectGC::run_state_3() {
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->state = 0xB;
@@ -388,7 +388,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4664() {
     }
 }
 
-void TAdSinglePlyChrSelectGC::sub_802D4730() {
+void TAdSinglePlyChrSelectGC::run_state_2() {
     s32 frames;
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -420,7 +420,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
         }
     }
 }
-void TAdSinglePlyChrSelectGC::sub_802D486C() {
+void TAdSinglePlyChrSelectGC::run_state_1() {
     s32 frames;
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -508,10 +508,10 @@ void TAdSinglePlyChrSelectGC::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();
     static Act_802D4B6C tbl[13] = {
         &TAdSinglePlyChrSelectGC::cleanup,
-        &TAdSinglePlyChrSelectGC::sub_802D486C,
-        &TAdSinglePlyChrSelectGC::sub_802D4730,
-        &TAdSinglePlyChrSelectGC::sub_802D4664,
-        &TAdSinglePlyChrSelectGC::sub_802D4570,
+        &TAdSinglePlyChrSelectGC::run_state_1,
+        &TAdSinglePlyChrSelectGC::run_state_2,
+        &TAdSinglePlyChrSelectGC::run_state_3,
+        &TAdSinglePlyChrSelectGC::run_state_4,
         &TAdSinglePlyChrSelectGC::handle_slot_selection,
         &TAdSinglePlyChrSelectGC::handle_menu_selection,
         &TAdSinglePlyChrSelectGC::update,

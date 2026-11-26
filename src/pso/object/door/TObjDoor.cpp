@@ -38,7 +38,7 @@
 struct BmlResource;
 struct NJS_TEXLIST;
 
-s32 check_player_door_proximity(saddr door, s32 mode, f32 radius);
+s32 check_player_door_proximity(saddr door, s32 expect_clear, f32 radius);
 
 const char *fe_obj_doa_kanban_model_names[6] = {
     "fe_obj_doa_kanban.gj", "fs_obj_doa_shingo_omote.gj", "fs_obj_doa_shingo_ura.gj", "taiki_fe_obj_doa_laz_oya.gj",

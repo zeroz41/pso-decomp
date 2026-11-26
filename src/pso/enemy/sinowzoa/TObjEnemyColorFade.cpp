@@ -31,14 +31,14 @@ s32 TObjEnemyColorFade::decay_value_toward_floor() {
 }
 
 void TObjEnemyColorFade::update_fade_alpha() {
-    f32 temp_f2;
-    temp_f2 = this->value;
-    if (temp_f2 <= 0.0f) {
+    f32 fade_value;
+    fade_value = this->value;
+    if (fade_value <= 0.0f) {
         this->color.a = -1.0f;
         return;
     }
-    if (temp_f2 < 2.0f) {
-        this->color.a = temp_f2 - 1.0f;
+    if (fade_value < 2.0f) {
+        this->color.a = fade_value - 1.0f;
         if (0.0f == this->color.a) {
             this->color.a = 0.01f;
         }

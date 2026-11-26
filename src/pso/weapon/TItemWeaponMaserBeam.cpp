@@ -10,17 +10,13 @@
 #include "pso/player/TargetCursorList.h"
 
 
-struct Self_80127BE0 { u8 pad[0xF0]; saddr caster; };
-
-
-extern "C" {
 void TItemWeaponMaserBeam::emit_marker_effects() {
     CapturedTarget *item;
     saddr kind;
     CapturedTargetList *ext;
     s32 i;
     u8 buf[0xC];
-    switch (((TObjPlayer *)(((Self_80127BE0 *)this)->caster))->is_status_subsystem_ready()) {
+    switch (owner->is_status_subsystem_ready()) {
     case 1:
         kind = 8;
         break;
@@ -32,7 +28,7 @@ void TItemWeaponMaserBeam::emit_marker_effects() {
         break;
     }
     if (get_joint_position(1, buf) != 0) {
-        ext = ((TObjPlayer *)(((Self_80127BE0 *)this)->caster))->get_extended_state();
+        ext = owner->get_extended_state();
         if (ext != 0) {
             for (i = 0; i != ext->get_captured_target_count(); i++) {
                 item = ext->get_captured_target_entry(i);
@@ -41,13 +37,11 @@ void TItemWeaponMaserBeam::emit_marker_effects() {
                     targets.count = 1;
                     targets.records[0].id = item->uid;
                     targets.records[0].flag = item->collider_index;
-                    TTecGiZonde::create((void *)((Self_80127BE0 *)this)->caster, (Vec *)buf, &targets, kind);
+                    TTecGiZonde::create(owner, (Vec *)buf, &targets, kind);
                 }
             }
         }
     }
-}
-
 }
 
 TItemWeaponMaserBeam::~TItemWeaponMaserBeam() {}

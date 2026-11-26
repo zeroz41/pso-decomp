@@ -36,14 +36,14 @@ void TItemLockCountCtrl::lock_effect(u16 client, u32 effect) {
 void remove_freeze_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5864(0x20);
+        ((TObjChara *)temp)->remove_immunity_flags(0x20);
     }
 }
 
 void remove_confusion_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5864(0x10);
+        ((TObjChara *)temp)->remove_immunity_flags(0x10);
     }
 }
 
@@ -51,28 +51,28 @@ void remove_confusion_immunity(int client) {
 void remove_slow_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5864(8);
+        ((TObjChara *)temp)->remove_immunity_flags(8);
     }
 }
 
 void remove_shock_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5864(4);
+        ((TObjChara *)temp)->remove_immunity_flags(4);
     }
 }
 
 void remove_paralysis_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5864(2);
+        ((TObjChara *)temp)->remove_immunity_flags(2);
     }
 }
 
 void remove_poison_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5864(1);
+        ((TObjChara *)temp)->remove_immunity_flags(1);
     }
 }
 
@@ -86,42 +86,42 @@ void remove_status_cleanse(int client) {
 void add_freeze_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5874(0x20);
+        ((TObjChara *)temp)->add_immunity_flags(0x20);
     }
 }
 
 void add_confusion_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5874(0x10);
+        ((TObjChara *)temp)->add_immunity_flags(0x10);
     }
 }
 
 void add_slow_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5874(8);
+        ((TObjChara *)temp)->add_immunity_flags(8);
     }
 }
 
 void add_shock_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5874(4);
+        ((TObjChara *)temp)->add_immunity_flags(4);
     }
 }
 
 void add_paralysis_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5874(2);
+        ((TObjChara *)temp)->add_immunity_flags(2);
     }
 }
 
 void TItemLockCountCtrl::add_poison_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        ((TObjEneDD_ST *)temp)->sub_800F5874(1);
+        ((TObjChara *)temp)->add_immunity_flags(1);
     }
 }
 

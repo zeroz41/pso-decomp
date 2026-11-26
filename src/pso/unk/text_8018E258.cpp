@@ -7,13 +7,13 @@
 extern "C" {
 f32 xyz_distance(void *, void *);
 }
-s32 check_player_door_proximity(saddr door, s32 mode, f32 radius);
-s32 check_player_door_proximity(saddr door, s32 mode, f32 radius) {
+s32 check_player_door_proximity(saddr door, s32 expect_clear, f32 radius);
+s32 check_player_door_proximity(saddr door, s32 expect_clear, f32 radius) {
     saddr p;
     s32 i;
     s32 j;
     saddr q;
-    if (mode == 1) {
+    if (expect_clear == 1) {
         for (i = 0; i < 0xC; i++) {
             p = (saddr)get_player_by_client_id(i);
             if (p != 0) {
@@ -23,7 +23,7 @@ s32 check_player_door_proximity(saddr door, s32 mode, f32 radius) {
             }
         }
         return 1;
-    } else if (mode == 0) {
+    } else if (expect_clear == 0) {
         for (j = 0; j < 0xC; j++) {
             q = (saddr)get_player_by_client_id(j);
             if (q != 0) {

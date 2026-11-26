@@ -28,7 +28,7 @@
 // The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
 // a model's texture list (TObjFish_8001ED90), still named after their units.
 
-// The unit's .sdata2 float pool (0x805DBE20-0x805DBE40) is still referenced
+// The unit's .sdata2 float pool is still referenced
 // from the DOL: CW pools these in the order the functions need them, and no
 // source arrangement found yet gives the original order 120, 400, 40, 0, 640,
 // 0.15, 30 (written source gives 120, 0, 640, 400, 40, 0.15, 30).
@@ -38,7 +38,7 @@ extern const f32 hashi_model_radius;
 extern const f32 hashi_zero;
 extern const f32 hashi_screen_width;
 extern const f32 hashi_rise_speed;
-extern const f32 hashi_rise_depth; // how far below its raised height it starts
+extern const f32 hashi_start_drop; // how far below its raised height it starts
 
 __declspec(section ".data") const char *fe_obj_hashi_model_names[2] = { "fe_obj_hashi.gj", NULL };
 __declspec(section ".sdata") const char *fe_obj_hashi_motion_names[1] = { NULL };
@@ -123,7 +123,7 @@ TObjHashiBase::TObjHashiBase(TObject *parent, void *set_data) : TObjMapObject(pa
     } else {
         object_state = 0;
         raisedHeight = position.y;
-        position.y = position.y - hashi_rise_depth;
+        position.y = position.y - hashi_start_drop;
         riseSpeed = hashi_rise_speed;
     }
 }
@@ -331,4 +331,4 @@ extern const f32 hashi_model_radius = 40.0f;
 extern const f32 hashi_zero = 0.0f;
 extern const f32 hashi_screen_width = 640.0f;
 extern const f32 hashi_rise_speed = 0.15f;
-extern const f32 hashi_rise_depth = 30.0f;
+extern const f32 hashi_start_drop = 30.0f;

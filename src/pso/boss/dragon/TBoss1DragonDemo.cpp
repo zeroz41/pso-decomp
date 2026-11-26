@@ -14,8 +14,8 @@
 
 const char *TBoss1DragonDemo::name = "TBoss1DragonDemo";
 
-void TBoss1DragonDemo__sub_8002B68C(void) {  }
-void TBoss1DragonDemo__sub_8002B690(void) {  }
+void TBoss1DragonDemo::free_assets() {  }
+void TBoss1DragonDemo::load_assets() {  }
 
 void TBoss1DragonDemo::render() {  }
 

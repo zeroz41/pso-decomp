@@ -28,59 +28,59 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-const char *bm_obj_comp_army_motion_names[1] = {0};
-const char *bm_obj_comp_norm_motion_names[1] = {0};
-const char *bm_obj_desk_motion_names[1] = {0};
-const char *bm_obj_partition_army_motion_names[1] = {0};
-const char *bm_obj_partition_norm_motion_names[1] = {0};
-const char *bm_obj_table_labo_motion_names[1] = {0};
-extern const char *bm_obj_comp_army_model_names[2];
+const char *bm_obj_comp_army_motion_filenames[1] = {0};
+const char *bm_obj_comp_norm_motion_filenames[1] = {0};
+const char *bm_obj_desk_motion_filenames[1] = {0};
+const char *bm_obj_partition_army_motion_filenames[1] = {0};
+const char *bm_obj_partition_norm_motion_filenames[1] = {0};
+const char *bm_obj_table_labo_motion_filenames[1] = {0};
+extern const char *bm_obj_comp_army_model_filenames[2];
 extern BmlResourceDescriptor bm_obj_comp_army_resource_descriptor;
-extern const char *bm_obj_comp_norm_model_names[2];
+extern const char *bm_obj_comp_norm_model_filenames[2];
 extern BmlResourceDescriptor bm_obj_comp_norm_resource_descriptor;
-extern const char *bm_obj_desk_model_names[2];
+extern const char *bm_obj_desk_model_filenames[2];
 extern BmlResourceDescriptor bm_obj_desk_resource_descriptor;
-extern const char *bm_obj_partition_army_model_names[2];
+extern const char *bm_obj_partition_army_model_filenames[2];
 extern BmlResourceDescriptor bm_obj_partition_army_resource_descriptor;
-extern const char *bm_obj_partition_norm_model_names[2];
+extern const char *bm_obj_partition_norm_model_filenames[2];
 extern BmlResourceDescriptor bm_obj_partition_norm_resource_descriptor;
-extern const char *bm_obj_table_labo_model_names[2];
+extern const char *bm_obj_table_labo_model_filenames[2];
 extern BmlResourceDescriptor bm_obj_table_labo_resource_descriptor;
-__declspec(section ".data") const char *bm_obj_comp_army_model_names[2] = {
+__declspec(section ".data") const char *bm_obj_comp_army_model_filenames[2] = {
     "labocity_computer_army.gj", NULL,
 };
 BmlResourceDescriptor bm_obj_comp_army_resource_descriptor = {
-    "bm_obj_comp_army.bml", bm_obj_comp_army_model_names, bm_obj_comp_army_motion_names, 1, 0,
+    "bm_obj_comp_army.bml", bm_obj_comp_army_model_filenames, bm_obj_comp_army_motion_filenames, 1, 0,
 };
-__declspec(section ".data") const char *bm_obj_comp_norm_model_names[2] = {
+__declspec(section ".data") const char *bm_obj_comp_norm_model_filenames[2] = {
     "labocity_computer_norm.gj", NULL,
 };
 BmlResourceDescriptor bm_obj_comp_norm_resource_descriptor = {
-    "bm_obj_comp_norm.bml", bm_obj_comp_norm_model_names, bm_obj_comp_norm_motion_names, 1, 0,
+    "bm_obj_comp_norm.bml", bm_obj_comp_norm_model_filenames, bm_obj_comp_norm_motion_filenames, 1, 0,
 };
-__declspec(section ".data") const char *bm_obj_desk_model_names[2] = {
+__declspec(section ".data") const char *bm_obj_desk_model_filenames[2] = {
     "labocity_desk.gj", NULL,
 };
 BmlResourceDescriptor bm_obj_desk_resource_descriptor = {
-    "bm_obj_desk.bml", bm_obj_desk_model_names, bm_obj_desk_motion_names, 1, 0,
+    "bm_obj_desk.bml", bm_obj_desk_model_filenames, bm_obj_desk_motion_filenames, 1, 0,
 };
-__declspec(section ".data") const char *bm_obj_partition_army_model_names[2] = {
+__declspec(section ".data") const char *bm_obj_partition_army_model_filenames[2] = {
     "labocity_partition_army.gj", NULL,
 };
 BmlResourceDescriptor bm_obj_partition_army_resource_descriptor = {
-    "bm_obj_partition_army.bml", bm_obj_partition_army_model_names, bm_obj_partition_army_motion_names, 1, 0,
+    "bm_obj_partition_army.bml", bm_obj_partition_army_model_filenames, bm_obj_partition_army_motion_filenames, 1, 0,
 };
-__declspec(section ".data") const char *bm_obj_partition_norm_model_names[2] = {
+__declspec(section ".data") const char *bm_obj_partition_norm_model_filenames[2] = {
     "labocity_partition_norm.gj", NULL,
 };
 BmlResourceDescriptor bm_obj_partition_norm_resource_descriptor = {
-    "bm_obj_partition_norm.bml", bm_obj_partition_norm_model_names, bm_obj_partition_norm_motion_names, 1, 0,
+    "bm_obj_partition_norm.bml", bm_obj_partition_norm_model_filenames, bm_obj_partition_norm_motion_filenames, 1, 0,
 };
-__declspec(section ".data") const char *bm_obj_table_labo_model_names[2] = {
+__declspec(section ".data") const char *bm_obj_table_labo_model_filenames[2] = {
     "labocity_table.gj", NULL,
 };
 BmlResourceDescriptor bm_obj_table_labo_resource_descriptor = {
-    "bm_obj_table_labo.bml", bm_obj_table_labo_model_names, bm_obj_table_labo_motion_names, 1, 0,
+    "bm_obj_table_labo.bml", bm_obj_table_labo_model_filenames, bm_obj_table_labo_motion_filenames, 1, 0,
 };
 // Archive descriptors of the six laboratory design objects, by object id.
 struct LaboDesignObjectEntry {

@@ -61,6 +61,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/player/TObjPlayer_801A5AEC.h"
 
 static s16 debug_chunk_a_strips[59] = {
     0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,

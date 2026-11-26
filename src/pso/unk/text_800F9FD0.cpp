@@ -3,7 +3,6 @@
 #include "pso/unk/text_800F9FD0.h"
 
 
-struct TLobbyKey { u8 pad0[4]; s32 id; };
 
 extern "C" {
 s32 TLobby__sub_800F9FF4(TLobbyKey *key);

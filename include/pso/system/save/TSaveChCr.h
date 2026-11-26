@@ -10,7 +10,7 @@ class TAdBackTxtGC;
 
 class TSaveChCr : public TObject {
 public:
-    static const char *name;
+    static const char *class_name;
     TSaveChCr(TObject *parent, s32 mode);
     virtual ~TSaveChCr();
     s32 poll_memcard_status();

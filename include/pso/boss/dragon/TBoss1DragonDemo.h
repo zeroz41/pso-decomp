@@ -17,9 +17,8 @@ public:
     f32 frame;       // copied into CameraPlayback::frame
     s32 *flag;       // TBoss1Dragon's demo flag; the demo ends when it reads 0
     static const char *name;
+    static void free_assets();
+    static void load_assets();
 };
-
-void TBoss1DragonDemo__sub_8002B68C(void);
-void TBoss1DragonDemo__sub_8002B690(void);
 
 #endif

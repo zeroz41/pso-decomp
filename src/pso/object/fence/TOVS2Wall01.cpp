@@ -94,7 +94,7 @@ void TOVS2Wall01__sub_8017B9AC(void *) {  }
 
 void handle_6x86_hit_destructible_object(game_command_header *command) {
     WallHitPacket *wall_hit_packet = reinterpret_cast<WallHitPacket *>(command);
-    QuestObjectEntry saved;
+    QuestObjectEntry saved_state;
     TOVS2Wall01 *o;
     u16 id;
     if (wall_hit_packet == NULL) {
@@ -132,10 +132,10 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
             o->break_wall();
             break;
         }
-        o->access_object_saved_state(&saved, 1);
-        saved.flags = o->mode;
-        o->access_object_saved_state(&saved, 0);
-        o->apply_saved_state(&saved.flags, 0);
+        o->access_object_saved_state(&saved_state, 1);
+        saved_state.flags = o->mode;
+        o->access_object_saved_state(&saved_state, 0);
+        o->apply_saved_state(&saved_state.flags, 0);
     } else {
         QuestObjectEntry entry = quest_object_entries[wall_hit_packet->object_index];
         if (entry.flags != 1) {
@@ -145,12 +145,12 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
     }
 }
 
-void TOVS2Wall01::save_and_send_state(u16 reason) {
+void TOVS2Wall01::save_and_send_state(u16 update_reason) {
     s16 state;
     WallHitPacket pkt;
     s16 v = mode;
     WallSetEntry *entry;
-    if (reason == 1) {
+    if (update_reason == 1) {
         v = 1;
     }
     if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
@@ -161,7 +161,7 @@ void TOVS2Wall01::save_and_send_state(u16 reason) {
         pkt.header.entity_id = entity_id;
         pkt.flags = state;
         pkt.object_index = entry->set_index;
-        pkt.update_reason = reason;
+        pkt.update_reason = update_reason;
         pkt.remaining_hits = hits_left;
         pkt.send();
     }

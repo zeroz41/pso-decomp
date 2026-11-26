@@ -43,7 +43,7 @@ void TObjMistCtrl::follow_camera() {
     }
 }
 
-const char *mist_ctrl_name = "TObjMistCtrl";
+const char *TObjMistCtrl::class_name = "TObjMistCtrl";
 
 void TObjMistCtrl::run_task() { follow_camera(); }
 
@@ -55,7 +55,7 @@ TObjMistCtrl::~TObjMistCtrl() {
 }
 
 TObjMistCtrl::TObjMistCtrl(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = mist_ctrl_name;
+    m_name = class_name;
     if (set_data != NULL) {
         apply_object_set_data(set_data);
     }

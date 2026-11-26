@@ -173,28 +173,28 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
     TObjChara *target;
     TObjPlayer *player;
     uaddr item;
-    s32 temp_r0;
-    f32 var_f31;
+    s32 kind;
+    f32 dealt;
     target = (TObjChara *)hit->target;
     player = get_player_by_client_id(this->client_id);
     item = (uaddr)find_item_by_id((this->item_id));
     target_body = &hit->target->bodies[hit->body];
     if ((player != NULL) && (item != 0U) && (target->calc_distance_accuracy_penalty(player, target_body, NULL, this->accuracy) != 0)) {
-        temp_r0 = this->attack_kind;
-        var_f31 = 0.0f;
-        switch (temp_r0) {
+        kind = this->attack_kind;
+        dealt = 0.0f;
+        switch (kind) {
         case 0:
-            var_f31 = target->receive_physical_attack(player, this->damage_scale);
+            dealt = target->receive_physical_attack(player, this->damage_scale);
             break;
         case 1:
-            var_f31 = target->receive_physical_attack(player, this->damage_scale);
-            target->apply_knockback_from_attacker((u8 *)player, 0.1f * var_f31);
+            dealt = target->receive_physical_attack(player, this->damage_scale);
+            target->apply_knockback_from_attacker((u8 *)player, 0.1f * dealt);
             break;
         case 2:
             target->receive_weapon_special_attack(player, target_body);
             break;
         }
-        damage = (s32) var_f31;
+        damage = (s32) dealt;
         player->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(player, damage));
         player->apply_camera_shake(target, damage);
         sound.clear();

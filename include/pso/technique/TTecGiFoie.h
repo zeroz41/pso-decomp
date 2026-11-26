@@ -16,13 +16,13 @@ public:
 
     TParticleCtrl **particles;  // one particle per entry of the band's profile, or a single one
     Vec center;                 // centre of the orbit
-    Vec position;               // current position
+    Vec pos;                    // current position
     f32 radius;                 // distance from the centre
     s32 angle;                  // angle on the orbit
-    s32 frame;                  // frames run
+    s32 frames;                 // frames run
     u8 band;                    // level band, 0..5
     s8 level;                   // technique level
-    u8 pad_46;                  // nonzero: circles in the plane facing yaw
+    u8 planar;                  // nonzero: circles in the plane facing yaw
     u8 single;                  // nonzero: one continuous particle
     s32 yaw;                    // yaw
 };

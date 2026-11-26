@@ -6,6 +6,7 @@
 #include "pso/object/wreck/TOWreckAncientResources.h"
 
 struct TOWreckAncient : public TObjCollidable {
+    static const CollisionBody collision_body_templates[7];
     TOWreckAncient(s32 model_index);
     virtual ~TOWreckAncient();
     virtual void render();

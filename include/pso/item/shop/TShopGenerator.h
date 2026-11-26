@@ -21,15 +21,17 @@ struct TShopGenerator : public TObjBase {
     bool is_player_in_service_range(u8 *, f32);
     virtual void run_task();
     u32 m_90;
-    s32 m_94; // frames to wait before the first service check (the constructor sets 5)
+    s32 service_check_delay; // frames to wait before the first service check (the constructor sets 5)
     static s32 is_no_service_active(void *self, saddr player);
     static int is_slot_active(u16 client);
     static void clear_slot_active(u16 client);
     static void run_fn_table_reverse();
     static void run_fn_table_forward();
     static void *create(void *set_data);
+
     static ShopService service_dispatch_table[7];
     static const char *class_name;
+    // One flag per client, indexed by get_client_split_screen_slot(entity id).
     static s32 slot_active_table[4];
 };
 
@@ -46,7 +48,5 @@ int get_equipment_gear_shop_window_slot(int slot);
 int get_item_technique_shop_slot(int slot);
 int get_check_room_slot_active_flag(int slot);
 int get_judgment_shop_slot_flags(int slot);
-
-// One flag per client, indexed by get_client_split_screen_slot(entity id).
 
 #endif

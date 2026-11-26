@@ -78,7 +78,7 @@ void TObjEneMe1GiGueMissile::render() {
     rotate_matrix_x(NULL, rotation_x);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(gigue_missile_resource->models[1].texlist));
     set_motion_packed_rotation();
-    draw_model_motion((void *)get_bml_model(gigue_missile_resource, 1), get_bml_motion(gigue_missile_resource, 5), motion_frame);
+    draw_model_motion(get_bml_model(gigue_missile_resource, 1), get_bml_motion(gigue_missile_resource, 5), motion_frame);
     clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();
     pop_matrix();

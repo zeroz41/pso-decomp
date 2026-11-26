@@ -335,7 +335,7 @@ void TWindowSubCustomEquip::layout_entry_group(void *index) {
   }
 }
 
-void TWindowSubCustomEquip::reset_selection() { layout_entry_group((void *)((void*)9)); layout_entry_group((void *)((void*)0)); layout_selection_parts((void *)((void*)9)); }
+void TWindowSubCustomEquip::reset_selection() { layout_entry_group(((void*)9)); layout_entry_group(((void*)0)); layout_selection_parts(((void*)9)); }
 
 void TWindowSubCustomEquip::refresh_palette_slots() {
     TObjPlayer *player;

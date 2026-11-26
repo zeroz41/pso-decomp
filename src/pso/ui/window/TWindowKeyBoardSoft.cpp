@@ -713,7 +713,7 @@ void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
     ctx->scale_point_about_pivot(&v[3].x);
     v[4].x = v[0].x;
     v[4].y = v[0].y;
-    draw_color_lines((ColorLineList *)&d, 5, 0x14, depth);
+    draw_color_lines(&d, 5, 0x14, depth);
 }
 
 void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx) {

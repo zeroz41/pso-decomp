@@ -123,11 +123,12 @@ struct G_AddOrRemoveStatusEffect_6x0C_6x0D {
 struct G_AttackFinished_6x46 {
     G_AttackFinished_6x46();
     G_AttackFinished_6x46 &operator=(G_AttackFinished_6x46 &src);
-    // (name inferred) the receive-side swap, as G_ExecutePhotonBlast_6x49::bswap_received.
+    // The receive-side swap, as G_ExecutePhotonBlast_6x49::bswap_received.
     void bswap_received();
     // Bytes actually sent: the header, the count and count targets.
     u8 get_size();
-    void bswap();
+    // Send-side swap, as G_ExecutePhotonBlast_6x49::bswap_for_send.
+    void bswap_for_send();
     // Sets the header size, byte-swaps and sends the packet.
     void send();
 
@@ -718,7 +719,7 @@ struct G_MoveToPosition_6x41_6x42 {
  struct VectorXZF pos;
  // Clears the position and sets the 6x42 header.
  void init();
- G_MoveToPosition_6x41_6x42 &operator=(G_MoveToPosition_6x41_6x42 &src);
+ G_MoveToPosition_6x41_6x42 &operator=(const G_MoveToPosition_6x41_6x42 &src);
  void bswap();
  void send();
 };

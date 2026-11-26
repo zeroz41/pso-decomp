@@ -295,7 +295,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     this->status_disp = heading;
     state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
-    set_text_entry_string((WindowTextEntry *)entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
+    set_text_entry_string(entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)entry_0)->get_field_20();
     title_width = (f32) calc_text_width();
     entry_0->x = 210.0f - 0.5f * title_width;

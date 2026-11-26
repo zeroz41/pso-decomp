@@ -46,8 +46,8 @@
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 const char *TObjCityMainWarpChallenge::class_name = "TObjCityMainWarpChallenge";
-static const char next_stage_format[] = "<- NEXT STAGE No.%d";
-static const char key_id_format[] = "<- KEY ID : %d";
+static const char debug_next_stage_format[] = "<- NEXT STAGE No.%d";
+static const char debug_key_id_format_challenge[] = "<- KEY ID : %d";
 
 
 
@@ -144,9 +144,9 @@ void TObjCityMainWarpChallenge::debug_print_area_num() {
     }
     set_debug_text_color(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        debug_printf_at(0x130020, next_stage_format, set_params[0]);
+        debug_printf_at(0x130020, debug_next_stage_format, set_params[0]);
     }
-    debug_printf_at(0x130021, key_id_format, key_id);
+    debug_printf_at(0x130021, debug_key_id_format_challenge, key_id);
 }
 
 void TObjCityMainWarpChallenge::update_state() {

@@ -151,15 +151,7 @@ void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
 void draw_window_vertices(WindowVertex *vertices, s32 count, u32 surface_id, s32 blended) { select_texture_by_surface_id(surface_id); draw_screen_textured_strip((ScreenTexturedVertex *)vertices, count, blended); }
 
-struct Ctrl_801E352C {
-    u8 pad[4];
-    u32 *data;
-};
 
-struct DrawTransformedPrimitiveLines {
-    Vec *positions;
-    u32 *colors;
-};
 
 
 extern "C" {
@@ -514,9 +506,9 @@ void render_tick(void) {
 }
 
 s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size) {
-    s32 result;
-    result = TLobby::adxf_open_file(id, (void *)name, 0, buf);
-    if (result >= 0) {
+    s32 handle;
+    handle = TLobby::adxf_open_file(id, (void *)name, 0, buf);
+    if (handle >= 0) {
 loop_2:
         if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
@@ -528,13 +520,13 @@ loop_2:
             goto loop_2;
         }
     }
-    return result;
+    return handle;
 }
 
 s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
-    s32 result;
-    result = TLobby::adxf_open_file(id, (void *)name, 0, buf);
-    if (result >= 0) {
+    s32 handle;
+    handle = TLobby::adxf_open_file(id, (void *)name, 0, buf);
+    if (handle >= 0) {
 loop_1:
         if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
@@ -543,7 +535,7 @@ loop_1:
             goto loop_1;
         }
     }
-    return result;
+    return handle;
 }
 void bswap_16(u16 *val) {
     u32 v = *val;

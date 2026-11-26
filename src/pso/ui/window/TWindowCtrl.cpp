@@ -515,7 +515,7 @@ void TWindowCtrl::update_trade_window() {
             this->area_window->request_close();
             return;
         }
-        window_request_show((void *)this->area_window);
+        window_request_show(this->area_window);
     }
 }
 
@@ -528,7 +528,7 @@ void update_timer_window(void *ctrl_arg) {
             ctrl->timer_window->request_close();
             return;
         }
-        window_request_show((void *)ctrl->timer_window);
+        window_request_show(ctrl->timer_window);
     }
 }
 
@@ -589,10 +589,10 @@ void TWindowCtrl::dispatch_to_child(s32 client, s32 kind) {
     }
 }
 
-void TWindowCtrl::create_party_effect(u16 from, u16 to) { TWindowEffectParty::create((void *)tl_07, from, to, 0); }
+void TWindowCtrl::create_party_effect(u16 from, u16 to) { TWindowEffectParty::create(tl_07, from, to, 0); }
 
 
-void TWindowCtrl::show_party_effect(u16 from, u16 to, u32 kind) { TWindowEffectParty::create((void *)tl_07, from, to, kind); }
+void TWindowCtrl::show_party_effect(u16 from, u16 to, u32 kind) { TWindowEffectParty::create(tl_07, from, to, kind); }
 
 
 void TWindowCtrl::append_message_all(const char *text) {

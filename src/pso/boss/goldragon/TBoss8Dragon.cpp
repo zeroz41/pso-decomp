@@ -98,10 +98,6 @@
 extern u16 boss8_dragon_control_client_id;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
-extern "C" {
-f32 newton_sqrtf(f32);
-
-}
 AttackParams *boss8_dragon_part_hp_stats[5];
 Boss8DragonParams *boss8_dragon_behavior_params[3];
 Vec boss8_dragon_node_origin;
@@ -111,12 +107,6 @@ Vec boss8_dragon_breath_local_points[3];
 NJS_CNK_MODEL boss8_dragon_capture_chunk_model;
 Vec boss8_dragon_reference_pos_vec;
 Vec dragon_forward_reference_vec;
-extern "C" {
-
-
-
-s32 get_current_floor();
-}
 void free_collision_body_parts(TObjCollidable *actor);
 
 extern BmlResource *boss8_dragon_resource;
@@ -266,7 +256,6 @@ extern "C" {
 extern f32 boss8_dragon_fall_accel;
 // Slot 87: per-action event dispatch through a table of handler members.
 }
-void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *cmd);
 
 extern "C" {
 extern const f32 enemy_gravity_accel;

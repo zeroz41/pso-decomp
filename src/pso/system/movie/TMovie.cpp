@@ -34,7 +34,7 @@ s8 get_opening_movie_purpose();
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 
-const char *TMovie::name = "TMovie";
+const char *TMovie::class_name = "TMovie";
 // The eye, target and up of the view a movie plays in.
 static const Vec movie_camera_eye = {0.0f, 0.0f, 0.0f};
 static const Vec movie_camera_target = {0.0f, 0.0f, 1.0f};
@@ -235,7 +235,7 @@ loop_1:
 
 s32 TMovie::check_skip_input() {
     ControllerInputContext *context;
-    s32 var_r30;
+    s32 reset_pressed;
 
     if (is_ending_sequence_active() != 0) {
         if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
@@ -270,9 +270,9 @@ block_fn_8000F91C:
         set_queued_main_phase(9);
         return 1;
     case 1:
-        var_r30 = 0;
+        reset_pressed = 0;
         if (TKeyBoardControl::check_reset_button() != 0) {
-            var_r30 = 1;
+            reset_pressed = 1;
         }
         context = &controller_physical_port_bank.controllers[0];
         if (test_pressed_buttons_packed(context, 2) != 0) goto block_call_func;
@@ -281,10 +281,10 @@ block_fn_8000F91C:
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_call_func;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_call_func;
         if (TLobby::run_disk_error_check() == 0) goto block_call_func;
-        if (var_r30 != 0) goto block_call_func;
+        if (reset_pressed != 0) goto block_call_func;
         if (this->player->is_playback_finished() == 0) goto block_return0;
 block_call_func:
-        if ((static_cast<s8>(poll_reset_request()) != 0) || (var_r30 != 0)) {
+        if ((static_cast<s8>(poll_reset_request()) != 0) || (reset_pressed != 0)) {
             activate_main_menu_scene();
         }
         return 1;
@@ -335,7 +335,7 @@ void TMovie::run_task() {
 }
 
 TMovie::TMovie(TObject *parent, s8 *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending) : TObject(parent) {
-    m_name = TMovie::name;
+    m_name = TMovie::class_name;
     this->finish_callback = finish_callback;
     module = NULL;
     this->movie_mode = movie_mode;

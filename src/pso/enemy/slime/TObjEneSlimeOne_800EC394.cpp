@@ -23,7 +23,6 @@ extern "C" {
 extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
 }
-void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 #include "pso/player/PlayerAttackController.h"
@@ -196,13 +195,13 @@ s32 SlimeAnimationState::is_finished() {
 SlimeShapeMotion slime_one_motion_state_table[2] = {
     {11, 12, 0.7f}, {6, 7, 0.8f}
 };
-SlimePairedMotion lbl_80496C68[2] = {
+SlimePairedMotion slime_one_paired_motions_target0[2] = {
     {4, 5, 0, 1, 0.6f}, {4, 0, 0, 4, 0.6f}
 };
-SlimePairedMotion lbl_80496C90[2] = {
+SlimePairedMotion slime_one_paired_motions_target1[2] = {
     {5, 5, 2, 1, 0.6f}, {5, 0, 2, 4, 0.6f}
 };
-__declspec(section ".data") SlimePairedMotion *lbl_80496CB8[2] = {lbl_80496C68, lbl_80496C90};
+__declspec(section ".data") SlimePairedMotion *slime_one_paired_motion_table[2] = {slime_one_paired_motions_target0, slime_one_paired_motions_target1};
 __declspec(section ".data") s32 slime_one_attack_target_id_table[2] = {4, 5};
 }
 __declspec(section ".data") s32 slime_one_part_texture_index_table[2] = {0, 2};
@@ -241,7 +240,7 @@ void SlimeAnimationState::set_state(s32 next_state) {
     }
     s32 index = state - 9;
     BmlResource *resource = TObjEneSlimeOne::get_instance();
-    SlimePairedMotion *entry = &lbl_80496CB8[owner->get_attack_target()][index];
+    SlimePairedMotion *entry = &slime_one_paired_motion_table[owner->get_attack_target()][index];
     model = (NJS_OBJECT *)get_bml_model(resource, entry->model);
     texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, entry->model));
     motion = (AnimationMotion *)get_bml_motion(resource, entry->motion);

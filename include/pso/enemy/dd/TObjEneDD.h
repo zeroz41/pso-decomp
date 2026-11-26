@@ -69,7 +69,9 @@ struct TObjEneDD : public TObjEnemy {
     void set_state_flag_4();
     void set_state_flag_2();
     void set_state_flag_1();
-    static void send_damage_message(TObjChara *attacker, TObjChara *target);
+    static void inflict_slow(TObjChara *attacker, TObjChara *target);  // direct attack kind 17
+    static void inflict_paralysis(TObjChara *attacker, TObjChara *target);  // kind 16
+    static void inflict_confusion(TObjChara *attacker, TObjChara *target);  // kind 18
     static void inflict_poison(TObjChara *attacker, TObjChara *target);
     void emit_effect_at_position(const DragonAttackParams *params);
     static void emit_effect(TObjBase *owner, const Vec *pos, const DragonAttackParams *params);
@@ -137,8 +139,6 @@ s32 is_player_entity_id(u16 id);
 int is_enemy_entity_id(u16 id);
 s32 pack_debug_text_position(s32 x, s32 y);
 void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance);
-void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);
-void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
 void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);

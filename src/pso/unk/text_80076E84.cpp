@@ -9,7 +9,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 
-struct Handle6x07SymbolChatPacket { u8 pad[4]; s32 f4; u32 f8; };
 
 SymbolChatPreset symbol_chat_receive_buffer;
 
@@ -39,9 +38,6 @@ void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Handle6x07SymbolChatSymBody { u32 w[12]; };
-struct Handle6x07SymbolChatSymPair { u32 b; u32 c; };
-struct CopySymbolChatEntrySym { u32 a; Handle6x07SymbolChatSymPair mid; Handle6x07SymbolChatSymBody body; };
 void *TLobby::copy_symbol_chat_entry(void *dst, void *src) {
     *(CopySymbolChatEntrySym *)dst = *(CopySymbolChatEntrySym *)src;
     return dst;

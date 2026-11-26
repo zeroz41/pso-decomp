@@ -21,7 +21,7 @@ struct TAdYesNoBaseGC : public TObject {
     u32 prev_state;
     u32 exit_state;
     u32 state_frames;
-    u32 default_choice;
+    u32 default_selection;
     NJS_POINT2 message_position;
     NJS_POINT2 message_size;
     uaddr message_window;

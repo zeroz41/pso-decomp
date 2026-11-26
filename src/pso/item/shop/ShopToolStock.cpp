@@ -13,7 +13,7 @@
 
 // Per shop list (four in split screen): the stock array (18 items, allocated by
 // load_tool_random_rel), its item count and whether it was generated.
-ToolRandomTables *lobby_tool_random_rel;
+ShopToolRandomTables *lobby_tool_random_rel;
 int shop_tool_stock_level;
 s32 shop_tool_stock_counts[4];
 s32 shop_tool_stock_table[4];
@@ -149,17 +149,17 @@ s32 shop_stock_lacks_tool(TItemData *item, s32 shop) {
 }
 
 void roll_shop_technique_level(TItemData *item, s32 technique) {
-    ToolRandomTechniqueLevels *t = lobby_tool_random_rel->technique_levels;
+    ShopTechniqueLevelTable *t = lobby_tool_random_rel->technique_levels;
     s32 idx = get_tool_pool_table_row(shop_tool_stock_level);
-    ToolRandomTechniqueLevel *e;
+    ShopTechniqueLevelEntry *e;
     s32 level;
     idx *= t->count;
-    e = &t->levels[idx + technique];
+    e = &t->ents[idx + technique];
     level = shop_tool_stock_level;
     if (level > 99) {
         level = 99;
     }
-    switch (e->mode) {
+    switch (e->kind) {
     case 0:
         item->data1.data_s8[2] = 0;
         break;
@@ -196,10 +196,10 @@ void roll_shop_technique_level(TItemData *item, s32 technique) {
 void generate_shop_technique_pool(s32 shop) {
     TItemData it;
     ShopPool pool;
-    ToolRandomKind *e;
+    ShopToolPoolEntry *e;
     s32 n;
     TItemData *arr;
-    ToolRandomPool *t;
+    ShopToolPoolTable *t;
     s32 i;
     s32 c;
     u8 k;
@@ -208,13 +208,13 @@ void generate_shop_technique_pool(s32 shop) {
     if (n > 0) {
         pool.clear();
         i = get_tool_pool_table_row(shop_tool_stock_level);
-        t = &lobby_tool_random_rel->pools[1];
-        e = &t->kinds[i * t->count];
+        t = lobby_tool_random_rel->pools;
+        e = &t->technique_ents[i * t->technique_count];
         c = 0;
-        while (c++ < t->count) {
+        while (c++ < t->technique_count) {
             k = e->weight;
             while (k-- != 0) {
-                pool.push(e->kind);
+                pool.push(e->id);
             }
             e++;
         }
@@ -240,11 +240,11 @@ void generate_shop_technique_pool(s32 shop) {
 void generate_shop_rare_tool_pool(s32 shop) {
     TItemData it;
     ShopPool pool;
-    ToolRandomPool *t;
+    ShopToolPoolTable *t;
     s32 j;
     TItemData *arr;
     s32 n;
-    ToolRandomKind *e;
+    ShopToolPoolEntry *e;
     s32 orig;
     s32 i;
     s32 b;
@@ -256,12 +256,12 @@ void generate_shop_rare_tool_pool(s32 shop) {
         pool.clear();
         i = get_tool_pool_table_row(shop_tool_stock_level);
         t = lobby_tool_random_rel->pools;
-        e = &t->kinds[i * t->count];
+        e = &t->rare_ents[i * t->rare_count];
         c = 0;
-        while (c++ < t->count) {
+        while (c++ < t->rare_count) {
             k = e->weight;
             while (k-- != 0) {
-                pool.push(e->kind);
+                pool.push(e->id);
             }
             e++;
         }
@@ -293,7 +293,7 @@ void generate_shop_rare_tool_pool(s32 shop) {
 void generate_shop_common_tool_pool(s32 shop) {
     TItemData it;
     TItemData *arr;
-    ToolRandomCommon *t;
+    ShopToolCommonTable *t;
     u8 *p;
     s32 i;
     s32 row;
@@ -302,7 +302,7 @@ void generate_shop_common_tool_pool(s32 shop) {
     if (row >= 0) {
         t = lobby_tool_random_rel->common;
         row *= t->count;
-        p = t->kinds + row;
+        p = t->ids + row;
         for (i = 0; i < t->count; i++, p++) {
             if (*p != 0xf) {
                 it.init();
@@ -375,7 +375,7 @@ void free_tool_random_rel(void) {
 
 void load_tool_random_rel(void) {
     s32 i;
-    lobby_tool_random_rel = static_cast<ToolRandomTables *>(create_named_object("ToolRandom.rel"));
+    lobby_tool_random_rel = static_cast<ShopToolRandomTables *>(create_named_object("ToolRandom.rel"));
     for (i = 0; i < 4; i++) {
         shop_tool_stock_buffers[i] = NULL;
     }

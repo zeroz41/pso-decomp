@@ -50,4 +50,22 @@ int spawn_objects_at_pos__6TLobbyFPv(void *p);
 }
 void swap_object_row_endian(void *row_ptr);
 
+struct FloorSceneEntry {
+    const char **names;
+    s32 count;
+};
+
+struct Send6x05WaveSetSwitchPacket { u8 hdr[2]; u16 a; s16 b; s16 pad; s16 c; s8 d; s8 e; };
+
+struct Send6x05WaveClearSwitchPacket {
+    u8 cmd;
+    u8 size;
+    u16 a;
+    u16 b;
+    u16 pad;
+    u16 c;
+    u8 d;
+    u8 e;
+};
+
 #endif

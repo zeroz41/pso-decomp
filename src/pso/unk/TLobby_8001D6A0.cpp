@@ -36,7 +36,6 @@ s32 battle_parameter_difficulty;
 s32 battle_param_lab_variant;
 s32 override_enemy_bp_index;
 
-struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
 extern TextBuilderBuffer text_builder_buffer;
 
 
@@ -80,7 +79,7 @@ void load_battle_param_entry(void) {
     bank = (dst = battle_parameter_buffer);
     move_data(((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
     {
-      player_stats *p = ((0, dst))->stats;
+      player_stats *p = dst->stats;
       s32 i;
       for (i = 0; i < 0x60; i++)
       {
@@ -484,15 +483,6 @@ s32 TLobby::get_internet_beat() {
 }
 
 typedef struct GetInternetBeatDateStamp GetInternetBeatDateStamp;
-struct GetInternetBeatDateStamp
-{
-  u8 pad0[4];
-  u8 h;
-  u8 m;
-  u8 s;
-  u8 pad7;
-  u8 pad8[4];
-};
 s32 TLobby::get_clock_frames() {
   u8 *hour;
   u8 *g;

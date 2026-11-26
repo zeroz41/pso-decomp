@@ -99,14 +99,14 @@ extern const PathProfile jungle_seagull_path_profiles[3] = {
     {2, 0.1f, 0.6f, 0.1f, 364},
     {3, 0.1f, 0.6f, 0.1f, 546},
 };
-extern const Vec jungle_kamome_zero_vec = {0.0f, 0.0f, 0.0f};
+extern const Vec path_zero_vec = {0.0f, 0.0f, 0.0f};
 extern const PathProfile lobby_pigeon_path_profiles[3] = {
     {1, 0.1f, 2.0f, 0.1f, 364},
     {2, 0.1f, 2.0f, 0.1f, 364},
     {3, 0.1f, 2.0f, 0.1f, 546},
 };
 extern const Vec lobby_pigeon_zero_vec = {0.0f, 0.0f, 0.0f};
-extern const f64 path_angle_scale[1] = {10430.38043493439};
+extern const f64 path_angle_units_per_radian[1] = {10430.38043493439};
 
 
 #include "pso/map/CsnGroundQuery.h"
@@ -267,7 +267,7 @@ s32 TObjSeabedDolphin::initialize_path() {
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -288,7 +288,7 @@ s32 TObjSeabedDolphin::update_path_steering() {
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
     this->path_pitch = approach_angle_limited(this->path_pitch, tmp, seabed_dolphin_path_profiles[this->profile].turn_step);
     old = this->path_yaw;
-    tmp = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     this->path_yaw = approach_angle_limited(old, tmp, seabed_dolphin_path_profiles[this->profile].turn_step);
     diff = angle_diff_s16(old, tmp);
     if (diff > 0x30) {
@@ -433,7 +433,7 @@ s32 TObjJungleEbi::initialize_path() {
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -471,7 +471,7 @@ s32 TObjJungleEbi::update_path_follow_rotation(const EbiPathProfile *, f32) {
     }
     this->path_pitch = approach_angle_limited(this->path_pitch, tmp, e->turn_step);
     old = this->path_yaw;
-    tmp = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     if (!(e->flags & 2)) {
         this->path_yaw = approach_angle_limited(old, tmp, e->turn_step);
     }
@@ -605,7 +605,7 @@ s32 TObjJungleBird::initialize_path() {
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -626,7 +626,7 @@ s32 TObjJungleBird::update_path_steering() {
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
     this->path_pitch = approach_angle_limited(this->path_pitch, tmp, lobby_pigeon_path_parameters[this->profile].turn_step);
     old = this->path_yaw;
-    tmp = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     this->path_yaw = approach_angle_limited(old, tmp, lobby_pigeon_path_parameters[this->profile].turn_step);
     diff = angle_diff_s16(old, tmp);
     if (diff > 0x30) {
@@ -715,7 +715,7 @@ TObjJungleKamome::~TObjJungleKamome() {}
 
 void TObjJungleKamome::update() {
     Mtx34 m;
-    s32 delay;
+    s32 cry_delay_left;
 
     this->path_frame += jungle_seagull_path_profiles[this->profile].path_speed;
     if (update_path_steering() == 0) {
@@ -725,10 +725,10 @@ void TObjJungleKamome::update() {
     if (this->motion_frame > (f32) (this->motion->frameCount - 1)) {
         this->motion_frame = (0.0f);
     }
-    delay = this->cry_delay - 1;
-    this->cry_delay = delay;
-    if (delay < 0) {
-        Vec v = jungle_kamome_zero_vec;
+    cry_delay_left = this->cry_delay - 1;
+    this->cry_delay = cry_delay_left;
+    if (cry_delay_left < 0) {
+        Vec v = path_zero_vec;
         set_matrix_identity((u8 *)m);
         translate_matrix_vec3((u8 *)m, (u8 *)&this->position);
         rotate_matrix_y(m, this->rotation_y);
@@ -770,7 +770,7 @@ s32 TObjJungleKamome::initialize_path() {
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -791,7 +791,7 @@ s32 TObjJungleKamome::update_path_steering() {
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
     this->path_pitch = approach_angle_limited(this->path_pitch, tmp, jungle_seagull_path_profiles[this->profile].turn_step);
     old = this->path_yaw;
-    tmp = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     this->path_yaw = approach_angle_limited(old, tmp, jungle_seagull_path_profiles[this->profile].turn_step);
     diff = angle_diff_s16(old, tmp);
     if (diff > 0x30) {
@@ -1000,7 +1000,7 @@ s32 TObjLobbyPigeon::initialize_lobby_pigeon_path() {
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &this->path_pitch, &tmp);
-    this->path_yaw = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->path_yaw = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -1021,7 +1021,7 @@ s32 TObjLobbyPigeon::advance_lobby_pigeon_path() {
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
     this->path_pitch = approach_angle_limited(this->path_pitch, tmp, lobby_pigeon_path_profiles[this->profile].turn_step);
     old = this->path_yaw;
-    tmp = (s32)(path_angle_scale[0] * atan2_float(b.x - a.x, b.z - a.z));
+    tmp = (s32)(path_angle_units_per_radian[0] * atan2_float(b.x - a.x, b.z - a.z));
     this->path_yaw = approach_angle_limited(old, tmp, lobby_pigeon_path_profiles[this->profile].turn_step);
     diff = angle_diff_s16(old, tmp);
     if (diff > 0x30) {

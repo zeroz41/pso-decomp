@@ -39,7 +39,7 @@ void (*static_resource_callback_table[10])(void) = {
 };
 
 void fn_802FE9E0(void) {
-    TLobby::call_funcs_reverse((void*)static_resource_callback_table, (unsigned int)(sizeof(static_resource_callback_table)));
+    TLobby::call_funcs_reverse(static_resource_callback_table, (unsigned int)(sizeof(static_resource_callback_table)));
 }
 void fn_802FEA0C(void) {
     run_load_callback_table(static_resource_callback_table, sizeof(static_resource_callback_table));

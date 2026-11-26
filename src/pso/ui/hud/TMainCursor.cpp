@@ -238,10 +238,10 @@ TLockOnCursor::~TLockOnCursor() {
 void load_target_cursor_models(void) {
     saddr resource;
     if ((void *) lock_on_cursor_bml_resource == NULL) {
-        resource = (saddr)new BmlResource(5, (BmlResourceDescriptor *)&target_cursor_resource_descriptor, 0, 0, NULL);
+        resource = (saddr)new BmlResource(5, &target_cursor_resource_descriptor, 0, 0, NULL);
         lock_on_cursor_bml_resource = (unsigned char *) ((void *) resource);
         if ((u32) resource != 0U) {
-            lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)(void *) resource, 0);
+            lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)resource, 0);
             TLockOnCursor::target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
             main_cursor_model = get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
         }
@@ -1660,7 +1660,7 @@ void TargetCursorRecord::copy_from(TargetCursorRecord *src) {
 }
 
 void TLockOnCursor::init_slot(s32 i) {
-    deactivate_action_channel((void*)(&action_slots[i]));
+    deactivate_action_channel((&action_slots[i]));
 }
 
 void deactivate_action_channel(void *p) { set_action_channel_inactive((u8 *)p); }

@@ -53,7 +53,7 @@
 
 s16 TObjPlayer::get_atp() { return this->atp; }
 s16 TObjPlayer::get_atp_range() { return this->atp_range; }
-void TObjPlayer__sub_800A7774(TObjBase *object, const Vec *position) { VecCopy(&object->position, position); }
+void set_object_position(TObjBase *object, const Vec *position) { VecCopy(&object->position, position); }
 
 void TObjMotion::set_override_speed(f32 speed) {
     this->override_speed = speed;

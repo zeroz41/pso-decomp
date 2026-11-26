@@ -39,8 +39,8 @@ s32 TChCrLoadAfs::try_begin_load() {
 }
 
 
-void TChCrLoadAfs::sub_8028B940() {  }
-void TChCrLoadAfs::sub_8028B944() {  }
+void TChCrLoadAfs::empty_state_3() {  }
+void TChCrLoadAfs::empty_state_2() {  }
 void TChCrLoadAfs::poll_load() {
     switch (ADXF_GetStat(load_handle)) {
     case 2:
@@ -106,8 +106,8 @@ void TChCrLoadAfs::run_task() {
     static TChCrLoadAfsHandler tbl[] = {
         &TChCrLoadAfs::start_download,
         &TChCrLoadAfs::poll_load,
-        &TChCrLoadAfs::sub_8028B944,
-        &TChCrLoadAfs::sub_8028B940,
+        &TChCrLoadAfs::empty_state_2,
+        &TChCrLoadAfs::empty_state_3,
     };
     (this->*tbl[load_state])();
 }

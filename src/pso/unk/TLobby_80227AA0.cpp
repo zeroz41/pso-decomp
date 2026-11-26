@@ -94,7 +94,7 @@ void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
 
 void TLobby__sub_80227D38(void) { fade_voice_channels(0); }
 
-s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 volume, s32 options) {
+s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 offset, s32 options) {
     s32 r;
     s32 m;
     s32 flags;
@@ -109,10 +109,10 @@ s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 
     }
     if (options & 2) {
         v = -(s32)((id >> 8U) & 0x7F);
-        if (volume >= 0) {
-            volume = 0;
+        if (offset >= 0) {
+            offset = 0;
         }
-        v += volume;
+        v += offset;
     } else {
         v = -(s32)((id >> 8U) & 0x7F);
     }
@@ -138,7 +138,7 @@ s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 
     return -1;
 }
 
-s32 play_packed_sound_once(u32 id, saddr position, s32 volume, s32 options) {
+s32 play_packed_sound_once(u32 id, saddr position, s32 offset, s32 options) {
     s32 r;
     s32 m;
     s32 flags;
@@ -153,10 +153,10 @@ s32 play_packed_sound_once(u32 id, saddr position, s32 volume, s32 options) {
     }
     if (options & 2) {
         v = -(s32)((id >> 8U) & 0x7F);
-        if (volume >= 0) {
-            volume = 0;
+        if (offset >= 0) {
+            offset = 0;
         }
-        v += volume;
+        v += offset;
     } else {
         v = -(s32)((id >> 8U) & 0x7F);
     }
@@ -204,15 +204,15 @@ extern const f32 floor_sound_bank_volume_table[36] = {
 void TLobby::refresh_render_state() { sound_control_state.pop_sound_groups(0); ((int (*)(float))apply_clamped_field_27c__6TLobbyFv)(0.0f); render_tick(); }
 
 void load_floor_sound_bank(s32 floor) {
-    s32 offset;
+    s32 byte_offset;
     s32 bank;
 
     if (floor >= 0) {
-        offset = floor * 4;
-        bank = *(s32 *)((s8 *)((u8 *)floor_sound_bank_table + offset) + 0);
+        byte_offset = floor * 4;
+        bank = *(s32 *)((s8 *)((u8 *)floor_sound_bank_table + byte_offset) + 0);
         if (bank >= 0) {
             if (floor < 0x24) {
-                ((s32 (*)(void *, f32))apply_clamped_field_27c__6TLobbyFv)((void *)floor_sound_bank_volume_table, (f32) (*(f32 *)((s8 *)((u8 *)floor_sound_bank_volume_table + offset) + 0)));
+                ((s32 (*)(void *, f32))apply_clamped_field_27c__6TLobbyFv)((void *)floor_sound_bank_volume_table, (f32) (*(f32 *)((s8 *)((u8 *)floor_sound_bank_volume_table + byte_offset) + 0)));
             }
             sound_control_state.validate_and_set_selection(bank);
             do {

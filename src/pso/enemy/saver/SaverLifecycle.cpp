@@ -190,7 +190,7 @@ void TObjEneSaver::update_particle_effect() {
         break;
     }
     if (particle_ctrl != NULL) {
-        TObjPlayer__sub_800A7774(particle_ctrl, &particle_position);
+        set_object_position(particle_ctrl, &particle_position);
     }
 }
 

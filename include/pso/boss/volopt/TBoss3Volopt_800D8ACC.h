@@ -20,12 +20,7 @@ extern "C" void spawn_particles_at__12TBoss3VoloptFi(saddr position);
 void disable_player_particle_effect(void);
 void enable_player_particle_effect(void);
 
-extern "C" {
-void *__dt__17MaterialColorFadeFv(void *arg0, s16 arg1);
-}
 void TObjPlayer__sub_800D93F0(const Vec *point, s32 selector, s32 delay, f32 maxScale);
-extern "C" {
-}
 // Dead-stripped (no code in the DOL); names inferred, see TBoss3Volopt_800D8ACC.cpp.
 
 void fn_800D911C(Vec *position);

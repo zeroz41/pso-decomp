@@ -74,9 +74,9 @@ const char *trap_ancient02_name = "TOTrapAncient02";
 const char *trap_ancient02_r_name = "TOTrapAncient02R";
 
 BmlResource *trap_ancient02_shared_resource;
-s32 ancient02_uv_scroll_tick;   // the actor_frame_tick the uv scroll last ran on
-GinjaModel *ancient02_uv_scroll_model; // the model update_effects scrolls the uvs of
-s32 ancient02_uv_scroll_mesh;   // the mesh of it that scrolls
+s32 uv_scroll_last_tick;   // the actor_frame_tick the uv scroll last ran on
+GinjaModel *uv_scroll_model; // the model update_effects scrolls the uvs of
+s32 uv_scroll_mesh_index;   // the mesh of it that scrolls
 
 void TOTrapAncient02R::init_trap_object_id() {
     switch_id = set_params[1];
@@ -179,9 +179,9 @@ void TOTrapAncient02::load_resources() {
     case AREA_VR_TEMPLE_BETA:
         resource = new BmlResource(1, &records[1].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        ancient02_uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
-        ancient02_uv_scroll_mesh = 2;
-        ancient02_uv_scroll_tick = 0;
+        uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
+        uv_scroll_mesh_index = 2;
+        uv_scroll_last_tick = 0;
         break;
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
@@ -194,16 +194,16 @@ void TOTrapAncient02::load_resources() {
     case AREA_TOWER:
         resource = new BmlResource(1, &records[2].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        ancient02_uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
-        ancient02_uv_scroll_mesh = 1;
-        ancient02_uv_scroll_tick = 0;
+        uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
+        uv_scroll_mesh_index = 1;
+        uv_scroll_last_tick = 0;
         break;
     default:
         resource = new BmlResource(1, &records[0].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        ancient02_uv_scroll_model = static_cast<GinjaModel *>(resource->models->model->child->child->model);
-        ancient02_uv_scroll_mesh = 1;
-        ancient02_uv_scroll_tick = 0;
+        uv_scroll_model = static_cast<GinjaModel *>(resource->models->model->child->child->model);
+        uv_scroll_mesh_index = 1;
+        uv_scroll_last_tick = 0;
         break;
     }
 }
@@ -428,9 +428,9 @@ void TOTrapAncient02::update_holding() {
 }
 
 void TOTrapAncient02::update_effects() {
-    if (ancient02_uv_scroll_tick != actor_frame_tick && ancient02_uv_scroll_model != NULL) {
-        ancient02_uv_scroll_tick = actor_frame_tick;
-        scroll_ginja_mesh_uvs(ancient02_uv_scroll_model, 0, 0xE, ancient02_uv_scroll_mesh, 1);
+    if (uv_scroll_last_tick != actor_frame_tick && uv_scroll_model != NULL) {
+        uv_scroll_last_tick = actor_frame_tick;
+        scroll_ginja_mesh_uvs(uv_scroll_model, 0, 0xE, uv_scroll_mesh_index, 1);
     }
     spin_angle += 0x888;
     switch (mode) {

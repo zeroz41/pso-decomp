@@ -31,9 +31,12 @@ void save_challenge_tombstone_spot(s32 client);
 s32 count_card_layout_entries(s32 client);
 void enable_split_screen_challenge_mode(void);
 s32 is_challenge_mode_active(void);
-extern "C" {
-void set_split_screen_name__6TLobbyFv(s32 arg0);
-}
 void setup_split_screen(void);
+
+struct RebuildPlayersForStageHdr { u32 w[2]; };
+
+struct RebuildPlayersForStageInfo { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
+
+struct ByteBlock_690 { u8 bytes[0x690]; };
 
 #endif

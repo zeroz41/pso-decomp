@@ -38,14 +38,14 @@ NJS_TEXLIST *light_machine_ginja_param;
 const char *light_machine01_name = "TOLightMachine01";
 
 void TOLightMachine01::run_task() {
-    this->bob_phase = (s32) (this->bob_phase + this->bob_phase_step);
-    this->bob_offset = (f32) (bob_amplitude * sin_table_lookup((s32)bob_phase));
+    this->bob_angle = (s32) (this->bob_angle + this->bob_angle_step);
+    this->bob_offset = (f32) (bob_amplitude * sin_table_lookup((s32)bob_angle));
     this->spin_angle = (s32) (this->spin_angle + this->set_params[2]);
 }
 
 
 void TOLightMachine01::render() {
-    if (this->update_object_view_visibility(view_range, this->bounds_radius) != 0) {
+    if (this->update_object_view_visibility(view_range, this->model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -96,13 +96,13 @@ TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
     light_machine01->model = (void *)get_bml_model(light_machine01_shared_bml_archive, 1);
     light_machine01->texlist = get_bml_texlist(light_machine01_shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;
-    light_machine01->bounds_radius = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
+    light_machine01->model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);
     light_machine01->bob_speed = (f32) ((0.1f * (f32) light_machine01->set_params[0]) + 1.0f);
-    light_machine01->bob_phase_step = (s32) (182.04445f * (360.0f / (30.0f / light_machine01->bob_speed)));
-    light_machine01->bob_phase = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
+    light_machine01->bob_angle_step = (s32) (182.04445f * (360.0f / (30.0f / light_machine01->bob_speed)));
+    light_machine01->bob_angle = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
     light_machine01->bob_amplitude = (f32) ((0.1f * (f32) light_machine01->set_params[1]) + 0.5f);
-    light_machine01->bob_offset = (f32) (light_machine01->bob_amplitude * sin_table_lookup(light_machine01->bob_phase));
+    light_machine01->bob_offset = (f32) (light_machine01->bob_amplitude * sin_table_lookup(light_machine01->bob_angle));
     light_machine01->spin_angle = 0;
 }
 #undef light_machine01

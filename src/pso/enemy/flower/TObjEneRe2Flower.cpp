@@ -162,7 +162,7 @@ void *TObjEneRe2Flower::create(void *setData) {
 }
 
 void TObjEneRe2Flower::destroy_instance() {
-    TObjPlayer__sub_800C4D44();
+    free_curse_resources();
     if (re2_flower_bml_resource != NULL) {
         delete re2_flower_bml_resource;
         re2_flower_bml_resource = NULL;

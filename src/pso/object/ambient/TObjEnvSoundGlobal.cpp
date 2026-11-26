@@ -100,7 +100,7 @@ TObjEnvSound::TObjEnvSound(TObject *parent, void *set_data) : TObjBase(parent) {
     apply_object_set_data(set_data);
     table = environment_sound_tables_by_area[get_current_floor_area()];
     if (table != NULL) {
-        TObjEnvSoundGlobal::copy_pair(&sound, const_cast<EnvSoundRow *>(&table[set_params[0]]));
+        TObjEnvSoundGlobal::copy_env_sound_row(&sound, const_cast<EnvSoundRow *>(&table[set_params[0]]));
     } else {
         queue_destruction();
         return;
@@ -124,9 +124,9 @@ TObjEnvSound::~TObjEnvSound() {
 }
 
 void TObjEnvSound::run_task() {
-    f32 radius;
-    radius = this->radius;
-    if ((is_camera_in_range((f32) (radius * radius)) != 0) && (is_sound_enabled(this->sound.cue) != 0)) {
+    f32 range;
+    range = this->radius;
+    if ((is_within_camera_distance_sq((f32) (range * range)) != 0) && (is_sound_enabled(this->sound.cue) != 0)) {
         switch (this->sound.mode) {
         case 0:
             break;
@@ -149,8 +149,8 @@ void *TObjEnvSound::create(void *set_data) {
     return new TObjEnvSound(tl_05, set_data);
 }
 
-s32 TObjEnvSound::is_camera_in_range(f32 radius_squared) {
-    return xyz_distance_squared(&camera_ctrl_instance->pos, &position) < radius_squared;
+s32 TObjEnvSound::is_within_camera_distance_sq(f32 distance_sq) {
+    return xyz_distance_squared(&camera_ctrl_instance->pos, &position) < distance_sq;
 }
 
 s32 TObjEnvSound::is_sound_enabled(s32 cue) {
@@ -220,7 +220,7 @@ s32 TObjEnvSoundEx::init_sound_params() {
     ok = 1;
     table = environment_sound_tables_by_area[get_current_floor_area()];
     if (table != NULL) {
-        TObjEnvSoundGlobal::copy_pair(&sound, const_cast<EnvSoundRow *>(&table[set_params[0]]));
+        TObjEnvSoundGlobal::copy_env_sound_row(&sound, const_cast<EnvSoundRow *>(&table[set_params[0]]));
     } else {
         ok = 0;
         sound.cue = -1;
@@ -273,7 +273,7 @@ void TObjEnvSoundGlobal::run_task() {
 
 void TObjEnvSoundGlobal::render() {  }
 
-void TObjEnvSoundGlobal::copy_pair(EnvSoundRow *dst, EnvSoundRow *src) {
+void TObjEnvSoundGlobal::copy_env_sound_row(EnvSoundRow *dst, EnvSoundRow *src) {
     dst->cue = src->cue;
     dst->mode = src->mode;
 }
@@ -281,14 +281,14 @@ void TObjEnvSoundGlobal::copy_pair(EnvSoundRow *dst, EnvSoundRow *src) {
 #pragma push
 #pragma opt_common_subs off
 s32 TObjEnvSoundGlobal::setup_sound() {
-    s32 ok;
+    s32 result;
     const EnvSoundRow *table;
-    ok = 1;
+    result = 1;
     table = environment_sound_tables_by_area[get_current_floor_area()];
     if (table != NULL) {
-        copy_pair(&this->sound, const_cast<EnvSoundRow *>(&table[this->set_params[0]]));
+        copy_env_sound_row(&this->sound, const_cast<EnvSoundRow *>(&table[this->set_params[0]]));
     } else {
-        ok = 0;
+        result = 0;
         this->sound.cue = -1;
         this->sound.mode = -1;
     }
@@ -299,6 +299,6 @@ s32 TObjEnvSoundGlobal::setup_sound() {
     if (attenuation > (127.0f)) {
         attenuation = 127.0f;
     }
-    return ok;
+    return result;
 }
 #pragma pop

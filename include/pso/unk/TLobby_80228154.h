@@ -13,4 +13,9 @@ void load_area_scene_and_init(u8 *transition);
 }
 // --- end of C functions
 
+struct TLobbyScreenQuad {
+    f32 x0, y0, x1, y1;
+    f32 u0, v0, u1, v1;
+};
+
 #endif

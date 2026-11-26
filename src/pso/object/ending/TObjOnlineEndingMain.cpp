@@ -206,7 +206,7 @@ TObjOnlineEnding::TObjOnlineEnding(TObject *parent) : TObjBase(parent) {
             entry->active = 1;
             entry->id = i;
             strncpy(entry->name, player->name, 0x10);
-            class_type = player->char_class;
+            class_type = player->class_index;
             {
                 OnlineEndingPlayerPlacement *placement =
                     &online_ending_player_placements[online_ending_seat_slots[player_count] + class_type * 4];

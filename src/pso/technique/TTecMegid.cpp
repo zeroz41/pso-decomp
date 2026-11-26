@@ -54,12 +54,6 @@ static const TechniqueEmitterSourceTable megid_emitter_bands[6] = {
 const char *TTecMegid::class_name = "TTecMegid";
 static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
-extern "C" {
-void mem_free(void *p);
-}
-u32 get_technique_caster_flags(s32 technique, u16 actor);
-extern "C" {
-
 
 #pragma push
 #pragma dont_inline off
@@ -102,7 +96,6 @@ void TTecMegid::update_by_state() {
 
 
 void TTecMegid::spawn_particle_emitters() {
-  u32 fl;
   u32 flags;
   const TechniqueEmitterSourceRow *row;
   u32 i;
@@ -191,11 +184,11 @@ void TTecMegid::apply_to_target(TObjChara *target) {
     }
 }
 
-void TTecMegid::create(saddr source, saddr pos, saddr arg2, s32 level) {
-    new TTecMegid(source, (u8 *)pos, (u8 *)arg2, level);
+void TTecMegid::create(saddr source, saddr pos, saddr target, s32 level) {
+    new TTecMegid(source, (u8 *)pos, (u8 *)target, level);
 }
-void TTecMegid::create_ex(saddr source, saddr pos, s32 arg2, s32 level) {
-    new TTecMegid(source, (Vec *)pos, arg2, level);
+void TTecMegid::create_ex(saddr source, saddr pos, s32 angle, s32 level) {
+    new TTecMegid(source, (Vec *)pos, angle, level);
 }
 void TTecMegid::render() {  }
 
@@ -241,17 +234,16 @@ TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(so
     s32 i;
     m_name = TTecMegid::class_name;
     init_parameters();
-    *(f32 *)((s8 *)this + 0x178) = 0.0f;
+    pad_178 = 0.0f;
     for (i = 0; i < 0x20; i++) {
         hitIds[i] = 0xFFFF;
     }
     hitCursor = 0;
     spawn_particle_emitters();
     update_by_state();
-    if (*(void **)((s8 *)this + 0x1C) != 0) {
-        sourceId = ((TObjBase *)(*(void **)((s8 *)this + 0x1C)))->get_entity_id();
+    if (TEffect::source != 0) {
+        sourceId = ((TObjBase *)TEffect::source)->get_entity_id();
     }
-}
 }
 
 // The facing form: the technique starts at `pos` and flies along the y angle `angle`.
@@ -259,14 +251,14 @@ TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TTecShot(so
     s32 i;
     m_name = TTecMegid::class_name;
     init_parameters();
-    *(f32 *)((s8 *)this + 0x178) = 0.0f;
+    pad_178 = 0.0f;
     for (i = 0; i < 0x20; i++) {
         hitIds[i] = 0xFFFF;
     }
     hitCursor = 0;
     spawn_particle_emitters();
     update_by_state();
-    if (*(void **)((s8 *)this + 0x1C) != 0) {
-        sourceId = ((TObjBase *)(*(void **)((s8 *)this + 0x1C)))->get_entity_id();
+    if (TEffect::source != 0) {
+        sourceId = ((TObjBase *)TEffect::source)->get_entity_id();
     }
 }

@@ -135,7 +135,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
         c = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
         break;
     case 1:
-        summary = get_secondary_card_slot_summary(ply_status_index);
+        summary = get_secondary_slot_summary(ply_status_index);
         if (summary != 0) {
             time = summary->play_time;
         }

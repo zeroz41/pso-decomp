@@ -30,7 +30,7 @@ const char *area_music_filename_table[6] = {
 
 s32 bgm_zone_category;
 // Cleared each frame before the zones run; a zone the local player is inside sets it.
-s32 player_in_bgm_zone;
+s32 bgm_zone_claimed;
 // The root the BGM collision zones hang under (created next to the controller).
 TObject *bgm_col_ctrl_instance;
 u32 bgm_col_ctrl_current_theme_id;
@@ -78,8 +78,8 @@ s32 TObjBgmColCtrl::is_active() {
 TObjBgmCol::TObjBgmCol(TObject *parent, void *set_data) : TObjBase(parent) {
     this->m_name = bgm_col_name;
     this->apply_object_set_data(set_data);
-    this->player_outside = 1;
-    this->trigger_radius = (f32) this->scale.x;
+    this->outside = 1;
+    this->radius = (f32) this->scale.x;
     this->category = (s32) (this->set_params[0] % 6);
     if (this->category < 0) {
         this->category = 0;
@@ -102,10 +102,10 @@ void TObjBgmCol::run_task() {
                 }
                 bgm_zone_category = this->category;
             }
-            player_in_bgm_zone = 1;
+            bgm_zone_claimed = 1;
             return;
         case 0:
-            player_in_bgm_zone = 1;
+            bgm_zone_claimed = 1;
             break;
         case 2:
             break;
@@ -116,24 +116,24 @@ void TObjBgmCol::run_task() {
 s32 TObjBgmCol::check() {
     f32 radius;
 
-    radius = this->trigger_radius;
+    radius = this->radius;
     if (is_within_distance(radius * radius) != 0) {
-        if ((s32) this->player_outside != 0) {
-            this->player_outside = 0;
+        if ((s32) this->outside != 0) {
+            this->outside = 0;
             return 1;
         }
         return 0;
     }
-    if ((s32) this->player_outside != 0) {
+    if ((s32) this->outside != 0) {
         return 2;
     }
-    this->player_outside = 1;
+    this->outside = 1;
     return 3;
 }
 
-s32 TObjBgmCol::is_within_distance(f32 radius_squared) {
+s32 TObjBgmCol::is_within_distance(f32 distance_sq) {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
-    if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < radius_squared)) {
+    if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < distance_sq)) {
         return 1;
     }
     return 0;
@@ -191,22 +191,22 @@ void TObjBgmColCtrl::create_controller() {
 }
 
 void TObjBgmColCtrl::run_task() {
-    s32 delay;
+    s32 frames_left;
 
-    delay = this->start_delay;
-    this->start_delay = (delay - 1);
-    if ((delay <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
+    frames_left = this->start_delay;
+    this->start_delay = (frames_left - 1);
+    if ((frames_left <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             if (TObjBgmColCtrl::is_active() == 0) {
                 TObjBgmColCtrl::play_lobby_theme_music();
             }
         } else {
-            player_in_bgm_zone = 0;
+            bgm_zone_claimed = 0;
             TObject *root = bgm_col_ctrl_instance;
             if (root != NULL) {
                 root->run_tasks();
             }
-            if (player_in_bgm_zone == 0) {
+            if (bgm_zone_claimed == 0) {
                 if (TObjBgmColCtrl::is_active() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }

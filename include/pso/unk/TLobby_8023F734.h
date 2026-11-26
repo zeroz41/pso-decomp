@@ -9,8 +9,8 @@ struct Vec;
 #include <stddef.h>
 
 struct Ent_8023FCC0 {
-    void *h[4];
-    s32 k[4];
+    void *file_data[4];
+    s32 file_index[4];
     s32 pad20;
 };
 
@@ -81,7 +81,6 @@ LAYOUT_ASSERT(SoundControlState_ms_offset, offsetof(SoundControlState, ms) == 0x
 
 extern SoundControlState sound_control_state;
 
-
 void set_sound_voice_position(s32 slot, const Vec *position);
 extern "C" {
 s32 TLobby__sub_8023F880(s32 voice);
@@ -113,5 +112,11 @@ s32 tick_sound_voice(struct SoundRequestVoice *v);
 
 s32 update_sound_frame(SoundControlState *self);
 s32 init_sound_aux_effects(SoundControlState *self);
+
+typedef struct ResolveSoundEffectBankRange {
+    s32 start;
+    s32 end;
+} ResolveSoundEffectBankRange;
+
 
 #endif

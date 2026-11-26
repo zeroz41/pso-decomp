@@ -27,7 +27,7 @@
 #pragma readonly_strings on
 
 const char *ez_rope_base_name = "TObjEZRopeBase";
-const char *TObjHMS_EZRope_Player__name = "TObjHMS_EZRope_Player";
+const char *TObjHMS_EZRope_Player::class_name = "TObjHMS_EZRope_Player";
 #pragma pop
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -276,7 +276,7 @@ TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *r
     TObjHMSRopeSpec *rope;
     rope_count = 0;
     collider_count = 0;
-    m_name = TObjHMS_EZRope_Player__name;
+    m_name = TObjHMS_EZRope_Player::class_name;
     owner = parent;
     rope_specs = ropes;
     collider_specs = colliders;

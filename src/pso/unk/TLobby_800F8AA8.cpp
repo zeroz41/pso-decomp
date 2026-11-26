@@ -51,9 +51,6 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/SubtractiveRng.h"
 
-// One TU from 0x800F8A0C: the "" lbl_805D2B10 points at opens the .sdata2 pool at 0x805DA910
-// (after the 4-byte pad that 8-aligns a TU start), then copy_name's "..", then this file's floats.
-
 const char *lbl_805D2B10 = "";
 
 // The parent of every loaded resource file (TRelDataFile): __sinit constructs it and
@@ -872,7 +869,7 @@ void TLobby::invoke_callback() {
 
 #undef main_phase_deferred_callback
 
-void TLobby::set_keyboard_mode(int a0) { (*(int *)&main_phase_deferred_callback) = a0; }
+void TLobby::set_keyboard_mode(int a0) { main_phase_deferred_callback = a0; }
 
 void TLobby::flush_pending() {
     uaddr destination;
@@ -900,7 +897,7 @@ void TLobby::flush_checked_reads() {
     }
 }
 
-void TLobby::reset_read_state() { (*(int *)&pending_file_read_handle_ref) = 0; (*(int *)&pending_file_read_sector_count) = 0; (*(int *)&pending_file_read_destination) = 0; }
+void TLobby::reset_read_state() { (*(int *)&pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
 void TLobby::clear_player_slot_tables(s32 n) {
     s32 i;
     if (n == -1) {
@@ -919,17 +916,17 @@ void TLobby::clear_player_slot_tables(s32 n) {
 }
 
 void TLobby::set_entry_params(s32 index, s32 sector_count, s32 buffer) {
-    saddr arg0 = (saddr)this;
-    lobby_checked_read_ptr_table[index] = (AdxfHandle **)arg0;
+    saddr handle = (saddr)this;
+    lobby_checked_read_ptr_table[index] = (AdxfHandle **)handle;
     lbl_80499A10[index] = sector_count;
     lbl_80499A20[index] = buffer;
 }
 
 #pragma push
 
-void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; (*(int *)&pending_file_read_sector_count) = sector_count; (*(int *)&pending_file_read_destination) = destination; }
+void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
 
-void request_pending_file_read_flush(void) { (*(int *)&pending_file_read_flush_requested) = 1; }
+void request_pending_file_read_flush(void) { pending_file_read_flush_requested = 1; }
 
 
 void TLobby::draw_fullscreen_texture_quad() {
@@ -976,7 +973,7 @@ void set_lobby_state_byte_flag(void) { lobby_state_byte_flag = 1; }
 
 void TLobby::reset_state_byte() {
     if ((u8) lobby_wait_ready_flag == 0) {
-        (*(s8 *)&lobby_state_byte_flag) = 0;
+        lobby_state_byte_flag = 0;
     }
 }
 
@@ -984,16 +981,17 @@ void TLobby::reset_state_byte() {
 
 #pragma push
 void TLobby::wait_ready_loop() {
-    (*(s8 *)&lobby_wait_ready_flag) = 0;
-loop_1:
-    if (TLobby::run_disk_error_check() != 1) {
+    lobby_wait_ready_flag = 0;
+    for (;;) {
+        if (TLobby::run_disk_error_check() == 1) {
+            return;
+        }
         if (get_main_phase() == 0xF) {
             update_state_with_location();
         }
         TAdPlayerLoadGC::set_state(1);
-        (*(s8 *)&lobby_wait_ready_flag) = 1;
+        lobby_wait_ready_flag = 1;
         render_tick();
-        goto loop_1;
     }
 }
 
@@ -1052,7 +1050,7 @@ s32 TLobby::run_disk_error_check() {
         break;
     case 1:
         controller_stuff();
-        if ((*(int *)&pending_file_read_flush_requested) != 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
+        if (pending_file_read_flush_requested != 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
             system_reset();
         }
         break;
@@ -1129,9 +1127,9 @@ s32 TLobby::run_disk_error_check() {
 
 #undef pending_file_read_flush_requested
 
-// .text 0x800F93B4-0x800F9F4C: the GSL archive close hook, the resource load tasks (TRelDataFile
-// children of resource_load_task_root, one per relocatable data file), the quest and text
-// archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
+// The GSL archive close hook, the resource load tasks (TRelDataFile children of
+// resource_load_task_root, one per relocatable data file), the quest and text archive
+// decryption, the disc-file wrappers and TLobby::run_frame.
 extern s32 memcard_access_active;
 extern int player_load_load_state;
 extern "C" {
@@ -1241,7 +1239,7 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 h;
     u8 *buf;
     void *ret;
-    s32 decoded_size;
+    s32 archive_size;
 
     size = get_resource_file_size(name);
     if (size <= 0) {
@@ -1250,16 +1248,16 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
         buf = TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
         read_disc_file(name, buf);
-        ret = ((TLobby *)buf)->alloc_download_quest(size, &decoded_size);
+        ret = ((TLobby *)buf)->alloc_download_quest(size, &archive_size);
         TLobby::tmp_buf_release(load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
         buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
         st.read_sectors_sync(1, buf);
-        decoded_size = *(s32 *)((s8 *)buf + 0);
+        archive_size = *(s32 *)((s8 *)buf + 0);
         h = *(s32 *)((s8 *)buf + 4);
         safe_free(buf);
-        ret = TQuestVmDownLoadServer::alloc(decoded_size);
+        ret = TQuestVmDownLoadServer::alloc(archive_size);
         buf = load_disc_file(name);
         SubtractiveRng rng;
         subtractive_rng_seed(&rng, h);
@@ -1268,7 +1266,7 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         safe_free(buf);
     }
     if (out_size != NULL) {
-        *out_size = decoded_size;
+        *out_size = archive_size;
     }
     return ret;
 }

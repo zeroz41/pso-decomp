@@ -334,15 +334,15 @@ void TObjEneSlime::render() {
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
+            draw_chunk_object(get_bml_model(slime_bml_resource, model_index));
             clear_chunk_render_flags();
             model_render_flags &= 0xFFBFFFFF;
         } else {
             set_chunk_render_flags(2);
             set_cull_back();
-            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
+            draw_chunk_object(get_bml_model(slime_bml_resource, model_index));
             set_cull_front();
-            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
+            draw_chunk_object(get_bml_model(slime_bml_resource, model_index));
             set_cull_none();
             clear_chunk_render_flags();
         }
@@ -437,7 +437,7 @@ s32 TObjEneSlime::try_spawn_child(void *position) {
     if (i == n) {
         return 0;
     }
-    VecCopy((Vec *)&pos, (const Vec *)position);
+    VecCopy(&pos, (const Vec *)position);
     pos.y += 10.0f;
     ang = (s16) (65535.0f * random_ratio());
     dir.x = sin_table_lookup(ang);
@@ -877,17 +877,17 @@ void TObjEneSlimeOne::update_dive_timer() {
 }
 
 void TObjEneSlimeOne::enter_scan() {
-  unsigned int new_var;
+  unsigned int next_state;
   this->target_client_id = 0xFFFF;
   this->motion_phase = (s32) ((((s32) (4.0f * this->random_ratio())) + 4) << 0x10);
   this->state_timer = 0x7FFFFFFF;
   this->turn_speed = 0x400;
-  new_var = 1;
+  next_state = 1;
   if (this->random_ratio() > 0.5f)
   {
-    this->turn_speed = (s32) ((this->turn_speed) * (-new_var));
+    this->turn_speed = (s32) ((this->turn_speed) * (-next_state));
   }
-  animation->set_state(new_var);
+  animation->set_state(next_state);
   set_display_mode(2);
 }
 void TObjEneSlimeOne::update_scan() {
@@ -1238,7 +1238,7 @@ void TObjEneSlimeOne::render_trail() {
     a.x *= 0.5f;
     a.y *= 0.5f;
     a.z *= 0.5f;
-    VecCopy((Vec *)&c, (const Vec *)&this->trail_position);
+    VecCopy(&c, (const Vec *)&this->trail_position);
     vec3_add_to(&c, &a);
     c.y += -1.125f;
     ang = 10430.38043493439 * atan2_float(a.x, a.z);

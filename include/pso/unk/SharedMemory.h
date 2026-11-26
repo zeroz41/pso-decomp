@@ -19,7 +19,7 @@ struct SharedMemoryConnectParam {
     char name[0xF0];
     s32 check_param;
     u8 unk_0F8[0x44];
-    s8 unk_13C;
+    s8 dial_type;
     s8 unk_13D;
     u8 unk_13E[0x82];
     s16 trial_param;
@@ -63,7 +63,7 @@ struct SharedMemory {
 LAYOUT_ASSERT(SharedMemory_size, sizeof(SharedMemory) == 0x8000);
 
 LAYOUT_ASSERT(SharedMemoryCheckParamOffset, offsetof(SharedMemoryConnectParam, check_param) == 0xF4);
-LAYOUT_ASSERT(SharedMemoryClientFlagOffset, offsetof(SharedMemoryConnectParam, unk_13C) == 0x13C);
+LAYOUT_ASSERT(SharedMemoryClientFlagOffset, offsetof(SharedMemoryConnectParam, dial_type) == 0x13C);
 LAYOUT_ASSERT(SharedMemoryTrialFlagOffset, offsetof(SharedMemoryConnectParam, unk_13D) == 0x13D);
 LAYOUT_ASSERT(SharedMemoryTrialParamOffset, offsetof(SharedMemoryConnectParam, trial_param) == 0x1C0);
 LAYOUT_ASSERT(SharedMemoryCheckPairOffset, offsetof(SharedMemoryConnectParam, unk_1C2) == 0x1C2);

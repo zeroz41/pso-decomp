@@ -675,7 +675,7 @@ __declspec(section ".ctors") static void *const offline_game_scene_initializer =
 
 static void __sinit_OfflineGameScene_cpp() {
     __register_global_object(__ct__12TPlyCharDataFv(&TPlyCharData__global_character_data),
-        (void *)__dt__12TPlyCharDataFv, &global_character_data_dtor_chain);
+        __dt__12TPlyCharDataFv, &global_character_data_dtor_chain);
 }
 
 void TLobby::reset_quest_counter() { lobby_quest_progress_flag = 0; }

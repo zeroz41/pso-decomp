@@ -144,7 +144,7 @@ void TLazerFenceSw::render() {
 }
 #pragma pop
 
-__declspec(section ".rodata") char lazer_fence_sw_select_color_label[16] = "<- SELECT COLOR";
+__declspec(section ".rodata") char debug_select_color_label[16] = "<- SELECT COLOR";
 void TLazerFenceSw::debug_draw_key_id() {
     TOKey::debug_draw_key_id();
     if (set_params[2] < 0) {
@@ -152,7 +152,7 @@ void TLazerFenceSw::debug_draw_key_id() {
     }
     color_slot = lazer_fence_sw_color_slots[set_params[2] % 4];
     set_debug_text_color(0xFF00FF);
-    debug_printf_at(0x130022, lazer_fence_sw_select_color_label);
+    debug_printf_at(0x130022, debug_select_color_label);
     set_debug_text_color(0xF0F0F0FF);
 }
 
@@ -170,16 +170,16 @@ void TLazerFenceSw::trigger_deactivate_sound() {
 
 void TLazerFenceSw::update_switch_on() {
     u32 beam_end;
-    u32 switch_end;
+    u32 last_frame;
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
     beam_end = lazer_fence_beam_motions[0]->frameCount - 1;
     if (this->animation_frame > (f32) beam_end) {
         this->animation_frame = (f32) beam_end;
     }
     switch_frame = (f32) (switch_frame + this->animation_step);
-    switch_end = lazer_fence_beam_motions[1]->frameCount - 1;
-    if (switch_frame > (f32) switch_end) {
-        switch_frame = (f32) switch_end;
+    last_frame = lazer_fence_beam_motions[1]->frameCount - 1;
+    if (switch_frame > (f32) last_frame) {
+        switch_frame = (f32) last_frame;
     }
 }
 

@@ -595,8 +595,8 @@ void TObjEnemy::apply_enemy_state(s32 *state) {
     apply_hit_message_flags(state);
 }
 
-void TObjEnemy::apply_hit_message_flags(void *state_in) {
-    EnemyStateRecord *record = (EnemyStateRecord *)state_in;
+void TObjEnemy::apply_hit_message_flags(void *state_data) {
+    EnemyStateRecord *record = (EnemyStateRecord *)state_data;
     s32 flags;
     StatStatusReceipt p;
     this->hp = this->hpmax - record->damage;

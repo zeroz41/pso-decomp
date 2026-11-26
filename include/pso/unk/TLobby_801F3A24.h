@@ -18,4 +18,24 @@ void populate_quest_floor_sets(void);
 void set_quest_floor_designation(s16 mode, s32 floor, s32 terrain, s32 unused);
 void set_quest_floor_designation_ex(s16 mode, s32 floor, s32 area, s32 layout, s32 entities);
 
+struct ConvertQuestObjectRowsQuestObjRow {
+    u8 pad0[2];
+    s16 flags;
+    u8 pad1[0x40];
+};
+
+struct BswapEnemySetRowsEntry {
+    u16 a;
+    s16 b;
+    u8 rest[0x44];
+};
+
+// One record of the loaded quest dat: type, bytes to the next record, floor and the size of the data that follows.
+struct QuestDatRecord {
+    s32 type;
+    s32 next_offset;
+    s32 floor;
+    s32 size;
+};
+
 #endif

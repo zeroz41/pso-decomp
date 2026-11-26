@@ -30,8 +30,8 @@ const char TItemTimerEvent::class_name_string[] = "TItemTimerEvent";
 const char *TItemTimerEvent::class_name = TItemTimerEvent::class_name_string;
 
 
-struct VBase_8011D5B4 { char pad[0x18]; };
-struct VObj_8011D5B4 : VBase_8011D5B4 {
+struct StatusTargetBase { char pad[0x18]; };
+struct StatusTarget : StatusTargetBase {
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
     virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
@@ -40,8 +40,8 @@ struct VObj_8011D5B4 : VBase_8011D5B4 {
     virtual void v20();
     virtual void m21(void *, void *, s32, s32, s32);
 };
-struct Rec_8011D5B4 { s32 k1; s32 v1; s32 k2; f32 v2; };
-struct Timer_8011D5B4 { u8 pad[0x28]; VObj_8011D5B4 *obj; f32 f2c; };
+struct StatusRequest { s32 k1; s32 v1; s32 k2; f32 v2; };
+struct CurseTimerView { u8 pad[0x28]; StatusTarget *obj; f32 f2c; };
 
 void TObjPlayer::set_state_flags(u32 v) { state_flags |= v; }
 
@@ -52,12 +52,7 @@ void TObjPlayer::set_flag_10000() {
 TItemLockCountCtrl * item_timer_event_instance;
 
 void TObjPlayer::clear_state_flags(s32 mask) {
-  s32 *new_var;
-  int new_var2;
-    TObjPlayer *arg0 = (TObjPlayer *)this;
-  new_var2 = ~mask;
-  new_var = (s32 *) (((s8 *) arg0) + 0x334);
-  *new_var = (s32) ((arg0->state_flags) & new_var2);
+  state_flags = state_flags & ~mask;
 }
 
 void fn_8011E1D4(TObjPlayer *player) {
@@ -139,64 +134,64 @@ void TItemTimerEvent::run_task() {
         return;
     }
     if ((s32) this->elapsed == (s32) this->interval) {
-        this->vfunc_6();
+        this->apply_effect();
         this->elapsed = 0;
         return;
     }
-    this->vfunc_7();
+    this->advance_timer();
 }
 
-void TItemTimerEvent::vfunc_7() {
+void TItemTimerEvent::advance_timer() {
     this->elapsed = (this->elapsed + 1);
 }
 
-void TItemTimerEventHpDrain::vfunc_7() {
+void TItemTimerEventHpDrain::advance_timer() {
     if (((TObjPlayer *)this->player)->test_action_mask(0x1C) != 0) {
         this->elapsed = (this->elapsed + 1);
     }
 }
 
-void TItemTimerEventHpDrain::vfunc_6() {
+void TItemTimerEventHpDrain::apply_effect() {
         if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjChara *)this->player)->obj_isState3_324() == 0) && (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0)) {
         subtract_actor_hp((TObjChara *)this->player, 1);
     }
 }
 
-void TItemTimerEventTpDrain::vfunc_7() {
+void TItemTimerEventTpDrain::advance_timer() {
     if (((TObjPlayer *)this->player)->test_action_mask(0x1C) != 0) {
         this->elapsed = (this->elapsed + 1);
     }
 }
 
-void TItemTimerEventTpDrain::vfunc_6() {
+void TItemTimerEventTpDrain::apply_effect() {
         if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjChara *)this->player)->obj_isState3_324() == 0) && (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0)) {
         ((TObjChara *)(this->player))->subtract_actor_tp(1);
     }
 }
 
-void TItemTimerEventHpRegen::vfunc_6() {
+void TItemTimerEventHpRegen::apply_effect() {
     if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
         add_actor_hp((TObjChara *)this->player, 1);
     }
 }
 
-void TItemTimerEventTpRegen::vfunc_6() {
+void TItemTimerEventTpRegen::apply_effect() {
     if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
         add_actor_tp((TObjChara *)this->player, 1);
     }
 }
 
-void TItemTimerEventPbCharge::vfunc_6() {
+void TItemTimerEventPbCharge::apply_effect() {
     if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
         ((TObjChara *)this->player)->gain_photon_blast_charge(1.0f);
     }
 }
 
-void TItemTimerEventFreezeCurse::vfunc_6() {
+void TItemTimerEventFreezeCurse::apply_effect() {
 
     if (((TObjChara *)(this->player))->obj_isState2_324() == 0) {
         if (((TObjPlayer *)this->player)->is_actor_dead() == 0) {
-                        if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && ((3.0517578e-05f * (f32) rand()) < this->unk_2C)) {
+                        if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && ((3.0517578e-05f * (f32) rand()) < this->chance)) {
                 ((TObjPlayer *)this->player)->apply_movement_ailment(0);
                 ((TObjPlayer *)this->player)->sync_enemy_state(0);
             }
@@ -204,12 +199,12 @@ void TItemTimerEventFreezeCurse::vfunc_6() {
     }
 }
 
-void TItemTimerEventArmorParticle::vfunc_6() {
+void TItemTimerEventArmorParticle::apply_effect() {
     TParticleCtrl *particle;
 
     if ((((TObjPlayer *)this->player)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->player))->is_flag_20000_set() == 0)) {
                 if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjCollidable *)((void *)this->player))->test_actor_flags(0x800) == 0)) {
-            particle = spawn_particle_effect_with_flags((const Vec *)(*(saddr *)&this->player + 0x2FC), this->unk_2C, 0x10);
+            particle = spawn_particle_effect_with_flags((const Vec *)(*(saddr *)&this->player + 0x2FC), this->particle_id, 0x10);
             if (particle != 0) {
                 particle->set_owner_id(((TObjBase *)this->player)->get_entity_id());
             }
@@ -217,9 +212,9 @@ void TItemTimerEventArmorParticle::vfunc_6() {
     }
 }
 
-void TItemTimerEventSlowCurse::vfunc_6() {
-    Timer_8011D5B4 *timer = (Timer_8011D5B4 *)this;
-    Rec_8011D5B4 a;
+void TItemTimerEventSlowCurse::apply_effect() {
+    CurseTimerView *timer = (CurseTimerView *)this;
+    StatusRequest a;
         if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
         a.k1 = 0x11;
         a.v2 = 0.0f;
@@ -229,9 +224,9 @@ void TItemTimerEventSlowCurse::vfunc_6() {
     }
 }
 
-void TItemTimerEventConfusionCurse::vfunc_6() {
-    Timer_8011D5B4 *timer = (Timer_8011D5B4 *)this;
-    Rec_8011D5B4 a;
+void TItemTimerEventConfusionCurse::apply_effect() {
+    CurseTimerView *timer = (CurseTimerView *)this;
+    StatusRequest a;
         if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
         a.k1 = 0x12;
         a.v2 = 0.0f;
@@ -241,9 +236,9 @@ void TItemTimerEventConfusionCurse::vfunc_6() {
     }
 }
 
-void TItemTimerEventParalysisCurse::vfunc_6() {
-    Timer_8011D5B4 *timer = (Timer_8011D5B4 *)this;
-    Rec_8011D5B4 a;
+void TItemTimerEventParalysisCurse::apply_effect() {
+    CurseTimerView *timer = (CurseTimerView *)this;
+    StatusRequest a;
         if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
         a.k1 = 0x10;
         a.v2 = 0.0f;

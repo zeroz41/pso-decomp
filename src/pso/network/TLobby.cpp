@@ -107,7 +107,7 @@
 
 #pragma readonly_strings on
 
-struct Entry_8013634C {
+struct LobbyPlayerEntry {
     u8 tag[8];
     u32 ip_addr;
     saddr client_id;
@@ -173,7 +173,6 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
-void apply_lobby_markers__6TLobbyFv();
 }
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
@@ -188,7 +187,7 @@ extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
-void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
+void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
 }
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
 extern "C" {
@@ -325,18 +324,16 @@ void TLobby::copy_player_records(TPlyChallenge *records, s32 count) {
     }
 }
 
-struct Ent_80134C44 { u8 pad[4]; u32 key; u32 val; };
-struct Obj_80134C44 { u8 pad0; u8 count; u8 pad2[2]; Ent_80134C44 e[1]; };
-void TLobby::apply_lobby_markers() {
-    Obj_80134C44 *o = (Obj_80134C44 *)this;
-    Ent_80134C44 *e = o->e;
+// The 88 handler: the players whose guild card number matches an entry get that arrow colour.
+void apply_arrow_colors(TArrowColorList *list) {
+    TArrowColorEntry *e = list->entries;
     s32 i;
-    for (i = 0; i < o->count; i++, e++) {
+    for (i = 0; i < list->header.flags; i++, e++) {
         s32 j;
         for (j = 0; j < 12; j++) {
-            u8 *p = (u8*)get_player_by_client_id(j);
-            if (p != NULL && *(u32*)(p + 0xDB0) == e->key) {
-                ((TObjPlayer *)p)->set_lobby_marker(e->val);
+            TObjPlayer *p = get_player_by_client_id(j);
+            if (p != NULL && p->guild_card_tag.guildcard_number == e->tag.m_guildcard_number) {
+                p->set_lobby_marker(e->color);
             }
         }
     }
@@ -514,7 +511,7 @@ void handle_6x71_unblock_game_join(void) {
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
-        pend = (s32 *)game_join_pending_clients;
+        pend = game_join_pending_clients;
         for (i = 0; i < 4; i++) {
             if (pend[i] != 0) {
                 TLobby::send_6x70_player_data(i);
@@ -1842,7 +1839,7 @@ void TLobby::process_deferred_player_setup() {
     switch (deferred_player_setup_state) {
     case 1:
     case 2:
-        construct_lobby_players((Entry_8013634C *)join_entries, pending_member_count, pending_local_client_id, designated_client_id);
+        construct_lobby_players((LobbyPlayerEntry *)join_entries, pending_member_count, pending_local_client_id, designated_client_id);
         break;
     case 3:
     case 4:
@@ -2299,7 +2296,7 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
 }
 #pragma pop
 
-void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused) {
+void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused) {
     s32 j;
     s32 i;
     TObjPlayer *plr;
@@ -2341,7 +2338,7 @@ void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s3
     TLobby::close_all_windows();
 }
 void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp) {
-    Entry_8013634C e;
+    LobbyPlayerEntry e;
     G_DoneLoadingIntoGame_6x72 pkt;
     TObjPlayer *p;
     TPacket *n;
@@ -2458,7 +2455,7 @@ void TLobby::remove_player(unsigned int client, int new_leader_id, int join_stat
 
 TPlyJoinLobbyEntry::~TPlyJoinLobbyEntry() {}
 void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
-    Entry_8013634C e;
+    LobbyPlayerEntry e;
     TObjPlayer *p;
     TObjPlayer *plr;
     copy_join_lobby_entry((u8 *)&e, (u8 *)entries);
@@ -2693,7 +2690,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = TQuestVmDownLoadServer::receive_file_chunk;
     protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;
     protocol_instance->m_recv_handlers.handle_1F_recv_text_list = (recv_packet_handler_handle_1F_recv_text_list)TLobby::open_information_list;
-    protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = apply_lobby_markers__6TLobbyFv;
+    protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = (recv_packet_handler_handle_88_player_arrow_color_list_packet)apply_arrow_colors;
     protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = TLobby::copy_player_records;
     protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
     protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)TLobby::handle_reset_choice;

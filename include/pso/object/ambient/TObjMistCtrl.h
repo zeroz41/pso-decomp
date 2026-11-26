@@ -7,6 +7,7 @@
 class TParticleCtrl;
 
 struct TObjMistCtrl : public TObjBase {
+    static const char *class_name;
     TObjMistCtrl(TObject *parent, void *set_data);
     virtual ~TObjMistCtrl();
     static TObjMistCtrl *create(TObject *parent, void *set_data);

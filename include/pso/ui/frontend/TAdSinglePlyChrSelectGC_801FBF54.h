@@ -24,12 +24,12 @@ struct CardSlotSummary {
 // The summary of slot i of the slot A card file, NULL when i is out of range or the slot is empty.
 CardSlotSummary *get_card_slot_summary(u32 i);
 // The same for the slot B card file (secondary_card_character_save_buffer).
-CardSlotSummary *get_secondary_card_slot_summary(u32 i);
+CardSlotSummary *get_secondary_slot_summary(u32 i);
 s32 is_secondary_slot_active(u32 i);
-s32 load_slot_b_character_file(s32);
-s32 poll_slot_b_character_load(void);
-void build_guild_card_save_file(void);
-void decrypt_slot_b_character_file(void);
+s32 load_character_file_slot_b(s32);
+s32 poll_secondary_card_load(void);
+void rebuild_guild_card_save_file(void);
+void decrypt_secondary_card_buffer(void);
 
 extern "C" {
 u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);

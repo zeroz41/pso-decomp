@@ -187,7 +187,7 @@ struct TObjPlayer : public TObjChara {
     void clear_lock_on_cursor(void *data);
     void setup_fresh_player_state(u8 *);
     void init_class_flags(PlayerSyncRecord *record);
-    void unpack_record_flags(TPlyCharData *record);  // (name inferred) undoes the flag packing of fill_player_record
+    void load_pending_actions(TPlyCharData *record);  // restores pending_actions (and record_flags_hi) from a save record; apply_pending_action is the inverse
     s32 setup_control_role(s32);
     s32 is_target_in_facing_cone(Vec *target);
     void create_inventory();
@@ -199,8 +199,8 @@ struct TObjPlayer : public TObjChara {
     s16 get_ata();
     s16 get_dfp();
     s16 obj_getS16_116();
-    void sub_801BEE2C(s16);
-    void sub_801BEE24(s16);
+    void set_hp_bonus(s16);
+    void set_tp_bonus(s16);
     void update_body_parts(void *visual);
     void init_body_parts(void *visual);
     void init_model_and_idle_pose();
@@ -220,10 +220,9 @@ struct TObjPlayer : public TObjChara {
     void request_normal_attack_stage1();
     void show_miss_for_collider(s32 collider);
     u32 state_flags;
-    // The three class flags of the character record (get_class_flag_0..2).
-    u8 class_flag_0;
+    u8 mag_level;     // class flag 0 of a character record (get_mag_level)
     s8 class_flag_1;
-    u8 class_flag_2;
+    u8 battle_mode;   // class flag 2 of a character record (get_battle_mode)
     s8 m_33b;
     s32 action_state;
     PlayerActionPaletteState action_palette_state;
@@ -255,10 +254,10 @@ struct TObjPlayer : public TObjChara {
     s32 target_heading;
     s32 m_3f4;
     Vec move_target;  // (name inferred) run/walk-to target: calc_movement_target and handle_6x40/6x42 set x/z, update_*_movement steer to it
-    Vec facing_dir;  // (name inferred) update_facing_vector: sin, 0, cos of rotation_y
+    Vec facing;  // (sin, 0, cos) of rotation_y (update_facing_vector)
     Vec ground_normal;
     FlagWord pending_actions;  // action bits apply_pending_action copies into the save record
-    s32 record_flags_hi;  // (name inferred) unpack_record_flags restores it from the packed byte of record items 4-7
+    s32 record_flags_hi;  // (name inferred) load_pending_actions restores it from the packed byte of record items 4-7
     TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
     PlayerTechniqueState technique_state;
     PhotonBlastGauge photon_blast_gauge;
@@ -296,7 +295,7 @@ struct TObjPlayer : public TObjChara {
     u8 pad_879[0xF];
     u32 name_colour_checksum;
     u8 section_id;
-    s8 char_class;
+    s8 class_index;
     s8 v2_flags;
     u8 version;
     s32 class_flags;
@@ -438,6 +437,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_script_controlled();
     // equipped_items[1], [2] and [3].
     TItem *get_equipped_mag();
+    // The items equipped in the armor and shield slots (2 and 3), or 0.
     TItem *get_equipped_armor();
     TItem *get_equipped_shield();
     static s32 count_nearby_players_with_shield(u16 idx, u8 *item);
@@ -509,7 +509,8 @@ struct TObjPlayer : public TObjChara {
     short get_state();
     short get_attack1_action();
     short get_run_action();
-    s16 get_walk_action();  // (name inferred) get_mode_animation's walk modes; get_run_action is the run mode
+    // The slow walk while the move speed is slowed (PlayerMoveSpeed flag 8), else the walk.
+    s16 get_walk_action();
     void clear_flag_200000();
     int check_flag_4();
     static void clear_flag_4000_callback(TObjPlayer *player);
@@ -825,7 +826,7 @@ struct TObjPlayer : public TObjChara {
     int is_flag_b0_4();
     static u32 spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames);
     static void start_photon_blast(s32 kind, s32 client_id);
-    s32 get_card_window_field_244();
+    s32 get_total_deaths();
     void init_local_pad_binding();
     void stop_force_if_alive();
     void update_battle_control_if_unlocked();

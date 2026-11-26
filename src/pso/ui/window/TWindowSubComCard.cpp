@@ -71,12 +71,12 @@ void set_value_by_key(void *, u16, s32);
 void load_selected_guild_card_record(ChoiceSearchResult *result);
 }
 extern "C" {
-s32 TWindowSubComCard__sub_800778B4(ChoiceSearchSelection *, TRecvChoiceSearchOptions *);
+s32 rebuild_choice_search_selections(ChoiceSearchSelection *, TRecvChoiceSearchOptions *);
 s32 TLobby__sub_8024259C();
 }
 extern "C" {
 
-void TWindowSubComCard__sub_80077980(void *);
+void clear_choice_search_selections(void *);
 }
 
 
@@ -122,7 +122,7 @@ TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(pare
     this->search_options = NULL;
     this->dirty_flags = 0;
     this->selected_card = -1;
-    TWindowSubComCard__sub_80077980(choice_selections);
+    clear_choice_search_selections(choice_selections);
     this->state = 0;
 }
 
@@ -667,8 +667,8 @@ void TWindowSubComCard::run_task() {
             if (this->search_options == NULL) {
                 this->search_options = TWindowSubComCard::get_choice_search_options();
                 character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-                TWindowSubComCard__sub_800778B4(choice_selections, this->search_options);
-                TWindowSubComCard__sub_800778B4(character_save_record->choice_search, this->search_options);
+                rebuild_choice_search_selections(choice_selections, this->search_options);
+                rebuild_choice_search_selections(character_save_record->choice_search, this->search_options);
             }
             if ((u8) this->state == 0x28) {
                 this->state = 0x29U;

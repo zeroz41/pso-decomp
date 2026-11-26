@@ -356,7 +356,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_10[11] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_11[6] = {
     { TDeadSpot::load_resource, TDeadSpot::free_resource },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { TBoss1DragonDemo__sub_8002B690, TBoss1DragonDemo__sub_8002B68C },
+    { TBoss1DragonDemo::load_assets, TBoss1DragonDemo::free_assets },
     { TBoss1Dragon::load_resources, TBoss1Dragon::free_resources },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },

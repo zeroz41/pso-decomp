@@ -28,7 +28,7 @@ struct CapturedTargetList {
     // Receive-side swap: the count first, so the loop reads it native.
     void bswap_received();
     // Send-side swap: the entries while the count is native, then the count.
-    void bswap();
+    void bswap_for_send();
 };
 
 extern "C" {

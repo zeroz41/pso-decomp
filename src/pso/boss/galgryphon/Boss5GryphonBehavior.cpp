@@ -96,12 +96,9 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 // TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
-f64 atan2_float(f32, f32);
-f32 newton_sqrtf(f32);
-s32 is_split_screen();
-f32 fabs_float(f32);
 }
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,

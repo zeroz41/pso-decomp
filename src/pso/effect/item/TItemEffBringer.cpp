@@ -51,7 +51,7 @@ TItemEffBringer::TItemEffBringer(void *owner, const Vec *pos, const Vec *dir, f3
     VecCopy(&to_shot, pos);
     subtract_vector(&to_shot, &camera);
     pop_matrix();
-    cross = sin_table_lookup(m_count - (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(to_shot.x, to_shot.z)));
+    cross = sin_table_lookup(rot_y - (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(to_shot.x, to_shot.z)));
     if (cross < 0.0f) {
         cross *= -1.0f;
     }

@@ -16,7 +16,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
 
-const char *trap_class_name = "TOTrap";
+const char *TOTrap::class_name = "TOTrap";
 
 
 f32 TOTrap::scale_by_table_value(f32 table_value) {
@@ -207,7 +207,7 @@ void TOTrap::render() {
 TOTrap::~TOTrap() {}
 
 TOTrap::TOTrap(TObject *parent) : TObjChara(parent) {
-    m_name = trap_class_name;
+    m_name = TOTrap::class_name;
     range = dist = 0.0f;
     player = 0xFFFF;
     m_340 = 1;

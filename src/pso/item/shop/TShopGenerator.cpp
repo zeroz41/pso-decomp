@@ -67,19 +67,19 @@ bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
+bool TShopGenerator::is_player_in_service_range(u8 *player, f32 range) {
     f32 to_self[3];
-    if (xyz_distance_squared(&reinterpret_cast<const TObjBase *>(arg1)->position, &position) > (farg0 * farg0)) {
+    if (xyz_distance_squared(&reinterpret_cast<const TObjBase *>(player)->position, &position) > (range * range)) {
         return 0;
     }
     f32 facing[3] = {0.0f, 0.0f, -1.0f};
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg1 + 0x60)));
+    rotate_matrix_y(0, (int) reinterpret_cast<const TObjBase *>(player)->rotation_y);
     rotate_vector_by_matrix(0, facing, facing);
     pop_matrix();
-    to_self[0] = this->position.x - *(f32 *)((s8 *)arg1 + 0x38);
-    to_self[1] = this->position.y - *(f32 *)((s8 *)arg1 + 0x3C);
-    to_self[2] = this->position.z - *(f32 *)((s8 *)arg1 + 0x40);
+    to_self[0] = this->position.x - reinterpret_cast<const TObjBase *>(player)->position.x;
+    to_self[1] = this->position.y - reinterpret_cast<const TObjBase *>(player)->position.y;
+    to_self[2] = this->position.z - reinterpret_cast<const TObjBase *>(player)->position.z;
     normalize_vector((Vec *)to_self);
     return (vec3_dot(facing, to_self) > -0.5f) == 0;
 }
@@ -89,7 +89,7 @@ s32 TShopGenerator::is_no_service_active(void *self, saddr player) {
     s32 i;
     int (*get_slot_flag)(int);
     for (i = 0; i < 7; i++) {
-        get_slot_flag = TShopGenerator::service_dispatch_table[i].get_slot_flag;
+        get_slot_flag = service_dispatch_table[i].get_slot_flag;
         if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(player))->get_entity_id())) == 1) {
             return 0;
         }
@@ -102,9 +102,9 @@ void TShopGenerator::run_task() {
     s32 i;
     saddr p;
     int (*get_slot_flag)(int);
-    service = &TShopGenerator::service_dispatch_table[this->set_params[0]];
-    if (this->m_94 > 0) {
-        this->m_94--;
+    service = &service_dispatch_table[this->set_params[0]];
+    if (this->service_check_delay > 0) {
+        this->service_check_delay--;
         return;
     }
     if (lbl_805D55C0 != 0) {
@@ -152,29 +152,29 @@ TShopGenerator::~TShopGenerator() {
 }
 
 TShopGenerator::TShopGenerator(saddr set_data) : TObjBase(tl_05) {
-    s32 temp_r0;
-    m_name = TShopGenerator::class_name;
+    s32 service_index;
+    m_name = class_name;
     this->apply_object_set_data((void *)set_data);
     this->m_90 = 0;
-    this->m_94 = 5;
-    temp_r0 = this->set_params[0];
-    if (temp_r0 < 0) {
+    this->service_check_delay = 5;
+    service_index = this->set_params[0];
+    if (service_index < 0) {
         queue_destruction();
         return;
     }
-    if (temp_r0 > 6) {
+    if (service_index > 6) {
         queue_destruction();
         return;
     }
 }
 
 int TShopGenerator::is_slot_active(u16 client) {
-    return TShopGenerator::slot_active_table[(u16)get_client_split_screen_slot(client)] == 1;
+    return slot_active_table[(u16)get_client_split_screen_slot(client)] == 1;
 }
 
 void TShopGenerator::clear_slot_active(u16 client) {
     u16 idx = get_client_split_screen_slot(client);
-    TShopGenerator::slot_active_table[idx] = 0;
+    slot_active_table[idx] = 0;
 }
 
 
@@ -193,7 +193,7 @@ void TShopGenerator::run_fn_table_reverse() {
     s32 n;
     s32 i;
     TMedicalCenterMes::clear_slot_flags();
-    p = &TShopGenerator::service_dispatch_table[7];
+    p = &service_dispatch_table[7];
     n = 7;
     do {
         void (*f)() = (p - 1)->reverse_fn;
@@ -201,7 +201,7 @@ void TShopGenerator::run_fn_table_reverse() {
         f();
     } while (--n > 0);
     for (i = 0; i < 4; i++) {
-        TShopGenerator::slot_active_table[i] = 0;
+        slot_active_table[i] = 0;
     }
 }
 
@@ -210,14 +210,14 @@ void TShopGenerator::run_fn_table_forward() {
     s32 n;
     s32 i;
     n = 7;
-    p = &TShopGenerator::service_dispatch_table[0];
+    p = &service_dispatch_table[0];
     do {
         p->forward_fn();
         p++;
     } while (--n > 0);
     TMedicalCenterMes__sub_80216260();
     for (i = 0; i < 4; i++) {
-        TShopGenerator::slot_active_table[i] = 0;
+        slot_active_table[i] = 0;
     }
 }
 

@@ -76,7 +76,6 @@ TSetEvtDestroy::~TSetEvtDestroy() {
 #include "types.h"
 
 
-void init_event_shuffle_table(EventShuffleTable *arg0, s32 arg1);
 void shuffle_event_entries(EventShuffleTable *event_shuffle_table);
 
 TSetEvtDestroy::TSetEvtDestroy(TObject* parent, SetDestroyEventRecord* event) : TObject(parent) {

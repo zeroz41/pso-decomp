@@ -75,7 +75,7 @@ void TOKeyJungleMain::debug_draw_key_id() {
         switch_id = 2;
     }
     set_debug_text_color(0xFF00FF);
-    debug_printf_at(0x130020, "<- GLOBAL FLAG : %d", jungle_key_flag_ids[switch_id]);
+    debug_printf_at(0x130020, "<- GLOBAL FLAG : %d", story_flags[switch_id]);
     set_debug_text_color(0xF0F0F0FF);
 }
 
@@ -108,14 +108,14 @@ void TOKeyJungleMain::render() {
 }
 
 void TOKeyJungleMain::send_switch_on() {
-    set_story_flag_in_bank_or_send_quest_flag(game_difficulty_selection, jungle_key_flag_ids[switch_id]);
+    set_story_flag_in_bank_or_send_quest_flag(game_difficulty_selection, story_flags[switch_id]);
 }
 
 void TOKeyJungleMain::update_lock_state() {
     if (mode != KEY_MODE_NONE) {
         s32 was_on = is_on;
 
-        if (get_story_flag_in_bank(game_difficulty_selection, jungle_key_flag_ids[switch_id]) != 0) {
+        if (get_story_flag_in_bank(game_difficulty_selection, story_flags[switch_id]) != 0) {
             is_on = 1;
         } else {
             is_on = 0;

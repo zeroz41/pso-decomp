@@ -169,10 +169,10 @@ TObjMotionAction me3_stelth_animation_descriptors[13] = {
 void TObjEneMe3Stelth::draw_model() {
     this->draw_ginja_motion_model();
 }
-void TObjEneDD_ST::sub_800F5874(s32 mask) {
+void TObjChara::add_immunity_flags(s32 mask) {
     this->immunity_flags = (s16) (this->immunity_flags | mask);
 }
-void TObjEneDD_ST::sub_800F5864(s32 mask) {
+void TObjChara::remove_immunity_flags(s32 mask) {
     this->immunity_flags = (s16) (this->immunity_flags & ~mask);
 }
 void TObjEneMe3Stelth::load_shared_resources() {
@@ -499,7 +499,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
                     spawn_particle_effect(&hand_position, 0x1D0);
                 }
             } else if (near != 0 && random_ratio() <= 0.1666f) {
-                TObjEneDD__sub_800BA438(this, current_target);
+                TObjEneDD::inflict_confusion(this, current_target);
             }
         }
     }
@@ -535,8 +535,8 @@ s32 TObjEneMe3Stelth::check_flag() {
     return 0;
 }
 void TObjEneMe3Stelth::on_target_lost() {  }
-void TObjEneMe3Stelth::set_intangible() { TObjEneDD::set_intangible(); sub_800F5874(38); }
-void TObjEneMe3Stelth::clear_intangible() { TObjEneDD::clear_intangible(); sub_800F5864(38); }
+void TObjEneMe3Stelth::set_intangible() { TObjEneDD::set_intangible(); add_immunity_flags(38); }
+void TObjEneMe3Stelth::clear_intangible() { TObjEneDD::clear_intangible(); remove_immunity_flags(38); }
 void TObjEneMe3Stelth::vfunc_112() {  }
 void TObjEneMe3Stelth::update_distance_state() {
     if (body_y - position.y > 30.0f) {
@@ -575,7 +575,7 @@ void TObjEneMe3Stelth::init_variant() {
 }
 void TObjEneMe3Stelth::create_resta_effect() {
     saddr f = TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[this->variant_index]->support_tech_level);
-    TTecResta::create((void *)this, (u8 *)&this->position, f);
+    TTecResta::create(this, (u8 *)&this->position, f);
 }
 void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
     switch (state) {
@@ -1295,7 +1295,7 @@ void TObjEneMe3Stelth::state_cast_technique(s32 reason) {
         case 2:
             state_timer++;
             if (state_timer == 5) {
-                TTecSifta::create((void *)this, (u8 *)&position, TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level));
+                TTecSifta::create(this, (u8 *)&position, TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level));
             } else if (state_timer == 0xA) {
                 TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level)));
                 state_step = 1;
@@ -1456,7 +1456,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
                 behavior_flags |= 2;
                 TBoss3Volopt::create_breakup_mdl(me3_stelth_breakup_model, &me3_stelth_breakup_params,
                                    texlist, &position, rotation_y);
-                VecCopy((Vec *)&v, (const Vec *)&position);
+                VecCopy(&v, (const Vec *)&position);
                 v.x += 20.0f * sin_table_lookup(rotation_y);
                 v.z += 20.0f * cos_table_lookup(rotation_y);
                 trigger_dell_biter_events(&v);

@@ -20,7 +20,7 @@ struct TObjEnvSound : public TObjBase {
     virtual void render();
     virtual void run_task();
     // Whether the camera is within the given squared distance of the object.
-    s32 is_camera_in_range(f32 radius_squared);
+    s32 is_within_camera_distance_sq(f32 distance_sq);
     s32 is_sound_enabled(s32 cue);
     static void *create(void *set_data);
 };

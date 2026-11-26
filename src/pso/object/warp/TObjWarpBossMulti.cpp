@@ -71,19 +71,19 @@ const char *boss_warp_model_names[4] = {
     "fs_obj_warp_dai.gj", "fs_obj_warp_dai_beam.gj", "fs_obj_warp_dai_beam02.gj", NULL,
 };
 const char *boss_warp_motion_names[3] = { "fs_obj_warp_dai_beam.njm", "fs_obj_warp_dai_beam02.njm", NULL };
-BmlResourceDescriptor boss_warp_resource_descriptor = { "bm_obj_warpboss.bml", boss_warp_model_names, boss_warp_motion_names, 3, 2 };
+BmlResourceDescriptor bm_obj_warpboss_resource_descriptor = { "bm_obj_warpboss.bml", boss_warp_model_names, boss_warp_motion_names, 3, 2 };
 
 const char *ancient_boss_warp_model_names[4] = {
     "fe_obj_df_warp_gawa.gj", "de_obj_df_warp_beam.gj", "de_obj_df_warp_sbeam.gj", NULL,
 };
 const char *ancient_boss_warp_motion_names[3] = { "de_obj_df_warp_beam.njm", "de_obj_df_warp_sbeam.njm", NULL };
-BmlResourceDescriptor ancient_boss_warp_resource_descriptor = {
+BmlResourceDescriptor bm_obj_warpboss_ancient_resource_descriptor = {
     "bm_obj_warpboss_ancient.bml", ancient_boss_warp_model_names, ancient_boss_warp_motion_names, 3, 2,
 };
 
 const char *jungle_boss_warp_model_names[3] = { "fe_obj_warp4_dodai.gj", "fe_obj_warp4_jogo_light.gj", NULL };
 __declspec(section ".data") const char *jungle_boss_warp_motion_names[2] = { "fe_obj_warp4_jogo_light.njm", NULL };
-BmlResourceDescriptor jungle_boss_warp_resource_descriptor = {
+BmlResourceDescriptor bm_obj_warpboss_jungle_resource_descriptor = {
     "bm_obj_warpboss_jungle.bml", jungle_boss_warp_model_names, jungle_boss_warp_motion_names, 2, 1,
 };
 
@@ -105,8 +105,8 @@ extern "C" {
 void release_boss_warp_resources(void);
 }
 
-const char boss_warp_next_stage_label[] = "<- NEXT STAGE No.";
-const char boss_warp_key_id_format[] = "<- KEY ID : %d";
+const char debug_next_stage_label[] = "<- NEXT STAGE No.";
+const char debug_key_id_format[] = "<- KEY ID : %d";
 extern s32 lbl_805D55C0;
 
 
@@ -134,7 +134,7 @@ void load_boss_warp_resources() {
     BmlResource *resource;
     area = get_current_floor_area();
     if (area >= 8 && area <= 0xA) {
-        resource = new BmlResource(5, &ancient_boss_warp_resource_descriptor, 0, 0, NULL);
+        resource = new BmlResource(5, &bm_obj_warpboss_ancient_resource_descriptor, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
         boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
         boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
@@ -146,7 +146,7 @@ void load_boss_warp_resources() {
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
-        resource = new BmlResource(5, &jungle_boss_warp_resource_descriptor, 0, 0, NULL);
+        resource = new BmlResource(5, &bm_obj_warpboss_jungle_resource_descriptor, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
         boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
         boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
@@ -157,7 +157,7 @@ void load_boss_warp_resources() {
         boss_warp_effect_textures = get_bml_texlist(boss_warp_resource_bundle, 0);
         return;
     }
-    resource = new BmlResource(5, &boss_warp_resource_descriptor, 0, 0, NULL);
+    resource = new BmlResource(5, &bm_obj_warpboss_resource_descriptor, 0, 0, NULL);
     boss_warp_resource_bundle = resource;
     boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
     boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
@@ -280,9 +280,9 @@ void TObjWarpBoss::debug_print_area_num() {
     }
     set_debug_text_color(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        debug_printf_at(0x130020, boss_warp_next_stage_label);
+        debug_printf_at(0x130020, debug_next_stage_label);
     }
-    debug_printf_at(0x130021, boss_warp_key_id_format, key_id);
+    debug_printf_at(0x130021, debug_key_id_format, key_id);
 }
 
 void TObjWarpBoss::update() {
@@ -507,7 +507,7 @@ void TObjWarpBoss::update_warp_confirmation() {
 }
 
 void TObjWarpBoss::update_warp_state() {
-    s32 ready;
+    s32 warp_now;
 
     switch (state_step) {
     case 2:
@@ -530,11 +530,11 @@ void TObjWarpBoss::update_warp_state() {
         if (TWindowSubTradeMain::get_warp_state() != 0) {
             warp_countdown--;
             if (warp_countdown <= 0) {
-                ready = 1;
+                warp_now = 1;
             } else {
-                ready = are_all_players_in_range();
+                warp_now = are_all_players_in_range();
             }
-            if (ready != 0) {
+            if (warp_now != 0) {
                 send_cmd_6A(2);
                 state_step = 2;
             }
@@ -893,23 +893,23 @@ void TObjWarpBossMulti::debug_print_area_num() {
     update();
     set_debug_text_color(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        debug_printf_at(0x130020, boss_warp_next_stage_label);
+        debug_printf_at(0x130020, debug_next_stage_label);
     }
-    debug_printf_at(0x130021, boss_warp_key_id_format, key_id);
+    debug_printf_at(0x130021, debug_key_id_format, key_id);
     set_debug_text_color(0xF0F0F0FF);
 }
 
 void TObjWarpBossMulti::update() {
-    s32 id;
+    s32 raw_key_id;
 
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         key_id = -1;
     } else {
-        id = set_params[1];
-        if ((id < 0) || (id > 0xFF)) {
+        raw_key_id = set_params[1];
+        if ((raw_key_id < 0) || (raw_key_id > 0xFF)) {
             key_id = -1;
         } else {
-            key_id = id;
+            key_id = raw_key_id;
         }
     }
     if (key_id >= 0) {

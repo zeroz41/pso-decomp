@@ -10,16 +10,16 @@ typedef void (*AdxStreamCompletion)(void *context);
 
 struct AdxStreamFile {
     s8 used;
-    s8 b1;
-    s8 b2;
+    s8 stat;  // 1 preparing, 2 reading, 3 read end, 4 error (ADXSTM stat values)
+    s8 read_pending;
     s8 retry;
     union {
         saddr arg;
         SjRingBuffer *buffer;
     };
     CvFsHandle *handle;
-    s32 fC;
-    s32 f10;
+    s32 start_position;
+    s32 base_offset;  // where the file starts in the archive it is read from
     s32 size;
     s32 read_chunk_size;
     s32 read_threshold;
@@ -40,12 +40,12 @@ LAYOUT_ASSERT(AdxStreamFile_field34_offset, offsetof(AdxStreamFile, field34) == 
 extern "C" {
 void set_adx_stream_completion(AdxStreamFile *file, AdxStreamCompletion callback, void *context);
 void update_adx_stream_read(AdxStreamFile *file);
-void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset);
-void set_buffer__6TLobbyFPPv(AdxStreamFile *file, SjRingBuffer *buffer);
-s32 get_field_14__6TLobbyFv(AdxStreamFile *file);
+void set_adx_stream_base_offset(AdxStreamFile *file, s32 offset);
+void set_adx_stream_buffer(AdxStreamFile *file, SjRingBuffer *buffer);
+s32 get_adx_stream_size(AdxStreamFile *file);
 void set_adx_stream_end_sector(AdxStreamFile *file, s32 sector);
-s32 init_stream_position__6TLobbyFv(AdxStreamFile *file);
-s32 get_file_offset_relative__6TLobbyFv(AdxStreamFile *file);
+s32 init_adx_stream_position(AdxStreamFile *file);
+s32 get_adx_stream_file_offset(AdxStreamFile *file);
 s32 seek_adx_stream_sector(AdxStreamFile *file, s32 offset);
 }
 

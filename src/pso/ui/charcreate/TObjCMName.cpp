@@ -232,8 +232,8 @@ void TObjCMMainMenu::run_task() {
     update_submenu_fade();
     update_slide_offset();
     static MainMenuStateHandler table[7] = {
-        &TObjCMMainMenu::handle_creation_input, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::update_confirmation,
-        &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::finish_confirmation,
+        &TObjCMMainMenu::handle_creation_input, &TObjCMMainMenu::empty_state, &TObjCMMainMenu::update_confirmation,
+        &TObjCMMainMenu::empty_state, &TObjCMMainMenu::empty_state, &TObjCMMainMenu::finish_confirmation,
         &TObjCMMainMenu::finish_cancel,
     };
     (this->*table[state])();
@@ -326,7 +326,7 @@ void TObjCMMainMenu::handle_creation_input() {
     }
 }
 
-void TObjCMMainMenu::sub_8029862C() {  }
+void TObjCMMainMenu::empty_state() {  }
 
 #pragma push
 #pragma fp_contract on
@@ -466,7 +466,7 @@ void TObjCMMainMenu::render() {
     ((TObject *)nodes)->render_nodes();
     draw_root_menu();
     static void (TObjCMMainMenu::*table[7])() = {
-        &TObjCMMainMenu::sub_802981BC, 0, &TObjCMMainMenu::draw_confirmation,
+        &TObjCMMainMenu::draw_nothing, 0, &TObjCMMainMenu::draw_confirmation,
         0, 0, 0, 0,
     };
     void (TObjCMMainMenu::*action)() = table[state];
@@ -475,7 +475,7 @@ void TObjCMMainMenu::render() {
     after_render();
 }
 
-void TObjCMMainMenu::sub_802981BC() {  }
+void TObjCMMainMenu::draw_nothing() {  }
 
 const char *creation_class_names[13] = {
     "HUmar", "HUnewearl", "HUcast", "RAmar", "RAcast", "RAcaseal", "FOmarl",

@@ -710,7 +710,7 @@ void TObjEneNanoDrago::update_flight_state() {
             flightHeight = 0.0f;
             find_target_in_range(((NanoDragoMovementParams *)movementParameters)->detectionRadius);
             if (target != 0) {
-                VecCopy((Vec *)&v, (const Vec *)(&position));
+                VecCopy(&v, (const Vec *)(&position));
                 subtract_vector(&v, &target->position);
                 find_open_direction(&v);
                 calc_velocity_toward_destination(this, position, moveDestination, speed);

@@ -85,7 +85,7 @@ CollisionBody TODoorJungleMain_collision_body_parts[1] = {
 
 
 // Story-flag ids of the three jungle switches (shared with TOKeyJungleMain).
-const s32 jungle_key_flag_ids[3] = {0x46, 0x47, 0x48};
+const s32 TOKeyJungleMain::story_flags[3] = {0x46, 0x47, 0x48};
 
 const char *TODoorJungleMain::class_name = "TODoorJungleMain";
 
@@ -182,7 +182,7 @@ void TODoorJungleMain::run_task() {
 }
 
 void TODoorJungleMain::update_door_switch_state() {
-    s16 state;
+    s16 saved_state;
     s32 lvl;
     s32 prev;
     s32 i;
@@ -192,7 +192,7 @@ void TODoorJungleMain::update_door_switch_state() {
         prev = switch_count;
         switch_count = 0;
         for (i = 0; i < 3; i++) {
-            if (get_story_flag_in_bank(lvl, jungle_key_flag_ids[i]) != 0) {
+            if (get_story_flag_in_bank(lvl, TOKeyJungleMain::story_flags[i]) != 0) {
                 switch_count++;
             }
         }
@@ -204,9 +204,9 @@ void TODoorJungleMain::update_door_switch_state() {
         } else {
             door_flags &= ~1;
         }
-        if ((door_flags & 1) && access_object_saved_state(&state, 1) == 1) {
-            state = 1;
-            send_object_state_update(&state);
+        if ((door_flags & 1) && access_object_saved_state(&saved_state, 1) == 1) {
+            saved_state = 1;
+            send_object_state_update(&saved_state);
         }
     }
 }
@@ -259,7 +259,7 @@ void init_jungle_key_slots() {
     s32 j;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 3; j++) {
-            clear_story_flag_in_bank(i, jungle_key_flag_ids[j]);
+            clear_story_flag_in_bank(i, TOKeyJungleMain::story_flags[j]);
         }
     }
 }
@@ -268,18 +268,18 @@ void unload_jungle_key_slots() { init_jungle_key_slots(); }
 
 
 s32 is_any_player_near(TObjBase *door) {
-    f32 near_dist_sq;
-    s32 floor;
+    f32 max_dist_sq;
+    s32 player_floor;
     s32 client;
     s32 current_floor;
     TObjPlayer *player;
-    near_dist_sq = 2500.0f;
+    max_dist_sq = 2500.0f;
     for (client = 0; client < 4; client++) {
         player = get_player_by_client_id(client);
         if (player != NULL) {
-            floor = player->get_floor();
+            player_floor = player->get_floor();
             current_floor = get_current_floor();
-            if (current_floor == floor && xz_distance_squared(&player->position, &door->position) < near_dist_sq) {
+            if (current_floor == player_floor && xz_distance_squared(&player->position, &door->position) < max_dist_sq) {
                 return 1;
             }
         }

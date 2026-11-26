@@ -460,7 +460,7 @@ void TObjEneMe3Shinowa::apply_sword_hits() {
                 current_target->receive_physical_attack(this, 1.0f);
                 current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                 if ((late_hit != 0) && (random_ratio() <= 0.1666f)) {
-                    TObjEneDD__sub_800BA438(this, current_target);
+                    TObjEneDD::inflict_confusion(this, current_target);
                 }
             }
         }
@@ -1010,7 +1010,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 set_matrix_identity(0);
                 post_translate_matrix(&this->position.x);
                 rotate_matrix_y(0, this->rotation_y);
-                matrix_mult_vec_array(NULL, entry, (Vec *)&sp14, 2);
+                matrix_mult_vec_array(NULL, entry, &sp14, 2);
                 pop_matrix();
                 this->attack_traces[0]->add_segment(&sp14, &edge_b);
             }

@@ -7,10 +7,5 @@ extern "C" {
 void TLobby__sub_800F7744(void);
 }
 
-// --- C functions defined in TObjControl.cpp ---
-extern "C" {
-void TLobby__sub_800F7744(void);
-}
-// --- end of C functions
 
 #endif

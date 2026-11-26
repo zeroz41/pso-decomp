@@ -18,10 +18,13 @@ struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
 // A weapon's item parameter record (lookup_item_pmt_record).
 struct WeaponParams {
-    u8 pad_0[0xA];
+    u8 pad_0[0x8];
+    u16 class_flags;               // the classes that can equip it (check_class_equip_permission)
     u16 atp_min;
     u16 atp_max;
-    u8 pad_e[0x6];
+    u16 atp_required;              // the ATP, MST and ATA a player needs to equip it
+    u16 mst_required;
+    u16 ata_required;
     u16 mst;                       // MST the equipped weapon adds
     u8 max_grind;
     u8 photon_color;               // signed; -1: no photon colour
@@ -202,9 +205,4 @@ TItem *create_common_weapon(u8 *item);
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
 void reset_model_node_counter(void);
 
-extern "C" {
-// TItemWeapon's constructor under its own symbol, for the derived classes
-// still written as C functions.
-u8 *__ct__11TItemWeaponFP7TObjectPUc(TItemWeapon *weapon, void *parent, u8 *item);
-}
 #endif

@@ -14,9 +14,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80145E40.h"
 
-struct LoadNetworkInfoIds { s32 v[2]; };
 
-struct LoadNetworkInfoBuf { s32 hdr; char name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 
 extern s16 disc_error_code;
@@ -255,28 +253,28 @@ s32 init_struct(u8 *info) {
     return 0;
 }
 
-s32 init_work(s32 arg0, u8 *work) {
-    u8 buffer[0x40];
+s32 init_work(s32 unused, u8 *info) {
+    u8 scratch[0x40];
     u8 dst[0x20];
 
-    memset(work, 0, 0x270);
+    memset(info, 0, 0x270);
     if (!(network_info_flags & 1)) {
         return 0;
     }
-    copy_current_entry_name((char *)(work + 0x4), 0x80);
-    TLobby__sub_803F4EBC((char *)(work + 0x84), 0x20);
-    TLobby__sub_803F4FF4(work + 0x164);
-    TLobby__sub_803F50B8(work + 0x168);
-    TLobby__sub_803F5C58((char *)(work + 0x16C), 0x20);
-    TLobby__sub_803F5D90((char *)(work + 0x18C), 0x40);
-    TLobby__sub_803F5EC8((char *)(work + 0x1CC), 0x40);
-    TLobby__sub_803F6000((char *)(work + 0x20C), 0x20);
-    TLobby__sub_803F6138((char *)(work + 0x22C), 0x20);
+    copy_current_entry_name((char *)(info + 0x4), 0x80);
+    TLobby__sub_803F4EBC((char *)(info + 0x84), 0x20);
+    TLobby__sub_803F4FF4(info + 0x164);
+    TLobby__sub_803F50B8(info + 0x168);
+    TLobby__sub_803F5C58((char *)(info + 0x16C), 0x20);
+    TLobby__sub_803F5D90((char *)(info + 0x18C), 0x40);
+    TLobby__sub_803F5EC8((char *)(info + 0x1CC), 0x40);
+    TLobby__sub_803F6000((char *)(info + 0x20C), 0x20);
+    TLobby__sub_803F6138((char *)(info + 0x22C), 0x20);
     memset(dst, 0, 0x20);
-    memset(buffer, 0, 0x40);
+    memset(scratch, 0, 0x40);
     TLobby__sub_803F524C((char *)((s32 *)dst), 0x20);
-    TLobby__sub_803F53A0(0, (char *)(work + 0xA4), 0x40);
-    TLobby__sub_803F53A0(1, (char *)(work + 0xE4), 0x40);
-    TLobby__sub_803F53A0(2, (char *)(work + 0x124), 0x40);
+    TLobby__sub_803F53A0(0, (char *)(info + 0xA4), 0x40);
+    TLobby__sub_803F53A0(1, (char *)(info + 0xE4), 0x40);
+    TLobby__sub_803F53A0(2, (char *)(info + 0x124), 0x40);
     return 0;
 }

@@ -37,9 +37,9 @@ struct PhotonBlastMotionTiming {
 };
 
 extern "C" {
-s32 TObjPlayer__sub_801AFDBC(s32);
+s32 clamp_class_index(s32);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
-s32 TObjPlayer__sub_801D91B8(saddr player);
+s32 get_class_max_exp(saddr player);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 }
 // The PlyLevelTbl.cpt archive: its first word points to the per-class level rows.
@@ -107,7 +107,7 @@ u8 *TObjPlayer::get_hospital_position() {
 }
 
 const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
-    TObjPlayer__sub_801AFDBC(cls);
+    clamp_class_index(cls);
     return class_starting_inventory_table[(s8)cls];
 }
 
@@ -282,7 +282,7 @@ const TPlyInventoryItem *class_starting_inventory_table[12] = {
     fonewearl_starting_inventory, hucaseal_starting_inventory, fomar_starting_inventory, ramarl_starting_inventory,
 };
 
-s32 TObjPlayer__sub_801D91B8(saddr player) {
+s32 get_class_max_exp(saddr player) {
     return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(reinterpret_cast<TObjPlayer *>(player)), TObjPlayer::get_max_level());
 }
 
@@ -295,7 +295,7 @@ s32 TObjPlayer::get_class_state_field(s32 lvl) {
 
 PlayerLevelTableRow *get_ply_level_table_row(s32 cls, s32 level) {
     PlayerLevelTableRow **table = *ply_level_table;
-    return &table[(s8)TObjPlayer__sub_801AFDBC(cls)][TObjPlayer::clamp_index_to_max(level)];
+    return &table[(s8)clamp_class_index(cls)][TObjPlayer::clamp_index_to_max(level)];
 }
 
 void free_ply_level_tbl() { TLobby::free_nodes_with_id((uaddr)ply_level_table); }
@@ -312,11 +312,11 @@ ActorParamBlock *get_class_defense_template(TObjPlayer *player) {
 }
 
 stats *get_class_base_stats(s32 cls) {
-    return player_class_base_stat_tables[(s8)TObjPlayer__sub_801AFDBC(cls)];
+    return player_class_base_stat_tables[(s8)clamp_class_index(cls)];
 }
 
 const player_stats *get_class_stat_caps(s32 cls) {
-    return &player_class_stat_caps[(s8)TObjPlayer__sub_801AFDBC(cls)];
+    return &player_class_stat_caps[(s8)clamp_class_index(cls)];
 }
 
 player_stats *TObjPlayer::get_class_stat_entry() {

@@ -34,7 +34,7 @@ struct TOVS2Wall01 : public TObjChara {
     f32 take_hit(TObjBase *attacker);
     s32 remaining_hits();
     void set_remaining_hits(s32 count);
-    void save_and_send_state(u16 reason);
+    void save_and_send_state(u16 update_reason);
 };
 
 LAYOUT_ASSERT(TOVS2Wall01FadeOffset, offsetof(TOVS2Wall01, fade) == 0x340);

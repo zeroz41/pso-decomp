@@ -25,11 +25,9 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/base/ActorCollision.h"
 
 
-extern "C" {
-void init_collision_body_parts(TObject *obj, void *parts, s32 count);
-}
 void free_collision_body_parts(TObjCollidable *actor);
 
 extern TObject *tl_04;

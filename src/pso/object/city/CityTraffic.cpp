@@ -69,8 +69,8 @@ NJS_TEXLIST *city_common_texture_list;
 
 #pragma defer_codegen on
 
-const char *TObjCityAirCar_Ctrl__name = "TObjCityAirCar_Ctrl";
-const char *TObjCityAirCar_Car__name = "TObjCityAirCar_Car";
+const char *TObjCityAirCar_Ctrl::class_name = "TObjCityAirCar_Ctrl";
+const char *TObjCityAirCar_Car::class_name = "TObjCityAirCar_Car";
 
 f32 air_car_lane_spacing_table[5];
 f32 air_car_lane_speed_scale_table[5];
@@ -157,7 +157,7 @@ s32 sample_aircar_path_position(s32 lane, void *pos, f32 frame) {
         r = 0;
     }
     bind_motion_context((NJS_MOTION *)m, frame);
-    void *t = ((void * (*)(s32))get_city_common_model)(city_aircar_model_indices[lane]);
+    void *t = get_city_common_model(city_aircar_model_indices[lane]);
     sample_motion_node_transform((NJS_OBJECT *)t, (f32 *)pos, (s32 *)&ang, &sp18.x, quat);
     return r;
 }
@@ -168,7 +168,7 @@ TObjCityAirCar_Ctrl::TObjCityAirCar_Ctrl(TObject *parent) : TObject(parent) {
     s32 i;
     s32 j;
     Lane *lane;
-    m_name = TObjCityAirCar_Ctrl__name;
+    m_name = TObjCityAirCar_Ctrl::class_name;
     pad_1C = 0;
     pad_20 = 0.0f;
     rare_car_counter = 0x14;
@@ -247,7 +247,7 @@ void TObjCityAirCar_Ctrl::render() {  }
 
 
 TObjCityAirCar_Car::TObjCityAirCar_Car(TObject *parent, s32 lane, s32 model_type, f32 path_speed) : TObjBase(parent) {
-    m_name = TObjCityAirCar_Car__name;
+    m_name = TObjCityAirCar_Car::class_name;
     path_frame = 0.0f;
     this->lane = lane;
     this->model_type = model_type;
@@ -397,7 +397,7 @@ void TObjCityAirCar_Car::render() {
             }
             TObjFish::set_global_param(city_air_car_model_handle);
             air_car_buffer_pair_table[model_type]->scroll_uvs(uv_scroll, 0);
-            draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[model_type]].model);
+            draw_chunk_object(city_air_car_model_resource->models[city_traffic_car_chunk_index_table[model_type]].model);
             city_air_car_model_handle->textures[2].global_index = texture_index;
         }
         pop_matrix();

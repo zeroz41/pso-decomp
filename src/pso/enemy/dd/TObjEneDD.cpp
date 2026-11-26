@@ -79,16 +79,7 @@ TAttackCollider *obj_ene_dd_instance;
 #include "pso/unk/text_803D853C.h"
 
 
-extern "C" {
-f32 newton_sqrtf(f32);
-}
 #include <dolphin/mtx.h>
-
-
-extern "C" {
-f32 fabs_float(f32);
-}
-
 
 
 TargetCandidate enemy_target_candidate_table[4];
@@ -494,7 +485,7 @@ void calc_wall_slide_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 dis
     e->wall_probe_failures++;
     v.x = n->contact->normal.z;
     v.z = -n->contact->normal.x;
-    normalize_vector_xz((Vec *)(&v));
+    normalize_vector_xz((&v));
     if (dx * v.x + dz * v.z >= 0.0f) {
         dx = v.x;
         dz = v.z;
@@ -821,7 +812,7 @@ void TObjEneDD::emit_effect_at_position(const DragonAttackParams *params) {
     TObjEneDD::emit_enemy_effect(this, &position, params, NULL);
 }
 
-void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target) {
+void TObjEneDD::inflict_confusion(TObjChara *attacker, TObjChara *target) {
     DirectAttackPayload attack = {0x12, 1.0f};
     target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
@@ -831,12 +822,12 @@ void TObjEneDD::inflict_poison(TObjChara *attacker, TObjChara *target) {
     target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
 
-void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target) {
+void TObjEneDD::inflict_paralysis(TObjChara *attacker, TObjChara *target) {
     DirectAttackPayload attack = {0x10, 1.0f};
     target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
 
-void TObjEneDD::send_damage_message(TObjChara *attacker, TObjChara *target) {
+void TObjEneDD::inflict_slow(TObjChara *attacker, TObjChara *target) {
     DirectAttackPayload attack = {0x11, 1.0f};
     target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }

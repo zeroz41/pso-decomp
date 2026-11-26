@@ -270,7 +270,7 @@ void TWindowKeyBoardBase::insert_string(char *src) {
     q[1] = len;
     q[2] = candidate_index;
     q += 3;
-    strncpy((char *)q, (const char *)src, len);
+    strncpy((char *)q, src, len);
     candidate_bytes_remaining -= n;
     if (last_candidate > current_candidate) {
         last_candidate += n;
@@ -320,7 +320,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     p[1] = n1;
     p[2] = candidate_index;
     p += 3;
-    strncpy((char *)p, (const char *)name, n1);
+    strncpy((char *)p, name, n1);
     p += n1;
     n1 = (s8)n1;
     n2 = TWindowKeyBoardSoft::strnlen(text, 0x100);
@@ -328,7 +328,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     p[1] = n2;
     p[2] = 1;
     p += 3;
-    strncpy((char *)p, (const char *)text, n2);
+    strncpy((char *)p, text, n2);
     p += n2;
     *p++ = 0;
     candidate_bytes_remaining = 0x94 - (p - candidate_buffer);

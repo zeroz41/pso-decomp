@@ -18,7 +18,7 @@ void mark_name_cache_dirty(void) {
 }
 
 
-inline int name_hash(char *s) {
+inline int hash_name(char *s) {
     int h;
     u8 c = s[0];
     if (c >= 0xA0 && c < 0xF0) {
@@ -39,7 +39,7 @@ inline QuestDownloadCachedNameNode *find_cached_name(char *buf, s16 len, QuestDo
     QuestDownloadCachedNameNode *n;
     QuestDownloadCachedNameNode *prev = NULL;
     s32 h;
-    h = name_hash(buf);
+    h = hash_name(buf);
     for (n = name_cache_index.heads[h]; n != NULL; n = n->next) {
         s32 r;
         u8 elen = n->encodedRecord[2];
@@ -127,7 +127,7 @@ void relocate_name_record(s32 id) {
 }
 
 // Id of a name-cache record: its 0x400-byte page in bits 12 and up, its offset in the page below.
-inline s32 name_record_id(QuestDownloadNameCacheImage *cache, void *rec) {
+inline s32 get_name_record_id(QuestDownloadNameCacheImage *cache, void *rec) {
     s32 off = (u8 *)rec - (u8 *)cache;
     return ((off / 1024) << 12) | (off % 1024);
 }
@@ -137,7 +137,7 @@ s32 lookup_name_entry(char *name, s16 name_len, QuestNameLookupResult *out) {
     s32 r;
     u8 len;
     u8 *e;
-    for (n = name_cache_index.heads[name_hash(name)]; n != NULL; n = n->next) {
+    for (n = name_cache_index.heads[hash_name(name)]; n != NULL; n = n->next) {
         e = n->encodedRecord;
         len = e[2];
         r = strncmp((char *)(e + 3), name, (s16)len);
@@ -155,7 +155,7 @@ s32 lookup_name_entry(char *name, s16 name_len, QuestNameLookupResult *out) {
         return 0;
     }
     out->page_index = 0;
-    out->record_id = name_record_id(&name_cache_image, e);
+    out->record_id = get_name_record_id(&name_cache_image, e);
     out->encodedRecord = e;
     return 1;
 }
@@ -173,7 +173,7 @@ s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out) {
     pre = 0;
     out->prefix_length = 0;
     out->match_length = 0;
-    for (n = name_cache_index.heads[name_hash(name)]; n != NULL; n = n->next) {
+    for (n = name_cache_index.heads[hash_name(name)]; n != NULL; n = n->next) {
         e = n->encodedRecord;
         len = e[2];
         m = match_prefix_length(e + 3, (u8 *)name, len);
@@ -199,14 +199,14 @@ s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out) {
         return 0;
     }
     out->page_index = 0;
-    out->record_id = name_record_id(&name_cache_image, found);
+    out->record_id = get_name_record_id(&name_cache_image, found);
     out->match_length = blen;
     out->prefix_length = pre;
     out->encodedRecord = found;
     return 1;
 }
 
-inline s32 name_record_size(QuestDownloadRequest *req) {
+inline s32 calc_record_size(QuestDownloadRequest *req) {
     s32 extra;
     if (req->x8 != 0 || req->x7 >= 0x2D) {
         extra = 3;
@@ -215,7 +215,7 @@ inline s32 name_record_size(QuestDownloadRequest *req) {
     }
     return 3 + req->len + extra + calc_sjis_string_width(req->text);
 }
-inline void write_name_record(u8 *p, s32 size, QuestDownloadRequest *req, u8 attr) {
+inline void write_record(u8 *p, s32 size, QuestDownloadRequest *req, u8 attr) {
     *p++ = size % 256;
     *p++ = size / 256;
     *p++ = req->len;
@@ -254,7 +254,7 @@ s32 store_name_record(char *name, QuestDownloadRequest *req, s32 attr) {
     if (e[2] == req->len && strncmp(name, (char *)(e + 3), req->len) == 0) {
         e[2] = 0;
         *link = n->next;
-        invalidate_entries_by_id(name_record_id(cache, n->encodedRecord));
+        invalidate_entries_by_id(get_name_record_id(cache, n->encodedRecord));
         n->next = name_cache_node_list;
         name_cache_node_list = n;
     }
@@ -263,9 +263,9 @@ s32 store_name_record(char *name, QuestDownloadRequest *req, s32 attr) {
     }
     node = name_cache_node_list;
     name_cache_node_list = node->next;
-    size = name_record_size(req);
+    size = calc_record_size(req);
     rec = alloc_name_record(size);
-    write_name_record(rec, size, req, attr);
+    write_record(rec, size, req, attr);
     n = find_cached_name(name, req->len, &link);
     node->encodedRecord = rec;
     node->next = n;
@@ -544,7 +544,7 @@ void rotate_cache_page(void) {
 void save_name_cache(void) {
     if (name_cache_dirty != 0) {
         if (seek_or_reopen(0x1400) != -1) {
-            TQuestVmDownLoadServer__sub_803E8788(quest_download_file_handle, name_cache_image.pages, 0x2000);
+            aram_write_stub(quest_download_file_handle, name_cache_image.pages, 0x2000);
         }
     }
 }

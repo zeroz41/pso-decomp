@@ -40,7 +40,7 @@ struct TContainerAncient01 : public TObjChara {
     static void release_static_resource();
     static void load_resources();
     static s32 is_global_state_in_table();
-    u32 effect_rate;     // set param 2 + 4; the blast spawns an effect every 30 / effect_rate frames
+    u32 spawns_per_second; // set param 2 + 4: the open blast spawns every 30 / this frames
     static int get_table_entry(int a0);
     // Hits every player on this floor within range (squared, xz) with a kind 0xF
     // direct attack of power 100.

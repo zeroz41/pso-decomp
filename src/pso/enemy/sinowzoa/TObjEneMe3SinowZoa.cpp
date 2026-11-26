@@ -401,9 +401,9 @@ void TObjEneMe3SinowZoa::update_body_colliders() {
     bodies->offset.y = this->body_center.y - this->position.y;
 }
 
-void TObjEneMe3SinowZoa::set_intangible() { TObjEneDD::set_intangible(); sub_800F5874(38); }
+void TObjEneMe3SinowZoa::set_intangible() { TObjEneDD::set_intangible(); add_immunity_flags(38); }
 
-void TObjEneMe3SinowZoa::clear_intangible() { TObjEneDD::clear_intangible(); sub_800F5864(38); }
+void TObjEneMe3SinowZoa::clear_intangible() { TObjEneDD::clear_intangible(); remove_immunity_flags(38); }
 
 void TObjEneMe3SinowZoa::setup_move_bounds() {
     if (starts_stealthed() != 0) {
@@ -506,7 +506,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }
                     } else if (near != 0 && this->random_ratio() <= 0.1666f) {
-                        TObjEneDD__sub_800BA438(this, current_target);
+                        TObjEneDD::inflict_confusion(this, current_target);
                     }
                 }
             }
@@ -1504,7 +1504,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 mode) {
     case 0:
         this->advance_animation();
         VecCopy(&v, &velocity);
-        len = normalize_vector_xz((Vec *)(&v));
+        len = normalize_vector_xz((&v));
         this->move_clamped_on_ground(v.x, v.z, len);
         this->velocity.x *= 0.8f;
         this->velocity.z *= 0.8f;
@@ -2032,7 +2032,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 }
                 if (angle < this->attack_params->attack_angle / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
-                        TTecRaBarta::create((void *)this, (void *)(&out), (void *)(&this->position), TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[this->kind_index]->attack_tech_level));
+                        TTecRaBarta::create(this, (&out), (&this->position), TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[this->kind_index]->attack_tech_level));
                     } else {
                         TTecGiBarta::create_ex(this, &out, this->rotation_y, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[this->kind_index]->attack_tech_level));
                     }

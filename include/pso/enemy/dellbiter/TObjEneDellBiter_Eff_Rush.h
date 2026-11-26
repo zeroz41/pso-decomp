@@ -8,6 +8,7 @@ class TObjChara;
 
 class TObjEneDellBiter_Eff_Rush : public TObject {
 public:
+    static const char *class_name;
     TObjEneDellBiter_Eff_Rush(TObject *, TObjBase *, TObjChara *, f32);
     virtual ~TObjEneDellBiter_Eff_Rush();
     virtual void render();
@@ -16,7 +17,6 @@ public:
     Vec direction;
     f32 strength;
     s32 pad_30;
-    static const char *name;
 };
 LAYOUT_ASSERT(TObjEneDellBiter_Eff_Rush_size, sizeof(TObjEneDellBiter_Eff_Rush) == 0x34);
 

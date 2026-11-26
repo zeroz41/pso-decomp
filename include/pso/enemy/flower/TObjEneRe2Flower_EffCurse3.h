@@ -7,6 +7,7 @@
 
 class TObjEneRe2Flower_EffCurse3 : public TObject {
 public:
+    static const char *class_name;
     TObjEneRe2Flower_EffCurse3(TObject *parent, TObjBase *target);
     virtual ~TObjEneRe2Flower_EffCurse3();
     virtual void run_task();
@@ -17,7 +18,7 @@ public:
 LAYOUT_ASSERT(TObjEneRe2Flower_EffCurse3_size, sizeof(TObjEneRe2Flower_EffCurse3) == 0x28);
 
 extern "C" {
-void TObjPlayer__sub_800C4D44(void);
+void free_curse_resources(void);
 }
 
 #endif

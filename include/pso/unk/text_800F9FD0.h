@@ -7,4 +7,6 @@ extern "C" {
 bool is_async_file_read_busy(void);
 }
 
+struct TLobbyKey { u8 pad0[4]; s32 id; };
+
 #endif

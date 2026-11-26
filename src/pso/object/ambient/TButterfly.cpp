@@ -38,7 +38,7 @@ void TButterfly::draw_model() {
 }
 
 void TButterfly::init_motion() {
-    VecCopy(&this->origin, &this->position);
+    VecCopy(&this->home_position, &this->position);
     this->velocity.x = 0.0f;
     this->velocity.y = 0.0f;
     this->velocity.z = 0.0f;
@@ -47,7 +47,7 @@ void TButterfly::init_motion() {
     this->state = 0;
     this->alt_mode = 0;
     this->timer = 0x1E;
-    this->bob_angle = 0;
+    this->angle = 0;
 }
 
 void TButterfly::render() {
@@ -63,7 +63,7 @@ void TButterfly::render() {
 void TButterfly::run_task() {
     f32 target;
     f32 lift;
-    target = 3.2f * sin_table_lookup(this->bob_angle) + this->origin.y;
+    target = 3.2f * sin_table_lookup(this->angle) + this->home_position.y;
     if (this->alt_mode == 0) {
         this->lift = 5.0f * (target - this->position.y);
         lift = this->lift;
@@ -72,10 +72,10 @@ void TButterfly::run_task() {
         } else if (lift > 4.0f) {
             this->lift = 4.0f;
         }
-        this->flap_speed = 2.0f * (0.01f * this->lift) + 0.3f;
+        this->phase_speed = 2.0f * (0.01f * this->lift) + 0.3f;
         this->velocity.y = 0.1f * (0.027f * this->lift) + this->velocity.y;
         this->velocity.y = this->velocity.y - 0.027f;
-        this->motion_frame = this->motion_frame + this->flap_speed;
+        this->motion_frame = this->motion_frame + this->phase_speed;
         if (this->motion_frame > 5.0f) {
             this->motion_frame = 0.0f;
         }
@@ -87,10 +87,10 @@ void TButterfly::run_task() {
         } else if (lift > 4.0f) {
             this->lift = 4.0f;
         }
-        this->flap_speed = 2.0f * (0.1f * this->lift) + 0.32f;
+        this->phase_speed = 2.0f * (0.1f * this->lift) + 0.32f;
         this->velocity.y = this->velocity.y - 0.5f * (0.027f * this->lift);
         this->velocity.y = this->velocity.y - 0.027f;
-        this->motion_frame = this->motion_frame + this->flap_speed;
+        this->motion_frame = this->motion_frame + this->phase_speed;
         if (this->motion_frame > 5.0f) {
             this->motion_frame = 0.0f;
             this->alt_mode = 0;
@@ -191,7 +191,7 @@ void TButterfly::run_task() {
             break;
         }
     }
-    this->bob_angle = this->bob_angle + (s32)(40.0f * (3.0517578125e-05f * (f32)rand()) + 160.0f);
+    this->angle = this->angle + (s32)(40.0f * (3.0517578125e-05f * (f32)rand()) + 160.0f);
 }
 #pragma pop
 

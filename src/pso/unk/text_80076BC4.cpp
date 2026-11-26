@@ -1,5 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
+#include "pso/unk/text_80076BC4.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -13,7 +14,6 @@
 
 struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 
-struct SubmitChatTextTag { u32 a; u32 b; };
 
 extern "C" {
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);

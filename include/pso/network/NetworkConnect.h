@@ -54,41 +54,41 @@ struct LanConfigRecord {
 };
 
 // The broadband connection settings run_connect_sequence brings the adapter up with.
-struct LanConfig {
+struct NetworkConfig {
     s32 connection_type;
-    s32 ip_addr;
+    s32 local_ip;
     s32 netmask;
     s32 fC;
-    s32 dns1;
-    s32 dns2;
+    s32 dns_server1;
+    s32 dns_server2;
     s32 gateway;
     char dhcp_hostname[0x20];
-    char f3C[0x40];
+    char domain[0x40];
     char ppp_user[0x80];
     char ppp_password[0x20];
     u16 f11C;
     s32 valid; /* 1 once load_network_configs read the settings */
 };
-LAYOUT_ASSERT(LanConfig_size, sizeof(LanConfig) == 0x124);
+LAYOUT_ASSERT(NetworkConfig_size, sizeof(NetworkConfig) == 0x124);
 
 // --- C functions defined in NetworkConnect.cpp ---
 extern "C" {
 void TLobby__sub_80147978(void);
 }
 int has_modem_adapter(void);
-s32 apply_static_ip_config(s32 *netmask);
-s32 connect_dhcp(s32 *netmask);
-s32 should_dial_next_number(u32 result);
-int get_modem_phone_number_count(void);
-void get_local_ip_addr(s32 *out_addr);
-s32 start_connection(void);
+s32 apply_static_network_config(s32 *netmask);
+s32 apply_dhcp_network_config(s32 *netmask);
+s32 should_try_next_phone_number(u32 result);
+int get_phone_number_count(void);
+void get_local_ip_address(s32 *out_addr);
+s32 init_network_and_connect(void);
 void disconnect_lan(void);
 char *get_ppp_password(void);
 char *get_modem_user_name(void);
 char *get_account_user_name(s32 idx);
-void copy_dns_addr(u32 *dst, const u32 *src);
-s32 disconnect_modem(void);
-s32 dial_modem_numbers(s32 id);
+void copy_ip_address(u32 *dst, const u32 *src);
+s32 disconnect_network(void);
+s32 connect_with_any_phone_number(s32 id);
 // What follows the online character save: 0 asks the server for the time, 1 and 2
 // close the lobby with state 0x13 or 0x14. Always 0 in this build.
 int get_post_save_lobby_action();

@@ -17,16 +17,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/frontend/TitleSceneTables.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
-extern "C" {
-
-
-
-    
-    
-}
-
-typedef struct Stack_80335E7C Stack_80335E7C;
 void TUnk_804EE470::render() {
   TexturedQuad quad;
   TParticleCtrl::begin_effect_render();

@@ -890,15 +890,15 @@ void TObjEneIllGill::update_weapon_attack() {
 
 void TObjEneIllGill::free_resources() {
     if (this->primaryEffect != 0U) {
-        TParticleCtrl::release((void *)this->primaryEffect);
+        TParticleCtrl::release(this->primaryEffect);
         this->primaryEffect = NULL;
     }
     if (this->secondaryEffect != 0U) {
-        TParticleCtrl::release((void *)this->secondaryEffect);
+        TParticleCtrl::release(this->secondaryEffect);
         this->secondaryEffect = NULL;
     }
     if (this->tertiaryEffect != 0U) {
-        TParticleCtrl::release((void *)this->tertiaryEffect);
+        TParticleCtrl::release(this->tertiaryEffect);
         this->tertiaryEffect = NULL;
     }
 }

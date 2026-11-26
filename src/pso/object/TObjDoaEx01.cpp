@@ -245,11 +245,11 @@ void TObjDoaEx01::free_resource() {
 }
 void TObjDoaEx01::load_resources() {
     BmlResource *resource;
-    NJS_OBJECT *node;
+    NJS_OBJECT *alpha_node;
     resource = new BmlResource(1, &doa_ex01_resource_descriptor, 0, 0, NULL);
     doa_ex01_resource_bundle = resource;
-    node = get_bml_model(resource, 0)->child->sibling->child->child;
-    doa_ex01_alpha_model_node = node;
-    doa_ex01_alpha_model_sibling = node->sibling;
+    alpha_node = get_bml_model(resource, 0)->child->sibling->child->child;
+    doa_ex01_alpha_model_node = alpha_node;
+    doa_ex01_alpha_model_sibling = alpha_node->sibling;
 }
 

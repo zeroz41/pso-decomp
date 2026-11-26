@@ -61,8 +61,8 @@ void TItemShootRocketPunch::render() {
         push_matrix();
         set_texlist(this->texture_list);
         post_translate_matrix(&this->m_pos.x);
-        rotate_matrix_y(0, this->m_count);
-        rotate_matrix_x(0, this->m_28 - 0x4000);
+        rotate_matrix_y(0, this->rot_y);
+        rotate_matrix_x(0, this->rot_x - 0x4000);
         draw_ginja_object(this->model);
         pop_matrix();
     }

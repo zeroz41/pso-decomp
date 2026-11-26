@@ -10,7 +10,7 @@
 #include "pso/player/PlayerSlots.h"
 
 void mark_unequippable_items(TWindowSubEquipKind *window) {
-    u8 requirements[8];
+    u8 equip_buf[8];
     s16 i;
     u8 *item;
     ItemListRow *e;
@@ -20,19 +20,19 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
         for (i = 0; i < window->entry_capacity; i++) {
             e = static_cast<ItemListRow *>(window->get_array_entry(i));
             if (e != NULL && e->is_flag_4_set() != 0 && e->is_flag80_set() == 0) {
-                if ((t = (uaddr)find_item_by_id(e->get_item())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)requirements) == 0) {
+                if ((t = (uaddr)find_item_by_id(e->get_item())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)equip_buf) == 0) {
                     e->flags |= 0x80;
                 }
             }
         }
     }
 }
-void disable_pack_item_rows(void *qst_pack_select_window, s32 item_id) {
+void disable_pack_item_rows(void *qst_pack_select_window, s32 item) {
     s32 i;
     u16 *row;
     for (i = 0; i < *(s16 *)((s8 *)qst_pack_select_window + 0x76); i++) {
         row = (u16 *)((TWindowBase *)qst_pack_select_window)->get_array_entry(i);
-        if ((((TWindowLayoutEntry *)row)->is_flag_4_set() != 0) && (item_id == ((ItemListRow *)row)->get_item())) {
+        if ((((TWindowLayoutEntry *)row)->is_flag_4_set() != 0) && (item == ((ItemListRow *)row)->get_item())) {
             ((ItemListRow *)row)->category_style = 0xFFAAAAAA;
             ((ItemListRow *)row)->style = 0xFF909090;
             ((ItemListRow *)row)->suffix_style = 0xFF909090;

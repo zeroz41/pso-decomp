@@ -26,7 +26,7 @@ struct TContainerAncient01R : public TObjChara {
     virtual void run_task();
     static void init_table_entries();
     u8 unk_334[0x4];
-    s16 damage_taken;    // hits taken; it opens when hp - damage_taken <= 0
+    s16 hit_count; // hits taken: it opens when hp runs out
     u8 unk_33A[0x2];
     f32 wait_limit;
     f32 active_limit;
@@ -37,7 +37,7 @@ struct TContainerAncient01R : public TObjChara {
     void trigger_spawn(const Vec *position, s32 effect_id);
     s32 opened;
     Vec open_scale;
-    u32 effect_rate;
+    u32 spawns_per_second; // set param 2 + 4: the open blast spawns every 30 / this frames
     static void *create(void *set_data);
     // Forgets the archive it shares with TContainerAncient01 (which frees it).
     static void free_resources();

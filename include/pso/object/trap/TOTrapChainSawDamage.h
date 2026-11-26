@@ -20,7 +20,7 @@ struct TOTrapChainSawDamage : public TOTrapChainSaw {
     virtual void reach_far_end();
     s32 variant;                    // scale.z clamped to 0-1: the 2 m or 4 m saw
     f32 damage;                     // scale.y: the attack power before scale_by_level
-    s32 run_frames;                 // frames since the run started; the edges start at 5 and 10
+    s32 tick;                       // frames since the run started; the edges start at 5 and 10
     TOTrapChainSawEdge *edges[2];
     static void *create(void *set_data);
 };

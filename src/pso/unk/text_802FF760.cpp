@@ -7,8 +7,6 @@
 // string comes first in the unit's .rodata.
 const char *multi_confirm_name = "TAdMultiConfirmGC";
 
-// defer_codegen emits these in reverse source order: fn_802FF760 comes first in .text, while
-// the camera pose initializers keep source order in .rodata (fn_802FF7EC's come first).
 #pragma defer_codegen on
 
 extern "C" {

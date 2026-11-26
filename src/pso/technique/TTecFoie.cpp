@@ -5,6 +5,7 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/technique/TTecFoie.h"
+#include "pso/technique/TTecBarta.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
@@ -19,7 +20,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-extern "C" {
 void TTecFoie::play_foie_cast_sound() {
     s32 h;
     switch (band) {
@@ -54,24 +54,21 @@ void TTecFoie::play_foie_cast_sound() {
     }
 }
 
-}
-
-// foie_emitter_parts_N: the particle parts entry N of
+// foie_emitter_rows_N: the particle parts entry N of
 // TTecFoie::emitter_bands spawns; the scale of part 0x14 grows with the band.
-static const TechniqueEmitterSourceRow foie_emitter_parts_0[1] = {{0x14, 2, 1.0f}};
-static const TechniqueEmitterSourceRow foie_emitter_parts_1[1] = {{0x14, 2, 1.2f}};
-static const TechniqueEmitterSourceRow foie_emitter_parts_2[1] = {{0x14, 2, 1.4f}};
-static const TechniqueEmitterSourceRow foie_emitter_parts_3[2] = {{0x14, 2, 1.6f}, {0xAC, 1, 1.0f}};
-static const TechniqueEmitterSourceRow foie_emitter_parts_4[2] = {{0x14, 2, 1.8f}, {0xAC, 1, 1.0f}};
-static const TechniqueEmitterSourceRow foie_emitter_parts_5[4] = {
+static const TechniqueEmitterSourceRow foie_emitter_rows_0[1] = {{0x14, 2, 1.0f}};
+static const TechniqueEmitterSourceRow foie_emitter_rows_1[1] = {{0x14, 2, 1.2f}};
+static const TechniqueEmitterSourceRow foie_emitter_rows_2[1] = {{0x14, 2, 1.4f}};
+static const TechniqueEmitterSourceRow foie_emitter_rows_3[2] = {{0x14, 2, 1.6f}, {0xAC, 1, 1.0f}};
+static const TechniqueEmitterSourceRow foie_emitter_rows_4[2] = {{0x14, 2, 1.8f}, {0xAC, 1, 1.0f}};
+static const TechniqueEmitterSourceRow foie_emitter_rows_5[4] = {
     {0x19E, 0x1000, 1.0f}, {0x14, 2, 2.2f}, {0xAC, 1, 1.0f}, {0x19C, 2, 1.0f},
 };
 const TechniqueEmitterSourceTable TTecFoie::emitter_bands[6] = {
-    {foie_emitter_parts_0, 1}, {foie_emitter_parts_1, 1}, {foie_emitter_parts_2, 1},
-    {foie_emitter_parts_3, 2}, {foie_emitter_parts_4, 2}, {foie_emitter_parts_5, 4},
+    {foie_emitter_rows_0, 1}, {foie_emitter_rows_1, 1}, {foie_emitter_rows_2, 1},
+    {foie_emitter_rows_3, 2}, {foie_emitter_rows_4, 2}, {foie_emitter_rows_5, 4},
 };
 const char *TTecFoie::name = "TTecFoie";
-extern "C" {
 
 void TTecFoie::create_particle_emitters() {
   ParticleAngles fwd;
@@ -130,9 +127,8 @@ void TTecFoie::init_projectile_params() {
 }
 
 void TTecFoie::vfunc_6() {
-    saddr arg0 = (saddr)this;
-    spawn_particle_effect((const Vec *)(arg0 + 0x20), 0x1DC);
-    spawn_particle_effect((const Vec *)(arg0 + 0x20), 0x1DD);
+    spawn_particle_effect(&position, 0x1DC);
+    spawn_particle_effect(&position, 0x1DD);
 }
 
 void TTecFoie::apply_to_target(TObjChara *target) {
@@ -156,7 +152,6 @@ TTecFoie::~TTecFoie() {
         ((TObject *)emitters[i])->queue_destruction();
     }
     mem_free(emitters);
-}
 }
 
 void TTecFoie::render() {  }

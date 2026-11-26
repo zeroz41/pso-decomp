@@ -100,13 +100,5 @@ s32 unhide_enemies_at(s32 floor, s16 room, s16 wave);
 FloorObjectSetRow *get_active_floor_object_rows(s32 floor);
 EnemySetRecord *get_active_floor_enemy_rows(s32 floor);
 TObjBase *call_area_set_factory(TSetManager *manager, FloorObjectSetRow *row);
-extern "C" {
-void destroy_child_recursive__6TLobbyFPvPv(TObject *root, TObject *object);
-}
-
 s32 init_quest_floor_enemies(s32 floor, EnemySetRecord *source, u32 size);
-extern "C" {
-s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 floor, FloorObjectSetRow *source, u32 size);
-}
-
 #endif

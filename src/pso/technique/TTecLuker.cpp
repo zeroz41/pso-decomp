@@ -49,9 +49,6 @@
 
 
 
-
-struct Rec_8023402C { u16 owner; s16 floor; s32 section; Vec pos; s32 heading; };
-
 void clear_pipe_interaction_latch(void* p);
 s32 get_pipe_interaction_latch(void* p);
 extern "C" {
@@ -108,7 +105,7 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
-s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
+s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
 s32 is_split_screen();
 }
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
@@ -118,10 +115,10 @@ s32 submit_cursor_candidate(void *, s32);
 }
 extern u8 identity_matrix[];
 void create_quest_telepipe_for_client(u16 client);
-void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
+void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room);
 s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
-int fn_80235078(void *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x0) == 2);
+int fn_80235078(void *record) {
+    return (u8) (*(s32 *)((s8 *)record + 0x0) == 2);
 }
 
 int TTecLuker__sub_80235054(void* p) { return fn_80235078((void *)((char*)p + 0x4)); }
@@ -193,7 +190,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     }
     traveller = local_client_id;
     if (is_split_screen() == 0 && sourceId != local_client_id) {
-        VecCopy(&pipe_pos, (const Vec *)((u8 *)this->source + 0x838));
+        VecCopy(&pipe_pos, &((TObjPlayer *)this->source)->telepipe.state.pos);
     } else {
         traveller = sourceId;
         if (level == 10) {
@@ -238,11 +235,11 @@ void TTecLuker::run_task() {
     struct { f32 x, y, z; } position;
     u16 owner_id;
     u16 entity_id;
-    u16 temp_r5;
-    TObjPlayer *warper;
+    u16 visit_slot;
+    TObjPlayer *traveller_player;
     TObjPlayer *player;
     u8 *owner;
-    PositionPlacementQueue *tgt;
+    PositionPlacementQueue *queue;
     source = (uaddr)find_entity_by_id(sourceId);
     owner = (u8 *)source;
     if (owner == NULL) {
@@ -257,14 +254,14 @@ void TTecLuker::run_task() {
                 phase = 4;
                 return;
             }
-            tgt = placement;
-            if (tgt == NULL) {
+            queue = placement;
+            if (queue == NULL) {
                 setup_telepipe_field();
                 return;
             }
-            if (TTecLuker__sub_80235054(tgt) != 0) {
+            if (TTecLuker__sub_80235054(queue) != 0) {
                 VecCopy(&pipe_pos, &((TObjBase *)source)->position);
-                if ((telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker::visit_counts[sourceId] >= 1)) {
+                if ((telepipe_record_differs(&((TObjPlayer *)source)->telepipe.state, floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker::visit_counts[sourceId] >= 1)) {
                     queue_destruction();
                     return;
                 }
@@ -273,11 +270,11 @@ void TTecLuker::run_task() {
         }
         break;
     case 1:
-        temp_r5 = sourceId;
-        if (temp_r5 < 4U) {
-            TTecLuker::visit_counts[temp_r5] = TTecLuker::visit_counts[temp_r5] + 1;
+        visit_slot = sourceId;
+        if (visit_slot < 4U) {
+            TTecLuker::visit_counts[visit_slot] = TTecLuker::visit_counts[visit_slot] + 1;
         }
-        if (telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) != 0) {
+        if (telepipe_record_differs(&((TObjPlayer *)source)->telepipe.state, floor, &pipe_pos, traveller) != 0) {
             queue_destruction();
             return;
         }
@@ -308,9 +305,9 @@ void TTecLuker::run_task() {
         break;
     case 3:
         owner_id = ((TObjBase *)(owner))->get_entity_id();
-        warper = get_player_by_client_id(traveller);
-        if ((is_split_screen() == 0) && (warper != NULL)) {
-            if (warper->actorFlags & 0x800) {
+        traveller_player = get_player_by_client_id(traveller);
+        if ((is_split_screen() == 0) && (traveller_player != NULL)) {
+            if (traveller_player->actorFlags & 0x800) {
                 phase = 1;
                 TWindowCtrl::unsuppress_all_slots();
                 if (field == NULL) {
@@ -321,11 +318,11 @@ void TTecLuker::run_task() {
                 warp_frames = 0;
                 return;
             }
-            warper->telepipe.flags.set_bits(owner_id);
+            traveller_player->telepipe.flags.set_bits(owner_id);
             if (TLobby::get_instance() == 1) {
-                send_6x21_inter_level_warp(warper, 0);
+                send_6x21_inter_level_warp(traveller_player, 0);
             } else {
-                send_6x21_inter_level_warp(warper, 0);
+                send_6x21_inter_level_warp(traveller_player, 0);
             }
             goto block_43;
         }
@@ -381,7 +378,7 @@ void TTecLuker::setup_telepipe_field() {
         s16 room;
         floor = get_current_floor();
         room = (s32)((TObjBase *)source)->get_room();
-        write_telepipe_record((u8 *)source + 0x830, ((TObjBase *)source)->get_entity_id(), floor, (u8 *)&pipe_pos, room);
+        write_telepipe_record((u8 *)&((TObjPlayer *)source)->telepipe.state, ((TObjBase *)source)->get_entity_id(), floor, (u8 *)&pipe_pos, room);
         ((TObjPlayer *)source)->telepipe.state.send_telepipe_packet();
     }
 }
@@ -468,16 +465,16 @@ TTelepipeEffect::~TTelepipeEffect() {
 }
 
 void TTelepipeEffect::run_task() {
-  f32 d;
-  f32 best;
+  f32 dist_sq;
+  f32 nearest_sq;
   s32 j;
   s32 i;
-  s32 st;
-  uaddr pl;
-  best = 10000.0f;
+  s32 area;
+  uaddr player;
+  nearest_sq = 10000.0f;
   j = get_current_floor_area();
-  st = j;
-  if ((st == 0) || (st == 0x12))
+  area = j;
+  if ((area == 0) || (area == 0x12))
   {
     return;
   }
@@ -485,17 +482,17 @@ void TTelepipeEffect::run_task() {
   {
     for (j = 0; j < 4; j++)
     {
-      pl = (uaddr)get_player_by_client_id(j);
-      if (pl != 0)
+      player = (uaddr)get_player_by_client_id(j);
+      if (player != 0)
       {
-        d = horizontal_distance_squared(&pos, &((TObjBase *)pl)->position);
-        if (d <= best)
+        dist_sq = horizontal_distance_squared(&pos, &((TObjBase *)player)->position);
+        if (dist_sq <= nearest_sq)
         {
-          best = d;
+          nearest_sq = dist_sq;
         }
       }
     }
-    if (best >= 102400.0f)
+    if (nearest_sq >= 102400.0f)
     {
       for (i = 0; i < 3; i++)
       {
@@ -553,7 +550,7 @@ void TTelepipeEffect::run_task() {
 
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     u8 *player;
-    Rec_8023402C *rec;
+    TelepipeState *rec;
     uaddr other;
     uaddr local;
     command->bswap();
@@ -567,7 +564,7 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     if (command->state.owner_client_id >= 4) {
         return;
     }
-    rec = (Rec_8023402C *)(player + 0x830);
+    rec = &((TObjPlayer *)player)->telepipe.state;
     if (telepipe_record_differs(rec, command->state.floor, &command->state.pos, command->state.owner_client_id) == 0) {
         return;
     }
@@ -584,16 +581,16 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     }
 }
 
-void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4) {
+void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room) {
     u8 *player;
-    *(u16 *)((s8 *)arg0 + 0) = arg1;
-    *(s16 *)((s8 *)arg0 + 2) = arg2;
-    VecCopy((Vec *)(arg0 + 8), (const Vec *)arg3);
-    *(s32 *)((s8 *)arg0 + 4) = arg4;
-    if (arg1 <= 4U) {
-        player = (u8 *)get_player_by_client_id((s32)((u32) arg1));
+    *(u16 *)((s8 *)record + 0) = owner;
+    *(s16 *)((s8 *)record + 2) = floor;
+    VecCopy((Vec *)(record + 8), (const Vec *)pos);
+    *(s32 *)((s8 *)record + 4) = room;
+    if (owner <= 4U) {
+        player = (u8 *)get_player_by_client_id((s32)((u32) owner));
         if (player != NULL) {
-            *(s32 *)((s8 *)arg0 + 0x14) = (s32) *(s32 *)((s8 *)player + 0x60);
+            *(s32 *)((s8 *)record + 0x14) = (s32) *(s32 *)((s8 *)player + 0x60);
         }
     }
 }
@@ -624,7 +621,7 @@ void TelepipeState::reset() {
     angle_y = 0;
 }
 
-s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused) {
+s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused) {
     Vec d;
     if (r->floor == floor) {
         d.x = r->pos.x - p->x;
@@ -651,8 +648,8 @@ void restore_floor_telepipes(void) {
     for (i = 0; i < 4; i++) {
         u8 *p = (u8 *)get_player_by_client_id(i);
         if (p != 0) {
-            if (((GetField2_80233F8C)get_field_2__9TTecLukerFPv)(p + 0x830) == get_current_floor()) {
-                ((TTecLuker *)p)->create(p + 0x38, p + 0x838, (void *)10);
+            if (((GetField2_80233F8C)get_field_2__9TTecLukerFPv)(&((TObjPlayer *)p)->telepipe.state) == get_current_floor()) {
+                ((TTecLuker *)p)->create(p + 0x38, &((TObjPlayer *)p)->telepipe.state.pos, (void *)10);
             }
         }
     }
@@ -697,10 +694,10 @@ void create_quest_telepipe_for_client(u16 client) {
     }
 }
 
-void TTecLuker::create_for_player(int arg0, saddr arg1) {
-    uaddr r = (uaddr)get_player_by_client_id((s32)((u16)arg0));
+void TTecLuker::create_for_player(int client, saddr pos) {
+    uaddr r = (uaddr)get_player_by_client_id((s32)((u16)client));
     if (r != 0U) {
-        ((TTecLuker *)r)->create((void *)arg1, (void *)arg1, (void *)(0xA));
+        ((TTecLuker *)r)->create((void *)pos, (void *)pos, (void *)(0xA));
     }
 }
 

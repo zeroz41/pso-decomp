@@ -106,9 +106,7 @@ void TQuestListChallenge::handle_confirm_select() {
                 set_state(0);
                 return;
             }
-            goto block_9;
         }
-block_9:
         if (confirmation != NULL && confirmation->is_cancelled() == 1) {
             close_windows();
             if (sequence != NULL) {
@@ -123,7 +121,6 @@ static inline TWindowMenu *create_quest_confirmation_menu(const NJS_POINT2 *posi
     return create_yes_no_window(position, client, yes_text, no_text);
 }
 
-struct Pair_80288DA4 { s32 a; s32 b; };
 static inline TWindowMessage *create_quest_detail_window(const NJS_POINT2 *position, const f32 *size, u32 rows, u16 client) {
     return TWindowMessage::create(position, size, rows, client);
 }

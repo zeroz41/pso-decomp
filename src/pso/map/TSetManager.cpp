@@ -35,8 +35,8 @@ EnemySetRecord *current_floor_enemy_set_rows;
 s32 current_floor_enemy_set_count;
 FloorObjectSetRow *floor_decoration_rows;
 s32 floor_decoration_row_count;
-void *TLobby__data_805D6124;
-s32 TLobby__data_805D6128;
+void *floor_decoration_rows_b;
+s32 floor_decoration_row_count_b;
 s32 item_drop_memory_pool_ar_addr;
 s32 item_drop_memory_pool_size;
 s16 floor_set_flags;
@@ -89,10 +89,10 @@ void free_floor_decorations() {
         floor_decoration_rows = NULL;
         floor_decoration_row_count = 0;
     }
-    if (TLobby__data_805D6124 != NULL) {
-        mem_free(TLobby__data_805D6124);
-        TLobby__data_805D6124 = NULL;
-        TLobby__data_805D6128 = 0;
+    if (floor_decoration_rows_b != NULL) {
+        mem_free(floor_decoration_rows_b);
+        floor_decoration_rows_b = NULL;
+        floor_decoration_row_count_b = 0;
     }
 }
 
@@ -109,11 +109,11 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
+        TLobby::replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
     } else {
-        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
+        TLobby::replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
     }
-    size = get_resource_file_size((const char *)path);
+    size = get_resource_file_size(path);
     if (size < 0) {
         return 0;
     }
@@ -144,9 +144,9 @@ void setup_floor_decorations() {
     arrive_floor_population();
     floor_decoration_rows = NULL;
     floor_set_flags &= ~8;
-    TLobby__data_805D6124 = NULL;
+    floor_decoration_rows_b = NULL;
     floor_decoration_row_count = 0;
-    TLobby__data_805D6128 = 0;
+    floor_decoration_row_count_b = 0;
     floor_set_flags &= ~16;
     active_set_floor_area = get_current_floor_area();
     r = get_current_floor();
@@ -215,9 +215,9 @@ void clear_floor_population(void) {
     object_condition_count = 0;
     enemy_condition_count = 0;
     floor_decoration_rows = 0;
-    TLobby__data_805D6124 = NULL;
+    floor_decoration_rows_b = NULL;
     floor_decoration_row_count = 0;
-    TLobby__data_805D6128 = 0;
+    floor_decoration_row_count_b = 0;
     lbl_805D6100 = 0;
     for (s32 i = 17; i >= 0; i--) {
         if (floor_set_archives[i].enemies != NULL) {
@@ -388,9 +388,9 @@ void init_item_drop_tables(void) {
     object_condition_count = 0;
     enemy_condition_count = 0;
     floor_decoration_rows = 0;
-    TLobby__data_805D6124 = NULL;
+    floor_decoration_rows_b = NULL;
     floor_decoration_row_count = 0;
-    TLobby__data_805D6128 = 0;
+    floor_decoration_row_count_b = 0;
     lbl_805D6100 = 0;
 }
 

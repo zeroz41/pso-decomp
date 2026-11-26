@@ -6,9 +6,9 @@
 class TItemTimerEventTpDrain : public TItemTimerEvent {
 public:
     TItemTimerEventTpDrain(TItemHeapObject *parent, u16 client, s32 period);
-    virtual void vfunc_6();
+    virtual void apply_effect();
     virtual ~TItemTimerEventTpDrain();
-    virtual void vfunc_7();
+    virtual void advance_timer();
 };
 LAYOUT_ASSERT(TItemTimerEventTpDrain_size, sizeof(TItemTimerEventTpDrain) == 0x2C);
 

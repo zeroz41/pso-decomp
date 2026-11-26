@@ -11,7 +11,7 @@ extern "C" {
 int get_attack_credit_slot_count(TObjEnemy *enemy);
 }
 void init_6x0A_enemy_state_packet(void *p);
-void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
+void init_6x9C_enemy_low_game_flags_packet(u8 *packet);
 s32 load_current_floor_resources(void);
 s32 load_floor_resources(s32 selector);
 void send_6x0A_enemy_state_packet(void *p);

@@ -425,10 +425,10 @@ void TObjMapWarp::draw_debug_destinations() {
     Vec *end;
     s32 i;
     set_debug_text_color(0xFF00FF);
-    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001C, "<- DST POS X");
-    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001D, "<- DST POS Y");
-    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001E, "<- DST POS Z");
-    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x130020, "<- DST ANG Y");
+    debug_printf_at(0x13001C, "<- DST POS X");
+    debug_printf_at(0x13001D, "<- DST POS Y");
+    debug_printf_at(0x13001E, "<- DST POS Z");
+    debug_printf_at(0x130020, "<- DST ANG Y");
     set_debug_text_color(0xF0F0F0FF);
     for (i = 0; i < 4; i++) {
         Vec b;
@@ -597,7 +597,7 @@ void TObjAreaWarp::confirm_area_transfer(TObjPlayer *player) {
     mark_area_change_pending();
     send_inter_level_warp_all(floor_transition_state.get_next_floor());
     send_6x21_inter_level_warp(player, (floor_transition_state.get_next_floor()));
-    ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x40003205, 0U, 0, 0);
+    play_sound_effect(0x40003205, 0U, 0, 0);
 }
 
 void handle_6x94_inter_level_warp(game_command_header *command) {

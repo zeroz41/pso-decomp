@@ -27,32 +27,32 @@ void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *comma
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TOSwitchTimer::send_switch_states() {
-    G_SetSwitchFlagFromTimer_6x93 clear_cmd;
-    G_SetSwitchFlagFromTimer_6x93 set_cmd;
-    u16 *target_switch;
+    G_SetSwitchFlagFromTimer_6x93 clear_packet;
+    G_SetSwitchFlagFromTimer_6x93 set_packet;
+    u16 *switch_id;
     s32 i;
     if ((u32) this->mode == 0U) {
         if ((u16) this->trigger_switch < 0x100U) {
-            clear_cmd.init();
-            clear_cmd.switch_flag_floor = this->floor;
-            clear_cmd.switch_flag_num = this->trigger_switch;
-            clear_cmd.should_set = 0;
-            clear_cmd.send();
+            clear_packet.init();
+            clear_packet.switch_flag_floor = this->floor;
+            clear_packet.switch_flag_num = this->trigger_switch;
+            clear_packet.should_set = 0;
+            clear_packet.send();
             clear_floor_switch_flag((this->trigger_switch), (this->floor));
         }
     } else {
-        target_switch = target_switches;
+        switch_id = target_switches;
         i = 0;
         do {
-            if ((u16) *target_switch < 0x100U) {
-                set_cmd.init();
-                set_cmd.switch_flag_floor = this->floor;
-                set_cmd.switch_flag_num = *target_switch;
-                set_cmd.should_set = 1;
-                set_cmd.send();
+            if ((u16) *switch_id < 0x100U) {
+                set_packet.init();
+                set_packet.switch_flag_floor = this->floor;
+                set_packet.switch_flag_num = *switch_id;
+                set_packet.should_set = 1;
+                set_packet.send();
             }
             i += 1;
-            target_switch++;
+            switch_id++;
         } while (i != 3);
     }
 }
@@ -114,15 +114,15 @@ void TOSwitchTimer::render() {
 }
 
 void TOSwitchTimer::run_task() {
-    s32 previous_timer;
-    u32 switch_set;
+    s32 elapsed;
+    u32 switch_state;
 
     switch (this->state) {
     case 0:
-        switch_set = is_current_floor_switch_set(this->trigger_switch);
-        if ((s32) this->trigger_state != (s32) switch_set) {
-            this->trigger_state = switch_set;
-            if (switch_set == 1) {
+        switch_state = is_current_floor_switch_set(this->trigger_switch);
+        if ((s32) this->trigger_state != (s32) switch_state) {
+            this->trigger_state = switch_state;
+            if (switch_state == 1) {
                 this->state = 1;
                 this->timer = 0;
                 if ((u32) this->mode == 0U) {
@@ -141,9 +141,9 @@ void TOSwitchTimer::run_task() {
                 play_persistent_sound(0x53218, this, NULL, 0, 0);
             }
         }
-        previous_timer = this->timer;
-        this->timer = (previous_timer + 1);
-        if (previous_timer == (s32) this->duration) {
+        elapsed = this->timer;
+        this->timer = (elapsed + 1);
+        if (elapsed == (s32) this->duration) {
             send_switch_states();
             this->state = 0;
         }

@@ -34,7 +34,7 @@
 extern TSaveChCrStateActions save_chcr_state_actions[];
 
 #pragma readonly_strings on
-const char *TSaveChCr::name = "TSaveChCr";
+const char *TSaveChCr::class_name = "TSaveChCr";
 
 // Message window position and size passed to the window create in open_message_window.
 static const NJS_POINT2 save_ch_cr_message_window_pos = {46.0f, 131.0f};
@@ -233,7 +233,7 @@ TSaveChCr::~TSaveChCr() {
 }
 
 TSaveChCr::TSaveChCr(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = TSaveChCr::name;
+    m_name = TSaveChCr::class_name;
     this->mode = mode;
     read_fail_count = 0;
     status_checked = 0;

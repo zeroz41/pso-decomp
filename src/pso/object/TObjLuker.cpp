@@ -60,18 +60,18 @@ void TObjLuker::hide_part(u16 part) {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjLuker::show_part(u16 part) {
+void TObjLuker::show_part(u16 part_index) {
     saddr arg0 = (saddr)this;
+    u8 *slot_base;
     u8 *slot;
-    u8 *window;
-    slot = (u8 *)(arg0 + ((part * 4) & 0x3FFFC));
-    window = (u8 *)(*(u8 **)((s8 *)slot + 0x90));
-    if (window != NULL) {
-        if (*(u16 *)((s8 *)window + 4) & 4) {
+    slot_base = (u8 *)(arg0 + ((part_index * 4) & 0x3FFFC));
+    slot = (u8 *)(*(u8 **)((s8 *)slot_base + 0x90));
+    if (slot != NULL) {
+        if (*(u16 *)((s8 *)slot + 4) & 4) {
             play_sound_effect(0x53703, NULL, 0, 0);
         }
-        ((TObject *)(*(u8 **)((s8 *)slot + 0x90)))->clear_update_suspension();
-        ((TObject *)(*(u8 **)((s8 *)slot + 0x90)))->allow_rendering();
+        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->clear_update_suspension();
+        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->allow_rendering();
     }
 }
 #pragma pop
@@ -306,7 +306,7 @@ void TObjLuker::render() {  }
 
 
 void TObjLuker::run_task() {
-    s32 sp8;
+    s32 player_index;
     Vec effect_position;
     TObjPlayer *p;
     s32 flag;
@@ -334,18 +334,18 @@ void TObjLuker::run_task() {
             play_persistent_sound(0x4002B219, this, &this->position, 0, 0);
             switch (this->state) {
             case 0:
-                sp8 = 0;
+                player_index = 0;
                 if (is_player_in_range(10.0f) != 0) {
                     flag = 0;
                     if (is_split_screen() != 0) {
-                        if (are_players_gathered_near(&this->position, &sp8, 10.0f) != 0) {
+                        if (are_players_gathered_near(&this->position, &player_index, 10.0f) != 0) {
                             flag = 1;
                             this->partner_id = this->owner_id;
                         }
                     } else {
                         p = get_player_by_client_id(local_client_id);
                         if (p != NULL && p->is_controls_locked() == 0 &&
-                            test_pressed_buttons_packed(&controller_input_state.controllers[sp8], 4) != 0) {
+                            test_pressed_buttons_packed(&controller_input_state.controllers[player_index], 4) != 0) {
                             flag = 1;
                         }
                     }

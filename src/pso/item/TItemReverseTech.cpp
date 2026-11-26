@@ -49,8 +49,8 @@ NJS_TEXNAME *TItemReverseTech::texnames;
 char *TItemReverseTech::name_buffer;
 TItemReverseTechPart1 *TItemReverseTechPart1::instance;
 
-static const f32 lbl_805DAC08[1] = {0.0f};
-static const f32 lbl_805DAC0C[1] = {480.0f};
+static const f32 picture_origin[1] = {0.0f};
+static const f32 screen_height[1] = {480.0f};
 
 
 
@@ -309,7 +309,7 @@ TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texli
     picture_0.texlist = texlist;
     picture_0.texture = 0;
     picture_0.x = 128.0f;
-    picture_0.y = lbl_805DAC08[0];
+    picture_0.y = picture_origin[0];
     picture_0.width = 512.0f;
     picture_0.height = 512.0f;
     picture_0.depth = 0.5f;
@@ -317,10 +317,10 @@ TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texli
     picture_1.fade_time = 0;
     picture_1.texlist = texlist;
     picture_1.texture = 14;
-    picture_1.x = lbl_805DAC08[0];
-    picture_1.y = lbl_805DAC08[0];
+    picture_1.x = picture_origin[0];
+    picture_1.y = picture_origin[0];
     picture_1.width = 100.0f;
-    picture_1.height = lbl_805DAC0C[0];
+    picture_1.height = screen_height[0];
     picture_1.depth = 0.5f;
     picture_1.u1 = 0.1953125f;
     picture_1.v1 = 0.9375f;
@@ -329,7 +329,7 @@ TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texli
     picture_2.texlist = texlist;
     picture_2.texture = 14;
     picture_2.x = 128.0f;
-    picture_2.y = lbl_805DAC08[0];
+    picture_2.y = picture_origin[0];
     picture_2.width = 512.0f;
     picture_2.height = 512.0f;
     picture_2.depth = 0.6f;
@@ -337,10 +337,10 @@ TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texli
     picture_3.fade_time = 60;
     picture_3.texlist = texlist;
     picture_3.texture = 14;
-    picture_3.x = lbl_805DAC08[0];
-    picture_3.y = lbl_805DAC08[0];
+    picture_3.x = picture_origin[0];
+    picture_3.y = picture_origin[0];
     picture_3.width = 100.0f;
-    picture_3.height = lbl_805DAC0C[0];
+    picture_3.height = screen_height[0];
     picture_3.depth = 0.6f;
     picture_3.u1 = 0.1953125f;
     picture_3.v1 = 0.9375f;
@@ -367,9 +367,9 @@ TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texli
     picture_6.texlist = texlist;
     picture_6.texture = 15;
     picture_6.x = 10.0f;
-    picture_6.y = lbl_805DAC08[0];
+    picture_6.y = picture_origin[0];
     picture_6.width = 340.0f;
-    picture_6.height = lbl_805DAC0C[0];
+    picture_6.height = screen_height[0];
     picture_6.depth = 0.75f;
     new TItemReverseTechBG(this, &picture_6);
     frame = 0;
@@ -431,8 +431,8 @@ TItemReverseTechBG::TItemReverseTechBG(TObject *parent, TItemReverseTechPicture 
     quad.y0 = picture->y;
     quad.x1 = picture->x + picture->width;
     quad.y1 = picture->y + picture->height;
-    quad.u0 = lbl_805DAC08[0];
-    quad.v0 = lbl_805DAC08[0];
+    quad.u0 = picture_origin[0];
+    quad.v0 = picture_origin[0];
     quad.u1 = picture->u1;
     quad.v1 = picture->v1;
     depth = picture->depth;

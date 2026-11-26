@@ -42,43 +42,43 @@ extern const ShopWeaponCode shop_section_id_weapon_table_a[10];
 extern const ShopWeaponCode shop_section_id_weapon_table_b[10];
 extern const s32 shop_weapon_bonus_table[20];
 
-// A value of WeaponRandom*.rel and how many times it goes into the draw pool.
-struct WeaponRandomWeight {
-    s32 value;
+// A value of WeaponRandom*.rel (a bonus type or a special) and how many times it goes into the
+// draw pool.
+struct ShopPoolEntry {
+    s32 id;
     s32 weight;
 };
 
 // The lowest and highest roll of a bonus or a grind.
-struct WeaponRandomRange {
+struct ShopRollRange {
     s32 min;
     s32 max;
 };
 
 // A weapon of shop_weapon_group_subtype_table and how many times it goes
 // into the draw pool.
-struct WeaponRandomKind {
-    u8 kind;
-    u8 weight;
-};
-
-// One level tier's weapons: `count` kinds for each section ID.
-struct WeaponRandomTier {
-    WeaponRandomKind *kinds;
+struct ShopStockEntry {
+    u8 id;
     u8 count;
 };
 
-// WeaponRandomNormal/Hard/VeryHard/Ultimate.rel: what the weapon shop stocks
-// at each level bracket.
-struct WeaponRandomTables {
-    WeaponRandomTier *tiers;                // by get_level_tier
-    WeaponRandomWeight *first_bonus_types;  // 6 per get_level_bracket
-    WeaponRandomWeight *second_bonus_types; // 6 per classify_level_bracket_wide
-    WeaponRandomRange *first_bonus_ranges;
-    WeaponRandomRange *second_bonus_ranges;
-    WeaponRandomWeight *specials;           // 3 per get_special_level_bracket: none, channel 0, channel 1
-    WeaponRandomRange *grinds;              // by classify_level_bracket_narrow
-    WeaponRandomRange *favored_grinds;      // weapons of the section ID's favoured group
+// One level tier's weapons: `count` entries for each section ID.
+struct ShopStockTier {
+    ShopStockEntry *ents;
+    u8 count;
 };
 
+// WeaponRandomNormal/Hard/VeryHard/Ultimate.rel, loaded by load_weapon_random_tables: what the
+// weapon shop stocks at each level bracket.
+struct ShopWeaponRandomTables {
+    ShopStockTier *stock_tiers;          // by get_level_tier
+    ShopPoolEntry *first_bonus_ents;     // 6 per get_level_bracket
+    ShopPoolEntry *second_bonus_ents;    // 6 per classify_level_bracket_wide
+    ShopRollRange *first_bonus_ranges;
+    ShopRollRange *second_bonus_ranges;
+    ShopPoolEntry *special_ents;         // 3 per get_special_level_bracket: none, channel 0, channel 1
+    ShopRollRange *grind_ranges;         // by classify_level_bracket_narrow
+    ShopRollRange *favored_grind_ranges; // weapons of the section ID's favoured group
+};
 
 #endif

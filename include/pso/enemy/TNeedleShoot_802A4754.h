@@ -3,8 +3,4 @@
 
 #include "types.h"
 
-extern "C" {
-void *__dt__12TNeedleShootFv(void *arg0, s16 arg1);
-}
-
 #endif

@@ -5,7 +5,7 @@
 #include "pso/object/TObjRoomId.h"
 #include "pso/npc/TObjNpcEnemy.h"
 
-// One TU 0x800FD8B4-0x800FD944 with .sbss 0x805D53B8-0x805D53C0 (8-aligned start after the previous TU's pad).
+// One TU with its own .sbss block (8-aligned start after the previous TU's pad).
 u8 item_light_interaction_blocked_flag;
 void *current_room_id;
 

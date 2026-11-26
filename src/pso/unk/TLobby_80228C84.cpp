@@ -3,7 +3,6 @@
 #include "pso/unk/TLobby_80228C84.h"
 #include "pso/player/PlayerSlots.h"
 
-struct Base_80228C84 { char pad[0x18]; };
 struct VObj_80228C84 : Base_80228C84 {
     virtual void m0();
     virtual void m1();

@@ -223,16 +223,16 @@ void TLobby::clear_session_buffers() {
 }
 
 s32 TLobby::run_lobby_load_tables() {
-    s32 field_result;
-    s32 common_result;
-    common_result = run_load_callback_table(lbl_8048D4C0, 0xE8);
-    if (common_result == 0) {
-        return common_result;
+    s32 second_result;
+    s32 first_result;
+    first_result = run_load_callback_table(lbl_8048D4C0, 0xE8);
+    if (first_result == 0) {
+        return first_result;
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        field_result = run_load_callback_table(lbl_8048D5A8, 0x20);
-        if (field_result == 0) {
-            return field_result;
+        second_result = run_load_callback_table(lbl_8048D5A8, 0x20);
+        if (second_result == 0) {
+            return second_result;
         }
     }
     if (get_current_floor_area() == AREA_LOBBY) {
@@ -273,7 +273,6 @@ void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke
 }
 
 
-struct CollectActiveCardIdsL { u8 pad0; u8 count; u8 pad2[2]; s32 ids[30]; };
 
     extern short quest_collision_next_id;
 void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
@@ -281,46 +280,46 @@ void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
 void TLobby__sub_8007BBF8(void) { quest_collision_next_id = 0; }
 
 
-saddr TWindowSubComCard::get_card_slot(s32 slot) {
+saddr TWindowSubComCard::get_card_slot(s32 index) {
     s32 state;
-    s32 index;
-    saddr card;
-    index = slot;
-    if (index < 0) {
-        card = 0;
+    s32 slot;
+    saddr addr;
+    slot = index;
+    if (slot < 0) {
+        addr = 0;
         return 0;
     }
-    if (index >= 0x1C) {
-        card = 0;
+    if (slot >= 0x1C) {
+        addr = 0;
         return 0;
     }
     state = TAdSinglePlyChrSelectGC::get_state();
-    card = state + 0x10000;
-    card = state + 0xD2C4;
-    card += index * 0x90;
-    return card;
+    addr = state + 0x10000;
+    addr = state + 0xD2C4;
+    addr += slot * 0x90;
+    return addr;
 }
 
 void TLobby::collect_active_card_ids() {
-    CollectActiveCardIdsL *arg0 = (CollectActiveCardIdsL *)this;
-    u8 *card;
+    CollectActiveCardIdsL *self = (CollectActiveCardIdsL *)this;
+    GuildCardEntry *card;
     s32 *p;
     s32 i;
     s32 n;
-    card = (u8 *)TWindowSubComCard::get_card_slot(0);
-    p = arg0->ids;
+    card = (GuildCardEntry *)TWindowSubComCard::get_card_slot(0);
+    p = self->ids;
     n = 0;
     i = 0;
     do {
-        if (reinterpret_cast<GuildCardEntry *>(card)->is_active() == 0) {
+        if (card->is_active() == 0) {
             break;
         }
-        *p++ = reinterpret_cast<GuildCardEntry *>(card)->get_card_id();
+        *p++ = card->get_card_id();
         i++;
         n++;
-        card += 0x90;
+        card++;
     } while (i < 0x1c);
-    arg0->count = n;
+    self->count = n;
     for (i = n; i < 0x1e; i++) {
         *p++ = 0;
     }

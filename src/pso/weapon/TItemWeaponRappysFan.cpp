@@ -36,14 +36,9 @@
 #include "pso/system/MatrixOps.h"
 
 
-typedef struct SlicerLaunchData_8012D9C8 {
-    u16 player; u16 pad;
-    void *textures; void *model; u32 weapon;
-    s16 kind, stage; f32 multiplier; f32 color[4];
-    s32 facing, spin; f32 first[3], second[3];
-} SlicerLaunchData_8012D9C8;
+#define SLICER_LAUNCH_STATE_OUT_OF_LINE
+#include "pso/weapon/SlicerLaunchState.h"
 
-void init_slicer_launch_state(void *arg0);
 extern "C" {
 void get_weapon_color__11TItemWeaponFv(f32 *, void *);
 void *find_entity_by_id(s32);
@@ -69,23 +64,23 @@ TItemWeaponRappysFan::~TItemWeaponRappysFan() {}
 
 void TItemWeaponRappysFan::emit_marker_effects() {
     f32 color_tmp[4];
-    SlicerLaunchData_8012D9C8 launch;
+    SlicerLaunchState launch;
     TTecSlicer *slicer;
     init_slicer_launch_state(&launch);
-    launch.player = ((TObjBase *)(*(u8 **)&owner))->get_entity_id();
-    launch.weapon = get_item_id();
-    launch.textures = *(void **)((s8 *)this + 0x24);
+    launch.player_id = owner->get_entity_id();
+    launch.item_id = get_item_id();
+    launch.texlist = texlist;
     launch.model = second_model;
-    launch.kind = owner->attack_state.get_validated_attack_kind();
-    launch.stage = owner->attack_state.get_validated_attack_stage();
-    launch.multiplier = ((TObjPlayer *)(*(u8 **)&owner))->query_extended_state();
+    launch.attack_kind = owner->attack_state.get_validated_attack_kind();
+    launch.combo_stage = owner->attack_state.get_validated_attack_stage();
+    launch.damage_multiplier = owner->query_extended_state();
     get_weapon_color__11TItemWeaponFv(color_tmp, this);
-    copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)color_tmp);
+    copy_argb(&launch.color, (NJS_ARGB *)color_tmp);
     launch.facing = owner->rotation_y;
-    launch.spin = 0;
-    get_joint_position(3, launch.first);
-    get_joint_position(2, launch.second);
-    slicer = TTecSlicer::create((SlicerLaunchState *)&launch);
+    launch.spin_velocity = 0;
+    get_joint_position(3, &launch.first_joint);
+    get_joint_position(2, &launch.second_joint);
+    slicer = TTecSlicer::create(&launch);
     if (slicer != NULL) {
         slicer->rotation_x += 0x4000;
         slicer->scale.x = 2.0f;

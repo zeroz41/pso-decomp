@@ -160,17 +160,17 @@ EndingWallTextureSet ending_wall_texture_sets[4] = {
 };
 
 extern "C" {
-s32 TEndingAB__fade_sequence_state;
+s32 TEndingAB::fade_sequence_state;
 NJS_TEXLIST *ending_ab_wall_texture_list;
 }
 
 void TEndingAB::advance_fade_sequence() {
-    switch (TEndingAB__fade_sequence_state) {
+    switch (TEndingAB::fade_sequence_state) {
     case 1: {
         s32 ticks = ++elapsed_ticks;
         s32 rate = timing_rate;
         if (ticks > rate * 3 - rate) {
-            TEndingAB__fade_sequence_state = 2;
+            TEndingAB::fade_sequence_state = 2;
             TEndingPicStage::set_picture(picture_index);
             ++picture_index;
             return;
@@ -179,7 +179,7 @@ void TEndingAB::advance_fade_sequence() {
     }
     case 2:
         if (++elapsed_ticks > timing_rate * 13) {
-            TEndingAB__fade_sequence_state = 3;
+            TEndingAB::fade_sequence_state = 3;
             return;
         }
         break;
@@ -187,7 +187,7 @@ void TEndingAB::advance_fade_sequence() {
         s32 ticks = ++elapsed_ticks;
         s32 rate = timing_rate;
         if (ticks > rate * 14 - rate) {
-            TEndingAB__fade_sequence_state = 4;
+            TEndingAB::fade_sequence_state = 4;
             TEndingPicStage::set_picture(picture_index);
             ++picture_index;
             return;
@@ -197,10 +197,10 @@ void TEndingAB::advance_fade_sequence() {
     case 4:
         if (++elapsed_ticks > timing_rate * 24) {
             elapsed_ticks = 0;
-            TEndingAB__fade_sequence_state = 1;
+            TEndingAB::fade_sequence_state = 1;
             if (++wall_index > 5) {
                 wall_index = 5;
-                TEndingAB__fade_sequence_state = 5;
+                TEndingAB::fade_sequence_state = 5;
                 return;
             }
         }
@@ -212,7 +212,7 @@ void TEndingAB::advance_fade_sequence() {
 }
 
 void TEndingAB::draw_overlay() {
-    switch (TEndingAB__fade_sequence_state) {
+    switch (TEndingAB::fade_sequence_state) {
     case 1:
     case 3:
         break;
@@ -313,7 +313,7 @@ void TEndingAB::init_float_table() {
 }
 
 void TEndingAB::render() {
-    if (TEndingAB__fade_sequence_state != 0) {
+    if (TEndingAB::fade_sequence_state != 0) {
         set_fish_global_param();
         draw_overlay();
         TEndingAB__sub_8008CCC0(this);
@@ -326,7 +326,7 @@ TEndingAB::~TEndingAB() {}
 TEndingAB::TEndingAB(TObject *parent) : TObject(parent) {
     m_name = ending_ab_class_name;
     elapsed_ticks = -1;
-    TEndingAB__fade_sequence_state = 0;
+    TEndingAB::fade_sequence_state = 0;
     field_20 = 255;
     wall_index = 0;
     picture_index = 0;

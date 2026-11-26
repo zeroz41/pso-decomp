@@ -7,13 +7,13 @@
 struct TObjBgmCol : public TObjBase {
     TObjBgmCol(TObject *parent, void *set_data);
     virtual ~TObjBgmCol();
-    u32 player_outside;
+    u32 outside; // 1 while the local player is outside the zone
     u8 pad_94[0x4];
-    f32 trigger_radius;
+    f32 radius;
     s32 category; // area_music_filename_table index (set_params[0] % 6)
     s32 check();
     virtual void run_task();
-    s32 is_within_distance(f32 radius_squared);
+    s32 is_within_distance(f32 distance_sq);
     static void *create(void *set_data);
 };
 

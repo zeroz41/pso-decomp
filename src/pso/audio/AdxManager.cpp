@@ -143,7 +143,7 @@ void vblank_thread_loop(void) {
     while (adxm_vblank_thread_run_flag == 1) {
         VIWaitForRetrace();
         adxm_vblank_tick_count++;
-        lbl_805D7540++;
+        adxt_vblank_count++;
         svm_exec_group2();
         if (adxm_worker_thread_stopped == 0) {
             OSResumeThread(&adxm_worker_thread);

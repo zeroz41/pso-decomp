@@ -57,7 +57,7 @@ struct TWindowMenu : public TWindowAddition {
     s16 marked_row;
     f32 layout_height;
     TWindowMenuRow *rows;
-    WindowScrollBar *scroll_bar;  // the list scroll bar, made on demand by create_scroll_bar
+    WindowScrollBar *scroll_bar;  // the list scroll bar, made on demand by ensure_scroll_bar
     WindowHeading *heading;  // type-1 heading made by create_titled_window_menu
     void set_active_flag();
     void confirm_selection();
@@ -77,7 +77,7 @@ struct TWindowMenu : public TWindowAddition {
     s16 get_selected_index();
     void update_cursor_pos();
     void reset_entries();
-    void create_scroll_bar();
+    void ensure_scroll_bar();
     void set_scroll_target(f32 width, f32 max_height);
     void update_scroll_target_position();
     void set_flag70_bit100();
