@@ -498,7 +498,7 @@ void TWindowMenuIconLine::ensure_status_display(s32 title) {
     if (this->status_display == NULL) {
         heading = (TWindowSubStatusDisp *)::operator new(0x24);
         if (heading != NULL) {
-            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading(title, this->client_index);
+            heading = heading->construct_type1_heading(title, this->client_index);
         }
         this->status_display = heading;
         (this->window_flags) = (s32) ((this->window_flags) | 0x40);

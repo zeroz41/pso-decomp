@@ -514,7 +514,7 @@ TWindowSubCustomEquip::~TWindowSubCustomEquip() {
 }
 
 TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_804D1488, slot, (u8 *)get_window_layout_position(0xF)) {
-    void *heading;
+    TWindowSubStatusDisp *heading;
     this->m_name = TWindowSubCustomEquip::class_name;
     this->client_index = slot;
     this->state_flags = 0;
@@ -525,11 +525,11 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
     this->back_bank = 1;
     this->cursor_frame = 0;
     this->angle = 0xB200;
-    heading = (void *)::operator new(0x24);
+    heading = (TWindowSubStatusDisp *)::operator new(0x24);
     if (heading != NULL) {
-        heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
+        heading = heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
     }
-    status_disp = static_cast<TWindowSubStatusDisp *>(heading);
+    status_disp = heading;
     this->refresh_palette_slots();
 }
 

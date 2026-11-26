@@ -574,7 +574,7 @@ TWindowMenu *create_titled_window_menu(const NJS_POINT2 *position, s32 count, sa
     TWindowMenu *menu = create_window_menu(position, count, client_id);
     TWindowSubStatusDisp *heading = (TWindowSubStatusDisp *)::operator new(0x24);
     if (heading != NULL) {
-        heading = (TWindowSubStatusDisp *)heading->construct_type1_heading(title, client_id);
+        heading = heading->construct_type1_heading(title, client_id);
     }
     menu->heading = heading;
     menu->window_flags |= 0x40;

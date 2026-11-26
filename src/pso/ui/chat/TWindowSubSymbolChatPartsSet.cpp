@@ -351,7 +351,7 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *pos
     second_flag_out = second;
     TWindowSubStatusDisp *heading = static_cast<TWindowSubStatusDisp *>(::operator new(0x24));
     if (heading != NULL) {
-        heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);
+        heading = heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);
     }
     heading_display = heading;
     offset_x = 21.0f;

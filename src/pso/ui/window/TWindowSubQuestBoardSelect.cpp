@@ -288,13 +288,13 @@ s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 title_width;
     WindowTextEntry *entry_0;
-    saddr heading;
+    TWindowSubStatusDisp *heading;
     m_name = TWindowSubQuestBoardSelect::class_name;
-    heading = (saddr)::operator new(0x24);
+    heading = (TWindowSubStatusDisp *)::operator new(0x24);
     if (heading != 0) {
-        heading = (saddr)((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
+        heading = heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
     }
-    this->status_disp = (TWindowSubStatusDisp *)heading;
+    this->status_disp = heading;
     state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
     set_text_entry_string((WindowTextEntry *)entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);

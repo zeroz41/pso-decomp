@@ -505,14 +505,14 @@ void TWindowSubItem::draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id) {
   s32 sp8;
-  saddr item;
+  TItem *item;
   saddr player;
-  item = ((saddr)find_item_by_id((saddr)((void *) item_id)));
+  item = find_item_by_id((saddr)((void *) item_id));
   if (item != 0)
   {
-    if (((TItem *)item)->get_usable_action_flags(2, 0) != 0U)
+    if (item->get_usable_action_flags(2, 0) != 0U)
     {
-      if ((((TItem *)item)->get_usable_action_flags(1, 0) != 0U) || (get_current_floor_area() == AREA_LOBBY))
+      if ((item->get_usable_action_flags(1, 0) != 0U) || (get_current_floor_area() == AREA_LOBBY))
       {
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
@@ -521,10 +521,10 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
     }
-    ((TItem *)item)->get_item_type();
-    if (((TItem *)item)->get_usable_action_flags(8, 0) != 0U)
+    item->get_item_type();
+    if (item->get_usable_action_flags(8, 0) != 0U)
     {
-      if (((TItem *)item)->test_item_flags(8) != 0U)
+      if (item->test_item_flags(8) != 0U)
       {
         if (get_current_floor_area() == AREA_LOBBY)
         {
@@ -540,7 +540,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         player = (saddr)get_player_by_client_id(window_sub_item->client_id);
         if (player != 0)
         {
-          if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, (TItem *)item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
+          if (((item->check_equip_requirements((TObjPlayer *)player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
             list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
@@ -551,7 +551,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         }
       }
     }
-    if ((get_current_floor_area() == AREA_LOBBY) || (((TItem *)item)->get_usable_action_flags(0x10, 0) != 0U))
+    if ((get_current_floor_area() == AREA_LOBBY) || (item->get_usable_action_flags(0x10, 0) != 0U))
     {
       add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
     }

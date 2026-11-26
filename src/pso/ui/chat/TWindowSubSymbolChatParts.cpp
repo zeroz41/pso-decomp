@@ -446,7 +446,7 @@ TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
 TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(const NJS_POINT2 *position, s32 *flip_u_flag, s32 *flip_v_flag)
     : TWindowAddition((u8 *)&symbol_chat_parts_window_layout, 4, (u8 *)position) {
     NJS_POINT2 v;
-    void *p;
+    TWindowSubStatusDisp *p;
 
     m_name = class_name;
     result_flags = 0;
@@ -455,11 +455,11 @@ TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(const NJS_POINT2 *position,
     item_count = 0;
     flip_u = flip_u_flag;
     flip_v = flip_v_flag;
-    p = ::operator new(0x24);
+    p = (TWindowSubStatusDisp *)::operator new(0x24);
     if (p != NULL) {
-        p = ((TWindowSubStatusDisp *)p)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
+        p = p->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
     }
-    heading = (TWindowSubStatusDisp *)p;
+    heading = p;
     v.x = 0.0f;
     v.y = 0.0f;
     scrollbar = new WindowScrollBar(&v);

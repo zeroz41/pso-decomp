@@ -95,7 +95,7 @@ void TWindowMenuInfomation::create_sub_window(const char *title) {
     if (this->heading == NULL) {
         heading = (TWindowSubStatusDisp *)::operator new(0x24);
         if (heading != NULL) {
-            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)title, this->client_index);
+            heading = heading->construct_type1_heading((saddr)title, this->client_index);
         }
         this->heading = heading;
         this->window_flags |= 0x40;

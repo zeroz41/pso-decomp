@@ -103,7 +103,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
     static s32 destroy_status_display(saddr window, s16 delete_flag);
-    u8 *construct_type1_heading(s32 title, s32 client_index);
+    TWindowSubStatusDisp *construct_type1_heading(s32 title, s32 client_index);
     void update_entry_visibility();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);

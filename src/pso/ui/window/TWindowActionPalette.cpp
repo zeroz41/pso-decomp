@@ -163,7 +163,7 @@ void TWindowActionPalette::run_task() {
     u16 v;
     u16 target;
     u8 cnt;
-    u8 *help;
+    TWindowHelpItem *help;
     player = get_player_by_client_id(client_index);
     if (player == NULL || (palette = player->refresh_effect()) == NULL) {
         return;
@@ -175,14 +175,14 @@ void TWindowActionPalette::run_task() {
     if (test_previous_buttons_packed(&controller_input_state.controllers[slot], fn_8002AE08(client_index)) != 0) {
         state = 3;
     }
-    help = (u8 *)get_array_entry(0);
+    help = (TWindowHelpItem *)get_array_entry(0);
     TWindowHelpItem::set_help_text((saddr)help, client_index);
     cnt = state;
     if ((s8)cnt > 0) {
         state = cnt - 1;
-        ((TWindowHelpItem *)help)->window_flags = -1;
+        help->window_flags = -1;
     } else {
-        ((TWindowHelpItem *)help)->window_flags = 0xFF666666;
+        help->window_flags = 0xFF666666;
     }
     v = player->select_action_palette_and_apply(0, 0, 0);
     if (v == 0) {

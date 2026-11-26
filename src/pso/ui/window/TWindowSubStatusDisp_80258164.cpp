@@ -148,17 +148,17 @@ void ItemListRow::update_item_icon_colors(void *item) {
     s32 equip_requirements;
     s32 usable_action_flags;
     s32 identified;
-    saddr player;
+    TObjPlayer *player;
 
     if (((TItem *)item)->is_wrapped() != 0) {
         this->style = -1;
         return;
     }
-    player = (saddr)get_player_by_client_id(this->client);
+    player = get_player_by_client_id(this->client);
     if (player != 0) {
         item_flags = ((TItem *)item)->test_item_flags(8);
-        usable_action_flags = ((TItem *)item)->get_usable_action_flags(0x10, (TObjPlayer *)player);
-        equip_requirements = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, &requirement);
+        usable_action_flags = ((TItem *)item)->get_usable_action_flags(0x10, player);
+        equip_requirements = ((TItem *)item)->check_equip_requirements(player, &requirement);
         identified = ((TItem *) item)->is_identified();
         if (usable_action_flags != 0) {
             if (item_flags != 0) {
@@ -201,7 +201,7 @@ void ItemListRow::update_item_icon_colors(void *item) {
                 this->style = 0xFF61E853;
                 return;
             }
-            if (((TItem *)item)->get_usable_action_flags(0x10000, (TObjPlayer *)player) != 0U) {
+            if (((TItem *)item)->get_usable_action_flags(0x10000, player) != 0U) {
                 this->style = 0xFF909090;
                 return;
             }

@@ -595,10 +595,10 @@ void TWindowHelpItem::update_level_requirement() {
     s32 requirement;
     u8 *level_value;
     u8 *item_pmt_record;
-    u8 *player;
-    player = (u8 *)(((u8 *)get_player_by_client_id(client_index)));
+    TObjPlayer *player;
+    player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        if (((TObjPlayer *)player)->get_stats() != 0U) {
+        if (player->get_stats() != 0U) {
             update_stat_comparison();
             level_value = (u8 *)(((u8 *)get_array_entry(0xA)));
             item_pmt_record = (u8 *)(lookup_item_pmt_record((u8 *)active_item));
@@ -609,7 +609,7 @@ void TWindowHelpItem::update_level_requirement() {
             } else {
 block_4:
                 if ((u8) *(u8 *)((s8 *)item_pmt_record + 0x10) != 0) {
-                    ((TWindowLayoutNumber *)level_value)->value = (s32) (((TObjPlayer *)(player))->get_actor_level_index() + 1);
+                    ((TWindowLayoutNumber *)level_value)->value = (s32) (player->get_actor_level_index() + 1);
                 }
             }
         }
@@ -893,9 +893,9 @@ void TWindowHelpItem::update_stat_disp() {
 #pragma fp_contract on
 void TWindowHelpItem::show_mag_growth() {
     s32 mag[4];
-    saddr a;
-    saddr b;
-    saddr c;
+    TWindowHelpItem *a;
+    TWindowLayoutNumber *b;
+    TWindowStatusGaugeFeedback *c;
     HelpItemStatCompareRow *lv;
     HelpItemStatCompareRow *sy;
     HelpItemStatCompareRow *iq;
@@ -921,34 +921,34 @@ void TWindowHelpItem::show_mag_growth() {
     measure_message_text_width_default((void *)up);
     *(f32 *)((s8 *)up + 8) = 110.0f - 0.5f * *(f32 *)((s8 *)up + 0x10);
     ((TWindowHelpItem *)up)->set_flag0_bit2();
-    a = reinterpret_cast<saddr>(get_array_entry(3));
-    b = reinterpret_cast<saddr>(get_array_entry(4));
-    c = reinterpret_cast<saddr>(get_array_entry(5));
-    ((TWindowHelpItem *)a)->reset_float_field();
-    ((TWindowLayoutNumber *)b)->value = ((MagStats *)mag)->get_def_level();
-    ((TWindowStatusGaugeFeedback *)c)->target = (f32) ((MagStats *)(mag))->get_def_progress();
-    ((TWindowStatusGaugeFeedback *)c)->calc_bar_width();
-    a = reinterpret_cast<saddr>(get_array_entry(6));
-    b = reinterpret_cast<saddr>(get_array_entry(7));
-    c = reinterpret_cast<saddr>(get_array_entry(8));
-    ((TWindowHelpItem *)a)->reset_float_field();
-    ((TWindowLayoutNumber *)b)->value = ((MagStats *)mag)->get_pow_level();
-    ((TWindowStatusGaugeFeedback *)c)->target = (f32) ((MagStats *)(mag))->get_pow_progress();
-    ((TWindowStatusGaugeFeedback *)c)->calc_bar_width();
-    a = reinterpret_cast<saddr>(get_array_entry(9));
-    b = reinterpret_cast<saddr>(get_array_entry(0xA));
-    c = reinterpret_cast<saddr>(get_array_entry(0xB));
-    ((TWindowHelpItem *)a)->reset_float_field();
-    ((TWindowLayoutNumber *)b)->value = ((MagStats *)mag)->get_dex_level();
-    ((TWindowStatusGaugeFeedback *)c)->target = (f32) ((MagStats *)(mag))->get_dex_progress();
-    ((TWindowStatusGaugeFeedback *)c)->calc_bar_width();
-    a = reinterpret_cast<saddr>(get_array_entry(0xC));
-    b = reinterpret_cast<saddr>(get_array_entry(0xD));
-    c = reinterpret_cast<saddr>(get_array_entry(0xE));
-    ((TWindowHelpItem *)a)->reset_float_field();
-    ((TWindowLayoutNumber *)b)->value = ((MagStats *)mag)->get_mind_level();
-    ((TWindowStatusGaugeFeedback *)c)->target = (f32) ((MagStats *)(mag))->get_mind_progress();
-    ((TWindowStatusGaugeFeedback *)c)->calc_bar_width();
+    a = (TWindowHelpItem *)get_array_entry(3);
+    b = (TWindowLayoutNumber *)get_array_entry(4);
+    c = (TWindowStatusGaugeFeedback *)get_array_entry(5);
+    a->reset_float_field();
+    b->value = ((MagStats *)mag)->get_def_level();
+    c->target = (f32) ((MagStats *)(mag))->get_def_progress();
+    c->calc_bar_width();
+    a = (TWindowHelpItem *)get_array_entry(6);
+    b = (TWindowLayoutNumber *)get_array_entry(7);
+    c = (TWindowStatusGaugeFeedback *)get_array_entry(8);
+    a->reset_float_field();
+    b->value = ((MagStats *)mag)->get_pow_level();
+    c->target = (f32) ((MagStats *)(mag))->get_pow_progress();
+    c->calc_bar_width();
+    a = (TWindowHelpItem *)get_array_entry(9);
+    b = (TWindowLayoutNumber *)get_array_entry(0xA);
+    c = (TWindowStatusGaugeFeedback *)get_array_entry(0xB);
+    a->reset_float_field();
+    b->value = ((MagStats *)mag)->get_dex_level();
+    c->target = (f32) ((MagStats *)(mag))->get_dex_progress();
+    c->calc_bar_width();
+    a = (TWindowHelpItem *)get_array_entry(0xC);
+    b = (TWindowLayoutNumber *)get_array_entry(0xD);
+    c = (TWindowStatusGaugeFeedback *)get_array_entry(0xE);
+    a->reset_float_field();
+    b->value = ((MagStats *)mag)->get_mind_level();
+    c->target = (f32) ((MagStats *)(mag))->get_mind_progress();
+    c->calc_bar_width();
 }
 #pragma pop
 
@@ -1245,20 +1245,20 @@ void TWindowHelpItem::format_description_with_price() {
 }
 
 s32 TWindowHelpItem::is_item_already_equipped() {
-    saddr item;
+    TItem *item;
     s32 field;
     u32 diff;
     field = this->primary_id;
     if (field == -1) {
         return 0;
     }
-    item = (saddr)find_item_by_id(field);
+    item = find_item_by_id(field);
     if (item == 0) {
         return 0;
     }
-    if (((TItem *)item)->test_item_flags(8) == 0U) {
+    if (item->test_item_flags(8) == 0U) {
         return 0;
     }
-    diff = (u32) ((TItem *)item)->get_owner_client() - (u32) (s32) this->client_index;
+    diff = (u32) item->get_owner_client() - (u32) (s32) this->client_index;
     return (s32) ((u32) __cntlzw(diff) >> 5);
 }

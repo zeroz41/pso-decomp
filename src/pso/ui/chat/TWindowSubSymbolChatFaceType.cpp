@@ -232,7 +232,7 @@ TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *pos
     selection = selected;
     heading = static_cast<TWindowSubStatusDisp *>(::operator new(0x24));
     if (heading != NULL) {
-        heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
+        heading = heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
     }
     status_disp = heading;
 }

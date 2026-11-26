@@ -168,7 +168,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
     saddr i;
     s32 j;
     s32 name;
-    TWindowBase *window;
+    TWindowComCardFollower *window;
     TObjPlayer *player;
     player = get_player_by_client_id(this->client_index);
     if (player == NULL || is_open_and_unblocked() == 0) {
@@ -190,13 +190,13 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
             }
         }
         name = (saddr)((TWindowComCard *)i)->get_card_name_ptr();
-        window = this->w[j];
+        window = (TWindowComCardFollower *)(this->w[j]);
         if (window == NULL) {
-            window = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, this->client_index);
+            window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, this->client_index));
             this->w[j] = window;
             this->w[j]->set_depth(1.0f + get_scale());
         } else {
-            ((TWindowComCardFollower *)window)->set_column(0);
+            window->set_column(0);
             ((TWindowComCardFollower *)this->w[j])->set_selected_index(name);
         }
         count = 1;
@@ -214,13 +214,13 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
             }
         } else {
             name = get_status_effect_icon_index(word);
-            window = this->w[j];
+            window = (TWindowComCardFollower *)(this->w[j]);
             if (window == NULL) {
-                window = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, name, this->client_index);
+                window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, name, this->client_index));
                 this->w[j] = window;
                 this->w[j]->set_depth(2.0f + ((f32)k + get_scale()));
             } else {
-                ((TWindowComCardFollower *)window)->set_column(count);
+                window->set_column(count);
                 ((TWindowComCardFollower *)this->w[j])->set_selected_index(name);
             }
             count++;

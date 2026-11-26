@@ -217,8 +217,8 @@ void TWindowChat::close_all_children() {
 }
 
 void TWindowChat::handle_input() {
-    saddr player;
-    player = (saddr)get_player_by_client_id(local_client_id);
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
     if (player != 0) {
         if (this->flags & 2) {
             this->handle_dpad_shortcuts();
@@ -230,7 +230,7 @@ void TWindowChat::handle_input() {
             case 0:
                 if ((this->submit_keyboard_input() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
-                        ((TObjPlayer *)player)->init_parts();
+                        player->init_parts();
                         TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
@@ -241,7 +241,7 @@ void TWindowChat::handle_input() {
             case 1:
                 if ((update_word_select_window() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
-                        ((TObjPlayer *)player)->init_parts();
+                        player->init_parts();
                         TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
@@ -252,7 +252,7 @@ void TWindowChat::handle_input() {
             case 2:
                 if ((update_symbol_chat_window() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
-                        ((TObjPlayer *)player)->init_parts();
+                        player->init_parts();
                         TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
@@ -267,8 +267,8 @@ void TWindowChat::handle_input() {
 void TWindowChat::handle_chat_input() {
   u8 mode;
   ControllerInputContext *context;
-  saddr player;
-  player = (saddr)get_player_by_client_id((saddr)local_client_id);
+  TObjPlayer *player;
+  player = get_player_by_client_id((saddr)local_client_id);
   if (player != 0)
   {
     if (flags & 2)
@@ -282,7 +282,7 @@ void TWindowChat::handle_chat_input() {
         if (is_mode_bit6() != 0)
         {
           TWindowCtrl::begin_client_keyboard_hold(local_client_id);
-          ((TObjPlayer *)player)->reset_equip_slots();
+          player->reset_equip_slots();
         }
       }
     }
@@ -298,7 +298,7 @@ void TWindowChat::handle_chat_input() {
       open_next_input_window();
       if (is_mode_bit6() != 0)
       {
-        ((TObjPlayer *)player)->init_parts();
+        player->init_parts();
         TWindowCtrl::end_client_keyboard_hold(local_client_id);
       }
     }

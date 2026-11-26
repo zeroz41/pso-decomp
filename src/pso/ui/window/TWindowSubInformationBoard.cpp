@@ -197,7 +197,7 @@ TWindowMenu *TWindowSubInformationBoard::create_info_board_menu() {
 
 u32 TWindowSubInformationBoard::sub_8034CDE0() {
     I_8034CDE0 *it;
-    void *w;
+    TWindowMenu *w;
     s32 i;
     s32 n;
     it = (I_8034CDE0 *)TLobby::get_info_board_ptr();
@@ -209,16 +209,16 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     it = ((L_8034CDE0 *)it)->items;
     for (i = 0; i < n; i++, it++) {
         if (it->f10 != 0) {
-            ((TWindowMenu *)w)->add_text_entry((saddr)it, 0x16, i);
+            w->add_text_entry((saddr)it, 0x16, i);
         } else {
-            add_gray_text_entry((TWindowMenu *)w, (const char *)it, 0x16, i);
+            add_gray_text_entry(w, (const char *)it, 0x16, i);
         }
     }
-    if (((TWindowMenu *)w)->get_entry_count() <= 0) {
-        add_gray_text_entry((TWindowMenu *)w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 6, -1);
+    if (w->get_entry_count() <= 0) {
+        add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 6, -1);
     }
-    ((TWindowMenu *)w)->set_flag70_bit10();
-    ((TWindowMenu *)w)->set_scroll_target(223.0f, 184.0f);
+    w->set_flag70_bit10();
+    w->set_scroll_target(223.0f, 184.0f);
     return (uaddr)w;
 }
 

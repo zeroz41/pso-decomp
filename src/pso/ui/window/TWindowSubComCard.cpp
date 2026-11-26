@@ -1229,7 +1229,7 @@ void TWindowSubComCard::rebuild_com_card_list(TWindowMenu *list_window) {
     s32 i;
     s16 sel;
     s16 pos;
-    void *e;
+    GuildCardRecord *e;
     cur = list_window->get_selected_value();
     sel = -1;
     TLobby::clear_flag_bit2();
@@ -1237,9 +1237,9 @@ void TWindowSubComCard::rebuild_com_card_list(TWindowMenu *list_window) {
     list_window->reset_entries();
     n = TLobby::get_com_card_data();
     for (i = n - 1; i >= 0; i--) {
-        e = TLobby::get_com_card_entry(i);
-        list_window->add_text_entry((saddr)(reinterpret_cast<GuildCardRecord *>(e)->get_sub_obj()), 7, ((GuildCardRecord *)e)->get_serial());
-        if (cur == ((GuildCardRecord *)e)->get_serial()) {
+        e = (GuildCardRecord *)TLobby::get_com_card_entry(i);
+        list_window->add_text_entry((saddr)e->get_sub_obj(), 7, e->get_serial());
+        if (cur == e->get_serial()) {
             sel = (n - 1) - i;
         }
     }
