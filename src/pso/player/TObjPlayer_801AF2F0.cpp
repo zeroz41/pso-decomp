@@ -251,7 +251,6 @@ struct Obj_801B4FD8 {
 };
 
 
-struct S801B5200_801B3FD8 { s8 b[2]; s16 h; };
 
 struct Color_801B6964 { f32 r, g, b, a; };
 
@@ -3381,12 +3380,12 @@ void handle_6x2C_impose_hold(G_ImposeHold_6x2C *command) {
 }
 
 void send_release_hold(TObjPlayer *player) {
-    struct S801B5200_801B3FD8 pkt;
+    G_ReleaseHold_6x2D pkt;
 
     if ((player == NULL) || (player->obj_isState2_324() == 0)) {
-        ((G_ReleaseHold_6x2D *)&pkt)->init();
-        pkt.h = player->get_entity_id();
-        ((G_ReleaseHold_6x2D *)&pkt)->send();
+        pkt.init();
+        pkt.header.client_id = player->get_entity_id();
+        pkt.send();
     }
 }
 
