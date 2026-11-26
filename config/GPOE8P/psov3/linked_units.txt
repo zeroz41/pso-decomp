@@ -1177,7 +1177,6 @@ pso/ui/window/TWindowSubItem_801F8FD4.cpp
 pso/ui/window/TWindowSubLog.cpp
 pso/ui/window/TWindowSubMag.cpp
 pso/ui/window/TWindowSubMagPhoton.cpp
-pso/ui/window/TWindowSubMag_802627D8.cpp
 pso/ui/window/TWindowSubQuestBoard.cpp
 pso/ui/window/TWindowSubQuestBoardSelect.cpp
 pso/ui/window/TWindowSubShortCut.cpp

@@ -14,6 +14,21 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 
+void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
+    static_cast<WindowSpritePart *>(get_array_entry(0))->flags |= 2;
+    if (texture_loader->load_item_icon(item) != 0) {
+        m_60 = 1;
+        return;
+    }
+    m_60 = 2;
+}
+
+void bind_item_texture(TWindowLoadItemTexture *window) {
+    WindowSpritePart *sprite = static_cast<WindowSpritePart *>(window->get_array_entry(0));
+    sprite->texture_list_slot = &window->texture_list;
+    sprite->flags &= ~2;
+}
+
 #pragma push
 #pragma opt_common_subs off
 

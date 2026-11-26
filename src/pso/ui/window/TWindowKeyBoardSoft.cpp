@@ -5,7 +5,6 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/window/TWindowSubMag_802627D8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
@@ -888,3 +887,9 @@ TWindowKeyBoardSoft::TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 clien
     m_control = control;
     update_close_mode();
 }
+
+int TWindowKeyBoardSoft::get_flag_bit0() { return this->state_flags & 0x1; }
+int TWindowKeyBoardSoft::is_cursor_locked() { return (this->state_flags >> 7) & 0x1; }
+int TWindowKeyBoardSoft::get_flag_bit6() { return (this->state_flags >> 6) & 0x1; }
+int TWindowKeyBoardSoft::get_flag_bit5() { return (this->state_flags >> 5) & 0x1; }
+int TWindowKeyBoardBase::get_flag62_bit8() { return this->request_flags & 0x8; }
