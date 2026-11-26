@@ -76,6 +76,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 
 
@@ -378,7 +379,6 @@ void TBoss6PlotFalz::set_state(s32 state) {
 }
 
 extern "C" {
-s32 is_local_client_floor_leader();
 
 void TBoss6PlotFalz::set_visible_flag() {
     if (is_local_client_floor_leader() != 0) {

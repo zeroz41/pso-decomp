@@ -22,6 +22,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 #pragma readonly_strings on
 
@@ -50,7 +51,6 @@ struct RunTaskO { u8 pad0[0xC4]; V4_8035740C v[10]; };
 const char *TItemEffOrgaFlowShot::class_name = "TItemEffOrgaFlowShot";
 
 extern "C" {
-s32 is_local_client_floor_leader();
 int olga_flow_subordinate_actions_enabled;
 }
 

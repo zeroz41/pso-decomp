@@ -52,10 +52,10 @@
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 #pragma readonly_strings on
 
 extern "C" {
-s32 is_local_client_floor_leader();
 void release_players_from_cutscene(void);
 extern const char *door_vo_ship_class_name;
 }

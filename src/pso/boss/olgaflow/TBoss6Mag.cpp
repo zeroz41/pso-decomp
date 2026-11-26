@@ -40,8 +40,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/effect/particle/ParticleFactory.h"
-
-extern "C" s32 is_local_client_floor_leader();
+#include "pso/enemy/TObjEnemyCustom.h"
 
 #pragma defer_codegen on
 #pragma inline_depth(1)
