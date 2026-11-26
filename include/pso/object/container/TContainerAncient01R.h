@@ -6,7 +6,6 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TContainerAncient01R : public TObjChara {
-    static void free_resources();
     TContainerAncient01R(TObject *parent, void *set_data);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);
@@ -41,7 +40,7 @@ struct TContainerAncient01R : public TObjChara {
     u32 effect_rate;
     static void *create(void *set_data);
     // Forgets the archive it shares with TContainerAncient01 (which frees it).
-    static void release_static_resource();
+    static void free_resources();
     void attack_nearby_players(f32 range);
 };
 
