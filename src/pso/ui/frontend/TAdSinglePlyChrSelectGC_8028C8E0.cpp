@@ -7,7 +7,6 @@
 #include "pso/system/NinjaChunk.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
@@ -23,12 +22,7 @@ void TChCrLoadGmNjReq::release_slot() {
     slot_claimed = 0;
 }
 
-extern "C" {
-s32 is_node_tree_valid(u32, s32);
-void blend_creation_proportion_shapes(f32 *point);
-extern s32 chr_select_preview_stride_table[];
-extern s32 chr_select_preview_base_offset_table[];
-
+extern "C" void blend_creation_proportion_shapes(f32 *point);
 
 s32 TChCrLoadGmNjReq::try_acquire_slot() {
     if ((chr_select_slot_state < 0) || (chr_select_slot_state > 1)) {
@@ -59,11 +53,9 @@ s32 TChCrLoadReq::all_preview_loads_complete() {
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC__sub_8028C998(void *arg0) {
-    return (u32) __cntlzw((u32) (**(s32 **)((s8 *)arg0 + 0x3C) & 0x7F)) >> 5;
+s32 TChCrLoadReq::completion_flags_clear() {
+    return (*inputs.completion_flags & 0x7F) == 0 ? 1 : 0;
 }
-
-extern s32 chr_select_load_slot_count;
 
 void TChCrLoadReq::load_preview_models() {
     u32 len;
@@ -83,7 +75,7 @@ void TChCrLoadReq::load_preview_models() {
             for (i = 0; i < 6; i++) safe_free(reinterpret_cast<void *>(bufs[i]));
             return;
         }
-        if (is_node_tree_valid(bufs[i], tag) == 0) {
+        if (is_node_tree_valid(reinterpret_cast<NJS_OBJECT *>(bufs[i])) == 0) {
             for (i = 0; i < 6; i++) safe_free(reinterpret_cast<void *>(bufs[i]));
             return;
         }
@@ -228,10 +220,8 @@ s32 TChCrLoadReq::try_claim_load_slot() {
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC__sub_8028CF6C(void) {
+s32 load_slot_available() {
     return chr_select_load_slot_count < 1;
-}
-
 }
 
 saddr TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index) {
@@ -253,7 +243,7 @@ void TChCrLoadReq::close_and_destroy() {
 }
 
 void TChCrLoadReq::try_advance_state() {
-    if (TAdSinglePlyChrSelectGC__sub_8028C998(this) != 0) {
+    if (completion_flags_clear() != 0) {
         start_preview_loads();
         state = 2;
     }

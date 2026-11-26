@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -22,7 +21,7 @@ const char *TChCrLoadReq::name = "TChCrLoadReq";
 
 
 // A node tree is valid when no node, child, sibling or model pointer lies in the low 2 MB.
-extern "C" s32 is_node_tree_valid(NJS_OBJECT *object) {
+s32 is_node_tree_valid(NJS_OBJECT *object) {
     if (object->evalflags & 0xFFFFE000) {
         return 0;
     }
@@ -121,7 +120,7 @@ void TChCrLoadReq::run_task() {
 
 void TChCrLoadReq::update_load_progress() {
     if (timer > 0x1512) {
-        if (TAdSinglePlyChrSelectGC__sub_8028CF6C() == 0) {
+        if (load_slot_available() == 0) {
             timer = 0x1512;
             goto claim;
         }

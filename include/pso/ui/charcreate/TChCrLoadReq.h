@@ -7,6 +7,7 @@
 struct CharacterAppearanceFields;
 struct CharacterClassAppearance;
 struct NJS_TEXLIST;
+struct NJS_OBJECT;
 struct TObjPlayer;
 class TChCrLoadAfs;
 
@@ -38,6 +39,7 @@ public:
     s32 all_preview_loads_complete();
     void load_preview_models();
     void start_preview_loads();
+    s32 completion_flags_clear();
 public:
     u8 unk_1C[0x1C];
     CharacterPreviewLoadArgs inputs;
@@ -59,6 +61,12 @@ public:
     s32 m_8c;
 };
 TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadArgs *args);
+s32 is_node_tree_valid(NJS_OBJECT *object);
+s32 load_slot_available();
+
+extern s32 chr_select_load_slot_count;
+extern s32 chr_select_preview_stride_table[19];
+extern s32 chr_select_preview_base_offset_table[19];
 
 LAYOUT_ASSERT(TChCrLoadReq_inputs_offset, offsetof(TChCrLoadReq, inputs) == 0x38);
 LAYOUT_ASSERT(TChCrLoadReq_state_offset, (offsetof(TChCrLoadReq,state)==0x60));
