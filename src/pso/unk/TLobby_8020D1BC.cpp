@@ -17,16 +17,16 @@ u8 *create_set_object_from_row(void *);
 extern s32 quest_object_entries;
 
 void TLobby::assign_objects_to_slots(u8 *rows, s32 object_count) {
-    s16 temp_r3;
-    s16 temp_r0;
+    s16 flags;
+    s16 quest_entry;
     u8 *ptr;
     s32 i;
     u8 *set_object;
 
     ptr = rows;
     for (i = 0; i < object_count; i++, ptr += 0x44) {
-        temp_r3 = *(s16 *)((s8 *)ptr + 2);
-        if (!(temp_r3 & 8) && !(temp_r3 & 2) && (*(s16 *)((s8 *)ptr + 0) != -1) && ((temp_r3 & 0x10) || (temp_r3 & 1) || (*(s16 *)((s8 *)ptr + 0xA) == 0))) {
+        flags = *(s16 *)((s8 *)ptr + 2);
+        if (!(flags & 8) && !(flags & 2) && (*(s16 *)((s8 *)ptr + 0) != -1) && ((flags & 0x10) || (flags & 1) || (*(s16 *)((s8 *)ptr + 0xA) == 0))) {
             set_object = create_set_object_from_row(ptr);
             if (set_object != NULL) {
                 *(void **)((s8 *)ptr + 0x40) = set_object;
@@ -34,9 +34,9 @@ void TLobby::assign_objects_to_slots(u8 *rows, s32 object_count) {
                 *(s16 *)((s8 *)set_object + 0x28) = (s16) *(s16 *)((s8 *)ptr + 0xC);
                 *(s16 *)((s8 *)set_object + 0x2C) = (s16) *(s16 *)((s8 *)ptr + 4);
                 *(void **)((s8 *)set_object + 0x80) = ptr;
-                temp_r0 = *(s16 *)((s8 *)set_object + 0x2C);
-                if (temp_r0 != -1) {
-                    ((VObj_8020d1bc *) set_object)->m4(quest_object_entries + (temp_r0 * 4), 0);
+                quest_entry = *(s16 *)((s8 *)set_object + 0x2C);
+                if (quest_entry != -1) {
+                    ((VObj_8020d1bc *) set_object)->m4(quest_object_entries + (quest_entry * 4), 0);
                 }
             } else {
                 *(void **)((s8 *)ptr + 0x40) = NULL;

@@ -222,16 +222,16 @@ void TLobby::clear_session_buffers() {
 }
 
 s32 TLobby::run_lobby_load_tables() {
-    s32 temp_r3;
-    s32 temp_r3_2;
-    temp_r3_2 = run_load_callback_table(lbl_8048D4C0, 0xE8);
-    if (temp_r3_2 == 0) {
-        return temp_r3_2;
+    s32 field_result;
+    s32 common_result;
+    common_result = run_load_callback_table(lbl_8048D4C0, 0xE8);
+    if (common_result == 0) {
+        return common_result;
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        temp_r3 = run_load_callback_table(lbl_8048D5A8, 0x20);
-        if (temp_r3 == 0) {
-            return temp_r3;
+        field_result = run_load_callback_table(lbl_8048D5A8, 0x20);
+        if (field_result == 0) {
+            return field_result;
         }
     }
     if (get_current_floor_area() == AREA_LOBBY) {
@@ -280,24 +280,24 @@ void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
 void TLobby__sub_8007BBF8(void) { quest_collision_next_id = 0; }
 
 
-saddr TWindowSubComCard::get_card_slot(s32 arg0) {
+saddr TWindowSubComCard::get_card_slot(s32 slot) {
     s32 state;
-    s32 var_r31;
-    saddr var_r3;
-    var_r31 = arg0;
-    if (var_r31 < 0) {
-        var_r3 = 0;
+    s32 index;
+    saddr card;
+    index = slot;
+    if (index < 0) {
+        card = 0;
         return 0;
     }
-    if (var_r31 >= 0x1C) {
-        var_r3 = 0;
+    if (index >= 0x1C) {
+        card = 0;
         return 0;
     }
     state = TAdSinglePlyChrSelectGC::get_state();
-    var_r3 = state + 0x10000;
-    var_r3 = state + 0xD2C4;
-    var_r3 += var_r31 * 0x90;
-    return var_r3;
+    card = state + 0x10000;
+    card = state + 0xD2C4;
+    card += index * 0x90;
+    return card;
 }
 
 void TLobby::collect_active_card_ids() {

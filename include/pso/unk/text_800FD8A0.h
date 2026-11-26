@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-bool fn_800FD8A0(s32 arg0);
+bool fn_800FD8A0(s32 value);
 }
 s32 is_current_room(void *object);
 

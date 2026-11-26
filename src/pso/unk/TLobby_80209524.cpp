@@ -215,8 +215,8 @@ void TLobby::pick_random_entry() {
     out->f = e.f;
 }
 
-void *TLobby::bsearch_record(void *arg0, int n, int key) {
-    u8 *arr = (u8 *)arg0;
+void *TLobby::bsearch_record(void *records, int n, int key) {
+    u8 *arr = (u8 *)records;
     u8 *e;
     BsearchRecordTmp t;
     s32 lo;
@@ -243,7 +243,7 @@ void *TLobby::bsearch_record(void *arg0, int n, int key) {
     return NULL;
 }
 
-void lookup_item_data_record(AppendOut *arg0, s32 key) {
+void lookup_item_data_record(AppendOut *out, s32 key) {
     TLobbyHdr hdr = *(TLobbyHdr *)item_data_table_buffer;
     AppendRecord *p;
     bswap_table_header(&hdr);
@@ -251,14 +251,14 @@ void lookup_item_data_record(AppendOut *arg0, s32 key) {
     if (p != NULL) {
         AppendRecord r = *p;
         bswap_item_data_record(&r);
-        arg0->f[0] = r.f[0];
-        arg0->f[1] = r.f[1];
-        arg0->f[2] = r.f[2];
-        arg0->f[3] = r.f[3];
-        arg0->f[4] = r.f[4];
-        arg0->f40 = r.h[1];
-        arg0->f42 = r.h[0];
-        arg0->f6 = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
+        out->f[0] = r.f[0];
+        out->f[1] = r.f[1];
+        out->f[2] = r.f[2];
+        out->f[3] = r.f[3];
+        out->f[4] = r.f[4];
+        out->f40 = r.h[1];
+        out->f42 = r.h[0];
+        out->f6 = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
     }
 }
 void TLobby::pick_weighted_entry(s32 *key, s32 *slot) {
@@ -301,11 +301,11 @@ extern const s32 lobby_random_slot_id_table[42] = {
 
 s32 TLobby::pick_random_slot(s16 *slot) {
     s32 key;
-    s32 sp8;
+    s32 slot_index;
 
-    TLobby::pick_weighted_entry(&key, &sp8);
-    if ((key != -1) && (sp8 != -1)) {
-        *slot = (s16) lobby_random_slot_id_table[sp8];
+    TLobby::pick_weighted_entry(&key, &slot_index);
+    if ((key != -1) && (slot_index != -1)) {
+        *slot = (s16) lobby_random_slot_id_table[slot_index];
         lookup_item_data_record((AppendOut *)slot, key);
         ((TLobby *)slot)->pick_random_entry();
         return 0;
@@ -570,10 +570,10 @@ void QuestChunkHeader::bswap() {
 
 void bswap_event_table_entry(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); }
 
-void copy_event_table_entry(void *arg0, void *arg1) {
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
+void copy_event_table_entry(void *dst, void *src) {
+    *(s16 *)((s8 *)dst + 0) = (s16) *(s16 *)((s8 *)src + 0);
+    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
+    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
 }
 
 void TLobby::bswap_vec3() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
@@ -855,7 +855,7 @@ int TLobby::init_sub_state() { return clear_record_flags_b(); }
 struct LoadAreaObjectSetRecord { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 
-s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
+s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities) {
     char name[0x20];
     MapSetVariant *subs;
     MapSetEntry *items;
@@ -904,25 +904,25 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
         r->f2 = 0;
     }
     assign_object_ids((FloorObjectSetRow *)map_set_file_buffer, n, lobby);
-    TLobby::load_object_set_entries(arg0, map_set_file_buffer, len);
+    TLobby::load_object_set_entries(floor, map_set_file_buffer, len);
     return 1;
 }
 
 s32 TLobby::load_all_floor_enemy_sets() {
     FloorMapSelection stack;
-    s32 var_r31;
-    var_r31 = 0;
+    s32 floor;
+    floor = 0;
 loop_1:
-    if ((get_floor_map_selection(var_r31, &stack) == 1) && (stack.area >= 0)) {
+    if ((get_floor_map_selection(floor, &stack) == 1) && (stack.area >= 0)) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        load_area_enemy_set(var_r31, stack.area, stack.terrain, stack.entities);
+        load_area_enemy_set(floor, stack.area, stack.terrain, stack.entities);
         goto block_6;
     }
 block_6:
-    var_r31 += 1;
-    if (var_r31 >= 0x12) {
+    floor += 1;
+    if (floor >= 0x12) {
         advance_enemy_id_counter(((u16) map_set_enemy_id_counter));
         enemy_condition_count = next_enemy_set_actor_id;
         TLobby::sum_floor_enemy_counts();
@@ -932,19 +932,19 @@ block_6:
 }
 s32 TLobby::load_all_floor_object_sets() {
     FloorMapSelection stack;
-    s32 var_r31;
-    var_r31 = 0;
+    s32 floor;
+    floor = 0;
 loop_1:
-    if ((get_floor_map_selection(var_r31, &stack) == 1) && (stack.area >= 0)) {
+    if ((get_floor_map_selection(floor, &stack) == 1) && (stack.area >= 0)) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        load_area_object_set(var_r31, stack.area, stack.terrain, stack.entities);
+        load_area_object_set(floor, stack.area, stack.terrain, stack.entities);
         goto block_6;
     }
 block_6:
-    var_r31 += 1;
-    if (var_r31 >= 0x12) {
+    floor += 1;
+    if (floor >= 0x12) {
         advance_object_id_counter(((u16) map_object_id_counter));
         object_condition_count = map_set_object_id_counter;
         get_total_object_set_count();

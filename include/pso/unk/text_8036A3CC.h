@@ -8,7 +8,7 @@ void unlock_sequencer_flag(s32 program);
 void unlock_music_flag(s32 flag);
 s32 check_flag_index_set(s32 flag);
 s32 is_music_flag_unlocked_stub(s32 idx);
-char *get_bgm_filename(s32 arg0);
+char *get_bgm_filename(s32 index);
 
 s32 get_option_table_entry(s32 idx);
 

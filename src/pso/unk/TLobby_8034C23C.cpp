@@ -35,11 +35,11 @@ saddr TLobby::get_card_window_field() {
     return get_character_save_record(0xFFFF) + 0x20FC;
 }
 void TLobby::set_info_board_text(char *text) {
-    u8 *temp_r31;
-    temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x20FC);
+    u8 *board_text;
+    board_text = (u8 *)(get_character_save_record((0xFFFFU)) + 0x20FC);
     TWindowSubComCard::mask_profanity_words(text, (char *)get_shared_text_buffer());
-    strncpy((char *)temp_r31, (char *)get_shared_text_buffer(), 0xAB);
-    *(s8 *)((s8 *)temp_r31 + 0xAB) = 0;
+    strncpy((char *)board_text, (char *)get_shared_text_buffer(), 0xAB);
+    *(s8 *)((s8 *)board_text + 0xAB) = 0;
     info_board_state_flags |= 1;
 }
 void TLobby::reset_info_board() { (*(int *)&info_board_state_flags) = 0; (*(int *)&information_board_response_buffer) = 0; }

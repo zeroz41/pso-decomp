@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 group, s32 index);
 }
 
 #endif

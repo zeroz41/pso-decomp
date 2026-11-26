@@ -67,16 +67,16 @@ s32 TLobby::get_normalized_mode() {
     return challenge4p_mode_state.boss_warp_disabled;
 }
 void challenge_set_boss_warp_disabled(s32 disabled) {
-    s32 var_r31;
-    var_r31 = disabled;
+    s32 value;
+    value = disabled;
     if (is_challenge_mode_active() == 0) {
         challenge4p_mode_state.boss_warp_disabled = 0;
         return;
     }
-    if ((var_r31 != 1) && (var_r31 != 0)) {
-        var_r31 = 0;
+    if ((value != 1) && (value != 0)) {
+        value = 0;
     }
-    challenge4p_mode_state.boss_warp_disabled = var_r31;
+    challenge4p_mode_state.boss_warp_disabled = value;
 }
 
 
@@ -100,16 +100,16 @@ void TLobby::draw_if_ready2() {
 }
 
 s32 TLobby::check_ready_status() {
-    s32 var_r3;
+    s32 challenge4p_retry_choice;
 
-    var_r3 = get_challenge4p_retry_choice();
-    if (var_r3 == 1) {
-        var_r3 = -1;
+    challenge4p_retry_choice = get_challenge4p_retry_choice();
+    if (challenge4p_retry_choice == 1) {
+        challenge4p_retry_choice = -1;
         if (challenge4p_mode_state.retry_confirmed != 0) {
-            var_r3 = 1;
+            challenge4p_retry_choice = 1;
         }
     }
-    return var_r3;
+    return challenge4p_retry_choice;
 }
 
 s32 get_challenge4p_retry_choice(void) {
@@ -406,53 +406,53 @@ s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
 
 void TLobby::clamp_and_store_layout_index(s32 stage) {
     s32 layout_id;
-    s32 var_r31;
+    s32 clamped;
 
-    var_r31 = stage;
+    clamped = stage;
     layout_id = challenge_set_stage_count(-1);
-    if ((var_r31 < 0) || (var_r31 >= layout_id)) {
-        var_r31 = 0;
+    if ((clamped < 0) || (clamped >= layout_id)) {
+        clamped = 0;
     }
-    challenge4p_mode_state.stage = var_r31;
+    challenge4p_mode_state.stage = clamped;
 }
 
 s32 challenge_check_any_player_dead(void) {
-    s32 var_r31;
+    s32 any_dead;
     u32 i;
     u8 *player;
     if (challenge_retry_object == NULL) {
         return 0;
     }
-    var_r31 = 0;
+    any_dead = 0;
     i = 0;
     do {
         player = (u8 *)(((saddr)get_player_by_client_id(i)));
         if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) != 0)) {
             save_challenge_tombstone_spot((s32) i);
-            var_r31 = 1;
+            any_dead = 1;
         }
         i += 1;
     } while ((s32) i < 4);
-    if (var_r31 != 0) {
+    if (any_dead != 0) {
         challenge4p_mode_state.failed = 1;
         return 1;
     }
     return 0;
 }
 s32 challenge_check_all_players_dead(void) {
-    s32 var_r31;
+    s32 client_id;
     u8 *player;
     if (challenge_retry_object == NULL) {
         return 0;
     }
-    var_r31 = 0;
+    client_id = 0;
 loop_3:
-    player = (u8 *)(((u8 *)get_player_by_client_id(var_r31)));
+    player = (u8 *)(((u8 *)get_player_by_client_id(client_id)));
     if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) == 0)) {
         return 0;
     }
-    var_r31 += 1;
-    if (var_r31 >= 4) {
+    client_id += 1;
+    if (client_id >= 4) {
         challenge4p_mode_state.failed = 1;
         return 1;
     }
@@ -556,22 +556,22 @@ extern "C" {
 s32 TLobby__sub_80292BB8(s32, u16, s32);
 
 s32 TLobby::calc_min_challenge_progress() {
-    s32 temp_r3;
-    s32 var_r31;
+    s32 progress;
+    s32 min_progress;
     s32 i;
 
-    var_r31 = challenge_set_stage_count(resolve_challenge_record_set(-1));
+    min_progress = challenge_set_stage_count(resolve_challenge_record_set(-1));
     i = 0;
     do {
         if (get_player_by_client_id(i) != NULL) {
-            temp_r3 = count_card_layout_entries(i);
-            if (var_r31 > temp_r3) {
-                var_r31 = temp_r3;
+            progress = count_card_layout_entries(i);
+            if (min_progress > progress) {
+                min_progress = progress;
             }
         }
         i += 1;
     } while (i < 4);
-    return var_r31;
+    return min_progress;
 }
 s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     s32 result;
@@ -658,14 +658,14 @@ void TLobby::start_challenge_countdown() {
 
 
 void TLobby::set_retry_selection(s32 choice) {
-    s32 var_r31;
+    s32 clamped;
 
-    var_r31 = choice;
+    clamped = choice;
     if (is_challenge_mode_active() != 0) {
-        if ((var_r31 < 0) || (var_r31 > 1)) {
-            var_r31 = 0;
+        if ((clamped < 0) || (clamped > 1)) {
+            clamped = 0;
         }
-        challenge4p_mode_state.retry_choice = var_r31;
+        challenge4p_mode_state.retry_choice = clamped;
     }
 }
 

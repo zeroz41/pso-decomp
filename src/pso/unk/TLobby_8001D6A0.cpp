@@ -50,7 +50,7 @@ void load_battle_param_entry(void) {
   const char *name;
   BattleParameterFile *file;
   BattleParameterBank *dst;
-  BattleParameterBank *new_var;
+  BattleParameterBank *bank;
   name = "BattleParamEntry.dat";
   if (TObjEneDD::is_main_phase_15() != 0)
   {
@@ -77,7 +77,7 @@ void load_battle_param_entry(void) {
   {
     read_disc_file(name, file);
     idx = battle_parameter_difficulty;
-    new_var = (dst = battle_parameter_buffer);
+    bank = (dst = battle_parameter_buffer);
     move_data(((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
     {
       player_stats *p = ((0, dst))->stats;
@@ -89,9 +89,9 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data(((new_var->attacks)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
+    move_data(((bank->attacks)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
     {
-      AttackParams *p = new_var->attacks;
+      AttackParams *p = bank->attacks;
       s32 i;
       for (i = 0; i < 0x60; i++)
       {
@@ -100,10 +100,10 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data(((new_var->resistances)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
+    move_data(((bank->resistances)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
     {
       s32 i;
-      ActorParamBlock *p = new_var->resistances;
+      ActorParamBlock *p = bank->resistances;
       for (i = 0; i < 0x60; i++)
       {
         p->swap_endian();
@@ -111,10 +111,10 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data(((new_var->movement)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
+    move_data(((bank->movement)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
     {
       s32 i;
-      BattleMovementParams *p = new_var->movement;
+      BattleMovementParams *p = bank->movement;
       for (i = 0; i < 0x60; i++)
       {
         s32 j;
@@ -148,18 +148,18 @@ struct CopyDataBlk { s32 w[6]; };
 
 struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
 
-void set_lobby_instance(s32 arg0) {
-    lobby_instance = arg0;
+void set_lobby_instance(s32 instance) {
+    lobby_instance = instance;
 }
 extern "C" {
 
-void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
+void broadcast_to_players__6TLobbyFii(s32 index, saddr src) {
     s32 i;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            TLobby::copy_pair((CopyDataObject *)(((saddr (*)(s32, s32))TLobby::get_player_entry)(i, arg0)), (CopyDataObject *)(arg1));
+            TLobby::copy_pair((CopyDataObject *)(((saddr (*)(s32, s32))TLobby::get_player_entry)(i, index)), (CopyDataObject *)(src));
             i += 1;
         } while (i < 4);
     }
@@ -172,13 +172,13 @@ void *TLobby::copy_pair(void *dst, void *src) {
     return dst;
 }
 
-void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
+void TLobby__sub_8001DF58(s32 index, saddr ent) {
     s32 i;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            ((TLobby *)(((saddr (*)(s32, s32))TLobby::get_entry)(i, arg0)))->copy_entry((void *)ent);
+            ((TLobby *)(((saddr (*)(s32, s32))TLobby::get_entry)(i, index)))->copy_entry((void *)ent);
             i += 1;
         } while (i < 4);
     }
@@ -198,13 +198,13 @@ void TLobby::copy_entry(void *ent) {
     *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)ent + 0x1C);
 }
 
-void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
+void copy_all_entries__6TLobbyFii(s32 index, saddr src) {
     s32 i;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            ((TLobby *)(((saddr (*)(s32, s32))get_battle_param_attack)(i, arg0)))->copy_from((void *)arg1);
+            ((TLobby *)(((saddr (*)(s32, s32))get_battle_param_attack)(i, index)))->copy_from((void *)src);
             i += 1;
         } while (i < 4);
     }
@@ -229,13 +229,13 @@ void TLobby::copy_from(void *src) {
     *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)src + 0x2C);
 }
 
-void copy_all_data__6TLobbyFii(s32 arg0, saddr src) {
+void copy_all_data__6TLobbyFii(s32 index, saddr src) {
     s32 i;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            TLobby::copy_data((void *)(((saddr (*)(s32, s32))get_battle_param_stats)(i, arg0)), (void *)src);
+            TLobby::copy_data((void *)(((saddr (*)(s32, s32))get_battle_param_stats)(i, index)), (void *)src);
             i += 1;
         } while (i < 4);
     }
@@ -257,14 +257,14 @@ void TLobby::copy_data(void *stats, void *src) {
     *(s32 *)((s8 *)stats + 0x20) = (s32) *(s32 *)((s8 *)src + 0x20);
 }
 
-u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
-    s32 var_r0;
+u8 is_valid_player_index__6TLobbyFi(s32 index) {
+    s32 valid;
 
-    var_r0 = 0;
-    if ((arg0 >= 0) && (arg0 < 0x60)) {
-        var_r0 = 1;
+    valid = 0;
+    if ((index >= 0) && (index < 0x60)) {
+        valid = 1;
     }
-    return (u8)var_r0;
+    return (u8)valid;
 }
 }
 
@@ -285,38 +285,38 @@ player_stats *TLobby::register_boss(s32 index) { return get_battle_param_stats(b
 player_stats *get_battle_param_stats(int a0, int a1) {  return &battle_param_stats[a1]; }
 extern "C" {
 
-void set_difficulty__6TLobbyFi(s32 arg0) {
-    battle_param_lab_variant = arg0;
+void set_difficulty__6TLobbyFi(s32 variant) {
+    battle_param_lab_variant = variant;
 }
 }
 
 
 void TLobby::clamp_difficulty(s32 difficulty) {
-    s32 var_r3;
+    s32 clamped;
 
-    var_r3 = difficulty;
-    if (var_r3 < 0) {
-        var_r3 = 0;
+    clamped = difficulty;
+    if (clamped < 0) {
+        clamped = 0;
     } else if ((s32) enable_v2_features != 0) {
-        if (var_r3 >= 4) {
-            var_r3 = 3;
+        if (clamped >= 4) {
+            clamped = 3;
         }
-    } else if (var_r3 >= 3) {
-        var_r3 = 2;
+    } else if (clamped >= 3) {
+        clamped = 2;
     }
-    battle_parameter_difficulty = var_r3;
+    battle_parameter_difficulty = clamped;
 }
 
 void TLobby::update_difficulty() {
-    s32 temp_r31;
-    s32 temp_r30;
+    s32 old_difficulty;
+    s32 old_variant;
 
-    temp_r31 = battle_parameter_difficulty;
-    temp_r30 = battle_param_lab_variant;
+    old_difficulty = battle_parameter_difficulty;
+    old_variant = battle_param_lab_variant;
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();
-    if ((battle_parameter_difficulty != temp_r31) || (battle_param_lab_variant != temp_r30)) {
+    if ((battle_parameter_difficulty != old_difficulty) || (battle_param_lab_variant != old_variant)) {
         load_battle_param_entry();
     }
 }
@@ -384,20 +384,20 @@ void AttackParams::byteswap_packet() {
 }
 extern "C" {
 
-void bswap__12player_statsFv(void *arg0) {
-    bswap_16((u16 *)arg0);
-    bswap_16((u16 *)((void *)((char *)arg0 + 2)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 4)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 6)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 8)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 10)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 12)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 14)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 16)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 20)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 24)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 28)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 32)));
+void bswap__12player_statsFv(void *stats) {
+    bswap_16((u16 *)stats);
+    bswap_16((u16 *)((void *)((char *)stats + 2)));
+    bswap_16((u16 *)((void *)((char *)stats + 4)));
+    bswap_16((u16 *)((void *)((char *)stats + 6)));
+    bswap_16((u16 *)((void *)((char *)stats + 8)));
+    bswap_16((u16 *)((void *)((char *)stats + 10)));
+    bswap_16((u16 *)((void *)((char *)stats + 12)));
+    bswap_16((u16 *)((void *)((char *)stats + 14)));
+    bswap_32((u32 *)((void *)((char *)stats + 16)));
+    bswap_32((u32 *)((void *)((char *)stats + 20)));
+    bswap_32((u32 *)((void *)((char *)stats + 24)));
+    bswap_32((u32 *)((void *)((char *)stats + 28)));
+    bswap_32((u32 *)((void *)((char *)stats + 32)));
 }
 
 extern s32 selected_episode;
@@ -431,19 +431,19 @@ void set_clock_offset_from_server_time(TLobby *packet) {
 }
 
 s32 TLobby::calc_time_from_hms() {
-    saddr arg0 = (saddr)this;
-  saddr *new_var;
-  int new_var2;
-  s32 temp_r31_2;
-  s32 temp_r31;
-  temp_r31_2 = parse_two_digit_number((void *)(arg0 + 0xC));
-  new_var = &arg0;
-  temp_r31 = (temp_r31_2 * 0x3C) + parse_two_digit_number((void *)(arg0 + 0xF));
-  new_var2 = (temp_r31 * 0x3C) + parse_two_digit_number((void *)((void *) ((*new_var) + 0x12)));
-  return (s32) (30.0f * ((f32) new_var2));
+    saddr text = (saddr)this;
+  saddr *text_ref;
+  int seconds;
+  s32 hours;
+  s32 minutes;
+  hours = parse_two_digit_number((void *)(text + 0xC));
+  text_ref = &text;
+  minutes = (hours * 0x3C) + parse_two_digit_number((void *)(text + 0xF));
+  seconds = (minutes * 0x3C) + parse_two_digit_number((void *)((void *) ((*text_ref) + 0x12)));
+  return (s32) (30.0f * ((f32) seconds));
 }
-s32 parse_two_digit_number(void *arg0) {
-    s8 *s = (s8 *)arg0;
+s32 parse_two_digit_number(void *text) {
+    s8 *s = (s8 *)text;
     s32 v = (s[0] - '0') * 10;
     v += s[1] - '0';
     return v;
@@ -469,27 +469,27 @@ void TLobby::close_result_windows() {
 
 
 f32 TLobby::calc_result_offset() {
-    f32 var_f31;
+    f32 offset;
 
-    var_f31 = 0.0f;
+    offset = 0.0f;
     if (get_main_phase() == 0xF) {
         TLobby::close_result_windows();
-        var_f31 -= (f32)(u32)get_name_text_width(get_shared_text_buffer());
+        offset -= (f32)(u32)get_name_text_width(get_shared_text_buffer());
     }
-    return var_f31;
+    return offset;
 }
 
 static f32 clock_bar_pulse;
 
 
 f32 TLobby::calc_phase_offset() {
-    f32 var_f31;
+    f32 offset;
 
-    var_f31 = -163.0f;
+    offset = -163.0f;
     if (get_main_phase() == 0xF) {
-        var_f31 -= 57.0f;
+        offset -= 57.0f;
     }
-    return var_f31;
+    return offset;
 }
 
 s32 default_clock_offset_frames(void) {
@@ -511,11 +511,11 @@ struct GetInternetBeatDateStamp
   u8 pad8[4];
 };
 s32 TLobby::get_clock_frames() {
-  u8 *new_var;
+  u8 *hour;
   u8 *g;
   s32 base;
   GetInternetBeatDateStamp d;
-  new_var = &d.h;
+  hour = &d.h;
   g = TAdSinglePlyChrSelectGC::get_global_state();
   if (g == 0)
   {
@@ -526,7 +526,7 @@ s32 TLobby::get_clock_frames() {
     base = *((s32 *)(g + 8));
   }
   getDateStamp((DateStamp *)&d);
-  s32 secs = (*new_var) * 60;
+  s32 secs = (*hour) * 60;
   s32 mins = d.m;
   if (g && g)
   {
@@ -539,20 +539,20 @@ s32 TLobby::get_clock_frames() {
 }
 extern "C" {
 
-void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3) {
+void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 size, f32 alpha) {
     f32 scale;
-    f32 var_f4;
-    saddr temp_r31;
-    var_f4 = farg3;
-    if (!(var_f4 <= 0.0f)) {
-        if (var_f4 > 1.0f) {
-            var_f4 = 1.0f;
+    f32 clamped;
+    saddr color;
+    clamped = alpha;
+    if (!(clamped <= 0.0f)) {
+        if (clamped > 1.0f) {
+            clamped = 1.0f;
         }
-        scale = -1.0f / farg2;
-        temp_r31 = TLobby::calc_alpha_shifted(var_f4);
+        scale = -1.0f / size;
+        color = TLobby::calc_alpha_shifted(clamped);
         if (get_main_phase() == 0xF) {
             TLobby::close_result_windows();
-            draw_small_font_text(temp_r31 | 0xFF0000 | 0xFFFF, (const char *)(((u8* (*)(void))get_shared_text_buffer)()), x, (f32)(-1.0f + position1Y), scale);
+            draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)(((u8* (*)(void))get_shared_text_buffer)()), x, (f32)(-1.0f + position1Y), scale);
         }
     }
 }

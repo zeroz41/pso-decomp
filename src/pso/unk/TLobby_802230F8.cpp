@@ -32,22 +32,22 @@ s32 TLobby::compare_version(void *other) {
 }
 
 s32 TLobby::compare_greater(void *other) {
-    u8 temp_r0;
-    u8 temp_r5;
+    u8 theirs;
+    u8 mine;
 
-    temp_r5 = *(u8 *)&this->m_name;
-    temp_r0 = *(u8 *)((s8 *)other + 0);
-    if (temp_r5 > temp_r0) {
+    mine = *(u8 *)&this->m_name;
+    theirs = *(u8 *)((s8 *)other + 0);
+    if (mine > theirs) {
         return 1;
     }
-    if ((temp_r5 == temp_r0) && ((u8) *(u8 *)((s8 *)this + 1) > (u8) *(u8 *)((s8 *)other + 1))) {
+    if ((mine == theirs) && ((u8) *(u8 *)((s8 *)this + 1) > (u8) *(u8 *)((s8 *)other + 1))) {
         return 1;
     }
     return 0;
 }
 
-u32 TLobby__sub_8022318C(u8 *arg0, u8 *arg1) {
-    return (u32) (*arg1 - *arg0) >> 0x1FU;
+u32 TLobby__sub_8022318C(u8 *a, u8 *b) {
+    return (u32) (*b - *a) >> 0x1FU;
 }
 
 void TLobby::swap_item_data(s32 *item_data) {
@@ -84,24 +84,24 @@ void BankItemRecord::sort_records(s32 count, s32 key) {
     }
 }
 
-s32 TLobby__sub_802232F8(void *arg0, void *arg1) {
+s32 TLobby__sub_802232F8(void *lhs, void *rhs) {
     u32 b, a;
 
-    a = *(u8 *)((s8 *)arg0 + 0);
-    b = *(u8 *)((s8 *)arg1 + 0);
+    a = *(u8 *)((s8 *)lhs + 0);
+    b = *(u8 *)((s8 *)rhs + 0);
     if (a > b) {
         return 1;
     }
     if (a == b) {
         {
             u32 b2, a2;
-            a2 = *(u8 *)((s8 *)arg0 + 1);
-            b2 = *(u8 *)((s8 *)arg1 + 1);
+            a2 = *(u8 *)((s8 *)lhs + 1);
+            b2 = *(u8 *)((s8 *)rhs + 1);
             if (a2 > b2) {
                 return 1;
             }
             if (a2 == b2) {
-                if ((u8) *(u8 *)((s8 *)arg0 + 2) > (u8) *(u8 *)((s8 *)arg1 + 2)) {
+                if ((u8) *(u8 *)((s8 *)lhs + 2) > (u8) *(u8 *)((s8 *)rhs + 2)) {
                     return 1;
                 }
             }
@@ -110,21 +110,21 @@ s32 TLobby__sub_802232F8(void *arg0, void *arg1) {
     return 0;
 }
 
-s32 TAdSinglePlyChrSelectGC__sub_80223350(void *arg0, void *arg1) {
-    u8 temp_r0;
-    u8 temp_r5;
+s32 TAdSinglePlyChrSelectGC__sub_80223350(void *lhs, void *rhs) {
+    u8 rhs_major;
+    u8 lhs_major;
 
-    temp_r5 = *(u8 *)((s8 *)arg0 + 0);
-    temp_r0 = *(u8 *)((s8 *)arg1 + 0);
-    if (temp_r5 > temp_r0) {
+    lhs_major = *(u8 *)((s8 *)lhs + 0);
+    rhs_major = *(u8 *)((s8 *)rhs + 0);
+    if (lhs_major > rhs_major) {
         return 1;
     }
-    if ((temp_r5 == temp_r0) && ((u8) *(u8 *)((s8 *)arg0 + 1) > (u8) *(u8 *)((s8 *)arg1 + 1))) {
+    if ((lhs_major == rhs_major) && ((u8) *(u8 *)((s8 *)lhs + 1) > (u8) *(u8 *)((s8 *)rhs + 1))) {
         return 1;
     }
     return 0;
 }
 
-u32 TAdSinglePlyChrSelectGC__sub_8022338C(u8 *arg0, u8 *arg1) {
-    return (u32) (*arg1 - *arg0) >> 0x1FU;
+u32 TAdSinglePlyChrSelectGC__sub_8022338C(u8 *a, u8 *b) {
+    return (u32) (*b - *a) >> 0x1FU;
 }

@@ -171,13 +171,13 @@ void unlock_sequencer_flag(s32 program) {
 }
 
 
-void TObjBgmColCtrl::update_all_zones(saddr arg0) {
+void TObjBgmColCtrl::update_all_zones(saddr filename) {
     s32 i;
 
     i = 0;
     do {
         if (check_flag_index_set(i) != 1) {
-            if (strcmp(get_bgm_filename(i), (const char *)arg0) == 0) {
+            if (strcmp(get_bgm_filename(i), (const char *)filename) == 0) {
                 unlock_music_flag(i);
             }
         }
@@ -204,7 +204,7 @@ void unlock_music_flag(s32 flag) {
 }
 
 s32 check_flag_index_set(s32 flag) {
-    s32 sp8;
+    s32 mask;
     s32 *flag_word_mask;
 
     if (flag < 0) {
@@ -213,11 +213,11 @@ s32 check_flag_index_set(s32 flag) {
     if (flag >= 0x31) {
         return 0;
     }
-    flag_word_mask = (s32 *)get_flag_word_mask(flag, (u32 *)&sp8);
+    flag_word_mask = (s32 *)get_flag_word_mask(flag, (u32 *)&mask);
     if (flag_word_mask == NULL) {
         return 0;
     }
-    return (*flag_word_mask & sp8) != 0;
+    return (*flag_word_mask & mask) != 0;
 }
 
 
@@ -228,14 +228,14 @@ s32 is_music_flag_unlocked_stub(s32 idx) {
     return 1;
 }
 
-char *get_bgm_filename(s32 arg0) {
-    if (arg0 < 0) {
+char *get_bgm_filename(s32 index) {
+    if (index < 0) {
         return NULL;
     }
-    if (arg0 >= 0x31) {
+    if (index >= 0x31) {
         return NULL;
     }
-    return bgm_adx_filename_table[arg0];
+    return bgm_adx_filename_table[index];
 }
 
 

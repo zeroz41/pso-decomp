@@ -228,9 +228,9 @@ s32 select_texture_by_surface_id(u32 id) {
 }
 #pragma pop
 
-s32 reload_texture_state_pixels(GinjaTextureState *texture, s32 src, u32 arg2) {
+s32 reload_texture_state_pixels(GinjaTextureState *texture, s32 src, u32 use_header) {
     GinjaSurfaceState *surface = texture->surface;
-    if ((surface->header.flags & 0x80000000) != 0 && arg2 != 0) {
+    if ((surface->header.flags & 0x80000000) != 0 && use_header != 0) {
         if (start_texture_header_transfer(&surface->header) != 0) {
             texture_error.code = 8;
             return -1;
@@ -246,9 +246,9 @@ s32 reload_texture_state_pixels(GinjaTextureState *texture, s32 src, u32 arg2) {
     return 1;
 }
 
-s32 reload_list_texture_pixels(s32 index, s32 src, u32 arg2) {
+s32 reload_list_texture_pixels(s32 index, s32 src, u32 use_header) {
     reset_texture_error();
-    s32 r = reload_texture_state_pixels(current_render_context->textures->textures[index].texture, src, arg2);
+    s32 r = reload_texture_state_pixels(current_render_context->textures->textures[index].texture, src, use_header);
     if (r < 0) {
         texture_error.entry_index = index;
     }

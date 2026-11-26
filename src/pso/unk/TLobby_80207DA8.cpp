@@ -143,8 +143,8 @@ s32 init_object_set_data(ObjectSetData *set) {
 }
 extern "C" {
 
-void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0) {
-    E_80207F80 *p = (E_80207F80 *)floor_lifecycle_callback_tables[arg0];
+void run_floor_cleanup_callbacks__6TLobbyFi(s32 floor) {
+    E_80207F80 *p = (E_80207F80 *)floor_lifecycle_callback_tables[floor];
     s32 n;
     s32 i;
     if (p != 0) {
@@ -267,7 +267,7 @@ MapSetModule *forest_rel_module;
 void *forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
-    MapSetModule *temp_r3;
+    MapSetModule *map_set_module;
     MapSetArea *areas;
     s32 drop_item_mode;
 
@@ -276,10 +276,10 @@ void TLobby::update_drop_item() {
     if (forest_rel_work_buffer != NULL) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
-            temp_r3 = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
-            forest_rel_module = temp_r3;
-            if (temp_r3 != NULL) {
-                areas = temp_r3->areas;
+            map_set_module = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+            forest_rel_module = map_set_module;
+            if (map_set_module != NULL) {
+                areas = map_set_module->areas;
                 forest_rel_set_data_table = areas;
                 map_set_areas = areas;
             }
@@ -314,7 +314,7 @@ struct Send6x05WaveClearSwitchPacket {
 
 
 void TLobby::load_item_data() {
-    MapSetModule *temp_r3_2;
+    MapSetModule *map_set_module;
     MapSetArea *areas;
     s32 drop_item_mode;
     void *buffer;
@@ -326,10 +326,10 @@ void TLobby::load_item_data() {
     if (buffer != NULL) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
-            temp_r3_2 = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
-            forest_rel_module = temp_r3_2;
-            if (temp_r3_2 != NULL) {
-                areas = temp_r3_2->areas;
+            map_set_module = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+            forest_rel_module = map_set_module;
+            if (map_set_module != NULL) {
+                areas = map_set_module->areas;
                 forest_rel_set_data_table = areas;
                 map_set_areas = areas;
             }
@@ -343,35 +343,35 @@ s32 wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
 void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
-void send_6x67_wave_trigger_event(s32 arg0) {
+void send_6x67_wave_trigger_event(s32 event_id) {
     G_FloorEvent_6x67 pkt;
     wave_event_trigger_count++;
     TLobby::set_destroy_event(1);
     pkt.init();
     pkt.header.client_id = 0xFFFF;
     pkt.floor = get_current_floor();
-    pkt.event_id = arg0;
+    pkt.event_id = event_id;
     pkt.sender_client_id = local_client_id;
     pkt.send();
 }
 
-void send_6x05_wave_clear_switch(s32 arg0) {
+void send_6x05_wave_clear_switch(s32 switch_id) {
     Send6x05WaveClearSwitchPacket pkt;
     ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.b = 0;
     pkt.a = 0xFFFF;
-    pkt.c = arg0;
+    pkt.c = switch_id;
     pkt.d = ((s32 (*)(s32))get_current_floor)(0xFFFF);
     pkt.e = 0;
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 
-void send_6x05_wave_set_switch(s16 arg0) {
+void send_6x05_wave_set_switch(s16 switch_id) {
     Send6x05WaveSetSwitchPacket pkt;
     ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.a = 0xFFFF;
     pkt.b = 0;
-    pkt.c = arg0;
+    pkt.c = switch_id;
     pkt.d = ((s8)get_current_floor());
     if (wave_event_first_switch_set != 0) {
         pkt.e = 3;
@@ -435,25 +435,25 @@ void TLobby::invoke_command(u8 opcode) {
 
 
 s32 read_be_u32(void) {
-    s32 sp8;
-    s32 temp_r4;
+    s32 value;
+    s32 cursor;
 
-    memcpy(&sp8, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
-    temp_r4 = wave_event_stream_cursor;
-    wave_event_stream_cursor = temp_r4 + 4;
-    bswap_32__FPUl(&sp8, temp_r4);
-    return sp8;
+    memcpy(&value, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
+    cursor = wave_event_stream_cursor;
+    wave_event_stream_cursor = cursor + 4;
+    bswap_32__FPUl(&value, cursor);
+    return value;
 }
 
 u16 read_stream_u16(void) {
-    u16 sp8;
-    s32 temp_r4;
+    u16 value;
+    s32 cursor;
 
-    memcpy(&sp8, wave_event_stream_base + wave_event_stream_cursor, 2);
-    temp_r4 = wave_event_stream_cursor;
-    wave_event_stream_cursor = temp_r4 + 2;
-    ((s32 (*)(u16 *, s32))bswap_16__FPUs)(&sp8, temp_r4);
-    return sp8;
+    memcpy(&value, wave_event_stream_base + wave_event_stream_cursor, 2);
+    cursor = wave_event_stream_cursor;
+    wave_event_stream_cursor = cursor + 2;
+    ((s32 (*)(u16 *, s32))bswap_16__FPUs)(&value, cursor);
+    return value;
 }
 
 

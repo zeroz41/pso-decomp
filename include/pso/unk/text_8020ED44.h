@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void generate_armor_shop_stock(s32 arg0);
+void generate_armor_shop_stock(s32 shop);
 
 #endif

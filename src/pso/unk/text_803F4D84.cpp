@@ -389,7 +389,7 @@ s32 TLobby__sub_803F5748(void *dst) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5824(void *arg0) {
+s32 TLobby__sub_803F5824(void *out) {
     if (get_network_config_mode() == 0) return -1;
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) return -5;
     NetConfigDataView *s = (*(NetConfigDataView * *)&lobby_net_config_buffer); s16 i;
@@ -398,7 +398,7 @@ s32 TLobby__sub_803F5824(void *arg0) {
     i = s->recs[i].v;
     if (i < 0 || i >= 6) return -3;
     if (s->ents[i].state != 4) return -3;
-    memcpy(arg0, s->ents[i].data, 4);
+    memcpy(out, s->ents[i].data, 4);
     return 0;
 }
 #pragma pop
@@ -406,7 +406,7 @@ s32 TLobby__sub_803F5824(void *arg0) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5900(void *arg0) {
+s32 TLobby__sub_803F5900(void *out) {
     NetConfigBufferView *s;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -427,7 +427,7 @@ s32 TLobby__sub_803F5900(void *arg0) {
     if (s->u.ents[i].state != 4) {
         return -3;
     }
-    memcpy(arg0, s->u.ents[i].data1, 4);
+    memcpy(out, s->u.ents[i].data1, 4);
     return 0;
 }
 #pragma pop
@@ -654,7 +654,7 @@ s32 TLobby__sub_803F6138(char *buf, s32 n) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F6270(u16 *arg0) {
+s32 TLobby__sub_803F6270(u16 *out) {
     NetConfigVersionView *s;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -672,7 +672,7 @@ s32 TLobby__sub_803F6270(u16 *arg0) {
     if (i < 0 || i >= 6) {
         return -3;
     }
-    *arg0 = s->ents[i].v;
+    *out = s->ents[i].v;
     return 0;
 }
 #pragma pop

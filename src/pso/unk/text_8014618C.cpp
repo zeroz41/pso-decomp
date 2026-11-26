@@ -5,10 +5,10 @@
 // Nonzero when the network adapter reports type 1; TAdExNetConfirmGC::vfunc_7 picks its
 // message text by it.
 s32 is_confirmed() {
-    s32 sp8;
+    s32 adapter_type;
 
-    get_network_adapter_type(&sp8);
-    return (u32) __cntlzw(1 - sp8) >> 5;
+    get_network_adapter_type(&adapter_type);
+    return (u32) __cntlzw(1 - adapter_type) >> 5;
 }
 
 s32 TLobby__sub_8014618C(void) {

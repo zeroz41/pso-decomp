@@ -34,7 +34,7 @@ EventShuffleTable *construct_event_shuffle_table(EventShuffleTable *table, s32 c
 void select_event_shuffle_table(s16 id);
 void init_item_drop_rng(void);
 void bswap_event_table_entry(void *p);
-void copy_event_table_entry(void *arg0, void *arg1);
+void copy_event_table_entry(void *dst, void *src);
 void bswap_item_data_record(void *p);
 void bswap_table_header(void *p);
 void copy_challenge_random_event(ChallengeRandomEvent *dst, ChallengeRandomEvent *src);

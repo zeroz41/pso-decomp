@@ -79,7 +79,7 @@ FlagWord lbl_805D5430;
 void *__construct_new_array(void *block, void *ctor, void *dtor, size_t size, size_t n);
 void __ct__9FloorItemFv(FloorItem *item, s32 mode);
 }
-void build_6x63_packet(void *arg0);
+void build_6x63_packet(void *packet);
 extern "C" {
 void TLobby__sub_801041D8(void);
 }
@@ -223,11 +223,11 @@ s32 TLobby::write_sync_item_state() {
 #pragma pop
 
 u16 pop_free_entity_id() {
-    s32 temp_r0;
+    s32 count;
     if ((s32) floor_item_free_id_count != 0) {
-        temp_r0 = floor_item_free_id_count - 1;
-        floor_item_free_id_count = temp_r0;
-        return *(u16 *)((s8 *)(floor_item_free_id_stack + (temp_r0 * 2)) + 0);
+        count = floor_item_free_id_count - 1;
+        floor_item_free_id_count = count;
+        return *(u16 *)((s8 *)(floor_item_free_id_stack + (count * 2)) + 0);
     }
     return 0xFFFFU;
 }
@@ -442,10 +442,10 @@ void TLobby::alloc_objects() {
 int TLobby::get_lobby_flag() {  return entity_table_count; }
 void TLobby::bswap_player_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
 void TLobby::update_and_send() { bswap_player_packet(); send_subcommand((u8 *)this); }
-void build_6x63_packet(void *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = -1;
-    *(s8 *)((s8 *)arg0 + 0) = 0x63;
-    *(s8 *)((s8 *)arg0 + 1) = 3;
+void build_6x63_packet(void *packet) {
+    *(s32 *)((s8 *)packet + 4) = -1;
+    *(s8 *)((s8 *)packet + 0) = 0x63;
+    *(s8 *)((s8 *)packet + 1) = 3;
 }
 void TLobby__sub_801041D8(void) {
     lbl_805D5430.set(1);

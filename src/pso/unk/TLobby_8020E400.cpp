@@ -47,23 +47,23 @@ s32 TLobby::get_lobby_group(s32 level) {
     return -1;
 }
 
-s32 get_shop_unit_count(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 get_shop_unit_count(s32 level) {
+    if ((level >= 1) && (level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((level >= 0xB) && (level <= 0x19)) {
         return 3;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((level >= 0x1A) && (level <= 0x2A)) {
         return 5;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((level >= 0x2B) && (level <= 0x3C)) {
         return 6;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x64)) {
+    if ((level >= 0x3D) && (level <= 0x64)) {
         return 6;
     }
-    if (arg0 >= 0x65) {
+    if (level >= 0x65) {
         return 6;
     }
     return -1;

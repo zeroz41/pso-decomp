@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_801D6D8C(s8 *arg0, s8 arg1, s32 arg2);
+void fn_801D6D8C(s8 *base, s8 value, s32 index);
 }
 
 #endif

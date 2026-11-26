@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern "C" {
-s32 fn_8026C7AC(void *arg0, s8 arg1);
-s32 fn_8026C7C0(void *arg0, s8 arg1);
+s32 fn_8026C7AC(void *state, s8 value);
+s32 fn_8026C7C0(void *state, s8 target);
 }
 
 #endif

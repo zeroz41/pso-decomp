@@ -5,7 +5,7 @@
 
 s32 load_network_info(void);
 extern "C" {
-s32 TLobby__sub_80145DB4(s32 arg0);
+s32 TLobby__sub_80145DB4(s32 mode);
 }
 
 // 1 when the network adapter reports state 1.

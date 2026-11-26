@@ -409,10 +409,10 @@ void TLobby::copy_table_entries(u32 size) {
 }
 
 void randomize_adventure_maps(void) {
-  FloorMapSelection *var_r31;
+  FloorMapSelection *floor_map_selection;
   s32 main_phase;
   s32 i;
-  var_r31 = floor_map_registry;
+  floor_map_selection = floor_map_registry;
   TAdStorySelectGC::set_state((saddr)selected_episode);
   main_phase = get_main_phase();
   if (TRaderMapCore::is_not_split_screen() == 1)
@@ -422,26 +422,26 @@ void randomize_adventure_maps(void) {
   i = 0;
   do
   {
-    if (var_r31->area >= 0)
+    if (floor_map_selection->area >= 0)
     {
       switch (main_phase)
       {
         case 14:
-          var_r31->terrain = (s32)((f32)adventure_map_variation_count_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
-          var_r31->entities = (s32)((f32)adventure_map_variation_count_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
+          floor_map_selection->terrain = (s32)((f32)adventure_map_variation_count_table[floor_map_selection->area][0] * (0.000030517578f * (f32)rand()));
+          floor_map_selection->entities = (s32)((f32)adventure_map_variation_count_table[floor_map_selection->area][1] * (0.000030517578f * (f32)rand()));
           break;
         case 15:
-          var_r31->terrain = (s32)((f32)online_floor_map_variation_dimension_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
-          var_r31->entities = (s32)((f32)online_floor_map_variation_dimension_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
+          floor_map_selection->terrain = (s32)((f32)online_floor_map_variation_dimension_table[floor_map_selection->area][0] * (0.000030517578f * (f32)rand()));
+          floor_map_selection->entities = (s32)((f32)online_floor_map_variation_dimension_table[floor_map_selection->area][1] * (0.000030517578f * (f32)rand()));
           break;
         default:
-          var_r31->terrain = (s32)((f32)adventure_map_variation_count_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
-          var_r31->entities = (s32)((f32)adventure_map_variation_count_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
+          floor_map_selection->terrain = (s32)((f32)adventure_map_variation_count_table[floor_map_selection->area][0] * (0.000030517578f * (f32)rand()));
+          floor_map_selection->entities = (s32)((f32)adventure_map_variation_count_table[floor_map_selection->area][1] * (0.000030517578f * (f32)rand()));
           break;
       }
     }
     i += 1;
-    ++var_r31;
+    ++floor_map_selection;
   }
   while (i < 0x12);
 }

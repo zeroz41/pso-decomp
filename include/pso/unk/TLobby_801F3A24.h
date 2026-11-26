@@ -13,7 +13,7 @@ struct QuestObjectEntry {
 extern QuestObjectEntry *quest_object_entries;
 
 void clear_quest_floor_designations(void);
-bool load_quest_encounter_section(s32 arg0);
+bool load_quest_encounter_section(s32 floor);
 void populate_quest_floor_sets(void);
 void set_quest_floor_designation(s16 mode, s32 floor, s32 terrain, s32 unused);
 void set_quest_floor_designation_ex(s16 mode, s32 floor, s32 area, s32 layout, s32 entities);

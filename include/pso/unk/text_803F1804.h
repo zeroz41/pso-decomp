@@ -3,12 +3,12 @@
 
 #include "types.h"
 
-void call_si_polling_callback(s32 arg0, void *arg1);
-uaddr set_si_polling_callback(uaddr arg0);
+void call_si_polling_callback(s32 interrupt, void *context);
+uaddr set_si_polling_callback(uaddr callback);
 
 // --- C functions defined in text_803F1804.cpp ---
-void call_si_polling_callback(s32 arg0, void *arg1);
-uaddr set_si_polling_callback(uaddr arg0);
+void call_si_polling_callback(s32 interrupt, void *context);
+uaddr set_si_polling_callback(uaddr callback);
 // --- end of C functions
 
 #endif

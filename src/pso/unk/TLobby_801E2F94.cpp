@@ -477,21 +477,21 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 
 void TObjPlayer::render_tree(void *model) {
-    void *var_r31;
+    void *node;
 
-    var_r31 = model;
+    node = model;
     do {
         push_matrix();
-        compose_motion_node_matrix(var_r31);
+        compose_motion_node_matrix(node);
         if (chunk_model_node_callback != NULL) {
-            chunk_model_node_callback(static_cast<NJS_OBJECT *>(var_r31));
+            chunk_model_node_callback(static_cast<NJS_OBJECT *>(node));
         }
-        if ((u32) *(u32 *)((s8 *)var_r31 + 0x2C) != 0U) {
-            TObjPlayer::render_tree((void *)(*(void **)((s8 *)var_r31 + 0x2C)));
+        if ((u32) *(u32 *)((s8 *)node + 0x2C) != 0U) {
+            TObjPlayer::render_tree((void *)(*(void **)((s8 *)node + 0x2C)));
         }
         pop_matrix();
-        var_r31 = *(void **)((s8 *)var_r31 + 0x30);
-    } while (var_r31 != NULL);
+        node = *(void **)((s8 *)node + 0x30);
+    } while (node != NULL);
 }
 
 
@@ -512,9 +512,9 @@ void render_tick(void) {
 }
 
 s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size) {
-    s32 temp_r3;
-    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, buf);
-    if (temp_r3 >= 0) {
+    s32 result;
+    result = TLobby::adxf_open_file(id, (void *)name, 0, buf);
+    if (result >= 0) {
 loop_2:
         if (TLobby::read_afs_toc(id) != 3) {
             TLobby::run_disk_error_check();
@@ -526,13 +526,13 @@ loop_2:
             goto loop_2;
         }
     }
-    return temp_r3;
+    return result;
 }
 
 s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
-    s32 temp_r3;
-    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, buf);
-    if (temp_r3 >= 0) {
+    s32 result;
+    result = TLobby::adxf_open_file(id, (void *)name, 0, buf);
+    if (result >= 0) {
 loop_1:
         if (TLobby::read_afs_toc(id) != 3) {
             TLobby::run_disk_error_check();
@@ -541,7 +541,7 @@ loop_1:
             goto loop_1;
         }
     }
-    return temp_r3;
+    return result;
 }
 void bswap_16(u16 *val) {
     u32 v = *val;

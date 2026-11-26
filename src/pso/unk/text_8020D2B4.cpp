@@ -55,21 +55,21 @@ s32 find_set_factory_index(void *, void *);
 s32 is_battle_mode_running();
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
-void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
-void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
+void apply_room_transform(saddr pos, u8 *rotation, u8 *room);
+void resolve_set_row_factory_indices(void *manager, FloorObjectSetRow *rows, int count);
 s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
 void spawn_decorations_in_range(TSetManager *manager);
-void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2) {
+void apply_room_transform(saddr pos, u8 *rotation, u8 *room) {
     push_matrix_from(&identity_matrix.value);
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)arg2 + 4)), (f32) (*(f32 *)((s8 *)arg2 + 8)), (f32) (*(f32 *)((s8 *)arg2 + 0xC)));
-    rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg2 + 0x18)));
-    rotate_matrix_x(0, (int) (*(s32 *)((s8 *)arg2 + 0x10)));
-    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg2 + 0x14)));
-    matrix_mult_vec(0, (void *)arg0, (void *)arg0);
+    translate_matrix(0, (f32) (*(f32 *)((s8 *)room + 4)), (f32) (*(f32 *)((s8 *)room + 8)), (f32) (*(f32 *)((s8 *)room + 0xC)));
+    rotate_matrix_z(0, (int) (*(s32 *)((s8 *)room + 0x18)));
+    rotate_matrix_x(0, (int) (*(s32 *)((s8 *)room + 0x10)));
+    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)room + 0x14)));
+    matrix_mult_vec(0, (void *)pos, (void *)pos);
     pop_matrix();
-    *(s32 *)((s8 *)arg1 + 0) = (s32) (*(s32 *)((s8 *)arg1 + 0) + *(s32 *)((s8 *)arg2 + 0x10));
-    *(s32 *)((s8 *)arg1 + 4) = (s32) (*(s32 *)((s8 *)arg1 + 4) + *(s32 *)((s8 *)arg2 + 0x14));
-    *(s32 *)((s8 *)arg1 + 8) = (s32) (*(s32 *)((s8 *)arg1 + 8) + *(s32 *)((s8 *)arg2 + 0x18));
+    *(s32 *)((s8 *)rotation + 0) = (s32) (*(s32 *)((s8 *)rotation + 0) + *(s32 *)((s8 *)room + 0x10));
+    *(s32 *)((s8 *)rotation + 4) = (s32) (*(s32 *)((s8 *)rotation + 4) + *(s32 *)((s8 *)room + 0x14));
+    *(s32 *)((s8 *)rotation + 8) = (s32) (*(s32 *)((s8 *)rotation + 8) + *(s32 *)((s8 *)room + 0x18));
 }
 
 void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count) {
@@ -108,7 +108,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
     }
 }
 
-void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count) {
+void resolve_set_row_factory_indices(void *manager, FloorObjectSetRow *rows, int count) {
     ResolveSetRowFactoryIndicesOut o;
     FloorObjectSetRow *p;
     s32 i;
