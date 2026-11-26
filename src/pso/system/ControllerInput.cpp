@@ -8,8 +8,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/data/pso_date.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -25,6 +23,7 @@ s8 lbl_805D5D08;
 u8 controller_reset_requested;
 s8 keyboard_reset_button_pressed;
 s8 pad_recalibration_hold_frames[4];
+// <dolphin/dvd.h> would pull in libc/math.h and its sqrtf statics.
 extern "C" {
 BOOL DVDCheckDisk();
 }
@@ -40,12 +39,10 @@ ControllerInputState controller_input_state;
 ControllerInputState controller_physical_port_bank;
 u32 pad_recalibration_counters[4];
 
-extern "C" {
-
-void TKeyBoardControl::reset() { controller_reset_requested = 0; }
+void clear_controller_reset_request() { controller_reset_requested = 0; }
 
 
-s32 TKeyBoardControl::any_pad_input_active() {
+s32 any_pad_input_active() {
     s32 i;
     for (i = 0; i < 4; i++) {
         PadSlot *slot = controller_input_state.sources[i];
@@ -56,7 +53,7 @@ s32 TKeyBoardControl::any_pad_input_active() {
     return 0;
 }
 
-s32 TKeyBoardControl::check_reset_button() {
+s32 check_reset_button() {
     if (OSGetResetButtonState() != 0) {
         keyboard_reset_button_pressed = 1;
     }
@@ -70,7 +67,7 @@ s32 TKeyBoardControl::check_reset_button() {
     return 0;
 }
 
-s32 TKeyBoardControl__sub_801A58B0(void) {
+s32 is_keyboard_control_held(void) {
     return hardware_keyboard_state.sub_801321B4();
 }
 
@@ -78,21 +75,21 @@ s32 is_keyboard_shift_held(void) {
     return hardware_keyboard_state.is_shift_held();
 }
 
-s32 TKeyBoardControl::check_and_read(s32 key) {
+s32 keyboard_check_and_read(s32 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return TKeyBoardControl::is_key_down(key);
+        return keyboard_is_key_down(key);
     }
     return 0;
 }
 
-s32 TKeyBoardControl::read_input(u8 key) {
+s32 keyboard_read_input(u8 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return update_state_from_input(key);
+        return is_keyboard_key_pressed(key);
     }
     return 0;
 }
 
-s32 TKeyBoardControl::is_key_down(s32 key) {
+s32 keyboard_is_key_down(s32 key) {
     s32 i;
     s32 n;
     n = hardware_keyboard_state.get_pending_count();
@@ -104,7 +101,7 @@ s32 TKeyBoardControl::is_key_down(s32 key) {
     return 0;
 }
 
-s32 update_state_from_input(u8 key) {
+s32 is_keyboard_key_pressed(u8 key) {
     return hardware_keyboard_state.is_key_pressed(key);
 }
 
@@ -128,7 +125,6 @@ s32 StickEscapeDetector::check_input_angle() {
     }
     return 0;
 }
-}
 
 void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input) {
     if (input != NULL) {
@@ -144,7 +140,7 @@ StickEscapeDetector::StickEscapeDetector() {
     input = NULL;
 }
 
-s32 TKeyBoardControl::get_ascii_key() {
+s32 keyboard_get_ascii_key() {
   s32 shift_held;
   s32 result;
   u8 key;
@@ -249,7 +245,7 @@ void update_pad_recalibration(void) {
             pad_recalibration_counters[i] = 0;
         }
     }
-    if (TKeyBoardControl::check_reset_button() != 0) {
+    if (check_reset_button() != 0) {
         controller_reset_requested = 1;
         for (j = 0; j < 4; j++) {
             PADRecalibrate(channels[j]);
@@ -259,16 +255,16 @@ void update_pad_recalibration(void) {
 
 // Resets on the reset button while the disc is out; reports a pending reset unless a memory card is busy.
 s32 poll_reset_request(void) {
-    if ((DVDCheckDisk() == 0) && (TKeyBoardControl::check_reset_button() != 0)) {
+    if ((DVDCheckDisk() == 0) && (check_reset_button() != 0)) {
         reset_system();
     }
     return (memcard_access_active != 0) ? 0 : controller_reset_requested;
 }
 
-s32 TKeyBoardControl::read_key_checked(u8 key) {
-    return TKeyBoardControl::check_and_read((s32)(key));
+s32 keyboard_read_key_checked(u8 key) {
+    return keyboard_check_and_read((s32)(key));
 }
-void TKeyBoardControl::update_input_frame() {
+void update_keyboard_input_frame() {
     hardware_keyboard_state.sub_80132650();
     if (is_split_screen() == 0) {
         ControllerInputContext *keyboard = &controller_input_state.keyboard;
@@ -435,9 +431,6 @@ struct ControllerHoldFrameBlock {
     u32 words[7];
 };
 
-extern "C" {
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *destination, ControllerInputContext *source);
-
 void bind_controller_devices(void) {
     PadSlot *slot;
     PadSlot **sources;
@@ -518,14 +511,14 @@ void reset_controller_input_state(void) {
         pad->pressed_with_sticks = 0;
         pad++;
     }
-    copy_state__16TKeyBoardControlFPvPv(&controller_input_state.keyboard, controller_input_state.controllers);
-    TKeyBoardControl::reset();
+    copy_controller_input(&controller_input_state.keyboard, controller_input_state.controllers);
+    clear_controller_reset_request();
 }
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *destination, ControllerInputContext *source) {
+void copy_controller_input(ControllerInputContext *destination, ControllerInputContext *source) {
   ControllerInputContext *new_var;
   ControllerInputContext *new_var2;
   ControllerHoldFrameBlock *s;
@@ -552,7 +545,7 @@ void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *destination, Co
   new_var->pressed_with_sticks = source->pressed_with_sticks;
 }
 
-void TKeyBoardControl::init_pad_state() {
+void init_pad_state() {
     s32 i;
     for (i = 0; i < 4; i++) {
         pad_recalibration_counters[i] = 0;
@@ -576,7 +569,7 @@ s32 ControllerInputContext::poll_key_state() {
     buttons = 0;
     pressed_buttons = 0;
     for (i = 0; i < 6; i++) {
-        if (TKeyBoardControl::read_input((u8)keyboard_poll_key_codes[i]) != 0) {
+        if (keyboard_read_input((u8)keyboard_poll_key_codes[i]) != 0) {
             buttons |= TKeyBoardControl_key_bit_table[i];
         }
     }
@@ -587,7 +580,6 @@ s32 ControllerInputContext::poll_key_state() {
     held_with_sticks = buttons;
     pressed_with_sticks = pressed_buttons;
     return 0;
-}
 }
 
 #pragma pop
@@ -641,14 +633,14 @@ void map_main_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 pr
     }
 }
 
-void update_button_hold_counter(void *pad, void *counter, int mask, int held) {
-    s16 frames = *(s16 *)counter;
+void update_button_hold_counter(ControllerInputContext *pad, s16 *counter, s32 mask, s32 held) {
+    s16 frames = *counter;
     if (held & mask) {
         frames++;
     } else {
         frames = 0;
     }
-    *(s16 *)counter = frames;
+    *counter = frames;
 }
 
 void update_button_hold_counters(ControllerInputContext *pad) {
@@ -668,64 +660,56 @@ void update_button_hold_counters(ControllerInputContext *pad) {
     update_button_hold_counter(pad, &pad->hold_frames[13], 0x10000, pad->held_with_sticks);
 }
 
-s32 TRaderMapCore::pack_color_bits(ControllerInputContext *pad, s32 mask) {
+s32 all_direction_mask(ControllerInputContext *pad, s32 mask) {
     s32 bits = mask | ((mask << 0x10) & 0xF00000);
     return bits | ((bits << 0x16) & 0x3C000000);
 }
 
-extern "C" {
-
-s32 TRaderMapCore__sub_801A6D00(ControllerInputContext *pad, s32 mask) {
+s32 cstick_direction_mask(ControllerInputContext *pad, s32 mask) {
     return (mask & 0xFFFFFF0F) | ((mask << 0x16) & 0x3C000000);
 }
 
-s32 pack_button_mask(s32 pad, s32 mask) {
+s32 pack_button_mask(ControllerInputContext *pad, s32 mask) {
     return (mask & 0xFF0FFFFF) | ((mask << 0x16) & 0x3C000000);
-}
 }
 
 s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask) {
-    return (pad->not_held & pack_button_mask((saddr)pad, mask)) != 0;
+    return (pad->not_held & pack_button_mask(pad, mask)) != 0;
 }
-extern "C" {
-
 s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
-    return (pad->pressed_with_sticks & TRaderMapCore::pack_color_bits(pad, mask)) != 0;
+    return (pad->pressed_with_sticks & all_direction_mask(pad, mask)) != 0;
 }
 
 s32 test_pressed_buttons_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->pressed_with_sticks & pack_button_mask((saddr)pad, mask)) != 0;
+    ControllerInputContext *context = (ControllerInputContext *)pad;
+    return (context->pressed_with_sticks & pack_button_mask(context, mask)) != 0;
 }
 
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
-    return (pad->held_with_sticks & TRaderMapCore::pack_color_bits(pad, mask)) != 0;
+    return (pad->held_with_sticks & all_direction_mask(pad, mask)) != 0;
 }
 
 s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
-    return (pad->held_with_sticks & TRaderMapCore__sub_801A6D00(pad, mask)) != 0;
+    return (pad->held_with_sticks & cstick_direction_mask(pad, mask)) != 0;
 }
-
 s32 test_previous_buttons_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->held_with_sticks & pack_button_mask((saddr)pad, mask)) != 0;
-}
+    ControllerInputContext *context = (ControllerInputContext *)pad;
+    return (context->held_with_sticks & pack_button_mask(context, mask)) != 0;
 }
 
-s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {
-    u32 mask = TRaderMapCore::pack_color_bits(input, buttons);
+s32 test_buttons_press_or_repeat_color(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {
+    u32 mask = all_direction_mask(input, buttons);
     return input_press_or_repeat(input, mask, delay, period);
 }
 
-s32 TRaderMapCore::apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period) {
+s32 test_buttons_repeat_packed(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {
     u32 mask = pack_button_mask(input, buttons);
-    return check_packed_flag_match((ControllerInputContext *)input, mask, delay, period);
+    return check_packed_flag_match(input, mask, delay, period);
 }
-
-extern "C" {
 
 s32 test_buttons_press_or_repeat(ControllerInputContext *pad, s32 buttons, s32 delay, s32 period) {
-    u32 mask = pack_button_mask((saddr)pad, buttons);
+    u32 mask = pack_button_mask(pad, buttons);
     return input_press_or_repeat(pad, mask, delay, period);
-}
 }
 
 s32 check_packed_flag_match(ControllerInputContext *pad, u32 mask, s32 delay, s32 period) {

@@ -2,7 +2,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyAncient03.h"
 #include "pso/network/client_id.h"
@@ -196,7 +196,7 @@ TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) 
     texlist = key_ancient03_texture_variants[0];
     model = key_ancient03_model_archive->models[0].model;
     view_range = 400.0f;
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     activate_range = 10.0f;
     if (get_main_phase() == 0xF || is_split_screen() == 1) {
         if (mode != KEY_MODE_NONE && set_params[1] < 0) {

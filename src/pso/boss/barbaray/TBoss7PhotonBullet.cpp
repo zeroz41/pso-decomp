@@ -15,13 +15,6 @@
 // The original emits code in reverse definition order, including the bullet and pad vtables.
 #pragma defer_codegen on
 
-struct Boss7PhotonLevel {
-    s32 shots;
-    s32 interval;
-    s32 spread;
-    f32 speed;
-};
-
 // The level table, hit-check arguments and class strings occupy consecutive .rodata.
 extern const Boss7PhotonLevel boss7_photon_bullet_level_table[3] = {
     {3, 1, 0x3000, 3.5f},

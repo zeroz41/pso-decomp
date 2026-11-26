@@ -18,6 +18,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
 #include "libc/ctype.h"
+#include "pso/network/LobbyName.h"
 
 #pragma readonly_strings on
 
@@ -103,13 +104,13 @@ void reset_challenge_map() {
 }
 
 void show_challenge_dead_player_list() {
-    if ((is_challenge_mode() != 0) && (TLobby::is_ready_to_draw() != 0) && (challenge_task != NULL)) {
+    if ((is_challenge_mode() != 0) && (is_ready_to_draw() != 0) && (challenge_task != NULL)) {
         TObjDeadListWin::create(challenge_task);
     }
 }
 
 void create_challenge_retry_menu() {
-    if ((is_challenge_mode() != 0) && (TLobby::is_ready_to_draw() != 0) && (challenge_task != NULL)) {
+    if ((is_challenge_mode() != 0) && (is_ready_to_draw() != 0) && (challenge_task != NULL)) {
         TObjChallengeRetry::create(challenge_task);
     }
 }

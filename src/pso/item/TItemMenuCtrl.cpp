@@ -1,4 +1,3 @@
-#include "pso/item/TItemMenuCtrl_80115A28.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -21,11 +20,11 @@ TItemMenuCtrl::~TItemMenuCtrl() {
 }
 
 
-const char *lbl_805D2C18 = "TItemMenuCtrl";
+const char *TItemMenuCtrl_name = "TItemMenuCtrl";
 
 TItemMenuCtrl::TItemMenuCtrl(TObject *parent) : TObject(parent) {
     TItemMenuCtrl::instance = this;
-    m_name = lbl_805D2C18;
+    m_name = TItemMenuCtrl_name;
 }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS

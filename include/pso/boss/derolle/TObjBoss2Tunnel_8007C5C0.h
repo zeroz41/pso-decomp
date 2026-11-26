@@ -3,7 +3,8 @@
 
 #include "types.h"
 
-extern "C" void draw_screen_snapshot(uaddr pos);
+// pos is the top-left corner (x, y); NULL draws at 192, 144.
+extern "C" void draw_screen_snapshot(f32 *pos);
 s32 save_screen_snapshot(void);
 
 #endif

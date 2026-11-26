@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/system/TMemberCheck.h"
@@ -15,23 +14,21 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/render/NinjaUtil.h"
 
 
-extern "C" {
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
 
-    extern int hunter_guild_online_client_instance_table[];
-int get_online_client_instance(int a0) {  return hunter_guild_online_client_instance_table[a0]; }
+s32 get_online_client_instance(s32 client_id) { return hunter_guild_online_client_instance_table[client_id]; }
 
-    extern int hunter_guild_online_server_instance_table[];
-int get_online_server_instance(int a0) {  return hunter_guild_online_server_instance_table[a0]; }
+s32 get_online_server_instance(s32 client_id) { return hunter_guild_online_server_instance_table[client_id]; }
 
-void *THunterGuildSeqOffline::create(void *player) {
-    return new THunterGuildSeqOffline(tl_05, (TObjPlayer *)player);
+THunterGuildSeqOffline *THunterGuildSeqOffline::create(TObjPlayer *player) {
+    return new THunterGuildSeqOffline(tl_05, player);
 }
 
-int get_offline_instance(int a0) {  return THunterGuildSeqOffline::instance_table[a0]; }
+s32 get_offline_instance(s32 client_id) { return THunterGuildSeqOffline::instance_table[client_id]; }
 
 s32 is_near_designated_player(void) {
     TObjPlayer *player;
@@ -141,6 +138,4 @@ void TMemberCheck::open_member_name_window() {
             }
         }
     }
-}
-
 }

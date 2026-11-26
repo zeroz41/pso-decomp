@@ -47,7 +47,7 @@ s32 TObjEneDarkGunnerShot::check_player_hits(u16 id) {
                 DirectAttackPayload hit = {0, 0.0f};
                 hit.power = TObjEneDarkGunner::get_int_parameter(3);
                 target->receive_direct_attack(owner, hit, NULL, -1, -1);
-                target->apply_knockback_from_attacker((u8 *)owner, 3.0f);
+                target->apply_knockback_from_attacker(owner, 3.0f);
                 result = 1;
             }
         }
@@ -77,16 +77,16 @@ TObjEneDarkGunnerShot::~TObjEneDarkGunnerShot() {
     }
 }
 
-TObjEneDarkGunnerShot::TObjEneDarkGunnerShot(u8 *owner, saddr start, saddr target) : TObjCollidable(tl_04) {
+TObjEneDarkGunnerShot::TObjEneDarkGunnerShot(TObjEneDarkGunner *owner, Vec *start, Vec *target) : TObjCollidable(tl_04) {
     CsnHit *wall;
     init_collision_body_parts(this, dark_gunner_shot_collision_body, 1);
     bodies->radius = 0.75f * dark_gunner_shot_speed;
-    owner_id = ((TObjBase *)owner)->get_entity_id();
-    trail_particle_id = ((TObjEneDarkGunner *)owner)->is_death_gunner() != 0 ? 0xDA : 0xD5;
-    room = ((TObjBase *)owner)->room;
-    VecCopy(&position, (const Vec *)start);
-    VecCopy(&velocity, (const Vec *)target);
-    subtract_vector(&velocity, (const Vec *)start);
+    owner_id = owner->get_entity_id();
+    trail_particle_id = owner->is_death_gunner() != 0 ? 0xDA : 0xD5;
+    room = owner->room;
+    VecCopy(&position, start);
+    VecCopy(&velocity, target);
+    subtract_vector(&velocity, start);
     velocity.y = 0.0f;
     vec_set_length(&velocity, dark_gunner_shot_speed);
     trail_rotation[0] = 0;

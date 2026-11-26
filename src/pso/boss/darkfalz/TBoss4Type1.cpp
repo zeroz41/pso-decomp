@@ -2,8 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include <stdlib.h>
-#include "pso/system/BmlResource.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -306,7 +304,7 @@ void apply_tenchu_hits(TObject *source) {
             DirectAttackPayload h;
             h.kind = 0;
             h.power = power;
-            player->receive_direct_attack(source, h, 0, -1, -1);
+            player->receive_direct_attack((TObjBase *)source, h, 0, -1, -1);
         }
     }
     play_sound_effect(0x4003A818, 0, 0, 0);

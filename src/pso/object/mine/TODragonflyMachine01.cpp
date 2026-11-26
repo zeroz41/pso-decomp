@@ -110,7 +110,7 @@ void TODragonflyMachine01::render() {
             rotate_matrix_y(NULL, rotation_y);
             break;
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         node_index = 0;
         node_yaw = animation_yaw;
         set_chunk_model_node_callback(rotate_animated_node);
@@ -180,7 +180,7 @@ TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;
     view_range = 500.0f;
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     object_state = 0;
     bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
     bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));

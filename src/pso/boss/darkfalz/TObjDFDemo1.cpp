@@ -28,10 +28,10 @@
 #pragma defer_codegen on
 
 // TBoss4Type1's body models and TBoss4Zanzo's model table.
-extern s32 boss4_zanzo_bml_index_table[];
 #include "pso/render/model_render_state.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
+#include "pso/boss/darkfalz/TBoss4Zanzo.h"
 // Defined after the constructor: it follows the constructor's angle template in .rodata.
 extern const ModelNodeSpec df_demo1_strip_specs[6];
 
@@ -60,13 +60,13 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     res = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         int id = boss4_type1_model_ids[i];
-        body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        body_parts[i].model = get_bml_model(res, id);
         body_parts[i].texlist = get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, df_demo1_body_motion_ids[i]);
     }
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
-        zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        zanzo_parts[i].model = get_bml_model(res, id);
         zanzo_parts[i].texlist = get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, df_demo1_zanzo_motion_ids[i]);
     }

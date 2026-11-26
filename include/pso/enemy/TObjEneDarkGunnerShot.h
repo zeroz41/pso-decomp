@@ -4,13 +4,14 @@
 #include "pso/object/base/TObjMotion.h"
 
 class TParticleCtrl;
+struct TObjEneDarkGunner;
 
 // A shot of the Dark Gunner (TObjEneDarkGunner::update_attack fires it at its
 // target). It flies straight at the gunner's float parameter 3 per frame until
 // it hits a player or its range to the first wall runs out.
 class TObjEneDarkGunnerShot : public TObjCollidable {
 public:
-    TObjEneDarkGunnerShot(u8 *owner, saddr start, saddr target);
+    TObjEneDarkGunnerShot(TObjEneDarkGunner *owner, Vec *start, Vec *target);
     virtual ~TObjEneDarkGunnerShot();
     // Runs the collisions with the owner's bodies masked out; on a player
     // contact it deals int parameter 3 to every player hit and returns 1.

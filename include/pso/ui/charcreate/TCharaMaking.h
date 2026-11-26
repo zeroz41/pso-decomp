@@ -26,6 +26,7 @@ struct TCharaMaking : public TObject {
     static const char *name;
     TCharaMaking(TObject *parent);
     virtual ~TCharaMaking();
+    // The scene light's angles; update_light_direction turns them into its direction.
     u32 light_pitch;
     u32 light_yaw;
     static s32 query_state();
@@ -51,9 +52,9 @@ s32 get_current_char_flag();
 extern "C" {
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void);
 int TAdSinglePlyChrSelectGC__sub_8028DC1C(void *p);
+}
 CharacterAppearanceFields *get_creation_visual_record(void);
 void load_creation_visual_record(CharacterAppearanceFields *record);
 void invalidate_creation_visual_record(void);
-void fn_8028DBC4(s32 _w0);
-}
+void reset_current_char_appearance(s32 _w0);
 #endif

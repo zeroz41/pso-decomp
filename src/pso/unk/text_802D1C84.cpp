@@ -4,6 +4,7 @@
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/memory.h"
 #include "pso/unk/text_802D1C84.h"
+#include "pso/render/psoLoadTexture.h"
 
 // Mericarol's 32x32 render target, registered as texture 0x18696.
 void *mericarol_render_texture_buffer;

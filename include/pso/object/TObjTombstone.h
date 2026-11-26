@@ -16,7 +16,7 @@ struct TObjTombstoneDropRates {
     f32 kind[6];
 };
 
-extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates);
+void set_tombstone_drop_rates(TObjTombstoneDropRates *rates);
 
 
 void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source);
@@ -62,10 +62,13 @@ struct TObjTombstone : public TObjCollidable {
     static void destroy();
     static void load_resources();
     static TObjTombstone *create(TObject *parent, s32 client, const TObjTombstoneRecord *record);
+    static TObjTombstone *create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
 };
 
 LAYOUT_ASSERT(TObjTombstone_size, sizeof(TObjTombstone) == 0x238);
 
 void handle_6x96(void);
+
+void reset_tombstone_values();
 
 #endif

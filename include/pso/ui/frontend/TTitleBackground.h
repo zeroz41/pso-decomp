@@ -23,11 +23,11 @@ void rotate_title_background_quad(s32 owner, u8 *quad, u8 *center, saddr angle, 
 void draw_title_background_pulse(s32 owner, f32 depth, s32 frame);
 void draw_title_rings(s32 owner, f32 depth, s32 frame);
 
-extern "C" {
-void TLobby__sub_80336E44(void);
-void TLobby__sub_80336E64(void);
-void TLobby__sub_80336E68(void);
-}
+// Hooks of lobby_load_callback_table: the lobby flags entry (cleared on load, nothing to release)
+// and the background's own entry; the empty ones do nothing.
+void free_lobby_global_flags();
+void free_title_background_resources();
+void load_title_background_resources();
 void clear_lobby_global_flags(void);
 
 struct TitlePulseQuad {

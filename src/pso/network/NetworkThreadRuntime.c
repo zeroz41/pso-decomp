@@ -526,9 +526,9 @@ s16 recv_ipv6cp_config_request(PppFsm *self, PppHeader *src, PppFrame *h)
   u8 pair[2];
   s16 state;
   s16 res;
-  Ipv6cpConfig *new_var;
-  new_var = self->opts;
-  m = new_var;
+  Ipv6cpConfig *opts;
+  opts = self->opts;
+  m = opts;
   cnt = src->len;
   state = 2;
   blk = 0;
@@ -702,7 +702,7 @@ static inline s32 ppp_option_type(s32 bit) {
 #pragma inline_depth(4)
 void append_masked_ipv6cp_options(PppFrame **self, Ipv6cpOptionSet *opts, s32 mask)
 {
-  s16 new_var;
+  s16 option_mask;
   s16 i;
   s32 m;
   if ((*self) == NULL)
@@ -713,7 +713,7 @@ void append_masked_ipv6cp_options(PppFrame **self, Ipv6cpOptionSet *opts, s32 ma
       return;
     }
   }
-  m = (new_var = (s16) mask);
+  m = (option_mask = (s16) mask);
   for (i = 1; i < 0x20; i++)
   {
     if (m & (1 << i))

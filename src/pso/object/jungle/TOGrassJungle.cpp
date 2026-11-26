@@ -4,7 +4,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "types.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/jungle/TOGrassJungle.h"

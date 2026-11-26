@@ -11,7 +11,6 @@
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/item/item_param.h"
 #include "pso/item/item_pmt.h"
-#include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/item/TItemData_8010EDA8.h"
@@ -40,7 +39,6 @@ typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode);
 }
 
 saddr TObjPlayer::get_item_pmt_entry(u8 index) {
@@ -205,9 +203,9 @@ ItemStatBoost *get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
     return item_pmt_tbl->stat_boosts;
 }
 
-s32 get_unit_attribute_index(u8 flags) {
-    if ((flags & 0x3F) && !(flags & 0x80)) {
-        return get_item_star_count(flags + 0x1CB);
+s32 get_weapon_special_star_count(u8 special) {
+    if ((special & 0x3F) && !(special & 0x80)) {
+        return get_item_star_count(special + 0x1CB);
     }
     return 0;
 }
@@ -363,7 +361,7 @@ u8 roll_weapon_special_for_stars(u8 stars) {
         c = 0;
         i = 1;
         do {
-            if (key == ((u8 (*)(u8))get_unit_attribute_index)((u8)i)) {
+            if (key == (u8)get_weapon_special_star_count(i)) {
                 if (c == n) {
                     result = (u8)i;
                     break;

@@ -21,6 +21,11 @@ public:
     virtual ~TGameListRow();
     virtual void update();
     virtual void render(WindowDrawContext *context);
+    void fill(s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mode, s8 episode, s32 index);
+    const char *get_difficulty_name(s8 difficulty);
+    const char *get_game_mode_name(s8 mode);
+    const char *get_episode_name(s8 episode);
+    int get_flag_4_bit();
 };
 
 LAYOUT_ASSERT(TGameListRow_size, sizeof(TGameListRow) == 0x28);

@@ -26,7 +26,6 @@ public:
 public:
     // Draws text with the menu font at (x, y). The floats come first: TAdEnterSerialAccessGC's
     // literal pool has 281.0f before "-" (separator calls), which only that argument order creates.
-    static void render_status_line(f32 x, f32 y, f32 scale, const char *text, u32 color);
     u8 *format_level_text(int level);
     // Hides all four lines (clears visible[]).
     void hide_all_entries();

@@ -32,7 +32,7 @@ NJS_OBJECT *re4_bit_model;
 NJS_TEXLIST *re4_bit_texture_list;
 const char *re4_bit_name = TObjEneRe4Bit__class_name_string;
 
-TObjEneRe4InitParams re4_bit_init_params = {225.0f, 0.0f, 0x600};
+EnemyMoveParams re4_bit_init_params = {225.0f, 0.0f, 0x600};
 CollisionBody re4_bit_model_node_desc = {{0.0f, 0.0f, 0.0f}, 2.0f, 0.0f, 0, 0x8003};
 
 __declspec(section ".data") player_stats *TObjEneRe4Bit_boss_handles[2];
@@ -40,9 +40,9 @@ __declspec(section ".data") AttackParams *TObjEneRe4Bit_attack_handles[2];
 __declspec(section ".data") ActorParamBlock *TObjEneRe4Bit_resistance_handles[2];
 __declspec(section ".data") void *TObjEneRe4Bit_behavior_params[2];
 
-void TObjEneRe4Bit::apply_defense_stat_status(void *) {  }
+void TObjEneRe4Bit::apply_defense_stat_status(StatStatusReceipt *) {  }
 
-void TObjEneRe4Bit::apply_attack_stat_status(void *) {  }
+void TObjEneRe4Bit::apply_attack_stat_status(StatStatusReceipt *) {  }
 
 void TObjEneRe4Bit::clear_harmful_statuses() {  }
 

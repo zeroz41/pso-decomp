@@ -2,7 +2,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/boss/darkfalz/TObjBs4CutAtk.h"
@@ -182,7 +181,7 @@ void TObjBs4CutAtk::run_task() {
     s32 hi;
     s32 i;
     TObjPlayer *player;
-    void *attacker;
+    TObjBase *attacker;
     u16 ang;
 
     lo = (u16)angle;
@@ -198,7 +197,7 @@ void TObjBs4CutAtk::run_task() {
         ang = (s32)(10430.38043493439 * atan2_float(-(player->position.x - 10000.0f), player->position.z));
         if (ang >= lo && ang < hi) {
             DirectAttackPayload hit;
-            attacker = m_up;
+            attacker = (TObjBase *)m_up;
             hit.kind = 0;
             hit.power = *(s16 *)TLobby::register_boss(0x38);
             player->receive_direct_attack(attacker, hit, NULL, -1, -1);
@@ -247,7 +246,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
         render_lists[i] = ModelNodePositionCapture::create(boss4_type3_effect_desc_ptr_table[i], node_positions[i]);
     }
     set_motion_packed_rotation();
-    body = (NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]);
+    body = get_bml_model(archive, boss4_type3_model_ids[0]);
     trail_samples[0] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     trail_samples[0]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[3].motions[0]), 0x16, 0x17);
     trails[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
@@ -388,7 +387,7 @@ void TBoss4Type3::run_task() {
     }
     p = new SampledMotionPoints(2, lim, lim, 0.6f);
     set_motion_packed_rotation();
-    p->sample((NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
+    p->sample(get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
     clear_motion_packed_rotation();
     e = p->lookup(lim);
     push_matrix();
@@ -1258,7 +1257,7 @@ void TBoss4Type3::update_dark_magic() {
                 v.y *= s;
                 v.z *= s;
                 vec3_add_to(&v, target);
-                TTecMegid::create((saddr)this, (saddr)&v, (saddr)target, level);
+                TTecMegid::create(this, &v, target, level);
             }
         }
         start_pad_rumble_all(0xC0, 0xF);

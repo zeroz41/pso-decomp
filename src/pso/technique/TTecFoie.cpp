@@ -139,12 +139,12 @@ void TTecFoie::apply_to_target(TObjChara *target) {
     queue_destruction();
 }
 
-void TTecFoie::create_ex(void *source, void *origin, void *aim, s32 level) {
-    new TTecFoie((saddr)source, (u8 *)origin, (u8 *)aim, level);
+void TTecFoie::create_ex(TObjBase *source, Vec *origin, Vec *aim, s32 level) {
+    new TTecFoie(source, origin, aim, level);
 }
 
-void TTecFoie::create(void *source, void *origin, s32 angle, s32 level) {
-    new TTecFoie((saddr)source, (Vec *)origin, angle, level);
+void TTecFoie::create(TObjBase *source, Vec *origin, s32 angle, s32 level) {
+    new TTecFoie(source, origin, angle, level);
 }
 TTecFoie::~TTecFoie() {
     for (u32 i = 0; i < TTecFoie::emitter_bands[band].count; ++i) {
@@ -158,7 +158,7 @@ void TTecFoie::render() {  }
 void TTecFoie::run_task() {
     u32 i;
     this->source = find_entity_by_id(sourceId);
-    if (this->source == 0) {
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
@@ -173,7 +173,7 @@ void TTecFoie::run_task() {
 }
 
 // The aimed form (create_ex): flies from `pos` towards `target`.
-TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
+TTecFoie::TTecFoie(TObjBase *source, Vec *pos, Vec *target, s32 level)
     : TTecShot(source, pos, target, level) {
     if (this->source != NULL) {
         sourceId = this->source->get_entity_id();
@@ -184,7 +184,7 @@ TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
 }
 
 // The facing form (create): flies along the y angle `angle`.
-TTecFoie::TTecFoie(saddr source, Vec *pos, s32 angle, s32 level)
+TTecFoie::TTecFoie(TObjBase *source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     m_name = TTecFoie::name;
     if (this->source != NULL) {

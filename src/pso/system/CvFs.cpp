@@ -18,11 +18,11 @@ extern TLobbyEntry cvfs_entry_table[];
 s32 cvfs_init_count;
 u32 cvfs_path_buffer[75];
 // CVFS version banner: the first string of this file's pool.
-char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";
+char *const volatile cvfs_version_pointer = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";
 s8 fs_default_device_name[12];
 TLobbyEntry cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
-extern const char lbl_805E0DA4[6] = "%s:%s";
+extern const char cvfs_device_path_format[6] = "%s:%s";
 extern "C" {
 
 inline void cvfs_split_path(char *dev, char *file, char *path) {
@@ -104,7 +104,7 @@ inline void cvfs_add_device_prefix(char *dev, char *file) {
     }
     if (need == 1) {
         strcpy((char *)cvfs_path_buffer, file);
-        sprintf(file, lbl_805E0DA4, dev, (char *)cvfs_path_buffer);
+        sprintf(file, cvfs_device_path_format, dev, (char *)cvfs_path_buffer);
     }
 }
 
@@ -695,7 +695,7 @@ void cvFsAddDev(char *name, CvFsDeviceFactory getif, s32 arg) {
     CvFsDeviceInterface *dev;
     u32 n;
     u32 i;
-    lbl_805E0DA0;
+    cvfs_version_pointer;
     if (name == NULL) {
         if (cvfs_completion_callback != NULL) {
             cvfs_completion_callback(cvfs_completion_context, "cvFsAddDev #1:illegal device name", 0);

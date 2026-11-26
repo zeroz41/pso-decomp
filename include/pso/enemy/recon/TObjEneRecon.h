@@ -9,14 +9,6 @@ class TParticleCtrl;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TObjEnemyColorFade.h"
 
-// What TObjEnemy::movementParameters points at for a Recon (recon_ai_parameters).
-struct ReconMoveParams {
-    f32 pad_00;
-    f32 move_speed;  // distance moved per frame (move_with_wall_slide_commit)
-    s32 turn_speed;  // largest heading change per frame
-    s32 pad_0C[4];
-};
-
 // The Recon parameter block TLobby::dispatch_shared_handler_a(0x42) hands out (recon_behavior_params).
 struct ReconParams {
     f32 collide_distance;  // distance update_collide_flag probes ahead with
@@ -81,7 +73,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void update_collide_flag();
     void set_flag2(f32 x, f32 z, f32 r);
     void set_orbit_destination(s32 angle);
-    void advance_field398();
+    void aim_above_target();
     void sync_height();
 
     s32 state_step;               // step inside the current action state

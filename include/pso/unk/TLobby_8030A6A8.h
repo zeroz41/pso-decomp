@@ -3,9 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
 s32 is_challenge_quest_active(void);
-}
 s32 get_game_play_mode(void);
 
 #endif

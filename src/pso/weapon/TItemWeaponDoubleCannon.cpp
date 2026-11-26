@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/item/TItem.h"
+#include "pso/item/item_pmt.h"
 #include "pso/weapon/TItemWeaponDoubleCannon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -20,7 +21,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/PlayerAttackController.h"
 
-extern "C" f32 *get_weapon_range_record(void *, s32);
 
 void TItemWeaponDoubleCannon::fire_special_shots() {
     CapturedTargetList *ext;
@@ -50,9 +50,9 @@ void TItemWeaponDoubleCannon::fire_special_shots() {
     if (found == 0) {
         Vec off;
         push_matrix_from(identity_matrix);
-        f32 *r1 = get_weapon_range_record(this, 2);
+        WeaponRangeRecord *range = get_weapon_range_record(this, 2);
         off.x = off.y = 0.0f;
-        off.z = *r1;
+        off.z = range->reach;
         rotate_matrix_y(0, owner->rotation_y);
         transform_point_by_current_matrix(&off.x, &dst);
         pop_matrix();
@@ -81,14 +81,14 @@ void TItemWeaponDoubleCannon::fire_special_shots() {
         }
     }
     {
-        f32 *rec = get_weapon_range_record(this, 2);
+        WeaponRangeRecord *range = get_weapon_range_record(this, 2);
         s32 ang = owner->rotation_y;
         Vec o;
         Vec v;
         for (i = 0; i != 4; i++, ang += 0x4000) {
             push_matrix_from(identity_matrix);
             v.x = v.y = 0.0f;
-            v.z = *rec;
+            v.z = range->reach;
             rotate_matrix_y(0, ang);
             transform_point_by_current_matrix(&v.x, &o);
             vec3_add_to(&o, pos);
@@ -103,7 +103,7 @@ void TItemWeaponDoubleCannon::fire_special_shots() {
 }
 void TItemWeaponDoubleCannon::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        if (((TObjPlayer *)&owner->attack_state)->get_stage_strike_count() == 0) {
+        if (owner->attack_state.get_hit_count() == 0) {
             drain_owner_hp_fraction(0.05f);
             fire_special_shots();
         }
@@ -115,7 +115,7 @@ void TItemWeaponDoubleCannon::emit_marker_effects() {
 void TItemWeaponDoubleCannon::transform_model_node() {
     s32 player_list;
 
-    player_list = TObjPlayer::get_player_list();
+    player_list = get_model_node_counter();
     switch (player_list) {
     case 1:
         TItem::begin_effect_render();
@@ -150,5 +150,5 @@ TItem *TItemWeaponDoubleCannon::create(u8 *item) {
 }
 
 
-s16 TObjPlayer::get_stage_strike_count() { return ((s16 *)this)[9]; }
+s16 PlayerAttackController::get_hit_count() { return hit_count; }
 

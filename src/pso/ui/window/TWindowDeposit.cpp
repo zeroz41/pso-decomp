@@ -3,7 +3,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -20,14 +20,6 @@
 void TWindowDeposit::set_meseta(s32 meseta) {
     *(s32 *)((s8 *)get_array_entry(1) + 0x20) = meseta;
 }
-
-// inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
-struct DepositWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    ValueLayoutRecord rec_1;
-};
 
 DepositWindowLayout window_deposit_layout_entries = {
     2, 1,
@@ -73,7 +65,7 @@ TWindowDeposit::TWindowDeposit(s16 client)
     amount = (TWindowLayoutRect *)get_array_entry(1);
     set_text_entry_string(label, text, 0);
     amount->x = 96.0f + (12.0f + (8.0f + text_width));
-    target_size[0] = TWindowSubStatusDisp::get_base_y(width);
+    target_size[0] = get_base_y(width);
     save_position();
     if (TCameraCtrl::get_camera_id() > 2) {
         scale[0] = 0.75f;

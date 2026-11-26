@@ -38,9 +38,8 @@ public:
 
 LAYOUT_ASSERT(TItemAttacker_size, sizeof(TItemAttacker) == 0x50);
 
-extern "C" {
-void TItemAttacker__sub_8010349C(TObject *attacker);
-}
+// Timer callback: delivers the attacker's delayed weapon hit.
+void deliver_attacker_timer_hit(TObject *attacker);
 // Releases item_buff_buffer back to the temporary buffer or the heap.
 void free_item_buff();
 extern s32 item_buffer_temp_mode;

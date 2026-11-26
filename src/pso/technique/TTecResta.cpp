@@ -48,7 +48,7 @@ void TTecReverser::apply_to_target(TObjChara *target) {
     new TDelayedSoundEffect(&target->position, 0x2D, 0x4002AD13, tl_07);
 }
 
-TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecResta::TTecResta(TObjBase *owner, Vec *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
     m_name = class_name;
     use_targets = 0;
@@ -57,8 +57,8 @@ TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.range;
     }
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
     if (show_effects != 0) {
         init_cast();
@@ -68,18 +68,18 @@ TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
 
 #pragma push
 #pragma opt_common_subs off
-TTecResta::TTecResta(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecResta::TTecResta(TObjBase *owner, Vec *pos, TargetCursorList *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
     m_name = class_name;
     use_targets = 1;
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    copy_technique_target_list(&targets, target_list);
     init_parameters();
     t = target;
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.range;
     }
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
     if (show_effects != 0) {
         init_cast();
@@ -93,10 +93,10 @@ TTecResta::~TTecResta() {
 }
 
 void TTecResta::run_task() {
-    uaddr member;
+    TObjCollidable *member;
     s32 i;
     source = find_entity_by_id(sourceId);
-    if (TTecLuker::is_parents_unqueued((uaddr)source) == 0) {
+    if (TTecLuker::is_parents_unqueued(source) == 0) {
         queue_destruction();
         return;
     }
@@ -107,7 +107,7 @@ void TTecResta::run_task() {
             apply_to_player((TObjPlayer *)source);
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
-                    member = (uaddr)find_entity_by_id(targets.records[i].id);
+                    member = find_entity_by_id(targets.records[i].id);
                     if (TTecLuker::is_parents_unqueued(member) != 0) {
                         apply_to_player((TObjPlayer *)member);
                     }
@@ -139,7 +139,7 @@ void TTecResta::apply_to_player(TObjPlayer *player) {
     player->receive_direct_attack(source, hit, 0, 0xF, -1);
     if (source->get_entity_id() == player->get_entity_id()) {
         if (show_effects != 0) {
-            new TTecRestaEff(&player->body_center, (saddr)source, tl_07);
+            new TTecRestaEff(&player->body_center, source, tl_07);
         }
     } else if (show_effects != 0) {
         TParticleCtrl *e = spawn_particle_effect_with_flags(&player->body_center, 0x1F6, 0x10);
@@ -157,17 +157,17 @@ void TTecResta::apply_to_player(TObjPlayer *player) {
 }
 #pragma pop
 
-void TTecResta::create(void *owner, void *pos, s32 level) {
+void TTecResta::create(TObjBase *owner, Vec *pos, s32 level) {
     new TTecResta(owner, pos, level);
 }
 
-void TTecResta::create(void *source, void *origin, void *targets, s32 level) {
+void TTecResta::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
     new TTecResta(source, origin, targets, level);
 }
 
 #pragma push
 #pragma opt_common_subs off
-TTecRestaEff::TTecRestaEff(Vec *pos, s32 owner, TObject *parent) : TObject(parent) {
+TTecRestaEff::TTecRestaEff(Vec *pos, TObjBase *owner, TObject *parent) : TObject(parent) {
     Vec v;
     s32 i;
     RecoveryEffectRow *row;
@@ -188,7 +188,7 @@ TTecRestaEff::TTecRestaEff(Vec *pos, s32 owner, TObject *parent) : TObject(paren
             m_emitters[i] = create_timed_particle_emitter_with_flags(&v, row->entry, row->delay, row->duration, 0x10);
         }
         if (m_emitters[i] != 0) {
-            m_emitters[i]->set_owner_id(((TObjBase *)(saddr)(m_owner))->get_entity_id());
+            m_emitters[i]->set_owner_id(m_owner->get_entity_id());
         }
     }
 }

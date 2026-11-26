@@ -6,8 +6,9 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -39,7 +40,7 @@
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/unk/TLobby_80300098.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -58,7 +59,7 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
+#include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/network/protocol/choice_search.h"
@@ -68,7 +69,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
+#include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/warp/ForestWarpResources.h"
@@ -82,19 +83,16 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/render/gjSystem.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/unk/text_800FA260.h"
 #include "pso/unk/TLobby_801F3A24.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/door/TODoorJungleMain.h"
 #include "pso/network/TProtocol.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/system/scene/TScene.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/npc/NpcPartnerControl.h"
@@ -103,8 +101,8 @@
 #include "pso/quest/QuestStoryFlags.h"
 
 
-void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
-void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void TLobby::shutdown_keyboard_control() { clear_controller_reset_request(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
 void TLobby__sub_801A2DF4(void) {  }
 void TLobby__sub_801A2DF8(void) {  }
 void TLobby__sub_801A2DFC(void) {  }
@@ -196,7 +194,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {prepare_adventure_maps, release_adventure_maps},
     {clear_story_flag_list_and_reload, clear_story_flag_list},
     {start_challenge_mode, NULL},
-    {load_tombstone_resources, TLobby::destroy_tombstone},
+    {load_tombstone_resources, destroy_tombstone},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
@@ -212,10 +210,10 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
-    {TLobby::create_heap_8000, TLobby::free_heap},
+    {create_area_event_set_heap, free_area_event_set_heap},
     {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
     {TLobby::load_set_gsl_files, clear_map_set_data},
-    {TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state},
+    {load_area_event_sets, (FloorResourceCallback)free_area_event_sets},
     {alloc_work_buffer, free_deferred_packet_buffer},
     {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
     {load_word_select_data, TWindowDD::free_buffers},
@@ -224,16 +222,16 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
     {TQuestThread::clear_all_floor_handlers, clear_quest_floor_handlers},
     {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
-    {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
+    {clear_short_mail_on_load, clear_short_mail_on_unload},
     {(FloorResourceCallback)reset_auto_reply_flags_callback, (FloorResourceCallback)clear_auto_reply_flags},
-    {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
+    {reset_info_board_on_load, reset_info_board_on_unload},
     {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
     {reset_com_card_list_callback, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
     {init_char_slots, free_char_slots},
     {init_jungle_key_slots, unload_jungle_key_slots},
-    {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
+    {reset_trade_state_on_scene_load, reset_trade_state_on_scene_unload},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
     {TBGMulti__ct, TLobby::release_bg_multi_textures},
     {clear_boss6_player_snapshots, NULL},
@@ -273,7 +271,7 @@ void TLobby::reload_offline_area() {
     promote_area_floor(&floor_transition_state);
     TLobby::backup_story_select();
     TKeyBoardControl::update();
-    TLobby::get_team_state();
+    free_area_event_sets();
     clear_floor_population();
     TLobby__sub_80207E48();
     TLobby::create_map_csn_ctrl();
@@ -282,7 +280,7 @@ void TLobby::reload_offline_area() {
     TLoadCtrl::start_loading(1);
     reset_enemy_and_object_ids();
     TLobby::load_set_gsl_files();
-    TLobby::load_set_event_gsl();
+    load_area_event_sets();
     load_battle_param_entry();
     initialize_floor_transition(&floor_transition_state, 0, 0);
     load_area_scene_and_init((u8 *)&floor_transition_state);
@@ -331,7 +329,7 @@ void TLobby::rebuild_area_keep_players() {
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
     TLobby::reset_quest_state();
-    TLobby::get_team_state();
+    free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
@@ -443,7 +441,7 @@ void TLobby::teardown_scene() {
 void run_offline_game_frame(void) {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     debug_printf("Condition E%d", enemy_condition_count * 0xC);
     debug_printf("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {
@@ -475,7 +473,7 @@ void run_offline_game_frame(void) {
 void run_offline_transfer_frame(void) {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     debug_printf("Condition E%d", enemy_condition_count * 0xC);
     debug_printf("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {

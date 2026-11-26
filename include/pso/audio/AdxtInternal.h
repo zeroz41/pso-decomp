@@ -81,7 +81,7 @@ LAYOUT_ASSERT(AdxtPlayer_played_samples_offset, offsetof(AdxtPlayer, played_samp
 typedef void (*AdxtStopHook)(void);
 
 void stop_audio_stream(AdxtPlayer *player);
-void set_field_40_and_notify(AdxtPlayer *player, s32 volume);
+void adxt_set_output_vol(AdxtPlayer *player, s32 volume);
 
 extern "C" {
 void configure_audio_stream_output(AdxtPlayer *player);
@@ -92,7 +92,7 @@ void ADXT_StartFname(AdxtPlayer *player, const char *name);
 void set_sync_mode_flag(AdxtPlayer *player, s8 flag);
 s32 get_error_code(AdxtPlayer *player);
 void set_auto_repeat(AdxtPlayer *player, s8 flag);
-s32 apply_if_v2(AdxtPlayer *player);
+s32 adxt_get_sample_rate(AdxtPlayer *player);
 }
 
 #endif

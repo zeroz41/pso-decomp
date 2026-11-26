@@ -21,8 +21,8 @@
 
 const char *tec_jelin_class_name_ptr = "TTecJelin";
 
-void TTecJelin::create(void *caster, Vec *pos, TargetCursorList *targets, s32 level) {
-    new TTecJelin((saddr)caster, pos, targets, level);
+void TTecJelin::create(TObjBase *caster, Vec *pos, TargetCursorList *targets, s32 level) {
+    new TTecJelin(caster, pos, targets, level);
 }
 
 
@@ -40,24 +40,24 @@ void TTecJelin::apply_to_target(TObjChara *target) {
     target->receive_direct_attack(this->source, hit, this->contact, 0xb, -1);
 }
 
-void TTecJelin::create(void *source, Vec *pos, Vec *target, s32 level) {
-    new TTecJelin((saddr)source, pos, target, level);
+void TTecJelin::create(TObjBase *source, Vec *pos, Vec *target, s32 level) {
+    new TTecJelin(source, pos, target, level);
 }
 void TTecJelin::render() {  }
 
 void TTecJelin::run_task() {
     s32 i;
-    uaddr id;
+    TObjCollidable *target;
     source = find_entity_by_id(sourceId);
-    if (source == 0) {
+    if (source == NULL) {
         queue_destruction();
         return;
     }
     if (has_targets != 0) {
         for (i = 0; i < targets.count; i++) {
-            id = (uaddr)find_entity_by_id(targets.records[i].id);
-            if (TTecLuker::is_parents_unqueued(id) != 0) {
-                apply_to_target((TObjChara *)id);
+            target = find_entity_by_id(targets.records[i].id);
+            if (TTecLuker::is_parents_unqueued(target) != 0) {
+                apply_to_target((TObjChara *)target);
             }
         }
     } else {
@@ -70,7 +70,7 @@ TTecJelin::~TTecJelin() {
 
 }
 
-TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TTecCircle(source, (saddr)pos, level) {
+TTecJelin::TTecJelin(TObjBase *source, Vec *pos, TargetCursorList *list, s32 level) : TTecCircle(source, pos, level) {
     s32 r;
     m_name = tec_jelin_class_name_ptr;
     has_targets = 1;
@@ -100,12 +100,12 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         }
         break;
     }
-    if (this->source != 0) {
+    if (this->source != NULL) {
         sourceId = this->source->get_entity_id();
     }
 }
 
-TTecJelin::TTecJelin(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
+TTecJelin::TTecJelin(TObjBase *source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
     s32 r;
     m_name = tec_jelin_class_name_ptr;
     has_targets = 0;
@@ -134,7 +134,7 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         }
         break;
     }
-    if (this->source != 0) {
+    if (this->source != NULL) {
         sourceId = this->source->get_entity_id();
     }
 }

@@ -18,6 +18,7 @@ struct TWindowBreakIn;
 class TWindowChat;
 struct TWindowCtrlPlayer;
 struct TObjPlayer;
+class TPlyGuildCardTag;
 struct TWindowBreakIn;
 
 class TWindowFukidasi;
@@ -61,6 +62,13 @@ struct TWindowCtrl : public TObject {
     static s32 is_submit_cooldown_clear();
     static void update_focused();
     static s32 get_active_sub();
+    static s32 is_chat_window_in_use();
+    // Flag 0x10 is held while a quest board is open.
+    static void set_quest_board_open();
+    static void clear_quest_board_open();
+    // Flag 0x20 is held while the return-to-city prompt is open.
+    static void set_return_city_open();
+    static void clear_return_city_open();
     static void open_status_111();
     static void open_status_112();
     static void close_active_window();
@@ -76,6 +84,8 @@ struct TWindowCtrl : public TObject {
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
+    // The handle_06_recv_chat handler construct_lobby_players installs: opens the speaker's balloon.
+    static void handle_recv_chat(TPlyGuildCardTag &tag, char *message);
     static void suppress_all_slots();
     static void unsuppress_all_slots();
     static void suppress_slot(s32 client);
@@ -131,7 +141,7 @@ struct TWindowCtrl : public TObject {
     static void clear_flag_8();
     static void set_flag_bit0();
     static void clear_active_flag();
-    u8 unk_98[0x50];
+    u8 pad_98[0x50];
     static void set_flag_bit2();
     static void clear_flag_bit2();
     s32 is_flag_bit2_set();
@@ -149,10 +159,12 @@ LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 extern u16 short_mail_flags;
 
 void close_window_if_active(s32 client);
-
-class TPlyGuildCardTag;
-
-// The chat packet (06) handler.
-extern "C" void handle_recv_chat(TPlyGuildCardTag &tag, char *message);
+void update_timer_window(TWindowCtrl *ctrl);
+void complete_actor_speech_balloons(u16 id);
+s32 is_actor_speech_balloon_done(u16 id);
+saddr get_party_member_name(s32 n);
+s32 fn_8024C5C4(const TWindowChat *chat);
+void destroy_com_card_window(void);
+s32 is_player_input_active(s32 client);
 
 #endif

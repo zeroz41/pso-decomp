@@ -8,7 +8,7 @@
 struct TechniqueParams;
 
 struct TTecReverser : public TTecCircle {
-    TTecReverser(saddr owner, saddr origin, saddr targets, saddr level);
+    TTecReverser(TObjBase *owner, Vec *origin, TargetCursorList *targets, s32 level);
     virtual ~TTecReverser();
     // Takes speed and lifetime from the parameters and adds the level to their power.
     void apply_params(TechniqueParams *params, s32 level);
@@ -16,7 +16,7 @@ struct TTecReverser : public TTecCircle {
     virtual void run_task();
     TargetCursorList targets;
     virtual void render();
-    static void create(void *source, void *origin, void *targets, s32 level);
+    static void create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level);
 };
 
 LAYOUT_ASSERT(TTecReverser_size, sizeof(TTecReverser) == 0x148);

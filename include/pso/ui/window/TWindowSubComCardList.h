@@ -22,7 +22,7 @@ struct TWindowSubComCardList : public TWindowMenu {
     u32 card_count;
     u8 empty_message;
     virtual void run_task();
-    u8 unk_9D[0x3];
+    u8 pad_9D[0x3];
 };
 
 LAYOUT_ASSERT(TWindowSubComCardList_size, sizeof(TWindowSubComCardList) == 0xA0);

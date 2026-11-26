@@ -41,4 +41,13 @@ LAYOUT_ASSERT(TBoss3VoloptMonitor_size, sizeof(TBoss3VoloptMonitor) == 0x394);
 extern s8 volopt_target_slot_used[VOLOPT_MONITOR_SLOTS];
 extern Vec volopt_slot_positions[VOLOPT_MONITOR_SLOTS];
 
+struct BossStats {
+    u8 pad_0[0x6];
+    s16 hp;
+};
+struct MonitorStatTable {
+    u8 pad_0[0x18];
+    s32 hp[2];
+};
+
 #endif

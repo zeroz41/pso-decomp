@@ -71,7 +71,7 @@ TOBoss4Bird::TOBoss4Bird(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(model_resource, 0);
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     texlist = get_bml_texlist(model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
@@ -211,7 +211,7 @@ TOBoss4Rock::TOBoss4Rock(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     this->model = get_bml_model(model_resource, 1);
-    model_radius = ((GinjaModelBounds *)(this->model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)this->model->model)->radius;
     texlist = get_bml_texlist(model_resource, 1);
     spread = 50.0f + scale.x;
     if (scale.y < 0.0f) {

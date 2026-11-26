@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
@@ -24,7 +24,7 @@ void TKeyBoardControl::run_task() {
     if (flags & 1) {
         if (test_pressed_buttons_packed(&controller_input_state.controllers[port], 0x200) != 0) {
             flags = (u16)(flags & 0xFFFE);
-            m_hard->sub_8025EC04();
+            m_hard->reset_status_text();
             if (m_soft != NULL) {
                 m_soft->request_show();
             }
@@ -59,7 +59,7 @@ TKeyBoardControl::TKeyBoardControl(TObject *parent, u32 width, u32 lines, u8 mod
     m_base->init_keyboard_text_field(width, lines);
     m_base->set_flag62_bit8();
     m_hard = new TWindowKeyBoardHard(m_base);
-    m_hard->sub_8025EC04();
+    m_hard->reset_status_text();
     m_soft = new TWindowKeyBoardSoft(m_base, client);
     switch (mode) {
     case 0:

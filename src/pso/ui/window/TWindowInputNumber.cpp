@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/TWindowLayoutNumber.h"
@@ -9,8 +8,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -21,18 +19,11 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 const char *TWindowInputNumber::class_name = "TWindowInputNumber";
 // Value of one step at each digit position (1 .. 1000000).
 static const s32 number_input_decimal_place_values[7] = {1, 10, 100, 1000, 10000, 100000, 1000000};
-
-// inferred: window_input_number_layout_entries, the layout table window_input_number_layout points at.
-struct InputNumberWindowLayout {
-    u32 cols;
-    u32 rows;
-    ValueLayoutRecord rec_0;
-};
 
 InputNumberWindowLayout window_input_number_layout_entries = {
     1, 6,
@@ -170,7 +161,7 @@ void TWindowInputNumber::refresh_digit_entries() {
     do {
         entry = (TWindowLayoutNumber *)get_array_entry(i);
         entry->value = rest % 10;
-        draw_right_aligned_number(entry);
+        entry->calc_size();
         rest = rest / 10;
         i++;
     } while ((u32)i < 6U);
@@ -286,16 +277,16 @@ void TWindowInputNumber::run_task() {
             }
         } else {
             pad = &controller_input_state.controllers[port];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
                 self->update_value();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
                 self->update();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
                 self->move_cursor_next();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
                 self->handle_decrement();
             }
         }

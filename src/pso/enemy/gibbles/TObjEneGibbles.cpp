@@ -53,7 +53,6 @@ struct NJS_OBJECT;
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/EnemyMovement.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -120,7 +119,7 @@ const NpcAnimationBinding gibbles_resource_binding_desc = { NULL, gibbles_action
 const Vec lbl_80472768 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_80472774 = {0.0f, 0.0f, 0.0f};
 const Vec gibbles_joint_zero_vec = {0.0f, 0.0f, 0.0f};
-GibblesMoveParams gibbles_move_params = {
+EnemyMoveParams gibbles_move_params = {
     250.0f, 1.25f, 0x400, {0, 0x64, 0, 0},
 };
 CollisionBody gibbles_collision_bodies[3] = {
@@ -459,7 +458,7 @@ void TObjEneGibbles::refresh_target() {
         i = 0;
         best_id = 0xFFFF;
         Vec v = lbl_80472768;
-        best = ((GibblesMoveParams *)movementParameters)->radius * ((GibblesMoveParams *)movementParameters)->radius;
+        best = movementParameters->search_range * movementParameters->search_range;
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != (TObjChara *)this) {
@@ -509,7 +508,7 @@ void TObjEneGibbles::refresh_target() {
         best_id2 = best_id;
         best_p = NULL;
         i = 0;
-        best = ((GibblesMoveParams *)movementParameters)->radius * ((GibblesMoveParams *)movementParameters)->radius;
+        best = movementParameters->search_range * movementParameters->search_range;
         best2 = best;
         for (; i < registered_player_count; i++) {
             p = TObjPlayer::get_player_data(i);
@@ -646,7 +645,7 @@ void TObjEneGibbles::update_wander() {
     } else {
         status_flags &= 0xFFFFFFFB;
     }
-    enemy_wander_home(((GibblesMoveParams *)movementParameters)->speed, 100.0f, 100.0f, ((GibblesMoveParams *)movementParameters)->turn_speed);
+    enemy_wander_home(movementParameters->move_speed, 100.0f, 100.0f, movementParameters->turn_speed);
     refresh_collision_body_centers();
     check_object_collisions();
     check_enemy_body_collisions(this);
@@ -846,7 +845,7 @@ void TObjEneGibbles::state_chase_target() {
         {
             f32 speed = gibbles_ai_parameters->walk_speed;
             this->state_timer += speed;
-            enemy_move_toward(this, ((GibblesMoveParams *)movementParameters)->turn_speed, target->body_center, 0, speed);
+            enemy_move_toward(this, movementParameters->turn_speed, target->body_center, 0, speed);
         }
         d = horizontal_distance_squared(&move_destination, &position);
         ok = select_enemy_destination(this, target->body_center, 1);
@@ -863,7 +862,7 @@ void TObjEneGibbles::state_chase_target() {
             this->status_flags &= ~0x10;
         }
         {
-            f32 r = ((GibblesMoveParams *)movementParameters)->speed + this->bodies->radius;
+            f32 r = movementParameters->move_speed + this->bodies->radius;
             if (d < r * r) {
                 this->phase = 3;
             }
@@ -986,7 +985,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
                 if (d <= gibbles_combat_stat_entries[0]->get_damage_radius() * gibbles_combat_stat_entries[0]->get_damage_radius()) {
                     a.kind = 0;
                     a.power = gibbles_combat_stat_entries[0]->get_atp_min();
-                    p->apply_knockback_from_attacker((u8 *)this, p->receive_direct_attack(this, a, NULL, -1, -1));
+                    p->apply_knockback_from_attacker(this, p->receive_direct_attack(this, a, NULL, -1, -1));
                 }
             }
         }
@@ -1008,7 +1007,7 @@ s32 TObjEneGibbles::landing_damage_players() {
                 attack.kind = 0;
                 attack.power = gibbles_combat_stat_entries[1]->get_atp_min();
                 f32 res = pl->receive_direct_attack(this, attack, NULL, -1, -1);
-                pl->apply_knockback_from_attacker((u8 *)this, res);
+                pl->apply_knockback_from_attacker(this, res);
                 if (res > 0.0f) {
                     pl->set_actor_flags(0x600);
                 }
@@ -1051,7 +1050,7 @@ bool TObjEneGibbles::attack_from_joint_53(s32 trigger_hit_reaction, f32 power) {
                 attack.power = power;
                 power = target->receive_direct_attack(this, attack, NULL, -1, -1);
             }
-            target->apply_knockback_from_attacker((u8 *)this, power);
+            target->apply_knockback_from_attacker(this, power);
             if (trigger_hit_reaction == 1 && power > 0.0f) {
                 target->set_actor_flags(0x600);
                 armor = (s16)(armor + power);
@@ -1097,7 +1096,7 @@ bool TObjEneGibbles::attack_from_joint_31(s32 trigger_hit_reaction, f32 power) {
                 attack.power = power;
                 power = target->receive_direct_attack(this, attack, NULL, -1, -1);
             }
-            target->apply_knockback_from_attacker((u8 *)this, power);
+            target->apply_knockback_from_attacker(this, power);
             if (trigger_hit_reaction == 1 && power > 0.0f) {
                 target->set_actor_flags(0x600);
                 armor = (s16)(armor + power);
@@ -1138,7 +1137,7 @@ void TObjEneGibbles::state_attack() {
             s32 diff;
             VecCopy(&d, &target->body_center);
             subtract_vector(&d, &body_center);
-            diff = turn_toward_direction(((GibblesMoveParams *)movementParameters)->turn_speed, &d);
+            diff = turn_toward_direction(movementParameters->turn_speed, &d);
             if (!(actorFlags & 0x800000)) {
                 apply_actor_gravity(this, NULL, 0.0f);
             }
@@ -1149,7 +1148,7 @@ void TObjEneGibbles::state_attack() {
                 if (check_path_obstructed(this, &target->body_center) == 1) {
                     velocity.x = velocity.y = velocity.z = 0.0f;
                 } else {
-                    calc_velocity_toward_destination(this, body_center, target->body_center, ((GibblesMoveParams *)movementParameters)->speed);
+                    calc_velocity_toward_destination(this, body_center, target->body_center, movementParameters->move_speed);
                 }
             }
         }

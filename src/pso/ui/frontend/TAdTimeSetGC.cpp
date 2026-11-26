@@ -17,7 +17,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/ui/frontend/TAdTimeSetGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowBase.h"

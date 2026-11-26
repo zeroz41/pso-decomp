@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowTimer : public TWindowBase {
     TWindowTimer();
@@ -21,5 +22,13 @@ struct TWindowTimer : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowTimer_size, sizeof(TWindowTimer) == 0x64);
+
+// window_timer_layout_entries, the layout table window_timer_layout points at.
+struct TimerWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+};
+
 
 #endif

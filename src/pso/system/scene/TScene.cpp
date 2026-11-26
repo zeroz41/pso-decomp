@@ -490,7 +490,7 @@ void TScene::load_scene_data(saddr name) {
     void *lobby_buffer;
     void *buffer;
 
-    TObjButterflyLobby::alloc_scene_buffer();
+    alloc_wall_query_buffer();
     scene_collision_data = NULL;
     collision_file_buffer = NULL;
     collision_file_size_limit = 0;
@@ -515,7 +515,7 @@ void TScene::load_scene_data(saddr name) {
     }
     if ((scene_collision_data != NULL) && (TObjMapCsn::get_collision_controller() != NULL)) {
         TMapCsnCtrl *csn = TObjMapCsn::get_collision_controller();
-        collect_collision_groups(csn, *scene_collision_data);
+        csn->set_groups(*scene_collision_data);
         return;
     }
     TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
@@ -711,7 +711,7 @@ void TScene::free_scene_resources() {
         safe_free(buffer);
         collision_file_buffer = NULL;
     }
-    TObjButterflyLobby::free_singleton_805D4E6C();
+    free_wall_query_buffer();
     buffer = map_rel_load_buffer;
     if (buffer != NULL) {
         safe_free(buffer);
@@ -774,7 +774,7 @@ void load_scene_collision_file(saddr name) {
             scene_collision_data = (CsnGroup **)load_relocatable_file(filename, collision_file_buffer);
             if (scene_collision_data != NULL && TObjMapCsn::get_collision_controller() != NULL) {
                 TMapCsnCtrl *csn = TObjMapCsn::get_collision_controller();
-                collect_collision_groups(csn, *scene_collision_data);
+                csn->set_groups(*scene_collision_data);
                 return;
             }
             TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");

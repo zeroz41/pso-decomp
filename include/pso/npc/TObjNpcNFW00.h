@@ -11,7 +11,7 @@ struct TObjNpcNFW00 : public TObjNpcFemale {
     static void load_assets();
     static void *create(void *set_data);
     static const char *name;
-    static void **named_object_resource;
+    static NJS_OBJECT **named_object_resource;
     static NJS_TEXLIST *texture_gvm_handle;
 };
 

@@ -20,7 +20,7 @@ void TItemWeaponProphetsOfMotav::emit_marker_effects() {
         if (get_tp() == 0) {
             TTecJelin::create(owner, &owner->position, &owner->position, 4);
         } else {
-            TTecZarua::create_instance((saddr)owner, &owner->position, &owner->position, 4);
+            TTecZarua::create_instance(owner, &owner->position, &owner->position, 4);
         }
         roll_technique();
         return;

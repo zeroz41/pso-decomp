@@ -13,7 +13,7 @@
 
 // Slides the barrel back by barrel_offset (the name s_rank_bazooka_slide_barrel was inferred).
 void TItemWeaponSRankBazooka::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         translate_matrix(0, 0.0f, (-1.0f) * barrel_offset, 0.0f);
     }
 }
@@ -22,7 +22,7 @@ void TItemWeaponSRankBazooka::transform_model_node() {
 // slides back, throws a casing, then returns.
 void TItemWeaponSRankBazooka::update_weapon() {
     s32 ang;
-    WeaponVector v;
+    Vec v;
     s32 a[3];
     if (recoil_state == 1) {
         ::approach_value(&barrel_offset, (-0.5f), (-2.0f));

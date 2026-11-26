@@ -14,13 +14,6 @@ class AreaAttackHistory;
 class TAttackCollider;
 class TAttackTraceStrip;
 
-struct DelbiterInitialParameters {
-    f32 max_distance;
-    f32 min_distance;
-    s32 turn_speed;
-    u32 extra[4];
-};
-
 struct DelbiterMovementParameters {
     f32 rush_speed;
     f32 walk_speed;
@@ -116,7 +109,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     static void set_min_clamped_entry_value(s32 index, f32 speed);
     static void destroy_static_instance();
     static void load_resources();
-    static DelbiterInitialParameters param_table;
+    static EnemyMoveParams param_table;
 };
 
 LAYOUT_ASSERT(TObjEneDellBiter_size, sizeof(TObjEneDellBiter) == 0x4E4);

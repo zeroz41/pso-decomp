@@ -1,7 +1,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
-#include "pso/unk/TLobby_8036B204.h"
+#include "pso/ui/chat/TSymbolChatCapture.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/network/TLobby.h"
@@ -15,8 +15,8 @@ SymbolChatPreset symbol_chat_receive_buffer;
 
 extern "C" {
 void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command);
-s32 get_technique_name(s32 id) {
-    return (saddr)text_language_group_table[4][id];
+const char *get_technique_name(s32 id) {
+    return text_language_group_table[4][id];
 }
 void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command) {
     u32 *p;

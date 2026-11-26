@@ -15,20 +15,20 @@
 #include "pso/unk/text_8020AD40.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby_80209524.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 
 
 
 void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u32 byte_size);
-extern "C" {
-extern s16 quest_floor_designations[];
+s16 quest_floor_designations[0x14];
 u8 *quest_dat_buffer;
-}
 
 void TLobby::refresh_quest_list(const char *path) {
     u8 *quest;
@@ -124,15 +124,15 @@ void set_quest_floor_designation_ex(s16 mode, s32 floor, s32 area, s32 layout, s
     switch (mode) {
     case 0:
         set_floor_map_selection(floor, area, layout, 0);
-        ((s16 *) &quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     case 2:
         set_floor_map_selection(floor, area, layout, entities);
-        ((s16 *) &quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     case 1:
     case 3:
-        ((s16 *) &quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     default:
         return;
@@ -146,21 +146,21 @@ void set_quest_floor_designation(s16 mode, s32 floor, s32 terrain, s32 unused) {
     switch (mode) {
     case 0:
         set_floor_map_selection(floor, floor, terrain, 0);
-        ((s16 *)&quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     case 2:
         set_floor_map_selection(floor, floor, terrain, 0);
-        ((s16 *)&quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     case 1:
     case 3:
-        ((s16 *)&quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     }
 }
 
 void clear_quest_floor_designations(void) {
-    memset(&quest_floor_designations, 0, 0x24);
+    memset(quest_floor_designations, 0, 0x24);
 }
 
 void populate_quest_floor_sets(void) {
@@ -168,7 +168,7 @@ void populate_quest_floor_sets(void) {
     FloorMapSelection sel;
     TLobby::init_handle(0x8000);
     for (i = 0; i < 18; i++) {
-        switch (((s16 *)&quest_floor_designations)[i]) {
+        switch (quest_floor_designations[i]) {
         case 0:
             TLobby::handle_msg_type1(i);
             TLobby::handle_msg_type2(i);
@@ -214,7 +214,7 @@ bool load_quest_encounter_section(s32 floor) {
             bswap_32((u32 *)&record_floor);
             bswap_32((u32 *)&size);
             if ((type == 3) && (record_floor == floor)) {
-                return TLobby::add_player(record_floor, (saddr)(record + 1), size) != 0;
+                return add_floor_event_set(record_floor, (saddr)(record + 1), size) != 0;
             }
             if (type == 0) {
                 break;
@@ -224,9 +224,6 @@ bool load_quest_encounter_section(s32 floor) {
     }
     return 0;
 }
-extern "C" {
-
-s32 reserve_enemy_set_actor_ids(void *, u32, s32);
 
 s32 TLobby::handle_msg_type2(s32 floor) {
     s32 type;
@@ -249,7 +246,7 @@ s32 TLobby::handle_msg_type2(s32 floor) {
             if ((type == 2) && (record_floor == floor)) {
                 lobby = (u8 *)(record + 1);
                 ((TLobby *)lobby)->bswap_enemy_set_rows(size);
-                reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(record_floor));
+                reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)lobby, (u32) size / 72U, get_floor_area(record_floor));
                 TLobby::init_floor_enemy_count(record_floor, lobby, size);
                 return 1;
             }
@@ -297,7 +294,6 @@ s32 TLobby::handle_msg_type1(s32 floor) {
     return 0;
 }
 
-extern s32 evt2_random_enemies_mode;
 
 void TLobby::setup_quest_list() {
     map_set_object_id_counter = 0;
@@ -327,8 +323,6 @@ void TLobby::setup_quest_list() {
     enemy_condition_count = next_enemy_set_actor_id;
     get_total_object_set_count();
     TLobby::sum_floor_enemy_counts();
-}
-
 }
 
 void TLobby::update_and_reset(u8 *quest) {
@@ -374,4 +368,3 @@ void TLobby::init_id_tables() {
     }
 }
 
-s16 quest_floor_designations[0x14];

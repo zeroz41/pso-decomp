@@ -7,7 +7,7 @@
 #include "types.h"
 
 void TItemFollowEffect::run_task() {
-    s32 pos[5];
+    Vec pos;
     s32 found;
     saddr item;
 
@@ -20,8 +20,8 @@ void TItemFollowEffect::run_task() {
         item = (saddr)find_item_by_id(item_id);
         if ((item != 0) && (((TItem *)item)->get_mode() == 2)) {
             found = 1;
-            if (((TItemWeapon *)item)->get_joint_position(joint, pos) != 0) {
-                particle->set_position(pos);
+            if (((TItemWeapon *)item)->get_joint_position(joint, &pos) != 0) {
+                particle->set_position(&pos);
                 if ((((TItem *)item)->is_hidden() == 0) || (((TObjCollidable *)item)->test_actor_flags(0x08000000) == 0)) {
                     particle->clear_active_flag();
                 } else {

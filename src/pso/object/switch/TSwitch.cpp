@@ -47,8 +47,8 @@ u8 is_floor_switch_set(u32 id, s16 floor) {
 const char *switch_name = "TSwitch";
 
 
-u8 is_current_floor_switch_set(s32 id) {
-    return is_floor_switch_set((u32)id, (s16)((s16)((int) (get_current_floor()))));
+u8 is_current_floor_switch_set(u32 id) {
+    return is_floor_switch_set(id, (s16)((s16)((int) (get_current_floor()))));
 }
 
 void clear_floor_switch_flag(u32 id, s16 floor) {

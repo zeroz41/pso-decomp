@@ -18,7 +18,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 
 
 s32 opening_movie_selector = 1;
@@ -106,7 +106,7 @@ void fn_802A1154(void) {
 
 void update_movie_phase(void) {
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

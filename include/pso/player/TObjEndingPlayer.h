@@ -11,7 +11,7 @@ class TPlyCharData;
 // player from (inferred role: the ending sequence's player snapshot).
 // The weapon and mag copy_equipped_weapon_and_mag copies out of the inventory.
 struct EquippedWeaponAndMag {
-    TPlyInventoryItem items[2];  // TObjPlayer::assign_lobby_slot_if_flagged
+    TPlyInventoryItem items[2];  // TObjEndingPlayer::assign_lobby_slot_if_flagged
 
     EquippedWeaponAndMag();
 };
@@ -44,7 +44,13 @@ public:
     static TObjEndingPlayer *create(TPlyCharData *data);
     int set_position_from(void *pos);
     void set_animation_default(s16 index);
+    void set_animation_from_data(s32 picture);
+    void assign_lobby_slot_if_flagged(TPlyInventoryItem *item);
 };
 LAYOUT_ASSERT(TObjEndingPlayer_size, sizeof(TObjEndingPlayer) == 0xDB8);
+
+// The ending scene's load and release hooks for the players' motion data.
+void create_player_ending_motion();
+void free_player_ending_motion();
 
 #endif

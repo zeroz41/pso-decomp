@@ -49,6 +49,7 @@ struct SceneSectionAngles;
 
 struct TItem;
 class TPlyItem;
+class TItemList;
 class TPlayerLobbyMarker;
 class TPlyInventoryItem;
 struct TechniqueContactList;
@@ -164,7 +165,7 @@ struct TObjPlayer : public TObjChara {
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
     virtual void enemy_spawn_zalure_effect();
-    virtual f32 receive_physical_attack(void *attacker, f32 scale);
+    virtual f32 receive_physical_attack(TObjChara *attacker, f32 scale);
     virtual s32 update_poison_status();
     virtual s32 update_action_hold_status();
     virtual s32 update_flag30_timer();
@@ -198,6 +199,10 @@ struct TObjPlayer : public TObjChara {
     void load_action_motions(u16 entity_id);
     s16 get_ata();
     s16 get_dfp();
+    // Fire, dark and light resistance (element_resist 0, 3 and 4).
+    s16 get_efr();
+    s16 get_edk();
+    s16 get_elt();
     s16 obj_getS16_116();
     void set_hp_bonus(s16);
     void set_tp_bonus(s16);
@@ -213,7 +218,7 @@ struct TObjPlayer : public TObjChara {
     void render_shadows();
     void render();
     void run_task();
-    void *find_revival_item();
+    TItemList *find_revival_item();
     void request_inventory_item(TItemData* item);
     TPlyDispConfigSmth *select_action_palette(int secondary);
     s32 add_meseta(s32 amount);
@@ -383,12 +388,9 @@ struct TObjPlayer : public TObjChara {
     void copy_entry_bytes(void* q);
     WeaponAttribute *get_attribute_entry(s32 i);
     static f32 calc_distance_to_client(const TObjBase *actor, u16 client, Vec *delta);
-    // Element resistances (element_resist), named as in the item help window.
-    s16 get_efr();
+    // Thunder and ice resistance (element_resist 1 and 2), named as in the item help window.
     s16 get_eth();
     s16 get_eic();
-    s16 get_edk();
-    s16 get_elt();
     s32 get_floor();
     s32 is_on_current_floor();
     s32 get_area();
@@ -460,10 +462,7 @@ struct TObjPlayer : public TObjChara {
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();
     int test_flag30_bit0x100000();
-    static int get_player_list();
-    s16 get_stage_strike_count();
     static void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);
-    s32 is_rand_below_threshold();
     s16 get_kill_count();
     static void set_camera_mode(s32 camera_mode);
     s16 get_evp();
@@ -758,12 +757,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_valid_technique_slot(u8 slot);
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
-    static s32 get_level_tier(s32 level);
     static s32 is_valid_and_active(uaddr actor);
-    void init_select_txt();
-    void copy_lobby_header(saddr player);
-    void initialize_player_data();
-    void init_item_counts_max();
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
     static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();
@@ -789,7 +783,6 @@ struct TObjPlayer : public TObjChara {
     static void create_aux_object(s32 item_id, u32 *hit, saddr direction);
     static void create_network_object(s32 item_id, u32 *hit, saddr direction);
     void free_indexed_entry(s32 _w1);
-    static void update_battle_control_on_unlock(TObjPlayer *player, void *target, void *pos, s32 phase);
     static void create_cleanup_object(void *parent);
     static void free_static_buffer();
     static void alloc_and_run_object();
@@ -806,7 +799,6 @@ struct TObjPlayer : public TObjChara {
     static void spawn_appearance_effect(u16 client);
     // A weapon shot callback: news the shoot model that draws the shot.
     static saddr create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames);
-    static TItem *create_twin_chakram(u8 *item);
     static void spawn_weapon_casing(saddr parent, uaddr item, uaddr pos, uaddr velocity, uaddr angle);
     static void launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr velocity, uaddr angle);
     static void clear_photon_blast_slots();
@@ -817,15 +809,14 @@ struct TObjPlayer : public TObjChara {
     void init_idle_animation();
     static void create_active_players();
     static void refresh_player_lobby_headers();
-    static u8 *create_player_instance(s32 slot, PlayerCharDataEntry *player);
+    static TObjPlayer *create_player_instance(s32 slot, PlayerCharDataEntry *player);
     static void alloc_shared_buffers();
-    static s8 get_rule_field_0();
+    static s8 get_rules_active();
     static void draw_effect();
     void draw_trail_pair();
     static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
-    static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
     static void new_child_object(u16 player_id);
     int is_flag_b0_4();
     static u32 spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames);
@@ -875,7 +866,7 @@ struct TObjPlayer : public TObjChara {
     void send_enable_drop_weapon_on_death();
     void send_disable_drop_weapon_on_death();
     void send_level_up_all_techniques(u8 num_levels);
-    int get_field_828();
+    int is_pk_enabled();
     static void play_phase_transition_sound(saddr child);
     int check_flag_40000();
     s32 is_in_tl03_state();
@@ -1012,16 +1003,14 @@ struct TObjPlayer : public TObjChara {
     s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
     s32 can_use_palette_action(u8 kind, u8 arg);
-    static void set_animation_from_data(saddr player, s32 picture);
-    static void assign_lobby_slot_if_flagged(saddr player, void *records);
-    static void free_shared_lobby_data();
+    void process_trade_target(TItemData *item_data);
+    void trade_item_by_group_kind(s16 group, s16 kind);
     f32 select_normal_attack_marker();
     static void spawn_particle_at_entity_slot(s32 layer, s32 weapon, s32 id, s32 body);
     static void spawn_fire_explosion_for_item(s32 id, s32 item);
     static void spawn_fire_explosion_at_item(s32 id, saddr context);
     static void spawn_fire_explosion(uaddr a0, saddr a1);
     void push_model_fade_color();
-    static TItem *create_trade_action_state(u8 *item);
     static bool is_slot_within_limit(s32 cls, s32 tech, u8 level);
     s32 can_use_camera_field();
     void init_parts();
@@ -1138,7 +1127,7 @@ struct TObjPlayer : public TObjChara {
     void release_motion();
     void reset_body_parts();
     void set_regen_timer(s32 v);
-    void* get_position_history_entry(int index, void* x, void* z);
+    void get_position_history_entry(int index, f32 *x, f32 *z);
     s32 get_state_flags();
     int check_player_state_flag_2();
     static int default_action_provider_variant();

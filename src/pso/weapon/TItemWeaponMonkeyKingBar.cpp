@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponMonkeyKingBar.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItem.h"
@@ -25,7 +25,7 @@ void TItemWeaponMonkeyKingBar::update_attack() {
 }
 
 void TItemWeaponMonkeyKingBar::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 0) {
+    if (get_model_node_counter() == 0) {
         scale_current_matrix(&scale.x);
     }
 }

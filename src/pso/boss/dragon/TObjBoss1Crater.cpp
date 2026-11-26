@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/AreaAttackContact.h"
@@ -25,7 +25,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 
 
 BmlResource *dragon_ground_resource;

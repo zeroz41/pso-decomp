@@ -6,7 +6,10 @@
 #include "pso/ui/window/KeyboardTextBuffer.h"
 #include "pso/ui/window/WindowDrawContext.h"
 
+struct WindowDescriptor;
+
 struct TWindowKeyBoardBase : public TWindowBase {
+    static WindowDescriptor window_descriptor;
     TWindowKeyBoardBase();
     virtual ~TWindowKeyBoardBase();
     void init_keyboard_text_field(u32, u32);
@@ -60,7 +63,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     s32 get_state();
     void update_input_state();
     void key_none();
-    void sub_8025B92C();
+    void convert_composition();
     void key_end();
     void key_home();
     void key_enter();
@@ -92,6 +95,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void commit_composition_text();
     s32 measure_text_overflow();
     int is_key_state_2();
+    // Symbols, user-defined and half-width katakana characters the IME is not asked to convert.
     s32 has_unconvertible_char(u8 *text);
     void skip_ime_candidates(int count);
     // Adds the first IME conversion of text (requests 0x25, 0x26, 0x28, then 0x27)
@@ -107,7 +111,8 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void draw_composition_background(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count);
     void layout_wrapped_glyphs(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count, s32 scaled);
     void insert_party_member_name(s32 slot);
-    void sub_8025CC48();
+    // Japanese: composition flags from the player's keyboard options; other languages: fixed.
+    void load_input_mode_options();
     void update_close_mode();
     void reset_input();
     void flush_if_flagged();

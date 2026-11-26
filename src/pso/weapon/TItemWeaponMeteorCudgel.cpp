@@ -25,7 +25,7 @@ void TItemWeaponMeteorCudgel::update_attack() {
 }
 
 void TItemWeaponMeteorCudgel::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 0) {
+    if (get_model_node_counter() == 0) {
         scale_current_matrix(&scale.x);
     }
 }

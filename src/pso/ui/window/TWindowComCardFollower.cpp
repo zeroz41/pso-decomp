@@ -2,7 +2,6 @@
 #pragma defer_codegen on
 
 #include "pso/ui/window/WindowSpritePart.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"

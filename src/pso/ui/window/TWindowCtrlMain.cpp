@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -14,6 +13,7 @@
 #include "pso/ui/window/TWindowMessageInfomation.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -21,8 +21,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowChoiceSetting_80249610.h"
 #include "pso/unk/WindowControlState.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
-#include "pso/ui/window/TWindowCtrlMain_8024EEF8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_803DA798.h"
@@ -46,8 +44,6 @@
 
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/task/TMainTask.h"
@@ -66,20 +62,8 @@ TWindowCtrlScreen *TWindowCtrlMain::screen_controller;
 TWindowCtrlSub *TWindowCtrlMain::sub_controller;
 TWindowCtrlClipOut *window_clip_out_instance;
 f32 window_depth_order_cursor;
-struct VObj_8024C820 {
-    char pad[0x18];
-    virtual void m0(int);
-};
 void draw_viewport_fill(s32 viewport_index);
 WindowControlState TWindowCtrlMain::viewport_states[6];
-extern "C" {
-struct Poly_8024CE68 {
-    NJS_POINT2 *verts;
-    u32 *colors;
-    s32 flags;
-    s32 count;
-};
-}
 extern "C" s32 get_control_button_mask(s32 client_id);
 
 // -inline off,deferred: these sit at the end of the TU's text, so they come first in the source.
@@ -182,7 +166,7 @@ void TWindowCtrlPlayer::update_target_info_window() {
     if ((lock_on_window != NULL) && ((lock_on_window->all_parents_unqueued_for_destruction() == 0) || (lock_on_window->is_open_and_unblocked() == 0))) {
         lock_on_window = NULL;
     }
-    if ((is_lock_on_window_hidden() != 0) || (is_main_menu_open() != 0) || (is_suppressed() != 0) || (has_short_list() != 0) || (is_chat_window_in_use() != 0)) {
+    if ((is_lock_on_window_hidden() != 0) || (is_main_menu_open() != 0) || (is_suppressed() != 0) || (has_short_list() != 0) || (TWindowCtrl::is_chat_window_in_use() != 0)) {
         if (lock_on_window != NULL) {
             lock_on_window->close();
             lock_on_window = NULL;
@@ -308,34 +292,34 @@ s16 TKeyBoardControl::get_function_key_menu(void *menu) {
     if (is_split_screen() != 0) {
         return 0x1F;
     }
-    if (TKeyBoardControl__sub_801A58B0() != 0) {
+    if (is_keyboard_control_held() != 0) {
         return 0x1F;
     }
     if (is_keyboard_shift_held() == 0) {
         return 0x1F;
     }
-    if (TKeyBoardControl::is_key_down(0x44) != 0) {
+    if (keyboard_is_key_down(0x44) != 0) {
         return 0x13;
     }
-    if (TKeyBoardControl::is_key_down(0x45) != 0) {
+    if (keyboard_is_key_down(0x45) != 0) {
         return 0x15;
     }
-    if (TKeyBoardControl::is_key_down(0x46) != 0) {
+    if (keyboard_is_key_down(0x46) != 0) {
         return 0xE;
     }
-    if (TKeyBoardControl::is_key_down(0x47) != 0) {
+    if (keyboard_is_key_down(0x47) != 0) {
         return 0x1A;
     }
-    if (TKeyBoardControl::is_key_down(0x48) != 0) {
+    if (keyboard_is_key_down(0x48) != 0) {
         return 0x17;
     }
-    if (TKeyBoardControl::is_key_down(0x49) != 0) {
+    if (keyboard_is_key_down(0x49) != 0) {
         return 0xC;
     }
-    if (TKeyBoardControl::is_key_down(0x4A) != 0) {
+    if (keyboard_is_key_down(0x4A) != 0) {
         return 0xB;
     }
-    if (TKeyBoardControl::is_key_down(0x4B) != 0) {
+    if (keyboard_is_key_down(0x4B) != 0) {
         return 0;
     }
     return 0x1F;
@@ -424,7 +408,7 @@ void TWindowCtrlMain::free_all_windows() {
         TWindowCtrlMain::screen_controller = NULL;
     }
     for (i = 5; i >= 0; i--) {
-        TWindowCtrlMain::release_ptr((void **)&TWindowCtrlMain::viewport_states[i].window_root);
+        TWindowCtrlMain::release_ptr(&TWindowCtrlMain::viewport_states[i].window_root);
     }
     if (TWindowCtrlMain::instance != NULL) {
         delete TWindowCtrlMain::instance;
@@ -481,7 +465,7 @@ TWindowCtrlMain::~TWindowCtrlMain() {
         TWindowCtrlMain::screen_controller = NULL;
     }
     for (i = 5; i >= 0; i--) {
-        TWindowCtrlMain::release_ptr((void **)&TWindowCtrlMain::viewport_states[i].window_root);
+        TWindowCtrlMain::release_ptr(&TWindowCtrlMain::viewport_states[i].window_root);
     }
     if (TWindowCtrlMain::instance != NULL) {
         delete TWindowCtrlMain::instance;
@@ -505,39 +489,39 @@ void TWindowCtrlMain::render() {
 
 void draw_viewport_fill(s32 viewport_index) {
     NJS_POINT2 verts[4];
-    Poly_8024CE68 poly;
-    u32 colors[4];
+    NJS_POINT2COL poly;
+    NJS_COLOR colors[4];
     u32 color;
 
     color = get_window_control_state(viewport_index)->fill_color;
     if (color == 0) {
         return;
     }
-    poly.verts = verts;
-    poly.colors = colors;
-    poly.flags = 0;
-    poly.count = 4;
-    poly.verts[0].x = 0.0f;
-    poly.verts[0].y = 0.0f;
-    poly.colors[0] = color;
-    poly.verts[1].x = 640.0f;
-    poly.verts[1].y = 0.0f;
-    poly.colors[1] = color;
-    poly.verts[2].x = 640.0f;
-    poly.verts[2].y = 480.0f;
-    poly.colors[2] = color;
-    poly.verts[3].x = 0.0f;
-    poly.verts[3].y = 480.0f;
-    poly.colors[3] = color;
-    draw_polygon_2d((NJS_POINT2COL *)&poly, 4, 0x16, -10.0f);
+    poly.p = verts;
+    poly.col = colors;
+    poly.tex = NULL;
+    poly.num = 4;
+    poly.p[0].x = 0.0f;
+    poly.p[0].y = 0.0f;
+    poly.col[0].color = color;
+    poly.p[1].x = 640.0f;
+    poly.p[1].y = 0.0f;
+    poly.col[1].color = color;
+    poly.p[2].x = 640.0f;
+    poly.p[2].y = 480.0f;
+    poly.col[2].color = color;
+    poly.p[3].x = 0.0f;
+    poly.p[3].y = 480.0f;
+    poly.col[3].color = color;
+    draw_polygon_2d(&poly, 4, 0x16, -10.0f);
 }
 
 #pragma push
 #pragma fp_contract on
 void draw_menu_backdrop_gradients(s32 viewport_index) {
-    NJS_POINT2 verts[4];
+    ColorLineVertex verts[4];
     TexturedQuad q;
-    Poly_8024CE68 poly;
+    ColorLineList poly;
     u32 colors[4];
     ColorLineList line;
     ColorLineVertex lverts[2];
@@ -555,7 +539,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     }
     poly.verts = verts;
     poly.colors = colors;
-    poly.flags = 0;
+    poly.tex = NULL;
     poly.count = 4;
     colors[0] = 0xFF000000;
     colors[1] = 0xFF000000;
@@ -569,7 +553,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f;
     verts[3].x = 0.0f;
     verts[3].y = 480.0f;
-    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
+    poly.draw_strip_swap_color(4, 22, -10.0f);
 
     verts[0].x = 0.5f * s->left;
     verts[0].y = 480.0f - 0.5f * (480.0f - s->bottom);
@@ -579,7 +563,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f;
     verts[3].x = 0.5f * s->left;
     verts[3].y = 480.0f;
-    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
+    poly.draw_strip_swap_color(4, 22, -10.0f);
 
     colors[2] = 0;
     colors[3] = 0;
@@ -591,7 +575,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = 480.0f - 0.5f * (480.0f - s->bottom);
     verts[3].x = s->left;
     verts[3].y = 0.0f;
-    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
+    poly.draw_strip_swap_color(4, 22, -10.0f);
 
     verts[0].x = 0.5f * s->left;
     verts[0].y = 480.0f - 0.5f * (480.0f - s->bottom);
@@ -601,7 +585,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     verts[2].y = s->bottom;
     verts[3].x = 0.5f * s->left;
     verts[3].y = s->bottom;
-    reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
+    poly.draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
@@ -752,7 +736,7 @@ void TWindowCtrlMain::disable_display() {
     TWindowCtrlMain::display_flags |= 1;
 }
 
-f32 TWindowCtrlMain::get_scale() {
+f32 TWindowCtrlMain::get_scale(s32 viewport) {
     return window_depth_order_cursor;
 }
 
@@ -823,12 +807,10 @@ void WindowControlState::init() {
     bottom = 480.0f;
 }
 
-void TWindowCtrlMain::release_ptr(void **ptr) {
-    VObj_8024C820 *obj = (VObj_8024C820 *)*ptr;
+void TWindowCtrlMain::release_ptr(TObject **ptr) {
+    TObject *obj = *ptr;
     if (obj) {
-        if (obj) {
-            obj->m0(1);
-        }
+        delete obj;
         *ptr = NULL;
     }
 }

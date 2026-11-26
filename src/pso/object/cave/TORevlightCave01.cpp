@@ -38,12 +38,12 @@ void TORevlightCave01::render() {
         rotate_matrix_z(NULL, rotation_z);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        draw_ginja_model((model)->model);
+        set_texture_list(texlist);
+        draw_ginja_model(model->model);
         rotate_matrix_y(NULL, spin_angle);
-        draw_ginja_model((model)->child->model);
+        draw_ginja_model(model->child->model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((model)->child->child->model);
+        draw_ginja_model(model->child->child->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -76,7 +76,7 @@ TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObj
     animation_step = 0.8f;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     view_range = 500.0f;
-    model_radius = ((NJS_CNK_MODEL *)(model)->model)->r;
+    model_radius = ((NJS_CNK_MODEL *)model->model)->r;
     spin_angle = 0;
     spin_speed = (s32)(182.04445f * scale.x);
 }

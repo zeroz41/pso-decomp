@@ -10,7 +10,7 @@
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/network/client_id.h"
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -115,10 +115,7 @@ void update_music_stream_gain(s32 user) {
   music_stream_gain = (s32) (0.42333332f * ((f32) total));
   set_music_streams_volume(total);
 }
-extern "C" {
-
 void TTecRaFoie__sub_80226254(void) {  }
-}
 
 void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
     if ((sound_requests_enabled != 0) && (slot >= 0) && (slot < 0x28)) {
@@ -282,7 +279,6 @@ s32 play_persistent_sound(s32 id, const void *actor, const Vec *position, s32 vo
     }
     return idx;
 }
-extern "C" {
 s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
     s32 i;
     s32 idx;
@@ -328,7 +324,6 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
 }
 
 void TLobby::update_lobby_subsystems() { reset_sound_pitch_requests(); stop_cue_stream(); }
-
 // Dead-stripped from the DOL: no code of it survives. Minimal body: it clears the sound listener position the way
 // update_sound_request_slots does when there is neither a player nor a camera.
 // Name inferred from that role.
@@ -336,8 +331,6 @@ void clear_sound_listener_position(void) {
     sound_listener_position[2] = 0.0f;
     sound_listener_position[1] = 0.0f;
     sound_listener_position[0] = 0.0f;
-}
-
 }
 s32 check_sound_admission_range(const Vec *pos) {
     if (pos == NULL) {
@@ -407,7 +400,7 @@ void update_sound_request_slots(void) {
     }
 }
 
-int TLobby__sub_80226B64(void) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); TLobby__sub_80226308(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
+int TLobby__sub_80226B64(s32) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); TLobby__sub_80226308(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
 
 s32 reset_sound_request_state(void) {
     s32 i;

@@ -1,14 +1,13 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponPanthersClaw.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_80122F3C.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 
-void TItemWeaponPanthersClaw::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { scale_current_matrix(&scale.x); } }
+void TItemWeaponPanthersClaw::transform_model_node() { if (get_model_node_counter() == 1) { scale_current_matrix(&scale.x); } }
 
 void TItemWeaponPanthersClaw::update_idle() {
     if (1e-05f < scale.z) {

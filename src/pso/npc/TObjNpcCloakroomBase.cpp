@@ -59,7 +59,7 @@ TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *set_data) : TO
     this->setup_common();
 }
 
-f32 TObjNpcCloakroomBase::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+f32 TObjNpcCloakroomBase::receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32) {
     return 0.0f;
 }
 

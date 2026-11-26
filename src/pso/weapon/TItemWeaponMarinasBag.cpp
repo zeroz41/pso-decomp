@@ -7,11 +7,11 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponMarinasBag::emit_marker_effects() {
-    WeaponVector pos;
+    Vec pos;
 
     if (is_mode_two_and_ready() != 0) {
         get_joint_position(2, &pos);
-        spawn_particle_effect((const Vec *)&pos, 0x1BE);
+        spawn_particle_effect(&pos, 0x1BE);
     }
 }
 

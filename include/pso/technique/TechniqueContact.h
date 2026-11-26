@@ -3,7 +3,6 @@
 #include "types.h"
 
 struct TechniqueContactActor;
-struct TechniqueContactBody;
 class TObjCollidable;
 struct CollisionBody;
 
@@ -27,7 +26,7 @@ struct TechniqueContactProjectile {
     TechniqueContactVtable* vtable;
     TechniqueContactActor* source;
     u8 beforeBody[0xd8];
-    TechniqueContactBody* contact;
+    CollisionBody* contact;
     u8 beforeProxy[0x2c];
     TechniqueContactActor* proxy;
 };

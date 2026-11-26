@@ -74,7 +74,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static void deselect_slot(s32 slot);
     static s32 is_controller_connected(s32 port);
     static saddr get_last_selected_player();
-    s32 get_field_20();
+    s32 get_current_state();
     static TAdMultiPlyChrSelectGC *get_state();
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
     static saddr get_selected_slot();
@@ -144,7 +144,6 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TWindowMessageYesNo *yes_no_dialog;            // 0x94  create_yes_no_dialog, swap search prompt
     TWindowMessageYesNo *delete_prompt;            // 0x98  create_delete_prompt, choice menu entry 2
     s32 resumed;                                   // 0x9C  set by handle_event when returning to the scene
-    static s32 dispatch_draw_command(ControllerInputContext *input, s32 buttons, s32 delay, s32 period);
     void open_windows();
     void init_windows();
     void open_char_select();
@@ -159,5 +158,11 @@ LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_player_preview_offset, offsetof(TAdMultiPlyChrSelectGC, player_preview) == 0x60);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_unk_68_offset, offsetof(TAdMultiPlyChrSelectGC, a_slot) == 0x68);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_m_6c_offset, offsetof(TAdMultiPlyChrSelectGC, b_slot) == 0x6C);
+
+// Set when a player picks a slot in the multi-player character select; the story select goes back
+// to that scene while it is set (names inferred from those uses).
+extern s32 multi_chr_select_slot_chosen;
+int is_multi_chr_select_slot_chosen();
+void clear_multi_chr_select_slot_chosen();
 
 #endif

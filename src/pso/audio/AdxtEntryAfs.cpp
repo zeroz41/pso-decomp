@@ -63,10 +63,10 @@ s32 get_stream_queued_count(AdxtPlayer *player) {
 
 s32 lbl_805D7548;
 
-void TLobby__sub_803C5D24(AdxtPlayer *player) {
+void adxt_start_seamless(AdxtPlayer *player) {
     LscStream *lsc;
     lsc = player->lsc_stream;
-    TLobby__sub_803C9DB4(player);
+    adxt_stop_decoding(player);
     adx_lock();
     start_stream_playback(player, player->input_ring);
     player->input_sj->interface->reset(player->input_sj);

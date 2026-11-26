@@ -1,7 +1,5 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/math/FloatRound.h"
 #include "pso/render/ColorLineList.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/render/Draw2D.h"
@@ -39,6 +37,7 @@
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 
 
 #pragma push
@@ -46,7 +45,7 @@
 const char *TWindowSimpleStatus::class_name = "TWindowSimpleStatus";
 #pragma pop
 
-// inferred: photon_blast_gauge_ring_offset, the ring's offset inside the window that
+// photon_blast_gauge_ring_offset, the ring's offset inside the window that
 // draw_background passes to draw_photon_blast_gauge_ring.
 static const NJS_POINT2 photon_blast_gauge_ring_offset = {24.0f, 19.0f};
 
@@ -56,20 +55,6 @@ const u32 photon_blast_gauge_ring_color_table[7] = {
 };
 
 
-// inferred: simple_status_window_layout_entries, the layout table simple_status_window_layout
-// points at (frame sprite, two text/value entries, the HP and TP gauges, three icon sprites).
-struct SimpleStatusWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-    LayoutEntryCopyRecord rec_3;
-    LayoutEntryCopyRecord rec_4;
-    SpritePartLayoutRecord rec_5;
-    SpritePartLayoutRecord rec_6;
-    SpritePartLayoutRecord rec_7;
-};
 SimpleStatusWindowLayout simple_status_window_layout_entries = {
     8, 1,
     {6, {7.0f, 5.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
@@ -292,45 +277,45 @@ void TWindowSimpleStatus::update_hp_tp_level() {
     update_status_entry();
 }
 
-void TWindowLockOn::update_for_player_index(s32 id) {
+void WindowTextEntry::show_player_name(s32 client_id) {
     saddr str;
     TObjPlayer *player;
-    u8 *status_block;
+    CharacterAppearanceFields *appearance;
 
-    player = get_player_by_client_id(id);
+    player = get_player_by_client_id(client_id);
     if (player == NULL) {
-        ((TWindowLayoutEntry *)(this))->hide();
+        hide();
         return;
     }
-    status_block = (u8 *)player->name;
-    if (status_block == NULL) {
-        ((TWindowLayoutEntry *)(this))->hide();
+    appearance = (CharacterAppearanceFields *)player->name;
+    if (appearance == NULL) {
+        hide();
         return;
     }
     str = (saddr)player->get_name();
     if (str == 0) {
-        ((TWindowLayoutEntry *)(this))->hide();
+        hide();
         return;
     }
     if (player->is_inactive() == 0) {
-        ((TWindowLayoutEntry *)(this))->hide();
+        hide();
         return;
     }
-    ((TWindowLayoutEntry *)(this))->show();
-    if ((((WindowTextEntry *)(this))->get_text() == 0U) || (strcmp((const char *)((WindowTextEntry *)(this))->get_text(), (const char *)str) != 0)) {
-        set_text_entry_string(((WindowTextEntry *)this), str, 0x20);
+    show();
+    if ((get_text() == NULL) || (strcmp(get_text(), (const char *)str) != 0)) {
+        set_text_entry_string(this, str, 0x20);
     }
     if (player->is_actor_dead() != 0) {
-        *(s32 *)&this->entry_list = 0xFFFF0000;
+        color = 0xFFFF0000;
         return;
     }
-    *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)status_block + 0x18);
+    color = appearance->nameColor;
 }
 
 void update_lockon_window(TWindowSimpleStatus *window) {
-    TWindowLockOn *lock_on;
-    lock_on = (TWindowLockOn *)window->get_array_entry(1);
-    lock_on->update_for_player_index(window->get_width());
+    WindowTextEntry *name;
+    name = (WindowTextEntry *)window->get_array_entry(1);
+    name->show_player_name(window->get_width());
 }
 
 void update_photon_blast_player_marker(WindowSpritePart *help, s32 client_id) {
@@ -355,28 +340,28 @@ void update_photon_blast_player_marker(WindowSpritePart *help, s32 client_id) {
         }
         switch (type) {
         case 5:
-            set_sprite_uv_from_pixels(help, 0.0f, 173.0f);
+            help->set_sprite_uv_from_pixels(0.0f, 173.0f);
             break;
         case 4:
-            set_sprite_uv_from_pixels(help, 34.0f, 173.0f);
+            help->set_sprite_uv_from_pixels(34.0f, 173.0f);
             break;
         case 3:
-            set_sprite_uv_from_pixels(help, 68.0f, 173.0f);
+            help->set_sprite_uv_from_pixels(68.0f, 173.0f);
             break;
         case 1:
-            set_sprite_uv_from_pixels(help, 102.0f, 173.0f);
+            help->set_sprite_uv_from_pixels(102.0f, 173.0f);
             break;
         case 2:
-            set_sprite_uv_from_pixels(help, 136.0f, 173.0f);
+            help->set_sprite_uv_from_pixels(136.0f, 173.0f);
             break;
         case 0:
-            set_sprite_uv_from_pixels(help, 170.0f, 173.0f);
+            help->set_sprite_uv_from_pixels(170.0f, 173.0f);
             break;
         default:
             if (lobby_rule_settings.get_is_teams() == 1 && (p = get_player_by_client_id(key)) != 0) {
                 key = p->pk_state.get_team() - 1;
             }
-            set_sprite_uv_from_pixels(help, 34.0f * key, 202.0f);
+            help->set_sprite_uv_from_pixels(34.0f * key, 202.0f);
             break;
         }
     }

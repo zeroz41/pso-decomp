@@ -8,6 +8,7 @@ class WindowHeading;
 struct NJS_POINT2;
 #include <stddef.h>
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 class TWindowLayoutNumber;
 
@@ -16,6 +17,10 @@ struct TWindowInputNumber : public TWindowBase {
     s32 is_locked(s32);
     s32 test_input_flag(s32 buttons);
     void disable_input();
+    // Bit 0x10: run_task reads the digit keys with test_buttons_press_or_repeat.
+    void set_flag_10();
+    // Drops the confirmation confirm_input set and puts the title back to its open state.
+    void clear_confirmed();
     void enable_input();
     void refresh_digit_entries();
     void align_digits();
@@ -55,5 +60,13 @@ LAYOUT_ASSERT(NumberMinimumOffset, offsetof(TWindowInputNumber, minimum) == 0x64
 LAYOUT_ASSERT(NumberMaximumOffset, offsetof(TWindowInputNumber, maximum) == 0x68);
 LAYOUT_ASSERT(NumberInitialOffset, offsetof(TWindowInputNumber, value) == 0x6C);
 LAYOUT_ASSERT(NumberScaleOffset, offsetof(TWindowInputNumber, scaleX) == 0x74);
+
+// window_input_number_layout_entries, the layout table window_input_number_layout points at.
+struct InputNumberWindowLayout {
+    u32 cols;
+    u32 rows;
+    ValueLayoutRecord rec_0;
+};
+
 
 #endif

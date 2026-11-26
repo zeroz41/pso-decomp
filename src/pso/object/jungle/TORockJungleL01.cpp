@@ -20,7 +20,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -121,7 +121,7 @@ TORockJungleS01::TORockJungleS01(void *set_data) {
     apply_object_set_data(set_data);
     model = get_model(0);
     texlist = get_jungle_rock_texture_resource(0);
-    view_radius = 50.0f + ((NJS_CNK_MODEL *)(model)->model)->r;
+    view_radius = 50.0f + ((NJS_CNK_MODEL *)model->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[0], 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -214,7 +214,7 @@ TORockJungleM01::TORockJungleM01(void *set_data) {
     apply_object_set_data(set_data);
     model = TORockJungleS01::get_model(2);
     texlist = get_jungle_rock_texture_resource(2);
-    view_radius = 50.0f + ((NJS_CNK_MODEL *)(model)->model)->r;
+    view_radius = 50.0f + ((NJS_CNK_MODEL *)model->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[1], 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -285,7 +285,7 @@ TORockJungleL01::TORockJungleL01(void *set_data) {
     apply_object_set_data(set_data);
     model = TORockJungleS01::get_model(4);
     texlist = get_jungle_rock_texture_resource(4);
-    view_radius = 50.0f + ((NJS_CNK_MODEL *)(model)->model)->r;
+    view_radius = 50.0f + ((NJS_CNK_MODEL *)model->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[2], 1);
     refresh_collision_body_centers();
     register_object_by_id();

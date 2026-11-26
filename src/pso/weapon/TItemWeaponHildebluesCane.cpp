@@ -3,7 +3,6 @@
 #include "pso/weapon/TItemWeaponHildebluesCane.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecGiBarta.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixOps.h"
 #include <stdlib.h>
@@ -22,7 +21,7 @@ void TItemWeaponHildebluesCane::emit_marker_effects() {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TItemWeaponHildebluesCane::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_x(0, this->open_angle); } }
+void TItemWeaponHildebluesCane::transform_model_node() { if (get_model_node_counter() == 1) { rotate_matrix_x(0, this->open_angle); } }
 
 
 void TItemWeaponHildebluesCane::update_idle() {

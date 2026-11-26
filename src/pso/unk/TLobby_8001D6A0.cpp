@@ -7,7 +7,6 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/system/date.h"
 #include "pso/system/byteswap.h"
@@ -23,6 +22,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/unk/TLobby_80207644.h"
 
 #pragma readonly_strings on
 
@@ -382,8 +382,6 @@ void player_stats::bswap() {
 
 extern "C" {
 
-extern s32 selected_episode;
-
 s32 TLobby::get_instance() {
     return selected_episode;
 }
@@ -430,13 +428,8 @@ s32 parse_two_digit_number(void *text) {
     v += s[1] - '0';
     return v;
 }
-extern "C" {
-
-s32 __cvt_fp2unsigned(f32);
-}
-
 s32 TLobby::calc_alpha_shifted(f32 alpha) {
-    return __cvt_fp2unsigned(255.0f * alpha) << 0x18;
+    return (u32)(255.0f * alpha) << 0x18;
 }
 
 
@@ -605,10 +598,7 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
     }
 }
 #pragma fp_contract reset
-extern "C" {
-
 void TLobby__sub_8001ED70(void) {  }
 void reset_clock_bar_pulse(void) {
     clock_bar_pulse = 0.0f;
-}
 }

@@ -1,4 +1,5 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/network/NetworkConnect.h"

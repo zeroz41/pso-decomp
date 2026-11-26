@@ -45,7 +45,7 @@ TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, ParticleAn
     return new TParticleOrbit(entry, position, direction, parent, flags, target_id);
 }
 
-TParticle *TParticleCtrl::alloc_child_particle(void *param, void *pos, void *dir, void *parent) {
+TParticle *TParticleCtrl::alloc_child_particle(ParticleParam *param, Vec *pos, ParticleAngles *dir, TObject *parent) {
     return new TParticleOrbit(param, pos, dir, parent);
 }
 
@@ -325,11 +325,11 @@ TParticleOrbit::TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngl
 
 #pragma push
 #pragma fp_contract on
-TParticleOrbit::TParticleOrbit(void *entry, void *position, void *direction, void *parent)
-    : TParticle((ParticleParam *)entry, (TObject *)parent) {
-    ParticleParam *src = (ParticleParam *)entry;
-    Vec *at = (Vec *)position;
-    ParticleAngles *dir = (ParticleAngles *)direction;
+TParticleOrbit::TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent)
+    : TParticle(entry, parent) {
+    ParticleParam *src = entry;
+    Vec *at = position;
+    ParticleAngles *dir = direction;
     s32 life;
     rot_x = dir->x;
     rot_y = dir->y;

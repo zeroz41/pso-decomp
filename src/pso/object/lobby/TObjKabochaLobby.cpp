@@ -24,7 +24,7 @@ NJS_TEXLIST *TObjKabochaLobby::lobby_texlist;
 void TObjKabochaLobby::render() {
     if (state != 0 && lobby_texlist != 0 && update_object_view_visibility(view_range, model_radius) != 0) {
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -79,8 +79,7 @@ void TObjKabochaLobby::free_resources() {
 }
 
 void TObjKabochaLobby::load_resources() {
-    BmlResource *resource = new BmlResource(5, &lobby_pumpkin_resource_descriptor, 0, 0, NULL);
-    model_resource = resource;
+    model_resource = new BmlResource(5, &lobby_pumpkin_resource_descriptor, 0, 0, NULL);
     lobby_texlist = get_lobby_main_texlist();
 }
 

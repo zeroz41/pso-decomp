@@ -286,7 +286,7 @@ void load_warp_beam_resources(void) {
     warp_jung_beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
     warp_jung_textures = get_bml_texlist(warp_jung_beam_bml_resource, 0);
-    root = ((NJS_OBJECT *)get_bml_model(warp_jung_beam_bml_resource, 1))->child;
+    root = (get_bml_model(warp_jung_beam_bml_resource, 1))->child;
     warp_jung_beam_models[0] = (GinjaModel *)root->child->model;
     warp_jung_beam_models[1] = (GinjaModel *)root->child->sibling->model;
     warp_jung_beam_models[2] = (GinjaModel *)root->child->sibling->sibling->model;

@@ -41,7 +41,7 @@ void TOCapsuleLabo::load_resources() {
     NJS_OBJECT *root;
     BmlResource *resource = new BmlResource(1, &bm_obj_labo_infocapsule_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
-    root = (NJS_OBJECT *)get_bml_model(resource, 0);
+    root = get_bml_model(resource, 0);
     if (root != NULL) {
         light_node = find_object_node(root, 3);
     }
@@ -55,7 +55,7 @@ void TOCapsuleLabo::render() {
     NJS_OBJECT *light;
     visible = update_object_view_visibility(view_range, model_radius);
     if (visible == 1) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         if (active == 1) {
             if (light_node != NULL) {
                 light_node->evalflags &= ~NJD_EVAL_HIDE;

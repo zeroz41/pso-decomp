@@ -5,7 +5,7 @@
 
 struct TWindowMainMenu;
 struct TWindowSubCustomSelect;
-struct PaletteTag;
+struct PaletteAction;
 
 // The main menu's customize submenu (TWindowMainMenu ids 0 and 1): the custom
 // equip list, the custom select window it opens and a help window.
@@ -13,7 +13,7 @@ class TCustomizeMenuCtrl : public TObject {
 public:
     TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client);
     virtual ~TCustomizeMenuCtrl();
-    void update_customize_help_text(const PaletteTag *ev);
+    void update_customize_help_text(const PaletteAction *ev);
     virtual void render();
     virtual void run_task();
     u8 state;

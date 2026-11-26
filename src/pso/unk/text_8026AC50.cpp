@@ -2,15 +2,15 @@
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026A14C.h"
 #include "pso/system/THeap.h"
+#include "pso/ui/window/TWindowMessageLog.h"
 
-extern u32 chat_log_lines[];
 void free_chat_log_lines(void) {
     s32 i;
-    uaddr v;
+    char *v;
     for (i = 29; i >= 0; i--) {
         v = chat_log_lines[i];
         if (v != 0) {
-            scroll_win_chat_log_heap->heap_free((void *)v);
+            scroll_win_chat_log_heap->heap_free(v);
             chat_log_lines[i] = 0;
         }
     }

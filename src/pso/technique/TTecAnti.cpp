@@ -70,19 +70,19 @@ void TechniqueParams::copy(TechniqueParams *src) {
     angle_step = src->angle_step;
 }
 
-TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecAnti::TTecAnti(TObjBase *owner, Vec *pos, TargetCursorList *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
     m_name = class_name;
     use_targets = 1;
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    copy_technique_target_list(&targets, target_list);
     params.copy(&technique_param_table[16]);
     setup_params();
     t = target;
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.range;
     }
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
     if (show_effects != 0) {
         play_anti_cast_sound();
@@ -91,10 +91,10 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecP
 }
 
 void TTecAnti::run_task() {
-    uaddr member;
+    TObjCollidable *member;
     s32 i;
     source = find_entity_by_id(sourceId);
-    if (source == 0) {
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -105,8 +105,8 @@ void TTecAnti::run_task() {
             apply_to_player((TObjPlayer *)source);
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
-                    member = (uaddr)find_entity_by_id(targets.records[i].id);
-                    if ((TTecLuker::is_parents_unqueued(member) != 0) && (TObjPlayer::is_valid_and_active(member) != 0)) {
+                    member = find_entity_by_id(targets.records[i].id);
+                    if ((TTecLuker::is_parents_unqueued(member) != 0) && (TObjPlayer::is_valid_and_active((uaddr)member) != 0)) {
                         apply_to_player((TObjPlayer *)member);
                     }
                 }
@@ -124,7 +124,7 @@ TTecAnti::~TTecAnti() {
 
 }
 
-void TTecAnti::create(void *source, void *origin, void *targets, s32 level) {
+void TTecAnti::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
     new TTecAnti(source, origin, targets, level);
 }
 

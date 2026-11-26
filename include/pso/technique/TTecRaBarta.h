@@ -7,8 +7,8 @@
 class TParticleCtrl;
 
 struct TTecRaBarta : public TTecCircle {
-    TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level);
-    TTecRaBarta(saddr source, Vec *origin, s32 level);
+    TTecRaBarta(TObjBase *source, Vec *origin, Vec *pos, s32 level);
+    TTecRaBarta(TObjBase *source, Vec *origin, s32 level);
     virtual ~TTecRaBarta();
     virtual void apply_to_target(TObjChara *);
     virtual void play_cast_sound();
@@ -19,8 +19,8 @@ struct TTecRaBarta : public TTecCircle {
     TParticleCtrl **emitters;  // one per rabarta_band_emitter_table[band] entry
     u16 hit_ids[32];  // entity ids apply_to_target has already hit
     s32 hitCursor;  // next free hit_ids slot, capped at 31
-    static void create(void *source, Vec *origin, Vec *pos, s32 level);
-    static void create(void *source, void *origin, s32 level);
+    static void create(TObjBase *source, Vec *origin, Vec *pos, s32 level);
+    static void create(TObjBase *source, Vec *origin, s32 level);
     virtual void render();
     virtual void run_task();
 };

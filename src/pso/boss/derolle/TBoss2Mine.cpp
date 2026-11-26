@@ -41,9 +41,9 @@ __declspec(section ".data") s32 boss2_mine_attack_params[2] = { 0xF, 0xF };
 
 __declspec(section ".data") s32 boss2_mine_resist_params[2] = { 0x11, 0x11 };
 
-BossMovementParameters boss2_mine_movement[2] = {
-    { { 225.0f, 0.0f, 0x600 }, { 0, 0, 0, 0 } },
-    { { 225.0f, 0.0f, 0x600 }, { 0, 0, 0, 0 } },
+EnemyMoveParams boss2_mine_movement[2] = {
+    { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } },
+    { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } },
 };
 
 CollisionBody boss2_mine_collision_body = {
@@ -54,9 +54,9 @@ CollisionBody boss2_mine_collision_body = {
 
 #pragma inline_depth(1)
 
-void TBoss2Mine::apply_defense_stat_status(void *) {  }
+void TBoss2Mine::apply_defense_stat_status(StatStatusReceipt *) {  }
 
-void TBoss2Mine::apply_attack_stat_status(void *) {  }
+void TBoss2Mine::apply_attack_stat_status(StatStatusReceipt *) {  }
 
 void TBoss2Mine::clear_harmful_statuses() {  }
 
@@ -177,7 +177,7 @@ void TBoss2Mine::update_move_flag() {
 }
 
 void TBoss2Mine::set_node_offsets() {
-    NJS_OBJECT *node = (model)->child;
+    NJS_OBJECT *node = model->child;
     s32 i;
     s32 angle = -spike_angle;
     for (i = 0; i < 4; i++) {

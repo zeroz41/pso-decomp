@@ -74,7 +74,7 @@ TBreakUpMdlData * gee_leader_breakup_model;
 TBreakUpMdlData * gee_breakup_model;
 // The colour word of model node 4's first material chunk (polygon_list + 2); apply_model_color writes core_color_packed.
 s32 *gee_node4_diffuse;
-BossMovementParameters me1_gee_init_params = {{225.0f, 0.0f, 0x600}};
+EnemyMoveParams me1_gee_init_params = {225.0f, 0.0f, 0x600};
 
 CollisionBody gee_collision_body = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
@@ -271,7 +271,7 @@ void TObjEneMe1Gee::init_state() {
     this->fade_step_timer = 0;
     this->fade_cursor = 0;
     this->copy_pos();
-    TObjEneDD::set_part_position(this, this->bodies, 0);
+    TObjEneDD::set_part_position(this, &this->bodies->offset, 0);
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
     if (this->leader != NULL) {
@@ -492,7 +492,7 @@ s32 TObjEneMe1Gee::find_attack_target(f32 *out, f32 range) {
     s32 i;
     found = 0;
     *out = (-1.0f);
-    n = collect_enemy_target_candidates(this, recs, range);
+    n = collect_enemy_target_candidates(recs, range);
     for (i = 0; i < n; i++) {
         p = get_player_by_client_id(recs[i].id);
         if (p != this->current_target) {
@@ -845,7 +845,7 @@ void TObjEneMe1Gee::state_high_appear(s32 mode) {
         VecCopy(&pos, &this->position);
         pos.y += 150.0f;
         this->hover_y = pos.y;
-        play_appear_effects((saddr) &pos);
+        play_appear_effects(&pos);
         this->set_invulnerable();
         this->stage = 0;
         return;
@@ -1115,7 +1115,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                 this->stage = 2;
                 this->status_flags |= 0x40000;
             }
-            enemy_turn_and_move_xz_slide(this, 0x200, 0.5f);
+            enemy_turn_and_move_xz_slide(0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1327,7 +1327,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                enemy_turn_and_move_xz_clamped(this, 0x200, this->kind_params->melee_speed);
+                enemy_turn_and_move_xz_clamped(0x200, this->kind_params->melee_speed);
             }
             break;
         case 3:
@@ -1361,7 +1361,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->is_hover_low() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 3.0f);
                         if (this->random_ratio() <= 0.25f) {
                             DirectAttackPayload p = {0x11, 0.0f};
                             this->current_target->receive_direct_attack(this, p, 0, -1, -1);

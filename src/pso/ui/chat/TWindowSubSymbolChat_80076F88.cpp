@@ -15,7 +15,7 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/network/client_id.h"

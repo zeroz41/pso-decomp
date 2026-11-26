@@ -11,6 +11,8 @@ struct FlagWord {
     void reset();
     void set(u32 mask);
     void clear(u32 mask);
+    // Whether any bit of `mask` is set.
+    s32 test_flags_any(u32 mask);
     s32 get_bits();
     void set_bits(s32 value);
     void bswap();
@@ -22,8 +24,4 @@ extern "C" {
 FlagWord *__ct__8FlagWordFv(void *flags);
 }
 
-extern "C" {
-// Whether any bit of `mask` is set in the flag word.
-s32 test_flags_any(s32 *flags, s32 mask);
-}
 #endif

@@ -74,4 +74,5 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
 void load_re2_flower_resources(void);
 
 LAYOUT_ASSERT(TObjEneRe2Flower_size, sizeof(TObjEneRe2Flower) == 0x42C);
+
 #endif

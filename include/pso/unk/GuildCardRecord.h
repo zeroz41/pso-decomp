@@ -35,6 +35,7 @@ extern "C" void jump_to_guild_card_owner(GuildCardRecord *entry);
 class TUserAns;
 
 void handle_user_search_answer(TUserAns &response);
+void add_found_user_com_card(TUserAns &response);
 void find_and_load_com_card(u32 serial);
 void init_player_entry(GuildCardRecord *entry, u8 *response);
 s32 remove_com_card_by_id(u32 id);

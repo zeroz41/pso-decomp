@@ -7,21 +7,21 @@
 
 struct TContainerAncient01R : public TObjChara {
     TContainerAncient01R(TObject *parent, void *set_data);
-    virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     virtual ~TContainerAncient01R();
-    virtual s32 select_melee_contact_body(void *, f32);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
     void open_container();
     void check_open_trigger();
     void update_spawning();
     void update_blast();
     void reset_state();
     virtual void apply_saved_state(s16 *, s32);
-    virtual s32 try_start_action(void *, s32, f32);
-    virtual void apply_knockback_from_attacker(u8 *, f32);
+    virtual s32 try_start_action(TObjChara *, s32, f32);
+    virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual void render();
     virtual void run_task();
     static void init_table_entries();

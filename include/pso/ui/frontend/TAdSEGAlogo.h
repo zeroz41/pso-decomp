@@ -19,4 +19,11 @@ public:
     s32 m_wait_frames; // 0x1C; inferred name: frames counted to 60 in run_task before the fade
 };
 
+struct NJS_TEXLIST;
+
+// Texture list of logo_e, registered by register_texture_logo_e.
+extern NJS_TEXLIST texture_logo_e_descriptor;
+extern NJS_TEXLIST *logo_texture_e_handle;
+void register_texture_logo_e(void);
+
 #endif

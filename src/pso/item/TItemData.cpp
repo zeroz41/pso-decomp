@@ -16,7 +16,7 @@
 #include "pso/ui/Language.h"
 #include "pso/map/FloorArea.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/object/base/TObjBase.h"
@@ -51,7 +51,7 @@ struct ItemIconIndexTable { s32 w[19]; };
 static const ItemIconIndexTable item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
 static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
 extern "C" {
-extern const u8 lbl_805DAB68 = 0x40;
+extern const u8 item_wrapped_flag = 0x40;
 }
 extern "C" {
 
@@ -386,15 +386,15 @@ void TItemData::set_wrapped() {
     switch (data1.data_u8[0]) {
     case 0:
     case 1:
-        data1.data_u8[4] |= lbl_805DAB68;
+        data1.data_u8[4] |= item_wrapped_flag;
         break;
     case 3:
         if (TItemData::lookup_item_def(this) == 0) {
-            data1.data_u8[3] |= lbl_805DAB68;
+            data1.data_u8[3] |= item_wrapped_flag;
         }
         break;
     case 2:
-        data2.data_u8[2] |= lbl_805DAB68;
+        data2.data_u8[2] |= item_wrapped_flag;
         break;
     }
 }
@@ -1344,7 +1344,7 @@ s32 TItemData::calc_price() {
           }
         }
 
-        stars = (f32) ((u8) get_unit_attribute_index(data1.data_u8[4]));
+        stars = (f32) (u8)get_weapon_special_star_count(data1.data_u8[4]);
         price = (s32) (((power * ((f32) bonus)) / 100.0f) + (1000.0f * (stars * stars)));
       }
     }
@@ -1652,7 +1652,7 @@ int TItemData::calc_display_grade() {
         if ((u8) base_rarity < 9U) {
             temp_b = this->data1.data_u8[4];
             if (!(temp_b & 0x80)) {
-                base_rarity += get_unit_attribute_index(temp_b);
+                base_rarity += get_weapon_special_star_count(temp_b);
             }
         } else if (this->data1.data_u8[4] & 0x80) {
             base_rarity = 0;

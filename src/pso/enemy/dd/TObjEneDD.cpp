@@ -107,7 +107,7 @@ extern "C" {
 int fn_800FD8A0(void*);
 }
 
-s32 tick_period_counter(s32 self, s32 *counter, s32 limit) {
+s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit) {
     s32 count;
     count = *counter;
     if (count >= limit) {
@@ -271,7 +271,7 @@ void TObjEneDD::init_common_from(TObjBase *source) {
     reset_state_fields();
     room = source->room;
     set_group = source->set_group;
-    subtractive_rng_seed(&rng, (int) (this->entity_id + area_random_seed));
+    rng.set_seed((int) (this->entity_id + area_random_seed));
 }
 
 
@@ -332,7 +332,7 @@ void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src) {
     dst->dist = src->dist;
 }
 
-s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 range) {
+s32 TObjEneDD::collect_enemy_target_candidates(TargetCandidate *out, f32 range) {
     s32 n;
     s32 cnt;
     TargetCandidate tmp;
@@ -348,7 +348,7 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
         for (s32 i = 0; i < cnt; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p->is_alive() != 0) {
-                d = horizontal_distance_squared(&self->position, &p->position);
+                d = horizontal_distance_squared(&this->position, &p->position);
                 if (d < range) {
                     out[n].id = p->get_entity_id();
                     out[n].dist = d;
@@ -360,7 +360,7 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
         for (s32 i = 0; i < cnt; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p->is_alive() != 0) {
-                d = horizontal_distance_squared(&self->position, &p->position);
+                d = horizontal_distance_squared(&this->position, &p->position);
                 out[n].id = p->get_entity_id();
                 out[n].dist = d;
                 n++;
@@ -389,7 +389,7 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
 }
 
 s32 TObjEneDD::collect_target_candidates(TObjEneDD *actor, f32 range) {
-    return collect_enemy_target_candidates(actor, enemy_target_candidate_table, range);
+    return actor->collect_enemy_target_candidates(enemy_target_candidate_table, range);
 }
 
 u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
@@ -471,18 +471,18 @@ void TObjEneDD::calc_shot_position(Vec *shot, f32 dx, f32 dz, f32 dist) {
 
 #pragma push
 #pragma fp_contract on
-void calc_wall_slide_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 dist) {
+void TObjEneDD::calc_wall_slide_destination(Vec *out, f32 dx, f32 dz, f32 dist) {
     CsnHit *n;
     Vec v;
-    n = e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
+    n = this->enemy_probe_wall_ahead(dx, dz, dist + this->wall_reach);
     if (n == NULL) {
-        out->x = dx * dist + e->position.x;
-        out->y = e->position.y;
-        out->z = dz * dist + e->position.z;
-        e->wall_probe_failures = 0;
+        out->x = dx * dist + this->position.x;
+        out->y = this->position.y;
+        out->z = dz * dist + this->position.z;
+        this->wall_probe_failures = 0;
         return;
     }
-    e->wall_probe_failures++;
+    this->wall_probe_failures++;
     v.x = n->contact->normal.z;
     v.z = -n->contact->normal.x;
     normalize_vector_xz((&v));
@@ -493,37 +493,37 @@ void calc_wall_slide_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 dis
         dx = -v.x;
         dz = -v.z;
     }
-    if (e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach) == NULL) {
-        out->x = dx * dist + e->position.x;
-        out->y = e->position.y;
-        out->z = dz * dist + e->position.z;
+    if (this->enemy_probe_wall_ahead(dx, dz, dist + this->wall_reach) == NULL) {
+        out->x = dx * dist + this->position.x;
+        out->y = this->position.y;
+        out->z = dz * dist + this->position.z;
         return;
     }
-    VecCopy(out, &e->position);
+    VecCopy(out, &this->position);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-void calc_wall_clamped_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 dist) {
-    CsnHit *n = e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
+void TObjEneDD::calc_wall_clamped_destination(Vec *out, f32 dx, f32 dz, f32 dist) {
+    CsnHit *n = this->enemy_probe_wall_ahead(dx, dz, dist + this->wall_reach);
     if (n == NULL) {
-        e->wall_probe_failures = 0;
+        this->wall_probe_failures = 0;
     } else {
         Vec *p;
         f32 ddx;
         f32 px;
         f32 ddz;
-        e->wall_probe_failures++;
+        this->wall_probe_failures++;
         p = &n->contact->point;
         px = p->x;
-        ddz = p->z - e->position.z;
-        ddx = px - e->position.x;
-        dist = ((f32 (*)(f32, f32, f32))newton_sqrtf)(ddx * ddx + ddz * ddz, px, ddz) - e->wall_reach;
+        ddz = p->z - this->position.z;
+        ddx = px - this->position.x;
+        dist = ((f32 (*)(f32, f32, f32))newton_sqrtf)(ddx * ddx + ddz * ddz, px, ddz) - this->wall_reach;
     }
-    out->x = dx * dist + e->position.x;
-    out->y = e->position.y;
-    out->z = dz * dist + e->position.z;
+    out->x = dx * dist + this->position.x;
+    out->y = this->position.y;
+    out->z = dz * dist + this->position.z;
 }
 #pragma pop
 
@@ -593,13 +593,13 @@ void TObjEneDD::move_to_shot_position(f32 dx, f32 dz, f32 dist) {
 
 void TObjEneDD::move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_wall_slide_destination(this, &dest, dx, dz, dist);
+    calc_wall_slide_destination(&dest, dx, dz, dist);
     try_move_actor_xz_on_ground(&dest);
 }
 
 void TObjEneDD::move_clamped_on_ground(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_wall_clamped_destination(this, &dest, dx, dz, dist);
+    calc_wall_clamped_destination(&dest, dx, dz, dist);
     try_move_actor_xz_on_ground(&dest);
 }
 
@@ -611,13 +611,13 @@ void TObjEneDD::move_with_wall_stop(f32 dx, f32 dz, f32 dist) {
 
 CsnHit *TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_wall_slide_destination(this, &dest, dx, dz, dist);
+    calc_wall_slide_destination(&dest, dx, dz, dist);
     return move_xz_on_ground(&dest);
 }
 
 void TObjEneDD::move_to_wall_clamped_destination(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_wall_clamped_destination(this, &dest, dx, dz, dist);
+    calc_wall_clamped_destination(&dest, dx, dz, dist);
     move_xz_on_ground(&dest);
 }
 
@@ -640,37 +640,36 @@ void TObjEneDD::init_model(CollisionBody *bodies, s32 count) {
     transform_part_positions();
 }
 
-void TObjEneDD::set_part_local_pos(void *v, s32 i) {
+void TObjEneDD::set_part_local_pos(Vec *v, s32 i) {
     Vec *p;
-    VecCopy(&bodies[i].center, (const Vec *)v);
+    VecCopy(&bodies[i].center, v);
     p = &bodies[i].offset;
-    VecCopy(p, (const Vec *)v);
+    VecCopy(p, v);
     subtract_vector(p, &position);
     rotate_xz_pair_by_angle(&p->x, &p->z, -rotation_y);
 }
 
-void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points) {
+void TObjEneDD::update_local_colliders_from_world(Vec *world_points) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
-    rotate_matrix_y(NULL, -self->rotation_y);
-    translate_matrix(0, -self->position.x, -self->position.y, -self->position.z);
-    for (i = 0; i < self->body_count; i++) {
-        VecCopy(&self->bodies[i].center, world_points);
-        matrix_mult_vec(NULL, world_points, &self->bodies[i].offset);
+    rotate_matrix_y(NULL, -this->rotation_y);
+    translate_matrix(0, -this->position.x, -this->position.y, -this->position.z);
+    for (i = 0; i < this->body_count; i++) {
+        VecCopy(&this->bodies[i].center, world_points);
+        matrix_mult_vec(NULL, world_points, &this->bodies[i].offset);
         world_points++;
     }
     pop_matrix();
 }
 
-void TObjEneDD::set_part_position(void *actor, void *v, int i) {
-    TObjCollidable *collidable = (TObjCollidable *)actor;
+void TObjEneDD::set_part_position(TObjCollidable *actor, Vec *v, int i) {
     Vec *p;
-    VecCopy(&collidable->bodies[i].offset, (const Vec *)v);
-    p = &collidable->bodies[i].center;
-    VecCopy(p, (const Vec *)v);
-    rotate_xz_pair_by_angle(&p->x, &p->z, collidable->rotation_y);
-    vec3_add_to(p, &collidable->position);
+    VecCopy(&actor->bodies[i].offset, v);
+    p = &actor->bodies[i].center;
+    VecCopy(p, v);
+    rotate_xz_pair_by_angle(&p->x, &p->z, actor->rotation_y);
+    vec3_add_to(p, &actor->position);
 }
 
 void TObjEneDD::transform_part_positions() {
@@ -755,7 +754,7 @@ s32 TObjChara::is_target_unobstructed(const Vec *from) {
     return 0;
 }
 
-s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target) { return target->is_target_unobstructed(&self->body_center); }
+s32 TObjEneDD::is_target_unobstructed_from(TObjChara *target) { return target->is_target_unobstructed(&this->body_center); }
 
 s32 TObjBase::is_alive() {
     int alive;
@@ -1057,13 +1056,13 @@ void TObjEneDD_ST::init_float_params() {
 }
 
 
-void enemy_set_target_id(TObjEneDD_ST *self, u16 id) {
-    self->target_id = id;
+void TObjEneDD_ST::enemy_set_target_id(u16 id) {
+    this->target_id = id;
     if (id != 0xFFFF) {
-        self->current_target = (TObjChara *)find_active_entity_by_id(self->target_id);
+        this->current_target = (TObjChara *)find_active_entity_by_id(this->target_id);
     } else {
-        self->target_id = 0xFFFF;
-        self->current_target = 0;
+        this->target_id = 0xFFFF;
+        this->current_target = 0;
     }
 }
 
@@ -1094,12 +1093,12 @@ void TObjEneDD_ST::enemy_init_acquire_period(s32 period) {
 
 s32 TObjEneDD_ST::acquire_target(f32 distance) { return select_nearest_target(distance); }
 
-s32 enemy_bind_or_clear_target(TObjEneDD_ST *self, u16 id) {
+s32 TObjEneDD_ST::enemy_bind_or_clear_target(u16 id) {
     if (id != 0xFFFF) {
-        enemy_set_target_id(self, id);
+        enemy_set_target_id(id);
         return 1;
     }
-    self->enemy_clear_target();
+    this->enemy_clear_target();
     return 0;
 }
 
@@ -1116,18 +1115,18 @@ s32 TObjEneDD_ST::select_and_apply_target(f32 range) {
     } else {
         target = enemy_find_nearest_player_in_range(this, range);
     }
-    return enemy_bind_or_clear_target(this, target);
+    return enemy_bind_or_clear_target(target);
 }
 
 
 s32 TObjEneDD_ST::select_nearest_target(f32 distance) {
     u16 target = enemy_find_nearest_player_in_range(this, distance);
-    return enemy_bind_or_clear_target(this, target);
+    return enemy_bind_or_clear_target(target);
 }
 
 s32 TObjEneDD_ST::enemy_tick_target_acquisition(s32 *counter, s32 limit, f32 scale) {
     s32 has_target;
-    if (tick_period_counter((saddr)this, counter, limit) != 0) {
+    if (tick_period_counter(this, counter, limit) != 0) {
         has_target = this->acquire_target(scale);
     } else {
         has_target = enemy_has_live_target();
@@ -1156,18 +1155,18 @@ void TObjEneDD_ST::enemy_init_validate_period(s32 period) {
     validate_counter = (this->entity_id + 3) % validate_period;
 }
 
-s32 enemy_validate_retained_target(TObjEneDD_ST *self) {
-    if (tick_period_counter((saddr)self, &self->validate_counter, self->validate_period) != 0) {
-        if (is_target_unobstructed_from(self, self->current_target) != 0) {
+s32 TObjEneDD_ST::enemy_validate_retained_target() {
+    if (tick_period_counter(this, &this->validate_counter, this->validate_period) != 0) {
+        if (is_target_unobstructed_from(this->current_target) != 0) {
             return 1;
         }
         goto block_5;
     }
-    if (self->enemy_has_live_target() != 0) {
+    if (this->enemy_has_live_target() != 0) {
         return 1;
     }
 block_5:
-    self->enemy_clear_target();
+    this->enemy_clear_target();
     return 0;
 }
 
@@ -1176,7 +1175,7 @@ s32 TObjEneEpsilon::update_death_check() {
         this->enemy_clear_target();
         return 0;
     }
-    return enemy_validate_retained_target(this);
+    return enemy_validate_retained_target();
 }
 
 void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
@@ -1198,7 +1197,7 @@ void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 d
     dist = distance;
     turn_toward_target_direction(max_step);
     dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (dz), (dist));
+    calc_wall_slide_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (dz), (dist));
 }
 
 void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1206,32 +1205,32 @@ void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (dist));
+    calc_wall_clamped_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (dist));
 }
 
-CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale) {
+CsnHit *TObjEneDD_ST::enemy_turn_and_move_shot_step(s32 iscale, f32 scale) {
     Vec dest;
-    self->turn_and_calc_shot_destination(&dest, iscale, scale);
-    return self->try_move_actor_xz_on_ground(&dest);
+    this->turn_and_calc_shot_destination(&dest, iscale, scale);
+    return this->try_move_actor_xz_on_ground(&dest);
 }
 
-CsnHit *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentSpeed) {
+CsnHit *TObjEneDD_ST::enemy_turn_and_move_on_ground(s32 max_step, f32 currentSpeed) {
     Vec dest;
-    self->turn_and_calc_slide_destination(&dest, max_step, currentSpeed);
-    return self->try_move_actor_xz_on_ground(&dest);
+    this->turn_and_calc_slide_destination(&dest, max_step, currentSpeed);
+    return this->try_move_actor_xz_on_ground(&dest);
 }
 
 
-CsnHit *enemy_turn_and_move_xz_slide(TObjEneDD_ST *self, s32 max_step, f32 distance) {
+CsnHit *TObjEneDD_ST::enemy_turn_and_move_xz_slide(s32 max_step, f32 distance) {
     Vec dest;
-    self->turn_and_calc_slide_destination(&dest, max_step, distance);
-    return self->move_xz_on_ground(&dest);
+    this->turn_and_calc_slide_destination(&dest, max_step, distance);
+    return this->move_xz_on_ground(&dest);
 }
 
-CsnHit *enemy_turn_and_move_xz_clamped(TObjEneDD_ST *self, s32 max_step, f32 distance) {
+CsnHit *TObjEneDD_ST::enemy_turn_and_move_xz_clamped(s32 max_step, f32 distance) {
     Vec dest;
-    self->turn_and_calc_clamped_destination(&dest, max_step, distance);
-    return self->move_xz_on_ground(&dest);
+    this->turn_and_calc_clamped_destination(&dest, max_step, distance);
+    return this->move_xz_on_ground(&dest);
 }
 
 s32 TObjEneDD_ST::update_status_effects() {

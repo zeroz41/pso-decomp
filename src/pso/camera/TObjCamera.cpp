@@ -22,7 +22,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on

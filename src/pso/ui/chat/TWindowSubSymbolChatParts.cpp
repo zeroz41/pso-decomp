@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/math/FloatRound.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
@@ -11,16 +10,16 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatParts.h"
+#include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
@@ -33,13 +32,6 @@ const char *TWindowSubSymbolChatParts::class_name = "TWindowSubSymbolChatParts";
 #pragma pop
 
 
-// inferred: symbol_chat_parts_layout_entries, the layout table symbol_chat_parts_window_layout
-// points at (three sprite parts).
-struct SymbolChatPartsWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec[3];
-};
 SymbolChatPartsWindowLayout symbol_chat_parts_layout_entries = {
     3, 1,
     {
@@ -54,9 +46,6 @@ WindowDescriptor symbol_chat_parts_window_layout = {
 
 
 
-extern "C" {
-void draw_selection_corners(void *, void *, f32, f32);
-}
 
 #pragma push
 #pragma fp_contract on
@@ -202,11 +191,11 @@ void TWindowSubSymbolChatParts::update_cursor_input() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChatParts::draw_selected_cursor(u8 *ctx) {
+void TWindowSubSymbolChatParts::draw_selected_cursor(WindowDrawContext *ctx) {
     NJS_POINT2 corner;
     corner.x = ((40.0f * (f32) (s8) this->cursor_col) + 10.0f) - 3.0f;
     corner.y = ((40.0f * (f32) (s8) this->cursor_row) + 9.0f) - 3.0f;
-    draw_selection_corners(ctx, &corner, 38.0f, 0.1f);
+    draw_selection_corners(ctx, &corner.x, 38.0f, 0.1f);
 }
 #pragma pop
 
@@ -236,13 +225,13 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     e0->color = -1;
     e0->w = 32.0f;
     e0->h = 32.0f;
-    set_sprite_uv_from_pixels(e0, 185.0f, 22.0f);
+    e0->set_sprite_uv_from_pixels(185.0f, 22.0f);
     e0->kind = 0;
     e0->depth = 0.5f;
-    ((TWindowLayoutEntry *)e0)->show();
+    e0->show();
     slot = chat->parts;
     n = TWindowSubSymbolChat::calc_remaining_slots();
-    ((TWindowLayoutEntry *)e2)->hide();
+    e2->hide();
     for (i = 0; i < n; i++, slot++) {
         e0->x = 40.0f * (f32)col + 10.0f;
         e0->y = 40.0f * (f32)row + 9.0f;
@@ -383,8 +372,8 @@ void TWindowSubSymbolChatParts::init_help(s32 *help_value) {
     e2 = (WindowSpritePart *)get_array_entry(2);
     e0 = (WindowSpritePart *)get_array_entry(0);
     *(u16 *)e2 |= 2;
-    set_sprite_dimensions(e0, 32.0f, 32.0f);
-    set_sprite_uv_from_pixels(e0, 185.0f, 22.0f);
+    e0->set_sprite_dimensions(32.0f, 32.0f);
+    e0->set_sprite_uv_from_pixels(185.0f, 22.0f);
     e0->kind = 0;
     item_count = 0x44;
     update_row_count();
@@ -408,7 +397,7 @@ void TWindowSubSymbolChatParts::render() {
         break;
     }
     draw_window_scrollbar(scrollbar, ctx, scroll_offset);
-    draw_selected_cursor((u8 *)ctx);
+    draw_selected_cursor(ctx);
     heading->render(ctx);
 }
 
@@ -440,7 +429,7 @@ void TWindowSubSymbolChatParts::run_task() {
 }
 
 TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)scrollbar, (s16)1);
+    delete scrollbar;
     delete heading;
 }
 

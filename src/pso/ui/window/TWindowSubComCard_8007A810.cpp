@@ -20,7 +20,6 @@
 #include "pso/network/TProtocol.h"
 #include "pso/ui/Language.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/player/TPlyCharData.h"
 
@@ -171,11 +170,13 @@ void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
     card = &cmd->card;
     if ((is_guild_card_invalid(card) == 0) && (card->update_in_card_file() == 0)) {
         set_guild_card_receive_active();
-        if (update_matching_card_slot((GuildCardSlotBase *)card, (GuildCardSlotBase *)received_guild_card_tags, 4) == 0) {
-            replace_matching_card((GuildCardSlotBase *)card, (GuildCardSlotBase *)received_guild_card_tags, 4);
+        if (update_matching_card_slot((GuildCardSlotBase *)card, (GuildCardSlotBase *)TWindowGetComCard::received_guild_card_tags, 4) == 0) {
+            replace_matching_card((GuildCardSlotBase *)card, (GuildCardSlotBase *)TWindowGetComCard::received_guild_card_tags, 4);
         }
     }
 }
+
+
 
 extern "C" {
 
@@ -224,18 +225,18 @@ s32 has_free_card_slot(GuildCardEntry *cards, s32 count) {
 }
 s32 is_guild_card_invalid(GuildCardEntry *card) {
     if (card->text[0x67] != 0) {
-        return 1U;
+        return 1;
     }
-    if ((s32)(u8)card->flags != 1) {
-        return 1U;
+    if (card->flags != 1) {
+        return 1;
     }
     if (card->language < 0) {
-        return 1U;
+        return 1;
     }
     if (card->section_id < 0) {
-        return 1U;
+        return 1;
     }
-    return (u32)card->char_class >> 0x1FU;
+    return card->char_class < 0;
 }
 extern "C" {
 
@@ -281,9 +282,9 @@ void replace_matching_card(GuildCardSlotBase *card, GuildCardSlotBase *entries, 
 }
 extern "C" {
 
-void GuildCardEntry::set_text(char *text) {
-    strncpy(this->text, text, 0x6B);
-    this->text[0x6B] = 0;
+void GuildCardEntry::set_text(const char *src) {
+    strncpy(text, src, 0x6B);
+    text[0x6B] = 0;
 }
 
 }
@@ -389,16 +390,16 @@ void TObjPlayer::set_com_card_window(s32 client) {
     }
 }
 
-GuildCardEntry received_guild_card_tags[4];
+GuildCardEntry TWindowGetComCard::received_guild_card_tags[4];
 
 void remove_first_received_card(void) {
-    TWindowGetComCard::remove_entry(0, received_guild_card_tags, 4);
-    if (received_guild_card_tags[0].is_active() == 0) {
+    TWindowGetComCard::remove_entry(0, TWindowGetComCard::received_guild_card_tags, 4);
+    if (TWindowGetComCard::received_guild_card_tags[0].is_active() == 0) {
         destroy_com_card_window();
     }
 }
 GuildCardEntry *get_received_guild_card_tags(void) {
-    return received_guild_card_tags;
+    return TWindowGetComCard::received_guild_card_tags;
 }
 extern "C" {
 
@@ -415,7 +416,7 @@ void TWindowGetComCard::remove_entry(s32 index, GuildCardEntry *entries, s32 cou
 void clear_received_guild_cards(s32 _w0) {
     destroy_com_card_window();
     for (s32 i = 0; i < 4; i++) {
-        clear_entry_active_flag(&received_guild_card_tags[i]);
+        clear_entry_active_flag(&TWindowGetComCard::received_guild_card_tags[i]);
     }
 }
 void free_received_guild_cards(void* p) { clear_received_guild_cards((saddr)p); }

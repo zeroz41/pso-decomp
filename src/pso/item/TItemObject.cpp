@@ -8,7 +8,7 @@
 
 #include "types.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/TItem.h"
 #include "pso/object/base/TObjChara.h"
@@ -63,7 +63,7 @@ TItemObject::~TItemObject() {}
 
 TItem *TItemObject::create_tool(u8 *item) {
     if (item != NULL) {
-        ItemCreateFunction factory = TLobby__sub_8010440C(item);
+        ItemCreateFunction factory = get_tool_factory_for_item(item);
         return factory(item);
     }
     return NULL;

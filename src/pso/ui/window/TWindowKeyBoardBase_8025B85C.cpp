@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/ui/window/TWindowCtrl_8024B7D4.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
+#include "pso/quest/QuestDownloadRequests.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/Language.h"
@@ -51,7 +51,7 @@ void TWindowKeyBoardBase::key_clear() {
 
 void TWindowKeyBoardBase::key_none() {  }
 
-void TWindowKeyBoardBase::sub_8025B92C() {
+void TWindowKeyBoardBase::convert_composition() {
     char text[0x100];
     char name[0x100];
     s32 count;
@@ -434,7 +434,7 @@ void TWindowKeyBoardBase::key_enter() {
 }
 
 void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
-    u8 *name;
+    const char *name;
     u16 flags;
     u32 cursor;
     flags = state_flags;
@@ -444,7 +444,7 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
         }
         commit_composition_text();
     }
-    name = (u8 *)get_party_member_name(slot);
+    name = (const char *)get_party_member_name(slot);
     if (name != NULL) {
         text_builder_reset();
         cursor = m_text.cursor;

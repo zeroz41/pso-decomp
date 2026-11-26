@@ -4,7 +4,6 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "types.h"
@@ -55,6 +54,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/render/model_render_state.h"
 
 
 DelDepthParameters *TObjEneDelDepth::tune_params;
@@ -120,12 +120,6 @@ TObjEneDelDepth::ActionPair deldepth_actions[] = {
     { &TObjEneDelDepth::enter_fall_to_ground, &TObjEneDelDepth::update_fall_to_ground },
 };
 
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 
 void TObjEneDelDepth::setup_draw_material(f32 opacity, f32 red, f32 green, f32 blue) {
     NJS_ARGB color;
@@ -548,7 +542,7 @@ void TObjEneDelDepth::update_movement() {
             if (obj_is_hit_receivable(pl) != 0 && is_player_entity_id(pl->get_entity_id()) != 0) {
                 pl->select_melee_contact_body(this, 1.0f);
                 pl->receive_physical_attack(this, 1.0f);
-                pl->apply_knockback_from_attacker((u8 *)this, 5.0f);
+                pl->apply_knockback_from_attacker(this, 5.0f);
             }
         }
     }
@@ -845,9 +839,9 @@ void TObjEneDelDepth::update_attack_cast() {
     this->attackTimer--;
     if (this->attackTimer <= 0 && this->attackTimer == 0) {
         if ((s32) game_difficulty_selection == 3) {
-            TTecMegid::create_ex((saddr)self, (saddr)((u8 *)&this->position), (s32)((int)this->rotation_y), (s32)(tune_params->techniqueLevel));
+            TTecMegid::create_ex(this, &this->position, this->rotation_y, tune_params->techniqueLevel);
         } else {
-            TTecBarta::create_ex(self, &this->position, this->rotation_y, tune_params->techniqueLevel);
+            TTecBarta::create_ex(this, &this->position, this->rotation_y, tune_params->techniqueLevel);
         }
     }
     if (--this->timer <= 0) {

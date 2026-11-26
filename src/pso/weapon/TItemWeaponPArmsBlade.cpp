@@ -9,7 +9,7 @@
 #include <stdlib.h>
 
 
-s32 TObjPlayer::is_rand_below_threshold() {
+s32 TItemWeaponPArmsBlade::is_rand_below_threshold() {
     return (u32)__cntlzw(((3.0517578e-05f * (f32) rand()) < 0.3f)) >> 5;
 }
 
@@ -19,7 +19,7 @@ void TItemWeaponPArmsBlade::draw_held_model() {
     NJS_OBJECT *saved_model;
     saved = get_photon_color_id();
     saved_model = item_model;
-    if (((TObjPlayer *)this)->is_rand_below_threshold() == 0) {
+    if (is_rand_below_threshold() == 0) {
         set_photon_color_id(8);
         item_render_state.set(4);
     }
@@ -28,7 +28,7 @@ void TItemWeaponPArmsBlade::draw_held_model() {
         update_trail_slot(0);
     }
     item_model = second_model;
-    if (((TObjPlayer *)this)->is_rand_below_threshold() == 0) {
+    if (is_rand_below_threshold() == 0) {
         set_photon_color_id(8);
         item_render_state.set(4);
     } else {

@@ -26,15 +26,15 @@ public:
 
 void update_hunter_guild_phase();
 
-extern "C" {
 void clear_windows(THunterGuildWarning *warning);
+extern "C" {
 void THunterGuildWarning__sub_80211700(void);
 void THunterGuildWarning__sub_8021170C(void);
 }
 
 extern "C" {
 s32 TLobby__sub_80211C3C(void);
-s32 is_in_hunter_guild(s32 client_id);
 }
+s32 is_in_hunter_guild(s32 client_id);
 
 #endif

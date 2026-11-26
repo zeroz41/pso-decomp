@@ -15,13 +15,14 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/TWindowLayoutRect.h"
 
 const char *TWindowMenuInfomation::class_name = "TWindowMenuInfomation";
 static const NJS_POINT2 choice_setting_popup_extent = {425.0f, 188.0f};
@@ -139,11 +140,11 @@ void TWindowMenuInfomation::clamp_scroll() {
 
 
 void TWindowMenuInfomation::draw_setting(WindowDrawContext *context) {
-    u16 *entry;
+    TWindowLayoutRect *entry;
 
-    entry = (u16 *)this->get_array_entry(this->index);
-    if (*entry & 1) {
-        draw_selection_bar(context, (TWindowLayoutRect *)entry, this->is_open());
+    entry = (TWindowLayoutRect *)this->get_array_entry(this->index);
+    if (entry->flags & 1) {
+        draw_selection_bar(context, entry, this->is_open());
     }
 }
 
@@ -168,13 +169,6 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-// inferred: choice_setting_popup_layout_entries, the layout table choice_setting_popup_window_descriptor
-// points at (one type-9 record; set_choice_setting_popup_size fills in the row count).
-struct ChoiceSettingPopupLayout {
-    u32 cols;
-    u32 rows;
-    TypeLayoutRecord rec;
-};
 ChoiceSettingPopupLayout choice_setting_popup_layout_entries = {1, 0, {9}};
 WindowDescriptor choice_setting_popup_window_descriptor = {
     {0.0f, 0.0f}, 50050.0f, &choice_setting_popup_layout_entries, 3,
@@ -231,10 +225,10 @@ void TWindowMenuInfomation::run_task() {
             }
         } else {
             pad = &controller_input_state.controllers[0];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 this->move_next_choice();
             }
         }
@@ -264,7 +258,7 @@ void TWindowMenuInfomation::run_task() {
 }
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {
-    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
+    delete scroll_bar;
     delete this->heading;
 }
 TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)

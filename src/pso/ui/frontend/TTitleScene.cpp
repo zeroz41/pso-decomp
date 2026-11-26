@@ -32,7 +32,8 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/system/ControllerInput.h"
 
 
     extern int lobby_game_mode_state;
@@ -87,10 +88,10 @@ struct LobbyLoadCallback {
 };
 
 LobbyLoadCallback lobby_load_callback_table[4] = {
-    {TLobby__sub_80335E78, TLobby__sub_80335E74},
-    {clear_lobby_global_flags, TLobby__sub_80336E44},
-    {TLobby__sub_80335FE4, TLobby__sub_80335FE0},
-    {TLobby__sub_80336E68, TLobby__sub_80336E64},
+    {load_title_menu_resources, free_title_menu_resources},
+    {clear_lobby_global_flags, free_lobby_global_flags},
+    {load_title_texture_resources, free_title_texture_resources},
+    {load_title_background_resources, free_title_background_resources},
 };
 
 typedef void (TTitleScene::*TitleStateHandler)();
@@ -220,7 +221,6 @@ int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
 
 extern "C" {
-    extern int lbl_805D68C8;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 }
 
@@ -269,18 +269,18 @@ void TTitleScene::set_flag_and_clear_download() {
 }
 
 
-void TLobby__sub_803361FC(void) {  }
+void TLobby__sub_803361FC(TTitleScene *scene) {}
 void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phase(19); }
 void TTitleScene::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::open_dialing_select_scene(); }
 void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::open_select_game_mode_scene(); }
 void TTitleScene::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::open_ex_net_confirm_scene(); }
-void dispatch_title_choice(TTitleScene *scene) {
-    if (is_title_choice_confirmed(scene->transition_controller) != 0) {
+void TTitleScene::dispatch_title_choice() {
+    if (transition_controller->is_title_choice_confirmed() != 0) {
         set_fallback_main_phase(2);
-        if (scene->start_offline_seq() != 0) {
-            ((void (*)(void *))TLobby__sub_803361FC)(scene);
-            TitleStateHandler handler = state_handler_pmf_table[get_transition_cursor(scene)];
-            (scene->*handler)();
+        if (start_offline_seq() != 0) {
+            TLobby__sub_803361FC(this);
+            TitleStateHandler handler = state_handler_pmf_table[get_transition_cursor(this)];
+            (this->*handler)();
         }
     }
 }
@@ -299,10 +299,10 @@ void TTitleScene::run_task() {
         return;
     }
     if (attract_tick < attract_timeout) {
-        if ((hardware_keyboard_state.has_any_key_pressed() != 0) || (TKeyBoardControl::any_pad_input_active() != 0)) {
+        if ((hardware_keyboard_state.has_any_key_pressed() != 0) || (any_pad_input_active() != 0)) {
             attract_tick = 0;
         }
-        dispatch_title_choice(this);
+        dispatch_title_choice();
     }
     if (attract_timeout == attract_tick) {
         transition_controller->suspend_update();
@@ -343,9 +343,9 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     set_fallback_main_phase(1);
     TAdMultiPlyChrSelectGC::reset_slot_selections();
     TObjEneDolmOlm::reset_count();
-    TAdMultiPlyChrSelectGC__sub_803367E8();
+    clear_multi_chr_select_slot_chosen();
     lobby_game_mode_state = 0;
-    if (TKeyBoardControl__sub_8000F828() == 0) {
+    if (get_video_standard() == 0) {
         attract_timeout = 0x4B0;
     } else {
         attract_timeout = 0x320;
@@ -401,4 +401,4 @@ void initialize_lobby_title_scene(void) {
     set_current_floor_area(0);
 }
 
-void TAdMultiPlyChrSelectGC__sub_803367E8(void) { lbl_805D68C8 = 0; }
+void clear_multi_chr_select_slot_chosen() { multi_chr_select_slot_chosen = 0; }

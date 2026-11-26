@@ -5,12 +5,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/task/TMainTask.h"
 
 const char *TBoss6EffHyoui::name = "TBoss6EffHyoui";
 extern "C" {
 f32 boss6_eff_hyoui_scale;
 s8 boss6_eff_hyoui_scale_set;
-extern void *tl_02;
 }
 
 void TBoss6EffHyoui::run_task() {
@@ -55,5 +55,5 @@ TBoss6EffHyoui::TBoss6EffHyoui(TObject *parent, u16 client, s32 effect, s32 dura
 }
 
 TBoss6EffHyoui *TBoss6EffHyoui::create(u16 client, s32 effect, s32 duration) {
-    return new TBoss6EffHyoui(static_cast<TObject *>(tl_02), client, effect, duration);
+    return new TBoss6EffHyoui(tl_02, client, effect, duration);
 }

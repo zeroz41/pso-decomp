@@ -5,8 +5,8 @@
 
 class TPlyInventoryItem;
 
-extern "C" {
 const TPlyInventoryItem *get_class_starting_inventory(s32 class_index);
+extern "C" {
 TPlyInventoryItem *copy_inventory_item(TPlyInventoryItem *destination, const TPlyInventoryItem *source);
 }
 void copy_entries(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem *destination);

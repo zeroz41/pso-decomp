@@ -18,8 +18,6 @@ public:
     virtual void run_task();
 };
 
-extern "C" {
 TObjChara *get_enemy_entity(u16 entity_id);
-}
 
 #endif

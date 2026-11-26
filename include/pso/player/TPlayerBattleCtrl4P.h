@@ -34,10 +34,10 @@ private:
     void destroy_dead_spots(TObject *parent);
     void set_phase_state(s32 state);
 public:
-    void sub_80311800();
-    void sub_80311804();
+    void idle_return_step2();
+    void idle_return_step1();
     void return_to_hunters_guild();
-    void sub_80311890();
+    void idle_reload_done();
     void finish_battle_reload();
     void begin_battle_reload_fade();
     void begin_battle_reload();

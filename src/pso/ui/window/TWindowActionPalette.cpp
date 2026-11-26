@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -16,14 +15,12 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
 #include "pso/system/ControllerInput.h"
@@ -47,13 +44,10 @@ LAYOUT_ASSERT(palette_size, sizeof(TWindowActionPalette) == 0x78);
 const char *TWindowActionPalette::class_name = "TWindowActionPalette";
 #pragma pop
 
-struct PaletteItemKind { u8 group; u8 index; };
-
-
 
 // update_palette_item_count_label is the first caller of these two: their copies close the TU.
-void TWindowLayoutEntry::hide() { flags |= 0x2; }
-void TWindowLayoutEntry::show() { flags &= 0xfffffffd; }
+void TWindowLayoutEntry::hide() { flags |= 2; }
+void TWindowLayoutEntry::show() { flags &= ~2; }
 
 extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
@@ -65,8 +59,6 @@ const PaletteItemKind action_palette_item_kinds[13] = {
     {0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {6, 0},
     {6, 1}, {3, 0}, {4, 0}, {5, 0}, {7, 0}, {8, 0},
 };
-
-struct PaletteIconUV { f32 u; f32 v; };
 
 PaletteIconUV action_palette_icon_uv_tables[19] = {
     {50.0f, 0.0f}, {50.0f, 43.0f}, {50.0f, 86.0f}, {100.0f, 0.0f},
@@ -101,19 +93,6 @@ const f32 TWindowActionPalette::bank_panel_uv_origins[4][2] = {
 const u8 action_palette_slot_icon_entries[3] = {2, 4, 6};
 const u8 action_palette_slot_channels[3] = {1, 2, 3};
 const u8 action_palette_slot_count_entries[3] = {3, 5, 7};
-
-struct ActionPaletteWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    SpritePartLayoutRecord rec_1;
-    SpritePartLayoutRecord rec_2;
-    ValueLayoutRecord rec_3;
-    SpritePartLayoutRecord rec_4;
-    ValueLayoutRecord rec_5;
-    SpritePartLayoutRecord rec_6;
-    ValueLayoutRecord rec_7;
-};
 
 ActionPaletteWindowLayout action_palette_layout_entries = {
     8, 1,
@@ -191,7 +170,7 @@ void TWindowActionPalette::run_task() {
     } else {
         update_slot_sprites(0, 7, v);
     }
-    if (is_palettex_activated((u16)client_index) != 0 && ((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
+    if (is_palettex_activated((u16)client_index) != 0 && player->action_palettes.is_primary_first_bank() != 0) {
         update_slot_icon(1, 7, 7);
     } else {
         v = palette->get_current_tag_slot(2);
@@ -201,7 +180,7 @@ void TWindowActionPalette::run_task() {
     update_slot_sprites(2, palette->get_current_tag_mode(3), v);
     target = TObjPlayer::get_current_target_id();
     if (target == 0xFFFF || target == client_index || player->get_photon_blast_charge() <= 0) {
-        if (((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
+        if (player->action_palettes.is_primary_first_bank() != 0) {
             if (is_split_screen() != 0) {
                 set_bank_panel_art(3);
             } else {
@@ -322,7 +301,7 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
         } else {
             icon->color = 0xFF404040;
         }
-        ((TWindowLayoutEntry *)get_array_entry(5))->hide();
+        static_cast<TWindowLayoutNumber *>(get_array_entry(5))->hide();
         ActionPaletteTag *cur = &resources[idx];
         if (mode != get_action_palette_tag_mode(cur) || get_action_palette_tag_slot(cur) != slot) {
             set_action_palette_tag_mode(cur, mode);
@@ -334,7 +313,7 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
 
 void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
     WindowSpritePart *sprite = (WindowSpritePart *)get_array_entry(1);
-    set_sprite_uv_from_pixels(sprite, TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
+    sprite->set_sprite_uv_from_pixels(TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
 }
 
 #pragma push
@@ -443,7 +422,7 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
     s32 v;
     TObjPlayer *p;
     if (group != 4) {
-        reinterpret_cast<TWindowLayoutEntry *>(label)->hide();
+        label->hide();
         return;
     }
     if (index >= 0xD) {
@@ -457,13 +436,13 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
         v = TWindowHelpItem::get_help_value(index, client_id);
     }
     if (v <= 0) {
-        reinterpret_cast<TWindowLayoutEntry *>(label)->hide();
+        label->hide();
         return;
     }
-    reinterpret_cast<TWindowLayoutEntry *>(label)->show();
+    label->show();
     label->color = icon->color;
     label->value = v;
-    draw_right_aligned_number(label);
+    label->calc_size();
     label->x = (icon->x - -25.0f) + 0.5f * label->width;
     label->y = icon->y - -28.0f;
 }
@@ -500,8 +479,8 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
 
 void TWindowHelpItem::set_help_text(saddr help, saddr client_id) {
     if (TWindowKeyBoardHard::test_card_flag_2(client_id) != 0) {
-        set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 92.0f, 56.0f);
+        reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 56.0f);
         return;
     }
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 92.0f, 0.0f);
+    reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 0.0f);
 }

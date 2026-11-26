@@ -21,7 +21,7 @@ void adxb_exec_one_spsd(AdxbDecoder *adxb) {
         s16 *r;
         s32 i;
         s32 n;
-        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->remaining);
         n = adxb->bufLen - adxb->pos;
         if (n > adxb->avail) {
             n = adxb->avail;
@@ -54,7 +54,7 @@ void adxb_exec_one_spsd(AdxbDecoder *adxb) {
 s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 len;
     adxb->m_02 = 1;
-    if (TLobby__sub_803C44C0((SpsdHeader *)hdr, size, &len, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes, &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
+    if (adx_parse_spsd_header((SpsdHeader *)hdr, size, &len, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes, &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
     adxb->cutoff = 0;
@@ -83,39 +83,39 @@ s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     return len;
 }
 
-s32 TLobby__sub_803C44C0(SpsdHeader *hdr, s32 size, s16 *len, s8 *out_0C, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate, s32 *samples, s32 *block_samples, s16 *format) {
-    *len = hdr->m_07 * 0x10;
-    *channels = (hdr->m_09 & 3) + 1;
-    *rate = hdr->m_2A;
-    switch (hdr->m_08) {
+s32 adx_parse_spsd_header(SpsdHeader *hdr, s32 size, s16 *len, s8 *encoding_type, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate, s32 *samples, s32 *block_samples, s16 *encoding) {
+    *len = hdr->header_length * 0x10;
+    *channels = (hdr->channel_flags & 3) + 1;
+    *rate = hdr->rate;
+    switch (hdr->encoding) {
     case 0:
         *bits = 0x10;
         *block_bytes = *channels * 2;
         *block_samples = 1;
-        *samples = hdr->m_0C / 2;
-        *format = 0;
+        *samples = hdr->data_size / 2;
+        *encoding = 0;
         break;
     case 1:
         *bits = 8;
         *block_bytes = *channels;
         *block_samples = 1;
-        *samples = hdr->m_0C;
-        *format = 1;
+        *samples = hdr->data_size;
+        *encoding = 1;
         break;
     case 2:
     case 3:
         *bits = 4;
         *block_bytes = *channels;
         *block_samples = 2;
-        *samples = hdr->m_0C * 2;
-        *format = 2;
+        *samples = hdr->data_size * 2;
+        *encoding = 2;
         break;
     }
     *block_bytes = 2;
     *block_samples = 1;
-    *samples = hdr->m_0C / 2;
+    *samples = hdr->data_size / 2;
     *bits = 0x10;
-    *out_0C = -1;
+    *encoding_type = -1;
     return 0;
 }
 

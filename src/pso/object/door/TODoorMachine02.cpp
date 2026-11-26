@@ -5,7 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"
@@ -83,7 +83,7 @@ void TODoorMachine02::render() {
         unlocked = door_flags & 1;
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
         if (object_state == DOOR_CLOSED) {
-            node = (model)->child;
+            node = model->child;
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
             if (unlocked != 1) {
@@ -106,7 +106,7 @@ void TODoorMachine02::render() {
                 set_constant_material(&chunk_material_color_half_alpha_f32);
                 model_render_flags = saved_model_render_flags;
             }
-            node = (model)->child->sibling;
+            node = model->child->sibling;
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
         } else {

@@ -9,20 +9,24 @@
 struct GuildCardEntry {
     s32 get_card_id() const;
     char *get_name();
-    char *get_text();
     int is_active() const;
     s8 get_char_class();
     s8 get_language();
     s8 get_section_id();
+    // The card description the com card keyboard edits.
+    char *get_text();
     // 1 unless flag 2 is set; cards filled from a short mail or another player get flags 3, the
     // player's own card (fill_from_char) only flag 1.
     s32 is_own_card() const;
-    void bswap();
-    void set_text(char *text);
-    void clear_and_fill_from_char(s32 index);
+    // Fills the card with the name, class and section id of the character in save slot index, the
+    // current language and this console's guild card tag.
     void fill_from_char(s32 index);
+    void clear_and_fill_from_char(s32 index);
+    // Copies src into the card description, cut to fit.
+    void set_text(const char *src);
     // Updates the matching card of the guild card file (update_matching_card); 1 if the file has it.
     s32 update_in_card_file();
+    void bswap();
 
     TPlyGuildCardTag tag;
     char name[0x18];

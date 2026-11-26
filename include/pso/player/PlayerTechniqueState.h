@@ -16,7 +16,7 @@ public:
     void set_level(u8 v);
     void set_tech_override(u8 v);
     void set_technique_id(s16 v);
-    s16 get_or_init_field_4();
+    s16 get_technique_id();
     void set_tech_level(s16 lim);
     void reset_slots();
     s16 get_section_clamped();

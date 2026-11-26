@@ -38,9 +38,9 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void render_guard_effect();
     virtual void update_body_colliders();
     virtual void check_collisions();
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();

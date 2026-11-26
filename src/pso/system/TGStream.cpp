@@ -13,6 +13,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/AsyncFileRead.h"
 
 #pragma readonly_strings on
 static const char gstream_class_name[] = "TGStream";
@@ -197,10 +199,8 @@ void reset_gstream_buffer(void) {
     gstream_buffer_valid_size = 0;
     gstream_buffer_read_offset = 0x40000;
 }
-extern "C" {
 
 void TGStream__sub_800FDD64(void) {  }
-}
 
 s32 TGStream::get_file_size() { return gstream_file_size; }
 GslArchiveEntry *find_gsl_entry(const char *name, s32 unused) {
@@ -341,7 +341,7 @@ TGStream::~TGStream() {
         ADXF_Close(adxf_handle);
     }
     if (direct_read_mode == 0) {
-        TLobby::tmp_buf_release(gstream_class_name);
+        tmp_buf_release(gstream_class_name);
     }
 }
 
@@ -370,10 +370,10 @@ TGStream::TGStream(void *file, s32 direct_read_mode) {
     }
     this->direct_read_mode = direct_read_mode;
     if (this->direct_read_mode == 0) {
-        while (TLobby::tmp_buf_is_free() == 0) {
-            TLobby::pump_frames();
+        while (tmp_buf_is_free() == 0) {
+            pump_frames();
         }
-        gstream_tmp_buffer = (saddr)TLobby::tmp_buf_use_req(gstream_class_name);
+        gstream_tmp_buffer = (saddr)tmp_buf_use_req(gstream_class_name);
     }
 }
 

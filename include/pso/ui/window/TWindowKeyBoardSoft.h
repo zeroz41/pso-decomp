@@ -19,7 +19,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void handle_page_cycle_input(s32);
     void update_keyboard_child_input_from_controller(s32);
     void handle_backspace_button(s32);
-    s32 sub_802605DC();
+    s32 get_cursor_key();
     int get_flag_bit5();
     int get_flag_bit6();
     int is_cursor_locked();
@@ -61,5 +61,11 @@ LAYOUT_ASSERT(TWindowKeyBoardSoft_control_offset, offsetof(TWindowKeyBoardSoft, 
 // Key class of each cell of the 16 x 7 key grid, indexed by x + y * 16: 0/1 one-cell keys, 2..17 the cells
 // of the wide keys (it picks the key width and colour). Defined after profanity_word_table (name inferred).
 extern u8 soft_keyboard_key_class[7 * 16];
+
+struct KeyUV {
+    f32 u;
+    f32 v;
+};
+
 
 #endif

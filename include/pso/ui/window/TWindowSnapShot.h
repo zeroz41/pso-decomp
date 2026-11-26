@@ -4,18 +4,18 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/RlcArchive.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSnapShot : public TWindowBase {
     TWindowSnapShot(saddr position);
     virtual ~TWindowSnapShot();
     static const char *class_name;
     virtual void render();
-    u8 result_flags;  // 0x1 done (is_done)
+    u8 result_flags; // bit 0 closed by the player (is_done), bit 1 no valid snapshot
     void play_open_sound();
-    // Set by play_open_sound, when run_task sees button 2 pressed.
     int is_done();
     virtual void run_task();
-    u8 unk_61[0x3];
+    u8 pad_61[0x3];
 };
 
 LAYOUT_ASSERT(TWindowSnapShot_size, sizeof(TWindowSnapShot) == 0x64);
@@ -57,5 +57,15 @@ void upload_player_motion_data();
 void alloc_player_motion_aram();
 s32 load_player_motion_data(void);
 void free_player_motion_archive();
+
+// window_snapshot_layout_entries, the layout table window_snapshot_layout points at
+// (a sprite part and a text line).
+struct SnapShotWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+};
+
 
 #endif

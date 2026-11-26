@@ -47,7 +47,6 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/hud/TMainCursor_80154090.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
@@ -57,6 +56,7 @@
 #include "pso/math/ScratchVectors.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/effect/TEffect.h"
+#include "pso/item/item_pmt.h"
 #include "pso/render/DebugFont.h"
 #undef PSO_SDK_COMPACT_MATH
 
@@ -78,7 +78,7 @@ extern "C" {
 
 void draw_chunk_object(void);
 
-u8 get_cast_technique_level(void *, s32);
+u8 get_cast_technique_level(void *, s16);
 s16 get_action_palette_mode(TObjPlayer *player, s32 index);
 }
 
@@ -120,10 +120,7 @@ struct TLockOnCursor;
 
 struct TechniqueCursorParams { u8 pad0[8]; f32 reach; f32 apex_offset; u8 pad10[0x18 - 0x10]; s32 horizontal_angle; s32 vertical_angle; u8 pad20[2]; s8 cursor_type; };
 
-struct WeaponRangeRecord { f32 reach; f32 apex_offset; s32 horizontal_angle; s32 vertical_angle; s32 cursor_type; };
-
 extern "C" {
-WeaponRangeRecord *get_weapon_range_record(void *, s32);
 extern f32 scratch_vec5[3];
 #define APPLY_TECH_RANGE(t)                                          \
     cur->cone_apex_offset = (t)->apex_offset;                                           \
@@ -141,10 +138,7 @@ s32 lock_on_cursor_model;
 s32 TLockOnCursor::target_cursor_model;
 
 NJS_OBJECT *main_cursor_model;
-extern "C" {
 void reset_target_part_entry(LockOnTargetPart *);
-
-}
 
 extern const f32 lbl_805DB0C4;
 
@@ -456,11 +450,10 @@ void TLockOnCursor::sort_list(s32 index) {
 #pragma push
 #pragma fp_contract on
 
-void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s32 id) {
+void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s16 id) {
     LockOnActionSlot *cur;
     TechniqueCursorParams *tech;
     WeaponRangeRecord *wpn;
-    s16 sid;
     if (player == NULL) {
         return;
     }
@@ -490,7 +483,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         }
         break;
     case 4:
-        switch ((s16)id) {
+        switch (id) {
         case 10:
             tech = (TechniqueCursorParams *)calc_technique_parameters(0xF, 0xE, player->get_entity_id());
             activate_action_channel(cur);
@@ -522,17 +515,17 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         cur->vertical_cone_angle = wpn->vertical_angle;
         cur->horizontal_cone_cos = cos_table_lookup(cur->horizontal_cone_angle);
         cur->vertical_cone_cos = cos_table_lookup(cur->vertical_cone_angle);
-        cur->set_max_targets(wpn->cursor_type);
+        cur->set_max_targets(wpn->max_targets);
         break;
     case 3: {
         u16 client = player->get_entity_id();
         s32 lvl = get_cast_technique_level(&player->technique_state, id);
-        sid = id;
-        tech = (TechniqueCursorParams *)calc_technique_parameters(sid, lvl, client);
+        s32 technique = id;
+        tech = (TechniqueCursorParams *)calc_technique_parameters(technique, lvl, client);
         activate_action_channel(cur);
         APPLY_TECH_RANGE(tech)
         cur->set_max_targets(tech->cursor_type);
-        switch (sid) {
+        switch (technique) {
         case 0:
         case 1:
         case 2:
@@ -587,8 +580,8 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         break;
     }
     case 5: {
-        s16 pid = id;
-        tech = (TechniqueCursorParams *)get_photon_blast_entry((s16)pid);
+        s32 blast = id;
+        tech = (TechniqueCursorParams *)get_photon_blast_entry(blast);
         activate_action_channel(cur);
         if (player->pk_state.is_enabled() == 0) {
             cur->set_body_include_mask(0x8000);
@@ -600,7 +593,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         cur->set_body_exclude_mask(0);
         cur->set_actor_exclude_mask(0xD0040800);
         APPLY_TECH_RANGE(tech)
-        switch (pid) {
+        switch (blast) {
         case 0:
         case 1:
         case 2:
@@ -736,7 +729,7 @@ void TLockOnCursor::bind_action_channels() {
     slot = 0;
     for (i = 0; i < count; i++) {
         if (entry->get_priority() != 0) {
-            setup_action_channel(player, slot, get_action_palette_mode(player, entry->get_index()), (s16)player->get_action_palette_entry(entry->get_index()));
+            setup_action_channel(player, slot, get_action_palette_mode(player, entry->get_index()), player->get_action_palette_entry(entry->get_index()));
             slot++;
         }
         entry++;
@@ -1575,13 +1568,13 @@ u16 TMainCursor::get_client_id() { return owner.get_client_id(); }
 
 u16 CursorOwner::get_client_id() { return client_id; }
 
-int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)&state_flags, 2); }
+int TMainCursor::test_flag_2_at_20() { return state_flags.test_flags_any(2); }
 
-int TMainCursor::init_render_flags() { return test_flags_any((s32 *)&state_flags, 8); }
+int TMainCursor::init_render_flags() { return state_flags.test_flags_any(8); }
 
-int TMainCursor::update() { return test_flags_any((s32 *)&state_flags, 4); }
+int TMainCursor::update() { return state_flags.test_flags_any(4); }
 
-int TMainCursor::check_flag_1() { return test_flags_any((s32 *)&state_flags, 1); }
+int TMainCursor::check_flag_1() { return state_flags.test_flags_any(1); }
 
 u8 TMainCursor::is_position_moved() { return (u8)(target.get_target_id()); }
 
@@ -1671,7 +1664,7 @@ void ActionPriorityEntry::set_priority(s16 v) { priority = v; }
 
 u16 TLockOnCursor::get_target_id() { return target_id; }
 
-int TLockOnCursor::is_cursor_clear() { return (test_flags_any((s32 *)&flags, 1)) == 0; }
+int TLockOnCursor::is_cursor_clear() { return (flags.test_flags_any(1)) == 0; }
 
 void set_target_part(LockOnTargetPart *target, u16 part, s32 index, s32 flag) {
     target->actor_id = part;
@@ -1695,7 +1688,7 @@ void set_cursor_mode(void* p, u8 v) { set_action_palette_tag_mode(static_cast<Ac
 
 void LockOnTargetRecordList::set_count(s32 count) { this->count = count; }
 
-int LockOnTargetRecord::is_excluded() { return test_flags_any(&flags.bits, 2); }
+int LockOnTargetRecord::is_excluded() { return flags.test_flags_any(2); }
 
 int LockOnSelection::is_cursor_on_target() { return target.is_same_target(&cursor_target); }
 
@@ -1705,7 +1698,7 @@ void LockOnTargetRecord::clear_primary() { flags.clear(1); }
 
 void LockOnTargetRecord::set_excluded() { flags.set(2); }
 
-int TLockOnCursor::is_inactive() { return (test_flags_any(&this->flags.bits, 2)) == 0; }
+int TLockOnCursor::is_inactive() { return (this->flags.test_flags_any(2)) == 0; }
 
 void LockOnTargetRecord::clear_excluded() { flags.clear(2); }
 
@@ -1715,7 +1708,7 @@ s32 LockOnActionSlot::get_max_targets() { return max_targets; }
 int get_target_cursor_model(void) {  return TLockOnCursor::target_cursor_model; }
 
 
-int LockOnTargetRecord::is_primary() { return test_flags_any(&flags.bits, 1); }
+int LockOnTargetRecord::is_primary() { return flags.test_flags_any(1); }
 
 s32 LockOnTargetRecordList::get_count() { return count; }
 

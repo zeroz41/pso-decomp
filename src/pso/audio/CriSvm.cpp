@@ -7,7 +7,7 @@
 
 s32 lobby_callback_tables_refcount;
 
-void svm_release_callback_tables(void) {
+void svm_finish(void) {
     lobby_callback_tables_refcount -= 1;
 }
 

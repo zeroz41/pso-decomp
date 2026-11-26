@@ -52,7 +52,9 @@ typedef struct ModemRequest {
     s16 type;
     s16 has_arg;
     s16 timeout;
-    u8 pad06[6];
+    s16 pad_6;
+    s16 pad_8;
+    u8 pad_a[2];
     char *arg;
 } ModemRequest;
 LAYOUT_ASSERT(ModemRequest_size, sizeof(ModemRequest) == 0x10);
@@ -106,13 +108,9 @@ typedef struct NetSession {
     char *phone_number;         /* 0x14 */
     NetStatusCallback cb;       /* 0x18 */
     ModemConfig modem;          /* 0x1C: a copy of the default (ppp_init, ppp_set_modem_property) */
-    s16 h7C;                    /* 0x7C: NetConnectCfg.h18 .. h20 */
-    s16 h7E;
-    s16 h80;
-    s16 h82;
-    s16 h84;
+    s16 transport_settings[5];  /* 0x7C: NetConnectCfg.transport_settings */
     u8 pad86[2];
-    ModemRequest req;           /* 0x88: NetConnectCfg.req_type .. prefix */
+    ModemRequest req;           /* 0x88: NetConnectCfg.modem */
     s16 auth_mode;                  /* 0x98: NetConnectCfg.auth_mode .. vj_disabled; the low 7 bits select the authentication */
     s16 mtu;                    /* 0x9A: 0 = the default (lobby_net_buffer_desc_b) */
     s32 start_tick;             /* 0x9C */

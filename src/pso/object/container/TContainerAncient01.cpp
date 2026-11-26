@@ -117,13 +117,13 @@ const char *container_ancient01_r_name = "TContainerAncient01R";
 BmlResource *container_ancient01_bml_resource;
 BmlResource *container_ancient01_r_bml_resource;
 
-s32 TContainerAncient01::roll_physical_accuracy(void *, s32, f32) { return 1; }
+s32 TContainerAncient01::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 
-s32 TContainerAncient01::try_start_action(void *, s32, f32) { return 1; }
+s32 TContainerAncient01::try_start_action(TObjChara *, s32, f32) { return 1; }
 
-void TContainerAncient01::apply_knockback_from_attacker(u8 *, f32) {  }
+void TContainerAncient01::apply_knockback_from_attacker(TObjBase *, f32) {  }
 
-f32 TContainerAncient01::receive_weapon_special_attack(void *, void *) {
+f32 TContainerAncient01::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     receive_physical_attack(NULL, ancient01_one[0]);
     return ancient01_zero[0];
 }
@@ -134,13 +134,13 @@ BmlResource *TContainerAncient01::get_bml_resource() {
 
 int TContainerAncient01::get_table_entry(int a0) {  return container_ancient01_effect_id_table[a0]; }
 
-s32 TContainerAncient01R::roll_physical_accuracy(void *, s32, f32) { return 1; }
+s32 TContainerAncient01R::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 
-s32 TContainerAncient01R::try_start_action(void *, s32, f32) { return 1; }
+s32 TContainerAncient01R::try_start_action(TObjChara *, s32, f32) { return 1; }
 
-void TContainerAncient01R::apply_knockback_from_attacker(u8 *, f32) {  }
+void TContainerAncient01R::apply_knockback_from_attacker(TObjBase *, f32) {  }
 
-f32 TContainerAncient01R::receive_weapon_special_attack(void *, void *) {
+f32 TContainerAncient01R::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     receive_physical_attack(NULL, ancient01_one[0]);
     return ancient01_zero[0];
 }
@@ -254,7 +254,7 @@ void TContainerAncient01::run_task() {
 
 void TContainerAncient01::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -270,13 +270,13 @@ void TContainerAncient01::render() {
     }
 }
 
-s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
+s32 TContainerAncient01::select_melee_contact_body(TObjChara *target, f32) {
     return xyz_distance_squared(&static_cast<const TObjBase *>(target)->position, &position) < 4e+02f;
 }
 
-int TContainerAncient01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
+int TContainerAncient01::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TContainerAncient01::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
+f32 TContainerAncient01::receive_direct_attack(TObjBase *arg1, DirectAttackPayload payload, CollisionBody *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;
@@ -286,7 +286,7 @@ f32 TContainerAncient01::receive_direct_attack(void *arg1, DirectAttackPayload p
     return ancient01_zero[0];
 }
 
-f32 TContainerAncient01::receive_physical_attack(void *, f32) {
+f32 TContainerAncient01::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
 
     if ((u16) this->entity_id >= 0x1000U) {
@@ -534,7 +534,7 @@ void TContainerAncient01R::run_task() {
 
 void TContainerAncient01R::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -550,13 +550,13 @@ void TContainerAncient01R::render() {
     }
 }
 
-s32 TContainerAncient01R::select_melee_contact_body(void *target, f32) {
+s32 TContainerAncient01R::select_melee_contact_body(TObjChara *target, f32) {
     return xyz_distance_squared(&static_cast<const TObjBase *>(target)->position, &position) < 4e+02f;
 }
 
-int TContainerAncient01R::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
+int TContainerAncient01R::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
+f32 TContainerAncient01R::receive_direct_attack(TObjBase *arg1, DirectAttackPayload payload, CollisionBody *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;
@@ -566,7 +566,7 @@ f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload 
     return ancient01_zero[0];
 }
 
-f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
+f32 TContainerAncient01R::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     if ((u16) this->entity_id >= 0x1000U) {
         this->hit_count = (this->hit_count + 1);

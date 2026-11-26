@@ -13,18 +13,14 @@
 #include "pso/system/memory.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80320358.h"
 #include "pso/ui/frontend/EndingSequence.h"
 
-int get_opening_movie_selector(void);
-void activate_main_menu_scene(void);
 extern "C" {
-void set_ending_movie_active(void);
-
 s32 DVDCheckDisk();
 }
 extern "C" {
@@ -264,14 +260,14 @@ s32 TMovie::check_skip_input() {
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_fn_8000F91C;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_fn_8000F91C;
         if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
-        if (TKeyBoardControl::check_reset_button() != 0) goto block_fn_8000F91C;
+        if (check_reset_button() != 0) goto block_fn_8000F91C;
         if (this->player->is_playback_finished() == 0) goto block_return0;
 block_fn_8000F91C:
         set_queued_main_phase(9);
         return 1;
     case 1:
         reset_pressed = 0;
-        if (TKeyBoardControl::check_reset_button() != 0) {
+        if (check_reset_button() != 0) {
             reset_pressed = 1;
         }
         context = &controller_physical_port_bank.controllers[0];
@@ -312,7 +308,7 @@ void TMovie::run_task() {
         }
         begin_gx_frame();
         controller_stuff();
-        TKeyBoardControl::update_input_frame();
+        update_keyboard_input_frame();
         this->player->decode_frame();
         if (movie_mode != 0) {
             this->player->update_stop();

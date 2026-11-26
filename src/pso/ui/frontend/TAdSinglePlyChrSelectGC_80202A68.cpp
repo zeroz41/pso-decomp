@@ -68,17 +68,15 @@ struct Pso3SaveRecordView {
 struct S_801FE010;
 struct B8_801FDFB8 { u32 w[2]; };
 
-struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
+struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 copy_stamp; s32 f2794; };
 
 
-s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *file) {
-    return *(s32 *)((s8 *)file + 0x194AC);
+s32 Pso3CharacterFile::get_cipher_seed() {
+    return cipher_seed;
 }
 
 
 Pso3CharacterFile::~Pso3CharacterFile() {}
-
-extern "C" {
 
 Pso3CharacterFileSlot::~Pso3CharacterFileSlot() {}
 
@@ -104,7 +102,7 @@ void TAdSinglePlyChrSelectGC::set_global_flags(s32 flags) {
     }
 }
 
-saddr TAdSinglePlyChrSelectGC::get_instance() {  return (saddr)card_character_save_buffer; }
+CharacterFile *TAdSinglePlyChrSelectGC::get_instance() { return card_character_save_buffer; }
 
 void TAdSinglePlyChrSelectGC::set_player_index(int a0) { card_load_sequence_state = a0; }
 
@@ -144,6 +142,7 @@ void CharacterSelectionRequest::reset_slot_lists() {
         player_ids[i] = -1;
     }
 }
+extern "C" {
 
 Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *to, Pso3CharacterFile *from) {
     Pso3CharacterFileSlot *d;
@@ -165,9 +164,9 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
 #define dst ((P_801FDFB8 *)a0)
 #define src ((P_801FDFB8 *)a1)
 void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
-    TProtocol::copy_player_data(&dst->char_data, &src->char_data);
+    dst->char_data = src->char_data;
     ((TAdSinglePlyChrSelectGC *)((S_801FE010 *)dst->a))->copy_character_data((u8 *)((S_801FE010 *)src->a));
-    dst->f278C = src->f278C;
+    dst->copy_stamp = src->copy_stamp;
     dst->f2794 = src->f2794;
     return a0;
 }
@@ -233,6 +232,7 @@ Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
 
 // The generated GuildCardEntry constructor (emitted in TWindowSubComCard_8007A810.cpp).
 void *__ct__14GuildCardEntryFv(void *card);
+}
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }
 void clear_equipped_flag(void* item) { *(u32*)((char*)item + 0x4) &= 0xfffffff7; }
 
@@ -250,6 +250,4 @@ int is_unit_item_data(void *item) {
         is_unit = 1;
     }
     return (u8)is_unit;
-}
-
 }

@@ -1,29 +1,42 @@
+#include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
-#include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
+#include "pso/unk/TLobby_8026B06C.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TLobby_8026B06C.h"
 #include "pso/network/client_id.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowLayout.h"
 
+extern "C" {
+int append_message_window_line(TWindowMessage *window, s32 text, s32 flags, s32 color);
+void TWindowMessageQuest::set_frame_mode(s32 mode) {
+    frame_mode = mode;
+}
+}
+
+int dispatch_message_window_text(TWindowMessageQuest *window, s32 text, s32 flags) {
+    switch (window->frame_mode) {
+    case 0:
+        return append_message_window_line(window, text, flags, 0xFF000000);
+    case 1:
+    case 2:
+        return window->append_line(text, flags);
+    default:
+        return 0;
+    }
+}
+
+TWindowMessageQuest *create_quest_message_window_at(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
+    set_message_window_size(extent, 1);
+    return new TWindowMessageQuest(position);
+}
+
 #pragma readonly_strings on
 
-struct Win_8026B148 {
-    u8 pad0[0x24];
-    u8 entries[0x5C - 0x24];
-    s32 opening;
-    u8 pad1[0x90 - 0x60];
-};
-
 const char *TWindowMessageQuest::class_name = "TWindowMessageQuest";
-
-// create_quest_message_window_at's second argument (384 x 80: the window's size, inferred)
-struct DefaultQuestMessageExtent {
-    NJS_POINT2 size;
-    f32 reserved;
-};
 
 static const DefaultQuestMessageExtent default_quest_message_extent = {{384.0f, 80.0f}, 0.0f};
 
@@ -37,7 +50,7 @@ void TWindowMessageQuest::render() {
     switch (frame_mode) {
     case 0:
         if (c->open_tick < 0) {
-            c->scale[0] = (f32)((Win_8026B148 *)this)->opening / 7.5f;
+            c->scale[0] = (f32)open_tick / 7.5f;
             c->scale[1] = c->scale[0];
         }
         this->draw_quest_message_frame(c);
@@ -48,10 +61,7 @@ void TWindowMessageQuest::render() {
     case 2:
         break;
     }
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(((Win_8026B148 *)this)),
-        reinterpret_cast<const WindowLayoutEntries *>(((Win_8026B148 *)this)->entries),
-        c);
+    draw_visible_window_entries(this, &entry_list, c);
 }
 
 

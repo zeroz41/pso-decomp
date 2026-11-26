@@ -276,7 +276,7 @@ u16 TAdSinglePlyChrSelectGC::get_split_third_place_count(int client) {
 }
 extern "C" {
 
-u16 get_split_second_place_count(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_second_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -673,7 +673,7 @@ s32 save_active_character_to_card(void) {
             get_selected_save_record(file),
             (CharacterSaveRecord *)get_character_save_record(0xFFFF),
             file,
-            (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+            TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
             if (buf != 0) {
                 safe_free(buf);
@@ -799,7 +799,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
             get_selected_save_record(file),
             (CharacterSaveRecord *)get_character_save_record(0xFFFF),
             file,
-            (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+            TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
             if (buf != 0) {
                 safe_free(buf);
@@ -882,7 +882,7 @@ void TAdSinglePlyChrSelectGC::refresh_char_slots() {
     s32 i;
     for (i = 0; i < 7; i++) {
         if (card_character_save_buffer->slots[i].record.magic == 0xA205B064) {
-            if (card_character_save_buffer->slots[i].copied == 0) {
+            if (card_character_save_buffer->slots[i].copy_stamp.copied == 0) {
                 init_fresh_character_slot(i);
             } else {
                 ((TAdSinglePlyChrSelectGC *)&card_character_save_buffer->slots[i].record)->init_char_slot_record();
@@ -996,13 +996,8 @@ s32 begin_character_card_save(void) {
 #pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
-#pragma dont_inline off
-
-extern "C" {
+#pragma dont_inline on
 s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
-CharacterSaveRecord *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(CharacterSaveRecord *dest, CharacterSaveRecord *source);
-
-}
 
 void TAdSinglePlyChrSelectGC::open_confirm_window() { memcard_access_active = 1; TAdSinglePlyChrSelectGC::draw_window_bg((saddr)1, (saddr)pso_character_card_filename.filename, (saddr)character_save_file_buffer, character_save_file_block_count); card_load_sequence_state = 18; }
 
@@ -1093,7 +1088,7 @@ s32 TAdSinglePlyChrSelectGC::check_slot_swap_allowed(CharacterFile *src_file, in
     if (dst_file->slots[dst_slot].record.creation_seconds == 0U) {
         return 0;
     }
-    return (u32)__cntlzw(dst_file->slots[dst_slot].copied) >> 5;
+    return (u32)__cntlzw(dst_file->slots[dst_slot].copy_stamp.copied) >> 5;
 }
 
 s32 TAdSinglePlyChrSelectGC::is_same_slot_entry(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot) {
@@ -1107,7 +1102,7 @@ s32 TAdSinglePlyChrSelectGC::is_same_slot_entry(CharacterFile *src_file, int src
     if (vb == 0) {
         return 0;
     }
-    kb = dst_file->slots[dst_slot].copy_time;
+    kb = dst_file->slots[dst_slot].copy_stamp.copy_time;
     if (src_slot > 3) {
         return 0;
     }
@@ -1115,7 +1110,7 @@ s32 TAdSinglePlyChrSelectGC::is_same_slot_entry(CharacterFile *src_file, int src
     if (va == 0) {
         return 0;
     }
-    if (src_file->slots[src_slot].copy_time != kb) {
+    if (src_file->slots[src_slot].copy_stamp.copy_time != kb) {
         return 0;
     }
     return (u32)__cntlzw(vb - va) >> 5;
@@ -1136,16 +1131,16 @@ s32 TAdSinglePlyChrSelectGC::check_page_cross(CharacterFile *src_file, int src_s
 s32 TAdSinglePlyChrSelectGC::copy_character_to_slot(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot) {
     s32 secs;
     DateStamp ds;
-    TPlyCharData *chr;
+    CharacterFileSlot *slot;
     s32 i;
     s32 j;
     getDateStamp(&ds);
     DateToSeconds(&ds, (int *)&secs);
-    dst_file->slots[dst_slot].copy_time = secs;
-    chr = &dst_file->slots[dst_slot].chardata;
-    TAdSinglePlyChrSelectGC::copy_char_slot_data(&src_file->slots[src_slot].chardata, chr);
+    dst_file->slots[dst_slot].copy_stamp.copy_time = secs;
+    slot = &dst_file->slots[dst_slot];
+    src_file->slots[src_slot] = *slot;
     for (i = 0; i < 30; i++) {
-        ((TAdSinglePlyChrSelectGC *)chr->m_inventory.get_item(i))->clear_inventory_slot();
+        ((TAdSinglePlyChrSelectGC *)slot->chardata.m_inventory.get_item(i))->clear_inventory_slot();
     }
     dst_file->slots[dst_slot].chardata.m_stats.meseta = 0;
     dst_file->slots[dst_slot].record.bank_item_count = 0;
@@ -1153,42 +1148,25 @@ s32 TAdSinglePlyChrSelectGC::copy_character_to_slot(CharacterFile *src_file, int
     for (j = 0; j < 200; j++) {
         dst_file->slots[dst_slot].record.bank_items[j].init();
     }
-    dst_file->slots[dst_slot].copied = 1;
+    dst_file->slots[dst_slot].copy_stamp.copied = 1;
     return 1;
 }
 
-// The copied flag and the copy time, copied together.
-struct CopyStamp { u32 w[2]; };
 
-void *TAdSinglePlyChrSelectGC::copy_char_slot_data(void *a0, void *a1) {
-    CharacterFileSlot *dst = (CharacterFileSlot *)a0;
-    CharacterFileSlot *src = (CharacterFileSlot *)a1;
-    TProtocol::copy_player_data(&dst->chardata, &src->chardata);
-    assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(&dst->record, &src->record);
-    *(CopyStamp *)&dst->copied = *(CopyStamp *)&src->copied;
-    *(s32 *)dst->pad_2794 = *(s32 *)src->pad_2794;
-    return a0;
-}
-
-
-CharacterSaveRecord *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(CharacterSaveRecord *dest, CharacterSaveRecord *source) {
-    *dest = *source;
-    return dest;
-}
 
 void TAdSinglePlyChrSelectGC::clear_entry(int i) {
     if (card_character_save_buffer == NULL) return;
     if (i >= 4) return;
-    card_character_save_buffer->slots[i].copied = 0;
-    card_character_save_buffer->slots[i].copy_time = 0;
+    card_character_save_buffer->slots[i].copy_stamp.copied = 0;
+    card_character_save_buffer->slots[i].copy_stamp.copy_time = 0;
 }
 
 
 void TAdSinglePlyChrSelectGC::clear_slot_entry(int i) {
     if (secondary_card_character_save_buffer == NULL) return;
     if (i >= 4) return;
-    secondary_card_character_save_buffer->slots[i].copied = 0;
-    secondary_card_character_save_buffer->slots[i].copy_time = 0;
+    secondary_card_character_save_buffer->slots[i].copy_stamp.copied = 0;
+    secondary_card_character_save_buffer->slots[i].copy_stamp.copy_time = 0;
 }
 
 
@@ -1200,9 +1178,9 @@ void TAdSinglePlyChrSelectGC::clear_slot_body(int i) {
 
 
 s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot) {
-    dst_file->slots[dst_slot].copied = 0;
-    dst_file->slots[dst_slot].copy_time = 0;
-    TAdSinglePlyChrSelectGC::copy_char_slot_data(&src_file->slots[src_slot], &dst_file->slots[dst_slot]);
+    dst_file->slots[dst_slot].copy_stamp.copied = 0;
+    dst_file->slots[dst_slot].copy_stamp.copy_time = 0;
+    src_file->slots[src_slot] = dst_file->slots[dst_slot];
     TAdSinglePlyChrSelectGC::clear_slot_body(dst_slot);
     return 1;
 }
@@ -1219,7 +1197,7 @@ CardSlotSummary *get_secondary_slot_summary(u32 i) {
     view = (CharacterFile *)((u8 *)secondary_card_character_save_buffer + i * sizeof(CharacterFileSlot));
     card_slot_summary.name = view->slots[0].chardata.m_disp_part2.name;
     card_slot_summary.level = view->slots[0].chardata.m_stats.level;
-    card_slot_summary.copied = view->slots[0].copied;
+    card_slot_summary.copied = view->slots[0].copy_stamp.copied;
     card_slot_summary.play_time = view->slots[0].record.play_time;
     return &card_slot_summary;
 }
@@ -1250,7 +1228,7 @@ CardSlotSummary *get_card_slot_summary(u32 i) {
     view = (CharacterFile *)((u8 *)card_character_save_buffer + i * sizeof(CharacterFileSlot));
     card_slot_summary.name = view->slots[0].chardata.m_disp_part2.name;
     card_slot_summary.level = view->slots[0].chardata.m_stats.level;
-    card_slot_summary.copied = view->slots[0].copied;
+    card_slot_summary.copied = view->slots[0].copy_stamp.copied;
     return &card_slot_summary;
 }
 
@@ -1669,7 +1647,7 @@ s32 TAdSinglePlyChrSelectGC::encrypt_save_and_write() {
 void TAdSinglePlyChrSelectGC::increment_counter() {
     CharacterFile *instance;
 
-    instance = (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance();
+    instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != NULL) {
         instance->save_count++;
     }
@@ -1871,7 +1849,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             memset(file, 0, 0x1156C);
             memcpy(file, buf + 0x2048, 0x1156C);
             TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-            ret = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+            ret = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance());
             if (ret != 7) {
                 if (buf != 0) {
                     safe_free(buf);
@@ -2011,10 +1989,6 @@ GuildCardList::GuildCardList() {}
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pair_80200690 { u32 a; u32 b; };
-
-struct Tail_80200690 { Pair_80200690 p0, p1, p2, p3, p4, p5, p6; };
-
 
 
 
@@ -2078,16 +2052,16 @@ void decrypt_guild_card_payload(GuildCardSaveData *data) {
     b = new GuildCardSaveData;
     *a = *data;
     *b = *data;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
-    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0xE28C);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
+    chr_select_rng_state.unshuffle((const u8 *)a, (u8 *)b, 0xE28C);
     *data = *b;
     ::operator delete(b);
     ::operator delete(a);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)data , 0xE28C);
-    subtractive_rng_seed(&chr_select_rng_state, data->cipher_seed);
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)data, 0xE288);
+    chr_select_rng_state.set_seed(data->cipher_seed);
+    chr_select_rng_state.xor_buffer((u32 *)data, 0xE288);
 }
 
 #pragma push
@@ -2095,19 +2069,19 @@ void decrypt_guild_card_payload(GuildCardSaveData *data) {
 void encrypt_guild_card_payload(GuildCardSaveData *data, void *) {
     GuildCardSaveData *a;
     GuildCardSaveData *b;
-    data->cipher_seed = subtractive_rng_next(&chr_select_rng_state);
+    data->cipher_seed = chr_select_rng_state.next();
     data->checksum = 0;
     data->checksum = calc_crc32_bitwise((u8 *)data, 0xE28C);
-    subtractive_rng_seed(&chr_select_rng_state, data->cipher_seed);
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)data, 0xE288);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(data->cipher_seed);
+    chr_select_rng_state.xor_buffer((u32 *)data, 0xE288);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)data, 0xE28C);
     a = new GuildCardSaveData;
     b = new GuildCardSaveData;
     *a = *data;
     *b = *data;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
     chr_select_rng_state.permute_save_blocks((const u8*)a, (u8*)b, (u32)0xE28C);
     *data = *b;
     ::operator delete(b);
@@ -2207,53 +2181,36 @@ s32 TAdSinglePlyChrSelectGC::write_encrypted_save(void) {
 void TAdSinglePlyChrSelectGC::decrypt_char_data(CharacterFile *file) {
     CharacterFile *a = new CharacterFile;
     CharacterFile *b = new CharacterFile;
-    TAdSinglePlyChrSelectGC::copy_save_data(a, file);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
-    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0x1156C);
-    TAdSinglePlyChrSelectGC::copy_save_data(file, b);
+    *a = *file;
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
+    chr_select_rng_state.unshuffle((const u8 *)a, (u8 *)b, 0x1156C);
+    *file = *b;
     delete b;
     delete a;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)file, 0x1156C);
-    subtractive_rng_seed(&chr_select_rng_state, get_character_file_seed(file));
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)file, 0x11568);
-}
-
-CharacterFile *TAdSinglePlyChrSelectGC::copy_save_data(CharacterFile *to, CharacterFile *from) {
-    CharacterFileSlot *d;
-    CharacterFileSlot *s;
-    to->checksum = from->checksum;
-    d = to->slots;
-    s = from->slots;
-    do {
-        TAdSinglePlyChrSelectGC::copy_char_slot_data(d, s);
-        d++;
-        s++;
-    } while (d < &to->slots[7]);
-    *(Tail_80200690 *)to->pad_1152C = *(Tail_80200690 *)from->pad_1152C;
-    to->save_count = from->save_count;
-    to->cipher_seed = from->cipher_seed;
-    return to;
+    chr_select_rng_state.set_seed(get_character_file_seed(file));
+    chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
 }
 
 void TAdSinglePlyChrSelectGC::encrypt_save_data(CharacterFile *file) {
     CharacterFile *a;
     CharacterFile *b;
-    set_character_file_seed(file, (s32)(subtractive_rng_next(&chr_select_rng_state)));
+    set_character_file_seed(file, (s32)(chr_select_rng_state.next()));
     TAdSinglePlyChrSelectGC::set_id(file, 0);
     TAdSinglePlyChrSelectGC::set_id(file, (s32)(calc_crc32_bitwise((u8 *)file, 0x1156C)));
-    subtractive_rng_seed(&chr_select_rng_state, get_character_file_seed(file));
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)file, 0x11568);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(get_character_file_seed(file));
+    chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)file, 0x1156C);
     a = new CharacterFile;
     b = new CharacterFile;
-    TAdSinglePlyChrSelectGC::copy_save_data(a, file);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
+    *a = *file;
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
     chr_select_rng_state.permute_save_blocks((const u8*)a, (u8*)b, (u32)0x1156C);
-    TAdSinglePlyChrSelectGC::copy_save_data(file, b);
+    *file = *b;
     delete b;
     delete a;
 }
@@ -2429,7 +2386,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
         memset(file, 0, 0x1156C);
         memcpy(file, buf + 0x2048, 0x1156C);
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-        if (TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance()) != 7) {
+        if (TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance()) != 7) {
             if (buf != 0) {
                 safe_free(buf);
             }
@@ -2546,7 +2503,7 @@ s32 TAdSinglePlyChrSelectGC::init_and_register(CharacterFile *source) {
     u32 actual_sum;
 
     allocation = new CharacterFile;
-    TAdSinglePlyChrSelectGC::copy_save_data(allocation, source);
+    *allocation = *source;
     type = TAdSinglePlyChrSelectGC::get_type(allocation);
     TAdSinglePlyChrSelectGC::set_id(allocation, 0);
     actual_sum = calc_crc32_bitwise((u8 *)allocation, 0x1156C);

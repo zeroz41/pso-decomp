@@ -27,6 +27,8 @@ struct TShopEquipmentSequence : public TShopSequence {
     // Window callbacks: the player left the window / has nothing the shop buys.
     static void exit(TShopWindowBase *window);
     static void init_window(TShopWindowBase *window);
+    static void init_slot_active_flags();
+    static void release_slot_active_flags();
 };
 
 LAYOUT_ASSERT(TShopEquipmentSequence_size, sizeof(TShopEquipmentSequence) == 0x38);
@@ -35,8 +37,6 @@ LAYOUT_ASSERT(TShopEquipmentSequence_choice_menu_offset, offsetof(TShopEquipment
 // --- C functions defined in TShopEquipmentSequence.cpp ---
 extern "C" {
 void TShopEquipmentSequence__sub_8021D65C(void);
-void TShopEquipmentSequence__sub_8021DBE0(void);
-void TShopEquipmentSequence__sub_8021DC08(void);
 }
 
 #endif

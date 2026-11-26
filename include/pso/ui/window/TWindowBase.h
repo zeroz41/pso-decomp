@@ -85,9 +85,7 @@ struct TWindowSubComCard;
 class TWindowFukidasi;
 BOOL scanline_crosses_window(void *ctx, void *position, void *size);
 void hide_window(u8 *object);
-extern "C" {
 int get_area_total(void);
-}
 void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s32 active);
 // The highlight sweep drawn over a status window: begin sets the texture and blend
 // (skipped for UI themes 0 and 1), draw_window_sweep_strip draws it over quad, end restores.
@@ -96,5 +94,10 @@ void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context);
 void end_window_sweep_draw(s32 texture);
 void draw_window_scanlines(TWindowBase *window, WindowDrawContext *context);
 bool is_balloon_overlapping(u8 *balloon, u8 *position, u8 *size);
+
+struct NJS_TEXLIST;
+// The HUD palette and glyph texture list loaded for the window system.
+extern NJS_TEXLIST *hud_texlist;
+void load_hud_palette_textures(void);
 
 #endif

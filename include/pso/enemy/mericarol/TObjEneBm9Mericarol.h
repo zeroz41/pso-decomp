@@ -12,12 +12,6 @@ struct NJS_OBJECT;
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 
-// What TObjEnemy::movementParameters points at.
-struct TObjEneBm9MericarolMovementParameters {
-    EnemyMoveParams move;
-    u32 unknown_c[4];
-};
-
 class TObjPlayer;
 class TParticleCtrl;
 

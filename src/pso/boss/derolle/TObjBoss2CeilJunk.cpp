@@ -184,7 +184,7 @@ TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 
 }
 
-extern const f32 lbl_805D85A0 = 6.0f;
+extern const f32 ceil_junk_kind_count = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
 TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TObjBase(parent) {
@@ -195,7 +195,7 @@ TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TOb
     VecCopy(&this->position, position);
     random = (f32) rand();
     fraction = 3.0517578e-05f * random;
-    scale = &lbl_805D85A0;
+    scale = &ceil_junk_kind_count;
     kind = (s32) (*scale * fraction);
     if (TObjBoss2Tunnel::spawn_effect(&this->position, &prev_position, &ground_normal) == 0) {
         state = 0;

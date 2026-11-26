@@ -33,7 +33,7 @@ TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 kind) : TObject(parent) {
     m_name = TWindowMakeTeam::class_name;
     state = 0;
     flags = 0;
-    m_20 = kind;
+    this->kind = kind;
     m_menu = create_menu();
     sub_menu = 0;
     keyboard = 0;
@@ -41,7 +41,7 @@ TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 kind) : TObject(parent) {
     comment = 0;
     mode = 0;
     selected_value = 0;
-    if (m_20 == 1 || m_20 == 2) {
+    if (this->kind == 1 || this->kind == 2) {
         m_menu->set_entry_string_by_id((void *)draw_entry_0x110(mode), 2);
     }
     m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(selected_value), 3);
@@ -200,7 +200,7 @@ TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(0)), 6, 0);
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(1)), 6, 1);
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(2)), 6, 2);
-    m = this->m_20;
+    m = this->kind;
     if (m == 1 || m == 2) {
         r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(3)), 6, 3);
     }

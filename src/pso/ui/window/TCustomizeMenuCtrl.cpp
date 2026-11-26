@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
@@ -31,14 +31,9 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 
 
-
 extern "C" {
 u8 get_cast_technique_level(void *, s16);
-void text_builder_append_int(s32);
-void text_builder_append();
 }
-
-void text_builder_reset();
 
 extern "C" {
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
@@ -74,7 +69,7 @@ TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
 }
 
 void TCustomizeMenuCtrl::run_task() {
-    PaletteTag ev;
+    PaletteAction ev;
     switch (state) {
     case 0:
     case 1:
@@ -104,7 +99,7 @@ void TCustomizeMenuCtrl::run_task() {
             state = 1;
         }
         if (custom_select->is_active() != 0) {
-            PaletteTag *e = custom_select->get_selected_action();
+            PaletteAction *e = const_cast<PaletteAction *>(custom_select->get_selected_action());
             ((TWindowSubCustomEquip *)(this->custom_equip))->toggle_action_binding(e);
             state = 1;
         }
@@ -116,7 +111,7 @@ void TCustomizeMenuCtrl::run_task() {
 
 void TCustomizeMenuCtrl::render() {  }
 
-void TCustomizeMenuCtrl::update_customize_help_text(const PaletteTag *ev) {
+void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
     TObjPlayer *pl;
     s32 lvl;
     toggle_help_window_on_button(help_window, client_id);
@@ -143,36 +138,30 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteTag *ev) {
                 break;
             }
         }
-        get_help_text_string(ev->slot + 0x13);
-        text_builder_append();
+        text_builder_append(get_help_text_string(ev->slot + 0x13));
         break;
     case 3:
         if (TObjPlayer::validate_and_clear_slot(&pl->technique_state, ev->slot) != 0) {
             break;
         }
-        get_technique_name(ev->slot);
-        text_builder_append();
+        text_builder_append(get_technique_name(ev->slot));
         if (ev->slot != 0x11 && ev->slot != 0xE) {
             lvl = get_cast_technique_level(&pl->technique_state, ev->slot);
             if (current_language != LANGUAGE_JAPANESE) {
                 append_text_space();
             }
-            get_help_text_string(0x2D);
-            text_builder_append();
+            text_builder_append(get_help_text_string(0x2D));
             text_builder_append_int(lvl + 1);
         }
-        get_help_text_string(0x2E);
-        text_builder_append();
+        text_builder_append(get_help_text_string(0x2E));
         text_builder_append_int(calc_technique_parameters(ev->slot, lvl, 0xFFFF)->tp_cost);
-        get_help_text_string(ev->slot);
-        text_builder_append();
+        text_builder_append(get_help_text_string(ev->slot));
         break;
     case 4:
         if (get_palette_consumable_count(ev->slot, client_id) == -1) {
             break;
         }
-        get_help_text_string(ev->slot + 0x16);
-        text_builder_append();
+        text_builder_append(get_help_text_string(ev->slot + 0x16));
         break;
     case 7:
         break;

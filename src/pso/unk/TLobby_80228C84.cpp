@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80228C84.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/player/PlayerSlots.h"
 
 struct VObj_80228C84 : Base_80228C84 {
@@ -14,18 +15,13 @@ struct VObj_80228C84 : Base_80228C84 {
     virtual void m7();
     virtual void m8();
     virtual void m9();
-    virtual void m10();
+    virtual const char *m10();
 };
 
-extern "C" {
-
-s32 text_builder_append();
-}
 
 void refresh_player_status(s32 client_id) {
     struct VObj_80228C84 *o = (struct VObj_80228C84 *)get_player_by_client_id(client_id);
     if (o != NULL) {
-        o->m10();
-        text_builder_append();
+        text_builder_append(o->m10());
     }
 }

@@ -14,7 +14,6 @@
 #include "pso/item/TItemTimerEventHpDrain.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/TItemLockCountCtrl.h"
-#include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"

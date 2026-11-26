@@ -21,4 +21,9 @@ struct TObjLaboMapWarp : public TObjMapWarp {
 };
 
 LAYOUT_ASSERT(TObjLaboMapWarp_size, sizeof(TObjLaboMapWarp) == 0x100);
+
+// The main warp destinations the city's main warp offers (a bit per floor).
+void clear_enabled_main_warps(void);
+void unlock_main_warp_destination(s32 id);
+
 #endif

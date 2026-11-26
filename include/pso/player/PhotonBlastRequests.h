@@ -19,7 +19,7 @@ struct PhotonBlastRegistry {
     void process_all_elements();
     void reset_request(s32 index);
     // Inferred: resets every request from client_id.
-    void sub_80312E98(s32 client_id);
+    void reset_client_requests(s32 client_id);
 
     PhotonBlastRequest slots[4];
 };

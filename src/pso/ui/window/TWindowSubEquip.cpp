@@ -15,7 +15,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -35,9 +35,6 @@ static const NJS_POINT2 equip_list_window_size = {308.0f, 184.0f};
 static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
-extern "C" {
-void clear_help_item(TWindowHelpItem *item);
-}
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
@@ -73,7 +70,7 @@ void TWindowSubEquip::run_task() {
             this->equip_kind_list->close();
             this->equip_kind_list = 0U;
         }
-        clear_help_item(this->window_help_item);
+        this->window_help_item->clear_help_item();
         this->shown_item_id = -1;
         this->shown_kind_item_id = -1;
         equip_list->refresh_equipment_list();

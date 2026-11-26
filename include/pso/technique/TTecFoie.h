@@ -8,8 +8,8 @@
 struct TTecFoie : public TTecShot {
     static const char *name;
     static const TechniqueEmitterSourceTable emitter_bands[6];
-    TTecFoie(saddr source, u8 *pos, u8 *target, s32 level);
-    TTecFoie(saddr source, Vec *pos, s32 angle, s32 level);
+    TTecFoie(TObjBase *source, Vec *pos, Vec *target, s32 level);
+    TTecFoie(TObjBase *source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecFoie();
     virtual void apply_to_target(TObjChara *);
     virtual void vfunc_6();
@@ -18,8 +18,8 @@ struct TTecFoie : public TTecShot {
     void render();
     void create_particle_emitters();
     void init_projectile_params();
-    static void create_ex(void *source, void *origin, void *aim, s32 level);
-    static void create(void *source, void *origin, s32 angle, s32 level);
+    static void create_ex(TObjBase *source, Vec *origin, Vec *aim, s32 level);
+    static void create(TObjBase *source, Vec *origin, s32 angle, s32 level);
     void **emitters; // the particle emitters of the band, queued for destruction with it
 };
 

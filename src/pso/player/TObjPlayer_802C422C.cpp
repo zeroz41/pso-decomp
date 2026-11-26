@@ -147,7 +147,7 @@ void TPlyCharData::mark_game_files_modified() { m_inventory.m_items[0].m_present
 
 void init_character_action_config(TPlyDispConfig *config) { config->m_smth1.init(); }
 
-void TPlyDispConfigSmth::sub_802C46E0(s32 row, s32 index, s32 mode, u16 slot) { set_tag(row, index, mode, slot); }
+void TPlyDispConfigSmth::init_tag(s32 row, s32 index, s32 mode, u16 slot) { set_tag(row, index, mode, slot); }
 
 void TObjPlayer::clear_flag_80000() { clear_state_flags((saddr)((void*)524288)); }
 void TObjPlayer::set_flag_80000() { set_state_flags((uaddr)((void*)524288)); }

@@ -39,6 +39,7 @@
 #include "pso/unk/text_8026A14C.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/network/LobbyName.h"
 
 extern const char TChallenge_name_text[] = "TChallenge";
 const char *TChallenge::class_name = TChallenge_name_text;
@@ -561,7 +562,7 @@ void TChallenge::update_card_save_info() {
     if ((attacker & 0xF000) == 0x1000) {
         enemy = static_cast<TObjEnemy *>(find_entity_by_id(attacker));
         if (enemy != NULL) {
-            rt_index = (saddr)enemy->control;
+            rt_index = enemy->rt_index;
         }
     }
     record->challenge.tombstone.rt_index = rt_index;
@@ -571,7 +572,7 @@ void spawn_challenge_tombstones() {
     saddr i;
     ChallengeClientRecords *rec;
     TObjTombstoneRecord *info;
-    TLobby::reset_tombstone_values();
+    reset_tombstone_values();
     for (i = 0; i < 4; i++) {
         rec = &challenge_mode_state.client_records[i];
         if (rec->present != 0 && get_player_by_client_id(i) != NULL) {
@@ -617,7 +618,7 @@ void start_challenge_mode() {
             lobby_challenge_mode = 0;
             return;
         }
-        TLobby::start_lobby_name_request();
+        start_lobby_name_request();
         if (lobby_challenge_mode != 0) {
             challenge_task = static_cast<TChallenge *>(TChallenge::create());
             challenge_task_created = 1;

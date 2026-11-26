@@ -20,7 +20,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 
-static const s32 lbl_80437F40[3] = {0x208, 0x20A, 0x20B};
+static const s32 gryphon_shockwave_particle_ids[3] = {0x208, 0x20A, 0x20B};
 const char *TBoss5GryphonShockWave::class_name = "TBoss5GryphonShockWave";
 
 extern "C" {
@@ -106,7 +106,7 @@ void TBoss5GryphonShockWave::release_particle_table() {  }
 void TBoss5GryphonShockWave::select_particle_table() {
     switch (get_boss_asset_variant()) {
     case 0:
-        gryphon_shockwave_particle_ids_ptr = lbl_80437F40;
+        gryphon_shockwave_particle_ids_ptr = gryphon_shockwave_particle_ids;
         break;
     }
 }

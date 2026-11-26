@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+struct WindowDrawContext;
 
 struct WindowDrawContext;
 
@@ -20,12 +21,9 @@ struct TWindowSubEquipKind : public TWindowMenuIconLine {
 
 LAYOUT_ASSERT(TWindowSubEquipKind_size, sizeof(TWindowSubEquipKind) == 0x8C);
 
-extern const char *TWindowSubEquipKind::class_name;
 
 struct NJS_POINT2;
 
-extern "C" {
 TWindowSubEquipKind *create_equip_kind_window(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client);
-}
 
 #endif

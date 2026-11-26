@@ -32,7 +32,7 @@ s32 csn_query_hit_count;
 f32 csn_query_nearest_hit_t;
 CsnHit *csn_query_hit_buffer;
 CsnContact *wall_query_hit_result;
-CsnContact lbl_804FF9C0[0x20];
+CsnContact csn_query_contacts[0x20];
 CsnGroup *csn_query_groups[0x100];
 __declspec(section ".data") CsnHit csn_hit_storage;
 WallRayResult csn_query_map_object;
@@ -44,23 +44,21 @@ extern "C" {
 s32 get_csn_group_flags(u8 ch) {
     return __ctype_map[ch] & __letter;
 }
+}
 
 void csn_debug_hook_under_query(void) {  }
-}
 void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color) {  }
 void csn_debug_hook_hit_record(CsnHit *hit) {  }
 void csn_debug_hook_group_list(CsnGroup *const *groups) {  }
-// inferred: name - every caller passes its own function name ("csnLookAt()", ...)
+// name is the calling query's own name, such as "csnLookAt()".
 void csn_debug_hook_query_name(const char *name) {  }
-extern "C" {
 void csn_debug_hook_query_begin(void) {  }
-}
 void csn_debug_hook_origin_vector(const Vec *) {  }
 void csn_debug_hook_segment(const Vec *, const Vec *) {  }
 
 #pragma push
 #pragma fp_contract on
-s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 hsq, f32 inv) {
+s32 calc_segment_xz_distance_sq(const Vec *c, const Vec *o, const Vec *e, const Vec *d, f32 radius, f32 hsq, f32 inv) {
     f32 x;
     f32 z;
     f32 cx;
@@ -557,7 +555,7 @@ CsnGroup *select_ground_query_groups(const Vec *origin, u32 mask) {
   return csn_query_groups[0];
 }
 
-CsnGroup *select_segment_query_groups(Vec *a, Vec *b) {
+CsnGroup *select_segment_query_groups(const Vec *a, const Vec *b) {
     Vec d;
     s32 n;
     CsnGroup *w;
@@ -754,7 +752,7 @@ CsnHit *csnLookAt(const Vec *from, const Vec *to) {
     csn_debug_hook_query_begin();
     hit = &csn_hit_storage;
     csn_debug_hook_segment(from, to);
-    if (select_segment_query_groups((Vec *)from, (Vec *)to) == NULL) {
+    if (select_segment_query_groups(from, to) == NULL) {
         hit = NULL;
     } else if (check_line_hits_walls((Vec *)from, (Vec *)to, 0x8000, csn_query_groups) == 0) {
         hit = NULL;
@@ -818,14 +816,14 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     return hit;
 }
 
-void TObjButterflyLobby::free_singleton_805D4E6C() {
+void free_wall_query_buffer(void) {
     if (wall_query_scene_buffer != NULL) {
         mem_free(wall_query_scene_buffer);
         wall_query_scene_buffer = NULL;
     }
 }
 
-void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
+void alloc_wall_query_buffer(void) { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
 
 extern "C" {
 void __construct_array(void *, CsnContact *(*)(CsnContact *), s32, s32, s32);
@@ -833,7 +831,7 @@ void __construct_array(void *, CsnContact *(*)(CsnContact *), s32, s32, s32);
 extern "C" {
 
 void __sinit_CsnQuery_cpp(void) {
-    __construct_array(lbl_804FF9C0, init_csn_contact, 0, sizeof(CsnContact), 0x20);
+    __construct_array(csn_query_contacts, init_csn_contact, 0, sizeof(CsnContact), 0x20);
     csn_hit_storage.init_and_return();
     csn_query_map_object.init();
 }
@@ -864,7 +862,7 @@ CsnHit *CsnHit::init_and_return() {
 
 void init_csn_hit(CsnHit *hit) {
     hit->hit_mask = 0;
-    hit->contact = lbl_804FF9C0;
+    hit->contact = csn_query_contacts;
 }
 
 CsnContact *init_csn_contact(CsnContact *contact) {

@@ -18,13 +18,6 @@ struct TCameraCtrl;
 #pragma readonly_strings on
 const char *TWindowUserSort::class_name = "TWindowUserSort";
 
-// inferred: window_user_sort_layout_entries, the layout table window_user_sort_settings points at
-// (label/value rows for name, ship, block and team; fill_card_text_entries fills the values).
-struct UserSortWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec[9];
-};
 UserSortWindowLayout window_user_sort_layout_entries = {
     9, 1,
     {
@@ -63,7 +56,7 @@ TWindowUserSort::~TWindowUserSort() {}
 #define self ((u8 *)this)
 TWindowUserSort::TWindowUserSort(saddr position, GuildCardRecord *record) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)position) {
     m_name = TWindowUserSort::class_name;
-    m_60 = record;
+    this->record = record;
     ((TWindowSubStatusDisp *)(self + 0x24))->fill_card_text_entries(record);
 }
 #undef self

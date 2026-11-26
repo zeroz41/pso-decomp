@@ -6,8 +6,8 @@
 
 struct TTecMegid : public TTecShot {
     static const char *class_name;
-    TTecMegid(saddr source, u8 *pos, u8 *target, s32 level);
-    TTecMegid(saddr source, Vec *pos, s32 angle, s32 level);
+    TTecMegid(TObjBase *source, Vec *pos, Vec *target, s32 level);
+    TTecMegid(TObjBase *source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecMegid();
     void run_task();
     virtual void apply_to_target(TObjChara *);
@@ -17,8 +17,8 @@ struct TTecMegid : public TTecShot {
     void update_by_state();
     void spawn_particle_emitters();
     void init_parameters();
-    static void create(saddr source, saddr pos, saddr target, s32 level);
-    static void create_ex(saddr source, saddr pos, s32 angle, s32 level);
+    static void create(TObjBase *source, Vec *pos, Vec *target, s32 level);
+    static void create_ex(TObjBase *source, Vec *pos, s32 angle, s32 level);
     void render();
     f32 pad_178;  // cleared by both constructors, never read
 };

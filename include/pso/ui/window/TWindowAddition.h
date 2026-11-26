@@ -8,7 +8,8 @@ public:
     static const char *class_name;
     TWindowAddition(u8 *descriptor, s16 client, u8 *parent);
     virtual ~TWindowAddition();
-    s32 is_entry_selectable(s32);
+    // Flag 1 of entry `index`: the cursor only stops on entries that have it.
+    s32 is_entry_selectable(s32 index);
     void init_addition(u8 *descriptor);
     WindowDrawContext *get_draw_context();
     void step_window_tween();

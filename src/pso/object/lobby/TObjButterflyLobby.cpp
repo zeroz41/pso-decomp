@@ -4,7 +4,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "types.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
-#include "pso/object/lobby/TObjButterflyLobby_80350958.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 
@@ -270,10 +269,10 @@ TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data)
     }
     appear_scale = 1.0f;
     if (set_data->set_params[0] < 1) {
-        lobby_model = (NJS_OBJECT *)get_bml_model(lobby_butterfly_bml_resource, 0);
+        lobby_model = get_bml_model(lobby_butterfly_bml_resource, 0);
         model_textures = get_bml_texlist(lobby_butterfly_bml_resource, 0);
     } else {
-        lobby_model = (NJS_OBJECT *)get_bml_model(lobby_butterfly_bml_resource, 1);
+        lobby_model = get_bml_model(lobby_butterfly_bml_resource, 1);
         model_textures = get_bml_texlist(lobby_butterfly_bml_resource, 1);
     }
     init_params();

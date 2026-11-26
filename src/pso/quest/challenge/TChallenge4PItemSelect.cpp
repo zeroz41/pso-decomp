@@ -16,7 +16,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/quest/challenge/TChallenge4PResult.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"

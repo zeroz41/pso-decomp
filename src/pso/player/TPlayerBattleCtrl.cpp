@@ -17,6 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TDelayedAreaMusic.h"
 #include "pso/player/TPlayerBattleCtrl.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/BattleRuleConfig.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
@@ -30,6 +31,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TBattleProximitySound.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 
@@ -59,12 +61,11 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_8020BC50.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_801C4F80.h"
-#include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/TLobby_80103F5C.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
@@ -86,6 +87,11 @@ f32 battle_enemy_take_damage_score;
 f32 battle_meseta_score;
 
 
+
+void play_duel_result_stream(const char *file, saddr duration);
+extern "C" {
+u8 is_battle_mode_running(void);
+}
 
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
 f32 battle_player_give_damage_score = 0.05f;
@@ -128,13 +134,10 @@ struct UpdateBattleIntroName { char s[16]; };
 
 
 extern "C" {
-void recreate_all_players(void);
 
 
 void request_active_window_close(void);
 void __destroy_new_array(void *, void *);
-void clear_duel_result_window(void);
-void clear_battle_proximity_sound(void);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 void __ct__19PlayerCharDataEntryFv(void);
@@ -145,24 +148,12 @@ void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
 }
 
 extern "C" {
-s32 set_rule_slot_clamped(void *, int, int);
 }
 
 extern s32 battle_intro_value_table[];
 
 extern char battle_intro_message_buffer[];
-extern "C" {
-
-
-void set_active_fourth_place_count(u16);
-u16 get_active_fourth_place_count();
-void set_active_third_place_count(u16);
-u16 get_active_third_place_count();
-void set_active_second_place_count(u16);
-u16 get_active_second_place_count();
-void set_active_first_place_count(u16);
-u16 get_active_first_place_count();
-}
+void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 
 
 
@@ -647,7 +638,7 @@ void apply_game_settings(s32 owner, s32 use_config) {
         lobby_rule_settings.set_meseta_mode(CFG->rules[0xB]);
         lobby_rule_settings.set_death_level_up(CFG->value_c);
         for (s32 i = 0; i < 4; i++) {
-            set_rule_slot_clamped(&lobby_rule_settings, CFG->slot_rules[i], i);
+            lobby_rule_settings.set_rule_slot_clamped(CFG->slot_rules[i], i);
         }
         lobby_rule_settings.set_enable_sonar(CFG->rule_d);
         lobby_rule_settings.set_sonar_count(CFG->level);
@@ -750,8 +741,8 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
             idx = 5;
         } else {
             idx = 4;
-            s = TAdSinglePlyChrSelectGC::get_active_disconnect_count() - 1;
-            TAdSinglePlyChrSelectGC::set_active_disconnect_count((u16)(s > 0 ? s : 0));
+            s = get_active_disconnect_count() - 1;
+            set_active_disconnect_count((u16)(s > 0 ? s : 0));
         }
         BattleIntroWindowSize p = {238.0f, 188.0f};
         window_4c = TWindowMessage::create(get_window_layout_position(0xB3), (const f32 *)(&p), 1);
@@ -773,9 +764,9 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
 
 void init_char_slots(void) {
     battle_mode_data_ptr = 0;
-    lbl_805D5D9C = TKeyBoardControl__sub_8000F828() == 1 ? 0x19 : 0x1E;
-    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), __ct__19PlayerCharDataEntryFv, __dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
-    clear_battle_proximity_sound();
+    lbl_805D5D9C = get_video_standard() == 1 ? 0x19 : 0x1E;
+    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
+    TBattleProximitySound::clear_battle_proximity_sound();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;
     clear_duel_result_window();
@@ -1017,8 +1008,8 @@ void record_local_battle_placement(void *arg0) {
             break;
         }
     }
-    s = TAdSinglePlyChrSelectGC::get_active_disconnect_count() - 1;
-    TAdSinglePlyChrSelectGC::set_active_disconnect_count((u16)(s > 0 ? s : 0));
+    s = get_active_disconnect_count() - 1;
+    set_active_disconnect_count((u16)(s > 0 ? s : 0));
     save_active_character_to_card();
 }
 
@@ -1063,14 +1054,14 @@ void TPlayerBattleCtrl::init_battle_round() {
   TWindowCtrl::create_alt_timer();
   TWindowCtrl::set_timer_window_time(time_limit);
   TOMineTrap::destroy_matching_traps();
-  char_select_slot = TAdSinglePlyChrSelectGC::get_active_disconnect_count();
+  char_select_slot = get_active_disconnect_count();
   char_select_slot = char_select_slot + 1;
   clamped_slot = 0xFFFF;
   if (char_select_slot < clamped_slot)
   {
     clamped_slot = char_select_slot;
   }
-  TAdSinglePlyChrSelectGC::set_active_disconnect_count((u16) clamped_slot);
+  set_active_disconnect_count((u16) clamped_slot);
   save_active_character_to_card();
   apply_game_settings((saddr)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
@@ -1133,7 +1124,7 @@ void TPlayerBattleCtrl::init() {
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
     TLobby__sub_8020BCE4();
-    TAdSinglePlyChrSelectGC::destroy();
+    TBattleProximitySound::destroy();
     destroy_floor_decoration_objects();
     i = 0;
     battle_ctrl_default = 0;
@@ -1171,14 +1162,14 @@ void send_6x7D_set_battle_mode_data(void *) {
 }
 
 void finish_chr_select_scene_init(void) {
-    TLobby::init_scene_objects();
+    init_scene_objects();
     TObjPlayer *player = get_local_player();
     if (player != NULL) {
         player->send_selected_spawn_position(battle_mode_data_table[(u16)player->get_entity_id()]);
         reset_cameras_to_actor(player, 0);
     }
     ((TLobby *)tl_05)->destroy_matching_children();
-    TAdSinglePlyChrSelectGC::destroy();
+    TBattleProximitySound::destroy();
 }
 
 void TLobby::destroy_matching_children() {
@@ -1320,7 +1311,7 @@ void TPlayerBattleCtrl::update_battle_sync(s32 t) {
 }
 
 s32 TPlayerBattleCtrl::check_battle_end() {
-    u8 *p;
+    TObjPlayer *p;
     s32 cnt;
     s32 i;
     s32 ok;
@@ -1328,23 +1319,23 @@ s32 TPlayerBattleCtrl::check_battle_end() {
     s32 seen[2] = {0, 0};
     cnt = 0;
     for (i = 0; i < 4; i++) {
-        p = (u8 *)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (p != NULL) {
             ok = 1;
             if (battle_team_table[i] == 0) {
                 ok = 0;
-            } else if (*(s32 *)(p + 0x30) & 0x800) {
+            } else if (p->actorFlags & 0x800) {
                 if (lobby_rule_settings.get_respawn_mode() == 1) {
                     ok = 0;
                 } else if (lobby_rule_settings.get_respawn_mode() == 2 &&
-                           ((PlayerBattleScore *)(p + 0x754))->get_timer() == 0) {
+                           p->battle_score.get_timer() == 0) {
                     ok = 0;
                 }
             }
             if (ok != 0) {
                 cnt++;
                 if (lobby_rule_settings.get_is_teams() == 1) {
-                    idx = ((TObjPlayer *)p)->pk_state.get_team() - 1;
+                    idx = p->pk_state.get_team() - 1;
                     if (idx >= 0 && idx < 2) {
                         seen[idx] = 1;
                     }
@@ -1372,7 +1363,7 @@ s32 is_duel_ranking_empty(void) {
     return result;
 }
 
-s32 TLobby__sub_801C2678(void) {
+s32 get_ranked_battle_ctrl_value(void) {
     if (is_duel_ranking_empty() != 0) {
         return 0;
     }

@@ -2,7 +2,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TOSensorGeneral01.h"
 #include "pso/unk/text_803DA798.h"
@@ -126,7 +126,7 @@ TOSensorGeneral01::TOSensorGeneral01(TObject *parent, void *set_data) : TOSensor
     texlist = sensor_general01_texture_lists[0];
     model = sensor_general_shared_bml_archive->models[0].model;
     view_range = 400.0f;
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     activate_range = 50.0f + scale.x;
     if (activate_range < 0.0f) {
         activate_range = 0.0f;

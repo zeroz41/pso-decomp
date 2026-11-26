@@ -3,12 +3,16 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 class TItemTexLoad;
 struct NJS_TEXLIST;
 struct TItemData;
+struct LoadItemTextureWindowLayout;
 
 struct TWindowLoadItemTexture : public TWindowBase {
+    static WindowDescriptor window_descriptor;
+    static LoadItemTextureWindowLayout layout_entries;
     static const char *class_name;
     TWindowLoadItemTexture(void *position, f32 *extent, s32 client);
     virtual ~TWindowLoadItemTexture();
@@ -35,5 +39,14 @@ void bind_item_texture(TWindowLoadItemTexture *window);
 extern "C" {
 void enable_item_texture_frame(TWindowLoadItemTexture *window);
 }
+
+// TWindowLoadItemTexture::window_descriptor (passed to the TWindowBase constructor by the window's constructor) and
+// TWindowLoadItemTexture::layout_entries, the layout table it points at.
+struct LoadItemTextureWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+};
+
 
 #endif

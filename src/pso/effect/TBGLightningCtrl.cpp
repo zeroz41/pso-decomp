@@ -14,7 +14,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/effect/particle/TParticleCtrl.h"

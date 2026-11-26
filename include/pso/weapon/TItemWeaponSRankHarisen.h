@@ -13,7 +13,7 @@ public:
     virtual ~TItemWeaponSRankHarisen();
     TItemWeaponSRankHarisen(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
-    WeaponVector scale;  // model scale (scale_current_matrix); y is animated
+    Vec scale;  // model scale (scale_current_matrix); y is animated
 };
 
 #endif

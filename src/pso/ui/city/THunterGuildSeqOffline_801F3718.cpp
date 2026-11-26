@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/city/THunterGuildSeqOffline_801F3718.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 
 void set_quest_exit_callback(s32 quest_exit_callback) {

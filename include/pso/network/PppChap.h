@@ -43,8 +43,8 @@ extern "C" {
 #endif
 s32 clear_socket_slot(s16 i);
 void chap_input(PppFsm *fsm, PppFrame *source);
-void free_field_98(PppFsm *self);
-void free_field_98_and_clear(PppFsm *self);
+void ipcp_release_resources(PppFsm *self);
+void ipcp_link_closed(PppFsm *self);
 s16 get_checked_status_value(s16 ch);
 void handle_request_timeout(PppFsm *fsm);
 void init_md5_state(MD5Context *ctx);

@@ -17,13 +17,14 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/THeap.h"
+#include "pso/unk/text_8026A14C.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8026AD44.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 
@@ -118,12 +119,8 @@ void TWindowMessageLog::update_scroll_animation() {
 }
 
 extern "C" {
-u8 *heap_alloc__5THeapFUl(THeap *, s32);
-extern THeap *scroll_win_chat_log_heap;
-extern char *chat_last_line_buffer;
 
-}
-
+// Scrolls back to the newest line.
 void TWindowMessageLog::reset_scroll() {
     target_scroll_y = 0.0f;
     scroll_offset[1] = 0.0f;
@@ -132,6 +129,7 @@ void TWindowMessageLog::reset_scroll() {
 
 void TWindowMessageLog::advance_scroll(f32 v) { pending_scroll += v; }
 
+// Same body as advance_scroll; called with the opposite direction.
 void TWindowMessageLog::add_pending_scroll(f32 v) { pending_scroll += v; }
 
 void TWindowMessageLog::append_line(s32 shared_text_buffer) {
@@ -139,14 +137,13 @@ void TWindowMessageLog::append_line(s32 shared_text_buffer) {
     update_scroll_position();
 }
 
+// Grows or shrinks the window to a new height over 3 ticks.
 void TWindowMessageLog::set_target_height(f32 height) {
     if (height != target_size[1]) {
         target_size[1] = height;
         tween_ticks = 3;
     }
 }
-
-extern "C" {
 
 s32 TLobby::find_free_chat_log_slot() {
     s32 i;
@@ -225,22 +222,22 @@ void cache_last_chat_line(const char *text) {
 }
 
 void chat_log_add_line(const char *text) {
-    saddr num;
+    size_t num;
     s32 slot;
     char *buffer;
     num = strlen(text);
     slot = TLobby::find_free_chat_log_slot();
-    buffer = (char *)heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
+    buffer = (char *)scroll_win_chat_log_heap->heap_alloc(num + 1);
     if (buffer == NULL) {
         do {
             chat_log_remove_line(0);
-            buffer = (char *)heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
+            buffer = (char *)scroll_win_chat_log_heap->heap_alloc(num + 1);
         } while (buffer == NULL);
         slot = TLobby::find_free_chat_log_slot();
     }
     chat_log_lines[slot] = buffer;
     strncpy(chat_log_lines[slot], text, num);
-    *(char *)(num + (saddr)chat_log_lines[slot]) = 0;
+    *(char *)(num + (size_t)chat_log_lines[slot]) = 0;
 }
 
 void post_chat_log_message(u16 id, const char *text) {
@@ -267,8 +264,8 @@ void post_chat_log_message(u16 id, const char *text) {
     }
 }
 
-TWindowMessageLog *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client) {
-    set_message_window_size((void *)extent, 0x1E);
+TWindowMessageLog *create_message_log_window(const NJS_POINT2 *position, const f32 *size, s32 client) {
+    set_message_window_size(size, 0x1E);
     return new TWindowMessageLog(position, client);
 }
 
@@ -280,14 +277,17 @@ void TWindowMessageLog::render() {
     WindowDrawContext *draw_context;
     draw_context = get_draw_context();
     draw_window_frame(draw_context);
-    draw_visible_window_entries(this, &entry_list, draw_context);
+    draw_visible_window_entries(
+        this,
+        &entry_list,
+        draw_context);
     draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
 }
 void TWindowMessageLog::run_task() {
-    if (!(this->window_flags & 2)) {
-        this->open_tick = 0x01000000;
+    if (!(window_flags & 2)) {
+        open_tick = 0x01000000;
     }
-    if ((f32)this->open_tick >= 7.5f) {
+    if ((f32)open_tick >= 7.5f) {
         scroll_bar->increment_counter();
     }
     update_scroll_animation();
@@ -297,7 +297,7 @@ void TWindowMessageLog::run_task() {
     update_window_entry_list(&entry_list);
 }
 TWindowMessageLog::~TWindowMessageLog() {
-    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), 1);
+    delete scroll_bar;
     clear_message_log_window();
 }
 TWindowMessageLog::TWindowMessageLog(const NJS_POINT2 *position, s32 client) : TWindowMessage(position, 0x1E, client) {

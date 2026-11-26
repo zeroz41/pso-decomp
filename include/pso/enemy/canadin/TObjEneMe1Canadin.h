@@ -10,14 +10,6 @@
 class TObjEneMe1Canadin_EffLine;
 class TParticleCtrl;
 
-// What TObjEnemy::movementParameters points at for the Canadin (MojaMovementParameters layout).
-struct TObjEneMe1CanadinMovement {
-    f32 target_range;
-    f32 move_speed;
-    s32 turn_speed;
-    u32 extra[4];
-};
-
 // The kind's parameter block (kind_params, from TLobby::dispatch_shared_handler_a); the field layout is
 // shared with TObjEneMe1GeeParams.
 struct TObjEneMe1CanadinParams {

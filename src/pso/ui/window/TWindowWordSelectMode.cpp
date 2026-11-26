@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #pragma defer_codegen on
 #include "pso/ui/window/TWindowDD.h"
@@ -6,15 +6,12 @@
 #include "pso/ui/window/TWindowWordSelectMode.h"
 
 #include "types.h"
-#include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 
 
-
-struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; };
 
 __declspec(section ".data") f32 word_select_mode_window_position[2] = { mode_window_x, mode_window_y };
 TWindowPlacement word_select_mode_window_placement = { mode_window_placement_x, mode_window_placement_y, mode_window_depth, 0, 3 };

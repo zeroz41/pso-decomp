@@ -8,7 +8,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
@@ -17,7 +16,7 @@
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
-#include "pso/object/TCMCharacter.h"
+#include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -112,14 +111,14 @@ s32 get_current_char_flag() {
     s32 x = (s8)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.section_id;
     return (u32) __cntlzw(-1 - x) >> 5;
 }
-void fn_8028DBC4(s32 _w0) {
+void reset_current_char_appearance(s32 _w0) {
     CharacterAppearanceFields *character_appearance_fields;
     character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
     copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
-int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { fn_8028DBC4((saddr)p); return 1; }
+int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { reset_current_char_appearance((saddr)p); return 1; }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -216,7 +215,7 @@ s32 TCharaMaking::query_state() {
     if (creation_main_menu_obj == NULL) {
         return -1;
     }
-    return get_selected_menu_entry_kind(creation_main_menu_obj);
+    return creation_main_menu_obj->get_selected_menu_entry_kind();
 }
 
 s32 calc_section_id_from_name(s8 *name) {

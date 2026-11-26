@@ -80,8 +80,8 @@ void TOMonitorMachine01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        n = (model)->child;
+        set_texture_list(texlist);
+        n = model->child;
         push_matrix();
         translate_matrix(0, -slide, 0.0f, 0.0f);
         draw_ginja_model(n->model);

@@ -506,7 +506,7 @@ void render_tick(void) {
 
 s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size) {
     s32 handle;
-    handle = TLobby::adxf_open_file(id, (void *)name, 0, buf);
+    handle = ADXF_LoadPartitionNw(id, name, 0, buf);
     if (handle >= 0) {
 loop_2:
         if (ADXF_GetPtStat(id) != 3) {
@@ -524,7 +524,7 @@ loop_2:
 
 s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
     s32 handle;
-    handle = TLobby::adxf_open_file(id, (void *)name, 0, buf);
+    handle = ADXF_LoadPartitionNw(id, name, 0, buf);
     if (handle >= 0) {
 loop_1:
         if (ADXF_GetPtStat(id) != 3) {

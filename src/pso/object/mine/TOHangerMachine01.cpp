@@ -36,7 +36,7 @@ void TOHangerMachine01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
@@ -61,7 +61,7 @@ void TOHangerMachine01::render() {
         draw_ginja_model(node->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
-        node = (model)->child->sibling->sibling->sibling;
+        node = model->child->sibling->sibling->sibling;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
         node = node->child;
@@ -74,7 +74,7 @@ void TOHangerMachine01::render() {
         draw_ginja_model(node->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
-        node = (model)->child->sibling->sibling->sibling->sibling;
+        node = model->child->sibling->sibling->sibling->sibling;
         if (0.0f < scale.x) {
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);

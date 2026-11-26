@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
@@ -107,7 +107,7 @@ void TODoorVS2Door01::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        node = (model)->child->sibling;
+        node = model->child->sibling;
         push_matrix();
         post_translate_matrix(node->pos);
         push_matrix();

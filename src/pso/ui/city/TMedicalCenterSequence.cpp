@@ -235,7 +235,7 @@ TMedicalCenterMes::~TMedicalCenterMes() {
     }
 }
 
-void TMedicalCenterMes__sub_80216260(void) {
+void TMedicalCenterMes::init_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TMedicalCenterMes::slot_flags[i] = 0;

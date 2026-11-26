@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyAncient02.h"
 #include "pso/unk/text_803DA798.h"
@@ -42,7 +42,7 @@ void TOKeyAncient02::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         object = model;
         push_matrix();
         post_translate_matrix(object->pos);
@@ -144,7 +144,7 @@ void TOKeyAncient02::load_resources() {
     key_ancient02_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*key_ancient02_texture_lists));
     key_ancient02_texture_lists[0] = get_bml_texlist(key_ancient02_model_archive, 0);
     key_ancient02_texture_lists[1] = LoadPvmFileTls("o_key_ancient02.gvm");
-    key_ancient02_glass_model = (NJS_OBJECT *)get_bml_model(key_ancient02_model_archive, 0);
+    key_ancient02_glass_model = get_bml_model(key_ancient02_model_archive, 0);
 }
 
 TOKeyAncient02::~TOKeyAncient02() {
@@ -162,7 +162,7 @@ TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) 
     refresh_collision_body_centers();
     register_object_by_id();
     view_range = 400.0f;
-    model_radius = 50.0f + ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = 50.0f + ((GinjaModelBounds *)model->model)->radius;
     pulse_flags = 0;
     lamp_angle = 0;
     if (mode != KEY_MODE_NONE && set_params[1] < 0) {

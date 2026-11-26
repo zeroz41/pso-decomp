@@ -17,7 +17,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixOps.h"
@@ -102,8 +102,7 @@ void TFontSmallTask::render() {
     x = screen[0] += offset_x;
     y = screen[1] += offset_y;
     {
-        TCameraCtrl::get_camera_no();
-        f32 sc = TWindowCtrlMain::get_scale();
+        f32 sc = TWindowCtrlMain::get_scale(TCameraCtrl::get_camera_no());
         depth = -1.0f / (0.1495f + sc);
     }
     cursor = text;

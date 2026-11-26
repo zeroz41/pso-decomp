@@ -6,7 +6,7 @@
 struct GcrnaStream;
 
 extern "C" {
-void unregister_si_polling(GcrnaStream *stream);
+void gcrna_bridge_destroy(GcrnaStream *stream);
 }
 
 #endif

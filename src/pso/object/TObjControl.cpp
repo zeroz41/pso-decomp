@@ -34,7 +34,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
@@ -47,6 +47,11 @@
 #include "pso/unk/TLobby_800F795C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/font/TFontSmallTask.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/render_util.h"
+#include "pso/enemy/AreaSoundRemap.h"
+#include "pso/object/TObjLuker_801329B0.h"
 
 
 // The enemy's row of the floor's set data (what set_entry points at).
@@ -110,7 +115,7 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
     targetId = 0xFFFF;
     variant = 0;
     state36C = 0;
-    control = 0;
+    rt_index = 0;
     subtype = 0;
     group = 0;
     previous = 0;
@@ -508,7 +513,7 @@ void TObjEnemy::award_enemy_experience(u16 client) {
     }
     val = this->stat_block->exp;
     if (client == this->attacker_id) {
-        if (lobby_rule_settings.get_rule_field_0() == 1) {
+        if (lobby_rule_settings.get_rules_active() == 1) {
             p->record_kill(this, 1);
             draw_player_status(p, p, "\tC1");
             draw_player_status(p, this, "\tC4");
@@ -588,7 +593,7 @@ void TObjEnemy::apply_set_data(void *set_data) {
     room = data->room;
     set_group = data->group;
     set_index = data->set_index;
-    subtractive_rng_seed(&rng, entity_id + area_random_seed);
+    rng.set_seed(entity_id + area_random_seed);
 }
 
 void TObjEnemy::apply_enemy_state(s32 *state) {
@@ -864,3 +869,23 @@ void TObjControl::run_task() {
         }
     }
 }
+
+s32 TObjEnemy::remap_sound_for_area(s32 sound_id) { return ::remap_area_sound_id(sound_id, this->rt_index); }
+
+const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index(this->rt_index); }
+
+void TObjEnemy::render_shadows() {
+    if (test_actor_flags(0x800) == 0) {
+        this->set_shadow_flag();
+        model_render_flags |= 0xC10;
+        set_chunk_material_override_pair(-1, 0x800);
+        set_shadow_material_state();
+        this->render();
+        this->clear_shadow_flag();
+        model_render_flags &= ~0xC10;
+    }
+}
+
+void initialize_enemy_photon_effect(TObjEnemy *enemy) { enemy->register_by_id(); }
+
+void TObjEnemy::set_param(s32 v) { this->rt_index = v; }

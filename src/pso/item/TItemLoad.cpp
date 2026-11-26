@@ -6,7 +6,6 @@
 #include "pso/system/NinjaChunk.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/item/TItemData.h"
-#include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TRelDataFile.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -20,13 +19,10 @@
 #include "pso/system/prs.h"
 #include "pso/system/Adxf.h"
 #include "pso/weapon/TItemAttacker.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 // The loaders are written from their last function back: the unit is built
 // with deferred code generation, which emits functions in reverse order.
-
-extern "C" {
-void open_afs_file_wait_render(s32 partition_id, const char *path, void *partition_info, s32);
-}
 
 __declspec(section ".data") const char *item_model_names[15] = {
     "gun_bullet.gj", "armor_scan.gj", "ixm_box01.gj", "ixm_box02.gj", "ixm_box03.gj", "ixm_box04.gj", "ixm_box05.gj",
@@ -83,7 +79,7 @@ ItemModelResource::ItemModelResource() {
     motion = NULL;
 }
 
-s32 AfsFileLoader::is_loaded() { return test_flags_any(&flags.bits, 2); }
+s32 AfsFileLoader::is_loaded() { return flags.test_flags_any(2); }
 
 NJS_OBJECT *ItemModelChunkLoader::get_model(s32 i) { return models[i]; }
 
@@ -213,14 +209,14 @@ s32 request_item_model_load(u8 *item) {
 
 void TItemLoad::get_drop_model(u8 index, NJS_OBJECT **model, NJS_TEXLIST **texlist) {
     if ((model != NULL) && (texlist != NULL)) {
-        *model = (NJS_OBJECT *)get_bml_model(bml_resource, index + 2);
+        *model = get_bml_model(bml_resource, index + 2);
         *texlist = get_bml_texlist(bml_resource, 0);
     }
 }
 
 void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, AnimationMotion **motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
-        *model = (NJS_OBJECT *)get_bml_model(bml_resource, 1);
+        *model = get_bml_model(bml_resource, 1);
         *texlist = get_bml_texlist(bml_resource, 0);
         *motion = get_bml_motion(bml_resource, 0);
     }
@@ -228,7 +224,7 @@ void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist
 
 void TItemLoad::get_item_model(s32 index, NJS_OBJECT **model) {
     if (model != NULL) {
-        *model = (NJS_OBJECT *)get_bml_model(bml_resource, index);
+        *model = get_bml_model(bml_resource, index);
     }
 }
 
@@ -335,13 +331,13 @@ AfsFileLoader::AfsFileLoader(const char *path, s32 id, s32 nfiles) : AfsPartitio
 }
 
 AfsFileLoader::~AfsFileLoader() {
-    if (test_flags_any(&flags.bits, 4) != 0) {
+    if (flags.test_flags_any(4) != 0) {
         item_load_work_buffer_busy = 0;
     }
 }
 
 void AfsFileLoader::advance_load_state() {
-    if (test_flags_any(&flags.bits, 4) == 0) {
+    if (flags.test_flags_any(4) == 0) {
         if (item_load_work_buffer_busy == 1) {
             return;
         }
@@ -357,7 +353,7 @@ void AfsFileLoader::advance_load_state() {
 
 void AfsFileLoader::update_load_state() {
     close();
-    if (test_flags_any(&flags.bits, 1) != 0) {
+    if (flags.test_flags_any(1) != 0) {
         state = 1;
         return;
     }
@@ -379,7 +375,7 @@ void AfsFileLoader::update_ring() {
 void AfsFileLoader::reset_state() {
     close();
     flags.set(2);
-    if (test_flags_any(&flags.bits, 4) != 0) {
+    if (flags.test_flags_any(4) != 0) {
         item_load_work_buffer_busy = 0;
         flags.clear(4);
     }
@@ -412,7 +408,7 @@ void AfsFileLoader::update_state() {
 }
 
 void AfsFileLoader::reset_ring_state() {
-    if (test_flags_any(&flags.bits, 4) != 0) {
+    if (flags.test_flags_any(4) != 0) {
         item_load_work_buffer_busy = 0;
         flags.clear(4);
     }
@@ -430,11 +426,11 @@ ItemTextureArchiveLoader::~ItemTextureArchiveLoader() {}
 void ItemTextureArchiveLoader::on_loaded() {
     u8 *data;
 
-    if (TLobby::tmp_buf_is_free() == 1) {
-        data = (u8 *)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+    if (tmp_buf_is_free() == 1) {
+        data = (u8 *)tmp_buf_use_req(item_load_tmp_buffer);
         TItemLoad::decompress_buffer(data);
         load_gvm_texture_archive(data, texlist);
-        TLobby::tmp_buf_release(item_load_tmp_buffer);
+        tmp_buf_release(item_load_tmp_buffer);
         texlist = NULL;
         reset_state();
     }
@@ -468,8 +464,8 @@ void ItemModelChunkLoader::on_loaded() {
     s32 n;
     void *chunk;
     u32 i;
-    if (TLobby::tmp_buf_is_free() == 1) {
-        data = (u8 *)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+    if (tmp_buf_is_free() == 1) {
+        data = (u8 *)tmp_buf_use_req(item_load_tmp_buffer);
         dst = buffer;
         total = TItemLoad::decompress_buffer(data);
         pos = 0;
@@ -497,7 +493,7 @@ void ItemModelChunkLoader::on_loaded() {
                 break;
             }
         }
-        TLobby::tmp_buf_release(item_load_tmp_buffer);
+        tmp_buf_release(item_load_tmp_buffer);
         buffer = NULL;
         reset_state();
     }

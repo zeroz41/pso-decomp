@@ -16,8 +16,6 @@
 #include "pso/audio/CriSvm.h"
 #include "pso/system/movie/Gcci.h"
 
-extern "C" {
-
 AdxmThreadConfig adxm_thread_config = {0};
 AdxmPendingCallback adx_worker_thread_pending_callback = {NULL, 0};
 
@@ -36,6 +34,7 @@ volatile s32 adxm_worker_thread_stopped;
 volatile s32 lobby_worker_thread_run_flag;
 volatile s32 adxm_busy_wait_stopped;
 volatile s32 adxm_busy_wait_run_flag;
+extern "C" {
 
 void setup_adx_file_systems(s32 *read_mode) {
     cvFsEntryErrFunc(fs_error_notify, 0);
@@ -64,6 +63,7 @@ void exec_adx_server(void) {
 
 s32 is_adxm_initialized(void) {
     return adxm_init_count != 0;
+}
 }
 
 OSThread adxm_worker_thread;
@@ -113,6 +113,7 @@ void init_runtime_threads(AdxmThreadConfig *cfg) {
     }
     adxm_init_count++;
 }
+extern "C" {
 
 void adxm_set_error_callback(AdxMessageCallback callback, s32 context) {
     svm_set_message_callback(callback, context);

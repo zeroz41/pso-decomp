@@ -19,7 +19,7 @@
 #include "pso/quest/OnlineQuestDownloadState.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/main_loop.h"
@@ -37,7 +37,6 @@
 #include "pso/network/client_id.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/unk/text_80222C28.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
 
 
 struct OnlineQuestFileChunk {
@@ -219,6 +218,7 @@ void TLobby::handle_quest_download_chunk() {
 
 extern "C" {
 char *strtok(char *, const char *);
+}
 
 void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     TRecvDownloadHead *head = &file;
@@ -307,6 +307,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
         }
     }
 }
+extern "C" {
 
 void copy_quest_list_data(OnlineQuestMenu &menu) {
     if (quest_list_online_quest_list_buffer != NULL) {

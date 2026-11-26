@@ -7,8 +7,8 @@
 
 struct TTecDeband : public TTecPlayerInfluence {
     static const char *class_name;
-    TTecDeband(void *owner, void *pos, void *arg3, s32 level);
-    TTecDeband(void *owner, void *pos, s32 level);
+    TTecDeband(TObjBase *owner, Vec *pos, TargetCursorList *target_list, s32 level);
+    TTecDeband(TObjBase *owner, Vec *pos, s32 level);
     virtual ~TTecDeband();
     virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
@@ -18,8 +18,8 @@ struct TTecDeband : public TTecPlayerInfluence {
     s32 use_targets;
     void init_params();
     void update_effect_params();
-    static void create(saddr owner, saddr pos, saddr targets, s32 level);
-    static void create(void *owner, void *pos, s32 level);
+    static void create(TObjBase *owner, Vec *pos, TargetCursorList *targets, s32 level);
+    static void create(TObjBase *owner, Vec *pos, s32 level);
     virtual void render();
     void play_state_sound();
 };

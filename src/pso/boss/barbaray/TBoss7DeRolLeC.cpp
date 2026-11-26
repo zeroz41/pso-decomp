@@ -81,16 +81,9 @@ struct NJS_OBJECT;
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-// Load and release hooks run by run_load_callback_table / call_funcs_reverse.
-struct Boss7LoadCallback {
-    void (*load)(void);
-    void (*release)(void);
-};
-
 // The BML resource descriptor, followed by the action table that
 // TBoss7DeRolLeC's constructor hands to set_action_table.
 extern Boss7LoadCallback boss7_derolle_c_load_callbacks[6];
-extern BossMovementParameters boss7_derolle_c_movement;
 extern BmlResourceDescriptor bm_boss7_de_rol_le_c_resource_descriptor;
 extern TObjMotionAction de_rol_le_c_action_table[17];
 
@@ -120,9 +113,8 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/system/SoundEffect.h"
 
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 
@@ -145,14 +137,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/quest/QuestStoryFlags.h"
-
-// Step of a De Rol Le C action sequence: the action id and its parameter, a
-// duration in seconds (the timer compares against param * 30) or the
-// boss7_derolle_c_crawfish_patterns row of a crawfish spawn.
-struct Boss7ActionStep {
-    s32 action;
-    s32 param;
-};
 
 extern const s32 boss7_derolle_c_body_point_node_ids[21] = {0x18, 0x1a, 0x1c, 0x1d, 0x1e, 0x1f, 0x22, 0x45, 0x4a, 0x5f, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1};
 
@@ -394,7 +378,7 @@ Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7LaserImpact::load_static_resource, TBoss7LaserImpact::destroy_instance},
 };
 
-BossMovementParameters boss7_derolle_c_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+EnemyMoveParams boss7_derolle_c_movement = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
 
 const char *bm_boss7_de_rol_le_c_model_names[7] = {
     boss7_de_rol_le_c_model_name_boss2_b_derorure_body_nj,
@@ -461,28 +445,6 @@ f32 boss7_derolle_c_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 
 extern "C" {
 
-// The set entry a crawfish spawned by De Rol Le C is built from. TObjEnemy::apply_set_data
-// reads set_index, entity_id, room, wave, position, rotation, parameters and variant from
-// it; kind sits where TBoss4DarkFalzSetEntry has it.
-struct Boss7CrawfishSetData {
-    s16 set_index;
-    s16 kind;
-    s16 unk_04;
-    u16 entity_id;
-    s16 room;
-    s16 wave;
-    s16 unk_0C;
-    s16 unk_0E;
-    Vec position;
-    Boss7Angles rotation;
-    f32 parameters[5];
-    s16 variant;
-    s16 unk_3E;
-};
-
-// Spawns a crawfish in child slot `slot` unless one with that entity id is
-// already alive.
-struct CrawfishSlotOffset { s16 value; };
 #pragma push
 static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
     offset.value += 11;
@@ -716,7 +678,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
         mode = 1;
         dispatch_action(mode, 4);
     }
-    node_recorder = new TNodeMatrixRecorder(this, static_cast<NJS_OBJECT *>(model));
+    node_recorder = new TNodeMatrixRecorder(this, model);
     if (node_recorder != NULL) {
         node_recorder->set_node_callback(record_node_transforms);
     }
@@ -915,7 +877,7 @@ void TBoss7DeRolLeC::update_body_colliders() {
     s32 clr;
     s32 i;
     VecCopy(&v, &node_positions[6]);
-    update_local_colliders_from_world(this, &v);
+    update_local_colliders_from_world(&v);
     f = position.y;
     if (f < -35.0f) {
         set = 0;
@@ -1326,7 +1288,7 @@ void TBoss7DeRolLeC::init_from_param(G_BarbaRayBossActions_6xA9 *cmd) {
 }
 
 void TBoss7DeRolLeC::set_params(G_BarbaRayBossActions_6xAA *cmd) {
-    enemy_set_target_id(this, cmd->target_client_id);
+    enemy_set_target_id(cmd->target_client_id);
     action_index = cmd->action_index;
     transition_enemy_state(cmd->what);
 }
@@ -3697,7 +3659,7 @@ void TObjPlayer::draw_effect() { set_texture_list(get_bml_texlist(boss7_derolle_
 
 NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 
-NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return (NJS_OBJECT *)get_bml_model(boss7_derolle_c_bml_resource, index); }
+NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return get_bml_model(boss7_derolle_c_bml_resource, index); }
 
 AnimationMotion *get_boss7_motion(s32 kind) { return get_bml_motion(boss7_derolle_c_bml_resource, kind); }
 void TBoss7DeRolLeC::restore_joint_polygons() {

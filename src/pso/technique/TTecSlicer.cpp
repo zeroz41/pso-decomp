@@ -3,6 +3,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/item/TItem.h"
+#include "pso/item/item_pmt.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/model_render_state.h"
@@ -34,9 +35,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/CapturedTargetList.h"
 
-extern "C" {
-f32 *get_weapon_range_record(TItem *item, s16 mode);
-}
 
 // The z rotation init_launch_angles gives a slicer, by remaining count + 3 * has_valid_handle.
 static const s32 launch_angle_table[18] = {
@@ -267,14 +265,14 @@ void TTecSlicer::run_task() {
         color = NULL;
     }
     new TSlicerHistory(this, texlist, color, weaponHandle);
-    if (test_flags_any(&flags.bits, 1) == 0) {
+    if (flags.test_flags_any(1) == 0) {
         update();
     }
     advance_position();
     if (star != NULL) {
         star->copy_position(&position);
     }
-    if (test_flags_any(&flags.bits, 2) != 0) {
+    if (flags.test_flags_any(2) != 0) {
         queue_destruction();
         return;
     }
@@ -322,7 +320,7 @@ TTecSlicer::TTecSlicer(SlicerLaunchState *launch, TObjPlayer *player, Vec *posit
     currentWeapon = (TItemWeapon *)find_item_by_id(weaponHandle);
     init_launch_angles(currentPlayer, launch->facing);
     set_launch_midpoint(currentPlayer, &launch->first_joint, &launch->second_joint);
-    range = *get_weapon_range_record(currentWeapon, 0);
+    range = get_weapon_range_record(currentWeapon, 0)->reach;
     speed = 6.0f;
     VecCopy(&origin, &this->position);
     VecCopy(&destination, &this->position);

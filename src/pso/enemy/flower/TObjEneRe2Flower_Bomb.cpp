@@ -19,7 +19,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/CollisionActorLookup.h"

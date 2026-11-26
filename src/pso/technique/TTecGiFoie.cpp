@@ -50,7 +50,7 @@ static const u8 orbit_counts[6] = {1, 1, 1, 2, 2, 3};
 
 void TTecGiFoie::render() {  }
 
-TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
+TTecGiFoie::TTecGiFoie(TObjBase *source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 i;
     s32 j;
     s32 k;
@@ -132,11 +132,11 @@ void TTecGiFoie::run_task() {
         return;
     }
     this->source = find_entity_by_id(this->sourceId);
-    if (this->source == 0) {
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
-    if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[0]) != 0) {
+    if (TTecLuker::is_parents_unqueued(this->orbits[0]) != 0) {
         distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pos, &this->position));
         if (this->collidable != NULL) {
             this->collidable->bodies->radius = 5.0f + distance;
@@ -152,7 +152,7 @@ void TTecGiFoie::run_task() {
 TTecGiFoie::~TTecGiFoie() {
     s32 i;
     for (i = 0; i < 3; i++) {
-        if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[i]) != 0) {
+        if (TTecLuker::is_parents_unqueued(this->orbits[i]) != 0) {
             this->orbits[i]->queue_destruction();
         }
     }
@@ -179,8 +179,8 @@ void TTecGiFoie::apply_to_target(TObjChara *target) {
     }
 }
 
-void TTecGiFoie::create(void *source, void *origin, s32 level) {
-    new TTecGiFoie((saddr)source, (Vec *)origin, level);
+void TTecGiFoie::create(TObjBase *source, Vec *origin, s32 level) {
+    new TTecGiFoie(source, origin, level);
 }
 
 TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single) : TObject(parent) {

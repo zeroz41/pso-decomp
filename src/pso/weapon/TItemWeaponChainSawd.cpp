@@ -5,11 +5,11 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponChainSawd::emit_marker_effects() {
-    WeaponVector pos;
+    Vec pos;
 
     get_joint_position(2, &pos);
     pos.y -= 15.0f;
-    spawn_particle_effect((const Vec *)&pos, 0x1D2);
+    spawn_particle_effect(&pos, 0x1D2);
 }
 
 void TItemWeaponChainSawd::update_weapon() {

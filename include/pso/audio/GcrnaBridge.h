@@ -9,7 +9,7 @@ struct SjRingBuffer;
 
 extern "C" {
 void gcrna_bridge_set_channel_pan(GcrnaStream *stream, s32 ch, s32 pan);
-void trigger_sub_task(GcrnaStream *stream, s32 volume);
+void gcrna_bridge_set_volume(GcrnaStream *stream, s32 volume);
 void gcrna_bridge_set_frequency(GcrnaStream *stream, s32 rate);
 void gcrna_bridge_set_stream_count(GcrnaStream *stream, s32 stream_count);
 s32 gcrna_bridge_get_packet_size(GcrnaStream *stream);

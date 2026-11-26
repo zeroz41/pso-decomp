@@ -9,7 +9,7 @@
 #include "pso/technique/TechniqueEmitter.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/BmlResource.h"
 
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
@@ -96,32 +96,32 @@ void TTecRaBarta::play_cast_sound() {
 
     switch (this->band) {
     case 0:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         return;
     case 2:
     case 3:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &((TObjChara *)this->source)->body_center, 0, 0);
         handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
@@ -164,12 +164,12 @@ void TTecRaBarta::apply_to_target(TObjChara *target) {
     }
 }
 
-void TTecRaBarta::create(void *source, Vec *origin, Vec *pos, s32 level) {
-    new TTecRaBarta((saddr)source, origin, pos, level);
+void TTecRaBarta::create(TObjBase *source, Vec *origin, Vec *pos, s32 level) {
+    new TTecRaBarta(source, origin, pos, level);
 }
 
-void TTecRaBarta::create(void *source, void *origin, s32 level) {
-    new TTecRaBarta((saddr)source, (Vec *)origin, level);
+void TTecRaBarta::create(TObjBase *source, Vec *origin, s32 level) {
+    new TTecRaBarta(source, origin, level);
 }
 
 TTecRaBarta::~TTecRaBarta() {
@@ -193,7 +193,7 @@ void TTecRaBarta::run_task() {
         return;
     }
     this->source = find_entity_by_id((this->sourceId));
-    if ((u32) this->source == 0U) {
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
@@ -207,7 +207,7 @@ void TTecRaBarta::run_task() {
 #pragma push
 #pragma opt_common_subs off
 
-TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
+TTecRaBarta::TTecRaBarta(TObjBase *source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     calc_parameters();
@@ -222,13 +222,13 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     hitCursor = 0;
     spawn_effects(&position);
     play_cast_sound();
-    if (this->source != 0) {
+    if (this->source != NULL) {
         sourceId = this->source->get_entity_id();
     }
 }
 #pragma pop
 
-TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
+TTecRaBarta::TTecRaBarta(TObjBase *source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     has_point = 0;
@@ -242,7 +242,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     hitCursor = 0;
     spawn_effects(0);
     play_cast_sound();
-    if (this->source != 0) {
+    if (this->source != NULL) {
         sourceId = this->source->get_entity_id();
     }
 }

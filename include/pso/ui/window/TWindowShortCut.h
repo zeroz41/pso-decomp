@@ -5,6 +5,7 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowChatSymbol;
 struct TWindowMessageQuest;
@@ -24,6 +25,25 @@ struct TWindowShortCut : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowShortCut_size, sizeof(TWindowShortCut) == 0x74);
+
+// The shortcut window's entries: three rows of label, ":" and icons or text, filled by
+// show_shortcut (entries 0, 2, 3, 4, 6, 7, 8 and 10).
+struct ShortCutWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    SpritePartLayoutRecord rec_2;
+    SpritePartLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    SpritePartLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    TextLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    TextLayoutRecord rec_10;
+};
+
 
 
 #endif

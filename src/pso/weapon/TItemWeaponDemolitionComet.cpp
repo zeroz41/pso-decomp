@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponDemolitionComet::transform_model_node() {
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 2: {
         NJS_ARGB color = { alpha_offset, 0.0f, 0.0f, 0.0f };
         TItem::begin_offset_material_color(&color);

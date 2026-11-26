@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
@@ -74,7 +74,7 @@ void TBoss1DragonEffTail::area_attack_apply_recoil(TObjChara *target, f32) {
 }
 
 void TBoss1DragonEffTail::apply_hit_if_active(TObjChara *target, const f32 *) {
-    target->receive_physical_attack(this->owner, 1.0f);
+    target->receive_physical_attack((TObjChara *)this->owner, 1.0f);
     if (TObjEneDD::check_v2_mode() != 0) {
         apply_dragon_hit_ailment(target);
     }

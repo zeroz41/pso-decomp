@@ -19,7 +19,7 @@ public:
     virtual ~TItemWeaponSlicer();
 
     s32 rotation;       // 0x1F8: blade angle (rotate_matrix_x/z)
-    WeaponVector scale; // 0x1FC: blade scale (variant 5) or offset (variant 7)
+    Vec scale; // 0x1FC: blade scale (variant 5) or offset (variant 7)
 };
 
 void enlarge_flight_cutter_slicer(TObjBase *object);

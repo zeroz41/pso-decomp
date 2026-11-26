@@ -278,7 +278,7 @@ TObjMotionAction beast_action_table[12] = {
     {2, 0, 6, 0.6f, 0x20},
     {2, 0, 0, 0.5f, 0x20},
 };
-BeastMovementParams beast_movement_params[3] = {
+EnemyMoveParams beast_movement_params[3] = {
     {225.0f, 0.4f, 0x400, {0, 0x1E0000, 1, 0}},
     {250.0f, 0.55f, 0x400, {0, 0x1E0000, 1, 0}},
     {300.0f, 0.7f, 0x400, {0, 0x1E0000, 1, 0}},
@@ -422,7 +422,7 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TObjEneBeastBase(p
     update_prev_position();
     copy_position();
     ((TObjPlayer *)this)->register_object_by_id();
-    m_2ac = (s32)(182.04445f * (3.6e+02f * random_ratio()));
+    move_timer = (s32)(182.04445f * (3.6e+02f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;

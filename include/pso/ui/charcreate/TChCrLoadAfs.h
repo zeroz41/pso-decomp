@@ -9,6 +9,7 @@ struct AdxfHandle;
 
 class TChCrLoadAfs : public TObject {
 public:
+    static const char *name;
     TChCrLoadAfs(TObject *parent, u32 archive, u32 entry);
     virtual ~TChCrLoadAfs();
     void release_load_slot();

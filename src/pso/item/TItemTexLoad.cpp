@@ -8,23 +8,21 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/prs.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
-extern "C" {
-void open_afs_file_wait_render(s32, const char*, void*, s32);
-extern const char item_kt_archive_filename[] = "ItemKT.afs";
-extern const char TItemTexLoad_class_name[] = "TItemTexLoad";
+const char item_kt_archive_filename[] = "ItemKT.afs";
+const char TItemTexLoad_class_name[] = "TItemTexLoad";
 const char* TItemTexLoad_name = TItemTexLoad_class_name;
 void* item_texture_afs_work_buffer;
 char* item_texture_filename_buffer;
-}
 
 void TItemTexLoad::load_texture_archive() {
     char t[12] = "ItemTexLoad";
-    u8 *r = TLobby::tmp_buf_use_req(t);
+    u8 *r = tmp_buf_use_req(t);
     if (r != NULL) {
         prs_decompress_alloc(m_archive_buffer, r, 0x40000);
         load_gvm_texture_archive(r, &m_texture_list);
-        TLobby::tmp_buf_release(t);
+        tmp_buf_release(t);
         m_state = 2;
     } else {
         unload_texture();
@@ -39,7 +37,7 @@ void TItemTexLoad::unload_texture() {
 }
 
 s32 TItemTexLoad::load_texture(s32 index) {
-    if ((index >= 0) && (index < 0x17B) && ((uaddr)m_archive_buffer != 0U)) {
+    if ((index >= 0) && (index < 0x17B) && (m_archive_buffer != NULL)) {
         if (index == m_texture_index) return 1;
         unload_texture();
         m_texture_index = index;
@@ -94,7 +92,7 @@ void TItemTexLoad::run_task() {
         switch (ADXF_GetStat(m_archive_handle)) {
         case 3:
             ADXF_Close(m_archive_handle);
-            if (TLobby::tmp_buf_is_free() != 0) load_texture_archive();
+            if (tmp_buf_is_free() != 0) load_texture_archive();
             else m_state = 3;
             break;
         case 1:
@@ -106,7 +104,7 @@ void TItemTexLoad::run_task() {
         }
         }
     } else if (m_state == 3) {
-        if (TLobby::tmp_buf_is_free() != 0) load_texture_archive();
+        if (tmp_buf_is_free() != 0) load_texture_archive();
     }
 }
 

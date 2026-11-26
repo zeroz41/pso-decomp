@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TBattleProximitySound.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -52,8 +53,7 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_8020B5CC.h"
-#include "pso/unk/text_8020BC50.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
@@ -68,8 +68,6 @@ extern "C" {
 extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-s32 set_rule_slot_clamped(void *, u8, int);
-void recreate_all_players(void);
 void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
@@ -170,12 +168,12 @@ void TPlayerBattleCtrl4P::update_results_phase() {
 }
 
 void TPlayerBattleCtrl4P::update_return_phase() {
-    static BattleAction tbl[3] = { &TPlayerBattleCtrl4P::return_to_hunters_guild, &TPlayerBattleCtrl4P::sub_80311804, &TPlayerBattleCtrl4P::sub_80311800 };
+    static BattleAction tbl[3] = { &TPlayerBattleCtrl4P::return_to_hunters_guild, &TPlayerBattleCtrl4P::idle_return_step1, &TPlayerBattleCtrl4P::idle_return_step2 };
     (this->*tbl[phase_state])();
 }
 
 void TPlayerBattleCtrl4P::update_reload_phase() {
-    static BattleAction tbl[4] = { &TPlayerBattleCtrl4P::begin_battle_reload, &TPlayerBattleCtrl4P::begin_battle_reload_fade, &TPlayerBattleCtrl4P::finish_battle_reload, &TPlayerBattleCtrl4P::sub_80311890 };
+    static BattleAction tbl[4] = { &TPlayerBattleCtrl4P::begin_battle_reload, &TPlayerBattleCtrl4P::begin_battle_reload_fade, &TPlayerBattleCtrl4P::finish_battle_reload, &TPlayerBattleCtrl4P::idle_reload_done };
     (this->*tbl[phase_state])();
 }
 
@@ -500,7 +498,7 @@ void TPlayerBattleCtrl4P::finish_battle_reload() {
     }
 }
 
-void TPlayerBattleCtrl4P::sub_80311890() {  }
+void TPlayerBattleCtrl4P::idle_reload_done() {  }
 
 void TPlayerBattleCtrl4P::return_to_hunters_guild() {
     new TScreenFadeOut(tl_00, TPlayerBattleCtrl4P::reset_random_enemies_mode);
@@ -509,9 +507,9 @@ void TPlayerBattleCtrl4P::return_to_hunters_guild() {
 
 void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); lobby_rule_settings.reset_settings_to_default(); }
 
-void TPlayerBattleCtrl4P::sub_80311804() {  }
+void TPlayerBattleCtrl4P::idle_return_step1() {  }
 
-void TPlayerBattleCtrl4P::sub_80311800() {  }
+void TPlayerBattleCtrl4P::idle_return_step2() {  }
 
 void TPlayerBattleCtrl4P::init_battle() {
     s32 j;
@@ -578,7 +576,7 @@ void TPlayerBattleCtrl4P::update() {
     refresh_alive_flags();
     i = 0;
     do {
-        TObjBase *p = get_player_by_client_id(i);
+        TObjPlayer *p = get_player_by_client_id(i);
         if (p != NULL) {
             obj_set_flag_20000(p);
         }
@@ -634,7 +632,7 @@ void TPlayerBattleCtrl4P::shuffle_order() {
 void TPlayerBattleCtrl4P::reset_players() {
     s32 i;
     TObjPlayer *p;
-    TLobby::init_scene_objects();
+    init_scene_objects();
     for (i = 0; i < 4; i++) {
         p = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(i));
         if (p != 0) {
@@ -643,7 +641,7 @@ void TPlayerBattleCtrl4P::reset_players() {
         }
     }
     destroy_dead_spots(tl_05);
-    TAdSinglePlyChrSelectGC::destroy();
+    TBattleProximitySound::destroy();
 }
 
 void TPlayerBattleCtrl4P::destroy_dead_spots(TObject *parent) {
@@ -712,7 +710,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
     lobby_rule_settings.set_death_level_up(rule_data->value_c);
     for (i = 0; i < 4; i++)
     {
-      set_rule_slot_clamped(&lobby_rule_settings, rule_data->slot_rules[i], i);
+      lobby_rule_settings.set_rule_slot_clamped(rule_data->slot_rules[i], i);
     }
     lobby_rule_settings.set_enable_sonar(rule_data->rule_d);
     lobby_rule_settings.set_sonar_count(rule_data->level);

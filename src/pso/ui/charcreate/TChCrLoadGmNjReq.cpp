@@ -1,6 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
+#include "pso/system/BmlAccessors.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
@@ -14,6 +18,56 @@
 const char *TChCrLoadGmNjReq::class_name = "TChCrLoadGmNjReq";
 #pragma pop
 
+
+void TChCrLoadGmNjReq::update_model_load() {
+    s32 timer;
+    NJS_OBJECT *bml_model;
+    BmlResource *request;
+    timer = load_timer - 1;
+    load_timer = timer;
+    if (timer < 0) {
+        if (loaded_bml != NULL) {
+            delete loaded_bml;
+        } else {
+            return;
+        }
+        request = static_cast<BmlResource *>(::operator new(sizeof(BmlResource)));
+        if (request != NULL) {
+            request = init_bin_model_request(request, 6, model_ids, &model_ids[1], NULL, NULL, get_character_load_buffer(load_slot));
+        }
+        loaded_bml = request;
+        if (request != NULL) {
+            load_timer = 0x12C;
+        }
+    } else if (is_bml_loaded(loaded_bml) != 0) {
+        bml_model = get_bml_model(loaded_bml, 0);
+        *model_out = bml_model;
+        if (bml_model != NULL) {
+            advance_character_load_buffer(load_slot, TLobby__sub_8001ED88(loaded_bml));
+            delete loaded_bml;
+            loaded_bml = NULL;
+            release_slot();
+            *completion_flags &= ~completion_mask;
+            queue_destruction();
+        }
+    }
+}
+
+void TChCrLoadGmNjReq::start_character_load_task() {
+    BmlResource *request;
+
+    if ((tmp_buf_is_free() != 0) && (this->try_acquire_slot() != 0)) {
+        request = static_cast<BmlResource *>(::operator new(sizeof(BmlResource)));
+        if (request != NULL) {
+            request = init_bin_model_request(request, 6, model_ids, &model_ids[1], NULL, NULL, get_character_load_buffer(load_slot));
+        }
+        loaded_bml = request;
+        if (request != NULL) {
+            load_timer = 0x12C;
+            state = 1;
+        }
+    }
+}
 
 void TChCrLoadGmNjReq::run_task() {
     s32 timer;
@@ -57,4 +111,28 @@ TChCrLoadGmNjReq::TChCrLoadGmNjReq(TObject *parent, TChCrLoadGmNjReqArgs *args) 
 
 TChCrLoadGmNjReq *create_ch_cr_load_gm_nj_req(TObject *parent, TChCrLoadGmNjReqArgs *args) {
     return new TChCrLoadGmNjReq(parent, args);
+}
+
+s32 chr_select_slot_state;
+
+void TChCrLoadGmNjReq::release_slot() {
+    if (chr_select_slot_state < 0 || chr_select_slot_state > 1) return;
+    if (slot_claimed == 0) return;
+    chr_select_slot_state--;
+    slot_claimed = 0;
+}
+
+s32 TChCrLoadGmNjReq::try_acquire_slot() {
+    if ((chr_select_slot_state < 0) || (chr_select_slot_state > 1)) {
+        return 0;
+    }
+    if (slot_claimed != 0) {
+        return 0;
+    }
+    if (chr_select_slot_state >= 1) {
+        return 0;
+    }
+    chr_select_slot_state += 1;
+    slot_claimed = 1;
+    return 1;
 }

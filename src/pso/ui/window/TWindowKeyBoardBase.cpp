@@ -10,10 +10,10 @@
 #include <stddef.h>
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
+#include "pso/quest/QuestDownloadRequests.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
+#include "pso/quest/AskDicFile.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -31,7 +31,7 @@
 const char *keyboard_base_type_name_pointer = "TWindowKeyBoardBase";
 #pragma pop
 
-WindowDescriptor keyboard_base_window_descriptor = {
+WindowDescriptor TWindowKeyBoardBase::window_descriptor = {
     {0.0f, 0.0f}, 50026.0f, NULL, 0x23,
 };
 u32 keyboard_key_colors[3] = { 0x00000000, 0xC03040C0, 0x1030A0C0 };
@@ -53,7 +53,7 @@ struct CandidateRecord {
 extern "C" {
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
-u8 bind_menu_font_glyph(s32, TexturedQuad *, s32);
+extern "C" u8 bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
 struct Stack_8025E6DC {
     NJS_POINT2 caret;
     NJS_POINT2 cursor;
@@ -539,7 +539,7 @@ void TWindowKeyBoardBase::convert_input_text() {
             dst += 1;
         }
         code = *src;
-        src = (u16 *)((u8 *)src + 2);
+        src++;
         *dst = (u8) code;
         dst += 1;
     }
@@ -914,7 +914,7 @@ void TWindowKeyBoardBase::run_task() {
 TWindowKeyBoardBase::~TWindowKeyBoardBase() {
     mem_free(candidate_buffer);
 }
-TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&keyboard_base_window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7))) {
+TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardBase::window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7))) {
     s32 language;
 
     this->m_name = keyboard_base_type_name_pointer;

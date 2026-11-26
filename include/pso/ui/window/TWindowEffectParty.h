@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 
 class TParticleCtrl;
@@ -19,7 +20,7 @@ struct TWindowEffectParty : public TObject {
     f32 pos_y;
     f32 target_x;
     f32 target_y;
-    TParticleCtrl *m_particle; // inferred name: the continuous effect spawned by the ctor, released by the dtor
+    TParticleCtrl *m_particle; // the continuous effect spawned by the ctor, released by the dtor
     virtual void render();
     virtual void run_task();
     s32 step_toward_target(f32 to_x, f32 to_y);

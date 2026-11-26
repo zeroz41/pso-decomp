@@ -37,15 +37,15 @@ struct AudioStreamInputState {
     void set_notify_count(s32 samples);
     void set_decoded_samples(s32 samples);
     void set_notify_sample_count(s32 samples);
-    u8 *get_offset_58();
-    s32 send_packet_by_id();
-    s32 notify_field_4_alt();
-    s32 send_packet_by_id_2();
-    s32 send_with_offset4();
-    s32 notify_field_4();
-    void reset_flag();
-    void set_network_result(s32 result);
-    void set_param_and_notify(SjRingBuffer *sj);
+    u8 *get_header();
+    s32 get_total_samples();
+    s32 get_block_samples();
+    s32 get_bits_per_sample();
+    s32 get_channels();
+    s32 get_rate();
+    void stop();
+    void set_max_samples(s32 result);
+    void set_source(SjRingBuffer *sj);
     void reset_entry();
 };
 

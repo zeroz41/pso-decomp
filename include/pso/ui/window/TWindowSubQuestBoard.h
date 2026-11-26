@@ -25,13 +25,13 @@ struct TWindowSubQuestBoard : public TObject {
 
 LAYOUT_ASSERT(TWindowSubQuestBoard_size, sizeof(TWindowSubQuestBoard) == 0x30);
 
-// Option menu setters: write one field of the client's card window flags
-// (TWindowKeyBoardHard::set_card_window_flags), named by the bits they keep.
-void set_card_flags_1C00(saddr client_id, s32 value);
-void set_card_flags_300(saddr client_id, s32 value);
-void set_card_flag_8(saddr client_id, s32 value);
+// The quest board option setters TWindowSubOption::update_quest_board_card_flags calls: each stores
+// value into one bit field of client_id's CharacterSaveRecord::card_window_flags.
+void set_board_flags(saddr client_id, s32 value);
+void set_card_window_flags(saddr client_id, s32 value);
+void clear_card_window_flags(saddr client_id, s32 value);
 void set_card_flag_4(saddr client_id, s32 value);
-void set_card_flag_2(saddr client_id, s32 value);
-int set_card_flag_1(saddr client_id, int value);
+void set_card_flags_scaled(saddr client_id, s32 value);
+void set_card_flags_direct(saddr client_id, s32 value);
 
 #endif

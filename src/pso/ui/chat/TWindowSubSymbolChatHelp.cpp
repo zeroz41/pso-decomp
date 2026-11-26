@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -14,10 +13,6 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-struct HelpEntryUv { f32 u, v; };
-
-
-struct HelpIconUv { f32 u, v; };
 
 const char *window_sub_symbol_chat_help_name = "TWindowSubSymbolChatHelp";
 const HelpIconUv symbol_chat_help_icon_uv_table[6] = {
@@ -32,9 +27,6 @@ const HelpEntryUv symbol_chat_help_entry_uv_table[7] = {
 WindowDescriptor symbol_chat_help_window_layout = {
     {242.0f, 116.0f}, 50050.0f, NULL, 3,
 };
-
-extern "C" {
-int get_chat_help_color(int);
 
 
 #pragma push
@@ -239,4 +231,3 @@ TWindowSubSymbolChatHelp::TWindowSubSymbolChatHelp(s8 *selection, s32 *mode)
     flip_v = NULL;
 }
 
-}

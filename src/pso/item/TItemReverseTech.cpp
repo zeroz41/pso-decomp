@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemReverseTechPart2.h"
-#include "pso/item/TItemReverseTech_8011A1E8.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
 #include "pso/item/TItemReverseTechPart1.h"
@@ -19,7 +18,7 @@
 #include "pso/item/TItemReverseTech.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -31,14 +30,13 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/system/TScreenFadeIn.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/prs.h"
 #include "pso/render/GinjaView.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 
 
 
@@ -130,7 +128,7 @@ void TItemReverseTech::run_cleanup_callbacks() {
 
 void TItemReverseTech::run_frame() {
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

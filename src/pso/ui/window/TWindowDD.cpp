@@ -96,41 +96,38 @@ void reset_window_vertices(WindowVertex *p, f32 depth, s32) {
 }
 
 void fill_window_point_table(NJS_POINT2 *points, f32 x, f32 y, f32 width) {
-  f32 inner_right_u;
-  f32 inner_left;
-  f32 inner_left_u;
-  f32 right_u;
-  f32 right;
-  float right_scaled;
-  f32 bottom_v;
-  f32 top_v;
-  f32 left_u;
-  right = x + width;
-  left_u = window_dd_texel_scale * x;
-  top_v = window_dd_texel_scale * y;
-  points[0].x = left_u;
-  bottom_v = window_dd_texel_scale * (window_dd_row_height + y);
-  right_scaled = window_dd_texel_scale * right;
-  points[0].y = top_v;
-  inner_left = 48.0f + x;
-  right_u = right_scaled;
-  points[1].x = left_u;
-  inner_left_u = window_dd_texel_scale * inner_left;
-  points[1].y = bottom_v;
-  inner_right_u = inner_left;
-  inner_right_u = window_dd_texel_scale * (inner_right_u - width);
-  points[2].x = right_u;
-  points[2].y = top_v;
-  points[3].x = right_u;
-  points[3].y = bottom_v;
-  points[4].x = inner_right_u;
-  points[4].y = top_v;
-  points[5].x = inner_right_u;
-  points[5].y = bottom_v;
-  points[6].x = inner_left_u;
-  points[6].y = top_v;
-  points[7].x = inner_left_u;
-  points[7].y = bottom_v;
+    f32 inner_right_u;
+    f32 inner_left;
+    f32 inner_left_u;
+    f32 right_u;
+    f32 right;
+    f32 bottom_v;
+    f32 top_v;
+    f32 left_u;
+    right = x + width;
+    left_u = window_dd_texel_scale * x;
+    top_v = window_dd_texel_scale * y;
+    points[0].x = left_u;
+    bottom_v = window_dd_texel_scale * (window_dd_row_height + y);
+    right_u = window_dd_texel_scale * right;
+    points[0].y = top_v;
+    inner_left = 48.0f + x;
+    points[1].x = left_u;
+    inner_left_u = window_dd_texel_scale * inner_left;
+    points[1].y = bottom_v;
+    inner_right_u = window_dd_texel_scale * (inner_left - width);
+    points[2].x = right_u;
+    points[2].y = top_v;
+    points[3].x = right_u;
+    points[3].y = bottom_v;
+    points[4].x = inner_right_u;
+    points[4].y = top_v;
+    points[5].x = inner_right_u;
+    points[5].y = bottom_v;
+    points[6].x = inner_left_u;
+    points[6].y = top_v;
+    points[7].x = inner_left_u;
+    points[7].y = bottom_v;
 }
 
 #pragma push

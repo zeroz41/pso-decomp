@@ -1,10 +1,9 @@
 #include "pso/enemy/EnemyPlacement.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/render/TObjEnemyColorFade.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -16,7 +15,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
-#include "pso/object/base/TObjMotion.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -38,7 +36,6 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -46,16 +43,13 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/DebugFont.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
@@ -158,7 +152,7 @@ CollisionBody dubchik_collision_body[1] = {
 
 BreakUpParamRow dubchik_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 
-BossMovementParameters dubchik_movement = { { 150.0f, 0.37037036f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
+EnemyMoveParams dubchik_movement = {150.0f, 0.37037036f, 0x400, { 0x1E0000, 0, 1, 0 }};
 
 __declspec(section ".data") s16 dubchik_part0_node_ids[3] = { 0x14, 0x15, -1 };
 s16 dubchik_part1_node_ids[6] = { 0x2B, 0x31, 0x32, 0x33, 0x34, -1 };
@@ -281,7 +275,7 @@ inline const char *dubchik_gvm_filename();
 void TObjEneDubchik::load_resources() {
     SampledMotionPoints **t;
     NJS_OBJECT *nodes[3];
-    void *p;
+    SampledMotionPoints *p;
     s32 m;
     s32 i;
     NJS_OBJECT *mdl;
@@ -303,21 +297,18 @@ void TObjEneDubchik::load_resources() {
     lbl_805D509C = find_model_node(dubchik_resource->models[0].model, 0x15);
     lbl_805D50A0 = find_model_node(dubchik_resource->models[0].model, 0x2A);
     find_model_node(dubchik_resource->models[1].model, 0x15)->evalflags |= NJD_EVAL_HIDE;
-    p = new TBreakUpMdlData(dubchik_resource->models[0].model);
-    breakup_model_ptr = static_cast<TBreakUpMdlData *>(p);
-    p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
-    dubchik_scratch_trail0_points[0] = (SampledMotionPoints *)p;
+    breakup_model_ptr = new TBreakUpMdlData(dubchik_resource->models[0].model);
+    dubchik_scratch_trail0_points[0] = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
     dubchik_scratch_trail0_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x1C, 0x24);
-    p = new SampledMotionPoints(2, 36.0f, 40.0f, 1.0f);
-    dubchik_scratch_trail1_points[0] = (SampledMotionPoints *)p;
+    dubchik_scratch_trail1_points[0] = new SampledMotionPoints(2, 36.0f, 40.0f, 1.0f);
     dubchik_scratch_trail1_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x2E, 0x32);
     p = new SampledMotionPoints(2, 30.0f, 38.0f, 1.0f);
     t = dubchik_scratch_trail0_points;
-    t[1] = (SampledMotionPoints *)p;
+    t[1] = p;
     t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x1C, 0x24);
     p = new SampledMotionPoints(2, 50.0f, 58.0f, 1.0f);
     t = dubchik_scratch_trail1_points;
-    t[1] = (SampledMotionPoints *)p;
+    t[1] = p;
     t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
         dubchik_base_params_by_variant[i] = TLobby::register_boss(i + 0x1B);
@@ -379,11 +370,8 @@ void TObjEneDubchik::free_resources() {
 }
 
 void *TObjEneDubchik::create(void *set_data) {
-    TObject *o;
-    void *o2;
-    o = new TObjControl(tl_04);
-    o2 = new TObjEneDubchik(o, set_data);
-    return o2;
+    TObjControl *control = new TObjControl(tl_04);
+    return new TObjEneDubchik(control, set_data);
 }
 
 void TObjEneDubchik::run_task() {
@@ -596,7 +584,7 @@ void TObjEneDubchik::update_chase() {
             }
             update_enemy_wander_move(this, target->body_center, 1, speed);
             chase_distance += speed;
-            turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+            turn_toward_direction(movementParameters->turn_speed, &velocity);
         } else {
             update_if_active(0);
         }
@@ -822,7 +810,7 @@ void TObjEneDubchik::update_scratch() {
     case 1:
         if (target != NULL) {
             VecCopy(&move_destination, &target->body_center);
-            enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
+            enemy_turn_toward_dest(movementParameters->turn_speed);
         }
         advance_animation();
         act = -1;
@@ -837,7 +825,7 @@ void TObjEneDubchik::update_scratch() {
             play_sound_effect(remap_sound_for_area(0x4003AD03), &position, 0, 0);
             if (target != NULL && target->select_melee_contact_body(this, 1.0f) != 0) {
                 target->receive_physical_attack(this, 1.0f);
-                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                target->apply_knockback_from_attacker(this, 3.0f);
                 if (variant != 0 && random_ratio() <= 0.16666667f) {
                     DirectAttackPayload p = {0x11, 0};
                     target->receive_direct_attack(this, p, 0, -1, -1);
@@ -905,7 +893,7 @@ void TObjEneDubchik::update_shoot() {
     case 2:
         if (target != NULL) {
             VecCopy(&move_destination, &target->body_center);
-            enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
+            enemy_turn_toward_dest(movementParameters->turn_speed);
         }
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
@@ -930,7 +918,7 @@ void TObjEneDubchik::update_shoot() {
     case 3:
         if (target != NULL) {
             VecCopy(&move_destination, &target->body_center);
-            enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
+            enemy_turn_toward_dest(movementParameters->turn_speed);
         }
         apply_actor_gravity(this, NULL, 0.0f);
         check_object_collisions();
@@ -942,7 +930,7 @@ void TObjEneDubchik::update_shoot() {
         }
         if (--timer <= 0) {
             shot_count--;
-            new TDubchikShot(&muzzle_position, rotation_y, (saddr)this, get_int_parameter(3));
+            new TDubchikShot(&muzzle_position, rotation_y, this, get_int_parameter(3));
             state = 4;
             if (effect != NULL) {
                 effect->queue_destruction();
@@ -1036,7 +1024,7 @@ void TObjEneDubchik::update_appear() {
         actorFlags |= 0x04000000;
         requested_action = 5;
         advance_animation();
-        play_appear_effects((saddr)&body_center);
+        play_appear_effects(&body_center);
         fade.start_fade_in();
         state = 1;
     case 1:
@@ -1084,7 +1072,7 @@ void TObjEneDubchik::update_return_home() {
         }
         VecCopy(&move_origin, &body_center);
         calc_velocity_toward_destination(this, move_origin, move_destination, speed);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         move_with_wall_slide(this);
         if (xz_distance_squared(&position, &home_position) < 100.0f) {
             requested_action = 5;

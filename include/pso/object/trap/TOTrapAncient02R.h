@@ -17,13 +17,13 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     virtual void update_holding();
     virtual void run_demo();
     virtual void vfunc_86();
-    virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual s32 try_start_action(void *, s32, f32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
-    virtual s32 select_melee_contact_body(void *, f32);
+    virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
+    virtual s32 try_start_action(TObjChara *, s32, f32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
     s32 technique;  // name inferred: set param 6 clamped to 0-4, picks the technique update_springing casts (Foie, Zonde, Gibarta, Megid, Gifoie)
     s32 tech_level; // name inferred: scale.z + 2 * difficulty + 1, the level update_springing casts it at
     s32 switch_id;  // name inferred: set param 5, the floor switch find_target_player waits for (-1: none)

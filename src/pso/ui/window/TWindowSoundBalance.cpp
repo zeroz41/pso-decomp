@@ -24,29 +24,6 @@
 
 #pragma readonly_strings on
 
-// inferred: GaugeLayoutRecord, the type 1 record (0x24 bytes) behind entries 2 and 3, which
-// set_music_gain (entry 2) and set_sound_effect_gain (entry 3) drive as gauges (TWindowStatusGauge::target).
-struct GaugeLayoutRecord {
-    s32 type;
-    f32 pos[2];
-    f32 pad_0C;
-    u32 pad_10;
-    s32 pad_14;
-    f32 pad_18;
-    f32 pad_1C;
-    f32 pad_20;
-};
-
-// inferred: window_sound_balance_layout_entries, the layout table window_sound_balance_settings
-// points at (the "BGM" and "SE" labels and their two gauges).
-struct SoundBalanceWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    GaugeLayoutRecord rec_2;
-    GaugeLayoutRecord rec_3;
-};
 SoundBalanceWindowLayout window_sound_balance_layout_entries = {
     4, 1,
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, "BGM"},
@@ -136,12 +113,12 @@ void TWindowSoundBalance::handle_gain_input() {
 void TWindowSoundBalance::handle_lr_input() {
     ControllerInputContext *input;
     input = &controller_input_state.controllers[0];
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x30, 6, 1) != 0)) {
+    if ((test_buttons_press_or_repeat_color(input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x30, 6, 1) != 0)) {
         play_sound_effect(0x54100, NULL, 0, 0);
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat_color(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat_color(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
             this->selection = (this->selection + 1);
         }
         if ((s8) this->selection < 0) {
@@ -201,11 +178,11 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     this->music_gain = 1;
     this->sound_effect_gain = 1;
     e = (u8 *)get_array_entry(0);
-    char *label = reinterpret_cast<char *>(reinterpret_cast<WindowTextEntry *>(e)->get_text());
+    char *label = reinterpret_cast<WindowTextEntry *>(e)->get_text();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     e = (u8 *)get_array_entry(1);
-    label = reinterpret_cast<char *>(reinterpret_cast<WindowTextEntry *>(e)->get_text());
+    label = reinterpret_cast<WindowTextEntry *>(e)->get_text();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();

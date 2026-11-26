@@ -28,7 +28,7 @@
 // The class name and the effect table's file name.
 const char *TItemProShield::name = "TItemProShield";
 extern "C" {
-const char *lbl_805D2C3C = "ItemShieldEntry.dat";
+const char *shield_entry_filename = "ItemShieldEntry.dat";
 // Called with the item index widened to int.
 void __ct__19TItemEffShieldPulseFP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
 }
@@ -45,7 +45,7 @@ void TItemProShield::load_data() {
     s32 j;
     s32 *word;
     ShieldEffectEntry *entry;
-    shield_table = (ShieldEffectEntry *)load_data_file(lbl_805D2C3C);
+    shield_table = (ShieldEffectEntry *)load_data_file(shield_entry_filename);
     i = 0;
     entry = shield_table;
     do {

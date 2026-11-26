@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"

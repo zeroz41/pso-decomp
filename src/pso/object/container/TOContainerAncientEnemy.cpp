@@ -30,7 +30,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/object/cave/TOAirconCave01.h"
@@ -44,7 +44,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResource.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -149,18 +149,18 @@ void TObjContainerCommon::apply_saved_state(s16 *, s32) {  }
 TObjContainerCommon::~TObjContainerCommon() {
 }
 
-s32 TObjContainerCommon::roll_physical_accuracy(void *, s32, f32) { return 1; }
+s32 TObjContainerCommon::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 
-s32 TObjContainerCommon::try_start_action(void *, s32, f32) { return 1; }
+s32 TObjContainerCommon::try_start_action(TObjChara *, s32, f32) { return 1; }
 
-void TObjContainerCommon::apply_knockback_from_attacker(u8 *, f32) {  }
+void TObjContainerCommon::apply_knockback_from_attacker(TObjBase *, f32) {  }
 
-f32 TObjContainerCommon::receive_weapon_special_attack(void *, void *) {
+f32 TObjContainerCommon::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     receive_physical_attack(NULL, ancient_container_one);
     return ancient_container_zero;
 }
 
-int TObjContainerCommon::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
+int TObjContainerCommon::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
 extern BmlResource *ancient_container_resource_bundle;
 
@@ -262,7 +262,7 @@ void TOContainerAncientItem::draw_model() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             obj = this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
@@ -421,7 +421,7 @@ void TOContainerAncientEnemy::draw_model() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             obj = this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
@@ -452,7 +452,7 @@ void TOContainerAncientEnemy::debug_print_item_box_info() {
     debug_draw_sphere(&this->position, &debug_color_blue_alpha30, ancient_container_debug_radius);
 }
 
-f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
+f32 TOContainerAncientEnemy::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     G_FloorEvent_6x67 pk;
     if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&saved_state, 1) != 0) {

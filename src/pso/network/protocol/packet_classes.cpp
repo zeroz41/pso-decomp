@@ -298,7 +298,7 @@ void TPlyCharData::bswap() {
     for (int i = 0; i < 30; i++) {
         m_inventory.m_items[i].bswap();
     }
-    bswap__15disp_data_part2Fv((saddr)&m_disp_part2);
+    m_disp_part2.bswap();
     m_stats.bswap();
     m_config.bswap();
 }

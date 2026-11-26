@@ -79,7 +79,7 @@ struct NJS_OBJECT;
 extern "C" {
 BmlResource * bm5_gibon_u_model_archive;
 #pragma push
-TObjEneBm5GibonUMovementParameters bm5_gibon_u_movement_parameters = {
+EnemyMoveParams bm5_gibon_u_movement_parameters = {
     225.0f, 0.0f, 0x600, { 0, 0, 0, 0 },
 };
 CollisionBody gibon_collision_body_templates[4] = {
@@ -458,13 +458,13 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
             } else {
                 if (select_enemy_destination(this, destination, 1) != 0) {
                     copy_position_if_valid(this, body_center);
-                    r = enemy_turn_toward_dest(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn);
-                    enemy_set_heading_velocity(((TObjEneBm5GibonUMovementParameters *)movementParameters)->speed, this, rotation_y);
+                    r = enemy_turn_toward_dest(movementParameters->turn_speed);
+                    enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
                     move_with_wall_slide(this);
                 } else {
                     VecCopy(&v, &destination);
                     subtract_vector(&v, &body_center);
-                    r = turn_toward_direction(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn, &v);
+                    r = turn_toward_direction(movementParameters->turn_speed, &v);
                 }
                 if (r < 0x100) {
                     substate = 1;
@@ -490,7 +490,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                 if (current_target != 0) {
                     VecCopy(&v, &destination);
                     subtract_vector(&v, &body_center);
-                    r = turn_toward_direction(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn, &v);
+                    r = turn_toward_direction(movementParameters->turn_speed, &v);
                 } else {
                     r = attack_params->get_attack_angle();
                 }
@@ -498,9 +498,9 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     switch (technique_type) {
                     case 1:
                         if (r < attack_params->get_attack_angle() / 2 && current_target != 0) {
-                            TTecMegid::create((saddr)this, (saddr)&p, (saddr)&destination, (s32)(get_clamped_level()));
+                            TTecMegid::create(this, &p, &destination, (s32)(get_clamped_level()));
                         } else {
-                            TTecMegid::create_ex((saddr)this, (saddr)&p, rotation_y, (s32)(get_clamped_level()));
+                            TTecMegid::create_ex(this, &p, rotation_y, (s32)(get_clamped_level()));
                         }
                         play_sound_effect(0x4002A60B, &p, 0, 0);
                         break;
@@ -649,7 +649,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
                             break;
                         }
                         if (obj_is_hit_receivable(p) != 0 && p->select_melee_contact_body(this, 1.0f) != 0) {
-                            p->apply_knockback_from_attacker((u8 *)this, 1.0f);
+                            p->apply_knockback_from_attacker(this, 1.0f);
                             p->receive_physical_attack(this, 1.0f);
                         }
                     }
@@ -989,7 +989,7 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
             this->update_velocity();
             this->approach_target(0.2f);
             this->play_speed = 1.05f * this->current_speed;
-            enemy_turn_and_move_on_ground(this, 0x500, this->current_speed);
+            enemy_turn_and_move_on_ground(0x500, this->current_speed);
             this->face_target();
             this->check_collisions();
             this->update_enemy_collision_flags();
@@ -1047,10 +1047,10 @@ void TObjEneBm5GibonU::update_lunge(s32 msg) {
             }
             if (this->is_passing_frame(22.0f) != 0) {
                 this->near_target = 0;
-                if (enemy_validate_retained_target(this) != 0) {
+                if (enemy_validate_retained_target() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 7.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 7.0f);
                         this->near_target = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
                             if ((s32) this->is_leader != 0) {
@@ -1448,11 +1448,11 @@ void TObjEneBm5GibonU::chasing_state(s32 msg) {
             }
             frame = this->frame;
             if ((frame >= 10.0f) && (frame <= 18.0f)) {
-                enemy_turn_and_move_on_ground(this, (768.0f * this->current_speed), 1.0f);
+                enemy_turn_and_move_on_ground((768.0f * this->current_speed), 1.0f);
             } else {
                 this->current_speed *= 0.9f;
                 speed = this->current_speed;
-                enemy_turn_and_move_on_ground(this, (768.0f * speed), speed);
+                enemy_turn_and_move_on_ground((768.0f * speed), speed);
             }
             this->run_distance += this->current_speed;
             if (this->run_distance >= 50.0f) {
@@ -1487,7 +1487,7 @@ void TObjEneBm5GibonU::roaming_state(s32 msg) {
         this->clear_intangible();
         this->state_timer = 0;
         this->substate = 0;
-        this->random_phase = actor_rand_int((saddr)this, 0x14);
+        this->random_phase = actor_rand_int(this, 0x14);
         this->near_target = 0;
         angle = (s32)(65536.0f * this->random_ratio());
         radius = 120.0f * this->random_ratio();
@@ -1537,7 +1537,7 @@ void TObjEneBm5GibonU::roaming_state(s32 msg) {
                 this->stopping_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desired_speed);
             }
             this->play_speed = 1.05f * this->current_speed;
-            enemy_turn_and_move_on_ground(this, 512.0f * this->current_speed, this->current_speed);
+            enemy_turn_and_move_on_ground(512.0f * this->current_speed, this->current_speed);
             break;
         case 1:
             play_walk_footsteps();
@@ -1549,7 +1549,7 @@ void TObjEneBm5GibonU::roaming_state(s32 msg) {
                 this->requested_action = 0;
             }
             this->play_speed = 1.05f * this->current_speed;
-            enemy_turn_and_move_on_ground(this, 512.0f * this->current_speed, this->current_speed);
+            enemy_turn_and_move_on_ground(512.0f * this->current_speed, this->current_speed);
             break;
         case 2:
             this->requested_action = 0;
@@ -1605,7 +1605,7 @@ void TObjEneBm5GibonU::howling_state(s32 msg) {
                 }
             }
         }
-        if (enemy_validate_retained_target(this) != 0) {
+        if (enemy_validate_retained_target() != 0) {
             if (this->requested_action == 0xE) {
                 this->face_target();
             } else {
@@ -1644,7 +1644,7 @@ void TObjEneBm5GibonU::standing_state(s32 msg) {
     {
       play_sound_effect(this->remap_sound_for_area(0x3A523), &this->position, 0, 0);
     }
-      if (enemy_validate_retained_target(this) != 0)
+      if (enemy_validate_retained_target() != 0)
     {
       this->enemy_copy_target_destination();
       this->update_velocity();
@@ -1858,16 +1858,6 @@ void TObjEneBm5GibonU::handle_state(s32 msg) {
 }
 
 #pragma pop
-
-// The Gibbon's static data from bm5_gibon_u_stat_params on: the parameter tables, then
-// the two lists, each after the destructor-chain record __register_global_object fills in.
-struct TObjEneBm5GibonUStaticData {
-    u8 tables[0x2c];
-    u8 node_list_chain[0xc];
-    TObjEneBm5GibonUList node_list;
-    u8 enemy_list_chain[0xc];
-    TObjEneBm5GibonUList enemy_list;
-};
 
 extern "C" {
 void __register_global_object(void *obj, void (*dtor)(), void *chain);
@@ -2356,7 +2346,7 @@ s32 TObjEneBm5GibonU::calc_lunge_aim(int) {
     f32 dir_x;
     f32 dir_z;
     f32 side;
-    if (is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)this->current_target) != 0) {
+    if (is_target_unobstructed_from(this->current_target) != 0) {
         this->enemy_copy_target_destination();
         this->update_velocity();
         if (this->is_active() != 0) {
@@ -2388,7 +2378,7 @@ void TObjEneBm5GibonU::schedule_pack_reaction(s32 timer, u16 id) {
 }
 
 void TObjEneBm5GibonU::damage_linked_entity_type10() {
-    u8 *r = (u8 *)find_entity_by_id(leader_id);
+    TObjCollidable *r = find_entity_by_id(leader_id);
     if (r != 0) {
         DirectAttackPayload d;
         d.kind = 10;
@@ -2398,7 +2388,7 @@ void TObjEneBm5GibonU::damage_linked_entity_type10() {
 }
 
 void TObjEneBm5GibonU::damage_linked_entity() {
-    u8 *r = (u8 *)find_entity_by_id(leader_id);
+    TObjCollidable *r = find_entity_by_id(leader_id);
     if (r != 0) {
         DirectAttackPayload d;
         d.kind = 9;

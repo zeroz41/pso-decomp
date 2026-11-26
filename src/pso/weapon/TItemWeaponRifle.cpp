@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_8012C268.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItem.h"
@@ -13,7 +12,7 @@
 
 
 void TItemWeaponRifle::transform_model_node() {
-    if ((get_item_index() == 5) && (TObjPlayer::get_player_list() == 3)) {
+    if ((get_item_index() == 5) && (get_model_node_counter() == 3)) {
         scale_matrix(NULL, 1.0f, barrel_scale, 1.0f);
     }
 }

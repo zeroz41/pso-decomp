@@ -53,7 +53,7 @@ TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, Partic
     return new TParticleBallistic(entry, position, direction, parent, flags, target_id);
 }
 
-TParticle *TParticleCtrl::create_random_spread(void *param, void *pos, void *parent) {
+TParticle *TParticleCtrl::create_random_spread(ParticleParam *param, Vec *pos, TObject *parent) {
     return new TParticleBallistic(param, pos, parent);
 }
 
@@ -429,10 +429,10 @@ TParticleBallistic::TParticleBallistic(ParticleParam *entry, Vec *position, Part
 
 #pragma push
 #pragma fp_contract on
-TParticleBallistic::TParticleBallistic(void *entry, void *position, void *parent)
-    : TParticle((ParticleParam *)entry, (TObject *)parent) {
-    ParticleParam *src = (ParticleParam *)entry;
-    Vec *at = (Vec *)position;
+TParticleBallistic::TParticleBallistic(ParticleParam *entry, Vec *position, TObject *parent)
+    : TParticle(entry, parent) {
+    ParticleParam *src = entry;
+    Vec *at = position;
     s32 life;
     velocity.x = 0.0f;
     velocity.y = 0.0f;

@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
 saddr get_connection_message_text(s32 id);
+extern "C" {
 s32 *get_access_key_input_buffer(void);
 s32 *get_raw_serial_input_buffer(void);
 }

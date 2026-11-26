@@ -15,6 +15,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/AsyncFileRead.h"
 
 CollisionBody npc_player_collision_body_part = {{0.0f, 5.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
@@ -105,7 +106,7 @@ TNpcPlayerSpawner::TNpcPlayerSpawner(const Vec *position, s32 heading, s32 slot,
     load_state = 0;
     this->mode = mode;
     TNpcPlayer::ensure_rock_singleton();
-    TLobby::request_file_read("npcplayerchar.dat", npc_player_char_data_buffer, (s32 *)&load_state, (void **)0);
+    request_file_read("npcplayerchar.dat", npc_player_char_data_buffer, (s32 *)&load_state, (void **)0);
 }
 
 TNpcPlayerSpawner::~TNpcPlayerSpawner() {

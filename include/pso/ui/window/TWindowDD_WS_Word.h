@@ -2,6 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWDD_WS_WORD_H
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct NJS_POINT2;
 
@@ -11,10 +12,10 @@ public:
     TWindowDD_WS_Word(s32 list_id, s32 visible_count);
     virtual ~TWindowDD_WS_Word();
     static TWindowDD_WS_Word *create(s32 element_list, s32 rows);
-    void disable_input(); // inferred: sets state_flags bit 0
-    void enable_input();  // inferred: clears state_flags bit 0
+    void disable_input(); // sets state_flags bit 0
+    void enable_input();  // clears state_flags bit 0
     s16 get_element_list_id() const;
-    s32 get_scroll_top() const; // inferred: first visible token (selected token minus its row)
+    s32 get_scroll_top() const; // first visible token (selected token minus its row)
     int get_selected_id() const;
     virtual void render();
     virtual void run_task();
@@ -33,7 +34,7 @@ public:
     s32 get_selected_token_index();
     s32 get_selected_row();
     s32 get_token_count();
-    s32 get_selected_row_text();
+    char *get_selected_row_text();
     void set_pos_and_data(f32 x);
     void use_active_strips();
     void use_dim_strips();
@@ -64,5 +65,14 @@ LAYOUT_ASSERT(TWindowDD_WS_Word_float84, offsetof(TWindowDD_WS_Word, pad_84) == 
 LAYOUT_ASSERT(TWindowDD_WS_Word_pad_88, offsetof(TWindowDD_WS_Word, scroll_offset) == 0x88);
 
 LAYOUT_ASSERT(TWindowDD_WS_Word_list_id, offsetof(TWindowDD_WS_Word, element_list_id) == 0x70);
+
+// Entry layout table of the window: one column, one text record (type 3); the row count is
+// written before each build (init_layout_entries, TWindowDD_WS_Word::create).
+struct TWindowDD_WS_WordLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+};
+
 
 #endif

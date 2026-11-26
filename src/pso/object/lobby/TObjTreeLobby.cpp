@@ -59,8 +59,7 @@ TObjTreeLobby::TObjTreeLobby(TObject *parent, void *set_data) : TObjMapObject(pa
 TObjTreeLobby::~TObjTreeLobby() {}
 
 void TObjTreeLobby::load_resources() {
-    BmlResource *resource = new BmlResource(5, &bm_obj_lobby_tree_resource_descriptor, 0, 0, NULL);
-    model_resource = resource;
+    model_resource = new BmlResource(5, &bm_obj_lobby_tree_resource_descriptor, 0, 0, NULL);
     lobby_texlist = get_lobby_main_texlist();
 }
 
@@ -108,7 +107,7 @@ void TObjTreeLobby::run_task() {
 void TObjTreeLobby::render() {
     if (fade_state != 0) {
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

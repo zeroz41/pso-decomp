@@ -29,7 +29,6 @@ struct TWindowShortCut;
 
 #pragma readonly_strings on
 
-struct Win_8027DBB8 { u8 pad[0x20]; saddr client_id; };
 
 
 const char *TWindowSubShortCut::class_name = "TWindowSubShortCut";
@@ -45,7 +44,7 @@ TWindowSubShortCut::TWindowSubShortCut(TObject *parent, s32 client) : TObject(pa
     this->confirm_window = 0;
     this->chat_window = 0;
     this->shortcut_window = 0;
-    this->m_24 = 0;
+    this->shortcut_slot = 0;
     this->state = 0;
 }
 
@@ -120,7 +119,7 @@ void TWindowSubShortCut::run_task() {
             this->menu = 0U;
         }
         if (com_card_list != NULL) {
-            this->m_24 = com_card_list->get_cursor_value();
+            this->shortcut_slot = com_card_list->get_cursor_value();
             com_card_list->close();
             this->com_card_list = NULL;
         }
@@ -147,7 +146,7 @@ void TWindowSubShortCut::run_task() {
             this->chat_window = 0U;
         }
         if (this->shortcut_window == NULL) {
-            this->shortcut_window = new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->m_24, (s32 *)&this->chat_submission);
+            this->shortcut_window = new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->shortcut_slot, (s32 *)&this->chat_submission);
         }
         if (this->confirm_window == NULL) {
             this->confirm_window = open_confirm_prompt();
@@ -160,7 +159,7 @@ void TWindowSubShortCut::run_task() {
         }
         if (this->confirm_window->is_child_visible() != 0) {
             if (this->confirm_window->get_selected_value() == 0) {
-                store_chat_shortcut(this->m_24, &this->chat_submission);
+                store_chat_shortcut(this->shortcut_slot, &this->chat_submission);
                 this->state = 1U;
                 return;
             }
@@ -196,7 +195,7 @@ void TWindowSubShortCut::run_task() {
 void TWindowSubShortCut::render() {  }
 
 TWindowSubShortCutList *TWindowSubShortCut::open_com_card_list() {
-    return TWindowSubShortCutList::create(get_window_layout_position(0x72), static_cast<s32>(m_24));
+    return TWindowSubShortCutList::create(get_window_layout_position(0x72), static_cast<s32>(shortcut_slot));
 }
 
 TWindowMenu *TWindowSubShortCut::open_menu() {

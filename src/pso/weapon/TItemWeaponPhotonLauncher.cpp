@@ -16,7 +16,7 @@ void get_weapon_color__11TItemWeaponFv(void *, void *);
 }
 
 void TItemWeaponPhotonLauncher::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         translate_matrix(0, 0.0f, muzzle_offset, 0.0f);
     }
 }

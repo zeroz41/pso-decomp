@@ -184,11 +184,11 @@ void TTecMegid::apply_to_target(TObjChara *target) {
     }
 }
 
-void TTecMegid::create(saddr source, saddr pos, saddr target, s32 level) {
-    new TTecMegid(source, (u8 *)pos, (u8 *)target, level);
+void TTecMegid::create(TObjBase *source, Vec *pos, Vec *target, s32 level) {
+    new TTecMegid(source, pos, target, level);
 }
-void TTecMegid::create_ex(saddr source, saddr pos, s32 angle, s32 level) {
-    new TTecMegid(source, (Vec *)pos, angle, level);
+void TTecMegid::create_ex(TObjBase *source, Vec *pos, s32 angle, s32 level) {
+    new TTecMegid(source, pos, angle, level);
 }
 void TTecMegid::render() {  }
 
@@ -204,7 +204,7 @@ TTecMegid::~TTecMegid() {
 void TTecMegid::run_task() {
     u32 i;
     source = find_entity_by_id(sourceId);
-    if (source == 0) {
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -230,7 +230,7 @@ void TTecMegid::run_task() {
 }
 
 // The aimed form: the technique flies from `pos` towards `target`.
-TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(source, pos, target, level) {
+TTecMegid::TTecMegid(TObjBase *source, Vec *pos, Vec *target, s32 level) : TTecShot(source, pos, target, level) {
     s32 i;
     m_name = TTecMegid::class_name;
     init_parameters();
@@ -241,13 +241,13 @@ TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(so
     hitCursor = 0;
     spawn_particle_emitters();
     update_by_state();
-    if (TEffect::source != 0) {
-        sourceId = ((TObjBase *)TEffect::source)->get_entity_id();
+    if (TEffect::source != NULL) {
+        sourceId = TEffect::source->get_entity_id();
     }
 }
 
 // The facing form: the technique starts at `pos` and flies along the y angle `angle`.
-TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TTecShot(source, pos, angle, level) {
+TTecMegid::TTecMegid(TObjBase *source, Vec *pos, s32 angle, s32 level) : TTecShot(source, pos, angle, level) {
     s32 i;
     m_name = TTecMegid::class_name;
     init_parameters();
@@ -258,7 +258,7 @@ TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TTecShot(so
     hitCursor = 0;
     spawn_particle_emitters();
     update_by_state();
-    if (TEffect::source != 0) {
-        sourceId = ((TObjBase *)TEffect::source)->get_entity_id();
+    if (TEffect::source != NULL) {
+        sourceId = TEffect::source->get_entity_id();
     }
 }

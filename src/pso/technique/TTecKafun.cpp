@@ -37,12 +37,12 @@ void TTecKafun::apply_to_target(TObjChara *target) {
     }
 }
 
-void TTecKafun::create(saddr source, saddr pos, s32 kind, s32 effect, s32 second_effect, f32 value, s32 level, f32 radius) {
-    new TTecKafun(source, (Vec *)pos, kind, effect, second_effect, level, value, radius);
+void TTecKafun::create(TObjBase *source, Vec *pos, s32 kind, s32 effect, s32 second_effect, f32 value, s32 level, f32 radius) {
+    new TTecKafun(source, pos, kind, effect, second_effect, level, value, radius);
 }
 
-void TTecKafun::create(saddr source, saddr pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius) {
-    new TTecKafun(source, (Vec *)pos, kind, effect, level, value, radius);
+void TTecKafun::create(TObjBase *source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius) {
+    new TTecKafun(source, pos, kind, effect, level, value, radius);
 }
 
 TTecKafun::~TTecKafun() {
@@ -57,7 +57,7 @@ void TTecKafun::run_task() {
         return;
     }
     this->source = find_entity_by_id(this->sourceId);
-    if (this->source == 0U) {
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
@@ -69,7 +69,7 @@ void TTecKafun::run_task() {
     queue_destruction();
 }
 
-TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius)
+TTecKafun::TTecKafun(TObjBase *source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius)
     : TTecCircle(source, pos, pos, level) {
     this->m_name = tec_kafun_class_name_ptr;
     this->hit_value = value;
@@ -81,12 +81,12 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_ef
         this->collidable->bodies->radius = radius;
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
-    if (this->source != 0U) {
+    if (this->source != NULL) {
         this->sourceId = this->source->get_entity_id();
     }
 }
 
-TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius)
+TTecKafun::TTecKafun(TObjBase *source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius)
     : TTecCircle(source, pos, pos, level) {
     this->m_name = tec_kafun_class_name_ptr;
     this->hit_value = value;
@@ -97,7 +97,7 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f3
         this->collidable->bodies->radius = radius;
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
-    if (this->source != 0U) {
+    if (this->source != NULL) {
         this->sourceId = this->source->get_entity_id();
     }
 }

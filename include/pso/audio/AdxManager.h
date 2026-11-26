@@ -33,6 +33,8 @@ void adxm_svm_unlock_callback(s32 context);
 }
 // --- end of C functions
 
+void init_runtime_threads(AdxmThreadConfig *cfg);
+
 extern "C" {
 void adxm_worker_thread_loop();
 void adxm_busy_wait_loop();

@@ -9,18 +9,19 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/MenuText.h"
 
 #pragma readonly_strings on
 
@@ -40,7 +41,7 @@ extern "C" {
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
     ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)frame_context);
     f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
-    TAdSubPlyItemGC::render_status_line(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
+    draw_menu_text_scaled(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
 }
 
 void TAdEp3Exist::render() {
@@ -133,7 +134,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     }
     go = false;
     if (ok) {
-        if ((s8)((u8 *)TAdSinglePlyChrSelectGC::get_instance())[0x1152C] == 0) {
+        if (TAdSinglePlyChrSelectGC::get_instance()->serial_number[0] == 0) {
             go = true;
         }
     }

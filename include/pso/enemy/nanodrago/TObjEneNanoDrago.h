@@ -7,13 +7,6 @@
 
 struct BmlResource;
 
-struct NanoDragoMovementParams {
-    f32 detectionRadius;
-    f32 baseSpeed;
-    s32 turnSpeed;
-    s32 unknown[4];
-};
-
 // The record TLobby::dispatch_shared_handler_a(0x1A) returns (nano_drago_behavior_params).
 struct NanoDragoBehaviorParams {
     f32 float_params[6]; // get_float_parameter: 0 flight speed, 1 nano_drago_single_beam_speed, 2-4 the homing beam's
@@ -92,5 +85,7 @@ extern f32 nano_drago_beam_speed;       // the beam's speed, also its hit radius
 extern f32 nano_drago_beam_homing;      // the beam's starting steering pull
 extern f32 nano_drago_beam_homing_gain; // added to the pull every frame in flight
 extern s32 nano_drago_beam_power;       // the direct attack's power
+
+struct BeamRotation { s32 x, y, z; };
 
 #endif

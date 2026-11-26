@@ -65,8 +65,8 @@
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E43E4.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/network/TGameProtocol.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -116,7 +116,7 @@ s32 boss5_gryphon_behavior_param_ids[3] = { 0x1E, 0x1F, 0x20 };
 s32 boss5_gryphon_base_stat_indices[3] = { 0, 0, 0 };
 s32 boss5_gryphon_attack_stat_indices[3] = { 0, 1, 2 };
 s32 boss5_gryphon_resistance_stat_indices[3] = { 0, 0, 0 };
-BossMovementParameters boss5_gryphon_movement_params = { { 225.0f, 0.0f, 0x600 } };
+EnemyMoveParams boss5_gryphon_movement_params = {225.0f, 0.0f, 0x600};
 CollisionBody boss5_gryphon_collision_body_parts[10] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -182,7 +182,6 @@ Boss5GryphonParams *boss5_gryphon_behavior_params[3];
 Vec boss5_gryphon_bone_capture_origin;
 Vec boss5_gryphon_camera_pos_vec;
 u8 boss5_gryphon_direction_vec[0x10];  // a Vec; the split end counts the 4 bytes of .bss alignment after it
-extern const f32 enemy_gravity_accel;
 // Set up by this file's static initializer (the last function in the object): 3x and 2x the enemies'
 // per-frame gravity (TObjEneDD's -0.1f), the pair TBoss1Dragon names lift and gravity accel.
 f32 boss5_gryphon_lift_accel = gryphon_three * enemy_gravity_accel;
@@ -752,7 +751,7 @@ void TBoss5Gryphon::update_body_colliders() {
         }
         return;
     }
-    update_local_colliders_from_world(this, body_points);
+    update_local_colliders_from_world(body_points);
     {
         f32 lim = gryphon_thirty;
         s32 i;
@@ -867,7 +866,7 @@ void handle_6x9F_gal_gryphon_boss_actions(G_GalGryphonBossActions_6x9F *cmd) {
 }
 
 void TBoss5Gryphon::set_target_from_action(G_GalGryphonBossActions_6x9F *packet) {
-    enemy_set_target_id(this, (u16)packet->target_id);
+    enemy_set_target_id((u16)packet->target_id);
     this->destination.x = packet->x;
     this->destination.z = packet->z;
 }
@@ -1233,12 +1232,12 @@ void TBoss5Gryphon::update_ground_pursuit(s32 event) {
         this->emit_walk_foot_attacks();
         spd = this->get_motion_frame();
         if (spd < gryphon_four) {
-            enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
+            enemy_turn_and_move_shot_step(0x100, gryphon_one_point_eight);
         } else if (!(spd < gryphon_ten)) {
             if (spd < gryphon_eighteen) {
-                enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
+                enemy_turn_and_move_shot_step(0x100, gryphon_one_point_eight);
             } else if (!(spd < gryphon_twenty_five)) {
-                enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
+                enemy_turn_and_move_shot_step(0x100, gryphon_one_point_eight);
             }
         }
         break;
@@ -2574,7 +2573,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         pop_matrix();
         this->lightning.horns[0] = TBoss5GryphonLightningHorn::spawn_ground_lightning(this, &left, this->rotation_y);
         this->lightning.horns[1] = TBoss5GryphonLightningHorn::spawn_ground_lightning(this, &right, this->rotation_y);
-        subtractive_rng_seed(&this->rng, this->motion->args.seed);
+        this->rng.set_seed(this->motion->args.seed);
         break;
     case ENEMY_STATE_UPDATE:
         this->advance_animation();
@@ -2701,7 +2700,7 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
         this->set_offscreen_height();
         this->flags |= 4;
         this->play_se(0x4003A818);
-        subtractive_rng_seed(&this->rng, this->motion->args.seed);
+        this->rng.set_seed(this->motion->args.seed);
         this->rotation_x = 0x4000;
         this->dive.frame = 0;
         this->dive.frame_limit = (f32)this->motion->timer - round_away_from_zero(gryphon_seventy_five);
@@ -3052,7 +3051,7 @@ void TBoss5Gryphon::scale_size(f32 scale, f32 scale_y, f32 turn_scale) {
 void TBoss5Gryphon::refresh_target_periodically() {
     TBoss5Gryphon::update_linked_ground_position();
     if (!(this->targetRefreshCounter & 0x1F)) {
-        if (enemy_validate_retained_target(this) != 0) {
+        if (enemy_validate_retained_target() != 0) {
             enemy_copy_target_destination();
         } else {
             this->set_target_destination(&boss5_gryphon_arena_center);

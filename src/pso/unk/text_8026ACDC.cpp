@@ -2,8 +2,7 @@
 #include "pso/unk/text_8026ACDC.h"
 #include "pso/unk/text_8026A14C.h"
 #include "pso/system/THeap.h"
-
-extern void *chat_log_lines[];
+#include "pso/ui/window/TWindowMessageLog.h"
 
 void init_chat_log_heap(void) {
     s32 i;

@@ -55,7 +55,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -78,9 +77,6 @@ extern "C" {
 extern const char *bm_ene_df1_saver_model_names[2];
 extern const char *bm_ene_df1_saver_motion_names[12];
 }
-// Where render's node callback last placed the particle node (node 0x1A), in world space. 16 bytes in the
-// original; only the first 12 are used, as a point.
-struct SaverNodePoint { Vec pos; u8 pad_c[4]; };
 SaverNodePoint saver_particle_node_position;
 extern "C" {
 player_stats *saver_boss_stat_handle;
@@ -130,7 +126,7 @@ const NpcAnimationBinding saver_init_binding_desc = { NULL, saver_action_table, 
 const Vec lbl_8043A8A4 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_8043A8B0 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_8043A8BC = {0.0f, 0.0f, 0.0f};
-SaverMoveParams saver_move_params = {
+EnemyMoveParams saver_move_params = {
     250.0f, 1.25f, 0x400, {0, 0x64, 0, 0},
 };
 CollisionBody saver_collision_body_part_table[1] = {
@@ -577,7 +573,7 @@ void TObjEneSaver::state_nail() {
         if (is_passing_frame(7.0f) != 0) {
             if (target != NULL && target->select_melee_contact_body(this, 1.0f) != 0) {
                 f32 damage = target->receive_physical_attack(this, 1.0f);
-                target->apply_knockback_from_attacker((u8 *)this, damage);
+                target->apply_knockback_from_attacker(this, damage);
                 guard_hp = guard_hp + damage;
                 particle_type = 0x10E;
                 if (guard_hp_max < guard_hp) {
@@ -947,7 +943,7 @@ void TObjEneSaver::refresh_target() {
         i = 0;
         best_id = 0xFFFF;
         Vec v = lbl_8043A8B0;
-        best = ((SaverMoveParams *)movementParameters)->radius * ((SaverMoveParams *)movementParameters)->radius;
+        best = movementParameters->search_range * movementParameters->search_range;
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p != NULL && p != (TObjChara *)this) {
@@ -997,7 +993,7 @@ void TObjEneSaver::refresh_target() {
         best_id2 = best_id;
         best_p = NULL;
         i = 0;
-        best = ((SaverMoveParams *)movementParameters)->radius * ((SaverMoveParams *)movementParameters)->radius;
+        best = movementParameters->search_range * movementParameters->search_range;
         best2 = best;
         for (; i < registered_player_count; i++) {
             p = TObjPlayer::get_player_data(i);
@@ -1281,14 +1277,14 @@ void TObjEneSaver::update_move_toward_target() {
             break;
         }
         case 1: {
-            enemy_move_toward(this, ((SaverMoveParams *)movementParameters)->turn_speed, t->body_center, 0, saver_ai_params, saver_ai_params[2]);
+            enemy_move_toward(this, movementParameters->turn_speed, t->body_center, 0, saver_ai_params, saver_ai_params[2]);
             dist = horizontal_distance_squared(&move_destination, &position);
             if (dist < 22500.0f) {
                 state_flags &= ~0x10;
             } else {
                 state_flags |= 0x10;
             }
-            reach = ((SaverMoveParams *)movementParameters)->speed + bodies->radius;
+            reach = movementParameters->move_speed + bodies->radius;
             if (dist < (reach * reach)) {
                 phase = 2;
             }
@@ -1406,7 +1402,7 @@ void TObjEneSaver::damage_targets_in_reach() {
             p->get_entity_id() < limit && !(p->actorFlags & 0x02000800) &&
             p->select_melee_contact_body(this, 1.0f) != 0) {
             f32 damage = p->receive_physical_attack(this, 1.0f);
-            p->apply_knockback_from_attacker((u8 *)this, damage);
+            p->apply_knockback_from_attacker(this, damage);
         }
     }
 }
@@ -1439,7 +1435,7 @@ void TObjEneSaver::state_attack() {
             s32 a;
             VecCopy(&d, &target->body_center);
             subtract_vector(&d, &body_center);
-            a = turn_toward_direction(((SaverMoveParams *)movementParameters)->turn_speed, &d);
+            a = turn_toward_direction(movementParameters->turn_speed, &d);
             if (!(actorFlags & 0x800000)) {
                 apply_actor_gravity(this, NULL, 0.0f);
             }
@@ -1450,7 +1446,7 @@ void TObjEneSaver::state_attack() {
                 if (check_path_obstructed(this, &target->body_center) == 1) {
                     velocity.x = velocity.y = velocity.z = 0.0f;
                 } else {
-                    calc_velocity_toward_destination(this, body_center, target->body_center, ((SaverMoveParams *)movementParameters)->speed);
+                    calc_velocity_toward_destination(this, body_center, target->body_center, movementParameters->move_speed);
                 }
             }
         }

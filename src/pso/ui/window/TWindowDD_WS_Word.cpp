@@ -2,14 +2,12 @@
 #pragma defer_codegen on
 
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
-#include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/TWindowBase.h"
 
 #include "pso/ui/window/TWindowDD.h"
@@ -28,14 +26,6 @@ const char *TWindowDD_WS_Word::class_name = "TWindowDD_WS_Word";
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
-
-// Entry layout table of the window: one column, one text record (type 3); the row count is
-// written before each build (init_layout_entries, TWindowDD_WS_Word::create).
-struct TWindowDD_WS_WordLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
 
 
 TWindowDD_WS_WordLayout word_select_page_layout = {
@@ -99,10 +89,10 @@ void TWindowDD_WS_Word::get_cursor_pos(NJS_POINT2 *position) {
     position->y = (f32)selected_row * window_dd_row_height + frame_position[1];
 }
 
-s32 TWindowDD_WS_Word::get_selected_row_text() {
+char *TWindowDD_WS_Word::get_selected_row_text() {
     if (entry_list.items != NULL) {
-        WindowTextEntry *entry = (WindowTextEntry *)get_array_entry(selected_row);
-        return (s32)entry->get_text();
+        WindowTextEntry *entry = static_cast<WindowTextEntry *>(get_array_entry(selected_row));
+        return entry->get_text();
     }
     return 0;
 }

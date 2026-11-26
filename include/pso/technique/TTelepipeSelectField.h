@@ -11,6 +11,8 @@ public:
     virtual ~TTelepipeSelectField();
     virtual void run_task();
     virtual void interact(u16 client);
+    s32 get_interacted();
+    void clear_interacted();
     // Inferred names: run_task offers the cursor action without the gathered-players check
     // when this is set (warps pass 1, telepipes 0); interact sets the latch TTecLuker polls.
     s32 always_selectable;

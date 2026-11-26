@@ -8,7 +8,6 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/unk/text_80299420.h"
 #include "pso/object/TObjPathObj.h"
 
@@ -76,7 +75,7 @@ TAdStorySelectGC::TAdStorySelectGC(TObject *parent) : TObject(parent) {
     if (TAdSelectGameModeGC::get_mode_data() == 1) {
         TAdStorySelectGC::set_state(0);
         queue_destruction();
-        if (TAdMultiPlyChrSelectGC__sub_80299454() != 0) {
+        if (is_multi_chr_select_slot_chosen() != 0) {
             TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
         } else {
             TAdMultiChgGameModeGC::open_level_select_scene();

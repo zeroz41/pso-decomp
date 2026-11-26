@@ -57,7 +57,7 @@
 extern "C" {
 
 
-Bm3FlyMovementParameters bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
+EnemyMoveParams bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody bm3_flynest_collider_params[1] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003},
 };
@@ -81,18 +81,10 @@ const char *bm3_fly_nest_class_name = "TObjEneBm3FlyNest";
 }
 const char *TObjEneBm3FlyNest_CarryFly::name = "TObjEneBm3FlyNest_CarryFly";
 extern "C" {
-struct Bm3FlyNestVertexList {
-    f32 *vertices;
-    s32 *indices;
-    s32 pad_08;
-    s32 count;
-    s32 pad_10;
-};
 Vec bm3_fly_nest_attachment_sample_origin;
 f32 fly_nest_vertex_table[6];
 __declspec(section ".data") s32 fly_nest_vertex_indices[2];
 Bm3FlyNestVertexList fly_nest_vertex_list;
-extern saddr debug_chunk_object;
 player_stats *bm3_fly_nest_base_stats;
 AttackParams *bm3_fly_nest_attack_stats;
 ActorParamBlock *bm3_fly_nest_resist_stats;
@@ -1116,7 +1108,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     translate_matrix(0, this->parameters[2], this->parameters[3], this->parameters[4]);
-    draw_chunk_object((void *)debug_chunk_object);
+    draw_chunk_object(debug_chunk_object);
     pop_matrix();
 }
 

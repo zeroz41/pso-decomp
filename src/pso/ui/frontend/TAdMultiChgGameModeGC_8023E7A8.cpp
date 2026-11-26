@@ -16,15 +16,14 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_803360CC.h"
 #include "pso/unk/TLobby_802A0F3C.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/render/gjSystem.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8023F3F8.h"
@@ -33,7 +32,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/ui/TLogo.h"
-#include "pso/ui/TLogo_8001C134.h"
+#include "pso/ui/frontend/TAdSEGAlogo.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -56,7 +55,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlyPltAnimGC.h"
 #include "pso/ui/frontend/TAdRayGC.h"
-#include "pso/ui/frontend/TAdSelectCurGC_802AED98.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -510,7 +509,7 @@ void run_game_mode_select_frame(void) {
     }
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

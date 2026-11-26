@@ -7,7 +7,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/BmlResource.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/technique/TTecShot.h"
@@ -137,12 +137,12 @@ void TTecBarta::init_parameters() {
     range = params.range;
 }
 
-void TTecBarta::create(void *source, void *origin, void *aim, s32 level) {
-    new TTecBarta((saddr)source, (u8 *)origin, (u8 *)aim, level);
+void TTecBarta::create(TObjBase *source, Vec *origin, Vec *aim, s32 level) {
+    new TTecBarta(source, origin, aim, level);
 }
 
-void TTecBarta::create_ex(void *source, Vec *origin, s32 angle, s32 level) {
-    new TTecBarta((saddr)source, origin, angle, level);
+void TTecBarta::create_ex(TObjBase *source, Vec *origin, s32 angle, s32 level) {
+    new TTecBarta(source, origin, angle, level);
 }
 
 void TTecBarta::apply_to_target(TObjChara *target) {
@@ -208,7 +208,7 @@ void TTecBarta::run_task() {
 
 void TTecBarta::render() {  }
 
-TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
+TTecBarta::TTecBarta(TObjBase *source, Vec *pos, Vec *target, s32 level)
     : TTecShot(source, pos, target, level) {
     s32 i;
     m_name = TTecBarta::class_name;
@@ -226,7 +226,7 @@ TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
 }
 
 // The facing form starts 5 units higher.
-TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
+TTecBarta::TTecBarta(TObjBase *source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     s32 i;
     m_name = TTecBarta::class_name;
@@ -256,12 +256,12 @@ void TTecCircle::apply_technique_to_area_targets() {
     }
     if (source->get_entity_id() < 4) {
         if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
-            list = collect_body_contacts_for_target((saddr)source);
+            list = collect_body_contacts_for_target(source);
         } else {
-            list = find_area_contact((saddr)source);
+            list = find_area_contact(source);
         }
     } else {
-        list = collect_body_contacts_for_target((saddr)source);
+        list = collect_body_contacts_for_target(source);
     }
     for (i = 0; i < list->count; i++) {
         if (TObjPlayer::is_valid_and_active((uaddr)list->actors[i]) != 0) {

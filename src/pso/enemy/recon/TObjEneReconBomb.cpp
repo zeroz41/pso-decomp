@@ -150,7 +150,7 @@ void TObjEneReconBomb::run_task() {
                     DirectAttackPayload attack;
                     attack.kind = 0;
                     attack.power = blast_power;
-                    pl->apply_knockback_from_attacker((u8 *)owner, pl->receive_direct_attack(owner, attack, NULL, -1, -1));
+                    pl->apply_knockback_from_attacker(owner, pl->receive_direct_attack(owner, attack, NULL, -1, -1));
                 }
             }
         }

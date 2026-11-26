@@ -28,7 +28,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TOVS2.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/map/TObjMapCsn.h"
@@ -267,19 +267,19 @@ void WallHitPacket::byteswap() {
 
 s32 TOVS2Wall01::remaining_hits() { return (s32)hits_left; }
 void TOVS2Wall01::set_remaining_hits(s32 count) { hits_left = count; }
-void TOVS2Wall01::apply_knockback_from_attacker(u8 *, f32) {  }
-f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit((TObjBase *)attacker); }
-f32 TOVS2Wall01::receive_direct_attack(void *attacker, DirectAttackPayload, void *, s32, s32) { return take_hit((TObjBase *)attacker); }
-f32 TOVS2Wall01::receive_physical_attack(void *attacker, f32) { return take_hit((TObjBase *)attacker); }
-int TOVS2Wall01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
-s32 TOVS2Wall01::select_melee_contact_body(void *, f32) { return 1; }
-s32 TOVS2Wall01::roll_physical_accuracy(void *, s32, f32) { return 1; }
-s32 TOVS2Wall01::try_start_action(void *, s32, f32) { return 1; }
+void TOVS2Wall01::apply_knockback_from_attacker(TObjBase *, f32) {  }
+f32 TOVS2Wall01::receive_weapon_special_attack(TObjChara *attacker, CollisionBody *) { return take_hit(attacker); }
+f32 TOVS2Wall01::receive_direct_attack(TObjBase *attacker, DirectAttackPayload, CollisionBody *, s32, s32) { return take_hit(attacker); }
+f32 TOVS2Wall01::receive_physical_attack(TObjChara *attacker, f32) { return take_hit(attacker); }
+int TOVS2Wall01::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
+s32 TOVS2Wall01::select_melee_contact_body(TObjChara *, f32) { return 1; }
+s32 TOVS2Wall01::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
+s32 TOVS2Wall01::try_start_action(TObjChara *, s32, f32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = vs2_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(vs2_wall01_bml_resource, index);
-    model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
+    model_radius = 50.0f + static_cast<GinjaModelBounds *>(model->model)->radius;
     texlist = get_bml_texlist(vs2_wall01_bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
@@ -314,7 +314,7 @@ void TOVS2::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -388,7 +388,7 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     register_object_by_id();
     mode = 0;
     view_range = 800.0f;
-    model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
+    model_radius = 50.0f + static_cast<GinjaModelBounds *>(model->model)->radius;
     initial_hits = set_params[0];
     hits_left = initial_hits + 0x100;
     fade.activate_and_dispatch();
@@ -422,7 +422,7 @@ void TOVS2Wall01::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
         if (fading != 0) {

@@ -13,6 +13,8 @@ struct TWindowSoundBalance;
 struct TWindowSnapShot;
 struct TWindowMessageYesNo;
 class TSnapshotFileSetup;
+struct TWindowSoundBalance;
+struct TWindowSnapShot;
 struct NJS_POINT2;
 class TWindowCheckBox;
 
@@ -27,7 +29,7 @@ struct TWindowOptionCtrl : public TObject {
     s32 dial_selection; // read by TAdDialingSelectGC: 1 network setup, 3 license purchase (web mode), 4 none
     TWindowMenu *main_menu;
     TWindowMenu *sub_menu;
-    TWindowMenu *m_30;
+    TWindowMenu *confirm_menu;
     TWindowCheckBox *option_menu;
     TWindowSoundBalance *sound_balance_window;
     TWindowSnapShot *snap_shot_window;

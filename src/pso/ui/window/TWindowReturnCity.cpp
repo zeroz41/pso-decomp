@@ -21,10 +21,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/npc/NpcPartnerControl.h"
 
-extern "C" {
-void set_ctrl_flag_bit5(void);
-}
-
 #pragma push
 #pragma readonly_strings on
 const char *TWindowReturnCity::class_name = "TWindowReturnCity";
@@ -65,7 +61,7 @@ void TWindowReturnCity::run_task() {
             state = 1;
         case 1:
             if ((query_battle_state() == 0) || ((s32) TWindowReturnCity::client_scan_index != 4)) {
-                TWindowReturnCity::clear_flag_bit5();
+                TWindowCtrl::clear_return_city_open();
                 TWindowCtrl::show_client_lock_on_window(client);
                 TWindowCtrl::clear_flag_2();
                 queue_destruction();
@@ -73,7 +69,7 @@ void TWindowReturnCity::run_task() {
                 return;
             }
             if (yes_no_window->is_cancelled() != 0) {
-                TWindowReturnCity::clear_flag_bit5();
+                TWindowCtrl::clear_return_city_open();
                 TWindowCtrl::show_client_lock_on_window(client);
                 TWindowCtrl::clear_flag_2();
                 queue_destruction();
@@ -88,7 +84,7 @@ void TWindowReturnCity::run_task() {
                     state = 2;
                 }
                 if (selected_value == 1) {
-                    TWindowReturnCity::clear_flag_bit5();
+                    TWindowCtrl::clear_return_city_open();
                     TWindowCtrl::show_client_lock_on_window(client);
                     TWindowCtrl::clear_flag_2();
                     queue_destruction();
@@ -115,7 +111,7 @@ TWindowReturnCity::TWindowReturnCity(TObject *parent, s32 client) : TObject(pare
     yes_no_window->set_menu_selected_index(1);
     TWindowCtrl::hide_client_lock_on_window(this->client);
     TWindowCtrl::set_close_flag();
-    set_ctrl_flag_bit5();
+    TWindowCtrl::set_return_city_open();
     state = 0;
 }
 
@@ -124,13 +120,13 @@ void TWindowReturnCity__sub_8026D4BC(void) {  }
 void TWindowReturnCity__sub_8026D4C0(void) { TWindowReturnCity::client_scan_index = 4; }
 
 
-void TWindowReturnCity::clear_flag_bit5() {
+void TWindowCtrl::clear_return_city_open() {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags &= ~0x20;
     }
 }
 
-void set_ctrl_flag_bit5(void) {
+void TWindowCtrl::set_return_city_open() {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags |= 0x20;
     }

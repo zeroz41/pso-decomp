@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecShot.h"
+#include "pso/technique/TTecCtrl.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -117,13 +118,13 @@ TTecShot::~TTecShot() {
     }
 }
 
-TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
+TTecShot::TTecShot(TObjBase *source, Vec *pos, Vec *target, s32 level) : TEffect() {
     f32 dx;
     f32 dz;
     f32 dy;
     s32 yaw;
-    Vec *from = (Vec *)pos;
-    Vec *to = (Vec *)target;
+    Vec *from = pos;
+    Vec *to = target;
     this->sourceId = 0xFFFF;
     dx = to->x - from->x;
     dz = to->z - from->z;
@@ -148,7 +149,7 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
     } else {
         this->level = level;
     }
-    this->band = TObjPlayer::get_level_tier(this->level);
+    this->band = get_technique_level_tier(this->level);
     this->color.a = 1.0f;
     this->color.r = 1.0f;
     this->color.g = 1.0f;
@@ -188,7 +189,7 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
 
 // The facing form: the technique starts at `pos` and flies along the y angle
 // `angle` instead of towards a target point.
-TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
+TTecShot::TTecShot(TObjBase *source, Vec *pos, int angle, s32 level) : TEffect() {
     this->sourceId = 0xFFFF;
     this->position.x = pos->x;
     this->position.y = pos->y;
@@ -205,7 +206,7 @@ TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
     } else {
         this->level = level;
     }
-    this->band = TObjPlayer::get_level_tier(this->level);
+    this->band = get_technique_level_tier(this->level);
     this->color.a = 1.0f;
     this->color.r = 1.0f;
     this->color.g = 1.0f;

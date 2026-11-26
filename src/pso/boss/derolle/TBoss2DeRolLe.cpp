@@ -20,7 +20,7 @@ struct NJS_OBJECT;
 
 #include "pso/network/protocol/protocol_types.h"
 
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/network/protocol/protocol.h"
 #include "pso/object/TObjControl.h"
 
@@ -192,7 +192,7 @@ s32 derolle_action_sequence_table[50] = {
 
 s32 TBoss2DeRolLe::shared_handler_id_table[3] = {0xF, 0x10, 0x11};
 
-BossMovementParameters boss2_derolle_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+EnemyMoveParams boss2_derolle_movement = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
 
 CollisionBody boss2_derolle_collision_bodies[3] = {
     {{0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -925,7 +925,7 @@ void TBoss2DeRolLe::update_body_colliders() {
     VecCopy(&offsets[0], &node_positions[6]);
     VecCopy(&offsets[1], &part_points[2]);
     VecCopy(&offsets[2], &part_points[3]);
-    update_local_colliders_from_world(this, offsets);
+    update_local_colliders_from_world(offsets);
 }
 
 #pragma pop
@@ -1382,7 +1382,7 @@ void TBoss2DeRolLe::init_from_param(DeRolLeActionPacket *packet) {
 }
 
 void TBoss2DeRolLe::set_params(DeRolLeActionTargetPacket *packet) {
-    enemy_set_target_id(this, packet->target_id);
+    enemy_set_target_id(packet->target_id);
     action_index = packet->sequence_index;
     transition_enemy_state(packet->state);
 }

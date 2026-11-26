@@ -11,15 +11,6 @@ struct NJS_OBJECT;
 
 struct NJS_OBJECT;
 
-// What TObjEnemy::movementParameters points at for the grass (grass_movement_params):
-// the radius a target is kept within and the move speed and turn step.
-struct GrassMovementParams {
-    f32 radius;
-    f32 speed;
-    s32 turn;
-    s32 pad_0C[4];
-};
-
 struct TObjGrass : public TObjEnemy {
     TObjGrass(TObject *parent, void *set_data);
     virtual ~TObjGrass();

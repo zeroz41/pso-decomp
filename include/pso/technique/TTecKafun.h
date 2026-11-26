@@ -14,11 +14,11 @@ struct TTecKafun : public TTecCircle {
     s32 has_second_effect;
     virtual void render();
     virtual void run_task();
-    TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius);
-    TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
+    TTecKafun(TObjBase *source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius);
+    TTecKafun(TObjBase *source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
     // value before level: the Mericarol call evaluates its radius, level and value right to left in that order.
-    static void create(saddr source, saddr pos, s32 kind, s32 effect, s32 second_effect, f32 value, s32 level, f32 radius);
-    static void create(saddr source, saddr pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
+    static void create(TObjBase *source, Vec *pos, s32 kind, s32 effect, s32 second_effect, f32 value, s32 level, f32 radius);
+    static void create(TObjBase *source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
 };
 
 LAYOUT_ASSERT(TTecKafun_size, sizeof(TTecKafun) == 0x100);

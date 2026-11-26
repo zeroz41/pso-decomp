@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/animation/ActorAnimationState.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/unk/text_803DA798.h"
@@ -38,16 +38,16 @@ void TOKeyAncient01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         if (is_on != 1) {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {
             push_matrix();
-            post_translate_matrix((model)->pos);
-            rotate_matrix_z(NULL, (model)->ang[2]);
-            rotate_matrix_x(NULL, (model)->ang[0]);
-            rotate_matrix_y(NULL, (model)->ang[1]);
-            draw_ginja_model((model)->model);
+            post_translate_matrix(model->pos);
+            rotate_matrix_z(NULL, model->ang[2]);
+            rotate_matrix_x(NULL, model->ang[0]);
+            rotate_matrix_y(NULL, model->ang[1]);
+            draw_ginja_model(model->model);
             pop_matrix();
         }
         pop_matrix();

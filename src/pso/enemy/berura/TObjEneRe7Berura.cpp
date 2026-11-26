@@ -53,6 +53,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -100,10 +101,9 @@ extern const s32 berura_attack_stat_ids[];
 extern const s32 re7_berura_base_stat_rows[];
 extern const s32 re7_berura_attack_stat_rows[];
 extern const s32 re7_berura_resist_stat_rows[];
-extern TObject *tl_04;
 
 
-BossMovementParameters berura_init_params = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+EnemyMoveParams berura_init_params = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
 
 // the collision body init_enemy hands init_model (name inferred)
 CollisionBody berura_collision_body = {
@@ -442,7 +442,7 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
         }
     }
     if (id != 0xFFFF) {
-        enemy_set_target_id(this, id);
+        enemy_set_target_id(id);
         return 1;
     }
     return 0;
@@ -1094,7 +1094,7 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
         advance_animation();
         switch (step) {
         case 0:
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
                 if (step_toward_target((s32) (RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0x100) != 0) {
@@ -1123,7 +1123,7 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
                             TObjEneDD::inflict_paralysis(this, current_target);
                         }
                     }
-                    current_target->apply_knockback_from_attacker((u8 *)this, 5.0f);
+                    current_target->apply_knockback_from_attacker(this, 5.0f);
                 }
             }
             entry = belra_trail_buffer->lookup(frame);

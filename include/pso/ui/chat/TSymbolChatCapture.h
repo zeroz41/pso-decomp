@@ -11,6 +11,7 @@ public:
     TSymbolChatCapture(TObject *parent);
     virtual ~TSymbolChatCapture();
     virtual void run_task();
+    static void create_singleton(TObject *parent);
     void get_recent_symbol_chat(u16 slot, SymbolChatPayload *buf);
     void capture_symbol_chat(u16 slot, saddr src);
 
@@ -20,5 +21,12 @@ public:
 LAYOUT_ASSERT(TSymbolChatCapture_size, sizeof(TSymbolChatCapture) == 0x30);
 
 extern TSymbolChatCapture *slot_entity_dispatcher_instance;
+
+extern "C" {
+void TLobby__sub_8036B50C(void);
+void TLobby__sub_8036B510(void);
+}
+
+void send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf);
 
 #endif

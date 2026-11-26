@@ -1,8 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TObject.h"
@@ -203,10 +202,6 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 
-extern "C" {
-s32 get_online_client_state(void);
-}
-
 s32 TLobby__sub_80211C3C(void) {
     if (get_main_phase() != 0xF) {
         return 3;
@@ -239,7 +234,7 @@ s32 TLobby__sub_80211C3C(void) {
 
 s32 TLobby::handle_main_phase(saddr player) {
     if (get_main_phase() == 0xE) {
-        return (saddr)THunterGuildSeqOffline::create((void *)player);
+        return (saddr)THunterGuildSeqOffline::create((TObjPlayer *)player);
     }
     if (get_main_phase() == 0xF) {
         if ((s32) local_client_id == (s32) designated_client_id) {
@@ -257,7 +252,9 @@ s32 TLobby::handle_main_phase(saddr player) {
 
 
 extern "C" {
+// TCameraCtrl::get_nth_view_player_id, whose u16 return this caller does not see: it extends the id at every use.
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
+}
 extern s32 lbl_805D55C0;
 s32 is_in_hunter_guild(s32 client_id) {
     s32 kind;
@@ -308,8 +305,6 @@ s32 is_in_hunter_guild(s32 client_id) {
     return 0;
 }
 
-}
-
 // ---- pso/unk/TLobby_80211F0C
 
 
@@ -327,9 +322,6 @@ void update_hunter_guild_phase(void) {
         TQuestListOnline::release_resources();
     }
 }
-extern "C" {
-
-void clear_offline_instance_table(void);
 
 void TLobby::update_guild_or_quest_phase() {
     if (get_main_phase() == 0xE) {
@@ -341,8 +333,6 @@ void TLobby::update_guild_or_quest_phase() {
         THunterGuildSeqOffline::zero_four_slots();
         clear_online_client_instance_table();
     }
-}
-
 }
 
 void *create_lobby_object_05(void *player) {

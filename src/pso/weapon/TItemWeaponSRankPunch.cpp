@@ -23,6 +23,7 @@
 
 extern "C" {
 TObjCollidable *find_entity_by_id(s32);
+}
 
 void debug_weapon_attack_hook(void) {  }
 
@@ -33,8 +34,6 @@ void s_rank_punch_hit_effect(s32 layer, TObject *player, s32 target_id, s32 body
     if (o != 0 && o->bodies != 0 && body < o->body_count) {
         spawn_particle_effect(&o->bodies[body].center, 0x45);
     }
-}
-
 }
 
 void TObjPlayer::notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos) {
@@ -97,22 +96,22 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
         this->flags.set(2);
         TItemAttacker::spawn_item_timer(this, clear_rico_ring_flag, 0x3C);
         this->flags.set(4);
-        if (launch_shot((u8 *)&shot_origins[0], 0, 0, 1) == 1) {
+        if (launch_shot(&shot_origins[0], 0, 0, 1) == 1) {
             this->flags.clear(4);
-            launch_shot((u8 *)&shot_origins[1], 0, 0, 0);
+            launch_shot(&shot_origins[1], 0, 0, 0);
             return;
         }
         this->flags.clear(4);
-        launch_shot((u8 *)&shot_origins[1], 0, 0, 1);
+        launch_shot(&shot_origins[1], 0, 0, 1);
     }
 }
 
 void TItemWeaponSRankPunch::transform_model_node() {
     void *p;
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
-        if (test_flags_any((s32 *)&flags, 2) == 0) {
-            if (test_flags_any((s32 *)&flags, 1)) {
+        if (flags.test_flags_any(2) == 0) {
+            if (flags.test_flags_any(1)) {
                 p = second_model;
             } else {
                 p = model_data[1];
@@ -174,7 +173,7 @@ void TItemWeaponSRankPunch::clear_rico_ring_flag(TObject *object) {
 
 NJS_OBJECT *get_punch_shot_model(u8 *weapon) {
     TItemWeaponSRankPunch *punch = (TItemWeaponSRankPunch *)weapon;
-    if (test_flags_any((s32 *)&punch->flags, 4) != 0) {
+    if (punch->flags.test_flags_any(4) != 0) {
         return punch->second_model;
     }
     return (NJS_OBJECT *)punch->model_data[1];

@@ -14,6 +14,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/memory.h"
+#include "pso/render/psoLoadTexture.h"
 
 #pragma readonly_strings on
 

@@ -26,12 +26,9 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/boss/darkfalz/TBoss4Zanzo.h"
 
 #pragma readonly_strings on
-
-extern "C" {
-extern s32 boss4_zanzo_bml_index_table[];
-}
 
 const char *TObjDFDemo2::name = "TObjDFDemo2";
 __declspec(section ".rodata") CameraAngles df_demo2_zero_camera_angles = {0, 0, 0};
@@ -58,7 +55,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
     for (i = 0; i < 2; i++) {
         s32 t = boss4_zanzo_bml_index_table[i];
         k = t;
-        this->parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
+        this->parts[i].model = get_bml_model(archive, t);
         this->parts[i].texlist = get_bml_texlist(archive, k);
         this->parts[i].motion = get_bml_motion(archive, TObjDFDemo2::motion_index_table[i]);
     }

@@ -1,7 +1,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/unk/TLobby_80156B18.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/protocol/subcmd_6x.h"
 

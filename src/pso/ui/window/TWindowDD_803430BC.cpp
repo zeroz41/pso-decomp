@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/Language.h"
-#include "pso/ui/window/TWindowDD_8034435C.h"
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowInputNumber.h"
@@ -17,7 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_8020C354.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/network/client_id.h"
 
 
@@ -29,7 +28,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/window/TWindowDD_80348D0C.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 
 TWindowDDStateEntry word_select_state_table[21] = {
@@ -59,10 +57,11 @@ TWindowDDStateEntry word_select_state_table[21] = {
 const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
 
 extern "C" {
-s32 get_word_next_state(void *, s16);
-s16 get_word_message_type(void *, s32);
-s32 push_recent_id(s32);
+s32 get_word_next_state(TWindowDD *window, s16 id);
+s16 get_word_message_type(TWindowDD *window, s32 id);
+void push_recent_id(s32 id);
 }
+
 
 
 s32 TWindowDD::window_mode;
@@ -73,9 +72,9 @@ char *window_dd_buffer_a;
 
 char *window_dd_buffer_b;
 
-char **word_select_player_names;
+char **TWindowDD::player_name_buffers;
 
-TWindowDDValueList *word_select_lists;
+TWindowDDValueList *TWindowDD::word_select_lists;
 
 s16 *word_select_word_storage;
 
@@ -138,7 +137,6 @@ extern "C" {
 extern "C++" void ws_data_load(void);
 
 
-extern NJS_POINT2 word_select_quad_points[][8];
 
 extern const NJS_POINT2 window_dd_quad_positions[];
 
@@ -186,16 +184,16 @@ void load_word_select_data(void) {
     memset(window_dd_buffer_a, 0, 0x80);
     window_dd_buffer_b = (char *)mem_alloc(0x120);
     memset(window_dd_buffer_b, 0, 0x120);
-    word_select_player_names = (char **)mem_alloc(0x30);
+    TWindowDD::player_name_buffers = (char **)mem_alloc(0x30);
     for (i = 0; i < 12; i++) {
-        word_select_player_names[i] = window_dd_buffer_b + i * 0x18;
-        word_select_player_names[i][0] = 0;
+        TWindowDD::player_name_buffers[i] = window_dd_buffer_b + i * 0x18;
+        TWindowDD::player_name_buffers[i][0] = 0;
     }
     word_select_word_storage = (s16 *)mem_alloc(0x100);
-    word_select_lists = (TWindowDDValueList *)mem_alloc(0x30);
+    TWindowDD::word_select_lists = (TWindowDDValueList *)mem_alloc(0x30);
     list = word_select_word_storage;
     for (j = 0; j < 6; j++) {
-        entry = &word_select_lists[j];
+        entry = &TWindowDD::word_select_lists[j];
         entry->values = list;
         entry->count = 0;
         switch (j) {
@@ -234,17 +232,17 @@ extern "C" {
 
 void TWindowDD::free_buffers() {
     clear_window_dd_nodes();
-    if (word_select_lists != NULL) {
-        mem_free(word_select_lists);
-        word_select_lists = NULL;
+    if (TWindowDD::word_select_lists != NULL) {
+        mem_free(TWindowDD::word_select_lists);
+        TWindowDD::word_select_lists = NULL;
     }
     if (word_select_word_storage != NULL) {
         mem_free(word_select_word_storage);
         word_select_word_storage = NULL;
     }
-    if (word_select_player_names != NULL) {
-        mem_free(word_select_player_names);
-        word_select_player_names = NULL;
+    if (TWindowDD::player_name_buffers != NULL) {
+        mem_free(TWindowDD::player_name_buffers);
+        TWindowDD::player_name_buffers = NULL;
     }
     if (window_dd_buffer_b != NULL) {
         mem_free(window_dd_buffer_b);
@@ -328,7 +326,7 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
     }
   }
   depth = 0;
-  list_ids[0] = get_initial_word_select_list(this);
+  list_ids[0] = get_initial_word_select_list();
   list_ids[1] = -1;
   list_ids[2] = -1;
   {
@@ -781,7 +779,7 @@ void TWindowDD::open_numeric_parameter_input(s32 minimum, s32 maximum, s32 initi
     number_window = new TWindowInputNumber(&position, minimum, maximum, initial, (s16)local_client_id);
     if (number_window) {
         number_window->set_depth(word_cursor_depth);
-        ((TWindowSubItem *)(number_window))->set_flag60_bit10();
+        number_window->set_flag_10();
         word_windows[depth]->disable_input();
     }
 }

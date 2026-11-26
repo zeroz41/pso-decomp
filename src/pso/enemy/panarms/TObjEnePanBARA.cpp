@@ -737,7 +737,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
             if (level < 0 || level > 0xE) {
                 level = 0;
             }
-            TTecZarua::create_instance((saddr)this, &body_center, &player->body_center, level);
+            TTecZarua::create_instance(this, &body_center, &player->body_center, level);
             return;
         }
         player->receive_direct_attack(this, panbara_fallback_attack_payload[0], NULL, -1, -1);

@@ -35,7 +35,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 
 
 struct BmlResource;

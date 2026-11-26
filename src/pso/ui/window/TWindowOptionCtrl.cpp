@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 #include "pso/system/TLanguage.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8036A3CC.h"
@@ -25,8 +26,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/ui/window/TWindowOptionCtrl_8026C5D8.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -51,7 +51,6 @@ extern "C" {
 void set_udp_option__17TWindowOptionCtrlFls(s32 unused, s16 option);
 }
 
-
 int TWindowSoundBalance::is_cancelled() { return result_flags & 0x2; }
 
 s32 TWindowSoundBalance::get_music_gain() { return music_gain; }
@@ -62,21 +61,21 @@ int TWindowSoundBalance::is_active() { return this->result_flags & 0x1; }
 
 int TWindowSnapShot::is_done() { return result_flags & 0x1; }
 
-void TWindowMenu::clear_cancelled() { menu_flags &= 0xfffffffb; }
+void TWindowMenu::clear_cancelled() { menu_flags &= ~4; }
 
 void TWindowMenu::set_flag70_bit100() { this->menu_flags |= 0x100; }
 
 void TWindowMenu::set_silent_cancel() { menu_flags |= 0x400; }
 
 saddr TWindowOptionCtrl::get_chr_select_base_plus_1154c() {
-    return TAdSinglePlyChrSelectGC::get_instance() + 0x1154C;
+    return (saddr)TAdSinglePlyChrSelectGC::get_instance()->password;
 }
 
 TWindowOptionCtrl::TWindowOptionCtrl(TObject *parent) : TObject(parent) {
     m_name = class_name;
     main_menu = NULL;
     sub_menu = NULL;
-    m_30 = NULL;
+    confirm_menu = NULL;
     option_menu = NULL;
     sound_balance_window = NULL;
     snap_shot_window = NULL;
@@ -112,9 +111,9 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         option_menu->close();
         option_menu = NULL;
     }
-    if (m_30 != NULL) {
-        m_30->close();
-        m_30 = NULL;
+    if (confirm_menu != NULL) {
+        confirm_menu->close();
+        confirm_menu = NULL;
     }
     if (sub_menu != NULL) {
         sub_menu->close();
@@ -288,9 +287,9 @@ void TWindowOptionCtrl::run_task() {
             option_menu->close();
             option_menu = NULL;
         }
-        if (m_30 != NULL) {
-            m_30->close();
-            m_30 = NULL;
+        if (confirm_menu != NULL) {
+            confirm_menu->close();
+            confirm_menu = NULL;
         }
         if (sub_menu == NULL) {
             sub_menu = (TWindowMenu *)create_sub_menu_window();
@@ -324,10 +323,10 @@ void TWindowOptionCtrl::run_task() {
         state = 0x17;
         break;
     case 22:
-        if (m_30->is_cancelled() != 0) {
+        if (confirm_menu->is_cancelled() != 0) {
             state = 0x10;
         }
-        if (m_30->is_decided() != 0) {
+        if (confirm_menu->is_decided() != 0) {
             state = 0x17;
         }
         break;
@@ -457,7 +456,7 @@ TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
 }
 
 TWindowSoundBalance *TWindowOptionCtrl::create_sound_balance_window() {
-    return new TWindowSoundBalance(reinterpret_cast<const NJS_POINT2 *>(get_option_entry(0xCF)));
+    return new TWindowSoundBalance(get_option_entry(0xCF));
 }
 
 TWindowSnapShot *TWindowOptionCtrl::create_snap_shot_window() {

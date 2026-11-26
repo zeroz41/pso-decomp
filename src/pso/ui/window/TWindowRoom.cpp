@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -12,13 +12,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
-
-// inferred: room_window_layout_entries, the layout table room_window_base_parameters points at.
-struct RoomWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
 
 RoomWindowLayout room_window_layout_entries = {
     1, 1,

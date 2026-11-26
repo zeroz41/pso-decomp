@@ -5,13 +5,13 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 
 #pragma readonly_strings on
 
-void TLobby::update_floor_and_windows() {
+void cleanup_cave2_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     TLobby::update_current_floor();
@@ -19,7 +19,7 @@ void TLobby::update_floor_and_windows() {
     TLobby::clear_session_buffers();
 }
 
-s32 load_scene_cave_b(void) {
+s32 init_cave2_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

@@ -114,7 +114,7 @@ Vec lbl_80501070;
 
 
 
-TObjEneRe4InitParams re4_sorcerer_init_params = {225.0f, 0.0f, 0x600};
+EnemyMoveParams re4_sorcerer_init_params = {225.0f, 0.0f, 0x600};
 
 CollisionBody re4_sorcerer_collision_body_part_table[1] = {
     {{0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -292,7 +292,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
 extern "C" {
 TObjEneRe4Sorcerer::~TObjEneRe4Sorcerer() {
     s32 i;
-    TObject *p;
+    TObjCollidable *p;
     for (i = 0; i < 2; i++) {
         if ((p = find_entity_by_id(bit_ids[i])) != NULL) {
             p->queue_destruction();
@@ -304,7 +304,7 @@ TObjEneRe4Sorcerer::~TObjEneRe4Sorcerer() {
 
 void TObjEneRe4Sorcerer::run_task() {
     s32 i;
-    void *p;
+    TObjCollidable *p;
     if (TObjPlayer::check_demo_mode() != 0) {
         run_demo_task();
         return;
@@ -417,7 +417,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
                 }
             }
         }
-        if (enemy_bind_or_clear_target(this, id) != 0) {
+        if (enemy_bind_or_clear_target(id) != 0) {
             return 1;
         }
     }
@@ -431,22 +431,22 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
         if (((TObjBase *)q)->is_alive() != 0) {
             e = horizontal_distance_squared(&this->body_center, &q->body_center);
             if (is_target_ranger(q) != 0) {
-                if (e < ranger_range_sq && is_target_unobstructed_from((TObjEneDD *)this, q) != 0) {
+                if (e < ranger_range_sq && is_target_unobstructed_from(q) != 0) {
                     ranger_range_sq = e;
                     tA = q->get_entity_id();
                 }
-            } else if (e < range_sq && is_target_unobstructed_from((TObjEneDD *)this, q) != 0) {
+            } else if (e < range_sq && is_target_unobstructed_from(q) != 0) {
                 range_sq = e;
                 tB = q->get_entity_id();
             }
         }
     }
     if (tA != 0xFFFF) {
-        enemy_set_target_id(this, tA);
+        enemy_set_target_id(tA);
         return 1;
     }
     if (tB != 0xFFFF) {
-        enemy_set_target_id(this, tB);
+        enemy_set_target_id(tB);
         return 1;
     }
     }
@@ -458,7 +458,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
 #pragma pop
 extern "C" {
 s32 TObjEneRe4Sorcerer::try_attack(f32 ranger_range_sq, f32 range_sq) {
-    if (tick_period_counter((saddr)this, &acquire_counter, 0x1E) != 0) {
+    if (tick_period_counter(this, &acquire_counter, 0x1E) != 0) {
         return select_attack_target(ranger_range_sq, range_sq);
     }
     if (enemy_has_live_target() != 0) {
@@ -482,7 +482,7 @@ void TObjEneRe4Sorcerer::warp_around_target(f32 speed) {
     vec3_add_to(&v, &this->destination);
     subtract_vector(&v, &this->position);
     speed = normalize_vector_xz(&v);
-    calc_wall_clamped_destination(this, &out, v.x, v.z, speed);
+    calc_wall_clamped_destination(&out, v.x, v.z, speed);
     t.x = out.x;
     t.y = 10.0f + out.y;
     t.z = out.z;
@@ -619,7 +619,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
     Vec v;
     s32 frame;
     Vec *src;
-    if (is_target_unobstructed_from((TObjEneDD *)this, current_target) != 0) {
+    if (is_target_unobstructed_from(current_target) != 0) {
         TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(bit_ids[0]);
         if (bit != NULL) {
             src = bit->get_spell_data();
@@ -639,7 +639,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
                 TTecRaFoie::create_ex(this, src, &targets, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             }
         } else if (TObjEneDD::check_v2_mode() != 0) {
-            TTecMegid::create((saddr)this, (saddr)src, (saddr)&current_target->position, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]));
+            TTecMegid::create(this, src, &current_target->position, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]));
         } else {
             VecCopy(&v, &current_target->position);
             subtract_vector(&v, src);

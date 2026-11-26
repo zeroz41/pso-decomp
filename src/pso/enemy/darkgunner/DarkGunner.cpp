@@ -77,7 +77,7 @@
 
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 
 #include "pso/enemy/saver/SaverLifecycle.h"
 
@@ -99,20 +99,10 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
 
 #pragma readonly_strings on
-
-// The four ripple offsets spawn_hamon_effects puts around the gunner.
-struct HamonOffset {
-    f32 x, z;
-};
-
-struct HamonOffsets {
-    HamonOffset v[4];
-};
 
 extern "C" {
 
@@ -194,11 +184,9 @@ const HamonOffsets hamon_effect_offset_table = {{{-7.0f, -7.0f}, {-7.0f, 7.0f}, 
 
 const Vec dark_gunner_shadow_origin = {0.0f, 0.0f, 0.0f};
 
-void *dark_gunner_movement_params[14] = {
-    (void *)0x42a00000, (void *)0x3e8e38e3, (void *)0x400, (void *)0x1e0000,
-    (void *)0x0, (void *)0x1, (void *)0x0, (void *)0x42a00000,
-    (void *)0x3e8e38e3, (void *)0x400, (void *)0x1e0000, (void *)0x0,
-    (void *)0x1, (void *)0x0,
+EnemyMoveParams dark_gunner_movement_params[2] = {
+    {80.0f, 0.27777776f, 0x400, {0x1E0000, 0, 1, 0}},
+    {80.0f, 0.27777776f, 0x400, {0x1E0000, 0, 1, 0}},
 };
 
 CollisionBody dark_gunner_collision_bodies[1] = {
@@ -721,7 +709,7 @@ void TObjEneDarkGunner::update_attack() {
         state = 4;
         find_target_in_range(200.0f);
         if (targetId == 0xFFFF) break;
-        new TObjEneDarkGunnerShot((u8 *)this, (saddr)&shadow_pos, (saddr)&((TObjChara *)target)->body_center);
+        new TObjEneDarkGunnerShot(this, &shadow_pos, &target->body_center);
         play_sound_effect(0x40039E2B, &position, 0, 0);
         break;
     case 4:

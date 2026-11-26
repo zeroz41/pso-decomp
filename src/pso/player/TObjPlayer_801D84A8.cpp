@@ -274,7 +274,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
 
 extern "C" {
 
-s32 trade_item_by_group_kind(s32, s16, s16);
+s32 TObjPlayer__sub_801D84F0(void* p);
 
 // `this` is an action palette tag whose first byte is signed (s8 -> u8 argument moves through r0),
 // unlike gc_tag::tag0.
@@ -293,22 +293,7 @@ gc_tag *TPlyDispConfigSmth::get_current_row() {
     return m_tags1;
 }
 
-
 void gc_tag::bswap_disp_config_field() { bswap_16(&tag2); }
 s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
-void TObjPlayer::set_animation_from_data(saddr player, s32 picture) {
-    void *anim_table_entry;
-
-    anim_table_entry = (void *)((TObjPlayer *)player)->get_anim_table_entry(picture);
-    trade_item_by_group_kind(player, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
-    ((TObjEndingPlayer *)player)->set_animation_default(picture);
-}
-
-void TObjPlayer::assign_lobby_slot_if_flagged(saddr player, void *records) {
-    if (*(s32 *)((s8 *)records + 4) & 8) {
-        *(s32 *)((s8 *)records + 0x14) = advance_item_id_counter((u16)local_client_id);
-        equip_saved_item_if_slot_empty(reinterpret_cast<TObjPlayer *>(player), static_cast<TPlyInventoryItem *>(records));
-    }
-}
 
 }

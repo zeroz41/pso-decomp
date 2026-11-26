@@ -220,7 +220,7 @@ void TObjEneBeastBase::beast_update_attack() {
         if (is_passing_frame(BEAST_ATTACK_HIT_FRAME) != 0) {
             if (target != NULL && target->select_melee_contact_body(this, BEAST_ATTACK_SCALE) != 0) {
                 target->receive_physical_attack(this, BEAST_ATTACK_SCALE);
-                target->apply_knockback_from_attacker((u8 *)this, BEAST_ATTACK_KNOCKBACK);
+                target->apply_knockback_from_attacker(this, BEAST_ATTACK_KNOCKBACK);
             }
             play_attack_sound();
         }
@@ -241,7 +241,7 @@ void TObjEneBeastBase::beast_update_attack() {
         break;
     }
     apply_actor_gravity(this, 0, BEAST_GROUND_HEIGHT_OFFSET);
-    enemy_turn_toward_dest(((BeastMovementParams *)movementParameters)->turnSpeed);
+    enemy_turn_toward_dest(movementParameters->turn_speed);
     update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
@@ -325,7 +325,7 @@ void TObjEneBeastBase::beast_update_group_chase() {
     }
     if (target != NULL) {
         d = enemy_backstep_from_point(this, target->body_center, far_move_speed);
-        turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &velocity);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         r = far_move_speed + bodies->radius;
         if (d < r * r) {
             mode = 3;
@@ -368,12 +368,12 @@ void TObjEneBeastBase::beast_update_approach() {
             update_target_near_flag();
             select_move_speed();
             advance_animation();
-            enemy_move_toward(this, ((BeastMovementParams *)movementParameters)->turnSpeed, dest, 0, move_speed);
+            enemy_move_toward(this, movementParameters->turn_speed, dest, 0, move_speed);
             if (targetId == 0xFFFF) {
                 if (horizontal_distance_squared(&move_destination, &position) < (r = move_speed + bodies->radius) * r ||
-                    BEAST_DESTINATION_TIMEOUT_FRAMES < (f32)(*(s32 *)&m_2ac)++) {
+                    BEAST_DESTINATION_TIMEOUT_FRAMES < (f32)move_timer++) {
                     target = NULL;
-                    m_2ac = 0;
+                    move_timer = 0;
                 }
             }
         }
@@ -402,7 +402,7 @@ void TObjEneBeastBase::update_turn_toward_target() {
             Vec d;
             VecCopy(&d, &target->body_center);
             subtract_vector(&d, &body_center);
-            ang = turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &d);
+            ang = turn_toward_direction(movementParameters->turn_speed, &d);
             if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || children == 0) {
                 mode = 3;
                 phase = 1;
@@ -500,7 +500,7 @@ void TObjEneBeastBase::beast_idle_update() {
         }
     }
     dist = horizontal_distance_squared(&position, &home_position);
-    range = parameters[1] + (((BeastMovementParams *)movementParameters)->wanderSpeed + bodies->radius);
+    range = parameters[1] + (movementParameters->move_speed + bodies->radius);
     if (range * range < dist) {
         VecCopy(&move_destination, &home_position);
         VecCopy(&move_origin, &body_center);
@@ -518,7 +518,7 @@ void TObjEneBeastBase::beast_idle_update() {
         if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
             VecCopy(&position, &scratch_vec2);
-            rotation_y = approach_angle_limited(rotation_y, angle, ((BeastMovementParams *)movementParameters)->turnSpeed);
+            rotation_y = approach_angle_limited(rotation_y, angle, movementParameters->turn_speed);
             goto end;
         }
         r = fabs_float(scratch_vec.z);
@@ -537,7 +537,7 @@ void TObjEneBeastBase::beast_idle_update() {
         if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
             VecCopy(&position, &scratch_vec2);
-            rotation_y = approach_angle_limited(rotation_y, angle, ((BeastMovementParams *)movementParameters)->turnSpeed);
+            rotation_y = approach_angle_limited(rotation_y, angle, movementParameters->turn_speed);
             goto end;
         }
         r = fabs_float(scratch_vec.z);
@@ -556,13 +556,13 @@ void TObjEneBeastBase::beast_idle_update() {
         if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
             VecCopy(&position, &scratch_vec2);
-            rotation_y = approach_angle_limited(rotation_y, angle2, ((BeastMovementParams *)movementParameters)->turnSpeed);
+            rotation_y = approach_angle_limited(rotation_y, angle2, movementParameters->turn_speed);
         } else {
             requested_action = 2;
         }
     } else if (child_count == 0 && BEAST_MIN_WANDER_RANGE < parameters[1]) {
         requested_action = 2;
-        enemy_wander_home(((BeastMovementParams *)movementParameters)->wanderSpeed, parameters[1], parameters[1], ((BeastMovementParams *)movementParameters)->turnSpeed);
+        enemy_wander_home(movementParameters->move_speed, parameters[1], parameters[1], movementParameters->turn_speed);
     } else {
         request_stand_action();
     }
@@ -624,14 +624,14 @@ void TObjEneBeastBase::refresh_target() {
             retreat_timer = 0;
             set_actor_flags(0x1000);
         } else {
-            targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
+            targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
         }
     } else if (test_actor_flags(0x10) != 0) {
         if (is_actor_cadence_frame(0x1E) != 0) {
             s32 i = 0;
             best = 0xFFFF;
             Vec d = beast_zero_vector;
-            best_dist = ((BeastMovementParams *)movementParameters)->detectionRadius * ((BeastMovementParams *)movementParameters)->detectionRadius;
+            best_dist = movementParameters->search_range * movementParameters->search_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 player = TObjPlayer::get_player_data(i);
                 if (player == NULL) {
@@ -654,7 +654,7 @@ void TObjEneBeastBase::refresh_target() {
     } else if (in_group != 0) {
         targetId = get_enemy_target_id(groupRoot());
     } else if (is_actor_cadence_frame(0x1E) != 0) {
-        targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
+        targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
     }
     if (targetId < 0x1000) {
         TObjPlayer *p = get_player_by_client_id(targetId);
@@ -671,6 +671,16 @@ void TObjEneBeastBase::refresh_target() {
 }
 
 #pragma defer_codegen on
+u16 get_enemy_target_id(TObjEnemy *enemy) { return enemy->targetId; }
+void TObjEneBeastBase::run_demo_task() {}
+void TObjEneBeastBase::play_death_sound() {}
+void TObjEneBeastBase::play_hurt_sound() {}
+void TObjEneBeastBase::play_attack_sound() {}
+void TObjEneBeastBase::play_alert_sound() {}
+void TObjEneBeastBase::spawn_death_effect() {}
+void TObjEneBeastBase::update_attack_trail() {}
+void TObjEneBeastBase::beast_update_appear() { mode = 1; }
+
 TObjEneBeastBase::TObjEneBeastBase(TObject *parent) : TObjEnemy(parent) {
     mode = 0;
     phase = 0;
@@ -733,4 +743,3 @@ void TObjEneBeastBase::run_task() {
     submit_cursor_candidate(this, -1);
     frame_timer += BEAST_FRAME_INCREMENT;
 }
-

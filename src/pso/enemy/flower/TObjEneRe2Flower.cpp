@@ -35,7 +35,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/render/AltModel.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/task/TMainTask.h"
 
 // Flower literals the split parts share (TObjEneRe2Flower_800C20D0.cpp, TObjEneRe2FlowerStates.cpp define them).
@@ -90,16 +90,9 @@ BmlResource *re2_flower_bml_resource;
 s32 re2_flower_node_index;
 s32 re2_flower_node_yaw;
 f32 *re2_flower_node_points;
-struct FlowerSetupData {
-    f32 value00;
-    u32 unknown04;
-    u32 flags;
-    u32 unknown0c[4];
-};
 
-LAYOUT_ASSERT(FlowerSetupData_size, sizeof(FlowerSetupData) == 0x1C);
 
-FlowerSetupData re2_flower_setup_data = { 225.0f, 0, 0x200, { 0, 0, 0, 0 } };
+EnemyMoveParams re2_flower_setup_data = { 225.0f, 0.0f, 0x200, { 0, 0, 0, 0 } };
 // The two collision part lists the constructor chooses between: the common
 // kinds, then the one is_tower_variant() selects.
 CollisionBody re2_flower_collision_bodies[2] = {
@@ -559,7 +552,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
     case 0:
         advance_animation();
         idx = 0xFFFF;
-        if (tick_period_counter((saddr)this, &retarget_counter, 0x14) != 0) {
+        if (tick_period_counter(this, &retarget_counter, 0x14) != 0) {
             if (destination_distance > re2_flower_retarget_margin) {
                 if (is_confused() != 0) {
                     idx = enemy_nearest_visible_enemy(this, destination_distance - re2_flower_retarget_margin);
@@ -568,7 +561,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
                     idx = enemy_find_nearest_player_in_range(this, destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx != 0xFFFF) {
-                    enemy_set_target_id(this, idx);
+                    enemy_set_target_id(idx);
                 }
             }
         } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
@@ -578,7 +571,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
         update_velocity();
         state_timer++;
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -624,7 +617,7 @@ void TObjEneRe2Flower::state_shoot(s32 reason) {
             VecCopy(&pos, &node_points[0]);
             pos.y = lbl_805D9FDC + position.y;
             if (is_tower_variant() != 0 || TObjEneDD::check_v2_mode() != 0) {
-                TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
+                TTecMegid::create_ex(this, &pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
             } else {
                 new TObjEneRe2Flower_Bomb(this, &pos, rotation_y);
             }
@@ -663,7 +656,7 @@ void TObjEneRe2Flower::state_attack(s32 reason) {
         return;
     case 0:
         advance_animation();
-        enemy_validate_retained_target(this);
+        enemy_validate_retained_target();
         switch (state_timer) {
         case 0:
             if (is_passing_frame((frame_count - lbl_805D9FC0) - play_speed) != 0) {
@@ -676,7 +669,7 @@ void TObjEneRe2Flower::state_attack(s32 reason) {
                 if (enemy_check_target_valid() != 0) {
                     if (current_target->select_melee_contact_body(this, lbl_805D9FC0) != 0) {
                         current_target->receive_physical_attack(this, lbl_805D9FC0);
-                        current_target->apply_knockback_from_attacker((u8 *)this, lbl_805D9FD4);
+                        current_target->apply_knockback_from_attacker(this, lbl_805D9FD4);
                     }
                 }
                 play_sound_effect(remap_sound_for_variant(0x4003A814), &position, 0, 0);

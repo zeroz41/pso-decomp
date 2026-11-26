@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponPartisanOfLightning::transform_model_node() {
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
     case 2:
         scale_matrix(NULL, 1.0f, effect_thickness, effect_thickness);

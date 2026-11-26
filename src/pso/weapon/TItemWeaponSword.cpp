@@ -5,7 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponSword::transform_model_node() {
-    if (glows != 0 && TObjPlayer::get_player_list() == 1) {
+    if (glows != 0 && get_model_node_counter() == 1) {
         begin_particle_tev();
         load_projection_tex(0);
     }

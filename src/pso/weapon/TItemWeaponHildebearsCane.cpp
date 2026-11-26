@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponHildebearsCane::emit_marker_effects() {
-    WeaponVector pos;
+    Vec pos;
     TObjPlayer *player;
 
     if (is_mode_two_and_ready() != 0) {
@@ -23,7 +23,7 @@ void TItemWeaponHildebearsCane::emit_marker_effects() {
 }
 
 void TItemWeaponHildebearsCane::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         rotate_matrix_x(NULL, open_angle);
     }
 }

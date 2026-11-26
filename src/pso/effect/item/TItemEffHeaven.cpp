@@ -3,6 +3,7 @@
 #include "pso/effect/item/TItemEffHeaven.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"

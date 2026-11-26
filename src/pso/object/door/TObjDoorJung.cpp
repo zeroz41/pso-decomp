@@ -71,7 +71,7 @@ void load_door_jung_resources(void) {
     handle = (saddr)new BmlResource(5, &bm_obj_beamdoa_resource_descriptor, 0, 0, NULL);
     door_jung_resource_handle = (BmlResource *)handle;
     door_jung_texlist = get_bml_texlist(door_jung_resource_handle, 0);
-    model = (NJS_OBJECT *)get_bml_model(door_jung_resource_handle, 1);
+    model = get_bml_model(door_jung_resource_handle, 1);
     node = model->child;
     door_jung_child_table[0] = node->model;
     door_jung_child_table[1] = node->child->model;
@@ -138,9 +138,9 @@ void TObjDoorJung::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((NJS_OBJECT *)get_bml_model(door_jung_resource_handle, 0));
+        draw_ginja_object(get_bml_model(door_jung_resource_handle, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((NJS_OBJECT *)get_bml_model(door_jung_resource_handle, 1));
+        draw_ginja_object(get_bml_model(door_jung_resource_handle, 1));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include <math.h>
 #include "types.h"
 #include "pso/effect/TDuelEffectString.h"
@@ -25,8 +25,7 @@ void TDuelEffectString::draw_layout_quad(const DuelEffectQuad *quad, f32 scale) 
     QuadSpriteRect rect;
     f32 depth;
 
-    TCameraCtrl::get_camera_no();
-    depth = -1.0f / TWindowCtrlMain::get_scale();
+    depth = -1.0f / TWindowCtrlMain::get_scale(TCameraCtrl::get_camera_no());
     rect.x0 = quad->x * scale + pos[0];
     rect.y0 = quad->y * scale + pos[1];
     rect.x1 = scale * (quad->x + quad->w) + pos[0];

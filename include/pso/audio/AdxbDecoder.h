@@ -27,7 +27,7 @@ struct AdxbDecoder {
     s32 loop_start_byte;
     s32 loop_end_sample;
     s32 loop_end_byte;
-    s32 m_38;
+    s32 buffer_channels; // channels the output buffer was allocated for
     s16 *output_buffer;
     s32 wrap_len;    // samples; data past it is copied back to the buffer start
     s32 wrap_offset; // second channel's offset for that copy
@@ -44,7 +44,7 @@ struct AdxbDecoder {
     s32 rOff;
     s32 pos;
     s32 avail;
-    s32 x78;
+    s32 remaining; // samples still wanted, as the read callback last reported
     s16 m_7C;
     s16 m_7E;
     u8 *m_80;
@@ -81,7 +81,7 @@ struct AdxbDecoder {
     s16 *get_output_buffer();
     s32 get_decoded_samples();
     s32 get_decoded_bytes();
-    s32 get_packet_flag_for_state();
+    s32 get_bits_per_sample();
     // Back to idle once decoding ended (state 3).
     void reset();
     void stop();
@@ -99,13 +99,13 @@ LAYOUT_ASSERT(AdxbDecoder_size_check, sizeof(AdxbDecoder) == 0xB8);
 // SPSD header fields read by the SPSD decoder.
 struct SpsdHeader {
     u8 pad_00[0x7];
-    u8 m_07;
-    u8 m_08;
-    u8 m_09;
+    u8 header_length; // in 16-byte units
+    u8 encoding;      // 0 16-bit, 1 8-bit, 2 and 3 4-bit samples
+    u8 channel_flags; // channels - 1 in the low two bits
     u8 pad_0A[0x2];
-    s32 m_0C;
+    s32 data_size;
     u8 pad_10[0x1A];
-    u16 m_2A;
+    u16 rate;
 };
 
 extern "C" {
@@ -121,7 +121,7 @@ void adxb_exec_one_spsd(AdxbDecoder *adxb);
 void adxb_exec_one_aiff(AdxbDecoder *adxb);
 void adxb_exec_one_au(AdxbDecoder *adxb);
 void adxb_exec_one_wav(AdxbDecoder *adxb);
-void TLobby__sub_803C2A00(AdxbDecoder *o);
+void adxb_decode_au_pcm8(AdxbDecoder *o);
 
 // Decodes the ADX, SPSD, WAVE, AIFF or AU header at hdr into the handle; returns the
 // header size, 0 when the header is not supported.
@@ -146,8 +146,8 @@ void adxb_default_done(void *obj, s32 bytes, s32 samples);
 }
 void process_byteswapped_pcm_transfer(AdxbDecoder *o);
 extern "C" {
-s32 TLobby__sub_803C44C0(SpsdHeader *hdr, s32 size, s16 *len, s8 *out_0C, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate,
-                         s32 *samples, s32 *block_samples, s16 *format);
+s32 adx_parse_spsd_header(SpsdHeader *hdr, s32 size, s16 *len, s8 *encoding_type, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate,
+                         s32 *samples, s32 *block_samples, s16 *encoding);
 }
 
 #endif

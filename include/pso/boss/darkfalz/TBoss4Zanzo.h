@@ -39,4 +39,7 @@ LAYOUT_ASSERT(TBoss4Zanzo_size, sizeof(TBoss4Zanzo) == 0x4C);
 
 void copy_zanzo_params(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src);
 
+// The two model indices in the Dark Falz BML the after-images draw.
+extern s32 boss4_zanzo_bml_index_table[];
+
 #endif

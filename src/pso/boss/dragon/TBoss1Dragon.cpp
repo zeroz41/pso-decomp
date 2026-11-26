@@ -27,7 +27,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
@@ -98,8 +98,6 @@ struct NJS_OBJECT;
 #include "pso/render/render_util.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
-void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 void dragon_capture_node_points(NJS_OBJECT *);
 extern "C" {
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
@@ -122,7 +120,7 @@ s32 boss1_dragon_behavior_param_ids[3] = {0x11,0x12,0x13};
 s32 boss1_dragon_base_stat_indices[5] = { 0, 0, 0, 0, 0 };
 s32 boss1_dragon_attack_stat_indices[5] = { 0, 1, 2, 3, 4 };
 s32 boss1_dragon_resistance_stat_indices[5] = { 0, 0, 0, 0, 0 };
-BossMovementParameters boss1_dragon_init_params = { { 225.0f, 0.0f, 0x600 }, { 0, 0, 0, 0 } };
+EnemyMoveParams boss1_dragon_init_params = {225.0f, 0.0f, 0x600, { 0, 0, 0, 0 }};
 CollisionBody boss1_dragon_collision_body_parts[7] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -257,7 +255,6 @@ DragonModelState boss1_dragon_capture_chunk_model;
 // dragon_forward_reference_vec).
 Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
-extern f32 enemy_gravity_accel;
 extern const f32 boss1_dragon_lift_accel = 3.0f * enemy_gravity_accel;
 const f32 TBoss1Dragon::gravity_accel = 2.0f * enemy_gravity_accel;
 f32 boss1_dragon_dive_accel = 5.0f * enemy_gravity_accel;
@@ -448,7 +445,7 @@ void TBoss1DragonAttackCollider::area_attack_receive_direct(TObjChara *chara, co
 }
 
 void TBoss1DragonAttackCollider::apply_hit_if_active(TObjChara *target, const f32 *) {
-    target->receive_physical_attack(this->owner, 1.0f);
+    target->receive_physical_attack((TObjChara *)this->owner, 1.0f);
     apply_dragon_hit_ailment(target);
 }
 
@@ -1031,7 +1028,7 @@ void TBoss1Dragon::update_body_colliders() {
     VecCopy(p++, &this->node_positions[32]);
     VecCopy(p++, &this->node_positions[12]);
     VecCopy(p, &this->node_positions[17]);
-    update_local_colliders_from_world(this, pts);
+    update_local_colliders_from_world(pts);
     lim = (30.0f);
     i = 0;
     off = 0;
@@ -1266,10 +1263,10 @@ s32 TBoss1Dragon::select_forward_target() {
         return 0;
     }
     if (n == 1) {
-        enemy_set_target_id(this, selected[0]);
+        enemy_set_target_id(selected[0]);
         return 1;
     }
-    enemy_set_target_id(this, selected[(s32)floor_to_float((f32)n * this->random_ratio())]);
+    enemy_set_target_id(selected[(s32)floor_to_float((f32)n * this->random_ratio())]);
     return 1;
 }
 
@@ -1390,31 +1387,31 @@ void TBoss1Dragon::reload_impact_stats() {
 }
 
 void handle_6x10_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet) {
-    void *x;
+    TBoss1Dragon *x;
     packet->bswap_6x10();
-    x = get_enemy_entity(packet->header.entity_id);
+    x = (TBoss1Dragon *)get_enemy_entity(packet->header.entity_id);
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->copy_params(packet);
+        x->copy_params(packet);
     }
 }
 
 void TBoss1Dragon::copy_params(G_DragonBossActions_6x10_6x11 *action) {
-    enemy_set_target_id(this, (u16)action->target_id);
+    enemy_set_target_id((u16)action->target_id);
     this->sequenceCursor = action->action_index;
     transition_enemy_state(action->state);
 }
 
 void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet) {
-    void *x;
+    TBoss1Dragon *x;
     packet->bswap_6x11();
-    x = get_enemy_entity(packet->header.entity_id);
+    x = (TBoss1Dragon *)get_enemy_entity(packet->header.entity_id);
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->set_params(packet);
+        x->set_params(packet);
     }
 }
 
 void TBoss1Dragon::set_params(G_DragonBossActions_6x10_6x11 *action) {
-    enemy_set_target_id(this, (u16)action->target_id);
+    enemy_set_target_id((u16)action->target_id);
     this->sequenceCursor = action->action_index;
     if ((s16) this->mode != (s16) action->state) {
         transition_enemy_state(action->state);
@@ -1422,18 +1419,18 @@ void TBoss1Dragon::set_params(G_DragonBossActions_6x10_6x11 *action) {
 }
 
 void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet) {
-    void *x;
+    TBoss1Dragon *x;
     packet->bswap();
-    x = get_enemy_entity(packet->action.header.entity_id);
+    x = (TBoss1Dragon *)get_enemy_entity(packet->action.header.entity_id);
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->receive_state_request(packet);
+        x->receive_state_request(packet);
     }
 }
 
 void TBoss1Dragon::receive_state_request(G_DragonBossActions_6x12 *sync) {
     const G_DragonBossActions_6x10_6x11 *action = &sync->action;
     s32 state;
-    enemy_set_target_id(this, (u16)action->target_id);
+    enemy_set_target_id((u16)action->target_id);
     this->sequenceCursor = action->action_index;
     this->savedX = sync->x;
     this->savedZ = sync->z;
@@ -2327,7 +2324,7 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
         this->update_linked_epsilon_position();
         (this->stateStep)++;
         if (this->stateStep % 20 == 19) {
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 this->enemy_copy_target_destination();
             } else {
                 this->set_target_destination(&boss1_dragon_arena_center);
@@ -2377,11 +2374,11 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
             this->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
         } else if (!(v < (9.0f))) {
             if (v < 19.0f) {
-                enemy_turn_and_move_shot_step(this, iscale, scale);
+                enemy_turn_and_move_shot_step(iscale, scale);
             } else if (v < (24.0f)) {
                 this->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
             } else if (!(v < (30.0f))) {
-                enemy_turn_and_move_shot_step(this, iscale, scale);
+                enemy_turn_and_move_shot_step(iscale, scale);
             }
         }
         break;
@@ -2424,7 +2421,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 reason) {
         this->restoreTargetPosition();
         return;
     case 6:
-        if (enemy_validate_retained_target(this) != 0) {
+        if (enemy_validate_retained_target() != 0) {
             this->enemy_copy_target_destination();
         } else {
             this->destination.x = (f32) ((115.0f * sin_table_lookup(this->rotation_y)) + this->breath_origin.x);
@@ -2666,10 +2663,10 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         this->update_velocity();
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
-            init_acceleration_curve(&this->curve0, (0.1f), (-0.1f), this->destination_distance, (2.0f));
+            this->curve0.init((0.1f), (-0.1f), this->destination_distance, (2.0f));
             break;
         case 1:
-            init_acceleration_curve(&this->curve0, (0.1f), (-0.1f), this->destination_distance, boss1_dragon_behavior_params[0]->flight_speed);
+            this->curve0.init((0.1f), (-0.1f), this->destination_distance, boss1_dragon_behavior_params[0]->flight_speed);
             break;
         }
         VecCopy(base, &this->position);
@@ -2682,10 +2679,10 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         }
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
-            init_acceleration_curve(&this->curve1, 16.0f, (-16.0f), (f32)var, 512.0f);
+            this->curve1.init(16.0f, (-16.0f), (f32)var, 512.0f);
             break;
         case 1:
-            init_acceleration_curve(&this->curve1, 16.0f, (-16.0f), (f32)var, (f32)(s32)(256.0f * boss1_dragon_behavior_params[0]->flight_speed));
+            this->curve1.init(16.0f, (-16.0f), (f32)var, (f32)(s32)(256.0f * boss1_dragon_behavior_params[0]->flight_speed));
             break;
         }
         this->action_angle = this->rotation_y;
@@ -2719,7 +2716,7 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         switch (this->stateStep) {
         case 0:
             this->fallVelocity += (1.0f);
-            t = sample_acceleration_curve(&this->curve1, this->fallVelocity);
+            t = this->curve1.sample(this->fallVelocity);
             this->rotation_y = (s32)((f32)this->airTurnDirection * t + (f32)this->action_angle);
             if (this->curve1.check_param_threshold(this->fallVelocity) != 0) {
                 this->fallVelocity = (0.0f);
@@ -2728,7 +2725,7 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
             break;
         case 1:
             this->fallVelocity += (1.0f);
-            t = sample_acceleration_curve(&this->curve0, this->fallVelocity);
+            t = this->curve0.sample(this->fallVelocity);
             this->position.x = this->destination_direction.x * t + base->x;
             this->position.z = this->destination_direction.z * t + base->z;
             if (this->curve0.check_param_threshold(this->fallVelocity) != 0) {
@@ -2915,7 +2912,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         s32 low = (s32)((100.0f) * this->savedZ);
         seed *= 0x10000UL;
         seed |= (u32)low & 0xFFFFUL;
-        subtractive_rng_seed(&this->randomState, seed);
+        this->randomState.set_seed(seed);
         break;
     }
     case 6:

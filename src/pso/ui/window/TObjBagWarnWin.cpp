@@ -45,7 +45,7 @@ const char *TObjBagWarnWin4P::class_name = "TObjBagWarnWin4P";
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 

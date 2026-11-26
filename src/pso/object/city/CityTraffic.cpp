@@ -231,8 +231,8 @@ void TObjCityAirCar_Ctrl::run_task() {
             speed = air_car_lane_speed_scale_table[i] * random_range(2.0f, 5.0f);
             if (count > 0) {
                 last = r->cars[count - 1];
-                if (fn_80181204(last) < 0.5f * air_car_lane_spacing_table[i]) {
-                    speed = fn_801811FC(last);
+                if (last->get_path_frame() < 0.5f * air_car_lane_spacing_table[i]) {
+                    speed = last->get_path_speed();
                 }
             }
             r->cars[count++] = new TObjCityAirCar_Car(this, i, type, speed);
@@ -265,8 +265,8 @@ TObjCityAirCar_Car::~TObjCityAirCar_Car() {
 }
 
 
-f32 fn_80181204(void* p) { return *(f32*)((char*)p + 0x90); }
-f32 fn_801811FC(void* p) { return *(f32*)((char*)p + 0x94); }
+f32 TObjCityAirCar_Car::get_path_frame() { return path_frame; }
+f32 TObjCityAirCar_Car::get_path_speed() { return path_speed; }
 
 #pragma push
 #pragma fp_contract on

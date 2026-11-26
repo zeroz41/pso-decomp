@@ -5,4 +5,12 @@
 
 void load_darkgunner_effect_resources(void);
 
+// The four ripple offsets spawn_hamon_effects puts around the gunner.
+struct HamonOffset {
+    f32 x, z;
+};
+struct HamonOffsets {
+    HamonOffset v[4];
+};
+
 #endif

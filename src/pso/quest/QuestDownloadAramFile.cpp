@@ -1,11 +1,11 @@
 #include <dolphin/ar.h>
 #include "pso/quest/QuestDownloadAramFile.h"
 #include "types.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
+#include "pso/quest/AskDicFile.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
+#include "pso/quest/QuestDownloadRequests.h"
 
 // The ARAM back end of the keyboard's ASKDIC dictionary ("ASKDIC:ARAM DMA Timeout!!"): TWindowKeyBoardBase sets the
 // ARAM image up with aram_dma_setup, then start_askdic starts the dictionary.

@@ -1,6 +1,5 @@
 #include "pso/object/container/ContainerResources.h"
 #include "pso/object/container/TOContainerAncientEnemy.h"
-#include "pso/object/lobby/TObjButterflyLobby_80350958.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/object/lobby/LobbyPigeonPath.h"
 #include "pso/quest/TQuestThread.h"
@@ -16,7 +15,7 @@
 #include "pso/effect/TBGLightningCtrl.h"
 #include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "pso/object/warp/TObjWarpJung.h"
-#include "pso/unk/text_8028A820.h"
+#include "pso/object/door/GreenDoorResource.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/object/ambient/TButterfly.h"
 #include "pso/object/container/TContainerAncient01.h"
@@ -669,7 +668,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_21_22[29] = {
     { load_turiten_singo_resources, TOHangceilingCave01::destroy_instance },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { TOTrapAncient01::load_resources, TOTrapAncient01::release_static_resource },
-    { load_green_door_resources, TLobby::free_shared_objects },
+    { load_green_door_resources, free_green_door_resources },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
     { 0, 0 },
 };
@@ -699,7 +698,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_19_20[27] = {
     { load_turiten_singo_resources, TOHangceilingCave01::destroy_instance },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { TOTrapAncient01::load_resources, TOTrapAncient01::release_static_resource },
-    { load_green_door_resources, TLobby::free_shared_objects },
+    { load_green_door_resources, free_green_door_resources },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
     { 0, 0 },
 };

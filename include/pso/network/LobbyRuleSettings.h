@@ -38,6 +38,8 @@ public:
     s8 trap_counts[4];
 
     LobbyRuleSettings();
+    // Stores count in trap_counts[index], 20 when it is outside 0..20.
+    void set_rule_slot_clamped(s8 count, s32 index);
     // sonar_count, or 0 when it is outside 0..99.
     s32 get_sonar_count();
     // Stores count as sonar_count, 0 when it is outside 0..99.
@@ -65,7 +67,7 @@ public:
     u8 get_mag_mode();
     u8 get_weapon_and_armor_mode();
     u8 get_tech_disk_mode();
-    u8 get_rule_field_0();
+    u8 get_rules_active();
     void set_death_tech_level_up(u8 value);
     void set_death_level_up(s16 value);
     void set_forbid_scape_dolls(u8 value);

@@ -1,8 +1,6 @@
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/text_803D96A8.h"
@@ -51,6 +49,7 @@ f32 xyz_distance(void *, void *);
 
 }
 
+
 extern "C" {
 f32 vec3_dot(void *, void *);
 void rotate_matrix_y(s32, s32);
@@ -63,7 +62,6 @@ extern const u32 balloon_color_table[16] = {
 };
 
 extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
-struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
 WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x3F000000, 0xFFFFFFFF, 0, 0}};
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
 const char *window_fukidasi_class_name = window_fukidasi_class_name_string;
@@ -473,7 +471,7 @@ void TWindowFukidasi::init_flags(s32 flags) {
 // the way set_text does but without its 200 wrap width, using the
 // 1e6 "no limit" width draw_name_plate clips names with. Name inferred from that role.
 void TWindowFukidasi::measure_text_unbounded(WindowTextEntry *entry) {
-    measure_message_text_width(entry, 1000000.0f);
+    reinterpret_cast<WindowTextEntry *>(entry)->measure_text(1000000.0f);
 }
 
 #pragma push
@@ -508,7 +506,7 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
   }
   else
   {
-    measure_message_text_width(entry, 200.0f);
+    entry->measure_text(200.0f);
   }
   if (flags & 0x80)
   {
@@ -1074,7 +1072,7 @@ void TWindowFukidasi::calc_text_size(f32 *out) {
         out[1] = 0.1f + (20.0f + e->height);
         break;
     case 1:
-        get_symbol_chat_frame_size((saddr)&entry_list, out);
+        get_symbol_chat_frame_size(&entry_list, out);
         break;
     case 2:
         break;
@@ -1100,7 +1098,7 @@ s32 TWindowFukidasi::check_card_match_enabled(const char *text) {
     if (content_kind != 0) {
         return 0;
     }
-    return (u32) __cntlzw(strcmp((const char *)((WindowTextEntry *)this->get_array_entry(0))->get_text(), text)) >> 5;
+    return (u32) __cntlzw(strcmp(static_cast<WindowTextEntry *>(get_array_entry(0))->get_text(), text)) >> 5;
 }
 
 #pragma push
@@ -1114,7 +1112,7 @@ void TWindowFukidasi::rearm_balloon(saddr flags) {
     init_flags(flags);
     switch (content_kind) {
     case 0:
-        n = TWindowKeyBoardSoft::strnlen((const char *)((WindowTextEntry *)(void *)this->get_array_entry(0))->get_text(), (u32)0x100);
+        n = TWindowKeyBoardSoft::strnlen(static_cast<WindowTextEntry *>(get_array_entry(0))->get_text(), (u32)0x100);
         hide_ticks = (s16) ((3.3f * (f32) n) + 55.5f);
         break;
     case 1:
@@ -1130,7 +1128,7 @@ s32 TWindowFukidasi::is_speech_balloon_ready() {
     s32 t = content_kind;
     switch (t) {
     case 0:
-        return ((WindowTextEntry *)get_array_entry(0))->is_fully_shown();
+        return static_cast<WindowTextEntry *>(get_array_entry(0))->is_fully_shown();
     case 1:
     case 2:
         break;

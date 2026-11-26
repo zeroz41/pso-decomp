@@ -88,7 +88,7 @@ void TODragonfly::render() {
         translate_matrix(0, 0.0f, bob_offset, 0.0f);
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         draw_ginja_model_with_motion(model, motion, animation_frame);
         pop_matrix();
     }
@@ -191,7 +191,7 @@ TODragonflyCave01::TODragonflyCave01(void *set_data) {
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.1f;
     view_range = 500.0f;
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     object_state = 0;
     bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
     bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));

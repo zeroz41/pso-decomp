@@ -2,18 +2,17 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponCaduceus.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponCaduceus::emit_marker_effects() {
-    s32 origin;
+    Vec origin;
     TObjPlayer *owner;
 
     get_joint_position(2, &origin);
-    spawn_particle_effect((const Vec *)&origin, 0x1BF);
+    spawn_particle_effect(&origin, 0x1BF);
     if (is_mode_two_and_ready() != 0) {
         owner = this->owner;
         TTecFoie::create(owner, &origin, owner->rotation_y, 3);

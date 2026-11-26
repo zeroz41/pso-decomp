@@ -14,7 +14,7 @@ public:
     virtual ~TEffect();
     static const char *class_name;
 
-    TObjBase *source;
+    TObjBase *source;  // the object that started the effect
     Vec position;
     NJS_ARGB color;
     Vec scale;

@@ -5,6 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/psoLoadTexture.h"
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))
 

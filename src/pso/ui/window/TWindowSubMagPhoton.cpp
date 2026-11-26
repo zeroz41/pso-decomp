@@ -1,6 +1,5 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowSpritePart.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/item/MagStats.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "types.h"
@@ -11,11 +10,12 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/system/PadRumble.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowSubOption.h"
@@ -36,8 +36,6 @@
 #pragma push
 #pragma readonly_strings on
 
-extern "C" {
-void draw_action_palette_icon(void *e, s32 a, u16 b);
 extern const s8 photon_blast_slot_order[4] = { 1, 2, 0, 0 };
 extern const u8 photon_blast_entry_indices[4] = { 3, 1, 2, 0 };
 
@@ -54,7 +52,7 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
     for (i = 0; i < 3; i++) {
         s32 blast = stats.get_photon_blast(i);
         photon_blasts[photon_blast_slot_order[i]] = blast;
-        void *e = (void *)this->get_array_entry(i + 1);
+        WindowSpritePart *e = (WindowSpritePart *)this->get_array_entry(i + 1);
         if (blast != -1) {
             draw_action_palette_icon(e, 5, blast);
         } else {
@@ -63,19 +61,10 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
     }
 }
 
-}
-
 const char *TWindowSubMagPhoton::class_name = "TWindowSubMagPhoton";
 #pragma pop
 
 
-// inferred: window_sub_mag_photon_layout_entries, the layout table
-// mag_photon_layout_descriptor points at (a frame sprite and three photon blast icons).
-struct SubMagPhotonWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec[4];
-};
 SubMagPhotonWindowLayout window_sub_mag_photon_layout_entries = {
     4, 1,
     {
@@ -85,7 +74,7 @@ SubMagPhotonWindowLayout window_sub_mag_photon_layout_entries = {
         {6, {20.0f, 77.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &hud_texlist, 3, 4},
     },
 };
-WindowDescriptor mag_photon_layout_descriptor = {
+WindowDescriptor TWindowSubMagPhoton::layout_descriptor = {
     {186.0f, 160.0f}, 50050.0f, &window_sub_mag_photon_layout_entries, 3,
 };
 
@@ -171,7 +160,7 @@ void TWindowSubMagPhoton::run_task() {
 TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
 TWindowSubMagPhoton::TWindowSubMagPhoton(const NJS_POINT2 *position, TItemData *mag_state, s32 client)
-    : TWindowBase((u8 *)&mag_photon_layout_descriptor, client, (u8 *)position) {
+    : TWindowBase((u8 *)&TWindowSubMagPhoton::layout_descriptor, client, (u8 *)position) {
     m_name = class_name;
     copy_vec2(target_position, const_cast<NJS_POINT2 *>(position));
     save_position();

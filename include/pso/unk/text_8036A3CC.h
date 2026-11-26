@@ -12,8 +12,6 @@ char *get_bgm_filename(s32 index);
 
 s32 get_option_table_entry(s32 idx);
 
-struct GetFlagWordMaskInst { u8 pad0[0x1155C]; u32 flags[2]; };
-
 struct FlagLink_8036A514 {
     s32 flag;
     s32 linked;

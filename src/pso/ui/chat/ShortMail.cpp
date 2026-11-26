@@ -11,8 +11,6 @@
 #include <string.h>
 #include "pso/ui/window/TWindowCtrl.h"
 
-struct NamedEntryView { u8 pad[0x20]; char name[1]; };
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -21,24 +19,21 @@ ShortMailEntry short_mail_entries[8];
 s32 short_mail_next_id;
 int lobby_short_mail_entry_count;
 
-void receive_short_mail(void* p) { if (((TLobby *)p)->is_name_too_long() == 0) { store_short_mail(p); } }
+void receive_short_mail(TChatMessage &message) { if (message.is_text_too_long() == 0) { store_short_mail(message); } }
 
 void TLobby::send_simple_mail(s32 target_card_id, void *message) {
-    union {
-        ShortMailPacketBuffer pkt;
-        u8 b[0x228];
-    } t;
+    TChatMessage mail;
     GuildCardEntry *own_card;
-    ((TLobby *)(&t))->init_guild_card_tag();
     if (protocol_instance != NULL) {
         own_card = TWindowSubComCard::get_own_guild_card();
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], &protocol_instance->m_guildcard_tag);
-        strncpy((char *)&t.b[0xC], own_card->get_name(), 0x17);
-        t.pkt.target_card_id = target_card_id;
-        t.b[0x23] = 0;
-        strncpy((char *)&t.b[0x20], (char *)message, 0xAB);
-        t.b[0xCB] = 0;
-        protocol_instance->send_simple_mail(*(TChatMessage *)&t);
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&mail.tag, &protocol_instance->m_guildcard_tag);
+        strncpy(mail.name, own_card->get_name(), 0x17);
+        mail.to_guildcard_number = target_card_id;
+        // The game terminates the name as if it were 0x18 bytes long; the byte lands in the text.
+        mail.name[0x17] = 0;
+        strncpy(mail.text, (char *)message, 0xAB);
+        mail.text[0xAB] = 0;
+        protocol_instance->send_simple_mail(mail);
     }
 }
 
@@ -99,11 +94,11 @@ s32 TLobby::find_free_slot() {
 }
 
 
-void store_short_mail(void *p) {
+void store_short_mail(TChatMessage &message) {
     s32 slot = TLobby::find_free_slot();
     char *storage = reinterpret_cast<char *>(&short_mail_entries);
     storage += slot * sizeof(ShortMailEntry);
-    reinterpret_cast<ShortMailEntry *>(storage)->fill_from_packet(static_cast<u8 *>(p));
+    reinterpret_cast<ShortMailEntry *>(storage)->fill_from_packet(message);
     lobby_short_mail_entry_count++;
     set_new_mail_flag();
     play_sound_effect(0x52D17, 0, 0, 0);
@@ -129,7 +124,7 @@ void TLobby::remove_entry_at(s32 idx) {
     lobby_short_mail_entry_count--;
 }
 
-void TLobby::clear_all_entries(void* _w0) {
+void TLobby::clear_all_entries() {
     s32 i;
     ShortMailEntry *entry;
     short_mail_next_id = 0;
@@ -142,9 +137,9 @@ void TLobby::clear_all_entries(void* _w0) {
     }
 }
 
-s32 TLobby::is_name_too_long() {
+s32 TChatMessage::is_text_too_long() {
     s32 i = 0;
-    char *p = ((NamedEntryView *)this)->name;
+    char *p = text;
     while (*p++ != 0) {
         if (i > 0xaa) {
             return 1;
@@ -154,20 +149,20 @@ s32 TLobby::is_name_too_long() {
     return 0;
 }
 
-void ShortMailEntry::fill_from_packet(u8 *packet) {
-    sender_card_id = *reinterpret_cast<s32 *>(packet + 8);
+void ShortMailEntry::fill_from_packet(TChatMessage &message) {
+    sender_card_id = message.tag.m_guildcard_number;
     u32 id = short_mail_next_id;
     short_mail_next_id = id + 1;
     sequence_id = id;
     flags = 0xB;
-    strncpy(sender_name, (const char *)packet + 0xC, 0x17);
+    strncpy(sender_name, message.name, 0x17);
     sender_name[0x17] = 0;
-    strncpy(body, (const char *)packet + 0x20, 0xAB);
+    strncpy(body, message.text, 0xAB);
     body[0xAB] = 0;
 }
 
-void TLobby__sub_80225C44(void* p) { TLobby::clear_all_entries(p); }
-void TLobby__sub_80225C64(void* p) { TLobby::clear_all_entries(p); }
+void clear_short_mail_on_unload() { TLobby::clear_all_entries(); }
+void clear_short_mail_on_load() { TLobby::clear_all_entries(); }
 char *GuildCardEntry::get_name() { return name; }
 void ShortMailEntry::clear_unread() { flags &= ~2; }
 int ShortMailEntry::is_active() { return flags & 1; }

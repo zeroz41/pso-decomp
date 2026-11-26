@@ -29,7 +29,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -62,7 +61,7 @@ static const NJS_POINT2 multi_chr_select_item_rect_table[4] = {
     {434.0f, 182.0f}, {434.0f, 225.0f}, {434.0f, 268.0f}, {434.0f, 311.0f},
 };
 static const NJS_POINT2 multi_chr_select_cursor_size = {180.0f, 38.0f};
-s32 lbl_805D68C8;
+s32 multi_chr_select_slot_chosen;
 u32 multi_chr_select_serial_access_state;
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::instance;
 
@@ -176,7 +175,7 @@ void TAdMultiPlyChrSelectGC::initialize_selection_state(s32 mode) {
     v = 0;
     this->mode = mode;
     this->fade_task = reinterpret_cast<TAdFadeGC *>(v);
-    lbl_805D68C8 = v;
+    multi_chr_select_slot_chosen = v;
     this->move_requested = v;
     this->move_finished = 1;
     this->a_slot = reinterpret_cast<TAdChrSelASlotGC *>(v);
@@ -639,7 +638,7 @@ void TAdMultiPlyChrSelectGC::update_card_confirm() {
             play_sound_effect(0x52D01, 0, 0, 0);
             player_plate->start_selected_slot_anim();
             player_plate->select_slot_at_cursor();
-            lbl_805D68C8 = 1;
+            multi_chr_select_slot_chosen = 1;
             if (this->create_character_prompt != NULL) {
                 this->create_character_prompt->close();
                 this->create_character_prompt = NULL;

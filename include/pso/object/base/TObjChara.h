@@ -128,14 +128,14 @@ public:
     virtual CsnHit *update_actor_ground_y();
     virtual CsnHit *update_actor_ground_y_at(Vec *pos);
     virtual s32 is_actor_cadence_frame(s32);
-    virtual s32 select_melee_contact_body(void *, f32);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 try_start_action(void *attacker, s32 collider, f32 accuracy);
-    virtual s32 roll_physical_accuracy(void *, s32, f32);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
+    virtual void apply_knockback_from_attacker(TObjBase *, f32);
+    virtual s32 try_start_action(TObjChara *attacker, s32 collider, f32 accuracy);
+    virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     virtual void refresh_target();
     virtual int has_no_target();
     virtual s32 is_target_in_attack_range();
@@ -159,8 +159,8 @@ public:
     virtual void apply_movement_ailment(CollisionBody *body);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
-    virtual void apply_attack_stat_status(void *);
-    virtual void apply_defense_stat_status(void *);
+    virtual void apply_attack_stat_status(StatStatusReceipt *receipt);
+    virtual void apply_defense_stat_status(StatStatusReceipt *receipt);
     virtual void cure_poison_ailment();
     virtual void cure_paralysis();
     virtual void clear_all_status_effects();
@@ -222,7 +222,7 @@ public:
     Vec move_origin;  // where the current move started (calc_velocity_toward_destination's from)
     Vec move_destination;  // where the current move goes
     TObjChara *target;
-    u32 m_2ac;
+    s32 move_timer;  // frames spent on the current move; reset when a new destination is picked
     player_stats *stat_block;  // the stat block get_stats returns
     f32 frame_timer;  // frames counted up or down by the current behaviour
     s16 hpmax;

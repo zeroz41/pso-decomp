@@ -74,8 +74,8 @@ void TTecRaZonde::apply_to_target(TObjChara *target) {
     target->receive_direct_attack(this->source, hit, 0, 8, -1);
 }
 
-void TTecRaZonde::create(void *source, void *origin, s32 level) {
-    new TTecRaZonde((saddr)source, (Vec *)origin, level);
+void TTecRaZonde::create(TObjBase *source, Vec *origin, s32 level) {
+    new TTecRaZonde(source, origin, level);
 }
 
 TTecRaZonde::~TTecRaZonde() {
@@ -98,7 +98,7 @@ void TTecRaZonde::run_task() {
         return;
     }
     this->source = find_entity_by_id(this->sourceId);
-    if (this->source == 0) {
+    if (this->source == NULL) {
         queue_destruction();
         return;
     }
@@ -118,7 +118,7 @@ void TTecRaZonde::run_task() {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
+TTecRaZonde::TTecRaZonde(TObjBase *source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 ang;
     s32 i;
     s32 j;
@@ -197,7 +197,7 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
         break;
     }
     }
-    if (this->source != 0) {
+    if (this->source != NULL) {
         sourceId = this->source->get_entity_id();
     }
 }

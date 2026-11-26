@@ -37,8 +37,8 @@ void TTitleMenu::draw_record_with_camera(s32 record, s32 camera) {
 }
 
 
-s32 is_title_choice_confirmed(TTitleMenu *controller) {
-    return controller->state == 2;
+s32 TTitleMenu::is_title_choice_confirmed() {
+    return state == 2;
 }
 
 s32 TTitleMenu::get_cursor() { return cursor; }
@@ -58,14 +58,14 @@ void TTitleMenu::handle_cursor_input() {
     ControllerInputContext *input;
     input = &controller_physical_port_bank.controllers[0];
     color.a = 1.0f;
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+    if ((test_buttons_press_or_repeat_color(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
         cursor = cursor - 1;
         if (cursor < 0) {
             cursor = 3;
         }
         play_sound_effect(0x54100, 0, 0, 0);
     }
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+    if ((test_buttons_press_or_repeat_color(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
         cursor = cursor + 1;
         if (cursor >= 4) {
             cursor = 0;
@@ -151,5 +151,5 @@ TTitleMenu::TTitleMenu(TObject *parent) : TObject(parent) {
     frame = 0;
 }
 
-void TLobby__sub_80335E74(void) {  }
-void TLobby__sub_80335E78(void) {  }
+void free_title_menu_resources() {}
+void load_title_menu_resources() {}

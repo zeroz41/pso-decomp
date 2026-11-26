@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_80242918(void);
-}
+void set_short_mail_flag_bit2(void);
 
 #endif

@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowScrollBar.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -7,19 +6,19 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubItem.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #pragma readonly_strings on
 
-
 void TWindowSubItemList::draw_blinking_selection(WindowDrawContext *context) {
     s16 selected;
-    u16 *entry;
+    TWindowLayoutRect *entry;
     selected = this->selected_index;
     if ((selected >= 0) && !(actor_frame_tick & 0x10)) {
-        entry = (u16 *)(get_array_entry((s32) selected));
-        if (*entry & 1) {
-            draw_selection_bar(context, (TWindowLayoutRect *)entry, 1);
+        entry = (TWindowLayoutRect *)get_array_entry((s32) selected);
+        if (entry->flags & 1) {
+            draw_selection_bar(context, entry, 1);
         }
     }
 }
@@ -42,7 +41,7 @@ void TWindowSubItemList::render() {
     draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     draw_blinking_selection(context);
-    draw_item_list_capacity(this, context, item_count, 0x1E);
+    draw_item_list_capacity(context, item_count, 0x1E);
     if (status_display != NULL) {
         status_display->render(context);
     }

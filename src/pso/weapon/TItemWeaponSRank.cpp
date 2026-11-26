@@ -2,7 +2,6 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponSRank.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/base/TObjMotion.h"
@@ -129,7 +128,7 @@ void TItemWeaponSRank::emit_marker_effects() {
   if ((new_var = attack_flags) & 2)
   {
     ((TItemWeapon *)self_bytes)->get_gun_point(&gun_point);
-    (this->launch_shot((u8 *)(&gun_point), (0), (0), (1)));
+    (this->launch_shot(&gun_point, (0), (0), (1)));
   }
 }
 

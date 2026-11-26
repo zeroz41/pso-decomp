@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 BOOL read_dial_prefix(char *dst);
-}
 
 #endif

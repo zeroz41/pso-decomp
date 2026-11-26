@@ -15,7 +15,7 @@ public:
     virtual ~TItemWeaponYasminkov3000R();
     TItemWeaponYasminkov3000R(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
-    WeaponVector slide;
+    Vec slide;
     s32 slide_state;  // 2 opening, 3 open, 1 closing, 0 closed
 };
 

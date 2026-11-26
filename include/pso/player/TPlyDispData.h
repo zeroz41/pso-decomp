@@ -16,16 +16,7 @@
 #define bswap32_ref(var) bswap32(&var)
 
 struct disp_data_part2 {
-    void bswap() {
-        bswap_32(&name_colour);
-        bswap_32(&name_colour_checksum);
-        bswap_32(&v1_flags);
-        for (int i = 0; i < 8; ++i) {
-            bswap_16(&appearance_data[i]);
-        }
-        bswap32(&proportions.x);
-        bswap32(&proportions.y);
-    };
+    void bswap();
     bool is_valid() {
         return false;
     };

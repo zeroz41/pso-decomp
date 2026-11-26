@@ -9,7 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponYasminkov2000H::transform_model_node() {
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
         post_translate_matrix(&slide.x);
         return;
@@ -34,7 +34,7 @@ void TItemWeaponYasminkov2000H::update_attack() {
 }
 
 void TItemWeaponYasminkov2000H::update_weapon() {
-    WeaponVector dir;
+    Vec dir;
     s32 angle[3];
     s32 a;
 

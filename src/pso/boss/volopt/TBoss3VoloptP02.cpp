@@ -24,7 +24,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/text_803DA798.h"
@@ -61,9 +61,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-extern "C" {
-void release_players_from_cutscene(void);
-}
 
 
 
@@ -85,7 +82,7 @@ static TObjMotionAction action_entries[9] = {
     {2, 0, 1, 0.7f, 4},
     {2, 0, 13, 0.6f, 1},
 };
-static BossMovementParameters movement_params = {{150.0f, 0.5555555f, 0x400}, {0x1E0000, 0, 1, 0}};
+static EnemyMoveParams movement_params = {150.0f, 0.5555555f, 0x400, {0x1E0000, 0, 1, 0}};
 static CollisionBody collision_bodies[5] = {
     {{0.0f, 23.0f, 29.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{36.0f, 26.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -115,9 +112,9 @@ static NJS_OBJECT *breakup_flags_d[16];
 static NJS_OBJECT *chain_nodes_a[5];
 static NJS_OBJECT *chain_nodes_b[5];
 
-static void *boss_stat_handle;
-static void *shared_handler_b;
-static void *object_handle;
+static player_stats *boss_stat_handle;
+static AttackParams *shared_handler_b;
+static ActorParamBlock *object_handle;
 VoloptP02Params *volopt_p02_params;
 static s32 *part_params;
 BmlResource *volopt_p02_resources;
@@ -190,7 +187,7 @@ void TBoss3VoloptP02::init_params() {
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;
     movementParameters = &movement_params;
-    recalc_combat_stats((player_stats *)boss_stat_handle, (AttackParams *)shared_handler_b, (ActorParamBlock *)object_handle, 1.0f, 1.0f);
+    recalc_combat_stats(boss_stat_handle, shared_handler_b, object_handle, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
@@ -1455,7 +1452,7 @@ s32 TBoss3VoloptP02::count_dead_parts() {
     return count;
 }
 
-f32 TBoss3VoloptP02::receive_physical_attack(void *source, f32 damage) {
+f32 TBoss3VoloptP02::receive_physical_attack(TObjChara *source, f32 damage) {
     u32 mask = 0x800000;
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -1467,7 +1464,7 @@ f32 TBoss3VoloptP02::receive_physical_attack(void *source, f32 damage) {
     return TObjChara::receive_physical_attack(source, damage);
 }
 
-f32 TBoss3VoloptP02::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
+f32 TBoss3VoloptP02::receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32, s32) {
     u32 mask = 0x800000;
     s32 i;
     for (i = 0; i < 4; i++) {

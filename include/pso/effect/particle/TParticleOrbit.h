@@ -9,7 +9,7 @@ public:
     virtual void run_task();
     TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent, u16 particle_flags,
                   u16 target);
-    TParticleOrbit(void *param, void *pos, void *dir, void *parent);
+    TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent);
     void retire_orbit_particle();
     virtual void render();
     f32 orbit_center_x;        // 0xC4

@@ -73,12 +73,6 @@ SampledMotionPoints * TObjEneMe3ShinowaMirage::sword_trail_a;
 SampledMotionPoints * TObjEneMe3ShinowaMirage::sword_trail_b;
 SampledMotionPoints * TObjEneMe3ShinowaMirage::attack_trail;
 
-struct ShinowaBattleTables {
-    Vec node_origin;
-    player_stats *base[2];
-    AttackParams *attack[2];
-    ActorParamBlock *resistance[2];
-};
 LAYOUT_ASSERT(ShinowaBattleBaseOffset, offsetof(ShinowaBattleTables, base) == 0xC);
 LAYOUT_ASSERT(ShinowaBattleAttackOffset, offsetof(ShinowaBattleTables, attack) == 0x14);
 LAYOUT_ASSERT(ShinowaBattleResistanceOffset, offsetof(ShinowaBattleTables, resistance) == 0x1C);
@@ -96,7 +90,7 @@ __declspec(section ".data") NJS_TEXLIST TObjEneMe3ShinowaMirage::alternate_textu
 Vec TObjEneMe3ShinowaMirage::body_node_position;
 s32 * TObjEneMe3ShinowaMirage::material_color_pointers[4];
 
-TObjEneMe3ShinowaMoveParams TObjEneMe3ShinowaMirage::init_params = {
+EnemyMoveParams TObjEneMe3ShinowaMirage::init_params = {
     225.0f, 0.0f, 0x600,
 };
 
@@ -191,7 +185,7 @@ void load_shinowa_mirage_resources() {
     }
     info = TObjEneMe3ShinowaMirage::mirage_info_table[0];
     TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(6, info->sword_motion_speed);
-    TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(3, info->m_10);
+    TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(3, info->damage_motion_speed);
     TObjEneMe3ShinowaMirage::render_node_index = 0;
     TObjEneMe3ShinowaMirage::body_node_position.x = 0.0f;
     TObjEneMe3ShinowaMirage::body_node_position.y = 0.0f;
@@ -339,7 +333,7 @@ void TObjEneMe3Shinowa::init_enemy() {
     state_timer = 0;
     target_angle = 0;
     move_speed = 0.0f;
-    m_414 = 0.0f;
+    state_value = 0.0f;
     start_position.x = 0.0f;
     start_position.y = 0.0f;
     start_position.z = 0.0f;
@@ -457,7 +451,7 @@ void TObjEneMe3Shinowa::apply_sword_hits() {
         if (enemy_check_target_valid() != 0) {
             if (current_target->select_melee_contact_body(this, 1.0f) != 0) {
                 current_target->receive_physical_attack(this, 1.0f);
-                current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                current_target->apply_knockback_from_attacker(this, 3.0f);
                 if ((late_hit != 0) && (random_ratio() <= 0.1666f)) {
                     TObjEneDD::inflict_confusion(this, current_target);
                 }
@@ -621,7 +615,7 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
         state_wait(reason);
         return;
     case 9:
-        sub_800E50D8(reason);
+        state_vanish(reason);
         return;
     case 10:
         state_cast_support(reason);
@@ -696,7 +690,7 @@ void TObjEneMe3Shinowa::state_fade_appear(s32 reason) {
         VecCopy(&pos, &position);
         y = body_y;
         pos.y = y - 20.0f;
-        play_appear_effects((saddr)&pos);
+        play_appear_effects(&pos);
         return;
     case 3:
         if (fade.advance_toward_max() != 0) {
@@ -746,7 +740,7 @@ void TObjEneMe3Shinowa::state_t_wait(s32 reason) {
             }
             ene_dd_st = this->state_timer;
             this->material_color = (ene_dd_st << 24) | (this->material_color & 0x00FFFFFF);
-            if (enemy_validate_retained_target(this) == 0) {
+            if (enemy_validate_retained_target() == 0) {
                 this->state_step = 0;
                 if (!(this->behavior_flags & 0x1000)) {
                     this->material_color = 0;
@@ -798,8 +792,8 @@ void TObjEneMe3Shinowa::state_drop_appear(s32 reason) {
         case 0:
             node_world_y = this->get_node_world_y();
             this->advance_animation();
-            this->m_414 = this->get_node_world_y();
-            this->body_y = this->body_y + (node_world_y - this->m_414);
+            this->state_value = this->get_node_world_y();
+            this->body_y = this->body_y + (node_world_y - this->state_value);
             this->rotation_y += 0x8000;
             this->state_step = 1;
             this->body_offset_y = this->body_y - this->position.y;
@@ -816,8 +810,8 @@ void TObjEneMe3Shinowa::state_drop_appear(s32 reason) {
             }
             this->body_y = this->body_y + this->move_speed;
             new_node_y = this->get_node_world_y();
-            this->body_y = this->body_y - (new_node_y - this->m_414);
-            this->m_414 = new_node_y;
+            this->body_y = this->body_y - (new_node_y - this->state_value);
+            this->state_value = new_node_y;
             if (this->body_y < this->position.y) {
                 this->body_y = this->position.y;
                 this->state_step = 2;
@@ -857,17 +851,17 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
         behavior_flags &= 0xFFFFFFFC;
         destination_distance = 300.0f;
         if (behavior_flags & 0x10) {
-            move_speed = (f32) TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->m_4;
+            move_speed = (f32) TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->weakened_walk_speed;
         } else {
-            move_speed = (f32) TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->m_0;
+            move_speed = (f32) TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->walk_speed;
         }
-        m_414 = 0.0f;
+        state_value = 0.0f;
         return;
     case 3:
         if ((uaddr) current_target == 0U) {
             on_target_lost();
             transition_enemy_state(0xB);
-        } else if (check_in_range(m_414) != 0) {
+        } else if (check_in_range(state_value) != 0) {
             transition_enemy_state(6);
         } else if (can_hit_same_target() != 0) {
             transition_enemy_state(5);
@@ -880,12 +874,12 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
         if (update_linked_position(200.0f) != 0) {
             enemy_copy_target_destination();
             update_velocity();
-            m_414 = (f32) ((destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y)));
-            if (m_414 < cos_table_lookup(0x1000)) {
+            state_value = (f32) ((destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y)));
+            if (state_value < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, 0x500, move_speed);
+                enemy_turn_and_move_on_ground(0x500, move_speed);
             }
             check_collisions();
         }
@@ -964,7 +958,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                     v.z += this->destination_direction.z * d;
                     if (csnVecterUnder(&v, 0x15) != 0U) {
                         this->state_step = 3;
-                        this->m_414 = (this->destination_distance - 20.0f) / 12.857143f;
+                        this->state_value = (this->destination_distance - 20.0f) / 12.857143f;
                         this->set_invulnerable();
                         play_sound_effect(this->remap_sound_for_area(0x4003AD11), &this->position, 0, 0);
                     } else {
@@ -983,7 +977,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 play_sound_effect(this->remap_sound_for_area(0x4003AD12), &this->position, 0, 0);
                 spawn_particle_effect(&this->position, 0xF3);
             }
-            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->m_414);
+            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->state_value);
             this->update_body_colliders();
             break;
         case 4:
@@ -992,13 +986,13 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 if (this->enemy_check_target_valid() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 3.0f);
                     }
                 }
                 play_sound_effect(this->remap_sound_for_area(0x4003AD13), &this->position, 0, 0);
             }
-            this->m_414 *= 0.85f;
-            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_414);
+            this->state_value *= 0.85f;
+            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->state_value);
             this->check_collisions();
             break;
         }
@@ -1077,7 +1071,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
             break;
         case 1:
             this->state_timer++;
-            if (this->state_timer <= TObjEneMe3ShinowaMirage::mirage_info_table[this->kind_index]->m_20) {
+            if (this->state_timer <= TObjEneMe3ShinowaMirage::mirage_info_table[this->kind_index]->sword_hold_frames) {
                 this->frame = 25.0f;
             }
             this->update_ground_contact();
@@ -1195,7 +1189,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
             halve_evp();
             s32 r = TObjEneDD::collect_target_candidates(this, 40000.0f);
             if (r > 0) {
-                enemy_set_target_id(this, enemy_target_candidate_table[r - 1].id);
+                enemy_set_target_id(enemy_target_candidate_table[r - 1].id);
                 this->transition_enemy_state(4);
             } else {
                 this->transition_enemy_state(11);
@@ -1206,7 +1200,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
     case 0:
         this->advance_animation();
         this->state_step++;
-        if (is_target_unobstructed_from((TObjEneDD *)this, this->current_target) != 0) {
+        if (is_target_unobstructed_from(this->current_target) != 0) {
             if ((s16)this->get_room() == (s16)this->current_target->get_room()) {
                 this->enemy_copy_target_destination();
             }
@@ -1231,7 +1225,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
         VecCopy(&this->body_center, &this->position);
         this->body_center.y += 20.0f;
         v *= this->move_speed;
-        calc_wall_clamped_destination(this, &dest, -this->destination_direction.x, -this->destination_direction.z, v);
+        calc_wall_clamped_destination(&dest, -this->destination_direction.x, -this->destination_direction.z, v);
         if (this->update_actor_ground_y_at(&dest) == 0) {
             this->move_speed *= 0.8f;
             VecCopy(&this->position, &save_pos);
@@ -1303,7 +1297,7 @@ void TObjEneMe3Shinowa::state_cast_support(s32 reason) {
         state_timer = 0;
         break;
     case 3:
-        if (state_timer > TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->m_1c) {
+        if (state_timer > TObjEneMe3ShinowaMirage::mirage_info_table[kind_index]->cast_duration) {
             transition_enemy_state(4);
         }
         break;
@@ -1369,7 +1363,7 @@ void TObjEneMe3Shinowa::state_wait(s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E50D8(s32 reason) {
+void TObjEneMe3Shinowa::state_vanish(s32 reason) {
     u32 flags;
     switch (reason) {
     case 4:
@@ -1740,7 +1734,7 @@ void TObjEneMe3ShinowaReal::state_split_mirages(s32 mode) {
             validate_counter = validate_period;
             i = 0;
             if (is_confused() != 0 || is_player_entity_id(target_id) != 0) {
-                if (is_target_unobstructed_from(this, current_target) != 0) {
+                if (is_target_unobstructed_from(current_target) != 0) {
                     i = 1;
                 }
             } else {
@@ -1950,7 +1944,7 @@ void TObjEneMe3ShinowaMirage::activate_mirage(s32 index) {
         actorFlags = 0x20000000;
         hp = hpmax;
         mirage_index = index;
-        enemy_set_target_id(this, owner->get_target_id());
+        enemy_set_target_id(owner->get_target_id());
         fade_color.a = 0.0f;
         behavior_flags &= ~0x200;
         requested_action = 10;

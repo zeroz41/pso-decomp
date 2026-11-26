@@ -26,6 +26,8 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -37,12 +39,11 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
@@ -51,11 +52,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-s32 calc_text_width();
-s32 text_builder_append();
-}
-
 const char *TWindowSubMag::class_name = "TWindowSubMag";
 
 // Window positions (x, y): mag slot list, the two equip-kind lists, message window.
@@ -63,7 +59,6 @@ extern const f32 mag_texture_window_extent[2] = {144.0f, 68.0f};
 extern const NJS_POINT2 mag_equip_kind_window_size = {206.0f, 184.0f};
 extern const NJS_POINT2 mag_feed_equip_kind_window_size = {308.0f, 124.0f};
 extern const f32 mag_message_window_size[2] = {214.0f, 184.0f};
-void text_builder_reset(void);
 
 extern "C" const char mag_empty_line[] = "";
 // Deferred code generation: the functions are written last to first (see configure.py).
@@ -86,8 +81,8 @@ s32 TWindowSubMagPhoton::get_selected_blast() {
     return photon_blasts[static_cast<s8>(selected_blast_index)];
 }
 
-s32 get_photon_blast_name(s32 id) {
-    return (saddr)text_language_group_table[8][id];
+const char *get_photon_blast_name(s32 blast) {
+    return text_language_group_table[8][blast];
 }
 
 TWindowSubMag::TWindowSubMag(TWindowMainMenu *parent, s32 client) : TObject(parent) {
@@ -411,15 +406,11 @@ void *TWindowSubMag::create_learned_blast_toast() {
         return 0;
     }
     text_builder_reset();
-    TWindowSubStatusDisp::get_message_10(0x64);
-    text_builder_append();
+    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0x64));
     append_text_space();
-    get_photon_blast_name(n);
-    text_builder_append();
-    TWindowSubStatusDisp::get_message_10(0x4C);
-    text_builder_append();
-    get_shared_text_buffer();
-    n = calc_text_width();
+    text_builder_append(get_photon_blast_name(n));
+    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0x4C));
+    n = calc_text_width((char *)get_shared_text_buffer());
     if (TCameraCtrl::get_camera_id() > 2) {
         scale = 0.85f;
     } else {
@@ -487,6 +478,6 @@ void TWindowSubMag::update_mag_help() {
             ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)mag_empty_line), 0x80);
             return;
         }
-        ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), 0x80);
+        ((TWindowMessage *)(this->message))->append_line((saddr)get_help_text_string(selected_blast + 0x27), 0x80);
     }
 }

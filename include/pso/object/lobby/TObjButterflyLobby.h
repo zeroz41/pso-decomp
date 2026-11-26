@@ -26,8 +26,6 @@ struct TObjButterflyLobby : public TObjBase {
     u8 turn_dir;
     NJS_OBJECT *lobby_model;
     NJS_TEXLIST *model_textures;
-    static void free_singleton_805D4E6C();
-    static void alloc_scene_buffer();
     void init_params();
     void draw_butterfly();
     virtual void render();
@@ -40,4 +38,7 @@ struct TObjButterflyLobby : public TObjBase {
 LAYOUT_ASSERT(TObjButterflyLobby_hover_origin, offsetof(TObjButterflyLobby, hover_origin) == 0x98);
 LAYOUT_ASSERT(TObjButterflyLobby_turn_dir, offsetof(TObjButterflyLobby, turn_dir) == 0xC2);
 LAYOUT_ASSERT(TObjButterflyLobby_size, sizeof(TObjButterflyLobby) == 0xCC);
+
+void load_lobby_butterfly_bml_resource(void);
+
 #endif

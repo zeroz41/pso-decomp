@@ -15,16 +15,12 @@ public:
     // Item timer callback: the ring is no longer out.
     static void clear_rico_ring_flag(TObject *object);
     FlagWord flags;                 // 1: drawing the second barrel, 2: ring out, 4: firing
-    WeaponVector shot_origins[2];   // get_joint_position(1) per barrel, launch_shot origins
+    Vec shot_origins[2];   // get_joint_position(1) per barrel, launch_shot origins
 };
 
-extern "C" {
 // The weapon's hit callback (hit_callback).
 void s_rank_punch_hit_effect(s32 layer, TObject *player, s32 target_id, s32 body);
-}
 
-extern "C" {
 void debug_weapon_attack_hook(void);
-}
 
 #endif

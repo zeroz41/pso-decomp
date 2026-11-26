@@ -10,9 +10,8 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 
-extern "C" {
 void fn_80290BEC(void) {
     s32 *task;
     TLobby::stop_audio_streams();
@@ -22,11 +21,12 @@ void fn_80290BEC(void) {
     TLobby::free_all_resources();
     render_tick();
 }
+extern "C" {
 void run_main_frame(void) {
     s32 *task;
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     task = (s32 *)&main_task;
     task = (s32 *)&main_task;
     main_task.begin_frame();

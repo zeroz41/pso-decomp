@@ -66,7 +66,7 @@ struct Boss6PlayerLook {
     NJS_TEXLIST body_textures;
     NJS_TEXLIST head_textures;
     NJS_TEXLIST attachment_textures;
-    void *model;
+    NJS_OBJECT *model;
     void *head_model;
     void *hair_model;
     u32 attachment_model;
@@ -92,8 +92,8 @@ struct TBoss6Type2 : public TObjEnemy
     virtual ~TBoss6Type2();
     virtual void run_task();
     virtual void render();
-    virtual f32 receive_physical_attack(void *attacker, f32 scale);
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags);
+    virtual f32 receive_physical_attack(TObjChara *attacker, f32 scale);
+    virtual f32 receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *collision, s32 tech, s32 flags);
     virtual void apply_poison_status();
     virtual void apply_paralysis();
     virtual void apply_slow_status();
@@ -371,5 +371,9 @@ LAYOUT_ASSERT(TBoss6Type2_size, sizeof(TBoss6Type2) == 0x7B4);
 
 // The record exchange_object_state reads and writes.
 struct TBoss6Type2StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
+
+// One leg contact for update_leg_ground_effects: its node, the particle slot it drives and
+// the node height above which (up to 20 units) the slot's dust stays alive.
+struct Boss6Type2LegEffect { s32 node; s32 particle_slot; f32 ground_height; };
 
 #endif

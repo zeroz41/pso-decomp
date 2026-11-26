@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponMadamsParasol::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 2) {
+    if (get_model_node_counter() == 2) {
         scale_current_matrix(&scale.x);
     }
 }

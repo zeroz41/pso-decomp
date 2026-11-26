@@ -1,6 +1,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponYasminkov2000H.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponYasminkov7000V.h"
@@ -13,7 +13,7 @@
 
 
 // Yasminkov 7000V (inferred)
-void TItemWeaponYasminkov7000V::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { post_translate_matrix(&this->model_offset.x); } }
+void TItemWeaponYasminkov7000V::transform_model_node() { if (get_model_node_counter() == 1) { post_translate_matrix(&this->model_offset.x); } }
 
 #pragma push
 #pragma opt_common_subs off

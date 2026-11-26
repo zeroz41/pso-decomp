@@ -156,6 +156,7 @@ struct TelepipeState {
  void send_telepipe_packet();
  void reset();
  void init_fields(u16 owner);
+ s32 get_floor();
 };
 
 struct VectorXYZI {

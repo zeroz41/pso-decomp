@@ -29,9 +29,9 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
@@ -53,12 +53,10 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/door/TODoorVoShip.h"
 #pragma readonly_strings on
 
-extern "C" {
-void release_players_from_cutscene(void);
-extern const char *door_vo_ship_class_name;
-}
 
 static const char *bm_boss3_volopt_model_names[] = {
     "fe_obj_hira_kage.nj",

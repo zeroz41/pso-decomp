@@ -44,8 +44,8 @@ LAYOUT_ASSERT(QuestDownloadRequestText, offsetof(QuestDownloadRequest, text) == 
 extern QuestDownloadInputEntry quest_download_entry_table[39];
 extern "C" {
 LAYOUT_ASSERT(QuestDownloadInputTableSize, sizeof(quest_download_entry_table) == 0x138);
-extern QuestDownloadInputEntry *lbl_805D78C4;
-extern QuestDownloadInputEntry *lbl_805D78C8;
+extern QuestDownloadInputEntry *input_entry_end;
+extern QuestDownloadInputEntry *input_entry_cursor;
 
 // Native character codes are halfwords; the single-byte conversion returns a byte.
 s32 kana_takes_handakuten(u16 code);
@@ -66,8 +66,8 @@ void free_slot_node_chain(s32 slot, s32 mode);
 s32 build_all_entry_text(void);
 s32 format_number_text_all_modes(const u8 *format, s32 length, QuestDownloadTextRecord *out, s32 *count);
 extern "C" {
-s32 TQuestVmDownLoadServer__sub_803EF208(QuestDownloadRequest *request);
-s32 TQuestVmDownLoadServer__sub_803EF538(QuestDownloadRequest *request);
+s32 delete_name_entry(QuestDownloadRequest *request);
+s32 register_name_entry(QuestDownloadRequest *request);
 }
 
 #endif

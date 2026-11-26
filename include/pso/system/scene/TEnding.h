@@ -37,14 +37,13 @@ LAYOUT_ASSERT(TEndingRate, offsetof(TEnding, timing_rate) == 0x24);
 LAYOUT_ASSERT(TEndingTicks, offsetof(TEnding, elapsed_ticks) == 0x28);
 LAYOUT_ASSERT(TEndingRing, offsetof(TEnding, ring_controller) == 0x70C);
 
-extern "C" {
 void TEnding__sub_8008C9F8(void);
-}
 
-// --- C functions defined in TEnding.cpp ---
-extern "C" {
-void TEnding__sub_8008C9F8(void);
-}
-// --- end of C functions
+// The ending scene's main phase: per-frame update and release (main_phase_table).
+void run_game_frame(void);
+void release_ending_scene(void);
+// The empty load/unload pair in ending_scene_callbacks.
+void ending_scene_nop_release(void);
+void ending_scene_nop_load(void);
 
 #endif

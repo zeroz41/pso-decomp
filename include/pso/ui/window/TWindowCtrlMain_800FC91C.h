@@ -1,6 +1,0 @@
-#ifndef PSO_UI_WINDOW_TWINDOWCTRLMAIN_800FC91C_H
-#define PSO_UI_WINDOW_TWINDOWCTRLMAIN_800FC91C_H
-
-#include "types.h"
-
-#endif

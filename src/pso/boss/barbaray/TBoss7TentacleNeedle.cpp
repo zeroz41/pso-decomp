@@ -580,14 +580,14 @@ void TBoss7TentacleNeedle::damage_nearby_players() {
     for (i = 0; (u16)i != 12; i++) {
         player = get_player_by_client_id((u16)i);
         if (player != NULL && horizontal_distance_squared(&player->position, &position) < 100.0f) {
-            if (timer == 0 && player->roll_physical_accuracy(m_up, 0, 10.0f) != 0) {
-                player->receive_physical_attack(m_up, 1.0f);
+            if (timer == 0 && player->roll_physical_accuracy((TObjChara *)m_up, 0, 10.0f) != 0) {
+                player->receive_physical_attack((TObjChara *)m_up, 1.0f);
             }
             if (player->test_actor_flags(0x801) == 0) {
                 DirectAttackPayload hit;
                 hit.kind = 15;
                 hit.power = 100.0f;
-                player->receive_direct_attack(m_up, hit, NULL, -1, -1);
+                player->receive_direct_attack((TObjBase *)m_up, hit, NULL, -1, -1);
                 if (player_hit[(u16)i] == 0) {
                     spawn_particle_effect(&player->body_center, 0x214);
                     player_hit[(u16)i] = 1;

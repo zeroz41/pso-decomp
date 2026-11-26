@@ -11,7 +11,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/network/protocol/subcommand_validation.h"
@@ -259,8 +259,8 @@ void TObjPlayer::update_lobby_chair_controls() {
     f32 amount;
     if (this->is_controls_locked() == 0 && this->phase != 0 &&
         (this->pad_binding.is_button_pressed(2) != 0 ||
-         (this->is_action_flag_28() == 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x24) != 0) ||
-         (this->is_action_flag_28() != 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x18) != 0))) {
+         (this->is_action_flag_28() == 0 && is_keyboard_control_held() != 0 && keyboard_is_key_down(0x24) != 0) ||
+         (this->is_action_flag_28() != 0 && is_keyboard_control_held() != 0 && keyboard_is_key_down(0x18) != 0))) {
         this->run_action_state_phase(1, 5);
         return;
     }
@@ -332,149 +332,149 @@ s16 TObjPlayer::select_idle_action() {
         return -1;
     }
     if ((get_player_action_provider_selector() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
-        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
+        if (((is_keyboard_control_held() != 0) && (keyboard_is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
             return action_provider->get_chair_sit_action();
         }
-        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
+        if (((is_keyboard_control_held() != 0) && (keyboard_is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
             return action_provider->get_alt_chair_sit_action();
         }
-        if (TKeyBoardControl__sub_801A58B0() != 0) {
-            if (TKeyBoardControl::is_key_down(0x40) != 0) {
+        if (is_keyboard_control_held() != 0) {
+            if (keyboard_is_key_down(0x40) != 0) {
                 return action_provider->get_knockdown_action();
             }
-            if (TKeyBoardControl::is_key_down(0x41) != 0) {
+            if (keyboard_is_key_down(0x41) != 0) {
                 return action_provider->get_hurt_action();
             }
-            if (TKeyBoardControl::is_key_down(0x42) != 0) {
+            if (keyboard_is_key_down(0x42) != 0) {
                 return action_provider->get_interact_action();
             }
-            if (TKeyBoardControl::is_key_down(0x43) != 0) {
+            if (keyboard_is_key_down(0x43) != 0) {
                 return action_provider->get_use_item_action();
             }
-            if (TKeyBoardControl::is_key_down(0x44) != 0) {
+            if (keyboard_is_key_down(0x44) != 0) {
                 return action_provider->get_key_f5_action();
             }
-            if (TKeyBoardControl::is_key_down(0x45) != 0) {
+            if (keyboard_is_key_down(0x45) != 0) {
                 return action_provider->get_key_f6_action();
             }
-            if (TKeyBoardControl::is_key_down(0x46) != 0) {
+            if (keyboard_is_key_down(0x46) != 0) {
                 return action_provider->get_key_f7_action();
             }
-            if (TKeyBoardControl::is_key_down(0x47) != 0) {
+            if (keyboard_is_key_down(0x47) != 0) {
                 return action_provider->get_key_f8_action();
             }
-            if (TKeyBoardControl::is_key_down(0x48) != 0) {
+            if (keyboard_is_key_down(0x48) != 0) {
                 return action_provider->get_key_f9_action();
             }
-            if (TKeyBoardControl::is_key_down(0x49) != 0) {
+            if (keyboard_is_key_down(0x49) != 0) {
                 return action_provider->get_key_f10_action();
             }
-            if (TKeyBoardControl::is_key_down(0x4A) != 0) {
+            if (keyboard_is_key_down(0x4A) != 0) {
                 return action_provider->get_key_f11_action();
             }
-            if (TKeyBoardControl::is_key_down(0x4B) != 0) {
+            if (keyboard_is_key_down(0x4B) != 0) {
                 return action_provider->get_key_f12_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1C) != 0) {
+            if (keyboard_is_key_down(0x1C) != 0) {
                 return action_provider->get_death_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2E) != 0) {
+            if (keyboard_is_key_down(0x2E) != 0) {
                 return action_provider->get_lock_on_idle_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2F) != 0) {
+            if (keyboard_is_key_down(0x2F) != 0) {
                 return action_provider->get_key_6_action();
             }
-            if (TKeyBoardControl::is_key_down(0x30) != 0) {
+            if (keyboard_is_key_down(0x30) != 0) {
                 return action_provider->get_key_7_action();
             }
-            if (TKeyBoardControl::is_key_down(0x31) != 0) {
+            if (keyboard_is_key_down(0x31) != 0) {
                 return action_provider->get_key_8_action();
             }
-            if (TKeyBoardControl::is_key_down(0x32) != 0) {
+            if (keyboard_is_key_down(0x32) != 0) {
                 return action_provider->get_key_9_action();
             }
-            if (TKeyBoardControl::is_key_down(0x33) != 0) {
+            if (keyboard_is_key_down(0x33) != 0) {
                 return action_provider->get_key_0_action();
             }
-            if (TKeyBoardControl::is_key_down(0x17) != 0) {
+            if (keyboard_is_key_down(0x17) != 0) {
                 return action_provider->get_key_h_action();
             }
-            if (TKeyBoardControl::is_key_down(0x11) != 0) {
+            if (keyboard_is_key_down(0x11) != 0) {
                 return action_provider->get_key_b_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1E) != 0) {
+            if (keyboard_is_key_down(0x1E) != 0) {
                 return action_provider->get_key_o_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1D) != 0) {
+            if (keyboard_is_key_down(0x1D) != 0) {
                 return action_provider->get_key_n_action();
             }
-            if (TKeyBoardControl::is_key_down(0x20) != 0) {
+            if (keyboard_is_key_down(0x20) != 0) {
                 return action_provider->get_key_q_action();
             }
-            if (TKeyBoardControl::is_key_down(0x19) != 0) {
+            if (keyboard_is_key_down(0x19) != 0) {
                 return action_provider->get_key_j_action();
             }
-            if (TKeyBoardControl::is_key_down(0x21) != 0) {
+            if (keyboard_is_key_down(0x21) != 0) {
                 return action_provider->get_key_r_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1A) != 0) {
+            if (keyboard_is_key_down(0x1A) != 0) {
                 return action_provider->get_key_k_action();
             }
-            if (TKeyBoardControl::is_key_down(0x26) != 0) {
+            if (keyboard_is_key_down(0x26) != 0) {
                 return action_provider->get_key_w_action();
             }
-            if (TKeyBoardControl::is_key_down(0x22) != 0) {
+            if (keyboard_is_key_down(0x22) != 0) {
                 return action_provider->get_key_s_action();
             }
-            if (TKeyBoardControl::is_key_down(0x23) != 0) {
+            if (keyboard_is_key_down(0x23) != 0) {
                 return action_provider->get_key_t_action();
             }
-            if (TKeyBoardControl::is_key_down(0x12) != 0) {
+            if (keyboard_is_key_down(0x12) != 0) {
                 return action_provider->get_key_c_action();
             }
-            if (TKeyBoardControl::is_key_down(0x13) != 0) {
+            if (keyboard_is_key_down(0x13) != 0) {
                 return action_provider->get_key_d_action();
             }
-            if (TKeyBoardControl::is_key_down(0x15) != 0) {
+            if (keyboard_is_key_down(0x15) != 0) {
                 return action_provider->get_key_f_action();
             }
-            if (TKeyBoardControl::is_key_down(0x16) != 0) {
+            if (keyboard_is_key_down(0x16) != 0) {
                 return action_provider->get_key_g_action();
             }
-            if (TKeyBoardControl::is_key_down(0x28) != 0) {
+            if (keyboard_is_key_down(0x28) != 0) {
                 return action_provider->get_key_y_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1F) != 0) {
+            if (keyboard_is_key_down(0x1F) != 0) {
                 return action_provider->get_key_p_action();
             }
-            if (TKeyBoardControl::is_key_down(0x10) != 0) {
+            if (keyboard_is_key_down(0x10) != 0) {
                 return action_provider->get_key_a_action();
             }
-            if (TKeyBoardControl::is_key_down(0x14) != 0) {
+            if (keyboard_is_key_down(0x14) != 0) {
                 return action_provider->get_key_e_action();
             }
-            if (TKeyBoardControl::is_key_down(0x29) != 0) {
+            if (keyboard_is_key_down(0x29) != 0) {
                 return action_provider->get_key_z_action();
             }
-            if (TKeyBoardControl::is_key_down(0x27) != 0) {
+            if (keyboard_is_key_down(0x27) != 0) {
                 return action_provider->get_key_x_action();
             }
-            if (TKeyBoardControl::is_key_down(0x25) != 0) {
+            if (keyboard_is_key_down(0x25) != 0) {
                 return action_provider->get_key_v_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1B) != 0) {
+            if (keyboard_is_key_down(0x1B) != 0) {
                 return action_provider->get_key_l_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2A) != 0) {
+            if (keyboard_is_key_down(0x2A) != 0) {
                 return action_provider->get_key_1_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2B) != 0) {
+            if (keyboard_is_key_down(0x2B) != 0) {
                 return action_provider->get_key_2_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2C) != 0) {
+            if (keyboard_is_key_down(0x2C) != 0) {
                 return action_provider->get_key_3_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2D) != 0) {
+            if (keyboard_is_key_down(0x2D) != 0) {
                 return action_provider->get_key_4_action();
             }
             goto block_109;
@@ -1308,7 +1308,7 @@ G_PlayerRevived_6x4F &G_PlayerRevived_6x4F::operator=(const G_PlayerRevived_6x4F
 void TObjPlayer::send_6x4F_revived() {
     G_PlayerRevived_6x4F msg;
 
-    if (test_flags_any(&death_flags.bits, 4) != 0) {
+    if (death_flags.test_flags_any(4) != 0) {
         send_use_medical_center();
         if (this->is_alive_and_ready() != 0) {
             this->refill_traps();
@@ -1448,7 +1448,7 @@ void TObjPlayer::update_active_state() {
             return;
         }
         run_action_state_phase(0xF, 0);
-        if (test_flags_any(&death_flags.bits, 1) != 0) {
+        if (death_flags.test_flags_any(1) != 0) {
             this->requested_action = this->get_action_animation();
         } else {
             this->restart_death_pose();
@@ -1493,7 +1493,7 @@ void TObjPlayer::send_6x4E_player_revivable() {
 }
 
 void TObjPlayer::update_action_render() {
-    if (test_flags_any(&death_flags.bits, 1) != 0) {
+    if (death_flags.test_flags_any(1) != 0) {
         this->requested_action = this->get_action_animation();
     } else {
         this->requested_action = this->get_model_field_m25();
@@ -1556,7 +1556,7 @@ void TObjPlayer::enter_death_state() {
     reset_on_death();
     clear_velocity();
     this->phase = 0;
-    if (test_flags_any(&death_flags.bits, 1) != 0) {
+    if (death_flags.test_flags_any(1) != 0) {
         this->set_action_state(0xF, (s16)get_no_action());
         this->restart_death_pose();
     } else {
@@ -1629,7 +1629,7 @@ void TObjPlayer::prepare_death() {
             death_flags.set(2);
         }
     }
-    if (test_flags_any(&death_flags.bits, 1) == 0) {
+    if (death_flags.test_flags_any(1) == 0) {
         this->drop_items_on_death();
     }
     if (is_action_input_disabled() != 0) {
@@ -2291,7 +2291,7 @@ u16 TObjPlayer::get_current_target_id() {
 
 void remove_photon_blast_participant(s32 id) {
     if (TObjPlayer::shared_photon_blast_state != NULL) {
-        TObjPlayer::shared_photon_blast_state->sub_80312E98(id);
+        TObjPlayer::shared_photon_blast_state->reset_client_requests(id);
     }
 }
 
@@ -2454,8 +2454,8 @@ void TObjPlayer::update_photon_blast_action() {
     {
       this->phase = 1;
       this->motion_flags = (s32) ((this->motion_flags) | 0x40);
-      this->photon_blast_gauge.set_field8((int) (*((s16 *) (((s8 *) get_photon_blast_entry(this->photon_blast_gauge.get_valid_index())) + 0x12))));
-      this->photon_blast_gauge.set_field_0c(-0.2f);
+      this->photon_blast_gauge.set_countdown((int) (*((s16 *) (((s8 *) get_photon_blast_entry(this->photon_blast_gauge.get_valid_index())) + 0x12))));
+      this->photon_blast_gauge.set_frame_step(-0.2f);
     }
       play_persistent_sound(0x4002A823,this, NULL, 0, 0);
       break;
@@ -2465,13 +2465,13 @@ void TObjPlayer::update_photon_blast_action() {
     {
       if ((this->frame) >= this->get_photon_blast_upper_bound())
       {
-        this->photon_blast_gauge.set_field_0c(-0.2f);
+        this->photon_blast_gauge.set_frame_step(-0.2f);
       }
     }
     else
       if ((this->frame) <= (this->get_photon_blast_hold_frame() - 1.0f))
     {
-      this->photon_blast_gauge.set_field_0c(0.2f);
+      this->photon_blast_gauge.set_frame_step(0.2f);
     }
       this->photon_blast_gauge.decrement_countdown();
       if (this->photon_blast_gauge.get_countdown() < 0)
@@ -2797,7 +2797,7 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
         if (this == 0 || this->obj_isState2_324() == 0) {
             G_CastTechniqueComplete_6x48 pkt;
             this->phase = 4;
-            tech = this->technique_state.get_or_init_field_4();
+            tech = this->technique_state.get_technique_id();
             this->tp -= calc_technique_parameters(tech, this->technique_state.get_castable_technique_level(), get_entity_id())->tp_cost;
             if (this->tp < 0) {
                 this->tp = 0;
@@ -2863,8 +2863,8 @@ void TObjPlayer::update_technique_cast() {
     case 0:
         this->phase = 1;
         this->set_state_flags(0x80);
-        create_technique_charge_light((s16) (technique_state.get_or_init_field_4()),this);
-        technique_state.set_technique_state(calc_technique_parameters(technique_state.get_or_init_field_4(), technique_state.get_castable_technique_level(), this->get_entity_id())->charge_speed);
+        create_technique_charge_light((s16) (technique_state.get_technique_id()),this);
+        technique_state.set_technique_state(calc_technique_parameters(technique_state.get_technique_id(), technique_state.get_castable_technique_level(), this->get_entity_id())->charge_speed);
         technique_state.set_charge_step(0.05f);
         break;
     case 1:
@@ -3014,12 +3014,12 @@ void TObjPlayer::request_technique_cast() {
     s32 count;
     PhotonBlastTarget *src;
     PhotonBlastTarget *dst;
-    capture_technique_targets(technique_state.get_or_init_field_4(), this);
+    capture_technique_targets(technique_state.get_technique_id(), this);
     if (lock_on_cursor != NULL) {
         td = technique_state.get_technique_data();
         ((TLockOnCursor *)lock_on_cursor)->set_cursor_pos(td->entity_id, td->index);
     }
-    tech = technique_state.get_or_init_field_4();
+    tech = technique_state.get_technique_id();
     TObjPlayer::split_capped_value(get_cast_technique_level(&technique_state, tech), &hi, &lo);
     if (this == NULL || obj_isState2_324() == 0) {
         m1.init();
@@ -3168,7 +3168,7 @@ void TObjPlayer::finish_attack_stage3() {
             run_action_state_phase(1, 5);
         }
     } else if (this->motion_flags & 0x10) {
-        if (test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
+        if (this->attack_state.get_flags()->test_flags_any(1) != 0) {
             this->phase = 4;
             this->requested_action = this->get_idle_animation();
             this->resume_motion();
@@ -3291,7 +3291,7 @@ void TObjPlayer::finish_attack_stage2() {
             run_action_state_phase(1, 5);
         }
     } else if ((this->motion_flags & 0x10) &&
-               test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
+               this->attack_state.get_flags()->test_flags_any(1) != 0) {
         switch (attack_state.get_validated_attack_stage()) {
         case 0:
         case 1:
@@ -3395,12 +3395,6 @@ void TObjPlayer::setup_attack_stage() {
     }
 }
 
-struct TargetCollider {
-    u8 pad0[0x18];
-    u32 flags;
-    u8 pad1C[0x10];
-};
-
 
 
 int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
@@ -3421,7 +3415,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             ((TObjEneBeastBase *)target)->test_elt_flag(collider, 0x2000) == 0) {
             continue;
         }
-        if ((((TargetCollider *)bodies)->flags ^ ((TargetCollider *)target->bodies)[collider].flags) & 6) {
+        if ((bodies->flags ^ target->bodies[collider].flags) & 6) {
             continue;
         }
         f32 accuracy;
@@ -3449,10 +3443,10 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                 damage = dealt;
                 gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake(target, damage);
-                target->apply_knockback_from_attacker((u8 *)this, 0.1f * dealt);
+                target->apply_knockback_from_attacker(this, 0.1f * dealt);
                 break;
             case 2:
-                target->receive_weapon_special_attack(this, &((TargetCollider *)target->bodies)[collider]);
+                target->receive_weapon_special_attack(this, &target->bodies[collider]);
                 break;
             }
             hit = 1;
@@ -3626,7 +3620,7 @@ void TObjPlayer::update_anim_action() {
             this->attack_state.register_strike(this);
         }
     } else {
-        if (test_flags_any(&this->attack_state.get_flags()->bits, 8) == 0) {
+        if (this->attack_state.get_flags()->test_flags_any(8) == 0) {
             if (is_passing_frame(select_normal_attack_marker()) != 0) {
                 send_attack_target_packet();
                 increment_burst_counter((u8 *)&this->attack_state);
@@ -3744,7 +3738,7 @@ void TObjPlayer::finish_attack_stage1() {
             run_action_state_phase(1, 5);
         }
     } else if ((this->motion_flags & 0x10) &&
-               test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
+               this->attack_state.get_flags()->test_flags_any(1) != 0) {
         switch (attack_state.get_validated_attack_stage()) {
         case 0:
             this->phase = 4;
@@ -3901,14 +3895,14 @@ void TObjPlayer::send_6x42_run_to_position() {
 }
 
 void TObjPlayer::handle_ring_release() {
-    if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+    if (move_speed.flags.test_flags_any(4) != 0) {
         move_speed.flags.clear(4);
         run_action_state_phase(1, 0);
     }
 }
 
 void TObjPlayer::try_trigger_effect() {
-    if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+    if (move_speed.flags.test_flags_any(4) != 0) {
         move_speed.flags.clear(4);
         run_action_state_phase(1, 5);
     }
@@ -3922,7 +3916,7 @@ void TObjPlayer::select_run_request() {
     magnitude = pad_binding.get_stick_magnitude();
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         if (magnitude < 0.1f) {
-            if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+            if (move_speed.flags.test_flags_any(4) != 0) {
                 run_action_state_phase(1, 5);
                 return;
             }
@@ -3931,13 +3925,13 @@ void TObjPlayer::select_run_request() {
             heading = calc_scaled_value(stick_angle);
             if ((this->test_actor_flags(0x100000) != 0) || (magnitude < 0.5f)) {
                 move_speed.set_run_counter(0);
-                if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+                if (move_speed.flags.test_flags_any(4) != 0) {
                     this->target_heading = heading;
                     run_action_state_phase(2, 5);
                 }
             } else {
                 move_speed.increment_run_counter();
-                if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+                if (move_speed.flags.test_flags_any(4) != 0) {
                     this->target_heading = heading;
                     run_action_state_phase(4, 5);
                 }
@@ -4039,7 +4033,7 @@ void TObjPlayer::run_action3_phase(s16 phase) {
 #pragma opt_lifetimes off
 // The slow walk while move_speed flag 8 is set.
 s16 TObjPlayer::get_walk_action() {
-    if (test_flags_any(&move_speed.flags.bits, 8) != 0) {
+    if (move_speed.flags.test_flags_any(8) != 0) {
         return action_provider->get_slow_walk_action();
     }
     return action_provider->get_walk_action();
@@ -4160,7 +4154,7 @@ void TObjPlayer::send_6x40_walk_to_position() {
 }
 
 void TObjPlayer::handle_ring_hit() {
-    if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+    if (move_speed.flags.test_flags_any(4) != 0) {
         move_speed.flags.clear(4);
         this->clear_player_status_flag(0, 0x01C00000);
         run_action_state_phase(1, 0);
@@ -4168,7 +4162,7 @@ void TObjPlayer::handle_ring_hit() {
 }
 
 void TObjPlayer::check_ring_action() {
-    if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+    if (move_speed.flags.test_flags_any(4) != 0) {
         move_speed.flags.clear(4);
         move_speed.set_run_counter(0);
         run_action_state_phase(1, 5);
@@ -4184,7 +4178,7 @@ void TObjPlayer::select_walk_request() {
     magnitude = pad_binding.get_stick_magnitude();
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         if (magnitude < 0.1f) {
-            if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+            if (move_speed.flags.test_flags_any(4) != 0) {
                 run_action_state_phase(1, 5);
                 return;
             }
@@ -4195,11 +4189,11 @@ void TObjPlayer::select_walk_request() {
                 move_speed.increment_run_counter();
             }
             if (this->test_actor_flags(0x100000) != 0) {
-                if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+                if (move_speed.flags.test_flags_any(4) != 0) {
                     this->target_heading = heading;
                     run_action_state_phase(2, 5);
                 }
-            } else if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+            } else if (move_speed.flags.test_flags_any(4) != 0) {
                 this->target_heading = heading;
                 if ((f32) move_speed.get_run_counter() < 24.0f) {
                     run_action_state_phase(2, 5);
@@ -4585,7 +4579,7 @@ Vec *PhotonBlastAim::get_position() { return &position; }
 Vec *PhotonBlastAim::set_position(const Vec *src) { return VecCopy(&position, src); }
 
 void TObjPlayer::set_float_param(s16 value) {
-    this->photon_blast_gauge.set_field_3c((f32) (s32) value);
+    this->photon_blast_gauge.set_charge((f32) (s32) value);
 }
 
 void update_player_action_palette(TObjPlayer *player, u8 slot) {
@@ -5201,7 +5195,6 @@ void G_AttackFinished_6x46::bswap_received() {
 }
 
 G_AttackFinished_6x46::G_AttackFinished_6x46() {
-    construct_captured_target_list(&targets);
     header.subcommand = 0x46;
     header.size = sizeof(G_AttackFinished_6x46) / 4;
 }
@@ -5517,14 +5510,14 @@ void PhotonBlastGauge::check_photon_blast_flag() { ((FlagWord *)&flags)->set(8);
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int PhotonBlastGauge::check_flag_clear() { return test_flags_any(&flags.bits, 1) == 0; }
+int PhotonBlastGauge::check_flag_clear() { return flags.test_flags_any(1) == 0; }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int PhotonBlastGauge::is_blast_launched() { return test_flags_any(&flags.bits, 8); }
+int PhotonBlastGauge::is_blast_launched() { return flags.test_flags_any(8); }
 #pragma pop
 
 #pragma push
@@ -5560,14 +5553,14 @@ f32 PhotonBlastGauge::get_frame_step() { return frame_step; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void PhotonBlastGauge::set_field_0c(f32 v) { frame_step = v; }
+void PhotonBlastGauge::set_frame_step(f32 v) { frame_step = v; }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void PhotonBlastGauge::set_field8(s32 v) { countdown = v; }
+void PhotonBlastGauge::set_countdown(s32 v) { countdown = v; }
 #pragma pop
 
 #pragma push
@@ -5582,7 +5575,7 @@ PhotonBlastTarget *PhotonBlastGauge::get_target(s32 i) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void PhotonBlastGauge::set_field_3c(f32 v) { charge = v; }
+void PhotonBlastGauge::set_charge(f32 v) { charge = v; }
 #pragma pop
 
 #pragma push
@@ -5657,7 +5650,7 @@ void PlayerTechniqueState::set_technique_state(s32 v) { state = v; }
 void PlayerTechniqueState::set_level(u8 v) { level = v; }
 #pragma pop
 
-s32 PlayerTechniqueState::test_flag_2() { return test_flags_any(&flags.bits, 2); }
+s32 PlayerTechniqueState::test_flag_2() { return flags.test_flags_any(2); }
 
 void PlayerTechniqueState::decrement_state() { state--; }
 
@@ -5679,7 +5672,7 @@ f32 PlayerAttackController::get_attack_speed() { return attack_speed; }
 
 void PlayerAttackController::set_queued_kind(s16 kind) { queued_kind = kind; }
 
-FlagWord *PlayerAttackController::get_flags() { return (FlagWord *)&flags; }
+FlagWord *PlayerAttackController::get_flags() { return &flags; }
 
 #pragma push
 #pragma inline_depth(1)

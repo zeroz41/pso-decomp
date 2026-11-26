@@ -5,8 +5,6 @@
 
 struct NJS_TEXLIST;
 
-extern "C" {
 NJS_TEXLIST *get_player_tex_texture_list(void);
-}
 
 #endif

@@ -119,7 +119,7 @@ extern "C" {
 
 
 
-StelthMovementParams me3_stelth_shared_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
+EnemyMoveParams me3_stelth_shared_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody me3_stelth_collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
@@ -182,7 +182,6 @@ void TObjEneMe3Stelth::load_shared_resources() {
     NJS_OBJECT *m;
     NJS_CNK_MODEL *q;
     AnimationMotion *motion;
-    TBreakUpMdlData *p;
 
     lbl_805010E0[0] = 0.0f;
     lbl_805010E0[1] = 0.0f;
@@ -242,11 +241,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
     motion = me3_stelth_bml_resource->motions[me3_stelth_animation_descriptors[5].motion].motion;
     if (is_split_screen() != 0) {
-        p = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        me3_stelth_breakup_model = p;
+        me3_stelth_breakup_model = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
     } else {
-        p = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        me3_stelth_breakup_model = p;
+        me3_stelth_breakup_model = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
     }
     {
         Vec va;
@@ -487,7 +484,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
     }
     if (enemy_check_target_valid() != 0 && current_target->select_melee_contact_body(this, 1.0f) != 0) {
         f32 d = current_target->receive_physical_attack(this, 1.0f);
-        current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+        current_target->apply_knockback_from_attacker(this, 3.0f);
         if (d > 0.0f) {
             if (is_alternate_variant() != 0) {
                 TObjChara *t = current_target;
@@ -574,7 +571,7 @@ void TObjEneMe3Stelth::init_variant() {
 }
 void TObjEneMe3Stelth::create_resta_effect() {
     saddr f = TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[this->variant_index]->support_tech_level);
-    TTecResta::create(this, (u8 *)&this->position, f);
+    TTecResta::create(this, &this->position, f);
 }
 void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
     switch (state) {
@@ -697,7 +694,7 @@ void TObjEneMe3Stelth::state_fade_in(s32 reason) {
         VecCopy(&v, &position);
         v.y = body_y - 20.0f;
         if (stealthed == 0) {
-            play_appear_effects((saddr)&v);
+            play_appear_effects(&v);
         } else {
             create_timed_particle_emitter((u8 *)&position, 0x79, 0, 0xF);
         }
@@ -788,7 +785,7 @@ void TObjEneMe3Stelth::state_ambush(s32 reason) {
         this->fade.start_fade_in();
         VecCopy(&pos, &this->position);
         pos.y = this->body_y - 10.0f;
-        play_appear_effects((saddr)&pos);
+        play_appear_effects(&pos);
         break;
     case 3:
         if (this->fade.advance_toward_max() != 0) {
@@ -836,7 +833,7 @@ void TObjEneMe3Stelth::state_reveal(s32 reason) {
             }
             t = state_timer;
             material_color = (t << 24) | (material_color & 0x00FFFFFF);
-            if (enemy_validate_retained_target(this) == 0) {
+            if (enemy_validate_retained_target() == 0) {
                 state_step = 0;
                 material_color = 0;
             }
@@ -964,7 +961,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 mode) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, 0x500, move_speed);
+                enemy_turn_and_move_on_ground(0x500, move_speed);
             }
             check_collisions();
         }
@@ -1074,7 +1071,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                 if (this->enemy_check_target_valid() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 3.0f);
                     }
                 }
                 play_sound_effect(0x3A838, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
@@ -1294,9 +1291,9 @@ void TObjEneMe3Stelth::state_cast_technique(s32 reason) {
         case 2:
             state_timer++;
             if (state_timer == 5) {
-                TTecSifta::create(this, (u8 *)&position, TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level));
+                TTecSifta::create(this, &position, TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level));
             } else if (state_timer == 0xA) {
-                TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level)));
+                TTecDeband::create(this, &position, (s32)(TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level)));
                 state_step = 1;
                 state_timer = 0;
             }
@@ -1953,13 +1950,13 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                 if (select_enemy_destination(this, this->destination, 1) != 0) {
                     copy_position_if_valid(this, this->body_center);
                     this->body_center.y += 5.0f;
-                    r = ((TObjEnemy *)this)->enemy_turn_toward_dest(((StelthMovementParams *)this->movementParameters)->turn);
-                    enemy_set_heading_velocity(((StelthMovementParams *)this->movementParameters)->speed, this, this->rotation_y);
+                    r = ((TObjEnemy *)this)->enemy_turn_toward_dest(this->movementParameters->turn_speed);
+                    enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation_y);
                     move_with_wall_slide(this);
                 } else {
                     VecCopy(&d, &this->destination);
                     subtract_vector(&d, &this->body_center);
-                    r = this->turn_toward_direction(((StelthMovementParams *)this->movementParameters)->turn, &d);
+                    r = this->turn_toward_direction(this->movementParameters->turn_speed, &d);
                 }
             }
             if (r < 0x100) {
@@ -1991,7 +1988,7 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                 if (this->current_target != NULL) {
                     VecCopy(&d, &this->destination);
                     subtract_vector(&d, &this->body_center);
-                    r = this->turn_toward_direction(((StelthMovementParams *)this->movementParameters)->turn, &d);
+                    r = this->turn_toward_direction(this->movementParameters->turn_speed, &d);
                 } else {
                     r = this->attack_params->attack_angle;
                 }
@@ -2049,8 +2046,8 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     body->flags = saved;
     return result;
 }
-f32 TObjEneMe3Stelth::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
-    if (stealthed == 1 && ((TObjBase *)source)->get_entity_id() < 0x1000 && random_ratio() <= stealth_off_chance) {
+f32 TObjEneMe3Stelth::receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32, s32) {
+    if (stealthed == 1 && source->get_entity_id() < 0x1000 && random_ratio() <= stealth_off_chance) {
         transition_enemy_state(0x12);
     } else if (mode == 2) {
         transition_enemy_state(6);

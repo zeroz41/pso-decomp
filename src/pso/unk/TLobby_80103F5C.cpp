@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include <string.h>
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -52,8 +52,6 @@ u16 *floor_item_free_id_stack;
 int floor_item_free_id_count;
 u16 *floor_item_next_sort_keys;
 FlagWord lbl_805D5430;
-void *__construct_new_array(void *block, void *ctor, void *dtor, size_t size, size_t n);
-void __ct__9FloorItemFv(FloorItem *item, s32 mode);
 }
 void build_6x63_packet(void *packet);
 extern "C" {
@@ -64,7 +62,7 @@ void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-extern s32 lbl_805D5440;
+extern FlagWord lbl_805D5440;
 void spawn_dropped_item_from_msg(void *, s32);
 }
 
@@ -151,7 +149,7 @@ void TLobby::apply_sync_item_state() {
             ((TItemData *)((u8 *)p + 0x10))->decode_from_network();
         }
     }
-    if (test_flags_any(&lbl_805D5440, 1) != 0) {
+    if (lbl_805D5440.test_flags_any(1) != 0) {
         TLobby::respawn_missing_floor_items(0);
     }
     TLobby__sub_801041D8();
@@ -403,8 +401,7 @@ void TLobby::free_boss_rocks() {
     lbl_805D5430.reset();
 }
 void TLobby::alloc_objects() {
-    floor_item_entry_pool = static_cast<FloorItem *>(
-        __construct_new_array(mem_alloc(0x1E610), reinterpret_cast<void *>(__ct__9FloorItemFv), NULL, 0x24, 0xD80));
+    floor_item_entry_pool = new FloorItem[0xD80];
     floor_item_row_table = static_cast<ApplySyncItemStateEntry **>(mem_alloc(0x48));
     floor_item_counts_by_floor = static_cast<s32 *>(mem_alloc(0x48));
     floor_item_free_id_stack = static_cast<u16 *>(mem_alloc(0x40));

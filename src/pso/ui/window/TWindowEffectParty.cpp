@@ -13,14 +13,14 @@
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/system/NinjaTypes.h"
 
 
 
 extern "C" {
 extern const f64 party_marker_angle_scale;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
-f32 get_scale__15TWindowCtrlMainFv(s32);
-extern const char *TWindowEffectParty::class_name;
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
@@ -32,14 +32,14 @@ void *get_simple_status_window(s8 i) {
 }
 
 TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id) : TObject(object) {
-    Vec p;
+    Vec position;
     m_name = TWindowEffectParty::class_name;
     this->source_slot = source;
     set_slot_position(this->source_slot, &this->pos_x);
     this->target_slot = target;
     set_slot_position(this->target_slot, &this->target_x);
-    this->calc_effect_position(&p);
-    this->m_particle = spawn_continuous_particle_effect_with_flags(&p, (saddr)effect_id, (s32)(0xC0));
+    this->calc_effect_position(&position);
+    this->m_particle = spawn_continuous_particle_effect_with_flags(&position, (saddr)effect_id, (s32)(0xC0));
     this->state = 0;
 }
 
@@ -161,7 +161,7 @@ void TWindowEffectParty::set_slot_position(s32 slot, f32 *position) {
 void TWindowEffectParty::calc_effect_position(Vec *out) {
     out->x = this->pos_x;
     out->y = this->pos_y;
-    out->z = (f32)(-1.0f / get_scale__15TWindowCtrlMainFv(local_client_id));
+    out->z = (f32)(-1.0f / TWindowCtrlMain::get_scale(local_client_id));
 }
 
 s32 TWindowEffectParty::step_toward_target(f32 to_x, f32 to_y) {

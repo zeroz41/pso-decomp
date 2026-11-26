@@ -1,7 +1,5 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
-#include "pso/system/memory.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
@@ -12,7 +10,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/olgaflow/TBoss6Mag.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
+#include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/olgaflow/TBoss6Type2BattleAction.h"
 #include <stddef.h>
@@ -38,7 +36,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
-#include "pso/system/SoundEffect.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -100,16 +97,12 @@ Vec boss6_type2_follow_camera_target = { 0.0f, 10.43f, 70.42f };
 extern "C" {
 void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec);
 
-// One leg contact for update_leg_ground_effects: its node, the particle slot it drives and
-// the node height above which (up to 20 units) the slot's dust stays alive.
-struct Boss6Type2LegEffect { s32 node; s32 particle_slot; f32 ground_height; };
-
 
 struct ByteBlock_C { u8 bytes[0xc]; };
 
 
 
-// Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
+// Read by the TBoss6Type2Actions unit and TBoss6Rock; emitted ahead of the literal pool.
 extern const f32 boss6_arena_radius = 400.0f;
 extern const f32 boss6_type2_search_speed = 0.2f;
 extern const f32 boss6_type2_bkjump_speed = 0.35f;
@@ -564,7 +557,7 @@ void TBoss6Type2::run_hit_reaction() {
 
 void TBoss6Type2::run_death_reaction() { if ((s32)action_state != 35) { set_action_state(35); } }
 
-f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
+f32 TBoss6Type2::receive_physical_attack(TObjChara *att, f32 scale) {
     s32 hurt;
     s32 attributes;
     s32 i;
@@ -603,7 +596,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
     return 0.0f;
 }
 
-f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, void *collision, s32 tech, s32 flags) {
+f32 TBoss6Type2::receive_direct_attack(TObjBase *attacker, DirectAttackPayload msg, CollisionBody *collision, s32 tech, s32 flags) {
     while ((s32)berserk != 0) {
         if (msg.kind == 0x14) {
             break;

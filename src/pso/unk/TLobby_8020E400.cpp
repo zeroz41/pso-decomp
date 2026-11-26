@@ -1,6 +1,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/unk/TLobby_8020E400.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"

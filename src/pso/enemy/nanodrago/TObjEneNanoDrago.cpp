@@ -44,7 +44,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 
 
 #include <stddef.h>
@@ -79,8 +78,6 @@ LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam)
 
 
 
-
-struct BeamRotation { s32 x, y, z; };
 
 
 
@@ -159,7 +156,7 @@ TObjMotionAction nanodrago_action_table[12] = {
     {2, 7, 1, 0.8f, 8},
     {3, 11, 4, 0.5f, 0x10},
 };
-NanoDragoMovementParams nano_drago_movement = {
+EnemyMoveParams nano_drago_movement = {
     150.0f, 0.46296296f, 0x300, {0x1E0000, 0, 1, 0}
 };
 CollisionBody nano_drago_bodies[2] = {
@@ -201,7 +198,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     initialize_enemy_photon_effect(this);
     growth_count = 0;
     scale.x = 0.6f;
-    speed = ((NanoDragoMovementParams *)movementParameters)->baseSpeed * scale.x;
+    speed = movementParameters->move_speed * scale.x;
     VecCopy((Vec *)(&home_position), (const Vec *)(&position));
     VecCopy((Vec *)(&moveDestination), (const Vec *)(&position));
     if ((s32)parameters[0] == 1) {
@@ -250,11 +247,8 @@ void TObjEneNanoDrago::free_resources() {
     }
 }
 void *TObjEneNanoDrago::create(void *setData) {
-    TObject *o;
-    void *o2;
-    o = new TObjControl(tl_04);
-    o2 = new TObjEneNanoDrago(o, setData);
-    return o2;
+    TObjControl *control = new TObjControl(tl_04);
+    return new TObjEneNanoDrago(control, setData);
 }
 void TObjEneNanoDrago::run_task() {
     s32 cooldown;
@@ -511,10 +505,10 @@ void TObjEneNanoDrago::update_circling_state() {
                 break;
             }
         }
-        rotation_y += ((NanoDragoMovementParams *)movementParameters)->turnSpeed / 2;
+        rotation_y += movementParameters->turn_speed / 2;
         enemy_set_heading_velocity(speed, this, rotation_y);
         move_with_wall_slide(this);
-        circlingAngle += ((NanoDragoMovementParams *)movementParameters)->turnSpeed / 2;
+        circlingAngle += movementParameters->turn_speed / 2;
         if (circlingAngle > 0x10000) {
             wanderDistance = 0.0f;
             state = 2;
@@ -523,7 +517,7 @@ void TObjEneNanoDrago::update_circling_state() {
         check_enemy_body_collisions(this);
         break;
     case 2:
-        enemy_wander_home(speed, 100.0f, 50.0f, ((NanoDragoMovementParams *)movementParameters)->turnSpeed);
+        enemy_wander_home(speed, 100.0f, 50.0f, movementParameters->turn_speed);
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         if (is_passing_frame(4.0f) != 0 || is_passing_frame(20.0f) != 0) {
@@ -531,7 +525,7 @@ void TObjEneNanoDrago::update_circling_state() {
         }
         wanderDistance += speed;
         if (wanderDistance > 100.0f) {
-            if (select_nearest_target(((NanoDragoMovementParams *)movementParameters)->detectionRadius) != 0) {
+            if (select_nearest_target(movementParameters->search_range) != 0) {
                 circlingAngle = 0;
                 state = 1;
             } else {
@@ -667,7 +661,7 @@ void TObjEneNanoDrago::update_multi_beam_state() {
         }
         break;
     case 4:
-        enemy_wander_home(speed, 100.0f, 100.0f, ((NanoDragoMovementParams *)movementParameters)->turnSpeed);
+        enemy_wander_home(speed, 100.0f, 100.0f, movementParameters->turn_speed);
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         update_collisions();
@@ -701,7 +695,7 @@ void TObjEneNanoDrago::update_flight_state() {
                 clear_flags_30();
                 flightHeight = 50.0f;
             } else {
-                find_target_in_range(((NanoDragoMovementParams *)movementParameters)->detectionRadius);
+                find_target_in_range(movementParameters->search_range);
                 calc_velocity_toward_destination(this, position, moveDestination, speed);
             }
             requested_action = 7;
@@ -709,7 +703,7 @@ void TObjEneNanoDrago::update_flight_state() {
             actorFlags |= 0x01000000;
             requested_action = 6;
             flightHeight = 0.0f;
-            find_target_in_range(((NanoDragoMovementParams *)movementParameters)->detectionRadius);
+            find_target_in_range(movementParameters->search_range);
             if (target != 0) {
                 VecCopy(&v, (const Vec *)(&position));
                 subtract_vector(&v, &target->position);
@@ -753,7 +747,7 @@ void TObjEneNanoDrago::update_flight_state() {
             refresh_collision_body_centers();
         }
         if (flightHeight > 15.0f) {
-            turn_toward_direction(((NanoDragoMovementParams *)movementParameters)->turnSpeed * 2, &velocity);
+            turn_toward_direction(movementParameters->turn_speed * 2, &velocity);
         }
         project_actor_to_ground(this, &position, 0);
         break;
@@ -806,7 +800,7 @@ void TObjEneNanoDrago::update_growth_state() {
             state = 1;
             scale.y = 0.1f + scale.x;
             spawn_particle_effect(&body_center, 0xFA);
-            speed = ((NanoDragoMovementParams *)movementParameters)->baseSpeed * scale.x;
+            speed = movementParameters->move_speed * scale.x;
             play_sound_effect(0x4003A824, (Vec *)&position, 0, 0);
             atp += 8;
             base_atp += 8;
@@ -970,7 +964,7 @@ void TObjEneNanoDrago::wander_around(Vec *center, f32 radius) {
         this->moveDestination.z = r * sin_table_lookup(ang) + center->z;
     }
     VecCopy(&this->move_destination, (const Vec *)&this->moveDestination);
-    this->enemy_turn_toward_dest(((NanoDragoMovementParams *)this->movementParameters)->turnSpeed);
+    this->enemy_turn_toward_dest(this->movementParameters->turn_speed);
     enemy_set_heading_velocity(this->speed, this, this->rotation_y);
     move_with_wall_slide(this);
 }
@@ -1008,8 +1002,8 @@ void TObjEneNanoDrago::update_proximity_state() {
     switch (mode) {
     case 0:
         if (is_actor_cadence_frame(0x1E) != 0) {
-            if (find_nearest_visible_player(this, NULL, ((NanoDragoMovementParams *)movementParameters)->detectionRadius) != 0xFFFF) {
-                select_nearest_target(((NanoDragoMovementParams *)movementParameters)->detectionRadius);
+            if (find_nearest_visible_player(this, NULL, movementParameters->search_range) != 0xFFFF) {
+                select_nearest_target(movementParameters->search_range);
                 if (behavior_flags & 0x40000) {
                     begin_hidden_flight();
                 } else {
@@ -1024,7 +1018,7 @@ void TObjEneNanoDrago::update_proximity_state() {
         if (find_nearest_visible_player(this, NULL, 50.0f) != 0xFFFF) {
             this->update_if_active(0xB);
             resume_action = 1;
-        } else if (find_nearest_visible_player(this, NULL, 50.0f + ((NanoDragoMovementParams *)movementParameters)->detectionRadius) == 0xFFFF) {
+        } else if (find_nearest_visible_player(this, NULL, 50.0f + movementParameters->search_range) == 0xFFFF) {
             this->update_if_active(0);
         }
         break;

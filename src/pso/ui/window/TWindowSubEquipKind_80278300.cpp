@@ -1,7 +1,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -34,7 +35,7 @@ void TWindowSubEquipKind::draw_tab_label(WindowDrawContext *context) {
     u8 col;
 
     if (context->open_tick >= 0) {
-        pos.x = context->x + get_heading_frame_width((HeadingEntry *)status_display);
+        pos.x = context->x + get_heading_frame_width(status_display);
         pos.y = context->y - 13.0f;
         col = equip_kind_tab_label_colors[trade_state];
         fl = state_timer;

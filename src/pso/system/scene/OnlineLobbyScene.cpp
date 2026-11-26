@@ -22,6 +22,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/network/TProtocol.h"
@@ -41,7 +42,7 @@
 #include "pso/unk/TLobby_8020B03C.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
+#include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
@@ -63,7 +64,7 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
+#include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
@@ -87,16 +88,14 @@
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/unk/TObjFreezeShell.h"
 #include "dolphin/base/PPCArch.h"
-#include "pso/ui/frontend/TAdDialingGC_801A4C90.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/quest/QuestStoryFlags.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/unk/text_800FA260.h"
 #include "pso/unk/TLobby_801F3A24.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 
 
 struct UdpTestGameEntry { s32 f0; s32 f4; };
@@ -106,11 +105,11 @@ int clear_keyboard_input_flag(void);
 // The run_*_frame callers test this as an int, while SystemBootInit defines it bool.
 s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
-int request_main_phase(int);
 extern s32 lbl_805D5718;
 s32 load_area_scene_and_init(void *);
 }
 void set_fallback_main_phase(s32 phase);
+void request_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);
 void deactivate_keyboard(void);
 extern "C" {
@@ -147,7 +146,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {init_item_system, free_item_system},
     {TLobby::load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
-    {TLobby::create_heap_8000, TLobby::free_heap},
+    {create_area_event_set_heap, free_area_event_set_heap},
     {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
     {alloc_work_buffer, free_deferred_packet_buffer},
     {init_switch_table, clear_switch_table},
@@ -156,9 +155,9 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
     {TQuestThread::clear_all_floor_handlers, clear_quest_floor_handlers},
     {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
-    {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
+    {clear_short_mail_on_load, clear_short_mail_on_unload},
     {(FloorResourceCallback)reset_auto_reply_flags_callback, (FloorResourceCallback)clear_auto_reply_flags},
-    {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
+    {reset_info_board_on_load, reset_info_board_on_unload},
     {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
     {reset_com_card_list_callback, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
@@ -167,7 +166,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {reset_globals, NULL},
     {init_char_slots, free_char_slots},
     {init_jungle_key_slots, unload_jungle_key_slots},
-    {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
+    {reset_trade_state_on_scene_load, reset_trade_state_on_scene_unload},
     {load_draw_line_task_resource, free_draw_line_task_resource},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
     {clear_boss6_player_snapshots, NULL},
@@ -179,7 +178,7 @@ FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { TLobby::update_drop_item, NULL },
     { clear_floor_population, NULL },
     { TLobby::load_set_gsl_files, clear_map_set_data },
-    { TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state },
+    { load_area_event_sets, (FloorResourceCallback)free_area_event_sets },
     { init_switch_table, clear_switch_table },
     { reset_shop_stock_and_params, clear_all_shop_stock },
     { update_battle_params, NULL },
@@ -197,7 +196,7 @@ s32 online_lobby_scene_handle;
 s32 online_lobby_frame_counter;
 void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
 
-void init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
+void init_chr_select() { clear_controller_reset_request(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); clear_keyboard_input_flag(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void TLobby__sub_801A3CF8(void) {  }
 
@@ -253,7 +252,7 @@ void reload_lobby_floor_scene(void) {
     promote_area_floor(&floor_transition_state);
     TLobby::reset_counter();
     reset_story_select__6TLobbyFPv();
-    TLobby::get_team_state();
+    free_area_event_sets();
     clear_floor_population();
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
@@ -294,7 +293,7 @@ void blocking_vsync() {
         render_tick();
     } else {
         controller_stuff();
-        TKeyBoardControl::update_input_frame();
+        update_keyboard_input_frame();
         main_task.begin_frame();
         main_task.run_task();
         main_task.render();
@@ -401,7 +400,7 @@ void start_quest_mission(void) {
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
     TLobby::free_objects();
-    TLobby::get_team_state();
+    free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
@@ -538,7 +537,7 @@ void run_lobby_frame() {
     s32 frame_count;
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render_shadows();
@@ -587,7 +586,7 @@ void run_main_frame() {
     s32 frame_count;
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render_shadows();
@@ -680,7 +679,7 @@ void run_online_lobby_scene(void) {
     while (TAdDialingGC::get_instance() != 0) {
         begin_gx_frame();
         controller_stuff();
-        TKeyBoardControl::update_input_frame();
+        update_keyboard_input_frame();
         main_task.begin_frame();
         main_task.run_task();
         main_task.render();

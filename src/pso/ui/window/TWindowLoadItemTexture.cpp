@@ -4,7 +4,6 @@
 #include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/TWindowLoadItemTexture.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -46,28 +45,20 @@ TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f3
     sprite->y = 0.5f * window->target_size[1] - 32.0f - 1e+01f;
     sprite->w = 64.0f;
     sprite->h = 64.0f;
-    set_sprite_uv_bounds(sprite, 0.0f, 0.0f, 1.0f, 1.0f);
+    sprite->set_sprite_uv_bounds(0.0f, 0.0f, 1.0f, 1.0f);
     return window;
 }
 #pragma pop
 
 #pragma pop
 
-// inferred: load_item_texture_window_descriptor (passed to the TWindowBase constructor by the window's constructor) and
-// load_item_texture_layout_entries, the layout table it points at.
-struct LoadItemTextureWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-};
-
-LoadItemTextureWindowLayout load_item_texture_layout_entries = {
+LoadItemTextureWindowLayout TWindowLoadItemTexture::layout_entries = {
     1, 1,
     {6, {-4.0f, -10.0f}, {0.0f, 0.0f}, 0.0f, 0.0f, 0.5f, -1, NULL, 0, 6},
 };
 
-WindowDescriptor load_item_texture_window_descriptor = {
-    {0.0f, 0.0f}, 38000.0f, &load_item_texture_layout_entries, 0x2B,
+WindowDescriptor TWindowLoadItemTexture::window_descriptor = {
+    {0.0f, 0.0f}, 38000.0f, &TWindowLoadItemTexture::layout_entries, 0x2B,
 };
 
 
@@ -81,7 +72,7 @@ extern const f32 load_item_texture_window_extent[2] = { 160.0f, 120.0f };
 
 TWindowLoadItemTexture *TWindowLoadItemTexture::create(void *position, s32 client) {
     TWindowLoadItemTexture *window = new TWindowLoadItemTexture(position, (f32 *)load_item_texture_window_extent, client);
-    set_sprite_uv_bounds(reinterpret_cast<WindowSpritePart *>(window->get_array_entry(0)), 0.0f, 0.0f, 0.625f, 0.46875f);
+    reinterpret_cast<WindowSpritePart *>(window->get_array_entry(0))->set_sprite_uv_bounds(0.0f, 0.0f, 0.625f, 0.46875f);
     return window;
 }
 
@@ -111,7 +102,7 @@ TWindowLoadItemTexture::~TWindowLoadItemTexture() {
 }
 
 TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 client)
-    : TWindowBase((u8 *)&load_item_texture_window_descriptor, (s16)client, (u8 *)position) {
+    : TWindowBase((u8 *)&TWindowLoadItemTexture::window_descriptor, (s16)client, (u8 *)position) {
     m_name = TWindowLoadItemTexture::class_name;
     switch (TCameraCtrl::get_camera_id()) {
     case 1:

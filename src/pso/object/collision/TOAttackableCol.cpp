@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TQuestManager.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/object/collision/TOAttackableCol.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
@@ -293,21 +293,21 @@ TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
     this->init_params();
 }
 
-s32 TOAttackableCol::try_start_action(void *, s32, f32) { return 1; }
+s32 TOAttackableCol::try_start_action(TObjChara *, s32, f32) { return 1; }
 
-s32 TOAttackableCol::roll_physical_accuracy(void *, s32, f32) { return 1; }
+s32 TOAttackableCol::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 
-s32 TOAttackableCol::select_melee_contact_body(void *, f32) { return 1; }
+s32 TOAttackableCol::select_melee_contact_body(TObjChara *, f32) { return 1; }
 
-int TOAttackableCol::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
+int TOAttackableCol::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TOAttackableCol::receive_physical_attack(void *player, f32) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_physical_attack(TObjChara *player, f32) { return this->apply_hit((saddr)player); }
 
-f32 TOAttackableCol::receive_direct_attack(void *player, DirectAttackPayload, void *, s32, s32) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_direct_attack(TObjBase *player, DirectAttackPayload, CollisionBody *, s32, s32) { return this->apply_hit((saddr)player); }
 
-f32 TOAttackableCol::receive_weapon_special_attack(void *player, void *) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_weapon_special_attack(TObjChara *player, CollisionBody *) { return this->apply_hit((saddr)player); }
 
-void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
+void TOAttackableCol::apply_knockback_from_attacker(TObjBase *, f32) {  }
 
 // Inferred: set_hits_left / get_hits_left.
 void TOAttackableCol::set_hits_left(s32 v) { hits_left = v; }

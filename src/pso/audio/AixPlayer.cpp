@@ -9,20 +9,20 @@
 #include "pso/system/CvFs.h"
 
 extern "C" {
-void TLobby__sub_803C9E38(AdxtPlayer *player, SjRingBuffer *sj);
+void adxt_start_sj(AdxtPlayer *player, SjRingBuffer *sj);
 void update_file_stream_range(void *context);
 AixPlayer aix_player_pool[4];
-void TLobby__sub_803CE240(void) {
+void aix_exec_server(void) {
     s32 i;
-    TLobby__sub_803CD99C();
+    aix_demuxer_exec_server();
     for (i = 0; i < 4; i++) {
         if ((s32)aix_player_pool[i].used == 1) {
-            TLobby__sub_803CE2A0(&aix_player_pool[i]);
+            aix_exec_handle(&aix_player_pool[i]);
         }
     }
 }
 
-void TLobby__sub_803CE2A0(AixPlayer *player) {
+void aix_exec_handle(AixPlayer *player) {
     AixDemuxer *demuxer;
     AdxtPlayer **tracks;
     s32 i;
@@ -38,13 +38,13 @@ void TLobby__sub_803CE2A0(AixPlayer *player) {
             set_adx_stream_end_sector(player->stream, (offset + size) / 2048);
             set_adx_stream_completion(player->stream, update_file_stream_range, player);
             set_client_slot(demuxer, 0);
-            if ((s32)player->loop == 1 || (s32)player->continue_segments == 1) {
+            if (player->loop == 1 || player->continue_segments == 1) {
                 set_flag_4(demuxer, 1);
             }
             count = get_demuxer_layer_count(demuxer);
             for (i = 0; i < count; i++) {
                 set_sync_mode_flag(player->tracks[i], 1);
-                TLobby__sub_803C9E38(tracks[i], player->track_inputs[i]);
+                adxt_start_sj(tracks[i], player->track_inputs[i]);
             }
             player->state = 2;
         }
@@ -76,13 +76,13 @@ extern "C" void update_file_stream_range(void *context) {
     s32 offset;
     s32 size;
 
-    player->segment = player->segment + 1;
-    if (((s32) player->loop == 1) && ((s32) player->segment >= (s32) player->loop_end)) {
-        player->segment = (s32) player->loop_start;
+    player->segment++;
+    if (player->loop == 1 && player->segment >= player->loop_end) {
+        player->segment = player->loop_start;
     }
-    if (((s32) player->continue_segments == 1) && ((s32) player->segment < get_demuxer_segment_count(player->demuxer))) {
+    if (player->continue_segments == 1 && player->segment < get_demuxer_segment_count(player->demuxer)) {
         aix_interrupt_lock_enter();
-        get_entry_pair(player->demuxer, (s32)((int) (player->segment)), &offset, &size);
+        get_entry_pair(player->demuxer, player->segment, &offset, &size);
         seek_adx_stream_sector(player->stream, offset / 2048);
         set_adx_stream_end_sector(player->stream, (offset + size) / 2048);
         init_adx_stream_position(player->stream);

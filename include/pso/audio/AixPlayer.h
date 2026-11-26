@@ -74,8 +74,8 @@ struct AixPlayer {
     AdxStreamFile *stream;
     AdxtPlayer *tracks[33];
     SjRingBuffer *track_inputs[70];
-    u8 loop;
-    u8 continue_segments;
+    s8 loop;
+    s8 continue_segments;
     u8 pad_1aa[6];
     s32 segment;
     s32 start_segment;
@@ -89,7 +89,7 @@ LAYOUT_ASSERT(AixDemuxer_size, sizeof(AixDemuxer) == 0x4D8);
 LAYOUT_ASSERT(AixPlayer_size, sizeof(AixPlayer) == 0x1C0);
 
 extern "C" {
-void TLobby__sub_803CD99C(void);
+void aix_demuxer_exec_server(void);
 s32 demux_stream_chunks(AixDemuxer *demuxer);
 s32 parse_aix_header(u8 *data, s32 size, AixHeader *header);
 void get_entry_pair(AixDemuxer *demuxer, s32 segment, s32 *offset, s32 *size);
@@ -98,8 +98,8 @@ s32 get_demuxer_segment_count(AixDemuxer *demuxer);
 void set_flag_4(AixDemuxer *demuxer, s8 continuous);
 void set_client_slot(AixDemuxer *demuxer, s8 paused);
 s32 get_demuxer_state(AixDemuxer *demuxer);
-void TLobby__sub_803CE240(void);
-void TLobby__sub_803CE2A0(AixPlayer *player);
+void aix_exec_server(void);
+void aix_exec_handle(AixPlayer *player);
 }
 
 #endif

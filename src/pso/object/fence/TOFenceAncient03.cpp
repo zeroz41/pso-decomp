@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/fence/TOFenceAncient03.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"

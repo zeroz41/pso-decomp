@@ -14,9 +14,5 @@ extern u8 *resource_decompress_buffer;
 
 extern s32 sound_requests_enabled;
 s32 reset_sound_request_state(void);
-extern "C" {
-void fn_800FFE0C(void);
-void fn_800FFE10(void);
-}
 
 #endif

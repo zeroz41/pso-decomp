@@ -41,9 +41,9 @@ struct TOMineTrap : public TOMine {
     // of range or this is a boss or no-item area; NULL then.
     static TOMineTrap *create_placed_trap(TObjBase *owner, s16 kind, s16 slot);
     void*get_mine_data_ptr();
-    virtual s32 select_melee_contact_body(void *, f32);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
     void send_state_packet(u16 idx);
     s32 show_owner_message(TObjChara *player);
 };

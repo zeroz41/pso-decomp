@@ -34,6 +34,9 @@ LAYOUT_ASSERT(TWindowComCardFollower_size, sizeof(TWindowComCardFollower) == 0x7
 // The help-icon column a TObjChara status effect type is shown with.
 s32 get_status_effect_icon_index(u32 effect_type);
 
+// The help-icon column of the player's place in a photon blast chain (columns from 10 on).
+s32 get_chain_help_mode(s32 chain_slot);
+
 // Defined in TWindowComCardFollower.cpp.
 extern "C" void request_active_window_close(void);
 

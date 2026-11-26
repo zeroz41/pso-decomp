@@ -64,7 +64,7 @@ extern "C" {
 // C++ does not let alloc_item_buffers take.
 void *__construct_new_array(void *block, void (*ctor)(), void *dtor, u32 size, u32 n);
 void __ct__14BankItemRecordFv();
-s32 get_max_stack_size__9TItemDataFv(void *);
+}
 s32 add_to_bank_stack(TItemData *item, s32 amount, s32 slot);
 
 s32 TCheckRoomSequence::check_room_ready() {
@@ -111,7 +111,6 @@ void TCheckRoomSequence::notify_quest_list_vm(TShopWindowBase *sequence) {
         sequence->display_shop_message(0x1A, 1);
         sequence->set_state(2);
     }
-}
 }
 s32 get_bank_meseta_capacity(s32 i);
 s32 bank_credit_meseta(s32 v, s32 i);
@@ -748,32 +747,23 @@ void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) 
 
 #pragma optimization_level 1
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
-  saddr base = (saddr) bank_item_records_by_slot[slot];
-  BankItemRecord *t;
-  s32 limited;
+  BankItemRecord *records = bank_item_records_by_slot[slot];
+  s32 max;
   if (idx > 199)
   {
     return 0;
   }
-  if (((BankItemRecord *)(base + (idx * 0x18)))->is_empty() != 0)
+  if (records[idx].is_empty() != 0)
   {
     return 0;
   }
-  TCheckRoomSequence::copy_data((BankItemRecord *)(base + (idx * 0x18)), data);
-  t = (BankItemRecord *) (base + (idx * 0x18));
-  *out = t->amount;
+  TCheckRoomSequence::copy_data(&records[idx], data);
+  *out = records[idx].amount;
+  max = ((TItemData *)data)->get_max_stack_size();
+  if (max < *out)
   {
-    saddr r = ((s32 (*)(void *, void *))get_max_stack_size__9TItemDataFv)(data, t);
-    if (r < (*out))
-    {
-      *out = r;
-      r = base + (idx * 0x18);
-      {
-        BankItemRecord *t2 = (BankItemRecord *) r;
-        limited = *out;
-        t2->amount = limited;
-      }
-    }
+    *out = max;
+    records[idx].amount = *out;
   }
   return 1;
 }
@@ -825,7 +815,7 @@ void copy_bank_to_card_window(s32 slot) {
         if (w != 0) {
             w->bank_meseta = bank_meseta_by_slot[slot];
             w->bank_item_count = bank_item_count_by_slot[slot];
-            move_data(w->bank_items, bank_item_records_by_slot[slot], 0x12C0);
+            move_data(w->bank_items, bank_item_records_by_slot[slot], sizeof(w->bank_items));
         }
     }
 }
@@ -838,7 +828,7 @@ void copy_bank_from_card_window(s32 slot) {
     if (w != 0) {
         bank_meseta_by_slot[slot] = w->bank_meseta;
         bank_item_count_by_slot[slot] = w->bank_item_count;
-        move_data(((bank_item_records_by_slot[slot])), w->bank_items, 0x12C0);
+        move_data(bank_item_records_by_slot[slot], w->bank_items, sizeof(w->bank_items));
     }
 }
 #pragma pop

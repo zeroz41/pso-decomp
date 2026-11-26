@@ -37,23 +37,14 @@ struct TKeyBoardControl : public TObject {
     static void update();
     static s32 get_input();
     static s32 get_key_state();
-    static void reset();
-    static s32 any_pad_input_active();
-    static s32 check_reset_button();
-    static s32 check_and_read(s32 port);
-    static s32 read_input(u8 key);
-    static s32 is_key_down(s32 key);
     static void alloc_buffer();
     void clear_keyboard_flag60_bit1();
     void set_composer_flag62_bit4();
     static void update_main_menu_scene();
+    static void clear_main_menu_scene_flag();
     static void update_menu_scene();
     static void init_char_select(TObject *fade);
     static void dispatch_select_phase(TObject *fade);
-    static s32 get_ascii_key();
-    static s32 read_key_checked(u8 key);
-    static void update_input_frame();
-    static void init_pad_state();
     static s16 get_function_key_menu(void *menu);
 };
 

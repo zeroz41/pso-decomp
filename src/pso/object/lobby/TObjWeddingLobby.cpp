@@ -95,8 +95,7 @@ void TObjWeddingLobby::free_resources() {
 }
 
 void TObjWeddingLobby::load_resources() {
-    BmlResource *resource = new BmlResource(5, &bm_obj_lobby_bell_resource_descriptor, 0, 0, NULL);
-    resource_bundle = resource;
+    resource_bundle = new BmlResource(5, &bm_obj_lobby_bell_resource_descriptor, 0, 0, NULL);
     lobby_texlist = get_lobby_main_texlist();
 }
 

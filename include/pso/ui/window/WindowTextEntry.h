@@ -21,11 +21,16 @@ public:
     virtual ~WindowTextEntry();
     virtual void update();
     virtual void render(WindowDrawContext *context);
+    // Sets width and height from the text, wrapping lines at max_width.
+    void measure_text(f32 max_width);
     char *get_text();
-    // Set by render when the revealed text fit completely.
-    int is_fully_shown();
-    // Shows the whole text at once.
+    // Shows the whole text at once (reveal_pos = 900000).
     void reveal_all();
+    // Flag 0x10: render drew the text to its end.
+    int is_fully_shown();
+    // Shows the name of the player with client_id in its name colour (red while dead); hides the entry
+    // when there is no such active player.
+    void show_player_name(s32 client_id);
 };
 
 LAYOUT_ASSERT(WindowTextEntry_size, sizeof(WindowTextEntry) == 0x2C);

@@ -84,7 +84,7 @@ s32 *canadin_leader_node2_diffuse;
 s32 *canadin_node3_diffuse;
 s32 *canadin_node2_diffuse;
 
-TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600 };
+EnemyMoveParams canadin_setup_param_block = { 225.0f, 0.0f, 0x600 };
 CollisionBody canadin_collision_body = { { 0.0f, 0.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003 };
 // The Canadin's two models and six motions, and the archive that holds them.
 const char *bm_ene_me1_mb_model_names[3] = {
@@ -146,7 +146,6 @@ void TObjEneMe1Canadin::load_resources() {
     s32 i;
     NJS_OBJECT *model;
     NJS_OBJECT *model2;
-    TBreakUpMdlData *p;
 
     canadin_node_origin.x = 0.0f;
     canadin_node_origin.y = 0.0f;
@@ -163,10 +162,8 @@ void TObjEneMe1Canadin::load_resources() {
         canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
     }
     me1_canadin_render_node_index = 0;
-    p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);
-    canadin_leader_breakup_model = p;
-    p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[0].model);
-    canadin_breakup_model = p;
+    canadin_leader_breakup_model = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);
+    canadin_breakup_model = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[0].model);
     model = bm_ene_me1_mb_resource->models[1].model;
     canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 3)->model)->polygon_list + 2);
     canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 2)->model)->polygon_list + 2);
@@ -289,7 +286,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     fade_step_timer = 0;
     fade_cursor = 0;
     copy_pos();
-    TObjEneDD::set_part_position(this, bodies, 0);
+    TObjEneDD::set_part_position(this, &bodies->offset, 0);
     mode = 0;
     dispatch_action(mode, 4);
     if (leader != NULL) {
@@ -485,7 +482,7 @@ s32 TObjEneMe1Canadin::find_attack_target(f32 *out, f32 squared_range) {
     s32 i;
     found = 0;
     *out = -1.0f;
-    count = collect_enemy_target_candidates(this, list, squared_range);
+    count = collect_enemy_target_candidates(list, squared_range);
     for (i = 0; i < count; i++) {
         player = get_player_by_client_id(list[i].id);
         if (player != current_target) {
@@ -806,7 +803,7 @@ void TObjEneMe1Canadin::state_appear(s32 msg) {
         this->move_action = 4;
         this->fade_mode = 1;
         this->fade.start_fade_in();
-        play_appear_effects((saddr)&this->position);
+        play_appear_effects(&this->position);
         return;
     case 3:
         if (this->fade.advance_toward_max() != 0) {
@@ -1073,7 +1070,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             } else {
                 this->advance_state_5_to_4();
             }
-            enemy_turn_and_move_xz_slide(this, 0x200, 0.5f);
+            enemy_turn_and_move_xz_slide(0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1281,7 +1278,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                enemy_turn_and_move_xz_clamped(this, 0x200, this->kind_params->melee_speed);
+                enemy_turn_and_move_xz_clamped(0x200, this->kind_params->melee_speed);
             }
             this->noop();
             break;
@@ -1302,7 +1299,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 this->attack_count++;
                 if (this->is_hover_low() != 0 && this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                     this->current_target->receive_physical_attack(this, 1.0f);
-                    this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                    this->current_target->apply_knockback_from_attacker(this, 3.0f);
                     if ((s32)is_player_entity_id(this->current_target->get_entity_id()) != 0 && is_target_android(this->current_target) != 0 && this->random_ratio() < 0.05f) {
                         this->current_target->apply_shock_status();
                         this->current_target->sync_enemy_state(0);
@@ -1575,7 +1572,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         }
         this->update_velocity();
         this->approach_hover_y(this->position.y + this->hover_height);
-        enemy_turn_and_move_xz_clamped(this, 0x200, 0.68f);
+        enemy_turn_and_move_xz_clamped(0x200, 0.68f);
         this->rotation_z += 0x2000;
         this->stage++;
         if (this->stage >= 0x96) {

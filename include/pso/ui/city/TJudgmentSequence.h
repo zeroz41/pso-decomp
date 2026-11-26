@@ -23,6 +23,8 @@ struct TJudgmentSequence : public TShopSequence {
     void open_judgment_window();
     static void on_judgment_closed(TShopWindowBase *window);
     static void on_judgment_cancelled(TShopWindowBase *window);
+    static void release_slot_flags();
+    static void init_slot_flags();
 };
 
 LAYOUT_ASSERT(TJudgmentSequence_size, sizeof(TJudgmentSequence) == 0x34);
@@ -30,8 +32,6 @@ LAYOUT_ASSERT(TJudgmentSequence_size, sizeof(TJudgmentSequence) == 0x34);
 // --- C functions defined in TJudgmentSequence.cpp ---
 extern "C" {
 void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window);
-void TJudgmentSequence__sub_80216030(void);
-void TJudgmentSequence__sub_80216058(void);
 }
 
 #endif

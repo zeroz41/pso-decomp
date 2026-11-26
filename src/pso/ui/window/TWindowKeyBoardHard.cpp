@@ -16,7 +16,7 @@ u8 keyboard_key_repeat_mask_table[4] = { 0x1D, 0x1F, 0x07, 0x00 };
 const u8 *keyboard_accent_base_chars = (const u8 *)"AaEeIiOoUuNnYy";
 
 
-void TWindowKeyBoardHard::sub_8025EC04() {
+void TWindowKeyBoardHard::reset_status_text() {
     mode_label_timer = 0;
     input_flags |= 0x100;
 }
@@ -35,7 +35,7 @@ s32 TWindowKeyBoardHard::has_non_modifier_key() {
     u32 i;
     u32 n;
     u8 c;
-    if (TKeyBoardControl__sub_801A58B0() != 0) {
+    if (is_keyboard_control_held() != 0) {
         return 0;
     }
     n = hardware_keyboard_state.get_pending_count();
@@ -308,7 +308,7 @@ s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
         &TWindowKeyBoardBase::key_none,
         &TWindowKeyBoardBase::key_home,
         &TWindowKeyBoardBase::key_end,
-        &TWindowKeyBoardBase::sub_8025B92C,
+        &TWindowKeyBoardBase::convert_composition,
         &TWindowKeyBoardBase::update_input_state,
         &TWindowKeyBoardBase::key_backspace,
         &TWindowKeyBoardBase::key_delete,
@@ -551,7 +551,7 @@ void TWindowKeyBoardHard::set_mode0() {
 
 void TWindowKeyBoardHard::release_keyboard() {
     if (m_control != NULL) {
-        m_control->sub_8025CC48();
+        m_control->load_input_mode_options();
     }
 }
 
@@ -612,7 +612,7 @@ void TWindowKeyBoardHard::run_task() {
                 this->input_flags = (s32) (this->input_flags & 0xFFFFFEFF);
                 m_control->composition_flags &= ~0x40;
                 if (!(this->input_flags & 0x40)) {
-                    m_control->sub_8025CC48();
+                    m_control->load_input_mode_options();
                 }
             }
             update_modifier_flags();

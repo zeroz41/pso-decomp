@@ -14,7 +14,7 @@ struct TObjContainerJungEnemy : public TObjContainerCommon {
     virtual void debug_print_item_box_info();
     virtual void apply_saved_state(s16 *, s32);
     virtual void update_state();
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
     NJS_OBJECT *body_model;
     NJS_OBJECT *large_fragment_model;
     NJS_OBJECT *small_fragment_model;

@@ -116,7 +116,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/system/MainPhaseState.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/player/TPlyCharData.h"
@@ -168,7 +168,6 @@ void record_damage_stats(uaddr mine_trap, u32 att, s16 damage);
 void draw_player_status(saddr window, void *player, saddr str);
 void show_sub_status_window(void *window, s32 *str, s32 *name);
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
-void recreate_all_players(void);
 
 }
 extern "C" {
@@ -818,7 +817,7 @@ void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
     rotate_matrix_y(0, rotation_y);
     rotate_matrix_x(0, -0x4000);
     if (scale != NULL) {
-        scale_matrix(0, scale->x, scale->z, (player_one));
+        scale_matrix(0, scale->x, scale->z, player_one);
     }
     draw_blob_shadow(force_draw);
     pop_matrix();
@@ -1373,7 +1372,7 @@ s32 TObjPlayer::update_target_lock() {
     f32 lock_target_distance_sq;
     TLockOnCursor *cursor;
     u16 lock_target_id;
-    void *target;
+    TObjPlayer *target;
 
     cursor = this->lock_on_cursor;
     if (cursor == NULL) {
@@ -1386,13 +1385,13 @@ s32 TObjPlayer::update_target_lock() {
         if (lock_target_id == 0xFFFF) {
             return 0;
         }
-        if ((target = find_entity_by_id(lock_target_id)) == NULL) {
+        if ((target = (TObjPlayer *)find_entity_by_id(lock_target_id)) == NULL) {
             return 0;
         }
         if (!(lock_target_distance_sq < player_lock_range_sq)) {
             goto block_17;
         }
-        if (is_target_in_facing_cone(((TObjPlayer *)target)->get_position_ptr()) == 0) {
+        if (is_target_in_facing_cone(target->get_position_ptr()) == 0) {
             goto block_17;
         }
         this->actorFlags = (s32) (this->actorFlags | 0x100000);
@@ -1402,13 +1401,13 @@ s32 TObjPlayer::update_target_lock() {
         this->actorFlags = (s32) (this->actorFlags & 0xFFEFFFFF);
         return 0;
     }
-    if ((target = find_entity_by_id(lock_target_id)) == NULL) {
+    if ((target = (TObjPlayer *)find_entity_by_id(lock_target_id)) == NULL) {
         return 0;
     }
     if (lock_target_distance_sq > player_lock_release_range_sq) {
         goto clear_and_return;
     }
-    if (is_target_in_facing_cone(((TObjPlayer *)target)->get_position_ptr()) != 0) {
+    if (is_target_in_facing_cone(target->get_position_ptr()) != 0) {
         goto block_17;
     }
 clear_and_return:
@@ -2323,7 +2322,7 @@ void TObjPlayer::update_position_history() {
         this->set_position_history_entry(this->movement_history.index, this->position.x, this->position.z);
     }
     VecCopy(&this->prev_position, &this->position);
-    this->contact_surface.update_field8();
+    this->contact_surface.save_prev_flags();
 }
 
 void TObjPlayer::update_status_effects() {
@@ -2744,12 +2743,12 @@ void TObjPlayer::damp_planar_velocity() {
     if (this->velocity.x < player_velocity_epsilon && this->velocity.x > player_velocity_neg_epsilon) {
         this->velocity.x = player_zero;
     } else {
-        this->velocity.x *= (player_half);
+        this->velocity.x *= player_half;
     }
     if (this->velocity.z < player_velocity_epsilon && this->velocity.z > player_velocity_neg_epsilon) {
         this->velocity.z = player_zero;
     } else {
-        this->velocity.z *= (player_half);
+        this->velocity.z *= player_half;
     }
 }
 
@@ -3085,7 +3084,7 @@ void TObjPlayer::init_trait_flags() {
 }
 
 void send_impose_hold(TObjPlayer *player, int frames) {
-    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, (player_zero));
+    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, player_zero);
 }
 
 
@@ -3968,7 +3967,7 @@ void TObjPlayer::prepare_hospital_return() {
 
 void handle_6x34(void) {  }
 
-int TObjPlayer::check_player_state_flag_2() { return test_flags_any(&death_flags.bits, 2); }
+int TObjPlayer::check_player_state_flag_2() { return death_flags.test_flags_any(2); }
 
 void TObjPlayer::set_return_hunter() { set_battle_flag(1); }
 
@@ -4615,7 +4614,7 @@ s16 TObjPlayer::get_mode_animation(u32 mode) {
     }
 }
 
-int TObjPlayer::get_field_828() { return this->pk_state.is_enabled(); }
+int TObjPlayer::is_pk_enabled() { return this->pk_state.is_enabled(); }
 
 void TObjPlayer::send_enable_pk_mode(TObjPlayer *player) {
     G_EnablePKModeForPlayer_6x1B pkt;
@@ -4691,13 +4690,13 @@ void TObjPlayer::set_state_flag_604B() {
     this->pk_state.disable();
 }
 
-void *TObjPlayer::find_revival_item() {
+TItemList *TObjPlayer::find_revival_item() {
     TItemData item;
     item.init();
     item.data1.data_u8[0] = 1;
     item.data1.data_u8[1] = 2;
     item.data1.data_u8[2] = 0x52;
-    void *found = inventory_objects->set_mode_and_refresh_object(&item);
+    TItemList *found = inventory_objects->set_mode_and_refresh_object(&item);
     if (found == NULL) {
         item.init();
         item.data1.data_u8[0] = 3;
@@ -4714,7 +4713,7 @@ s32 TObjPlayer::try_pickup_item() {
         return 0;
     }
     TItemList *node;
-    if ((node = (TItemList *)this->find_revival_item()) != NULL) {
+    if ((node = this->find_revival_item()) != NULL) {
         owner_if_alive = node->get_owner_if_alive();
         if (owner_if_alive == 0) {
             return 0;
@@ -4887,7 +4886,7 @@ s32 TTecCtrl::is_technique_ready() {
     int result;
 
     result = 0;
-    if ((TObjPlayer::get_player_count() == 1) && (TObjPlayer::get_rule_field_0() == 1)) {
+    if ((TObjPlayer::get_player_count() == 1) && (TObjPlayer::get_rules_active() == 1)) {
         result = 1;
     }
     return (u8)result;
@@ -4907,7 +4906,7 @@ void apply_battle_rules_to_players() {
             continue;
         }
         ((TLobby *)&p->battle_score)->update_all_children();
-        if (q->get_rule_field_0() == 1) {
+        if (q->get_rules_active() == 1) {
             p->set_state_flag_6043();
             if (p->is_locally_controlled() != 0) {
                 lobby_player_count = 1;
@@ -4986,7 +4985,7 @@ void apply_battle_rules_to_players() {
         p->set_flag_4096();
         p->recover_full();
         p->cancel_status_effects();
-        ((TObjPlayer *)(&lobby_char_slot_array[i]))->copy_lobby_header((saddr)p);
+        lobby_char_slot_array[i].copy_from_player(p);
     }
 }
 
@@ -5391,7 +5390,7 @@ void TObjPlayer::set_action_provider_variant(s16 variant) {
 
 s16 TObjPlayer::get_handle_value() { return (s16)(((TObjPlayer *)this->action_provider)->sub_802a7290_fwd()); }
 
-f32 TObjPlayer::receive_physical_attack(void *attacker, f32 scale) {
+f32 TObjPlayer::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (obj_isState2_324() != 0) {
         return player_zero;
     }
@@ -5555,7 +5554,7 @@ s32 TObjPlayer::update_movement_by_screen() {
     if (is_single_screen() != 0) {
         return get_battle_ctrl_default();
     }
-    return TLobby__sub_801C2678();
+    return get_ranked_battle_ctrl_value();
 }
 
 void TObjPlayer::refill_traps() {
@@ -5631,7 +5630,7 @@ void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command) {
 
 f32 TObjPlayer::get_battle_value(u16 client, s16 technique) {
     if (get_player_by_client_id(client) == NULL) {
-        return (player_zero);
+        return player_zero;
     }
     return get_class_technique_boost(get_class_index(), technique);
 }

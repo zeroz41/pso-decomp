@@ -25,7 +25,7 @@ static const u32 joint_white_rgb = 0x00FFFFFF;
 __declspec(section ".data") s32 TBoss2Joint::param_table[2] = {0x10, 0x10};
 __declspec(section ".data") s32 TBoss2Joint::attack_stats[2] = {0xF, 0xF};
 __declspec(section ".data") s32 TBoss2Joint::resistance_stats[2] = {0x10, 0x10};
-BossMovementParameters TBoss2Joint::movement = {{225.0f, 0.0f, 0x600}};
+EnemyMoveParams TBoss2Joint::movement = {225.0f, 0.0f, 0x600};
 CollisionBody TBoss2Joint::body = {{0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, 0, 0x8003};
 
 void TBoss2Joint::render() {}

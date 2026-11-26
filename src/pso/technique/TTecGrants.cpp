@@ -68,7 +68,7 @@ struct GrantsEffectEntry { s32 effect; u32 flags; s32 pad_08; };
 
 struct GrantsEffectSet { const GrantsEffectEntry *ents; u32 count; };
 
-// Per level tier (TObjPlayer::get_level_tier): the particle emitters TTecGrantsEffect keeps alive and
+// Per level tier (get_technique_level_tier): the particle emitters TTecGrantsEffect keeps alive and
 // the effects it spawns when it ends.
 // inferred names: grants_emitter_parts_<tier> and grants_effect_entries_<tier> are the rows of
 // grants_effect_emitter_table and technique_effect_entry_table for each tier.
@@ -100,13 +100,13 @@ const char *tec_grants_class_name = "TTecGrants";
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 #pragma defer_codegen on
 
-TTecGrants::TTecGrants(saddr owner, saddr origin, saddr target_list, saddr level) : TTecCircle(owner, origin, level) {
+TTecGrants::TTecGrants(TObjBase *owner, Vec *origin, TargetCursorList *target_list, s32 level) : TTecCircle(owner, origin, level) {
     m_name = tec_grants_class_name;
     init_parameters();
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    copy_technique_target_list(&targets, target_list);
     frames = 0;
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
 }
 
@@ -115,9 +115,9 @@ TTecGrants::~TTecGrants() {
 }
 
 void TTecGrants::run_task() {
-    uaddr entity;
+    TObjCollidable *entity;
     source = find_entity_by_id(sourceId);
-    if (source == 0) {
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -125,21 +125,21 @@ void TTecGrants::run_task() {
         queue_destruction();
         return;
     }
-    entity = (uaddr)find_entity_by_id(targets.records[0].id);
-    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (frames == 0)) {
-        new TTecGrantsEffect((u8 *)entity, level, tl_07);
+    entity = find_entity_by_id(targets.records[0].id);
+    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0) && (frames == 0)) {
+        new TTecGrantsEffect(entity, level, tl_07);
     }
     frames = frames + 1;
     if (frames > 0x1E) {
-        if ((entity != 0) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
+        if ((entity != NULL) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0)) {
             apply_to_target((TObjChara *)entity);
         }
         queue_destruction();
     }
 }
 
-void TTecGrants::create(void *source, void *origin, void *targets, s32 level) {
-    new TTecGrants((saddr)source, (saddr)origin, (saddr)targets, level);
+void TTecGrants::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecGrants(source, origin, targets, level);
 }
 
 void TTecGrants::apply_to_target(TObjChara *target) {
@@ -151,18 +151,18 @@ void TTecGrants::apply_to_target(TObjChara *target) {
 
 void TTecGrants::render() {  }
 
-TTecGrantsEffect::TTecGrantsEffect(u8 *src, s32 level, TObject *parent) : TObject(parent) {
+TTecGrantsEffect::TTecGrantsEffect(TObjBase *src, s32 level, TObject *parent) : TObject(parent) {
     u32 i;
-    VecCopy(&position, (const Vec *)(src + 0x38));
+    VecCopy(&position, &src->position);
     timer = 0;
-    owner_id = ((TObjBase *)(src))->get_entity_id();
+    owner_id = src->get_entity_id();
     this->level = level;
     if (this->level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {
         this->level = 0x1E;
     }
-    tier = TObjPlayer::get_level_tier(this->level);
+    tier = get_technique_level_tier(this->level);
     emitters = (TParticleCtrl **)mem_alloc(grants_effect_emitter_table[tier].count * sizeof(TParticleCtrl *));
     for (i = 0; i < grants_effect_emitter_table[tier].count; i++) {
         emitters[i] = spawn_continuous_particle_effect_with_flags(&position, grants_effect_emitter_table[tier].parts[i].id, 0x10);

@@ -16,7 +16,6 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -106,22 +105,22 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
         punch_flags.set(2);
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)rocket_punch_return_timer, 0x3C);
         punch_flags.set(4);
-        if (launch_shot((u8 *)&shot_origins[0], 0, 0, 1) == 1) {
+        if (launch_shot(&shot_origins[0], 0, 0, 1) == 1) {
             punch_flags.clear(4);
-            launch_shot((u8 *)&shot_origins[1], 0, 0, 0);
+            launch_shot(&shot_origins[1], 0, 0, 0);
             return;
         }
         punch_flags.clear(4);
-        launch_shot((u8 *)&shot_origins[1], 0, 0, 1);
+        launch_shot(&shot_origins[1], 0, 0, 1);
     }
 }
 
 void TItemWeaponRocketPunch::transform_model_node() {
     void *model;
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
-        if (test_flags_any(&punch_flags.bits, 2) == 0) {
-            if (test_flags_any(&punch_flags.bits, 1)) {
+        if (punch_flags.test_flags_any(2) == 0) {
+            if (punch_flags.test_flags_any(1)) {
                 model = second_model;
             } else {
                 model = model_data[1];
@@ -160,7 +159,7 @@ TItemWeaponRocketPunch::TItemWeaponRocketPunch(TObject *parent, u8 *item) : TIte
     punch_flags.reset();
 }
 
-TItem *TObjPlayer::create_trade_action_state(u8 *item) {
+TItem *TItemWeaponRocketPunch::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponRocketPunch(tl_05, item);
     }
@@ -178,7 +177,7 @@ void rocket_punch_return_timer(uaddr weapon) {
 }
 
 NJS_OBJECT *TItemWeaponRocketPunch::get_shot_model() {
-    if (test_flags_any(&punch_flags.bits, 4) != 0) {
+    if (punch_flags.test_flags_any(4) != 0) {
         return second_model;
     }
     return (NJS_OBJECT *)model_data[1];

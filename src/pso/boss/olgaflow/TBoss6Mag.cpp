@@ -40,6 +40,8 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/object/TObjControl.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -68,6 +70,10 @@ TBoss6MagMotionEntry boss6_type2_motion_table[5] = {
 __declspec(section ".data") TBoss6Mag *TBoss6Mag::instance_slots[2] = {
     NULL, NULL,
 };
+
+TBoss6Mag *TBoss6Type2::create_mag(TBoss6MagSpawnParams *params) {
+    return new TBoss6Mag(new TObjControl(tl_04), params);
+}
 
 void copy_mag_target(TBoss6MagTarget *dst, TBoss6MagTarget *src) {
     dst->client_id = src->client_id;
@@ -252,14 +258,14 @@ void TBoss6Mag::run_death_reaction() {
     }
 }
 
-f32 TBoss6Mag::receive_physical_attack(void *attacker, f32 scale) {
+f32 TBoss6Mag::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (attackable != 0) {
         return TObjChara::receive_physical_attack(attacker, scale);
     }
     return 0.0f;
 }
 
-f32 TBoss6Mag::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags) {
+f32 TBoss6Mag::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *collision, s32 tech, s32 flags) {
     while (attackable == 0) {
         if (payload.kind != 0x14 && TObjEneDD::query_teammate_state() == 0) {
             return 0.0f;

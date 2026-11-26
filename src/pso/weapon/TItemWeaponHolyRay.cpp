@@ -2,8 +2,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponHolyRay.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012C128.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/effect/item/TItemEffNeedle.h"
@@ -18,7 +17,7 @@ void TItemWeaponHolyRay::update_attack() { ::add_angle_clamped(&rotation_x, 1820
 void TItemWeaponHolyRay::transform_model_node() {
     s32 player_list;
 
-    player_list = TObjPlayer::get_player_list();
+    player_list = get_model_node_counter();
     switch (player_list) {
     case 1:
         rotate_matrix_z(0, -rotation_z);

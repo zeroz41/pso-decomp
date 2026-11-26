@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ProjectedColorDraw.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/ResourceFile.h"
@@ -51,7 +50,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
@@ -61,7 +60,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_803DE778.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/system/BmlResource.h"
 
 static s16 debug_chunk_a_strips[59] = {
     0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,
@@ -186,11 +185,6 @@ NJS_OBJECT *debug_chunk_object = &debug_chunk_b_object;
 NJS_OBJECT *debug_cylinder_object = &debug_chunk_a_object;
 
 LAYOUT_ASSERT(ScreenSnapshot_size, sizeof(ScreenSnapshot) == 0x1818C);
-extern "C" {
-extern s32 memcard_access_active;
-}
-f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
-void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 
 
 u8 boss2_tunnel_state_flag;
@@ -451,38 +445,38 @@ void AccelerationCurve::reset_coords() {
 }
 
 
-void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed) {
+void AccelerationCurve::init(f32 accel, f32 decel, f32 dist, f32 peak) {
     f32 sq;
     f32 up;
     f32 down;
     f32 p;
-    c->accel = a;
-    if (c->accel <= 0.0f) {
-        c->accel = 0.1f;
+    this->accel = accel;
+    if (this->accel <= 0.0f) {
+        this->accel = 0.1f;
     }
-    c->decel = d;
-    if (c->decel >= 0.0f) {
-        c->decel = (-0.1f);
+    this->decel = decel;
+    if (this->decel >= 0.0f) {
+        this->decel = (-0.1f);
     }
-    sq = speed * speed;
-    c->dist = length;
-    c->peak = speed;
-    up = (0.5f * sq) / c->accel;
-    down = (0.5f * -sq) / c->decel;
-    if (up + down >= c->dist) {
-        f32 k2 = 2.0f * c->accel;
-        c->peak = newton_sqrtf((c->dist * (k2 *= c->decel)) / (c->decel - c->accel));
-        sq = c->peak * c->peak;
-        c->accelEnd = c->decelStart = c->peak / c->accel;
-        c->accelDist = c->decelPos = (0.5f * sq) / c->accel;
-        c->end = c->decelStart + (-c->peak / c->decel);
+    sq = peak * peak;
+    this->dist = dist;
+    this->peak = peak;
+    up = (0.5f * sq) / this->accel;
+    down = (0.5f * -sq) / this->decel;
+    if (up + down >= this->dist) {
+        f32 k2 = 2.0f * this->accel;
+        this->peak = newton_sqrtf((this->dist * (k2 *= this->decel)) / (this->decel - this->accel));
+        sq = this->peak * this->peak;
+        this->accelEnd = this->decelStart = this->peak / this->accel;
+        this->accelDist = this->decelPos = (0.5f * sq) / this->accel;
+        this->end = this->decelStart + (-this->peak / this->decel);
         return;
     }
-    c->accelDist = up;
-    c->accelEnd = c->peak / c->accel;
-    c->decelPos = c->dist - down;
-    c->decelStart = c->accelEnd + (c->decelPos - up) / c->peak;
-    c->end = c->decelStart + (-c->peak / c->decel);
+    this->accelDist = up;
+    this->accelEnd = this->peak / this->accel;
+    this->decelPos = this->dist - down;
+    this->decelStart = this->accelEnd + (this->decelPos - up) / this->peak;
+    this->end = this->decelStart + (-this->peak / this->decel);
 }
 
 int AccelerationCurve::check_param_threshold(f32 t) {
@@ -491,30 +485,30 @@ int AccelerationCurve::check_param_threshold(f32 t) {
 
 #pragma push
 #pragma fp_contract on
-f32 sample_acceleration_curve(AccelerationCurve *c, f32 t) {
+f32 AccelerationCurve::sample(f32 t) {
     if (t < 0.0f) {
         return 0.0f;
     }
-    if (t < c->accelEnd) {
+    if (t < this->accelEnd) {
         {
-        f32 k = 0.5f * c->accel;
+        f32 k = 0.5f * this->accel;
         k *= t;
         return t * k;
         }
     }
-    if (t < c->decelStart) {
-        t -= c->accelEnd;
-        return t * c->peak + c->accelDist;
+    if (t < this->decelStart) {
+        t -= this->accelEnd;
+        return t * this->peak + this->accelDist;
     }
-    if (t < c->end) {
-        t = c->end - t;
+    if (t < this->end) {
+        t = this->end - t;
         {
-        f32 k = 0.5f * c->decel;
+        f32 k = 0.5f * this->decel;
         k *= t;
-        return t * k + c->dist;
+        return t * k + this->dist;
         }
     }
-    return c->dist;
+    return this->dist;
 }
 
 #pragma pop
@@ -861,8 +855,8 @@ s32 take_snapshot(void) {
     copy_screen_to_texture(mode, &snapshot_frame_center);
     set_display_copy_filter(filter);
     render_tick();
-    if (TLobby::tmp_buf_is_free() != 0) {
-        frame = (SnapshotFrameBuffer *)TLobby::tmp_buf_use_req(buffer_owner);
+    if (tmp_buf_is_free() != 0) {
+        frame = (SnapshotFrameBuffer *)tmp_buf_use_req(buffer_owner);
         p = (u8 *)frame;
         sum = (u32 *)p;
         snap = (ScreenSnapshot *)p;
@@ -970,7 +964,7 @@ s32 take_snapshot(void) {
                 TObjBoss2Tunnel::show_message_and_wait(-2);
             }
         }
-        TLobby::tmp_buf_release(buffer_owner);
+        tmp_buf_release(buffer_owner);
         return 1;
     }
     return 0;
@@ -1198,14 +1192,14 @@ BOOL TObjBoss2Tunnel::verify_snapshot_checksum() {
 }
 
 // Draws the captured snapshot at pos (default 192,144), 345.6 x 259.2.
-void draw_screen_snapshot(uaddr pos) {
+void draw_screen_snapshot(f32 *pos) {
     f32 position[2];
     f32 size[2];
-    if (pos == 0U) {
+    if (pos == NULL) {
         position[0] = 192.0f;
         position[1] = 144.0f;
     } else {
-        copy_vec2(position, (void *)pos);
+        copy_vec2(position, pos);
     }
     size[0] = 345.6f;
     size[1] = 259.2f;

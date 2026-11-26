@@ -22,7 +22,7 @@ const char *TWindowSubLog::class_name = "TWindowSubLog";
 
 
 const NJS_POINT2 message_log_window_position = {17.0f, 36.0f};
-const u8 message_log_window_extent[8] = {67, 151, 128, 0, 67, 204, 0, 0};
+const f32 message_log_window_extent[2] = {303.0f, 408.0f};
 
 void TWindowSubLog::render() {  }
 
@@ -34,7 +34,7 @@ void TWindowSubLog::run_task() {
     if (chat->is_visible() != 0) {
         consume_input_active_flag(chat);
     }
-    if (is_chat_in_use(chat) != 0) {
+    if (chat->is_chat_in_use() != 0) {
         log_window->set_target_height(200.0f);
         return;
     }
@@ -55,7 +55,7 @@ void TWindowSubLog::run_task() {
 
 TWindowSubLog::~TWindowSubLog() {
     if (chat != NULL) { chat->queue_destruction(); this->chat = 0; }
-    if (log_window != NULL) { log_window->close(); this->log_window = 0; }
+    if (log_window != NULL) { log_window->close(); this->log_window = NULL; }
     if (parent_menu != NULL) {
         parent_menu->clear_log_active();
         parent_menu->restore_after_subwindow();
@@ -69,13 +69,13 @@ TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
     TWindowCtrl::hide_client_status_window(this->client);
     parent_menu->hide_for_subwindow();
     parent_menu->set_log_active();
-    log_window = create_message_log_window(&message_log_window_position, (saddr)message_log_window_extent, (saddr)this->client);
+    log_window = create_message_log_window(&message_log_window_position, message_log_window_extent, this->client);
     chat = new TWindowChat((TObject *)this, &submission);
-    fn_8027B2A8(chat);
+    chat->set_flag1e_bit200();
 }
 
 void TWindowMainMenu::clear_log_active() { menu_flags &= ~8; }
 void TWindowMainMenu::restore_after_subwindow() { show_child_window(); }
 void TWindowMainMenu::set_log_active() { menu_flags |= 8; }
 void TWindowMainMenu::hide_for_subwindow() { update_trade_submenu(); }
-void fn_8027B2A8(void* p) { *(u16*)((char*)p + 0x1e) |= 0x200; }
+void TWindowChat::set_flag1e_bit200() { flags |= 0x200; }

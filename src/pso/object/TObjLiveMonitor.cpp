@@ -6,7 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/TObjLiveMonitorSmall.h"
-#include "pso/unk/text_8020BFE4.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
 #include <string.h>
@@ -99,7 +99,7 @@ TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
     target.x = 0.0f;
     target.y = 0.0f;
     target.z = 1.0f;
-    subtractive_rng_seed(&rng, 0);
+    rng.set_seed(0);
     if (is_room_enemy_set_cleared(get_current_floor(), 1) == 0) {
         shot = SHOT_OPENING;
         shot_frames = -1;
@@ -128,7 +128,7 @@ void TObjLiveCameraCtrl::run_task() {
 
 
 void TObjLiveCameraCtrl::update_toggle_state() {
-    if (slot >= TBoss8Dragon::get_live_monitor_count()) {
+    if (slot >= get_boss8_live_monitor_count()) {
         if (enabled == 1) {
             if (view != NULL) {
                 view->disable();
@@ -189,7 +189,7 @@ void TObjLiveCameraCtrl::update_live_camera() {
         }
         break;
     case SHOT_OPENING:
-        boss = TBoss8Dragon::get_part(0);
+        boss = get_boss8_dragon_part(0);
         if (boss != NULL && boss->has_appeared() != 0) {
             shot_frames = 0;
         }
@@ -278,7 +278,7 @@ void TObjLiveCameraCtrl::turn_orbit_toward(int angle) {
 
 u16 TObjLiveCameraCtrl::get_player_target() { return local_client_id; }
 
-u16 TObjLiveCameraCtrl::get_boss_target() { return TBoss8Dragon::get_part_entity_id(0); }
+u16 TObjLiveCameraCtrl::get_boss_target() { return get_boss8_dragon_part_entity_id(0); }
 
 void TObjLiveCameraCtrl::load_view_texture() {
     if (view != NULL) {

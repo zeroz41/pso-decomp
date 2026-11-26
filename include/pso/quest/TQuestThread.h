@@ -80,8 +80,6 @@ void load_area_dialogue_script();
 // The name typed into the item-name entry window, read back by the quest VM.
 extern char entered_item_name[0x10];
 
-extern "C" {
 void clear_quest_floor_handlers(void);
-}
 
 #endif

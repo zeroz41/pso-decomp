@@ -10,24 +10,25 @@
 class TObjPlayer;
 
 struct TTecPlayerInfluence : public TEffect {
-    TTecPlayerInfluence(void *owner, void *pos, s32 level);
+    TTecPlayerInfluence(TObjBase *owner, Vec *pos, s32 level);
     virtual ~TTecPlayerInfluence();
     static const char *class_name;
     virtual void tick_lifetime();
     // Gives one player the technique's effect.
     virtual void apply_to_player(TObjPlayer *player);
+    // The contact sphere follows the effect's scale.
     void sync_collision_radius();
     // Applies the technique to every player in range (apply_to_player).
     void deliver_technique_to_party_targets();
     void spawn_support_tec_range_effect();
-    TechniqueContactList *find_support_technique_contact_for_target(saddr player);
+    TechniqueContactList *find_support_technique_contact_for_target(TObjBase *player);
     TechniqueContactList *gather_player_contacts(TObjCollidable *target, CollisionBody *body, void *player);
-    TechniqueContactList *gather_contacts_for_self(saddr player);
+    TechniqueContactList *gather_contacts_for_self(TObjBase *player);
     f32 lifetime;  // tick_lifetime destroys it once age passes this
     TechniqueParams params;  // calc_technique_parameters for the cast's level
     s32 pad_A0;
     s16 level;
-    s16 band;  // TObjPlayer::get_level_tier(level)
+    s16 band;  // get_technique_level_tier(level)
     u16 sourceId;  // the caster's entity id, looked up again every frame
     u8 pad_AA[0x2];
     s32 show_effects;  // 0 for a local player that has its effects off

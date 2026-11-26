@@ -11,7 +11,7 @@ struct TObjNpcHFW00 : public TObjNpcFomarl {
     static void load_resources();
     static void *create(void *set_data);
     static const char *name;
-    static void **shared_resource_obj;
+    static NJS_OBJECT **shared_resource_obj;
     static NJS_TEXLIST *texture_handle;
 };
 

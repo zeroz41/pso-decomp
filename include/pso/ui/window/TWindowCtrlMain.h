@@ -28,8 +28,8 @@ struct TWindowCtrlMain : public TObject {
     static saddr get_instance();
     static void advance_card_status(s32 local_client_id);
     static void free_window();
-    static void release_ptr(void **ptr);
-    static f32 get_scale();
+    static void release_ptr(TObject **ptr);
+    static f32 get_scale(s32 viewport);
     static f32 get_bottom(s32 viewport_index);
     static f32 get_right(s32 viewport_index);
     static f32 get_top(s32 viewport_index);
@@ -43,5 +43,14 @@ struct TWindowCtrlMain : public TObject {
 };
 
 LAYOUT_ASSERT(TWindowCtrlMain_size, sizeof(TWindowCtrlMain) == 0x1C);
+
+s32 get_viewport_fill_color(s32 viewport_index);
+TObject *get_main_window_root(void);
+TObject *get_clip_out_window_root(void);
+TObject *get_client_window_root(s32 client);
+TObject *get_viewport_window_root(s32 viewport_index);
+s32 has_window_task_root(void);
+void draw_menu_backdrop_gradients(s32 viewport_index);
+s32 is_window_display_enabled(void);
 
 #endif

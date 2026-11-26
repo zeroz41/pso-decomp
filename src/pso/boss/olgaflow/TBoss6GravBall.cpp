@@ -390,3 +390,7 @@ TBoss6GravBall::TBoss6GravBall(TBoss6Type1 *owner, const Vec *position)
         create_emitter(boss6_grav_ball_start_emitters[i]);
     }
 }
+
+TBoss6GravBall *TBoss6Type1::create_grav_ball(TBoss6Type1 *owner, const Vec *position) {
+    return new TBoss6GravBall(owner, position);
+}

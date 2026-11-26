@@ -35,10 +35,10 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
 
@@ -91,7 +91,7 @@ TObjTombstone *TObjTombstone::create(TObject *parent, s32 client, const TObjTomb
     return new TObjTombstone(parent, client, record);
 }
 
-TObjTombstone *TLobby::create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot) {
+TObjTombstone *TObjTombstone::create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot) {
     return new TObjTombstone(parent, client, spot);
 }
 
@@ -125,7 +125,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRec
     }
 }
 
-// Spawns the tombstone from a short spot record (TLobby::create_tombstone).
+// Spawns the tombstone from a short spot record (TObjTombstone::create_tombstone).
 TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot)
     : TObjCollidable(parent) {
     TObjTombstoneRecord record;
@@ -455,11 +455,11 @@ void TObjTombstone::update_render_flags() {
 
     if (tombstone_shared_resource_object != NULL) {
         if (tombstone_first_run_flag == 0) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(static_cast<NJS_OBJECT *>(model)->child->sibling->model), -8, 0, 0, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(model->child->sibling->model), -8, 0, 0, 1);
             tombstone_first_run_flag = 1;
             PPCSync();
         }
-        material = static_cast<NJS_OBJECT *>(model)->child->sibling->sibling;
+        material = model->child->sibling->sibling;
         flags = &material->sibling->evalflags;
         if (this->age & 0x10) {
             material->evalflags &= ~NJD_EVAL_HIDE;
@@ -471,7 +471,7 @@ void TObjTombstone::update_render_flags() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -646,7 +646,7 @@ void TObjTombstoneDropRates::copy_matrix(const TObjTombstoneDropRates *src) {
 
 // Sets the drop rates (called by qst_op_set_cmode_grave_rates), unless
 // a weight is negative or a group adds up to more than 1.
-extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates) {
+void set_tombstone_drop_rates(TObjTombstoneDropRates *rates) {
     const f32 *count = rates->count;
     const f32 *kind = rates->kind;
     f32 one;
@@ -665,7 +665,7 @@ extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates) {
     tombstone_base_matrix.copy_matrix(rates);
 }
 
-void TLobby::reset_tombstone_values() {
+void reset_tombstone_values() {
     s32 i;
     for (i = 0; i < 4; i++) {
         tombstone_position_table[i].y = -10000.0f;

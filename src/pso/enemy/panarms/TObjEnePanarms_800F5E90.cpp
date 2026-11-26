@@ -1,8 +1,0 @@
-#include "types.h"
-#include "pso/enemy/AreaSoundRemap.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/object/TObjLuker_801329B0.h"
-
-const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index((saddr)this->control); }
-s32 TObjEnemy::remap_sound_for_area(s32 sound_id) { return ::remap_area_sound_id(sound_id, (saddr)this->control); }

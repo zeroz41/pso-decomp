@@ -3,7 +3,7 @@
 #include "pso/object/base/HitEligibility.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/AreaAttackContact.h"
 #include "pso/player/TObjPlayer.h"
@@ -16,7 +16,7 @@ extern "C" {
 
 
 void TAttackCollider::apply_hit_if_active(TObjChara *target, const f32 *recoil) {
-    target->receive_physical_attack(owner, 1.0f);
+    target->receive_physical_attack((TObjChara *)owner, 1.0f);
     if (target->obj_isState2_324() == 0) {
         this->area_attack_apply_recoil(target, *recoil);
     }

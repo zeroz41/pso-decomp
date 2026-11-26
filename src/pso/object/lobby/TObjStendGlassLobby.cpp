@@ -27,7 +27,7 @@ void TObjStendGlassLobby::demo_step() {}
 void TObjStendGlassLobby::render() {
     if (fade_state != 0 && texlist != NULL) {
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -98,8 +98,7 @@ void TObjStendGlassLobby::free_resources() {
 }
 
 void TObjStendGlassLobby::load_resources() {
-    BmlResource *resource = new BmlResource(5, &bm_obj_lobby_stendglass_resource_descriptor, 0, 0, NULL);
-    static_model_resource = resource;
+    static_model_resource = new BmlResource(5, &bm_obj_lobby_stendglass_resource_descriptor, 0, 0, NULL);
     lobby_texlist = get_lobby_main_texlist();
 }
 

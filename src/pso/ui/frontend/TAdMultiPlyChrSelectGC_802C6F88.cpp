@@ -13,7 +13,7 @@
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 
 
-s32 TAdMultiPlyChrSelectGC::get_field_20() { return state; }
+s32 TAdMultiPlyChrSelectGC::get_current_state() { return state; }
 
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_state() {  return TAdMultiPlyChrSelectGC::instance; }
 

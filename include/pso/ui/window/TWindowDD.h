@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WordSelectMessage.h"
+#include "pso/system/NinjaTypes.h"
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 s32 is_verb_word(s32 value);
@@ -36,6 +37,10 @@ struct TWindowDD : public TObject
     static TWindowDDValueList * ws_data_base;
     static char *work_buffer;
     static s32 window_mode;
+    // Twelve name strings of 0x18 bytes in window_dd_buffer_b, one per client id.
+    static char **player_name_buffers;
+    // Six word lists allocated as one block; their ids live in word_select_word_storage.
+    static TWindowDDValueList *word_select_lists;
     TWindowDD(TObject *parent, WordSelectMessage *output);
     virtual ~TWindowDD();
     virtual void run_task();
@@ -85,6 +90,19 @@ struct TWindowDD : public TObject
     static void free_buffers();
     static void open(WordSelectMessage *message, u16 speaker);
     static s32 is_levelled_technique_word(s16 id);
+    static s32 is_rememberable_word(s16 id);
+    static s32 is_weapon_word(s16 id);
+    static s32 is_topic_word(s16 id);
+    s32 get_initial_word_select_list();
+    s32 has_menu_selection();
+    static s16 read_indexed_value(s32 entry_index, s32 value_index);
+    static s16 read_resolved_value(s32 entry_id, s32 value_index);
+    static void append_word_select_entry_words(WordSelectMessage *entry, char *buf, s32 *pos);
+    static void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos);
+    static void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos);
+    static void append_word_select_token(s16 id, char *buf, s32 *pos);
+    static void convert_type3_message(WordSelectMessage *src, WordSelectMessage *dst);
+    static void append_word_inside_phrase(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *buf, s32 *pos);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
     static s32 is_non_topic_word(s32 id);
@@ -119,6 +137,11 @@ struct TWindowDD : public TObject
     void close_all_windows();
     static s32 can_append_chars(s32 need, s32 *pos);
     static void format_message(WordSelectMessage *message, char *text, u16 player);
+    static s32 format_french_message(WordSelectMessage *words, char *text, u16 player);
+    static s32 format_german_message(WordSelectMessage *words, char *text, u16 player);
+    static s32 format_spanish_message(WordSelectMessage *words, char *text, u16 player);
+    static s32 format_english_message(WordSelectMessage *words, char *text, u16 player);
+    static s32 format_entry_text(WordSelectMessage *words, char *text);
     static void append_prompt_newline(char *buf, s32 *pos);
     static s32 clamp_range_5FA_682(s16 id);
     static s32 clamp_range_2C9_552(s16 id);
@@ -175,9 +198,6 @@ void load_word_select_data(void);
 
 extern char *window_dd_buffer_a;
 extern char *window_dd_buffer_b;
-// Twelve name strings of 0x18 bytes in window_dd_buffer_b, one per client id.
-extern char **word_select_player_names;
-// Six word lists allocated as one block; their ids live in word_select_word_storage.
 // Header of a word select data file (ws_data_<language>.bin, loaded by ws_data_load).
 // The Japanese file has only the first four tables; the US file stores the
 // form index before the form lists, the European files after them.
@@ -203,7 +223,6 @@ struct WordSelectDataEU {
     u8 *spanish_prefix_categories;
 };
 
-extern TWindowDDValueList *word_select_lists;
 extern s16 *word_select_word_storage;
 // Word strings of the loaded ws_data archive and the string index of each word id.
 extern char **ws_word_strings;
@@ -229,6 +248,37 @@ extern char *word_page_next_label;
 extern s8 word_page_next_label_set;
 // Word id the last word-select message used; -1 when none (reset_selection).
 extern s16 remembered_word_select_id;
+
+struct WindowDrawContext;
+struct WindowVertex;
+
+// Texture coordinates of the word-select quad sets, filled from window_dd_quad_positions.
+extern NJS_POINT2 word_select_quad_points[7][8];
+void set_frame_row_vertices_y(WindowDrawContext *context, WindowVertex *vertices, s32 row);
+void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *vertices);
+f32 word_select_inverse_depth(f32 depth, f32 offset);
+saddr get_word_select_token_text(s16 id);
+void handle_6x74_word_select(u8 *window_dd);
+
+// Recent word-select ids (push_recent_id) and the two ws data tables init_ws_data_tables checked.
+struct WsRecentState {
+    s16 ids[16];
+    TWindowDDValueList *a;
+    TWindowDDValueList *b;
+    s16 *a0;
+    s16 *b0;
+    s32 n;
+};
+
+extern WsRecentState ws_recent_state;
+
+// Entry counts of TWindowDD::lookup_item_category's id lists (.sdata2, after the lists).
+extern const s32 category0_id_count;
+extern const s32 category2_id_count;
+extern const s32 category3_id_count;
+extern const s32 category4_id_count;
+
+s32 get_word_select_type_state(s32 state, s32 item);
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.
 extern const s32 word_select_numeric_limits[6];
 extern const f32 window_dd_row_height;

@@ -49,9 +49,9 @@ const char *shop_equipment_list_window_class_name = "TShopEquipmentListWindow";
 extern "C" {
 void try_buy_item(void *player, TItemData *item);
 extern const s32 local_client_id;
-
-int get_shop_weapon_stock_count(int a0) {  return shop_weapon_stock_counts[a0]; }
 }
+
+int get_shop_weapon_stock_count(int slot) { return shop_weapon_stock_counts[slot]; }
 
 TShopEquipmentListWindow::TShopEquipmentListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;

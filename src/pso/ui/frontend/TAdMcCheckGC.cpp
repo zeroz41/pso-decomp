@@ -164,4 +164,12 @@ TAdMcCheckGC::TAdMcCheckGC(TObject *object, s32 slot) : TObject(object) {
     this->warning_windows[3] = 0;
 }
 
+
+TAdMcCheckGC *TAdMcCheckGC::get_instance(TObject *parent, s32 slot) {
+    if (memcard_cursor_instance_table[slot] == NULL) {
+        memcard_cursor_instance_table[slot] = new TAdMcCheckGC(parent, slot);
+    }
+    return memcard_cursor_instance_table[slot];
+}
+
 TAdMcCheckGC *memcard_cursor_instance_table[2] = { NULL, NULL };

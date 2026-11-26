@@ -8,7 +8,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80160804.h"
 #include "pso/network/protocol/subcmd_6x.h"
@@ -225,7 +225,7 @@ void TODoorCave01::render() {
         rotate_matrix_y(NULL, rotation_y);
         if ((s32)object_state == DOOR_CLOSED) {
             i = 0;
-            node = (model)->child;
+            node = model->child;
             do {
                 draw_switch_light(node, door_flags & (1 << (i + LIGHT_LIT_SHIFT)) ? 1 : 0);
                 i++;

@@ -3,12 +3,11 @@
 #include "pso/object/TObjControl.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/vector.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/TObjControl.h"
 #include "pso/system/MatrixOps.h"
 
 #pragma readonly_strings on

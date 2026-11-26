@@ -12,6 +12,18 @@
 #include "pso/ui/Language.h"
 #include "pso/render/render_util.h"
 #include <dolphin/os/OSCache.h>
+#include "pso/ui/frontend/TAdSubPlyItemGC.h"
+#include "pso/system/memory.h"
+#include "pso/render/GinjaTextureHeader.h"
+#include "pso/render/GinjaTextureInput.h"
+#include "pso/system/ResourceFile.h"
+#include "pso/ui/MenuText.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/network/TLobby.h"
+#include "pso/system/TLanguage.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
@@ -21,10 +33,10 @@ const u32 text_control_color_palette[10] = {
     0xFFFF00FF, 0xFFFFFF00, 0xFFFFFFFF, 0xFFFF8080, 0xFF8080FF,
 };
 
-extern u8 menu_font_texnames[];
-__declspec(section ".data") void *menu_font_texture_list[2] = {
-    (void *)&menu_font_texnames, (void *)0x2,
-};
+__declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];
+GinjaTextureInput menu_font_render_rects[2];
+NJS_TEXNAME menu_font_texnames[2];
+__declspec(section ".data") NJS_TEXLIST menu_font_texture_list[1] = {{menu_font_texnames, 2}};
 s32 menu_font_char_advance_table[191] = {
     7, 9, 13, 11, 15, 14, 7, 8, 8, 11, 11, 7, 11, 7, 11, 12,
     12, 12, 12, 12, 12, 12, 12, 12, 12, 7, 7, 9, 11, 9, 10, 15,
@@ -283,9 +295,7 @@ void TWindowSubStatusDisp::pack_status_flags(u32 pixel) {
     *(u8 *)((s8 *)this + 1) = (u8) (pixel & 3);
     *(u8 *)((s8 *)this + 1) = (u8) (*(u8 *)((s8 *)this + 1) | ((pixel * 4) & 0x30));
 }
-extern u8 *menu_font_glyph_pixel_buffers[];
-extern u8 *menu_font_glyph_data;
-#define g ((MenuFontGlyph *)free_slot)
+#define g ((MenuGlyphEntry *)free_slot)
 
 s32 calc_ci4_tile_offset(u32 x, u32 y) {
     s32 tile = (x * 4) & 0x7FFFFFE0;
@@ -307,7 +317,7 @@ void upload_font_glyph(u16 c, void *free_slot) {
         c -= 0xDF20;
     }
     g->width = get_font_char_advance(c);
-    tex = menu_font_glyph_pixel_buffers[g->page];
+    tex = (u8 *)menu_font_glyph_pixel_buffers[g->page];
     y = g->y;
     x = g->x;
     src = menu_font_glyph_data + (u16)(c - 0x20) * 0x5A;
@@ -326,7 +336,7 @@ void upload_font_glyph(u16 c, void *free_slot) {
 
 s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot) {
     u8 slot_epoch;
-    slot_epoch = ((MenuFontGlyph *)free_slot)->epoch;
+    slot_epoch = ((MenuGlyphEntry *)free_slot)->epoch;
     if (slot_epoch == (u8) menu_font_upload_epoch) {
         return 0;
     }
@@ -342,9 +352,9 @@ s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void *
 
 void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     void *free_slot;
-    MenuFontGlyph *g;
-    MenuFontGlyph *p;
-    MenuFontGlyph *q;
+    MenuGlyphEntry *g;
+    MenuGlyphEntry *p;
+    MenuGlyphEntry *q;
     u32 i;
     u32 j;
 
@@ -387,11 +397,12 @@ void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     return free_slot;
 }
 
+// Binds the cached glyph's page and color, sets the quad's top-left uv and returns the glyph width.
 extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
     void *cached_glyph;
 
     cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
-    MenuFontGlyph *entry = (MenuFontGlyph *)cached_glyph;
+    MenuGlyphEntry *entry = (MenuGlyphEntry *)cached_glyph;
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);
     pos->u0 = (f32) ((f32) entry->x / 256.0f);
@@ -400,7 +411,7 @@ extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
 }
 
 void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
+    set_texture_list(menu_font_texture_list);
 }
 
 void TWindowSubStatusDisp::end_render_forward() { end_screen_draw(); }
@@ -475,3 +486,101 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
   }
   TWindowSubStatusDisp::end_render_forward();
 }
+
+void draw_menu_text_scaled(f32 x, f32 y, f32 scale, const char *text, u32 color) {
+    draw_menu_font_string(text, color, 0, x, y, scale);
+}
+
+void draw_menu_text(f32 x, f32 y, const char *text, u32 color) {
+    draw_menu_font_string(text, color, 0, x, y, 0.5f);
+}
+
+
+u8 *menu_font_glyph_data;
+s16 *menu_font_palette;
+s32 menu_font_upload_flags;
+MenuGlyphEntry *menu_font_glyph_table;
+u8 menu_font_upload_epoch;
+TObject *menu_font_object;
+
+void draw_menu_font_string_white(const char *text, f32 x, f32 y) {
+    draw_menu_font_string(text, -1, (u32)(0), x, y, 0.5f);
+}
+void free_menu_font() {
+    delete menu_font_object;
+    release_texture_list(menu_font_texture_list);
+    mem_free(menu_font_glyph_table);
+    mem_free(menu_font_palette);
+    safe_free(menu_font_glyph_data);
+}
+
+
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+static inline void clear_words_80145804(u32 *p, s32 count) {
+    s32 n;
+    for (n = 0; n < count; n++) {
+        *p++ = 0;
+    }
+}
+void load_menu_font(void) {
+    u32 m;
+    u32 *p;
+    s16 *t;
+    s32 n;
+    MenuGlyphEntry *g;
+    void *f;
+    u32 i;
+    u32 j;
+    u32 k;
+    u32 u;
+    u32 v;
+    TLobby::load_font_texture();
+    menu_font_glyph_data = load_disc_file("S18all04.fon");
+    TLobby::release_menu_font();
+    for (i = 0; i < 2; i++) {
+        menu_font_render_rects[i].set_render_rect(NULL, 0x208, 0x100, 0x100);
+        set_texture_name(menu_font_texnames + i, menu_font_render_rects + i, i + 0xDCF28, 0x08800000);
+    }
+    load_texture_list(menu_font_texture_list);
+    for (m = 0; m < 2; m++) {
+        *(menu_font_glyph_pixel_buffers + m) = menu_font_texture_list[0].textures[m].texture->surface->header.pixels;
+        clear_words_80145804(*(menu_font_glyph_pixel_buffers + m), 0x2000);
+    }
+    menu_font_palette = (s16 *)mem_alloc(0x100);
+    clear_words_80145804((u32 *)menu_font_palette, 0x40);
+    menu_font_palette[0] = 0xFFF;
+    menu_font_palette[1] = 0x3FFF;
+    menu_font_palette[2] = 0x5FFF;
+    menu_font_palette[3] = 0x7FFF;
+    set_texture_list(menu_font_texture_list);
+    for (i = 0; i < 2; i++) {
+        set_context_texture_palette_bank(i, 0);
+    }
+    g = (MenuGlyphEntry *)mem_alloc(0xB40);
+    menu_font_glyph_table = g;
+    for (i = 0; i < 2; i++) {
+        v = 0;
+        for (j = 0; j < 12; j++) {
+            u = 0;
+            for (k = 0; k < 12; k++) {
+                g->code = 0x2EF;
+                g->width = 9;
+                g->epoch = 0xF0;
+                g->page = i;
+                g->x = u;
+                g->y = v;
+                g++;
+                u += 20;
+            }
+            v += 20;
+        }
+    }
+    menu_font_upload_epoch = 0;
+    menu_font_upload_flags = 3;
+    f = (void *)new TNECFontEORFunction();
+    menu_font_object = (TObject *)f;
+}
+#pragma pop

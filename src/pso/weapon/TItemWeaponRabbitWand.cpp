@@ -8,7 +8,7 @@
 void TItemWeaponRabbitWand::transform_model_node() {
     s32 player_list;
 
-    player_list = TObjPlayer::get_player_list();
+    player_list = get_model_node_counter();
     get_current_matrix(&owner->item_node_matrices[player_list]);
     if (player_list == 9) {
         TItem::begin_effect_render();

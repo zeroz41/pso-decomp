@@ -9,7 +9,7 @@ void TItemWeaponPlantainFan::emit_marker_effects() {
 
     if (is_mode_two_and_ready() != 0) {
         get_gun_point(&pos);
-        launch_shot((u8 *)&pos, 0, 0, 1);
+        launch_shot(&pos, 0, 0, 1);
         return;
     }
     ((TItemWeapon *)this)->update_active_game_effect();

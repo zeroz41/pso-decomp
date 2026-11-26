@@ -20,11 +20,11 @@
 #include "pso/system/CvFs.h"
 
 extern "C" {
-s32 lbl_805D4658 = 1;
-s32 TLobby_init_ref_count;
+s32 adxt_svm_server_sw = 1;
+s32 adxt_init_count;
 s32 svm_cb_svr_handle;
 s32 adxt_vblank_count;
-static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 13 2002 19:01:36\n";
+static const char *const volatile adxt_build_string = "\nADXT/GC Ver.8.05 Build:Jun 13 2002 19:01:36\n";
 }
 
 AdxtPlayer adx_stream_player_pool[16];
@@ -32,8 +32,8 @@ AdxtPlayer adx_stream_player_pool[16];
 void adxt_finish() {
     s32 remaining;
 
-    remaining = TLobby_init_ref_count - 1;
-    TLobby_init_ref_count = remaining;
+    remaining = adxt_init_count - 1;
+    adxt_init_count = remaining;
     if (remaining == 0) {
         gcrna_bridge_shutdown();
         adxf_finish();
@@ -43,7 +43,7 @@ void adxt_finish() {
         SVM_DelCbSvr(2, (saddr)((void *) (1)));
         SVM_DelCbSvr(2, (saddr)((void *) (3)));
         SVM_DelCbSvr(4, svm_cb_svr_handle);
-        svm_release_callback_tables();
+        svm_finish();
         adx_unlock();
         adx_lock();
         adxb_finish();
@@ -55,8 +55,8 @@ void adxt_finish() {
     }
 }
 void adxt_init() {
-    lbl_805E0D30;
-    if (TLobby_init_ref_count == 0) {
+    adxt_build_string;
+    if (adxt_init_count == 0) {
         reset_init_ref_count();
         adx_lock();
         ref_counted_work_buffer_init();
@@ -70,7 +70,7 @@ void adxt_init() {
         gcrna_bridge_set_error_callback(adxt_error_callback, NULL);
         memset(adx_stream_player_pool, 0, 0xA80);
         lsc_init();
-        if (lbl_805D4658 == 1) {
+        if (adxt_svm_server_sw == 1) {
             SVM_SetCbSvrId(2, 1, adxt_exec_main_server_cb, 0);
             SVM_SetCbSvrId(2, 3, adxt_exec_fs_server_cb, 0);
             svm_cb_svr_handle = SVM_SetCbSvr(4, adxt_exec_vsync_server_cb, 0);
@@ -78,7 +78,7 @@ void adxt_init() {
         adxt_vblank_count = 0;
         adx_unlock();
     }
-    TLobby_init_ref_count += 1;
+    adxt_init_count += 1;
 }
 
 s32 adxt_exec_fs_server_cb(s32) {
@@ -94,11 +94,11 @@ s32 adxt_exec_main_server_cb(s32) {
 s32 adxt_exec_vsync_server_cb(s32) {
     if (is_adxm_initialized() == 1) {
         lsc_poll_all();
-        TLobby__sub_803CE240();
+        aix_exec_server();
     } else {
         exec_vsync_servers();
         lsc_poll_all();
-        TLobby__sub_803CE240();
+        aix_exec_server();
     }
     return 0;
 }

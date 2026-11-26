@@ -15,7 +15,7 @@ struct TOTrapAncient01 : public TOTrap {
     virtual void run_demo();
     virtual void vfunc_86();
     virtual void apply_saved_state(s16 *, s32);
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual void render();
     DirectAttackPayload payload; // name inferred: sent to every player in reach by update_holding
     f32 scale_step; // name inferred: added to scale.y each frame by update_springing, -scale.y / scale.z in the ctor

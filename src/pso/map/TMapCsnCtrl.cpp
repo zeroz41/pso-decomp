@@ -4,13 +4,13 @@
 #include "types.h"
 #include "pso/unk/TLobby_80140FF4.h"
 
-void remove_map_collision(TMapCsnCtrl *controller, TObjMapCsn *object) {
-    remove_collision_group(controller, get_map_collision_group(object));
+void TMapCsnCtrl::remove_object(TObjMapCsn *object) {
+    remove_group(get_map_collision_group(object));
 }
 
-void remove_collision_group(TMapCsnCtrl *controller, CsnGroup *group) {
+void TMapCsnCtrl::remove_group(CsnGroup *group) {
     s32 i;
-    CsnGroup **p = controller->groups;
+    CsnGroup **p = groups;
     for (i = 0; i < 0x200; p++, i++) {
         if (*p == group) {
             CsnGroup **src;
@@ -29,13 +29,13 @@ void remove_collision_group(TMapCsnCtrl *controller, CsnGroup *group) {
     }
 }
 
-void register_map_collision(TMapCsnCtrl *controller, TObjMapCsn *object) {
-    register_slot(controller, get_map_collision_group(object));
+void TMapCsnCtrl::add_object(TObjMapCsn *object) {
+    add_group(get_map_collision_group(object));
 }
 
-void register_slot(TMapCsnCtrl *controller, CsnGroup *group) {
+void TMapCsnCtrl::add_group(CsnGroup *group) {
     s32 i;
-    CsnGroup **slot = controller->groups;
+    CsnGroup **slot = groups;
     for (i = 0; i < 0x200; i++, slot++) {
         if (*slot == NULL) {
             slot[0] = group;
@@ -45,10 +45,10 @@ void register_slot(TMapCsnCtrl *controller, CsnGroup *group) {
     }
 }
 
-void collect_collision_groups(TMapCsnCtrl *controller, CsnGroup *groups) {
-    CsnGroup **slot = controller->groups;
-    while (groups->model != NULL) {
-        *slot++ = groups++;
+void TMapCsnCtrl::set_groups(CsnGroup *source) {
+    CsnGroup **slot = groups;
+    while (source->model != NULL) {
+        *slot++ = source++;
     }
     *slot = NULL;
 }

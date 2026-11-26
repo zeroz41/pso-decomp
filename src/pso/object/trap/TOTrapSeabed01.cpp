@@ -38,7 +38,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include <dolphin/base/PPCArch.h>
@@ -128,7 +128,7 @@ void TOTrapSeabed01::load_resources() {
     BmlResource *resource = new BmlResource(5, &seabed_trap_resource_descriptor, 0, 0, NULL);
     trap_seabed01_bml_resource = resource;
     trap_seabed01_texture_file = LoadPvmFileTls("obj_seabed_turigane.gvm");
-    trap_seabed01_ginja_model = find_object_node((NJS_OBJECT *)get_bml_model(trap_seabed01_bml_resource, 0), 5);
+    trap_seabed01_ginja_model = find_object_node(get_bml_model(trap_seabed01_bml_resource, 0), 5);
     effect_uv_scroll_last_tick = 0;
     seabed01_ginja_mesh_index = -1;
     if (trap_seabed01_texture_file != NULL) {
@@ -367,7 +367,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
             chara->check_value_equals(TObjPlayer_name) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
-                chara->apply_knockback_from_attacker((u8 *)this, 0.0f);
+                chara->apply_knockback_from_attacker(this, 0.0f);
             }
         }
     }
@@ -401,7 +401,7 @@ void TOTrapSeabed01::play_sounds() {
     play_floor_sound(1);
 }
 
-f32 TOTrapSeabed01::receive_physical_attack(void *attacker, f32 damage) {
+f32 TOTrapSeabed01::receive_physical_attack(TObjChara *attacker, f32 damage) {
     release_trapped_player();
     return TOTrap::receive_physical_attack(attacker, damage);
 }

@@ -1,10 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/font/TFontPlayerStatusHelp.h"
-#include "pso/ui/window/TWindowCtrlMain_800FC91C.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/font/TFontSmallHelp.h"
@@ -16,10 +15,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
-extern "C" {
-}
 const char *TFontSmallLobby_class_name = "TFontSmallLobby";
 
 // One letter per language (J/E/G/F/S), appended after the player name.
@@ -125,6 +121,6 @@ TFontPlayerStatusHelp::~TFontPlayerStatusHelp() {
 
 }
 
-TFontPlayerStatusHelp::TFontPlayerStatusHelp(s32 id) : TFontSmallHelp(id, -1, -1, 0) {
+TFontPlayerStatusHelp::TFontPlayerStatusHelp(u32 id) : TFontSmallHelp(id, -1, -1, 0) {
     card_status_bits = 5;
 }

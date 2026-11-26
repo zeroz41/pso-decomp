@@ -8,8 +8,10 @@ class WindowHeading;
 
 struct NJS_POINT2;
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSubStatusDisp;
+struct WindowDrawContext;
 
 struct TWindowSubSymbolChatFaceType : public TWindowBase {
     TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selected);
@@ -36,6 +38,17 @@ LAYOUT_ASSERT(TWindowSubSymbolChatFaceType_size, sizeof(TWindowSubSymbolChatFace
 LAYOUT_ASSERT(FaceType_selection, offsetof(TWindowSubSymbolChatFaceType, selection) == 0x64);
 LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, status_disp) == 0x68);
 
+void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp);
 
-void draw_face_selection(u8 *window_base, u8 *ctx);
+
+void draw_face_selection(TWindowSubSymbolChatFaceType *window, WindowDrawContext *context);
+
+// symbol_chat_face_type_layout_entries, the layout table
+// symbol_chat_face_type_window_layout points at (a 2x2 grid of face-type sprites).
+struct SymbolChatFaceTypeWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec[4];
+};
+
 #endif

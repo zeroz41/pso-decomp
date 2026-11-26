@@ -132,7 +132,7 @@ TObjMotionAction moja_motion_actions[9] = {
     { 3, 7, 4, 0.7f, 0x10 },
     { 3, 7, 3, 0.7f, 0x10 }
 };
-MojaMovementParameters moja_movement_params[2] = {
+EnemyMoveParams moja_movement_params[2] = {
     { 250.0f, 0.75f, 0x400, { 0x1E0000, 0, 0, 0 } },
     { 250.0f, 0.75f, 0x400, { 0, 0x1E0000, 0, 0 } }
 };
@@ -455,7 +455,7 @@ void TObjEneMoja::refresh_target() {
             i = 0;
             best_id = 0xFFFF;
             Vec v = { 0.0f, 0.0f, 0.0f };
-            best = ((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range;
+            best = movementParameters->search_range * movementParameters->search_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 p = TObjPlayer::get_player_data(i);
                 if (p == NULL) {
@@ -478,7 +478,7 @@ void TObjEneMoja::refresh_target() {
             }
             targetId = best_id;
         } else {
-            targetId = find_nearest_visible_player(this, NULL, ((MojaMovementParameters *)movementParameters)->target_range);
+            targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
         }
         tid = targetId;
         if (tid < 0x1000U) {
@@ -586,8 +586,8 @@ void TObjEneMoja::update_idle_state() {
     }
     case 1:
         advance_animation();
-        enemy_wander_home(((MojaMovementParameters *)movementParameters)->move_speed, 100.0f, 100.0f,
-            ((MojaMovementParameters *)movementParameters)->turn_speed);
+        enemy_wander_home(movementParameters->move_speed, 100.0f, 100.0f,
+            movementParameters->turn_speed);
         break;
     }
     refresh_collision_body_centers();
@@ -656,7 +656,7 @@ void TObjEneMoja::update_appearance_jump() {
                     hit.kind = 0;
                     hit.power = 25.0f;
                     f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
-                    p->apply_knockback_from_attacker((u8 *)this, damage);
+                    p->apply_knockback_from_attacker(this, damage);
                 }
                 if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)p->get_entity_id()) {
                     TCameraCtrl::set_shake_preset(0);
@@ -696,8 +696,8 @@ void TObjEneMoja::update_appearance_drop() {
         subtract_vector(&scratch_vec, &position);
         rotation_y = approach_angle_limited(rotation_y,
             (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z)),
-            ((MojaMovementParameters *)movementParameters)->turn_speed);
-        if (rotation_y >= ((MojaMovementParameters *)movementParameters)->turn_speed) {
+            movementParameters->turn_speed);
+        if (rotation_y >= movementParameters->turn_speed) {
             return;
         }
         requested_action = 5;
@@ -736,7 +736,7 @@ void TObjEneMoja::update_appearance_drop() {
                     hit.kind = 0;
                     hit.power = 25.0f;
                     f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
-                    p->apply_knockback_from_attacker((u8 *)this, damage);
+                    p->apply_knockback_from_attacker(this, damage);
                 }
                 if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)p->get_entity_id()) {
                     TCameraCtrl::set_shake_preset(0);
@@ -812,10 +812,10 @@ void TObjEneMoja::update_approach_state() {
         if (t != NULL) {
             Vec v3 = t->body_center;
             params = moja_behavior_params[variant];
-            if (((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range < enemy_pursue_point(this, ((MojaMovementParameters *)movementParameters)->turn_speed, &v3, params, params->values.floats[2], 30.0f)) {
+            if (movementParameters->search_range * movementParameters->search_range < enemy_pursue_point(this, movementParameters->turn_speed, &v3, params, params->values.floats[2], 30.0f)) {
                 target = NULL;
             }
-            if (horizontal_distance_squared(&move_destination, &position) < (((MojaMovementParameters *)movementParameters)->move_speed + bodies->radius) * (((MojaMovementParameters *)movementParameters)->move_speed + bodies->radius)
+            if (horizontal_distance_squared(&move_destination, &position) < (movementParameters->move_speed + bodies->radius) * (movementParameters->move_speed + bodies->radius)
                 || --timer < 0) {
                 attackSequence = 0;
             }
@@ -957,7 +957,7 @@ void TObjEneMoja::update_punch_attack() {
                 }
                 if ((obj_is_hit_receivable(p) != 0) && !(p->actorFlags & 0x02000800) && (p->select_melee_contact_body(this, 1.0f) != 0)) {
                     f32 damage = p->receive_physical_attack(this, 1.0f);
-                    p->apply_knockback_from_attacker((u8 *)this, damage);
+                    p->apply_knockback_from_attacker(this, damage);
                     if (0.5f < random_ratio()) {
                         roar = 1;
                     }
@@ -1059,13 +1059,13 @@ void TObjEneMoja::update_technique_state() {
             if (select_enemy_destination(this, &dest, 1) != 0) {
                 Vec cur = body_center;
                 copy_position_if_valid((saddr)this, (saddr)&cur);
-                a = enemy_turn_toward_dest(((MojaMovementParameters *)movementParameters)->turn_speed);
-                enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->move_speed, this, rotation_y);
+                a = enemy_turn_toward_dest(movementParameters->turn_speed);
+                enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
                 move_with_wall_slide(this);
             } else {
                 VecCopy(&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
-                a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, &dir);
+                a = turn_toward_direction(movementParameters->turn_speed, &dir);
             }
             if (a < 0x100) {
                 phase = 1;
@@ -1088,7 +1088,7 @@ void TObjEneMoja::update_technique_state() {
             if (target != NULL) {
                 VecCopy(&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
-                ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, &dir);
+                ang2 = turn_toward_direction(movementParameters->turn_speed, &dir);
             } else {
                 ang2 = attack_params->get_attack_angle();
             }
@@ -1096,9 +1096,9 @@ void TObjEneMoja::update_technique_state() {
                 switch (variant) {
                 case 1:
                     if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
-                        TTecMegid::create((saddr)this, (saddr)&pos, (saddr)&target->body_center, calc_technique_level());
+                        TTecMegid::create(this, &pos, &target->body_center, calc_technique_level());
                     } else {
-                        TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, calc_technique_level());
+                        TTecMegid::create_ex(this, &pos, rotation_y, calc_technique_level());
                     }
                     play_sound_effect(0x4002A60B, &pos, 0, 0);
                     break;
@@ -1234,7 +1234,7 @@ void TObjEneMoja::update_attack_jump() {
                         hit.kind = 0;
                         hit.power = attack_params->get_atp_min();
                         f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
-                        p->apply_knockback_from_attacker((u8 *)this, damage);
+                        p->apply_knockback_from_attacker(this, damage);
                     }
                     if (d <= 10000.0f && is_split_screen() == 0 && local_client_id == (u16)p->get_entity_id()) {
                         TCameraCtrl::set_shake_preset(0);

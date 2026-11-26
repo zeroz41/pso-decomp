@@ -26,7 +26,6 @@ void free_received_guild_cards(void *p);
 void init_received_guild_cards(void *p);
 }
 
-extern GuildCardEntry received_guild_card_tags[4];
 extern GuildCardEntry *own_guild_card;
 
 #endif

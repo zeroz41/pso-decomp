@@ -7,7 +7,7 @@
 
 struct TTecAnti : public TTecPlayerInfluence {
     static const char *class_name;
-    TTecAnti(void *owner, void *pos, void *targets, s32 level);
+    TTecAnti(TObjBase *owner, Vec *pos, TargetCursorList *targets, s32 level);
     virtual ~TTecAnti();
     void play_anti_cast_sound();
     void spawn_anti_range_effect();
@@ -18,7 +18,7 @@ struct TTecAnti : public TTecPlayerInfluence {
     // 1 when cast on a target list: run_task gives the effect to the caster and
     // the listed players; 0 gives it to the party members in range.
     s32 use_targets;
-    static void create(void *source, void *origin, void *targets, s32 level);
+    static void create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level);
     virtual void render();
 };
 

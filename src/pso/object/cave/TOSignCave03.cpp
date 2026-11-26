@@ -23,7 +23,7 @@ BmlResource *sign_cave03_bml_resource;
 void TOSignCave03::render() {
     NJS_OBJECT *node;
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -48,7 +48,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node = (model)->child->sibling;
+        node = model->child->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
@@ -65,7 +65,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node = (model)->child->sibling->sibling;
+        node = model->child->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
@@ -77,7 +77,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node = (model)->child->sibling->sibling->sibling;
+        node = model->child->sibling->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();

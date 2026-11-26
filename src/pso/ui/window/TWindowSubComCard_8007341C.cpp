@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 

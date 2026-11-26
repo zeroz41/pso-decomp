@@ -6,10 +6,10 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponSambaMaracas::emit_marker_effects() {
-    if (launch_shot((u8 *)&shot_origins[0], 0, 0, 1) != 0) {
-        launch_shot((u8 *)&shot_origins[1], 0, 0, 0);
+    if (launch_shot(&shot_origins[0], 0, 0, 1) != 0) {
+        launch_shot(&shot_origins[1], 0, 0, 0);
     } else {
-        launch_shot((u8 *)&shot_origins[1], 0, 0, 1);
+        launch_shot(&shot_origins[1], 0, 0, 1);
     }
 }
 

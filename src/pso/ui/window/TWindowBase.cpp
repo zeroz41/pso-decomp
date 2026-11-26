@@ -6,12 +6,15 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/TWindowLayoutRect.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowFukidasi.h"
@@ -24,21 +27,21 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TLanguage.h"
 #include "pso/unk/text_803DAFA8.h"
-#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/system/BmlResource.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/unk/TLobby_801E2F94.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 
 struct SelectionBarCoordinates { NJS_POINT2 e[2]; };
@@ -47,19 +50,11 @@ const char *TWindowBase::class_name = "TWindowBase";
 static const SelectionBarCoordinates selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
 
 void draw_window_scanline(TWindowBase *window, s32 row, WindowDrawContext *r, f32 len);
-extern "C" {
-
-
-
-
-
-
-extern int area_total;
 
 
 int get_area_total(void) {  return area_total; }
 
-char *WindowTextEntry::get_text() { return this->text; }
+char *WindowTextEntry::get_text() { return text; }
 
 f32 TWindowBase::get_transition_progress() {
     f32 v = get_close_progress();
@@ -129,8 +124,6 @@ s32 TWindowBase::is_open_and_unblocked() {
     return (s32) ((u32) __cntlzw(this->window_flags & 4) >> 5);
 }
 #pragma pop
-
-}
 void hide_window(u8 *object) {
     TWindowBase *window = (TWindowBase *)object;
     window->window_flags = (s32) (window->window_flags & 0xFFFFFFF8);
@@ -248,7 +241,7 @@ s32 is_balloon_overlapping(const TWindowFukidasi *balloon, const f32 *position, 
 }
 
 TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, const f32 *size, TWindowFukidasi *first) {
-    if (test_flag2c_bit100() == 0) {
+    if (is_bit8_set() == 0) {
         return NULL;
     }
     if (is_overlapped() != 0) {
@@ -258,7 +251,7 @@ TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, 
         return NULL;
     }
     for (TWindowFukidasi *p = first; p != NULL; p = static_cast<TWindowFukidasi *>(p->m_next)) {
-        if (p->test_flag2c_bit100() != 0 && p->is_overlapped() == 0 &&
+        if (p->is_bit8_set() != 0 && p->is_overlapped() == 0 &&
             p->is_open_and_unblocked() != 0 && p != this &&
             (get_visible_flag() == 0 || p->get_visible_flag() == 0) &&
             is_balloon_overlapping(p, position, size)) {
@@ -514,7 +507,7 @@ void TWindowBase::draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *
 #pragma pop
 
 #pragma fp_contract on
-void TWindowBase::draw_quest_message_frame(WindowDrawContext *c) {
+void TWindowBase::draw_quest_message_frame(WindowDrawContext *context) {
   TexturedQuad q;
   f32 step;
   f32 rem;
@@ -530,36 +523,36 @@ void TWindowBase::draw_quest_message_frame(WindowDrawContext *c) {
   {
     half = 32.0f;
   }
-  q.y0 = c->y;
-  q.y1 = c->y + half;
+  q.y0 = context->y;
+  q.y1 = context->y + half;
   q.v0 = 0.0f;
   q.v1 = 0.125f;
-  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
-  q.y1 = (c->scale[1] * (q.y1 - c->pivot[1])) + c->pivot[1];
-  draw_message_frame_row(&q, c);
-  q.y1 = c->y + frame_size[1];
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  q.y1 = (context->scale[1] * (q.y1 - context->pivot[1])) + context->pivot[1];
+  draw_message_frame_row(&q, context);
+  q.y1 = context->y + frame_size[1];
   q.y0 = q.y1 - half;
   q.v0 = 0.25f;
   q.v1 = 0.375f;
-  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
-  q.y1 = (c->scale[1] * (q.y1 - c->pivot[1])) + c->pivot[1];
-  draw_message_frame_row(&q, c);
-  q.y0 = 32.0f + c->y;
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  q.y1 = (context->scale[1] * (q.y1 - context->pivot[1])) + context->pivot[1];
+  draw_message_frame_row(&q, context);
+  q.y0 = 32.0f + context->y;
   q.v0 = 0.125f;
   q.v1 = 0.25f;
-  step = 32.0f * c->scale[1];
+  step = 32.0f * context->scale[1];
   rem = frame_size[1] - 64.0f;
-  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
-  step = 32.0f * c->scale[1];
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  step = 32.0f * context->scale[1];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      step = rem * c->scale[1];
+      step = rem * context->scale[1];
       q.v1 = (32.0f + rem) / 256.0f;
     }
     q.y1 = q.y0 + step;
-    draw_message_frame_row(&q, c);
+    draw_message_frame_row(&q, context);
     rem -= 32.0f;
     q.y0 += step;
   }
@@ -876,7 +869,7 @@ void TWindowCtrlMain::free_window() {
 
 void load_hud_palette_textures(void) {
     GvplPalette palette;
-    palette.data = TLobby::tmp_buf_use_req("TWindowBase");
+    palette.data = tmp_buf_use_req("TWindowBase");
     TLanguage::load_palette_tlut(f256_hyouji_a_palette_file, &palette, 0x40);
     TLanguage::load_palette_tlut(hud_palette_texture_filename, &palette, 0x41);
     TLanguage::load_palette_tlut(f256_hyouji_c_palette_file, &palette, 0x42);
@@ -887,7 +880,7 @@ void load_hud_palette_textures(void) {
     TLanguage::load_palette_tlut(r256_symparts_palette_file, &palette, 1);
     TLanguage::load_palette_tlut(f256_duelcount_palette_file, &palette, 0x4A);
     TLanguage::load_palette_tlut(f256_carsol_palette_file, &palette, 0x43);
-    TLobby::tmp_buf_release("TWindowBase");
+    tmp_buf_release("TWindowBase");
     load_disc_prs_texture(f256_hyouji_texture_file, &f256_hyouji_texlist);
     hud_texlist = &f256_hyouji_texlist;
     set_texture_list(&f256_hyouji_texlist);
@@ -925,7 +918,7 @@ s32 TWindowBase::is_closed() {
     return (u8)(!(window_flags & 1));
 }
 
-int TWindowFukidasi::test_flag2c_bit100() { return ((u32)window_flags >> 8) & 0x1; }
+int TWindowFukidasi::is_bit8_set() { return ((u32)window_flags >> 8) & 0x1; }
 
 int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1; }
 

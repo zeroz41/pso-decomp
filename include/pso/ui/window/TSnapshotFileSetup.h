@@ -12,6 +12,7 @@ public:
     TSnapshotFileSetup(TObject *parent);
     virtual ~TSnapshotFileSetup();
     s32 get_result();
+    // yes_no: a Yes/No prompt instead of the option dialog.
     void open_confirm_dialog(s32 message, s32 yes_no);
     void set_option_and_confirm(s32 option, s32 yes_no);
     virtual void render();
@@ -23,5 +24,9 @@ public:
     TWindowMessageYesNo *message_window;
 };
 LAYOUT_ASSERT(TSnapshotFileSetup_size, sizeof(TSnapshotFileSetup) == 0x30);
+
+// The floor resource callbacks (load, unload) that clear the lobby information board.
+void reset_info_board_on_load();
+void reset_info_board_on_unload();
 
 #endif

@@ -43,7 +43,7 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 
 
 #include "pso/system/byteswap.h"

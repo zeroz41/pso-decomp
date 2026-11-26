@@ -5,7 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/derolle/TObjBoss2Dust.h"
@@ -24,7 +24,7 @@ void cleanup_boss2_area(void) {
     TLobby::clear_session_buffers();
 }
 
-s32 TLobby::setup_area() {
+s32 init_boss2_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

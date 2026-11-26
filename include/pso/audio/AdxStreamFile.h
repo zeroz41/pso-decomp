@@ -27,7 +27,7 @@ struct AdxStreamFile {
     SjChunk pending_read;
     s32 max_read_sectors;
     s32 sectors;
-    s32 field34;
+    s32 bytes_read;
     AdxStreamCompletion on_completion;
     void *completion_context;
 };
@@ -35,7 +35,7 @@ LAYOUT_ASSERT(AdxStreamFileHandleOffset, offsetof(AdxStreamFile, handle) == 8);
 LAYOUT_ASSERT(AdxStreamFilePendingReadOffset, offsetof(AdxStreamFile, pending_read) == 0x24);
 LAYOUT_ASSERT(AdxStreamFileCompletionOffset, offsetof(AdxStreamFile, on_completion) == 0x38);
 LAYOUT_ASSERT(AdxStreamFile_size, sizeof(AdxStreamFile) == 0x40);
-LAYOUT_ASSERT(AdxStreamFile_field34_offset, offsetof(AdxStreamFile, field34) == 0x34);
+LAYOUT_ASSERT(AdxStreamFile_bytes_read_offset, offsetof(AdxStreamFile, bytes_read) == 0x34);
 
 extern "C" {
 void set_adx_stream_completion(AdxStreamFile *file, AdxStreamCompletion callback, void *context);

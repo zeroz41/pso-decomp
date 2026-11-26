@@ -8,7 +8,7 @@
 #include "pso/system/AreaSound.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
@@ -79,8 +79,8 @@ static const char mericarol_low_detail_body_model_name[] = "lo_bm9_s_meri_body.n
 static const char mericarol_low_detail_archive_name[] = "bm_ene_bm9_s_mericarol_low.bml";
 static const char bm9_mericarol_class_name_string[] = "TObjEneBm9Mericarol";
 
-TObjEneBm9MericarolMovementParameters mericarol_movement_params = {
-    { 225.0f, 0.0f, 0x200 }, { 0, 0, 0, 0 },
+EnemyMoveParams mericarol_movement_params = {
+    225.0f, 0.0f, 0x200, { 0, 0, 0, 0 },
 };
 
 CollisionBody mericarol_collision_bodies[2] = {
@@ -129,8 +129,8 @@ TObjMotionAction mericarol_motion_actions[9] = {
 };
 
 static const NpcAnimationBinding mericarol_animation_binding = { NULL, mericarol_motion_actions, 3, 1, 9 };
-static const Vec lbl_80472490 = { 2.0f, 1.0f, 2.0f };
-static const Vec lbl_8047249C = { 2.0f, 1.0f, 2.0f };
+static const Vec mericarol_shadow_scale = { 2.0f, 1.0f, 2.0f };
+static const Vec mericarol_variant_shadow_scale = { 2.0f, 1.0f, 2.0f };
 static const Vec player_sub_802ce68c_zero_vec = { 0.0f, 0.0f, 0.0f };
 
 player_stats *bm9_mericarol_phase_hp_table[3];
@@ -573,7 +573,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
     case 0:
         advance_animation();
         target = 0xFFFF;
-        if (tick_period_counter((saddr)this, &retarget_counter, 0x14) != 0) {
+        if (tick_period_counter(this, &retarget_counter, 0x14) != 0) {
             if (destination_distance > 30.0f) {
                 if (is_confused() != 0) {
                     target = enemy_nearest_visible_enemy(this, destination_distance - 30.0f);
@@ -582,7 +582,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
                     target = enemy_find_nearest_player_in_range(this, (f32)(destination_distance - 30.0f));
                 }
                 if (target != 0xFFFF) {
-                    enemy_set_target_id(this, target);
+                    enemy_set_target_id(target);
                 }
             }
         } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
@@ -592,7 +592,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
         update_velocity();
         state_timer++;
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -631,7 +631,7 @@ void TObjEneBm9Mericarol::state_shoot(s32 reason) {
         enemy_copy_target_destination();
         update_velocity();
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -673,7 +673,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
         break;
     case 0:
         advance_animation();
-        enemy_validate_retained_target(this);
+        enemy_validate_retained_target();
         switch (state_step) {
         case 2:
             break;
@@ -696,7 +696,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                                 break;
                             }
                             if (obj_is_hit_receivable(p) != 0 && p->select_melee_contact_body(this, 1.0f) != 0) {
-                                p->apply_knockback_from_attacker((u8 *)this, 1.0f);
+                                p->apply_knockback_from_attacker(this, 1.0f);
                                 p->receive_physical_attack(this, 1.0f);
                             }
                         }
@@ -731,7 +731,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
         enemy_copy_target_destination();
         update_velocity();
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -788,12 +788,12 @@ void TObjEneBm9Mericarol::state_rush(s32 reason) {
                 bodies->flags |= 0x700;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
             target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-            rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+            rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
             check_collisions();
             return;
         case 1:
@@ -1082,7 +1082,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
                     state_step = 1;
                 }
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
@@ -1095,7 +1095,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
             if (is_passing_frame(10.0f) != 0) {
                 VecCopy(&pos, &position);
                 pos.y += 20.0f;
-                TTecKafun::create((saddr)this, (saddr)&pos, 5, 0x20B, 0x20C,
+                TTecKafun::create(this, &pos, 5, 0x20B, 0x20C,
                     mericarol_phase_param_table[get_phase()]->technique_value, get_clamped_level(),
                     mericarol_phase_param_table[get_phase()]->technique_radius);
                 play_sound_effect(remap_sound_for_area(0x3A80A), &position, 0, 0);
@@ -1191,7 +1191,7 @@ void TObjEneBm9Mericarol::render() {
         return;
     }
     if (this->mode != 0xB) {
-        Vec v = lbl_80472490;
+        Vec v = mericarol_shadow_scale;
         draw_ground_shadow(&v, 0);
     }
     update_secondary_light();
@@ -1224,7 +1224,7 @@ void TObjEneBm9Mericarol::render() {
     mericarol_node_counter = 0;
     toggle_particle_effect();
     if (!(flags & 0x10)) {
-        plist = ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->sibling->model)->polygon_list;
+        plist = ((NJS_CNK_MODEL *)model->child->sibling->sibling->sibling->model)->polygon_list;
         saved = plist[5];
         plist[5] = (u8)plist[5];
         set_chunk_model_node_callback(TObjEneBm9Mericarol::update_particle_effect);
@@ -1254,7 +1254,7 @@ void TObjEneBm9Mericarol::render() {
     }
     if (!(flags & 0x10)) {
         set_chunk_model_node_callback(NULL);
-        ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[5] = saved;
+        ((NJS_CNK_MODEL *)model->child->sibling->sibling->model)->polygon_list[5] = saved;
     }
     TParticleCtrl::end_effect_render();
     restore_alpha_ref();
@@ -1273,7 +1273,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
     GinjaTextureState *s1;
     GinjaTextureState *s2;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        Vec v = lbl_8047249C;
+        Vec v = mericarol_variant_shadow_scale;
         draw_ground_shadow(&v, 0);
         switch (variant) {
         case 1:

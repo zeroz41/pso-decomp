@@ -76,7 +76,6 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/network/client_id.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/quest/QuestStoryFlags.h"
@@ -334,7 +333,6 @@ void TObjCityMainWarp::clear_active_bit(s32 floor) {
         city_main_warp_enabled_destinations &= ~(1 << floor_warp_bit);
     }
 }
-extern "C" {
 
 void clear_enabled_main_warps(void) { city_main_warp_enabled_destinations = 0; }
 
@@ -354,7 +352,6 @@ void unlock_main_warp_destination(s32 id) {
             break;
         }
     }
-}
 }
 
 TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {

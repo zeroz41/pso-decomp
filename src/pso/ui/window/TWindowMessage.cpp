@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -47,10 +47,10 @@ void TWindowMessage::scroll_up_line(u8 *line_entry) {
 }
 
 void TWindowMessage::advance_reveal_cursor() {
-    u16 *e;
+    WindowTextEntry *e;
     s32 t;
-    e = ((u16 *)get_array_entry(reveal_line));
-    while (((WindowTextEntry *)e)->get_text() != 0 && (*e & 0x10)) {
+    e = static_cast<WindowTextEntry *>(get_array_entry(reveal_line));
+    while (e->get_text() != 0 && (e->flags & 0x10)) {
         t = reveal_line + 1;
         reveal_line = t;
         if (t >= line_count) {
@@ -59,10 +59,10 @@ void TWindowMessage::advance_reveal_cursor() {
         if (reveal_line == oldest_line) {
             break;
         }
-        e = ((u16 *)get_array_entry(reveal_line));
+        e = static_cast<WindowTextEntry *>(get_array_entry(reveal_line));
         if (lines[reveal_line].flags & 8) {
             lines[reveal_line].flags &= ~8;
-            *e &= ~8;
+            e->flags &= ~8;
         }
     }
 }
@@ -74,7 +74,7 @@ void TWindowMessage::update_line_timers() {
     s32 idx;
     f32 h;
     for (i = 0; i < (u32)line_count; i++) {
-        if (((WindowTextEntry *)((u8 *)this->get_array_entry(i)))->get_text() != 0) {
+        if (static_cast<WindowTextEntry *>(get_array_entry(i))->get_text() != 0) {
             if ((lines[i].flags & 4) && lines[i].timer > 0) {
                 lines[i].timer--;
             }
@@ -232,7 +232,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
     if (self->window_flags & 0x80) {
         y -= 5.0f;
     }
-    measure_message_text_width(e, y);
+    e->measure_text(y);
     if (flags & 0x200) {
         e->x = y - e->width;
     } else {
@@ -256,14 +256,6 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
 }
 
 }
-
-// inferred: message_window_layout_entries, the layout table message_window_settings points at: one
-// text record per row, rows set to the line count by set_message_window_size.
-struct MessageWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
 
 MessageWindowLayout message_window_layout_entries = {
     1, 0,

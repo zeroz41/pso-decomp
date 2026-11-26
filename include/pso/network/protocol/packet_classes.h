@@ -187,7 +187,9 @@ public:
     u32 to_guildcard_number;
     char text[512];
 public:
+    TChatMessage();
     void bswap();
+    s32 is_text_too_long();
 };
 
 class TRecvPort {

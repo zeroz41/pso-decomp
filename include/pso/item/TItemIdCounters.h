@@ -13,9 +13,7 @@ struct TItemIdCounters {
 extern s32 *item_id_counter_table;
 extern s32 *item_sync_counter_table;
 
-extern "C" {
 u32 advance_item_id_counter(u16 client);
-}
 // The floor item records ("ItemCondition"): one per item lying on a floor.
 void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item);
 void remove_item_condition_at(s16 floor, s32 item_id);

@@ -18,16 +18,16 @@
 extern "C" {
 s32 adx_stream_request_base;
 s32 tlobby_stream_read_retry_limit;
-s32 lbl_805D7558;
+s32 adx_stream_null_sj_count;
 }
 
 extern "C" {
 s32 adx_stream_request_count_ex = 0x10;
 s32 adx_stream_request_base_index = 0x10;
 s32 adx_stream_fname_slot_count = 0x18;
-static const char lbl_8047C600[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't open ";
-static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
-static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
+static const char adxstm_open_fname_range_ex_rt_error[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't open ";
+static const char adxstm_open_fname_ex_error[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
+static const char adxstm_open_fname_rang_error[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
 
 void set_adx_stream_base_offset(AdxStreamFile *file, s32 offset) {
     file->base_offset = offset;
@@ -111,13 +111,13 @@ void update_adx_stream_read(AdxStreamFile *file) {
         r = cvFsGetStat(file->handle);
         if (r == 1) {
             n = file->sectors_read << 11;
-            sj_chunk_split(&file->pending_read, n, &a, &b);
+            sj_split_chunk(&file->pending_read, n, &a, &b);
             stream->interface->put_chunk(stream, 1, &a);
             stream->interface->unget_chunk(stream, 0, &b);
             if (file->sectors == get_stream_position(file) && file->on_completion != NULL) {
                 file->on_completion(file->completion_context);
             }
-            file->field34 += n;
+            file->bytes_read += n;
             file->read_pending = 0;
             if (get_stream_position(file) >= (file->size + 0x7FF) / 2048) {
                 file->stat = 3;
@@ -137,7 +137,7 @@ void update_adx_stream_read(AdxStreamFile *file) {
     }
     if (file->read_pending == 0) {
         if (stream == NULL || stream->interface == NULL) {
-            lbl_805D7558++;
+            adx_stream_null_sj_count++;
             return;
         }
         if (stream->interface->get_available(stream, 1) < file->read_threshold) {
@@ -207,12 +207,12 @@ static inline s32 get_stream_position_b(AdxStreamFile *s) {
 }
 s32 init_adx_stream_position(AdxStreamFile *file) {
     if (file->size == 0) {
-        file->field34 = 0;
+        file->bytes_read = 0;
         file->start_position = 0;
         file->stat = 3;
     } else {
         file->stat = 2;
-        file->field34 = 0;
+        file->bytes_read = 0;
         file->start_position = get_stream_position_b(file);
         file->retry = 0;
     }
@@ -254,7 +254,7 @@ void adxstm_close(AdxStreamFile *file) {
     }
 }
 
-inline AdxStreamFile *alloc_803C8BAC(s32 arg, CvFsHandle *h, s32 size) {
+inline AdxStreamFile *adxstm_alloc_ex_file(saddr arg, CvFsHandle *h, s32 base_offset, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
@@ -271,7 +271,7 @@ inline AdxStreamFile *alloc_803C8BAC(s32 arg, CvFsHandle *h, s32 size) {
     p->arg = arg;
     p->handle = h;
     p->start_position = 0;
-    p->base_offset = 0;
+    p->base_offset = base_offset;
     p->size = size;
     p->max_read_sectors = 0x200;
     p->sectors = (p->size + 0x7FF) / 2048;
@@ -285,10 +285,10 @@ AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg) {
     size = cvFsGetFileSize(name);
     h = cvFsOpen(name, 0, 0);
     if (h == 0) {
-        adxerr_report_pair(lbl_8047C634, name);
+        adxerr_report_pair(adxstm_open_fname_ex_error, name);
         return NULL;
     }
-    p = alloc_803C8BAC(arg, h, size);
+    p = adxstm_alloc_ex_file(arg, h, 0, size);
     if (p != NULL) {
         cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
@@ -296,7 +296,7 @@ AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg) {
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8CDC(s32 arg, CvFsHandle *h, s32 base_offset, s32 size) {
+inline AdxStreamFile *adxstm_alloc_file(s32 arg, CvFsHandle *h, s32 base_offset, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_fname_slot_count; i++) {
@@ -331,10 +331,10 @@ AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg) {
     }
     h = cvFsOpen(name, mode, 0);
     if (h == 0) {
-        adxerr_report_pair(lbl_8047C634, name);
+        adxerr_report_pair(adxstm_open_fname_ex_error, name);
         return NULL;
     }
-    p = alloc_803C8CDC(arg, h, 0, size);
+    p = adxstm_alloc_file(arg, h, 0, size);
     if (p != NULL) {
         cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
@@ -342,39 +342,15 @@ AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg) {
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8E28(saddr arg, CvFsHandle *h, s32 base_offset, s32 size) {
-    AdxStreamFile *p = NULL;
-    s32 i;
-    for (i = 0; i < adx_stream_request_count_ex; i++) {
-        p = &adx_stream_read_requests[adx_stream_request_base + i];
-        if (p->used == 0) {
-            break;
-        }
-    }
-    if (i == adx_stream_request_count_ex) {
-        return NULL;
-    }
-    p->stat = 1;
-    p->read_pending = 0;
-    p->arg = arg;
-    p->handle = h;
-    p->start_position = 0;
-    p->base_offset = base_offset;
-    p->size = size;
-    p->max_read_sectors = 0x200;
-    p->sectors = (p->size + 0x7FF) / 2048;
-    p->used = 1;
-    return p;
-}
 AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s32 nsect, saddr arg) {
     CvFsHandle *h;
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);
     if (h == 0) {
-        adxerr_report_pair(lbl_8047C600, name);
+        adxerr_report_pair(adxstm_open_fname_range_ex_rt_error, name);
         return NULL;
     }
-    p = alloc_803C8E28(arg, h, off, nsect << 11);
+    p = adxstm_alloc_ex_file(arg, h, off, nsect << 11);
     if (p != NULL) {
         cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
@@ -382,39 +358,15 @@ AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s3
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8F5C(s32 arg, CvFsHandle *h, s32 base_offset, s32 size) {
-    AdxStreamFile *p = NULL;
-    s32 i;
-    for (i = 0; i < adx_stream_fname_slot_count; i++) {
-        p = &adx_stream_read_requests[adx_stream_request_base_index + i];
-        if (p->used == 0) {
-            break;
-        }
-    }
-    if (i == adx_stream_fname_slot_count) {
-        return NULL;
-    }
-    p->stat = 1;
-    p->read_pending = 0;
-    p->arg = arg;
-    p->handle = h;
-    p->start_position = 0;
-    p->base_offset = base_offset;
-    p->size = size;
-    p->max_read_sectors = 0x200;
-    p->sectors = (p->size + 0x7FF) / 2048;
-    p->used = 1;
-    return p;
-}
 AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
     CvFsHandle *h;
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);
     if (h == 0) {
-        adxerr_report_pair(lbl_8047C660, name);
+        adxerr_report_pair(adxstm_open_fname_rang_error, name);
         return NULL;
     }
-    p = alloc_803C8F5C(arg, h, off, nsect << 11);
+    p = adxstm_alloc_file(arg, h, off, nsect << 11);
     if (p != NULL) {
         cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);

@@ -4,6 +4,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/psoLoadTexture.h"
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))
 

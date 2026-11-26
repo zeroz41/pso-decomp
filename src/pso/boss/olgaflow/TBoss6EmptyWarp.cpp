@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6Thanks.h"

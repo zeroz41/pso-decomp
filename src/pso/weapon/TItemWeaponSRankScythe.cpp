@@ -9,7 +9,7 @@
 
 
 void TItemWeaponSRankScythe::update_idle() { rotation = 0; }
-void TItemWeaponSRankScythe::transform_model_node() { if (TObjPlayer::get_player_list() == 0) { rotate_matrix_z(NULL, rotation); } }
+void TItemWeaponSRankScythe::transform_model_node() { if (get_model_node_counter() == 0) { rotate_matrix_z(NULL, rotation); } }
 
 
 #pragma push

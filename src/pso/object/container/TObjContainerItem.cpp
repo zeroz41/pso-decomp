@@ -40,7 +40,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TMotorcycle.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/unk/text_803D8F74.h"
@@ -187,7 +187,7 @@ void load_forest_box_resources(void) {
         forest_box_textures = LoadPvmFileTls(seabed_container_texture_filename);
         forest_box_debris_primary = &forest_box_break_params[2];
         forest_box_debris_secondary = &forest_box_break_params[3];
-        node = find_object_node((NJS_OBJECT *)get_bml_model(forest_box_model_archive, 1), 2);
+        node = find_object_node(get_bml_model(forest_box_model_archive, 1), 2);
         if (node != NULL) {
             node->evalflags |= 0x100000;
         }
@@ -215,7 +215,7 @@ void free_forest_box_resources() {
     }
 }
 
-NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_box_model_archive, index); }
+NJS_OBJECT *get_forest_box_model(s32 index) { return get_bml_model(forest_box_model_archive, index); }
 
 void load_container_breakup_resources() {
     BmlResource *p;
@@ -250,7 +250,7 @@ void free_container_breakup_resources() {
 }
 
 NJS_OBJECT *get_container_breakup_model(s32 index) {
-    return (NJS_OBJECT *)get_bml_model(container_breakup_model_archive, index);
+    return get_bml_model(container_breakup_model_archive, index);
 }
 
 #pragma push
@@ -273,11 +273,11 @@ TObjContainerCommon::TObjContainerCommon(TObject *parent, void *set_data) : TObj
 
 #pragma pop
 
-s32 TObjContainerCommon::select_melee_contact_body(void *target, f32) {
+s32 TObjContainerCommon::select_melee_contact_body(TObjChara *target, f32) {
     return xyz_distance_squared(&((TObjBase *)target)->position, &position) < melee_range_sq;
 }
 
-f32 TObjContainerCommon::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *, s32, s32) {
+f32 TObjContainerCommon::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;
@@ -287,7 +287,7 @@ f32 TObjContainerCommon::receive_direct_attack(void *attacker, DirectAttackPaylo
     return container_item_zero;
 }
 
-f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
+f32 TObjContainerCommon::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
         saved_state = 1;
@@ -551,7 +551,7 @@ void TObjContainerEnemy::debug_print_item_box_info() {
     debug_draw_sphere(&position, &debug_color_blue_alpha30, container_item_debug_radius);
 }
 
-f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
+f32 TObjContainerEnemy::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
@@ -656,7 +656,7 @@ void TObjContainerNoItem::draw_model() {
     }
 }
 
-f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
+f32 TObjContainerNoItem::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
         saved_state = 1;
@@ -858,7 +858,7 @@ void TObjContainerAbeEnemy::debug_print_item_box_info() {
     debug_draw_sphere(&position, &debug_color_blue_alpha30, container_item_debug_radius);
 }
 
-f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
+f32 TObjContainerAbeEnemy::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {

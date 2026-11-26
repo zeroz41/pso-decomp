@@ -118,7 +118,7 @@ TObjMotionAction merill_lia_action_table[14] = {
     {2, 0, 0xA, 0.7f, 4},
     {2, 1, 0xB, 0.6f, 0x20},
 };
-BeastMovementParams merill_lia_movement_params[3] = {
+EnemyMoveParams merill_lia_movement_params[3] = {
     {225.0f, 0.4f, 0x400, {0, 0x1E0000, 1, 0}},
     {250.0f, 0.55f, 0x400, {0, 0x1E0000, 1, 0}},
     {300.0f, 0.7f, 0x400, {0, 0x1E0000, 1, 0}},
@@ -157,7 +157,7 @@ TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TObjEneBeas
     update_prev_position();
     copy_position();
     register_object_by_id();
-    m_2ac = (s32)(182.04445f * (360.0f * random_ratio()));
+    move_timer = (s32)(182.04445f * (360.0f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;
@@ -425,12 +425,12 @@ void TObjEneMerillLia::beast_update_approach() {
             update_target_near_flag();
             select_move_speed();
             advance_animation();
-            enemy_move_toward(this, ((BeastMovementParams *)movementParameters)->turnSpeed, dest, 0, move_speed);
+            enemy_move_toward(this, movementParameters->turn_speed, dest, 0, move_speed);
             if (targetId == 0xFFFF) {
                 if (horizontal_distance_squared(&move_destination, &position) < (r = move_speed + bodies->radius) * r ||
-                    150.0f < (f32)(*(s32 *)&m_2ac)++) {
+                    150.0f < (f32)move_timer++) {
                     target = NULL;
-                    m_2ac = 0;
+                    move_timer = 0;
                 }
             }
         }
@@ -470,7 +470,7 @@ void TObjEneMerillLia::beast_update_appear() {
         }
         break;
     case 2:
-        targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
+        targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
         mode = 1;
         break;
     }
@@ -501,7 +501,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
             } else {
                 dist = enemy_backstep_from_point(this, target->body_center, retreat_speed);
             }
-            turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &velocity);
+            turn_toward_direction(movementParameters->turn_speed, &velocity);
             retreat_timer--;
             if (dist < (far_move_speed + bodies->radius) * (far_move_speed + bodies->radius) || retreat_timer < 0) {
                 phase = 2;
@@ -528,7 +528,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
             break;
         }
         if (is_actor_cadence_frame(0x1E) != 0) {
-            targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
+            targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
         }
         if (targetId < 0x1000) {
             TObjPlayer *p = get_player_by_client_id(targetId);
@@ -546,7 +546,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
     case 2:
         clear_actor_flags(0x1000);
         if (is_actor_cadence_frame(0x1E) != 0) {
-            targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
+            targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
         }
         if (targetId < 0x1000) {
             TObjPlayer *p = get_player_by_client_id(targetId);
@@ -600,7 +600,7 @@ void TObjEneMerillLia::beast_idle_update() {
     }
     {
     f32 dist = horizontal_distance_squared(&position, &home_position);
-    f32 r = parameters[1] + (((BeastMovementParams *)movementParameters)->wanderSpeed + bodies->radius);
+    f32 r = parameters[1] + (movementParameters->move_speed + bodies->radius);
     if (r * r < dist) {
         Vec *d;
         Vec *v;
@@ -623,7 +623,7 @@ void TObjEneMerillLia::beast_idle_update() {
         if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
             VecCopy(&position, &scratch_vec2);
-            rotation_y = approach_angle_limited(rotation_y, ang, ((BeastMovementParams *)movementParameters)->turnSpeed);
+            rotation_y = approach_angle_limited(rotation_y, ang, movementParameters->turn_speed);
         } else {
             f32 rr = fabs_float(d->z);
             if (fabs_float(scratch_vec.x) < rr) {
@@ -642,7 +642,7 @@ void TObjEneMerillLia::beast_idle_update() {
             if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
                 requested_action = 2;
                 VecCopy(&position, &scratch_vec2);
-                rotation_y = approach_angle_limited(rotation_y, ang, ((BeastMovementParams *)movementParameters)->turnSpeed);
+                rotation_y = approach_angle_limited(rotation_y, ang, movementParameters->turn_speed);
             } else {
                 s32 ang2;
                 rr = fabs_float(d->z);
@@ -662,7 +662,7 @@ void TObjEneMerillLia::beast_idle_update() {
                 if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
                     requested_action = 2;
                     VecCopy(&position, &scratch_vec2);
-                    rotation_y = approach_angle_limited(rotation_y, ang2, ((BeastMovementParams *)movementParameters)->turnSpeed);
+                    rotation_y = approach_angle_limited(rotation_y, ang2, movementParameters->turn_speed);
                 } else {
                     requested_action = 2;
                 }
@@ -672,7 +672,7 @@ void TObjEneMerillLia::beast_idle_update() {
         f32 w;
         requested_action = 2;
         w = parameters[1];
-        enemy_wander_home(((BeastMovementParams *)movementParameters)->wanderSpeed, w, w, ((BeastMovementParams *)movementParameters)->turnSpeed);
+        enemy_wander_home(movementParameters->move_speed, w, w, movementParameters->turn_speed);
     } else {
         start_burrow();
     }
@@ -752,7 +752,7 @@ void TObjEneMerillLia::update_kafun_attack() {
                 matrix_mult_vec(0, &offset, &pos);
             }
             pop_matrix();
-            TTecKafun::create((saddr)this, (saddr)&pos, 0xF, 0xD3, get_clamped_level(), merill_lia_behavior_params[subtype]->kafun_value, 20.0f);
+            TTecKafun::create(this, &pos, 0xF, 0xD3, get_clamped_level(), merill_lia_behavior_params[subtype]->kafun_value, 20.0f);
             play_kafun_sound();
         }
         if (action_flags != 4) {
@@ -819,7 +819,7 @@ void TObjEneMerillLia::update_burrow() {
 void TObjEneMerillLia::search_target() {
     TObjPlayer *p;
     s32 floor;
-    targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
+    targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
     if (targetId < 0x1000) {
         p = get_player_by_client_id(targetId);
         if (p != NULL) {

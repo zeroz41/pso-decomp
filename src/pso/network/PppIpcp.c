@@ -121,11 +121,11 @@ void init_ipcp_protocol(PppProtoBlocks *connection) {
     protocol->max_peer_attempts = 10;
     protocol->max_terminate_attempts = 10;
     protocol->timeout = 0xbb8;
-    protocol->release_resources = free_field_98;
+    protocol->release_resources = ipcp_release_resources;
     protocol->reset_options = ipcp_reset_options;
     protocol->start_negotiation = ipcp_start_negotiation;
     protocol->link_opened = ipcp_opening;
-    protocol->link_closed = free_field_98_and_clear;
+    protocol->link_closed = ipcp_link_closed;
     protocol->finish_termination = ipcp_finish_termination;
     protocol->build_config_request = build_ipcp_config_request;
     protocol->check_config_request = recv_ipcp_config_request;
@@ -233,7 +233,7 @@ s16 ipcp_open(PppFsm *fsm) {
     return 0;
 }
 
-void free_field_98(PppFsm *self) {
+void ipcp_release_resources(PppFsm *self) {
     vj_release_state(((IpcpConfig *)self->opts)->net_list);
 }
 
@@ -264,7 +264,7 @@ void ipcp_opening(PppFsm *fsm) {
     fsm->state = 5;
 }
 
-void free_field_98_and_clear(PppFsm *self) {
+void ipcp_link_closed(PppFsm *self) {
     IpcpConfig *config = (IpcpConfig *)self->opts;
     vj_release_state(config->net_list);
     config->net_list = 0;
@@ -705,7 +705,7 @@ static inline s32 ppp_option_type(s32 bit) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 void append_masked_ipcp_options(PppFrame **self, IpcpOptions *opt, s32 mask) {
-    s16 new_var;
+    s16 option_mask;
     s16 i;
     s32 m;
     if (*self == NULL) {
@@ -714,7 +714,7 @@ void append_masked_ipcp_options(PppFrame **self, IpcpOptions *opt, s32 mask) {
             return;
         }
     }
-    m = (new_var = (s16)mask);
+    m = (option_mask = (s16)mask);
     for (i = 1; i < 0x20; i++) {
         if (m & (1 << i)) {
             append_ipcp_option(self, opt, ppp_option_type(i), ipcp_option_lengths[i], 0);

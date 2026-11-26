@@ -52,7 +52,7 @@ CollisionBody jungle_design_collision_desc_table[3] = {
 
 void TOJungleDesign::render() {
     if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
@@ -81,7 +81,7 @@ NJS_TEXLIST *get_jungle_design_texlist(s32 index) {
 }
 NJS_OBJECT *get_jungle_design_model(s32 index) {
     if (jungle_design_shared_model_resource != NULL) {
-        return (NJS_OBJECT *)get_bml_model(jungle_design_shared_model_resource, index);
+        return get_bml_model(jungle_design_shared_model_resource, index);
     }
     return NULL;
 }

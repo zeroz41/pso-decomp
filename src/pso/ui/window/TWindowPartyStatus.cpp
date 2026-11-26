@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -25,16 +24,6 @@
 const char *TWindowPartyStatus::class_name = "TWindowPartyStatus";
 
 
-
-struct PartyStatusWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-    LayoutEntryCopyRecord rec_3;
-    TextLayoutRecord rec_4;
-};
 
 PartyStatusWindowLayout party_status_layout_entries = {
     5, 1,

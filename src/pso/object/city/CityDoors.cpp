@@ -44,7 +44,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -389,7 +389,7 @@ TObjCityDoor_Lobby::TObjCityDoor_Lobby(TObject *parent, void *set) : TObjBase(pa
     if (is_phase_e() != 0) {
         build_door_collision_triangles();
         if (TObjMapCsn::get_collision_controller() != NULL) {
-            register_slot(TObjMapCsn::get_collision_controller(), &collision_group);
+            TObjMapCsn::get_collision_controller()->add_group(&collision_group);
             collision_registered = 1;
         }
     }
@@ -397,7 +397,7 @@ TObjCityDoor_Lobby::TObjCityDoor_Lobby(TObject *parent, void *set) : TObjBase(pa
 
 TObjCityDoor_Lobby::~TObjCityDoor_Lobby() {
     if (collision_registered != 0 && TObjMapCsn::get_collision_controller() != NULL) {
-        remove_collision_group(TObjMapCsn::get_collision_controller(), &collision_group);
+        TObjMapCsn::get_collision_controller()->remove_group(&collision_group);
     }
 }
 

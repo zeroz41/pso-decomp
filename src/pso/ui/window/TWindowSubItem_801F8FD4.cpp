@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 void TWindowMenuIconLine::clear_decided() {
     this->state_flags = (u16) (this->state_flags & 0xFFFFFFFD);

@@ -49,15 +49,15 @@ const char *epsilon_guard_class_name = "TObjEneEpsilonGuard";
 extern CollisionBody epsilon_guard_model_desc[];
 
 
-f32 TObjEneEpsilonGuard::receive_weapon_special_attack(void *, void *) {
+f32 TObjEneEpsilonGuard::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     try_apply_damage(&body_center, 0);
     return 0.0f;
 }
-f32 TObjEneEpsilonGuard::receive_physical_attack(void *, f32) {
+f32 TObjEneEpsilonGuard::receive_physical_attack(TObjChara *, f32) {
     try_apply_damage(&body_center, 0);
     return 0.0f;
 }
-f32 TObjEneEpsilonGuard::receive_direct_attack(void *attacker, DirectAttackPayload msg, void *body, s32 tech, s32 flags) {
+f32 TObjEneEpsilonGuard::receive_direct_attack(TObjBase *attacker, DirectAttackPayload msg, CollisionBody *body, s32 tech, s32 flags) {
     if (msg.kind == 0x14) {
         return TObjChara::receive_direct_attack(attacker, msg, body, tech, flags);
     }
@@ -525,7 +525,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
                         attack.kind = ((TObjEneEpsilonBody *)body)->get_table_value_by_index();
                         attack.power = epsilon_guard_movement_params->attack_power;
                         damage = p->receive_direct_attack(this, attack, 0, -1, -1);
-                        p->apply_knockback_from_attacker((u8 *)this, damage);
+                        p->apply_knockback_from_attacker(this, damage);
                     }
                 }
             }
@@ -583,7 +583,7 @@ void TObjEneEpsilonGuard::update_center_position() {
 }
 void TObjEneEpsilonGuard::update_body_colliders() { set_part_local_pos(&body_center, 0); }
 
-TObjEneEpsilonMovement epsilon_guard_params = {
+EnemyMoveParams epsilon_guard_params = {
     150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
 TObjMotionAction epsilon_guard_action_table[1] = {

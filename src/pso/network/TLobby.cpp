@@ -4,7 +4,6 @@
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/unk/TLobby_801E43E4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/network/TProtocol.h"
@@ -29,10 +28,10 @@
 #include "pso/network/TPacket.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
-#include "pso/unk/TLobby_8020BFC4.h"
-#include "pso/unk/text_8020B5CC.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -75,12 +74,12 @@
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/TSetManager.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/network/client_id.h"
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -102,7 +101,7 @@
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/object/TObjControl.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 
@@ -434,7 +433,7 @@ void TLobby::update_idle_timeout(TLobbyIdleTimer *t) {
     if (has_window_task_root() == 0) {
         lobby_idle_timeout_window = 0;
     }
-    if (hardware_keyboard_state.has_any_key_pressed() != 0 || TKeyBoardControl::any_pad_input_active() != 0) {
+    if (hardware_keyboard_state.has_any_key_pressed() != 0 || any_pad_input_active() != 0) {
         t->start = t->now;
         t->state = 0;
         if (lobby_idle_timeout_window != 0) {
@@ -604,7 +603,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
         TLobby::bswap_6x6E_sync_game_state(buf);
         apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(buf->payload), buf->floor_flags_size);
         n = buf->floor_flags_size;
-        TLobby::import_sync_records(reinterpret_cast<s16 *>(&buf->payload[n]), buf->sync_records_size);
+        import_floor_event_flags(reinterpret_cast<s16 *>(&buf->payload[n]), buf->sync_records_size);
 
         if ((buf->sync_records_size && buf->sync_records_size) && buf->sync_records_size)
         {
@@ -704,7 +703,7 @@ void TLobby::send_6x6E_sync_game_state(int size) {
             memset(hdr, 0, sizeof(*hdr));
             hdr->floor_flags_size = serialize_area_set_flags(reinterpret_cast<FloorSetFlagsPayload *>(hdr->payload));
             n = hdr->floor_flags_size;
-            hdr->sync_records_size = TLobby::export_sync_records(reinterpret_cast<s16 *>(&hdr->payload[n]));
+            hdr->sync_records_size = export_floor_event_flags(reinterpret_cast<s16 *>(&hdr->payload[n]));
             n += hdr->sync_records_size;
             hdr->switch_table_size = copy_switch_table(&hdr->payload[n]);
             n += hdr->switch_table_size;
@@ -2321,7 +2320,7 @@ void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, 
             }
         }
     }
-    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = handle_recv_chat;
+    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = TWindowCtrl::handle_recv_chat;
     if (lobby_player_construction_window != NULL) {
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;
@@ -2539,7 +2538,7 @@ void TLobby::send_logout() {
 #pragma dont_inline off
 
 #define CONNECT_TO_LOBBY_SERVER(res, s)                                                                   \
-    if (TKeyBoardControl__sub_8000F828() == 0) {                                                    \
+    if (get_video_standard() == 0) {                                                    \
         res = TLobby::protocol_instance->set_server_info("", "", \
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[0].host, s[0].port);                                     \
@@ -2663,7 +2662,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_66_recv_exit_game = (recv_packet_handler_handle_66_recv_exit_game)TLobby::remove_player;
     protocol_instance->m_recv_handlers.handle_68_recv_burst_lobby = TLobby::on_lobby_player_add;
     protocol_instance->m_recv_handlers.handle_69_recv_exit_lobby = TLobby::retire_lobby_player;
-    protocol_instance->m_recv_handlers.handle_81_recv_chat_message = (recv_packet_handler_handle_81_recv_chat_message)receive_short_mail;
+    protocol_instance->m_recv_handlers.handle_81_recv_chat_message = receive_short_mail;
     protocol_instance->m_recv_handlers.handle_41_recv_user_ans = handle_user_search_answer;
     protocol_instance->m_recv_handlers.handle_18_90_9A_recv_pso_regist_check = (recv_packet_handler_handle_18_90_9A_recv_pso_regist_check)TLobby::handle_verify_result;
     protocol_instance->m_recv_handlers.handle_92_9C_register_response_packet = (recv_packet_handler_handle_92_9C_register_response_packet)TLobby::handle_register_result;
@@ -2740,7 +2739,7 @@ void TLobby::bswap_player_data(PlayerSyncRecord *record) {
     bswap_32(&record->area);
     bswap_32(&record->floor);
     bswap_32(&record->player_flags);
-    bswap__15disp_data_part2Fv((saddr)&record->visual);
+    record->visual.bswap();
     record->stats.bswap();
     TLobby::bswap_inventory(&record->inventory.count);
 }
@@ -2784,21 +2783,21 @@ void *TLobby::copy_member_record(void *to, void *from) {
     dst->ip_addr = src->ip_addr;
     dst->client_id = src->client_id;
     *(ByteBlock_10 *)dst->name = *(ByteBlock_10 *)src->name;
-    TProtocol::copy_player_data(&dst->char_data, &src->char_data);
+    dst->char_data = src->char_data;
     return dst;
 }
 
-TPlyCharData *TProtocol::copy_player_data(TPlyCharData *dst, TPlyCharData *src) {
-    dst->m_inventory.m_num_items = src->m_inventory.m_num_items;
-    dst->m_inventory.m_hp_materials_used = src->m_inventory.m_hp_materials_used;
-    dst->m_inventory.m_tp_materials_used = src->m_inventory.m_tp_materials_used;
-    dst->m_inventory.m_language = src->m_inventory.m_language;
-    *(ByteBlock_348 *)dst->m_inventory.m_items = *(ByteBlock_348 *)src->m_inventory.m_items;
-    *(ByteBlock_24 *)&dst->m_stats = *(ByteBlock_24 *)&src->m_stats;
-    *(ByteBlock_50 *)&dst->m_disp_part2 = *(ByteBlock_50 *)&src->m_disp_part2;
-    copy_disp_config(&dst->m_config, &src->m_config);
-    *(ByteBlock_14 *)dst->m_tech_levels = *(ByteBlock_14 *)src->m_tech_levels;
-    return dst;
+TPlyCharData &TPlyCharData::operator=(TPlyCharData &src) {
+    m_inventory.m_num_items = src.m_inventory.m_num_items;
+    m_inventory.m_hp_materials_used = src.m_inventory.m_hp_materials_used;
+    m_inventory.m_tp_materials_used = src.m_inventory.m_tp_materials_used;
+    m_inventory.m_language = src.m_inventory.m_language;
+    *(ByteBlock_348 *)m_inventory.m_items = *(ByteBlock_348 *)src.m_inventory.m_items;
+    *(ByteBlock_24 *)&m_stats = *(ByteBlock_24 *)&src.m_stats;
+    *(ByteBlock_50 *)&m_disp_part2 = *(ByteBlock_50 *)&src.m_disp_part2;
+    copy_disp_config(&m_config, &src.m_config);
+    *(ByteBlock_14 *)m_tech_levels = *(ByteBlock_14 *)src.m_tech_levels;
+    return *this;
 }
 
 TPlyDispConfig *copy_disp_config(TPlyDispConfig *dst, TPlyDispConfig *src) {
@@ -2844,18 +2843,17 @@ void TLobby::bswap_fields() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u3
 
 void TLobby::bswap_header_3words() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
 
-void bswap__15disp_data_part2Fv(saddr part2) {
-    s32 off;
+void disp_data_part2::bswap() {
     s32 i;
 
-    bswap_32((u32 *)(part2 + 0x18));
-    bswap_32((u32 *)(part2 + 0x2C));
-    bswap_32((u32 *)(part2 + 0x34));
-    for (i = 0, off = 0; i < 8; i++, off += 2) {
-        bswap_16((u16 *)((char *)part2 + off + 0x38));
+    bswap_32(&name_colour);
+    bswap_32(&name_colour_checksum);
+    bswap_32(&v1_flags);
+    for (i = 0; i < 8; i++) {
+        bswap_16(&appearance_data[i]);
     }
-    bswap_32((u32 *)(part2 + 0x48));
-    bswap_32((u32 *)(part2 + 0x4C));
+    bswap_32((u32 *)&proportions.x);
+    bswap_32((u32 *)&proportions.y);
 }
 }
 
@@ -2938,15 +2936,15 @@ void set_quest_list_online_state(s32 state) {
 
 void TWindowMenu::set_ready_flag() { menu_flags |= 0x1; }
 
-extern "C" {
 
 int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
 int TWindowMenuIconLine::is_cancelled() { return (this->state_flags >> 2) & 0x1; }
 int TWindowMakeTeam::test_flag_1d_bit1() { return (flags >> 1) & 1; }
-s32 TWindowMakeTeam::get_field_20() { return m_20; }
+s32 TWindowMakeTeam::get_field_20() { return kind; }
 u8 TWindowMakeTeam::get_mode() { return mode; }
 u8 TWindowMakeTeam::read_mode() { return mode; }
 int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }
+extern "C" {
 
 s32 *get_access_key_input_buffer(void) {
     return (s32 *)TAdEnterSerialAccessGC::access_key_input_buffer;
@@ -2957,11 +2955,10 @@ char *TLobby::init_serial_access() { return TAdEnterSerialAccessGC::hex_to_decim
 s32 *get_raw_serial_input_buffer(void) {
     return (s32 *)TAdEnterSerialAccessGC::raw_serial_buffer;
 }
+}
 
 saddr get_connection_message_text(s32 id) {
     return (saddr)text_language_group_table[12][id];
-}
-
 }
 
 s32 get_online_message_text(s32 id) {

@@ -47,7 +47,7 @@ TOMekaFish00::TOMekaFish00(void *set_data) {
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.1f;
     view_range = 500.0f;
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     object_state = 0;
     bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
     bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));
@@ -83,7 +83,7 @@ TOMekaFish01::TOMekaFish01(void *set_data) {
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.1f;
     view_range = 500.0f;
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     object_state = 0;
     bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
     bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));
@@ -119,7 +119,7 @@ TOBiwaMushi::TOBiwaMushi(void *set_data) {
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.1f;
     view_range = 500.0f;
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     object_state = 0;
     bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
     bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));

@@ -444,7 +444,7 @@ void TObjContainerJungEnemy::draw_model() {
 
     switch (this->mode) {
     case 0:
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -468,7 +468,7 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
+f32 TObjContainerJungEnemy::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
@@ -501,7 +501,7 @@ void TObjContainerJungEnemy::spawn_break_effects() const {
         a.pos.z = za;
         a.floor_y = ya;
         a.model = large_fragment_model;
-        a.textures = reinterpret_cast<NJS_TEXLIST *>(texlist);
+        a.textures = texlist;
         TObjChipParams b = container_jung_enemy_spawn_params_b;
         f32 zb;
         f32 yb;
@@ -514,7 +514,7 @@ void TObjContainerJungEnemy::spawn_break_effects() const {
         b.pos.z = zb;
         b.floor_y = yb;
         b.model = small_fragment_model;
-        b.textures = reinterpret_cast<NJS_TEXLIST *>(texlist);
+        b.textures = texlist;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         new TObjChip(tl_05, &a);

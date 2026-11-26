@@ -3,21 +3,15 @@
 
 #include "types.h"
 
-extern "C" {
 void TLobby__sub_80207E24(void *p, s32 size);
 void TLobby__sub_80207E44(void);
 void TLobby__sub_80207E48(void);
 void TLobby__sub_80207F10(void);
-}
 void free_forest_rel_work_buffer(void);
-extern "C" {
 void TLobby__sub_80208648(void);
 void set_wave_event_stream(void *a0);
-}
 s32 activate_first_floor_event(s32 idx, s32 id);
-extern "C" {
 void activate_triggered_floor_events(void);
-}
 void bswap_enemy_set_row(void *row_ptr);
 void bswap_enemy_set_row_fields(void *placement_ptr);
 void bswap_floor_event_set(s32 idx);
@@ -36,9 +30,6 @@ s32 read_be_u32(void);
 u16 read_stream_u16(void);
 unsigned char read_stream_u8(void);
 void request_wave_event_stop(void);
-extern "C" {
-void run_floor_cleanup_callbacks__6TLobbyFi(s32 floor);
-}
 s32 run_floor_initialize_callbacks(s32 floor);
 s32 run_wave_event_actions(void);
 void send_6x05_wave_clear_switch(s32 switch_id);

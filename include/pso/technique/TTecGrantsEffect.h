@@ -5,6 +5,7 @@
 #include "pso/system/vector.h"
 
 class TParticleCtrl;
+class TObjBase;
 
 // The Grants effect TTecGrants::run_task spawns on its target: keeps one particle emitter per
 // grants_effect_emitter_table part and a looping sound alive, spawns a TTecGrantsFlash flash every fifth
@@ -12,12 +13,12 @@ class TParticleCtrl;
 
 class TTecGrantsEffect : public TObject {
 public:
-    TTecGrantsEffect(u8 *src, s32 level, TObject *parent);
+    TTecGrantsEffect(TObjBase *src, s32 level, TObject *parent);
     virtual ~TTecGrantsEffect();
     virtual void run_task();
     TParticleCtrl **emitters; // one per part of grants_effect_emitter_table[tier]
     s32 sound;                // play_sound_effect handle, stopped by the dtor
-    s32 tier;                 // TObjPlayer::get_level_tier(level)
+    s32 tier;                 // get_technique_level_tier(level)
     s32 level;                // technique level, clamped to 0..30
     s16 timer;                // frames since spawn; the effect ends at 30
     u16 owner_id;             // entity id of the target the effect follows

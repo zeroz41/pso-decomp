@@ -35,8 +35,6 @@ public:
 
 LAYOUT_ASSERT(TAdSelectTxtSubGC_size, sizeof(TAdSelectTxtSubGC) == 0x88);
 
-extern "C" {
 int get_select_text_texture_handle(void);
-}
 
 #endif

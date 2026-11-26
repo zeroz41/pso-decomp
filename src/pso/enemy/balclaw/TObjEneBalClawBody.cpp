@@ -9,10 +9,9 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
+#include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/network/TLobby.h"
-#include "pso/ui/window/TWindowLockOn.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
@@ -61,9 +60,9 @@ TObjMotionAction balclaw_body_actions[12] = {
 };
 
 // Movement rows; TObjEnemy::movementParameters points at one.
-BalClawMovement balclaw_body_movement[2] = {
-    {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
-    {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
+EnemyMoveParams balclaw_body_movement[2] = {
+    {150.0f, 0.5555555f, 0x400, {0x1E0000, 0, 1, 0}},
+    {150.0f, 0.5555555f, 0x400, {0x1E0000, 0, 1, 0}},
 };
 
 // The body's one collision sphere (init_collision_body_parts in the ctor).
@@ -363,9 +362,9 @@ void TObjEneBalClawBody::update_chase() {
         play_persistent_sound(0x4003B235, this, &this->position, 0, 0);
         this->velocity.y = 0.0f;
         {
-            update_enemy_wander_move(this, ((TObjChara *)this->target)->body_center, 1, ((EnemyMoveParams *)this->movementParameters)->min_distance);
+            update_enemy_wander_move(this, ((TObjChara *)this->target)->body_center, 1, this->movementParameters->move_speed);
         }
-        this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+        this->turn_toward_direction(this->movementParameters->turn_speed, &this->velocity);
         this->advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         this->update_collisions();
@@ -520,7 +519,7 @@ void TObjEneBalClawBody::update_attack() {
                     move_with_wall_slide(this);
                 }
             }
-            this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+            this->turn_toward_direction(this->movementParameters->turn_speed, &this->velocity);
             this->target_distance_sq = xz_distance_squared(&this->body_center, &((TObjChara *)this->target)->body_center);
             if (this->target_distance_sq <= this->attack_params->get_attack_range() * this->attack_params->get_attack_range()) {
                 this->requested_action = 7;
@@ -564,12 +563,12 @@ void TObjEneBalClawBody::update_attack() {
                 move_with_wall_slide(this);
             }
         }
-        this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+        this->turn_toward_direction(this->movementParameters->turn_speed, &this->velocity);
         if (this->is_passing_frame(10.0f) != 0) {
             play_sound_effect(0x4003B034, &this->position, 0, 0);
             if (((TObjChara *)this->target)->select_melee_contact_body(this, 1.0f) != 0) {
                 ((TObjChara *)this->target)->receive_physical_attack(this, 1.0f);
-                ((TObjChara *)this->target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                ((TObjChara *)this->target)->apply_knockback_from_attacker(this, 3.0f);
                 if (!(((TObjChara *)this->target)->actorFlags & 0x800) && ((TObjChara *)(this->target))->get_actor_hp() > 0) {
                     send_6x2F_change_player_hp(this->entity_id, this->targetId, 1);
                 }
@@ -629,7 +628,7 @@ void TObjEneBalClawBody::update_combined_attack() {
                     move_with_wall_slide(this);
                 }
             }
-            this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+            this->turn_toward_direction(this->movementParameters->turn_speed, &this->velocity);
             this->target_distance_sq = xz_distance_squared(&this->body_center, &((TObjChara *)this->target)->body_center);
             if (this->target_distance_sq <= this->attack_params->get_attack_range() * this->attack_params->get_attack_range()) {
                 this->requested_action = 2;
@@ -660,7 +659,7 @@ void TObjEneBalClawBody::update_combined_attack() {
                         ((TObjChara *)this->target)->receive_direct_attack(this, q, 0, -1, -1);
                     }
                     ((TObjChara *)this->target)->receive_physical_attack(this, 1.0f);
-                    ((TObjChara *)this->target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                    ((TObjChara *)this->target)->apply_knockback_from_attacker(this, 3.0f);
                 }
                 this->melee_hit_count++;
             }
@@ -1041,7 +1040,7 @@ s32 TObjEneBalClawBody::summon_claws() {
     this->child_count = 0;
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEneBalClawClaw *)TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
+        if (p != NULL && p->get_rt_index() == 0x26 &&
             this->room == p->room && p->check_active() != 0) {
             this->child_ids[this->child_count++] = p->get_entity_id();
             if (this->child_count >= 4) {
@@ -1080,8 +1079,8 @@ void TObjEneBalClawBody::update_retreat() {
             this->pick_open_direction((f32 *)&d2, 60.0f, 30.0f);
         }
         VecCopy(&this->move_origin, &this->body_center);
-        calc_velocity_toward_destination(this, this->move_origin, this->move_destination, ((EnemyMoveParams *)this->movementParameters)->min_distance);
-        this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+        calc_velocity_toward_destination(this, this->move_origin, this->move_destination, this->movementParameters->move_speed);
+        this->turn_toward_direction(this->movementParameters->turn_speed, &this->velocity);
         Vec v = this->body_center;
         v.x += this->velocity.x;
         v.z += this->velocity.z;
@@ -1112,8 +1111,8 @@ void TObjEneBalClawBody::update_return_home() {
     case 1: {
         this->velocity.y = 0.0f;
         VecCopy(&this->move_origin, &this->body_center);
-        calc_velocity_toward_destination(this, this->move_origin, this->move_destination, ((EnemyMoveParams *)this->movementParameters)->min_distance);
-        this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+        calc_velocity_toward_destination(this, this->move_origin, this->move_destination, this->movementParameters->move_speed);
+        this->turn_toward_direction(this->movementParameters->turn_speed, &this->velocity);
         Vec v = this->body_center;
         v.x += this->velocity.x;
         v.z += this->velocity.z;

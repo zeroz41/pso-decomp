@@ -8,23 +8,17 @@
 class TParticleCtrl;
 class TAttackTraceStrip;
 
+// Laid out like TObjEneMe3SinowZoaParams (the Sinow Zoa block).
 struct TObjEneMe3ShinowaParams {
-    f32 m_0;
-    f32 m_4;
+    f32 walk_speed;          // state_chase_target's move speed
+    f32 weakened_walk_speed; // the same while behavior_flags 0x10 is set (halve_evp)
     f32 dist;
     f32 sword_motion_speed; // motion slot 6 (shinowa_sword_motion) speed, at least 0.1
-    f32 m_10;
+    f32 damage_motion_speed; // motion slot 3 (shinowa_damage_motion) speed
     u8 unk_14[0x4];
     s32 support_tech_level; // Resta, Shifta and Deband
-    s32 m_1c;
-    s32 m_20;
-};
-
-struct TObjEneMe3ShinowaMoveParams {
-    f32 m_0;
-    f32 m_4;
-    s32 m_8;
-    u8 unk_c[0x10];
+    s32 cast_duration;      // frames state_cast_support runs
+    s32 sword_hold_frames;  // frames state_sword_attack holds frame 25
 };
 
 struct TObjEneMe3Shinowa : public TObjEneDD_ST {
@@ -77,7 +71,9 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     s32 state_timer;
     s32 target_angle;
     f32 move_speed;
-    f32 m_414;
+    // Per-state scratch value: the last node height (state_drop_appear), the facing cosine towards the
+    // target (state_chase_target, check_in_range) and the lunge speed (state_sword_attack).
+    f32 state_value;
     Vec start_position;  // position on entering state_scatter
     TParticleCtrl *particle_emitters[2];  // particles 0x115 / 0x116 of state_scatter
     void copy_position_vector();
@@ -91,7 +87,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     // fade_appear/drop_appear apper, t_wait t_wait, f_attack f_attack, sword_attack sword, backstep backstep,
     // wait wait, damage damage; scatter spreads each body by its mirage_index from start_position.
     void state_damage(s32 reason);
-    void sub_800E50D8(s32 reason);
+    void state_vanish(s32 reason);
     void state_wait(s32 reason);
     void state_scatter(s32 reason);
     void state_sword_attack(s32 reason);
@@ -107,5 +103,12 @@ LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, fade) == 0x3E
 LAYOUT_ASSERT(TObjEneMe3Shinowa_size, sizeof(TObjEneMe3Shinowa) == 0x42C);
 
 void load_shinowa_mirage_resources(void);
+
+struct ShinowaBattleTables {
+    Vec node_origin;
+    player_stats *base[2];
+    AttackParams *attack[2];
+    ActorParamBlock *resistance[2];
+};
 
 #endif

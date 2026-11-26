@@ -1,11 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TLogo.h"
-#include "pso/ui/TLogo_8001C134.h"
 #include "pso/unk/text_80145A94.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -31,7 +29,7 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 
 
@@ -100,7 +98,7 @@ void TLogo::run_frame() {
     activate_camera_mode(9);
     set_active_camera_pose(&a, &b);
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

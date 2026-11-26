@@ -25,11 +25,10 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/system/task/TMainTask.h"
 
 
-void free_collision_body_parts(TObjCollidable *actor);
 
-extern TObject *tl_04;
 
 // A model node: evaluation flags, then the node's rotation at 0x14.
 #pragma readonly_strings on
@@ -44,16 +43,16 @@ static TObjMotionAction volopt_hiraisin_motions[5] = {
     {2, 0, 8, 0.7f, 8},
     {3, 4, 7, 0.5f, 0x10},
 };
-static BossMovementParameters volopt_hiraisin_movement = { { 150.0f, 0.5555555f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
+static EnemyMoveParams volopt_hiraisin_movement = {150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 }};
 static CollisionBody volopt_hiraisin_body_parts[1] = {
     {{0.0f, -5.0f, 0.0f}, 6.0f, 0.0f, 0, 0x8005, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
 
-static void *volopt_hiraisin_stats;
-static void *volopt_hiraisin_stats_b;
-static void *volopt_hiraisin_object_params;
-static void *volopt_hiraisin_stat_table;
+static player_stats *volopt_hiraisin_stats;
+static AttackParams *volopt_hiraisin_stats_b;
+static ActorParamBlock *volopt_hiraisin_object_params;
+static BattleMovementParams *volopt_hiraisin_stat_table;
 static BmlResource *volopt_hiraisin_resources;
 static NJS_OBJECT *volopt_hiraisin_spin_node;
 static TBreakUpMdlData *volopt_hiraisin_breakup_model;
@@ -306,7 +305,7 @@ void TBoss3VoloptHiraisin::init_params() {
     init_collision_body_parts(this, volopt_hiraisin_body_parts, 1);
     variant = 0;
     movementParameters = &volopt_hiraisin_movement;
-    recalc_combat_stats((player_stats *)volopt_hiraisin_stats, (AttackParams *)volopt_hiraisin_stats_b, (ActorParamBlock *)volopt_hiraisin_object_params, 1.0f, 1.0f);
+    recalc_combat_stats(volopt_hiraisin_stats, volopt_hiraisin_stats_b, volopt_hiraisin_object_params, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);

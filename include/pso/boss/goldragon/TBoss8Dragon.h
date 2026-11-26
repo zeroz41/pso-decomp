@@ -28,7 +28,7 @@ public:
     virtual void render();
     virtual void render_shadows();
     // Slot 23: kinds 0xB and 0xC do it no damage; the rest go to TObjChara's.
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags);
+    virtual f32 receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *collision, s32 tech, s32 flags);
     virtual void refresh_target();
     // Slots 44-50: the status ailments TObjChara applies; the dragon ignores them.
     virtual void apply_poison_status();
@@ -228,15 +228,10 @@ public:
     static s32 is_within_xz_distance(const Vec *pos, const NJS_OBJECT *node, f32 range_squared);
     static f32 calc_sq_offset(const DragonAttackParams *params, f32 padding);
     void noop();
-    // The parts are numbered from boss8_dragon_leader_part's set entry; part 0 is the leader.
-    static TBoss8Dragon *get_part(s32 index);
-    static u16 get_part_entity_id(s32 index);
     static void place_parts_in_ring(s32 n, s32 hp, s32 seed);
     static s32 find_target_enemy();
     static s32 is_any_part_alive();
     static void update_all_parts();
-    // How many live monitor slots stay on: fewer while more parts are alive, -1 in split screen.
-    static s32 get_live_monitor_count();
     static s32 has_enough_enemies();
     void set_mode_params(s8 mode);
     void sweep_head_fall_spheres_early();
@@ -339,5 +334,11 @@ struct Boss8DragonParams {
 extern s32 boss8_dragon_player_control;
 
 void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *packet);
+
+// The parts are numbered from boss8_dragon_leader_part's set entry; part 0 is the leader.
+TBoss8Dragon *get_boss8_dragon_part(s32 index);
+u16 get_boss8_dragon_part_entity_id(s32 index);
+// How many live monitor slots stay on: fewer while more parts are alive, -1 in split screen.
+s32 get_boss8_live_monitor_count();
 
 #endif

@@ -1,9 +1,11 @@
+#include "pso/weapon/TItemWeaponTwinChakram.h"
+#include "pso/weapon/TItemWeaponRocketPunch.h"
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/player/TEquippedItemDrawTask.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/client_id.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/data/FlagWord.h"
@@ -48,7 +50,6 @@
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/map/FloorArea.h"
 #include "pso/item/MagStats.h"
-#include "pso/item/TItemData_80104D0C.h"
 #include "pso/unk/text_80104F4C.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/item/TItemMenuCtrl.h"
@@ -78,7 +79,7 @@
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
 #include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/system/scene/TEnding.h"
-#include "pso/unk/text_8035D444.h"
+#include "pso/weapon/TItemWeaponRubyBullet.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/weapon/TItemWeaponEvilCurst.h"
 #include "pso/weapon/TItemWeaponMechgun.h"
@@ -134,10 +135,9 @@
 #include "pso/weapon/TItemWeaponRikasClaw.h"
 #include "pso/weapon/TItemWeaponSRankKnuckle.h"
 #include "pso/unk/text_80103674.h"
-#include "pso/unk/text_8010F168.h"
+#include "pso/unk/LoadUnloadSet.h"
 #include "pso/item/TItemBuff.h"
 #include "pso/item/item_pmt.h"
-#include "pso/item/TItemDisconnectCtrl_80105BE8.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TItemTexLoad.h"
@@ -224,7 +224,7 @@ s32 get_item_icon_index();
 void *item_object_set_data;
 s32 item_ground_placement_enabled;
 FlagWord lbl_805D5440;
-saddr item_class_load_handle;
+LoadUnloadSet *item_class_load_handle;
 int lobby_drop_flag;
 
 // Weapon item factories, indexed by the weapon type byte (get_weapon_factory_for_item); 0 = none.
@@ -283,7 +283,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponSealedJSword::create,
     create_common_weapon,
     create_common_weapon,
-    TObjPlayer::create_twin_chakram,
+    TItemWeaponTwinChakram::create,
     TItemWeaponWokOfAkikosShop::create,
     TItemWeaponLavisBlade::create,
     TItemWeaponDagger::create,
@@ -300,7 +300,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponHandgun::create,
     TItemWeaponFrozenShooter::create,
     TItemWeaponSpecialGun::create,
-    TObjPlayer::create_trade_action_state,
+    TItemWeaponRocketPunch::create,
     TItemWeaponSambaMaracas::create,
     TItemWeaponTwinPsychogun::create,
     TItemWeaponDrillLauncher::create,
@@ -445,7 +445,7 @@ void forward_message(saddr buf, uaddr item) {
 void mark_selected() { lobby_drop_flag = 1; }
 int get_drop_flag() {  return lobby_drop_flag; }
 
-ItemCreateFunction TLobby__sub_8010440C(u8 *item) {
+ItemCreateFunction get_tool_factory_for_item(u8 *item) {
     u8 i = item[1];
     if (i < 0x18) {
         return item_tool_factory_table[i];
@@ -582,7 +582,7 @@ s32 is_valid_drop_floor(s32 floor) {
     }
     return 0;
 }
-s32 TObjPlayer__sub_80104840(s32 index) {
+s32 is_valid_area_id(s32 index) {
     if ((index >= 0) && (index < 0x24)) {
         return 1;
     }
@@ -907,7 +907,7 @@ ItemCreateFunction item_pro_create_fn_table[4] = {
     0, TItemProArmor::create, TItemProShield::create, TItemProUnit::create,
 };
 ItemCreateFunction item_create_fn_table[5] = {
-    create_weapon_for_item, TLobby__sub_801054E0, TItemMag::create, TItemObject::create_tool,
+    create_weapon_for_item, create_armor_for_item, TItemMag::create, TItemObject::create_tool,
     TItemMoney::create,
 };
 extern Entry_8010567C *quest_object_entries;
@@ -1173,7 +1173,7 @@ TItem *construct_item(TItemData *data) {
     return 0;
 }
 
-TItem *TLobby__sub_801054E0(u8 *item) {
+TItem *create_armor_for_item(u8 *item) {
     if (item != 0) {
         if (item[1] < 4) {
             if (item_pro_create_fn_table[item[1]] != 0) {
@@ -1235,7 +1235,7 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
     if (this != NULL) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
-        if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
+        if (p1 != 0 && p2 != 0 && is_valid_area_id(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
             (p1->get_floor() != p2->get_floor() ||
              designated_client_id == local_client_id)) {
             if (this->set_index != -1) {
@@ -1315,7 +1315,7 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *drop, s32 quiet) {
     return item;
 }
 
-void TObjPlayer::free_item_globals() { TItemDrop__sub_8010F168((void *)item_class_load_handle, (s16)1); item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
+void TObjPlayer::free_item_globals() { delete item_class_load_handle; item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
 
 void TObjPlayer::init_game_resources() {
     init_item_chunk_buffers();
@@ -1347,11 +1347,9 @@ void PlayerRequirementStats::clear_fields() {
 
 extern "C" {
 
-s32 test_flags_any(s32 *, s32);
-
 s32 TItemMenuCtrl::query_flag(s32 flag_bit) {
     if (TItemMenuCtrl::instance != NULL) {
-        return test_flags_any(&TItemMenuCtrl::instance->menu_flags.bits, 1 << flag_bit);
+        return TItemMenuCtrl::instance->menu_flags.test_flags_any(1 << flag_bit);
     }
     return 0;
 }

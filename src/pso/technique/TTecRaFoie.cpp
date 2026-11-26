@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/unk/text_803D96A8.h"
@@ -26,8 +27,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
-
-extern "C" s32 is_split_screen();
 
 // Per band: the particle bursts of the explosion. Flag 0x10 bursts at the explosion's position
 // instead of 8 above it, flag 0x1000 spawns it with particle flag 0x2000.
@@ -118,7 +117,7 @@ void TTecRaFoie::spawn_effects(Vec *) {
     }
     if (m_targets.count != 0) {
         chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
-        if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
+        if (TTecLuker::is_parents_unqueued(chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
             Vec point = chara->body_center;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
@@ -306,7 +305,7 @@ void TTecRaFoie::run_task() {
         return;
     }
     source = find_entity_by_id(sourceId);
-    if (source == 0) {
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -319,13 +318,12 @@ void TTecRaFoie::run_task() {
         return;
     }
     chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
-    if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
+    if (TTecLuker::is_parents_unqueued(chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
         update_detonation(&chara->body_center);
     }
 }
 
 void TTecRaFoie::update_detonation(Vec *pos) {
-    void *p;
     s32 h;
 
     VecCopy(&position, VecCopy(&target, pos));
@@ -368,12 +366,12 @@ void TTecRaFoie::update_detonation(Vec *pos) {
     queue_destruction();
 }
 
-void TTecRaFoie::create(TObject *source, Vec *origin, Vec *pos, s32 level) {
-    new TTecRaFoie((saddr)source, origin, pos, level);
+void TTecRaFoie::create(TObjBase *source, Vec *origin, Vec *pos, s32 level) {
+    new TTecRaFoie(source, origin, pos, level);
 }
 
-void TTecRaFoie::create_ex(void *source, Vec *origin, TargetCursorList *targets, s32 level) {
-    new TTecRaFoie((saddr)source, origin, targets, level);
+void TTecRaFoie::create_ex(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecRaFoie(source, origin, targets, level);
 }
 
 TTecRaFoie::~TTecRaFoie() {
@@ -382,7 +380,7 @@ TTecRaFoie::~TTecRaFoie() {
 
 #pragma push
 #pragma opt_common_subs off
-TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
+TTecRaFoie::TTecRaFoie(TObjBase *source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     clear_target_cursor_list(&m_targets);
@@ -390,7 +388,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;
     }
-    if (this->source != 0) {
+    if (this->source != NULL) {
         sourceId = this->source->get_entity_id();
     }
     spawn_effects(0);
@@ -398,12 +396,12 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
 }
 #pragma pop
 
-TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 level) : TTecCircle(source, origin, origin, level) {
+TTecRaFoie::TTecRaFoie(TObjBase *source, Vec *origin, TargetCursorList *list, s32 level) : TTecCircle(source, origin, origin, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     m_148 = 0;
     copy_technique_target_list(&m_targets, list);
-    if (this->source != 0) {
+    if (this->source != NULL) {
         sourceId = this->source->get_entity_id();
     }
     if (collidable != NULL) {

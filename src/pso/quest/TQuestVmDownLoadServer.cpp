@@ -322,18 +322,18 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     void *src;
     void *dst;
     body = ((u32 *)this) + 1;
-    ((u32 *)this)[0] = subtractive_rng_next(&quest_download_cipher_state);
+    ((u32 *)this)[0] = quest_download_cipher_state.next();
     *body = 0;
     *body = calc_download_crc32(this, size);
-    subtractive_rng_seed(&quest_download_cipher_state, ((u32 *)this)[0]);
-    subtractive_rng_xor_buffer(&quest_download_cipher_state, body, (s32)((size - 4) & ~3));
-    subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[0]);
+    quest_download_cipher_state.set_seed(((u32 *)this)[0]);
+    quest_download_cipher_state.xor_buffer(body, (s32)((size - 4) & ~3));
+    quest_download_cipher_state.set_seed(download_rng_seed_pair[0]);
     quest_download_cipher_state.apply_rng_cipher(((u32 *)this), size & ~3);
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
     move_data((src), ((const void *)this), size);
-    subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[1]);
-    subtractive_rng_make_shuffle(&quest_download_cipher_state);
+    quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
+    quest_download_cipher_state.make_shuffle();
     quest_download_cipher_state.permute_save_blocks((const u8*)src, (u8*)dst, (u32)size);
     move_data((this), (dst), size);
     safe_free(dst);
@@ -345,16 +345,16 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
     move_data((src), ((const void *)((u32 *)data)), size);
-    subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[1]);
-    subtractive_rng_make_shuffle(&quest_download_cipher_state);
-    subtractive_rng_unshuffle(&quest_download_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
+    quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
+    quest_download_cipher_state.make_shuffle();
+    quest_download_cipher_state.unshuffle((const u8 *)src, (u8 *)dst, (u32)size);
     move_data((((u32 *)data)), (dst), size);
     safe_free(dst);
     safe_free(src);
-    subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[0]);
+    quest_download_cipher_state.set_seed(download_rng_seed_pair[0]);
     quest_download_cipher_state.apply_rng_cipher(((u32 *)data), size & ~3);
-    subtractive_rng_seed(&quest_download_cipher_state, ((u32 *)data)[0]);
-    subtractive_rng_xor_buffer(&quest_download_cipher_state, (u32 *)(((u32 *)data) + 1), (s32)((size - 4) & ~3));
+    quest_download_cipher_state.set_seed(((u32 *)data)[0]);
+    quest_download_cipher_state.xor_buffer((u32 *)(((u32 *)data) + 1), (s32)((size - 4) & ~3));
 }
 s32 calc_download_crc32(void *data, s32 size) {
     u32 crc = -1;
@@ -515,7 +515,7 @@ void TQuestVmDownLoadServer::run_task() {
         this->close();
         break;
     case 18:
-        this->sub_801F6D24();
+        this->handle_status_message_input();
         break;
     case 21:
         this->destroy();
@@ -1066,7 +1066,7 @@ void TQuestVmDownLoadServer::show_status_message(saddr text, s32 flags) {
     TMessageWindowController::display_message((const char *)text, (s32)(flags | 0x80));
 }
 void TQuestVmDownLoadServer::close_message() { if (this->message_window != 0) { TMessageWindowController::close(); this->message_window = 0; } }
-void TQuestVmDownLoadServer::sub_801F6D24() {
+void TQuestVmDownLoadServer::handle_status_message_input() {
     ControllerInputContext *p;
     if (this->message_window == 0 || TMessageWindowController::is_ready() != 0) {
         p = &controller_input_state.controllers[0];

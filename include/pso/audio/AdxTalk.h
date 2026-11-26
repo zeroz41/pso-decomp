@@ -17,14 +17,14 @@ void adxt_exec_server(void);
 void adxt_set_server_freq(AdxtPlayer *player, s32 freq);
 s16 adxt_get_out_vol(AdxtPlayer *player);
 s32 adxt_get_num_channels(AdxtPlayer *player);
-s32 TLobby__sub_803C97B8(AdxtPlayer *player);
-void adxt_get_play_position(AdxtPlayer *player, s32 *pos, s32 *rate);
+s32 adxt_get_num_samples(AdxtPlayer *player);
+void adxt_get_time(AdxtPlayer *player, s32 *pos, s32 *rate);
 s32 adxt_get_stat(AdxtPlayer *player);
-void TLobby__sub_803C9DB4(AdxtPlayer *player);
+void adxt_stop_decoding(AdxtPlayer *player);
 void adx_destroy_stream_player(AdxtPlayer *player);
 AdxtPlayer *adx_create_stream_player(s32 n, void *work, s32 size);
 s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *out_offset);
-void inl_803C9608(void);
+void adxt_run_server(void);
 }
 // --- end of C functions
 

@@ -98,11 +98,11 @@ void TItemWeaponDrillLauncher::emit_marker_effects() {
         launch_rare_weapon_special(&gun_point, 1, (f32) (1.0f));
         return;
     }
-    launch_shot((u8 *)&gun_point, 0, 0, 1);
+    launch_shot(&gun_point, 0, 0, 1);
 }
 void TItemWeaponDrillLauncher::transform_model_node() {
     s32 player_list;
-    player_list = TObjPlayer::get_player_list();
+    player_list = get_model_node_counter();
     if ((player_list > 0) && (player_list < 4)) {
         rotate_matrix_z(0, recoil_angle);
         return;

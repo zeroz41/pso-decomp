@@ -13,17 +13,66 @@
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/system/vector.h"
+#include "pso/camera/TCameraCtrl.h"
+
+#pragma defer_codegen on
+
+const char *multi_confirm_name = "TAdMultiConfirmGC";
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 extern "C" {
 s32 is_player_model_shown(void *);
-void fn_802FF7EC(void *);
-extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;
-void fn_802FF760(void *);
 }
-void TAdMultiConfirmGC::render() {  }
+#pragma push
+#pragma opt_common_subs off
+TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
+    TAdMultiOkSetup arg;
+    u32 i;
+    u32 j;
+    u32 n;
+    TAdGuideTxtGC *p;
+    m_name = multi_confirm_name;
+    state = 0;
+    guide = 0;
+    for (i = 0; i < 4; i++) {
+        players[i] = 0;
+    }
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
+    new TAdTitleGC(this, 0x10);
+    new TAdTitleTexGC(this);
+    count = 0;
+    for (i = 0; i < 4; i++) {
+        ids[i] = 0;
+    }
+    for (i = 0; i < 4; i++) {
+        if (is_multiplayer_character_slot_selected(i) != 0) {
+            ids[count] = i;
+            count++;
+        }
+    }
+    arg.count = count;
+    arg.mask = 0;
+    for (j = 0; j < (n = count); j++) {
+        players[j] = TAdMultiPlyChrSelectGC::get_or_create_player(this, n + 1, j, ids[j]);
+        new TAdMultiPlayerNoGC(this, count, j, ids[j]);
+        arg.mask |= 1 << ids[j];
+    }
+    ok = new TAdMultiOkGC(this, &arg);
+    p = new TAdGuideTxtGC(this);
+    guide = p;
+    guide->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
+    guide->set_line(1, reinterpret_cast<const char *>(&lbl_805DEF30));
+    fn_802FF7EC();
+}
 
+#pragma pop
+
+TAdMultiConfirmGC::~TAdMultiConfirmGC() {
+    fn_802FF760();
+}
 void TAdMultiConfirmGC::run_task() {
     u32 j;
     u32 i;
@@ -66,50 +115,24 @@ void TAdMultiConfirmGC::run_task() {
         break;
     }
 }
-TAdMultiConfirmGC::~TAdMultiConfirmGC() {
-    fn_802FF760(this);
+void TAdMultiConfirmGC::render() {  }
+void TAdMultiConfirmGC::fn_802FF7EC() {
+    CameraParams cam;
+    Vec b = {0.0f, 0.0f, 0.0f};
+    Vec a = {0.0f, 0.0f, -100.0f};
+    VecCopy(&cam.position, &b);
+    VecCopy(&cam.target, &a);
+    cam.fov = 0x1999;
+    activate_camera_mode(9);
+    set_active_camera_pose_from_params(&cam);
 }
-#pragma push
-#pragma opt_common_subs off
-TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
-    TAdMultiOkSetup arg;
-    u32 i;
-    u32 j;
-    u32 n;
-    TAdGuideTxtGC *p;
-    m_name = multi_confirm_name;
-    state = 0;
-    guide = 0;
-    for (i = 0; i < 4; i++) {
-        players[i] = 0;
-    }
-    new TAdBackGC(this);
-    new TAdBackTxtGC(this);
-    new TAdTitleGC(this, 0x10);
-    new TAdTitleTexGC(this);
-    count = 0;
-    for (i = 0; i < 4; i++) {
-        ids[i] = 0;
-    }
-    for (i = 0; i < 4; i++) {
-        if (is_multiplayer_character_slot_selected(i) != 0) {
-            ids[count] = i;
-            count++;
-        }
-    }
-    arg.count = count;
-    arg.mask = 0;
-    for (j = 0; j < (n = count); j++) {
-        players[j] = TAdMultiPlyChrSelectGC::get_or_create_player(this, n + 1, j, ids[j]);
-        new TAdMultiPlayerNoGC(this, count, j, ids[j]);
-        arg.mask |= 1 << ids[j];
-    }
-    ok = new TAdMultiOkGC(this, &arg);
-    p = new TAdGuideTxtGC(this);
-    guide = p;
-    guide->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
-    guide->set_line(1, reinterpret_cast<const char *>(&lbl_805DEF30));
-    fn_802FF7EC(this);
+void TAdMultiConfirmGC::fn_802FF760() {
+    CameraParams cam;
+    Vec b = {0.0f, 0.0f, 0.0f};
+    Vec a = {0.0f, 0.0f, -100.0f};
+    VecCopy(&cam.position, &b);
+    VecCopy(&cam.target, &a);
+    cam.fov = 0x36C1;
+    activate_camera_mode(9);
+    set_active_camera_pose_from_params(&cam);
 }
-
-#pragma pop

@@ -3,16 +3,13 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_802D39BC(void *p);
-void TLobby__sub_802D39DC(void *p);
-void TLobby__sub_802D39FC(void *p);
+// Floor and scene resource callbacks (FloorResourceCallbacks load/unload slots).
+void close_trade_request_on_floor_unload();
+void close_trade_request_on_floor_load();
+void reset_trade_state_on_scene_unload();
+void reset_trade_state_on_scene_load();
 void TLobby__sub_802D3AA8(void);
-}
 void build_6xA6_modify_trade_proposal(void *p);
-extern "C" {
-void close_trade_request__6TLobbyFPv(void *p);
-}
 
 
 #endif

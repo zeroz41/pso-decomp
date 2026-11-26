@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowDeposit : public TWindowBase {
     TWindowDeposit(s16 client);
@@ -18,6 +19,15 @@ struct TWindowDeposit : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowDeposit_size, sizeof(TWindowDeposit) == 0x6C);
+
+// window_deposit_layout_entries, the layout table window_deposit_layout points at.
+struct DepositWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    ValueLayoutRecord rec_1;
+};
+
 
 
 #endif

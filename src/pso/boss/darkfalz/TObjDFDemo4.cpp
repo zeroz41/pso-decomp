@@ -18,13 +18,13 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4Zanzo.h"
 
 #pragma readonly_strings on
 // Built with deferred code generation (-inline deferred): functions come out in reverse
 // order (draw_body_parts first in .text).
 
 // Dark Falz's afterimage (zanzo) models.
-extern s32 boss4_zanzo_bml_index_table[2];
 
 const char *TObjDFDemo4::name = "TObjDFDemo4";
 // The motions of the afterimage and body models.
@@ -38,17 +38,17 @@ TObjDFDemo4 *TObjDFDemo4::create(TObject *parent, const Vec *position, s32 angle
 
 // The nodes ModelNodeTables::init builds the strips on.
 inline const ModelNodeSpec *strip_nodes() {
-    static const ModelNodeSpec lbl_804373C4[2] = {{0xC, 0x4A, 1}, {0xE, 0x4A, 1}};
-    return lbl_804373C4;
+    static const ModelNodeSpec df_demo4_strip_nodes[2] = {{0xC, 0x4A, 1}, {0xE, 0x4A, 1}};
+    return df_demo4_strip_nodes;
 }
 // The intro camera: its playback and angles (the yaw is the object's).
 inline const CameraPlayback *intro_camera_playback() {
-    static const CameraPlayback lbl_804373DC = {0, 3, 0, 0.0f, 0.5f};
-    return &lbl_804373DC;
+    static const CameraPlayback df_demo4_intro_camera_playback = {0, 3, 0, 0.0f, 0.5f};
+    return &df_demo4_intro_camera_playback;
 }
 inline const CameraAngles *intro_camera_angles() {
-    static const CameraAngles lbl_804373E8 = {0, 0, 0};
-    return &lbl_804373E8;
+    static const CameraAngles df_demo4_intro_camera_angles = {0, 0, 0};
+    return &df_demo4_intro_camera_angles;
 }
 
 TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {
@@ -60,13 +60,13 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     res = TBoss4Uro::get_instance_count();
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
-        zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        zanzo_parts[i].model = get_bml_model(res, id);
         zanzo_parts[i].texlist = get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, df_demo4_zanzo_motion_ids[i]);
     }
     for (i = 0; i < 3; i++) {
         int id = boss4_type3_model_ids[i];
-        body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        body_parts[i].model = get_bml_model(res, id);
         body_parts[i].texlist = get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, df_demo4_body_motion_ids[i]);
     }

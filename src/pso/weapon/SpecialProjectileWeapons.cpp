@@ -61,12 +61,12 @@ s32 draw_weapon_at_joint(void *, s32, void *);
 
 
 void TItemWeaponEvilCurst::emit_marker_effects() {
-    s32 joint_position;
-    void *owner;
+    Vec joint_position;
+    TObjPlayer *owner;
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(5, &joint_position) != 0) {
             owner = this->owner;
-            TTecMegid::create_ex((saddr)owner, (saddr)(&joint_position), (s32)(*(s32 *)((s8 *)owner + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
+            TTecMegid::create_ex(owner, &joint_position, owner->rotation_y, ((TItemWeapon *)this)->get_tp());
             this->roll_technique();
         }
     } else {
@@ -99,7 +99,7 @@ void TItemWeaponEvilCurst::update_weapon() {
 }
 
 void TItemWeaponEvilCurst::transform_model_node() {
-    switch (((u32)TObjPlayer::get_player_list())) {
+    switch (((u32)get_model_node_counter())) {
     case 1:
         rotate_matrix_y(0, swing_angle);
         return;
@@ -122,7 +122,7 @@ void TItemWeaponEvilCurst::transform_model_node() {
 }
 
 void TItemWeaponEvilCurst::draw_held_model() {
-    s32 joint_position;
+    Vec joint_position;
     NJS_OBJECT *model_link;
     NJS_OBJECT *effect_model;
     if (item_model != NULL && is_hidden() == 0) {
@@ -136,7 +136,7 @@ void TItemWeaponEvilCurst::draw_held_model() {
             TEquippedWeaponDrawTask::save_model_render_state();
             model_render_flags &= 0xFFFFFFEF;
             TEquippedWeaponDrawTask::set_fade_alpha((f32)this->get_owner_alpha());
-            post_translate_matrix((const f32 *)&joint_position);
+            post_translate_matrix(&joint_position.x);
             rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));
             effect_model->evalflags |= 0x11;
             draw_ginja_object(effect_model);

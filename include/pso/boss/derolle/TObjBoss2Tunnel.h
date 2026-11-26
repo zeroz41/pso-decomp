@@ -116,14 +116,16 @@ struct TObjBoss2Tunnel : public TObject {
     static f32 calc_scaled_value(s32 angle, f32 length);
     static void enable_and_trigger();
     static void create_particle_effect(const Vec *position, s32 particle_index, f32 speed);
-    // Hand the emitter's particles over to TObjBoss2Tunnel_parent_object, adding offset to their
+    // Hand the emitter's particles over to particle_parent, adding offset to their
     // step or speed to its z, so they outlive the emitter (TObjBoss2Tunnel_8003B1FC.cpp).
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
     // release_children with the -5.0f drift, for the boss splash emitters (TObjBoss2RaftSplash.cpp).
     static void release_splash_children(TParticleCtrl *particle);
-    // Creates TObjBoss2Tunnel_parent_object under tl_07 (TObjBoss2Tunnel_8003B1FC.cpp).
+    // Creates particle_parent under tl_07 (TObjBoss2Tunnel_8003B1FC.cpp).
     static void create_parent_object();
+    // The object detach_children and release_children re-parent the particles to.
+    static TObject *particle_parent;
     // Empty; called by free_boss2_tunnel.
     static void free_state();
     // Set global flag 0x1000 and clear 0x2000, and the reverse.
@@ -148,6 +150,7 @@ s32 count_tree_nodes(NJS_OBJECT *node);
 s32 count_visible_nodes(NJS_OBJECT *node);
 // Debug chunk model of an 8-sided cylinder (radius 2, y -5..5, named from its vertex data); the Dragon,
 // De Rol Le's mines, TBoss8Dragon and TObjFogCollision draw it scaled to show hit volumes.
+extern NJS_OBJECT *debug_chunk_object;
 extern NJS_OBJECT *debug_cylinder_object;
 extern NJS_OBJECT debug_chunk_b_object;
 

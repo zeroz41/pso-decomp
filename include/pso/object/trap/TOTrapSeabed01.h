@@ -9,7 +9,7 @@ struct TOTrapSeabed01 : public TOTrap {
     virtual ~TOTrapSeabed01();
     virtual void apply_saved_state(s16 *, s32);
     virtual void render();
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual int deliver_attack_hits(f32 damage_scale);
     virtual void update_springing();
     virtual void update_holding();

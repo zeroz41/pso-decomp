@@ -30,6 +30,13 @@ public:
     void turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 distance);
     void turn_and_calc_shot_destination(Vec *shot_pos, s32 iscale, f32 scale);
     void set_target_destination(const Vec *position);
+    void enemy_set_target_id(u16 id);
+    s32 enemy_bind_or_clear_target(u16 id);
+    s32 enemy_validate_retained_target();
+    CsnHit *enemy_turn_and_move_shot_step(s32 iscale, f32 scale);
+    CsnHit *enemy_turn_and_move_on_ground(s32 max_step, f32 currentSpeed);
+    CsnHit *enemy_turn_and_move_xz_slide(s32 max_step, f32 distance);
+    CsnHit *enemy_turn_and_move_xz_clamped(s32 max_step, f32 distance);
 
     u16 target_id;                // 0xFFFF: no target
     u8 pad_38E[0x2];
@@ -43,9 +50,5 @@ public:
     s32 validate_period;
     static const char *name;
 };
-
-void enemy_set_target_id(TObjEneDD_ST *self, u16 id);
-s32 enemy_bind_or_clear_target(TObjEneDD_ST *self, u16 id);
-s32 enemy_validate_retained_target(TObjEneDD_ST *self);
 
 #endif

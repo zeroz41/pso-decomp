@@ -16,6 +16,7 @@
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
@@ -27,6 +28,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
+#include "pso/ui/MenuText.h"
 
 
 char serial_hex_buffer[0x40];
@@ -78,9 +80,9 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
     message_window = NULL;
     draw_window = NULL;
     keyboard_control = NULL;
-    if (*(s8 *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C) != 0) {
-        initialize_serial_input((const char *)TAdSinglePlyChrSelectGC::get_instance() + 0x1152C);
-        set_access_key((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1153C));
+    if (TAdSinglePlyChrSelectGC::get_instance()->serial_number[0] != 0) {
+        initialize_serial_input(TAdSinglePlyChrSelectGC::get_instance()->serial_number);
+        set_access_key(TAdSinglePlyChrSelectGC::get_instance()->access_key);
         TAdMultiChgGameModeGC::open_enter_password_scene();
         queue_destruction();
         return;
@@ -359,7 +361,7 @@ char *format_entered_serial(void) {
 
 s32 TAdEnterSerialAccessGC::parse_serial_value() {
     s32 value = 0;
-    sscanf((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C), "%08x", &value);
+    sscanf(TAdSinglePlyChrSelectGC::get_instance()->serial_number, "%08x", &value);
     return value;
 }
 
@@ -374,7 +376,7 @@ char *format_saved_serial(void) {
     memset(stored_serial_dashed_buffer, 0, 0x14);
     u32 lengths[3] = { 2, 4, 4 };
     TAdEnterSerialAccessGC::format_dashed_serial(stored_serial_dashed_buffer,
-        TAdEnterSerialAccessGC::convert_serial_hex_to_decimal((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C)),
+        TAdEnterSerialAccessGC::convert_serial_hex_to_decimal(TAdSinglePlyChrSelectGC::get_instance()->serial_number),
         3, lengths);
     return stored_serial_dashed_buffer;
 }
@@ -382,7 +384,7 @@ char *format_saved_serial(void) {
 char *TAdEnterSerialAccessGC::get_formatted_serial() {
     memset(enter_serial_formatted_buffer, 0, 0x18);
     u32 lengths[3] = { 4, 4, 4 };
-    format_dashed_serial(enter_serial_formatted_buffer, (const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1153C),
+    format_dashed_serial(enter_serial_formatted_buffer, TAdSinglePlyChrSelectGC::get_instance()->access_key,
         3, lengths);
     return enter_serial_formatted_buffer;
 }
@@ -441,8 +443,8 @@ void TAdEnterSerialAccessGC::draw_serial_plates() {
 #pragma pop
 
 void TAdEnterSerialAccessGC::draw_serial_separators() {
-    TAdSubPlyItemGC::render_status_line(281.0f, 230.0f, 0.8f, "-", -1);
-    TAdSubPlyItemGC::render_status_line(340.0f, 230.0f, 0.8f, "-", -1);
+    draw_menu_text_scaled(281.0f, 230.0f, 0.8f, "-", -1);
+    draw_menu_text_scaled(340.0f, 230.0f, 0.8f, "-", -1);
 }
 
 const f32 serial_char_row_x_table[2][13] = {
@@ -472,7 +474,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
         for (i = 0; i < count; i++, p++) {
             memset(buf, 0, 8);
             sprintf(buf, "%c", *p);
-            TAdSubPlyItemGC::render_status_line(row[i], 230.0f, 0.8f, buf, -1);
+            draw_menu_text_scaled(row[i], 230.0f, 0.8f, buf, -1);
         }
         pos.x = row[keyboard_control->get_cursor_position()];
         pos.y = 230.0f;
@@ -482,7 +484,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
 
 void TAdEnterSerialAccessGC::draw_screen(void *window, void *context) {
     ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
-    TAdSubPlyItemGC::render_status_line(serial_entry_status_line_position.x, serial_entry_status_line_position.y, 0.8f,
+    draw_menu_text_scaled(serial_entry_status_line_position.x, serial_entry_status_line_position.y, 0.8f,
         (const char *)get_localized_text_entry(0x17, 4), -1);
     draw_serial_plates();
     draw_serial_chars(context);

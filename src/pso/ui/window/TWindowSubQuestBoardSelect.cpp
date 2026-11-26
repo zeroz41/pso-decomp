@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -12,6 +11,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
+#include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -22,26 +22,22 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 void TWindowSubQuestBoardSelect::sub_8027D1E8() {
     state_flags &= ~1;
 }
 
-extern "C" {
-
-void clear_ctrl_flag_bit4(void) {
+void TWindowCtrl::clear_quest_board_open() {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags &= ~0x10;
     }
 }
 
-void set_ctrl_flag_bit4(void) {
+void TWindowCtrl::set_quest_board_open() {
     if (TWindowCtrl::instance != NULL) {
         TWindowCtrl::instance->flags |= 0x10;
     }
-}
-
 }
 
 #pragma push
@@ -49,18 +45,9 @@ void set_ctrl_flag_bit4(void) {
 const char *TWindowSubQuestBoardSelect::class_name = "TWindowSubQuestBoardSelect";
 #pragma pop
 
-struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 
 
-// inferred: window_sub_quest_board_select_layout_entries, the layout table
-// quest_board_select_window_parameters points at (two text entries, six slot sprites).
-struct SubQuestBoardSelectWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord text[2];
-    SpritePartLayoutRecord slot[6];
-};
 SubQuestBoardSelectWindowLayout window_sub_quest_board_select_layout_entries = {
     8, 1,
     {
@@ -76,13 +63,9 @@ SubQuestBoardSelectWindowLayout window_sub_quest_board_select_layout_entries = {
         {6, {392.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
     },
 };
-WindowDescriptor quest_board_select_window_parameters = {
+WindowDescriptor TWindowSubQuestBoardSelect::window_parameters = {
     {434.0f, 184.0f}, 50150.0f, &window_sub_quest_board_select_layout_entries, 3,
 };
-
-
-
-extern "C" {
 
 void TWindowSubQuestBoardSelect::update_slot_title() {
     char *str;
@@ -90,7 +73,7 @@ void TWindowSubQuestBoardSelect::update_slot_title() {
     str = quest_board_handlers[(s8) this->slot].title;
     entry_1 = static_cast<WindowTextEntry *>(this->get_array_entry(1));
     set_text_entry_string(entry_1, (uaddr)str, 0);
-    measure_message_text_width(entry_1, 100000.0f);
+    entry_1->measure_text(100000.0f);
     entry_1->x = (f32) (385.0f - entry_1->width);
 }
 
@@ -150,7 +133,7 @@ void TWindowSubQuestBoardSelect::select_next() {
     }
 }
 
-void draw_selection_corners(void *, void *, f32, f32);
+extern "C" {
 
 void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, WindowDrawContext *ctx) {
     ColorLineVertex v[3];
@@ -281,10 +264,10 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
 }
 
 u32 calc_text_width();
-s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
+}
 #pragma push
 #pragma fp_contract on
-TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&quest_board_select_window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
+TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect::window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 title_width;
     WindowTextEntry *entry_0;
     WindowHeading *heading;
@@ -298,10 +281,8 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&qu
     title_width = (f32) calc_text_width();
     entry_0->x = 210.0f - 0.5f * title_width;
     slot = -1;
-    update_slot_display_flags__26TWindowSubQuestBoardSelectFv(this, 0.5f, title_width);
+    update_slot_display_flags();
     this->select_next();
 }
 
 #pragma pop
-
-}

@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowSpritePart.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -10,7 +9,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -28,7 +27,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 
 
@@ -52,30 +51,6 @@ static const NJS_POINT2 custom_equip_cursor_frame_uv_table[16] = {
     {0.0f, 64.0f}, {64.0f, 64.0f}, {128.0f, 64.0f}, {192.0f, 64.0f},
     {0.0f, 128.0f}, {64.0f, 128.0f}, {128.0f, 128.0f}, {192.0f, 128.0f},
     {0.0f, 192.0f}, {64.0f, 192.0f}, {128.0f, 192.0f}, {192.0f, 192.0f},
-};
-
-// Window layout: two rows of panel, three palette icons, three count labels and two tabs.
-struct CustomEquipLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    SpritePartLayoutRecord rec_1;
-    SpritePartLayoutRecord rec_2;
-    SpritePartLayoutRecord rec_3;
-    ValueLayoutRecord rec_4;
-    ValueLayoutRecord rec_5;
-    ValueLayoutRecord rec_6;
-    SpritePartLayoutRecord rec_7;
-    SpritePartLayoutRecord rec_8;
-    SpritePartLayoutRecord rec_9;
-    SpritePartLayoutRecord rec_10;
-    SpritePartLayoutRecord rec_11;
-    SpritePartLayoutRecord rec_12;
-    ValueLayoutRecord rec_13;
-    ValueLayoutRecord rec_14;
-    ValueLayoutRecord rec_15;
-    SpritePartLayoutRecord rec_16;
-    SpritePartLayoutRecord rec_17;
 };
 
 CustomEquipLayout custom_equip_layout_entries = {
@@ -202,7 +177,8 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(u8 slot) {
 }
 
 
-void TWindowSubCustomEquip::get_cursor_pos(PaletteTag *tag) {
+// An action palette slot reference: the tag mode and the slot it points to.
+void TWindowSubCustomEquip::get_cursor_pos(PaletteAction *tag) {
     s32 i;
     TObjPlayer *player;
     s32 saved_slot;
@@ -218,7 +194,7 @@ void TWindowSubCustomEquip::get_cursor_pos(PaletteTag *tag) {
     tag->mode = palette->get_tag_mode(i, saved_slot);
     tag->slot = (s16)palette->get_tag_slot(i, saved_slot);
 }
-void TWindowSubCustomEquip::remove_duplicate_bindings(const PaletteTag *tag) {
+void TWindowSubCustomEquip::remove_duplicate_bindings(const PaletteAction *tag) {
     TObjPlayer *player;
     TPlyDispConfigSmth *palette;
     if ((player = get_player_by_client_id(this->client_index)) == NULL || (palette = player->select_action_palette(0)) == NULL) {
@@ -243,7 +219,7 @@ void TWindowSubCustomEquip::remove_duplicate_bindings(const PaletteTag *tag) {
         player->set_action_palette_entry(0, 1, 2, 0, 0);
     }
 }
-void TWindowSubCustomEquip::toggle_action_binding(PaletteTag *tag) {
+void TWindowSubCustomEquip::toggle_action_binding(PaletteAction *tag) {
     TObjPlayer *player;
     TPlyDispConfigSmth *palette;
     s32 valid;
@@ -525,6 +501,6 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&cust
     this->refresh_palette_slots();
 }
 
-PaletteTag *TWindowSubCustomSelect::get_selected_action() {
-    return const_cast<PaletteTag *>(action_table + (static_cast<s8>(column) + static_cast<s8>(row) * 3));
+const PaletteAction *TWindowSubCustomSelect::get_selected_action() {
+    return &action_table[static_cast<s8>(column) + static_cast<s8>(row) * 3];
 }

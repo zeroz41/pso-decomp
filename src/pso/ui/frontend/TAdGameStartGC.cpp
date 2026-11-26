@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
 #include "pso/system/byteswap.h"
@@ -117,16 +117,16 @@ void TAdGameStartGC::run_task() {
         if (test_pressed_buttons_packed(pad, 8) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(pad, 0x10, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(pad, 0x20, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x40, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(pad, 0x40, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x80, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(pad, 0x80, 6, 1) != 0) {
             destroy_windows();
         }
     }

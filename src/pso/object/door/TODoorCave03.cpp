@@ -98,7 +98,7 @@ void TODoorCave03::update_closed() {
 void TODoorCave03::render() {
     NJS_OBJECT *node;
     if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -110,9 +110,9 @@ void TODoorCave03::render() {
         model_render_flags |= 0x10;
         set_constant_material(&light_color);
         if (door_flags & 1) {
-            node = (model)->child->sibling;
+            node = model->child->sibling;
         } else {
-            node = (model)->child;
+            node = model->child;
         }
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);

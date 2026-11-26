@@ -1,11 +1,10 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/TWindowSubCustomEquip.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -21,27 +20,18 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 #pragma readonly_strings on
 
 
-// inferred: window_sub_custom_select_layout_entries, the layout table
-// custom_select_window_settings points at (two sprite parts and a value entry).
-struct SubCustomSelectWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    SpritePartLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-};
 SubCustomSelectWindowLayout window_sub_custom_select_layout_entries = {
     3, 1,
     {6, {3.0f, 9.0f}, {56.0f, 47.0f}, 196.0f, 0.0f, 0.2f, -1, &hud_texlist, 1, 4},
     {6, {6.0f, 11.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.3f, -1, &hud_texlist, 3, 4},
     {4, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
 };
-WindowDescriptor custom_select_window_settings = {
+WindowDescriptor TWindowSubCustomSelect::window_settings = {
     {204.0f, 188.0f}, 50050.0f, &window_sub_custom_select_layout_entries, 0x43,
 };
 
@@ -133,7 +123,7 @@ void TWindowSubCustomSelect::draw_cursor(WindowDrawContext *context) {
 void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     u32 i;
     TObjPlayer *p;
-    const PaletteTag *e;
+    const PaletteAction *e;
     s16 id;
     s16 sub;
     WindowSpritePart *icon;
@@ -217,46 +207,46 @@ void TWindowSubCustomSelect::run_task() {
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
-    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
+    delete scroll_bar;
     delete status_display;
 }
 // The palette actions offered per row of 3 cells; mode 8 ends the list.
-const PaletteTag custom_select_organic_action_table[40] = {
+const PaletteAction custom_select_organic_action_table[40] = {
     {2, 0x0}, {2, 0x1}, {2, 0x2},
     {3, 0x0}, {3, 0x6}, {3, 0x3},
     {3, 0x1}, {3, 0x7}, {3, 0x4},
     {3, 0x2}, {3, 0x8}, {3, 0x5},
-    {3, 0x9}, {3, 0x12}, {0, 0},
+    {3, 0x9}, {3, 0x12}, {0, 0x0},
     {3, 0xF}, {3, 0x10}, {3, 0x11},
     {3, 0xD}, {3, 0xA}, {3, 0xB},
-    {3, 0xC}, {3, 0xE}, {0, 0},
+    {3, 0xC}, {3, 0xE}, {0, 0x0},
     {4, 0x0}, {4, 0x1}, {4, 0x2},
     {4, 0x3}, {4, 0x4}, {4, 0x5},
     {4, 0x6}, {4, 0x7}, {4, 0x8},
-    {4, 0x9}, {4, 0xA}, {0, 0},
-    {4, 0xB}, {4, 0xC}, {0, 0},
+    {4, 0x9}, {4, 0xA}, {0, 0x0},
+    {4, 0xB}, {4, 0xC}, {0, 0x0},
     {8, 0x0},
 };
-const PaletteTag custom_select_android_action_table[20] = {
+const PaletteAction custom_select_android_action_table[20] = {
     {2, 0x0}, {2, 0x1}, {2, 0x2},
     {4, 0x0}, {4, 0x1}, {4, 0x2},
-    {4, 0x9}, {4, 0xA}, {0, 0},
-    {4, 0xB}, {4, 0x8}, {0, 0},
-    {4, 0xD}, {4, 0xE}, {0, 0},
-    {4, 0xF}, {4, 0x10}, {0, 0},
-    {8, 0x0}, {0, 0},
+    {4, 0x9}, {4, 0xA}, {0, 0x0},
+    {4, 0xB}, {4, 0x8}, {0, 0x0},
+    {4, 0xD}, {4, 0xE}, {0, 0x0},
+    {4, 0xF}, {4, 0x10}, {0, 0x0},
+    {8, 0x0}, {0, 0x0},
 };
 
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
 TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
-    : TWindowAddition((u8 *)&custom_select_window_settings,
+    : TWindowAddition((u8 *)&TWindowSubCustomSelect::window_settings,
                       static_cast<s16>(client), (u8 *)get_window_layout_position(0x10)) {
     NJS_POINT2 pos;
     TObjPlayer *player;
     CharacterAppearanceFields *q;
-    const PaletteTag *e;
+    const PaletteAction *e;
     WindowHeading *o;
     m_name = TWindowSubCustomSelect::class_name;
     client_index = client;

@@ -16,7 +16,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/enemy/AttackTargetHistory.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -98,7 +98,7 @@ extern const char *dell_biter_resource_descriptor[11];
 extern const char *dell_biter_low_model_names[2];
 extern const char *dell_biter_low_motion_names[11];
 
-DelbiterInitialParameters TObjEneDellBiter::param_table = {
+EnemyMoveParams TObjEneDellBiter::param_table = {
     225.0f, 0.0f, 0x600, {0, 0, 0, 0}
 };
 CollisionBody dell_biter_collision_bodies[4] = {
@@ -542,7 +542,7 @@ s32 TObjEneDellBiter::validate_or_update_target() {
     if (!(flags & 8)) {
         return update_linked_position(300.0f);
     }
-    s32 valid = enemy_validate_retained_target(this);
+    s32 valid = enemy_validate_retained_target();
     if (valid == 0) {
         flags &= ~8;
     }
@@ -571,7 +571,7 @@ s32 TObjEneDellBiter::select_farthest_visible_player() {
         }
     }
     if (id != 0xFFFF) {
-        enemy_set_target_id(this, id);
+        enemy_set_target_id(id);
         return 1;
     }
     this->enemy_clear_target();
@@ -997,7 +997,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
                 state_timer = 1;
                 bodies->flags |= 0x700;
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1027,7 +1027,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
             if (check_rush_collisions() != 0) {
                 hit = 1;
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 Vec v;
                 VecCopy(&v, &current_target->position);
                 subtract_vector(&v, &position);

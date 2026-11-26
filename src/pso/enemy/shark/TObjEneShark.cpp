@@ -25,7 +25,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/shark/TObjEneShark.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
@@ -401,7 +400,7 @@ TObjMotionAction shark_action_table[11] = {
     { 2, 0, 6, 0.6f, 0x20 },
 };
 // Per-subtype movement parameters the ctor points movementParameters at.
-BeastMovementParams shark_movement_params[3] = {
+EnemyMoveParams shark_movement_params[3] = {
     {225.0f, 0.75f, 0x400, {0, 0x1E0000, 1, 0}},
     {250.0f, 0.9f, 0x400, {0, 0x1E0000, 1, 0}},
     {300.0f, 1.0f, 0x400, {0, 0x1E0000, 1, 0}},
@@ -558,7 +557,7 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TObjEneBeastBase(pa
     update_prev_position();
     copy_position();
     initialize_enemy_photon_effect(this);
-    m_2ac = (s32)(182.04445f * (360.0f * random_ratio()));
+    move_timer = (s32)(182.04445f * (360.0f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;

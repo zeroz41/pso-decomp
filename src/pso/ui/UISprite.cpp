@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/vector.h"
+#include "pso/render/psoLoadTexture.h"
 
 #pragma const_strings off
 NJS_TEXNAME creation_chara_sprite_entries[20] = {

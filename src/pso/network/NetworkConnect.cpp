@@ -129,18 +129,18 @@ s32 connect_pppoe(s32 *out_value) {
     cfg.password = network_config.ppp_password;
     cfg.callback = 0;
     cfg.ip_mode = 4;
-    cfg.h18 = 6;
-    cfg.h1A = 0;
-    cfg.h1C = 0;
-    cfg.h1E = 3;
-    cfg.h20 = 1;
-    cfg.req_timeout = 90;
-    cfg.h2A = 0;
-    cfg.h2C = 20;
+    cfg.transport_settings[0] = 6;
+    cfg.transport_settings[1] = 0;
+    cfg.transport_settings[2] = 0;
+    cfg.transport_settings[3] = 3;
+    cfg.transport_settings[4] = 1;
+    cfg.modem.timeout = 90;
+    cfg.modem.pad_6 = 0;
+    cfg.modem.pad_8 = 20;
     cfg.phone_number = 0;
-    cfg.req_type = 0;
-    cfg.req_has_arg = 0;
-    cfg.prefix = 0;
+    cfg.modem.type = 0;
+    cfg.modem.has_arg = 0;
+    cfg.modem.arg = 0;
     cfg.auth_mode = 4;
     cfg.mtu = 1500;
     cfg.start_tick = 0x12345678;
@@ -159,7 +159,7 @@ s32 connect_pppoe(s32 *out_value) {
     do {
         cancel = 0;
         if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
-            TKeyBoardControl::read_key_checked(0x4C) != 0) {
+            keyboard_read_key_checked(0x4C) != 0) {
             cancel = 1;
             result = 0x10;
         }
@@ -384,7 +384,7 @@ void flush_pending_flags() {
 }
 
 s32 run_connect_sequence() {
-    s32 sp8;
+    s32 netmask;
     s32 id;
     s32 r;
     s16 ok;
@@ -412,17 +412,17 @@ s32 run_connect_sequence() {
         }
         if (TLobby__sub_80145EE4() != 0) {
             lobby_net_session_id = id;
-            r = apply_dhcp_network_config(&sp8);
+            r = apply_dhcp_network_config(&netmask);
         } else if (is_state_active() != 0) {
-            r = connect_pppoe(&sp8);
+            r = connect_pppoe(&netmask);
         } else {
             lobby_net_session_id = id;
-            r = apply_static_network_config(&sp8);
+            r = apply_static_network_config(&netmask);
         }
         if (r == 0) {
             lobby_if_config[0] = 4;
             lobby_if_config[1] = lobby_local_ip_addr;
-            lobby_if_config[2] = sp8;
+            lobby_if_config[2] = netmask;
             lobby_if_config[3] = 0;
             if (if_config((s16)lobby_net_session_id, lobby_if_config) == 0) {
                 set_default_gateway(lobby_gateway_addr);
@@ -715,25 +715,25 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.phone_number = get_modem_phone_number(idx);
     cfg.callback = 0;
     cfg.ip_mode = 4;
-    cfg.h18 = 6;
-    cfg.h1A = 0;
-    cfg.h1C = 0;
-    cfg.h1E = 3;
-    cfg.h20 = 1;
+    cfg.transport_settings[0] = 6;
+    cfg.transport_settings[1] = 0;
+    cfg.transport_settings[2] = 0;
+    cfg.transport_settings[3] = 3;
+    cfg.transport_settings[4] = 1;
     if (TLobby::is_status_zero() != 0) {
-        cfg.req_type = 0;
+        cfg.modem.type = 0;
     } else {
-        cfg.req_type = 1;
+        cfg.modem.type = 1;
     }
-    cfg.req_timeout = 90;
-    cfg.h2A = 0;
-    cfg.h2C = 20;
+    cfg.modem.timeout = 90;
+    cfg.modem.pad_6 = 0;
+    cfg.modem.pad_8 = 20;
     if (read_dial_prefix(dial_prefix) != 0) {
-        cfg.req_has_arg = 1;
-        cfg.prefix = dial_prefix;
+        cfg.modem.has_arg = 1;
+        cfg.modem.arg = dial_prefix;
     } else {
-        cfg.req_has_arg = 0;
-        cfg.prefix = 0;
+        cfg.modem.has_arg = 0;
+        cfg.modem.arg = 0;
     }
     cfg.auth_mode = 4;
     cfg.mtu = 1500;
@@ -756,7 +756,7 @@ s32 connect_modem(s32 idx, s16 id) {
     do {
         if (countdown == 0) {
             if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
-                TKeyBoardControl::read_key_checked(0x4C) != 0) {
+                keyboard_read_key_checked(0x4C) != 0) {
                 cancel = 1;
                 result = 0x10;
             }

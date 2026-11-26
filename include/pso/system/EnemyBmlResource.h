@@ -4,9 +4,7 @@
 struct BmlResource;
 struct BmlResourceDescriptor;
 
-extern "C" {
 BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *descriptor);
-}
 BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *archive_filename);
 
 #endif

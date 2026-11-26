@@ -36,9 +36,9 @@
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptCore_name = "TBoss3VoloptCore";
-static void *core_combat_stats_a;
-static void *core_combat_stats_b;
-static void *core_combat_stats_c;
+static player_stats *core_combat_stats_a;
+static AttackParams *core_combat_stats_b;
+static ActorParamBlock *core_combat_stats_c;
 static TBoss3VoloptOrbitSpeeds *core_orbit_speeds;
 static BmlResource *core_resources;
 s32 boss3_volopt_core_active_flag;
@@ -51,8 +51,8 @@ static TObjMotionAction core_motions[5] = {
     { 2, 0, 0x2, 0.8f, 0x8 },
     { 1, 0, 0x2, 0.8f, 0x10 },
 };
-static BossMovementParameters core_movement = {
-    { 150.0f, 0.55555552f, 0x400 }, { 0x1E0000, 0, 1, 0 },
+static EnemyMoveParams core_movement = {
+    150.0f, 0.55555552f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
 static CollisionBody core_body_parts[1] = {
     { { 0.0f, 0.0f, 0.0f }, 0.001f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -112,7 +112,7 @@ void TBoss3VoloptCore::init_params() {
     init_collision_body_parts(this, core_body_parts, 1);
     variant = 0;
     movementParameters = &core_movement;
-    recalc_combat_stats((player_stats *)core_combat_stats_a, (AttackParams *)core_combat_stats_b, (ActorParamBlock *)core_combat_stats_c, 1.0f, 1.0f);
+    recalc_combat_stats(core_combat_stats_a, core_combat_stats_b, core_combat_stats_c, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
@@ -402,7 +402,7 @@ s32 TBoss3VoloptCore::check_target_collision() {
             }
             if (obj_is_hit_receivable(object) != 0) {
                 if (object->select_melee_contact_body(this, 1.0f) != 0) {
-                    object->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                    object->apply_knockback_from_attacker(this, 3.0f);
                     object->receive_physical_attack(this, 1.0f);
                 }
                 if (object == target) {
@@ -620,7 +620,7 @@ s32 TBoss3VoloptCore::alloc_boss_target_slot() {
 void TBoss3VoloptCore::link_photon(u16 id, s32) {
     TBoss3VoloptCore *core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id);
     if (core != NULL && core->hit_cooldown <= 0) {
-        TObject *source = (TObject *)find_entity_by_id(id);
+        TObjChara *source = (TObjChara *)find_entity_by_id(id);
         if (source != NULL) {
             core->bodies->flags |= 0x04000000;
             core->receive_physical_attack(source, 1.0f);

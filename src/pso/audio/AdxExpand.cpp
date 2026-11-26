@@ -90,7 +90,7 @@ void AdxDecoderChannel::clear_record_data() {
     }
 }
 
-void TLobby__sub_803CB570(AdxDecoderChannel *channel, u8 *header, s16 *out_coefs) {
+void adx_decoder_channel_set_delay(AdxDecoderChannel *channel, u8 *header, s16 *out_coefs) {
     s16 *header_samples = (s16 *)header;
     channel->delay_samples[0] = header_samples[0];
     channel->delay_samples[1] = *out_coefs;

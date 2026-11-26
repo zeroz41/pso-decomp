@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/city/TShopSequence.h"

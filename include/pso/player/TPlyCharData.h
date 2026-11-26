@@ -15,6 +15,7 @@ class TPlyCharData {
 public:
     TPlyCharData();
     ~TPlyCharData();
+    TPlyCharData &operator=(TPlyCharData &src);
     void bswap();
     void some_stub() {};
 public:
@@ -25,6 +26,9 @@ public:
     u8 m_tech_levels[20];
 public:
     void init_inventory_items();
+    void initialize_player_data();
+    // Every technique level to 255, not learned.
+    void clear_technique_levels();
     // Material usage counts, kept in the last m_present byte of inventory slots 8-12.
     void set_luck_materials_used(u8 count);
     void set_def_materials_used(u8 count);

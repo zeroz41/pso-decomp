@@ -29,8 +29,8 @@ Vec panarms_atk_zero_vec = {0.0f, 0.0f, 0.0f};
 
 
 extern "C" {
-__declspec(section ".rodata") DirectAttackPayload lbl_8043CDF0[] = { 0 };
-__declspec(section ".rodata") DirectAttackPayload lbl_8043CDF8[] = { 0 };
+__declspec(section ".rodata") DirectAttackPayload panarms_atk_colli_player_attack[] = { 0 };
+__declspec(section ".rodata") DirectAttackPayload panarms_atk_colli_enemy_attack[] = { 0 };
 }
 
 ModelNodePositionCapture::ModelNodePositionCapture(const ModelNodePositionEntry *entries, Vec *positions) {
@@ -61,24 +61,24 @@ void TObjEnePanarmsAtkColli::hit_enemy_near(Vec *point) {
 }
 
 void TObjEnePanarmsAtkColli::hit_enemy(TObjChara *enemy) {
-    DirectAttackPayload attack = lbl_8043CDF8[0];
+    DirectAttackPayload attack = panarms_atk_colli_enemy_attack[0];
     attack.power = attack_power;
     if (last_hit_enemy != enemy) {
-        f32 damage = enemy->receive_direct_attack(m_up, attack, NULL, -1, -1);
+        f32 damage = enemy->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
         if (0.0f != damage) {
-            enemy->apply_knockback_from_attacker((u8 *)this, damage);
+            enemy->apply_knockback_from_attacker(this, damage);
         }
         last_hit_enemy = enemy;
     }
 }
 
 void TObjEnePanarmsAtkColli::hit_player(TObjChara *player) {
-    DirectAttackPayload attack = lbl_8043CDF0[0];
+    DirectAttackPayload attack = panarms_atk_colli_player_attack[0];
     attack.power = attack_power;
     if (last_hit_player != player) {
-        f32 damage = player->receive_direct_attack(m_up, attack, NULL, -1, -1);
+        f32 damage = player->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
         if (0.0f != damage) {
-            player->apply_knockback_from_attacker((u8 *)this, damage);
+            player->apply_knockback_from_attacker(this, damage);
         }
         last_hit_player = player;
     }

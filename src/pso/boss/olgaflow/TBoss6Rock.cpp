@@ -17,7 +17,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/map/TObjMapCsn.h"

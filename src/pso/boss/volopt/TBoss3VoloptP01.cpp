@@ -53,9 +53,9 @@ static const char *TBoss3VoloptP01_class_name = "TBoss3VoloptP01";
 static const Vec volopt_p01_node_origin = { 0.0f, 0.0f, 0.0f };
 static const DirectAttackPayload volopt_p01_zonde_attack = { 3, 0.0f };
 
-static void *volopt_p01_boss_stat_handle_a;
-static void *volopt_p01_shared_handler_b;
-static void *volopt_p01_object_handle;
+static player_stats *volopt_p01_boss_stat_handle_a;
+static AttackParams *volopt_p01_shared_handler_b;
+static ActorParamBlock *volopt_p01_object_handle;
 static TBoss3VoloptP01Params *volopt_p01_shared_handler_handle;
 BmlResource *TBoss3VoloptP01::resource_bundle;
 TBreakUpMdlData *TBoss3VoloptP01::breakup_model;
@@ -70,7 +70,7 @@ static TObjMotionAction volopt_p01_action_table[6] = {
     { 1, 0, 0xF, 1.0f, 0x10 },
     { 2, 2, 0xC, 1.0f, 0x0 },
 };
-static BossMovementParameters volopt_p01_movement = { { 150.0f, 0.5555555f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
+static EnemyMoveParams volopt_p01_movement = {150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 }};
 static TBoss3VoloptP01CollisionPart volopt_p01_collision_parts = { 0, 18.0f, 0, 8.0f, 0, 0, 0x8003, 0, 0, 0, 0 };
 static BreakUpParamRow volopt_p01_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 void TObjVoloptShutter::open() {
@@ -145,7 +145,7 @@ void TBoss3VoloptP01::init_params() {
     init_collision_body_parts(this, &volopt_p01_collision_parts, 1);
     variant = 0;
     movementParameters = &volopt_p01_movement;
-    recalc_combat_stats((player_stats *)volopt_p01_boss_stat_handle_a, (AttackParams *)volopt_p01_shared_handler_b, (ActorParamBlock *)volopt_p01_object_handle, 1.0f, 1.0f);
+    recalc_combat_stats(volopt_p01_boss_stat_handle_a, volopt_p01_shared_handler_b, volopt_p01_object_handle, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);

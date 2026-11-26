@@ -8,10 +8,9 @@
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include <string.h>
 
-extern "C" s32 chcr_load_afs_busy_flag;
+s32 chcr_load_afs_busy_flag;
 
 void TChCrLoadAfs::release_load_slot() {
     if (state_30 != 0) {
@@ -57,17 +56,6 @@ void TChCrLoadAfs::poll_load() {
     load_state = 2;
 }
 
-#include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
-#include "pso/ui/charcreate/CharacterAppearanceTables.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803DD5E0.h"
-extern "C" { extern const char TChCrLoadAfs_class_name_string[13] = "TChCrLoadAfs"; }
-extern "C" { extern const char TChCrLoadAfsTextureReq_class_name_string[23] = "TChCrLoadAfsTextureReq"; }
-
-extern "C" {
-f32 TLobby__sub_8028C50C(f32);
-}
 
 void TChCrLoadAfs::start_download() {
     s32 count;
@@ -94,8 +82,6 @@ void TChCrLoadAfs::start_download() {
 }
 
 typedef void (TChCrLoadAfs::*TChCrLoadAfsHandler)();
-
-s32 chcr_load_afs_busy_flag;
 
 void TChCrLoadAfs::run_task() {
     if (--timer < 0) {
@@ -126,9 +112,13 @@ TChCrLoadAfs::~TChCrLoadAfs() {
     release_load_slot();
 }
 
-const char *lbl_805D3B48 = TChCrLoadAfs_class_name_string;
+#pragma push
+#pragma readonly_strings on
+const char *TChCrLoadAfs::name = "TChCrLoadAfs";
+#pragma pop
+
 TChCrLoadAfs::TChCrLoadAfs(TObject *object, u32 archive, u32 entry) : TObject(object) {
-    m_name = lbl_805D3B48;
+    m_name = TChCrLoadAfs::name;
     load_handle = 0;
     source_20 = archive;
     source_24 = entry;
@@ -140,112 +130,4 @@ TChCrLoadAfs::TChCrLoadAfs(TObject *object, u32 archive, u32 entry) : TObject(ob
 
 TChCrLoadAfs *TChCrLoadAfs::create(TObject *parent, u32 archive, u32 entry) {
     return new TChCrLoadAfs(parent, archive, entry);
-}
-
-s32 find_player_texture_name_ordinal(u8 *object) {
-    const char *name;
-    s32 count;
-    s32 steps;
-    s32 mid;
-    s32 step;
-    const char **list;
-    s32 i;
-    f32 l2;
-    s32 r;
-    TChCrLoadAfsTextureReq *req = (TChCrLoadAfsTextureReq *)object;
-    name = req->textures->textures[req->index].filename;
-    count = player_class_texture_archive_table[req->display_index].count;
-    l2 = TLobby__sub_8028C50C(2.0f);
-    steps = (s32)ceil_to_float(TLobby__sub_8028C50C(count) / l2) + 1;
-    mid = (count + 1) >> 1;
-    step = (mid + 1) >> 1;
-    list = player_class_texture_archive_table[req->display_index].textureNames;
-    for (i = 0; i < steps; i++) {
-        r = strcmp(name + 3, list[mid] + 3);
-        if (r == 0) {
-            return mid;
-        }
-        if (r < 0) {
-            mid -= step;
-            if (mid < 0) {
-                mid = 0;
-            }
-        } else {
-            mid += step;
-            if (mid >= count) {
-                mid = count - 1;
-            }
-        }
-        step = (step + 1) >> 1;
-        if (step < 1) {
-            step = 1;
-        }
-    }
-    ((TObject *)object)->queue_destruction();
-    return 0;
-}
-
-void TChCrLoadAfsTextureReq::update_loading() {
-    s32 retry;
-    s32 i;
-    retry = 0;
-    switch (ADXF_GetStat(load_handle)) {
-    case 1:
-        if (++m_20 >= 3) {
-            return;
-        }
-        retry = 1;
-        break;
-    case 2:
-        if (++m_24 >= 150) {
-            retry = 1;
-            break;
-        }
-        return;
-    case 3:
-        break;
-    default:
-        return;
-    }
-    if (retry != 0) {
-        ADXF_Close(load_handle);
-        load_handle = 0;
-        safe_free(reinterpret_cast<void *>(buffers[index]));
-        buffers[index] = 0;
-        state = 1;
-        return;
-    }
-    ADXF_Close(load_handle);
-    load_handle = 0;
-    if (++index != count) {
-        state = 1;
-        return;
-    }
-    for (i = 0; i < count; i++) {
-        reinterpret_cast<GinjaTextureInput *>(m_74[i])->set_render_rect(reinterpret_cast<void *>(buffers[i]), 0, 0, 0);
-        set_texture_name(&textures->textures[i], reinterpret_cast<GinjaTextureInput *>(m_74[i]), 0, 0x40000000);
-    }
-    if (load_texture_list(textures) != -1) {
-        m_1c = 1;
-        queue_destruction();
-    }
-}
-
-void TChCrLoadAfsTextureReq::start_read() {
-    s32 n;
-    AdxfHandle *handle;
-    uaddr buf;
-    handle = ADXF_OpenAfs(player_class_texture_archive_table[display_index].archiveId, find_player_texture_name_ordinal((u8 *)this));
-    load_handle = handle;
-    if (handle != 0) {
-        m_20 = 0;
-        m_24 = 0;
-        n = ADXF_GetFsizeSct(load_handle);
-        buf = (uaddr)TQuestVmDownLoadServer::alloc(n << 11);
-        buffers[index] = buf;
-        if (buf != 0) {
-            ADXF_ReadNw(load_handle, n, (void *)buffers[index]);
-            state = 2;
-        }
-    }
 }

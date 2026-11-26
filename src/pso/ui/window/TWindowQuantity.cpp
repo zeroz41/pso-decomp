@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -15,14 +15,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
-
-// inferred: quantity_window_layout_entries, the layout table quantity_window_layout points at.
-struct QuantityWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    ValueLayoutRecord rec_1;
-};
 
 QuantityWindowLayout quantity_window_layout_entries = {
     2, 1,
@@ -68,7 +60,7 @@ TWindowQuantity::TWindowQuantity(s32 client) : TWindowBase((u8 *)&quantity_windo
     e1 = (u8 *)this->get_array_entry(1);
     set_text_entry_string(e0, id, 0);
     ((f32 *)e1)[2] = 24.0f + (12.0f + (8.0f + n));
-    target_size[0] = TWindowSubStatusDisp::get_base_y(width);
+    target_size[0] = get_base_y(width);
     this->save_position();
     if (TCameraCtrl::get_camera_id() > 2) {
         scale[0] = 0.75f;

@@ -6,11 +6,13 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubCustomSelect.h"
 
 class TWindowSubStatusDisp;
 class WindowSpritePart;
 struct NJS_POINT2;
+struct PaletteAction;
 
 void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry);
 
@@ -47,14 +49,39 @@ struct TWindowSubCustomEquip : public TWindowBase {
     static void draw_cursor_sprite(f32 depth_scale, WindowDrawContext *context, NJS_POINT2 *position, s32 frame);
     s32 is_type_valid(u8 type);
     s32 get_saved_slot_for_index(u8 slot);
-    void get_cursor_pos(PaletteTag *tag);
-    void remove_duplicate_bindings(const PaletteTag *tag);
-    void toggle_action_binding(PaletteTag *tag);
+    void get_cursor_pos(PaletteAction *tag);
+    void remove_duplicate_bindings(const PaletteAction *tag);
+    void toggle_action_binding(PaletteAction *tag);
     void place_bank_slot_on_ring(s32 angle, s32 index);
 };
 
 LAYOUT_ASSERT(TWindowSubCustomEquip_size, sizeof(TWindowSubCustomEquip) == 0x70);
 
 LAYOUT_ASSERT(TWindowSubCustomEquipHeadingOffset, offsetof(TWindowSubCustomEquip, status_disp) == 0x6C);
+
+// Window layout: two rows of panel, three palette icons, three count labels and two tabs.
+struct CustomEquipLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    SpritePartLayoutRecord rec_1;
+    SpritePartLayoutRecord rec_2;
+    SpritePartLayoutRecord rec_3;
+    ValueLayoutRecord rec_4;
+    ValueLayoutRecord rec_5;
+    ValueLayoutRecord rec_6;
+    SpritePartLayoutRecord rec_7;
+    SpritePartLayoutRecord rec_8;
+    SpritePartLayoutRecord rec_9;
+    SpritePartLayoutRecord rec_10;
+    SpritePartLayoutRecord rec_11;
+    SpritePartLayoutRecord rec_12;
+    ValueLayoutRecord rec_13;
+    ValueLayoutRecord rec_14;
+    ValueLayoutRecord rec_15;
+    SpritePartLayoutRecord rec_16;
+    SpritePartLayoutRecord rec_17;
+};
+
 
 #endif

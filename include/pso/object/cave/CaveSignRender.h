@@ -13,11 +13,11 @@
 inline void render_cave_sign(TObjMapObject *sign) {
     NJS_OBJECT *node;
     if (sign->update_object_view_visibility(sign->view_range, sign->model_radius) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sign->texlist));
+        set_texture_list(sign->texlist);
         push_matrix();
         post_translate_matrix(&sign->position.x);
         rotate_matrix_y(NULL, sign->rotation_y);
-        node = (NJS_OBJECT *)sign->model;
+        node = sign->model;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         push_matrix();
@@ -38,7 +38,7 @@ inline void render_cave_sign(TObjMapObject *sign) {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node = ((NJS_OBJECT *)sign->model)->child->sibling;
+        node = sign->model->child->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
@@ -50,7 +50,7 @@ inline void render_cave_sign(TObjMapObject *sign) {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node = ((NJS_OBJECT *)sign->model)->child->sibling->sibling;
+        node = sign->model->child->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();

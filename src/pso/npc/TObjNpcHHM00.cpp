@@ -4,7 +4,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
@@ -13,7 +13,7 @@
 #pragma readonly_strings on
 
 const char *TObjNpcHHM00::name = "TObjNpcHHM00";
-void **TObjNpcHHM00::model_object;
+NJS_OBJECT **TObjNpcHHM00::model_object;
 NJS_TEXLIST *TObjNpcHHM00::body_texture_gvm_handle;
 
 void *TObjNpcHHM00::create(void *set_data) {
@@ -34,7 +34,7 @@ void TObjNpcHHM00::free_resources() {
 }
 
 void TObjNpcHHM00::load_resources() {
-    model_object = static_cast<void **>(create_named_object("npc_a00_data.rel"));
+    model_object = static_cast<NJS_OBJECT **>(create_named_object("npc_a00_data.rel"));
     body_texture_gvm_handle = LoadPvmFileTls("n_a00_w_body.gvm");
 }
 

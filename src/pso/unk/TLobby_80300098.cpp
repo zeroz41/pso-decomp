@@ -1,6 +1,6 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/unk/TLobby_80300098.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/network/TLobby.h"

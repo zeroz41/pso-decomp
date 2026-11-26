@@ -7,7 +7,7 @@
 struct TOCtrlDubchik : public TObjEnemy {
     TOCtrlDubchik(TObject *parent, void *set_data);
     virtual ~TOCtrlDubchik();
-    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     // The handlers run_task picks by mode.
     void update_waiting();      // mode 0: hovers high until a Dubchik of its room goes down
     void update_bobbing();      // mode 1: sinks and spreads the parts apart
@@ -15,11 +15,11 @@ struct TOCtrlDubchik : public TObjEnemy {
     void update_spin();         // mode 3: spins the effect part
     void kill_room_dubchiks();  // start_dying on every Dubchik (variant 0) of its room
     void run_demo_task();       // run_task's demo branch (empty)
-    virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual s32 try_start_action(void *, s32, f32);
-    virtual s32 select_melee_contact_body(void *, f32);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
+    virtual void apply_knockback_from_attacker(TObjBase *, f32);
+    virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
+    virtual s32 try_start_action(TObjChara *, s32, f32);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
     virtual void render();
     f32 view_range;    // update_object_view_visibility's arguments
     f32 model_radius;  // the model's bounding radius

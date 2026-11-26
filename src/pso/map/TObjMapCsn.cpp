@@ -125,7 +125,7 @@ TObjMapCsn *TObjMapCsn::create(void *set_data) {
 
 TObjMapCsn::~TObjMapCsn() {
     if (TObjMapCsn::get_collision_controller() != NULL) {
-        remove_map_collision(TObjMapCsn::get_collision_controller(), this);
+        TObjMapCsn::get_collision_controller()->remove_object(this);
     }
 }
 TObjMapCsn::TObjMapCsn(TObject *parent, void *set_data) : TObjCollidable(parent) {
@@ -147,6 +147,6 @@ TObjMapCsn::TObjMapCsn(TObject *parent, void *set_data) : TObjCollidable(parent)
     collision_group.radius = half_width * half_width + half_depth * half_depth;
     collision_group.flags = set_params[1];
     if (TObjMapCsn::get_collision_controller() != NULL) {
-        register_map_collision(TObjMapCsn::get_collision_controller(), this);
+        TObjMapCsn::get_collision_controller()->add_object(this);
     }
 }

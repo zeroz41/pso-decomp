@@ -44,7 +44,7 @@ void TWindowKeyBoardBase::set_mode0() {
     composition_flags = 18;
 }
 
-void TWindowKeyBoardBase::sub_8025CC48() {
+void TWindowKeyBoardBase::load_input_mode_options() {
     switch (current_language) {
     case LANGUAGE_JAPANESE:
         composition_flags = 0;

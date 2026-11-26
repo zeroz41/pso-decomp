@@ -1,11 +1,10 @@
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/unk/text_8026CB5C.h"
@@ -23,13 +22,6 @@
 
 #pragma readonly_strings on
 
-// inferred: window_timer_layout_entries, the layout table window_timer_layout points at.
-struct TimerWindowLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-};
-
 TimerWindowLayout window_timer_layout_entries = {
     1, 1,
     {3, {0.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},
@@ -41,20 +33,14 @@ WindowDescriptor window_timer_layout = {
 
 const char *TWindowTimer::class_name = "TWindowTimer";
 
-/* Window entry view: the text entry the timer centres (x at +8). */
-struct TimerEntry {
-    u8 pad_0[8];
-    f32 x;
-};
-
 #pragma push
 #pragma fp_contract on
 void init_timer_window_layout(TWindowTimer *self) {
     f32 width;
-    TimerEntry *entry;
+    WindowTextEntry *entry;
     self->flags |= 1;
     width = (f32)calc_text_width("000:000");
-    entry = (TimerEntry *)self->get_array_entry(0);
+    entry = (WindowTextEntry *)self->get_array_entry(0);
     entry->x = 48.0f - 0.5f * width;
 }
 #pragma pop
@@ -63,10 +49,10 @@ void init_timer_window_layout(TWindowTimer *self) {
 #pragma fp_contract on
 void init_timer_window_layout_alt(TWindowTimer *self) {
     f32 width;
-    TimerEntry *entry;
+    WindowTextEntry *entry;
     self->flags &= ~1;
     width = (f32)calc_text_width("0'00\"00");
-    entry = (TimerEntry *)self->get_array_entry(0);
+    entry = (WindowTextEntry *)self->get_array_entry(0);
     entry->x = 48.0f - 0.5f * width;
 }
 #pragma pop
@@ -93,23 +79,23 @@ void TWindowTimer::update_chat_parts() {
 }
 
 void TWindowTimer::draw(s32 minutes, s32 seconds) {
-    saddr array_entry;
+    WindowTextEntry *array_entry;
 
-    array_entry = reinterpret_cast<saddr>(get_array_entry(0));
+    array_entry = (WindowTextEntry *)get_array_entry(0);
     text_builder_reset();
     text_builder_append("\tC8");
     append_padded_number(minutes, 3);
     text_builder_append("\tC7:\tC3");
     append_padded_number(seconds, 3);
-    set_text_entry_string((WindowTextEntry *)array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
-    ((WindowTextEntry *)array_entry)->reveal_all();
+    set_text_entry_string(array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
+    array_entry->reveal_all();
 }
 
 void TWindowTimer::set_time(u32 secs) {
-    saddr entry;
+    WindowTextEntry *entry;
     u32 hours;
     u32 mins;
-    entry = reinterpret_cast<saddr>(get_array_entry(0));
+    entry = (WindowTextEntry *)get_array_entry(0);
     text_builder_reset();
     hours = secs / 3600;
     secs %= 3600;
@@ -124,8 +110,8 @@ void TWindowTimer::set_time(u32 secs) {
         text_builder_append("\"");
         append_padded_number((secs), 2);
     }
-    set_text_entry_string((WindowTextEntry *)entry, (uaddr)(get_shared_text_buffer()), 0x20);
-    ((WindowTextEntry *)entry)->reveal_all();
+    set_text_entry_string(entry, (uaddr)(get_shared_text_buffer()), 0x20);
+    entry->reveal_all();
 }
 
 void TWindowTimer::draw_tab(WindowDrawContext *context) {

@@ -16,7 +16,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 
 
@@ -133,7 +133,7 @@ TBoss7Joint::~TBoss7Joint() {
     clear_collision_bodies();
 }
 
-BossMovementParameters boss7_joint_params = { { 225.0f, 0.0f, 0x600 } };
+EnemyMoveParams boss7_joint_params = {225.0f, 0.0f, 0x600};
 
 #pragma opt_common_subs off
 s32 TBoss7Joint::init_params() {

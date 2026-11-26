@@ -21,11 +21,11 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/WindowLayout.h"
 
@@ -78,7 +78,9 @@ s32 add_text_entry__11TWindowMenuFllll(saddr, const char *, s32, s16, s32);
 s32 add_text_entry__11TWindowMenuFlll(saddr, const char *, s32, s16);
 const char *get_technique_name(s16);
 
-void TWindowSubTechnique::get_current_selection(s16 *tp, s32 *hold_status, s32 client) { TWindowSubTechnique::get_selection(tp, hold_status, client); }
+void TWindowSubTechnique::get_current_selection(s16 *tp, s32 *hold_status, s32 client) {
+    TWindowSubTechnique::get_selection(tp, hold_status, client);
+}
 
 s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 client) {
     TObjPlayer *player;
@@ -180,7 +182,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
   player = get_player_by_client_id(this->playerIndex);
   if (player != NULL)
   {
-    if (validate_and_clear_slot__10TObjPlayerFPvs(&player->technique_state, (int) tech) != 0)
+    if (validate_and_clear_slot__10TObjPlayerFPvs(&player->technique_state, tech) != 0)
     {
       tech = 0x13;
       cast_technique_level = saved_reg_r30;
@@ -200,7 +202,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
         text_builder_append((const char *)((saddr) get_technique_description_text(0x13)));
         text_builder_append_int((((u8) cast_technique_level) + 1));
       }
-      text_builder_append((const char *)((saddr) get_help_text_string(0x2E)));
+      text_builder_append(get_help_text_string(0x2E));
       text_builder_append_int(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
       text_builder_append((const char *)((saddr) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
       help_window->append_line((saddr)((void *) get_shared_text_buffer()), 0x82);

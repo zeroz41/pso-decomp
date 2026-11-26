@@ -65,7 +65,6 @@
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
@@ -139,7 +138,7 @@ TObjMotionAction dolm_olm_param_table[13] = {
     {1, 0, 5, 0.8f, 0x20},
     {2, 0, 4, 0.8f, 4},
 };
-BeastMovementParams dolmolm_movement_params[2] = {
+EnemyMoveParams dolmolm_movement_params[2] = {
     {225.0f, 0.75f, 0x400, {0, 0x1E0000, 1, 0}},
     {300.0f, 1.0f, 0x400, {0, 0x1E0000, 1, 0}},
 };
@@ -172,7 +171,7 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TObjEneBeastBa
     advance_position();
     copy_position();
     initialize_enemy_photon_effect(this);
-    m_2ac = (s32)(182.04445f * (360.0f * random_ratio()));
+    move_timer = (s32)(182.04445f * (360.0f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;
@@ -371,7 +370,7 @@ void TObjEneDolmOlm::render() {
         case 8:
         case 9: {
             s16 t;
-            s16 *chunk = ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list;
+            s16 *chunk = ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list;
             t = chunk[3];
             saved = t;
             chunk[3] = (u8)t;
@@ -409,7 +408,7 @@ void TObjEneDolmOlm::render() {
         case 1:
         case 8:
         case 9:
-            ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = saved;
+            ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list[3] = saved;
             break;
         }
     }
@@ -532,7 +531,7 @@ void TObjEneDolmOlm::update_retreat() {
             }
             f = 4.0f * move_speed;
             if (check_path_ahead(rotation_y + 0x8000, f) == 0) {
-                enemy_turn_toward_dest(((BeastMovementParams *)movementParameters)->turnSpeed);
+                enemy_turn_toward_dest(movementParameters->turn_speed);
                 enemy_set_heading_velocity(f, this, rotation_y + 0x8000);
                 move_with_wall_slide(this);
                 retreat_distance += f;
@@ -623,7 +622,7 @@ void TObjEneDolmOlm::update_special_attack() {
             Vec v;
             VecCopy(&v, &target->body_center);
             subtract_vector(&v, &body_center);
-            if (turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &v) < dolm_olm_behavior_params_by_variant[variant]->special_angle) {
+            if (turn_toward_direction(movementParameters->turn_speed, &v) < dolm_olm_behavior_params_by_variant[variant]->special_angle) {
                 phase = 3;
                 requested_action = 0xC;
                 play_sound_effect(remap_sound_for_area(0x4003A804), &position, 0, 0);

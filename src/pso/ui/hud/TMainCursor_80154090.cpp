@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/hud/TMainCursor_80154090.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/system/data/FlagWord.h"
@@ -41,7 +40,7 @@ void TObjCollidable::enable_all_bodies() { set_bodies_collision_flag(bodies, bod
 
 s32 TObjCollidable::test_body_flag(s32 index, u16 client) {
     if (is_body_flag_valid(index, client) != 0) {
-        return test_flags_any(&body_flags[index].bits, 1 << client);
+        return body_flags[index].test_flags_any(1 << client);
     }
     return 0;
 }

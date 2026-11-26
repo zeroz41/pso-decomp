@@ -5,4 +5,9 @@
 
 s32 remap_area_sound_id(s32 sound_id, s32 control);
 
+struct AreaSoundRemapEntry {
+    s32 base;
+    s32 start;
+};
+
 #endif

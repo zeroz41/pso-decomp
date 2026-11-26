@@ -10,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "types.h"
-#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/AreaSound.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjMotion.h"
@@ -232,7 +231,7 @@ void TObjEneDimedian::render() {
         case 0:
         case 1:
         case 8: {
-            s16 *strip = ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list;
+            s16 *strip = ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list;
             saved = strip[3];
             strip[3] = (u8)strip[3];
             break;
@@ -281,7 +280,7 @@ void TObjEneDimedian::render() {
         case 0:
         case 1:
         case 8:
-            ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = saved;
+            ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list[3] = saved;
             break;
         }
     }
@@ -353,7 +352,7 @@ TObjMotionAction dimedian_action_table[11] = {
     {3, 0, 4, 0.6f, 0x10},
     {2, 0, 6, 0.6f, 0x20},
 };
-BeastMovementParams dimedian_movement_params[3] = {
+EnemyMoveParams dimedian_movement_params[3] = {
     {225.0f, 0.75f, 0x400, {0, 0x1E0000, 1, 0}},
     {250.0f, 0.9f, 0x400, {0, 0x1E0000, 1, 0}},
     {300.0f, 1.0f, 0x400, {0, 0x1E0000, 1, 0}},
@@ -409,13 +408,11 @@ void TObjEneDimedian::free_boss_objects() {
 
 void TLobby::load_dimedian_resources() {
     BmlModelEntry *models;
-    BmlResource *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
         dimedian_resource_ptr = load_enemy_bml_resource_named(&dimedian_resource_descriptor, dimedian_a_bml_filename);
     } else {
-        p = new BmlResource(1, &dimedian_resource_descriptor, 0, 0, NULL);
-        dimedian_resource_ptr = p;
+        dimedian_resource_ptr = new BmlResource(1, &dimedian_resource_descriptor, 0, 0, NULL);
     }
     models = dimedian_resource_ptr->models;
     dimedian_resource_handles[0] = (saddr)((NJS_CNK_MODEL *)models[0].model->child->sibling->sibling->model)->polygon_list;
@@ -493,7 +490,7 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TObjEneBeast
     update_prev_position();
     copy_position();
     initialize_enemy_photon_effect(this);
-    m_2ac = (s32)(182.04445f * (3.6e+02f * random_ratio()));
+    move_timer = (s32)(182.04445f * (3.6e+02f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;

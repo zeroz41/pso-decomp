@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponBelraCannon.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/weapon/TItemWeaponHugeBattleFan.h"
 #include "pso/weapon/TItemAttacker.h"
@@ -11,7 +10,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponBelraCannon::emit_marker_effects() {
-    WeaponVector v;
+    Vec v;
     if (is_mode_two_and_ready() != 0) {
         shot_callback = (WeaponShotCallback)belra_cannon_create_extra_shot;
         shot_ready = 0;
@@ -22,7 +21,7 @@ void TItemWeaponBelraCannon::emit_marker_effects() {
         shot_ready = 0;
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)belra_cannon_return_timer, 0x1E);
         get_joint_position(1, &v);
-        launch_shot((u8 *)&v, 0, 0, 1);
+        launch_shot(&v, 0, 0, 1);
     }
 }
 

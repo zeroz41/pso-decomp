@@ -51,7 +51,7 @@ void TItemAttacker::deliver_delayed_weapon_hit() {
 
 void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record) {
     if ((parent != NULL) && (attack_record != NULL) && (position != NULL) && (attack_record->source != 0xFFFF) && (attack_record->target != 0xFFFF)) {
-        TItemAttacker::spawn_item_timer(new TItemAttacker(parent, position, frames, attack_record), TItemAttacker__sub_8010349C, frames);
+        TItemAttacker::spawn_item_timer(new TItemAttacker(parent, position, frames, attack_record), deliver_attacker_timer_hit, frames);
     }
 }
 
@@ -85,7 +85,7 @@ void TItemAttacker::spawn_item_timer(TObject *object, ItemTimerCallback expire, 
     }
 }
 
-void TItemAttacker__sub_8010349C(TObject *attacker) {
+void deliver_attacker_timer_hit(TObject *attacker) {
     if (attacker != NULL) {
         ((TItemAttacker *)attacker)->deliver_delayed_weapon_hit();
     }
@@ -100,7 +100,7 @@ saddr get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
 void free_item_buff() {
     if (item_buff_buffer != NULL) {
         if (item_buffer_temp_mode != 0) {
-            TLobby::tmp_buf_release("TItemBuff");
+            tmp_buf_release("TItemBuff");
         } else {
             mem_free(item_buff_buffer);
         }
@@ -112,10 +112,10 @@ void *create_item_buff(s32 size) {
 
     if (size != 0) {
         free_item_buff();
-        temp_available = TLobby::tmp_buf_is_free();
+        temp_available = tmp_buf_is_free();
         item_buffer_temp_mode = temp_available;
         if ((temp_available != 0) && (size < 0x40000)) {
-            item_buff_buffer = TLobby::tmp_buf_use_req("TItemBuff");
+            item_buff_buffer = tmp_buf_use_req("TItemBuff");
         } else {
             item_buff_buffer = mem_alloc(size);
         }

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/item/TItemIdCounters.h"
 #include "pso/math/CurvePathPoint.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
@@ -73,6 +74,7 @@
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/trap/TOMineTrap.h"
@@ -138,7 +140,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/GbaAramCache.h"
 #include "pso/object/warp/ForestWarpResources.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/map/AreaEventSet.h"
 #include "pso/network/GbaJoybootState.h"
@@ -148,14 +150,14 @@
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
-#include "pso/ui/city/THunterGuildSeqOffline_801F3718.h"
+#include "pso/ui/chat/TSymbolChatCapture.h"
 
 
 
@@ -195,11 +197,6 @@ u32 qst_flag_buf;
 u16 qst_statistic_arg1;
 u16 qst_statistic_arg2;
 u16 qst_statistic_id;
-
-struct AppendCardWindowTextRecoveredGlobal {
-    s32 value;
-    u8 remaining[0x24];
-};
 
 struct QuestCommand {
     const char *name;
@@ -260,7 +257,7 @@ const s32 forbid_scape_dolls_values[2] = { 0, 1 };
 const StartOrUpdateGbaJoybootTable lobby_index_identity_table_a = { { 0, 1, 2, 3, 4 } };
 
 // The position qst_op_open_pack_select opens the equip kind window at
-const f32 pack_select_window_pos[2] = { 308.0f, 184.0f };
+const NJS_POINT2 pack_select_window_pos = { 308.0f, 184.0f };
 
 const InitialFloorTable lobby_index_identity_table_b = {
     { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 }
@@ -369,23 +366,17 @@ void append_team_name(void) {
 
 // The grave message of the character save record: qst_op_is_there_grave_message tests it and the
 // "last_word" tag prints it.
-struct CharacterSaveGraveMessage {
-    u8 pad_0[0x2254];
-    char grave_message[0x20];
-};
-
 void TLobby::append_card_window_text() {
-    uaddr character_save_record;
+    CharacterSaveRecord *record;
 
-    character_save_record = get_character_save_record(0xFFFF);
-    if (character_save_record != 0U) {
-        append_string(((CharacterSaveGraveMessage *)character_save_record)->grave_message);
+    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    if (record != NULL) {
+        append_string(record->challenge.tombstone.unit_name);
         return;
     }
     append_string("Error");
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(AppendCardWindowTextRecoveredGlobal) == 0x28);
 void TLobby::append_default_string() {
     append_string(quest_player_class_name_buffer);
 }
@@ -561,13 +552,13 @@ void qst_op_get_item_stackability() {
     qst_registers[dest_reg] = -1;
 }
 
-void qst_op_create_symbol_chat_capture_buffer() { TLobby::create_singleton(tl_01); }
+void qst_op_create_symbol_chat_capture_buffer() { TSymbolChatCapture::create_singleton(tl_01); }
 
 void qst_op_get_recent_symbol_chat() {
     SymbolChatPayload buf;
     u8 idx;
     idx = (u8) qst_args[1];
-    TLobby::send_slot_entity_or_local((u16) qst_args[0], &buf);
+    send_slot_entity_or_local((u16) qst_args[0], &buf);
     memcpy(&qst_registers[idx], &buf, sizeof(buf));
 }
 
@@ -642,19 +633,8 @@ void qst_op_va_call(s32 label) {
   qst_call_stack_push(qst_pc);
   qst_pc = qst_function_table[(u16)label];
 }
-struct GetItemInfoData {
-    u8 b0, b1, b2, b3, b4, b5, b6;
-    s8 b7;
-    u8 b8;
-    s8 b9;
-    u8 b10;
-    s8 b11;
-    u32 id;
-    u32 extra;
-};
 extern "C" {
 
-LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(AppendCardWindowTextRecoveredGlobal) == 0x28);
 
 union IntFloat { s32 i; f32 f; };
 
@@ -700,91 +680,24 @@ struct ByteBlock_24 { u8 bytes[0x24]; };
 // The quest event flags of the selected character's record (get/set_eventflag16/32).
 struct QuestEventFlagRecord { u8 pad_0[0x10]; u8 event_flags[0x100]; };
 
-struct SendMailTag {
-    u8 pad0[8];
-    s32 id;
-    char name[0x10];
-    u8 pad1c[4];
-    char text[0x200];
+
+
+
+
+
+struct SetQuestBoardHandlerEntry {
+    u8 name[0x20];
+    s32 v;
 };
 
-
-struct ClearSwitchFlagSyncPacket {
-    u8 cmd;
-    u8 size;
-    u16 a;
-    u16 b;
-    u16 pad;
-    u16 c;
-    u8 d;
-    u8 e;
-};
-
-struct SetSwitchFlagSyncPacket {
-    u8 cmd;
-    u8 size;
-    u16 a;
-    u16 b;
-    u16 pad;
-    u16 c;
-    u8 d;
-    u8 e;
-};
-
-
-struct UpdateSwitchFlagPacket {
-    u8 cmd;
-    u8 size;
-    u16 a;
-    u16 b;
-    u16 pad;
-    u16 c;
-    u8 d;
-    u8 e;
-};
-
-struct VaCallItemRecord {
-    u8 data[12];
-    s32 id;
-    u32 f10;
-};
-
-struct WrapItemWithColorItem {
-    u8 data[12];
-    s32 id;
-    u32 f10;
-};
-
-struct VaCallItemRecord;
 
 struct VaCallPair { s32 a; s32 b; };
 
-struct PlWalkCommand {
-    u16 f0;
-    u16 player;
-    f32 x;
-    f32 z;
-    u32 flags;
-};
-
-struct PlWalkObject {
-    u8 pad[0x30];
-    u32 f30;
-};
 
 s32 copy_player_visual_record(void *, int);
-s32 __ct__16TPlyGuildCardTagFv(s32);
 }
 extern "C" {
-s32 advance_item_id_counter(u16);
-}
-extern "C" {
-s32 is_room_enemy_set_cleared(int, int, void *);
-void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 delete_bank_item(u8 *item, s32 slot);
-}
-extern "C" {
-saddr create_equip_kind_window(saddr, const f32 *, s32);
 }
 extern "C" {
 int update_alloc_size__6TLobbyFv(void*);
@@ -840,7 +753,7 @@ void qst_op_item_create_multi_cm(u8 i) {
     item.data1.data_u8[3] = qst_registers[i++];
     item.data1.data_u8[4] = qst_registers[i++];
     item.data1.data_u8[5] = qst_registers[i];
-    item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
+    item.id = advance_item_id_counter(local_client_id);
     switch (mode) {
     case 0:
         TChallenge4PResult::update_entries(&item, 2);
@@ -944,7 +857,7 @@ void qst_op_prevent_item_select(s32 reg) {
 }
 
 void qst_op_open_pack_select() {
-    qst_pack_select_window = (TWindowMenuIconLine *)create_equip_kind_window((saddr)get_window_layout_position(3), pack_select_window_pos, local_client_id);
+    qst_pack_select_window = (TWindowMenuIconLine *)create_equip_kind_window(get_window_layout_position(3), &pack_select_window_pos, local_client_id);
     ((TWindowMenuIconLine *)qst_pack_select_window)->refresh_judgment_item_list();
     qst_pack_select_help_window = new TWindowHelpItem(get_window_layout_position(2), local_client_id);
 }
@@ -1097,7 +1010,7 @@ void qst_op_get_slot_meseta(u8 i) {
     } else {
         qst_registers[i] = -1;
     }
-    w = ((CharacterSaveRecord *)get_character_save_record(0xFFFF));
+    w = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     if (w != 0) {
         (&qst_registers[i])[1] = w->bank_meseta;
     } else {
@@ -1123,23 +1036,23 @@ void qst_op_wrap_item_with_color() {
     s32 id;
     s8 n;
     TObjPlayer *player;
-    VaCallItemRecord item;
+    TItemData item;
     TItem *obj;
     id = ((s32 *)&qst_args)[0];
     n = ((s32 *)&qst_args)[1];
     obj = find_item_by_id(id);
     if (obj != NULL) {
-        obj->copy_to_item_data((TItemData *)&item);
+        obj->copy_to_item_data(&item);
     } else {
         return;
     }
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         TObjPlayer::send_6x29_delete_item(player, (int)id, 1);
-        ((TItemData *)(&item))->set_wrapped();
-        ((TItemData *)(&item))->set_present_color(n);
-        if (player->can_inventory_accept_item((u8 *)((WrapItemWithColorItem *)&item)) > 0) {
-            player->request_inventory_item((TItemData*)((WrapItemWithColorItem *)&item));
+        item.set_wrapped();
+        item.set_present_color(n);
+        if (player->can_inventory_accept_item((u8 *)&item) > 0) {
+            player->request_inventory_item(&item);
         }
     }
 }
@@ -1147,21 +1060,21 @@ void qst_op_wrap_item_with_color() {
 void qst_op_wrap_item() {
     s32 id;
     TObjPlayer *player;
-    VaCallItemRecord item;
+    TItemData item;
     TItem *obj;
     id = ((s32 *)&qst_args)[0];
     obj = find_item_by_id(id);
     if (obj != NULL) {
-        obj->copy_to_item_data((TItemData *)&item);
+        obj->copy_to_item_data(&item);
     } else {
         return;
     }
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         TObjPlayer::send_6x29_delete_item(player, (int)id, 1);
-        ((TItemData *)(&item))->set_wrapped();
-        if (player->can_inventory_accept_item((u8 *)((WrapItemWithColorItem *)&item)) > 0) {
-            player->request_inventory_item((TItemData*)((WrapItemWithColorItem *)&item));
+        item.set_wrapped();
+        if (player->can_inventory_accept_item((u8 *)&item) > 0) {
+            player->request_inventory_item(&item);
         }
     }
 }
@@ -1169,23 +1082,23 @@ void qst_op_wrap_item() {
 void qst_op_get_item_info() {
     s32 r;
     TItem *item;
-    GetItemInfoData d;
+    TItemData d;
     r = qst_args[1];
     item = find_item_by_id(qst_args[0]);
     if (item != NULL) {
-        item->copy_to_item_data((TItemData *)&d);
-        qst_registers[r++] = d.b0;
-        qst_registers[r++] = d.b1;
-        qst_registers[r++] = d.b2;
-        qst_registers[r++] = d.b3;
-        qst_registers[r++] = d.b4;
-        qst_registers[r++] = d.b5;
-        qst_registers[r++] = d.b6;
-        qst_registers[r++] = d.b7;
-        qst_registers[r++] = d.b8;
-        qst_registers[r++] = d.b9;
-        qst_registers[r++] = d.b10;
-        qst_registers[r++] = d.b11;
+        item->copy_to_item_data(&d);
+        qst_registers[r++] = d.data1.data_u8[0];
+        qst_registers[r++] = d.data1.data_u8[1];
+        qst_registers[r++] = d.data1.data_u8[2];
+        qst_registers[r++] = d.data1.data_u8[3];
+        qst_registers[r++] = d.data1.data_u8[4];
+        qst_registers[r++] = d.data1.data_u8[5];
+        qst_registers[r++] = d.data1.data_u8[6];
+        qst_registers[r++] = d.data1.data_s8[7];
+        qst_registers[r++] = d.data1.data_u8[8];
+        qst_registers[r++] = d.data1.data_s8[9];
+        qst_registers[r++] = d.data1.data_u8[10];
+        qst_registers[r++] = d.data1.data_s8[11];
     } else {
         qst_registers[r] = -1;
     }
@@ -1777,7 +1690,7 @@ void qst_op_get_dl_status(s32 reg) {
         qst_registers[(u8)reg] = 0;
         return;
     }
-    if (TLobby::get_field_6CE8() != 0) {
+    if (TLobby::is_warning_aram_load_done() != 0) {
         qst_registers[(u8)reg] = 2;
         return;
     }
@@ -1821,7 +1734,7 @@ void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
 
 void qst_op_chl_show_dead_player_list() {
     if (is_split_screen() == 1) {
-        TLobby::update_screen();
+        update_screen();
         return;
     }
     show_challenge_dead_player_list();
@@ -1829,7 +1742,7 @@ void qst_op_chl_show_dead_player_list() {
 
 void qst_op_disable_retry_menu() {
     if (is_split_screen() == 1) {
-        TLobby::set_challenge_split_flag();
+        set_challenge_split_flag();
         return;
     }
     disable_challenge_retry_menu();
@@ -1933,10 +1846,10 @@ void qst_op_get_ba_record(u8 i) {
 }
 
 void qst_op_is_there_grave_message(s32 reg) {
-    uaddr character_save_record;
-    character_save_record = get_character_save_record(0xFFFFU);
-    if (character_save_record != 0U) {
-        if (strncmp(((CharacterSaveGraveMessage *)character_save_record)->grave_message, "", 0x20) == 0) {
+    CharacterSaveRecord *record;
+    record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    if (record != NULL) {
+        if (strncmp(record->challenge.tombstone.unit_name, "", 0x20) == 0) {
             qst_registers[(u8)reg] = 0;
             return;
         }
@@ -2022,7 +1935,7 @@ void qst_op_load_serial_number_to_flag_buf() {
 
 void qst_op_is_bosswarp_opt_disabled(s32 reg) {
     if (is_split_screen() == 1) {
-        if (TLobby::get_normalized_mode() != 0) {
+        if (get_normalized_mode() != 0) {
             qst_registers[(u8)reg] = 1;
             return;
         }
@@ -2070,7 +1983,7 @@ void qst_op_ba_forbid_scape_dolls() {
 
 void qst_op_chl_create_retry_menu() {
     if (is_split_screen() == 1) {
-        TLobby::draw_if_ready2();
+        draw_if_ready2();
         return;
     }
     create_challenge_retry_menu();
@@ -2079,7 +1992,7 @@ void qst_op_chl_create_retry_menu() {
 void qst_op_get_chl_retry_choice(s32 reg) {
     s32 retry_choice;
     if (is_split_screen() == 1) {
-        retry_choice = TLobby::check_ready_status();
+        retry_choice = check_ready_status();
     } else {
         retry_choice = get_challenge_retry_choice();
     }
@@ -2108,7 +2021,7 @@ void qst_op_reset_map(void) {
     init_switch_table();
     TRaderMapCore::free_map_data();
     if (is_split_screen() == 1) {
-        TLobby::reset_menu_state_globals();
+        reset_menu_state_globals();
         return;
     }
     reset_challenge_map();
@@ -2295,12 +2208,11 @@ void qst_op_get_game_version(s32 reg) {
 }
 
 void qst_op_send_mail(void) {
-    SendMailTag tag;
-    char buf[0x400];
-    TTokenList *fields;
     u8 i = (u32)qst_args[0];
     char *src = *(char **)&qst_args[1];
-    ((TLobby *)(&tag))->init_guild_card_tag();
+    TChatMessage mail;
+    char buf[0x400];
+    TTokenList *fields;
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, src, 0x3FF);
     trim_whitespace(buf);
@@ -2308,21 +2220,17 @@ void qst_op_send_mail(void) {
     if (fields->count > 2) {
         delete fields;
     } else {
-        tag.id = qst_registers[i];
-        strncpy(tag.name, fields->tokens[0], 0xF);
-        tag.name[0xF] = 0;
-        strncpy(tag.text, fields->tokens[1], 0x1FF);
-        tag.text[0x1FF] = 0;
-        receive_short_mail(&tag);
+        mail.tag.m_guildcard_number = qst_registers[i];
+        strncpy(mail.name, fields->tokens[0], 0xF);
+        mail.name[0xF] = 0;
+        strncpy(mail.text, fields->tokens[1], 0x1FF);
+        mail.text[0x1FF] = 0;
+        receive_short_mail(mail);
         delete fields;
     }
 }
 
-s32 TLobby::init_guild_card_tag() {
-    s32 self_addr = (saddr)this;
-    __ct__16TPlyGuildCardTagFv(self_addr + 4);
-    return self_addr;
-}
+TChatMessage::TChatMessage() {}
 
 void qst_op_get_player_state(s32 slot_reg, saddr dst) {
     TObjPlayer *player;
@@ -3010,7 +2918,7 @@ void qst_op_ba_player_give_damage_score(s32 a) {
 
 void qst_op_set_cmode_base_time(s32 reg) {
     if (is_split_screen() == 1) {
-        TLobby::update_challenge_timer((int) (qst_registers[(u8)reg]));
+        update_challenge_timer((int) (qst_registers[(u8)reg]));
         return;
     }
     set_challenge_base_time((int) (qst_registers[(u8)reg]));
@@ -3099,29 +3007,29 @@ void qst_op_read_switch_flag(s32 reg) {
 }
 
 void qst_op_clear_switch_flag_sync() {
-    ClearSwitchFlagSyncPacket pkt;
+    G_SwitchStateChanged_6x05 pkt;
     s32 x = qst_args[0];
     s32 y = qst_args[1];
-    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
-    pkt.a = 0xFFFF;
-    pkt.b = 0;
-    pkt.c = y;
-    pkt.d = x;
-    pkt.e = 0;
-    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
+    pkt.init();
+    pkt.header.client_id = 0xFFFF;
+    pkt.unused1 = 0;
+    pkt.switch_id = y;
+    pkt.floor = x;
+    pkt.flags = 0;
+    pkt.send();
 }
 
 void qst_op_set_switch_flag_sync() {
-    SetSwitchFlagSyncPacket pkt;
+    G_SwitchStateChanged_6x05 pkt;
     s32 x = qst_args[0];
     s32 y = qst_args[1];
-    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
-    pkt.a = 0xFFFF;
-    pkt.b = 0;
-    pkt.c = y;
-    pkt.d = x;
-    pkt.e = 1;
-    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
+    pkt.init();
+    pkt.header.client_id = 0xFFFF;
+    pkt.unused1 = 0;
+    pkt.switch_id = y;
+    pkt.floor = x;
+    pkt.flags = 1;
+    pkt.send();
 }
 
 void qst_op_reset_kills(s32 slot_reg) {
@@ -3179,7 +3087,7 @@ void qst_op_exp_multiplication(s32 a) {
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
     if (is_split_screen() == 1) {
-        TLobby::set_camera_height_if_valid(v);
+        set_camera_height_if_valid(v);
         return;
     }
     set_exp_multiplier(v);
@@ -3190,7 +3098,7 @@ void qst_op_set_cmode_difficulty() {
 
     difficulty = qst_args[0];
     if (is_split_screen() == 1) {
-        TLobby::try_set_split_screen(difficulty);
+        try_set_split_screen(difficulty);
         return;
     }
     set_challenge_difficulty(difficulty);
@@ -3201,7 +3109,7 @@ void qst_op_set_cmode_char_template() {
 
     stage = qst_args[0];
     if (is_split_screen() == 1) {
-        TLobby::rebuild_players_for_stage(stage);
+        rebuild_players_for_stage(stage);
         return;
     }
     TObjPlayer::rebuild_players_for_stage(stage);
@@ -3246,10 +3154,10 @@ void qst_op_cmode_stage() {
     layout_id = challenge_set_stage_count(-1);
     if (is_split_screen() == 1) {
         if (stage < layout_id) {
-            TLobby::clamp_and_store_layout_index(stage);
+            clamp_and_store_layout_index(stage);
             return;
         }
-        TLobby::clamp_and_store_layout_index(0U);
+        clamp_and_store_layout_index(0U);
         return;
     }
     if (stage < layout_id) {
@@ -3421,14 +3329,14 @@ void qst_op_create_bgmctrl() {
 }
 
 void qst_op_update_switch_flag(s32 regs) {
-    UpdateSwitchFlagPacket pkt;
-    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
-    pkt.b = 0;
-    pkt.a = 0xFFFF;
-    pkt.c = qst_registers[(u8)regs++];
-    pkt.d = qst_registers[(u8)regs++];
-    pkt.e = qst_registers[(u8)regs];
-    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
+    G_SwitchStateChanged_6x05 pkt;
+    pkt.init();
+    pkt.unused1 = 0;
+    pkt.header.client_id = 0xFFFF;
+    pkt.switch_id = qst_registers[(u8)regs++];
+    pkt.floor = qst_registers[(u8)regs++];
+    pkt.flags = qst_registers[(u8)regs];
+    pkt.send();
 }
 
 void qst_op_get_leader_id(u8 reg) {
@@ -3631,17 +3539,17 @@ void qst_op_map_designate(u32 first) {
 }
 
 void qst_op_find_inventory_item_ex(u8 regs, u8 dst) {
-    VaCallItemRecord item;
+    TItemData item;
     TObjPlayer *player;
     TItemList *slot;
     TItem *owner;
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        ((TItemData *)(&item))->init();
-        item.data[0] = qst_registers[(u8)regs++];
-        item.data[1] = qst_registers[(u8)regs++];
-        item.data[2] = qst_registers[(u8)regs++];
-        item.data[4] = qst_registers[regs];
+        item.init();
+        item.data1.data_u8[0] = qst_registers[(u8)regs++];
+        item.data1.data_u8[1] = qst_registers[(u8)regs++];
+        item.data1.data_u8[2] = qst_registers[(u8)regs++];
+        item.data1.data_u8[4] = qst_registers[regs];
         slot = player->inventory_objects->set_mode_and_refresh_object(&item);
         if (slot != NULL) {
             owner = slot->get_owner_if_alive();
@@ -3659,16 +3567,16 @@ void qst_op_find_inventory_item_ex(u8 regs, u8 dst) {
 }
 
 void qst_op_item_check(u32 first, u32 destination) {
-    VaCallItemRecord item;
+    TItemData item;
     TObjPlayer *player;
     TItemList *slot;
     TItem *owner;
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        ((TItemData *)(&item))->init();
-        item.data[0] = qst_registers[(u8)first++];
-        item.data[1] = qst_registers[(u8)first++];
-        item.data[2] = qst_registers[(u8)first];
+        item.init();
+        item.data1.data_u8[0] = qst_registers[(u8)first++];
+        item.data1.data_u8[1] = qst_registers[(u8)first++];
+        item.data1.data_u8[2] = qst_registers[(u8)first];
         slot = player->inventory_objects->set_mode_and_refresh_object(&item);
         if (slot != 0) {
             owner = slot->get_owner_if_alive();
@@ -3686,7 +3594,7 @@ void qst_op_item_check(u32 first, u32 destination) {
 }
 
 void qst_op_item_delete2(u32 src, u32 dst) {
-    VaCallItemRecord item;
+    TItemData item;
     TObjPlayer *player;
     TItemList *slot;
     TItem *owner;
@@ -3695,27 +3603,27 @@ void qst_op_item_delete2(u32 src, u32 dst) {
     }
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        ((TItemData *)(&item))->init();
-        item.data[0] = qst_registers[(u8)src++];
-        item.data[1] = qst_registers[(u8)src++];
-        item.data[2] = qst_registers[(u8)src];
+        item.init();
+        item.data1.data_u8[0] = qst_registers[(u8)src++];
+        item.data1.data_u8[1] = qst_registers[(u8)src++];
+        item.data1.data_u8[2] = qst_registers[(u8)src];
         slot = player->inventory_objects->set_mode_and_refresh_object(&item);
         if (slot != 0) {
             owner = slot->get_owner_if_alive();
             if (owner != 0) {
-                owner->copy_to_item_data((TItemData *)&item);
-                qst_registers[(u8)dst++] = item.data[0];
-                qst_registers[(u8)dst++] = item.data[1];
-                qst_registers[(u8)dst++] = item.data[2];
-                qst_registers[(u8)dst++] = item.data[3];
-                qst_registers[(u8)dst++] = item.data[4];
-                qst_registers[(u8)dst++] = item.data[5];
-                qst_registers[(u8)dst++] = item.data[6];
-                qst_registers[(u8)dst++] = (s8)item.data[7];
-                qst_registers[(u8)dst++] = item.data[8];
-                qst_registers[(u8)dst++] = (s8)item.data[9];
-                qst_registers[(u8)dst++] = item.data[10];
-                qst_registers[(u8)dst] = (s8)item.data[11];
+                owner->copy_to_item_data(&item);
+                qst_registers[(u8)dst++] = item.data1.data_u8[0];
+                qst_registers[(u8)dst++] = item.data1.data_u8[1];
+                qst_registers[(u8)dst++] = item.data1.data_u8[2];
+                qst_registers[(u8)dst++] = item.data1.data_u8[3];
+                qst_registers[(u8)dst++] = item.data1.data_u8[4];
+                qst_registers[(u8)dst++] = item.data1.data_u8[5];
+                qst_registers[(u8)dst++] = item.data1.data_u8[6];
+                qst_registers[(u8)dst++] = item.data1.data_s8[7];
+                qst_registers[(u8)dst++] = item.data1.data_u8[8];
+                qst_registers[(u8)dst++] = item.data1.data_s8[9];
+                qst_registers[(u8)dst++] = item.data1.data_u8[10];
+                qst_registers[(u8)dst] = item.data1.data_s8[11];
                 delete_item(player, item.id, 1);
                 return;
             }
@@ -3729,7 +3637,7 @@ void qst_op_item_delete2(u32 src, u32 dst) {
 }
 
 void qst_op_item_delete(u32 src, u32 dst) {
-    VaCallItemRecord item;
+    TItemData item;
     TObjPlayer *player;
     TItemList *slot;
     TItem *owner;
@@ -3742,19 +3650,19 @@ void qst_op_item_delete(u32 src, u32 dst) {
         if (slot != 0) {
             owner = slot->get_owner_if_alive();
             if (owner != 0) {
-                owner->copy_to_item_data((TItemData *)&item);
-                qst_registers[(u8)dst++] = item.data[0];
-                qst_registers[(u8)dst++] = item.data[1];
-                qst_registers[(u8)dst++] = item.data[2];
-                qst_registers[(u8)dst++] = item.data[3];
-                qst_registers[(u8)dst++] = item.data[4];
-                qst_registers[(u8)dst++] = item.data[5];
-                qst_registers[(u8)dst++] = item.data[6];
-                qst_registers[(u8)dst++] = (s8)item.data[7];
-                qst_registers[(u8)dst++] = item.data[8];
-                qst_registers[(u8)dst++] = (s8)item.data[9];
-                qst_registers[(u8)dst++] = item.data[10];
-                qst_registers[(u8)dst] = (s8)item.data[11];
+                owner->copy_to_item_data(&item);
+                qst_registers[(u8)dst++] = item.data1.data_u8[0];
+                qst_registers[(u8)dst++] = item.data1.data_u8[1];
+                qst_registers[(u8)dst++] = item.data1.data_u8[2];
+                qst_registers[(u8)dst++] = item.data1.data_u8[3];
+                qst_registers[(u8)dst++] = item.data1.data_u8[4];
+                qst_registers[(u8)dst++] = item.data1.data_u8[5];
+                qst_registers[(u8)dst++] = item.data1.data_u8[6];
+                qst_registers[(u8)dst++] = item.data1.data_s8[7];
+                qst_registers[(u8)dst++] = item.data1.data_u8[8];
+                qst_registers[(u8)dst++] = item.data1.data_s8[9];
+                qst_registers[(u8)dst++] = item.data1.data_u8[10];
+                qst_registers[(u8)dst] = item.data1.data_s8[11];
                 delete_item(player, qst_registers[(u8)src], 1);
                 return;
             }
@@ -3768,26 +3676,26 @@ void qst_op_item_delete(u32 src, u32 dst) {
 }
 
 void qst_op_item_create2(u8 regs, u8 dst) {
-    WrapItemWithColorItem item;
+    TItemData item;
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        ((TItemData *)((VaCallItemRecord *)(&item)))->init();
-        item.data[0] = qst_registers[regs++];
-        item.data[1] = qst_registers[regs++];
-        item.data[2] = qst_registers[regs++];
-        item.data[3] = qst_registers[regs++];
-        item.data[4] = qst_registers[regs++];
-        item.data[5] = qst_registers[regs++];
+        item.init();
+        item.data1.data_u8[0] = qst_registers[regs++];
+        item.data1.data_u8[1] = qst_registers[regs++];
+        item.data1.data_u8[2] = qst_registers[regs++];
+        item.data1.data_u8[3] = qst_registers[regs++];
+        item.data1.data_u8[4] = qst_registers[regs++];
+        item.data1.data_u8[5] = qst_registers[regs++];
         item.id = advance_item_id_counter(local_client_id);
-        item.data[6] = qst_registers[regs++];
-        item.data[7] = qst_registers[regs++];
-        item.data[8] = qst_registers[regs++];
-        item.data[9] = qst_registers[regs++];
-        item.data[10] = qst_registers[regs++];
-        item.data[11] = qst_registers[regs];
+        item.data1.data_u8[6] = qst_registers[regs++];
+        item.data1.data_u8[7] = qst_registers[regs++];
+        item.data1.data_u8[8] = qst_registers[regs++];
+        item.data1.data_u8[9] = qst_registers[regs++];
+        item.data1.data_u8[10] = qst_registers[regs++];
+        item.data1.data_u8[11] = qst_registers[regs];
         if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
-            player->request_inventory_item((TItemData*)(&item));
+            player->request_inventory_item(&item);
             qst_registers[dst] = item.id;
         } else {
             qst_registers[dst] = -1;
@@ -3798,17 +3706,17 @@ void qst_op_item_create2(u8 regs, u8 dst) {
 }
 
 void qst_op_item_create(u8 regs, u8 dst) {
-    WrapItemWithColorItem item;
+    TItemData item;
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        ((TItemData *)((VaCallItemRecord *)(&item)))->init();
-        item.data[0] = qst_registers[(u8)regs++];
-        item.data[1] = qst_registers[(u8)regs++];
-        item.data[2] = qst_registers[regs];
+        item.init();
+        item.data1.data_u8[0] = qst_registers[(u8)regs++];
+        item.data1.data_u8[1] = qst_registers[(u8)regs++];
+        item.data1.data_u8[2] = qst_registers[regs];
         item.id = advance_item_id_counter(local_client_id);
         if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
-            player->request_inventory_item((TItemData*)(&item));
+            player->request_inventory_item(&item);
             qst_registers[dst] = item.id;
         } else {
             qst_registers[dst] = -1;
@@ -4094,16 +4002,16 @@ void qst_op_unhide_ene(s32 regs) {
 }
 
 void qst_op_unhide_obj(s32 regs) {
-    s32 v0 = qst_registers[(u8)regs];
-    s32 v1 = qst_registers[(u8)++regs];
-    s32 v2 = qst_registers[(u8)++regs];
-    unhide_room_set_objects(v0, (s16)v1, (s16)v2, regs);
+    s32 v0 = qst_registers[(u8)regs++];
+    s32 v1 = qst_registers[(u8)regs++];
+    s32 v2 = qst_registers[(u8)regs];
+    unhide_room_set_objects(v0, (s16)v1, (s16)v2);
 }
 
 void qst_op_chk_ene_num(int a0) { qst_registers[(unsigned char)(a0)] = TLobby::count_quest_enemies_flag8(); }
 
 void qst_op_if_zone_clear(s32 dst, s32 regs) {
-    if (is_room_enemy_set_cleared((int) (qst_registers[(u8)regs]), (int) ((s16) qst_registers[(u8)(regs + 1)]), qst_registers) != 0) {
+    if (is_room_enemy_set_cleared(qst_registers[(u8)regs], qst_registers[(u8)(regs + 1)]) != 0) {
         qst_registers[(u8)dst] = 1;
         return;
     }
@@ -4134,7 +4042,7 @@ void qst_op_pos_pipe(u8 regs) {
     point.x = (f32)qst_registers[i++];
     point.y = (f32)qst_registers[i++];
     point.z = (f32)qst_registers[i++];
-    TTecLuker::create_for_player((int)((u16)qst_registers[i]), (saddr)&point);
+    TTecLuker::create_for_player((int)((u16)qst_registers[i]), &point);
 }
 
 void qst_op_create_pipe(void) {
@@ -4349,11 +4257,11 @@ void qst_op_particle2() {
 }
 
 void qst_op_pl_walk(u8 regs) {
-    PlWalkCommand cmd;
+    G_WalkToPosition_6x40 cmd;
     f32 x;
     f32 z;
     u16 player;
-    PlWalkObject *obj;
+    TObjPlayer *obj;
     s32 i;
 
     i = regs;
@@ -4361,17 +4269,17 @@ void qst_op_pl_walk(u8 regs) {
     i++;
     z = qst_registers[i++];
     player = qst_registers[i];
-    obj = (PlWalkObject *)get_player_by_client_id(player);
+    obj = get_player_by_client_id(player);
     if (obj != NULL) {
-        ((G_WalkToPosition_6x40 *)&cmd)->init();
-        cmd.player = player;
-        cmd.x = x;
-        cmd.z = z;
+        cmd.init();
+        cmd.header.client_id = player;
+        cmd.pos.x = x;
+        cmd.pos.z = z;
         cmd.flags = 0;
-        if (obj->f30 & 0x100000) {
+        if (obj->actorFlags & 0x100000) {
             cmd.flags |= 8;
         }
-        ((G_WalkToPosition_6x40 *)&cmd)->send();
+        cmd.send();
     }
 }
 
@@ -4484,7 +4392,7 @@ void qst_op_npc_crptalk_id(u8 first) {
     TLobby::free_luker_object();
     player = new TObjPlayer(tl_03, slot, 6, load_npc_player_template(appearance));
     if (player != NULL) {
-        *(s16 *)((u8 *)player + 0x324) = 6;
+        player->control_state = 6;
         send_6x24_teleport_player(slot, &pos, heading);
         set_arrival_override_coords(slot, heading, pos.x, pos.y, pos.z);
         player->reset_motion_fields();
@@ -4513,7 +4421,7 @@ void qst_op_npc_crptalk(u8 first) {
     TLobby::free_luker_object();
     player = new TObjPlayer(tl_03, 3, 6, load_npc_player_template(appearance));
     if (player != NULL) {
-        *(s16 *)((u8 *)player + 0x324) = 6;
+        player->control_state = 6;
         send_6x24_teleport_player(3, &pos, heading);
         set_arrival_override_coords(3, heading, pos.x, pos.y, pos.z);
         player->reset_motion_fields();
@@ -5548,7 +5456,7 @@ void G_SyncQuestRegister_6x77::init() {
     header.size = 3;
 }
 
-int TLobby::get_field_6CE8() {  return warning_aram_load_done_flag; }
+int TLobby::is_warning_aram_load_done() {  return warning_aram_load_done_flag; }
 
 int TLobby::get_lobby_count() {  return lobby_count_value; }
 

@@ -15,6 +15,8 @@ public:
     virtual ~TTelepipeMarker();
     virtual void render();
     virtual void run_task();
+    void hide();
+    void show();
 
     f32 width;
     f32 height;

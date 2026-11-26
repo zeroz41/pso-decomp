@@ -1,14 +1,13 @@
+#include "types.h"
+#include "pso/object/collision/TOSymbolchatColli.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/memory.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/render/render_util.h"
-#include "pso/object/collision/TOSymbolchatColli.h"
-
 #include "pso/system/NinjaTypes.h"
-#include "types.h"
 #include <string.h>
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/player/TObjPlayer.h"
@@ -21,6 +20,15 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/ActorCollision.h"
+
+void TOSymbolchatColli::open_balloon_chat(s32 state, u16 player) {
+    if (state < 3) {
+        u8 *chat = balloon_chats[state];
+        if (chat != 0) {
+            TWindowCtrl::open_balloon(get_entity_id(), chat, 10, player);
+        }
+    }
+}
 
 // switch_ids[i] and preset_ids[i] through one base; the array spellings give sthx per store
 struct HL_8017873C

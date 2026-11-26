@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -13,14 +12,6 @@
 #pragma readonly_strings on
 const char *TWindowBreakIn::class_name = "TWindowBreakIn";
 #pragma pop
-
-// inferred: window_break_in_layout_entries, the layout table window_break_in_layout points at
-// (eight sprite parts, cf. window_timer_layout_entries).
-struct BreakInWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec[8];
-};
 
 
 BreakInWindowLayout window_break_in_layout_entries = {

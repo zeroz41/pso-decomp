@@ -1,6 +1,5 @@
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/font/TNECFontEORFunction.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -14,7 +13,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80076BC4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8026C664.h"
@@ -26,15 +25,10 @@
 
 /* Layout table of the soft keyboard: one 16-column key-code grid per page. */
 struct SoftKeyboardLayout {
-    u8 page_count; /* inferred: bound of the page-tab loop */
-    u8 tab_width;  /* inferred: page tab width in pixels */
+    u8 page_count; /* bound of the page-tab loop */
+    u8 tab_width;  /* page tab width in pixels */
     u8 pad_2[2];
     u16 **pages;
-};
-
-struct KeyUV {
-    f32 u;
-    f32 v;
 };
 
 #include <stddef.h>
@@ -123,7 +117,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *first_page, s32 *last_page) {
 
 #pragma push
 #pragma fp_contract on
-s32 TWindowKeyBoardSoft::sub_802605DC() {
+s32 TWindowKeyBoardSoft::get_cursor_key() {
     s32 idx = calc_key_index(cursor_column, cursor_row);
     return idx + soft_keyboard_key_first_column_offsets[soft_keyboard_key_class[idx]];
 }
@@ -321,19 +315,19 @@ void TWindowKeyBoardSoft::handle_cursor_move(s32 port) {
         }
     } else {
         input = &controller_input_state.controllers[port];
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0xF0, 6, 2) == 0) {
+        if (test_buttons_press_or_repeat_color(input, 0xF0, 6, 2) == 0) {
             return;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x10, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat_color(input, 0x10, 6, 2) != 0) {
             dy = -1;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x20, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat_color(input, 0x20, 6, 2) != 0) {
             dy++;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x40, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat_color(input, 0x40, 6, 2) != 0) {
             dx = -1;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x80, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat_color(input, 0x80, 6, 2) != 0) {
             dx++;
         }
     }
@@ -558,7 +552,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
 
     layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
     depth = -1.0f / (0.1196f + ctx->depth);
-    cursor = this->sub_802605DC();
+    cursor = this->get_cursor_key();
     keys = layout->pages[layout_page];
     TWindowSubStatusDisp::reset_gauge(NULL);
     for (row = 0; row < 7; row++) {
@@ -794,7 +788,7 @@ void TWindowKeyBoardSoft::draw_key_frames(WindowDrawContext *ctx) {
     s32 first_page;
     s32 last_page;
 
-    cursor = this->sub_802605DC();
+    cursor = this->get_cursor_key();
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);

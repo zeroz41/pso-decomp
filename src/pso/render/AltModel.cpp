@@ -37,7 +37,7 @@ NJS_OBJECT *prepend_alt_model(NJS_OBJECT *next, s32 diffuse) {
     return &alt_model_object;
 }
 void TObjEneDD_ST::draw_with_alt_model(s32 diffuse) {
-    NJS_OBJECT *saved_model = static_cast<NJS_OBJECT *>(model);
+    NJS_OBJECT *saved_model = model;
     set_alt_model_flag();
     begin_alt_model_draw();
     model = prepend_alt_model(saved_model, diffuse);

@@ -16,7 +16,6 @@
 #include <dolphin/mtx.h>
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
-#include "pso/item/TItemData_80104D0C.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItemIdCounters.h"
@@ -27,7 +26,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/object/trap/TOTrapAncient02.h"
@@ -1052,7 +1051,7 @@ s32 TItem::has_bonus_stats() {
 }
 
 void TItem::begin_constant_material_color(const NJS_ARGB *color) {
-    if (color != NULL && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
+    if (color != NULL && item_render_state.test_flags_any(ITEM_RENDER_MATERIAL) == 0) {
         model_render_flags &= ~0x20;
         model_render_flags |= 0x10;
         set_constant_material(color);
@@ -1061,7 +1060,7 @@ void TItem::begin_constant_material_color(const NJS_ARGB *color) {
 }
 
 void TItem::begin_offset_material_color(const NJS_ARGB *color) {
-    if (color != NULL && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
+    if (color != NULL && item_render_state.test_flags_any(ITEM_RENDER_MATERIAL) == 0) {
         model_render_flags &= ~0x10;
         model_render_flags |= 0x20;
         set_constant_material(color);
@@ -1070,7 +1069,7 @@ void TItem::begin_offset_material_color(const NJS_ARGB *color) {
 }
 
 void TItem::end_material_color() {
-    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) != 0) {
+    if (item_render_state.test_flags_any(ITEM_RENDER_MATERIAL) != 0) {
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         item_render_state.clear(ITEM_RENDER_MATERIAL);
@@ -1078,14 +1077,14 @@ void TItem::end_material_color() {
 }
 
 void TItem::begin_effect_render() {
-    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_EFFECT) == 0) {
+    if (item_render_state.test_flags_any(ITEM_RENDER_EFFECT) == 0) {
         TParticleCtrl::begin_effect_render();
         item_render_state.set(ITEM_RENDER_EFFECT);
     }
 }
 
 void TItem::end_effect_render() {
-    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_EFFECT) != 0) {
+    if (item_render_state.test_flags_any(ITEM_RENDER_EFFECT) != 0) {
         TParticleCtrl::end_effect_render();
         item_render_state.clear(ITEM_RENDER_EFFECT);
     }
@@ -1093,7 +1092,7 @@ void TItem::end_effect_render() {
 
 void TItem::begin_particle_tev() {
     TItem::begin_effect_render();
-    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) == 0) {
+    if (item_render_state.test_flags_any(ITEM_RENDER_PARTICLE_TEV) == 0) {
         setup_particle_tev(0);
         set_texlist(texlist);
         item_render_state.set(ITEM_RENDER_PARTICLE_TEV);
@@ -1101,7 +1100,7 @@ void TItem::begin_particle_tev() {
 }
 
 void TItem::end_particle_tev() {
-    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) != 0) {
+    if (item_render_state.test_flags_any(ITEM_RENDER_PARTICLE_TEV) != 0) {
         reset_particle_tev();
         set_texlist(texlist);
         item_render_state.clear(ITEM_RENDER_PARTICLE_TEV);
@@ -1111,7 +1110,7 @@ void TItem::end_particle_tev() {
 void TItem::request_particle_indirect_effect() { request_indirect_effect(31); }
 
 void TItem::end_shield_tev() {
-    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_SHIELD_TEV) != 0) {
+    if (item_render_state.test_flags_any(ITEM_RENDER_SHIELD_TEV) != 0) {
         reset_particle_tev();
         reset_indirect_tev(1);
         set_texlist(texlist);

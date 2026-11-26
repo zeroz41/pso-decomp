@@ -2,7 +2,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TOSensorAncient01.h"
 #include "pso/unk/text_803DA798.h"
@@ -182,7 +182,7 @@ TOSensorAncient01::TOSensorAncient01(TObject *parent, void *set_data) : TOSensor
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;
     view_range = 400.0f;
-    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
     activate_range = 50.0f + scale.x;
     if (activate_range < 0.0f) {
         activate_range = 0.0f;

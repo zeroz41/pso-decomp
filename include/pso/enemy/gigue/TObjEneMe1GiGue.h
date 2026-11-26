@@ -31,9 +31,9 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     virtual s32 update_action_hold_status();
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     virtual void run_miss_reaction();
     virtual void run_move_action();
     virtual void run_attack_action();
@@ -105,4 +105,5 @@ extern f32 gigue_shot_speed;
 extern f32 gigue_shot_homing;
 extern f32 gigue_shot_homing_step;
 extern s32 gigue_shot_power;
+
 #endif

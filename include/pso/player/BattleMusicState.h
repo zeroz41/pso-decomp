@@ -15,7 +15,7 @@ struct BattleMusicState {
     s32 timer;  // frames left before the music stops, -1 when not counting
 
     BattleMusicState();
-    void reset_counter_field4();
+    void reset();
     void clear_flag0_bit1();
     void set_flag_2();
     void reset_ring();

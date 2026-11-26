@@ -21,7 +21,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 
 // Built -inline off,deferred: the functions below are written last-to-first, which puts
@@ -45,7 +45,7 @@ NJS_TEXLIST *goal_warp_ancient_gvm_texture;
 
 
 extern "C" NJS_OBJECT *get_ancient_warp_model(s32 index) {
-    return (NJS_OBJECT *)get_bml_model(ancient_warp_shared_resource, index);
+    return get_bml_model(ancient_warp_shared_resource, index);
 }
 
 AnimationMotion *TObjGoalWarpAncient::register_warp(s32 index) {

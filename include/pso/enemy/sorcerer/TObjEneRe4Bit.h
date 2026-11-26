@@ -8,13 +8,6 @@
 
 struct TObjEneRe4Sorcerer;
 
-struct TObjEneRe4InitParams {
-    f32 max_distance;
-    f32 min_distance;
-    s32 turn_speed;
-    u32 extra[4];
-};
-
 struct TObjEneRe4Bit : public TObjEneDD_ST {
     TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
     virtual ~TObjEneRe4Bit();
@@ -40,8 +33,8 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
-    void apply_defense_stat_status(void *);
-    void apply_attack_stat_status(void *);
+    void apply_defense_stat_status(StatStatusReceipt *);
+    void apply_attack_stat_status(StatStatusReceipt *);
     void clear_harmful_statuses();
     void apply_shock_status();
     void apply_movement_ailment(CollisionBody *);

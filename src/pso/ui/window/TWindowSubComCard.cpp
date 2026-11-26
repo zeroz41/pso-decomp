@@ -23,7 +23,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -1135,15 +1135,15 @@ TWindowMenu *TWindowSubComCard::create_contact_menu() {
 
 TWindowMenu *TWindowSubComCard::create_player_list_menu() {
     s32 i;
-    TObjPlayer *p;
+    TObjPlayer *player;
     TWindowMenu *w;
-    u8 *name;
+    char *name;
     w = create_titled_window_menu_default(get_window_layout_position(0x83), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1F));
     i = 0;
     do {
-        if (i != local_client_id && (p = get_player_by_client_id(i)) != NULL &&
-            p->is_script_controlled() == 0 && p->obj_isState3_324() == 0 &&
-            (name = (u8 *)p->name) != NULL) {
+        if (i != local_client_id && (player = get_player_by_client_id(i)) != NULL &&
+            player->is_script_controlled() == 0 && player->obj_isState3_324() == 0 &&
+            (name = player->name) != NULL) {
             w->add_text_entry((saddr)name, 7, i);
         }
         i++;
@@ -1640,7 +1640,7 @@ void TWindowSubComCard::set_choice_search_option(ChoiceSearchSelection *selectio
     } else if (val != find_choice_search_value(selections, key)) {
         this->dirty_flags |= 1;
         set_value_by_key(selections, key, val);
-        this->entry_list_window->set_entry_string_by_id(((WindowTextEntry *)(this->com_card_menu->get_selected_entry()))->get_text(), key);
+        this->entry_list_window->set_entry_string_by_id(static_cast<WindowTextEntry *>(this->com_card_menu->get_selected_entry())->get_text(), key);
     }
 }
 

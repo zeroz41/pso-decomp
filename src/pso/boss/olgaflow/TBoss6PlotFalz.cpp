@@ -2,20 +2,18 @@
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
-#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/Boss6ScrollStrips.h"
-#include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalzState.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
+#include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/math/AngleLookup.h"
@@ -54,7 +52,6 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/render/StripBufferPair.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
@@ -62,7 +59,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/PlayerSlots.h"
@@ -1044,7 +1041,7 @@ void TBoss6PlotFalz::load_resources() {
 }
 
 void *TBoss6PlotFalz::create(void *set_data) {
-    return new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), set_data);
+    return new TBoss6PlotFalz(new TObjControl(tl_04), set_data);
 }
 
 s32 TBoss6PlotFalz::get_scene_state() { return state_index; }

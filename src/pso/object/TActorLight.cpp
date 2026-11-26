@@ -130,11 +130,11 @@ void offset_point_toward_camera(Vec *center, Vec *out, f32 distance) {
 #pragma pop
 
 
-s32 TTecLuker::is_parents_unqueued(uaddr object) {
-    if (object == 0U) {
+s32 TTecLuker::is_parents_unqueued(TObject *object) {
+    if (object == NULL) {
         return 0;
     }
-    if (((TObject *)object)->all_parents_unqueued_for_destruction()) {
+    if (object->all_parents_unqueued_for_destruction()) {
         return 1;
     }
     return 0;
@@ -318,23 +318,23 @@ TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, 
     return &technique_contact_query_results;
 }
 
-TechniqueContactList *TTecCircle::find_area_contact(saddr player) {
-    return find_area_technique_contact(this, collidable, &collisionBody, (void *)player);
+TechniqueContactList *TTecCircle::find_area_contact(TObjBase *player) {
+    return find_area_technique_contact(this, collidable, &collisionBody, player);
 }
 
-TechniqueContactList *TTecCircle::collect_body_contacts_for_target(saddr player) {
-    return collect_body_contacts(collidable, &collisionBody, (void *)player);
+TechniqueContactList *TTecCircle::collect_body_contacts_for_target(TObjBase *player) {
+    return collect_body_contacts(collidable, &collisionBody, player);
 }
 
-TechniqueContactList *TTecPlayerInfluence::find_support_technique_contact_for_target(saddr player) {
-    return find_support_technique_contact(this, target, &collisionBody, (void *)player);
+TechniqueContactList *TTecPlayerInfluence::find_support_technique_contact_for_target(TObjBase *player) {
+    return find_support_technique_contact(this, target, &collisionBody, player);
 }
 
-TechniqueContactList *TTecPlayerInfluence::gather_contacts_for_self(saddr player) {
-    return gather_player_contacts(target, &collisionBody, (void *)player);
+TechniqueContactList *TTecPlayerInfluence::gather_contacts_for_self(TObjBase *player) {
+    return gather_player_contacts(target, &collisionBody, player);
 }
 
-u8 *TTecShot::query_technique_enemy_contacts(saddr source) {
+TechniqueContactList *TTecShot::query_technique_enemy_contacts(TObjBase *source) {
     Vec pos;
     Vec d;
     f32 range;
@@ -350,7 +350,7 @@ u8 *TTecShot::query_technique_enemy_contacts(saddr source) {
     VecCopy(&pos, &position);
     resetTechniqueContactQuery();
     if (collidable == 0) {
-        return (u8 *)&technique_contact_query_results;
+        return &technique_contact_query_results;
     }
     prev = get_pos_ptr();
     d.x = pos.x - prev->x;
@@ -370,7 +370,7 @@ u8 *TTecShot::query_technique_enemy_contacts(saddr source) {
         pd = TObjPlayer::get_player_data(i);
         if (pd == 0) continue;
         if (pd->actorFlags & 0x20000000) {
-            if (pd->get_entity_id() == ((TObjBase *)source)->get_entity_id()) continue;
+            if (pd->get_entity_id() == source->get_entity_id()) continue;
             c = (CollisionBody *)collidable->find_actor_body_contact(pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
@@ -386,10 +386,10 @@ u8 *TTecShot::query_technique_enemy_contacts(saddr source) {
             }
         }
     }
-    return (u8 *)&technique_contact_query_results;
+    return &technique_contact_query_results;
 }
 
-u8 *TTecShot::query_technique_player_contacts(saddr source) {
+TechniqueContactList *TTecShot::query_technique_player_contacts(TObjBase *source) {
     Vec pos;
     Vec d;
     f32 range;
@@ -408,7 +408,7 @@ u8 *TTecShot::query_technique_player_contacts(saddr source) {
     VecCopy(&pos, &position);
     resetTechniqueContactQuery();
     if (collidable == 0) {
-        return (u8 *)&technique_contact_query_results;
+        return &technique_contact_query_results;
     }
     prev = get_pos_ptr();
     d.x = pos.x - prev->x;
@@ -424,12 +424,12 @@ u8 *TTecShot::query_technique_player_contacts(saddr source) {
     pos.z = 0.5f * (pos.z + prev->z);
     VecCopy(&collidable->position, &pos);
     copy_xyz(&collidable->rotation_x, angles);
-    if (((TObjBase *)source)->get_entity_id() < 4) {
+    if (source->get_entity_id() < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
             pd = TObjPlayer::get_player_data(i);
             if (pd == 0) continue;
-            if (pd->get_entity_id() == ((TObjBase *)source)->get_entity_id()) continue;
+            if (pd->get_entity_id() == source->get_entity_id()) continue;
             c = (CollisionBody *)collidable->find_actor_body_contact(pd, range);
             if (c != 0 && ((pd->actorFlags & 0x20000000) || (pd->actorFlags & 0x10000000)) && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
@@ -444,7 +444,7 @@ u8 *TTecShot::query_technique_player_contacts(saddr source) {
         for (j = 0; j < 4; j++) {
             e = find_entity_by_id(j);
             if (e == 0) continue;
-            if (e->get_entity_id() == ((TObjBase *)source)->get_entity_id()) continue;
+            if (e->get_entity_id() == source->get_entity_id()) continue;
             c = (CollisionBody *)collidable->find_actor_body_contact(e, (f32)1e+04f);
             if (c != 0 && (e->actorFlags & 0x10000000)) {
                 technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
@@ -456,7 +456,7 @@ u8 *TTecShot::query_technique_player_contacts(saddr source) {
             }
         }
     }
-    return (u8 *)&technique_contact_query_results;
+    return &technique_contact_query_results;
 }
 
 void resetTechniqueContactQuery() {

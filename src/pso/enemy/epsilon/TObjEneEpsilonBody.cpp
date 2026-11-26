@@ -58,7 +58,6 @@ s32 *epsilon_guard_angle_sample_write_ptr;
 Vec *epsilon_guard_camera_sample_read_ptr;
 Vec *epsilon_guard_camera_sample_end_ptr;
 s16 obj_getS16_118(u8 *p);
-extern TObject *tl_04;
 
 Vec epsilon_body_node_origin;
 Vec epsilon_body_debug_line_points[2];
@@ -69,7 +68,7 @@ TObjMotionAction epsilon_body_action_table[2] = {
     {1, 0, 0, 0.3f, 0},
     {1, 1, 1, 0.6f, 0},
 };
-TObjEneEpsilonMovement epsilon_body_movement_params = {
+EnemyMoveParams epsilon_body_movement_params = {
     150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
 CollisionBody epsilon_body_collision_bodies[2] = {
@@ -383,7 +382,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
                 turn_toward_target_direction(turn_step);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, turn_step, move_speed);
+                enemy_turn_and_move_on_ground(turn_step, move_speed);
             }
             if (target_player != 0xFFFF) {
                 TObjPlayer *player = TObjPlayer::get_player_data(target_player);
@@ -1322,7 +1321,7 @@ void TObjEneEpsilonBody::clear_guard_state_flag(s32 slot) {
     }
 }
 
-f32 TObjEneEpsilonBody::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *source, s32 tech, s32 attack_flags) {
+f32 TObjEneEpsilonBody::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *source, s32 tech, s32 attack_flags) {
     s32 flags = this->flags;
     if (!(flags & 2) && !(flags & 0x40)) {
         if (payload.kind != get_table_value_by_index()) {
@@ -1335,27 +1334,27 @@ f32 TObjEneEpsilonBody::receive_direct_attack(void *attacker, DirectAttackPayloa
     return 0.0f;
 }
 
-f32 TObjEneEpsilonBody::receive_physical_attack(void *attacker, f32 scale) {
+f32 TObjEneEpsilonBody::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (!(flags & 2) && !(flags & 0x40)) {
         return TObjChara::receive_physical_attack(attacker, scale);
     }
     try_apply_damage(&body_center, 0);
     return 0.0f;
 }
-f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
+f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionBody *hit) {
     if (!(flags & 2) && !(flags & 0x40)) {
         s16 kind = ((TObjPlayer *)src)->obj_getS16_116();
         s32 strong;
         obj_getS16_118((u8 *)src);
         strong = 0;
-        if (src == NULL || ((TObjBase *)src)->get_entity_id() == 0xFFFF) {
+        if (src == NULL || src->get_entity_id() == 0xFFFF) {
             show_miss_popup(&position.x);
             return 0.0f;
         }
         if (test_actor_flags(0x04000000) != 0) {
             strong = 1;
         }
-        if (hit != NULL && (((CollisionBody *)hit)->flags & 0x02000000)) {
+        if (hit != NULL && (hit->flags & 0x02000000)) {
             strong = 1;
         }
         if (strong != 0) {

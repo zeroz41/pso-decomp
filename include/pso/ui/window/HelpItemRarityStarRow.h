@@ -7,7 +7,7 @@
 
 // A row of at least ten star slots with the first `stars` lit (case 10 of
 // init_window_layout_entries).
-// inferred: item rarity star row (class name from what it draws).
+// item rarity star row (class name from what it draws).
 class HelpItemRarityStarRow : public TWindowLayoutEntry {
 public:
     f32 pos[2];
@@ -27,5 +27,8 @@ extern "C" {
 // stays pure (slot 0 of the vtable), so the class is abstract.
 void *__ct__21HelpItemRarityStarRowFP17PointLayoutRecordl(void *p, PointLayoutRecord *rec, s32 client);
 }
+
+struct StarUV { f32 u; f32 v; };
+
 
 #endif

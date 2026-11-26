@@ -30,7 +30,7 @@ void TItemEffCane::spawn_pair(TObject *parent, TItem *item, s32 first_attachment
 }
 
 void TItemEffCane::run_task() {
-    f32 position[3];
+    Vec position;
     TItemWeapon *item = (TItemWeapon *)find_item_by_id(item_id);
     if (item == NULL) {
         queue_destruction();
@@ -40,8 +40,8 @@ void TItemEffCane::run_task() {
         queue_destruction();
         return;
     }
-    item->get_joint_position(attachment_index, position);
-    ((TParticleCtrl *)effect)->set_position(position);
+    item->get_joint_position(attachment_index, &position);
+    ((TParticleCtrl *)effect)->set_position(&position);
 }
 
 TItemEffCane::~TItemEffCane() {
@@ -50,13 +50,13 @@ TItemEffCane::~TItemEffCane() {
 
 TItemEffCane::TItemEffCane(TObject* parent, TItem* item, s32 attachment, s32 effect_id)
     : TObject(parent) {
-    f32 position[3];
+    Vec position;
     m_name = class_name;
     item_id = item->get_item_id();
     attachment_index = attachment;
-    ((TItemWeapon *)item)->get_joint_position(attachment_index, position);
+    ((TItemWeapon *)item)->get_joint_position(attachment_index, &position);
     if (effect_id != -1) {
-        effect = create_particle_emitter(position, effect_id);
+        effect = create_particle_emitter(&position, effect_id);
     } else {
         effect = NULL;
     }

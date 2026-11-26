@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -8,6 +8,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -26,12 +27,9 @@ extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
 
 extern const char *window_duel_result_class_name;
-saddr get_shared_text_buffer(s32);
-void text_builder_append_int(s32);
-s32 text_builder_append(s32);
+saddr get_shared_text_buffer(void);
 }
 void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
-void text_builder_reset(void);
 
 extern "C" const char duel_result_time_separator[] = ":";
 void *TWindowDuelResult::layout_entries[140] = {
@@ -143,7 +141,7 @@ void TWindowDuelResult::build_ranking_page() {
     s32 i;
     s32 none;
     BattleRanking *e;
-    TObjPlayer *p;
+    TObjPlayer *player;
     u8 *a;
     u8 *b;
     u8 *c;
@@ -156,8 +154,8 @@ void TWindowDuelResult::build_ranking_page() {
     none = 1;
     e = get_battle_rankings();
     for (i = 0; i < 4; i++, e++) {
-        p = (e->client_id == 0xFFFF) ? NULL : get_player_by_client_id(e->client_id);
-        if (p != NULL && e->place != 0) {
+        player = (e->client_id == 0xFFFF) ? NULL : get_player_by_client_id(e->client_id);
+        if (player != NULL && e->place != 0) {
             none = 0;
         }
     }
@@ -167,8 +165,8 @@ void TWindowDuelResult::build_ranking_page() {
         b = (u8 *)get_array_entry(i * 4 + 2);
         c = (u8 *)get_array_entry(i * 4 + 3);
         d = (WindowTextEntry *)get_array_entry(i * 4 + 4);
-        p = (e->client_id == 0xFFFF) ? NULL : get_player_by_client_id(e->client_id);
-        if (p == NULL) {
+        player = (e->client_id == 0xFFFF) ? NULL : get_player_by_client_id(e->client_id);
+        if (player == NULL) {
             *(u16 *)a |= 2;
             *(u16 *)b |= 2;
             *(u16 *)c |= 2;
@@ -185,10 +183,11 @@ void TWindowDuelResult::build_ranking_page() {
             } else {
                 set_default_status(a, get_localized_text_entry(0x10, e->place + 6));
             }
-            set_text_entry_string((WindowTextEntry *)c, (uaddr)p->name, 0x20);
+            set_text_entry_string((WindowTextEntry *)c, (uaddr)player->name, 0x20);
             text_builder_reset();
             text_builder_append_int(e->score);
-            set_text_entry_string(d, (uaddr)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
+            text_builder_append((const char *)get_localized_text_entry(0x10, 0xD));
+            set_text_entry_string(d, (uaddr)get_shared_text_buffer(), 0x20);
             measure_message_text_width_default(d);
             d->x = (372.0f) - d->width;
         }

@@ -8,8 +8,8 @@
 #include "pso/system/vector.h"
 
 extern "C" {
-extern const s32 lbl_80435410[] = {0x224, 0x226, 0x229};
-extern const s32 lbl_8043541C[] = {0x20A, 0x208, 0xC9};
+extern const s32 dragon_fireball_particle_ids_v1[] = {0x224, 0x226, 0x229};
+extern const s32 dragon_fireball_particle_ids_v2[] = {0x20A, 0x208, 0xC9};
 }
 const char TBoss1DragonEffBullet::class_name_string[] = "TBoss1DragonEffBullet";
 const char *TBoss1DragonEffBullet::name = TBoss1DragonEffBullet::class_name_string;
@@ -107,10 +107,10 @@ TBoss1DragonEffBullet::TBoss1DragonEffBullet(TObject *parent, const Vec *start, 
 void TBoss1Dragon::select_fireball_particle_table() {
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        dragon_fireball_particle_ids = lbl_80435410;
+        dragon_fireball_particle_ids = dragon_fireball_particle_ids_v1;
         return;
     case 1:
-        dragon_fireball_particle_ids = lbl_8043541C;
+        dragon_fireball_particle_ids = dragon_fireball_particle_ids_v2;
         return;
     }
 }

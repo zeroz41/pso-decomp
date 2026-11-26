@@ -23,9 +23,11 @@ s32 ADXF_ReadNw32(AdxfHandle *file, s32 sectors, void *destination);
 s32 ADXF_GetFnameRangeEx(s32 ptid, s32 flid, char *fname, s32 *dir, s32 *ofst, s32 *fnsct);
 // Partition ptid's load state; advances a non-blocking partition load.
 s32 ADXF_GetPtStat(s32 ptid);
+// Starts a non-blocking load of AFS file name as partition id; ptinfo receives its table.
+s32 ADXF_LoadPartitionNw(s32 id, const char *name, s32 mode, void *ptinfo);
 void adxf_init(void);
 void adxf_finish(void);
-void adxf_update_file_states(void);
+void adxf_exec_server(void);
 void adxf_end_partition_load(void);
 }
 

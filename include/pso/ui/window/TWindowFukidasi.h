@@ -48,14 +48,14 @@ public:
     void set_flag2c_bit200();
     void clear_flag2c_bit200();
     void set_flag2c_bit100();
-    int test_flag2c_bit100();
 
     TWindowFukidasi *find_overlapping_balloon(const f32 *position, const f32 *size, TWindowFukidasi *first);
     TWindowFukidasi *draw_resolved_window(const f32 *position, const f32 *size, s32 viewport);
-    // Window flag 0x400: the balloon overlaps another one and is moved aside by the layout.
+    // Window flag 0x400 marks the balloon that loses an overlap (resolve_chat_balloon_overlaps).
     void mark_overlapped();
     void clear_overlapped();
     int get_visible_flag();
+    int is_bit8_set();
     int is_overlapped();
     s32 check_card_match_enabled(const char *text);
     void sync_display_pos();
@@ -99,5 +99,8 @@ LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 extern "C" {
 void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);
 }
+
+struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
+
 
 #endif

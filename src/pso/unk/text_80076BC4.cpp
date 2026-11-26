@@ -17,9 +17,9 @@ struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 
 extern "C" {
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
+}
 
 char *get_chat_shortcut_text(s32 *text) { return (char *)text; }
-}
 void submit_chat_text(u8 *lobby) {
     void *player;
     player = get_player_by_client_id(local_client_id);
@@ -65,12 +65,9 @@ void send_chat_shortcut(s32 index) { chat_accept_submission((saddr)get_chat_shor
 #pragma auto_inline on
 #pragma dont_inline off
 
-extern "C" {
-
 void clear_chat_shortcut(s32 i) {
     void **p = ((void **)get_chat_shortcut(i));
     *p = 0;
-}
 }
 ChatShortcut *store_chat_shortcut(s32 index, const ChatShortcut *src) { return &(*get_chat_shortcut(index) = *src); }
 

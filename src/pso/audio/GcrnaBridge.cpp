@@ -18,7 +18,7 @@ void gcrna_bridge_set_channel_pan(GcrnaStream *stream, s32 ch, s32 pan) {
     set_stream_channel_pan(stream, ch, pan);
 }
 
-void trigger_sub_task(GcrnaStream *stream, s32 volume) {
+void gcrna_bridge_set_volume(GcrnaStream *stream, s32 volume) {
     set_sound_stream_volume(stream, volume);
 }
 
@@ -52,7 +52,7 @@ void gcrna_bridge_set_trans_sw(GcrnaStream *stream, s32 enabled) {
 
 }
 
-void unregister_si_polling(GcrnaStream *stream) {
+void gcrna_bridge_destroy(GcrnaStream *stream) {
     GCRNA_SetPlaySw(stream, 0);
     GCRNA_SetTransSw(stream, 0);
     gcrna_destroy_stream(stream);

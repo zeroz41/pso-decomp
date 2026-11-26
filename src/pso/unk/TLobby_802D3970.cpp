@@ -10,10 +10,10 @@
 
 
 void TLobby::update_game_modes() { TLobby::update_trade_partner(); TLobby::update_battle_mode(); TLobby::update_trade_proposal_state(); TLobby::update_trade_list_send(); }
-void close_trade_request__6TLobbyFPv(void* p) { ((TLobby *)p)->close_trade_request(); }
-void TLobby__sub_802D39BC(void* p) { ((TLobby *)p)->close_trade_request(); }
-void TLobby__sub_802D39DC(void* p) { ((TLobby *)p)->reset_trade_state(); }
-void TLobby__sub_802D39FC(void* p) { ((TLobby *)p)->reset_trade_state(); }
+void close_trade_request_on_floor_unload() { TLobby::close_trade_request(); }
+void close_trade_request_on_floor_load() { TLobby::close_trade_request(); }
+void reset_trade_state_on_scene_unload() { TLobby::reset_trade_state(); }
+void reset_trade_state_on_scene_load() { TLobby::reset_trade_state(); }
 void G_ModifyTradeProposal_6xA6::bswap() {
     header.bswap();
     bswap_32(&item_id);

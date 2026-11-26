@@ -2,7 +2,7 @@
 #include "pso/weapon/TItemWeaponImperialPick.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
@@ -10,7 +10,7 @@
 
 
 void TItemWeaponImperialPick::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 0) {
+    if (get_model_node_counter() == 0) {
         rotate_matrix_z(NULL, rotation_z);
     }
 }

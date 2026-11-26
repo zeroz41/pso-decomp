@@ -7,8 +7,8 @@
 
 struct TTecSifta : public TTecPlayerInfluence {
     static const char *class_name;
-    TTecSifta(void *owner, void *pos, void *targets, s32 level);
-    TTecSifta(void *owner, void *pos, s32 level);
+    TTecSifta(TObjBase *owner, Vec *pos, TargetCursorList *targets, s32 level);
+    TTecSifta(TObjBase *owner, Vec *pos, s32 level);
     virtual ~TTecSifta();
     void play_sifta_cast_sound();
     void spawn_sifta_range_effect();
@@ -19,8 +19,8 @@ struct TTecSifta : public TTecPlayerInfluence {
     // the listed players; 0 gives it to the party members in range.
     s32 use_targets;
     void update_effect_params();
-    static void create_instance(void *source, void *origin, void *targets, s32 level);
-    static void create(void *owner, void *pos, s32 level);
+    static void create_instance(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level);
+    static void create(TObjBase *owner, Vec *pos, s32 level);
     virtual void render();
 };
 

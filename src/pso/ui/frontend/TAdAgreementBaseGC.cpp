@@ -8,7 +8,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TLobby.h"
@@ -18,6 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/MenuText.h"
 #include "pso/unk/TLobby_80132ED0.h"
 
 static const NJS_POINT2 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
@@ -42,7 +42,7 @@ void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) 
     for (i = 0; i < 2; i++) {
         pos[i].x = 320.0f - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, i))) >> 1);
         pos[i].y = 20.0f * (f32) i + 394.0f;
-        TAdSubPlyItemGC::render_status_line(pos[i].x, pos[i].y, 0.8f, (const char *)get_localized_text_entry(0x1B, i), -1);
+        draw_menu_text_scaled(pos[i].x, pos[i].y, 0.8f, (const char *)get_localized_text_entry(0x1B, i), -1);
     }
 }
 #pragma pop

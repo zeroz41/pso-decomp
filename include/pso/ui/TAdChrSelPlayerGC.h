@@ -19,13 +19,14 @@ public:
     void reset_cursor();
     void set_cursor_index_1();
     void set_cursor_index_2();
+    // Requests state value - 1 for run_task to switch to; 0 cancels the request.
     void request_state(s32 value);
     void set_index_and_close_status(s32 index);
     void set_status_value(s32 value);
     virtual void run_task();
     virtual void render();
     void update_chara_making();
-    void draw_model_with_arg(void *model);
+    void draw_model_with_arg(NJS_OBJECT *model);
     void init_selection_model(s32);
     s32 state;  // run_task switches on it; render draws in state 3
     s32 pending_state;  // zero for no request, otherwise the state plus one

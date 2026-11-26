@@ -14,14 +14,14 @@ public:
     virtual void transform_model_node();
     virtual void update_weapon();
     virtual void emit_marker_effects();
-    void yasminkov_9000m_eject_casing(WeaponVector *pos, s32 angle_offset);
+    void yasminkov_9000m_eject_casing(Vec *pos, s32 angle_offset);
     virtual ~TItemWeaponYasminkov9000M();
     TItemWeaponYasminkov9000M(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
     s32 slide_state;  // 2 opening, 3 open, 1 closing, 0 closed
-    WeaponVector slide;
-    WeaponVector muzzles[2];   // joint 3 of each gun
-    WeaponVector ejectors[2];  // joint 1 of each gun
+    Vec slide;
+    Vec muzzles[2];   // joint 3 of each gun
+    Vec ejectors[2];  // joint 1 of each gun
 };
 
 #endif

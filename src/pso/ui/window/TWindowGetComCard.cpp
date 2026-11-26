@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowGetComCard.h"
@@ -21,19 +21,19 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowGetComCard::class_name = "TWindowGetComCard";
 __declspec(section ".data") NJS_POINT2 TWindowGetComCard::window_rect = {152.0f, 370.0f};
 
-void TWindowFukidasi::set_active() { this->balloon_flags |= 0x4; }
+void TWindowFukidasi::set_active() { balloon_flags |= 0x4; }
 void TWindowFukidasi::clear_visible_flag() { this->balloon_flags &= 0xfe; }
 void TWindowFukidasi::set_flag() { this->balloon_flags |= 0x1; }
 void TWindowFukidasi::set_balloon_visible() { this->balloon_flags |= 0x20; }
@@ -42,7 +42,7 @@ void TWindowFukidasi::clear_flag_20() { this->balloon_flags &= 0xffffffdf; }
 int TWindowFukidasi::is_active() { return (this->balloon_flags >> 2) & 0x1; }
 void TWindowFukidasi::clear_flag() { this->balloon_flags &= 0xfffffffb; }
 int TWindowFukidasi::is_balloon_visible() { return (this->balloon_flags >> 5) & 0x1; }
-int WindowTextEntry::is_fully_shown() { return this->flags & 0x10; }
+int WindowTextEntry::is_fully_shown() { return flags & 0x10; }
 
 void TWindowGetComCard::render() {  }
 
@@ -123,7 +123,7 @@ TWindowGetComCard::~TWindowGetComCard() {
     }
     TWindowCtrl::show_client_lock_on_window(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
-    if ((is_chat_window_in_use() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
+    if ((TWindowCtrl::is_chat_window_in_use() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
         player->init_parts();
     }
 }
@@ -138,8 +138,8 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
     if (TWindowSubComCard::init_com_card() != 0) {
         GuildCardEntry *card = get_received_guild_card_tags();
         text_builder_reset();
-        text_builder_append((const char *)reinterpret_cast<u8 *>(card->get_name()));
-        text_builder_append((const char *)static_cast<u8 *>(TWindowSubStatusDisp::get_message_10(0x36)));
+        text_builder_append(card->get_name());
+        text_builder_append(static_cast<const char *>(TWindowSubStatusDisp::get_message_10(0x36)));
         message->append_line((saddr) (get_shared_text_buffer()), 2);
         timer = 0;
     } else {

@@ -1,6 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/render/ProjectedColorDraw.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/UISprite.h"
 #include "pso/render/GvmTextureArchive.h"
@@ -24,7 +24,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTexture.h"
 
 
@@ -41,7 +41,6 @@ extern "C" {
 s32 lobby_request_flags;
 int info_icon_texture;
 s32 lobby_pulse_color_phase;
-u32 __cvt_fp2unsigned(f32);
 
 NJS_TEXNAME loading_texture_names[3] = {
     { "f256_nowloading", 0, 0 },
@@ -86,6 +85,7 @@ NJS_SPRITE loading_compass_sprite = {
     { 496.0f, 416.0f, 0.0f }, 1.0f, 1.0f, 0, &loading_texture_list, loading_compass_texanim,
 };
 
+}
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -111,13 +111,12 @@ void draw_loading_compass(void) {
         draw_projected_textured_strip(loading_image_right, 4);
         end_screen_textured_draw();
         set_additive_blend();
-        draw_compass_sprite(&loading_compass_sprite, 2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
+        draw_compass_sprite(&loading_compass_sprite, 2, ((u32)(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
         restore_saved_depth_alpha_state();
     }
-}
 }
 #pragma pop
 

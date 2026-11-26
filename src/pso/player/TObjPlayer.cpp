@@ -26,7 +26,7 @@
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PhotonBlastResults.h"
-#include "pso/item/TItemLockCountCtrl_8011E184.h"
+#include "pso/item/TItemTimerEvent.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -48,7 +48,7 @@
 #include "pso/player/TPlyPtclObjectRightHand.h"
 #include "pso/player/PlayerTechniqueState.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include <string.h>
@@ -92,8 +92,8 @@ void TObjPlayer::set_flag_41c_bit1() { pending_actions.set(2); }
 void TObjPlayer::clamp_stat_41c() { pending_actions.set(8); }
 
 
-s8 TObjPlayer::get_rule_field_0() {
-    return lobby_rule_settings.get_rule_field_0();
+s8 TObjPlayer::get_rules_active() {
+    return lobby_rule_settings.get_rules_active();
 }
 
 
@@ -210,7 +210,10 @@ s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask) {
     return (u8)((obj->bodies[body].flags & mask) != 0);
 }
 
-void* TObjPlayer::get_position_history_entry(int index, void* x, void* z) { *(float*)x = *(float*)((char*)this + index * 8 + 0x6b0); *(float*)z = *(float*)((char*)this + index * 8 + 0x6b4); return (char*)this + index * 8; }
+void TObjPlayer::get_position_history_entry(int index, f32 *x, f32 *z) {
+    *x = movement_history.entries[index].x;
+    *z = movement_history.entries[index].z;
+}
 s32 TObjPlayer::clamp_index_to_max(s32 level) {
     s32 max_level;
 
@@ -239,9 +242,8 @@ int TObjPlayer::check_flag_02000000() {
 }
 
 void TObjPlayer::set_position_history_entry(s32 index, f32 x, f32 z) {
-    u8 *entry = (u8 *)this + index * 8;
-    *(f32 *)(entry + 0x6B0) = x;
-    *(f32 *)(entry + 0x6B4) = z;
+    movement_history.entries[index].x = x;
+    movement_history.entries[index].z = z;
 }
 
 
@@ -315,9 +317,6 @@ s32 TObjPlayer::get_entrance_id() { return entrance_id; }
 extern "C" {
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 }
-void emit_grass_footstep_effect(PlayerFollowParticles *particles);
-void emit_water_footstep_effect(PlayerFollowParticles *particles);
-void emit_sand_footstep_effect(PlayerFollowParticles *particles);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
 
 #pragma defer_codegen on
@@ -337,7 +336,7 @@ void UnitScale::reset() {
     z = y = x = player_one;
 }
 
-void BattleMusicState::reset_counter_field4() {
+void BattleMusicState::reset() {
     timer = 0;
     flags.reset();
 }
@@ -407,7 +406,7 @@ void PlayerAnimationState::set_state(s16 v) { state = v; }
 
 void PlayerAnimationState::set_angle(s32 v) { angle = v; }
 
-void ContactSurfaceState::update_field8() {
+void ContactSurfaceState::save_prev_flags() {
     prev_flags = get_flags();
 }
 
@@ -525,7 +524,7 @@ TPlayerReadyCallback::TPlayerReadyCallback(TObject* parent, u16 id, void (*fn)(T
 
 void TPlayerLobbyMarker::set_material_index(u8 v) { this->material_index = v; }
 
-int ContactSurfaceState::has_water_ground_flag() { return test_flags_any(&word.bits, 4); }
+int ContactSurfaceState::has_water_ground_flag() { return word.test_flags_any(4); }
 
 void PlayerFollowParticles::set_grass_contact_point(const Vec *point) { VecCopy(&contact_points[1], point); }
 
@@ -764,7 +763,7 @@ PlayerIntraMapWarp::PlayerIntraMapWarp() {
 
 ProtectionTimer::ProtectionTimer() { reset_type(); }
 
-BattleMusicState::BattleMusicState() { reset_counter_field4(); }
+BattleMusicState::BattleMusicState() { reset(); }
 PlayerAppearFade::PlayerAppearFade() { reset(); }
 
 void PlayerAppearFade::reset() {
@@ -1589,7 +1588,7 @@ void PhotonBlastDonation::decrement_state() {
     state -= 1;
 }
 
-int PhotonBlastGauge::has_ready_flag() { return test_flags_any(&flags.bits, 2); }
+int PhotonBlastGauge::has_ready_flag() { return flags.test_flags_any(2); }
 
 void PhotonBlastGauge::set_client_id(u16 id) { client_id = id; }
 
@@ -1609,8 +1608,6 @@ void is_slot_within_limit__10TObjPlayerFllUc(u8 cls, s16 tech, u8 level);
 
 
 PlayerAttackController::PlayerAttackController() {
-    __ct__8FlagWordFv(&flags);
-    construct_captured_target_list(&lockon_targets);
     evp_scale = player_one;
     reset();
 }
@@ -1689,7 +1686,7 @@ u8 TPlyCharData::get_power_materials_used() { return m_inventory.m_items[8].m_pr
 void PhotonChairSeat::set_owner_id(u16 id) { owner_id = id; }
 PhotonChairSeat::PhotonChairSeat() { reset(); }
 
-int PlayerCharDataEntry::has_character() { return test_flags_any((s32 *)&flags, 1); }
+int PlayerCharDataEntry::has_character() { return flags.test_flags_any(1); }
 PlayerGuildCardTag *PlayerCharDataEntry::get_lobby_header() { return &lobby_header; }
 TPlyCharData *PlayerCharDataEntry::get_char_data() { return &char_data; }
 s32 PlayerCharDataEntry::get_role() { return role; }

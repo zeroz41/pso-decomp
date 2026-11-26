@@ -3,6 +3,7 @@
 
 #include "pso/system/BmlAccessors.h"
 #include <stddef.h>
+#include "types.h"
 
 struct BmlModelEntry {
     u32 flags; // 1 once its texture list is loaded, 2 when that load failed
@@ -33,6 +34,11 @@ struct BmlResource {
     BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCallback callback, void *context, void *arena);
     ~BmlResource();
     void free_if_not_in_arena(void *ptr);
+    // Takes the next chunk out of `file` at `*offset`: decoded into the arena when the
+    // archive has one (rounded up to 32 bytes), else loaded on its own.
+    void *allocate_bml_chunk(u8 *file, u32 *offset, u32 *tag);
+    // Records a file handle the archive holds while it loads.
+    void add_resource_handle(void *item);
     void reset();
     void LoadTextureSub(const char *filename, s32 index);
     void set_flag_and_notify();
@@ -70,5 +76,22 @@ LAYOUT_ASSERT(BmlResource_model_count_offset, offsetof(BmlResource, model_count)
 BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
     const char **models, const char **motions,
     BmlLoadCallback on_loaded, void *context, void *arena);
+
+void check_bin_model_loaded(BmlResource *resource);
+void increment_ref_and_set_flag(void *context);
+struct BmlModelLoadRequest;
+struct BmlMotionLoadRequest;
+struct AnimationMotion;
+void LoadBinModelCallBack(BmlModelLoadRequest *request);
+void LoadBinMotionCallBack(BmlMotionLoadRequest *request);
+
+
+s32 tmp_buf_is_free();
+s32 tmp_buf_release(const char *name);
+void tmp_buf_release_if_owner(const char *name);
+u8 *tmp_buf_use_req(const char *name);
+
+void free_chr_select_data();
+void init_download_buffers();
 
 #endif

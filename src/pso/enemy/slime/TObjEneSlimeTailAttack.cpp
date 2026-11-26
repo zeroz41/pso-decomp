@@ -212,7 +212,6 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/enemy/slime/TObjEneSlimeOne_800EC394.h"
 
 
 
@@ -662,8 +661,8 @@ void TObjEneSlimeOne::clear_child_flag() {
     }
 }
 
-f32 TObjEneSlimeOne::receive_direct_attack(void *attacker, DirectAttackPayload payload,
-                                         void *source, s32, s32) {
+f32 TObjEneSlimeOne::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload,
+                                         CollisionBody *source, s32, s32) {
     if (payload.kind == 2 && parent_slime != 0 &&
         parent_slime->all_parents_unqueued_for_destruction()) {
         parent_slime->try_spawn_child(&position);
@@ -1391,7 +1390,7 @@ s32 TObjEneSlimeWaterBomb::check_hits() {
         if (player != NULL && !(horizontal_distance_squared(&body_center, &player->body_center) > 25.0f)) {
             f32 damage = player->receive_direct_attack(owner, attack, 0, -1, -1);
             if (0.0f != damage) {
-                player->apply_knockback_from_attacker((u8 *)this, damage);
+                player->apply_knockback_from_attacker(this, damage);
             }
             hit = 1;
         }
@@ -1402,7 +1401,7 @@ s32 TObjEneSlimeWaterBomb::check_hits() {
         if (enemy != NULL && !(horizontal_distance_squared(&body_center, &enemy->body_center) > 25.0f)) {
             f32 damage = enemy->receive_direct_attack(owner, attack, 0, -1, -1);
             if (0.0f != damage) {
-                enemy->apply_knockback_from_attacker((u8 *)this, damage);
+                enemy->apply_knockback_from_attacker(this, damage);
             }
             hit = 1;
         }
@@ -1503,7 +1502,7 @@ s32 TObjEneSlimeTailAttack::apply_tail_hits() {
                 !(horizontal_distance_squared(&this->body_center, &pl->position) > 56.25f)) {
                 f32 damage = e->receive_direct_attack(this->owner, hit, 0, -1, -1);
                 if (0.0f != damage) {
-                    e->apply_knockback_from_attacker((u8 *)this, damage);
+                    e->apply_knockback_from_attacker(this, damage);
                 }
                 this->last_hit_player = id;
                 result = 1;
@@ -1518,7 +1517,7 @@ s32 TObjEneSlimeTailAttack::apply_tail_hits() {
             if (e2 != NULL && !(horizontal_distance_squared(&this->body_center, &e2->body_center) > 56.25f)) {
                 f32 damage = e2->receive_direct_attack(this->owner, hit, 0, -1, -1);
                 if (0.0f != damage) {
-                    e2->apply_knockback_from_attacker((u8 *)this, damage);
+                    e2->apply_knockback_from_attacker(this, damage);
                 }
                 result = 1;
             }

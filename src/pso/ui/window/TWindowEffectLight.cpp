@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/render_util.h"
@@ -13,17 +13,18 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/vector.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 #pragma readonly_strings on
 
+const char *TWindowEffectLight::class_name = "TWindowEffectLight";
+
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-const char *TWindowEffectLight::class_name = "TWindowEffectLight";
-extern TObject *tl_window;
 
 
 #pragma fp_contract on

@@ -46,7 +46,7 @@
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/object/TObjSinBoard.h"
 #include "pso/unk/TLobby_8015ABD0.h"
-#include "pso/unk/TLobby_8036B204.h"
+#include "pso/ui/chat/TSymbolChatCapture.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/ui/window/TWindowReturnCity.h"
@@ -67,6 +67,7 @@
 #include "pso/system/memory.h"
 #include "pso/network/protocol/SendGuildCardPacket.h"
 #include "pso/unk/TLobby_80207DA8.h"
+#include "pso/technique/TTecLuker.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
@@ -126,11 +127,6 @@ const char *TObjPlayer::get_name() { return name; }
 
 
 
-extern "C" {
-void release_sky_scene(void);
-void TTecLuker__sub_80234F08(void);
-void TTecLuker__sub_80234F48(void);
-s32 restore_floor_telepipes();
 
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
@@ -142,7 +138,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {create_reflection_target, destroy_reflection_target},
     {init_camera_render_target, free_camera_render_target},
     {TScene::load_current_floor, TScene::free_scene_resources},
-    {TSceneSora::load_sky_resources, release_sky_scene},
+    {TSceneSora::load_sky_resources, TSceneSora::release_sky_scene},
     {TRaderMapCore::load_map_resources, TRaderMapCore::unload_floor_map},
     {setup_floor_decorations, clear_floor_flags_and_depart},
     {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},
@@ -155,7 +151,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {reset_and_init_capture_texture, reset_and_release_capture_texture},
     {init_shadow_map_texture, release_shadow_map_texture},
     {load_indirect_dat, TEffIndirectCtrl::free_all},
-    {(FloorResourceCallback)TLobby__sub_802D39BC, (FloorResourceCallback)close_trade_request__6TLobbyFPv},
+    {close_trade_request_on_floor_load, close_trade_request_on_floor_unload},
     {TLobby__sub_8032BE3C, TLobby__sub_8032BE30},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
     {TLobby__sub_80279708, TLobby__sub_802796FC},
@@ -164,7 +160,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TLobby__sub_8015ABD4, TLobby__sub_8015ABD0},
     {TLobby__sub_8036B510, TLobby__sub_8036B50C},
     {TWindowReturnCity__sub_8026D4C0, TWindowReturnCity__sub_8026D4BC},
-    {TTecLuker__sub_80234F48, TTecLuker__sub_80234F08},
+    {TTecLuker::reset_visit_counts_on_floor_load, TTecLuker::reset_visit_counts_on_floor_free},
 };
 
 // Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
@@ -270,7 +266,6 @@ s32 TLobby::check_disconnect_conditions() {
     return 0;
 }
 void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke_callback(); TLobby::clear_callback_and_reset_keyboard(); }
-}
 
 
 

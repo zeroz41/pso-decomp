@@ -17,6 +17,8 @@ public:
     virtual void render();
     void set_flag_and_clear_download();
     s32 start_offline_seq();
+    // Once the title menu has a confirmed entry: fades out and runs the state handler for its cursor.
+    void dispatch_title_choice();
     void enter_chg_game_mode();
     void enter_game_mode_change();
     void request_change_game_mode();
@@ -45,6 +47,6 @@ LAYOUT_ASSERT(TTitleScene_attract_tick_offset, offsetof(TTitleScene, attract_tic
 LAYOUT_ASSERT(TTitleScene_flags_offset, offsetof(TTitleScene, transition_flags) == 0x3C);
 LAYOUT_ASSERT(TTitleScene_children_offset, offsetof(TTitleScene, transition_children) == 0x40);
 
-extern "C" s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
+s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
 
 #endif

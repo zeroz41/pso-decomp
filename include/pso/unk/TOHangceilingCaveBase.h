@@ -10,12 +10,12 @@ public:
     virtual ~TOHangceilingCaveBase();
     virtual void run_task();
     virtual void render();
-    virtual s32 select_melee_contact_body(void *, f32);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual void apply_knockback_from_attacker(u8 *, f32);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
+    virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual void begin_wait();
     virtual void update_state();
     virtual f32 calc_damage(f32);

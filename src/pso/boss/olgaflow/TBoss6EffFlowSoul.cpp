@@ -78,3 +78,11 @@ TBoss6EffFlowSoul::TBoss6EffFlowSoul(TObject *parent, Vec *pos, s32 player, s32 
     }
     age = 0;
 }
+
+TBoss6EffFlowSoul *TBoss6Type2::spawn_flow_soul(TObject *parent, Vec *pos, s32 duration) {
+    return new TBoss6EffFlowSoul(parent, pos, 0xFFFF, duration);
+}
+
+TBoss6EffFlowSoul *TBoss6Type2::create_flow_soul(TObject *parent, Vec *pos, s32 player, s32 duration) {
+    return new TBoss6EffFlowSoul(parent, pos, player, duration);
+}

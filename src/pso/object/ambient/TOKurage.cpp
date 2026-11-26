@@ -274,7 +274,7 @@ void TOKurage::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_zyx(NULL, rotation_x, rotation_y, rotation_z);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         switch (state) {
         case 4:
             saved_model_render_flags = model_render_flags;

@@ -151,8 +151,8 @@ void TItemWeapon::request_equipped_model() {
 TItemWeapon::~TItemWeapon() {}
 
 
-extern const f32 lbl_805DAC98;
-extern const u8 lbl_805DACA4;
+extern const f32 weapon_float_zero;
+extern const u8 weapon_unidentified_flag;
 
 TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
     s32 identified;
@@ -170,7 +170,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
         special_selector = special;
     }
     if (identified == 0) {
-        special_selector = (u8) (special_selector | lbl_805DACA4);
+        special_selector = (u8) (special_selector | weapon_unidentified_flag);
     }
     memcpy(attributes, item + 6, 6);
     impact_callback = 0;
@@ -200,12 +200,12 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
         color_node = -1;
     }
     stage = -1;
-    motion_frame = lbl_805DAC98;
+    motion_frame = weapon_float_zero;
     if (get_item_group() == 0) {
         photon_color_id = -1;
     } else {
         item_render_state.reset();
-        photon_phase = lbl_805DAC98;
+        photon_phase = weapon_float_zero;
     }
     set_weapon_category_flags();
     if (parameters->flags & 1) {
@@ -227,8 +227,6 @@ TItem *create_common_weapon(u8 *item) {
 }
 
 // ---- pso/player/TObjPlayer_80121010
-
-extern "C" {
 
 TItem *create_weapon_for_item(u8 *item) {
     if (item != NULL) {
@@ -258,7 +256,6 @@ s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_
 CapturedTargetList *TObjPlayer::get_extended_state() { return attack_state.get_lockon_targets(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
 int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
-}
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint) { return player->item_node_matrices[joint]; }
 void PlayerAttackController::set_attack_kind(s16 kind) { attack_kind = kind; }
 
@@ -281,7 +278,7 @@ void increment_model_node_counter(void) {
     model_node_counter = count + 1;
 }
 
-int TObjPlayer::get_player_list() {  return model_node_counter; }
+int get_model_node_counter() {  return model_node_counter; }
 
 void TItemWeapon::set_model_node_callback(void (*callback)(NJS_OBJECT *)) { model_node_callback = callback; }
 

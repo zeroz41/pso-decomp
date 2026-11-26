@@ -106,8 +106,7 @@ void TFontSmallHelp::render() {
         rgba = 0xFF000000;
     }
     rgba |= color;
-    TCameraCtrl::get_camera_no();
-    f32 scale = TWindowCtrlMain::get_scale();
+    f32 scale = TWindowCtrlMain::get_scale(TCameraCtrl::get_camera_no());
     f32 size = -1.0f;
     size /= 0.1495f + scale;
     draw_small_font_text(rgba, text, screen[0], screen[1], size);

@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -6,7 +5,6 @@
 #include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
 #include "pso/unk/text_803DA798.h"
 #include "types.h"
-#include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -66,7 +64,7 @@ void TWindowDD_WS_ScrollBar::render() {
     f32 quad[8];
     s32 tex;
     s32 i;
-    WindowTexturePoint *uv;
+    NJS_POINT2 *uv;
     WindowVertex *v;
     f32 z;
     f32 s;

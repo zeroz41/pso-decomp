@@ -301,9 +301,7 @@ extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
     { 0, 14, 14, 15, 15, 12, 12, 12, 12, 12, 13, 13, 0, 0, 0, 0, 0, 0 },
 } };
 
-extern "C" {
 int selected_episode;
-}
 saddr story_select_pending_state = -1;
 int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }

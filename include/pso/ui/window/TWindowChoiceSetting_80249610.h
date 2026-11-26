@@ -5,5 +5,7 @@
 
 void resolve_chat_balloon_overlaps(void);
 
+// --- C functions defined in TWindowChoiceSetting_80249610.cpp ---
+// --- end of C functions
 
 #endif

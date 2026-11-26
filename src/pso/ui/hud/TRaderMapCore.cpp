@@ -42,7 +42,7 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MatrixStack.h"
@@ -64,6 +64,7 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/hud/RadarMapData.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/unk/text_803D8F74.h"
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
@@ -84,12 +85,13 @@ BmlResource *radar_frame_model_resource;
 NJS_TEXLIST *radar_frame_texlist;
 THeap *TRaderMapCore::map_heap;
 
-extern "C" {
 extern NJS_TEXANIM radar_sprite_texanims[];
 extern f32 radar_compass_positions[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
+extern "C" {
+}
 extern RadarBackdropColor radar_map_backdrop_color;
 void set_radar_marker_color(TRaderMapCore *unused, u32 color);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
@@ -99,9 +101,9 @@ static const RadarColor4 radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 1.0f, 0.0f },
     { 1.0f, 0.0f, 0.0f, 1.0f },
 };
+extern "C" {
 NJS_POINT2 get_follow_marker_position(TRaderMapCore *core);
 
-s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
 }
 void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos);
 #define RADAR_REGION_MAP ((struct RadarRegionMap *) TRaderMapCore::floor_map_resource)
@@ -291,11 +293,11 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
         g->vz = 0.0f;
         g->roll = 0x8000;
     }
-    m_150 = 500.0f;
-    viewport_width = 640.0f;
-    viewport_height = 480.0f;
-    m_140 = 544.0f;
-    m_144 = 140.0f;
+    viewport.depth = 500.0f;
+    viewport.screen_width = 640.0f;
+    viewport.screen_height = 480.0f;
+    viewport.center_x = 544.0f;
+    viewport.center_y = 140.0f;
     for (j = 0; j < 4; j++) {
         player_marker_records[j].z = 0.0f;
         player_marker_records[j].y = 0.0f;
@@ -398,7 +400,7 @@ void TRaderMapCore::update_target() {
         target_player = player;
     }
     if (target_player != NULL) {
-        if (is_card_flag_set__19TWindowKeyBoardHardFv(target_player->get_entity_id()) != 0) {
+        if (TWindowKeyBoardHard::is_card_flag_set(target_player->get_entity_id()) != 0) {
             this->view_flags |= radar_view_target_flag;
             return;
         }
@@ -437,10 +439,10 @@ void TRaderMapCore::update_pan_zoom_input() {
         if (test_previous_buttons_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x80) != 0) {
             pan_x_speed -= 6.0f;
         }
-        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[target_player->get_controller_port()], 0x20000, 0x27, 1) != 0) {
+        if (test_buttons_repeat_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x20000, 0x27, 1) != 0) {
             zoom_speed -= 6.0f;
         }
-        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[target_player->get_controller_port()], 0x10000, 0x27, 1) != 0) {
+        if (test_buttons_repeat_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x10000, 0x27, 1) != 0) {
             zoom_speed += 6.0f;
         }
         TRaderMapCore::pan_horizontal(pan_x_speed);
@@ -469,11 +471,11 @@ void TRaderMapCore::update_pan_zoom_input() {
 
 // Dead-stripped from the DOL: no code of it survives, only its literal 500.0f (pooled
 // between render_region_records' 0.08f and update_pan_zoom_input's 6.0f). It stores the defaults
-// the constructor gives m_150 and the viewport size, field by field. Name inferred.
+// the constructor gives the viewport depth and size, field by field. Name inferred.
 void TRaderMapCore::set_default_view_size() {
-    m_150 = 500.0f;
-    viewport_width = 640.0f;
-    viewport_height = 480.0f;
+    viewport.depth = 500.0f;
+    viewport.screen_width = 640.0f;
+    viewport.screen_height = 480.0f;
 }
 
 s32 TRaderMapCore::is_render_admitted(s32 mode) {
@@ -607,7 +609,7 @@ void TRaderMapCore::begin_map_view(int mode) {
     viewport.center_y = rect->center_y;
     viewport.screen_width = rect->screen_width;
     viewport.screen_height = rect->screen_height;
-    viewport.value18 = rect->depth;
+    viewport.depth = rect->depth;
     configure_viewport(&viewport);
     set_view_scissor(2, &radar_map_view_scissor_table[mode]);
     setup_overhead_projection(&radar_map_view_state[mode]);

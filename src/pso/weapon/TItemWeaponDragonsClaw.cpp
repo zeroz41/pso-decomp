@@ -2,7 +2,6 @@
 #include "pso/weapon/TItemWeaponDragonsClaw.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecFoie.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TMainTask.h"
@@ -11,7 +10,7 @@
 extern "C" {
 
 void TItemWeaponDragonsClaw::emit_marker_effects() {
-    s32 origin;
+    Vec origin;
     TObjPlayer *owner;
 
     if (is_mode_two_and_ready() != 0) {

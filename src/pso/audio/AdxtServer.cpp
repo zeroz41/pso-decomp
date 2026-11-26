@@ -20,8 +20,6 @@
 #include "pso/audio/CriSvm.h"
 #include "pso/audio/AdxManager.h"
 
-struct Pair_803C8678 { u32 a, b; };
-
 void adxt_trap_entry_update(void *context);
 
 extern "C" {
@@ -30,19 +28,19 @@ void adxt_exec_handle(AdxtPlayer *);
 }
 extern "C" {
 
-void TLobby__sub_803CAEB4(void *context);
+void adxt_trap_end_update(void *context);
 
 void adxt_stat_decinfo(AdxtPlayer *self);
 s32 adxt_end_available;
 s32 adxt_prep_available;
 s32 adxt_prep_channel_count;
 
-// Inferred: CRI adxt_stat_prep (wait until every output SJ holds data, then start the RNA).
-inline void adxt_stat_prep_step(AdxtPlayer *self) {
+// Waits until every output SJ holds data, then starts the RNA.
+inline void adxt_stat_prep(AdxtPlayer *self) {
     s32 n;
     s32 i;
     if (audio_stream_get_state(self->input_state) == 3) {
-        n = self->input_state->send_with_offset4();
+        n = self->input_state->get_channels();
         adxt_prep_channel_count = n;
         for (i = 0; i < n; i++) {
             adxt_prep_available = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
@@ -56,8 +54,8 @@ inline void adxt_stat_prep_step(AdxtPlayer *self) {
         }
     }
 }
-// Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
-inline void adxt_stat_playing_step(AdxtPlayer *self) {
+// Starts playback once enough is decoded; pads the end with silence.
+inline void adxt_stat_playing(AdxtPlayer *self) {
     GcrnaStream *rna = self->rna_handle;
     AudioStreamInputState *sjd = self->input_state;
     s32 i;
@@ -69,7 +67,7 @@ inline void adxt_stat_playing_step(AdxtPlayer *self) {
     SjChunk ck;
     avail = query_available_size(rna);
     size = gcrna_bridge_get_packet_size(rna);
-    if (avail >= self->reserved_48 * 2 || size <= sjd->notify_field_4_alt() ||
+    if (avail >= self->reserved_48 * 2 || size <= sjd->get_block_samples() ||
         audio_stream_get_state(self->input_state) == 3) {
         if (self->auto_start_flag == 0) {
             if (self->pause_flag == 0) {
@@ -92,27 +90,27 @@ inline void adxt_stat_playing_step(AdxtPlayer *self) {
         }
     }
 }
-// Inferred: CRI adxt_stat_playend (stop the RNA once its queue is empty).
-inline void adxt_stat_playend_step(AdxtPlayer *self) {
+// Stops the RNA once its queue is empty.
+inline void adxt_stat_playend(AdxtPlayer *self) {
     adxt_end_available = query_available_size(self->rna_handle);
     if (query_available_size(self->rna_handle) <= 0) {
         gcrna_bridge_set_play_sw(self->rna_handle, 0);
         self->stat = 5;
     }
 }
-// Inferred: CRI ADXT_ExecHndl (per-handle state step of the ADXT server).
+// One server step of a handle, by its state.
 #pragma push
 #pragma opt_common_subs off
 void adxt_exec_handle(AdxtPlayer *self) {
     s8 stat = self->stat;
     if (stat == 3) {
-        adxt_stat_prep_step(self);
+        adxt_stat_prep(self);
     } else if (stat == 1) {
         adxt_stat_decinfo(self);
     } else if (stat == 2) {
-        adxt_stat_playing_step(self);
+        adxt_stat_playing(self);
     } else if (stat == 4) {
-        adxt_stat_playend_step(self);
+        adxt_stat_playend(self);
     }
     if (self->stream_file != NULL && get_adx_stream_status(self->stream_file) == 4) {
         self->error_code = -1;
@@ -125,7 +123,6 @@ void adxt_exec_handle(AdxtPlayer *self) {
 }
 #pragma pop
 
-#define SBF50 gcrna_bridge_set_channel_pan
 
 
 void adxt_stat_decinfo(AdxtPlayer *self) {
@@ -135,14 +132,14 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
     char buf[32];
 
     if (audio_stream_get_state(input_state) == 2) {
-        s32 v = input_state->send_with_offset4();
+        s32 v = input_state->get_channels();
         if (v > self->max_channels) {
             adxerr_format_id_pair(v, self->max_channels, buf, 0x10);
             adxerr_report_pair("E9081001 adxt_stat_decinfo: can't play this number of channels", buf);
             stop_audio_stream(self);
             return;
         }
-        n1 = input_state->notify_field_4();
+        n1 = input_state->get_rate();
         k = get_stream_loop_type(input_state);
         if (k > 0) {
             self->reserved_48 = (n1 / self->server_freq) * 3;
@@ -150,10 +147,10 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
             self->reserved_48 = ((n1 / self->server_freq) * 3) / 2;
         }
         {
-            s32 a = input_state->notify_field_4_alt() * 2;
+            s32 a = input_state->get_block_samples() * 2;
             self->reserved_48 = a * ((self->reserved_48 + a) / a);
         }
-        input_state->set_network_result(self->reserved_48);
+        input_state->set_max_samples(self->reserved_48);
         if (k > 0) {
             if ((s32) self->source_type == 2) {
                 self->reserved_50 = 0;
@@ -177,53 +174,52 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
             if (self->stream_file != NULL) {
                 set_adx_stream_end_sector(self->stream_file, 0x7FFFFFFF);
             }
-            input_state->set_notify_sample_count(input_state->send_packet_by_id());
+            input_state->set_notify_sample_count(input_state->get_total_samples());
             input_state->set_notify_bytes(0);
             input_state->set_notify_count(0);
-            audio_stream_set_notify_callback(input_state, TLobby__sub_803CAEB4, self);
+            audio_stream_set_notify_callback(input_state, adxt_trap_end_update, self);
         }
-        k = input_state->notify_field_4();
-        n1 = input_state->send_with_offset4();
-        s32 pid = input_state->send_packet_by_id();
-        s32 p2 = input_state->send_packet_by_id_2();
+        k = input_state->get_rate();
+        n1 = input_state->get_channels();
+        s32 pid = input_state->get_total_samples();
+        s32 p2 = input_state->get_bits_per_sample();
         gcrna_bridge_set_sample_bits(self->rna_handle, p2);
         gcrna_bridge_set_frequency(self->rna_handle, k);
         gcrna_bridge_set_stream_count(self->rna_handle, n1);
         gcrna_bridge_set_pan_id(self->rna_handle, pid);
-        trigger_sub_task(self->rna_handle, self->output_vol);
-        if (self->input_state->send_with_offset4() == 1) {
+        gcrna_bridge_set_volume(self->rna_handle, self->output_vol);
+        if (self->input_state->get_channels() == 1) {
             if (self->out_pan[0] == -0x80) {
-                SBF50(self->rna_handle, 0, 0);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 0, 0);
             } else {
-                SBF50(self->rna_handle, 0, self->out_pan[0]);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 0, self->out_pan[0]);
             }
         } else {
             if (self->out_pan[0] == -0x80) {
-                SBF50(self->rna_handle, 0, -0xF);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 0, -0xF);
             } else {
-                SBF50(self->rna_handle, 0, self->out_pan[0]);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 0, self->out_pan[0]);
             }
             if (self->out_pan[1] == -0x80) {
-                SBF50(self->rna_handle, 1, 0xF);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 1, 0xF);
             } else {
-                SBF50(self->rna_handle, 1, self->out_pan[1]);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 1, self->out_pan[1]);
             }
         }
         if (self->amp != NULL) {
             self->amp->set_packet_flags(k);
         }
         if (audio_stream_get_format(input_state) == 2) {
-            u8 *header = input_state->get_offset_58();
+            u8 *header = input_state->get_header();
             run_step_4430(self->rna_handle, header);
         }
         gcrna_bridge_set_trans_sw(self->rna_handle, 1);
         self->stat = 2;
     }
 }
-#undef SBF50
 
 
-void TLobby__sub_803CAEB4(void *context) {
+void adxt_trap_end_update(void *context) {
   AdxtPlayer *o = static_cast<AdxtPlayer *>(context);
   AudioStreamInputState *input_state = o->input_state;
   SjRingBuffer *ring = o->input_sj;
@@ -271,19 +267,19 @@ void TLobby__sub_803CAEB4(void *context) {
     if (r1 == 0)
     {
       ring->interface->unget_chunk(ring, 1, &b);
-      sj_chunk_split(&a, n, &a, &c);
+      sj_split_chunk(&a, n, &a, &c);
       ring->interface->put_chunk(ring, 0, &a);
       ring->interface->unget_chunk(ring, 1, &c);
     }
     else
     {
       ring->interface->put_chunk(ring, 0, &a);
-      sj_chunk_split(&b, m, &b, &d);
+      sj_split_chunk(&b, m, &b, &d);
       ring->interface->put_chunk(ring, 0, &b);
       ring->interface->unget_chunk(ring, 1, &d);
     }
     o->played_samples += audio_stream_get_output_samples(input_state);
-    input_state->reset_flag();
+    input_state->stop();
     audio_stream_start(input_state);
     process_audio_stream_input(input_state);
     if (audio_stream_get_state(input_state) != 2)
@@ -291,8 +287,8 @@ void TLobby__sub_803CAEB4(void *context) {
       o->sync_mode_flag = 0;
       return;
     }
-    input_state->set_network_result(o->reserved_48);
-    input_state->set_notify_sample_count(input_state->send_packet_by_id());
+    input_state->set_max_samples(o->reserved_48);
+    input_state->set_notify_sample_count(input_state->get_total_samples());
     input_state->set_notify_bytes(0);
     input_state->set_notify_count(0);
   }

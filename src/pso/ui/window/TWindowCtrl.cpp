@@ -1,10 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/protocol/choice_search.h"
@@ -25,16 +25,13 @@
 #include "pso/object/switch/TOChatSensorCapture.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrlPlayer.h"
-#include "pso/ui/window/TWindowCtrl_8024B1A0.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowEffectParty.h"
-#include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
-#include "pso/ui/window/TWindowCtrl_8024B9C0.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -220,7 +217,7 @@ void TWindowChat::set_flag1e_bit40() { flags |= 0x40; }
 
 
 
-s32 TWindowCtrl__sub_8024C5C4(const TWindowChat *chat) {
+s32 fn_8024C5C4(const TWindowChat *chat) {
     if (chat->flags & 2) return 0;
     return 1;
 }
@@ -404,7 +401,7 @@ void TWindowCtrl::update_party_status_rows() {
                 TWindowCtrl::is_slot_visible(local_client_id) != 0 || is_flag_bit2_set() != 0 ||
                 pl->is_script_controlled() != 0 ||
                 (pl->obj_isState3_324() != 0 &&
-                 (pl->get_field_828() != 0 || pl->get_npc_controller() == 0xFFFF))) {
+                 (pl->is_pk_enabled() != 0 || pl->get_npc_controller() == 0xFFFF))) {
                 w->request_close();
             } else {
                 w->request_show();
@@ -458,7 +455,7 @@ void TWindowCtrl::update_com_card_window() {
     if ((card_before != NULL) && (card_before->all_parents_unqueued_for_destruction() == 0)) {
         this->com_card_window = NULL;
     }
-    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((chat = chat_window, ((chat == NULL) == 0)) && (is_chat_in_use(chat) != 0))) {
+    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((chat = chat_window, ((chat == NULL) == 0)) && (chat->is_chat_in_use() != 0))) {
         card = this->com_card_window;
         if (card != NULL) {
             card->queue_destruction();
@@ -472,7 +469,7 @@ void TWindowCtrl::update_com_card_window() {
 
 
 void TWindowCtrl::update_trade_request_window() {
-    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->com_card_window != 0U) || ((chat_window != NULL) && (is_chat_in_use(chat_window) != 0))) {
+    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->com_card_window != 0U) || ((chat_window != NULL) && (chat_window->is_chat_in_use() != 0))) {
         if (trade_request != NULL) {
             trade_request->queue_destruction();
             trade_request = NULL;
@@ -942,8 +939,7 @@ void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
 
 
 
-// The chat packet (06) handler: shows the message in the sender's balloon.
-extern "C" void handle_recv_chat(TPlyGuildCardTag &tag, char *message) {
+void TWindowCtrl::handle_recv_chat(TPlyGuildCardTag &tag, char *message) {
     s32 i;
     u32 key;
     char *v;
@@ -1205,14 +1201,14 @@ void TWindowCtrl::open_status_111() {
 
 
 
-s32 is_chat_window_in_use(void) {
+s32 TWindowCtrl::is_chat_window_in_use() {
     if (TWindowCtrl::instance == NULL) {
         return 0;
     }
     if (TWindowCtrl::instance->chat_window == NULL) {
         return 0;
     }
-    return is_chat_in_use(TWindowCtrl::instance->chat_window);
+    return TWindowCtrl::instance->chat_window->is_chat_in_use();
 }
 
 
@@ -1224,7 +1220,7 @@ s32 TWindowCtrl::get_active_sub() {
     if (instance->chat_window == NULL) {
         return 0;
     }
-    return TWindowCtrl__sub_8024C5C4(instance->chat_window);
+    return fn_8024C5C4(instance->chat_window);
 }
 
 

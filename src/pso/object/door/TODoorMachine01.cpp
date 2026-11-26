@@ -5,7 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"
@@ -172,7 +172,7 @@ void TODoorMachine01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         if (object_state == DOOR_CLOSED) {
-            node = (model)->child;
+            node = model->child;
             lit = (door_flags >> LIGHT_LIT_SHIFT) & 1;
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
@@ -180,7 +180,7 @@ void TODoorMachine01::render() {
             draw_ginja_model(node->model);
             draw_switch_light(node->child, lit);
             pop_matrix();
-            node = (model)->child->sibling;
+            node = model->child->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 1)) & 1;
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
@@ -193,7 +193,7 @@ void TODoorMachine01::render() {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             draw_switch_light(node, lit);
             pop_matrix();
-            node = (model)->child->sibling->sibling;
+            node = model->child->sibling->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 3)) & 1;
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();

@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
 #include "pso/system/movie/TEndingMovie.h"
 #include "pso/player/TObjPlayer.h"
@@ -20,7 +20,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/render/gjSystem.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/render/GinjaView.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -50,7 +50,7 @@ void start_ending_sequence(void) {
 void TKeyBoardControl::run_main_frame() {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();
@@ -130,7 +130,7 @@ TItemWeaponSBerillsHands::TItemWeaponSBerillsHands(TObject *parent, u8 *item) : 
 void TItemWeaponSBerillsHands::transform_model_node() {
     s32 player_list;
     if (charge_ticks == 0) {
-        player_list = TObjPlayer::get_player_list();
+        player_list = get_model_node_counter();
         begin_particle_tev();
         load_projection_tex(182.04445f * (f32)(sway_offset + player_list * 3));
     }

@@ -5,10 +5,12 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSubStatusDisp;
 
 struct TWindowSubQuestBoardSelect : public TWindowBase {
+    static WindowDescriptor window_parameters;
     TWindowSubQuestBoardSelect();
     virtual ~TWindowSubQuestBoardSelect();
     static const char *class_name;
@@ -34,9 +36,14 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSubQuestBoardSelect_size, sizeof(TWindowSubQuestBoardSelect) == 0x68);
 
-extern "C" {
-void clear_ctrl_flag_bit4(void);
-void set_ctrl_flag_bit4(void);
-}
+// window_sub_quest_board_select_layout_entries, the layout table
+// TWindowSubQuestBoardSelect::window_parameters points at (two text entries, six slot sprites).
+struct SubQuestBoardSelectWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text[2];
+    SpritePartLayoutRecord slot[6];
+};
+
 
 #endif

@@ -5,6 +5,7 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct NJS_POINT2;
 struct TWindowSubStatusDisp;
@@ -86,10 +87,19 @@ struct TWindowMenu : public TWindowAddition {
     void set_scroll_target(f32 width, f32 max_height);
     void update_scroll_target_position();
     void set_flag70_bit100();
-    void clear_cancelled();
     void set_silent_cancel();
+    void clear_cancelled();
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);
 LAYOUT_ASSERT(TWindowMenu_layout_height_offset, offsetof(TWindowMenu, layout_height) == 0x7C);
+
+// The TWindowMenu layout table (one type-3 text record; set_window_menu_rows sets the row count) and
+// the window descriptor the TWindowMenu constructor passes to TWindowAddition.
+struct MenuWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec;
+};
+
 #endif

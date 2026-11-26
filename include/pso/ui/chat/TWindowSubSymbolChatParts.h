@@ -7,6 +7,7 @@ class WindowHeading;
 
 struct NJS_POINT2;
 #include "pso/ui/window/TWindowAddition.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSubStatusDisp;
 
@@ -18,7 +19,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     virtual ~TWindowSubSymbolChatParts();
     static const char *class_name;
     void scroll_to_cursor_row();
-    void draw_selected_cursor(u8 *);
+    void draw_selected_cursor(WindowDrawContext *ctx);
     void update_cursor_input();
     s32 calc_symbol_index();
     s32 is_confirmed();
@@ -61,5 +62,14 @@ LAYOUT_ASSERT(TWindowSubSymbolChatParts_flip_u_offset, offsetof(TWindowSubSymbol
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_flip_v_offset, offsetof(TWindowSubSymbolChatParts, flip_v) == 0x80);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_heading_offset, offsetof(TWindowSubSymbolChatParts, heading) == 0x88);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_scrollbar_offset, offsetof(TWindowSubSymbolChatParts, scrollbar) == 0x8C);
+
+// symbol_chat_parts_layout_entries, the layout table symbol_chat_parts_window_layout
+// points at (three sprite parts).
+struct SymbolChatPartsWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec[3];
+};
+
 
 #endif

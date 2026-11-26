@@ -13,7 +13,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/unk/text_80120908.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponYasminkov9000M.h"
 #include "pso/system/task/TMainTask.h"
@@ -56,7 +55,7 @@ void TItemWeaponWindmill::activate_effect(s32) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor() && get_mode() == 2) {
             set_sound_pitch_request(play_sound_effect(0x4001AA05, &owner->position, 0, 0), 0x300, 0);
-            launch_shot((u8 *)&gun_point, 0, 0, 1);
+            launch_shot(&gun_point, 0, 0, 1);
         }
     }
 }
@@ -77,7 +76,7 @@ void TItemWeaponWindmill::emit_marker_effects() {
 }
 
 void TItemWeaponWindmill::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 3) {
+    if (get_model_node_counter() == 3) {
         rotate_matrix_x(0, rotation);
     }
 }

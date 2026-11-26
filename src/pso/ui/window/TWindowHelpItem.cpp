@@ -11,6 +11,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PlayerStats.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallHelp.h"
@@ -21,7 +22,6 @@
 #include "pso/unk/text_8026C664.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -31,14 +31,13 @@
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
-#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -48,14 +47,12 @@
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/weapon/TItemWeapon.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
-void clear_help_item(TWindowHelpItem *item);
-}
 saddr format_item_description(u8 *item);
 
 const char *window_help_item_class_name = "TWindowHelpItem";
@@ -156,8 +153,8 @@ void HelpItemStatCompareRow::set_flag0_bit20() { flags |= 0x20; }
 
 s32 HelpItemStatCompareRow::get_value() { return value; }
 
-saddr get_help_text_string(s32 id) {
-    return (saddr)text_language_group_table[6][id];
+const char *get_help_text_string(s32 id) {
+    return text_language_group_table[6][id];
 }
 
 TWindowHelpItem::TWindowHelpItem(const NJS_POINT2 *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
@@ -238,16 +235,16 @@ void TWindowHelpItem::update_cursor_selection() {
     this->active_id = -1;
 }
 
-void clear_help_item(TWindowHelpItem *item) {
-    item->entry_list.destroy_all_items();
-    item->help_flags &= ~1;
-    item->active_item = NULL;
-    item->secondary_item = 0;
-    item->primary_item = 0;
-    item->active_id = -1;
-    item->secondary_id = -1;
-    item->primary_id = -1;
-    item->m_callback = NULL;
+void TWindowHelpItem::clear_help_item() {
+    entry_list.destroy_all_items();
+    help_flags &= ~1;
+    active_item = NULL;
+    secondary_item = 0;
+    primary_item = 0;
+    active_id = -1;
+    secondary_id = -1;
+    primary_id = -1;
+    m_callback = NULL;
 }
 
 void TWindowHelpItem::update_help_item(s8 page) { if (fn_8026C7C0(page_indicator, page) != 0) { this->dispatch_item_help(); } }
@@ -394,7 +391,7 @@ void TWindowHelpItem::show_weapon_requirements() {
     WindowTextEntry *b;
     TWindowLayoutNumber *c;
     WindowTextEntry *d;
-    TWindowLayoutEntry *e;
+    TWindowLayoutNumber *e;
     WindowTextEntry *f;
 
     pl = get_player_by_client_id(client_index);
@@ -405,11 +402,11 @@ void TWindowHelpItem::show_weapon_requirements() {
         b = (WindowTextEntry *)get_array_entry(7);
         c = (TWindowLayoutNumber *)get_array_entry(8);
         d = (WindowTextEntry *)get_array_entry(9);
-        e = (TWindowLayoutEntry *)get_array_entry(10);
+        e = (TWindowLayoutNumber *)get_array_entry(10);
         f = (WindowTextEntry *)get_array_entry(11);
         pmt = (WeaponParams *)lookup_item_pmt_record((u8 *)active_item);
         if (check_equip_requirements(pl, active_item, &flags) == 0 && (flags & 1)) {
-            set_sprite_uv_from_pixels(a, 0.0f, 132.0f);
+            a->set_sprite_uv_from_pixels(0.0f, 132.0f);
             b->hide();
             c->hide();
             d->hide();
@@ -418,7 +415,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             return;
         }
         if (pmt->atp_required != 0) {
-            set_sprite_uv_from_pixels(a, 0.0f, 172.0f);
+            a->set_sprite_uv_from_pixels(0.0f, 172.0f);
             b->reveal_all();
             d->reveal_all();
             f->reveal_all();
@@ -426,7 +423,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             return;
         }
         if (pmt->mst_required != 0) {
-            set_sprite_uv_from_pixels(a, 0.0f, 192.0f);
+            a->set_sprite_uv_from_pixels(0.0f, 192.0f);
             b->reveal_all();
             d->reveal_all();
             f->reveal_all();
@@ -434,7 +431,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             return;
         }
         if (pmt->ata_required != 0) {
-            set_sprite_uv_from_pixels(a, 0.0f, 212.0f);
+            a->set_sprite_uv_from_pixels(0.0f, 212.0f);
             b->reveal_all();
             d->reveal_all();
             f->reveal_all();
@@ -458,7 +455,7 @@ void TWindowHelpItem::show_armor_requirements() {
     WindowTextEntry *b;
     TWindowLayoutNumber *c;
     WindowTextEntry *d;
-    TWindowLayoutEntry *e;
+    TWindowLayoutNumber *e;
     WindowTextEntry *f;
 
     pl = get_player_by_client_id(client_index);
@@ -469,11 +466,11 @@ void TWindowHelpItem::show_armor_requirements() {
         b = (WindowTextEntry *)get_array_entry(7);
         c = (TWindowLayoutNumber *)get_array_entry(8);
         d = (WindowTextEntry *)get_array_entry(9);
-        e = (TWindowLayoutEntry *)get_array_entry(10);
+        e = (TWindowLayoutNumber *)get_array_entry(10);
         f = (WindowTextEntry *)get_array_entry(11);
         item = (u8 *)lookup_item_pmt_record((u8 *)active_item);
         if (check_equip_requirements(pl, active_item, &flags) == 0 && (flags & 1)) {
-            set_sprite_uv_from_pixels(a, 0.0f, 132.0f);
+            a->set_sprite_uv_from_pixels(0.0f, 132.0f);
             b->hide();
             c->hide();
             d->hide();
@@ -482,7 +479,7 @@ void TWindowHelpItem::show_armor_requirements() {
             return;
         }
         if (item[0x10] != 0) {
-            set_sprite_uv_from_pixels(a, 0.0f, 232.0f);
+            a->set_sprite_uv_from_pixels(0.0f, 232.0f);
             b->reveal_all();
             d->reveal_all();
             f->reveal_all();
@@ -499,20 +496,20 @@ void TWindowHelpItem::show_armor_requirements() {
 }
 
 void TWindowHelpItem::show_mag_stats() {
-    TWindowLayoutEntry *a;
-    TWindowLayoutEntry *b;
-    TWindowLayoutEntry *c;
-    TWindowLayoutEntry *d;
-    TWindowLayoutEntry *e;
-    TWindowLayoutEntry *f;
+    WindowSpritePart *a;
+    WindowTextEntry *b;
+    TWindowLayoutNumber *c;
+    WindowTextEntry *d;
+    TWindowLayoutNumber *e;
+    WindowTextEntry *f;
     init_help_texts();
     m_callback = &TWindowHelpItem::update_stat_comparison;
-    a = (TWindowLayoutEntry *)(get_array_entry(6));
-    b = (TWindowLayoutEntry *)(get_array_entry(7));
-    c = (TWindowLayoutEntry *)(get_array_entry(8));
-    d = (TWindowLayoutEntry *)(get_array_entry(9));
-    e = (TWindowLayoutEntry *)(get_array_entry(10));
-    f = (TWindowLayoutEntry *)(get_array_entry(11));
+    a = (WindowSpritePart *)get_array_entry(6);
+    b = (WindowTextEntry *)get_array_entry(7);
+    c = (TWindowLayoutNumber *)get_array_entry(8);
+    d = (WindowTextEntry *)get_array_entry(9);
+    e = (TWindowLayoutNumber *)get_array_entry(10);
+    f = (WindowTextEntry *)get_array_entry(11);
     a->hide();
     b->hide();
     c->hide();
@@ -777,22 +774,22 @@ void TWindowHelpItem::set_percentage_rows(WeaponAttribute *attributes, void (Hel
 }
 
 void TWindowHelpItem::show_armor_resistances() {
-    void *label;
-    void *value_entry;
+    WindowTextEntry *label;
+    TWindowLayoutNumber *value_entry;
     update_resistance_rows();
-    label = (get_array_entry(5));
-    value_entry = (get_array_entry(6));
+    label = (WindowTextEntry *)get_array_entry(5);
+    value_entry = (TWindowLayoutNumber *)get_array_entry(6);
     TWindowDuelResult::set_default_status(label, (saddr)TWindowSubStatusDisp::get_message_10(0xA1));
-    ((WindowTextEntry *)label)->reveal_all();
-    ((TWindowLayoutNumber *)value_entry)->value = active_item->data1.data_u8[5];
+    label->reveal_all();
+    value_entry->value = active_item->data1.data_u8[5];
 }
 
 void TWindowHelpItem::show_shield_resistances() {
-    TWindowLayoutEntry *label;
-    TWindowLayoutEntry *value_entry;
+    WindowTextEntry *label;
+    TWindowLayoutNumber *value_entry;
     update_resistance_rows();
-    label = (TWindowLayoutEntry *)get_array_entry(5);
-    value_entry = (TWindowLayoutEntry *)get_array_entry(6);
+    label = (WindowTextEntry *)get_array_entry(5);
+    value_entry = (TWindowLayoutNumber *)get_array_entry(6);
     label->hide();
     value_entry->hide();
 }
@@ -1055,7 +1052,7 @@ s32 TWindowHelpItem::advance_mag_levels() {
     update_mag_status_gauges();
     if (count != level_row->get_value()) {
         level_row->set_value(count);
-        ((TWindowLayoutEntry *)level_row)->hide();
+        level_row->hide();
         panel->show();
         return 1;
     }
@@ -1144,9 +1141,9 @@ void TWindowHelpItem::update_tech_disk_details() {
     WindowTextEntry *e0;
     WindowSpritePart *e1;
     WindowTextEntry *e2;
-    u8 *e3;
+    TWindowLayoutNumber *e3;
     WindowTextEntry *e4;
-    TWindowLayoutEntry *e5;
+    TWindowLayoutNumber *e5;
     WindowTextEntry *e6;
     player = get_player_by_client_id(this->client_index);
     if (player != 0) {
@@ -1159,31 +1156,31 @@ void TWindowHelpItem::update_tech_disk_details() {
         text_builder_reset();
         text_builder_append((const char *)format_item_description((u8 *)active_item));
         if (current_language == LANGUAGE_JAPANESE) {
-            text_builder_append((const char *)get_help_text_string(active_item->data1.data_u8[4]));
+            text_builder_append(get_help_text_string(active_item->data1.data_u8[4]));
         }
         set_text_entry_string(e0, (uaddr)((void *)get_shared_text_buffer()), 0x20);
         e0->reveal_all();
         e1 = (WindowSpritePart *)this->get_array_entry(1);
         e2 = (WindowTextEntry *)this->get_array_entry(2);
-        e3 = (u8 *)this->get_array_entry(3);
+        e3 = (TWindowLayoutNumber *)this->get_array_entry(3);
         e4 = (WindowTextEntry *)this->get_array_entry(4);
-        e5 = (TWindowLayoutEntry *)this->get_array_entry(5);
+        e5 = (TWindowLayoutNumber *)this->get_array_entry(5);
         e6 = (WindowTextEntry *)this->get_array_entry(6);
         check_equip_requirements(player, active_item, &requirement);
         if (requirement & 1) {
-            set_sprite_uv_from_pixels(e1, 0.0f, 152.0f);
+            e1->set_sprite_uv_from_pixels(0.0f, 152.0f);
             e2->hide();
-            ((TWindowLayoutEntry *)e3)->hide();
+            e3->hide();
             e4->hide();
             e5->hide();
             e6->hide();
             return;
         }
-        set_sprite_uv_from_pixels(e1, 0.0f, 192.0f);
+        e1->set_sprite_uv_from_pixels(0.0f, 192.0f);
         e2->reveal_all();
         e4->reveal_all();
         e6->reveal_all();
-        ((TWindowLayoutNumber *)e3)->value = (active_item)->get_technique_level();
+        e3->value = (active_item)->get_technique_level();
     }
 }
 
@@ -1229,7 +1226,7 @@ void TWindowHelpItem::idle_update() {}
 
 void TWindowHelpItem::format_description_with_price() {
     text_builder_reset();
-    text_builder_append((const char *)(format_item_description(reinterpret_cast<u8 *>(active_item))));
+    text_builder_append((const char *)format_item_description(reinterpret_cast<u8 *>(active_item)));
     text_builder_append("\n");
     text_builder_append((const char *)(active_item->calc_buy_price()));
 }

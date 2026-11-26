@@ -1,10 +1,10 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/TGStream.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"
@@ -36,24 +36,10 @@ void alloc_player_motion_aram() {
     player_motion_aram_addr = ARAlloc(file_size);
 }
 
-struct Stack_802A7F00 {
-    f32 sp8;
-    f32 spC;
-};
-
 #pragma push
 #pragma readonly_strings on
 const char *TWindowSnapShot::class_name = "TWindowSnapShot";
 #pragma pop
-
-// inferred: window_snapshot_layout_entries, the layout table window_snapshot_layout points at
-// (a sprite part and a text line).
-struct SnapShotWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-};
 
 
 SnapShotWindowLayout window_snapshot_layout_entries = {
@@ -66,9 +52,6 @@ WindowDescriptor window_snapshot_layout = {
     {512.0f, 280.0f}, 50100.0f, &window_snapshot_layout_entries, 3,
 };
 
-extern "C" {
-s32 draw_screen_snapshot(f32 *, f32);
-}
 
 void free_player_motion_archive() {
     player_motion_archive->update_both();
@@ -100,15 +83,15 @@ void TWindowSnapShot::play_open_sound() {
 }
 
 void TWindowSnapShot::render() {
-    Stack_802A7F00 stack;
+    f32 position[2];
     WindowDrawContext *context = draw_default_entry();
     draw_window_frame(context);
     draw_visible_window_entries(this, &this->entry_list, context);
     if (!(result_flags & 2)) {
         if (context->open_tick > 0) {
-            stack.sp8 = 18.0f + context->inner_x;
-            stack.spC = context->inner_y;
-            draw_screen_snapshot(&stack.sp8, 18.0f);
+            position[0] = 18.0f + context->inner_x;
+            position[1] = context->inner_y;
+            draw_screen_snapshot(position);
         }
     } else {
         draw_window_text(&context->inner_x, (const char *)(get_localized_text_entry(0x24, 7)), -1, 0, 1000000.0f);

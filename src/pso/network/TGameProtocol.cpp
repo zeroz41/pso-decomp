@@ -28,6 +28,11 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdio.h>
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/network/client_id.h"
+#include "pso/system/byteswap.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/network/TProtocol.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
@@ -48,7 +53,7 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemObject.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
-#include "pso/ui/window/TWindowDD_80348BF4.h"
+#include "pso/ui/window/TWindowDD.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -373,4 +378,93 @@ TGameProtocol::TGameProtocol(TObject *parent) : TObject(parent) {
     instance = this;
     frame_slot = 0;
     game_protocol_instance = new TObject(this);
+}
+
+void long_game_command_union::send_to_client(u32 client_id) {
+    u32 size;
+
+    size = ext_game_cmd.header.size;
+    bswap_32(&size);
+    if ((u32) local_client_id == client_id) {
+        dispatching_own_subcommand = 1;
+        dispatch_6x_subcommand((G_ParameterHeader *)this);
+        dispatching_own_subcommand = 0;
+        return;
+    }
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data_long2(client_id, game_cmd, size);
+    }
+}
+
+void send_subcommand_to_leader(void *cmd) {
+    s32 size;
+    game_command *packet = (game_command *)cmd;
+
+    size = packet->header.size * 4;
+    if (get_main_phase() == 0xE) {
+        dispatching_own_subcommand = 1;
+        dispatch_6x_subcommand((G_ParameterHeader *)packet);
+        dispatching_own_subcommand = 0;
+        return;
+    }
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data2(designated_client_id, *packet, size);
+    }
+}
+
+void game_command::send_to_client(u32 client_id) {
+    s32 size;
+    size = header.size * 4;
+    if ((u32) local_client_id == client_id) {
+        dispatching_own_subcommand = 1;
+        dispatch_6x_subcommand((G_ParameterHeader *)this);
+        dispatching_own_subcommand = 0;
+        return;
+    }
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data2(client_id, *this, size);
+    }
+}
+
+void game_command::send() {
+    int size = header.size * 4;
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data(*this, size);
+    }
+}
+
+void send_subcommand(void *cmd) {
+    game_command *packet = (game_command *)cmd;
+    s32 size = packet->header.size * 4;
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data(*packet, size);
+    }
+    dispatching_own_subcommand = 1;
+    dispatch_6x_subcommand((G_ParameterHeader *)packet);
+    dispatching_own_subcommand = 0;
+}
+
+void broadcast_subcommand(void *cmd) {
+    TObject *client;
+
+    if ((s32) TLobby::join_state_flag == 1) {
+        send_subcommand(cmd);
+        return;
+    }
+    if (game_protocol_instance != NULL) {
+        client = game_protocol_instance->m_down;
+        while (client != NULL) {
+            append_command_to_batch_buffer((TPacket *)client, (u8 *)cmd);
+            client = client->m_next;
+        }
+    }
+    dispatching_own_subcommand = 1;
+    dispatch_6x_subcommand((G_ParameterHeader *)cmd);
+    dispatching_own_subcommand = 0;
+}
+
+void G_LegacyActivateSwitchByToken_6x04::bswap() {
+    ((G_ClientIDHeader *)&header)->bswap();
+    bswap_16(&switch_token);
+    bswap_16(&unused);
 }

@@ -103,7 +103,7 @@ TBreakUpMdlData * me3_sinow_zoa_breakup_model;
 
 
 
-TObjEneMe3SinowZoaMoveParams TObjEneMe3SinowZoa_init_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
+EnemyMoveParams TObjEneMe3SinowZoa_init_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody sinow_zoa_collision_parts = { { 0.0f, 0.0f, 0.0f }, 12.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 const char *bm_ene_me3_shinowa_zoa_model_names[] = {
     sinow_zoa_model, NULL,
@@ -495,7 +495,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
         if (enemy_check_target_valid() != 0) {
             if (current_target->select_melee_contact_body(this, 1.0f) != 0) {
                 d = current_target->receive_physical_attack(this, 1.0f);
-                current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                current_target->apply_knockback_from_attacker(this, 3.0f);
                 if (d > 0.0f) {
                     if (is_alternate_variant() != 0) {
                         pl = current_target;
@@ -607,7 +607,7 @@ void TObjEneMe3SinowZoa::cast_technique() {
             TTecSifta::create(this, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
             TTecDeband::create(this, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
         } else {
-            TTecZarua::create_instance((saddr)this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
+            TTecZarua::create_instance(this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
             TTecJelin::create(this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
         }
     } else {
@@ -738,7 +738,7 @@ void TObjEneMe3SinowZoa::state_fade_in(s32 mode) {
         t = this->body_y;
         v.y = t - 20.0f;
         if (this->stealthed == 0) {
-            play_appear_effects((saddr)&v);
+            play_appear_effects(&v);
         } else {
             create_timed_particle_emitter(&this->position, 0x79, 0, 0xF);
         }
@@ -831,7 +831,7 @@ void TObjEneMe3SinowZoa::state_ambush(s32 mode) {
         this->fade.start_fade_in();
         VecCopy(&v, &this->position);
         v.y = this->body_y - 10.0f;
-        play_appear_effects((saddr)&v);
+        play_appear_effects(&v);
         break;
     case 3:
         if (this->fade.advance_toward_max() != 0) {
@@ -881,7 +881,7 @@ void TObjEneMe3SinowZoa::state_reveal(s32 mode) {
                 this->state_timer = 0xFF;
             }
             this->material_color = (this->state_timer << 24) | (this->material_color & 0xFFFFFF);
-            if (enemy_validate_retained_target(this) == 0) {
+            if (enemy_validate_retained_target() == 0) {
                 this->state_step = 0;
                 this->material_color = 0;
             }
@@ -1013,7 +1013,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
                 this->turn_toward_target_direction(0x500);
                 this->update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, 0x500, this->move_speed);
+                enemy_turn_and_move_on_ground(0x500, this->move_speed);
             }
             this->check_collisions();
         }
@@ -1142,7 +1142,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
             if (this->is_passing_frame((f32)25.0f) != 0 && this->enemy_check_target_valid() != 0) {
                 if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                     this->current_target->receive_physical_attack(this, 1.0f);
-                    this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                    this->current_target->apply_knockback_from_attacker(this, 3.0f);
                 }
             }
             this->state_values[0] *= 0.85f;
@@ -1937,18 +1937,18 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
 inline s32 approach_destination(TObjEneMe3SinowZoa *self) {
     copy_position_if_valid(self, self->body_center);
     self->body_center.y += 5.0f;
-    return ((TObjEnemy *)self)->enemy_turn_toward_dest(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
+    return ((TObjEnemy *)self)->enemy_turn_toward_dest(self->movementParameters->turn_speed);
 }
 inline s32 seek_destination(TObjEneMe3SinowZoa *self, Vec *diff) {
     s32 angle;
     if (select_enemy_destination(self, self->destination, 1) != 0) {
         angle = approach_destination(self);
-        enemy_set_heading_velocity(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->speed, self, self->rotation_y);
+        enemy_set_heading_velocity(self->movementParameters->move_speed, self, self->rotation_y);
         move_with_wall_slide(self);
     } else {
         VecCopy(diff, &self->destination);
         subtract_vector(diff, &self->body_center);
-        angle = self->turn_toward_direction(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn, diff);
+        angle = self->turn_toward_direction(self->movementParameters->turn_speed, diff);
     }
     return angle;
 }
@@ -2026,7 +2026,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 if (this->current_target != NULL) {
                     VecCopy(&diff, &this->destination);
                     subtract_vector(&diff, &this->body_center);
-                    angle = this->turn_toward_direction(((TObjEneMe3SinowZoaMoveParams *)this->movementParameters)->turn, &diff);
+                    angle = this->turn_toward_direction(this->movementParameters->turn_speed, &diff);
                 } else {
                     angle = this->attack_params->attack_angle;
                 }
@@ -2098,7 +2098,7 @@ s32 TObjEneMe3SinowZoa::check_move_collision(const Vec *pos) {
     return r;
 }
 
-f32 TObjEneMe3SinowZoa::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
+f32 TObjEneMe3SinowZoa::receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32, s32) {
     f32 damage = TObjChara::receive_direct_attack(source, payload, collider, -1, -1);
     if (this->stealthed == 1 && random_ratio() <= this->stealth_off_chance) {
         transition_enemy_state(0x12);

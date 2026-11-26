@@ -212,7 +212,7 @@ s16 ppp_get_link_status(NetLinkStatus *status)
 {
   u8 *base;
   IpcpConfig *b;
-  u32 *new_var;
+  u32 *peer_addr;
   PppFsm *q;
   Ipv6cpConfig *a;
   u32 v0;
@@ -232,7 +232,7 @@ s16 ppp_get_link_status(NetLinkStatus *status)
     status->link_up = 0;
   }
   status->addr_local = b->local.want.our_addr;
-  *(new_var = &status->addr_peer) = b->local.want.his_addr;
+  *(peer_addr = &status->addr_peer) = b->local.want.his_addr;
   status->dns_local_primary = b->local.want.dns[0];
   status->dns_local_secondary = b->local.want.dns[1];
   status->dns_peer_primary = b->peer.want.dns[0];
@@ -277,8 +277,8 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
     g->password = cfg->password;
     g->phone_number = cfg->phone_number;
     g->cb = cfg->callback;
-    NetMemcpy(&g->h7C, &cfg->h18, 0xA);
-    NetMemcpy(&g->req, &cfg->req_type, sizeof(ModemRequest));
+    NetMemcpy(g->transport_settings, cfg->transport_settings, sizeof(g->transport_settings));
+    NetMemcpy(&g->req, &cfg->modem, sizeof(ModemRequest));
     NetMemcpy(&g->auth_mode, &cfg->auth_mode, 0x10);
     if (g->mtu == 0)
     {
@@ -368,7 +368,7 @@ s32 ppp_open_sub(void) {
     lobby_modem_connect_state = 2;
     get_time_ms(&ppp_last_io_ms);
     ppp_session_active = 1;
-    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, g->modem.modem_name, g->flags & 4);
+    rc = ppp_begin_connect(0, 0, g->transport_settings[2], g->transport_settings[1], g->transport_settings[0], 1, g->modem.modem_name, g->flags & 4);
     if (rc != 0 || lobby_modem_abort_flag != 0) {
         if (lobby_modem_abort_flag != 0) {
             lobby_modem_error = 0xd;

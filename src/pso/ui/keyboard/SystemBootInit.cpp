@@ -64,8 +64,7 @@
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/TLobby_80243370.h"
 #include "pso/unk/TLobby_803382E4.h"
-#include "pso/system/scene/TEnding_8008C5C0.h"
-#include "pso/unk/text_80145804.h"
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/unk/text_80290BEC.h"
 #include "pso/unk/text_802A1020.h"
@@ -73,6 +72,9 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
+#include "pso/system/AsyncFileRead.h"
+#include "pso/system/ControllerInput.h"
+#include "pso/unk/text_800FFE04.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -115,7 +117,7 @@ void run_end_of_render_tasks(void) {
 void TKeyBoardControl::update() {
 }
 
-int TKeyBoardControl__sub_8000F828(void) {
+int get_video_standard() {
     return 0;
 }
 
@@ -128,12 +130,12 @@ void shutdown_and_reset_system(void) {
     TParticleCtrl::free_system();
     TParticleCtrl::reset_emitter_table();
     free_effect_resources();
-    TAdSinglePlyChrSelectGC::free_resources();
+    free_menu_font();
     free_ply_level_tbl();
     free_item_drop_memory_pool();
     TWindowSnapShot__sub_802A7DA0();
     reset_aram_state();
-    TLobby::destroy_game_heap();
+    destroy_game_heap();
     reset_sound_control_state();
     TLobby::shutdown_buffers();
     TAdSinglePlyChrSelectGC::release_all();
@@ -289,7 +291,7 @@ void init_game_systems(void) {
     init_pad_slots_and_read(0, 0, 0);
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
-    TKeyBoardControl::init_pad_state();
+    init_pad_state();
     set_shape_vertex_buffer((u32 *)motion_blend_buffer);
     keyboard_input_buffer = (DebugTextRecord *)xmalloc(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
@@ -304,7 +306,7 @@ void init_game_systems(void) {
     main_task.init_main_task();
     TLobby__sub_8007EB70();
     init_adx_audio_system();
-    TLobby::init_download_state();
+    init_download_state();
     load_menu_font();
     TLobby::load_now_loading_texture();
     TCharaMaking__sub_8028E790();

@@ -21,7 +21,7 @@ void ref_counted_work_buffer_init(void) {
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
 
-u32 lbl_804F9E60[112] = {
+u32 hex_digit_values[112] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -31,7 +31,7 @@ u32 lbl_804F9E60[112] = {
     0, 10, 11, 12, 13, 14, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
-#define HEX_DIGIT_VALUE(p, i) lbl_804F9E60[(s8)(p)[i]]
+#define HEX_DIGIT_VALUE(p, i) hex_digit_values[(s8)(p)[i]]
 extern "C" {
 inline s32 parse_hex_size(u8 *p) {
     s32 v = HEX_DIGIT_VALUE(p, 8);
@@ -71,7 +71,7 @@ u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk
 #pragma push
 #pragma scheduling off
 extern "C" {
-void sj_chunk_split(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChunk *remainder) {
+void sj_split_chunk(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChunk *remainder) {
     *(ByteBlock_8 *)(prefix) = *(const ByteBlock_8 *)(chunk);
     remainder->size = prefix->size;
     if (prefix->size > size) {

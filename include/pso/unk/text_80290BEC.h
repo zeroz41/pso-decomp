@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
 void fn_80290BEC(void);
+extern "C" {
 void run_main_frame(void);
 }
 

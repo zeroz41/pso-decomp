@@ -24,7 +24,7 @@ extern "C" {
 u8 get_small_font_glyph_width(s32);
 s32 get_small_font_glyph_id(s32);
 void calc_plain_glyph_quad(s32, void *);
-void bind_menu_font_glyph(s32, void *, s32);
+extern "C" void bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
 void build_small_font_glyph_quad(s32, void *);
 s32 get_font_char_advance(s32);
 s32 map_char_to_font_code(s32);

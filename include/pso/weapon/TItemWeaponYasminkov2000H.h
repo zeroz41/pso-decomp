@@ -20,9 +20,9 @@ public:
     TItemWeaponYasminkov2000H(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
     s32 shown;           // 0x1F8: 1 while scale is full size (inferred name)
-    WeaponVector scale;  // scale_current_matrix in transform_model_node
+    Vec scale;  // scale_current_matrix in transform_model_node
     s32 slide_state;     // 2 opening, 3 open, 1 closing, 0 closed
-    WeaponVector slide;  // post_translate_matrix in transform_model_node
+    Vec slide;  // post_translate_matrix in transform_model_node
 };
 
 #endif

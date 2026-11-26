@@ -7,6 +7,12 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/boss/galgryphon/Boss5CommonResource.h"
+#include "pso/boss/galgryphon/TObjBoss5Pillar.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
+#include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
+#include "pso/system/BmlResource.h"
 
 #pragma readonly_strings on
 
@@ -108,5 +114,26 @@ TObjBoss5PillarSmoke::TObjBoss5PillarSmoke(TObject *parent, NJS_OBJECT *node) : 
     for (i = 0; i < this->count; i++) {
         this->particles_a[i] = spawn_continuous_particle_effect_with_flags((void *)&pillar_smoke_parked_position, 0x213, 0x40);
         this->particles_b[i] = spawn_continuous_particle_effect_with_flags((void *)&pillar_smoke_parked_position, 0x214, 0x40);
+    }
+}
+
+TObjBoss5PillarSmoke *TObjBoss5Pillar::create_smoke(TObject *parent, NJS_OBJECT *node) {
+    return new TObjBoss5PillarSmoke(parent, node);
+}
+
+
+void trigger_pillars_in_range(TObjBoss5PillarCtrl *pillar_controller, const Vec *pos, const DragonAttackParams *params) {
+    f32 off;
+    NJS_OBJECT *n;
+    s32 i;
+
+    n = boss5_common_bml_resource->models[2].model;
+    off = TBoss8Dragon::calc_sq_offset(params, 50.0f);
+    n = n->child;
+    for (i = 0; i < pillar_controller->count; i++) {
+        if (pillar_controller->pillars[i] != NULL && TBoss8Dragon::is_within_xz_distance(pos, n, off) != 0) {
+            pillar_controller->pillars[i]->play_sound_once();
+        }
+        n = n->sibling;
     }
 }

@@ -187,7 +187,7 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
             break;
         case 1:
             dealt = target->receive_physical_attack(player, this->damage_scale);
-            target->apply_knockback_from_attacker((u8 *)player, 0.1f * dealt);
+            target->apply_knockback_from_attacker(player, 0.1f * dealt);
             break;
         case 2:
             target->receive_weapon_special_attack(player, target_body);
@@ -378,7 +378,7 @@ void TItemAttackCol::run_task() {
         continuous_particle->set_position(&position);
     }
     check_hits();
-    if ((range_sq <= vec_distance_squared((u8 *)&position, (u8 *)&start_position)) || (test_flags_any((s32 *)&hit_wall_flags, 1) != 0)) {
+    if ((range_sq <= vec_distance_squared((u8 *)&position, (u8 *)&start_position)) || (hit_wall_flags.test_flags_any(1) != 0)) {
         queue_destruction();
     }
 }

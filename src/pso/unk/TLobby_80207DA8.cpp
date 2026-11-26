@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/THeap.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/map/FloorArea.h"
@@ -123,10 +124,6 @@ void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
 typedef FloorLifecycleEntry E_80207F80;
 typedef FloorLifecycleCallback Fn_80208020;
 typedef FloorLifecycleEntry E_80208020;
-extern "C" {
-s32 bswap_16__FPUs(u16 *, s32);
-s32 bswap_32__FPUl(s32 *, s32);
-}
 
 s32 init_object_set_data(ObjectSetData *set) {
     s32 r;
@@ -137,9 +134,7 @@ s32 init_object_set_data(ObjectSetData *set) {
     set->entity_id = 0xFFFF;
     return r;
 }
-extern "C" {
-
-void run_floor_cleanup_callbacks__6TLobbyFi(s32 floor) {
+void TLobby::run_floor_cleanup_callbacks(int floor) {
     E_80207F80 *p = (E_80207F80 *)floor_lifecycle_callback_tables[floor];
     s32 n;
     s32 i;
@@ -154,9 +149,8 @@ void run_floor_cleanup_callbacks__6TLobbyFi(s32 floor) {
         }
     }
 }
-}
 
-void TLobby::update_current_floor() { get_current_floor_area(); ((void (*)(void))run_floor_cleanup_callbacks__6TLobbyFi)(); }
+void TLobby::update_current_floor() { run_floor_cleanup_callbacks(get_current_floor_area()); }
 s32 run_floor_initialize_callbacks(s32 floor) {
     E_80208020 *p = floor_lifecycle_callback_tables[floor];
     Fn_80208020 f;
@@ -173,7 +167,7 @@ s32 run_floor_initialize_callbacks(s32 floor) {
     return 1;
 }
 
-s32 TLobby::update_key_machine() { get_current_floor_area(); return ((int (*)(void))run_floor_initialize_callbacks)(); }
+s32 TLobby::update_key_machine() { return run_floor_initialize_callbacks(get_current_floor_area()); }
 void bswap_enemy_set_row(void *row_ptr) {
     EnemySetRecord *row = (EnemySetRecord *)row_ptr;
     bswap_16((u16 *)&row->type);
@@ -331,7 +325,7 @@ void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_ev
 void send_6x67_wave_trigger_event(s32 event_id) {
     G_FloorEvent_6x67 pkt;
     wave_event_trigger_count++;
-    TLobby::set_destroy_event(1);
+    set_destroy_event_id(1);
     pkt.init();
     pkt.header.client_id = 0xFFFF;
     pkt.floor = get_current_floor();
@@ -367,7 +361,7 @@ void send_6x05_wave_set_switch(s16 switch_id) {
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 int link_matching_objects__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::link_matching_objects)(p); }
-int spawn_objects_at_pos__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::spawn_objects_at_pos)(p); }
+int spawn_objects_at_pos__6TLobbyFPv(void *p) { return ((int (*)(void *))spawn_objects_at_pos)(p); }
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
@@ -420,24 +414,20 @@ void TLobby::invoke_command(u8 opcode) {
 
 
 s32 read_be_u32(void) {
-    s32 value;
-    s32 cursor;
+    u32 value;
 
     memcpy(&value, (wave_event_stream_base + wave_event_stream_cursor), 4);
-    cursor = wave_event_stream_cursor;
-    wave_event_stream_cursor = cursor + 4;
-    bswap_32__FPUl(&value, cursor);
+    wave_event_stream_cursor += 4;
+    bswap_32(&value);
     return value;
 }
 
 u16 read_stream_u16(void) {
     u16 value;
-    s32 cursor;
 
     memcpy(&value, wave_event_stream_base + wave_event_stream_cursor, 2);
-    cursor = wave_event_stream_cursor;
-    wave_event_stream_cursor = cursor + 2;
-    ((s32 (*)(u16 *, s32))bswap_16__FPUs)(&value, cursor);
+    wave_event_stream_cursor += 2;
+    bswap_16(&value);
     return value;
 }
 

@@ -12,8 +12,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/weapon/TItemWeaponInfernoBazooka.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012E7D8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
@@ -77,7 +76,7 @@ void TItemWeaponInfernoBazooka::update_weapon() {
 
 
 void TItemWeaponInfernoBazooka::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         translate_matrix(0, 0.0f, (-1.0f) * barrel_offset, 0.0f);
     }
 }
@@ -128,10 +127,10 @@ void TWeaponCasing::render() {
 
 
 void TObjPlayer::launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr velocity, uaddr angle) {
-    u8 joint_pos[0x18];
+    Vec joint_pos;
     TObject *object;
-    if ((parent != 0) && (item != 0U) && (velocity != 0U) && (angle != 0U) && (((TItemWeapon *)item)->get_joint_position(joint, joint_pos) != 0)) {
-        object = new TWeaponCasing((TObject *)parent, (TItem *)item, (Vec *)joint_pos, (Vec *)velocity, (s32 *)angle);
+    if ((parent != 0) && (item != 0U) && (velocity != 0U) && (angle != 0U) && (((TItemWeapon *)item)->get_joint_position(joint, &joint_pos) != 0)) {
+        object = new TWeaponCasing((TObject *)parent, (TItem *)item, &joint_pos, (Vec *)velocity, (s32 *)angle);
         TItemAttacker::spawn_item_timer(object, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }

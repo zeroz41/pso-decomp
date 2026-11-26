@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -9,6 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/unk/text_803DA798.h"
@@ -16,7 +16,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/TLobby_800FD78C.h"
 extern const char symbol_chat_face_type_class_name_string[29] = "TWindowSubSymbolChatFaceType";
 
@@ -36,9 +36,6 @@ void TWindowSubSymbolChatFaceType::confirm_selection() {
     status_disp->set_state(2);
 }
 
-
-
-extern "C" {
 
 
 
@@ -140,17 +137,15 @@ void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp)
     draw_textured_quad_at_depth((f32 *)&q, depth);
     end_screen_draw();
 }
-
-}
-void draw_face_selection(u8 *window_base, u8 *ctx) {
+void draw_face_selection(TWindowSubSymbolChatFaceType *window, WindowDrawContext *context) {
   int entry_index;
-  u8 *entry;
+  WindowSpritePart *face;
   NJS_POINT2 corner;
-  entry_index = ((TWindowSubSymbolChatFaceType *)window_base)->get_face_index();
-  entry = (u8 *) ((TWindowBase *)window_base)->get_array_entry(entry_index);
-  corner.x = (*((f32 *) (((s8 *) entry) + 8))) - 3.0f;
-  corner.y = (*((f32 *) (((s8 *) entry) + 0xC))) - 3.0f;
-  draw_selection_corners((WindowDrawContext *)ctx, (f32 *)&corner, 66.0f, 0.3f);
+  entry_index = window->get_face_index();
+  face = (WindowSpritePart *)window->get_array_entry(entry_index);
+  corner.x = face->x - 3.0f;
+  corner.y = face->y - 3.0f;
+  draw_selection_corners(context, (f32 *)&corner, 66.0f, 0.3f);
 }
 extern "C" {
 
@@ -166,7 +161,7 @@ void TWindowSubSymbolChatFaceType::render() {
     WindowDrawContext *context = draw_default_entry();
     update_parts_entries();
     draw_window_frame(context);
-    draw_face_selection((u8 *)this, (u8 *)context);
+    draw_face_selection(this, context);
     status_disp->render(context);
     draw_visible_window_entries(this, &entry_list, context);
 }
@@ -204,13 +199,6 @@ TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
 
 
 
-// inferred: symbol_chat_face_type_layout_entries, the layout table
-// symbol_chat_face_type_window_layout points at (a 2x2 grid of face-type sprites).
-struct SymbolChatFaceTypeWindowLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord rec[4];
-};
 SymbolChatFaceTypeWindowLayout symbol_chat_face_type_layout_entries = {
     4, 1,
     {

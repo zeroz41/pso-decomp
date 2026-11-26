@@ -103,27 +103,27 @@ void TOTrapAncient02R::init_trap_param_clamped() {
     }
 }
 
-f32 TOTrapAncient02R::receive_weapon_special_attack(void *, void *) {
+f32 TOTrapAncient02R::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     return receive_physical_attack(NULL, 1.0f);
 }
 
-f32 TOTrapAncient02R::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+f32 TOTrapAncient02R::receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32) {
     return receive_physical_attack(NULL, 1.0f);
 }
 
-int TOTrapAncient02R::calc_distance_accuracy_penalty(void *, void *, void *, float) {
+int TOTrapAncient02R::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) {
     return 1;
 }
 
-s32 TOTrapAncient02R::select_melee_contact_body(void *, f32) {
+s32 TOTrapAncient02R::select_melee_contact_body(TObjChara *, f32) {
     return 1;
 }
 
-s32 TOTrapAncient02R::roll_physical_accuracy(void *, s32, f32) {
+s32 TOTrapAncient02R::roll_physical_accuracy(TObjChara *, s32, f32) {
     return 1;
 }
 
-s32 TOTrapAncient02R::try_start_action(void *, s32, f32) {
+s32 TOTrapAncient02R::try_start_action(TObjChara *, s32, f32) {
     return 1;
 }
 
@@ -237,7 +237,7 @@ void TOTrapAncient02::render() {
 void TOTrapAncient02::draw_effect_chain() {
     NJS_OBJECT *n;
     push_matrix();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     n = model;
@@ -272,7 +272,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     setup_particle_tev(0);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -280,7 +280,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
     setup_particle_tev(0);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -289,7 +289,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = n->child;
     post_translate_matrix(n->pos);
     setup_particle_tev(1);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -299,7 +299,7 @@ void TOTrapAncient02::render_particle_chain() {
     post_translate_matrix(n->pos);
     rotate_matrix_y(0, spin_angle);
     setup_particle_tev(0);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
@@ -528,7 +528,7 @@ void *TOTrapAncient02R::create(void *set_data) {
     return new TOTrapAncient02R(tl_05, set_data);
 }
 
-f32 TOTrapAncient02R::receive_physical_attack(void *, f32) {
+f32 TOTrapAncient02R::receive_physical_attack(TObjChara *, f32) {
     s16 state;
     if (entity_id >= 0x4000 && set_entry != NULL) {
         Vec v = position;
@@ -638,7 +638,7 @@ void TOTrapAncient02R::update_springing() {
                         TTecGiBarta::create_ex(this, &scratch_vec, ang, tech_level);
                         break;
                     case 3:
-                        TTecMegid::create((saddr)this, (saddr)&scratch_vec, (saddr)&((TObjChara *)target)->body_center, tech_level);
+                        TTecMegid::create(this, &scratch_vec, &((TObjChara *)target)->body_center, tech_level);
                         break;
                     case 4:
                         TTecGiFoie::create(this, &scratch_vec, tech_level);

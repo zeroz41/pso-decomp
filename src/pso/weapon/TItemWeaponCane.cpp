@@ -10,7 +10,7 @@
 
 void TItemWeaponCane::transform_model_node() {
     if (get_item_index() == 5) {
-        switch (TObjPlayer::get_player_list()) {
+        switch (get_model_node_counter()) {
         case 1:
             scale_matrix(NULL, scale, scale, scale);
             break;

@@ -49,13 +49,13 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
         s32 pos;
         s32 avail;
         s32 nblk;
-        s32 x78;
+        s32 remaining;
         s32 ofst;
         s32 bufLen;
         s32 avail_blocks;
-        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->remaining);
         block = adxb->stream_block_samples;
-        x78 = adxb->x78;
+        remaining = adxb->remaining;
         pos = adxb->pos;
         bufLen = adxb->bufLen;
         avail = adxb->avail;
@@ -64,7 +64,7 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
         n = maxLen / channels;
         ofst = block - 1;
         pad = ofst;
-        ofst = x78 + ofst;
+        ofst = remaining + ofst;
         nblk = ofst / block;
         s32 space = bufLen - pos - 1;
         pad -= ofst % block;
@@ -75,7 +75,7 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
         if (nblk < room && pos + room_end - pad < bufLen) {
             ++room_ext;
         }
-        if (x78 < avail) {
+        if (remaining < avail) {
             avail += pad;
         }
         avail_blocks = avail / block;
@@ -111,7 +111,7 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
             s16 *buf;
             blk = adxb->stream_block_samples;
             last = blk - 1;
-            last = adxb->x78 + last;
+            last = adxb->remaining + last;
             rem = (blk - 1) - last % blk;
             width = adxb->stream_block_bytes;
             pos = adxb->pos;
@@ -233,7 +233,7 @@ s32 AdxbDecoder::get_block_samples() {
     return block_samples;
 }
 
-s32 AdxbDecoder::get_packet_flag_for_state() {
+s32 AdxbDecoder::get_bits_per_sample() {
     s16 s = format;
     if (s == 0) {
         return 0x10;
@@ -323,7 +323,7 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
         return 0;
     }
     adxb->channel->calc_adx_coeffs_at_offset(adxb->rate, adxb->cutoff);
-    TLobby__sub_803CB570(adxb->channel, (u8 *)&sp18, (s16 *)&sp14);
+    adx_decoder_channel_set_delay(adxb->channel, (u8 *)&sp18, (s16 *)&sp14);
     adx_parse_header_loop(hdr, size, &adxb->loop_enabled, &adxb->loop_type, &adxb->loop_count, &adxb->loop_start_sample, &adxb->loop_start_byte, &adxb->loop_end_sample, &adxb->loop_end_byte);
     adxb->format = 0;
 block_11:
@@ -376,7 +376,7 @@ AdxbDecoder *AdxbDecoder::alloc_record(s32 channels, saddr buffer, s32 size, s32
         free_decoder(r);
         return NULL;
     }
-    r->m_38 = channels;
+    r->buffer_channels = channels;
     r->output_buffer = (s16 *)buffer;
     r->wrap_len = size;
     r->wrap_offset = wrap_offset;

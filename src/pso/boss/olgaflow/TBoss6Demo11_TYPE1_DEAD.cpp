@@ -29,7 +29,7 @@ TBoss6Demo11_TYPE1_DEAD *TBoss6Demo11_TYPE1_DEAD::create(TBoss6PlotFalz *plot, c
 }
 
 inline const ModelNodePositionEntry *dead_effect_nodes() {
-    static const ModelNodePositionEntry lbl_80477E60[] = {
+    static const ModelNodePositionEntry boss6_demo11_dead_effect_nodes[] = {
         {0, {0.0f, 0.0f, 0.0f}},
         {4, {0.0f, 0.0f, 0.0f}},
         {6, {0.0f, 0.0f, 0.0f}},
@@ -37,15 +37,15 @@ inline const ModelNodePositionEntry *dead_effect_nodes() {
         {0x31, {0.0f, 0.0f, 0.0f}},
         {-1, {0.0f, 0.0f, 0.0f}},
     };
-    return lbl_80477E60;
+    return boss6_demo11_dead_effect_nodes;
 }
 inline const CameraAngles *dead_camera_angles() {
-    static const CameraAngles lbl_80477EC0 = {0, 0, 0};
-    return &lbl_80477EC0;
+    static const CameraAngles boss6_demo11_dead_camera_angles = {0, 0, 0};
+    return &boss6_demo11_dead_camera_angles;
 }
 inline const CameraPlayback *dead_camera_playback() {
-    static const CameraPlayback lbl_80477ECC = {1, 0, 0, 0.0f, 0.7f};
-    return &lbl_80477ECC;
+    static const CameraPlayback boss6_demo11_dead_camera_playback = {1, 0, 0, 0.0f, 0.7f};
+    return &boss6_demo11_dead_camera_playback;
 }
 
 TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TBoss6PlotFalz *plot, const Vec *) : TObject(plot) {
@@ -58,7 +58,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TBoss6PlotFalz *plot, const Vec
     resource = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
         model_id = boss6_type1_part_model_ids[i];
-        parts[i].model = (NJS_OBJECT *)get_bml_model(resource, model_id);
+        parts[i].model = get_bml_model(resource, model_id);
         parts[i].texture = get_bml_texlist(resource, model_id);
         parts[i].motion = get_bml_motion(resource, death_motion_indices[i]);
     }

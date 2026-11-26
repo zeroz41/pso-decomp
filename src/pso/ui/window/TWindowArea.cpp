@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -21,7 +21,7 @@
 // The functions are generated last to first.
 #pragma defer_codegen on
 
-s32 status_disp_count_ratio_value;
+s32 TWindowSubStatusDisp::count_ratio_value;
 const char *TWindowArea::class_name = "TWindowArea";
 
 TWindowArea::TWindowArea() : TWindowRoom(NULL) {
@@ -39,12 +39,12 @@ void TWindowArea::run_task() { update_window(); this->update_window_entry_list(&
 #pragma fp_contract on
 TWindowArea *create_window_area() {
     TWindowArea *object;
-    u8 *title_entry;
+    WindowTextEntry *title_entry;
     object = new TWindowArea();
     hide_window((u8 *)object);
     update_area_count_text(object);
-    title_entry = (u8 *)object->get_title_entry();
-    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((WindowTextEntry *)title_entry)->get_text()));
+    title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
+    title_entry->x = 80.0f - 0.5f * (f32) calc_text_width(title_entry->get_text());
     return object;
 }
 #pragma pop
@@ -53,12 +53,12 @@ TWindowArea *create_window_area() {
 #pragma fp_contract on
 TWindowArea *create_area_window(void *text) {
     TWindowArea *object;
-    u8 *title_entry;
+    WindowTextEntry *title_entry;
     object = new TWindowArea();
     ((TWindowSubStatusDisp *)object)->set_entry_display_value((saddr)text);
     hide_window((u8 *)object);
-    title_entry = reinterpret_cast<u8 *>(object->get_title_entry());
-    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
+    title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
+    title_entry->x = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
     return object;
 }
 #pragma pop
@@ -77,7 +77,7 @@ void TWindowSubStatusDisp::set_count_ratio_text(s32 count, s32 total) {
     text_builder_append("/");
     append_padded_number((total), (2U));
     this->set_entry_display_value((saddr) (get_shared_text_buffer()));
-    status_disp_count_ratio_value = count;
+    TWindowSubStatusDisp::count_ratio_value = count;
 }
 
 TWindowAddition::TWindowAddition(u8 *descriptor, s16 client, u8 *parent)

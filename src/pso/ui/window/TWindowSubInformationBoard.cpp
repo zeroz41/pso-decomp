@@ -24,6 +24,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 const char *TWindowSubInformationBoard::class_name = "TWindowSubInformationBoard";
@@ -197,6 +198,7 @@ TWindowMenu *TWindowSubInformationBoard::create_board_menu() {
         return NULL;
     }
     w = create_titled_window_menu_default(get_window_layout_position(0xA6), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
+    // The packet's header flags carry the entry count; an entry with no text is listed grayed out.
     n = board->header.flags;
     it = board->entries;
     for (i = 0; i < n; i++, it++) {

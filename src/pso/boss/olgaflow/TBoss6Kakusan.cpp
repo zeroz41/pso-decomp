@@ -77,7 +77,7 @@ void TBoss6Kakusan::check_beam_player_hits() {
             s32 power = TBoss6PlotFalz::rand_vary_count(damage, 0.1f);
             attack.kind = 0;
             attack.power = power;
-            player->receive_direct_attack(m_up, attack, NULL, -1, -1);
+            player->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
         }
     }
 }

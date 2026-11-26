@@ -52,7 +52,7 @@ void TObjVoloptCage::damage_caged_player() {
     attack.power = TBoss3VoloptP02::get_int_param(2);
     player = get_player_by_client_id(targetId);
     if (player != NULL) {
-        player->receive_direct_attack(m_up, attack, NULL, -1, -1);
+        player->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
     }
     status = 15;
     set_actor_flags(0x800);

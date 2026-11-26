@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
@@ -21,11 +20,10 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 #pragma readonly_strings on
 
@@ -53,15 +51,7 @@ void TWindowSubAreaMapDisp::update_visibility() {
 }
 
 
-struct RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp { s32 value; u8 remaining[0x18]; };
-LAYOUT_ASSERT(RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp) == 0x1C);
-
-struct RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp {
-    s32 value;
-    u8 remaining[0x18];
-};
-
-WindowDescriptor area_map_disp_window_parameters = {
+WindowDescriptor TWindowSubAreaMapDisp::window_parameters = {
     {610.0f, 188.0f}, 50150.0f, NULL, 3,
 };
 
@@ -69,7 +59,7 @@ const char *TWindowSubAreaMapDisp::class_name = "TWindowSubAreaMapDisp";
 
 
 
-void fn_80271848(s32 window, WindowDrawContext *context) {
+void TWindowSubAreaMapDisp::draw_pan_arrows(WindowDrawContext *context) {
     TexturedQuad r;
     s32 color;
     f32 scale;
@@ -122,7 +112,7 @@ void fn_80271848(s32 window, WindowDrawContext *context) {
     end_screen_draw();
 }
 
-void draw_zoom_button_hints(s32 window, WindowDrawContext *context) {
+void TWindowSubAreaMapDisp::draw_zoom_button_hints(WindowDrawContext *context) {
     NJS_POINT2 pos;
     s32 color;
     f32 scale;
@@ -146,8 +136,8 @@ void TWindowSubAreaMapDisp::render() {
     draw_window_frame(context);
     heading->render(context);
     if (this->manual_scroll != 0) {
-        ((s32 (*)(void *, s32))draw_zoom_button_hints)(this, reinterpret_cast<saddr>(context));
-        ((s32 (*)(void *, s32))fn_80271848)(this, reinterpret_cast<saddr>(context));
+        draw_zoom_button_hints(context);
+        draw_pan_arrows(context);
     }
 }
 
@@ -170,8 +160,7 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
     }
     delete heading;
 }
-LAYOUT_ASSERT(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C);
-TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&area_map_disp_window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
+TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp::window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
     s32 title_len;
     WindowHeading *display;
     u8 *str;

@@ -1,5 +1,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowMainMenu.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 // ---- pso/ui/window/TWindowSubTrade_802B1AB4
 #include "types.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -18,7 +19,7 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/network/TradeSession.h"
 
 
@@ -31,10 +32,6 @@ class TChCrTagPlBack;
 
 #pragma readonly_strings on
 
-extern "C" {
-s32 text_builder_append();
-}
-void text_builder_reset(void);
 const char *TWindowSubTrade::class_name = "TWindowSubTrade"; // TWindowSubTrade::class_name
 // Player message window position (x, y).
 extern const f32 trade_message_window_size[2] = {384.0f, 120.0f};
@@ -123,7 +120,7 @@ void TWindowSubTrade::run_task() {
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window == NULL) {
-            this->m_message_window = this->open_player_message_window(this->selected_player, (saddr) (TWindowSubStatusDisp::get_message_10(0xD7)));
+            this->m_message_window = this->open_player_message_window(this->selected_player, (const char *)TWindowSubStatusDisp::get_message_10(0xD7));
         }
         send_6xA6_modify_trade_proposal((this->selected_player));
         this->state = 6U;
@@ -176,14 +173,14 @@ TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *) {
     return list;
 }
 
-TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 message) {
+TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, const char *message) {
     TWindowMessage *window;
     TObjPlayer *p = get_player_by_client_id(player);
     text_builder_reset();
     if (p != NULL) {
-        ((s32 (*)(s32))text_builder_append)((saddr)p->get_name());
+        text_builder_append(p->get_name());
     }
-    ((s32 (*)(s32))text_builder_append)(message);
+    text_builder_append(message);
     window = TWindowMessage::create(get_window_layout_position(0x5B), trade_message_window_size, 1, this->client_id);
     window->append_line((saddr)get_shared_text_buffer(), 0x82);
     return window;
@@ -194,11 +191,9 @@ TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 client) {
     TObjPlayer *player = get_player_by_client_id(client);
     text_builder_reset();
     if (player != NULL) {
-        player->get_name();
-        text_builder_append();
+        text_builder_append(player->get_name());
     }
-    TWindowSubStatusDisp::get_message_10(0xD6);
-    text_builder_append();
+    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xD6));
     prompt = (TWindowMessageYesNo *)TWindowMessageYesNo::create(this, client_id, NULL, NULL);
     open_yes_no_prompt(prompt, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(get_shared_text_buffer()), get_window_layout_position(0x5B), 384.0f);
     prompt->set_menu_selected_index(1);

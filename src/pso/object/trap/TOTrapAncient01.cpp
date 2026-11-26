@@ -171,12 +171,12 @@ void TOTrapAncient01::render() {
             v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             post_translate_matrix(&v.x);
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         n = model;
         push_matrix();
         translate_matrix(0, 0.0f, scale.y, 0.0f);
         post_translate_matrix(n->pos);
-        draw_ginja_model((model)->model);
+        draw_ginja_model(model->model);
         n = n->child;
         push_matrix();
         post_translate_matrix(n->pos);
@@ -278,7 +278,7 @@ void TOTrapAncient01::update_holding() {
             }
             p->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
-                p->apply_knockback_from_attacker((u8 *)this, 0.0f);
+                p->apply_knockback_from_attacker(this, 0.0f);
             }
         }
         receive_physical_attack(target, 1.0f);
@@ -335,7 +335,7 @@ void TOTrapAncient01::update_holding() {
 
 void TOTrapAncient01::update_effects() {  }
 
-f32 TOTrapAncient01::receive_physical_attack(void *attacker, f32 scale) {
+f32 TOTrapAncient01::receive_physical_attack(TObjChara *attacker, f32 scale) {
     release_trapped_player();
     return TOTrap::receive_physical_attack(attacker, scale);
 }

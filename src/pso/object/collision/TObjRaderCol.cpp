@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/switch/TSwitch.h"
 #include "types.h"
 #include "pso/object/collision/TObjRaderCol.h"
 #include "pso/object/collision/TObjRaderHideCol.h"
@@ -20,7 +21,6 @@ extern "C" {
 const char *rader_col_name = "TObjRaderCol";
 const char *rader_hide_col_name = "TObjRaderHideCol";
 const char *rader_icon_name = "TObjRaderIcon";
-u8 is_current_floor_switch_set(u16);
 
 }
 
@@ -195,7 +195,7 @@ void TObjRaderIcon::run_task() {
     case 0:
         all = 1;
         for (i = 0; i < switch_count; i++) {
-            if (is_current_floor_switch_set(first_switch + i) == 0) {
+            if (is_current_floor_switch_set((u16)(first_switch + i)) == 0) {
                 all = 0;
             }
         }

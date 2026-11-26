@@ -33,13 +33,13 @@
 #include "pso/player/PlayerSlots.h"
 
 ShopService TShopGenerator::service_dispatch_table[7] = {
-    {"WEAPON STORE", TShopEquipmentSequence__sub_8021DC08, TShopEquipmentSequence__sub_8021DBE0,
+    {"WEAPON STORE", TShopEquipmentSequence::init_slot_active_flags, TShopEquipmentSequence::release_slot_active_flags,
      TShopEquipmentSequence::create_instance, get_equipment_shop_slot_active_flag},
     {"MEDICAL CENTER", TMedicalCenterSequence::clear_window_slots, TMedicalCenterSequence::clear_slot_data,
      create_medical_center_sequence, get_medical_center_slot_active_flag},
     {"GEAR STORE", TShopEquipmentGearSequence::clear_window_slot_table, TShopEquipmentGearSequence::clear_window_slots,
      TShopEquipmentGearSequence::create_instance, get_equipment_gear_shop_window_slot},
-    {"ITEM STORE", TShopItemTecSequence__sub_80220560, TShopItemTecSequence__sub_80220538,
+    {"ITEM STORE", TShopItemTecSequence::init_slot_table, TShopItemTecSequence::release_slot_table,
      create_shop_item_tec_sequence, get_item_technique_shop_slot},
     // TLobby::handle_main_phase and is_in_hunter_guild still carry recovered s32 prototypes; the table
     // proves create(void *) / int(int) (follow-up: retype them with their callers).
@@ -47,7 +47,7 @@ ShopService TShopGenerator::service_dispatch_table[7] = {
      (void *(*)(void *))TLobby::handle_main_phase, (int (*)(int))is_in_hunter_guild},
     {"CHECK ROOM", TCheckRoomSequence::reset_slots, TCheckRoomSequence::reset_slot_state,
      TCheckRoomSequence::create, get_check_room_slot_active_flag},
-    {"JUDGMENT", TJudgmentSequence__sub_80216058, TJudgmentSequence__sub_80216030,
+    {"JUDGMENT", TJudgmentSequence::init_slot_flags, TJudgmentSequence::release_slot_flags,
      TJudgmentSequence::create, get_judgment_shop_slot_flags},
 };
 
@@ -215,7 +215,7 @@ void TShopGenerator::run_fn_table_forward() {
         p->forward_fn();
         p++;
     } while (--n > 0);
-    TMedicalCenterMes__sub_80216260();
+    TMedicalCenterMes::init_slot_flags();
     for (i = 0; i < 4; i++) {
         slot_active_table[i] = 0;
     }

@@ -6,7 +6,7 @@
 #include <dolphin/os/OSCache.h>
 #include "pso/network/TLobby.h"
 
- extern const char lbl_8047C7E8[46] = "\nADXF/GC Ver.6.24 Build:Jun 13 2002 19:00:56\n";
+ extern const char adxf_version_banner[46] = "\nADXF/GC Ver.6.24 Build:Jun 13 2002 19:00:56\n";
 s32 adxf_init_count;
 s32 lobby_adxf_current_file_id;
 AdxfHandle *lobby_adxf_open_file_handle;
@@ -14,7 +14,7 @@ s32 lobby_afs_toc_entry_index;
 s32 adxf_log_write_index;
 s32 adxf_invalidate_cache_flag;
 /* points at the ADXF version/build banner above */
-const char *const volatile adxf_build_string = lbl_8047C7E8;
+const char *const volatile adxf_build_string = adxf_version_banner;
 
 AdxfLogHeader adxf_log_header;
 AdxfLogEntry adxf_log_entries[256];

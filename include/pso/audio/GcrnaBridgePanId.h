@@ -6,7 +6,7 @@
 struct GcrnaStream;
 
 extern "C" {
-void gcrna_bridge_set_pan_id(GcrnaStream *stream, s32 pan_id);
+void gcrna_bridge_set_pan_id(GcrnaStream *stream, s32 total_samples);
 }
 
 #endif

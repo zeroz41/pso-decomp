@@ -43,7 +43,7 @@ struct game_command_header;
 #include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/trap/TOMineIcon01.h"
 #include "pso/technique/TTecCtrl.h"
@@ -52,7 +52,7 @@ struct game_command_header;
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -122,14 +122,14 @@ void G_TriggerTrap_6x80::bswap() {
     bswap_16(&what);
 }
 
-int TOMineTrap::calc_distance_accuracy_penalty(void *attacker, void *, void *, float) {
+int TOMineTrap::calc_distance_accuracy_penalty(TObjChara *attacker, CollisionBody *, const Vec *, float) {
     if (attacker != target) {
         return 1;
     }
     return 0;
 }
 
-s32 TOMineTrap::select_melee_contact_body(void *attacker, f32) {
+s32 TOMineTrap::select_melee_contact_body(TObjChara *attacker, f32) {
     if (attacker != target) {
         return 1;
     }
@@ -199,7 +199,7 @@ void TOMine::render() {
         pop_matrix();
     }
 }
-void TOMine::draw_body() { set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist)); draw_ginja_object(this->model); }
+void TOMine::draw_body() { set_texture_list(this->texlist); draw_ginja_object(this->model); }
 void TOMine::draw_light() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(light_textures));
     draw_ginja_object(light_model);
@@ -272,7 +272,7 @@ void TOMine::detonate() {
             DirectAttackPayload pair = attack;
             f32 r = obj->receive_direct_attack(this, pair, NULL, -1, -1);
             if (attack.kind < 5) {
-                obj->apply_knockback_from_attacker((u8 *)this, 0.1f * r);
+                obj->apply_knockback_from_attacker(this, 0.1f * r);
             }
         }
     }
@@ -364,7 +364,7 @@ void TOMine::update_trigger() {
         send_object_state_update(&mode);
     }
 }
-f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, void *, s32, s32) {
+f32 TOMine::receive_direct_attack(TObjBase *player, DirectAttackPayload payload, CollisionBody *, s32, s32) {
   s32 kind;
   s32 locally_controlled;
   if (player == 0)
@@ -376,7 +376,7 @@ f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, voi
     return 0.0f;
   }
   locally_controlled = 0;
-  if ((((TObjBase *)player)->get_entity_id() < 4U) && (((TObjChara *)player)->is_locally_controlled() != 0))
+  if ((player->get_entity_id() < 4U) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
     locally_controlled = 1;
   }
@@ -396,16 +396,16 @@ f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, voi
   }
   return 0.0f;
 }
-f32 TOMine::receive_weapon_special_attack(void *player, void *) {
+f32 TOMine::receive_weapon_special_attack(TObjChara *player, CollisionBody *) {
     if (is_target_in_list(player) == 1) {
         return 0.0f;
     }
-    if ((((TObjChara *)player)->is_locally_controlled() != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
+    if ((player->is_locally_controlled() != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
         this->receive_physical_attack(0, 1.0f);
     }
     return 0.0f;
 }
-f32 TOMine::receive_physical_attack(void *, f32) {
+f32 TOMine::receive_physical_attack(TObjChara *, f32) {
     s16 mode;
     if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&mode, 1) != 0)) {
         this->mode = 5;
@@ -513,27 +513,27 @@ void TOMine::spawn_disp_objects() {
     }
 }
 
-s32 TOMine::select_melee_contact_body(void *attacker, f32) {
+s32 TOMine::select_melee_contact_body(TObjChara *attacker, f32) {
     if (is_target_in_list(attacker) == 1) {
         return 0;
     }
     if (((s32) this->behavior == 2) && (attacker == this->target)) {
         return 0;
     }
-    if (((TObjChara *)attacker)->is_locally_controlled() != 0) {
+    if (attacker->is_locally_controlled() != 0) {
         return 1;
     }
     return 0;
 }
 
-int TOMine::calc_distance_accuracy_penalty(void *attacker, void *, void *, float) {
+int TOMine::calc_distance_accuracy_penalty(TObjChara *attacker, CollisionBody *, const Vec *, float) {
     if (is_target_in_list(attacker) == 1) {
         return 0;
     }
     if (((s32) this->behavior == 2) && (attacker == this->target)) {
         return 0;
     }
-    if (((TObjChara *)attacker)->is_locally_controlled() != 0) {
+    if (attacker->is_locally_controlled() != 0) {
         return 1;
     }
     return 0;
@@ -541,9 +541,9 @@ int TOMine::calc_distance_accuracy_penalty(void *attacker, void *, void *, float
 
 
 void TOMine::vfunc_79() {  }
-void TOMine::apply_knockback_from_attacker(u8 *, f32) {  }
-s32 TOMine::try_start_action(void *, s32, f32) { return 1; }
-s32 TOMine::roll_physical_accuracy(void *, s32, f32) { return 1; }
+void TOMine::apply_knockback_from_attacker(TObjBase *, f32) {  }
+s32 TOMine::try_start_action(TObjChara *, s32, f32) { return 1; }
+s32 TOMine::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 s32 TOMine::is_target_in_list(void *obj) {
     if (obj != 0) {
         u32 id = ((TObjBase *)(obj))->get_entity_id();
@@ -585,7 +585,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
             kind = 0;
         case 0:
             attack.kind = 1;
-            if (lobby_rule_settings.get_rule_field_0() == 1) {
+            if (lobby_rule_settings.get_rules_active() == 1) {
                 attack.power = mine_trap_attack_power;
             } else {
                 area_scale = mine_trap_area_scale_table[get_current_floor_area()];
@@ -629,7 +629,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 19:
             model = get_bml_model(mine_model_archive, 4);
             texlist = get_bml_texlist(mine_model_archive, 4);
-            light_model = (NJS_OBJECT *)get_bml_model(mine_model_archive, 1);
+            light_model = get_bml_model(mine_model_archive, 1);
             light_textures = get_bml_texlist(mine_model_archive, 1);
             break;
         case 15:
@@ -638,7 +638,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 18:
             model = get_bml_model(mine_model_archive, 5);
             texlist = get_bml_texlist(mine_model_archive, 5);
-            light_model = (NJS_OBJECT *)get_bml_model(mine_model_archive, 0);
+            light_model = get_bml_model(mine_model_archive, 0);
             light_textures = get_bml_texlist(mine_model_archive, 0);
             break;
         }
@@ -647,7 +647,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         trigger_radius = 50.0f;
         set_params[0] = 150;
         set_params[1] = 30;
-        if (game_difficulty_selection == 3 && lobby_rule_settings.get_rule_field_0() == 0) {
+        if (game_difficulty_selection == 3 && lobby_rule_settings.get_rules_active() == 0) {
             set_params[0] = 60;
             trigger_radius = 80.0f;
             set_trap_count(0);
@@ -817,7 +817,7 @@ s32 TOMineTrap::find_target_in_range() {
             continue;
         }
         if (id == get_trap_type() && TOMineTrap::get_trap_count() != 1 &&
-            lobby_rule_settings.get_rule_field_0() != 0) {
+            lobby_rule_settings.get_rules_active() != 0) {
             continue;
         }
         if (id < 0x1000) {
@@ -864,7 +864,7 @@ void TOMineTrap::spawn_blast_particle() {
     }
 }
 
-f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
+f32 TOMineTrap::receive_physical_attack(TObjChara *attacker, f32) {
     switch (mode) {
     case 0:
     case 1:
@@ -968,9 +968,9 @@ s32 TOMineTrap::show_owner_message(TObjChara *player) {
             name = p->get_name();
             if (name != NULL) {
                 text_builder_reset();
-                text_builder_append(("\x09""C4"));
+                text_builder_append("\x09""C4");
                 text_builder_append(name);
-                text_builder_append((" TRAP\n"));
+                text_builder_append(" TRAP\n");
                 TWindowCtrl::append_message_all(get_shared_text_buffer(), 0x200);
                 return 1;
             }

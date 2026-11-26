@@ -26,7 +26,7 @@ extern s32 chr_select_serial_seeds[];
 extern char memory_card_character_dir_name[];
 extern s32 memcard_access_active;
 }
-int TWindowKeyBoardHard::is_card_flag_set() { return TWindowKeyBoardHard::test_card_flag((saddr)this, 1); }
+s32 TWindowKeyBoardHard::is_card_flag_set(s32 client_id) { return test_card_flag(client_id, 1); }
 void draw_ginja_box_tree(NJS_OBJECT *node) {
     u32 flags;
     NJS_OBJECT *child;
@@ -91,22 +91,22 @@ void TAdSinglePlyChrSelectGC::try_load_system_file() {
     }
 }
 
-void decrypt_character_save(void *save_data) {
+void decrypt_character_save(Pso3CharacterFile *save_data) {
     Pso3CharacterFile *plain;
     Pso3CharacterFile *unshuffled;
     plain = new Pso3CharacterFile;
     unshuffled = new Pso3CharacterFile;
     copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(plain, save_data);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
-    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)plain, (u8 *)unshuffled, (u32)(0x194B0));
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
+    chr_select_rng_state.unshuffle((const u8 *)plain, (u8 *)unshuffled, (u32)(0x194B0));
     copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(save_data, unshuffled);
     delete unshuffled;
     delete plain;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)save_data, 0x194B0);
-    subtractive_rng_seed(&chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)save_data));
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)save_data, 0x194AC);
+    chr_select_rng_state.set_seed(save_data->get_cipher_seed());
+    chr_select_rng_state.xor_buffer((u32 *)save_data, 0x194AC);
 }
 
 s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
@@ -138,7 +138,7 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = sum;
     data = (u8 *)TQuestVmDownLoadServer::alloc(0x194B0);
     memcpy(data, buf + 0x2048, 0x194B0);
-    decrypt_character_save(data);
+    decrypt_character_save((Pso3CharacterFile *)data);
     saved = *(s32 *)data;
     *(s32 *)data = 0;
     res = calc_crc32_bitwise(data, 0x194B0);

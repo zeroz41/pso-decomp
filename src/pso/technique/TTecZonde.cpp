@@ -10,6 +10,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/object/base/TObjBase.h"
@@ -32,8 +33,8 @@ void TTecZonde::init_parameters() {
 
 }
 
-void TObjPlayer::create_tec_zonde(void *source, void *origin, void *targets, s32 level) {
-    new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
+void TTecZonde::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
+    new TTecZonde(source, origin, targets, level);
 }
 void TTecZonde::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
@@ -76,7 +77,7 @@ void TTecZonde::run_task() {
     f32 scale;
 
     source = find_entity_by_id(sourceId);
-    if (source == 0) {
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -85,7 +86,7 @@ void TTecZonde::run_task() {
         return;
     }
     t = static_cast<TObjChara *>(find_entity_by_id(targets.records[0].id));
-    if (TTecLuker::is_parents_unqueued((uaddr)t) != 0) {
+    if (TTecLuker::is_parents_unqueued(t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
             s->start.y = 100.0f + t->position.y;
@@ -174,18 +175,18 @@ void TTecZonde::run_task() {
             }
         }
     }
-    if (t != NULL && TTecLuker::is_parents_unqueued((uaddr)t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
+    if (t != NULL && TTecLuker::is_parents_unqueued(t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
         apply_to_target(t);
     }
     queue_destruction();
 }
 
 #pragma pop
-TTecZonde::TTecZonde(s32 source, u8 *origin, u8 *target_list, s32 level) : TTecShot(source, (Vec *)origin, 0, level) {
+TTecZonde::TTecZonde(TObjBase *source, Vec *origin, TargetCursorList *target_list, s32 level) : TTecShot(source, origin, 0, level) {
     m_name = lbl_805D3838;
     init_parameters();
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
-    if (this->source != 0) {
-        sourceId = ((TObjBase *)(saddr)this->source)->get_entity_id();
+    copy_technique_target_list(&targets, target_list);
+    if (this->source != NULL) {
+        sourceId = this->source->get_entity_id();
     }
 }

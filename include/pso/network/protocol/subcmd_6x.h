@@ -939,8 +939,9 @@ struct G_SetChallengeTime_6x95 {
 };
 
 struct G_SetChallengeDeadFlag_6x9D {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u32 client_id;
+ void bswap();
 };
 
 struct G_SetChallengeRecordsBase_6x7C {

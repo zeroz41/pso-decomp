@@ -12,6 +12,7 @@ public:
     virtual ~TAdSystemFileCheckGC();
     virtual void run_task();
     void close_windows_on_selection();
+    s32 get_system_file_check_text(s32 index, s32 text_set);
     void enter_state_10();
     void update_confirm_selection();
     void close_windows_and_cleanup();

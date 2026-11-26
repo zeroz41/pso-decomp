@@ -51,7 +51,7 @@ TObjMotionAction balclaw_claw_actions[7] = {
     {1, 0, 0xD, 0.7f, 1},
     {1, 0, 0xE, 0.7f, 1},
 };
-BalClawMovement balclaw_claw_movement = {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0};
+EnemyMoveParams balclaw_claw_movement = {150.0f, 0.5555555f, 0x400, {0x1E0000, 0, 1, 0}};
 CollisionBody bal_claw_claw_collision_body_template = {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 player_stats *balclaw_claw_base_params[1];
@@ -319,8 +319,8 @@ void TObjEneBalClawClaw::update_chase() {
             break;
         }
         play_persistent_sound(0x4003B235, this, &position, 0, 0);
-        update_enemy_wander_move(this, target->body_center, 1, ((EnemyMoveParams *)movementParameters)->min_distance);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        update_enemy_wander_move(this, target->body_center, 1, movementParameters->move_speed);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         update_collisions();
@@ -406,7 +406,7 @@ void TObjEneBalClawClaw::update_attack() {
             return;
         }
         update_enemy_wander_move(this, target->body_center, 1, 0.7f);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         if (target_distance_sq <= attack_params->get_attack_range() * attack_params->get_attack_range()) {
             state = requested_action = 2;
         }
@@ -418,11 +418,11 @@ void TObjEneBalClawClaw::update_attack() {
             return;
         }
         update_enemy_wander_move(this, target->body_center, 1, 0.7f);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         if (is_passing_frame(8.0f) != 0) {
             play_sound_effect(0x4003B032, &position, 0, 0);
             if (target->select_melee_contact_body(this, 1.0f) != 0) {
-                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                target->apply_knockback_from_attacker(this, 3.0f);
                 target->receive_physical_attack(this, 1.0f);
                 behavior_flags |= 8;
             }
@@ -564,7 +564,7 @@ void TObjEneBalClawClaw::update_follow_parent() {
         state = 1;
     case 1: {
         select_enemy_destination(this, parent->position, 1);
-        target_distance_sq = update_enemy_wander_move(this, parent->position, 1, ((EnemyMoveParams *)movementParameters)->min_distance);
+        target_distance_sq = update_enemy_wander_move(this, parent->position, 1, movementParameters->move_speed);
         enemy_turn_half_toward_dest(this);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
@@ -618,8 +618,8 @@ void TObjEneBalClawClaw::update_return_home() {
         velocity.y = 0.0f;
         VecCopy(&move_origin, &body_center);
         calc_velocity_toward_destination(this, move_origin, move_destination,
-                                         ((EnemyMoveParams *)movementParameters)->min_distance);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+                                         movementParameters->move_speed);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         move_with_wall_slide(this);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
@@ -707,7 +707,7 @@ void TObjEneBalClawClaw::update_retreat() {
         }
         velocity.y = 0.0f;
         move_along_ground_avoiding_walls(target->body_center, -0.6f, bodies->radius);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         update_collisions();

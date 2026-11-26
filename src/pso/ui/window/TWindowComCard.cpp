@@ -2,7 +2,6 @@
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
@@ -22,7 +21,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowDuelResult.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/network/client_id.h"
@@ -49,7 +48,6 @@ const char *TWindowComCard::class_name = "TWindowComCard";
 const char *com_card_status_text_table[6] = {
     "Jpn.", "Eng.", "Ger.", "Fr.", "Span.", "??????",
 };
-struct ComCardHelpRect { f32 x, y; };
 const ComCardHelpRect com_card_help_panel_rect_table[14] = {
     {0.0f, 180.0f}, {32.0f, 180.0f}, {64.0f, 180.0f}, {96.0f, 180.0f}, {128.0f, 180.0f},
     {0.0f, 208.0f}, {32.0f, 208.0f}, {64.0f, 208.0f}, {96.0f, 208.0f}, {128.0f, 208.0f},
@@ -60,7 +58,7 @@ void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card)
 
 
 
-s32 get_chain_help_mode(s32 slot) { return slot + 10; }
+s32 get_chain_help_mode(s32 chain_slot) { return chain_slot + 10; }
 
 void WindowSpritePart::set_help_mode(s32 help_mode) {
     const ComCardHelpRect *rect;
@@ -76,7 +74,7 @@ void WindowSpritePart::set_help_mode(s32 help_mode) {
         kind = 2;
     }
     rect = &com_card_help_panel_rect_table[help_mode];
-    set_sprite_uv_from_pixels(this, rect->x, rect->y);
+    this->set_sprite_uv_from_pixels(rect->x, rect->y);
 }
 
 s32 get_class_name_text(s32 class_index) {

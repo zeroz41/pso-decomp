@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowScrollBar.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -7,7 +6,7 @@
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 
 TWindowSubEquipKind *create_equip_kind_window(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client) {
@@ -21,10 +20,7 @@ void TWindowSubEquipKind::render() {
 
     context = get_draw_context();
     draw_window_frame(context);
-    draw_visible_window_entries(
-        this,
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
-        context);
+    draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     if (trade_state != 4) {
         draw_tab_label(context);

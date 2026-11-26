@@ -4,7 +4,7 @@
 #include "pso/unk/TWindowStatusCategoryMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"

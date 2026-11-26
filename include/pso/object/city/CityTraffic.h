@@ -19,9 +19,4 @@ AnimationMotion *get_city_common_motion(s32 i);
 void measure_traffic_path_lengths(void);
 s32 sample_aircar_path_position(s32 lane, void *pos, f32 frame);
 
-extern "C" {
-f32 fn_801811FC(void *p);
-f32 fn_80181204(void *p);
-}
-
 #endif

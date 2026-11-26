@@ -11,18 +11,18 @@
 const s32 needle_spread_angles[6] = {0, 2184, -2184, 4551, -4551, 0};
 
 void TItemWeaponSRankNeedle::emit_marker_effects() {
-    WeaponVector pos;
+    Vec pos;
     debug_weapon_attack_hook();
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 0, needle_spread_angles[0], 1);
+    launch_shot(&pos, 0, needle_spread_angles[0], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 1, needle_spread_angles[1], 1);
+    launch_shot(&pos, 1, needle_spread_angles[1], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 2, needle_spread_angles[2], 1);
+    launch_shot(&pos, 2, needle_spread_angles[2], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 3, needle_spread_angles[3], 1);
+    launch_shot(&pos, 3, needle_spread_angles[3], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 4, needle_spread_angles[4], 1);
+    launch_shot(&pos, 4, needle_spread_angles[4], 1);
 }
 
 TItemWeaponSRankNeedle::TItemWeaponSRankNeedle(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {

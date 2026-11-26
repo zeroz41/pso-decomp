@@ -118,7 +118,7 @@ extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c)
   s16 n;
   u32 addr;
   Ipv4RoutingState *tbl;
-  Ipv4Iface *new_var2;
+  Ipv4Iface *ifaces;
   Ipv4Iface *e;
   s16 i;
   Ipv4Alias *node;
@@ -128,7 +128,7 @@ extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c)
   {
     return -6;
   }
-  e = (new_var2 = tbl->ifaces);
+  e = (ifaces = tbl->ifaces);
   e += c;
   if (e->state == 1)
   {

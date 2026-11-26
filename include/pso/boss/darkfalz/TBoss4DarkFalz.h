@@ -104,7 +104,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static s32 is_active();
     void spawn_zako_rings();
     void enter_demo2_phase();
-    // State handlers installed in the state table dark_falz_state_table (TBoss4DarkFalz_8004C93C.cpp).
+    // State handlers installed in the state table dark_falz_state_table (TBoss4DarkFalz.cpp).
     void update_ol_ending();
     void update_type3();
     void update_demo_warp3();
@@ -171,6 +171,8 @@ struct TBoss4FormSetData {
 };
 
 extern TBoss4DarkFalzSetEntry dark_falz_set_entry;
+// Which Dark Falz form the fight is in (2 from the third form on).
+extern s32 dark_falz_form_index;
 // Handler of subcommand 6x19 (TGameProtocol's table).
 void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd);
 

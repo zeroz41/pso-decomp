@@ -41,13 +41,4 @@ struct G_WordSelect_6x74 {
 
 LAYOUT_ASSERT(G_WordSelect_6x74_size, sizeof(G_WordSelect_6x74) == 0x20);
 
-// The dispatcher and language formatters share the 16-bit speaker entity ID.
-s32 format_entry_text(WordSelectMessage *words, char *buffer);
-s32 format_english_message(WordSelectMessage *words, char *buffer, u16 player);
-s32 format_german_message(WordSelectMessage *words, char *buffer, u16 player);
-s32 format_french_message(WordSelectMessage *words, char *buffer, u16 player);
-extern "C" {
-s32 format_spanish_message(WordSelectMessage *words, char *buffer, u16 player);
-}
-
 #endif

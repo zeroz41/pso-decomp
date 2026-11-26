@@ -39,6 +39,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma defer_codegen on
 
@@ -49,13 +50,11 @@ ActorParamBlock *bm3_fly_resist_stats;
 Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
 TBreakUpMdlData * bm3_fly_breakup_model;
-extern const f32 enemy_gravity_accel;
-extern void *tl_04;
 
 const BreakUpParamRow bm3_fly_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 const char *bm3_fly_name = "TObjEneBm3Fly";
 
-Bm3FlyMovementParameters bm3_fly_decision_row = {
+EnemyMoveParams bm3_fly_decision_row = {
     225.0f, 0.92592591f, 0x600, { 0, 0, 0, 0 },
 };
 
@@ -90,7 +89,7 @@ void TObjEneBm3Fly::load_resources() {
 }
 
 TObjEneBm3Fly *TObjEneBm3Fly::create(TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity) {
-    return new TObjEneBm3Fly((TObject *)tl_04, nest, entity_id, set_index, position, velocity);
+    return new TObjEneBm3Fly(tl_04, nest, entity_id, set_index, position, velocity);
 }
 
 void TObjEneBm3Fly::release_shared_data() {
@@ -322,7 +321,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (enemy_turn_and_move_xz_slide(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->distance) != 0) {
+    if (enemy_turn_and_move_xz_slide(this->movementParameters->turn_speed, bm3_fly_lobby_params->distance) != 0) {
         this->status_flags |= BM3_FLY_SHADOW;
         return;
     }
@@ -400,11 +399,11 @@ void TObjEneBm3Fly::choose_attack() {
         this->transition_enemy_state(3);
         return;
     }
-    count = collect_enemy_target_candidates(this, players, (1e+04f));
+    count = collect_enemy_target_candidates(players, (1e+04f));
     for (i = 0; i < count; i++) {
         id = players[i].id;
         if (id != this->target_id && nest->has_free_attack_slot(id) != 0) {
-            enemy_set_target_id(this, id);
+            enemy_set_target_id(id);
             this->transition_enemy_state(3);
             return;
         }
@@ -663,10 +662,10 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
             off->y = (0.0f);
             off->z = -this->destination_direction.x * s;
         }
-        if (this->moveSpeed > ((Bm3FlyMovementParameters *)this->movementParameters)->length) {
+        if (this->moveSpeed > this->movementParameters->move_speed) {
             this->moveSpeed *= (0.96f);
         } else {
-            this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+            this->moveSpeed = this->movementParameters->move_speed;
         }
         vel->x = this->moveDir.x * this->moveSpeed;
         vel->y = (0.0f);
@@ -691,7 +690,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         this->play_pitched_cue();
         break;
     case 5:
-        this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+        this->moveSpeed = this->movementParameters->move_speed;
         break;
     }
 }
@@ -751,7 +750,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
             break;
         case 1:
             this->counter++;
-            if ((s32) this->counter >= bm3_fly_lobby_params->unknown_1C) {
+            if ((s32) this->counter >= bm3_fly_lobby_params->attack_wind_up_frames) {
                 this->counter = 0;
                 this->step = 2;
                 this->requested_action = 2;
@@ -764,7 +763,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
                 target = this->current_target;
                 if ((target != NULL) && (target->select_melee_contact_body(this, (1.0f)) != 0)) {
                     this->current_target->receive_physical_attack(this, (1.0f));
-                    this->current_target->apply_knockback_from_attacker((u8 *)this, (3.0f));
+                    this->current_target->apply_knockback_from_attacker(this, (3.0f));
                     if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() < (0.05f))) {
                         TObjEneDD::inflict_poison(this, this->current_target);
                     }
@@ -831,7 +830,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             circle_destination(this->circle_angle);
             this->update_velocity();
             vertical = (0.0f);
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+            speed = this->movementParameters->move_speed;
             if (this->destination_distance < (14.0f)) {
                 if (this->random_ratio() > (0.5f)) {
                     this->circle_speed = (s32)(((-65536.0f) * speed) / (439.82288f));
@@ -846,7 +845,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle += this->circle_speed / 2;
             circle_destination(this->circle_angle);
             this->update_velocity();
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+            speed = this->movementParameters->move_speed;
             vertical = (0.0f);
             if (this->destination_distance < speed) {
                 this->step = 2;
@@ -857,7 +856,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle += this->circle_speed;
             circle_destination(this->circle_angle);
             this->update_velocity();
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+            speed = this->movementParameters->move_speed;
             vertical = (1e+01f) * sin_table_lookup(this->bob_angle);
             this->bob_angle += 0x380;
             break;
@@ -880,7 +879,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
 #pragma push
 #pragma fp_contract on
 void TObjEneBm3Fly::update_return_state(s32 msg) {
-    Bm3FlyMovementParameters *params;
+    EnemyMoveParams *params;
     switch (msg) {
     case 4:
         this->requested_action = 1;
@@ -892,8 +891,8 @@ void TObjEneBm3Fly::update_return_state(s32 msg) {
         this->destination.x = (f32) (((3e+01f) * sin_table_lookup(this->hover_angle)) + this->nest_position.x);
         this->destination.y = (f32) this->hover_height;
         this->destination.z = (f32) (((3e+01f) * cos_table_lookup(this->hover_angle)) + this->nest_position.z);
-        params = (Bm3FlyMovementParameters *)this->movementParameters;
-        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->unknown_08, params->length);
+        params = this->movementParameters;
+        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->turn_speed, params->move_speed);
         this->update_velocity();
         break;
     case 3:

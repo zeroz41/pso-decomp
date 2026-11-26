@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
+class TObjPlayer;
 class TQuestThread;
 struct TWindowMenu;
 
@@ -22,7 +23,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void clear_instance_table();
     static void notify_quest_thread();
     static void reset_quest_result_callbacks();
-    static void *create(void *player);
+    static THunterGuildSeqOffline *create(TObjPlayer *player);
     static s32 check_party_gathered();
     static void set_state_close(TShopWindowBase *sequence);
     static void set_state_4(TShopWindowBase *sequence);
@@ -54,4 +55,20 @@ LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3
 extern "C" void THunterGuildSeqOffline__sub_80213410(void);
 // Quest thread ids started per quest result ([1] success, [2] cancel, [3] exit); -1 when unset.
 extern "C" s32 quest_result_callbacks[4];
+
+s32 get_online_client_state(void);
+void clear_offline_instance_table(void);
+
+void set_quest_failure_callback(s32 quest_failure_callback);
+void set_quest_cancel_callback(s32 quest_cancel_callback);
+void set_quest_exit_callback(s32 quest_exit_callback);
+void set_quest_success_callback(s32 quest_success_callback);
+
+
+// Nonzero while a THunterGuildSeqOnline (client or server side) or a THunterGuildSeqOffline runs for the client.
+s32 get_online_client_instance(s32 client_id);
+s32 get_online_server_instance(s32 client_id);
+s32 get_offline_instance(s32 client_id);
+s32 is_near_designated_player(void);
+
 #endif

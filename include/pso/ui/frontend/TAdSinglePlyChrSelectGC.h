@@ -7,6 +7,7 @@ struct NJS_POINT2;
 #include "pso/system/task/TObject.h"
 
 struct CreationTextureCacheEntry;
+struct CharacterAppearanceFields;
 struct OSContext;
 class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
@@ -72,18 +73,16 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 get_chr_select_state();
     static u8 *get_global_state();
     static int get_state();
-    static void free_resources();
-    static void set_active_disconnect_count(int a0);
-    static u16 get_active_disconnect_count();
-    static void destroy();
-    static s32 create_if_key_pressed();
     static int get_game_mode();
     s32 is_both_confirmed();
     static void copy_name(s32 chan);
     static void set_card_disk_id(s32 chan);
     s32 init_char_slot_record();
     static s32 is_ready();
+    // Battle results of the client's character record (CharacterSaveRecord::split_screen_battle
+    // and online_battle), shown in the status window.
     static u16 get_split_fourth_place_count(int client);
+    static u16 get_split_second_place_count(int client);
     static u16 get_split_third_place_count(int client);
     static u16 get_split_first_place_count(int client);
     static u16 get_online_disconnect_count(int client);
@@ -99,7 +98,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 has_valid_slot();
     static int get_selection();
     static void set_global_flags(s32 flags);
-    static saddr get_instance();
+    static CharacterFile *get_instance();
     static void set_player_index(int a0);
     static void set_save_slot(int a0);
     static void clear_flags(s32 flags);
@@ -117,7 +116,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void reset_creation_parts();
     static s32 map_button_code(s32 code);
     static s32 count_remaining_slots();
-    static s32 has_matching_entry(void *character);
+    static s32 has_matching_entry(CharacterAppearanceFields *character);
     static CreationTextureCacheEntry *find_free_slot();
     static s32 evict_char_entries(s32 limit);
     static void free_global();
@@ -161,9 +160,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void run_save_load_sequence();
     static s32 init();
     static s32 load_character_from_card(int);
-    static void copy_slot_data(void *, void *);
-    static s32 is_entry_equal(void *, void *);
-    static s32 count_char_diffs(void *, void *);
     static s32 save_character_to_card();
     static s32 forward_to_global_instance(TItemData *item);
     static s32 increment_frame();
@@ -180,10 +176,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void clear_load_buffers();
     static void clear_slot_body(int i);
     static void clear_slot_entry(int i);
-    static void * copy_char_slot_data(void * a0, void * a1);
     static s32 copy_character_to_slot(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static void copy_chr_slots_from_request();
-    static CharacterFile *copy_save_data(CharacterFile *to, CharacterFile *from);
     static void encrypt_save_data(CharacterFile *file);
     static void create_instance();
     static s32 encrypt_and_save();
@@ -281,4 +275,7 @@ extern s32 chr_select_save_slot;
 class TAdTitleTexGC;
 struct NJS_POINT2;
 extern "C" void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
+
+s32 get_guild_card_file_block_count(void);
+
 #endif

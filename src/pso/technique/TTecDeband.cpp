@@ -45,10 +45,10 @@ void TTecDeband::apply_to_player(TObjPlayer *player) {
     }
 }
 
-void TTecDeband::create(saddr owner, saddr pos, saddr targets, s32 level) {
-    new TTecDeband((void *)owner, (void *)pos, (void *)targets, level);
+void TTecDeband::create(TObjBase *owner, Vec *pos, TargetCursorList *targets, s32 level) {
+    new TTecDeband(owner, pos, targets, level);
 }
-void TTecDeband::create(void *owner, void *pos, s32 level) {
+void TTecDeband::create(TObjBase *owner, Vec *pos, s32 level) {
     new TTecDeband(owner, pos, level);
 }
 void TTecDeband::render() {  }
@@ -58,14 +58,14 @@ TTecDeband::~TTecDeband() {
 }
 
 void TTecDeband::run_task() {
-    uaddr member;
+    TObjCollidable *member;
     s32 i;
     if (target == 0) {
         queue_destruction();
         return;
     }
     source = find_entity_by_id(sourceId);
-    if (source == 0) {
+    if (source == NULL) {
         queue_destruction();
         return;
     }
@@ -76,8 +76,8 @@ void TTecDeband::run_task() {
             apply_to_player((TObjPlayer *)source);
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
-                    member = (uaddr)find_entity_by_id(targets.records[i].id);
-                    if ((TTecLuker::is_parents_unqueued(member) != 0) && (TObjPlayer::is_valid_and_active(member) != 0)) {
+                    member = find_entity_by_id(targets.records[i].id);
+                    if ((TTecLuker::is_parents_unqueued(member) != 0) && (TObjPlayer::is_valid_and_active((uaddr)member) != 0)) {
                         apply_to_player((TObjPlayer *)member);
                     }
                 }
@@ -92,18 +92,18 @@ void TTecDeband::run_task() {
 }
 
 #pragma opt_common_subs off
-TTecDeband::TTecDeband(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecDeband::TTecDeband(TObjBase *owner, Vec *pos, TargetCursorList *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
     m_name = class_name;
     use_targets = 1;
-    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    copy_technique_target_list(&targets, target_list);
     update_effect_params();
     t = target;
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.range;
     }
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
     if (show_effects != 0) {
         init_params();
@@ -112,7 +112,7 @@ TTecDeband::TTecDeband(void *owner, void *pos, void *target_list, s32 level) : T
 }
 #pragma opt_common_subs reset
 
-TTecDeband::TTecDeband(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecDeband::TTecDeband(TObjBase *owner, Vec *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
     m_name = class_name;
     use_targets = 0;
@@ -121,8 +121,8 @@ TTecDeband::TTecDeband(void *owner, void *pos, s32 level) : TTecPlayerInfluence(
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.range;
     }
-    if (source != 0U) {
-        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
+    if (source != NULL) {
+        sourceId = source->get_entity_id();
     }
     init_params();
     play_state_sound();

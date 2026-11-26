@@ -31,7 +31,7 @@ struct SymbolChatPreset {
     void clear_flag_bit2();
     void clear_entries();
     void bswap_entry();
-    char *get_keyboard_ptr();
+    char *get_name();
     SymbolChatPreset *commit(const SymbolChatPreset *src);
 };
 
@@ -51,11 +51,9 @@ LAYOUT_ASSERT(SavedSymbolChatPresetsEntriesOffset, offsetof(SavedSymbolChatPrese
 
 SymbolChatPreset *get_symbol_chat_preset(s32 index);
 s32 is_symbol_chat_preset_in_use(const SymbolChatPreset *preset);
-extern "C" {
 int is_preset_flag_bit9_set(const SymbolChatPreset *preset);
 void clear_facial_part(SymbolChatPreset *preset, s32 index);
 s32 is_facial_part_set(const SymbolChatPreset *preset, s32 index);
-}
 extern SymbolChatPreset symbol_chat_receive_buffer;
 extern u8 pending_symbol_chat_count;
 

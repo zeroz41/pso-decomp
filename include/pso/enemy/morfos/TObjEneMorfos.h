@@ -30,7 +30,7 @@ struct EnemyPlacement;
 struct TObjEneMorfos : public TObjEneDD_ST {
     TObjEneMorfos(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneMorfos();
-    virtual f32 receive_physical_attack(void *attacker, f32 scale);
+    virtual f32 receive_physical_attack(TObjChara *attacker, f32 scale);
     virtual void dispatch_action(u32 state, s32 reason);
     s32 render_model_if_visible();
     virtual void refresh_target();

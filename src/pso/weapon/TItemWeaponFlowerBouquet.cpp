@@ -1,17 +1,17 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TItemWeaponFlowerBouquet.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponFlowerBouquet::emit_marker_effects() {
-    s32 muzzle[6];
+    Vec muzzle;
     saddr weapon = (saddr)this;
 
-    ((TItemWeapon *)weapon)->get_joint_position(1, muzzle);
-    spawn_particle_effect((const Vec *)muzzle, 0xC1);
+    ((TItemWeapon *)weapon)->get_joint_position(1, &muzzle);
+    spawn_particle_effect(&muzzle, 0xC1);
 }
 
 TItemWeaponFlowerBouquet::~TItemWeaponFlowerBouquet() {}

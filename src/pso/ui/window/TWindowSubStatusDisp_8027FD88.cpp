@@ -3,12 +3,12 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/PageIndicator.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/object/base/TObjChara.h"
@@ -25,28 +25,6 @@
 #include "pso/player/PlayerRequirementStats.h"
 
 const char *TWindowSubStatusDisp::class_name = "TWindowSubStatusDisp";
-struct SummaryPageLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-    TextLayoutRecord rec_3;
-    TextLayoutRecord rec_4;
-    DirectSpritePartLayoutRecord rec_5;
-    TextLayoutRecord rec_6;
-    TextLayoutRecord rec_7;
-    ValueLayoutRecord rec_8;
-    TextLayoutRecord rec_9;
-    TextLayoutRecord rec_10;
-    TextLayoutRecord rec_11;
-    ValueLayoutRecord rec_12;
-    TextLayoutRecord rec_13;
-    TextLayoutRecord rec_14;
-    TextLayoutRecord rec_15;
-    ValueLayoutRecord rec_16;
-    TextLayoutRecord rec_17;
-};
 
 SummaryPageLayout TWindowSubStatusDisp::summary_page_layout = {
     18, 1,
@@ -68,47 +46,6 @@ SummaryPageLayout TWindowSubStatusDisp::summary_page_layout = {
     {3, {128.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
     {4, {231.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
     {3, {231.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
-};
-
-struct StatPageLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-    TextLayoutRecord rec_3;
-    ValueLayoutRecord rec_4;
-    TextLayoutRecord rec_5;
-    TextLayoutRecord rec_6;
-    TextLayoutRecord rec_7;
-    ValueLayoutRecord rec_8;
-    TextLayoutRecord rec_9;
-    ValueLayoutRecord rec_10;
-    TextLayoutRecord rec_11;
-    TextLayoutRecord rec_12;
-    TextLayoutRecord rec_13;
-    ValueLayoutRecord rec_14;
-    TextLayoutRecord rec_15;
-    ValueLayoutRecord rec_16;
-    TextLayoutRecord rec_17;
-    TextLayoutRecord rec_18;
-    TextLayoutRecord rec_19;
-    ValueLayoutRecord rec_20;
-    TextLayoutRecord rec_21;
-    ValueLayoutRecord rec_22;
-    TextLayoutRecord rec_23;
-    TextLayoutRecord rec_24;
-    TextLayoutRecord rec_25;
-    ValueLayoutRecord rec_26;
-    TextLayoutRecord rec_27;
-    ValueLayoutRecord rec_28;
-    TextLayoutRecord rec_29;
-    TextLayoutRecord rec_30;
-    TextLayoutRecord rec_31;
-    ValueLayoutRecord rec_32;
-    TextLayoutRecord rec_33;
-    ValueLayoutRecord rec_34;
-    TextLayoutRecord rec_35;
 };
 
 StatPageLayout TWindowSubStatusDisp::stat_page_layout = {
@@ -151,41 +88,6 @@ StatPageLayout TWindowSubStatusDisp::stat_page_layout = {
     {3, {171.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
 };
 
-struct ResistanceLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    ValueLayoutRecord rec_2;
-    TextLayoutRecord rec_3;
-    ValueLayoutRecord rec_4;
-    TextLayoutRecord rec_5;
-    TextLayoutRecord rec_6;
-    TextLayoutRecord rec_7;
-    ValueLayoutRecord rec_8;
-    TextLayoutRecord rec_9;
-    ValueLayoutRecord rec_10;
-    TextLayoutRecord rec_11;
-    TextLayoutRecord rec_12;
-    TextLayoutRecord rec_13;
-    ValueLayoutRecord rec_14;
-    TextLayoutRecord rec_15;
-    ValueLayoutRecord rec_16;
-    TextLayoutRecord rec_17;
-    TextLayoutRecord rec_18;
-    TextLayoutRecord rec_19;
-    ValueLayoutRecord rec_20;
-    TextLayoutRecord rec_21;
-    ValueLayoutRecord rec_22;
-    TextLayoutRecord rec_23;
-    TextLayoutRecord rec_24;
-    TextLayoutRecord rec_25;
-    ValueLayoutRecord rec_26;
-    TextLayoutRecord rec_27;
-    ValueLayoutRecord rec_28;
-    TextLayoutRecord rec_29;
-};
-
 ResistanceLayout TWindowSubStatusDisp::resistance_layout = {
     30, 1,
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
@@ -220,27 +122,6 @@ ResistanceLayout TWindowSubStatusDisp::resistance_layout = {
     {3, {171.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
 };
 
-struct RecordSummaryLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    TextLayoutRecord rec_2;
-    ValueLayoutRecord rec_3;
-    TextLayoutRecord rec_4;
-    TextLayoutRecord rec_5;
-    ValueLayoutRecord rec_6;
-    TextLayoutRecord rec_7;
-    TextLayoutRecord rec_8;
-    ValueLayoutRecord rec_9;
-    TextLayoutRecord rec_10;
-    TextLayoutRecord rec_11;
-    ValueLayoutRecord rec_12;
-    TextLayoutRecord rec_13;
-    TextLayoutRecord rec_14;
-    ValueLayoutRecord rec_15;
-};
-
 RecordSummaryLayout TWindowSubStatusDisp::record_summary_layout = {
     16, 1,
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
@@ -261,27 +142,6 @@ RecordSummaryLayout TWindowSubStatusDisp::record_summary_layout = {
     {4, {216.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
 };
 
-struct RankTimeRecordsLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    TextLayoutRecord rec_2;
-    TextLayoutRecord rec_3;
-    TextLayoutRecord rec_4;
-    TextLayoutRecord rec_5;
-    TextLayoutRecord rec_6;
-    TextLayoutRecord rec_7;
-    TextLayoutRecord rec_8;
-    TextLayoutRecord rec_9;
-    TextLayoutRecord rec_10;
-    TextLayoutRecord rec_11;
-    TextLayoutRecord rec_12;
-    TextLayoutRecord rec_13;
-    TextLayoutRecord rec_14;
-    TextLayoutRecord rec_15;
-};
-
 RankTimeRecordsLayout TWindowSubStatusDisp::rank_time_records_layout = {
     16, 1,
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
@@ -300,21 +160,6 @@ RankTimeRecordsLayout TWindowSubStatusDisp::rank_time_records_layout = {
     {3, {0.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
     {3, {106.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 2, ":"},
     {3, {116.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
-};
-
-struct NumberedTimesLayout {
-    u32 cols;
-    u32 rows;
-    TextLayoutRecord rec_0;
-    TextLayoutRecord rec_1;
-    TextLayoutRecord rec_2;
-    TextLayoutRecord rec_3;
-    TextLayoutRecord rec_4;
-    TextLayoutRecord rec_5;
-    TextLayoutRecord rec_6;
-    TextLayoutRecord rec_7;
-    TextLayoutRecord rec_8;
-    TextLayoutRecord rec_9;
 };
 
 NumberedTimesLayout TWindowSubStatusDisp::numbered_times_layout = {
@@ -386,7 +231,7 @@ void TWindowSubStatusDisp::run_task() {
   }
   this->dispatch_page_update();
   update_window();
-  this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((((u8 *) this) + 0x24)));
+  this->update_window_entry_list(&this->entry_list);
 }
 
 void TWindowSubStatusDisp::render() {
@@ -397,7 +242,7 @@ void TWindowSubStatusDisp::render() {
         draw_window_frame(context);
         draw_visible_window_entries(
             this,
-            reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
+            &this->entry_list,
             context);
         draw_list_page_indicator(page_indicator, context);
     }
@@ -457,7 +302,7 @@ void TWindowSubStatusDisp::dispatch_page_update() {
 extern "C" {
 void TWindowSubStatusDisp::vt0() {
     WindowTextEntry *e;
-    u8 *gauge;
+    WindowSpritePart *portrait;
     TObjPlayer *pl;
     saddr v;
     CharacterAppearanceFields *st;
@@ -487,9 +332,9 @@ void TWindowSubStatusDisp::vt0() {
             v = (saddr)TObjLuker::get_stat_table_entry(st->section);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(4)), v, 0);
         }
-        gauge = (u8 *)get_array_entry(5);
-        *(u8 **)(gauge + 0x30) = (u8 *)this + 0x64;
-        *(u8 **)((s8 *)this + 0x64) = (u8 *)pl + 0xCF4;
+        portrait = (WindowSpritePart *)get_array_entry(5);
+        portrait->texture_list_slot = &this->body_textures;
+        this->body_textures = &pl->body_textures;
     }
 }
 
@@ -547,26 +392,26 @@ void TWindowSubStatusDisp::vt12() {
     req.clear_fields();
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        e2 = static_cast<TWindowLayoutNumber *>(get_array_entry(2));
+        e2 = (TWindowLayoutNumber *)get_array_entry(2);
         e2->value = pl->get_atp_range() + (pl->get_atp() + pl->get_actor_attack_params_atp_min());
-        e = static_cast<TWindowLayoutNumber *>(get_array_entry(8));
+        e = (TWindowLayoutNumber *)get_array_entry(8);
         e->value = pl->get_dfp();
-        e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x14));
+        e = (TWindowLayoutNumber *)get_array_entry(0x14);
         e->value = pl->get_ata();
-        e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x1A));
+        e = (TWindowLayoutNumber *)get_array_entry(0x1A);
         e->value = pl->get_evp();
         q = pl->get_stats();
         if (q != NULL) {
-            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0xE));
+            e = (TWindowLayoutNumber *)get_array_entry(0xE);
             e->value = q->stats.mst;
-            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x20));
+            e = (TWindowLayoutNumber *)get_array_entry(0x20);
             e->value = q->stats.lck;
         }
     }
     if (build_player_equipment_requirement_stats(pl, &cur) != 0) {
         build_player_class_stat_template(pl, &req);
 #define ROW(idx, k) \
-        e = static_cast<TWindowLayoutNumber *>(get_array_entry(idx)); \
+        e = (TWindowLayoutNumber *)get_array_entry(idx); \
         e->value = cur.k; \
         if (req.k <= cur.k) { e->color = -0x100; } else { e->color = -1; }
         ROW(4, atp)
@@ -682,17 +527,17 @@ void TWindowSubStatusDisp::vt7() {
     set_text_entry_string(label, get_localized_text_entry(0x10, 8), 0);
     label = (WindowTextEntry *)get_array_entry(0xA);
     set_text_entry_string(label, get_localized_text_entry(0x10, 9), 0);
-    ((TWindowLayoutEntry *)get_array_entry(0xD))->hide();
-    ((TWindowLayoutEntry *)get_array_entry(0xE))->hide();
+    ((WindowTextEntry *)get_array_entry(0xD))->hide();
+    ((WindowTextEntry *)get_array_entry(0xE))->hide();
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
     number->value = (s32)TAdSinglePlyChrSelectGC::get_split_first_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
-    number->value = (s32)get_split_second_place_count((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_second_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(9));
     number->value = (s32)TAdSinglePlyChrSelectGC::get_split_third_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
     number->value = (s32)TAdSinglePlyChrSelectGC::get_split_fourth_place_count((u16) this->client_index);
-    ((TWindowLayoutEntry *)get_array_entry(0xF))->hide();
+    ((TWindowLayoutNumber *)get_array_entry(0xF))->hide();
 }
 
 void TWindowSubStatusDisp::vt18() {  }

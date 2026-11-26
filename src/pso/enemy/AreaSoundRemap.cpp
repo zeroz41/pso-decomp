@@ -4,11 +4,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-struct AreaSoundRemapEntry {
-    s32 base;
-    s32 start;
-};
-
 AreaSoundRemapEntry area_sound_remap_table_a[] = {
     { -1, 0 },
     { 0, 0 },

@@ -86,7 +86,7 @@ LAYOUT_ASSERT(MainMenuSlotStateSize, sizeof(MainMenuSlotState) == 8);
 LAYOUT_ASSERT(MainMenuClientIndexOffset, offsetof(TWindowMainMenu, client_index) == 0x54);
 LAYOUT_ASSERT(MainMenuSize, sizeof(TWindowMainMenu) == 0x60);
 
-int test_keyboard_card_flag4(void *p);
+int test_keyboard_card_flag4(s32 client_id);
 
 extern "C" {
 void TWindowSubEquip__sub_80263AF4(void *, s32);

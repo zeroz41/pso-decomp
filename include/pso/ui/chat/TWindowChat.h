@@ -3,6 +3,7 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct ChatShortcut;
 struct TWindowKeyBoardBase;
 struct TWindowKeyBoardHard;
 struct TWindowKeyBoardSoft;
@@ -12,7 +13,10 @@ public:
     virtual void render();
     TWindowChat(TObject *object, void *result);
     virtual ~TWindowChat();
-    s32 sub_80247EC0();
+    // Flags 0x40 or 0x200: the chat closes once a message is sent.
+    s32 closes_after_send();
+    // Text is being typed, the chat is open, or the keyboard shows its status text.
+    s32 is_chat_in_use();
     s32 update_word_select_window();
     s32 update_symbol_chat_window();
     virtual void run_task();
@@ -27,10 +31,11 @@ public:
     void set_flag1e_bit40();
     void set_flag1e_bit8();
     void clear_flag1e_bit8();
+    void set_flag1e_bit200();
     void open_next_input_window();
 
     u8 inputMode;
-    u8 unknown_1D;
+    u8 pad_1D;
     u16 flags;
     TWindowKeyBoardBase *composer;
     TWindowKeyBoardSoft *softKeyboard;
@@ -38,7 +43,7 @@ public:
     class TWindowBase *auxiliaryWindow;
     class TSymbolChatMenu *symbolChatWindow;
     class TWindowDD *wordSelectWindow;
-    s32 *result;  // the kind of input (1 text, 2 word select, 3 symbol chat), then its payload
+    ChatShortcut *result;  // what the player chose: kind 1 text, 2 word select, 3 symbol chat, then its payload
 public:
     void update();
     void handle_input();
@@ -51,11 +56,8 @@ public:
     int is_open();
     static struct SymbolChatPreset *open_symbol_chat(s32 *index);
 };
-extern "C" {
-s32 is_chat_in_use(TWindowChat *chat);
 void consume_input_active_flag(TWindowChat *chat);
 void consume_active_flag(TWindowChat *chat);
-}
 
 #include <stddef.h>
 LAYOUT_ASSERT(ChatBaseSize, sizeof(TObject)==0x1C);

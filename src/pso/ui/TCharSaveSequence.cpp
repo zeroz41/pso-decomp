@@ -1,8 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/memory.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
@@ -26,11 +25,10 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/PadRumble.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/save/TCheckMemoryCard.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -245,7 +243,7 @@ void TCharSaveSequence::handle_load_result() {
                 delete obj;
             }
         } else {
-            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (CharacterSaveRecord *)get_character_save_record(0xFFFF), obj, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (CharacterSaveRecord *)get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
                 char_save_message_flags &= ~1;
@@ -257,7 +255,7 @@ void TCharSaveSequence::handle_load_result() {
                 }
             } else {
                 seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
-                TAdSinglePlyChrSelectGC::encrypt_save_data((CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
+                TAdSinglePlyChrSelectGC::encrypt_save_data(TAdSinglePlyChrSelectGC::get_instance());
                 TAdSinglePlyChrSelectGC::save_character_file(1);
                 state = 4;
             }
@@ -351,7 +349,7 @@ void release_single_ply_chr_select_scene(void) {
 void TAdSinglePlyChrSelectGC::run_frame() {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     Vec a = char_save_frame_camera_position;
     Vec b = char_save_frame_camera_target;
     activate_camera_mode(9);

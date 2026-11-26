@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/boss/dragon/ObjBoss1CommonJResource.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
@@ -22,7 +22,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 
 const char *TBoss8DragonEffTail::name = "TBoss8DragonEffTail";
 // As TBoss1DragonEffTail's: what run_task hands its attack history.
@@ -79,7 +79,7 @@ void TBoss8DragonEffTail::area_attack_apply_recoil(TObjChara *target, f32) {
 }
 
 void TBoss8DragonEffTail::apply_hit_if_active(TObjChara *target, const f32 *) {
-    target->receive_physical_attack(this->owner, 1.0f);
+    target->receive_physical_attack((TObjChara *)this->owner, 1.0f);
 }
 
 void TBoss8DragonEffTail::enable() { this->sweep_side = 1; clear_attack_history(); }

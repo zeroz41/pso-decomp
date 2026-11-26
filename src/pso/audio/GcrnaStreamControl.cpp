@@ -140,10 +140,10 @@ inline void gcrna_transfer_input(GcrnaStream *stream) {
         stream->ring_buffers[i]->interface->get_chunk(stream->ring_buffers[i], 0, 0x2000, &free_chunk);
         stream->input_buffers[i]->interface->get_chunk(stream->input_buffers[i], 1, free_chunk.size, &data);
         memcpy(free_chunk.data, data.data, data.size);
-        sj_chunk_split(&data, data.size, &head, &tail);
+        sj_split_chunk(&data, data.size, &head, &tail);
         stream->input_buffers[i]->interface->put_chunk(stream->input_buffers[i], 0, &head);
         stream->input_buffers[i]->interface->unget_chunk(stream->input_buffers[i], 1, &tail);
-        sj_chunk_split(&free_chunk, data.size, &head, &tail);
+        sj_split_chunk(&free_chunk, data.size, &head, &tail);
         stream->ring_buffers[i]->interface->put_chunk(stream->ring_buffers[i], 1, &head);
         stream->ring_buffers[i]->interface->unget_chunk(stream->ring_buffers[i], 0, &tail);
         sndStreamARAMUpdate(stream->stream_ids[i], (u32)(free_chunk.data - stream->buffers[i]) >> 1,

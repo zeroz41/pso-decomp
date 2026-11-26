@@ -3,13 +3,13 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponDagger.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixOps.h"
 
 void TItemWeaponDagger::transform_model_node() {
     if (get_item_index() == 5) {
-        s32 n = TObjPlayer::get_player_list();
+        s32 n = get_model_node_counter();
         switch (n) {
         case 3:
         case 4:

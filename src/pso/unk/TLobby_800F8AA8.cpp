@@ -50,6 +50,7 @@
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/SubtractiveRng.h"
+#include "pso/system/BmlResource.h"
 
 const char *lbl_805D2B10 = "";
 
@@ -65,15 +66,12 @@ const char *disc_read_filename = lbl_805D2B10;
 s32 *get_player_name_copy_buffer(void) {
     return (s32 *)player_name_copy_buffer;
 }
-extern "C" {
-
 void copy_name(char *name) {
     strncpy(player_name_copy_buffer, name, 0x10);
     if (strncmp(name, "..", 0x10) == 0) {
         clear_player_name_copy_buffer();
     }
     change_disc_directory(name);
-}
 }
 
 void clear_player_name_copy_buffer(void) {
@@ -818,7 +816,7 @@ __declspec(section ".data") void *lbl_8049C61C[2] = {
 };
 }
 
-void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardControl::reset(); }
+void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; clear_controller_reset_request(); }
 
 
 void flag_pending_area_transfer(void) {
@@ -829,7 +827,7 @@ void flag_pending_area_transfer(void) {
 
 s32 is_area_transfer_pending() { return area_transfer_pending_flag ? 1 : 0; }
 
-void TLobby::clear_callback_and_reset_keyboard() { TLobby::set_keyboard_mode(0); TKeyBoardControl::reset(); }
+void TLobby::clear_callback_and_reset_keyboard() { TLobby::set_keyboard_mode(0); clear_controller_reset_request(); }
 
 #define main_phase_deferred_callback (*(s32 (**)())&main_phase_deferred_callback)
 
@@ -859,7 +857,7 @@ void apply_phase_keyboard_mode() {
     }
 }
 
-void reset_to_fallback_main_phase(void) { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); }
+void reset_to_fallback_main_phase(void) { clear_controller_reset_request(); switch_to_fallback_main_phase(); }
 
 void TLobby::invoke_callback() {
     if (((s32 (*)()) main_phase_deferred_callback) != NULL) {
@@ -952,12 +950,12 @@ void TLobby::release_menu_font() {
 }
 
 void TLobby::load_font_texture() {
-    void *file = TLobby::tmp_buf_use_req("FONT");
+    void *file = tmp_buf_use_req("FONT");
     if (file != 0) {
         s32 r;
         prs_decompress_buffer(lobby_font_texture_prs_data, file);
         r = load_gvm_texture_archive(file, (NJS_TEXLIST *)lbl_8049C61C);
-        TLobby::tmp_buf_release("FONT");
+        tmp_buf_release("FONT");
         lobby_font_texture_loaded = 1;
         if (r == -1) {
             lobby_font_texture_loaded = 0;
@@ -1035,7 +1033,7 @@ s32 TLobby::run_disk_error_check() {
     draw_polygon_2d(&d, 4, 0x12, (-0.9f));
     status = DVDGetDriveStatus();
     TCameraCtrl::restore_full_screen_view();
-    if (DVDCheckDisk() == 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
+    if (DVDCheckDisk() == 0 && (check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
         reset_system();
     }
     switch (status) {
@@ -1050,7 +1048,7 @@ s32 TLobby::run_disk_error_check() {
         break;
     case 1:
         controller_stuff();
-        if (pending_file_read_flush_requested != 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
+        if (pending_file_read_flush_requested != 0 && (check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
             system_reset();
         }
         break;
@@ -1063,7 +1061,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 1);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
+        if (check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         }
         break;
@@ -1078,7 +1076,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 2);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
+        if (check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         }
         break;
@@ -1091,7 +1089,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 3);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
+        if (check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         } else {
             request_pending_file_read_flush();
@@ -1105,7 +1103,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 4);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
+        if (check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         } else {
             request_pending_file_read_flush();
@@ -1131,11 +1129,8 @@ s32 TLobby::run_disk_error_check() {
 // resource_load_task_root, one per relocatable data file), the quest and text archive
 // decryption, the disc-file wrappers and TLobby::run_frame.
 extern int player_load_load_state;
-extern "C" {
-
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
     fn_800FFE14(fn_800FFE04(), entries, count);
-}
 }
 
 TRelDataFile::~TRelDataFile() {}
@@ -1193,7 +1188,7 @@ u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
         return 0U;
     }
     SubtractiveRng rng;
-    subtractive_rng_seed(&rng, seed);
+    rng.set_seed(seed);
     rng.crypt_data_be((u32 *)file->data, size - 8);
     prs_decompress_buffer(file->data, dst);
     return decompressed_size;
@@ -1207,8 +1202,8 @@ u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
         return 0U;
     }
     SubtractiveRng rng;
-    subtractive_rng_seed(&rng, v4);
-    subtractive_rng_xor_buffer(&rng, (u32 *)data, size - 8);
+    rng.set_seed(v4);
+    rng.xor_buffer((u32 *)data, size - 8);
     prs_decompress_buffer(data, dst);
     return v0;
 }
@@ -1223,8 +1218,8 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
         return NULL;
     }
     SubtractiveRng rng;
-    subtractive_rng_seed(&rng, v4);
-    subtractive_rng_xor_buffer(&rng, (u32 *)&this->m_prev, size - 8);
+    rng.set_seed(v4);
+    rng.xor_buffer((u32 *)&this->m_prev, size - 8);
     prs_decompress_buffer(&this->m_prev, ret);
     if (out_size != NULL) {
         *out_size = v0;
@@ -1244,11 +1239,11 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     if (size <= 0) {
         return NULL;
     }
-    if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
-        buf = TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
+    if ((size <= 0x40000) && (tmp_buf_is_free() != 0)) {
+        buf = tmp_buf_use_req(load_file_prc_buffer_tag);
         read_disc_file(name, buf);
         ret = ((TLobby *)buf)->alloc_download_quest(size, &archive_size);
-        TLobby::tmp_buf_release(load_file_prc_buffer_tag);
+        tmp_buf_release(load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
         buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
@@ -1259,8 +1254,8 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         ret = TQuestVmDownLoadServer::alloc(archive_size);
         buf = load_disc_file(name);
         SubtractiveRng rng;
-        subtractive_rng_seed(&rng, h);
-        subtractive_rng_xor_buffer(&rng, (u32 *)(buf + 8), size - 8);
+        rng.set_seed(h);
+        rng.xor_buffer((u32 *)(buf + 8), size - 8);
         prs_decompress_buffer(buf + 8, ret);
         safe_free(buf);
     }

@@ -9,7 +9,10 @@ class WindowHeading;
 struct TItem;
 struct TItemData;
 struct WindowScrollBar;
+struct WindowDrawContext;
+struct NJS_POINT2;
 struct TWindowSubStatusDisp;
+struct TObjPlayer;
 
 class TWindowMenuIconLine : public TWindowAddition {
 public:
@@ -46,7 +49,7 @@ public:
     void reset_list();
     void set_flag70_bit10();
     void start_scroll(f32 height);
-    // Shrinks the list onto the selected row (state flag 0x20); start_scroll undoes it.
+    // Grows the window to fit the row under the cursor, once.
     void shrink_to_selected_entry();
     void add_status_entry(s8 flags, s32 src, s32 item);
     void add_list_entry(u8 icon, s32 src, s32 item);
@@ -103,17 +106,27 @@ public:
     // slot, the armor's unit slots indented.
     void refresh_equipment_list();
     void build_equipment_list();
+    // The weapon icon for the player's class flags: 0 (0x20), 1 (0x40), else 2; 0x33 without a player.
+    u8 get_class_weapon_icon_index(TObjPlayer *player);
     void add_status_line(u8 category_icon, TItem *item, s32 slot);
+    // Draws "current_items/capacity" on a tab above the list.
+    void draw_item_list_capacity(WindowDrawContext *context, s32 current_items, s32 capacity);
     u16 state_flags;
     s16 entry_count;
     s16 cursor;
     s16 entry_capacity;
     s16 saved_cursor;           // save_cursor_selection, before the list is rebuilt
-    u8 unk_7A[0x2];
+    u8 pad_7A[0x2];
     s32 saved_cursor_value;
     WindowHeading *status_display;
     WindowScrollBar *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
 LAYOUT_ASSERT(TWindowMenuIconLine_size, sizeof(TWindowMenuIconLine) == 0x88);
+
+// The size, row count and flags of the next list window built from the shared list descriptor.
+void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count);
+void set_menu_icon_line_flags(s32 flags);
+TWindowMenuIconLine *create_menu_icon_line(const NJS_POINT2 *position, const NJS_POINT2 *size, u32 count, s16 client);
+void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player);
 
 #endif

@@ -8,7 +8,6 @@
 #include "pso/item/TItem.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/weapon/TItemWeaponPanzerFaust.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -57,7 +56,7 @@ void TItemWeaponPanzerFaust::emit_marker_effects() { reload_timer = 60; }
 void TItemWeaponPanzerFaust::transform_model_node() {
     NJS_OBJECT *child;
 
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         if (second_model != NULL && reload_timer == 0) {
             child = second_model->child;
             if (child != NULL) {

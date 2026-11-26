@@ -79,7 +79,6 @@ void SymbolChatPreset::set_flag_bit2() {
     flags |= 2;
 }
 
-#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -114,7 +113,7 @@ void SymbolChatPreset::set_flag_bit2() {
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #pragma push
@@ -138,7 +137,6 @@ s32 symbol_chat_flip_v;
 s32 symbol_chat_mirror_mode;
 extern "C" {
 s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
-f32 get_scale__15TWindowCtrlMainFv(s32);
 
 void draw_second_window_arrow(TWindowSubSymbolChat *window);
 
@@ -189,7 +187,7 @@ void TWindowSubSymbolChat::set_flag_bit1(s32 *flags) {
     *flags |= 1;
 }
 unsigned char TWindowSubSymbolChat::get_global_4e54() {  return pending_symbol_chat_count; }
-void*TWindowSubSymbolChat::get_keyboard_ptr() { return (char*)this + 0x4; }
+char *SymbolChatPreset::get_name() { return name; }
 s32 TWindowSubSymbolChat::calc_remaining_slots() {
     return 0xC - TWindowSubSymbolChat::count_instance_empty_slots();
 }
@@ -455,7 +453,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         this->main_menu->open();
         if (this->symbol_list == NULL) {
-            this->symbol_list = create_new_parts_menu(this);
+            this->symbol_list = create_new_parts_menu();
         }
         this->symbol_list->clear_flag_and_release();
         this->selected_value = 0xBU;
@@ -865,9 +863,9 @@ TWindowMenu *TWindowSubSymbolChat::open_edit_menu() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-TWindowMenu *create_new_parts_menu(TWindowSubSymbolChat *chat) {
+TWindowMenu *TWindowSubSymbolChat::create_new_parts_menu() {
     TWindowMenu *r = create_titled_window_menu_default(get_window_layout_position(0x79), 6, (saddr)TWindowSubStatusDisp::get_message_10(0xA9));
-    chat->open_menu(r);
+    open_menu(r);
     return r;
 }
 
@@ -966,7 +964,7 @@ TKeyBoardControl *TWindowSubSymbolChat::create_keyboard_control() {
 
     keyboard = new TKeyBoardControl(this, 0x90, 1, 4, local_client_id);
     keyboard->set_composer_flag62_bit4();
-    keyboard->set_text((char *)((TWindowSubSymbolChat *)this->selected_preset)->get_keyboard_ptr());
+    keyboard->set_text(this->selected_preset->get_name());
     keyboard->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     keyboard->set_flag62_bit2();
     keyboard->set_soft_flag60_bit1();
@@ -1091,7 +1089,7 @@ void draw_second_window_arrow(TWindowSubSymbolChat *window) {
         } else {
             color = 0xFFFFFFFF;
         }
-        scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(window->client_id);
+        scale = (-1.0f) / TWindowCtrlMain::get_scale(window->client_id);
         begin_screen_draw(1);
         set_texture_list(hud_texlist);
         set_draw_texture_and_color(0, color);

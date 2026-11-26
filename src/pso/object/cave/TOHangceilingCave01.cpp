@@ -28,7 +28,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
@@ -73,14 +73,14 @@ void TOHangceilingCaveBase::set_damage(f32 v) {
     damage = v;
 }
 
-void TOHangceilingCaveBase::apply_knockback_from_attacker(u8 *, f32) {
+void TOHangceilingCaveBase::apply_knockback_from_attacker(TObjBase *, f32) {
 }
 
-f32 TOHangceilingCaveBase::receive_physical_attack(void *, f32) {
+f32 TOHangceilingCaveBase::receive_physical_attack(TObjChara *, f32) {
     return 0.0f;
 }
 
-s32 TOHangceilingCaveBase::select_melee_contact_body(void *, f32) {
+s32 TOHangceilingCaveBase::select_melee_contact_body(TObjChara *, f32) {
     return 1;
 }
 
@@ -126,7 +126,7 @@ void load_turiten_singo_resources(void) {
         turiten_singo_texture_lists[0] = LoadPvmFileTls("fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = LoadPvmFileTls("fs_obj_turiten_singo_r.gvm");
         turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist(hangceiling_cave01_model_archive, 1);
-        hangceiling_cave01_model_root = (NJS_OBJECT *)get_bml_model(hangceiling_cave01_model_archive, 2);
+        hangceiling_cave01_model_root = get_bml_model(hangceiling_cave01_model_archive, 2);
         turiten_singo_key_model_index = 1;
         hanging_ceiling_motion_index = 0;
         break;
@@ -252,15 +252,15 @@ void TOHangceilingCaveBase::begin_wait() {
 void TOHangceilingCaveBase::update_state() {
 }
 
-f32 TOHangceilingCaveBase::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+f32 TOHangceilingCaveBase::receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32) {
     return 0.0f;
 }
 
-f32 TOHangceilingCaveBase::receive_weapon_special_attack(void *, void *) {
+f32 TOHangceilingCaveBase::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     return 0.0f;
 }
 
-int TOHangceilingCaveBase::calc_distance_accuracy_penalty(void *, void *, void *, float) {
+int TOHangceilingCaveBase::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) {
     return 1;
 }
 
