@@ -54,7 +54,7 @@ const char *TBoss6Thanks::class_name = "TBoss6Thanks";
 
 // Where the object sits: render translates both models there, is_player_near measures the
 // players' distance to it and the emitters spawn at it (boss6_thanks_position is an inferred name).
-static const Vec boss6_thanks_position = {-10000.0f, 0.0f, -1.7f};
+__declspec(section ".rodata") static Vec boss6_thanks_position = {-10000.0f, 0.0f, -1.7f};
 
 // Item type, group and index that any_player_has_listed_equipment looks for in each slot.
 extern const u8 listed_equipment_table[10][3] = {

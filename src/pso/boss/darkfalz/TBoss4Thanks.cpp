@@ -33,7 +33,7 @@
 const char *TBoss4Thanks::class_name = "TBoss4Thanks";
 extern "C" {
 // Position of the emitters and of the proximity check (x, y, z).
-extern const Vec boss4_thanks_position = {-9860.0f, 29.0f, -238.9f};
+__declspec(section ".rodata") Vec boss4_thanks_position = {-9860.0f, 29.0f, -238.9f};
 // Equipment any_player_has_listed_item() (text_8035C9E8, this TU's code) looks for: {type, group, index}.
 extern const u8 boss4_thanks_listed_item_table[3][3] = {{0x00, 0x9D, 0x00}, {0x00, 0x9E, 0x00}, {0x00, 0x9F, 0x00}};
 extern const Boss4ThanksEmitter boss4_thanks_emitter_table[4] = {

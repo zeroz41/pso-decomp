@@ -213,9 +213,9 @@ f32 TBoss6PlotFalz::fade_amount = -1.0f;
 // warp_nearby_players carries players within 150 of warp_origin to the same offset from the
 // arena center; place_players_in_warp_circle rings them around warp_circle_center; the default
 // targets are what get_target_pos_b/_a return while Type1/Type2 is gone.
-const Vec boss6_plot_falz_arena_center = { -10000.0f, 0.0f, 0.0f };
+__declspec(section ".rodata") static Vec boss6_plot_falz_arena_center = { -10000.0f, 0.0f, 0.0f };
 const Vec boss6_plot_falz_warp_circle_center = { -10000.0f, 10.0f, 0.0f };
-const Vec boss6_plot_falz_warp_origin = { 0.0f, 0.0f, 0.0f };
+__declspec(section ".rodata") static Vec boss6_plot_falz_warp_origin = { 0.0f, 0.0f, 0.0f };
 const Vec boss6_plot_falz_type1_default_target = { 0.0f, 0.0f, 0.0f };
 const Vec boss6_plot_falz_type2_default_target = { -10000.0f, 0.0f, 0.0f };
 
