@@ -1,3 +1,4 @@
+#include "pso/enemy/BattleParameters.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/ModelNodePositionCapture.h"
@@ -240,12 +241,6 @@ TObjEnePanBARA *TObjEnePanarms::create_bara(EnemyPlacement *setData, s32 index) 
     return new TObjEnePanBARA(new TObjControl(tl_04), setData, index);
 }
 
-struct PanBARAParams {
-    f32 unk_0;
-    f32 unk_4;
-    f32 unk_8;
-};
-
 TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 index) : TObjEnemy(parent) {
     s32 i;
 
@@ -298,17 +293,17 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     move_speed = 0.0f;
     partner_death_seen = 0;
     if (half_index == 0) {
-        pad_460 = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(50))->unk_0;
-        attack_power = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(50))->unk_4;
+        pad_460 = TLobby::dispatch_shared_handler_a(50)->values.floats[0];
+        attack_power = TLobby::dispatch_shared_handler_a(50)->values.floats[1];
     } else {
-        pad_460 = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(51))->unk_0;
-        jelin_chance = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(51))->unk_4;
+        pad_460 = TLobby::dispatch_shared_handler_a(51)->values.floats[0];
+        jelin_chance = TLobby::dispatch_shared_handler_a(51)->values.floats[1];
         if (jelin_chance < 0.0f) {
             jelin_chance = 0.0f;
         } else if (jelin_chance > 1.0f) {
             jelin_chance = 1.0f;
         }
-        zalure_chance = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(51))->unk_8;
+        zalure_chance = TLobby::dispatch_shared_handler_a(51)->values.floats[2];
         if (zalure_chance < 0.0f) {
             zalure_chance = 0.0f;
         } else if (zalure_chance > 1.0f) {
