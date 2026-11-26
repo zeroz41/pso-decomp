@@ -10525,7 +10525,7 @@ pso/system/save/McFsGc.cpp:
 pso/system/save/McFsGcRequests.cpp:
 	.text       start:0x803F339C end:0x803F3BF8
 
-pso/unk/text_803F3BF8.cpp:
+pso/network/NetworkInfoOpen.cpp:
 	.text       start:0x803F3BF8 end:0x803F3DD4
 	.data       start:0x804FCE38 end:0x804FCE68
 	.sbss       start:0x805D7980 end:0x805D7988 align:32
@@ -10541,7 +10541,7 @@ pso/network/NetworkInfoLoader.cpp:
 	.sdata      start:0x805D4708 end:0x805D4710
 	.sbss       start:0x805D79A0 end:0x805D79E8 align:32
 
-pso/unk/text_803F4D84.cpp:
+pso/network/NetworkInfoEntry.cpp:
 	.text       start:0x803F4D84 end:0x803F632C
 
 pso/network/NetworkInfoCodec.cpp:

@@ -1717,7 +1717,7 @@ pso/render/ChunkModelDraw.cpp
 pso/render/ChunkMotionDraw.cpp
 pso/unk/text_803E4CE8.cpp
 pso/unk/text_803F1804.cpp
-pso/unk/text_803F4D84.cpp
+pso/network/NetworkInfoEntry.cpp
 pso/network/NetApi.c
 pso/unk/text_8042E8C4.cpp
 si/SIBios.c
@@ -1797,7 +1797,7 @@ pso/technique/TTecLightCharge.cpp
 pso/weapon/TItemAttackCol.cpp
 pso/player/PlayerActionProvider.cpp
 pso/network/NetworkInfoRequests.cpp
-pso/unk/text_803F3BF8.cpp
+pso/network/NetworkInfoOpen.cpp
 pso/audio/AdxBsc.cpp
 pso/render/GinjaMaterial.cpp
 pso/system/movie/MovieFramePack.cpp

@@ -1614,7 +1614,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     # (.sbss 0x805D79C0, 0x805D79E0) and the two entry points taking the caller's buffer 32-align their
     # frames; 1.3 honours aligned(32) on pointers, 1.3.2-2.7 drop it, and the rest of the code is the same.
     ("ntinf", 0x803F3BF8, "GC/1.3", cflags_middleware, {
-        "pso/unk/text_803F4D84.cpp": {"cflags": _switch(cflags_middleware, "-O2", "-use_lmw_stmw off")},
+        "pso/network/NetworkInfoEntry.cpp": {"cflags": _switch(cflags_middleware, "-O2", "-use_lmw_stmw off")},
     }),
     # ACCESS AVE-TCP ("avetcp.a Ver.1.16.1 Oct 23 2002"); its PPP files were
     # built without common subexpression elimination.

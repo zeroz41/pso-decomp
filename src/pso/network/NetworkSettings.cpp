@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/unk/text_803F4D84.h"
+#include "pso/network/NetworkInfoEntry.h"
 #include <string.h>
-#include "pso/unk/text_803F3BF8.h"
+#include "pso/network/NetworkInfoOpen.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoRequests.h"
 #include "pso/system/save/McFsGc.h"
