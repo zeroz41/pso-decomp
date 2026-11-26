@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct TWindowSubCustomSelect;
 
 // The main menu's customize submenu (TWindowMainMenu ids 0 and 1): the custom
 // equip list, the custom select window it opens and a help window.
@@ -19,7 +20,7 @@ public:
     s32 client_id;
     TWindowMainMenu *main_menu;
     uaddr custom_equip;
-    uaddr custom_select;
+    TWindowSubCustomSelect *custom_select;
     uaddr help_window;
     u16 help_kind;
     u16 help_id;

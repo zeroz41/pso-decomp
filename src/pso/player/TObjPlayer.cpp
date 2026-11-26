@@ -313,7 +313,6 @@ s32 TObjPlayer::get_entrance_id() { return entrance_id; }
 #pragma dont_inline off
 
 extern "C" {
-void copy_death_flags(void *dst, void *src);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 }
 void emit_grass_footstep_effect(PlayerFollowParticles *particles);
@@ -647,7 +646,10 @@ PlayerTelepipe &PlayerTelepipe::operator=(PlayerTelepipe &src) {
     return *this;
 }
 
-void copy_death_flags(void *dst, void *src) { ((u32 *)dst)[0] = ((u32 *)src)[0]; }
+FlagWord &FlagWord::operator=(FlagWord &src) {
+    bits = src.bits;
+    return *this;
+}
 
 MovementHold &MovementHold::operator=(MovementHold &src) {
     frames = src.frames;

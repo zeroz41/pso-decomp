@@ -9,7 +9,6 @@
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
-#include "pso/ui/window/TWindowSubCustomSelect_80275D84.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/text_80263A20.h"

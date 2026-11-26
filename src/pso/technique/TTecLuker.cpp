@@ -55,7 +55,7 @@ extern "C" {
 void TTecLuker__sub_8023503C(void* p);
 void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
-int fn_80235078(void *arg0);
+int fn_80235078(void *record);
 s32 init_collision_body_parts(void *, void *, int);
 bool TTecLuker__sub_8023401C(u8 *arg0);
 }

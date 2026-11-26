@@ -117,7 +117,6 @@ s32 draw_player_status(void *, void *, const char *);
 u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
-void copy_death_flags(void *dst, void *src);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 u8 get_cast_technique_level(void *techs, s16 tech);
 }
@@ -1609,7 +1608,7 @@ void handle_6x4D_player_died(G_PlayerDied_6x4D *command) {
     if (validate_6x4D_player_died(&cmd.header) != 0) {
         p = (u8 *)get_player_by_client_id(cmd.header.client_id);
         if (p != NULL) {
-            copy_death_flags(p + 0x858, &cmd.death_flags);
+            ((TObjPlayer *)p)->death_flags = cmd.death_flags;
             ((TObjPlayer *)p)->reset_on_death();
             if (((TObjPlayer *)p)->is_in_tl03_state() != 0) {
                 ((TObjPlayer *)p)->run_action_state_phase(0xF, 0);
@@ -1646,7 +1645,7 @@ void TObjPlayer::prepare_death() {
         c1.send();
         G_PlayerDied_6x4D c2;
         c2.header.client_id = this->get_entity_id();
-        copy_death_flags(&c2.death_flags, &this->death_flags);
+        c2.death_flags = this->death_flags;
         c2.send();
     }
 }
@@ -5464,7 +5463,7 @@ void FlagWord::bswap() { bswap_32((u32 *)&bits); }
 #pragma dont_inline off
 G_PlayerDied_6x4D &G_PlayerDied_6x4D::operator=(G_PlayerDied_6x4D &src) {
     copy_subcommand_header(this, &src);
-    death_flags = src.death_flags;
+    death_flags.bits = src.death_flags.bits;
     return *this;
 }
 #pragma pop

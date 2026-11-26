@@ -60,26 +60,26 @@ f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern s32 lbl_805D55C0;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
-bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);
+bool is_player_in_service_range__14TShopGeneratorFP8TObjBasef(u8 *self, u8 *player, f32 range);
 }
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-bool TShopGenerator::is_player_in_service_range(u8 *player, f32 range) {
+bool TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
     f32 to_self[3];
-    if (xyz_distance_squared(&reinterpret_cast<const TObjBase *>(player)->position, &position) > (range * range)) {
+    if (xyz_distance_squared(&player->position, &position) > (range * range)) {
         return 0;
     }
     f32 facing[3] = {0.0f, 0.0f, -1.0f};
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, (int) reinterpret_cast<const TObjBase *>(player)->rotation_y);
+    rotate_matrix_y(0, (int) player->rotation_y);
     rotate_vector_by_matrix(0, facing, facing);
     pop_matrix();
-    to_self[0] = this->position.x - reinterpret_cast<const TObjBase *>(player)->position.x;
-    to_self[1] = this->position.y - reinterpret_cast<const TObjBase *>(player)->position.y;
-    to_self[2] = this->position.z - reinterpret_cast<const TObjBase *>(player)->position.z;
+    to_self[0] = this->position.x - player->position.x;
+    to_self[1] = this->position.y - player->position.y;
+    to_self[2] = this->position.z - player->position.z;
     normalize_vector((Vec *)to_self);
     return (vec3_dot(facing, to_self) > -0.5f) == 0;
 }
@@ -120,7 +120,7 @@ void TShopGenerator::run_task() {
         for (i = 0; i < 4; i++) {
             p = (saddr)get_player_by_client_id(i);
             if (p == 0) continue;
-            if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
+            if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
             if (is_slot_active(((TObjBase *)(p))->get_entity_id()) == 1) continue;
             if (TMedicalCenterMes::get_slot_flag(((TObjBase *)(p))->get_entity_id()) == 1) continue;
             if (((TObjPlayer *)p)->is_action_input_disabled() == 1) continue;
@@ -142,7 +142,7 @@ void TShopGenerator::run_task() {
         if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)get_client_split_screen_slot(((TObjBase *)(q))->get_entity_id())) == 1) return;
-        if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
+        if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
         if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)q)->get_controller_port()], 4) == 0) return;
         service->create((void *)q);
     }

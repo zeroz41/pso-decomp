@@ -112,7 +112,6 @@ void TObjPlayer::place_on_area_entry() {
         }
     }
 }
-void copy_death_flags(void *dst, void *src);
 
 s32 TObjPlayer::has_active_camera_event() {
     if (TLobby::get_instance() == 0) {
@@ -139,7 +138,7 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     ((TLobby *)&guild_card_tag)->copy_header_struct(&record->guild_card_tag);
     pk_state = record->pk_state;
     telepipe = record->telepipe;
-    copy_death_flags(&death_flags, &record->death_flags);
+    death_flags = record->death_flags;
     movement_hold = record->hold_state;
     set_floor_index(record->area);
     set_floor(record->floor);

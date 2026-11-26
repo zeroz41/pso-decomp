@@ -14,6 +14,7 @@ struct FlagWord {
     s32 get_bits();
     void set_bits(s32 value);
     void bswap();
+    FlagWord &operator=(FlagWord &src);
 };
 
 extern "C" {

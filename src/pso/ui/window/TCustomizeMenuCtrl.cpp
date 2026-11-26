@@ -8,7 +8,6 @@
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
-#include "pso/ui/window/TWindowSubCustomSelect_80275D84.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/text_80263A20.h"
@@ -37,13 +36,6 @@ struct RunTaskEv {
     u16 id;
 };
 
-class VObj_80275A8C {
-public:
-    u8 pad0[0x18];
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-};
-
 extern "C" {
 u8 get_cast_technique_level(void *, s16);
 void text_builder_append_int(s32);
@@ -64,16 +56,16 @@ TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TO
     help_window = (uaddr)TWindowMessage::create(get_window_layout_position(0x11), lbl_8044F718, 1, client_id);
     ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
     call_if_split_screen(help_window, client_id);
-    custom_select = 0;
+    custom_select = NULL;
     help_kind = 0;
     help_id = 0;
     state = 0;
 }
 
 TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
-    if ((void *)custom_select != NULL) {
-        ((TWindowBase *)custom_select)->close();
-        custom_select = 0;
+    if (custom_select != NULL) {
+        custom_select->close();
+        custom_select = NULL;
     }
     if ((void *)help_window != NULL) {
         ((TWindowBase *)help_window)->close();
@@ -90,9 +82,9 @@ void TCustomizeMenuCtrl::run_task() {
     switch (state) {
     case 0:
     case 1:
-        if ((void *)custom_select != NULL) {
-            ((TWindowBase *)custom_select)->close();
-            custom_select = 0;
+        if (custom_select != NULL) {
+            custom_select->close();
+            custom_select = NULL;
         }
         ((TWindowSubCustomEquip *)(this->custom_equip))->clear_flag_and_set_entry_state();
         state = 2;
@@ -100,23 +92,23 @@ void TCustomizeMenuCtrl::run_task() {
         ((TWindowSubCustomEquip *)(this->custom_equip))->get_cursor_pos(&ev);
         update_customize_help_text(&ev);
         if (TWindowSubCustomEquip__sub_80275DA8((void *)this->custom_equip) != 0) {
-            ((VObj_80275A8C *)main_menu)->v7();
+            main_menu->on_submenu_closed();
             state = 5;
         } else if (((TWindowSubCustomEquip *)(this->custom_equip))->is_selected() != 0) {
             state = 3;
         }
         break;
     case 3:
-        custom_select = (uaddr)new TWindowSubCustomSelect(client_id);
-        ((TWindowBase *)custom_select)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 1));
+        custom_select = new TWindowSubCustomSelect(client_id);
+        custom_select->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 1));
         state = 4;
     case 4:
-        update_customize_help_text(reinterpret_cast<TWindowSubCustomSelect *>(custom_select)->get_selected_action());
-        if (fn_80275D90((void *)custom_select) != 0) {
+        update_customize_help_text(custom_select->get_selected_action());
+        if (custom_select->is_cancelled() != 0) {
             state = 1;
         }
-        if (((TWindowSubCustomSelect *)custom_select)->is_active() != 0) {
-            void *e = reinterpret_cast<TWindowSubCustomSelect *>(custom_select)->get_selected_action();
+        if (custom_select->is_active() != 0) {
+            void *e = custom_select->get_selected_action();
             ((TWindowSubCustomEquip *)(this->custom_equip))->toggle_action_binding(e);
             state = 1;
         }

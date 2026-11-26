@@ -188,7 +188,6 @@ s32 try_send_6x27_use_item(void *player, s32 key);
 void release_players_from_cutscene(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
-void copy_death_flags(void *dst, void *src);
 void *__ct__12StatusEffectFv(void *);
 
 
@@ -3231,7 +3230,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     ((TLobby *)&record->guild_card_tag)->copy_header_struct(&guild_card_tag);
     record->pk_state = pk_state;
     record->telepipe = telepipe;
-    copy_death_flags(&record->death_flags, &death_flags);
+    record->death_flags = death_flags;
     record->hold_state = movement_hold;
     record->area = get_area();
     record->floor = get_floor();

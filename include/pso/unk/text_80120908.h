@@ -5,7 +5,7 @@
 
 struct TItemWeapon;
 extern "C" {
-void draw_weapon_at_joint(saddr arg0, s8 joint);
+void draw_weapon_at_joint(saddr weapon, s8 joint);
 }
 
 #endif

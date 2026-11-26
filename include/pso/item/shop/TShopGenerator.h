@@ -18,7 +18,7 @@ struct ShopService {
 struct TShopGenerator : public TObjBase {
     TShopGenerator(saddr);
     virtual ~TShopGenerator();
-    bool is_player_in_service_range(u8 *, f32);
+    bool is_player_in_service_range(TObjBase *player, f32 range);
     virtual void run_task();
     u32 m_90;
     s32 service_check_delay; // frames to wait before the first service check (the constructor sets 5)

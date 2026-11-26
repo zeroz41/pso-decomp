@@ -30,6 +30,7 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     void draw_palette_cells(WindowDrawContext *ctx);
     virtual void run_task();
     int is_active();
+    int is_cancelled();  // set by handle_cancel
     void *get_selected_action();
 };
 

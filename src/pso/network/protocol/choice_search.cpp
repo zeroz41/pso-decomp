@@ -102,7 +102,7 @@ void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSea
     ChoiceSearchOption *e;
     ChoiceSearchSelection tmp[5];
     copy_struct28__17TWindowSubComCardFii((saddr) tmp, (saddr) arr);
-    clear_choice_search_selections((ChoiceSearchSelection *) arr);
+    clear_choice_search_selections(arr);
     n = chr_select->header.flags;
     dst = arr;
     e = chr_select->entries;
