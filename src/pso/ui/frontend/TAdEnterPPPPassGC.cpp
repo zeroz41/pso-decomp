@@ -183,7 +183,7 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     ok = 0;
     if (TLobby__sub_8014618C() != 0) {
         if (is_state_active() != 0) {
-            if (*TLobby__sub_80146D14() != 0) {
+            if (*get_ppp_password() != 0) {
                 ok = 1;
             }
         } else {

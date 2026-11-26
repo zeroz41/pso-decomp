@@ -142,7 +142,7 @@ extern "C" {
 void TLobby__sub_801A3E94(void);
 }
 extern "C" {
-s32 TLobby__sub_80146908();
+s32 init_network_and_connect();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
 u32 TAdDialingGC__sub_801A4C9C();
@@ -734,7 +734,7 @@ void run_online_lobby_scene(void) {
     TLobby__sub_8020A6B0(0xF);
     TAdDialingGC::open();
     ((TAdDialingGC *)tl_window)->create();
-    online_lobby_scene_handle = TLobby__sub_80146908();
+    online_lobby_scene_handle = init_network_and_connect();
     TAdDialingGC__sub_80328730();
     TLoadCtrl::set_field1C(0);
     while (TAdDialingGC__sub_801A4C9C() != 0) {
