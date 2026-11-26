@@ -14,8 +14,8 @@
 
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
-void TLobby__sub_80227AA8(s32 tracks) {
-    sound_control_state.fn_8023F660(tracks, get_sound_voice_volume_adjustment() + 0x55, 0x40, 0x40, 0);
+void apply_default_stream_mix(s32 tracks) {
+    sound_control_state.set_stream_mix(tracks, get_sound_voice_volume_adjustment() + 0x55, 0x40, 0x40, 0);
 }
 
 
@@ -225,8 +225,8 @@ void load_floor_sound_bank(s32 floor) {
 
 }
 
-void TLobby__sub_8022804C(void) {
-    TLobby__sub_802401C8(&sound_control_state);
+void run_sound_retrace_hook(void) {
+    sound_retrace_hook(&sound_control_state);
 }
 
 void update_global_sound_frame(void) {

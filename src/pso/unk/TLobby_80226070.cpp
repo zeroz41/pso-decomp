@@ -366,7 +366,7 @@ void update_sound_request_slots(void) {
         }
         if (lbl_805D6279 == 0) {
             for (i = 0; i < 0x28; i++) {
-                r = TLobby__sub_8023F880(i);
+                r = get_sound_request_voice_state(i);
                 if (r == -1 || r == 1) {
                     e = &sound_pitch_requests[i];
                     t = &e->timer;

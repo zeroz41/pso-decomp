@@ -6,8 +6,8 @@
 // The MusyX allocation hook and the retrace and stream callbacks the sound
 // setup installs.
 void *musyx_malloc_hook(u32 size);
-void pre_retrace_callback(void);
-int post_retrace_callback(void *p);
+void pre_retrace_callback(u32 retrace_count);
+void post_retrace_callback(u32 retrace_count);
 void TLobby__sub_80227A90(s32, const char *);
 
 // Starts the loading music stream of the given index (0-3).

@@ -278,13 +278,12 @@ void turn_off_bgm_p2(void) {
 
 
 extern "C" {
-s32 VISetPreRetraceCallback(void (*callback)(void));
+typedef void (*VIRetraceCallback)(u32 retrace_count);
+VIRetraceCallback VISetPreRetraceCallback(VIRetraceCallback callback);
+VIRetraceCallback VISetPostRetraceCallback(VIRetraceCallback callback);
 }
 extern "C" {
 void gcrna_bridge_init_buffers(void *work, s32 size, s32 count);
-}
-extern "C" {
-s32 VISetPostRetraceCallback(int (*callback)(void *));
 }
 
 // The four .acx streams start_bgm_stream starts by index.
@@ -542,7 +541,7 @@ void update_music_fade(void) {
         }
     }
     if (adxt_players[2] != NULL && adxt_get_stat(adxt_players[2]) == 3) {
-        TLobby__sub_80227AA8((saddr)adxt_players[2]);
+        apply_default_stream_mix((saddr)adxt_players[2]);
     }
 }
 
@@ -619,6 +618,6 @@ void init_adx_audio_system(void) {
 void TLobby::free(void *p) { xfree(p); }
 
 void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
-void pre_retrace_callback(void) {  }
-int post_retrace_callback(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
+void pre_retrace_callback(u32 retrace_count) {}
+void post_retrace_callback(u32 retrace_count) { run_sound_retrace_hook(); }
 void TLobby__sub_80227A90(s32, const char *) {  }

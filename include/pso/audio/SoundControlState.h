@@ -22,7 +22,7 @@ public:
     ~SoundControlState();
     void set_output_mode(s32 mode);
     // Clamps the mix to 0..0x7F and sets the stream mix; surround only in output mode 2.
-    void fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol);
+    void set_stream_mix(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol);
     s32 is_ready();
     s32 get_field_308();
     // Steps the sound random generator (x * 0x10DCD + 1) and returns it.
@@ -83,8 +83,8 @@ LAYOUT_ASSERT(SoundControlState_ms_offset, offsetof(SoundControlState, ms) == 0x
 extern SoundControlState sound_control_state;
 
 void set_sound_voice_position(s32 slot, const Vec *position);
-s32 TLobby__sub_8023F880(s32 voice);
-int TLobby__sub_802401C8(SoundControlState *self);
+s32 get_sound_request_voice_state(s32 voice);
+int sound_retrace_hook(SoundControlState *self);
 extern "C" {
 void TLobby__sub_802422EC(void *dst, void *src);
 }

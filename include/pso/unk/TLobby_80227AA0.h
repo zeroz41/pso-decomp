@@ -7,10 +7,10 @@
 struct Vec;
 
 // --- C functions defined in TLobby_80227AA0.cpp ---
-void TLobby__sub_80227AA8(s32 tracks);
+void apply_default_stream_mix(s32 tracks);
 void set_sound_request_position(s32 slot, const Vec *position);
 void TLobby__sub_80227D38(void);
-void TLobby__sub_8022804C(void);
+void run_sound_retrace_hook(void);
 void reset_sound_control_state(void);
 void set_sound_reverb_level(f32 level);
 s32 get_sound_voice_volume_adjustment(void);

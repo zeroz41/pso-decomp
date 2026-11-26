@@ -515,7 +515,7 @@ s32 adxt_get_stat(s32);
 s32 adx_ui_bridge_get_stream_id(s32, s32);
 }
 
-void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
+void SoundControlState::set_stream_mix(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
     if (span < 0) {
         span = 0;
     }
@@ -603,7 +603,7 @@ void SoundControlState::set_reverb_level(f32 level) {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-s32 TLobby__sub_8023F880(s32 voice) {
+s32 get_sound_request_voice_state(s32 voice) {
   u8 *voices;
   s8 *entry;
   if ((voice >= 0) && (voice < 0x28))
@@ -893,7 +893,7 @@ fail:
 }
 
 
-int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
+int sound_retrace_hook(SoundControlState *self) { return 0; }
 s32 update_sound_frame(SoundControlState *self) {
     s32 t;
     s32 i;

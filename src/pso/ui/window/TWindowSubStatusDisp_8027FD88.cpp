@@ -195,7 +195,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 #include "pso/unk/TLobby_8001D6A0.h"
 
 
-// list type of page_indicator per page: the page-flip list kind
+// list type of page_indicator per page: the page-flip list kind passed to reset_list_page_indicator
 const u8 status_page_list_kinds[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
@@ -224,7 +224,7 @@ void TWindowSubStatusDisp::run_task() {
     if ((this->page) != (this->requested_page))
     {
       this->page = this->requested_page;
-      fn_8026C7AC(this->page_indicator, status_page_list_kinds[this->page]);
+      reset_list_page_indicator(this->page_indicator, status_page_list_kinds[this->page]);
     }
     this->entry_list.destroy_all_items();
     this->dispatch_page_init();

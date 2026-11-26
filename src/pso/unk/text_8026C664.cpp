@@ -15,7 +15,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TextBuilder.h"
 
-void fn_8026C664(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
+void draw_page_arrow_left(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   TexturedQuad quad;
   quad.x0 = x;
   quad.y0 = y;
@@ -32,7 +32,7 @@ void fn_8026C664(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_
   context->transform_quad(&quad);
   draw_textured_quad_at_depth(&quad.x0, depth);
 }
-void fn_8026C708(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
+void draw_page_arrow_right(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   float bottom;
   TexturedQuad quad;
   quad.x0 = x;
@@ -53,13 +53,13 @@ void fn_8026C708(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_
 }
 
 
-s32 fn_8026C7AC(PageIndicator *indicator, s8 count) {
+s32 reset_list_page_indicator(PageIndicator *indicator, s8 count) {
     indicator->page = 0;
     indicator->count = count;
     return 1;
 }
 
-s32 fn_8026C7C0(PageIndicator *indicator, s8 page) {
+s32 set_list_page(PageIndicator *indicator, s8 page) {
     if (page == indicator->page) {
         return 0;
     }
@@ -86,8 +86,8 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);
-    fn_8026C708(r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
-    fn_8026C664(r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
+    draw_page_arrow_right(r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
+    draw_page_arrow_left(r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
     end_screen_draw();
     set_text_draw_params(r, 0, 1, scale, (f32)1e+05f);
     text_builder_reset();
