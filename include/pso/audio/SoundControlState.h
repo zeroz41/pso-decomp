@@ -38,6 +38,14 @@ public:
     // otherwise down to the four resident banks.
     s32 pop_sound_groups(s32 pop_all);
     s32 validate_and_set_selection(s32 bank);
+    // Steps the pending bank route: loads the next group's bank files, then marks the state ready.
+    void update_sound_bank_load();
+    // Frees bank id's buffers and starts reading its four AFS files; 0, or 2/3 when an open or
+    // allocation fails.
+    s32 start_sound_bank_load(int id);
+    int sound_retrace_stub();
+    s32 update_sound_frame();
+    s32 init_sound_aux_effects();
 
     u8 reverb[0x1C4];             // MusyX SND_AUX_REVERBHI work area
     u8 reverb_temp_disable;       // SND_AUX_REVERBHI.tempDisable
@@ -85,7 +93,6 @@ extern SoundControlState sound_control_state;
 
 void set_sound_voice_position(s32 slot, const Vec *position);
 s32 get_sound_voice_state(s32 voice);
-int sound_retrace_stub(SoundControlState *self);
 // Keeps a looping voice alive for five more updates.
 void sound_request_voice_set_refresh(struct SoundRequestVoice *voice);
 // Sends the voice's pitch to the sound driver when it changed.
@@ -106,8 +113,6 @@ s32 set_voice_pitch_slide(struct SoundRequestVoice *voice, s32 target, s32 durat
 s32 tick_sound_voice(struct SoundRequestVoice *v);
 
 
-s32 update_sound_frame(SoundControlState *self);
-s32 init_sound_aux_effects(SoundControlState *self);
 
 typedef struct ResolveSoundEffectBankRange {
     s32 start;

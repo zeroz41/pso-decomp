@@ -230,18 +230,18 @@ void load_floor_sound_bank(s32 floor) {
 }
 
 void run_sound_retrace(void) {
-    sound_retrace_stub(&sound_control_state);
+    sound_control_state.sound_retrace_stub();
 }
 
 void update_global_sound_frame(void) {
-    update_sound_frame(&sound_control_state);
+    sound_control_state.update_sound_frame();
 }
 void reset_sound_control_state(void) {
     sound_control_state.reset_sound_state();
 }
 
 void wait_for_sound_init() {
-    init_sound_aux_effects(&sound_control_state);
+    sound_control_state.init_sound_aux_effects();
     sound_control_state.validate_and_set_selection(0);
     do {
         draw_loading_compass();

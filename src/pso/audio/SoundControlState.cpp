@@ -545,7 +545,7 @@ void SoundControlState::set_stream_mix(AdxtPlayer *tracks, s32 vol, s32 pan, s32
         span = 0;
     }
     if (adxt_get_stat(tracks) == 3) {
-        sndStreamMixParameter(adx_ui_bridge_get_stream_id((AdxUiBridgeTarget *)tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
+        sndStreamMixParameter(adx_ui_bridge_get_stream_id(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
     }
 }
 
@@ -732,14 +732,11 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 #pragma pop
 
 #pragma pop
-extern "C" {
-
-s32 start_sound_bank_load(SoundControlState *self, int id);
 
 s32 SoundControlState::is_ready() {
     return (u8) (load_state == 1);
 }
-void update_sound_bank_load(SoundControlState *self) {
+void SoundControlState::update_sound_bank_load() {
     s32 i;
     s32 j;
     s32 pos;
@@ -749,17 +746,17 @@ void update_sound_bank_load(SoundControlState *self) {
     s32 id;
     s32 file;
     u16 crc;
-    if (self->route == NULL) {
+    if (route == NULL) {
         return;
     }
-    self->load_state = 2;
-    pos = self->route_pos;
-    if (pos >= 0 && self->route[pos] == -1) {
+    load_state = 2;
+    pos = route_pos;
+    if (pos >= 0 && route[pos] == -1) {
         return;
     }
     if (pos == -1) {
-        self->route_pos = 0;
-        start_sound_bank_load(self, self->route[self->route_pos]);
+        route_pos = 0;
+        start_sound_bank_load(route[route_pos]);
         return;
     }
     errors = 0;
@@ -767,9 +764,9 @@ void update_sound_bank_load(SoundControlState *self) {
     active = 0;
     if (pos >= 0) {
         for (i = 0; i < 4; i++) {
-            if (self->bank_file_handles[i] != NULL) {
+            if (bank_file_handles[i] != NULL) {
                 active++;
-                switch (ADXF_GetStat(self->bank_file_handles[i])) {
+                switch (ADXF_GetStat(bank_file_handles[i])) {
                 case 2:
                 case 1:
                     break;
@@ -787,39 +784,38 @@ void update_sound_bank_load(SoundControlState *self) {
     }
     if (errors == 0 && active != 0 && active == done) {
     for (j = 0; j < 4; j++) {
-        if (self->bank_file_handles[j] != NULL) {
-            ADXF_Close(self->bank_file_handles[j]);
-            self->bank_file_handles[j] = NULL;
+        if (bank_file_handles[j] != NULL) {
+            ADXF_Close(bank_file_handles[j]);
+            bank_file_handles[j] = NULL;
         }
     }
     clear_player_slot_tables(-1);
-    id = self->route[self->route_pos];
+    id = route[route_pos];
     for (i = 0; i < 4; i++) {
-        file = self->ents[id].file_index[i];
-        crc = calculate_crc16_ccitt((const u8 *)self->ents[id].file_data[i], sound_bank_file_sizes[file]);
+        file = ents[id].file_index[i];
+        crc = calculate_crc16_ccitt((const u8 *)ents[id].file_data[i], sound_bank_file_sizes[file]);
         if (crc != sound_bank_file_crc16[file]) {
             return;
         }
     }
-    sndPushGroup(self->ents[id].file_data[0], sound_bank_group_ids[id], self->ents[id].file_data[3],
-                 musyx_sdir_buffers[self->ents[id].file_index[2] / 4], self->ents[id].file_data[1]);
-    self->stack[self->depth + 1] = id;
-    self->depth++;
-    if (self->ents[id].file_data[3] != 0) {
-        xfree(self->ents[id].file_data[3]);
-        self->ents[id].file_data[3] = 0;
+    sndPushGroup(ents[id].file_data[0], sound_bank_group_ids[id], ents[id].file_data[3],
+                 musyx_sdir_buffers[ents[id].file_index[2] / 4], ents[id].file_data[1]);
+    stack[depth + 1] = id;
+    depth++;
+    if (ents[id].file_data[3] != 0) {
+        xfree(ents[id].file_data[3]);
+        ents[id].file_data[3] = 0;
     }
-    self->route_pos++;
-    if (self->route[self->route_pos] >= 0) {
-        start_sound_bank_load(self, self->route[self->route_pos]);
+    route_pos++;
+    if (route[route_pos] >= 0) {
+        start_sound_bank_load(route[route_pos]);
         return;
     }
-    self->group_state = self->next_group_state;
-    self->route = NULL;
-    self->route_pos = -1;
-    self->load_state = 1;
+    group_state = next_group_state;
+    route = NULL;
+    route_pos = -1;
+    load_state = 1;
     }
-}
 }
 
 void reset_sound_group_fade() {
@@ -834,78 +830,78 @@ void fade_voice_channels(s32 step) {
         start_voice_fade(&sound_request_voices[i], step);
     }
 }
-s32 start_sound_bank_load(SoundControlState *self, int id) {
+s32 SoundControlState::start_sound_bank_load(int id) {
     s32 i;
     s32 ret;
-    if (self->ents[id].file_data[3] != 0) {
-        xfree(self->ents[id].file_data[3]);
-        self->ents[id].file_data[3] = 0;
+    if (ents[id].file_data[3] != 0) {
+        xfree(ents[id].file_data[3]);
+        ents[id].file_data[3] = 0;
     }
-    if (self->ents[id].file_data[2] != 0) {
-        xfree(self->ents[id].file_data[2]);
-        self->ents[id].file_data[2] = 0;
+    if (ents[id].file_data[2] != 0) {
+        xfree(ents[id].file_data[2]);
+        ents[id].file_data[2] = 0;
     }
-    if (self->ents[id].file_data[1] != 0) {
-        xfree(self->ents[id].file_data[1]);
-        self->ents[id].file_data[1] = 0;
+    if (ents[id].file_data[1] != 0) {
+        xfree(ents[id].file_data[1]);
+        ents[id].file_data[1] = 0;
     }
-    if (self->ents[id].file_data[0] != 0) {
-        xfree(self->ents[id].file_data[0]);
-        self->ents[id].file_data[0] = 0;
+    if (ents[id].file_data[0] != 0) {
+        xfree(ents[id].file_data[0]);
+        ents[id].file_data[0] = 0;
     }
     for (i = 0; i < 4; i++) {
-        self->bank_file_sizes[i] = sound_bank_file_sizes[sound_bank_file_indices[id][i]];
-        self->bank_file_sizes[i] = (self->bank_file_sizes[i] + 0x7FF) & ~0x7FF;
-        self->ents[id].file_data[i] = xmalloc(self->bank_file_sizes[i]);
-        if (self->ents[id].file_data[i] == 0) {
+        bank_file_sizes[i] = sound_bank_file_sizes[sound_bank_file_indices[id][i]];
+        bank_file_sizes[i] = (bank_file_sizes[i] + 0x7FF) & ~0x7FF;
+        ents[id].file_data[i] = xmalloc(bank_file_sizes[i]);
+        if (ents[id].file_data[i] == 0) {
             ret = 3;
             goto fail;
         }
-        self->ents[id].file_index[i] = sound_bank_file_indices[id][i];
-        self->bank_file_handles[i] = ADXF_OpenAfs(0, sound_bank_file_indices[id][i]);
-        if (self->bank_file_handles[i] == NULL) {
+        ents[id].file_index[i] = sound_bank_file_indices[id][i];
+        bank_file_handles[i] = ADXF_OpenAfs(0, sound_bank_file_indices[id][i]);
+        if (bank_file_handles[i] == NULL) {
             ret = 2;
             goto fail;
         }
     }
     for (i = 0; i < 4; i++) {
-        ADXF_ReadNw(self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), self->ents[id].file_data[i]);
-        set_entry_params(&self->bank_file_handles[i], i, self->bank_file_sizes[i] / 2048, (saddr)self->ents[id].file_data[i]);
+        ADXF_ReadNw(bank_file_handles[i], (s32)(bank_file_sizes[i] / 2048), ents[id].file_data[i]);
+        set_entry_params(&bank_file_handles[i], i, bank_file_sizes[i] / 2048, (saddr)ents[id].file_data[i]);
     }
     return 0;
 fail:
-    if (self->ents[id].file_data[3] != 0) {
-        xfree(self->ents[id].file_data[3]);
-        self->ents[id].file_data[3] = 0;
+    if (ents[id].file_data[3] != 0) {
+        xfree(ents[id].file_data[3]);
+        ents[id].file_data[3] = 0;
     }
-    if (self->ents[id].file_data[2] != 0) {
-        xfree(self->ents[id].file_data[2]);
-        self->ents[id].file_data[2] = 0;
+    if (ents[id].file_data[2] != 0) {
+        xfree(ents[id].file_data[2]);
+        ents[id].file_data[2] = 0;
     }
-    if (self->ents[id].file_data[1] != 0) {
-        xfree(self->ents[id].file_data[1]);
-        self->ents[id].file_data[1] = 0;
+    if (ents[id].file_data[1] != 0) {
+        xfree(ents[id].file_data[1]);
+        ents[id].file_data[1] = 0;
     }
-    if (self->ents[id].file_data[0] != 0) {
-        xfree(self->ents[id].file_data[0]);
-        self->ents[id].file_data[0] = 0;
+    if (ents[id].file_data[0] != 0) {
+        xfree(ents[id].file_data[0]);
+        ents[id].file_data[0] = 0;
     }
     return ret;
 }
 
 
-int sound_retrace_stub(SoundControlState *self) { return 0; }
-s32 update_sound_frame(SoundControlState *self) {
+int SoundControlState::sound_retrace_stub() { return 0; }
+s32 SoundControlState::update_sound_frame() {
     s32 t;
     s32 i;
     s32 j;
     s32 n;
     t = OSGetTick();
-    self->elapsed = t - self->tick;
-    self->tick = t;
-    self->ms = self->elapsed / ((*(u32 *)0x800000F8 >> 2) / 1000);
-    update_sound_bank_load(self);
-    self->advance_rng();
+    elapsed = t - tick;
+    tick = t;
+    ms = elapsed / ((*(u32 *)0x800000F8 >> 2) / 1000);
+    update_sound_bank_load();
+    advance_rng();
     for (i = 0; i < 40; i++) {
         tick_sound_voice(&sound_request_voices[i]);
     }
@@ -921,7 +917,7 @@ s32 update_sound_frame(SoundControlState *self) {
             }
         }
     }
-    self->age++;
+    age++;
     return 0;
 }
 
@@ -934,42 +930,42 @@ extern "C" {
 void sndAuxCallbackPrepareReverbHI(void *rev);
 }
 
-s32 init_sound_aux_effects(SoundControlState *self) {
+s32 SoundControlState::init_sound_aux_effects() {
     s32 i;
     s32 result;
     u32 size;
 
     for (i = 0; i < 40; i++) {
-        sound_request_voices[i].set_field0(self);
+        sound_request_voices[i].set_field0(this);
     }
-    self->tick = OSGetTick();
-    self->elapsed = 0;
-    self->voice_volume_adjustment = 0;
-    self->route_pos = -1;
-    self->route = NULL;
-    self->group_state = -1;
-    self->stack[0] = 0;
-    self->depth = 0;
-    self->set_output_mode(1);
+    tick = OSGetTick();
+    elapsed = 0;
+    voice_volume_adjustment = 0;
+    route_pos = -1;
+    route = NULL;
+    group_state = -1;
+    stack[0] = 0;
+    depth = 0;
+    set_output_mode(1);
     memset(sound_bin_data, 0, sizeof(sound_bin_data));
     result = open_afs_file_wait_render(0, "SOUND.BIN", sound_bin_data, 0xA0);
     if (result != 0) {
         return 1;
     }
-    self->reverb_level = 0.0f;
-    self->reverb_temp_disable = 0;
-    self->reverb_time = 2.0f;
-    self->reverb_pre_delay = 0.1f;
-    self->reverb_damping = 0.6f;
-    self->reverb_coloration = 0.9f;
-    self->reverb_crosstalk = 0.0f;
-    self->reverb_mix = 1.0f;
-    self->chorus.baseDelay = 15;
-    self->chorus.variation = 0;
-    self->chorus.period = 500;
-    sndAuxCallbackPrepareReverbHI(self);
-    sndAuxCallbackPrepareChorus(&self->chorus);
-    sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, self, 0xFF, 0, sndAuxCallbackChorus, &self->chorus, 0xFF,
+    reverb_level = 0.0f;
+    reverb_temp_disable = 0;
+    reverb_time = 2.0f;
+    reverb_pre_delay = 0.1f;
+    reverb_damping = 0.6f;
+    reverb_coloration = 0.9f;
+    reverb_crosstalk = 0.0f;
+    reverb_mix = 1.0f;
+    chorus.baseDelay = 15;
+    chorus.variation = 0;
+    chorus.period = 500;
+    sndAuxCallbackPrepareReverbHI(this);
+    sndAuxCallbackPrepareChorus(&chorus);
+    sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, this, 0xFF, 0, sndAuxCallbackChorus, &chorus, 0xFF,
                                  0);
     memset(musyx_sdir_buffers, 0, 38 * sizeof(void *));
     for (i = 0; i < 38; i++) {
@@ -994,7 +990,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
             return 2;
         }
     }
-    self->load_state = 1;
+    load_state = 1;
     return result;
 }
 
