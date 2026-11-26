@@ -131,6 +131,19 @@ LAYOUT_ASSERT(FloorSetFlagsPayloadSize, sizeof(FloorSetFlagsPayload) == 0x4000);
 LAYOUT_ASSERT(FloorSetFlagsHeaderSize, sizeof(FloorSetFlagsHeader) == 0x10);
 LAYOUT_ASSERT(FloorSetFlagsEnemyOffset, offsetof(FloorSetFlagsHeader, enemy_offset) == 8);
 
+// Game-state packet 6x6E after decompression: the sizes of its three streams, then the streams.
+struct GameStateSyncScratch {
+    u16 total_size;
+    u16 floor_flags_size;
+    u16 sync_records_size;
+    u16 switch_table_size;
+    u8 payload[sizeof(FloorSetFlagsPayload)];
+
+    void bswap();
+};
+LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
+LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
+
 void swap_floor_set_flags_header(FloorSetFlagsHeader *header);
 void unpack_floor_set_flags(FloorSetFlagsHeader *buffer);
 void apply_floor_set_flags_packet(FloorSetFlagsHeader *buffer, u16 length);

@@ -115,22 +115,7 @@ struct LobbyPlayerEntry {
     char name[16];
     u8 char_data[0x41C];
 };
-struct GameStateSyncScratch {
-    u16 total_size;
-    u16 floor_flags_size;
-    u16 sync_records_size;
-    u16 switch_table_size;
-    u8 payload[sizeof(FloorSetFlagsPayload)];
-
-    void bswap();
-};
-LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
-LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
 typedef char LobbyPlayerName[16];
-typedef struct LobbyServerAddress {
-    const char *host;
-    s32 port;
-} LobbyServerAddress;
 struct ByteBlock_8 { u8 bytes[0x8]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
 struct ByteBlock_24 { u8 bytes[0x24]; };

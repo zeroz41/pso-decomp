@@ -53,6 +53,12 @@ struct TObjTombstone;
 struct TObjTombstoneSpot;
 class TPlyJoinLobbyEntry;
 
+// A lobby server's host name and port.
+struct LobbyServerAddress {
+    const char *host;
+    s32 port;
+};
+
 struct TLobby : public TObject {
     static int is_flag_set(void *p);
     TLobby(TObject *parent);
