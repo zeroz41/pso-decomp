@@ -301,7 +301,10 @@ TCMCharacter::~TCMCharacter() {
 
 void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
 
-void copy_creation_model_part(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+void copy_creation_model_part(CreationModelPart *dst, CreationModelPart *src) {
+    dst->present = src->present;
+    dst->model = src->model;
+}
 void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
     for (s32 i = 0; i < 10; i++) {
         copy_creation_model_part(&creation_hair_model_parts[i], &empty_creation_model_part);
@@ -363,9 +366,12 @@ s32 TAdSinglePlyChrSelectGC::is_active() {
     return (u8)((u8) (char_select_active_flag == 1));
 }
 int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
-extern "C" void copy_creation_model_node(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
-void reset_creation_shape_set(saddr node) {
-    copy_creation_model_node((void*)node, &creation_empty_model_node);
+extern "C" void copy_creation_model_node(CreationModelNodeState *dst, CreationModelNodeState *src) {
+    dst->node = src->node;
+    dst->flags = src->flags;
+}
+void reset_creation_shape_set(CreationModelNodeState *node) {
+    copy_creation_model_node(node, &creation_empty_model_node);
 }
 #pragma push
 #pragma fp_contract on
@@ -376,7 +382,7 @@ void reset_creation_head_shapes() {
   s32 i = 0;
   do
   {
-    reset_creation_shape_set((saddr)p);
+    reset_creation_shape_set(p);
     ++i;
     ++p;
   }
@@ -388,7 +394,7 @@ void reset_creation_head_shapes() {
     s32 j = 0;
     do
     {
-      reset_creation_shape_set((saddr)q);
+      reset_creation_shape_set(q);
       ++j;
       ++q;
     }
@@ -408,7 +414,7 @@ void reset_creation_body_shapes() {
   s32 i = 0;
   do
   {
-    reset_creation_shape_set((saddr)p);
+    reset_creation_shape_set(p);
     ++i;
     ++p;
   }
@@ -420,7 +426,7 @@ void reset_creation_body_shapes() {
     s32 j = 0;
     do
     {
-      reset_creation_shape_set((saddr)q);
+      reset_creation_shape_set(q);
       ++j;
       ++q;
     }
@@ -641,19 +647,19 @@ s32 scan_creation_resources(void *context) {
     creation_resource_ready_state = 2;
     return 1;
 }
-s32 find_shape_triangle_region(u8 *point) {
+s32 find_shape_triangle_region(const f32 *point) {
     f32 u;
     f32 v0;
     f32 v1;
-    u = *(f32 *)((s8 *)point + 0);
+    u = point[0];
     if (u > 0.6666667f) {
-        if ((3.0f * (u - 0.6666667f)) <= *(f32 *)((s8 *)point + 4)) {
+        if ((3.0f * (u - 0.6666667f)) <= point[1]) {
             return 6;
         }
         return 7;
     }
     if (u <= 0.33333334f) {
-        v0 = *(f32 *)((s8 *)point + 4);
+        v0 = point[1];
         if (u >= (0.6666667f * v0)) {
             return 0;
         }
@@ -662,7 +668,7 @@ s32 find_shape_triangle_region(u8 *point) {
         }
         return 2;
     }
-    v1 = *(f32 *)((s8 *)point + 4);
+    v1 = point[1];
     if (u <= (-0.6666667f * (v1 - 1.0f))) {
         return 3;
     }
@@ -690,7 +696,7 @@ void get_sorted_character_proportion_samples(const f32 *point, s32 *samples) {
     s32 x;
     s32 i;
     reset_uv_if_out_of_range();
-    map_shape_region_samples(find_shape_triangle_region((u8 *)point), samples);
+    map_shape_region_samples(find_shape_triangle_region(point), samples);
     for (i = 0; i < 2; i++) {
         for (j = 2; j > i; j--) {
             x = samples[j];
@@ -706,7 +712,7 @@ void get_sorted_character_proportion_samples(const f32 *point, s32 *samples) {
 #pragma fp_contract on
 // Barycentric weights of point inside the sample triangle of its region (inferred).
 void calc_shape_region_coefficients(f32 *point) {
-    s32 region = find_shape_triangle_region((u8 *)point);
+    s32 region = find_shape_triangle_region(point);
     s32 i0;
     s32 i1;
     s32 i2;
