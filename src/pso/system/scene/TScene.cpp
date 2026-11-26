@@ -6,6 +6,7 @@
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/system/scene/TScene.h"
@@ -85,30 +86,6 @@ struct Ent_802043CC { s32 id; s32 n; s32 start; };
 
 
 struct Tbl_802043CC { u32 pad; s32 count; Ent_802043CC ents[1]; };
-extern "C" {
-
-SceneMaterialSection *find_scene_room_by_id(s32 id);
-
-s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 depth, f32 near_depth);
-
-
-
-
-
-
-
-
-void rotate_matrix_y(s32, s32);
-
-
-
-
-struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 sampler; u8 padC[2]; u8 scale; u8 effect_id; };
-
-
-
-
-}
 
 
 extern W_802043CC lbl_8044A858[];
@@ -139,18 +116,7 @@ LAYOUT_ASSERT(SceneDispatchPrefix_size, sizeof(SceneDispatchPrefix) == 0x78);
 extern Vec lbl_8044A84C[];
 
 
-struct Node_80205AEC { u32 flags; void *obj; u32 tex; u16 id; u8 b; u8 c; };
 
-extern "C" {
-
-
-
-
-extern u32 lbl_8044A800[];
-
-extern u8 lbl_8044A80C[];
-
-}
 
 
 
@@ -182,8 +148,8 @@ SceneNameIndex scene_format_dispatch_tables[] = {
     {"fmt2", 1},
     {NULL, -1},
 };
-__declspec(section ".rodata") u32 lbl_8044A800[3] = {0, 1, 2};
-__declspec(section ".rodata") u8 lbl_8044A80C[8] = {0, 1, 2, 3, 4, 0, 0, 0};
+__declspec(section ".rodata") u32 indirect_sampler_table[3] = {0, 1, 2};
+__declspec(section ".rodata") u8 indirect_scale_table[8] = {0, 1, 2, 3, 4, 0, 0, 0};
 __declspec(section ".rodata") s32 boss_area_id_table[] = {
     AREA_DRAGON, AREA_DE_ROL_LE, AREA_VOL_OPT, AREA_DARK_FALZ,
     AREA_GAL_GRYPHON, AREA_OLGA_FLOW, AREA_BARBA_RAY, AREA_GOL_DRAGON, -1,
@@ -240,14 +206,14 @@ s32 player_auxiliary_surfaces_enabled() {
 
 SceneMaterialNode *resolve_indirect_object_record(void *, SceneMaterialAnimated *record) {
     if (record->flags & 0x200) {
-        return *(SceneMaterialNode **)record->node;
+        return record->indirect->node;
     }
     return record->node;
 }
 
 SceneMaterialNode *resolve_indirect_node_record(void *, SceneMaterialStatic *record) {
     if (record->flags & 0x200) {
-        return *(SceneMaterialNode **)record->node;
+        return record->indirect->node;
     }
     return record->node;
 }
@@ -1182,48 +1148,48 @@ void TScene::init_material_nodes() {
     s32 i;
     SceneMaterialStatic *st;
     s32 j;
-    Node_80205AEC *node;
+    SceneIndirectRecord *node;
     SceneMaterialInfo *info;
     SceneMaterialAnimated *an;
     s32 j2;
-    Node_80205AEC *node2;
+    SceneIndirectRecord *node2;
     SceneMaterialInfo *info2;
     if (scene_material_root != NULL) {
         for (i = 0, sec = scene_material_root->sections; i < scene_material_root->count; i++, sec++) {
             for (j = 0, st = sec->objects; j < sec->count; j++, st++) {
                 if (st->flags & 0x200) {
-                    node = (Node_80205AEC *)st->node;
-                    if (node->obj == NULL) {
-                        info = find_material_entry_by_id(node->id);
+                    node = st->indirect;
+                    if (node->effect == NULL) {
+                        info = find_material_entry_by_id(node->material_id);
                         if (info != NULL) {
-                            node->obj = new TEffIndirect(info->effect_id, this);
-                            node->tex = lbl_8044A800[info->texture_index];
-                            node->b = lbl_8044A80C[info->pad_03];
-                            node->c = info->effect_id;
+                            node->effect = new TEffIndirect(info->effect_id, this);
+                            node->sampler = indirect_sampler_table[info->texture_index];
+                            node->scale = indirect_scale_table[info->scale_index];
+                            node->effect_id = info->effect_id;
                         } else {
-                            node->obj = 0;
-                            node->tex = 0;
-                            node->b = 0;
-                            node->c = 0;
+                            node->effect = 0;
+                            node->sampler = 0;
+                            node->scale = 0;
+                            node->effect_id = 0;
                         }
                     }
                 }
             }
             for (j2 = 0, an = sec->animated; j2 < sec->animatedCount; j2++, an++) {
                 if (an->flags & 0x200) {
-                    node2 = (Node_80205AEC *)an->node;
-                    if (node2->obj == NULL) {
-                        info2 = find_material_entry_by_id(node2->id);
+                    node2 = an->indirect;
+                    if (node2->effect == NULL) {
+                        info2 = find_material_entry_by_id(node2->material_id);
                         if (info2 != NULL) {
-                            node2->obj = new TEffIndirect(info2->effect_id, this);
-                            node2->tex = lbl_8044A800[info2->texture_index];
-                            node2->b = lbl_8044A80C[info2->pad_03];
-                            node2->c = info2->effect_id;
+                            node2->effect = new TEffIndirect(info2->effect_id, this);
+                            node2->sampler = indirect_sampler_table[info2->texture_index];
+                            node2->scale = indirect_scale_table[info2->scale_index];
+                            node2->effect_id = info2->effect_id;
                         } else {
-                            node2->obj = 0;
-                            node2->tex = 0;
-                            node2->b = 0;
-                            node2->c = 0;
+                            node2->effect = 0;
+                            node2->sampler = 0;
+                            node2->scale = 0;
+                            node2->effect_id = 0;
                         }
                     }
                 }
@@ -1279,7 +1245,6 @@ void TScene::render() {
 }
 #pragma pop
 
-extern "C" {
 
 s32 TScene::get_cull_mode() {
     if (floor_bin_buffer != NULL) {
@@ -1411,7 +1376,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
         }
         if (e->flags & 0x200) {
             if (e->flags & 0x80) {
-                Model_8020533C *m = (Model_8020533C *)e->node;
+                SceneIndirectRecord *m = e->indirect;
                 if (m != NULL) {
                     play_reflection_particles(m->effect_id);
                 } else {
@@ -1422,7 +1387,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 draw_ginja_object(node);
                 reset_reflection_tev_stages();
             } else if (e->flags & 0x400) {
-                Model_8020533C *m = (Model_8020533C *)e->node;
+                SceneIndirectRecord *m = e->indirect;
                 if (m != NULL && TMainTask::get_render_pass() == 1) {
                     IndirectDrawRecord l;
                     l.placement.position.x = node->position[0];
@@ -1439,10 +1404,10 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                     TIndirectEffectDrawTask::queue_record(&l);
                 }
             } else {
-                Model_8020533C *m = (Model_8020533C *)e->node;
+                SceneIndirectRecord *m = e->indirect;
                 if (m != NULL) {
-                    if (m->tex != NULL) {
-                        enable_indirect_tev(tex = m->tex, m->sampler, m->scale, 0);
+                    if (m->effect != NULL) {
+                        enable_indirect_tev(tex = m->effect, m->sampler, m->scale, 0);
                         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)scene_material_root->texlist));
                         set_material_alpha_compare_reference(scene_material_root->flags);
                         draw_ginja_object(node);
@@ -1532,11 +1497,11 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     }
     if (e->flags & 0x200)
     {
-      Model_8020533C *m = (Model_8020533C *) e->node;
+      SceneIndirectRecord *m = e->indirect;
       if (m != 0)
       {
 
-        TEffIndirect *tex = m->tex;
+        TEffIndirect *tex = m->effect;
         if (tex != 0)
         {
           enable_indirect_tev(texture = tex, m->sampler, m->scale, 0);
@@ -1577,7 +1542,6 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     }
   }
 
-}
 }
 
 void TScene::sub_80204D7C() {
@@ -1973,7 +1937,7 @@ void TScene::update_room_object_visibility(SceneMaterialSection *room) {
     room->flags |= 0x10000;
     for (object = room->objects; i < room->count; i++, object++) {
         if (object->node != NULL) {
-            if (TScene__sub_802040D4(this, resolve_indirect_node_record(this, object), 10000.0f, 100.0f) != 0) {
+            if (is_node_visible(resolve_indirect_node_record(this, object), 10000.0f, 100.0f) != 0) {
                 object->flags |= 0x10000;
             } else {
                 object->flags &= ~0x10000;
@@ -1982,7 +1946,7 @@ void TScene::update_room_object_visibility(SceneMaterialSection *room) {
     }
     for (anim = room->animated, i = 0; i < room->animatedCount; i++, anim++) {
         if (anim->node != NULL) {
-            if (TScene__sub_802040D4(this, resolve_indirect_object_record(this, anim), 10000.0f, 100.0f) != 0) {
+            if (is_node_visible(resolve_indirect_object_record(this, anim), 10000.0f, 100.0f) != 0) {
                 anim->flags |= 0x10000;
             } else {
                 anim->flags &= ~0x10000;
@@ -2001,17 +1965,15 @@ BOOL TScene::is_in_view_depth(Vec *pos, f32 depth, f32) {
     }
     return TRUE;
 }
-extern "C" {
-s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 f0, f32 f1) {
+s32 TScene::is_node_visible(SceneMaterialNode *node, f32 depth, f32 near_depth) {
     if (node->model != NULL && camera_ctrl_instance != NULL) {
         Vec *pos = (Vec *)node->position;
         if (xz_distance_squared(&camera_ctrl_instance->pos, pos) < node->model->radius * node->model->radius) {
             return 1;
         }
-        return scene->is_in_view_depth(pos, f0, f1);
+        return is_in_view_depth(pos, depth, near_depth);
     }
     return 0;
-}
 }
 
 s32 TScene::is_within_view_edge(Vec *pos, Vec *dir, Vec *edge, f32 radius) {

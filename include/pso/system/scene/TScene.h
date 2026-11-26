@@ -5,6 +5,7 @@
 #include "types.h"
 
 struct SceneMaterialSection;
+struct SceneMaterialNode;
 struct Vec;
 
 // One record of the area's texture UV animations (texture_animation_buffer).
@@ -20,7 +21,7 @@ struct TextureUvAnimation {
 struct SceneMaterialInfo {
     u16 id;
     u8 texture_index;
-    u8 pad_03;
+    u8 scale_index;
     u8 effect_id;
     u8 pad_05[3];
 };
@@ -66,6 +67,8 @@ public:
     void cull_sections();
     // Whether pos lies in front of the camera and no further than depth.
     BOOL is_in_view_depth(Vec *pos, f32 depth, f32);
+    // True when the camera is inside the node's model radius or the node is in view depth.
+    s32 is_node_visible(SceneMaterialNode *node, f32 depth, f32 near_depth);
     // Which of the four culling passes render runs this frame.
     s32 get_cull_mode();
     // Empty: the TEffIndirect nodes init_material_nodes creates are child tasks.
@@ -140,6 +143,7 @@ void load_scene_map_file(saddr name);
 void load_floor_scene(void);
 // The id of the nearest map section whose radius holds pos, or -1.
 s32 find_section_at_position(Vec *pos);
+SceneMaterialSection *find_scene_room_by_id(s32 id);
 
 extern s32 scene_resource_index;
 extern s32 lobby_online_ready_flag;
@@ -152,7 +156,6 @@ extern f32 visibility_radius_margin;
 s32 is_item_area_enabled(s32 area);
 
 struct SceneMaterialCycle;
-struct SceneMaterialNode;
 struct SceneMaterialStatic;
 struct SceneMaterialAnimated;
 
