@@ -89,7 +89,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
     u32 rows;
     u32 *rec;
     void **out;
-    void *o;
+    WindowSpritePart *o;
     if (desc == NULL) {
         entries->count = 0;
         entries->items = NULL;
@@ -110,99 +110,99 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
         while (cols-- != 0) {
             switch (*rec) {
             case 0:
-                o = ::operator new(0x18);
+                o = (WindowSpritePart *)(::operator new(0x18));
                 if (o != NULL) {
-                    o = __ct__17TWindowLayoutRectFPUcl(o, (u8 *)rec, client);
+                    o = (WindowSpritePart *)__ct__17TWindowLayoutRectFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 0x14 / 4;
                 break;
             case 1:
-                o = new TWindowStatusGauge(reinterpret_cast<StatusGaugeLayout *>(rec), client);
+                o = (WindowSpritePart *)(new TWindowStatusGauge(reinterpret_cast<StatusGaugeLayout *>(rec), client));
                 *out = o;
                 rec += sizeof(StatusGaugeLayout) / 4;
                 break;
             case 2:
-                o = new TWindowStatusGaugeFeedback(reinterpret_cast<LayoutEntryCopyRecord *>(rec), client);
+                o = (WindowSpritePart *)(new TWindowStatusGaugeFeedback(reinterpret_cast<LayoutEntryCopyRecord *>(rec), client));
                 *out = o;
                 rec += sizeof(LayoutEntryCopyRecord) / 4;
                 break;
             case 3:
-                o = ::operator new(0x2C);
+                o = (WindowSpritePart *)(::operator new(0x2C));
                 if (o != NULL) {
-                    o = __ct__15WindowTextEntryFP16TextLayoutRecordl(o, reinterpret_cast<TextLayoutRecord *>(rec), client);
+                    o = (WindowSpritePart *)__ct__15WindowTextEntryFP16TextLayoutRecordl(o, reinterpret_cast<TextLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0x1C / 4;
                 break;
             case 4:
-                o = ::operator new(0x24);
+                o = (WindowSpritePart *)(::operator new(0x24));
                 if (o != NULL) {
-                    o = __ct__19TWindowLayoutNumberFPUcl(o, (u8 *)rec, client);
+                    o = (WindowSpritePart *)__ct__19TWindowLayoutNumberFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 0x1C / 4;
                 break;
             case 5:
-                o = ::operator new(0x30);
+                o = (WindowSpritePart *)(::operator new(0x30));
                 if (o != NULL) {
-                    o = __ct__27TWindowLayoutCountingNumberFPUcl(o, (u8 *)rec, client);
+                    o = (WindowSpritePart *)__ct__27TWindowLayoutCountingNumberFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 0x1C / 4;
                 break;
             case 6:
-                o = ::operator new(sizeof(WindowSpritePart));
+                o = (WindowSpritePart *)(::operator new(sizeof(WindowSpritePart)));
                 if (o != NULL) {
-                    o = static_cast<WindowSpritePart *>(o)->init_part_scaled(reinterpret_cast<SpritePartLayoutRecord *>(rec), client);
+                    o = (WindowSpritePart *)o->init_part_scaled(reinterpret_cast<SpritePartLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += sizeof(SpritePartLayoutRecord) / 4;
                 break;
             case 7:
-                o = ::operator new(sizeof(WindowSpritePart));
+                o = (WindowSpritePart *)(::operator new(sizeof(WindowSpritePart)));
                 if (o != NULL) {
-                    o = static_cast<WindowSpritePart *>(o)->init_part_direct(reinterpret_cast<DirectSpritePartLayoutRecord *>(rec), client);
+                    o = (WindowSpritePart *)o->init_part_direct(reinterpret_cast<DirectSpritePartLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += sizeof(DirectSpritePartLayoutRecord) / 4;
                 break;
             case 8:
-                o = ::operator new(0x38);
+                o = (WindowSpritePart *)(::operator new(0x38));
                 if (o != NULL) {
-                    o = __ct__11ItemListRowFPUcl(o, (u8 *)rec, client);
+                    o = (WindowSpritePart *)__ct__11ItemListRowFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 1;
                 break;
             case 9:
-                o = ::operator new(0x28);
+                o = (WindowSpritePart *)(::operator new(0x28));
                 if (o != NULL) {
-                    o = __ct__13LabelValueRowFPUcl(o, (u8 *)rec, client);
+                    o = (WindowSpritePart *)__ct__13LabelValueRowFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 1;
                 break;
             case 10:
-                o = ::operator new(0x14);
+                o = (WindowSpritePart *)(::operator new(0x14));
                 if (o != NULL) {
-                    o = __ct__21HelpItemRarityStarRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
+                    o = (WindowSpritePart *)__ct__21HelpItemRarityStarRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0xC / 4;
                 break;
             case 11:
-                o = ::operator new(0x24);
+                o = (WindowSpritePart *)(::operator new(0x24));
                 if (o != NULL) {
-                    o = __ct__22HelpItemStatCompareRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
+                    o = (WindowSpritePart *)__ct__22HelpItemStatCompareRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0xC / 4;
                 break;
             case 12:
-                o = ::operator new(0x28);
+                o = (WindowSpritePart *)(::operator new(0x28));
                 if (o != NULL) {
-                    o = __ct__12TGameListRowFPUcl(o, (u8 *)rec, client);
+                    o = (WindowSpritePart *)__ct__12TGameListRowFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 1;

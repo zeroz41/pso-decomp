@@ -806,14 +806,14 @@ saddr TWindowSubSymbolChat::create_chat_symbol_window(s32 unused, s32 index) {
 
 TWindowMenu *TWindowSubSymbolChat::create_symbol_list_card() {
     s32 i;
-    saddr sym;
+    SymbolChatPreset *sym;
     TWindowSubComCardList *card;
     s32 data;
     card = (TWindowSubComCardList *)create_titled_window_menu_default(get_window_layout_position(0x77), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x31));
     for (i = 0; i < 0xC; i++) {
-        sym = (saddr)get_symbol_chat_preset(i);
-        data = (saddr)reinterpret_cast<SymbolChatPreset *>(sym)->get_symbol_chat_data();
-        if (is_symbol_chat_preset_in_use(reinterpret_cast<const SymbolChatPreset *>(sym)) != 0) {
+        sym = get_symbol_chat_preset(i);
+        data = (saddr)sym->get_symbol_chat_data();
+        if (is_symbol_chat_preset_in_use(sym) != 0) {
             card->add_text_entry(data, 0x66, i);
         } else {
             card->add_text_entry(data, 0x46, i);
@@ -1009,12 +1009,12 @@ void TWindowSubSymbolChat::draw_selected_entry() {
     s32 i;
     s32 n;
     s32 pos;
-    saddr inst;
+    SymbolChatPreset *inst;
     s32 rem;
     x = parts_set->get_cursor_x();
     y = parts_set->get_cursor_pos();
-    inst = TWindowSubSymbolChat::get_instance();
-    data = reinterpret_cast<SymbolChatPreset *>(inst)->get_data_ptr();
+    inst = (SymbolChatPreset *)(TWindowSubSymbolChat::get_instance());
+    data = inst->get_data_ptr();
     rem = TWindowSubSymbolChat::calc_remaining_slots();
     if (rem > this->symbol_index) {
         this->selected_preset->set_entry(this->symbol_index, data->parts[this->symbol_index].id, x, y, symbol_chat_flip_u, symbol_chat_flip_v);
@@ -1025,7 +1025,7 @@ void TWindowSubSymbolChat::draw_selected_entry() {
         n = this->symbol_index - rem;
         pos = x + y * 2;
         for (i = 0; i < 4; i++) {
-            if (is_facial_part_set(reinterpret_cast<SymbolChatPreset *>(inst), i) != 0 && n-- <= 0) {
+            if (is_facial_part_set(inst, i) != 0 && n-- <= 0) {
                 v = data->facial_parts[i];
                 clear_facial_part(this->selected_preset, i);
                 this->selected_preset->set_entry_bits(v, symbol_chat_color, pos, symbol_chat_flip_u, symbol_chat_flip_v);
