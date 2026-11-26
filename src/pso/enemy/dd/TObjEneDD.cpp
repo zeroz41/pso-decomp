@@ -271,7 +271,7 @@ void TObjEneDD::init_common_from(TObjBase *source) {
     reset_state_fields();
     room = source->room;
     set_group = source->set_group;
-    subtractive_rng_seed(&rng, (int) (this->entity_id + area_random_seed));
+    rng.set_seed((int) (this->entity_id + area_random_seed));
 }
 
 

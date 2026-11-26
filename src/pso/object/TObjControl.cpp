@@ -593,7 +593,7 @@ void TObjEnemy::apply_set_data(void *set_data) {
     room = data->room;
     set_group = data->group;
     set_index = data->set_index;
-    subtractive_rng_seed(&rng, entity_id + area_random_seed);
+    rng.set_seed(entity_id + area_random_seed);
 }
 
 void TObjEnemy::apply_enemy_state(s32 *state) {

@@ -12,11 +12,11 @@ void SubtractiveRng::apply_rng_cipher(u32 *data, s32 len) {
     s32 i;
     s32 n = (len + 3) / 4;
     for (i = 0; i < n; i++) {
-        data[i] = subtractive_rng_next(this) - data[i];
+        data[i] = next() - data[i];
     }
 }
 
-extern "C" void subtractive_rng_unshuffle(SubtractiveRng *rng, const u8 *source, u8 *destination, u32 size) {
+void SubtractiveRng::unshuffle(const u8 *source, u8 *destination, u32 size) {
     u32 block, i;
     memcpy(destination, source, size);
     for (block = 0; block < (size >> 8); block++) {
@@ -32,13 +32,13 @@ void SubtractiveRng::permute_save_blocks(const u8 *source, u8 *destination, u32 
     }
 }
 
-extern "C" void subtractive_rng_make_shuffle(SubtractiveRng *rng) {
+void SubtractiveRng::make_shuffle() {
     s32 i;
     u16 index;
     u8 value;
     for (i = 0; i < 256; i++) save_block_shuffle_permutation[i] = (u8)i;
     for (i = 255; i >= 0; i--) {
-        index = subtractive_rng_range(rng, i + 1);
+        index = range(i + 1);
         value = save_block_shuffle_permutation[index];
         save_block_shuffle_permutation[index] = save_block_shuffle_permutation[i];
         save_block_unshuffle_permutation[value] = (u8)i;
@@ -53,68 +53,67 @@ void SubtractiveRng::crypt_data_be(u32 *data, s32 len) {
     for (i = 0; i < n; i++) {
         p = &data[i];
         bswap_32(p);
-        *p ^= subtractive_rng_next(this);
+        *p ^= next();
         bswap_32(p);
     }
 }
 
-extern "C" void subtractive_rng_xor_buffer(SubtractiveRng *rng, u32 *data, s32 len) {
+void SubtractiveRng::xor_buffer(u32 *data, s32 len) {
     s32 i;
     s32 n = (len + 3) / 4;
     for (i = 0; i < n; i++) {
-        data[i] ^= subtractive_rng_next(rng);
+        data[i] ^= next();
     }
 }
 
-extern "C" u32 subtractive_rng_next(SubtractiveRng *rng) {
-    s32 pos;
-    pos = rng->pos;
-    rng->pos = pos + 1;
-    if (pos + 1 > 55) {
-        subtractive_rng_refill(rng);
-        rng->pos = 1;
+u32 SubtractiveRng::next() {
+    s32 last = pos;
+    pos = last + 1;
+    if (last + 1 > 55) {
+        refill();
+        pos = 1;
     }
-    return rng->table[rng->pos];
+    return table[pos];
 }
 
-extern "C" void subtractive_rng_refill(SubtractiveRng *rng) {
+void SubtractiveRng::refill() {
     s32 i;
     for (i = 1; i < 25; i++) {
-        rng->table[i] -= rng->table[i + 31];
+        table[i] -= table[i + 31];
     }
     for (i = 25; i < 56; i++) {
-        rng->table[i] -= rng->table[i - 24];
+        table[i] -= table[i - 24];
     }
 }
 
-extern "C" void subtractive_rng_seed(SubtractiveRng *rng, s32 seed) {
+void SubtractiveRng::set_seed(s32 seed) {
     s32 idx;
     s32 prev;
     s32 i;
-    rng->seed = seed;
-    rng->table[55] = seed;
+    this->seed = seed;
+    table[55] = seed;
     prev = 1;
     for (i = 1; i < 55; i++) {
         idx = (21 * i) % 55;
-        rng->table[idx] = prev;
+        table[idx] = prev;
         prev = seed - prev;
-        seed = rng->table[idx];
+        seed = table[idx];
     }
-    subtractive_rng_refill(rng);
-    subtractive_rng_refill(rng);
-    subtractive_rng_refill(rng);
-    subtractive_rng_refill(rng);
-    rng->pos = 55;
+    refill();
+    refill();
+    refill();
+    refill();
+    pos = 55;
 }
 
 SubtractiveRng::SubtractiveRng(u32 seed) {
-    subtractive_rng_seed(this, seed);
+    set_seed(seed);
 }
 
 SubtractiveRng::SubtractiveRng() {
-    subtractive_rng_seed(this, 0);
+    set_seed(0);
 }
 
-extern "C" u16 subtractive_rng_range(SubtractiveRng *rng, u16 x) {
-    return (x * (subtractive_rng_next(rng) >> 16)) >> 16;
+u16 SubtractiveRng::range(u16 x) {
+    return (x * (next() >> 16)) >> 16;
 }

@@ -2064,16 +2064,16 @@ void decrypt_guild_card_payload(GuildCardSaveData *data) {
     b = new GuildCardSaveData;
     *a = *data;
     *b = *data;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
-    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0xE28C);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
+    chr_select_rng_state.unshuffle((const u8 *)a, (u8 *)b, 0xE28C);
     *data = *b;
     ::operator delete(b);
     ::operator delete(a);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)data, 0xE28C);
-    subtractive_rng_seed(&chr_select_rng_state, data->cipher_seed);
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)data, 0xE288);
+    chr_select_rng_state.set_seed(data->cipher_seed);
+    chr_select_rng_state.xor_buffer((u32 *)data, 0xE288);
 }
 
 #pragma push
@@ -2081,19 +2081,19 @@ void decrypt_guild_card_payload(GuildCardSaveData *data) {
 void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1) {
     GuildCardSaveData *a;
     GuildCardSaveData *b;
-    data->cipher_seed = subtractive_rng_next(&chr_select_rng_state);
+    data->cipher_seed = chr_select_rng_state.next();
     data->checksum = 0;
     data->checksum = calc_crc32_bitwise((u8 *)data, 0xE28C);
-    subtractive_rng_seed(&chr_select_rng_state, data->cipher_seed);
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)data, 0xE288);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(data->cipher_seed);
+    chr_select_rng_state.xor_buffer((u32 *)data, 0xE288);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)data, 0xE28C);
     a = new GuildCardSaveData;
     b = new GuildCardSaveData;
     *a = *data;
     *b = *data;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
     chr_select_rng_state.permute_save_blocks((const u8*)a, (u8*)b, (u32)0xE28C);
     *data = *b;
     ::operator delete(b);
@@ -2194,33 +2194,33 @@ void TAdSinglePlyChrSelectGC::decrypt_char_data(CharacterFile *file) {
     CharacterFile *a = new CharacterFile;
     CharacterFile *b = new CharacterFile;
     *a = *file;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
-    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0x1156C);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
+    chr_select_rng_state.unshuffle((const u8 *)a, (u8 *)b, 0x1156C);
     *file = *b;
     delete b;
     delete a;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)file, 0x1156C);
-    subtractive_rng_seed(&chr_select_rng_state, get_character_file_seed(file));
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)file, 0x11568);
+    chr_select_rng_state.set_seed(get_character_file_seed(file));
+    chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
 }
 
 void TAdSinglePlyChrSelectGC::encrypt_save_data(CharacterFile *file) {
     CharacterFile *a;
     CharacterFile *b;
-    set_character_file_seed(file, (s32)(subtractive_rng_next(&chr_select_rng_state)));
+    set_character_file_seed(file, (s32)(chr_select_rng_state.next()));
     TAdSinglePlyChrSelectGC::set_id(file, 0);
     TAdSinglePlyChrSelectGC::set_id(file, (s32)(calc_crc32_bitwise((u8 *)file, 0x1156C)));
-    subtractive_rng_seed(&chr_select_rng_state, get_character_file_seed(file));
-    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)file, 0x11568);
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.set_seed(get_character_file_seed(file));
+    chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)file, 0x1156C);
     a = new CharacterFile;
     b = new CharacterFile;
     *a = *file;
-    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle(&chr_select_rng_state);
+    chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
+    chr_select_rng_state.make_shuffle();
     chr_select_rng_state.permute_save_blocks((const u8*)a, (u8*)b, (u32)0x1156C);
     *file = *b;
     delete b;

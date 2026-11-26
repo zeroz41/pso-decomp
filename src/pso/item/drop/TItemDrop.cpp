@@ -910,7 +910,7 @@ s8 TItemDrop::get_bool_from_1d6ddc() { return (s8)((LobbyRuleSettings *)this)->g
 extern "C" u8 TItemDrop__sub_80107B04(void *) { return 0; }
 
 s32 item_drop_rng_below(SubtractiveRng *rng, u32 count) {
-    return __cvt_fp2unsigned((f32) (((f32) count * (f32) subtractive_rng_next(rng)) / item_drop_u32_scale));
+    return __cvt_fp2unsigned((f32) (((f32) count * (f32) rng->next()) / item_drop_u32_scale));
 }
 
 __declspec(section ".sdata2") extern const f32 item_drop_u16_scale = 65536.0f;

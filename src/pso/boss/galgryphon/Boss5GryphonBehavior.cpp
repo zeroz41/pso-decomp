@@ -2573,7 +2573,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         pop_matrix();
         this->lightning.horns[0] = TBoss5GryphonLightningHorn::spawn_ground_lightning(this, &left, this->rotation_y);
         this->lightning.horns[1] = TBoss5GryphonLightningHorn::spawn_ground_lightning(this, &right, this->rotation_y);
-        subtractive_rng_seed(&this->rng, this->motion->args.seed);
+        this->rng.set_seed(this->motion->args.seed);
         break;
     case ENEMY_STATE_UPDATE:
         this->advance_animation();
@@ -2700,7 +2700,7 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
         this->set_offscreen_height();
         this->flags |= 4;
         this->play_se(0x4003A818);
-        subtractive_rng_seed(&this->rng, this->motion->args.seed);
+        this->rng.set_seed(this->motion->args.seed);
         this->rotation_x = 0x4000;
         this->dive.frame = 0;
         this->dive.frame_limit = (f32)this->motion->timer - round_away_from_zero(gryphon_seventy_five);

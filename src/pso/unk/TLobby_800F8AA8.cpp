@@ -1188,7 +1188,7 @@ u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
         return 0U;
     }
     SubtractiveRng rng;
-    subtractive_rng_seed(&rng, seed);
+    rng.set_seed(seed);
     rng.crypt_data_be((u32 *)file->data, size - 8);
     prs_decompress_buffer(file->data, dst);
     return decompressed_size;
@@ -1202,8 +1202,8 @@ u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
         return 0U;
     }
     SubtractiveRng rng;
-    subtractive_rng_seed(&rng, v4);
-    subtractive_rng_xor_buffer(&rng, (u32 *)data, size - 8);
+    rng.set_seed(v4);
+    rng.xor_buffer((u32 *)data, size - 8);
     prs_decompress_buffer(data, dst);
     return v0;
 }
@@ -1218,8 +1218,8 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
         return NULL;
     }
     SubtractiveRng rng;
-    subtractive_rng_seed(&rng, v4);
-    subtractive_rng_xor_buffer(&rng, (u32 *)&this->m_prev, size - 8);
+    rng.set_seed(v4);
+    rng.xor_buffer((u32 *)&this->m_prev, size - 8);
     prs_decompress_buffer(&this->m_prev, ret);
     if (out_size != NULL) {
         *out_size = v0;
@@ -1254,8 +1254,8 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         ret = TQuestVmDownLoadServer::alloc(archive_size);
         buf = load_disc_file(name);
         SubtractiveRng rng;
-        subtractive_rng_seed(&rng, h);
-        subtractive_rng_xor_buffer(&rng, (u32 *)(buf + 8), size - 8);
+        rng.set_seed(h);
+        rng.xor_buffer((u32 *)(buf + 8), size - 8);
         prs_decompress_buffer(buf + 8, ret);
         safe_free(buf);
     }

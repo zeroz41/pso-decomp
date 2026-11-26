@@ -99,7 +99,7 @@ TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
     target.x = 0.0f;
     target.y = 0.0f;
     target.z = 1.0f;
-    subtractive_rng_seed(&rng, 0);
+    rng.set_seed(0);
     if (is_room_enemy_set_cleared(get_current_floor(), 1) == 0) {
         shot = SHOT_OPENING;
         shot_frames = -1;

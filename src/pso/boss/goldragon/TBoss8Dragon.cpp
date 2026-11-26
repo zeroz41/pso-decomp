@@ -2428,7 +2428,7 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
             s32 low = (s32)(100.0f * this->savedZ);
             seed *= 0x10000UL;
             seed |= (u32)low & 0xFFFFUL;
-            subtractive_rng_seed(&this->randomState, seed);
+            this->randomState.set_seed(seed);
         }
         break;
     case 6:

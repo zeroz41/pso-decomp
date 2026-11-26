@@ -249,7 +249,7 @@ s32 get_current_floor(void) {
 }
 
 f32 SubtractiveRng::next_ratio() {
-    const u32 sample = static_cast<u32>(subtractive_rng_next(this));
+    const u32 sample = static_cast<u32>(next());
     return (f32) (sample >> 16) / *(const volatile f32 *)&subtractive_rng_ratio_divisor;
 }
 
@@ -523,7 +523,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     this->element_resist[2] = 0;
     this->element_resist[1] = 0;
     this->element_resist[0] = 0;
-    subtractive_rng_seed(&this->rng, this->entity_id);
+    this->rng.set_seed(this->entity_id);
     this->target_attribute_mask = 0;
     this->add_flags_2e4(0);
     this->control_state = 0;
