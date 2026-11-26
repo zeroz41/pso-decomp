@@ -53,7 +53,7 @@ UvScrollBuffer::UvScrollBuffer(NJS_OBJECT *root, s32 texture_id) {
         this->source_uvs = static_cast<s16 *>(mem_alloc(this->totals.sum * 4));
         scroll_uv_entry_write_cursor = this->entries;
         scroll_uv_coordinate_write_cursor = this->source_uvs;
-        visit_matching_models((s32)this, root, texture_id);
+        visit_matching_models((saddr)this, root, texture_id);
     }
     this->u = 0;
     this->v = 0;

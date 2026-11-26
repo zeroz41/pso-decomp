@@ -5,6 +5,6 @@
 
 struct NJS_OBJECT;
 
-void visit_matching_models(s32 buffer, NJS_OBJECT *root, s32 texture_id);
+void visit_matching_models(saddr buffer, NJS_OBJECT *root, s32 texture_id);
 
 #endif
