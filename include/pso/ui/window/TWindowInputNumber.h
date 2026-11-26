@@ -16,6 +16,10 @@ struct TWindowInputNumber : public TWindowBase {
     s32 is_locked(s32);
     s32 test_input_flag(s32 buttons);
     void set_flag_40();
+    // Bit 0x10: run_task reads the digit keys with test_buttons_press_or_repeat.
+    void set_flag_10();
+    // Drops the confirmation confirm_input set and puts the title back to its open state.
+    void clear_confirmed();
     void clear_flag_40();
     void refresh_digit_entries();
     void align_digits();

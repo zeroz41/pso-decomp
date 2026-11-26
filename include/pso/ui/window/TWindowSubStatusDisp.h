@@ -32,7 +32,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     virtual void render();
     s16 page; // index into the dispatch_page_init/update page tables
     s16 requested_page;  // the page the owner wants shown (set_requested_page); run_task switches to it
-    u32 m_64;
+    NJS_TEXLIST *body_textures; // the shown player's body textures, drawn by the summary page's portrait sprite
     PageIndicator *page_indicator;
     f32 scale_x;
     f32 scale_y;
@@ -75,9 +75,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void append_play_time(u32 time);
     static void append_comma();
     s8 *copy_message_page_text();
-    s16 get_item_type();
-    s16 get_field_2F8();
-    s16 get_stat();
     void fill_card_text_entries(GuildCardRecord *record);
     static void draw_split_screen_dividers();
     static void draw_tiled_background();

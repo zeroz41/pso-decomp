@@ -198,6 +198,10 @@ struct TObjPlayer : public TObjChara {
     void load_action_motions(u16 entity_id);
     s16 get_ata();
     s16 get_dfp();
+    // Fire, dark and light resistance (element_resist 0, 3 and 4).
+    s16 get_efr();
+    s16 get_edk();
+    s16 get_elt();
     s16 obj_getS16_116();
     void set_hp_bonus(s16);
     void set_tp_bonus(s16);

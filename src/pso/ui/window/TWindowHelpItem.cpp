@@ -139,11 +139,11 @@ void TWindowHelpItem::lock_page_flip() { this->help_flags |= 0x4; }
 
 s16 TObjPlayer::get_dfp() { return dfp; }
 
-s16 TWindowSubStatusDisp::get_stat() { return *(s16*)((char*)this + 0x2f2); }
+s16 TObjPlayer::get_efr() { return element_resist[0]; }
 
-s16 TWindowSubStatusDisp::get_field_2F8() { return *(s16*)((char*)this + 0x2f8); }
+s16 TObjPlayer::get_edk() { return element_resist[3]; }
 
-s16 TWindowSubStatusDisp::get_item_type() { return *(s16*)((char*)this + 0x2fa); }
+s16 TObjPlayer::get_elt() { return element_resist[4]; }
 
 void HelpItemStatCompareRow::set_flag0_bit20() { flags |= 0x20; }
 
@@ -816,11 +816,11 @@ void TWindowHelpItem::update_resistance_rows() {
         c->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8B));
         d->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8C));
         e->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8D));
-        a->set_value(((TWindowSubStatusDisp *)pl)->get_stat());
+        a->set_value(pl->get_efr());
         b->set_value(pl->get_class_id());
         c->set_value(pl->get_item_index());
-        d->set_value(((TWindowSubStatusDisp *)pl)->get_field_2F8());
-        e->set_value(((TWindowSubStatusDisp *)pl)->get_item_type());
+        d->set_value(pl->get_edk());
+        e->set_value(pl->get_elt());
         if (primary_item != 0) {
             if (is_item_already_equipped() != 0) {
                 pl->preview_unequip_stats(&st, primary_id);

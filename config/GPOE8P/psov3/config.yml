@@ -5149,7 +5149,7 @@ force_active:
   - enable_help_toggle__15TWindowHelpItemFv
   - clear_flag70_bit80__19TWindowSubTechniqueFv
   - clear_flag_and_notify__18CameraDistanceFadeFv
-  - clear_flag_and_release__14TWindowSubItemFv
+  - clear_confirmed__18TWindowInputNumberFv
   - clear_flag_and_update__15TObjEneGyaranzoFv
   - clear_return_city_open__11TWindowCtrlFv
   - clear_flag_in_state7__14TObjEneBalClawFv

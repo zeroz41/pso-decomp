@@ -779,7 +779,7 @@ void TWindowDD::open_numeric_parameter_input(s32 minimum, s32 maximum, s32 initi
     number_window = new TWindowInputNumber(&position, minimum, maximum, initial, (s16)local_client_id);
     if (number_window) {
         number_window->set_depth(word_cursor_depth);
-        ((TWindowSubItem *)(number_window))->set_flag60_bit10();
+        number_window->set_flag_10();
         word_windows[depth]->disable_input();
     }
 }

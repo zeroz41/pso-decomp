@@ -3,6 +3,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/PageIndicator.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -229,7 +230,7 @@ void TWindowSubStatusDisp::run_task() {
   }
   this->dispatch_page_update();
   update_window();
-  this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *) this) + 0x24)));
+  this->update_window_entry_list(&this->entry_list);
 }
 
 void TWindowSubStatusDisp::render() {
@@ -240,7 +241,7 @@ void TWindowSubStatusDisp::render() {
         draw_window_frame(context);
         draw_visible_window_entries(
             this,
-            reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
+            &this->entry_list,
             context);
         draw_list_page_indicator(page_indicator, context);
     }
@@ -300,8 +301,8 @@ void TWindowSubStatusDisp::dispatch_page_update() {
 extern "C" {
 void TWindowSubStatusDisp::vt0() {
     WindowTextEntry *e;
-    u8 *gauge;
-    u8 *pl;
+    WindowSpritePart *portrait;
+    TObjPlayer *pl;
     saddr v;
     s8 *st;
     if ((f32) this->open_tick > 7.5f) {
@@ -319,20 +320,20 @@ void TWindowSubStatusDisp::vt0() {
     set_text_entry_string(e, (saddr)TWindowSubStatusDisp::get_message_10(0x82), 0x20);
     e = (WindowTextEntry *)get_array_entry(0x11);
     set_text_entry_string(e, TWindowSubStatusDisp::get_download_server(), 0x20);
-    pl = (u8 *)get_player_by_client_id(this->client_index);
+    pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        st = (s8 *)(pl + 0x85C);
+        st = (s8 *)pl->name;
         if (st != NULL) {
-            v = (saddr)((TObjPlayer *)pl)->get_name();
+            v = (saddr)pl->get_name();
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(0)), v, 0x20);
             v = get_class_name_text(st[0x31]);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(3)), v, 0);
             v = (saddr)TObjLuker::get_stat_table_entry(st[0x30]);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(4)), v, 0);
         }
-        gauge = (u8 *)get_array_entry(5);
-        *(u8 **)(gauge + 0x30) = (u8 *)this + 0x64;
-        *(u8 **)((s8 *)this + 0x64) = pl + 0xCF4;
+        portrait = (WindowSpritePart *)get_array_entry(5);
+        portrait->texture_list_slot = &this->body_textures;
+        this->body_textures = &pl->body_textures;
     }
 }
 
@@ -453,15 +454,15 @@ void TWindowSubStatusDisp::vt13() {
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
         entry_2 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(2));
-        entry_2->value = (s32) ((TWindowSubStatusDisp *)player)->get_stat();
+        entry_2->value = (s32) ((TObjPlayer *)player)->get_efr();
         entry_8 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(8));
         entry_8->value = (s32) ((TObjPlayer *)player)->get_class_id();
         entry_e = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0xE));
         entry_e->value = (s32) ((TObjPlayer *)player)->get_item_index();
         entry_14 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x14));
-        entry_14->value = (s32) ((TWindowSubStatusDisp *)player)->get_field_2F8();
+        entry_14->value = (s32) ((TObjPlayer *)player)->get_edk();
         entry_1a = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x1A));
-        entry_1a->value = (s32) ((TWindowSubStatusDisp *)player)->get_item_type();
+        entry_1a->value = (s32) ((TObjPlayer *)player)->get_elt();
     }
 }
 
