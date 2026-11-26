@@ -119,7 +119,7 @@ void TEnding::start_ending_scene() {
     render_tick();
 }
 
-// inferred: the empty load/unload pair in ending_scene_callbacks
+// The empty load/unload pair in ending_scene_callbacks
 void ending_scene_nop_release() {}
 void ending_scene_nop_load() {}
 

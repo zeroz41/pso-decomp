@@ -27,7 +27,7 @@
 #include "pso/object/base/TObjBase.h"
 
 
-// inferred: the per-band emitter lists of megid_emitter_bands, named after their band (technique level tier)
+// The per-band emitter lists of megid_emitter_bands, named after their band (technique level tier)
 static const TechniqueEmitterSourceRow megid_band0_emitters[2] = {
     {0x1C5, 0, 0.0f}, {0x1C8, 0, 0.0f},
 };
@@ -50,7 +50,7 @@ static const TechniqueEmitterSourceTable megid_emitter_bands[6] = {
     {megid_band0_emitters, 2}, {megid_band1_emitters, 2}, {megid_band2_emitters, 2},
     {megid_band3_emitters, 3}, {megid_band4_emitters, 3}, {megid_band5_emitters, 5},
 };
-// inferred: same <Class>__class_name pattern as TTecBarta::class_name
+// The class name string, as TTecBarta::class_name
 const char *TTecMegid::class_name = "TTecMegid";
 static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 

@@ -56,8 +56,7 @@ void TTecFoie::play_foie_cast_sound() {
 
 }
 
-extern "C" {
-// foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
+// foie_emitter_parts_N: the particle parts entry N of
 // TTecFoie::emitter_bands spawns; the scale of part 0x14 grows with the band.
 static const TechniqueEmitterSourceRow foie_emitter_parts_0[1] = {{0x14, 2, 1.0f}};
 static const TechniqueEmitterSourceRow foie_emitter_parts_1[1] = {{0x14, 2, 1.2f}};
@@ -71,7 +70,6 @@ const TechniqueEmitterSourceTable TTecFoie::emitter_bands[6] = {
     {foie_emitter_parts_0, 1}, {foie_emitter_parts_1, 1}, {foie_emitter_parts_2, 1},
     {foie_emitter_parts_3, 2}, {foie_emitter_parts_4, 2}, {foie_emitter_parts_5, 4},
 };
-}
 const char *TTecFoie::name = "TTecFoie";
 extern "C" {
 

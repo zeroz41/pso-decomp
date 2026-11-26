@@ -12,7 +12,7 @@ struct TMovie : public TObject {
     virtual ~TMovie();
     virtual void run_task();
     RelModuleBuffer *module;
-    TMovie *player; // 0x20: the 0xD0-byte player initialize_movie_with_soundtrack builds (inferred)
+    TMovie *player; // 0x20: the 0xD0-byte player initialize_movie_with_soundtrack builds
     void* m_24;
     u8 unk_28[0x4];
     u32 m_2c;
@@ -46,7 +46,7 @@ LAYOUT_ASSERT(TMovie_size, sizeof(TMovie) == 0x4C);
 u8 *initialize_movie_with_soundtrack(u8 *state_buf, s8 *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending);
 
 // Planes of one decoded movie frame, filled by the decoder callback that
-// TMovie::flip_frame_buffer() calls (inferred from pack_movie_frame's use:
+// TMovie::flip_frame_buffer() calls (from pack_movie_frame's use:
 // three 8-bit planes Y, U, V and their pitches in bytes).
 struct MovieFramePlanes {
     u32 *y;
