@@ -12,7 +12,8 @@ unit does (`ChallengeRank.cpp`) is only a fallback for units no such string name
 
 Each line is one unit: `rename` (one class name, its file is free), `swap` (that file exists and holds other
 code), `multi` (several class names, the unit is named after none of them nor after the prefix they share) or
-`ok`. A `*Data.cpp` unit holding only a class's data is not renamed: it folds into that class's unit.
+`fold` (it only defines the class-name string while another unit holds that class's constructor: both are
+pieces of one translation unit, so it folds into that unit rather than being renamed) or `ok`.
 """
 from __future__ import annotations
 
@@ -38,9 +39,9 @@ def tracked(*patterns: str) -> list[str]:
                           check=True).stdout.split()
 
 
-def stored_names() -> tuple[dict[str, dict[str, list[int]]], set[str]]:
+def stored_names() -> tuple[dict[str, dict[str, list[int]]], dict[str, set[str]]]:
     """unit -> {class name stored by a constructor in it, or a class-name string defined in it: [lines]}, and
-    every declared class."""
+    class name -> the units whose constructors store it."""
     texts = {}
     for rel in tracked("src/*.c", "src/*.cpp", "src/*.cc", "src/*.cp", "include/*.h", "include/*.hpp"):
         try:
@@ -61,6 +62,7 @@ def stored_names() -> tuple[dict[str, dict[str, list[int]]], set[str]]:
             for target in targets:
                 strings[name] |= strings.get(target, set())
     out: dict[str, dict[str, list[int]]] = {}
+    ctor_units: dict[str, set[str]] = collections.defaultdict(set)
     for rel, text in texts.items():
         if not rel.startswith("src/") or not rel.endswith(SOURCE):
             continue
@@ -82,12 +84,13 @@ def stored_names() -> tuple[dict[str, dict[str, list[int]]], set[str]]:
                 for value in values:
                     if re.fullmatch(r"[A-Za-z_]\w*", value):
                         found[value].append(text.count("\n", 0, m.start()) + 1)
+                        ctor_units[value].add(rel)
         for m in DEF.finditer(text):
             if m[2] in classes and "name" in m[1].lower():
                 found[m[2]].append(text.count("\n", 0, m.start()) + 1)
         if found:
             out[rel] = dict(found)
-    return out, classes
+    return out, ctor_units
 
 
 def main() -> None:
@@ -97,7 +100,7 @@ def main() -> None:
     args = ap.parse_args()
     global ROOT
     ROOT = (args.root or ROOT).resolve()
-    stored, _ = stored_names()
+    stored, ctor_units = stored_names()
     units = {rel for rel in tracked("src/*") if rel.endswith(SOURCE)}
     stems = collections.defaultdict(list)
     for rel in units:
@@ -112,7 +115,11 @@ def main() -> None:
             if args.all:
                 print(f"ok      {rel}")
             continue
-        if len(names) == 1:
+        homes = {u for n in names for u in ctor_units.get(n, set())}
+        if names and rel not in homes and all(ctor_units.get(n) for n in names):
+            kind = "fold"
+            print(f"fold    {rel} -> {', '.join(sorted(homes))}")
+        elif len(names) == 1:
             (name,) = names
             target = str(Path(rel).with_name(name + Path(rel).suffix))
             others = [u for u in stems.get(name, []) if u != rel]
