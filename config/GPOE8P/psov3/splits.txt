@@ -1810,7 +1810,7 @@ pso/ui/font/TFontSmallHelp.cpp:
 	.sdata      start:0x805D2B20 end:0x805D2B24
 	.sdata2     start:0x805DA9C0 end:0x805DA9E0
 
-pso/ui/window/TWindowCtrlMain_800FC91C.cpp:
+pso/ui/window/TFontSmallLobby.cpp:
 	.text       start:0x800FC91C end:0x800FCCC8
 	.rodata     start:0x8043DAB0 end:0x8043DAC0
 	.data       start:0x8049CA40 end:0x8049CA6C

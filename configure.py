@@ -648,7 +648,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # (no shared .rodata base, though the tables precede the unit's pooled double): -pool off.
     "pso/ui/window/WindowDrawContext.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # its language letters ("J".."S") and "W:"/" D:" sit in .sdata2 as 4-byte-or-less readonly strings.
-    "pso/ui/window/TWindowCtrlMain_800FC91C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TFontSmallLobby.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdSelectTxtSubGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdBackGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMcSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

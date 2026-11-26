@@ -1039,7 +1039,7 @@ pso/ui/window/TWindowComCardFollower.cpp
 pso/ui/window/TWindowCost.cpp
 pso/ui/window/TWindowCtrl.cpp
 pso/ui/window/TWindowCtrlMain.cpp
-pso/ui/window/TWindowCtrlMain_800FC91C.cpp
+pso/ui/window/TFontSmallLobby.cpp
 pso/ui/window/TWindowCtrl_80145A28.cpp
 pso/ui/window/TWindowCtrl_801FBA28.cpp
 pso/ui/window/TWindowCtrl_80269FB0.cpp
