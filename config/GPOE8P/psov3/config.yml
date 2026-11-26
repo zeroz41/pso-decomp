@@ -277,8 +277,8 @@ force_active:
   - has_pending_spawns__17TObjEneBm3FlyNestFv
   - is_system_card_file_missing__12TAdTimeSetGCFv
   - is_system_card_file_absent__12TAdTimeSetGCFv
-  - sub_802E1868__12TAdTimeSetGCFv
-  - sub_802E18C8__12TAdTimeSetGCFv
+  - is_message_skip_pressed__12TAdTimeSetGCFv
+  - request_reset_phase__12TAdTimeSetGCFv
   - open_message_choice_by_entries__12TAdTimeSetGCFllll
   - report_missing_file__17TCharSaveSequenceFv
   - on_chr_select_fade_out_done__FP7TObject
@@ -16091,7 +16091,7 @@ force_active:
   - strstr
   - send_update_entity_stat__9TObjCharaFUsll
   - get_attack_params_ata__9TObjCharaFv
-  - sub_8001CCD4__11TLoadingCurFv
+  - steer_into_view__11TLoadingCurFv
   - init__13TObjBoss1RockFPC3VecPC3Vecl
   - enter_sway__14TBoss2TentacleFv
   - request_strike__14TBoss2TentacleFv
@@ -16297,7 +16297,7 @@ force_active:
   - clear_state7_flag__15TObjEneMe1GiGueFv
   - update_proximity_state__15TObjEneMe1GiGueFv
   - update_idle_state__15TObjEneMe1GiGueFv
-  - sub_802D4E08__23TAdSinglePlyChrSelectGCFv
+  - clear_members__23TAdSinglePlyChrSelectGCFv
   - update_orbit_points__26TItemWeaponDancingHitogataFv
   - is_not_jungle_grass__12TObjNpcEnemyFv
   - init_model_animation__17TAdChrSelPlayerGCFv

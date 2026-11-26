@@ -40,11 +40,6 @@ struct Challenge4PItemCode {
     s32 subtype;
 };
 
-extern "C" {
-
-s32 fn_8034BE30(TChallenge4PResult *);
-
-}
 s32 challenge4p_item_select_text_ids[8] = { 0x120, 0x13D, 0x159, 0x11D, 0x12A, 0x147, 0x11F, 0x14E };
 Challenge4PItemCode challenge4p_item_select_item_table[8] = {
     { 0, 0x2B, 0 }, { 0, 0x48, 0 }, { 0, 0x64, 0 }, { 0, 0x28, 0 },
@@ -360,7 +355,7 @@ void TChallenge4PItemSelect::open_menu() {
     frames_left = waitFrames - 1;
     waitFrames = frames_left;
     if (frames_left <= 0) {
-        client_id = fn_8034BE30(result);
+        client_id = result->get_slot_index();
         menu_window = create_window_menu(get_window_layout_position(0x42), 8, client_id);
         if (menu_window != NULL) {
             i = 0;

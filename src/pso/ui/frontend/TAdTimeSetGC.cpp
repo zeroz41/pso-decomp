@@ -369,7 +369,7 @@ void TAdTimeSetGC::update_load_countdown() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -403,7 +403,7 @@ void TAdTimeSetGC::update_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -436,7 +436,7 @@ void TAdTimeSetGC::update_char_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -467,7 +467,7 @@ void TAdTimeSetGC::run_state_12() {
         message_frames = 0;
     }
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -493,7 +493,7 @@ void TAdTimeSetGC::update_close_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
-        if (message_frames < 0xF && sub_802E1868() != 0) {
+        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -696,7 +696,7 @@ void TAdTimeSetGC::update_state() {
             return;
         default:
         case 1:
-            sub_802E18C8();
+            request_reset_phase();
             break;
         }
     }
@@ -897,11 +897,11 @@ void TAdTimeSetGC::apply_settings() {
     TAdMultiChgGameModeGC::open_title_scene();
 }
 
-void TAdTimeSetGC::sub_802E18C8() {
+void TAdTimeSetGC::request_reset_phase() {
     request_main_phase(0);
 }
 
-s32 TAdTimeSetGC::sub_802E1868() {
+s32 TAdTimeSetGC::is_message_skip_pressed() {
     if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 4) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         return 1;

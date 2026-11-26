@@ -18,6 +18,7 @@ public:
     virtual void run_task();
     void show_message(saddr text_handle);
     void handle_third_reward();
+    s32 get_slot_index();
     s32 state_1c;
     s32 wait_frames;
     u16 slot_index;

@@ -16,6 +16,7 @@ public:
     static void queue_destruction();
     static void create_instance(saddr mode);
     static s32 is_active();
+    static s32 get_warning_kind(s32 client_id);
     void close_windows();
     void open_warning_windows(void *unused);
 

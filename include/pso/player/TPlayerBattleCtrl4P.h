@@ -107,7 +107,6 @@ public:
     void start_match();
     s32 is_battle_decided();
     s32 check_all_players_flag();
-    static s32 fn_80211B10(s32 client_id);
     void apply_rule_configuration(s32 use_rules);
     void update_all_players();
     void shuffle_order();

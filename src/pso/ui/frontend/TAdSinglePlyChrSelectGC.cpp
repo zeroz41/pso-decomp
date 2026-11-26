@@ -533,7 +533,7 @@ s32 TAdSinglePlyChrSelectGC::can_pay_fee() {
     return 0;
 }
 
-void TAdSinglePlyChrSelectGC::sub_802D4E08() {
+void TAdSinglePlyChrSelectGC::clear_members() {
     this->state = 0;
     this->prev_state = this->state;
     this->cursor = NULL;
@@ -564,7 +564,7 @@ TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
 #pragma pool_data off
 TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(parent) {
     m_name = TAdSinglePlyChrSelectGC::class_name;
-    sub_802D4E08();
+    clear_members();
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     new TAdTitleGC(this, 0);

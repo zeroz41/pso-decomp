@@ -26,8 +26,8 @@ public:
     static s32 is_system_card_file_absent();
     static s32 is_load_complete();
     s32 poll_load_status();
-    s32 sub_802E1868();
-    void sub_802E18C8();
+    s32 is_message_skip_pressed();
+    void request_reset_phase();
     void apply_settings();
     void close_and_next(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
     void close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 second_text);

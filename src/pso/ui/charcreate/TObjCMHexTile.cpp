@@ -95,7 +95,7 @@ TObjCMHexTile::TObjCMHexTile(TObject *parent, void *pos) : TObject(parent) {
 #pragma pop
 
 
-void fn_802947A8(void) {
+void create_hex_tile_grid(void) {
     f32 limY;
     f32 stepY;
     f32 limX;

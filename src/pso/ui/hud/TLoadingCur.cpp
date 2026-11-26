@@ -81,7 +81,7 @@ s32 TLoadingCur::calc_clamp_offset(const f32 *screen, NJS_POINT2 *push) {
     return (u32)__cntlzw((u32)(push->x * push->x + push->y * push->y <= 0.0f)) >> 5;
 }
 
-void TLoadingCur::sub_8001CCD4() {
+void TLoadingCur::steer_into_view() {
     f32 screen[2];
     NJS_POINT2 push;
     push_matrix();
@@ -101,7 +101,7 @@ void TLoadingCur::sub_8001CCD4() {
     }
 }
 
-void TLoadingCur::render() { sub_8001CCD4(); }
+void TLoadingCur::render() { steer_into_view(); }
 
 #pragma push
 #pragma fp_contract on

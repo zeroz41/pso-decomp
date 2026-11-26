@@ -225,7 +225,7 @@ void KeyboardKeyState::process_raw_key(KeyboardKeyState *kb, u8 key, u32 *presse
     }
 }
 
-void KeyboardKeyState::sub_80132650() {
+void KeyboardKeyState::process_raw_keys() {
     u32 bits[4];
     s32 i;
     if (reports <= 0) {

@@ -19,8 +19,8 @@ struct TAdMultiConfirmGC : public TObject {
     TAdMultiOkGC *ok;
     virtual void render();
     virtual void run_task();
-    void fn_802FF760();
-    void fn_802FF7EC();
+    void restore_default_camera();
+    void set_confirm_camera();
 };
 
 LAYOUT_ASSERT(TAdMultiConfirmGC_size, sizeof(TAdMultiConfirmGC) == 0x4C);

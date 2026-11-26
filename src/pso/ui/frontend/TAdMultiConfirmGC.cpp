@@ -65,13 +65,13 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     guide = p;
     guide->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
     guide->set_line(1, reinterpret_cast<const char *>(&lbl_805DEF30));
-    fn_802FF7EC();
+    set_confirm_camera();
 }
 
 #pragma pop
 
 TAdMultiConfirmGC::~TAdMultiConfirmGC() {
-    fn_802FF760();
+    restore_default_camera();
 }
 void TAdMultiConfirmGC::run_task() {
     u32 j;
@@ -116,7 +116,7 @@ void TAdMultiConfirmGC::run_task() {
     }
 }
 void TAdMultiConfirmGC::render() {  }
-void TAdMultiConfirmGC::fn_802FF7EC() {
+void TAdMultiConfirmGC::set_confirm_camera() {
     CameraParams cam;
     Vec b = {0.0f, 0.0f, 0.0f};
     Vec a = {0.0f, 0.0f, -100.0f};
@@ -126,7 +126,7 @@ void TAdMultiConfirmGC::fn_802FF7EC() {
     activate_camera_mode(9);
     set_active_camera_pose_from_params(&cam);
 }
-void TAdMultiConfirmGC::fn_802FF760() {
+void TAdMultiConfirmGC::restore_default_camera() {
     CameraParams cam;
     Vec b = {0.0f, 0.0f, 0.0f};
     Vec a = {0.0f, 0.0f, -100.0f};

@@ -265,7 +265,7 @@ s32 keyboard_read_key_checked(u8 key) {
     return keyboard_check_and_read((s32)(key));
 }
 void update_keyboard_input_frame() {
-    hardware_keyboard_state.sub_80132650();
+    hardware_keyboard_state.process_raw_keys();
     if (is_split_screen() == 0) {
         ControllerInputContext *keyboard = &controller_input_state.keyboard;
         keyboard->poll_key_state();

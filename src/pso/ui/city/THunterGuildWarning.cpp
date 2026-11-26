@@ -149,7 +149,7 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *initial_mode) : 
 
 #pragma push
 #pragma optimization_level 3
-s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
+s32 THunterGuildWarning::get_warning_kind(s32 id) {
     TObjPlayer *self;
     u16 client_id;
     s32 result;
@@ -271,7 +271,7 @@ s32 is_in_hunter_guild(s32 client_id) {
             if (THunterGuildWarning::is_active() != 0) {
                 return 1;
             }
-            kind = TPlayerBattleCtrl4P::fn_80211B10(player);
+            kind = THunterGuildWarning::get_warning_kind(player);
             if (kind != 0) {
                 TObjPlayer *view_player = get_player_by_client_id((u16)player);
                 if (view_player != NULL) {

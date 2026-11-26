@@ -47,7 +47,7 @@ struct KeyboardKeyState {
     s32 is_key_pressed(u8 key);
     u8 get_key_state();
     static void process_raw_key(KeyboardKeyState *kb, u8 key, u32 *pressed);
-    void sub_80132650();
+    void process_raw_keys();
     void reset_port_if_connected(u8 chan);
     void reset_state();
 };

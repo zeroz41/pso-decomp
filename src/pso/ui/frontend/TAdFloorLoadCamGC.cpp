@@ -8,12 +8,13 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/ControllerInputState.h"
+#include "pso/quest/challenge/TChallenge4PResult.h"
 
 
 const char *floor_load_cam_class_name = "TAdFloorLoadCamGC";
 extern const f32 floor_load_cam_zero;
 
-u16 fn_8034BE30(void* p) { return *(u16*)((char*)p + 0x24); }
+s32 TChallenge4PResult::get_slot_index() { return slot_index; }
 void fn_8034BE38(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
 void fn_8034BE48(void* p) { *(u32*)((char*)p + 0x334) |= 0x40000000; }
 void TAdFloorLoadCamGC::render() {  }
