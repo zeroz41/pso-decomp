@@ -154,7 +154,7 @@ void TWindowStatus::run_task() {
     update_hp_tp_values();
     update_lockon_window(this);
     update_status_help_item(this);
-    update_status_icons((void *)(get_window_layout_position(0x1D)));
+    update_status_icons(const_cast<NJS_POINT2 *>(get_window_layout_position(0x1D)));
     update_window();
     update_fade();
     update_window_entry_list(&entry_list);

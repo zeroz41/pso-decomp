@@ -5,13 +5,15 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
+struct NJS_POINT2;
+
 struct TWindowSimpleStatus : public TWindowBase {
     TWindowSimpleStatus(void *position, s32 client, u8 *descriptor);
     virtual ~TWindowSimpleStatus();
     static const char *class_name;
     void draw_background(WindowDrawContext *ctx);
     void apply_random_shake();
-    void update_status_icons(void *);
+    void update_status_icons(NJS_POINT2 *offset);
     void start_hp_text_color_transition();
     void init_gauge_entry();
     void update_status_entry();
