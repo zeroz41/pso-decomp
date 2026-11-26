@@ -18,4 +18,16 @@ public:
 };
 LAYOUT_ASSERT(TTitleBackground_size, sizeof(TTitleBackground) == 0x24);
 
+// The background's drawing helpers.
+void rotate_title_background_quad(s32 owner, u8 *quad, u8 *center, saddr angle, f32 radius);
+void draw_title_background_pulse(s32 owner, f32 depth, s32 frame);
+void draw_title_rings(s32 owner, f32 depth, s32 frame);
+
+extern "C" {
+void TLobby__sub_80336E44(void);
+void TLobby__sub_80336E64(void);
+void TLobby__sub_80336E68(void);
+}
+void clear_lobby_global_flags(void);
+
 #endif

@@ -28,7 +28,6 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TLobby_80335E08.h"
-#include "pso/unk/text_803369C8.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaTexture.h"

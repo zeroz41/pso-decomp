@@ -6396,7 +6396,7 @@ pso/ui/window/TWindowSubComCardList.cpp:
 	.sdata      start:0x805D3A18 end:0x805D3A20
 	.sdata2     start:0x805DD540 end:0x805DD550
 
-pso/unk/TUnk_804D1160.cpp:
+pso/ui/window/TCustomizeMenuCtrl.cpp:
 	.text       start:0x802758C8 end:0x80275D84
 	.rodata     start:0x8044F718 end:0x8044F720
 	.data       start:0x804D1160 end:0x804D1198
@@ -8489,7 +8489,7 @@ pso/ui/frontend/TTitleScene.cpp:
 	.sbss       start:0x805D6D40 end:0x805D6D4C
 	.sdata2     start:0x805DF8E8 end:0x805DF90C
 
-pso/unk/text_803369C8.cpp:
+pso/ui/frontend/TTitleBackground.cpp:
 	.text       start:0x80336874 end:0x80336E6C
 	.rodata     start:0x80477830 end:0x80477858
 	.data       start:0x804EEF80 end:0x804EEF98

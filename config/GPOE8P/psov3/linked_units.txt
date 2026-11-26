@@ -803,7 +803,7 @@ pso/player/LobbyPlayerActionProvider.cpp
 pso/player/LobbyPlayerActions.cpp
 pso/unk/TLobby_80335E7C.cpp
 pso/ui/charcreate/TChCrTagOccHeader.cpp
-pso/unk/text_803369C8.cpp
+pso/ui/frontend/TTitleBackground.cpp
 pso/unk/TLobby_803382E4.cpp
 pso/ui/window/TWindowMenuTeamStatus.cpp
 pso/unk/TLobby_8034C18C.cpp
@@ -1913,7 +1913,7 @@ pso/network/PppPap.c
 pso/network/NetIpv6.c
 pso/network/NetIpv4.c
 pso/network/NetDns.c
-pso/unk/TUnk_804D1160.cpp
+pso/ui/window/TCustomizeMenuCtrl.cpp
 pso/render/MotionDrawState.cpp
 pso/unk/TDeferredRenderQueue.cpp
 pso/map/area/AreaAncient01.cpp

@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/frontend/TitleBackground.h"
-#include "pso/unk/text_803369C8.h"
 #include "pso/ui/frontend/TTitleBackground.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
