@@ -27,7 +27,7 @@ void handle_6x07_symbol_chat(G_SymbolChat_6x07 *command) {
     p = &command->data;
     player = get_player_by_client_id(command->client_id);
     if (player != NULL) {
-        TLobby::dispatch_by_index(command->client_id, (saddr)p);
+        capture_slot_symbol_chat(command->client_id, p);
         TWindowCtrl::open_balloon(player->get_entity_id(), (u8 *)p, 2, local_client_id);
         if (p->appearance & 0x200) {
             for (; static_cast<s8>(pending_symbol_chat_count) >= 1; pending_symbol_chat_count--) {

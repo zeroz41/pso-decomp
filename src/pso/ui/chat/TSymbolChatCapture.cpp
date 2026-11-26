@@ -16,9 +16,9 @@ void send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf) {
     buf->clear();
 }
 
-void TLobby::dispatch_by_index(u16 slot, int src) {
+void capture_slot_symbol_chat(u16 slot, SymbolChatPayload *chat) {
     if (slot_entity_dispatcher_instance != NULL && slot < 4) {
-        slot_entity_dispatcher_instance->capture_symbol_chat(slot, src);
+        slot_entity_dispatcher_instance->capture_symbol_chat(slot, chat);
     }
 }
 
@@ -30,10 +30,10 @@ void TSymbolChatCapture::get_recent_symbol_chat(u16 slot, SymbolChatPayload *buf
     buf->clear();
 }
 
-void TSymbolChatCapture::capture_symbol_chat(u16 slot, saddr src) {
+void TSymbolChatCapture::capture_symbol_chat(u16 slot, SymbolChatPayload *chat) {
     if (entries != NULL) {
         s32 i = slot;
-        TLobby::copy_symbol_chat_entry(&entries[i], (void *)src);
+        TLobby::copy_symbol_chat_entry(&entries[i], chat);
         timers[i] = 0x78;
     }
 }

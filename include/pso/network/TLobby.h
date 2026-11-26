@@ -365,7 +365,6 @@ struct TLobby : public TObject {
     static void update_short_list();
     static void update_state();
     static int close_trade_request(void*);
-    static void dispatch_by_index(u16, int);
     static saddr get_object_count(void*);
     static u8 is_ready(void *);
     static void send_modify_trade_proposal(int);
