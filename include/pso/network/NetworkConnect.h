@@ -5,11 +5,11 @@
 
 // --- C functions defined in NetworkConnect.cpp ---
 extern "C" {
-s32 apply_static_network_config(s32 *arg0);
+s32 apply_static_network_config(s32 *netmask);
 s32 apply_dhcp_network_config(s32 *netmask);
-s32 should_try_next_phone_number(u32 arg0);
+s32 should_try_next_phone_number(u32 result);
 int get_phone_number_count(void);
-void get_local_ip_address(s32 *arg0);
+void get_local_ip_address(s32 *out);
 int TLobby__sub_8014677C(void);
 s32 init_network_and_connect(void);
 void TLobby__sub_801469B8(void);

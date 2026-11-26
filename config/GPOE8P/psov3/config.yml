@@ -213,9 +213,9 @@ force_active:
   - tcp_alloc_snd_buf
   - TQuestVmDownLoadServer__sub_803E9A74
   - TQuestVmDownLoadServer__sub_803E9FFC
-  - TQuestVmDownLoadServer__sub_803EA1A8
-  - TQuestVmDownLoadServer__sub_803EA428
-  - TQuestVmDownLoadServer__sub_803EADD4
+  - build_slot_entries
+  - build_slot_items
+  - reset_slot
   - __ct__15TAdPlyPltAnimGCFP7TObjectl
   - is_shown__14TAdPlyStatusGC
   - TAdPlyStatusGC__status_window_box
@@ -1684,8 +1684,8 @@ force_active:
   - quest_card_file_name
   - quest_download_file_state
   - quest_download_cipher_state
-  - TQuestVmDownLoadServer__sub_801F6B98
-  - TQuestVmDownLoadServer__sub_801F8538
+  - reset_state_on_format_done
+  - calc_download_crc32
   - TRKEXICallBack
   - TRKInterruptHandlerEnableInterrupts
   - TRKLoadContext

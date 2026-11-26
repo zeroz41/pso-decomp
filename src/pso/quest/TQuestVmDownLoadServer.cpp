@@ -38,7 +38,7 @@
 
 extern "C" {
 char quest_card_file_name[0xC] = "\xB8\xB4\xBD\xC4\xCC\xA7\xB2\xD9";
-void TQuestVmDownLoadServer__sub_801F6B98(TMCFormatSequence *);
+void reset_state_on_format_done(TMCFormatSequence *);
 }
 // This TU's .sbss (address order).
 s32 quest_dat_download_complete;
@@ -80,7 +80,7 @@ QuestDownloadRecord quest_download_file_header;
 SubtractiveRng quest_download_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
 extern "C" {
-s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
+s32 calc_download_crc32(void *data, s32 size);
 }
 extern TObject *tl_03;
 
@@ -194,49 +194,49 @@ void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_hea
     }
     if (self_bytes != NULL) {
         memset(buf, 0, 0x10);
-        strncpy(buf, (char *)(self_bytes + 0x28), 0x10);
+        strncpy(buf, download_head.filename, 0x10);
         strtok(buf, ".");
         ext = strtok(NULL, "");
         quest_download_kind = self_bytes[0x26];
         if (strncmp(ext, "dat", 4) == 0) {
-            strncpy(quest_download_file_state.name, (char *)(self_bytes + 0x28), 0x10);
-            strncpy(quest_download_file_state.title, (char *)(self_bytes + 4), 0x22);
+            strncpy(quest_download_file_state.name, download_head.filename, 0x10);
+            strncpy(quest_download_file_state.title, download_head.path, 0x22);
             s = &quest_download_file_state;
-            s->size = *(s32 *)(self_bytes + 0x38) + 8;
+            s->size = (s32)download_head.file_size + 8;
             s->data = (u8 *)TQuestVmDownLoadServer::alloc(s->size);
             memset(s->data, 0, s->size);
             quest_dat_download_complete = 0;
-            quest_total_download_bytes += *(s32 *)(self_bytes + 0x38);
+            quest_total_download_bytes += (s32)download_head.file_size;
         } else if (strncmp(ext, "bin", 4) == 0) {
-            strncpy(quest_download_file_slot.name, (char *)(self_bytes + 0x28), 0x10);
-            strncpy(quest_download_file_slot.title, (char *)(self_bytes + 4), 0x22);
+            strncpy(quest_download_file_slot.name, download_head.filename, 0x10);
+            strncpy(quest_download_file_slot.title, download_head.path, 0x22);
             s = &quest_download_file_slot;
-            s->size = *(s32 *)(self_bytes + 0x38) + 8;
+            s->size = (s32)download_head.file_size + 8;
             s->data = (u8 *)TQuestVmDownLoadServer::alloc(s->size);
             memset(s->data, 0, s->size);
             quest_bin_download_complete = 0;
-            quest_total_download_bytes += *(s32 *)(self_bytes + 0x38);
+            quest_total_download_bytes += (s32)download_head.file_size;
             if ((s8)self_bytes[0x26] == 0) {
                 TDLGraph::update_graph(quest_received_file_bytes, quest_total_download_bytes);
             }
         } else if (strncmp(ext, "pvr", 4) == 0) {
-            strncpy(quest_download_file_info.name, (char *)(self_bytes + 0x28), 0x10);
-            strncpy(quest_download_file_info.title, (char *)(self_bytes + 4), 0x22);
-            quest_download_file_info.size = *(s32 *)(self_bytes + 0x38);
+            strncpy(quest_download_file_info.name, download_head.filename, 0x10);
+            strncpy(quest_download_file_info.title, download_head.path, 0x22);
+            quest_download_file_info.size = (s32)download_head.file_size;
             quest_download_file_info.data = (u8 *)TQuestVmDownLoadServer::alloc(quest_download_file_info.size);
-            memset(quest_download_file_info.data, 0, *(s32 *)(self_bytes + 0x38));
+            memset(quest_download_file_info.data, 0, (s32)download_head.file_size);
             quest_pvr_download_complete = 0;
-            quest_total_download_bytes += *(s32 *)(self_bytes + 0x38);
+            quest_total_download_bytes += (s32)download_head.file_size;
             if ((s32)self_bytes[0x26] == 1) {
                 TDLGraph::update_graph(quest_received_file_bytes, quest_total_download_bytes);
             }
         } else if (strncmp(ext, "gba", 4) == 0) {
-            strncpy(quest_download_file_header.name, (char *)(self_bytes + 0x28), 0x10);
-            strncpy(quest_download_file_header.title, (char *)(self_bytes + 4), 0x22);
-            quest_download_file_header.size = *(s32 *)(self_bytes + 0x38);
+            strncpy(quest_download_file_header.name, download_head.filename, 0x10);
+            strncpy(quest_download_file_header.title, download_head.path, 0x22);
+            quest_download_file_header.size = (s32)download_head.file_size;
             quest_download_file_header.data = (u8 *)TQuestVmDownLoadServer::alloc(quest_download_file_header.size);
             quest_gba_download_complete = 0;
-            quest_total_download_bytes += *(s32 *)(self_bytes + 0x38);
+            quest_total_download_bytes += (s32)download_head.file_size;
             TDLGraph::update_graph(quest_received_file_bytes, quest_total_download_bytes);
         }
     }
@@ -248,25 +248,25 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
     s32 v;
 
     if (self_bytes != NULL) {
-        if (strncmp(quest_download_file_state.name, (char *)(self_bytes + 4), 0x10) == 0) {
+        if (strncmp(quest_download_file_state.name, download.filename, 0x10) == 0) {
             flag = &quest_dat_download_complete;
             dst = quest_download_file_state.data + 8;
-        } else if (strncmp(quest_download_file_slot.name, (char *)(self_bytes + 4), 0x10) == 0) {
+        } else if (strncmp(quest_download_file_slot.name, download.filename, 0x10) == 0) {
             flag = &quest_bin_download_complete;
             dst = quest_download_file_slot.data + 8;
-        } else if (strncmp(quest_download_file_info.name, (char *)(self_bytes + 4), 0x10) == 0) {
+        } else if (strncmp(quest_download_file_info.name, download.filename, 0x10) == 0) {
             flag = &quest_pvr_download_complete;
             dst = quest_download_file_info.data;
-        } else if (strncmp(quest_download_file_header.name, (char *)(self_bytes + 4), 0x10) == 0) {
+        } else if (strncmp(quest_download_file_header.name, download.filename, 0x10) == 0) {
             flag = &quest_gba_download_complete;
             dst = quest_download_file_header.data;
         } else {
             return;
         }
-        memcpy(dst + (self_bytes[1] << 10), download.data, *(u32 *)(self_bytes + 0x414));
-        quest_received_file_bytes += *(u32 *)(self_bytes + 0x414);
+        memcpy(dst + (self_bytes[1] << 10), download.data, download.data_size);
+        quest_received_file_bytes += download.data_size;
         TDLGraph::update_graph(quest_received_file_bytes, quest_total_download_bytes);
-        if (*(u32 *)(self_bytes + 0x414) < 0x400) {
+        if (download.data_size < 0x400) {
             *flag = 1;
         }
     }
@@ -324,7 +324,7 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     body = ((u32 *)this) + 1;
     ((u32 *)this)[0] = subtractive_rng_next(&quest_download_cipher_state);
     *body = 0;
-    *body = TQuestVmDownLoadServer__sub_801F8538(this, size);
+    *body = calc_download_crc32(this, size);
     subtractive_rng_seed(&quest_download_cipher_state, ((u32 *)this)[0]);
     subtractive_rng_xor_buffer(&quest_download_cipher_state, body, (s32)((size - 4) & ~3));
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[0]);
@@ -356,7 +356,7 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     subtractive_rng_seed(&quest_download_cipher_state, ((u32 *)data)[0]);
     subtractive_rng_xor_buffer(&quest_download_cipher_state, (u32 *)(((u32 *)data) + 1), (s32)((size - 4) & ~3));
 }
-s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size) {
+s32 calc_download_crc32(void *data, s32 size) {
     u32 crc = -1;
     u32 i;
     for (i = 0; i < (u32)size; i++) {
@@ -385,7 +385,7 @@ s32 TQuestVmDownLoadServer::verify_checksum(const void *data, s32 size) {
   // The word at +4 is the stored checksum: it must be zero while the CRC runs.
   stored = *(s32 *)(((s8 *)copy) + 4);
   *(s32 *)(((s8 *)copy) + 4) = 0;
-  crc = TQuestVmDownLoadServer__sub_801F8538(copy, size);
+  crc = calc_download_crc32(copy, size);
   safe_free(copy);
   return (u32)__cntlzw((u32)(crc - stored)) >> 5;
 }
@@ -678,7 +678,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
         switch (cap) {
         case -0xFD:
             seq = new TMCFormatSequence(this, slot);
-            seq->done_callback = TQuestVmDownLoadServer__sub_801F6B98;
+            seq->done_callback = reset_state_on_format_done;
             seq->error_callback = TQuestVmDownLoadServer::clear_field2A0;
             this->state = 0x16;
             break;
@@ -1112,7 +1112,7 @@ s32 TQuestVmDownLoadServer::get_field230() {
     }
     return 0;
 }
-void TQuestVmDownLoadServer__sub_801F6B98(TMCFormatSequence *) {
+void reset_state_on_format_done(TMCFormatSequence *) {
     if (quest_vm_download_server_instance != NULL) {
         quest_vm_download_server_instance->state = 0;
     }
