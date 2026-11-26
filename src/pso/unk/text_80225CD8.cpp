@@ -1,6 +1,5 @@
 #include "types.h"
-
-extern "C" {
+#include "pso/unk/text_80225CD8.h"
 
 s32 find_chat_keyword(char *s, char (*names)[0x20], s32 lower) {
     char buf[0x100];
@@ -41,6 +40,4 @@ s32 find_chat_keyword(char *s, char (*names)[0x20], s32 lower) {
         }
     }
     return -1;
-}
-
 }

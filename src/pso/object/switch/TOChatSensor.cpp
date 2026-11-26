@@ -52,6 +52,7 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 #include "pso/object/switch/TSwitch.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/text_80225CD8.h"
 
 // ChatSensor.prs: how many trigger texts there are and the texts (a sensor's text_index picks one, from 1).
 struct ChatSensorTable {
@@ -64,8 +65,6 @@ TOChatSensorFolder *chat_sensor_folder_instance;
 ChatSensorTable *chat_sensor_table;
 
 TOChatSensorCapture *chat_sensor_capture_instance;
-
-extern "C" s32 find_chat_keyword(char *, char (*)[0x20], s32);
 
 void G_SetSwitchFlagFromTimer_6x93::init() {
     header.subcommand = 0x93;
