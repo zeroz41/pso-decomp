@@ -282,7 +282,7 @@ void TAdSystemFileCheckGC::open_message_window(s32 index) {
     }
     this->message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
     if (this->message_window != NULL) {
-        this->message_window->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10(this, (s32)index, (s32)((int) (this->language))))), 3);
+        this->message_window->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10(this, index, (s32)((int) (this->language))))), 3);
     }
 }
 

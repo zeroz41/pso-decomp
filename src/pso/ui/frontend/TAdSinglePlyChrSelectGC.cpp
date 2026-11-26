@@ -362,10 +362,10 @@ void TAdSinglePlyChrSelectGC::sub_802D4570() {
         this->state = 0;
         return;
     }
-    this->cursor->append_entry((void *)&single_chr_select_item_rect_table[0]);
-    this->cursor->append_entry((void *)&single_chr_select_item_rect_table[1]);
-    this->cursor->append_entry((void *)&single_chr_select_item_rect_table[2]);
-    this->cursor->append_entry((void *)&single_chr_select_item_rect_table[3]);
+    this->cursor->append_entry(&single_chr_select_item_rect_table[0]);
+    this->cursor->append_entry(&single_chr_select_item_rect_table[1]);
+    this->cursor->append_entry(&single_chr_select_item_rect_table[2]);
+    this->cursor->append_entry(&single_chr_select_item_rect_table[3]);
     this->state = 5;
 }
 

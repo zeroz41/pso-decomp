@@ -106,10 +106,10 @@ void TAdVIConfigGC::open_player_names_window() {
             if (p != 0) {
                 strncpy(((WarpPartyCheck *)this)->names[i].s, (char *)(p + 0x85C), 0x17);
                 ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), (s32)i);
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
             } else {
                 ((WarpPartyCheck *)this)->names[i].s[0] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), (s32)i);
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
             }
         }
     }

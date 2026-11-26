@@ -76,13 +76,13 @@ TEndingMovie::TEndingMovie() : TObject(tl_04) {
     case 2:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TEndingMovie::finish_movie, 0, 1, 0);
+            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 1, 0);
         }
         break;
     case 3:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TEndingMovie::finish_movie, 0, 0, 0);
+            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 0, 0);
         }
         break;
     }
@@ -94,7 +94,7 @@ void TEndingMovie::run_task() {}
 
 void TEndingMovie::finish_movie(TMovie *movie) {
     movie->queue_destruction();
-    if ((s32) ending_movie_active_flag != 0) {
+    if (ending_movie_active_flag != 0) {
         request_main_phase(2);
         return;
     }

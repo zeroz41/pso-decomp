@@ -938,8 +938,8 @@ s8 TItemMag::collect_owner_events() {
         return 0;
     }
     loss = 0;
-    hp = ((TObjChara *)owner)->get_actor_hp();
-    max_hp = ((TObjChara *)owner)->get_hpmax();
+    hp = owner->get_actor_hp();
+    max_hp = owner->get_hpmax();
     events = 0;
     if (owner_watch.hp != hp) {
         if (hp < owner_watch.hp) {

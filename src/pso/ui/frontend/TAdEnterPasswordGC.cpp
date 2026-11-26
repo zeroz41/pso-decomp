@@ -125,14 +125,14 @@ void TAdEnterPasswordGC::update_password_input(void *arg) {
       if (select_cursor != NULL)
       {
         select_cursor->reset_entries();
-        select_cursor->append_entry((void *)enter_password_item_rect_table[1]);
+        select_cursor->append_entry(enter_password_item_rect_table[1]);
       }
     }
     else
       if (select_cursor != NULL)
     {
       select_cursor->reset_entries();
-      select_cursor->append_entry((void *)enter_password_item_rect_table[0]);
+      select_cursor->append_entry(enter_password_item_rect_table[0]);
     }
   }
   if ((select_cursor->confirmation_result() == 1) && (password_entry_keyboard_control->is_confirmed() != 0))
@@ -151,7 +151,7 @@ void TAdEnterPasswordGC::open_keyboard_window(void *arg) {
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();
-        select_cursor->append_entry((void *)enter_password_item_rect_table[0]);
+        select_cursor->append_entry(enter_password_item_rect_table[0]);
         select_cursor->lock_navigation();
     }
     password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control((saddr)this, 2);

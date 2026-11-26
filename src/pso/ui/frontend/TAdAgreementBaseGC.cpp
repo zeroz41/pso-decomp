@@ -124,8 +124,8 @@ TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *parent) : TObject(parent) {
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     cursor = new TAdSelectCurGC(tl_clipout, agreement_item_rect_table, &lbl_804770A0);
-    cursor->append_entry((void *)&agreement_item_rect_table[0]);
-    cursor->append_entry((void *)&agreement_item_rect_table[1]);
+    cursor->append_entry(&agreement_item_rect_table[0]);
+    cursor->append_entry(&agreement_item_rect_table[1]);
     cursor->set_wait_directions_released();
     cursor->set_selection_index(1);
 }

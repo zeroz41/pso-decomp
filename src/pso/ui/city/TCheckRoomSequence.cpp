@@ -835,7 +835,7 @@ void copy_bank_to_card_window(s32 slot) {
         if (w != 0) {
             w->meseta = bank_meseta_by_slot[slot];
             w->count = bank_item_count_by_slot[slot];
-            move_data(((w->items)), (const void *)(bank_item_records_by_slot[slot]), 0x12C0);
+            move_data(((w->items)), bank_item_records_by_slot[slot], 0x12C0);
         }
     }
 }
@@ -848,7 +848,7 @@ void copy_bank_from_card_window(s32 slot) {
     if (w != 0) {
         bank_meseta_by_slot[slot] = w->meseta;
         bank_item_count_by_slot[slot] = w->count;
-        move_data(((bank_item_records_by_slot[slot])), (const void *)(w->items), 0x12C0);
+        move_data(((bank_item_records_by_slot[slot])), w->items, 0x12C0);
     }
 }
 #pragma pop
@@ -885,11 +885,11 @@ void TCheckRoomSequence::alloc_item_buffers() {
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             bank_item_records_by_slot[i] = (BankItemRecord *)__construct_new_array(mem_alloc(200 * sizeof(BankItemRecord) + 0x10),
-                (void *)__ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
+                __ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
         }
     } else {
         bank_item_records_by_slot[0] = (BankItemRecord *)__construct_new_array(mem_alloc(200 * sizeof(BankItemRecord) + 0x10),
-            (void *)__ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
+            __ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
     }
 }
 

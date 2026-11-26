@@ -78,15 +78,15 @@ bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
         return 0;
     }
     f32 facing[3] = {0.0f, 0.0f, -1.0f};
-    push_matrix_from((void *)&identity_matrix);
+    push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg1 + 0x60)));
-    rotate_vector_by_matrix(0, (void *)facing, (void *)facing);
+    rotate_vector_by_matrix(0, facing, facing);
     pop_matrix();
     to_self[0] = this->position.x - *(f32 *)((s8 *)arg1 + 0x38);
     to_self[1] = this->position.y - *(f32 *)((s8 *)arg1 + 0x3C);
     to_self[2] = this->position.z - *(f32 *)((s8 *)arg1 + 0x40);
     normalize_vector((Vec *)to_self);
-    return (vec3_dot((void *)facing, (void *)to_self) > -0.5f) == 0;
+    return (vec3_dot(facing, to_self) > -0.5f) == 0;
 }
 #pragma pop
 

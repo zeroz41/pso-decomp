@@ -174,6 +174,6 @@ bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
     }
     radius = *(f32 *)&this->unk_AC;
     radius_sq = radius * radius;
-    return (xz_distance_squared((void *)(player + 0x38), (void *)(base + 0x38)) < radius_sq) == 0;
+    return (xz_distance_squared((void *)(player + 0x38), base + 0x38) < radius_sq) == 0;
 }
 #pragma pop

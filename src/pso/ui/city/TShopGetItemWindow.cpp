@@ -326,7 +326,7 @@ void TShopGetItemWindow::update_input_number() {
         return;
     }
     w = number_input;
-    if (w != NULL && ((TWindowInputNumber *)w)->is_cancelled() != 0) {
+    if (w != NULL && w->is_cancelled() != 0) {
         number_input->close();
         number_input = NULL;
         set_state(4);

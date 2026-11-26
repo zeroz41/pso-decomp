@@ -442,7 +442,7 @@ block_19:
         this->state = 1;
         if (this->resumed != 0) {
             this->resumed = 0;
-            if ((u32) multi_chr_select_serial_access_state != TAdEnterSerialAccessGC::get_serial_seed()) {
+            if (multi_chr_select_serial_access_state != TAdEnterSerialAccessGC::get_serial_seed()) {
                 TAdMultiPlyChrSelectGC::reset_slot_selections();
             }
         }
@@ -464,12 +464,12 @@ void TAdMultiPlyChrSelectGC::sub_802DEDA8() {
     }
     player_plate->reset_cursor_state();
     player_plate->add_slot_position(&TAdMultiPlyChrSelectGC__character_slot_positions.value, 0);
-    player_plate->add_slot_position((void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 8), 0);
-    player_plate->add_slot_position((void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x10), 0);
-    player_plate->add_slot_position((void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x18), 0);
+    player_plate->add_slot_position((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 8, 0);
+    player_plate->add_slot_position((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x10, 0);
+    player_plate->add_slot_position((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x18, 0);
     player_plate->add_slot_position(&multi_play_chr_select_slot_positions.value, 1);
-    player_plate->add_slot_position((void *) ((u8 *)&multi_play_chr_select_slot_positions.value + 8), 1);
-    player_plate->add_slot_position((void *) ((u8 *)&multi_play_chr_select_slot_positions.value + 0x10), 1);
+    player_plate->add_slot_position((u8 *)&multi_play_chr_select_slot_positions.value + 8, 1);
+    player_plate->add_slot_position((u8 *)&multi_play_chr_select_slot_positions.value + 0x10, 1);
     player_plate->set_cursor_fields(0, 1);
     slot_index = 0;
     do {
@@ -1507,8 +1507,8 @@ void TAdMultiPlyChrSelectGC::sub_802DCA20() {
     }
     player_plate->reset_cursor_state();
     player_plate->add_slot_position(&TAdMultiPlyChrSelectGC__character_slot_positions.value, 1);
-    player_plate->add_slot_position((void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 8), 1);
-    player_plate->add_slot_position((void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x10), 1);
+    player_plate->add_slot_position((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 8, 1);
+    player_plate->add_slot_position((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x10, 1);
     player_plate->add_slot_position(&multi_chr_select_item_rect_table[0], 2);
     player_plate->add_slot_position(&multi_chr_select_item_rect_table[1], 2);
     player_plate->add_slot_position(&multi_chr_select_item_rect_table[2], 2);

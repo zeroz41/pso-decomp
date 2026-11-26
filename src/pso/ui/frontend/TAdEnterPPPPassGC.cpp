@@ -105,11 +105,11 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
         if (cur != 0) {
             if (select_cursor != NULL) {
                 select_cursor->reset_entries();
-                select_cursor->append_entry((void *)TAdEnterPPPPassGC__selection_positions[3]);
+                select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[3]);
             }
         } else if (select_cursor != NULL) {
             select_cursor->reset_entries();
-            select_cursor->append_entry((void *)TAdEnterPPPPassGC__selection_positions[2]);
+            select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[2]);
         }
     }
     if (select_cursor->confirmation_result() == 1 &&
@@ -127,7 +127,7 @@ void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();
-        select_cursor->append_entry((void *)TAdEnterPPPPassGC__selection_positions[2]);
+        select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[2]);
         select_cursor->lock_navigation();
     }
     password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control((saddr)this, 3);

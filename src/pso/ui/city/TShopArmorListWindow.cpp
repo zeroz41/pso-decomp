@@ -377,7 +377,7 @@ void TShopArmorListWindow::handle_equip_offer() {
                 try_buy_item(player, &c);
                 update_selection(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    mark_shop_armor_sold_out((s32)i, get_split_screen_slot());
+                    mark_shop_armor_sold_out(i, get_split_screen_slot());
                 }
                 item_list->save_cursor_selection();
                 choice_menu->close();

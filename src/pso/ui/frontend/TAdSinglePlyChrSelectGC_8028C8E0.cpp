@@ -32,13 +32,13 @@ extern s32 chr_select_preview_base_offset_table[];
 
 
 s32 TChCrLoadGmNjReq::try_acquire_slot() {
-    if (((s32) chr_select_slot_state < 0) || ((s32) chr_select_slot_state > 1)) {
+    if ((chr_select_slot_state < 0) || (chr_select_slot_state > 1)) {
         return 0;
     }
     if (slot_claimed != 0) {
         return 0;
     }
-    if ((s32) chr_select_slot_state >= 1) {
+    if (chr_select_slot_state >= 1) {
         return 0;
     }
     chr_select_slot_state += 1;
