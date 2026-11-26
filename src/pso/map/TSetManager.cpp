@@ -241,7 +241,7 @@ void TSetManager::apply_floor_set_rows() {
     if (floor->enemy_placement & 4) {
         TLobby::assign_display_objects(current_floor_enemy_set_rows, floor->enemy_count);
     }
-    if ((s32) floor_decoration_row_count > 0) {
+    if (floor_decoration_row_count > 0) {
         apply_room_transform_to_object_rows(floor_decoration_rows, floor_decoration_row_count);
         resolve_set_row_factory_indices(self, floor_decoration_rows, floor_decoration_row_count);
     }
