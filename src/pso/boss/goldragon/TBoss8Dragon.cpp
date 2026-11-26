@@ -202,7 +202,7 @@ BmlResourceDescriptor boss8_dragon_bml_descriptor = {"bm_boss8_dragon.bml", boss
 const char *boss8_dragon_class_name = "TBoss8Dragon";
 // Same records as TBoss1Dragon's foot-step / fireball attack parameters.
 extern const DragonAttackParams boss8_dragon_foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
-extern const DragonAttackParams TBoss8Dragon::breath_params = {1, 2.0f, 10.0f, {10.0f, 1}};
+const DragonAttackParams TBoss8Dragon::breath_params = {1, 2.0f, 10.0f, {10.0f, 1}};
 extern const DragonAttackParams boss8_dragon_fireball_impact_params = {1, 10.0f, 30.0f, {10.0f, 1}};
 extern const DragonAttackParams boss8_dragon_pillar_attack_params = {0, 10.0f, 0.0f, {10.0f, 1}};
 extern const s32 boss8_dragon_point_index_table[4] = {3, 4, 5, 6};

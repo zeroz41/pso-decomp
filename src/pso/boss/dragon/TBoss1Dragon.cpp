@@ -178,7 +178,7 @@ s32 boss1_dragon_base_param_ids[1] = {0x12};
 s32 boss1_dragon_register_object_ids[1] = {0x12};
 }
 const char *TBoss1Dragon::name = "TBoss1Dragon";
-extern const DragonAttackParams TBoss1Dragon::foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
+const DragonAttackParams TBoss1Dragon::foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
 extern "C" {
 extern const DragonAttackParams dragon_breath_attack_params = {0, 500.0f, 45.0f, {100.0f, 1}};
 extern const DragonAttackParams dragon_fireball_attack_params = {1, 2.0f, 10.0f, {10.0f, 1}};
@@ -266,7 +266,7 @@ Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
 extern f32 enemy_gravity_accel;
 extern const f32 boss1_dragon_lift_accel = 3.0f * enemy_gravity_accel;
-extern const f32 TBoss1Dragon::gravity_accel = 2.0f * enemy_gravity_accel;
+const f32 TBoss1Dragon::gravity_accel = 2.0f * enemy_gravity_accel;
 f32 boss1_dragon_dive_accel = 5.0f * enemy_gravity_accel;
 f32 boss1_dragon_gravity = 7.0f * enemy_gravity_accel;
 player_stats *boss1_dragon_base_params[1];

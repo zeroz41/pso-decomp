@@ -358,7 +358,7 @@ extern const char boss7_de_rol_le_c_motion_name_hige_wait_hige_wait_tentacle_njm
 
 extern const char bm_boss7_de_rol_le_c_bml_filename[] = "bm_boss7_de_rol_le_c.bml";
 
-extern const char TBoss7DeRolLeC::class_name_string[] = "TBoss7DeRolLeC";
+const char TBoss7DeRolLeC::class_name_string[] = "TBoss7DeRolLeC";
 
 const char *TBoss7DeRolLeC::class_name = TBoss7DeRolLeC::class_name_string;
 

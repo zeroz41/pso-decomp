@@ -11,7 +11,7 @@ extern "C" {
 extern const s32 lbl_80435410[] = {0x224, 0x226, 0x229};
 extern const s32 lbl_8043541C[] = {0x20A, 0x208, 0xC9};
 }
-extern const char TBoss1DragonEffBullet::class_name_string[] = "TBoss1DragonEffBullet";
+const char TBoss1DragonEffBullet::class_name_string[] = "TBoss1DragonEffBullet";
 const char *TBoss1DragonEffBullet::name = TBoss1DragonEffBullet::class_name_string;
 extern "C" {
 const s32 *dragon_fireball_particle_ids;
