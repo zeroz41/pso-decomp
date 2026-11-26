@@ -167,13 +167,13 @@ void unlock_sequencer_flag(s32 program) {
 }
 
 
-void TObjBgmColCtrl::update_all_zones(saddr filename) {
+void TObjBgmColCtrl::update_all_zones(const char *filename) {
     s32 i;
 
     i = 0;
     do {
         if (check_flag_index_set(i) != 1) {
-            if (strcmp(get_bgm_filename(i), (const char *)filename) == 0) {
+            if (strcmp(get_bgm_filename(i), filename) == 0) {
                 unlock_music_flag(i);
             }
         }
