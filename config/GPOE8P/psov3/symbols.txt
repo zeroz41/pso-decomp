@@ -16705,7 +16705,7 @@ get_pad_rumble_effect_slots__Fv = .text:0x802430E8; // type:function size:0xC
 update_pad_rumble__Fv = .text:0x802430F4; // type:function size:0xDC
 init_pad_rumble__Fv = .text:0x802431D0; // type:function size:0x24
 test_card_flag_8__19TWindowKeyBoardHardFl = .text:0x802431F4; // type:function size:0x24
-draw_window_bg__23TAdSinglePlyChrSelectGCFllll = .text:0x80243218; // type:function size:0x5C
+draw_window_bg__23TAdSinglePlyChrSelectGCFlPCcPvl = .text:0x80243218; // type:function size:0x5C
 load_player__23TAdSinglePlyChrSelectGCFllll = .text:0x80243274; // type:function size:0x58
 load_player_slot__23TAdSinglePlyChrSelectGCFlPCcPv = .text:0x802432CC; // type:function size:0x24
 find_card_file_channel__FPv = .text:0x802432F0; // type:function size:0x80
@@ -18706,7 +18706,7 @@ build_appearance_texture_names__23CharacterTextureLoadSetFP25CharacterAppearance
 request_chara_making_archives__Fv = .text:0x8028E6B4; // type:function size:0xDC
 TCharaMaking__sub_8028E790 = .text:0x8028E790; // type:function size:0x4
 update_light_direction__12TCharaMakingFv = .text:0x8028E794; // type:function size:0x8C
-update_main_menu__12TCharaMakingFl = .text:0x8028E820; // type:function size:0x94
+update_main_menu__12TCharaMakingFv = .text:0x8028E820; // type:function size:0x94
 run_task__12TCharaMakingFv = .text:0x8028E8B4; // type:function size:0x40
 create__12TCharaMakingFPvPv = .text:0x8028E8F4; // type:function size:0x4C
 __dt__12TCharaMakingFv = .text:0x8028E940; // type:function size:0x64

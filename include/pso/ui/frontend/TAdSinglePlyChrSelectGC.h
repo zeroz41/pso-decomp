@@ -104,7 +104,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void set_state(int a0);
     static void set_chr_select_state(int a0);
     void*init_guild_card_tag();
-    static s32 draw_window_bg(s32 chan, s32 filename, s32 buf, s32 blocks);
+    static s32 draw_window_bg(s32 chan, const char *filename, void *buf, s32 blocks);
     static s32 load_player(s32 chan, s32 filename, s32 buf, s32 blocks);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();

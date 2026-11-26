@@ -590,7 +590,7 @@ void TCharaMaking::update_light_direction() {
     scene_light_state.direction.z = cos_pitch * cos_table_lookup(light_yaw);
 }
 
-s32 TCharaMaking::update_main_menu(saddr task) {
+s32 TCharaMaking::update_main_menu() {
     saddr dressing_room;
 
     if (creation_main_menu_obj->is_state_3() != 0) {
@@ -601,11 +601,11 @@ s32 TCharaMaking::update_main_menu(saddr task) {
         }
         TSaveChCr::create(dressing_room);
         end_creation_view();
-        ((TObject *)task)->queue_destruction();
+        queue_destruction();
         return 1;
     }
     if (creation_main_menu_obj->is_state_4() != 0) {
-        ((TObject *)task)->queue_destruction();
+        queue_destruction();
         TChCrCharSelect::create(tl_03);
         return 1;
     }
@@ -614,7 +614,7 @@ s32 TCharaMaking::update_main_menu(saddr task) {
 
 void TCharaMaking::run_task() {
     if (!TAdSinglePlyChrSelectGC::is_active()) return;
-    if (TCharaMaking::update_main_menu((saddr)this)) return;
+    if (update_main_menu()) return;
 }
 
 void *TCharaMaking::create(void *parent, void *appearance) {
