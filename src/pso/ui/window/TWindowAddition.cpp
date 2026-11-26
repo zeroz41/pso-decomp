@@ -36,7 +36,7 @@ WindowDrawContext *TWindowAddition::get_draw_context() {
     return context;
 }
 
-void TWindowAddition::sub_802443B4(u8 *) {
+void TWindowAddition::init_addition(u8 *) {
     m_name = TWindowAddition__name;
     scroll_offset[0] = 0.0f;
     scroll_offset[1] = 0.0f;

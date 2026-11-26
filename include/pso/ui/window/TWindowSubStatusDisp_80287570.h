@@ -7,11 +7,11 @@ struct WindowDrawContext;
 
 void draw_window_tab(WindowDrawContext *context, f32 *position, u8 style, f32 width);
 extern "C" {
-f32 TWindowSubStatusDisp__sub_80287570(void *heading);
-f32 TWindowSubStatusDisp__sub_802877A4(f32 text_width);
+f32 get_heading_frame_width(void *heading);
+f32 calc_title_overflow_width(f32 text_width);
 struct HeadingEntry;
-void TWindowSubStatusDisp__sub_802878B8(HeadingEntry *heading, WindowDrawContext *context);
-void TWindowSubStatusDisp__sub_802879B0(void *heading);
+void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context);
+void advance_heading_reveal(void *heading);
 u8 TWindowSubStatusDisp__sub_80287AC4(u8 *heading);
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *position, saddr title, s8 entry_state, s32 client_id);
 }

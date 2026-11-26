@@ -603,10 +603,10 @@ void TAdTimeSetGC::run_states_19_21() {
             TAdSinglePlyChrSelectGC::try_load_system_file();
         }
         if (load_status & 0x100) {
-            TAdSinglePlyChrSelectGC__sub_801FBB1C();
+            delete_character_save_file();
         }
         if (load_status & 0x200) {
-            TAdSinglePlyChrSelectGC__sub_801FBB7C();
+            delete_guild_card_save_file();
         }
         TAdPlayerLoadGC::poll_card_load(0);
         sub_802E1F14();

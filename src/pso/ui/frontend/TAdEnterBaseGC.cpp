@@ -108,7 +108,7 @@ s32 TAdEnterBaseGC::entry_mode;
 
 extern "C" {
 
-void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor);
+void draw_text_cursor(WindowDrawContext *context, NJS_POINT2 *cursor);
 
 
 extern char serial_access_hex_string_buf[];
@@ -366,7 +366,7 @@ void draw_masked_password_field(saddr context) {
         NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * password_entry_keyboard_control->get_cursor_position());
         p2.y = password_field_text_pos[1];
-        fn_8025DE10((WindowDrawContext *)context, &p2);
+        draw_text_cursor((WindowDrawContext *)context, &p2);
     }
 }
 

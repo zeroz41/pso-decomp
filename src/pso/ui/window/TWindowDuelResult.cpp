@@ -107,9 +107,9 @@ WindowDescriptor window_duel_result_descriptor = {
     {388.0f, 164.0f}, 50043.0f, NULL, 3,
 };
 
-void TWindowDuelResult::sub_8024EF3C() {  }
+void TWindowDuelResult::update_stats_page() {  }
 
-void TWindowDuelResult::sub_8024EF40() {
+void TWindowDuelResult::build_stats_page() {
     s32 vals[4];
     TObjPlayer *pl;
     s32 i;
@@ -137,9 +137,9 @@ void TWindowDuelResult::sub_8024EF40() {
     }
 }
 
-void TWindowDuelResult::sub_8024F090() {  }
+void TWindowDuelResult::update_ranking_page() {  }
 
-void TWindowDuelResult::sub_8024F094() {
+void TWindowDuelResult::build_ranking_page() {
     s32 i;
     s32 none;
     BattleRanking *e;
@@ -196,18 +196,18 @@ void TWindowDuelResult::sub_8024F094() {
 }
 
 #pragma defer_codegen on
-void TWindowDuelResult::sub_8024F3CC() {
+void TWindowDuelResult::build_page() {
     typedef void (TWindowDuelResult::*PageMethod)();
-    static PageMethod build[] = { &TWindowDuelResult::sub_8024F094, &TWindowDuelResult::sub_8024EF40 };
+    static PageMethod build[] = { &TWindowDuelResult::build_ranking_page, &TWindowDuelResult::build_stats_page };
     entry_list.destroy_all_items();
     s8 page = page_indicator->get_type();
     (this->*build[page])();
-    sub_8024F330();
+    update_page();
 }
 
-void TWindowDuelResult::sub_8024F330() {
+void TWindowDuelResult::update_page() {
     typedef void (TWindowDuelResult::*PageMethod)();
-    static PageMethod update[] = { &TWindowDuelResult::sub_8024F090, &TWindowDuelResult::sub_8024EF3C };
+    static PageMethod update[] = { &TWindowDuelResult::update_ranking_page, &TWindowDuelResult::update_stats_page };
     s8 page = page_indicator->get_type();
     (this->*update[page])();
 }
@@ -225,9 +225,9 @@ void TWindowDuelResult::run_task() {
         open_tick = 0x01000000;
     }
     if (handle_list_page_flip_input(page_indicator) != 0) {
-        sub_8024F3CC();
+        build_page();
     }
-    sub_8024F330();
+    update_page();
     update_window();
     update_window_entry_list(&entry_list);
 }
@@ -250,5 +250,5 @@ TWindowDuelResult::TWindowDuelResult(s32 client)
         scale_x = 1.0f;
         scale_y = 1.0f;
     }
-    sub_8024F3CC();
+    build_page();
 }

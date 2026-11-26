@@ -57,7 +57,7 @@ const char *window_ctrl_sub_class_name = "TWindowCtrlSub";
 const char *window_ctrl_clip_out_class_name = "TWindowCtrlClipOut";
 const char *window_ctrl_player_class_name = "TWindowCtrlPlayer";
 
-// width, height of the player message window (TLobby__sub_80269DA4 stores it as the window size)
+// width, height of the player message window (set_message_window_size stores it as the window size)
 const f32 lbl_8044EC4C[2] = {255.0f, 120.0f};
 s32 TWindowCtrlMain::display_flags;
 TObject *TWindowCtrlMain::instance;
@@ -74,7 +74,7 @@ struct VObj_8024C820 {
     char pad[0x18];
     virtual void m0(int);
 };
-extern "C" void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index);
+extern "C" void draw_viewport_fill(s32 viewport_index);
 WindowControlState TWindowCtrlMain::viewport_states[6];
 extern "C" {
 struct Poly_8024CE68 {
@@ -387,7 +387,7 @@ void TWindowCtrlMain::reset_windows(void) { TWindowCtrlMain::reset_all((void*)((
 void TWindowCtrlMain::reset_all(void* _w0) {
     s32 i;
     load_hud_palette_textures();
-    TWindowCtrlMain__sub_8024EF30();
+    clear_shared_window_draw_context();
     WindowDrawContext::get_or_create_instance();
     TWindowCtrlMain::display_flags = 0;
     TWindowCtrlMain::window_task_root = NULL;
@@ -493,12 +493,12 @@ void TWindowCtrlMain::render() {
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
-    TWindowCtrlMain__sub_8024CE24()->render_nodes();
+    get_main_window_root()->render_nodes();
     TCameraCtrl::restore_saved_view();
     TParticleCtrl::end_effect_render();
 }
 
-void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
+void draw_viewport_fill(s32 viewport_index) {
     NJS_POINT2 verts[4];
     Poly_8024CE68 poly;
     u32 colors[4];
@@ -663,11 +663,11 @@ s32 is_window_display_enabled(void) {
     return 1;
 }
 
-TObject *TWindowCtrlMain__sub_8024CE34(void) {
+TObject *get_clip_out_window_root(void) {
     return TWindowCtrlMain::viewport_states[4].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CE24(void) {
+TObject *get_main_window_root(void) {
     return TWindowCtrlMain::viewport_states[5].window_root;
 }
 
@@ -684,7 +684,7 @@ void TWindowCtrlMain::set_fill_color(s32 viewport_index, s32 color) {
     get_window_control_state(viewport_index)->fill_color = color;
 }
 
-s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index) {
+s32 get_viewport_fill_color(s32 viewport_index) {
     return get_window_control_state(viewport_index)->fill_color;
 }
 
@@ -766,7 +766,7 @@ void TWindowCtrlScreen::render() {
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TWindowCtrlMain::instance->render_nodes();
-        TWindowCtrlMain__sub_8024D2A4(viewport_index);
+        draw_viewport_fill(viewport_index);
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
         get_viewport_window_root(viewport_index)->render_nodes();
@@ -802,7 +802,7 @@ void TWindowCtrlClipOut::render() {
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
-        TWindowCtrlMain__sub_8024CE34()->render_nodes();
+        get_clip_out_window_root()->render_nodes();
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }

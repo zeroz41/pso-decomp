@@ -164,7 +164,7 @@ void TWindowMainMenu1P::update_backdrop_transition() {
 }
 
 void TWindowMainMenu1P::render() {  }
-void TWindowMainMenu1P::run_task() { handle_menu_selection(); sub_80263FE0(); update_backdrop_transition(); }
+void TWindowMainMenu1P::run_task() { handle_menu_selection(); toggle_help_window(); update_backdrop_transition(); }
 
 TWindowMainMenu1P::~TWindowMainMenu1P() {
     if (menu_flags & 2) {

@@ -67,11 +67,11 @@ void TObjNewFloorWin::open_window() {
         window = create_window_menu(pos, 1, client);
     }
     if (window != NULL) {
-        sprintf(title, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
+        sprintf(title, "%s %02d", get_message_text(0x67), get_current_lobby_id());
         window->add_text_entry((saddr)title, 0, 0);
         window->calc_window_size();
         window->set_flag_40();
-        fn_800740DC();
+        close_current_window();
         TWindowCtrl::close_active_window();
         TWindowCtrl::ensure_initialized();
     }
@@ -109,4 +109,4 @@ u8 *TLobby::create_new_floor_windows() {
     return (u8 *)last;
 }
 
-void fn_800740DC(void) { TWindowCtrl::close_active_window(); }
+void close_current_window(void) { TWindowCtrl::close_active_window(); }

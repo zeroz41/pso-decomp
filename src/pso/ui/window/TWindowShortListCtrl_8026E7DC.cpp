@@ -44,7 +44,7 @@
 
 extern "C" {
 s32 try_send_6x27_use_item(void *player, s32 key);
-s32 TWindowCtrl__sub_8024A1A8();
+s32 is_com_card_window_open();
 }
 
 // The class name TObject::m_name points at.
@@ -53,7 +53,7 @@ const char *TWindowShortListCtrl::class_name = "TWindowShortListCtrl";
 // Screen position of the list windows (inferred from create_equip_kind_window / set_scroll_target use).
 static const NJS_POINT2 short_list_window_pos = {308.0f, 124.0f};
 
-// First run_task state of each page (inferred from sub_8026EA48 and run_task's case labels).
+// First run_task state of each page (inferred from enter_page_first_state and run_task's case labels).
 static const u8 page_first_state[4] = {0, 3, 6, 9};
 
 s16 TWindowMenu::get_selected_index() { return marked_row; }
@@ -94,7 +94,7 @@ TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TOb
             page -= 4;
         }
     }
-    sub_8026EA48();
+    enter_page_first_state();
     timer = 0;
     tech_window = NULL;
     list_window = NULL;
@@ -107,7 +107,7 @@ TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TOb
 
 TWindowShortListCtrl::~TWindowShortListCtrl() {
     TObjPlayer *player = get_player_by_client_id(client_id);
-    if (player != NULL && TWindowCtrl::has_player_active_menu(client_id) == 0 && TWindowCtrl__sub_8024A1A8() == 0) {
+    if (player != NULL && TWindowCtrl::has_player_active_menu(client_id) == 0 && is_com_card_window_open() == 0) {
         player->init_parts();
     }
     TWindowCtrl::end_client_keyboard_hold(client_id);
@@ -368,14 +368,14 @@ void TWindowShortListCtrl::cycle_list_page() {
                 if (old_page != page) {
                     set_card_window_flags(client_id, page);
                     destroy_children();
-                    sub_8026EA48();
+                    enter_page_first_state();
                 }
             }
         }
     }
 }
 
-void TWindowShortListCtrl::sub_8026EA48() {
+void TWindowShortListCtrl::enter_page_first_state() {
     state = page_first_state[page];
 }
 
@@ -417,7 +417,7 @@ void TWindowShortListCtrl::swap_card_entries(s32 arg1, s32 arg2) {
     p[arg2] = t;
 }
 
-void TWindowShortListCtrl__sub_8026E884(s16 *dst) {
+void init_default_short_list_order(s16 *dst) {
     s32 i;
     s16 order[19] = {0, 6, 3, 1, 7, 4, 2, 8, 5, 9, 0x12, 0xF, 0x10, 0x11, 0xD, 0xA, 0xB, 0xC, 0xE};
     for (i = 0; i < 19; i++) {

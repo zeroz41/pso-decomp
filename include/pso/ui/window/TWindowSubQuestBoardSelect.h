@@ -14,7 +14,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     s32 get_slot_flag(s8 slot);
     int is_shortcut_active();
     void sub_8027D1E8();
-    void sub_8027D230();
+    void update_slot_title();
     int is_open();
     int is_cancelled();
     u8 get_page_index();

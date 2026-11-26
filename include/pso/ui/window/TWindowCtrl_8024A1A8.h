@@ -7,7 +7,7 @@ class TWindowChat;
 
 extern "C" {
 s32 TWindowCtrl__sub_8024C5C4(const TWindowChat *chat);
-bool TWindowCtrl__sub_8024A1A8(void);
+bool is_com_card_window_open(void);
 s32 TWindowCtrl__sub_8024A314(void);
 u8 *get_obj_8024A5AC(u16 id);
 }

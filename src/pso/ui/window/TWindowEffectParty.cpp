@@ -28,7 +28,7 @@ extern const char *TWindowEffectParty__name;
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
 #pragma fp_contract on
-void *TWindowCtrl__sub_8024FB80(s8 i) {
+void *get_simple_status_window(s8 i) {
     if (TWindowCtrl::instance == 0) return 0;
     return TWindowCtrl::instance->simple_status[i];
 }
@@ -56,7 +56,7 @@ void TWindowEffectParty::run_task() {
     void *window;
 
     slot = this->target_slot;
-    if (((s8) slot > 0) && (((window = TWindowCtrl__sub_8024FB80(slot - 1)) == 0) || (((TWindowBase *)window)->is_open_and_unblocked() == 0))) {
+    if (((s8) slot > 0) && (((window = get_simple_status_window(slot - 1)) == 0) || (((TWindowBase *)window)->is_open_and_unblocked() == 0))) {
         queue_destruction();
         return;
     }
@@ -154,7 +154,7 @@ void TWindowEffectParty::set_slot_position(s32 unused, s32 slot, f32 *position) 
         position[1] += 32.0f;
         return;
     }
-    window = (TWindowBase *)TWindowCtrl__sub_8024FB80(slot - 1);
+    window = (TWindowBase *)get_simple_status_window(slot - 1);
     if (window != NULL) {
         position[0] = (f32) (111.0f + window->target_position[0]);
         position[1] = (f32) (19.0f + window->target_position[1]);

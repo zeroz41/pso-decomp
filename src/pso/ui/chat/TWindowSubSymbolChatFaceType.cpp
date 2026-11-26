@@ -140,7 +140,7 @@ void draw_selection_corners(WindowDrawContext *ctx, f32 *pos, f32 size, f32 amp)
     end_screen_draw();
 }
 
-void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
+void draw_face_selection(u8 *window_base, u8 *ctx) {
   int entry_index;
   u8 *entry;
   NJS_POINT2 corner;
@@ -163,7 +163,7 @@ void TWindowSubSymbolChatFaceType::render() {
     WindowDrawContext *context = draw_default_entry();
     update_parts_entries();
     draw_window_frame(context);
-    TWindowSubSymbolChatFaceType__sub_80283F38((u8 *)this, (u8 *)context);
+    draw_face_selection((u8 *)this, (u8 *)context);
     status_disp->forward_render(reinterpret_cast<void *>(context));
     draw_visible_window_entries(this, &entry_list, context);
 }

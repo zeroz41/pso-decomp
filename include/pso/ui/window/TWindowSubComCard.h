@@ -30,14 +30,14 @@ struct TWindowSubComCard : public TObject {
     virtual ~TWindowSubComCard();
     void rebuild_com_card_list(TWindowMenu *list_window);
     static const char *class_name;
-    TWindowChoiceSetting *sub_80272DE0();
+    TWindowChoiceSetting *create_choice_search_window();
     // Stores the option `val` picked for the category `key` (0 is the com param) and updates the menus.
     void set_choice_search_option(ChoiceSearchSelection *selections, s32 key, saddr val);
     s32 reinit(int);
     s32 init_guild_card_tag(int);
     TWindowMessageYesNo *sub_802730E0();
     TWindowMenu *create_option_list_window(ChoiceSearchSelection *selections, s32 key);
-    void sub_802721D8();
+    void send_short_mail();
     // Text of the option `selections[index]` picks, or NULL.
     char *find_option_text(ChoiceSearchSelection *selections, s32 index);
     void send_state_if_dirty();

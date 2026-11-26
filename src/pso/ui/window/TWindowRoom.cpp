@@ -63,5 +63,5 @@ TWindowRoom::TWindowRoom(char *title)
     target_size[0] = 10.0f + (entry->x + entry->width);
     target_position[0] -= target_size[0];
     this->save_position();
-    tabParameter = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
+    tabParameter = calc_title_overflow_width(frame_size[0] - 16.0f);
 }

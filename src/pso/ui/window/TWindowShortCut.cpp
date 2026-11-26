@@ -106,7 +106,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
     kind = shortcut[0];
     set_text_entry_string(shortcut_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC4), 0);
-    fn_80266BD0(index, &icon, &icon_detail, client_index);
+    get_shortcut_entry_codes(index, &icon, &icon_detail, client_index);
     if (icon != 0x33) {
         SpriteOrigin *origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon);
         shortcut_icon->flags &= ~2;

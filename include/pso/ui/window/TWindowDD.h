@@ -171,7 +171,7 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 extern "C" {
-void TWindowDD__sub_80344114(void);
+void load_word_select_data(void);
 }
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.

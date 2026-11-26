@@ -20,7 +20,7 @@
 
 #pragma push
 #pragma fp_contract on
-TWindowLoadItemTexture *fn_802628C0(void *position, const f32 *extent, s32 client) {
+TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f32 *extent, s32 client) {
     TWindowLoadItemTexture *window;
     WindowSpritePart *sprite;
 
@@ -75,7 +75,7 @@ void TWindowLoadItemTexture::render() {
     if ((s32)m_60 == 1) {
         texture_list = texture_loader->ready_texture_list();
         if (texture_list != NULL) {
-            fn_8026287C(this);
+            bind_item_texture(this);
             m_60 = 1;
         }
     }

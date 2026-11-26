@@ -19,7 +19,7 @@ public:
     virtual void run_task();
     void add_scroll_offset(int offset);
     void get_cursor_pos(NJS_POINT2 *position);
-    s32 sub_80341AC0();
+    s32 needs_scroll();
     s32 can_scroll(s32 direction);
     s32 sub_80342268();
     s32 sub_80342254();

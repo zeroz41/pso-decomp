@@ -83,7 +83,7 @@ void TWindowCheckBox::sync_level_field() {
 
 const char *TWindowCheckBox__class_name = "TWindowCheckBox";
 
-void TWindowCheckBox::sub_80248B7C(s32 client) {
+void TWindowCheckBox::init_check_box(s32 client) {
     this->m_name = TWindowCheckBox__class_name;
     this->client_index = client;
 }
@@ -172,7 +172,7 @@ void TWindowCheckBox::run_task() {
 TWindowCheckBox::~TWindowCheckBox() {}
 
 TWindowCheckBox::TWindowCheckBox(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 5, client) {
-    sub_80248B7C(client);
+    init_check_box(client);
 }
 
 s32 ItemListRow::get_item() { return item; }

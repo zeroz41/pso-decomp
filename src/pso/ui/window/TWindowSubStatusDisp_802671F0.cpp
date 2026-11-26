@@ -52,7 +52,7 @@
 const char *TWindowMenuIconLine::class_name = "TWindowMenuIconLine";
 
 
-void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
+void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player) {
     // pairs of entry codes handed to init_entry by TWindowSubShortCutList::draw_entry
     static const u8 entry_code_pairs[20][2] = {
         {0x33, 0x1C}, {0x33, 0x1E}, {0x33, 0x1F}, {0x33, 0x1D}, {0x1A, 0x1C}, {0x1A, 0x1E}, {0x1A, 0x1F},
@@ -197,7 +197,7 @@ void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 src, s3
     u8 category_icon;
 
     if ((s16) this->entry_count < (s16) this->entry_capacity) {
-        fn_80266BD0(index, &status_icon, &category_icon, this->client_index);
+        get_shortcut_entry_codes(index, &status_icon, &category_icon, this->client_index);
         ((ItemListRow *)get_array_entry(this->entry_count))->init_entry(status_icon, category_icon, status_style, src, item);
         this->entry_count = (this->entry_count + 1);
     }
@@ -612,7 +612,7 @@ void TWindowMenuIconLine::init(u32 count, s32 client) {
     }
 }
 
-TWindowMenuIconLine *fn_80267F38(saddr parent, saddr position, uaddr count, s16 client) {
+TWindowMenuIconLine *create_menu_icon_line(saddr parent, saddr position, uaddr count, s16 client) {
     ((s32 (*)(void *, void *))set_menu_icon_line_params)((void *)position, (void *)count);
     return new TWindowMenuIconLine((u8 *)parent, count, client);
 }

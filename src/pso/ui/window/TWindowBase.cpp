@@ -48,7 +48,7 @@ static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0
 void reset_line_width(void);
 void set_line_width(int a0);
 extern "C" {
-void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f32 len);
+void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len);
 
 
 
@@ -96,7 +96,7 @@ f32 TWindowBase::get_normalized_progress() {
 #pragma pop
 
 void TWindowBase::reparent_to_main_ctrl() {
-    set_parent(reinterpret_cast<TObject *>(TWindowCtrlMain__sub_8024CE24()));
+    set_parent(reinterpret_cast<TObject *>(get_main_window_root()));
 }
 
 void TWindowBase::save_position() {
@@ -131,7 +131,7 @@ s32 TWindowBase::is_open_and_unblocked() {
 }
 #pragma pop
 
-void fn_802449E0(u8 *object) {
+void hide_window(u8 *object) {
     TWindowBase *window = (TWindowBase *)object;
     window->window_flags = (s32) (window->window_flags & 0xFFFFFFF8);
     window->closing_tick = 0;
@@ -275,7 +275,7 @@ TWindowFukidasi *TWindowFukidasi::find_balloon_overlap_for(TWindowFukidasi *firs
     return find_overlapping_balloon(target_position, target_size, first);
 }
 
-void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
+void TWindowBase::init_window(u8 *descriptor, u8 *parent, s16 client) {
     m_name = class_name;
     copy_vec2(target_position, parent);
     copy_vec2(target_size, descriptor);
@@ -453,7 +453,7 @@ void begin_window_sweep_draw(s32 texture) {
 }
 #pragma push
 #pragma fp_contract on
-BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size) {
+BOOL scanline_crosses_window(void *ctx, void *position, void *size) {
     f32 limit_x;
     f32 start_x;
 
@@ -572,7 +572,7 @@ void TWindowBase::draw_quest_message_frame(void *context) {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
+void draw_window_scanline(u8 *card, s32 row, WindowDrawContext *r, f32 len) {
     ColorLineList lines;
     u32 colors[3];
     ColorLineVertex pts[3];
@@ -642,7 +642,7 @@ void draw_window_scanlines(u8 *card, u8 *context) {
     set_additive_blend();
     step = 1.0f;
     for (i = 0; i < n2; i++) {
-        TWindowSubComCard__sub_80245A10(card, i, (WindowDrawContext *)context, y);
+        draw_window_scanline(card, i, (WindowDrawContext *)context, y);
         y -= step;
     }
     set_default_alpha_blend();
@@ -776,7 +776,7 @@ void TWindowBase::update_fade() {
 
 extern "C" {
 
-void TWindowSubComCard__sub_8024634C(void) {
+void update_window_scanline(void) {
     switch (window_ui_theme_index) {
     case 0:
         lbl_805D63F6 = 60.0f * ((1.0f / 32768.0f) * rand()) + 60.0f;
@@ -847,7 +847,7 @@ void TWindowBase::update_open_close() {
 }
 
 
-void TWindowDD::update_com_card() { TWindowSubComCard__sub_8024634C(); }
+void TWindowDD::update_com_card() { update_window_scanline(); }
 void TWindowBase::update_window() { update_open_close(); }
 void TWindowBase::render() {  }
 void TWindowBase::run_task() {  }
@@ -858,7 +858,7 @@ TWindowBase::~TWindowBase() {
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
     : TObject(TWindowCtrlMain__sub_8024CDB0((void *)(saddr)client)) {
-    sub_80244F2C(descriptor, parent, client);
+    init_window(descriptor, parent, client);
 }
 
 

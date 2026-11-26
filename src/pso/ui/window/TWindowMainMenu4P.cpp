@@ -32,7 +32,7 @@ void TWindowMainMenu4P::open_main_menu() {
 }
 
 void TWindowMainMenu4P::render() {  }
-void TWindowMainMenu4P::run_task() { handle_menu_selection(); sub_80263FE0(); }
+void TWindowMainMenu4P::run_task() { handle_menu_selection(); toggle_help_window(); }
 
 TWindowMainMenu4P::~TWindowMainMenu4P() {
 

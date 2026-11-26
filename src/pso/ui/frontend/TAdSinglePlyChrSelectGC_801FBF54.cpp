@@ -1740,9 +1740,9 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
         }
         render_tick();
     }
-    TLobby__sub_80269CA4(0x23);
+    set_message_window_flags(0x23);
     w = TWindowMessage::create(&chr_select_save_message_window_pos, &chr_select_save_message_window_size.x, 1, 4);
-    TLobby__sub_80269C90();
+    set_message_window_default_flags();
     if (w != NULL) {
         if (TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF81 || TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF83) {
             w->append_line(get_localized_text_entry(0x1C, 1), 3);
@@ -2765,7 +2765,7 @@ void init_fresh_character_card(void) {
     }
     ((SavedSymbolChatPresets *)card)->load_symbol_chat_data();
     set_fresh_card_flag(card);
-    TWindowShortListCtrl__sub_8026E884((s16 *)((u8 *)card + 0x22C4));
+    init_default_short_list_order((s16 *)((u8 *)card + 0x22C4));
 }
 
 s32 TAdSinglePlyChrSelectGC::free_buffer() {

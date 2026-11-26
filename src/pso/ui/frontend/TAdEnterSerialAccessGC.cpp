@@ -28,7 +28,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 
 extern "C" {
-void fn_8025DE10(void *context, NJS_POINT2 *cursor);
+void draw_text_cursor(void *context, NJS_POINT2 *cursor);
 }
 
 char serial_hex_buffer[0x40];
@@ -478,7 +478,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
         }
         pos.x = row[keyboard_control->get_cursor_position()];
         pos.y = 230.0f;
-        fn_8025DE10(context, &pos);
+        draw_text_cursor(context, &pos);
     }
 }
 

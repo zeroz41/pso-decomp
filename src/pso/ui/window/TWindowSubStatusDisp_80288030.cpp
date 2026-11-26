@@ -37,10 +37,10 @@ NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texl
 NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };
 
 extern "C" {
-int TWindowSubStatusDisp__sub_802879B0(void*);
+int advance_heading_reveal(void*);
 
 void TWindowSubStatusDisp::forward_render(void *level) { this->update(level); }
-int TWindowSubStatusDisp::update_subwindow() { return TWindowSubStatusDisp__sub_802879B0(this); }
+int TWindowSubStatusDisp::update_subwindow() { return advance_heading_reveal(this); }
 s32 TWindowSubStatusDisp::destroy_status_display(saddr window, s16 delete_flag) {
     if (window != 0) {
         TWindowSubStatusDisp::deleting_destructor(window, 0);

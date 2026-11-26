@@ -32,7 +32,7 @@ u32 calc_text_width(char *s);
 const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
 void __dl__FPv(void);
 
-f32 TWindowSubStatusDisp__sub_80287570(void *heading) {
+f32 get_heading_frame_width(void *heading) {
     return (1.6e+02f) + ((HeadingEntry *)heading)->width;
 }
 }
@@ -87,7 +87,7 @@ f32 TWindowSubStatusDisp::get_base_y(f32 width) {
 }
 extern "C" {
 
-f32 TWindowSubStatusDisp__sub_802877A4(f32 text_width) {
+f32 calc_title_overflow_width(f32 text_width) {
     f32 extra = (16.0f + text_width) - 160.0f;
     if (extra < 0.0f) {
         extra = 0.0f;
@@ -127,7 +127,7 @@ void TWindowSubStatusDisp::draw_entry_tab(void *context) {
     ((void (*)(f32, WindowDrawContext *, f32 *, u8))draw_window_tab)(e->width, (WindowDrawContext *)context, pos, e->state);
 }
 
-void TWindowSubStatusDisp__sub_802878B8(HeadingEntry *heading, WindowDrawContext *context) {
+void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context) {
   NJS_POINT2 pos;
   if (context->open_tick >= 0)
   {
@@ -138,9 +138,9 @@ void TWindowSubStatusDisp__sub_802878B8(HeadingEntry *heading, WindowDrawContext
   }
 }
 
-void TWindowSubStatusDisp::update(void* a1) { draw_entry_tab(a1); TWindowSubStatusDisp__sub_802878B8((HeadingEntry *)this, (WindowDrawContext *)a1); }
+void TWindowSubStatusDisp::update(void* a1) { draw_entry_tab(a1); draw_heading_text((HeadingEntry *)this, (WindowDrawContext *)a1); }
 
-void TWindowSubStatusDisp__sub_802879B0(void *heading) {
+void advance_heading_reveal(void *heading) {
     HeadingEntry *e = (HeadingEntry *)heading;
     e->reveal_pos = (f32) (e->reveal_pos + e->reveal_step);
 }
@@ -157,7 +157,7 @@ u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_dis
     e->x = (f32) *(f32 *)((s8 *)position + 0);
     e->y = (f32) *(f32 *)((s8 *)position + 4);
     e->text_width = (f32) calc_text_width((char *)(title));
-    e->width = TWindowSubStatusDisp__sub_802877A4(e->text_width);
+    e->width = calc_title_overflow_width(e->text_width);
     e->text = title;
     e->flags = 0;
     e->reveal_pos = (f32) (0.0f);

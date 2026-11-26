@@ -283,7 +283,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
     ctx->transform_quad(&frame);
     draw_textured_quad_at_depth((f32 *)&frame, depth);
     end_screen_draw();
-    if (TWindowSubComCard__sub_80245558(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
+    if (scanline_crosses_window(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
         begin_window_sweep_draw(2);
         draw_window_sweep_strip(&frame, ctx);
         end_window_sweep_draw(2);

@@ -40,11 +40,11 @@ struct TWindowMainMenu : public TObject {
     void destroy_submenu();
     void replace_submenu(s16 id);
     void close_child_window();
-    void sub_80263FE0();
+    void toggle_help_window();
     void update_keyboard_card_state();
     void update_selection_value();
     void add_menu_entry(s16);
-    void sub_80263D7C();
+    void load_submenu_entries();
     void open(s32 entries);
     void close_and_clear_flags();
     s32 close_active_submenu();

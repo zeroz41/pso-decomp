@@ -610,10 +610,10 @@ s32 TWindowDD::get_word_select_context() {
     return (enemies_active != 0 ? 1 : 0) + 2;
 }
 
-int TWindowDD__sub_80348424(s32 _w0, s32 _w1) { return TWindowDD__sub_8034B008((saddr)((void*)(1)), (_w1)); }
+int TWindowDD__sub_80348424(s32 _w0, s32 _w1) { return get_word_select_type_state((saddr)((void*)(1)), (_w1)); }
 
 void TWindowDD__sub_80348448(s32 unused, s16 id) {
-    TWindowDD__sub_8034B008(0, ((s32) id));
+    get_word_select_type_state(0, ((s32) id));
 }
 
 s32 TWindowDD::get_mode_code() {

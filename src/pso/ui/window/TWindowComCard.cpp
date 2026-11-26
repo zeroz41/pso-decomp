@@ -29,7 +29,7 @@
 
 
 extern "C" {
-s32 TWindowSubComCard__sub_8007B070(s32);
+s32 is_guild_card_invalid(s32);
 }
 
 ComCardLayout com_card_layout_entries = {
@@ -119,7 +119,7 @@ TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *posi
     if (keyboard_mode == 0) {
         return 0;
     }
-    if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
+    if (is_guild_card_invalid(keyboard_mode) != 0) {
         ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
     }
     return new TWindowComCard(position, (void *)keyboard_mode);

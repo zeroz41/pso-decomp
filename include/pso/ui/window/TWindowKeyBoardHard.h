@@ -13,9 +13,9 @@ struct TWindowKeyBoardHard : public TWindowBase {
     void update_modifier_flags();
     void process_all_key_states();
     void process_key_input(u8);
-    s32 sub_8025F4A0(u8);
+    s32 handle_control_key(u8);
     s32 lookup_key_repeat_state(u8, u8);
-    u8 sub_8025F2F8(u8);
+    u8 apply_accent(u8);
     s32 poll_input();
     u16 lookup_key_char(u8);
     int sub_80260438();

@@ -16,7 +16,7 @@
 
 
 // Screen positions and scales of the word-select quad sets (TWindowDD__data_805434E8), set up by
-// TWindowDD__sub_80344114. inferred: names from that use.
+// load_word_select_data. inferred: names from that use.
 extern const NJS_POINT2 window_dd_quad_positions[7] = {
     {72.0f, 199.0f}, {122.0f, 199.0f}, {72.0f, 219.0f}, {122.0f, 219.0f},
     {172.0f, 199.0f}, {172.0f, 219.0f}, {222.0f, 199.0f},

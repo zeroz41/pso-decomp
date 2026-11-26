@@ -39,7 +39,7 @@ const char *TWindowSubTrade::class_name = "TWindowSubTrade"; // TWindowSubTrade:
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
 extern "C" {
-TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
+TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *);
 }
 
 // Built with deferred code generation (the vtable precedes run_task's jump
@@ -88,7 +88,7 @@ void TWindowSubTrade::run_task() {
             this->m_message_window = NULL;
         }
         if (this->m_player_list == NULL) {
-            m_player_list = TWindowSubComCard__sub_802B1C1C(this);
+            m_player_list = create_trade_partner_menu(this);
         }
         m_player_list->clear_flag_and_release();
         this->state = 2U;
@@ -144,7 +144,7 @@ void TWindowSubTrade::run_task() {
 void TWindowSubTrade::render() {  }
 
 // The caller passes its TWindowSubTrade in r3; the body never reads it.
-TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
+TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *) {
     s32 i;
     TObjPlayer *player;
     TWindowSubComCardList *list;

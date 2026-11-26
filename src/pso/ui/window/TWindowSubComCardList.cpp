@@ -85,12 +85,12 @@ void TWindowSubComCardList::sub_80275360() {
 }
 
 TWindowSubComCardList *TWindowSubComCard::create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message) {
-    fn_80266378(7);
+    set_window_menu_rows(7);
     return new TWindowSubComCardList(position, card_slot, count, empty_message);
 }
 
 TWindowSubComCardList *TWindowSubComCard::sub_802754EC(const NJS_POINT2 *position) {
-    fn_80266378(7);
+    set_window_menu_rows(7);
     return new TWindowSubComCardList(position);
 }
 

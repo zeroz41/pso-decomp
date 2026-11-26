@@ -213,7 +213,7 @@ void TLOC_End::run_task() {
 
 TLockOnCursor::TLockOnCursor(TObject *parent, u16 target_id) : TObject(parent) {
     m_name = lock_on_cursor_class_name;
-    sub_8013EEC0(target_id);
+    set_target_id(target_id);
     flags.reset();
 }
 
@@ -1041,7 +1041,7 @@ TMainCursor::TMainCursor(TObject *parent, u16 entity_id, s32 target_id, s32 acti
     m_name = main_cursor_class_name;
     set_entity_id(entity_id);
     set_target_id(target_id);
-    sub_8013E724(size);
+    set_size(size);
     set_cursor_action_palette_mode(this, action_palette);
     set_palette_slot(active);
     set_client_id(client_id);
@@ -1619,7 +1619,7 @@ void set_cursor_action_palette_mode(TMainCursor *cursor, u8 mode) { set_cursor_p
 
 void set_cursor_palette_mode(ActionPaletteTag *tag, u8 mode) { set_action_palette_tag_mode(tag, mode); }
 
-void TMainCursor::sub_8013E724(f32 v) { this->size = v; }
+void TMainCursor::set_size(f32 v) { this->size = v; }
 
 void TMainCursor::set_target_id(u8 target_id) {
     target.set_target_id(target_id);
@@ -1831,7 +1831,7 @@ LockOnPaletteOverride::LockOnPaletteOverride() {
     unk_4 = 0;
 }
 
-void TLockOnCursor::sub_8013EEC0(u16 target_id) { this->target_id = target_id; }
+void TLockOnCursor::set_target_id(u16 target_id) { this->target_id = target_id; }
 
 LockOnPaletteOverride::~LockOnPaletteOverride() {}
 

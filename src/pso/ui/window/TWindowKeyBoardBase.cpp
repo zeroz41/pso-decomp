@@ -138,7 +138,7 @@ s32 TWindowKeyBoardBase::sub_8025CE00(u8 *text) {
     return 0;
 }
 
-void TWindowKeyBoardBase::sub_8025CF50(int count) {
+void TWindowKeyBoardBase::skip_ime_candidates(int count) {
     char tmp[0x100];
     char out[0x100];
     u32 i;
@@ -282,7 +282,7 @@ void TWindowKeyBoardBase::update_input(void* a1) { sub_8025D1C8(current_candidat
 
 #pragma push
 #pragma optimization_level 2
-s32 TWindowKeyBoardBase::sub_8025D378(void *window_sub_status_disp) {
+s32 TWindowKeyBoardBase::can_fit_candidate(void *window_sub_status_disp) {
     s32 len = ((KbRec_8025D264 *)current_candidate)->len;
     s32 need = measure_string_len(reinterpret_cast<const char *>(window_sub_status_disp));
 
@@ -371,7 +371,7 @@ void TWindowKeyBoardBase::set_kana_mode() {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025D664() {
+void TWindowKeyBoardBase::select_next_segment() {
     char text[0x100];
     char name[0x100];
     s32 count;
@@ -397,7 +397,7 @@ void TWindowKeyBoardBase::sub_8025D664() {
             if (i > count) {
                 current_candidate = rec;
                 ime_request_prev_segment(name, text);
-                sub_8025CF50(candidate_index);
+                skip_ime_candidates(candidate_index);
                 return;
             }
         }
@@ -408,7 +408,7 @@ void TWindowKeyBoardBase::sub_8025D664() {
         kind = current_candidate[2];
         rec[2] = candidate_index;
         candidate_index = kind;
-        sub_8025CF50(kind);
+        skip_ime_candidates(kind);
     }
     candidate_count = count;
 }
@@ -427,12 +427,12 @@ void TWindowKeyBoardBase::process_input() {
             cand = current_candidate;
             current_candidate = cand - (static_cast<s8>(cand[0]) + 3);
             candidate_index = (s32) current_candidate[2];
-            this->sub_8025CF50((int) (candidate_index));
+            this->skip_ime_candidates((int) (candidate_index));
         }
     }
 }
 
-void TWindowKeyBoardBase::sub_8025D7FC() {
+void TWindowKeyBoardBase::shrink_segment() {
     char text[0x100];
     char name[0x100];
     s32 n;
@@ -451,7 +451,7 @@ void TWindowKeyBoardBase::sub_8025D7FC() {
         i++;
         if (i > n) {
             ime_request_extend_segment(name, text);
-            sub_8025CF50(candidate_index);
+            skip_ime_candidates(candidate_index);
             append_text_entry((u8 *)text);
             return;
         }
@@ -461,7 +461,7 @@ void TWindowKeyBoardBase::sub_8025D7FC() {
     write_name_and_text(name, text);
 }
 
-void TWindowKeyBoardBase::sub_8025D8C8() {
+void TWindowKeyBoardBase::extend_segment() {
     char text[0x100];
     char name[0x100];
     s32 n;
@@ -480,7 +480,7 @@ void TWindowKeyBoardBase::sub_8025D8C8() {
         i++;
         if (i > n) {
             ime_request_shrink_segment(name, text);
-            sub_8025CF50(candidate_index);
+            skip_ime_candidates(candidate_index);
             append_text_entry((u8 *)text);
             return;
         }
@@ -501,7 +501,7 @@ void TWindowKeyBoardBase::select_next() {
             if ((s32) candidate_index > (s32) candidate_count) {
                 candidate_index = 1;
             }
-        } while (sub_8025D378(name) == 0);
+        } while (can_fit_candidate(name) == 0);
         update_input(name);
     }
 }
@@ -517,7 +517,7 @@ void TWindowKeyBoardBase::update() {
             if ((s32) candidate_index <= 0) {
                 candidate_index = (s32) candidate_count;
             }
-        } while (sub_8025D378(name) == 0);
+        } while (can_fit_candidate(name) == 0);
         update_input(name);
     }
 }
@@ -615,7 +615,7 @@ void TWindowKeyBoardBase::sub_8025DBDC(s32 finalize) {
     }
 }
 
-void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor) {
+void draw_text_cursor(WindowDrawContext *context, NJS_POINT2 *cursor) {
     NJS_POINT2 pos[4];
     NJS_POINT2COL d;
     NJS_COLOR col[4];
@@ -885,7 +885,7 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
         }
         TWindowSubStatusDisp::end_render_forward();
         if ((draw_caret != 0) && !(this->window_flags & 2)) {
-            fn_8025DE10(ctx, &stack.caret);
+            draw_text_cursor(ctx, &stack.caret);
         }
     }
 }
@@ -896,7 +896,7 @@ extern "C" {
 s32 ARAlloc(s32);
 
 void TWindowKeyBoardBase::render() {
-    if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->request_flags & 2))) {
+    if ((sub_8025EB68() == 0) && ((has_text() != 0) || (this->request_flags & 2))) {
         WindowDrawContext *context = draw_default_entry();
         if (this->request_flags & 2) {
             draw_window_frame(context);

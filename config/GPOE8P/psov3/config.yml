@@ -226,7 +226,7 @@ force_active:
   - set_draw_depth__14TAdSelectCurGCFf
   - __as__16ChatShortcutKindFRC16ChatShortcutKind
   - copy_light_range__FPfPf
-  - TAdSinglePlyChrSelectGC__sub_801FBC3C
+  - decrypt_character_save
   - __dt__17CharacterFileSlotFv
   - set_character_file_seed__FPUcl
   - get_character_file_seed__FPUc
@@ -1770,8 +1770,8 @@ force_active:
   - __dt__22TWindowComCardFollowerFv
   - com_card_window_descriptor
   - com_card_follower_window_descriptor
-  - TWindowCtrlMain__sub_8024CE34
-  - TWindowCtrlMain__sub_8024D2A4
+  - get_clip_out_window_root
+  - draw_viewport_fill
   - window_ctrl_sub_class_name
   - update_countdown__17TWindowCtrlPlayerFv
   - TWindowCtrl__sub_8026D4E8
@@ -1780,13 +1780,13 @@ force_active:
   - __sinit_TWindowDD_WS_String_cpp
   - __ct__17TWindowDD_WS_WordFll
   - __sinit_TWindowDD_WS_Word_cpp
-  - TWindowDD__sub_80346F30
+  - has_menu_selection
   - TWindowDD__sub_80346FC0
   - layout_entries__17TWindowDuelResult
   - TWindowEffectLight__sub_802AD040
   - TWindowEffectParty__name
   - TWindowFukidasi__sub_80249788
-  - TWindowGetComCard__sub_8007B60C
+  - clear_received_guild_cards
   - item_layout_entries__15TWindowHelpItem
   - resistance_layout_entries__15TWindowHelpItem
   - is_flag20_set__22HelpItemStatCompareRowFv
@@ -1823,7 +1823,7 @@ force_active:
   - __ct__13TWindowStatusFPvlPUc
   - class_name__21TWindowSubComCardList
   - TWindowSubComCard__sub_8007AC7C
-  - TWindowSubComCard__sub_80245A10
+  - draw_window_scanline
   - sub_80249220__20TWindowChoiceSettingFPC10NJS_POINT2l
   - TWindowSubComCard__sub_80272640
   - TWindowSubComCard__sub_802728CC
@@ -1853,13 +1853,13 @@ force_active:
   - draw_composition_background__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUl
   - layout_wrapped_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUll
   - TWindowSubStatusDisp__sub_80271A6C
-  - TWindowSubStatusDisp__sub_802878B8
+  - draw_heading_text
   - TWindowSubStatusDisp__sub_80287AC4
   - TWindowSubStatusDisp__sub_803387F8
   - TWindowSubStatusDisp__sub_80338B88
   - TWindowSubStatusDisp__sub_8036D994
   - window_layout__20TWindowSubStatusDisp
-  - TWindowSubSymbolChatFaceType__sub_80283F38
+  - draw_face_selection
   - window_sub_symbol_chat_help_name
   - symbol_chat_parts_set_part_uv_table
   - TWindowSubSymbolChat__sub_80281840
@@ -6383,7 +6383,7 @@ force_active:
   - get_shop_technique_pool_count__Fl
   - get_shop_rare_tool_pool_count__Fl
   - fn_80235078
-  - fn_8024450C
+  - update_area_count_text
   - apply_facial_part_sprites
   - apply_face_appearance_sprite
   - sub_8025CE00__19TWindowKeyBoardBaseFPUc

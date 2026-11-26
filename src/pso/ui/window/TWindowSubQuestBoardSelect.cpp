@@ -85,7 +85,7 @@ extern "C" {
 void measure_message_text_width(void *, f32);
 extern u8 quest_board_handlers[];
 
-void TWindowSubQuestBoardSelect::sub_8027D230() {
+void TWindowSubQuestBoardSelect::update_slot_title() {
     u8 *str;
     WindowTextEntry *entry_1;
     str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
@@ -147,7 +147,7 @@ void TWindowSubQuestBoardSelect::select_next() {
                 this->slot = (slot - 6);
             }
         } while (get_slot_flag(this->slot) == 0);
-        sub_8027D230();
+        update_slot_title();
     }
 }
 
@@ -241,7 +241,7 @@ void TWindowSubQuestBoardSelect::handle_page_input() {
                     this->slot -= 6;
                 }
             } while (get_slot_flag(this->slot) == 0);
-            this->sub_8027D230();
+            this->update_slot_title();
         }
     }
 }

@@ -129,7 +129,7 @@ extern const f32 window_dd_quad_scales[];
 
 #pragma push
 #pragma opt_common_subs off
-void TWindowDD__sub_80344114(void) {
+void load_word_select_data(void) {
     s32 i;
     u8 *list;
     s32 j;

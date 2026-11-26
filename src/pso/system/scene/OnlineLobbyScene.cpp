@@ -162,7 +162,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
-    {TWindowDD__sub_80344114, TWindowDD::free_buffers},
+    {load_word_select_data, TWindowDD::free_buffers},
     {reset_globals, NULL},
     {init_char_slots, free_char_slots},
     {init_jungle_key_slots, unload_jungle_key_slots},

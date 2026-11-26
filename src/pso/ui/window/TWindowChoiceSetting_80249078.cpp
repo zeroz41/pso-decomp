@@ -14,7 +14,7 @@
 #include "pso/system/ControllerInput.h"
 
 // One TU (.text 0x80249078-0x802495FC): the class-name string 0x8044EAF0 comes before
-// sub_80249078's u32->f32 double (0x8044EB08) and run_task's s32->f32 double (0x8044EB10)
+// update_scroll_tween's u32->f32 double (0x8044EB08) and run_task's s32->f32 double (0x8044EB10)
 // in .rodata, so the name is defined ahead of the functions.
 #pragma push
 #pragma readonly_strings on
@@ -23,7 +23,7 @@ const char *TWindowChoiceSetting__name = "TWindowChoiceSetting";
 
 #pragma push
 #pragma fp_contract on
-void TWindowChoiceSetting::sub_80249078() {
+void TWindowChoiceSetting::update_scroll_tween() {
     f32 target;
     uaddr steps;
 
@@ -74,7 +74,7 @@ TWindowChoiceSetting *TWindowChoiceSetting::create_choice_setting_window(
 }
 
 void TWindowChoiceSetting::sub_80249220(const NJS_POINT2 *extent, s32 rows) {
-    fn_80268C5C(extent, rows);
+    set_choice_setting_popup_size(extent, rows);
 }
 
 void TWindowChoiceSetting::render() {
@@ -134,7 +134,7 @@ void TWindowChoiceSetting::run_task() {
         }
     }
     update_window();
-    sub_80249078();
+    update_scroll_tween();
     step_window_tween();
     update_scroll_offset();
     clamp_scroll();

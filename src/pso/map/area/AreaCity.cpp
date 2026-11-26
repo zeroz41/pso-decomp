@@ -69,6 +69,6 @@ s32 TLobby::setup_scene() {
         new TObjCityAirCar_Ctrl(tl_05);
     }
     new TQuestBgmCtrl(tl_05);
-    fn_8006EBC4((saddr)tl_07);
+    create_bag_warn_window_4p((saddr)tl_07);
     return 1;
 }

@@ -101,7 +101,7 @@ struct PointLayoutRecord {
 };
 
 // Window descriptor passed to the TWindowBase constructor and read by
-// TWindowBase::sub_80244F2C: layout goes to init_window_layout_entries, flags bits 1/2/0x20
+// TWindowBase::init_window: layout goes to init_window_layout_entries, flags bits 1/2/0x20
 // select rendering and the open sound.
 struct WindowDescriptor {
     f32 size[2];

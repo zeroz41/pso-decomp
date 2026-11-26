@@ -5,7 +5,7 @@
 
 // --- C functions defined in TWindowShortListCtrl_8026E7DC.cpp ---
 extern "C" {
-void TWindowShortListCtrl__sub_8026E884(s16 *dst);
+void init_default_short_list_order(s16 *dst);
 }
 // --- end of C functions
 

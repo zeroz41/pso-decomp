@@ -138,7 +138,7 @@ void TWindowMainMenu::handle_menu_selection() {
             }
             add_menu_entry(id);
             submenu_depth--;
-            sub_80263D7C();
+            load_submenu_entries();
             update_selection_value();
             close_submenu(active_entries);
         }
@@ -329,7 +329,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
 
 void TWindowMainMenu::close_child_window() { if (help_window != NULL) { this->help_window->close(); help_window = NULL; } }
 
-void TWindowMainMenu::sub_80263FE0() {
+void TWindowMainMenu::toggle_help_window() {
     toggle_help_window_on_button((uaddr)help_window, this->client_index);
 }
 
@@ -422,7 +422,7 @@ void TWindowMainMenu::add_menu_entry(s16 id) {
     e->value = (s32)active_entries;
 }
 
-void TWindowMainMenu::sub_80263D7C() {
+void TWindowMainMenu::load_submenu_entries() {
     this->active_entries = (TWindowMainMenuEntry *)*(s32 *)((u8 *)this + this->submenu_depth * 8 + 0x2c);
 }
 
@@ -460,7 +460,7 @@ s32 TWindowMainMenu::close_active_submenu() {
         return 0;
     }
     description_item_id = 0x1F;
-    sub_80263D7C();
+    load_submenu_entries();
     update_selection_value();
     close_submenu((void*)active_entries);
     return 1;
@@ -500,6 +500,6 @@ void TWindowSubEquip__sub_80263AF4(void *, s32) {}
 
 void call_if_split_screen(uaddr object, s32 client_id) {
     if ((is_split_screen() != 0) && (object != 0U)) {
-        fn_802449E0((u8 *)object);
+        hide_window((u8 *)object);
     }
 }

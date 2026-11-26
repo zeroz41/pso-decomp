@@ -120,7 +120,7 @@ void TWindowSubInformationBoard::run_task() {
         break;
     case 6:
         if ((u32) this->page_menu == 0U) {
-            this->page_menu = sub_8034CDE0();
+            this->page_menu = create_board_menu();
         }
         if ((u32) this->message_window == 0U) {
             this->message_window = (TWindowMessage *)show_card_a7();
@@ -195,7 +195,7 @@ TWindowMenu *TWindowSubInformationBoard::create_info_board_menu() {
   return list;
 }
 
-u32 TWindowSubInformationBoard::sub_8034CDE0() {
+u32 TWindowSubInformationBoard::create_board_menu() {
     I_8034CDE0 *it;
     TWindowMenu *w;
     s32 i;

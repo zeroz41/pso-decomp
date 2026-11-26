@@ -61,7 +61,7 @@ void draw_ginja_box_tree(NJS_OBJECT *node) {
     } while (node != NULL);
 }
 
-void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
+void delete_character_save_file(void) {
     s32 r;
     if (TAdPlayerLoadGC::probe_and_check_card(0) != 0) {
         r = TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename.filename);
@@ -71,7 +71,7 @@ void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
     }
 }
 
-void TAdSinglePlyChrSelectGC__sub_801FBB7C(void) {
+void delete_guild_card_save_file(void) {
     s32 r;
     if (TAdPlayerLoadGC::probe_and_check_card(0) != 0) {
         r = TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename);
@@ -91,7 +91,7 @@ void TAdSinglePlyChrSelectGC::try_load_system_file() {
     }
 }
 
-void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *save_data) {
+void decrypt_character_save(void *save_data) {
     Pso3CharacterFile *plain;
     Pso3CharacterFile *unshuffled;
     plain = new Pso3CharacterFile;
@@ -138,7 +138,7 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = sum;
     data = (u8 *)TQuestVmDownLoadServer::alloc(0x194B0);
     memcpy(data, buf + 0x2048, 0x194B0);
-    TAdSinglePlyChrSelectGC__sub_801FBC3C(data);
+    decrypt_character_save(data);
     saved = *(s32 *)data;
     *(s32 *)data = 0;
     res = calc_crc32_bitwise(data, 0x194B0);

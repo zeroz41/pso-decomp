@@ -94,7 +94,7 @@ static const s16 open_times[4] = {24, 30, 36, 0};
 
 extern "C" {
 
-void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl);
+void prune_destroyed_balloons(TWindowCtrl *ctrl);
 
 }
 
@@ -395,7 +395,7 @@ void TWindowCtrl::update_open_sequence() {
 
 
 
-void TWindowCtrl::update() { update_party_status_rows(); update_window_visibility(); update_com_card_window(); update_trade_request_window(); TWindowCtrl__sub_8024BB30(this); handle_controller(); update_trade_window(); TWindowCtrl__sub_8024B9C0(this); update_pulse_color(); }
+void TWindowCtrl::update() { update_party_status_rows(); update_window_visibility(); update_com_card_window(); update_trade_request_window(); prune_destroyed_balloons(this); handle_controller(); update_trade_window(); update_timer_window(this); update_pulse_color(); }
 
 
 
@@ -492,7 +492,7 @@ void TWindowCtrl::update_trade_request_window() {
 }
 
 
-void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
+void prune_destroyed_balloons(TWindowCtrl *ctrl) {
     u32 i;
     for (i = 0; i < 4; i++) {
         TWindowFukidasi *child = ctrl->balloons[i];
@@ -526,7 +526,7 @@ void TWindowCtrl::update_trade_window() {
 
 
 
-void TWindowCtrl__sub_8024B9C0(void *ctrl_arg) {
+void update_timer_window(void *ctrl_arg) {
     TWindowCtrl *ctrl = (TWindowCtrl *)ctrl_arg;
     if ((u32)ctrl->timer_window != 0U) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
@@ -563,7 +563,7 @@ void TWindowCtrl::update_pulse_color() {
 
 
 
-saddr TWindowCtrl__sub_8024B7D4(s32 n) {
+saddr get_party_member_name(s32 n) {
     s32 i;
     TWindowSimpleStatus *status;
     TObjPlayer *player;
@@ -1276,7 +1276,7 @@ void TWindowCtrl::start_client_countdown(s32 client_id) {
 
 
 
-bool TWindowCtrl__sub_8024A1A8(void) {
+bool is_com_card_window_open(void) {
     if (TWindowCtrl::instance == NULL) {
         return 0;
     }
@@ -1313,7 +1313,7 @@ s32 is_player_input_active(s32 client) {
 
 
 
-void TWindowCtrl__sub_8024A08C(void) {
+void destroy_com_card_window(void) {
     TObject *object;
     short_mail_flags &= 0xFFFFFFFD;
     if (TWindowCtrl::instance != NULL) {

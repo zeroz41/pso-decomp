@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
+void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player);
 }
 
 #endif

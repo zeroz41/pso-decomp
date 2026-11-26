@@ -168,7 +168,7 @@ s32 get_initial_word_select_list(TWindowDD *window_dd) {
       break;
   }
   offset = 0;
-  if (TWindowDD__sub_80346F30(window_dd) != 0)
+  if (has_menu_selection(window_dd) != 0)
   {
     offset = 1;
   }
@@ -207,6 +207,6 @@ s16 TWindowDD_read_resolved_value(s32 entry_id, s32 value_index) {
     return result;
 }
 
-s32 TWindowDD__sub_80346F30(TWindowDD *window_dd) {
+s32 has_menu_selection(TWindowDD *window_dd) {
     return window_dd->menu_index != -1;
 }

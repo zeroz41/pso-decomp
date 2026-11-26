@@ -24,7 +24,7 @@ extern const s32 category3_id_count;
 extern const s32 category4_id_count;
 
 extern "C" {
-s32 TWindowDD__sub_8034B008(s32 state, s32 item);
+s32 get_word_select_type_state(s32 state, s32 item);
 }
 
 #endif

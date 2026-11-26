@@ -71,7 +71,7 @@ void load_selected_guild_card_record(ChoiceSearchResult *result);
 }
 extern "C" {
 s32 TWindowSubComCard__sub_800778B4(ChoiceSearchSelection *, TRecvChoiceSearchOptions *);
-void TWindowSubComCard__sub_8007AF10(s32 client_id);
+void send_guild_card_to_client(s32 client_id);
 s32 TLobby__sub_8024259C();
 }
 extern "C" {
@@ -284,7 +284,7 @@ void TWindowSubComCard::run_task() {
             return;
         }
         if (this->sub_menu->is_decided() != 0) {
-            TWindowSubComCard__sub_8007AF10(this->sub_menu->get_selected_value());
+            send_guild_card_to_client(this->sub_menu->get_selected_value());
             this->state = 7U;
             return;
         }
@@ -341,7 +341,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->message_window == 0U) {
             this->message_window = this->create();
-            fn_802449E0((u8 *)this->message_window);
+            hide_window((u8 *)this->message_window);
             this->m_28 = -1;
         }
         if ((u32) this->card_list == 0U) {
@@ -623,7 +623,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->confirm_window->is_child_visible() != 0) {
             if (this->confirm_window->get_selected_value() == 0) {
-                this->sub_802721D8();
+                this->send_short_mail();
                 this->state = 1U;
                 return;
             }
@@ -684,7 +684,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_menu = 0U;
         }
         if (this->entry_list_window == NULL) {
-            this->entry_list_window = this->sub_80272DE0();
+            this->entry_list_window = this->create_choice_search_window();
         }
         this->entry_list_window->begin_scroll(148.0f);
         this->entry_list_window->clear_flag_and_release2();
@@ -1260,7 +1260,7 @@ TWindowMessage *TWindowSubComCard::open_layout_window() {
 }
 #pragma push
 #pragma opt_loop_invariants off
-TWindowChoiceSetting *TWindowSubComCard::sub_80272DE0() {
+TWindowChoiceSetting *TWindowSubComCard::create_choice_search_window() {
     s32 i;
     s32 count;
     s32 idx;
@@ -1571,7 +1571,7 @@ void TWindowSubComCard::set_card_index(s32 card_index) {
 }
 #pragma push
 #pragma scheduling off
-void TWindowSubComCard::sub_802721D8() {
+void TWindowSubComCard::send_short_mail() {
   u8 *new_var;
   saddr src;
   GuildCardRecord *record;

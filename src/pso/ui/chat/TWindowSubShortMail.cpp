@@ -372,7 +372,7 @@ void TWindowSubShortMail::render() {  }
 
 TWindowMenuIconLine *TWindowSubShortMail::create_list_item() {
     const NJS_POINT2 *position = get_window_layout_position(0x9B);
-    TWindowMenuIconLine *list = fn_80267F38(reinterpret_cast<saddr>(position),
+    TWindowMenuIconLine *list = create_menu_icon_line(reinterpret_cast<saddr>(position),
         reinterpret_cast<saddr>(short_mail_item_size), 8, static_cast<s16>(client_id));
     list->ensure_status_display(reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0x2E)));
     list->set_flag70_bit10();

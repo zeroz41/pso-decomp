@@ -36,6 +36,6 @@ LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, status_di
 
 
 extern "C" {
-void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx);
+void draw_face_selection(u8 *window_base, u8 *ctx);
 }
 #endif

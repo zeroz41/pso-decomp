@@ -9,7 +9,7 @@
 void TObjTagChallenge::run_task() {
     if (has_window_task_root() != 0) {
         TWindowCtrl::close_active_window();
-        fn_800740DC();
+        close_current_window();
         TWindowCtrl::open_status_111();
         queue_destruction();
     }

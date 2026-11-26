@@ -4,13 +4,13 @@
 #include "types.h"
 
 extern "C" {
-void TWindowCtrl__sub_8024A08C(void);
+void destroy_com_card_window(void);
 s32 is_player_input_active(s32 client);
 }
 
 // --- C functions defined in TWindowCtrl.cpp ---
 extern "C" {
-void TWindowCtrl__sub_8024A08C(void);
+void destroy_com_card_window(void);
 s32 is_player_input_active(s32 client);
 }
 // --- end of C functions

@@ -41,7 +41,7 @@ s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
     extern int chat_help_color_table[];
 int get_chat_help_color(int a0);
 s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
-    if (w->composer->sub_8025CB10() != 0) {
+    if (w->composer->has_text() != 0) {
         return 1;
     }
     if (!(w->flags & 2)) {
@@ -303,7 +303,7 @@ void TWindowChat::handle_chat_input() {
       }
     }
     else
-      if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) && (composer->sub_8025CB10() == 0))
+      if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) && (composer->has_text() == 0))
     {
       close_all_children();
       inputMode = (inputMode + 1);
@@ -355,7 +355,7 @@ void TWindowChat::run_task() {
     if ((((int)this->is_open()) == 0) && (this->is_mode_bit4() == 0) && (this->is_visible() == 0)) {
         this->handle_chat_input();
         this->handle_input();
-        if (composer->sub_8025CB10() != 0) {
+        if (composer->has_text() != 0) {
             flags = (u16) (flags | 4);
             return;
         }

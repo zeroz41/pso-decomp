@@ -93,7 +93,7 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     ((TWindowSubStatusDisp *)b)->set_all_values(meseta);
     target_size[0] = 10.0f + b->x8;
     save_position();
-    width = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
+    width = calc_title_overflow_width(frame_size[0] - 16.0f);
     if (TCameraCtrl::get_camera_id() > 2) {
         draw_scale[0] = 0.75f;
         draw_scale[1] = 0.75f;

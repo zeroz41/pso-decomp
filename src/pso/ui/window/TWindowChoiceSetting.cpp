@@ -173,7 +173,7 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
 #pragma dont_inline off
 
 // inferred: choice_setting_popup_layout_entries, the layout table choice_setting_popup_window_descriptor
-// points at (one type-9 record; fn_80268C5C fills in the row count).
+// points at (one type-9 record; set_choice_setting_popup_size fills in the row count).
 struct ChoiceSettingPopupLayout {
     u32 cols;
     u32 rows;
@@ -187,13 +187,13 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
 TWindowMenuInfomation *create_information_counter_window(s32 rows) {
     TWindowMenuInfomation *window;
 
-    fn_80268C5C(&lbl_8044F3A0, rows);
+    set_choice_setting_popup_size(&lbl_8044F3A0, rows);
     window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), rows);
     window->create_sub_window("Information Counter");
     return window;
 }
 
-void fn_80268C5C(const NJS_POINT2 *extent, s32 rows) {
+void set_choice_setting_popup_size(const NJS_POINT2 *extent, s32 rows) {
     choice_setting_popup_window_descriptor.size[0] = extent->x;
     choice_setting_popup_window_descriptor.size[1] = extent->y;
     choice_setting_popup_layout_entries.rows = rows;

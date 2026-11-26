@@ -64,7 +64,7 @@ TWindowDeposit::TWindowDeposit(s16 client)
     m_name = class_name;
     text = get_message_text(2);
     text_width = (f32)calc_text_width((char *)text);
-    width = TWindowSubStatusDisp__sub_802877A4(96.0f + (12.0f + text_width));
+    width = calc_title_overflow_width(96.0f + (12.0f + text_width));
     label = (WindowTextEntry *)get_array_entry(0);
     amount = (TWindowLayoutRect *)get_array_entry(1);
     set_text_entry_string(label, text, 0);

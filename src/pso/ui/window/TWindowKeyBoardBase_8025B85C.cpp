@@ -227,7 +227,7 @@ void TWindowKeyBoardBase::key_f4() {
 void TWindowKeyBoardBase::key_f3() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
-            sub_8025C51C(2);
+            insert_party_member_name(2);
             return;
         }
         if (!(state_flags & 2) && (is_chat_shortcut_set(0xA) != 0)) {
@@ -240,7 +240,7 @@ void TWindowKeyBoardBase::key_f3() {
 void TWindowKeyBoardBase::key_f2() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
-            sub_8025C51C(1);
+            insert_party_member_name(1);
             return;
         }
         if (!(state_flags & 2) && (is_chat_shortcut_set(9) != 0)) {
@@ -253,7 +253,7 @@ void TWindowKeyBoardBase::key_f2() {
 void TWindowKeyBoardBase::key_f1() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
-            sub_8025C51C(0);
+            insert_party_member_name(0);
             return;
         }
         if (!(state_flags & 2) && (is_chat_shortcut_set(8) != 0)) {
@@ -279,7 +279,7 @@ void TWindowKeyBoardBase::key_down() {
             select_next();
             return;
         }
-        sub_8025D664();
+        select_next_segment();
     }
 }
 
@@ -289,7 +289,7 @@ void TWindowKeyBoardBase::key_left() {
             process_input();
             return;
         }
-        sub_8025D7FC();
+        shrink_segment();
         return;
     }
     if (active_text->cursor != 0) {
@@ -300,10 +300,10 @@ void TWindowKeyBoardBase::key_left() {
 void TWindowKeyBoardBase::key_right() {
     if (state_flags & 4) {
         if ((request_flags & 1) && !((s32)composition_flags & 0x20)) {
-            sub_8025D664();
+            select_next_segment();
             return;
         }
-        sub_8025D8C8();
+        extend_segment();
         return;
     }
     if (active_text->cursor < active_text->length) {
@@ -433,7 +433,7 @@ void TWindowKeyBoardBase::key_enter() {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025C51C(s32 slot) {
+void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
     u8 *name;
     u16 flags;
     u32 cursor;
@@ -444,7 +444,7 @@ void TWindowKeyBoardBase::sub_8025C51C(s32 slot) {
         }
         commit_composition_text();
     }
-    name = (u8 *)TWindowCtrl__sub_8024B7D4(slot);
+    name = (u8 *)get_party_member_name(slot);
     if (name != NULL) {
         text_builder_reset();
         cursor = m_text.cursor;

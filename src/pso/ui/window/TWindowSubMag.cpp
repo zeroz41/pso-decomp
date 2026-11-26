@@ -160,7 +160,7 @@ void TWindowSubMag::run_task() {
             help->set_depth(get_main_menu_layer_depth((u8 *)parent, 5));
         }
         if (slotwin == NULL) {
-            slotwin = fn_802628C0((void *)get_window_layout_position(0xC), lbl_8044F9E8, client_id);
+            slotwin = create_load_item_texture_window((void *)get_window_layout_position(0xC), lbl_8044F9E8, client_id);
         }
         help->unlock_page_flip();
         list->refresh_mag_item_list(2);

@@ -63,7 +63,7 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
     m_name = TWindowQuantity::class_name;
     id = get_message_text(1);
     n = (f32)calc_text_width();
-    width = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
+    width = calc_title_overflow_width(24.0f + (12.0f + n));
     e0 = (WindowTextEntry *)this->get_array_entry(0);
     e1 = (u8 *)this->get_array_entry(1);
     set_text_entry_string(e0, id, 0);

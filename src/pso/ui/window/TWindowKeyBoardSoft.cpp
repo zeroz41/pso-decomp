@@ -56,7 +56,7 @@ extern u8 *TWindowKeyBoardSoft__language_text_resources;
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
 
 /* Per key class (indexed through soft_keyboard_key_class): steps back to the class's first column,
-   and lbl_8044F138 the columns left to its last one (read from the cursor moves in sub_80260E30). */
+   and lbl_8044F138 the columns left to its last one (read from the cursor moves in handle_cursor_move). */
 const s8 TWindowKeyBoardSoft__data_8044F124[20] = { 0, 0, 0, -1, 0, -1, -2, -3, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, 0, 0 };
 const u8 lbl_8044F138[20] = { 0, 0, 1, 0, 3, 2, 1, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0 };
 const KeyUV keyboard_key_frame_uv_table[3] = { { 185.0f, 0.0f }, { 185.0f, 119.0f }, { 185.0f, 141.0f } };
@@ -136,7 +136,7 @@ f32 TWindowKeyBoardSoft::calc_key_x(s32 col, s32 row) {
   s32 key;
   key = calc_key_index(col, row);
   first_col = col + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[key]];
-  sub_80260760((int) key, &count, NULL);
+  get_key_style((int) key, &count, NULL);
   key_width = calc_key_coord(count);
   return 1.0f + ((19.0f * ((f32) first_col)) + (0.5f * key_width));
 }
@@ -151,7 +151,7 @@ s32 TWindowKeyBoardSoft::calc_key_index(s32 col, s32 row) {
 
 #pragma push
 #pragma fp_contract on
-f32 TWindowKeyBoardSoft::sub_802606E0() {
+f32 TWindowKeyBoardSoft::get_tab_bar_x() {
     SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
     return -((0.5f * (f32) (layout->page_count * layout->tab_width)) - 153.0f);
 }
@@ -164,7 +164,7 @@ f32 TWindowKeyBoardSoft::calc_key_coord(s32 count) {
 }
 #pragma pop
 
-void TWindowKeyBoardSoft::sub_80260760(s32 key, s32 *count, u32 *color) {
+void TWindowKeyBoardSoft::get_key_style(s32 key, s32 *count, u32 *color) {
     s32 n;
     u32 c;
     switch (soft_keyboard_key_class[key]) {
@@ -212,7 +212,7 @@ void TWindowKeyBoardSoft::sub_80260760(s32 key, s32 *count, u32 *color) {
 
 #pragma push
 #pragma fp_contract on
-void TWindowKeyBoardSoft::sub_80260808(s32 port) {
+void TWindowKeyBoardSoft::handle_backspace_button(s32 port) {
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[port], 2) != 0) && (m_control != NULL)) {
         this->state_flags = (s32) (this->state_flags & 0xFFFFFFEF);
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -234,7 +234,7 @@ void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 port) 
     }
 }
 
-void TWindowKeyBoardSoft::sub_80260904(s32 port) {
+void TWindowKeyBoardSoft::handle_key_press(s32 port) {
     SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
     static void (TWindowKeyBoardBase::*key_actions[])() = {
         &TWindowKeyBoardBase::key_enter,  &TWindowKeyBoardBase::key_backspace,  &TWindowKeyBoardBase::key_clear,
@@ -296,7 +296,7 @@ void TWindowKeyBoardSoft::sub_80260904(s32 port) {
     m_control->insert_character(code);
 }
 
-void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
+void TWindowKeyBoardSoft::handle_cursor_move(s32 port) {
     s8 dx = 0;
     s8 dy = 0;
     ControllerInputContext *input;
@@ -370,7 +370,7 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
     }
 }
 
-void TWindowKeyBoardSoft::sub_80261134() {
+void TWindowKeyBoardSoft::reset_layout_page() {
     switch (current_language) {
     case LANGUAGE_JAPANESE:
         layout_page = 4;
@@ -467,7 +467,7 @@ void TWindowKeyBoardSoft::set_mode0() {
     if (m_control != NULL) {
         state_flags |= 1;
         m_control->set_mode0();
-        sub_80261134();
+        reset_layout_page();
     }
 }
 
@@ -483,10 +483,10 @@ s32 TWindowKeyBoardSoft::hit_test_relative(WindowDrawContext *ctx, TexturedQuad 
     f32 x0;
     y0 = quad->y0;
     x0 = quad->x0;
-    return this->sub_802614DC(ctx, x0 - ctx->x, y0 - ctx->y, quad->x1 - x0, quad->y1 - y0) >= 1.0f;
+    return this->get_key_reveal_ratio(ctx, x0 - ctx->x, y0 - ctx->y, quad->x1 - x0, quad->y1 - y0) >= 1.0f;
 }
 
-f32 TWindowKeyBoardSoft::sub_802614DC(WindowDrawContext *context, f32 x, f32 y, f32 width, f32 height) {
+f32 TWindowKeyBoardSoft::get_key_reveal_ratio(WindowDrawContext *context, f32 x, f32 y, f32 width, f32 height) {
     f32 t;
     f32 v;
 
@@ -512,7 +512,7 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 col, s32 row) {
     NJS_POINT2 pos;
     s16 kind;
 
-    sub_80260760(calc_key_index(col, row), &type, 0);
+    get_key_style(calc_key_index(col, row), &type, 0);
     pos.x = this->frame_position[0] + calc_key_x(col, row);
     pos.y = 26.0f + (10.0f + (19.0f * (f32)row + this->frame_position[1]));
     switch (type) {
@@ -615,7 +615,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
     TWindowSubStatusDisp::begin_render();
     set_draw_texture_and_color(3, 0xFF999999);
 
-    tab_x = sub_802606E0();
+    tab_x = get_tab_bar_x();
     calc_cursor_step(&first_page, &last_page);
     for (page = 0; page < layout->page_count; page++) {
         if (page == layout_page) {
@@ -699,7 +699,7 @@ void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
     v[4].x = v[0].x;
     v[4].y = v[0].y;
     draw_color_lines(&d, 5, 0x14, depth);
-    v[0].x = (ctx->x + sub_802606E0()) - 1.0f;
+    v[0].x = (ctx->x + get_tab_bar_x()) - 1.0f;
     v[0].y = (-1.0f + ctx->y) - 1.0f;
     v[1].x = 3.0f + (v[0].x + (f32)(res[0] * res[1]));
     v[1].y = v[0].y;
@@ -725,7 +725,7 @@ void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32
     f32 x4;
     const KeyUV *uv;
 
-    v = sub_802614DC(context, x0, y, w, 20.0f);
+    v = get_key_reveal_ratio(context, x0, y, w, 20.0f);
     if (v <= 0.0f) {
         return;
     }
@@ -778,7 +778,7 @@ void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32
 #pragma push
 #pragma fp_contract on
 /* Key frames of the character grid and the page tabs, then the tab bar ends. */
-void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
+void TWindowKeyBoardSoft::draw_key_frames(WindowDrawContext *ctx) {
     s32 cursor;
     SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
     f32 depth = -1.0f / ctx->depth;
@@ -799,7 +799,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
     for (j = 0; j < 7; j++) {
         for (i = 0; i < 16; i += count) {
             key = calc_key_index(i, j);
-            sub_80260760(key, &count, &color);
+            get_key_style(key, &count, &color);
             f32 w = calc_key_coord(count);
             if (key == cursor) {
                 color = 0xFFFFFFFF;
@@ -811,7 +811,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
         }
     }
 
-    tab_x = sub_802606E0();
+    tab_x = get_tab_bar_x();
     calc_cursor_step(&first_page, &last_page);
     for (i = 0; i < layout->page_count; i++) {
         if (i == layout_page) {
@@ -832,7 +832,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
     }
 
     set_constant_material_color(ctx->color);
-    tab_x = sub_802606E0();
+    tab_x = get_tab_bar_x();
     fn_8026C664((u8 *)ctx, (ctx->x + tab_x) - 34.0f, 3.0f + (-1.0f + ctx->y), depth, page_slide);
     tab_x += 1.0f + (f32)(layout->tab_width * layout->page_count);
     fn_8026C708((u8 *)ctx, 5.0f + (ctx->x + tab_x),
@@ -844,7 +844,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 void TWindowKeyBoardSoft::render() {
     WindowDrawContext *ctx;
     ctx = (WindowDrawContext *)(draw_default_entry());
-    sub_8026227C(ctx);
+    draw_key_frames(ctx);
     sub_80261DD8(ctx);
     sub_802616BC(ctx);
 }
@@ -861,10 +861,10 @@ void TWindowKeyBoardSoft::run_task() {
         if ((this->is_open_and_unblocked() != 0) && (m_control->is_confirmed() == 0)) {
             port = is_player_input_active(this->client_index);
             handle_page_cycle_input(port);
-            sub_80260E30(port);
-            sub_80260904(port);
+            handle_cursor_move(port);
+            handle_key_press(port);
             update_keyboard_child_input_from_controller(port);
-            sub_80260808(port);
+            handle_backspace_button(port);
         }
         update_window();
         this->update_fade();

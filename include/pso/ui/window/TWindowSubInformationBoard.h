@@ -20,7 +20,7 @@ struct TWindowSubInformationBoard : public TObject {
     u32 shown_index;    // index set_page/set_message_index last showed; -1 after a new message window
     TWindowMainMenu *parent_menu;
     TWindowMenu *menu_window;    // create_info_board_menu (TWindowMenu)
-    uaddr page_menu;      // sub_8034CDE0: one entry per info-board page, picks set_page
+    uaddr page_menu;      // create_board_menu: one entry per info-board page, picks set_page
     TWindowMessage *message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
     TWindowMessageYesNo *dialog_window;
     TKeyBoardControl *keyboard;
@@ -33,7 +33,7 @@ struct TWindowSubInformationBoard : public TObject {
     static TKeyBoardControl *open_keyboard(saddr parent);
     u32 show_card_a7();
     TWindowMenu *create_info_board_menu();
-    u32 sub_8034CDE0();
+    u32 create_board_menu();
     u8 unk_44[0x8D0];
 };
 

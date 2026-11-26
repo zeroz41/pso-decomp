@@ -70,7 +70,7 @@ void TWindowPartyStatus::draw_background(WindowDrawContext *context) {
     context->transform_quad(&quad);
     draw_textured_quad_at_depth((f32 *)&quad, depth);
     end_screen_draw();
-    if (TWindowSubComCard__sub_80245558(context, &context->inner_x, &context->inner_w) != 0) {
+    if (scanline_crosses_window(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&quad, context);
         end_window_sweep_draw(0xB);

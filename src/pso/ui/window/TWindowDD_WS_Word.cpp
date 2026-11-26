@@ -248,7 +248,7 @@ void TWindowDD_WS_Word::run_task() {
                 scroll_offset = (f32) (window_dd_row_height * (f32) -(selected_token_index - selected_row));
             }
         } else if ((TWindowDD::apply_both_choices(&state_flags, 0x10000) != 0) && ((s32) selected_token_index < (s32) (token_count - 1))) {
-            if (sub_80341AC0() != 0) {
+            if (needs_scroll() != 0) {
                 rows = visible_row_count;
                 last_row = rows - 1;
                 last_visible = selected_token_index + (rows - (selected_row + 1));
@@ -269,7 +269,7 @@ void TWindowDD_WS_Word::run_task() {
                 add_scroll_offset((int)((token_count - 1) - selected_token_index));
             }
         } else if ((TWindowDD::apply_both_choices(&state_flags, 0x20000) != 0) && ((s32) selected_token_index > 0)) {
-            if (sub_80341AC0() != 0) {
+            if (needs_scroll() != 0) {
                 steps_up = visible_row_count - 1;
                 first_visible = selected_token_index - selected_row;
                 if ((first_visible - steps_up) < 0) {
@@ -309,7 +309,7 @@ void TWindowDD_WS_Word::disable_input() {
     needs_text_refresh = 1;
 }
 
-s32 TWindowDD_WS_Word::sub_80341AC0() {
+s32 TWindowDD_WS_Word::needs_scroll() {
     return this->token_count > this->visible_row_count;
 }
 
@@ -319,7 +319,7 @@ s32 TWindowDD_WS_Word::can_scroll(s32 direction) {
     s32 rows;
     s32 half;
 
-    if (sub_80341AC0() == 0) {
+    if (needs_scroll() == 0) {
         return 0;
     }
     rows = this->visible_row_count;

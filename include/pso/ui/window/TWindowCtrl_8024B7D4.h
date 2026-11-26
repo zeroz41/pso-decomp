@@ -5,7 +5,7 @@
 
 // --- C functions defined in TWindowCtrl_8024B7D4.cpp ---
 extern "C" {
-saddr TWindowCtrl__sub_8024B7D4(s32 n);
+saddr get_party_member_name(s32 n);
 }
 // --- end of C functions
 

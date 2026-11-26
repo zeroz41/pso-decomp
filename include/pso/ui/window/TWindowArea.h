@@ -13,7 +13,7 @@ public:
 
 extern "C" {
 TWindowArea *create_area_window(void *text);
-void fn_8024450C(TWindowArea *area);
+void update_area_count_text(TWindowArea *area);
 }
 TWindowArea *create_window_area();
 

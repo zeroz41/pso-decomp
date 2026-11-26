@@ -4,6 +4,6 @@
 #include "types.h"
 
 // Stores the two-float extent and row count for the next message window.
-extern "C" void TLobby__sub_80269DA4(const void *extent, u32 rows);
+extern "C" void set_message_window_size(const void *extent, u32 rows);
 
 #endif

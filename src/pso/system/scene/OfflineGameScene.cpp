@@ -216,7 +216,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state},
     {alloc_work_buffer, free_deferred_packet_buffer},
     {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
-    {TWindowDD__sub_80344114, TWindowDD::free_buffers},
+    {load_word_select_data, TWindowDD::free_buffers},
     {init_switch_table, clear_switch_table},
     {reset_shop_stock_and_params, clear_all_shop_stock},
     {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},

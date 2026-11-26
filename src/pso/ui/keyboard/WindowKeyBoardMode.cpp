@@ -7,7 +7,7 @@
 
 #pragma push
 #pragma bool off
-s32 TWindowKeyBoardBase::sub_8025CB10() {
+s32 TWindowKeyBoardBase::has_text() {
     if ((u32) this->m_text.length != 0U) {
         return 1;
     }

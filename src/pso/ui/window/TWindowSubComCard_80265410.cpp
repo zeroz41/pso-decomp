@@ -42,11 +42,11 @@
 extern "C" {
 
 void measure_message_text_width(WindowTextEntry *e, f32 x);
-void fn_80266378(s32 rows);
+void set_window_menu_rows(s32 rows);
 }
 
 const f64 lbl_8044F330 = 0.0;
-// The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and
+// The TWindowMenu layout table (one type-3 text record; set_window_menu_rows sets the row count) and
 // the window descriptor the TWindowMenu constructor passes to TWindowAddition.
 struct MenuWindowLayout {
     u32 cols;
@@ -526,7 +526,7 @@ s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id) {
     return add_text_entry(text, flags, id, -1);
 }
 
-void fn_80266378(s32 rows) {
+void set_window_menu_rows(s32 rows) {
     lbl_804D05A8.rows = rows;
 }
 
@@ -562,7 +562,7 @@ TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char
 TWindowMenu *init_shop_judgment_window(void *p) { return create_yes_no_window((const NJS_POINT2 *)p, 4, NULL, NULL); }
 
 TWindowMenu *create_window_menu(const NJS_POINT2 *position, s32 count, s32 client_id) {
-    fn_80266378(count);
+    set_window_menu_rows(count);
     return new TWindowMenu(count, client_id, position);
 }
 

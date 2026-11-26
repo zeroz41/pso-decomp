@@ -141,7 +141,7 @@ TColorOverlayFade::TColorOverlayFade(TObject *parent, s32 unk_1C, s32 duration, 
     this->unk_1C = unk_1C;
     frame = 0;
     this->duration = duration;
-    c = TWindowCtrlMain__sub_8024CD5C(local_client_id);
+    c = get_viewport_fill_color(local_client_id);
     start_color[3] = c;
     start_color[2] = c >> 8;
     start_color[1] = c >> 16;
