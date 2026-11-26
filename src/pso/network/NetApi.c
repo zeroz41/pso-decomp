@@ -52,7 +52,6 @@ typedef struct NetIpOption {
 void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
 s32 route4_del(saddr dst, saddr mask, saddr gateway);
 s32 route4_add(saddr dst, saddr mask, saddr gateway);
-s32 tcp_stat(s32 nh, s16 *stat, s16 *backlog, u32 *sendwin, u32 *recvwin);
 void OSReport(const char *, ...);
 /* The avetcp.a version strings; avetcp_init checks the banner's leading '\n' through avetcp_version_banner_ptr. */
 const u8 avetcp_version_banner[] =
@@ -72,13 +71,12 @@ u32 network_stack_init_count;
  * (handle width, halfword arguments, result width), and the code here is built against them, so they cannot
  * share a header with the definitions. */
 s16 tcp_start_receive(s32 nh, NetBufferRef *destination, s16 len, TcpCompletion callback);
-s32 AT_TCP_Connect(s32 nh, NetworkAddress *addr, s16 port);
+s16 AT_TCP_Connect(s32 nh, NetworkAddress *addr, s16 port);
 s32 tcp_pcbbind(s32 nh, NetworkAddress *addr, u16 port);
 s16 AT_UDP_Send(s32 nh, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt);
 s32 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 origin, u8 type, u16 flags);
 s16 copy_ipv4_interface_addresses(s16 iface, NetBufferRef *out, s32 len, void *buf);
 s16 copy_ipv6_interface_addresses(s16 iface, NetBufferRef *out, s32 len, void *buf);
-s32 tcp_connect(s32 nh, NetworkAddress *addr, u16 port, NetIpOption *opt);
 s32 avetcp_term(void) {
     dispatcher_term();
     handler_table_term();
@@ -749,9 +747,9 @@ s32 complete_accept_request(s16 idx, TcpAcceptCallback cb, s16 code, NetworkAddr
     return 0;
 }
 
-s32 tcp_connect(s32 nh, NetworkAddress *addr, u16 port, NetIpOption *opt) {
+s16 tcp_connect(s32 nh, NetworkAddress *addr, u16 port, NetIpOption *opt) {
     NetIpOption tmp;
-    s32 r;
+    s16 r;
     NetworkDispatchState *g;
     void *p;
     if (nh & SOCKET_TAG_MASK) {

@@ -53,8 +53,6 @@ struct at_ip_addr {
 
 extern "C" {
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
-short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
-int tcp_stat(short nh, short *stat, short *backlog, u32 *sendwin, u32 *recvwin);
 }
 char *get_sock_status_name(short code);
 

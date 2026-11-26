@@ -30,6 +30,8 @@ typedef struct IfConfigRequest {
     u8 pad1C[4];
 } IfConfigRequest;
 
+struct send_buffs;
+
 s32 raw_socket_deliver(struct NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback cb, s16 index);
 s32 raw_socket_deliver_ipv4(struct NetPacket *pkt, u32 src, u32 dst, NetworkReceiveCallback cb, s16 index);
 s16 avetcp_init(void);
@@ -53,6 +55,8 @@ s32 tcp_delete(s32 nh);
 s32 tcp_abort(s32 nh);
 s32 tcp_bind(s32 nh, void *addr, u16 port);
 s16 tcp_create(void);
+s16 tcp_send(s32 nh, TcpCompletion notify, char bufnum, struct send_buffs *sb);
+s32 tcp_stat(s32 nh, s16 *stat, s16 *backlog, u32 *sendwin, u32 *recvwin);
 s16 if_get(s16 iface, void *hdr_src, s32 len, void *buf);
 #ifdef __cplusplus
 }
