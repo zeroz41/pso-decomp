@@ -1476,11 +1476,11 @@ s32 TItem::is_stackable() {
 
 void on_inventory_item_added(TItem *item, s32 slot) {}
 
-void TObjPlayer::set_flags_bit2() { ((FlagWord *)((char*)this + 0x1c))->set(2); }
+void TLockOnCursor::set_flags_bit2() { flags.set(2); }
 
-void TObjPlayer::set_flags_bit1() { ((FlagWord *)((char*)this + 0x1c))->set(1); }
+void TLockOnCursor::set_flags_bit1() { flags.set(1); }
 
-void TObjPlayer::clear_flag_1_at_1c() { ((FlagWord *)((char*)this + 0x1c))->clear(1); }
+void TLockOnCursor::clear_flag_1_at_1c() { flags.clear(1); }
 
 s32 LockOnNearestTarget::get_candidate_part_index() { return candidate_part_index; }
 

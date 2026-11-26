@@ -248,6 +248,9 @@ struct TLockOnCursor : public TObject {
     void reset_slots();
     void set_cursor_pos(u16 part, s32 index);
     int is_cursor_clear();
+    void set_flags_bit2();
+    void set_flags_bit1();
+    void clear_flag_1_at_1c();
 };
 
 LAYOUT_ASSERT(TLockOnCursor_size, sizeof(TLockOnCursor) == 0x52C);

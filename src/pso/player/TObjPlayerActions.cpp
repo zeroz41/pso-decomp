@@ -1633,7 +1633,7 @@ void TObjPlayer::prepare_death() {
         enable_action_input();
     }
     if (this->lock_on_cursor != NULL && this->lock_on_cursor->is_cursor_clear() == 0) {
-        ((TObjPlayer *)this->lock_on_cursor)->clear_flag_1_at_1c();
+        this->lock_on_cursor->clear_flag_1_at_1c();
     }
     if (this == NULL || this->obj_isState2_324() == 0) {
         c1.init();

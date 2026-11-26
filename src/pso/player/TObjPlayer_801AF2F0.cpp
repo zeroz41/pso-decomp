@@ -2969,9 +2969,9 @@ LockOnActionSlot *TObjPlayer::find_palette_lockon_slot() {
     return NULL;
 }
 
-void TObjPlayer::action_enable_if_present() { void* m = this->lock_on_cursor; if (m) ((TObjPlayer *)m)->clear_flag_1_at_1c(); }
+void TObjPlayer::action_enable_if_present() { TLockOnCursor *m = this->lock_on_cursor; if (m) m->clear_flag_1_at_1c(); }
 
-void TObjPlayer::release_attached_resource() { void* m = this->lock_on_cursor; if (m) ((TObjPlayer *)m)->set_flags_bit1(); }
+void TObjPlayer::release_attached_resource() { TLockOnCursor *m = this->lock_on_cursor; if (m) m->set_flags_bit1(); }
 
 s32 TObjPlayer::get_camera_field() {
     TLockOnCursor *p = this->lock_on_cursor;
@@ -4964,7 +4964,7 @@ void apply_battle_rules_to_players() {
             break;
         }
         if (q->get_hide_target_reticle() == 1 && p->is_locally_controlled() != 0) {
-            ((TObjPlayer *)p->lock_on_cursor)->set_flags_bit2();
+            p->lock_on_cursor->set_flags_bit2();
         }
         if (q->get_meseta_mode() != 0) {
             p->set_meseta(0);

@@ -348,9 +348,6 @@ struct TObjPlayer : public TObjChara {
     static void render_tree(void *model);
     s32 get_entrance_id();
     void set_entrance_id(s32 id);
-    void set_flags_bit2();
-    void set_flags_bit1();
-    void clear_flag_1_at_1c();
     static s32 free_owned_buffer_b(saddr buffer, s16 flags);
     static void*get_pmt_record(int i);
     static void*get_item_pmt_record(int type, int id);
