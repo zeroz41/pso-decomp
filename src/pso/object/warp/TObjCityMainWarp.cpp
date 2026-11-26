@@ -50,10 +50,10 @@ void TObjCityMainWarpChallenge::close_windows() {
 
 void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
     G_SetBossWarpFlags_6x6A pkt;
-    ((TWindowSubTradeMain *)&pkt)->init_pkt_cmd_6A();
+    pkt.init();
     pkt.header.entity_id = entity_id;
     pkt.flags = value;
-    ((TWindowSubTradeMain *)&pkt)->send_60_update();
+    pkt.send();
 }
 
 void TObjCityMainWarpChallenge::release_warp_effect(s32 client) {

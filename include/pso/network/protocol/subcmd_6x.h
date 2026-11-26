@@ -930,6 +930,9 @@ struct G_SetBossWarpFlags_6x6A {
  struct G_EntityIDHeader header;
  s16 flags;  // signed on the client: handle_6x6A_set_boss_warp_flags reads it with lha into TObjWarpBoss::next_state
  u16 unused;
+ void send();
+ void bswap();
+ void init();
 };
 
 struct G_SetChallengeTime_6x95 {

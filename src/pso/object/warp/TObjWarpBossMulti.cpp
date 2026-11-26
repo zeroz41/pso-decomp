@@ -663,16 +663,16 @@ void TObjWarpBoss::release_player(s32 client) {
 
 void TObjWarpBoss::send_cmd_6A(u16 value) {
     G_SetBossWarpFlags_6x6A pkt;
-    ((TWindowSubTradeMain *)&pkt)->init_pkt_cmd_6A();
+    pkt.init();
     pkt.header.entity_id = entity_id;
     pkt.flags = value;
-    ((TWindowSubTradeMain *)&pkt)->send_60_update();
+    pkt.send();
 }
 
 void handle_6x6A_set_boss_warp_flags(void *packet) {
     TObjCollidable *entity;
 
-    ((TWindowSubTradeMain *)packet)->bswap_6x6A_packet();
+    ((G_SetBossWarpFlags_6x6A *)packet)->bswap();
     entity = find_entity_by_id(((G_SetBossWarpFlags_6x6A *)packet)->header.entity_id);
     if (entity != NULL) {
         ((TObjWarpBoss *)entity)->next_state = ((G_SetBossWarpFlags_6x6A *)packet)->flags;
