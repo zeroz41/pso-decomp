@@ -129,19 +129,19 @@ void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int 
     }
 }
 
-s32 is_within_camera_distance(void *unused, void *pos, f32 max_dist_sq) {
+s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq) {
     s32 n;
     s32 i;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (camera_ctrl_instance != NULL) {
             n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {
-                if (xyz_distance_squared(static_cast<const Vec *>(pos), &camera_ctrl_instance->split_pos[i]) < max_dist_sq) {
+                if (xyz_distance_squared(pos, &camera_ctrl_instance->split_pos[i]) < max_dist_sq) {
                     return 1;
                 }
             }
         }
-    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(static_cast<const Vec *>(pos), &camera_ctrl_instance->pos) < max_dist_sq) {
+    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(pos, &camera_ctrl_instance->pos) < max_dist_sq) {
         return 1;
     }
     return 0;

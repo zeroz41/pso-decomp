@@ -46,6 +46,8 @@ public:
     void reset_list();
     void set_flag70_bit10();
     void start_scroll(f32 height);
+    // Shrinks the list onto the selected row (state flag 0x20); start_scroll undoes it.
+    void shrink_to_selected_entry();
     void add_status_entry(s8 flags, s32 src, s32 item);
     void add_list_entry(u8 icon, s32 src, s32 item);
     void add_list_entry(TItem *item, s32 index);
@@ -55,6 +57,7 @@ public:
     void add_ground_item(TItemData *item, s32 index);
     // Append a row with no item that shows message (-1 for the empty-list row).
     void add_list_entry(s32 message);
+    void add_text_entry(s32 text, s32 id);
     void add_inventory_item(TItem *item, s32 count, s32 id);
     // Fill the list from the player's inventory: the 31 slots of a trade
     // offer, usable items, armor of one kind and group to equip, mags of one

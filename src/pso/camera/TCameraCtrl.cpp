@@ -562,8 +562,8 @@ void TCameraCtrl::reset_view_state() {
     view->scissor.y0 = 0.0f;
     view->scissor.x1 = 0.0f;
     view->scissor.y1 = 0.0f;
-    view->pad_40[0] = 1.0f;
-    view->pad_40[1] = 0.85f;
+    view->view_scale[0] = 1.0f;
+    view->view_scale[1] = 0.85f;
     on_view_state_reset();
     TCameraCtrl::up_vector.x = 0.0f;
     up = &TCameraCtrl::up_vector;
@@ -978,8 +978,8 @@ void CameraViewParams::apply() {
     TCameraCtrl::view_params.scissor.y0 = scissor.y0;
     TCameraCtrl::view_params.scissor.x1 = scissor.x1;
     TCameraCtrl::view_params.scissor.y1 = scissor.y1;
-    TCameraCtrl::view_params.pad_40[0] = pad_40[0];
-    TCameraCtrl::view_params.pad_40[1] = pad_40[1];
+    TCameraCtrl::view_params.view_scale[0] = view_scale[0];
+    TCameraCtrl::view_params.view_scale[1] = view_scale[1];
 }
 #pragma pop
 
@@ -1024,8 +1024,8 @@ void end_view_override() {
     view.scissor.y0 = 0.0f;
     view.scissor.x1 = 20.0f;
     view.scissor.y1 = 15.0f;
-    view.pad_40[0] = 1.0f;
-    view.pad_40[1] = 0.85f;
+    view.view_scale[0] = 1.0f;
+    view.view_scale[1] = 0.85f;
     view.apply();
 }
 #pragma pop
@@ -1044,8 +1044,8 @@ void TCameraCtrl::init_default_view() {
     view.scissor.y0 = 0.0f;
     view.scissor.x1 = 20.0f;
     view.scissor.y1 = 15.0f;
-    view.pad_40[0] = 1.0f;
-    view.pad_40[1] = 0.85f;
+    view.view_scale[0] = 1.0f;
+    view.view_scale[1] = 0.85f;
     view.apply();
     update_projection_params(&TCameraCtrl::view_params.screen.projection);
     camera_default_view_value = 1.0f;
@@ -1192,8 +1192,8 @@ void CameraViewParams::set_fullscreen_defaults() {
     scissor.y0 = 0.0f;
     scissor.x1 = 20.0f;
     scissor.y1 = 15.0f;
-    pad_40[0] = 1.0f;
-    pad_40[1] = 0.85f;
+    view_scale[0] = 1.0f;
+    view_scale[1] = 0.85f;
 }
 
 f32 TCameraCtrl::get_view_scale() {

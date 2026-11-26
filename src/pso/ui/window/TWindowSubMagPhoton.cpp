@@ -93,13 +93,13 @@ WindowDescriptor mag_photon_layout_descriptor = {
 void TWindowSubMagPhoton::handle_cancel() {
     if (get_active_flag() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_60 = (u8) (this->m_60 | 2);
+        this->result_flags = (u8) (this->result_flags | 2);
     }
 }
 
 void TWindowSubMagPhoton::play_open_sound() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->m_60 = (u8) (this->m_60 | 1);
+    this->result_flags = (u8) (this->result_flags | 1);
 }
 
 void TWindowSubMagPhoton::update_selection_input() {
@@ -177,7 +177,7 @@ TWindowSubMagPhoton::TWindowSubMagPhoton(const NJS_POINT2 *position, TItemData *
     save_position();
     client_index = client;
     mag_item = mag_state;
-    m_60 = 0;
+    result_flags = 0;
     selected_blast_index = 1;
     cursor_frame++;
     init_photon_blast_entries();

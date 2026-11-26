@@ -12,12 +12,12 @@ struct TWindowChoiceSetting : public TWindowMenuInfomation {
     void update_scroll_tween();
     s16 get_field_74();
     void begin_scroll(f32 height);
-    void sub_80249144();
+    void shrink_to_selected_entry();
     static TWindowChoiceSetting *create_choice_setting_window(
         const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows);
     static void set_popup_size(const NJS_POINT2 *extent, s32 rows);
     virtual void render();
-    u16 m_80;
+    u16 choice_flags; // bit 0: shrunk onto the selected entry
     virtual void run_task();
     u8 unk_82[0x2];
 };

@@ -130,7 +130,7 @@ void TWindowMessageLog::reset_scroll() {
     pending_scroll = 0.0f;
 }
 
-void TAdScrollWinGC::advance_scroll(f32 v) { *(f32*)((char*)this + 0x94) += v; }
+void TWindowMessageLog::advance_scroll(f32 v) { pending_scroll += v; }
 
 void TWindowMessageLog::add_pending_scroll(f32 v) { pending_scroll += v; }
 
@@ -269,9 +269,9 @@ void post_chat_log_message(u16 id, const char *text) {
     }
 }
 
-u8 *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client) {
+TWindowMessageLog *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client) {
     set_message_window_size((void *)extent, 0x1E);
-    return (u8 *)new TWindowMessageLog(position, client);
+    return new TWindowMessageLog(position, client);
 }
 
 

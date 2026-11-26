@@ -157,7 +157,7 @@ struct GameMenuEntry {
     u8 episode;
     s8 flags;
 };
-typedef struct { u8 pad0[5]; u8 kind; u8 pad6[6]; u8 name[0x8C]; } Ent_80135E7C;
+struct DownloadListEntry { u8 pad0[5]; u8 kind; u8 pad6[6]; u8 name[0x8C]; };
 typedef struct LobbyServerAddress {
     const char *host;
     s32 port;
@@ -424,8 +424,7 @@ void TLobby::send_game_character() {
     challenge.battle_reserved_value_2 = card->online_battle.reserved_values[1];
     protocol_instance->send_update_chara_data_v2(*TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), challenge, choice_search_config, blocked_senders, auto_reply, c);
 }
-void TLobby::update_idle_timeout(void *object) {
-    TLobbyIdleTimer *t = (TLobbyIdleTimer *)object;
+void TLobby::update_idle_timeout(TLobbyIdleTimer *t) {
     NJS_POINT2 tmp = idle_timeout_window_size[0];
     DateStamp ds;
     u32 limit;
@@ -464,7 +463,7 @@ void TLobby::update_idle_timeout(void *object) {
             delete lobby_idle_timeout_window;
             lobby_idle_timeout_window = 0;
             idle_timeout_active = 1;
-            queue_destruction__7TObjectFv(object);
+            queue_destruction__7TObjectFv(t);
         } else {
             sprintf(lobby_idle_timeout_text_buffer, (const char *)TLobby::get_seq_phase(0x1F), limit - elapsed);
         }
@@ -2084,11 +2083,9 @@ void handle_lobby_text(s32 text) {
     TLobby::lobby_state = 0x16;
 }
 void TLobby::disable_window_flags(void*flags) { TWindowCtrl::append_client_message(local_client_id, (const char *)flags); }
-void TLobby::open_ship_block_select_menu(int count, void *entries, void *selected) {
+void TLobby::open_ship_block_select_menu(int count, ServerMenuEntry *list, ServerMenuEntry *entry) {
     static void *tblA = (void *)lobby_window_title_ship_select;
     static void *tblB = (void *)lobby_window_title_block_select;
-    ServerMenuEntry *list = (ServerMenuEntry *)entries;
-    ServerMenuEntry *entry = (ServerMenuEntry *)selected;
     void *tbl;
     s32 cmp;
     s32 i;
@@ -2105,7 +2102,7 @@ void TLobby::open_ship_block_select_menu(int count, void *entries, void *selecte
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((saddr)tbl);
     for (i = 0; i < count; i++) {
-        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, i);
+        list_window->add_text_entry((saddr)list[i].name, i);
     }
     list_window->calc_content_extent();
     if (cmp == 0) {
@@ -2118,8 +2115,7 @@ void TLobby::open_ship_block_select_menu(int count, void *entries, void *selecte
         strncpy(lobby_ship_name, entry->name, 0x10);
     }
 }
-void TLobby::open_information_list(int count, void *entries) {
-    ServerMenuEntry *list = (ServerMenuEntry *)entries;
+void TLobby::open_information_list(int count, ServerMenuEntry *list) {
     void *w = (void *)lobby_window_title_information;
     s32 i;
     TObject *old = list_window;
@@ -2129,7 +2125,7 @@ void TLobby::open_information_list(int count, void *entries) {
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((saddr)w);
     for (i = 0; i < count; i++) {
-        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, i);
+        list_window->add_text_entry((saddr)list[i].name, i);
     }
     list_window->calc_content_extent();
     TLobby::set_menu_mode_2();
@@ -2170,8 +2166,7 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
     memset(selected_game_name, 0, 0x11);
     strncpy(selected_game_name, selected->name, 0x11);
 }
-void TLobby::handle_game_join(void *data) {
-    TPlyJoinGame *pkt = (TPlyJoinGame *)data;
+void TLobby::handle_game_join(TPlyJoinGame *pkt) {
     PlayerGuildCardTag tag;
     TObjPlayer *p;
     saddr i;
@@ -2488,11 +2483,10 @@ void TLobby::retire_lobby_player(int idx, int v) {
 }
 
 void handle_generate_id(void) {  }
-void TLobby::open_download_list_window(int count, void *entries) {
+void TLobby::open_download_list_window(int count, DownloadListEntry *list) {
     static void *tbl = (void *)lobby_window_title_download;
-    Ent_80135E7C *list = (Ent_80135E7C *)entries;
     s32 i;
-    Ent_80135E7C *e;
+    DownloadListEntry *e;
     const NJS_POINT2 *w;
 
     if (list_window != 0) {
@@ -2720,8 +2714,7 @@ TPlyJoinLobbyEntry::TPlyJoinLobbyEntry() {}
 void render_idle_timeout(void) {  }
 void TLobby::bswap_6x6E_sync_game_state(void*p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 s32 TLobby::open_hard_keyboard(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 0x40000); }
-void TLobby::bswap_player_data(void *data) {
-    PlayerSyncRecord *record = (PlayerSyncRecord *)data;
+void TLobby::bswap_player_data(PlayerSyncRecord *record) {
     s32 i;
     bswap_16(&record->client_id);
     bswap_16((u16 *)&record->room_id);

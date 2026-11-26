@@ -25,12 +25,13 @@ struct TWindowMessageLog : public TWindowMessage {
     void load_chat_history();
     void reset_scroll();
     void add_pending_scroll(f32 v);
+    void advance_scroll(f32 v);
     // Starts a 3-tick resize when the height changes.
     void set_target_height(f32 height);
 };
 
 LAYOUT_ASSERT(TWindowMessageLog_size, sizeof(TWindowMessageLog) == 0x98);
-u8 *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client);
+TWindowMessageLog *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client);
 extern "C" {
 void post_chat_log_message(u16 id, const char *text);
 }

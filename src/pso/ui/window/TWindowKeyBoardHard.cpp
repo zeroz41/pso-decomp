@@ -305,7 +305,7 @@ s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
         &TWindowKeyBoardBase::key_f10,
         &TWindowKeyBoardBase::key_f11,
         &TWindowKeyBoardBase::key_f12,
-        &TWindowKeyBoardBase::sub_8025B928,
+        &TWindowKeyBoardBase::key_none,
         &TWindowKeyBoardBase::key_home,
         &TWindowKeyBoardBase::key_end,
         &TWindowKeyBoardBase::sub_8025B92C,

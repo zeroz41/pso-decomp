@@ -659,36 +659,36 @@ void TWindowSubTradeMain::set_displayed_item(s32 id) {
 
 void TWindowSubTradeMain::set_labels(s32 labels) {
     if (this->menu != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->menu, (u8 *)(get_window_layout_position(labels + 0x5C)));
+        update_position_if_changed(this->menu, (NJS_POINT2 *)get_window_layout_position(labels + 0x5C));
     }
     if (this->confirm != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->confirm, (u8 *)(get_window_layout_position(labels + 0x5E)));
+        update_position_if_changed(this->confirm, (NJS_POINT2 *)get_window_layout_position(labels + 0x5E));
     }
     if (dialog != NULL) {
         dialog->move_to(reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(labels + 0x5F)));
     }
     if (this->offer != NULL) {
         if (this->list != NULL) {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->offer, (u8 *)(get_window_layout_position(labels + 0x62)));
+            update_position_if_changed(this->offer, (NJS_POINT2 *)get_window_layout_position(labels + 0x62));
         } else {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->offer, (u8 *)(get_window_layout_position(labels + 0x60)));
+            update_position_if_changed(this->offer, (NJS_POINT2 *)get_window_layout_position(labels + 0x60));
         }
     }
     if (this->request != NULL) {
         if (this->list != NULL) {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->request, (u8 *)(get_window_layout_position(labels + 0x63)));
+            update_position_if_changed(this->request, (NJS_POINT2 *)get_window_layout_position(labels + 0x63));
         } else {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->request, (u8 *)(get_window_layout_position(labels + 0x61)));
+            update_position_if_changed(this->request, (NJS_POINT2 *)get_window_layout_position(labels + 0x61));
         }
     }
     if (this->list != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->list, (u8 *)(get_window_layout_position(labels + 0x64)));
+        update_position_if_changed(this->list, (NJS_POINT2 *)get_window_layout_position(labels + 0x64));
     }
     if (this->input_number != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->input_number, (u8 *)(get_window_layout_position(labels + 0x5D)));
+        update_position_if_changed(this->input_number, (NJS_POINT2 *)get_window_layout_position(labels + 0x5D));
     }
     if (this->help_item != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->help_item, (u8 *)(get_window_layout_position(labels + 0x65)));
+        update_position_if_changed(this->help_item, (NJS_POINT2 *)get_window_layout_position(labels + 0x65));
     }
 }
 
@@ -785,9 +785,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     }
 }
 
-void TWindowSubTradeMain::update_position_if_changed(saddr owner, u8 *window, u8 *position) {
-    if ((((TWindowBase *)window)->target_position[0] != ((f32 *)position)[0]) || (((TWindowBase *)window)->target_position[1] != ((f32 *)position)[1])) {
-        ((TWindowBase *)window)->slide_to((f32 *)position);
+void TWindowSubTradeMain::update_position_if_changed(TWindowBase *window, NJS_POINT2 *position) {
+    if (window->target_position[0] != position->x || window->target_position[1] != position->y) {
+        window->slide_to((f32 *)position);
     }
 }
 

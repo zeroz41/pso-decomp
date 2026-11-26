@@ -6,6 +6,7 @@
 
 struct TWindowMainMenu;
 class TWindowChat;
+struct TWindowMessageLog;
 
 struct TWindowSubLog : public TObject {
     TWindowSubLog(TObject *parent, s32 client);
@@ -13,7 +14,7 @@ struct TWindowSubLog : public TObject {
     static const char *class_name;
     s32 client;
     TWindowMainMenu *parent_menu;
-    uaddr log_window;
+    TWindowMessageLog *log_window;
     TWindowChat *chat;
     void *submission;
     virtual void render();

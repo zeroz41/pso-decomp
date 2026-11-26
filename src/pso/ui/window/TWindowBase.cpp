@@ -255,14 +255,14 @@ TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, 
     if (TWindowFukidasi__sub_8024695C(this) == 0) {
         return NULL;
     }
-    if (is_bit10_set() != 0) {
+    if (is_overlapped() != 0) {
         return NULL;
     }
     if (this->is_open_and_unblocked() == 0) {
         return NULL;
     }
     for (TWindowFukidasi *p = first; p != NULL; p = static_cast<TWindowFukidasi *>(p->m_next)) {
-        if (TWindowFukidasi__sub_8024695C(p) != 0 && p->is_bit10_set() == 0 &&
+        if (TWindowFukidasi__sub_8024695C(p) != 0 && p->is_overlapped() == 0 &&
             p->is_open_and_unblocked() != 0 && p != this &&
             (get_visible_flag() == 0 || p->get_visible_flag() == 0) &&
             is_balloon_overlapping(p, position, size)) {
@@ -934,7 +934,7 @@ int TWindowFukidasi__sub_8024695C(void* p) { return (*(u32*)((char*)p + 0x2c) >>
 
 int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1; }
 
-int TWindowFukidasi::is_bit10_set() { return ((u32)window_flags >> 10) & 0x1; }
+int TWindowFukidasi::is_overlapped() { return ((u32)window_flags >> 10) & 0x1; }
 void TWindowSubStatusDisp::update_entry_visibility() {
     TWindowLayoutEntry *entry7;
     TWindowLayoutEntry *entry6;

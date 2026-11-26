@@ -45,6 +45,8 @@ struct TWindowMenu : public TWindowAddition {
     void set_flag70_bit10();
     void disable_input();
     void enable_input();
+    // Clears menu flag 0x80, which hides the selected entry's highlight.
+    void show_selection_highlight();
     s32 add_text_entry(saddr text, s32 flags, s32 id, s32 color);
     s32 add_text_entry(saddr text, s32 flags, s32 id);
     virtual void render();
@@ -75,6 +77,8 @@ struct TWindowMenu : public TWindowAddition {
     s16 get_entry_count();
     s16 get_cursor_pos();
     void set_selected_index(s16 index);
+    void set_marked_row(s16 row);
+    void mark_selected_value();
     s16 get_selected_index();
     void update_cursor_pos();
     void reset_entries();

@@ -74,16 +74,16 @@ void TWindowEffectLight::render() {
           draw_outline_quad(0xFFFFFF);
           break;
         case 3:
-          sub_802AD040(20.0f);
+          draw_capped_bar(20.0f);
           break;
         case 4:
-          sub_802AD040(39.0f);
+          draw_capped_bar(39.0f);
           break;
         case 5:
-          sub_802AD040(77.0f);
+          draw_capped_bar(77.0f);
           break;
         case 6:
-          sub_802AD040(191.0f);
+          draw_capped_bar(191.0f);
           break;
       }
     }
@@ -116,14 +116,14 @@ void TWindowEffectLight::draw_outline_quad(s32 color) {
     draw_textured_quad_at_depth(&q.x0, 0.5f);
 }
 
-void TWindowEffectLight::sub_802AD040(f32 f) {
+void TWindowEffectLight::draw_capped_bar(f32 width) {
     TexturedQuad q;
     f32 h;
     f32 dx;
     s32 color = this->calc_alpha() | 0xFFFFFF;
     f32 s = this->calc_scale();
     set_draw_texture_and_color(2, color);
-    dx = 0.5f * (f - 20.0f);
+    dx = 0.5f * (width - 20.0f);
     h = 10.0f * s;
 
     q.x0 = x - dx - h;
@@ -146,7 +146,7 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
     q.v1 = 0.578125f;
     draw_textured_quad_at_depth(&q.x0, 0.5f);
 
-    if (f > 20.0f) {
+    if (width > 20.0f) {
         q.x0 = x - dx;
         q.y0 = y - h;
         q.x1 = x + dx;

@@ -92,29 +92,25 @@ void TWindowSubQuestBoard::run_task() {
 
 void TWindowSubQuestBoard::render() {  }
 
-int TWindowSubQuestBoard::set_card_flags_direct(int card_flags_direct) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, card_flags_direct, -2); }
+int set_card_flag_1(saddr client_id, int value) { return set_card_window_flags__19TWindowKeyBoardHardFPvll((void *)client_id, value, -2); }
 
-void TWindowSubQuestBoard::set_card_flags_scaled(s32 value) {
-    saddr client_id = (saddr)this;
+void set_card_flag_2(saddr client_id, s32 value) {
     TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 2, -3);
 }
 
-void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value) {
+void set_card_flag_4(saddr client_id, s32 value) {
     TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 4, -5);
 }
 
-void TWindowSubQuestBoard::clear_card_window_flags(s32 value) {
-    saddr client_id = (saddr)this;
+void set_card_flag_8(saddr client_id, s32 value) {
     TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 8, -9);
 }
 
-void TWindowSubQuestBoard::set_card_window_flags(s32 value) {
-    saddr client_id = (saddr)this;
+void set_card_flags_300(saddr client_id, s32 value) {
     TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 8, -0x301);
 }
 
-void TWindowSubQuestBoard::set_board_flags(s32 value) {
-    saddr client_id = (saddr)this;
+void set_card_flags_1C00(saddr client_id, s32 value) {
     TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 0xA, -0x1C01);
 }
 
@@ -252,22 +248,22 @@ void TWindowSubOption::update_quest_board_card_flags() {
     value = value_window->update_selected_item();
     switch (selected_menu_value) {
     case 0:
-        ((TWindowSubQuestBoard *)(client_id))->set_card_flags_direct(value);
+        set_card_flag_1(client_id, value);
         return;
     case 1:
-        ((TWindowSubQuestBoard *)(client_id))->set_card_flags_scaled(value);
+        set_card_flag_2(client_id, value);
         return;
     case 2:
-        TWindowSubQuestBoard__sub_8027CF50(client_id, value);
+        set_card_flag_4(client_id, value);
         return;
     case 4:
-        ((TWindowSubQuestBoard *)(client_id))->clear_card_window_flags(value);
+        set_card_flag_8(client_id, value);
         return;
     case 3:
-        ((TWindowSubQuestBoard *)(client_id))->set_card_window_flags(value);
+        set_card_flags_300(client_id, value);
         return;
     case 5:
-        ((TWindowSubQuestBoard *)(client_id))->set_board_flags(value);
+        set_card_flags_1C00(client_id, value);
         return;
     }
 }

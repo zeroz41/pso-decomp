@@ -250,7 +250,7 @@ void TWindowSubTechnique::run_task() {
         help_window->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
         technique_menu->enable_input();
-        ((TWindowSubTechnique *)technique_menu)->clear_flag70_bit80();
+        technique_menu->show_selection_highlight();
         technique_menu->clear_flag_and_release();
         technique_menu->clear_cancelled();
         state = 4;
@@ -317,5 +317,5 @@ saddr get_technique_description_text(s32 technique) {
     return (saddr)text_language_group_table[5][technique];
 }
 
-void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }
+void TWindowMenu::show_selection_highlight() { menu_flags &= ~0x80; }
 void TWindowMenu::enable_input() { menu_flags &= ~0x40; }

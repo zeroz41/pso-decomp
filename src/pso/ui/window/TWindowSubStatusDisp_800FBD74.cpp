@@ -64,7 +64,7 @@ void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits
     TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, (saddr)color);
     for (i = 0; i < digits; i++) {
-        id = ((s32 (*)(s32))TWindowSubStatusDisp__sub_800FC248)((u8)(value % 10) + '0');
+        id = get_small_font_glyph_id((u8)(value % 10) + '0');
         x -= ((u8 (*)(s32))get_small_font_glyph_width)(id);
         pos.x0 = x;
         pos.y0 = y;
@@ -86,7 +86,7 @@ void draw_small_font_text(u32 color, const char *s, f32 x, f32 y, f32 scale) {
         u8 c = *s++;
         pos.x0 = x;
         pos.y0 = y;
-        id = ((s32 (*)(s32))TWindowSubStatusDisp__sub_800FC248)(c);
+        id = get_small_font_glyph_id(c);
         ((void (*)(s32, TexturedQuad *))build_small_font_glyph_quad)(id, &pos);
         draw_textured_quad_at_depth(&pos.x0, scale);
         x += ((u8 (*)(s32))get_small_font_glyph_width)(id);
@@ -128,7 +128,8 @@ s32 get_small_font_glyph_width(u8 c) {
     return (s32)small_font_metrics_table_ptr[c - 0x20].width;
 }
 
-void TWindowSubStatusDisp__sub_800FC248(void) {  }
+// The small font indexes its glyphs by character code.
+s32 get_small_font_glyph_id(s32 c) { return c; }
 
 void calc_plain_glyph_quad(u8 c, TexturedQuad *q) {
     f32 a = (f32)((c & 0xF) << 4);

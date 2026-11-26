@@ -80,11 +80,11 @@ void clear_choice_search_selections(void *);
 }
 
 
-void TWindowSubComCard::set_display_page() {
-    set_page((s16)((int) (((TWindowMenu *)this)->get_selected_value())));
+void TWindowMenu::mark_selected_value() {
+    set_marked_row((s16)get_selected_value());
 }
 void TWindowMenuInfomation::set_flag_10() { state_flags |= 0x10; }
-void TWindowSubComCard::set_page(s16 v) { *(s16*)((char*)this + 0x7a) = v; }
+void TWindowMenu::set_marked_row(s16 row) { marked_row = row; }
 s16 TWindowMenu::get_entry_count() { return entry_count; }
 void TKeyBoardControl::set_soft_flag60_bit1() {
     if (m_soft != NULL) {
@@ -178,7 +178,7 @@ void TWindowSubComCard::run_task() {
     CharacterSaveRecord *character_save_record;
     CharacterSaveRecord *option_record;
     CharacterSaveRecord *chosen_record;
-    saddr keyboard_mode;
+    GuildCardEntry *own_card;
     s32 idle_ticks;
     GuildCardRecord *record;
     s32 selected_value;
@@ -326,8 +326,8 @@ void TWindowSubComCard::run_task() {
         if (this->keyboard->is_confirmed() != 0) {
             src = (saddr)this->keyboard->realloc_buffer();
             TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
-            keyboard_mode = TWindowSubComCard::get_keyboard_mode();
-            ((GuildCardEntry *)keyboard_mode)->set_text((char *)get_shared_text_buffer());
+            own_card = TWindowSubComCard::get_own_guild_card();
+            own_card->set_text((char *)get_shared_text_buffer());
             mem_free((void *)src);
             this->state = 1U;
             return;
@@ -504,7 +504,7 @@ void TWindowSubComCard::run_task() {
             this->selected_card = this->card_list->get_selected_value();
             this->com_card_window = send_command(this->selected_card);
         }
-        ((TWindowSubComCard *)(this->card_list))->set_display_page();
+        this->card_list->mark_selected_value();
         this->card_list->clear_flag_and_release();
         this->state = 0x1CU;
     case 0x1C:
@@ -702,7 +702,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x2B:
-        this->entry_list_window->sub_80249144();
+        this->entry_list_window->shrink_to_selected_entry();
         this->com_card_menu = this->create_option_list_window(choice_selections, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x2CU;
     case 0x2C:
@@ -803,7 +803,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x37:
-        this->entry_list_window->sub_80249144();
+        this->entry_list_window->shrink_to_selected_entry();
         option_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
         this->com_card_menu = this->create_option_list_window(option_record->choice_search, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x38U;
@@ -1478,12 +1478,12 @@ TWindowMessage *TWindowSubComCard::create() {
 
 // Opens the keyboard over the text of the com card being written.
 TKeyBoardControl *TWindowSubComCard::create_keyboard() {
-    int keyboard_mode;
+    GuildCardEntry *own_card;
     TKeyBoardControl *control;
 
-    keyboard_mode = TWindowSubComCard::get_keyboard_mode();
+    own_card = TWindowSubComCard::get_own_guild_card();
     control = new TKeyBoardControl(this, 0xC6, 3, 4, local_client_id);
-    control->set_text((char *)((TWindowComCard *)keyboard_mode)->get_kbd_ptr());
+    control->set_text(own_card->get_text());
     control->set_sub_position((u8 *)get_window_layout_position(0xBB));
     control->set_flag62_bit2();
     control->set_soft_flag60_bit1();

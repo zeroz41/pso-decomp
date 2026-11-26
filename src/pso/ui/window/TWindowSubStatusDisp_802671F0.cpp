@@ -358,16 +358,15 @@ void TWindowMenuIconLine::add_ground_item(TItemData *item, s32 index) {
     }
 }
 
-void TLobby::add_status_disp_entry(s32 name, s32 id) {
-    TWindowMenuIconLine *list = (TWindowMenuIconLine *)this;
-    if (list->entry_count < list->entry_capacity) {
-        ItemListRow *entry = (ItemListRow *)list->get_array_entry(list->entry_count);
-        entry->init_display(name, id);
-        list->entry_count++;
+void TWindowMenuIconLine::add_text_entry(s32 text, s32 id) {
+    if (entry_count < entry_capacity) {
+        ItemListRow *entry = (ItemListRow *)get_array_entry(entry_count);
+        entry->init_display(text, id);
+        entry_count++;
     }
 }
 
-void TAdVIConfigGC__sub_80267704(s32 flags) {
+void set_menu_icon_line_flags(s32 flags) {
     list_window_descriptor.flags = flags;
 }
 
@@ -510,15 +509,15 @@ void TWindowMenuIconLine::start_scroll(f32 height) {
     }
 }
 
-void TWindowSubStatusDisp::init_scroll_pos() {
+void TWindowMenuIconLine::shrink_to_selected_entry() {
     u16 flags;
-    void *temp;
+    WindowTextEntry *entry;
 
-    flags = *(u16 *)((s8 *)this + 0x70);
+    flags = state_flags;
     if (!(flags & 0x20)) {
-        *(u16 *)((s8 *)this + 0x70) = (u16) (flags | 0x20);
-        temp = (u16 *)this->get_array_entry((s16)((*(s16 *)((s8 *)this + 0x74))));
-        this->target_size[1] = (f32) (20.0f + *(f32 *)((s8 *)temp + 0x14));
+        state_flags = (u16) (flags | 0x20);
+        entry = (WindowTextEntry *)this->get_array_entry(cursor);
+        this->target_size[1] = 20.0f + entry->height;
         if (this->window_flags & 0x40) {
             this->target_size[1] += 6.0f;
         }
@@ -624,10 +623,7 @@ void TWindowMenuIconLine::render() {
 
     draw_context = get_draw_context();
     draw_window_frame(draw_context);
-    draw_visible_window_entries(
-        this,
-        reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-        draw_context);
+    draw_visible_window_entries(this, &entry_list, draw_context);
     this->draw_selected_list_entry(draw_context);
     if (this->status_display != NULL) {
         this->status_display->render(draw_context);
@@ -684,7 +680,7 @@ void TWindowMenuIconLine::run_task() {
     this->step_window_tween();
     this->center_list_selection();
     this->clamp_item_list_scroll();
-    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24));
+    this->update_window_entry_list(&entry_list);
 }
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {

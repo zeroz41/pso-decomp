@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
@@ -338,7 +339,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
 #pragma pop
 
 void TWindowLockOn::update_photon_blast_marker() {
-    update_photon_blast_player_marker(reinterpret_cast<saddr>(get_array_entry(0)), target_id);
+    update_photon_blast_player_marker(static_cast<WindowSpritePart *>(get_array_entry(0)), target_id);
 }
 
 void TWindowLockOn::refresh_ground_item() {}
@@ -358,7 +359,7 @@ void TWindowLockOn::refresh_enemy_statuses() {
     i = 0;
     do {
         mode = get_status_effect_icon_index(enemy->get_status_effect_type(i));
-        ((TWindowComCard *)get_array_entry(i + 3))->set_help_mode(mode);
+        static_cast<WindowSpritePart *>(get_array_entry(i + 3))->set_help_mode(mode);
         i++;
     } while (i < 4);
     {

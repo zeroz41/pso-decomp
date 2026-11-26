@@ -13,7 +13,7 @@
 extern "C" {
 u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *quad, s32 color);
 u8 get_small_font_glyph_width();
-s32 TWindowSubStatusDisp__sub_800FC248(s32);
+s32 get_small_font_glyph_id(s32);
 s32 build_small_font_glyph_quad(s32, TexturedQuad *);
 
 void draw_right_aligned_number(void *digit_window) {
@@ -104,7 +104,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
           break;
       }
       case 1:
-        g = TWindowSubStatusDisp__sub_800FC248(d + 0x30);
+        g = get_small_font_glyph_id(d + 0x30);
         x -= get_small_font_glyph_width();
         pos.y0 = y;
         pos.x0 = x;

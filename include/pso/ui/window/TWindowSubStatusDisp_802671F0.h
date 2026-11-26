@@ -11,7 +11,7 @@ struct WindowDrawContext;
 void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_items, s32 capacity);
 TWindowMenuIconLine *create_menu_icon_line(saddr parent, saddr position, uaddr count, s16 client);
 extern "C" {
-void TAdVIConfigGC__sub_80267704(s32 flags);
+void set_menu_icon_line_flags(s32 flags);
 }
 void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count);
 

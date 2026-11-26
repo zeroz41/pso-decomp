@@ -27,6 +27,6 @@ void TWindowGetComCard__sub_8007B67C(void *p);
 }
 
 extern GuildCardEntry received_guild_card_tags[4];
-extern s32 com_card_keyboard_mode;
+extern GuildCardEntry *own_guild_card;
 
 #endif

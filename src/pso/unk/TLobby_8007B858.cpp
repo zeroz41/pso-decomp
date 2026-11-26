@@ -95,7 +95,7 @@ void G_SendGuildCard_6x06::send_to(u32 client) {
     ((game_command *)&header)->send_to_client(client);
 }
 
-int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
+GuildCardEntry *TWindowSubComCard::get_own_guild_card() { return own_guild_card; }
 
 G_SendGuildCard_6x06::G_SendGuildCard_6x06() {
     header.subcommand = 6;

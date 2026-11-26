@@ -17,10 +17,10 @@
 void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
     static_cast<WindowSpritePart *>(get_array_entry(0))->flags |= 2;
     if (texture_loader->load_item_icon(item) != 0) {
-        m_60 = 1;
+        load_state = 1;
         return;
     }
-    m_60 = 2;
+    load_state = 2;
 }
 
 void bind_item_texture(TWindowLoadItemTexture *window) {
@@ -40,7 +40,7 @@ TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f3
     WindowSpritePart *sprite;
 
     window = new TWindowLoadItemTexture(position, (f32 *)extent, client);
-    fn_80262C2C(window);
+    enable_item_texture_frame(window);
     sprite = static_cast<WindowSpritePart *>(window->get_array_entry(0));
     sprite->x = 0.5f * window->target_size[0] - 32.0f - 4.0f;
     sprite->y = 0.5f * window->target_size[1] - 32.0f - 1e+01f;
@@ -86,15 +86,15 @@ TWindowLoadItemTexture *TWindowLoadItemTexture::create(void *position, s32 clien
 }
 
 void TWindowLoadItemTexture::render() {
-    if ((s32)m_60 == 1) {
+    if ((s32)load_state == 1) {
         texture_list = texture_loader->ready_texture_list();
         if (texture_list != NULL) {
             bind_item_texture(this);
-            m_60 = 1;
+            load_state = 1;
         }
     }
     WindowDrawContext *context = setup_window_draw_context(draw_scale);
-    if (m_61 & 1) {
+    if (frame_flags & 1) {
         draw_window_frame(context);
     }
     draw_visible_window_entries(this, &entry_list, context);
@@ -132,9 +132,9 @@ TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 
     entry->w = extent[0];
     entry->h = extent[1];
     texture_loader = TItemTexLoad::create(tl_07);
-    m_61 = 0;
-    m_60 = 2;
+    frame_flags = 0;
+    load_state = 2;
 }
 
-void fn_80262C2C(TWindowLoadItemTexture *window) { window->m_61 |= 1; }
+void enable_item_texture_frame(TWindowLoadItemTexture *window) { window->frame_flags |= 1; }
 

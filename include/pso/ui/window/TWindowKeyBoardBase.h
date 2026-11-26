@@ -59,7 +59,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void convert_input_text();
     s32 get_state();
     void update_input_state();
-    void sub_8025B928();
+    void key_none();
     void sub_8025B92C();
     void key_end();
     void key_home();
@@ -94,7 +94,9 @@ struct TWindowKeyBoardBase : public TWindowBase {
     int is_key_state_2();
     s32 has_unconvertible_char(u8 *text);
     void skip_ime_candidates(int count);
-    void sub_8025CFA8(char *text);
+    // Adds the first IME conversion of text (requests 0x25, 0x26, 0x28, then 0x27)
+    // that differs from it, unless text holds characters the conversions skip.
+    void add_conversion_candidate(char *text);
     void remove_candidate(void *record);
     s32 can_fit_candidate(void *window_sub_status_disp);
     s32 candidate_fits(char *name, char *text);

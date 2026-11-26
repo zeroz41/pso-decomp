@@ -28,12 +28,12 @@ void TLobby::send_simple_mail(s32 target_card_id, void *message) {
         ShortMailPacketBuffer pkt;
         u8 b[0x228];
     } t;
-    saddr mode;
+    GuildCardEntry *own_card;
     ((TLobby *)(&t))->init_guild_card_tag();
     if (protocol_instance != NULL) {
-        mode = TWindowSubComCard::get_keyboard_mode();
+        own_card = TWindowSubComCard::get_own_guild_card();
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], &protocol_instance->m_guildcard_tag);
-        strncpy((char *)&t.b[0xC], reinterpret_cast<GuildCardEntry *>(mode)->get_name(), 0x17);
+        strncpy((char *)&t.b[0xC], own_card->get_name(), 0x17);
         t.pkt.target_card_id = target_card_id;
         t.b[0x23] = 0;
         strncpy((char *)&t.b[0x20], (char *)message, 0xAB);

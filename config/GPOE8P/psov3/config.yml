@@ -1784,7 +1784,7 @@ force_active:
   - layout_entries__17TWindowDuelResult
   - TWindowEffectLight__sub_802AD040
   - class_name__18TWindowEffectParty	symbol
-  - TWindowFukidasi__sub_80249788
+  - mark_overlapped__15TWindowFukidasiFv
   - clear_received_guild_cards__Fl
   - item_layout_entries__15TWindowHelpItem
   - resistance_layout_entries__15TWindowHelpItem
@@ -5147,7 +5147,7 @@ force_active:
   - clear_hit_cooldowns__14TOTrapChainSawFv
   - clear_log_active__15TWindowMainMenuFv
   - enable_help_toggle__15TWindowHelpItemFv
-  - clear_flag70_bit80__19TWindowSubTechniqueFv
+  - show_selection_highlight__11TWindowMenuFv
   - clear_flag_and_notify__18CameraDistanceFadeFv
   - clear_flag_and_release__14TWindowSubItemFv
   - clear_flag_and_update__15TObjEneGyaranzoFv
@@ -6385,7 +6385,7 @@ force_active:
   - apply_facial_part_sprites
   - apply_face_appearance_sprite
   - has_unconvertible_char__19TWindowKeyBoardBaseFPUc
-  - fn_80262C2C
+  - enable_item_texture_frame
   - fn_80271848
   - fn_8028DBC4
   - fn_80293D84
@@ -7298,7 +7298,7 @@ force_active:
   - is_locked__11TWindowMenuFl
   - is_locked__18TWindowInputNumberFl
   - is_logo_exit_requested__FP12TAdSoniclogo
-  - is_mag_full__FPUc
+  - is_mag_full__FP8TItemMag
   - is_mode_0__15TBoss3VoloptP02Fv
   - is_mode_0__16TBoss3VoloptCoreFv
   - is_mode_bit6__11TWindowChatFv
@@ -7355,7 +7355,7 @@ force_active:
   - is_visible__18CameraDistanceFadeFv
   - clear_attack_history__19TBoss1DragonEffTailFv
   - is_visible__8TObjDoorFff
-  - is_within_camera_distance__FPvPvf
+  - is_within_camera_distance__FPvP3Vecf
   - is_within_distance__10TObjBgmColFf
   - select_melee_contact_body__20TContainerAncient01RFPvf
   - item_bml_resource_descriptor
@@ -9238,7 +9238,7 @@ force_active:
   - open_delete_item_window__18TCheckRoomSequenceFv
   - open_deposit_item_window__18TCheckRoomSequenceFv
   - open_destination_windows__9TObjLukerFv
-  - open_download_list_window__6TLobbyFiPv
+  - open_download_list_window__6TLobbyFiP17DownloadListEntry
   - open_edit_menu__20TWindowSubSymbolChatFv
   - open_equip_kind_list__15TWindowSubEquipFUl
   - open_get_item_window__18TCheckRoomSequenceFv
@@ -9248,7 +9248,7 @@ force_active:
   - open_greeting__22TShopEquipmentSequenceFv
   - open_greeting__26TShopEquipmentGearSequenceFv
   - open_greeting_window__22TMedicalCenterSequenceFv
-  - open_information_list__6TLobbyFiPv
+  - open_information_list__6TLobbyFiP15ServerMenuEntry
   - open_intro_window__19TPlayerBattleCtrl4PFv
   - open_item_list_window__20TShopItemTecSequenceFv
   - open_judgment_window__17TJudgmentSequenceFv
@@ -9286,7 +9286,7 @@ force_active:
   - open_sell_window__22TShopEquipmentSequenceFv
   - open_sell_window__26TShopEquipmentGearSequenceFv
   - open_session__6TLobbyFPCc
-  - open_ship_block_select_menu__6TLobbyFiPvPv
+  - open_ship_block_select_menu__6TLobbyFiP15ServerMenuEntryP15ServerMenuEntry
   - open_status_window__19TWindowSubTradeMainFv
   - open_trade_equip_window__19TWindowSubTradeMainFv
   - open_warp_menu__6TLobbyFv
@@ -15411,7 +15411,7 @@ force_active:
   - set_battle_param_episode__Fl
   - set_display_flags__11TMainCursorFllP16LockOnActionSlot
   - set_display_mode__15TObjEneSlimeOneFl
-  - set_display_page__17TWindowSubComCardFv
+  - mark_selected_value__11TWindowMenuFv
   - set_displayed_item__14TWindowSubItemFl
   - set_displayed_item__19TWindowSubTradeMainFl
   - set_displayed_item_data__15TWindowHelpItemFP9TItemDatal
@@ -15512,7 +15512,7 @@ force_active:
   - set_option_and_confirm__17TWindowOptionCtrlFll
   - set_orbit_destination__19TObjEneEpsilonGuardFl
   - set_owner_flag_bit0__11TBoss6Type2Fv
-  - set_page__17TWindowSubComCardFs
+  - set_marked_row__11TWindowMenuFs
   - set_params__12TBoss1DragonFP29G_DragonBossActions_6x10_6x11
   - set_particle__11TPlayerSoulFP13TParticleCtrl
   - set_draw_scale__9TParticleFff
@@ -16932,7 +16932,7 @@ force_active:
   - update_idle_state__12TObjEneLappyFv
   - update_idle_state__13TBoss5GryphonFUl
   - update_idle_state__16TObjEneNanoDragoFv
-  - update_idle_timeout__6TLobbyFPv
+  - update_idle_timeout__6TLobbyFP15TLobbyIdleTimer
   - update_if_idle__11TBoss6Type1Fv
   - update_if_in_band__17TObjEneDf2BringerFi
   - update_if_ready__11TBoss6Type1Fv
@@ -17093,7 +17093,7 @@ force_active:
   - update_position_from_velocity__20TItemEffOrgaFlowShotFv
   - update_position_history__11TBoss2JointFv
   - update_position_history__12TBoss1DragonFv
-  - update_position_if_changed__19TWindowSubTradeMainFlPUcPUc
+  - update_position_if_changed__19TWindowSubTradeMainFP11TWindowBaseP10NJS_POINT2
   - approach_upper_hover_height__17TObjEneMe1CanadinFv
   - update_possess_target__11TBoss6Type2Fv
   - update_pressed_keys

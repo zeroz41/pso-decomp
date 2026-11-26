@@ -49,7 +49,7 @@ void TWindowKeyBoardBase::key_clear() {
     state_flags = (u16) (state_flags | 0x20);
 }
 
-void TWindowKeyBoardBase::sub_8025B928() {  }
+void TWindowKeyBoardBase::key_none() {  }
 
 void TWindowKeyBoardBase::sub_8025B92C() {
     char text[0x100];
@@ -66,7 +66,7 @@ void TWindowKeyBoardBase::sub_8025B92C() {
                     this->candidate_count = count;
                     count = ime_request_extend_segment(name, text);
                 } while (count != 0);
-                sub_8025CFA8(name);
+                add_conversion_candidate(name);
                 name[0] = 0;
                 write_name_and_text(name, name);
                 goto block_5;
@@ -162,7 +162,7 @@ void TWindowKeyBoardBase::key_f7() {
                         this->candidate_count = count;
                         count = ime_request_extend_segment(name, text);
                     } while (count != 0);
-                    sub_8025CFA8(name);
+                    add_conversion_candidate(name);
                     name[0] = 0;
                     write_name_and_text(name, name);
                     goto block_6;
@@ -194,7 +194,7 @@ void TWindowKeyBoardBase::key_f6() {
                         this->candidate_count = count;
                         count = ime_request_extend_segment(name, text);
                     } while (count != 0);
-                    sub_8025CFA8(name);
+                    add_conversion_candidate(name);
                     name[0] = 0;
                     write_name_and_text(name, name);
                     goto block_6;

@@ -34,7 +34,6 @@ struct TWindowSubTechnique : public TObject {
     void update_selected_help(s32 technique);
     virtual void render();
     virtual void run_task();
-    void clear_flag70_bit80();
     static void get_selection(s16 *tp, s32 *hold_status, s32 client);
     static s32 update_selection(s16 *tp, s32 *hold_status, s32 client);
     static void get_current_selection(s16 *tp, s32 *hold_status, s32 client);

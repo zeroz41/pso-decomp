@@ -38,7 +38,7 @@ TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, s32 text) : TObject(pa
     m_state = 0;
     m_close_timer = 0;
     base = get_scroll_delay_for_mode();
-    m_window = (TWindowMessageLog *)create_message_log_window((const NJS_POINT2 *)pos, (saddr)size, 0);
+    m_window = create_message_log_window((const NJS_POINT2 *)pos, (saddr)size, 0);
     switch (m_mode) {
     case 0:
     case 1:
@@ -98,7 +98,7 @@ void TAdScrollWinGC::run_task() {
         }
     }
     if (d > 0 && m_window != NULL) {
-        ((TAdScrollWinGC *)m_window)->advance_scroll(0.3f * (d - 0x19));
+        m_window->advance_scroll(0.3f * (d - 0x19));
     }
 }
 

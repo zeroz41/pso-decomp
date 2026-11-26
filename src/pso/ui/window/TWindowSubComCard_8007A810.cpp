@@ -183,7 +183,7 @@ extern "C" {
 }
 void send_guild_card_to_client(saddr client_id) {
     G_SendGuildCard_6x06 cmd;
-    const GuildCardEntry *card = reinterpret_cast<const GuildCardEntry *>(TWindowSubComCard::get_keyboard_mode());
+    const GuildCardEntry *card = TWindowSubComCard::get_own_guild_card();
     cmd.card = *card;
     cmd.send_to(client_id);
 }
@@ -369,19 +369,19 @@ void GuildCardEntry::fill_from_char(s32 index) {
     }
 }
 
-s32 com_card_keyboard_mode;
+GuildCardEntry *own_guild_card;
 
 void TObjPlayer::set_com_card_window(s32 client) {
     saddr guild_card;
     u32 character_save_record;
 
-    com_card_keyboard_mode = 0;
+    own_guild_card = NULL;
     character_save_record = ((u32)get_character_save_record((u32)client));
     if (character_save_record != 0U) {
         guild_card = character_save_record + 0x1510;
         if (guild_card != 0) {
             ((GuildCardEntry *)guild_card)->fill_from_char(client);
-            com_card_keyboard_mode = guild_card;
+            own_guild_card = (GuildCardEntry *)guild_card;
         }
     }
 }

@@ -9,8 +9,11 @@
 struct GuildCardEntry {
     s32 get_card_id() const;
     char *get_name();
+    char *get_text();
     int is_active() const;
     s8 get_char_class();
+    s8 get_language();
+    s8 get_section_id();
     // 1 unless flag 2 is set; cards filled from a short mail or another player get flags 3, the
     // player's own card (fill_from_char) only flag 1.
     s32 is_own_card() const;

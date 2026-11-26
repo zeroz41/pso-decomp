@@ -829,7 +829,7 @@ void TWindowFukidasi::refresh_rect_placement() {
             TWindowCtrl::release_slot(&slot);
         }
         res = NULL;
-        if (is_bit10_set() == 0) {
+        if (is_overlapped() == 0) {
             if (shift_rect_with_head(target_position, a) != 0) {
                 res = a;
             }
@@ -837,7 +837,7 @@ void TWindowFukidasi::refresh_rect_placement() {
                 res = c;
             }
         } else {
-            hide();
+            clear_overlapped();
             if (shift_rect_with_head(target_position, a) != 0) {
                 res = a;
             }

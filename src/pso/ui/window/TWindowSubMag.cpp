@@ -74,13 +74,13 @@ void TWindowHelpItem::enable_help_toggle() { help_flags &= ~8; }
 
 void TWindowHelpItem::disable_help_toggle() { help_flags |= 8; }
 
-bool is_mag_full(u8 *arg0) {
-    return (*(f32 *)((s8 *)arg0 + 0x194) < 2.0f) == 0;
+bool is_mag_full(TItemMag *mag) {
+    return (mag->feeds_while_full < 2.0f) == 0;
 }
 
-int TWindowSubMagPhoton::is_cancelled() { return m_60 & 2; }
+int TWindowSubMagPhoton::is_cancelled() { return result_flags & 2; }
 
-int TWindowSubMagPhoton::get_active_flag() { return this->m_60 & 0x1; }
+int TWindowSubMagPhoton::get_active_flag() { return this->result_flags & 0x1; }
 
 s32 TWindowSubMagPhoton::get_selected_blast() {
     return photon_blasts[static_cast<s8>(selected_blast_index)];
@@ -213,7 +213,7 @@ void TWindowSubMag::run_task() {
             card->close();
             card = NULL;
         }
-        ((TWindowSubStatusDisp *)(list))->init_scroll_pos();
+        list->shrink_to_selected_entry();
         help->update_help_item(1);
         help->lock_page_flip();
         if (list2 == NULL) {
@@ -301,7 +301,7 @@ void TWindowSubMag::run_task() {
         photon = new TWindowSubMagPhoton(get_window_layout_position(0xA), mag, client_id);
         photon->set_depth(get_main_menu_layer_depth((u8 *)parent, 3));
         message = create();
-        m_1d = -1;
+        help_blast = -1;
         state = 15;
     case 15:
         update_mag_help();
@@ -361,12 +361,12 @@ static int is_mag_fed_full(TItemMag *mag) {
 void *TWindowSubMag::create_action_menu(s32 id) {
     MagStats stats;
     TWindowMenu *window;
-    u8 *item;
+    TItemMag *item;
     stats.init();
-    item = (u8 *)find_item_by_id(id);
+    item = static_cast<TItemMag *>(find_item_by_id(id));
     window = create_titled_window_menu(get_window_layout_position(8), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
     window->set_depth(get_main_menu_layer_depth((u8 *)parent, 1));
-    if (((s32 (*)(u8 *))is_mag_full)(item) != 0) {
+    if (((s32 (*)(TItemMag *))is_mag_full)(item) != 0) {
         add_gray_text_entry(window, (const char *)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     } else {
         window->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
@@ -481,8 +481,8 @@ void TWindowSubMag::update_mag_help() {
 
     toggle_help_window_on_button((uaddr)this->message, this->client_id);
     selected_blast = photon->get_selected_blast();
-    if (selected_blast != (s8) this->m_1d) {
-        this->m_1d = (u8) selected_blast;
+    if (selected_blast != (s8) this->help_blast) {
+        this->help_blast = (u8) selected_blast;
         if (selected_blast == -1) {
             ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)mag_empty_line), 0x80);
             return;

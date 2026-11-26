@@ -76,7 +76,8 @@ struct TWindowSubComCard : public TObject {
     static TRecvChoiceSearchOptions *get_choice_search_options();
     s32 get_card_id();
     int is_active();
-    static int get_keyboard_mode();
+    // The local player's own guild card (set by TObjPlayer::set_com_card_window).
+    static GuildCardEntry *get_own_guild_card();
     TKeyBoardControl *create_keyboard();
     TKeyBoardControl *create_keyboard(s32 card_index);
     static s32 init_card();
@@ -117,8 +118,6 @@ struct TWindowSubComCard : public TObject {
     TWindowMessageYesNo *open_yesno_dialog();
     TWindowMessageYesNo *confirm_and_free();
     static void set_com_param(saddr client_id, s32 com_param);
-    void set_page(s16 v);
-    void set_display_page();
     static TWindowComCard *create_com_card_window(const NJS_POINT2 *position);
     TWindowMenu *create_menu();
     TWindowMenu *create_single_entry_window();

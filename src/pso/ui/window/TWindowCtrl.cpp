@@ -279,7 +279,7 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     }
     break_in = new TWindowBreakIn();
     if (is_split_screen() == 0) {
-        chat_window = new TWindowChat(tl_00, &m_94);
+        chat_window = new TWindowChat(tl_00, &submission);
         chat_window->set_flag1e_bit40();
     }
     if (is_split_screen() != 0) {
@@ -439,7 +439,7 @@ void TWindowCtrl::update_window_visibility() {
             return;
         }
         chat_window->open_input();
-        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->m_94) != 0)) {
+        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->submission) != 0)) {
             consume_active_flag(chat_window);
         }
         if (chat_window->is_visible() != 0) {

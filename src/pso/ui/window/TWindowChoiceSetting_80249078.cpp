@@ -28,7 +28,7 @@ void TWindowChoiceSetting::update_scroll_tween() {
     f32 target;
     uaddr steps;
 
-    if (this->m_80 & 1) {
+    if (this->choice_flags & 1) {
         steps = reinterpret_cast<uaddr>(this->get_array_entry(this->get_field_74()));
         target = *(f32 *)(steps + 0xC);
     } else {
@@ -45,20 +45,20 @@ void TWindowChoiceSetting::update_scroll_tween() {
 #pragma pop
 
 void TWindowChoiceSetting::begin_scroll(f32 height) {
-    u16 flags = m_80;
+    u16 flags = choice_flags;
     if (flags & 1) {
-        m_80 = (u16)(flags & 0xFFFE);
+        choice_flags = (u16)(flags & 0xFFFE);
         target_size[1] = height;
         tween_ticks = 3;
     }
 }
 
-void TWindowChoiceSetting::sub_80249144() {
+void TWindowChoiceSetting::shrink_to_selected_entry() {
     u16 flags;
     WindowTextEntry *entry;
-    flags = m_80;
+    flags = choice_flags;
     if (!(flags & 1)) {
-        m_80 = (u16)(flags | 1);
+        choice_flags = (u16)(flags | 1);
         entry = (WindowTextEntry *)get_array_entry(get_field_74());
         target_size[1] = 20.0f + entry->height;
         if (window_flags & 0x40) {
@@ -147,5 +147,5 @@ TWindowChoiceSetting::~TWindowChoiceSetting() {
 
 TWindowChoiceSetting::TWindowChoiceSetting(void *parent, s32 rows) : TWindowMenuInfomation(parent, rows) {
     m_name = TWindowChoiceSetting::class_name;
-    m_80 = 0;
+    choice_flags = 0;
 }

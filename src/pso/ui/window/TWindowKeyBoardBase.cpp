@@ -35,7 +35,7 @@ WindowDescriptor keyboard_base_window_descriptor = {
     {0.0f, 0.0f}, 50026.0f, NULL, 0x23,
 };
 u32 keyboard_key_colors[3] = { 0x00000000, 0xC03040C0, 0x1030A0C0 };
-// Shift-JIS characters, zero-terminated, scanned by TWindowKeyBoardBase::sub_8025CFA8.
+// Shift-JIS characters, zero-terminated, scanned by TWindowKeyBoardBase::add_conversion_candidate.
 u16 soft_keyboard_conversion_exclusions[20] = {
     0x8141, 0x8142, 0x8145, 0x8158, 0x815B, 0x815F, 0x8175, 0x8176, 0x8177, 0x8178,
     0x818F, 0x8191, 0x8192, 0x81CA, 0x8396, 0x8199, 0x8163, 0x81F4, 0x0000, 0x0000,
@@ -149,7 +149,7 @@ void TWindowKeyBoardBase::skip_ime_candidates(int count) {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025CFA8(char *text) {
+void TWindowKeyBoardBase::add_conversion_candidate(char *text) {
     char out[0x100];
     char tmp[0x100];
     char *p;
@@ -389,7 +389,7 @@ void TWindowKeyBoardBase::select_next_segment() {
     current_candidate += ((CandidateRecord *)rec)->len + 3;
     if (current_candidate > last_candidate) {
         i = 1;
-        sub_8025CFA8(name);
+        add_conversion_candidate(name);
         while (candidate_fits(name, text) == 0) {
             ime_request_next_candidate(name, text);
             i++;
@@ -444,7 +444,7 @@ void TWindowKeyBoardBase::shrink_segment() {
         return;
     }
     i = 1;
-    sub_8025CFA8(name);
+    add_conversion_candidate(name);
     while (candidate_fits(name, text) == 0) {
         ime_request_next_candidate(name, text);
         i++;
@@ -473,7 +473,7 @@ void TWindowKeyBoardBase::extend_segment() {
         return;
     }
     i = 1;
-    sub_8025CFA8(name);
+    add_conversion_candidate(name);
     while (candidate_fits(name, text) == 0) {
         ime_request_next_candidate(name, text);
         i++;
@@ -555,7 +555,7 @@ void TWindowKeyBoardBase::convert_input_text() {
         state_flags = (u16) (state_flags & 0xFFFFFFEF);
         candidate_count = ime_request_convert(candidate_buffer, name, text);
         candidate_index = 1;
-        sub_8025CFA8(name);
+        add_conversion_candidate(name);
     }
     candidate_bytes_remaining = 0x94;
     if (candidate_fits(name, text) != 0) {

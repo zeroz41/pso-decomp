@@ -22,7 +22,7 @@ extern s32 text_clip_enabled_flag;
 extern s32 text_draw_mode;
 extern "C" {
 u8 get_small_font_glyph_width(s32);
-s32 TWindowSubStatusDisp__sub_800FC248(s32);
+s32 get_small_font_glyph_id(s32);
 void calc_plain_glyph_quad(s32, void *);
 void bind_menu_font_glyph(s32, void *, s32);
 void build_small_font_glyph_quad(s32, void *);
@@ -58,7 +58,7 @@ s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width
         } else if (width <= 0.0f) {
             ok = 0;
         } else {
-            glyph = TWindowSubStatusDisp__sub_800FC248(c);
+            glyph = get_small_font_glyph_id(c);
             adv = get_small_font_glyph_width(glyph);
             q.x0 = x;
             q.y0 = y;

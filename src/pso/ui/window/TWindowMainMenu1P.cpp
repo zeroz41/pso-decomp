@@ -149,14 +149,14 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8)transition_y)));
   TWindowCtrlMain::set_left(53.333332f * ((f32) ((s8)transition_x)), client_index);
   TWindowCtrlMain::set_bottom(480.0f - 74.666664f * ((f32) ((s8)transition_y)), client_index);
-  backdrop.pad_40[0] = (f32) ((640.0f - (backdrop.screen.projection.center_x)) / 320.0f);
-  backdrop.pad_40[1] = (f32) ((backdrop.screen.projection.center_y) / 240.0f);
-  tilt = backdrop.pad_40[1];
-  if ((backdrop.pad_40[0]) < (backdrop.pad_40[1]))
+  backdrop.view_scale[0] = (f32) ((640.0f - (backdrop.screen.projection.center_x)) / 320.0f);
+  backdrop.view_scale[1] = (f32) ((backdrop.screen.projection.center_y) / 240.0f);
+  tilt = backdrop.view_scale[1];
+  if ((backdrop.view_scale[0]) < (backdrop.view_scale[1]))
   {
-    backdrop.pad_40[0] = backdrop.pad_40[1];
+    backdrop.view_scale[0] = backdrop.view_scale[1];
   }
-  backdrop.pad_40[1] = (f32) (0.85f * (backdrop.pad_40[0]));
+  backdrop.view_scale[1] = (f32) (0.85f * (backdrop.view_scale[0]));
   if ((menu_flags) & 2)
   {
     backdrop.apply_if_overridden();
@@ -184,7 +184,7 @@ TWindowMainMenu1P::TWindowMainMenu1P(TObject *parent, s32 client) : TWindowMainM
     backdrop.scissor.y0 = 0.0f;
     backdrop.scissor.x1 = 20.0f;
     backdrop.scissor.y1 = 15.0f;
-    backdrop.pad_40[0] = 1.0f;
-    backdrop.pad_40[1] = 0.85f;
+    backdrop.view_scale[0] = 1.0f;
+    backdrop.view_scale[1] = 0.85f;
 }
 
