@@ -5,7 +5,7 @@
 
 
 BOOL read_dial_prefix(char *dst) {
-    if (TLobby__sub_803F524C(dst, 0x20) == 0) {
+    if (copy_current_entry_dial_prefix(dst, 0x20) == 0) {
         return strlen(dst) != 0 ? TRUE : FALSE;
     }
     return FALSE;

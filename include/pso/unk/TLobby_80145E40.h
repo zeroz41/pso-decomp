@@ -4,6 +4,6 @@
 #include "types.h"
 
 int is_network_info_loaded(void);
-s32 TLobby__sub_80145EE4(void);
+s32 is_dhcp_connection(void);
 
 #endif

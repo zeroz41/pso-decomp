@@ -156,7 +156,7 @@ void TLogo::run_task() {
         }
         break;
     case 2:
-        if (TLobby__sub_80145DB4(1) == 0) {
+        if (adapter_supports_connection(1) == 0) {
             modem_check = new TAdTrialModemChkGC(this);
             state = 3U;
             return;

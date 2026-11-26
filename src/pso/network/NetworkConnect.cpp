@@ -274,8 +274,8 @@ s32 query_task_active() {
     return 0;
 }
 
-int has_modem_adapter(void) { return TLobby__sub_80145DB4(1); }
-int get_link_status_value() { return TLobby__sub_80145DB4(4); }
+int has_modem_adapter(void) { return adapter_supports_connection(1); }
+int get_link_status_value() { return adapter_supports_connection(4); }
 
 int get_link_status() {
     NetLinkStatus link;
@@ -347,7 +347,7 @@ void flush_pending_flags() {
 
     connect_pending_flags &= 0xFFFFFFFE;
     teardown_dns();
-    if (TLobby__sub_80145EE4() != 0) {
+    if (is_dhcp_connection() != 0) {
         if (connect_pending_flags & 0x10) {
             DHCP_release((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
             connect_pending_flags &= 0xFFFFFFEF;
@@ -410,7 +410,7 @@ s32 run_connect_sequence() {
         if (ok != 0) {
             return 0xE;
         }
-        if (TLobby__sub_80145EE4() != 0) {
+        if (is_dhcp_connection() != 0) {
             lobby_net_session_id = id;
             r = apply_dhcp_network_config(&netmask);
         } else if (is_state_active() != 0) {
@@ -444,7 +444,7 @@ char *get_modem_phone_number(s32 idx) {
 
 void set_ppp_password(const char *src) {
     char *password;
-    TLobby__sub_8014618C();
+    has_broadband_adapter();
     is_state_active();
     password = network_config.ppp_password;
     memset(password, 0, 0x20);
@@ -453,7 +453,7 @@ void set_ppp_password(const char *src) {
 
 
 char *get_ppp_password(void) {
-    TLobby__sub_8014618C();
+    has_broadband_adapter();
     is_state_active();
     return network_config.ppp_password;
 }
@@ -606,7 +606,7 @@ void get_link_state(s16 *state, s16 *reason) {
 }
 
 /* Modem dial-up connection to phone number idx of the modem account (AT+MS=V34 init command,
-   or the one stored by TLobby__sub_803F5524). */
+   or the one stored by copy_current_entry_modem_init). */
 s32 connect_modem(s32 idx, s16 id) {
     NetConnectCfg cfg;
     ModemConfig modem;
@@ -624,7 +624,7 @@ s32 connect_modem(s32 idx, s16 id) {
     s32 len;
     s32 n;
 
-    if (TLobby__sub_80145DB4(1) == 0) {
+    if (adapter_supports_connection(1) == 0) {
         return 6;
     }
     if (lobby_account_entries[2].valid == 0) {
@@ -669,7 +669,7 @@ s32 connect_modem(s32 idx, s16 id) {
     modem.init_count = 1;
     modem.init_command = command;
     memset(response, 0, sizeof(response));
-    switch (TLobby__sub_803F5524(response, sizeof(response))) {
+    switch (copy_current_entry_modem_init(response, sizeof(response))) {
     case 0:
         memset(command, 0, sizeof(command));
         n = strlen(response);
@@ -844,7 +844,7 @@ void init_account_entries() {
     lbl_805D5714 = 0;
     net_session_mode = 0;
     connect_pending_flags = 0;
-    if (TLobby__sub_8014618C() != 0) {
+    if (has_broadband_adapter() != 0) {
         net_session_mode = 1;
     }
     load_network_configs();

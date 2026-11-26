@@ -54,7 +54,7 @@ TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
     TAdDialingGC::instance = this;
     if (is_state_active() != 0) {
         this->dial_mode = 1;
-    } else if (TLobby__sub_8014618C() == 1) {
+    } else if (has_broadband_adapter() == 1) {
         this->dial_mode = 2;
     } else {
         this->dial_mode = 0;

@@ -5,19 +5,19 @@
 
 // Copies the name of the current network configuration entry into dst (len bytes, zero filled).
 s32 copy_current_entry_name(char *dst, s32 len);
+s32 copy_current_entry_password(char *dst, s32 len);
+s32 get_current_entry_dns1(void *dst);
+s32 get_current_entry_dns2(void *dst);
+s32 get_current_entry_dial_type(u8 *dst);
+s32 copy_current_entry_dial_prefix(char *dst, s32 len);
+s32 copy_current_entry_phone_number(s32 n, char *dst, s32 len);
+s32 copy_current_entry_modem_init(char *dst, s32 len);
+s32 get_current_entry_connection_type(u8 *dst);
+s32 get_current_entry_ip_addr(void *dst);
+s32 get_current_entry_netmask(void *dst);
+s32 get_current_entry_gateway(void *dst);
+s32 copy_current_entry_dhcp_hostname(char *buf, u32 n);
 extern "C" {
-s32 TLobby__sub_803F4EBC(char *dst, s32 len);
-s32 TLobby__sub_803F4FF4(void *dst);
-s32 TLobby__sub_803F50B8(void *dst);
-s32 TLobby__sub_803F517C(u8 *dst);
-s32 TLobby__sub_803F524C(char *dst, s32 len);
-s32 TLobby__sub_803F53A0(s32 n, char *dst, s32 len);
-s32 TLobby__sub_803F5524(char *dst, s32 len);
-s32 TLobby__sub_803F5678(u8 *dst);
-s32 TLobby__sub_803F5748(void *dst);
-s32 TLobby__sub_803F5824(void *dst);
-s32 TLobby__sub_803F5900(void *dst);
-s32 TLobby__sub_803F59DC(char *buf, u32 n);
 s32 TLobby__sub_803F5B20(char *buf, s32 n);
 s32 TLobby__sub_803F5C58(char *buf, s32 n);
 s32 TLobby__sub_803F5D90(char *buf, s32 n);

@@ -64,7 +64,7 @@ s32 copy_current_entry_name(char *dst, s32 len) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F4EBC(char *dst, s32 len) {
+s32 copy_current_entry_password(char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -95,7 +95,7 @@ s32 TLobby__sub_803F4EBC(char *dst, s32 len) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F4FF4(void *dst) {
+s32 get_current_entry_dns1(void *dst) {
     NetConfigBuffer *b;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -121,7 +121,7 @@ s32 TLobby__sub_803F4FF4(void *dst) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F50B8(void *dst) {
+s32 get_current_entry_dns2(void *dst) {
     NetConfigBuffer *b;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -147,7 +147,7 @@ s32 TLobby__sub_803F50B8(void *dst) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F517C(u8 *dst) {
+s32 get_current_entry_dial_type(u8 *dst) {
     NetConfigBuffer *b;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -176,7 +176,7 @@ s32 TLobby__sub_803F517C(u8 *dst) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F524C(char *dst, s32 len) {
+s32 copy_current_entry_dial_prefix(char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -210,7 +210,7 @@ s32 TLobby__sub_803F524C(char *dst, s32 len) {
 #pragma push
 #pragma optimize_for_size off
 #pragma peephole off
-s32 TLobby__sub_803F53A0(s32 n, char *dst, s32 len) {
+s32 copy_current_entry_phone_number(s32 n, char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -247,7 +247,7 @@ s32 TLobby__sub_803F53A0(s32 n, char *dst, s32 len) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F5524(char *dst, s32 len) {
+s32 copy_current_entry_modem_init(char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -281,7 +281,7 @@ s32 TLobby__sub_803F5524(char *dst, s32 len) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F5678(u8 *dst) {
+s32 get_current_entry_connection_type(u8 *dst) {
     NetConfigBuffer *b;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -310,7 +310,7 @@ s32 TLobby__sub_803F5678(u8 *dst) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F5748(void *dst) {
+s32 get_current_entry_ip_addr(void *dst) {
     NetConfigBuffer *b;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -339,7 +339,7 @@ s32 TLobby__sub_803F5748(void *dst) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5824(void *dst) {
+s32 get_current_entry_netmask(void *dst) {
     if (get_network_config_mode() == 0) return -1;
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) return -5;
     NetConfigDataView *s = (*(NetConfigDataView * *)&lobby_net_config_buffer); s16 i;
@@ -356,7 +356,7 @@ s32 TLobby__sub_803F5824(void *dst) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5900(void *dst) {
+s32 get_current_entry_gateway(void *dst) {
     NetConfigBufferView *s;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -385,7 +385,7 @@ s32 TLobby__sub_803F5900(void *dst) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F59DC(char *buf, u32 n) {
+s32 copy_current_entry_dhcp_hostname(char *buf, u32 n) {
     NetConfigBufferView *s;
     s16 i;
     if (get_network_config_mode() == 0) {
