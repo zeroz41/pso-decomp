@@ -52,11 +52,8 @@ extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
 
 
 
-extern "C" {
-s32 select_main_menu_item_10(s32);
-}
-
 #include "pso/ui/window/TWindowMainMenu1P.h"
+#include "pso/player/ClassTypeName.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubAreaMap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
