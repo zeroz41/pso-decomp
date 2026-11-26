@@ -2745,7 +2745,7 @@ void TLobby::bswap_player_data(void *data) {
     bswap_32(&record->area);
     bswap_32(&record->floor);
     bswap_32(&record->player_flags);
-    bswap__15disp_data_part2Fv((saddr)&record->visual);
+    record->visual.bswap();
     record->stats.bswap();
     TLobby::bswap_inventory(&record->inventory.count);
 }
@@ -2849,18 +2849,17 @@ void TLobby::bswap_fields() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u3
 
 void TLobby::bswap_header_3words() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
 
-void bswap__15disp_data_part2Fv(saddr part2) {
-    s32 off;
+void disp_data_part2::bswap() {
     s32 i;
 
-    bswap_32((u32 *)(part2 + 0x18));
-    bswap_32((u32 *)(part2 + 0x2C));
-    bswap_32((u32 *)(part2 + 0x34));
-    for (i = 0, off = 0; i < 8; i++, off += 2) {
-        bswap_16((u16 *)((char *)part2 + off + 0x38));
+    bswap_32(&name_colour);
+    bswap_32(&name_colour_checksum);
+    bswap_32(&v1_flags);
+    for (i = 0; i < 8; i++) {
+        bswap_16(&appearance_data[i]);
     }
-    bswap_32((u32 *)(part2 + 0x48));
-    bswap_32((u32 *)(part2 + 0x4C));
+    bswap_32((u32 *)&proportions.x);
+    bswap_32((u32 *)&proportions.y);
 }
 }
 

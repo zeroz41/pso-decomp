@@ -1030,7 +1030,7 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 index) {
     } else {
         copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
     }
-    bswap__15disp_data_part2Fv((saddr)&npc_player_visual_record);
+    npc_player_visual_record.bswap();
     mem_free(npc_player_char_data_buffer);
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = NULL;
@@ -1085,7 +1085,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
         read_disc_file(npc_player_char_file_name, npc_player_char_data_buffer);
         copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
     }
-    bswap__15disp_data_part2Fv((saddr)&npc_player_visual_record);
+    npc_player_visual_record.bswap();
     mem_free(npc_player_char_data_buffer);
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = NULL;
