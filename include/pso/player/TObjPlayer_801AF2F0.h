@@ -30,6 +30,8 @@ void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 // The TPlayerReadyCallback that queue_player_kill queues: flags the player as killed.
 void mark_player_killed(TObjPlayer *player);
 void queue_player_kill(TObjPlayer *player);
+// Deletes every player and creates them again from the lobby character slots.
+void recreate_all_players(void);
 
 void handle_6x32_medical_center_revive_all_players(void);
 void handle_6x34(void);

@@ -91,8 +91,8 @@ void TLobby__sub_80240F38(void);
 void TLobby__sub_80241A0C(void);
 void TLobby__sub_802422EC(void *arg0, void *arg1);
 void TLobby__sub_8024259C(saddr arg0);
-void TLobby__sub_8024285C(void);
 }
+void init_com_card_list(void);
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index);
 extern "C" {
 s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step);

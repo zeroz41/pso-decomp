@@ -80,10 +80,9 @@ s32 lbl_805D63D8;
 int com_card_entry_count;
 extern "C" {
 void __copy(void *, void *, int);
-void TLobby__sub_8024273C(TUserAns &response);
 }
 
-void handle_user_search_answer(TUserAns &response) { TLobby__sub_8024273C(response); }
+void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(response); }
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
     if (protocol_instance != NULL) {
@@ -246,14 +245,14 @@ void remove_com_card_entry(s32 index) {
     (*(s32 *)&com_card_entry_count) -= 1;
 }
 
-void TLobby__sub_8024273C(TUserAns &response) {
+void add_found_user_com_card(TUserAns &response) {
     GuildCardRecord *entry;
     s32 slot = remove_com_card_by_id(response.found_guildcard);
     entry = com_card_entries;
     entry += slot;
     init_player_entry(entry, reinterpret_cast<u8 *>(&response));
     com_card_entry_count++;
-    TLobby__sub_80242918();
+    set_short_mail_flag_bit2();
 }
 
 s32 remove_com_card_by_id(u32 id) {
@@ -276,7 +275,7 @@ s32 remove_com_card_by_id(u32 id) {
 void TLobby::reset_com_card_list() { com_card_entry_count = 0; TLobby::clear_flag_bit2(); }
 
 void TLobby::reset_state() { TLobby::reset_com_card_list(); }
-void TLobby__sub_8024285C(void) { TLobby::reset_com_card_list(); }
+void init_com_card_list(void) { TLobby::reset_com_card_list(); }
 
 
 extern "C" {
@@ -303,7 +302,7 @@ s32 GuildCardRecord::get_id() { return id; }
 
 
 
-void TLobby__sub_80242918(void) {
+void set_short_mail_flag_bit2(void) {
     short_mail_flags |= 4;
 }
 

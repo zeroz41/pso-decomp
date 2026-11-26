@@ -689,9 +689,9 @@ force_active:
   - store_short_mail
   - clear_unread__14ShortMailEntryFv
   - set_new_mail_flag
-  - TLobby__sub_80292AB4
-  - TLobby__sub_80292BB8
-  - TLobby__sub_80292DA0
+  - get_challenge_award_rank__FlUsl
+  - record_challenge_stage_time__FlUsl
+  - record_challenge_stage_clear
   - is_challenge_time_limit_invalid__Fl
   - save_challenge_tombstone_spot__Fl
   - refresh_challenge_windows__12TChallenge4PFv

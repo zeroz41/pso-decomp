@@ -42,11 +42,8 @@ s32 challenge_set_rank_threshold(s32 idx, s32 value, s32 arg);
 s32 challenge_create_reward_item(TItemData *item, u16 slot_index);
 s32 challenge_check_any_player_dead(void);
 s32 challenge_check_all_players_dead(void);
-extern "C" {
-s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
-s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
-s32 TLobby__sub_80292DA0(s32 seed, u16 card);
-}
+s32 get_challenge_award_rank(s32 total, u16 card, s32 slot);
+s32 record_challenge_stage_time(s32 seed, u16 card, s32 id);
 s32 is_challenge_time_limit_invalid(s32 limit);
 int get_camera_view_count(void);
 void clear_challenge_and_split_screen_flags(void);

@@ -17,6 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TDelayedAreaMusic.h"
 #include "pso/player/TPlayerBattleCtrl.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/BattleRuleConfig.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
@@ -91,7 +92,6 @@ f32 battle_meseta_score;
 void play_duel_result_stream(const char *file, saddr duration);
 extern "C" {
 u8 is_battle_mode_running(void);
-s32 TLobby__sub_801C2678(void);
 }
 
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
@@ -135,7 +135,6 @@ struct UpdateBattleIntroName { char s[16]; };
 
 
 extern "C" {
-void TLobby__sub_801B09A4(void);
 
 
 void request_active_window_close(void);
@@ -827,7 +826,7 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl) {
     }
 }
 
-void init_and_set_flag(void) { TLobby__sub_801B09A4(); advance_item_system_generation(); battle_fadeout_done = 1; }
+void init_and_set_flag(void) { recreate_all_players(); advance_item_system_generation(); battle_fadeout_done = 1; }
 
 void restart_battle_after_fade(void) {
     if ((void *) battle_mode_data_ptr != NULL) {
@@ -1365,7 +1364,7 @@ s32 is_duel_ranking_empty(void) {
     return result;
 }
 
-s32 TLobby__sub_801C2678(void) {
+s32 get_ranked_battle_ctrl_value(void) {
     if (is_duel_ranking_empty() != 0) {
         return 0;
     }

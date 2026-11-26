@@ -64,7 +64,6 @@ struct ByteBlock_20 { u8 bytes[0x20]; };
 struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern "C" {
-void TQuestThread__sub_801F5D88(void);
 
 extern int quest_bin_decompressed_size;
 extern u8 *online_quest_bin_data;
@@ -310,7 +309,7 @@ void TQuestThread::clear_all_floor_handlers() {
     }
 }
 
-void TQuestThread__sub_801F5D88(void) { TQuestThread::clear_all_floor_handlers(); }
+void clear_all_floor_handlers_on_free(void) { TQuestThread::clear_all_floor_handlers(); }
 
 void TQuestThread::set_floor_handler(s32 floor, s32 label) {
     if (floor < 0 || floor > 0x11) {

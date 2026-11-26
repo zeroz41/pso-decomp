@@ -69,7 +69,6 @@ extern "C" {
 extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-void TLobby__sub_801B09A4(void);
 void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
@@ -170,12 +169,12 @@ void TPlayerBattleCtrl4P::update_results_phase() {
 }
 
 void TPlayerBattleCtrl4P::update_return_phase() {
-    static BattleAction tbl[3] = { &TPlayerBattleCtrl4P::return_to_hunters_guild, &TPlayerBattleCtrl4P::sub_80311804, &TPlayerBattleCtrl4P::sub_80311800 };
+    static BattleAction tbl[3] = { &TPlayerBattleCtrl4P::return_to_hunters_guild, &TPlayerBattleCtrl4P::idle_return_step1, &TPlayerBattleCtrl4P::idle_return_step2 };
     (this->*tbl[phase_state])();
 }
 
 void TPlayerBattleCtrl4P::update_reload_phase() {
-    static BattleAction tbl[4] = { &TPlayerBattleCtrl4P::begin_battle_reload, &TPlayerBattleCtrl4P::begin_battle_reload_fade, &TPlayerBattleCtrl4P::finish_battle_reload, &TPlayerBattleCtrl4P::sub_80311890 };
+    static BattleAction tbl[4] = { &TPlayerBattleCtrl4P::begin_battle_reload, &TPlayerBattleCtrl4P::begin_battle_reload_fade, &TPlayerBattleCtrl4P::finish_battle_reload, &TPlayerBattleCtrl4P::idle_reload_done };
     (this->*tbl[phase_state])();
 }
 
@@ -500,7 +499,7 @@ void TPlayerBattleCtrl4P::finish_battle_reload() {
     }
 }
 
-void TPlayerBattleCtrl4P::sub_80311890() {  }
+void TPlayerBattleCtrl4P::idle_reload_done() {  }
 
 void TPlayerBattleCtrl4P::return_to_hunters_guild() {
     new TScreenFadeOut(tl_00, TPlayerBattleCtrl4P::reset_random_enemies_mode);
@@ -509,9 +508,9 @@ void TPlayerBattleCtrl4P::return_to_hunters_guild() {
 
 void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); lobby_rule_settings.reset_settings_to_default(); }
 
-void TPlayerBattleCtrl4P::sub_80311804() {  }
+void TPlayerBattleCtrl4P::idle_return_step1() {  }
 
-void TPlayerBattleCtrl4P::sub_80311800() {  }
+void TPlayerBattleCtrl4P::idle_return_step2() {  }
 
 void TPlayerBattleCtrl4P::init_battle() {
     s32 j;
@@ -1062,7 +1061,7 @@ void TPlayerBattleCtrl4P::notify_lobby(const char *file, saddr duration) {
 void TPlayerBattleCtrl4P::reset_phase() { set_split_screen_battle_phase(0); }
 
 void TPlayerBattleCtrl4P::init() {
-    TLobby__sub_801B09A4();
+    recreate_all_players();
     advance_item_system_generation();
     reload_ready = 1;
 }

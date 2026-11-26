@@ -85,7 +85,9 @@ void challenge_set_boss_warp_disabled(s32 disabled) {
 
 s32 get_challenge4p_retry_choice(void);
 char split_screen_player_name[0x20];
-#define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
+// challenge_check_rank_time passes card unextended: it saw an int card, the definition takes u16.
+extern "C" s32 record_challenge_stage_clear(s32 seed, u16 card);
+#define record_challenge_stage_clear ((s32 (*)(s32, s32))record_challenge_stage_clear)
 void draw_if_ready2() {
     if ((is_challenge_mode_active() != 0) && (is_multi_ready() != 0) && (challenge_retry_object != NULL)) {
         TObjChallenge4PRetry::create(challenge_retry_object);
@@ -208,7 +210,7 @@ s32 challenge_check_rank_time(s32 seed, s32 card) {
     if (TLobby::is_value_out_of_range(seed) != 0) {
         seed = 0x8C9F;
     }
-    r = TLobby__sub_80292DA0(seed, card);
+    r = record_challenge_stage_clear(seed, card);
     if (r == -1) {
         challenge4p_mode_state.result_rank = -1;
         return -1;
@@ -225,7 +227,7 @@ s32 challenge_check_rank_time(s32 seed, s32 card) {
     challenge4p_mode_state.result_rank = r;
     return r;
 }
-#undef TLobby__sub_80292DA0
+#undef record_challenge_stage_clear
 
 s32 challenge_set_rank_threshold(s32 idx, s32 value, s32 arg) {
     s32 prev;
@@ -384,10 +386,6 @@ void save_challenge_tombstone_spot(s32);
 s32 challenge_check_any_player_dead(void);
 s32 challenge_check_all_players_dead(void);
 s32 is_challenge_time_limit_invalid(s32 limit);
-extern "C" {
-s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
-s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
-}
 
 void clamp_and_store_layout_index(s32 stage) {
     s32 layout_id;
@@ -441,9 +439,8 @@ s32 challenge_check_all_players_dead(void) {
     challenge4p_mode_state.failed = 1;
     return 1;
 }
-extern "C" {
 
-s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot) {
+s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
     s32 lo;
     s32 hi;
     ChallengeStageRank *rank;
@@ -477,7 +474,7 @@ s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot) {
     return i;
 }
 
-s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
+s32 record_challenge_stage_time(s32 seed, u16 card, s32 id) {
     u8 *win = (u8 *)get_character_save_record(card);
     s32 layout = challenge_set_stage_count(id);
     s32 *arr;
@@ -507,7 +504,6 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
     }
     *(s32 *)((u8 *)arr + idx) = encode_challenge_time(seed);
     return 1;
-}
 }
 
 s32 count_card_layout_entries(s32 client) {
@@ -554,7 +550,7 @@ s32 calc_min_challenge_progress() {
     return min_progress;
 }
 extern "C" {
-s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
+s32 record_challenge_stage_clear(s32 seed, u16 card) {
     s32 result;
     s32 total;
     s32 id;
@@ -563,13 +559,13 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     ChallengeStageRank *e;
     id = resolve_challenge_record_set(RECORD_SET_CURRENT);
     result = -4;
-    TLobby__sub_80292BB8(seed, card, id);
+    record_challenge_stage_time(seed, card, id);
     total = get_challenge_set_time(card, id);
     if (total != 0) {
         record = (ChallengeRecord *)(get_character_save_record(card) + 0x21C4);
         total -= decode_challenge_time(challenge_set_stage_times(record, id)[challenge4p_mode_state.stage]);
         total += seed;
-        result = TLobby__sub_80292AB4(total, card, id);
+        result = get_challenge_award_rank(total, card, id);
         next = result + 1;
         e = challenge_set_rank(record, id);
         if ((s32)decode_challenge_count((u32)(e->rank)) < next) {
@@ -583,6 +579,7 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
         }
         return r;
     }
+}
 }
 
 
@@ -600,7 +597,6 @@ s32 TLobby::get_clamped_time_limit() {
     return valid_slot;
 }
 
-}
 
 
 

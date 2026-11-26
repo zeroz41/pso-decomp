@@ -169,7 +169,6 @@ void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damag
 void draw_player_status(saddr window, void *player, saddr str);
 void show_sub_status_window(void *window, s32 *str, s32 *name);
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
-void TLobby__sub_801B09A4(void);
 
 }
 void handle_6x34(void);
@@ -5037,7 +5036,7 @@ s32 TObjPlayer::check_switch_available(s32 item_id) {
     return 1;
 }
 
-void TLobby__sub_801B09A4(void) {
+void recreate_all_players(void) {
     TObjPlayer *players[12];
     s32 i;
     TObjPlayer *p;
@@ -5570,7 +5569,7 @@ s32 TObjPlayer::update_movement_by_screen() {
     if (is_single_screen() != 0) {
         return get_battle_ctrl_default();
     }
-    return TLobby__sub_801C2678();
+    return get_ranked_battle_ctrl_value();
 }
 
 void TObjPlayer::refill_traps() {
