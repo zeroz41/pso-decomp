@@ -157,15 +157,15 @@ s32 TLobby::find_free_chat_log_slot() {
 }
 
 void chat_log_remove_line(saddr index) {
-    u32 *destination;
-    uaddr line;
-    destination = (u32 *)&chat_log_lines[index];
+    char **destination;
+    char *line;
+    destination = &chat_log_lines[index];
     line = *destination;
-    if (line != 0U) {
-        scroll_win_chat_log_heap->heap_free((void *)line);
-        *destination = 0U;
+    if (line != NULL) {
+        scroll_win_chat_log_heap->heap_free(line);
+        *destination = NULL;
         if (index < 0x1D) {
-            move_words(reinterpret_cast<void *>(destination), &chat_log_lines[index + 1], (saddr)((void *) ((0x1D - index) & 0x3FFFFFFF)));
+            move_words(destination, &chat_log_lines[index + 1], (0x1D - index) & 0x3FFFFFFF);
         }
         chat_log_lines[29] = 0;
     }
@@ -183,7 +183,7 @@ s32 chat_text_lacks_language_tag(const char *text) {
     return 1;
 }
 
-void cache_last_chat_line(uaddr text) {
+void cache_last_chat_line(const char *text) {
     s32 lacks_language_tag;
     s32 size;
     char *dest;
@@ -191,9 +191,9 @@ void cache_last_chat_line(uaddr text) {
         scroll_win_chat_log_heap->heap_free(chat_last_line_buffer);
         chat_last_line_buffer = NULL;
     }
-    if (text != 0U) {
-        lacks_language_tag = chat_text_lacks_language_tag((const char *)(text));
-        size = (s32)measure_string_len((const char *)((void *)text)) + 1;
+    if (text != NULL) {
+        lacks_language_tag = chat_text_lacks_language_tag(text);
+        size = (s32)measure_string_len(text) + 1;
         if (lacks_language_tag != 0) {
             size += 2;
         }
@@ -244,7 +244,7 @@ void append_text_space(void);
 void post_chat_log_message(u16 id, const char *text) {
     char *str;
     if ((s32) id == (s32) local_client_id) {
-        cache_last_chat_line((uaddr)text);
+        cache_last_chat_line(text);
     }
     str = TWindowMessageLog::get_active_photon_object(id);
     text_builder_reset();
