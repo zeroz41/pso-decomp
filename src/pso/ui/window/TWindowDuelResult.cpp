@@ -24,11 +24,7 @@
 #pragma readonly_strings on
 
 
-extern "C" {
-const char *window_duel_result_class_name = "TWindowDuelResult";
-
-extern const char *window_duel_result_class_name;
-}
+const char *TWindowDuelResult::class_name = "TWindowDuelResult";
 void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 
 extern "C" const char duel_result_time_separator[] = ":";
@@ -237,7 +233,7 @@ TWindowDuelResult::~TWindowDuelResult() {
 
 TWindowDuelResult::TWindowDuelResult(s32 client)
     : TWindowBase((u8 *)&window_duel_result_descriptor, (s16)client, (u8 *)get_window_layout_position(0x24)) {
-    m_name = window_duel_result_class_name;
+    m_name = class_name;
     page_indicator = new PageIndicator(0, 2, client_index);
     if (TCameraCtrl::get_camera_id() > 2) {
         scale_x = 0.8f;
