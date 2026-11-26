@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowWordSelectMode.h"
 
 #include "types.h"
-#include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -108,8 +107,8 @@ void TWindowWordSelectMode::render() {
     this->calc_inner_rect(ctx);
     reset_window_vertices(points, word_select_inverse_depth(this->draw_depth, 0.0f), -1);
     copy_window_point_table(points, 0);
-    TWindowDD__sub_80348A2C(ctx, points);
-    TWindowDD__sub_803489B8(ctx, points, 0);
+    fn_80348A2C(ctx, points);
+    fn_803489B8(ctx, points, 0);
     count = TWindowDD::get_draw_count(hud_texlist);
     if (this->highlight_hidden == 0) {
         sel = this->selected_row;
@@ -117,7 +116,7 @@ void TWindowWordSelectMode::render() {
         sel = -1;
     }
     for (i = 0; i < 3; i++) {
-        TWindowDD__sub_803489B8(ctx, points, i);
+        fn_803489B8(ctx, points, i);
         if (i == sel) {
             copy_window_point_table(points, 1);
             draw_window_vertices(points, 8, count, 1);
@@ -127,7 +126,7 @@ void TWindowWordSelectMode::render() {
         }
     }
     depth = word_select_inverse_depth(this->draw_depth, 0.2f);
-    TWindowDD__sub_803489B8(ctx, points, 0);
+    fn_803489B8(ctx, points, 0);
     h = ctx->scale[1];
     step = window_dd_row_height * h;
     dv = mode_row_texture_height * mode_texel_scale;

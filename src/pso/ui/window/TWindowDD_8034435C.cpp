@@ -3,20 +3,15 @@
 #include "pso/ui/window/WordSelectMessage.h"
 #include "types.h"
 #include <string.h>
-#include "pso/ui/window/TWindowDD_8034435C.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/window/TWindowDD_80346A84.h"
-#include "pso/ui/window/TWindowDD_80346F48.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/window/TWindowDD_803471C0.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -30,34 +25,22 @@
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowDD_80348304.h"
-#include "pso/ui/window/TWindowDD_8034AF68.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowDD_80348BF4.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/ui/window/TWindowDD_80348D0C.h"
 #include "pso/system/byteswap.h"
 
 
 
-extern "C" {
-s32 TWindowDD__sub_80347858(s16 id);
-void append_word_select_entry_words(WordSelectMessage *entry, char *buf, s32 *pos);
-void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos);
-void append_word_select_token(s16 id, char *buf, s32 *pos);
-void TWindowDD__sub_80347758(WordSelectMessage *src, WordSelectMessage *dst);
-void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos);
-char to_upper_latin1(char);
-void TWindowDD__sub_8034694C(WordSelectMessage *, s16, char *, char *, char *, s32 *);
+extern "C" char to_upper_latin1(char);
 s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
+        v = read_indexed_value(get_initial_word_select_list(), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -87,8 +70,8 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
         v = -0x3C;
         break;
     case 3: {
-        s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved) != 0) {
+        s16 resolved = read_resolved_value(entry_id, value_index);
+        if (fn_80347858(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -102,11 +85,11 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
         break;
     }
     case 5:
-        v = TWindowDD_read_indexed_value(0xE, value_index);
+        v = read_indexed_value(0xE, value_index);
         break;
     case 12:
         {
-            s16 t = TWindowDD_read_resolved_value(0xF9, value_index);
+            s16 t = read_resolved_value(0xF9, value_index);
             if (t == 0x43) {
                 v = -0x46;
             } else if (t == 0x44) {
@@ -117,20 +100,20 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
         }
         break;
     case 13:
-        if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
+        if (read_resolved_value(-0x50, value_index) == 0x2C8) {
             v = TWindowDD::ws_data_table[0xF].values[this->selected_word - 0x37];
         } else {
             v = TWindowDD::ws_data_table[0x10].values[this->selected_word - 0x37];
         }
         break;
     case 14:
-        v = TWindowDD_read_indexed_value(0xF, this->selected_word - 0x37);
+        v = read_indexed_value(0xF, this->selected_word - 0x37);
         break;
     case 15:
         v = -0x32;
         break;
     case 17:
-        v = TWindowDD_read_indexed_value(0x11, this->selected_word - 0x37);
+        v = read_indexed_value(0x11, this->selected_word - 0x37);
         break;
     case 18:
         v = -0x32;
@@ -145,7 +128,7 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
+        v = read_indexed_value(get_initial_word_select_list(), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -175,8 +158,8 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
         v = -0x3C;
         break;
     case 3: {
-        s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved) != 0) {
+        s16 resolved = read_resolved_value(entry_id, value_index);
+        if (fn_80347858(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -190,11 +173,11 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
         break;
     }
     case 5:
-        v = TWindowDD_read_indexed_value(0xE, value_index);
+        v = read_indexed_value(0xE, value_index);
         break;
     case 12:
         {
-            s16 t = TWindowDD_read_resolved_value(0xF9, value_index);
+            s16 t = read_resolved_value(0xF9, value_index);
             if (t == 0x43) {
                 v = -0x46;
             } else if (t == 0x44) {
@@ -205,20 +188,20 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
         }
         break;
     case 13:
-        if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
+        if (read_resolved_value(-0x50, value_index) == 0x2C8) {
             v = TWindowDD::ws_data_table[0xF].values[this->selected_word - 0x37];
         } else {
             v = TWindowDD::ws_data_table[0x10].values[this->selected_word - 0x37];
         }
         break;
     case 14:
-        v = TWindowDD_read_indexed_value(0xF, this->selected_word - 0x37);
+        v = read_indexed_value(0xF, this->selected_word - 0x37);
         break;
     case 15:
         v = -0x32;
         break;
     case 17:
-        v = TWindowDD_read_indexed_value(0x11, this->selected_word - 0x37);
+        v = read_indexed_value(0x11, this->selected_word - 0x37);
         break;
     case 18:
         v = -0x32;
@@ -233,7 +216,7 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
+        v = read_indexed_value(get_initial_word_select_list(), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -263,8 +246,8 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
         v = -0x3C;
         break;
     case 3: {
-        s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved) != 0) {
+        s16 resolved = read_resolved_value(entry_id, value_index);
+        if (fn_80347858(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -278,11 +261,11 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
         break;
     }
     case 5:
-        v = TWindowDD_read_indexed_value(0xE, value_index);
+        v = read_indexed_value(0xE, value_index);
         break;
     case 12:
         {
-            s16 t = TWindowDD_read_resolved_value(0xF9, value_index);
+            s16 t = read_resolved_value(0xF9, value_index);
             if (t == 0x43) {
                 v = -0x46;
             } else if (t == 0x44) {
@@ -293,20 +276,20 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
         }
         break;
     case 13:
-        if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
+        if (read_resolved_value(-0x50, value_index) == 0x2C8) {
             v = TWindowDD::ws_data_table[0xF].values[this->selected_word - 0x37];
         } else {
             v = TWindowDD::ws_data_table[0x10].values[this->selected_word - 0x37];
         }
         break;
     case 14:
-        v = TWindowDD_read_indexed_value(0xF, this->selected_word - 0x37);
+        v = read_indexed_value(0xF, this->selected_word - 0x37);
         break;
     case 15:
         v = -0x32;
         break;
     case 17:
-        v = TWindowDD_read_indexed_value(0x11, this->selected_word - 0x37);
+        v = read_indexed_value(0x11, this->selected_word - 0x37);
         break;
     case 18:
         v = -0x32;
@@ -354,7 +337,7 @@ s32 TWindowDD::format_french_message(WordSelectMessage *src, char *window_dd, u1
     case 3:
         if (n > 1) {
             WordSelectMessage copy;
-            TWindowDD__sub_80347758(src, &copy);
+            fn_80347758(src, &copy);
             pos = format_french_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
@@ -542,7 +525,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *window_dd, u1
     case 3:
         if (n > 1) {
             WordSelectMessage copy;
-            TWindowDD__sub_80347758(src, &copy);
+            fn_80347758(src, &copy);
             pos = format_german_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
@@ -589,7 +572,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *window_dd, u1
             }
             if (n > 3 && src->ids[3] == 0x685) {
                 if (s1 != 0 && s2 != 0) {
-                    TWindowDD__sub_8034694C(src, id1, s1, s2, window_dd, &pos);
+                    fn_8034694C(src, id1, s1, s2, window_dd, &pos);
                 }
             } else {
                 TWindowDD::append_string(s1, window_dd, &pos);
@@ -691,7 +674,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *window_dd, u1
                 }
                 if (n > 2 && src->ids[2] == 0x685) {
                     if (s1 != 0 && s3 != 0) {
-                        TWindowDD__sub_8034694C(src, src->ids[0], s1, s3, window_dd, &pos);
+                        fn_8034694C(src, src->ids[0], s1, s3, window_dd, &pos);
                     }
                 } else {
                     append_word_select_word_with_number(src, src->ids[0], s1, window_dd, &pos);
@@ -745,7 +728,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *window_dd, u1
 static inline void append_second_term(s32 id, s32 mode, char *window_dd, s32 *pos) {
     TWindowDD::show_message_by_count(window_dd, pos);
     if (mode == 0) {
-        append_word_select_token(id, window_dd, pos);
+        TWindowDD::append_word_select_token(id, window_dd, pos);
     } else {
         TWindowDDValueList *p;
         if (mode == 1) {
@@ -792,7 +775,7 @@ s32 TWindowDD::format_spanish_message(WordSelectMessage *src, char *window_dd, u
     case 3:
         if (n > 1) {
             WordSelectMessage copy;
-            TWindowDD__sub_80347758(src, &copy);
+            fn_80347758(src, &copy);
             pos = format_spanish_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
@@ -999,7 +982,7 @@ s32 TWindowDD::format_english_message(WordSelectMessage *src, char *window_dd, u
     case 3:
         if (n > 1) {
             WordSelectMessage copy;
-            TWindowDD__sub_80347758(src, &copy);
+            fn_80347758(src, &copy);
             pos = format_english_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
@@ -1214,7 +1197,7 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
+        v = read_indexed_value(get_initial_word_select_list(), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -1244,8 +1227,8 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
         v = -0x3C;
         break;
     case 3: {
-        s16 resolved = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved) != 0) {
+        s16 resolved = read_resolved_value(entry_id, value_index);
+        if (fn_80347858(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -1259,11 +1242,11 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
         break;
     }
     case 5:
-        v = TWindowDD_read_indexed_value(0xE, value_index);
+        v = read_indexed_value(0xE, value_index);
         break;
     case 12:
         {
-            s16 t = TWindowDD_read_resolved_value(0xF9, value_index);
+            s16 t = read_resolved_value(0xF9, value_index);
             if (t == 0x43) {
                 v = -0x46;
             } else if (t == 0x44) {
@@ -1274,20 +1257,20 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
         }
         break;
     case 13:
-        if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
+        if (read_resolved_value(-0x50, value_index) == 0x2C8) {
             v = TWindowDD::ws_data_table[0xF].values[this->selected_word - 0x37];
         } else {
             v = TWindowDD::ws_data_table[0x10].values[this->selected_word - 0x37];
         }
         break;
     case 14:
-        v = TWindowDD_read_indexed_value(0xF, this->selected_word - 0x37);
+        v = read_indexed_value(0xF, this->selected_word - 0x37);
         break;
     case 15:
         v = -0x32;
         break;
     case 17:
-        v = TWindowDD_read_indexed_value(0x11, this->selected_word - 0x37);
+        v = read_indexed_value(0x11, this->selected_word - 0x37);
         break;
     case 18:
         v = -0x32;
@@ -1304,7 +1287,7 @@ s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index)
 
     switch (mode) {
     case 0:
-        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(get_initial_word_select_list(this), value_index);
+        value = read_indexed_value(get_initial_word_select_list(), value_index);
         if (value == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -1334,27 +1317,27 @@ s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index)
         value = -0x3C;
         break;
     case 3:
-        resolved_id = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (TWindowDD__sub_80347858(resolved_id) != 0) {
-            value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, resolved_id - 0x37);
+        resolved_id = read_resolved_value(entry_id, value_index);
+        if (fn_80347858(resolved_id) != 0) {
+            value = read_indexed_value(0xF, resolved_id - 0x37);
         } else {
             value = -0x3C;
         }
         break;
     case 5:
-        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xE, value_index);
+        value = read_indexed_value(0xE, value_index);
         break;
     case 7:
-        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, value_index);
+        value = read_indexed_value(0xF, value_index);
         break;
     case 8:
-        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0x10, this->selected_word - 0x37);
+        value = read_indexed_value(0x10, this->selected_word - 0x37);
         break;
     case 9:
         value = -0x32;
         break;
     case 10:
-        if (TWindowDD_read_resolved_value(0x118, value_index) == 0x685) {
+        if (read_resolved_value(0x118, value_index) == 0x685) {
             value = -0x3C;
         } else {
             value = -1;
@@ -1422,7 +1405,7 @@ void TWindowDD::build_item_list() {
     TWindowDD__word_select_lists[0].count = n;
 }
 
-void TWindowDD__sub_8034694C(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *window_dd, s32 *pos) {
+void TWindowDD::fn_8034694C(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *window_dd, s32 *pos) {
     s32 n;
     s32 len;
     s32 i;
@@ -1448,7 +1431,6 @@ void TWindowDD__sub_8034694C(WordSelectMessage *src, s16 id, char *verb, char *p
             *pos += len;
         }
     }
-}
 }
 
 void *load_encrypted_archive_data(const char *);
@@ -1585,11 +1567,11 @@ void ws_data_load(void) {
     }
 }
 
-s32 get_initial_word_select_list(TWindowDD *window_dd) {
+s32 TWindowDD::get_initial_word_select_list() {
   s32 list_base;
   s32 offset;
   list_base = 0;
-  switch (window_dd->get_word_select_context())
+  switch (get_word_select_context())
   {
     case 0:
       list_base = 1;
@@ -1611,7 +1593,7 @@ s32 get_initial_word_select_list(TWindowDD *window_dd) {
       break;
   }
   offset = 0;
-  if (has_menu_selection(window_dd) != 0)
+  if (has_menu_selection() != 0)
   {
     offset = 1;
   }
@@ -1620,7 +1602,7 @@ s32 get_initial_word_select_list(TWindowDD *window_dd) {
 
 void TWindowDD::render() {  }
 
-s16 TWindowDD_read_indexed_value(s32 entry_index, s32 value_index) {
+s16 TWindowDD::read_indexed_value(s32 entry_index, s32 value_index) {
     s16 result;
     TWindowDDValueList *entry;
     result = -1;
@@ -1635,7 +1617,7 @@ s16 TWindowDD_read_indexed_value(s32 entry_index, s32 value_index) {
     return result;
 }
 
-s16 TWindowDD_read_resolved_value(s32 entry_id, s32 value_index) {
+s16 TWindowDD::read_resolved_value(s32 entry_id, s32 value_index) {
     s16 result;
     TWindowDDValueList *entry;
     result = -1;
@@ -1650,8 +1632,8 @@ s16 TWindowDD_read_resolved_value(s32 entry_id, s32 value_index) {
     return result;
 }
 
-s32 has_menu_selection(TWindowDD *window_dd) {
-    return window_dd->menu_index != -1;
+s32 TWindowDD::has_menu_selection() {
+    return menu_index != -1;
 }
 
 
@@ -1664,11 +1646,11 @@ void TWindowDD::reset_selection(WordSelectMessage *message) {
 }
 
 void WordSelectMessage::remember_selected_id() {
-    if ((type == 1) && (TWindowDD__sub_80346FC0(ids[0]) != 0)) {
+    if ((type == 1) && (TWindowDD::fn_80346FC0(ids[0]) != 0)) {
         remembered_word_select_id = ids[0];
     }
 }
-s32 TWindowDD__sub_80346FC0(s16 id) {
+s32 TWindowDD::fn_80346FC0(s16 id) {
     u8 var_r3;
     var_r3 = 0;
     if ((id >= 0x7F) && (id <= 0x138)) {
@@ -1747,7 +1729,7 @@ s32 TWindowDD::is_id_in_special_range(s16 id) {
     return r;
 }
 
-s32 TWindowDD__sub_80347238(s16 id) {
+s32 TWindowDD::fn_80347238(s16 id) {
     u8 var_r3;
     var_r3 = 0;
     if ((id >= 0x300) && (id <= 0x395)) {
@@ -1759,7 +1741,6 @@ s32 TWindowDD__sub_80347238(s16 id) {
 
 
 
-extern "C" {
 
 s32 TWindowDD::classify_id(s16 id) {
     s32 kind;
@@ -1767,7 +1748,7 @@ s32 TWindowDD::classify_id(s16 id) {
     if (id == 0x2E4) {
         return 0;
     }
-    if (TWindowDD__sub_80347238(id) != 0) {
+    if (fn_80347238(id) != 0) {
         return 1;
     }
     if (is_id_in_special_range(id) != 0) {
@@ -1816,17 +1797,17 @@ void WordSelectMessage::format_type6_message(saddr window_dd, void *pos) {
         n = 3;
     }
     for (i = 0; i < n - 1; i++) {
-        append_word_select_token(ids[i], (char *)window_dd, (s32 *)pos);
+        TWindowDD::append_word_select_token(ids[i], (char *)window_dd, (s32 *)pos);
         TWindowDD::show_message_by_count((char *)window_dd, (s32 *)pos);
     }
-    append_word_select_token(ids[n - 1], (char *)window_dd, (s32 *)pos);
+    TWindowDD::append_word_select_token(ids[n - 1], (char *)window_dd, (s32 *)pos);
     if (n_tokens > 3) {
         ((TWindowDD *)window_dd)->append_prompt_newline((s32 *)pos);
-        append_word_select_token(ids[3], (char *)window_dd, (s32 *)pos);
+        TWindowDD::append_word_select_token(ids[3], (char *)window_dd, (s32 *)pos);
     }
 }
 
-void append_word_select_entry_words(WordSelectMessage *entry, char *buf, s32 *pos) {
+void TWindowDD::append_word_select_entry_words(WordSelectMessage *entry, char *buf, s32 *pos) {
     append_word_select_word(entry, entry->ids[0], buf, pos);
     if (entry->count > 1) {
         ((TWindowDD *)buf)->append_prompt_newline(pos);
@@ -1834,12 +1815,12 @@ void append_word_select_entry_words(WordSelectMessage *entry, char *buf, s32 *po
     }
 }
 
-void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos) {
+void TWindowDD::append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos) {
     char *word = (char *)get_word_select_token_text(id);
     append_word_select_word_with_number(entry, id, word, buf, pos);
 }
 
-void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos) {
+void TWindowDD::append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos) {
     char num[20];
     s32 kind;
     s32 value;
@@ -1920,7 +1901,7 @@ void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char 
     TWindowDD::append_string(word, buf, pos);
 }
 
-void TWindowDD__sub_80347758(WordSelectMessage *src, WordSelectMessage *dst) {
+void TWindowDD::fn_80347758(WordSelectMessage *src, WordSelectMessage *dst) {
     s16 id;
     s16 n;
     n = src->count;
@@ -1955,20 +1936,19 @@ void TWindowDD__sub_80347758(WordSelectMessage *src, WordSelectMessage *dst) {
     dst->numeric_parameter = src->numeric_parameter;
 }
 
-s32 TWindowDD__sub_80347858(s16 id) {
+s32 TWindowDD::fn_80347858(s16 id) {
     u8 r = 0;
     if (id >= 0x37 && id <= 0x45) {
         r = 1;
     }
     return r;
 }
-}
 
 s32 TWindowDD::is_state_zero_unless_0x2C8(s32 id) {
     if ((s16)id == 0x2C8) {
         return 0;
     }
-    return (u32) __cntlzw((u32) ((s32 (*)(void))TWindowDD__sub_80347858)()) >> 5;
+    return (u32) __cntlzw((u32) ((s32 (*)(void))fn_80347858)()) >> 5;
 }
 
 s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value) {
@@ -1993,7 +1973,6 @@ void TWindowDD::set_item_pos(s32 i) {
     }
 }
 
-extern "C" {
 
 TWindowDD_WS_Word *TWindowDD::commit_word_select_level() {
     TWindowDD_WS_Word *child;
@@ -2005,7 +1984,6 @@ TWindowDD_WS_Word *TWindowDD::commit_word_select_level() {
         }
     }
     return child;
-}
 }
 
 TWindowDD_WS_Word *TWindowDD::init_last_child() {
@@ -2024,7 +2002,6 @@ TWindowDD_WS_Word *TWindowDD::init_last_child() {
     return child;
 }
 
-extern "C" {
 
 void TWindowDD::take_word_select_word(TWindowDD_WS_Word *word_window) {
     s32 id;
@@ -2170,7 +2147,7 @@ void TWindowDD::create_word_select_cursor_label(s32 slot) {
             labels[slot + 4] = o;
         }
     }
-}}
+}
 
 s32 TWindowDD::get_current_child_index() {
     TWindowDD_WS_Word *word_window;
@@ -2236,7 +2213,6 @@ void TWindowDD::update(TWindowDD_WS_Word *window_dd) {
     }
 }
 
-extern "C" {
 
 void TWindowDD::set_default_coords(TWindowDD_WS_Word *win) {
     refresh_sub(win);
@@ -2286,7 +2262,6 @@ s32 TWindowDD::is_word_select_cancel_input() {
     return cancel;
 }
 
-}
 
 
 
@@ -2325,10 +2300,12 @@ s32 TWindowDD::get_word_select_context() {
     return (enemies_active != 0 ? 1 : 0) + 2;
 }
 
-int TWindowDD__sub_80348424(s32 _w0, s32 _w1) { return get_word_select_type_state((saddr)((void*)(1)), (_w1)); }
+// C functions: handle_confirm_input calls these and push_recent_id through prototypes that
+// disagree with the definitions (s16 against s32 ids), which only C linkage allows.
+extern "C" s32 fn_80348424(TWindowDD *window, s32 id) { return get_word_select_type_state(1, id); }
 
-void TWindowDD__sub_80348448(s32 unused, s16 id) {
-    get_word_select_type_state(0, ((s32) id));
+extern "C" s32 fn_80348448(TWindowDD *window, s16 id) {
+    return get_word_select_type_state(0, id);
 }
 
 s32 TWindowDD::get_mode_code() {
@@ -2430,7 +2407,6 @@ s32 TWindowDD::clamp_range_2C9_552(s16 id) {
 }
 
 
-extern "C" {
 
 void TWindowDD::show_message_by_count(char *buf, s32 *pos) {
     if (TWindowDD::count_chars_since_newline(buf, pos) > 0xF) {
@@ -2440,7 +2416,6 @@ void TWindowDD::show_message_by_count(char *buf, s32 *pos) {
     TWindowDD::append_char(0x20, buf, pos);
 }
 
-}
 
 
 void TWindowDD::maybe_scroll(char *buf, s32 *pos) {
@@ -2470,14 +2445,14 @@ void TWindowDD::append_char(s8 c, char *buf, s32 *pos) {
     }
 }
 
-void append_word_select_token(s16 id, char *buf, s32 *pos) {
+void TWindowDD::append_word_select_token(s16 id, char *buf, s32 *pos) {
     TWindowDD::append_string((const char *)get_word_select_token_text(id), buf, pos);
 }
 
 
 
 
-WindowTexturePoint word_select_quad_points[7][8];
+NJS_POINT2 word_select_quad_points[7][8];
 typedef struct { char pad[0xBC]; } Buf;
 
 void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
@@ -2500,14 +2475,14 @@ void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
     draw_count = TWindowDD::get_draw_count(hud_texlist);
     reset_window_vertices((WindowVertex *)&sp8, word_select_inverse_depth(draw_depth, offset), -1);
     copy_window_point_table((WindowVertex *)&sp8, idx);
-    TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
-    TWindowDD__sub_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8), 0);
+    fn_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
+    fn_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8), 0);
     draw_window_vertices((WindowVertex *)&sp8, 8, draw_count, 1);
 }
 
 #pragma push
 #pragma fp_contract on
-void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
+void fn_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
     s32 i;
     f32 hs;
     f32 half;
@@ -2530,7 +2505,7 @@ void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices,
 }
 #pragma pop
 
-void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices) {
+void fn_80348A2C(WindowDrawContext *context, WindowVertex *vertices) {
   f32 center_x;
   f32 inner_right;
   f32 half_scaled;
@@ -2571,7 +2546,7 @@ void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices)
 void copy_window_point_table(WindowVertex *vertices, s32 idx) {
     WindowVertex *self = vertices;
     s32 i;
-    const WindowTexturePoint *s = word_select_quad_points[idx];
+    const NJS_POINT2 *s = word_select_quad_points[idx];
     for (i = 0; i < 8; i++) {
         self->u = s->x;
         self->v = s->y;
@@ -2654,7 +2629,6 @@ void handle_6x74_word_select(u8 *window_dd) {
     }
 }
 
-extern "C" {
 
 void G_WordSelect_6x74::bswap_message() { message.bswap(); }
 
@@ -2669,9 +2643,7 @@ void G_WordSelect_6x74::send_message(WordSelectMessage *data) {
 void G_WordSelect_6x74::send() { bswap_message(); send_subcommand(this); }
 void G_WordSelect_6x74::init_header() { subcommand = 116; size = 8; }
 
-}
 
-extern "C" {
 
 void WordSelectMessage::bswap() {
     s32 i;
@@ -2717,4 +2689,3 @@ void WordSelectMessage::init() {
     unknown_a4 = 0;
 }
 
-}

@@ -1,10 +1,9 @@
 #include "types.h"
-#include "pso/ui/window/TWindowDD_8034AF68.h"
 #include "pso/ui/window/TWindowDD.h"
 
 #pragma pool_data off
 
-void push_recent_id(s16 id) {
+extern "C" void push_recent_id(s16 id) {
     s32 i;
     if (id != ws_recent_state.ids[0]) {
         for (i = 15; i > 0; i--) {

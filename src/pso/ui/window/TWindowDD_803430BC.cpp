@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/Language.h"
-#include "pso/ui/window/TWindowDD_8034435C.h"
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowInputNumber.h"
@@ -29,7 +28,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/window/TWindowDD_80348D0C.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 
 TWindowDDStateEntry word_select_state_table[21] = {
@@ -59,10 +57,11 @@ TWindowDDStateEntry word_select_state_table[21] = {
 const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
 
 extern "C" {
-s32 TWindowDD__sub_80348424(void *, s16);
-s16 TWindowDD__sub_80348448(void *, s32);
-s32 push_recent_id(s32);
+s32 fn_80348424(TWindowDD *window, s16 id);
+s16 fn_80348448(TWindowDD *window, s32 id);
+void push_recent_id(s32 id);
 }
+
 
 
 s32 TWindowDD::window_mode;
@@ -138,7 +137,6 @@ extern "C" {
 extern "C++" void ws_data_load(void);
 
 
-extern NJS_POINT2 word_select_quad_points[][8];
 
 extern const NJS_POINT2 window_dd_quad_positions[];
 
@@ -328,7 +326,7 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
     }
   }
   depth = 0;
-  list_ids[0] = get_initial_word_select_list(this);
+  list_ids[0] = get_initial_word_select_list();
   list_ids[1] = -1;
   list_ids[2] = -1;
   {
@@ -838,8 +836,8 @@ void TWindowDD::handle_confirm_input() {
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         id = word_windows[depth]->get_selected_id();
-        message.type = TWindowDD__sub_80348448(this, id);
-        next_state = TWindowDD__sub_80348424(this, id);
+        message.type = fn_80348448(this, id);
+        next_state = fn_80348424(this, id);
         push_recent_id(id);
         pad_104 = 0;
         begin_word_select_state();

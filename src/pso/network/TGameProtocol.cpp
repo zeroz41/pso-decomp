@@ -48,7 +48,7 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemObject.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
-#include "pso/ui/window/TWindowDD_80348BF4.h"
+#include "pso/ui/window/TWindowDD.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
