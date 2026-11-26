@@ -4985,38 +4985,14 @@ pso/quest/TQuestListVM_801F4398.cpp:
 pso/unk/text_801F43A8.cpp:
 	.text       start:0x801F43A8 end:0x801F43B4
 
-pso/unk/text_801F43B4.cpp:
-	.text       start:0x801F43B4 end:0x801F4560
-	.bss        start:0x805127F8 end:0x805129F8
-
-pso/unk/text_801F4560.cpp:
-	.text       start:0x801F4560 end:0x801F45FC
-
-pso/unk/text_801F45FC.cpp:
-	.text       start:0x801F45FC end:0x801F469C
-
-pso/unk/text_801F469C.cpp:
-	.text       start:0x801F469C end:0x801F4738
-
-pso/object/key/TOKeyJungleMain_801F4738.cpp:
-	.text       start:0x801F4738 end:0x801F4790
-
-pso/unk/text_801F4790.cpp:
-	.text       start:0x801F4790 end:0x801F4830
-
-pso/boss/darkfalz/TBoss4DarkFalz_801F4830.cpp:
-	.text       start:0x801F4830 end:0x801F487C
-
-pso/unk/TLobby_801F487C.cpp:
-	.text       start:0x801F487C end:0x801F498C
+pso/quest/QuestStoryFlags.cpp:
+	.text       start:0x801F43B4 end:0x801F49BC
 	.rodata     start:0x80449D48 end:0x80449D60
+	.bss        start:0x805127F8 end:0x805129F8
 
 pso/quest/AreaDialogueScripts.cpp:
 	.rodata     start:0x80449D60 end:0x8044A5D0
 	.data       start:0x804C8230 end:0x804C8410
-
-pso/unk/text_801F498C.cpp:
-	.text       start:0x801F498C end:0x801F49BC
 
 pso/quest/TQuestThread.cpp:
 	.text       start:0x801F49BC end:0x801F6554

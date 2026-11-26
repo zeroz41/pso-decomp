@@ -757,7 +757,6 @@ pso/unk/TLobby_801D726C.cpp
 pso/unk/TLobby_801E2F94.cpp
 pso/unk/TLobby_801E43E4.cpp
 pso/unk/TLobby_801F3A24.cpp
-pso/unk/TLobby_801F487C.cpp
 pso/unk/TLobby_80207644.cpp
 pso/unk/TLobby_80207DA8.cpp
 pso/unk/TLobby_80209524.cpp
@@ -927,7 +926,6 @@ pso/object/key/TOKeyAncient03.cpp
 pso/object/key/TOKeyCave01.cpp
 pso/object/key/TOKeyCol.cpp
 pso/object/key/TOKeyGenericSw.cpp
-pso/object/key/TOKeyJungleMain_801F4738.cpp
 pso/object/key/TOKeyMachine01.cpp
 pso/object/ambient/TOKurage.cpp
 pso/object/mine/TOLightMachine01.cpp
@@ -1717,13 +1715,7 @@ pso/unk/text_801E4BCC.cpp
 pso/effect/sprite/TQuadSprite.cpp
 pso/unk/text_801F3774.cpp
 pso/unk/text_801F43A8.cpp
-pso/unk/text_801F43B4.cpp
-pso/unk/text_801F4560.cpp
-pso/unk/text_801F45FC.cpp
-pso/unk/text_801F469C.cpp
-pso/unk/text_801F4790.cpp
-pso/boss/darkfalz/TBoss4DarkFalz_801F4830.cpp
-pso/unk/text_801F498C.cpp
+pso/quest/QuestStoryFlags.cpp
 pso/unk/text_80203284.cpp
 pso/unk/text_8020BC50.cpp
 pso/unk/text_8020BFE4.cpp
