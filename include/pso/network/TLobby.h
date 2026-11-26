@@ -360,7 +360,6 @@ struct TLobby : public TObject {
     void byteswap_challenge_packet();
     void send_challenge_packet();
     static void send_45_and_close_windows(void * _w0);
-    static void play_default_effect(void* a0);
     static void create_tasks();
     static void clear_session_buffers();
     static s32 run_lobby_load_tables();
@@ -556,7 +555,6 @@ struct TLobby : public TObject {
     static s32 pick_random_slot(s16 *slot);
     static void play_all_players_effect(void*);
     static void play_effect_all_players(void*);
-    void play_player_default_effect();
     static void process_deferred_player_setup();
     static void queue_static_object_destruction();
     static u8 read_byte_advance();

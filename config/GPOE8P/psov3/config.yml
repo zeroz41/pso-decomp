@@ -9351,7 +9351,7 @@ force_active:
   - play_ambient_loop_sound__17TOBarrierEnergy01Fv
   - play_animation_index__13TBoss5GryphonFl
   - play_anti_cast_sound__8TTecAntiFv
-  - play_default_effect__6TLobbyFPv
+  - play_default_effect__18TObjChallengeRetryFv
   - play_effect_all_players__6TLobbyFPv
   - play_footsteps__14TObjEneBm5WolfFPv
   - play_lobby_theme_music__14TObjBgmColCtrlFv
@@ -9365,7 +9365,7 @@ force_active:
   - play_open_sound__19TWindowSubMagPhotonFv
   - play_phase_sound__11TBoss6Type2Fv
   - play_pitched_cue__13TObjEneBm3FlyFv
-  - play_player_default_effect__6TLobbyFv
+  - play_player_default_effect__18TObjChallengeRetryFv
   - play_proximity_effect__14TObjEneBm5WolfFv
   - play_se__13TBoss5GryphonFl
   - play_se_at_pos__12TBoss1DragonFl
@@ -15628,7 +15628,7 @@ force_active:
   - show__5TItemFv
   - show_active_window__17TWindowCtrlPlayerFv
   - show_already_healthy__22TMedicalCenterSequenceFv
-  - show_ctrl_and_play_effect__FPv
+  - show_ctrl_and_play_effect__18TObjChallengeRetryFv
   - show_declined__22TMedicalCenterSequenceFv
   - show_fee_prompt__22TMedicalCenterSequenceFv
   - show_guide_button__12TAdDialingGCFv

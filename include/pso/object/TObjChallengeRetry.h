@@ -29,10 +29,15 @@ public:
     void close_window_2c();
     void sub_80072BB0();
     void sub_80072B70();
+    // Hides the local player's window slot, then play_player_default_effect.
+    void show_ctrl_and_play_effect();
+    // Disables the local client's main menu, then play_player_default_effect.
+    void play_default_effect();
+    // Puts the local player on hold (send_impose_hold) unless it already is.
+    void play_player_default_effect();
     virtual void run_task();
 };
 
 s32 is_ready_to_draw();
-void show_ctrl_and_play_effect(void* a0);
 
 #endif

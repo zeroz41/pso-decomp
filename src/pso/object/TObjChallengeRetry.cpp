@@ -219,9 +219,17 @@ void TLobby::send_45_and_close_windows(void * _w0) {
     TWindowCtrl::unsuppress_slot(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
 }
-void show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
-void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
-void TLobby::play_player_default_effect() {
+void TObjChallengeRetry::show_ctrl_and_play_effect() {
+    TWindowCtrl::suppress_slot(local_client_id);
+    play_player_default_effect();
+}
+
+void TObjChallengeRetry::play_default_effect() {
+    TWindowCtrl::disable_client_main_menu(local_client_id);
+    play_player_default_effect();
+}
+
+void TObjChallengeRetry::play_player_default_effect() {
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->check_player_flag1() == 0)) {
@@ -233,7 +241,7 @@ u8 is_challenge_lobby__6TLobbyFv(void) {
 }
 void TObjChallengeRetry::update_destroy_countdown() {
     s32 countdown;
-    TLobby::play_default_effect(this);
+    play_default_effect();
     countdown = this->countdown - 1;
     this->countdown = countdown;
     if (countdown <= 0) {
@@ -245,7 +253,7 @@ void TObjChallengeRetry::update_destroy_countdown() {
     }
 }
 void TObjChallengeRetry::handle_loss_sequence() {
-    ((TLobby *)this)->play_player_default_effect();
+    play_player_default_effect();
     switch (get_challenge_failure_choice()) {
     case 0:
         play_cue_stream_file("lose.adx");
@@ -257,7 +265,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
     case 1:
         play_sound_effect(0x52812, 0, 0, 0);
         TLobby::send_45_and_close_windows(this);
-        TLobby::play_default_effect(this);
+        play_default_effect();
         sub_80072B70();
         close_window_2c();
         this->countdown = 0x1E;
@@ -266,7 +274,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
     default:
         if (((s32) this->m_20 != 0) && ((s32) this->m_24 == 0)) {
             TLobby::send_45_and_close_windows(this);
-            show_ctrl_and_play_effect(this);
+            show_ctrl_and_play_effect();
             sub_80072B70();
             open_loss_menu();
             this->state = 2;
@@ -277,7 +285,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
 void TObjChallengeRetry::update_challenge_retry() {
     s32 selected_menu_value;
     s32 close_requested;
-    show_ctrl_and_play_effect(this);
+    show_ctrl_and_play_effect();
     if (this->menu == NULL) {
         open_loss_menu();
     }
@@ -289,7 +297,7 @@ void TObjChallengeRetry::update_challenge_retry() {
         } else {
             TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
             TLobby::send_45_and_close_windows(this);
-            ((TLobby *)this)->play_player_default_effect();
+            play_player_default_effect();
             this->m_24 = 1;
             this->state = 3;
             return;
@@ -298,17 +306,17 @@ void TObjChallengeRetry::update_challenge_retry() {
     if ((close_requested != 0) || (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0)) {
         close_window_2c();
         TLobby::send_45_and_close_windows(this);
-        TLobby::play_default_effect(this);
+        play_default_effect();
         this->state = 1;
     }
 }
 void TObjChallengeRetry::handle_challenge_retry_confirm() {
     TObjPlayer *player;
-    TLobby::play_default_effect(this);
+    play_default_effect();
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         TLobby::send_45_and_close_windows(this);
-        show_ctrl_and_play_effect(this);
+        show_ctrl_and_play_effect();
         this->state = 2;
     }
 }
@@ -338,7 +346,7 @@ void TObjChallengeRetry::sub_8007313C() {
     block_4:
     if (has_window_task_root() != 0)
     {
-      ((TLobby *)this)->play_player_default_effect();
+      play_player_default_effect();
       no_player_flagged = 1;
       client = first_client;
       loop_6:
@@ -360,12 +368,12 @@ void TObjChallengeRetry::sub_8007313C() {
         if ((this->m_20) != 0)
         {
           TLobby::send_45_and_close_windows((void *) ((u8 *)this));
-          show_ctrl_and_play_effect(this);
+          show_ctrl_and_play_effect();
           this->state = 2;
           return;
         }
         TLobby::send_45_and_close_windows((void *) ((u8 *)this));
-        ((TLobby *)this)->play_player_default_effect();
+        play_player_default_effect();
         sub_80072BB0();
         this->state = 3;
       }
