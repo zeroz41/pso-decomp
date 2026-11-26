@@ -14,13 +14,13 @@
 
 // Barba Ray's twin of TObjBoss2Tunnel_8003B1FC.cpp: the parent the tunnel's particles are handed
 // over to, created by create_parent_object.
-TObject *TObjBoss7Tunnel_parent_object;
+TObject *TObjBoss7Tunnel::particle_parent;
 
 void TObjBoss7Tunnel::detach_children(TParticleCtrl *particle, const Vec *offset) {
     TParticle *child;
     while ((child = (TParticle *)particle->m_down) != NULL) {
         vec3_add_to(&child->step, offset);
-        child->set_parent(TObjBoss7Tunnel_parent_object);
+        child->set_parent(particle_parent);
     }
 }
 
@@ -28,12 +28,12 @@ void TObjBoss7Tunnel::release_children(TParticleCtrl *particle, f32 speed) {
     TParticle *child;
     while ((child = (TParticle *)particle->m_down) != NULL) {
         child->step.z = child->step.z + speed;
-        child->set_parent(TObjBoss7Tunnel_parent_object);
+        child->set_parent(particle_parent);
     }
 }
 
 void TObjBoss7Tunnel::create_parent_object() {
-    TObjBoss7Tunnel_parent_object = new TObject(tl_07);
+    particle_parent = new TObject(tl_07);
 }
 
 void TObjBoss7TunnelNode::draw_particle_effect() {
