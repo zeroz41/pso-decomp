@@ -26,9 +26,6 @@ __declspec(section ".data") u32 rain_streak_colors[2] = {0x80808030, 0x70707020}
 
 NJS_POINT3COL rain_streak_line_list = {rain_streak_points, rain_streak_colors, NULL, 2};
 
-extern "C" {
-void draw_line_list(NJS_POINT3COL *, s32, s32);
-}
 
 void TObjRain::draw_streaks() {
     Drop *drop;

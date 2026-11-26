@@ -16,6 +16,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include <stdlib.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
@@ -26,10 +27,6 @@ const char *TObjEneMe1Canadin_EffLineFade::class_name = "TObjEneMe1Canadin_EffLi
 const char *TObjEneMe1Canadin_EffLine::name = "TObjEneMe1Canadin_EffLine";
 const char *TObjEneMe1Canadin_EffDischarge::name = "TObjEneMe1Canadin_EffDischarge";
 const char *TObjEneMe1Canadin_EffLight::name = "TObjEneMe1Canadin_EffLight";
-
-extern "C" {
-void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
-}
 
 TObjEneMe1Canadin_EffLineFade::TObjEneMe1Canadin_EffLineFade(TObject *parent, Vec *from, Vec *to) : TObject(parent) {
     m_name = TObjEneMe1Canadin_EffLineFade::class_name;
@@ -55,11 +52,11 @@ void TObjEneMe1Canadin_EffLineFade::run_task() {
 }
 
 void TObjEneMe1Canadin_EffLineFade::render() {
-    VoloptLineList lines;
-    lines.points = points;
-    lines.colors = &colors[0].c;
-    lines.pad_8 = 0;
-    lines.pad_c = 2;
+    NJS_POINT3COL lines;
+    lines.p = points;
+    lines.col = &colors[0].rgba;
+    lines.tex = NULL;
+    lines.num = 2;
     set_additive_blend();
     draw_line_list(&lines, 1, 5);
 }
@@ -91,11 +88,11 @@ void TObjEneMe1Canadin_EffLine::run_task() {
 }
 
 void TObjEneMe1Canadin_EffLine::render() {
-    VoloptLineList lines;
-    lines.points = &start;
-    lines.colors = (VoloptLineColor *)&start_color;
-    lines.pad_8 = 0;
-    lines.pad_c = 2;
+    NJS_POINT3COL lines;
+    lines.p = &start;
+    lines.col = &start_color;
+    lines.tex = NULL;
+    lines.num = 2;
     set_additive_blend();
     draw_line_list(&lines, 1, 5);
 }

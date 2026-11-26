@@ -25,9 +25,8 @@ struct Ctrl_801E352C {
     u32 *data;
 };
 
-struct DrawTransformedPrimitiveLines {
-    Vec *positions;
-    u32 *colors;
-};
+// Draws `count` lines through the camera view, each a pair of lines->p points with their lines->col ARGB
+// words. Flags: 4 blends, 0x10 joins the points into one strip.
+void draw_line_list(NJS_POINT3COL *lines, s32 count, u32 flags);
 
 #endif

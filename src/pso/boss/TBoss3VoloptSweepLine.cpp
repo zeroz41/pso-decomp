@@ -5,6 +5,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixStack.h"
@@ -14,19 +15,15 @@
 #include <stdlib.h>
 #include "pso/render/DebugFont.h"
 
-extern "C" {
-void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
-}
-
-__declspec(section ".data") static VoloptLineColor volopt_sweep_line_colors[2] = {
-    {0x80, 0xFF, 0x40, 0x40},
-    {0x80, 0xFF, 0x40, 0x40},
+__declspec(section ".data") static NJS_COLOR volopt_sweep_line_colors[2] = {
+    {0x80FF4040},
+    {0x80FF4040},
 };
 
 static Vec volopt_sweep_line_points[2];
 
-static VoloptLineList volopt_sweep_line = {
-    volopt_sweep_line_points, volopt_sweep_line_colors, 0, 4,
+static NJS_POINT3COL volopt_sweep_line = {
+    volopt_sweep_line_points, &volopt_sweep_line_colors[0].color, NULL, 4,
 };
 
 void TBoss3VoloptSweepLine::render() {
@@ -34,8 +31,8 @@ void TBoss3VoloptSweepLine::render() {
     s32 alpha;
     if (lifetime < 10) {
         alpha = (lifetime << 7) / 10;
-        volopt_sweep_line_colors[0].a = alpha;
-        volopt_sweep_line_colors[0].a = alpha;
+        volopt_sweep_line_colors[0].argb.b = alpha;
+        volopt_sweep_line_colors[0].argb.b = alpha;
     }
     VecCopy(&volopt_sweep_line_points[0], from);
     end = &volopt_sweep_line_points[1];

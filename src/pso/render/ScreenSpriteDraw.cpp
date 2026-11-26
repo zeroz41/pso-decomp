@@ -153,9 +153,6 @@ void draw_window_vertices(WindowVertex *vertices, s32 count, u32 surface_id, s32
 
 
 
-extern "C" {
-void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags);
-}
 
 
 void draw_color_lines(ColorLineList *l, s32 count, s32 flags, f32 scale) {
@@ -181,7 +178,7 @@ void draw_color_lines(ColorLineList *l, s32 count, s32 flags, f32 scale) {
     TObjEneRe4Sorcerer__sub_801E3F20();
 }
 
-void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags) {
+void draw_line_list(NJS_POINT3COL *l, s32 count, u32 flags) {
     Vec *p;
     u32 *c;
     load_camera_view_matrix();
@@ -196,8 +193,8 @@ void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags) {
     } else {
         GXBegin(GX_LINES, GX_VTXFMT4, count * 2);
     }
-    p = l->positions;
-    c = l->colors;
+    p = l->p;
+    c = l->col;
     while (count > 0) {
         gx_write_f32x3(p->x, p->y, p->z);
         gx_write_u32((*c << 8) | (*c >> 24));

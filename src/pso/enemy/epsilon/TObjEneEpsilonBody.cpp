@@ -15,6 +15,7 @@ struct NJS_OBJECT;
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/render/render_util.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/BmlResource.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
@@ -50,9 +51,6 @@ player_stats *epsilon_body_boss_stat_handle;
 AttackParams *epsilon_body_shared_handler_b;
 ActorParamBlock *epsilon_body_registered_object_handle;
 EpsilonBodySharedParams *epsilon_body_shared_params;
-extern "C" {
-void draw_line_list(VoloptLineList *, s32, u32);
-}
 s32 epsilon_guard_camera_sample_phase;
 s32 *epsilon_guard_angle_sample_write_ptr;
 Vec *epsilon_guard_camera_sample_read_ptr;
@@ -75,8 +73,8 @@ CollisionBody epsilon_body_collision_bodies[2] = {
     {{0.0f, 12.0f, 0.0f}, 12.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 12.0f, 0.0f}, 20.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-VoloptLineColor epsilon_body_debug_line_colors[2] = {{0x80, 0xFF, 0x40, 0x40}, {0x80, 0xFF, 0x40, 0x40}};
-VoloptLineList epsilon_guard_debug_line_list = {epsilon_body_debug_line_points, epsilon_body_debug_line_colors, 0, 4};
+NJS_COLOR epsilon_body_debug_line_colors[2] = {{0x80FF4040}, {0x80FF4040}};
+NJS_POINT3COL epsilon_guard_debug_line_list = {epsilon_body_debug_line_points, &epsilon_body_debug_line_colors[0].color, NULL, 4};
 
 const BreakUpParamRow epsilon_guard_destroy_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 // Body colour per color_index, copied into the guard parts.

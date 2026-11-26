@@ -12,7 +12,7 @@ extern NJS_TEXANIM creation_sprite_cells_other_language[49];  // other-language 
 extern const char *ccconsole_pvm_file_name_table[2];
 
 // The ruler lines (16 point pairs) and quad drawn by draw_creation_ruler_lines.
-extern const NJS_POINT3 creation_ruler_line_vertices[32];
+extern NJS_POINT3 creation_ruler_line_vertices[32];
 extern NJS_POINT3 creation_ruler_line_verts[4];
 extern u32 creation_ruler_line_colors[4];
 extern NJS_POINT3COL creation_ruler_line_desc;

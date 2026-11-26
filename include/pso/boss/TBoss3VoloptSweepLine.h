@@ -9,14 +9,6 @@ struct VoloptLineColor {
     u8 r, g, b, a;
 };
 
-// What draw_line_list draws: pairs of points and their colors.
-struct VoloptLineList {
-    Vec *points;
-    VoloptLineColor *colors;
-    s32 pad_8;
-    s32 pad_c;
-};
-
 // A line Vol Opt draws from one point towards another; it sweeps sideways
 // (rotation_y += sweep_speed) until its lifetime runs out.
 class TBoss3VoloptSweepLine : public TObject {
