@@ -78,18 +78,18 @@ saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
 
 void TItemWeaponDrillLauncher::emit_marker_effects() {
     Vec gun_point;
-    saddr burst_slot;
+    PlayerAttackController *attack_state;
     s32 burst_added;
     if (projectile_visible == 1) {
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)drill_launcher_return_timer, 0x1E);
         projectile_visible = 0;
     }
     recoil_phase = 2;
-    burst_slot = (saddr)owner + 0x7CC;
-    if (get_burst_counter((void*)burst_slot) == 0) {
+    attack_state = &owner->attack_state;
+    if (get_burst_counter(attack_state) == 0) {
         burst_added = 0;
         do {
-            increment_burst_counter((u8 *)burst_slot);
+            increment_burst_counter((u8 *)attack_state);
             burst_added += 1;
         } while (burst_added != 2);
     }

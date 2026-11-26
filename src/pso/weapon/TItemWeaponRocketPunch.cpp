@@ -91,15 +91,15 @@ uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
 }
 
 void TItemWeaponRocketPunch::emit_marker_effects() {
-    saddr burst_counter;
+    PlayerAttackController *attack_state;
     s32 burst_count;
     TObjPlayer *player = owner;
     if (player == NULL) return;
-    burst_counter = (saddr)player + 0x7CC;
-    if (get_burst_counter((void *)burst_counter) == 0) {
+    attack_state = &player->attack_state;
+    if (get_burst_counter(attack_state) == 0) {
         burst_count = 0;
         do {
-            increment_burst_counter((u8 *)burst_counter);
+            increment_burst_counter((u8 *)attack_state);
             burst_count += 1;
         } while (burst_count != 2);
         punch_flags.set(2);
