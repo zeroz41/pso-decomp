@@ -71,7 +71,11 @@ void __sinit_TNpcPlayer_cpp();
 
 disp_data_part2 npc_player_visual_record;
 u32 npc_player_ply_char_data_global[3];
-u32 npc_player_char_data[263];
+#pragma push
+#pragma suppress_init_code on
+#pragma no_static_dtors on
+TPlyCharData npc_player_char_data;
+#pragma pop
 disp_data_part2 quest_npc_visual_record;
 
 // Attack techniques by tier (Foie, Barta, Zonde); the second column is used when the
@@ -1009,7 +1013,7 @@ void PartnerCounters::reset(s32 index) { count[index] = 0; }
 void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
 void __sinit_TNpcPlayer_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(npc_player_char_data), __dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
+    __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
 }
 
 void TNpcPlayer::ensure_rock_singleton() {
@@ -1049,23 +1053,23 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 index) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], lvl, &npc_player_char_data);
         break;
     case 1:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], lvl, &npc_player_char_data);
         break;
     case 2:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], lvl, &npc_player_char_data);
         break;
     case 3:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], lvl, &npc_player_char_data);
         break;
     default:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], lvl, &npc_player_char_data);
         break;
     }
-    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(npc_player_char_data)->m_disp_part2, &npc_player_visual_record);
-    return reinterpret_cast<TPlyCharData *>(npc_player_char_data);
+    copy_player_visual_record(&npc_player_char_data.m_disp_part2, &npc_player_visual_record);
+    return &npc_player_char_data;
 }
 
 TPlyCharData *load_npc_player_template(s32 index) {
@@ -1104,23 +1108,23 @@ TPlyCharData *load_npc_player_template(s32 index) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], lvl, &npc_player_char_data);
         break;
     case 1:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], lvl, &npc_player_char_data);
         break;
     case 2:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], lvl, &npc_player_char_data);
         break;
     case 3:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], lvl, &npc_player_char_data);
         break;
     default:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], lvl, &npc_player_char_data);
         break;
     }
-    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(npc_player_char_data)->m_disp_part2, &npc_player_visual_record);
-    return reinterpret_cast<TPlyCharData *>(npc_player_char_data);
+    copy_player_visual_record(&npc_player_char_data.m_disp_part2, &npc_player_visual_record);
+    return &npc_player_char_data;
 }
 
 TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, TObject *parent) : TObject(parent) {

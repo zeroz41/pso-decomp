@@ -120,7 +120,7 @@ s32 get_run_action__10TObjPlayerFv(void *);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 u8 get_cast_technique_level(void *techs, s16 tech);
 }
-int is_android_player(void* p);
+int is_android_player(TObjPlayer *p);
 void remove_photon_blast_participant(s32 id);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
 extern "C" {
@@ -4587,7 +4587,7 @@ void update_player_action_palette(TObjPlayer *player, u8 slot) {
 }
 }
 
-int is_android_player(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
+int is_android_player(TObjPlayer *p) { return (p->class_flags & CLASS_FLAG_ANDROID) != 0; }
 
 
 void PhotonChairSeat::set_move_angle(s32 v) { move_angle = v; }

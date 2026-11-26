@@ -75,7 +75,7 @@ char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
 
 
 TPlayerBattleCtrl *battle_mode_data_ptr;
-s32 lbl_805D5D9C;
+s32 battle_frame_rate;
 s32 battle_config_ptr;
 s32 lbl_805D5DA4;
 s32 lbl_805D5DA8;
@@ -762,7 +762,7 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
 
 void init_char_slots(void) {
     battle_mode_data_ptr = 0;
-    lbl_805D5D9C = get_video_standard() == 1 ? 0x19 : 0x1E;
+    battle_frame_rate = get_video_standard() == 1 ? 0x19 : 0x1E;
     lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     TBattleProximitySound::clear_battle_proximity_sound();
     clear_battle_player_ready_flags();

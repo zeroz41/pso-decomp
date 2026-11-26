@@ -60,7 +60,7 @@ u32 dhcp_work_buffer[368];
 char lobby_dns_domain[0x100];
 AccountEntry lobby_account_entries[3];
 NetworkConfig network_config;
-__declspec(section ".data") s32 lbl_8050CE0C[2];
+__declspec(section ".data") s32 lobby_network_info_loaded[2];
 char modem_user_name[0x20];
 char account_user_copy[0x20];
 u8 lbl_8050CE54[0x114];
@@ -473,9 +473,9 @@ void load_network_configs() {
     LanConfigRecord info;
 
     if (is_network_info_loaded() == 1) {
-        lbl_8050CE0C[1] = 1;
+        lobby_network_info_loaded[1] = 1;
     } else {
-        lbl_8050CE0C[1] = 0;
+        lobby_network_info_loaded[1] = 0;
     }
     if (init_work(1, (u8 *)&w) == 0) {
         strncpy(lobby_account_entries[0].host, w.host, 0x7F);
@@ -630,7 +630,7 @@ s32 connect_modem(s32 idx, s16 id) {
     if (lobby_account_entries[2].valid == 0) {
         return 1;
     }
-    if (lbl_8050CE0C[1] == 0) {
+    if (lobby_network_info_loaded[1] == 0) {
         return 1;
     }
     if (lobby_account_entries[2].phone[idx].number[0] == 0) {

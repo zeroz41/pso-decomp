@@ -116,12 +116,12 @@ void TItemWeapon::draw_weapon_model() {
     }
 }
 
-void draw_weapon_at_joint(saddr weapon, s8 joint) {
+void draw_weapon_at_joint(TItemWeapon *weapon, s8 joint) {
     s8 saved_joint;
-    saved_joint = (s32)((TItemEquipBase *)weapon)->get_attach_joint();
-    ((TItemEquipBase *)weapon)->set_attach_joint(joint);
-    ((TItemWeapon *)weapon)->draw_weapon_model();
-    ((TItemEquipBase *)weapon)->set_attach_joint(saved_joint);
+    saved_joint = (s32)weapon->get_attach_joint();
+    weapon->set_attach_joint(joint);
+    weapon->draw_weapon_model();
+    weapon->set_attach_joint(saved_joint);
 }
 // ---- pso/unk/text_80120C5C
 void TItemWeapon::release_model() { memset(trails, 0, 16); clear_weapon_flags((uaddr)((void*)12)); TItemEquipBase::release_model(); }

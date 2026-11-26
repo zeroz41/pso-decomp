@@ -100,10 +100,10 @@ s32 knuckle_marker_joint_table[18] = {
 
 
 void TItemWeaponFist::draw_held_model() {
-    saddr weapon = (saddr)this;
+    TItemWeapon *weapon = this;
     if (get_item_index() == 3) {
         knuckle_second_hand_pass = 0;
-        ((TItemWeapon *)weapon)->draw_weapon_model();
+        weapon->draw_weapon_model();
         knuckle_second_hand_pass = 1;
         draw_weapon_at_joint(weapon, 0x23);
     }

@@ -69,8 +69,8 @@ char *gsl_archive_path_buffer_ptr = (char *)gsl_archive_entries;
 saddr gstream_tmp_buffer;
 AdxfHandle *gsl_adxf_handle;
 s32 gsl_entry_count;
-s32 TItemDrop__data_805D53CC;
-s32 TItemDrop__data_805D53D0;
+s32 gsl_archive_write_mode;
+s32 gsl_archive_write_started;
 s32 gstream_read_offset;
 s32 gstream_buffer_read_offset;
 s32 gstream_buffer_valid_size;
@@ -221,7 +221,7 @@ GslArchiveEntry *find_gsl_entry(const char *name, s32 unused) {
 void close_gsl_archive(void) {
     char buf[32];
     s32 n;
-    if (TItemDrop__data_805D53CC == 0) {
+    if (gsl_archive_write_mode == 0) {
         ADXF_Close(gsl_adxf_handle);
         gsl_adxf_handle = 0;
     } else {
@@ -230,8 +230,8 @@ void close_gsl_archive(void) {
             TLobby::change_file_extension(buf, gsl_archive_filename, (char *)"txt");
             fn_800F93B4(buf, gsl_archive_entries, n);
         }
-        TItemDrop__data_805D53D0 = 0;
-        TItemDrop__data_805D53CC = 0;
+        gsl_archive_write_started = 0;
+        gsl_archive_write_mode = 0;
     }
 }
 
@@ -239,7 +239,7 @@ void open_gsl_archive(char *name) {
     GslArchiveEntry *e;
     s32 i;
     strncpy(gsl_archive_filename, name, 0x20);
-    if (TItemDrop__data_805D53CC == 0) {
+    if (gsl_archive_write_mode == 0) {
         gsl_adxf_handle = ADXF_Open(name, 0);
         if (gsl_adxf_handle != 0) {
             TGStream::reset();
@@ -263,7 +263,7 @@ void open_gsl_archive(char *name) {
         }
     } else {
         gsl_entry_count = 0;
-        TItemDrop__data_805D53D0 = 1;
+        gsl_archive_write_started = 1;
         *gsl_archive_path_buffer_ptr = 0;
     }
 }
@@ -383,8 +383,8 @@ void reset_gstream_globals(void) {
     gstream_tmp_buffer = 0;
     gsl_adxf_handle = 0;
     gsl_archive_filename[0] = 0;
-    TItemDrop__data_805D53CC = 0;
-    TItemDrop__data_805D53D0 = 0;
+    gsl_archive_write_mode = 0;
+    gsl_archive_write_started = 0;
     gsl_entry_count = 0;
 }
 GslArchiveEntry gsl_archive_entries[256];

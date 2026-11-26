@@ -13,7 +13,7 @@ void TItemWeaponYasminkov9000M::draw_held_model() {
     draw_weapon_model();
     get_joint_position(3, &muzzles[0]);
     get_joint_position(1, &ejectors[0]);
-    draw_weapon_at_joint((saddr)this, 35);
+    draw_weapon_at_joint(this, 35);
     get_joint_position(3, &muzzles[1]);
     get_joint_position(1, &ejectors[1]);
 }
