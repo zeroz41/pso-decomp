@@ -37,7 +37,17 @@ s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags);
 s32 get_item_star_count(s32 id);
 u8 get_weapon_class_motion_type(u8 group);
 u8 roll_weapon_special_for_stars(u8 stars);
-saddr get_item_stat_boost_record(s32 item_type, s32 group, s32 index);
+// A weapon's or armor's stat boost (ItemPmt::stat_boosts): the stat it
+// changes (1 ATP, 2 ATA, 3 EVP, 4 DFP, 5 MST, 6 HP, 7 LCK, 8 all of them,
+// 9-16 the same taken away) and by how much.
+struct ItemStatBoost {
+    u8 stat;
+    u8 pad_1;
+    s16 amount;
+    u8 pad_4[2];
+};
+
+ItemStatBoost *get_item_stat_boost_record(s32 item_type, s32 group, s32 index);
 saddr get_mag_feed_result(s32 feed_table, s32 food_id);
 u8 get_technique_learn_limit(u8 char_class, u8 technique);
 void get_weapon_special_type_amount(u8 x, s16 *a, s16 *b);
@@ -185,7 +195,7 @@ struct ItemPmt {
     u8 *star_counts;                    // from item id 0x94
     WeaponSpecialParam *weapon_specials;
     WeaponSoundSet *weapon_sounds;      // per weapon group
-    u8 *stat_boosts;                    // 6-byte records
+    ItemStatBoost *stat_boosts;
     ItemSoundCue *shield_sounds;        // per shield index
     u8 (*technique_limits)[12];         // per technique, per character class
     ItemCombinationList *combinations;

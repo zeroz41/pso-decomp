@@ -2,6 +2,7 @@
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/MagStats.h"
+#include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 
 extern u8 *text_language_group_table;
@@ -9,39 +10,39 @@ extern "C" {
 s32 get_class_index__10TObjPlayerFv(void *);
 }
 
-void add_elt_resist(void *res, s32 amount) {
-    *(s16 *)((s8 *)res + 8) = (s16) (*(s16 *)((s8 *)res + 8) + amount);
+void ActorParamBlock::add_elt(s32 amount) {
+    values[4] = values[4] + amount;
 }
 
-void TItemData::add_quantity(s32 amount) {
-    *(s16 *)((s8 *)this + 0xA) = (s16) (*(s16 *)((s8 *)this + 0xA) + amount);
+void ActorParamBlock::add_edk(s32 amount) {
+    values[5] = values[5] + amount;
 }
 
-void add_eth_resist(void *res, s32 amount) {
-    *(s16 *)((s8 *)res + 6) = (s16) (*(s16 *)((s8 *)res + 6) + amount);
+void ActorParamBlock::add_eth(s32 amount) {
+    values[3] = values[3] + amount;
 }
 
-void TItemData__sub_8010EDD8(void *res, s32 amount) {
-    *(s16 *)((s8 *)res + 4) = (s16) (*(s16 *)((s8 *)res + 4) + amount);
+void ActorParamBlock::add_eic(s32 amount) {
+    values[2] = values[2] + amount;
 }
 
-void TItemData::adjust_count(s32 amount) {
-    *(s16 *)((s8 *)this + 2) = (s16) (*(s16 *)((s8 *)this + 2) + amount);
+void ActorParamBlock::add_efr(s32 amount) {
+    values[1] = values[1] + amount;
 }
 
-void TItemData::add_stat_ptr(s16 *arg0, s32 amount) {
-    *arg0 += amount;
+void ActorParamBlock::add_evp(s32 amount) {
+    values[0] += amount;
 }
 
-void TItemData::add_bonus(s16 amount) {
-    *(s32 *)((s8 *)this + 0x1C) = (s32) (*(s32 *)((s8 *)this + 0x1C) + amount);
+void ActorParamBlock::add_dfp(s16 amount) {
+    value_1c = value_1c + amount;
 }
 
-void subtract_dfp(void *arg0, s16 arg1) {
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) (*(s32 *)((s8 *)arg0 + 0x1C) - arg1);
+void ActorParamBlock::sub_dfp(s16 amount) {
+    value_1c = value_1c - amount;
 }
-void subtract_stat_ptr(s16 *arg0, s32 arg1) {
-    *arg0 -= arg1;
+void ActorParamBlock::sub_evp(s32 amount) {
+    values[0] -= amount;
 }
 
 s16 MagStats::get_mind_level() {

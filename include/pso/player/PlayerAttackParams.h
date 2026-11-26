@@ -48,6 +48,17 @@ struct ActorParamBlock {
     s32 value_1c;
 
     void swap_endian();
+    // An equipped item's bonus to one value: values[0] EVP, [1] EFR,
+    // [2] EIC, [3] ETH, [4] ELT, [5] EDK, value_1c DFP.
+    void add_evp(s32 amount);
+    void add_efr(s32 amount);
+    void add_eic(s32 amount);
+    void add_eth(s32 amount);
+    void add_elt(s32 amount);
+    void add_edk(s32 amount);
+    void add_dfp(s16 amount);
+    void sub_dfp(s16 amount);
+    void sub_evp(s32 amount);
 };
 
 class TObjChara;

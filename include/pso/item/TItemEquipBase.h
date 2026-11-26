@@ -3,31 +3,12 @@
 
 #include "types.h"
 #include "pso/item/TItem.h"
+#include "pso/item/TItemData.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/PlayerAttackParams.h"
 
 class TItemHeapObject;
 struct TechniqueBoostParam;
-
-// What an equipped item adds to its owner's stats; TItemData::apply_equip_effects
-// fills it and add_equip_stats hands each stat to TObjPlayer::add_<stat>.
-struct EquipStatBonus {
-    s16 atp;
-    s16 mst;
-    s16 evp;
-    s16 hp;
-    s16 dfp;
-    s16 ata;
-    s16 lck;
-    u8 pad_e[0x16];
-};
-
-// What an equipped item adds to its owner's HP and TP maxima
-// (add_actor_hp_bonus / add_actor_tp_bonus).
-struct EquipHpTpBonus {
-    s16 hp;
-    s16 tp;
-};
 
 // effect_flags bits: each equip effect has a "wanted" bit and, one above it,
 // a "started" bit (start_effect / stop_effect); bit 0 records that the
@@ -47,7 +28,7 @@ struct TItemEquipBase : public TItem {
     virtual void unequip();
     virtual void add_equip_stats(s32 apply);
     virtual void remove_equip_stats(s32 apply);
-    virtual void subtract_item_stat_bonus(s32 player, s32 unused, s16 *stats);
+    virtual void subtract_item_stat_bonus(AttackParams *attack, ActorParamBlock *params, s16 *stats);
     virtual void subtract_equip_stats(void *atp, s16 *stats, s16 *stats2);
     virtual void destroy();
     virtual s8 get_attach_slot();

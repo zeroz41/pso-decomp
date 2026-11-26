@@ -40,9 +40,6 @@ struct Parm_8010C1E0;
 struct Item_8010C498;
 struct Item_8010C52C;
 struct Parm_8010C0A4;
-struct Stats2_8010BEC4;
-struct Bonus_8010BA9C;
-struct Stats_8010BA9C;
 struct Tbl_8010C8B4;
 struct Raw_8010D614;
 struct Mag_8010D614;
@@ -68,11 +65,6 @@ extern "C" {
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out);
 u8 get_cast_technique_level(void *, int);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
-f32 calc_clock_bonus__9TItemDataFPv(u8 *item);
-void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
-void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
-void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, void *res, EquipStats *st, Stats2_8010BEC4 *st2);
-void apply_bonuses(u8 *item, s32 player, u8 *a, u8 *b, Stats_8010BA9C *st);
 }
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 
@@ -91,15 +83,9 @@ struct Item_8010C52C { u8 kind; u8 pad1[2]; u8 b3; u8 b4; u8 pad5[0xD]; u8 b12; 
 
 struct Parm_8010C0A4 { u8 pad[8]; s16 x8; s16 xa; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
 
-struct Stats2_8010BEC4 { s16 s0; s16 s2; };
-
 struct Raw_8010D614 { u8 b[4]; u16 s[4]; u32 id; u8 c[4]; };
 
 struct Mag_8010D614 { u16 a0; u16 a2; u16 s[4]; u8 c; u8 d; u8 e; };
-
-struct Bonus_8010BA9C { u8 kind; u8 pad; s16 val; };
-
-struct Stats_8010BA9C { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 x6; u8 pad8[4]; s16 xC; };
 
 struct Tbl_8010C8B4 { s32 w[19]; };
 
@@ -144,7 +130,8 @@ s32 TItemData::get_type_nibble() {
 
 #pragma push
 #pragma opt_common_subs off
-void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32) {
+void TItemData::apply_custom_shield_bonus(saddr player, AttackParams *attack, ActorParamBlock *params,
+                                          EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
     if (data1.data_u8[0] == 1 && data1.data_u8[1] == 2) {
         u8 id = data1.data_u8[2];
         if (id >= 0x53 && id <= 0x82) {
@@ -154,30 +141,30 @@ void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData 
             s16 amount = count * bonus_per_player[kind];
             switch (kind) {
             case 1:
-                b->add_bonus(amount);
+                params->add_dfp(amount);
                 break;
             case 2:
-                TItemData::add_stat_ptr((s16 *)b, amount);
+                params->add_evp(amount);
                 break;
             case 3:
-                stats->sC += amount;
+                stats->lck += amount;
                 break;
             case 4:
-                ((AttackParams *)a)->add_ata(amount);
+                attack->add_ata(amount);
                 break;
             case 5:
-                ((AttackParams *)a)->add_atp_min(amount);
-                ((AttackParams *)a)->add_atp_max(amount);
+                attack->add_atp_min(amount);
+                attack->add_atp_max(amount);
                 break;
             case 6:
-                stats->s2 += amount;
+                stats->mst += amount;
                 break;
             case 7:
-                b->adjust_count(amount);
-                TItemData__sub_8010EDD8(b, amount);
-                add_eth_resist(b, amount);
-                b->add_quantity(amount);
-                add_elt_resist(b, amount);
+                params->add_efr(amount);
+                params->add_eic(amount);
+                params->add_eth(amount);
+                params->add_edk(amount);
+                params->add_elt(amount);
                 break;
             }
         }
@@ -185,161 +172,164 @@ void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData 
 }
 #pragma pop
 
-void apply_bonuses(u8 *item, s32 player, u8 *a, u8 *b, Stats_8010BA9C *st) {
-    Bonus_8010BA9C *bn;
-    u8 t = item[0];
-    switch (t) {
+void TItemData::apply_bonuses(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                              EquipHpTpBonus *hp_tp) {
+    ItemStatBoost *boost;
+    u8 type = data1.data_u8[0];
+    switch (type) {
     case 0:
     case 1:
-        bn = (Bonus_8010BA9C *)get_item_stat_boost_record(t, item[1], item[2]);
-        if (bn != NULL && a != NULL && b != NULL && st != NULL)
-        switch (bn->kind) {
+        boost = get_item_stat_boost_record(type, data1.data_u8[1], data1.data_u8[2]);
+        if (boost != NULL && attack != NULL && params != NULL && stats != NULL)
+        switch (boost->stat) {
         case 1:
-            ((AttackParams *)a)->add_atp_min(bn->val);
-            ((AttackParams *)a)->add_atp_max(bn->val);
+            attack->add_atp_min(boost->amount);
+            attack->add_atp_max(boost->amount);
             break;
         case 2:
-            ((AttackParams *)a)->add_ata((s16)(bn->val * 10));
+            attack->add_ata((s16)(boost->amount * 10));
             break;
         case 3:
-            TItemData::add_stat_ptr((s16 *)b, bn->val);
+            params->add_evp(boost->amount);
             break;
         case 4:
-            ((TItemData *)b)->add_bonus(bn->val);
+            params->add_dfp(boost->amount);
             break;
         case 5:
-            st->x2 += bn->val;
+            stats->mst += boost->amount;
             break;
         case 6:
-            st->x6 += bn->val;
+            stats->hp += boost->amount;
             break;
         case 7:
-            st->xC += bn->val;
+            stats->lck += boost->amount;
             break;
         case 8:
-            ((AttackParams *)a)->add_atp_min(bn->val);
-            ((AttackParams *)a)->add_atp_max(bn->val);
-            ((AttackParams *)a)->add_ata((s16)(bn->val * 10));
-            TItemData::add_stat_ptr((s16 *)b, bn->val);
-            ((TItemData *)b)->add_bonus(bn->val);
-            st->x2 += bn->val;
-            st->xC += bn->val;
+            attack->add_atp_min(boost->amount);
+            attack->add_atp_max(boost->amount);
+            attack->add_ata((s16)(boost->amount * 10));
+            params->add_evp(boost->amount);
+            params->add_dfp(boost->amount);
+            stats->mst += boost->amount;
+            stats->lck += boost->amount;
             break;
         case 9:
-            ((AttackParams *)a)->sub_atp_min(bn->val);
-            ((AttackParams *)a)->sub_atp_max(bn->val);
+            attack->sub_atp_min(boost->amount);
+            attack->sub_atp_max(boost->amount);
             break;
         case 10:
-            ((AttackParams *)a)->sub_ata((s16)(bn->val * 10));
+            attack->sub_ata((s16)(boost->amount * 10));
             break;
         case 11:
-            subtract_stat_ptr((s16 *)b, bn->val);
+            params->sub_evp(boost->amount);
             break;
         case 12:
-            subtract_dfp(b, bn->val);
+            params->sub_dfp(boost->amount);
             break;
         case 13:
-            st->x2 -= bn->val;
+            stats->mst -= boost->amount;
             break;
         case 14:
-            st->x6 -= bn->val;
+            stats->hp -= boost->amount;
             break;
         case 15:
-            st->xC -= bn->val;
+            stats->lck -= boost->amount;
             break;
         case 16:
-            ((AttackParams *)a)->sub_atp_min(bn->val);
-            ((AttackParams *)a)->sub_atp_max(bn->val);
-            ((AttackParams *)a)->sub_ata((s16)(bn->val * 10));
-            subtract_stat_ptr((s16 *)b, bn->val);
-            subtract_dfp(b, bn->val);
-            st->x2 -= bn->val;
-            st->xC -= bn->val;
+            attack->sub_atp_min(boost->amount);
+            attack->sub_atp_max(boost->amount);
+            attack->sub_ata((s16)(boost->amount * 10));
+            params->sub_evp(boost->amount);
+            params->sub_dfp(boost->amount);
+            stats->mst -= boost->amount;
+            stats->lck -= boost->amount;
             break;
         }
         break;
     }
 }
 
-void TItemData::add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5) {
+void TItemData::add_mag_stat_bonuses(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                                     EquipHpTpBonus *hp_tp) {
     Mag_8010D614 mag;
 
     ((MagStats *)&mag)->init();
     TItemData::deserialize_mag((Raw_8010D614 *)((u8 *)this), &mag);
-    if (st != NULL && st != NULL) {
-        st->s0 += (s16)(mag_stat_bonus_scale[0] * (f32)((MagStats *)&mag)->get_pow_level());
-        st->sA += (s16)(mag_stat_bonus_scale[1] * (f32)(((MagStats *)&mag)->get_dex_level() * 10));
-        st->s8 += (s16)(mag_stat_bonus_scale[2] * (f32)((MagStats *)&mag)->get_def_level());
-        st->s2 += (s16)(mag_stat_bonus_scale[3] * (f32)((MagStats *)&mag)->get_mind_level());
+    if (stats != NULL && stats != NULL) {
+        stats->atp += (s16)(mag_stat_bonus_scale[0] * (f32)((MagStats *)&mag)->get_pow_level());
+        stats->ata += (s16)(mag_stat_bonus_scale[1] * (f32)(((MagStats *)&mag)->get_dex_level() * 10));
+        stats->dfp += (s16)(mag_stat_bonus_scale[2] * (f32)((MagStats *)&mag)->get_def_level());
+        stats->mst += (s16)(mag_stat_bonus_scale[3] * (f32)((MagStats *)&mag)->get_mind_level());
     }
 }
 
-void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, void *res, EquipStats *st, Stats2_8010BEC4 *st2) {
+void TItemData::apply_unit_stat_bonus(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                                      EquipHpTpBonus *hp_tp) {
     Parm_8010C1E0 *parm;
     s32 kind;
     s16 amount;
-    parm = lookup_item_pmt_record(self);
-    if (parm != NULL && st != NULL && res != NULL) {
+    parm = lookup_item_pmt_record(data1.data_u8);
+    if (parm != NULL && stats != NULL && params != NULL) {
     kind = parm->dfp;
-    amount = parm->evp + TItemData::get_field6_bswap(self);
+    amount = parm->evp + get_field6_bswap(data1.data_u8);
     switch (kind) {
     case 0:
-        st->s0 += amount;
+        stats->atp += amount;
         break;
     case 1:
-        st->s2 += amount;
+        stats->mst += amount;
         break;
     case 2:
-        st->sA += amount * 10;
+        stats->ata += amount * 10;
         break;
     case 3:
-        st->s4 += amount;
+        stats->evp += amount;
         break;
     case 4:
-        if (st2 != NULL) {
-            st2->s0 += amount;
+        if (hp_tp != NULL) {
+            hp_tp->hp += amount;
         }
         break;
     case 5:
-        if (st2 != NULL) {
-            st2->s2 += amount;
+        if (hp_tp != NULL) {
+            hp_tp->tp += amount;
         }
         break;
     case 6:
-        st->s8 += amount;
+        stats->dfp += amount;
         break;
     case 7:
-        st->sC += amount;
+        stats->lck += amount;
         break;
     case 8:
-        st->s0 += amount;
-        st->s2 += amount;
-        st->sA += amount;
-        st->s4 += amount;
-        st->s8 += amount;
-        st->sC += amount;
+        stats->atp += amount;
+        stats->mst += amount;
+        stats->ata += amount;
+        stats->evp += amount;
+        stats->dfp += amount;
+        stats->lck += amount;
         break;
     case 9:
-        ((TItemData *)res)->adjust_count(amount);
+        params->add_efr(amount);
         break;
     case 10:
-        TItemData__sub_8010EDD8(res, amount);
+        params->add_eic(amount);
         break;
     case 11:
-        add_eth_resist(res, amount);
+        params->add_eth(amount);
         break;
     case 12:
-        add_elt_resist(res, amount);
+        params->add_elt(amount);
         break;
     case 13:
-        ((TItemData *)res)->add_quantity(amount);
+        params->add_edk(amount);
         break;
     case 14:
-        ((TItemData *)res)->adjust_count(amount);
-        TItemData__sub_8010EDD8(res, amount);
-        add_eth_resist(res, amount);
-        add_elt_resist(res, amount);
-        ((TItemData *)res)->add_quantity(amount);
+        params->add_efr(amount);
+        params->add_eic(amount);
+        params->add_eth(amount);
+        params->add_elt(amount);
+        params->add_edk(amount);
         break;
     }
     }
@@ -347,24 +337,25 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 un
 
 #pragma push
 #pragma fp_contract on
-void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out) {
+void TItemData::add_shield_stat_contribution(s32 player, AttackParams *attack, ActorParamBlock *params,
+                                             EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
     s32 b06;
     Parm_8010C0A4 *parm;
-    f32 mult = ((TItemData *)self)->get_set_bonus_multiplier(player);
-    f32 add = ((f32 (*)(u8 *, s32))calc_clock_bonus__9TItemDataFPv)(self, player);
-    parm = ((Parm_8010C0A4 *)lookup_item_pmt_record(self));
+    f32 mult = get_set_bonus_multiplier(player);
+    f32 add = calc_clock_bonus(player);
+    parm = (Parm_8010C0A4 *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
-        b06 = ((s32 (*)(void *))TItemData::getS16_06)(self);
-        s32 b08 = ((s32 (*)(void *))TItemData::get_bswap16_field8)(self);
+        b06 = ((s32 (*)(void *))TItemData::getS16_06)(this);
+        s32 b08 = ((s32 (*)(void *))TItemData::get_bswap16_field8)(this);
         s32 v = (s32)(parm->xa * mult + add);
-        if (out != 0) {
-            TItemData::add_stat_ptr(out, (s16)(v + b08));
-            ((TItemData *)out)->add_bonus(parm->x8 + b06);
-            ((TItemData *)out)->adjust_count(parm->x11);
-            TItemData__sub_8010EDD8(out, parm->x13);
-            add_eth_resist(out, parm->x12);
-            add_elt_resist(out, parm->x15);
-            ((TItemData *)out)->add_quantity(parm->x14);
+        if (params != 0) {
+            params->add_evp((s16)(v + b08));
+            params->add_dfp(parm->x8 + b06);
+            params->add_efr(parm->x11);
+            params->add_eic(parm->x13);
+            params->add_eth(parm->x12);
+            params->add_elt(parm->x15);
+            params->add_edk(parm->x14);
         }
     }
 }
@@ -372,24 +363,25 @@ void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 u
 
 #pragma push
 #pragma fp_contract on
-void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out) {
+void TItemData::add_armor_stat_contribution(s32 player, AttackParams *attack, ActorParamBlock *params,
+                                            EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
     s32 dfpBonus;
     Parm_8010C1E0 *parm;
-    f32 mult = ((TItemData *)self)->get_set_bonus_multiplier(player);
-    f32 add = ((f32 (*)(u8 *, s32))calc_clock_bonus__9TItemDataFPv)(self, player);
-    parm = lookup_item_pmt_record(self);
+    f32 mult = get_set_bonus_multiplier(player);
+    f32 add = calc_clock_bonus(player);
+    parm = lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
-        dfpBonus = ((s32 (*)(void *))TItemData::getS16_06)(self);
-        s16 evpBonus = TItemData::get_bswap16_field8(self);
+        dfpBonus = ((s32 (*)(void *))TItemData::getS16_06)(this);
+        s16 evpBonus = get_bswap16_field8(data1.data_u8);
         s32 dfp = (s32)(parm->dfp * mult + add);
-        if (out != 0) {
-            TItemData::add_stat_ptr(out, (s16)(parm->evp + evpBonus));
-            ((TItemData *)out)->add_bonus(dfp + dfpBonus);
-            ((TItemData *)out)->adjust_count(parm->x11);
-            TItemData__sub_8010EDD8(out, parm->x13);
-            add_eth_resist(out, parm->x12);
-            add_elt_resist(out, parm->x15);
-            ((TItemData *)out)->add_quantity(parm->x14);
+        if (params != 0) {
+            params->add_evp((s16)(parm->evp + evpBonus));
+            params->add_dfp(dfp + dfpBonus);
+            params->add_efr(parm->x11);
+            params->add_eic(parm->x13);
+            params->add_eth(parm->x12);
+            params->add_elt(parm->x15);
+            params->add_edk(parm->x14);
         }
     }
 }
@@ -399,34 +391,35 @@ void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 un
 #pragma fp_contract on
 typedef struct Parm_8010C1E0 Parm_8010C1E0;
 typedef struct Parm_8010C320 Parm_8010C320;
-void TItemData::add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5) {
+void TItemData::add_weapon_stat_bonuses(s32 player, AttackParams *attack, ActorParamBlock *params,
+                                        EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
   s16 hi;
   s32 i;
   Parm_8010C320 *parm;
   f32 mult = get_set_bonus_multiplier(player);
-  f32 add = ((f32 (*)(u8 *, s32)) calc_clock_bonus__9TItemDataFPv)(((u8 *)this), player);
+  f32 add = calc_clock_bonus(player);
   parm = (Parm_8010C320 *) ((Parm_8010C1E0 *)lookup_item_pmt_record(this));
   if (parm != 0)
   {
-    if (out != 0)
+    if (attack != 0)
     {
       s16 grind = ((u8) (hi = ((s8 *) ((u8 *)this))[3])) * 2;
       s16 lo = (mult * ((f32) (parm->atp_min + grind))) + add;
       hi = (mult * ((f32) (parm->atp_max + grind))) + add;
-      ((AttackParams *)out)->add_atp_min(lo);
-      ((AttackParams *)out)->add_atp_max(hi);
-      ((AttackParams *)out)->add_ata((s16) (parm->x19 * 10));
+      attack->add_atp_min(lo);
+      attack->add_atp_max(hi);
+      attack->add_ata((s16) (parm->x19 * 10));
       for (i = 0; i != 3; i++)
       {
         if (((u8 *)this)[6 + (i * 2)] == 5)
         {
-          ((AttackParams *)out)->add_ata((s16) (((s8) ((u8 *)this)[7 + (i * 2)]) * 10));
+          attack->add_ata((s16) (((s8) ((u8 *)this)[7 + (i * 2)]) * 10));
         }
       }
     }
-    if (out2 != 0)
+    if (stats != 0)
     {
-      out2[1] += parm->x14;
+      stats->mst += parm->x14;
     }
   }
 }
@@ -468,9 +461,9 @@ s32 TItemData::is_wrapped(void *data) {
     }
 }
 
-f32 calc_clock_bonus__9TItemDataFPv(u8 *item) {
+f32 TItemData::calc_clock_bonus(s32 player) {
     f32 bonus = 0.0f;
-    switch (item[1]) {
+    switch (data1.data_u8[1]) {
     case 0x94:
         bonus = (f32) (TLobby::get_internet_beat() / 4);
         break;
@@ -716,11 +709,6 @@ s32 TItemData::get_max_stack_size() {
 
 
 
-#define calc_clock_bonus__9TItemDataFPv ((s32 (*)(void *, s32))calc_clock_bonus__9TItemDataFPv)
-#define add_armor_stat_contribution__9TItemDataFPviiPv ((s32 (*)(void *, s32, s32, s32, s32, s32))add_armor_stat_contribution__9TItemDataFPviiPv)
-#define add_shield_stat_contribution__9TItemDataFPviiPv ((s32 (*)(void *, s32, s32, s32, s32, s32))add_shield_stat_contribution__9TItemDataFPviiPv)
-#define apply_unit_stat_bonus__9TItemDataFPviiPvPvPv ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_unit_stat_bonus__9TItemDataFPviiPvPvPv)
-#define apply_bonuses ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_bonuses)
 
 struct Pair_8010E344 { u8 a; u8 b; };
 
@@ -1332,34 +1320,35 @@ f32 TItemData::get_set_bonus_multiplier(saddr player) {
     return 1.0f;
 }
 
-void TItemData::apply_equip_effects(s32 owner, saddr attack_bonus, saddr param_bonus, saddr stat_bonus, s32 hp_tp_bonus) {
+void TItemData::apply_equip_effects(s32 owner, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                                    EquipHpTpBonus *hp_tp) {
 
     if ((owner != 0) || (owner = (saddr)get_player_by_client_id(local_client_id), ((owner == 0) == 0))) {
         get_set_bonus_multiplier(owner);
-        calc_clock_bonus__9TItemDataFPv(this, owner);
+        calc_clock_bonus(owner);
         switch ((s32) (this->data1.data_u8[0])) {
         case 0:
-            add_weapon_stat_bonuses(owner, (s16 *)attack_bonus, (s32)param_bonus, (s16 *)stat_bonus, hp_tp_bonus);
+            add_weapon_stat_bonuses(owner, attack, params, stats, hp_tp);
             break;
         case 1:
             switch ((s32) (this->data1.data_u8[1])) {
             case 1:
-                add_armor_stat_contribution__9TItemDataFPviiPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
+                add_armor_stat_contribution(owner, attack, params, stats, hp_tp);
                 break;
             case 2:
-                add_shield_stat_contribution__9TItemDataFPviiPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
+                add_shield_stat_contribution(owner, attack, params, stats, hp_tp);
                 break;
             case 3:
-                apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
+                apply_unit_stat_bonus(owner, attack, params, stats, hp_tp);
                 break;
             }
             break;
         case 2:
-            add_mag_stat_bonuses(owner, (u8 *)attack_bonus, (u8 *)param_bonus, (EquipStats *)stat_bonus, hp_tp_bonus);
+            add_mag_stat_bonuses(owner, attack, params, stats, hp_tp);
             break;
         }
-        apply_bonuses(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
-        apply_custom_shield_bonus(owner, (TItemData *)attack_bonus, (TItemData *)param_bonus, (EquipStats *)stat_bonus, hp_tp_bonus);
+        apply_bonuses(owner, attack, params, stats, hp_tp);
+        apply_custom_shield_bonus(owner, attack, params, stats, hp_tp);
     }
 }
 
@@ -1814,11 +1803,6 @@ s32 TItemData::check_item_flags() {
     }
     return 1;
 }
-#undef calc_clock_bonus__9TItemDataFPv
-#undef add_armor_stat_contribution__9TItemDataFPviiPv
-#undef add_shield_stat_contribution__9TItemDataFPviiPv
-#undef apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
-#undef apply_bonuses
 
 void TItemData::init_meseta(s32 amount) {
     init();

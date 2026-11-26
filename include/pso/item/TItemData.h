@@ -4,6 +4,8 @@
 #include "types.h"
 
 struct ObjectSetData;
+struct AttackParams;
+struct ActorParamBlock;
 
 // The start every ItemPMT record shares (lookup_item_pmt_record): its id and
 // the ItemModel.afs / ItemTexture.afs file indices of the item's model.
@@ -13,7 +15,25 @@ struct ItemPmtHeader {
     s16 texture;
 };
 
-struct EquipStats { s16 s0; s16 s2; s16 s4; s16 s6; s16 s8; s16 sA; s16 sC; };
+// What an equipped item adds to its owner's stats; TItemData::apply_equip_effects
+// fills it and add_equip_stats hands each stat to TObjPlayer::add_<stat>.
+struct EquipStatBonus {
+    s16 atp;
+    s16 mst;
+    s16 evp;
+    s16 hp;
+    s16 dfp;
+    s16 ata;
+    s16 lck;
+    u8 pad_e[0x16];
+};
+
+// What an equipped item adds to its owner's HP and TP maxima
+// (add_actor_hp_bonus / add_actor_tp_bonus).
+struct EquipHpTpBonus {
+    s16 hp;
+    s16 tp;
+};
 
 struct TItemData {
     int isValidGroundDrop();
@@ -77,8 +97,21 @@ struct TItemData {
     f32 get_shield_set_multiplier(u8 *player);
     f32 get_armor_set_multiplier(u8 *player);
     f32 get_weapon_set_multiplier(u8 *item_data);
-    void apply_equip_effects(s32 owner, saddr attack_bonus, saddr param_bonus, saddr stat_bonus, s32 hp_tp_bonus);
-    void apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32);
+    // Adds what this item gives `owner` (the local player for 0) when
+    // equipped; each item kind's part takes the same arguments.
+    void apply_equip_effects(s32 owner, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                             EquipHpTpBonus *hp_tp);
+    void apply_custom_shield_bonus(saddr player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                                   EquipHpTpBonus *hp_tp);
+    void apply_bonuses(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                       EquipHpTpBonus *hp_tp);
+    void apply_unit_stat_bonus(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                               EquipHpTpBonus *hp_tp);
+    void add_shield_stat_contribution(s32 player, AttackParams *attack, ActorParamBlock *params,
+                                      EquipStatBonus *stats, EquipHpTpBonus *hp_tp);
+    void add_armor_stat_contribution(s32 player, AttackParams *attack, ActorParamBlock *params,
+                                     EquipStatBonus *stats, EquipHpTpBonus *hp_tp);
+    f32 calc_clock_bonus(s32 player);
     saddr calc_buy_price();
     void format_item_name(char *buf);
     int calc_display_grade();
@@ -88,13 +121,10 @@ struct TItemData {
     static s32 is_item_usable(saddr arg0, u8 *item);
     saddr test_flag3();
     saddr get_item_field_2();
-    void add_quantity(s32 amount);
-    void adjust_count(s32 amount);
-    static void add_stat_ptr(s16 *arg0, s32 amount);
-    void add_bonus(s16 amount);
     void set_present_color(s8 color);
     s32 get_type_nibble();
-    void add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5);
+    void add_weapon_stat_bonuses(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                                 EquipHpTpBonus *hp_tp);
     void set_wrapped();
     void set_packed_value(u16 kill_count);
     void unpack_from_item(ObjectSetData *set);
@@ -105,7 +135,8 @@ struct TItemData {
     static s32 calc_price_of(TItemData *data);
     u16 get_packed_value();
     void decode_packed_name_chars(s8 *out);
-    void add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5);
+    void add_mag_stat_bonuses(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
+                              EquipHpTpBonus *hp_tp);
     f32 get_set_bonus_multiplier(saddr player);
 };
 

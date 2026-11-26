@@ -228,14 +228,14 @@ void TItemEquipBase::subtract_equip_stats(void *atp, s16 *stats, s16 *stats2) {
     }
 }
 
-void TItemEquipBase::subtract_item_stat_bonus(s32 player, s32 unused, s16 *stats) {
-    u32 hp_tp;
+void TItemEquipBase::subtract_item_stat_bonus(AttackParams *attack, ActorParamBlock *params, s16 *stats) {
+    EquipHpTpBonus hp_tp;
     TItemData data;
     EquipStatBonus bonus;
     copy_to_item_data(&data);
     memset(&bonus, 0, sizeof(bonus));
     memset(&hp_tp, 0, sizeof(hp_tp));
-    data.apply_equip_effects((saddr)owner, player, unused, (saddr)&bonus, (saddr)&hp_tp);
+    data.apply_equip_effects((saddr)owner, attack, params, &bonus, &hp_tp);
     if (stats != NULL) {
         stats[0] -= bonus.atp;
         stats[1] -= bonus.mst;
@@ -299,8 +299,7 @@ void TItemEquipBase::add_equip_stats(s32 apply) {
     s32 item = (saddr)this;
     if (owner != NULL) {
         copy_to_item_data(&data);
-        data.apply_equip_effects((saddr)owner, (saddr)&attack_bonus, (saddr)&param_bonus, (saddr)&stat_bonus,
-                                 (saddr)&hp_tp_bonus);
+        data.apply_equip_effects((saddr)owner, &attack_bonus, &param_bonus, &stat_bonus, &hp_tp_bonus);
         attack = get_actor_attack_params(owner);
         if (attack != NULL) {
             attack->add_atp_min(get_atp_min__12AttackParamsFv(&attack_bonus));

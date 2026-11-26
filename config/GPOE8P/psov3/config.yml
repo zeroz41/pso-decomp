@@ -3752,7 +3752,7 @@ force_active:
   - activate_switch_attacks__9TObjCharaFPC3Vec
   - ad_game_start_name_ptr
   - ad_warning_arq_request
-  - add_armor_stat_contribution__9TItemDataFPviiPv
+  - add_armor_stat_contribution__9TItemDataFlP12AttackParamsP15ActorParamBlockP14EquipStatBonusP14EquipHpTpBonus
   - add_damage__11TBoss6Type2Fl
   - add_def__8MagStatsFs
   - add_dex__8MagStatsFs
@@ -3768,12 +3768,12 @@ force_active:
   - add_mind__8MagStatsFs
   - add_photon_blast__8MagStatsFUc
   - add_pow__8MagStatsFs
-  - add_shield_stat_contribution__9TItemDataFPviiPv
+  - add_shield_stat_contribution__9TItemDataFlP12AttackParamsP15ActorParamBlockP14EquipStatBonusP14EquipHpTpBonus
   - add_synchro__8MagStatsFl
   - add_target_in_cone__15TObjEneMe1GiGueFPvPv
   - add_target_in_front_arc__16TObjEneNanoDragoFP9TObjChara
   - add_unique_pair_entry__FP14TObjCollidablel
-  - add_weapon_stat_bonuses__9TItemDataFlPslPsl
+  - add_weapon_stat_bonuses__9TItemDataFlP12AttackParamsP15ActorParamBlockP14EquipStatBonusP14EquipHpTpBonus
   - adjust_height_to_ground__15TObjEneDelDepthFv
   - advance_afterimage__11TBoss4Type2Fv
   - advance_afterimage__11TBoss4Type3Fv
@@ -3894,13 +3894,13 @@ force_active:
   - apply_balance__19TWindowSoundBalanceFP17WindowDrawContext
   - add_shock_immunity__Fi
   - apply_blend_mode_1__10TObjPlayerFv
-  - apply_bonuses
+  - apply_bonuses__9TItemDataFlP12AttackParamsP15ActorParamBlockP14EquipStatBonusP14EquipHpTpBonus
   - apply_clamped_mode_param__12TObjEneSharkFv
   - apply_confusion_status__12TBoss1DragonFv
   - apply_confusion_status__13TObjEneRe4BitFv
   - apply_confusion_status__14TBoss7CrawfishFv
   - apply_contact_damage__10TBoss4ZakoFv
-  - apply_custom_shield_bonus__9TItemDataFlP9TItemDataP9TItemDataP10EquipStatsl
+  - apply_custom_shield_bonus__9TItemDataFlP12AttackParamsP15ActorParamBlockP14EquipStatBonusP14EquipHpTpBonus
   - make_last_char_small_kana__18KeyboardTextBufferFv
   - apply_defense_stat_status__13TObjEneRe4BitFPv
   - apply_direction_sign__9TBoss6MagFf
@@ -3977,7 +3977,7 @@ force_active:
   - append__18TObjEneBm5WolfListFP18TObjEneBm5WolfNode
   - apply_unit_effect_flags__12TItemProUnitFv
   - add_poison_immunity__18TItemLockCountCtrlFi
-  - apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
+  - apply_unit_stat_bonus__9TItemDataFlP12AttackParamsP15ActorParamBlockP14EquipStatBonusP14EquipHpTpBonus
   - apply_use_effect__11TItemObjectFv
   - apply_use_effect__13TItemToolMateFv
   - apply_use_effect__16TItemToolMagCellFv
@@ -4743,7 +4743,7 @@ force_active:
   - calc_ci4_tile_offset__FUlUl
   - calc_circle_offset__14TObjEneBm5WolfFP3VecP3Vec
   - calc_clamp_offset__11TLoadingCurFPCfP10NJS_POINT2
-  - calc_clock_bonus__9TItemDataFPv
+  - calc_clock_bonus__9TItemDataFl
   - calc_damage__11TTecRaZondeFv
   - calc_death_slide_speed__14TObjEneBm5WolfFPvf
   - calc_digit_count__18TWindowInputNumberFv

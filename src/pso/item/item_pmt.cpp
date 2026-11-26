@@ -192,7 +192,7 @@ void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
     }
 }
 
-saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
+ItemStatBoost *get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
     s32 idx;
     u8 *rec;
     idx = 0;
@@ -216,9 +216,9 @@ saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
         break;
     }
     if (idx > 0) {
-        return (saddr)&item_pmt_tbl->stat_boosts[idx * 6];
+        return &item_pmt_tbl->stat_boosts[idx];
     }
-    return (saddr)item_pmt_tbl->stat_boosts;
+    return item_pmt_tbl->stat_boosts;
 }
 
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags) {
