@@ -4139,7 +4139,7 @@ void handle_6x40_walk_to_position(G_WalkToPosition_6x40 *command) {
         if (p != 0 && p->is_in_tl03_state() != 0 && p->test_action_mask(0x1E) != 0) {
             p->move_target.x = cmd.pos.x;
             p->move_target.z = cmd.pos.z;
-            ((TTecLuker *)&p->move_speed.flags)->set_state(cmd.flags);
+            p->move_speed.flags.set_bits(cmd.flags);
             p->run_action_state_phase(2, 0);
         }
     }

@@ -4452,14 +4452,11 @@ pso/object/container/TObjContainerIdo_801A0B94.cpp:
 	.sdata2     start:0x805DC078 end:0x805DC080
 
 pso/object/TObjLuker.cpp:
-	.text       start:0x801A0C38 end:0x801A1880
+	.text       start:0x801A0C38 end:0x801A1888
 	.rodata     start:0x80446870 end:0x80446880
 	.data       start:0x804B9800 end:0x804B9834
 	.sdata      start:0x805D34A8 end:0x805D34B0
 	.sdata2     start:0x805DC080 end:0x805DC088
-
-pso/technique/TTecLuker_801A1880.cpp:
-	.text       start:0x801A1880 end:0x801A1888
 
 pso/object/TObjRoomId.cpp:
 	.text       start:0x801A1888 end:0x801A1E2C

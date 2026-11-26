@@ -1045,7 +1045,6 @@ pso/technique/TechniqueRingwaveNames.cpp
 pso/technique/TTecJelin.cpp
 pso/technique/TTecKafun.cpp
 pso/technique/TTecLuker.cpp
-pso/technique/TTecLuker_801A1880.cpp
 pso/technique/TTecMegid.cpp
 pso/technique/TechniqueSoundEffects.cpp
 pso/technique/TTecPlayerInfluence.cpp

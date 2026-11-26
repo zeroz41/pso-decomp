@@ -6,6 +6,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/object/TObjLuker_801329B0.h"
@@ -269,7 +270,7 @@ void TObjLuker::transfer_to_town() {
       }
       if (flag != 0)
       {
-        ((TTecLuker *)&p->telepipe.flags)->set_state(owner_id);
+        p->telepipe.flags.set_bits(owner_id);
         send_6x21_inter_level_warp(p, floor_transition_state.get_next_floor());
         p->set_room((s16) self->telepipe.state.room_id);
       }
@@ -277,7 +278,7 @@ void TObjLuker::transfer_to_town() {
   }
   if (local != 0)
   {
-    ((TTecLuker *)&local->telepipe.flags)->set_state(owner_id);
+    local->telepipe.flags.set_bits(owner_id);
     if (get_player_by_client_id(owner_id) != 0)
     {
       local->set_room((s16) self->telepipe.state.room_id);
@@ -422,3 +423,5 @@ TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
 void *TObjLuker::create(void *set_data) {
     return new TObjLuker((TObject *)tl_05, set_data);
 }
+
+void FlagWord::set_bits(s32 v) { bits = v; }

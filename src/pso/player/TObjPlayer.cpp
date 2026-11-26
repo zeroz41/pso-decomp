@@ -643,7 +643,7 @@ PlayerTelepipe &PlayerTelepipe::operator=(PlayerTelepipe &src) {
     state.room_id = src.state.room_id;
     __memcpy(&state.pos, &src.state.pos, sizeof(Vec));
     state.angle_y = src.state.angle_y;
-    flags = src.flags;
+    flags.bits = src.flags.bits;
     return *this;
 }
 
@@ -1626,7 +1626,6 @@ PendingItemDrop::PendingItemDrop() {}
 PlacementSlot::PlacementSlot() { state = 0; }
 
 PlayerTelepipe::PlayerTelepipe() {
-    __ct__8FlagWordFv(&flags);
     state.owner_client_id = 0xFFFF;
     state.room_id = 0;
     state.pos.x = player_zero;
@@ -1634,7 +1633,7 @@ PlayerTelepipe::PlayerTelepipe() {
     state.pos.z = player_zero;
     state.angle_y = 0;
     state.floor = 0;
-    ((TTecLuker *)&flags)->set_state(0xFFFF);
+    flags.set_bits(0xFFFF);
 }
 
 void PlayerMotionKey::set_body_type(s32 body_type) { this->body_type = body_type; }

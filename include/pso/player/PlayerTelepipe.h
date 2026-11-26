@@ -10,7 +10,7 @@
 // The player's own telepipe: where it stands, as the 6x70 record carries it, and its flags.
 struct PlayerTelepipe {
     TelepipeState state;
-    s32 flags;  // FlagWord bits; init builds the word in place
+    FlagWord flags;
 
     PlayerTelepipe &operator=(PlayerTelepipe &src);
     // No telepipe: owner 0xFFFF, floor 0, at the origin.

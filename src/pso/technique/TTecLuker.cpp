@@ -49,7 +49,6 @@
 
 
 
-struct Player_80233E78 { u8 pad[0x838]; Vec pipe_pos; s32 pipe_heading; u8 arrival[4]; };
 
 struct Rec_8023402C { u16 owner; s16 floor; s32 section; Vec pos; s32 heading; };
 
@@ -71,7 +70,6 @@ void reset_telepipe_visit_counts(void);
 extern "C" {
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
-void set_state__9TTecLukerFl(void *p, s32 v);
 static const s32 telepipe_visual_template_table[12][3] = {
     { 177, 178, 176 },
     { 177, 178, 176 },
@@ -241,7 +239,7 @@ void TTecLuker::run_task() {
     u16 owner_id;
     u16 entity_id;
     u16 temp_r5;
-    u8 *temp_r29;
+    TObjPlayer *warper;
     TObjPlayer *player;
     u8 *owner;
     PositionPlacementQueue *tgt;
@@ -310,9 +308,9 @@ void TTecLuker::run_task() {
         break;
     case 3:
         owner_id = ((TObjBase *)(owner))->get_entity_id();
-        temp_r29 = (u8 *)get_player_by_client_id(traveller);
-        if ((is_split_screen() == 0) && (temp_r29 != NULL)) {
-            if (*(s32 *)((s8 *)temp_r29 + 0x30) & 0x800) {
+        warper = get_player_by_client_id(traveller);
+        if ((is_split_screen() == 0) && (warper != NULL)) {
+            if (warper->actorFlags & 0x800) {
                 phase = 1;
                 TWindowCtrl::unsuppress_all_slots();
                 if (field == NULL) {
@@ -323,35 +321,35 @@ void TTecLuker::run_task() {
                 warp_frames = 0;
                 return;
             }
-            set_state__9TTecLukerFl(temp_r29 + 0x848, owner_id);
+            warper->telepipe.flags.set_bits(owner_id);
             if (TLobby::get_instance() == 1) {
-                send_6x21_inter_level_warp((TObjPlayer *)temp_r29, 0);
+                send_6x21_inter_level_warp(warper, 0);
             } else {
-                send_6x21_inter_level_warp((TObjPlayer *)temp_r29, 0);
+                send_6x21_inter_level_warp(warper, 0);
             }
             goto block_43;
         }
 block_43:
         {
         s32 i;
-        u8 *p;
+        TObjPlayer *p;
         i = 0;
         do {
-            p = (u8 *)get_player_by_client_id(i);
+            p = get_player_by_client_id(i);
             if (p != NULL) {
                 if (is_split_screen() != 0) {
-                    set_state__9TTecLukerFl(p + 0x848, owner_id);
+                    p->telepipe.flags.set_bits(owner_id);
                     if (TLobby::get_instance() == 1) {
-                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
+                        send_6x21_inter_level_warp(p, 0);
                     } else {
-                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
+                        send_6x21_inter_level_warp(p, 0);
                     }
-                } else if (((TObjChara *)p)->obj_isState3_324() != 0) {
-                    set_state__9TTecLukerFl(p + 0x848, owner_id);
+                } else if (p->obj_isState3_324() != 0) {
+                    p->telepipe.flags.set_bits(owner_id);
                     if (TLobby::get_instance() == 1) {
-                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
+                        send_6x21_inter_level_warp(p, 0);
                     } else {
-                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
+                        send_6x21_inter_level_warp(p, 0);
                     }
                 }
             }
@@ -661,18 +659,18 @@ void restore_floor_telepipes(void) {
 }
 
 const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
-    Player_80233E78 *p;
+    TObjPlayer *p;
     u16 owner;
     if (slot >= 4) {
         return 0;
     }
-    p = (Player_80233E78 *)get_player_by_client_id(slot);
+    p = get_player_by_client_id(slot);
     if (p != 0) {
-        owner = ((FlagWord *)p->arrival)->get_bits();
+        owner = p->telepipe.flags.get_bits();
         if (owner == 0xffff) {
             return 0;
         }
-        ((TTecLuker *)p->arrival)->set_state(0xffff);
+        p->telepipe.flags.set_bits(0xffff);
         if (get_current_floor_area() == AREA_PIONEER2_EP1) {
             *heading = telepipe_town_heading_table[slot];
             return &telepipe_town_position_table[slot];
@@ -681,12 +679,12 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
             *heading = telepipe_town_heading_table[slot];
             return &telepipe_town_position_table_b[slot];
         }
-        p = (Player_80233E78 *)get_player_by_client_id(owner);
+        p = get_player_by_client_id(owner);
         if (p == 0) {
             return 0;
         }
-        *heading = p->pipe_heading;
-        return &p->pipe_pos;
+        *heading = p->telepipe.state.angle_y;
+        return &p->telepipe.state.pos;
     }
     return 0;
 }

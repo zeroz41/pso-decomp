@@ -484,8 +484,7 @@ void TObjPlayer::init_class_flags(PlayerSyncRecord *record) {
 
 void TObjPlayer::unpack_record_flags(TPlyCharData *record) {
     s32 bits = record->unpack_u32_lo();
-    // set_state is FlagWord's whole-word setter, still filed under TTecLuker.
-    ((TTecLuker *)&pending_actions)->set_state(bits);
+    pending_actions.set_bits(bits);
     record_flags_hi = record->unpack_u32_hi();
 }
 
@@ -497,7 +496,7 @@ void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record) {
     u32 state = record[0x143] | (record[0x15F] << 8);
     state |= (record[0x17B] << 16) & 0xFF0000;
     state |= record[0x197] << 24;
-    ((TTecLuker *)&player->pending_actions)->set_state(state);
+    player->pending_actions.set_bits(state);
 }
 
 void TObjPlayer::reset_motion_fields() {
