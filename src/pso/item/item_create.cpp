@@ -1265,14 +1265,14 @@ TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
         if (ok != 0) {
             item = construct_item(&drop->item);
             if (item != NULL) {
-                item->position.x = drop->pos.x;
-                item->position.z = drop->pos.z;
+                item->position.x = drop->x;
+                item->position.z = drop->z;
                 item->room = drop->room_id;
                 item->place_on_ground(drop->floor, &item->position.x, 1);
             }
         }
         if (quiet == 0) {
-            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(drop->floor, drop->room_id, drop->item.data1.data_u8, drop->pos.x, drop->pos.z);
+            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(drop->floor, drop->room_id, drop->item.data1.data_u8, drop->x, drop->z);
         }
     }
     return item;

@@ -98,8 +98,8 @@ void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request) {
                 floor_item.floor = drop.floor;
                 floor_item.source_type = 2;
                 floor_item.entity_index = source;
-                floor_item.pos.x = drop.pos.x;
-                floor_item.pos.z = drop.pos.z;
+                floor_item.x = drop.pos.x;
+                floor_item.z = drop.pos.z;
                 floor_item.room_id = drop.room;
                 floor_item.item.copy_from(&item);
                 delivery.send();
@@ -148,8 +148,8 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
                 floor_item.floor = client;
                 floor_item.source_type = 2;
                 floor_item.entity_index = source;
-                floor_item.pos.x = x;
-                floor_item.pos.z = z;
+                floor_item.x = x;
+                floor_item.z = z;
                 floor_item.room_id = room;
                 floor_item.item.copy_from(&item);
                 delivery.send();
@@ -177,8 +177,8 @@ void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int 
                 floor_item.floor = client;
                 floor_item.source_type = 1;
                 floor_item.entity_index = source;
-                floor_item.pos.x = x;
-                floor_item.pos.z = z;
+                floor_item.x = x;
+                floor_item.z = z;
                 floor_item.item.copy_from(&item);
                 floor_item.room_id = room;
                 delivery.send();
@@ -259,8 +259,8 @@ void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt) {
 void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
     FloorItem entry;
     entry.floor = floor;
-    entry.pos.x = x;
-    entry.pos.z = z;
+    entry.x = x;
+    entry.z = z;
     entry.room_id = room;
     ((TItemData *)(&entry.item))->copy_from((TItemData *)(item));
     observe_item_id(*(s32 *)((s8 *)item + 0xC));
@@ -301,12 +301,12 @@ TItemIdCounters::TItemIdCounters() {
     build_item_id_mode = 0;
 }
 void G_DropItem_PC_V3_BB_6x5F::send() {
-    bswap_item_packet(this);
+    bswap_item_packet(&__base_G_DropItem_DC_6x5F);
     send_subcommand(reinterpret_cast<u8 *>(this));
 }
-void bswap_item_packet(void *packet) {
-    static_cast<G_ClientIDHeader *>(packet)->bswap();
-    bswap_item(static_cast<u8 *>(packet) + 4);
+void bswap_item_packet(G_DropItem_DC_6x5F *packet) {
+    packet->header.bswap();
+    bswap_item(&packet->item);
 }
 G_DropItem_PC_V3_BB_6x5F::G_DropItem_PC_V3_BB_6x5F() {
     __base_G_DropItem_DC_6x5F.header.subcommand = 0x5F;

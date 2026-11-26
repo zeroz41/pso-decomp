@@ -131,8 +131,8 @@ void FloorItem::clear() {
     source_type = 0;
     floor = -1;
     entity_index = -1;
-    pos.x = 0.0f;
-    pos.z = 0.0f;
+    x = 0.0f;
+    z = 0.0f;
     room_id = -1;
     drop_number = 0;
     item.init();
@@ -593,8 +593,8 @@ void handle_6x5D_drop_stacked_item(G_DropStackedItem_PC_V3_BB_6x5D *cmd) {
     if (get_floor_area(cmd->floor) != 15) {
         FloorItem drop;
         drop.floor = cmd->floor;
-        drop.pos.x = cmd->pos.x;
-        drop.pos.z = cmd->pos.z;
+        drop.x = cmd->pos.x;
+        drop.z = cmd->pos.z;
         drop.room_id = cmd->room_id;
         drop.item.copy_from(&cmd->item_data);
         if (cmd->header.size * 4 == sizeof(G_DropStackedItem_DC_6x5D)) {

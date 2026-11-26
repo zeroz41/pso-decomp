@@ -13,7 +13,7 @@
 #include <dolphin/mtx.h>
 #include "pso/item/TItemData.h"
 
-// An x/z position on the floor. Used by our code (FloorItem).
+// An x/z position on the floor, as the movement and drop subcommands carry it.
 struct VectorXZF {
  f32 x;
  f32 z;
@@ -26,7 +26,8 @@ struct FloorItem {
  s8 floor;
  u8 source_type;
  s16 entity_index;
- struct VectorXZF pos;
+ f32 x;
+ f32 z;
  s16 room_id;
  u16 drop_number;
  TItemData item;

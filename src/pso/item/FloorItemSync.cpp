@@ -139,7 +139,7 @@ void G_SyncItemState_6x6D_Decompressed::apply() {
         count = floor_item_counts_by_floor[j];
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++) {
-            copy_floor_item_entry((TLobbyFloorItemEntry *)p, (TLobbyFloorItemEntry *)&items[k++]);
+            copy_floor_item_entry(p, &items[k++]);
             bswap_item(p);
             p->item.decode_from_network();
         }
@@ -177,7 +177,7 @@ s32 G_SyncItemState_6x6D_Decompressed::write() {
         count = floor_item_counts_by_floor[j];
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++, k++) {
-            copy_floor_item_entry((TLobbyFloorItemEntry *)d, (TLobbyFloorItemEntry *)p);
+            copy_floor_item_entry(d, p);
             d->item.encode_for_network();
             bswap_item(d);
             d++;
@@ -345,7 +345,7 @@ s32 insert_item_condition(FloorItem *item) {
                 if (floor_item_next_sort_keys[item->floor] != 0xFFFF) {
                     floor_item_next_sort_keys[item->floor]++;
                 }
-                copy_floor_item_entry((TLobbyFloorItemEntry *)&list[lo], (TLobbyFloorItemEntry *)item);
+                copy_floor_item_entry(&list[lo], item);
                 counts[idx]++;
                 return 1;
             }
@@ -425,17 +425,16 @@ void build_6x63_packet(G_DestroyFloorItem_6x63 *destroy) {
 void set_floor_items_synced_flag(void) {
     lbl_805D5430.set(1);
 }
-void bswap_item(void *record) {
-    u8 *bytes = static_cast<u8 *>(record);
-    bswap_16(reinterpret_cast<u16 *>(bytes + 2));
-    bswap_32(reinterpret_cast<u32 *>(bytes + 4));
-    bswap_32(reinterpret_cast<u32 *>(bytes + 8));
-    bswap_16(reinterpret_cast<u16 *>(bytes + 0xC));
-    bswap_16(reinterpret_cast<u16 *>(bytes + 0xE));
-    reinterpret_cast<TItemData *>(bytes + 0x10)->bswap();
+void bswap_item(FloorItem *item) {
+    bswap_16(reinterpret_cast<u16 *>(&item->entity_index));
+    bswap_32(reinterpret_cast<u32 *>(&item->x));
+    bswap_32(reinterpret_cast<u32 *>(&item->z));
+    bswap_16(reinterpret_cast<u16 *>(&item->room_id));
+    bswap_16(&item->drop_number);
+    item->item.bswap();
 }
 
-TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src) {
+FloorItem *copy_floor_item_entry(FloorItem *dst, FloorItem *src) {
     *dst = *src;
     return dst;
 }

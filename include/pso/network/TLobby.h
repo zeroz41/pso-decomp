@@ -44,22 +44,6 @@ struct TRecvChoiceSearchOptions;
 struct ChoiceSearchResultList;
 s32 LoadBmlExec(BmlResource *bml, const char *name);
 
-struct TLobbyFloorItemEntry {
-    u8 n;
-    u8 source_type;
-    s16 entity_index;
-    f32 x;
-    f32 z;
-    s16 room_id;
-    u16 key;
-    TItemData item_data;
-};
-
-TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
-
-LAYOUT_ASSERT(TLobbyFloorItemEntrySize, sizeof(TLobbyFloorItemEntry) == 0x24);
-LAYOUT_ASSERT(TLobbyFloorItemEntryDataOffset, offsetof(TLobbyFloorItemEntry, item_data) == 0x10);
-
 struct AdxbDecoder;
 struct SjRingBuffer;
 struct GcrnaStream;
