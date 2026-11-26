@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayerSet.h"
-#include "pso/system/task/TObject_8001A448.h"
 
 #include "pso/system/task/TObject.h"
 

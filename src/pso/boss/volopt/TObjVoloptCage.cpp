@@ -9,7 +9,6 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaTextureMatrices.h"

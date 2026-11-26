@@ -43,7 +43,6 @@
 #include "pso/player/TForceOperate.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/NinjaTypes.h"

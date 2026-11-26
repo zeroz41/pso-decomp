@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/object/collision/TObjTradeCollision.h"
 #include "pso/network/TradeSession.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/player/TObjPlayer.h"

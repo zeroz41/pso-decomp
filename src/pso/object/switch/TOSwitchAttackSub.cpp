@@ -3,7 +3,6 @@
 #include "pso/object/switch/TOSwitchAttackSub.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/switch/TOSwitchAttack.h"

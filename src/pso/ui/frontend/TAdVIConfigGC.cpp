@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"

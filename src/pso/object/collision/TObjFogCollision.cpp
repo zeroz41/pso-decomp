@@ -8,7 +8,6 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/collision/TObjFogCollision.h"
 #include "pso/object/collision/TObjFogCollision_Manager.h"

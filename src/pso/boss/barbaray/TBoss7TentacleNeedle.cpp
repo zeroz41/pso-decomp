@@ -3,7 +3,6 @@
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/DebugFont.h"
 #include "pso/unk/text_803E2D70.h"

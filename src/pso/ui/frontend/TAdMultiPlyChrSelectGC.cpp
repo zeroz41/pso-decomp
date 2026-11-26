@@ -22,7 +22,6 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"

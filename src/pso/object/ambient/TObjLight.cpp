@@ -8,7 +8,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"

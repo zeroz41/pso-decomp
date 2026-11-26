@@ -5,7 +5,6 @@
 #include "pso/ui/hud/TObjRaderIcon.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"

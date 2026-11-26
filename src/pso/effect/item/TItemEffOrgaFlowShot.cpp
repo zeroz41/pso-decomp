@@ -5,7 +5,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/render_util.h"
 
 #include "pso/item/TItemAttackColBase.h"
