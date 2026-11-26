@@ -262,7 +262,7 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
     quest_list_challenge_active_instance = this;
 }
 
-void reset_globals__19TQuestListChallengeFv(void) {
+void TQuestListChallenge::reset_globals() {
     lbl_805D64A8 = 0;
     lbl_805D64AC = 0;
     quest_list_challenge_active_instance = NULL;
