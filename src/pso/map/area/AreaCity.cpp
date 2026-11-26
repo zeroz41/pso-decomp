@@ -32,7 +32,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     TLobby::create_named_lobby_object, TLobby::free_singleton,
     load_weapon_random_tables, TLobby::free_lobby_resources,
     load_armor_random_table, TLobby::free_rocks,
-    load_tool_random_rel, TLobby::free_all_rocks,
+    load_tool_random_rel, free_tool_random_rel,
     load_judge_item, TLobby::free_window,
     TQuestListOffline::reset_global_if_not_split_screen, TQuestListOffline::free_global,
     reset_globals2__19TQuestListChallengeFv, reset_globals__19TQuestListChallengeFv,

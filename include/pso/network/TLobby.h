@@ -72,9 +72,6 @@ struct TLobby : public TObject {
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
     static void free_nodes_with_id(uaddr root);
-    static void generate_shop_inventory_at_level(int slot, int level);
-    static void generate_shop_inventory(s32 idx);
-    static void free_all_rocks();
     static s32 classify_level_bracket_wide(s32 shop_weapon_stock_level);
     static s32 get_level_bracket(s32 shop_weapon_stock_level);
     static s32 classify_level_bracket_narrow(s32 shop_weapon_stock_level);
@@ -417,7 +414,6 @@ struct TLobby : public TObject {
     static s32 count_quest_enemies_flag8();
     static void clear_shop_entry_value(s32 i, s32 j);
     void copy_armor_shop_entry(s32 index, s32 base);
-    void copy_shop_item_entry(s32 index, s32 buffer);
     static void release_scene_resources();
     static void send_trade_proposal_modify();
     static void update_trade_list_send();

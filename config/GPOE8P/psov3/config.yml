@@ -683,8 +683,8 @@ force_active:
   - begin_message_substitution
   - TLobby__sub_802232F8
   - get_tool_pool_table_row__Fl
-  - shop_stock_lacks_technique
-  - shop_stock_lacks_tool
+  - shop_stock_lacks_technique__FP9TItemDatal
+  - shop_stock_lacks_tool__FP9TItemDatal
   - TLobby__sub_80224840
   - store_short_mail
   - clear_unread__14ShortMailEntryFv
@@ -6557,7 +6557,7 @@ force_active:
   - gcrna_error_text
   - gcrna_stream_callback
   - gcrna_version_pointer
-  - generate_shop_inventory__6TLobbyFl
+  - generate_shop_tool_stock__Fl
   - generate_shop_weapon_stock__Fl
   - generate_tool_drop__9TItemDropFiiPv
   - get_size__20G_CastTechnique_6x47Fv
@@ -14662,7 +14662,7 @@ force_active:
   - roll_physical_accuracy__19TContainerAncient01FPvlf
   - roll_physical_accuracy__20TContainerAncient01RFPvlf
   - roll_rare_weapon_attributes__9TItemDropFiPvi
-  - roll_shop_technique_level
+  - roll_shop_technique_level__FP9TItemDatal
   - roll_shop_weapon_first_bonus
   - roll_shop_weapon_grind
   - roll_shop_weapon_second_bonus
