@@ -12,6 +12,8 @@ public:
     void init();
     void bswap();
     TItemData *get_data();
+    void clear_equipped();
+    void clear();
 public:
     char m_present[4];
     u32 m_flags;

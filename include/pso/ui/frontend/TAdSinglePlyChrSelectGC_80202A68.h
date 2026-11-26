@@ -84,7 +84,5 @@ LAYOUT_ASSERT(Pso3CharacterFile_size, sizeof(Pso3CharacterFile) == 0x194B0);
 extern "C" {
 void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1);
 }
-void clear_equipped_flag(void *item);
-int is_unit_item_data(void *entry);
 
 #endif

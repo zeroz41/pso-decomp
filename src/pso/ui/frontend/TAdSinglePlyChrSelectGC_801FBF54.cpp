@@ -201,8 +201,8 @@ void TPlyInventory::unequip_units() {
     n = get_item_count();
     for (i = 0; i < n; i++) {
         e = get_item(i);
-        if (is_unit_item_data(&e->m_data) != 0) {
-            clear_equipped_flag(e);
+        if (e->m_data.is_unit() != 0) {
+            e->clear_equipped();
         }
     }
 }
@@ -1140,7 +1140,7 @@ s32 TAdSinglePlyChrSelectGC::copy_character_to_slot(CharacterFile *src_file, int
     slot = &dst_file->slots[dst_slot];
     src_file->slots[src_slot] = *slot;
     for (i = 0; i < 30; i++) {
-        ((TAdSinglePlyChrSelectGC *)slot->chardata.m_inventory.get_item(i))->clear_inventory_slot();
+        slot->chardata.m_inventory.get_item(i)->clear();
     }
     dst_file->slots[dst_slot].chardata.m_stats.meseta = 0;
     dst_file->slots[dst_slot].record.bank_item_count = 0;
@@ -1779,7 +1779,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
     u8 *buf;
     s32 t;
     s32 i;
-    saddr p;
+    TPlyInventoryItem *p;
     u32 size;
     if (get_main_phase() == 0xE || (get_current_floor_area() == AREA_LOBBY && card_file != 1) ||
         lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() != 0 || is_challenge_task_running() == 1) {
@@ -1892,10 +1892,10 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
                 memcpy(get_selected_character_slot(card_character_save_buffer), selected_character_data, 0x41C);
                 memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
                 if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
-                    p = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items());
+                    p = reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items();
                     for (i = 0; i < 30; i++) {
-                        ((TAdSinglePlyChrSelectGC *)p)->clear_inventory_slot();
-                        p += 0x1C;
+                        p->clear();
+                        p++;
                     }
                     *(u8 *)get_selected_character_slot(card_character_save_buffer) = 0;
                     memset(get_selected_save_record(card_character_save_buffer)->bank_items, 0, 0x12C0);
@@ -2290,15 +2290,15 @@ void TAdSinglePlyChrSelectGC::save_character_file(int use_primary) {
 
 void TAdSinglePlyChrSelectGC::reset_character_data(void) {
     s32 i;
-    saddr result;
+    TPlyInventoryItem *result;
 
     if ((void *) selected_character_data != NULL) {
-        result = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items());
+        result = reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items();
         i = 0;
         do {
-            ((TAdSinglePlyChrSelectGC *)result)->clear_inventory_slot();
+            result->clear();
             i += 1;
-            result += 0x1C;
+            result++;
         } while (i < 0x1E);
         *(s8 *)((s8 *)selected_character_data + 0) = 0;
         init_class_starting_inventory(selected_character_data);
@@ -2415,11 +2415,11 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
             memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
             if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
                 s32 i;
-                saddr p;
-                p = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items());
+                TPlyInventoryItem *p;
+                p = reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items();
                 for (i = 0; i < 30; i++) {
-                    ((TAdSinglePlyChrSelectGC *)p)->clear_inventory_slot();
-                    p += 0x1C;
+                    p->clear();
+                    p++;
                 }
                 {
                     u8 *s = (u8 *)get_selected_character_slot(card_character_save_buffer);

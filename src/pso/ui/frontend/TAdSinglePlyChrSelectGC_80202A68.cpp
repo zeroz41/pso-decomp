@@ -91,7 +91,7 @@ TItemData *TPlyInventory::get_item_data(s32 index) {
 }
 
 void TPlyInventory::clear_item(s32 index) {
-    ((TAdSinglePlyChrSelectGC *)(&m_items[index]))->clear_inventory_slot();
+    m_items[index].clear();
 }
 
 int TAdSinglePlyChrSelectGC::get_selection() {  return TAdSinglePlyChrSelectGC::selection_index; }
@@ -234,20 +234,19 @@ Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
 void *__ct__14GuildCardEntryFv(void *card);
 }
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }
-void clear_equipped_flag(void* item) { *(u32*)((char*)item + 0x4) &= 0xfffffff7; }
+void TPlyInventoryItem::clear_equipped() { m_flags &= ~8; }
 
-void TAdSinglePlyChrSelectGC::clear_inventory_slot() {
-    *(s8 *)&this->m_name = 0;
-    *(s8 *)((s8 *)this + 1) = -1;
-    *(s32 *)&this->m_flags = 0;
-    ((TItemData *)((u8 *)&this->m_prev))->init();
+void TPlyInventoryItem::clear() {
+    m_present[0] = 0;
+    m_present[1] = -1;
+    m_flags = 0;
+    m_data.init();
 }
 
-int is_unit_item_data(void *item) {
-    int is_unit;
-    is_unit = 0;
-    if (((u8) *(u8 *)((s8 *)item + 0x0) == 1) && ((u8) *(u8 *)((s8 *)item + 0x1) == 3)) {
-        is_unit = 1;
+s32 TItemData::is_unit() {
+    bool result = false;
+    if (data1.data_u8[0] == 1 && data1.data_u8[1] == 3) {
+        result = true;
     }
-    return (u8)is_unit;
+    return result;
 }

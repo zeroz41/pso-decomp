@@ -89,7 +89,7 @@ void TPlyCharData::set_mag_level(u8 level) { m_inventory.m_items[13].m_present[3
 void TPlyCharData::clear_inventory() {
     int i;
     for (i = 0; i < 30; i++) {
-        ((TAdSinglePlyChrSelectGC *)&m_inventory.m_items[i])->clear_inventory_slot();
+        m_inventory.m_items[i].clear();
     }
 }
 
