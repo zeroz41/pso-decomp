@@ -7,9 +7,9 @@ struct CsnGroundSurface {
     Vec point;
     Vec normal;
     u32 flags;
-    u8 unknown_1c[0x1c];
+    u8 pad_1C[0x1C];
     Vec point_38;
-    u8 unknown_44[0x10];
+    u8 pad_44[0x10];
     Vec point_54;
 };
 

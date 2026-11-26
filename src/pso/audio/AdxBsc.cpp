@@ -49,13 +49,13 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
         s32 pos;
         s32 avail;
         s32 nblk;
-        s32 x78;
+        s32 remaining;
         s32 ofst;
         s32 bufLen;
         s32 avail_blocks;
-        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->remaining);
         block = adxb->stream_block_samples;
-        x78 = adxb->x78;
+        remaining = adxb->remaining;
         pos = adxb->pos;
         bufLen = adxb->bufLen;
         avail = adxb->avail;
@@ -64,7 +64,7 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
         n = maxLen / channels;
         ofst = block - 1;
         pad = ofst;
-        ofst = x78 + ofst;
+        ofst = remaining + ofst;
         nblk = ofst / block;
         s32 space = bufLen - pos - 1;
         pad -= ofst % block;
@@ -75,7 +75,7 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
         if (nblk < room && pos + room_end - pad < bufLen) {
             ++room_ext;
         }
-        if (x78 < avail) {
+        if (remaining < avail) {
             avail += pad;
         }
         avail_blocks = avail / block;
@@ -111,7 +111,7 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
             s16 *buf;
             blk = adxb->stream_block_samples;
             last = blk - 1;
-            last = adxb->x78 + last;
+            last = adxb->remaining + last;
             rem = (blk - 1) - last % blk;
             width = adxb->stream_block_bytes;
             pos = adxb->pos;
@@ -376,7 +376,7 @@ AdxbDecoder *AdxbDecoder::alloc_record(s32 channels, saddr buffer, s32 size, s32
         free_803C3E88(r);
         return NULL;
     }
-    r->m_38 = channels;
+    r->buffer_channels = channels;
     r->output_buffer = (s16 *)buffer;
     r->wrap_len = size;
     r->wrap_offset = wrap_offset;

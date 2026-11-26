@@ -27,25 +27,6 @@
 
 struct Send6xADOlgaFlowSubordinateBossActionsB { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
 
-struct UpdateSegmentsVec4 { f32 x, y, z; s32 w; };
-
-struct Seg_80357284 { UpdateSegmentsVec4 a; UpdateSegmentsVec4 b; };
-
-struct UpdateSegmentsShot {
-    u8 pad0[0xC4];
-    Seg_80357284 seg[5];
-    f32 v164[3];
-    f32 v170[3];
-    f32 dir[3];
-    u8 pad188[8];
-    f32 len;
-    f32 speed;
-};
-
-struct V4_8035740C { f32 x, y, z; s32 w; };
-
-struct RunTaskO { u8 pad0[0xC4]; V4_8035740C v[10]; };
-
 const char *TItemEffOrgaFlowShot::class_name = "TItemEffOrgaFlowShot";
 
 extern "C" {
@@ -141,27 +122,26 @@ extern s32 model_render_flags;
 #pragma fp_contract on
 
 void TItemEffOrgaFlowShot::update_segments() {
-    UpdateSegmentsShot *o = (UpdateSegmentsShot *)this;
-    UpdateSegmentsVec4 *dst;
-    UpdateSegmentsVec4 *src;
+    TrailStripVertex *dst;
+    TrailStripVertex *src;
     f32 dx;
     f32 dz;
     s32 i;
-    dst = &o->seg[0].a;
-    src = &o->seg[0].b;
-    o->seg[0].b.x = o->v164[0] * o->speed + o->seg[1].b.x;
-    o->seg[0].b.y = o->v164[1] * o->speed + o->seg[1].b.y;
-    o->seg[0].b.z = o->v164[2] * o->speed + o->seg[1].b.z;
-    o->seg[4].b.x = o->v170[0] * o->speed + o->seg[3].b.x;
-    o->seg[4].b.y = o->v170[1] * o->speed + o->seg[3].b.y;
-    o->seg[4].b.z = o->v170[2] * o->speed + o->seg[3].b.z;
-    dx = o->dir[0] * o->len;
-    dz = o->dir[2] * o->len;
+    dst = &trail[0];
+    src = &trail[1];
+    trail[1].x = head_dir.x * spread + trail[3].x;
+    trail[1].y = head_dir.y * spread + trail[3].y;
+    trail[1].z = head_dir.z * spread + trail[3].z;
+    trail[9].x = tail_dir.x * spread + trail[7].x;
+    trail[9].y = tail_dir.y * spread + trail[7].y;
+    trail[9].z = tail_dir.z * spread + trail[7].z;
+    dx = forward.x * length;
+    dz = forward.z * length;
     for (i = 0; i < 5; i++) {
         dst->x = src->x + dx;
         dst->y = src->y;
         dst->z = src->z + dz;
-        dst->w = src->w;
+        dst->color = src->color;
         dst += 2;
         src += 2;
     }
@@ -208,7 +188,7 @@ void TItemEffOrgaFlowShot::run_task() {
         ::approach_value(&spread, 0.6f, max_spread);
     }
     for (i = 0; i != 10; i++) {
-        TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((RunTaskO *)this)->v[i].w), 2);
+        TObjBoss2Tunnel::decrement_packed_timer(&trail[i].color, 2);
     }
     if (spread == max_spread) {
         if (linger_frames-- == 0) {

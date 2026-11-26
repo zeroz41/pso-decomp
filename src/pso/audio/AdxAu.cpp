@@ -54,7 +54,7 @@ void adxb_decode_au_ulaw(AdxbDecoder *o) {
         s16 *dst2;
         s32 i;
         s32 n;
-        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        o->read(o->readArg, &o->pos, &o->avail, &o->remaining);
         n = o->bufLen - o->pos;
         if (n > o->avail) {
             n = o->avail;
@@ -91,7 +91,7 @@ void adxb_decode_au_pcm8(AdxbDecoder *o) {
         s16 *r;
         s32 i;
         s32 n;
-        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        o->read(o->readArg, &o->pos, &o->avail, &o->remaining);
         n = o->bufLen - o->pos;
         if (n > o->avail) {
             n = o->avail;
@@ -130,7 +130,7 @@ void process_byteswapped_pcm_transfer(AdxbDecoder *o) {
     s32 i;
     s32 n;
     if (o->state == 1 && o->channel->get_state() == 0) {
-        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        o->read(o->readArg, &o->pos, &o->avail, &o->remaining);
         n = o->bufLen - o->pos;
         if (n > o->avail) {
             n = o->avail;

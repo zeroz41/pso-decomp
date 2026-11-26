@@ -407,7 +407,7 @@ void adxb_exec_wav_split16(AdxbDecoder *adxb) {
     s32 i;
     s32 n;
     if (adxb->state == 1 && adxb->channel->get_state() == 0) {
-        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->remaining);
         n = adxb->bufLen - adxb->pos;
         if (n > adxb->avail) {
             n = adxb->avail;
@@ -444,7 +444,7 @@ void adxb_exec_wav_pcm8(AdxbDecoder *adxb) {
     s32 i;
     s32 n;
     if (adxb->state == 1 && adxb->channel->get_state() == 0) {
-        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->remaining);
         n = adxb->bufLen - adxb->pos;
         if (n > adxb->avail) {
             n = adxb->avail;
@@ -481,7 +481,7 @@ void adxb_exec_wav_pcm16(AdxbDecoder *adxb) {
     s32 i;
     s32 n;
     if (adxb->state == 1 && adxb->channel->get_state() == 0) {
-        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->remaining);
         n = adxb->bufLen - adxb->pos;
         if (n > adxb->avail) {
             n = adxb->avail;
@@ -686,7 +686,7 @@ void adxb_decode_aiff_pcm8(AdxbDecoder *o) {
         s16 *r;
         s32 i;
         s32 n;
-        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        o->read(o->readArg, &o->pos, &o->avail, &o->remaining);
         n = o->bufLen - o->pos;
         if (n > o->avail) {
             n = o->avail;
@@ -724,7 +724,7 @@ void adxb_decode_aiff_pcm16(AdxbDecoder *o) {
     s32 i;
     s32 n;
     if (o->state == 1 && o->channel->get_state() == 0) {
-        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        o->read(o->readArg, &o->pos, &o->avail, &o->remaining);
         n = o->bufLen - o->pos;
         if (n > o->avail) {
             n = o->avail;

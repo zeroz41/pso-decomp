@@ -13,17 +13,22 @@
 
 struct GetAfsFileInfoChunk { u16 id; u16 len; s32 off; };
 
-struct GetAfsFileInfoEntry {
-    struct GetAfsFileInfoEntry *next; s32 f4; s32 f8; u16 fc; s8 fe; u8 pad_f; char name[0x100];
-    s32 mode; u16 f114; u16 arr[1];
+// A loaded AFS partition: the archive's name and the sector count of each of its files.
+struct AdxfPartitionInfo {
+    AdxfPartitionInfo *next;
+    s32 info_size; // bytes of this record with its sector counts
+    s32 file_count;
+    u16 entry_count;
+    s8 fe;
+    u8 pad_f;
+    char name[0x100];
+    s32 dir;
+    u16 first_sector; // the first file's sector in the archive
+    u16 sector_counts[1];
 };
 
-struct ReadAfsTocEntry {
-    u8 pad_0[4]; s32 f4; s32 f8; u16 fc; u8 pad_e[0x114 - 0xE]; s16 f114; s16 arr[1];
-};
 
-
-extern GetAfsFileInfoEntry *afs_archive_toc_table[];
+extern AdxfPartitionInfo *afs_archive_toc_table[];
 extern s32 lobby_adxf_current_file_id;
 extern s32 lobby_afs_toc_entry_index;
 s32 lbl_805D75E8;
@@ -71,7 +76,7 @@ inline s32 adxf_check_file_id(s32 partition, s32 file_index) {
         adxerr_report("E9040828:'ptid' is range outside.");
         return -3;
     }
-    if (file_index < 0 || file_index >= afs_archive_toc_table[partition]->f8) {
+    if (file_index < 0 || file_index >= afs_archive_toc_table[partition]->file_count) {
         adxerr_report("E9040828:'flid' is range outside.");
         return -3;
     }
@@ -79,11 +84,11 @@ inline s32 adxf_check_file_id(s32 partition, s32 file_index) {
 }
 s32 ADXF_GetFnameRangeEx(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *offset, s32 *size) {
     s32 st;
-    GetAfsFileInfoEntry *e;
+    AdxfPartitionInfo *e;
     u16 *arr;
     s32 sum;
     s32 i;
-    GetAfsFileInfoEntry *next;
+    AdxfPartitionInfo *next;
     st = adxf_check_file_id(archive, file_id);
     if (st < 0) {
         *mode = 0;
@@ -93,11 +98,11 @@ s32 ADXF_GetFnameRangeEx(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *o
     }
     e = afs_archive_toc_table[archive];
     while ((next = e->next) != NULL) {
-        GetAfsFileInfoChunk *c = (GetAfsFileInfoChunk *)&e->f114;
-        for (i = 0; i < e->fc; i++, c++) {
+        GetAfsFileInfoChunk *c = (GetAfsFileInfoChunk *)&e->first_sector;
+        for (i = 0; i < e->entry_count; i++, c++) {
             if (c->id == file_id) {
                 strncpy(dest, e->name, 0x100);
-                *mode = e->mode;
+                *mode = e->dir;
                 *offset = c->off;
                 *size = c->len;
                 return st;
@@ -105,13 +110,13 @@ s32 ADXF_GetFnameRangeEx(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *o
         }
         e = next;
     }
-    sum = e->f114;
-    arr = e->arr;
+    sum = e->first_sector;
+    arr = e->sector_counts;
     for (i = 0; i < file_id; i++) {
         sum += arr[i];
     }
     strncpy(dest, e->name, 0x100);
-    *mode = e->mode;
+    *mode = e->dir;
     *offset = sum;
     *size = arr[file_id];
     return st;
@@ -602,8 +607,8 @@ s32 adxf_load_partition(s32 broken) {
 }
 
 s32 ADXF_GetPtStat(s32 id) {
-    s16 *arr;
-    ReadAfsTocEntry *e;
+    u16 *arr;
+    AdxfPartitionInfo *e;
     s32 st;
     s32 i;
     if (id != lobby_adxf_current_file_id) {
@@ -614,9 +619,9 @@ s32 ADXF_GetPtStat(s32 id) {
     if (st != 3) {
         return st;
     }
-    e = ((ReadAfsTocEntry * *)&afs_archive_toc_table)[id];
-    arr = e->arr;
-    if (e->f8 == 0) {
+    e = afs_archive_toc_table[id];
+    arr = e->sector_counts;
+    if (e->file_count == 0) {
         s32 n;
         if (memcmp(afs_toc_buffer, "AFS", 3) != 0) {
             adxerr_report("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
@@ -629,18 +634,18 @@ s32 ADXF_GetPtStat(s32 id) {
             adxf_close_partition_file();
             return 4;
         }
-        e->fc = n;
+        e->entry_count = n;
         i = 3;
-        e->f8 = (u16)n;
-        e->f4 = ((e->f8 + 1) * 2 + 0x116) & ~3;
-        e->f114 = read_le32(afs_toc_buffer + 8) / 2048;
+        e->file_count = (u16)n;
+        e->info_size = ((e->file_count + 1) * 2 + 0x116) & ~3;
+        e->first_sector = read_le32(afs_toc_buffer + 8) / 2048;
     } else {
         i = 1;
     }
     for (; i < 0x200; i += 2) {
         u8 *q = afs_toc_buffer + i * 4;
         arr[lobby_afs_toc_entry_index++] = (read_le32(q) + 0x7FF) / 2048;
-        if (lobby_afs_toc_entry_index >= e->f8) {
+        if (lobby_afs_toc_entry_index >= e->file_count) {
             st = 3;
             adxf_close_partition_file();
             break;
@@ -669,7 +674,7 @@ u8 adxf_open_file_buffer[0x2080];
 
 // ADXF_LoadPartitionNw (named by its messages)
 s32 ADXF_LoadPartitionNw(s32 id, const char *name, s32 mode, void *ptinfo) {
-    GetAfsFileInfoEntry *e = (GetAfsFileInfoEntry *)ptinfo;
+    AdxfPartitionInfo *e = (AdxfPartitionInfo *)ptinfo;
     s32 r;
     u8 *buf;
     r = adxf_chk_prm_pt(id, e);
@@ -691,7 +696,7 @@ s32 ADXF_LoadPartitionNw(s32 id, const char *name, s32 mode, void *ptinfo) {
     afs_archive_toc_table[id] = e;
     e->next = NULL;
     strncpy(e->name, name, 0x100);
-    e->mode = mode;
+    e->dir = mode;
     e->fe = 0;
     buf = (u8 *)((saddr)(adxf_open_file_buffer + 0x20) & ~0x1F);
     adxf_load_partition_buffer = buf;
@@ -701,14 +706,14 @@ s32 ADXF_LoadPartitionNw(s32 id, const char *name, s32 mode, void *ptinfo) {
         ADXF_Close(lobby_adxf_open_file_handle);
         return r;
     }
-    e->f8 = 0;
+    e->file_count = 0;
     return 0;
 }
 
 // ADXF_LoadPtNwEx (named by its messages) and a second loader whose messages also say ADXF_LoadPartition
 // (real name unknown): removed by the linker. Only their messages are left after ADXF_LoadPartitionNw's, at
 // the end of the string pool; the bodies follow ADXF_LoadPartitionNw.
-s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, GetAfsFileInfoEntry *ptinfo, void *tmpbuf, s32 tbsize) {
+s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, AdxfPartitionInfo *ptinfo, void *tmpbuf, s32 tbsize) {
     if (tmpbuf == NULL) {
         adxerr_report("E1110701:'tmpbuf' is null.(ADXF_LoadPtNwEx)");
         return -3;
@@ -732,7 +737,7 @@ s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, GetAfsFileInfoEntry
     return 0;
 }
 
-s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, GetAfsFileInfoEntry *ptinfo) {
+s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, AdxfPartitionInfo *ptinfo) {
     if (adxf_chk_prm_pt(ptid, ptinfo) < 0) {
         return -3;
     }
@@ -740,7 +745,7 @@ s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, GetAfsFileInfoEnt
         adxerr_report("E9040804:can't open file.(ADXF_LoadPartition)");
         return -1;
     }
-    if (ptinfo->f8 == 0) {
+    if (ptinfo->file_count == 0) {
         adxerr_report("E9040806:file is broken.(ADXF_LoadPartition)");
         return -1;
     }

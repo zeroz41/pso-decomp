@@ -117,7 +117,7 @@ void update_adx_stream_read(AdxStreamFile *file) {
             if (file->sectors == get_stream_position(file) && file->on_completion != NULL) {
                 file->on_completion(file->completion_context);
             }
-            file->field34 += n;
+            file->bytes_read += n;
             file->read_pending = 0;
             if (get_stream_position(file) >= (file->size + 0x7FF) / 2048) {
                 file->stat = 3;
@@ -207,12 +207,12 @@ static inline s32 adxstm_tell(AdxStreamFile *s) {
 }
 s32 init_adx_stream_position(AdxStreamFile *file) {
     if (file->size == 0) {
-        file->field34 = 0;
+        file->bytes_read = 0;
         file->start_position = 0;
         file->stat = 3;
     } else {
         file->stat = 2;
-        file->field34 = 0;
+        file->bytes_read = 0;
         file->start_position = adxstm_tell(file);
         file->retry = 0;
     }
