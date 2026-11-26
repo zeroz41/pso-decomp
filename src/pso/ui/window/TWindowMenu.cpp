@@ -157,11 +157,11 @@ void *TWindowMenu::get_selected_entry() {
 }
 
 void TWindowMenu::set_active_flag() {
-    if (!(this->m_70 & 8) && (is_decided() == 0)) {
-        if (!(this->m_70 & 0x400)) {
+    if (!(this->menu_flags & 8) && (is_decided() == 0)) {
+        if (!(this->menu_flags & 0x400)) {
             play_sound_effect(0x52F16, 0, 0, 0);
         }
-        this->m_70 = (u16) (this->m_70 | 4);
+        this->menu_flags = (u16) (this->menu_flags | 4);
     }
 }
 
@@ -178,7 +178,7 @@ void TWindowMenu::confirm_selection() {
             if (!(row_flags & 0x20)) {
                 play_sound_effect(0x52D01, 0, 0, 0);
             }
-            this->m_70 = (u16) (this->m_70 | 2);
+            this->menu_flags = (u16) (this->menu_flags | 2);
             window_sub_status_disp = (u8 *)this->heading;
             if (window_sub_status_disp != NULL) {
                 ((WindowHeading *)window_sub_status_disp)->set_state(2);
@@ -195,7 +195,7 @@ void TWindowMenu::select_next_item() {
     while (1) {
         candidate += 1;
         if (candidate >= row_count) {
-            if (this->m_70 & 1) {
+            if (this->menu_flags & 1) {
                 return;
             }
             candidate = 0;
@@ -218,7 +218,7 @@ void TWindowMenu::move_cursor_prev() {
     while (1) {
         candidate -= 1;
         if (candidate < 0) {
-            if (this->m_70 & 1) {
+            if (this->menu_flags & 1) {
                 return;
             }
             candidate = row_count - 1;
@@ -447,9 +447,9 @@ void TWindowMenu::layout_entries() {
 }
 
 void TWindowMenu::clear_transition_flag() {
-    u16 flags = m_70;
+    u16 flags = menu_flags;
     if (flags & 0x20) {
-        m_70 = flags & ~0x20;
+        menu_flags = flags & ~0x20;
         target_size[1] = 20.0f + layout_height;
         tween_ticks = 3;
     }
@@ -459,9 +459,9 @@ void TWindowMenu::open() {
     u16 open_flags;
     WindowTextEntry *selected_entry;
 
-    open_flags = m_70;
+    open_flags = menu_flags;
     if (!(open_flags & 0x20)) {
-        m_70 = (u16) (open_flags | 0x20);
+        menu_flags = (u16) (open_flags | 0x20);
         selected_entry = static_cast<WindowTextEntry *>(get_selected_entry());
         target_size[1] = 20.0f + selected_entry->height;
         if (window_flags & 0x40) {
@@ -509,7 +509,7 @@ s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id, s32 color) {
             entry->flags |= 8;
         }
     }
-    if (m_70 & 0x100) {
+    if (menu_flags & 0x100) {
         ((TWindowHelpItem *)entry)->reset_float_field();
     }
     measure_message_text_width_default(entry);
@@ -611,7 +611,7 @@ void TWindowMenu::render() {
         this,
         &this->entry_list,
         ctx);
-    if (!(this->m_70 & 0x80)) {
+    if (!(this->menu_flags & 0x80)) {
         this->render_selected_entry(ctx);
         this->draw_selected_bar(ctx);
     }
@@ -635,7 +635,7 @@ void TWindowMenu::run_task() {
     }
     if ((this->sub_80266BB8() == 0) && (this->is_decided() == 0) && ((s32) *(s32 *)&this->open_tick > 2) && (is_window_display_enabled() != 0) && (this->is_open_and_unblocked() != 0)) {
         player_idx = is_player_input_active((this->client_index));
-        if (this->m_70 & 0x10) {
+        if (this->menu_flags & 0x10) {
             input = &controller_input_state.controllers[player_idx];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
                 move_cursor_prev();
@@ -691,7 +691,7 @@ TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TW
     row_cursor = 0;
     row_count = count;
     selected_row = 0;
-    m_70 = 0;
+    menu_flags = 0;
     client_index = client;
     reset_selection();
     rows = (TWindowMenuRow *)mem_alloc(count * 8);
@@ -718,19 +718,19 @@ s32 TWindowAddition::sub_80266B18(s32 index) {
 }
 
 s32 TWindowMenu::test_menu_flag(s32 buttons) {
-    if (this->m_70 & 0x200) {
+    if (this->menu_flags & 0x200) {
         return 0U;
     }
     return test_controller_flag_4c_color(&controller_input_state.keyboard, buttons);
 }
 
 s32 TWindowMenu::is_locked(s32 buttons) {
-    if (this->m_70 & 0x200) {
+    if (this->menu_flags & 0x200) {
         return 0;
     }
     return test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }
 
-int TWindowMenu::sub_80266BB8() { return (this->m_70 >> 6) & 0x1; }
+int TWindowMenu::sub_80266BB8() { return (this->menu_flags >> 6) & 0x1; }
 
 void TWindowMenu::reset_selection() { marked_row = -1; }

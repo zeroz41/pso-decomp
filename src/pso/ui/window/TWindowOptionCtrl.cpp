@@ -64,7 +64,7 @@ int TWindowOptionCtrl__sub_8026C630(void* p) { return *(u8*)((char*)p + 0x60) & 
 
 void TWindowOptionCtrl::clear_flag70_bit4() { *(u16*)((char*)this + 0x70) &= 0xfffffffb; }
 
-void TWindowMenu::set_flag70_bit100() { this->m_70 |= 0x100; }
+void TWindowMenu::set_flag70_bit100() { this->menu_flags |= 0x100; }
 
 void TWindowOptionCtrl::set_flag70_bit400() { *(u16*)((char*)this + 0x70) |= 0x400; }
 

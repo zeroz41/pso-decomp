@@ -332,4 +332,4 @@ saddr get_technique_description_text(s32 technique) {
 }
 
 void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }
-void TWindowMenu::clear_flag_40() { m_70 &= ~0x40; }
+void TWindowMenu::clear_flag_40() { menu_flags &= ~0x40; }

@@ -68,7 +68,7 @@ s32 online_quest_list_state;
 
 void TWindowMenu::clear_flag_and_release() {
     uaddr temp;
-    m_70 &= ~2;
+    menu_flags &= ~2;
     temp = reinterpret_cast<uaddr>(heading);
     if (temp != 0U) {
         ((WindowHeading *)temp)->set_state(1);
