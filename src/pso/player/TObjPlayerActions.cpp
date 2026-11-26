@@ -1602,16 +1602,16 @@ void TObjPlayer::enter_death_state() {
 }
 void handle_6x4D_player_died(G_PlayerDied_6x4D *command) {
     G_PlayerDied_6x4D cmd;
-    u8 *p;
+    TObjPlayer *p;
     cmd = *command;
     cmd.bswap();
     if (validate_6x4D_player_died(&cmd.header) != 0) {
-        p = (u8 *)get_player_by_client_id(cmd.header.client_id);
+        p = get_player_by_client_id(cmd.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->death_flags = cmd.death_flags;
-            ((TObjPlayer *)p)->reset_on_death();
-            if (((TObjPlayer *)p)->is_in_tl03_state() != 0) {
-                ((TObjPlayer *)p)->run_action_state_phase(0xF, 0);
+            p->death_flags = cmd.death_flags;
+            p->reset_on_death();
+            if (p->is_in_tl03_state() != 0) {
+                p->run_action_state_phase(0xF, 0);
             }
         }
     }
