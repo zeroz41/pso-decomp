@@ -8,6 +8,9 @@
 #include "musyx/musyx.h"
 #include <dolphin/ar.h>
 #include <dolphin/ai.h>
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/vi.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLoadCtrl.h"
@@ -277,11 +280,6 @@ void turn_off_bgm_p2(void) {
 
 
 
-extern "C" {
-typedef void (*VIRetraceCallback)(u32 retrace_count);
-VIRetraceCallback VISetPreRetraceCallback(VIRetraceCallback callback);
-VIRetraceCallback VISetPostRetraceCallback(VIRetraceCallback callback);
-}
 extern "C" {
 void gcrna_bridge_init_buffers(void *work, s32 size, s32 count);
 }
