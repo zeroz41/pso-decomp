@@ -129,7 +129,6 @@ s32 dispatch_weapon_special_effect(void *, int, int, int);
 s32 fn_8036B798(void *);
 s32 fn_8036B7C0(void *);
 
-extern const char *TOMineTrap__data_805D3080;
 const f64 freeze_escape_timer_scale = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
 extern f32 player_feedback_light_color[];
@@ -1578,7 +1577,7 @@ void TObjPlayer::enter_death_state() {
                     ((TObjPlayer *)entity)->record_kill(this, 1);
                 }
             }
-            if (entity->check_value_equals(TOMineTrap__data_805D3080) == 0) {
+            if (entity->check_value_equals(mine_trap_name) == 0) {
                 record_death(entity, 1);
             } else if ((killer = ((TOMineTrap *)entity)->get_trap_type()) == 0xffffU) {
                 record_death(entity, 1);
