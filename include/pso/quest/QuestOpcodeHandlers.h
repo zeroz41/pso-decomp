@@ -32,9 +32,7 @@ quest_suspend_reason dispatch_quest_opcode(void);
 void close_windows();
 void clear_player_flag_4096(TObjPlayer *p);
 void set_player_flag_4096(TObjPlayer *p);
-extern "C" {
 s32 fn_get_field_3ac(void *p);
-}
 s32 get_field_d4(void *p);
 
 extern int quest_active_flag;

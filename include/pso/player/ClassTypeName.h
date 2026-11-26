@@ -5,8 +5,6 @@
 
 saddr get_class_type_name(s32 class_flags);
 
-extern "C" {
 saddr select_main_menu_item_10(s32 id);
-}
 
 #endif

@@ -12,9 +12,7 @@ class TWindowMenu;
 extern BattleRanking split_screen_battle_rankings[4];
 
 s32 are_split_screen_battle_players_tied(void);
-extern "C" {
 BattleRanking *get_split_screen_battle_rankings(void);
-}
 
 class TPlayerBattleCtrl4P : public TObject {
 private:

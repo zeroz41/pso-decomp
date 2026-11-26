@@ -7,9 +7,7 @@
 
 class TParticleCtrl;
 
-extern "C" {
 TParticleCtrl *create_attached_oneshot_emitter(void *owner, u16 target_id, s32 id);
-}
 void emit_idle_water_splash(PlayerHandParticles *owner, const Vec *position);
 TParticleCtrl *emit_player_model_particle(PlayerHandParticles *owner, const Vec *position, s32 id, s32 model);
 TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id);
