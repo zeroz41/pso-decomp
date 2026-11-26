@@ -7,6 +7,8 @@
 
 struct GuildCardEntry;
 struct GuildCardSlot;
+struct TRecvChoiceSearchOptions;
+struct ChoiceSearchResultList;
 struct NJS_POINT2;
 struct TWindowComCard;
 struct TWindowMainMenu;
@@ -36,7 +38,8 @@ struct TWindowSubComCard : public TObject {
     TWindowMessageYesNo *sub_802730E0();
     TWindowMenu *create_option_list_window(ChoiceSearchSelection *selections, s32 key);
     void sub_802721D8();
-    u8 *find_entry_rest(void *, s32);
+    // Text of the option `selections[index]` picks, or NULL.
+    char *find_option_text(ChoiceSearchSelection *selections, s32 index);
     void send_state_if_dirty();
     void send_choice_search(ChoiceSearchSelection *selections);
     void handle_close_flag();
@@ -50,7 +53,8 @@ struct TWindowSubComCard : public TObject {
     uaddr m_28;
     uaddr m_2c;
     ChoiceSearchSelection choice_selections[5];
-    uaddr chr_select;
+    // The options the server offered, taken from get_choice_search_options once they arrive.
+    TRecvChoiceSearchOptions *search_options;
     TWindowMainMenu *parent_menu;
     TWindowMenu *menu_window;
     // Menu the current state waits on (option lists, menus, player select).
@@ -67,9 +71,9 @@ struct TWindowSubComCard : public TObject {
     static saddr get_card_slot(s32 slot);
     static TWindowComCard *send_command(s32 index);
     static TWindowComCard *apply_selection(s32 index);
-    static saddr get_com_count();
+    static ChoiceSearchResultList *get_choice_search_results();
     static void release();
-    static saddr get_chr_select();
+    static TRecvChoiceSearchOptions *get_choice_search_options();
     void clear_and_init(void* local_client_id);
     s32 get_card_id();
     int is_active();

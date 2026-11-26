@@ -25,6 +25,9 @@ struct GuildCardRecord {
     char *get_sub_disp_ptr();
 };
 
+// The com-card record picked in the com-card or choice-search windows (load_selected_guild_card_record).
+extern GuildCardRecord selected_guild_card_record;
+
 extern "C" char *TWindowSubComCard__sub_8027523C(GuildCardRecord *entry);
 
 class TUserAns;

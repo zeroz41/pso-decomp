@@ -89,8 +89,8 @@ s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choic
 
 extern "C" {
 
-saddr TWindowSubComCard::get_com_count() {
-    return (saddr)choice_search_results;
+ChoiceSearchResultList *TWindowSubComCard::get_choice_search_results() {
+    return choice_search_results;
 }
 void TWindowSubComCard::release() {
     if (choice_search_results != NULL) {
@@ -98,8 +98,8 @@ void TWindowSubComCard::release() {
         choice_search_results = NULL;
     }
 }
-saddr TWindowSubComCard::get_chr_select() {
-    return (saddr)choice_search_options;
+TRecvChoiceSearchOptions *TWindowSubComCard::get_choice_search_options() {
+    return choice_search_options;
 }
 
 void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select) {
