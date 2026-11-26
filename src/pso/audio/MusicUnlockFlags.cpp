@@ -116,7 +116,7 @@ char *bgm_adx_filename_table[49] = {
 };
 
 // Unlocking .flag also unlocks .linked; ends with {-1, -1}.
-const FlagLink_8036A514 music_flag_link_table[] = {
+const MusicFlagLink music_flag_link_table[] = {
     {11, 10},
     {14, 13},
     {17, 16},

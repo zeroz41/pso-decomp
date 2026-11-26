@@ -20,11 +20,6 @@ void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags);
 // Draw a model posed by a motion at a frame.
 void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
 
-struct Ctrl_801E352C {
-    u8 pad[4];
-    u32 *data;
-};
-
 // Draws `count` lines through the camera view, each a pair of lines->p points with their lines->col ARGB
 // words. Flags: 4 blends, 0x10 joins the points into one strip.
 void draw_line_list(NJS_POINT3COL *lines, s32 count, u32 flags);

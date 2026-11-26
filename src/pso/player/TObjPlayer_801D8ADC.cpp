@@ -39,8 +39,8 @@ f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class
 extern PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];
 extern const TObjMotionAction *player_clamped_index_table_pointers[3];
-extern const Rec_8044845C *player_anim_table_pointers[3];
-extern const Rec_804484EC *player_cast_motion_record_table[6];
+extern const PlayerAnimTableEntry *player_anim_table_pointers[3];
+extern const PlayerCastMotionRecord *player_cast_motion_record_table[6];
 extern const TPlyInventoryItem *class_starting_inventory_table[12];
 // Defined after their users, which keeps these 8-byte tables out of .sdata.
 extern const Vec *hospital_position_table_by_episode[];
@@ -260,10 +260,10 @@ const s32 (*player_footstep_floor_table[3])[5] = {
 const TObjMotionAction *player_clamped_index_table_pointers[3] = {
     player_clamped_motion_actions_0, player_clamped_motion_actions_1, player_clamped_motion_actions_2,
 };
-const Rec_8044845C *player_anim_table_pointers[3] = {
+const PlayerAnimTableEntry *player_anim_table_pointers[3] = {
     player_anim_table_0, player_anim_table_1, player_anim_table_2,
 };
-const Rec_804484EC *player_cast_motion_record_table[6] = {
+const PlayerCastMotionRecord *player_cast_motion_record_table[6] = {
     player_cast_motion_records_0, player_cast_motion_records_1, player_cast_motion_records_2,
     player_cast_motion_records_3, player_cast_motion_records_1, player_cast_motion_records_1,
 };

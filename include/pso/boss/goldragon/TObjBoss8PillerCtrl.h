@@ -5,7 +5,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
-struct Ent_8035C03C;
+struct Boss8PillerCtrlParam;
 
 struct TObjBoss8PillerCtrl : public TObject {
     TObjBoss8PillerCtrl(TObject *parent, f32, const Vec *pos, u16 id);
@@ -20,7 +20,7 @@ struct TObjBoss8PillerCtrl : public TObject {
     u16 piller_arg;     // the ctor's id, handed to each TObjBoss8Piller it spawns
     u8 pad_2E[0x2];
     void *buffer;       // freed by the dtor; nothing in this unit sets it
-    const Ent_8035C03C *step; // next entry of boss8_piller_ctrl_params
+    const Boss8PillerCtrlParam *step; // next entry of boss8_piller_ctrl_params
     static const char *class_name;
 };
 
@@ -29,6 +29,6 @@ LAYOUT_ASSERT(TObjBoss8PillerCtrl_size, sizeof(TObjBoss8PillerCtrl) == 0x38);
 // Spawns a TObjBoss8PillerCtrl under tl_05 (Boss8DemoObjects.cpp); the ctor drops the f32
 void create_boss8_piller_ctrl(const Vec *position, u16 id, f32 ignored);
 
-struct Ent_8035C03C { s32 x; s32 y; };
+struct Boss8PillerCtrlParam { s32 x; s32 y; };
 
 #endif

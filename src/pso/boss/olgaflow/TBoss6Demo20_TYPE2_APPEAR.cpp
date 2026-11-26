@@ -33,7 +33,7 @@ extern "C" {
 const ModelNodePositionEntry boss6_type2_appear_model_node_descriptors[9] = {
     {0x24}, {0x30}, {0x36}, {0x3A}, {0x48}, {0x4B}, {0x4E}, {0x52}, {-1},
 };
-const Ent_8033D6DC boss6_type2_appear_particle_schedule[9] = {
+const Boss6AppearParticleScheduleEntry boss6_type2_appear_particle_schedule[9] = {
     {42, 142, 554, -1},
     {135, 385, 552, -1},
     {148, 200, 557, 1},
@@ -199,7 +199,7 @@ void TBoss6Demo20_TYPE2_APPEAR::run_task() {
         break;
     }
     for (i = 0; i < 9; i++) {
-        const Ent_8033D6DC *e = &boss6_type2_appear_particle_schedule[i];
+        const Boss6AppearParticleScheduleEntry *e = &boss6_type2_appear_particle_schedule[i];
         if (timer >= e->start && timer < e->end) {
             const Vec *p = &boss6_type2_appear_origin;
             if (e->src == -2) {

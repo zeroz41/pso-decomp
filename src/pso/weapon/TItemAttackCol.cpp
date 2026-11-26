@@ -48,7 +48,7 @@ const char *TItemAttackCol::name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
-TItemAttackColBase::TItemAttackColBase(TObject *parent, S_802E451C *params) : TObject(parent) {
+TItemAttackColBase::TItemAttackColBase(TObject *parent, ItemAttackColParams *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
     body.offset.y = 0.0f;
@@ -208,18 +208,18 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
     return 0;
 }
 
-void reset_attack_params(S_802E451C *s_802_e451_c) {
-    s_802_e451_c->position.x = 0.0f;
-    s_802_e451_c->position.y = 0.0f;
-    s_802_e451_c->position.z = 0.0f;
-    s_802_e451_c->radius = 5.0f;
-    s_802_e451_c->hits = 1;
-    s_802_e451_c->client_id = 0xFFFF;
-    s_802_e451_c->room = -1;
-    s_802_e451_c->item_id = -1;
-    s_802_e451_c->accuracy = 0.0f;
-    s_802_e451_c->damage_scale = 1.0f;
-    s_802_e451_c->attack_kind = 0;
+void reset_attack_params(ItemAttackColParams *params) {
+    params->position.x = 0.0f;
+    params->position.y = 0.0f;
+    params->position.z = 0.0f;
+    params->radius = 5.0f;
+    params->hits = 1;
+    params->client_id = 0xFFFF;
+    params->room = -1;
+    params->item_id = -1;
+    params->accuracy = 0.0f;
+    params->damage_scale = 1.0f;
+    params->attack_kind = 0;
 }
 
 WeaponEffectDescriptor *reset_weapon_effect_descriptor(WeaponEffectDescriptor *params) {

@@ -34,7 +34,7 @@ static const Vec zonde_bolt_direction = {0.0f, -1.0f, 0.0f};
 static const InwardOrbitDir inward_orbit_particle_dir = {0, 0, 0x4000};
 
 
-struct Strike_80357B2C {
+struct WeaponSpecialStrike {
     Vec pos;
     Vec dir;
     f32 len;
@@ -50,8 +50,8 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
 #pragma fp_contract on
 void spawn_scattered_lightning_strikes(u8 *origin, s32 pattern) {
     Vec *p = (Vec *)origin;
-    Strike_80357B2C strikes[14];
-    Strike_80357B2C *s;
+    WeaponSpecialStrike strikes[14];
+    WeaponSpecialStrike *s;
     Vec *d;
     s32 i;
     f32 scale;

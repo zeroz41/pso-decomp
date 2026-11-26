@@ -76,7 +76,7 @@ struct CardSaveMetadataBlock {
     char system_dir_name[0x20];
     char character_dir_name[0x20];
     EpisodeCardMetadata episode;
-    GuildCardFile_804C89BC guild_card;
+    GuildCardFile guild_card;
 };
 
 extern u8 quest_memcard_key[];

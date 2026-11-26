@@ -37,7 +37,7 @@ const s32 boss2_ceil_junk_model_index_table[6] = { 0, 1, 2, 4, 3, 5 };
 const f32 TObjBoss2CeilJunk::height_offset_table[6] = { 10.0f, 10.0f, 7.0f, 3.0f, 10.0f, 6.0f };
 const f32 TObjBoss2CeilJunk::radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.45000002f, 1.2f };
 const char *TObjBoss2CeilJunk::name = "TObjBoss2CeilJunk";
-const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
+const Boss2CeilJunkRenderColor boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 
 // The surface the junk splashes into: the De Rol Le arena's water level.
 const f32 boss2_ceil_junk_water_level = boss2_water_level;
@@ -58,7 +58,7 @@ void TObjBoss2CeilJunk::render() {
   {
     model_render_flags = saved_model_render_flags | 0x8820;
     {
-      Color_8003A1B4 c = boss2_ceil_junk_render_color;
+      Boss2CeilJunkRenderColor c = boss2_ceil_junk_render_color;
       c.a = -1.0f + alpha;
       set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
     }

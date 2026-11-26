@@ -272,19 +272,19 @@ extern const TObjMotionAction player_clamped_motion_actions_2[12] = {
     { 1, 0, 22, 0.0001f, 0x20000000 },
     { 1, 0, 23, 0.0001f, 0x20000000 },
 };
-extern const Rec_8044845C player_anim_table_0[12] = {
+extern const PlayerAnimTableEntry player_anim_table_0[12] = {
     { 1, 0 }, { 14, 0 }, { 1, 0 }, { 3, 0 }, { 14, 0 }, { 3, 1 },
     { 1, 2 }, { 1, 2 }, { 14, 0 }, { 14, 0 }, { 2, 3 }, { 2, 4 },
 };
-extern const Rec_8044845C player_anim_table_1[12] = {
+extern const PlayerAnimTableEntry player_anim_table_1[12] = {
     { 6, 0 }, { 20, 0 }, { 6, 0 }, { 7, 0 }, { 20, 0 }, { 7, 1 },
     { 6, 2 }, { 6, 2 }, { 20, 0 }, { 20, 0 }, { 8, 3 }, { 8, 4 },
 };
-extern const Rec_8044845C player_anim_table_2[12] = {
+extern const PlayerAnimTableEntry player_anim_table_2[12] = {
     { 12, 0 }, { 12, 0 }, { 12, 0 }, { 10, 0 }, { 17, 0 }, { 10, 1 },
     { 12, 2 }, { 12, 2 }, { 17, 0 }, { 17, 0 }, { 11, 3 }, { 11, 4 },
 };
-extern const Rec_804484EC player_cast_motion_records_0[19] = {
+extern const PlayerCastMotionRecord player_cast_motion_records_0[19] = {
     { 18.0f, 30.0f, 32.0f, 8.0f, 48 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
@@ -305,7 +305,7 @@ extern const Rec_804484EC player_cast_motion_records_0[19] = {
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
 };
-extern const Rec_804484EC player_cast_motion_records_1[19] = {
+extern const PlayerCastMotionRecord player_cast_motion_records_1[19] = {
     { 18.0f, 30.0f, 32.0f, 17.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
@@ -326,7 +326,7 @@ extern const Rec_804484EC player_cast_motion_records_1[19] = {
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
 };
-extern const Rec_804484EC player_cast_motion_records_2[19] = {
+extern const PlayerCastMotionRecord player_cast_motion_records_2[19] = {
     { 18.0f, 30.0f, 32.0f, 13.0f, 48 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
@@ -347,7 +347,7 @@ extern const Rec_804484EC player_cast_motion_records_2[19] = {
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
 };
-extern const Rec_804484EC player_cast_motion_records_3[19] = {
+extern const PlayerCastMotionRecord player_cast_motion_records_3[19] = {
     { 18.0f, 30.0f, 32.0f, 8.0f, 48 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },

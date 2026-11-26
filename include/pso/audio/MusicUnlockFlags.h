@@ -12,7 +12,7 @@ char *get_bgm_filename(s32 index);
 
 s32 get_option_table_entry(s32 idx);
 
-struct FlagLink_8036A514 {
+struct MusicFlagLink {
     s32 flag;
     s32 linked;
 };

@@ -6,7 +6,7 @@
 
 // What TItemAttackColBase's constructor copies; reset_attack_params fills in
 // the defaults. The derived attack colliders' parameter blocks start with it.
-struct S_802E451C {
+struct ItemAttackColParams {
     Vec position;
     f32 radius;      // the collision body's radius
     s32 hits;        // targets it may hit before it destroys itself
@@ -18,12 +18,12 @@ struct S_802E451C {
     s32 attack_kind;   // TItemWeapon::deliver_hit's attack_kind
 };
 
-// Fills in an S_802E451C's defaults: no position, radius 5, one hit, no owner, room or weapon.
-void reset_attack_params(S_802E451C *params);
+// Fills in an ItemAttackColParams's defaults: no position, radius 5, one hit, no owner, room or weapon.
+void reset_attack_params(ItemAttackColParams *params);
 
 class TItemAttackColBase : public TObject {
 public:
-    TItemAttackColBase(TObject *parent, S_802E451C *params);
+    TItemAttackColBase(TObject *parent, ItemAttackColParams *params);
     virtual ~TItemAttackColBase();
     void check_hits();
     s32 try_add_hit_target(const ActorBodyHit *hit);

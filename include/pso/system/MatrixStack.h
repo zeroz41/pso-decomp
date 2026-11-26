@@ -56,8 +56,8 @@ struct InitTextureFromGvrDescB { s32 a; u16 b; u16 c; };
 
 struct Matrix34 { f32 elements[3][4]; };
 
-struct Ent_803D9E38 { u8 *p; s32 a; s32 b; };
+struct ResolveTexlistEntry { u8 *p; s32 a; s32 b; };
 
-struct ResolveTexlistEntryTable { u8 pad[8]; Ent_803D9E38 arr[1]; };
+struct ResolveTexlistEntryTable { u8 pad[8]; ResolveTexlistEntry arr[1]; };
 
 #endif

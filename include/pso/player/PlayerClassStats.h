@@ -11,12 +11,12 @@ struct PlayerProfessionStatFactors { f32 hp; f32 tp; };
 
 // Record types of the class/motion tables; layouts from the original bytes and
 // the accessors' strides, field meanings unknown.
-struct Rec_8044845C {
+struct PlayerAnimTableEntry {
     s16 unk0;
     s16 unk2;
 };
 
-struct Rec_804484EC {
+struct PlayerCastMotionRecord {
     f32 unk0;
     f32 unk4;
     f32 unk8;
@@ -41,13 +41,13 @@ extern const s32 footstep_floor_table_racast[36][5];
 extern const TObjMotionAction player_clamped_motion_actions_0[12];
 extern const TObjMotionAction player_clamped_motion_actions_1[12];
 extern const TObjMotionAction player_clamped_motion_actions_2[12];
-extern const Rec_8044845C player_anim_table_0[12];
-extern const Rec_8044845C player_anim_table_1[12];
-extern const Rec_8044845C player_anim_table_2[12];
-extern const Rec_804484EC player_cast_motion_records_0[19];
-extern const Rec_804484EC player_cast_motion_records_1[19];
-extern const Rec_804484EC player_cast_motion_records_2[19];
-extern const Rec_804484EC player_cast_motion_records_3[19];
+extern const PlayerAnimTableEntry player_anim_table_0[12];
+extern const PlayerAnimTableEntry player_anim_table_1[12];
+extern const PlayerAnimTableEntry player_anim_table_2[12];
+extern const PlayerCastMotionRecord player_cast_motion_records_0[19];
+extern const PlayerCastMotionRecord player_cast_motion_records_1[19];
+extern const PlayerCastMotionRecord player_cast_motion_records_2[19];
+extern const PlayerCastMotionRecord player_cast_motion_records_3[19];
 extern const TPlyInventoryItem humar_starting_inventory[5];
 extern const TPlyInventoryItem hunewearl_starting_inventory[5];
 extern const TPlyInventoryItem hucast_starting_inventory[5];

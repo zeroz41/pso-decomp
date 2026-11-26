@@ -87,7 +87,7 @@ EpisodeCardMetadata episode_i_and_ii_card_filename = {
     "EPISODE I & II", "SYSTEM_FILE", 0,
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'U', 'T', 'T', 'T' },
 };
-GuildCardFile_804C89BC pso_guildcard_card_filename = {
+GuildCardFile pso_guildcard_card_filename = {
     "PSO_GUILDCARD", "GUILDCARD_FILE", 0, "PSO______000", "PSOV2/DOWNLOAD", 0,
 };
 u8 quest_memcard_key[0x10] = {

@@ -34,7 +34,7 @@ LAYOUT_ASSERT(TObjBoss2CeilJunk_size, sizeof(TObjBoss2CeilJunk) == 0xB8);
 LAYOUT_ASSERT(TObjBoss2CeilJunk_velocity_offset, offsetof(TObjBoss2CeilJunk, velocity) == 0x90);
 LAYOUT_ASSERT(TObjBoss2CeilJunk_ground_normal_offset, offsetof(TObjBoss2CeilJunk, ground_normal) == 0x9C);
 
-struct Color_8003A1B4
+struct Boss2CeilJunkRenderColor
 {
   f32 a;
   s32 b;

@@ -23,7 +23,7 @@ LAYOUT_ASSERT(CardSaveDescriptor_data_offset, offsetof(CardSaveDescriptor, data)
 LAYOUT_ASSERT(CardSaveDescriptor_size, sizeof(CardSaveDescriptor) == 0x60);
 
 // The memory card file holding the guild card list, and where downloaded cards go.
-struct GuildCardFile_804C89BC {
+struct GuildCardFile {
     char filename[0x20];
     char comment[0x20];
     u32 flags;
@@ -51,7 +51,7 @@ LAYOUT_ASSERT(EpisodeCardMetadata_size, sizeof(EpisodeCardMetadata) == 0x48);
 
 extern "C" CharacterCardMetadata pso_character_card_filename;
 extern "C" EpisodeCardMetadata episode_i_and_ii_card_filename;
-extern GuildCardFile_804C89BC pso_guildcard_card_filename;
+extern GuildCardFile pso_guildcard_card_filename;
 // The memory card file name of the system save, "PSO_SYSTEM".
 extern "C" char pso_system_card_filename[0x20];
 
