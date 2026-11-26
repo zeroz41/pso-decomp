@@ -208,6 +208,7 @@ struct QuestCommandTable {
 
 extern "C" {
 void append_string(const char *s);
+s32 is_message_source_exhausted(void);
 void begin_message_substitution(u8 *source, char *result);
 s32 parse_r_index(const char *text);
 }
@@ -215,8 +216,6 @@ s32 parse_r_index(const char *text);
 extern char quest_player_class_name_buffer[16];
 extern char quest_player_name_buffer[16];
 void append_player_name(void);
-namespace pf2_p0 { extern "C" { s32 is_message_source_exhausted(); } }
-#define is_message_source_exhausted pf2_p0::is_message_source_exhausted
 namespace pf2_p0 { extern "C" { s8 read_byte_advance__6TLobbyFv(); } }
 #define read_byte_advance__6TLobbyFv pf2_p0::read_byte_advance__6TLobbyFv
 void append_message_char(s8);
@@ -418,7 +417,6 @@ s32 parse_f_index(const char *a0) {
     return -1;
 }
 
-#undef is_message_source_exhausted
 #undef read_byte_advance__6TLobbyFv
 
 extern "C" {
@@ -495,7 +493,7 @@ void append_hero_name(void) {
 }
 extern "C" {
 
-u8 is_message_source_exhausted(void) {
+s32 is_message_source_exhausted(void) {
     return (u8) ((s8) *quest_script_read_ptr == 0);
 }
 
