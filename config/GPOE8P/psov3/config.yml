@@ -6384,7 +6384,7 @@ force_active:
   - update_area_count_text__FP11TWindowArea
   - apply_facial_part_sprites
   - apply_face_appearance_sprite
-  - sub_8025CE00__19TWindowKeyBoardBaseFPUc
+  - has_unconvertible_char__19TWindowKeyBoardBaseFPUc
   - fn_80262C2C
   - draw_pan_arrows__21TWindowSubAreaMapDispFP17WindowDrawContext
   - reset_current_char_appearance__Fl

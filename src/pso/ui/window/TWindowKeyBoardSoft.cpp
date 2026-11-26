@@ -115,7 +115,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *first_page, s32 *last_page) {
 
 #pragma push
 #pragma fp_contract on
-s32 TWindowKeyBoardSoft::sub_802605DC() {
+s32 TWindowKeyBoardSoft::get_cursor_key() {
     s32 idx = calc_key_index(cursor_column, cursor_row);
     return idx + soft_keyboard_key_first_column_offsets[soft_keyboard_key_class[idx]];
 }
@@ -550,7 +550,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
 
     layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
     depth = -1.0f / (0.1196f + ctx->depth);
-    cursor = this->sub_802605DC();
+    cursor = this->get_cursor_key();
     keys = layout->pages[layout_page];
     TWindowSubStatusDisp::reset_gauge(NULL);
     for (row = 0; row < 7; row++) {
@@ -786,7 +786,7 @@ void TWindowKeyBoardSoft::draw_key_frames(WindowDrawContext *ctx) {
     s32 first_page;
     s32 last_page;
 
-    cursor = this->sub_802605DC();
+    cursor = this->get_cursor_key();
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);

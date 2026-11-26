@@ -79,7 +79,7 @@ void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
     this->state_flags = 0;
 }
 
-s32 TWindowKeyBoardBase::sub_8025CE00(u8 *text) {
+s32 TWindowKeyBoardBase::has_unconvertible_char(u8 *text) {
     char *p = (char *)text;
     u16 ch;
 
@@ -546,7 +546,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     }
     *dst = 0;
     current_candidate = candidate_buffer;
-    if (sub_8025CE00(candidate_buffer) != 0) {
+    if (has_unconvertible_char(candidate_buffer) != 0) {
         state_flags = (u16) (state_flags | 0x10);
         candidate_count = 1;
         candidate_index = 1;

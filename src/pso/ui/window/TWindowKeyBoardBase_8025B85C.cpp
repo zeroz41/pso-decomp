@@ -51,7 +51,7 @@ void TWindowKeyBoardBase::key_clear() {
 
 void TWindowKeyBoardBase::sub_8025B928() {  }
 
-void TWindowKeyBoardBase::sub_8025B92C() {
+void TWindowKeyBoardBase::convert_composition() {
     char text[0x100];
     char name[0x100];
     s32 count;

@@ -308,7 +308,7 @@ s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
         &TWindowKeyBoardBase::sub_8025B928,
         &TWindowKeyBoardBase::key_home,
         &TWindowKeyBoardBase::key_end,
-        &TWindowKeyBoardBase::sub_8025B92C,
+        &TWindowKeyBoardBase::convert_composition,
         &TWindowKeyBoardBase::update_input_state,
         &TWindowKeyBoardBase::key_backspace,
         &TWindowKeyBoardBase::key_delete,
@@ -551,7 +551,7 @@ void TWindowKeyBoardHard::set_mode0() {
 
 void TWindowKeyBoardHard::release_keyboard() {
     if (m_control != NULL) {
-        m_control->sub_8025CC48();
+        m_control->load_input_mode_options();
     }
 }
 
@@ -612,7 +612,7 @@ void TWindowKeyBoardHard::run_task() {
                 this->input_flags = (s32) (this->input_flags & 0xFFFFFEFF);
                 m_control->composition_flags &= ~0x40;
                 if (!(this->input_flags & 0x40)) {
-                    m_control->sub_8025CC48();
+                    m_control->load_input_mode_options();
                 }
             }
             update_modifier_flags();

@@ -19,7 +19,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void handle_page_cycle_input(s32);
     void update_keyboard_child_input_from_controller(s32);
     void handle_backspace_button(s32);
-    s32 sub_802605DC();
+    s32 get_cursor_key();
     int get_flag_bit5();
     int get_flag_bit6();
     int is_cursor_locked();
