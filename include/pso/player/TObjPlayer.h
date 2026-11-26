@@ -744,7 +744,7 @@ struct TObjPlayer : public TObjChara {
     f32 get_attack_recovery_count();
     static s32 get_current_state_field(s32 cls, s32 lvl);
     s32 get_class_state_field(s32 lvl);
-    static player_stats *get_class_stat_entry(u8 *player);
+    player_stats *get_class_stat_entry();
     f32 get_tp_class_factor();
     f32 get_class_hp_factor();
     int get_floor_surface_type();

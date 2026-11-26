@@ -596,8 +596,8 @@ struct G_IdentifyItemRequest_6xB8 {
 
 struct G_ImposeHold_6x2C {
  struct G_ClientIDHeader header;
- s16 unknown_a1;
- s16 unknown_a2;
+ s16 frames;
+ s16 effect_type;
  struct VectorXZF pos;
  f32 trigger_radius2;
  void bswap();

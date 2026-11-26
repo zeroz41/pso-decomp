@@ -40,26 +40,10 @@ typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
 
 typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
 
-struct Base_8011CB18 { u8 pad[0x18]; };
-
-struct Item_8011CB18 : Base_8011CB18 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual s32 m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual u8 m41();
-};
-
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
-WeaponRangeRecord *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
+WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode);
 }
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
@@ -84,11 +68,11 @@ s32 is_unsealable_item(u8 *id) {
     return 0;
 }
 
-saddr TObjPlayer::get_shield_pmt_entry(u8 arg0) {
-    if (arg0 == 0) {
+saddr TObjPlayer::get_shield_pmt_entry(u8 index) {
+    if (index == 0) {
         return 0;
     }
-    return (saddr)&item_pmt_tbl->technique_boosts[arg0 * 0x18];
+    return (saddr)&item_pmt_tbl->technique_boosts[index * 0x18];
 }
 
 ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
@@ -162,35 +146,35 @@ void roll_item_channel_below(u32 count, s32 channel) {
 }
 
 void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
-    s32 sp8;
+    s32 floor_slot;
     s32 idx;
-    sp8 = slot;
+    floor_slot = slot;
     if (item_mgr != NULL) {
-        normalize_drop_area(&sp8);
-        idx = sp8 - 1;
-        sp8 = idx;
+        normalize_drop_area(&floor_slot);
+        idx = floor_slot - 1;
+        floor_slot = idx;
         item_mgr->select_enemy_drop(area, idx, (TItemData *)item);
     }
 }
 void TObjPlayer::drop_item(s32 slot, saddr item) {
-    s32 sp8;
+    s32 floor_slot;
     s32 off;
-    sp8 = slot;
+    floor_slot = slot;
     if (item_mgr != NULL) {
-        normalize_drop_area(&sp8);
-        off = sp8 - 1;
-        sp8 = off;
+        normalize_drop_area(&floor_slot);
+        off = floor_slot - 1;
+        floor_slot = off;
         item_mgr->select_box_item(off, (TItemData *)item);
     }
 }
 void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
-    s32 sp8;
+    s32 floor_slot;
     s32 idx;
-    sp8 = slot;
+    floor_slot = slot;
     if (item_mgr != NULL) {
-        normalize_drop_area(&sp8);
-        idx = sp8 - 1;
-        sp8 = idx;
+        normalize_drop_area(&floor_slot);
+        idx = floor_slot - 1;
+        floor_slot = idx;
         item_mgr->generate_drop_item(idx, (TItemData *)item);
     }
 }
@@ -433,13 +417,13 @@ saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
 block_6:
     return (saddr)lbl_805D2B10;
 }
-WeaponRangeRecord *get_weapon_range_record(Item_8011CB18 *item, s16 mode) {
+WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {
     if (item != 0) {
-        u8 id = ((TItem *)item)->get_item_group();
+        u8 id = item->get_item_group();
         if (id < 0xAA) {
-            u8 slots = ((TItem *)item)->get_item_index();
+            u8 slots = item->get_item_index();
             WeaponRangeRule *r = item_pmt_tbl->weapon_range_rules->rules;
-            s32 v = item->m33();
+            s32 v = item->is_identified();
             s32 i;
             for (i = 0; i != item_pmt_tbl->weapon_range_rules->count; i++) {
                 if (r->group == id && (r->index == 0xFF || r->index == slots) &&
@@ -450,7 +434,7 @@ WeaponRangeRecord *get_weapon_range_record(Item_8011CB18 *item, s16 mode) {
             }
             return &item_pmt_tbl->weapon_ranges->groups[id];
         }
-        return &item_pmt_tbl->weapon_ranges->groups[item->m41()];
+        return &item_pmt_tbl->weapon_ranges->groups[item->get_motion_type()];
     }
     return item_pmt_tbl->weapon_ranges->groups;
 }
