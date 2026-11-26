@@ -361,7 +361,7 @@ void TWindowCtrlPlayer::spawn_palette_slot_light(s32 kind) {
 
 void TWindowCtrlPlayer::append_message_line(const char *text, s32 mode) {
     if (message_information != NULL) {
-        message_information->append_line((saddr)text, mode);
+        message_information->append_line(text, mode);
     }
 }
 

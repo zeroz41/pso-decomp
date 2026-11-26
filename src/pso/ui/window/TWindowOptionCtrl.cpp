@@ -488,7 +488,7 @@ TWindowCheckBox *TWindowOptionCtrl::create_udp_option_menu() {
 TWindowMessageYesNo *TWindowOptionCtrl::open_yes_no_window(s32 message_id, s32 index) {
   TWindowMessageYesNo *window;
   window = TWindowMessageYesNo::create(this, 6, NULL, NULL);
-  window->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, message_id)), get_window_layout_position(index), 470.0f);
+  window->open_yes_no_prompt_with_text(get_localized_text_entry(0xF, message_id), get_window_layout_position(index), 470.0f);
   window->set_menu_selected_index(1);
   return window;
 }
@@ -498,14 +498,14 @@ saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 ki
     w = TWindowMessage::create(pos, (const f32 *)(&serial_info_window_size), 3);
     switch (kind) {
     case 0:
-        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x16), TWindowOptionCtrl::text_or_default(format_entered_serial()), 0);
-        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x17), TWindowOptionCtrl::text_or_default(format_entered_access_key()), 0);
-        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x18), TWindowOptionCtrl::text_or_default((const char *)get_password_input_buffer()), 0);
+        w->add_label_value_line(get_localized_text_entry(0xF, 0x16), TWindowOptionCtrl::text_or_default(format_entered_serial()), 0);
+        w->add_label_value_line(get_localized_text_entry(0xF, 0x17), TWindowOptionCtrl::text_or_default(format_entered_access_key()), 0);
+        w->add_label_value_line(get_localized_text_entry(0xF, 0x18), TWindowOptionCtrl::text_or_default((const char *)get_password_input_buffer()), 0);
         break;
     case 1:
-        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x16), TWindowOptionCtrl::text_or_default(format_saved_serial()), 0);
-        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x17), TWindowOptionCtrl::text_or_default(TAdEnterSerialAccessGC::get_formatted_serial()), 0);
-        w->add_label_value_line((const char *)get_localized_text_entry(0xF, 0x18), TWindowOptionCtrl::text_or_default((const char *)TWindowOptionCtrl::get_chr_select_base_plus_1154c()), 0);
+        w->add_label_value_line(get_localized_text_entry(0xF, 0x16), TWindowOptionCtrl::text_or_default(format_saved_serial()), 0);
+        w->add_label_value_line(get_localized_text_entry(0xF, 0x17), TWindowOptionCtrl::text_or_default(TAdEnterSerialAccessGC::get_formatted_serial()), 0);
+        w->add_label_value_line(get_localized_text_entry(0xF, 0x18), TWindowOptionCtrl::text_or_default((const char *)TWindowOptionCtrl::get_chr_select_base_plus_1154c()), 0);
         break;
     }
     w->complete_reveal();
@@ -514,7 +514,7 @@ saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 ki
 
 const char *TWindowOptionCtrl::text_or_default(const char *text) {
     if ((text == NULL) || ((s8) *text == 0)) {
-        return (const char *)get_localized_text_entry(0xF, 0x19);
+        return get_localized_text_entry(0xF, 0x19);
     }
     return text;
 }

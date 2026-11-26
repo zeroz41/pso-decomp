@@ -445,7 +445,7 @@ TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(const NJS_POINT2 *position,
     item_count = 0;
     flip_u = flip_u_flag;
     flip_v = flip_v_flag;
-    p = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
+    p = new WindowHeading(TWindowSubStatusDisp::get_message_10(0x33), client_index);
     heading = p;
     v.x = 0.0f;
     v.y = 0.0f;

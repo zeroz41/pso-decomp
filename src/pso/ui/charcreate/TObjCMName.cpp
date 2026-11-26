@@ -573,7 +573,7 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
         step = 19.0f * s;
         y = 396.0f * s - step;
         for (i = 0; i < 2; i++) {
-            const char *str = (const char *)get_message_text(i + 0x3B);
+            const char *str = get_message_text(i + 0x3B);
             f32 x = 604.0f - (f32)calc_text_width((char *)str);
             TCameraCtrl::restore_full_screen_view();
             draw_menu_text(x, y, str, color);

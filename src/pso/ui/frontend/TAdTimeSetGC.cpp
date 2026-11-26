@@ -323,8 +323,8 @@ void TAdTimeSetGC::reset_on_load_complete() {
 
 void TAdTimeSetGC::open_char_select() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 8));
-    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x29), get_localized_text_entry(0x1C, 0x16));
+    strcpy(text, get_localized_text_entry(0x1C, 8));
+    close_and_dispatch(text, 1, get_localized_text_entry(0x1C, 0x29), get_localized_text_entry(0x1C, 0x16));
 }
 
 void TAdTimeSetGC::handle_confirm_menu() {
@@ -559,8 +559,8 @@ void TAdTimeSetGC::run_state_16() {
 
 void TAdTimeSetGC::enter_state_17() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x25));
-    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    strcpy(text, get_localized_text_entry(0x1C, 0x25));
+    close_and_dispatch(text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::run_states_17_18() {
@@ -575,21 +575,21 @@ void TAdTimeSetGC::run_states_17_18() {
 
 void TAdTimeSetGC::enter_state_18() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x27));
-    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    strcpy(text, get_localized_text_entry(0x1C, 0x27));
+    close_and_dispatch(text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::enter_state_19() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x26));
-    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    strcpy(text, get_localized_text_entry(0x1C, 0x26));
+    close_and_dispatch(text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::init_menu_window() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 1));
+    strcpy(text, get_localized_text_entry(0x1C, 1));
     strcat(text, "\n");
-    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    close_and_dispatch(text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::run_states_19_21() {
@@ -623,18 +623,18 @@ void TAdTimeSetGC::build_selection_summary() {
     create_backgrounds();
     text[0] = 0;
     if (load_status & 0x80) {
-        strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1D));
+        strcat(text, get_localized_text_entry(0x1C, 0x1D));
         strcat(text, "\n");
     }
     if (load_status & 0x100) {
-        strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1E));
+        strcat(text, get_localized_text_entry(0x1C, 0x1E));
         strcat(text, "\n");
     }
     if (load_status & 0x200) {
-        strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1F));
+        strcat(text, get_localized_text_entry(0x1C, 0x1F));
         strcat(text, "\n");
     }
-    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x2A), get_localized_text_entry(0x1C, 0x2B));
+    close_and_dispatch(text, 1, get_localized_text_entry(0x1C, 0x2A), get_localized_text_entry(0x1C, 0x2B));
 }
 
 void TAdTimeSetGC::create_result_bg() {
@@ -646,7 +646,7 @@ void TAdTimeSetGC::sub_802E2158() {
 }
 
 void TAdTimeSetGC::show_confirm_dialog() {
-    s32 files;
+    const char *files;
     s32 flags;
 
     files = get_localized_text_entry(0x1C, 0x18);
@@ -666,7 +666,7 @@ void TAdTimeSetGC::show_confirm_dialog() {
     }
     sprintf(text, "%s\n%s\n%s", get_localized_text_entry(0x1C, 0x17), files, get_localized_text_entry(0x1C, 0x14));
     create_backgrounds();
-    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x15), get_localized_text_entry(0x1C, 0x16));
+    close_and_dispatch(text, 1, get_localized_text_entry(0x1C, 0x15), get_localized_text_entry(0x1C, 0x16));
 }
 
 void TAdTimeSetGC::run_state_23() {
@@ -812,8 +812,8 @@ void TAdTimeSetGC::close_windows() {
 }
 
 // sel -1: message only; -2: one menu entry; otherwise two entries with entry sel selected.
-void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 second_text) {
-    u32 entry_text;
+void TAdTimeSetGC::open_message_choice(const char *text, s32 sel, const char *first_text, const char *second_text) {
+    const char *entry_text;
 
     if (message_window != NULL || menu_window != NULL) {
         return;
@@ -835,13 +835,13 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     }
     entry_text = first_text;
     if (first_text == 0) {
-        entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5B);
+        entry_text = TWindowSubStatusDisp::get_message_10(0x5B);
     }
     if (sel != -2) {
         menu_window->add_text_entry(entry_text, 5, 0);
         entry_text = second_text;
         if (second_text == 0) {
-            entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5C);
+            entry_text = TWindowSubStatusDisp::get_message_10(0x5C);
         }
         menu_window->add_text_entry(entry_text, 5, 1);
     } else {
@@ -858,8 +858,8 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
 }
 
 void TAdTimeSetGC::open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
-    s32 text;
-    s32 first_text;
+    const char *text;
+    const char *first_text;
 
     text = get_localized_text_entry(0x1C, entry);
     first_text = 0;
@@ -872,7 +872,7 @@ void TAdTimeSetGC::open_message_choice_by_entries(s32 entry, s32 sel, s32 first_
     open_message_choice(text, sel, first_text, 0);
 }
 
-void TAdTimeSetGC::close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 second_text) {
+void TAdTimeSetGC::close_and_dispatch(const char *text, s32 sel, const char *first_text, const char *second_text) {
     close_windows();
     open_message_choice(text, sel, first_text, second_text);
 }
@@ -1049,13 +1049,13 @@ T_ATS_DrawCalendar::~T_ATS_DrawCalendar() {
 void T_ATS_DrawCalendar::render() {
     char buf[0x24];
     DateStamp date;
-    char *s;
+    const char *s;
     f32 w;
     s32 wd;
 
     if (visible != 0) {
         T_ATS_DrawCalendarPos p = pos;
-        s = (char *)get_localized_text_entry(0x1C, 0xC);
+        s = get_localized_text_entry(0x1C, 0xC);
         draw_menu_font_string_white(s, -(0.5f * (f32)calc_text_width(s) - p.x), p.y);
         p.y += 30.0f;
         getDateStamp(&date);

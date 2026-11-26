@@ -504,7 +504,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
     if (this->menu_window == NULL) {
         this->menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         if (get_game_play_mode() == 1) {
-            this->menu_window->add_text_entry((saddr)get_area_title(), 2, 0, -1);
+            this->menu_window->add_text_entry(get_area_title(), 2, 0, -1);
         } else {
             this->menu_window->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
         }

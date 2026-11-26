@@ -30,9 +30,9 @@ public:
     void sub_802E18C8();
     void apply_settings();
     void close_and_next(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
-    void close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 second_text);
+    void close_and_dispatch(const char *text, s32 sel, const char *first_text, const char *second_text);
     void open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
-    void open_message_choice(u32 text, s32 sel, u32 first_text, u32 second_text);
+    void open_message_choice(const char *text, s32 sel, const char *first_text, const char *second_text);
     void close_windows();
     void create_backgrounds();
     s32 check_capacity();

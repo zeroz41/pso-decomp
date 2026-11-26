@@ -321,7 +321,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
       if (yes_no_window != 0)
       {
-        yes_no_window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
+        yes_no_window->open_yes_no_prompt_with_text(TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), 368.0f);
         yes_no_window->set_menu_selected_index(1);
         yes_no_window->set_choice_menu_flag70_bit10();
         TWindowCtrl::begin_client_keyboard_hold(local_client_id);
@@ -337,7 +337,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
       if (yes_no_window != 0)
       {
-        initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(i), 368.0f);
+        initialize_option_dialog(yes_no_window, TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(i), 368.0f);
       }
     }
       break;
@@ -353,7 +353,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       player_list_window->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
-        player_list_window->dispatch_without_flags((saddr)player_names[i], i);
+        player_list_window->dispatch_without_flags(player_names[i], i);
       }
     }
     request_active_window_close();
@@ -590,7 +590,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
             if (menu_window == NULL) {
                 menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if (menu_window != NULL) {
-                    menu_window->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    menu_window->add_text_entry(TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     menu_window->disable_input();
                     menu_window->calc_window_size();
                     align_menu_entry_positions(menu_window);

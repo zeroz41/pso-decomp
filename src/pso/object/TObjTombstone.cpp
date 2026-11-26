@@ -41,6 +41,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 struct LabelOffset { s16 x, y; };
 
@@ -49,7 +50,6 @@ extern "C" {
 
 u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
-const char *get_message_text(s32);
 void set_tombstone_position(s32 i, Vec *pos);
 }
 
@@ -340,7 +340,7 @@ void TObjTombstone::build_name_text() {
 void TObjTombstone::format_enemy_text() {
     char fmt[0x30];
     char *text = this->labels[3];
-    s32 name;
+    const char *name;
     text[0] = 0;
     if (this->record.rt_index > 0) {
         name = enemy_name_for_rt_index(this->record.rt_index);

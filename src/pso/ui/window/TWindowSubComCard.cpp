@@ -532,7 +532,7 @@ void TWindowSubComCard::run_task() {
             this->user_sort_window = NULL;
         }
         this->sub_menu = this->create_result_list_menu();
-        this->sub_menu->add_text_entry((saddr)(""), 0x15, -1);
+        this->sub_menu->add_text_entry((""), 0x15, -1);
         rebuild_com_card_list(this->sub_menu);
         this->state = 0x1EU;
     case 0x1E:
@@ -1085,14 +1085,14 @@ void TWindowSubComCard::render() {  }
 TWindowMenu *TWindowSubComCard::create_menu() {
     TWindowMenu *list;
 
-    list = create_titled_window_menu_default(get_window_layout_position(0x7F), 6, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x52)), 6, 3);
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x53)), 6, 0xB);
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x54)), 6, 0x1D);
+    list = create_titled_window_menu_default(get_window_layout_position(0x7F), 6, TWindowSubStatusDisp::get_message_10(0x1D));
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x52)), 6, 3);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x53)), 6, 0xB);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x54)), 6, 0x1D);
     if (get_main_phase() == 0xF) {
         list->add_text_entry(get_message_text(0x49), 6, 0x27);
-        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x6D)), 6, 0x33);
-        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xF8)), 6, 0x39);
+        list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x6D)), 6, 0x33);
+        list->add_text_entry((TWindowSubStatusDisp::get_message_10(0xF8)), 6, 0x39);
     } else {
         add_gray_text_entry(list, (const char *)(get_message_text(0x49)), 6, 0x27);
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x6D)), 6, 0x33);
@@ -1106,9 +1106,9 @@ TWindowMenu *TWindowSubComCard::create_menu() {
 
 TWindowMenu *TWindowSubComCard::create_send_action_menu() {
     TWindowMenu *menu;
-    menu = create_titled_window_menu_default(get_window_layout_position(0x82), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1E));
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x55)), 6, 5);
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x56)), 6, 9);
+    menu = create_titled_window_menu_default(get_window_layout_position(0x82), 2, TWindowSubStatusDisp::get_message_10(0x1E));
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x55)), 6, 5);
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x56)), 6, 9);
     menu->set_flag70_bit10();
     menu->update_layout_height(213.0f);
     align_menu_entry_positions(menu);
@@ -1117,11 +1117,11 @@ TWindowMenu *TWindowSubComCard::create_send_action_menu() {
 
 TWindowMenu *TWindowSubComCard::create_contact_menu() {
   TWindowMenu *list;
-  list = create_titled_window_menu_default(get_window_layout_position(0x8B), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
-  list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 0x21);
+  list = create_titled_window_menu_default(get_window_layout_position(0x8B), 2, TWindowSubStatusDisp::get_message_10(0x1D));
+  list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x57)), 6, 0x21);
   if (get_current_floor_area() == AREA_LOBBY)
   {
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x58)), 6, 0x25);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x58)), 6, 0x25);
   }
   else
   {
@@ -1138,13 +1138,13 @@ TWindowMenu *TWindowSubComCard::create_player_list_menu() {
     TObjPlayer *player;
     TWindowMenu *w;
     char *name;
-    w = create_titled_window_menu_default(get_window_layout_position(0x83), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1F));
+    w = create_titled_window_menu_default(get_window_layout_position(0x83), 0xC, TWindowSubStatusDisp::get_message_10(0x1F));
     i = 0;
     do {
         if (i != local_client_id && (player = get_player_by_client_id(i)) != NULL &&
             player->is_script_controlled() == 0 && player->obj_isState3_324() == 0 &&
             (name = player->name) != NULL) {
-            w->add_text_entry((saddr)name, 7, i);
+            w->add_text_entry(name, 7, i);
         }
         i++;
     } while (i < 0xC);
@@ -1159,7 +1159,7 @@ TWindowMenu *TWindowSubComCard::create_player_list_menu() {
 TWindowMenu *TWindowSubComCard::create_single_entry_window() {
   TWindowMenu *menu;
     menu = create_window_menu_default(get_window_layout_position(0x84), 1);
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x38)), 3, 0);
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x38)), 3, 0);
     menu->disable_input();
     menu->set_scroll_target(213.0f, 64.0f);
     return menu;
@@ -1168,16 +1168,16 @@ TWindowMenu *TWindowSubComCard::create_single_entry_window() {
 TWindowMenu *TWindowSubComCard::open_menu() {
     TWindowMenu *list;
 
-    list = create_titled_window_menu_default(get_window_layout_position(0x87), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
+    list = create_titled_window_menu_default(get_window_layout_position(0x87), 5, TWindowSubStatusDisp::get_message_10(0x1D));
     if (get_main_phase() == 0xF) {
-        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
+        list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
     } else {
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
     }
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x101)), 6, 0x11);
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x102)), 6, 0x13);
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x63)), 6, 0x1B);
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x15);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x101)), 6, 0x11);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x102)), 6, 0x13);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x63)), 6, 0x1B);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x15);
     list->set_flag70_bit10();
     list->update_layout_height(206.0f);
     align_menu_entry_positions(list);
@@ -1188,7 +1188,7 @@ TWindowMessageYesNo *TWindowSubComCard::confirm_and_free() {
     TWindowMessageYesNo *dialog;
 
     dialog = TWindowMessageYesNo::create(this, this->client_id, 0, 0);
-    open_yes_no_prompt(dialog, ((saddr)TWindowSubStatusDisp::get_message_10(0x20)), ((saddr)TWindowSubStatusDisp::get_message_10(0x39)), get_window_layout_position(0x88), 205.0f);
+    open_yes_no_prompt(dialog, TWindowSubStatusDisp::get_message_10(0x20), TWindowSubStatusDisp::get_message_10(0x39), get_window_layout_position(0x88), 205.0f);
     dialog->set_menu_selected_index(1);
     dialog->set_choice_menu_flag70_bit10();
     return dialog;
@@ -1197,7 +1197,7 @@ TWindowMessageYesNo *TWindowSubComCard::confirm_and_free() {
 TWindowMessageYesNo *TWindowSubComCard::create_delete_entry_prompt() {
     TWindowMessageYesNo *window;
     window = TWindowMessageYesNo::create(this, this->client_id, 0, 0);
-    window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0xFC)), get_window_layout_position(0x96), 213.0f);
+    window->open_yes_no_prompt_with_text(TWindowSubStatusDisp::get_message_10(0xFC), get_window_layout_position(0x96), 213.0f);
     window->set_menu_selected_index(1);
     window->set_choice_menu_flag70_bit10();
     return window;
@@ -1207,14 +1207,14 @@ TWindowMessageYesNo *TWindowSubComCard::open_yesno_dialog() {
     TWindowMessageYesNo *dialog;
 
     dialog = TWindowMessageYesNo::create(this, this->client_id, 0, 0);
-    open_yes_no_prompt(dialog, ((saddr)TWindowSubStatusDisp::get_message_10(0x20)), ((saddr)TWindowSubStatusDisp::get_message_10(0x100)), get_window_layout_position(0x97), 213.0f);
+    open_yes_no_prompt(dialog, TWindowSubStatusDisp::get_message_10(0x20), TWindowSubStatusDisp::get_message_10(0x100), get_window_layout_position(0x97), 213.0f);
     dialog->set_menu_selected_index(1);
     dialog->set_choice_menu_flag70_bit10();
     return dialog;
 }
 
 TWindowMenu *TWindowSubComCard::create_result_list_menu() {
-    TWindowMenu *r = create_titled_window_menu_default(get_window_layout_position(0x89), 8, (saddr)TWindowSubStatusDisp::get_message_10(0x21));
+    TWindowMenu *r = create_titled_window_menu_default(get_window_layout_position(0x89), 8, TWindowSubStatusDisp::get_message_10(0x21));
     r->set_flag70_bit10();
     return r;
 }
@@ -1235,7 +1235,7 @@ void TWindowSubComCard::rebuild_com_card_list(TWindowMenu *list_window) {
     n = TLobby::get_com_card_data();
     for (i = n - 1; i >= 0; i--) {
         e = (GuildCardRecord *)TLobby::get_com_card_entry(i);
-        list_window->add_text_entry((saddr)e->get_sub_obj(), 7, e->get_serial());
+        list_window->add_text_entry(e->get_sub_obj(), 7, e->get_serial());
         if (cur == e->get_serial()) {
             sel = (n - 1) - i;
         }
@@ -1265,7 +1265,7 @@ TWindowChoiceSetting *TWindowSubComCard::create_choice_search_window() {
     ChoiceSearchOption *e;
     TRecvChoiceSearchOptions *l;
     w = TWindowChoiceSetting::create_choice_setting_window((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_choice_list_size, 6);
-    w->create_sub_window((const char *)get_message_text(0x49));
+    w->create_sub_window(get_message_text(0x49));
     l = this->search_options;
     idx = 0;
     count = l->header.flags;
@@ -1295,7 +1295,7 @@ TWindowChoiceSetting *TWindowSubComCard::create_entry_list_window() {
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     hard = TLobby::open_hard_keyboard(client_id);
     w = TWindowChoiceSetting::create_choice_setting_window((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_entry_list_size, 6);
-    w->create_sub_window((const char *)TWindowSubStatusDisp::get_message_10(0x6D));
+    w->create_sub_window(TWindowSubStatusDisp::get_message_10(0x6D));
     w->update_next_entry(TWindowSubStatusDisp::get_message_10(0x6D), this->get_message_10(hard), 0);
     l = this->search_options;
     idx = -1;
@@ -1326,10 +1326,10 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
     TWindowMenu *win;
     ChoiceSearchOption *e;
     TRecvChoiceSearchOptions *cs;
-    win = create_titled_window_menu_default(get_window_layout_position(0x8D), 0x20, (saddr)this->entry_list_window->find_entry_value_by_id(key));
+    win = create_titled_window_menu_default(get_window_layout_position(0x8D), 0x20, this->entry_list_window->find_entry_value_by_id(key));
     if (key == 0) {
-        win->add_text_entry((saddr)this->get_message_10(0), 6, 0);
-        win->add_text_entry((saddr)this->get_message_10(1), 6, 1);
+        win->add_text_entry(this->get_message_10(0), 6, 0);
+        win->add_text_entry(this->get_message_10(1), 6, 1);
         win->set_selected_index(TLobby::open_hard_keyboard(client_id));
     } else {
         sel = find_choice_search_value(selections, key);
@@ -1341,7 +1341,7 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
         while (i < count) {
             if (e->choice.parent_choice_id == key) {
                 val = e->choice.choice_id;
-                win->add_text_entry((saddr)e->text, 6, val);
+                win->add_text_entry(e->text, 6, val);
                 if (sel == val) {
                     win->set_selected_index(idx);
                 }
@@ -1364,12 +1364,12 @@ TWindowMenu *TWindowSubComCard::create_choice_search_result_menu() {
     TWindowMenu *w;
     ChoiceSearchResult *e;
     ChoiceSearchResultList *l;
-    w = create_titled_window_menu_default(get_window_layout_position(0x8E), 0x20, (saddr)TWindowSubStatusDisp::get_message_10(0x54));
+    w = create_titled_window_menu_default(get_window_layout_position(0x8E), 0x20, TWindowSubStatusDisp::get_message_10(0x54));
     l = TWindowSubComCard::get_choice_search_results();
     count = l->header.flags;
     e = l->entries;
     for (i = 0; i < count; i++, e++) {
-        w->add_text_entry((saddr)e->name, 6, i);
+        w->add_text_entry(e->name, 6, i);
     }
     if (w->get_entry_count() <= 0) {
         add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
@@ -1384,11 +1384,11 @@ TWindowMessage *TWindowSubComCard::open_mode4_window() {
 
 TWindowMenu *TWindowSubComCard::create_menu_window() {
   TWindowMenu *list;
-  list = create_titled_window_menu_default(get_window_layout_position(0x8f), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
-  list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 0x21);
+  list = create_titled_window_menu_default(get_window_layout_position(0x8f), 2, TWindowSubStatusDisp::get_message_10(0x1D));
+  list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x57)), 6, 0x21);
   if (get_current_floor_area() == AREA_LOBBY)
   {
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x58)), 6, 0x25);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x58)), 6, 0x25);
   }
   else
   {
@@ -1402,10 +1402,10 @@ TWindowMenu *TWindowSubComCard::create_menu_window() {
 
 TWindowMenu *TWindowSubComCard::create_block_sender_menu() {
     TWindowMenu *w;
-    w = create_titled_window_menu_default(get_window_layout_position(0x90), 2, (saddr)TWindowSubStatusDisp::get_message_10(0xF8));
-    w->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFA)), 6, 0x3B);
+    w = create_titled_window_menu_default(get_window_layout_position(0x90), 2, TWindowSubStatusDisp::get_message_10(0xF8));
+    w->add_text_entry((TWindowSubStatusDisp::get_message_10(0xFA)), 6, 0x3B);
     if (TWindowSubComCard::init_card() != 0) {
-        w->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFB)), 6, 0x3F);
+        w->add_text_entry((TWindowSubStatusDisp::get_message_10(0xFB)), 6, 0x3F);
     } else {
         add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xFB)), 6, 0x3F);
     }
@@ -1416,10 +1416,10 @@ TWindowMenu *TWindowSubComCard::create_block_sender_menu() {
 
 TWindowMenu *TWindowSubComCard::create_card_action_window() {
     TWindowMenu *menu;
-    menu = create_titled_window_menu_default(get_window_layout_position(0x93), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFD)), 6, 0x41);
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFE)), 6, 0x45);
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFF)), 6, 0x4A);
+    menu = create_titled_window_menu_default(get_window_layout_position(0x93), 3, TWindowSubStatusDisp::get_message_10(0x1D));
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xFD)), 6, 0x41);
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xFE)), 6, 0x45);
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xFF)), 6, 0x4A);
     menu->set_flag70_bit10();
     menu->update_layout_height(193.0f);
     return menu;
@@ -1431,12 +1431,12 @@ TWindowMenu *TWindowSubComCard::create_player_select_window() {
     s32 i;
     TObjPlayer *p;
     TWindowMenu *w;
-    w = create_titled_window_menu_default(get_window_layout_position(0x94), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x2D));
+    w = create_titled_window_menu_default(get_window_layout_position(0x94), 0xC, TWindowSubStatusDisp::get_message_10(0x2D));
     i = 0;
     do {
         if (i != local_client_id && (p = get_player_by_client_id(i)) != NULL &&
             p->is_script_controlled() == 0 && p->obj_isState3_324() == 0) {
-            w->add_text_entry((saddr)p->get_name(), 7, i);
+            w->add_text_entry(p->get_name(), 7, i);
         }
         i++;
     } while (i < 0xC);
@@ -1454,11 +1454,11 @@ TWindowMenu *TWindowSubComCard::create_short_mail_list_menu() {
     s32 i;
     ShortMailEntry *e;
     TWindowMenu *w;
-    w = create_titled_window_menu_default(get_window_layout_position(0x95), 8, (saddr)TWindowSubStatusDisp::get_message_10(0x2E));
+    w = create_titled_window_menu_default(get_window_layout_position(0x95), 8, TWindowSubStatusDisp::get_message_10(0x2E));
     n = TLobby::get_short_mail_ctrl();
     for (i = n - 1; i >= 0; i--) {
         e = get_short_mail_entry(i);
-        w->add_text_entry((saddr)e->get_sender_name(), 7, e->get_id());
+        w->add_text_entry(e->get_sender_name(), 7, e->get_id());
     }
     if (n <= 0) {
         add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD1)), 7, 0);
@@ -1536,7 +1536,7 @@ void TWindowSubComCard::update_selection(TWindowMenu *list_window, TWindowComCar
 void TWindowSubComCard::set_help_message(s32 help_index) {
     if ((s32) this->shown_message != help_index) {
         this->shown_message = help_index;
-        this->message_window->append_line((s32)(saddr)TWindowSubStatusDisp::get_message_10((saddr)((void *)com_card_help_message_ids[help_index])), 0x80);
+        this->message_window->append_line(TWindowSubStatusDisp::get_message_10(com_card_help_message_ids[help_index]), 0x80);
     }
 }
 
@@ -1555,14 +1555,14 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
         text_builder_append(TWindowSubComCard__sub_8027523C(guild_card_record));
         text_builder_append("\n");
         text_builder_append(guild_card_record->get_card_data_ptr());
-        this->message_window->append_line((saddr)get_shared_text_buffer(), 0x82);
+        this->message_window->append_line(get_shared_text_buffer(), 0x82);
     }
 }
 
 void TWindowSubComCard::set_card_index(s32 card_index) {
     if ((s32) this->shown_message != card_index) {
         this->shown_message = card_index;
-        this->message_window->append_line((saddr)get_card_note_text(card_index), 0x82);
+        this->message_window->append_line(get_card_note_text(card_index), 0x82);
     }
 }
 #pragma push
@@ -1602,7 +1602,7 @@ TWindowComCard *TWindowSubComCard::apply_selection(s32 index) {
     return TWindowComCard::create_for_card(get_window_layout_position(0x92), index, card_slot);
 }
 
-void *TWindowSubComCard::get_message_10(s32 index) { return TWindowSubStatusDisp::get_message_10(index + 0xa6); }
+const char *TWindowSubComCard::get_message_10(s32 index) { return TWindowSubStatusDisp::get_message_10(index + 0xa6); }
 
 char *TWindowSubComCard::find_option_text(ChoiceSearchSelection *selections, s32 index) {
     TRecvChoiceSearchOptions *options = this->search_options;

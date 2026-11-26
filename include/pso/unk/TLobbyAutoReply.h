@@ -4,7 +4,7 @@
 #include "types.h"
 
 void sync_auto_reply_state();
-saddr get_card_window_area();
+const char *get_card_window_area();
 void set_short_mail_text(char *text);
 int get_flag_bit0();
 s32 set_flag_bit0(s32 enabled);

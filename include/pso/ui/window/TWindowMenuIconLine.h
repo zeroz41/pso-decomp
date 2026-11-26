@@ -27,7 +27,7 @@ public:
     void update_scroll_offset();
     void clamp_item_list_scroll();
     void center_list_selection();
-    void ensure_status_display(s32);
+    void ensure_status_display(const char *);
     void create_menu_scroll_bar();
     void move_cursor();
     void move_cursor_next();
@@ -51,8 +51,8 @@ public:
     void start_scroll(f32 height);
     // Grows the window to fit the row under the cursor, once.
     void shrink_to_selected_entry();
-    void add_status_entry(s8 flags, s32 src, s32 item);
-    void add_list_entry(u8 icon, s32 src, s32 item);
+    void add_status_entry(s8 flags, const char *src, s32 item);
+    void add_list_entry(u8 icon, const char *src, s32 item);
     void add_list_entry(TItem *item, s32 index);
     void add_item(TItem *item, s32 price, s32 index);
     // Append a row for an item record kept outside the inventory (bank, shop stock); count 0 hides the stack size.
@@ -60,7 +60,7 @@ public:
     void add_ground_item(TItemData *item, s32 index);
     // Append a row with no item that shows message (-1 for the empty-list row).
     void add_list_entry(s32 message);
-    void add_text_entry(s32 text, s32 id);
+    void add_text_entry(const char *text, s32 id);
     void add_inventory_item(TItem *item, s32 count, s32 id);
     // Fill the list from the player's inventory: the 31 slots of a trade
     // offer, usable items, armor of one kind and group to equip, mags of one
@@ -97,7 +97,7 @@ public:
     void advance_status_disp_entry(s32 message);
     void advance_all_entries(s32 play_sound);
     void refresh_selected_entry(s32 play_sound);
-    void append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows);
+    void append_entry(s32 flag, const char *src, s32 item, s32 extra_flag, s32 space_rows);
     void add_meseta_entry(s32 meseta, s32 id);
     // Append a row for one of the player's five battle items (stat 0-4) when
     // they hold any; gray_out greys it where items cannot be used.

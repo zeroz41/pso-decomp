@@ -22,7 +22,7 @@ struct TWindowMessage : public TWindowAddition {
     void retire_scrolled_lines();
     void advance_reveal_cursor();
     void scroll_up_line(u8 *line_entry);
-    int append_line(int text, int mode);
+    int append_line(const char *text, int mode);
     static TWindowMessage *create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client);
     static TWindowMessage *create(const NJS_POINT2 *pos, const f32 *size, saddr rows);
     s32 oldest_line;

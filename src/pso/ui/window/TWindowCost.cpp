@@ -16,7 +16,7 @@ const char *TWindowCost::class_name = "TWindowCost";
 
 TWindowCost::~TWindowCost() {}
 
-TWindowCost::TWindowCost(void *position, s32 client, s32 text)
+TWindowCost::TWindowCost(void *position, s32 client, const char *text)
     : TWindowMeseta(position, client, text) {
     m_name = TWindowCost::class_name;
     set_cost(0);

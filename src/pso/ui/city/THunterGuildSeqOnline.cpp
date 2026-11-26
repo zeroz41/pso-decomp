@@ -333,7 +333,7 @@ void THunterGuildSeqOffline__sub_80213F78(void) {
 
 void THunterGuildSeqOffline::reset_quest_list_vm() {
     if (hunter_guild_seq_online_server_instance != NULL) {
-        hunter_guild_seq_online_server_instance->display_message((const char *)get_message_text(0x43), 1);
+        hunter_guild_seq_online_server_instance->display_message(get_message_text(0x43), 1);
         hunter_guild_seq_online_server_instance->set_state(9);
         hunter_guild_seq_online_server_instance->exit_action = 0;
     }

@@ -107,7 +107,7 @@ TWindowReturnCity::TWindowReturnCity(TObject *parent, s32 client) : TObject(pare
     m_name = class_name;
     this->client = client;
     yes_no_window = TWindowMessageYesNo::create(this, this->client, 0, 0);
-    yes_no_window->open_yes_no_prompt_with_text((saddr)TWindowSubStatusDisp::get_message_10(0x43), get_window_layout_position(0x23), 206.0f);
+    yes_no_window->open_yes_no_prompt_with_text(TWindowSubStatusDisp::get_message_10(0x43), get_window_layout_position(0x23), 206.0f);
     yes_no_window->set_menu_selected_index(1);
     TWindowCtrl::hide_client_lock_on_window(this->client);
     TWindowCtrl::set_close_flag();

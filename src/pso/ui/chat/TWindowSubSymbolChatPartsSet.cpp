@@ -347,7 +347,7 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *pos
     selection_out = NULL;
     first_flag_out = first;
     second_flag_out = second;
-    WindowHeading *heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);
+    WindowHeading *heading = new WindowHeading(TWindowSubStatusDisp::get_message_10(0x34), client_index);
     heading_display = heading;
     offset_x = 21.0f;
     offset_y = 49.0f;

@@ -761,9 +761,9 @@ TObjItemNameSelect *TObjItemNameSelect::create(TObject *parent) {
     return new TObjItemNameSelect(parent);
 }
 
-char *TObjItemNameSelect::get_selected_name() {
+const char *TObjItemNameSelect::get_selected_name() {
     if (item_name_selection_index >= 0) {
-        return (char *)get_text_collection(item_name_selection_table[item_name_selection_index].text_id);
+        return get_text_collection(item_name_selection_table[item_name_selection_index].text_id);
     }
     return "";
 }
@@ -794,7 +794,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
             sprintf(m_text, "%s", get_entered_item_name());
         }
         m_text[0x3F] = 0;
-        name_menu->add_text_entry((saddr)m_text, 0x81, 0);
+        name_menu->add_text_entry(m_text, 0x81, 0);
     }
     name_menu->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions(name_menu);

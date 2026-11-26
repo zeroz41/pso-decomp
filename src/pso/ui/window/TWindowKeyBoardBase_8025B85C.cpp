@@ -467,7 +467,7 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
     }
 }
 
-void TWindowKeyBoardBase::set_text(char *s) { m_text.set_text_from_string(s); }
+void TWindowKeyBoardBase::set_text(const char *s) { m_text.set_text_from_string(s); }
 
 void TWindowKeyBoardBase::insert_character(u16 code) {
     s32 f;

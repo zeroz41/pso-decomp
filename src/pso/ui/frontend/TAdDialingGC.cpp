@@ -308,7 +308,7 @@ void TAdDialingGC::show_guide_button() {
     if (!(this->dial_flags & 2)) {
         GuideButtonSpec spec;
         spec.kind = 1;
-        spec.label = (const char *)get_localized_text_entry(0xF, 0x13);
+        spec.label = get_localized_text_entry(0xF, 0x13);
         spec.from.x = 485.0f;
         spec.to.x = 485.0f;
         spec.from.y = 421.0f;

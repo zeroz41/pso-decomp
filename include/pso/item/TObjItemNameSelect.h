@@ -17,7 +17,7 @@ public:
     static TObjItemNameSelect *create(TObject *parent);
     static void set_selection_index(int index);
     static s32 get_selected_value();
-    static char *get_selected_name();
+    static const char *get_selected_name();
     s32 get_result();
 };
 

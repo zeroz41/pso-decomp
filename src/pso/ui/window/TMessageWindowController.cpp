@@ -166,7 +166,7 @@ void TMessageWindowController::display_message(const char *text, s32 flags) {
 void TMessageWindowController::format_shop_message(s32 index, s32 flags) {
     const char *text;
     if (window != NULL) {
-        text = (const char *)get_shop_text(index);
+        text = get_shop_text(index);
         memset(buffer, 0, 0x200);
         parse_message_text(text, buffer);
         window->set_message(buffer, (s32)(flags | 0x80));

@@ -74,8 +74,8 @@ static const s16 technique_menu_category_4[] = { 13, 10, 11, 12, 14, 19 };
 const s16 *technique_menu_category_lists[5] = { technique_menu_category_0, technique_menu_category_1, technique_menu_category_2, technique_menu_category_3, technique_menu_category_4 };
 
 extern "C" {
-s32 add_text_entry__11TWindowMenuFllll(saddr, const char *, s32, s16, s32);
-s32 add_text_entry__11TWindowMenuFlll(saddr, const char *, s32, s16);
+s32 add_text_entry__11TWindowMenuFPCclll(saddr, const char *, s32, s16, s32);
+s32 add_text_entry__11TWindowMenuFPCcll(saddr, const char *, s32, s16);
 const char *get_technique_name(s16);
 
 void TWindowSubTechnique::get_current_selection(s16 *tp, s32 *hold_status, s32 client) {
@@ -114,10 +114,10 @@ void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
         return;
     }
     if (TWindowSubTechnique::is_technique_available(id, client) == 0) {
-        add_text_entry__11TWindowMenuFllll(list, technique_name, 0x16, id, 0xFFFD3901);
+        add_text_entry__11TWindowMenuFPCclll(list, technique_name, 0x16, id, 0xFFFD3901);
         return;
     }
-    add_text_entry__11TWindowMenuFlll(list, technique_name, 6, id);
+    add_text_entry__11TWindowMenuFPCcll(list, technique_name, 6, id);
 }
 #pragma fp_contract on
 
@@ -138,7 +138,7 @@ void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
 
 TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
   TWindowMenu *titled_window_menu;
-  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x13), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x30), playerIndex);
+  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x13), 5, TWindowSubStatusDisp::get_message_10(0x30), playerIndex);
   titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 1));
   titled_window_menu->set_flag70_bit100();
   titled_window_menu->set_flag70_bit10();
@@ -156,14 +156,14 @@ s32 get_cast_technique_level(void *, int);
 TWindowMenu *TWindowSubTechnique::open_menu() {
     TWindowMenu *titled_window_menu;
 
-    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
+    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 0));
     titled_window_menu->set_flag70_bit100();
-    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
-    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
-    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
-    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
-    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
+    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
+    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
+    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
+    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
+    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(179.0f);
     align_menu_entry_positions(titled_window_menu);
@@ -192,7 +192,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
       help_technique = (s16) tech;
       if (((s16) tech) == 0x13)
       {
-        help_window->append_line((saddr)((void *)technique_empty_line), 0x82);
+        help_window->append_line(technique_empty_line, 0x82);
         return;
       }
       text_builder_reset();
@@ -205,7 +205,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
       text_builder_append(get_help_text_string(0x2E));
       text_builder_append_int(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
       text_builder_append((const char *)((saddr) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
-      help_window->append_line((saddr)((void *) get_shared_text_buffer()), 0x82);
+      help_window->append_line(get_shared_text_buffer(), 0x82);
     }
   }
 }

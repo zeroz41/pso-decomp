@@ -17,7 +17,7 @@ struct KeyboardTextBuffer {
     ~KeyboardTextBuffer();
     void init(u32 width, u32 lines);
     void append_text(u8 *text);
-    void set_text_from_string(char *s);
+    void set_text_from_string(const char *s);
     void insert_char(u16 ch);
     s32 is_buffer_blank();
     s32 make_last_char_small_kana();

@@ -68,7 +68,7 @@ void TObjNewFloorWin::open_window() {
     }
     if (window != NULL) {
         sprintf(title, "%s %02d", get_message_text(0x67), get_current_lobby_id());
-        window->add_text_entry((saddr)title, 0, 0);
+        window->add_text_entry(title, 0, 0);
         window->calc_window_size();
         window->disable_input();
         close_current_window();

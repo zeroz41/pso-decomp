@@ -278,7 +278,7 @@ void TWindowSimpleStatus::update_hp_tp_level() {
 }
 
 void WindowTextEntry::show_player_name(s32 client_id) {
-    saddr str;
+    const char *str;
     TObjPlayer *player;
     CharacterAppearanceFields *appearance;
 
@@ -292,7 +292,7 @@ void WindowTextEntry::show_player_name(s32 client_id) {
         hide();
         return;
     }
-    str = (saddr)player->get_name();
+    str = player->get_name();
     if (str == 0) {
         hide();
         return;
@@ -302,7 +302,7 @@ void WindowTextEntry::show_player_name(s32 client_id) {
         return;
     }
     show();
-    if ((get_text() == NULL) || (strcmp(get_text(), (const char *)str) != 0)) {
+    if ((get_text() == NULL) || (strcmp(get_text(), str) != 0)) {
         set_text_entry_string(this, str, 0x20);
     }
     if (player->is_actor_dead() != 0) {

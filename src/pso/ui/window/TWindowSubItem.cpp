@@ -441,7 +441,7 @@ void TWindowSubItem::render() {  }
 
 TWindowMenu *TWindowSubItem::open_purpose_window(s32 item_id) {
     TWindowMenu *titled_window_menu;
-    titled_window_menu = create_titled_window_menu(get_window_layout_position(4), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
+    titled_window_menu = create_titled_window_menu(get_window_layout_position(4), 3, TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
     if (item_id == -0xFF) {
         add_meseta_purpose_actions(titled_window_menu);
     } else if ((s32) (item_id & 0xFFFFFFF0) == -0x10) {
@@ -458,9 +458,9 @@ TWindowMenu *TWindowSubItem::open_purpose_window(s32 item_id) {
 
 TWindowMenu *TWindowSubItem::create_menu_window() {
     TWindowMenu *titled_window_menu;
-    titled_window_menu = create_titled_window_menu(get_window_layout_position(6), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
-    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
-    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5E)), 6, 1);
+    titled_window_menu = create_titled_window_menu(get_window_layout_position(6), 2, TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
+    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
+    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5E)), 6, 1);
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 2));
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(224.0f);
@@ -472,7 +472,7 @@ TWindowInputNumber *TWindowSubItem::create_count_input(s32 maximum) {
     TWindowInputNumber *window;
 
     window = new TWindowInputNumber(get_window_layout_position(5), 1, maximum, 1, (s16) this->client_id);
-    window->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
+    window->create(TWindowSubStatusDisp::get_message_10(0x28));
     window->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 3));
     window->set_value(224.0f);
     window->set_flag_10();
@@ -484,7 +484,7 @@ void TWindowSubItem::add_meseta_purpose_actions(TWindowMenu *titled_window_menu)
         add_gray_text_entry(titled_window_menu, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
         return;
     }
-    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
+    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
 void TWindowSubItem::draw_slot(TWindowMenu *titled_window_menu, s32 item_id) {
@@ -513,7 +513,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
       }
       else
       {
-        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
+        list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
     }
     item->get_item_type();
@@ -527,7 +527,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         }
         else
         {
-          list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
+          list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
         }
       }
       else
@@ -537,7 +537,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         {
           if (((item->check_equip_requirements(player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
-            list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
+            list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
           else
           {
@@ -552,14 +552,14 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
     }
     else
     {
-      list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
+      list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
     }
     if (get_current_floor_area() == AREA_LOBBY)
     {
       add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
       return;
     }
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
   }
 }
 

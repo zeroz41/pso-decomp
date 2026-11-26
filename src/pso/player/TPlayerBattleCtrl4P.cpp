@@ -192,7 +192,7 @@ void TPlayerBattleCtrl4P::open_intro_window() {
 
 void TPlayerBattleCtrl4P::show_intro_text() {
     if (this->intro_window != NULL) {
-        this->intro_window->append_line((saddr)intro_text, 128);
+        this->intro_window->append_line(intro_text, 128);
     }
     this->frame_timer = 240;
     set_phase_state(2);
@@ -228,7 +228,7 @@ void TPlayerBattleCtrl4P::show_team_matchup() {
         }
     }
     sprintf(team_matchup_message_buffer, message_table[6], names[0], names[1], names[2], names[3]);
-    intro_window->append_line((saddr)team_matchup_message_buffer, 0x80);
+    intro_window->append_line(team_matchup_message_buffer, 0x80);
     frame_timer = 0xF0;
     set_phase_state(4);
 }
@@ -362,13 +362,13 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
         if (intro_window == NULL) {
             intro_window = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)(&size), 1);
             if (intro_window != NULL) {
-                intro_window->append_line((saddr)message_table[0], 0x80);
+                intro_window->append_line(message_table[0], 0x80);
             }
         }
         if (menu_window == NULL) {
             menu_window = create_window_menu_default(get_window_layout_position(0x54), 2);
-            menu_window->add_text_entry((saddr)message_table[1], 6, 1);
-            menu_window->add_text_entry((saddr)message_table[3], 6, 3);
+            menu_window->add_text_entry(message_table[1], 6, 1);
+            menu_window->add_text_entry(message_table[3], 6, 3);
             menu_window->calc_window_size();
             align_menu_entry_positions(menu_window);
             menu_window->set_ready_flag();

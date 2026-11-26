@@ -59,13 +59,13 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void dispatch_page_init();
     void set_count_ratio_text(s32 count, s32 total);
 
-    static void *get_message_10(s32 index);
+    static const char *get_message_10(s32 index);
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward();
     static void end_render_forward();
     static void begin_render();
-    static saddr get_meseta_unit();
-    static u32 calc_text_width(char *s);
+    static const char *get_meseta_unit();
+    static u32 calc_text_width(const char *s);
     static s32 is_alpha_char(u16 arg0);
     void pack_status_flags(u32 arg1);
     static s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **arg2);
@@ -81,7 +81,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void draw_tiled_background();
     static void draw_bottom_bar();
     static void draw_split_screen_hud();
-    void set_entry_display_value(s32 str);
+    void set_entry_display_value(const char *str);
     s32 get_display_mode();
     static char *build_status_text(s32 client_id);
     void update_entry_visibility();

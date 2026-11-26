@@ -25,7 +25,7 @@ static const NJS_POINT2 short_cut_list_icon_line_size = {405.0f, 188.0f};
 
 void TWindowSubShortCutList::refresh_entries() {
     s32 *chat_shortcut;
-    s32 text;
+    const char *text;
     s32 i;
     s32 index;
     save_cursor_selection();
@@ -40,16 +40,16 @@ void TWindowSubShortCutList::refresh_entries() {
             draw_entry(index, 0x33, 0, index);
             break;
         case 1:
-            text = (saddr)get_chat_shortcut_text(chat_shortcut + 1);
+            text = get_chat_shortcut_text(chat_shortcut + 1);
             draw_entry(index, 0x12, text, index);
             break;
         case 2:
             TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(chat_shortcut + 1), reinterpret_cast<char *>(get_shared_text_buffer()), (u16)local_client_id);
-            draw_entry(index, 0x10, (saddr)get_shared_text_buffer(), index);
+            draw_entry(index, 0x10, get_shared_text_buffer(), index);
             break;
         case 3: {
             SymbolChatPreset *preset = TWindowChat::open_symbol_chat(chat_shortcut + 1);
-            s32 d = (saddr)preset->get_symbol_chat_data();
+            const char *d = (const char *)preset->get_symbol_chat_data();
             draw_entry(index, 0x11, d, index);
             break;
         }
@@ -96,7 +96,7 @@ TWindowSubShortCutList::TWindowSubShortCutList(u8 *parent, s32 index)
     m_name = TWindowSubShortCutList::class_name;
     row = index / 4;
     col = index % 4;
-    ensure_status_display((saddr)(TWindowSubStatusDisp::get_message_10(0x2D)));
+    ensure_status_display(TWindowSubStatusDisp::get_message_10(0x2D));
     storage = new PageIndicator((s8)row, 5, local_client_id);
     set_flag70_bit10();
     refresh_entries();

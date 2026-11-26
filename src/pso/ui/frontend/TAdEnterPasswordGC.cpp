@@ -145,7 +145,7 @@ void TAdEnterPasswordGC::update_password_input(void *arg) {
 }
 
 void TAdEnterPasswordGC::open_keyboard_window(void *arg) {
-    prompt_window = TAdEnterSerialAccessGC::show_message_window(this, (void *)2);
+    prompt_window = TAdEnterSerialAccessGC::show_message_window(this, 2);
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();

@@ -12,7 +12,7 @@ struct TAdPsoPassSaveGC : public TAdYesNoBaseGC {
     virtual void run_task();
     virtual void on_accept();
     virtual void on_cancel();
-    virtual saddr get_message_text();
+    virtual const char *get_message_text();
 };
 
 LAYOUT_ASSERT(TAdPsoPassSaveGC_size, sizeof(TAdPsoPassSaveGC) == 0x48);

@@ -486,7 +486,7 @@ void TOMine::update_state() {
     }
     this->behavior = 2;
 }
-const char *TOMine::get_name() { return (const char *)get_localized_text_entry(16, 16); }
+const char *TOMine::get_name() { return get_localized_text_entry(16, 16); }
 void TOMine::vfunc_85() {  }
 void TOMine::apply_object_set_data(void *set_data) {
     TObjBase::apply_object_set_data(set_data);

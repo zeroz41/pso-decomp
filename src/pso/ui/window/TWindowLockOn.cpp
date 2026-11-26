@@ -244,7 +244,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_layout_entries, client_index);
     refresh = &TWindowLockOn::refresh_enemy_statuses;
     e = (WindowTextEntry *)get_array_entry(1);
-    TWindowDuelResult::set_default_status(e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
+    TWindowDuelResult::set_default_status(e, TWindowSubStatusDisp::get_message_10(0xA5));
     e->reveal_all();
     width = calc_text_width(e->get_text());
     e = (WindowTextEntry *)get_array_entry(0);
@@ -269,7 +269,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
         kind = 4;
     }
     e = (WindowTextEntry *)get_array_entry(2);
-    TWindowDuelResult::set_default_status(e, (saddr)type_names[kind]);
+    TWindowDuelResult::set_default_status(e, type_names[kind]);
     e->reveal_all();
     e->x = 10.0f + (f32)width;
     e->color = type_colors[kind];

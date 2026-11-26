@@ -27,9 +27,9 @@ extern TAdScrollWinGC *lobby_scroll_text_window;
 extern TWindowMessage *lobby_idle_timeout_window;
 
 void handle_generate_id(void);
-void handle_lobby_text(s32 text);
-void handle_server_message(s32 text);
-void handle_error(s32 text);
+void handle_lobby_text(const char *text);
+void handle_server_message(const char *text);
+void handle_error(const char *text);
 void update_state_with_location(void);
 void lobby_init_hook(void);
 void render_idle_timeout(void);

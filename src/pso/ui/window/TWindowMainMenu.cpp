@@ -53,7 +53,7 @@ extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
 
 
 extern "C" {
-s32 select_main_menu_item_10(s32);
+#include "pso/unk/TLobby_8013292C.h"
 }
 
 #include "pso/ui/window/TWindowMainMenu1P.h"

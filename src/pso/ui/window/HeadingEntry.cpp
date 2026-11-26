@@ -124,10 +124,10 @@ void HeadingEntry::advance_reveal() {
 
 HeadingEntry::~HeadingEntry() {}
 
-HeadingEntry::HeadingEntry(f32 *position, saddr title, s8 entry_state, s32 client_id) {
+HeadingEntry::HeadingEntry(f32 *position, const char *title, s8 entry_state, s32 client_id) {
     x = position[0];
     y = position[1];
-    text_width = calc_text_width((char *)title);
+    text_width = calc_text_width(title);
     width = calc_title_overflow_width(text_width);
     text = title;
     flags = 0;

@@ -235,12 +235,12 @@ char *get_bgm_filename(s32 index) {
 }
 
 
-s32 get_option_table_entry(s32 idx) {
+const char *get_option_table_entry(s32 idx) {
     if (idx < 0) {
         return 0;
     }
     if (idx >= 0x31) {
         return 0;
     }
-    return (saddr)option_name_table[idx];
+    return option_name_table[idx];
 }

@@ -15,7 +15,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/HeadingEntry.h"
 
-void TWindowMenuIconLine::add_list_entry(u8 icon, s32 src, s32 item) {
+void TWindowMenuIconLine::add_list_entry(u8 icon, const char *src, s32 item) {
     if (this->entry_count < this->entry_capacity) {
         ((ItemListRow *)get_array_entry(entry_count))->init_list_entry(icon, src, item);
         this->entry_count = (this->entry_count + 1);
@@ -34,7 +34,7 @@ static const NJS_POINT2 shop_judgment_item_list_rect_table[3] = {
 };
 
 
-void TWindowShop::init_list_window(s32 title) {
+void TWindowShop::init_list_window(const char *title) {
     this->m_name = TWindowShop::class_name;
     ensure_status_display(title);
     create_menu_scroll_bar();
@@ -46,7 +46,7 @@ void TWindowShop::init_list_window(s32 title) {
 }
 
 
-TWindowShop *create_item_list_window(s32 title, s32 count, s32 client) {
+TWindowShop *create_item_list_window(const char *title, s32 count, s32 client) {
     s32 camera_id;
     camera_id = TCameraCtrl::get_camera_id();
     switch (camera_id) {
@@ -65,7 +65,7 @@ TWindowShop *create_item_list_window(s32 title, s32 count, s32 client) {
 }
 
 
-TWindowShop *TShopJudgmentItemWindow::open_default(s32 title) {
+TWindowShop *TShopJudgmentItemWindow::open_default(const char *title) {
     return create_item_list_window(title, 0x40, local_client_id);
 }
 
@@ -100,12 +100,12 @@ void TWindowShop::run_task() { TWindowMenuIconLine::run_task(); }
 
 TWindowShop::~TWindowShop() {}
 
-TWindowShop::TWindowShop(u8 *parent, s32 title, u32 count, u8 *descriptor)
+TWindowShop::TWindowShop(u8 *parent, const char *title, u32 count, u8 *descriptor)
     : TWindowMenuIconLine(parent, count, local_client_id, descriptor) {
     init_list_window(title);
 }
 
-TWindowShop::TWindowShop(s32 title, u32 count, s32 client)
+TWindowShop::TWindowShop(const char *title, u32 count, s32 client)
     : TWindowMenuIconLine((u8 *)get_window_layout_position(0x26), count, client) {
     init_list_window(title);
 }

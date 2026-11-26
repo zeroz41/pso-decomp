@@ -138,7 +138,7 @@ void WindowTextEntry::measure_text(f32 max_width) {
 
 #pragma push
 #pragma opt_common_subs off
-void set_text_entry_string(WindowTextEntry *entry, uaddr str, s32 flags) {
+void set_text_entry_string(WindowTextEntry *entry, const char *str, s32 flags) {
     saddr num;
     u16 old_flags;
     if (entry->text != NULL) {
@@ -149,9 +149,9 @@ void set_text_entry_string(WindowTextEntry *entry, uaddr str, s32 flags) {
         }
     }
     if ((str != 0U) && (flags & 0x20)) {
-        num = TWindowKeyBoardSoft::strnlen((const char *)str, 0x400);
+        num = TWindowKeyBoardSoft::strnlen(str, 0x400);
         entry->text = (char *)mem_alloc(num + 1);
-        strncpy(entry->text, (const char *)str, num);
+        strncpy(entry->text, str, num);
         *(char *)(num + (uaddr)entry->text) = 0;
         entry->flags = entry->flags | 0x20;
     } else {
@@ -165,7 +165,7 @@ void set_text_entry_string(WindowTextEntry *entry, uaddr str, s32 flags) {
 }
 #pragma pop
 
-int TWindowDuelResult::set_default_status(void* p, int a1) { return ((int (*)(void *, int, int))set_text_entry_string)(p, a1, 0); }
+int TWindowDuelResult::set_default_status(void* p, const char *text) { return ((int (*)(void *, const char *, int))set_text_entry_string)(p, text, 0); }
 
 #pragma push
 #pragma fp_contract on

@@ -224,7 +224,7 @@ void TChallenge4PResult::init_timer() {
     this->state_1c = 5;
 }
 
-void TChallenge4PResult::show_message(saddr text_handle) {
+void TChallenge4PResult::show_message(const char *text_handle) {
     if (message_window == NULL) {
         NJS_POINT2 pos = {332.0f, 80.0f};
         message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), &pos, 1, slot_index);

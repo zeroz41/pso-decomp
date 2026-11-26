@@ -105,10 +105,10 @@ void TAdVIConfigGC::open_player_names_window() {
             if (p != NULL) {
                 strncpy(((WarpPartyCheck *)this)->names[i].s, p->name, 0x17);
                 ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i].s), i);
             } else {
                 ((WarpPartyCheck *)this)->names[i].s[0] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i].s), i);
             }
         }
     }
@@ -190,7 +190,7 @@ void TAdVIConfigGC::enable_progressive_mode() {
 }
 
 void TAdVIConfigGC::disable_progressive_mode() { OSSetProgressiveMode(0); }
-saddr TAdVIConfigGC::get_message_text() { return get_localized_text_entry(29, 0); }
+const char *TAdVIConfigGC::get_message_text() { return get_localized_text_entry(29, 0); }
 
 void TAdVIConfigGC::on_cancel() {
     disable_progressive_mode();

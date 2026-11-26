@@ -20,7 +20,7 @@ void TAdExNetConfirmGC::render() {
     render_dialog();
 }
 
-saddr TAdExNetConfirmGC::get_message_text() {
+const char *TAdExNetConfirmGC::get_message_text() {
     if (is_confirmed() != 0) {
         return get_localized_text_entry(0x22, 1);
     }

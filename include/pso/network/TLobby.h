@@ -142,7 +142,7 @@ struct TLobby : public TObject {
     void copy_short_fields(void *src);
     static void debug_print(const char *fmt, ...);
     int compare_file_extension(const char *ext);
-    static saddr get_class_type_name(s32 class_flags);
+    static const char *get_class_type_name(s32 class_flags);
     static void update_menu_cursor();
     static void free_keyboard_soft_resources();
     static void update_keyboard_menu();
@@ -308,7 +308,7 @@ struct TLobby : public TObject {
     static void send_trade_proposal_modify();
     static void update_trade_list_send();
     static void update_trade_proposal_state();
-    static s32 check_trade_items_and_show_error();
+    static const char *check_trade_items_and_show_error();
     static void apply_trade_items();
 
     static void update_alloc_size();
@@ -391,7 +391,7 @@ struct TLobby : public TObject {
     static void clear_flag400();
     static void check_flags_and_proceed();
     static void cancel_trade();
-    static s32 show_event_message(s32 client_id, s32 result, s32 item_id);
+    static const char *show_event_message(s32 client_id, s32 result, s32 item_id);
     void build_trade_item_list();
     static void send_modify_trade_proposal(s8 what, s32 item_id, s32 amount);
     static void send_trade_proposal_result(s8 what, s8 result);
@@ -460,7 +460,7 @@ struct TLobby : public TObject {
     static void disable_window_flags(void*);
     static void get_menu_field_280();
     static s32 get_progress_info(void *, void *, void *, void *);
-    static saddr get_seq_phase(int);
+    static const char *get_seq_phase(int);
     static void handle_com_card();
     static void handle_comcard_window();
     static void handle_create_game_window();
@@ -593,7 +593,7 @@ char *get_lobby_name();
 
 class TObject;
 
-s32 get_online_message_text(s32 id);
+const char *get_online_message_text(s32 id);
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
 void show_card_list_message(void *msg);

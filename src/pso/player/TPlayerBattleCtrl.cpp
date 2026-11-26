@@ -261,7 +261,7 @@ void TPlayerBattleCtrl::update_battle_intro() {
         state_20 = 1;
         break;
     case 1:
-        window_4c->append_line((saddr)intro_text, 0x80);
+        window_4c->append_line(intro_text, 0x80);
         timer = 0xF0;
         state_20 = 2;
         break;
@@ -292,7 +292,7 @@ void TPlayerBattleCtrl::update_battle_intro() {
             }
         }
         sprintf(battle_intro_message_buffer, text[6], names[0].s, names[1].s, names[2].s, names[3].s);
-        ((TWindowMessage *)(window_4c))->append_line((saddr)battle_intro_message_buffer, 0x80);
+        ((TWindowMessage *)(window_4c))->append_line(battle_intro_message_buffer, 0x80);
         timer = 0xF0;
         state_20 = 4;
         break;
@@ -471,14 +471,14 @@ void TPlayerBattleCtrl::update_duel_result() {
                     static const BattleIntroWindowSize size = {216.0f, 84.0f};
                     window_4c = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)(&size), 1);
                     if (window_4c != NULL) {
-                        window_4c->append_line((saddr)text[0], 0x80);
+                        window_4c->append_line(text[0], 0x80);
                     }
                 }
                 if (window_50 == NULL) {
                     window_50 = create_window_menu_default(get_window_layout_position(0x54), 3);
-                    window_50->add_text_entry((saddr)text[1], 6, 1);
-                    window_50->add_text_entry((saddr)text[2], 6, 2);
-                    window_50->add_text_entry((saddr)text[3], 6, 3);
+                    window_50->add_text_entry(text[1], 6, 1);
+                    window_50->add_text_entry(text[2], 6, 2);
+                    window_50->add_text_entry(text[3], 6, 3);
                     window_50->calc_window_size();
                     align_menu_entry_positions(window_50);
                     window_50->set_ready_flag();
@@ -745,7 +745,7 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
         BattleIntroWindowSize p = {238.0f, 188.0f};
         window_4c = TWindowMessage::create(get_window_layout_position(0xB3), (const f32 *)(&p), 1);
         if (window_4c != NULL) {
-            window_4c->append_line((saddr)text[idx], 0x80);
+            window_4c->append_line(text[idx], 0x80);
         }
         state_20 = 1;
         break;

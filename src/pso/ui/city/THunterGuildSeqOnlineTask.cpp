@@ -208,7 +208,7 @@ void TLobby::handle_quest_download_chunk() {
         if (online_quest_download_barrier_window == NULL) {
             NJS_POINT2 pos = download_barrier_window_size;
             online_quest_download_barrier_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xBE), &pos);
-            online_quest_download_barrier_window->append_line((int)(get_message_text(0x61)), (int)1);
+            online_quest_download_barrier_window->append_line((get_message_text(0x61)), (int)1);
             online_quest_download_barrier_window->set_depth(36000.0f);
             online_quest_download_barrier_window->complete_reveal();
         }
@@ -300,7 +300,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
             NJS_POINT2 p = quest_info_window_size;
             online_quest_info_window = TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&p, 1, local_client_id);
             online_quest_info_window->set_depth(37000.0f);
-            online_quest_info_window->append_line((saddr)quest_list_online_selected_quest_info->text, 0x80);
+            online_quest_info_window->append_line(quest_list_online_selected_quest_info->text, 0x80);
             if (TCameraCtrl::get_camera_id() >= 2) {
                 online_quest_info_window->set_position_xy(0.75f, 0.75f);
             }

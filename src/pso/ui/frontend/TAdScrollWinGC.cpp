@@ -24,7 +24,7 @@ NJS_TEXLIST *scroll_win_texture_handle;
 // Functions are written last-to-first: with -inline off,deferred CodeWarrior emits them in reverse source order.
 
 
-TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, s32 text) : TObject(parent) {
+TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, const char *text) : TObject(parent) {
     static const f32 pos[2] = { 44.0f, 131.0f };
     static const f32 size[2] = { 552.0f, 220.0f };
     s32 base;

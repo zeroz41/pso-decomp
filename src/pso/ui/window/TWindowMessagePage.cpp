@@ -30,7 +30,7 @@ void TWindowMessagePage::update_message() {
     if ((u32) this->page_text != 0U) {
         text_builder_reset();
         this->page_text = (uaddr)((TWindowSubStatusDisp *)this->page_text)->copy_message_page_text();
-        append_line((saddr)get_shared_text_buffer(), this->line_mode);
+        append_line(get_shared_text_buffer(), this->line_mode);
     }
 }
 

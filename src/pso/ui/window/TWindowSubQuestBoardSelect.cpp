@@ -72,7 +72,7 @@ void TWindowSubQuestBoardSelect::update_slot_title() {
     WindowTextEntry *entry_1;
     str = quest_board_handlers[(s8) this->slot].title;
     entry_1 = static_cast<WindowTextEntry *>(this->get_array_entry(1));
-    set_text_entry_string(entry_1, (uaddr)str, 0);
+    set_text_entry_string(entry_1, str, 0);
     entry_1->measure_text(100000.0f);
     entry_1->x = (f32) (385.0f - entry_1->width);
 }
@@ -272,11 +272,11 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     WindowTextEntry *entry_0;
     WindowHeading *heading;
     m_name = TWindowSubQuestBoardSelect::class_name;
-    heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
+    heading = new WindowHeading(TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
     this->status_disp = heading;
     state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
-    set_text_entry_string(entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
+    set_text_entry_string(entry_0, (TQuestThread::get_quest_name()), 0);
     entry_0->get_text();
     title_width = (f32) calc_text_width();
     entry_0->x = 210.0f - 0.5f * title_width;

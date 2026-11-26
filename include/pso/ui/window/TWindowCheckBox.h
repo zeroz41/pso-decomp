@@ -18,9 +18,9 @@ public:
     void set_selected_index(s16 selected_index);
     void set_item_color(u32 color, s32 item);
     void advance_matching_entries(s32 finalize, s32 item);
-    void add_menu_item(s32 text, s32 item);
-    void draw_status(s32 text, s32 item);
-    void dispatch_without_flags(s32 text, s32 item);
+    void add_menu_item(const char *text, s32 item);
+    void draw_status(const char *text, s32 item);
+    void dispatch_without_flags(const char *text, s32 item);
     void init_check_box(s32);
     void sync_level_field();
     s16 selected_index;

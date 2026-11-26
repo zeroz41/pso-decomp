@@ -166,5 +166,5 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
     case 7:
         break;
     }
-    ((TWindowMessage *)(help_window))->append_line((saddr)get_shared_text_buffer(), 0x82);
+    ((TWindowMessage *)(help_window))->append_line(get_shared_text_buffer(), 0x82);
 }

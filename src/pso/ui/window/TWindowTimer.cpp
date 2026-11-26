@@ -87,7 +87,7 @@ void TWindowTimer::draw(s32 minutes, s32 seconds) {
     append_padded_number(minutes, 3);
     text_builder_append("\tC7:\tC3");
     append_padded_number(seconds, 3);
-    set_text_entry_string(array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string(array_entry, (get_shared_text_buffer()), 0x20);
     array_entry->reveal_all();
 }
 
@@ -110,7 +110,7 @@ void TWindowTimer::set_time(u32 secs) {
         text_builder_append("\"");
         append_padded_number((secs), 2);
     }
-    set_text_entry_string(entry, (uaddr)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string(entry, (get_shared_text_buffer()), 0x20);
     entry->reveal_all();
 }
 

@@ -96,9 +96,9 @@ void TAdPlyStatusGC::draw_status_window(void *window, void *context) {
         labels[i].x = ply_status_window_points_first[i].x + ply_status_window_offset_table[window_offset_index].x;
         labels[i].y = ply_status_window_points_first[i].y + ply_status_window_offset_table[window_offset_index].y;
     }
-    draw_window_text(&labels[0].x, (const char *)get_localized_text_entry(0x26, 1), -1, 0, 100000.0f);
-    draw_window_text(&labels[1].x, (const char *)get_localized_text_entry(0x26, 2), -1, 0, 100000.0f);
-    draw_window_text(&labels[2].x, (const char *)get_localized_text_entry(0x26, 3), -1, 0, 100000.0f);
+    draw_window_text(&labels[0].x, get_localized_text_entry(0x26, 1), -1, 0, 100000.0f);
+    draw_window_text(&labels[1].x, get_localized_text_entry(0x26, 2), -1, 0, 100000.0f);
+    draw_window_text(&labels[2].x, get_localized_text_entry(0x26, 3), -1, 0, 100000.0f);
     for (i = 0; i < 3; i++) {
         values[i].x = ply_status_window_points_second[i].x + ply_status_window_offset_table[window_offset_index].x;
         values[i].y = ply_status_window_points_second[i].y + ply_status_window_offset_table[window_offset_index].y;
@@ -283,7 +283,7 @@ TAdPlyStatusGC::TAdPlyStatusGC(TObject *parent, s32 offset_index) : TObject(pare
     buttons[0].from.y = 421.0f;
     buttons[0].to.x = 432.0f;
     buttons[0].to.y = 421.0f;
-    buttons[0].label = (const char *)get_localized_text_entry(0x26, 4);
+    buttons[0].label = get_localized_text_entry(0x26, 4);
     buttons[0].alpha = 0;
     buttons[0].alpha_step = 8;
     buttons[0].duration = 0x1E;
@@ -292,7 +292,7 @@ TAdPlyStatusGC::TAdPlyStatusGC(TObject *parent, s32 offset_index) : TObject(pare
     buttons[1].from.y = 421.0f;
     buttons[1].to.x = 432.0f;
     buttons[1].to.y = 421.0f;
-    buttons[1].label = (const char *)get_localized_text_entry(0x26, 5);
+    buttons[1].label = get_localized_text_entry(0x26, 5);
     buttons[1].alpha = 0;
     buttons[1].alpha_step = 8;
     buttons[1].duration = 0x1E;

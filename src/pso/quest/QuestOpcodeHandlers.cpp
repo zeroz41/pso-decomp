@@ -701,7 +701,7 @@ void qst_op_scroll_text() {
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     win = open_message_scroll_window(&pos, &size, &qst_registers[msg].i);
     win->set_frame_mode(frame_mode);
-    dispatch_message_window_text(win, arg, 0x13);
+    dispatch_message_window_text(win, (const char *)arg, 0x13);
     win->set_scroll_speed(timer);
     qst_message_window = win;
 }
@@ -794,7 +794,7 @@ void qst_op_chat_box() {
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     qst_message_window = create_quest_message_window_at(&pos, &size);
     qst_message_window->set_frame_mode(frame_mode);
-    dispatch_message_window_text(qst_message_window, arg, 3);
+    dispatch_message_window_text(qst_message_window, (const char *)arg, 3);
     qst_suspend_reason = QST_WAIT_MESSAGE;
     TWindowCtrl::set_flag_bit2();
     close_window_if_active(local_client_id);
@@ -4542,12 +4542,12 @@ void qst_op_mesend(void) {
 void qst_op_add_msg(void) {
     s32 x = qst_args[0].i;
     if (qst_message_window != NULL) {
-        dispatch_message_window_text(qst_message_window, x, 3);
+        dispatch_message_window_text(qst_message_window, (const char *)x, 3);
         qst_suspend_reason = QST_WAIT_MESSAGE;
         return;
     }
     if (qst_message_window_qb != 0) {
-        qst_message_window_qb->append_line(x, 3);
+        qst_message_window_qb->append_line((const char *)x, 3);
         qst_suspend_reason = QST_WAIT_MESSAGE_QB;
         return;
     }
@@ -4571,7 +4571,7 @@ void qst_op_disp_msg_qb(void) {
         qst_message_window_qb = 0;
     }
     qst_message_window_qb = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), (NJS_POINT2 *)&pr);
-    (qst_message_window_qb)->append_line(t, 3);
+    (qst_message_window_qb)->append_line((const char *)t, 3);
     ((TWindowBase *)qst_message_window_qb)->set_depth(50030.0f);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;
 }
@@ -4585,7 +4585,7 @@ void qst_op_window_msg(void) {
     }
     window = create_quest_message_window();
     qst_message_window = window;
-    dispatch_message_window_text(window, text, 3);
+    dispatch_message_window_text(window, (const char *)text, 3);
     qst_suspend_reason = QST_WAIT_MESSAGE;
     TWindowCtrl::set_flag_bit2();
     close_window_if_active(local_client_id);
@@ -4619,7 +4619,7 @@ void qst_op_list(void) {
     list->tokenize_args(buf);
     qst_list_window = create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
-        qst_list_window->add_text_entry((saddr)list->tokens[i], 7, i);
+        qst_list_window->add_text_entry(list->tokens[i], 7, i);
     }
     qst_list_window->calc_window_size();
     align_menu_entry_positions(qst_list_window);

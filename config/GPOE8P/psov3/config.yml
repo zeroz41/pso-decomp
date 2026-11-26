@@ -656,12 +656,12 @@ force_active:
   - show_card_list_message__FPv
   - handle_generate_id__Fv
   - handle_game_list__FlP13GameMenuEntryP13GameMenuEntry
-  - handle_lobby_text__Fl
-  - handle_server_message__Fl
-  - handle_error__Fl
+  - handle_lobby_text__FPCc
+  - handle_server_message__FPCc
+  - handle_error__FPCc
   - queue_join_entry_exit_on_input__FP7TObject
   - show_join_entry_message__Fl
-  - show_dialog_value_line__Fl
+  - show_dialog_value_line__FPCc
   - lobby_init_hook__Fv
   - render_idle_timeout__Fv
   - init_6x6F_quest_flags_packet__FP26G_SetQuestFlags_V2_V3_6x6F
@@ -1775,7 +1775,7 @@ force_active:
   - update_countdown__17TWindowCtrlPlayerFv
   - set_return_city_open__11TWindowCtrlFv
   - __sinit_TWindowDD_WS_ScrollBar_cpp
-  - __ct__19TWindowDD_WS_StringFPfPfUll
+  - __ct__19TWindowDD_WS_StringFPfPfPCcl
   - __sinit_TWindowDD_WS_String_cpp
   - __ct__17TWindowDD_WS_WordFll
   - __sinit_TWindowDD_WS_Word_cpp
@@ -5202,7 +5202,7 @@ force_active:
   - close_and_advance_step2__9TSaveChCrFv
   - close_and_advance_to_3__9TSaveChCrFv
   - close_and_destroy__12TQuestListVMFv
-  - close_and_dispatch__12TAdTimeSetGCFUllUlUl
+  - close_and_dispatch__12TAdTimeSetGCFPCclPCcPCc
   - close_and_next__12TAdTimeSetGCFllll
   - close_and_play_effect__6TLobbyFii
   - close_and_send_text_list__6TLobbyFv
@@ -9271,14 +9271,14 @@ force_active:
   - open_menu_window__20TShopArmorListWindowFv
   - open_menu_window__24TShopEquipmentListWindowFv
   - open_menu_window__6TLobbyFv
-  - open_message_choice__12TAdTimeSetGCFUllUlUl
+  - open_message_choice__12TAdTimeSetGCFPCclPCcPCc
   - open_message_window__14TObjBagWarnWinFv
   - open_message_window__20TObjChallenge4PRetryFv
   - open_message_window__22TAdEnterSerialAccessGCFl
-  - open_message_window__9TSaveChCrFUl
+  - open_message_window__9TSaveChCrFPCc
   - open_mode4_window__17TWindowSubComCardFv
-  - open_option_dialog__19TWindowSubTradeMainFl
-  - open_option_dialog_thunk__19TWindowSubTradeMainFl
+  - open_option_dialog__19TWindowSubTradeMainFPCc
+  - open_option_dialog_thunk__19TWindowSubTradeMainFPCc
   - open_player_names_window__13TAdVIConfigGCFv
   - open_purpose_window__14TWindowSubItemFl
   - open_result_window__15TObjSoloPlayWinFv
@@ -15639,7 +15639,7 @@ force_active:
   - show_part__9TObjLukerFUs
   - show_score_results__6TLobbyFPv
   - show_seq_phase_message__6TLobbyFi
-  - show_status_message__22TQuestVmDownLoadServerFll
+  - show_status_message__22TQuestVmDownLoadServerFPCcl
   - show_tp_font__FP9TObjCharaP3Vecls
   - shuffle_event_entries__FP17EventShuffleTable
   - shuffle_p01_order__12TBoss3VoloptFv

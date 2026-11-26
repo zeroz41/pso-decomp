@@ -116,7 +116,7 @@ struct ArrowUVs { UV_802563A0 uv[2]; };
 static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 
-void TWindowInputNumber::create(s32 title) {
+void TWindowInputNumber::create(const char *title) {
     WindowHeading *created;
 
     if (this->heading == NULL) {

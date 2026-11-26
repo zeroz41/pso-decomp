@@ -27,7 +27,7 @@ void TAdTrialModemChkGC::render() {
     render_dialog();
 }
 
-saddr TAdTrialModemChkGC::get_message_text() { return get_localized_text_entry(35, 0); }
+const char *TAdTrialModemChkGC::get_message_text() { return get_localized_text_entry(35, 0); }
 void TAdTrialModemChkGC::on_close() { request_main_phase(0); }
 
 void TAdTrialModemChkGC::run_task() {

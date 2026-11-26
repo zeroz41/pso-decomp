@@ -9,7 +9,7 @@ struct TAdTrialModemChkGC : public TAdWarningBaseGC {
     static const char *name;
     TAdTrialModemChkGC(TObject *parent);
     virtual ~TAdTrialModemChkGC();
-    virtual saddr get_message_text();
+    virtual const char *get_message_text();
     virtual void on_close();
     static void init_modem_check_phase();
     static void check_modem_result();

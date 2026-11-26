@@ -1479,7 +1479,7 @@ s32 format_item_description(u8 *item) {
 
 void TItemData::format_item_name(char *buf) {
     s8 *slot;
-    char *name;
+    const char *name;
     s32 *pmt;
     s8 tmp[10];
     s8 sign[3];
@@ -1495,9 +1495,9 @@ void TItemData::format_item_name(char *buf) {
     }
     pmt = (s32 *)lookup_item_pmt_record(data1.data_u8);
     if (pmt != NULL) {
-        name = (char *)get_text_collection(*pmt);
+        name = get_text_collection(*pmt);
     } else {
-        name = (char *)get_text_collection(0x1F4);
+        name = get_text_collection(0x1F4);
     }
     if (is_wrapped(this) != 0) {
         sprintf(buf, "%s", get_text_collection(0x77));

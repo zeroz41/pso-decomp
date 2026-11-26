@@ -148,14 +148,14 @@ __declspec(section ".data") NJS_POINT2 system_file_check_menu_pos = {
 f32 system_file_check_menu_height = multi_chg_game_mode_window_size[0] - 40.0f;
 
 // Message text by id: text_set -1 takes the shared message table, 0 the Japanese table, else English.
-s32 TAdSystemFileCheckGC::get_system_file_check_text(s32 index, s32 text_set) {
+const char *TAdSystemFileCheckGC::get_system_file_check_text(s32 index, s32 text_set) {
     if (text_set == -1) {
         return get_message_text((index));
     }
     if (text_set == 0) {
-        return (saddr)multi_chg_game_mode_text_table_b[index];
+        return multi_chg_game_mode_text_table_b[index];
     }
-    return (saddr)multi_chg_game_mode_text_table_a[index];
+    return multi_chg_game_mode_text_table_a[index];
 }
 
 void TAdSystemFileCheckGC::close_windows_on_selection() {
@@ -287,10 +287,10 @@ void TAdSystemFileCheckGC::close_window_30() {
 void TAdSystemFileCheckGC::close_menu_window() { if (menu_window != 0) { ((TWindowBase *)((void*)(menu_window)))->close(); menu_window = 0; } }
 
 void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
+    const char *a;
+    const char *b;
+    const char *c;
+    const char *d;
     this->menu_window = create_window_menu_default(&system_file_check_menu_pos, 2);
     a = get_system_file_check_text(6, this->language);
     b = get_system_file_check_text(7, this->language);

@@ -6,8 +6,8 @@
 // Named from the "TWindowMenuTeamStatus" class-name string init stores to m_name.
 class TWindowMenuTeamStatus : public TWindowShop {
 public:
-    static TWindowMenuTeamStatus *create(void *tbl);
-    TWindowMenuTeamStatus(s32 arg);
+    static TWindowMenuTeamStatus *create(const char *tbl);
+    TWindowMenuTeamStatus(const char *arg);
     virtual ~TWindowMenuTeamStatus();
     static const char *class_name;
     virtual void init(u32 count, s32 id);

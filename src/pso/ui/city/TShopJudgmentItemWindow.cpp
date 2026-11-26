@@ -229,14 +229,14 @@ void TShopJudgmentItemWindow::create_result_windows() {
         if (this->item_list == NULL) {
             switch (current_language) {
             case LANGUAGE_JAPANESE:
-                this->item_list = create_item_list_window((saddr)"\x8A\xD3\x92\xE8\x8C\x8B\x89\xCA", 1, this->player->get_entity_id());
+                this->item_list = create_item_list_window("\x8A\xD3\x92\xE8\x8C\x8B\x89\xCA", 1, this->player->get_entity_id());
                 break;
             case LANGUAGE_ENGLISH:
             case LANGUAGE_GERMAN:
             case LANGUAGE_FRENCH:
             case LANGUAGE_SPANISH:
             default:
-                this->item_list = create_item_list_window((saddr)"Result", 1, this->player->get_entity_id());
+                this->item_list = create_item_list_window("Result", 1, this->player->get_entity_id());
                 break;
             }
             judged_item.clear_unidentified_flag();

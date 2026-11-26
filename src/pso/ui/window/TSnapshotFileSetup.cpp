@@ -94,7 +94,7 @@ void TSnapshotFileSetup::run_task() {
         case -8:
             if ((this->state == 4) && ((s32) this->shown_message != 0xF)) {
                 this->shown_message = 0xF;
-                open_confirm_dialog((s32)get_localized_text_entry(0x16, 5), 0);
+                open_confirm_dialog(get_localized_text_entry(0x16, 5), 0);
             }
             break;
         }
@@ -250,11 +250,11 @@ void TSnapshotFileSetup::render() { if (this->state == 6) { TLobby::update_pulse
 void TSnapshotFileSetup::set_option_and_confirm(s32 option, s32 yes_no) {
     if (option != (s32) this->shown_message) {
         this->shown_message = option;
-        open_confirm_dialog((s32)get_localized_text_entry(0x24, option), yes_no);
+        open_confirm_dialog(get_localized_text_entry(0x24, option), yes_no);
     }
 }
 
-void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 yes_no) {
+void TSnapshotFileSetup::open_confirm_dialog(const char *message, s32 yes_no) {
     if (this->message_window != NULL) {
         this->message_window->close();
         this->message_window = NULL;

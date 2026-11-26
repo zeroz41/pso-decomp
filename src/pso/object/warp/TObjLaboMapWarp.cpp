@@ -437,7 +437,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j = 0, k = 0; j < 17; j++) {
                     if (city_main_warp_visible_destination_mask & (1 << j)) {
                         if (get_game_play_mode() == 1) {
-                            menu_window->add_text_entry((saddr)get_area_title(), 0xE, k);
+                            menu_window->add_text_entry(get_area_title(), 0xE, k);
                         } else {
                             menu_window->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
                         }
@@ -448,7 +448,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j2 = 0, k2 = 0; j2 < 17; j2++) {
                     if (city_main_warp_visible_destination_mask & (1 << j2)) {
                         if (get_game_play_mode() == 1) {
-                            menu_window->add_text_entry((saddr)get_area_title(), 0xE, k2);
+                            menu_window->add_text_entry(get_area_title(), 0xE, k2);
                         } else {
                             menu_window->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
                         }

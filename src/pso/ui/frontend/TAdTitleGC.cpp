@@ -85,7 +85,7 @@ void TAdTitleGC::run_task() {
         alpha = 0xFF;
     }
     update_title_rects();
-    calc_text_pos(text_pos, (const char *)get_localized_text_entry(0x13, title));
+    calc_text_pos(text_pos, get_localized_text_entry(0x13, title));
 }
 
 // Per-rect slide-in factor update_title_rects scales the remaining frames by.

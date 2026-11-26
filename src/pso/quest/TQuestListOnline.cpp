@@ -157,16 +157,16 @@ void TQuestListOnline::build_list_window() {
                 entry = (QuestListEntry *)((u8 *)&quest_list_online_quest_list_buffer->entries + off);
                 switch (entry->tag.m_tag1) {
                 case 0:
-                    list_window->add_list_entry(0x2C, (saddr)entry->name, i);
+                    list_window->add_list_entry(0x2C, entry->name, i);
                     break;
                 case 1:
-                    list_window->add_list_entry(0x17, (saddr)entry->name, i);
+                    list_window->add_list_entry(0x17, entry->name, i);
                     break;
                 case 2:
-                    list_window->add_list_entry(0x31, (saddr)entry->name, i);
+                    list_window->add_list_entry(0x31, entry->name, i);
                     break;
                 default:
-                    list_window->add_list_entry(0x17, (saddr)entry->name, i);
+                    list_window->add_list_entry(0x17, entry->name, i);
                     break;
                 }
             }
@@ -175,9 +175,9 @@ void TQuestListOnline::build_list_window() {
         if (description_window == NULL) {
             WindowSize size = online_description_window_size;
             description_window = TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
-            description_window->append_line((saddr)quest_list_online_quest_list_buffer->entries[0].short_description, (int)0x80);
+            description_window->append_line(quest_list_online_quest_list_buffer->entries[0].short_description, (int)0x80);
         } else {
-            description_window->append_line((saddr)quest_list_online_quest_list_buffer->entries[0].short_description, (int)0x80);
+            description_window->append_line(quest_list_online_quest_list_buffer->entries[0].short_description, (int)0x80);
         }
         selected_index = 0;
         set_state(3);
@@ -196,7 +196,7 @@ void TQuestListOnline::show_info_window() {
         }
     }
     if (quest_list_online_selected_quest_info != NULL) {
-        info_window->append_line((saddr)quest_list_online_selected_quest_info->text, (int)0x80);
+        info_window->append_line(quest_list_online_selected_quest_info->text, (int)0x80);
     }
     this->set_state(3);
 }
@@ -208,7 +208,7 @@ void TQuestListOnline::handle_list_selection() {
     if (list_window != NULL) {
         s32 sel = list_window->get_cursor_value();
         if (description_window != NULL && sel != selected_index) {
-            description_window->append_line((saddr)(quest_list_online_quest_list_buffer->entries[sel].short_description), (int)0x80);
+            description_window->append_line((quest_list_online_quest_list_buffer->entries[sel].short_description), (int)0x80);
         }
         if (info_window != NULL && sel != selected_index) {
             info_window->close();

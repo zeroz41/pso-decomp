@@ -5,11 +5,11 @@
 
 class TWindowShop : public TWindowMenuIconLine {
 public:
-    TWindowShop(u8 *parent, s32 title, u32 count, u8 *descriptor);
-    TWindowShop(s32 title, u32 count, s32 client);
+    TWindowShop(u8 *parent, const char *title, u32 count, u8 *descriptor);
+    TWindowShop(const char *title, u32 count, s32 client);
     virtual ~TWindowShop();
     static const char *class_name;
-    void init_list_window(s32 title);
+    void init_list_window(const char *title);
     virtual void render();
     virtual void run_task();
     void set_capacity(s32 capacity);
@@ -18,6 +18,6 @@ public:
 LAYOUT_ASSERT(TWindowShop_size, sizeof(TWindowShop) == 0x8C);
 
 // Opens the shop item list (title text, row capacity) placed for the current camera layout.
-TWindowShop *create_item_list_window(s32 title, s32 count, s32 client);
+TWindowShop *create_item_list_window(const char *title, s32 count, s32 client);
 
 #endif

@@ -13,7 +13,7 @@ void TAdPsoPassSaveGC::render() {
     render_dialog();
 }
 
-saddr TAdPsoPassSaveGC::get_message_text() {
+const char *TAdPsoPassSaveGC::get_message_text() {
     return get_localized_text_entry(0x2A, 0);
 }
 

@@ -130,7 +130,7 @@ TWindowMenuIconLine *TWindowSubEquip::open_equip_kind_list(u32 slot) {
     equip_kind_window = create_equip_kind_window(
         get_window_layout_position(1), &equip_kind_window_size, this->client_id);
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 1));
-    equip_kind_window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
+    equip_kind_window->ensure_status_display(TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
     switch (slot) {
     case 6:

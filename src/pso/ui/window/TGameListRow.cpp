@@ -30,21 +30,21 @@ void TGameListRow::fill(s32 locked, const char *name, s8 player_count, s8 max_pl
 }
 
 const char *TGameListRow::get_difficulty_name(s8 difficulty) {
-    return (const char *)TWindowSubStatusDisp::get_message_10(difficulty + 0x113);
+    return TWindowSubStatusDisp::get_message_10(difficulty + 0x113);
 }
 
 const char *TGameListRow::get_game_mode_name(s8 mode) {
     if (mode == 0) {
         return NULL;
     }
-    return (const char *)TWindowSubStatusDisp::get_message_10(mode + 0x110);
+    return TWindowSubStatusDisp::get_message_10(mode + 0x110);
 }
 
 const char *TGameListRow::get_episode_name(s8 episode) {
     if (episode == 0) {
         return NULL;
     }
-    return (const char *)TWindowSubStatusDisp::get_message_10(episode + 0x10D);
+    return TWindowSubStatusDisp::get_message_10(episode + 0x10D);
 }
 
 void TGameListRow::render(WindowDrawContext *context) {

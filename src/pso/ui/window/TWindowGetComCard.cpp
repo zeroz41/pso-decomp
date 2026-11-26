@@ -140,10 +140,10 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
         text_builder_reset();
         text_builder_append(card->get_name());
         text_builder_append(static_cast<const char *>(TWindowSubStatusDisp::get_message_10(0x36)));
-        message->append_line((saddr) (get_shared_text_buffer()), 2);
+        message->append_line((get_shared_text_buffer()), 2);
         timer = 0;
     } else {
-        message->append_line((saddr) (TWindowSubStatusDisp::get_message_10(0x37)), 0);
+        message->append_line((TWindowSubStatusDisp::get_message_10(0x37)), 0);
         timer = 0x384;
     }
     if ((player = get_player_by_client_id(local_client_id)) != NULL) {

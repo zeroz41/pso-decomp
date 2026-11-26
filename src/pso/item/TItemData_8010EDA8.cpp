@@ -67,6 +67,6 @@ s32 TObjPlayer::can_use_more_materials_for_class() {
 saddr get_item_description_text(s32 name) {
     return (saddr)text_language_group_table[1][name];
 }
-saddr get_text_collection(s32 index) {
-    return (saddr)text_language_group_table[0][index];
+const char *get_text_collection(s32 index) {
+    return text_language_group_table[0][index];
 }

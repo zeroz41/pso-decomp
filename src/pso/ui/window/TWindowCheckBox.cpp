@@ -57,15 +57,15 @@ void TWindowCheckBox::advance_matching_entries(s32 finalize, s32 item) {
     }
 }
 
-void TWindowCheckBox::add_menu_item(s32 text, s32 item) {
+void TWindowCheckBox::add_menu_item(const char *text, s32 item) {
     append_entry(0, text, item, 1, 0);
 }
 
-void TWindowCheckBox::draw_status(s32 text, s32 item) {
+void TWindowCheckBox::draw_status(const char *text, s32 item) {
     append_entry(0, text, item, 0, 1);
 }
 
-void TWindowCheckBox::dispatch_without_flags(s32 text, s32 item) {
+void TWindowCheckBox::dispatch_without_flags(const char *text, s32 item) {
     append_entry(0, text, item, 0, 0);
 }
 

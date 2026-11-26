@@ -90,7 +90,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void key_escape();
     void handle_backspace();
     void update_input_state2();
-    void set_text(char *s);
+    void set_text(const char *s);
     void init();
     void commit_composition_text();
     s32 measure_text_overflow();

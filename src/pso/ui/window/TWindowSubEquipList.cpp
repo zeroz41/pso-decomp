@@ -44,5 +44,5 @@ TWindowSubEquipList::~TWindowSubEquipList() {}
 
 TWindowSubEquipList::TWindowSubEquipList(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 8, client) {
     m_name = TWindowSubEquipList::class_name;
-    ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x25));
+    ensure_status_display(TWindowSubStatusDisp::get_message_10(0x25));
 }

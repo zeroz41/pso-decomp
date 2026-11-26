@@ -115,7 +115,7 @@ TAdEnterSerialAccessGC::~TAdEnterSerialAccessGC() {
 }
 
 void TAdEnterSerialAccessGC::run_task() {
-    f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x17, 4)) >> 1);
+    f32 x = 320.0f - (f32)(calc_text_width(get_localized_text_entry(0x17, 4)) >> 1);
     serial_entry_status_line_position.y = 250.0f;
     serial_entry_status_line_position.x = x;
     prev_state = input_state;
@@ -485,7 +485,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
 void TAdEnterSerialAccessGC::draw_screen(void *window, void *context) {
     ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
     draw_menu_text_scaled(serial_entry_status_line_position.x, serial_entry_status_line_position.y, 0.8f,
-        (const char *)get_localized_text_entry(0x17, 4), -1);
+        get_localized_text_entry(0x17, 4), -1);
     draw_serial_plates();
     draw_serial_chars(context);
 }

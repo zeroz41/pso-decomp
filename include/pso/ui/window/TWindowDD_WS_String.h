@@ -7,16 +7,16 @@
 class TWindowDD_WS_String : public TWindowBase {
 public:
     static const char *class_name;
-    TWindowDD_WS_String(f32 *position, f32 *size, uaddr text, s32 style);
+    TWindowDD_WS_String(f32 *position, f32 *size, const char *text, s32 style);
     virtual ~TWindowDD_WS_String();
-    static TWindowDD_WS_String *create(f32 width, f32 *pos, f32 *size, uaddr str, s32 style);
+    static TWindowDD_WS_String *create(f32 width, f32 *pos, f32 *size, const char *str, s32 style);
     void fit_width_to_text(); // widens target_size[0] to the first entry's text
     virtual void run_task();
     virtual void render();
     void draw(WindowDrawContext *context, s32 idx, f32 offset);
     void move_to_start(s32 ticks);
     void update_position(s32 ticks);
-    void set_first_entry_text(uaddr str);
+    void set_first_entry_text(const char *str);
     void draw_entry_if_visible(WindowDrawContext *context);
     s32 text_style;        // point table index passed to draw (ctor argument; 1 and 3 recolor the text)
     f32 start_position[2]; // position given to the ctor; move_to_start tweens back to it

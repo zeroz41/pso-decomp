@@ -52,11 +52,11 @@ TWindowMenu *TWindowStatusCategoryMenu::create_status_category_menu() {
     if (TCameraCtrl::get_camera_id() > 2) {
         menu = create_window_menu(get_window_layout_position(0x18), 3, client_id);
     } else {
-        menu = create_titled_window_menu(get_window_layout_position(0x18), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
+        menu = create_titled_window_menu(get_window_layout_position(0x18), 3, TWindowSubStatusDisp::get_message_10(0x1D), client_id);
     }
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10A)), 0x36, 0);
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10B)), 0x36, 1);
-    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10C)), 0x36, 2);
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x10A)), 0x36, 0);
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x10B)), 0x36, 1);
+    menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x10C)), 0x36, 2);
     (menu)->set_flag70_bit10();
     (menu)->update_layout_height(202.0f);
     align_menu_entry_positions(menu);
