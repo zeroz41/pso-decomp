@@ -10,6 +10,19 @@ struct GvmFileHeader {
     u16 count;
 };
 
+// A GVR texture in memory: the GBIX chunk, the GVRT chunk header, then the texels.
+struct GvrTexture {
+    u8 gbix[0x10];
+    u8 gvrt_magic[4];
+    u32 gvrt_size;
+    u16 flags;
+    u8 pixel_format;
+    u8 data_format;
+    u16 width;
+    u16 height;
+    u16 texels[1];
+};
+
 struct NJS_TEXLIST;
 
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist);

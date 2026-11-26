@@ -1,10 +1,10 @@
-#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/derolle/Boss2CommonResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/psoLoadTexture.h"
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))
 

@@ -1,4 +1,3 @@
-#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "types.h"
 #include "pso/system/memory.h"
@@ -8,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TTextureWave.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/psoLoadTexture.h"
 
 
 void TTextureWave::advance_wrapped_cursor() {

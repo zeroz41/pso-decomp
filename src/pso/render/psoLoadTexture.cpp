@@ -207,7 +207,6 @@ void TTextureWave::update_texture_wave_image() {
     }
 }
 
-
 void TTextureWave::distort_image() {
     s32 y;
     u8 *dx;
@@ -216,9 +215,9 @@ void TTextureWave::distort_image() {
     u16 *out;
     s32 x;
     y = 0;
-    out = (u16 *)(output + 0x20);
+    out = ((GvrTexture *)output)->texels;
     dx = (u8 *)displacement;
-    image = (u16 *)(image_data + 0x20);
+    image = ((GvrTexture *)image_data)->texels;
     dy = dx + height * width;
     for (; y < height; y++) {
         for (x = 0; x < width; x++) {

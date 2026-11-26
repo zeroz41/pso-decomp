@@ -1,4 +1,3 @@
-#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTextureInput.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -22,6 +21,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/psoLoadTexture.h"
 
 
 void * player_render_texture_buffer;

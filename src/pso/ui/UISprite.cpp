@@ -1,4 +1,3 @@
-#include "pso/render/psoLoadTexture.h"
 #include "pso/render/TriangleFan3D.h"
 // Character-creation sprite tables, ruler lines and UI sprite helpers (one TU).
 // One-TU evidence: resolve_creation_sprite_table addresses the three cell tables as offsets
@@ -21,6 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/vector.h"
+#include "pso/render/psoLoadTexture.h"
 
 #pragma const_strings off
 NJS_TEXNAME creation_chara_sprite_entries[20] = {

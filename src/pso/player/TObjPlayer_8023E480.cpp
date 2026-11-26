@@ -1,4 +1,3 @@
-#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/Adxf.h"
@@ -15,6 +14,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/memory.h"
+#include "pso/render/psoLoadTexture.h"
 
 #pragma readonly_strings on
 
