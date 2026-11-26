@@ -9,7 +9,7 @@ void free_player_data_load_buffer(void);
 void free_player_data_load_buffer(void);
 // --- end of C functions
 
-saddr get_global_63e0();
+u8 *get_player_data_load_buffer();
 void load_player_data();
 
 #endif

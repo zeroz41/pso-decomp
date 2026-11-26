@@ -52,7 +52,7 @@ s32 load_network_info(void) {
     }
     open_network_config(0, network_info_work, status);
     network_config_open = 1;
-    init_card_lib((void *)get_global_63e0());
+    init_card_lib(get_player_data_load_buffer());
     start = 0;
     end = 2;
     switch (disc_error_code) {
