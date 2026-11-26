@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/network/LobbyRuleSettings.h"
-#include "pso/unk/text_801D6D8C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/data/pso_const_ids4.h"
 #include "pso/item/drop/TItemDrop.h"
@@ -13,14 +12,11 @@ s8 LobbyRuleSettings::get_trap_count(s32 index) {
     return trap_counts[index];
 }
 
-void fn_801D6D8C(s8 *record, s8 value, s32 index) {
-    s8 clamped;
-
-    clamped = value;
-    if ((clamped < 0) || (clamped > 0x14)) {
-        clamped = 0x14;
+void LobbyRuleSettings::set_trap_count(s8 count, s32 index) {
+    if ((count < 0) || (count > 20)) {
+        count = 20;
     }
-    (record + index)[0x20] = clamped;
+    trap_counts[index] = count;
 }
 
 u8 LobbyRuleSettings::get_lives() {

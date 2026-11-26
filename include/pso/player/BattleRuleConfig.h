@@ -8,7 +8,7 @@
 struct BattleRuleConfig {
     u8 rules[0xC];            // rules[9] == 1 splits the players into two teams (game mode 4)
     s8 value_c;
-    u8 slot_rules[4];         // one value per slot
+    s8 slot_rules[4];         // one trap count per slot (lobby_rule_settings.set_trap_count)
     u8 rule_d;
     s8 level;
     u8 rule_e;

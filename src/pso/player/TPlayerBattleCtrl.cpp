@@ -151,7 +151,6 @@ void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
 }
 
 extern "C" {
-s32 fn_801D6D8C(void *, int, int);
 }
 
 extern s32 battle_intro_value_table[];
@@ -654,7 +653,7 @@ void apply_game_settings(s32 owner, s32 use_config) {
         lobby_rule_settings.set_meseta_mode(CFG->rules[0xB]);
         lobby_rule_settings.set_death_level_up(CFG->value_c);
         for (s32 i = 0; i < 4; i++) {
-            fn_801D6D8C(&lobby_rule_settings, CFG->slot_rules[i], i);
+            lobby_rule_settings.set_trap_count(CFG->slot_rules[i], i);
         }
         lobby_rule_settings.set_enable_sonar(CFG->rule_d);
         lobby_rule_settings.set_sonar_count(CFG->level);

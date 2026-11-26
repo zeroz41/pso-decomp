@@ -68,7 +68,6 @@ extern "C" {
 extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-s32 fn_801D6D8C(void *, u8, int);
 void TLobby__sub_801B09A4(void);
 void request_active_window_close(void);
 }
@@ -712,7 +711,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
     lobby_rule_settings.set_death_level_up(rule_data->value_c);
     for (i = 0; i < 4; i++)
     {
-      fn_801D6D8C(&lobby_rule_settings, rule_data->slot_rules[i], i);
+      lobby_rule_settings.set_trap_count(rule_data->slot_rules[i], i);
     }
     lobby_rule_settings.set_enable_sonar(rule_data->rule_d);
     lobby_rule_settings.set_sonar_count(rule_data->level);
