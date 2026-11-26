@@ -3897,11 +3897,8 @@ pso/object/switch/TOSwitchTimer.cpp:
 	.sdata      start:0x805D3188 end:0x805D3190
 	.sdata2     start:0x805DBA18 end:0x805DBA28
 
-pso/unk/text_8017866C.cpp:
-	.text       start:0x8017866C end:0x801786C4
-
 pso/object/collision/TOSymbolchatColli.cpp:
-	.text       start:0x801786C4 end:0x80178B78
+	.text       start:0x8017866C end:0x80178B78
 	.rodata     start:0x80442CA0 end:0x80442CC8
 	.data       start:0x804B4550 end:0x804B46B8
 	.bss        start:0x8050DB70 end:0x8050DB80
@@ -6057,11 +6054,8 @@ pso/ui/window/TWindowMessagePage.cpp:
 	.data       start:0x804D0778 end:0x804D0790
 	.sdata      start:0x805D3998 end:0x805D39A0
 
-pso/unk/TLobby_8026B06C.cpp:
-	.text       start:0x8026B06C end:0x8026B118
-
 pso/ui/window/TWindowMessageQuest.cpp:
-	.text       start:0x8026B118 end:0x8026B2B4
+	.text       start:0x8026B06C end:0x8026B2B4
 	.rodata     start:0x8044F450 end:0x8044F478
 	.data       start:0x804D0790 end:0x804D07A8
 	.sdata      start:0x805D39A0 end:0x805D39A8
@@ -8413,14 +8407,11 @@ pso/effect/TIndirectEffectDrawTask.cpp:
 	.sdata2     start:0x805DFAC0 end:0x805DFAD4
 
 pso/ui/frontend/TAdMcCheckGC.cpp:
-	.text       start:0x8033EE38 end:0x8033F314
+	.text       start:0x8033EE38 end:0x8033F380
 	.rodata     start:0x804783B8 end:0x804783D8
 	.data       start:0x804EFAA0 end:0x804EFAC0
 	.sdata      start:0x805D42B8 end:0x805D42BC
 	.sdata2     start:0x805DFAD8 end:0x805DFADC
-
-pso/unk/text_8033F314.cpp:
-	.text       start:0x8033F314 end:0x8033F380
 
 pso/ui/frontend/TAdPlyStatusGC.cpp:
 	.text       start:0x8033F380 end:0x8033FDB0
@@ -8892,11 +8883,8 @@ pso/weapon/TItemWeaponRubyBullet.cpp:
 	.text       start:0x8035D444 end:0x8035D540
 	.data       start:0x804F1EC8 end:0x804F1FC0
 
-pso/unk/TLobby_8035D540.cpp:
-	.text       start:0x8035D540 end:0x8035D5B4
-
 pso/ui/window/TWindowMessageScroll.cpp:
-	.text       start:0x8035D5B4 end:0x8035D6F4
+	.text       start:0x8035D540 end:0x8035D6F4
 	.rodata     start:0x80479C18 end:0x80479C30
 	.data       start:0x804F1FC0 end:0x804F1FD8
 	.sdata      start:0x805D4448 end:0x805D4450
