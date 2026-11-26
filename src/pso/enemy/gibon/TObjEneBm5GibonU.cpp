@@ -1870,7 +1870,7 @@ struct TObjEneBm5GibonUStaticData {
 };
 
 extern "C" {
-void __register_global_object(void *obj, void *dtor, void *chain);
+void __register_global_object(void *obj, void (*dtor)(), void *chain);
 void __dt__20TObjEneBm5GibonUListFv();
 }
 

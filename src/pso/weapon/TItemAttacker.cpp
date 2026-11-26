@@ -81,7 +81,7 @@ void DelayedWeaponHit::copy_from(DelayedWeaponHit *source_record) {
 
 void TItemAttacker::spawn_item_timer(TObject *object, ItemTimerCallback expire, s32 frames) {
     if (object != NULL) {
-        new TItemTimer(object, (saddr)expire, frames);
+        new TItemTimer(object, expire, frames);
     }
 }
 

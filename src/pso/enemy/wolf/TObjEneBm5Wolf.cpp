@@ -131,7 +131,7 @@ Vec lbl_80500B60;
 u32 lbl_80500B6C[3];
 u32 bm5_wolf_pack_member_list[5];
 u32 bm5_wolf_instance_list[3];
-void __register_global_object(void *obj, void *dtor, void *chain);
+void __register_global_object(void *obj, void (*dtor)(), void *chain);
 void __dt__18TObjEneBm5WolfListFv();
 }
 

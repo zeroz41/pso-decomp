@@ -159,10 +159,8 @@ EndingWallTextureSet ending_wall_texture_sets[4] = {
     },
 };
 
-extern "C" {
 s32 TEndingAB::fade_sequence_state;
 NJS_TEXLIST *ending_ab_wall_texture_list;
-}
 
 void TEndingAB::advance_fade_sequence() {
     switch (TEndingAB::fade_sequence_state) {

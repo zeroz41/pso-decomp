@@ -57,9 +57,7 @@ TBoss5GryphonLightning::~TBoss5GryphonLightning() {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 
-extern "C" {
 const char *TBoss5GryphonLightning::class_name = "TBoss5GryphonLightning";
-}
 
 TBoss5GryphonLightning::TBoss5GryphonLightning(TObject *parent, Vec *pos, f32 scale) : TObject(parent) {
     s32 i;

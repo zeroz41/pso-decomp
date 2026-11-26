@@ -51,7 +51,6 @@ CollisionBody TBoss6Mine::collision_body_template[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-extern "C" {
 const char *TBoss6Mine::class_name = "TBoss6Mine";
 
 void TBoss6Mine::render_shadows() {
@@ -326,7 +325,6 @@ void TBoss6Mine::run_task() {
     }
 }
 
-}
 TBoss6Mine::~TBoss6Mine() {
     if (this->emitter != NULL) { TParticleCtrl::release(this->emitter); this->emitter = 0; }
     free_collision_body_parts(this);

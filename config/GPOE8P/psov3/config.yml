@@ -582,7 +582,7 @@ force_active:
   - TItemObject_name
   - TItemTexLoad_class_name
   - TItemTexLoad_name
-  - set__18TItemTimerCallbackFll
+  - set__18TItemTimerCallbackFP7TObjectPFP7TObject_v
   - __ct__19TItemWeaponPartisanFP7TObjectPUc
   - name__5TItem
   - on_judgment_closed__17TJudgmentSequenceFP15TShopWindowBase

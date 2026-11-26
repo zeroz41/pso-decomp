@@ -70,7 +70,7 @@ u32 TCheckRoomSequence::slot_active_flags[4];
 extern "C" {
 // The runtime's array new and BankItemRecord::BankItemRecord(), whose address
 // C++ does not let alloc_item_buffers take.
-void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 n);
+void *__construct_new_array(void *block, void (*ctor)(), void *dtor, u32 size, u32 n);
 void __ct__14BankItemRecordFv();
 s32 get_max_stack_size__9TItemDataFv(void *);
 s32 add_to_bank_stack(TItemData *item, s32 amount, s32 slot);

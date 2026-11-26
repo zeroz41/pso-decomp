@@ -875,7 +875,7 @@ s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
     }
     for (i = 0; i < 4; i++) {
         ADXF_ReadNw(self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), self->ents[id].file_data[i]);
-        ((TLobby *)(&self->bank_file_handles[i]))->set_entry_params(i, self->bank_file_sizes[i] / 2048, (s32)self->ents[id].file_data[i]);
+        ((TLobby *)(&self->bank_file_handles[i]))->set_entry_params(i, self->bank_file_sizes[i] / 2048, (saddr)self->ents[id].file_data[i]);
     }
     return 0;
 fail:

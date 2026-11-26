@@ -828,7 +828,7 @@ void TObjButterflyLobby::free_singleton_805D4E6C() {
 void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
 
 extern "C" {
-void __construct_array(void *, void *, s32, s32, s32);
+void __construct_array(void *, CsnContact *(*)(CsnContact *), s32, s32, s32);
 }
 extern "C" {
 

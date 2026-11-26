@@ -4,19 +4,22 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+// Called with a timer's object when the timer runs out.
+typedef void (*ItemTimerCallback)(TObject *object);
+
 // What a TItemTimer runs when it expires: `callback(target)`.
 struct TItemTimerCallback {
-    void *target;
-    s32 (*callback)(s32);
+    TObject *target;
+    ItemTimerCallback callback;
 
     void invoke();
     void reset();
-    void set(s32 target, s32 callback);
+    void set(TObject *target, ItemTimerCallback callback);
 };
 
 class TItemTimer : public TObject {
 public:
-    TItemTimer(TObject *parent, s32 expire, s32 frames);
+    TItemTimer(TObject *parent, ItemTimerCallback expire, s32 frames);
     virtual ~TItemTimer();
     virtual void run_task();
 

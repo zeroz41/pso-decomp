@@ -27,7 +27,7 @@
 // Built with -inline off,deferred: functions are written last to first.
 
 extern "C" {
-void *__ct__6TMovieFP7TObjectPScPFP6TMovie_vll(void *, void *, const char *, void *, s32, s32, s32);
+void *__ct__6TMovieFP7TObjectPScPFP6TMovie_vll(void *, void *, const char *, void (*)(TMovie *), s32, s32, s32);
 }
 
 s32 ending_sequence_active;

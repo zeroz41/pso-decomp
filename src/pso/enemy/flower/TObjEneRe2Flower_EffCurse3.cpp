@@ -24,8 +24,6 @@
 #include "pso/render/GinjaTexture.h"
 
 
-extern "C" {
-
 void * player_render_texture_buffer;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
@@ -54,7 +52,6 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
 }
 #pragma pop
 
-}
 TObjEneRe2Flower_EffCurse3::~TObjEneRe2Flower_EffCurse3() {
     if (effect != NULL) {
         effect->queue_destruction();
@@ -70,7 +67,6 @@ TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(TObject *parent, TObjBase
         effect = spawn_continuous_particle_effect_with_flags(&this->target->position, 0xDE, 0x40);
     }
 }
-extern "C" {
 
 struct Node_800C4D88 { void *p; s32 v; };
 GinjaTextureInput player_render_target;
@@ -94,5 +90,4 @@ void TObjPlayer::create_render_texture() {
     lbl_80500C30.p = &player_render_texture_name;
     lbl_80500C30.v = 1;
     psoLoadTexture((NJS_TEXLIST *)&lbl_80500C30);
-}
 }

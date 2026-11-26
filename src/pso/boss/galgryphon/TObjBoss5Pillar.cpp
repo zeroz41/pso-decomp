@@ -19,10 +19,7 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TObjBoss5Pillar::class_name = "TObjBoss5Pillar";
-
-}
 
 void TObjBoss5Pillar::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {

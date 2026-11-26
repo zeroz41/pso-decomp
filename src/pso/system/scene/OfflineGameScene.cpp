@@ -663,7 +663,7 @@ extern "C" {
 static void __sinit_OfflineGameScene_cpp();
 TPlyCharData *__ct__12TPlyCharDataFv(TPlyCharData *self);
 void __dt__12TPlyCharDataFv(TPlyCharData *self, s16 mode);
-void *__register_global_object(void *object, void *destructor, void *chain);
+void *__register_global_object(void *object, void (*destructor)(TPlyCharData *, s16), void *chain);
 }
 #pragma push
 #pragma suppress_init_code on

@@ -14,9 +14,7 @@
 #pragma fp_contract on
 
 
-extern "C" {
 const char *TObjBoss5Ctrl::class_name = "TObjBoss5Ctrl";
-}
 
 void TObjBoss5Ctrl::play_pillar_sound() {
     TObjBoss5Ctrl *controller = boss5_ctrl_instance;

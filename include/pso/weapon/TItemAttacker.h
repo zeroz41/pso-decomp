@@ -4,9 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 #include "types.h"
-
-// Called with a timer's object when the timer runs out.
-typedef void (*ItemTimerCallback)(TObject *object);
+#include "pso/item/TItemTimer.h"
 
 // The hit a delayed weapon attack carries to its target (launch_shot,
 // launch_rare_weapon_special, TItemWeaponDoubleCannon::fire_special_shots).
