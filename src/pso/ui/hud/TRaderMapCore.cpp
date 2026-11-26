@@ -1208,7 +1208,7 @@ void TRaderMapCore::set_piece_flags(s32 piece_flags) {
     }
 }
 
-void TRaderMapCore__sub_801F95CC(void) {
+void TRaderMapCore::create_heap(void) {
     s32 i;
     TRaderMapCore::map_heap = new THeap(0x1000, 0x20);
     for (i = 0; i < 0x12; i++) {

@@ -3,7 +3,6 @@
 
 #include "types.h"
 
-void TObjBoss2Tunnel__sub_8007DD24(void);
 // Takes a snapshot of the screen inside the C stick frame and saves it to the memory card.
 s32 take_snapshot(void);
 // Moves the capture frame with the C stick and keeps it on screen.

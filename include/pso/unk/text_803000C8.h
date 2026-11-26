@@ -3,8 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
-void fn_803000C8(void);
-}
+
+void apply_multi_sel_rule();
 
 #endif

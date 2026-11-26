@@ -30,7 +30,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 
 saddr multi_sel_rule;
-void fn_803000C8(void) {
+void apply_multi_sel_rule(void) {
     if (is_split_screen() != 0) {
         switch (multi_sel_rule) {
         case 1:

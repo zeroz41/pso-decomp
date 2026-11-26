@@ -7,8 +7,6 @@
 class TObject;
 
 extern "C" {
-void TWindowCtrlMain__sub_8024CB7C(void);
-void TWindowCtrlMain__sub_8024CB8C(void);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 TObject *TWindowCtrlMain__sub_8024CDB0(void *p);
 TObject *get_viewport_window_root(s32 viewport_index);

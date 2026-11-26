@@ -77,7 +77,7 @@ void buffer_reset(void) {
 }
 
 
-void TLobby__sub_801A5478(void) { mem_free((void *)deferred_packet_buffer); deferred_packet_buffer = 0; }
+void free_deferred_packet_buffer(void) { mem_free((void *)deferred_packet_buffer); deferred_packet_buffer = 0; }
 
 
 void alloc_work_buffer(void) {

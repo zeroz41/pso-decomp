@@ -50,7 +50,7 @@ int fn_802C4748(void* p) { return TObjPlayer::sync_char_select_state(); }
 void TAdSelectGameModeGC::render() {  }
 
 void TAdSelectGameModeGC::call_enable_camera(void* p) { TAdSelectGameModeGC::enable_camera(); }
-void TAdSelectGameModeGC__sub_802C478C(void) {
+void TAdSelectGameModeGC::setup_views(void) {
     s32 mode_data;
     if (get_main_phase() == 0xE) {
         mode_data = TAdSelectGameModeGC::get_mode_data();

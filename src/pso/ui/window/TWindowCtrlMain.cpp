@@ -382,7 +382,7 @@ s32 TWindowCtrlPlayer::is_countdown_done() {
 
 void TWindowCtrlPlayer::start_countdown() { this->countdown = 60; }
 
-void TWindowCtrlMain__sub_8024D838(void) { TWindowCtrlMain::reset_all((void*)((void*)(0))); }
+void TWindowCtrlMain::reset_windows(void) { TWindowCtrlMain::reset_all((void*)((void*)(0))); }
 
 void TWindowCtrlMain::reset_all(void* _w0) {
     s32 i;
@@ -739,11 +739,11 @@ f32 TWindowCtrlMain::get_bottom(s32 viewport_index) {
     return get_window_control_state(viewport_index)->bottom;
 }
 
-void TWindowCtrlMain__sub_8024CB8C() {
+void TWindowCtrlMain::enable_display() {
     TWindowCtrlMain::display_flags &= ~1;
 }
 
-void TWindowCtrlMain__sub_8024CB7C() {
+void TWindowCtrlMain::disable_display() {
     TWindowCtrlMain::display_flags |= 1;
 }
 

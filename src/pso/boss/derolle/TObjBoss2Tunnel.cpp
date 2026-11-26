@@ -638,7 +638,7 @@ void TObjBoss2Tunnel::reset_state() {
     TQuestListVM::reset();
 }
 
-void TObjBoss2Tunnel__sub_8007DD24(void) {  }
+void TObjBoss2Tunnel::free_resources(void) {  }
 
 /* Moves the capture frame with the C stick and keeps it on screen. */
 void move_snapshot_frame(void) {

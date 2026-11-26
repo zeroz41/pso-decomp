@@ -27,7 +27,7 @@ void debug_print(const char *text) {
 
 }
 
-void TLobby__sub_8007EB20(const char *format, ...) {}
+void debug_printf(const char *format, ...) {}
 
 void TLobby__sub_8007EB70(void) {}
 

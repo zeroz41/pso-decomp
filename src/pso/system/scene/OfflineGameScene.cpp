@@ -188,20 +188,20 @@ s32 TCameraCtrl::get_camera_no() {
 // each load front to back (run_load_callback_table), TLobby::teardown_scene each release
 // back to front (TLobby::call_funcs_reverse).
 FloorResourceCallbacks offline_game_scene_callbacks[48] = {
-    {TAdSelectGameModeGC__sub_802C478C, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
+    {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
     {init_game_player_actions, release_game_player_actions},
     {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
-    {fn_803000C8, TLobby__sub_803000A0},
+    {apply_multi_sel_rule, reset_multi_sel_rule},
     {prepare_adventure_maps, release_adventure_maps},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
     {start_challenge_mode, NULL},
     {load_tombstone_resources, TLobby::destroy_tombstone},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
-    {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
+    {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {reset_clock_bar_pulse, TLobby__sub_8001ED70},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
-    {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
+    {load_keyboard_resources, free_keyboard_resources},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
     {reset_id_counters, free_id_counters},
     {init_entity_tables, clear_entity_tables},
@@ -212,17 +212,17 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
     {TLobby::create_heap_8000, TLobby::free_heap},
-    {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
+    {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
     {TLobby::load_set_gsl_files, clear_map_set_data},
     {TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state},
-    {alloc_work_buffer, TLobby__sub_801A5478},
+    {alloc_work_buffer, free_deferred_packet_buffer},
     {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
     {init_switch_table, clear_switch_table},
     {reset_shop_stock_and_params, clear_all_shop_stock},
     {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
-    {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
+    {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)clear_auto_reply_flags},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
@@ -233,7 +233,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_char_slots, free_char_slots},
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, (FloorResourceCallback)TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
-    {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},
+    {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
     {TBGMulti__ct, TLobby::release_bg_multi_textures},
     {clear_boss6_player_snapshots, NULL},
 };
@@ -443,8 +443,8 @@ void run_offline_game_frame(void) {
     begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    TLobby__sub_8007EB20("Condition E%d", enemy_condition_count * 0xC);
-    TLobby__sub_8007EB20("Condition O%d", object_condition_count * 4);
+    debug_printf("Condition E%d", enemy_condition_count * 0xC);
+    debug_printf("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {
         run_split_screen_frame();
     } else {
@@ -475,8 +475,8 @@ void run_offline_transfer_frame(void) {
     begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    TLobby__sub_8007EB20("Condition E%d", enemy_condition_count * 0xC);
-    TLobby__sub_8007EB20("Condition O%d", object_condition_count * 4);
+    debug_printf("Condition E%d", enemy_condition_count * 0xC);
+    debug_printf("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {
         run_split_screen_frame();
     } else {
@@ -543,9 +543,9 @@ void run_split_screen_frame(void) {
                 forward_clear_split_screen_fog();
                 main_task.render();
                 TCameraCtrl::sync_split_view_slots(i, 0);
-                TWindowCtrlMain__sub_8024CB8C();
+                TWindowCtrlMain::enable_display();
             } else {
-                TWindowCtrlMain__sub_8024CB7C();
+                TWindowCtrlMain::disable_display();
                 if (i == 0) {
                     main_task.run_task();
                 }
@@ -553,7 +553,7 @@ void run_split_screen_frame(void) {
                 forward_clear_split_screen_fog();
                 main_task.render();
                 TCameraCtrl::sync_split_view_slots(i, 1);
-                TWindowCtrlMain__sub_8024CB7C();
+                TWindowCtrlMain::disable_display();
                 break;
             }
         }

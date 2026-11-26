@@ -18,8 +18,8 @@
 
 KeyboardKeyState hardware_keyboard_state;
 
-void TKeyBoardControl__sub_80131F5C(void) {  }
-void TKeyBoardControl__sub_80131F60(void) {  }
+void free_keyboard_resources(void) {  }
+void load_keyboard_resources(void) {  }
 void TWindowKeyBoardHard::set_flag60_bit200() { input_flags |= 0x200; }
 void TWindowKeyBoardHard::clear_flag60_bit200() { input_flags &= 0xfffffdff; }
 int TWindowKeyBoardHard::is_key_held() { return (input_flags >> 8) & 0x1; }

@@ -280,7 +280,7 @@ void TAdDialingGC::update() {
     }
 }
 
-void TAdDialingGC__sub_80328730(s32 status) {
+void TAdDialingGC::set_dial_result(s32 status) {
     if (TAdDialingGC::instance != 0) {
         TAdDialingGC::instance->status_code = status;
         TAdDialingGC::instance->dial_step = 2;

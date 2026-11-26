@@ -122,9 +122,9 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {register_player_prate, TAdPlyPltAnimGC__sub_8035615C},
     {load_data_buffers, TObjBoss2Tunnel::free_buffers},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
-    {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
+    {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
-    {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
+    {load_keyboard_resources, free_keyboard_resources},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {load_draw_line_task_resource, free_draw_line_task_resource},
 };

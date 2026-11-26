@@ -6,7 +6,7 @@
 
 void select_game_player_actions(void) { player_action_provider_selector = 1; }
 
-TAdDialingGC *TAdDialingGC__sub_801A4C9C(void) {
+TAdDialingGC *TAdDialingGC::get_instance(void) {
     return TAdDialingGC::instance;
 }
 

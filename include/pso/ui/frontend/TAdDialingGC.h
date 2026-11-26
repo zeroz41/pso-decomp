@@ -6,6 +6,8 @@
 #include "pso/system/NinjaTypes.h"
 
 struct TAdDialingGC : public TObject {
+    static void set_dial_result(s32 status);
+    static TAdDialingGC *get_instance();
     static const char *name;
     static TAdDialingGC * instance;
     TAdDialingGC(TObject *parent);

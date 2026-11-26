@@ -203,7 +203,7 @@ void TWindowMenu::set_flag70_bit10() { this->m_70 |= 0x10; }
 
 void TObjCityMainWarp::reset() { clear_enabled_main_warps(); update_main_warp_visible_mask(0); }
 
-void TObjCityMainWarp__sub_80186AB8(void) {  }
+void TObjCityMainWarp::free_resources(void) {  }
 }
 
 s32 TObjCityMainWarp::get_floor_warp_bit(s32 floor) {

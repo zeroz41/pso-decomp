@@ -39,6 +39,7 @@ struct RadarMapViewState;
 struct RadarScissorRect;
 
 struct TRaderMapCore : public TObjBase {
+    static void create_heap();
     static THeap *map_heap;
     static s32 render_mode;
     static void * instance;
@@ -161,6 +162,5 @@ s32 add_radar_scaled_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags, f32
 extern "C" s32 minimap_render_dot(Vec *pos, s32 color, s16 kind, s32 flags);
 s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale);
 
-extern "C" void TRaderMapCore__sub_801F95CC(void);
 
 #endif

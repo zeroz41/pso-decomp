@@ -351,7 +351,7 @@ void dispatch_pso_data_commands(TPacket *packet) {
 void TGameProtocol::run_task() {
     TPacket *n;
     for (n = (TPacket *)game_protocol_instance->m_down; n != 0; n = (TPacket *)n->m_next) {
-        TLobby__sub_8007EB20("Packet %s %x", n->m_name, n);
+        debug_printf("Packet %s %x", n->m_name, n);
         if (n->m_buffer_cleared == 0) {
             dispatch_pso_data_commands(n);
             n->recv();

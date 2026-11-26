@@ -8,6 +8,7 @@ class TAdGuideTxtGC;
 
 class TAdSelectGameModeGC : public TObject {
 public:
+    static void setup_views();
     static const char *name;
     static s32 cached_mode_value;
     TAdSelectGameModeGC(TObject *parent);

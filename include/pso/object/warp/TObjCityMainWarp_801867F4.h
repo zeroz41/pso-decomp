@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-void TObjCityMainWarp__sub_80186AB8(void);
 char *TObjCityMainWarp__sub_80186AF4(void);
 }
 void update_main_warp_visible_mask(s32 select_type);

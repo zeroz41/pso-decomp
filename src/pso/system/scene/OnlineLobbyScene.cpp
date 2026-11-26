@@ -153,7 +153,6 @@ void TLobby__sub_801A3E94(void);
 extern "C" {
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
-s32 TAdDialingGC__sub_80328730();
 }
 extern "C" {
 s32 reset_story_select__6TLobbyFPv();
@@ -165,14 +164,14 @@ void TLobby__sub_8029B2A4(void);
 // each load front to back (run_load_callback_table), cleanup_online_lobby_scene each release
 // back to front (TLobby::call_funcs_reverse).
 FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
-    {TAdSelectGameModeGC__sub_802C478C, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
+    {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
     {init_game_player_actions, release_game_player_actions},
     {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
-    {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
-    {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
+    {load_keyboard_resources, free_keyboard_resources},
+    {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {reset_clock_bar_pulse, TLobby__sub_8001ED70},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
@@ -185,14 +184,14 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TLobby::load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {TLobby::create_heap_8000, TLobby::free_heap},
-    {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
-    {alloc_work_buffer, TLobby__sub_801A5478},
+    {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
+    {alloc_work_buffer, free_deferred_packet_buffer},
     {init_switch_table, clear_switch_table},
     {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
     {reset_shop_stock_and_params, clear_all_shop_stock},
     {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
-    {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
+    {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)clear_auto_reply_flags},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
@@ -206,7 +205,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {load_draw_line_task_resource, free_draw_line_task_resource},
-    {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},
+    {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
     {clear_boss6_player_snapshots, NULL},
 };
 
@@ -727,9 +726,9 @@ void run_online_lobby_scene(void) {
     TAdDialingGC::open();
     ((TAdDialingGC *)tl_window)->create();
     online_lobby_scene_handle = start_connection();
-    TAdDialingGC__sub_80328730();
+    TAdDialingGC::set_dial_result(online_lobby_scene_handle);
     TLoadCtrl::set_field1C(0);
-    while (TAdDialingGC__sub_801A4C9C() != 0) {
+    while (TAdDialingGC::get_instance() != 0) {
         begin_gx_frame();
         controller_stuff();
         TKeyBoardControl::update_input_frame();

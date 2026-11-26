@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct TObjCityMainWarp : public TObjAreaWarp {
+    static void free_resources();
     static const char *class_name;
     TObjCityMainWarp(TObject *parent, void *set_data);
     virtual ~TObjCityMainWarp();

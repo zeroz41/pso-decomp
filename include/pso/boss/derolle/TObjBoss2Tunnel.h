@@ -51,6 +51,7 @@ struct ProjectedVertex {
 };
 
 struct TObjBoss2Tunnel : public TObject {
+    static void free_resources();
     TObjBoss2Tunnel(TObject *parent);
     virtual ~TObjBoss2Tunnel();
     virtual void run_task();

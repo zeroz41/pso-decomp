@@ -46,7 +46,7 @@ void (*logo_load_callback_table[18])(void) = {
     register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
     register_texture_logo_e, TLogo::free_held_object,
     TLogo__sub_8001C364, TLogo__sub_8001C360,
-    TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows,
+    TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
 };
 extern int sega_logo_done_flag;

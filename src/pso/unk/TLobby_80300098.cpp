@@ -6,4 +6,4 @@
 #include "pso/network/TLobby.h"
 
 void TAdSelectCurGC::set_selection_index(s32 index) { selected_index = index; }
-void TLobby__sub_803000A0(void) { clear_challenge_and_split_screen_flags(); TLobby::set_player_count(0); }
+void reset_multi_sel_rule(void) { clear_challenge_and_split_screen_flags(); TLobby::set_player_count(0); }
