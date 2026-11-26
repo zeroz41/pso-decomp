@@ -102,7 +102,7 @@ void TAdDialingSelectGC::run_task() {
         if ((f32)this->timer > 7.5f) {
             this->sub_801A4CA4();
             this->state = 9;
-            TAdMultiChgGameModeGC::request_scene_change();
+            TAdMultiChgGameModeGC::open_time_set_scene();
         }
         break;
     case 9:

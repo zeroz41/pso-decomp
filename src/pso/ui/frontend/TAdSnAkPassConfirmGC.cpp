@@ -24,8 +24,8 @@ void TAdSnAkPassConfirmGC::render() {
 saddr TAdSnAkPassConfirmGC::get_message_text() { return get_localized_text_entry(39, 0); }
 void TAdSnAkPassConfirmGC::on_no_chosen() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 void TAdSnAkPassConfirmGC::on_yes_chosen() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
-void TAdSnAkPassConfirmGC::on_cancel() { TAdMultiChgGameModeGC::request_transition(); }
-void TAdSnAkPassConfirmGC::on_accept() { ((TAdMultiChgGameModeGC *)this)->set_state_0x1a(); }
+void TAdSnAkPassConfirmGC::on_cancel() { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
+void TAdSnAkPassConfirmGC::on_accept() { TAdMultiChgGameModeGC::open_pso_pass_save_scene(); }
 
 void TAdSnAkPassConfirmGC::run_task() {
     run_dialog();

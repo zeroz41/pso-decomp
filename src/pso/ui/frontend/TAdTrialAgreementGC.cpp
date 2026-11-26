@@ -38,7 +38,7 @@ void TAdTrialAgreementGC::render() {
 }
 
 void TAdTrialAgreementGC::on_decline() { request_main_phase((saddr)((void*)0)); }
-void TAdTrialAgreementGC::on_agree() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdTrialAgreementGC::on_agree() { TAdMultiChgGameModeGC::open_time_set_scene(); }
 void TAdTrialAgreementGC::on_closing() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 void TAdTrialAgreementGC::wait_for_load() {
 loop_1:

@@ -83,7 +83,7 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
     if (*(s8 *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C) != 0) {
         initialize_serial_input((const char *)TAdSinglePlyChrSelectGC::get_instance() + 0x1152C);
         set_access_key((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1153C));
-        init_state();
+        TAdMultiChgGameModeGC::open_enter_password_scene();
         queue_destruction();
         return;
     }
@@ -165,14 +165,14 @@ void TAdEnterSerialAccessGC::run_task() {
             cursor->queue_destruction();
             cursor = NULL;
         }
-        TAdMultiChgGameModeGC::request_transition();
+        TAdMultiChgGameModeGC::open_lic_agreement_scene();
         break;
     case 7:
         if (cursor != NULL) {
             cursor->queue_destruction();
             cursor = NULL;
         }
-        init_state();
+        TAdMultiChgGameModeGC::open_enter_password_scene();
         break;
     }
     if (prev_state != input_state) {

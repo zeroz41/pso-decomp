@@ -67,7 +67,7 @@ void TLevelSelect::run_task() {
         if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0 ||
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             queue_destruction();
-            TAdMultiChgGameModeGC::set_game_mode_changed();
+            TAdMultiChgGameModeGC::open_story_select_scene();
         }
         break;
     }

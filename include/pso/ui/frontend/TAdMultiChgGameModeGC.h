@@ -18,33 +18,41 @@ public:
     static s32 check_players_ready(void * _w0);
     static s32 is_input_phase_active();
     static void set_default_camera();
-    static void set_mode_change_state();
-    static void set_change_mode_flags();
+    static void open_dialing_select_scene();
+    static void open_level_select_scene();
     static void apply_bgm_col_ctrl(const char *name);
-    void set_state_0x1a();
-    static void reset_and_set_mode();
+    static void open_pso_pass_save_scene();
+    static void open_enter_ppp_pass_scene();
     static void set_mode_18();
-    static void set_mode_17();
-    static void set_mode_0x15();
-    static void set_mode_0x14();
-    static void request_transition();
-    static void reset_mode_state();
+    static void open_trial_agreement_scene();
+    static void open_ex_net_confirm_scene();
+    static void open_sn_ak_pass_confirm_scene();
+    static void open_lic_agreement_scene();
+    static void open_enter_serial_access_scene();
     static void set_mode_state_0e();
     static void set_mode_state_0d();
-    static void set_state_0xc();
-    static void begin_change_game_mode();
-    static void begin_transition();
-    static void set_state_0x9();
-    static void request_scene_change();
-    static void set_change_game_mode();
-    static void set_game_mode();
-    static void set_game_mode_state();
-    static void set_game_mode_changed();
-    static void init_change_mode();
+    static void open_multi_sel_game_mode_scene();
+    static void open_multi_chg_game_mode_scene();
+    static void open_multi_confirm_scene();
+    static void open_multi_save_scene();
+    static void open_time_set_scene();
+    static void open_multi_ply_chr_select_scene();
+    static void open_single_ply_chr_select_scene();
+    static void open_select_game_mode_scene();
+    static void open_story_select_scene();
+    static void open_title_scene();
     static void create_mode_scene();
-    void set_mode_1c();
-    static void render_scene();
-    static void render_game_mode_change();
+    static void open_ep3_exist_scene();
+    static void open_enter_password_scene();
+    // Init hooks of main_phase_table: build the front-end scene and open one screen.
+    static void init_dialing_select_phase();
+    static void init_level_select_phase();
+    static void init_trial_agreement_phase();
+    static void init_enter_password_phase();
+    static void init_multi_save_phase();
+    static void init_time_set_phase();
+    static void init_story_select_phase();
+    static void init_title_phase();
     static void sync_mode_state();
 public:
 
@@ -60,16 +68,6 @@ LAYOUT_ASSERT(TAdMultiChgGameModeGC_size, sizeof(TAdMultiChgGameModeGC) == 0x30)
 extern "C" {
 void fn_802FFC78(void);
 void fn_802FFC7C(void);
-}
-
-// Phase init hooks of main_phase_table (defined in TAdMultiChgGameModeGC_8023E7A8.cpp).
-extern "C" {
-void TAdMultiChgGameModeGC__sub_8023F4E4(void);
-void TAdMultiChgGameModeGC__sub_8023F50C(void);
-void TAdMultiChgGameModeGC__sub_8023F564(void);
-void TAdMultiChgGameModeGC__sub_8023F58C(void);
-void TAdMultiChgGameModeGC__sub_8023F5B4(void);
-void TAdMultiChgGameModeGC__sub_8023F62C(void);
 }
 
 #endif

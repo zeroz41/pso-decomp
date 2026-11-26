@@ -126,10 +126,10 @@ void TAdMultiSelGameModeGC::exit_keyboard_mode() { TObjEneDolmOlm::reset_count()
 void TAdMultiSelGameModeGC::update_transition_state() {
     switch (mode) {
     case 0:
-        TAdMultiChgGameModeGC::begin_transition();
+        TAdMultiChgGameModeGC::open_multi_confirm_scene();
         return;
     case 1:
-        TAdMultiChgGameModeGC::begin_change_game_mode();
+        TAdMultiChgGameModeGC::open_multi_chg_game_mode_scene();
         return;
     }
 }

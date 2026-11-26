@@ -450,9 +450,9 @@ void TAdSystemFileCheckGC::sub_8036E7DC() {
     }
 }
 
-void TAdSystemFileCheckGC::request_scene_change_vt() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdSystemFileCheckGC::request_scene_change_vt() { TAdMultiChgGameModeGC::open_time_set_scene(); }
 void TAdSystemFileCheckGC::sub_8036E830() {  }
-void TAdSystemFileCheckGC::sub_8036E834() { TAdMultiChgGameModeGC::init_change_mode(); }
+void TAdSystemFileCheckGC::sub_8036E834() { TAdMultiChgGameModeGC::open_title_scene(); }
 void TAdSystemFileCheckGC::sub_8036E854() {  }
 
 LAYOUT_ASSERT(MemberActionStorage_8036E858_size, sizeof(MemberActionStorage_8036E858) == 12);

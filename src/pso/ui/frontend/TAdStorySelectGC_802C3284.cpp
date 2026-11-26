@@ -51,14 +51,14 @@ void TAdStorySelectGC::run_task() {
             break;
         }
         queue_destruction();
-        TAdMultiChgGameModeGC::set_change_mode_flags();
+        TAdMultiChgGameModeGC::open_level_select_scene();
         break;
     case 0:
     default:
         if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
-            TAdMultiChgGameModeGC::set_game_mode();
+            TAdMultiChgGameModeGC::open_single_ply_chr_select_scene();
         }
         break;
     }
@@ -70,7 +70,7 @@ TAdStorySelectGC::TAdStorySelectGC(TObject *parent) : TObject(parent) {
     cursor = 0;
     guide = 0;
     if (TAdSinglePlyChrSelectGC::get_data() == 0) {
-        TAdMultiChgGameModeGC::request_transition();
+        TAdMultiChgGameModeGC::open_lic_agreement_scene();
         queue_destruction();
         return;
     }
@@ -78,9 +78,9 @@ TAdStorySelectGC::TAdStorySelectGC(TObject *parent) : TObject(parent) {
         TAdStorySelectGC::set_state(0);
         queue_destruction();
         if (TAdMultiPlyChrSelectGC__sub_80299454() != 0) {
-            TAdMultiChgGameModeGC::set_change_game_mode();
+            TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
         } else {
-            TAdMultiChgGameModeGC::set_change_mode_flags();
+            TAdMultiChgGameModeGC::open_level_select_scene();
         }
         return;
     }

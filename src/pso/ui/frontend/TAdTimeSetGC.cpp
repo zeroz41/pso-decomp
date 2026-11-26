@@ -900,7 +900,7 @@ void TAdTimeSetGC::apply_settings() {
     TLobby::init_sound_mode();
     unload_lobby_scene_resources();
     load_lobby_scene_resources();
-    TAdMultiChgGameModeGC::init_change_mode();
+    TAdMultiChgGameModeGC::open_title_scene();
 }
 
 void TAdTimeSetGC::sub_802E18C8() {

@@ -60,8 +60,8 @@ void TAdEnterPPPPassGC::close_windows_and_advance(void *arg) {
     }
 }
 
-void TAdEnterPPPPassGC::forward_chg_game_mode(void *arg) { TAdMultiChgGameModeGC::reset_mode_state(); }
-void TAdEnterPPPPassGC::request_transition(void *arg) { TAdMultiChgGameModeGC::request_transition(); }
+void TAdEnterPPPPassGC::forward_chg_game_mode(void *arg) { TAdMultiChgGameModeGC::open_enter_serial_access_scene(); }
+void TAdEnterPPPPassGC::request_transition(void *arg) { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 
 void TAdEnterPPPPassGC::update_password_input(void *arg) {
     char *buf;
@@ -193,7 +193,7 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
         ok = 1;
     }
     if (ok != 0) {
-        TAdMultiChgGameModeGC::reset_mode_state();
+        TAdMultiChgGameModeGC::open_enter_serial_access_scene();
         queue_destruction();
         return;
     }

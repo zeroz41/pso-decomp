@@ -1432,16 +1432,16 @@ void TAdMultiPlyChrSelectGC::sub_802DCD14() {
     switch (this->mode) {
     case 0:
         if (TAdMultiPlyChrSelectGC::get_chr_select_state() != 0) {
-            TAdMultiChgGameModeGC::begin_change_game_mode();
+            TAdMultiChgGameModeGC::open_multi_chg_game_mode_scene();
             return;
         }
-        TAdMultiChgGameModeGC::set_game_mode_state();
+        TAdMultiChgGameModeGC::open_select_game_mode_scene();
         return;
     case 1:
-        TAdMultiChgGameModeGC::request_scene_change();
+        TAdMultiChgGameModeGC::open_time_set_scene();
         return;
     case 2:
-        TAdMultiChgGameModeGC::begin_change_game_mode();
+        TAdMultiChgGameModeGC::open_multi_chg_game_mode_scene();
         return;
     }
 }
@@ -1457,7 +1457,7 @@ void TAdMultiPlyChrSelectGC::sub_802DCCA4() {
         break;
     case 1:
         collect_player_slots();
-        TAdMultiChgGameModeGC::begin_transition();
+        TAdMultiChgGameModeGC::open_multi_confirm_scene();
         break;
     }
 }
@@ -1746,7 +1746,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC310() {
     }
 }
 
-void TAdMultiPlyChrSelectGC::request_scene_change() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdMultiPlyChrSelectGC::request_scene_change() { TAdMultiChgGameModeGC::open_time_set_scene(); }
 
 s32 TAdMultiPlyChrSelectGC::cursor_to_card_index(s32 cursor) {
     switch (cursor) {

@@ -59,7 +59,7 @@ void TAdMultiChgGameModeGC::run_task() {
     }
     if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
-        request_scene_change();
+        open_time_set_scene();
     } else if (select_cursor->confirmation_result() == 1) {
         switch (select_cursor->selection_index()) {
         case 0:
@@ -74,7 +74,7 @@ void TAdMultiChgGameModeGC::run_task() {
             if (check_players_ready(this) != 0) {
                 set_mode_state_0e();
             } else {
-                request_scene_change();
+                open_time_set_scene();
             }
             break;
         }

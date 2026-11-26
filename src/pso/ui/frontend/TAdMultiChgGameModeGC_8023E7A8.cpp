@@ -182,12 +182,12 @@ void TAdMultiChgGameModeGC::set_default_camera() {
     set_active_camera_pose(&a, &b);
 }
 
-void TAdMultiChgGameModeGC::set_mode_change_state() {
+void TAdMultiChgGameModeGC::open_dialing_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 3;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::set_change_mode_flags() {
+void TAdMultiChgGameModeGC::open_level_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 1;
     game_mode_scene_change_state = 1;
@@ -197,12 +197,12 @@ void TAdMultiChgGameModeGC::apply_bgm_col_ctrl(const char *name) {
         play_area_music((char *)name);
     }
 }
-void TAdMultiChgGameModeGC::set_state_0x1a() {
+void TAdMultiChgGameModeGC::open_pso_pass_save_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x1A;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::reset_and_set_mode() {
+void TAdMultiChgGameModeGC::open_enter_ppp_pass_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x19;
     game_mode_scene_change_state = 1;
@@ -212,34 +212,34 @@ void TAdMultiChgGameModeGC::set_mode_18() {
     multi_chg_game_mode_state = 0x18;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::set_mode_17() {
+void TAdMultiChgGameModeGC::open_trial_agreement_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x17;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::set_mode_0x15() {
+void TAdMultiChgGameModeGC::open_ex_net_confirm_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x15;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::set_mode_0x14() {
+void TAdMultiChgGameModeGC::open_sn_ak_pass_confirm_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x14;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::request_transition() {
+void TAdMultiChgGameModeGC::open_lic_agreement_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x11;
     game_mode_scene_change_state = 1;
 }
 
-void TAdEnterSerialAccessGC::init_state() {
+void TAdMultiChgGameModeGC::open_enter_password_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x10;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::reset_mode_state() {
+void TAdMultiChgGameModeGC::open_enter_serial_access_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0xF;
     game_mode_scene_change_state = 1;
@@ -257,61 +257,61 @@ void TAdMultiChgGameModeGC::set_mode_state_0d() {
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_state_0xc() {
+void TAdMultiChgGameModeGC::open_multi_sel_game_mode_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0xC;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::begin_change_game_mode() {
+void TAdMultiChgGameModeGC::open_multi_chg_game_mode_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0xB;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::begin_transition() {
+void TAdMultiChgGameModeGC::open_multi_confirm_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0xA;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_state_0x9() {
+void TAdMultiChgGameModeGC::open_multi_save_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 9;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::request_scene_change() {
+void TAdMultiChgGameModeGC::open_time_set_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 8;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_change_game_mode() {
+void TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 7;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_game_mode() {
+void TAdMultiChgGameModeGC::open_single_ply_chr_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 6;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_game_mode_state() {
+void TAdMultiChgGameModeGC::open_select_game_mode_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 5;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::set_game_mode_changed() {
+void TAdMultiChgGameModeGC::open_story_select_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 4;
     game_mode_scene_change_state = 1;
 }
 
-void TAdMultiChgGameModeGC::init_change_mode() {
+void TAdMultiChgGameModeGC::open_title_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0;
     game_mode_scene_change_state = 1;
@@ -530,19 +530,19 @@ void run_game_mode_select_frame(void) {
     render_tick();
 }
 
-void TAdMultiChgGameModeGC__sub_8023F4E4(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_mode_change_state(); render_tick(); }
-void TAdMultiChgGameModeGC__sub_8023F50C(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_change_mode_flags(); render_tick(); }
+void TAdMultiChgGameModeGC::init_dialing_select_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_dialing_select_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_level_select_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_level_select_scene(); render_tick(); }
 
 
-void TAdMultiChgGameModeGC::set_mode_1c() {
+void TAdMultiChgGameModeGC::open_ep3_exist_scene() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x1C;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC__sub_8023F564(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_mode_17(); render_tick(); }
-void TAdMultiChgGameModeGC__sub_8023F58C(void) { init_game_mode_select_scene(); TAdEnterSerialAccessGC::init_state(); render_tick(); }
-void TAdMultiChgGameModeGC__sub_8023F5B4(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_state_0x9(); render_tick(); }
-void TAdMultiChgGameModeGC::render_scene() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::request_scene_change(); render_tick(); }
-void TAdMultiChgGameModeGC::render_game_mode_change() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_game_mode_changed(); render_tick(); }
-void TAdMultiChgGameModeGC__sub_8023F62C(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::init_change_mode(); render_tick(); }
+void TAdMultiChgGameModeGC::init_trial_agreement_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_trial_agreement_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_enter_password_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_enter_password_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_multi_save_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_multi_save_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_time_set_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_time_set_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_story_select_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_story_select_scene(); render_tick(); }
+void TAdMultiChgGameModeGC::init_title_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_title_scene(); render_tick(); }
 void TAdMultiChgGameModeGC::sync_mode_state() { lbl_805D384C = multi_chg_game_mode_state; }

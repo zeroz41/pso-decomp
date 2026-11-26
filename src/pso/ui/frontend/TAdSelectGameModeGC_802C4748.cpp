@@ -75,17 +75,17 @@ void TAdSelectGameModeGC::run_task() {
     TAdSelectGameModeGC::cached_mode_value = cursor->selection_index();
     if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        TAdMultiChgGameModeGC::request_scene_change();
+        TAdMultiChgGameModeGC::open_time_set_scene();
         return;
     }
     if (cursor->confirmation_result() == 1) {
         mode_data = TAdSelectGameModeGC::get_mode_data();
         switch (mode_data) {
         case 0:
-            TAdMultiChgGameModeGC::set_game_mode();
+            TAdMultiChgGameModeGC::open_single_ply_chr_select_scene();
             return;
         case 1:
-            TAdMultiChgGameModeGC::set_change_game_mode();
+            TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
             break;
         }
     }

@@ -194,7 +194,7 @@ TWindowSubComCardList *TAdMultiSaveGC::sub_802FF170() {
 // the fade before switching game mode.
 void TAdMultiSaveGC::queue_destruction(TObject *fade) {
     fade->queue_destruction();
-    TAdMultiChgGameModeGC::begin_change_game_mode();
+    TAdMultiChgGameModeGC::open_multi_chg_game_mode_scene();
 }
 
 void TAdMultiSaveGC::render() {

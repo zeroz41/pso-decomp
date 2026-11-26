@@ -28,7 +28,7 @@ saddr TAdExNetConfirmGC::get_message_text() {
     return get_localized_text_entry(0x22, 0);
 }
 
-void TAdExNetConfirmGC::on_close() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdExNetConfirmGC::on_close() { TAdMultiChgGameModeGC::open_time_set_scene(); }
 
 void TAdExNetConfirmGC::run_task() {
     update_state();
@@ -47,7 +47,7 @@ TAdExNetConfirmGC::TAdExNetConfirmGC(TObject *parent) : TAdWarningBaseGC(parent)
             request_main_phase(0x13);
         }
         queue_destruction();
-        TAdMultiChgGameModeGC::set_game_mode();
+        TAdMultiChgGameModeGC::open_single_ply_chr_select_scene();
         return;
     }
 }

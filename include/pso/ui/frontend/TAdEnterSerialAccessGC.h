@@ -49,7 +49,6 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     void update_access_key_input();
     void update_serial_input();
     static void set_entered_value(u32 value, s32 field);
-    static void init_state();
     static TWindowCallBack *create_callback(void *position, void *scale, WindowCallback callback);
     static TWindowBase *show_message_window(void *owner, void *message_index);
     static void clear_serial_buffer();

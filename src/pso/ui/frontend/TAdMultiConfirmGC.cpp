@@ -61,9 +61,9 @@ void TAdMultiConfirmGC::run_task() {
         break;
     case 3:
         if (ok->multi_confirm_cancel_requested() != 0) {
-            TAdMultiChgGameModeGC::set_change_game_mode();
+            TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
         } else if (ok->are_all_entries_finished() != 0) {
-            TAdMultiChgGameModeGC::set_state_0xc();
+            TAdMultiChgGameModeGC::open_multi_sel_game_mode_scene();
         }
         break;
     }

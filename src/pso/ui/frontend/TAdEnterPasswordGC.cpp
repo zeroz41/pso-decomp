@@ -63,8 +63,8 @@ void TAdEnterPasswordGC::close_window_and_destroy(void *arg) {
     }
 }
 
-void TAdEnterPasswordGC::set_multi_chg_game_mode_0x14(void *arg) { TAdMultiChgGameModeGC::set_mode_0x14(); }
-void TAdEnterPasswordGC::request_transition(void *arg) { TAdMultiChgGameModeGC::request_transition(); }
+void TAdEnterPasswordGC::set_multi_chg_game_mode_0x14(void *arg) { TAdMultiChgGameModeGC::open_sn_ak_pass_confirm_scene(); }
+void TAdEnterPasswordGC::request_transition(void *arg) { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 
 void TAdEnterPasswordGC::update_password_input(void *arg) {
   saddr buf = (saddr)password_entry_keyboard_control->realloc_buffer();

@@ -278,9 +278,9 @@ void TTitleScene::set_flag_and_clear_download() {
 
 void TLobby__sub_803361FC(void) {  }
 void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phase(19); }
-void TTitleScene::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::set_mode_change_state(); }
-void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::set_game_mode_state(); }
-void TTitleScene::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
+void TTitleScene::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::open_dialing_select_scene(); }
+void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::open_select_game_mode_scene(); }
+void TTitleScene::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::open_ex_net_confirm_scene(); }
 void TLobby__sub_803362A4(TTitleScene *scene) {
     if (TAdTrialAgreementGC__sub_80335958(scene->transition_controller) != 0) {
         set_fallback_main_phase(2);
@@ -302,7 +302,7 @@ void TTitleScene::run_task() {
                 transition_children[i] = NULL;
             }
         }
-        TAdMultiChgGameModeGC::request_scene_change();
+        TAdMultiChgGameModeGC::open_time_set_scene();
         return;
     }
     if (attract_tick < attract_timeout) {

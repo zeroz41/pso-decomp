@@ -100,11 +100,11 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
         switch (this->menu_choice) {
         case 0:
             if (((s32)TAdSinglePlyChrSelectGC::get_data()) == 0) {
-                TAdMultiChgGameModeGC::request_transition();
+                TAdMultiChgGameModeGC::open_lic_agreement_scene();
                 return;
             }
             set_queued_main_phase(0xE);
-            TAdMultiChgGameModeGC::set_game_mode_changed();
+            TAdMultiChgGameModeGC::open_story_select_scene();
             return;
         case 1:
             request_main_phase(5);
@@ -137,10 +137,10 @@ void TAdSinglePlyChrSelectGC::close_and_change_scene() {
     if ((f32) frames > 4.5f) {
         switch (TAdSinglePlyChrSelectGC::get_data()) {
         case 0:
-            TAdMultiChgGameModeGC::request_scene_change();
+            TAdMultiChgGameModeGC::open_time_set_scene();
             return;
         case 1:
-            TAdMultiChgGameModeGC::set_game_mode_state();
+            TAdMultiChgGameModeGC::open_select_game_mode_scene();
             break;
         }
     }
