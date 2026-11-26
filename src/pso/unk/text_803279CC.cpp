@@ -4,9 +4,6 @@
 #include "pso/unk/text_803279CC.h"
 #include "pso/system/NinjaTypes.h"
 
-extern "C" {
-void count_scrolled_texture_strips(ScrolledStripTotals *acc, GinjaModel *model, s32 id);
-}
 void visit_model_tree_recursive(ScrolledStripTotals *acc, NJS_OBJECT *node, s32 id) {
     do {
         if (node->model != NULL) {
@@ -18,7 +15,6 @@ void visit_model_tree_recursive(ScrolledStripTotals *acc, NJS_OBJECT *node, s32 
         node = node->sibling;
     } while (node != NULL);
 }
-extern "C" {
 void count_scrolled_texture_strips(ScrolledStripTotals *acc, GinjaModel *model, s32 id) {
     s32 hit = 0;
     GinjaVertexArray *p;
@@ -37,5 +33,4 @@ void count_scrolled_texture_strips(ScrolledStripTotals *acc, GinjaModel *model, 
             }
         }
     }
-}
 }

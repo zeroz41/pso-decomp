@@ -38,10 +38,8 @@ LAYOUT_ASSERT(FloorTransitionState_next_floor_offset, offsetof(FloorTransition, 
 LAYOUT_ASSERT(FloorTransitionState_flags_offset, offsetof(FloorTransition, state_flags) == 0x20);
 extern FloorTransition floor_transition_state;
 
-extern "C" {
 void initialize_floor_transition(FloorTransition *transition, s32 floor, s32 map);
 void set_floor_transition_ready(FloorTransition *transition);
-}
 s32 select_area_entrance(FloorTransition *transition);
 void run_area_scene_cleanup(FloorTransition *transition);
 void promote_area_floor(FloorTransition *transition);

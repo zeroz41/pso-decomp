@@ -77,7 +77,6 @@ static const s32 telepipe_owner_tint_table[12] = {
 };
 }
 const char *TTecLuker::name = "TTecLuker";
-extern "C" {
 static const Vec lbl_8044D72C = { 0.0f, 0.0f, 0.2f };
 static const Vec telepipe_town_position_table[4] = {
     { -312.0f, 0.0f, -113.0f },
@@ -92,9 +91,9 @@ static const Vec telepipe_town_position_table_b[4] = {
     { 360.0f, -30.0f, -185.0f },
 };
 static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 };
+extern "C" {
 const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 s32 get_current_floor(void);
-void restore_floor_telepipes(void);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
 s32 is_split_screen();
 }

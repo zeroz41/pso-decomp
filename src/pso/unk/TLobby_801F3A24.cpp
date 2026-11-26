@@ -22,6 +22,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby_80209524.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 
 
 
@@ -225,9 +226,6 @@ bool load_quest_encounter_section(s32 floor) {
     }
     return 0;
 }
-extern "C" {
-
-s32 reserve_enemy_set_actor_ids(void *, u32, s32);
 
 s32 TLobby::handle_msg_type2(s32 floor) {
     s32 type;
@@ -250,7 +248,7 @@ s32 TLobby::handle_msg_type2(s32 floor) {
             if ((type == 2) && (record_floor == floor)) {
                 lobby = (u8 *)(record + 1);
                 ((TLobby *)lobby)->bswap_enemy_set_rows(size);
-                reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(record_floor));
+                reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)lobby, (u32) size / 72U, get_floor_area(record_floor));
                 TLobby::init_floor_enemy_count(record_floor, lobby, size);
                 return 1;
             }
@@ -298,7 +296,6 @@ s32 TLobby::handle_msg_type1(s32 floor) {
     return 0;
 }
 
-extern s32 evt2_random_enemies_mode;
 
 void TLobby::setup_quest_list() {
     map_set_object_id_counter = 0;
@@ -328,8 +325,6 @@ void TLobby::setup_quest_list() {
     enemy_condition_count = next_enemy_set_actor_id;
     get_total_object_set_count();
     TLobby::sum_floor_enemy_counts();
-}
-
 }
 
 void TLobby::update_and_reset(u8 *quest) {

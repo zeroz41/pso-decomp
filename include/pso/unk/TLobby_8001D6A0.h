@@ -33,8 +33,8 @@ void draw_lobby_location_text(f32 x, f32 y, f32 size, f32 alpha);
 void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha);
 extern "C" {
 void TLobby__sub_8001ED70(void);
-void reset_clock_bar_pulse(void);
 }
+void reset_clock_bar_pulse(void);
 void alloc_battle_param_tables(void);
 s32 default_clock_offset_frames(void);
 extern "C" {

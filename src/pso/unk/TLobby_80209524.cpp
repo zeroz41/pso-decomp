@@ -338,10 +338,6 @@ u32 TLobby::clamp_min_drop(u32 min, u32 max) {
 }
 
 
-extern "C" {
-void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *slots, s32 count, s32 floor);
-}
-
 #pragma push
 #pragma dont_inline off
 LAYOUT_ASSERT(ChallengeEventHeaderSize, sizeof(ChallengeEventHeader) == 0x10);
@@ -750,6 +746,7 @@ void load_map_set_data(s32 idx, const char *filename) {
 
 extern "C" {
 s32 get_enemy_factory_child_count(s32, DestroyEventShuffleTableSpawnRecord *);
+}
 void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32 count, s32 floor) {
     DestroyEventShuffleTableSpawnRecord *r;
     s32 i;
@@ -770,7 +767,6 @@ void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32
             }
         }
     }
-}
 }
 
 void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area) {

@@ -282,7 +282,6 @@ s32 play_persistent_sound(s32 id, const void *actor, const Vec *position, s32 vo
     }
     return idx;
 }
-extern "C" {
 s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
     s32 i;
     s32 idx;
@@ -328,6 +327,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
 }
 
 void TLobby::update_lobby_subsystems() { reset_sound_pitch_requests(); stop_cue_stream(); }
+extern "C" {
 
 // Dead-stripped from the DOL: no code of it survives. Minimal body: it clears the sound listener position the way
 // update_sound_request_slots does when there is neither a player nor a camera.
@@ -337,7 +337,6 @@ void clear_sound_listener_position(void) {
     sound_listener_position[1] = 0.0f;
     sound_listener_position[0] = 0.0f;
 }
-
 }
 s32 check_sound_admission_range(const Vec *pos) {
     if (pos == NULL) {

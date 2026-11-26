@@ -670,7 +670,7 @@ force_active:
   - alloc_enemy_ids__Fl
   - TLobby__sub_801A3CF8
   - TLobby__sub_801A3E94
-  - set_floor_transition_ready
+  - set_floor_transition_ready__FP15FloorTransition
   - is_duel_ranking_empty__Fv
   - send_player_ready__17TPlayerBattleCtrlFv
   - restart_battle_after_fade__Fv
@@ -6423,7 +6423,7 @@ force_active:
   - render_in_demo__15TObjEneDelDepthFv
   - has_player_nearby__16TObjEneReconBombFv
   - __dt__14TObjEneRecoboxFv
-  - count_scrolled_texture_strips
+  - count_scrolled_texture_strips__FP19ScrolledStripTotalsP10GinjaModell
   - receive_direct_attack__9TBoss6MagFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
   - __dt__9TBoss6MagFv
   - enter_check_state__9TSaveChCrFv

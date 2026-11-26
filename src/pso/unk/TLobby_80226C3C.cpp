@@ -292,7 +292,8 @@ struct SndHooks {
 };
 extern "C" {
 void adx_bridge_set_buffer_storage(void *work, s32 size, s32 count);
-void init_runtime_threads(s32 *cfg);
+}
+extern "C" {
 s32 VISetPostRetraceCallback(int (*callback)(void *));
 void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);

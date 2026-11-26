@@ -9,6 +9,9 @@ struct ScrolledStripTotals {
     s32 count;
 };
 
+struct GinjaModel;
+
 void visit_model_tree_recursive(ScrolledStripTotals *acc, NJS_OBJECT *node, s32 id);
+void count_scrolled_texture_strips(ScrolledStripTotals *acc, GinjaModel *model, s32 id);
 
 #endif

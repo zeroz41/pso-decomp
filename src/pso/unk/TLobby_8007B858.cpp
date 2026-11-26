@@ -129,7 +129,7 @@ const char *TObjPlayer::get_name() { return name; }
 
 extern "C" {
 void TSceneSora__sub_80207430(void);
-s32 restore_floor_telepipes();
+}
 
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
@@ -269,7 +269,6 @@ s32 TLobby::check_disconnect_conditions() {
     return 0;
 }
 void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke_callback(); TLobby::clear_callback_and_reset_keyboard(); }
-}
 
 
 
