@@ -96,9 +96,6 @@ LAYOUT_ASSERT(TWindowFukidasi_balloon_center_offset, offsetof(TWindowFukidasi, b
 LAYOUT_ASSERT(TWindowFukidasi_head_position_offset, offsetof(TWindowFukidasi, head_position) == 0x90);
 LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 
-extern "C" {
-void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);
-}
 
 struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
 

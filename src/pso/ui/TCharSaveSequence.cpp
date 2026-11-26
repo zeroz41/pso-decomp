@@ -9,7 +9,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TCharSaveSequence.h"

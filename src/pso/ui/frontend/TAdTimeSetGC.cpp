@@ -23,7 +23,6 @@
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"

@@ -5,7 +5,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "types.h"

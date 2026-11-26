@@ -7,7 +7,6 @@
 #include "pso/ui/TLevelSelect.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include <string.h>

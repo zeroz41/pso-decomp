@@ -5,7 +5,6 @@
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/unk/TAdDialingSelectGC.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"

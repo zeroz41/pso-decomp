@@ -24,7 +24,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/mag/TItemMag.h"

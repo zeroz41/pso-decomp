@@ -14,7 +14,6 @@
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
