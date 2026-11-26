@@ -1,10 +1,9 @@
 #include "types.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/render/GinjaUvScroll.h"
+#include "pso/system/scene/UvScrollBuffer.h"
 
-struct Ref_803278B0 { GinjaVertexArray *ent; s16 *pts; };
-
-Ref_803278B0 *scroll_uv_entry_write_cursor;
+UvScrollEntry *scroll_uv_entry_write_cursor;
 s16 *scroll_uv_coordinate_write_cursor;
 void collect_scroll_uv_entries(s32, GinjaModel *model, s32 id) {
     s32 hit;
@@ -24,8 +23,8 @@ void collect_scroll_uv_entries(s32, GinjaModel *model, s32 id) {
     if (hit != 0) {
         for (e = model->vertices; e != 0 && e->attribute != 0xFF; e++) {
             if (e->attribute == 5 || e->attribute == 6) {
-                scroll_uv_entry_write_cursor->ent = e;
-                scroll_uv_entry_write_cursor->pts = scroll_uv_coordinate_write_cursor;
+                scroll_uv_entry_write_cursor->array = e;
+                scroll_uv_entry_write_cursor->source = scroll_uv_coordinate_write_cursor;
                 scroll_uv_entry_write_cursor++;
                 n = e->count;
                 q = static_cast<s16 *>(e->data);

@@ -15,6 +15,7 @@ struct NJS_TEXLIST;
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/system/scene/UvScrollBuffer.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -42,7 +43,7 @@ BmlResource *door_jung_resource_handle;
 NJS_TEXLIST *door_jung_texlist;
 void *door_jung_child_list;
 s32 door_jung_scroll_tick;
-void *door_jung_door_scene_buffer;
+UvScrollBuffer *door_jung_door_scene_buffer;
 s32 door_jung_signal_red_texture;
 s32 door_jung_signal_blue_texture;
 s32 door_jung_beam_red_texture;
@@ -52,7 +53,7 @@ s32 door_jung_beam_blue_texture;
 
 void TObjDoorJung::free_buffers() {
     if (door_jung_door_scene_buffer != NULL) {
-        ((TScene *)door_jung_door_scene_buffer)->destroy_buffers(1);
+        delete door_jung_door_scene_buffer;
         door_jung_door_scene_buffer = NULL;
     }
     if (door_jung_resource_handle != NULL) {
@@ -66,7 +67,6 @@ void load_door_jung_resources(void) {
     saddr handle;
     NJS_OBJECT *model;
     NJS_OBJECT *node;
-    void *scene;
 
     handle = (saddr)new BmlResource(5, &bm_obj_beamdoa_resource_descriptor, 0, 0, NULL);
     door_jung_resource_handle = (BmlResource *)handle;
@@ -85,11 +85,7 @@ void load_door_jung_resources(void) {
     door_jung_beam_red_texture = find_texture_entry_by_name(door_jung_texlist, parts[2]);
     door_jung_beam_blue_texture = find_texture_entry_by_name(door_jung_texlist, parts[3]);
     if (door_jung_beam_red_texture != -1) {
-        scene = (void *)::operator new(0x14);
-        if (scene != NULL) {
-            scene = ((TScene *)scene)->init_buffers((saddr)model->child->sibling, door_jung_beam_red_texture);
-        }
-        door_jung_door_scene_buffer = scene;
+        door_jung_door_scene_buffer = new UvScrollBuffer(model->child->sibling, door_jung_beam_red_texture);
     } else {
         door_jung_door_scene_buffer = NULL;
     }
@@ -119,7 +115,7 @@ void TObjDoorJung::render() {
         }
         if (actor_frame_tick != door_jung_scroll_tick) {
             if (door_jung_door_scene_buffer != NULL) {
-                ((TScene *)door_jung_door_scene_buffer)->offset_position(0, -0xA);
+                door_jung_door_scene_buffer->offset_position(0, -0xA);
             }
             door_jung_scroll_tick = actor_frame_tick;
             PPCSync();

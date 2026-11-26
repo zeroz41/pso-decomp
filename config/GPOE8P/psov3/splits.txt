@@ -8277,7 +8277,7 @@ pso/object/mine/TOComputerMachine01_803278B0.cpp:
 pso/unk/text_803279CC.cpp:
 	.text       start:0x803279CC end:0x80327B00
 
-pso/system/scene/TScene_80327B00.cpp:
+pso/system/scene/UvScrollBuffer.cpp:
 	.text       start:0x80327B00 end:0x80327D30
 
 pso/effect/particle/TTelepipeMarker.cpp:

@@ -15,6 +15,7 @@
 #include "pso/render/reflection.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/system/scene/TSceneMaterial.h"
+#include "pso/system/scene/UvScrollBuffer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
@@ -280,7 +281,7 @@ void TScene::tick_material_fmt2() {
                 uv->v += uv->dv;
                 if (fabs_float(uv->u) >= 1.0f || fabs_float(uv->v) >= 1.0f) {
                     if (uv->buffer != NULL) {
-                        ((TScene *)(uv->buffer))->offset_position((s32)((s32)uv->u), (s32)((s32)uv->v));
+                        uv->buffer->offset_position((s32)((s32)uv->u), (s32)((s32)uv->v));
                     }
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
@@ -314,7 +315,7 @@ void TScene::tick_material_fmt2() {
                 uv->v += uv->dv;
                 if (uv->u >= 1.0f || uv->v >= 1.0f) {
                     if (uv->buffer != NULL) {
-                        ((TScene *)(uv->buffer))->offset_position((s32)((s32)uv->u), (s32)((s32)uv->v));
+                        uv->buffer->offset_position((s32)((s32)uv->u), (s32)((s32)uv->v));
                     }
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
@@ -910,9 +911,7 @@ void TScene::initialize_fmt2_materials() {
                     uv->id = def.id; uv->texture = def.texture;
                     uv->u = def.u; uv->v = def.v; uv->du = def.du; uv->dv = def.dv;
                     SceneMaterialNode *node = resolve_indirect_node_record(task, object);
-                    void *buffer = ::operator new(20);
-                    if (buffer) buffer = ((TScene *)buffer)->init_buffers((saddr)node, uv->texture);
-                    uv->buffer = buffer;
+                    uv->buffer = new UvScrollBuffer(reinterpret_cast<NJS_OBJECT *>(node), uv->texture);
                 } else {
                     object->flags &= ~0x20;
                 }
@@ -930,9 +929,7 @@ void TScene::initialize_fmt2_materials() {
                     uv2->id = def2.id; uv2->texture = def2.texture;
                     uv2->u = def2.u; uv2->v = def2.v; uv2->du = def2.du; uv2->dv = def2.dv;
                     SceneMaterialNode *node2 = resolve_indirect_object_record(task, anim);
-                    void *buffer2 = ::operator new(20);
-                    if (buffer2) buffer2 = ((TScene *)buffer2)->init_buffers((saddr)node2, uv2->texture);
-                    uv2->buffer = buffer2;
+                    uv2->buffer = new UvScrollBuffer(reinterpret_cast<NJS_OBJECT *>(node2), uv2->texture);
                 } else {
                     anim->flags &= ~0x20;
                 }
@@ -966,7 +963,7 @@ void TScene::cleanup_fmt2_materials() {
                 if (sections[i].objects[j].flags & 0x20) {
                     uv = sections[i].objects[j].uv;
                     if (uv->buffer != NULL) {
-                        ((TScene *)uv->buffer)->destroy_buffers(1);
+                        delete uv->buffer;
                         uv->buffer = NULL;
                     }
                 }
@@ -975,7 +972,7 @@ void TScene::cleanup_fmt2_materials() {
                 if (sections[i].animated[k].flags & 0x20) {
                     uv2 = sections[i].animated[k].uv;
                     if (uv2->buffer != NULL) {
-                        ((TScene *)uv2->buffer)->destroy_buffers(1);
+                        delete uv2->buffer;
                         uv2->buffer = NULL;
                     }
                 }

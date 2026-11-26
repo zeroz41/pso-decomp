@@ -1013,7 +1013,7 @@ pso/system/scene/TScene.cpp
 pso/system/scene/TSceneSora.cpp
 pso/system/scene/TScene_801A7E40.cpp
 pso/system/scene/TScene_801FBA20.cpp
-pso/system/scene/TScene_80327B00.cpp
+pso/system/scene/UvScrollBuffer.cpp
 pso/map/TSetManager.cpp
 pso/ui/city/TShopArmorListWindow.cpp
 pso/ui/city/TShopDeleteItemWindow.cpp
