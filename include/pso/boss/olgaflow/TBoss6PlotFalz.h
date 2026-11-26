@@ -99,7 +99,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static void refresh_players_equipment();
     void spawn_type2();
     void spawn_type1();
-    static void apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range);
+    static void apply_radial_effect_to_players(Vec *pos, s16 amount, s16 kind, f32 range);
     static void set_fade_material_color(f32 f);
     // Restores the render flags and polygon masks set_fade_material_color or apply_fade_material_color
     // saved.

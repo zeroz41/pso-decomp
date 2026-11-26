@@ -7,6 +7,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/system/vector.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/base/TObjMotion.h"
@@ -190,8 +191,6 @@ DarkFalzPushZone dark_falz_push_zone_table[3] = {
 };
 
 
-extern "C" {
-f32 xyz_distance(void *, void *);
 
 void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
     Vec v;
@@ -214,11 +213,11 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
         if (player == NULL) continue;
         body = player->bodies;
         if (body == NULL || !(body->flags & 0x20000)) continue;
-        if (xyz_distance(entered, &player->position) <= radius) continue;
+        if (xyz_distance(&entered->center, &player->position) <= radius) continue;
         for (j = 0; j < 3; j++) {
             other = &dark_falz_push_zone_table[j];
             other_radius = dark_falz_push_zone_table[j].radius;
-            if (j != zone && !(xyz_distance(&player->position, other) > other_radius)) {
+            if (j != zone && !(xyz_distance(&player->position, &other->center) > other_radius)) {
                 VecCopy(&v, &player->position);
                 subtract_vector(&v, &other->center);
                 v.y = 0.0f;
@@ -305,7 +304,6 @@ u16 TBoss4Type3::pick_random_target_player() {
     return (u16)(buf[(s32)(((f32)n - 0.01f) * (3.0517578e-05f * (f32)rand()))]);
 }
 
-}
 
 TBoss4DarkFalzSetEntry dark_falz_set_entry;
 

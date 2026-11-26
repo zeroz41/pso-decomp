@@ -32,6 +32,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/vector.h"
+#include "pso/render/GinjaDrawUtil.h"
 
 
 #include "pso/object/base/TObjMotion.h"
@@ -578,8 +579,6 @@ void TBoss6PlotFalz::queue_instance_destruction() {
 }
 
 
-extern "C" f32 xyz_distance(const void *, const void *);
-
 void TBoss6PlotFalz::release_object() { if (tube != NULL) { tube->queue_destruction(); tube = NULL; } }
 
 s32 TBoss6PlotFalz::get_target_pos_a(Vec *position) {
@@ -648,18 +647,18 @@ void TBoss6PlotFalz::restore_fade_material_color() {
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
 }
-void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range) {
+void TBoss6PlotFalz::apply_radial_effect_to_players(Vec *pos, s16 amount, s16 kind, f32 range) {
     s32 n;
     s32 i;
-    saddr p;
+    TObjPlayer *p;
     f32 d;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (saddr)TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0 && ((TObjChara *)p)->is_locally_controlled() != 0) {
-            d = xyz_distance((void *)(p + 0x38), pos);
+        p = TObjPlayer::get_player_data(i);
+        if (TBoss6PlotFalz::is_state_1f(p) != 0 && p->is_locally_controlled() != 0) {
+            d = xyz_distance(&p->position, pos);
             if (!(d >= range)) {
-                start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)((TObjBase *)(p))->get_entity_id());
+                start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)p->get_entity_id());
             }
         }
     }

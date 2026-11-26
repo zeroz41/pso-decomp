@@ -7,7 +7,7 @@ struct CollisionSphere;
 
 extern "C" {
 // The straight-line distance between a and b.
-f32 xyz_distance(Vec *a, Vec *b);
+f32 xyz_distance(const Vec *a, const Vec *b);
 // The paired-single matrix-stack helpers (hand-written assembly).
 void translate_current_matrix_ps(f32 x, f32 y, f32 z);
 // sin of angle in f1 and its cos in f2 (sin_cos_table), for the assembly callers.

@@ -5,6 +5,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
 
 #include <stddef.h>
@@ -64,8 +65,6 @@ extern const u8 listed_equipment_table[10][3] = {
 static const Boss6ThanksEmitter boss6_thanks_particle_emitter_table[4] = {
     {141, 0, 50}, {178, 30, 110}, {510, 50, 90}, {450, 70, 120},
 };
-
-extern "C" f32 xyz_distance(const void *, const void *);
 
 s32 TBoss6Thanks::is_story_flag_0x9A_set() {
     return get_story_flag(0x9A) != 0;

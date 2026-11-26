@@ -66,4 +66,6 @@ struct TObjDoor : public TObjCollidable {
 LAYOUT_ASSERT(TObjDoor_size, sizeof(TObjDoor)==0xD4);
 // Set by the quest opcode masterkey_on; doors then run in state 0.
 extern s32 door_masterkey_on;
+// 1 when no player on this floor is within radius of the door (expect_clear 1), or when one is (expect_clear 0).
+s32 check_player_door_proximity(TObjDoor *door, s32 expect_clear, f32 radius);
 #endif
