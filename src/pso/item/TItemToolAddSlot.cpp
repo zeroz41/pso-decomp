@@ -1,10 +1,11 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemData.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemToolAddSlot.h"
 
 void TItemToolAddSlot::apply_use_effect() {
-    TItem *armor = (TItem *)((TItemData *)(*(saddr *)((s8 *)this + 0xF0)))->get_item_field_2();
+    TItem *armor = owner->get_equipped_armor();
     if (armor != NULL) {
         armor->add_slot();
     }

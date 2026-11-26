@@ -2332,7 +2332,7 @@ void TObjPlayer::update_active_instance(int index) {
 
 void TObjPlayer::gain_photon_blast_charge(f32 amount) {
     if (this->is_locally_controlled() == 0 || this->test_actor_flags(0x800) != 0 ||
-        (u32)this->activate_d04_slot() == 0 || this->action_palettes.is_secondary_bank_empty(1) != 0 ||
+        this->get_equipped_mag() == NULL || this->action_palettes.is_secondary_bank_empty(1) != 0 ||
         is_current_area_item_enabled() == 0) {
         return;
     }

@@ -429,7 +429,10 @@ struct TObjPlayer : public TObjChara {
     static void free_item_globals();
     static void init_game_resources();
     s32 is_script_controlled();
-    saddr activate_d04_slot();
+    // equipped_items[1], [2] and [3].
+    TItem *get_equipped_mag();
+    TItem *get_equipped_armor();
+    TItem *get_equipped_shield();
     static s32 count_nearby_players_with_shield(u16 idx, u8 *item);
     static void *spawn_shoot_particle(uaddr owner, saddr pos, saddr dir, f32 life);
     static saddr create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life);

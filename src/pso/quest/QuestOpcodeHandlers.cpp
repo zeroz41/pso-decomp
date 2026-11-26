@@ -2831,7 +2831,7 @@ void qst_op_get_mag_levels(s32 i) {
     TItemMag *mag;
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        mag = (TItemMag *)player->activate_d04_slot();
+        mag = (TItemMag *)player->get_equipped_mag();
         if (mag != NULL) {
             qst_registers[(u8)i++] = mag->get_def_level();
             qst_registers[(u8)i++] = mag->get_pow_level();

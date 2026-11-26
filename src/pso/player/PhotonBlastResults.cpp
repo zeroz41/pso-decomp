@@ -98,7 +98,7 @@ f32 TPhotonBlastSequence::calc_photon_blast_power(s32 kind, f32 base_power) {
     TItemMag *mag;
     power = 0.0f;
     if (owner != NULL) {
-        mag = (TItemMag *)owner->activate_d04_slot();
+        mag = (TItemMag *)owner->get_equipped_mag();
         if (mag != 0) {
             switch (kind) {
             case 0:

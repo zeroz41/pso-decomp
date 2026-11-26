@@ -540,13 +540,13 @@ void TLobby::handle_player_event(s32 client, s32 slot) {
             item = TObjPlayer::get_equipped_weapon(player);
             break;
         case 1:
-            item = (TItem *)((TItemData *)player)->get_item_field_2();
+            item = player->get_equipped_armor();
             break;
         case 2:
-            item = (TItem *)((TItemData *)player)->test_flag3();
+            item = player->get_equipped_shield();
             break;
         case 3:
-            item = (TItem *)player->activate_d04_slot();
+            item = player->get_equipped_mag();
             break;
         case 4:
         case 5:
@@ -1344,10 +1344,10 @@ s32 TObjPlayer::is_script_controlled() {
     return this->control_state == 6;
 }
 
-saddr TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
+TItem *TObjPlayer::get_equipped_mag() { return (TItem *)get_slot_value(equipped_items, 1); }
 
-saddr TItemData::test_flag3() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
-saddr TItemData::get_item_field_2() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }
+TItem *TObjPlayer::get_equipped_shield() { return (TItem *)get_slot_value(equipped_items, 3); }
+TItem *TObjPlayer::get_equipped_armor() { return (TItem *)get_slot_value(equipped_items, 2); }
 
 
 }

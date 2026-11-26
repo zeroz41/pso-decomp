@@ -1786,7 +1786,7 @@ s32 TItemMag::check_evolution_cond(TObjPlayer *player, s32 kind) {
     TItemMag *mag;
     s32 count;
 
-    if (player != NULL && (mag = (TItemMag *)player->activate_d04_slot()) != NULL) {
+    if (player != NULL && (mag = (TItemMag *)player->get_equipped_mag()) != NULL) {
         switch (kind) {
         case 0:
             if (mag->get_item_index() >= 100) {

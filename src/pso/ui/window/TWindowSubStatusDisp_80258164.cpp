@@ -222,15 +222,15 @@ void ItemListRow::update_item_colors(saddr item) {
     s32 requirement;
     s32 equip_requirements;
     s32 item_flags;
-    saddr player;
+    TObjPlayer *player;
 
     if (TItemData::is_wrapped((void *)item) != 0) {
         this->style = -1;
         return;
     }
-    player = (saddr)get_player_by_client_id(this->client);
+    player = get_player_by_client_id(this->client);
     if (player != 0) {
-        equip_requirements = check_equip_requirements((void *)player, (TItemData *)item, &requirement);
+        equip_requirements = check_equip_requirements(player, (TItemData *)item, &requirement);
         item_flags = ((TItemData *)item)->check_item_flags();
         if ((u8) this->status_icon == 0x33) {
             if ((item_flags == 0) && (TItemData::is_rare_item((u8 *)item) != 0)) {
@@ -263,7 +263,7 @@ void ItemListRow::update_item_colors(saddr item) {
                 this->style = 0xFF61E853;
                 return;
             }
-            if (((TItemData *)item)->calc_action_flags(0x10000, (u8 *)player) != 0U) {
+            if (((TItemData *)item)->calc_action_flags(0x10000, player) != 0U) {
                 this->style = 0xFF909090;
                 return;
             }

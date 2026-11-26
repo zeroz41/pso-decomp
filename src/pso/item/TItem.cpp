@@ -957,7 +957,7 @@ u32 TItem::get_usable_action_flags(u32 mask, TObjPlayer *player) {
     if (player == NULL) {
         player = owner;
     }
-    u32 flags = data.calc_action_flags(mask, (u8 *)player);
+    u32 flags = data.calc_action_flags(mask, player);
     if (test_item_flags(0x200) != 0) {
         flags |= 2;
     }

@@ -1428,13 +1428,13 @@ s32 TObjPlayer::preview_equip_stats(PlayerRequirementStats *out, u8 *incoming) {
         break;
     case 1:
         if (incoming[1] == 1) {
-            prev = (TItem *)((TItemData *)this)->get_item_field_2();
+            prev = this->get_equipped_armor();
         } else if (incoming[1] == 2) {
-            prev = (TItem *)((TItemData *)this)->test_flag3();
+            prev = this->get_equipped_shield();
         }
         break;
     case 2:
-        prev = (TItem *)this->activate_d04_slot();
+        prev = this->get_equipped_mag();
         break;
     }
     if (prev != NULL) {
@@ -1448,7 +1448,7 @@ s32 TObjPlayer::preview_equip_stats(PlayerRequirementStats *out, u8 *incoming) {
             }
         }
     }
-    ((TItemData *)incoming)->apply_equip_effects((saddr)this, &a, (ActorParamBlock *)&d, (EquipStatBonus *)&b, NULL);
+    ((TItemData *)incoming)->apply_equip_effects(this, &a, (ActorParamBlock *)&d, (EquipStatBonus *)&b, NULL);
     b.field[0] = clamp_s32(b.field[0], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[0]);
     b.field[1] = clamp_s32(b.field[1], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[1]);
     b.field[2] = clamp_s32(b.field[2], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))[2]);
@@ -1540,11 +1540,11 @@ void TObjPlayer::send_unequip_held_item() {
 
 void TObjPlayer::use_current_item() {
     s32 position;
-    void *item;
+    TItem *item;
 
-    item = (void *)((TItemData *)this)->test_flag3();
+    item = this->get_equipped_shield();
     if (item != NULL) {
-        ((TItem *)item)->perform_action();
+        item->perform_action();
         return;
     }
     this->get_anim_node_position(0x24, (Vec *)&position);
@@ -2828,7 +2828,7 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
         if (item == NULL) {
             break;
         }
-        if (item->is_unit() && item->check_equip_requirements(this, &result) && (TItem *)((TItemData *)this)->get_item_field_2() != NULL) {
+        if (item->is_unit() && item->check_equip_requirements(this, &result) && this->get_equipped_armor() != NULL) {
             equip_item_to_slot(item, q->slot);
         }
     }
@@ -5052,10 +5052,10 @@ s32 TObjPlayer::check_flag_800000() {
 }
 
 void TObjPlayer::refresh_equipment_slot() {
-    u8 *item;
-    item = (u8 *)((TObjPlayer *)this)->activate_d04_slot();
+    TItem *item;
+    item = this->get_equipped_mag();
     if (item != NULL) {
-        ((TItem *)item)->snap_to_owner();
+        item->snap_to_owner();
     }
 }
 

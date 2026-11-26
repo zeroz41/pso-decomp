@@ -13,7 +13,8 @@ struct ArmorPmtEntry {
     u8 pad_0[0x8];
     s16 dfp;        // scaled by the set bonus and the clock bonus
     s16 evp;
-    u8 pad_c[0x5];
+    u8 pad_c[0x4];
+    u8 required_level;  // calc_price: (required_level + 1) * slots price
     s8 efr;         // the resistances the armor adds
     s8 eth;
     s8 eic;

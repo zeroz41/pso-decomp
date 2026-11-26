@@ -262,7 +262,7 @@ s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
     s32 count;
     u16 i;
     TObjPlayer *other;
-    void *it;
+    TItem *shield;
     count = 0;
     me = get_player_by_client_id(idx);
     if (me != NULL && item != NULL) {
@@ -272,8 +272,8 @@ s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
                 other = get_player_by_client_id(i);
                 if (other != NULL && key == other->get_floor() &&
                     horizontal_distance_squared(&me->position, &other->position) < 2500.0 &&
-                    (it = (void *)((TItemData *)other)->test_flag3()) != NULL &&
-                    item[2] == ((TItem *)it)->get_item_index()) {
+                    (shield = other->get_equipped_shield()) != NULL &&
+                    item[2] == shield->get_item_index()) {
                     count++;
                 }
             }
