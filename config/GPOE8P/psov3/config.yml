@@ -8114,8 +8114,8 @@ force_active:
   - lbl_804EF1DC
   - lbl_804EF3A4
   - save_chcr_state_actions
-  - lbl_804EFBC8
-  - lbl_804EFBD0
+  - scroll_bar_position
+  - scroll_bar_descriptor
   - __vt__22TWindowDD_WS_ScrollBar
   - word_page_position
   - word_select_page_descriptor
@@ -8400,7 +8400,7 @@ force_active:
   - lbl_805D6D88
   - char_save_message_flags
   - indirect_draw_task
-  - lbl_805D6DC8
+  - scroll_texel_scale
   - boss6_rock_damage
   - equipped_weapon_draw_queue
   - network_wait_icon_frame
