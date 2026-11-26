@@ -31,7 +31,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *window_chat_type_name_pointer = "TWindowChat";
+const char *TWindowChat::class_name = "TWindowChat";
 #pragma pop
 extern "C" {
 s32 get_control_button_mask(s32 client_id);
@@ -395,7 +395,7 @@ TWindowChat::~TWindowChat() {
     }
 }
 TWindowChat::TWindowChat(TObject *object, void *result) : TObject(object) {
-    m_name = window_chat_type_name_pointer;
+    m_name = class_name;
     this->inputMode = 0;
     this->flags = 2;
     this->composer = new TWindowKeyBoardBase;

@@ -28,7 +28,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *keyboard_base_type_name_pointer = "TWindowKeyBoardBase";
+const char *TWindowKeyBoardBase::class_name = "TWindowKeyBoardBase";
 #pragma pop
 
 WindowDescriptor TWindowKeyBoardBase::window_descriptor = {
@@ -917,7 +917,7 @@ TWindowKeyBoardBase::~TWindowKeyBoardBase() {
 TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardBase::window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7))) {
     s32 language;
 
-    this->m_name = keyboard_base_type_name_pointer;
+    this->m_name = class_name;
     language = current_language;
     this->init_keyboard_text_field(0, 0);
     m_text2.init(0, 0);

@@ -55,7 +55,7 @@
 
 saddr format_item_description(u8 *item);
 
-const char *window_help_item_class_name = "TWindowHelpItem";
+const char *TWindowHelpItem::class_name = "TWindowHelpItem";
 
 HelpItemLayout TWindowHelpItem::item_layout_entries = {
     12, 1,
@@ -158,7 +158,7 @@ const char *get_help_text_string(s32 id) {
 }
 
 TWindowHelpItem::TWindowHelpItem(const NJS_POINT2 *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
-    this->m_name = window_help_item_class_name;
+    this->m_name = class_name;
     copy_vec2(target_position, (void *)pos);
     this->save_position();
     this->help_flags = 0;

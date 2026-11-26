@@ -6,6 +6,7 @@
 
 class TWindowCtrlSub : public TObject {
 public:
+    static const char *class_name;
     TWindowCtrlSub(TObject *parent);
     virtual ~TWindowCtrlSub();
     virtual void run_task();

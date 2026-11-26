@@ -5,6 +5,7 @@
 
 class TObjSoloPlayWin : public TObject {
 public:
+    static const char *class_name;
     s32 m_state;
     void* m_result_window;
     s32 m_countdown;

@@ -14,6 +14,7 @@ struct TWindowSimpleStatus;
 
 // One player's HUD windows: main menu, message log, status, action palette, lock-on and short list.
 struct TWindowCtrlPlayer : public TObject {
+    static const char *class_name;
     TWindowCtrlPlayer(TObject *parent, s32 client_id);
     virtual ~TWindowCtrlPlayer();
     void update_open_sequence();

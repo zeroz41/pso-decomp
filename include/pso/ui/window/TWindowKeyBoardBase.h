@@ -9,6 +9,7 @@
 struct WindowDescriptor;
 
 struct TWindowKeyBoardBase : public TWindowBase {
+    static const char *class_name;
     static WindowDescriptor window_descriptor;
     TWindowKeyBoardBase();
     virtual ~TWindowKeyBoardBase();

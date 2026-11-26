@@ -21,6 +21,7 @@ struct ChallengeResultRecord {
 
 class TObjResultWin : public TObject {
 public:
+    static const char *class_name;
     uaddr m_window;
     s32 m_close_requested;
     s32 m_countdown;

@@ -57,7 +57,7 @@ SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
 
 #pragma push
 #pragma readonly_strings on
-const char *window_chat_symbol_name = "TWindowChatSymbol";
+const char *TWindowChatSymbol::class_name = "TWindowChatSymbol";
 #pragma pop
 
 extern const NJS_POINT2 symbol_chat_face_uv_table[4];
@@ -312,7 +312,7 @@ WindowDescriptor window_chat_symbol_settings = {
 };
 
 TWindowChatSymbol::TWindowChatSymbol(const NJS_POINT2 *position, saddr size) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)position) {
-    this->m_name = window_chat_symbol_name;
+    this->m_name = class_name;
     set_size((f32 *)size);
     this->selected_preset = 0;
     this->always_visible = 0;

@@ -33,7 +33,6 @@ __declspec(section ".rodata") extern const char challenge_result_slower_time_for
 __declspec(section ".rodata") extern const char challenge_result_faster_time_format[];
 __declspec(section ".rodata") extern const char challenge_result_value_format[];
 __declspec(section ".rodata") extern const char challenge_result_changed_value_format[];
-const char* TObjResultWin_name = TObjResultWin_class_name;
 __declspec(section ".data") f32 challenge_result_window_extent[2] = {270.0f, 256.0f};
 __declspec(section ".sdata2") extern const char challenge_result_rank_none[] = "";
 __declspec(section ".sdata2") extern const char challenge_result_rank_b[] = "B";
@@ -47,6 +46,7 @@ __declspec(section ".sdata2") extern const char challenge_result_newline[] = "\n
 
 void TWindowMenu::disable_input() { menu_flags |= 0x40; }
 }
+const char *TObjResultWin::class_name = TObjResultWin_class_name;
 int get_current_lobby_id(void) {  return current_lobby_id; }
 
 void TObjResultWin::build_result_text() {
@@ -147,7 +147,7 @@ void TObjResultWin::create_window() {
 }
 TObjResultWin::~TObjResultWin() {}
 TObjResultWin::TObjResultWin(TObject* parent, const ChallengeResultRecord* result) : TObject(parent) {
-    m_name = TObjResultWin_name;
+    m_name = class_name;
     m_window = 0;
     copy_challenge_result_record(&m_result, result);
     m_countdown = 60;

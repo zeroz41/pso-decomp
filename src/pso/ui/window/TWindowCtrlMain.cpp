@@ -47,11 +47,11 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/task/TMainTask.h"
-const char *window_ctrl_main_class_name = "TWindowCtrlMain";
-const char *window_ctrl_screen_class_name = "TWindowCtrlScreen";
-const char *window_ctrl_sub_class_name = "TWindowCtrlSub";
-const char *window_ctrl_clip_out_class_name = "TWindowCtrlClipOut";
-const char *window_ctrl_player_class_name = "TWindowCtrlPlayer";
+const char *TWindowCtrlMain::class_name = "TWindowCtrlMain";
+const char *TWindowCtrlScreen::class_name = "TWindowCtrlScreen";
+const char *TWindowCtrlSub::class_name = "TWindowCtrlSub";
+const char *TWindowCtrlClipOut::class_name = "TWindowCtrlClipOut";
+const char *TWindowCtrlPlayer::class_name = "TWindowCtrlPlayer";
 
 // width, height of the player message window (set_message_window_size stores it as the window size)
 const f32 message_information_window_extent[2] = {255.0f, 120.0f};
@@ -76,7 +76,7 @@ void TWindowMainMenu__sub_8024E3D0(void) {  }
 void TWindowMainMenu__sub_8024E3CC(void) {  }
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(parent) {
-    m_name = window_ctrl_player_class_name;
+    m_name = class_name;
     flags = 0;
     open_timer = 0;
     countdown = 0;
@@ -424,7 +424,7 @@ void TWindowCtrlMain::free_all_windows() {
 TWindowCtrlMain::TWindowCtrlMain() : TObject(tl_fadeafter) {
     WindowControlState *e;
     s32 i;
-    m_name = window_ctrl_main_class_name;
+    m_name = class_name;
     if (TWindowCtrlMain::window_task_root == NULL) {
         TWindowCtrlMain::window_task_root = new TObject(NULL);
     }
@@ -741,7 +741,7 @@ f32 TWindowCtrlMain::get_scale(s32 viewport) {
 }
 
 TWindowCtrlScreen::TWindowCtrlScreen(TObject *parent) : TObject(parent) {
-    m_name = window_ctrl_screen_class_name;
+    m_name = class_name;
 }
 
 TWindowCtrlScreen::~TWindowCtrlScreen() {
@@ -765,7 +765,7 @@ void TWindowCtrlScreen::render() {
 }
 
 TWindowCtrlSub::TWindowCtrlSub(TObject *parent) : TObject(parent) {
-    m_name = window_ctrl_sub_class_name;
+    m_name = class_name;
 }
 
 TWindowCtrlSub::~TWindowCtrlSub() {
@@ -779,7 +779,7 @@ void TWindowCtrlSub::run_task() {
 }
 
 TWindowCtrlClipOut::TWindowCtrlClipOut(TObject *parent) : TObject(parent) {
-    m_name = window_ctrl_clip_out_class_name;
+    m_name = class_name;
 }
 
 TWindowCtrlClipOut::~TWindowCtrlClipOut() {

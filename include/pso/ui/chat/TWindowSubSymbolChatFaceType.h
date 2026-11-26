@@ -14,6 +14,7 @@ struct TWindowSubStatusDisp;
 struct WindowDrawContext;
 
 struct TWindowSubSymbolChatFaceType : public TWindowBase {
+    static const char *class_name;
     TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selected);
     virtual ~TWindowSubSymbolChatFaceType();
     void update_parts_entries();

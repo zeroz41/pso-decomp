@@ -12,6 +12,7 @@ struct SymbolChatPart;
 struct WindowDrawContext;
 
 struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
+    static const char *class_name;
     TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second);
     virtual ~TWindowSubSymbolChatPartsSet();
     void update_part_sprites();

@@ -212,11 +212,11 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
     {178.0f, 188.0f}, 50050.0f, &symbol_chat_face_type_layout_entries, 0x43,
 };
 
-const char *window_sub_symbol_chat_face_type_name = symbol_chat_face_type_class_name_string;
+const char *TWindowSubSymbolChatFaceType::class_name = symbol_chat_face_type_class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selected)
     : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, 4, (u8 *)position) {
     WindowHeading *heading;
-    m_name = window_sub_symbol_chat_face_type_name;
+    m_name = class_name;
     result_flags = 0;
     cursor_col = 0;
     cursor_row = 0;

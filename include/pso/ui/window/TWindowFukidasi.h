@@ -9,6 +9,7 @@ struct RotatedQuadSpriteRect;
 
 class TWindowFukidasi : public TWindowAddition {
 public:
+    static const char *class_name;
     void init_flags(s32 flags);
     TWindowFukidasi(u16 speaker, const char *text, s32 client, f32 scale);
     virtual ~TWindowFukidasi();

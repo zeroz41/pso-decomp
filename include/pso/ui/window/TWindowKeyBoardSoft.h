@@ -10,6 +10,7 @@ struct TWindowKeyBoardBase;
 
 struct TWindowKeyBoardSoft : public TWindowBase
 {
+    static const char *class_name;
     TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 client);
     virtual ~TWindowKeyBoardSoft();
     void draw_key_frames(WindowDrawContext *);

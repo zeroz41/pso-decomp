@@ -49,7 +49,7 @@ WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 5004
 
 extern u8 *soft_keyboard_layouts;
 
-const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
+const char *TWindowKeyBoardSoft::class_name = "TWindowKeyBoardSoft";
 
 /* Per key class (indexed through soft_keyboard_key_class): steps back to the class's first column,
    and soft_keyboard_key_columns_to_last the columns left to its last one (read from the cursor moves in handle_cursor_move). */
@@ -874,7 +874,7 @@ TWindowKeyBoardSoft::~TWindowKeyBoardSoft() {}
 
 TWindowKeyBoardSoft::TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 client)
     : TWindowBase((u8 *)&soft_keyboard_window_and_action_data, client, (u8 *)get_window_layout_position(0xBA)) {
-    m_name = keyboard_soft_type_name_pointer;
+    m_name = class_name;
     state_flags = 0;
     layout_page = 0;
     cursor_column = 2;

@@ -64,7 +64,7 @@ extern const u32 balloon_color_table[16] = {
 extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
 WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x3F000000, 0xFFFFFFFF, 0, 0}};
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
-const char *window_fukidasi_class_name = window_fukidasi_class_name_string;
+const char *TWindowFukidasi::class_name = window_fukidasi_class_name_string;
 
 extern "C" {
 
@@ -421,7 +421,7 @@ void TWindowFukidasi::draw_name_plate(WindowDrawContext *context, u32 argb) {
 void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32 scale) {
     u32 len;
 
-    m_name = window_fukidasi_class_name;
+    m_name = class_name;
     this->state = 0;
     this->balloon_flags = 0;
     this->content_kind = 2;

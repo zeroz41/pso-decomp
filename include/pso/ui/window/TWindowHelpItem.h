@@ -102,6 +102,7 @@ const char *get_help_text_string(s32 id);
 
 struct TWindowHelpItem : public TWindowBase
 {
+    static const char *class_name;
     static HelpItemDescriptionLayout description_text_layout;
     static HelpItemResistanceLayout resistance_layout_entries;
     static HelpItemLayout item_layout_entries;

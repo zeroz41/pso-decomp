@@ -9,6 +9,7 @@ struct TWindowCtrlScreen;
 class TWindowCtrlSub;
 
 struct TWindowCtrlMain : public TObject {
+    static const char *class_name;
     // The scene hook tables pair this load hook with free_all_windows.
     static void reset_windows();
     static void disable_display();

@@ -136,7 +136,7 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
 
 
 
-const char *window_sub_symbol_chat_parts_set_name = "TWindowSubSymbolChatPartsSet";
+const char *TWindowSubSymbolChatPartsSet::class_name = "TWindowSubSymbolChatPartsSet";
 static const NJS_POINT2 parts_set_window_size = {178.0f, 188.0f};
 
 
@@ -338,7 +338,7 @@ TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
 
 TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second)
     : TWindowChatSymbol(position, (saddr)&parts_set_window_size) {
-    m_name = window_sub_symbol_chat_parts_set_name;
+    m_name = class_name;
     set_depth(50030.0f);
     result_flags = 0;
     cursor_x = 0;

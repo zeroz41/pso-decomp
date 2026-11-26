@@ -16,7 +16,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
-const char* TObjDeadListWin_name = TObjDeadListWin_class_name;
+const char *TObjDeadListWin::class_name = TObjDeadListWin_class_name;
 __declspec(section ".data") f32 dead_list_window_position[2] = {210.0f, 100.0f};
 extern const char dead_list_text_prefix[] = "\tC8";
 extern const char dead_list_name_separator[] = "\n";
@@ -95,7 +95,7 @@ TObjDeadListWin::~TObjDeadListWin() {}
 
 TObjDeadListWin::TObjDeadListWin(TObject* parent) : TObject(parent) {
     s32 i;
-    m_name = TObjDeadListWin_name;
+    m_name = class_name;
     m_window_handle = NULL;
     m_countdown = 0x12C;
     for (i = 0; i < 4; i++) m_names[i].text[0] = 0;

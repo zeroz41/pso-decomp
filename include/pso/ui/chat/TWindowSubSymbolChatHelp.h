@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubSymbolChatHelp : public TWindowBase {
+    static const char *class_name;
     TWindowSubSymbolChatHelp(s8 *selection, s32 *mode);
     virtual ~TWindowSubSymbolChatHelp();
     void draw_help_entry(struct WindowDrawContext *context, s32 row, s32 color);
