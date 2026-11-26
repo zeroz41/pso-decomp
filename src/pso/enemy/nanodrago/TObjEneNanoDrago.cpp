@@ -246,11 +246,8 @@ void TObjEneNanoDrago::free_resources() {
     }
 }
 void *TObjEneNanoDrago::create(void *setData) {
-    void *o;
-    void *o2;
-    o = new TObjControl(tl_04);
-    o2 = new TObjEneNanoDrago((TObject *)o, setData);
-    return o2;
+    TObjControl *control = new TObjControl(tl_04);
+    return new TObjEneNanoDrago(control, setData);
 }
 void TObjEneNanoDrago::run_task() {
     s32 cooldown;

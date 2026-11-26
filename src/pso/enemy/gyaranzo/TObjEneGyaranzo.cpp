@@ -202,13 +202,11 @@ TObjEneGyaranzo::~TObjEneGyaranzo() {
 #pragma opt_propagation off
 void TLobby::load_gyaranzo_resources() {
     s32 i;
-    void *p;
 
     if (TObjEneDD::check_v2_mode() != 0) {
         gyaranzo_bml_resource = load_enemy_bml_resource_named(&bm_ene_gyaranzo_resource_descriptor, "bm_ene_gyaranzo_a.bml");
     } else {
-        p = new BmlResource(5, &bm_ene_gyaranzo_resource_descriptor, 0, 0, NULL);
-        gyaranzo_bml_resource = (BmlResource *)p;
+        gyaranzo_bml_resource = new BmlResource(5, &bm_ene_gyaranzo_resource_descriptor, 0, 0, NULL);
     }
     for (i = 0; i < 0x16; i++) {
         gyaranzo_model_resources[i] = find_model_node(gyaranzo_bml_resource->models[3].model, gyaranzo_resource_index_table[i]);
@@ -221,8 +219,7 @@ void TLobby::load_gyaranzo_resources() {
     }
     gyaranzo_broken_node25 = find_model_node(gyaranzo_bml_resource->models[3].model, 0x19);
     gyaranzo_broken_node13 = find_model_node(gyaranzo_bml_resource->models[3].model, 0xD);
-    p = new TBreakUpMdlData(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
-    gyaranzo_breakup_model_obj = (TBreakUpMdlData *)p;
+    gyaranzo_breakup_model_obj = new TBreakUpMdlData(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     gyaranzo_boss_stats_handle = TLobby::register_boss(0x1D);
     gyaranzo_boss_stats_ptr_b = TLobby::dispatch_shared_handler_b(0x1D);
     gyaranzo_object_handle = TLobby::register_object(0x1D);

@@ -408,13 +408,11 @@ void TObjEneDimedian::free_boss_objects() {
 
 void TLobby::load_dimedian_resources() {
     BmlModelEntry *models;
-    void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
         dimedian_resource_ptr = load_enemy_bml_resource_named(&dimedian_resource_descriptor, dimedian_a_bml_filename);
     } else {
-        p = new BmlResource(1, &dimedian_resource_descriptor, 0, 0, NULL);
-        dimedian_resource_ptr = (BmlResource *)p;
+        dimedian_resource_ptr = new BmlResource(1, &dimedian_resource_descriptor, 0, 0, NULL);
     }
     models = dimedian_resource_ptr->models;
     dimedian_resource_handles[0] = (saddr)((NJS_CNK_MODEL *)models[0].model->child->sibling->sibling->model)->polygon_list;

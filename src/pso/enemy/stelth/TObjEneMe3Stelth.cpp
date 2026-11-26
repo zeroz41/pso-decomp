@@ -182,7 +182,6 @@ void TObjEneMe3Stelth::load_shared_resources() {
     NJS_OBJECT *m;
     NJS_CNK_MODEL *q;
     AnimationMotion *motion;
-    void *p;
 
     lbl_805010E0[0] = 0.0f;
     lbl_805010E0[1] = 0.0f;
@@ -242,11 +241,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
     motion = me3_stelth_bml_resource->motions[me3_stelth_animation_descriptors[5].motion].motion;
     if (is_split_screen() != 0) {
-        p = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        me3_stelth_breakup_model = (TBreakUpMdlData *)p;
+        me3_stelth_breakup_model = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
     } else {
-        p = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        me3_stelth_breakup_model = (TBreakUpMdlData *)p;
+        me3_stelth_breakup_model = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
     }
     {
         Vec va;

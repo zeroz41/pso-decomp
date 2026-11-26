@@ -274,7 +274,7 @@ inline const char *dubchik_gvm_filename();
 void TObjEneDubchik::load_resources() {
     SampledMotionPoints **t;
     NJS_OBJECT *nodes[3];
-    void *p;
+    SampledMotionPoints *p;
     s32 m;
     s32 i;
     NJS_OBJECT *mdl;
@@ -296,21 +296,18 @@ void TObjEneDubchik::load_resources() {
     lbl_805D509C = find_model_node(dubchik_resource->models[0].model, 0x15);
     lbl_805D50A0 = find_model_node(dubchik_resource->models[0].model, 0x2A);
     find_model_node(dubchik_resource->models[1].model, 0x15)->evalflags |= NJD_EVAL_HIDE;
-    p = new TBreakUpMdlData(dubchik_resource->models[0].model);
-    breakup_model_ptr = static_cast<TBreakUpMdlData *>(p);
-    p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
-    dubchik_scratch_trail0_points[0] = (SampledMotionPoints *)p;
+    breakup_model_ptr = new TBreakUpMdlData(dubchik_resource->models[0].model);
+    dubchik_scratch_trail0_points[0] = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
     dubchik_scratch_trail0_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x1C, 0x24);
-    p = new SampledMotionPoints(2, 36.0f, 40.0f, 1.0f);
-    dubchik_scratch_trail1_points[0] = (SampledMotionPoints *)p;
+    dubchik_scratch_trail1_points[0] = new SampledMotionPoints(2, 36.0f, 40.0f, 1.0f);
     dubchik_scratch_trail1_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x2E, 0x32);
     p = new SampledMotionPoints(2, 30.0f, 38.0f, 1.0f);
     t = dubchik_scratch_trail0_points;
-    t[1] = (SampledMotionPoints *)p;
+    t[1] = p;
     t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x1C, 0x24);
     p = new SampledMotionPoints(2, 50.0f, 58.0f, 1.0f);
     t = dubchik_scratch_trail1_points;
-    t[1] = (SampledMotionPoints *)p;
+    t[1] = p;
     t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
         dubchik_base_params_by_variant[i] = TLobby::register_boss(i + 0x1B);
@@ -372,11 +369,8 @@ void TObjEneDubchik::free_resources() {
 }
 
 void *TObjEneDubchik::create(void *set_data) {
-    void *o;
-    void *o2;
-    o = new TObjControl(tl_04);
-    o2 = new TObjEneDubchik((TObject *)o, set_data);
-    return o2;
+    TObjControl *control = new TObjControl(tl_04);
+    return new TObjEneDubchik(control, set_data);
 }
 
 void TObjEneDubchik::run_task() {

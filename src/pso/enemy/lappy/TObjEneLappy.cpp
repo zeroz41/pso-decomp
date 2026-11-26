@@ -641,12 +641,12 @@ block_48:
 }
 
 void TObjEneLappy::run_move_action() {
-    void *chased;
+    TObjChara *chased;
     if (!(this->lappy_flags & (LAPPY_FLEEING | LAPPY_FALLING)) && !(this->actorFlags & 0xA00)) {
         if ((s16) this->mode != 1) {
             chased = this->target;
             if (chased != NULL) {
-                if (select_enemy_destination(this, ((TObjChara *)chased)->body_center, 1) == 1) {
+                if (select_enemy_destination(this, chased->body_center, 1) == 1) {
                     switch ((s8)this->idle_mode) {
                     case 0:
                         this->requested_action = 3;

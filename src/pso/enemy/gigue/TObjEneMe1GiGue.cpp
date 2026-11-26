@@ -215,21 +215,17 @@ TObjEneMe1GiGue::~TObjEneMe1GiGue() {
 }
 
 void TObjEneMe1GiGue::load_resources() {
-    void *o;
 
     if (is_split_screen() != 0) {
-        o = new BmlResource(1, &gigue_low_bml_descriptor, 0, 0, NULL);
-        gigue_resource = (BmlResource *)o;
+        gigue_resource = new BmlResource(1, &gigue_low_bml_descriptor, 0, 0, NULL);
     } else {
-        o = new BmlResource(1, &gigue_bml_descriptor, 0, 0, NULL);
-        gigue_resource = (BmlResource *)o;
+        gigue_resource = new BmlResource(1, &gigue_bml_descriptor, 0, 0, NULL);
     }
     ene_me1_gigue_boss_id = TLobby::register_boss(0x1A);
     gigue_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
     gigue_resistance_params = TLobby::register_object(0x1A);
     me1_gi_gue_param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
-    o = new TBreakUpMdlData(gigue_resource->models->model);
-    gigue_breakup_model = (TBreakUpMdlData *)o;
+    gigue_breakup_model = new TBreakUpMdlData(gigue_resource->models->model);
     TObjEneMe1GiGueMissile::init_global();
     TObjEneMe1GiGueBarrier::init_global();
     {

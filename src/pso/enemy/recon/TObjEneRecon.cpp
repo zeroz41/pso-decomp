@@ -872,16 +872,16 @@ extern "C" {
 
 void TObjEneRecon::retarget() {
     TargetCandidate hits[5];
-    void *p;
+    TObjEneRecobox *p;
     s32 n;
     u16 id;
     s32 i;
-    p = find_entity_by_id(owner_id);
+    p = (TObjEneRecobox *)find_entity_by_id(owner_id);
     if (p == 0) {
         queue_destruction();
         return;
     }
-    if (((TObjEneRecobox *)p)->is_below_child_limit(target_id) != 0) {
+    if (p->is_below_child_limit(target_id) != 0) {
         orbit_since_bomb = 0;
         transition_enemy_state(3);
         return;
@@ -889,7 +889,7 @@ void TObjEneRecon::retarget() {
     n = collect_enemy_target_candidates(hits, 10000.0f);
     for (i = 0; i < n; i++) {
         id = hits[i].id;
-        if (id != target_id && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
+        if (id != target_id && p->is_below_child_limit(id) != 0) {
             orbit_since_bomb = 0;
             enemy_set_target_id(id);
             transition_enemy_state(3);
@@ -902,16 +902,16 @@ void TObjEneRecon::retarget() {
 
 void TObjEneRecon::select_next_target() {
     TargetCandidate hits[5];
-    void *p;
+    TObjEneRecobox *p;
     s32 n;
     u16 id;
     s32 i;
-    p = find_entity_by_id(owner_id);
+    p = (TObjEneRecobox *)find_entity_by_id(owner_id);
     if (p == 0) {
         queue_destruction();
         return;
     }
-    if (((TObjEneRecobox *)p)->is_below_child_limit(target_id) != 0) {
+    if (p->is_below_child_limit(target_id) != 0) {
         orbit_since_strike = 0;
         transition_enemy_state(2);
         return;
@@ -919,7 +919,7 @@ void TObjEneRecon::select_next_target() {
     n = collect_enemy_target_candidates(hits, 10000.0f);
     for (i = 0; i < n; i++) {
         id = hits[i].id;
-        if (id != target_id && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
+        if (id != target_id && p->is_below_child_limit(id) != 0) {
             orbit_since_strike = 0;
             enemy_set_target_id(id);
             transition_enemy_state(2);
