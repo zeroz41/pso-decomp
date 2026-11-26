@@ -1539,7 +1539,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjWaitEntryHairMoveSim.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -inline off,deferred: __vt__8TEndingC precedes run_task's jump table, so the source runs
     # from the last function back.
-    "pso/system/scene/TEndingCWall.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/system/scene/TEndingC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/collision/TOSymbolchatColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrTagInformationStr.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/quest/challenge/TChallenge4PItemSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

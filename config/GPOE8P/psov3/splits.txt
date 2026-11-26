@@ -1170,7 +1170,7 @@ pso/system/scene/TEndingAB.cpp:
 	.sbss       start:0x805D4F10 end:0x805D4F18
 	.sdata2     start:0x805D9580 end:0x805D95C0
 
-pso/system/scene/TEndingCWall.cpp:
+pso/system/scene/TEndingC.cpp:
 	.text       start:0x8008D00C end:0x8008D68C
 	.rodata     start:0x804398E0 end:0x80439910
 	.data       start:0x8048EB18 end:0x8048EB74
