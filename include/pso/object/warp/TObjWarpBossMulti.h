@@ -49,4 +49,5 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
 LAYOUT_ASSERT(TObjWarpBossMulti_size, sizeof(TObjWarpBossMulti) == 0x100);
 
 void handle_6x6A_set_boss_warp_flags(void *packet);
+void release_boss_warp_resources();
 #endif

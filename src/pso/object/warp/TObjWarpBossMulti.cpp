@@ -100,9 +100,6 @@ AnimationMotion *warp_boss_motion;
 AnimationMotion *warp_boss_bml_motion;
 NJS_TEXLIST *boss_warp_base_textures;
 NJS_TEXLIST *boss_warp_effect_textures;
-extern "C" {
-void release_boss_warp_resources(void);
-}
 
 const char debug_next_stage_label[] = "<- NEXT STAGE No.";
 const char debug_key_id_format[] = "<- KEY ID : %d";
