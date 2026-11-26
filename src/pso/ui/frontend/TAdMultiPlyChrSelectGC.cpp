@@ -284,7 +284,7 @@ void TAdMultiPlyChrSelectGC::run_task() {
                 if (TAdMultiPlyChrSelectGC::count_selected_slots() > 0) {
                     if (this->show_flag_notice == 0) {
                         if (TAdMultiPlyChrSelectGC::is_controller_connected(TAdMultiPlyChrSelectGC::get_last_selected_player()) != 0) {
-                            this->guide->set_line(0, reinterpret_cast<const char *>(TAdMultiPlyChrSelectGC::format_player_number_text((saddr)this, (s32)(TAdMultiPlyChrSelectGC::get_last_selected_player()))));
+                            this->guide->set_line(0, reinterpret_cast<const char *>(this->format_player_number_text((s32)(TAdMultiPlyChrSelectGC::get_last_selected_player()))));
                             this->guide->set_line(1, "");
                         } else {
                             this->guide->set_line(0, "");
@@ -1729,7 +1729,7 @@ s32 TAdMultiPlyChrSelectGC::cursor_to_card_index(s32 cursor) {
     }
 }
 
-u8 *TAdMultiPlyChrSelectGC::format_player_number_text(s32 self, s32 player_number) {
+u8 *TAdMultiPlyChrSelectGC::format_player_number_text(s32 player_number) {
     memset(player_number_text_buffer, 0, 0x80);
     sprintf((char *)player_number_text_buffer, (const char *)get_localized_text_entry(0x1F, 0), player_number + 1);
     return player_number_text_buffer;
@@ -1744,7 +1744,7 @@ void TAdMultiPlyChrSelectGC::update_guide_text(s32 cursor) {
                 guide->set_line(1, "");
                 return;
             }
-            guide->set_line(0, reinterpret_cast<const char *>(TAdMultiPlyChrSelectGC::format_player_number_text((saddr)this, TAdMultiPlyChrSelectGC::get_clamped_cursor())));
+            guide->set_line(0, reinterpret_cast<const char *>(this->format_player_number_text(TAdMultiPlyChrSelectGC::get_clamped_cursor())));
             guide->set_line(1, "");
             break;
         default:
@@ -1753,7 +1753,7 @@ void TAdMultiPlyChrSelectGC::update_guide_text(s32 cursor) {
                 guide->set_line(1, "");
                 return;
             }
-            guide->set_line(0, reinterpret_cast<const char *>(TAdMultiPlyChrSelectGC::format_player_number_text((saddr)this, cursor)));
+            guide->set_line(0, reinterpret_cast<const char *>(this->format_player_number_text(cursor)));
             guide->set_line(1, "");
             break;
         }

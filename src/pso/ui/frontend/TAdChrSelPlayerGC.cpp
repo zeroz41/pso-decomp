@@ -143,7 +143,7 @@ void TAdChrSelPlayerGC::set_status_value(s32 value) {
     status_index = value;
     TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
     if (status != NULL) {
-        TAdPlyStatusGC::set_status_index(reinterpret_cast<saddr>(status), status_index);
+        status->set_status_index(status_index);
     }
 }
 

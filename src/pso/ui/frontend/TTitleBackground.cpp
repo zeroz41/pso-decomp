@@ -22,7 +22,7 @@ static const f32 ring_center[2] = {320.0f, 220.0f};
 
 #pragma push
 #pragma fp_contract on
-void draw_title_background_pulse(s32 owner, f32 depth, s32 frame) {
+void TTitleBackground::draw_title_background_pulse(f32 depth, s32 frame) {
     TitlePulseQuad q;
     f32 t;
     u8 c;
@@ -52,7 +52,7 @@ void draw_title_background_pulse(s32 owner, f32 depth, s32 frame) {
 
 #pragma push
 #pragma fp_contract on
-void rotate_title_background_quad(s32 owner, u8 *quad, u8 *center, saddr angle, f32 radius) {
+void TTitleBackground::rotate_title_background_quad(u8 *quad, u8 *center, saddr angle, f32 radius) {
     TitleQuad *q = (TitleQuad *)quad;
     const f32 *c = (const f32 *)center;
     f32 sin_r;
@@ -70,7 +70,7 @@ void rotate_title_background_quad(s32 owner, u8 *quad, u8 *center, saddr angle, 
 
 #pragma push
 #pragma fp_contract on
-void draw_title_rings(s32 owner, f32 depth, s32 frame) {
+void TTitleBackground::draw_title_rings(f32 depth, s32 frame) {
     TitleQuad q;
     f32 pos[2];
     saddr angle;
@@ -97,7 +97,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
     q.uw = 0.83984375f;
     q.vh = 0.83984375f;
     q.z = -1.0f / depth;
-    rotate_title_background_quad(owner, (u8 *)&q, (u8 *)ring_center, -angle, 430.0f);
+    rotate_title_background_quad((u8 *)&q, (u8 *)ring_center, -angle, 430.0f);
     draw_rotated_quad((f32 *)&q);
     set_draw_texture_and_color(12, color);
     q.u = 0.0f;
@@ -105,7 +105,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
     q.uw = 0.34765625f;
     q.vh = 0.34765625f;
     q.z = -1.0f / (1.0f + depth);
-    rotate_title_background_quad(owner, (u8 *)&q, (u8 *)ring_center, angle, 178.0f);
+    rotate_title_background_quad((u8 *)&q, (u8 *)ring_center, angle, 178.0f);
     draw_rotated_quad((f32 *)&q);
     q.u = 0.349609375f;
     q.v = 0.0f;
@@ -115,7 +115,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
         pos[0] = ring_center[0] - ring_offsets[i][0] * cos_table_lookup(angle) + ring_offsets[i][1] * sin_table_lookup(angle);
         pos[1] = ring_center[1] + ring_offsets[i][0] * sin_table_lookup(angle) + ring_offsets[i][1] * cos_table_lookup(angle);
         q.z = -1.0f / (2.0f + depth);
-        rotate_title_background_quad(owner, (u8 *)&q, (u8 *)pos, -angle * 2, 104.0f);
+        rotate_title_background_quad((u8 *)&q, (u8 *)pos, -angle * 2, 104.0f);
         draw_rotated_quad((f32 *)&q);
     }
     end_screen_draw();
@@ -128,9 +128,9 @@ void TTitleBackground::render() {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         render_logo_with_default(get_title_texture_list(), 0xD, -1, -150.0f);
-        draw_title_background_pulse((saddr)this, -140.0f, frame);
+        draw_title_background_pulse(-140.0f, frame);
         draw_title_background_layer(get_title_texture_list(), 3, -1, -130.0f);
-        draw_title_rings((saddr)this, -120.0f, frame);
+        draw_title_rings(-120.0f, frame);
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }

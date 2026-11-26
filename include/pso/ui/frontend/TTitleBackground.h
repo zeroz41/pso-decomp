@@ -13,15 +13,13 @@ public:
     virtual ~TTitleBackground();
     virtual void render();
     virtual void run_task();
+    void rotate_title_background_quad(u8 *quad, u8 *center, saddr angle, f32 radius);
+    void draw_title_background_pulse(f32 depth, s32 frame);
+    void draw_title_rings(f32 depth, s32 frame);
     TTitleScene *scene;
     s32 frame;
 };
 LAYOUT_ASSERT(TTitleBackground_size, sizeof(TTitleBackground) == 0x24);
-
-// The background's drawing helpers.
-void rotate_title_background_quad(s32 owner, u8 *quad, u8 *center, saddr angle, f32 radius);
-void draw_title_background_pulse(s32 owner, f32 depth, s32 frame);
-void draw_title_rings(s32 owner, f32 depth, s32 frame);
 
 // Hooks of lobby_load_callback_table: the lobby flags entry (cleared on load, nothing to release)
 // and the background's own entry; the empty ones do nothing.

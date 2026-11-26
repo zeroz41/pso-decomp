@@ -3573,9 +3573,9 @@ s32 TObjPlayer::test_ordered_anim_markers(f32 first_frame, f32 second_frame) {
 
 void TObjPlayer::update_foot_stamp(int marker) {
     if (marker == 1) {
-        TObjPlayer::clear_foot_stamp((saddr)&this->follow_particles, this);
+        TObjPlayer::clear_foot_stamp(&this->follow_particles, this);
     } else if (marker == 2) {
-        TObjPlayer::enable_foot_stamp((saddr)&this->follow_particles, this);
+        TObjPlayer::enable_foot_stamp(&this->follow_particles, this);
     }
 }
 

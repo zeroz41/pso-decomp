@@ -21,6 +21,7 @@ public:
     TPlayerBattleCtrl(TObject *parent);
     virtual ~TPlayerBattleCtrl();
     void init_battle_round();
+    void apply_game_settings(s32 use_config);
     void update_state();
     // States run by update_state.
     void update_battle_intro();
@@ -103,7 +104,6 @@ void send_6x7D_set_battle_mode_data(void *arg0);
 void init_char_slots(void);
 void init_battle_ctrl(s32 config, saddr src);
 void init_and_set_flag(void);
-void apply_game_settings(s32 owner, s32 use_config);
 void finish_chr_select_scene_init(void);
 void send_battle_mode_params(s8 command, s32 value, s32 extra);
 void apply_battle_rules_to_players(void);

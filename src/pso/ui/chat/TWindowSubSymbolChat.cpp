@@ -306,7 +306,7 @@ void TWindowSubSymbolChat::run_task() {
             this->main_menu = NULL;
         }
         if ((void *) this->symbol_window == NULL) {
-            this->symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
+            this->symbol_window = this->create_chat_symbol_window(0);
         }
         this->symbol_window->update_visibility();
         this->symbol_list = create_symbol_list_card();
@@ -368,7 +368,7 @@ void TWindowSubSymbolChat::run_task() {
             this->symbol_list = NULL;
         }
         if ((void *) this->symbol_window == NULL) {
-            this->symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
+            this->symbol_window = this->create_chat_symbol_window(0);
             this->symbol_window->set_selection(selected_preset);
         }
         window = (u8 *)this->symbol_window;
@@ -678,7 +678,7 @@ void TWindowSubSymbolChat::run_task() {
             this->main_menu = NULL;
         }
         if ((void *) this->second_symbol_window == NULL) {
-            this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 1);
+            this->second_symbol_window = this->create_chat_symbol_window(1);
         }
         this->second_symbol_window->always_visible = 1;
         this->symbol_list = create_symbol_list_card();
@@ -789,9 +789,9 @@ void TWindowSubSymbolChat::run_task() {
 
 void TWindowSubSymbolChat::render() {  }
 
-saddr TWindowSubSymbolChat::create_chat_symbol_window(s32 unused, s32 index) {
-    s32 window_chat_symbol;
-    window_chat_symbol = (saddr)new TWindowChatSymbol(((get_window_layout_position(index + 0x7B))), (saddr)symbol_chat_window_size);
+TWindowChatSymbol *TWindowSubSymbolChat::create_chat_symbol_window(s32 index) {
+    TWindowChatSymbol *window_chat_symbol;
+    window_chat_symbol = new TWindowChatSymbol(((get_window_layout_position(index + 0x7B))), (saddr)symbol_chat_window_size);
     return window_chat_symbol;
 }
 
@@ -1058,7 +1058,7 @@ void TWindowSubSymbolChat::update_sub_window() {
         }
     } else {
         if (this->second_symbol_window == NULL) {
-            this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
+            this->second_symbol_window = this->create_chat_symbol_window(0);
             this->second_symbol_window->set_selection(get_symbol_chat_receive_buffer());
             this->second_symbol_window->always_visible = 1;
             copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7C))));

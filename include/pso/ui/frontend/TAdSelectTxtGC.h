@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 class TAdSelectTxtSubGC;
 
@@ -36,7 +37,7 @@ public:
     TAdSelectTxtSubGC *lines[8];
 };
 
-extern uaddr ad_select_text_texture_handle;
+extern NJS_TEXLIST *ad_select_text_texture_handle;
 
 void load_select_gamen_texture();
 void free_select_gamen_texture();

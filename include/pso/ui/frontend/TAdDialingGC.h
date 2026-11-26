@@ -13,6 +13,7 @@ struct TAdDialingGC : public TObject {
     TAdDialingGC(TObject *parent);
     virtual ~TAdDialingGC();
     void spawn_title_screen();
+    s32 is_dial_cancel_pressed();
     u32 dial_mode;
     s32 dial_step;
     s32 frame;

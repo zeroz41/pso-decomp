@@ -57,7 +57,7 @@ void TAdPlyStatusGC::set_status_param(CharacterPreview *preview) { ply_status_pr
 
 TAdPlyStatusGC *TAdPlyStatusGC::get_index() { return ply_status_gc_instance; }
 
-void TAdPlyStatusGC::set_status_index(int a0, int a1) { ply_status_index = a1; }
+void TAdPlyStatusGC::set_status_index(int index) { ply_status_index = index; }
 
 
 void TAdPlyStatusGC::close_window(s32 index) {

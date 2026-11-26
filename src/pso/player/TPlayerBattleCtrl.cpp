@@ -613,7 +613,7 @@ void TLobby::handle_battle_result(int client, s32 local) {
     }
 }
 
-void apply_game_settings(s32 owner, s32 use_config) {
+void TPlayerBattleCtrl::apply_game_settings(s32 use_config) {
     lobby_rule_settings.reset_settings_to_default();
     if (use_config != 0) {
         s32 flag;
@@ -1055,7 +1055,7 @@ void TPlayerBattleCtrl::init_battle_round() {
   }
   set_active_disconnect_count((u16) clamped_slot);
   save_active_character_to_card();
-  apply_game_settings((saddr)this, 1);
+  this->apply_game_settings(1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
   player = get_local_player();
   if (player != NULL)

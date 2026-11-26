@@ -181,8 +181,8 @@ s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 dela
     return (saddr)new TFontSmallTask(pos, color, life, delay, get_shared_text_buffer(), 0xFFFF);
 }
 
-void create_boss_health_font(s32 pos, s32 color, s32 life, void *label, void *value) {
-    create_font_small_task((Vec *)(saddr)pos, color, life, 0, (const char *)label, (saddr)value, 0xFFFF);
+void create_boss_health_font(Vec *pos, s32 color, s32 life, const char *label, void *value) {
+    create_font_small_task(pos, color, life, 0, label, (saddr)value, 0xFFFF);
 }
 
 s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {

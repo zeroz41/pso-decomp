@@ -197,7 +197,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void choose_next_action();
     static void free_resources();
     static void *create(void *set_data);
-    static saddr get_instance();
+    static TBoss1Dragon *get_instance();
     static void select_fireball_particle_table();
     void draw();
     void update_burrow_inward_run(u32 reason, s32 state);

@@ -56,7 +56,7 @@ void disp_data_part2::clear() {
 }
 
 
-uaddr ad_select_text_texture_handle;
+NJS_TEXLIST *ad_select_text_texture_handle;
 extern const s32 current_language;
 
 void player_stats::clear() {
@@ -117,9 +117,9 @@ TAdSelectTxtGC::TAdSelectTxtGC(TObject *parent, TAdSelectTxtLayout *layout, s32 
 }
 
 void free_select_gamen_texture() {
-    if ((u32) ad_select_text_texture_handle != 0U) {
-        release_texture_list((NJS_TEXLIST *)ad_select_text_texture_handle);
-        ad_select_text_texture_handle = 0U;
+    if (ad_select_text_texture_handle != NULL) {
+        release_texture_list(ad_select_text_texture_handle);
+        ad_select_text_texture_handle = NULL;
     }
 }
 void load_select_gamen_texture() {
@@ -130,6 +130,6 @@ void load_select_gamen_texture() {
                                      &select_gamen_eng_texture_list, &select_gamen_eng_texture_list,
                                      &select_gamen_eng_texture_list};
     NJS_TEXLIST *list = texture_lists[current_language];
-    ad_select_text_texture_handle = (uaddr)list;
+    ad_select_text_texture_handle = list;
     load_streamed_prs_texture(texture_files[current_language], list);
 }

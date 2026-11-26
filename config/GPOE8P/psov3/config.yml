@@ -135,7 +135,7 @@ force_active:
   - show_unsupported_device_message__16TAdChrSelBSlotGCFv
   - name__15TAdChrSelSlotGC
   - hide_slot__15TAdChrSelSlotGCFl
-  - is_dial_cancel_pressed__Fl
+  - is_dial_cancel_pressed__12TAdDialingGCFv
   - name__23TAdDialingMessageWindow
   - class_name__15TAdDrawLineCtrl
   - class_name__15TAdDrawLineTask
@@ -5460,7 +5460,7 @@ force_active:
   - create_card_action_window__17TWindowSubComCardFv
   - create_ch_cr_tag_occ_header__Fl
   - create__12TChallenge4PFv
-  - create_chat_symbol_window__20TWindowSubSymbolChatFll
+  - create_chat_symbol_window__20TWindowSubSymbolChatFl
   - create_children__16TAdChrSelASlotGCFl
   - create_chr_warp__23TAdSinglePlyChrSelectGCFP10NJS_POINT2
   - create_confirm_menu_window__19TWindowSubShortMailFv
@@ -5910,9 +5910,9 @@ force_active:
   - draw_tag_sprites__12TChCrTagNameFPv
   - draw_text_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2
   - draw_tiled_background__Fv
-  - draw_title_background_pulse__Flfl
+  - draw_title_background_pulse__16TTitleBackgroundFfl
   - draw_title_layer__10TAdTitleGCFll
-  - draw_title_rings__Flfl
+  - draw_title_rings__16TTitleBackgroundFfl
   - draw_tunnel_segment__FPUc
   - draw_value__13TWindowMesetaFP17WindowDrawContext
   - draw_window_frame_strips__11TWindowBaseFP12TexturedQuadP17WindowDrawContext
@@ -14669,7 +14669,7 @@ force_active:
   - roll_weapon_special__9TItemDropFiPvi
   - rotate_animated_node__20TODragonflyMachine01Fv
   - rotate_heading_by_stick__11TCameraCtrlFv
-  - rotate_title_background_quad__FlPUcPUclf
+  - rotate_title_background_quad__16TTitleBackgroundFPUcPUclf
   - route_around_object__10TNpcPlayerFP3Vec
   - run_active_state__18TObjEneBalClawClawFv
   - __ct__21EquippedItemDrawQueueFv
@@ -16204,8 +16204,8 @@ force_active:
   - kill_room_dubchiks__13TOCtrlDubchikFv
   - update_effect_grow__13TOCtrlDubchikFv
   - update_waiting__13TOCtrlDubchikFv
-  - has_hit_player__21TOHangceilingCaveBaseFUl
-  - add_hit_player__21TOHangceilingCaveBaseFUl
+  - has_hit_player__21TOHangceilingCaveBaseFP10TObjPlayer
+  - add_hit_player__21TOHangceilingCaveBaseFP10TObjPlayer
   - set_mode__21TOHangceilingCaveBaseFl
   - play_mode_sound__21TOHangceilingCaveBaseFv
   - hit_touching_players__21TOHangceilingCaveBaseFv

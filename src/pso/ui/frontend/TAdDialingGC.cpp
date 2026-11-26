@@ -12,7 +12,6 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/network/PppApi.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdDialingGC_80328210.h"
 #include "pso/unk/TLobby_8013AD38.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject.h"
@@ -371,7 +370,7 @@ void TAdDialingGC::update_selection() {
     }
 }
 
-s32 is_dial_cancel_pressed(s32 _w0) {
+s32 TAdDialingGC::is_dial_cancel_pressed() {
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x706) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 0x606) != 0)) {
         return 1;
     }
@@ -418,7 +417,7 @@ void TAdDialingGC::update_idle_dial_state() {
             return;
         default:
             show_guide_button();
-            if (is_dial_cancel_pressed((saddr)this) != 0) {
+            if (this->is_dial_cancel_pressed() != 0) {
                 this->dial_step = 3;
                 return;
             }
@@ -447,7 +446,7 @@ void TAdDialingGC::update_state() {
             this->dial_step = 3;
             return;
         }
-        if (is_dial_cancel_pressed((saddr)this) != 0) {
+        if (this->is_dial_cancel_pressed() != 0) {
             this->dial_step = 3;
         }
         break;
@@ -473,7 +472,7 @@ void TAdDialingGC::update_dial_state() {
             this->dial_step = 3;
             return;
         }
-        if (is_dial_cancel_pressed((saddr)this) != 0) {
+        if (this->is_dial_cancel_pressed() != 0) {
             this->dial_step = 3;
         }
         break;

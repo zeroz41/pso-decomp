@@ -13,7 +13,7 @@ struct TWindowDeposit;
 struct TWindowMenu;
 
 struct TCheckRoomSequence : public TShopSequence {
-    static s32 active_instance;
+    static TCheckRoomSequence *active_instance;
     static saddr error_return_state;
     static s32 error_return_text_id;
     static u32 slot_active_flags[4];

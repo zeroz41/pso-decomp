@@ -45,7 +45,7 @@ const char *check_room_sequence_name = "TCheckRoomSequence";
 s32 lbl_805D6160;
 s32 TCheckRoomSequence::error_return_text_id;
 saddr TCheckRoomSequence::error_return_state;
-s32 TCheckRoomSequence::active_instance;
+TCheckRoomSequence *TCheckRoomSequence::active_instance;
 
 
 #pragma optimization_level 1
@@ -547,7 +547,7 @@ TCheckRoomSequence::TCheckRoomSequence(TObject *parent, TObjPlayer *player) : TS
     counter_camera = NULL;
     menu_step = 0;
     set_state(0);
-    TCheckRoomSequence::active_instance = (saddr)this;
+    TCheckRoomSequence::active_instance = this;
     scratch_buffer = NULL;
     TCheckRoomSequence::slot_active_flags[get_split_screen_slot()] = 1;
 }
@@ -559,7 +559,7 @@ void TCheckRoomSequence::reset_slot_state() {
     lbl_805D6160 = 0;
     TCheckRoomSequence::error_return_text_id = 0;
     TCheckRoomSequence::error_return_state = 0;
-    TCheckRoomSequence::active_instance = 0;
+    TCheckRoomSequence::active_instance = NULL;
     for (s32 i = 0; i < 4; i++) {
         TCheckRoomSequence::slot_active_flags[i] = 0;
     }
@@ -572,7 +572,7 @@ void TCheckRoomSequence::reset_slots() {
     lbl_805D6160 = 0;
     TCheckRoomSequence::error_return_text_id = 0;
     TCheckRoomSequence::error_return_state = 0;
-    TCheckRoomSequence::active_instance = 0;
+    TCheckRoomSequence::active_instance = NULL;
     for (s32 i = 0; i < 4; i++) {
         TCheckRoomSequence::slot_active_flags[i] = 0;
     }

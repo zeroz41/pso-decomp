@@ -160,7 +160,7 @@ TObjBoss1Crater *TObjBoss1Crater::create(TObject *parent, Vec *pos) {
     if (is_count_below_limit() == 0) {
         return NULL;
     }
-    dragon = (TObjBase *)TBoss1Dragon::get_instance();
+    dragon = TBoss1Dragon::get_instance();
     if (dragon == NULL) {
         return NULL;
     }

@@ -4,6 +4,8 @@
 #include "pso/object/base/TObjChara.h"
 
 // Base of the TOHangceilingCave01 hanging-ceiling objects.
+class TObjPlayer;
+
 class TOHangceilingCaveBase : public TObjChara {
 public:
     TOHangceilingCaveBase(TObject *parent, void *set_data);
@@ -20,18 +22,18 @@ public:
     virtual void update_state();
     virtual f32 calc_damage(f32);
     s32 is_in_view();
-    void add_hit_player(uaddr);
+    void add_hit_player(TObjPlayer *player);
     void init_geometry();
     void hit_touching_players();
     void play_mode_sound();
     void set_mode(s32);
-    s32 has_hit_player(uaddr);
+    s32 has_hit_player(TObjPlayer *player);
     void advance_frame();
     void clear_hit_players();
     void set_damage(f32);
     u8 pad_334[0x4];
     f32 damage;  // the base hit power; calc_damage scales it by the difficulty
-    u32 hit_players[4];  // 0x33C: players hit_touching_players already hit (inferred name)
+    TObjPlayer *hit_players[4];  // 0x33C: players hit_touching_players already hit (inferred name)
     s32 hit_player_count; // 0x34C: entries used in hit_players (inferred name)
     f32 wait_interval;  // frames of one wait step (the lights show one step each)
     f32 wait_timer;     // frames left before it drops; the indicator lights follow it

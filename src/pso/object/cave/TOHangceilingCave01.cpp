@@ -285,14 +285,14 @@ void TOHangceilingCaveBase::hit_touching_players() {
 
     do {
         player = get_player_by_client_id(i);
-        if (player != NULL && has_hit_player((uaddr)player) == 0) {
+        if (player != NULL && has_hit_player(player) == 0) {
             if (player->get_floor() == get_current_floor() && check_actor_body_contact(player, 100.0f) != 0) {
                 DirectAttackPayload attack;
                 attack.kind = 0;
                 attack.power = calc_damage(damage);
                 player->receive_direct_attack(this, attack, NULL, -1, -1);
                 player->set_actor_flags(0x400);
-                add_hit_player((uaddr)player);
+                add_hit_player(player);
             }
         }
         i++;
@@ -367,13 +367,13 @@ void TOHangceilingCaveBase::clear_hit_players() {
     hit_player_count = 0;
 }
 
-void TOHangceilingCaveBase::add_hit_player(uaddr player) {
+void TOHangceilingCaveBase::add_hit_player(TObjPlayer *player) {
     if (hit_player_count < 4) {
         hit_players[hit_player_count++] = player;
     }
 }
 
-s32 TOHangceilingCaveBase::has_hit_player(uaddr player) {
+s32 TOHangceilingCaveBase::has_hit_player(TObjPlayer *player) {
     s32 i;
 
     for (i = 0; i != hit_player_count; i++) {
