@@ -36,8 +36,8 @@
 const char *TWindowSubCustomEquip::class_name = "TWindowSubCustomEquip";
 
 // Window entries of the palette icon and of its count label, per cursor cell (column + row * 3).
-static const u8 lbl_8044F738[6] = {12, 10, 11, 3, 1, 2};
-static const u8 lbl_8044F740[6] = {15, 13, 14, 6, 4, 5};
+static const u8 custom_equip_slot_icon_entries[6] = {12, 10, 11, 3, 1, 2};
+static const u8 custom_equip_slot_number_entries[6] = {15, 13, 14, 6, 4, 5};
 
 static const NJS_POINT2 custom_equip_entry_offset_table[3] = {
     {50.0f, 32.0f},
@@ -77,7 +77,7 @@ struct CustomEquipLayout {
     SpritePartLayoutRecord rec_17;
 };
 
-CustomEquipLayout lbl_804D1198 = {
+CustomEquipLayout custom_equip_layout_entries = {
     18, 1,
     {6, {51.0f, 59.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.1f, -1, &hud_texlist, 2, 4},
     {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.2f, -1, &hud_texlist, 4, 4},
@@ -99,8 +99,8 @@ CustomEquipLayout lbl_804D1198 = {
     {6, {48.0f, 62.0f}, {91.0f, 54.0f}, 93.0f, 108.0f, 0.6f, -1, &hud_texlist, 2, 6},
 };
 
-WindowDescriptor lbl_804D1488 = {
-    {212.0f, 188.0f}, 50050.0f, &lbl_804D1198, 3,
+WindowDescriptor custom_equip_window_descriptor = {
+    {212.0f, 188.0f}, 50050.0f, &custom_equip_layout_entries, 3,
 };
 
 
@@ -149,7 +149,7 @@ void TWindowSubCustomEquip::get_cursor_origin(NJS_POINT2 *position) {
     } else {
         idx = slot + (1 - bank) * 3;
     }
-    WindowSpritePart *entry = static_cast<WindowSpritePart *>(get_array_entry(lbl_8044F738[idx]));
+    WindowSpritePart *entry = static_cast<WindowSpritePart *>(get_array_entry(custom_equip_slot_icon_entries[idx]));
     set_relative_pos(position, entry);
 }
 
@@ -165,8 +165,8 @@ void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
     TWindowLayoutNumber *label;
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        icon = static_cast<WindowSpritePart *>(get_array_entry(lbl_8044F738[arg1]));
-        label = static_cast<TWindowLayoutNumber *>(get_array_entry(lbl_8044F740[arg1]));
+        icon = static_cast<WindowSpritePart *>(get_array_entry(custom_equip_slot_icon_entries[arg1]));
+        label = static_cast<TWindowLayoutNumber *>(get_array_entry(custom_equip_slot_number_entries[arg1]));
         if (pl->can_use_palette_action(kind, index) != 0) {
             icon->color = -1;
         } else {
@@ -268,8 +268,8 @@ void TWindowSubCustomEquip::toggle_action_binding(void *tag_ptr) {
 
 f32 TWindowSubCustomEquip::ring_scale;
 u8 TWindowSubCustomEquip::bank_ring_init_done;
-f32 lbl_805D6478;
-u8 lbl_805D647C;
+f32 ring_y_scale;
+u8 ring_y_scale_init_done;
 
 
 void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry) {
@@ -363,15 +363,15 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 angle, s32 index) {
         TWindowSubCustomEquip::bank_ring_init_done = 1;
         TWindowSubCustomEquip::ring_scale = 75.0f;
     }
-    if ((s8) lbl_805D647C == 0) {
-        lbl_805D647C = 1;
-        lbl_805D6478 = 25.0f;
+    if ((s8) ring_y_scale_init_done == 0) {
+        ring_y_scale_init_done = 1;
+        ring_y_scale = 25.0f;
     }
     sin_value = sin_table_lookup(angle);
     cos_value = cos_table_lookup(angle);
     part = static_cast<WindowSpritePart *>(this->get_array_entry(index));
     part->x = (f32) ((TWindowSubCustomEquip::ring_scale * cos_value) + 27.0f);
-    part->y = (f32) ((lbl_805D6478 * sin_value) + 34.0f);
+    part->y = (f32) ((ring_y_scale * sin_value) + 34.0f);
     if ((angle - 0x7200) & 0x8000) {
         shade = (0.5f * cos_table_lookup(angle + 0xFFFF4E00)) + 1.0f;
         part->depth = 0.1f;
@@ -513,7 +513,7 @@ TWindowSubCustomEquip::~TWindowSubCustomEquip() {
     TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(status_disp), 1);
 }
 
-TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_804D1488, slot, (u8 *)get_window_layout_position(0xF)) {
+TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&custom_equip_window_descriptor, slot, (u8 *)get_window_layout_position(0xF)) {
     TWindowSubStatusDisp *heading;
     this->m_name = TWindowSubCustomEquip::class_name;
     this->client_index = slot;

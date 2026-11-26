@@ -211,7 +211,7 @@ s32 TWindowKeyBoardHard::poll_input() {
     }
 }
 
-WindowDescriptor lbl_804CFAD0 = { {0.0f, 0.0f}, 50030.0f, NULL, 0x823 };
+WindowDescriptor keyboard_hard_window_descriptor = { {0.0f, 0.0f}, 50030.0f, NULL, 0x823 };
 __declspec(section ".data") u8 keyboard_repeat_key_codes[7] = { 0x60, 0xB4, 0x5E, 0x7E, 0xA8, 0xB0, 0xB8 };
 u8 keyboard_layout_mode_table[7][7] = {
     { 0x07, 0x07, 0x07, 0x07, 0x07, 0x00, 0x00 },
@@ -628,7 +628,7 @@ void TWindowKeyBoardHard::run_task() {
 }
 
 TWindowKeyBoardHard::~TWindowKeyBoardHard() {}
-TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindowBase((u8 *)&lbl_804CFAD0, (s16)(4), (u8 *)(get_window_layout_position(0xB9))) {
+TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindowBase((u8 *)&keyboard_hard_window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB9))) {
     this->m_name = TWindowKeyBoardHard__name;
     this->input_flags = 0;
     m_control = control;

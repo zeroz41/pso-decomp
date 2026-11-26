@@ -79,7 +79,7 @@ LockOnItemLayout lockon_window_layout_entries = {
     {10, {10.0f, 20.0f}},
 };
 
-LockOnEnemyLayout lbl_804D00F4 = {
+LockOnEnemyLayout lock_on_window_layout_entries = {
     9, 1,
     {3, {10.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
     {3, {10.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
@@ -92,7 +92,7 @@ LockOnEnemyLayout lbl_804D00F4 = {
     {{2, {10.0f, 62.0f}, 0.5f, 0xFF008CFC, 0x2A, 100.0f, 0, 0}, 0xFF008DEE, 0xFFFF2924},
 };
 
-WindowDescriptor lbl_804D0268 = {
+WindowDescriptor lock_on_window_descriptor = {
     {0.0f, 0.0f}, 50000.0f, NULL, 0x23,
 };
 
@@ -142,7 +142,7 @@ u32 calc_text_width(int);
 }
 s32 get_status_effect_icon_index(u32);
 
-TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lbl_804D0268, player, (u8 *)get_window_layout_position(0x1E)) {
+TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lock_on_window_descriptor, player, (u8 *)get_window_layout_position(0x1E)) {
     this->m_name = TWindowLockOn__name;
     if (TCameraCtrl::get_camera_id() > 2) {
         this->scale = 0.7f;
@@ -311,7 +311,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     LockOnEntryText *p;
     u32 w2;
 
-    init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lbl_804D00F4, client_index);
+    init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_layout_entries, client_index);
     refresh = &TWindowLockOn::refresh_enemy_statuses;
     e = reinterpret_cast<saddr>(get_array_entry(1));
     TWindowDuelResult::set_default_status((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));

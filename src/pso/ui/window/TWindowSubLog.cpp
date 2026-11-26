@@ -22,8 +22,8 @@
 const char *TWindowSubLog::class_name = "TWindowSubLog";
 
 
-const NJS_POINT2 lbl_8044F9C8 = {17.0f, 36.0f};
-const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
+const NJS_POINT2 message_log_window_position = {17.0f, 36.0f};
+const u8 message_log_window_extent[8] = {67, 151, 128, 0, 67, 204, 0, 0};
 
 void TWindowSubLog::render() {  }
 
@@ -72,7 +72,7 @@ TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
     TWindowCtrl::hide_client_status_window(this->client);
     parent_menu->hide_for_subwindow();
     parent_menu->set_log_active();
-    log_window = (saddr)create_message_log_window(&lbl_8044F9C8, (saddr)lbl_8044F9D0, (saddr)this->client);
+    log_window = (saddr)create_message_log_window(&message_log_window_position, (saddr)message_log_window_extent, (saddr)this->client);
     chat = new TWindowChat((TObject *)this, (void *)&submission);
     fn_8027B2A8((void*)chat);
 }

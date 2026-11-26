@@ -46,7 +46,7 @@ struct TWindowSubItem;
 
 const char *TWindowMainMenu::class_name = "TWindowMainMenu";
 
-extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
+extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
 
@@ -319,7 +319,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
         description_item_id = id;
         if (help_window == NULL) {
             const NJS_POINT2 *tmp = get_window_layout_position(0x1B);
-            help_window = TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
+            help_window = TWindowMessage::create(tmp, main_menu_help_message_size, 1, this->client_index);
             help_window->set_depth(49999.0f);
             call_if_split_screen((uaddr)help_window, this->client_index);
         }

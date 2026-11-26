@@ -63,10 +63,10 @@ void *ws_data_us;
 void *ws_data_es;
 void *ws_data_de;
 void *TWindowDD::ws_data_buffer;
-char *lbl_805D6E64;
-s8 lbl_805D6E68;
-char *lbl_805D6E6C;
-s8 lbl_805D6E70;
+char *word_page_select_label;
+s8 word_page_select_label_set;
+char *word_page_next_label;
+s8 word_page_next_label_set;
 
 void ws_data_load(void) {
     void *jp_data;

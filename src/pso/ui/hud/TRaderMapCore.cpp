@@ -391,7 +391,7 @@ void TRaderMapCore::advance_scroll() {
 
 // The view_flags bit update_target sets while TWindowKeyBoardHard::is_card_flag_set holds for the
 // target's entity id. A const object, not a literal: update_target and set_target_flag load it (lwz).
-static const u32 lbl_805DC56C = 1;
+static const u32 radar_view_target_flag = 1;
 
 void TRaderMapCore::update_target() {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
@@ -400,7 +400,7 @@ void TRaderMapCore::update_target() {
     }
     if (target_player != NULL) {
         if (is_card_flag_set__19TWindowKeyBoardHardFv(target_player->get_entity_id()) != 0) {
-            this->view_flags |= lbl_805DC56C;
+            this->view_flags |= radar_view_target_flag;
             return;
         }
         this->view_flags = (s32) (this->view_flags & 0xFFFFFFFE);
@@ -943,7 +943,7 @@ void TRaderMapCore::set_marker_shown(s32 slot, s32 shown) {
 // update_target is compiled much later, so a function compiled here read it first.
 // This reconstruction sets the bit as update_target does. Name inferred.
 void TRaderMapCore::set_target_flag() {
-    view_flags |= lbl_805DC56C;
+    view_flags |= radar_view_target_flag;
 }
 
 void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos) {

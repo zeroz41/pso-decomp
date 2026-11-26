@@ -128,9 +128,9 @@ extern "C" {
 u32 calc_text_width();
 u8 get_font_char_advance();
 u16 map_char_to_font_code(u16 c);
-s32 lbl_804D05F8[3] = {1, 0, 8};
-WindowDescriptor lbl_804D0604 = {
-    {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
+s32 list_window_layout[3] = {1, 0, 8};
+WindowDescriptor list_window_descriptor = {
+    {0.0f, 0.0f}, 50050.0f, list_window_layout, 3,
 };
 
 }
@@ -369,7 +369,7 @@ void TLobby::add_status_disp_entry(s32 name, s32 id) {
 }
 
 void TAdVIConfigGC__sub_80267704(s32 arg0) {
-    lbl_804D0604.flags = arg0;
+    list_window_descriptor.flags = arg0;
 }
 
 #pragma fp_contract on
@@ -618,9 +618,9 @@ TWindowMenuIconLine *create_menu_icon_line(saddr parent, saddr position, uaddr c
 }
 
 void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count) {
-    lbl_804D0604.size[0] = size->x;
-    lbl_804D0604.size[1] = size->y;
-    lbl_804D05F8[1] = count;
+    list_window_descriptor.size[0] = size->x;
+    list_window_descriptor.size[1] = size->y;
+    list_window_layout[1] = count;
 }
 
 void TWindowMenuIconLine::render() {
@@ -704,7 +704,7 @@ TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *
 
 // The default form: the list window descriptor of this unit.
 TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client)
-    : TWindowAddition((u8 *)&lbl_804D0604, client, parent) {
+    : TWindowAddition((u8 *)&list_window_descriptor, client, parent) {
     init(count, client);
 }
 

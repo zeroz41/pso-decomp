@@ -19,7 +19,7 @@
 
 const char *TWindowSubShortCutList::class_name = "TWindowSubShortCutList";
 // Size argument of the shortcut list window.
-static const NJS_POINT2 lbl_8044FAA8 = {405.0f, 188.0f};
+static const NJS_POINT2 short_cut_list_icon_line_size = {405.0f, 188.0f};
 
 
 
@@ -61,7 +61,7 @@ void TWindowSubShortCutList::refresh_entries() {
 }
 
 TWindowSubShortCutList *TWindowSubShortCutList::create(const NJS_POINT2 *position, s32 index) {
-    set_menu_icon_line_params(&lbl_8044FAA8, 4);
+    set_menu_icon_line_params(&short_cut_list_icon_line_size, 4);
     return new TWindowSubShortCutList(reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(position)), index);
 }
 

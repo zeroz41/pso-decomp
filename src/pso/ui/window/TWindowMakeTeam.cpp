@@ -22,10 +22,10 @@
 #include "pso/network/client_id.h"
 
 const char *TWindowMakeTeam::class_name = "TWindowMakeTeam";
-const char *lbl_805D395C = "";
+const char *make_team_empty_text = "";
 // Menu position pairs {389, 251} of the entry and status menus.
-extern const NJS_POINT2 lbl_8044F300 = {389.0f, 251.0f};
-extern const NJS_POINT2 lbl_8044F308 = {389.0f, 251.0f};
+extern const NJS_POINT2 make_team_name_menu_position = {389.0f, 251.0f};
+extern const NJS_POINT2 make_team_comment_menu_position = {389.0f, 251.0f};
 extern "C" {
 char *get_shared_text_buffer(void);
 }
@@ -184,7 +184,7 @@ TWindowMenuInfomation *TWindowMakeTeam::create_menu() {
 
 TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
     TWindowMenu *r;
-    r = create_window_menu_default(&lbl_8044F300, 3);
+    r = create_window_menu_default(&make_team_name_menu_position, 3);
     r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(0), 6, 0);
     r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(1), 6, 1);
     r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(2), 6, 2);
@@ -197,7 +197,7 @@ TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
 TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
     TWindowMenu *r;
     s32 m;
-    r = create_window_menu_default(&lbl_8044F308, 4);
+    r = create_window_menu_default(&make_team_comment_menu_position, 4);
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(0)), 6, 0);
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(1)), 6, 1);
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(2)), 6, 2);
@@ -251,12 +251,12 @@ void TWindowMakeTeam::set_state(s32 state) {
 
 const char *TWindowMakeTeam::get_name() {
     if (name) return name;
-    return lbl_805D395C;
+    return make_team_empty_text;
 }
 
 const char *TWindowMakeTeam::get_comment() {
     if (comment) return comment;
-    return lbl_805D395C;
+    return make_team_empty_text;
 }
 
 s32 TWindowMakeTeam::is_enabled() {

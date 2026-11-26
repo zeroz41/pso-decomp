@@ -182,7 +182,7 @@ TWindowMenu *TWindowSubTechnique::open_menu() {
     return titled_window_menu;
 }
 
-static const char lbl_805DD83C[4] = "";
+static const char technique_empty_line[4] = "";
 
 void TWindowSubTechnique::update_selected_help(s32 technique) {
   s32 saved_reg_r30;
@@ -204,7 +204,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
       help_technique = (s16) tech;
       if (((s16) tech) == 0x13)
       {
-        help_window->append_line((saddr)((void *)lbl_805DD83C), 0x82);
+        help_window->append_line((saddr)((void *)technique_empty_line), 0x82);
         return;
       }
       text_builder_reset();

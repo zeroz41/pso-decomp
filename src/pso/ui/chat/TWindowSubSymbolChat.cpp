@@ -123,7 +123,7 @@ void SymbolChatPreset::set_flag_bit2() {
 
 const char *TWindowSubSymbolChat::class_name = "TWindowSubSymbolChat";
 static const f32 symbol_chat_window_size[2] = {203.0f, 78.0f};
-__declspec(section ".data") f32 lbl_804D2B48[2] = {193.0f, 128.0f};
+__declspec(section ".data") f32 symbol_chat_check_box_size[2] = {193.0f, 128.0f};
 
 struct SymbolChatArrowQuad { f32 x, y, x2, y2, u0, v0, u1, v1; };
 
@@ -954,7 +954,7 @@ TWindowMessageYesNo *TWindowSubSymbolChat::open_confirm_prompt() {
 TWindowCheckBox *TWindowSubSymbolChat::create_confirm_window() {
     TWindowCheckBox *check_box_window;
 
-    check_box_window = create_check_box_window_for_local_client(get_window_layout_position(0x79), lbl_804D2B48);
+    check_box_window = create_check_box_window_for_local_client(get_window_layout_position(0x79), symbol_chat_check_box_size);
     check_box_window->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0xAC));
     check_box_window->add_menu_item((saddr)TWindowSubStatusDisp::get_message_10(0xBF), 1);
     check_box_window->add_menu_item((saddr)TWindowSubStatusDisp::get_message_10(0xC0), 0);

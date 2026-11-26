@@ -33,7 +33,7 @@ const char *keyboard_base_type_name_pointer = "TWindowKeyBoardBase";
 WindowDescriptor TWindowKeyBoardBase__window_descriptor = {
     {0.0f, 0.0f}, 50026.0f, NULL, 0x23,
 };
-u32 lbl_804CFA84[3] = { 0x00000000, 0xC03040C0, 0x1030A0C0 };
+u32 keyboard_key_colors[3] = { 0x00000000, 0xC03040C0, 0x1030A0C0 };
 // Shift-JIS characters, zero-terminated, scanned by TWindowKeyBoardBase::sub_8025CFA8.
 u16 soft_keyboard_conversion_exclusions[20] = {
     0x8141, 0x8142, 0x8145, 0x8158, 0x815B, 0x815F, 0x8175, 0x8176, 0x8177, 0x8178,
@@ -691,7 +691,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(WindowDrawContext *context, NJS_POINT
                 q.y0 = cursor->y;
                 set_glyph_quad_extents(adv, &q);
                 context->transform_quad(&q);
-                d.col[0].color = lbl_804CFA84[ci];
+                d.col[0].color = keyboard_key_colors[ci];
                 d.col[1].color = d.col[0].color;
                 d.col[2].color = d.col[0].color;
                 d.col[3].color = d.col[0].color;
@@ -724,7 +724,7 @@ void TWindowKeyBoardBase::draw_composition_background(WindowDrawContext *box, NJ
     d.col = col;
     d.tex = NULL;
     d.num = 4;
-    d.col[0].color = lbl_804CFA84[2];
+    d.col[0].color = keyboard_key_colors[2];
     d.col[1].color = d.col[0].color;
     d.col[2].color = d.col[0].color;
     d.col[3].color = d.col[0].color;
@@ -938,17 +938,17 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
     }
 }
 
-const char lbl_8044F098[10] = "Ask_n.dic";
+const char ask_dictionary_file[10] = "Ask_n.dic";
 
 void TLobby::load_ask_dictionary() {
     u8 *data;
     s32 size;
     s32 aligned;
     s32 aram;
-    size = TGStream::get_resource_file_size((const char *)lbl_8044F098);
+    size = TGStream::get_resource_file_size((const char *)ask_dictionary_file);
     aligned = (size + 0x1F) & ~0x1F;
     aram = ARAlloc(aligned);
-    data = load_disc_file(lbl_8044F098);
+    data = load_disc_file(ask_dictionary_file);
     aram_transfer_sync(3, data, aram, aligned);
     safe_free(data);
     aram_dma_setup(aram, size, 3, 1, 0x2710);

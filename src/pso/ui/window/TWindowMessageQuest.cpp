@@ -25,11 +25,11 @@ struct DefaultQuestMessageExtent {
     f32 reserved;
 };
 
-static const DefaultQuestMessageExtent lbl_8044F464 = {{384.0f, 80.0f}, 0.0f};
+static const DefaultQuestMessageExtent default_quest_message_extent = {{384.0f, 80.0f}, 0.0f};
 
 
 TWindowMessageQuest *create_quest_message_window() {
-    return create_quest_message_window_at(reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(0xAD)), &lbl_8044F464.size);
+    return create_quest_message_window_at(reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(0xAD)), &default_quest_message_extent.size);
 }
 void TWindowMessageQuest::render() {
     WindowDrawContext *c;

@@ -762,7 +762,7 @@ void append_word_select_token(s16 id, saddr window_dd, void *pos) {
 
 
 
-WindowTexturePoint TWindowDD__data_805434E8[7][8];
+WindowTexturePoint word_select_quad_points[7][8];
 extern s32 *TWindowDD__player_name_buffers;
 extern s32 *ws_word_strings;
 extern s16 *ws_word_string_index;
@@ -859,7 +859,7 @@ void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices)
 void copy_window_point_table(WindowVertex *vertices, s32 idx) {
     WindowVertex *self = vertices;
     s32 i;
-    const WindowTexturePoint *s = TWindowDD__data_805434E8[idx];
+    const WindowTexturePoint *s = word_select_quad_points[idx];
     for (i = 0; i < 8; i++) {
         self->u = s->x;
         self->v = s->y;

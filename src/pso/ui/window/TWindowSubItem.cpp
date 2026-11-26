@@ -66,7 +66,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item);
 const char *TWindowSubItem::class_name = "TWindowSubItem";
 
 // Item list window position (x, y).
-extern const NJS_POINT2 lbl_8044F998 = {308.0f, 184.0f};
+extern const NJS_POINT2 sub_item_list_window_position = {308.0f, 184.0f};
 
 void TWindowSubItemList::build_item_list() {
     s32 ids[30];
@@ -167,7 +167,7 @@ TWindowSubItem::TWindowSubItem(TWindowMainMenu *parent, s32 client) : TObject(pa
     m_name = class_name;
     parent_menu = parent;
     client_id = client;
-    item_list = create_sub_item_list_window(get_window_layout_position(3), &lbl_8044F998, client_id);
+    item_list = create_sub_item_list_window(get_window_layout_position(3), &sub_item_list_window_position, client_id);
     item_list->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 0));
     item_list->set_flag70_bit10();
     help_window = 0;

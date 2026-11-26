@@ -16,7 +16,7 @@
 #pragma readonly_strings on
 
 
-// Screen positions and scales of the word-select quad sets (TWindowDD__data_805434E8), set up by
+// Screen positions and scales of the word-select quad sets (word_select_quad_points), set up by
 // load_word_select_data. inferred: names from that use.
 extern const NJS_POINT2 window_dd_quad_positions[7] = {
     {72.0f, 199.0f}, {122.0f, 199.0f}, {72.0f, 219.0f}, {122.0f, 219.0f},
@@ -86,7 +86,7 @@ void TWindowDD_WS_ScrollBar::render() {
     self->calc_inner_rect(rect);
     tex = TWindowDD::get_draw_count(hud_texlist);
     reset_window_vertices(verts, word_select_inverse_depth(self->draw_depth, 0.0f), -1);
-    uv = TWindowDD__data_805434E8[6];
+    uv = word_select_quad_points[6];
     s = rect->scale[1];
     v = verts;
     for (i = 0; i < 8; i++) {

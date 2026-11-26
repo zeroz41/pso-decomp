@@ -14,7 +14,7 @@ extern "C" {
 saddr deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
 s32 lbl_805D5D00;
-s32 lbl_805D5D04;
+s32 deferred_packet_buffer_state;
 }
 
 s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 mask) {
@@ -45,7 +45,7 @@ void set_fresh_card_flag(void *card) {
 
 void TLobby::drain_deferred_packets() {
     deferred_packet_buffer_used = 0;
-    lbl_805D5D04 = 2;
+    deferred_packet_buffer_state = 2;
     s32 i;
     while ((i = deferred_packet_buffer_used) < 0x10000) {
         u8 *p;
@@ -73,7 +73,7 @@ void buffer_reset(void) {
     deferred_packet_buffer_used = 0;
     lbl_805D5D00 = 0;
     memset((void *)deferred_packet_buffer, 0, 0x10000);
-    lbl_805D5D04 = 1;
+    deferred_packet_buffer_state = 1;
 }
 
 
@@ -83,7 +83,7 @@ void free_deferred_packet_buffer(void) { mem_free((void *)deferred_packet_buffer
 void alloc_work_buffer(void) {
     deferred_packet_buffer_used = 0;
     lbl_805D5D00 = 0;
-    lbl_805D5D04 = 0;
+    deferred_packet_buffer_state = 0;
     deferred_packet_buffer = (saddr)mem_alloc(0x10000);
     memset((void *)deferred_packet_buffer, 0, 0x10000);
 }

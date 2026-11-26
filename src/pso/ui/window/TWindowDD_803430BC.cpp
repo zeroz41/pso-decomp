@@ -66,13 +66,13 @@ const char *word_select_type_name_pointer = "TWindowDD";
 
 
 
-extern char *lbl_805D6E64;
+extern char *word_page_select_label;
 
-extern s8 lbl_805D6E68;
+extern s8 word_page_select_label_set;
 
-extern char *lbl_805D6E6C;
+extern char *word_page_next_label;
 
-extern s8 lbl_805D6E70;
+extern s8 word_page_next_label_set;
 
 
 
@@ -118,7 +118,7 @@ struct WordList_80344114 { u8 *words; s32 count; };
 extern "C++" void ws_data_load(void);
 
 
-extern NJS_POINT2 TWindowDD__data_805434E8[][8];
+extern NJS_POINT2 word_select_quad_points[][8];
 
 extern const NJS_POINT2 window_dd_quad_positions[];
 
@@ -191,9 +191,9 @@ void load_word_select_data(void) {
     lbl_805D6E24 = -1;
     for (i = 0; i < 6; i++) {
         src = &window_dd_quad_positions[i];
-        fill_window_point_table(TWindowDD__data_805434E8[i], src->x, src->y, window_dd_quad_scales[i]);
+        fill_window_point_table(word_select_quad_points[i], src->x, src->y, window_dd_quad_scales[i]);
     }
-    pt = TWindowDD__data_805434E8[6];
+    pt = word_select_quad_points[6];
     x2 = window_dd_quad_positions[6].x;
     y = window_dd_quad_positions[6].y;
     x = x2 * window_dd_texel_scale;
@@ -326,15 +326,15 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
     init_layout(page);
     word_windows[1] = page;
   }
-  if (!lbl_805D6E68)
+  if (!word_page_select_label_set)
   {
-    lbl_805D6E64 = "SELECT";
-    lbl_805D6E68 = 1;
+    word_page_select_label = "SELECT";
+    word_page_select_label_set = 1;
   }
-  if (!lbl_805D6E70)
+  if (!word_page_next_label_set)
   {
-    lbl_805D6E6C = "NEXT";
-    lbl_805D6E70 = 1;
+    word_page_next_label = "NEXT";
+    word_page_next_label_set = 1;
   }
   {
     s32 i;
@@ -348,14 +348,14 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
     a.y = word_page_label_y;
     b.x = word_label_hidden_x;
     b.y = word_page_label_y;
-    labels[0] = TWindowDD_WS_String::create(word_page_label_width, &a.x, &b.x, (uaddr) lbl_805D6E64, 4);
+    labels[0] = TWindowDD_WS_String::create(word_page_label_width, &a.x, &b.x, (uaddr) word_page_select_label, 4);
   }
   {
     a.x = next_word_page_label_x;
     a.y = next_word_page_label_y;
     b.x = word_label_hidden_right_x;
     b.y = next_word_page_label_y;
-    labels[1] = TWindowDD_WS_String::create(next_word_page_label_width, &a.x, &b.x, (uaddr) lbl_805D6E6C, 4);
+    labels[1] = TWindowDD_WS_String::create(next_word_page_label_width, &a.x, &b.x, (uaddr) word_page_next_label, 4);
   }
   {
     a.x = word_prompt_x;

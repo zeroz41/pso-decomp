@@ -63,10 +63,10 @@ const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
 extern saddr tl_07;
 
 
-extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
+extern const f32 load_item_texture_window_extent[2] = { 160.0f, 120.0f };
 
 TWindowLoadItemTexture *TWindowLoadItemTexture::create(void *position, s32 client) {
-    TWindowLoadItemTexture *window = new TWindowLoadItemTexture(position, (f32 *)lbl_8044F280, client);
+    TWindowLoadItemTexture *window = new TWindowLoadItemTexture(position, (f32 *)load_item_texture_window_extent, client);
     set_sprite_uv_bounds(reinterpret_cast<WindowSpritePart *>(window->get_array_entry(0)), 0.0f, 0.0f, 0.625f, 0.46875f);
     return window;
 }

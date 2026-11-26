@@ -89,14 +89,14 @@ struct TWindowDD_WS_StringLayout {
 };
 
 
-TWindowDD_WS_StringLayout lbl_804EFC00 = {
+TWindowDD_WS_StringLayout word_select_string_layout_entries = {
     1, 1,
     {3, {0.0f, 0.0f}, 0.2f, window_dd_color_white, 0x40, NULL},
 };
 
 // Size is written by TWindowDD_WS_String::create before each window is built.
 WindowDescriptor word_select_string_descriptor = {
-    {0.0f, 0.0f}, word_label_depth, &lbl_804EFC00, 3,
+    {0.0f, 0.0f}, word_label_depth, &word_select_string_layout_entries, 3,
 };
 
 TWindowDD_WS_String::~TWindowDD_WS_String() {}

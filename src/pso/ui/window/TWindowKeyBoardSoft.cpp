@@ -56,21 +56,21 @@ extern u8 *TWindowKeyBoardSoft__language_text_resources;
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
 
 /* Per key class (indexed through soft_keyboard_key_class): steps back to the class's first column,
-   and lbl_8044F138 the columns left to its last one (read from the cursor moves in handle_cursor_move). */
-const s8 TWindowKeyBoardSoft__data_8044F124[20] = { 0, 0, 0, -1, 0, -1, -2, -3, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, 0, 0 };
-const u8 lbl_8044F138[20] = { 0, 0, 1, 0, 3, 2, 1, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0 };
+   and soft_keyboard_key_columns_to_last the columns left to its last one (read from the cursor moves in handle_cursor_move). */
+const s8 soft_keyboard_key_first_column_offsets[20] = { 0, 0, 0, -1, 0, -1, -2, -3, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, 0, 0 };
+const u8 soft_keyboard_key_columns_to_last[20] = { 0, 0, 1, 0, 3, 2, 1, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0 };
 const KeyUV keyboard_key_frame_uv_table[3] = { { 185.0f, 0.0f }, { 185.0f, 119.0f }, { 185.0f, 141.0f } };
 
 /* Function keys below the character grid: grid cell, size and texture origin. */
-const NJS_POINT2 lbl_8044F164[10] = {
+const NJS_POINT2 soft_keyboard_button_cells[10] = {
     { 0.0f, 6.0f }, { 12.0f, 6.0f }, { 0.0f, 5.0f }, { 0.0f, 0.0f }, { 14.0f, 0.0f },
     { 2.0f, 6.0f }, { 0.0f, 1.0f }, { 0.0f, 2.0f }, { 0.0f, 3.0f }, { 0.0f, 4.0f },
 };
-const NJS_POINT2 lbl_8044F1B4[10] = {
+const NJS_POINT2 soft_keyboard_button_sizes[10] = {
     { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f },
     { 66.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f },
 };
-const KeyUV lbl_8044F204[10] = {
+const KeyUV soft_keyboard_button_uvs[10] = {
     { 62.0f, 0.0f }, { 62.0f, 18.0f }, { 62.0f, 36.0f }, { 62.0f, 54.0f }, { 62.0f, 72.0f },
     { 62.0f, 108.0f }, { 107.0f, 0.0f }, { 107.0f, 18.0f }, { 107.0f, 36.0f }, { 107.0f, 54.0f },
 };
@@ -123,7 +123,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *first_page, s32 *last_page) {
 #pragma fp_contract on
 s32 TWindowKeyBoardSoft::sub_802605DC() {
     s32 idx = calc_key_index(cursor_column, cursor_row);
-    return idx + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[idx]];
+    return idx + soft_keyboard_key_first_column_offsets[soft_keyboard_key_class[idx]];
 }
 #pragma pop
 
@@ -135,7 +135,7 @@ f32 TWindowKeyBoardSoft::calc_key_x(s32 col, s32 row) {
   s32 first_col;
   s32 key;
   key = calc_key_index(col, row);
-  first_col = col + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[key]];
+  first_col = col + soft_keyboard_key_first_column_offsets[soft_keyboard_key_class[key]];
   get_key_style((int) key, &count, NULL);
   key_width = calc_key_coord(count);
   return 1.0f + ((19.0f * ((f32) first_col)) + (0.5f * key_width));
@@ -350,10 +350,10 @@ void TWindowKeyBoardSoft::handle_cursor_move(s32 port) {
         return;
     }
     if (dx > 0) {
-        cursor_column += lbl_8044F138[soft_keyboard_key_class[(s8)cursor_column + (s8)cursor_row * 16]] + 1;
+        cursor_column += soft_keyboard_key_columns_to_last[soft_keyboard_key_class[(s8)cursor_column + (s8)cursor_row * 16]] + 1;
     }
     if (dx < 0) {
-        cursor_column += TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[(s8)cursor_column + (s8)cursor_row * 16]] - 1;
+        cursor_column += soft_keyboard_key_first_column_offsets[soft_keyboard_key_class[(s8)cursor_column + (s8)cursor_row * 16]] - 1;
     }
     cursor_row += dy;
     if ((s8)cursor_column < 0) {
@@ -645,17 +645,17 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
 
     for (i = 0; i < 10; i++) {
         f32 x;
-        key = calc_key_index((s32)lbl_8044F164[i].x, (s32)lbl_8044F164[i].y);
+        key = calc_key_index((s32)soft_keyboard_button_cells[i].x, (s32)soft_keyboard_button_cells[i].y);
         color = key == cursor ? 0xFF000000 : 0xFF999999;
-        x = ctx->x + calc_key_x((s32)lbl_8044F164[i].x, (s32)lbl_8044F164[i].y);
-        q.x0 = x - 0.5f * lbl_8044F1B4[i].x;
-        q.y0 = 1.0f + (26.0f + (19.0f * lbl_8044F164[i].y + ctx->y));
-        q.x1 = q.x0 + lbl_8044F1B4[i].x;
-        q.y1 = q.y0 + lbl_8044F1B4[i].y;
-        q.u0 = lbl_8044F204[i].u / 128.0f;
-        q.v0 = lbl_8044F204[i].v / 128.0f;
-        q.u1 = (lbl_8044F204[i].u + lbl_8044F1B4[i].x) / 128.0f;
-        q.v1 = (lbl_8044F204[i].v + lbl_8044F1B4[i].y) / 128.0f;
+        x = ctx->x + calc_key_x((s32)soft_keyboard_button_cells[i].x, (s32)soft_keyboard_button_cells[i].y);
+        q.x0 = x - 0.5f * soft_keyboard_button_sizes[i].x;
+        q.y0 = 1.0f + (26.0f + (19.0f * soft_keyboard_button_cells[i].y + ctx->y));
+        q.x1 = q.x0 + soft_keyboard_button_sizes[i].x;
+        q.y1 = q.y0 + soft_keyboard_button_sizes[i].y;
+        q.u0 = soft_keyboard_button_uvs[i].u / 128.0f;
+        q.v0 = soft_keyboard_button_uvs[i].v / 128.0f;
+        q.u1 = (soft_keyboard_button_uvs[i].u + soft_keyboard_button_sizes[i].x) / 128.0f;
+        q.v1 = (soft_keyboard_button_uvs[i].v + soft_keyboard_button_sizes[i].y) / 128.0f;
         if (hit_test_relative(ctx, &q) != 0) {
             set_constant_material_color(color);
             ctx->transform_quad(&q);

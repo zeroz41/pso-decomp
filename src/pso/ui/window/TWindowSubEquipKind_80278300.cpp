@@ -33,7 +33,7 @@ typedef struct {
 } Disp_8027831C;
 
 u32 calc_text_width(void);
-static const u8 lbl_805DD5F8[4] = {1, 2, 2, 1};
+static const u8 equip_kind_tab_label_colors[4] = {1, 2, 2, 1};
 void TWindowSubEquipKind::set_trade_state(s16 trade_state) {
     this->trade_state = trade_state;
     if (this->trade_state == 3) {
@@ -52,7 +52,7 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
     if (((Win_8027831C *)win)->f30 >= 0) {
         pos.x = ((Win_8027831C *)win)->x + get_heading_frame_width((HeadingEntry *)((Disp_8027831C *)this)->f80);
         pos.y = ((Win_8027831C *)win)->y - 13.0f;
-        col = lbl_805DD5F8[((Disp_8027831C *)this)->f88];
+        col = equip_kind_tab_label_colors[((Disp_8027831C *)this)->f88];
         fl = ((Disp_8027831C *)this)->f8A;
         if (fl != 0) {
             if (fl & 4) {

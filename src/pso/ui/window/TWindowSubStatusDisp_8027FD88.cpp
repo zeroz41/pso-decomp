@@ -355,7 +355,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 
 
 // list type of page_indicator per page: the page-flip list kind passed to fn_8026C7AC
-const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
+const u8 status_page_list_kinds[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
     : TWindowBase((u8 *)TWindowSubStatusDisp::window_layout, client, (u8 *)get_window_layout_position(0x19)) {
@@ -383,7 +383,7 @@ void TWindowSubStatusDisp::run_task() {
     if ((this->page) != (this->requested_page))
     {
       this->page = this->requested_page;
-      fn_8026C7AC(this->page_indicator, lbl_805DD6F4[this->page]);
+      fn_8026C7AC(this->page_indicator, status_page_list_kinds[this->page]);
     }
     this->entry_list.destroy_all_items();
     this->dispatch_page_init();
@@ -702,7 +702,7 @@ void TWindowSubStatusDisp::vt7() {
 void TWindowSubStatusDisp::vt18() {  }
 
 // rank letters by clear rank
-const char *lbl_804D2B20[4] = {"", "B", "A", "S"};
+const char *challenge_rank_letters[4] = {"", "B", "A", "S"};
 
 // Best-time records page: page == 2 shows the split-screen record sets.
 void TWindowSubStatusDisp::vt4() {
@@ -754,7 +754,7 @@ void TWindowSubStatusDisp::vt4() {
         } else {
             set_text_entry_string(title, (uaddr)TWindowSubStatusDisp::get_message_10(0x9A), 0);
         }
-        set_text_entry_string(value, (uaddr)lbl_804D2B20[rank], 0);
+        set_text_entry_string(value, (uaddr)challenge_rank_letters[rank], 0);
     }
 
     title = (WindowTextEntry *)get_array_entry(7);
@@ -796,7 +796,7 @@ void TWindowSubStatusDisp::vt4() {
         spacer->flags &= ~RecordEntryHidden;
         value->flags &= ~RecordEntryHidden;
         set_text_entry_string(title, (uaddr)TWindowSubStatusDisp::get_message_10(0x99), 0);
-        set_text_entry_string(value, (uaddr)lbl_804D2B20[rank], 0);
+        set_text_entry_string(value, (uaddr)challenge_rank_letters[rank], 0);
     }
 
     title = (WindowTextEntry *)get_array_entry(0xD);

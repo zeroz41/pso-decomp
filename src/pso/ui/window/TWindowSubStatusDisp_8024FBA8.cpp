@@ -13,13 +13,13 @@ WindowDrawContext *text_draw_clip_context;
 f32 text_draw_depth;
 f32 text_draw_right_limit_x;
 s32 text_clip_enabled_flag;
-s32 lbl_805D6440;
+s32 text_draw_mode;
 
 
 extern f32 text_draw_depth;
 extern f32 text_draw_right_limit_x;
 extern s32 text_clip_enabled_flag;
-extern s32 lbl_805D6440;
+extern s32 text_draw_mode;
 extern "C" {
 u8 get_small_font_glyph_width(s32);
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
@@ -62,7 +62,7 @@ s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width
             adv = get_small_font_glyph_width(glyph);
             q.x0 = x;
             q.y0 = y;
-            if (lbl_805D6440 != 0) {
+            if (text_draw_mode != 0) {
                 calc_plain_glyph_quad(glyph, &q);
             } else {
                 build_small_font_glyph_quad(glyph, &q);
@@ -126,7 +126,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
         code = *s++ & 0xFF;
         if (code == '\n') {
             if (mode == 0) {
-                if (lbl_805D6440 != 0) {
+                if (text_draw_mode != 0) {
                     x += 9.0f;
                     width -= 9.0f;
                 } else {
@@ -186,5 +186,5 @@ void set_text_draw_params(WindowDrawContext *context, s32 clip, s32 mode, f32 de
     text_draw_depth = depth;
     text_draw_right_limit_x = right_limit;
     text_clip_enabled_flag = clip;
-    lbl_805D6440 = mode;
+    text_draw_mode = mode;
 }

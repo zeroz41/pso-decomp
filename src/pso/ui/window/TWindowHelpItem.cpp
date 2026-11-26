@@ -83,7 +83,7 @@ HelpItemLayout TWindowHelpItem::item_layout_entries = {
     {4, {208.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
     {3, {208.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
 };
-HelpItemLinesLayout lbl_804CF24C = {
+HelpItemLinesLayout help_item_lines_layout = {
     5, 1,
     {{11, {0.0f, 0.0f}}, {11, {0.0f, 20.0f}}, {11, {0.0f, 40.0f}},
      {11, {0.0f, 60.0f}}, {11, {0.0f, 80.0f}}},
@@ -95,7 +95,7 @@ HelpItemResistanceLayout TWindowHelpItem::resistance_layout_entries = {
     {3, {55.0f, 123.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
     {4, {211.0f, 123.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
 };
-HelpItemStatsLayout lbl_804CF30C = {
+HelpItemStatsLayout help_item_stats_layout = {
     16, 1,
     {{11, {0.0f, 0.0f}}, {11, {0.0f, 20.0f}}, {11, {0.0f, 40.0f}}},
     {
@@ -114,7 +114,7 @@ HelpItemStatsLayout lbl_804CF30C = {
     },
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFF00, 0, "Level Up!"},
 };
-HelpItemSpritesLayout lbl_804CF4E4 = {
+HelpItemSpritesLayout help_item_sprites_layout = {
     4, 1,
     {
         {6, {35.0f, 18.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.6f, -1, &hud_texlist, 2, 4},
@@ -691,7 +691,7 @@ void TWindowHelpItem::show_weapon_attributes() {
     if (player != 0) {
         init_window_layout_entries(
             &entry_list,
-            &lbl_804CF24C,
+            &help_item_lines_layout,
             client_index);
         m_callback = &TWindowHelpItem::update_stat_disp2;
         a = (HelpItemStatCompareRow *)(get_array_entry(0));
@@ -903,7 +903,7 @@ void TWindowHelpItem::show_mag_growth() {
     ((MagStats *)mag)->init();
     init_window_layout_entries(
         &entry_list,
-        &lbl_804CF30C,
+        &help_item_stats_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, (void *)mag);
@@ -1118,7 +1118,7 @@ void TWindowHelpItem::show_mag_photon_blasts() {
     ((MagStats *)(&mag))->init();
     init_window_layout_entries(
         &entry_list,
-        &lbl_804CF4E4,
+        &help_item_sprites_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, &mag);

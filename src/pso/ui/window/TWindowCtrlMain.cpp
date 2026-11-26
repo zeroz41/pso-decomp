@@ -58,7 +58,7 @@ const char *window_ctrl_clip_out_class_name = "TWindowCtrlClipOut";
 const char *window_ctrl_player_class_name = "TWindowCtrlPlayer";
 
 // width, height of the player message window (set_message_window_size stores it as the window size)
-const f32 lbl_8044EC4C[2] = {255.0f, 120.0f};
+const f32 message_information_window_extent[2] = {255.0f, 120.0f};
 s32 TWindowCtrlMain::display_flags;
 TObject *TWindowCtrlMain::instance;
 TObject *TWindowCtrlMain::window_task_root;
@@ -103,7 +103,7 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(p
     } else {
         main_menu = new TWindowMainMenu1P(this, this->client_id);
     }
-    message_information = (TWindowMessageInfomation *)create_message_information_window(get_window_layout_position(0x20), (saddr)lbl_8044EC4C, this->client_id);
+    message_information = (TWindowMessageInfomation *)create_message_information_window(get_window_layout_position(0x20), (saddr)message_information_window_extent, this->client_id);
     simple_status = create_status_window(this->client_id);
     simple_status->suspend_update();
     action_palette = new TWindowActionPalette(this->client_id);

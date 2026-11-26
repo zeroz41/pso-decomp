@@ -19,7 +19,7 @@
 
 struct Pos_8024FAD8 { s32 a, b, c; };
 extern "C" {
-extern const f64 lbl_8044ECF0;
+extern const f64 party_marker_angle_scale;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 extern const char *TWindowEffectParty__name;
@@ -180,10 +180,10 @@ s32 TWindowEffectParty::step_toward_target(f32 to_x, f32 to_y) {
     pos_x = to_x;
  do { pos_y = to_y; return 1; } while (0);
   }
-  angle = (s32) (lbl_8044ECF0 * atan2_float((f64) y, (f64) scr));
+  angle = (s32) (party_marker_angle_scale * atan2_float((f64) y, (f64) scr));
   pos_x = (f32) ((5.0f * cos_table_lookup(angle)) + pos_x);
   pos_y = (f32) ((5.0f * sin_table_lookup(angle)) + pos_y);
   return 0;
 }
 
-extern const f64 lbl_8044ECF0 = 10430.38043493439;
+extern const f64 party_marker_angle_scale = 10430.38043493439;

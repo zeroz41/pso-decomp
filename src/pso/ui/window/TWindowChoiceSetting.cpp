@@ -22,7 +22,7 @@
 #include "pso/ui/window/WindowLayout.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
-static const NJS_POINT2 lbl_8044F3A0 = {425.0f, 188.0f};
+static const NJS_POINT2 choice_setting_popup_extent = {425.0f, 188.0f};
 
 extern "C" {
 s32 TWindowSubComCard__sub_8026906C(void);
@@ -187,7 +187,7 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
 TWindowMenuInfomation *create_information_counter_window(s32 rows) {
     TWindowMenuInfomation *window;
 
-    set_choice_setting_popup_size(&lbl_8044F3A0, rows);
+    set_choice_setting_popup_size(&choice_setting_popup_extent, rows);
     window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), rows);
     window->create_sub_window("Information Counter");
     return window;

@@ -37,7 +37,7 @@ s32 text_builder_append();
 void text_builder_reset(void);
 const char *TWindowSubTrade::class_name = "TWindowSubTrade"; // TWindowSubTrade::class_name
 // Player message window position (x, y).
-extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
+extern const f32 trade_message_window_size[2] = {384.0f, 120.0f};
 TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *);
 
 // Built with deferred code generation (the vtable precedes run_task's jump
@@ -184,7 +184,7 @@ TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 mess
         ((s32 (*)(s32))text_builder_append)((saddr)p->get_name());
     }
     ((s32 (*)(s32))text_builder_append)(message);
-    window = TWindowMessage::create(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->client_id);
+    window = TWindowMessage::create(get_window_layout_position(0x5B), trade_message_window_size, 1, this->client_id);
     window->append_line((saddr)get_shared_text_buffer(), 0x82);
     return window;
 }

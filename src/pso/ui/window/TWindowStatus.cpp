@@ -52,7 +52,7 @@ struct StatusWindowLayout {
     ValueLayoutRecord rec_14;
 };
 
-StatusWindowLayout lbl_804D0D98 = {
+StatusWindowLayout status_window_layout_entries = {
     15, 1,
     {6, {27.0f, 16.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {124.0f, 67.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
@@ -72,7 +72,7 @@ StatusWindowLayout lbl_804D0D98 = {
 };
 
 WindowDescriptor status_window_settings = {
-    {228.0f, 76.0f}, 70050.0f, &lbl_804D0D98, 0xB28,
+    {228.0f, 76.0f}, 70050.0f, &status_window_layout_entries, 0xB28,
 };
 
 

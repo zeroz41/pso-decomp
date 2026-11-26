@@ -37,7 +37,7 @@ struct PartyStatusWindowLayout {
     TextLayoutRecord rec_4;
 };
 
-PartyStatusWindowLayout lbl_804E7750 = {
+PartyStatusWindowLayout party_status_layout_entries = {
     5, 1,
     {6, {7.0f, 7.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {45.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
@@ -47,7 +47,7 @@ PartyStatusWindowLayout lbl_804E7750 = {
 };
 
 WindowDescriptor party_status_window_params = {
-    {114.0f, 46.0f}, 70100.0f, &lbl_804E7750, 0xB28,
+    {114.0f, 46.0f}, 70100.0f, &party_status_layout_entries, 0xB28,
 };
 
 void TWindowPartyStatus::draw() { update_hp_entry(); update_status_entry(); }

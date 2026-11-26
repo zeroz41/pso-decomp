@@ -44,10 +44,10 @@
 // The class name opens .rodata (0x8044F478), then the menu window positions
 // (0x8044F48C..0x8044F4A4) in this order, ahead of the strings of the functions.
 const char *TWindowOptionCtrl::class_name = "TWindowOptionCtrl";
-const vec2f lbl_8044F48C = {470.0f, 124.0f};
-const vec2f lbl_8044F494 = {470.0f, 80.0f};
-const vec2f lbl_8044F49C = {470.0f, 80.0f};
-const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
+const vec2f select_menu_window_size = {470.0f, 124.0f};
+const vec2f sound_mode_menu_window_size = {470.0f, 80.0f};
+const vec2f option_menu_window_size = {470.0f, 80.0f};
+const vec2f serial_info_window_size = {470.0f, 80.0f};
 
 
 extern "C" {
@@ -401,7 +401,7 @@ saddr TWindowOptionCtrl::create_menu() {
 
 TWindowCheckBox *TWindowOptionCtrl::create_select_menu_window() {
     TWindowCheckBox *check_box_window;
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xCF), &lbl_8044F48C);
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xCF), &select_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 8), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 9), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xA), 2);
@@ -439,7 +439,7 @@ TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
     TWindowCheckBox *check_box_window;
 
     saddr temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &lbl_8044F494);
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &sound_mode_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xE), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xD), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xF), 2);
@@ -485,7 +485,7 @@ saddr TWindowOptionCtrl::create_sub_menu_window() {
 TWindowCheckBox *TWindowOptionCtrl::create_option_menu() {
     TWindowCheckBox *check_box_window;
 
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &lbl_8044F49C);
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &option_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x10), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x11), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x12), 2);
@@ -503,7 +503,7 @@ saddr TWindowOptionCtrl::open_yes_no_window(saddr parent, s32 message_id, s32 in
 
 saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {
     saddr w;
-    w = (saddr)TWindowMessage::create(pos, (const f32 *)(&lbl_8044F4A4), 3);
+    w = (saddr)TWindowMessage::create(pos, (const f32 *)(&serial_info_window_size), 3);
     switch (kind) {
     case 0:
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_80321874()))), (u32)0);

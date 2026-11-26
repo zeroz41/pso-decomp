@@ -53,8 +53,8 @@ struct MenuWindowLayout {
     u32 rows;
     TextLayoutRecord rec;
 };
-MenuWindowLayout lbl_804D05A8 = {1, 0, {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0}};
-WindowDescriptor lbl_804D05CC = {{0.0f, 0.0f}, 50050.0f, &lbl_804D05A8, 3};
+MenuWindowLayout menu_window_layout = {1, 0, {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0}};
+WindowDescriptor menu_window_descriptor = {{0.0f, 0.0f}, 50050.0f, &menu_window_layout, 3};
 const char *lbl_805D3960 = "TWindowMenu";
 extern s32 actor_frame_tick;
 
@@ -527,7 +527,7 @@ s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id) {
 }
 
 void set_window_menu_rows(s32 rows) {
-    lbl_804D05A8.rows = rows;
+    menu_window_layout.rows = rows;
 }
 
 TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char *yes_text, const char *no_text) {
@@ -689,7 +689,7 @@ TWindowMenu::~TWindowMenu() {
     mem_free(rows);
 }
 
-TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TWindowAddition((u8 *)&lbl_804D05CC, (s16)client, (u8 *)position) {
+TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TWindowAddition((u8 *)&menu_window_descriptor, (s16)client, (u8 *)position) {
     u32 i;
     TWindowMenuRow *p;
     m_name = lbl_805D3960;

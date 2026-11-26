@@ -859,17 +859,17 @@ TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
 }
 
 
-extern const char lbl_8044E688[];
+extern const char f256_hyouji_a_palette_file[];
 extern const char hud_palette_texture_filename[];
-extern const char lbl_8044E6B0[];
-extern const char lbl_8044E6C4[];
-extern const char lbl_8044E6D8[];
-extern const char lbl_8044E6F0[];
-extern const char lbl_8044E708[];
-extern const char lbl_8044E720[];
-extern const char lbl_8044E734[];
-extern const char lbl_8044E748[];
-extern const char lbl_8044E758[];
+extern const char f256_hyouji_c_palette_file[];
+extern const char b256_mainmenu_palette_file[];
+extern const char f256_actionpallet_a_palette_file[];
+extern const char f256_actionpallet_b_palette_file[];
+extern const char f256_actionpallet_c_palette_file[];
+extern const char r256_symparts_palette_file[];
+extern const char f256_duelcount_palette_file[];
+extern const char f256_carsol_palette_file[];
+extern const char f256_hyouji_texture_file[];
 
 void TWindowCtrlMain::free_window() {
     if (hud_texlist != NULL) {
@@ -881,18 +881,18 @@ void TWindowCtrlMain::free_window() {
 void load_hud_palette_textures(void) {
     s32 palette[3];
     palette[0] = (saddr)TLobby::tmp_buf_use_req("TWindowBase");
-    TLanguage::draw_string((void *)lbl_8044E688, (void *)palette, 0x40);
+    TLanguage::draw_string((void *)f256_hyouji_a_palette_file, (void *)palette, 0x40);
     TLanguage::draw_string((void *)hud_palette_texture_filename, (void *)palette, 0x41);
-    TLanguage::draw_string((void *)lbl_8044E6B0, (void *)palette, 0x42);
-    TLanguage::draw_string((void *)lbl_8044E6C4, (void *)palette, 0x44);
-    TLanguage::draw_string((void *)lbl_8044E6D8, (void *)palette, 0x45);
-    TLanguage::draw_string((void *)lbl_8044E6F0, (void *)palette, 0x46);
-    TLanguage::draw_string((void *)lbl_8044E708, (void *)palette, 0x47);
-    TLanguage::draw_string((void *)lbl_8044E720, (void *)palette, 1);
-    TLanguage::draw_string((void *)lbl_8044E734, (void *)palette, 0x4A);
-    TLanguage::draw_string((void *)lbl_8044E748, (void *)palette, 0x43);
+    TLanguage::draw_string((void *)f256_hyouji_c_palette_file, (void *)palette, 0x42);
+    TLanguage::draw_string((void *)b256_mainmenu_palette_file, (void *)palette, 0x44);
+    TLanguage::draw_string((void *)f256_actionpallet_a_palette_file, (void *)palette, 0x45);
+    TLanguage::draw_string((void *)f256_actionpallet_b_palette_file, (void *)palette, 0x46);
+    TLanguage::draw_string((void *)f256_actionpallet_c_palette_file, (void *)palette, 0x47);
+    TLanguage::draw_string((void *)r256_symparts_palette_file, (void *)palette, 1);
+    TLanguage::draw_string((void *)f256_duelcount_palette_file, (void *)palette, 0x4A);
+    TLanguage::draw_string((void *)f256_carsol_palette_file, (void *)palette, 0x43);
     TLobby::tmp_buf_release("TWindowBase");
-    load_disc_prs_texture(lbl_8044E758, &f256_hyouji_texlist);
+    load_disc_prs_texture(f256_hyouji_texture_file, &f256_hyouji_texlist);
     hud_texlist = &f256_hyouji_texlist;
     TObjFish::set_global_param(&f256_hyouji_texlist);
     set_context_texture_palette_bank(0, 0x40);
@@ -913,17 +913,17 @@ void load_hud_palette_textures(void) {
 
 // The HUD texture archives, defined after their use so load_hud_palette_textures
 // addresses each one on its own.
-__declspec(section ".rodata") const char lbl_8044E688[] = "f256_hyouji_a.gvp";
+__declspec(section ".rodata") const char f256_hyouji_a_palette_file[] = "f256_hyouji_a.gvp";
 __declspec(section ".rodata") const char hud_palette_texture_filename[] = "f256_hyouji_b.gvp";
-__declspec(section ".rodata") const char lbl_8044E6B0[] = "f256_hyouji_c.gvp";
-__declspec(section ".rodata") const char lbl_8044E6C4[] = "b256_mainmenu.gvp";
-__declspec(section ".rodata") const char lbl_8044E6D8[] = "f256_actionpallet_a.gvp";
-__declspec(section ".rodata") const char lbl_8044E6F0[] = "f256_actionpallet_b.gvp";
-__declspec(section ".rodata") const char lbl_8044E708[] = "f256_actionpallet_c.gvp";
-__declspec(section ".rodata") const char lbl_8044E720[] = "r256_symparts.gvp";
-__declspec(section ".rodata") const char lbl_8044E734[] = "f256_duelcount.gvp";
-__declspec(section ".rodata") const char lbl_8044E748[] = "f256_carsol.gvp";
-__declspec(section ".rodata") const char lbl_8044E758[] = "f256_hyouji";
+__declspec(section ".rodata") const char f256_hyouji_c_palette_file[] = "f256_hyouji_c.gvp";
+__declspec(section ".rodata") const char b256_mainmenu_palette_file[] = "b256_mainmenu.gvp";
+__declspec(section ".rodata") const char f256_actionpallet_a_palette_file[] = "f256_actionpallet_a.gvp";
+__declspec(section ".rodata") const char f256_actionpallet_b_palette_file[] = "f256_actionpallet_b.gvp";
+__declspec(section ".rodata") const char f256_actionpallet_c_palette_file[] = "f256_actionpallet_c.gvp";
+__declspec(section ".rodata") const char r256_symparts_palette_file[] = "r256_symparts.gvp";
+__declspec(section ".rodata") const char f256_duelcount_palette_file[] = "f256_duelcount.gvp";
+__declspec(section ".rodata") const char f256_carsol_palette_file[] = "f256_carsol.gvp";
+__declspec(section ".rodata") const char f256_hyouji_texture_file[] = "f256_hyouji";
 
 s32 TWindowBase::is_closed() {
     return (u8)(!(window_flags & 1));

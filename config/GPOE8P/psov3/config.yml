@@ -7633,18 +7633,18 @@ force_active:
   - razonde_emitters_low
   - razonde_emitters_mid
   - razonde_emitters_high
-  - lbl_8044E688
-  - lbl_8044E6B0
-  - lbl_8044E6C4
-  - lbl_8044E6D8
-  - lbl_8044E6F0
-  - lbl_8044E708
-  - lbl_8044E720
-  - lbl_8044E734
-  - lbl_8044E748
-  - lbl_8044E758
-  - lbl_8044E7BC
-  - lbl_8044FCF0
+  - f256_hyouji_a_palette_file
+  - f256_hyouji_c_palette_file
+  - b256_mainmenu_palette_file
+  - f256_actionpallet_a_palette_file
+  - f256_actionpallet_b_palette_file
+  - f256_actionpallet_c_palette_file
+  - r256_symparts_palette_file
+  - f256_duelcount_palette_file
+  - f256_carsol_palette_file
+  - f256_hyouji_texture_file
+  - challenge_time_limit_text
+  - heading_title_offset
   - str_challenge2_mlt_stg1
   - str_challenge2_mlt_stg2
   - str_challenge2_mlt_stg3
@@ -8041,7 +8041,7 @@ force_active:
   - __vt__22HelpItemStatCompareRow
   - __vt__21HelpItemRarityStarRow
   - __vt__15WindowTextEntry
-  - lbl_804D0D98
+  - status_window_layout_entries
   - lbl_804D4090
   - lbl_804D9670
   - lbl_804DA19C
@@ -8090,7 +8090,7 @@ force_active:
   - dell_biter_low_motion_names
   - dell_biter_low_bml_resource
   - ply_follow_collision_body
-  - lbl_804E7750
+  - party_status_layout_entries
   - deldepth_model_names
   - deldepth_low_model_names
   - deldepth_part_motion_bindings
@@ -8375,7 +8375,7 @@ force_active:
   - lbl_805D62DC
   - temporary_texture_entries
   - temporary_texture_names
-  - lbl_805D6440
+  - text_draw_mode
   - lbl_805D64A8
   - lbl_805D64AC
   - lbl_805D6800
@@ -8744,7 +8744,7 @@ force_active:
   - lbl_805DC324
   - lbl_805DC328
   - rabarta_top_effect_height
-  - lbl_805DCCA8
+  - duel_result_time_separator
   - lbl_805DCEF0
   - lbl_805DCFAC
   - lbl_805DCFB0
@@ -8767,7 +8767,7 @@ force_active:
   - lbl_805DD1B4
   - lbl_805DD1B8
   - lbl_805DD1BC
-  - lbl_805DD648
+  - mag_empty_line
   - lbl_805DD668
   - lbl_805DE040
   - lbl_805DE4BC

@@ -16,7 +16,7 @@
 
 extern "C" {
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *position, saddr title, s8 entry_state, s32 client_id);
-extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
+extern const f32 heading_title_offset[2] = { 0.0f, -13.0f };
 }
 // The HUD palette texture names; load_hud_palette_textures loads the archive into this list.
 NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texlist
@@ -54,7 +54,7 @@ s32 TWindowSubStatusDisp::destroy_status_display(saddr window, s16 delete_flag) 
 }
 
 TWindowSubStatusDisp *TWindowSubStatusDisp::construct_type1_heading(s32 title, s32 client_index) {
-    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), (u8 *)lbl_8044FCF0, title, 1, client_index);
+    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), (u8 *)heading_title_offset, title, 1, client_index);
     return this;
 }
 

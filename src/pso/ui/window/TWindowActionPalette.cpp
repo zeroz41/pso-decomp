@@ -61,7 +61,7 @@ s32 is_palettex_activated(u16 client_index);
 s32 is_palettex_enabled(u16);
 }
 
-const PaletteItemKind lbl_8044E5E8[13] = {
+const PaletteItemKind action_palette_item_kinds[13] = {
     {0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {6, 0},
     {6, 1}, {3, 0}, {4, 0}, {5, 0}, {7, 0}, {8, 0},
 };
@@ -82,7 +82,7 @@ PaletteIconUV lbl_804CDD40[17] = {
     {50.0f, 172.0f}, {0.0f, 129.0f}, {0.0f, 0.0f}, {0.0f, 86.0f},
     {0.0f, 43.0f},
 };
-PaletteIconUV lbl_804CDDC8[6] = {
+PaletteIconUV action_palette_photon_blast_icon_uvs[6] = {
     {200.0f, 172.0f}, {150.0f, 129.0f}, {150.0f, 172.0f}, {200.0f, 129.0f},
     {100.0f, 172.0f}, {100.0f, 129.0f},
 };
@@ -98,9 +98,9 @@ const f32 TWindowActionPalette::bank_panel_uv_origins[4][2] = {
     {0.0f, 0.0f}, {0.0f, 56.0f}, {0.0f, 112.0f}, {92.0f, 112.0f},
 };
 
-const u8 lbl_805DCA10[3] = {2, 4, 6};
-const u8 lbl_805DCA14[3] = {1, 2, 3};
-const u8 lbl_805DCA18[3] = {3, 5, 7};
+const u8 action_palette_slot_icon_entries[3] = {2, 4, 6};
+const u8 action_palette_slot_channels[3] = {1, 2, 3};
+const u8 action_palette_slot_count_entries[3] = {3, 5, 7};
 
 struct ActionPaletteWindowLayout {
     u32 cols;
@@ -115,7 +115,7 @@ struct ActionPaletteWindowLayout {
     ValueLayoutRecord rec_7;
 };
 
-ActionPaletteWindowLayout lbl_804CDE50 = {
+ActionPaletteWindowLayout action_palette_layout_entries = {
     8, 1,
     {6, {45.0f, 53.0f}, {91.0f, 54.0f}, 92.0f, 0.0f, 0.4f, 0xFF666666, &hud_texlist, 0, 0x14},
     {6, {13.0f, 0.0f}, {91.0f, 54.0f}, 0.0f, 0.0f, 0.4f, -1, &hud_texlist, 0, 0x14},
@@ -128,7 +128,7 @@ ActionPaletteWindowLayout lbl_804CDE50 = {
 };
 
 WindowDescriptor twindow_action_palette_layout = {
-    {150.0f, 107.0f}, 50000.0f, &lbl_804CDE50, 0xB28,
+    {150.0f, 107.0f}, 50000.0f, &action_palette_layout_entries, 0xB28,
 };
 
 TWindowActionPalette::TWindowActionPalette(s32 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
@@ -298,13 +298,13 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
 
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        help = static_cast<WindowSpritePart *>(get_array_entry(lbl_805DCA10[idx]));
-        if (player->is_action_channel_available((s32)lbl_805DCA14[idx]) != 0) {
+        help = static_cast<WindowSpritePart *>(get_array_entry(action_palette_slot_icon_entries[idx]));
+        if (player->is_action_channel_available((s32)action_palette_slot_channels[idx]) != 0) {
             help->color = -1;
         } else {
             help->color = 0xFF404040;
         }
-        update_palette_item_count_label(static_cast<TWindowLayoutNumber *>(get_array_entry(lbl_805DCA18[idx])), help, mode, slot, client_index);
+        update_palette_item_count_label(static_cast<TWindowLayoutNumber *>(get_array_entry(action_palette_slot_count_entries[idx])), help, mode, slot, client_index);
         cursor = &resources[idx];
         if (mode != get_action_palette_tag_mode(cursor) || get_action_palette_tag_slot(cursor) != slot) {
             set_action_palette_tag_mode(cursor, mode);
@@ -414,7 +414,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
         break;
     case 5:
         icon->kind = 3;
-        row = lbl_804CDDC8;
+        row = action_palette_photon_blast_icon_uvs;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
@@ -480,7 +480,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
         }
         return -1;
     }
-    const PaletteItemKind *kind = &lbl_8044E5E8[slot];
+    const PaletteItemKind *kind = &action_palette_item_kinds[slot];
     return fn_801B7CEC(player, 3, kind->group, kind->index);
 }
 

@@ -12,7 +12,7 @@ typedef NJS_POINT2 WindowTexturePoint;
 LAYOUT_ASSERT(WindowTexturePointSize, sizeof(WindowTexturePoint) == 8);
 
 extern "C" {
-extern WindowTexturePoint TWindowDD__data_805434E8[7][8];
+extern WindowTexturePoint word_select_quad_points[7][8];
 void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row);
 void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices);
 f32 word_select_inverse_depth(f32 depth, f32 offset);
