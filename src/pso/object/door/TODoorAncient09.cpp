@@ -1,3 +1,5 @@
+#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/object/door/TODoorAncient09.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -326,27 +328,24 @@ void TODoorAncient09::apply_saved_state(s16 *state, s32) {
     }
 }
 
-// The 6x0B object-state message (see the lane report: the stack structs
-// still call the packet helpers under their TLobby / TOBarrierEnergy01 names).
-struct State_80160838 { s16 a; s16 b; };
-struct Obj_80160838 { u8 pad[4]; s16 kind; };
+// Sends the 6x0B object-state message for the saved state (or src when given).
 
-void TODoorAncient09::door_ancient09_sync_state(void *src_arg) {
-    State_80160838 *src = (State_80160838 *)src_arg;
-    State_80160838 st;
-    Obj_80160838 *obj;
-    if (src != NULL) {
-        ((TLobby *)&st)->copy_short_fields(src);
+void TODoorAncient09::door_ancient09_sync_state(void *saved_state) {
+    QuestObjectEntry *source = (QuestObjectEntry *)saved_state;
+    QuestObjectEntry state;
+    FloorObjectSetRow *entry;
+    if (source != NULL) {
+        ((TLobby *)&state)->copy_short_fields(source);
     } else {
-        access_object_saved_state(&st, 1);
+        access_object_saved_state(&state, 1);
     }
-    obj = (Obj_80160838 *)set_entry;
-    if (obj != NULL) {
+    entry = (FloorObjectSetRow *)set_entry;
+    if (entry != NULL) {
         G_UpdateObjectState_6x0B pkt;
         init_collision_subcommand_header(&pkt);
         pkt.header.entity_id = entity_id;
-        pkt.flags = st.a;
-        pkt.object_index = obj->kind;
+        pkt.flags = state.flags;
+        pkt.object_index = entry->placement.set_index;
         send_object_state(&pkt);
     }
 }

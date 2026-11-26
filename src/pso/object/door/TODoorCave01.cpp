@@ -1,3 +1,5 @@
+#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/object/door/TODoorCave01.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -51,27 +53,24 @@ NJS_TEXLIST **TODoorCave01::texture_lists;
 
 void TODoorCave01::update_demo() {}
 
-// The 6x0B object-state message (see the lane report: the stack structs
-// still call the packet helpers under their TLobby / TOBarrierEnergy01 names).
-struct State_80161320 { s16 a; s16 b; };
-struct Obj_80161320 { u8 pad[4]; s16 kind; };
+// Sends the 6x0B object-state message for the saved state (or src when given).
 
-void TODoorCave01::send_state(void *src_arg) {
-    State_80161320 *src = (State_80161320 *)src_arg;
-    State_80161320 st;
-    Obj_80161320 *obj;
-    if (src != NULL) {
-        ((TLobby *)&st)->copy_short_fields(src);
+void TODoorCave01::send_state(void *saved_state) {
+    QuestObjectEntry *source = (QuestObjectEntry *)saved_state;
+    QuestObjectEntry state;
+    FloorObjectSetRow *entry;
+    if (source != NULL) {
+        ((TLobby *)&state)->copy_short_fields(source);
     } else {
-        access_object_saved_state(&st, 1);
+        access_object_saved_state(&state, 1);
     }
-    obj = (Obj_80161320 *)set_entry;
-    if (obj != NULL) {
+    entry = (FloorObjectSetRow *)set_entry;
+    if (entry != NULL) {
         G_UpdateObjectState_6x0B pkt;
         init_collision_subcommand_header(&pkt);
         pkt.header.entity_id = entity_id;
-        pkt.flags = st.a;
-        pkt.object_index = obj->kind;
+        pkt.flags = state.flags;
+        pkt.object_index = entry->placement.set_index;
         send_object_state(&pkt);
     }
 }
@@ -128,7 +127,7 @@ void TODoorCave01::update_closed() {
 }
 
 void TODoorCave01::update_door_switch_state() {
-    State_80161320 st;
+    QuestObjectEntry st;
     s32 i;
     switch (lock_mode) {
     case 1:
@@ -173,7 +172,7 @@ void TODoorCave01::update_door_switch_state() {
             play_door_sound();
             door_flags |= 1;
             if (set_entry != NULL && access_object_saved_state(&st, 1) != 0) {
-                st.a = 1;
+                st.flags = 1;
                 send_state(&st);
                 access_object_saved_state(&st, 0);
             }
