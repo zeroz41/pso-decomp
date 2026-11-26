@@ -1418,9 +1418,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TAdLoadQuestCellGC.cpp keeps its name string in .rodata (-str readonly) and its draw
     # helpers reach each .rodata table with their own lis/addi: -pool off.
     "pso/ui/frontend/TAdLoadQuestCellGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    # text_802FF760.cpp keeps TAdMultiConfirmGC's name string in .rodata (-str readonly) and
-    # reaches each .rodata object with its own lis/addi: -pool off.
-    "pso/unk/text_802FF760.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # TAdMultiConfirmGC.cpp keeps its name string in .rodata (-str readonly) and its camera
+    # helpers reach each .rodata object with their own lis/addi: -pool off.
+    "pso/ui/frontend/TAdMultiConfirmGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/TObjRoomId.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/switch/TOSwitchAttackSub.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/switch/TOSensorAncient01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-pool off")},

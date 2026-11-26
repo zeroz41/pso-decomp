@@ -1671,7 +1671,6 @@ pso/boss/barbaray/Boss7CommonResource.cpp
 pso/unk/text_802F0F04.cpp
 pso/boss/barbaray/TObjBoss7Tunnel_802F190C.cpp
 pso/boss/goldragon/Boss8DemoObjects.cpp
-pso/unk/text_802FF760.cpp
 pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
 pso/unk/text_80320358.cpp

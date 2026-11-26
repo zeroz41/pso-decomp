@@ -13,64 +13,22 @@
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/system/vector.h"
+#include "pso/camera/TCameraCtrl.h"
+
+#pragma defer_codegen on
+
+const char *multi_confirm_name = "TAdMultiConfirmGC";
 
 extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *);
 void TAdMultiConfirmGC__sub_802E0448(void *);
 s32 fn_802E0454(void *);
-void fn_802FF7EC(void *);
-extern const char *multi_confirm_name;
-extern const u8 lbl_805DEF30 = 0;
 void fn_802FF760(void *);
+void fn_802FF7EC(void *);
+extern const u8 lbl_805DEF30 = 0;
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
-void TAdMultiConfirmGC::render() {  }
-
-void TAdMultiConfirmGC::run_task() {
-    u32 j;
-    u32 i;
-    switch (this->state) {
-    case 0:
-        this->state = 1;
-        break;
-    case 1:
-        for (i = 0; i < 4; i++) {
-            if (players[i] != NULL) {
-                players[i]->set_pending_state(2);
-            }
-        }
-        this->state = 2;
-        break;
-    case 2:
-        i = 1;
-        for (j = 0; j < this->count; j++) {
-            if (players[j] != NULL && fn_802E0454(players[j]) == 0) {
-                i = 0;
-                break;
-            }
-        }
-        if ((s32)i == 1) {
-            for (i = 0; i < this->count; i++) {
-                if (players[i] != NULL) {
-                    TAdMultiConfirmGC__sub_802E0448(players[i]);
-                    TAdMultiConfirmGC__sub_802E03D0(players[i]);
-                }
-            }
-            this->state = 3;
-        }
-        break;
-    case 3:
-        if (ok->multi_confirm_cancel_requested() != 0) {
-            TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
-        } else if (ok->are_all_entries_finished() != 0) {
-            TAdMultiChgGameModeGC::open_multi_sel_game_mode_scene();
-        }
-        break;
-    }
-}
-TAdMultiConfirmGC::~TAdMultiConfirmGC() {
-    fn_802FF760(this);
-}
 #pragma push
 #pragma opt_common_subs off
 TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
@@ -115,3 +73,72 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
 }
 
 #pragma pop
+
+TAdMultiConfirmGC::~TAdMultiConfirmGC() {
+    fn_802FF760(this);
+}
+void TAdMultiConfirmGC::run_task() {
+    u32 j;
+    u32 i;
+    switch (this->state) {
+    case 0:
+        this->state = 1;
+        break;
+    case 1:
+        for (i = 0; i < 4; i++) {
+            if (players[i] != NULL) {
+                players[i]->set_pending_state(2);
+            }
+        }
+        this->state = 2;
+        break;
+    case 2:
+        i = 1;
+        for (j = 0; j < this->count; j++) {
+            if (players[j] != NULL && fn_802E0454(players[j]) == 0) {
+                i = 0;
+                break;
+            }
+        }
+        if ((s32)i == 1) {
+            for (i = 0; i < this->count; i++) {
+                if (players[i] != NULL) {
+                    TAdMultiConfirmGC__sub_802E0448(players[i]);
+                    TAdMultiConfirmGC__sub_802E03D0(players[i]);
+                }
+            }
+            this->state = 3;
+        }
+        break;
+    case 3:
+        if (ok->multi_confirm_cancel_requested() != 0) {
+            TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
+        } else if (ok->are_all_entries_finished() != 0) {
+            TAdMultiChgGameModeGC::open_multi_sel_game_mode_scene();
+        }
+        break;
+    }
+}
+void TAdMultiConfirmGC::render() {  }
+extern "C" {
+void fn_802FF7EC(void *) {
+    CameraParams cam;
+    Vec b = {0.0f, 0.0f, 0.0f};
+    Vec a = {0.0f, 0.0f, -100.0f};
+    VecCopy(&cam.position, &b);
+    VecCopy(&cam.target, &a);
+    cam.fov = 0x1999;
+    activate_camera_mode(9);
+    set_active_camera_pose_from_params(&cam);
+}
+void fn_802FF760(void *) {
+    CameraParams cam;
+    Vec b = {0.0f, 0.0f, 0.0f};
+    Vec a = {0.0f, 0.0f, -100.0f};
+    VecCopy(&cam.position, &b);
+    VecCopy(&cam.target, &a);
+    cam.fov = 0x36C1;
+    activate_camera_mode(9);
+    set_active_camera_pose_from_params(&cam);
+}
+}
