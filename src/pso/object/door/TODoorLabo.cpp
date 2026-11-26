@@ -438,8 +438,8 @@ s32 TODoorFourLightSeabedU::get_lit_textures() {
 }
 
 void load_labo_door_resources(void) {
-    saddr r = (saddr)new BmlResource(5, &labo_door_resource_descriptor, 0, 0, NULL);
-    labo_door_bml_resource = (BmlResource *)r;
+    BmlResource *r = new BmlResource(5, &labo_door_resource_descriptor, 0, 0, NULL);
+    labo_door_bml_resource = r;
     door_labo_green_texture_list = LoadPvmFileTls("obj_o_labodoor_l_grn.GVM");
     labo_door_red_textures = LoadPvmFileTls("obj_o_labodoor_l_red.GVM");
 }

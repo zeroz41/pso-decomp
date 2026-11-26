@@ -174,7 +174,7 @@ void play_area_sound_effect(Vec *position) {
 void spawn_particles_at(Vec *position) {
     Vec pos;
     VecCopy(&pos, position);
-    create_timed_particle_emitter((void *)position, 0xEA, 0xA, 0x1E);
+    create_timed_particle_emitter(position, 0xEA, 0xA, 0x1E);
     pos.y += 30.0f;
     spawn_particle_effect(&pos, 0xE9);
 }

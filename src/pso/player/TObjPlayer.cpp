@@ -3787,9 +3787,9 @@ void handle_6x2D_release_hold(G_ReleaseHold_6x2D *command) {
     pkt = *command;
     bswap_g_client_id_header(&pkt);
     if (validate_6x2D_release_hold(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->clear_state_flags(1);
+            p->clear_state_flags(1);
         }
     }
 }
@@ -4151,9 +4151,9 @@ void handle_6xA1_revive_player_v3(G_RevivePlayer_V3_BB_6xA1 *command) {
     pkt = *command;
     bswap_g_client_id_header(&pkt);
     if (validate_6xA1_revive_player_v3(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->revive();
+            p->revive();
         }
     }
 }
@@ -5159,9 +5159,9 @@ void handle_6x23_set_player_visible(G_SetPlayerVisible_6x23 *command) {
     pkt = *command;
     bswap_g_client_id_header(&pkt.header);
     if (validate_6x23_set_player_visible(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->clear_state_flags(0x40000);
+            p->clear_state_flags(0x40000);
         }
     }
 }
@@ -5273,9 +5273,9 @@ void handle_6x1B_enable_pk_mode_for_player(G_EnablePKModeForPlayer_6x1B *command
     pkt = *command;
     bswap_g_client_id_header(&pkt);
     if (validate_6x1B_enable_pk_mode_for_player(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->set_state_flag_6043();
+            p->set_state_flag_6043();
         }
     }
 }
@@ -5310,9 +5310,9 @@ void handle_6x1C_disable_pk_mode_for_player(G_DisablePKModeForPlayer_6x1C *comma
     pkt = *command;
     bswap_g_client_id_header(&pkt);
     if (validate_6x1C_disable_pk_mode_for_player(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->set_state_flag_604B();
+            p->set_state_flag_604B();
         }
     }
 }
@@ -5430,9 +5430,9 @@ void handle_6x7A_enable_stealth_suit_effect(G_EnableStealthSuitEffect_6x7A *comm
     pkt = *command;
     bswap_g_client_id_header(&pkt);
     if (validate_6x7A_enable_stealth_suit_effect(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->set_stealth_suit_flags();
+            p->set_stealth_suit_flags();
         }
     }
 }
@@ -5464,9 +5464,9 @@ void handle_6x7B_disable_stealth_suit_effect(G_DisableStealthSuitEffect_6x7B *co
     pkt = *command;
     bswap_g_client_id_header(&pkt);
     if (validate_6x7B_disable_stealth_suit_effect(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->clear_stealth_suit_flags();
+            p->clear_stealth_suit_flags();
         }
     }
 }
@@ -5748,9 +5748,9 @@ void handle_6x82_enable_drop_weapon_on_death(G_EnableDropWeaponOnDeath_6x82 *com
     pkt = *command;
     bswap_g_client_id_header(&pkt);
     if (validate_6x82_enable_drop_weapon_on_death(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->set_flag_drop_weapon_on_death();
+            p->set_flag_drop_weapon_on_death();
         }
     }
 }
