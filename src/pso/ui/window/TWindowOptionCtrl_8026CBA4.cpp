@@ -9,16 +9,17 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowQuantity.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
 extern f32 window_depth_order_cursor;
 const NJS_POINT2 *TWindowOptionCtrl::get_option_entry(int a0) { return &window_layout_rect_table[a0]; }
+}
 const NJS_POINT2 *get_window_layout_position(s32 idx) {
     if (is_split_screen() != 0) {
         return (TCameraCtrl::get_camera_id() == 2) ? &window_layout_position_table_camera2[idx] : &window_layout_position_table[idx];
     }
     return &window_layout_rect_table[idx];
-}
 }
 
 void TWindowBase::bring_to_front() {

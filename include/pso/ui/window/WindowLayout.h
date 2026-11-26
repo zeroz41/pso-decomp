@@ -7,9 +7,7 @@
 
 // Window placement helpers shared by the menu windows. get_window_layout_position is defined in
 // TWindowOptionCtrl_8026CBA4.cpp, align_menu_entry_positions in TWindowSubComCard_80265410.cpp.
-extern "C" {
 const NJS_POINT2 *get_window_layout_position(s32 idx);
-}
 
 // The y of a window id's screen position.
 f32 get_window_layout_y(s32 idx);

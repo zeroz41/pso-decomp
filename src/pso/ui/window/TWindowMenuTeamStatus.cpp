@@ -6,10 +6,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TGameListRow.h"
+#include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
-u8 *get_window_layout_position(s32);
-}
 
 void TWindowMenuTeamStatus::add_entry(s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mode, s8 episode, s32 index) {
     if (entry_count < entry_capacity) {
@@ -54,4 +52,4 @@ WindowDescriptor team_status_window_layout = {
 };
 
 TWindowMenuTeamStatus::TWindowMenuTeamStatus(s32 arg)
-    : TWindowShop(get_window_layout_position(0xB0), arg, 0x40, (u8 *)&team_status_window_layout) {}
+    : TWindowShop((u8 *)get_window_layout_position(0xB0), arg, 0x40, (u8 *)&team_status_window_layout) {}
