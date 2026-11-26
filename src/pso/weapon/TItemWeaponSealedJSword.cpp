@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProArmor.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemWeaponFlightCutter.h"
 #include "pso/weapon/TItemAttacker.h"

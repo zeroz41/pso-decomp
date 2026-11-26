@@ -6,7 +6,6 @@
 #include "pso/effect/item/TItemEffHeaven.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_8012AE50.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"

@@ -7,7 +7,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProArmor.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/HitEligibility.h"

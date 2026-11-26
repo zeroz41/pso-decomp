@@ -4,7 +4,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "types.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
-#include "pso/object/lobby/TObjButterflyLobby_80350958.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 

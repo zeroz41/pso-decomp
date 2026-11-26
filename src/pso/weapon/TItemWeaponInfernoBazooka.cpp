@@ -12,8 +12,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/weapon/TItemWeaponInfernoBazooka.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012E7D8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>

@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponPanthersClaw.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_80122F3C.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"

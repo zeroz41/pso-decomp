@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/TItemWeaponRubyBullet.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"

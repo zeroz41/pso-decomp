@@ -11,7 +11,6 @@
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/item/item_param.h"
 #include "pso/item/item_pmt.h"
-#include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/item/TItemData_8010EDA8.h"

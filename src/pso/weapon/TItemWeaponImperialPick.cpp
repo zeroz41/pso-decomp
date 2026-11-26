@@ -2,7 +2,7 @@
 #include "pso/weapon/TItemWeaponImperialPick.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"

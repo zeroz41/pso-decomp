@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/DrawLineResource.h"
-#include "pso/item/TItemLoad_8010FDF0.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/frontend/TAdDrawLineTask.h"
 #include "pso/render/render_util.h"

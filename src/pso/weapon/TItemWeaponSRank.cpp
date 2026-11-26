@@ -2,7 +2,6 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponSRank.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/base/TObjMotion.h"

@@ -26,7 +26,7 @@
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PhotonBlastResults.h"
-#include "pso/item/TItemLockCountCtrl_8011E184.h"
+#include "pso/item/TItemTimerEvent.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"

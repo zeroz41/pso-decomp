@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponGuldMilla.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffLandHit.h"

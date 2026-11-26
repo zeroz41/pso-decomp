@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/item/TItemLoad_8010FDF0.h"
+#include "pso/item/TItemLoad.h"
 
 #pragma inline_depth(1)
 #pragma dont_inline off

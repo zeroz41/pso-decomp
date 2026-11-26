@@ -3,8 +3,6 @@
 #include "pso/weapon/TItemWeaponTechnicalCrozier.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecBarta.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012F5F8.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffCane.h"

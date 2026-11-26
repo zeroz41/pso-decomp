@@ -3,8 +3,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_80125480.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 
 TItemWeaponEggBlaster::TItemWeaponEggBlaster(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

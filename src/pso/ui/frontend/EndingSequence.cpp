@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
 #include "pso/system/movie/TEndingMovie.h"
 #include "pso/player/TObjPlayer.h"

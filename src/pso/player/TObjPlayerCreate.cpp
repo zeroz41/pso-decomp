@@ -16,7 +16,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/item/TItemLockCountCtrl_8011E184.h"
+#include "pso/item/TItemTimerEvent.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/player/LobbyPlayerActionProvider.h"

@@ -1,4 +1,3 @@
-#include "pso/item/TItemMenuCtrl_80115A28.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"

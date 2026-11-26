@@ -78,7 +78,7 @@
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/object/base/TObjCharaHelpers.h"

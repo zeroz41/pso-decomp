@@ -15,7 +15,6 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/item/TItemEquipBase.h"
-#include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/mag/TItemMagGrowEff.h"
 #include "pso/item/mag/TItemMagSub.h"
 #include "pso/map/FloorArea.h"

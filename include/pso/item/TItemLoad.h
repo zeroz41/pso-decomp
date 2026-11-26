@@ -150,4 +150,17 @@ public:
 // Starts loading the model of `item` into a free slot; returns the slot or -1.
 s32 request_item_model_load(u8 *item);
 
+// A data file TItemLoad::load_buffer read, decompressed and relocated: the
+// buffer and its relocated root (apply_rel_relocations).
+struct RelocatedFile {
+    // Reads path into a size-byte buffer, decompresses and relocates it;
+    // root stays NULL when that fails.
+    RelocatedFile(const char *path, s32 size);
+    ~RelocatedFile();
+    void *get_root();
+
+    void *buffer;
+    void *root;
+};
+
 #endif

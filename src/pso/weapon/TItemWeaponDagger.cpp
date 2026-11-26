@@ -3,7 +3,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponDagger.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixOps.h"
 

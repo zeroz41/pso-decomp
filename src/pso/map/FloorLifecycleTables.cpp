@@ -1,6 +1,5 @@
 #include "pso/object/container/ContainerResources.h"
 #include "pso/object/container/TOContainerAncientEnemy.h"
-#include "pso/object/lobby/TObjButterflyLobby_80350958.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/object/lobby/LobbyPigeonPath.h"
 #include "pso/quest/TQuestThread.h"

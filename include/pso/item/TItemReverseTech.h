@@ -40,4 +40,8 @@ public:
 LAYOUT_ASSERT(ReverseTechPartOneOffset, offsetof(TItemReverseTech, part_one) == 0x20);
 LAYOUT_ASSERT(ReverseTechPartTwoOffset, offsetof(TItemReverseTech, part_two) == 0x24);
 
+void activate_fast_rotation_code(void);
+void activate_reverse_rotation_code(void);
+void activate_uraending_code(void);
+
 #endif

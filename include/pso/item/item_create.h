@@ -21,4 +21,8 @@ s32 compare_item_data_masked(void *item, void *other, s32 mode);
 
 void normalize_drop_area(s32 *p);
 
+saddr find_eligible_combination_recipe(saddr arg0, u8 *item);
+
+void TItemDisconnectCtrl__sub_80105BE8(void);
+
 #endif

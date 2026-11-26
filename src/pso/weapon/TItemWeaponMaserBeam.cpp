@@ -3,7 +3,6 @@
 #include "pso/weapon/TItemWeaponMaserBeam.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecGiZonde.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/CapturedTargetList.h"

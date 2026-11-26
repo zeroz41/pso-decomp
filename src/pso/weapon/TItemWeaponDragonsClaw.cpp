@@ -2,7 +2,6 @@
 #include "pso/weapon/TItemWeaponDragonsClaw.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecFoie.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TMainTask.h"

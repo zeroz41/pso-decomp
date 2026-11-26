@@ -96,7 +96,7 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_800FA260.h"
 #include "pso/unk/TLobby_801F3A24.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };

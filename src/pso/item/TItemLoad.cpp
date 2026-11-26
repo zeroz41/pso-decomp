@@ -6,7 +6,6 @@
 #include "pso/system/NinjaChunk.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/item/TItemData.h"
-#include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TRelDataFile.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"

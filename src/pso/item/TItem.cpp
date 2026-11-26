@@ -16,7 +16,6 @@
 #include <dolphin/mtx.h>
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
-#include "pso/item/TItemData_80104D0C.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItemIdCounters.h"

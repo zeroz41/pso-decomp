@@ -4,7 +4,7 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponSlicer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"

@@ -34,7 +34,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/item/TItemLockCountCtrl_8011E184.h"
+#include "pso/item/TItemTimerEvent.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/vector.h"

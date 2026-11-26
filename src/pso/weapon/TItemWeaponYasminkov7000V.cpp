@@ -1,6 +1,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponYasminkov2000H.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponYasminkov7000V.h"

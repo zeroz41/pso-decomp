@@ -6,7 +6,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TObjItemLight.h"
 #include "pso/object/collision/TObjBgmCol.h"
-#include "pso/object/collision/TObjBgmCol_8017E7F0.h"
 #include "pso/object/collision/TObjRaderCol.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
 #include "pso/system/task/TObject.h"

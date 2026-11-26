@@ -6,7 +6,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"

@@ -1,5 +1,5 @@
 #include "pso/item/TItemReverseTechCtrl.h"
-#include "pso/item/TItemReverseTech_8011A1E8.h"
+#include "pso/item/TItemReverseTech.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 
 #pragma readonly_strings on

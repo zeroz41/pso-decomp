@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponBelraCannon.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/weapon/TItemWeaponHugeBattleFan.h"
 #include "pso/weapon/TItemAttacker.h"

@@ -8,7 +8,6 @@
 #include "pso/item/TItem.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/weapon/TItemWeaponPanzerFaust.h"
 #include "pso/item/armor/TItemProShield.h"

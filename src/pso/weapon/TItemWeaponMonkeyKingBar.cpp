@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponMonkeyKingBar.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItem.h"

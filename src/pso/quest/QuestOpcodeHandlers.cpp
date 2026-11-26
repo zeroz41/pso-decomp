@@ -152,7 +152,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
-#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/ui/city/THunterGuildSeqOffline_801F3718.h"
 #include "pso/ui/chat/TSymbolChatCapture.h"

@@ -16,7 +16,6 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
