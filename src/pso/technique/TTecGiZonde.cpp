@@ -46,7 +46,6 @@ void TTecGiZonde::apply_to_target(TObjChara *target) {
     target->receive_direct_attack(this->source, hit, 0, 7, -1);
 }
 
-#define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {
     Vec d;
     Vec d2;
@@ -59,7 +58,7 @@ s32 TTecGiZonde::find_chain_targets() {
     TObjChara *b;
     void *p;
     e = (TObjChara *) find_entity_by_id(targetList.records[0].id);
-    if (UNQ((uaddr) e) == 0) {
+    if (TTecLuker::is_parents_unqueued(e) == 0) {
         return 0;
     }
     d.x = e->bodies[targetList.records[0].flag].center.x - position.x;
@@ -110,7 +109,7 @@ s32 TTecGiZonde::find_chain_targets() {
     for (i = 0; i < targetList.count - 1; i++) {
         a = (TObjChara *) find_entity_by_id(targetList.records[i].id);
         b = (TObjChara *) find_entity_by_id(targetList.records[i + 1].id);
-        if (UNQ((uaddr) a) != 0 && UNQ((uaddr) b) != 0) {
+        if (TTecLuker::is_parents_unqueued(a) != 0 && TTecLuker::is_parents_unqueued(b) != 0) {
         if ((a->actorFlags & 0x20000000) && (b->actorFlags & 0x20000000) &&
             TObjPlayer::is_valid_and_active((uaddr) a) != 0 && TObjPlayer::is_valid_and_active((uaddr) b) != 0 &&
             a->is_actor_dead() != 0 && b->is_actor_dead() != 0) {
@@ -165,10 +164,10 @@ TTecGiZonde::~TTecGiZonde() {}
 
 void TTecGiZonde::deliver_chain_hits() {
     s32 i;
-    uaddr actor;
+    TObjCollidable *actor;
     for (i = 0; i < targetList.count; i++) {
-        actor = (uaddr)find_entity_by_id(targetList.records[i].id);
-        if (TTecLuker::is_parents_unqueued(actor) != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
+        actor = find_entity_by_id(targetList.records[i].id);
+        if (TTecLuker::is_parents_unqueued(actor) != 0 && TObjPlayer::is_valid_and_active((uaddr)actor) != 0) {
             apply_to_target((TObjChara *)actor);
         }
     }

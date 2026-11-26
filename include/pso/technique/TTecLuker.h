@@ -29,7 +29,7 @@ struct TTecLuker : public TTecCircle {
     static void create_for_player(int client, Vec *pos);
     static void create(TObjBase *source, Vec *pos, Vec *target, s32 level);
     void setup_telepipe_field();
-    static s32 is_parents_unqueued(uaddr object);
+    static s32 is_parents_unqueued(TObject *object);
 };
 
 LAYOUT_ASSERT(TTecLuker_size, sizeof(TTecLuker) == 0x110);

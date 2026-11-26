@@ -17,7 +17,7 @@ const char *TDuelEffectCtrl::class_name = "TDuelEffectCtrl";
 extern const f32 duel_countdown_pos[2] = { 320.0f, 221.0f };
 extern const f32 duel_end_banner_pos[2] = { 320.0f, 221.0f };
 
-f32 duel_start_countdown_effect_pos[3] = { 320.0f, 221.0f, 0.5f };
+Vec duel_start_countdown_effect_pos = { 320.0f, 221.0f, 0.5f };
 
 void TDuelEffectCtrl::update_duel_end_effect() {
     switch (m_frameCount) {
@@ -57,7 +57,7 @@ void TDuelEffectCtrl::update_duel_start_countdown() {
         new TDuelEffectString(m_effect, (f32 *)duel_countdown_pos, 0);
         break;
     case 0xA0:
-        spawn_particle_effect_with_flags((const Vec *)duel_start_countdown_effect_pos, 0x1F1, 0x48C0);
+        spawn_particle_effect_with_flags(&duel_start_countdown_effect_pos, 0x1F1, 0x48C0);
         play_cue_stream_file("start.adx");
         break;
     case 0xB4:

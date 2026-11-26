@@ -91,7 +91,7 @@ TTecAnti::TTecAnti(TObjBase *owner, Vec *pos, TargetCursorList *target_list, s32
 }
 
 void TTecAnti::run_task() {
-    uaddr member;
+    TObjCollidable *member;
     s32 i;
     source = find_entity_by_id(sourceId);
     if (source == NULL) {
@@ -105,8 +105,8 @@ void TTecAnti::run_task() {
             apply_to_player((TObjPlayer *)source);
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
-                    member = (uaddr)find_entity_by_id(targets.records[i].id);
-                    if ((TTecLuker::is_parents_unqueued(member) != 0) && (TObjPlayer::is_valid_and_active(member) != 0)) {
+                    member = find_entity_by_id(targets.records[i].id);
+                    if ((TTecLuker::is_parents_unqueued(member) != 0) && (TObjPlayer::is_valid_and_active((uaddr)member) != 0)) {
                         apply_to_player((TObjPlayer *)member);
                     }
                 }

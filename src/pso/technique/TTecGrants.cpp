@@ -115,7 +115,7 @@ TTecGrants::~TTecGrants() {
 }
 
 void TTecGrants::run_task() {
-    uaddr entity;
+    TObjCollidable *entity;
     source = find_entity_by_id(sourceId);
     if (source == NULL) {
         queue_destruction();
@@ -125,13 +125,13 @@ void TTecGrants::run_task() {
         queue_destruction();
         return;
     }
-    entity = (uaddr)find_entity_by_id(targets.records[0].id);
-    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (frames == 0)) {
-        new TTecGrantsEffect((u8 *)entity, level, tl_07);
+    entity = find_entity_by_id(targets.records[0].id);
+    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0) && (frames == 0)) {
+        new TTecGrantsEffect(entity, level, tl_07);
     }
     frames = frames + 1;
     if (frames > 0x1E) {
-        if ((entity != 0) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
+        if ((entity != NULL) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0)) {
             apply_to_target((TObjChara *)entity);
         }
         queue_destruction();
@@ -151,11 +151,11 @@ void TTecGrants::apply_to_target(TObjChara *target) {
 
 void TTecGrants::render() {  }
 
-TTecGrantsEffect::TTecGrantsEffect(u8 *src, s32 level, TObject *parent) : TObject(parent) {
+TTecGrantsEffect::TTecGrantsEffect(TObjBase *src, s32 level, TObject *parent) : TObject(parent) {
     u32 i;
-    VecCopy(&position, (const Vec *)(src + 0x38));
+    VecCopy(&position, &src->position);
     timer = 0;
-    owner_id = ((TObjBase *)(src))->get_entity_id();
+    owner_id = src->get_entity_id();
     this->level = level;
     if (this->level < 0) {
         this->level = 0;

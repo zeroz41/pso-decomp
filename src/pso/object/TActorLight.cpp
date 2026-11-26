@@ -130,11 +130,11 @@ void offset_point_toward_camera(Vec *center, Vec *out, f32 distance) {
 #pragma pop
 
 
-s32 TTecLuker::is_parents_unqueued(uaddr object) {
-    if (object == 0U) {
+s32 TTecLuker::is_parents_unqueued(TObject *object) {
+    if (object == NULL) {
         return 0;
     }
-    if (((TObject *)object)->all_parents_unqueued_for_destruction()) {
+    if (object->all_parents_unqueued_for_destruction()) {
         return 1;
     }
     return 0;

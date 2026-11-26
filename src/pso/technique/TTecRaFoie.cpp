@@ -118,7 +118,7 @@ void TTecRaFoie::spawn_effects(Vec *) {
     }
     if (m_targets.count != 0) {
         chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
-        if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
+        if (TTecLuker::is_parents_unqueued(chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
             Vec point = chara->body_center;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
@@ -319,7 +319,7 @@ void TTecRaFoie::run_task() {
         return;
     }
     chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
-    if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
+    if (TTecLuker::is_parents_unqueued(chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
         update_detonation(&chara->body_center);
     }
 }

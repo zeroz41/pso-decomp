@@ -46,7 +46,7 @@ void TTecZarua::render() {  }
 
 void TTecZarua::run_task() {
     s32 i;
-    uaddr id;
+    TObjCollidable *target;
     source = find_entity_by_id(sourceId);
     if (source == NULL) {
         queue_destruction();
@@ -54,9 +54,9 @@ void TTecZarua::run_task() {
     }
     if (has_targets != 0) {
         for (i = 0; i < targets.count; i++) {
-            id = (uaddr)find_entity_by_id(targets.records[i].id);
-            if (TTecLuker::is_parents_unqueued(id) != 0) {
-                apply_to_target((TObjChara *)id);
+            target = find_entity_by_id(targets.records[i].id);
+            if (TTecLuker::is_parents_unqueued(target) != 0) {
+                apply_to_target((TObjChara *)target);
             }
         }
     } else {

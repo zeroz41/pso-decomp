@@ -10,6 +10,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/object/base/TObjBase.h"
@@ -66,8 +67,6 @@ void TTecZonde::render() {  }
 #pragma push
 #pragma fp_contract on
 
-extern u8 *tl_07;
-
 void TTecZonde::run_task() {
     ZondeBolt segs[14];
     ZondeBolt *s;
@@ -89,7 +88,7 @@ void TTecZonde::run_task() {
         return;
     }
     t = static_cast<TObjChara *>(find_entity_by_id(targets.records[0].id));
-    if (TTecLuker::is_parents_unqueued((uaddr)t) != 0) {
+    if (TTecLuker::is_parents_unqueued(t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
             s->start.y = 100.0f + t->position.y;
@@ -110,39 +109,39 @@ void TTecZonde::run_task() {
         scale = 0.5f;
         switch (band) {
         case 0:
-            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, 0.5f);
+            new TTecZondeEff(tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
+            new TTecZondeEff(tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 2:
             scale *= 1.4f;
-            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
+            new TTecZondeEff(tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 3:
             for (j = 0; j < 3; j++) {
-                new TTecZondeEff((TObject *)tl_07, &segs[j].start, &segs[j].dir, 0x14000000, 0x14, segs[j].len, 0.5f);
+                new TTecZondeEff(tl_07, &segs[j].start, &segs[j].dir, 0x14000000, 0x14, segs[j].len, 0.5f);
             }
             break;
         case 4:
             scale *= 1.4f;
             for (k = 0; k < 3; k++) {
-                new TTecZondeEff((TObject *)tl_07, &segs[k].start, &segs[k].dir, 0x14000000, 0x14, segs[k].len, scale);
+                new TTecZondeEff(tl_07, &segs[k].start, &segs[k].dir, 0x14000000, 0x14, segs[k].len, scale);
             }
             break;
         case 5:
             for (l = 0; l < 14; l++) {
                 if (l == 0) {
-                    new TTecZondeEff((TObject *)tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 5.0f);
+                    new TTecZondeEff(tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 5.0f);
                 } else {
-                    new TTecZondeEff((TObject *)tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 0.5f);
+                    new TTecZondeEff(tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 0.5f);
                 }
             }
             break;
         }
         if (band != 5) {
-            new TTecZondeHitEffect(&segs[0].start, &t->position, (TObject *)tl_07, 0x19F);
+            new TTecZondeHitEffect(&segs[0].start, &t->position, tl_07, 0x19F);
         }
         {
             s32 h;
@@ -178,7 +177,7 @@ void TTecZonde::run_task() {
             }
         }
     }
-    if (t != NULL && TTecLuker::is_parents_unqueued((uaddr)t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
+    if (t != NULL && TTecLuker::is_parents_unqueued(t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
         apply_to_target(t);
     }
     queue_destruction();

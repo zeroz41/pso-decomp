@@ -136,7 +136,7 @@ void TTecGiFoie::run_task() {
         queue_destruction();
         return;
     }
-    if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[0]) != 0) {
+    if (TTecLuker::is_parents_unqueued(this->orbits[0]) != 0) {
         distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pos, &this->position));
         if (this->collidable != NULL) {
             this->collidable->bodies->radius = 5.0f + distance;
@@ -152,7 +152,7 @@ void TTecGiFoie::run_task() {
 TTecGiFoie::~TTecGiFoie() {
     s32 i;
     for (i = 0; i < 3; i++) {
-        if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[i]) != 0) {
+        if (TTecLuker::is_parents_unqueued(this->orbits[i]) != 0) {
             this->orbits[i]->queue_destruction();
         }
     }

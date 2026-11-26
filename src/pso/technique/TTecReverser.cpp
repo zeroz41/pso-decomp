@@ -123,7 +123,7 @@ void TTecReverser::create(TObjBase *source, Vec *origin, TargetCursorList *targe
 }
 
 void TTecReverser::run_task() {
-    uaddr entity;
+    TObjCollidable *entity;
     source = find_entity_by_id(sourceId);
     if (source == NULL) {
         queue_destruction();
@@ -133,8 +133,8 @@ void TTecReverser::run_task() {
         queue_destruction();
         return;
     }
-    entity = (uaddr)find_entity_by_id(targets.records[0].id);
-    if ((((TObjBase *)entity)->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
+    entity = find_entity_by_id(targets.records[0].id);
+    if ((entity->is_active() == 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0)) {
         apply_to_target((TObjChara *)entity);
     }
     queue_destruction();

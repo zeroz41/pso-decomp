@@ -453,7 +453,7 @@ TTelepipeEffect::TTelepipeEffect(Vec *at, u32 id, TObject *parent) : TObject(par
 TTelepipeEffect::~TTelepipeEffect() {
     s32 i;
     for (i = 0; i < 3; i++) {
-        if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0) {
+        if (TTecLuker::is_parents_unqueued(particles[i]) != 0) {
             particles[i]->queue_destruction();
             particles[i] = NULL;
         }
@@ -496,7 +496,7 @@ void TTelepipeEffect::run_task() {
     {
       for (i = 0; i < 3; i++)
       {
-        if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0)
+        if (TTecLuker::is_parents_unqueued(particles[i]) != 0)
         {
           particles[i]->enable();
           if (marker != 0)
@@ -509,7 +509,7 @@ void TTelepipeEffect::run_task() {
     }
     for (i = 0; i < 3; i++)
     {
-      if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0)
+      if (TTecLuker::is_parents_unqueued(particles[i]) != 0)
       {
         particles[i]->clear_active_flag();
         if (marker != 0)
@@ -524,7 +524,7 @@ void TTelepipeEffect::run_task() {
   {
     for (i = 0; i < 3; i++)
     {
-      if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0)
+      if (TTecLuker::is_parents_unqueued(particles[i]) != 0)
       {
         particles[i]->enable();
         if (marker != 0)
@@ -537,7 +537,7 @@ void TTelepipeEffect::run_task() {
   }
   for (i = 0; i < 3; i++)
   {
-    if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0)
+    if (TTecLuker::is_parents_unqueued(particles[i]) != 0)
     {
       particles[i]->clear_active_flag();
       if (marker != 0)
