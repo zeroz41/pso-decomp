@@ -2,7 +2,7 @@
 // ---- pso/ui/window/TWindowSubStatusDisp_80228CC0
 #include "types.h"
 #include <string.h>
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 

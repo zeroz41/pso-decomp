@@ -38,7 +38,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard.h"

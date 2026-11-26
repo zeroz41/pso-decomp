@@ -795,11 +795,11 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     },
     "pso/ui/frontend/TAdLoadQuestPrtTxtGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdScrollWinGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/ui/window/TWindowSubComCard_8007341C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/ui/window/ChallengeWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/system/AsyncFileRead.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/item/shop/ShopToolStock.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/item/shop/ShopWeaponStock.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TextBuilder.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class-name string sits in .rodata ahead of the decimal place table: readonly strings.
     "pso/ui/window/TWindowInputNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str reuse,readonly: every string of the TU sits in .rodata: the class name 0x8044F520 and
@@ -895,8 +895,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/charcreate/TCharaMaking.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TWindowMenuIconLine (+7 folded parts): "TWindowMenuIconLine" sits in .rodata and "/" in .sdata2.
     "pso/ui/window/TWindowMenuIconLine.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # TWindowSubSymbolChat_80076F88 (+TWindowChat_800774C0): its only string "symbolchat.dat" sits in .rodata.
-    "pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # SymbolChatPreset (+TWindowChat_800774C0): its only string "symbolchat.dat" sits in .rodata.
+    "pso/ui/chat/SymbolChatPreset.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TQuestListOnline: vtable before vfunc_11's switch table and .sdata2 literals in .text order need deferred with the
     # source in reverse .text order (as its neighbour TQuestListVM); "" and the class name are read-only literals.
     "pso/quest/TQuestListOnline.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

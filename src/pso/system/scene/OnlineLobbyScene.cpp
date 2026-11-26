@@ -67,7 +67,7 @@
 #include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/audio/SoundControlState.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
+#include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
 #include "pso/network/protocol/choice_search.h"

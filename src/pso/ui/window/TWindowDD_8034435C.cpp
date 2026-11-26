@@ -20,7 +20,7 @@
 #include "pso/ui/window/TWindowWordSelectMode.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"

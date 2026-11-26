@@ -52,7 +52,7 @@ struct game_command_header;
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/TLobby_80132ED0.h"

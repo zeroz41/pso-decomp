@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80228C84.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/player/PlayerSlots.h"
 
 struct VObj_80228C84 : Base_80228C84 {

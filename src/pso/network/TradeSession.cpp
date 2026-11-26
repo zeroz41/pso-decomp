@@ -31,7 +31,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TPlyItem.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 
 void TWindowTradeRequest::reset_trade() {

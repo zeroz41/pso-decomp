@@ -3,7 +3,7 @@
 #include "pso/ui/font/TFontPlayerStatusHelp.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/font/TFontSmallHelp.h"

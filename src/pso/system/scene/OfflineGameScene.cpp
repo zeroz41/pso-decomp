@@ -75,7 +75,7 @@
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/map/TSetManager.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
+#include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_80228154.h"

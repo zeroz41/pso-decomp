@@ -828,7 +828,7 @@ pso/object/TObjChallengeRetry.cpp:
 pso/unk/TLobby_8007340C.cpp:
 	.text       start:0x8007340C end:0x8007341C
 
-pso/ui/window/TWindowSubComCard_8007341C.cpp:
+pso/ui/window/ChallengeWindow.cpp:
 	.text       start:0x8007341C end:0x800739D4
 	.rodata     start:0x804385E0 end:0x80438640
 	.data       start:0x8048D150 end:0x8048D168
@@ -916,7 +916,7 @@ pso/unk/text_80076E84.cpp:
 	.text       start:0x80076E84 end:0x80076F88
 	.bss        start:0x804FF968 end:0x804FF9C0
 
-pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp:
+pso/ui/chat/SymbolChatPreset.cpp:
 	.text       start:0x80076F88 end:0x80077760
 	.rodata     start:0x80438830 end:0x80438868
 	.sbss       start:0x805D4E50 end:0x805D4E58
@@ -5275,7 +5275,7 @@ pso/ui/chat/ShortMail.cpp:
 pso/unk/text_80225CD8.cpp:
 	.text       start:0x80225CD8 end:0x80225E0C
 
-pso/ui/window/TWindowSubComCard_80225E0C.cpp:
+pso/ui/window/ProfanityFilter.cpp:
 	.text       start:0x80225E0C end:0x8022602C
 	.rodata     start:0x8044C828 end:0x8044C850
 	.data       start:0x804CA3A0 end:0x804CB838
@@ -5330,7 +5330,7 @@ pso/unk/text_80228C54.cpp:
 pso/unk/TLobby_80228C84.cpp:
 	.text       start:0x80228C84 end:0x80228CC0
 
-pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp:
+pso/ui/window/TextBuilder.cpp:
 	.text       start:0x80228CC0 end:0x802290F8
 	.rodata     start:0x8044CB60 end:0x8044CB70
 	.bss        start:0x80515BC8 end:0x80515CC8
@@ -9079,7 +9079,7 @@ pso/boss/olgaflow/TBoss6RockChase.cpp:
 	.sdata      start:0x805D44F0 end:0x805D44F4
 	.sdata2     start:0x805E03B8 end:0x805E03E8
 
-pso/ui/window/TWindowSubStatusDisp_8036D774.cpp:
+pso/ui/window/SplitScreenHud.cpp:
 	.text       start:0x8036D774 end:0x8036DC80
 	.rodata     start:0x8047AD00 end:0x8047AD30
 	.sbss       start:0x805D7018 end:0x805D7020

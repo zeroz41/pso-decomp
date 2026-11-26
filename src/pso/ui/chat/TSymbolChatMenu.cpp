@@ -6,7 +6,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"

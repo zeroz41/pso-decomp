@@ -57,4 +57,12 @@ s32 is_facial_part_set(const SymbolChatPreset *preset, s32 index);
 extern SymbolChatPreset symbol_chat_receive_buffer;
 extern u8 pending_symbol_chat_count;
 
+void clear_received_symbol_chat(void);
+
+extern "C" {
+void TLobby__sub_80077608(void);
+}
+
+void init_symbol_chat_header(void *p);
+
 #endif

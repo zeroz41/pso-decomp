@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -48,7 +48,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 
 #pragma readonly_strings on
 

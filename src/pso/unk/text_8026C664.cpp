@@ -13,7 +13,7 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 
 void fn_8026C664(WindowDrawContext *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   TexturedQuad quad;

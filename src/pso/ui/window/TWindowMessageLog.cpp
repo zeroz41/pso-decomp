@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "pso/system/memory.h"
@@ -24,7 +24,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 

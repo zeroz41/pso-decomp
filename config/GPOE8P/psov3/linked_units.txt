@@ -773,7 +773,7 @@ pso/unk/TLobby_8034C18C.cpp
 pso/unk/TLobby_8034C23C.cpp
 pso/unk/TLobby_8036A37C.cpp
 pso/ui/chat/TSymbolChatCapture.cpp
-pso/ui/window/TWindowSubStatusDisp_8036D774.cpp
+pso/ui/window/SplitScreenHud.cpp
 pso/audio/AdxAiff.cpp
 pso/audio/AdxAu.cpp
 pso/audio/AdxSpsd.cpp
@@ -1111,11 +1111,11 @@ pso/ui/window/TWindowStatus.cpp
 pso/ui/window/TWindowSubAreaMap.cpp
 pso/ui/window/TWindowSubAreaMapDisp.cpp
 pso/ui/window/TWindowSubComCardList.cpp
-pso/ui/window/TWindowSubComCard_8007341C.cpp
+pso/ui/window/ChallengeWindow.cpp
 pso/ui/window/TWindowSubComCard_80073DB8.cpp
 pso/ui/window/TWindowSubComCard_8007A810.cpp
 pso/ui/window/TWindowSubComCard_8007BD24.cpp
-pso/ui/window/TWindowSubComCard_80225E0C.cpp
+pso/ui/window/ProfanityFilter.cpp
 pso/ui/window/TWindowBase.cpp
 pso/ui/window/TWindowSubComCard_802495FC.cpp
 pso/ui/window/TWindowMenu.cpp
@@ -1149,7 +1149,7 @@ pso/ui/window/TWindowSubStatusDisp_80077760.cpp
 pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp
 pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
-pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp
+pso/ui/window/TextBuilder.cpp
 pso/ui/window/PageIndicator.cpp
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp
 pso/ui/window/TWindowStatusGauge.cpp
@@ -1175,7 +1175,7 @@ pso/ui/chat/TWindowSubSymbolChat.cpp
 pso/ui/chat/TWindowSubSymbolChatFaceType.cpp
 pso/ui/chat/TWindowSubSymbolChatHelp.cpp
 pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp
-pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp
+pso/ui/chat/SymbolChatPreset.cpp
 pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp
 pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTrade.cpp

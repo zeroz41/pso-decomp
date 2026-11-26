@@ -12,7 +12,7 @@
 #include "pso/audio/SoundControlState.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "dolphin/mtx.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"

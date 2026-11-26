@@ -116,7 +116,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/system/MainPhaseState.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/player/TPlyCharData.h"

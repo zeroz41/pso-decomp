@@ -5,7 +5,7 @@
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowHelpItem.h"
