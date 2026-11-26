@@ -611,7 +611,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->update_if_active();
     assign_owner_ids();
     this->setup_fresh_player_state((u8 *)record);
-    this->sub_801BB8B0((u8 *)record);
+    this->load_pending_actions((u8 *)record);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
 }
 

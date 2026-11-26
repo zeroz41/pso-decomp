@@ -1182,7 +1182,7 @@ void G_UseMedicalCenter_6x31::init() { header.subcommand = 0x31; header.size = 1
 void G_UseMedicalCenter_6x31::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 void G_ReleaseHold_6x2D::init() { header.subcommand = 0x2D; header.size = 1; }
 void G_ReleaseHold_6x2D::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
-void G_ImposeHold_6x2C::bswap() { header.bswap(); bswap_16(&unknown_a1); bswap_16(&unknown_a2); bswap_32((u32 *)&trigger_radius2); pos.bswap(); }
+void G_ImposeHold_6x2C::bswap() { header.bswap(); bswap_16((u16 *)&unknown_a1); bswap_16((u16 *)&unknown_a2); bswap_32((u32 *)&trigger_radius2); pos.bswap(); }
 void G_ImposeHold_6x2C::init() {
     unknown_a1 = 0;
     unknown_a2 = 0;
