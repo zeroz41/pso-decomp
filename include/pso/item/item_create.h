@@ -43,4 +43,8 @@ TItem *construct_item(TItemData *data);
 void forward_to_player(int id, TItemData *item);
 void handle_player_event(s32 client, s32 slot);
 
+struct FloorItem;
+// Creates the item a 6x5D/6x5F drop describes and puts it on the floor.
+TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet);
+
 #endif

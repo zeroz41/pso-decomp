@@ -24,7 +24,6 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/item/item_create.h"
-#include "pso/unk/text_801057A8.h"
 
 
 

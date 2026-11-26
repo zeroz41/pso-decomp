@@ -50,7 +50,6 @@
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/QuestFloorDesignation.h"
-#include "pso/unk/text_801057A8.h"
 #include "pso/item/MagStats.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/PlayerRequirementStats.h"
@@ -1250,7 +1249,6 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
 }
 }
 
-extern "C" {
 TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
     TItem *item;
     s8 me;
@@ -1289,6 +1287,7 @@ void TObjPlayer::init_game_resources() {
     lbl_805D5440.reset();
 }
 
+extern "C" {
 void fn_801058E8(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }
 
 s32 TObjPlayer::is_script_controlled() {

@@ -44,7 +44,7 @@
 
 extern "C" {
 FloorItem *floor_item_entry_pool;
-ApplySyncItemStateEntry **floor_item_row_table;
+FloorItem **floor_item_row_table;
 s32 *floor_item_counts_by_floor;
 u16 *floor_item_free_id_stack;
 int floor_item_free_id_count;
@@ -61,7 +61,6 @@ void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 #pragma dont_inline off
 extern "C" {
 extern FlagWord lbl_805D5440;
-void spawn_dropped_item_from_msg(void *, s32);
 }
 
 void reset_map(void) {
@@ -98,12 +97,12 @@ void evict_lowest_key_floor_item(s32 n) {
         bestKey = 0xFFFF;
         best = 0;
         for (i = 0; i != floor_item_counts_by_floor[n]; i++) {
-            if (floor_item_row_table[n][i].key < bestKey) {
+            if (floor_item_row_table[n][i].drop_number < bestKey) {
                 best = i;
-                bestKey = floor_item_row_table[n][i].key;
+                bestKey = floor_item_row_table[n][i].drop_number;
             }
         }
-        v = floor_item_row_table[n][best].item_id;
+        v = floor_item_row_table[n][best].item.id;
         build_6x63_packet(&m);
         m.v = v;
         m.who = n;
@@ -124,7 +123,7 @@ void TLobby::apply_sync_item_state() {
     s32 k;
     s32 j;
     s32 count;
-    ApplySyncItemStateEntry *p;
+    FloorItem *p;
     s32 n;
     TLobby::reset_floor_items();
     bswap_sync_item_state_header((G_SyncItemState_6x6D_Decompressed *)this);
@@ -144,7 +143,7 @@ void TLobby::apply_sync_item_state() {
         for (n = 0; n != count; n++, p++) {
             TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)p, (TLobbyFloorItemEntry *)&((ApplySyncItemStateSave *)this)->items[k++]);
             bswap_item(p);
-            ((TItemData *)((u8 *)p + 0x10))->decode_from_network();
+            p->item.decode_from_network();
         }
     }
     if (lbl_805D5440.test_flags_any(1) != 0) {
@@ -160,10 +159,10 @@ s32 TLobby::write_sync_item_state() {
     u16 b;
     WriteSyncItemStateSave *dst = (WriteSyncItemStateSave *)this;
     s32 k;
-    ApplySyncItemStateEntry *d;
+    FloorItem *d;
     s32 j;
     s32 count;
-    ApplySyncItemStateEntry *p;
+    FloorItem *p;
     s32 n;
     for (i = 0; i < 0x10; i++) {
         dst->slots[i] = floor_item_next_sort_keys[i];
@@ -181,7 +180,7 @@ s32 TLobby::write_sync_item_state() {
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++, k++) {
             TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)d, (TLobbyFloorItemEntry *)p);
-            ((TItemData *)((u8 *)d + 0x10))->encode_for_network();
+            d->item.encode_for_network();
             bswap_item(d);
             d++;
         }
@@ -224,8 +223,8 @@ void TLobby::respawn_missing_floor_items(s32 n) {
     if (n < 0x12) {
         if (floor_item_row_table[n] != 0) {
             for (i = 0; i != floor_item_counts_by_floor[n]; i++) {
-                ApplySyncItemStateEntry *e = &floor_item_row_table[n][i];
-                if (find_item_by_id(e->item_id) == 0) {
+                FloorItem *e = &floor_item_row_table[n][i];
+                if (find_item_by_id(e->item.id) == 0) {
                     spawn_dropped_item_from_msg(e, 1);
                 }
             }
@@ -234,7 +233,7 @@ void TLobby::respawn_missing_floor_items(s32 n) {
 }
 
 s32 remove_item_condition(s32 floor, s32 item_id) {
-    ApplySyncItemStateEntry *list;
+    FloorItem *list;
     s32 count;
     s32 lo;
     s32 mid;
@@ -252,16 +251,16 @@ s32 remove_item_condition(s32 floor, s32 item_id) {
         lo = 0;
         while (lo < hi) {
             mid = (lo + hi) / 2;
-            if (list[mid].item_id < item_id) {
+            if ((s32)list[mid].item.id < item_id) {
                 lo = mid + 1;
             } else {
                 hi = mid;
             }
         }
-        if (item_id == list[lo].item_id) {
+        if (item_id == (s32)list[lo].item.id) {
             memcpy(&list[lo], &list[lo + 1], (count - (lo + 1)) * 0x24);
             floor_item_counts_by_floor[floor]--;
-            ((FloorItem *)(&list[floor_item_counts_by_floor[floor]]))->clear();
+            list[floor_item_counts_by_floor[floor]].clear();
             return 1;
         }
         return 0;
@@ -269,13 +268,13 @@ s32 remove_item_condition(s32 floor, s32 item_id) {
     TLobby::debug_print("ItemCondition AreaOffset Lost");
     return 0;
 }
-FloorItemEntry *find_item_condition(s32 floor, s32 item_id) {
-    ApplySyncItemStateEntry *list;
+FloorItem *find_item_condition(s32 floor, s32 item_id) {
+    FloorItem *list;
     s32 count;
     s32 lo;
     s32 mid;
     s32 hi;
-    ApplySyncItemStateEntry *p;
+    FloorItem *p;
     if (floor >= 0x12) {
         return NULL;
     }
@@ -289,15 +288,15 @@ FloorItemEntry *find_item_condition(s32 floor, s32 item_id) {
         lo = 0;
         while (lo < hi) {
             mid = (lo + hi) >> 1;
-            if (list[mid].item_id < item_id) {
+            if ((s32)list[mid].item.id < item_id) {
                 lo = mid + 1;
             } else {
                 hi = mid;
             }
         }
         p = &list[lo];
-        if (item_id == p->item_id) {
-            return (FloorItemEntry *)p;
+        if (item_id == (s32)p->item.id) {
+            return p;
         }
         return NULL;
     }
@@ -307,40 +306,40 @@ FloorItemEntry *find_item_condition(s32 floor, s32 item_id) {
 s32 insert_item_condition(FloorItem *item) {
     s32 *counts;
     s32 idx;
-    InsertItemConditionEntry *list;
+    FloorItem *list;
     s32 lo;
     s32 mid;
     s32 n;
     s32 val;
     s32 hi;
-    InsertItemConditionEntry *p;
+    FloorItem *p;
     if (item != NULL) {
         if (TLobby::is_stat_over_limit(item->floor) != 0) {
             evict_lowest_key_floor_item(item->floor);
         }
         if (item->floor < 0x12 && TLobby::is_entry_valid(item->floor) != 0) {
             idx = item->floor;
-            list = (*(InsertItemConditionEntry ** *)&floor_item_row_table)[idx];
+            list = floor_item_row_table[idx];
             if (list != NULL) {
                 counts = *(s32 **)&floor_item_counts_by_floor;
                 val = item->item.id;
                 n = counts[idx];
                 hi = n - 1;
-                if (hi > -1 && val < list[hi].val) {
+                if (hi > -1 && val < (s32)list[hi].item.id) {
                     lo = 0;
                     while (lo < hi) {
                         mid = (lo + hi) / 2;
-                        if (list[mid].val < val) {
+                        if ((s32)list[mid].item.id < val) {
                             lo = mid + 1;
                         } else {
                             hi = mid;
                         }
                     }
                     p = &list[lo];
-                    if (val == p->val) {
+                    if (val == (s32)p->item.id) {
                         return 0;
                     }
-                    memcpy(p + 1, p, (n - lo) * sizeof(InsertItemConditionEntry));
+                    memcpy(p + 1, p, (n - lo) * sizeof(FloorItem));
                 } else {
                     lo = n;
                 }
@@ -375,7 +374,7 @@ void TLobby::reset_floor_items() {
     }
     for (k = 0; k < 0x12; k++) {
         if (floor_item_row_table != NULL && floor_item_entry_pool != NULL && floor_item_counts_by_floor != NULL) {
-            floor_item_row_table[k] = (ApplySyncItemStateEntry *)&floor_item_entry_pool[k * 0xC0];
+            floor_item_row_table[k] = &floor_item_entry_pool[k * 0xC0];
             floor_item_counts_by_floor[k] = 0;
         }
     }
@@ -400,7 +399,7 @@ void TLobby::free_boss_rocks() {
 }
 void TLobby::alloc_objects() {
     floor_item_entry_pool = new FloorItem[0xD80];
-    floor_item_row_table = static_cast<ApplySyncItemStateEntry **>(mem_alloc(0x48));
+    floor_item_row_table = static_cast<FloorItem **>(mem_alloc(0x48));
     floor_item_counts_by_floor = static_cast<s32 *>(mem_alloc(0x48));
     floor_item_free_id_stack = static_cast<u16 *>(mem_alloc(0x40));
     floor_item_free_id_count = 0;
