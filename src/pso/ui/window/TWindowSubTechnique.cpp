@@ -174,15 +174,15 @@ static const char technique_empty_line[4] = "";
 
 void TWindowSubTechnique::update_selected_help(s32 technique) {
   s32 saved_reg_r30;
-  saddr player;
+  TObjPlayer *player;
   s32 tech;
   s32 cast_technique_level;
   tech = technique;
   toggle_help_window_on_button((uaddr)help_window, playerIndex);
-  player = (saddr)get_player_by_client_id((this->playerIndex));
-  if (player != 0)
+  player = get_player_by_client_id(this->playerIndex);
+  if (player != NULL)
   {
-    if (validate_and_clear_slot__10TObjPlayerFPvs((void *)(player + 0x428), (int) tech) != 0)
+    if (validate_and_clear_slot__10TObjPlayerFPvs(&player->technique_state, tech) != 0)
     {
       tech = 0x13;
       cast_technique_level = saved_reg_r30;
@@ -198,7 +198,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
       text_builder_reset();
       if ((((s16) tech) != 0x11) && (((s16) tech) != 0xE))
       {
-        cast_technique_level = get_cast_technique_level((void *)(player + 0x428), (int) tech);
+        cast_technique_level = get_cast_technique_level(&player->technique_state, (int) tech);
         text_builder_append((const char *)((saddr) get_technique_description_text(0x13)));
         text_builder_append_int((((u8) cast_technique_level) + 1));
       }

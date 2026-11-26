@@ -268,7 +268,6 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
 }
 
 u32 calc_text_width();
-s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 }
 #pragma push
 #pragma fp_contract on
@@ -286,7 +285,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     title_width = (f32) calc_text_width();
     entry_0->x = 210.0f - 0.5f * title_width;
     slot = -1;
-    update_slot_display_flags__26TWindowSubQuestBoardSelectFv(this, 0.5f, title_width);
+    update_slot_display_flags();
     this->select_next();
 }
 
