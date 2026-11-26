@@ -14,8 +14,8 @@
 
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
-void TLobby__sub_80227AA8(AdxtPlayer *tracks) {
-    sound_control_state.fn_8023F660(tracks, get_sound_voice_volume_adjustment() + 0x55, 0x40, 0x40, 0);
+void update_voice_stream_mix(AdxtPlayer *tracks) {
+    sound_control_state.set_stream_mix(tracks, get_sound_voice_volume_adjustment() + 0x55, 0x40, 0x40, 0);
 }
 
 

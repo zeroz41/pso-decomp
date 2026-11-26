@@ -91,7 +91,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubStatusDisp__sub_8036D994(void) {
+void draw_scanline_sweep(void) {
     s32 i;
     f32 buf[8];
     if (split_screen_hud_animation_frame <= 0x1E) {
@@ -154,7 +154,7 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         TWindowSubStatusDisp::draw_bottom_bar();
-        TWindowSubStatusDisp__sub_8036D994();
+        draw_scanline_sweep();
         TWindowSubStatusDisp::draw_tiled_background();
         TWindowSubStatusDisp::draw_split_screen_dividers();
         TCameraCtrl::restore_saved_view();

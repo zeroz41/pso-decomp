@@ -203,7 +203,7 @@ CharacterHeightRange character_proportion_height_table[12] = {
 };
 
 extern "C" {
-s32 TCharaMaking__sub_8028E3A0(f32 *uv);
+s32 reset_invalid_proportions(f32 *proportions);
 }
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
@@ -428,7 +428,7 @@ s32 validate_player_visual_record(void *record) {
             ok = 0;
         }
     }
-    if (TCharaMaking__sub_8028E3A0(&d->width) != 0) {
+    if (reset_invalid_proportions(&d->width) != 0) {
         ok = 0;
     }
     if (flags != 0) {
@@ -474,10 +474,10 @@ void bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextu
   body->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
   body->present = 1;
 }
-s32 TCharaMaking__sub_8028E3A0(f32 *uv) {
-    if (uv[0] < 0.0f || uv[0] >= 1.0f || uv[1] < 0.0f || uv[1] >= 1.0f) {
-        uv[0] = 0.0f;
-        uv[1] = 0.0f;
+s32 reset_invalid_proportions(f32 *proportions) {
+    if (proportions[0] < 0.0f || proportions[0] >= 1.0f || proportions[1] < 0.0f || proportions[1] >= 1.0f) {
+        proportions[0] = 0.0f;
+        proportions[1] = 0.0f;
         return 1;
     }
     return 0;

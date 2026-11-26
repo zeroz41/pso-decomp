@@ -53,7 +53,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 selection_index;
     explicit TAdSinglePlyChrSelectGC(TObject *parent);
     virtual ~TAdSinglePlyChrSelectGC();
-    void sub_802D4E08();
+    void init_fields();
     static s32 can_pay_fee();
     virtual void render();
     s32 state_timer;                       // 0x1C  frames spent in the current state

@@ -135,7 +135,7 @@ void TWindowSubQuestBoardSelect::select_next() {
 
 extern "C" {
 
-void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, WindowDrawContext *ctx) {
+void draw_selection_leader_line(TWindowSubQuestBoardSelect *self, WindowDrawContext *ctx) {
     ColorLineVertex v[3];
     ColorLineList d;
     u32 colors[3];
@@ -233,7 +233,7 @@ void TWindowSubQuestBoardSelect::render() {
     ctx = draw_default_entry();
     draw_window_frame(ctx);
     status_disp->render(ctx);
-    TWindowSubQuestBoardSelect__sub_8027D444(this, ctx);
+    draw_selection_leader_line(this, ctx);
     draw_visible_window_entries(
         this,
         &this->entry_list,

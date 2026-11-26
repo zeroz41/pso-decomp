@@ -308,10 +308,10 @@ void THunterGuildSeqOnline_Server::open_quest_list() {
     l = new TQuestListOnline(tl_05, this, player);
     if (l != 0) {
         display_guild_message(4, 1);
-        l->callback28 = THunterGuildSeqOffline__sub_80213F78;
+        l->cancelled_callback = on_guild_quest_list_cancelled;
         l->callback2c = THunterGuildSeqOffline__sub_80213EBC;
-        l->callback30 = THunterGuildSeqOffline__sub_80213E64;
-        l->callback34 = THunterGuildSeqOffline::reset_quest_list_vm;
+        l->downloaded_callback = on_guild_quest_downloaded;
+        l->download_failed_callback = THunterGuildSeqOffline::on_quest_download_failed;
         set_state(0xE);
     }
 }
@@ -323,7 +323,7 @@ void THunterGuildSeqOnline_Server::confirm_and_close_if_valid() {
     }
 }
 
-void THunterGuildSeqOffline__sub_80213F78(void) {
+void on_guild_quest_list_cancelled(void) {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_guild_message(0xC, 1);
         hunter_guild_seq_online_server_instance->set_state(9);
@@ -331,7 +331,7 @@ void THunterGuildSeqOffline__sub_80213F78(void) {
     }
 }
 
-void THunterGuildSeqOffline::reset_quest_list_vm() {
+void THunterGuildSeqOffline::on_quest_download_failed() {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_message(get_message_text(0x43), 1);
         hunter_guild_seq_online_server_instance->set_state(9);
@@ -347,7 +347,7 @@ void THunterGuildSeqOffline__sub_80213EBC(void) {
     }
 }
 
-void THunterGuildSeqOffline__sub_80213E64(void) {
+void on_guild_quest_downloaded(void) {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_guild_message(6, 1);
         hunter_guild_seq_online_server_instance->set_state(0xC);

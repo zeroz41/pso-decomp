@@ -83,17 +83,17 @@ s32 KeyboardKeyState::check_input_ready() {
     if (is_shift_held() != 0) {
         return 0;
     }
-    if (is_key_57_pressed() != 0) {
+    if (is_alt_held() != 0) {
         return 0;
     }
-    if (sub_801321B4() != 0) {
+    if (is_control_held() != 0) {
         return 0;
     }
     return 1;
 }
 #pragma push
 #pragma bool off
-s32 KeyboardKeyState::sub_801321B4() {
+s32 KeyboardKeyState::is_control_held() {
     if (is_key_pressed(0x56) != 0) {
         return 1;
     }
@@ -113,7 +113,7 @@ s32 KeyboardKeyState::sub_80132274() {
     return is_key_pressed(0x5B) != 0;
 }
 
-s32 KeyboardKeyState::is_key_57_pressed() {
+s32 KeyboardKeyState::is_alt_held() {
     return is_key_pressed(0x57) != 0;
 }
 #pragma pop
@@ -225,7 +225,7 @@ void KeyboardKeyState::process_raw_key(KeyboardKeyState *kb, u8 key, u32 *presse
     }
 }
 
-void KeyboardKeyState::sub_80132650() {
+void KeyboardKeyState::process_key_reports() {
     u32 bits[4];
     s32 i;
     if (reports <= 0) {

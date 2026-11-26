@@ -8,7 +8,7 @@ struct Vec;
 struct AdxtPlayer;
 
 // --- C functions defined in SoundPlayback.cpp ---
-void TLobby__sub_80227AA8(AdxtPlayer *tracks);
+void update_voice_stream_mix(AdxtPlayer *tracks);
 void set_sound_request_position(s32 slot, const Vec *position);
 void TLobby__sub_80227D38(void);
 void TLobby__sub_8022804C(void);

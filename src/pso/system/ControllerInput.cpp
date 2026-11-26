@@ -69,7 +69,7 @@ s32 check_reset_button() {
 }
 
 s32 is_keyboard_control_held(void) {
-    return hardware_keyboard_state.sub_801321B4();
+    return hardware_keyboard_state.is_control_held();
 }
 
 s32 is_keyboard_shift_held(void) {
@@ -266,7 +266,7 @@ s32 keyboard_read_key_checked(u8 key) {
     return keyboard_check_and_read((s32)(key));
 }
 void update_keyboard_input_frame() {
-    hardware_keyboard_state.sub_80132650();
+    hardware_keyboard_state.process_key_reports();
     if (is_split_screen() == 0) {
         ControllerInputContext *keyboard = &controller_input_state.keyboard;
         keyboard->poll_key_state();

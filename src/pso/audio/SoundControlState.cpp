@@ -516,7 +516,7 @@ extern "C" {
 s32 sndStreamMixParameter(u32, u8, u8, u8, u8);
 }
 
-void SoundControlState::fn_8023F660(AdxtPlayer *tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
+void SoundControlState::set_stream_mix(AdxtPlayer *tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
     if (span < 0) {
         span = 0;
     }
@@ -607,7 +607,7 @@ void SoundControlState::set_reverb_level(f32 level) {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-s32 TLobby__sub_8023F880(s32 voice) {
+s32 get_sound_voice_state(s32 voice) {
   u8 *voices;
   s8 *entry;
   if ((voice >= 0) && (voice < 0x28))
@@ -737,13 +737,13 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 #pragma pop
 extern "C" {
 
-s32 free_sound_entry_data(SoundControlState *self, int id);
+s32 start_sound_bank_load(SoundControlState *self, int id);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
 s32 SoundControlState::is_ready() {
     return (u8) (load_state == 1);
 }
-void TLobby__sub_8023FCC0(SoundControlState *self) {
+void update_sound_bank_load(SoundControlState *self) {
     s32 i;
     s32 j;
     s32 pos;
@@ -763,7 +763,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     if (pos == -1) {
         self->route_pos = 0;
-        free_sound_entry_data(self, self->route[self->route_pos]);
+        start_sound_bank_load(self, self->route[self->route_pos]);
         return;
     }
     errors = 0;
@@ -815,7 +815,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     self->route_pos++;
     if (self->route[self->route_pos] >= 0) {
-        free_sound_entry_data(self, self->route[self->route_pos]);
+        start_sound_bank_load(self, self->route[self->route_pos]);
         return;
     }
     self->group_state = self->next_group_state;
@@ -838,7 +838,7 @@ void fade_voice_channels(s32 step) {
         start_voice_fade(&sound_request_voices[i], step);
     }
 }
-s32 free_sound_entry_data(SoundControlState *self, int id) {
+s32 start_sound_bank_load(SoundControlState *self, int id) {
     s32 i;
     s32 ret;
     if (self->ents[id].file_data[3] != 0) {
@@ -911,7 +911,7 @@ s32 update_sound_frame(SoundControlState *self) {
     self->elapsed = t - self->tick;
     self->tick = t;
     self->ms = self->elapsed / ((*(u32 *)0x800000F8 >> 2) / 1000);
-    TLobby__sub_8023FCC0(self);
+    update_sound_bank_load(self);
     self->advance_rng();
     for (i = 0; i < 40; i++) {
         tick_sound_voice(&sound_request_voices[i]);

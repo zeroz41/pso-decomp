@@ -324,7 +324,7 @@ s32 TWindowDD_WS_Word::can_scroll(s32 direction) {
     return ((u32) (this->selected_token_index - (row + 1)) >> 0x1FU) ^ 1;
 }
 
-void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
+void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     WindowVertex verts[8];
     WindowVertex *v;
     s32 tex;
@@ -449,7 +449,7 @@ void TWindowDD_WS_Word::render() {
     s32 j;
     entry = draw_default_entry();
     calc_inner_rect(entry);
-    TWindowDD__sub_80341674(this, entry);
+    draw_word_row_strips(this, entry);
     if (needs_text_refresh != 0) {
         needs_text_refresh = 0;
         idx = selected_token_index - selected_row;

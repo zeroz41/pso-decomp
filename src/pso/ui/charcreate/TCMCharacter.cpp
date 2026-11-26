@@ -60,11 +60,11 @@ __declspec(section ".data") u32 creation_models_ready;
 s32 creation_resource_ready_state;
 extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
-void TCharaMaking__sub_8028E3A0();
+void reset_invalid_proportions();
 void copy_player_visual_record(void *, void *);
 
-void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 part);
-void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
+void prefetch_creation_textures(s32 part);
+void load_creation_entry_textures(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
 }
@@ -262,7 +262,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
         p->body_textures.complete = 0;
     }
     char_select_current_entry = 0;
-    TAdSinglePlyChrSelectGC__sub_8028ED54(0);
+    prefetch_creation_textures(0);
     char_select_current_entry = 0;
     set_action_table(character_making_action_table);
     set_motion_list(creation_menu_main_obj->motions);
@@ -538,7 +538,7 @@ void TCMCharacter::apply_character_appearance() {
 void TCMCharacter::update_chara_preview() {
     s32 state;
     state = TCharaMaking::query_state();
-    TAdSinglePlyChrSelectGC__sub_8028ED54(state);
+    prefetch_creation_textures(state);
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
@@ -692,7 +692,7 @@ void get_sorted_character_proportion_samples(const f32 *point, s32 *samples) {
     s32 y;
     s32 x;
     s32 i;
-    TCharaMaking__sub_8028E3A0();
+    reset_invalid_proportions();
     map_shape_region_samples(find_shape_triangle_region((u8 *)point), samples);
     for (i = 0; i < 2; i++) {
         for (j = 2; j > i; j--) {
@@ -840,7 +840,7 @@ void blend_creation_proportion_shapes(f32 *point) {
     u32 flags;
     s32 n;
     s32 m;
-    TCharaMaking__sub_8028E3A0();
+    reset_invalid_proportions();
     calc_shape_region_coefficients(point);
     map_shape_region_samples(creation_shape_blend.region, samples);
     creation_shape_blend.destination = creation_head_shape_destination.nodes;
@@ -955,7 +955,7 @@ CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
     }
     return 0;
 }
-void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance) {
+void load_creation_entry_textures(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance) {
     CreationTextureLoadSlot *slot;
     saddr index;
     bind_appearance_texture_lists(&entry->hair_textures.textures, &entry->head_textures.textures, &entry->body_textures.textures, appearance);
@@ -1045,7 +1045,7 @@ ok:
 
 #pragma push
 #pragma fp_contract on
-void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 part) {
+void prefetch_creation_textures(s32 part) {
     CreationTextureCacheEntry *entry;
     if (TAdSinglePlyChrSelectGC::count_remaining_slots() > 0) {
         CharacterAppearanceFields buf = *creation_player_character;
@@ -1064,7 +1064,7 @@ load:
                 }
                 entry = TAdSinglePlyChrSelectGC::find_free_slot();
             }
-            TAdSinglePlyChrSelectGC__sub_8028F084(entry, &buf);
+            load_creation_entry_textures(entry, &buf);
         }
     }
 }

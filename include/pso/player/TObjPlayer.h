@@ -145,7 +145,7 @@ struct TObjPlayer : public TObjChara {
     s16 get_idle_animation();
     s16 get_mode_animation(u32 mode);
     s16 get_current_mode_animation();
-    void sub_801BB950();
+    void restore_state_on_area_entry();
     void handle_state2_transitions();
     void clear_state_flags(s32);
     virtual void get_anim_node_position(s32 node, Vec *out);

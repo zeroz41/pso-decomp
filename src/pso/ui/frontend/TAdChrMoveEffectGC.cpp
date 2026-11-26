@@ -79,7 +79,7 @@ void TAdChrMoveEffectGC::draw_entries() {
 
 TAdChrMoveEffectGC *chr_move_effect_instance;
 extern "C" {
-void TAdChrMoveEffectGC__sub_80349194(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params);
+void start_move_effects(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params);
 
 void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); draw_entries(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
@@ -112,10 +112,10 @@ void TAdChrMoveEffectGC::setup_move_effect_params(s32 from_index, s32 to_index) 
     copy4(p.start_color, (from_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
     copy4(p.end_color, (to_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
     copy_vec2(&p.size, (void *)chr_move_effect_size);
-    TAdChrMoveEffectGC__sub_80349194(this, &p);
+    start_move_effects(this, &p);
 }
 
-void TAdChrMoveEffectGC__sub_80349194(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params) {
+void start_move_effects(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params) {
     s32 i;
     for (i = 0; i < 16; i++) {
         copy_effect_data__18TAdChrMoveEffectGCFPvPv((S_803491F8 *)(&effects->entries[i]), (S_803491F8 *)(params));

@@ -128,7 +128,7 @@ void TQuestListOnline::handle_quest_ready() {
         q = &quest_list_online_bin_download_state;
         TQuestListOnline::decompress_quest_buffer(q->buffer, q->size);
         q = &quest_list_online_dat_download_state;
-        TQuestListOnline__sub_802176DC(q->buffer, q->size);
+        decompress_online_quest_dat(q->buffer, q->size);
         TLobby::set_enemy_mode_flag();
         r = is_challenge_mode();
         m = 2;

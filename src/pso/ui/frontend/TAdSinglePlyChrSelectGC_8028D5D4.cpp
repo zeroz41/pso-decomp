@@ -130,7 +130,7 @@ void destroy_character_creation_effects(void) {
 }
 
 void create_character_creation_effects(void) {
-    character_creation_effects.wall = fn_8029AE88(tl_03);
+    character_creation_effects.wall = create_TChCrEffWall(tl_03);
     character_creation_effects.heading = create_TChCrEffTag(tl_03);
     character_creation_effects.controller_plate = NULL;
     if (TChCrEffCtrlPl__sub_80298F6C() != 0) {

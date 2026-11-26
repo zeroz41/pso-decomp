@@ -543,7 +543,7 @@ void update_music_fade(void) {
         }
     }
     if (adxt_players[2] != NULL && adxt_get_stat(adxt_players[2]) == 3) {
-        TLobby__sub_80227AA8(adxt_players[2]);
+        update_voice_stream_mix(adxt_players[2]);
     }
 }
 

@@ -245,7 +245,7 @@ void TSnapshotFileSetup::run_task() {
     }
 }
 
-void TSnapshotFileSetup::render() { if (this->state == 6) { TLobby::update_pulse_colors((saddr)((void*)1)); TLobby__sub_80338534(); } }
+void TSnapshotFileSetup::render() { if (this->state == 6) { TLobby::update_pulse_colors((saddr)((void*)1)); draw_loading_overlay(); } }
 
 void TSnapshotFileSetup::set_option_and_confirm(s32 option, s32 yes_no) {
     if (option != (s32) this->shown_message) {

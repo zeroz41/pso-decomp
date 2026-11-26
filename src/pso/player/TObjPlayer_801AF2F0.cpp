@@ -409,7 +409,7 @@ void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     this->battle_mode = record->get_class_flag_2();
 }
 
-void TObjPlayer::sub_801BB950() {
+void TObjPlayer::restore_state_on_area_entry() {
   u32 lobby_font;
   TItem *equipped_weapon;
   if (is_current_area_item_enabled() != 0)
@@ -496,7 +496,7 @@ void TObjPlayer::reset_motion_fields() {
     this->reset_area_entry_state();
     this->update_lock_on_cursor();
     reset_action_input();
-    this->sub_801BB950();
+    this->restore_state_on_area_entry();
     reset_pending_action();
     if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_key_machine_ready() != 0) && (this->check_flag(0x800) == 0) && ((this->test_actor_flags(0x800) != 0) || (this->get_actor_hp() <= 0))) {
         this->clear_actor_flags((u32)(0x800));

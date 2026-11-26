@@ -564,7 +564,7 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
             x += 57.0f;
         }
         text_color = color | 0xFF0000 | 0xFFFF;
-        TWindowSubStatusDisp__sub_800FBD74(text_color, x, y, scale);
+        draw_beat_time_label(text_color, x, y, scale);
         TWindowSubStatusDisp::draw_number_digits((void *)text_color, beat, 3, 163.0f + x, -1.0f + y, scale);
         clock_bar_pulse += 0.01f;
         if (clock_bar_pulse >= 1.0f) {

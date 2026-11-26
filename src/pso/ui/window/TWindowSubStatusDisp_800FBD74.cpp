@@ -20,13 +20,14 @@
 extern "C" {
 
 void build_small_font_glyph_quad(u8 c, TexturedQuad *q);
+}
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 x, f32 y, f32 depth) {
+void draw_beat_time_label(s32 text_color, f32 x, f32 y, f32 depth) {
     QuadSpriteRect quad;
     set_default_alpha_blend();
     begin_screen_draw(1);
@@ -51,7 +52,6 @@ void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 x, f32 y, f32 depth)
     quad.v1 = 0.98046875f;
     draw_textured_quad_at_depth(&quad.x0, depth);
     end_screen_draw();
-}
 }
 
 void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale) {

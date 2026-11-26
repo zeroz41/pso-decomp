@@ -453,12 +453,12 @@ void TWindowKeyBoardHard::update_modifier_flags() {
             input_flags &= 0xFFFFFFFD;
         }
     }
-    if (hardware_keyboard_state.sub_801321B4() != 0) {
+    if (hardware_keyboard_state.is_control_held() != 0) {
         input_flags |= 2;
     } else {
         input_flags &= 0xFFFFFFFD;
     }
-    if (hardware_keyboard_state.is_key_57_pressed() != 0) {
+    if (hardware_keyboard_state.is_alt_held() != 0) {
         input_flags |= 4;
     } else {
         input_flags &= 0xFFFFFFFB;
