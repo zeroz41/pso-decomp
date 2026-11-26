@@ -38,7 +38,6 @@ struct BC0_80202DD4 { u32 w[0x30]; };
 struct B21FC_80202DD4 { u32 w[0x87F]; };
 
 
-struct Elem_80202DD4 { u8 data[0x54]; };
 
 struct S_80202DD4 {
     s32 f0, f4, f8, fC, f10, f14;
@@ -49,7 +48,7 @@ struct S_80202DD4 {
     BankItemRecord items[4];
     B90_80202DD4 b4B0;
     B420_80202DD4 b540;
-    Elem_80202DD4 elems[20];
+    ChatShortcut elems[20];
     BAC_80202DD4 bFF0;
     BAC_80202DD4 b109C;
     B1C_80202DD4 b1148;
@@ -176,8 +175,8 @@ void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
 u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
     S_80202DD4 *d = (S_80202DD4 *)this;
     S_80202DD4 *s = (S_80202DD4 *)source;
-    Elem_80202DD4 *p;
-    Elem_80202DD4 *q;
+    ChatShortcut *p;
+    ChatShortcut *q;
     d->f0 = s->f0;
     d->f4 = s->f4;
     d->f8 = s->f8;
@@ -199,7 +198,7 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
     p = d->elems;
     q = s->elems;
     do {
-        TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)p, (saddr)q);
+        *p = *q;
         p++;
         q++;
     } while (p < d->elems + 20);

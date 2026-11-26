@@ -35,9 +35,6 @@ void submit_chat_text(u8 *lobby) {
     }
 }
 
-extern "C" {
-void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q);
-}
 void chat_dispatch_accepted_result(s32 *submission) {
 
     switch (*submission) {
@@ -75,15 +72,18 @@ void clear_chat_shortcut(s32 i) {
     *p = 0;
 }
 }
-s32 store_chat_shortcut(s32 index, s32 src) { return TAdSinglePlyChrSelectGC__sub_80076D9C(((s32)get_chat_shortcut(index)), src); }
+s32 store_chat_shortcut(s32 index, s32 src) { return (s32)&(*(ChatShortcut *)get_chat_shortcut(index) = *(ChatShortcut *)src); }
 
-saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr dst, saddr src) {
-    TAdSinglePlyChrSelectGC__sub_80076DF4((void*)dst, (void*)src);
-    ((ChatShortcutRecordCopy *)dst)->body = ((const ChatShortcutRecordCopy *)src)->body;
-    return dst;
+ChatShortcut &ChatShortcut::operator=(const ChatShortcut &src) {
+    kind = src.kind;
+    body = src.body;
+    return *this;
 }
 
-void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
+ChatShortcutKind &ChatShortcutKind::operator=(const ChatShortcutKind &src) {
+    value = src.value;
+    return *this;
+}
 
 bool is_chat_shortcut_set(s32 index) {
     return *((s32 *)get_chat_shortcut(index)) != 0;

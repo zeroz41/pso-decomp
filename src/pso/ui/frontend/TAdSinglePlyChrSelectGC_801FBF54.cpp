@@ -273,7 +273,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_window_field(int client) {
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return character_save_record->battle_place_counts[3];
+        return character_save_record->split_screen_battle.place_counts[3];
     }
     return 0U;
 }
@@ -283,7 +283,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_window_status(int client) {
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return character_save_record->battle_place_counts[2];
+        return character_save_record->split_screen_battle.place_counts[2];
     }
     return 0U;
 }
@@ -294,7 +294,7 @@ u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client) {
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return character_save_record->battle_place_counts[1];
+        return character_save_record->split_screen_battle.place_counts[1];
     }
     return 0U;
 }
@@ -304,7 +304,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_state(int client) {
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return character_save_record->battle_place_counts[0];
+        return character_save_record->split_screen_battle.place_counts[0];
     }
     return 0U;
 }
@@ -1034,8 +1034,6 @@ struct B90_801FE010 { u32 w[0x24]; };
 
 struct B420_801FE010 { u32 w[0x108]; };
 
-struct I54_801FE010 { u8 b[0x54]; };
-
 struct BAC_801FE010 { u32 w[0x2B]; };
 
 struct B100_801FE010 { u32 w[0x40]; };
@@ -1053,7 +1051,7 @@ struct S_801FE010 {
     BankItemRecord items[200];
     B90_801FE010 d1510;
     B420_801FE010 d15A0;
-    I54_801FE010 slots[20];
+    ChatShortcut slots[20];
     BAC_801FE010 e2050;
     BAC_801FE010 e20FC;
     B1C_801FE010 e21A8;
@@ -1259,8 +1257,8 @@ void *TAdSinglePlyChrSelectGC::copy_char_slot_data(void *a0, void *a1) {
 S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *dest, S_801FE010 *source) {
     BankItemRecord *p;
     BankItemRecord *q;
-    I54_801FE010 *s;
-    I54_801FE010 *t;
+    ChatShortcut *s;
+    ChatShortcut *t;
     dest->a0 = source->a0;
     dest->a4 = source->a4;
     dest->a8 = source->a8;
@@ -1285,7 +1283,7 @@ S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *dest, S
     s = dest->slots;
     t = source->slots;
     do {
-        TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)s, (saddr)t);
+        *s = *t;
         s++;
         t++;
     } while (s < dest->slots + 20);

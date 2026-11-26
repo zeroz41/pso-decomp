@@ -224,7 +224,7 @@ force_active:
   - ray_texture_list__8TAdRayGC
   - TAdRayGC_ray_quad_table
   - set_draw_depth__14TAdSelectCurGCFf
-  - TAdSinglePlyChrSelectGC__sub_80076DF4
+  - __as__16ChatShortcutKindFRC16ChatShortcutKind
   - copy_light_range__FPfPf
   - TAdSinglePlyChrSelectGC__sub_801FBC3C
   - __dt__17CharacterFileSlotFv

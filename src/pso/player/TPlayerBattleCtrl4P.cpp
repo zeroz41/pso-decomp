@@ -1013,41 +1013,41 @@ void TPlayerBattleCtrl4P::record_results() {
                     switch (place) {
                     case 0:
                         {
-                            s32 count = record->battle_place_counts[0] + 1;
+                            s32 count = record->split_screen_battle.place_counts[0] + 1;
                             s32 lim = 0xFFFF;
                             if (count < lim) lim = count;
-                            record->battle_place_counts[0] = lim;
+                            record->split_screen_battle.place_counts[0] = lim;
                         }
                         break;
                     case 1:
                         {
-                            s32 count = record->battle_place_counts[1] + 1;
+                            s32 count = record->split_screen_battle.place_counts[1] + 1;
                             s32 lim = 0xFFFF;
                             if (count < lim) lim = count;
-                            record->battle_place_counts[1] = lim;
+                            record->split_screen_battle.place_counts[1] = lim;
                         }
                         break;
                     case 2:
                         {
-                            s32 count = record->battle_place_counts[2] + 1;
+                            s32 count = record->split_screen_battle.place_counts[2] + 1;
                             s32 lim = 0xFFFF;
                             if (count < lim) lim = count;
-                            record->battle_place_counts[2] = lim;
+                            record->split_screen_battle.place_counts[2] = lim;
                         }
                         break;
                     case 3:
                         {
-                            s32 count = record->battle_place_counts[3] + 1;
+                            s32 count = record->split_screen_battle.place_counts[3] + 1;
                             s32 lim = 0xFFFF;
                             if (count < lim) lim = count;
-                            record->battle_place_counts[3] = lim;
+                            record->split_screen_battle.place_counts[3] = lim;
                         }
                         break;
                     }
                 }
                 {
-                    s32 count = record->battle_disconnect_count - 1;
-                    record->battle_disconnect_count = count > 0 ? count : 0;
+                    s32 count = record->split_screen_battle.disconnect_count - 1;
+                    record->split_screen_battle.disconnect_count = count > 0 ? count : 0;
                 }
             }
         }

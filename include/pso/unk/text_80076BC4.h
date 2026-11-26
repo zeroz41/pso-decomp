@@ -3,10 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr dst, saddr src);
-void TAdSinglePlyChrSelectGC__sub_80076DF4(void *p, void *q);
-}
 s32 chat_accept_submission(saddr submission);
 void chat_dispatch_accepted_result(s32 *submission);
 extern "C" {
