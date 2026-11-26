@@ -8,7 +8,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/player/PlayerSlots.h"
 

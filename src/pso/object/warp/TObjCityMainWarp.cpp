@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"

@@ -4,7 +4,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/render/ChunkMaterialState.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS

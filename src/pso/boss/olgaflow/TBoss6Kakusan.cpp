@@ -12,7 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"

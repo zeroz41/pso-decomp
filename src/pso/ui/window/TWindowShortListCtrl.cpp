@@ -22,7 +22,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/unk/TBattleProximitySound.h"
 #include "pso/system/ControllerInputState.h"

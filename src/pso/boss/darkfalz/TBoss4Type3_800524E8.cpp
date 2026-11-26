@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"

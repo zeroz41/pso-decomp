@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/enemy/dubchik/TDubchikShot.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"

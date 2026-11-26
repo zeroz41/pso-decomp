@@ -22,7 +22,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/MatrixStack.h"

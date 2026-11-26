@@ -46,7 +46,7 @@ struct TWindowSubItem;
 const char *TWindowMainMenu::class_name = "TWindowMainMenu";
 
 extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 
 

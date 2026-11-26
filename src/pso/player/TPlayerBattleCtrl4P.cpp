@@ -36,7 +36,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/Language.h"
 #include "pso/object/base/TObjMotion.h"

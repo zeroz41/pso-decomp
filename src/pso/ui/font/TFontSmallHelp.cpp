@@ -3,7 +3,7 @@
 #include "pso/ui/window/SmallFontText.h"
 #include "types.h"
 #include <string.h>
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 #include "pso/camera/TCameraCtrl.h"

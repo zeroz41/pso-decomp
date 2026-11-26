@@ -15,7 +15,7 @@
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/object/key/TOKeyMachine01.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"

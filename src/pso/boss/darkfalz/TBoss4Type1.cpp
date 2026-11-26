@@ -26,7 +26,7 @@
 
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 

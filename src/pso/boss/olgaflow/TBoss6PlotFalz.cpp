@@ -69,7 +69,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/ending/TObjOnlineEnding.h"

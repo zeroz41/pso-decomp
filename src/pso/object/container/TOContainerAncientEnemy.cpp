@@ -35,7 +35,7 @@
 #include "pso/object/cave/TOAirconCave01.h"
 #include "pso/object/TObjChip.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/render/DebugFont.h"

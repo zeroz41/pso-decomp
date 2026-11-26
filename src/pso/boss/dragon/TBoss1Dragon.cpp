@@ -97,7 +97,7 @@ struct NJS_OBJECT;
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 void dragon_capture_node_points(NJS_OBJECT *);
 extern "C" {
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};

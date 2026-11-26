@@ -44,7 +44,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/EnemyStateSync.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/model_render_state.h"

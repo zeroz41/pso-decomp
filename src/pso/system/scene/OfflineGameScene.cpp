@@ -78,7 +78,7 @@
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/map/FloorTransition.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/render/gjSystem.h"
 #include "pso/map/area/AreaScene.h"

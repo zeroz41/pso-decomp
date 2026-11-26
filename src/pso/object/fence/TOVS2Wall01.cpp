@@ -44,7 +44,7 @@
 #include "pso/object/fence/WallHitPacket.h"
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 

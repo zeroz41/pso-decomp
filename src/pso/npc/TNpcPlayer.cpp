@@ -1,5 +1,5 @@
 #include "pso/player/TPlyDispData.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdlib.h>

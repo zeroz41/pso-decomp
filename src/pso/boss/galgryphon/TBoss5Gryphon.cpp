@@ -35,7 +35,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>

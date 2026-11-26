@@ -131,7 +131,7 @@
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TObjPlayerActions.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/item/item_create.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/quest/QuestScriptFormat.h"

@@ -26,7 +26,7 @@
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
 #include "pso/render/ProjectedStripDraw.h"

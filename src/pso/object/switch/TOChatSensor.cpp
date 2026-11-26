@@ -32,7 +32,7 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "pso/quest/TQuestThread.h"
 
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 

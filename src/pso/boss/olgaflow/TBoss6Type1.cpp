@@ -49,7 +49,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/BoxCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"

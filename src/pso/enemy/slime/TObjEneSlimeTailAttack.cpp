@@ -23,7 +23,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"

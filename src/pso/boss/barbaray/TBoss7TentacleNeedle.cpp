@@ -17,7 +17,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"

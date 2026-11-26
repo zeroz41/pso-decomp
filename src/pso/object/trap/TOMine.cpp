@@ -25,7 +25,7 @@ struct game_command_header;
 #include "pso/object/trap/TOMine.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"

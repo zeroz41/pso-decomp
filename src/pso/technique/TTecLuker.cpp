@@ -49,7 +49,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/gjSystem.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 
 

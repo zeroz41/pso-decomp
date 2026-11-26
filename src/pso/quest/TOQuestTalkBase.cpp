@@ -10,7 +10,7 @@
 #include "pso/object/CursorAction.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/quest/TQuestThread.h"

@@ -28,7 +28,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/task/TObject.h"

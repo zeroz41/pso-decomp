@@ -47,7 +47,7 @@ static const f32 ancient01_zero[1] = {0.0f};
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 // Effect ids load_resources picks per area (0x230/0x231 or 0x45/0x46) and the
 // pair TContainerAncient01R::init_table_entries copies for its open effect.

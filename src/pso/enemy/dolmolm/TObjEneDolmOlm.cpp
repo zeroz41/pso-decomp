@@ -59,7 +59,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/EnemyMovement.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/render_util.h"

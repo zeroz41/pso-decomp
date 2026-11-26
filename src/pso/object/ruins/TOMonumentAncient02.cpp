@@ -12,7 +12,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialColor.h"

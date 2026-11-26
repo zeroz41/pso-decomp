@@ -8,7 +8,7 @@
 #include "pso/render/render_util.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjBase.h"

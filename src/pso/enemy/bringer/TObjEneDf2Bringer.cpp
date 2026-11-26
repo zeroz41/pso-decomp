@@ -25,7 +25,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"

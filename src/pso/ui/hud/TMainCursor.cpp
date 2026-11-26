@@ -14,7 +14,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLOC_Start.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TPlyPhotonChair.h"

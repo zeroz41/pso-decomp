@@ -16,7 +16,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/TObjEnemy.h"

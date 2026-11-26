@@ -35,7 +35,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 
 const char *fog_collision_name = "TObjFogCollision";

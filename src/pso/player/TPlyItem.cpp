@@ -15,7 +15,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/item/TItemList.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlyItem.h"

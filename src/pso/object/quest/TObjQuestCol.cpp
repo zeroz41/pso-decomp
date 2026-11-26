@@ -24,7 +24,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/system/ControllerInput.h"

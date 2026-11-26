@@ -5,7 +5,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>

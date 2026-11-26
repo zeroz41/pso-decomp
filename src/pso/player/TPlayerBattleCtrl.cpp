@@ -17,7 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TDelayedAreaMusic.h"
 #include "pso/player/TPlayerBattleCtrl.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/BattleRuleConfig.h"
 #include "pso/ui/city/TCheckRoomSequence.h"

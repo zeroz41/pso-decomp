@@ -19,7 +19,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/ProjectedStripDraw.h"

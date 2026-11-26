@@ -20,7 +20,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"

@@ -77,7 +77,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
 #include "pso/item/item_pmt.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 
 #pragma readonly_strings on

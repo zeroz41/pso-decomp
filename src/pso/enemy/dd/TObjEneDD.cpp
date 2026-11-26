@@ -44,9 +44,6 @@ extern const f32 view_detail_near_depth = 155.0f;
 
 
 #include "pso/ui/TLevelSelect.h"
-extern "C" {
-int release_players_from_cutscene(void*);
-}
 
 
 #include "pso/render/BlobShadow.h"
@@ -89,9 +86,7 @@ TargetCandidate enemy_target_candidate_table[4];
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 
-extern "C" {
-int submit_cursor_candidate(void*, int);
-}
+#include "pso/player/PlayerCommands.h"
 
 
 
@@ -275,7 +270,7 @@ void TObjEneDD::init_common_from(TObjBase *source) {
 }
 
 
-int TObjEnemy::submit_default_cursor_candidate() { return submit_cursor_candidate(this, -1); }
+void TObjEnemy::submit_default_cursor_candidate() { submit_cursor_candidate(this, -1); }
 
 void TBoss8Dragon__sub_800BB7DC(void *self) {  }
 
@@ -995,7 +990,7 @@ void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance)
 
 void TObjEneDD::get_target_state_b() { TObjPlayer::freeze_all_players(); }
 
-int TObjEneDD::get_target_state_a() { return release_players_from_cutscene(this); }
+void TObjEneDD::get_target_state_a() { release_players_from_cutscene(); }
 
 s32 TObjEneDD::check_v2_mode() {
     if (((s32) enable_v2_features != 0) && ((s32) game_difficulty_selection == 3)) {

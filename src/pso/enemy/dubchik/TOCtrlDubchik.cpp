@@ -22,7 +22,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"

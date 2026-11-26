@@ -85,7 +85,7 @@ typedef TBoss4Type3Handler Type3Handler;
 #include "pso/player/TargetCursorList.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"

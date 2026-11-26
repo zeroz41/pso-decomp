@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/render/NinjaUtil.h"

@@ -53,7 +53,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/door/TODoorVoShip.h"
 #pragma readonly_strings on
 

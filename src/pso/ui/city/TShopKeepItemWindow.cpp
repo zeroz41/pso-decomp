@@ -33,7 +33,7 @@
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 

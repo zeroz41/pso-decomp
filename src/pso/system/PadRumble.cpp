@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 

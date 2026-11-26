@@ -38,7 +38,7 @@
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
 #include <string.h>
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/city/AppraisalScore.h"

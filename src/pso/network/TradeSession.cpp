@@ -6,7 +6,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TradeSession.h"
 

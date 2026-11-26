@@ -18,7 +18,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FC4;

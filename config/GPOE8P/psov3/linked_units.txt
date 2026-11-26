@@ -1380,7 +1380,6 @@ pso/render/GinjaTextureEntryCopy.cpp
 pso/render/AltModel.cpp
 pso/object/TObjHMS_EZRope_Player.cpp
 pso/object/base/TObjCollidable.cpp
-pso/player/TObjPlayer_801AF2F0.cpp
 pso/player/TObjPlayer.cpp
 pso/player/PlayerTrapCounts.cpp
 pso/player/TObjPlayerActions.cpp

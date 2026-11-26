@@ -48,7 +48,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"

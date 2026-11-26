@@ -1,5 +1,5 @@
 #include "pso/system/memory.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/system/BmlResourceLoader.h"

@@ -66,7 +66,7 @@
 #include "pso/quest/StoryQuestProgress.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"

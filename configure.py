@@ -612,7 +612,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/flower/TObjEneRe2Flower_Bomb.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -inline off,deferred: .data is the attach-joint table, then __vt__10TObjPlayer, then the
     # jump tables; written last to first, deferred.
-    "pso/player/TObjPlayer_801AF2F0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/player/TObjPlayer.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: the two 8-byte name tables 0x804809B0-0x804809C0 sit in .data, not .sdata.
     "pso/ui/frontend/TAdRicoRingCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/enemy/dd/TObjEneDD.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

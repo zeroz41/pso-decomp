@@ -25,7 +25,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/TextureState.h"
 #include "pso/item/TItemAttackColBase.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixReflect.h"

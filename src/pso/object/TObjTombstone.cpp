@@ -17,7 +17,7 @@
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"

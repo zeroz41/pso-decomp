@@ -37,7 +37,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 

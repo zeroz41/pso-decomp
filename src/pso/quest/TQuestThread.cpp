@@ -45,7 +45,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/item/MaterialStats.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/math/Vec2Constants.h"
 #include "pso/map/FloorArea.h"

@@ -92,7 +92,7 @@
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/DebugFont.h"

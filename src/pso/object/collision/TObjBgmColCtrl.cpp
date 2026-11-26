@@ -1,4 +1,4 @@
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"

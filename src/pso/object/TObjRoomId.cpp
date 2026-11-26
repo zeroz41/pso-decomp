@@ -1,4 +1,4 @@
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/render_util.h"
 #include "types.h"

@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"

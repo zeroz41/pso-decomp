@@ -18,7 +18,7 @@
 #include "pso/effect/photon/TPhotonPilla.h"
 #include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonGolla.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TPhotonBlastSequence.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/camera/TCameraCtrl.h"

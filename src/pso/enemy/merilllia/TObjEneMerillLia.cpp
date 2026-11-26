@@ -19,7 +19,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include <stdlib.h>
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/MatrixStack.h"

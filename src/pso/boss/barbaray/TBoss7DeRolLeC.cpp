@@ -99,7 +99,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include <stddef.h>
 
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 #include "pso/math/AngleLookup.h"
 
