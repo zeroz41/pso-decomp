@@ -11,6 +11,7 @@ struct TObjEnemy;
 class TObject;
 class TObjBase;
 class TSetManager;
+struct ObjectFactoryEntry;
 class THeap;
 
 // Live object and enemy rows in the floor set buffers.
@@ -101,4 +102,11 @@ FloorObjectSetRow *get_active_floor_object_rows(s32 floor);
 EnemySetRecord *get_active_floor_enemy_rows(s32 floor);
 TObjBase *call_area_set_factory(TSetManager *manager, FloorObjectSetRow *row);
 s32 init_quest_floor_enemies(s32 floor, EnemySetRecord *source, u32 size);
+extern "C" {
+// Looks the row's type up in the current area's object factory table: copies the entry to out and returns its
+// index, or -1.
+s32 find_set_factory_index(FloorObjectSetRow *row, ObjectFactoryEntry *out);
+// Builds the object of a set row through its factory; NULL for an empty row or an unknown type.
+TObjBase *create_set_object_from_row(FloorObjectSetRow *row);
+}
 #endif

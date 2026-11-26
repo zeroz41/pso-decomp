@@ -1,9 +1,0 @@
-#include "types.h"
-#include "pso/unk/TLobby_8020CFC8.h"
-
-void TLobby__sub_8020CFC8(void *dst, void *entry) {
-    *(s16 *)((s8 *)dst + 0) = (s16) *(s16 *)((s8 *)entry + 0);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)entry + 4);
-    *(f32 *)((s8 *)dst + 8) = (f32) *(f32 *)((s8 *)entry + 8);
-    *(s32 *)((s8 *)dst + 0xC) = (s32) *(s32 *)((s8 *)entry + 0xC);
-}

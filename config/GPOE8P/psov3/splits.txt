@@ -5000,80 +5000,8 @@ pso/unk/TLobby_80209524.cpp:
 	.sbss       start:0x805D60A0 end:0x805D60F8
 	.sdata2     start:0x805DC618 end:0x805DC628
 
-pso/unk/text_8020B5CC.cpp:
-	.text       start:0x8020B5CC end:0x8020BBA0
-
-pso/unk/TLobby_8020BC08.cpp:
-	.text       start:0x8020BBA0 end:0x8020BC50
-
-pso/unk/text_8020BC50.cpp:
-	.text       start:0x8020BC50 end:0x8020BF68
-
-pso/unk/TLobby_8020BF68.cpp:
-	.text       start:0x8020BF68 end:0x8020BF88
-
-pso/unk/pso_carve_8020bf88.cpp:
-	.text       start:0x8020BF88 end:0x8020BFC4
-
-pso/unk/TLobby_8020BFC4.cpp:
-	.text       start:0x8020BFC4 end:0x8020BFE4
-
-pso/unk/text_8020BFE4.cpp:
-	.text       start:0x8020BFE4 end:0x8020C2DC
-
-pso/ui/window/TWindowDD_8020C2DC.cpp:
-	.text       start:0x8020C2DC end:0x8020C354
-
-pso/unk/text_8020C354.cpp:
-	.text       start:0x8020C354 end:0x8020C3E0
-
-pso/enemy/TObjEnemy_8020C3E0.cpp:
-	.text       start:0x8020C3E0 end:0x8020C73C
-
-pso/unk/text_8020C73C.cpp:
-	.text       start:0x8020C73C end:0x8020C8A4
-
-pso/unk/TLobby_8020C8A4.cpp:
-	.text       start:0x8020C8A4 end:0x8020C9C8
-
-pso/unk/text_8020C9C8.cpp:
-	.text       start:0x8020C9C8 end:0x8020CB34
-
-pso/unk/TLobby_8020CB34.cpp:
-	.text       start:0x8020CB34 end:0x8020CC48
-
-pso/unk/text_8020CC48.cpp:
-	.text       start:0x8020CC48 end:0x8020CCD0
-
-pso/unk/TLobby_8020CCD0.cpp:
-	.text       start:0x8020CCD0 end:0x8020CCF4
-
-pso/unk/text_8020CCF4.cpp:
-	.text       start:0x8020CCF4 end:0x8020CD44
-
-pso/unk/TLobby_8020CD44.cpp:
-	.text       start:0x8020CD44 end:0x8020CE4C
-
-pso/unk/TLobby_8020CE4C.cpp:
-	.text       start:0x8020CE4C end:0x8020CF40
-
-pso/unk/text_8020CF40.cpp:
-	.text       start:0x8020CF40 end:0x8020CFC8
-
-pso/unk/TLobby_8020CFC8.cpp:
-	.text       start:0x8020CFC8 end:0x8020CFEC
-
-pso/unk/text_8020CFEC.cpp:
-	.text       start:0x8020CFEC end:0x8020D0B0
-
-pso/unk/TLobby_8020D0B0.cpp:
-	.text       start:0x8020D0B0 end:0x8020D1BC
-
-pso/unk/TLobby_8020D1BC.cpp:
-	.text       start:0x8020D1BC end:0x8020D2B4
-
 pso/map/TSetManager.cpp:
-	.text       start:0x8020D2B4 end:0x8020E400
+	.text       start:0x8020B5CC end:0x8020E400
 	.rodata     start:0x8044BC18 end:0x8044BC38
 	.data       start:0x804C9448 end:0x804C9490
 	.bss        start:0x80513A40 end:0x80513D58

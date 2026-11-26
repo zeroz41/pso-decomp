@@ -430,7 +430,6 @@ pso/enemy/shark/TObjEneShark.cpp
 pso/enemy/slime/TObjEneSlimeOne.cpp
 pso/enemy/slime/TObjEneSlimeTailAttack.cpp
 pso/enemy/TObjEnemyCustom.cpp
-pso/enemy/TObjEnemy_8020C3E0.cpp
 pso/enemy/TObjEneDarkGunnerShot.cpp
 pso/quest/challenge/ChallengeForceLoadouts.cpp
 pso/quest/challenge/ChallengeHunterLoadouts.cpp
@@ -736,17 +735,6 @@ pso/unk/TLobby_801F3A24.cpp
 pso/unk/TLobby_80207644.cpp
 pso/unk/TLobby_80207DA8.cpp
 pso/unk/TLobby_80209524.cpp
-pso/unk/TLobby_8020BC08.cpp
-pso/unk/TLobby_8020BF68.cpp
-pso/unk/TLobby_8020BFC4.cpp
-pso/unk/TLobby_8020C8A4.cpp
-pso/unk/TLobby_8020CB34.cpp
-pso/unk/TLobby_8020CCD0.cpp
-pso/unk/TLobby_8020CD44.cpp
-pso/unk/TLobby_8020CE4C.cpp
-pso/unk/TLobby_8020CFC8.cpp
-pso/unk/TLobby_8020D0B0.cpp
-pso/unk/TLobby_8020D1BC.cpp
 pso/object/city/CitySeasonResources.cpp
 pso/unk/TLobby_8020E400.cpp
 pso/unk/TLobby_8021B268.cpp
@@ -1062,7 +1050,6 @@ pso/ui/window/TWindowCtrl_8026AD44.cpp
 pso/ui/window/TWindowCtrl_8026F6A4.cpp
 pso/ui/window/TWindowCtrl_80271DFC.cpp
 pso/ui/window/TWindowDD.cpp
-pso/ui/window/TWindowDD_8020C2DC.cpp
 pso/ui/window/TWindowDD_80246F8C.cpp
 pso/ui/window/TWindowWordSelectMode.cpp
 pso/ui/window/TWindowDD_WS_ScrollBar.cpp
@@ -1465,7 +1452,6 @@ pso/quest/TQuestThread.cpp
 pso/render/RenderUtilData.cpp
 pso/render/render_util.cpp
 pso/render/render_util_head.cpp
-pso/unk/pso_carve_8020bf88.cpp
 pso/render/ChunkMaterialState.cpp
 pso/render/ChunkTextureStripCollector.cpp
 pso/object/city/CityTraffic.cpp
@@ -1650,15 +1636,6 @@ pso/unk/text_801F3774.cpp
 pso/unk/text_801F43A8.cpp
 pso/quest/QuestStoryFlags.cpp
 pso/unk/text_80203284.cpp
-pso/unk/text_8020BC50.cpp
-pso/unk/text_8020BFE4.cpp
-pso/unk/text_8020C354.cpp
-pso/unk/text_8020C73C.cpp
-pso/unk/text_8020C9C8.cpp
-pso/unk/text_8020CC48.cpp
-pso/unk/text_8020CCF4.cpp
-pso/unk/text_8020CF40.cpp
-pso/unk/text_8020CFEC.cpp
 pso/unk/text_80222DE8.cpp
 pso/unk/text_802233F8.cpp
 pso/unk/text_80225CD8.cpp
@@ -1831,7 +1808,6 @@ pso/technique/TechniqueRingwaveList.cpp
 pso/technique/TTecIceCharge.cpp
 pso/technique/TTecLightCharge.cpp
 pso/weapon/TItemAttackCol.cpp
-pso/unk/text_8020B5CC.cpp
 pso/player/PlayerActionProvider.cpp
 pso/network/NetworkInfoRequests.cpp
 pso/unk/text_803F3BF8.cpp

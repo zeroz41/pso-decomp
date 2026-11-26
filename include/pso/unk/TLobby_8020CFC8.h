@@ -4,7 +4,8 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_8020CFC8(void *dst, void *entry);
+struct ObjectFactoryEntry;
+void TLobby__sub_8020CFC8(ObjectFactoryEntry *out, ObjectFactoryEntry *entry);
 }
 
 
