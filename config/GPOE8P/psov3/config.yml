@@ -5371,7 +5371,7 @@ force_active:
   - copy_state__20TBoss6MagMotionTrackFP20TBoss6MagMotionTrack
   - copy_state__14GoGoBallConfigFP14GoGoBallConfig
   - copy_controller_input__FP22ControllerInputContextP22ControllerInputContext
-  - copy_struct28__17TWindowSubComCardFii
+  - copy_choice_search_block__FP22ChoiceSearchSelectionsPC22ChoiceSearchSelections
   - __as__14GuildCardEntryFRC14GuildCardEntry
   - copy_tombstone_spot__FP17TObjTombstoneSpotPC17TObjTombstoneSpot
   - __as__13TradeItemListFRC13TradeItemList
@@ -6676,7 +6676,7 @@ force_active:
   - get_seq_phase__6TLobbyFi
   - get_serial_seed__23TAdSinglePlyChrSelectGCFv
   - get_serial_result__22TAdEnterSerialAccessGCFv
-  - get_serial_text__22TAdEnterSerialAccessGCFii
+  - get_serial_text__22TAdEnterSerialAccessGCFll
   - get_set_bonus_multiplier__9TItemDataFPvi
   - get_shield_set_multiplier__9TItemDataFP10TObjPlayer
   - get_slot_flag__26TWindowSubQuestBoardSelectFSc
@@ -6885,7 +6885,7 @@ force_active:
   - has_inactive_card__FP13GuildCardSlotl
   - has_no_active_slot__FP12TObjEneSlime
   - has_photon_blast__8MagStatsFUc
-  - has_serial_input__22TAdEnterSerialAccessGCFv
+  - has_serial_input__22TAdEnterSerialAccessGCFll
   - has_valid_slot__23TAdSinglePlyChrSelectGCFv
   - has_visible_opacity__17MaterialShadeFadeFv
   - has_visible_opacity__18TObjEnemyColorFadeFv
@@ -17277,7 +17277,7 @@ force_active:
   - uses_x__23MagNodeOscillationStateFv
   - uses_y__23MagNodeOscillationStateFv
   - uses_z__23MagNodeOscillationStateFv
-  - validate_input__22TAdEnterSerialAccessGCFPviPv
+  - validate_input__22TAdEnterSerialAccessGCFPvlPCc
   - validate_or_update_target__16TObjEneDellBiterFv
   - validate_target__11TMainCursorFv
   - validate_target__13TWindowLockOnFv

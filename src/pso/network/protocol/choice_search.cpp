@@ -13,8 +13,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_28 { u8 bytes[0x28]; };
-
 TRecvChoiceSearchOptions *choice_search_options;
 ChoiceSearchResultList *choice_search_results;
 int quest_hack_check_b_stub(void) { return 0; }
@@ -94,8 +92,8 @@ void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSea
     u32 k;
     ChoiceSearchSelection *dst;
     ChoiceSearchOption *e;
-    ChoiceSearchSelection tmp[5];
-    copy_struct28__17TWindowSubComCardFii((saddr) tmp, (saddr) arr);
+    ChoiceSearchSelections tmp;
+    copy_choice_search_block(&tmp, (ChoiceSearchSelections *)arr);
     clear_choice_search_selections(arr);
     n = chr_select->header.flags;
     dst = arr;
@@ -104,7 +102,7 @@ void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSea
     while (i < n) {
         if (e->choice.parent_choice_id == 0) {
             id = dst->parent_choice_id = e->choice.choice_id;
-            k = find_choice_search_value(tmp, id);
+            k = find_choice_search_value(tmp.entries, id);
             dst->choice_id = (u16) find_table_entry_id(chr_select, id, k);
             dst++;
         }
@@ -112,11 +110,11 @@ void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSea
         e++;
     }
 }
-
-u8 * copy_struct28__17TWindowSubComCardFii(saddr dest, saddr src) {
-    *(ByteBlock_28 *)(dest) = *(const ByteBlock_28 *)(src);
-    return (u8 *)dest;
 }
+
+ChoiceSearchSelections *copy_choice_search_block(ChoiceSearchSelections *dest, const ChoiceSearchSelections *src) {
+    *dest = *src;
+    return dest;
 }
 void clear_choice_search_selections(ChoiceSearchSelection *arr) {
     s32 i;

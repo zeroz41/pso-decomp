@@ -157,9 +157,9 @@ void TAdEnterBaseGC::get_title_position(Position *position) {
     position->y = enter_base_text_anchor[1];
 }
 
-int TAdEnterSerialAccessGC::forward_input(void *window, s32 mode, const char *buf) { return validate_input__22TAdEnterSerialAccessGCFPviPv(window, mode, buf); }
+int TAdEnterSerialAccessGC::forward_input(void *window, s32 mode, const char *buf) { return validate_input(window, mode, buf); }
 
-int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const char *text) {
+int TAdEnterSerialAccessGC::validate_input(void *window, s32 mode, const char *text) {
     s32 i;
     s32 n;
 
@@ -237,11 +237,11 @@ void TAdEnterSerialAccessGC::clear_serial_buffer() {
     }
 }
 
-s32 has_serial_input__22TAdEnterSerialAccessGCFv(s32 parent, s32 field) {
-    return (s8)*get_serial_text__22TAdEnterSerialAccessGCFii(parent, field) ? 1 : 0;
+s32 TAdEnterSerialAccessGC::has_serial_input(s32 parent, s32 field) {
+    return (s8)*get_serial_text(parent, field) ? 1 : 0;
 }
 
-u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
+u8 *TAdEnterSerialAccessGC::get_serial_text(s32 owner, s32 field) {
     if (field == 3) {
         return (u8 *)"";
     }
@@ -291,8 +291,8 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, 
         return NULL;
     }
     kb->set_sub_position((u8 *)serial_keyboard_position_table[field]);
-    if (has_serial_input__22TAdEnterSerialAccessGCFv(parent, field) != 0) {
-        kb->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(parent, field));
+    if (has_serial_input(parent, field) != 0) {
+        kb->set_text((char *)get_serial_text(parent, field));
     }
     if (field != 3) {
         kb->set_composer_flag62_bit4();

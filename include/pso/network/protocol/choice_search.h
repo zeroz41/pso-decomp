@@ -94,11 +94,11 @@ LAYOUT_ASSERT(ChoiceSearchResultSize, sizeof(ChoiceSearchResult) == 0xD4);
 LAYOUT_ASSERT(ChoiceSearchResultListSize, sizeof(ChoiceSearchResultList) == 0x1A84);
 
 struct ChoiceSearchSelection;
+struct ChoiceSearchSelections;
 struct TPlyChoiceSearchConfig;
 
-extern "C" {
-u8 *copy_struct28__17TWindowSubComCardFii(saddr dest, saddr src);
-}
+// Copies the five selections of src to dest (rebuild_choice_search_selections saves the old ones with it).
+ChoiceSearchSelections *copy_choice_search_block(ChoiceSearchSelections *dest, const ChoiceSearchSelections *src);
 int quest_hack_check_b_stub(void);
 int quest_hack_check_a_stub(void);
 
