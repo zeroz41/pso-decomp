@@ -6,7 +6,7 @@
 char quest_vm_download_server_file_info[0x44] ATTRIBUTE_ALIGN(4);
 QuestDownloadFileCache quest_download_slot_table;
 u8 quest_name_index_table[1024][4] ATTRIBUTE_ALIGN(4);
-u8 lbl_80591AC4[0x404];
+u8 ask_header_buffer[0x404];
 s32 quest_download_ask_header_size;
 s32 quest_download_header_name_index_hi_count;
 QuestDownloadCachePage *file_page_cache_head;
@@ -84,7 +84,7 @@ void reset_text_input_state(s32 mode) {
     }
 }
 
-void TQuestVmDownLoadServer__sub_803E6B70(u8 *dst, s32 start, s32 count, s32 mode) {
+void copy_input_entry_text(u8 *dst, s32 start, s32 count, s32 mode) {
     QuestDownloadInputEntry *e;
     QuestDownloadInputEntry *end;
     u16 c;
@@ -489,7 +489,7 @@ static const u8 glyph_col[0x100] = {
     0x35, 0x35, 0x35, 0x24, 0x24, 0x36, 0x36, 0x37, 0x36, 0x36, 0x38, 0x36, 0x09, 0x09, 0x39, 0xFF,
 };
 
-s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c) {
+s32 can_connect_word_class(u8 a, u8 b, u8 c) {
     static const u8 bit_mask[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
     u8 col;
     const IsValidItemForSlotRow *row;
@@ -583,7 +583,7 @@ s32 get_max_size_of_indices(s32 *ids, s32 count) {
     return max;
 }
 
-s32 TQuestVmDownLoadServer__sub_803E779C(u32 id, s32 *file_offset, s32 *cached_id, s32 *value) {
+s32 get_slot_entry_info(u32 id, s32 *file_offset, s32 *cached_id, s32 *value) {
     QuestDownloadCacheEntry *r;
     if (id >= 0x80U) {
         return -1;
@@ -638,7 +638,7 @@ void clear_entry_reference_counts(void) {
 #pragma dont_inline off
 #pragma inline_depth(2)
 inline s32 reopen_dictionary(void) {
-    s32 h = aram_open(quest_vm_download_server_file_info, lbl_805D78F8);
+    s32 h = aram_open(quest_vm_download_server_file_info, ask_dictionary_open_mode);
     if (h == -1) {
         quest_download_file_handle = -1;
         return -1;
@@ -668,7 +668,7 @@ inline s32 seek_file(s32 handle, s32 pos, s32 whence) {
     return aram_seek(handle, pos, whence);
 }
 inline s32 reopen_dictionary_mode(void) {
-    s32 mode = lbl_805D78F8;
+    s32 mode = ask_dictionary_open_mode;
     s32 h = aram_open(quest_vm_download_server_file_info, mode);
     if (h == -1) {
         quest_download_file_handle = -1;
@@ -827,7 +827,7 @@ s32 find_name_index(const char *key) {
     return lo;
 }
 
-void TQuestVmDownLoadServer__sub_803E7F9C(u8 *text, s16 mode) {
+void mark_allowed_char(u8 *text, s16 mode) {
     u8 c = *text;
     s32 col;
     s32 row;
@@ -848,8 +848,8 @@ void TQuestVmDownLoadServer__sub_803E7F9C(u8 *text, s16 mode) {
         col = d - 0xA0;
     }
     index = row * 11 + (col >> 3);
-    lbl_805D7824[index] |= 1 << (col & 7);
-    lbl_805D7820 = 1;
+    allowed_char_bitmap[index] |= 1 << (col & 7);
+    ask_header_dirty = 1;
 }
 
 s32 is_char_allowed(const u8 *text, s16 len) {
@@ -881,7 +881,7 @@ s32 is_char_allowed(const u8 *text, s16 len) {
     bit = d - 0xA0;
   }
   bit_index = (rowi * 0xB) + (bit >> 3);
-  if ((1 << (bit & 7)) & lbl_805D7824[bit_index])
+  if ((1 << (bit & 7)) & allowed_char_bitmap[bit_index])
   {
     return 0;
   }
@@ -895,7 +895,7 @@ s32 read_name_index_table(void) {
   status = 0;
   if (aram_seek(quest_download_file_handle, 0x400, (int)status) == (-1))
   {
-    handle = aram_open(quest_vm_download_server_file_info, lbl_805D78F8);
+    handle = aram_open(quest_vm_download_server_file_info, ask_dictionary_open_mode);
     if (handle == (-1))
     {
       quest_download_file_handle = (open_status = -1);
@@ -911,7 +911,7 @@ s32 read_name_index_table(void) {
     }
     else
     {
-      if (lbl_805D78F8)
+      if (ask_dictionary_open_mode)
       {
       }
       if (aram_seek(quest_download_file_handle, 0x400, 0) == (-1))
@@ -948,16 +948,16 @@ s32 read_name_index_table(void) {
 #pragma dont_inline off
 #pragma inline_depth(2)
 s32 write_ask_header(void) {
-    u8 *p = lbl_80591AC4 + 0x30;
-    if (lbl_805D7874 == quest_download_ask_header_size && lbl_805D78FC == quest_download_header_name_index_hi_count && lbl_805D7820 == 0) {
+    u8 *p = ask_header_buffer + 0x30;
+    if (name_cache_page == quest_download_ask_header_size && number_format_mode == quest_download_header_name_index_hi_count && ask_header_dirty == 0) {
         return 0;
     }
-    p[0] = lbl_805D7874 % 256;
-    p[1] = lbl_805D7874 / 256;
+    p[0] = name_cache_page % 256;
+    p[1] = name_cache_page / 256;
     p[2] = lbl_805D7900 % 256;
     p[3] = lbl_805D7900 / 256;
-    p[4] = lbl_805D78FC % 256;
-    p[5] = lbl_805D78FC / 256;
+    p[4] = number_format_mode % 256;
+    p[5] = number_format_mode / 256;
     if (seek_dictionary(0) == -1) {
         return -1;
     }
@@ -969,7 +969,7 @@ s32 write_ask_header(void) {
 #pragma dont_inline off
 #pragma inline_depth(2)
 inline s32 open_dictionary_file(const char *filename) {
-    s32 mode = lbl_805D78F8;
+    s32 mode = ask_dictionary_open_mode;
     s32 h = aram_open(filename, mode);
     if (h == -1) {
         quest_download_file_handle = -1;
@@ -995,18 +995,18 @@ s32 read_ask_header() {
     if (seek_dictionary_file(quest_vm_download_server_file_info, 0) == -1) {
         return -1;
     }
-    if (aram_dma_read(quest_download_file_handle, lbl_80591AC4, 0x400) != 0x400) {
+    if (aram_dma_read(quest_download_file_handle, ask_header_buffer, 0x400) != 0x400) {
         return -1;
     }
-    h = lbl_80591AC4;
+    h = ask_header_buffer;
     if (strncmp((char *)h, ask_header_signature, strlen(ask_header_signature)) != 0) {
         return -1;
     }
     quest_download_name_search_lo = 0;
     quest_download_name_search_hi = h[0x2E] + (h[0x2F] << 8);
-    quest_download_ask_header_size = lbl_805D7874 = h[0x30] + (h[0x31] << 8);
-    quest_download_header_name_index_hi_count = lbl_805D78FC = h[0x34] + (h[0x35] << 8);
-    lbl_805D7820 = 0;
+    quest_download_ask_header_size = name_cache_page = h[0x30] + (h[0x31] << 8);
+    quest_download_header_name_index_hi_count = number_format_mode = h[0x34] + (h[0x35] << 8);
+    ask_header_dirty = 0;
     return 0;
 }
 #pragma pop
@@ -1055,7 +1055,7 @@ s32 close_download_file(void) {
 
 s32 find_file_info_index() {
     s32 handle;
-    handle = aram_open(quest_vm_download_server_file_info, lbl_805D78F8);
+    handle = aram_open(quest_vm_download_server_file_info, ask_dictionary_open_mode);
     if (handle == -1) {
         quest_download_file_handle = -1;
         return -1;

@@ -211,8 +211,8 @@ force_active:
   - tcp_free_rcv_buf
   - tcp_alloc_rcv_buf
   - tcp_alloc_snd_buf
-  - TQuestVmDownLoadServer__sub_803E9A74
-  - TQuestVmDownLoadServer__sub_803E9FFC
+  - find_segments_at
+  - expand_item_entries
   - build_slot_entries__Fll
   - build_slot_items__Fll
   - reset_slot

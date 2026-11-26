@@ -11,7 +11,7 @@ QuestDownloadCachedNameIndex name_cache_index;
 u8 name_cache_dirty;
 u8 *name_cache_pool_end;
 u8 *name_cache_pool_cursor;
-s32 lbl_805D7874;
+s32 name_cache_page;
 QuestDownloadCachedNameNode *name_cache_node_list;
 void mark_name_cache_dirty(void) {
     name_cache_dirty = 1;
@@ -72,11 +72,11 @@ void relocate_name_record(s32 id) {
     s32 r;
     u8 c;
     page = (s16)(page_wide = id >> 12);
-    if (lbl_805D7874 == page) {
+    if (name_cache_page == page) {
         return;
     }
     p = &name_cache_image.pages[page][(s16)(id & 0xFFF)];
-    u8 *lo = &p[(lbl_805D7874 == page) * 0];
+    u8 *lo = &p[(name_cache_page == page) * 0];
     size = *lo + (p[1] << 8);
     size &= 0xFFFF;
     u8 *rec = p;
@@ -87,7 +87,7 @@ void relocate_name_record(s32 id) {
     name_cache_pool_cursor += size;
     name_cache_pool_cursor[0] = 0;
     name_cache_pool_cursor[1] = 0;
-    if (page == lbl_805D7874) {
+    if (page == name_cache_page) {
         return;
     }
     len = p[2];
@@ -486,7 +486,7 @@ s32 load_name_cache_image(void) {
                 *link = allocated;
             }
         }
-        if (lbl_805D7874 == page) {
+        if (name_cache_page == page) {
             name_cache_pool_cursor = record;
             name_cache_pool_end = pageStart + 0x400;
         }
@@ -517,8 +517,8 @@ void rotate_cache_page(void) {
 
     *name_cache_pool_cursor++ = 0;
     *name_cache_pool_cursor++ = 0;
-    lbl_805D7874 = (lbl_805D7874 + 1) % 8;
-    name_cache_pool_cursor = cacheBytes + lbl_805D7874 * 0x400;
+    name_cache_page = (name_cache_page + 1) % 8;
+    name_cache_pool_cursor = cacheBytes + name_cache_page * 0x400;
     name_cache_pool_end = name_cache_pool_cursor + 0x400;
     for (record = name_cache_pool_cursor;
          (u16)(record[0] + (record[1] << 8)) != 0;
@@ -536,7 +536,7 @@ void rotate_cache_page(void) {
             }
         }
     }
-    clear_entries_by_id(lbl_805D7874);
+    clear_entries_by_id(name_cache_page);
 }
 
 #pragma pop
@@ -572,7 +572,7 @@ void __VIRetraceHandler(void) {
             page[0] = 0;
             page += 0x400;
         }
-        lbl_805D7874 = 0;
+        name_cache_page = 0;
         name_cache_pool_cursor = bytes;
         // Rewind the completed page walk to the end of the first append page.
         name_cache_pool_end = page -= sizeof(name_cache_image) - 0x400;

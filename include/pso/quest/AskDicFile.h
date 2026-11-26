@@ -9,10 +9,10 @@ struct QuestDownloadEntryNode;
 extern "C" {
 s32 render_input_entries_text(s32 start, s32 count, u16 *buf, s32 flag);
 void reset_text_input_state(s32 mode);
-void TQuestVmDownLoadServer__sub_803E6B70(u8 *dst, s32 start, s32 count, s32 mode);
+void copy_input_entry_text(u8 *dst, s32 start, s32 count, s32 mode);
 s32 compose_kana_jis_code(u8 ch, s32 jis);
 u16 single_byte_to_kana_jis_code(u16 ch);
-s32 TQuestVmDownLoadServer__sub_803E779C(u32 id, s32 *file_offset, s32 *cached_id, s32 *value);
+s32 get_slot_entry_info(u32 id, s32 *file_offset, s32 *cached_id, s32 *value);
 s32 read_name_index_table(void);
 s32 write_ask_header(void);
 s32 close_download_file(void);
@@ -24,8 +24,8 @@ void reset_slot_range(s32 begin, s32 end, s32 mode);
 }
 s32 quest_text_prev_page(s32 mode, s32 force);
 extern "C" {
-void TQuestVmDownLoadServer__sub_803EC09C(void);
-void TQuestVmDownLoadServer__sub_803EC460(s32 pos, s32 x);
+void build_cursor_candidates(void);
+void build_best_candidate(s32 pos, s32 x);
 }
 s32 is_jis_kanji_code(u16 ch);
 extern "C" {
@@ -37,11 +37,11 @@ s32 quest_char_is_closing_mark(u8 ch);
 s32 quest_char_is_letter(u8 ch);
 s32 quest_char_is_digit(u8 ch);
 s32 quest_char_is_alnum(u8 ch);
-s32 TQuestVmDownLoadServer__sub_803EED0C(const u8 *input, s32 length, QuestDownloadTextRecord *output);
-s32 TQuestVmDownLoadServer__sub_803EED9C(u32 index);
-s32 TQuestVmDownLoadServer__sub_803F0048(s32 id, u8 key, u8 sub_key, void *dst);
+s32 format_number_current_mode(const u8 *input, s32 length, QuestDownloadTextRecord *output);
+s32 release_slot_entry(u32 index);
+s32 find_best_slot_entry(s32 id, u8 key, u8 sub_key, void *dst);
 s32 save_and_close_download_file(void);
-s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *quest_vm_down_load_server);
+s32 open_ask_dictionary(s8 *quest_vm_down_load_server);
 }
 s32 start_askdic(void);
 extern "C" {
