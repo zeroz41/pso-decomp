@@ -1656,7 +1656,6 @@ pso/unk/text_8026CB5C.cpp
 pso/unk/text_80278460.cpp
 pso/object/door/GreenDoorResource.cpp
 pso/unk/text_8028A998.cpp
-pso/unk/text_8028EC70.cpp
 pso/unk/text_80290B3C.cpp
 pso/unk/text_80290BE0.cpp
 pso/unk/text_80290BEC.cpp

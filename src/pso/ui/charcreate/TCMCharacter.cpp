@@ -59,8 +59,9 @@ s32 creation_resource_ready_state;
 extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
 void TCharaMaking__sub_8028E3A0();
+void copy_player_visual_record(void *, void *);
 
-void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
+void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 part);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
 extern s32 memcard_access_active;
 
@@ -264,7 +265,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
         p->body_textures.complete = 0;
     }
     char_select_current_entry = 0;
-    ((void (*)(int))TAdSinglePlyChrSelectGC__sub_8028ED54)(0);
+    TAdSinglePlyChrSelectGC__sub_8028ED54(0);
     char_select_current_entry = 0;
     set_action_table(character_making_action_table);
     set_motion_list(creation_menu_main_obj->motions);
@@ -540,7 +541,7 @@ void TCMCharacter::apply_character_appearance() {
 void TCMCharacter::update_chara_preview() {
     s32 state;
     state = TCharaMaking::query_state();
-    TAdSinglePlyChrSelectGC__sub_8028ED54();
+    TAdSinglePlyChrSelectGC__sub_8028ED54(state);
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
@@ -1008,3 +1009,106 @@ void TAdSinglePlyChrSelectGC::update_char_panels() {
     }
 }
 
+
+s32 select_unused_appearance_part(void *appearance, s32 part) {
+    CharacterAppearanceFields c = *(CharacterAppearanceFields *)appearance;
+    s32 max;
+    s32 cur;
+    s32 v;
+    max = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(&c))].counts[part];
+    cur = (&c.costume)[part];
+    v = cur;
+    do {
+        if (++v >= max) {
+            v = 0;
+        }
+    } while (v != cur);
+    if (v != cur) {
+        (&c.costume)[part] = v;
+        if (TAdSinglePlyChrSelectGC::has_matching_entry(&c) == 0) {
+            goto ok;
+        }
+    }
+    v = cur;
+    do {
+        if (--v < 0) {
+            v = max - 1;
+        }
+    } while (v != cur);
+    if (v != cur) {
+        (&c.costume)[part] = v;
+        if (TAdSinglePlyChrSelectGC::has_matching_entry(&c) == 0) {
+            goto ok;
+        }
+    }
+    return 0;
+ok:
+    copy_player_visual_record(appearance, &c);
+    return 1;
+}
+
+#pragma push
+#pragma fp_contract on
+void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 part) {
+    CreationTextureCacheEntry *entry;
+    if (TAdSinglePlyChrSelectGC::count_remaining_slots() > 0) {
+        CharacterAppearanceFields buf = *creation_player_character;
+        if ((part < 0) || (part >= 5)) {
+            if (TAdSinglePlyChrSelectGC::has_matching_entry(&buf) != 0) {
+                return;
+            }
+            goto load;
+        }
+        if ((TAdSinglePlyChrSelectGC::has_matching_entry(&buf) == 0) || (select_unused_appearance_part(&buf, part) != 0)) {
+load:
+            entry = TAdSinglePlyChrSelectGC::find_free_slot();
+            if (entry == 0) {
+                if (TAdSinglePlyChrSelectGC::evict_char_entries(1) == 0) {
+                    return;
+                }
+                entry = TAdSinglePlyChrSelectGC::find_free_slot();
+            }
+            TAdSinglePlyChrSelectGC__sub_8028F084(entry, &buf);
+        }
+    }
+}
+#pragma pop
+
+void TAdSinglePlyChrSelectGC::copy_slot_data(void *entry, void *character) {
+    CreationTextureCacheEntry *e = (CreationTextureCacheEntry *)entry;
+    CharacterAppearanceFields *c = (CharacterAppearanceFields *)character;
+    s32 i;
+    for (i = 0; i < 5; i++) (&e->costume)[i] = (&c->costume)[i];
+    e->section = c->section;
+}
+
+s32 TAdSinglePlyChrSelectGC::count_char_diffs(void *entry, void *character) {
+    CreationTextureCacheEntry *e = (CreationTextureCacheEntry *)entry;
+    CharacterAppearanceFields *c = (CharacterAppearanceFields *)character;
+    s32 n = 0;
+    s32 i;
+    for (i = 0; i < 5; i++) {
+        if ((&e->costume)[i] != (&c->costume)[i]) {
+            n++;
+        }
+    }
+    if (e->section != c->section) {
+        n++;
+    }
+    return n;
+}
+
+s32 TAdSinglePlyChrSelectGC::is_entry_equal(void *entry, void *character) {
+    CreationTextureCacheEntry *e = (CreationTextureCacheEntry *)entry;
+    CharacterAppearanceFields *c = (CharacterAppearanceFields *)character;
+    s32 i;
+    if (e->section != c->section) {
+        return 0;
+    }
+    for (i = 0; i < 5; i++) {
+        if ((&e->costume)[i] != (&c->costume)[i]) {
+            return 0;
+        }
+    }
+    return 1;
+}

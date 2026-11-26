@@ -6555,11 +6555,8 @@ pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp:
 pso/ui/charcreate/CreationMotion.cpp:
 	.text       start:0x8028EC40 end:0x8028EC70
 
-pso/unk/text_8028EC70.cpp:
-	.text       start:0x8028EC70 end:0x8028EF14
-
 pso/ui/charcreate/TCMCharacter.cpp:
-	.text       start:0x8028EF14 end:0x80290B3C
+	.text       start:0x8028EC70 end:0x80290B3C
 	.rodata     start:0x804512A0 end:0x80451CE0
 	.data       start:0x804D3A08 end:0x804D408C
 	.bss        start:0x8051C0E8 end:0x80540954
