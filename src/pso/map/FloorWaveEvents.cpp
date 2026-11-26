@@ -102,7 +102,7 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-void copy_game_variations(void* p, s32 size) { copy_table_entries((s32 *)p, size); }
+void copy_game_variations(u32 *variations, s32 size) { copy_table_entries(variations, size); }
 void init_city_area_stub(void) {  }
 void randomize_offline_maps(void) { randomize_adventure_maps(); }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {

@@ -377,7 +377,7 @@ s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection) {
 }
 #pragma pop
 
-void copy_table_entries(s32 *src, u32 size) {
+void copy_table_entries(u32 *src, u32 size) {
     s32 n = size >> 3;
     s32 i;
     if (n <= 0x12) {

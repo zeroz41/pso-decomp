@@ -465,7 +465,7 @@ void change_floor_reload_area(void) {
         new_game_setup_flags &= ~1;
         reset_enemy_and_object_ids();
         select_game_player_actions();
-        copy_game_variations(game_variations, 0x80);
+        copy_game_variations(game_variations[0], 0x80);
         apply_phase_keyboard_mode();
         run_load_callback_table(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
         TLobby::reset_item_id_counters();

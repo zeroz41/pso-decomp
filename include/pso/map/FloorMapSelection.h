@@ -22,7 +22,7 @@ extern int selected_episode;
 // Picks episode 0 or 1 and resets the floor map registry for it.
 void select_episode(s32 episode);
 // Copies the game variations' (terrain, entities) pairs into the floor map registry.
-void copy_table_entries(s32 *src, u32 size);
+void copy_table_entries(u32 *src, u32 size);
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection);
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection);
 s32 get_floor_map_terrain(s32 floor);
