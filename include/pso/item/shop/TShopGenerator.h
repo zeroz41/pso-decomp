@@ -37,6 +37,16 @@ LAYOUT_ASSERT(TShopGenerator_size, sizeof(TShopGenerator) == 0x98);
 
 void set_shop_slot_active(u16 client);
 
+// The service_dispatch_table entries: a counter's sequence factory and its per-slot active flag.
+void *create_medical_center_sequence(void *player);
+void *create_shop_item_tec_sequence(void *player);
+int get_equipment_shop_slot_active_flag(int slot);
+int get_medical_center_slot_active_flag(int slot);
+int get_equipment_gear_shop_window_slot(int slot);
+int get_item_technique_shop_slot(int slot);
+int get_check_room_slot_active_flag(int slot);
+int get_judgment_shop_slot_flags(int slot);
+
 // One flag per client, indexed by get_client_split_screen_slot(entity id).
 
 #endif

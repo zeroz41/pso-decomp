@@ -659,7 +659,6 @@ pso/ui/charcreate/TChCrTagPlGraphic.cpp
 pso/ui/charcreate/TCharaMaking.cpp
 pso/system/save/TCheckMemoryCard.cpp
 pso/ui/city/TCheckRoomSequence.cpp
-pso/ui/city/TCheckRoomSequence_8021E464.cpp
 pso/item/shop/ShopItemSort.cpp
 pso/camera/TCineCtrl.cpp
 pso/object/container/TContainerAncient01.cpp
@@ -686,7 +685,6 @@ pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp
 pso/ui/city/THunterGuildSeqOffline_80213788.cpp
 pso/ui/city/THunterGuildWarning.cpp
 pso/ui/city/TJudgmentSequence.cpp
-pso/ui/city/TJudgmentSequence_8021E4C4.cpp
 pso/ui/window/TWindowKeyBoardSoft.cpp
 pso/system/ControllerInput.cpp
 pso/ui/keyboard/SystemBootInit.cpp
@@ -1021,13 +1019,11 @@ pso/map/TSetManager.cpp
 pso/ui/city/TShopArmorListWindow.cpp
 pso/ui/city/TShopDeleteItemWindow.cpp
 pso/ui/city/TShopEquipmentGearSequence.cpp
-pso/ui/city/TShopEquipmentGearSequence_8021E3A4.cpp
 pso/ui/city/TShopEquipmentListWindow.cpp
 pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp
 pso/ui/city/TShopEquipmentSellWindow.cpp
 pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp
 pso/ui/city/TShopEquipmentSequence.cpp
-pso/ui/city/TShopEquipmentSequence_8021E2E4.cpp
 pso/item/shop/TShopGenerator.cpp
 pso/ui/city/TShopGetItemWindow.cpp
 pso/ui/city/TShopItemTecSequence.cpp

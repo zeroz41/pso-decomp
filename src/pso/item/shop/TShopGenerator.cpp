@@ -21,15 +21,11 @@
 #include "pso/unk/text_80211D58.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/ui/city/TShopEquipmentSequence.h"
-#include "pso/ui/city/TShopEquipmentSequence_8021E2E4.h"
 #include "pso/ui/city/TMedicalCenterSequence.h"
 #include "pso/ui/city/TShopEquipmentGearSequence.h"
-#include "pso/ui/city/TShopEquipmentGearSequence_8021E3A4.h"
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
-#include "pso/ui/city/TCheckRoomSequence_8021E464.h"
 #include "pso/ui/city/TJudgmentSequence.h"
-#include "pso/ui/city/TJudgmentSequence_8021E4C4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
@@ -41,7 +37,7 @@ ShopService TShopGenerator::service_dispatch_table[7] = {
     {"WEAPON STORE", TShopEquipmentSequence__sub_8021DC08, TShopEquipmentSequence__sub_8021DBE0,
      TShopEquipmentSequence::create_instance, get_equipment_shop_slot_active_flag},
     {"MEDICAL CENTER", TMedicalCenterSequence::clear_window_slots, TMedicalCenterSequence::clear_slot_data,
-     create_medical_center_sequence, TMedicalCenterSequence__sub_8021E390},
+     create_medical_center_sequence, get_medical_center_slot_active_flag},
     {"GEAR STORE", TShopEquipmentGearSequence::clear_window_slot_table, TShopEquipmentGearSequence::clear_window_slots,
      TShopEquipmentGearSequence::create_instance, get_equipment_gear_shop_window_slot},
     {"ITEM STORE", TShopItemTecSequence__sub_80220560, TShopItemTecSequence__sub_80220538,
@@ -225,3 +221,39 @@ void TShopGenerator::run_fn_table_forward() {
         TShopGenerator::slot_active_table[i] = 0;
     }
 }
+
+void *TShopEquipmentSequence::create_instance(void *player) {
+    return new TShopEquipmentSequence(tl_05, (TObjPlayer *)player);
+}
+
+int get_equipment_shop_slot_active_flag(int slot) { return TShopEquipmentSequence::slot_active_flags[slot]; }
+
+void *create_medical_center_sequence(void *player) {
+    return new TMedicalCenterSequence(tl_05, (TObjPlayer *)player);
+}
+
+int get_medical_center_slot_active_flag(int slot) { return medical_center_slot_active_flags[slot]; }
+
+void *TShopEquipmentGearSequence::create_instance(void *player) {
+    return new TShopEquipmentGearSequence(tl_05, (TObjPlayer *)player);
+}
+
+int get_equipment_gear_shop_window_slot(int slot) { return TShopEquipmentGearSequence::window_slot_table[slot]; }
+
+void *create_shop_item_tec_sequence(void *player) {
+    return new TShopItemTecSequence(tl_05, (TObjPlayer *)player);
+}
+
+int get_item_technique_shop_slot(int slot) { return TShopItemTecSequence::slot_table[slot]; }
+
+void *TCheckRoomSequence::create(void *player) {
+    return new TCheckRoomSequence(tl_05, (TObjPlayer *)player);
+}
+
+int get_check_room_slot_active_flag(int slot) { return TCheckRoomSequence::slot_active_flags[slot]; }
+
+void *TJudgmentSequence::create(void *player) {
+    return new TJudgmentSequence(tl_05, (TObjPlayer *)player);
+}
+
+int get_judgment_shop_slot_flags(int slot) { return TJudgmentSequence::slot_flags[slot]; }
