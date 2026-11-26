@@ -211,7 +211,7 @@ void qst_op_start_or_update_gba_joyboot(s32 idx);
 void qst_op_get_dl_status(s32 reg);
 void qst_op_file_dl_req();
 void qst_op_set_episode(s32 episode);
-int qst_op_write_flag_buf_to_event_flags2(void *p);
+void qst_op_write_flag_buf_to_event_flags2(u8 reg);
 void qst_op_chl_set_min_time_online(s32 reg);
 void qst_op_check_for_hacking(u8 out);
 void qst_op_someone_has_spoken(s32 reg);

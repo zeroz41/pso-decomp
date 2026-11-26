@@ -523,9 +523,6 @@ s32 get_item_icon_index(const u8 *q) {
     return 0;
 }
 
-
-void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 group);
-
 }
 int TItemData::isValidGroundDrop() {
     u8 category;
@@ -551,16 +548,16 @@ int TItemData::isValidGroundDrop() {
     } else return 0;
 }
 
-void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 group) {
+void init_srank_weapon_item(TItemData *item_data, const char *name, u8 group) {
     s8 sp8[10];
     item_data->init();
-    if ((src != 0U) && (((group >= 0x70U) && (group <= 0x88U)) || ((group >= 0xA5U) && (group <= 0xA9U)))) {
-        *(s8 *)((s8 *)item_data + 0) = 0;
+    if ((name != NULL) && (((group >= 0x70U) && (group <= 0x88U)) || ((group >= 0xA5U) && (group <= 0xA9U)))) {
+        item_data->data1.data_u8[0] = 0;
         item_data->data1.data_u8[1] = group;
-        *(s8 *)((s8 *)item_data + 2) = 0;
+        item_data->data1.data_u8[2] = 0;
         memset(sp8, 0, 0xA);
         sp8[0] = 0x41;
-        strncpy((char *)&sp8[1], (const char *)src, 8);
+        strncpy((char *)&sp8[1], name, 8);
         item_data->pack_three_colors((u8 *)sp8);
     }
 }

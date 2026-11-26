@@ -24,6 +24,9 @@ struct TOSymbolchatColli : public TObjChara {
     u16 preset_ids[3];        // set param low half
 };
 
+// The quest labels qst_op_set_symbol_chat_collision passes to the next TOSymbolchatColli it creates.
+extern u8 *symbolchat_colli_param_table[4];
+
 LAYOUT_ASSERT(TOSymbolchatColliStatsOffset, offsetof(TOSymbolchatColli, collision_stats) == 0x348);
 LAYOUT_ASSERT(TOSymbolchatColli_size, sizeof(TOSymbolchatColli) == 0x384);
 #endif

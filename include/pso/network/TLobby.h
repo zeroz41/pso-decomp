@@ -284,7 +284,7 @@ struct TLobby : public TObject {
     static s32 check_trade_items_and_show_error();
     static void apply_trade_items();
 
-    static void update_alloc_size();
+    void update_alloc_size();
     void byteswap_challenge_time_packet();
     void send_state();
     void byteswap_challenge_packet();
@@ -452,7 +452,7 @@ struct TLobby : public TObject {
     static s32 pick_random_slot(s16 *slot);
     static void process_deferred_player_setup();
     static void queue_static_object_destruction();
-    static u8 read_byte_advance();
+    static s8 read_byte_advance();
     static void rebuild_all(u8 *quest);
     static void refresh_quest_list(const char *path);
     static void remove_player(unsigned int, int, int);

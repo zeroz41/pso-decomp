@@ -148,6 +148,7 @@ struct TItemData {
 
 // The ItemPMT record for an item's type bytes, NULL for none.
 void *lookup_item_pmt_record(u8 *item);
+void init_srank_weapon_item(TItemData *item_data, const char *name, u8 group);
 
 #include <stddef.h>
 LAYOUT_ASSERT(ItemDataSize, sizeof(TItemData) == 0x14);

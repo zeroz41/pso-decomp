@@ -231,6 +231,8 @@ TPlyCharData *load_npc_player_template(s32 index);
 // The NPC AI parameter rows, indexed by TNpcPlayer::AiParams::copy_entry_by_index.
 extern TNpcPlayer::AiParams npc_player_ai_templates[64];
 extern s32 quest_npc_visual_pending;
+// The visual record qst_op_prepare_npc_visual copies from the quest script for the quest NPCs.
+extern disp_data_part2 quest_npc_visual_record;
 // Sets quest_npc_visual_pending for the quest opcode that shows the quest NPCs.
 void enable_quest_npc_visual();
 #endif

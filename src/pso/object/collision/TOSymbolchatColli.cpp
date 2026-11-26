@@ -39,20 +39,14 @@ struct HL_8017873C
   u16 lo;
 };
 
-struct Ent_8017873C
-{
-  u8 pad[0x1C];
-  u8 f1c[0x3C];
-};
 
-extern "C" {
 CollisionBody symbolchatcolli_collision_body_parts[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 const char *symbolchatcolli_prs = "symbolchatcolli.prs";
 const char *symbolchat_colli_name = "TOSymbolchatColli";
-u32 symbolchat_colli_param_table[4];
-void *symbol_chat_colli_entries;
+u8 *symbolchat_colli_param_table[4];
+SymbolChatPreset *symbol_chat_colli_entries;
 
 s32 TOSymbolchatColli::get_state() {
     if (is_current_floor_switch_set(switch_ids[2]) == 1) {
@@ -65,7 +59,6 @@ s32 TOSymbolchatColli::get_state() {
 }
 
 
-typedef struct Ent_8017873C Ent_8017873C;
 void TOSymbolchatColli::init_collision_params() {
   s32 i;
   radius_sq = scale.x * scale.x;
@@ -84,7 +77,7 @@ void TOSymbolchatColli::init_collision_params() {
       hi = v >> 16;
       if (lo < 0x18)
       {
-        balloon_chats[i] = ((Ent_8017873C *) symbol_chat_colli_entries)[lo].f1c;
+        balloon_chats[i] = (u8 *)&symbol_chat_colli_entries[lo].payload;
       }
       else
       {
@@ -93,7 +86,7 @@ void TOSymbolchatColli::init_collision_params() {
     }
     else
     {
-      balloon_chats[i] = (u8 *) (uaddr) symbolchat_colli_param_table[i];
+      balloon_chats[i] = symbolchat_colli_param_table[i];
     }
     {
       HL_8017873C *h = (HL_8017873C *) (((u8 *) this) + (i * 2));
@@ -151,21 +144,20 @@ void TOSymbolchatColli::free_rock() { mem_free(symbol_chat_colli_entries); symbo
 void TOSymbolchatColli::load_symbol_chat_data() {
     void *h;
     s32 i;
-    symbol_chat_colli_entries = mem_alloc(0x840);
+    symbol_chat_colli_entries = (SymbolChatPreset *)mem_alloc(0x840);
     h = load_disc_file(symbolchatcolli_prs);
     if (h != NULL) {
         prs_decompress_buffer(h, symbol_chat_colli_entries);
     }
     safe_free(h);
     for (i = 0; i < 0x18; i++) {
-        ((SymbolChatPreset *)((u8 *)symbol_chat_colli_entries + i * 0x58))->bswap_entry();
+        symbol_chat_colli_entries[i].bswap_entry();
     }
     for (i = 0; i < 3; i++) {
         symbolchat_colli_param_table[i] = 0;
     }
 }
 
-}
 TOSymbolchatColli::~TOSymbolchatColli() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
