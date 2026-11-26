@@ -31,11 +31,6 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 
 
-struct RunTaskEv {
-    u16 kind;
-    u16 id;
-};
-
 extern "C" {
 u8 get_cast_technique_level(void *, s16);
 }
@@ -74,7 +69,7 @@ TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
 }
 
 void TCustomizeMenuCtrl::run_task() {
-    RunTaskEv ev;
+    PaletteAction ev;
     switch (state) {
     case 0:
     case 1:
@@ -104,7 +99,7 @@ void TCustomizeMenuCtrl::run_task() {
             state = 1;
         }
         if (custom_select->is_active() != 0) {
-            void *e = custom_select->get_selected_action();
+            PaletteAction *e = const_cast<PaletteAction *>(custom_select->get_selected_action());
             ((TWindowSubCustomEquip *)(this->custom_equip))->toggle_action_binding(e);
             state = 1;
         }
@@ -116,8 +111,7 @@ void TCustomizeMenuCtrl::run_task() {
 
 void TCustomizeMenuCtrl::render() {  }
 
-void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
-    RunTaskEv *ev = (RunTaskEv *)ev_arg;
+void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
     u8 *pl;
     s32 lvl;
     toggle_help_window_on_button(help_window, client_id);
@@ -128,31 +122,31 @@ void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
     if (pl == NULL) {
         return;
     }
-    if (help_id == ev->id && help_kind == ev->kind) {
+    if (help_id == ev->slot && help_kind == ev->mode) {
         return;
     }
-    help_kind = ev->kind;
-    help_id = ev->id;
+    help_kind = ev->mode;
+    help_id = ev->slot;
     text_builder_reset();
-    switch (ev->kind) {
+    switch (ev->mode) {
     case 0:
         break;
     case 2:
-        if (ev->id == 2) {
+        if (ev->slot == 2) {
             TItem *weapon = TObjPlayer::get_equipped_weapon(pl);
             if (weapon == NULL || weapon_has_extra_attack((TItemWeapon *)weapon) != 1) {
                 break;
             }
         }
-        text_builder_append(get_help_text_string(ev->id + 0x13));
+        text_builder_append(get_help_text_string(ev->slot + 0x13));
         break;
     case 3:
-        if (TObjPlayer::validate_and_clear_slot(pl + 0x428, ev->id) != 0) {
+        if (TObjPlayer::validate_and_clear_slot(pl + 0x428, ev->slot) != 0) {
             break;
         }
-        text_builder_append(get_technique_name(ev->id));
-        if (ev->id != 0x11 && ev->id != 0xE) {
-            lvl = get_cast_technique_level(pl + 0x428, ev->id);
+        text_builder_append(get_technique_name(ev->slot));
+        if (ev->slot != 0x11 && ev->slot != 0xE) {
+            lvl = get_cast_technique_level(pl + 0x428, ev->slot);
             if (current_language != LANGUAGE_JAPANESE) {
                 append_text_space();
             }
@@ -160,14 +154,14 @@ void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
             text_builder_append_int(lvl + 1);
         }
         text_builder_append(get_help_text_string(0x2E));
-        text_builder_append_int(calc_technique_parameters(ev->id, lvl, 0xFFFF)->tp_cost);
-        text_builder_append(get_help_text_string(ev->id));
+        text_builder_append_int(calc_technique_parameters(ev->slot, lvl, 0xFFFF)->tp_cost);
+        text_builder_append(get_help_text_string(ev->slot));
         break;
     case 4:
-        if (get_palette_consumable_count(ev->id, client_id) == -1) {
+        if (get_palette_consumable_count(ev->slot, client_id) == -1) {
             break;
         }
-        text_builder_append(get_help_text_string(ev->id + 0x16));
+        text_builder_append(get_help_text_string(ev->slot + 0x16));
         break;
     case 7:
         break;

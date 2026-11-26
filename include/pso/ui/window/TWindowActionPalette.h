@@ -37,6 +37,13 @@ struct TWindowActionPalette : public TWindowBase {
 
 class TWindowLayoutNumber;
 
+// An action a palette slot can hold: its mode (draw_action_palette_icon's group: 2 attacks, 3
+// techniques, 4 items, 8 ends a custom-select table) and its slot within that mode.
+struct PaletteAction {
+    u16 mode;
+    u16 slot;
+};
+
 extern "C" {
 void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index);
 void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id);

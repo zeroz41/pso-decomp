@@ -9,6 +9,7 @@ class WindowHeading;
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct WindowScrollBar;
+struct PaletteAction;
 
 struct TWindowSubCustomSelect : public TWindowAddition {
     TWindowSubCustomSelect(s32 client);
@@ -20,7 +21,7 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     u8 row_count;
     u8 state_flags;
     u32 cursor_frame;
-    uaddr action_table;
+    const PaletteAction *action_table;  // three actions per row, ended by mode 8
     WindowHeading *status_display;
     WindowScrollBar *scroll_bar;
     void handle_cancel();
@@ -32,7 +33,7 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     virtual void run_task();
     int is_active();
     int is_cancelled();  // set by handle_cancel
-    void *get_selected_action();
+    const PaletteAction *get_selected_action();
 };
 
 LAYOUT_ASSERT(TWindowSubCustomSelect_size, sizeof(TWindowSubCustomSelect) == 0x84);

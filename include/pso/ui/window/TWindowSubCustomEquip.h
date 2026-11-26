@@ -11,6 +11,7 @@ class WindowHeading;
 class TWindowSubStatusDisp;
 class WindowSpritePart;
 struct NJS_POINT2;
+struct PaletteAction;
 
 void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry);
 
@@ -47,9 +48,9 @@ struct TWindowSubCustomEquip : public TWindowBase {
     static void draw_cursor_sprite(f32 depth_scale, WindowDrawContext *context, NJS_POINT2 *position, s32 frame);
     s32 is_type_valid(u8 type);
     s32 get_saved_slot_for_index(u8 slot);
-    void get_cursor_pos(void *tag_out);
-    void remove_duplicate_bindings(void *tag_ptr);
-    void toggle_action_binding(void *tag_ptr);
+    void get_cursor_pos(PaletteAction *tag);
+    void remove_duplicate_bindings(const PaletteAction *tag);
+    void toggle_action_binding(PaletteAction *tag);
     void place_bank_slot_on_ring(s32 angle, s32 index);
 };
 
