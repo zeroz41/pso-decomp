@@ -23,7 +23,7 @@
 NJS_TEXLIST *bg_multi_textures;
 s32 split_screen_hud_animation_frame;
 
-void TWindowSubStatusDisp::draw_split_screen_dividers() {
+void draw_split_screen_dividers() {
     ColorLineVertex verts[4];
     ColorLineList d;
     u32 cols[4];
@@ -55,7 +55,7 @@ void TWindowSubStatusDisp::draw_split_screen_dividers() {
     d.draw_strip_swap_color(4, 0x16, (-2.0f));
 }
 
-void TWindowSubStatusDisp::draw_tiled_background() {
+void draw_tiled_background() {
     s32 i;
     s32 j;
     f32 buf[8];
@@ -88,7 +88,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubStatusDisp::draw_split_screen_sweep() {
+void draw_split_screen_sweep() {
     s32 i;
     f32 buf[8];
     if (split_screen_hud_animation_frame <= 0x1E) {
@@ -117,7 +117,7 @@ void TWindowSubStatusDisp::draw_split_screen_sweep() {
 }
 #pragma pop
 
-void TWindowSubStatusDisp::draw_bottom_bar() {
+void draw_bottom_bar() {
   s32 i;
   f32 buffer_8[8];
   begin_screen_draw(1);
@@ -143,17 +143,17 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   while (i < 0xA);
   end_screen_draw();
 }
-void TWindowSubStatusDisp::draw_split_screen_hud() {
+void draw_split_screen_hud() {
     s32 frame;
     if (bg_multi_textures != NULL) {
         set_depth_buffer_settings_2();
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
-        TWindowSubStatusDisp::draw_bottom_bar();
-        TWindowSubStatusDisp::draw_split_screen_sweep();
-        TWindowSubStatusDisp::draw_tiled_background();
-        TWindowSubStatusDisp::draw_split_screen_dividers();
+        draw_bottom_bar();
+        draw_split_screen_sweep();
+        draw_tiled_background();
+        draw_split_screen_dividers();
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
         restore_saved_depth_alpha_state();

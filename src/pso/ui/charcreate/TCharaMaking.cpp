@@ -86,7 +86,7 @@ s32 TObjCMMainMenu::validate_character_name(s8 *name) {
         *name = 0;
         return 0;
     }
-    if (TWindowSubComCard::contains_profanity((char *)buf) != 0) {
+    if (contains_profanity((char *)buf) != 0) {
         *name = 0;
         return 0;
     }
@@ -100,7 +100,7 @@ s32 TObjCMMainMenu::validate_character_name(s8 *name) {
         p++;
     }
     *q = 0;
-    if (TWindowSubComCard::contains_profanity((char *)out) != 0) {
+    if (contains_profanity((char *)out) != 0) {
         *name = 0;
         return 0;
     }

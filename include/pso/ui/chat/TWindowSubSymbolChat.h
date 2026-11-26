@@ -45,7 +45,6 @@ struct TWindowSubSymbolChat : public TObject {
     static s32 compute_total_height();
     static s32 calc_remaining_slots();
     static unsigned char get_global_4e54();
-    static void send_selected_symbol_chat(s32 *preset_index);
     static s32 count_instance_empty_slots();
     static s32 update_layout();
     static void update_symbol_chat_result(s32 index);
@@ -96,4 +95,6 @@ struct TWindowSubSymbolChat : public TObject {
 LAYOUT_ASSERT(TWindowSubSymbolChat_size, sizeof(TWindowSubSymbolChat) == 0x60);
 
 SymbolChatPreset *get_symbol_chat_receive_buffer(void);
+void send_selected_symbol_chat(s32 *preset_index);
+
 #endif

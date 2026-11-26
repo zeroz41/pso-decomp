@@ -73,14 +73,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static f32 get_card_window_scale(s32 client_id);
     static s32 get_card_window_flags(s32 client_id);
     static void append_play_time(u32 time);
-    static void append_comma();
-    s8 *copy_message_page_text();
     void fill_card_text_entries(GuildCardRecord *record);
-    static void draw_split_screen_dividers();
-    static void draw_tiled_background();
-    static void draw_split_screen_sweep();
-    static void draw_bottom_bar();
-    static void draw_split_screen_hud();
     void set_entry_display_value(s32 str);
     s32 get_display_mode();
     void update_entry_visibility();
@@ -256,5 +249,15 @@ struct NumberedTimesLayout {
 void release_bg_multi_textures();
 
 void load_bg_multi_textures();
+
+void draw_split_screen_hud();
+
+void draw_split_screen_dividers();
+
+void draw_tiled_background();
+
+void draw_split_screen_sweep();
+
+void draw_bottom_bar();
 
 #endif

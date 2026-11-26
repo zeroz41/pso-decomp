@@ -190,7 +190,7 @@ char *build_text_from_comma_list(char *list) {
         }
     }
     for (i = 0; i < count; i++) {
-        TWindowSubStatusDisp::append_comma();
+        append_comma();
         s = skip_to_comma_field(list, i, count);
         d = buf;
         while (*s != '\0' && *s != ',') {

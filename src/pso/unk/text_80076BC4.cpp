@@ -45,7 +45,7 @@ void chat_dispatch_accepted_result(s32 *submission) {
         G_WordSelect_6x74::send_message((WordSelectMessage *)((s8 *)submission + 4));
         return;
     case 3:
-        TWindowSubSymbolChat::send_selected_symbol_chat((s32 *)((s8 *)submission + 4));
+        send_selected_symbol_chat((s32 *)((s8 *)submission + 4));
     case 0:
         return;
     }

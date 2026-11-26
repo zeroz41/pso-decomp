@@ -104,7 +104,7 @@ void TWindowMakeTeam::run_task() {
             s32 n;
             mem_free(name);
             name = keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(name, get_shared_text_buffer());
+            mask_profanity_words(name, get_shared_text_buffer());
             n = (s32)measure_string_len(name);
             strncpy(name, get_shared_text_buffer(), n);
             m_menu->set_entry_string_by_id(name, 0);
@@ -129,7 +129,7 @@ void TWindowMakeTeam::run_task() {
             s32 n;
             mem_free(comment);
             comment = keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(comment, get_shared_text_buffer());
+            mask_profanity_words(comment, get_shared_text_buffer());
             n = (s32)measure_string_len(comment);
             strncpy(comment, get_shared_text_buffer(), n);
             m_menu->set_entry_string_by_id(comment, 1);

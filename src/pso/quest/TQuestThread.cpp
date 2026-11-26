@@ -709,7 +709,7 @@ s32 TObjItemNameEntry::process_keyboard_input() {
             keyboard->clear_keyboard_flag60_bit1();
             return 0;
         }
-        if (TWindowSubComCard::contains_profanity((char *)text) != 0) {
+        if (contains_profanity((char *)text) != 0) {
             keyboard->clear_keyboard_flag60_bit1();
             mem_free((void *)text);
             return 0;

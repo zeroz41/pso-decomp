@@ -26,7 +26,7 @@ static const s32 symbol_chat_sound_ids[9] = {
 
     extern int selected_symbol_chat_preset;
 
-void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *preset_index) {
+void send_selected_symbol_chat(s32 *preset_index) {
     G_SymbolChat_6x07 packet;
     saddr symbol_chat_preset;
     init_symbol_chat_header((&packet.header));

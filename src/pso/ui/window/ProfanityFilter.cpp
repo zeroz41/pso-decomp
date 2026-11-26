@@ -278,7 +278,7 @@ u8 soft_keyboard_key_class[7 * 16] = {
     2, 3, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 4, 5, 6, 7,
 };
 
-s32 TWindowSubComCard::contains_profanity(char *text) {
+s32 contains_profanity(char *text) {
     char name[0x11];
     char masked[0x11];
 
@@ -291,7 +291,7 @@ s32 TWindowSubComCard::contains_profanity(char *text) {
     return strncmp(name, masked, sizeof(name) - 1);
 }
 
-void TWindowSubComCard::mask_profanity_words(char *src, char *dst) {
+void mask_profanity_words(char *src, char *dst) {
     char buf[0x108];
     const char *mask = profanity_word_mask;
     s32 i;

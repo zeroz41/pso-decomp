@@ -13,4 +13,8 @@ void text_builder_append_int(s32 value);
 void text_builder_append(const char *str);
 void text_builder_reset(void);
 
+void append_comma();
+
+s8 *copy_message_page_text(const s8 *text);
+
 #endif

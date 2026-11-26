@@ -533,7 +533,7 @@ void run_split_screen_frame(void) {
             if (TCameraCtrl::get_active_controller() != 5 && TCameraCtrl::get_active_controller() != 9) {
                 if (i == 0) {
                     main_task.run_task();
-                    TWindowSubStatusDisp::draw_split_screen_hud();
+                    draw_split_screen_hud();
                 } else if (camera_ctrl_instance != NULL) {
                     camera_ctrl_instance->run_task();
                 }

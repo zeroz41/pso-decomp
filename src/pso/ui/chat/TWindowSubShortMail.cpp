@@ -567,7 +567,7 @@ void TWindowSubShortMail::close() {
     s32 i;
 
     src = (saddr)this->keyboard->realloc_buffer();
-    TWindowSubComCard::mask_profanity_words((char *)src, get_shared_text_buffer());
+    mask_profanity_words((char *)src, get_shared_text_buffer());
     TLobby::send_simple_mail(this->target_card_id, (get_shared_text_buffer()));
     mem_free((void *)src);
     short_mail_ctrl = TLobby::get_short_mail_ctrl();

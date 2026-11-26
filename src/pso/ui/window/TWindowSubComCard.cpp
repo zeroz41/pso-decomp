@@ -325,7 +325,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             text = this->keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+            mask_profanity_words(text, get_shared_text_buffer());
             own_card = TWindowSubComCard::get_own_guild_card();
             own_card->set_text(get_shared_text_buffer());
             mem_free(text);
@@ -452,7 +452,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             text = this->keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+            mask_profanity_words(text, get_shared_text_buffer());
             ((TWindowSubComCard *)(this->selected_card))->set_card_text((saddr) (get_shared_text_buffer()));
             mem_free(text);
             this->state = 1U;
@@ -1574,7 +1574,7 @@ void TWindowSubComCard::send_short_mail() {
   u8 *message;
   text = this->keyboard->realloc_buffer();
   record = get_selected_guild_card_record();
-  TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+  mask_profanity_words(text, get_shared_text_buffer());
   buffer = (u8 *)get_shared_text_buffer();
   message = buffer;
   TLobby::send_simple_mail(record->get_id(), message);

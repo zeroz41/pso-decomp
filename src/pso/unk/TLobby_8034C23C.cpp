@@ -37,7 +37,7 @@ char *TLobby::get_info_board_text() {
 void TLobby::set_info_board_text(char *text) {
     char *board_text;
     board_text = ((CharacterSaveRecord *)get_character_save_record(0xFFFFU))->info_board_text;
-    TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+    mask_profanity_words(text, get_shared_text_buffer());
     strncpy(board_text, get_shared_text_buffer(), 0xAB);
     board_text[0xAB] = 0;
     info_board_state_flags |= 1;

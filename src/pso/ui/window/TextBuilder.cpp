@@ -25,7 +25,7 @@ void TWindowSubStatusDisp::append_play_time(u32 time) {
     append_padded_number(rem, 2);
 }
 
-void TWindowSubStatusDisp::append_comma() {
+void append_comma() {
     if (text_builder_write_cursor != text_builder_buffer) {
         *text_builder_write_cursor++ = 0x2c;
         *text_builder_write_cursor = 0;
@@ -107,8 +107,8 @@ void text_builder_append_int(s32 value) {
     text_builder_write_cursor = format_int_decimal(value, text_builder_write_cursor);
 }
 
-s8 *TWindowSubStatusDisp::copy_message_page_text() {
-    const s8 *s = reinterpret_cast<const s8 *>(this);
+s8 *copy_message_page_text(const s8 *text) {
+    const s8 *s = text;
     s32 sjis;
     s8 *d;
     sjis = 0;

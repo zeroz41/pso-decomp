@@ -1856,7 +1856,7 @@ force_active:
   - is_enabled__12HeadingEntryFv
   - get_difficulty_name__12TGameListRowFSc
   - get_flag_4_bit__12TGameListRowFv
-  - draw_split_screen_sweep__20TWindowSubStatusDispFv
+  - draw_split_screen_sweep__Fv
   - window_layout__20TWindowSubStatusDisp
   - draw_face_selection__FP28TWindowSubSymbolChatFaceTypeP17WindowDrawContext
   - window_sub_symbol_chat_help_name
@@ -5795,7 +5795,7 @@ force_active:
   - draw_body__13TBoss5GryphonFv
   - draw_body__13TObjEneMorfosFv
   - draw_body_models__11TBoss6Type2Fv
-  - draw_bottom_bar__20TWindowSubStatusDispFv
+  - draw_bottom_bar__Fv
   - capture_node__24ModelNodePositionCaptureFP10NJS_OBJECT
   - draw_class_illustration__17TChCrTagPlGraphicFv
   - draw_closed__8TObjDoorFv
@@ -5895,7 +5895,7 @@ force_active:
   - draw_slot__14TWindowSubItemFlP11TWindowMenul
   - draw_slot_icons__15TAdChrSelSlotGCFv
   - draw_snapshot_capture_overlay__Fv
-  - draw_split_screen_dividers__20TWindowSubStatusDispFv
+  - draw_split_screen_dividers__Fv
   - draw_status_text__19TWindowKeyBoardHardFP17WindowDrawContext
   - draw_status_window__14TAdPlyStatusGCFPvPv
   - draw_status_window__15TAdMcSelectMcGCFv
@@ -5909,7 +5909,7 @@ force_active:
   - draw_tag_sprite__12TChCrTagNameFPv
   - draw_tag_sprites__12TChCrTagNameFPv
   - draw_text_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2
-  - draw_tiled_background__20TWindowSubStatusDispFv
+  - draw_tiled_background__Fv
   - draw_title_background_pulse__Flfl
   - draw_title_layer__10TAdTitleGCFll
   - draw_title_rings__Flfl
@@ -6438,7 +6438,7 @@ force_active:
   - spawn_particle_f3__11TObjDFJisinFPC3Vec
   - forest_box_collision_body_parts
   - forest_rel_filename_table
-  - format_challenge_stage_times__Fll
+  - format_challenge_stage_times__FP10TChallengel
   - format_dashed_serial__22TAdEnterSerialAccessGCFPcPCcUlPCUl
   - format_date_text__13TObjTombstoneFv
   - format_drop_table_filename
@@ -9222,7 +9222,7 @@ force_active:
   - open_bank__18TCheckRoomSequenceFv
   - open_buy_window__22TShopEquipmentSequenceFv
   - open_challenge_progress_window__10TChallengeFl
-  - open_challenge_window__Fll
+  - open_challenge_window__FP10TChallengel
   - open_city_warp_menu__6TLobbyFv
   - open_com_card_list__18TWindowSubShortCutFv
   - open_confirm_dialog__17TWindowOptionCtrlFll

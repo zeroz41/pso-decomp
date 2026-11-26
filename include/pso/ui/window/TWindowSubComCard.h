@@ -87,8 +87,6 @@ struct TWindowSubComCard : public TObject {
     static void init_and_press_b(s32 client_id);
     static void update_press(s32 index);
     static void select_card_entry(saddr ply_guild_card_tag);
-    static s32 contains_profanity(char *text);
-    static void mask_profanity_words(char *src, char *dst);
     static TWindowSubComCardList *create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
     static TWindowSubComCardList *create_all_cards_list(const NJS_POINT2 *position);
@@ -136,10 +134,15 @@ struct TWindowSubComCard : public TObject {
 
 LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);
 struct TWindowMenu;
+struct TChallenge;
 extern "C" void add_gray_text_entry(TWindowMenu *list, const char *text, s32 kind, s32 id);
 
-void format_challenge_stage_times(s32 lobby, s32 challenge_id);
+void format_challenge_stage_times(TChallenge *challenge, s32 challenge_id);
 
-void open_challenge_window(s32 lobby, s32 challenge_id);
+void open_challenge_window(TChallenge *challenge, s32 challenge_id);
+
+s32 contains_profanity(char *text);
+
+void mask_profanity_words(char *src, char *dst);
 
 #endif

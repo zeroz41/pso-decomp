@@ -329,7 +329,7 @@ void TObjTombstone::format_label() {
 
 void TObjTombstone::build_name_text() {
     char *buf = this->labels[2];
-    if (this->record.display_name[0] == 0 || TWindowSubComCard::contains_profanity(this->record.display_name) != 0) {
+    if (this->record.display_name[0] == 0 || contains_profanity(this->record.display_name) != 0) {
         buf[0] = 0;
     } else {
         sprintf(buf, "%s%s", get_message_text(0x4C), this->record.display_name);
@@ -355,7 +355,7 @@ void TObjTombstone::format_enemy_text() {
 
 void TObjTombstone::format_quoted_name() {
     char *buf = this->labels[4];
-    if (this->record.unit_name[0] == 0 || TWindowSubComCard::contains_profanity(this->record.unit_name) != 0) {
+    if (this->record.unit_name[0] == 0 || contains_profanity(this->record.unit_name) != 0) {
         buf[0] = 0;
     } else {
         sprintf(buf, "\"%s\"", this->record.unit_name);
