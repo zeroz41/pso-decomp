@@ -214,7 +214,7 @@ TWindowCheckBox *TWindowSubOption::create_option_value_window(s32 option) {
         window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x68)));
         window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x73)), 0);
         window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x74)), 1);
-        value = test_keyboard_card_flag4((void *)client_id);
+        value = test_keyboard_card_flag4((void *)(saddr)client_id);
         break;
     case 4:
         window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x6A)));

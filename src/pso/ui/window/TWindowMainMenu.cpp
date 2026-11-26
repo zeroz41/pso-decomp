@@ -399,7 +399,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
 }
 
 void TWindowMainMenu::update_keyboard_card_state() {
-    if (test_keyboard_card_flag4((void *)client_index) != 0) {
+    if (test_keyboard_card_flag4((void *)(saddr)client_index) != 0) {
         selected_slot = 0;
         return;
     }
