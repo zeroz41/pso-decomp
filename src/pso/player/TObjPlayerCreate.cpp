@@ -178,9 +178,9 @@ void TObjPlayer::init_action_provider() {
         action_provider = new LobbyPlayerActionProvider;
     }
     m_33b = 0;
-    unk_33A[0] = 0;
-    m_339 = 0;
-    unk_338[0] = 0;
+    class_flag_2 = 0;
+    class_flag_1 = 0;
+    class_flag_0 = 0;
     action_state = 0;
     return_city_window = 0;
     regen_timer = 0;
@@ -200,7 +200,7 @@ void TObjPlayer::init_action_provider() {
     item_node_matrices = NULL;
     set_floor_index(0xF);
     set_floor(0xF);
-    m_54c = 0;
+    lobby_label = 0;
     lobby_marker = NULL;
     record_flags_hi = 0;
     controller_port = 0;

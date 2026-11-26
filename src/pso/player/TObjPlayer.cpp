@@ -262,11 +262,11 @@ void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
 
 int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }
 void PlayerSyncRecord::set_class_flag_2(u8 v) { items[15].m_present[3] = v; }
-u8 TObjPlayer::get_battle_mode() { return unk_33A[0]; }
+u8 TObjPlayer::get_battle_mode() { return class_flag_2; }
 void PlayerSyncRecord::set_class_flag_1(u8 v) { items[14].m_present[3] = v; }
-u8 TObjPlayer::get_byte_339() { return this->m_339; }
+u8 TObjPlayer::get_byte_339() { return this->class_flag_1; }
 void PlayerSyncRecord::set_class_flag_0(u8 v) { items[13].m_present[3] = v; }
-u8 TObjPlayer::get_mag_level() { return unk_338[0]; }
+u8 TObjPlayer::get_mag_level() { return class_flag_0; }
 void PlayerSyncRecord::set_luck_materials_used(u8 v) { items[12].m_present[3] = v; }
 u8 TObjPlayer::get_luck_materials_used() { return materials.get_luck_used(); }
 void PlayerSyncRecord::set_def_materials_used(u8 v) { items[11].m_present[3] = v; }
@@ -288,8 +288,8 @@ InventoryItemList::InventoryItemList() {
 }
 
 
-void TObjPlayer::set_move_mode(s32 v) { this->m_3dc = v; }
-void TObjPlayer::set_input_mode(s32 v) { this->m_3d8 = v; }
+void TObjPlayer::set_move_mode(s32 v) { this->move_mode = v; }
+void TObjPlayer::set_input_mode(s32 v) { this->input_mode = v; }
 
 
 s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask) {
@@ -348,7 +348,7 @@ void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
 s32 TObjPlayer::get_state_flags() { return this->state_flags; }
 int TObjPlayer::unregister_sub() { return unregister_object_by_id(); }
-void TObjPlayer::set_control_role(s32 v) { *(s32 *)&this->unk_3E8 = v; }
+void TObjPlayer::set_control_role(s32 v) { this->control_role = v; }
 u8 PlayerSyncRecord::get_class_flag_2() { return items[15].m_present[3]; }
 u8 PlayerSyncRecord::get_class_flag_1() { return items[14].m_present[3]; }
 u8 PlayerSyncRecord::get_class_flag_0() { return items[13].m_present[3]; }
@@ -753,8 +753,8 @@ G_RemoveStatusEffect_6x0D &G_RemoveStatusEffect_6x0D::operator=(G_RemoveStatusEf
 }
 
 void StatusEffectChange::bswap() {
-    bswap_32(&effect_type);
-    bswap_32(&unknown_a1);
+    bswap_32((u32 *)&kind);
+    bswap_32((u32 *)&power);
 }
 
 void TObjPlayer::sub_801BEE2C(s16 v) { this->hp_bonus = v; }

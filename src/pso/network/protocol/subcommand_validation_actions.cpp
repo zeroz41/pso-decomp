@@ -5,6 +5,23 @@
 
 extern "C" s32 is_xz_nonfinite(f32 *xz);
 
+
+s32 validate_6x0D_remove_status_effect(G_ClientIDHeader *packet) {
+    return validate_subcommand_client(packet) ? 1 : 0;
+}
+
+s32 validate_6x0C_add_status_effect(G_ClientIDHeader *packet) {
+    return validate_subcommand_client(packet) ? 1 : 0;
+}
+
+s32 validate_6xB0_move_lobby_chair(G_ClientIDHeader *packet) {
+    return validate_subcommand_client(packet) ? 1 : 0;
+}
+
+s32 validate_6xAF_turn_lobby_chair(G_ClientIDHeader *packet) {
+    return validate_subcommand_client(packet) ? 1 : 0;
+}
+
 s32 validate_6xAB(G_CreateLobbyChair_6xAB *packet) {
     if (validate_subcommand_client(&packet->header) == 0) {
         return 0;

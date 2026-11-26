@@ -45,6 +45,10 @@ LAYOUT_ASSERT(SubcommandHeaderSizeCheck, sizeof(G_ClientIDHeader) == 4);
 LAYOUT_ASSERT(SubcommandClientOffsetCheck, offsetof(G_ClientIDHeader, client_id) == 2);
 
 s32 validate_6x0E_clear_negative_status_effects(G_ClientIDHeader *packet);
+s32 validate_6x0D_remove_status_effect(G_ClientIDHeader *packet);
+s32 validate_6x0C_add_status_effect(G_ClientIDHeader *packet);
+s32 validate_6xB0_move_lobby_chair(G_ClientIDHeader *packet);
+s32 validate_6xAF_turn_lobby_chair(G_ClientIDHeader *packet);
 s32 validate_6xAB(G_CreateLobbyChair_6xAB *packet);
 s32 validate_6x58_lobby_animation(G_LobbyAnimation_6x58 *packet);
 s32 validate_6x57(G_ClientIDHeader *packet);

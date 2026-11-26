@@ -215,9 +215,10 @@ struct TObjPlayer : public TObjChara {
     void request_normal_attack_stage1();
     void show_miss_for_collider(s32 collider);
     u32 state_flags;
-    u8 unk_338[0x1];
-    s8 m_339;
-    u8 unk_33A[0x1];
+    // The three class flags of the character record (get_class_flag_0..2).
+    u8 class_flag_0;
+    s8 class_flag_1;
+    u8 class_flag_2;
     s8 m_33b;
     s32 action_state;
     PlayerActionPaletteState action_palette_state;
@@ -237,14 +238,14 @@ struct TObjPlayer : public TObjChara {
     u8 pad_3c2[0x2];
     f32 lobby_animation_frame;  // frame the lobby animation (action state 0x17) resumes at
     s32 entrance_id;
-    u32 m_3cc;
+    u32 sent_status_flags;  // the status bits of actorFlags last sent as 6x0C/6x0D
     s32 controller_port; // 0-3, set by init_control_mode for a local player
     s32 freeze_escape_step; // added to the freeze timer on each stick escape (negative)
-    s32 m_3d8;
-    s32 m_3dc;
+    s32 input_mode;
+    s32 move_mode;
     s32 current_area;
     s32 current_floor;
-    u8 unk_3E8[0x4];
+    s32 control_role;
     s32 m_3ec;
     s32 target_heading;
     s32 m_3f4;
@@ -258,7 +259,7 @@ struct TObjPlayer : public TObjChara {
     PhotonBlastGauge photon_blast_gauge;
     TPlyDispConfig action_palettes;
     TObject *death_fade; // the TDeathTintFade of a dying player
-    saddr m_54c;
+    saddr lobby_label;  // the TFontSmallLobby name label on lobby floor 15
     PlayerPadBinding pad_binding;
     PlayerScaleState scale_state;
     PlayerMoveSpeed move_speed;
@@ -285,16 +286,23 @@ struct TObjPlayer : public TObjChara {
     Vec marker_position;  // above the head (calc_marker_position), where the lobby marker is drawn
     void* death_flags;
     char name[0x1C];
-    u8 m_878;
-    u8 unk_879[0x13];
+    u8 extra_model;
+    u8 pad_879[0xF];
+    u32 name_colour_checksum;
     u8 section_id;
-    u8 m_88d;
-    s8 m_88e;
-    u8 unk_88F[0x1];
+    u8 char_class;
+    s8 v2_flags;
+    u8 version;
     s32 class_flags;
     s16 costume;
     s16 skin;  // an android's body colour
-    u8 unk_898[0x10];
+    s16 face;
+    s16 head;
+    s16 hair;
+    s16 hair_r;
+    s16 hair_g;
+    s16 hair_b;
+    f32 proportion_x;
     f32 height;  // the body height the mag scales its follow height by
     // The part models TChCrLoadReq loads after the body (TObjMotion::model):
     // the hair and head hang from node 0x3B, the attachment from node 0x3A.
@@ -881,7 +889,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_palette_slot_enabled(s32 slot);
     int try_use_item_by_type(int kind, int group, int subgroup);
     s32 check_can_add_item(s8 kind, s8 group);
-    s32 can_use_item(void *item);
+    s32 can_use_item(TItem *item);
     s32 dispatch_palette_action(u32 act);
     s32 handle_palette_button_input();
     s32 execute_palette_action(s32 mode, void *target);
@@ -985,7 +993,7 @@ struct TObjPlayer : public TObjChara {
     s32 get_regen_interval(s32 timer);
     void unregister();
     void init_player_substructs(u8 *data);
-    static void init_action_palette_defaults(saddr player);
+    void init_action_palette_defaults();
     void send_respawn_position();
     void init_battle(void *data);
     void reset_area_entry_state();
@@ -1229,8 +1237,8 @@ LAYOUT_ASSERT(PlayerPaletteModifierOffset, offsetof(TObjPlayer, photon_blast_gau
 LAYOUT_ASSERT(PlayerActionPalettesOffset, offsetof(TObjPlayer, action_palettes) == 0x500);
 LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, pad_binding) == 0x550);
 LAYOUT_ASSERT(PlayerCollisionBodyOffset, offsetof(TObjPlayer, collision_body) == 0x680);
-LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, m_878) == 0x878);
-LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, m_88e) == 0x88E);
+LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, extra_model) == 0x878);
+LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, v2_flags) == 0x88E);
 LAYOUT_ASSERT(PlayerHairModelOffset, offsetof(TObjPlayer, hair_model) == 0x8AC);
 LAYOUT_ASSERT(PlayerHeadTexturesOffset, offsetof(TObjPlayer, head_textures) == 0xA1C);
 LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_textures) == 0xB88);

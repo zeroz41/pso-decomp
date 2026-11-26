@@ -126,8 +126,6 @@ void remove_photon_blast_participant(s32 id);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
 extern "C" {
 s32 dispatch_weapon_special_effect(void *, int, int, int);
-s32 fn_8036B798(void *);
-s32 fn_8036B7C0(void *);
 
 const f64 freeze_escape_timer_scale = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
@@ -141,7 +139,7 @@ void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *comm
     m.init();
     m = *command;
     m.bswap();
-    if (fn_8036B798(&m) != 0) {
+    if (validate_6xB0_move_lobby_chair(&m.header) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if ((p != NULL) && (p->is_in_tl03_state() != 0)) {
             p->update_lobby_chair(m.angle);
@@ -155,7 +153,7 @@ void handle_6xAF_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *comm
     m.init();
     m = *command;
     m.bswap();
-    if (fn_8036B7C0(&m) != 0) {
+    if (validate_6xAF_turn_lobby_chair(&m.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(m.header.client_id);
         if (p != NULL && p->is_in_tl03_state() != 0) {
             p->get_chair_state(m.angle);

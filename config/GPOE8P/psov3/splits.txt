@@ -9391,11 +9391,8 @@ pso/boss/goldragon/TObjBoss8DemoRoom.cpp:
 	.sdata      start:0x805D44E0 end:0x805D44E8
 	.sbss       start:0x805D7010 end:0x805D7018
 
-pso/unk/text_8036B748.cpp:
-	.text       start:0x8036B748 end:0x8036B7E8
-
 pso/network/protocol/subcommand_validation_actions.cpp:
-	.text       start:0x8036B7E8 end:0x8036BBF4
+	.text       start:0x8036B748 end:0x8036BBF4
 
 pso/network/protocol/subcommand_validation_photon_blast.cpp:
 	.text       start:0x8036BBF4 end:0x8036BDA0

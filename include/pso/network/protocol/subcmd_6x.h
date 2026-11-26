@@ -25,6 +25,7 @@
 
 #include "types.h"
 #include "pso/system/vector.h"
+#include "pso/object/base/StatStatusReceipt.h"
 #include <stddef.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/data/FlagWord.h"
@@ -89,10 +90,8 @@ struct G_AddBattleDamageScores_6x8F {
  void send();
 };
 
-// Body of 6x0C/6x0D.
-struct StatusEffectChange {
- u32 effect_type;
- u32 unknown_a1;
+// Body of 6x0C/6x0D: the status effect the sender added or removed.
+struct StatusEffectChange : StatStatusReceipt {
  void bswap();
 };
 

@@ -1797,7 +1797,6 @@ pso/unk/text_8035D444.cpp
 pso/enemy/epsilon/TObjEneEpsilon.cpp
 pso/weapon/TItemWeaponSRankKnuckle.cpp
 pso/unk/text_8036A3CC.cpp
-pso/unk/text_8036B748.cpp
 pso/unk/text_8036BDA0.cpp
 pso/unk/text_8036BF10.cpp
 PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c

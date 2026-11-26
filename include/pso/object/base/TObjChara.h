@@ -5,6 +5,7 @@
 #include "pso/map/CsnGroundCandidates.h"
 #include "pso/system/SubtractiveRng.h"
 #include "pso/item/WeaponAttribute.h"
+#include "pso/object/base/StatStatusReceipt.h"
 
 struct Vec;
 struct player_stats;
@@ -26,11 +27,6 @@ struct StatusEffect {
     s32 timer;  // frames left
 };
 
-// The Shifta/Jellen or Deband/Zalure effect taken by the stat-status virtuals.
-struct StatStatusReceipt {
-    s32 kind;
-    f32 power;
-};
 
 struct DirectAttackPayload {
     s32 kind;
