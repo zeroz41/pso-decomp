@@ -318,7 +318,7 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
     return v;
 }
 
-s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 player) {
+s32 TWindowDD::format_french_message(WordSelectMessage *src, char *window_dd, u16 player) {
     s32 k;
     s32 n;
     s32 m;
@@ -355,7 +355,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
         if (n > 1) {
             WordSelectMessage copy;
             TWindowDD__sub_80347758(src, &copy);
-            pos = format_message_text__9TWindowDDFPvPvUs(&copy, window_dd, player);
+            pos = format_french_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -505,7 +505,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
     return pos;
 }
 
-s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 player) {
+s32 TWindowDD::format_german_message(WordSelectMessage *src, char *window_dd, u16 player) {
     s32 pos;
     s32 id;
     s32 kind;
@@ -543,7 +543,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
         if (n > 1) {
             WordSelectMessage copy;
             TWindowDD__sub_80347758(src, &copy);
-            pos = format_german_message__9TWindowDDFPvPvUs(&copy, window_dd, player);
+            pos = format_german_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -737,12 +737,11 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
     return pos;
 }
 
-/* Spanish word-select formatter (window mode 4; inferred: format_spanish_message, from the
-   leading "\xBF"/"\xA1" marks for the ?/! ids 0x685/0x686). */
+/* Spanish word-select formatter (window mode 4): the ?/! ids 0x685/0x686 open with "\xBF"/"\xA1". */
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-// inferred: appends the term after the count word, chosen by the mode the first term set
+// Appends the term after the count word, chosen by the mode the first term set
 static inline void append_second_term(s32 id, s32 mode, char *window_dd, s32 *pos) {
     TWindowDD::show_message_by_count(window_dd, pos);
     if (mode == 0) {
@@ -758,7 +757,7 @@ static inline void append_second_term(s32 id, s32 mode, char *window_dd, s32 *po
     }
 }
 
-s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player) {
+s32 TWindowDD::format_spanish_message(WordSelectMessage *src, char *window_dd, u16 player) {
     s32 k;
     s32 n;
     s32 i;
@@ -794,7 +793,7 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
         if (n > 1) {
             WordSelectMessage copy;
             TWindowDD__sub_80347758(src, &copy);
-            pos = TWindowDD__sub_80345608(&copy, window_dd, player);
+            pos = format_spanish_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -964,7 +963,7 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
     return pos;
 }
 
-s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 player) {
+s32 TWindowDD::format_english_message(WordSelectMessage *src, char *window_dd, u16 player) {
     s32 b;
     s32 n;
     s32 i;
@@ -1001,7 +1000,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
         if (n > 1) {
             WordSelectMessage copy;
             TWindowDD__sub_80347758(src, &copy);
-            pos = format_english_message__9TWindowDDFPvPvUs(&copy, window_dd, player);
+            pos = format_english_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -1131,7 +1130,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
 }
 #pragma pop
 
-s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *entry, char *window_dd) {
+s32 TWindowDD::format_entry_text(WordSelectMessage *entry, char *window_dd) {
     s32 pos;
     s32 n;
     pos = 0;
@@ -2388,19 +2387,19 @@ s32 TWindowDD::can_append_chars(s32 len, s32 *pos) {
 void TWindowDD::format_message(WordSelectMessage *message, char *text, u16 player) {
     switch ((s32) TWindowDD::window_mode) {
     case LANGUAGE_JAPANESE:
-        format_entry_text__9TWindowDDFPvPv(message, text);
+        format_entry_text(message, text);
         return;
     default:
-        format_english_message__9TWindowDDFPvPvUs(message, text, player);
+        format_english_message(message, text, player);
         return;
     case LANGUAGE_SPANISH:
-        TWindowDD__sub_80345608(message, text, player);
+        format_spanish_message(message, text, player);
         return;
     case LANGUAGE_GERMAN:
-        format_german_message__9TWindowDDFPvPvUs(message, text, player);
+        format_german_message(message, text, player);
         return;
     case LANGUAGE_FRENCH:
-        format_message_text__9TWindowDDFPvPvUs(message, text, player);
+        format_french_message(message, text, player);
         return;
     }
 }

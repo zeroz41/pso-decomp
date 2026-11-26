@@ -119,6 +119,11 @@ struct TWindowDD : public TObject
     void close_all_windows();
     static s32 can_append_chars(s32 need, s32 *pos);
     static void format_message(WordSelectMessage *message, char *text, u16 player);
+    static s32 format_french_message(WordSelectMessage *words, char *text, u16 player);
+    static s32 format_german_message(WordSelectMessage *words, char *text, u16 player);
+    static s32 format_spanish_message(WordSelectMessage *words, char *text, u16 player);
+    static s32 format_english_message(WordSelectMessage *words, char *text, u16 player);
+    static s32 format_entry_text(WordSelectMessage *words, char *text);
     void append_prompt_newline(s32 *pos);
     static s32 clamp_range_5FA_682(s16 id);
     static s32 clamp_range_2C9_552(s16 id);
