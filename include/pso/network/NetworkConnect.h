@@ -12,46 +12,12 @@ struct AccountEntry {
     char host[0x80];
     char user[0x20];
     PhoneNumber phone[3]; /* dial-up numbers (get_modem_phone_number, connect_modem) */
-    char f100[0x40];
-    char f140[0x40];
-    char f180[0x40];
+    char mail_address[0x40];
+    char mail_server[0x40];
+    char pop_server[0x40];
     u32 dns1; /* primary DNS server address (set_dns_servers) */
     u32 dns2; /* secondary DNS server address */
     s32 valid;
-};
-
-// The account settings init_work reads from the network configuration.
-struct AccountConfigRecord {
-    s32 f0;
-    char host[0x80];
-    char user[0x20];
-    char phone[3][0x40];
-    u32 dns1;
-    u32 dns2;
-    char f16C[0x20];
-    char f18C[0x40];
-    char f1CC[0x40];
-    u8 pad[0x274 - 0x20C];
-};
-
-// The broadband adapter settings init_struct reads from the network configuration.
-struct LanConfigRecord {
-    s32 f0;
-    s32 connection_type; /* 0 DHCP, 1 PPPoE, otherwise a fixed address */
-    char ppp_user[0x80];
-    char ppp_password[0x20];
-    s32 ip_addr;
-    s32 netmask;
-    s32 fB0;
-    s32 dns1;
-    s32 dns2;
-    s32 gateway;
-    s32 fC0;
-    char dhcp_hostname[0x40];
-    char domain[0x40];
-    u8 pad_144[0x100];
-    u16 f244;
-    u8 pad[0x26C - 0x246];
 };
 
 // The broadband connection settings run_connect_sequence brings the adapter up with.
@@ -67,7 +33,7 @@ struct NetworkConfig {
     char domain[0x40];
     char ppp_user[0x80];
     char ppp_password[0x20];
-    u16 f11C;
+    u16 proxy_port;
     s32 valid; /* 1 once load_network_configs read the settings */
 };
 LAYOUT_ASSERT(NetworkConfig_size, sizeof(NetworkConfig) == 0x124);

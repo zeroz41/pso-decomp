@@ -226,36 +226,36 @@ s32 is_dhcp_connection(void) {
 }
 
 
-s32 init_struct(u8 *info) {
+s32 init_struct(LanConfigRecord *info) {
     u8 state;
 
     if (!(network_info_flags & 1)) {
         return 0;
     }
-    memset((info), 0, 0x26C);
+    memset(info, 0, sizeof(*info));
     if (get_current_entry_connection_type(&state) != 0) {
         return 0;
     }
-    *(s32 *)((s8 *)info + 4) = (s32) state;
-    get_current_entry_ip_addr(info + 0xA8);
-    get_current_entry_netmask(info + 0xAC);
-    get_current_entry_gateway(info + 0xBC);
-    copy_current_entry_dhcp_hostname((char *)(info + 0xC4), 0x40);
-    TLobby__sub_803F5B20((char *)(info + 0x144), 0x20);
-    TLobby__sub_803F5C58((char *)(info + 0x164), 0x40);
-    TLobby__sub_803F5EC8((char *)(info + 0x1A4), 0x40);
-    TLobby__sub_803F6000((char *)(info + 0x1E4), 0x20);
-    TLobby__sub_803F6138((char *)(info + 0x204), 0x20);
-    TLobby__sub_803F6138((char *)(info + 0x204), 0x20);
-    TLobby__sub_803F6270((u16 *)(info + 0x244));
-    copy_current_entry_name((char *)(info + 8), 0x80);
-    copy_current_entry_password((char *)(info + 0x88), 0x20);
-    get_current_entry_dns1(info + 0xB4);
-    get_current_entry_dns2(info + 0xB8);
+    info->connection_type = state;
+    get_current_entry_ip_addr(&info->ip_addr);
+    get_current_entry_netmask(&info->netmask);
+    get_current_entry_gateway(&info->gateway);
+    copy_current_entry_dhcp_hostname(info->dhcp_hostname, sizeof(info->dhcp_hostname));
+    copy_current_entry_mail_name(info->mail_name, sizeof(info->mail_name));
+    copy_current_entry_mail_address(info->mail_address, sizeof(info->mail_address));
+    copy_current_entry_pop_server(info->pop_server, sizeof(info->pop_server));
+    copy_current_entry_pop_user(info->pop_user, sizeof(info->pop_user));
+    copy_current_entry_pop_password(info->pop_password, sizeof(info->pop_password));
+    copy_current_entry_pop_password(info->pop_password, sizeof(info->pop_password));
+    get_current_entry_proxy_port(&info->proxy_port);
+    copy_current_entry_name(info->ppp_user, sizeof(info->ppp_user));
+    copy_current_entry_password(info->ppp_password, sizeof(info->ppp_password));
+    get_current_entry_dns1(&info->dns1);
+    get_current_entry_dns2(&info->dns2);
     return 0;
 }
 
-s32 init_work(s32 unused, u8 *info) {
+s32 init_work(s32 unused, AccountConfigRecord *info) {
     u8 scratch[0x40];
     u8 dst[0x20];
 
@@ -263,21 +263,21 @@ s32 init_work(s32 unused, u8 *info) {
     if (!(network_info_flags & 1)) {
         return 0;
     }
-    copy_current_entry_name((char *)(info + 0x4), 0x80);
-    copy_current_entry_password((char *)(info + 0x84), 0x20);
-    get_current_entry_dns1(info + 0x164);
-    get_current_entry_dns2(info + 0x168);
-    TLobby__sub_803F5C58((char *)(info + 0x16C), 0x20);
-    TLobby__sub_803F5D90((char *)(info + 0x18C), 0x40);
-    TLobby__sub_803F5EC8((char *)(info + 0x1CC), 0x40);
-    TLobby__sub_803F6000((char *)(info + 0x20C), 0x20);
-    TLobby__sub_803F6138((char *)(info + 0x22C), 0x20);
+    copy_current_entry_name(info->host, sizeof(info->host));
+    copy_current_entry_password(info->user, sizeof(info->user));
+    get_current_entry_dns1(&info->dns1);
+    get_current_entry_dns2(&info->dns2);
+    copy_current_entry_mail_address(info->mail_address, sizeof(info->mail_address));
+    copy_current_entry_mail_server(info->mail_server, sizeof(info->mail_server));
+    copy_current_entry_pop_server(info->pop_server, sizeof(info->pop_server));
+    copy_current_entry_pop_user(info->pop_user, sizeof(info->pop_user));
+    copy_current_entry_pop_password(info->pop_password, sizeof(info->pop_password));
     memset(dst, 0, 0x20);
     memset(scratch, 0, 0x40);
     copy_current_entry_dial_prefix((char *)((s32 *)dst), 0x20);
-    copy_current_entry_phone_number(0, (char *)(info + 0xA4), 0x40);
-    copy_current_entry_phone_number(1, (char *)(info + 0xE4), 0x40);
-    copy_current_entry_phone_number(2, (char *)(info + 0x124), 0x40);
+    copy_current_entry_phone_number(0, info->phone[0], sizeof(info->phone[0]));
+    copy_current_entry_phone_number(1, info->phone[1], sizeof(info->phone[1]));
+    copy_current_entry_phone_number(2, info->phone[2], sizeof(info->phone[2]));
     return 0;
 }
 

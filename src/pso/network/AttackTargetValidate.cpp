@@ -1,10 +1,7 @@
 #include "types.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
-extern "C" {
-s32 validate_attack_target_count(s32 *count);
-}
-s32 validate_attack_target_list(s32 *list);
 s32 validate_attack_target_list(s32 *list) {
     s32 i;
     if (validate_attack_target_count(list) == 0) {

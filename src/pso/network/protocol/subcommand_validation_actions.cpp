@@ -2,8 +2,7 @@
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/network/protocol/subcmd_6x.h"
-
-extern "C" s32 is_xz_nonfinite(f32 *xz);
+#include "pso/player/LocalClientId.h"
 
 
 s32 validate_6x0D_remove_status_effect(G_ClientIDHeader *packet) {

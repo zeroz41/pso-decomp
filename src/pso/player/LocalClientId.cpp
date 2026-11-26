@@ -27,14 +27,14 @@ void FloorTransition::init_range(s32 floor) {
 }
 
 // The validators pass the two packed floats of a position subcommand (x, z).
-u8 is_xz_nonfinite(f32 *xz) {
-    int result;
+s32 is_xz_nonfinite(f32 *xz) {
+    u8 result;
 
     result = 0;
     if ((is_float_nonfinite(xz[0]) != 0) || (is_float_nonfinite(xz[1]) != 0)) {
         result = 1;
     }
-    return (u8)result;
+    return result;
 }
 
 s32 has_nonfinite_position(f32 *xz) {

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/network/NetworkInfoOpen.h"
 #include "pso/network/NetworkInfoLoader.h"
+#include "pso/network/NetworkInfoCodec.h"
 #include <dolphin/os/OSAlloc.h>
 
 // First function of the ntInf library: it publishes the library's version
@@ -8,15 +9,10 @@
 // 32-byte aligned like the other ntInf globals.
 u32 lobby_net_config_mode __attribute__((aligned(32)));
 
-extern "C" {
-extern const char *ntinf_version_ref;
 char ntinf_version_string[] = "\nntInf Ver 1.17.00 Build:Jul  9 2002 09:41:44\n";
 extern const char *const ntinf_version_string_ref = ntinf_version_string;
 // A second copy of the requested mode; nothing reads it.
 s32 lobby_net_config_requested_mode;
-extern s32 lobby_net_config_load_state;
-extern u8 *lobby_net_config_buffer;
-extern u8 *lobby_net_config_card_base;
 
 #pragma push
 #pragma scheduling off
@@ -37,23 +33,21 @@ s32 open_network_config(s32 backup_mode, void *buffer ATTRIBUTE_ALIGN_PARAM(32),
     get_or_set_network_config_backup_mode(backup_mode);
     lobby_net_config_load_state = 0;
     if (buffer == NULL) {
-        lobby_net_config_buffer = (u8 *)OSAllocFromHeap(__OSCurrHeap, get_network_config_buffer_size(backup_mode));
+        lobby_net_config_buffer = (NetworkInfoConfig *)OSAllocFromHeap(__OSCurrHeap, get_network_config_buffer_size(backup_mode));
         if (lobby_net_config_buffer == NULL) {
             return -4;
         }
         lobby_net_config_load_state = 1;
     } else {
-        lobby_net_config_buffer = (u8 *)buffer;
+        lobby_net_config_buffer = (NetworkInfoConfig *)buffer;
     }
     if (backup_mode == 1) {
-        lobby_net_config_card_base = lobby_net_config_buffer + 0x19D4;
+        lobby_net_config_card_base = lobby_net_config_buffer + 1;
     }
     set_network_config_card_channel(2);
     return 0;
 }
 #pragma pop
-
-}
 
 #pragma push
 #pragma peephole off

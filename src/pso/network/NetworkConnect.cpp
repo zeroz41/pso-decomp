@@ -473,45 +473,45 @@ void load_network_configs() {
     } else {
         lbl_8050CE0C[1] = 0;
     }
-    if (init_work(1, (u8 *)&w) == 0) {
+    if (init_work(1, &w) == 0) {
         strncpy(lobby_account_entries[0].host, w.host, 0x7F);
         strncpy(lobby_account_entries[0].user, w.user, 0x1F);
         strncpy(lobby_account_entries[0].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[0].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[0].phone[2].number, w.phone[2], 0x1F);
-        strncpy(lobby_account_entries[0].f100, w.f16C, 0x3F);
-        strncpy(lobby_account_entries[0].f140, w.f18C, 0x3F);
-        strncpy(lobby_account_entries[0].f180, w.f1CC, 0x3F);
+        strncpy(lobby_account_entries[0].mail_address, w.mail_address, 0x3F);
+        strncpy(lobby_account_entries[0].mail_server, w.mail_server, 0x3F);
+        strncpy(lobby_account_entries[0].pop_server, w.pop_server, 0x3F);
         copy_ip_address(&lobby_account_entries[0].dns1, &w.dns1);
         copy_ip_address(&lobby_account_entries[0].dns2, &w.dns2);
         lobby_account_entries[0].valid = 1;
     } else {
         lobby_account_entries[0].valid = 0;
     }
-    if (init_work(2, (u8 *)&w) == 0) {
+    if (init_work(2, &w) == 0) {
         strncpy(lobby_account_entries[1].host, w.host, 0x7F);
         strncpy(lobby_account_entries[1].user, w.user, 0x1F);
         strncpy(lobby_account_entries[1].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[1].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[1].phone[2].number, w.phone[2], 0x1F);
-        strncpy(lobby_account_entries[1].f100, w.f16C, 0x3F);
-        strncpy(lobby_account_entries[1].f140, w.f18C, 0x3F);
-        strncpy(lobby_account_entries[1].f180, w.f1CC, 0x3F);
+        strncpy(lobby_account_entries[1].mail_address, w.mail_address, 0x3F);
+        strncpy(lobby_account_entries[1].mail_server, w.mail_server, 0x3F);
+        strncpy(lobby_account_entries[1].pop_server, w.pop_server, 0x3F);
         copy_ip_address(&lobby_account_entries[1].dns1, &w.dns1);
         copy_ip_address(&lobby_account_entries[1].dns2, &w.dns2);
         lobby_account_entries[1].valid = 1;
     } else {
         lobby_account_entries[1].valid = 0;
     }
-    if (init_work(0, (u8 *)&w) == 0) {
+    if (init_work(0, &w) == 0) {
         strncpy(lobby_account_entries[2].host, w.host, 0x7F);
         strncpy(lobby_account_entries[2].user, w.user, 0x1F);
         strncpy(lobby_account_entries[2].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[2].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[2].phone[2].number, w.phone[2], 0x1F);
-        strncpy(lobby_account_entries[2].f100, w.f16C, 0x3F);
-        strncpy(lobby_account_entries[2].f140, w.f18C, 0x3F);
-        strncpy(lobby_account_entries[2].f180, w.f1CC, 0x3F);
+        strncpy(lobby_account_entries[2].mail_address, w.mail_address, 0x3F);
+        strncpy(lobby_account_entries[2].mail_server, w.mail_server, 0x3F);
+        strncpy(lobby_account_entries[2].pop_server, w.pop_server, 0x3F);
         copy_ip_address(&lobby_account_entries[2].dns1, &w.dns1);
         copy_ip_address(&lobby_account_entries[2].dns2, &w.dns2);
         lobby_account_entries[2].valid = 1;
@@ -519,7 +519,7 @@ void load_network_configs() {
         lobby_account_entries[2].valid = 0;
     }
     network_config.valid = 0;
-    if (net_session_mode == 1 && init_struct((u8 *)&info) == 0) {
+    if (net_session_mode == 1 && init_struct(&info) == 0) {
         network_config.connection_type = info.connection_type;
         network_config.local_ip = info.ip_addr;
         network_config.netmask = info.netmask;
@@ -531,7 +531,7 @@ void load_network_configs() {
         strncpy(network_config.ppp_password, info.ppp_password, 0x1F);
         strncpy(network_config.dhcp_hostname, info.dhcp_hostname, 0x1F);
         strncpy(network_config.domain, info.domain, 0x3F);
-        network_config.f11C = info.f244;
+        network_config.proxy_port = info.proxy_port;
         network_config.valid = 1;
     }
 }

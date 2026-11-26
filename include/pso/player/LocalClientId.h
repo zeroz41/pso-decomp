@@ -47,11 +47,8 @@ void promote_area_floor(FloorTransition *transition);
 // The control role create_player_object hands the local player(s) (name inferred).
 extern s32 player_control_role_base;
 
-// --- C functions defined in LocalClientId.cpp ---
-extern "C" {
-u8 is_xz_nonfinite(f32 *xz);
-}
+// Nonzero when either packed float of a position (x, z) is not finite.
+s32 is_xz_nonfinite(f32 *xz);
 s32 has_nonfinite_position(f32 *xz);
-// --- end of C functions
 
 #endif

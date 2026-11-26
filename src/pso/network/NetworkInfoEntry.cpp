@@ -1,6 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/network/NetworkInfoLoader.h"
+#include "pso/network/NetworkInfoCodec.h"
 #include "pso/network/NetworkInfoEntry.h"
 #include "pso/network/TLobby.h"
 
@@ -10,26 +11,6 @@
 
 
 
-
-
-struct NetConfigBufferView {
-    u8 pad0[2];
-    s16 cur;
-    u8 pad4[0x24];
-    NetConfigSlotWord recs[6];
-    union {
-        NetConfigRecordNames ents[6];
-        struct {
-            u8 pad[0xD5C - 0x118];
-            NetConfigStringSet ents2[6];
-        } b;
-    } u;
-};
-
-
-
-
-extern NetConfigBuffer *lobby_net_config_buffer;
 #pragma push
 #pragma scheduling off
 #pragma peephole off
@@ -41,11 +22,11 @@ s32 copy_current_entry_name(char *dst, s32 len) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = lobby_net_config_buffer->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = lobby_net_config_buffer->ent[i].v;
+    i = lobby_net_config_buffer->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
@@ -53,8 +34,8 @@ s32 copy_current_entry_name(char *dst, s32 len) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].name, len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].name)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].li, len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].li)) {
         return -2;
     }
     return 0;
@@ -72,11 +53,11 @@ s32 copy_current_entry_password(char *dst, s32 len) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = lobby_net_config_buffer->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = lobby_net_config_buffer->ent[i].v;
+    i = lobby_net_config_buffer->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
@@ -84,8 +65,8 @@ s32 copy_current_entry_password(char *dst, s32 len) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].name2, len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].name2)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].lp, len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].lp)) {
         return -2;
     }
     return 0;
@@ -96,7 +77,7 @@ s32 copy_current_entry_password(char *dst, s32 len) {
 #pragma scheduling off
 #pragma peephole off
 s32 get_current_entry_dns1(void *dst) {
-    NetConfigBuffer *b;
+    NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -104,16 +85,16 @@ s32 get_current_entry_dns1(void *dst) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    b = lobby_net_config_buffer;
-    i = b->cur;
+    cfg = lobby_net_config_buffer;
+    i = cfg->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = b->ent[i].v;
+    i = cfg->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    memcpy(dst, &b->rec[i].f1B8, 4);
+    memcpy(dst, &cfg->b[i].d1, 4);
     return 0;
 }
 #pragma pop
@@ -122,7 +103,7 @@ s32 get_current_entry_dns1(void *dst) {
 #pragma scheduling off
 #pragma peephole off
 s32 get_current_entry_dns2(void *dst) {
-    NetConfigBuffer *b;
+    NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -130,16 +111,16 @@ s32 get_current_entry_dns2(void *dst) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    b = lobby_net_config_buffer;
-    i = b->cur;
+    cfg = lobby_net_config_buffer;
+    i = cfg->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = b->ent[i].v;
+    i = cfg->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    memcpy(dst, &b->rec[i].f1BC, 4);
+    memcpy(dst, &cfg->b[i].d2, 4);
     return 0;
 }
 #pragma pop
@@ -148,7 +129,7 @@ s32 get_current_entry_dns2(void *dst) {
 #pragma scheduling off
 #pragma peephole off
 s32 get_current_entry_dial_type(u8 *dst) {
-    NetConfigBuffer *b;
+    NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -156,19 +137,19 @@ s32 get_current_entry_dial_type(u8 *dst) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    b = lobby_net_config_buffer;
-    i = b->cur;
+    cfg = lobby_net_config_buffer;
+    i = cfg->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = b->ent[i].v;
+    i = cfg->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (b->rec[i].kind != 1) {
+    if (cfg->b[i].at != 1) {
         return -3;
     }
-    *dst = b->rec[i].f208;
+    *dst = cfg->b[i].dt;
     return 0;
 }
 #pragma pop
@@ -184,23 +165,23 @@ s32 copy_current_entry_dial_prefix(char *dst, s32 len) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = lobby_net_config_buffer->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = lobby_net_config_buffer->ent[i].v;
+    i = lobby_net_config_buffer->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (lobby_net_config_buffer->rec[i].kind != 1) {
+    if (lobby_net_config_buffer->b[i].at != 1) {
         return -3;
     }
     if (len <= 0) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].str20C, len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].str20C)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].ol, len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].ol)) {
         return -2;
     }
     return 0;
@@ -218,26 +199,26 @@ s32 copy_current_entry_phone_number(s32 n, char *dst, s32 len) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = lobby_net_config_buffer->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = lobby_net_config_buffer->ent[i].v;
+    i = lobby_net_config_buffer->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
     if (n < 0 || n >= 3) {
         return -2;
     }
-    if (lobby_net_config_buffer->rec[i].kind != 1) {
+    if (lobby_net_config_buffer->b[i].at != 1) {
         return -3;
     }
     if (len <= 0) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].strs[0] + (n *= 0x20), len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].strs[0] + n)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].t1 + (n *= 0x20), len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].t1 + n)) {
         return -2;
     }
     return 0;
@@ -255,23 +236,23 @@ s32 copy_current_entry_modem_init(char *dst, s32 len) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = lobby_net_config_buffer->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = lobby_net_config_buffer->ent[i].v;
+    i = lobby_net_config_buffer->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (lobby_net_config_buffer->rec[i].kind != 1) {
+    if (lobby_net_config_buffer->b[i].at != 1) {
         return -3;
     }
     if (len <= 0) {
         return -2;
     }
     memset(dst, 0, len);
-    strncpy(dst, lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].str290, len - 1);
-    if ((u32)len <= strlen(lobby_net_config_buffer->rec[lobby_net_config_buffer->ent[lobby_net_config_buffer->cur].v].str290)) {
+    strncpy(dst, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].mi, len - 1);
+    if ((u32)len <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].mi)) {
         return -2;
     }
     return 0;
@@ -282,7 +263,7 @@ s32 copy_current_entry_modem_init(char *dst, s32 len) {
 #pragma scheduling off
 #pragma peephole off
 s32 get_current_entry_connection_type(u8 *dst) {
-    NetConfigBuffer *b;
+    NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -290,19 +271,19 @@ s32 get_current_entry_connection_type(u8 *dst) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    b = lobby_net_config_buffer;
-    i = b->cur;
+    cfg = lobby_net_config_buffer;
+    i = cfg->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = b->ent[i].v;
+    i = cfg->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (b->rec[i].kind != 4) {
+    if (cfg->b[i].at != 4) {
         return -3;
     }
-    *dst = b->rec[i].f2B0;
+    *dst = cfg->b[i].dy;
     return 0;
 }
 #pragma pop
@@ -311,7 +292,7 @@ s32 get_current_entry_connection_type(u8 *dst) {
 #pragma scheduling off
 #pragma peephole off
 s32 get_current_entry_ip_addr(void *dst) {
-    NetConfigBuffer *b;
+    NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -319,19 +300,19 @@ s32 get_current_entry_ip_addr(void *dst) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    b = lobby_net_config_buffer;
-    i = b->cur;
+    cfg = lobby_net_config_buffer;
+    i = cfg->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = b->ent[i].v;
+    i = cfg->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (b->rec[i].kind != 4) {
+    if (cfg->b[i].at != 4) {
         return -3;
     }
-    memcpy(dst, &b->rec[i].f2B4, 4);
+    memcpy(dst, &cfg->b[i].ip, 4);
     return 0;
 }
 #pragma pop
@@ -342,13 +323,13 @@ s32 get_current_entry_ip_addr(void *dst) {
 s32 get_current_entry_netmask(void *dst) {
     if (get_network_config_mode() == 0) return -1;
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) return -5;
-    NetConfigDataView *s = (*(NetConfigDataView * *)&lobby_net_config_buffer); s16 i;
-    i = s->cur;
+    NetworkInfoConfig *s = lobby_net_config_buffer; s16 i;
+    i = s->cnum;
     if (i < 0 || i >= 6) return -3;
-    i = s->recs[i].v;
+    i = s->a[i].pan;
     if (i < 0 || i >= 6) return -3;
-    if (s->ents[i].state != 4) return -3;
-    memcpy(dst, s->ents[i].data, 4);
+    if (s->b[i].at != 4) return -3;
+    memcpy(dst, &s->b[i].snm, 4);
     return 0;
 }
 #pragma pop
@@ -357,7 +338,7 @@ s32 get_current_entry_netmask(void *dst) {
 #pragma peephole off
 #pragma scheduling off
 s32 get_current_entry_gateway(void *dst) {
-    NetConfigBufferView *s;
+    NetworkInfoConfig *s;
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -365,19 +346,19 @@ s32 get_current_entry_gateway(void *dst) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    s = (*(NetConfigBufferView * *)&lobby_net_config_buffer);
-    i = s->cur;
+    s = lobby_net_config_buffer;
+    i = s->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = s->recs[i].v;
+    i = s->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (s->u.ents[i].state != 4) {
+    if (s->b[i].at != 4) {
         return -3;
     }
-    memcpy(dst, s->u.ents[i].data1, 4);
+    memcpy(dst, &s->b[i].g1, 4);
     return 0;
 }
 #pragma pop
@@ -386,7 +367,7 @@ s32 get_current_entry_gateway(void *dst) {
 #pragma peephole off
 #pragma scheduling off
 s32 copy_current_entry_dhcp_hostname(char *buf, u32 n) {
-    NetConfigBufferView *s;
+    NetworkInfoConfig *s;
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -394,21 +375,21 @@ s32 copy_current_entry_dhcp_hostname(char *buf, u32 n) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    s = (*(NetConfigBufferView * *)&lobby_net_config_buffer);
-    i = s->cur;
+    s = lobby_net_config_buffer;
+    i = s->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = s->recs[i].v;
+    i = s->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    if (s->u.ents[i].state != 4) {
+    if (s->b[i].at != 4) {
         return -3;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.ents[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].v].name, n - 1);
-    if (n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.ents[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].v].name)) {
+    strncpy(buf, lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].hn, n - 1);
+    if (n <= strlen(lobby_net_config_buffer->b[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].pan].hn)) {
         return -2;
     }
     return 0;
@@ -418,7 +399,7 @@ s32 copy_current_entry_dhcp_hostname(char *buf, u32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5B20(char *buf, s32 n) {
+s32 copy_current_entry_mail_name(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -426,11 +407,11 @@ s32 TLobby__sub_803F5B20(char *buf, s32 n) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[i].w;
+    i = lobby_net_config_buffer->a[i].man;
     if (i < 0 || i >= 6) {
         return -3;
     }
@@ -438,8 +419,8 @@ s32 TLobby__sub_803F5B20(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s5, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s5)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mn, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].mn)) {
         return -2;
     }
     return 0;
@@ -449,7 +430,7 @@ s32 TLobby__sub_803F5B20(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5C58(char *buf, s32 n) {
+s32 copy_current_entry_mail_address(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -457,11 +438,11 @@ s32 TLobby__sub_803F5C58(char *buf, s32 n) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[i].w;
+    i = lobby_net_config_buffer->a[i].man;
     if (i < 0 || i >= 6) {
         return -3;
     }
@@ -469,8 +450,8 @@ s32 TLobby__sub_803F5C58(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s0, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s0)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ma, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ma)) {
         return -2;
     }
     return 0;
@@ -480,7 +461,7 @@ s32 TLobby__sub_803F5C58(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5D90(char *buf, s32 n) {
+s32 copy_current_entry_mail_server(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -488,11 +469,11 @@ s32 TLobby__sub_803F5D90(char *buf, s32 n) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[i].w;
+    i = lobby_net_config_buffer->a[i].man;
     if (i < 0 || i >= 6) {
         return -3;
     }
@@ -500,8 +481,8 @@ s32 TLobby__sub_803F5D90(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s1, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s1)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ms, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ms)) {
         return -2;
     }
     return 0;
@@ -511,7 +492,7 @@ s32 TLobby__sub_803F5D90(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F5EC8(char *buf, s32 n) {
+s32 copy_current_entry_pop_server(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -519,11 +500,11 @@ s32 TLobby__sub_803F5EC8(char *buf, s32 n) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[i].w;
+    i = lobby_net_config_buffer->a[i].man;
     if (i < 0 || i >= 6) {
         return -3;
     }
@@ -531,8 +512,8 @@ s32 TLobby__sub_803F5EC8(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s2, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s2)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ps, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].ps)) {
         return -2;
     }
     return 0;
@@ -542,7 +523,7 @@ s32 TLobby__sub_803F5EC8(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F6000(char *buf, s32 n) {
+s32 copy_current_entry_pop_user(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -550,11 +531,11 @@ s32 TLobby__sub_803F6000(char *buf, s32 n) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[i].w;
+    i = lobby_net_config_buffer->a[i].man;
     if (i < 0 || i >= 6) {
         return -3;
     }
@@ -562,8 +543,8 @@ s32 TLobby__sub_803F6000(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s3, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s3)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pi, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pi)) {
         return -2;
     }
     return 0;
@@ -573,7 +554,7 @@ s32 TLobby__sub_803F6000(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 TLobby__sub_803F6138(char *buf, s32 n) {
+s32 copy_current_entry_pop_password(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -581,11 +562,11 @@ s32 TLobby__sub_803F6138(char *buf, s32 n) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur;
+    i = lobby_net_config_buffer->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = (*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[i].w;
+    i = lobby_net_config_buffer->a[i].man;
     if (i < 0 || i >= 6) {
         return -3;
     }
@@ -593,8 +574,8 @@ s32 TLobby__sub_803F6138(char *buf, s32 n) {
         return -2;
     }
     memset(buf, 0, n);
-    strncpy(buf, (*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s4, n - 1);
-    if ((u32)n <= strlen((*(NetConfigBufferView * *)&lobby_net_config_buffer)->u.b.ents2[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->recs[(*(NetConfigBufferView * *)&lobby_net_config_buffer)->cur].w].s4)) {
+    strncpy(buf, lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pp, n - 1);
+    if ((u32)n <= strlen(lobby_net_config_buffer->c[lobby_net_config_buffer->a[lobby_net_config_buffer->cnum].man].pp)) {
         return -2;
     }
     return 0;
@@ -604,8 +585,8 @@ s32 TLobby__sub_803F6138(char *buf, s32 n) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 TLobby__sub_803F6270(u16 *out) {
-    NetConfigVersionView *s;
+s32 get_current_entry_proxy_port(u16 *out) {
+    NetworkInfoConfig *s;
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -613,16 +594,16 @@ s32 TLobby__sub_803F6270(u16 *out) {
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
         return -5;
     }
-    s = (*(NetConfigVersionView * *)&lobby_net_config_buffer);
-    i = s->cur;
+    s = lobby_net_config_buffer;
+    i = s->cnum;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    i = s->recs[i].v;
+    i = s->a[i].pan;
     if (i < 0 || i >= 6) {
         return -3;
     }
-    *out = s->ents[i].v;
+    *out = s->b[i].pxp;
     return 0;
 }
 #pragma pop

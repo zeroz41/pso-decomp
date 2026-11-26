@@ -120,10 +120,8 @@ s32 validate_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *packet)
 s32 validate_6x1C_disable_pk_mode_for_player(G_ClientIDHeader *packet);
 s32 validate_6x1B_enable_pk_mode_for_player(G_ClientIDHeader *packet);
 s32 validate_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *packet);
-extern "C" {
 s32 validate_subcommand_client(G_ClientIDHeader *packet);
 // TRUE when an attack's target count is 0 to 10 (validate_attack_target_list).
-u8 validate_attack_target_count(s32 *count);
-}
+s32 validate_attack_target_count(s32 *count);
 
 #endif
