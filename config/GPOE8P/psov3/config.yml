@@ -1023,7 +1023,7 @@ force_active:
   - TObjDFTenchuFuru__ct
   - TObjDFUsoTower__ct
   - TObjDeadListWin_class_name
-  - TObjDeadListWin_name
+  - class_name__15TObjDeadListWin
   - doa_ex01_collision_body_parts
   - TObjDoaEx01__ct
   - doa_ex01_resource_descriptor
@@ -1617,14 +1617,14 @@ force_active:
   - __ct__18TObjQuestColALock2FP7TObjectPv
   - __ct__13TObjRaderIconFP7TObjectPv
   - TObjResultWin_class_name
-  - TObjResultWin_name
+  - class_name__13TObjResultWin
   - TObjRoomId__ct
   - sin_board_class_name
   - __ct__12TObjSinBoardFP7TObjectPv
   - sin_board_texture_name
   - sin_board_texture_surface
   - TObjSoloPlayWin_class_name
-  - TObjSoloPlayWin_name
+  - class_name__15TObjSoloPlayWin
   - __ct__16TObjTagChallengeFP7TObject
   - TObjTailsTailsMove_name
   - __ct__8TObjTankFP7TObjectP13ObjectSetData
@@ -1771,7 +1771,7 @@ force_active:
   - com_card_follower_window_descriptor
   - get_clip_out_window_root__Fv
   - draw_viewport_fill__Fl
-  - window_ctrl_sub_class_name
+  - class_name__14TWindowCtrlSub
   - update_countdown__17TWindowCtrlPlayerFv
   - set_return_city_open__11TWindowCtrlFv
   - __sinit_TWindowDD_WS_ScrollBar_cpp
@@ -1859,7 +1859,7 @@ force_active:
   - draw_split_screen_sweep__Fv
   - window_layout__20TWindowSubStatusDisp
   - draw_face_selection__FP28TWindowSubSymbolChatFaceTypeP17WindowDrawContext
-  - window_sub_symbol_chat_help_name
+  - class_name__24TWindowSubSymbolChatHelp
   - symbol_chat_parts_set_part_uv_table
   - create_new_parts_menu__20TWindowSubSymbolChatFv
   - get_symbol_chat_receive_buffer__Fv
@@ -17722,9 +17722,9 @@ force_active:
   - warp_nearby_players__14TBoss6PlotFalzFv
   - warp_player__12TObjWarpBossFl
   - check_hits__21TObjEneSlimeWaterBombFv
-  - window_chat_type_name_pointer
+  - class_name__11TWindowChat
   - window_dd_element_count
-  - window_duel_result_class_name
+  - class_name__17TWindowDuelResult
   - __vt__13LabelValueRow
   - window_sub_game_end_active_flag
   - __vt__16WindowSpritePart
