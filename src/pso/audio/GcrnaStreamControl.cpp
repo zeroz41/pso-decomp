@@ -46,8 +46,6 @@ void gcrna_set_sample_bits(GcrnaStream *stream, s32 sample_bits) {
 }
 
 extern "C" {
-extern u8 gcrna_volume_table[1000];
-extern u32 gcrna_pan_table[31];
 
 inline s32 gcrna_get_play_switch(GcrnaStream *stream) {
     if (stream == 0) {
@@ -122,7 +120,6 @@ void gcrna_set_stream_count(GcrnaStream *stream, s32 stream_count) {
 }
 
 extern "C" {
-extern GcrnaStream gcrna_stream_pool[16];
 
 inline s32 gcrna_get_transfer_switch(GcrnaStream *stream) {
     if (stream == NULL) {
