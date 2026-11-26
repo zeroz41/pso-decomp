@@ -72,38 +72,22 @@
 extern const f64 dolmolm_radians_to_angle[];
 extern int lbl_805D69E8;
 
-extern const char dolmolm_model_name_abgc01_wola_body_nj[0x14];
-__declspec(section ".rodata") const char dolmolm_model_name_abgc01_wola_body_nj[0x14] ATTRIBUTE_ALIGN(4) = "abgc01_wola_body.nj";
-extern const char dolmolm_model_name_abgc01l_wola_body_nj[0x15];
-__declspec(section ".rodata") const char dolmolm_model_name_abgc01l_wola_body_nj[0x15] ATTRIBUTE_ALIGN(4) = "abgc01l_wola_body.nj";
-extern const char dolmolm_motion_name_atack_l_abgc01_wola_body_njm[0x1D];
-__declspec(section ".rodata") const char dolmolm_motion_name_atack_l_abgc01_wola_body_njm[0x1D] ATTRIBUTE_ALIGN(4) = "atack_l_abgc01_wola_body.njm";
-extern const char dolmolm_motion_name_atack_r_abgc01_wola_body_njm[0x1D];
-__declspec(section ".rodata") const char dolmolm_motion_name_atack_r_abgc01_wola_body_njm[0x1D] ATTRIBUTE_ALIGN(4) = "atack_r_abgc01_wola_body.njm";
-extern const char dolmolm_motion_name_damage_abgc01_wola_body_njm[0x1C];
-__declspec(section ".rodata") const char dolmolm_motion_name_damage_abgc01_wola_body_njm[0x1C] ATTRIBUTE_ALIGN(4) = "damage_abgc01_wola_body.njm";
-extern const char dolmolm_motion_name_dead_abgc01_wola_body_njm[0x1A];
-__declspec(section ".rodata") const char dolmolm_motion_name_dead_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "dead_abgc01_wola_body.njm";
-extern const char dolmolm_motion_name_odori_abgc01_wola_body_njm[0x1B];
-__declspec(section ".rodata") const char dolmolm_motion_name_odori_abgc01_wola_body_njm[0x1B] ATTRIBUTE_ALIGN(4) = "odori_abgc01_wola_body.njm";
-extern const char dolmolm_motion_name_wait_abgc01_wola_body_njm[0x1A];
-__declspec(section ".rodata") const char dolmolm_motion_name_wait_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "wait_abgc01_wola_body.njm";
-extern const char dolmolm_motion_name_wait2_abgc01_wola_body_njm[0x1B];
-__declspec(section ".rodata") const char dolmolm_motion_name_wait2_abgc01_wola_body_njm[0x1B] ATTRIBUTE_ALIGN(4) = "wait2_abgc01_wola_body.njm";
-extern const char dolmolm_motion_name_wake_abgc01_wola_body_njm[0x1A];
-__declspec(section ".rodata") const char dolmolm_motion_name_wake_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "wake_abgc01_wola_body.njm";
-extern const char dolmolm_motion_name_walk_abgc01_wola_body_njm[0x1A];
-__declspec(section ".rodata") const char dolmolm_motion_name_walk_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "walk_abgc01_wola_body.njm";
-extern const char bm_ene_abgc01_wola_body_bml_filename[0x1C];
-__declspec(section ".rodata") const char bm_ene_abgc01_wola_body_bml_filename[0x1C] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body.bml";
-extern const char dolmolm_model_name_lo_abgc01_wola_body_nj[0x17];
-__declspec(section ".rodata") const char dolmolm_model_name_lo_abgc01_wola_body_nj[0x17] ATTRIBUTE_ALIGN(4) = "lo_abgc01_wola_body.nj";
-extern const char dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18];
-__declspec(section ".rodata") const char dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18] ATTRIBUTE_ALIGN(4) = "lo_abgc01l_wola_body.nj";
-extern const char bm_ene_abgc01_wola_body_low_bml_filename[0x20];
-__declspec(section ".rodata") const char bm_ene_abgc01_wola_body_low_bml_filename[0x20] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body_low.bml";
-extern const char dolm_olm_class_name_string[0xF];
-__declspec(section ".rodata") const char dolm_olm_class_name_string[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
+__declspec(section ".rodata") extern const char dolmolm_model_name_abgc01_wola_body_nj[0x14] ATTRIBUTE_ALIGN(4) = "abgc01_wola_body.nj";
+__declspec(section ".rodata") extern const char dolmolm_model_name_abgc01l_wola_body_nj[0x15] ATTRIBUTE_ALIGN(4) = "abgc01l_wola_body.nj";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_atack_l_abgc01_wola_body_njm[0x1D] ATTRIBUTE_ALIGN(4) = "atack_l_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_atack_r_abgc01_wola_body_njm[0x1D] ATTRIBUTE_ALIGN(4) = "atack_r_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_damage_abgc01_wola_body_njm[0x1C] ATTRIBUTE_ALIGN(4) = "damage_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_dead_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "dead_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_odori_abgc01_wola_body_njm[0x1B] ATTRIBUTE_ALIGN(4) = "odori_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_wait_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "wait_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_wait2_abgc01_wola_body_njm[0x1B] ATTRIBUTE_ALIGN(4) = "wait2_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_wake_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "wake_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char dolmolm_motion_name_walk_abgc01_wola_body_njm[0x1A] ATTRIBUTE_ALIGN(4) = "walk_abgc01_wola_body.njm";
+__declspec(section ".rodata") extern const char bm_ene_abgc01_wola_body_bml_filename[0x1C] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body.bml";
+__declspec(section ".rodata") extern const char dolmolm_model_name_lo_abgc01_wola_body_nj[0x17] ATTRIBUTE_ALIGN(4) = "lo_abgc01_wola_body.nj";
+__declspec(section ".rodata") extern const char dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18] ATTRIBUTE_ALIGN(4) = "lo_abgc01l_wola_body.nj";
+__declspec(section ".rodata") extern const char bm_ene_abgc01_wola_body_low_bml_filename[0x20] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body_low.bml";
+__declspec(section ".rodata") extern const char dolm_olm_class_name_string[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
 
 const char *dolmolm_model_names[3] = {
     dolmolm_model_name_abgc01_wola_body_nj, dolmolm_model_name_abgc01l_wola_body_nj, NULL,
