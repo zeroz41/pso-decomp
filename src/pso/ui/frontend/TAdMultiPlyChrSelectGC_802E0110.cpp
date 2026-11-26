@@ -4,11 +4,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
 
-extern int lbl_805D69E8;
+extern int multi_chr_select_state;
 
 void TAdSelectCurGC::lock_navigation() { navigation_locked = 1; }
 
-int TAdMultiPlyChrSelectGC::get_chr_select_state() { return lbl_805D69E8; }
+int TAdMultiPlyChrSelectGC::get_chr_select_state() { return multi_chr_select_state; }
 
 s32 TAdGameStartGC::is_active() { return m_active; }
 

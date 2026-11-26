@@ -32,8 +32,8 @@ static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 
 static const CharacterSlotPosition chr_sel_b_slot_positions[4] = {
     { 434.0f, 182.0f }, { 434.0f, 225.0f }, { 434.0f, 268.0f }, { 434.0f, 311.0f },
 };
-static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
-static const CharacterSlotPosition lbl_80475910 = { 441.0f, 117.0f };
+static const CharacterSlotPosition chr_sel_b_slot_entry_position = { 429.0f, 156.0f };
+static const CharacterSlotPosition chr_sel_b_slot_position = { 441.0f, 117.0f };
 const char *TAdChrSelBSlotGC::name = "TAdChrSelBSlotGC";
 
 
@@ -114,7 +114,7 @@ void TAdChrSelBSlotGC::populate_slot_entries() {
     u32 i;
 
     if (plate->is_slot_value_ready(2)) {
-        slot_gc->init_slot_entry(2, &lbl_80475908);
+        slot_gc->init_slot_entry(2, &chr_sel_b_slot_entry_position);
         for (i = 0; i < 4; i++) {
             player_items->set_entry_text(build_slot_entry(i, i, &chr_sel_b_slot_positions[i]));
             if (is_character_transferred(i)) {
@@ -672,7 +672,7 @@ void TAdChrSelBSlotGC::reset_windows() {
     }
     plate->reset_selection_slots();
     player_items->hide_all_entries();
-    slot_gc->init_slot(1, &lbl_80475910);
+    slot_gc->init_slot(1, &chr_sel_b_slot_position);
     draw_line[0] = create_draw_line_ctrl(this, 0xE, 0.0f);
     draw_line[1] = create_draw_line_ctrl(this, 0x15, 0.0f);
     state_frames = -1;

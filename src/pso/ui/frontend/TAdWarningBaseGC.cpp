@@ -23,8 +23,8 @@ int TAdWarningBaseGC::aram_alloc_size;
 int lobby_count_value;
 s32 aram_request_busy_flag;
 const char *TAdWarningBaseGC_class_name = "TAdWarningBaseGC";
-static const f32 lbl_80477334[2] = {46.0f, 131.0f};
-static const f32 lbl_8047733C[2] = {548.0f, 220.0f};
+static const f32 warning_window_position[2] = {46.0f, 131.0f};
+static const f32 warning_window_size[2] = {548.0f, 220.0f};
 
 TAdWarningBaseGC::TAdWarningBaseGC(TObject *parent) : TObject(parent) {
     m_name = TAdWarningBaseGC_class_name;
@@ -84,7 +84,7 @@ void TAdWarningBaseGC::update_state() {
 }
 
 saddr TAdWarningBaseGC::create_message_window() {
-    saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)lbl_80477334, (NJS_POINT2 *)lbl_8047733C);
+    saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)warning_window_position, (NJS_POINT2 *)warning_window_size);
     ((TWindowMessage *)r)->append_line(get_message_text(), 3);
     return r;
 }

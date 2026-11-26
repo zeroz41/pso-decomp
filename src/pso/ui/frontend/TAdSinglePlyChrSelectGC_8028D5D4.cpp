@@ -16,7 +16,7 @@ s32 TChCrLoadAfs::is_load_complete() {
     return load_state == 2;
 }
 
-u8 *lbl_80518850[4];
+u8 *chr_select_load_buffer_base_table[4];
 u8 *chr_select_load_buffer_table[8];
 u8 *chr_select_load_buffer_base;
 u8 *chr_select_load_buffer;
@@ -39,12 +39,12 @@ uaddr advance_character_load_buffer(s32 slot, s32 size) {
     }
     size = (size + 0x1F) & ~0x1F;
     if (slot < 4) {
-        p = reinterpret_cast<uaddr>(lbl_80518850[slot]);
+        p = reinterpret_cast<uaddr>(chr_select_load_buffer_base_table[slot]);
         p += size;
         if (p >= reinterpret_cast<uaddr>(chr_select_load_buffer_base) + (slot + 1) * 0xA000) {
             return 0U;
         }
-        lbl_80518850[slot] = reinterpret_cast<u8 *>(p);
+        chr_select_load_buffer_base_table[slot] = reinterpret_cast<u8 *>(p);
         return p;
     }
     {
@@ -71,7 +71,7 @@ uaddr reset_character_load_buffer(s32 slot) {
     TLobby__sub_8028D7D0(slot);
     if (slot < 4) {
         address = reinterpret_cast<uaddr>(chr_select_load_buffer_base) + (u32)slot * 0xA000U;
-        lbl_80518850[slot] = reinterpret_cast<u8 *>(address);
+        chr_select_load_buffer_base_table[slot] = reinterpret_cast<u8 *>(address);
         return address;
     }
     extended_slot = slot - 4;

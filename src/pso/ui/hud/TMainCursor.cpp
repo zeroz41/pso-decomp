@@ -140,7 +140,7 @@ s32 TLockOnCursor::target_cursor_model;
 NJS_OBJECT *main_cursor_model;
 void reset_target_part_entry(LockOnTargetPart *);
 
-extern const f32 lbl_805DB0C4;
+extern const f32 lock_on_max_target_dist;
 
 
 
@@ -1505,7 +1505,7 @@ void LockOnNearestTarget::reset() {
     published_target_id = 0xffff;
     candidate_target_id = 0xffff;
     published_target_dist = cursor_float_zero;
-    candidate_target_dist = lbl_805DB0C4;
+    candidate_target_dist = lock_on_max_target_dist;
 }
 
 void TLockOnCursor::set_start_task(TObject *task) { tasks.set_start_task(task); }

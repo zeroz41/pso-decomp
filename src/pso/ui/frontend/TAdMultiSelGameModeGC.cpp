@@ -71,7 +71,7 @@ static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
 };
 const char *TAdMultiSelGameModeGC::name = "TAdMultiSelGameModeGC";
 extern Point3 multi_sel_game_mode_position;
-extern Int3 lbl_80474EEC;
+extern Int3 multi_sel_game_mode_entry_ids;
 extern Int3 multi_sel_game_mode_arr3;
 
 void TAdMultiSelGameModeGC::render() {  }
@@ -102,7 +102,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
     counts[1] = 3;
     counts[2] = 2;
     {
-    Int3 a = lbl_80474EEC;
+    Int3 a = multi_sel_game_mode_entry_ids;
     Int3 b = multi_sel_game_mode_arr3;
     n = counts[menu];
     r = create_window_menu_default(&pos.p[menu], n);
@@ -325,5 +325,5 @@ TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObjec
 #pragma pool_data reset
 
 __declspec(section ".rodata") Point3 multi_sel_game_mode_position = { 364.0f, 145.0f, 340.0f, 197.0f, 318.0f, 250.0f };
-__declspec(section ".rodata") Int3 lbl_80474EEC = { 0 };
+__declspec(section ".rodata") Int3 multi_sel_game_mode_entry_ids = { 0 };
 __declspec(section ".rodata") Int3 multi_sel_game_mode_arr3 = { 0x4, 0x8, 0xB };

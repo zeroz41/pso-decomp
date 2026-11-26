@@ -23,7 +23,7 @@ const char *multi_confirm_name = "TAdMultiConfirmGC";
 
 extern "C" {
 s32 is_player_model_shown(void *);
-extern const u8 lbl_805DEF30 = 0;
+extern const char multi_confirm_empty_line[] = "";
 }
 #pragma push
 #pragma opt_common_subs off
@@ -64,7 +64,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     p = new TAdGuideTxtGC(this);
     guide = p;
     guide->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
-    guide->set_line(1, reinterpret_cast<const char *>(&lbl_805DEF30));
+    guide->set_line(1, multi_confirm_empty_line);
     set_confirm_camera();
 }
 

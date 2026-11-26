@@ -7,6 +7,6 @@ __declspec(section ".sdata2") extern u32 cursor_float_zero[1] = {
     0x00000000,
 };
 
-__declspec(section ".sdata2") extern u32 lbl_805DB0C4[1] = {
+__declspec(section ".sdata2") extern u32 lock_on_max_target_dist[1] = {
     0x491C4000,
 };

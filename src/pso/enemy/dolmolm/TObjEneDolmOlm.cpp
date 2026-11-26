@@ -70,7 +70,7 @@
 #include "pso/object/TDeadSpot.h"
 
 extern const f64 dolmolm_radians_to_angle[];
-extern int lbl_805D69E8;
+extern int multi_chr_select_state;
 
 __declspec(section ".rodata") extern const char dolmolm_model_name_abgc01_wola_body_nj[0x14] ATTRIBUTE_ALIGN(4) = "abgc01_wola_body.nj";
 __declspec(section ".rodata") extern const char dolmolm_model_name_abgc01l_wola_body_nj[0x15] ATTRIBUTE_ALIGN(4) = "abgc01l_wola_body.nj";
@@ -936,7 +936,7 @@ void TObjEneDolmOlm::run_demo_task() {  }
 s32 TObjEneDolmOlm__sub_80300CF0(void) {
     return 0x7FFFFFFF;
 }
-void TObjEneDolmOlm::reset_count() { lbl_805D69E8 = 0; }
+void TObjEneDolmOlm::reset_count() { multi_chr_select_state = 0; }
 
 __declspec(section ".rodata") const f64 dolmolm_radians_to_angle[] = {10430.38043493439};
 const char *obj_ene_dolm_olm_class_name = dolm_olm_class_name_string;
