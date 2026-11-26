@@ -6,6 +6,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/TWindowSubTrade.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 
 void TAdGuideTxtGC::render() {
     if (TMainTask::get_render_pass() != 1) {
@@ -25,18 +27,6 @@ void TAdGuideTxtGC::set_line(s32 index, const char *line) {
     }
     previous_text[index] = line;
 }
-
-struct Base_802b1a70_802B1990 { char pad[0x18]; };
-struct VObj_802b1a70_802B1990 : Base_802b1a70_802B1990 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-};
 
 #pragma readonly_strings on
 const char *TAdGuideTxtGC::class_name = "TAdGuideTxtGC";
@@ -76,8 +66,7 @@ TAdGuideTxtGC::TAdGuideTxtGC(TObject *parent) : TObject(parent) {
 }
 #pragma pop
 
-void reset__15TLobby_802D2F7CFPv(u8 *guide) {
-
-    ((VObj_802b1a70_802B1990 *)((unsigned char *) (*(void **)((s8 *)guide + 0x28))))->m7();
-    *(s8 *)((s8 *)guide + 0x1C) = 7;
+void TWindowSubTrade::finish() {
+    parent_menu->on_submenu_closed();
+    state = 7;
 }

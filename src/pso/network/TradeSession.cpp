@@ -488,7 +488,7 @@ void reset_trade_session() {
             trade_main_window->finish();
         }
         if (trade_sub_window != NULL) {
-            reset__15TLobby_802D2F7CFPv((u8 *)trade_sub_window);
+            trade_sub_window->finish();
         }
     }
 }
