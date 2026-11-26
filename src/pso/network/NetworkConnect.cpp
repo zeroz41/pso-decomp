@@ -530,7 +530,7 @@ void load_network_configs() {
         strncpy(network_config.ppp_user, info.ppp_user, 0x7F);
         strncpy(network_config.ppp_password, info.ppp_password, 0x1F);
         strncpy(network_config.dhcp_hostname, info.dhcp_hostname, 0x1F);
-        strncpy(network_config.domain, info.f104, 0x3F);
+        strncpy(network_config.domain, info.domain, 0x3F);
         network_config.f11C = info.f244;
         network_config.valid = 1;
     }

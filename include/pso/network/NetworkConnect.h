@@ -48,7 +48,8 @@ struct LanConfigRecord {
     s32 gateway;
     s32 fC0;
     char dhcp_hostname[0x40];
-    char f104[0x140];
+    char domain[0x40];
+    u8 pad_144[0x100];
     u16 f244;
     u8 pad[0x26C - 0x246];
 };
