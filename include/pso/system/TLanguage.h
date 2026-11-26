@@ -32,5 +32,7 @@ struct TLanguage
 
 // The loaded text resource's string groups: text_language_group_table[group][id] is one string.
 extern char ***text_language_group_table;
+// The loaded text resource's soft keyboard layout (its first word).
+extern u8 *soft_keyboard_layouts;
 
 #endif
