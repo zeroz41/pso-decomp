@@ -1273,7 +1273,7 @@ void send_card_window_state() {
 
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     parameters.disabled = TLobby::open_hard_keyboard(local_client_id) ? 1 : 0;
-    copy_choice_search_selections(card->choice_search, &parameters);
+    copy_choice_search_selections(card->choice_search.entries, &parameters);
     TLobby::protocol_instance->send_choice_search_parameters(parameters);
 }
 

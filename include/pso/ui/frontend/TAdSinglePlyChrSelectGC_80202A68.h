@@ -34,7 +34,7 @@ struct Pso3CharacterSaveRecord {
     BattleRecord online_battle;
     ChallengeRecord challenge;
     s16 short_list_order[0x14];
-    ChoiceSearchSelection choice_search[5];
+    ChoiceSearchSelections choice_search;
     u8 pad_12B4[0x1374 - 0x12B4];
     BattleRecord split_screen_battle;
     u8 pad_1390[0x358C - 0x1390];

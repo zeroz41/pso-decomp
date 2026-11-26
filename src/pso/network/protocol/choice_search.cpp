@@ -83,9 +83,7 @@ void TWindowSubComCard::release() {
 TRecvChoiceSearchOptions *TWindowSubComCard::get_choice_search_options() {
     return choice_search_options;
 }
-extern "C" {
-
-void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSearchOptions *chr_select) {
+void rebuild_choice_search_selections(ChoiceSearchSelections *selections, TRecvChoiceSearchOptions *chr_select) {
     s32 i;
     s32 n;
     u16 id;
@@ -93,10 +91,10 @@ void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSea
     ChoiceSearchSelection *dst;
     ChoiceSearchOption *e;
     ChoiceSearchSelections tmp;
-    copy_choice_search_block(&tmp, (ChoiceSearchSelections *)arr);
-    clear_choice_search_selections(arr);
+    copy_choice_search_block(&tmp, selections);
+    clear_choice_search_selections(selections->entries);
     n = chr_select->header.flags;
-    dst = arr;
+    dst = selections->entries;
     e = chr_select->entries;
     i = 0;
     while (i < n) {
@@ -109,7 +107,6 @@ void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSea
         i++;
         e++;
     }
-}
 }
 
 ChoiceSearchSelections *copy_choice_search_block(ChoiceSearchSelections *dest, const ChoiceSearchSelections *src) {

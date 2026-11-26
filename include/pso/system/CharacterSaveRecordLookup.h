@@ -83,7 +83,7 @@ struct CharacterSaveRecord {
     ChallengeRecord challenge;
     s16 short_list_order[0x14];   // filled by init_default_short_list_order
     // Choice search settings, sent in C2/C3 and with the character data.
-    ChoiceSearchSelection choice_search[5];
+    ChoiceSearchSelections choice_search;
     s32 quest_counters[16];  // the quest counter opcodes (write_counter, read_counter) read and write these
     // Split-screen battles finished in each place (first to fourth), and battles left early.
     BattleRecord split_screen_battle;

@@ -97,6 +97,9 @@ struct ChoiceSearchSelection;
 struct ChoiceSearchSelections;
 struct TPlyChoiceSearchConfig;
 
+// Keeps, of the selections, the categories the server offers (in its order) with the option picked before.
+void rebuild_choice_search_selections(ChoiceSearchSelections *selections, TRecvChoiceSearchOptions *chr_select);
+
 // Copies the five selections of src to dest (rebuild_choice_search_selections saves the old ones with it).
 ChoiceSearchSelections *copy_choice_search_block(ChoiceSearchSelections *dest, const ChoiceSearchSelections *src);
 int quest_hack_check_b_stub(void);

@@ -52,7 +52,7 @@ struct TWindowSubComCard : public TObject {
     uaddr selected_card;
     uaddr shown_message;  // help or card index last written to message_window, -1 for none
     uaddr wait_ticks;  // frames waited in state 0x26 before giving up
-    ChoiceSearchSelection choice_selections[5];
+    ChoiceSearchSelections choice_selections;
     // The options the server offered, taken from get_choice_search_options once they arrive.
     TRecvChoiceSearchOptions *search_options;
     TWindowMainMenu *parent_menu;

@@ -71,9 +71,6 @@ extern "C" {
 void set_value_by_key(void *, u16, s32);
 void load_selected_guild_card_record(ChoiceSearchResult *result);
 }
-extern "C" {
-s32 rebuild_choice_search_selections(ChoiceSearchSelection *, TRecvChoiceSearchOptions *);
-}
 
 
 void TWindowMenu::mark_selected_value() {
@@ -118,7 +115,7 @@ TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(pare
     this->search_options = NULL;
     this->dirty_flags = 0;
     this->selected_card = -1;
-    clear_choice_search_selections(choice_selections);
+    clear_choice_search_selections(choice_selections.entries);
     this->state = 0;
 }
 
@@ -661,8 +658,8 @@ void TWindowSubComCard::run_task() {
             if (this->search_options == NULL) {
                 this->search_options = TWindowSubComCard::get_choice_search_options();
                 character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-                rebuild_choice_search_selections(choice_selections, this->search_options);
-                rebuild_choice_search_selections(character_save_record->choice_search, this->search_options);
+                rebuild_choice_search_selections(&choice_selections, this->search_options);
+                rebuild_choice_search_selections(&character_save_record->choice_search, this->search_options);
             }
             if ((u8) this->state == 0x28) {
                 this->state = 0x29U;
@@ -699,7 +696,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x2B:
         this->entry_list_window->shrink_to_selected_entry();
-        this->com_card_menu = this->create_option_list_window(choice_selections, (s32)((int) (this->entry_list_window->update_selected_entry())));
+        this->com_card_menu = this->create_option_list_window(choice_selections.entries, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x2CU;
     case 0x2C:
         if (this->com_card_menu->is_cancelled() != 0) {
@@ -707,14 +704,14 @@ void TWindowSubComCard::run_task() {
             return;
         }
         if (this->com_card_menu->is_decided() != 0) {
-            this->set_choice_search_option(choice_selections, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
+            this->set_choice_search_option(choice_selections.entries, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
             this->state = 0x29U;
             return;
         }
         break;
     case 0x2D:
         TWindowSubComCard::release();
-        send_choice_search(choice_selections);
+        send_choice_search(choice_selections.entries);
         this->state = 0x2EU;
     case 0x2E:
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
@@ -801,7 +798,7 @@ void TWindowSubComCard::run_task() {
     case 0x37:
         this->entry_list_window->shrink_to_selected_entry();
         option_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-        this->com_card_menu = this->create_option_list_window(option_record->choice_search, (s32)((int) (this->entry_list_window->update_selected_entry())));
+        this->com_card_menu = this->create_option_list_window(option_record->choice_search.entries, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x38U;
     case 0x38:
         if (this->com_card_menu->is_cancelled() != 0) {
@@ -810,7 +807,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->com_card_menu->is_decided() != 0) {
             chosen_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-            this->set_choice_search_option(chosen_record->choice_search, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
+            this->set_choice_search_option(chosen_record->choice_search.entries, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
             this->state = 0x35U;
             return;
         }
@@ -1268,7 +1265,7 @@ TWindowChoiceSetting *TWindowSubComCard::create_choice_search_window() {
     e = l->entries;
     for (i = 0; i < count; i++, e++) {
         if (e->choice.parent_choice_id == 0) {
-            w->update_next_entry(e->text, this->find_option_text(choice_selections, idx), e->choice.choice_id);
+            w->update_next_entry(e->text, this->find_option_text(choice_selections.entries, idx), e->choice.choice_id);
             idx++;
         }
     }
@@ -1301,7 +1298,7 @@ TWindowChoiceSetting *TWindowSubComCard::create_entry_list_window() {
         if (e->choice.parent_choice_id == 0) {
             idx++;
             if (e->choice.choice_id >= 500) {
-                w->update_next_entry(e->text, this->find_option_text(card->choice_search, idx), e->choice.choice_id);
+                w->update_next_entry(e->text, this->find_option_text(card->choice_search.entries, idx), e->choice.choice_id);
                 if (hard != 0) {
                     w->disable_entry_by_id(e->choice.choice_id);
                 }
