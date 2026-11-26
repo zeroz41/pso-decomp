@@ -178,8 +178,8 @@ void *TOSwitchTimer::create(void *set_data) {
     return o;
 }
 
-void TOSwitchTimer__sub_80178584(void) {  }
-void TOSwitchTimer__sub_80178588(void) {  }
+void TOSwitchTimer::free_resources() {  }
+void TOSwitchTimer::load_resources() {  }
 TOSwitchTimer::~TOSwitchTimer() {
     if ((u32) this->mode == 0U) {
         clear_floor_switch_flag(this->trigger_switch, (s16) this->floor);

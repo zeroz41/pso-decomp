@@ -1,6 +1,5 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/object/switch/TOSwitchAttack_801778A4.h"
 #include "types.h"
 #include "pso/object/switch/TOSwitchAttack.h"
 
@@ -126,8 +125,8 @@ void *TOSwitchAttack::create(void *set_data) {
     return new TOSwitchAttack(tl_05, set_data);
 }
 
-void TOSwitchAttack__sub_80177C20(void) {  }
-void TOSwitchAttack__sub_80177C24(void) {  }
+void TOSwitchAttack::free_resources() {  }
+void TOSwitchAttack::load_resources() {  }
 
 }
 TOSwitchAttack::~TOSwitchAttack() {

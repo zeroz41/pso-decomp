@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TContainerAncient01R : public TObjChara {
+    static void free_resources();
     TContainerAncient01R(TObject *parent, void *set_data);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);

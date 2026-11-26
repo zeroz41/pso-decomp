@@ -4,10 +4,10 @@
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/system/data/FlagWord.h"
 
-extern "C" {
-void TMainCursor__sub_80154090(void) {  }
-void TMainCursor__sub_80154094(void) {  }
+void TMainCursor::free_resources() {  }
+void TMainCursor::load_resources() {  }
 
+extern "C" {
 void TMainCursor__sub_80154098(void *unused, CollisionBody *arr, s32 i) {
     if (arr != 0) {
         arr[i].flags |= 0x80000000;

@@ -49,8 +49,8 @@ TODummyKeyCave01::~TODummyKeyCave01() {
 }
 
 
-void TODummyKeyCave01__sub_80165E8C(void) {  }
-void TODummyKeyCave01__sub_80165E88(void) {  }
+void TODummyKeyCave01::load_resources() {  }
+void TODummyKeyCave01::free_resources() {  }
 void *TODummyKeyCave01::create(void *set_data) {
     return new TODummyKeyCave01(tl_05, set_data);
 }

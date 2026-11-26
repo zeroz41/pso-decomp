@@ -290,9 +290,9 @@ void TObjLiveCameraCtrl::load_view_texture() {
     }
 }
 
-void fn_8030B7B8(void) {  }
+void TObjLiveMonitor::load_resources() {  }
 
-void fn_8030B7B4(void) {  }
+void TObjLiveMonitor::free_resources() {  }
 
 void *TObjLiveCamera::create(void *set_data) {
     return new TObjLiveCamera((TObject *)tl_05, set_data);

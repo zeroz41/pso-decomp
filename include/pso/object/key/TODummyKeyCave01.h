@@ -8,6 +8,8 @@
 struct NJS_TEXLIST;
 
 struct TODummyKeyCave01 : public TObjBase {
+    static void free_resources();
+    static void load_resources();
     TODummyKeyCave01(TObject *parent, void *set_data);
     virtual ~TODummyKeyCave01();
     void init_from_set_data();
@@ -32,8 +34,6 @@ struct TODummyKeyCave01 : public TObjBase {
 LAYOUT_ASSERT(TODummyKeyCave01_size, sizeof(TODummyKeyCave01) == 0xD4);
 
 extern "C" {
-void TODummyKeyCave01__sub_80165E88(void);
-void TODummyKeyCave01__sub_80165E8C(void);
 void *__dt__16TODummyKeyCave01Fv(void *arg0, s16 arg1);
 }
 

@@ -5,6 +5,8 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOSwitchAttack : public TObjBase {
+    static void free_resources();
+    static void load_resources();
     TOSwitchAttack(TObject *parent, void *set_data);
     virtual ~TOSwitchAttack();
     f32 size;             // scale.z: the scale of the effects

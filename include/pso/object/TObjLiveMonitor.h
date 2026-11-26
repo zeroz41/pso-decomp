@@ -10,6 +10,8 @@
 // animated pictures of its texture list, 4 the player's view.
 class TObjLiveMonitor : public TObject {
 public:
+    static void free_resources();
+    static void load_resources();
     TObjLiveMonitor(TObject *parent);
     virtual ~TObjLiveMonitor();
     void choose_next_screen();
@@ -28,9 +30,5 @@ public:
 // controller slots, and nothing.
 void reset_live_camera_ctrl_globals(void);
 void release_live_camera_ctrl_globals(void);
-extern "C" {
-void fn_8030B7B4(void);
-void fn_8030B7B8(void);
-}
 
 #endif

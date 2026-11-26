@@ -5,6 +5,8 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOSwitchTimer : public TObjBase {
+    static void free_resources();
+    static void load_resources();
     TOSwitchTimer(saddr, saddr);
     virtual ~TOSwitchTimer();
     void init_from_set_data();
@@ -27,9 +29,5 @@ struct TOSwitchTimer : public TObjBase {
 
 LAYOUT_ASSERT(TOSwitchTimer_size, sizeof(TOSwitchTimer) == 0xB8);
 
-extern "C" {
-void TOSwitchTimer__sub_80178584(void);
-void TOSwitchTimer__sub_80178588(void);
-}
 
 #endif
