@@ -5206,38 +5206,30 @@ void qst_op_ret(void) {
 }
 
 void qst_op_nop(void) {  }
-u16 read_be_u16(void);
-extern "C" {
-s32 stream_read_be32(void);
-}
-void append_string_to_buffer(char *dest);
 extern char qst_cstring_buffer[];
 
 void qst_getargs_u16_u8(s32 op) {
-    void (*fn)(u16, u8) = (void (*)(u16, u8))qst_opcode_table[op].handler;
+    QuestHandlerU16U8 fn = (QuestHandlerU16U8)qst_opcode_table[op].handler;
     u16 a = read_be_u16();
-    fn(a, TLobby::read_packet_byte());
+    fn(a, read_u8());
 }
 
 void qst_getargs_u16(s32 op) {
-    void (*fn)(u16) = (void (*)(u16))qst_opcode_table[op].handler;
+    QuestHandlerU16 fn = (QuestHandlerU16)qst_opcode_table[op].handler;
     fn(read_be_u16());
 }
 
 void qst_getargs_cstring(s32 op) {
-    void (*fn)(char *) = (void (*)(char *))qst_opcode_table[op].handler;
+    QuestHandlerString fn = (QuestHandlerString)qst_opcode_table[op].handler;
     append_string_to_buffer(qst_cstring_buffer);
     fn(qst_cstring_buffer);
 }
 
-typedef void (*SwitchJumpHandler)(s32, u8, s16 *);
-typedef void (*JumpOnHandler)(u16, u8, u8 *);
-
 void qst_getargs_s32_u8_s16ptr(s32 op) {
     s16 buf[16];
-    SwitchJumpHandler fn = (SwitchJumpHandler) qst_opcode_table[op].handler;
-    s32 first = ((s32 (*)(void))TLobby::read_packet_byte)();
-    u8 count = ((s32 (*)(void))TLobby::read_packet_byte)();
+    SwitchJumpHandler fn = (SwitchJumpHandler)qst_opcode_table[op].handler;
+    s32 first = ((s32 (*)(void))read_u8)();
+    u8 count = ((s32 (*)(void))read_u8)();
     s32 i;
 
     for (i = 0; i < count; i++) {
@@ -5248,62 +5240,62 @@ void qst_getargs_s32_u8_s16ptr(s32 op) {
 
 void qst_getargs_u16_u8_u8ptr(s32 op) {
     u8 buf[16];
-    JumpOnHandler fn = (JumpOnHandler) qst_opcode_table[op].handler;
+    JumpOnHandler fn = (JumpOnHandler)qst_opcode_table[op].handler;
     u16 label = ((s32 (*)(void))read_be_u16)();
-    u8 count = ((s32 (*)(void))TLobby::read_packet_byte)();
+    u8 count = ((s32 (*)(void))read_u8)();
     s32 i;
 
     for (i = 0; i < count; i++) {
-        buf[i] = ((s32 (*)(void))TLobby::read_packet_byte)();
+        buf[i] = ((s32 (*)(void))read_u8)();
     }
     fn(label, count, buf);
 }
 
 void qst_getargs_u8_s32_u16(s32 op) {
-    void (*fn)(u8, s32, u16) = (void (*)(u8, s32, u16))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
+    QuestHandlerU8S32U16 fn = (QuestHandlerU8S32U16)qst_opcode_table[op].handler;
+    u8 a = read_u8();
     s32 b = stream_read_be32();
     fn(a, b, read_be_u16());
 }
 
 void qst_getargs_u8_u8_u16(s32 op) {
-    void (*fn)(u8, u8, u16) = (void (*)(u8, u8, u16))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
-    u8 b = TLobby::read_packet_byte();
+    QuestHandlerU8U8U16 fn = (QuestHandlerU8U8U16)qst_opcode_table[op].handler;
+    u8 a = read_u8();
+    u8 b = read_u8();
     fn(a, b, read_be_u16());
 }
 
-void TLobby::dispatch_command(s32 op) {
-    void (*fn)(u8, u16) = (void (*)(u8, u16))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
+void qst_getargs_u8_u16(s32 op) {
+    QuestHandlerU8U16 fn = (QuestHandlerU8U16)qst_opcode_table[op].handler;
+    u8 a = read_u8();
     fn(a, read_be_u16());
 }
 
 void qst_getargs_u16_2(s32 op) {
-    void (*fn)(u16) = (void (*)(u16))qst_opcode_table[op].handler;
+    QuestHandlerU16 fn = (QuestHandlerU16)qst_opcode_table[op].handler;
     fn(read_be_u16());
 }
 
 void qst_getargs_s32(s32 op) {
-    void (*fn)(s32) = (void (*)(s32))qst_opcode_table[op].handler;
+    QuestHandlerS32 fn = (QuestHandlerS32)qst_opcode_table[op].handler;
     fn(stream_read_be32());
 }
 
 void qst_getargs_u8_s32(s32 op) {
-    void (*fn)(u8, s32) = (void (*)(u8, s32))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
+    QuestHandlerU8S32 fn = (QuestHandlerU8S32)qst_opcode_table[op].handler;
+    u8 a = read_u8();
     fn(a, stream_read_be32());
 }
 
 void qst_getargs_u8_u8(s32 op) {
-    void (*fn)(u8, u8) = (void (*)(u8, u8))qst_opcode_table[op].handler;
-    u8 a = TLobby::read_packet_byte();
-    fn(a, TLobby::read_packet_byte());
+    QuestHandlerU8U8 fn = (QuestHandlerU8U8)qst_opcode_table[op].handler;
+    u8 a = read_u8();
+    fn(a, read_u8());
 }
 
 void qst_getargs_u8(s32 op) {
-    void (*fn)(u8) = (void (*)(u8))qst_opcode_table[op].handler;
-    fn(TLobby::read_packet_byte());
+    QuestHandlerU8 fn = (QuestHandlerU8)qst_opcode_table[op].handler;
+    fn(read_u8());
 }
 
 void qst_getargs_void_reset(s32 op) {
@@ -5361,7 +5353,7 @@ BattleRules battle_rules;
 char qst_cstring_buffer[0x404];
 
 
-unsigned char TLobby::read_packet_byte() { return qst_code[qst_pc++]; }
+unsigned char read_u8() { return qst_code[qst_pc++]; }
 
 quest_suspend_reason QuestVmContext::dispatch() {
     quest_suspend_reason reason;
@@ -5413,13 +5405,13 @@ quest_suspend_reason dispatch_quest_opcode(void) {
     s32 op;
     qst_suspend_reason = QST_RUNNING;
     while (qst_suspend_reason == QST_RUNNING) {
-        op = TLobby::read_packet_byte();
+        op = read_u8();
         switch (op) {
         case 0xF8:
-            op = TLobby::read_packet_byte() + 0x100;
+            op = read_u8() + 0x100;
             break;
         case 0xF9:
-            op = TLobby::read_packet_byte() + 0x200;
+            op = read_u8() + 0x200;
             break;
         }
         qst_opcode_table[op].decode_arguments(op);

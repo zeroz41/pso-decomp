@@ -3,16 +3,28 @@
 
 #include "types.h"
 
+// One quest opcode: the decoder reads the opcode's arguments from the quest code and calls the handler with
+// them, so each handler is stored as a QuestOpcodeHandler and called back with the shape its decoder reads.
 typedef void (*QuestArgumentDecoder)(s32 opcode);
 typedef void (*QuestOpcodeHandler)();
+typedef void (*QuestHandlerU8)(u8);
+typedef void (*QuestHandlerU8U8)(u8, u8);
+typedef void (*QuestHandlerU8S32)(u8, s32);
+typedef void (*QuestHandlerU8U16)(u8, u16);
+typedef void (*QuestHandlerU8U8U16)(u8, u8, u16);
+typedef void (*QuestHandlerU8S32U16)(u8, s32, u16);
+typedef void (*QuestHandlerU16)(u16);
+typedef void (*QuestHandlerU16U8)(u16, u8);
+typedef void (*QuestHandlerS32)(s32);
+typedef void (*QuestHandlerString)(char *);
+typedef void (*SwitchJumpHandler)(s32, u8, s16 *);
+typedef void (*JumpOnHandler)(u16, u8, u8 *);
 struct QuestOpcodeEntry {
     QuestArgumentDecoder decode_arguments;
     QuestOpcodeHandler handler;
 };
 
-extern "C" {
 extern QuestOpcodeEntry qst_opcode_table[0x300];
-}
 extern const char* qst_bgm_filename_table[];
 // Nonzero while a quest runs (is_quest_active).
 extern int quest_active_flag;
@@ -530,6 +542,12 @@ void qst_op_sync();
 void qst_op_exit();
 void qst_op_ret();
 void qst_op_nop();
+// Readers of the quest code at qst_pc; each advances past what it reads.
+unsigned char read_u8();
+u16 read_be_u16();
+s32 stream_read_be32();
+void append_string_to_buffer(char *dest);
+void qst_getargs_u8_u16(s32 opcode);
 void qst_getargs_u16_u8(s32 opcode);
 void qst_getargs_cstring(s32 opcode);
 void qst_getargs_s32_u8_s16ptr(s32 opcode);

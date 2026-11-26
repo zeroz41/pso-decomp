@@ -421,7 +421,6 @@ struct TLobby : public TObject {
     static void handle_choice_search_results(ChoiceSearchResultList *results);
     static void handle_choice_search_options(TRecvChoiceSearchOptions *options);
     static void send_battle_mode_data(void * _w0);
-    static unsigned char read_packet_byte();
     static void clear_quest_vm_flag();
     static void free_luker_object();
     void set_floor(s16 v);
@@ -496,7 +495,6 @@ struct TLobby : public TObject {
     static void append_color_code(s32 color);
     static s32 parse_color_code(char *s);
     s32 init_guild_card_tag();
-    static void dispatch_command(s32 op);
     static void send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf);
     void destroy_matching_children();
     static void destroy_download_server(TObject *fade);
