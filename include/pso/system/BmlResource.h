@@ -34,6 +34,11 @@ struct BmlResource {
     BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCallback callback, void *context, void *arena);
     ~BmlResource();
     void free_if_not_in_arena(void *ptr);
+    // Takes the next chunk out of `file` at `*offset`: decoded into the arena when the
+    // archive has one (rounded up to 32 bytes), else loaded on its own.
+    void *allocate_bml_chunk(u8 *file, u32 *offset, u32 *tag);
+    // Records a file handle the archive holds while it loads.
+    void add_resource_handle(void *item);
     void reset();
     void LoadTextureSub(const char *filename, s32 index);
     void set_flag_and_notify();
@@ -72,9 +77,6 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
     const char **models, const char **motions,
     BmlLoadCallback on_loaded, void *context, void *arena);
 
-extern "C" {
-void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset, u32 *tag);
-}
 void check_bin_model_loaded(BmlResource *resource);
 void increment_ref_and_set_flag(void *context);
 struct BmlModelLoadRequest;
@@ -83,11 +85,6 @@ struct AnimationMotion;
 void LoadBinModelCallBack(BmlModelLoadRequest *request);
 void LoadBinMotionCallBack(BmlMotionLoadRequest *request);
 
-// --- C functions defined in TLobby_8001EF5C.cpp ---
-extern "C" {
-AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-}
-// --- end of C functions
 
 s32 tmp_buf_is_free();
 s32 tmp_buf_release(const char *name);

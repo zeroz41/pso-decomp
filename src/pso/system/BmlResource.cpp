@@ -92,7 +92,6 @@ s32 is_bml_loaded(BmlResource *resource) {
     return (resource->flags >> 10) & 1;
 }
 
-extern "C" {
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }
@@ -105,9 +104,8 @@ NJS_OBJECT *get_bml_model(BmlResource *resource, s32 index) {
     return resource->models[index].model;
 }
 
-void add_resource_handle(BmlResource *self, void *item) {
-    self->handles[self->handle_count++] = item;
-}
+void BmlResource::add_resource_handle(void *item) {
+    handles[handle_count++] = item;
 }
 
 void tmp_buf_release_if_owner(const char *name) {
@@ -146,24 +144,22 @@ u8 *tmp_buf_use_req(const char *name) {
     return 0;
 }
 
-extern "C" {
 void BmlResource::free_if_not_in_arena(void *ptr) {
     if (arena == NULL) {
         xfree(ptr);
     }
 }
 
-extern "C" void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset, u32 *tag) {
+void *BmlResource::allocate_bml_chunk(u8 *file, u32 *offset, u32 *tag) {
     u32 size;
-    if (resource->arena != NULL) {
-        u8 *destination = static_cast<u8 *>(resource->arena) + resource->arena_offset;
+    if (arena != NULL) {
+        u8 *destination = static_cast<u8 *>(arena) + arena_offset;
         TLobby__sub_801E38A0(file, offset, tag, destination, &size);
         size = ((size >> 5U) + 1) << 5;
-        resource->arena_offset += size;
+        arena_offset += size;
         return destination;
     }
     return load_nj_chunk_model_resource(file, offset, tag);
-}
 }
 
 void BmlResource::LoadTextureSub(const char *filename, s32 index) {
@@ -443,7 +439,7 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     u32 kind;
     *request->motion = NULL;
     position = 0;
-    void *data = allocate_bml_chunk(request->resource, (u8 *)lobby_download_buffer, &position, &kind);
+    void *data = request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &position, &kind);
     if (data == 0) {
         TLobby::debug_print("LoadBinMotionCallBack: Illegal format.");
     }
@@ -465,7 +461,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
     NJS_TEXLIST **slot;
     i = 0;
     while (i < self->size) {
-        data = allocate_bml_chunk(self->resource, (u8 *)lobby_download_buffer, &i, &tag);
+        data = self->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &i, &tag);
         switch (tag) {
         case 0x4E4A544C:
             slot = self->texture;
@@ -475,7 +471,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             TLobby::change_file_extension(name, (char *)self->name, (char *)"gvm");
             r = create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
-                add_resource_handle(self->resource, handle);
+                self->resource->add_resource_handle(handle);
                 self->resource->expected_textures++;
             } else if (!(self->resource->flags & 4)) {
                 TLobby::debug_print("LoadBinModelCallBack: %s ERROR(%+2d)", name, r);
@@ -499,7 +495,7 @@ s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes) {
     AnimationMotion *motion;
     resource->motions[index].motion = NULL;
     offset = 0;
-    motion = static_cast<AnimationMotion *>(allocate_bml_chunk(resource, bytes, &offset, &tag));
+    motion = static_cast<AnimationMotion *>(resource->allocate_bml_chunk(bytes, &offset, &tag));
     if (motion == NULL) {
         TLobby::debug_print("LoadBinMotionSub: Illegal format.");
         return 0;
@@ -516,7 +512,7 @@ s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes) {
     resource->models[index].texlist = NULL;
     offset = 0;
     while (offset < size) {
-        data = allocate_bml_chunk(resource, bytes, &offset, &tag);
+        data = resource->allocate_bml_chunk(bytes, &offset, &tag);
         switch (tag) {
         case 0x4E4A434D:
             resource->models[index].model = static_cast<NJS_OBJECT *>(data);
@@ -547,7 +543,7 @@ s32 BmlResource::LoadBinMotion(const char *name, s32 index) {
         TLobby::debug_print("LoadBinMotion: tmpbuf overflow(%x)", size - 0x40000);
     }
     offset = 0;
-    data = static_cast<AnimationMotion *>(allocate_bml_chunk(this, lobby_download_buffer, &offset, (u32 *)&tag));
+    data = static_cast<AnimationMotion *>(allocate_bml_chunk(lobby_download_buffer, &offset, (u32 *)&tag));
     if (data == 0) {
         TLobby::debug_print("LoadBinMotion: Illegal format.");
     }
@@ -806,7 +802,7 @@ static inline void request_motions(BmlResource *resource, const char **list) {
         req.resource = resource;
         create_named_entry(*list, lobby_download_buffer,
                 reinterpret_cast<BmlLoadCallback>(LoadBinMotionCallBack), &req, &handle);
-        add_resource_handle(resource, handle);
+        resource->add_resource_handle(handle);
     }
 }
 
@@ -866,7 +862,7 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
             req.size = TGStream::get_resource_file_size(*p);
             create_named_entry(*p, lobby_download_buffer,
                 reinterpret_cast<BmlLoadCallback>(LoadBinModelCallBack), &req, &handle);
-            add_resource_handle(resource, handle);
+            resource->add_resource_handle(handle);
         }
         request_motions(resource, motions);
     }
