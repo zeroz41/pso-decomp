@@ -82,9 +82,9 @@ void TAdChrSelSlotGC::hide_slot_entry(s32 i) {
     visible[i + 2] = 0;
 }
 
-void TAdChrSelSlotGC::init_slot_entry(s32 slot, void *position) {
+void TAdChrSelSlotGC::init_slot_entry(s32 slot, const CharacterSlotPosition *position) {
     visible[slot + 2] = 1;
-    copy_vec2(&positions[slot + 2], position);
+    copy_vec2(&positions[slot + 2], (void *)position);
     quads[slot + 2].left = positions[slot + 2].x;
     quads[slot + 2].top = positions[slot + 2].y;
     quads[slot + 2].right = 174.0f + positions[slot + 2].x;
@@ -96,9 +96,9 @@ void TAdChrSelSlotGC::hide_slot(s32 i) {
     visible[i] = 0;
 }
 
-void TAdChrSelSlotGC::init_slot(s32 slot, void *position) {
+void TAdChrSelSlotGC::init_slot(s32 slot, const CharacterSlotPosition *position) {
     visible[slot] = 1;
-    copy_vec2(&positions[slot], position);
+    copy_vec2(&positions[slot], (void *)position);
     quads[slot].left = positions[slot].x;
     quads[slot].top = positions[slot].y;
     quads[slot].right = 174.0f + positions[slot].x;

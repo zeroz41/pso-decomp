@@ -79,12 +79,12 @@ s32 TAdChrSelASlotGC::get_plate_value_for_slot(s32 k) {
     return 0;
 }
 
-PlayerSlotLabel *TAdChrSelASlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
+PlayerSlotLabel *TAdChrSelASlotGC::build_slot_entry(s32 index, s32 slot, const CharacterSlotPosition *pos) {
     CardSlotSummary *e = get_card_slot_summary(slot);
     chr_select_a_slot_entry.slot = index;
     chr_select_a_slot_entry.name = e != NULL ? e->name : reinterpret_cast<const char *>(get_localized_text_entry(0x16, 0x1C));
     chr_select_a_slot_entry.level = e != NULL ? e->level + 1 : 0;
-    copy_vec2(&chr_select_a_slot_entry.position, pos);
+    copy_vec2(&chr_select_a_slot_entry.position, (void *)pos);
     return &chr_select_a_slot_entry;
 }
 
@@ -278,31 +278,31 @@ void TAdChrSelASlotGC::populate_slot_entries() {
     if (this->get_plate_value_for_slot(this->mode) != 0) {
         switch (this->mode) {
         case 0:
-            slot_gc->init_slot_entry(0, (void *)&chr_sel_a_slot_label_pos);
+            slot_gc->init_slot_entry(0, &chr_sel_a_slot_label_pos);
             for (i = 0; i < 4; i++) {
-                this->player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_a_slot_plate_positions[i]));
+                this->player_items->set_entry_text(build_slot_entry(i, i, &chr_sel_a_slot_plate_positions[i]));
                 if (is_character_transferred(i)) {
                     this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_a_slot_plate_positions[i]));
                 }
             }
             break;
         case 1:
-            slot_gc->init_slot_entry(0, (void *)&chr_sel_a_slot_left_label_pos);
-            slot_gc->init_slot_entry(1, (void *)&chr_sel_a_slot_right_label_pos);
+            slot_gc->init_slot_entry(0, &chr_sel_a_slot_left_label_pos);
+            slot_gc->init_slot_entry(1, &chr_sel_a_slot_right_label_pos);
             for (i = 0; i < 4; i++) {
-                this->player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_a_slot_left_plate_positions[i]));
+                this->player_items->set_entry_text(build_slot_entry(i, i, &chr_sel_a_slot_left_plate_positions[i]));
                 if (is_character_transferred(i)) {
                     this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_a_slot_left_plate_positions[i]));
                 }
             }
             for (j = 0; j < 3; j++) {
-                this->player_items_b->set_entry_text(build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_right_plate_positions[j]));
+                this->player_items_b->set_entry_text(build_slot_entry(j, j + 4, &chr_sel_a_slot_right_plate_positions[j]));
             }
             break;
         case 2:
-            slot_gc->init_slot_entry(1, (void *)&chr_sel_a_slot_left_label_pos);
+            slot_gc->init_slot_entry(1, &chr_sel_a_slot_left_label_pos);
             for (j = 0; j < 3; j++) {
-                this->player_items_b->set_entry_text(build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_left_plate_positions[j]));
+                this->player_items_b->set_entry_text(build_slot_entry(j, j + 4, &chr_sel_a_slot_left_plate_positions[j]));
             }
             break;
         }
@@ -644,15 +644,15 @@ void TAdChrSelASlotGC::close_windows() {
     switch (this->mode) {
     case 0:
         this->draw_line[1] = create_draw_line_ctrl(this, 0xC, 0.0f);
-        slot_gc->init_slot(0, (void *)&chr_sel_a_slot_header_pos);
+        slot_gc->init_slot(0, &chr_sel_a_slot_header_pos);
         this->draw_line[0] = create_draw_line_ctrl(this, 0xB, 0.0f);
         break;
     case 1:
-        slot_gc->init_slot(0, (void *)&chr_sel_a_slot_header_pos);
+        slot_gc->init_slot(0, &chr_sel_a_slot_header_pos);
         this->draw_line[0] = create_draw_line_ctrl(this, 0xB, 0.0f);
         break;
     case 2:
-        slot_gc->init_slot(0, (void *)&chr_sel_a_slot_left_header_pos);
+        slot_gc->init_slot(0, &chr_sel_a_slot_left_header_pos);
         this->draw_line[0] = create_draw_line_ctrl(this, 0xD, 0.0f);
         this->draw_line[1] = create_draw_line_ctrl(this, 0x14, 0.0f);
         break;

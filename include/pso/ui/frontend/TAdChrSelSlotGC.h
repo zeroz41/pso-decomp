@@ -23,8 +23,8 @@ public:
 public:
     void draw_slot_icons();
     void reset_all_slots();
-    void init_slot_entry(s32 slot, void *position);
-    void init_slot(s32 slot, void *position);
+    void init_slot_entry(s32 slot, const CharacterSlotPosition *position);
+    void init_slot(s32 slot, const CharacterSlotPosition *position);
     void hide_slot_entry(s32 i); // hides slot entry i (visible[i + 2])
     void hide_slot(s32 i); // hides slot i (visible[i])
     void set_select_index(s32 v); // stores enabled

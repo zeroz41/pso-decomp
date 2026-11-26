@@ -126,8 +126,8 @@ force_active:
   - TAdBackTxtGC_backtext_tex_list
   - class_name__18TAdChrMoveEffectGC
   - TAdChrMoveEffectGC__sub_80349194
-  - build_slot_entry__16TAdChrSelASlotGCFllPv
-  - build_slot_entry__16TAdChrSelBSlotGCFllPv
+  - build_slot_entry__16TAdChrSelASlotGCFllPC21CharacterSlotPosition
+  - build_slot_entry__16TAdChrSelBSlotGCFllPC21CharacterSlotPosition
   - show_not_formatted_message__16TAdChrSelBSlotGCFv
   - show_format_prompt__16TAdChrSelBSlotGCFv
   - show_card_damaged_message__16TAdChrSelBSlotGCFv

@@ -6,6 +6,8 @@
 struct NJS_POINT2;
 #include "pso/system/task/TObject.h"
 
+struct CharacterSlotPosition;
+
 class TAdSubPlyItemGC;
 class TAdChrSelMovePlateGC;
 class TAdPlyChrSelPlateGC;
@@ -31,7 +33,7 @@ struct TAdChrSelASlotGC : public TObject {
     static void render(void *self);
     s32 is_character_transferred(u32 i);
     s32 get_plate_value_for_slot(s32 k);
-    PlayerSlotLabel *build_slot_entry(s32 index, s32 slot, void *pos);
+    PlayerSlotLabel *build_slot_entry(s32 index, s32 slot, const CharacterSlotPosition *pos);
     TWindowBase *create_format_failed_window(s32 kind);
     TWindowBase *create_not_formatted_window(s32 kind);
     TWindowBase *create_formatted_window(s32 kind);

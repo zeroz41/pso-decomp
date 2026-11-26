@@ -57,12 +57,12 @@ s32 TAdChrSelBSlotGC::is_character_transferred(u32 i) {
     return e->copied == 1 ? 1 : 0;
 }
 
-PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
+PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, const CharacterSlotPosition *pos) {
     CardSlotSummary *e = get_secondary_slot_summary(slot);
     chr_select_b_slot_entry.slot = index;
     chr_select_b_slot_entry.name = e != NULL ? e->name : reinterpret_cast<const char *>(get_localized_text_entry(0x16, 0x1C));
     chr_select_b_slot_entry.level = e != NULL ? e->level + 1 : 0;
-    copy_vec2(&chr_select_b_slot_entry.position, pos);
+    copy_vec2(&chr_select_b_slot_entry.position, (void *)pos);
     return &chr_select_b_slot_entry;
 }
 
@@ -114,9 +114,9 @@ void TAdChrSelBSlotGC::populate_slot_entries() {
     u32 i;
 
     if (plate->is_slot_value_ready(2)) {
-        slot_gc->init_slot_entry(2, (void *)&lbl_80475908);
+        slot_gc->init_slot_entry(2, &lbl_80475908);
         for (i = 0; i < 4; i++) {
-            player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_b_slot_positions[i]));
+            player_items->set_entry_text(build_slot_entry(i, i, &chr_sel_b_slot_positions[i]));
             if (is_character_transferred(i)) {
                 move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_b_slot_positions[i]));
             }
@@ -672,7 +672,7 @@ void TAdChrSelBSlotGC::reset_windows() {
     }
     plate->reset_selection_slots();
     player_items->hide_all_entries();
-    slot_gc->init_slot(1, (void *)&lbl_80475910);
+    slot_gc->init_slot(1, &lbl_80475910);
     draw_line[0] = create_draw_line_ctrl(this, 0xE, 0.0f);
     draw_line[1] = create_draw_line_ctrl(this, 0x15, 0.0f);
     state_frames = -1;
