@@ -36,9 +36,7 @@ LAYOUT_ASSERT(TWindowLoadItemTexture_list_offset, offsetof(TWindowLoadItemTextur
 
 TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f32 *extent, s32 client);
 void bind_item_texture(TWindowLoadItemTexture *window);
-extern "C" {
 void enable_item_texture_frame(TWindowLoadItemTexture *window);
-}
 
 // TWindowLoadItemTexture::window_descriptor (passed to the TWindowBase constructor by the window's constructor) and
 // TWindowLoadItemTexture::layout_entries, the layout table it points at.

@@ -22,9 +22,7 @@ struct TAdFloorLoadCamGC : public TObject {
 
 LAYOUT_ASSERT(TAdFloorLoadCamGC_size, sizeof(TAdFloorLoadCamGC) == 0x4C);
 
-extern "C" {
 void fn_8034BE38(TObjPlayer *player);
 void fn_8034BE48(TObjPlayer *player);
-}
 
 #endif

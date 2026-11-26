@@ -32,7 +32,7 @@ char *get_challenge_rank_title(u16 client) {
     return decode_challenge_rank_title(&record->challenge);
 }
 
-extern "C" char *decode_challenge_rank_title(ChallengeRecord *record) {
+char *decode_challenge_rank_title(ChallengeRecord *record) {
     if (record == NULL) {
         return no_rank_title;
     }

@@ -38,6 +38,6 @@ s32 get_status_effect_icon_index(u32 effect_type);
 s32 get_chain_help_mode(s32 chain_slot);
 
 // Defined in TWindowComCardFollower.cpp.
-extern "C" void request_active_window_close(void);
+void request_active_window_close(void);
 
 #endif

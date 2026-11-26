@@ -6387,7 +6387,7 @@ force_active:
   - has_unconvertible_char__19TWindowKeyBoardBaseFPUc
   - draw_pan_arrows__21TWindowSubAreaMapDispFP17WindowDrawContext
   - reset_current_char_appearance__Fl
-  - enable_item_texture_frame
+  - enable_item_texture_frame__FP22TWindowLoadItemTexture
   - draw_fade_hexagon__FPvPvUlff
   - draw_bolt__12TBGLightningFP3Vec
   - draw_flash__12TBGLightningFP3Vec
