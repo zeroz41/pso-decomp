@@ -876,7 +876,7 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
     this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
     player_plate->set_select_mode(0);
     player_plate->set_state_ready();
-    if ((((TAdMultiPlyChrSelectGC *)game_start)->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+    if ((game_start->is_active() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
         ready_count = TAdMultiPlyChrSelectGC::count_ready();
         selected_count = TAdMultiPlyChrSelectGC::count_selected_slots();
         if (selected_count != ready_count) {
@@ -1378,7 +1378,7 @@ void TAdMultiPlyChrSelectGC::update_confirm_start() {
     s32 ready_count;
     s32 selected_count;
 
-    if ((((TAdMultiPlyChrSelectGC *)game_start)->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+    if ((game_start->is_active() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
         ready_count = TAdMultiPlyChrSelectGC::count_ready();
         selected_count = TAdMultiPlyChrSelectGC::count_selected_slots();
         if (selected_count != ready_count) {

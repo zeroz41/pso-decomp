@@ -22,6 +22,7 @@ public:
 
     void destroy_windows();
     void create_effects();
+    s32 is_active();
 
     static void bswap_6x92(void *p);
     static void send_6x92(void *p);
