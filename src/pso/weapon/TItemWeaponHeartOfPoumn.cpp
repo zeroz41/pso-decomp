@@ -6,19 +6,15 @@
 #include "pso/weapon/TItemWeaponMonkeyKingBar.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-s32 draw_weapon_at_joint(void *, int);
-}
-
 
 void TItemWeaponHeartOfPoumn::draw_held_model() {
     NJS_OBJECT *saved_model;
-    draw_weapon_at_joint(this, 0x31);
+    draw_weapon_at_joint(0x31);
     update_trail_slot(0);
     update_trail_slot(1);
     saved_model = item_model;
     item_model = second_model;
-    draw_weapon_at_joint(this, 0x24);
+    draw_weapon_at_joint(0x24);
     item_model = saved_model;
     update_trail_slot(2);
     update_trail_slot(3);

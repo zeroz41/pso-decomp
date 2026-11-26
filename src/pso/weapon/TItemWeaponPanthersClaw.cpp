@@ -2,7 +2,6 @@
 #include "pso/weapon/TItemWeaponPanthersClaw.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
@@ -32,14 +31,12 @@ void TItemWeaponPanthersClaw::update_attack() {
 
 void TItemWeaponPanthersClaw::draw_held_model() {
   NJS_OBJECT *saved_model;
-  saddr weapon;
   saved_model = item_model;
-  weapon = (saddr) this;
-  draw_weapon_at_joint(weapon, 0x2F);
+  draw_weapon_at_joint(0x2F);
   update_trail_slot(0);
   update_trail_slot(1);
   item_model = second_model;
-  draw_weapon_at_joint(weapon, 0x22);
+  draw_weapon_at_joint(0x22);
   item_model = saved_model;
 }
 

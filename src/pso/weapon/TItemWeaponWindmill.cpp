@@ -12,7 +12,6 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemMenuCtrl.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponYasminkov9000M.h"
 #include "pso/system/task/TMainTask.h"

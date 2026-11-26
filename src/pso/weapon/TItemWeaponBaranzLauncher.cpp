@@ -5,7 +5,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixReflect.h"
 

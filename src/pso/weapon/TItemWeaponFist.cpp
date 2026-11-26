@@ -7,7 +7,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"
@@ -108,12 +107,11 @@ s32 knuckle_marker_joint_table[18] = {
 
 
 void TItemWeaponFist::draw_held_model() {
-    saddr weapon = (saddr)this;
     if (get_item_index() == 3) {
         knuckle_second_hand_pass = 0;
-        ((TItemWeapon *)weapon)->draw_weapon_model();
+        draw_weapon_model();
         knuckle_second_hand_pass = 1;
-        draw_weapon_at_joint(weapon, 0x23);
+        draw_weapon_at_joint(0x23);
     }
 }
 

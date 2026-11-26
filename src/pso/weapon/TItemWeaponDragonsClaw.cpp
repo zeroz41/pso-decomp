@@ -5,7 +5,6 @@
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80120908.h"
 
 extern "C" {
 
@@ -23,7 +22,7 @@ void TItemWeaponDragonsClaw::emit_marker_effects() {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TItemWeaponDragonsClaw::draw_held_model() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
+void TItemWeaponDragonsClaw::draw_held_model() { draw_weapon_at_joint(49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
 void TItemWeaponDragonsClaw::on_equipped() { this->roll_technique(); this->roll_technique(); }
 
 }

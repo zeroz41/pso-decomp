@@ -10,7 +10,6 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/effect/item/TItemEffCane.h"
 
 void TItemWeaponStrikerOfChao::draw_held_model() {
@@ -24,7 +23,7 @@ void TItemWeaponStrikerOfChao::draw_held_model() {
         grandchild->evalflags |= NJD_EVAL_HIDE;
         NJS_OBJECT *sibling = grandchild->sibling;
         sibling->evalflags |= NJD_EVAL_HIDE;
-        draw_weapon_at_joint((saddr)this, 0x30);
+        draw_weapon_at_joint(0x30);
         child->evalflags &= ~NJD_EVAL_HIDE;
         grandchild->evalflags &= ~NJD_EVAL_HIDE;
         sibling->evalflags &= ~NJD_EVAL_HIDE;

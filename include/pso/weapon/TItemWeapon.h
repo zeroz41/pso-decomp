@@ -104,6 +104,8 @@ struct TItemWeapon : public TItemEquipBase {
     CsnHit *trace_from_owner(Vec *point);
     void remap_extra_attack_type();
     void draw_weapon_model();
+    // Draws the weapon model attached to the owner's `joint`, then restores the attach joint.
+    void draw_weapon_at_joint(s8 joint);
     void create_weapon_trail_effects();
     // The weapon row of item_class_load_unload_table.
     static void load_data();

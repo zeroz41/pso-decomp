@@ -15,7 +15,6 @@
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
@@ -140,7 +139,7 @@ void TItemWeaponRocketPunch::draw_held_model() {
     get_joint_position(1, &shot_origins[0]);
     item_model = (NJS_OBJECT *)model_data[0];
     punch_flags.clear(1);
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(0x23);
     get_joint_position(1, &shot_origins[1]);
     item_model = saved_model;
 }

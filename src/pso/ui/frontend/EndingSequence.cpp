@@ -8,7 +8,6 @@
 #include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -145,7 +144,7 @@ void TItemWeaponSBerillsHands::draw_held_model() {
     NJS_OBJECT *model = item_model;
     draw_weapon_model();
     item_model = second_model;
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(0x23);
     item_model = model;
 }
 

@@ -5,7 +5,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/weapon/shoot/TItemShoot.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponGuldMilla::emit_marker_effects() {
@@ -30,7 +29,7 @@ void TItemWeaponGuldMilla::draw_held_model() {
     draw_weapon_model();
     get_gun_point(&gun_point);
     item_model = (NJS_OBJECT *)model_data[0];
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(0x23);
     get_gun_point(&second_gun_point);
     item_model = model;
 }

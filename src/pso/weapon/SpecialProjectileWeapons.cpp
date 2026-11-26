@@ -54,11 +54,6 @@ LAYOUT_ASSERT(RecoilAngleOffset, offsetof(RecoilWeaponView, recoilAngle) == 0x20
 LAYOUT_ASSERT(RecoilPhaseOffset, offsetof(RecoilWeaponView, recoilPhase) == 0x204);
 LAYOUT_ASSERT(RecoilWeaponExtent, sizeof(RecoilWeaponView) == 0x208);
 
-extern "C" {
-
-s32 draw_weapon_at_joint(void *, s32, void *);
-}
-
 
 void TItemWeaponEvilCurst::emit_marker_effects() {
     Vec joint_position;
@@ -129,7 +124,7 @@ void TItemWeaponEvilCurst::draw_held_model() {
         model_link = item_model->child->sibling;
         effect_model = model_link->sibling;
         effect_model->evalflags |= 0x18;
-        draw_weapon_at_joint(this, 0x30, model_link);
+        draw_weapon_at_joint(0x30);
         effect_model->evalflags &= ~0x18;
         if (get_joint_position(5, &joint_position) != 0) {
             push_matrix();

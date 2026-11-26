@@ -4,7 +4,6 @@
 #include "pso/item/TItem.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
 #include <stdlib.h>
 
@@ -34,7 +33,7 @@ void TItemWeaponPArmsBlade::draw_held_model() {
     } else {
         set_photon_color_id(saved);
     }
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(0x23);
     if (get_photon_color_id() != 8) {
         update_trail_slot(1);
     }

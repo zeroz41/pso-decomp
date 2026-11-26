@@ -3,7 +3,6 @@
 #include "pso/weapon/TItemWeaponMorningGlory.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponMorningGlory::update_weapon() {
@@ -11,7 +10,7 @@ void TItemWeaponMorningGlory::update_weapon() {
 }
 
 void TItemWeaponMorningGlory::draw_held_model() {
-    draw_weapon_at_joint((saddr)this, 0x30);
+    draw_weapon_at_joint(0x30);
     update_trail_slot(0);
     update_trail_slot(1);
     update_trail_slot(2);

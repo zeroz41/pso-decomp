@@ -16,7 +16,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCollidable.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
@@ -131,11 +130,11 @@ void TItemWeaponSRankPunch::draw_held_model() {
 
     saved_model = item_model;
     this->flags.set(1);
-    draw_weapon_at_joint((saddr)this, 0x30);
+    draw_weapon_at_joint(0x30);
     get_joint_position(1, &shot_origins[0]);
     item_model = (NJS_OBJECT *)model_data[0];
     this->flags.clear(1);
-    draw_weapon_at_joint((saddr)this, 0x23);
+    draw_weapon_at_joint(0x23);
     get_joint_position(1, &shot_origins[1]);
     item_model = saved_model;
 }

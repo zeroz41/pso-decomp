@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItemMenuCtrl.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/weapon/TItemWeaponSRankWindmill.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
