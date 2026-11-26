@@ -5,9 +5,7 @@
 
 class TTitleScene;
 
-extern "C" {
 void TLobby__sub_803361FC(TTitleScene *scene);
-}
 void initialize_lobby_title_scene(void);
 
 #endif

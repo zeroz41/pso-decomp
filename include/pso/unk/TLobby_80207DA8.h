@@ -3,12 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
 void TLobby__sub_80207E24(void *p, s32 size);
 void TLobby__sub_80207E44(void);
 void TLobby__sub_80207E48(void);
 void TLobby__sub_80207F10(void);
-}
 void free_forest_rel_work_buffer(void);
 void TLobby__sub_80208648(void);
 void TLobby__sub_80208884(void *a0);

@@ -14,9 +14,7 @@ LAYOUT_ASSERT(FloorMapSelectionSize, sizeof(FloorMapSelection) == 0xC);
 LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrain) == 4);
 
 void reset_floor_map_registry(void);
-extern "C" {
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection);
-}
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection);
 s32 get_floor_map_terrain(s32 floor);
 void randomize_adventure_maps(void);

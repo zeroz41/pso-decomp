@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 BOOL fn_80145A44(char *dst);
-}
 
 #endif

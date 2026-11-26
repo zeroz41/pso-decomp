@@ -82,9 +82,9 @@ LAYOUT_ASSERT(SoundControlState_ms_offset, offsetof(SoundControlState, ms) == 0x
 extern SoundControlState sound_control_state;
 
 void set_sound_voice_position(s32 slot, const Vec *position);
-extern "C" {
 s32 TLobby__sub_8023F880(s32 voice);
 int TLobby__sub_802401C8(SoundControlState *self);
+extern "C" {
 void TLobby__sub_802422EC(void *arg0, void *arg1);
 void TLobby__sub_8024259C(saddr arg0);
 }

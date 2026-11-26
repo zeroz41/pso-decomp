@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void fn_80299420(void *p, void *q);
-}
 
 #endif

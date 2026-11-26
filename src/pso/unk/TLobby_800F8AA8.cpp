@@ -1129,11 +1129,8 @@ s32 TLobby::run_disk_error_check() {
 // resource_load_task_root, one per relocatable data file), the quest and text archive
 // decryption, the disc-file wrappers and TLobby::run_frame.
 extern int player_load_load_state;
-extern "C" {
-
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
     fn_800FFE14(fn_800FFE04(), entries, count);
-}
 }
 
 TRelDataFile::~TRelDataFile() {}

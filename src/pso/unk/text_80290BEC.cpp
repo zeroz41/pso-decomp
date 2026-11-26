@@ -12,7 +12,6 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/AsyncFileRead.h"
 
-extern "C" {
 void fn_80290BEC(void) {
     s32 *task;
     TLobby::stop_audio_streams();
@@ -22,6 +21,7 @@ void fn_80290BEC(void) {
     TLobby::free_all_resources();
     render_tick();
 }
+extern "C" {
 void run_main_frame(void) {
     s32 *task;
     begin_gx_frame();

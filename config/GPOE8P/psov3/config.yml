@@ -703,7 +703,7 @@ force_active:
   - probe_gba_device__Fv
   - gba_clear_identifiers__Fv
   - reset_joyboot_state__FPv
-  - TLobby__sub_803361FC
+  - TLobby__sub_803361FC__FP11TTitleScene
   - handle_menu_selection__11TTitleSceneFv
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
   - __ct__18TSymbolChatCaptureFP7TObject

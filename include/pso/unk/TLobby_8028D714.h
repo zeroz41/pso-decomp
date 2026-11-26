@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void TLobby__sub_8028D7D0(s32 i);
-}
 
 #endif
