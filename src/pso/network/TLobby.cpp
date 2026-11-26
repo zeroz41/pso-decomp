@@ -2949,7 +2949,7 @@ extern u8 *text_language_group_table;
 int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
 int TWindowMenuIconLine::is_cancelled() { return (this->state_flags >> 2) & 0x1; }
 int TWindowMakeTeam::test_flag_1d_bit1() { return (flags >> 1) & 1; }
-s32 TWindowMakeTeam::get_field_20() { return m_20; }
+s32 TWindowMakeTeam::get_field_20() { return kind; }
 u8 TWindowMakeTeam::get_mode() { return mode; }
 u8 TWindowMakeTeam::read_mode() { return mode; }
 int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }

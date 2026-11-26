@@ -23,16 +23,16 @@ struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
 
 s32 TWindowMessagePage::is_ready() {
-    if ((u32) this->m_94 != 0U) {
+    if ((u32) this->page_text != 0U) {
         return 0;
     }
     return is_message_window_ready() != 0 ? 1 : 0;
 }
 
 void TWindowMessagePage::update_message() {
-    if ((u32) this->m_94 != 0U) {
+    if ((u32) this->page_text != 0U) {
         text_builder_reset();
-        this->m_94 = (uaddr)((TWindowSubStatusDisp *)this->m_94)->copy_message_page_text();
+        this->page_text = (uaddr)((TWindowSubStatusDisp *)this->page_text)->copy_message_page_text();
         append_line((saddr)get_shared_text_buffer(), this->line_mode);
     }
 }
@@ -77,5 +77,5 @@ TWindowMessagePage::TWindowMessagePage(const NJS_POINT2 *position, s32 rows, s32
     this->m_name = TWindowMessagePage::class_name;
     this->line_mode = 0;
     this->client_index = (s16) client;
-    this->m_94 = 0;
+    this->page_text = 0;
 }

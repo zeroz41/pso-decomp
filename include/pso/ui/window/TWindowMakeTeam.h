@@ -17,7 +17,7 @@ struct TWindowMakeTeam : public TObject {
     u8 flags;
     s8 mode;
     s8 selected_value;
-    s32 m_20;
+    s32 kind;
     char *name;
     char *comment;
     TWindowMenuInfomation *m_menu; // 0x2C: the window create_menu() returns; its entries are marked, disabled and named
@@ -45,6 +45,6 @@ struct TWindowMakeTeam : public TObject {
 
 LAYOUT_ASSERT(TWindowMakeTeam_flags_offset, offsetof(TWindowMakeTeam, flags) == 0x1D);
 LAYOUT_ASSERT(TWindowMakeTeam_mode_offset, offsetof(TWindowMakeTeam, mode) == 0x1E);
-LAYOUT_ASSERT(TWindowMakeTeam_field_20_offset, offsetof(TWindowMakeTeam, m_20) == 0x20);
+LAYOUT_ASSERT(TWindowMakeTeam_field_20_offset, offsetof(TWindowMakeTeam, kind) == 0x20);
 LAYOUT_ASSERT(TWindowMakeTeam_size, sizeof(TWindowMakeTeam) == 0x38);
 #endif

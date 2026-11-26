@@ -44,7 +44,7 @@ struct TWindowCtrl : public TObject {
     TWindowCtrlPlayer *players[12];
     TWindowSimpleStatus *simple_status[3];
     TWindowFukidasi *balloons[4];
-    void* m_94;
+    void* chat_submission;
     virtual void run_task();
     virtual void render();
     static s32 get_flag_bit3();

@@ -298,7 +298,7 @@ void TWindowSubMag::run_task() {
         photon = new TWindowSubMagPhoton(get_window_layout_position(0xA), mag, client_id);
         photon->set_depth(get_main_menu_layer_depth((u8 *)parent, 3));
         message = create();
-        m_1d = -1;
+        shown_blast = -1;
         state = 15;
     case 15:
         update_mag_help();
@@ -474,8 +474,8 @@ void TWindowSubMag::update_mag_help() {
 
     toggle_help_window_on_button((uaddr)this->message, this->client_id);
     selected_blast = photon->get_selected_blast();
-    if (selected_blast != (s8) this->m_1d) {
-        this->m_1d = (u8) selected_blast;
+    if (selected_blast != (s8) this->shown_blast) {
+        this->shown_blast = (u8) selected_blast;
         if (selected_blast == -1) {
             ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)mag_empty_line), 0x80);
             return;
