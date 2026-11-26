@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/network/TLobby.h"
+#include "pso/object/TObjChallengeRetry.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
@@ -49,13 +50,13 @@ void send_challenge_dead_flag_cmd(s32 index) {
     send_challenge_dead_flag_packet((G_SetChallengeDeadFlag_6x9D *)&stack);
 }
 
-void TLobby::send_challenge_retry_cmd(s32 choice) {
+void send_challenge_retry_cmd(s32 choice) {
     G_SelectChallengeModeFailureOption_6x97 packet;
     if (is_challenge_mode() != 0) {
         build_6x97_packet((u8 *)&packet);
         packet.is_retry = choice;
         packet.client_id = local_client_id;
-        ((TLobby *)(&packet))->send_and_handle_60_wrapper();
+        send_and_handle_60_wrapper(&packet);
     }
 }
 

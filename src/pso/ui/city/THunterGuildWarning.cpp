@@ -231,7 +231,7 @@ s32 TLobby__sub_80211C3C(void) {
 
 
 
-s32 TLobby::handle_main_phase(saddr player) {
+s32 handle_main_phase(saddr player) {
     if (get_main_phase() == 0xE) {
         return (saddr)THunterGuildSeqOffline::create((TObjPlayer *)player);
     }

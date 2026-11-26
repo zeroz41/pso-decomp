@@ -512,7 +512,7 @@ void normalize_drop_area(s32 *p) {
     }
 }
 
-void TLobby::forward_to_player(int id, TItemData *item) {
+void forward_to_player(int id, TItemData *item) {
     TObjPlayer *player;
     if (item != NULL) {
         player = get_player_by_client_id((u16)id);
@@ -522,7 +522,7 @@ void TLobby::forward_to_player(int id, TItemData *item) {
         }
     }
 }
-void TLobby::handle_player_event(s32 client, s32 slot) {
+void handle_player_event(s32 client, s32 slot) {
     TObjPlayer *player;
     TItem *item;
     player = get_player_by_client_id((u16)client);

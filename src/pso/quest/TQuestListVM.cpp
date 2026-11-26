@@ -28,6 +28,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/BmlResource.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/quest/QuestActiveFlag.h"
 
 // A window's width and height.
 struct WindowSize {
@@ -708,7 +709,7 @@ void TQuestListVM::load_vm() {
 }
 
 void TQuestListVM::set_enemy_mode_3(TObject *) {
-    TLobby::set_enemy_mode_flag();
+    set_enemy_mode_flag();
     evt2_random_enemies_mode = 3;
     set_keyboard_input_flag();
 }

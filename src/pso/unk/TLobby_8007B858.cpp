@@ -134,7 +134,7 @@ const char *TObjPlayer::get_name() { return name; }
 FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
-    {(FloorResourceCallback)TLobby__sub_802D7A0C, TLobby::forward_npc_enemy},
+    {(FloorResourceCallback)TLobby__sub_802D7A0C, forward_npc_enemy},
     {create_reflection_target, destroy_reflection_target},
     {init_camera_render_target, free_camera_render_target},
     {TScene::load_current_floor, TScene::free_scene_resources},

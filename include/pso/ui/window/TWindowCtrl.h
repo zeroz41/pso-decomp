@@ -165,5 +165,6 @@ saddr get_party_member_name(s32 n);
 s32 fn_8024C5C4(const TWindowChat *chat);
 void destroy_com_card_window(void);
 s32 is_player_input_active(s32 client);
+void send_card_window_state();
 
 #endif

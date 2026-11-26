@@ -1642,7 +1642,7 @@ void TWindowSubComCard::set_choice_search_option(ChoiceSearchSelection *selectio
 
 void TWindowSubComCard::send_state_if_dirty() {
     if (this->dirty_flags & 1) {
-        TLobby::send_card_window_state();
+        send_card_window_state();
         this->dirty_flags = (s8) (this->dirty_flags & ~1);
     }
 }

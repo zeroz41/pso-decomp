@@ -20,6 +20,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/object/TObjChallengeRetry.h"
+#include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -59,9 +60,9 @@ void build_6x9D_packet(u8 *packet) {
     header->size = 2;
 }
 
-void TLobby::send_and_handle_60_wrapper() {
-    bswap_client_id_packet(this);
-    send_subcommand(this);
+void send_and_handle_60_wrapper(G_SelectChallengeModeFailureOption_6x97 *packet) {
+    bswap_client_id_packet(packet);
+    send_subcommand(packet);
 }
 void bswap_client_id_packet(void *player) {
     ((G_ClientIDHeader *)player)->bswap();
@@ -292,7 +293,7 @@ void TObjChallengeRetry::update_challenge_retry() {
         if (selected_menu_value == 2) {
             close_requested = 1;
         } else {
-            TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
+            send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
             send_45_and_close_windows();
             play_player_default_effect();
             this->selection_sent = 1;
@@ -407,7 +408,7 @@ void TObjChallengeRetry::run_task() {
 
 TObjChallengeRetry::~TObjChallengeRetry() {
     if (is_designated != 0 && selection_sent == 0) {
-        TLobby::send_challenge_retry_cmd(0);
+        send_challenge_retry_cmd(0);
     }
 }
 

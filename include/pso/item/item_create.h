@@ -40,5 +40,7 @@ s32 check_equip_requirements(void *player, TItemData *item, s32 *requirement);
 
 // Builds the item object for `data` with its type's create function.
 TItem *construct_item(TItemData *data);
+void forward_to_player(int id, TItemData *item);
+void handle_player_event(s32 client, s32 slot);
 
 #endif

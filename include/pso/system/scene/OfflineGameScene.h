@@ -31,5 +31,6 @@ extern int camera_split_screen_selector;
 void TLobby__sub_801A2DF4(void);
 void TLobby__sub_801A2DF8(void);
 void TLobby__sub_801A2DFC(void);
+void apply_char_to_players();
 
 #endif

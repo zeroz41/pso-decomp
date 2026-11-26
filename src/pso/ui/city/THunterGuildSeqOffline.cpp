@@ -30,6 +30,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/OtherPlayersHold.h"
+#include "pso/quest/QuestActiveFlag.h"
 
 // The quest-list callbacks before the guild sequence proper are built in source order;
 // the rest of the file uses deferred code generation (reverse order in .text).
@@ -95,9 +96,9 @@ void THunterGuildSeqOffline::set_state_close2(TShopWindowBase *) {
     }
 }
 
-void THunterGuildSeqOffline::set_enemy_mode_5(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 5; set_keyboard_input_flag(); }
+void THunterGuildSeqOffline::set_enemy_mode_5(TObject *) { set_enemy_mode_flag(); evt2_random_enemies_mode = 5; set_keyboard_input_flag(); }
 
-void THunterGuildSeqOffline::set_enemy_mode_1(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 1; set_keyboard_input_flag(); }
+void THunterGuildSeqOffline::set_enemy_mode_1(TObject *) { set_enemy_mode_flag(); evt2_random_enemies_mode = 1; set_keyboard_input_flag(); }
 
 
 void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }

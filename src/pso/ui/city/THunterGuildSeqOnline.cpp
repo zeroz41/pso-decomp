@@ -31,6 +31,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/quest/QuestActiveFlag.h"
 
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;
@@ -356,7 +357,7 @@ void THunterGuildSeqOffline__sub_80213E64(void) {
 }
 
 
-void set_random_enemies_mode(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; set_keyboard_input_flag(); }
+void set_random_enemies_mode(TObject *) { set_enemy_mode_flag(); evt2_random_enemies_mode = 2; set_keyboard_input_flag(); }
 
 void reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }
 

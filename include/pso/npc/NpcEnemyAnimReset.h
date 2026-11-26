@@ -4,5 +4,6 @@
 #include "types.h"
 
 void TLobby__sub_802D7A0C(void *p);
+void forward_npc_enemy();
 
 #endif

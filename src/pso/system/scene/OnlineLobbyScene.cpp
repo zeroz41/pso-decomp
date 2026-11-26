@@ -93,6 +93,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
+#include "pso/quest/QuestActiveFlag.h"
 
 
 struct UdpTestGameEntry { s32 f0; s32 f4; };
@@ -409,7 +410,7 @@ void start_quest_mission(void) {
         q->run_task();
     }
     TLobby::setup_quest_list();
-    TLobby::set_enemy_mode_flag();
+    set_enemy_mode_flag();
     TQuestListOnline::ensure_online_quests_loaded();
     load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state));
     unlock_main_warp_destination(get_current_floor());

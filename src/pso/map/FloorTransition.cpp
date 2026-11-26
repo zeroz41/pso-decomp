@@ -18,10 +18,9 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/map/area/Delo2Scene.h"
+#include "pso/map/area/Dragon2Scene.h"
 
-// Area set-up functions of Dragon2Scene.cpp and Delo2Scene.cpp, which have no header.
-s32 init_scene_delo2();
-s32 load_dragon2_scene();
 
 
 // The screen quad draw_textured_quad_at_depth reads.
@@ -191,9 +190,9 @@ AreaInitializer area_initializer_dispatch_table[] = {
     { "SEABED01", initialize_boss_scene, update_scene_alt },
     { "SEABED02", initialize_boss_scene, update_scene_alt },
     { "BOSS05", init_gryphon_area, cleanup_gryphon_area },
-    { "BOSS06", TLobby::init_particle_model, TLobby::refresh_lobby_state },
-    { "BOSS07", init_scene_delo2, TLobby::update_subsystems },
-    { "BOSS08", load_dragon2_scene, TLobby::update_field_state },
+    { "BOSS06", init_particle_model, refresh_lobby_state },
+    { "BOSS07", init_scene_delo2, update_subsystems },
+    { "BOSS08", load_dragon2_scene, update_field_state },
     { "JUNGLE06", init_jungle_area, update_floor_state_deferred },
     { "JUNGLE07", init_jungle_area, update_floor_state_deferred },
 };

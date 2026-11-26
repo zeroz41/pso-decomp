@@ -41,6 +41,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/city/AppraisalScore.h"
 
 const char *shop_judgment_item_window_class_name = "TShopJudgmentItemWindow";
 
@@ -301,7 +302,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                 send_message(0xB, 1);
                 yes_no_menu->close();
                 yes_no_menu = NULL;
-                if (TLobby::get_shop_value() > 0) {
+                if (get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
                 set_state(0);
@@ -366,7 +367,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 }
                 send_6x25_equip_item(player, judged_item.id, 0);
                 send_message(0xB, 1);
-                if (TLobby::get_shop_value() > 0) {
+                if (get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
                 set_state(0);
@@ -379,7 +380,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 player->request_inventory_item(&judged_item);
                 set_judgment_target_flag(this, &judged_item);
                 send_message(0xB, 1);
-                if (TLobby::get_shop_value() > 0) {
+                if (get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
                 set_state(0);
@@ -393,7 +394,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
             player->request_inventory_item(&judged_item);
             set_judgment_target_flag(this, &judged_item);
             send_message(0xB, 1);
-            if (TLobby::get_shop_value() > 0) {
+            if (get_shop_value() > 0) {
                 play_cue_stream_file("miniclear.adx");
             }
             set_state(0);

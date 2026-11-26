@@ -36,6 +36,7 @@
 #include "pso/network/client_id.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/ui/CounterTextLookup.h"
+#include "pso/quest/QuestActiveFlag.h"
 
 
 struct OnlineQuestFileChunk {
@@ -128,7 +129,7 @@ void TQuestListOnline::handle_quest_ready() {
         TQuestListOnline::decompress_quest_buffer(q->buffer, q->size);
         q = &quest_list_online_dat_download_state;
         TQuestListOnline__sub_802176DC(q->buffer, q->size);
-        TLobby::set_enemy_mode_flag();
+        set_enemy_mode_flag();
         r = is_challenge_mode();
         m = 2;
         if (r != 0) {

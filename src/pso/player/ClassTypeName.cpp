@@ -7,7 +7,7 @@
 
 extern "C" {
 
-saddr TLobby::get_class_type_name(s32 class_flags) {
+saddr get_class_type_name(s32 class_flags) {
     if (class_flags & CLASS_FLAG_HUNTER) {
         return get_message_text(3);
     }

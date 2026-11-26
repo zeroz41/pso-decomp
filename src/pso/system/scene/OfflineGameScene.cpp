@@ -96,6 +96,7 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TObjFreezeShell.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/quest/QuestActiveFlag.h"
 
 
 void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -116,14 +117,14 @@ void recreate_split_screen_players(void) {
                     delete player;
                 }
             }
-            TLobby::apply_char_to_players();
+            apply_char_to_players();
             break;
         }
         }
     }
 }
 
-void TLobby::apply_char_to_players() {
+void apply_char_to_players() {
     s32 slot;
     TPlyCharData *record;
     TPlyCharData *local_record;
@@ -349,7 +350,7 @@ void TLobby::rebuild_area_keep_players() {
         TQuestThread *thread = new TQuestThread(quest_mission_manager, 0);
         thread->run_task();
     }
-    TLobby::set_enemy_mode_flag();
+    set_enemy_mode_flag();
     reset_enemy_and_object_ids();
     TLobby::setup_quest_list();
     TQuestListVM::load_vm();
@@ -598,7 +599,7 @@ void init_offline_game_scene(void) {
     TLobby::clear_callback_and_reset_keyboard();
     TLobby__sub_801F3774();
     TLobby__sub_801A2DFC();
-    TLobby::apply_char_to_players();
+    apply_char_to_players();
     TLobby__sub_801A2DF8();
     actor_frame_tick = 0;
     local_client_id = 0;

@@ -157,6 +157,8 @@
 #include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/ui/chat/TSymbolChatCapture.h"
+#include "pso/player/ClassTypeName.h"
+#include "pso/ui/city/THunterGuildWarning.h"
 
 
 
@@ -464,7 +466,7 @@ void append_episode_progress_string(void) {
 void append_hero_class_name(void) {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        append_string((const char *)TLobby::get_class_type_name(player->class_flags));
+        append_string((const char *)get_class_type_name(player->class_flags));
     } else {
         append_string("Error Job");
     }
@@ -2339,7 +2341,7 @@ void qst_op_get_pl_job(s32 reg) {
     TObjPlayer *player;
     player = get_player_by_client_id(qst_registers[(u8)reg]);
     if (player != NULL) {
-        strncpy(quest_player_class_name_buffer, (const char *)(TLobby::get_class_type_name((int) (player->class_flags))), 0xF);
+        strncpy(quest_player_class_name_buffer, (const char *)(get_class_type_name((int) (player->class_flags))), 0xF);
         quest_player_class_name_buffer[0xF] = 0;
         qst_registers[(u8)reg] = 1;
         return;
@@ -2732,12 +2734,12 @@ void qst_op_set_allow_item_flags(void) {
 void qst_op_p_talk_guild_local(int _w0, int _w1) {
     u32 player = ((uaddr)get_player_by_client_id((int)(local_client_id)));
     if (player != 0U) {
-        TLobby::handle_main_phase(player);
+        handle_main_phase(player);
     }
 }
 
 void qst_op_unequip_item() {
-    TLobby::handle_player_event((int) ((u16) qst_args[0]), (int) (qst_args[1]));
+    handle_player_event((int) ((u16) qst_args[0]), (int) (qst_args[1]));
 }
 
 void qst_op_equip_item(u8 i) {
@@ -2747,7 +2749,7 @@ void qst_op_equip_item(u8 i) {
     item.data1.data_u8[0] = qst_registers[i++];
     item.data1.data_u8[1] = qst_registers[i++];
     item.data1.data_u8[2] = qst_registers[i++];
-    TLobby::forward_to_player(id, &item);
+    forward_to_player(id, &item);
 }
 
 int qst_op_ba_hide_self_traps(void) { return TOMineTrap::set_instance(0); }
@@ -3831,7 +3833,7 @@ void qst_op_npc_talk_pl(u8 regs) {
 void qst_op_p_talk_guild(void) {
     TObjPlayer *player = get_player_by_client_id(qst_args[0]);
     if (player != NULL) {
-        TLobby::handle_main_phase((saddr)player);
+        handle_main_phase((saddr)player);
     }
 }
 

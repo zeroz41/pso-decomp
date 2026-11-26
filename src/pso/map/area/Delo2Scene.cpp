@@ -10,13 +10,13 @@
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/map/area/Delo2Scene.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
 }
-s32 init_scene_delo2(void);
 
-void TLobby::update_subsystems() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); free_boss7_tunnel(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void update_subsystems() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); free_boss7_tunnel(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 init_scene_delo2(void) {
     get_current_floor_area();

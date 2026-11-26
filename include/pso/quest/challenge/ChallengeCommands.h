@@ -16,5 +16,6 @@ struct SendChallengeTimeStack {
 };
 
 struct ChallengeDeadFlagStack { s32 header; s32 client_id; u8 unused[8]; };
+void send_challenge_retry_cmd(s32 choice);
 
 #endif
