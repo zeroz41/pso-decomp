@@ -111,8 +111,6 @@ void TWindowInputNumber::set_value(f32 value) {
 }
 
 
-struct ArrowUV { f32 u, v; };
-struct ArrowUVs { ArrowUV uv[2]; };
 static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 

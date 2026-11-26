@@ -27,4 +27,7 @@ public:
 
 LAYOUT_ASSERT(TWindowSetLevelUp_size, sizeof(TWindowSetLevelUp) == 0x40);
 
+// The shown stats copy as one 0x16-byte block, then HP and TP.
+struct ByteBlock_16 { u8 bytes[0x16]; };
+
 #endif

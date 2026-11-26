@@ -426,12 +426,6 @@ void TCharSaveSequence::init_warps() {
 
 typedef void (TCharSaveSequence::*Handler)();
 
-// The two serial number generator seeds; the rest of the 0x10 bytes is not used here.
-struct ChrSelectSerialSeeds {
-    s32 seed_a;
-    s32 seed_b;
-    u8 remaining[0x8];
-};
 LAYOUT_ASSERT(ChrSelectSerialSeeds_size, sizeof(ChrSelectSerialSeeds) == 0x10);
 
 

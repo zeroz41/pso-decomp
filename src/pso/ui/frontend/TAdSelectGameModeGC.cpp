@@ -29,10 +29,6 @@
 #include "pso/system/scene/OfflineGameScene.h"
 
 
-struct SelectGameModeButtonRects { NJS_POINT2 x[2]; };
-
-struct SelectGameModeTextLayouts { TAdSelectTxtLayout t[2]; };
-
 const char *TAdSelectGameModeGC::name = "TAdSelectGameModeGC";
 const SelectGameModeTextLayouts select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
 const NJS_POINT2 select_game_mode_button_size = {302.0f, 28.0f};

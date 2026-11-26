@@ -52,4 +52,12 @@ public:
 };
 LAYOUT_ASSERT(TAdSystemFileCheckGC_size, sizeof(TAdSystemFileCheckGC) == 0x38);
 
+typedef void (TAdSystemFileCheckGC::*TAdSystemFileCheckGCAction)();
+
+// One entry per state: enter is called by set_state, task by run_task every frame.
+struct TAdSystemFileCheckGCState {
+    TAdSystemFileCheckGCAction enter;
+    TAdSystemFileCheckGCAction task;
+};
+
 #endif

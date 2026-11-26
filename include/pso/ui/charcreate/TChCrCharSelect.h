@@ -36,4 +36,6 @@ LAYOUT_ASSERT(TChCrCharSelect_size, sizeof(TChCrCharSelect) == 0x20);
 // The class id of a character select slot (char_select_class_id_table).
 int get_char_select_class_id(int index);
 
+struct ClassGroupRange { s32 min; s32 max; };
+
 #endif

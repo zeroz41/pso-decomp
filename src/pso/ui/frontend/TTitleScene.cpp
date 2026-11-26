@@ -80,12 +80,6 @@ NJS_TEXNAME title_texture_entries[21] = {
 
 __declspec(section ".data") NJS_TEXLIST title_texture_list = {title_texture_entries, 21};
 
-// One scene resource: load runs front to back (run_load_callback_table),
-// release back to front (call_funcs_reverse); field names inferred from those.
-struct LobbyLoadCallback {
-    void (*load)(void);
-    void (*release)(void);
-};
 
 LobbyLoadCallback lobby_load_callback_table[4] = {
     {load_title_menu_resources, free_title_menu_resources},
@@ -213,7 +207,6 @@ NJS_SPRITE lobby_record_table[46] = {
 const TitleTextureFilenameTable title_texture_filename_table = {
     {"Title", "Title_eng", "Title_eng", "Title_eng", "Title_eng"},
 };
-
 
 
 TTitleScene *title_scene_instance;

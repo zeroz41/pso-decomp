@@ -15,9 +15,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 
-typedef struct CursorJump {
-    s32 v[4];
-} CursorJump;
 
 extern s32 multi_ply_chr_select_slot_table[][5];
 NJS_TEXLIST *chr_sel_plate_texlist;

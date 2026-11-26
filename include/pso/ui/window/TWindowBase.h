@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/system/NinjaTypes.h"
 
 struct WindowDescriptor;
 
@@ -101,5 +102,7 @@ struct NJS_TEXLIST;
 // The HUD palette and glyph texture list loaded for the window system.
 extern NJS_TEXLIST *hud_texlist;
 void load_hud_palette_textures(void);
+
+struct SelectionBarCoordinates { NJS_POINT2 e[2]; };
 
 #endif

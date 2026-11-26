@@ -3,6 +3,8 @@
 
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
+#include "pso/system/save/CardSaveFile.h"
+#include "pso/system/date.h"
 
 class TPlyCharData;
 struct CharacterFile;
@@ -60,5 +62,21 @@ s32 load_pso_system(void);
 s32 load_system_file(s32 mode);
 void load_tables(int a0);
 s32 pso_system_load_gc(void);
+
+// The date the selected character was loaded at; the union keeps the 12 bytes and 4-byte alignment of the original object.
+union CharSelectDate {
+    DateStamp stamp;
+    u32 words[3];
+};
+
+// The save writers address the neighboring card records relative to the character record.
+struct CardSaveMetadataBlock {
+    CharacterCardMetadata character;
+    char system_filename[0x20];
+    char system_dir_name[0x20];
+    char character_dir_name[0x20];
+    EpisodeCardMetadata episode;
+    GuildCardFile_804C89BC guild_card;
+};
 
 #endif

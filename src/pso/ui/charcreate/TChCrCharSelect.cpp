@@ -17,7 +17,6 @@
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct ClassGroupRange { s32 min; s32 max; };
 
 const char *TChCrCharSelect::name = "TChCrCharSelect";
 s32 TChCrCharSelect::selected_char_index = -1;

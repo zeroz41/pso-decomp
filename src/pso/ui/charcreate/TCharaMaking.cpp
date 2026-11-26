@@ -164,8 +164,6 @@ const s32 player_class_texture_archive_length[19] = {
     16, 17, 14, 14, 14, 14, 14,
 };
 
-// The height of a class at the top and the bottom of the height slider.
-struct CharacterHeightRange { f32 max_height; f32 min_height; };
 
 u8 player_class_texture_buffer_00[0x228];
 u8 player_class_texture_buffer_01[0x384];

@@ -156,5 +156,6 @@ s32 add_radar_scaled_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags, f32
 extern "C" s32 minimap_render_dot(Vec *pos, s32 color, s16 kind, s32 flags);
 s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale);
 
+struct RadarSceneEntry { s32 a; char *name; };
 
 #endif

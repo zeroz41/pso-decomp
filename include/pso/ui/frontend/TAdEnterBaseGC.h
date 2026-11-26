@@ -58,4 +58,8 @@ void draw_masked_password_field(saddr context);
 void draw_entry_field_box(void);
 void render_entry_window(void *window, void *context);
 
+struct LengthLimits { u32 n[4]; };
+
+struct KeyboardModes { u8 b[4]; };
+
 #endif

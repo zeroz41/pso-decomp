@@ -24,12 +24,6 @@
 
 
 /* Layout table of the soft keyboard: one 16-column key-code grid per page. */
-struct SoftKeyboardLayout {
-    u8 page_count; /* bound of the page-tab loop */
-    u8 tab_width;  /* page tab width in pixels */
-    u8 pad_2[2];
-    u16 **pages;
-};
 
 #include <stddef.h>
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -44,7 +38,6 @@ struct SoftKeyboardLayout {
 extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *quad, s32 color);
 
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
-
 
 
 extern u8 *soft_keyboard_layouts;

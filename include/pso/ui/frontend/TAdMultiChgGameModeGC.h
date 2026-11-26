@@ -3,6 +3,8 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 
 class TAdGuideTxtGC;
 class TAdSelectCurGC;
@@ -78,5 +80,9 @@ void init_game_mode_select_scene(void);
 // The front-end phases' frame loop (main_phase_table), defined in
 // TAdMultiChgGameModeGC_8023E7A8.cpp.
 void run_game_mode_select_frame(void);
+
+struct MultiChgGameModeTextLayouts { TAdSelectTxtLayout v[3]; };
+
+struct MultiChgGameModePositions { NJS_POINT2 v[3]; };
 
 #endif

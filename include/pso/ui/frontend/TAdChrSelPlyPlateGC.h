@@ -94,4 +94,8 @@ u32 get_multiplayer_controller_active_index(int index);
 }
 s32 is_multiplayer_character_slot_selected(s32 slot);
 
+typedef struct CursorJump {
+    s32 v[4];
+} CursorJump;
+
 #endif

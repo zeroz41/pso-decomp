@@ -118,13 +118,6 @@ const char *multi_chg_game_mode_text_table_b[11] = {
 // Size of the confirm window; the window is centred on the 640-wide screen in __sinit below.
 const f32 multi_chg_game_mode_window_size[2] = {540.0f, 280.0f};
 
-typedef void (TAdSystemFileCheckGC::*TAdSystemFileCheckGCAction)();
-
-// One entry per state: enter is called by set_state, task by run_task every frame.
-struct TAdSystemFileCheckGCState {
-    TAdSystemFileCheckGCAction enter;
-    TAdSystemFileCheckGCAction task;
-};
 
 TAdSystemFileCheckGCState multi_chg_game_mode_entry_table[11] = {
     {&TAdSystemFileCheckGC::enter_state_0, &TAdSystemFileCheckGC::confirm_mode_selection},

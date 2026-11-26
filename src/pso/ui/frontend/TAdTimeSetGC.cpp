@@ -71,11 +71,6 @@ void TAdPlyStatusGC::close_window(s32 index) {
 #pragma pop
 
 
-// One entry per state: enter is called by change_state, run by run_task every frame.
-struct TAdTimeSetGCState {
-    void (TAdTimeSetGC::*enter)();
-    void (TAdTimeSetGC::*run)();
-};
 LAYOUT_ASSERT(TAdTimeSetGCState_size, sizeof(TAdTimeSetGCState) == 24);
 LAYOUT_ASSERT(TAdTimeSetGCState_run_offset, offsetof(TAdTimeSetGCState, run) == 12);
 

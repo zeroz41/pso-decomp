@@ -54,15 +54,7 @@ void apply_multi_sel_rule(void) {
 typedef void (TAdMultiSelGameModeGC::*StateAction)();
 
 
-struct Float8 { f32 v[8]; };
-
-struct Float2 { f32 v[2]; };
-
 saddr multi_sel_episode;
-
-typedef struct Point3 { NJS_POINT2 p[3]; } Point3;
-
-typedef struct Int3 { s32 v[3]; } Int3;
 
 
 static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {

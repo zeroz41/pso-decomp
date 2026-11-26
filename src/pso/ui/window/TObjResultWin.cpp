@@ -154,9 +154,6 @@ TObjResultWin::TObjResultWin(TObject* parent, const ChallengeResultRecord* resul
     m_close_requested = 0;
     build_result_text();
 }
-struct ResultCopySummary { s32 stage_index, reserved, total_time; };
-struct ResultCopyEntry { s32 words[5]; };
-struct ResultCopyRecord { ResultCopySummary summary; ResultCopyEntry previous, current; };
 ChallengeResultRecord* copy_challenge_result_record(ChallengeResultRecord* destination, const ChallengeResultRecord* source) {
     ResultCopyRecord* d = (ResultCopyRecord*)destination;
     const ResultCopyRecord* s = (const ResultCopyRecord*)source;

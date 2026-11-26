@@ -17,8 +17,6 @@
 
 #pragma readonly_strings on
 
-// The banner and icon image files of the save, copied whole by load_banner_files.
-struct CardBannerFileNames { const char* p[6]; };
 
 u32 card_slot_state_flags;
 s32 lbl_805D5E34;

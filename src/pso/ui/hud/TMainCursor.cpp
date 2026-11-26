@@ -67,7 +67,6 @@ extern void *lock_on_list_clear_vtable[6];
 extern const char *lockon_list_clear_task_name;
 
 
-
 extern "C" {
 extern const f32 cursor_float_zero;
 
@@ -115,10 +114,8 @@ void *lock_on_list_clear_vtable[6] = {
 };
 
 
-
 struct TLockOnCursor;
 
-struct TechniqueCursorParams { u8 pad0[8]; f32 reach; f32 apex_offset; u8 pad10[0x18 - 0x10]; s32 horizontal_angle; s32 vertical_angle; u8 pad20[2]; s8 cursor_type; };
 
 extern "C" {
 extern f32 scratch_vec5[3];
@@ -141,8 +138,6 @@ NJS_OBJECT *main_cursor_model;
 void reset_target_part_entry(LockOnTargetPart *);
 
 extern const f32 lock_on_max_target_dist;
-
-
 
 
 // TMainCursor and TLockOnCursor are one translation unit: their vtables and the lock-on tasks' sit

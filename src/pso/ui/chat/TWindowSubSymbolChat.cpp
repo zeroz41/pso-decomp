@@ -153,9 +153,6 @@ void draw_second_window_arrow(TWindowSubSymbolChat *window);
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-// 0x58-byte record held in symbol_chat_receive_buffer; its compiler-generated operator=
-// copies the char array at +4 with __copy and the word array at +0x1C as a block.
-struct SymbolChatPresetCopy { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
 
 extern s32 close_child__20TWindowSubSymbolChatFv[];
 }

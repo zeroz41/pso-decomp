@@ -239,7 +239,6 @@ void THunterGuildSeqOffline::handle_window_input() {
 
 #pragma defer_codegen on
 
-struct GuildMenuCallbackBase { char pad[0x18]; };
 struct GuildMenuCallbackView : GuildMenuCallbackBase {
     virtual void m0(); virtual void m1();
 };

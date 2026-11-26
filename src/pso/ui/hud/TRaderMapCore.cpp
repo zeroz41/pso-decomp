@@ -164,9 +164,6 @@ RadarMapViewState radar_map_view_state[3];
 s16 *TRaderMapCore::floor_discovery_table[18];
 
 
-struct RadarSceneEntry { s32 a; char *name; };
-
-
 // The unit was built -inline off,deferred, which emits functions in reverse source order: they are
 // written here last to first.
 #pragma fp_contract on

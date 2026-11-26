@@ -85,4 +85,47 @@ extern "C" {
 void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1);
 }
 
+struct BattleRecordBlock { u32 w[7]; };
+
+struct CardAccountBlock { u32 w[7]; };
+
+struct CardUserNameBlock { u32 w[4]; };
+
+struct CardPaddingBlock { u32 w[0x100]; };
+
+struct GuildCardBlock { u32 w[0x24]; };
+
+struct SymbolChatBlock { u32 w[0x108]; };
+
+struct MailTextBlock { u32 w[0x2B]; };
+
+struct ChallengeBlock { u32 w[0x40]; };
+
+struct ListSettingsBlock { u32 w[0xA]; };
+
+struct Pso3SettingsBlock { u32 w[0x30]; };
+
+struct Pso3TailBlock { u32 w[0x87F]; };
+
+struct Pso3SaveRecordView {
+    s32 flags, creation_seconds, magic, play_time, card_window_flags, save_count;
+    CardAccountBlock account;
+    CardUserNameBlock user_name;
+    CardPaddingBlock padding;
+    s32 death_count, bank_item_count, bank_meseta;
+    BankItemRecord items[4];
+    GuildCardBlock guild_card;
+    SymbolChatBlock symbol_chat_presets;
+    ChatShortcut chat_shortcuts[20];
+    MailTextBlock short_mail_text;
+    MailTextBlock info_board_text;
+    BattleRecordBlock online_battle;
+    ChallengeBlock challenge;
+    ListSettingsBlock short_list_order;
+    ListSettingsBlock choice_search;
+    Pso3SettingsBlock settings;
+    BattleRecordBlock split_screen_battle;
+    Pso3TailBlock tail;
+};
+
 #endif

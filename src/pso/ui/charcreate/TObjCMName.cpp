@@ -49,8 +49,6 @@
 #include "pso/ui/charcreate/FigureRotationReset.h"
 
 
-
-
 typedef void (TObjCMMainMenu::*MainMenuStateHandler)();
 
 extern "C" {
@@ -59,12 +57,6 @@ void run_task__16TObjCMAssignMenuFv(void *menu);
 
 s32 creation_menu_selected_entry;
 s32 TObjCMMainMenu::state;
-
-
-struct CreationMenuModeList {
-    s32 count;
-    s32 *entries;
-};
 
 
 extern "C" void copy_player_visual_record(void *, void *);
@@ -107,12 +99,6 @@ CreationMenuModeList creation_menu_mode_lists[6] = {
 NJS_COLOR proportion_frame_colors[4];
 NJS_POINT2 proportion_marker_points[4];
 NJS_COLOR proportion_marker_colors[4];
-
-// RGBA colour of the hair colour bars (inferred: the alpha byte is set from the fade).
-union HairBarColor {
-    u32 rgba;
-    u8 c[4];
-};
 
 
 s32 *TObjCMMainMenu::get_name_buffer() {

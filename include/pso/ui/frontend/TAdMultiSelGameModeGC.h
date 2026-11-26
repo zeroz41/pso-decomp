@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 class TWindowMenu;
 class TAdSelectTxtGC;
@@ -41,5 +42,13 @@ public:
 LAYOUT_ASSERT(TAdMultiSelGameModeGC_size, sizeof(TAdMultiSelGameModeGC) == 0x44);
 
 void apply_multi_sel_rule();
+
+struct Float8 { f32 v[8]; };
+
+struct Float2 { f32 v[2]; };
+
+typedef struct Point3 { NJS_POINT2 p[3]; } Point3;
+
+typedef struct Int3 { s32 v[3]; } Int3;
 
 #endif

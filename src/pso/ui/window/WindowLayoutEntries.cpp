@@ -29,11 +29,6 @@
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/HelpItemRarityStarRow.h"
 
-struct WindowLayoutEntriesDesc {
-    u32 cols;
-    u32 rows;
-    u32 recs[1];
-};
 
 void draw_visible_window_entries(const void *, const WindowLayoutEntries *entries, WindowDrawContext *context) {
     void *const *part;

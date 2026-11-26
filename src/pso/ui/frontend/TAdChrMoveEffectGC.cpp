@@ -23,11 +23,6 @@ const char *TAdChrMoveEffectGC::class_name = "TAdChrMoveEffectGC";
 
 struct S_803491F8 { u32 w[8]; };
 
-// A view that starts at the slot offset i * 0x38 of the object: the entry begins 0x24 into it.
-struct ChrMoveEffectSlot {
-    u8 pad_0[0x24];
-    ChrMoveEffectEntry entry;
-};
 
 extern "C" {
 void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *dest, S_803491F8 *source);

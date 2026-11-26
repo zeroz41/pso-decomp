@@ -20,9 +20,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
-struct MultiChgGameModeTextLayouts { TAdSelectTxtLayout v[3]; };
-
-struct MultiChgGameModePositions { NJS_POINT2 v[3]; };
 
 s32 multi_chr_select_state;
 const char *TAdMultiChgGameModeGC::class_name = "TAdMultiChgGameModeGC";

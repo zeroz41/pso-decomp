@@ -11,13 +11,10 @@
 #include "pso/player/PlayerSlots.h"
 
 
-
 const char *TWindowSetLevelUp::class_name = "TWindowSetLevelUp";
 
 void TWindowShop::set_capacity(s32 capacity) { this->capacity = capacity; }
 
-// The shown stats copy as one 0x16-byte block, then HP and TP.
-struct ByteBlock_16 { u8 bytes[0x16]; };
 
 void PlayerLevelStats::copy_stat_block(const PlayerLevelStats *src) {
     *(ByteBlock_16 *)this = *(const ByteBlock_16 *)src;

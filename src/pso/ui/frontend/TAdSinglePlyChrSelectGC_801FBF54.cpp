@@ -101,11 +101,7 @@ CharacterBufferTable chr_select_buffer_ptr_table;
 CharacterSelectionRequest chr_select_request_buffer;
 SubtractiveRng chr_select_rng_state;
 
-// The date the selected character was loaded at; the union keeps the 12 bytes and 4-byte alignment of the original object.
-union CharSelectDate {
-    DateStamp stamp;
-    u32 words[3];
-} char_select_date_stamp;
+CharSelectDate char_select_date_stamp;
 s32 chr_select_serial_seeds[2];
 s32 lbl_80513918[2];
 
@@ -988,7 +984,6 @@ s32 begin_character_card_save(void) {
 }
 
 
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -1149,7 +1144,6 @@ s32 TAdSinglePlyChrSelectGC::copy_character_to_slot(CharacterFile *src_file, int
     dst_file->slots[dst_slot].copy_stamp.copied = 1;
     return 1;
 }
-
 
 
 void TAdSinglePlyChrSelectGC::clear_entry(int i) {
@@ -1989,11 +1983,6 @@ GuildCardList::GuildCardList() {}
 #pragma dont_inline off
 
 
-
-
-
-
-
 #pragma push
 #pragma fp_contract on
 s32 TAdSinglePlyChrSelectGC::verify_save_checksum(int keep_on_mismatch) {
@@ -2213,15 +2202,6 @@ void TAdSinglePlyChrSelectGC::encrypt_save_data(CharacterFile *file) {
     delete a;
 }
 
-// The save writers address the neighboring card records relative to the character record.
-struct CardSaveMetadataBlock {
-    CharacterCardMetadata character;
-    char system_filename[0x20];
-    char system_dir_name[0x20];
-    char character_dir_name[0x20];
-    EpisodeCardMetadata episode;
-    GuildCardFile_804C89BC guild_card;
-};
 
 void TAdSinglePlyChrSelectGC::build_save_file() {
     const CardSaveMetadataBlock *metadata = reinterpret_cast<const CardSaveMetadataBlock *>(&pso_character_card_filename);

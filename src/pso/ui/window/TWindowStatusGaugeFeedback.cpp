@@ -20,8 +20,6 @@
 void set_constant_material_color(u32 x);
 #define CLAMP_CHANNEL(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
 
-// The four bytes of a colour as copy4 stores them into TWindowStatusGauge::color.
-struct ColorBytes { u8 r, g, b, a; };
 
 u32 TWindowStatusGaugeFeedback::update_text_color_transition() {
     s32 done = 1;

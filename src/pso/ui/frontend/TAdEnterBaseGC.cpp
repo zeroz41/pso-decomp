@@ -45,9 +45,6 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/MenuText.h"
 
-struct LengthLimits { u32 n[4]; };
-
-struct KeyboardModes { u8 b[4]; };
 
 // show_message_window: position and size of the message window it opens.
 const f32 enter_base_message_window_position[2] = {46.0f, 110.0f};
@@ -104,7 +101,6 @@ s32 password_entry_dispatch_state;
 s32 TAdEnterBaseGC::entry_mode;
 
 extern "C" {
-
 
 
 extern char serial_access_hex_string_buf[];

@@ -42,23 +42,11 @@ u16 soft_keyboard_conversion_exclusions[20] = {
     0x818F, 0x8191, 0x8192, 0x81CA, 0x8396, 0x8199, 0x8163, 0x81F4, 0x0000, 0x0000,
 };
 
-// One entry of the conversion candidate list: the previous entry's length (to step back), this entry's text length,
-// the candidate index chosen for it, then the text.
-struct CandidateRecord {
-    u8 prev_len;
-    s8 len;
-    u8 candidate_index;
-    char str[1];
-};
 
 extern "C" {
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
 extern "C" u8 bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
-struct InputTextCursors {
-    NJS_POINT2 caret;
-    NJS_POINT2 cursor;
-};
 
 void draw_textured_quad_at_depth(void *, f32);
 

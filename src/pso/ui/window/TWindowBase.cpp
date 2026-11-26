@@ -43,8 +43,6 @@
 #include "pso/ui/window/WindowTextEntry.h"
 
 
-struct SelectionBarCoordinates { NJS_POINT2 e[2]; };
-
 const char *TWindowBase::class_name = "TWindowBase";
 static const SelectionBarCoordinates selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
 

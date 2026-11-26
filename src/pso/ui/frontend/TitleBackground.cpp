@@ -5,13 +5,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/TextureState.h"
 
-struct TitleBackgroundTile {
-    u32 x;
-    u32 y;
-    u32 w;
-    u32 h;
-    s32 tex;
-};
 
 extern TitleBackgroundTile title_background_tiles[8];
 

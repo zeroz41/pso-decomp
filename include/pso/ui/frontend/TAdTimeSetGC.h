@@ -124,4 +124,10 @@ LAYOUT_ASSERT(TAdTimeSetGC_calendar_offset, offsetof(TAdTimeSetGC, calendar) == 
 LAYOUT_ASSERT(TAdTimeSetGC_timer_offset, offsetof(TAdTimeSetGC, timer) == 0x60);
 LAYOUT_ASSERT(TAdTimeSetGC_text_offset, offsetof(TAdTimeSetGC, text) == 0x68);
 
+// One entry per state: enter is called by change_state, run by run_task every frame.
+struct TAdTimeSetGCState {
+    void (TAdTimeSetGC::*enter)();
+    void (TAdTimeSetGC::*run)();
+};
+
 #endif

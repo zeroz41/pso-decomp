@@ -22,4 +22,6 @@ extern "C" {
 void set_draw_texture_and_color(s32 idx, s32 color);
 }
 
+union GxFifoValue { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
+
 #endif

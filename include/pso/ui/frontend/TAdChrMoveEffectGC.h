@@ -46,5 +46,10 @@ LAYOUT_ASSERT(TAdChrMoveEffectGC_size, sizeof(TAdChrMoveEffectGC) == 0x3A4);
 
 extern TAdChrMoveEffectGC *chr_move_effect_instance;
 
+// A view that starts at the slot offset i * 0x38 of the object: the entry begins 0x24 into it.
+struct ChrMoveEffectSlot {
+    u8 pad_0[0x24];
+    ChrMoveEffectEntry entry;
+};
 
 #endif

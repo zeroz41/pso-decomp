@@ -34,4 +34,7 @@ s32 card_blocks_for_size(void *, s32, u32 size);
 
 extern void *banner_buffers[6];
 
+// The banner and icon image files of the save, copied whole by load_banner_files.
+struct CardBannerFileNames { const char* p[6]; };
+
 #endif

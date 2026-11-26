@@ -97,4 +97,8 @@ LAYOUT_ASSERT(TWindowSubSymbolChat_size, sizeof(TWindowSubSymbolChat) == 0x60);
 SymbolChatPreset *get_symbol_chat_receive_buffer(void);
 void send_selected_symbol_chat(s32 *preset_index);
 
+// 0x58-byte record held in symbol_chat_receive_buffer; its compiler-generated operator=
+// copies the char array at +4 with __copy and the word array at +0x1C as a block.
+struct SymbolChatPresetCopy { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
+
 #endif

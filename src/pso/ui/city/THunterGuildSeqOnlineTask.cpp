@@ -39,15 +39,6 @@
 #include "pso/quest/QuestActiveFlag.h"
 
 
-struct OnlineQuestFileChunk {
-    u8 f0;
-    u8 chunk;
-    u8 pad2[2];
-    char name[0x10];
-    u8 data[0x400];
-    u32 size;
-};
-
 // Window sizes {width, height} of the quest download windows.
 static const NJS_POINT2 quest_info_window_size = {332.0f, 210.0f};
 static const NJS_POINT2 download_window_size = {332.0f, 80.0f};
