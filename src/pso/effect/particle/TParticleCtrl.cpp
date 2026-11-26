@@ -52,13 +52,13 @@ TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay,
     return 0;
 }
 
-TParticleCtrl *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags) {
+TParticleCtrl *create_timed_particle_emitter_with_angles(const Vec *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, delay, duration, 0, flags);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, delay, duration, 0, flags);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
     }
     return 0;
 }
@@ -79,24 +79,24 @@ void TParticleCtrl::release(void *emitter) {
         ((TParticleCtrl *)emitter)->queue_destruction();
     }
 }
-TParticleCtrl *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags) {
+TParticleCtrl *create_oneshot_particle_emitter(const Vec *pos, void *dir, s32 id, u16 flags) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 1, 0, 0, 0, flags);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 1, 0, 0, 0, flags);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
     }
     return 0;
 }
 
-TParticleCtrl *spawn_directional_particle(void *pos, void *dir, s32 id) {
+TParticleCtrl *spawn_directional_particle(const Vec *pos, void *dir, s32 id) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 1, 0, 0, 0);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 1, 0, 0, 0);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0);
     }
     return 0;
 }
@@ -134,24 +134,24 @@ TParticleCtrl *create_particle_controller_with_angles(void *pos, void *dir, s32 
     return NULL;
 }
 
-TParticleCtrl *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 flags) {
+TParticleCtrl *spawn_particle_effect_with_rotation(const Vec *pos, void *dir, s32 id, u16 flags) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, 0, 0, 0, flags);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, 0, 0, 0, flags);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, 0, flags);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, 0, flags);
     }
     return 0;
 }
 
-TParticleCtrl *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id) {
+TParticleCtrl *spawn_continuous_particle_with_direction(const Vec *pos, void *dir, s32 id) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0x0, 0, 0, 0);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0x0, 0, 0, 0);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0x0, 0, 0, 0);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0x0, 0, 0, 0);
     }
     return 0;
 }

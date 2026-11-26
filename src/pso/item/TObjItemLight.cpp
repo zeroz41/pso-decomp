@@ -61,7 +61,7 @@ TObjItemLight::TObjItemLight(TObject *parent, saddr set_data) : TObjBase(parent)
     if (*(f32 *)((s8 *)item_light + 0x90) < 0.0f) {
         *(f32 *)((s8 *)item_light + 0x90) = 30.0f;
     }
-    item_light->m_94 = (saddr)spawn_particle_effect_with_rotation((u8 *)item_light + 0x38, (u8 *)item_light + 0x5C, 0x1CA, 0x40);
+    item_light->m_94 = (saddr)spawn_particle_effect_with_rotation(&item_light->position, &item_light->rotation_x, 0x1CA, 0x40);
 }
 #undef item_light
 
