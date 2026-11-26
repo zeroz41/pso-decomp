@@ -136,12 +136,11 @@ struct Blk_802BCFD4;
 // literal pool at their first user, so they are file constants read through references.
 static const s32 motion_track_count = 1;
 static const s32 main_motion_track = 0;
+}
 
 inline const s32 &get_motion_track_count() { return motion_track_count; }
 inline const s32 &get_main_motion_track() { return main_motion_track; }
 
-
-}
 
 void TBoss6Type2::clear_harmful_statuses() {}
 

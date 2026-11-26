@@ -117,6 +117,7 @@ static const s32 boss6_type1_sway_delay_min = 20;
 static const s32 boss6_type1_sway_delay_range = 20;
 static const s32 boss6_type1_anim_count = 2;
 static const s32 boss6_type1_main_anim_index = 1;
+}
 
 inline const s32 &slot_count() { return boss6_type1_slot_count; }
 inline const s32 &sway_target_min() { return boss6_type1_sway_target_min; }
@@ -125,7 +126,6 @@ inline const s32 &sway_delay_min() { return boss6_type1_sway_delay_min; }
 inline const s32 &sway_delay_range() { return boss6_type1_sway_delay_range; }
 inline const s32 &anim_count() { return boss6_type1_anim_count; }
 inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
-}
 
 
 
