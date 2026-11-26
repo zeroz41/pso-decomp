@@ -595,7 +595,7 @@ void TWindowSubComCard::run_task() {
             this->menu_window = 0U;
         }
         if ((u32) this->keyboard == 0U) {
-            this->keyboard = (TKeyBoardControl *)reinterpret_cast<uaddr>(TWindowSubShortMail::create_keyboard());
+            this->keyboard = TWindowSubShortMail::create_keyboard();
         }
         this->keyboard->set_position((void *)(get_window_layout_position(0xBB)));
         reinterpret_cast<TKeyBoardControl *>(keyboard)->clear_keyboard_flag60_bit1();
