@@ -132,7 +132,7 @@ void TObjLazerFence4::reset_if_door_closed() {
     }
 }
 
-void TObjLazerFence4::sub_801933C8() {
+void TObjLazerFence4::wait_for_switch() {
     animation_frame += 0.9f;
     if (animation_frame > (f32)(u32)(motion->frameCount - 1)) {
         animation_frame = 0.0f;
@@ -162,7 +162,7 @@ void TObjLazerFence4::run_task() {
 
     switch (this->state) {
     case 0:
-        sub_801933C8();
+        wait_for_switch();
         return;
     case 1:
         reset_if_door_closed();

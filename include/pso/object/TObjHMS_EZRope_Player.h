@@ -25,7 +25,7 @@ public:
     virtual ~TObjHMS_EZRope_Player();
     virtual void run_task();
     virtual void render();
-    void sub_800FF2D0();
+    void draw_rope();
     TObject *owner;
     TObjHMSRopeSpec *rope_specs;
     TObjHMSColliderSpec *collider_specs;

@@ -41,4 +41,8 @@ LAYOUT_ASSERT(TObjCityMainWarp_size, sizeof(TObjCityMainWarp) == 0x154);
 
 // The floor the city main warp sends the player to (TObjDoor::set_main_warp_id).
 extern s32 city_main_warp_destination_id;
+
+// The challenge-mode area title the warp windows show.
+char *get_area_title();
+void update_main_warp_visible_mask(s32 select_type);
 #endif

@@ -176,10 +176,10 @@ void TObjWarpJung::render() {
         }
         switch (set_params[2]) {
         case 0:
-            TObjWarpJung__sub_801A0404(0);
+            set_beam_texture(0);
             break;
         case 1:
-            TObjWarpJung__sub_801A0404(1);
+            set_beam_texture(1);
             break;
         }
         TObjWarpJung::set_global_render_param();
@@ -240,9 +240,9 @@ void TObjWarpJung::render_warp(s32 model_index) {
     draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, model_index));
 }
 
-s32 TObjWarpJung__sub_801A0404(s32 arg0) {
+s32 TObjWarpJung::set_beam_texture(s32 color) {
     s32 i;
-    switch (arg0) {
+    switch (color) {
     case 0:
         if (warp_jung_beam_entry_index >= 0) {
             for (i = 0; i < 6; i++) {

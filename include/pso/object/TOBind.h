@@ -13,7 +13,7 @@ struct TOBind : public TObjCollidable {
     TOBind(void *set_data);
     virtual ~TOBind();
     void sub_80158608();
-    void sub_8015860C();
+    void update_motion();
     u8 unk_AC[0x4];
     u32 triggered;
     u32 index;

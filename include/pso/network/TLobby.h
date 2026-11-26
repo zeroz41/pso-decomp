@@ -334,7 +334,6 @@ struct TLobby : public TObject {
     static void spawn_player_tombstones2();
     static void copy_global_value_block();
     static void free_chr_select_slots();
-    static void *create_mist_ctrl(void *parent, void *set_data);
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
     static s32 is_online_ready();

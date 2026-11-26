@@ -328,6 +328,7 @@ struct TObjPlayer : public TObjChara {
     player_class_type get_class_type();
     static void render_tree(void *model);
     s32 get_entrance_id();
+    void set_entrance_id(s32 id);
     void *reset_lobby_settings();
     void set_flags_bit2();
     void set_flags_bit1();

@@ -15,6 +15,8 @@ public:
     void fade_and_destroy();
     virtual void run_task();
     virtual void render();
+    // Packed (x, y) of the text on the split-screen view showing client_id.
+    s64 get_screen_position(u16 client_id);
 
     char text[0x20];
     s32 pad_3C;  // set to -1 by the ctor

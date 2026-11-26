@@ -148,7 +148,7 @@ TObjEZBoneRotPlayer::~TObjEZBoneRotPlayer() {}
 extern "C" {
 extern Vec ez_bone_rot_player_chain_gravity;
 
-void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }
+void TObjHMS_EZRope_Player::render() { draw_rope(); }
 void TObjHMS_EZRope_Player::run_task() {
     TObjHMSColliderSpec *rs;
     TObjEZRopeCollider *rd;

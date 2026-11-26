@@ -7304,11 +7304,8 @@ pso/object/lab/TOCapsuleLabo.cpp:
 	.sbss       start:0x805D6708 end:0x805D6710
 	.sdata2     start:0x805DE1E8 end:0x805DE1F0
 
-pso/unk/TLobby_802AF5FC.cpp:
-	.text       start:0x802AF5FC end:0x802AF64C
-
 pso/object/ambient/TObjMistCtrl.cpp:
-	.text       start:0x802AF64C end:0x802AF83C
+	.text       start:0x802AF5FC end:0x802AF83C
 	.rodata     start:0x804707D8 end:0x804707F8
 	.data       start:0x804DE4C0 end:0x804DE4F4
 	.sdata      start:0x805D3E80 end:0x805D3E88

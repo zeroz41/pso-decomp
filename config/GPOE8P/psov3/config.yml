@@ -768,8 +768,8 @@ force_active:
   - attackable_col_collision_parts
   - TOAttackableCol__ct
   - sub_80157310__15TOAttackableColFv
-  - sub_80157C20__15TOAttackableColFl
-  - sub_80157C28__15TOAttackableColFv
+  - set_hits_left__15TOAttackableColFl
+  - get_hits_left__15TOAttackableColFv
   - TOBarrierEnergy01_name
   - __ct__6TOBindFPv
   - cakeshop_cave01_model_resource
@@ -6357,7 +6357,7 @@ force_active:
   - fn_801811FC
   - fn_80181204
   - is_camera_in_range__12TObjEnvSoundFf
-  - get_warp_string_screen_position
+  - get_screen_position__14TObjWarpStringFUs
   - fn_8019F9AC
   - alloc_player_ids__Fl
   - __sinit_OfflineGameScene_cpp
@@ -16201,9 +16201,9 @@ force_active:
   - sub_80140F44__11TMapCsnCtrlFv
   - set_object_number__11TObjNpcBaseFl
   - set_message_label__11TObjNpcBaseFl
-  - sub_80156A68__14TObjCollidableFv
+  - clear_hit_receive_state__14TObjCollidableFv
   - sub_80158604__13TObjMapObjectFv
-  - sub_8015860C__6TOBindFv
+  - update_motion__6TOBindFv
   - kill_room_dubchiks__13TOCtrlDubchikFv
   - update_effect_grow__13TOCtrlDubchikFv
   - update_waiting__13TOCtrlDubchikFv
@@ -16219,11 +16219,11 @@ force_active:
   - update_blast__19TContainerAncient01Fv
   - update_spawning__19TContainerAncient01Fv
   - open_container__19TContainerAncient01Fv
-  - sub_801933C8__15TObjLazerFence4Fv
+  - wait_for_switch__15TObjLazerFence4Fv
   - start_throw__12TObjGoGoBallFl
   - delay_before_fade_in__14TObjWarpStringFv
   - is_warp_cancelled__12TObjWarpBossFv
-  - sub_8019F9E4__14TObjWarpBoss03Fv
+  - draw_debug_range__14TObjWarpBoss03Fv
   - reset_color__13TPhotonEstllaFUc
   - reset_material_color__13TPhotonFarllaFUc
   - reset_material_color__12TPhotonGollaFUc

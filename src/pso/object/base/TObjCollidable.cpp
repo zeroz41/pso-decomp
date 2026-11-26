@@ -1122,10 +1122,10 @@ TObjCollidable::TObjCollidable(TObject *parent) : TObjBase(parent) {
     bodies = NULL;
     interactor = 0xFFFF;
     body_flags = NULL;
-    sub_80156A68();
+    clear_hit_receive_state();
 }
 
-void TObjCollidable::sub_80156A68() { hit_receive_state = 0; }
+void TObjCollidable::clear_hit_receive_state() { hit_receive_state = 0; }
 
 CursorAction::CursorAction() { kind = CURSOR_ACTION_NONE; }
 

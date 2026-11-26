@@ -1038,7 +1038,7 @@ void TBoss6PlotFalz::load_resources() {
         enable_olga_flow_subordinate_actions();
         TBoss6Rock::load_resources();
         TBoss6Tube::load_resources();
-        fn_802E52AC();
+        load_online_ending_resource();
     }
 }
 

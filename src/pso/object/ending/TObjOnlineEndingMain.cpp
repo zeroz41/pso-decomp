@@ -148,7 +148,7 @@ s8 online_ending_quad_vertices_initialized;
 
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
 
-void fn_802E52AC() {
+void load_online_ending_resource() {
     if (online_ending_resource == NULL) {
         online_ending_resource = new BmlResource(5, &onlineending_dat_resource_descriptor, NULL, NULL, NULL);
         if (online_ending_resource == NULL) {

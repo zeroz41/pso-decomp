@@ -56,7 +56,6 @@
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
@@ -231,7 +230,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
     {init_char_slots, free_char_slots},
-    {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, (FloorResourceCallback)TLobby__sub_8029B2A4},
+    {init_jungle_key_slots, unload_jungle_key_slots},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
     {TBGMulti__ct, TLobby::release_bg_multi_textures},

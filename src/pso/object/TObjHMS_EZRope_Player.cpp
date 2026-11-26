@@ -187,7 +187,7 @@ void TObjEZRopeBase::resolve_collisions(Vec *p, f32 len) {
     }
 }
 
-void TObjHMS_EZRope_Player::sub_800FF2D0() {
+void TObjHMS_EZRope_Player::draw_rope() {
     Vec d;
     TObjEZRopeSegment *rec;
     TObjEZRopeEnd *ang;

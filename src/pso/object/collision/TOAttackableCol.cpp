@@ -100,8 +100,8 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
                             if ((mode >= 1) || (mode < 0)) {
                                 col->mode = 0;
                             }
-                            if (command->remaining_hits < col->sub_80157C28()) {
-                                col->sub_80157C20(command->remaining_hits);
+                            if (command->remaining_hits < col->get_hits_left()) {
+                                col->set_hits_left(command->remaining_hits);
                             }
                         }
                         break;
@@ -312,8 +312,8 @@ f32 TOAttackableCol::receive_weapon_special_attack(void *player, void *) { retur
 void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
 
 // Inferred: set_hits_left / get_hits_left.
-void TOAttackableCol::sub_80157C20(s32 v) { hits_left = v; }
-s32 TOAttackableCol::sub_80157C28() { return hits_left; }
+void TOAttackableCol::set_hits_left(s32 v) { hits_left = v; }
+s32 TOAttackableCol::get_hits_left() { return hits_left; }
 void G_UpdateAttackableColState_6x91::bswap() {
     G_UpdateObjectState_6x0B::bswap();
     bswap_16(&is_destroyed);

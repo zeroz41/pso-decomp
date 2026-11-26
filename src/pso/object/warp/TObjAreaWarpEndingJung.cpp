@@ -87,7 +87,6 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjBase.h"
@@ -106,11 +105,6 @@ struct Colors_8019C250 { u16 c[2]; };
 
 struct Colors_8019C604 { u16 c[2]; };
 
-extern "C" {
-
-s64 get_warp_string_screen_position(void *arg0, u16 client_id);
-void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
-}
 
 
 union WarpStringPos {
@@ -165,7 +159,7 @@ extern __declspec(section ".data") const Vec map_warp_destination_offsets[4] = {
 };
 
 // Screen position of the warp id string: one entry for a single screen, then the
-// split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see get_warp_string_screen_position.
+// split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see TObjWarpString::get_screen_position.
 extern __declspec(section ".data") const WarpStringScreenPosition warp_string_screen_position_table[10] = {
     {{320.0f}, {200.0f}},
     {{320.0f}, {120.0f}},
@@ -185,7 +179,7 @@ void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet) {
     bswap_16(reinterpret_cast<u16 *>(&packet->floor));
 }
 
-void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *p, s32 v) { *(s32 *)((char *)p + 0x3c8) = v; }
+void TObjPlayer::set_entrance_id(s32 id) { entrance_id = id; }
 
 s32 FloorTransition::get_next_floor() { return next_floor; }
 
@@ -513,7 +507,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
     if (this->menu_window == NULL) {
         this->menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         if (get_game_play_mode() == 1) {
-            this->menu_window->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
+            this->menu_window->add_text_entry((saddr)get_area_title(), 2, 0, -1);
         } else {
             this->menu_window->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
         }
@@ -827,13 +821,13 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
     floor_transition_state.set_next_floor(dest_floor, get_floor_map_terrain(dest_floor));
     mark_area_change_pending();
     if (player != 0 && player_set_id > 1) {
-        TObjAreaWarpQuest__sub_8019DCD8(player, player_set_id);
+        player->set_entrance_id(player_set_id);
     }
     if (player_set_id > 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != 0 && p->obj_isState3_324() != 0 && p->get_npc_controller() != 0xFFFF) {
-                TObjAreaWarpQuest__sub_8019DCD8(p, player_set_id);
+                p->set_entrance_id(player_set_id);
             }
         }
     }
@@ -1100,7 +1094,7 @@ void TObjWarpString::render() {
     u32 color;
     u32 width;
 
-    pos.packed = get_warp_string_screen_position(this, client_id);
+    pos.packed = get_screen_position(client_id);
     width = calc_text_width(text) >> 1;
     pos.xy.x -= (f32)width;
     y = pos.xy.y;
@@ -1120,7 +1114,7 @@ void TObjWarpString::render() {
 }
 #pragma pop
 
-s64 get_warp_string_screen_position(void *arg0, u16 client_id) {
+s64 TObjWarpString::get_screen_position(u16 client_id) {
     const WarpStringScreenPosition *p = warp_string_screen_position_table;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (TCameraCtrl::get_camera_id()) {
@@ -1172,10 +1166,10 @@ void TObjAreaWarpEndingJung::render() {
         }
         switch (this->set_params[2]) {
         case 0:
-            TObjWarpJung__sub_801A0404(0);
+            TObjWarpJung::set_beam_texture(0);
             break;
         case 1:
-            TObjWarpJung__sub_801A0404(1);
+            TObjWarpJung::set_beam_texture(1);
             break;
         }
         TObjWarpJung::set_global_render_param();

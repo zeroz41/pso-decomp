@@ -120,7 +120,7 @@ void TOTrapSeabed01::apply_saved_state(s16 *state, s32 live) {
             stop_sound_request(sound_handle);
             sound_handle = -1;
         }
-        sub_802C9D38();
+        release_trapped_player();
         set_flag8();
         queue_destruction();
     }
@@ -351,7 +351,7 @@ void TOTrapSeabed01::check_hold_player() {
                 } else if (player == local_client_id) {
                     send_6x2C_impose_hold(held, &position, -1, 0, dist);
                 }
-                sub_802C9C18(0);
+                play_floor_sound(0);
                 return;
             }
             player = 0xFFFF;
@@ -400,16 +400,16 @@ void TOTrapSeabed01::play_sounds() {
             particle->set_scale(0.5f, 0.5f);
         }
     }
-    sub_802C9C18(1);
+    play_floor_sound(1);
 }
 
 f32 TOTrapSeabed01::receive_physical_attack(void *attacker, f32 damage) {
-    sub_802C9D38();
+    release_trapped_player();
     return TOTrap::receive_physical_attack(attacker, damage);
 }
 
 // Lets the held player go (the twin of TOTrapAncient01::release_trapped_player).
-void TOTrapSeabed01::sub_802C9D38() {
+void TOTrapSeabed01::release_trapped_player() {
     TObjPlayer *held;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (target != NULL) {
@@ -430,7 +430,7 @@ void TOTrapSeabed01::sub_802C9D38() {
 }
 
 // Plays the trap's sound for the floor: 0 when it grabs a player, 1 when it breaks.
-void TOTrapSeabed01::sub_802C9C18(s32 which) {
+void TOTrapSeabed01::play_floor_sound(s32 which) {
     const s32 sounds[4][2] = {
         {0x4B71E, 0x4BC16},
         {0x4004B71E, 0x4004BC16},

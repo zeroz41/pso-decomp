@@ -16,6 +16,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/network/TLobby.h"
+#include "pso/object/ambient/TObjMistCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -72,7 +73,7 @@ s32 init_jungle_area(void) {
         init_music_sequencer(5);
     }
     if ((TRaderMapCore::is_not_split_screen() == 0) && (((s32)get_current_floor_area()) == AREA_CENTRAL_CONTROL_AREA)) {
-        TLobby::create_mist_ctrl(tl_05, NULL);
+        TObjMistCtrl::create(tl_05, NULL);
     }
     return 1;
 }

@@ -18,13 +18,16 @@
 #include "pso/system/MatrixOps.h"
 #pragma readonly_strings on
 
-struct Obj_802AF64C { u8 pad[0x38]; Vec pos; u8 pad2[0x90 - 0x44]; void *x90; };
+// Where the mist sits relative to the camera: straight ahead along its view axis.
+extern Vec mist_camera_forward;
 
-extern "C" {
-extern Vec lbl_804707E8;
-void TObjMistCtrl::sub_802AF64C() {
-    Obj_802AF64C *arg0 = (Obj_802AF64C *)this;
-    Vec v = lbl_804707E8;
+TObjMistCtrl *TObjMistCtrl::create(TObject *parent, void *set_data) {
+    return new TObjMistCtrl(parent, set_data);
+}
+
+// Keeps the mist particles 60 units in front of the camera.
+void TObjMistCtrl::follow_camera() {
+    Vec v = mist_camera_forward;
     push_matrix_from(identity_matrix);
     rotate_matrix_zyx(0, camera_ctrl_instance->pitch, camera_ctrl_instance->yaw, camera_ctrl_instance->roll);
     rotate_vector_by_matrix(0, &v, &v);
@@ -34,28 +37,29 @@ void TObjMistCtrl::sub_802AF64C() {
     v.y *= 60.0f;
     v.z *= 60.0f;
     vec3_add_to(&v, &camera_ctrl_instance->pos);
-    VecCopy(&arg0->pos, &v);
-    if (arg0->x90 != NULL) {
-        ((TParticleCtrl *)arg0->x90)->set_position(&arg0->pos);
+    VecCopy(&position, &v);
+    if (particle != NULL) {
+        particle->set_position(&position);
     }
 }
 
-const char *lbl_805D3E80 = "TObjMistCtrl";
+const char *mist_ctrl_name = "TObjMistCtrl";
 
-void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
+void TObjMistCtrl::run_task() { follow_camera(); }
 
-}
 TObjMistCtrl::~TObjMistCtrl() {
-    if (*(void **)((s8 *)this + 0x90) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x90)))->queue_destruction(); *(s32 *)((s8 *)this + 0x90) = 0; }
-}
-
-
-TObjMistCtrl::TObjMistCtrl(saddr parent, uaddr set_data) : TObjBase((TObject *)((void *)parent)) {
-    this->m_name = lbl_805D3E80;
-    if (set_data != 0U) {
-        ((TObjMistCtrl *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
+    if (particle != NULL) {
+        particle->queue_destruction();
+        particle = NULL;
     }
-    *(saddr *)((s8 *)this + 0x90) = (saddr)spawn_continuous_particle_effect_with_flags((((u8 *)this) + 0x38), 0x200, 0x800);
 }
 
-__declspec(section ".rodata") Vec lbl_804707E8 = { 0, 0, -1.0f };
+TObjMistCtrl::TObjMistCtrl(TObject *parent, void *set_data) : TObjBase(parent) {
+    m_name = mist_ctrl_name;
+    if (set_data != NULL) {
+        apply_object_set_data(set_data);
+    }
+    particle = spawn_continuous_particle_effect_with_flags(&position, 0x200, 0x800);
+}
+
+__declspec(section ".rodata") Vec mist_camera_forward = { 0, 0, -1.0f };

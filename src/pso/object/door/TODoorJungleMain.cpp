@@ -89,13 +89,6 @@ const s32 jungle_key_flag_ids[3] = {0x46, 0x47, 0x48};
 
 const char *TODoorJungleMain::class_name = "TODoorJungleMain";
 
-extern "C" {
-
-void TLobby__sub_8029B2A4(void* p);
-
-
-
-}
 s32 is_any_player_near(TObjBase *door);
 
 
@@ -261,7 +254,7 @@ void *TODoorJungleMain::create(void *set_data) {
     return new TODoorJungleMain(tl_05, set_data);
 }
 
-void TOKeyJungleMain::init_key_slots(void* _w0) {
+void init_jungle_key_slots() {
     s32 i;
     s32 j;
     for (i = 0; i < 4; i++) {
@@ -271,7 +264,7 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
     }
 }
 
-void TLobby__sub_8029B2A4(void* p) { TOKeyJungleMain::init_key_slots(p); }
+void unload_jungle_key_slots() { init_jungle_key_slots(); }
 
 
 s32 is_any_player_near(TObjBase *door) {

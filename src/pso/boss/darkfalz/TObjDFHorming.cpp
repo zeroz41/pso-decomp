@@ -5,7 +5,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
-#include "pso/object/ending/TObjOnlineEnding_802E4B80.h"
+#include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
@@ -865,7 +865,7 @@ void TBoss4DarkFalz::load_resources() {
     darkfalz_dat_resource = resource;
     if (resource != NULL) {
         TBoss4DarkFalz::init_uro_link();
-        fn_802E52AC();
+        load_online_ending_resource();
     }
 }
 

@@ -17,8 +17,8 @@ struct TOTrapSeabed01 : public TOTrap {
     virtual void play_sounds();
     void draw_object_tree(NJS_OBJECT *object);
     void render_effect_layers();
-    void sub_802C9D38();
-    void sub_802C9C18(s32);
+    void release_trapped_player();
+    void play_floor_sound(s32);
     void check_hold_player();
     void clamp_params_and_init();
     void draw();

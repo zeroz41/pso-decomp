@@ -34,7 +34,7 @@ BmlResourceDescriptor bm_o_bind_resource_descriptor = { "bm_o_bind.bml", bm_o_bi
 void TOBind::sub_80158608() {  }
 
 
-void TOBind::sub_8015860C() {
+void TOBind::update_motion() {
     f32 frame;
     f32 end;
     motion_frame += motion_step;
@@ -55,7 +55,7 @@ void TOBind::run_task() {
             this->triggered = 1;
             clear_player_status_flag(0, 1);
         }
-        sub_8015860C();
+        update_motion();
     }
 }
 CollisionBody bind_collision_body_parts[2] = {

@@ -11,14 +11,14 @@
 
 extern "C" {
 
-void TObjWarpBoss03::sub_8019F9E4() {
+void TObjWarpBoss03::draw_debug_range() {
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * this->warp_range);
     }
 }
 
 
-void TObjWarpBoss03::debug_print_area_num() { this->TObjAreaWarp::debug_print_area_num(); sub_8019F9E4(); }
+void TObjWarpBoss03::debug_print_area_num() { this->TObjAreaWarp::debug_print_area_num(); draw_debug_range(); }
 void TObjWarpBoss03::run_task() { handle_area_selection(); }
 
 }

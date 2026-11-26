@@ -61,7 +61,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
@@ -122,8 +121,6 @@ int TLobby__sub_801A3E8C(void);
 }
 extern "C" {
 s32 reset_story_select__6TLobbyFPv();
-s32 init_key_slots__15TOKeyJungleMainFPv();
-void TLobby__sub_8029B2A4(void);
 }
 
 // Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs
@@ -168,7 +165,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
     {reset_globals, NULL},
     {init_char_slots, free_char_slots},
-    {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, TLobby__sub_8029B2A4},
+    {init_jungle_key_slots, unload_jungle_key_slots},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {load_draw_line_task_resource, free_draw_line_task_resource},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
@@ -278,7 +275,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::install_game_join_handlers();
     TObjPlayer::send_local_player_visible();
     TLobby::send_room_change(TLobby::lobby_number);
-    init_key_slots__15TOKeyJungleMainFPv();
+    init_jungle_key_slots();
     lobby_floor_reload_pending = 0;
 }
 
