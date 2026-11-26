@@ -152,9 +152,6 @@ void copy_card_to_matching_slot(GuildCardSlotBase *card, GuildCardSlot *slots, s
     }
 }
 
-extern "C" {
-s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards, s32 count);
-
 void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
     GuildCardSlot *slots;
     if (is_guild_card_invalid((GuildCardEntry *)ply_guild_card_tag) == 0) {
@@ -162,7 +159,6 @@ void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
         copy_card_to_matching_slot((GuildCardSlotBase *)ply_guild_card_tag, slots, 0xD2);
         TAdSinglePlyChrSelectGC::load_player_data();
     }
-}
 }
 void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
     GuildCardEntry *card;
@@ -238,7 +234,6 @@ s32 is_guild_card_invalid(GuildCardEntry *card) {
     }
     return card->char_class < 0;
 }
-extern "C" {
 
 s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards, s32 count) {
     u32 id;
@@ -264,7 +259,6 @@ s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards,
     return 0;
 }
 
-}
 void replace_matching_card(GuildCardSlotBase *card, GuildCardSlotBase *entries, s32 count) {
     s32 i;
     u32 id = card->get_card_id();

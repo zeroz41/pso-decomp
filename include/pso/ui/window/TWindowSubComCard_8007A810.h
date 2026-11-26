@@ -7,6 +7,7 @@
 void send_guild_card_to_client(saddr client_id);
 s32 has_free_card_slot(GuildCardEntry *cards, s32 count);
 s32 is_guild_card_invalid(GuildCardEntry *card);
+s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards, s32 count);
 void replace_matching_card(GuildCardSlotBase *card, GuildCardSlotBase *entries, s32 count);
 s32 fill_guild_card_from_short_mail(GuildCardEntry *card, s32 id);
 s32 has_inactive_card(GuildCardSlot *cards, s32 count);
