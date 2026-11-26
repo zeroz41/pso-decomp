@@ -152,7 +152,7 @@ extern const f32 lock_on_max_target_dist;
 
 void TLOC_ListClear::run_task() {
     if (m_target.resolve() != 0 && m_target.get_player()->lock_on_cursor != NULL) {
-        set_action_channel_inactive((u8 *)&m_target.get_player()->lock_on_cursor->palette_override);
+        set_action_channel_inactive(&m_target.get_player()->lock_on_cursor->palette_override);
     }
 }
 
@@ -458,7 +458,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         return;
     }
     cur = &action_slots[slot];
-    if (check_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(cur), kind, id) == 0) {
+    if (check_type_and_enabled(&cur->palette_tag, kind, id) == 0) {
         clear_target_cursor_list(&cur->target_list);
         cur->target_records.clear();
     }
@@ -1412,9 +1412,7 @@ TLOC_End::~TLOC_End() {
 #pragma defer_codegen off
 
 
-void set_action_channel_inactive(u8 *entry) {
-    *(s16 *)((s8 *)entry + 2) = (s16) (*(s16 *)((s8 *)entry + 2) | 1);
-}
+void set_action_channel_inactive(gc_tag *tag) { *(s16 *)&tag->tag2 |= 1; }
 
 
 s32 TMainCursor::is_channel_active() {
@@ -1443,9 +1441,7 @@ int matches_type_and_enabled(const ActionPaletteTag *tag, u8 type, u8 enabled) {
 }
 
 
-void set_action_channel_active(u8 *entry) {
-    *(s16 *)((s8 *)entry + 2) = (s16) (*(s16 *)((s8 *)entry + 2) & 0xFFFFFFFE);
-}
+void set_action_channel_active(gc_tag *tag) { *(s16 *)&tag->tag2 &= ~1; }
 
 
 TObjPlayer *PlayerRef::get_player() { return player; }
@@ -1645,10 +1641,10 @@ void TargetCursorRecord::copy_from(TargetCursorRecord *src) {
 }
 
 void TLockOnCursor::init_slot(s32 i) {
-    deactivate_action_channel((&action_slots[i]));
+    deactivate_action_channel(&action_slots[i]);
 }
 
-void deactivate_action_channel(void *p) { set_action_channel_inactive((u8 *)p); }
+void deactivate_action_channel(LockOnActionSlot *slot) { set_action_channel_inactive(&slot->palette_tag); }
 
 int TMainCursor::get_selected_entry() { return is_channel_active(); }
 
@@ -1680,7 +1676,7 @@ void LockOnActionSlot::set_body_exclude_mask(s32 v) { body_exclude_mask = v; }
 
 void LockOnActionSlot::set_actor_exclude_mask(s32 v) { actor_exclude_mask = v; }
 
-void activate_action_channel(void *p) { set_action_channel_active((u8 *)p); }
+void activate_action_channel(LockOnActionSlot *slot) { set_action_channel_active(&slot->palette_tag); }
 
 void set_cursor_slot(void* p, u8 v) { set_action_palette_tag_slot(static_cast<ActionPaletteTag *>(p), v); }
 

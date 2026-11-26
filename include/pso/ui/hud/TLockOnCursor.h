@@ -103,7 +103,7 @@ struct LockOnTargetRecordList {
 // TLockOnCursor +0x5C, four of them.
 class LockOnActionSlot {
 public:
-    gc_tag unk_0;
+    gc_tag palette_tag;
     // How many targets publish_target_list keeps.
     s32 max_targets;
     // Collision body flags a candidate body must have / must not have.

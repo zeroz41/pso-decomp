@@ -2699,7 +2699,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     if ((cursor != NULL) && (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
         set_action_palette_tag_mode(&lock_on_cursor->palette_override, 3);
         set_action_palette_tag_slot(&lock_on_cursor->palette_override, static_cast<u8>(parameter));
-        set_action_channel_active((u8 *)&this->lock_on_cursor->palette_override);
+        set_action_channel_active(&this->lock_on_cursor->palette_override);
     }
 }
 

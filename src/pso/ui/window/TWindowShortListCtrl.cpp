@@ -398,7 +398,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
                     if (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, player, 4, slot) != 0) {
                         set_action_palette_tag_mode(&cursor->palette_override, 4);
                         set_action_palette_tag_slot(&cursor->palette_override, slot);
-                        set_action_channel_active((u8 *)&cursor->palette_override);
+                        set_action_channel_active(&cursor->palette_override);
                     }
                 }
             }
