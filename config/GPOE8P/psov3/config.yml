@@ -5490,7 +5490,7 @@ force_active:
   - create_list_item__19TWindowSubShortMailFv
   - create_menu__17TWindowSubComCardFv
   - create_menu__19TWindowSubShortMailFv
-  - create_menu__20TWindowSubSymbolChatFPv
+  - create_menu__20TWindowSubSymbolChatFP20TWindowSubSymbolChat
   - create_menu__20TWindowSubSymbolChatFv
   - create_menu_window__14TAdYesNoBaseGCFv
   - create_menu_window__14TWindowSubItemFv

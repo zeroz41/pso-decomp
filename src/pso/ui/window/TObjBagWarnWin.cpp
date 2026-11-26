@@ -68,8 +68,8 @@ saddr get_message_text(s32 text) {
     return (saddr)text_language_group_table[11][text];
 }
 
-void *TObjBagWarnWin::create(void *bag_warn_win) {
-    void *o = (void *)new TObjBagWarnWin((TObject *)bag_warn_win);
+void *TObjBagWarnWin::create(TObject *bag_warn_win) {
+    void *o = (void *)new TObjBagWarnWin(bag_warn_win);
     return o;
 }
 

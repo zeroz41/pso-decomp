@@ -15,7 +15,7 @@ public:
     static const char *class_name;
     static f32 message_window_size[2];
     void open_message_window();
-    static void *create(void *bag_warn_win);
+    static void *create(TObject *bag_warn_win);
 
     TWindowMessage *message_window;
     char message_text[0x80];

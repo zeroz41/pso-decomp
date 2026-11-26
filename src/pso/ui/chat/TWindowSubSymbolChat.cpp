@@ -894,7 +894,7 @@ TWindowSubSymbolChatPartsSet *TWindowSubSymbolChat::create_parts_set() {
         &symbol_chat_flip_u, &symbol_chat_flip_v);
 }
 
-TWindowMenu *TWindowSubSymbolChat::create_menu(void *window_sub_symbol_chat) {
+TWindowMenu *TWindowSubSymbolChat::create_menu(TWindowSubSymbolChat *window_sub_symbol_chat) {
     TWindowMenu *list;
 
     list = create_titled_window_menu_default(get_window_layout_position(0x79), 3, (saddr)TWindowSubStatusDisp::get_message_10(0xAA));
@@ -905,7 +905,7 @@ TWindowMenu *TWindowSubSymbolChat::create_menu(void *window_sub_symbol_chat) {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xB0)), 6, 0x16);
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xB1)), 6, 0x1A);
     }
-    if (reinterpret_cast<SymbolChatPreset *>(static_cast<TWindowSubSymbolChat *>(window_sub_symbol_chat)->selected_preset)->is_initialized() != 0) {
+    if (reinterpret_cast<SymbolChatPreset *>(window_sub_symbol_chat->selected_preset)->is_initialized() != 0) {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
     } else {
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);

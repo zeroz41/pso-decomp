@@ -63,7 +63,7 @@ struct TWindowSubSymbolChat : public TObject {
     TWindowCheckBox *create_confirm_window();
     TWindowMessageYesNo *open_confirm_prompt();
     TWindowMenu *create_menu();
-    static TWindowMenu *create_menu(void *chat);
+    static TWindowMenu *create_menu(TWindowSubSymbolChat *chat);
     TWindowSubSymbolChatPartsSet *create_parts_set();
     TWindowSubSymbolChatParts *create_parts();
     void open_menu(TWindowMenu *menu);
