@@ -744,7 +744,7 @@ force_active:
   - get_target_id__12CursorTargetFv
   - set_client_id__11CursorOwnerFUs
   - deactivate_action_channel__FPv
-  - clear_marker_color__FPv
+  - clear_marker_color__FP11MarkerColor
   - clear_bodies_collision_flag__FP13CollisionBodyl
   - set_bodies_collision_flag__FP13CollisionBodyl
   - is_body_flag_valid__14TObjCollidableFlUs

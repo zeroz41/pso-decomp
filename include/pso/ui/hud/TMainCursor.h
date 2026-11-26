@@ -122,13 +122,11 @@ u8 get_target_palette_slot(void *p);
 u8 get_target_palette_mode(void *p);
 void deactivate_action_channel(void *p);
 void activate_action_channel(void *p);
-void clear_marker_color(void *a0);
+void clear_marker_color(MarkerColor *marker);
 extern "C" {
 int get_empty_action_entry(void);
 }
 int get_target_cursor_model(void);
 extern "C" {
-void TLockOnCursor__sub_8013EB80(void *p);
-void TLockOnCursor__sub_8013EB8C(void *p);
 }
 #endif

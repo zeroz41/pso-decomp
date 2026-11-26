@@ -270,10 +270,10 @@ void TLockOnCursor::reset_and_spawn_cursors() {
 
 void TLockOnCursor::run_task() {
     if (((TMainCursor *)&palette_override)->is_channel_active() != 0) {
-        TLockOnCursor__sub_8013EB8C(&palette_override);
+        palette_override.set_active();
         return;
     }
-    TLockOnCursor__sub_8013EB80(&palette_override);
+    palette_override.clear_active();
 }
 
 #pragma push
@@ -1716,9 +1716,9 @@ LockOnActionSlot *TLockOnCursor::get_action_slot(s32 i) {
     return &action_slots[i];
 }
 
-void TLockOnCursor__sub_8013EB80(void* p) { *(s32*)((char*)p + 0x4) = 0; }
+void LockOnPaletteOverride::clear_active() { active = 0; }
 
-void TLockOnCursor__sub_8013EB8C(void* p) { *(s32*)((char*)p + 0x4) = 1; }
+void LockOnPaletteOverride::set_active() { active = 1; }
 
 TObject *TLockOnCursor::get_list_clear_task() { return tasks.get_list_clear_task(); }
 
@@ -1813,7 +1813,7 @@ LockOnTargetPart::LockOnTargetPart() { reset_target_part_entry(this); }
 LockOnNearestTarget::LockOnNearestTarget() { reset(); }
 
 LockOnPaletteOverride::LockOnPaletteOverride() {
-    unk_4 = 0;
+    active = 0;
 }
 
 void TLockOnCursor::set_target_id(u16 target_id) { this->target_id = target_id; }
@@ -1827,7 +1827,12 @@ MarkerColor::MarkerColor() {
 }
 
 
-void clear_marker_color(void* a0) { *(float*)((char*)a0 + 0xc) = cursor_float_zero; *(float*)((char*)a0 + 0x8) = cursor_float_zero; *(float*)((char*)a0 + 0x4) = cursor_float_zero; *(float*)((char*)a0 + 0x0) = cursor_float_zero; }
+void clear_marker_color(MarkerColor *marker) {
+    marker->color.b = cursor_float_zero;
+    marker->color.g = cursor_float_zero;
+    marker->color.r = cursor_float_zero;
+    marker->color.a = cursor_float_zero;
+}
 
 int get_empty_action_entry(void) { return -1; }
 
