@@ -307,7 +307,7 @@ pso/boss/derolle/Boss2CommonResource.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2Tunnel_Snapshot.cpp
-pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
+pso/boss/derolle/TObjBoss2Tunnel_ParticleParent.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
 pso/boss/barbaray/TObjBoss7TunnelCol.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp
@@ -1657,7 +1657,7 @@ pso/player/StartingInventory.cpp
 pso/render/MericarolRenderTexture.cpp
 pso/boss/barbaray/Boss7CommonResource.cpp
 pso/object/warp/Boss7TunnelAreaWarp.cpp
-pso/boss/barbaray/TObjBoss7Tunnel_802F190C.cpp
+pso/boss/barbaray/TObjBoss7Tunnel_ParticleParent.cpp
 pso/boss/goldragon/Boss8DemoObjects.cpp
 pso/ui/charcreate/CharCreationTagSelect.cpp
 pso/ui/charcreate/CharCreationTagClear.cpp

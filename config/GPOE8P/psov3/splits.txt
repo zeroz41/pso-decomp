@@ -344,7 +344,7 @@ pso/boss/derolle/TObjBoss2RaftSplash.cpp:
 	.sdata      start:0x805D2700 end:0x805D2708
 	.sdata2     start:0x805D85D0 end:0x805D85DC
 
-pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp:
+pso/boss/derolle/TObjBoss2Tunnel_ParticleParent.cpp:
 	.text       start:0x8003B1FC end:0x8003B2EC
 	.sbss       start:0x805D4BF8 end:0x805D4BFC
 
@@ -7475,7 +7475,7 @@ pso/boss/barbaray/TObjBoss7RaftSplash.cpp:
 	.sdata      start:0x805D3FE8 end:0x805D3FF0
 	.sdata2     start:0x805DEC88 end:0x805DEC94
 
-pso/boss/barbaray/TObjBoss7Tunnel_802F190C.cpp:
+pso/boss/barbaray/TObjBoss7Tunnel_ParticleParent.cpp:
 	.text       start:0x802F190C end:0x802F1A58
 	.sbss       start:0x805D6960 end:0x805D6968
 

@@ -12,7 +12,7 @@
 #include "pso/effect/particle/TParticle.h"
 #include "pso/boss/barbaray/Boss7CommonResource.h"
 
-// Barba Ray's twin of TObjBoss2Tunnel_8003B1FC.cpp: the parent the tunnel's particles are handed
+// Barba Ray's twin of TObjBoss2Tunnel_ParticleParent.cpp: the parent the tunnel's particles are handed
 // over to, created by create_parent_object.
 TObject *TObjBoss7Tunnel::particle_parent;
 
