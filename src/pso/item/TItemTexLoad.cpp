@@ -8,15 +8,13 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/prs.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
-extern "C" {
-void open_afs_file_wait_render(s32, const char*, void*, s32);
-extern const char item_kt_archive_filename[] = "ItemKT.afs";
-extern const char TItemTexLoad_class_name[] = "TItemTexLoad";
+const char item_kt_archive_filename[] = "ItemKT.afs";
+const char TItemTexLoad_class_name[] = "TItemTexLoad";
 const char* TItemTexLoad_name = TItemTexLoad_class_name;
 void* item_texture_afs_work_buffer;
 char* item_texture_filename_buffer;
-}
 
 void TItemTexLoad::load_texture_archive() {
     char t[12] = "ItemTexLoad";
@@ -39,7 +37,7 @@ void TItemTexLoad::unload_texture() {
 }
 
 s32 TItemTexLoad::load_texture(s32 index) {
-    if ((index >= 0) && (index < 0x17B) && ((uaddr)m_archive_buffer != 0U)) {
+    if ((index >= 0) && (index < 0x17B) && (m_archive_buffer != NULL)) {
         if (index == m_texture_index) return 1;
         unload_texture();
         m_texture_index = index;

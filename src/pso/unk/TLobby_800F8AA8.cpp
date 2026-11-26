@@ -66,15 +66,12 @@ const char *disc_read_filename = lbl_805D2B10;
 s32 *get_player_name_copy_buffer(void) {
     return (s32 *)player_name_copy_buffer;
 }
-extern "C" {
-
 void copy_name(char *name) {
     strncpy(player_name_copy_buffer, name, 0x10);
     if (strncmp(name, "..", 0x10) == 0) {
         clear_player_name_copy_buffer();
     }
     change_disc_directory(name);
-}
 }
 
 void clear_player_name_copy_buffer(void) {

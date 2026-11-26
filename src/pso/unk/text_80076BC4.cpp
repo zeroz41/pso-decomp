@@ -65,12 +65,9 @@ void send_chat_shortcut(s32 index) { chat_accept_submission((saddr)get_chat_shor
 #pragma auto_inline on
 #pragma dont_inline off
 
-extern "C" {
-
 void clear_chat_shortcut(s32 i) {
     void **p = ((void **)get_chat_shortcut(i));
     *p = 0;
-}
 }
 ChatShortcut *store_chat_shortcut(s32 index, const ChatShortcut *src) { return &(*get_chat_shortcut(index) = *src); }
 

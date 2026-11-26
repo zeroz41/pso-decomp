@@ -15,9 +15,7 @@ void TLobby__sub_80208648(void);
 void TLobby__sub_80208884(void *a0);
 }
 s32 activate_first_floor_event(s32 idx, s32 id);
-extern "C" {
 void activate_triggered_floor_events(void);
-}
 void bswap_enemy_set_row(void *row_ptr);
 void bswap_enemy_set_row_fields(void *placement_ptr);
 void bswap_floor_event_set(s32 idx);

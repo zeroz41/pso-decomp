@@ -9,8 +9,6 @@ struct ScrolledStripTotals {
     s32 count;
 };
 
-extern "C" {
 void visit_model_tree_recursive(ScrolledStripTotals *acc, NJS_OBJECT *node, s32 id);
-}
 
 #endif

@@ -19,13 +19,10 @@
 #include "pso/system/prs.h"
 #include "pso/system/Adxf.h"
 #include "pso/weapon/TItemAttacker.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 // The loaders are written from their last function back: the unit is built
 // with deferred code generation, which emits functions in reverse order.
-
-extern "C" {
-void open_afs_file_wait_render(s32 partition_id, const char *path, void *partition_info, s32);
-}
 
 __declspec(section ".data") const char *item_model_names[15] = {
     "gun_bullet.gj", "armor_scan.gj", "ixm_box01.gj", "ixm_box02.gj", "ixm_box03.gj", "ixm_box04.gj", "ixm_box05.gj",

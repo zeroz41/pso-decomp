@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void copy_name(char *name);
-}
 
 #endif

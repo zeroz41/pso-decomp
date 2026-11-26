@@ -45,6 +45,9 @@ LAYOUT_ASSERT(GinjaTextureEntryTexture, offsetof(NJS_TEXNAME,texture)==8);
 
 void load_item_kt_afs(void);
 
+extern const char item_kt_archive_filename[];
+extern const char TItemTexLoad_class_name[];
+
 // --- C functions defined in TItemTexLoad.cpp ---
 void load_item_kt_afs(void);
 // --- end of C functions

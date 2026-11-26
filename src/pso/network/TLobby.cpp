@@ -2944,7 +2944,6 @@ void set_quest_list_online_state(s32 state) {
 
 void TWindowMenu::set_ready_flag() { m_70 |= 0x1; }
 
-extern "C" {
 extern u8 *text_language_group_table;
 
 int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
@@ -2954,6 +2953,7 @@ s32 TWindowMakeTeam::get_field_20() { return m_20; }
 u8 TWindowMakeTeam::get_mode() { return mode; }
 u8 TWindowMakeTeam::read_mode() { return mode; }
 int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }
+extern "C" {
 
 s32 *get_access_key_input_buffer(void) {
     return (s32 *)TAdEnterSerialAccessGC::access_key_input_buffer;
@@ -2964,14 +2964,12 @@ char *TLobby::init_serial_access() { return TAdEnterSerialAccessGC::hex_to_decim
 s32 *get_raw_serial_input_buffer(void) {
     return (s32 *)TAdEnterSerialAccessGC::raw_serial_buffer;
 }
+}
 
 saddr get_connection_message_text(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x30)) + (id * 4));
 }
 
-}
-
-extern u8 *text_language_group_table;
 s32 get_online_message_text(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x38)) + (id * 4));
 }

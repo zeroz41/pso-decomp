@@ -10,9 +10,7 @@
 // Opens an AFS file and spins the input loop until its table of contents is read.
 s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size);
 void bswap_u32_in_place(u32 *p);
-extern "C" {
 s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size);
-}
 void reset_line_width(void);
 void set_line_width(int a0);
 
