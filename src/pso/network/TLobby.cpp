@@ -779,7 +779,7 @@ void TLobby::send_cmd_6B(int client) {
     }
 }
 
-void show_card_list_message(void *msg) {
+void show_card_list_message(TPlyText<288> &info) {
     if (TLobby::card_list_window != 0) {
         TLobby::card_list_window->close();
         TLobby::card_list_window = 0;
@@ -787,7 +787,7 @@ void show_card_list_message(void *msg) {
     if (TLobby::lobby_state == 0x11) {
         NJS_POINT2 p = card_list_message_window_size[0];
         TLobby::card_list_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xC9)), (const f32 *)(&p), 1);
-        TLobby::card_list_window->append_line((saddr)((char *)msg + 4), (int)3);
+        TLobby::card_list_window->append_line((saddr)info.text, (int)3);
         TLobby::card_list_window->set_depth(37000.0f);
     }
 }
@@ -2627,7 +2627,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_44_recv_download_head = TQuestListOnline::begin_file_download;
     protocol_instance->m_recv_handlers.handle_13_recv_download = (recv_packet_handler_handle_13_recv_download)handle_quest_download_chunk__6TLobbyFv;
     protocol_instance->m_recv_handlers.handle_A4_recv_quest_list = (recv_packet_handler_handle_A4_recv_quest_list)TLobby::open_download_list_window;
-    protocol_instance->m_recv_handlers.handle_A5_recv_quest_info = (recv_packet_handler_handle_A5_recv_quest_info)show_card_list_message;
+    protocol_instance->m_recv_handlers.handle_A5_recv_quest_info = show_card_list_message;
     protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = TQuestVmDownLoadServer::begin_file_download;
     protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = TQuestVmDownLoadServer::receive_file_chunk;
     protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;

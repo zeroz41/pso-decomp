@@ -10,6 +10,7 @@ struct AsyncFileReadRequest;
 struct EnemySetRecord;
 struct LobbyPlayerEntry;
 class TLobbyIdleTimer;
+template <size_t size> struct TPlyText;
 class TPlyJoinGame;
 struct PlayerSyncRecord;
 struct G_ClientIDHeader;
@@ -566,7 +567,8 @@ class TObject;
 s32 get_online_message_text(s32 id);
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
-void show_card_list_message(void *msg);
+// A5: the quest info text, shown in the card list window.
+void show_card_list_message(TPlyText<288> &info);
 void show_join_entry_message(s32 id);
 void handle_game_list(int entry_count, GameListEntry *entries, GameListEntry &entry_0);
 void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
