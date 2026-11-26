@@ -87,7 +87,7 @@ const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTabl
 
 
 
-void TLobby::reset_story_select() { TAdStorySelectGC::set_state((saddr)((void*)0)); story_select_pending_state = -1; }
+void TLobby::reset_story_select() { TAdStorySelectGC::set_state(0); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
     s32 status;

@@ -16,7 +16,7 @@ LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrai
 void reset_floor_map_registry(void);
 
 // The story-select state TLobby::reset_story_select clears to -1.
-extern saddr story_select_pending_state;
+extern s32 story_select_pending_state;
 // The episode TAdStorySelectGC::set_state last picked.
 extern int selected_episode;
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection);

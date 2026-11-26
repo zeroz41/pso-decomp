@@ -302,7 +302,7 @@ extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
 } };
 
 int selected_episode;
-saddr story_select_pending_state = -1;
+s32 story_select_pending_state = -1;
 int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }
 
@@ -466,8 +466,8 @@ void init_floor_map_registry(void) {
 }
 
 void TLobby::reset_story_select_state() {
-    if ((s32) story_select_pending_state != -1) {
-        TAdStorySelectGC::set_state((saddr)((void*)story_select_pending_state));
+    if (story_select_pending_state != -1) {
+        TAdStorySelectGC::set_state(story_select_pending_state);
         story_select_pending_state = -1;
     }
 }
