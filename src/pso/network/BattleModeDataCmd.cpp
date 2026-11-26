@@ -1,6 +1,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/network/BattleModeDataCmd.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"
@@ -18,5 +19,8 @@ void DamageStatSlot::set_bonus_weight(f32 v) { bonus_weight = v; }
 
 void TLobby::send_set_battle_mode_data() { bswap_set_battle_mode_data(); send_subcommand((u8 *)this); }
 void TLobby::bswap_set_battle_mode_data() { ((G_ClientIDHeader *)this)->bswap(); { int i; for (i = 0; i < 4; i++) { bswap_32((u32 *)((char*)this + 0x8 + i * 4)); } } }
-void build_6x7D_set_battle_mode_data(void* p) { *(u8*)((char*)p + 0x0) = 125; *(u8*)((char*)p + 0x1) = 6; }
+void build_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *cmd) {
+    cmd->header.subcommand = 0x7D;
+    cmd->header.size = sizeof(G_SetBattleModeData_6x7D) / 4;
+}
 void TLobby::send_6x7D_set_battle_mode_data() { bswap_set_battle_mode_data(); send_subcommand_to_leader(this); }

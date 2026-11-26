@@ -47,7 +47,7 @@ void TLobby::send_trade_proposal_modify() {
   G_ModifyTradeProposal_6xA6 packet;
   TObjPlayer *player;
   player_stats *stats;
-  build_6xA6_modify_trade_proposal(&packet.header);
+  build_6xA6_modify_trade_proposal(&packet);
   if (((s32) trade_proposal_state) == 2)
   {
     player = get_player_by_client_id(local_client_id);
@@ -511,7 +511,7 @@ void reset_trade_session(const char *message) {
 
 void cancel_trade_for_member_out_of_range(s32 client_id) {
     G_ModifyTradeProposal_6xA6 packet;
-    build_6xA6_modify_trade_proposal(&packet.header);
+    build_6xA6_modify_trade_proposal(&packet);
     packet.what = 7;
     packet.result = 0;
     packet.out_of_range_client_id = client_id;
@@ -526,7 +526,7 @@ void cancel_trade_for_member_out_of_range(s32 client_id) {
 
 void send_trade_busy_reply(saddr client_id) {
     G_ModifyTradeProposal_6xA6 packet;
-    build_6xA6_modify_trade_proposal((&packet.header));
+    build_6xA6_modify_trade_proposal(&packet);
     packet.what = 6;
     packet.result = 0;
     packet.prepare_and_send(client_id);
@@ -565,7 +565,7 @@ void TTradeList::build_from_trade_window() {
 
 void TLobby::send_modify_trade_proposal(s8 what, s32 item_id, s32 amount) {
   G_ModifyTradeProposal_6xA6 packet;
-  build_6xA6_modify_trade_proposal(&packet.header);
+  build_6xA6_modify_trade_proposal(&packet);
   packet.what = what;
   packet.result = 0;
   packet.item_id = item_id;
@@ -575,7 +575,7 @@ void TLobby::send_modify_trade_proposal(s8 what, s32 item_id, s32 amount) {
 
 void TLobby::send_trade_proposal_result(s8 what, s8 result) {
   G_ModifyTradeProposal_6xA6 packet;
-  build_6xA6_modify_trade_proposal(&packet.header);
+  build_6xA6_modify_trade_proposal(&packet);
   packet.what = what;
   packet.result = result;
   packet.prepare_and_send(trade_partner_client_id);
@@ -585,7 +585,7 @@ void send_6xA6_modify_trade_proposal(saddr client_id) {
     G_ModifyTradeProposal_6xA6 packet;
     TObjPlayer *player;
     player_stats *stats;
-    build_6xA6_modify_trade_proposal((&packet.header));
+    build_6xA6_modify_trade_proposal(&packet);
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (stats = player->get_stats(), stats != NULL)) {
         if ((s32) (u8)trade_partner_client_id != 4) {

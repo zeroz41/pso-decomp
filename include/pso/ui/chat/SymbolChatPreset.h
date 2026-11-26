@@ -61,6 +61,8 @@ void clear_received_symbol_chat(void);
 
 void release_received_symbol_chat(void);
 
-void init_symbol_chat_header(void *p);
+struct G_SymbolChat_6x07;
+
+void init_symbol_chat_header(G_SymbolChat_6x07 *cmd);
 
 #endif

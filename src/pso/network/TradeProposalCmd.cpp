@@ -24,7 +24,10 @@ void G_ModifyTradeProposal_6xA6::prepare_and_send(u32 client_id) {
     prepare();
     ((game_command *)this)->send_to_client(client_id);
 }
-void build_6xA6_modify_trade_proposal(void* p) { *(u8*)((char*)p + 0x0) = 166; *(u8*)((char*)p + 0x1) = 4; }
+void build_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *cmd) {
+    cmd->header.subcommand = 0xA6;
+    cmd->header.size = sizeof(G_ModifyTradeProposal_6xA6) / 4;
+}
 
 
 void TLobby__sub_802D3AA8(void) {

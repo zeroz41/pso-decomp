@@ -1114,8 +1114,8 @@ LAYOUT_ASSERT(G_SetAnimationState_6xAESize, sizeof(G_SetAnimationState_6xAE) == 
 // params as signed words.
 // Sent by send_battle_mode_params, send_6x7D_set_battle_mode_data,
 // TPlayerBattleCtrl::send_player_ready, TPlayerBattleCtrl::send_battle_mode_state and 1 more;
-// received by handle_6x7D_set_battle_mode_data. Used by our code; size not checked against a
-// sender yet.
+// received by handle_6x7D_set_battle_mode_data. Used by our code. Size checked:
+// build_6x7D_set_battle_mode_data sets the header size to 6 words.
 struct G_SetBattleModeData_6x7D {
  struct G_UnusedHeader header;
  s8 what;
@@ -1124,6 +1124,7 @@ struct G_SetBattleModeData_6x7D {
  s8 is_alive;
  s32 params[4];
 };
+LAYOUT_ASSERT(G_SetBattleModeData_6x7DSize, sizeof(G_SetBattleModeData_6x7D) == 0x18);
 
 // 6x7F: The final places and scores of a battle, one row per player. Received by
 // handle_6x7F_battle_scores, which copies the rows into duel_result_table; nothing in our code
@@ -1500,12 +1501,14 @@ struct G_SwitchInteraction_6x50 {
 LAYOUT_ASSERT(G_SwitchInteraction_6x50Size, sizeof(G_SwitchInteraction_6x50) == 0x8);
 
 // 6x07: A symbol chat message. Sent by send_selected_symbol_chat; received by
-// handle_6x07_symbol_chat. Used by our code; size not checked against a sender yet.
+// handle_6x07_symbol_chat. Used by our code. Size checked: init_symbol_chat_header sets the
+// header size to 17 words.
 struct G_SymbolChat_6x07 {
  struct G_UnusedHeader header;
  u32 client_id;
  u8 data[0x3C];
 };
+LAYOUT_ASSERT(G_SymbolChat_6x07Size, sizeof(G_SymbolChat_6x07) == 0x44);
 
 // 6x6B/6x6C/6x6D/6x6E: The game state sent to a joining player, LZ-compressed: enemies (6B), objects (6C),
 // floor items (6D) and floor and switch flags (6E). The subcommand header's size is 0 and total_size holds

@@ -29,7 +29,7 @@ static const s32 symbol_chat_sound_ids[9] = {
 void send_selected_symbol_chat(s32 *preset_index) {
     G_SymbolChat_6x07 packet;
     saddr symbol_chat_preset;
-    init_symbol_chat_header((&packet.header));
+    init_symbol_chat_header(&packet);
     symbol_chat_preset = ((s32)((saddr)get_symbol_chat_preset((saddr)(*preset_index))));
     packet.client_id = local_client_id;
     TLobby::copy_symbol_chat_entry(&packet.data[0], (void *)(symbol_chat_preset + 0x1C));
@@ -241,7 +241,10 @@ SymbolChatPayload *SymbolChatPreset::get_data_ptr() { return &payload; }
 void TWindowSubSymbolChat::bswap_symbol_chat_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); ((SymbolChatPayload *)((char*)this + 0x8))->byteswap_entry(); }
 void SymbolChatPayload::byteswap_entry() { bswap_32(&appearance); { int i; for (i = 0; i < 4; i++) { bswap_16(&facial_parts[i]); } } }
 void TWindowSubSymbolChat::send_symbol_chat() { bswap_symbol_chat_packet(); broadcast_subcommand(this); }
-void init_symbol_chat_header(void* p) { *(u8*)((char*)p + 0x0) = 7; *(u8*)((char*)p + 0x1) = 17; }
+void init_symbol_chat_header(G_SymbolChat_6x07 *cmd) {
+    cmd->header.subcommand = 0x07;
+    cmd->header.size = sizeof(G_SymbolChat_6x07) / 4;
+}
 
 saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }
 

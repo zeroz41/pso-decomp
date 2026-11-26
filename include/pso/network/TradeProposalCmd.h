@@ -9,7 +9,9 @@ void close_trade_request_on_floor_load();
 void reset_trade_state_on_scene_unload();
 void reset_trade_state_on_scene_load();
 void TLobby__sub_802D3AA8(void);
-void build_6xA6_modify_trade_proposal(void *p);
+struct G_ModifyTradeProposal_6xA6;
+
+void build_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *cmd);
 
 
 #endif

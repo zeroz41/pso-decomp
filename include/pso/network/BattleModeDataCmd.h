@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-void build_6x7D_set_battle_mode_data(void *p);
+struct G_SetBattleModeData_6x7D;
+
+void build_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *cmd);
 
 #endif
