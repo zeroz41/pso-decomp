@@ -49,6 +49,7 @@ struct SceneSectionAngles;
 
 struct TItem;
 class TPlyItem;
+class TItemList;
 class TPlayerLobbyMarker;
 class TPlyInventoryItem;
 struct TechniqueContactList;
@@ -217,7 +218,7 @@ struct TObjPlayer : public TObjChara {
     void render_shadows();
     void render();
     void run_task();
-    void *find_revival_item();
+    TItemList *find_revival_item();
     void request_inventory_item(TItemData* item);
     TPlyDispConfigSmth *select_action_palette(int secondary);
     s32 add_meseta(s32 amount);

@@ -1496,7 +1496,7 @@ void TBoss2DeRolLe::update_particle_ctrls() {
     s32 j;
     s32 i;
     s32 k;
-    void *p;
+    TParticleCtrl *p;
     s32 m;
     s32 n;
     ok = 1;
@@ -1507,7 +1507,7 @@ void TBoss2DeRolLe::update_particle_ctrls() {
             ang[0] = 0;
             p = create_particle_controller_with_angles(joint_positions, ang, 0x120, 1, 0x40);
             if (p != NULL) {
-                splash_ctrls[i] = (TParticleCtrl *)p;
+                splash_ctrls[i] = p;
                 splash_ctrls[i]->set_flags(2);
                 splash_ctrls[i]->enable();
             } else {

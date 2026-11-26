@@ -624,24 +624,24 @@ void TBoss4DarkFalz::place_players_for_demo() {
 
 void TBoss4DarkFalz::end_player_camera_pans() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     TWindowCtrl::unsuppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
-            ((TObjPlayer *)p)->end_camera_pan();
+            p->end_camera_pan();
         }
     }
     release_all_players_control_lock();
 }
 void TBoss4DarkFalz::freeze_all_players() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     TWindowCtrl::suppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
-            ((TObjPlayer *)p)->start_freeze();
+            p->start_freeze();
         }
     }
 }

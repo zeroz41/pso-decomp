@@ -1387,11 +1387,11 @@ void TBoss1Dragon::reload_impact_stats() {
 }
 
 void handle_6x10_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet) {
-    void *x;
+    TBoss1Dragon *x;
     packet->bswap_6x10();
-    x = get_enemy_entity(packet->header.entity_id);
+    x = (TBoss1Dragon *)get_enemy_entity(packet->header.entity_id);
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->copy_params(packet);
+        x->copy_params(packet);
     }
 }
 
@@ -1402,11 +1402,11 @@ void TBoss1Dragon::copy_params(G_DragonBossActions_6x10_6x11 *action) {
 }
 
 void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet) {
-    void *x;
+    TBoss1Dragon *x;
     packet->bswap_6x11();
-    x = get_enemy_entity(packet->header.entity_id);
+    x = (TBoss1Dragon *)get_enemy_entity(packet->header.entity_id);
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->set_params(packet);
+        x->set_params(packet);
     }
 }
 
@@ -1419,11 +1419,11 @@ void TBoss1Dragon::set_params(G_DragonBossActions_6x10_6x11 *action) {
 }
 
 void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet) {
-    void *x;
+    TBoss1Dragon *x;
     packet->bswap();
-    x = get_enemy_entity(packet->action.header.entity_id);
+    x = (TBoss1Dragon *)get_enemy_entity(packet->action.header.entity_id);
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->receive_state_request(packet);
+        x->receive_state_request(packet);
     }
 }
 

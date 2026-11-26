@@ -292,10 +292,10 @@ void TObjEneRe4Sorcerer::init_enemy() {
 extern "C" {
 TObjEneRe4Sorcerer::~TObjEneRe4Sorcerer() {
     s32 i;
-    void *p;
+    TObjCollidable *p;
     for (i = 0; i < 2; i++) {
         if ((p = find_entity_by_id(bit_ids[i])) != NULL) {
-            ((TObject *)p)->queue_destruction();
+            p->queue_destruction();
         }
         bit_ids[i] = 0xFFFF;
     }
@@ -304,7 +304,7 @@ TObjEneRe4Sorcerer::~TObjEneRe4Sorcerer() {
 
 void TObjEneRe4Sorcerer::run_task() {
     s32 i;
-    void *p;
+    TObjCollidable *p;
     if (TObjPlayer::check_demo_mode() != 0) {
         run_demo_task();
         return;

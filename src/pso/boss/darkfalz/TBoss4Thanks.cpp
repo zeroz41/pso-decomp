@@ -242,10 +242,10 @@ s32 any_player_has_listed_item(void) {
                 const u8 *e = boss4_thanks_listed_item_table[j];
                 s32 k;
                 for (k = 0; k < 13; k++) {
-                    void *it = pl->get_equipped_item(k);
-                    if (it != NULL && e[0] == ((TItem *)it)->get_item_type() &&
-                        e[1] == ((TItem *)it)->get_item_group() &&
-                        e[2] == ((TItem *)it)->get_item_index()) {
+                    TItem *it = pl->get_equipped_item(k);
+                    if (it != NULL && e[0] == it->get_item_type() &&
+                        e[1] == it->get_item_group() &&
+                        e[2] == it->get_item_index()) {
                         return 1;
                     }
                 }
