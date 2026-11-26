@@ -439,11 +439,11 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     u32 kind;
     *request->motion = NULL;
     position = 0;
-    void *data = request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &position, &kind);
+    AnimationMotion *data = (AnimationMotion *)request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &position, &kind);
     if (data == 0) {
         TLobby::debug_print("LoadBinMotionCallBack: Illegal format.");
     }
-    *request->motion = (AnimationMotion *)data;
+    *request->motion = data;
     BmlResource *resource = request->resource;
     resource->loaded_motions++;
     check_bin_model_loaded(request->resource);

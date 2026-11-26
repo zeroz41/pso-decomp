@@ -269,13 +269,13 @@ void open_gsl_archive(char *name) {
 }
 
 void TLobby::read_data_sync(saddr handle, s32 sector_count, saddr destination) {
-    saddr handle_addr;
+    AdxfHandle *handle_addr;
 
-    handle_addr = handle;
-    ADXF_ReadNw((AdxfHandle *)handle_addr, sector_count, (void *)destination);
+    handle_addr = (AdxfHandle *)handle;
+    ADXF_ReadNw(handle_addr, sector_count, (void *)destination);
     TLobby::set_read_params(&handle_addr, (int)sector_count, (int)destination);
 loop_1:
-    if (ADXF_GetStat((AdxfHandle *)handle_addr) != 3) {
+    if (ADXF_GetStat(handle_addr) != 3) {
         TLobby::run_frame();
         goto loop_1;
     }

@@ -1106,10 +1106,10 @@ void draw_second_window_arrow(TWindowSubSymbolChat *window) {
 }
 
 void TWindowSubSymbolChat::close_child(void *, void *) {
-    void *chat;
-    chat = TWindowSubSymbolChat::instance;
+    TWindowSubSymbolChat *chat;
+    chat = (TWindowSubSymbolChat *)TWindowSubSymbolChat::instance;
     if (chat != NULL) {
-        draw_second_window_arrow((TWindowSubSymbolChat *)(chat));
+        draw_second_window_arrow(chat);
     }
 }
 #pragma pop

@@ -51,10 +51,10 @@ void TWindowEffectParty::run_task() {
     Vec pos;
     u8 slot;
 
-    void *window;
+    TWindowBase *window;
 
     slot = this->target_slot;
-    if (((s8) slot > 0) && (((window = get_simple_status_window(slot - 1)) == 0) || (((TWindowBase *)window)->is_open_and_unblocked() == 0))) {
+    if (((s8) slot > 0) && (((window = (TWindowBase *)get_simple_status_window(slot - 1)) == 0) || (window->is_open_and_unblocked() == 0))) {
         queue_destruction();
         return;
     }

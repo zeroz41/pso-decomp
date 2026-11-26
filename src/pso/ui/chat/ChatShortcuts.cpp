@@ -21,8 +21,8 @@ void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 
 
 char *get_chat_shortcut_text(s32 *text) { return (char *)text; }
 void submit_chat_text(u8 *lobby) {
-    void *player;
-    player = get_player_by_client_id(local_client_id);
+    TObjBase *player;
+    player = (TObjBase *)get_player_by_client_id(local_client_id);
     if (player != NULL && (s8) *lobby != 0) {
         ((TLobby *)lobby)->capture_chat_sensor();
         if (get_main_phase() == 0xF) {
@@ -30,7 +30,7 @@ void submit_chat_text(u8 *lobby) {
             SubmitChatTextTag tmp = *(SubmitChatTextTag *)&made;
             send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby::protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
         } else {
-            TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (const char *)lobby, 0xCB);
+            TWindowCtrl::open(player->get_entity_id(), (const char *)lobby, 0xCB);
         }
     }
 }
