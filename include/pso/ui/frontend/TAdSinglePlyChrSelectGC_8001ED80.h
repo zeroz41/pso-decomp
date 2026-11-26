@@ -3,8 +3,5 @@
 
 #include "types.h"
 
-extern "C" {
-s32 TLobby__sub_8001ED88(void *p);
-}
 
 #endif

@@ -77,7 +77,8 @@ struct TMainCursor : public TObject {
     TObjPlayer *get_owner_player();
     void update_target_sub();
     u16 get_client_id();
-    int test_flag_2_at_20();
+    int is_hidden();
+    void hide();
     int init_render_flags();
     int update();
     int check_flag_1();
@@ -117,9 +118,6 @@ s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled);
 void set_action_channel_inactive(u8 *entry);
 void set_action_channel_active(u8 *entry);
 int get_lock_on_cursor_model(void);
-extern "C" {
-void TMainCursor__sub_8013E310(void *p);
-}
 u8 get_target_palette_slot(void *p);
 u8 get_target_palette_mode(void *p);
 void deactivate_action_channel(void *p);

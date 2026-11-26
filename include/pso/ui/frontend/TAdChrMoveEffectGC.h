@@ -37,6 +37,7 @@ struct TAdChrMoveEffectGC : public TObject {
     void reset_effect_entries();
     void clear_entries();
     void setup_move_effect_params(s32 from_index, s32 to_index);
+    void start_move_effect(ChrMoveEffectParams *params);
     virtual void run_task();
     ChrMoveEffectEntry entries[16];
 };

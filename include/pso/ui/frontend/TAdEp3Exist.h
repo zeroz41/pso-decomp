@@ -24,6 +24,7 @@ struct TAdEp3Exist : public TObject {
     virtual void render();
     void request_game_mode_transition();
     void request_scene_change();
+    void request_ppp_pass_scene();
     void close_window();
     virtual void run_task();
 };

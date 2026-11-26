@@ -44,6 +44,7 @@ struct BmlResource {
     void set_flag_and_notify();
     s32 LoadBinMotion(const char *name, s32 index);
     s32 LoadBinModel(const char *name, s32 index);
+    s32 get_arena_offset();
 
     u32 flags;
     s32 loaded_models;

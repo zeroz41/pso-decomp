@@ -125,7 +125,7 @@ force_active:
   - name__12TAdBackTxtGC
   - TAdBackTxtGC_backtext_tex_list
   - class_name__18TAdChrMoveEffectGC
-  - TAdChrMoveEffectGC__sub_80349194
+  - start_move_effect__18TAdChrMoveEffectGCFP19ChrMoveEffectParams
   - build_slot_entry__16TAdChrSelASlotGCFllPC21CharacterSlotPosition
   - build_slot_entry__16TAdChrSelBSlotGCFllPC21CharacterSlotPosition
   - show_not_formatted_message__16TAdChrSelBSlotGCFv
@@ -163,7 +163,7 @@ force_active:
   - update_serial_input__22TAdEnterSerialAccessGCFv
   - TAdEnterSerialAccessGC_serial_buffer
   - name__11TAdEp3Exist
-  - TAdEp3Exist__sub_8036F0AC
+  - request_ppp_pass_scene__11TAdEp3ExistFv
   - prs_read_src_byte__9PrsReaderFv
   - prs_release_window__10PrsDecoderFv
   - name__9TAdFadeGC

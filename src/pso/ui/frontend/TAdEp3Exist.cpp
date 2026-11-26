@@ -52,7 +52,7 @@ void TAdEp3Exist::render() {
 
 void TAdEp3Exist::request_game_mode_transition() { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 void TAdEp3Exist::request_scene_change() { TAdMultiChgGameModeGC::open_time_set_scene(); }
-void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p) { TAdMultiChgGameModeGC::open_enter_ppp_pass_scene(); }
+void TAdEp3Exist::request_ppp_pass_scene() { TAdMultiChgGameModeGC::open_enter_ppp_pass_scene(); }
 void TAdEp3Exist::close_window() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 
 void TAdEp3Exist::run_task() {
@@ -91,7 +91,7 @@ void TAdEp3Exist::run_task() {
         }
         break;
     case 3:
-        TAdEp3Exist__sub_8036F0AC(this);
+        request_ppp_pass_scene();
         break;
     case 4:
         request_scene_change();

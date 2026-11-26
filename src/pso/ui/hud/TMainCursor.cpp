@@ -1115,7 +1115,7 @@ void TMainCursor::render() {
     if (init_render_flags() != 0) {
         return;
     }
-    switch (test_flag_2_at_20()) {
+    switch (is_hidden()) {
     case 0:
         break;
     default:
@@ -1172,7 +1172,7 @@ void TMainCursor::validate_target() {
         }
     }
     if (TObjPlayer::is_any_teammate_in_state() != 0) {
-        TMainCursor__sub_8013E310(this);
+        hide();
         return;
     }
     switch (get_target_palette_mode(&target.palette_tag)) {
@@ -1537,7 +1537,7 @@ TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
 u16 CursorTarget::get_entity_id() { return entity_id; }
 
 
-void TMainCursor__sub_8013E310(void* p) { ((TMainCursor *)p)->state_flags.set(2); }
+void TMainCursor::hide() { state_flags.set(2); }
 
 u8 get_target_palette_slot(void* p) { return get_action_palette_tag_slot(static_cast<const ActionPaletteTag *>(p)); }
 
@@ -1568,7 +1568,7 @@ u16 TMainCursor::get_client_id() { return owner.get_client_id(); }
 
 u16 CursorOwner::get_client_id() { return client_id; }
 
-int TMainCursor::test_flag_2_at_20() { return state_flags.test_flags_any(2); }
+int TMainCursor::is_hidden() { return state_flags.test_flags_any(2); }
 
 int TMainCursor::init_render_flags() { return state_flags.test_flags_any(8); }
 
