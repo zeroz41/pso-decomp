@@ -526,7 +526,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     this->target_attribute_mask = 0;
     this->add_flags_2e4(0);
     this->control_state = 0;
-    this->m_2d8 = 0xFFFF;
+    this->owner_entity_id = 0xFFFF;
     for (i = 0; i < 3; i++) {
         attack_attributes[i].area = 0;
         attack_attributes[i].percent = 0;

@@ -245,7 +245,7 @@ public:
     s16 lck;  // stat block LCK
     u16 attacker_id;  // entity id of whoever last hit it; 6x89 sets a player's killer
     u16 local_attacker_id;  // the last local player that hit it (record_attack_source, single screen); distribute_experience awards it
-    u16 m_2d8;
+    u16 owner_entity_id;  // entity id of the object that set it (TOMineTrap: the setting player); 0xFFFF none
     u8 pad_2DA[0x2];
     // Bit 1: hit by a ranged attack (calc_distance_accuracy_penalty); bit 2: a
     // Recon whose Recobox died. Cleared with the attack receipts.

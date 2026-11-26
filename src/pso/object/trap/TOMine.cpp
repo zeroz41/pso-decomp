@@ -146,9 +146,9 @@ void set_mine_trap_damage(f32 power) {
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }
 u16 TOMineTrap::get_trap_number() { return trap_number; }
 int TOMineTrap::get_instance() { return mine_trap_instance_id; }
-void TOMineTrap::set_trap_type(u16 type) { this->m_2d8 = type; }
+void TOMineTrap::set_trap_type(u16 type) { this->owner_entity_id = type; }
 s16 TOMineTrap::get_mode() { return mode; }
-u16 TOMineTrap::get_trap_type() { return this->m_2d8; }
+u16 TOMineTrap::get_trap_type() { return this->owner_entity_id; }
 s32 can_see_traps(TObjPlayer *player) { return player->check_flag(0x10000); }
 TOMine::TOMine(TObject *parent) : TObjChara(parent) {
     m_name = mine_name;
@@ -570,7 +570,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
     if (owner != NULL) {
         set_trap_type(owner->get_entity_id());
     } else {
-        m_2d8 = 0xFFFF;
+        owner_entity_id = 0xFFFF;
     }
     player = NULL;
     if (get_trap_type() != 0xFFFF && get_trap_type() < 0x1000) {
