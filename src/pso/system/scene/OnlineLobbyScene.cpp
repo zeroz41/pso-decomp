@@ -105,11 +105,11 @@ int clear_keyboard_input_flag(void);
 // The run_*_frame callers test this as an int, while SystemBootInit defines it bool.
 s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
-int request_main_phase(int);
 extern s32 lbl_805D5718;
 s32 load_area_scene_and_init(void *);
 }
 void set_fallback_main_phase(s32 phase);
+void request_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);
 void deactivate_keyboard(void);
 extern "C" {

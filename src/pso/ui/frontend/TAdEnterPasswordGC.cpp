@@ -1,4 +1,5 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
@@ -32,11 +33,8 @@ typedef void (TAdEnterPasswordGC::*StateHandler)();
 #pragma explicit_zero_data on
 TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC::input_buffer = { 0 };
 #pragma explicit_zero_data off
-extern "C" {
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 extern s32 password_entry_dispatch_state;
-void request_main_phase(s32 arg0);
-}
 
 void TAdEnterPasswordGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;

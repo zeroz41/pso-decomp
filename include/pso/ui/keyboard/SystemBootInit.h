@@ -16,8 +16,8 @@ s32 switch_to_fallback_main_phase(void);
 extern "C" {
 void set_keyboard_input_flag(void);
 void clear_keyboard_input_flag(void);
-void request_main_phase(s32 phase);
 }
+void request_main_phase(s32 phase);
 void reset_main_phase_state(void);
 // Calls TFogCtrl::clear_split_screen_fog().
 void forward_clear_split_screen_fog(void);

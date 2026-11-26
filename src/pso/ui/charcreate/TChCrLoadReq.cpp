@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
@@ -24,8 +25,6 @@
 #pragma readonly_strings on
 const char *TChCrLoadReq::name = "TChCrLoadReq";
 #pragma pop
-
-extern "C" void blend_creation_proportion_shapes(f32 *point);
 
 // A node tree is valid when no node, child, sibling or model pointer lies in the low 2 MB.
 s32 is_node_tree_valid(NJS_OBJECT *object) {

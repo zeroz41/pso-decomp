@@ -26,4 +26,7 @@ LAYOUT_ASSERT(TCMCharacterSize, sizeof(TCMCharacter)==0x10C);
 LAYOUT_ASSERT(CreationShapeRelOffset, offsetof(TCMCharacter,shape_rel)==0xFC);
 LAYOUT_ASSERT(CreationShapeRelSizeOffset, offsetof(TCMCharacter,shape_rel_size)==0x100);
 LAYOUT_ASSERT(CreationShapeReadyOffset, offsetof(TCMCharacter,shape_rel_ready)==0x104);
+// Blends the character-creation proportion morph shapes for one point.
+void blend_creation_proportion_shapes(f32 *point);
+
 #endif

@@ -594,7 +594,7 @@ force_active:
   - reset_main_phase_state__Fv
   - process_raw_key__16KeyboardKeyStateFP16KeyboardKeyStateUcPUl
   - reset_port_if_connected__16KeyboardKeyStateFUc
-  - TKeyBoardControl__sub_80290D10
+  - clear_main_menu_scene_flag__16TKeyBoardControlFv
   - noop_keyboard_callback
   - on_keyboard_type_event
   - TKeyBoardControl_key_bit_table

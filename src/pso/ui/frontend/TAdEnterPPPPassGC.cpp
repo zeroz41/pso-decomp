@@ -1,4 +1,5 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/network/NetworkConnect.h"
@@ -28,11 +29,8 @@ const char *TAdEnterPPPPassGC::name = "TAdEnterPPPPassGC";
 
 typedef void (TAdEnterPPPPassGC::*StateHandler)();
 
-extern "C" {
 extern s32 password_entry_dispatch_state;
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
-void request_main_phase(int);
-}
 
 void TAdEnterPPPPassGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;

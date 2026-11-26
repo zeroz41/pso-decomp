@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80290CB0.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/main_loop.h"
@@ -15,12 +14,12 @@ void TKeyBoardControl::update_main_menu_scene() {
     set_fallback_main_phase(2);
     set_queued_main_phase(6);
     if ((u8) main_menu_scene_active_flag != 0) {
-        TKeyBoardControl__sub_80290D10();
+        clear_main_menu_scene_flag();
         switch_to_fallback_main_phase();
         return;
     }
     init_creation_menu_scene();
     render_tick();
 }
-void TKeyBoardControl__sub_80290D10(void) { (*(unsigned char *)&main_menu_scene_active_flag) = 0; }
+void TKeyBoardControl::clear_main_menu_scene_flag() { main_menu_scene_active_flag = 0; }
 

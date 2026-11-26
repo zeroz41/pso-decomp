@@ -61,13 +61,13 @@ s32 creation_motion_group(CharacterAppearanceFields *);
 void TCharaMaking__sub_8028E3A0();
 
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
-void blend_creation_proportion_shapes(f32 *);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
 extern s32 memcard_access_active;
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
 void rotate_matrix_y(int, u32);
 s32 release_texture_list(void *);
+}
 
 #pragma push
 #pragma readonly_strings on
@@ -226,7 +226,7 @@ TObjMotionAction character_making_action_table[9] = {
     { MOTION_MODE_LOOP, 0, 46, 1.0f, 0 },
 };
 // TCMCharacter class-name pointer, stored as the object name by TCMCharacter__ct (inferred)
-}
+
 const char *TCMCharacter::name = "TCMCharacter";
 extern "C" {
 // empty model part copied into every slot by init_entry_tables (inferred)
