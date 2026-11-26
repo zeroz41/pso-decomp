@@ -30,6 +30,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 
 // One selectable item: the first three item-code bytes, stored as words.
@@ -57,7 +58,6 @@ extern "C" {
 
 
 void fn_8034BE48(TObjPlayer *);
-void request_active_window_close();
 void fn_8034BE38(TObjPlayer *);
 
 }

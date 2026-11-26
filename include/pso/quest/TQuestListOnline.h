@@ -78,6 +78,9 @@ LAYOUT_ASSERT(QuestListOnline_selected_entry, (offsetof(TQuestListOnline,selecte
 LAYOUT_ASSERT(QuestListOnline_selection_stage, (offsetof(TQuestListOnline,selection_stage)==0x68));
 LAYOUT_ASSERT(QuestListOnline_sequence, (offsetof(TQuestListOnline,sequence)==0x6C));
 extern TQuestListOnline *quest_list_online_instance;
+// The downloaded quest list's .bin once decompressed, and its size.
+extern u8 *online_quest_bin_data;
+extern s32 quest_bin_decompressed_size;
 
 extern "C" {
 void copy_quest_list_data(OnlineQuestMenu &menu);

@@ -49,4 +49,6 @@ public:
 LAYOUT_ASSERT(TDeadSpot_size, sizeof(TDeadSpot) == 0xC8);
 LAYOUT_ASSERT(TUnk_80494A10_size, sizeof(TUnk_80494A10) == 0xCC);
 
+extern const char *dead_spot_class_name;
+
 #endif

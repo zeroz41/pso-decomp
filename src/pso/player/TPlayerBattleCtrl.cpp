@@ -55,6 +55,8 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/player/PlayerTrapCounts.h"
+#include "pso/object/TDeadSpot.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
@@ -114,7 +116,6 @@ const char *player_battle_ctrl_name = "TPlayerBattleCtrl";
 extern "C" {
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-extern const char *dead_spot_class_name;
 
 }
 
@@ -136,7 +137,6 @@ struct UpdateBattleIntroName { char s[16]; };
 extern "C" {
 
 
-void request_active_window_close(void);
 void __destroy_new_array(void *, void *);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);

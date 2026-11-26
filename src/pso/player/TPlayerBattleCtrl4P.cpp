@@ -60,15 +60,15 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/unk/TLobby_80103F5C.h"
+#include "pso/object/TDeadSpot.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 
 
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern "C" {
-extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 s32 TPlayerBattleCtrl4P::reload_ready;
