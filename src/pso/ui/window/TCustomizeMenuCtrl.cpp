@@ -35,7 +35,7 @@ u8 get_cast_technique_level(void *, s16);
 }
 
 extern "C" {
-extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
+extern const f32 customize_help_window_size[2] = {190.0f, 168.0f};
 }
 
 TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TObject(parent) {
@@ -43,7 +43,7 @@ TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TO
     client_id = client;
     custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
     ((TWindowBase *)custom_equip)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 0));
-    help_window = TWindowMessage::create(get_window_layout_position(0x11), lbl_8044F718, 1, client_id);
+    help_window = TWindowMessage::create(get_window_layout_position(0x11), customize_help_window_size, 1, client_id);
     help_window->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
     call_if_split_screen(help_window, client_id);
     custom_select = NULL;

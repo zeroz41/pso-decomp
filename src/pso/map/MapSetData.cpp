@@ -58,7 +58,7 @@ u8 *challenge_event_source;
 u8 *destroy_event_data;
 u8 *item_data_table_buffer;
 u8 *challenge_enemy_buffer;
-DestroyEventShuffleTableEntry *lbl_805D60B8;
+DestroyEventShuffleTableEntry *destroy_event_entries;
 ChallengeFixedEvent *challenge_event_buffer;
 s32 challenge_event_count;
 u8 *challenge_action_buffer;
@@ -167,7 +167,7 @@ void select_event_shuffle_table(s16 id) {
     copy_event_table_entry(&e, table + lo * 8);
     bswap_event_table_entry(&e);
     if (e.id == id) {
-        lbl_805D60B8 = (DestroyEventShuffleTableEntry *)((uaddr)destroy_event_data + hdr.data + e.offset);
+        destroy_event_entries = (DestroyEventShuffleTableEntry *)((uaddr)destroy_event_data + hdr.data + e.offset);
         init_event_shuffle_table(challenge_event_shuffle, e.count);
     }
 }
@@ -175,7 +175,7 @@ void select_event_shuffle_table(s16 id) {
 void TLobby::pick_random_entry() {
     PickRandomEntryOut *out = (PickRandomEntryOut *)this;
     s32 i = next_event_shuffle_entry(challenge_event_shuffle);
-    DestroyEventShuffleTableEntry e = lbl_805D60B8[i];
+    DestroyEventShuffleTableEntry e = destroy_event_entries[i];
     e.bswap();
     out->a = e.a;
     out->b = e.b;

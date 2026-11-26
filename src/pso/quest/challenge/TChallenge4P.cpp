@@ -37,7 +37,7 @@ ChallengeModeState challenge_default_settings = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
 };
 ChallengeModeState challenge4p_mode_state = {0};
-__declspec(section ".data") char lbl_804DB880[] = "theBest";
+__declspec(section ".data") char the_best_text[] = "theBest";
 
 
 

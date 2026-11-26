@@ -48,7 +48,7 @@
 #include "pso/system/SubtractiveRng.h"
 #include "pso/system/BmlResource.h"
 
-const char *lbl_805D2B10 = "";
+const char *empty_string = "";
 
 // The parent of every loaded resource file (TRelDataFile): __sinit constructs it and
 // registers its destructor, then gives disc_read_filename its empty name.
@@ -56,7 +56,7 @@ TRelDataFile resource_load_task_root;
 char player_name_copy_buffer[16];
 
 extern "C" {
-const char *disc_read_filename = lbl_805D2B10;
+const char *disc_read_filename = empty_string;
 }
 
 s32 *get_player_name_copy_buffer(void) {
@@ -75,8 +75,8 @@ void clear_player_name_copy_buffer(void) {
 }
 
 AdxfHandle **lobby_checked_read_ptr_table[4] = { 0, 0, 0, 0 };
-s32 lbl_80499A10[4] = { 0, 0, 0, 0 };
-uaddr lbl_80499A20[4] = { 0, 0, 0, 0 };
+s32 lobby_checked_read_sector_counts[4] = { 0, 0, 0, 0 };
+uaddr lobby_checked_read_buffers[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
 u8 lobby_font_texture_loaded;
 AdxfHandle **pending_file_read_handle_ref;
@@ -88,7 +88,7 @@ s32 quest_download_server_ready;
 u8 lobby_state_byte_flag;
 u8 lobby_wait_ready_flag;
 u8 area_transfer_pending_flag;
-extern void *lbl_8049C5E0[15];
+extern void *er_mes_texnames[15];
 char load_file_prc_buffer_tag[] = "MallocLoadFilePrc";
 typedef struct {
     const char *str;
@@ -800,15 +800,15 @@ void *lobby_font_texture_prs_data[2768] = {
     (void *)0xffc0ffff, (void *)0xaac0ffff, (void *)0xc0ffffc0, (void *)0xffffc0ff,
     (void *)0xffaac0ff, (void *)0xffc0ffff, (void *)0xc0ffcf00, (void *)0x0,
 };
-void *lbl_8049C5E0[15] = {
+void *er_mes_texnames[15] = {
     (void *)"er_mes01", (void *)0x0, (void *)0x0, (void *)"er_mes02",
     (void *)0x0, (void *)0x0, (void *)"er_mes03", (void *)0x0,
     (void *)0x0, (void *)"er_mes04", (void *)0x0, (void *)0x0,
     (void *)"er_mes05", (void *)0x0, (void *)0x0,
 };
 extern "C" {
-__declspec(section ".data") void *lbl_8049C61C[2] = {
-    (void *)&lbl_8049C5E0, (void *)0x5,
+__declspec(section ".data") void *er_mes_texlist[2] = {
+    (void *)&er_mes_texnames, (void *)0x5,
 };
 }
 
@@ -885,8 +885,8 @@ void TLobby::flush_checked_reads() {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        if (lobby_checked_read_ptr_table[i] != NULL && lbl_80499A10[i] != 0 && lbl_80499A20[i] != 0) {
-            ADXF_ReadNw(*lobby_checked_read_ptr_table[i], lbl_80499A10[i], (void *)lbl_80499A20[i]);
+        if (lobby_checked_read_ptr_table[i] != NULL && lobby_checked_read_sector_counts[i] != 0 && lobby_checked_read_buffers[i] != 0) {
+            ADXF_ReadNw(*lobby_checked_read_ptr_table[i], lobby_checked_read_sector_counts[i], (void *)lobby_checked_read_buffers[i]);
         }
     }
 }
@@ -897,23 +897,23 @@ void TLobby::clear_player_slot_tables(s32 n) {
     if (n == -1) {
         for (i = 0; i < 4; i++) {
             lobby_checked_read_ptr_table[i] = 0;
-            lbl_80499A10[i] = 0;
-            lbl_80499A20[i] = 0;
+            lobby_checked_read_sector_counts[i] = 0;
+            lobby_checked_read_buffers[i] = 0;
             lbl_80499A30[i] = 0;
         }
         return;
     }
     lobby_checked_read_ptr_table[n] = 0;
-    lbl_80499A10[n] = 0;
-    lbl_80499A20[n] = 0;
+    lobby_checked_read_sector_counts[n] = 0;
+    lobby_checked_read_buffers[n] = 0;
     lbl_80499A30[n] = 0;
 }
 
 void TLobby::set_entry_params(s32 index, s32 sector_count, s32 buffer) {
     saddr handle = (saddr)this;
     lobby_checked_read_ptr_table[index] = (AdxfHandle **)handle;
-    lbl_80499A10[index] = sector_count;
-    lbl_80499A20[index] = buffer;
+    lobby_checked_read_sector_counts[index] = sector_count;
+    lobby_checked_read_buffers[index] = buffer;
 }
 
 #pragma push
@@ -931,7 +931,7 @@ void TLobby::draw_fullscreen_texture_quad() {
     v[3] = 432.0f;
     v[5] = v[4] = 0.0f;
     v[7] = v[6] = 1.0f;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_8049C61C));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(er_mes_texlist));
     begin_screen_draw(0);
     set_draw_texture_and_color((saddr)this, -1);
     draw_textured_quad_at_depth(v, (0.5f));
@@ -940,7 +940,7 @@ void TLobby::draw_fullscreen_texture_quad() {
 
 void TLobby::release_menu_font() {
     if (lobby_font_texture_loaded) {
-        release_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_8049C61C));
+        release_texture_list(reinterpret_cast<NJS_TEXLIST *>(er_mes_texlist));
     }
     lobby_font_texture_loaded = 0;
 }
@@ -950,7 +950,7 @@ void TLobby::load_font_texture() {
     if (file != 0) {
         s32 r;
         prs_decompress_buffer(lobby_font_texture_prs_data, file);
-        r = load_gvm_texture_archive(file, (NJS_TEXLIST *)lbl_8049C61C);
+        r = load_gvm_texture_archive(file, (NJS_TEXLIST *)er_mes_texlist);
         tmp_buf_release("FONT");
         lobby_font_texture_loaded = 1;
         if (r == -1) {

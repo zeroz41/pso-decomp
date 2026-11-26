@@ -410,7 +410,7 @@ saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
         goto block_6;
     }
 block_6:
-    return (saddr)lbl_805D2B10;
+    return (saddr)empty_string;
 }
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {
     if (item != 0) {

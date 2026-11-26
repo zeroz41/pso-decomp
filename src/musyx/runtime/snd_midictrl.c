@@ -4,7 +4,7 @@
 
 extern "C" {
 
-const u8 lbl_8047C310[134] = {
+const u8 midi_ctrl_cold_reset_values[134] = {
     0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 64, 127, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -16,7 +16,7 @@ const u8 lbl_8047C310[134] = {
     64, 0, 0, 0, 64, 0,
 };
 
-const u8 lbl_8047C398[134] = {
+const u8 midi_ctrl_warm_reset_values[134] = {
     255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127, 255, 255, 255, 255,
     255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
     255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127, 255, 255, 255, 255,
@@ -199,7 +199,7 @@ void inpSetMidiCtrl14(u8 ctrl, u8 channel, u8 set, u16 value) {
 }
 
 void inpResetMidiCtrl(u8 midi, u8 midiSet, u32 coldReset) {
-    const u8 *src = coldReset != 0 ? lbl_8047C310 : lbl_8047C398;
+    const u8 *src = coldReset != 0 ? midi_ctrl_cold_reset_values : midi_ctrl_warm_reset_values;
     u8 *dst;
     s32 i;
 

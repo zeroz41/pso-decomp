@@ -1417,7 +1417,7 @@ saddr TItemData::calc_buy_price() {
             return get_item_description_text(0x1F4);
         }
     }
-    return (saddr)lbl_805D2B10;
+    return (saddr)empty_string;
 }
 }
 
@@ -1435,7 +1435,7 @@ const char *format_item_description(TItemData *item) {
         } else {
             name = p->id;
             if (name == 0x1F4) {
-                return lbl_805D2B10;
+                return empty_string;
             }
             if (item->data1.data_u8[0] == 0) {
                 if (item->is_rare_item() != 0 && item->check_item_flags() == 0) {
@@ -1461,7 +1461,7 @@ const char *format_item_description(TItemData *item) {
         }
     return out;
     }
-    return lbl_805D2B10;
+    return empty_string;
 }
 
 void TItemData::format_item_name(char *buf) {

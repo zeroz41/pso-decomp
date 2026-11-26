@@ -38,7 +38,7 @@ s16 lbl_805D371C = -1;
 char *lobby_current_slot_entry = "";
 
 extern "C" {
-u32 lbl_804CB838[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
+u32 ar_stack_index[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 }
 // [0] and [1] play the music, [2] the cue stream ("can't create ADXT-BGM #%d", "can't create ADXT-SE #%d").
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
@@ -129,10 +129,10 @@ void start_bgm_stream(s32 index) {
 
 __declspec(section ".data") s32 music_slot_cues[2];
 __declspec(section ".data") s32 music_slot_progress[2];
-__declspec(section ".data") s32 lbl_80514CF0[2];
+__declspec(section ".data") s32 music_slot_sample_counts[2];
 __declspec(section ".data") f32 music_fade_volumes[2];
 __declspec(section ".data") char music_slot_entries[2][0x20];
-u8 lbl_80514D40[0x218];
+u8 music_afs_work_buffer[0x218];
 
 extern TLoadCtrlProgram *music_programs[];
 
@@ -162,7 +162,7 @@ void init_music_sequencer(s32 program) {
     music_slot_cues[1] = music_slot_cues[0] + 1;
     music_sequencer_passage_index = 0;
     music_passage_index = 1;
-    open_afs_file_wait_input(190, music_program->archive, lbl_80514D40, 128);
+    open_afs_file_wait_input(190, music_program->archive, music_afs_work_buffer, 128);
     ADXT_EntryAfs(adxt_players[0], 190, music_slot_cues[0]);
     ADXT_EntryAfs(adxt_players[0], 190, music_slot_cues[1]);
     adxt_start_seamless(adxt_players[0]);
@@ -235,7 +235,7 @@ void update_music_sequencer(void) {
     ADXT_EntryAfs(adxt_players[0], 190, music_slot_cues[music_fade_slot_index]);
     music_fade_slot_index = 1 - music_fade_slot_index;
     music_slot_progress[music_fade_slot_index] = 0;
-    lbl_80514CF0[music_fade_slot_index] = adxt_get_num_samples(adxt_players[music_fade_slot_index]);
+    music_slot_sample_counts[music_fade_slot_index] = adxt_get_num_samples(adxt_players[music_fade_slot_index]);
 }
 
 void set_dark_falz_music_request(s32 request) {
@@ -575,7 +575,7 @@ void init_adx_audio_system(void) {
     setup_adx_file_systems(NULL);
     init_runtime_threads(NULL);
     SND_HOOKS hooks = snd_hooks;
-    ARInit(lbl_804CB838, 6);
+    ARInit(ar_stack_index, 6);
     ARQInit();
     AIInit(NULL);
     VISetPostRetraceCallback(post_retrace_callback);

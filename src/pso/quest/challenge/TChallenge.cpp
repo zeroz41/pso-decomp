@@ -672,10 +672,10 @@ void TChallenge::run_task() {
 
 void *lbl_8048D0B0[22] = {
     (void *)0x6368616c, (void *)0x6c656e67, (void *)0x65000000, (void *)0x53004300,
-    (void *)0x51000000, (void *)&lbl_805D90D0, (void *)&lbl_805D90D4, (void *)&lbl_805D90D8,
-    (void *)&lbl_805D90DC, (void *)&lbl_805D90E0, (void *)&lbl_805D90E4, (void *)&lbl_805D90E8,
-    (void *)&lbl_805D90EC, (void *)&lbl_805D90F0, (void *)&lbl_805D90F4, (void *)&lbl_805D90F8,
-    (void *)&lbl_805D90FC, (void *)0x0, (void *)0x0, (void *)0x0,
+    (void *)0x51000000, (void *)&challenge_label_N, (void *)&challenge_label_C, (void *)&challenge_label_0,
+    (void *)&challenge_label_1, (void *)&challenge_label_2, (void *)&challenge_label_3, (void *)&challenge_label_4,
+    (void *)&challenge_label_5, (void *)&challenge_label_6, (void *)&challenge_label_7, (void *)&challenge_label_8,
+    (void *)&challenge_label_E, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0,
 };
 

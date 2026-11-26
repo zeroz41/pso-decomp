@@ -658,7 +658,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                         disc_read_filename = (const char *)descriptor->archive_filename;
                         st.read_data(buf, size);
                         st.align_read_offset(blk);
-                        disc_read_filename = lbl_805D2B10;
+                        disc_read_filename = empty_string;
                         prs_decompress_buffer(buf, resource_decompress_buffer);
                         safe_free(buf);
                         LoadBinModelSub(this, size, i, resource_decompress_buffer);
@@ -669,7 +669,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                 default:
                     st.read_data(resource_decompress_buffer, size);
                     st.align_read_offset(blk);
-                    disc_read_filename = lbl_805D2B10;
+                    disc_read_filename = empty_string;
                     LoadBinModelSub(this, size, i, resource_decompress_buffer);
                     break;
                 }

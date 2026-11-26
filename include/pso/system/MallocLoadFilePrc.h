@@ -12,7 +12,7 @@ class TObject;
 // The name copy_name last copied (16 characters, not terminated when full).
 extern char player_name_copy_buffer[16];
 // What __sinit stores into disc_read_filename: an empty file name.
-extern const char *lbl_805D2B10;
+extern const char *empty_string;
 void flag_pending_area_transfer(void);
 void reset_to_fallback_main_phase(void);
 void request_pending_file_read_flush(void);
