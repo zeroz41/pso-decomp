@@ -47,7 +47,6 @@ s32 reflect_matrix_in_plane(s32, f32 *, f32);
 }
 s32 knuckle_second_hand_pass;
 
-extern s32 knuckle_marker_joint_table[];
 void TItemWeaponFist::transform_model_node() {
     MirrorPlane plane;
     if ((get_model_node_counter() == 0) && (get_item_index() == 3) && (knuckle_second_hand_pass != 0)) {
