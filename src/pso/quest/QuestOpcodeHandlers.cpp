@@ -427,7 +427,7 @@ void append_entered_item_name_pair(void) {
 
 void TLobby::append_float_value(s32 reg) {
     char buf[64];
-    sprintf(buf, "%f", ((f32 *)qst_registers)[reg]);
+    sprintf(buf, "%f", qst_registers[reg].f);
     append_string(buf);
 }
 
@@ -4133,10 +4133,10 @@ void qst_op_particle(u8 regs) {
 
 void qst_op_particle2() {
     Vec v;
-    f32* p = &((f32*)qst_registers)[qst_args[0].i];
-    v.x = p[0];
-    v.y = p[1];
-    v.z = p[2];
+    QuestValue *p = &qst_registers[qst_args[0].i];
+    v.x = p[0].f;
+    v.y = p[1].f;
+    v.z = p[2].f;
     uaddr r = (uaddr)create_timed_particle_emitter(&v, qst_args[1].i, 0, (s32)qst_args[2].f);
     if (r != 0) {
         ((TParticleCtrl *)r)->set_flags(0x40);
