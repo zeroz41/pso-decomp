@@ -14,7 +14,7 @@ struct TWindowSubInformationBoard : public TObject {
     static const char *class_name;
     TWindowSubInformationBoard(TObject *parent, s32 client);
     virtual ~TWindowSubInformationBoard();
-    u32 open_card_info_window();
+    TWindowMessage *open_card_info_window();
     u8 state;
     u8 _pad1D[0x3];
     s32 client;
@@ -32,7 +32,7 @@ struct TWindowSubInformationBoard : public TObject {
     void set_page(s32 page);
     void set_message_index(s32 index);
     static TKeyBoardControl *open_keyboard(saddr parent);
-    u32 show_card_a7();
+    TWindowMessage *show_card_a7();
     TWindowMenu *create_info_board_menu();
     u32 create_board_menu();
     u8 unk_44[0x8D0];

@@ -76,11 +76,11 @@ void TWindowSubInformationBoard::run_task() {
     switch (this->state) {
     case 0:
     case 1:
-        if ((u32) this->menu_window == 0U) {
+        if (this->menu_window == NULL) {
             this->menu_window = create_info_board_menu();
         }
-        if ((u32) this->message_window == 0U) {
-            this->message_window = (TWindowMessage *)open_card_info_window();
+        if (this->message_window == NULL) {
+            this->message_window = open_card_info_window();
         }
         this->menu_window->clear_flag_and_release();
         this->state = 2U;
@@ -90,7 +90,7 @@ void TWindowSubInformationBoard::run_task() {
             parent_menu->on_submenu_closed();
             this->state = 0xCU;
         } else if (this->menu_window->is_decided() != 0) {
-            if ((u32) this->message_window != 0U) {
+            if (this->message_window != NULL) {
                 this->message_window->close();
                 this->message_window = 0U;
             }
@@ -118,8 +118,8 @@ void TWindowSubInformationBoard::run_task() {
         if ((u32) this->page_menu == 0U) {
             this->page_menu = create_board_menu();
         }
-        if ((u32) this->message_window == 0U) {
-            this->message_window = (TWindowMessage *)show_card_a7();
+        if (this->message_window == NULL) {
+            this->message_window = show_card_a7();
         }
         this->state = 7U;
     case 7:
@@ -137,7 +137,7 @@ void TWindowSubInformationBoard::run_task() {
         this->state = 5U;
         break;
     case 9:
-        if ((u32) this->menu_window != 0U) {
+        if (this->menu_window != NULL) {
             this->menu_window->close();
             this->menu_window = 0U;
         }
@@ -218,20 +218,20 @@ u32 TWindowSubInformationBoard::create_board_menu() {
     return (uaddr)w;
 }
 
-u32 TWindowSubInformationBoard::open_card_info_window() {
+TWindowMessage *TWindowSubInformationBoard::open_card_info_window() {
     static const f32 size[2] = {188.0f, 160.0f};
     TWindowMessage *window;
     window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA5), size, 1);
     this->shown_index = -1;
-    return (uaddr)window;
+    return window;
 }
 
-u32 TWindowSubInformationBoard::show_card_a7() {
+TWindowMessage *TWindowSubInformationBoard::show_card_a7() {
     static const f32 size[2] = {206.0f, 180.0f};
     TWindowMessage *window;
     window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA7), size, 1);
     this->shown_index = -1;
-    return (uaddr)window;
+    return window;
 }
 
 TKeyBoardControl *TWindowSubInformationBoard::open_keyboard(saddr parent) {
