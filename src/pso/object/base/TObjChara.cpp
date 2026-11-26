@@ -119,6 +119,8 @@
 #include "pso/unk/TObjFreezeShell.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TLobby_800FD78C.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/render/DebugFont.h"
 
 
 class TObjPlayer;
@@ -151,11 +153,9 @@ struct CharaResetView {
 
 extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
-s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 void * find_entity_by_id(s32 id);
 s32 record_damage_stats(void *, void *, void *);
-void matrix_mult_vec(s32, void *, void *);
 extern const f64 angle_units_per_radian;
 extern TObjCollidable *entity_table[];
 extern const f64 newton_sqrt_half;
@@ -163,7 +163,6 @@ extern const f64 newton_sqrt_three;
 extern const char meseta_label_text[];
 extern const char miss_label_text[];
 extern s32 current_floor_index;
-extern TObject *tl_07;
 void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
