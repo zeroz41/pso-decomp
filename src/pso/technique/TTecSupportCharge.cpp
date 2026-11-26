@@ -10,13 +10,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
 extern "C" {
-__declspec(section ".data") u32 TObjLight__support_charge_effect_ids[2] = {0x1F4, 0x1F5};
+__declspec(section ".data") u32 support_charge_effect_ids[2] = {0x1F4, 0x1F5};
 }
 
 void TTecSupportCharge::run_task() {
     ++age;
     if(age%10==0) {
-        for(int i=0;i<2;++i)spawn_particle_effect(&position,TObjLight__support_charge_effect_ids[i]);
+        for(int i=0;i<2;++i)spawn_particle_effect(&position,support_charge_effect_ids[i]);
     }
     if(!actor->check_flag_0x80())queue_destruction();
     else if(age>=180)queue_destruction();

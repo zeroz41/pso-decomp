@@ -926,7 +926,7 @@ void TObjEneBm9Mericarol::state_damaged(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~0x28;
-        TBoss8Dragon__sub_800BB7D4(this, 0xF2);
+        debug_effect_hook(this, 0xF2);
         play_sound_effect(remap_sound_for_area(0x3AA0C), &position, 0, 0);
         return;
     case 3:
@@ -968,7 +968,7 @@ void TObjEneBm9Mericarol::state_die(s32 reason) {
         clear_child_flags();
         flags &= ~0x28;
         refresh_and_send_entity_flags();
-        TBoss8Dragon__sub_800BB7D4(this, 0xF2);
+        debug_effect_hook(this, 0xF2);
         state_step = 0;
         slide_speed = 0.0f;
         play_sound_effect(remap_sound_for_area(0x3AA0B), &position, 0, 0);

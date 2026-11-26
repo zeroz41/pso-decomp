@@ -328,7 +328,7 @@ void TCharaMaking::update_body_parts() {
     u8 *base = (u8 *)this;
     validate_player_visual_record(base + 0x85C);
     *(f32 *)((s8 *)base + 0xD48) = calc_character_height((CharacterAppearanceFields *)(base + 0x85C));
-    TCharaMaking__bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(base + 0x8B8),
+    bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(base + 0x8B8),
         reinterpret_cast<CharacterTextureLoadSet *>(base + 0xA24),
         reinterpret_cast<CharacterTextureLoadSet *>(base + 0xB90),
         reinterpret_cast<CharacterAppearanceFields *>(base + 0x85C));
@@ -440,7 +440,7 @@ s32 validate_player_visual_record(void *record) {
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)31); }
-void TCharaMaking__bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextureLoadSet *head, CharacterTextureLoadSet *body, CharacterAppearanceFields *appearance) {
+void bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextureLoadSet *head, CharacterTextureLoadSet *body, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
   CharacterTextureList **hairTextures;
   CharacterTextureList **headTextures;

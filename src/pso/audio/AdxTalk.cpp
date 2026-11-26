@@ -72,7 +72,7 @@ s32 adx_check_packet_header(u16 *p, s32 size, s32 *out) {
     *out = size;
     return 1;
 }
-s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
+s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *out_data_start) {
     s32 a7;
     s32 a8;
     s32 a9;
@@ -90,7 +90,7 @@ s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
     if (adx_parse_header_info((u8 *)hdr, size, &len, &b3, &b4, &b5, &b6, &a7, &a8, &a9) < 0) {
         return 0;
     }
-    *arg2 = len;
+    *out_data_start = len;
     return 1;
 }
 }

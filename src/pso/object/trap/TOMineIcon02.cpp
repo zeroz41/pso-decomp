@@ -18,9 +18,8 @@ const char *mine_icon02_name = "TOMineIcon02";
 void TOMineIcon02::vfunc_84() {  }
 
 void TOMineIcon02::spawn_blast_particle() {
-    saddr arg0 = (saddr)this;
-    spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8E);
-    spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8E);
+    spawn_particle_effect(&body_center, 0x8E);
+    spawn_particle_effect(&body_center, 0x8E);
 }
 
 void *TOMineIcon02::create(void *set_data) {

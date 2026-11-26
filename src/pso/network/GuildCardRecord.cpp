@@ -205,12 +205,12 @@ char *build_text_from_comma_list(char *list) {
     return get_shared_text_buffer();
 }
 
-void TLobby__sub_8024259C(saddr entry) {
+void jump_to_guild_card_owner(GuildCardRecord *entry) {
     if (TLobby::protocol_instance != NULL) {
         memset(lobby_ship_name, 0, 0x11);
-        strncpy(lobby_ship_name, (char *)(entry + 0x19), 0x10);
+        strncpy(lobby_ship_name, entry->s19, 0x10);
         lobby_ship_name[0x10] = 0;
-        TLobby::protocol_instance->seq_jump((u8 *)(entry + 0x4C), *(TPlyMeetUserExtension *)(entry + 0x58));
+        TLobby::protocol_instance->seq_jump(entry->f4C, entry->ext);
     }
 }
 #pragma pop

@@ -2601,8 +2601,8 @@ void TAdSinglePlyChrSelectGC::reset_save_header() {
   volatile unsigned long long now;
   u64 serial_number;
   memset(system_save_payload, 0, 0x11C);
-  system_save_payload->version_4 = -0x32;
-  system_save_payload->flags_6 = 0;
+  system_save_payload->music_stream_gain = -0x32;
+  system_save_payload->cue_stream_gain = 0;
   system_save_payload->language = TLanguage::get_default_language();
   system_save_payload->clock_offset_frames = default_clock_offset_frames();
   system_save_payload->field_c = 0;

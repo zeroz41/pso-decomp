@@ -697,7 +697,7 @@ void TObjEneMe3Stelth::state_fade_in(s32 reason) {
         VecCopy(&v, &position);
         v.y = body_y - 20.0f;
         if (stealthed == 0) {
-            TBoss3Volopt__sub_800D8D88((saddr)&v);
+            play_appear_effects((saddr)&v);
         } else {
             create_timed_particle_emitter((u8 *)&position, 0x79, 0, 0xF);
         }
@@ -788,7 +788,7 @@ void TObjEneMe3Stelth::state_ambush(s32 reason) {
         this->fade.start_fade_in();
         VecCopy(&pos, &this->position);
         pos.y = this->body_y - 10.0f;
-        TBoss3Volopt__sub_800D8D88((saddr)&pos);
+        play_appear_effects((saddr)&pos);
         break;
     case 3:
         if (this->fade.advance_toward_max() != 0) {

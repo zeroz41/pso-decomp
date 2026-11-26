@@ -686,7 +686,7 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
         this->refresh_and_send_entity_flags();
         play_sound_effect(this->remap_sound_for_area(0x3A826), &this->position, 0, 0);
         this->requested_action = 0xB;
-        TBoss8Dragon__sub_800BB7D4(this, 0xF1);
+        debug_effect_hook(this, 0xF1);
         this->substate = 0;
         this->stopping_distance = this->calc_anim_speed(this->action_table[7].speed);
         this->sink_depth = 0.0f;
@@ -764,7 +764,7 @@ void TObjEneBm5GibonU::hurt_state(s32 msg) {
     switch (msg) {
     case 4:
         this->clear_intangible();
-        TBoss8Dragon__sub_800BB7D4(this, 0xF1);
+        debug_effect_hook(this, 0xF1);
         this->state_timer = 0;
         this->target_heading = 0;
         this->requested_action = 6;

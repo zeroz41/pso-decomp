@@ -34,8 +34,8 @@ struct CharacterBufferTable {
 struct SystemSaveData {
     s32 fields_equal(SystemSaveData *other);
     u32 checksum;
-    s16 version_4;
-    s8 flags_6;
+    s16 music_stream_gain;
+    s8 cue_stream_gain;
     s8 language;
     s32 clock_offset_frames;
     s16 field_c;
@@ -120,7 +120,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 has_matching_entry(void *character);
     static CreationTextureCacheEntry *find_free_slot();
     static s32 evict_char_entries(s32 limit);
-    void update_char_panels();
     static void free_global();
     static void render(void *self);
     TWindowMenu *create_chr_warp(NJS_POINT2 *pos);

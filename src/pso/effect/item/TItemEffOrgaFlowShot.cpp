@@ -52,13 +52,13 @@ extern "C" {
 int olga_flow_subordinate_actions_enabled;
 }
 
-void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0) {
+void send_6xAD_olga_flow_subordinate_boss_actions(u8 *actions) {
     Send6xADOlgaFlowSubordinateBossActionsB b;
     s32 i;
     if (is_local_client_floor_leader() != 0) {
         build_6xAD_olga_flow_subordinate_boss_actions(&b);
         for (i = 0; i < 0x40; i++) {
-            b.d[i] = arg0[i];
+            b.d[i] = actions[i];
         }
         ((TItemEffOrgaFlowShot *)(&b))->bswap_6xAD_subordinate_action();
     }

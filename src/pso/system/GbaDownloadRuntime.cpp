@@ -142,23 +142,23 @@ u8 gba_download_update_graph() {
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 GbaJoybootState gba_joyboot_states[1];
 
-struct DateStamp_8032C9A8 { s32 days; s32 mins; s32 ticks; };
+struct DayMinuteTicks { s32 days; s32 mins; s32 ticks; };
 
 struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
 
 #pragma push
 #pragma fp_contract on
-void stamp_joyboot_image(s32 arg0, s32 arg1) {
+void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
     u32 secs;
     Rec_8032C9A8 rec;
-    DateStamp_8032C9A8 ds;
+    DayMinuteTicks ds;
     u8 *obj;
     u8 *st;
     memset(&rec, 0, 0xC);
     obj = gba_joyboot_send_buffer;
     st = TAdSinglePlyChrSelectGC::get_global_state();
     if (st != 0) {
-        if (arg1 != 0) {
+        if (stamp_enabled != 0) {
             getDateStamp((DateStamp *)&ds);
             DateToSeconds((DateStamp *)&ds, (int *)&secs);
             secs = 100.0f * (3.0517578e-05f * rand()) + secs;

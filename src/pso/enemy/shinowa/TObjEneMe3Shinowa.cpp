@@ -696,7 +696,7 @@ void TObjEneMe3Shinowa::state_fade_appear(s32 reason) {
         VecCopy(&pos, &position);
         y = body_y;
         pos.y = y - 20.0f;
-        TBoss3Volopt__sub_800D8D88((saddr)&pos);
+        play_appear_effects((saddr)&pos);
         return;
     case 3:
         if (fade.advance_toward_max() != 0) {

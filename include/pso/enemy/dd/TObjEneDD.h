@@ -143,11 +143,11 @@ void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
 void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src);
-void TBoss8Dragon__sub_800BB7D4(void *self, int id);
+void debug_effect_hook(void *self, int id);
 CsnHit *enemy_turn_and_move_xz_clamped(TObjEneDD_ST *self, s32 max_step, f32 distance);
 CsnHit *enemy_turn_and_move_xz_slide(TObjEneDD_ST *self, s32 max_step, f32 distance);
 CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale);
-void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
+void debug_effect_hook_scaled(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
 CsnHit *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentSpeed);
 

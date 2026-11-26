@@ -679,13 +679,13 @@ s32 TRaderMapCore__sub_801A6D00(ControllerInputContext *pad, s32 mask) {
     return (mask & 0xFFFFFF0F) | ((mask << 0x16) & 0x3C000000);
 }
 
-s32 pack_flags__13TRaderMapCoreFii(s32 pad, s32 mask) {
+s32 pack_button_mask(s32 pad, s32 mask) {
     return (mask & 0xFF0FFFFF) | ((mask << 0x16) & 0x3C000000);
 }
 }
 
 s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask) {
-    return (pad->not_held & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+    return (pad->not_held & pack_button_mask((saddr)pad, mask)) != 0;
 }
 extern "C" {
 
@@ -694,7 +694,7 @@ s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
 }
 
 s32 test_pressed_buttons_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->pressed_with_sticks & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+    return (((ControllerInputContext *)pad)->pressed_with_sticks & pack_button_mask((saddr)pad, mask)) != 0;
 }
 
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
@@ -706,7 +706,7 @@ s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
 }
 
 s32 test_previous_buttons_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->held_with_sticks & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+    return (((ControllerInputContext *)pad)->held_with_sticks & pack_button_mask((saddr)pad, mask)) != 0;
 }
 }
 
@@ -716,14 +716,14 @@ s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(ControllerInputContext *input,
 }
 
 s32 TRaderMapCore::apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period) {
-    u32 mask = pack_flags__13TRaderMapCoreFii(input, buttons);
+    u32 mask = pack_button_mask(input, buttons);
     return check_packed_flag_match((ControllerInputContext *)input, mask, delay, period);
 }
 
 extern "C" {
 
 s32 test_buttons_press_or_repeat(ControllerInputContext *pad, s32 buttons, s32 delay, s32 period) {
-    u32 mask = pack_flags__13TRaderMapCoreFii((saddr)pad, buttons);
+    u32 mask = pack_button_mask((saddr)pad, buttons);
     return input_press_or_repeat(pad, mask, delay, period);
 }
 }

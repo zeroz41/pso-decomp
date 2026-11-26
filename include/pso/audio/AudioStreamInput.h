@@ -64,7 +64,6 @@ s16 *audio_stream_get_write_window(void *state_ptr, s32 *out_offset, s32 *out_av
 }
 
 // audio_stream_input_pool: layout known from its uses only.
-struct AudioStreamInputPool { s32 value; u8 remaining[0x9BC]; };
-extern AudioStreamInputPool audio_stream_input_pool;
+extern AudioStreamInputState audio_stream_input_pool[16];
 
 #endif

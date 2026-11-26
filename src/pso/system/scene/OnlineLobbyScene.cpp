@@ -99,7 +99,7 @@
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 
 
-struct Pair_801A3CFC { s32 f0; s32 f4; };
+struct UdpTestGameEntry { s32 f0; s32 f4; };
 
 extern "C" {
 int clear_keyboard_input_flag(void);
@@ -185,7 +185,7 @@ FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { update_battle_params, NULL },
     { clear_boss6_player_snapshots, NULL },
 };
-Pair_801A3CFC lobby_udp_test_game_entries[2] = {
+UdpTestGameEntry lobby_udp_test_game_entries[2] = {
     {0x9D6D3202, 0},
     {0x9D6D3201, 0},
 };

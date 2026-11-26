@@ -44,10 +44,8 @@ typedef struct AudioStreamGetWriteWindowState {
 
 
 
-struct Rec_803C0018 { u8 state; u8 pad[0x9B]; };
 
-
-AudioStreamInputPool audio_stream_input_pool;
+AudioStreamInputState audio_stream_input_pool[16];
 
 extern "C" {
 void adxb_exec_wav_pcm16(AdxbDecoder *adxb);
@@ -116,8 +114,8 @@ struct AudioStreamGetOutputSamplesObject;
 void process_audio_stream_inputs(void) {
     s32 i;
     for (i = 0; i < 0x10; i++) {
-        if ((s32)((Rec_803C0018 *)&audio_stream_input_pool)[i].state == 1) {
-            process_audio_stream_input((AudioStreamInputState *)(&((Rec_803C0018 *)&audio_stream_input_pool)[i]));
+        if ((s32)audio_stream_input_pool[i].in_use == 1) {
+            process_audio_stream_input(&audio_stream_input_pool[i]);
         }
     }
 }
@@ -332,14 +330,14 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
     SjRingBuffer *ring = rings[0];
     s32 size;
     for (i = 0; i < 0x10; i++) {
-        if (((AudioStreamInputState *)&audio_stream_input_pool)[i].in_use == 0) {
+        if (audio_stream_input_pool[i].in_use == 0) {
             break;
         }
     }
     if (i == 0x10) {
         return NULL;
     }
-    st = &((AudioStreamInputState *)&audio_stream_input_pool)[i];
+    st = &audio_stream_input_pool[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
     st->decoder = AdxbDecoder::alloc_record(channels, (saddr)buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
@@ -371,11 +369,11 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
 }
 
 void adxb_finish(void) {
-    memset((&audio_stream_input_pool.value), 0, 0x9C0);
+    memset(audio_stream_input_pool, 0, sizeof(audio_stream_input_pool));
 }
 void adxb_init(void) {
     AdxbDecoder::clear_pool();
-    memset(&audio_stream_input_pool.value, 0, 0x9C0);
+    memset(audio_stream_input_pool, 0, sizeof(audio_stream_input_pool));
 }
 void adxb_exec_one_wav(AdxbDecoder *adxb) {
     s16 encoding;

@@ -556,7 +556,7 @@ force_active:
   - TItemDrop__data_805D53CC
   - TItemDrop__data_805D53D0
   - gsl_adxf_handle
-  - TItemDrop__gsl_entry_count
+  - gsl_entry_count
   - __ct__13TItemEffArmorFP10TObjPlayerff
   - __ct__13TItemEffEquipFP7TObjectUslll
   - class_name__13TItemEffFlame
@@ -1728,7 +1728,7 @@ force_active:
   - floor_switch_table__7TSwitch
   - switch_name
   - __ct__8TTecAntiFPvPvPvl
-  - TTecAnti__self_effect_rows
+  - anti_self_effect_rows
   - spawn_anti_range_effect__8TTecAntiFv
   - setup_params__8TTecAntiFv
   - class_name__8TTecAnti
@@ -1753,7 +1753,7 @@ force_active:
   - __ct__11TTecRaZondeFlP3Vecl
   - TTecRaZonde_class_name
   - __ct__9TTecRestaFPvPvPvl
-  - TTecResta__self_recovery_effect_table
+  - resta_self_recovery_effect_table
   - __ct__9TTecRestaFPvPvl
   - __ct__12TTecReverserFllll
   - __ct__9TTecSiftaFPvPvPvl
@@ -1764,7 +1764,7 @@ force_active:
   - is_first_bank__18TPlyDispConfigSmthFv
   - TWindowChat__sub_80247D50
   - is_cancelled__15TSymbolChatMenuFv
-  - TWindowComCard__class_name
+  - -TWindowCtrl__name	symbol
   - __ct__14TWindowComCardFPC10NJS_POINT2Pv
   - __dt__22TWindowComCardFollowerFv
   - com_card_window_descriptor
@@ -1783,7 +1783,7 @@ force_active:
   - TWindowDD__sub_80346FC0
   - layout_entries__17TWindowDuelResult
   - TWindowEffectLight__sub_802AD040
-  - TWindowEffectParty__name
+  - class_name__18TWindowEffectParty	symbol
   - TWindowFukidasi__sub_80249788
   - clear_received_guild_cards__Fl
   - item_layout_entries__15TWindowHelpItem
@@ -1797,7 +1797,7 @@ force_active:
   - show_armor_resistances__15TWindowHelpItemFv
   - show_shield_resistances__15TWindowHelpItemFv
   - show_mag_stats__15TWindowHelpItemFv
-  - TWindowKeyBoardHard__name
+  - class_name__19TWindowKeyBoardHard	symbol
   - apply_dakuten_to_last_char__18KeyboardTextBufferFv
   - window_duel_result_descriptor
   - would_overflow_with__18KeyboardTextBufferFUs
@@ -1823,7 +1823,7 @@ force_active:
   - class_name__21TWindowSubComCardList
   - update_matching_card
   - draw_window_scanline__FPUclP17WindowDrawContextf
-  - sub_80249220__20TWindowChoiceSettingFPC10NJS_POINT2l
+  - set_popup_size__20TWindowChoiceSettingFPC10NJS_POINT2l	symbol
   - TWindowSubComCard__sub_80272640
   - TWindowSubComCard__sub_802728CC
   - TWindowSubComCard__sub_80272A98
@@ -6456,7 +6456,7 @@ force_active:
   - remove_from_pack_member_list__16TObjEneBm5GibonUFv
   - __as__17GuildCardSlotBaseFRC17GuildCardSlotBase
   - forward_to_channel__6TLobbyFPv
-  - forward_to_matching_card__17TWindowSubComCardFPvPvi
+  - copy_card_to_matching_slot__FP17GuildCardSlotBaseP13GuildCardSlotl
   - fragmentinfo
   - frame_menu_selection__14CreationCameraFv
   - free__23TAdSinglePlyChrSelectGCFv
@@ -6912,7 +6912,7 @@ force_active:
   - hanging_ceiling_motion_index
   - has_armor_with_unit_slot__FP14TWindowSubItemi
   - has_at_most_one_player__15TObjSoloPlayWinFv
-  - has_inactive_card__17TWindowSubComCardFPvi
+  - has_inactive_card__FP13GuildCardSlotl
   - has_no_active_slot__FP12TObjEneSlime
   - has_photon_blast__8MagStatsFUc
   - has_serial_input__22TAdEnterSerialAccessGCFv
@@ -8287,7 +8287,7 @@ force_active:
   - class_name__9TTecResta
   - class_name__9TTecSifta
   - name__9TTecZarua
-  - TWindowBreakIn__name
+  - -TWindowChallengeResult__name	symbol
   - TWindowChallengeResult__name
   - lbl_805D38B0
   - class_name__24TWindowMessageInfomation
@@ -15325,7 +15325,7 @@ force_active:
   - send_field_state__5TItemFsP10TObjPlayer
   - send_giveup_to_all_players__6TLobbyFv
   - send__15G_GoGoBall_6x79Fv
-  - send_guild_card__17TWindowSubComCardFv
+  - update_in_card_file__14GuildCardEntryFv
   - send__23G_UpdateEntityStat_6x9AFv
   - send_login3__9TProtocolFv
   - send_obj_position_event__10TEndingPicFl

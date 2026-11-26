@@ -66,7 +66,7 @@ const char empty_gsl_path[4] = "";
 char *gsl_archive_path_buffer_ptr = (char *)gsl_archive_entries;
 saddr gstream_tmp_buffer;
 AdxfHandle *gsl_adxf_handle;
-s32 TItemDrop__gsl_entry_count;
+s32 gsl_entry_count;
 s32 TItemDrop__data_805D53CC;
 s32 TItemDrop__data_805D53D0;
 s32 gstream_read_offset;
@@ -210,7 +210,7 @@ GslArchiveEntry *find_gsl_entry(const char *name, s32 unused) {
         return 0;
     }
     e = gsl_archive_entries;
-    for (i = 0; i < TItemDrop__gsl_entry_count; i++, e++) {
+    for (i = 0; i < gsl_entry_count; i++, e++) {
         if (strcmp(e->name, name) == 0) {
             return e;
         }
@@ -252,17 +252,17 @@ void open_gsl_archive(char *name) {
                 TLobby::run_frame();
             }
             TLobby::reset_read_state();
-            TItemDrop__gsl_entry_count = 0;
+            gsl_entry_count = 0;
             e = gsl_archive_entries;
             for (i = 0; i < 0xFF; i++, e++) {
                 if ((s8)e->name[0] == 0) {
-                    TItemDrop__gsl_entry_count = i;
+                    gsl_entry_count = i;
                     return;
                 }
             }
         }
     } else {
-        TItemDrop__gsl_entry_count = 0;
+        gsl_entry_count = 0;
         TItemDrop__data_805D53D0 = 1;
         *gsl_archive_path_buffer_ptr = 0;
     }
@@ -386,7 +386,7 @@ void reset_gstream_globals(void) {
     gsl_archive_filename[0] = 0;
     TItemDrop__data_805D53CC = 0;
     TItemDrop__data_805D53D0 = 0;
-    TItemDrop__gsl_entry_count = 0;
+    gsl_entry_count = 0;
 }
 GslArchiveEntry gsl_archive_entries[256];
 char gsl_archive_filename[32];

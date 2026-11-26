@@ -891,7 +891,7 @@ void TObjEneGyaranzo::update_fade_in() {
         behavior_flags |= 4;
         actorFlags |= 0x04000000;
         requested_action = 0;
-        TBoss3Volopt__sub_800D8D88((saddr)&body_center);
+        play_appear_effects((saddr)&body_center);
         appear_fade.start_fade_in();
         state = 1;
     case 1:

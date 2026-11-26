@@ -285,7 +285,7 @@ TCMCharacter::~TCMCharacter() {
     CreationTextureCacheEntry *end;
     for (p = creation_texture_cache, end = creation_texture_cache + CREATION_TEXTURE_CACHE_CAPACITY; p < end; p++) {
         if (p->in_use != 0) {
-            ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
+            p->release_texture_lists();
         }
     }
     free_field_FC();
@@ -437,14 +437,14 @@ void reset_creation_body_shapes() {
 }
 #pragma pop
 
-void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
     reset_creation_body_shapes();
     make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_body_shape_destination);
     for (s32 i = 0; i < 7; ++i) {
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[0][i], (NodeFlagEntry *)&creation_body_shape_samples[i]);
     }
 }
-void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
     reset_creation_head_shapes();
     make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_head_shape_destination);
     s32 head = appearance->head + 1;
@@ -531,8 +531,8 @@ void TCMCharacter::apply_character_appearance() {
         chara_select_head_node = creation_head_model_parts[head].model;
     }
     char_creation_data_block = (void ***)relocate_data_block_pointers(reinterpret_cast<saddr>(this->shape_rel), this->shape_rel_size);
-    TCharaMaking__bind_body_shape_nodes(app, this->model);
-    TCharaMaking__bind_head_shape_nodes(app, (void *)chara_select_head_node);
+    bind_body_shape_nodes(app, this->model);
+    bind_head_shape_nodes(app, (void *)chara_select_head_node);
     blend_creation_proportion_shapes(&creation_player_character->width);
     memcard_access_active = 0;
     char_select_active_flag = 1;
@@ -545,7 +545,7 @@ void TCMCharacter::update_chara_preview() {
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
-            TCharaMaking__bind_head_shape_nodes(creation_player_character, (void *)((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
+            bind_head_shape_nodes(creation_player_character, (void *)((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
         }
         break;
     case 4: {
@@ -586,26 +586,26 @@ void TCMCharacter::draw_creation_figure() {
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, creation_figure_rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x460));
+        set_texture_list(&char_select_current_entry->body_textures.textures.list);
         this->draw_player_model();
         push_matrix_from((void *)get_joint_matrix(0x3A));
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x2EC));
-        TObjPlayer::play_phase_transition_sound(creation_head_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xA)].model);
+        set_texture_list(&char_select_current_entry->head_textures.textures.list);
+        TObjPlayer::play_phase_transition_sound(creation_head_model_parts[char_select_current_entry->head].model);
         pop_matrix();
-        v = creation_cap_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
+        v = creation_cap_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
             push_matrix_from((void *)get_joint_matrix(0x3B));
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x178));
+            set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
-        v = creation_hair_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
+        v = creation_hair_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
             push_matrix_from((void *)get_joint_matrix(0x3B));
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x178));
+            set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -961,7 +961,7 @@ CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance) {
     CreationTextureLoadSlot *slot;
     saddr index;
-    TCharaMaking__bind_appearance_texture_lists(&entry->hair_textures.textures, &entry->head_textures.textures, &entry->body_textures.textures, appearance);
+    bind_appearance_texture_lists(&entry->hair_textures.textures, &entry->head_textures.textures, &entry->body_textures.textures, appearance);
     index = character_display_index(reinterpret_cast<uaddr>(appearance));
     slot = &entry->hair_textures;
     if (slot->textures.present != 0) {
@@ -987,7 +987,7 @@ s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
             if (p != char_select_current_entry && p->in_use != 0 && (p->hair_textures.textures.present == 0 || p->hair_textures.complete != 0) && (p->head_textures.textures.present == 0 || p->head_textures.complete != 0) && p->body_textures.complete != 0 &&
                 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(p, creation_player_character) >= k) {
                 p->in_use = 0;
-                ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
+                p->release_texture_lists();
                 if (++n == limit) {
                     return n;
                 }
@@ -996,16 +996,15 @@ s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
     }
     return n;
 }
-void TAdSinglePlyChrSelectGC::update_char_panels() {
-    u8 *base = (u8 *)this;
-    if (((saddr) this->m_down != 0) && ((saddr) this->m_up != 0)) {
-        release_texture_list(base + 0x178);
+void CreationTextureCacheEntry::release_texture_lists() {
+    if (hair_textures.textures.present != 0 && hair_textures.complete != 0) {
+        release_texture_list(&hair_textures.textures.list);
     }
-    if (((s32) *(s32 *)((s8 *)base + 0x188) != 0) && ((s32) *(s32 *)((s8 *)base + 0x184) != 0)) {
-        release_texture_list(base + 0x2EC);
+    if (head_textures.textures.present != 0 && head_textures.complete != 0) {
+        release_texture_list(&head_textures.textures.list);
     }
-    if ((s32) *(s32 *)((s8 *)base + 0x2F8) != 0) {
-        release_texture_list(base + 0x460);
+    if (body_textures.complete != 0) {
+        release_texture_list(&body_textures.textures.list);
     }
 }
 

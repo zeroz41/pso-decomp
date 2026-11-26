@@ -119,7 +119,7 @@ void play_area_se_with_particle(Vec *position) {
     spawn_particle_effect(&v, 0xE6);
 }
 
-void TBoss3Volopt__sub_800D8D88(saddr position) {
+void play_appear_effects(saddr position) {
     const Vec *sound_position = reinterpret_cast<const Vec *>(position);
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:

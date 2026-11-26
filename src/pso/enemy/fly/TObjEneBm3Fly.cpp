@@ -980,7 +980,7 @@ void TObjEneBm3Fly::action(s32 msg) {
             nest->remove_child(this);
         }
         TBoss8Dragon__sub_800BB7DC(this);
-        TBoss8Dragon__sub_800BB7D8(this, 0xF1, 1.0f);
+        debug_effect_hook_scaled(this, 0xF1, 1.0f);
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
         TBoss3Volopt::create_breakup_mdl(bm3_fly_breakup_model, &bm3_fly_breakup_params,
                            this->texlist, &this->body_center, this->rotation_y);

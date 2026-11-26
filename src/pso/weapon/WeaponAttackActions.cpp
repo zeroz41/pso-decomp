@@ -567,7 +567,7 @@ s32 TItemWeapon::is_active_in_game() {
 
 // ---- pso/unk/text_8011F710
 
-struct Item_8011F760 { u8 pad[0x10]; s32 count; };
+struct WeaponCountRecord { u8 pad[0x10]; s32 count; };
 
 extern "C" {
 s32 add_weapon_grind(TItemWeapon *weapon, s32 amount);
@@ -584,13 +584,13 @@ s32 add_weapon_grind(TItemWeapon *weapon, s32 amount) {
 
 u32 TItemWeapon::get_attack_flags() {
     u32 flags = 0;
-    Item_8011F760 *it;
+    WeaponCountRecord *it;
     if (this->get_icon_index() == 3) {
         flags |= 2;
     } else {
         flags |= 1;
     }
-    it = (Item_8011F760 *)get_weapon_range_record(this, 0);
+    it = (WeaponCountRecord *)get_weapon_range_record(this, 0);
     if (it != 0 && it->count > 1) {
         flags |= 4;
     }
@@ -809,7 +809,7 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 // ---- pso/unk/text_80120150
 
-struct WeaponColorDescriptor_80120304 { s32 mode; NJS_ARGB first, second; };
+struct WeaponColorDescriptor { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 lbl_805DACA0;
 s16 weapon_node_material_index;
@@ -864,10 +864,10 @@ void TItemWeapon::advance_weapon_photon_phase() {
 #pragma fp_contract on
 NJS_ARGB TItemWeapon::get_weapon_color() {
     NJS_ARGB first, second;
-    WeaponColorDescriptor_80120304 *descriptor;
+    WeaponColorDescriptor *descriptor;
     f32 override_alpha;
     if (photon_color_id != -1) {
-        descriptor = (WeaponColorDescriptor_80120304 *)get_photon_color_record(photon_color_id);
+        descriptor = (WeaponColorDescriptor *)get_photon_color_record(photon_color_id);
         if (descriptor->mode == 1) {
             copy_argb(&first, &descriptor->first);
             copy_argb(&second, &descriptor->second);

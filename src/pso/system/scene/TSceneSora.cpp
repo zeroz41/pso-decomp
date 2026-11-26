@@ -29,7 +29,7 @@
 #include "pso/unk/text_803D8F74.h"
 
 
-struct Ent_80207478 { s32 f0; char *name; };
+struct SceneTableEntry { s32 f0; char *name; };
 
 
 #pragma readonly_strings on
@@ -120,7 +120,7 @@ void TSceneSora::load_sky_resources() {
     FloorMapSelection ref;
     const char *models[2];
     const char *motions[2];
-    Ent_80207478 *tbl;
+    SceneTableEntry *tbl;
     s32 ok;
     AdxfHandle *p;
     BmlResource *o;
@@ -129,7 +129,7 @@ void TSceneSora::load_sky_resources() {
     has_sky_motion = 0;
     if (lookup_floor_map_selection(get_current_floor(), &ref) != 0) {
         ok = 0;
-        tbl = (Ent_80207478 *)get_floor_scene_table(ref.area);
+        tbl = (SceneTableEntry *)get_floor_scene_table(ref.area);
         TLobby::replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
         if (TRaderMapCore::is_not_split_screen() == 1) {
             TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);

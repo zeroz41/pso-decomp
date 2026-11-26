@@ -10,7 +10,7 @@ extern u8 gba_identifier_value;
 extern s16 gba_identifier_slot_plus_1;
 
 void gba_init(void);
-void stamp_joyboot_image(s32 arg0, s32 arg1);
+void stamp_joyboot_image(s32 unused, s32 stamp_enabled);
 void probe_gba_device(void);
 void gba_clear_identifiers(void);
 void reset_joyboot_state(void *p);

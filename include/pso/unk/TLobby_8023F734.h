@@ -90,7 +90,6 @@ void sound_request_voice_update_pitch(struct SoundRequestVoice *v);
 void TLobby__sub_80240F38(void);
 void TLobby__sub_80241A0C(void);
 void TLobby__sub_802422EC(void *dst, void *src);
-void TLobby__sub_8024259C(saddr entry);
 void reset_com_card_list_callback(void);
 }
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index);

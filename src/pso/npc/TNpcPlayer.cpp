@@ -1009,7 +1009,7 @@ void PartnerCounters::reset(s32 index) { count[index] = 0; }
 void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
 void __sinit_TNpcPlayer_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(npc_player_char_data), (void *)__dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
+    __register_global_object(__ct__12TPlyCharDataFv(npc_player_char_data), __dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
 }
 
 void TNpcPlayer::ensure_rock_singleton() {

@@ -18,6 +18,8 @@ struct GuildCardEntry {
     void set_text(char *text);
     void clear_and_fill_from_char(s32 index);
     void fill_from_char(s32 index);
+    // Updates the matching card of the guild card file (update_matching_card); 1 if the file has it.
+    s32 update_in_card_file();
 
     TPlyGuildCardTag tag;
     char name[0x18];

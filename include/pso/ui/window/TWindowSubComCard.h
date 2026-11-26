@@ -50,8 +50,8 @@ struct TWindowSubComCard : public TObject {
     u8 _pad1E[0x2];
     uaddr client_id;
     uaddr selected_card;
-    uaddr m_28;
-    uaddr m_2c;
+    uaddr shown_message;  // help or card index last written to message_window, -1 for none
+    uaddr wait_ticks;  // frames waited in state 0x26 before giving up
     ChoiceSearchSelection choice_selections[5];
     // The options the server offered, taken from get_choice_search_options once they arrive.
     TRecvChoiceSearchOptions *search_options;
@@ -97,7 +97,6 @@ struct TWindowSubComCard : public TObject {
     static void swap_cards(s32 first_index, s32 second_index);
     static s32 init_com_card();
     static void remove_card_at(s32 i);
-    s32 send_guild_card();
     static void start_player_data_load(s32 ply_guild_card_tag);
     static s32 count_active_cards();
     static s32 count_leading_active(GuildCardEntry *cards, s32 count);

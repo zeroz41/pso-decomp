@@ -279,9 +279,9 @@ int TObjEnemy::submit_default_cursor_candidate() { return submit_cursor_candidat
 
 void TBoss8Dragon__sub_800BB7DC(void *self) {  }
 
-void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale) {  }
+void debug_effect_hook_scaled(void *self, s32 id, f32 scale) {  }
 
-void TBoss8Dragon__sub_800BB7D4(void *self, int id) {  }
+void debug_effect_hook(void *self, int id) {  }
 
 void TBoss8Dragon::noop() {  }
 

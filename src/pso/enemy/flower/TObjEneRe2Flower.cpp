@@ -381,7 +381,7 @@ s32 TObjEneRe2Flower::check_hit_flag() {
 
 void TObjEneRe2Flower::start_hit_cooldown() {
     if (hit_cooldown == 0) {
-        TBoss8Dragon__sub_800BB7D4(this, 0xF2);
+        debug_effect_hook(this, 0xF2);
         hit_cooldown = 20;
     }
 }

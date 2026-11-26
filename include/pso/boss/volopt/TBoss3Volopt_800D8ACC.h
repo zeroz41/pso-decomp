@@ -13,7 +13,7 @@ void trigger_dell_biter_events(const Vec *pos);
 void spawn_ground_effect(const Vec *pos, s32 duration);
 void spawn_effect_at_ground(const Vec *pos, s32 duration);
 
-void TBoss3Volopt__sub_800D8D88(saddr position);
+void play_appear_effects(saddr position);
 extern "C" void spawn_particles_at__12TBoss3VoloptFi(saddr position);
 
 // Photon blast summons switch the player particle effects off while they hold the scene.
