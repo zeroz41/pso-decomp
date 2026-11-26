@@ -1,3 +1,5 @@
+#include "pso/weapon/TItemWeaponTwinChakram.h"
+#include "pso/weapon/TItemWeaponRocketPunch.h"
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/player/TEquippedItemDrawTask.h"
 #include "pso/enemy/EnemyStateRecord.h"
@@ -281,7 +283,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponSealedJSword::create,
     create_common_weapon,
     create_common_weapon,
-    TObjPlayer::create_twin_chakram,
+    TItemWeaponTwinChakram::create,
     TItemWeaponWokOfAkikosShop::create,
     TItemWeaponLavisBlade::create,
     TItemWeaponDagger::create,
@@ -298,7 +300,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponHandgun::create,
     TItemWeaponFrozenShooter::create,
     TItemWeaponSpecialGun::create,
-    TObjPlayer::create_trade_action_state,
+    TItemWeaponRocketPunch::create,
     TItemWeaponSambaMaracas::create,
     TItemWeaponTwinPsychogun::create,
     TItemWeaponDrillLauncher::create,

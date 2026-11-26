@@ -1,3 +1,4 @@
+#include "pso/technique/TTecZonde.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/math/ClampedStep.h"
 #include "types.h"
@@ -25,7 +26,7 @@ void TItemWeaponPsychoWand::activate_effect(s32 effect) {
         if (get_current_floor() == owner->get_floor()) {
             switch (effect) {
             case 0:
-                TObjPlayer::create_tec_zonde(owner, &cast_point, &targets, 10);
+                TTecZonde::create(owner, &cast_point, &targets, 10);
                 return;
             case 1:
                 TTecFoie::create(owner, &cast_point, cast_rotation_y, 10);
@@ -86,7 +87,7 @@ void TItemWeaponPsychoWand::emit_marker_effects() {
 }
 
 void TItemWeaponPsychoWand::transform_model_node() {
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 2:
         rotate_matrix_z(NULL, rotation_z);
         return;

@@ -30,7 +30,7 @@ public:
     f32 lifetime;  // tick_lifetime destroys it once age passes this
     s32 m_74;
     s16 level;
-    s16 band;  // TObjPlayer::get_level_tier(level)
+    s16 band;  // get_technique_level_tier(level)
     Vec target;  // where the circle travels to before it spreads
     TechniqueParams params;  // calc_technique_parameters for the cast's level; range is the radius the area grows to
     u16 sourceId;

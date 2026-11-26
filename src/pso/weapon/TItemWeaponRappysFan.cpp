@@ -116,7 +116,7 @@ void TItemWeaponRikasClaw::update_idle() { add_angle_clamped(&spin_angle, 1820, 
 void TItemWeaponRikasClaw::draw_held_model() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
 
 void TItemWeaponRikasClaw::transform_model_node() {
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
         rotate_matrix_z(0, spin_angle);
         break;

@@ -9,7 +9,7 @@
 #include "pso/unk/text_803D8F74.h"
 
 void TItemWeaponMechgun::transform_model_node() {
-    if ((s32) this->effectJoint == TObjPlayer::get_player_list()) {
+    if ((s32) this->effectJoint == get_model_node_counter()) {
         rotate_matrix_y(0, this->effectAngle);
     }
 }

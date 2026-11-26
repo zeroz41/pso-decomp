@@ -76,7 +76,7 @@ void TItemWeaponWindmill::emit_marker_effects() {
 }
 
 void TItemWeaponWindmill::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 3) {
+    if (get_model_node_counter() == 3) {
         rotate_matrix_x(0, rotation);
     }
 }

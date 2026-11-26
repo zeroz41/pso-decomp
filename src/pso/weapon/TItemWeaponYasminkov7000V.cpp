@@ -13,7 +13,7 @@
 
 
 // Yasminkov 7000V (inferred)
-void TItemWeaponYasminkov7000V::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { post_translate_matrix(&this->model_offset.x); } }
+void TItemWeaponYasminkov7000V::transform_model_node() { if (get_model_node_counter() == 1) { post_translate_matrix(&this->model_offset.x); } }
 
 #pragma push
 #pragma opt_common_subs off

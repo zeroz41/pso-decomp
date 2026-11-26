@@ -20,7 +20,7 @@ void TItemWeaponSlicer::transform_model_node() {
 
     switch (get_item_index()) {
     case 5:
-        player_list = TObjPlayer::get_player_list();
+        player_list = get_model_node_counter();
         switch (player_list) {
         case 1:
             rotate_matrix_x(0, rotation);
@@ -31,7 +31,7 @@ void TItemWeaponSlicer::transform_model_node() {
         }
         break;
     case 7:
-        switch (TObjPlayer::get_player_list()) {
+        switch (get_model_node_counter()) {
         case 4:
             post_translate_matrix(&scale.x);
             return;

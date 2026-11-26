@@ -18,7 +18,7 @@ void TItemWeaponLavisCannon::emit_marker_effects() {
 }
 
 void TItemWeaponLavisCannon::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 2) {
+    if (get_model_node_counter() == 2) {
         rotate_matrix_z(NULL, rotation_z);
         advance_angle_wrap(&rotation_z, 0x1999);
     }

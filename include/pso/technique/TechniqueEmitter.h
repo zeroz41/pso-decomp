@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// One particle emitter an area technique places for a band (TObjPlayer::get_level_tier): the
+// One particle emitter an area technique places for a band (get_technique_level_tier): the
 // particle entry, flags (0x40 scales the emitter by scale, 0x20 attaches the technique model
 // numbered by the high half) and the scale.
 struct TechniqueEmitter {

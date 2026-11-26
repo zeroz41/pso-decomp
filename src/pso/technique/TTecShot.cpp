@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecShot.h"
+#include "pso/technique/TTecCtrl.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -148,7 +149,7 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
     } else {
         this->level = level;
     }
-    this->band = TObjPlayer::get_level_tier(this->level);
+    this->band = get_technique_level_tier(this->level);
     this->color.a = 1.0f;
     this->color.r = 1.0f;
     this->color.g = 1.0f;
@@ -205,7 +206,7 @@ TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
     } else {
         this->level = level;
     }
-    this->band = TObjPlayer::get_level_tier(this->level);
+    this->band = get_technique_level_tier(this->level);
     this->color.a = 1.0f;
     this->color.r = 1.0f;
     this->color.g = 1.0f;

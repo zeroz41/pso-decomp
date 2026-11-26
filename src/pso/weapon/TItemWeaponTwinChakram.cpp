@@ -9,7 +9,7 @@ TItemWeaponTwinChakram::TItemWeaponTwinChakram(TObject *parent, u8 *item) : TIte
     set_weapon_flags(0x600);
 }
 
-TItem *TObjPlayer::create_twin_chakram(u8 *item) {
+TItem *TItemWeaponTwinChakram::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponTwinChakram(tl_05, item);
     }

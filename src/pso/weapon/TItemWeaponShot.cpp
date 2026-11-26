@@ -14,7 +14,7 @@ void TItemWeaponShot::transform_model_node() {
     s32 node;
     s32 angle;
 
-    node = TObjPlayer::get_player_list();
+    node = get_model_node_counter();
     if (get_item_index() != 6) {
         if (node == slide_node) {
             translate_matrix(0, 0.0f, slide_offset, 0.0f);

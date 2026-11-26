@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 
-void TItemWeaponPanthersClaw::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { scale_current_matrix(&scale.x); } }
+void TItemWeaponPanthersClaw::transform_model_node() { if (get_model_node_counter() == 1) { scale_current_matrix(&scale.x); } }
 
 void TItemWeaponPanthersClaw::update_idle() {
     if (1e-05f < scale.z) {

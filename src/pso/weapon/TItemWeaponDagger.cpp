@@ -9,7 +9,7 @@
 
 void TItemWeaponDagger::transform_model_node() {
     if (get_item_index() == 5) {
-        s32 n = TObjPlayer::get_player_list();
+        s32 n = get_model_node_counter();
         switch (n) {
         case 3:
         case 4:

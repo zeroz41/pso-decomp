@@ -34,7 +34,7 @@ void TItemWeaponDarkMeteor::update_idle() { ::add_angle_clamped(&rotation_z, 182
 
 void TItemWeaponDarkMeteor::transform_model_node() {
     u32 player_list;
-    player_list = TObjPlayer::get_player_list();
+    player_list = get_model_node_counter();
     switch (player_list) {
     case 2:
     case 5:

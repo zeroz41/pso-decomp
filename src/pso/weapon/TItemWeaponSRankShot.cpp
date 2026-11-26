@@ -15,10 +15,10 @@ s32 s_rank_shot_marker_offsets[5] = {0, 0x888, -0x888, 0x11C7, -0x11C7};
 
 // Spins the barrels by barrel_angle (the name s_rank_shot_turn_barrels was inferred).
 void TItemWeaponSRankShot::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         rotate_matrix_z(NULL, barrel_angle);
     }
-    if (TObjPlayer::get_player_list() == 4) {
+    if (get_model_node_counter() == 4) {
         rotate_matrix_z(NULL, -barrel_angle);
     }
 }

@@ -17,7 +17,7 @@ public:
     virtual void run_task();
     TParticleCtrl **emitters; // one per part of grants_effect_emitter_table[tier]
     s32 sound;                // play_sound_effect handle, stopped by the dtor
-    s32 tier;                 // TObjPlayer::get_level_tier(level)
+    s32 tier;                 // get_technique_level_tier(level)
     s32 level;                // technique level, clamped to 0..30
     s16 timer;                // frames since spawn; the effect ends at 30
     u16 owner_id;             // entity id of the target the effect follows

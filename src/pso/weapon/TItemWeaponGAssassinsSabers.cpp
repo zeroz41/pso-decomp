@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponGAssassinsSabers::transform_model_node() {
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
         rotate_matrix_x(NULL, pass1_angle);
         return;

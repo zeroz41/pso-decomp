@@ -11,7 +11,7 @@ void TItemWeaponSBeatsBlade::update_idle() { ::add_angle_clamped(&rotation_x, 18
 void TItemWeaponSBeatsBlade::update_attack() { ::add_angle_clamped(&rotation_x, -1820, 0); }
 
 void TItemWeaponSBeatsBlade::transform_model_node() {
-    if (TObjPlayer::get_player_list() > 0) {
+    if (get_model_node_counter() > 0) {
         rotate_matrix_x(NULL, rotation_x);
     }
 }

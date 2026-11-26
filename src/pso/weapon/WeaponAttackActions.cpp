@@ -820,7 +820,7 @@ extern const u8 lbl_805DACA4;
 }
 
 void apply_weapon_node_material(NJS_OBJECT *) {
-    const s32 node = TObjPlayer::get_player_list();
+    const s32 node = get_model_node_counter();
     TItem::end_material_color();
     TItem::end_effect_render();
     ((TItem *)weapon_render_callback_object)->end_particle_tev();

@@ -11,6 +11,8 @@ public:
     virtual void draw_held_model();
     TItemWeaponPArmsBlade(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
+    // Nonzero on 30% of calls: the blade keeps its photon colour then.
+    s32 is_rand_below_threshold();
     s16 get_photon_color_id();
     void set_photon_color_id(s16);
 };

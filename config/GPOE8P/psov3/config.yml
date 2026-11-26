@@ -7327,7 +7327,7 @@ force_active:
   - is_primary_sequence__12TBoss1DragonFv
   - is_printable_key__19TWindowKeyBoardHardFUc
   - is_rader_map_active__17TObjCityDoor_WarpFv
-  - is_rand_below_threshold__10TObjPlayerFv
+  - is_rand_below_threshold__21TItemWeaponPArmsBladeFv
   - is_remote__16G_ClientIDHeaderFv
   - is_render_deferred__7TObjectFv
   - is_rock_valid__10TBoss6RockFl

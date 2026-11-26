@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/technique/TTecCtrl.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -35,7 +36,7 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     } else {
         this->level = level;
     }
-    this->band = TObjPlayer::get_level_tier(this->level);
+    this->band = get_technique_level_tier(this->level);
     this->color.a = 0.2f;
     this->color.r = 1.0f;
     this->color.g = 1.0f;
@@ -82,7 +83,7 @@ TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
     } else {
         this->level = level;
     }
-    this->band = TObjPlayer::get_level_tier(this->level);
+    this->band = get_technique_level_tier(this->level);
     this->color.a = 0.2f;
     this->color.r = 1.0f;
     this->color.g = 1.0f;

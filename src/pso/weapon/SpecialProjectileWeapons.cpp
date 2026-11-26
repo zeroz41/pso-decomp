@@ -99,7 +99,7 @@ void TItemWeaponEvilCurst::update_weapon() {
 }
 
 void TItemWeaponEvilCurst::transform_model_node() {
-    switch (((u32)TObjPlayer::get_player_list())) {
+    switch (((u32)get_model_node_counter())) {
     case 1:
         rotate_matrix_y(0, swing_angle);
         return;

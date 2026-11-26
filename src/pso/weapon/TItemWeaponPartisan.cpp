@@ -36,12 +36,12 @@ void TItemWeaponPartisan::emit_marker_effects() {
 void TItemWeaponPartisan::transform_model_node() {
     switch ((s32)get_item_index()) {
     case 6:
-        if (TObjPlayer::get_player_list() == 4) {
+        if (get_model_node_counter() == 4) {
             rotate_matrix_z(NULL, rotation);
         }
         break;
     case 5:
-        switch (TObjPlayer::get_player_list()) {
+        switch (get_model_node_counter()) {
         case 1:
             post_translate_matrix(&first_translation.x);
             return;

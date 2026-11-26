@@ -11,7 +11,7 @@
 
 // Turns the blade by blade_angle (the name s_rank_windmill_turn_blade was inferred).
 void TItemWeaponSRankWindmill::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 3) {
+    if (get_model_node_counter() == 3) {
         rotate_matrix_x(NULL, blade_angle);
     }
 }

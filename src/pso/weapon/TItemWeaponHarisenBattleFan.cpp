@@ -5,7 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponHarisenBattleFan::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         scale_current_matrix(&scale.x);
     }
 }

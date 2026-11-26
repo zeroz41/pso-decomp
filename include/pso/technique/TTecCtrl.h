@@ -42,6 +42,8 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl);
 void capture_technique_targets(int kind, TObjPlayer *owner);
 
 void load_technique_resources(void);
+// The band (0..) of a technique level, one per five levels.
+s32 get_technique_level_tier(s32 level);
 // The flags the technique's caster gets from its boosts and battle values.
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 

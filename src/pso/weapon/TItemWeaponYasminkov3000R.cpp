@@ -9,7 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponYasminkov3000R::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         post_translate_matrix(&slide.x);
     }
 }

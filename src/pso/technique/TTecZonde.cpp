@@ -35,7 +35,7 @@ void TTecZonde::init_parameters() {
 
 
 
-void TObjPlayer::create_tec_zonde(void *source, void *origin, void *targets, s32 level) {
+void TTecZonde::create(void *source, void *origin, void *targets, s32 level) {
     new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
 }
 void TTecZonde::apply_to_target(TObjChara *target) {

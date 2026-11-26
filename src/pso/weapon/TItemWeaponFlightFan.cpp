@@ -12,7 +12,7 @@
 #include "pso/weapon/SlicerLaunchState.h"
 
 void TItemWeaponFlightFan::transform_model_node() {
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
         rotate_matrix_x(NULL, rotation_x);
         return;

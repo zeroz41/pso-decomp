@@ -90,7 +90,7 @@ void TItemWeaponCard::draw_held_model() {
 }
 
 void TItemWeaponCard::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 0) {
+    if (get_model_node_counter() == 0) {
         NJS_POINT3 offset = { 0.0f, 0.0f, 0.5f };
         post_translate_matrix(&offset.x);
         rotate_matrix_x(0, 0x18E3);

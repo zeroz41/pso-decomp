@@ -283,7 +283,7 @@ void increment_model_node_counter(void) {
     model_node_counter = count + 1;
 }
 
-int TObjPlayer::get_player_list() {  return model_node_counter; }
+int get_model_node_counter() {  return model_node_counter; }
 
 void TItemWeapon::set_model_node_callback(void (*callback)(NJS_OBJECT *)) { model_node_callback = callback; }
 

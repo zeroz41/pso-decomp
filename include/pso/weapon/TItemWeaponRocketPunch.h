@@ -4,12 +4,13 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/data/FlagWord.h"
 
-// The ROCKET PUNCH, weapon type 0x47 (weapon_factory_table: TObjPlayer::create_trade_action_state).
+// The ROCKET PUNCH, weapon type 0x47 (weapon_factory_table: TItemWeaponRocketPunch::create).
 // Each attack fires both fists as TItemShootRocketPunch shots (rocket_punch_create_shot).
 class TItemWeaponRocketPunch : public TItemWeapon {
 public:
     TItemWeaponRocketPunch(TObject *parent, u8 *item);
     virtual ~TItemWeaponRocketPunch();
+    static TItem *create(u8 *item);
     virtual void transform_model_node();
     virtual void draw_held_model();
     virtual void emit_marker_effects();

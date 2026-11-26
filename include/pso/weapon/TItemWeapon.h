@@ -204,5 +204,7 @@ void increment_model_node_counter(void);
 TItem *create_common_weapon(u8 *item);
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
 void reset_model_node_counter(void);
+// The model node the weapon draw callback is at (counted by increment_model_node_counter).
+int get_model_node_counter(void);
 
 #endif

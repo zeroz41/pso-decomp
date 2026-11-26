@@ -1,3 +1,4 @@
+#include "pso/technique/TTecZonde.h"
 #include "pso/system/memory.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/system/BmlResource.h"
@@ -513,7 +514,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
         if (n == 0) {
             return;
         }
-        TObjPlayer::create_tec_zonde(pl, &hand, &list, get_cast_technique_level(td, 6));
+        TTecZonde::create(pl, &hand, &list, get_cast_technique_level(td, 6));
         break;
     case 7:
         COLLECT_TARGETS()
@@ -714,7 +715,7 @@ void create_technique_charge_light(u32 kind, void *owner) {
     }
 }
 
-s32 TObjPlayer::get_level_tier(s32 level) {
+s32 get_technique_level_tier(s32 level) {
 
     switch (level / 5) {
     case 0:

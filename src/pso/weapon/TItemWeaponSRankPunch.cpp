@@ -109,7 +109,7 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
 
 void TItemWeaponSRankPunch::transform_model_node() {
     void *p;
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
         if (test_flags_any((s32 *)&flags, 2) == 0) {
             if (test_flags_any((s32 *)&flags, 1)) {

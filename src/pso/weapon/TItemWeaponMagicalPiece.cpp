@@ -1,3 +1,4 @@
+#include "pso/technique/TTecZonde.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -26,7 +27,7 @@ void TItemWeaponMagicalPiece::emit_marker_effects() {
                 targets.count = 1;
                 targets.records[0].id = e->get_uid();
                 targets.records[0].flag = e->get_captured_target_collider_index();
-                TObjPlayer::create_tec_zonde(owner, pos, &targets, 3);
+                TTecZonde::create(owner, pos, &targets, 3);
             }
         }
     } else {

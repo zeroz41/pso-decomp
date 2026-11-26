@@ -12,7 +12,7 @@
 
 
 void TItemWeaponRifle::transform_model_node() {
-    if ((get_item_index() == 5) && (TObjPlayer::get_player_list() == 3)) {
+    if ((get_item_index() == 5) && (get_model_node_counter() == 3)) {
         scale_matrix(NULL, 1.0f, barrel_scale, 1.0f);
     }
 }

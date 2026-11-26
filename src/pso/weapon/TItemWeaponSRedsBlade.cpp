@@ -36,7 +36,7 @@ void TItemWeaponSRedsBlade::on_equipped() {
 }
 
 void TItemWeaponSRedsBlade::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 1) {
+    if (get_model_node_counter() == 1) {
         rotate_matrix_x(NULL, rotation_x);
     }
 }

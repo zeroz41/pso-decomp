@@ -456,10 +456,8 @@ struct TObjPlayer : public TObjChara {
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();
     int test_flag30_bit0x100000();
-    static int get_player_list();
     s16 get_stage_strike_count();
     static void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);
-    s32 is_rand_below_threshold();
     s16 get_kill_count();
     static void set_camera_mode(s32 camera_mode);
     s16 get_evp();
@@ -754,7 +752,6 @@ struct TObjPlayer : public TObjChara {
     static s32 is_valid_technique_slot(u8 slot);
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
-    static s32 get_level_tier(s32 level);
     static s32 is_valid_and_active(uaddr actor);
     void init_select_txt();
     void copy_lobby_header(saddr player);
@@ -801,7 +798,6 @@ struct TObjPlayer : public TObjChara {
     static void spawn_appearance_effect(u16 client);
     // A weapon shot callback: news the shoot model that draws the shot.
     static saddr create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames);
-    static TItem *create_twin_chakram(u8 *item);
     static void spawn_weapon_casing(saddr parent, uaddr item, uaddr pos, uaddr velocity, uaddr angle);
     static void launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr velocity, uaddr angle);
     static void clear_photon_blast_slots();
@@ -820,7 +816,6 @@ struct TObjPlayer : public TObjChara {
     static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
-    static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
     static void new_child_object(u16 player_id);
     int is_flag_b0_4();
     static u32 spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames);
@@ -1015,7 +1010,6 @@ struct TObjPlayer : public TObjChara {
     static void spawn_fire_explosion_at_item(s32 id, saddr context);
     static void spawn_fire_explosion(uaddr a0, saddr a1);
     void push_model_fade_color();
-    static TItem *create_trade_action_state(u8 *item);
     static bool is_slot_within_limit(s32 cls, s32 tech, u8 level);
     s32 can_use_camera_field();
     void init_parts();

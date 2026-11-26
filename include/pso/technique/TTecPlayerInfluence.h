@@ -27,7 +27,7 @@ struct TTecPlayerInfluence : public TEffect {
     TechniqueParams params;  // calc_technique_parameters for the cast's level
     s32 pad_A0;
     s16 level;
-    s16 band;  // TObjPlayer::get_level_tier(level)
+    s16 band;  // get_technique_level_tier(level)
     u16 sourceId;  // the caster's entity id, looked up again every frame
     u8 pad_AA[0x2];
     s32 show_effects;  // 0 for a local player that has its effects off

@@ -68,7 +68,7 @@ struct GrantsEffectEntry { s32 effect; u32 flags; s32 pad_08; };
 
 struct GrantsEffectSet { const GrantsEffectEntry *ents; u32 count; };
 
-// Per level tier (TObjPlayer::get_level_tier): the particle emitters TTecGrantsEffect keeps alive and
+// Per level tier (get_technique_level_tier): the particle emitters TTecGrantsEffect keeps alive and
 // the effects it spawns when it ends.
 // inferred names: grants_emitter_parts_<tier> and grants_effect_entries_<tier> are the rows of
 // grants_effect_emitter_table and technique_effect_entry_table for each tier.
@@ -162,7 +162,7 @@ TTecGrantsEffect::TTecGrantsEffect(u8 *src, s32 level, TObject *parent) : TObjec
     } else if (level >= 0x1E) {
         this->level = 0x1E;
     }
-    tier = TObjPlayer::get_level_tier(this->level);
+    tier = get_technique_level_tier(this->level);
     emitters = (TParticleCtrl **)mem_alloc(grants_effect_emitter_table[tier].count * sizeof(TParticleCtrl *));
     for (i = 0; i < grants_effect_emitter_table[tier].count; i++) {
         emitters[i] = spawn_continuous_particle_effect_with_flags(&position, grants_effect_emitter_table[tier].parts[i].id, 0x10);

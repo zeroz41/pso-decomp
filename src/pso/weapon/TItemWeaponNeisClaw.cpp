@@ -59,7 +59,7 @@ void TItemWeaponNeisClaw::draw_held_model() { draw_weapon_at_joint((saddr)this, 
 void TItemWeaponNeisClaw::transform_model_node() {
     s32 player_list;
 
-    player_list = TObjPlayer::get_player_list();
+    player_list = get_model_node_counter();
     switch (player_list) {
     case 2:
         rotate_matrix_z(0, this->spin_angle);
@@ -93,7 +93,7 @@ void TItemWeaponGiGueBazooka::update_idle() { add_angle_clamped(&spin_angle, 182
 void TItemWeaponGiGueBazooka::transform_model_node() {
     s32 player_list;
 
-    player_list = TObjPlayer::get_player_list();
+    player_list = get_model_node_counter();
     switch (player_list) {
     case 2:
         rotate_matrix_x(0, this->spin_angle);

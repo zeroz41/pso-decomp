@@ -29,7 +29,7 @@ u32 baranz_launcher_create_shot(void *player, s32 pos, s32 dir, f32 life) {
 }
 
 // Baranz Launcher (inferred)
-void TItemWeaponBaranzLauncher::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_y(NULL, rotation_y); } }
+void TItemWeaponBaranzLauncher::transform_model_node() { if (get_model_node_counter() == 1) { rotate_matrix_y(NULL, rotation_y); } }
 
 
 void TItemWeaponBaranzLauncher::emit_marker_effects() {

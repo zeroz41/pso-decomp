@@ -53,7 +53,7 @@ void TItemWeaponSRankCard::emit_marker_effects() {
 }
 
 void TItemWeaponSRankCard::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 0) {
+    if (get_model_node_counter() == 0) {
         Vec offset = {0.0f, 0.0f, 0.5f};
         post_translate_matrix(&offset.x);
         rotate_matrix_x(0, 0x18E3);

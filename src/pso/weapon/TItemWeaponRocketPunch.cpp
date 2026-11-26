@@ -117,7 +117,7 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
 
 void TItemWeaponRocketPunch::transform_model_node() {
     void *model;
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
         if (test_flags_any(&punch_flags.bits, 2) == 0) {
             if (test_flags_any(&punch_flags.bits, 1)) {
@@ -159,7 +159,7 @@ TItemWeaponRocketPunch::TItemWeaponRocketPunch(TObject *parent, u8 *item) : TIte
     punch_flags.reset();
 }
 
-TItem *TObjPlayer::create_trade_action_state(u8 *item) {
+TItem *TItemWeaponRocketPunch::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponRocketPunch(tl_05, item);
     }

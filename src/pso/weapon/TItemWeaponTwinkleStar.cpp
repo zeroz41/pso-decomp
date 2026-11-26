@@ -6,7 +6,7 @@
 #include "pso/effect/item/TItemEffCane.h"
 
 void TItemWeaponTwinkleStar::transform_model_node() {
-    switch (TObjPlayer::get_player_list()) {
+    switch (get_model_node_counter()) {
     case 1:
         TItem::begin_effect_render();
         rotate_matrix_y(0, star_angle);

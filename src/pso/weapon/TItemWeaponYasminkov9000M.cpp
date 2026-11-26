@@ -19,7 +19,7 @@ void TItemWeaponYasminkov9000M::draw_held_model() {
 }
 
 void TItemWeaponYasminkov9000M::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 2) {
+    if (get_model_node_counter() == 2) {
         post_translate_matrix(&slide.x);
     }
 }

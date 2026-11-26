@@ -10,7 +10,7 @@
 
 
 void TItemWeaponImperialPick::transform_model_node() {
-    if (TObjPlayer::get_player_list() == 0) {
+    if (get_model_node_counter() == 0) {
         rotate_matrix_z(NULL, rotation_z);
     }
 }

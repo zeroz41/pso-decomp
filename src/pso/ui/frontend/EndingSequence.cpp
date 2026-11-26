@@ -130,7 +130,7 @@ TItemWeaponSBerillsHands::TItemWeaponSBerillsHands(TObject *parent, u8 *item) : 
 void TItemWeaponSBerillsHands::transform_model_node() {
     s32 player_list;
     if (pad_1f8 == 0) {
-        player_list = TObjPlayer::get_player_list();
+        player_list = get_model_node_counter();
         begin_particle_tev();
         load_projection_tex(182.04445f * (f32)(pad_1fc + player_list * 3));
     }

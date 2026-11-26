@@ -44,7 +44,7 @@ TTecPlayerInfluence::TTecPlayerInfluence(void *owner, void *pos, s32 level) : TE
   {
     this->level = level;
   }
-  band = TObjPlayer::get_level_tier(this->level);
+  band = get_technique_level_tier(this->level);
   speed = 3.0f;
   lifetime = 90.0f;
   scale.x = 1.0f;
