@@ -516,7 +516,7 @@ void TQuestVmDownLoadServer::run_task() {
         self_bytes->close();
         break;
     case 18:
-        self_bytes->sub_801F6D24();
+        self_bytes->handle_status_message_input();
         break;
     case 21:
         self_bytes->destroy();
@@ -1067,7 +1067,7 @@ void TQuestVmDownLoadServer::show_status_message(saddr text, s32 flags) {
     TMessageWindowController::display_message((const char *)text, (s32)(flags | 0x80));
 }
 void TQuestVmDownLoadServer::close_message() { if (this->message_window != 0) { TMessageWindowController::close(); this->message_window = 0; } }
-void TQuestVmDownLoadServer::sub_801F6D24() {
+void TQuestVmDownLoadServer::handle_status_message_input() {
     ControllerInputContext *p;
     if (this->message_window == 0 || TMessageWindowController::is_ready() != 0) {
         p = &controller_input_state.controllers[0];

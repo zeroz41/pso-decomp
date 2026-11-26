@@ -2291,7 +2291,7 @@ u16 TObjPlayer::get_current_target_id() {
 
 void remove_photon_blast_participant(s32 id) {
     if (TObjPlayer::shared_photon_blast_state != NULL) {
-        TObjPlayer::shared_photon_blast_state->sub_80312E98(id);
+        TObjPlayer::shared_photon_blast_state->reset_client_requests(id);
     }
 }
 

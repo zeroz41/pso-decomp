@@ -50,15 +50,15 @@ void init_technique_levels(s32 flags, u8 *counts) {
 }
 
 void TObjPlayer::setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette) {
-    palette->sub_802C46E0(0, 0, 1, 0);
-    palette->sub_802C46E0(1, 0, 1, 0);
-    palette->sub_802C46E0(0, 1, 2, 0);
-    palette->sub_802C46E0(0, 2, 2, 1);
+    palette->init_tag(0, 0, 1, 0);
+    palette->init_tag(1, 0, 1, 0);
+    palette->init_tag(0, 1, 2, 0);
+    palette->init_tag(0, 2, 2, 1);
     if (v1_flags & 0x60) {
-        palette->sub_802C46E0(0, 3, 4, 0);
+        palette->init_tag(0, 3, 4, 0);
         return;
     }
-    palette->sub_802C46E0(0, 3, 3, 0);
+    palette->init_tag(0, 3, 3, 0);
 }
 
 void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {

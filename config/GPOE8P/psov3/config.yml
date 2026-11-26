@@ -16229,7 +16229,7 @@ force_active:
   - reset_color__12TPhotonPillaFUc
   - check_dismiss_to_close_input__22TQuestVmDownLoadServerFv
   - handle_download_done_input__22TQuestVmDownLoadServerFv
-  - sub_801F6D24__22TQuestVmDownLoadServerFv
+  - handle_status_message_input__22TQuestVmDownLoadServerFv
   - build_file_info_image__22TQuestVmDownLoadServerFv
   - build_file_slot_image__22TQuestVmDownLoadServerFv
   - count_download_file_blocks__22TQuestVmDownLoadServerFv

@@ -72,7 +72,7 @@ u16 PhotonBlastRegistry::find_first_valid_target_id() {
     return 0xFFFF;
 }
 
-void PhotonBlastRegistry::sub_80312E98(s32 client_id) {
+void PhotonBlastRegistry::reset_client_requests(s32 client_id) {
     s32 n = get_photon_blast_request_count();
     saddr i;
     for (i = 0; i < n; i++) {
