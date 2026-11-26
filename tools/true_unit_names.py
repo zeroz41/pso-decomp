@@ -11,9 +11,10 @@ unit does (`ChallengeRank.cpp`) is only a fallback for units no such string name
     python tools/true_unit_names.py --all      # every unit with a stored class name, named right or not
 
 Each line is one unit: `rename` (one class name, its file is free), `swap` (that file exists and holds other
-code), `multi` (several class names, the unit is named after none of them nor after the prefix they share) or
-`fold` (it only defines the class-name string while another unit holds that class's constructor: both are
-pieces of one translation unit, so it folds into that unit rather than being renamed) or `ok`.
+code), `multi` (several class names, the unit is named after none of them, the prefix they share, nor a base
+whose constructor it holds), `fold` (it only defines the class-name string while another unit holds that class's
+constructor: both are pieces of one translation unit, so it folds into that unit rather than being renamed) or
+`ok`.
 """
 from __future__ import annotations
 
@@ -101,6 +102,7 @@ def main() -> None:
     global ROOT
     ROOT = (args.root or ROOT).resolve()
     stored, ctor_units = stored_names()
+    ctor_classes = {rel: set(CTOR.findall((ROOT / rel).read_text(errors="replace"))) for rel in stored}
     units = {rel for rel in tracked("src/*") if rel.endswith(SOURCE)}
     stems = collections.defaultdict(list)
     for rel in units:
@@ -109,8 +111,9 @@ def main() -> None:
     for rel in sorted(stored):
         names = stored[rel]
         stem = Path(rel).stem
-        # a unit named after its class: or after the family its classes share (TOHangceilingCave01Key, ...Normal)
-        if stem in names or len(names) > 1 and all(n.startswith(stem) for n in names):
+        # a unit named after its class: or after the family its classes share (TOHangceilingCave01Key, ...Normal), or
+        # after the base whose constructor it holds when only the derived classes store a name (TObjCityDoorBase)
+        if stem in names or len(names) > 1 and (all(n.startswith(stem) for n in names) or stem in ctor_classes[rel]):
             counts["ok"] += 1
             if args.all:
                 print(f"ok      {rel}")
