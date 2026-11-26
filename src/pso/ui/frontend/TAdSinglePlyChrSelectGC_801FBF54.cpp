@@ -121,7 +121,6 @@ struct Buf_801FBFD0 {
 struct Buf_801FBFD0;
 
 extern "C" {
-extern s32 memcard_access_active;
 
 // Save-message window position and size (the same rect as TSaveChCr's message window).
 static const NJS_POINT2 chr_select_save_message_window_pos = { 46.0f, 131.0f };
