@@ -52,5 +52,5 @@ TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
     align_menu_entry_positions(preset_list);
-    chat_symbol = new TWindowChatSymbol(&symbol_chat_menu_position, (saddr)&symbol_chat_menu_size);
+    chat_symbol = new TWindowChatSymbol(&symbol_chat_menu_position, &symbol_chat_menu_size);
 }

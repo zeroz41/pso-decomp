@@ -447,7 +447,7 @@ void bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextu
   CharacterTextureList *source;
   CharacterClassAppearance *class_entry;
   CharacterTextureList *head_source;
-  class_entry = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
+  class_entry = &class_appearance_table[character_display_index(appearance)];
   hair->present = 0;
   definition = class_entry;
   hairTextures = definition->hairTextures;
@@ -491,8 +491,7 @@ s32 TCharaMaking::is_end() {
     return 0;
 }
 
-s32 character_display_index(uaddr appearance_record) {
-    const CharacterAppearanceFields *appearance = reinterpret_cast<const CharacterAppearanceFields *>(appearance_record);
+s32 character_display_index(CharacterAppearanceFields *appearance) {
     u8 model;
 
     if (!(appearance->flags & 0xA)) {
@@ -594,7 +593,7 @@ void TCharaMaking::update_light_direction() {
     scene_light_state.direction.z = cos_pitch * cos_table_lookup(light_yaw);
 }
 
-s32 TCharaMaking::update_main_menu(saddr task) {
+s32 TCharaMaking::update_main_menu() {
     saddr dressing_room;
 
     if (creation_main_menu_obj->is_state_3() != 0) {
@@ -605,11 +604,11 @@ s32 TCharaMaking::update_main_menu(saddr task) {
         }
         TSaveChCr::create(dressing_room);
         end_creation_view();
-        ((TObject *)task)->queue_destruction();
+        queue_destruction();
         return 1;
     }
     if (creation_main_menu_obj->is_state_4() != 0) {
-        ((TObject *)task)->queue_destruction();
+        queue_destruction();
         TChCrCharSelect::create(tl_03);
         return 1;
     }
@@ -618,7 +617,7 @@ s32 TCharaMaking::update_main_menu(saddr task) {
 
 void TCharaMaking::run_task() {
     if (!TAdSinglePlyChrSelectGC::is_active()) return;
-    if (TCharaMaking::update_main_menu((saddr)this)) return;
+    if (update_main_menu()) return;
 }
 
 void *TCharaMaking::create(void *parent, void *appearance) {

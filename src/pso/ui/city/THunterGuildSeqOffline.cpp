@@ -399,7 +399,7 @@ void THunterGuildSeqOffline::update_state() {
     }
 }
 
-void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); impose_other_players_hold(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_state((saddr)((void*)((void*)1))); }
+void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); impose_other_players_hold(this); THunterGuildWarning::create_instance(2); set_state((saddr)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
     NJS_POINT2 window_size;

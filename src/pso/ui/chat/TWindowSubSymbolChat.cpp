@@ -122,7 +122,7 @@ void SymbolChatPreset::set_flag_bit2() {
 #pragma dont_inline off
 
 const char *TWindowSubSymbolChat::class_name = "TWindowSubSymbolChat";
-static const f32 symbol_chat_window_size[2] = {203.0f, 78.0f};
+static const NJS_POINT2 symbol_chat_window_size = {203.0f, 78.0f};
 __declspec(section ".data") f32 symbol_chat_check_box_size[2] = {193.0f, 128.0f};
 
 #pragma pop
@@ -158,7 +158,6 @@ extern "C" {
 // copies the char array at +4 with __copy and the word array at +0x1C as a block.
 struct SymbolChatPresetCopy { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
 
-extern s32 close_child__20TWindowSubSymbolChatFv[];
 }
 #pragma pop
 #pragma push
@@ -307,7 +306,7 @@ void TWindowSubSymbolChat::run_task() {
             this->main_menu = NULL;
         }
         if ((void *) this->symbol_window == NULL) {
-            this->symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
+            this->symbol_window = create_chat_symbol_window(0);
         }
         this->symbol_window->update_visibility();
         this->symbol_list = create_symbol_list_card();
@@ -369,14 +368,14 @@ void TWindowSubSymbolChat::run_task() {
             this->symbol_list = NULL;
         }
         if ((void *) this->symbol_window == NULL) {
-            this->symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
+            this->symbol_window = create_chat_symbol_window(0);
             this->symbol_window->set_selection(selected_preset);
         }
         window = (u8 *)this->symbol_window;
         copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7B))));
         this->symbol_window->tween_ticks = 6;
         if (this->main_menu == NULL) {
-            this->main_menu = TWindowSubSymbolChat::open_main_menu(this);
+            this->main_menu = open_main_menu();
         }
         this->main_menu->clear_flag_and_release();
         this->main_menu->clear_transition_flag();
@@ -679,7 +678,7 @@ void TWindowSubSymbolChat::run_task() {
             this->main_menu = NULL;
         }
         if ((void *) this->second_symbol_window == NULL) {
-            this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 1);
+            this->second_symbol_window = create_chat_symbol_window(1);
         }
         this->second_symbol_window->always_visible = 1;
         this->symbol_list = create_symbol_list_card();
@@ -790,9 +789,9 @@ void TWindowSubSymbolChat::run_task() {
 
 void TWindowSubSymbolChat::render() {  }
 
-saddr TWindowSubSymbolChat::create_chat_symbol_window(s32 unused, s32 index) {
-    s32 window_chat_symbol;
-    window_chat_symbol = (saddr)new TWindowChatSymbol(((get_window_layout_position(index + 0x7B))), (saddr)symbol_chat_window_size);
+TWindowChatSymbol *TWindowSubSymbolChat::create_chat_symbol_window(s32 index) {
+    TWindowChatSymbol *window_chat_symbol;
+    window_chat_symbol = new TWindowChatSymbol(((get_window_layout_position(index + 0x7B))), &symbol_chat_window_size);
     return window_chat_symbol;
 }
 
@@ -822,7 +821,7 @@ void TWindowSubSymbolChat::apply_symbol() {
     this->symbol_list->disable_row((s16) this->selected_list_index);
 }
 
-TWindowMenu *TWindowSubSymbolChat::open_main_menu(void * _w0) {
+TWindowMenu *TWindowSubSymbolChat::open_main_menu() {
     TWindowMenu *menu;
 
     menu = create_titled_window_menu_default(get_window_layout_position(0x78), 6, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
@@ -1059,7 +1058,7 @@ void TWindowSubSymbolChat::update_sub_window() {
         }
     } else {
         if (this->second_symbol_window == NULL) {
-            this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
+            this->second_symbol_window = create_chat_symbol_window(0);
             this->second_symbol_window->set_selection(get_symbol_chat_receive_buffer());
             this->second_symbol_window->always_visible = 1;
             copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7C))));

@@ -33,8 +33,8 @@ struct TWindowSubItem : public TObject {
     void close_windows(s32 mode);
     void exec_item_command(saddr item_id, s32 command);
     void set_cursor_row_for_mode(s32 mode);
-    static void draw_slot(saddr owner, TWindowMenu *titled_window_menu, s32 item_id);
-    static void add_meseta_purpose_actions(saddr owner, TWindowMenu *titled_window_menu);
+    void draw_slot(TWindowMenu *titled_window_menu, s32 item_id);
+    void add_meseta_purpose_actions(TWindowMenu *titled_window_menu);
     TWindowInputNumber *create_count_input(s32 maximum);
     TWindowMenu *create_menu_window();
     virtual void render();

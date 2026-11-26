@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/render/gjSystem.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
@@ -935,13 +936,13 @@ s32 TAdSinglePlyChrSelectGC::compare_save_headers(CharacterSaveRecord *record_a,
     return file_a->save_count != file_b->save_count ? 6 : 7;
 }
 
-s32 TAdSinglePlyChrSelectGC::setup(int quest_download_server) { card_load_channel = quest_download_server; TAdSinglePlyChrSelectGC::set_quest_download_server(quest_download_server); memcard_access_active = 1; return TAdSinglePlyChrSelectGC::draw_window_bg(card_load_channel, (saddr)pso_guildcard_card_filename.filename, (saddr)guild_card_save_file_buffer, guild_card_save_file_block_count); }
+s32 TAdSinglePlyChrSelectGC::setup(int quest_download_server) { card_load_channel = quest_download_server; TAdSinglePlyChrSelectGC::set_quest_download_server(quest_download_server); memcard_access_active = 1; return TAdSinglePlyChrSelectGC::draw_window_bg(card_load_channel, pso_guildcard_card_filename.filename, guild_card_save_file_buffer, guild_card_save_file_block_count); }
 
 
 int start_system_file_write(s32 chan) {
     system_save_card_channel = chan;
     memcard_access_active = 1;
-    return TAdSinglePlyChrSelectGC::draw_window_bg(chan, (saddr)&pso_system_card_filename, (saddr)system_save_file_buffer, (s32)system_save_file_block_count);
+    return TAdSinglePlyChrSelectGC::draw_window_bg(chan, pso_system_card_filename, system_save_file_buffer, (s32)system_save_file_block_count);
 }
 
 s32 pso_system_load_gc(void) {
@@ -970,7 +971,7 @@ s32 start_character_file_write(void) {
     if (chr_select_state < 2) {
         TAdSinglePlyChrSelectGC::set_quest_download_server((int)((int) ((s32) chr_select_state)));
         memcard_access_active = 1;
-        result = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, (s32)((saddr)pso_character_card_filename.filename), (saddr)character_save_file_buffer, (s32)character_save_file_block_count));
+        result = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, pso_character_card_filename.filename, character_save_file_buffer, (s32)character_save_file_block_count));
     }
     return result;
 }
@@ -983,7 +984,7 @@ s32 begin_character_card_save(void) {
     if (chr_select_state < 2) {
         TAdSinglePlyChrSelectGC::set_quest_download_server((int) ((s32) chr_select_state));
         memcard_access_active = 1;
-        result = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, (s32)((saddr)pso_character_card_filename.filename), (saddr)character_save_file_buffer, (s32)character_save_file_block_count));
+        result = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, pso_character_card_filename.filename, character_save_file_buffer, (s32)character_save_file_block_count));
     }
     card_load_sequence_state = 0x13;
     return result;
@@ -999,17 +1000,17 @@ s32 begin_character_card_save(void) {
 #pragma dont_inline on
 s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
 
-void TAdSinglePlyChrSelectGC::open_confirm_window() { memcard_access_active = 1; TAdSinglePlyChrSelectGC::draw_window_bg((saddr)1, (saddr)pso_character_card_filename.filename, (saddr)character_save_file_buffer, character_save_file_block_count); card_load_sequence_state = 18; }
+void TAdSinglePlyChrSelectGC::open_confirm_window() { memcard_access_active = 1; TAdSinglePlyChrSelectGC::draw_window_bg(1, pso_character_card_filename.filename, character_save_file_buffer, character_save_file_block_count); card_load_sequence_state = 18; }
 
 
 s32 TAdSinglePlyChrSelectGC::load_pso_system(int chan) {
     s32 r = -1;
     system_save_card_channel = chan;
     if (chan >= 0 && chan <= 7) {
-        r = TAdPlayerLoadGC::find_card_file(chan, (const char *)&pso_system_card_filename);
+        r = TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename);
         if (r == 0) {
             memcard_access_active = 1;
-            r = ((s32)TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, (const char *)&pso_system_card_filename, (system_save_file_buffer)));
+            r = ((s32)TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, pso_system_card_filename, (system_save_file_buffer)));
         }
     }
     return r;
@@ -1454,12 +1455,6 @@ s32 poll_secondary_card_load(void) {
 }
 
 
-extern "C" {
-s8 poll_reset_request__Fv(void);
-
-
-}
-
 s32 TAdSinglePlyChrSelectGC::load_selected_char() {
     s32 result;
 
@@ -1531,7 +1526,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (poll_reset_request__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
+            if (static_cast<s8>(poll_reset_request()) != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
                 if (check != NULL) {
             delete check;
         }
@@ -1562,7 +1557,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (poll_reset_request__Fv() != 0) {
+            if (static_cast<s8>(poll_reset_request()) != 0) {
                 break;
             }
             render_tick();
@@ -1616,7 +1611,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (poll_reset_request__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
+            if (static_cast<s8>(poll_reset_request()) != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
                 break;
             }
             render_tick();

@@ -9,17 +9,17 @@ struct TWindowMessage;
 class THunterGuildWarning : public TObject {
 public:
     static THunterGuildWarning * instance;
-    THunterGuildWarning(TObject *object, void *initial_mode);
+    THunterGuildWarning(TObject *object, s32 initial_mode);
     virtual ~THunterGuildWarning();
     virtual void run_task();
 public:
     static void queue_destruction();
-    static void create_instance(saddr mode);
+    static void create_instance(s32 mode);
     static s32 is_active();
     void close_windows();
     void open_warning_windows(void *unused);
 
-    saddr mode;                    // 0x1C: message set; 0 and 1 warn the local player, 2 the others
+    s32 mode;                    // 0x1C: message set; 0 and 1 warn the local player, 2 the others
     s32 timer;                   // 0x20: frames left before the task destroys itself
     TWindowMessage *windows[4];  // 0x24: one message window per player
 };

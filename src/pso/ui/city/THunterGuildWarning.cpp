@@ -31,9 +31,9 @@ void THunterGuildWarning::queue_destruction() {
     }
 }
 
-void THunterGuildWarning::create_instance(saddr mode) {
+void THunterGuildWarning::create_instance(s32 mode) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
-        new THunterGuildWarning(tl_05, (void *)mode);
+        new THunterGuildWarning(tl_05, mode);
     }
 }
 
@@ -133,9 +133,9 @@ THunterGuildWarning::~THunterGuildWarning() {
     THunterGuildWarning::instance = NULL;
 }
 
-THunterGuildWarning::THunterGuildWarning(TObject *object, void *initial_mode) : TObject(object) {
+THunterGuildWarning::THunterGuildWarning(TObject *object, s32 initial_mode) : TObject(object) {
     m_name = hunter_guild_warning_name;
-    mode = (saddr)initial_mode;
+    mode = initial_mode;
     timer = 90;
     clear_windows(this);
     open_warning_windows((void *)mode);

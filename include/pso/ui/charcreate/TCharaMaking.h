@@ -39,7 +39,7 @@ struct TCharaMaking : public TObject {
     void update_light_direction();
     virtual void run_task();
     static void *create(void *parent, void *appearance);
-    static s32 update_main_menu(saddr task);
+    s32 update_main_menu();
 };
 
 LAYOUT_ASSERT(TCharaMaking_size, sizeof(TCharaMaking) == 0x24);

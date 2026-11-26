@@ -490,7 +490,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             APPLY_TECH_RANGE(tech)
             cur->set_max_targets(tech->cursor_type);
             VecCopy(&cur->origin, &player->body_center);
-            TMainCursor::set_display_flags((saddr)this, (saddr)player, cur);
+            TMainCursor::set_display_flags(this, player, cur);
             break;
         case 9:
             tech = (TechniqueCursorParams *)calc_technique_parameters(0x11, 0xE, player->get_entity_id());
@@ -498,14 +498,14 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             APPLY_TECH_RANGE(tech)
             cur->set_max_targets(tech->cursor_type);
             VecCopy(&cur->origin, &player->body_center);
-            TMainCursor::setup_flags((saddr)this, (saddr)player, cur);
+            TMainCursor::setup_flags(this, player, cur);
             break;
         }
         break;
     case 2:
         wpn = get_weapon_range_record(TObjPlayer::get_equipped_weapon(player), id);
         activate_action_channel(cur);
-        TMainCursor::set_cursor_color((saddr)this, (saddr)player, cur);
+        TMainCursor::set_cursor_color(this, player, cur);
         cur->set_body_exclude_mask(0);
         cur->set_actor_exclude_mask(0x40800);
         VecCopy(&cur->origin, &player->body_center);
@@ -537,7 +537,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         case 8:
         case 9:
         case 18:
-            TMainCursor::set_cursor_color((saddr)this, (saddr)player, cur);
+            TMainCursor::set_cursor_color(this, player, cur);
             cur->set_body_exclude_mask(0);
             cur->set_actor_exclude_mask(0x40800);
             VecCopy(&cur->origin, &player->body_center);
@@ -557,7 +557,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         case 15:
         case 16:
             VecCopy(&cur->origin, &player->body_center);
-            TMainCursor::set_display_flags((saddr)this, (saddr)player, cur);
+            TMainCursor::set_display_flags(this, player, cur);
             break;
         case 11:
         case 12:
@@ -574,7 +574,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             break;
         case 17:
             VecCopy(&cur->origin, &player->body_center);
-            TMainCursor::setup_flags((saddr)this, (saddr)player, cur);
+            TMainCursor::setup_flags(this, player, cur);
             break;
         }
         break;
@@ -610,14 +610,14 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
 }
 #pragma pop
 
-void TMainCursor::setup_flags(s32 unused, s32 player, LockOnActionSlot *main_cursor) {
+void TMainCursor::setup_flags(TLockOnCursor *unused, TObjPlayer *player, LockOnActionSlot *main_cursor) {
     main_cursor->set_body_include_mask(0x2000);
     main_cursor->set_body_exclude_mask(0x3C000);
     main_cursor->set_actor_include_mask(0x800);
     main_cursor->set_actor_exclude_mask(0xE0000000);
 }
 
-void TMainCursor::set_display_flags(s32 unused, saddr player, LockOnActionSlot *main_cursor) {
+void TMainCursor::set_display_flags(TLockOnCursor *unused, TObjPlayer *player, LockOnActionSlot *main_cursor) {
     main_cursor->set_body_include_mask(0x2000);
     main_cursor->set_actor_include_mask(0x10000000);
     main_cursor->set_actor_exclude_mask(0xE0000800);
@@ -625,15 +625,15 @@ void TMainCursor::set_display_flags(s32 unused, saddr player, LockOnActionSlot *
         main_cursor->set_body_exclude_mask(0x30000);
         return;
     }
-    if (((TObjPlayer *)player)->get_pk_team() == 1) {
+    if (player->get_pk_team() == 1) {
         main_cursor->set_body_exclude_mask(0x40030000);
         return;
     }
     main_cursor->set_body_exclude_mask(0x40030000);
 }
 
-void TMainCursor::set_cursor_color(s32 unused, saddr player, LockOnActionSlot *main_cursor) {
-    if (((TObjPlayer *)player)->pk_state.is_enabled() != 0) {
+void TMainCursor::set_cursor_color(TLockOnCursor *unused, TObjPlayer *player, LockOnActionSlot *main_cursor) {
+    if (player->pk_state.is_enabled() != 0) {
         main_cursor->set_body_include_mask(0xA000);
         main_cursor->set_actor_include_mask(0x70000000);
         return;

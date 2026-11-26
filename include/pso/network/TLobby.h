@@ -481,7 +481,7 @@ struct TLobby : public TObject {
     static void init_buffers(int floor, u8 *quest);
     static void init_player_window_effect();
     static s32 load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 size);
-    static u8 lookup_key_value(char);
+    static u8 lookup_key_value(s8);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
     static void open_city_warp_menu();
     static void open_download_list_window(int, DownloadListEntry *);

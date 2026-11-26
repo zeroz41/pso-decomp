@@ -36,7 +36,7 @@ LAYOUT_ASSERT(CreationBodyModelStates_size, sizeof(CreationBodyModelStates) == 0
 f32 calc_character_height(CharacterAppearanceFields *appearance);
 
 // The appearance may come from a live record or a serialized player save.
-s32 character_display_index(uaddr appearance_record);
+s32 character_display_index(CharacterAppearanceFields *appearance);
 extern "C" {
 void draw_colored_hair(f32 alpha, saddr model, CharacterAppearanceFields *appearance, s32 specialColor);
 void bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model);

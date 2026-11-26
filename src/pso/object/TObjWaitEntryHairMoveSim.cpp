@@ -487,7 +487,7 @@ const char *T_OWEHMS_Exp::class_name = "T_OWEHMS_Exp";
 TObjWaitEntryHairMoveSim::~TObjWaitEntryHairMoveSim() {}
 
 TObject *create_hair_move_sim(TObjPlayer *player) {
-    if (character_display_index((uaddr)player->name) == 0xE) {
+    if (character_display_index((CharacterAppearanceFields *)player->name) == 0xE) {
         TObjTailsTailsMove::create(player);
         return 0;
     }

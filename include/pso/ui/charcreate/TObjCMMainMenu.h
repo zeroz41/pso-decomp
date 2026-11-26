@@ -77,7 +77,7 @@ public:
     void draw_footer_divider();
     void update_submenu_fade();
     void update_slide_offset();
-    static void update_random_proportion_action(void * _w0);
+    void update_random_proportion_action();
     static TObjCMMainMenu *create(TObject *parent);
     static void clear_task_state();
     static f32 get_scale();
