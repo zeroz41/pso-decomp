@@ -47,7 +47,7 @@ public:
     void enter_state_24();
     void run_state_23();
     void show_confirm_dialog();
-    void sub_802E2158();
+    void run_state_22();
     void create_result_bg();
     void build_selection_summary();
     void run_states_19_21();

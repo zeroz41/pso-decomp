@@ -98,6 +98,6 @@ TWindowSubGameEnd::TWindowSubGameEnd(TWindowMainMenu *parent, s32 client) : TObj
     state = 0;
 }
 
-void TLobby__sub_802796FC(void) { window_sub_game_end_active_flag = 0; }
+void clear_game_end_window_flag_on_floor_free(void) { window_sub_game_end_active_flag = 0; }
 
-void TLobby__sub_80279708(void) { window_sub_game_end_active_flag = 0; }
+void clear_game_end_window_flag_on_floor_load(void) { window_sub_game_end_active_flag = 0; }

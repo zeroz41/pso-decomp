@@ -116,7 +116,7 @@ static TAdTimeSetGCState time_set_state_table[25] = {
     {&TAdTimeSetGC::enter_state_19, &TAdTimeSetGC::run_states_19_21},
     {&TAdTimeSetGC::init_menu_window, &TAdTimeSetGC::run_states_19_21},
     {&TAdTimeSetGC::build_selection_summary, &TAdTimeSetGC::run_states_19_21},
-    {&TAdTimeSetGC::create_result_bg, &TAdTimeSetGC::sub_802E2158},
+    {&TAdTimeSetGC::create_result_bg, &TAdTimeSetGC::run_state_22},
     {&TAdTimeSetGC::show_confirm_dialog, &TAdTimeSetGC::run_state_23},
     {&TAdTimeSetGC::enter_state_24, &TAdTimeSetGC::update_state},
 };
@@ -631,7 +631,7 @@ void TAdTimeSetGC::create_result_bg() {
     close_and_dispatch(get_localized_text_entry(0x1C, 0x1C), -1, 0, 0);
 }
 
-void TAdTimeSetGC::sub_802E2158() {
+void TAdTimeSetGC::run_state_22() {
 }
 
 void TAdTimeSetGC::show_confirm_dialog() {

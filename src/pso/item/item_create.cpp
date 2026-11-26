@@ -460,7 +460,7 @@ ItemCreateFunction get_weapon_factory_for_item(u8 *item) {
     return create_common_weapon;
 }
 
-void TLobby__sub_80104464(void) {  }
+void unload_select_confirm(void) {  }
 void handle_select_confirm() {
     TPlyCharData *chr;
 
@@ -881,7 +881,7 @@ ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { load_item_kt_afs, TItemTexLoad::free_textures },
     { TItemEffectWeapon::initialize_static_effects, TItemEffectWeapon::free_static_effects },
     { init_item_drop_globals, unload_item_drop_globals },
-    { handle_select_confirm, TLobby__sub_80104464 },
+    { handle_select_confirm, unload_select_confirm },
     { NULL, NULL },
 };
 

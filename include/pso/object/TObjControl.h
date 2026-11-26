@@ -20,8 +20,6 @@ public:
 
 TObjChara *get_enemy_entity(u16 entity_id);
 
-extern "C" {
-void TLobby__sub_800F7744(void);
-}
+void obj_control_on_floor_free(void);
 
 #endif

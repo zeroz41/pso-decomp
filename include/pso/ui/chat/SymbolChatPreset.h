@@ -59,9 +59,7 @@ extern u8 pending_symbol_chat_count;
 
 void clear_received_symbol_chat(void);
 
-extern "C" {
-void TLobby__sub_80077608(void);
-}
+void release_received_symbol_chat(void);
 
 void init_symbol_chat_header(void *p);
 

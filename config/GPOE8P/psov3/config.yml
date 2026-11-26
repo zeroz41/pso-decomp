@@ -16258,7 +16258,7 @@ force_active:
   - update_slot_title__26TWindowSubQuestBoardSelectFv
   - set_face_part_from_cursor__20TWindowSubSymbolChatFv
   - add_part_at_cursor__20TWindowSubSymbolChatFv
-  - sub_80288BE4__19TQuestListChallengeFv
+  - idle_state__19TQuestListChallengeFv
   - empty_state_3__12TChCrLoadAfsFv
   - empty_state_2__12TChCrLoadAfsFv
   - draw_occupation__18TChCrTagOccupationFv

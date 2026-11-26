@@ -149,7 +149,7 @@ void TLobby::clear_flag_on_phase_e() {
     }
 }
 
-void TLobby__sub_800F7744(void) {  }
+void obj_control_on_floor_free(void) {  }
 
 s32 TObjEnemy::bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     s16 atp;

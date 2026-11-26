@@ -5,11 +5,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/protocol/protocol_types.h"
 
-// --- C functions defined in FloorItemSync.cpp ---
-extern "C" {
-void TLobby__sub_80104464(void);
-}
-// --- end of C functions
+void unload_select_confirm(void);
 
 void handle_6x63_destroy_floor_item(void *command);
 
