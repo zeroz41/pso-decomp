@@ -58,7 +58,7 @@ extern u8 lbl_80445CD8[];
 
 
 __declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
-__declspec(section ".data") uaddr lazer_fence_beam_motions[2];
+__declspec(section ".data") AnimationMotion *lazer_fence_beam_motions[2];
 // The models of the first three children of switch model 0 (the beams).
 __declspec(section ".data") void *lazer_fence_beam_node_table[3];
 }
@@ -105,7 +105,7 @@ void TLazerFenceSw::draw_laser_beam() {
         draw_ginja_object(lazer_fence_sw_ginja_model_table[1]);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)animation_frame);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], (f32)animation_frame);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -114,10 +114,10 @@ void TLazerFenceSw::draw_laser_beam() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], (void *)lazer_fence_beam_motions[1], (f32)switch_frame);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], lazer_fence_beam_motions[1], (f32)switch_frame);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)animation_frame);
+        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], (f32)animation_frame);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -170,23 +170,23 @@ void TLazerFenceSw::trigger_deactivate_sound() {
 }
 
 void TLazerFenceSw::update_switch_on() {
-    u32 animation_frame;
-    u32 temp_r4_2;
+    u32 beam_end;
+    u32 switch_end;
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
-    animation_frame = *(s32 *)((s8 *)lazer_fence_beam_motions[0] + 4) - 1;
-    if (this->animation_frame > (f32) animation_frame) {
-        this->animation_frame = (f32) animation_frame;
+    beam_end = lazer_fence_beam_motions[0]->frameCount - 1;
+    if (this->animation_frame > (f32) beam_end) {
+        this->animation_frame = (f32) beam_end;
     }
     switch_frame = (f32) (switch_frame + this->animation_step);
-    temp_r4_2 = *(s32 *)((s8 *)lazer_fence_beam_motions[1] + 4) - 1;
-    if (switch_frame > (f32) temp_r4_2) {
-        switch_frame = (f32) temp_r4_2;
+    switch_end = lazer_fence_beam_motions[1]->frameCount - 1;
+    if (switch_frame > (f32) switch_end) {
+        switch_frame = (f32) switch_end;
     }
 }
 
 void TLazerFenceSw::update_switch_off() {
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
-    if (this->animation_frame > (f32) (u32) (*(s32 *)((s8 *)lazer_fence_beam_motions[0] + 4) - 1)) {
+    if (this->animation_frame > (f32) (lazer_fence_beam_motions[0]->frameCount - 1)) {
         this->animation_frame = (f32) 0.0f;
     }
     this->submit_cursor_target();
@@ -237,8 +237,8 @@ void TLazerFenceSw::load_resources() {
     }
     lazer_fence_sw_ginja_model_table[0] = get_bml_model(lazer_fence_switch_bml_resource, 0);
     lazer_fence_sw_ginja_model_table[1] = get_bml_model(lazer_fence_switch_bml_resource, 1);
-    lazer_fence_beam_motions[0] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 0);
-    lazer_fence_beam_motions[1] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 1);
+    lazer_fence_beam_motions[0] = get_bml_motion(lazer_fence_switch_bml_resource, 0);
+    lazer_fence_beam_motions[1] = get_bml_motion(lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {
         lazer_fence_beam_node_table[j] = NULL;
     }

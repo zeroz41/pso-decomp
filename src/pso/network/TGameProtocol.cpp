@@ -265,7 +265,7 @@ void handle_6x9E_player_camera_shutter_sound(void) {
 
 void handle_6x04_legacy_activate_switch_by_token(G_LegacyActivateSwitchByToken_6x04 *packet) {
     packet->bswap();
-    TObjDoorKey__sub_8018FAEC(packet->header.param, packet->switch_token);
+    activate_door_key(packet->header.param, packet->switch_token);
 }
 
 void handle_6x03(void) {  }

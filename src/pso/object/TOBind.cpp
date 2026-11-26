@@ -35,13 +35,13 @@ void TOBind::sub_80158608() {  }
 
 
 void TOBind::sub_8015860C() {
-    f32 temp_f0;
-    f32 bc;
+    f32 frame;
+    f32 end;
     motion_frame += motion_step;
-    bc = this->motion_end_frame;
-    temp_f0 = motion_frame;
-    if (bc < temp_f0) {
-        motion_frame = temp_f0 - bc;
+    end = this->motion_end_frame;
+    frame = motion_frame;
+    if (end < frame) {
+        motion_frame = frame - end;
     }
 }
 

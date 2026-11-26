@@ -31,11 +31,9 @@ struct TObjDoorKey : public TOKey {
 
 LAYOUT_ASSERT(TObjDoorKey_size, sizeof(TObjDoorKey) == 0xFC);
 
-extern "C" {
-void *__ct__11TObjDoorKeyFP7TObjectPv(TObjDoorKey *arg0, void *arg1, void *arg2);
-void TObjDoorKey__sub_8018FAEC(u16 id, u16);
-void trigger_activate_sound__11TObjDoorKeyFv(u8 *arg0);
-void *__dt__11TObjDoorKeyFv(void *arg0, s16 arg1);
-}
+// The door key among the map objects (tl_05) whose object id is `id`, or NULL.
+TObjDoorKey *find_door_key(u16 id);
+// Packet 6x04: marks door key `id` activated; the switch token is unused.
+void activate_door_key(u16 id, u16);
 
 #endif

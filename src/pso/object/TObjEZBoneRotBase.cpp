@@ -17,25 +17,25 @@ const char *ez_bone_rot_base_name = "TObjEZBoneRotBase";
 const char *ez_bone_rot_player_name = "TObjEZBoneRotPlayer";
 
 void TObjEZBoneRotPlayer::run_task() {
-    f32 temp_f1;
-    s32 temp_r4;
+    f32 cur_scale;
+    s32 state_bits;
     TObjPlayer *p;
 
     p = player;
-    temp_r4 = *(s32 *)((s8 *)p + 0x320) & 0xDF7FF;
-    if (temp_r4 & 0x99003) {
+    state_bits = *(s32 *)((s8 *)p + 0x320) & 0xDF7FF;
+    if (state_bits & 0x99003) {
         scale += -0.016666668f;
-    } else if ((temp_r4 & 0x1E0) || (last_rotation_y != p->rotation_y)) {
+    } else if ((state_bits & 0x1E0) || (last_rotation_y != p->rotation_y)) {
         scale += 0.13333334f;
-    } else if (temp_r4 & 0x4661C) {
+    } else if (state_bits & 0x4661C) {
         scale += 0.016666668f;
     } else {
         scale += -0.016666668f;
     }
-    temp_f1 = scale;
-    if (temp_f1 < 0.0f) {
+    cur_scale = scale;
+    if (cur_scale < 0.0f) {
         scale = 0.0f;
-    } else if (temp_f1 > 1.0f) {
+    } else if (cur_scale > 1.0f) {
         scale = 1.0f;
     }
     advance_bone_rotation();
@@ -95,9 +95,11 @@ void TObjEZBoneRotPlayer::start_bone_rotation_sequence(s32 angle) {
 
 void TObjEZBoneRotBase::save_bone_angles_recursive(NJS_OBJECT *bone) {
     s32 k;
-loop_1:
-    k = key->bone;
-    if (k >= 0) {
+    do {
+        k = key->bone;
+        if (k < 0) {
+            return;
+        }
         if (k == bone_index) {
             bone->evalflags = bone->evalflags & 0xFFFFFFFD;
             (*saved_cursor)[0] = bone->ang[0];
@@ -105,21 +107,16 @@ loop_1:
             (*saved_cursor)[2] = bone->ang[2];
             saved_cursor++;
             key++;
-            if (key->bone >= 0) {
-                goto next_bone;
-            }
-        } else {
-next_bone:
-            bone_index = bone_index + 1;
-            if (bone->child != NULL) {
-                save_bone_angles_recursive(bone->child);
-            }
-            bone = bone->sibling;
-            if (bone != NULL) {
-                goto loop_1;
+            if (key->bone < 0) {
+                return;
             }
         }
-    }
+        bone_index = bone_index + 1;
+        if (bone->child != NULL) {
+            save_bone_angles_recursive(bone->child);
+        }
+        bone = bone->sibling;
+    } while (bone != NULL);
 }
 
 void TObjEZBoneRotBase::save_bone_angles() {

@@ -33,6 +33,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -68,36 +69,26 @@ NJS_TEXLIST *door_key_texture_handle;
 s16 door_key_id_counter;
 s32 door_key_uv_scroll_tick;
 
-struct Obj_8018FA6C { u8 pad0[0x6]; u16 id; u8 pad8[0x4]; Obj_8018FA6C *next; u8 pad10[0x4]; Obj_8018FA6C *children; };
-
-extern "C" {
-extern Obj_8018FA6C *tl_05;
-Obj_8018FA6C *fn_8018FA6C(u16 id) {
-    Obj_8018FA6C *next = tl_05->children;
-    Obj_8018FA6C *cur;
-    while (tl_05->children != 0 && next != 0) {
+TObjDoorKey *find_door_key(u16 id) {
+    TObject *next = tl_05->m_down;
+    TObject *cur;
+    while (tl_05->m_down != NULL && next != NULL) {
         cur = next;
-        next = cur->next;
-        if (reinterpret_cast<TObject *>(cur)->check_value_equals(door_key_class_name) != 0 && cur->id == id) {
-            return cur;
+        next = cur->m_next;
+        if (cur->check_value_equals(door_key_class_name) != 0 && cur->m_id == id) {
+            return static_cast<TObjDoorKey *>(cur);
         }
     }
-    return 0;
+    return NULL;
 }
 
-}
+void activate_door_key(u16 id, u16) {
+    TObjDoorKey *key;
 
-
-extern "C" {
-
-void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
-    Obj_8018FA6C *temp_r3;
-
-    temp_r3 = fn_8018FA6C(id);
-    if (temp_r3 != NULL) {
-        ((TObjDoorKey *)temp_r3)->activated = 1;
+    key = find_door_key(id);
+    if (key != NULL) {
+        key->activated = 1;
     }
-}
 }
 
 

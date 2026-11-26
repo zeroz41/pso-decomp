@@ -4,29 +4,19 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
-
-
+// The entity id of the first player whose bit is clear in the warp's mask, or 0.
 s32 TObjAreaWarp::find_active_player() {
-    u32 temp_r31;
-    s32 var_r30;
+    u32 mask;
+    s32 client;
     TObjPlayer *player;
 
-    if ((s32) *(s32 *)&this->m_down != 0) {
-        temp_r31 = *(s32 *)&this->entity_id & *(s32 *)((s8 *)this + 0x20);
-        var_r30 = 0;
-loop_2:
-        if (!((temp_r31 >> var_r30) & 1) && (player = get_player_by_client_id(var_r30)) != NULL) {
-            return player->get_entity_id();
+    if ((s32)m_down != 0) {
+        mask = *(u32 *)&entity_id & m_20;
+        for (client = 0; client < 4; client++) {
+            if (!((mask >> client) & 1) && (player = get_player_by_client_id(client)) != NULL) {
+                return player->get_entity_id();
+            }
         }
-        var_r30 += 1;
-        if (var_r30 >= 4) {
-            goto block_6;
-        }
-        goto loop_2;
     }
-block_6:
-    return (u16)(0U);
-}
-
+    return (u16)0;
 }

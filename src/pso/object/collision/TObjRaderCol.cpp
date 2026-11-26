@@ -157,7 +157,6 @@ TObjRaderIcon::~TObjRaderIcon() {
 }
 
 void TObjRaderIcon::initialize_from_placement() {
-    s32 temp_r0;
     color_mode = 0;
     switch_count = 1;
     first_switch = 0;

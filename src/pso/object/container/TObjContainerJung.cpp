@@ -403,17 +403,17 @@ void *TObjContainerJungEnemy::create(void *set_data) {
 }
 
 void TObjContainerJungEnemy::load_models() {
-    saddr created;
-    s32 temp_r3 = this->set_params[1];
-    if (temp_r3 < 0) {
-        created = 0;
+    saddr variant;
+    s32 param = this->set_params[1];
+    if (param < 0) {
+        variant = 0;
     } else {
-        created = 1;
-        if (temp_r3 <= 1) {
-            created = temp_r3;
+        variant = 1;
+        if (param <= 1) {
+            variant = param;
         }
     }
-    switch (created) {
+    switch (variant) {
     case 0:
         this->body_model = TObjContainerJung::get_model_by_index(0);
         this->large_fragment_model = TObjContainerJung::get_model_by_index(1);
