@@ -111,6 +111,8 @@ TObjBase *create_set_object_from_row(FloorObjectSetRow *row);
 void copy_object_factory_entry(ObjectFactoryEntry *out, ObjectFactoryEntry *entry);
 void copy_enemy_factory_entry(EnemyFactoryEntry *out, EnemyFactoryEntry *entry);
 TObjEnemy *construct_enemy_from_set_row(EnemySetRecord *row);
+// Number of child enemies the area's factory entry for that enemy type spawns with it.
+s32 get_enemy_factory_child_count(s32 area, s16 *enemy_type);
 
 // Followed by the object flag stream and then the enemy flag stream in game-state packet 6x6E.
 struct FloorSetFlagsHeader {
@@ -145,6 +147,10 @@ void TLobby__sub_8020BCE4(void);
 void send_6x76_set_entity_set_flags(void *object, s16 flags);
 void set_wave_object_flags(s32 pl, s16 b, s16 a, s32 mask, s32 set);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
+// 1 when every enemy set row of the room on that floor has flag 8 (the quest zone-clear check).
+s32 is_room_enemy_set_cleared(s32 floor, s16 room);
+// Creates the hidden objects of one room group on the current floor, or flags them on another floor.
+s32 unhide_room_set_objects(s32 floor, s16 room, s16 group);
 s32 spawn_objects_at_pos(s16 room, s16 wave);
 void assign_display_objects(EnemySetRecord *rows, s32 enemy_count);
 void assign_objects_to_slots(u8 *rows, s32 object_count);

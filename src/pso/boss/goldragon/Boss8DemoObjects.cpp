@@ -9,7 +9,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/goldragon/Boss8DemoObjects.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_8020BFE4.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
 #include "pso/boss/goldragon/TObjBoss8Piller.h"
 #include "pso/camera/TObjLiveCamera.h"

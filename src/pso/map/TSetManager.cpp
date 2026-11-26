@@ -6,7 +6,6 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_80209524.h"
-#include "pso/unk/text_8020BFE4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
@@ -43,11 +42,9 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/unk/TLobby_8020E400.h"
 #include "pso/enemy/EnemyFactoryTables.h"
-#include "pso/unk/text_8020BFE4.h"
 #include "pso/object/base/ObjectFactoryTables.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/text_8020C9C8.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_801F3A24.h"
@@ -732,7 +729,6 @@ s32 TLobby::link_matching_objects(s16 room, s16 wave) {
     return spawned;
 }
 
-extern "C" {
 s32 unhide_room_set_objects(s32 floor, s16 room, s16 group) {
     s32 n;
     s32 count;
@@ -778,8 +774,6 @@ s32 unhide_room_set_objects(s32 floor, s16 room, s16 group) {
         }
     }
     return count;
-}
-
 }
 
 s32 spawn_objects_at_pos(s16 room, s16 wave) {

@@ -800,8 +800,6 @@ extern "C" {
 s32 advance_item_id_counter(u16);
 }
 extern "C" {
-s32 is_room_enemy_set_cleared(int, int, void *);
-void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 delete_bank_item(u8 *item, s32 slot);
 }
 extern "C" {
@@ -4115,16 +4113,16 @@ void qst_op_unhide_ene(s32 regs) {
 }
 
 void qst_op_unhide_obj(s32 regs) {
-    s32 v0 = qst_registers[(u8)regs];
-    s32 v1 = qst_registers[(u8)++regs];
-    s32 v2 = qst_registers[(u8)++regs];
-    unhide_room_set_objects(v0, (s16)v1, (s16)v2, regs);
+    s32 v0 = qst_registers[(u8)regs++];
+    s32 v1 = qst_registers[(u8)regs++];
+    s32 v2 = qst_registers[(u8)regs];
+    unhide_room_set_objects(v0, (s16)v1, (s16)v2);
 }
 
 void qst_op_chk_ene_num(int a0) { qst_registers[(unsigned char)(a0)] = TLobby::count_quest_enemies_flag8(); }
 
 void qst_op_if_zone_clear(s32 dst, s32 regs) {
-    if (is_room_enemy_set_cleared((int) (qst_registers[(u8)regs]), (int) ((s16) qst_registers[(u8)(regs + 1)]), qst_registers) != 0) {
+    if (is_room_enemy_set_cleared(qst_registers[(u8)regs], qst_registers[(u8)(regs + 1)]) != 0) {
         qst_registers[(u8)dst] = 1;
         return;
     }

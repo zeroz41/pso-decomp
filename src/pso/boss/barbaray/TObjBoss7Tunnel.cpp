@@ -11,7 +11,7 @@
 #include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_8020BFE4.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/boss/barbaray/TObjBoss7Dust.h"

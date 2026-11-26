@@ -1,8 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/text_8020BFE4.h"
 #include "pso/map/FloorPopulation.h"
-#include "pso/unk/text_8020C9C8.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/TBoss3VoloptMusicTrigger.h"
 #include "pso/boss/volopt/TBoss3VoloptCtrl.h"

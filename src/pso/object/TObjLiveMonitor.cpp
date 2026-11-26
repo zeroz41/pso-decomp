@@ -6,7 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/TObjLiveMonitorSmall.h"
-#include "pso/unk/text_8020BFE4.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
 #include <string.h>

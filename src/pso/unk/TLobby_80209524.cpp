@@ -743,9 +743,6 @@ void load_map_set_data(s32 idx, const char *filename) {
     copy_name("..");
 }
 
-extern "C" {
-s32 get_enemy_factory_child_count(s32, DestroyEventShuffleTableSpawnRecord *);
-}
 void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32 count, s32 floor) {
     DestroyEventShuffleTableSpawnRecord *r;
     s32 i;
@@ -758,7 +755,7 @@ void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32
             next_enemy_set_actor_id += r->children;
             map_set_enemy_id_counter += r->children;
         } else {
-            n = get_enemy_factory_child_count(floor, r);
+            n = get_enemy_factory_child_count(floor, &r->type);
             if (n > 0) {
                 next_enemy_set_actor_id += n;
                 map_set_enemy_id_counter += n;
