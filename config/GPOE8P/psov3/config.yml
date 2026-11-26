@@ -1628,7 +1628,7 @@ force_active:
   - TObjSoloPlayWin_name
   - __ct__16TObjTagChallengeFP7TObject
   - TObjTailsTailsMove_name
-  - __ct__8TObjTankFP7TObjectl
+  - __ct__8TObjTankFP7TObjectP13ObjectSetData
   - tombstone_base_matrix
   - tombstone_class_name
   - tombstone_shared_resource_object
@@ -7248,7 +7248,7 @@ force_active:
   - is_active__16TObjEneBm5GibonUFPv
   - is_angle_in_range__16TObjEneMe3StelthFv
   - is_any_player_in_range__16TObjEvtCollisionFf
-  - is_any_player_near__Fl
+  - is_any_player_near__FP8TObjBase
   - is_balloon_overlapping__FPC15TWindowFukidasiPCfPCf
   - is_broken__15TBoss3VoloptP01Fv
   - apply_handakuten_to_last_char__18KeyboardTextBufferFv

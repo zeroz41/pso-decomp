@@ -96,7 +96,7 @@ void TLobby__sub_8029B2A4(void* p);
 
 
 }
-s32 is_any_player_near(saddr arg0);
+s32 is_any_player_near(TObjBase *door);
 
 
 #pragma inline_depth(1)
@@ -189,7 +189,7 @@ void TODoorJungleMain::run_task() {
 }
 
 void TODoorJungleMain::update_door_switch_state() {
-    s16 sp8;
+    s16 state;
     s32 lvl;
     s32 prev;
     s32 i;
@@ -206,14 +206,14 @@ void TODoorJungleMain::update_door_switch_state() {
         if (switch_count > 0 && switch_count != prev) {
             play_sound_effect(0x4C123, &position, 0, 0);
         }
-        if (switch_count == 3 && is_any_player_near((saddr)this) != 0) {
+        if (switch_count == 3 && is_any_player_near(this) != 0) {
             door_flags |= 1;
         } else {
             door_flags &= ~1;
         }
-        if ((door_flags & 1) && access_object_saved_state(&sp8, 1) == 1) {
-            sp8 = 1;
-            send_object_state_update(&sp8);
+        if ((door_flags & 1) && access_object_saved_state(&state, 1) == 1) {
+            state = 1;
+            send_object_state_update(&state);
         }
     }
 }
@@ -274,31 +274,24 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
 void TLobby__sub_8029B2A4(void* p) { TOKeyJungleMain::init_key_slots(p); }
 
 
-s32 is_any_player_near(saddr arg0) {
-  f32 temp_f31;
-  s32 temp_r31;
-  s32 var_r29;
-  s32 new_var;
-  u8 *player;
-  temp_f31 = 2500.0f;
-  var_r29 = 0;
-  loop_1:
-  player = (u8 *) get_player_by_client_id(var_r29);
-  if (player != 0)
-  {
-    temp_r31 = ((TObjPlayer *)player)->get_floor();
-    new_var = get_current_floor();
-    if ((new_var == temp_r31) && (((f32 (*)(void *, void *))xz_distance_squared)((void *)(player + 0x38), (void *)(arg0 + 0x38)) < temp_f31))
-    {
-      return 1;
+s32 is_any_player_near(TObjBase *door) {
+    f32 near_dist_sq;
+    s32 floor;
+    s32 client;
+    s32 current_floor;
+    TObjPlayer *player;
+    near_dist_sq = 2500.0f;
+    for (client = 0; client < 4; client++) {
+        player = get_player_by_client_id(client);
+        if (player != NULL) {
+            floor = player->get_floor();
+            current_floor = get_current_floor();
+            if (current_floor == floor && xz_distance_squared(&player->position, &door->position) < near_dist_sq) {
+                return 1;
+            }
+        }
     }
-  }
-  var_r29 += 1;
-  if (var_r29 >= 4)
-  {
     return 0;
-  }
-  goto loop_1;
 }
 
 
@@ -316,10 +309,10 @@ void TODoorJungleMain::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-s32 TODoorJungleMain::update_object_view_visibility(f32 farg0, f32 farg1) {
-    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (farg1 * farg1)) {
+s32 TODoorJungleMain::update_object_view_visibility(f32 far_dist, f32 near_dist) {
+    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (near_dist * near_dist)) {
         return 1;
     }
-    return TObjBase::update_object_view_visibility(farg0, farg1);
+    return TObjBase::update_object_view_visibility(far_dist, near_dist);
 }
 

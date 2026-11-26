@@ -55,20 +55,18 @@ TObjTank::~TObjTank() {
 }
 
 
-#define arg0 ((u8 *)this)
-TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
-    *(saddr *)((s8 *)arg0 + 0) = (saddr) tank_class_name;
-    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
-    copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
-    VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));
-    init_collision_body_parts(arg0, &tobjtank_collision_body_parts, 1);
-    ((TObjTank *)arg0)->actorFlags = (s32) (((TObjTank *)arg0)->actorFlags | 0x40000000);
-    ((TObjPlayer *)arg0)->register_object_by_id();
+TObjTank::TObjTank(TObject *parent, ObjectSetData *placement) : TObjCollidable(parent) {
+    m_name = tank_class_name;
+    VecCopy(&position, &placement->position);
+    copy_xyz(&rotation_x, placement->rotation);
+    VecCopy(&scale, &placement->scale);
+    init_collision_body_parts(this, &tobjtank_collision_body_parts, 1);
+    actorFlags |= 0x40000000;
+    register_object_by_id();
 }
-#undef arg0
 
 void *TObjTank::create(void *set_data) {
-    return new TObjTank(tl_05, (saddr)set_data);
+    return new TObjTank(tl_05, static_cast<ObjectSetData *>(set_data));
 }
 
 void TObjTank::free_globals() {

@@ -14,18 +14,6 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 #pragma readonly_strings on
 
-struct Stack_801781D8 {
-    s32 sp8;
-    s16 spC;
-    u16 spE;
-    s8 sp10;
-    u8 pad_11[0x3];
-    s32 sp14;
-    s16 sp18;
-    u16 sp1A;
-    s8 sp1C;
-};
-
 void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *command) {
     command->bswap();
     if (command->should_set == 1) {
@@ -34,30 +22,22 @@ void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *comma
         clear_floor_switch_flag(command->switch_flag_num, command->switch_flag_floor);
     }
 }
-extern "C" {
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TOSwitchTimer::send_switch_states() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801781D8, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801781D8, spC) == 0x4);
-    LAYOUT_ASSERT(spE_offset, offsetof(Stack_801781D8, spE) == 0x6);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_801781D8, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801781D8, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_801781D8, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1A_offset, offsetof(Stack_801781D8, sp1A) == 0x12);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_801781D8, sp1C) == 0x14);
-    Stack_801781D8 stack;
+    G_SetSwitchFlagFromTimer_6x93 clear_cmd;
+    G_SetSwitchFlagFromTimer_6x93 set_cmd;
     u16 *target_switch;
     s32 i;
     if ((u32) this->mode == 0U) {
         if ((u16) this->trigger_switch < 0x100U) {
-            ((G_SetSwitchFlagFromTimer_6x93 *)(&stack.sp14))->init();
-            stack.sp18 = this->floor;
-            stack.sp1A = this->trigger_switch;
-            stack.sp1C = 0;
-            ((G_SetSwitchFlagFromTimer_6x93 *)(&stack.sp14))->send();
+            clear_cmd.init();
+            clear_cmd.switch_flag_floor = this->floor;
+            clear_cmd.switch_flag_num = this->trigger_switch;
+            clear_cmd.should_set = 0;
+            clear_cmd.send();
             clear_floor_switch_flag((this->trigger_switch), (this->floor));
         }
     } else {
@@ -65,17 +45,16 @@ void TOSwitchTimer::send_switch_states() {
         i = 0;
         do {
             if ((u16) *target_switch < 0x100U) {
-                ((G_SetSwitchFlagFromTimer_6x93 *)(&stack.sp8))->init();
-                stack.spC = this->floor;
-                stack.spE = *target_switch;
-                stack.sp10 = 1;
-                ((G_SetSwitchFlagFromTimer_6x93 *)(&stack.sp8))->send();
+                set_cmd.init();
+                set_cmd.switch_flag_floor = this->floor;
+                set_cmd.switch_flag_num = *target_switch;
+                set_cmd.should_set = 1;
+                set_cmd.send();
             }
             i += 1;
-            target_switch = (u16 *)((u8 *)target_switch + (2));
+            target_switch++;
         } while (i != 3);
     }
-}
 }
 #pragma pop
 

@@ -140,8 +140,8 @@ s32 TOMineTrap::select_melee_contact_body(void *attacker, f32) {
 void TOMine::vfunc_84() {  }
 int TOMineTrap::set_trap_count(int trap_count) { mine_trap_count = trap_count; return trap_count; }
 int TOMineTrap::set_instance(int instance) { mine_trap_instance_id = instance; return instance; }
-void set_mine_trap_damage(f32 farg0) {
-    mine_trap_attack_power = farg0;
+void set_mine_trap_damage(f32 damage) {
+    mine_trap_attack_power = damage;
 }
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }
 u16 TOMineTrap::get_trap_number() { return trap_number; }
@@ -205,7 +205,7 @@ void TOMine::free_sub_objects() {
     draw_ginja_object(light_model);
 }
 void TOMine::run_task() {
-    s32 temp_r3;
+    s32 countdown;
 
     if (TObjPlayer::check_demo_mode() != 1) {
         this->vfunc_79();
@@ -218,9 +218,9 @@ void TOMine::run_task() {
             VecCopy(&bodies->center, &float_position);
             return;
         case 3:
-            temp_r3 = this->set_params[2];
-            this->set_params[2] = (temp_r3 - 1);
-            if (temp_r3 < 0) {
+            countdown = this->set_params[2];
+            this->set_params[2] = (countdown - 1);
+            if (countdown < 0) {
                 this->mode = 4;
             }
             switch (this->behavior) {
@@ -244,11 +244,11 @@ void TOMine::run_task() {
 }
 int TOMine::find_target_player() {
   u16 client;
-  unsigned short new_var;
+  unsigned short no_client;
   target_id = find_nearest_visible_player(this, NULL, detect_radius);
   client = target_id;
-  new_var = -1;
-  if (client != new_var)
+  no_client = -1;
+  if (client != no_client)
   {
     target = get_player_by_client_id(client);
     update_trigger();
@@ -283,10 +283,10 @@ void TOMine::detonate() {
 void TOMine::sync_position() { VecCopy(&position, &float_position); refresh_collision_body_centers(); }
 void TOMine::update_float_height() {
     f32 y;
-    f32 temp_f4;
+    f32 height;
     if (!(this->float_flags & 2)) {
-        temp_f4 = float_position.y;
-        float_position.y = (f32) (temp_f4 + ((0.5f * ((25.0f + this->home_position.y) - temp_f4)) + 1.0f));
+        height = float_position.y;
+        float_position.y = (f32) (height + ((0.5f * ((25.0f + this->home_position.y) - height)) + 1.0f));
         y = 25.0f + this->home_position.y;
         if (y <= float_position.y) {
             float_position.y = y;
@@ -320,11 +320,11 @@ void TOMine::trigger_group() {
     sync_position();
 }
 void TOMine::follow_target() {
-  unsigned short new_var;
+  unsigned short no_target;
   Vec stack;
-  f32 temp_f2;
-  new_var = -1U;
-  if (((this->target_id) == new_var) || ((this->target) == 0))
+  f32 prev_y;
+  no_target = -1U;
+  if (((this->target_id) == no_target) || ((this->target) == 0))
   {
     this->mode = 2;
     return;
@@ -341,8 +341,8 @@ void TOMine::follow_target() {
   }
   vec3_add_to(&this->position, &stack);
   update_enemy_collision_flags();
-  temp_f2 = prev_position.y;
-  position.y = (f32) ((0.5f * ((25.0f + this->target->position.y) - temp_f2)) + temp_f2);
+  prev_y = prev_position.y;
+  position.y = (f32) ((0.5f * ((25.0f + this->target->position.y) - prev_y)) + prev_y);
   calc_attach_pos();
   this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
   refresh_collision_body_centers();
@@ -366,7 +366,7 @@ void TOMine::update_trigger() {
 }
 f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, void *, s32, s32) {
   s32 kind;
-  s32 var_r31;
+  s32 is_local;
   if (player == 0)
   {
     return 0.0f;
@@ -375,12 +375,12 @@ f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, voi
   {
     return 0.0f;
   }
-  var_r31 = 0;
+  is_local = 0;
   if ((((TObjBase *)player)->get_entity_id() < 4U) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
-    var_r31 = 1;
+    is_local = 1;
   }
-  if (var_r31 != 0)
+  if (is_local != 0)
   {
     kind = payload.kind;
     if (kind != 0x13)
@@ -479,14 +479,14 @@ void TOMine::play_effect_sound() {
     }
 }
 void TOMine::update_state() {
-    s32 temp_r0;
+    s32 group;
     group_id = (s32) this->scale.z;
-    temp_r0 = group_id;
-    if (temp_r0 < 0) {
+    group = group_id;
+    if (group < 0) {
         this->behavior = 0;
         return;
     }
-    if (temp_r0 > 0) {
+    if (group > 0) {
         this->behavior = 1;
         return;
     }

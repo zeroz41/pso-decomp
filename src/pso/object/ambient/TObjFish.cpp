@@ -339,7 +339,7 @@ void TObjFish::run_task() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
+s32 TObjFish::init_fish_school(Vec *bounds, s32 anim0_count, s32 anim1_count) {
     TObjFishEntry *p;
     s32 i;
 
@@ -358,15 +358,15 @@ s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
     }
     p = fish;
     for (i = 0; i < (s32)fish_count; i++) {
-        p->pos.x = 2.0f * (arg1->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
-        p->pos.y = 2.0f * (arg1->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
-        p->pos.z = 2.0f * (arg1->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.x = 2.0f * (bounds->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.y = 2.0f * (bounds->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.z = 2.0f * (bounds->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
         p->velocity.x = 0.0f;
         p->velocity.y = 0.0f;
         p->velocity.z = 0.0f;
-        if (i < arg2) {
+        if (i < anim0_count) {
             p->anim = 0;
-        } else if (i < arg2 + arg3) {
+        } else if (i < anim0_count + anim1_count) {
             p->anim = 1;
         } else {
             p->anim = 2;
@@ -411,22 +411,22 @@ struct TObjFishSetData {
 TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
     f32 y;
-    f32 var_f1;
+    f32 radius;
     m_name = fish_class_name;
     fish = NULL;
     VecCopy(&position, &data->position);
     copy_xyz(&rotation_x, data->rotation);
     VecCopy(&scale, &data->scale);
-    var_f1 = scale.x;
+    radius = scale.x;
     y = scale.y;
-    if (var_f1 < y) {
-        var_f1 = y;
+    if (radius < y) {
+        radius = y;
     }
     // The original compares scale.y twice here, rather than reading scale.z.
-    if (var_f1 < y) {
-        var_f1 = y;
+    if (radius < y) {
+        radius = y;
     }
-    school_radius = var_f1;
+    school_radius = radius;
     fish_count = data->counts[0] + data->counts[1] + data->counts[2];
     frame_counter = 0;
     if ((s32)fish_count < 1) {

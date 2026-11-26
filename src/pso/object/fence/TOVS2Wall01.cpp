@@ -84,9 +84,8 @@ CollisionBody ovs2wall01_collision_parts[7] = {
 BmlResource *vs2_wall01_bml_resource;
 
 // ---- text_8017B9AC
-struct WallSetEntry { u8 unk_0[4]; s16 m_4; };
-
-struct Ent_8017B9B0 { s16 a; s16 b; };
+// The raw set entry: its quest_object_entries row sits 4 bytes in.
+struct WallSetEntry { u8 pad_0[4]; s16 set_index; };
 
 extern "C" {
 
@@ -95,8 +94,7 @@ void TOVS2Wall01__sub_8017B9AC(void *) {  }
 
 void handle_6x86_hit_destructible_object(game_command_header *command) {
     WallHitPacket *wall_hit_packet = reinterpret_cast<WallHitPacket *>(command);
-    Ent_8017B9B0 spC;
-    Ent_8017B9B0 sp8;
+    QuestObjectEntry saved;
     TOVS2Wall01 *o;
     u16 id;
     if (wall_hit_packet == NULL) {
@@ -134,25 +132,25 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
             o->break_wall();
             break;
         }
-        o->access_object_saved_state(&spC, 1);
-        spC.a = o->mode;
-        o->access_object_saved_state(&spC, 0);
-        o->apply_saved_state(&spC.a, 0);
+        o->access_object_saved_state(&saved, 1);
+        saved.flags = o->mode;
+        o->access_object_saved_state(&saved, 0);
+        o->apply_saved_state(&saved.flags, 0);
     } else {
-        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->object_index];
-        if (sp8.a != 1) {
-            sp8.a = wall_hit_packet->flags;
-            TLobby::apply_table_entry(wall_hit_packet->object_index, &sp8);
+        QuestObjectEntry entry = quest_object_entries[wall_hit_packet->object_index];
+        if (entry.flags != 1) {
+            entry.flags = wall_hit_packet->flags;
+            TLobby::apply_table_entry(wall_hit_packet->object_index, &entry);
         }
     }
 }
 
-void TOVS2Wall01::save_and_send_state(u16 arg1) {
+void TOVS2Wall01::save_and_send_state(u16 reason) {
     s16 state;
     WallHitPacket pkt;
     s16 v = mode;
     WallSetEntry *entry;
-    if (arg1 == 1) {
+    if (reason == 1) {
         v = 1;
     }
     if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
@@ -162,8 +160,8 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
         pkt.init();
         pkt.header.entity_id = entity_id;
         pkt.flags = state;
-        pkt.object_index = entry->m_4;
-        pkt.update_reason = arg1;
+        pkt.object_index = entry->set_index;
+        pkt.update_reason = reason;
         pkt.remaining_hits = hits_left;
         pkt.send();
     }
@@ -306,12 +304,11 @@ TOVS2::~TOVS2() {
 }
 
 void TOVS2Wall01::load_resources() {
-  saddr temp_r3;
-  saddr resource;
-  resource = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
-  vs2_wall01_bml_resource = (BmlResource *)resource;
+  BmlResource *resource;
+  resource = new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
+  vs2_wall01_bml_resource = resource;
   TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model(vs2_wall01_bml_resource, 5)),
-                        reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 5)), 10.0f, 0.0f);
+                        reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
     if (vs2_wall01_bml_resource != NULL) {
@@ -415,16 +412,16 @@ void *TOVS2Wall01::create(void *set_data) {
     return new TOVS2Wall01(set_data);
 }
 void TOVS2Wall01::render() {
-    s32 var_r31;
+    s32 fading;
     fade.update();
     this->in_view = this->update_object_view_visibility(view_range, model_radius);
     if ((s32) this->in_view == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            var_r31 = 0;
+            fading = 0;
         } else {
-            var_r31 = fade.updateFromCamera(&position);
+            fading = fade.updateFromCamera(&position);
         }
-        if (var_r31 != 0) {
+        if (fading != 0) {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -436,7 +433,7 @@ void TOVS2Wall01::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
-        if (var_r31 != 0) {
+        if (fading != 0) {
             fade.clear_flag_and_notify();
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
