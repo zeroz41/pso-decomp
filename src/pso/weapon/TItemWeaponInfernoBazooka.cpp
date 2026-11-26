@@ -29,7 +29,7 @@ void TItemWeaponInfernoBazooka::emit_marker_effects() { recoil_state = 1; }
 
 TItemWeaponInfernoBazooka::~TItemWeaponInfernoBazooka() {}
 
-void expire_weapon_casing(void *p) { ((TObject *)p)->queue_destruction(); }
+void expire_weapon_casing(TObject *p) { p->queue_destruction(); }
 
 TWeaponCasing::~TWeaponCasing() {}
 

@@ -34,7 +34,7 @@ public:
     static void clear_thread_state();
     static const char *get_quest_name();
     static s32 get_register(const TQuestManager *root, int index);
-    static void queue_destruction(void *obj);
+    static void queue_destruction(TObject *obj);
     static void set_status_flag_80(void *window);
 };
 

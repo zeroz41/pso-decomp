@@ -378,7 +378,7 @@ void TItemAttackCol::run_task() {
         continuous_particle->set_position(&position);
     }
     check_hits();
-    if ((range_sq <= vec_distance_squared((u8 *)&position, (u8 *)&start_position)) || (hit_wall_flags.test_flags_any(1) != 0)) {
+    if ((range_sq <= vec_distance_squared(&position, &start_position)) || (hit_wall_flags.test_flags_any(1) != 0)) {
         queue_destruction();
     }
 }

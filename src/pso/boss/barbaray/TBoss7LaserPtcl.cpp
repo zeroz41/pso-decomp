@@ -178,17 +178,15 @@ void TBoss7LaserPtcl::calc_world_position(Vec *out) {
 #pragma push
 #pragma fp_contract on
 // Where the ray from the laser's origin along its displacement crosses y = 10.
-void calc_laser_ray_hit_point(u8 *laser, u8 *out) {
-    const TBoss7LaserPtcl *ray = (const TBoss7LaserPtcl *)laser;
-    Vec *dst = (Vec *)out;
+void calc_laser_ray_hit_point(TBoss7LaserPtcl *laser, Vec *out) {
     f32 y;
     f32 t;
-    if (dst != NULL) {
-        y = ray->position.y;
+    if (out != NULL) {
+        y = laser->position.y;
         t = (10.0f - y) / (boss7_sea_level_y - y);
-        dst->x = (ray->displacement.x * t) + ray->position.x;
-        dst->y = (ray->displacement.y * t) + ray->position.y;
-        dst->z = (ray->displacement.z * t) + ray->position.z;
+        out->x = (laser->displacement.x * t) + laser->position.x;
+        out->y = (laser->displacement.y * t) + laser->position.y;
+        out->z = (laser->displacement.z * t) + laser->position.z;
     }
 }
 #pragma pop

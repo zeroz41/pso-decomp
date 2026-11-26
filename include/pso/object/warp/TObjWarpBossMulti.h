@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 
+struct G_SetBossWarpFlags_6x6A;
 struct AnimationMotion;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
@@ -48,6 +49,6 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
 
 LAYOUT_ASSERT(TObjWarpBossMulti_size, sizeof(TObjWarpBossMulti) == 0x100);
 
-void handle_6x6A_set_boss_warp_flags(void *packet);
+void handle_6x6A_set_boss_warp_flags(G_SetBossWarpFlags_6x6A *packet);
 void release_boss_warp_resources();
 #endif

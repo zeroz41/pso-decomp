@@ -348,10 +348,9 @@ void get_current_date_stamp(CardWriteDate *out) {
     out->weekday = now.weekday;
 }
 
-void direction_to_rotation_yx(u8 *dir, s32 *rot_a, s32 *rot_b) {
-    Vec *v = (Vec *)dir;
-    *rot_a = -(s32)(RAD_TO_ANGLE * atan2_float(v->z, v->x));
-    *rot_b = RAD_TO_ANGLE * atan2_float(v->y, newton_sqrtf(v->z * v->z + v->x * v->x));
+void direction_to_rotation_yx(Vec *dir, s32 *rot_a, s32 *rot_b) {
+    *rot_a = -(s32)(RAD_TO_ANGLE * atan2_float(dir->z, dir->x));
+    *rot_b = RAD_TO_ANGLE * atan2_float(dir->y, newton_sqrtf(dir->z * dir->z + dir->x * dir->x));
 }
 
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b) {
@@ -405,12 +404,10 @@ void vsub(const Vec *a, const Vec *b, Vec *out) {
     out->z = b->z - a->z;
 }
 
-f32 vec_distance_squared(u8 *a, u8 *b) {
-    Vec *va = (Vec *)a;
-    Vec *vb = (Vec *)b;
-    f32 dx = vb->x - va->x;
-    f32 dz = vb->z - va->z;
-    return dz * dz + (dx * dx + (vb->y - va->y) * (vb->y - va->y));
+f32 vec_distance_squared(Vec *a, Vec *b) {
+    f32 dx = b->x - a->x;
+    f32 dz = b->z - a->z;
+    return dz * dz + (dx * dx + (b->y - a->y) * (b->y - a->y));
 }
 
 // The original pools +1e-5f before -1e-5f although it loads -1e-5f first, which no source

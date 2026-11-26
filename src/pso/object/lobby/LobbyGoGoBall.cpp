@@ -327,7 +327,7 @@ void TObjGoGoBall::render() {
     VecCopy(&dir, &velocity);
     dir.y = 0.0f;
     len = vector_length(&dir);
-    direction_to_rotation_yx((u8 *)&dir, &rotation_y, &rotation_z);
+    direction_to_rotation_yx(&dir, &rotation_y, &rotation_z);
     heading = (u16)heading;
     rotation_y = (u16)rotation_y;
     if (0.0f != len) {
@@ -568,16 +568,15 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     pop_matrix();
 }
 
-void handle_6x79_gogo_ball(u8 *packet) {
-    G_GoGoBall_6x79 *cmd = (G_GoGoBall_6x79 *)packet;
-    cmd->bswap();
+void handle_6x79_gogo_ball(G_GoGoBall_6x79 *packet) {
+    packet->bswap();
     gogo_ball_sync_state.applied = 0;
-    gogo_ball_sync_state.position.x = cmd->x;
+    gogo_ball_sync_state.position.x = packet->x;
     gogo_ball_sync_state.position.y = 0.0f;
-    gogo_ball_sync_state.position.z = cmd->z;
-    gogo_ball_sync_state.angle = cmd->angle;
-    gogo_ball_sync_state.mode = cmd->mode;
-    gogo_ball_sync_state.sequence = cmd->sequence;
+    gogo_ball_sync_state.position.z = packet->z;
+    gogo_ball_sync_state.angle = packet->angle;
+    gogo_ball_sync_state.mode = packet->mode;
+    gogo_ball_sync_state.sequence = packet->sequence;
 }
 
 

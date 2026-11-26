@@ -409,7 +409,7 @@ void TObjEneSlime::release_child_slot(s32 id) {
 }
 
 
-s32 TObjEneSlime::try_spawn_child(void *position) {
+s32 TObjEneSlime::try_spawn_child(Vec *position) {
     s32 i;
     Vec pos;
     Vec dir;
@@ -421,7 +421,7 @@ s32 TObjEneSlime::try_spawn_child(void *position) {
     if (i == n) {
         return 0;
     }
-    VecCopy(&pos, (const Vec *)position);
+    VecCopy(&pos, position);
     pos.y += 10.0f;
     ang = (s16) (65535.0f * random_ratio());
     dir.x = sin_table_lookup(ang);
@@ -663,7 +663,7 @@ void TObjEneSlimeOne::run_hit_reaction() {
     if ((s32) this->state != 0xC) {
         TObjPlayer *player;
         if (((s32) this->attacker_id < (s32) registered_player_count) && ((player = get_player_by_client_id(attacker_id)) != NULL) && (player->get_attack_stage() == 2) && (parent_slime != NULL) && (parent_slime->all_parents_unqueued_for_destruction() != 0)) {
-            parent_slime->try_spawn_child((u8 *)&this->position);
+            parent_slime->try_spawn_child(&this->position);
         }
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
         set_state(0xC);

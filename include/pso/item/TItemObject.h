@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include "pso/item/TItem.h"
 
+struct G_UseStarAtomizer_6x66;
 struct TItemData;
 
 // A tool's ItemPMT entry (lookup_item_pmt_record).
@@ -61,7 +62,7 @@ s32 get_tool_palette_index(TItem *item);
 // The Star Atomizer's effect: tells the players within range of self.
 void send_nearby_player_ids(TObjPlayer *self, f32 range);
 
-void handle_6x66_use_star_atomizer(u8 *packet);
+void handle_6x66_use_star_atomizer(G_UseStarAtomizer_6x66 *packet);
 
 struct TObjPlayer;
 

@@ -106,7 +106,7 @@ void TKeyBoardControl::clear_keyboard_flag60_bit1() {
     }
 }
 
-void TQuestThread::queue_destruction(void *obj) { ((TObject *)obj)->queue_destruction(); }
+void TQuestThread::queue_destruction(TObject *obj) { obj->queue_destruction(); }
 
 void TObjItemNameSelect::set_selection_index(int index) { item_name_selection_index = index; }
 

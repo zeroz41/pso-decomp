@@ -665,13 +665,13 @@ void TObjWarpBoss::send_cmd_6A(u16 value) {
     pkt.send();
 }
 
-void handle_6x6A_set_boss_warp_flags(void *packet) {
+void handle_6x6A_set_boss_warp_flags(G_SetBossWarpFlags_6x6A *packet) {
     TObjCollidable *entity;
 
-    ((G_SetBossWarpFlags_6x6A *)packet)->bswap();
-    entity = find_entity_by_id(((G_SetBossWarpFlags_6x6A *)packet)->header.entity_id);
+    packet->bswap();
+    entity = find_entity_by_id(packet->header.entity_id);
     if (entity != NULL) {
-        ((TObjWarpBoss *)entity)->next_state = ((G_SetBossWarpFlags_6x6A *)packet)->flags;
+        ((TObjWarpBoss *)entity)->next_state = packet->flags;
     }
 }
 

@@ -1530,9 +1530,9 @@ u16 CursorTarget::get_entity_id() { return entity_id; }
 
 void TMainCursor::hide() { state_flags.set(2); }
 
-u8 get_target_palette_slot(void* p) { return get_action_palette_tag_slot(static_cast<const ActionPaletteTag *>(p)); }
+u8 get_target_palette_slot(ActionPaletteTag *p) { return get_action_palette_tag_slot(p); }
 
-u8 get_target_palette_mode(void* p) { return get_action_palette_tag_mode(static_cast<const ActionPaletteTag *>(p)); }
+u8 get_target_palette_mode(ActionPaletteTag *p) { return get_action_palette_tag_mode(p); }
 
 
 int CursorTarget::is_same_target(CursorTarget *other) {

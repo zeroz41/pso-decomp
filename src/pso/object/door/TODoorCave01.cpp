@@ -55,12 +55,11 @@ void TODoorCave01::update_demo() {}
 
 // Sends the 6x0B object-state message for the saved state (or src when given).
 
-void TODoorCave01::send_state(void *saved_state) {
-    QuestObjectEntry *source = (QuestObjectEntry *)saved_state;
+void TODoorCave01::send_state(QuestObjectEntry *saved_state) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
-    if (source != NULL) {
-        state.copy_from(source);
+    if (saved_state != NULL) {
+        state.copy_from(saved_state);
     } else {
         access_object_saved_state(&state, 1);
     }

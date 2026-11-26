@@ -437,9 +437,9 @@ void reset_creation_body_shapes() {
 }
 #pragma pop
 
-void bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_body_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *model) {
     reset_creation_body_shapes();
-    make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_body_shape_destination);
+    make_node_flag_table(model, (NodeFlagEntry *)&creation_body_shape_destination);
     for (s32 i = 0; i < 7; ++i) {
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[0][i], (NodeFlagEntry *)&creation_body_shape_samples[i]);
     }

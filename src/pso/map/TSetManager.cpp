@@ -960,14 +960,14 @@ void attach_objects_by_id(s32 floor) {
     }
 }
 
-void assign_objects_to_slots(u8 *rows, s32 object_count) {
+void assign_objects_to_slots(FloorObjectSetRow *rows, s32 object_count) {
     s16 flags;
     s16 set_index;
     FloorObjectSetRow *row;
     s32 i;
     TObjBase *set_object;
 
-    row = (FloorObjectSetRow *)rows;
+    row = rows;
     for (i = 0; i < object_count; i++, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->type != -1) && ((flags & 0x10) || (flags & 1) || (row->placement.wave == 0))) {
@@ -1170,7 +1170,7 @@ void TSetManager::apply_floor_set_rows() {
         floor->enemy_placement |= 4U;
     }
     if (floor->object_placement & 2) {
-        assign_objects_to_slots((u8 *)current_floor_object_set_rows, floor->object_count);
+        assign_objects_to_slots(current_floor_object_set_rows, floor->object_count);
     }
     if (floor->enemy_placement & 4) {
         assign_display_objects(current_floor_enemy_set_rows, floor->enemy_count);

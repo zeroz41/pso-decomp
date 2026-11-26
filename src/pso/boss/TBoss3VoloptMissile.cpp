@@ -94,7 +94,7 @@ void TBoss3VoloptMissile::run_task() {
         back.x = -back.x;
         back.y = -back.y;
         back.z = -back.z;
-        direction_to_rotation_yx((u8 *)&back, &trail_rotation[1], &trail_rotation[2]);
+        direction_to_rotation_yx(&back, &trail_rotation[1], &trail_rotation[2]);
         trail_rotation[2] -= 0x4000;
         trail->set_direction(trail_rotation);
         vec_set_length(&back, 10.0f);

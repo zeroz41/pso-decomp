@@ -5,6 +5,7 @@
 #include "pso/object/door/TODoorBase.h"
 #include "pso/system/NinjaTypes.h"
 
+struct QuestObjectEntry;
 struct NJS_TEXLIST;
 
 struct BmlResource;
@@ -23,7 +24,7 @@ struct TODoorCave01 : public TODoorBase {
     TODoorCave01(TObject *parent, void *set_data);
     virtual ~TODoorCave01();
     virtual void update_demo();
-    void send_state(void *);
+    void send_state(QuestObjectEntry *);
     virtual void apply_saved_state(s16 *, s32);
     virtual s32 init_door_switch_binding();
     virtual void update_open();

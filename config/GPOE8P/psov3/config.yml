@@ -4664,7 +4664,7 @@ force_active:
   - bswap__16TArrowColorEntryFv
   - bswap_data__10LightEntryFv
   - bswap_6x11__29G_DragonBossActions_6x10_6x11Fv
-  - bswap_enemy_set_row_fields__FPv
+  - bswap_enemy_set_row_fields__FP14EnemyPlacement
   - bswap_enemy_set_rows__6TLobbyFUl
   - bswap_fields_0_4__6TLobbyFv
   - bswap_fields_4_8_12__6TLobbyFv
@@ -4675,7 +4675,7 @@ force_active:
   - bswap__23G_UpdateEntityStat_6x9AFv
   - bswap_header_fields__6TLobbyFi
   - bswap__17InventoryItemListFv
-  - bswap_object_row_fields__FPv
+  - bswap_object_row_fields__FP13ObjectSetData
   - bswap_packet_field__6TLobbyFv
   - bswap__14TPlyDispConfigFv
   - bswap__31G_UpdateAttackableColState_6x91Fv
@@ -6061,7 +6061,7 @@ force_active:
   - exit__22TShopEquipmentSequenceFP15TShopWindowBase
   - exit_keyboard_mode__21TAdMultiSelGameModeGCFv
   - expand_message_substitutions__FPUcPc
-  - expire_weapon_casing__FPv
+  - expire_weapon_casing__FP7TObject
   - explode__13TBoss6MagMineFv
   - explode__22TObjEneMe1GiGueMissileFPC3Vec
   - explode_and_destroy__19TBoss3VoloptMissileFv
@@ -6145,7 +6145,7 @@ force_active:
   - send_6xB2_play_sound__FP16G_PlaySound_6xB2
   - find_active_pad_rumble_effect_by_id__FUl
   - find_archive_entry__FP7SjChunkPCcPCcP7SjChunk
-  - find_area_technique_contact__FP10TTecCircleP14TObjCollidableP13CollisionBodyPv
+  - find_area_technique_contact__FP10TTecCircleP14TObjCollidableP13CollisionBodyP8TObjBase
   - find_attack_target__13TObjEneMe1GeeFPff
   - find_cached_glyph__20TWindowSubStatusDispFUs
   - find_chain_targets__11TTecGiZondeFv
@@ -6543,7 +6543,7 @@ force_active:
   - get_area_sound__14TOTrapChainSawFl
   - get_armor_set_multiplier__9TItemDataFP10TObjPlayer
   - get_attack_angle__9TObjCharaFv
-  - get_attack_state__16TObjEneBm5GibonUFPv
+  - get_attack_state__16TObjEneBm5GibonUFP3Vec
   - get_bank_meseta_capacity__Fl
   - get_base_rarity__9TItemDataFv
   - get_bml_motion_by_index__23TObjSeabedSuisoBrakableFl
@@ -13828,7 +13828,7 @@ force_active:
   - quest_player_name_buffer
   - quest_vm_load__12TQuestListVMFv
   - queue_destruction__12TObjGrassWebFv
-  - queue_destruction__12TQuestThreadFPv
+  - queue_destruction__12TQuestThreadFP7TObject
   - queue_destruction__13TObjDFHormingFP7TObject
   - queue_destruction__14TAdMultiSaveGCFv
   - queue_destruction__15TObjIllGillKageFv
@@ -15291,7 +15291,7 @@ force_active:
   - send_srank_stat_extra__16TItemWeaponSRankFUll
   - send_srank_stat_extra_to_locks__16TItemWeaponSRankFv
   - send__17G_NPCControl_6x69Fv
-  - send_state__12TODoorCave01FPv
+  - send_state__12TODoorCave01FP16QuestObjectEntry
   - send_state_change__15TOAttackableColFUs
   - send_state_if_dirty__17TWindowSubComCardFv
   - send_state_sync__12TBoss1DragonFv
@@ -15926,7 +15926,7 @@ force_active:
   - spawn_recipe_particles__14TItemEffShieldFv
   - spawn_recoil_dust__14TObjEneBm5WolfFP3Vec
   - spawn_recovery_effect__10TObjPlayerFv
-  - spawn_scattered_lightning_strikes__FPUcl
+  - spawn_scattered_lightning_strikes__FP3Vecl
   - spawn_segment_row_a__15TObjBoss7TunnelFv
   - spawn_segment_row_b__15TObjBoss7TunnelFv
   - spawn_slime_in_slot__FP12TObjEneSlimelP3VecP3Vec
@@ -16502,7 +16502,7 @@ force_active:
   - try_hit_target__12TDubchikShotFP10TObjPlayer
   - try_open__11TObjDoaEx01Fv
   - try_relocate_on_timer__15TObjEneDelDepthFv
-  - try_spawn_child__12TObjEneSlimeFPv
+  - try_spawn_child__12TObjEneSlimeFP3Vec
   - try_spawn_ground_effect__16TObjEneMe3StelthFPC3Vec
   - try_start_action__11TOVS2Wall01FP9TObjCharalf
   - try_start_action__15TOAttackableColFP9TObjCharalf

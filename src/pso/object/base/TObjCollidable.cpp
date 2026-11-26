@@ -912,28 +912,27 @@ void TAttackCollider::update_body_contact_flag(f32 range) {
     }
 }
 
-u32 TObjCollidable::check_actor_body_contact(void *target, f32 range) {
-    TObjCollidable *other = (TObjCollidable *)target;
+u32 TObjCollidable::check_actor_body_contact(TObjCollidable *target, f32 range) {
     CollisionBodySet a;
     CollisionBodySet b;
     CollisionBody *hit;
 
-    if (other != this && other != NULL && !(actorFlags & 0x800) && !(other->actorFlags & 0x80000800)) {
-        if (range * range < horizontal_distance_squared(&position, &other->position)) {
+    if (target != this && target != NULL && !(actorFlags & 0x800) && !(target->actorFlags & 0x80000800)) {
+        if (range * range < horizontal_distance_squared(&position, &target->position)) {
             return 0;
         }
-        if (bodies != NULL && other->bodies != NULL) {
+        if (bodies != NULL && target->bodies != NULL) {
             a.colliders = bodies;
             a.count = body_count;
             VecCopy(&a.position, &position);
             a.facing = rotation_y;
-            b.colliders = other->bodies;
-            b.count = other->body_count;
-            VecCopy(&b.position, &other->position);
-            b.facing = other->rotation_y;
+            b.colliders = target->bodies;
+            b.count = target->body_count;
+            VecCopy(&b.position, &target->position);
+            b.facing = target->rotation_y;
             hit = refresh_actor_body_spheres(a, b);
             if (hit != NULL) {
-                find_or_alloc_battle_param_slot((uaddr)other);
+                find_or_alloc_battle_param_slot((uaddr)target);
                 hit->flags |= 0x04000000;
                 return (uaddr)hit;
             }

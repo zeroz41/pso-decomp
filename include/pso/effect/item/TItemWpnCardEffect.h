@@ -54,8 +54,8 @@ public:
 LAYOUT_ASSERT(TItemWpnCardModelEffect_size, sizeof(TItemWpnCardModelEffect) == 0x90);
 
 // Guardianna's yellow card where a shot hits a wall; the red and untinted cards of other weapons.
-void start_guardianna_wall_card(s32 item_id, saddr position, saddr direction);
-void start_red_wall_card(s32 item_id, saddr position, saddr direction);
+void start_guardianna_wall_card(s32 item_id, f32 *position, f32 *direction);
+void start_red_wall_card(s32 item_id, f32 *position, f32 *direction);
 void start_wall_card(s32 item_id, saddr position, saddr direction);
 
 #endif

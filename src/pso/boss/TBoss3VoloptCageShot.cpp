@@ -70,7 +70,7 @@ void TBoss3VoloptCageShot::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_yx((u8 *)&velocity, &rotation_y, &rotation_z);
+    direction_to_rotation_yx(&velocity, &rotation_y, &rotation_z);
     rotation_z -= 0x4000;
     if (trail != NULL) {
         trail->set_position(&position);

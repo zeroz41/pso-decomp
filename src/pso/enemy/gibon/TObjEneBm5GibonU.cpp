@@ -195,7 +195,7 @@ s32 TObjEneBm5GibonU::check_hit_sphere(int angle, f32 scale) {
     return hit;
 }
 
-void TObjEneBm5GibonU::get_attack_state(void *pos) { spawn_landing_effect((Vec *)pos); }
+void TObjEneBm5GibonU::get_attack_state(Vec *pos) { spawn_landing_effect(pos); }
 
 void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
     Vec v;

@@ -160,7 +160,7 @@ TechniqueContactList technique_contact_query_results;
 void resetTechniqueContactQuery();
 
 TechniqueContactList *find_support_technique_contact(TTecPlayerInfluence *self, TObjCollidable *target, CollisionBody *body, void *player);
-TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, void *player);
+TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, TObjBase *player);
 
 TechniqueContactList *find_support_technique_contact(TTecPlayerInfluence *self, TObjCollidable *target, CollisionBody *body, void *player) {
     Vec pos;
@@ -224,7 +224,7 @@ TechniqueContactList *TTecPlayerInfluence::gather_player_contacts(TObjCollidable
     return &technique_contact_query_results;
 }
 
-TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, void *player) {
+TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, TObjBase *player) {
     Vec pos;
     f32 range;
     TObjPlayer *pd;
@@ -243,7 +243,7 @@ TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidab
     VecCopy(&target->position, &pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = TObjPlayer::get_player_data(i);
-        if (pd != 0 && (pd->actorFlags & 0x20000000) && pd->get_entity_id() != ((TObjBase *)player)->get_entity_id()) {
+        if (pd != 0 && (pd->actorFlags & 0x20000000) && pd->get_entity_id() != player->get_entity_id()) {
             c = (CollisionBody *)target->find_actor_body_contact(pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 technique_contact_query_results.bodies[technique_contact_query_results.count] = c;

@@ -190,17 +190,16 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
     }
 }
 
-void handle_6x66_use_star_atomizer(u8 *packet) {
-    G_UseStarAtomizer_6x66 *cmd = (G_UseStarAtomizer_6x66 *)packet;
+void handle_6x66_use_star_atomizer(G_UseStarAtomizer_6x66 *packet) {
     TObjPlayer *user;
     s32 i;
     TObjPlayer *target;
-    cmd->bswap();
-    user = get_player_by_client_id(cmd->target_client_ids[0]);
+    packet->bswap();
+    user = get_player_by_client_id(packet->target_client_ids[0]);
     if (user != NULL) {
         i = 0;
         do {
-            target = get_player_by_client_id(cmd->target_client_ids[i]);
+            target = get_player_by_client_id(packet->target_client_ids[i]);
             if (target != NULL && target->is_actor_dead() == 0) {
                 if (user->get_floor() == target->get_floor()) {
                     target->set_hp_clamped(target->get_hpmax());

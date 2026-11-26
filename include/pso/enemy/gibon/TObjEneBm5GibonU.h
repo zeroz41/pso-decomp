@@ -103,7 +103,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     static void register_global_objects();
     s32 get_clamped_level();
     s32 check_hit_sphere(int angle, f32 scale);
-    void get_attack_state(void *pos);
+    void get_attack_state(Vec *pos);
     void spawn_landing_effect(Vec *pos);
     static void advance_anim_frame(NJS_OBJECT *);
     void handle_message(s32 msg);

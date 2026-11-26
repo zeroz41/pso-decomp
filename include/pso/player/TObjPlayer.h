@@ -758,10 +758,10 @@ struct TObjPlayer : public TObjChara {
     static void enable_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player);
     static void clear_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player);
     // The ending movie's finish callback: TMovie::run_task calls it with the movie.
-    static void alloc_and_init(s32 item_id, saddr position, saddr direction);
-    static void create_and_init_effect(s32 item_id, u32 *hit, saddr direction);
-    static void start_guardianna_hit_card(s32 item_id, u32 *hit, saddr direction);
-    static void create_aux_object(s32 item_id, u32 *hit, saddr direction);
+    static void alloc_and_init(s32 item_id, f32 *position, f32 *direction);
+    static void create_and_init_effect(s32 item_id, u32 *hit, f32 *direction);
+    static void start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction);
+    static void create_aux_object(s32 item_id, u32 *hit, f32 *direction);
     static void create_network_object(s32 item_id, u32 *hit, saddr direction);
     void free_indexed_entry(s32 _w1);
     static void create_cleanup_object(void *parent);

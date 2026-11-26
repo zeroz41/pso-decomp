@@ -36,7 +36,7 @@ TObjTradeCollision::~TObjTradeCollision() {
 }
 
 
-TObjTradeCollision::TObjTradeCollision(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
+TObjTradeCollision::TObjTradeCollision(TObject *parent, saddr set_data) : TObjCollidable(parent) {
     *(s32 *)((s8 *)this + 0) = (s32) (trade_collision_name);
     ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     trade_radius = this->scale.x;
@@ -44,7 +44,7 @@ TObjTradeCollision::TObjTradeCollision(saddr parent, saddr set_data) : TObjColli
 }
 
 void *TObjTradeCollision::create(void *set_data) {
-    void *o = (void *)new TObjTradeCollision((saddr)tl_05, (saddr)set_data);
+    void *o = (void *)new TObjTradeCollision(tl_05, (saddr)set_data);
     return o;
 }
 

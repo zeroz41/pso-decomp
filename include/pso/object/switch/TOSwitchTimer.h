@@ -7,7 +7,7 @@
 struct TOSwitchTimer : public TObjBase {
     static void free_resources();
     static void load_resources();
-    TOSwitchTimer(saddr, saddr);
+    TOSwitchTimer(TObject *, saddr);
     virtual ~TOSwitchTimer();
     void init_from_set_data();
     void send_switch_states();

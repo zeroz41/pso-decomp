@@ -91,7 +91,7 @@ TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s3
     basis[1].x = 0.0f;
     basis[1].y = 1.0f;
     basis[1].z = 0.0f;
-    direction_to_rotation_yx((u8 *)&ground->contact->normal, &yaw, &pitch);
+    direction_to_rotation_yx(&ground->contact->normal, &yaw, &pitch);
     if (pitch < 0x3000 || pitch > 0x5000) {
         (this)->queue_destruction();
         return;

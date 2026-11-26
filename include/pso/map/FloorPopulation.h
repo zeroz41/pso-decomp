@@ -153,7 +153,7 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room);
 s32 unhide_room_set_objects(s32 floor, s16 room, s16 group);
 s32 spawn_objects_at_pos(s16 room, s16 wave);
 void assign_display_objects(EnemySetRecord *rows, s32 enemy_count);
-void assign_objects_to_slots(u8 *rows, s32 object_count);
+void assign_objects_to_slots(FloorObjectSetRow *rows, s32 object_count);
 void create_objects(s32 floor);
 void attach_objects_by_id(s32 floor);
 EnemySetRecord *get_loaded_enemy_set_rows();

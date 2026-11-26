@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+struct EnemyPlacement;
+struct ObjectSetData;
+
 void TLobby__sub_80207E24(void *p, s32 size);
 void TLobby__sub_80207E44(void);
 void randomize_offline_area_maps(void);
@@ -13,9 +16,9 @@ void set_wave_event_stream(void *a0);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void activate_triggered_floor_events(void);
 void bswap_enemy_set_row(void *row_ptr);
-void bswap_enemy_set_row_fields(void *placement_ptr);
+void bswap_enemy_set_row_fields(EnemyPlacement *placement_ptr);
 void bswap_floor_event_set(s32 idx);
-void bswap_object_row_fields(void *placement_ptr);
+void bswap_object_row_fields(ObjectSetData *placement_ptr);
 void clear_floor_event_flags(void);
 struct SetDestroyEventRecord;
 void create_empty_floor_event(SetDestroyEventRecord *event);

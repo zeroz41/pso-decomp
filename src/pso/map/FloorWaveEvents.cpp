@@ -169,8 +169,7 @@ void bswap_enemy_set_row(void *row_ptr) {
     bswap_enemy_set_row_fields(&row->placement);
 }
 
-void bswap_enemy_set_row_fields(void *placement_ptr) {
-    EnemyPlacement *placement = (EnemyPlacement *)placement_ptr;
+void bswap_enemy_set_row_fields(EnemyPlacement *placement) {
     bswap_16((u16 *)&placement->child_count);
     bswap_16((u16 *)&placement->unknown04[0]);
     bswap_16((u16 *)&placement->unknown0c[0]);
@@ -197,8 +196,7 @@ void swap_object_row_endian(void *row_ptr) {
     bswap_object_row_fields(&row->placement);
 }
 
-void bswap_object_row_fields(void *placement_ptr) {
-    ObjectSetData *placement = (ObjectSetData *)placement_ptr;
+void bswap_object_row_fields(ObjectSetData *placement) {
     bswap_16((u16 *)&placement->floor);
     bswap_16((u16 *)&placement->wave);
     bswap_16((u16 *)&placement->room);

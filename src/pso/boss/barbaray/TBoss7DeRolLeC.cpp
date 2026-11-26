@@ -3046,7 +3046,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             if (laser_ptcl != NULL) {
                 laser_ptcl->calc_position((u8 *)&part_points[0], (u8 *)&part_points[1]);
                 laser_ptcl->calc_world_position(beam_end);
-                calc_laser_ray_hit_point((u8 *)laser_ptcl, (u8 *)&from);
+                calc_laser_ray_hit_point(laser_ptcl, &from);
             }
             hit = csnVector(&from, beam_end, 0x16EF);
             if (hit != NULL) {

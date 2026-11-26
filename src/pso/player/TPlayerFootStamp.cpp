@@ -230,7 +230,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         dir[1].x = 0.0f;
         dir[1].y = 1.0f;
         dir[1].z = 0.0f;
-        direction_to_rotation_yx((u8 *)&ground->contact->normal, &yaw, &pitch);
+        direction_to_rotation_yx(&ground->contact->normal, &yaw, &pitch);
         if (pitch < 0x2000 || pitch > 0x6000) {
             queue_destruction();
             return;

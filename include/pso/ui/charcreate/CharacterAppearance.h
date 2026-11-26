@@ -3,6 +3,8 @@
 #include "types.h"
 #include <stddef.h>
 
+struct NJS_OBJECT;
+
 // The player's visual record (same 0x50-byte layout as disp_data_part2 in TPlyDispData.h, whose
 // names nameColor/extraModel/version follow).
 struct CharacterAppearanceFields {
@@ -46,5 +48,5 @@ f32 calc_character_height(CharacterAppearanceFields *appearance);
 s32 character_display_index(CharacterAppearanceFields *appearance);
 void draw_colored_hair(f32 alpha, saddr model, CharacterAppearanceFields *appearance, s32 specialColor);
 void bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model);
-void bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model);
+void bind_body_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *model);
 #endif
