@@ -143,7 +143,7 @@ void TLobby::roll_item_grind_bonus() {
             }
             ((AppraisalItemView *)this)->f3 = v;
         }
-        u8 m = ((TItemData *)this)->get_entry_field16();
+        u8 m = ((TItemData *)this)->get_max_grind();
         if (((AppraisalItemView *)this)->f3 > m) {
             ((AppraisalItemView *)this)->f3 = m;
         }

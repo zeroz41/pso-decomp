@@ -10,7 +10,15 @@ struct TItemData;
 // An armor's ItemPMT record (lookup_item_pmt_record), the fields this class
 // reads.
 struct ArmorPmtEntry {
-    u8 pad_0[0x16];
+    u8 pad_0[0x8];
+    s16 dfp;        // scaled by the set bonus and the clock bonus
+    s16 evp;
+    u8 pad_c[0x5];
+    s8 efr;         // the resistances the armor adds
+    s8 eth;
+    s8 eic;
+    s8 edk;
+    s8 elt;
     u8 dfp_range;   // the largest DFP bonus the item keeps
     u8 evp_range;   // the largest EVP bonus the item keeps
     u8 pad_18[0x2];

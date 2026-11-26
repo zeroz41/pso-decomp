@@ -26,6 +26,10 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/item/armor/TItemProShield.h"
+#include "pso/item/armor/TItemProArmor.h"
+#include "pso/item/armor/TItemProUnit.h"
+#include "pso/item/TItemObject.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/item/item_pmt.h"
@@ -36,60 +40,22 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 
-struct Parm_8010C1E0;
-struct Item_8010C498;
-struct Item_8010C52C;
-struct Parm_8010C0A4;
-struct Tbl_8010C8B4;
-struct Raw_8010D614;
-struct Mag_8010D614;
 struct Pair_8010E344;
 struct TItemData_8010E344;
+struct Item_8010E59C;
 struct Mag_8010D510;
 struct Item_8010D510;
-struct Parm_8010EBD8;
-struct Params_8010E414;
-struct Item_8010E59C;
-struct Parm_8010C320
-{
-  u8 pad[0xA];
-  u16 atp_min;
-  u16 atp_max;
-  u8 padE[6];
-  u16 x14;
-  u8 pad16[3];
-  u8 x19;
-};
 
 extern "C" {
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out);
 u8 get_cast_technique_level(void *, int);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 }
-#define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 
-struct Parm_8010C1E0 { u8 pad[8]; s16 dfp; s16 evp; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
+// get_item_icon_index copies the table whole.
+struct ItemIconIndexTable { s32 w[19]; };
 
-struct Item_8010C498 {
-    u8 kind;
-    u8 b1, b2;
-    u8 b3;
-    u8 b4;
-    u8 pad05[0xD];
-    u8 b12;
-};
-
-struct Item_8010C52C { u8 kind; u8 pad1[2]; u8 b3; u8 b4; u8 pad5[0xD]; u8 b12; };
-
-struct Parm_8010C0A4 { u8 pad[8]; s16 x8; s16 xa; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
-
-struct Raw_8010D614 { u8 b[4]; u16 s[4]; u32 id; u8 c[4]; };
-
-struct Mag_8010D614 { u16 a0; u16 a2; u16 s[4]; u8 c; u8 d; u8 e; };
-
-struct Tbl_8010C8B4 { s32 w[19]; };
-
-static const Tbl_8010C8B4 item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
+static const ItemIconIndexTable item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
 static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
 extern "C" {
 extern const u8 lbl_805DAB68 = 0x40;
@@ -99,15 +65,15 @@ extern "C" {
 
 
 void TItemData::set_present_color(s8 box_color) {
-    switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0))) {
+    switch (data1.data_u8[0]) {
     case 0:
-        *(u8 *)((s8 *)((u8 *)this) + 5) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 5) | (box_color & 0xF));
+        data1.data_u8[5] = (u8) (data1.data_u8[5] | (box_color & 0xF));
         return;
     case 1:
-        *(u8 *)((s8 *)((u8 *)this) + 4) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 4) | (box_color & 0xF));
+        data1.data_u8[4] = (u8) (data1.data_u8[4] | (box_color & 0xF));
         return;
     case 3:
-        *(u8 *)((s8 *)((u8 *)this) + 3) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 3) | (box_color & 0xF));
+        data1.data_u8[3] = (u8) (data1.data_u8[3] | (box_color & 0xF));
         return;
     case 2:
         return;
@@ -115,13 +81,13 @@ void TItemData::set_present_color(s8 box_color) {
 }
 
 s32 TItemData::get_type_nibble() {
-    switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0))) {
+    switch (data1.data_u8[0]) {
     case 0:
-        return *(u8 *)((s8 *)((u8 *)this) + 5) & 0xF;
+        return data1.data_u8[5] & 0xF;
     case 1:
-        return *(u8 *)((s8 *)((u8 *)this) + 4) & 0xF;
+        return data1.data_u8[4] & 0xF;
     case 3:
-        return *(u8 *)((s8 *)((u8 *)this) + 3) & 0xF;
+        return data1.data_u8[3] & 0xF;
     default:
     case 2:
         return 0;
@@ -251,27 +217,27 @@ void TItemData::apply_bonuses(s32 player, AttackParams *attack, ActorParamBlock 
 
 void TItemData::add_mag_stat_bonuses(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
                                      EquipHpTpBonus *hp_tp) {
-    Mag_8010D614 mag;
+    MagStats mag;
 
-    ((MagStats *)&mag)->init();
-    TItemData::deserialize_mag((Raw_8010D614 *)((u8 *)this), &mag);
+    mag.init();
+    TItemData::deserialize_mag(data1.data_u8, &mag);
     if (stats != NULL && stats != NULL) {
-        stats->atp += (s16)(mag_stat_bonus_scale[0] * (f32)((MagStats *)&mag)->get_pow_level());
-        stats->ata += (s16)(mag_stat_bonus_scale[1] * (f32)(((MagStats *)&mag)->get_dex_level() * 10));
-        stats->dfp += (s16)(mag_stat_bonus_scale[2] * (f32)((MagStats *)&mag)->get_def_level());
-        stats->mst += (s16)(mag_stat_bonus_scale[3] * (f32)((MagStats *)&mag)->get_mind_level());
+        stats->atp += (s16)(mag_stat_bonus_scale[0] * (f32)mag.get_pow_level());
+        stats->ata += (s16)(mag_stat_bonus_scale[1] * (f32)(mag.get_dex_level() * 10));
+        stats->dfp += (s16)(mag_stat_bonus_scale[2] * (f32)mag.get_def_level());
+        stats->mst += (s16)(mag_stat_bonus_scale[3] * (f32)mag.get_mind_level());
     }
 }
 
 void TItemData::apply_unit_stat_bonus(s32 player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
                                       EquipHpTpBonus *hp_tp) {
-    Parm_8010C1E0 *parm;
+    UnitPmtEntry *parm;
     s32 kind;
     s16 amount;
-    parm = lookup_item_pmt_record(data1.data_u8);
+    parm = (UnitPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != NULL && stats != NULL && params != NULL) {
-    kind = parm->dfp;
-    amount = parm->evp + get_field6_bswap(data1.data_u8);
+    kind = parm->stat;
+    amount = parm->stat_amount + get_field6_bswap(data1.data_u8);
     switch (kind) {
     case 0:
         stats->atp += amount;
@@ -340,22 +306,22 @@ void TItemData::apply_unit_stat_bonus(s32 player, AttackParams *attack, ActorPar
 void TItemData::add_shield_stat_contribution(s32 player, AttackParams *attack, ActorParamBlock *params,
                                              EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
     s32 b06;
-    Parm_8010C0A4 *parm;
+    ShieldPmtEntry *parm;
     f32 mult = get_set_bonus_multiplier(player);
     f32 add = calc_clock_bonus(player);
-    parm = (Parm_8010C0A4 *)lookup_item_pmt_record(data1.data_u8);
+    parm = (ShieldPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
         b06 = ((s32 (*)(void *))TItemData::getS16_06)(this);
         s32 b08 = ((s32 (*)(void *))TItemData::get_bswap16_field8)(this);
-        s32 v = (s32)(parm->xa * mult + add);
+        s32 v = (s32)(parm->evp * mult + add);
         if (params != 0) {
             params->add_evp((s16)(v + b08));
-            params->add_dfp(parm->x8 + b06);
-            params->add_efr(parm->x11);
-            params->add_eic(parm->x13);
-            params->add_eth(parm->x12);
-            params->add_elt(parm->x15);
-            params->add_edk(parm->x14);
+            params->add_dfp(parm->dfp + b06);
+            params->add_efr(parm->efr);
+            params->add_eic(parm->eic);
+            params->add_eth(parm->eth);
+            params->add_elt(parm->elt);
+            params->add_edk(parm->edk);
         }
     }
 }
@@ -366,10 +332,10 @@ void TItemData::add_shield_stat_contribution(s32 player, AttackParams *attack, A
 void TItemData::add_armor_stat_contribution(s32 player, AttackParams *attack, ActorParamBlock *params,
                                             EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
     s32 dfpBonus;
-    Parm_8010C1E0 *parm;
+    ArmorPmtEntry *parm;
     f32 mult = get_set_bonus_multiplier(player);
     f32 add = calc_clock_bonus(player);
-    parm = lookup_item_pmt_record(data1.data_u8);
+    parm = (ArmorPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
         dfpBonus = ((s32 (*)(void *))TItemData::getS16_06)(this);
         s16 evpBonus = get_bswap16_field8(data1.data_u8);
@@ -377,11 +343,11 @@ void TItemData::add_armor_stat_contribution(s32 player, AttackParams *attack, Ac
         if (params != 0) {
             params->add_evp((s16)(parm->evp + evpBonus));
             params->add_dfp(dfp + dfpBonus);
-            params->add_efr(parm->x11);
-            params->add_eic(parm->x13);
-            params->add_eth(parm->x12);
-            params->add_elt(parm->x15);
-            params->add_edk(parm->x14);
+            params->add_efr(parm->efr);
+            params->add_eic(parm->eic);
+            params->add_eth(parm->eth);
+            params->add_elt(parm->elt);
+            params->add_edk(parm->edk);
         }
     }
 }
@@ -389,55 +355,53 @@ void TItemData::add_armor_stat_contribution(s32 player, AttackParams *attack, Ac
 
 #pragma push
 #pragma fp_contract on
-typedef struct Parm_8010C1E0 Parm_8010C1E0;
-typedef struct Parm_8010C320 Parm_8010C320;
 void TItemData::add_weapon_stat_bonuses(s32 player, AttackParams *attack, ActorParamBlock *params,
                                         EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
   s16 hi;
   s32 i;
-  Parm_8010C320 *parm;
+  WeaponParams *parm;
   f32 mult = get_set_bonus_multiplier(player);
   f32 add = calc_clock_bonus(player);
-  parm = (Parm_8010C320 *) ((Parm_8010C1E0 *)lookup_item_pmt_record(this));
+  parm = (WeaponParams *)lookup_item_pmt_record(data1.data_u8);
   if (parm != 0)
   {
     if (attack != 0)
     {
-      s16 grind = ((u8) (hi = ((s8 *) ((u8 *)this))[3])) * 2;
+      s16 grind = ((u8) (hi = data1.data_s8[3])) * 2;
       s16 lo = (mult * ((f32) (parm->atp_min + grind))) + add;
       hi = (mult * ((f32) (parm->atp_max + grind))) + add;
       attack->add_atp_min(lo);
       attack->add_atp_max(hi);
-      attack->add_ata((s16) (parm->x19 * 10));
+      attack->add_ata((s16) (parm->ata * 10));
       for (i = 0; i != 3; i++)
       {
-        if (((u8 *)this)[6 + (i * 2)] == 5)
+        if (data1.data_u8[6 + (i * 2)] == 5)
         {
-          attack->add_ata((s16) (((s8) ((u8 *)this)[7 + (i * 2)]) * 10));
+          attack->add_ata((s16) (data1.data_s8[7 + (i * 2)] * 10));
         }
       }
     }
     if (stats != 0)
     {
-      stats->mst += parm->x14;
+      stats->mst += parm->mst;
     }
   }
 }
 #pragma pop
 
 void TItemData::set_wrapped() {
-    switch (((struct Item_8010C498 *)this)->kind) {
+    switch (data1.data_u8[0]) {
     case 0:
     case 1:
-        ((struct Item_8010C498 *)this)->b4 |= lbl_805DAB68;
+        data1.data_u8[4] |= lbl_805DAB68;
         break;
     case 3:
         if (TItemData::lookup_item_def(this) == 0) {
-            ((struct Item_8010C498 *)this)->b3 |= lbl_805DAB68;
+            data1.data_u8[3] |= lbl_805DAB68;
         }
         break;
     case 2:
-        ((struct Item_8010C498 *)this)->b12 |= lbl_805DAB68;
+        data2.data_u8[2] |= lbl_805DAB68;
         break;
     }
 }
@@ -483,7 +447,6 @@ u16 TItemData::get_packed_value() {
     }
     return 0U;
 }
-#undef lookup_item_pmt_record
 
 s32 get_item_icon_index(const u8 *q);
 
@@ -556,7 +519,7 @@ void TItemData::unpack_from_item(ObjectSetData *set) {
 s32 get_item_icon_index(const u8 *q) {
     u8 v;
     if (q[0] == 0) {
-        Tbl_8010C8B4 t = item_icon_index_by_category_table;
+        ItemIconIndexTable t = item_icon_index_by_category_table;
         if ((v = q[1]) < 0xAA) {
             v = get_weapon_class_motion_type(v);
         }
@@ -568,7 +531,6 @@ s32 get_item_icon_index(const u8 *q) {
 }
 
 
-#define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
 void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 group);
 s32 TItemData__sub_8010CAB0(s32 self, s8 index);
 
@@ -581,7 +543,7 @@ int TItemData::isValidGroundDrop() {
         switch ((s32)category) {
         case 3:
         case 0:
-            if (((u32 (*)(TItemData*))lookup_item_pmt_record)(this) == 0U) return 0;
+            if (lookup_item_pmt_record(data1.data_u8) == NULL) return 0;
             break;
         case 1:
             group=data1.data_u8[1];
@@ -684,12 +646,12 @@ s32 TItemData::is_custom_name_srank(void *data) {
 
 void TItemData::decode_from_network() {}
 void TItemData::encode_for_network() {}
-u8 TItemData::get_entry_field16() {
-    void *item_pmt_record;
+u8 TItemData::get_max_grind() {
+    WeaponParams *weapon;
 
-    item_pmt_record = lookup_item_pmt_record();
-    if (item_pmt_record != NULL) {
-        return *(u8 *)((s8 *)item_pmt_record + 0x16);
+    weapon = (WeaponParams *)lookup_item_pmt_record(data1.data_u8);
+    if (weapon != NULL) {
+        return weapon->max_grind;
     }
     return 0U;
 }
@@ -705,7 +667,6 @@ s32 TItemData::get_max_stack_size() {
     return 1;
 }
 
-#undef lookup_item_pmt_record
 
 
 
@@ -722,10 +683,6 @@ struct Item_8010D510 {
     u32 word;
     u8 b16; u8 b17; u8 b18; u8 b19;
 };
-
-struct Parm_8010EBD8 { s32 name; u8 pad04[0xC]; u32 flags; };
-
-struct Params_8010E414 { s32 name; u8 pad4[4]; s16 stat; s16 amount; };
 
 struct Item_8010E59C {
     u8 type;
@@ -1083,20 +1040,20 @@ void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag
 void TItemData::bswap_fields() { bswap_16(&this->data1.data_u16[2]); bswap_16(&this->data1.data_u16[3]); bswap_16(&this->data1.data_u16[4]); bswap_16(&this->data1.data_u16[5]); }
 
 void TItemData::deserialize_mag(void *item_data, void *mag_data) {
-    Raw_8010D614 *src = (Raw_8010D614 *)item_data;
-    Mag_8010D614 *dst = (Mag_8010D614 *)mag_data;
+    TItemData *src = (TItemData *)item_data;
+    MagStats *dst = (MagStats *)mag_data;
     if (dst != 0) {
-        Raw_8010D614 tmp = *src;
-        ((TItemData *)(&tmp))->bswap_fields();
-        dst->d = tmp.b[3];
-        dst->s[0] = tmp.s[0] & 0x7ffe;
-        dst->s[1] = tmp.s[1] & 0x7ffe;
-        dst->s[2] = tmp.s[2] & 0x7ffe;
-        dst->s[3] = tmp.s[3] & 0x7ffe;
-        dst->a2 = tmp.c[0];
-        dst->a0 = tmp.c[1];
-        dst->c = tmp.c[2];
-        dst->e = tmp.c[3];
+        TItemData tmp = *src;
+        tmp.bswap_fields();
+        dst->photon_blasts = tmp.data1.data_u8[3];
+        dst->def = tmp.data1.data_u16[2] & 0x7ffe;
+        dst->pow = tmp.data1.data_u16[3] & 0x7ffe;
+        dst->dex = tmp.data1.data_u16[4] & 0x7ffe;
+        dst->mind = tmp.data1.data_u16[5] & 0x7ffe;
+        dst->synchro = tmp.data2.data_u8[0];
+        dst->iq = tmp.data2.data_u8[1];
+        dst->photon_blast_flags = tmp.data2.data_u8[2];
+        dst->color = tmp.data2.data_u8[3];
     }
 }
 
@@ -1538,17 +1495,17 @@ saddr TItemData::calc_buy_price() {
 
 s32 format_item_description(u8 *item) {
     char *format;
-    Params_8010E414 *p;
+    UnitPmtEntry *p;
     char *out;
     s32 name;
-    p = (Params_8010E414 *)lookup_item_pmt_record(item);
+    p = (UnitPmtEntry *)lookup_item_pmt_record(item);
     out = (char *)get_item_chunk_buffer(0);
     if (p != NULL && out != NULL) {
         format = NULL;
         if (TItemData::is_wrapped(item) != 0) {
             format = (char *)get_item_description_text(0x77);
         } else {
-            name = p->name;
+            name = p->id;
             if (name == 0x1F4) {
                 return (saddr)lbl_805D2B10;
             }
@@ -1561,7 +1518,7 @@ s32 format_item_description(u8 *item) {
             } else if (item[0] == 1 && item[1] == 3) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
-                        sprintf(out, (char *)get_item_description_text(name), p->amount + TItemData::get_field6_bswap(item));
+                        sprintf(out, (char *)get_item_description_text(name), p->stat_amount + TItemData::get_field6_bswap(item));
                         return (saddr)out;
                     }
                 } else {
@@ -1767,17 +1724,17 @@ int TItemData::calc_display_grade() {
 
 s32 TItemData::get_base_rarity() {
     u8 *item = (u8 *)this;
-    struct Parm_8010EBD8 *p;
+    ItemToolPmt *p;
     switch (item[0]) {
     case 0:
     case 1:
-        p = (struct Parm_8010EBD8 *)lookup_item_pmt_record(item);
+        p = (ItemToolPmt *)lookup_item_pmt_record(item);
         if (p != NULL) {
-            return get_item_star_count(p->name);
+            return get_item_star_count(p->id);
         }
         break;
     case 3:
-        p = (struct Parm_8010EBD8 *)lookup_item_pmt_record(item);
+        p = (ItemToolPmt *)lookup_item_pmt_record(item);
         if (p != NULL && (p->flags & 0x80)) {
             return 0xC;
         }

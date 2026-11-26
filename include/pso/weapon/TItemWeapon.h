@@ -18,11 +18,16 @@ struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
 // A weapon's item parameter record (lookup_item_pmt_record).
 struct WeaponParams {
-    u8 pad_0[0x16];
+    u8 pad_0[0xA];
+    u16 atp_min;
+    u16 atp_max;
+    u8 pad_e[0x6];
+    u16 mst;                       // MST the equipped weapon adds
     u8 max_grind;
     u8 photon_color;               // signed; -1: no photon colour
     u8 special;                    // the weapon's fixed special, 0 for none
-    u8 pad_19[0x1B - 0x19];
+    u8 ata;                        // ATA the equipped weapon adds
+    u8 pad_1a;
     u8 gun_point_joint;            // where shots start
     u8 trail_joints[4];            // start and end joints of trails 0 and 1
     u8 color_node;                 // model node drawn in the photon colour

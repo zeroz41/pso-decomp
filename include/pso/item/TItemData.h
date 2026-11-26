@@ -75,7 +75,8 @@ struct TItemData {
     s32 get_name_style();
     void decode_from_network();
     void encode_for_network();
-    u8 get_entry_field16();
+    // A weapon's highest grind (its WeaponParams::max_grind).
+    u8 get_max_grind();
     void register_drop();
     static void register_item_drop(TItemData *item);
     s32 get_max_stack_size();

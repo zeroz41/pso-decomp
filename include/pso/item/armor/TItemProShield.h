@@ -11,9 +11,17 @@ struct TechniqueBoostParam;
 // A shield's ItemPMT record (lookup_item_pmt_record), the fields this class
 // reads.
 struct ShieldPmtEntry {
-    u8 pad_0[0xD];
+    u8 pad_0[0x8];
+    s16 dfp;
+    s16 evp;             // scaled by the set bonus and the clock bonus
+    u8 pad_c;
     s8 block_effect;     // index into TItemProShield::shield_table
-    u8 pad_e[0x8];
+    u8 pad_e[0x3];
+    s8 efr;              // the resistances the shield adds
+    s8 eth;
+    s8 eic;
+    s8 edk;
+    s8 elt;
     u8 evp_range;        // the largest EVP bonus the item keeps
     u8 dfp_range;        // the largest DFP bonus the item keeps
     u8 pad_18;
