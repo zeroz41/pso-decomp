@@ -24,6 +24,9 @@ struct PhotonBlastRequestSlot;
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/player/PlayerTelepipe.h"
+#include "pso/player/PlayerGuildCardTag.h"
+#include "pso/player/PlayerState.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/player/PlayerAppearFade.h"
 #include "pso/player/BattleMusicState.h"
@@ -283,8 +286,8 @@ struct TObjPlayer : public TObjChara {
     PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
     PlayerPkState pk_state;
     PlayerTelepipe telepipe;  // TTecLuker::init_fields, TelepipeState::send_telepipe_packet
-    Vec marker_position;  // above the head (calc_marker_position), where the lobby marker is drawn
-    void* death_flags;
+    PlayerMarkerPosition marker_position;  // above the head (calc_marker_position), where the lobby marker is drawn
+    FlagWord death_flags;
     // name through height are the player's CharacterAppearanceFields record.
     char name[0x1C];
     u8 extra_model;
@@ -317,12 +320,12 @@ struct TObjPlayer : public TObjChara {
     NJS_TEXLIST body_textures;
     s32 model_load_flags;  // nonzero while the models load (update_body_parts sets 255); not drawn until 0
     TPlyItem *inventory_objects;  // created by create_inventory
-    void *equipped_items[13];  // by equip slot; read through get_equipped_item
+    EquippedItems equipped_items;  // read through get_equipped_item
     player_stats base_stats;
     AttackParams attack_stats;
     ActorParamBlock resistance_stats;
     // Guild card tag (tag triplet + guild card number) the lobby entry gives the player.
-    u8 guild_card_tag[8];
+    PlayerGuildCardTag guild_card_tag;
     static void draw_area_chunk_objects();
     static void reset_effect_count();
     static void step_cutscene_frame(NJS_OBJECT *);
@@ -389,7 +392,6 @@ struct TObjPlayer : public TObjChara {
     Vec *get_position_ptr();
     // Where the player stood before this frame's move.
     Vec *get_prev_position_ptr();
-    void clear_header_struct();
     static void set_com_card_window(s32 client);
     static s32 check_demo_mode();
     static TItem *get_equipped_weapon(void *player);  // equipped_items[6]
@@ -520,8 +522,6 @@ struct TObjPlayer : public TObjChara {
     void set_evade_materials_used(u8 v);
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
-    static s32 reset_and_return(saddr p);
-    void clear_base();
     int sub_802a7290_fwd();
     int is_handle_valid();
     static u8 get_item_count_max();
@@ -717,10 +717,7 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_128();
     static s32 decrement_timer(s32 *timer);
     static void reset_particle_ctrl(s32 *ctrl);
-    void*init_sub_objects();
     void set_level(s32 lvl);
-    static s32 init_sub_object(saddr lobby);
-    static void init_sub_object_vectors(saddr lobby);
     static s32 init_inventory_items(saddr items);
     s32 get_getup_protection_ticks();
     s32 get_hurt_protection_ticks();

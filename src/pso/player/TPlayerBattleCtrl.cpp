@@ -264,7 +264,7 @@ void TAdSinglePlyChrSelectGC__sub_801C5120(void);
 void TAdSinglePlyChrSelectGC__sub_801C5158(void);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
-void construct__19PlayerCharDataEntryFv(void);
+void __ct__19PlayerCharDataEntryFv(void);
 
 void TLobby__sub_801C3AF4(UpdatePlayerBattleCtrlStateLobby *self);
 
@@ -808,16 +808,16 @@ void apply_game_settings(s32 owner, s32 use_config) {
         for (s32 i = 0; i < 4; i++) {
             TObjPlayer *p = player_slot_table[i];
             if (p != NULL) {
-                p->battle_score.damage_stats[3].set_bonus_weight(battle_player_give_damage_score);
-                p->battle_score.damage_stats[3].set_normal_weight(battle_enemy_give_damage_score);
-                p->battle_score.damage_stats[2].set_bonus_weight(battle_player_take_damage_score);
-                p->battle_score.damage_stats[2].set_normal_weight(battle_enemy_take_damage_score);
-                p->battle_score.damage_stats[0].set_bonus_weight(battle_player_kill_score);
-                p->battle_score.damage_stats[0].set_normal_weight(battle_enemy_kill_score);
-                p->battle_score.damage_stats[1].set_bonus_weight(battle_player_death_score);
-                p->battle_score.damage_stats[1].set_normal_weight(battle_enemy_death_score);
-                p->battle_score.damage_stats[4].set_bonus_weight(battle_meseta_score);
-                p->battle_score.damage_stats[4].set_normal_weight(battle_meseta_score);
+                p->battle_score.damage_given.set_bonus_weight(battle_player_give_damage_score);
+                p->battle_score.damage_given.set_normal_weight(battle_enemy_give_damage_score);
+                p->battle_score.damage_taken.set_bonus_weight(battle_player_take_damage_score);
+                p->battle_score.damage_taken.set_normal_weight(battle_enemy_take_damage_score);
+                p->battle_score.kills.set_bonus_weight(battle_player_kill_score);
+                p->battle_score.kills.set_normal_weight(battle_enemy_kill_score);
+                p->battle_score.deaths.set_bonus_weight(battle_player_death_score);
+                p->battle_score.deaths.set_normal_weight(battle_enemy_death_score);
+                p->battle_score.meseta.set_bonus_weight(battle_meseta_score);
+                p->battle_score.meseta.set_normal_weight(battle_meseta_score);
             }
         }
         lobby_rule_settings.set_section_id(1);
@@ -902,7 +902,7 @@ void TLobby__sub_801C3AF4(UpdatePlayerBattleCtrlStateLobby *self) {
 void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     lbl_805D5D9C = TKeyBoardControl__sub_8000F828() == 1 ? 0x19 : 0x1E;
-    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)construct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
+    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     TAdSinglePlyChrSelectGC__sub_801C5158();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;
@@ -1208,11 +1208,11 @@ void TPlayerBattleCtrl::init_battle_round() {
   if (player != NULL)
   {
     obj_set_flag_20000(player);
-    player->battle_score.damage_stats[3].reset();
-    player->battle_score.damage_stats[2].reset();
-    player->battle_score.damage_stats[0].reset();
-    player->battle_score.damage_stats[1].reset();
-    player->battle_score.damage_stats[4].reset();
+    player->battle_score.damage_given.reset();
+    player->battle_score.damage_taken.reset();
+    player->battle_score.kills.reset();
+    player->battle_score.deaths.reset();
+    player->battle_score.meseta.reset();
     player->battle_score.slots.set_score(0);
   }
   *((s32 *) (((s8 *) this) + 0x60)) = 0x5A;

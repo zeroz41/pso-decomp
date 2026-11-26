@@ -124,10 +124,10 @@ void TWindowDuelResult::build_stats_page() {
     pl = get_player_by_client_id(client_index);
     if (pl != 0) {
         set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), (uaddr)pl->name, 0x20);
-        vals[0] = pl->battle_score.damage_stats[0].get_total();
-        vals[1] = pl->battle_score.damage_stats[1].get_total();
-        vals[2] = pl->battle_score.damage_stats[3].get_total();
-        vals[3] = pl->battle_score.damage_stats[2].get_total();
+        vals[0] = pl->battle_score.kills.get_total();
+        vals[1] = pl->battle_score.deaths.get_total();
+        vals[2] = pl->battle_score.damage_given.get_total();
+        vals[3] = pl->battle_score.damage_taken.get_total();
         for (i = 0; i < 4; i++) {
             a = (u8 *)get_array_entry(i * 3 + 2);
             b = (u8 *)get_array_entry(i * 3 + 4);

@@ -267,7 +267,6 @@ void PhotonBlastGauge::reset_state() {
 extern "C" {
 f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount);
 s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount);
-void clear_player_sub_object_slots(PlayerSubObjectSlots *p);
 }
 
 PhotonBlastGauge::PhotonBlastGauge() {
@@ -328,13 +327,13 @@ void G_DonateToPhotonBlast_6x38::send_state() { bswap_fields(); send_subcommand(
 G_SetPhotonBlastReadyFlag_6x39 &G_SetPhotonBlastReadyFlag_6x39::operator=(const G_SetPhotonBlastReadyFlag_6x39 &src) { copy_subcommand_header(this, &src); return *this; }
 
 extern "C" {
-void clear_player_sub_object_slots(PlayerSubObjectSlots *p) {
+PlayerSubObjectSlots::PlayerSubObjectSlots() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        p->pad_0[i] = 0;
+        pad_0[i] = 0;
     }
-    p->pad_10 = 0;
-    p->score = 0;
+    pad_10 = 0;
+    score = 0;
 }
 
 s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {

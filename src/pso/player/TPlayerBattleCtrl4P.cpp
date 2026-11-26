@@ -530,11 +530,11 @@ void TPlayerBattleCtrl4P::init_battle() {
         p = get_player_by_client_id(i);
         if (p != 0) {
             obj_set_flag_20000(p);
-            p->battle_score.damage_stats[3].reset();
-            p->battle_score.damage_stats[2].reset();
-            p->battle_score.damage_stats[0].reset();
-            p->battle_score.damage_stats[1].reset();
-            p->battle_score.damage_stats[4].reset();
+            p->battle_score.damage_given.reset();
+            p->battle_score.damage_taken.reset();
+            p->battle_score.kills.reset();
+            p->battle_score.deaths.reset();
+            p->battle_score.meseta.reset();
             p->battle_score.slots.set_score(0);
         }
     }
@@ -757,16 +757,16 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
       p = get_player_by_client_id(j);
       if (p != 0)
       {
-        p->battle_score.damage_stats[3].set_bonus_weight(battle_player_give_damage_score);
-        p->battle_score.damage_stats[3].set_normal_weight(battle_enemy_give_damage_score);
-        p->battle_score.damage_stats[2].set_bonus_weight(battle_player_take_damage_score);
-        p->battle_score.damage_stats[2].set_normal_weight(battle_enemy_take_damage_score);
-        p->battle_score.damage_stats[0].set_bonus_weight(battle_player_kill_score);
-        p->battle_score.damage_stats[0].set_normal_weight(battle_enemy_kill_score);
-        p->battle_score.damage_stats[1].set_bonus_weight(battle_player_death_score);
-        p->battle_score.damage_stats[1].set_normal_weight(battle_enemy_death_score);
-        p->battle_score.damage_stats[4].set_bonus_weight(battle_meseta_score);
-        p->battle_score.damage_stats[4].set_normal_weight(battle_meseta_score);
+        p->battle_score.damage_given.set_bonus_weight(battle_player_give_damage_score);
+        p->battle_score.damage_given.set_normal_weight(battle_enemy_give_damage_score);
+        p->battle_score.damage_taken.set_bonus_weight(battle_player_take_damage_score);
+        p->battle_score.damage_taken.set_normal_weight(battle_enemy_take_damage_score);
+        p->battle_score.kills.set_bonus_weight(battle_player_kill_score);
+        p->battle_score.kills.set_normal_weight(battle_enemy_kill_score);
+        p->battle_score.deaths.set_bonus_weight(battle_player_death_score);
+        p->battle_score.deaths.set_normal_weight(battle_enemy_death_score);
+        p->battle_score.meseta.set_bonus_weight(battle_meseta_score);
+        p->battle_score.meseta.set_normal_weight(battle_meseta_score);
       }
     }
     lobby_rule_settings.set_section_id(1);
@@ -1104,11 +1104,11 @@ s32 TPlayerBattleCtrl4P::calc_battle_score(TObjPlayer *player) {
     f32 score;
     s32 total;
 
-    score = (f32)player->battle_score.damage_stats[3].get_total();
-    score -= (f32)player->battle_score.damage_stats[2].get_total();
-    score += (f32)player->battle_score.damage_stats[0].get_total();
-    score -= (f32)player->battle_score.damage_stats[1].get_total();
-    score += (f32)player->get_actor_meseta() * player->battle_score.damage_stats[4].get_bonus_weight();
+    score = (f32)player->battle_score.damage_given.get_total();
+    score -= (f32)player->battle_score.damage_taken.get_total();
+    score += (f32)player->battle_score.kills.get_total();
+    score -= (f32)player->battle_score.deaths.get_total();
+    score += (f32)player->get_actor_meseta() * player->battle_score.meseta.get_bonus_weight();
     total = (s32)score;
     player->battle_score.slots.set_score(total);
     return total;

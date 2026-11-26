@@ -15,7 +15,7 @@ struct PlayerPkState {
     void set_team(s32 id);
     void disable();
     void enable();
-    PlayerPkState *init();
+    PlayerPkState();
     void reset();
 };
 

@@ -140,10 +140,6 @@ struct GameStateSyncScratch {
 };
 LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
 LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
-struct Stack_80135598 {
-    s32 sp8;
-    u8 trailing_storage[0x488];
-};
 struct RecoveredGlobal_80135198_lbl_804A7008 { s32 value; u8 remaining[0x14]; };
 LAYOUT_ASSERT(RecoveredGlobal_80135198_lbl_804A7008_size, sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18);
 struct Row_80135208 { u8 pad[8]; u32 ip_addr; s32 client_id; char name[16]; };
@@ -165,14 +161,6 @@ struct GameMenuEntry {
     s8 flags;
 };
 typedef struct { u8 pad0[5]; u8 kind; u8 pad6[6]; u8 name[0x8C]; } Ent_80135E7C;
-struct Hdr_80136A8C {
-    u8 pad0[0xAC];
-    s32 fAC;
-    u8 padB0[0x488 - 0xB0];
-    s32 f488;
-    u8 pad48C[4];
-};
-struct Hdr_80136C94 { u8 data[0x10]; };
 typedef struct LobbyServerAddress {
     const char *host;
     s32 port;
@@ -198,7 +186,6 @@ void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt);
 s32 TLobby__sub_801A3E8C();
-s32 init_player_join_record(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
@@ -584,9 +571,8 @@ void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt) {
     }
 }
 void TLobby::send_6x70_player_data(int size) {
-    Stack_80135598 stack;
+    PlayerSyncRecord record;
     PlayerSyncPacket *packet;
-    init_player_join_record(&stack.sp8);
     packet = (PlayerSyncPacket *)mem_alloc(0x494);
     if (packet != NULL) {
         get_player_by_client_id(local_client_id)->fill_player_record(&packet->record);
@@ -2193,11 +2179,10 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
 }
 void TLobby::handle_game_join(void *data) {
     TPlyJoinGame *pkt = (TPlyJoinGame *)data;
-    Hdr_80136C94 hdr;
+    PlayerGuildCardTag tag;
     TObjPlayer *p;
     saddr i;
     s32 j;
-    ((TObjPlayer *)(&hdr))->clear_header_struct();
     memcpy(game_join_player_records, pkt->lobby_data, 0x80);
     bswap_32(&game_join_player_records[0].ip_addr);
     bswap_32(&game_join_player_records[1].ip_addr);
@@ -2239,7 +2224,6 @@ void TLobby::handle_game_join(void *data) {
 
 void TLobby::make_players() {
     TObjPlayer *p;
-    Hdr_80136A8C hdr;
     TObjPlayer *q;
     if (TLobby__sub_801A3E8C() != 0) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
@@ -2251,13 +2235,13 @@ void TLobby::make_players() {
         lobby_state = 0xF;
         p = create_player_object(1 - local_client_id, 4, TAdSinglePlyChrSelectGC::get_char_index(0));
         if (p != NULL) {
-            init_player_join_record(&hdr);
-            p->fill_player_record((PlayerSyncRecord *)&hdr);
-            TLobby::bswap_player_data(&hdr);
-            hdr.fAC = 0;
-            hdr.f488 = 0;
+            PlayerSyncRecord record;
+            p->fill_player_record(&record);
+            TLobby::bswap_player_data(&record);
+            record.area = 0;
+            record.floor = 0;
             delete p;
-            q = create_remote_player_object(&hdr);
+            q = create_remote_player_object(&record);
             if (q != NULL) {
                 q->reset_motion_fields();
             }
@@ -2763,16 +2747,16 @@ void TLobby::bswap_player_data(void *data) {
         ((TLobby *)&record->status_effects[i])->bswap_header_3words();
     }
     bswap_32(&record->language);
-    ((TLobby *)&record->player_tag)->bswap_fields();
+    ((TLobby *)&record->guild_card_tag)->bswap_fields();
     bswap_u32_pair(&record->pk_state);
     bswap_telepipe_record(&record->telepipe);
-    bswap_32(&record->death_flags);
+    bswap_32((u32 *)&record->death_flags);
     bswap_32(&record->area);
     bswap_32(&record->floor);
     bswap_32(&record->player_flags);
     bswap__15disp_data_part2Fv((saddr)&record->visual);
     bswap__12player_statsFv(&record->stats);
-    TLobby::bswap_inventory(&record->item_count);
+    TLobby::bswap_inventory(&record->inventory.count);
 }
 void TLobby::bswap_inventory(void*p) { bswap_32((u32 *)p); { int i; for (i = 0; i < 30; i++) { ((TPlyInventoryItem *)((char*)p + 0x4 + i * 28))->bswap(); } } }
 void TLobby::set_player_count(int a0) { lobby_player_count = a0; }

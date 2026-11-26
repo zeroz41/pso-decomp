@@ -127,7 +127,7 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     copy_xyz(&rotation_x, record->angle);
     mode = record->phase;
     hp = record->current_hp;
-    ((TLobby *)&guild_card_tag)->copy_header_struct(&record->player_tag);
+    ((TLobby *)&guild_card_tag)->copy_header_struct(&record->guild_card_tag);
     pk_state = record->pk_state;
     telepipe = record->telepipe;
     TObjPlayer__sub_801BEEE0(&death_flags, &record->death_flags);
@@ -246,7 +246,7 @@ void TObjPlayer::init_session_technique_caps(PlayerSyncRecord *record) {
     init_class_technique_caps(&technique_state, get_class_index());
     technique_state.copy_all_technique_entries(0x1D);
     for (i = 0; i < 0x13; i++) {
-        set_technique_level_clamped(this, record->technique_levels[i] + record->items[i].m_present[2], i);
+        set_technique_level_clamped(this, record->technique_levels[i] + record->inventory.items[i].m_present[2], i);
     }
     for (i = 0; i < 5; i++) {
         status_effects[i] = record->status_effects[i];
@@ -355,7 +355,7 @@ void TObjPlayer::init_from_source(PlayerSyncRecord *record) {
     inventory_objects = NULL;
     create_inventory();
     set_action_provider_variant(default_action_provider_variant());
-    bind_saved_inventory_equipment(this, record->items, record->item_count);
+    bind_saved_inventory_equipment(this, record->inventory.items, record->inventory.count);
     item_node_matrices = player_shared_buffer_base[get_entity_id()];
 }
 
@@ -406,7 +406,7 @@ void TObjPlayer::update_action_animation() {
         this->clear_state_flags(4);
         if (this->test_actor_flags(0x800) != 0) {
             run_action_state_phase(0xF, 0);
-            if (test_flags_any((s32 *)&this->death_flags, 1) != 0) {
+            if (test_flags_any(&death_flags.bits, 1) != 0) {
                 this->requested_action = this->get_action_animation();
             } else {
                 this->restart_death_pose();
@@ -516,18 +516,6 @@ void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(parent) {
-    movement_hold.init();
-    photon_blast_aim.reset();
-    ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
-    trap_counts.init();
-    ((TObjPlayer *)((char *)this + 1992))->clear_base();
-    attack_state.init();
-    pk_state.init();
-    telepipe.init();
-    clear_marker_position(&marker_position);
-    __ct__8FlagWordFv(((char *)this + 2136));
-    TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
-    ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
     this->m_name = TObjPlayer_name;
     this->init_action_provider();
     this->entity_id = 0;
@@ -538,18 +526,6 @@ TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(par
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(parent) {
-    movement_hold.init();
-    photon_blast_aim.reset();
-    ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
-    trap_counts.init();
-    ((TObjPlayer *)((char *)this + 1992))->clear_base();
-    attack_state.init();
-    pk_state.init();
-    telepipe.init();
-    clear_marker_position(&marker_position);
-    __ct__8FlagWordFv(((char *)this + 2136));
-    TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
-    ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
     this->m_name = TObjPlayer_name;
     this->init_from_data(record);
     this->setup_control_role(4);
@@ -570,18 +546,6 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record) : TObjChara(parent) {
-    movement_hold.init();
-    photon_blast_aim.reset();
-    ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();
-    trap_counts.init();
-    ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
-    attack_state.init();
-    pk_state.init();
-    telepipe.init();
-    clear_marker_position(&marker_position);
-    __ct__8FlagWordFv((((u8 *)this) + 0x858));
-    TObjPlayer::reset_and_return((saddr)((((u8 *)this) + 0xD04)));
-    ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();
     m_name = TObjPlayer_name;
     this->init_action_provider();
     this->entity_id = slot;

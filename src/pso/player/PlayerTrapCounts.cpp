@@ -158,7 +158,6 @@ void PlayerTrapCounts::set_count(s8 count, s32 kind) {
     counts[kind] = count;
 }
 
-PlayerTrapCounts *PlayerTrapCounts::init() {
+PlayerTrapCounts::PlayerTrapCounts() {
     clear();
-    return this;
 }

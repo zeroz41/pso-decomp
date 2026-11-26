@@ -304,7 +304,6 @@ void TLobby::update_challenge_timer(s32 time) {
 }
 
 
-struct RebuildPlayersForStageHdr { u32 w[2]; };
 
 struct RebuildPlayersForStageInfo { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
 
@@ -335,7 +334,6 @@ s32 TLobby::try_set_split_screen(s32 difficulty) {
 void TLobby::rebuild_players_for_stage(s32 stage) {
     RebuildPlayersForStageInfo info;
     Vec pos;
-    RebuildPlayersForStageHdr hdr;
     s32 i;
     TObjPlayer *p;
     ChallengeStageStart *tbl;
@@ -346,7 +344,7 @@ void TLobby::rebuild_players_for_stage(s32 stage) {
     }
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
-        ((TObjPlayer *)(&hdr))->clear_header_struct();
+        PlayerGuildCardTag hdr;
         if (p != NULL) {
             VecCopy((Vec *)&pos, (const Vec *)((u8 *)p + 0x38));
             copy_player_visual_record(&info, (u8 *)p + 0x85C);

@@ -219,34 +219,7 @@ struct S801B4430_801b4430_801B3FD8 { s8 b[2]; s16 h; };
 
 
 
-struct Obj_801B4FD8 {
-    u16 f0;
-    s16 f2;
-    s32 f4;
-    f32 f8;
-    f32 fC;
-    f32 f10;
-    s32 f14;
-    s32 f18;
-    s32 f1C;
-    s16 f20;
-    s16 f22;
-    s16 f24;
-    s16 f26;
-    u8 f28[0x64 - 0x28];
-    s32 f64;
-    u8 f68[8];
-    u8 f70[8];
-    PlayerTelepipe telepipe;
-    u8 f94[4];
-    MovementHold f98;
-    s32 fAC;
-    s32 fB0;
-    s8 fB4[0x13];
-    u8 padC7[0x13C - 0xC7];
-    InventoryItemList f13C;
-    s32 f488;
-};
+
 
 
 
@@ -381,7 +354,6 @@ void TLobby__sub_801B09A4(void);
 void handle_6x34(void);
 void handle_6x32_medical_center_revive_all_players(void);
 extern "C" {
-Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param);
 void get_action_palette_mode(saddr player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
@@ -1358,13 +1330,13 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
     } else {
         slot = item->get_attach_slot();
     }
-    TItem *current = (TItem *)get_slot_value(equipped_items, slot);
+    TItem *current = (TItem *)get_slot_value(equipped_items.items, slot);
     if (current == NULL) {
-        set_equip_slot_entry((saddr)equipped_items, slot, (saddr)item);
+        set_equip_slot_entry((saddr)equipped_items.items, slot, (saddr)item);
         item->equip();
     } else if (current != item) {
         unequip_item(current);
-        set_equip_slot_entry((saddr)equipped_items, slot, (saddr)item);
+        set_equip_slot_entry((saddr)equipped_items.items, slot, (saddr)item);
         item->equip();
     }
     if (test_action_mask(2) != 0) {
@@ -1409,7 +1381,7 @@ void handle_6x26_unequip_item(G_UnequipItem_6x26 *command) {
 
 
 void TObjPlayer::unequip_item(TItem *item) {
-    set_equip_slot_entry((saddr)equipped_items, item->get_attach_slot(), 0);
+    set_equip_slot_entry((saddr)equipped_items.items, item->get_attach_slot(), 0);
     item->unequip();
     if (item->get_item_type() == 1 && item->get_item_group() == 1) {
         unequip_all_units();
@@ -1469,7 +1441,7 @@ s32 TObjPlayer::preview_equip_stats(PlayerRequirementStats *out, u8 *incoming) {
         prev->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
         if (prev->get_item_type() == 1 && prev->get_item_group() == 1) {
             for (slot = 9; slot <= 12; slot++) {
-                TItem *unit = (TItem *)TObjPlayer::get_slot_value(this->equipped_items, slot);
+                TItem *unit = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, slot);
                 if (unit != NULL) {
                     unit->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
                 }
@@ -1531,7 +1503,7 @@ s32 TObjPlayer::preview_unequip_stats(PlayerRequirementStats *out, s32 key) {
     owner->subtract_equip_stats(a, (s16 *)b, (s16 *)&c);
     if (owner->get_item_type() == 1 && owner->get_item_group() == 1) {
         for (i = 9; i <= 12; i++) {
-            TItem *s = (TItem *)TObjPlayer::get_slot_value(this->equipped_items, i);
+            TItem *s = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
             if (s != NULL) {
                 s->subtract_equip_stats(a, (s16 *)b, (s16 *)&c);
             }
@@ -2067,8 +2039,8 @@ void handle_6x2B_create_inventory_item(G_CreateInventoryItem_PC_V3_BB_6x2B *comm
             }
             ((TItemData *)pkt.item)->decode_from_network();
             item = ((u8 * (*)(s32 *))create_item)((s32 *)pkt.item);
-            if ((item != NULL) && (player->pickup_item((TItem *)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (TObjPlayer::get_slot_value(player->equipped_items, ((TItem *)item)->get_attach_slot()) == 0U)) {
-                set_equip_slot_entry((saddr)player->equipped_items, ((TItem *)item)->get_attach_slot(), (saddr)item);
+            if ((item != NULL) && (player->pickup_item((TItem *)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (TObjPlayer::get_slot_value(player->equipped_items.items, ((TItem *)item)->get_attach_slot()) == 0U)) {
+                set_equip_slot_entry((saddr)player->equipped_items.items, ((TItem *)item)->get_attach_slot(), (saddr)item);
                 player->set_flag_20000();
                 ((TItem *)item)->equip();
                 player->clear_flag_20000();
@@ -2092,7 +2064,7 @@ void TObjPlayer::create_inventory() {
     }
     this->inventory_objects->item_list = new TItemList((TObject *)this->inventory_objects);
     this->inventory_objects->item_root = new TObject(this);
-    clear_equip_slots((s32 *)equipped_items);
+    equipped_items.clear();
 }
 
 void TObjPlayer::bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventoryItem *records, int count) {
@@ -2113,8 +2085,8 @@ void TObjPlayer::bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventor
 void TObjPlayer::equip_saved_item_if_slot_empty(TObjPlayer *player, TPlyInventoryItem *record) {
     TItem *item = create_item(&record->m_data);
     if (item != NULL && player->pickup_item(item) != 0 && (record->m_flags & 8) &&
-        TObjPlayer::get_slot_value(player->equipped_items, item->get_attach_slot()) == 0U) {
-        set_equip_slot_entry((saddr)player->equipped_items, item->get_attach_slot(), (saddr)item);
+        TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot()) == 0U) {
+        set_equip_slot_entry((saddr)player->equipped_items.items, item->get_attach_slot(), (saddr)item);
         player->set_flag_20000();
         item->equip();
         player->clear_flag_20000();
@@ -2606,7 +2578,7 @@ void TObjPlayer::check_level_up() {
                 PlayerLevelStats gain;
                 j = 0;
                 do {
-                    removed_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items, j);
+                    removed_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items.items, j);
                     if ((can_destroy_with_parents((TObject *)removed_item) != 0) && (((TItem *)removed_item)->is_equipped() != 0)) {
                         ((TItem *)removed_item)->remove_equip_stats(1);
                     }
@@ -2617,7 +2589,7 @@ void TObjPlayer::check_level_up() {
                 after.set(this, this->stat_block, this->attack_params, param_block);
                 i = 0;
                 do {
-                    added_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items, i);
+                    added_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
                     if ((can_destroy_with_parents((TObject *)added_item) != 0) && (((TItem *)added_item)->is_equipped() != 0)) {
                         ((TItem *)added_item)->add_equip_stats(1);
                     }
@@ -3409,32 +3381,24 @@ s32 TObjPlayer::is_outside_movement_hold(f32 *pos) {
 }
 #pragma pop
 
-Obj_801B4FD8 *init_player_join_record(Obj_801B4FD8 *self) {
+PlayerSyncRecord::PlayerSyncRecord() {
     s32 i;
-    __construct_array(self->f28, (void *)__ct__12StatusEffectFv, NULL, sizeof(StatusEffect), 5);
-    ((TObjPlayer *)(self->f68))->clear_header_struct();
-    ((PlayerPkState *)self->f70)->init();
-    self->telepipe.init();
-    __ct__8FlagWordFv((self->f94));
-    self->f98.init();
-    __ct__17InventoryItemListFv(&self->f13C);
-    self->f0 = 0xFFFF;
-    self->f2 = 0;
-    self->f4 = 0;
-    self->f8 = self->fC = self->f10 = player_zero;
-    self->f14 = self->f18 = self->f1C = 0;
-    self->f20 = 0;
-    self->f22 = 0;
-    self->f24 = 0;
-    self->f26 = 0;
-    self->f64 = 0;
-    self->fAC = 0;
-    self->f488 = 0;
-    self->fB0 = 0;
+    client_id = 0xFFFF;
+    room_id = 0;
+    game_flags = 0;
+    position.x = position.y = position.z = player_zero;
+    angle[0] = angle[1] = angle[2] = 0;
+    phase = 0;
+    current_hp = 0;
+    hp_material_bonus = 0;
+    tp_material_bonus = 0;
+    language = 0;
+    area = 0;
+    floor = 0;
+    player_flags = 0;
     for (i = 0; i < 0x13; i++) {
-        self->fB4[i] = TObjPlayer::get_item_count_max();
+        technique_levels[i] = TObjPlayer::get_item_count_max();
     }
-    return self;
 }
 
 void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
@@ -3453,7 +3417,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     for (i = 0; i < 5; i++) {
         record->status_effects[i] = status_effects[i];
     }
-    ((TLobby *)&record->player_tag)->copy_header_struct(guild_card_tag);
+    ((TLobby *)&record->guild_card_tag)->copy_header_struct(&guild_card_tag);
     record->pk_state = pk_state;
     record->telepipe = telepipe;
     TObjPlayer__sub_801BEEE0(&record->death_flags, &death_flags);
@@ -3463,7 +3427,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     record->player_flags = state_flags;
     record->language = get_language();
     copy_player_visual_record(&record->visual, name);
-    record->item_count = inventory_objects->run_state_query(record->items);
+    record->inventory.count = inventory_objects->run_state_query(record->inventory.items);
     saved_hp = get_actor_hp();
     saved_tp = get_actor_tp();
     for (i = 0; i != 0xD; i++) {
@@ -3482,7 +3446,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     record->set_luck_materials_used(get_luck_materials_used());
     for (i = 0; i < 0x13; i++) {
         TObjPlayer::split_capped_value(technique_state.get_learned_level(i), &record->technique_levels[i],
-                                       (u8 *)&record->items[i].m_present[2]);
+                                       (u8 *)&record->inventory.items[i].m_present[2]);
     }
     for (j = 0; j != 0xD; j++) {
         TItem *item = get_equipped_item(j);
@@ -3494,10 +3458,10 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     set_tp(saved_tp);
     encode_player_record_inventory(record);
     flags = pending_actions.get_bits();
-    record->items[0].m_present[3] = flags;
-    record->items[1].m_present[3] = (u8)(flags >> 8);
-    record->items[2].m_present[3] = (u8)(flags >> 16);
-    record->items[3].m_present[3] = (u8)(flags >> 24);
+    record->inventory.items[0].m_present[3] = flags;
+    record->inventory.items[1].m_present[3] = (u8)(flags >> 8);
+    record->inventory.items[2].m_present[3] = (u8)(flags >> 16);
+    record->inventory.items[3].m_present[3] = (u8)(flags >> 24);
     record->set_class_flag_0(get_mag_level());
     record->set_class_flag_1(get_byte_339());
     record->set_class_flag_2(get_battle_mode());
@@ -4148,7 +4112,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
     if (p == NULL) {
         return;
     }
-    ((FlagWord *)&p->death_flags)->clear(2);
+    p->death_flags.clear(2);
     if (p->try_pickup_item() != 0) {
         return;
     }
@@ -4207,7 +4171,7 @@ void TObjPlayer::prepare_hospital_return() {
 
 void handle_6x34(void) {  }
 
-int TObjPlayer::check_player_state_flag_2() { return test_flags_any((s32 *)&death_flags, 2); }
+int TObjPlayer::check_player_state_flag_2() { return test_flags_any(&death_flags.bits, 2); }
 
 void TObjPlayer::set_return_hunter() { set_battle_flag(1); }
 
@@ -5435,13 +5399,13 @@ void TObjPlayer::record_kill(TObject *victim, s32 count) {
     if (victim->check_value_equals(TObjPlayer_name) == 0
         || lobby_rule_settings.get_is_teams() != 1
         || pk_state.get_team() != ((TObjPlayer *)victim)->pk_state.get_team()) {
-        accumulate_damage_stats(&battle_score.damage_stats[0], victim, count);
+        accumulate_damage_stats(&battle_score.kills, victim, count);
         play_sound_effect(0x4004B20A, 0, 0, 0);
     }
 }
 
 s32 TObjPlayer::record_death(TObject *killer, s32 count) {
-    return accumulate_damage_stats(&battle_score.damage_stats[1], killer, count);
+    return accumulate_damage_stats(&battle_score.deaths, killer, count);
 }
 
 void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage) {
@@ -5491,7 +5455,7 @@ void handle_6x8E(void) {  }
 
 void TObjPlayer::apply_camera_shake(TObjCollidable *target, s32 damage) {
     if ((TTecCtrl::is_technique_ready() != 0) && (target->test_actor_flags(0x10000000) == 0) && (is_locally_controlled() != 0)) {
-        accumulate_damage_stats(&battle_score.damage_stats[3], target, damage);
+        accumulate_damage_stats(&battle_score.damage_given, target, damage);
     }
 }
 void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command) {
@@ -5514,14 +5478,14 @@ void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command)
         return;
     }
     if ((u16)target->get_entity_id() != (u16)player->get_entity_id()) {
-        accumulate_damage_stats(&player->battle_score.damage_stats[3], target, pkt.amount);
+        accumulate_damage_stats(&player->battle_score.damage_given, target, pkt.amount);
     }
     if (target->test_actor_flags(0x10000000) == 0) {
         return;
     }
     other = get_player_by_client_id((u16)target->get_entity_id());
     if (other != NULL) {
-        accumulate_damage_stats(&other->battle_score.damage_stats[2], player, pkt.amount);
+        accumulate_damage_stats(&other->battle_score.damage_taken, player, pkt.amount);
     }
 }
 extern "C" {
@@ -5530,18 +5494,18 @@ void TObjPlayer::record_meseta_pickup(s32 amount) {
     if (this->is_locally_controlled() == 0 || lobby_rule_settings.get_meseta_mode() != 2 || TTecCtrl::is_technique_ready() == 0) {
         return;
     }
-    battle_score.damage_stats[4].set_total((f32) amount);
+    battle_score.meseta.set_total((f32) amount);
 }
 
 s32 TObjPlayer::calc_battle_score() {
     f32 v;
 
-    v = (f32)battle_score.damage_stats[3].get_total();
-    v -= (f32)battle_score.damage_stats[2].get_total();
-    v += (f32)battle_score.damage_stats[0].get_total();
-    v -= (f32)battle_score.damage_stats[1].get_total();
+    v = (f32)battle_score.damage_given.get_total();
+    v -= (f32)battle_score.damage_taken.get_total();
+    v += (f32)battle_score.kills.get_total();
+    v -= (f32)battle_score.deaths.get_total();
     if (test_actor_flags(0x800) == 0) {
-        v += (f32)get_actor_meseta() * battle_score.damage_stats[4].get_bonus_weight();
+        v += (f32)get_actor_meseta() * battle_score.meseta.get_bonus_weight();
     }
     return (s32)v;
 }

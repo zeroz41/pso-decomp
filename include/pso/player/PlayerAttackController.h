@@ -33,8 +33,8 @@ struct PlayerAttackController {
     f32 cone_apex_offset;
     CapturedTargetList lockon_targets;
 
-    // Builds the block in place (TObjPlayer's constructors call it in member order).
-    PlayerAttackController *init();
+    // Clears the block; the lock-on list and the flag word are built first.
+    PlayerAttackController();
     void reset();
 
     // The pending stage, 0 when it is not valid.

@@ -1070,7 +1070,7 @@ void TObjPlayer::freeze_phase2_nop() {  }
 void TObjPlayer::update_frozen_release() {
   if (this->test_actor_flags(0x800) != 0)
   {
-    ((FlagWord *)&this->death_flags)->clear(1);
+    death_flags.clear(1);
     run_action_state_phase(0xF, 5);
     return;
   }
@@ -1310,7 +1310,7 @@ G_PlayerRevived_6x4F &G_PlayerRevived_6x4F::operator=(const G_PlayerRevived_6x4F
 void TObjPlayer::send_6x4F_revived() {
     G_PlayerRevived_6x4F msg;
 
-    if (test_flags_any((s32 *)&death_flags, 4) != 0) {
+    if (test_flags_any(&death_flags.bits, 4) != 0) {
         send_use_medical_center();
         if (this->is_alive_and_ready() != 0) {
             this->refill_traps();
@@ -1450,7 +1450,7 @@ void TObjPlayer::update_active_state() {
             return;
         }
         run_action_state_phase(0xF, 0);
-        if (test_flags_any((s32 *)&death_flags, 1) != 0) {
+        if (test_flags_any(&death_flags.bits, 1) != 0) {
             this->requested_action = this->get_action_animation();
         } else {
             this->restart_death_pose();
@@ -1495,7 +1495,7 @@ void TObjPlayer::send_6x4E_player_revivable() {
 }
 
 void TObjPlayer::update_action_render() {
-    if (test_flags_any((s32 *)&this->death_flags, 1) != 0) {
+    if (test_flags_any(&death_flags.bits, 1) != 0) {
         this->requested_action = this->get_action_animation();
     } else {
         this->requested_action = this->get_model_field_m25();
@@ -1558,7 +1558,7 @@ void TObjPlayer::enter_death_state() {
     reset_on_death();
     clear_velocity();
     this->phase = 0;
-    if (test_flags_any((s32 *)&this->death_flags, 1) != 0) {
+    if (test_flags_any(&death_flags.bits, 1) != 0) {
         this->set_action_state(0xF, (s16)get_no_action());
         this->restart_death_pose();
     } else {
@@ -1626,12 +1626,12 @@ void TObjPlayer::prepare_death() {
         TWindowCtrl::disable_client_main_menu((u16)this->get_entity_id());
         this->return_city_window = 0;
         this->death_fade = NULL;
-        ((FlagWord *)&this->death_flags)->clear(4);
+        death_flags.clear(4);
         if (this->find_revival_item() == 0) {
-            ((FlagWord *)&this->death_flags)->set(2);
+            death_flags.set(2);
         }
     }
-    if (test_flags_any((s32 *)&this->death_flags, 1) == 0) {
+    if (test_flags_any(&death_flags.bits, 1) == 0) {
         this->drop_items_on_death();
     }
     if (is_action_input_disabled() != 0) {
@@ -1823,7 +1823,7 @@ void TObjPlayer::complete_fall_reaction() {
     switch (this->phase) {
     case 1:
         if (((s16) this->requested_action == this->get_action_animation()) && (this->motion_flags & 0x10) && (this->test_actor_flags(0x800) != 0)) {
-            ((FlagWord *)&this->death_flags)->set(1);
+            death_flags.set(1);
             run_action_state_phase(0xF, 5);
         }
         break;
@@ -1941,7 +1941,7 @@ void TObjPlayer::hurt_phase8_nop() {  }
 void TObjPlayer::complete_hurt_reaction() {
     if (this->motion_flags & 0x10) {
         if (this->test_actor_flags(0x800) != 0) {
-            ((FlagWord *)&this->death_flags)->clear(1);
+            death_flags.clear(1);
             run_action_state_phase(0xF, 5);
             return;
         }
@@ -2215,7 +2215,7 @@ void TObjPlayer::guard_reaction_phase8_nop() {  }
 void TObjPlayer::complete_guard_reaction() {
     if (this->motion_flags & 0x10) {
         if (this->test_actor_flags(0x800) != 0) {
-            ((FlagWord *)&this->death_flags)->clear(1);
+            death_flags.clear(1);
             run_action_state_phase(0xF, 5);
             return;
         }

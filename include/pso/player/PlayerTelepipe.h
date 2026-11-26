@@ -14,7 +14,7 @@ struct PlayerTelepipe {
 
     PlayerTelepipe &operator=(PlayerTelepipe &src);
     // No telepipe: owner 0xFFFF, floor 0, at the origin.
-    PlayerTelepipe *init();
+    PlayerTelepipe();
 };
 
 LAYOUT_ASSERT(PlayerTelepipeFlagsOffset, offsetof(PlayerTelepipe, flags) == 0x18);
