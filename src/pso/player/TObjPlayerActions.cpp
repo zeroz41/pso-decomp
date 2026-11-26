@@ -237,7 +237,7 @@ void TObjPlayer::send_state_sync() {
         if (lobby_animation == action_provider->get_alt_chair_sit_action()) {
             pkt.set_alt_chair();
         }
-        if (TKeyBoardControl__sub_801A58D8() != 0) {
+        if (is_keyboard_shift_held() != 0) {
             pkt.set_keyboard();
         }
         pkt.send();
@@ -259,8 +259,8 @@ void TObjPlayer::update_lobby_chair_controls() {
     f32 amount;
     if (this->is_controls_locked() == 0 && this->phase != 0 &&
         (this->pad_binding.is_button_pressed(2) != 0 ||
-         (this->is_action_flag_28() == 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x24) != 0) ||
-         (this->is_action_flag_28() != 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x18) != 0))) {
+         (this->is_action_flag_28() == 0 && is_keyboard_control_held() != 0 && TKeyBoardControl::is_key_down(0x24) != 0) ||
+         (this->is_action_flag_28() != 0 && is_keyboard_control_held() != 0 && TKeyBoardControl::is_key_down(0x18) != 0))) {
         this->run_action_state_phase(1, 5);
         return;
     }
@@ -332,13 +332,13 @@ s16 TObjPlayer::select_idle_action() {
         return -1;
     }
     if ((get_player_action_provider_selector() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
-        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
+        if (((is_keyboard_control_held() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
             return action_provider->get_chair_sit_action();
         }
-        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
+        if (((is_keyboard_control_held() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
             return action_provider->get_alt_chair_sit_action();
         }
-        if (TKeyBoardControl__sub_801A58B0() != 0) {
+        if (is_keyboard_control_held() != 0) {
             if (TKeyBoardControl::is_key_down(0x40) != 0) {
                 return action_provider->get_knockdown_action();
             }
@@ -535,7 +535,7 @@ void TObjPlayer::send_6x58_lobby_animation() {
         pkt.init();
         pkt.header.client_id = get_entity_id();
         pkt.animation_number = lobby_animation;
-        if (TKeyBoardControl__sub_801A58D8() != 0) {
+        if (is_keyboard_shift_held() != 0) {
             pkt.set_keyboard();
         }
         pkt.send();

@@ -16,7 +16,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/unk/TLobby_80226C3C.h"
 #include "pso/network/TLobby.h"

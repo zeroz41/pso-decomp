@@ -277,16 +277,16 @@ void TWindowInputNumber::run_task() {
             }
         } else {
             pad = &controller_input_state.controllers[port];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
                 self->update_value();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
                 self->update();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
                 self->move_cursor_next();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
                 self->handle_decrement();
             }
         }

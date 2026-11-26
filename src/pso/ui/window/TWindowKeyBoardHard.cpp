@@ -35,7 +35,7 @@ s32 TWindowKeyBoardHard::has_non_modifier_key() {
     u32 i;
     u32 n;
     u8 c;
-    if (TKeyBoardControl__sub_801A58B0() != 0) {
+    if (is_keyboard_control_held() != 0) {
         return 0;
     }
     n = hardware_keyboard_state.get_pending_count();

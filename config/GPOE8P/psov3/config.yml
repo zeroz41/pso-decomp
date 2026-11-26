@@ -4174,7 +4174,7 @@ force_active:
   - LoadBinModelSub__FP11BmlResourceUllPUc
   - LoadBinMotionSub__FP11BmlResourcelPUc
   - bind_collision_body_parts
-  - bind_controller_devices
+  - bind_controller_devices__Fv
   - bind_motion_channel_samplers__FPC10NJS_MOTIONf
   - bind_network_info_cipher_pool__FPUll
   - biri_ball_model_names
@@ -5389,7 +5389,7 @@ force_active:
   - copy_stat_block__16PlayerLevelStatsFPC16PlayerLevelStats
   - copy_state__20TBoss6MagMotionTrackFP20TBoss6MagMotionTrack
   - copy_state__14GoGoBallConfigFP14GoGoBallConfig
-  - copy_state__16TKeyBoardControlFPvPv
+  - copy_controller_input__FP22ControllerInputContextP22ControllerInputContext
   - copy_struct28__17TWindowSubComCardFii
   - __as__14GuildCardEntryFRC14GuildCardEntry
   - copy_tombstone_spot__FP17TObjTombstoneSpotPC17TObjTombstoneSpot
@@ -16681,7 +16681,7 @@ force_active:
   - update_bura__11TBoss4Type3Fv
   - update_burrow_inward_run__12TBoss1DragonFUll
   - update_burrow_outward_run__12TBoss1DragonFUl
-  - update_button_hold_counter__FPvPvii
+  - update_button_hold_counter__FP22ControllerInputContextPsll
   - update_buy_sell_choice__20TShopItemTecSequenceFv
   - update_buy_sell_choice__22TShopEquipmentSequenceFv
   - update_buy_sell_choice__26TShopEquipmentGearSequenceFPv
@@ -17216,7 +17216,7 @@ force_active:
   - state_reveal__16TObjEneMe3StelthFl
   - update_state_flag__13TObjEneBm3FlyFv
   - update_state_flag__15TObjEneDelDepthFv
-  - update_state_from_input__16TKeyBoardControlFPv
+  - is_keyboard_key_pressed__FUc
   - update_state_machine__18TObjEneRe4SorcererFPv
   - update_state_or_dispatch_tick__13TBoss5GryphonFv
   - state_cast_technique__16TObjEneMe3StelthFl

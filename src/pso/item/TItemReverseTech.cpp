@@ -30,7 +30,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/system/TScreenFadeIn.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/prs.h"

@@ -7,7 +7,7 @@
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/text_8026934C.h"
 #include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/city/TShopSequence.h"

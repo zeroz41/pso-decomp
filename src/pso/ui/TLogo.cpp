@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"

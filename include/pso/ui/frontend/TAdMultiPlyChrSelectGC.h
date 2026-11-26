@@ -144,7 +144,6 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TWindowMessageYesNo *yes_no_dialog;            // 0x94  create_yes_no_dialog, swap search prompt
     TWindowMessageYesNo *delete_prompt;            // 0x98  create_delete_prompt, choice menu entry 2
     s32 resumed;                                   // 0x9C  set by handle_event when returning to the scene
-    static s32 dispatch_draw_command(ControllerInputContext *input, s32 buttons, s32 delay, s32 period);
     void open_windows();
     void init_windows();
     void open_char_select();

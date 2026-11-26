@@ -313,19 +313,19 @@ void TWindowKeyBoardSoft::handle_cursor_move(s32 port) {
         }
     } else {
         input = &controller_input_state.controllers[port];
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0xF0, 6, 2) == 0) {
+        if (test_buttons_press_or_repeat_color(input, 0xF0, 6, 2) == 0) {
             return;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x10, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat_color(input, 0x10, 6, 2) != 0) {
             dy = -1;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x20, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat_color(input, 0x20, 6, 2) != 0) {
             dy++;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x40, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat_color(input, 0x40, 6, 2) != 0) {
             dx = -1;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x80, 6, 2) != 0) {
+        if (test_buttons_press_or_repeat_color(input, 0x80, 6, 2) != 0) {
             dx++;
         }
     }

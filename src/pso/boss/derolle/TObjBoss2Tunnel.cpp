@@ -60,7 +60,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_803DE778.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/system/BmlResource.h"
 
 static s16 debug_chunk_a_strips[59] = {

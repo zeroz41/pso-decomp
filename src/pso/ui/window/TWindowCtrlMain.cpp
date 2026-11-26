@@ -295,10 +295,10 @@ s16 TKeyBoardControl::get_function_key_menu(void *menu) {
     if (is_split_screen() != 0) {
         return 0x1F;
     }
-    if (TKeyBoardControl__sub_801A58B0() != 0) {
+    if (is_keyboard_control_held() != 0) {
         return 0x1F;
     }
-    if (TKeyBoardControl__sub_801A58D8() == 0) {
+    if (is_keyboard_shift_held() == 0) {
         return 0x1F;
     }
     if (TKeyBoardControl::is_key_down(0x44) != 0) {

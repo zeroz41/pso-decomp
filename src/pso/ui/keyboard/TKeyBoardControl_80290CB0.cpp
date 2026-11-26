@@ -2,7 +2,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80290CB0.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/effect/particle/TParticleCtrl.h"

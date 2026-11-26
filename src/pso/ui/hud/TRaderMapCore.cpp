@@ -439,10 +439,10 @@ void TRaderMapCore::update_pan_zoom_input() {
         if (test_previous_buttons_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x80) != 0) {
             pan_x_speed -= 6.0f;
         }
-        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[target_player->get_controller_port()], 0x20000, 0x27, 1) != 0) {
+        if (test_buttons_repeat_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x20000, 0x27, 1) != 0) {
             zoom_speed -= 6.0f;
         }
-        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[target_player->get_controller_port()], 0x10000, 0x27, 1) != 0) {
+        if (test_buttons_repeat_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x10000, 0x27, 1) != 0) {
             zoom_speed += 6.0f;
         }
         TRaderMapCore::pan_horizontal(pan_x_speed);

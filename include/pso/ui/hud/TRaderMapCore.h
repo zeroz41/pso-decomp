@@ -104,7 +104,6 @@ struct TRaderMapCore : public TObjBase {
     s32 is_render_admitted(s32 mode);
     void update_pan_zoom_input();
     void update_target();
-    static s32 pack_color_bits(ControllerInputContext *pad, s32 mask);
     static void set_mode(int mode);
     void advance_scroll();
     static void create();
@@ -117,7 +116,6 @@ struct TRaderMapCore : public TObjBase {
     static NJS_OBJECT *init_map_ptr(const s32 *counter, s32 index);
     static s32 is_not_split_screen();
     static void clear();
-    static s32 apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period);
     void gather_player_markers();
     void draw_enemy_gate_markers();
     static void draw_backdrop(TRaderMapCore *unused, s32 mode);

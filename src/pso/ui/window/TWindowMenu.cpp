@@ -638,10 +638,10 @@ void TWindowMenu::run_task() {
             }
         } else {
             pad = &controller_input_state.controllers[player_idx];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
                 move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
+            if ((test_buttons_press_or_repeat_color(pad, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
                 select_next_item();
             }
         }

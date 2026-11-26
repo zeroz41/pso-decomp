@@ -410,16 +410,16 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
     n = TAdMultiPlyChrSelectGC::count_ready();
     m = TAdMultiPlyChrSelectGC::count_selected_slots();
     if (m != n && slot_count[cursor_col] != 0 && selection == 0) {
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x10, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(WIN_802C61E4, 0x10, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, -1, slot_count[cursor_col]);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x20, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(WIN_802C61E4, 0x20, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, 1, slot_count[cursor_col]);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x80, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(WIN_802C61E4, 0x80, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 1, 0, 2);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x40, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(WIN_802C61E4, 0x40, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], -1, 0, 2);
         }
     }
@@ -432,11 +432,11 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
     input_frames++;
     update_cell_uvs();
     if (slot_count[cursor_col] != 0 && selection == 0) {
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x10, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(WIN_802C6008, 0x10, 6, 1) != 0) {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]--;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x20, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat_color(WIN_802C6008, 0x20, 6, 1) != 0) {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]++;
         }
