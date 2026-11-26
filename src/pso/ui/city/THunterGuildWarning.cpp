@@ -57,7 +57,7 @@ void THunterGuildWarning::close_windows() {
 }
 
 // Opens the warning message windows for the local or remote players.
-void THunterGuildWarning::open_warning_windows(void *) {
+void THunterGuildWarning::open_warning_windows(s32) {
     f32 size[2] = {322.0f, 120.0f};
     f32 scale[2] = {1.0f, 1.0f};
     int text;
@@ -138,7 +138,7 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, s32 initial_mode) : TO
     mode = initial_mode;
     timer = 90;
     clear_windows(this);
-    open_warning_windows((void *)mode);
+    open_warning_windows(mode);
     THunterGuildWarning::instance = this;
 }
 

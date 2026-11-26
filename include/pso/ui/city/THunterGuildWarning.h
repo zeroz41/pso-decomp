@@ -18,7 +18,7 @@ public:
     static s32 is_active();
     static s32 get_party_not_ready_reason(s32 client_id);
     void close_windows();
-    void open_warning_windows(void *unused);
+    void open_warning_windows(s32 unused);
 
     s32 mode;                    // 0x1C: message set; 0 and 1 warn the local player, 2 the others
     s32 timer;                   // 0x20: frames left before the task destroys itself
