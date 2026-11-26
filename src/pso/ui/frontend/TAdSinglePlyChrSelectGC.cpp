@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/system/ControllerInputState.h"
@@ -588,13 +589,8 @@ void TAdChrSelASlotGC::set_state(s32 value) { state = value; }
 void TAdChrSelPlayerGC::request_state(s32 value) {
     pending_state = value;
 }
-extern "C" {
-
-void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
-}
-
 void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third) {
-    copy_vec2__FPvPv(&title->rest_pos[0], first);
-    copy_vec2__FPvPv(&title->rest_pos[1], second);
-    copy_vec2__FPvPv(&title->rest_pos[2], third);
+    copy_vec2(&title->rest_pos[0], const_cast<NJS_POINT2 *>(first));
+    copy_vec2(&title->rest_pos[1], const_cast<NJS_POINT2 *>(second));
+    copy_vec2(&title->rest_pos[2], const_cast<NJS_POINT2 *>(third));
 }
