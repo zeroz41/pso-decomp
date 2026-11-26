@@ -408,7 +408,6 @@ struct TLobby : public TObject {
     static void append_float_value(s32 reg);
     static void append_int_param(s32 reg);
     static void send_simple_mail(s32 target_card_id, void *message);
-    static void remove_entry_at(s32 idx);
     void*get_com_card_list();
     s32 get_lobby_id();
     static int get_short_mail_ctrl();

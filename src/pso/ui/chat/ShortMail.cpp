@@ -89,7 +89,7 @@ s32 find_free_short_mail_slot() {
     slot += 1;
     entry++;
   } while (slot < 8);
-  TLobby::remove_entry_at(0);
+  remove_short_mail_at(0);
   return 7;
 }
 
@@ -109,13 +109,13 @@ void remove_short_mail_by_id(u32 id) {
     s32 i;
     for (i = 0; i < count; i++) {
         if (id == get_short_mail_entry(i)->get_id()) {
-            TLobby::remove_entry_at(i);
+            remove_short_mail_at(i);
             return;
         }
     }
 }
 
-void TLobby::remove_entry_at(s32 idx) {
+void remove_short_mail_at(s32 idx) {
     if (idx < 7) {
         ShortMailEntry *entry = &short_mail_entries[idx];
         move_words(entry, entry + 1, (7 - idx) * sizeof(ShortMailEntry) / sizeof(u32));
