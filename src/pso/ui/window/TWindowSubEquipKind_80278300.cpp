@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

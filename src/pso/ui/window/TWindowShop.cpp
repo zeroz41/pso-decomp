@@ -13,7 +13,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 void TWindowMenuIconLine::add_list_entry(u8 icon, s32 arg2, s32 arg3) {
     if (this->entry_count < this->entry_capacity) {

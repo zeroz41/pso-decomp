@@ -15,7 +15,7 @@
 #include "pso/network/client_id.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_80076BC4.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 const char *TWindowSubShortCutList::class_name = "TWindowSubShortCutList";
 // Size argument of the shortcut list window.

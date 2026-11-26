@@ -1,5 +1,5 @@
 #include "pso/unk/TWindowLayoutEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #pragma defer_codegen on
 
 #include "types.h"

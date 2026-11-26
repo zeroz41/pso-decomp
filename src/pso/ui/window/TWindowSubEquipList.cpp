@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowSubEquipList.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 
 #pragma readonly_strings on

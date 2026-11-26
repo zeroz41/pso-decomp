@@ -20,8 +20,4 @@ struct TWindowMessageScroll : public TWindowMessageQuest {
 LAYOUT_ASSERT(TWindowMessageScroll_scroll_speed_offset, offsetof(TWindowMessageScroll, scroll_speed) == 0x94);
 LAYOUT_ASSERT(TWindowMessageScroll_size, sizeof(TWindowMessageScroll) == 0x9C);
 
-extern "C" {
-void *__dt__20TWindowMessageScrollFv(void *arg0, s16 arg1);
-}
-
 #endif

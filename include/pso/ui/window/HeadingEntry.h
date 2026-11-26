@@ -1,5 +1,5 @@
-#ifndef PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_80287570_H
-#define PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_80287570_H
+#ifndef PSO_UI_WINDOW_HEADINGENTRY_H
+#define PSO_UI_WINDOW_HEADINGENTRY_H
 
 #include "types.h"
 
@@ -30,7 +30,7 @@ public:
     f32 reveal_step;
 };
 
-// The title heading a window keeps above its frame (TWindowSubStatusDisp_80288030.cpp).
+// The title heading a window keeps above its frame.
 class WindowHeading : public HeadingEntry {
 public:
     WindowHeading(saddr title, s32 client_id);

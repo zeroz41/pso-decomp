@@ -5,12 +5,12 @@
 #include "pso/unk/text_8026A14C.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/Language.h"
+#include "pso/ui/window/TWindowMessageLog.h"
 
 THeap *scroll_win_chat_log_heap;
 char *chat_last_line_buffer;
 
 
-extern void *chat_log_lines[];
 void clear_chat_log() {
     s32 i;
     for (i = 0x1D; i >= 0; i--) {

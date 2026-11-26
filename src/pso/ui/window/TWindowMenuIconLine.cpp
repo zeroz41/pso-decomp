@@ -1,6 +1,6 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowLayoutEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/WindowScrollBar.h"

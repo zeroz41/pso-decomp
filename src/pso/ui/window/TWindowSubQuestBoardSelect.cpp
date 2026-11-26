@@ -22,7 +22,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 void TWindowSubQuestBoardSelect::sub_8027D1E8() {
     state_flags &= ~1;

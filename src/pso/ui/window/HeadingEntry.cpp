@@ -1,7 +1,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"

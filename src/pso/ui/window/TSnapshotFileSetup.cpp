@@ -3,6 +3,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/network/client_id.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
@@ -14,9 +16,7 @@
 #include "pso/system/ControllerInput.h"
 
 extern "C" {
-saddr get_localized_text_entry(s32);
 s32 start_memcard_format(int, int, int, int, int);
-extern s32 local_client_id;
 extern saddr tl_01;
 
 TSnapshotFileSetup::TSnapshotFileSetup(TObject *parent) : TObject(parent) {
@@ -94,7 +94,7 @@ void TSnapshotFileSetup::run_task() {
         case -8:
             if ((this->state == 4) && ((s32) this->shown_message != 0xF)) {
                 this->shown_message = 0xF;
-                open_confirm_dialog((int) (((s32 (*)(int, int)) get_localized_text_entry)(0x16, 5)), 0);
+                open_confirm_dialog((s32)get_localized_text_entry(0x16, 5), 0);
             }
             break;
         }
@@ -247,20 +247,20 @@ void TSnapshotFileSetup::run_task() {
 
 void TSnapshotFileSetup::render() { if (this->state == 6) { TLobby::update_pulse_colors((saddr)((void*)1)); TLobby__sub_80338534(); } }
 
-void TSnapshotFileSetup::set_option_and_confirm(s32 arg1, s32 arg2) {
-    if (arg1 != (s32) this->shown_message) {
-        this->shown_message = arg1;
-        open_confirm_dialog((s32)(get_localized_text_entry(0x24)), arg2);
+void TSnapshotFileSetup::set_option_and_confirm(s32 message_id, s32 yes_no) {
+    if (message_id != (s32) this->shown_message) {
+        this->shown_message = message_id;
+        open_confirm_dialog((s32)get_localized_text_entry(0x24, message_id), yes_no);
     }
 }
 
-void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 arg2) {
+void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 yes_no) {
     if (this->message_window != NULL) {
         this->message_window->close();
         this->message_window = NULL;
     }
     this->message_window = TWindowMessageYesNo::create((void *)tl_01, local_client_id, 0, 0);
-    if (arg2 != 0) {
+    if (yes_no != 0) {
         this->message_window->open_yes_no_prompt_with_text(message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
         return;
     }

@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 
 TWindowSubEquipKind *create_equip_kind_window(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client) {

@@ -18,7 +18,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowSubItem.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 s32 TWindowCheckBox::update_selected_item() {
     return static_cast<ItemListRow *>(get_array_entry(selected_index))->get_item();

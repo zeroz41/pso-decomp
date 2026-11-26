@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChat.h"

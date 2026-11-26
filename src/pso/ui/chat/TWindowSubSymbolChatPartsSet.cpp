@@ -7,7 +7,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"

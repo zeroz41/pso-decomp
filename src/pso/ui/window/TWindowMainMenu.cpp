@@ -22,7 +22,6 @@ struct TWindowSubItem;
 #include "pso/ui/window/TWindowSubMag.h"
 
 #include "pso/ui/window/TCustomizeMenuCtrl.h"
-#include "pso/ui/window/TWindowSubEquip_80277E48.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowSubOption.h"

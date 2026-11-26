@@ -25,7 +25,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/HeadingEntry.h"
 
 #pragma readonly_strings on
 
