@@ -1741,9 +1741,9 @@ force_active:
   - __ct__11TTecGiZondeFP8TObjBaseP3VecP16TargetCursorListl
   - __ct__10TTecGrantsFP8TObjBaseP3VecP16TargetCursorListl
   - __ct__9TTecLukerFP8TObjBaseP3VecP3Vecl
-  - TTecLuker__sub_8023503C
-  - TTecLuker__sub_80235048
-  - TTecLuker__sub_80235054
+  - show__15TTelepipeMarkerFv
+  - hide__15TTelepipeMarkerFv
+  - is_first_slot_placed__14PlacementQueueFv
   - __ct__9TTecMegidFP8TObjBaseP3VecP3Vecl
   - __ct__11TTecRaBartaFP8TObjBaseP3VecP3Vecl
   - TTecRaBarta_class_name
@@ -5170,7 +5170,7 @@ force_active:
   - clear_part_flags__11TBoss6Type2Fv
   - clear_photon_blast_donations__Fv
   - clear_photon_blast_slots__10TObjPlayerFv
-  - clear_pipe_interaction_latch__FPv
+  - clear_interacted__20TTelepipeSelectFieldFv
   - clear_player_grav_flags__14TBoss6GravBallFv
   - clear_ref_if_destroyed__12TObjComputerFv
   - clear_render_deferred__7TObjectFv
@@ -6380,7 +6380,7 @@ force_active:
   - handle_judgment_choice__28THunterGuildSeqOnline_ServerFv
   - get_shop_technique_pool_count__Fl
   - get_shop_rare_tool_pool_count__Fl
-  - fn_80235078
+  - is_placed__13PlacementSlotFv
   - update_area_count_text__FP11TWindowArea
   - apply_facial_part_sprites
   - apply_face_appearance_sprite
@@ -6618,7 +6618,7 @@ force_active:
   - get_falz_phase__10TObjPlayerFv
   - get_size__21PlayerMotionAramEntryFv
   - get_variant__11TBoss6Type2Fv
-  - get_field_2__9TTecLukerFPv
+  - get_floor__13TelepipeStateFv
   - prompt_was_accepted__16TCheckMemoryCardFv
   - get_flags__14ShortMailEntryFv
   - stick_enabled__16PlayerPadBindingFv
@@ -6680,7 +6680,7 @@ force_active:
   - get_part_group__12TBoss3VoloptFl
   - get_part_id__12TBoss3VoloptFl
   - get_particle__20TPlayerParticleOwnerFv
-  - get_pipe_interaction_latch__FPv
+  - get_interacted__20TTelepipeSelectFieldFv
   - get_plate_value_for_slot__16TAdChrSelASlotGCFl
   - get_player__11TPlayerSoulFv
   - get_battle_param_movement__Fll
@@ -16238,7 +16238,7 @@ force_active:
   - noop_state_15__18TCheckRoomSequenceFv
   - noop_state_14__18TCheckRoomSequenceFv
   - move_toward_target__10TTecCircleFv
-  - sub_80237258__19TTecPlayerInfluenceFv
+  - update_collision_radius__19TTecPlayerInfluenceFv
   - update_symbol_chat_window__11TWindowChatFv
   - update_word_select_window__11TWindowChatFv
   - sub_80247EC0__11TWindowChatFv

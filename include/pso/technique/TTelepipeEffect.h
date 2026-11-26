@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject.h"
 
 class TParticleCtrl;
+class TTelepipeMarker;
 
 // The visual of a telepipe (TTecLuker, TObjLuker): three looping particle effects on the ground
 // below it, tinted by the owner's slot, and a marker above it. run_task pauses them while every
@@ -14,7 +15,7 @@ public:
     virtual ~TTelepipeEffect();
     virtual void run_task();
     TParticleCtrl *particles[3];
-    void *marker;  // TTelepipeMarker marker, only outside split screen
+    TTelepipeMarker *marker;  // only outside split screen
     Vec pos;
     Vec ground_pos;  // csnVecterUnder(pos), else pos
 };

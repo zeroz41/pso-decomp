@@ -30,6 +30,9 @@ struct TTecLuker : public TTecCircle {
     static void create(TObjBase *source, Vec *pos, Vec *target, s32 level);
     void setup_telepipe_field();
     static s32 is_parents_unqueued(TObject *object);
+    // Session resource callbacks (TLobby's floor load/release table).
+    static void reset_visit_counts_on_floor_load();
+    static void reset_visit_counts_on_floor_free();
 };
 
 LAYOUT_ASSERT(TTecLuker_size, sizeof(TTecLuker) == 0x110);

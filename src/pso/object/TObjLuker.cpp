@@ -48,7 +48,6 @@ const char *luker_name = "TObjLuker";
 
 
 extern "C" {
-s32 TTecLuker__sub_8023401C(void *);
 extern s32 lbl_805D55C0;
 
 void TObjLuker::hide_part(u16 part) {
@@ -325,7 +324,7 @@ void TObjLuker::run_task() {
         return;
     }
     if (this->owner_id != 0xFFFF && p != NULL) {
-        if (TTecLuker__sub_8023401C(&p->telepipe) != 0) {
+        if (p->telepipe.is_placed() != 0) {
             this->warp_active = 1;
             if (this->effect_pending != 0 && this->effect == NULL) {
                 this->effect = new TTelepipeEffect(&this->position, this->owner_id, tl_07);

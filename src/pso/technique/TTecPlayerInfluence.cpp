@@ -81,11 +81,11 @@ TTecPlayerInfluence::~TTecPlayerInfluence() {
 
 
 void TTecPlayerInfluence::run_task() {
-    sub_80237258();
+    update_collision_radius();
     this->tick_lifetime();
 }
 
-void TTecPlayerInfluence::sub_80237258() { collisionBody.radius = scale.x; }
+void TTecPlayerInfluence::update_collision_radius() { collisionBody.radius = scale.x; }
 
 void TTecPlayerInfluence::tick_lifetime() {
     age++;

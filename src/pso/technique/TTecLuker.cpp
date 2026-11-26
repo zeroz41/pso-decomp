@@ -49,15 +49,8 @@
 
 
 
-void clear_pipe_interaction_latch(void* p);
-s32 get_pipe_interaction_latch(void* p);
 extern "C" {
-void TTecLuker__sub_8023503C(void* p);
-void TTecLuker__sub_80235048(void* p);
-int TTecLuker__sub_80235054(void* p);
-int fn_80235078(void *record);
 s32 init_collision_body_parts(void *, void *, int);
-bool TTecLuker__sub_8023401C(u8 *arg0);
 }
 // The collision body every telepipe field collider starts from: a 0.01 sphere.
 CollisionBody telepipe_field_collision_body_template = {
@@ -65,8 +58,6 @@ CollisionBody telepipe_field_collision_body_template = {
 u8 TTecLuker::visit_counts[4] = { 0, 0, 0, 0 };
 void reset_telepipe_visit_counts(void);
 extern "C" {
-void TTecLuker__sub_80234F08(void);
-void TTecLuker__sub_80234F48(void);
 static const s32 telepipe_visual_template_table[12][3] = {
     { 177, 178, 176 },
     { 177, 178, 176 },
@@ -102,7 +93,6 @@ static const Vec telepipe_town_position_table_b[4] = {
 };
 static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 };
 const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
-s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
@@ -117,15 +107,13 @@ extern u8 identity_matrix[];
 void create_quest_telepipe_for_client(u16 client);
 void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room);
 s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
-int fn_80235078(void *record) {
-    return (u8) (*(s32 *)((s8 *)record + 0x0) == 2);
-}
+s32 PlacementSlot::is_placed() { return (u8)(state == 2); }
 
-int TTecLuker__sub_80235054(void* p) { return fn_80235078((void *)((char*)p + 0x4)); }
+s32 PlacementQueue::is_first_slot_placed() { return slots[0].is_placed(); }
 
-void TTecLuker__sub_80235048(void* p) { *(s32*)((char*)p + 0x38) = 0; }
+void TTelepipeMarker::hide() { visible = 0; }
 
-void TTecLuker__sub_8023503C(void* p) { *(s32*)((char*)p + 0x38) = 1; }
+void TTelepipeMarker::show() { visible = 1; }
 
 G_SetTelepipeState_6x68::G_SetTelepipeState_6x68() {
     header.subcommand = 0x68;
@@ -148,15 +136,15 @@ void G_SetTelepipeState_6x68::send() {
     send_subcommand(this);
 }
 
-s32 get_pipe_interaction_latch(void* p) { return *(s32*)((char*)p + 0xb0); }
+s32 TTelepipeSelectField::get_interacted() { return interacted; }
 
-void clear_pipe_interaction_latch(void* p) { *(s32*)((char*)p + 0xb0) = 0; }
+void TTelepipeSelectField::clear_interacted() { interacted = 0; }
 
-s16 get_field_2__9TTecLukerFPv(void* p) { return *(s16*)((char*)p + 0x2); }
+s32 TelepipeState::get_floor() { return floor; }
 
 void CursorAction::set_telepipe() { kind = CURSOR_ACTION_TELEPIPE; }
 
-void TTecLuker__sub_80234F48(void) {
+void TTecLuker::reset_visit_counts_on_floor_load() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TTecLuker::visit_counts[i] = 0;
@@ -170,7 +158,7 @@ void reset_telepipe_visit_counts(void) {
     }
 }
 
-void TTecLuker__sub_80234F08(void) {
+void TTecLuker::reset_visit_counts_on_floor_free() {
     s32 i;
     for (i = 0; i < 4; i++) {
         TTecLuker::visit_counts[i] = 0;
@@ -238,17 +226,17 @@ void TTecLuker::run_task() {
     u16 visit_slot;
     TObjPlayer *traveller_player;
     TObjPlayer *player;
-    u8 *owner;
+    TObjBase *owner;
     PositionPlacementQueue *queue;
     source = find_entity_by_id(sourceId);
-    owner = (u8 *)source;
+    owner = source;
     if (owner == NULL) {
         queue_destruction();
         return;
     }
     switch (phase) {
     case 0:
-        entity_id = ((TObjBase *)(owner))->get_entity_id();
+        entity_id = owner->get_entity_id();
         if (entity_id != 0xFFFFU) {
             if (entity_id > 0xCU) {
                 phase = 4;
@@ -259,7 +247,7 @@ void TTecLuker::run_task() {
                 setup_telepipe_field();
                 return;
             }
-            if (TTecLuker__sub_80235054(queue) != 0) {
+            if (queue->is_first_slot_placed() != 0) {
                 VecCopy(&pipe_pos, &source->position);
                 if ((telepipe_record_differs(&((TObjPlayer *)source)->telepipe.state, floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker::visit_counts[sourceId] >= 1)) {
                     queue_destruction();
@@ -283,7 +271,7 @@ void TTecLuker::run_task() {
             queue_destruction();
             return;
         }
-        if ((get_player_by_client_id(traveller) != NULL) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
+        if ((get_player_by_client_id(traveller) != NULL) && (field->get_interacted() != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
             offset_point_toward_camera(&pipe_pos, (Vec *)&position, 10.0f);
             spawn_particle_effect((const Vec *)&position, 0xB3);
             player = get_player_by_client_id(traveller);
@@ -304,7 +292,7 @@ void TTecLuker::run_task() {
         }
         break;
     case 3:
-        owner_id = ((TObjBase *)(owner))->get_entity_id();
+        owner_id = owner->get_entity_id();
         traveller_player = get_player_by_client_id(traveller);
         if ((is_split_screen() == 0) && (traveller_player != NULL)) {
             if (traveller_player->actorFlags & 0x800) {
@@ -314,7 +302,7 @@ void TTecLuker::run_task() {
                     queue_destruction();
                     return;
                 }
-                clear_pipe_interaction_latch(field);
+                field->clear_interacted();
                 warp_frames = 0;
                 return;
             }
@@ -459,7 +447,7 @@ TTelepipeEffect::~TTelepipeEffect() {
         }
     }
     if (marker != NULL) {
-        ((TObject *)marker)->queue_destruction();
+        marker->queue_destruction();
         marker = NULL;
     }
 }
@@ -501,7 +489,7 @@ void TTelepipeEffect::run_task() {
           particles[i]->enable();
           if (marker != 0)
           {
-            TTecLuker__sub_80235048(marker);
+            marker->hide();
           }
         }
       }
@@ -514,7 +502,7 @@ void TTelepipeEffect::run_task() {
         particles[i]->clear_active_flag();
         if (marker != 0)
         {
-          TTecLuker__sub_8023503C(marker);
+          marker->show();
         }
       }
     }
@@ -529,7 +517,7 @@ void TTelepipeEffect::run_task() {
         particles[i]->enable();
         if (marker != 0)
         {
-          TTecLuker__sub_80235048(marker);
+          marker->hide();
         }
       }
     }
@@ -542,7 +530,7 @@ void TTelepipeEffect::run_task() {
       particles[i]->clear_active_flag();
       if (marker != 0)
       {
-        TTecLuker__sub_8023503C(marker);
+        marker->show();
       }
     }
   }
@@ -634,11 +622,13 @@ s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused) {
     return 1;
 }
 
-bool TTecLuker__sub_8023401C(u8 *arg0) {
-    return *(s16 *)((s8 *)arg0 + 2) != 0;
+s32 PlayerTelepipe::is_placed() {
+    if (state.floor != 0) {
+        return 1;
+    }
+    return 0;
 }
 
-typedef s32 (*GetField2_80233F8C)(void *);
 void restore_floor_telepipes(void) {
     s32 area = get_current_floor_area();
     s32 i;
@@ -648,7 +638,7 @@ void restore_floor_telepipes(void) {
     for (i = 0; i < 4; i++) {
         TObjPlayer *p = get_player_by_client_id(i);
         if (p != 0) {
-            if (((GetField2_80233F8C)get_field_2__9TTecLukerFPv)(&p->telepipe.state) == get_current_floor()) {
+            if (p->telepipe.state.get_floor() == get_current_floor()) {
                 TTecLuker::create(p, &p->position, &p->telepipe.state.pos, 10);
             }
         }

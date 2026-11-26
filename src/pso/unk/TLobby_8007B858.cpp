@@ -67,6 +67,7 @@
 #include "pso/system/memory.h"
 #include "pso/network/protocol/SendGuildCardPacket.h"
 #include "pso/unk/TLobby_80207DA8.h"
+#include "pso/technique/TTecLuker.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
@@ -128,8 +129,6 @@ const char *TObjPlayer::get_name() { return name; }
 
 extern "C" {
 void TSceneSora__sub_80207430(void);
-void TTecLuker__sub_80234F08(void);
-void TTecLuker__sub_80234F48(void);
 s32 restore_floor_telepipes();
 
 
@@ -164,12 +163,12 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TLobby__sub_8015ABD4, TLobby__sub_8015ABD0},
     {TLobby__sub_8036B510, TLobby__sub_8036B50C},
     {TWindowReturnCity__sub_8026D4C0, TWindowReturnCity__sub_8026D4BC},
-    {TTecLuker__sub_80234F48, TTecLuker__sub_80234F08},
+    {TTecLuker::reset_visit_counts_on_floor_load, TTecLuker::reset_visit_counts_on_floor_free},
 };
 
 // Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
 FloorResourceCallbacks lbl_8048D5A8[4] = {
-    {load_technique_resources, TLobby__sub_8022F068},
+    {load_technique_resources, release_technique_resources},
     {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
     {update_battle_params, NULL},

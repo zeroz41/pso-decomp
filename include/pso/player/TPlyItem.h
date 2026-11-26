@@ -20,6 +20,7 @@ struct PlacementSlot {
     PlacementSlot &operator=(const PlacementSlot &other);
     void reserve();
     s32 is_free();
+    s32 is_placed();
     void set_placed();
     void set_failed();
     void clear();
@@ -49,6 +50,7 @@ public:
     void increment_count();
     void decrement_count();
     PlacementSlot *get_slot(s32 index);
+    s32 is_first_slot_placed();
 };
 // The queue the telepipe uses: each slot gets the position its search found.
 class PositionPlacementQueue : public PlacementQueue {
