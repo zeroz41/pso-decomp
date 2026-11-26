@@ -76,8 +76,6 @@ s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *file) {
 
 Pso3CharacterFile::~Pso3CharacterFile() {}
 
-extern "C" {
-
 Pso3CharacterFileSlot::~Pso3CharacterFileSlot() {}
 
 TPlyInventoryItem *TPlyInventory::get_item(s32 index) {
@@ -142,6 +140,7 @@ void CharacterSelectionRequest::reset_slot_lists() {
         player_ids[i] = -1;
     }
 }
+extern "C" {
 
 Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *to, Pso3CharacterFile *from) {
     Pso3CharacterFileSlot *d;
@@ -231,6 +230,7 @@ Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
 
 // The generated GuildCardEntry constructor (emitted in TWindowSubComCard_8007A810.cpp).
 void *__ct__14GuildCardEntryFv(void *card);
+}
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }
 void clear_equipped_flag(void* item) { *(u32*)((char*)item + 0x4) &= 0xfffffff7; }
 
@@ -248,6 +248,4 @@ int is_unit_item_data(void *item) {
         is_unit = 1;
     }
     return (u8)is_unit;
-}
-
 }

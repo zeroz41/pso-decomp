@@ -57,15 +57,12 @@ __declspec(section ".data") u32 creation_models_ready;
 #pragma common reset
 s32 creation_resource_ready_state;
 extern "C" {
-s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 s32 creation_motion_group(CharacterAppearanceFields *);
 void TCharaMaking__sub_8028E3A0();
-s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
-void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
 extern s32 memcard_access_active;
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
@@ -309,7 +306,6 @@ TCMCharacter::~TCMCharacter() {
 
 void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
 
-extern "C" {
 void copy_creation_model_part(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
     for (s32 i = 0; i < 10; i++) {
@@ -370,7 +366,6 @@ void TCMCharacter::reset_model_parts() {
 }
 s32 TAdSinglePlyChrSelectGC::is_active() {
     return (u8)((u8) (char_select_active_flag == 1));
-}
 }
 int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
 extern "C" void copy_creation_model_node(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
@@ -635,7 +630,7 @@ s32 scan_creation_resources(void *context) {
         if (p->body_textures.complete == 0) {
             continue;
         }
-        if (is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(p, creation_player_character) != 0) {
+        if (TAdSinglePlyChrSelectGC::is_entry_equal(p, creation_player_character) != 0) {
             break;
         }
     }
@@ -951,7 +946,7 @@ s32 TAdSinglePlyChrSelectGC::has_matching_entry(void *character) {
     CreationTextureCacheEntry *end;
     end = creation_texture_cache + CREATION_TEXTURE_CACHE_CAPACITY;
     for (p = creation_texture_cache; p < end; p++) {
-        if (p->in_use != 0 && is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(p, character) != 0) return 1;
+        if (p->in_use != 0 && TAdSinglePlyChrSelectGC::is_entry_equal(p, character) != 0) return 1;
     }
     return 0;
 }
@@ -978,7 +973,7 @@ void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, Cha
     slot = &entry->body_textures;
     slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
     entry->in_use = 1;
-    copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(entry, appearance);
+    TAdSinglePlyChrSelectGC::copy_slot_data(entry, appearance);
 }
 s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
     s32 n;
@@ -989,7 +984,7 @@ s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
     for (k = 4; k >= 1; k--) {
         for (p = &creation_texture_cache[127]; p >= creation_texture_cache; p--) {
             if (p != char_select_current_entry && p->in_use != 0 && (p->hair_textures.textures.present == 0 || p->hair_textures.complete != 0) && (p->head_textures.textures.present == 0 || p->head_textures.complete != 0) && p->body_textures.complete != 0 &&
-                count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(p, creation_player_character) >= k) {
+                TAdSinglePlyChrSelectGC::count_char_diffs(p, creation_player_character) >= k) {
                 p->in_use = 0;
                 ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
                 if (++n == limit) {

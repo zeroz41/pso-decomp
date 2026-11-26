@@ -232,7 +232,7 @@ force_active:
   - get_character_file_seed__FP13CharacterFile
   - get_selected_character_slot__FP13CharacterFile
   - load_character_file_slot_b__Fl
-  - copy_character_between_files
+  - copy_character_between_files__FP13CharacterFilelP13CharacterFilel
   - poll_secondary_card_load__Fv
   - __as__17GuildCardSaveDataFRC17GuildCardSaveData
   - __as__13GuildCardListFRC13GuildCardList
@@ -502,7 +502,7 @@ force_active:
   - active_instance__18TCheckRoomSequence
   - error_return_state__18TCheckRoomSequence
   - error_return_text_id__18TCheckRoomSequence
-  - add_to_bank_stack
+  - add_to_bank_stack__FP9TItemDatall
   - instance__9TCineCtrl
   - __ct__20TContainerAncient01RFP7TObjectPv
   - container_ancient01_collision_body_parts
@@ -743,8 +743,8 @@ force_active:
   - get_client_id__11CursorOwnerFv
   - get_target_id__12CursorTargetFv
   - set_client_id__11CursorOwnerFUs
-  - deactivate_action_channel
-  - clear_marker_color
+  - deactivate_action_channel__FPv
+  - clear_marker_color__FPv
   - clear_bodies_collision_flag__FP13CollisionBodyl
   - set_bodies_collision_flag__FP13CollisionBodyl
   - is_body_flag_valid__14TObjCollidableFlUs
@@ -4773,7 +4773,7 @@ force_active:
   - gba_calc_joyboot_checksum__Fv
   - calc_large_tp__14TItemToolFluidFv
   - calc_lightning_scatter_direction__12TTecZondeEffFlP3Vec
-  - calc_loading_cursor_pos
+  - calc_loading_cursor_pos__FP11TLoadingCur
   - calc_lunge_aim__14TObjEneBm5WolfFPv
   - calc_move_state__12TObjEneSaverFv
   - calc_move_vector__17TObjEneMe1CanadinFP3Vec
@@ -7180,7 +7180,7 @@ force_active:
   - __ct__18LockOnTargetRecordFv
   - init__14DamageStatSlotFv
   - init_target_offsets__16TObjEneDellBiterFv
-  - is_target_obstructed
+  - is_target_obstructed__FP16LockOnActionSlotPC3VecPC3Vec
   - init_tech_params__9TTecJelinFv
   - __ct__23G_SetTelepipeState_6x68Fv
   - init_layout__17WindowDrawContextFPfPfPfUlf

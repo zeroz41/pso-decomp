@@ -34,7 +34,9 @@ void decrypt_secondary_card_buffer(void);
 extern "C" {
 u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
+}
 int start_system_file_write(s32 chan);
+extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void);
 }
 void set_character_file_seed(CharacterFile *file, s32 value);

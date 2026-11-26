@@ -30,6 +30,6 @@ struct TLoadingCur : public TObject {
 
 LAYOUT_ASSERT(TLoadingCur_size, sizeof(TLoadingCur) == 0x5C);
 
-extern "C" Vec calc_loading_cursor_pos(TLoadingCur *cursor);
+Vec calc_loading_cursor_pos(TLoadingCur *cursor);
 
 #endif

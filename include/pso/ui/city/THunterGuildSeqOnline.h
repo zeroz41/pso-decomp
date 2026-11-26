@@ -60,13 +60,16 @@ LAYOUT_ASSERT(THunterGuildSeqOnline_Server_size, sizeof(THunterGuildSeqOnline_Se
 extern THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;
 extern THunterGuildSeqOnline_Client *hunter_guild_seq_online_client_instance;
 extern s32 quest_download_active;
+// Per-player slot flags, set by each class's ctor and cleared by its dtor.
+extern s32 hunter_guild_online_server_instance_table[4];
+extern s32 hunter_guild_online_client_instance_table[4];
 
 void set_random_enemies_mode(TObject *fade);
 void reset_random_enemies_mode(TObject *fade);
 
 // --- C functions defined in THunterGuildSeqOnline.cpp ---
-extern "C" {
 void clear_online_client_instance_table(void);
+extern "C" {
 void THunterGuildSeqOffline__sub_80213E64(void);
 void THunterGuildSeqOffline__sub_80213EBC(void);
 void THunterGuildSeqOffline__sub_80213F78(void);

@@ -115,21 +115,25 @@ void set_target_part(class LockOnTargetPart *target, u16 part, s32 index, s32 fl
 void set_cursor_slot(void *p, u8 v);
 void set_cursor_mode(void *p, u8 v);
 void load_target_cursor_models(void);
-extern "C" {
 void render_marker(TMainCursor *main_cursor);
 struct CsnHit *is_target_obstructed(class LockOnActionSlot *unused, const Vec *to, const Vec *from);
 s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled);
 void set_action_channel_inactive(u8 *entry);
 void set_action_channel_active(u8 *entry);
 int get_lock_on_cursor_model(void);
+extern "C" {
 void TMainCursor__sub_8013E310(void *p);
+}
 u8 get_target_palette_slot(void *p);
 u8 get_target_palette_mode(void *p);
 void deactivate_action_channel(void *p);
 void activate_action_channel(void *p);
 void clear_marker_color(void *a0);
+extern "C" {
 int get_empty_action_entry(void);
+}
 int get_target_cursor_model(void);
+extern "C" {
 void TLockOnCursor__sub_8013EB80(void *p);
 void TLockOnCursor__sub_8013EB8C(void *p);
 }

@@ -248,7 +248,6 @@ s32 quest_result_callbacks[4];
 s32 THunterGuildSeqOffline::instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline::active_instance;
 
-extern "C" {
 const char *hunter_guild_seq_offline_class_name = "THunterGuildSeqOffline";
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
@@ -329,8 +328,10 @@ void THunterGuildSeqOffline::reset_quest_result_callbacks() {
     s32 i;
     for (i = 0; i < 4; i++) quest_result_callbacks[i] = -1;
 }
+extern "C" {
 
 void THunterGuildSeqOffline__sub_80213410(void) { THunterGuildSeqOffline::reset_quest_result_callbacks(); }
+}
 
 void THunterGuildSeqOffline::notify_quest_thread() {
     s32 v = quest_result_callbacks[3];
@@ -463,6 +464,4 @@ void THunterGuildSeqOffline::handle_select() {
         this->exit_action = 1;
         set_state((saddr)((void*)(5)));
     }
-}
-
 }

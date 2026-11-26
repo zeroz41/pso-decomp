@@ -53,14 +53,6 @@ s32 TCheckRoomSequence::active_instance;
 
 typedef void (TCheckRoomSequence::*StateHandler)();
 
-struct BankCardView { u8 pad[0x248]; s32 count; s32 meseta; u8 items[1]; };
-
-struct BankItemStackView
-{
-  u8 b[0x14];
-  s16 f14;
-  s16 f16;
-};
 
 BankItemRecord *bank_item_records_by_slot[4];
 s32 bank_item_count_by_slot[4];
@@ -72,7 +64,7 @@ extern "C" {
 // C++ does not let alloc_item_buffers take.
 void *__construct_new_array(void *block, void (*ctor)(), void *dtor, u32 size, u32 n);
 void __ct__14BankItemRecordFv();
-s32 get_max_stack_size__9TItemDataFv(void *);
+}
 s32 add_to_bank_stack(TItemData *item, s32 amount, s32 slot);
 
 s32 TCheckRoomSequence::check_room_ready() {
@@ -119,7 +111,6 @@ void TCheckRoomSequence::notify_quest_list_vm(TShopWindowBase *sequence) {
         sequence->display_shop_message(0x1A, 1);
         sequence->set_state(2);
     }
-}
 }
 s32 get_bank_meseta_capacity(s32 i);
 s32 bank_credit_meseta(s32 v, s32 i);
@@ -754,35 +745,25 @@ void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) 
 }
 #pragma pop
 
-typedef struct BankItemStackView BankItemStackView;
 #pragma optimization_level 1
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
-  saddr base = (saddr) bank_item_records_by_slot[slot];
-  BankItemStackView *t;
-  s32 limited;
+  BankItemRecord *records = bank_item_records_by_slot[slot];
+  s32 max;
   if (idx > 199)
   {
     return 0;
   }
-  if (((BankItemRecord *)(base + (idx * 0x18)))->is_empty() != 0)
+  if (records[idx].is_empty() != 0)
   {
     return 0;
   }
-  TCheckRoomSequence::copy_data((BankItemRecord *)(base + (idx * 0x18)), data);
-  t = (BankItemStackView *) (base + (idx * 0x18));
-  *out = t->f14;
+  TCheckRoomSequence::copy_data(&records[idx], data);
+  *out = records[idx].amount;
+  max = ((TItemData *)data)->get_max_stack_size();
+  if (max < *out)
   {
-    saddr r = ((s32 (*)(void *, void *))get_max_stack_size__9TItemDataFv)(data, t);
-    if (r < (*out))
-    {
-      *out = r;
-      r = base + (idx * 0x18);
-      {
-        BankItemStackView *t2 = (BankItemStackView *) r;
-        limited = *out;
-        t2->f14 = limited;
-      }
-    }
+    *out = max;
+    records[idx].amount = *out;
   }
   return 1;
 }
@@ -828,13 +809,13 @@ s32 store_item_in_bank(TItemData *item, s32 amount, s32 slot) {
 #pragma push
 #pragma optimization_level 1
 void copy_bank_to_card_window(s32 slot) {
-    BankCardView *w;
+    CharacterSaveRecord *w;
     if (TAdSinglePlyChrSelectGC::is_ready() != 0) {
-        w = (BankCardView *)get_character_save_record(slot);
+        w = (CharacterSaveRecord *)get_character_save_record(slot);
         if (w != 0) {
-            w->meseta = bank_meseta_by_slot[slot];
-            w->count = bank_item_count_by_slot[slot];
-            move_data(((w->items)), bank_item_records_by_slot[slot], 0x12C0);
+            w->bank_meseta = bank_meseta_by_slot[slot];
+            w->bank_item_count = bank_item_count_by_slot[slot];
+            move_data(w->bank_items, bank_item_records_by_slot[slot], sizeof(w->bank_items));
         }
     }
 }
@@ -843,11 +824,11 @@ void copy_bank_to_card_window(s32 slot) {
 #pragma push
 #pragma optimization_level 1
 void copy_bank_from_card_window(s32 slot) {
-    BankCardView *w = (BankCardView *)get_character_save_record(slot);
+    CharacterSaveRecord *w = (CharacterSaveRecord *)get_character_save_record(slot);
     if (w != 0) {
-        bank_meseta_by_slot[slot] = w->meseta;
-        bank_item_count_by_slot[slot] = w->count;
-        move_data(((bank_item_records_by_slot[slot])), w->items, 0x12C0);
+        bank_meseta_by_slot[slot] = w->bank_meseta;
+        bank_item_count_by_slot[slot] = w->bank_item_count;
+        move_data(bank_item_records_by_slot[slot], w->bank_items, sizeof(w->bank_items));
     }
 }
 #pragma pop

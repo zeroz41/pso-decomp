@@ -3,20 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
-int get_online_client_instance(int a0);
-int get_online_server_instance(int a0);
-int get_offline_instance(int a0);
+// Nonzero while a THunterGuildSeqOnline (client or server side) or a THunterGuildSeqOffline runs for the client.
+s32 get_online_client_instance(s32 client_id);
+s32 get_online_server_instance(s32 client_id);
+s32 get_offline_instance(s32 client_id);
 s32 is_near_designated_player(void);
-}
-
-// --- C functions defined in THunterGuildSeqOffline_80211FEC.cpp ---
-extern "C" {
-int get_online_client_instance(int a0);
-int get_online_server_instance(int a0);
-int get_offline_instance(int a0);
-s32 is_near_designated_player(void);
-}
-// --- end of C functions
 
 #endif

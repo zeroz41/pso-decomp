@@ -36,6 +36,8 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
+#include "pso/unk/text_80222C28.h"
 
 
 struct OnlineQuestFileChunk {
@@ -215,10 +217,9 @@ void TLobby::handle_quest_download_chunk() {
     }
 }
 
-s32 get_guild_text(s32);
 extern "C" {
 char *strtok(char *, const char *);
-s32 is_near_designated_player();
+}
 
 void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     TRecvDownloadHead *head = &file;
@@ -307,6 +308,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
         }
     }
 }
+extern "C" {
 
 void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu) {
     if (quest_list_online_quest_list_buffer != NULL) {

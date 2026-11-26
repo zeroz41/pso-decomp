@@ -144,10 +144,7 @@ s32 lock_on_cursor_model;
 s32 TLockOnCursor::target_cursor_model;
 
 NJS_OBJECT *main_cursor_model;
-extern "C" {
 void reset_target_part_entry(LockOnTargetPart *);
-
-}
 
 extern const f32 lbl_805DB0C4;
 

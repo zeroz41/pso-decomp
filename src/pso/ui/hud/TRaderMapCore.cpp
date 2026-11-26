@@ -82,13 +82,14 @@ BmlResource *radar_frame_model_resource;
 NJS_TEXLIST *radar_frame_texlist;
 THeap *TRaderMapCore::map_heap;
 
-extern "C" {
 extern NJS_TEXANIM radar_sprite_texanims[];
 extern f32 radar_compass_positions[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
+extern "C" {
 void rotate_matrix_y(void *, s32);
+}
 extern RadarBackdropColor radar_map_backdrop_color;
 void set_radar_marker_color(TRaderMapCore *unused, u32 color);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
@@ -98,6 +99,7 @@ static const RadarColor4 radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 1.0f, 0.0f },
     { 1.0f, 0.0f, 0.0f, 1.0f },
 };
+extern "C" {
 NJS_POINT2 get_follow_marker_position(TRaderMapCore *core);
 
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);

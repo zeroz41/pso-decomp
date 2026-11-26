@@ -1049,10 +1049,9 @@ struct B8_801FDFB8 { u32 w[2]; };
 
 struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x278C - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
 
-extern "C" {
 s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
+extern "C" {
 S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *dest, S_801FE010 *source);
-
 }
 
 void TAdSinglePlyChrSelectGC::open_confirm_window() { memcard_access_active = 1; TAdSinglePlyChrSelectGC::draw_window_bg((saddr)1, (saddr)pso_character_card_filename.filename, (saddr)character_save_file_buffer, character_save_file_block_count); card_load_sequence_state = 18; }
