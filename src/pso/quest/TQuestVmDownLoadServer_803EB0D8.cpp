@@ -65,7 +65,6 @@ LAYOUT_ASSERT(QuestDownloadRequestStorageRequest, offsetof(QuestDownloadRequestS
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 inline s32 group_text_len(QuestDownloadTextNode *p) {
     s32 n;
     if (p->flags == 0x80) {
@@ -108,7 +107,6 @@ inline void refit_text_page(void) {
     }
     quest_page_node_index = 0;
 }
-}
 s32 quest_text_prev_page(s32 mode, s32 force) {
     QuestDownloadTextNode *save = quest_page_node_head;
     s32 cnt = quest_page_node_count;
@@ -140,7 +138,6 @@ s32 quest_text_prev_page(s32 mode, s32 force) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern "C" {
 inline QuestDownloadTextNode *next_entry_group(QuestDownloadTextNode *p) {
     while (p->flags & 1) {
         p = p->next;
@@ -176,7 +173,6 @@ inline s32 count_fitting_groups(QuestDownloadTextNode *head) {
         return 1;
     }
     return n;
-}
 }
 s32 quest_text_next_page(s32 mode, s32 force) {
     QuestDownloadTextNode *save = quest_page_node_head;
@@ -230,7 +226,6 @@ s32 count_fitting_entries(QuestDownloadTextNode *head) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern "C" {
 inline s32 group_name_text(QuestDownloadTextNode *p, u16 *buf) {
     s32 n = 0;
     for (;;) {
@@ -241,7 +236,6 @@ inline s32 group_name_text(QuestDownloadTextNode *p, u16 *buf) {
         p = p->next;
     }
     return n;
-}
 }
 s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u16 *buf) {
     s32 n;
@@ -257,7 +251,6 @@ s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u1
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern "C" {
 inline s32 count_entry_groups(QuestDownloadTextNode *p) {
     s32 n = 0;
     while (p != NULL) {
@@ -277,7 +270,6 @@ inline s32 entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u
     n = group_name_text(node, buf);
     buf += n;
     return n + render_input_entries_text(start + node->len, count - node->len, buf, 0);
-}
 }
 void render_quest_text_page(void) {
     u8 *p;
@@ -335,7 +327,6 @@ void render_quest_text_page(void) {
     }
 }
 #pragma pop
-extern "C" {
 
 extern "C" QuestDownloadTextNode *advance_quest_text_entries(QuestDownloadTextNode *chain, s32 count) {
     s32 i;
@@ -346,7 +337,6 @@ extern "C" QuestDownloadTextNode *advance_quest_text_entries(QuestDownloadTextNo
         chain = chain->next;
     }
     return chain;
-}
 }
 
 s32 measure_entry_group_len(QuestDownloadTextNode *node) {
@@ -361,7 +351,6 @@ s32 measure_entry_group_len(QuestDownloadTextNode *node) {
     }
     return n + strlen(reinterpret_cast<const char *>(node) + 1);
 }
-extern "C" {
 
 extern "C" s32 count_quest_text_entries(const QuestDownloadTextNode *chain) {
     s32 n = 0;
@@ -374,7 +363,6 @@ extern "C" s32 count_quest_text_entries(const QuestDownloadTextNode *chain) {
     }
     return n;
 }
-}
 
 QuestDownloadTextNode *next_quest_text_entry(QuestDownloadTextNode *chain) {
     while (chain->flags & 1) {
@@ -382,7 +370,6 @@ QuestDownloadTextNode *next_quest_text_entry(QuestDownloadTextNode *chain) {
     }
     return chain->next;
 }
-extern "C" {
 
 extern "C" QuestDownloadTextNode *detach_quest_text_tail(QuestDownloadTextNode *chain) {
     QuestDownloadTextNode *next;
@@ -392,7 +379,6 @@ extern "C" QuestDownloadTextNode *detach_quest_text_tail(QuestDownloadTextNode *
     next = chain->next;
     chain->next = NULL;
     return next;
-}
 }
 
 #pragma push
@@ -513,7 +499,6 @@ void pack_entry_text_chain(s32 start, QuestDownloadTextNode *node) {
 #pragma opt_dead_assignments off
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 inline QuestDownloadTextNode *detach_text_group(QuestDownloadTextNode *p) {
     QuestDownloadTextNode *next;
     while (p->flags & 1) {
@@ -522,7 +507,6 @@ inline QuestDownloadTextNode *detach_text_group(QuestDownloadTextNode *p) {
     next = p->next;
     p->next = NULL;
     return next;
-}
 }
 QuestDownloadTextNode *get_next_node(QuestDownloadQueueNode *p) {
     QuestDownloadQueueNode *best = NULL;
@@ -568,7 +552,6 @@ void rebuild_current_slot_text_chain(s32 mode) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 inline QuestDownloadTextNode *new_raw_text_node(s32 x) {
     QuestDownloadTextNode *n = alloc_quest_text_node();
     if (n != NULL) {
@@ -766,7 +749,6 @@ void TQuestVmDownLoadServer__sub_803EC09C(void) {
     e->chain = head;
     free_quest_queue_chain(qh);
 }
-}
 #pragma pop
 
 #pragma push
@@ -809,7 +791,6 @@ done:
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 
 void TQuestVmDownLoadServer__sub_803EC460(s32 pos, s32 x) {
     QuestDownloadTextNode *first;
@@ -984,7 +965,6 @@ s32 quest_text_u16_to_u8(u16 *src, u8 *dst, s32 n) {
     *out = 0;
     return out - dst;
 }
-}
 #pragma pop
 
 s32 is_valid_sjis_code(u16 ch) {
@@ -1045,7 +1025,6 @@ u8 jis_to_single_byte(u16 code) {
         return lookup_value_by_key(code);
     }
 }
-extern "C" {
 
 s32 convert_quest_text_u8_to_u16(u16 *out, const u8 *text, int attr) {
     u16 *dst = out;
@@ -1126,7 +1105,6 @@ inline s32 sjis_code_kind(u16 c, s32 lo) {
 
   return 2;
 }
-}
 
 s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr) {
   s32 hi;
@@ -1199,14 +1177,12 @@ s32 is_sjis_lead_byte(u8 c) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(2)
-extern "C" {
 inline void return_quest_pool_cell(void *storage) {
     QuestDownloadPoolCell *cell = static_cast<QuestDownloadPoolCell *>(storage);
     new (&cell->free, quest_download_pool_storage) QuestDownloadFreeLink;
     cell->free.next = quest_download_free_list;
     quest_download_free_list = &cell->free;
     quest_download_free_cell_count += 1;
-}
 }
 
 void free_quest_queue_chain(QuestDownloadQueueNode *p) {
@@ -1218,7 +1194,6 @@ void free_quest_queue_chain(QuestDownloadQueueNode *p) {
         p = next;
     }
 }
-extern "C" {
 
 extern "C" void free_quest_text_chain(QuestDownloadTextNode *chain) {
     while (chain != NULL) {
@@ -1228,7 +1203,6 @@ extern "C" void free_quest_text_chain(QuestDownloadTextNode *chain) {
         }
         chain = next;
     }
-}
 }
 
 void free_quest_entry_chain(QuestDownloadEntryNode *p) {
@@ -1272,7 +1246,6 @@ void free_quest_segment_chain(QuestDownloadSegment *p) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 inline QuestDownloadFreeLink *pop_free_block() {
     QuestDownloadFreeLink *p = quest_download_free_list;
     if (p == NULL) {
@@ -1281,7 +1254,6 @@ inline QuestDownloadFreeLink *pop_free_block() {
     quest_download_free_list = quest_download_free_list->next;
     quest_download_free_cell_count--;
     return p;
-}
 }
 
 QuestDownloadQueueNode *alloc_quest_queue_node(void) {
@@ -1379,14 +1351,12 @@ u16 calc_quest_entry_score(const QuestDownloadEntryNode *entry, u16 attribute) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 inline s32 in_range_1_to_13(u8 v) {
     s32 r = 0;
     if (v >= 1 && v <= 0xD) {
         r = 1;
     }
     return r;
-}
 }
 
 s32 calc_item_cost_bonus(u8 kind, u8 v, u8 w, s32 base, s32 add) {
@@ -1633,7 +1603,6 @@ void reset_slot_chain_timers(s32 pos) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 inline QuestDownloadEntryNode *slot_chain_head(s32 i) {
     return quest_download_slot_chain_table[i].head;
 }
@@ -1958,7 +1927,6 @@ const u8 *TQuestVmDownLoadServer__sub_803EDDA4(u16 *start, u16 *end) {
     }
     return NULL;
 }
-}
 #pragma pop
 
 // Keys that only make a small kana: the key length, the key, then the JIS
@@ -2132,8 +2100,6 @@ void reset_entry_text_accumulator(void) {
     lbl_8058DC98[0] = 0;
 }
 
-extern "C" {
-void TQuestVmDownLoadServer__sub_803EE580(s32 pos, s32 len, QuestDownloadTextNode *node, QuestDownloadEntryNode *link);
 
 #pragma push
 #pragma dont_inline off
@@ -2147,7 +2113,6 @@ inline void copy_entry_text(u8 *dst, u8 *text, s32 pos, s32 len, QuestDownloadTe
     } else {
         quest_text_u16_to_u8(quest_text_page_buffer, text, write_entry_group_text(pos, len, node, quest_text_page_buffer));
     }
-}
 }
 
 void process_entry_text_range(s32 pos, s32 end) {
@@ -2210,9 +2175,6 @@ void process_entry_text_range(s32 pos, s32 end) {
 #pragma pop
 
 extern QuestDownloadRequestStorage lbl_805A0698;
-extern "C" {
-s32 TQuestVmDownLoadServer__sub_803EEDC0(QuestDownloadRequest *req, s32 *ids, s32 n);
-s32 TQuestVmDownLoadServer__sub_803EF958(u32 id, u16 key, s32 *ids, s32 n);
 
 #pragma push
 #pragma dont_inline off
@@ -2288,7 +2250,6 @@ void TQuestVmDownLoadServer__sub_803EE580(s32 pos, s32 len, QuestDownloadTextNod
   {
     TQuestVmDownLoadServer__sub_803EF958(p->x4, cmd->key, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values, buf - (reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values));
   }
-}
 }
 #pragma pop
 #pragma pop
@@ -2423,7 +2384,6 @@ const FormatNumberTextAllModesTable quest_download_number_text_table = {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 inline s32 is_digit_1_to_3(s32 d) {
     s32 r = 0;
     if (d >= 1 && d <= 3) {
@@ -3365,7 +3325,6 @@ s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *quest_vm_down_load_server) {
         return -6;
     }
     return 3;
-}
 }
 
 u16 lbl_805A02A8[0x4C];

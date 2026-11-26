@@ -13,12 +13,10 @@ u8 *name_cache_pool_end;
 u8 *name_cache_pool_cursor;
 s32 lbl_805D7874;
 QuestDownloadCachedNameNode *name_cache_node_list;
-extern "C" {
 void mark_name_cache_dirty(void) {
     name_cache_dirty = 1;
 }
 
-void rotate_cache_page(void);
 
 inline int name_hash(char *s) {
     int h;
@@ -584,4 +582,3 @@ void __VIRetraceHandler(void) {
 
 #pragma pop
 
-}

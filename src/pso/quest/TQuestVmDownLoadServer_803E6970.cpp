@@ -12,7 +12,6 @@ s32 quest_download_header_name_index_hi_count;
 QuestDownloadCachePage *file_page_cache_head;
 s32 quest_download_name_search_lo;
 s32 quest_download_name_search_hi;
-extern "C" {
 
 s32 render_input_entries_text(s32 start, s32 count, u16 *buf, s32 flag) {
     QuestDownloadInputEntry *e;
@@ -1146,4 +1145,3 @@ s32 calc_sjis_string_width(u8 *text) {
 
 
 __declspec(section ".rodata") const char ask_header_signature[] = "ASK Copyright (C) ACCESS CO.,LTD.";
-}

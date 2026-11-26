@@ -555,7 +555,6 @@ s32 is_download_cmd_allowed(u8 cmd) {
 #pragma dont_inline off
 #pragma inline_depth(1)
 #pragma opt_common_subs off
-extern "C" {
 inline s32 is_non_initial_kana(u8 cmd) {
     if ((lbl_805D7888 - 1) <= 1U) {
         return 0;
@@ -755,7 +754,6 @@ s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0) {
     }
     return r->x15;
 }
-}
 
 QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *entry) {
     QuestDownloadEntryNode *cur;
@@ -782,7 +780,6 @@ QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern "C" {
 QuestDownloadEntryNode *TQuestVmDownLoadServer__sub_803E9FFC(s32 start, s32 end, const QuestDownloadItemNode *t) {
     s32 off;
     QuestDownloadEntryNode *head;
@@ -1416,7 +1413,6 @@ void TQuestVmDownLoadServer__sub_803EAE84(s32 begin, s32 end, s32 mode) {
     for (; slot < limit; slot++) {
         TQuestVmDownLoadServer__sub_803EADD4(slot, mode);
     }
-}
 }
 
 void init_entries() {
