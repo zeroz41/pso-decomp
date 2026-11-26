@@ -27,7 +27,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 
-struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 
 
 TAdPlyStatusGC *ply_status_gc_instance;
@@ -130,7 +129,8 @@ void TAdPlyStatusGC::format_status_strings() {
     s32 flags;
     u32 hours;
     TAdChrSelPlyPlateGC *plate;
-    Save_8033F6A8 *p;
+    CharacterSaveRecord *record;
+    CardSlotSummary *summary;
     u32 t;
     memset(buf, 0, 0x10);
     memset(buf + 0x10, 0, 0x10);
@@ -139,20 +139,20 @@ void TAdPlyStatusGC::format_status_strings() {
     switch (TAdPlyStatusGC::window_offset_index) {
     case 0:
     case 2:
-        p = (Save_8033F6A8 *)get_character_save_record(0xFFFF);
-        if (p != 0) {
-            time = p->fC;
+        record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+        if (record != 0) {
+            time = record->play_time;
         }
         c = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
         break;
     case 1:
-        p = (Save_8033F6A8 *)TAdSinglePlyChrSelectGC__sub_801FE3E4(ply_status_index);
-        if (p != 0) {
-            time = p->fC;
+        summary = get_secondary_card_slot_summary(ply_status_index);
+        if (summary != 0) {
+            time = summary->play_time;
         }
         plate = TAdMultiPlyChrSelectGC::get_card_instance();
         if (plate != NULL) {
-            if (TAdSinglePlyChrSelectGC__sub_801FE800(plate->get_active_card_slot()) != 0) {
+            if (is_secondary_slot_active(plate->get_active_card_slot()) != 0) {
                 c = TAdSinglePlyChrSelectGC::get_entry(plate->get_active_card_slot());
             }
         }

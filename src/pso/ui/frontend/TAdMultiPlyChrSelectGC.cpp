@@ -573,7 +573,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
         if ((this->last_card_slot != player_plate->get_active_card_slot()) || (this->last_cursor != player_plate->get_cursor())) {
             player_preview->set_field_100(1);
             this->show_flag_notice = 0;
-            if (TAdSinglePlyChrSelectGC__sub_801FE4BC(card_index) != 0U) {
+            if (get_card_slot_summary(card_index) != 0U) {
                 load_tables(card_index);
                 player_preview->set_field_100(2);
                 if ((TAdSinglePlyChrSelectGC::check_flag(1) != 0U) && (this->controllers_ready != 0)) {
@@ -1039,7 +1039,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
     if (this->last_card_slot != player_plate->get_active_card_slot()) {
         player_preview->set_field_100(1);
         this->show_flag_notice = 0;
-        if (TAdSinglePlyChrSelectGC__sub_801FE3E4(card_index) != 0U) {
+        if (get_secondary_card_slot_summary(card_index) != 0U) {
             load_tables(card_index);
             player_preview->set_status_value(card_index);
             player_preview->set_field_100(2);
@@ -1056,7 +1056,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
     }
     if (player_plate->get_selection() != 0) {
         load_tables(card_index);
-        if (TAdSinglePlyChrSelectGC__sub_801FE800(card_index) != 0) {
+        if (is_secondary_slot_active(card_index) != 0) {
             if (this->b_slot->is_character_transferred(card_index) == 0) {
                 this->confirm_window = create_confirm_window(player_plate->get_instance());
                 this->state = 0xF;

@@ -317,7 +317,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
     flag_notice_shown = 0;
     if (this->last_cursor_index != this->cursor->selection_index()) {
         player->set_field_100(1);
-        if (TAdSinglePlyChrSelectGC__sub_801FE4BC(this->cursor->selection_index()) != NULL) {
+        if (get_card_slot_summary(this->cursor->selection_index()) != NULL) {
             load_tables(cursor->selection_index());
             player->set_field_100(2);
             if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
