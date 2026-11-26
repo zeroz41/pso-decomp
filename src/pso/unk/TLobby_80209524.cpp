@@ -6,6 +6,7 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_80209524.h"
+#include "pso/unk/text_8020BFE4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
@@ -1054,11 +1055,6 @@ s32 get_total_object_set_count(void) {
 
 // ---- pso/unk/TLobby_8020B334
 
-extern "C" {
-
-EnemySetRecord *get_loaded_enemy_set_rows();
-FloorObjectSetRow *get_loaded_object_set_rows();
-}
 
 EnemySetRecord *get_active_floor_enemy_rows(s32) { return get_loaded_enemy_set_rows(); }
 FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_set_rows(); }

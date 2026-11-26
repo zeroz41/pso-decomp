@@ -103,11 +103,9 @@ void TLobby::release_bgm_resource() {
         TLobby::init_layout_positions();
     }
 }
-extern "C" {
-
-extern void *bgm_stream_buffers[];
+void *bgm_stream_buffers[0x20];
 extern const char *bgm_stream_files[];
-}
+
 void start_bgm_stream(s32 index) {
     if (index < 0 || index >= 4) {
         return;
@@ -124,7 +122,6 @@ void start_bgm_stream(s32 index) {
     }
 }
 
-void *bgm_stream_buffers[0x20];
 extern "C" {
 __declspec(section ".data") s32 music_slot_cues[2];
 __declspec(section ".data") s32 music_slot_progress[2];

@@ -27,10 +27,8 @@
 
 
 void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u32 byte_size);
-extern "C" {
-extern s16 quest_floor_designations[];
+s16 quest_floor_designations[0x14];
 u8 *quest_dat_buffer;
-}
 
 void TLobby::refresh_quest_list(const char *path) {
     u8 *quest;
@@ -126,15 +124,15 @@ void set_quest_floor_designation_ex(s16 mode, s32 floor, s32 area, s32 layout, s
     switch (mode) {
     case 0:
         set_floor_map_selection(floor, area, layout, 0);
-        ((s16 *) &quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     case 2:
         set_floor_map_selection(floor, area, layout, entities);
-        ((s16 *) &quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     case 1:
     case 3:
-        ((s16 *) &quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     default:
         return;
@@ -148,21 +146,21 @@ void set_quest_floor_designation(s16 mode, s32 floor, s32 terrain, s32 unused) {
     switch (mode) {
     case 0:
         set_floor_map_selection(floor, floor, terrain, 0);
-        ((s16 *)&quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     case 2:
         set_floor_map_selection(floor, floor, terrain, 0);
-        ((s16 *)&quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     case 1:
     case 3:
-        ((s16 *)&quest_floor_designations)[floor] = mode;
+        quest_floor_designations[floor] = mode;
         break;
     }
 }
 
 void clear_quest_floor_designations(void) {
-    memset(&quest_floor_designations, 0, 0x24);
+    memset(quest_floor_designations, 0, 0x24);
 }
 
 void populate_quest_floor_sets(void) {
@@ -170,7 +168,7 @@ void populate_quest_floor_sets(void) {
     FloorMapSelection sel;
     TLobby::init_handle(0x8000);
     for (i = 0; i < 18; i++) {
-        switch (((s16 *)&quest_floor_designations)[i]) {
+        switch (quest_floor_designations[i]) {
         case 0:
             TLobby::handle_msg_type1(i);
             TLobby::handle_msg_type2(i);
@@ -370,4 +368,3 @@ void TLobby::init_id_tables() {
     }
 }
 
-s16 quest_floor_designations[0x14];

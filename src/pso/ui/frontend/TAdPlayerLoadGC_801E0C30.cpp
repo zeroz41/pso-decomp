@@ -843,8 +843,9 @@ s32 TAdPlayerLoadGC::delete_memcard_file(s32 chan, const char *name) {
         return -1;
     }
 }
+}
 
-s32 init_memcard(s32 unused, s32 chan, u8 *workArea) {
+s32 init_memcard(s32, s32 chan, u8 *workArea, s32) {
     s32 i;
     card_slot_state_flags = 0;
     lbl_805D5E34 = 0;
@@ -860,7 +861,6 @@ s32 init_memcard(s32 unused, s32 chan, u8 *workArea) {
     }
     card_result_code = 0;
     return 0;
-}
 }
 
 // Opens the card file, creating it with `size` bytes when CARDOpen reports CARD_RESULT_NOFILE.

@@ -14,6 +14,9 @@ LAYOUT_ASSERT(FloorMapSelectionSize, sizeof(FloorMapSelection) == 0xC);
 LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrain) == 4);
 
 void reset_floor_map_registry(void);
+
+// The episode TAdStorySelectGC::set_state last picked.
+extern int selected_episode;
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection);
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection);
 s32 get_floor_map_terrain(s32 floor);

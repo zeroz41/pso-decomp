@@ -22,6 +22,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/unk/TLobby_80207644.h"
 
 #pragma readonly_strings on
 
@@ -380,8 +381,6 @@ void player_stats::bswap() {
 }
 
 extern "C" {
-
-extern s32 selected_episode;
 
 s32 TLobby::get_instance() {
     return selected_episode;

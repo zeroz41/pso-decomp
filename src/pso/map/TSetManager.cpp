@@ -1573,10 +1573,7 @@ void alloc_item_drop_memory_pool() {
     item_drop_memory_pool_ar_addr = ARAlloc(0x100000);
 }
 
-extern "C" {
-
 EnemySetRecord *get_loaded_enemy_set_rows() { return current_floor_enemy_set_rows; }
 
 FloorObjectSetRow *get_loaded_object_set_rows() { return current_floor_object_set_rows; }
 
-}

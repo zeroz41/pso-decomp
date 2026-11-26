@@ -12,8 +12,6 @@ s32 request_story_select_state(s32 state) {
     return 0;
 }
 
-extern s32 selected_episode;
-
 void TAdStorySelectGC::set_state(s32 episode) {
     selected_episode = episode;
     switch (episode) {
