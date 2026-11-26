@@ -4,7 +4,6 @@
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TLogo.h"
-#include "pso/ui/TLogo_8001C134.h"
 #include "pso/unk/text_80145A94.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"

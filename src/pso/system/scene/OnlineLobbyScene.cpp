@@ -88,7 +88,6 @@
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/unk/TObjFreezeShell.h"
 #include "dolphin/base/PPCArch.h"
-#include "pso/ui/frontend/TAdDialingGC_801A4C90.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/quest/QuestStoryFlags.h"

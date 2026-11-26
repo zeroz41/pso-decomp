@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 u8 chr_select_state; // inferred: only read, by TAdSinglePlyChrSelectGC::get_chr_select_state

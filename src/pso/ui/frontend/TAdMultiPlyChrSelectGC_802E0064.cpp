@@ -1,7 +1,6 @@
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "types.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 

@@ -29,7 +29,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"

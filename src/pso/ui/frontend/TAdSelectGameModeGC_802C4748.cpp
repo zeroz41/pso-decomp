@@ -11,7 +11,6 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"

@@ -44,7 +44,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/unk/text_80290BE0.h"

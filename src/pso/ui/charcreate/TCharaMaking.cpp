@@ -7,7 +7,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
@@ -219,7 +218,7 @@ s32 TCharaMaking::query_state() {
     if (creation_main_menu_obj == NULL) {
         return -1;
     }
-    return TObjCMMainMenu__sub_8028EBCC(creation_main_menu_obj);
+    return creation_main_menu_obj->get_selected_entry_kind();
 }
 
 s32 calc_section_id_from_name(s8 *name) {

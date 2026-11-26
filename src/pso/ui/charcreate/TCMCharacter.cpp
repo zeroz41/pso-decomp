@@ -1,6 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/ui/charcreate/CharacterPreviewModels.h"
-#include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"

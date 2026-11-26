@@ -32,7 +32,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/ui/TLogo.h"
-#include "pso/ui/TLogo_8001C134.h"
+#include "pso/ui/frontend/TAdSEGAlogo.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

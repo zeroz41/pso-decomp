@@ -21,7 +21,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/system/ControllerInput.h"

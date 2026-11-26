@@ -23,4 +23,7 @@ public:
 void free_adx_logo_texture();
 void load_adx_logo_texture();
 
+struct NJS_TEXLIST;
+NJS_TEXLIST *get_logo_texture_e_handle(void);
+
 #endif

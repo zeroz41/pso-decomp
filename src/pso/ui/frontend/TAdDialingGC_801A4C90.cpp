@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/frontend/TAdDialingGC_801A4C90.h"
 #include "pso/unk/TAdDialingSelectGC.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/player/PlayerActionProvider.h"

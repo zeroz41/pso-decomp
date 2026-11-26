@@ -5,7 +5,6 @@
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_80227AA0.h"
-#include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -72,8 +71,8 @@ void init_creation_menu_scene(void) {
     }
 }
 
-s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu) {
-    return TObjCMMainMenu::menu_entries[menu->entries[menu->selected_entry]].kind;
+s32 TObjCMMainMenu::get_selected_entry_kind() {
+    return menu_entries[entries[selected_entry]].kind;
 }
 
 s32 TObjCMMainMenu::is_state_4() {

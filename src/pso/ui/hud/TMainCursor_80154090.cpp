@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/hud/TMainCursor_80154090.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/system/data/FlagWord.h"

@@ -154,7 +154,6 @@
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
-#include "pso/ui/city/THunterGuildSeqOffline_801F3718.h"
 #include "pso/ui/chat/TSymbolChatCapture.h"
 
 

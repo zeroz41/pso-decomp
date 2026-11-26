@@ -278,4 +278,7 @@ extern s32 chr_select_save_slot;
 class TAdTitleTexGC;
 struct NJS_POINT2;
 extern "C" void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
+
+s32 get_guild_card_save_file_block_count(void);
+
 #endif

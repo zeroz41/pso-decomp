@@ -36,7 +36,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
 #include "pso/unk/text_80222C28.h"
 
 

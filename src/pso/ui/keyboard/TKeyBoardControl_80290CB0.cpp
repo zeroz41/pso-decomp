@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80290CB0.h"
-#include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

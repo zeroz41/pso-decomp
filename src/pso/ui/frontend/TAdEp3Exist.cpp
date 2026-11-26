@@ -9,7 +9,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TLobby.h"

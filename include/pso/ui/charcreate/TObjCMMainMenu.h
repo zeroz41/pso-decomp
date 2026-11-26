@@ -62,6 +62,8 @@ public:
 public:
     static s32 validate_character_name(s8 *arg0);
     s32 is_state_4();
+    // Kind of the menu_entries row the cursor is on.
+    s32 get_selected_entry_kind();
     s32 is_state_3();
     static void *create_fade(void *duration, void *mode);
     static s32 try_pay_fee();
@@ -111,5 +113,19 @@ LAYOUT_ASSERT(CreationMainMenu_progress_offset, offsetof(TObjCMMainMenu,progress
 LAYOUT_ASSERT(CreationMainMenu_idle_ticks_offset, offsetof(TObjCMMainMenu,idle_ticks)==0x4C);
 LAYOUT_ASSERT(CreationMainMenu_nodes_offset, offsetof(TObjCMMainMenu,nodes)==0x50);
 LAYOUT_ASSERT(CreationMainMenu_preview_offset, offsetof(TObjCMMainMenu,preview)==0x54);
+
+
+class TObjCMMainMenu;
+struct BmlResource;
+
+extern BmlResource *creation_menu_main_obj;
+void set_creation_dressing_room_mode(void);
+void clear_character_creation_name(void);
+void clear_creation_dressing_room_mode(void);
+void init_creation_menu_scene(void);
+// The name typed on the creation name screen.
+extern char character_creation_name_buffer[0x18];
+// Set while character creation runs as the dressing room.
+extern int creation_dressing_room_mode_flag;
 
 #endif

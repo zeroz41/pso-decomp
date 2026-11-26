@@ -8,7 +8,6 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"

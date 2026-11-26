@@ -46,7 +46,6 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/hud/TMainCursor_80154090.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

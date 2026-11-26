@@ -4,7 +4,6 @@
 #include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"

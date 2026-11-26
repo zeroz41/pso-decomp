@@ -3,7 +3,6 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/TScreenFadeIn.h"
 #include "pso/ui/frontend/TAdSEGAlogo.h"
-#include "pso/ui/TLogo_8001C134.h"
 #include "types.h"
 #include "pso/ui/frontend/TitleBackground.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"

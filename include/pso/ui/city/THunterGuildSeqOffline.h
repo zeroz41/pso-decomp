@@ -58,4 +58,17 @@ extern "C" s32 quest_result_callbacks[4];
 
 s32 get_online_client_state(void);
 void clear_offline_instance_table(void);
+
+void set_quest_failure_callback(s32 quest_failure_callback);
+void set_quest_cancel_callback(s32 quest_cancel_callback);
+void set_quest_exit_callback(s32 quest_exit_callback);
+void set_quest_success_callback(s32 quest_success_callback);
+
+
+// Nonzero while a THunterGuildSeqOnline (client or server side) or a THunterGuildSeqOffline runs for the client.
+s32 get_online_client_instance(s32 client_id);
+s32 get_online_server_instance(s32 client_id);
+s32 get_offline_instance(s32 client_id);
+s32 is_near_designated_player(void);
+
 #endif
