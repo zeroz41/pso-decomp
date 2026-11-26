@@ -37,7 +37,7 @@ extern const char TextGerman[];
 extern const char TextFrench[];
 extern const char TextSpanish[];
 extern const char TextEnglish[];
-s32 *TLanguage::text_resource;
+void **TLanguage::text_resource;
 char ***text_language_group_table;
 NJS_TEXLIST *localized_alphabet_list;
 language current_language;
@@ -120,19 +120,19 @@ void TLanguage::load_fonts(s32 language) {
 void TLanguage::load_text_resources(s32 language) {
     switch (language) {
     case LANGUAGE_JAPANESE:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextJapanese);
+        text_resource = (void **)load_text_resource_pair((saddr)TextJapanese);
         break;
     case LANGUAGE_GERMAN:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextGerman);
+        text_resource = (void **)load_text_resource_pair((saddr)TextGerman);
         break;
     case LANGUAGE_FRENCH:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextFrench);
+        text_resource = (void **)load_text_resource_pair((saddr)TextFrench);
         break;
     case LANGUAGE_SPANISH:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextSpanish);
+        text_resource = (void **)load_text_resource_pair((saddr)TextSpanish);
         break;
     default:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextEnglish);
+        text_resource = (void **)load_text_resource_pair((saddr)TextEnglish);
         break;
     }
     soft_keyboard_layouts = (u8 *)text_resource[0];
