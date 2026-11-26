@@ -57,7 +57,7 @@ void TechniqueParams::copy(TechniqueParams *src) {
     range = src->range;
     pad_0C = src->pad_0C;
     tp_cost = src->tp_cost;
-    pad_12 = src->pad_12;
+    charge_speed = src->charge_speed;
     mental = src->mental;
     pad_16 = src->pad_16;
     angle = src->angle;

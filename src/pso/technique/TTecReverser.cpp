@@ -40,7 +40,7 @@ Entry_80239E44 revival_particle_table[3] = {
 void TTecShot::debug_print_tech_params() {
     debug_printf_at(0x1E0014, "POWER  : %f", params.power);
     debug_printf_at(0x1E0015, "USE_TP : %d", params.tp_cost);
-    debug_printf_at(0x1E0016, "CH_SPD : %d", params.pad_12);
+    debug_printf_at(0x1E0016, "CH_SPD : %d", params.charge_speed);
     debug_printf_at(0x1E0017, "SPEED  : %f", params.speed);
     debug_printf_at(0x1E0018, "SCOPE  : %f", params.range);
     debug_printf_at(0x1E0019, "MENTAL  : %f", params.mental);
