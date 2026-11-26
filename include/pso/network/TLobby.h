@@ -197,7 +197,6 @@ struct TLobby : public TObject {
     static void apply_char_to_players();
     static void reset_quest_state();
     static void clear_counter();
-    static void clear_counter(void *a0);
     static void clear_quest_state();
     static void reset_quest_counter();
     static void set_cleanup_flag();

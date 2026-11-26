@@ -61,10 +61,6 @@
 #include "pso/unk/TLobby_80103F5C.h"
 
 
-// Window size {width, height} passed to TWindowMessage::create.
-struct BattleIntroWindowSize { f32 x, y; };
-// Score or player count of the two teams.
-struct BattleTeamTotals { s32 team[2]; };
 
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern "C" {

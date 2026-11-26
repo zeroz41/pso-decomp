@@ -914,13 +914,15 @@ struct G_SetAnimationState_6xAE {
  void send_to(u32 client);
 };
 
+// The client reads what, state and is_alive as signed bytes and the
+// params as signed words.
 struct G_SetBattleModeData_6x7D {
  struct G_UnusedHeader header;
- u8 what;
- u8 unknown_a1;
+ s8 what;
+ s8 state;  // the controller state to switch to when what is 0
  u8 unused;
- u8 is_alive;
- u32 params[4];
+ s8 is_alive;
+ s32 params[4];
 };
 
 struct G_SetBossWarpFlags_6x6A {
