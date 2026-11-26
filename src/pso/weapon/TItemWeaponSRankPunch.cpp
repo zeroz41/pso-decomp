@@ -25,6 +25,7 @@ extern "C" {
 TObjCollidable *find_entity_by_id(s32);
 
 void TObjPlayer__sub_80128A70(void) {  }
+}
 
 void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
     TObjCollidable *o;
@@ -33,8 +34,6 @@ void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
     if (o != 0 && o->bodies != 0 && body < o->body_count) {
         spawn_particle_effect(&o->bodies[body].center, 0x45);
     }
-}
-
 }
 
 void TObjPlayer::notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos) {

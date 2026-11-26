@@ -31,9 +31,7 @@ public:
 
 s32 create_shoot_model_rot_z(uaddr owner, saddr pos, saddr dir, f32 life);
 
-extern "C" {
 s32 create_gun_shot(saddr owner, saddr pos, saddr endpoint, f32 life);
-}
 
 s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life);
 

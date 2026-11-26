@@ -30,6 +30,6 @@ LAYOUT_ASSERT(WeaponEffectDescriptorColorOffset, offsetof(WeaponEffectDescriptor
 LAYOUT_ASSERT(WeaponEffectDescriptorWallOffset, offsetof(WeaponEffectDescriptor, wall_effect) == 0x70);
 LAYOUT_ASSERT(WeaponEffectDescriptorHitOffset, offsetof(WeaponEffectDescriptor, hit_effect) == 0x74);
 
-extern "C" WeaponEffectDescriptor *reset_weapon_effect_descriptor(WeaponEffectDescriptor *params);
+WeaponEffectDescriptor *reset_weapon_effect_descriptor(WeaponEffectDescriptor *params);
 
 #endif

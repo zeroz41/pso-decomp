@@ -193,13 +193,13 @@ LAYOUT_ASSERT(WeaponShotCallbackOffset, offsetof(TItemWeapon,shot_callback)==0x1
 LAYOUT_ASSERT(WeaponGunPointOffset, offsetof(TItemWeapon,gun_point_joint)==0x1CE);
 LAYOUT_ASSERT(WeaponHitCallbackOffset, offsetof(TItemWeapon,hit_callback)==0x1F4);
 LAYOUT_ASSERT(WeaponBaseSize, sizeof(TItemWeapon)==0x1F8);
-extern "C" {
 void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s32 end_joint);
+extern "C" {
 // TItemWeapon's destructor under its own symbol, for the derived classes
 // still written as C functions.
 void *__dt__11TItemWeaponFv(void *item, s16 deleting);
-void increment_model_node_counter(void);
 }
+void increment_model_node_counter(void);
 // weapon_factory_table's entry for weapons without a class of their own.
 TItem *create_common_weapon(u8 *item);
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint);

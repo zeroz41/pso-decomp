@@ -701,10 +701,12 @@ s32 test_pressed_buttons_packed(void *pad, s32 mask) {
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
     return (pad->held_with_sticks & TRaderMapCore::pack_color_bits(pad, mask)) != 0;
 }
+}
 
 s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
     return (pad->held_with_sticks & TRaderMapCore__sub_801A6D00(pad, mask)) != 0;
 }
+extern "C" {
 
 s32 test_previous_buttons_packed(void *pad, s32 mask) {
     return (((ControllerInputContext *)pad)->held_with_sticks & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;

@@ -37,7 +37,9 @@ extern "C" {
 s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask);
 s32 test_pressed_buttons_packed(void *pad, s32 mask);
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask);
+}
 s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask);
+extern "C" {
 s32 test_previous_buttons_packed(void *pad, s32 mask);
 s32 test_buttons_press_or_repeat(ControllerInputContext *pad, s32 buttons, s32 delay, s32 period);
 }

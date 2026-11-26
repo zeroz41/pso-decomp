@@ -230,8 +230,6 @@ TItem *create_common_weapon(u8 *item) {
 
 // ---- pso/player/TObjPlayer_80121010
 
-extern "C" {
-
 TItem *create_weapon_for_item(u8 *item) {
     if (item != NULL) {
         ItemCreateFunction factory = get_weapon_factory_for_item(item);
@@ -260,7 +258,6 @@ s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_
 CapturedTargetList *TObjPlayer::get_extended_state() { return attack_state.get_lockon_targets(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
 int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
-}
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint) { return player->item_node_matrices[joint]; }
 void PlayerAttackController::set_attack_kind(s16 kind) { attack_kind = kind; }
 

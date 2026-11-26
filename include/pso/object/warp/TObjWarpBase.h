@@ -28,6 +28,6 @@ struct TObjWarpBase : public TObjCollidable {
 };
 LAYOUT_ASSERT(TObjWarpBase_size, sizeof(TObjWarpBase) == 0xBC);
 
-extern "C" TObjPlayer *find_warp_player_in_range(TObjWarpBase *warp, u16 client_id, f32 range);
+TObjPlayer *find_warp_player_in_range(TObjWarpBase *warp, u16 client_id, f32 range);
 
 #endif
