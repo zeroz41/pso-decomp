@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
+#include "pso/quest/QuestDownloadRequests.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/Language.h"

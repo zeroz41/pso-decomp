@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
+#include "pso/quest/QuestDownloadRequests.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
