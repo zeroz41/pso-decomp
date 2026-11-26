@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TCOLOROVERLAYFADE_H
-#define PSO_UNK_TCOLOROVERLAYFADE_H
+#ifndef PSO_SYSTEM_TCOLOROVERLAYFADE_H
+#define PSO_SYSTEM_TCOLOROVERLAYFADE_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 

@@ -1,14 +1,14 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/Draw2D.h"
-#include "pso/unk/TScreenFadeOut.h"
-#include "pso/unk/TScreenFadeIn.h"
-#include "pso/unk/TDeathTintFade.h"
-#include "pso/unk/TScreenFade.h"
+#include "pso/system/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeIn.h"
+#include "pso/system/TDeathTintFade.h"
+#include "pso/system/TScreenFade.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TColorOverlayFade.h"
-#include "pso/unk/TScreenFadeController.h"
+#include "pso/system/TColorOverlayFade.h"
+#include "pso/system/TScreenFadeController.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/network/TLobby.h"
@@ -20,7 +20,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/network/client_id.h"
 #include "pso/system/prs.h"
-#include "pso/unk/text_800F7DAC.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 
@@ -310,6 +309,18 @@ void TScreenFadeController::render() {
 
 u32 prs_decompress_buffer(const void *src, void *dst) {
     u32 size;
+    PrsDecoder *prs = new PrsDecoder;
+    if (prs != NULL) {
+        size = prs->prs_decompress((u8 *)dst, (u8 *)src, 0);
+    }
+    if (prs != NULL) {
+        delete prs;
+    }
+    return size;
+}
+
+s32 prs_decompress_alloc(const void *src, void *dst, s32 size_limit) {
+    s32 size;
     PrsDecoder *prs = new PrsDecoder;
     if (prs != NULL) {
         size = prs->prs_decompress((u8 *)dst, (u8 *)src, 0);

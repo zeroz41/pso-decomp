@@ -34,7 +34,7 @@
 #include "pso/player/PlayerAttackController.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TDeathTintFade.h"
+#include "pso/system/TDeathTintFade.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"

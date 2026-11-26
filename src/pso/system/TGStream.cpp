@@ -4,7 +4,7 @@
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/prs.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/dd/TObjEneDD.h"

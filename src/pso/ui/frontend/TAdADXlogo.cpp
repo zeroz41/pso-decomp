@@ -1,8 +1,8 @@
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
-#include "pso/unk/TScreenFadeOut.h"
-#include "pso/unk/TScreenFadeIn.h"
+#include "pso/system/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeIn.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdADXlogo.h"

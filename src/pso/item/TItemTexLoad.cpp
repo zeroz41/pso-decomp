@@ -7,7 +7,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/item/TItemData.h"
-#include "pso/unk/text_800F7D30.h"
+#include "pso/system/prs.h"
 
 extern "C" {
 void open_afs_file_wait_render(s32, const char*, void*, s32);

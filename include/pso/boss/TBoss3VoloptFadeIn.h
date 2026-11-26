@@ -1,7 +1,7 @@
 #ifndef PSO_BOSS_TBOSS3VOLOPTFADEIN_H
 #define PSO_BOSS_TBOSS3VOLOPTFADEIN_H
 #include "types.h"
-#include "pso/unk/TScreenFade.h"
+#include "pso/system/TScreenFade.h"
 
 typedef void (*VoloptFadeCallback)();
 

@@ -1,7 +1,7 @@
-#ifndef PSO_UNK_TSCREENFADEOUT_H
-#define PSO_UNK_TSCREENFADEOUT_H
+#ifndef PSO_SYSTEM_TSCREENFADEOUT_H
+#define PSO_SYSTEM_TSCREENFADEOUT_H
 #include "types.h"
-#include "pso/unk/TScreenFade.h"
+#include "pso/system/TScreenFade.h"
 
 // Screen fade task that fades in from alpha 0 to 255.
 class TScreenFadeOut : public TScreenFade {

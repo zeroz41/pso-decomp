@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TLobby_800FD78C.h"

@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"

@@ -6,7 +6,7 @@
 #include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/TDeathTintFade.h"
+#include "pso/system/TDeathTintFade.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"

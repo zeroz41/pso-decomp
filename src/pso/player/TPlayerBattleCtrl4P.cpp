@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/effect/TDuelEffectCtrl.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/system/CharacterSaveRecordLookup.h"

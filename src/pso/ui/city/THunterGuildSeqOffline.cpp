@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestListOffline.h"

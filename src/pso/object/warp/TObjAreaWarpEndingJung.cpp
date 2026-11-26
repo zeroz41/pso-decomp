@@ -90,7 +90,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/quest/QuestStoryFlags.h"

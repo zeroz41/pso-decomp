@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TScreenFadeOut.h"
-#include "pso/unk/TScreenFadeIn.h"
+#include "pso/system/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeIn.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TitleSceneTables.h"

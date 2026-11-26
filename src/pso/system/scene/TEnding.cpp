@@ -1,4 +1,4 @@
-#include "pso/unk/TScreenFadeOut.h"
+#include "pso/system/TScreenFadeOut.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/scene/TEndingPicStage.h"

@@ -5,7 +5,7 @@
 #include "pso/ui/MenuText.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/prs.h"
 #include "pso/render/GinjaView.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_800F8AA8.h"

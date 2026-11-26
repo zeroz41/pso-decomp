@@ -17,7 +17,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_800FA2A0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/render/GinjaTexture.h"

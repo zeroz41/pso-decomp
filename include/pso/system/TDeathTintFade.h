@@ -1,7 +1,7 @@
-#ifndef PSO_UNK_TDEATHTINTFADE_H
-#define PSO_UNK_TDEATHTINTFADE_H
+#ifndef PSO_SYSTEM_TDEATHTINTFADE_H
+#define PSO_SYSTEM_TDEATHTINTFADE_H
 #include "types.h"
-#include "pso/unk/TScreenFade.h"
+#include "pso/system/TScreenFade.h"
 
 // Window tint fade that player death starts: alpha climbs to 128, the tint
 // goes to the window of viewport_index, then the callback runs.

@@ -71,7 +71,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/TDeathTintFade.h"
+#include "pso/system/TDeathTintFade.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_8011A780.h"

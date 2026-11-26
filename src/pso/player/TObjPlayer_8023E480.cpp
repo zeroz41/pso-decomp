@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/unk/text_800F7DAC.h"
+#include "pso/system/prs.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

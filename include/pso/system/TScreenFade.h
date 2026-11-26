@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TSCREENFADE_H
-#define PSO_UNK_TSCREENFADE_H
+#ifndef PSO_SYSTEM_TSCREENFADE_H
+#define PSO_SYSTEM_TSCREENFADE_H
 #include "types.h"
 #include <stddef.h>
 #include "pso/system/NinjaTypes.h"

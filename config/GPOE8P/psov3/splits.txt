@@ -1789,11 +1789,8 @@ pso/enemy/TEnemyTaskList.cpp:
 	.data       start:0x80499958 end:0x80499970
 	.sdata      start:0x805D2B08 end:0x805D2B10
 
-pso/unk/text_800F7D30.cpp:
-	.text       start:0x800F7D30 end:0x800F7DAC
-
-pso/unk/text_800F7DAC.cpp:
-	.text       start:0x800F7DAC end:0x800F8A0C
+pso/system/TScreenFadeController.cpp:
+	.text       start:0x800F7D30 end:0x800F8A0C
 	.rodata     start:0x8043D798 end:0x8043D7A8
 	.data       start:0x80499970 end:0x80499A00
 	.sbss       start:0x805D5330 end:0x805D5338

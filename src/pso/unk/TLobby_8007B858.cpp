@@ -3,7 +3,7 @@
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/unk/TScreenFadeController.h"
+#include "pso/system/TScreenFadeController.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/system/TLanguage.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
