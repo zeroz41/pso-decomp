@@ -3,9 +3,18 @@
 
 #include "types.h"
 
-extern "C" {
-void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
-void TObjPlayer__sub_8023E034(void * *arg0);
-}
+// One corner of the sprite draw_compass_sprite draws.
+struct CompassSpriteVertex {
+    f32 x, y, z;
+    f32 u, v;
+    s32 color;
+};
+
+// Adds (du, dv) mod 256 to the uvs of every strip after each texture-id chunk
+// (type 8) for texture_id in a Ninja chunk polygon list (names inferred).
+void scroll_chunk_plist_uvs(s16 *plist, s16 du, s16 dv, u16 texture_id);
+// Moves *plist past one chunk: bits chunks (0-5) and the end chunk take one
+// s16, a texture-id chunk two, any other chunk its header, size and size s16s.
+void advance_chunk_plist(s16 **plist);
 
 #endif

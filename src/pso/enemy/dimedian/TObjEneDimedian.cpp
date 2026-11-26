@@ -206,7 +206,7 @@ void TObjEneDimedian::render() {
     Vec pos;
     if (actor_frame_tick != dimedian_last_draw_tick[variant]) {
         dimedian_last_draw_tick[variant] = actor_frame_tick;
-        TObjPlayer__sub_8023DEE0((s16 *)dimedian_resource_handles[variant], 0xE, 0, 0);
+        scroll_chunk_plist_uvs((s16 *)dimedian_resource_handles[variant], 0xE, 0, 0);
     }
     camera = 0;
     if (is_split_screen() != 0) {

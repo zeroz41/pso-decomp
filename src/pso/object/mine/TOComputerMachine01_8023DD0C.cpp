@@ -9,14 +9,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/math/AngleLookup.h"
-
-struct UV_8023DDC8 { s16 u; s16 v; };
-
-struct Vtx_8023E0FC { f32 x, y, z, u, v; s32 color; };
-
-struct Info_8023E0FC { f32 x, y, z; f32 dx1, dy1, dx2, dy2; f32 pad; f32 u, v, du1, dv1, du2, dv2; u8 pad2[8]; };
-
-extern "C" {
+#include "pso/system/NinjaTypes.h"
+#include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 
 s32 has_texture_scroll_entry(const GinjaDrawRecord *record, u16 id) {
     s32 found = 0;
@@ -67,7 +61,7 @@ void scroll_ginja_mesh_uvs(GinjaModel *self, s32 du, s32 dv, u16 cmd, s32 rewrit
         for (a = self->vertices; a != 0 && a->attribute != 0xFF; a++) {
             if (a->attribute == 5 || a->attribute == 6) {
                 u16 n = a->count;
-                UV_8023DDC8 *uv = static_cast<UV_8023DDC8 *>(a->data);
+                NJS_TEX *uv = static_cast<NJS_TEX *>(a->data);
                 s32 i;
                 for (i = 0; i < n; i++) {
                     uv->u = static_cast<s16>(static_cast<u32>(uv->u) + static_cast<u32>(du));
@@ -80,18 +74,18 @@ void scroll_ginja_mesh_uvs(GinjaModel *self, s32 du, s32 dv, u16 cmd, s32 rewrit
     }
 }
 
-void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id) {
+void scroll_chunk_plist_uvs(s16 *p, s16 du, s16 dv, u16 texture_id) {
     s16 dy;
     s16 dx;
     s32 t;
     u16 n;
     s16 c;
-    dx = a % 256;
-    dy = b % 256;
+    dx = du % 256;
+    dy = dv % 256;
     while ((t = (u8)*p) != 0xFF) {
-        if (t == 8 && (p[1] & 0x1FFF) == id) {
+        if (t == 8 && (p[1] & 0x1FFF) == texture_id) {
             *p &= ~0x3000;
-            TObjPlayer__sub_8023E034((void **)&p);
+            advance_chunk_plist(&p);
             p += 2;
             n = *p & 0x1FFF;
             p++;
@@ -110,55 +104,53 @@ void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id) {
                 n--;
             }
         } else {
-            TObjPlayer__sub_8023E034((void **)&p);
+            advance_chunk_plist(&p);
         }
     }
 }
 
-void TObjPlayer__sub_8023E034(void **arg0) {
-    s16 temp_r0;
-    u8 *temp_r5;
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)arg0 + 0));
-    temp_r0 = *(s16 *)((s8 *)temp_r5 + 0);
-    if ((s32) (u8) temp_r0 == 0xFF) {
-        *(u8 **)((s8 *)arg0 + 0) = temp_r5 + 2;
+void advance_chunk_plist(s16 **plist) {
+    s16 *p = *plist;
+    s32 type = *p & 0xFF;
+    if (type == 0xFF) {
+        *plist = p + 1;
         return;
     }
-    if ((s16) (u8) temp_r0 == 0) {
-        *(u8 **)((s8 *)arg0 + 0) = temp_r5 + 2;
+    if ((s16)type == 0) {
+        *plist = p + 1;
         return;
     }
-    if ((s16) (u8) temp_r0 == 1) {
-        *(u8 **)((s8 *)arg0 + 0) = temp_r5 + 2;
+    if ((s16)type == 1) {
+        *plist = p + 1;
         return;
     }
-    if ((s16) (u8) temp_r0 == 2) {
-        *(u8 **)((s8 *)arg0 + 0) = temp_r5 + 2;
+    if ((s16)type == 2) {
+        *plist = p + 1;
         return;
     }
-    if ((s16) (u8) temp_r0 == 3) {
-        *(u8 **)((s8 *)arg0 + 0) = temp_r5 + 2;
+    if ((s16)type == 3) {
+        *plist = p + 1;
         return;
     }
-    if ((s16) (u8) temp_r0 == 5) {
-        *(u8 **)((s8 *)arg0 + 0) = temp_r5 + 2;
+    if ((s16)type == 5) {
+        *plist = p + 1;
         return;
     }
-    if ((s16) (u8) temp_r0 == 4) {
-        *(u8 **)((s8 *)arg0 + 0) = temp_r5 + 2;
+    if ((s16)type == 4) {
+        *plist = p + 1;
         return;
     }
-    if ((s16) (u8) temp_r0 == 8) {
-        *(u8 **)((s8 *)arg0 + 0) = temp_r5 + 4;
+    if ((s16)type == 8) {
+        *plist = p + 2;
         return;
     }
-    *(u8 **)((s8 *)arg0 + 0) = temp_r5 + ((*(s16 *)((s8 *)temp_r5 + 2) + 2) * 2);
+    *plist = p + (p[1] + 2);
 }
 #pragma push
 #pragma fp_contract on
 void draw_compass_sprite(const NJS_SPRITE *sprite, s32 idx, s32 color, s32 flags, f32 depth) {
-    Vtx_8023E0FC v[4];
-    Info_8023E0FC info;
+    CompassSpriteVertex v[4];
+    RotatedQuadSpriteRect info;
     s32 i;
     const NJS_TEXANIM *s;
     f32 x;
@@ -219,26 +211,24 @@ void draw_compass_sprite(const NJS_SPRITE *sprite, s32 idx, s32 color, s32 flags
     v[3].v = v1;
     info.x = v[0].x;
     info.y = v[0].y;
-    info.z = depth;
-    info.dx1 = v[1].x - v[0].x;
-    info.dy1 = v[1].y - v[0].y;
-    info.dx2 = v[2].x - v[0].x;
-    info.dy2 = v[2].y - v[0].y;
+    info.depth = depth;
+    info.edge_a_x = v[1].x - v[0].x;
+    info.edge_a_y = v[1].y - v[0].y;
+    info.edge_b_x = v[2].x - v[0].x;
+    info.edge_b_y = v[2].y - v[0].y;
     info.u = v[0].u;
     info.v = v[0].v;
-    info.du1 = v[1].u - v[0].u;
-    info.dv1 = v[1].v - v[0].v;
-    info.du2 = v[2].u - v[0].u;
-    info.dv2 = v[2].v - v[0].v;
+    info.edge_a_u = v[1].u - v[0].u;
+    info.edge_a_v = v[1].v - v[0].v;
+    info.edge_b_u = v[2].u - v[0].u;
+    info.edge_b_v = v[2].v - v[0].v;
     if (flags & 0x20) {
         begin_screen_draw(1);
     } else {
         begin_screen_draw(0);
     }
     set_draw_texture_and_color(idx, color);
-    draw_rotated_quad((f32 *)&info);
+    draw_rotated_quad(&info.x);
     TWindowSubStatusDisp::get_player();
 }
 #pragma pop
-
-}

@@ -761,7 +761,7 @@ void *create_ene_saver(void *set_data) {
 void TObjEneSaver::run_task() {
     if (saver_scroll_tick != actor_frame_tick) {
         saver_scroll_tick = actor_frame_tick;
-        TObjPlayer__sub_8023DEE0(saver_scroll_polygons, 0xE, 0, 0);
+        scroll_chunk_plist_uvs(saver_scroll_polygons, 0xE, 0, 0);
     }
     if (TObjPlayer::check_demo_mode() == 1) {
         run_demo_task();

@@ -422,8 +422,8 @@ extern "C" {
 void TObjEneDarkGunner::run_task() {
     if (dark_gunner_polygon_update_tick != actor_frame_tick) {
         dark_gunner_polygon_update_tick = actor_frame_tick;
-        TObjPlayer__sub_8023DEE0(dark_gunner_body_child_polygons, 8, 0, 1);
-        TObjPlayer__sub_8023DEE0(dark_gunner_cly_line_polygons, 8, 0, 0);
+        scroll_chunk_plist_uvs(dark_gunner_body_child_polygons, 8, 0, 1);
+        scroll_chunk_plist_uvs(dark_gunner_cly_line_polygons, 8, 0, 0);
     }
     if (TObjPlayer::check_demo_mode() == 1) {
         load_params();

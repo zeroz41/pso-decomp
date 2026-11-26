@@ -1576,7 +1576,7 @@ force_active:
   - __as__18InventorySortEntryFR18InventorySortEntry
   - TObjPlayer__sub_801D8A38
   - set_technique_cap__20PlayerTechniqueStateFsUc
-  - TObjPlayer__sub_8023E034
+  - advance_chunk_plist__FPPs
   - init__14TPlyDispConfigFv
   - clear_indirect_effect_ctrl_table__Fv
   - reset_indirect_effect_ctrl_table__Fv

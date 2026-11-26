@@ -298,7 +298,7 @@ void TObjEneDellBiter::run_task() {
         this->update_action_state();
         if (dell_biter_last_uv_scroll_tick != (s32) actor_frame_tick) {
             dell_biter_last_uv_scroll_tick = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0((s16 *)dell_biter_scrolling_uv_polygon_list, 0xC, 0, 0);
+            scroll_chunk_plist_uvs((s16 *)dell_biter_scrolling_uv_polygon_list, 0xC, 0, 0);
         }
     }
     this->update_particle_emitters();

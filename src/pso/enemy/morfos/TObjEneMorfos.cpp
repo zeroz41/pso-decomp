@@ -261,11 +261,11 @@ void TObjEneMorfos::run_task() {
         this->update_action_state();
         if (morfos_body_scroll_tick != (s32) actor_frame_tick) {
             morfos_body_scroll_tick = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0(morfos_body_scroll_polygons, (s16)((s16) texture_scroll), (s16)(0), (u16)(2U));
+            scroll_chunk_plist_uvs(morfos_body_scroll_polygons, (s16)((s16) texture_scroll), (s16)(0), (u16)(2U));
         }
         if (morfos_wall_scroll_tick != (s32) actor_frame_tick) {
             morfos_wall_scroll_tick = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0(morfos_wall_scroll_polygons, (s16)(0), (s16) ((f32) texture_scroll / 2.0f), (u16)(0U));
+            scroll_chunk_plist_uvs(morfos_wall_scroll_polygons, (s16)(0), (s16) ((f32) texture_scroll / 2.0f), (u16)(0U));
         }
     }
     this->set_hover_target_position();

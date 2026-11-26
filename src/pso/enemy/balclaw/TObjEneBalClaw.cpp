@@ -82,7 +82,7 @@ void TObjEneBalClaw::scroll_part_uvs() {
         balclaw_last_shared_update_frame = actor_frame_tick;
         for (i = 0; i < 7; i++) {
             BalClawPartEntry *e = &balclaw_parts[i];
-            TObjPlayer__sub_8023DEE0(e->plist, e->uv_scroll_u, e->uv_scroll_v, e->texture_id);
+            scroll_chunk_plist_uvs(e->plist, e->uv_scroll_u, e->uv_scroll_v, e->texture_id);
         }
     }
 }

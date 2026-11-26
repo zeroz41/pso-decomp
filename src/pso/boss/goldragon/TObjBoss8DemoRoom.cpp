@@ -37,8 +37,8 @@ void TObjBoss8DemoRoom::render() {
 }
 
 void TObjBoss8DemoRoom::run_task() {
-    TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 4)) + 4)), 0, 1, 3);
-    TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 0x30)) + 4)) + 4)), 0, 0x14, 1);
+    scroll_chunk_plist_uvs((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 4)) + 4)), 0, 1, 3);
+    scroll_chunk_plist_uvs((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 0x30)) + 4)) + 4)), 0, 0x14, 1);
     TBoss8Dragon *leader = TBoss8Dragon::get_part(0);
     if ((leader != NULL) && (leader->has_appeared() != 0)) {
         this->queue_destruction();
