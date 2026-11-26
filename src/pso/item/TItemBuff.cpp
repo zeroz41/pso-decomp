@@ -12,7 +12,7 @@ void TItemBuff::free_all_and_init() {
     s32 var_r30;
     s32 var_r31;
 
-    TItemBuff__ct();
+    free_item_buff();
     var_r31 = 0;
     var_r30 = var_r31;
     i = 0;

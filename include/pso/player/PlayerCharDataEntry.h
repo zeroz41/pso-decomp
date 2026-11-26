@@ -7,7 +7,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/data/FlagWord.h"
 
-// One of the 12 characters kept for the player slots (TObjPlayer__char_data_array);
+// One of the 12 characters kept for the player slots (TObjPlayer::char_data_array);
 // TObjPlayer::create builds the slot's player from it.
 struct PlayerCharDataEntry {
     PlayerCharDataEntry();

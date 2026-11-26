@@ -42,8 +42,9 @@ LAYOUT_ASSERT(TItemAttacker_size, sizeof(TItemAttacker) == 0x50);
 
 extern "C" {
 void TItemAttacker__sub_8010349C(TObject *attacker);
-void TItemBuff__ct(void);
 }
+// Releases item_buff_buffer back to the temporary buffer or the heap.
+void free_item_buff();
 extern s32 item_buffer_temp_mode;
 extern void *item_buff_buffer;
 

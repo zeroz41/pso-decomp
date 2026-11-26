@@ -581,8 +581,6 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
 }
 
 
-extern const char *TObjPlayer__player_set_class_name;
-
 // C linkage: TObjPlayer_801BC194.cpp declares it unmangled.
 extern "C" TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     TObjPlayerSet *set;
@@ -607,7 +605,7 @@ extern "C" TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) 
         }
     }
     for (set = (TObjPlayerSet *)tl_06->m_down; set != NULL; set = (TObjPlayerSet *)set->m_next) {
-        if (set->check_value_equals(TObjPlayer__player_set_class_name) != 0 &&
+        if (set->check_value_equals(TObjPlayerSet::class_name) != 0 &&
             slot == (s32)set->scale.x && set->set_params[0] == side) {
             return set;
         }
@@ -619,7 +617,7 @@ void TObjPlayer::create_active_players() {
     s32 slot;
     PlayerCharDataEntry *entry;
     slot = 0;
-    entry = TObjPlayer__char_data_array;
+    entry = char_data_array;
     do {
         if (entry->has_character() != 0) {
             create(slot & 0xFFFF, entry);
@@ -634,7 +632,7 @@ void TObjPlayer::refresh_player_lobby_headers() {
     TObjPlayer *player;
     PlayerCharDataEntry *entry;
     client = 0;
-    entry = TObjPlayer__char_data_array;
+    entry = char_data_array;
     do {
         ((TObjPlayer *)entry)->init_select_txt();
         player = get_player_by_client_id(client);
@@ -719,4 +717,4 @@ void init_player_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_play
 ArrivalOverride player_arrival_overrides[12];
 TObjPlayer *player_slot_table[12];
 LobbyRuleSettings lobby_rule_settings;
-PlayerCharDataEntry TObjPlayer__char_data_array[12];
+PlayerCharDataEntry TObjPlayer::char_data_array[12];

@@ -822,7 +822,7 @@ struct WeaponColorDescriptor_80120304 { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 lbl_805DACA0;
 s16 weapon_node_material_index;
-__declspec(section ".data") s16 TObjPlayer__weapon_node_ids[4];
+__declspec(section ".data") s16 weapon_node_ids[4];
 u8* weapon_render_callback_object;
 extern "C" {
 extern const u8 lbl_805DACA4;
@@ -839,7 +839,7 @@ void apply_weapon_node_material(NJS_OBJECT *) {
         NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
         TItem::begin_constant_material_color(&color);
     }
-    if(node == TObjPlayer__weapon_node_ids[0] || node == TObjPlayer__weapon_node_ids[1] || node == TObjPlayer__weapon_node_ids[2]) {
+    if(node == weapon_node_ids[0] || node == weapon_node_ids[1] || node == weapon_node_ids[2]) {
         TItem::begin_effect_render();
         if(test_flags_any((s32 *)&item_render_state, 4)) {
             NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();

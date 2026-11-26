@@ -306,7 +306,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
             file.size = decompressed_size;
             root = apply_rel_relocations(&file);
         }
-        TItemBuff__ct();
+        free_item_buff();
     }
 }
 

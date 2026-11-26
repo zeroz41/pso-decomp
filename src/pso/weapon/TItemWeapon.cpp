@@ -33,7 +33,7 @@ void draw_weapon_at_joint(saddr arg0, s8 arg1);
 }
 void set_shadow_material_state(void);
 
-extern s16 TObjPlayer__weapon_node_ids[];
+extern s16 weapon_node_ids[];
 extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
 extern s32 model_render_flags;
@@ -57,9 +57,9 @@ void TItemWeapon::draw_weapon_model() {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = color_node;
             parameters = this->parameters;
-            TObjPlayer__weapon_node_ids[0] = parameters->effect_nodes[0];
-            TObjPlayer__weapon_node_ids[1] = parameters->effect_nodes[1];
-            TObjPlayer__weapon_node_ids[2] = parameters->effect_nodes[2];
+            weapon_node_ids[0] = parameters->effect_nodes[0];
+            weapon_node_ids[1] = parameters->effect_nodes[1];
+            weapon_node_ids[2] = parameters->effect_nodes[2];
             if (this->model_motion == NULL) {
                 this->set_model_node_callback(apply_weapon_node_material);
             } else {

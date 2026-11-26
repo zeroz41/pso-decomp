@@ -360,6 +360,8 @@ struct TObjPlayer : public TObjChara {
     static PlayerJointMatrixSet *player_shared_buffer_base;
     // The party's photon blast requests (alloc_shared_buffers makes them, free_shared_data frees them).
     static PhotonBlastRegistry *shared_photon_blast_state;
+    // The twelve player slots' characters (create_active_players builds the players from them).
+    static PlayerCharDataEntry char_data_array[];
     static void set_shared_count(int count);
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 meseta);

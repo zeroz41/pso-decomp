@@ -199,7 +199,6 @@ s32 fn_8000F740(void *);
 void *__construct_array(void *, void *, void *, u32, u32);
 }
 
-extern const char *TObjPlayer__player_set_class_name;
 extern const f32 player_front_distance;
 extern Vec scratch_vec5;
 extern s32 lbl_805D55C0;
@@ -267,7 +266,7 @@ void TObjPlayer::send_selected_spawn_position(u16 id) {
     TObjPlayerSet *o;
     found = 0;
     for (o = (TObjPlayerSet *)tl_06->m_down; o != NULL; o = (TObjPlayerSet *)o->m_next) {
-        if (o->check_value_equals(TObjPlayer__player_set_class_name) != 0 && o->set_params[0] == 0 &&
+        if (o->check_value_equals(TObjPlayerSet::class_name) != 0 && o->set_params[0] == 0 &&
             (s32)o->scale.x == id) {
             found = 1;
             break;
@@ -302,7 +301,7 @@ void TObjPlayer::send_respawn_position() {
     c = list;
     count = 0;
     for (obj = (TObjPlayerSet *)tl_06->m_down; obj != NULL; obj = (TObjPlayerSet *)obj->m_next) {
-        if (obj->check_value_equals(TObjPlayer__player_set_class_name) != 0 && obj->set_params[0] == 0) {
+        if (obj->check_value_equals(TObjPlayerSet::class_name) != 0 && obj->set_params[0] == 0) {
             f32 range = player_lock_range_sq;
             ok = 1;
             for (i = 0; i < 12; i++) {
