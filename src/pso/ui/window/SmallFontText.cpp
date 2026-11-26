@@ -54,14 +54,14 @@ void draw_beat_time_label(s32 text_color, f32 x, f32 y, f32 depth) {
     end_screen_draw();
 }
 
-void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale) {
+void draw_number_digits(u32 color, s16 value, u16 digits, f32 x, f32 y, f32 scale) {
     TexturedQuad pos;
     s32 id;
     s32 i;
     set_default_alpha_blend();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
-    set_draw_texture_and_color(0, (saddr)color);
+    set_draw_texture_and_color(0, color);
     for (i = 0; i < digits; i++) {
         id = get_small_font_glyph_id((u8)(value % 10) + '0');
         x -= ((u8 (*)(s32))get_small_font_glyph_width)(id);

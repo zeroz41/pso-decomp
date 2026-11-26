@@ -407,21 +407,17 @@ void set_clock_offset_from_server_time(char *time) {
 }
 
 s32 calc_time_from_hms(char *time) {
-    saddr text = (saddr)time;
-  saddr *text_ref;
-  int seconds;
-  s32 hours;
-  s32 minutes;
-  hours = parse_two_digit_number((void *)(text + 0xC));
-  text_ref = &text;
-  minutes = (hours * 0x3C) + parse_two_digit_number((void *)(text + 0xF));
-  seconds = (minutes * 0x3C) + parse_two_digit_number(((void *) ((*text_ref) + 0x12)));
-  return (s32) (30.0f * ((f32) seconds));
+    s32 hours;
+    s32 minutes;
+    s32 seconds;
+    hours = parse_two_digit_number(time + 0xC);
+    minutes = hours * 60 + parse_two_digit_number(time + 0xF);
+    seconds = minutes * 60 + parse_two_digit_number(time + 0x12);
+    return (s32)(30.0f * (f32)seconds);
 }
-s32 parse_two_digit_number(void *text) {
-    s8 *s = (s8 *)text;
-    s32 v = (s[0] - '0') * 10;
-    v += s[1] - '0';
+s32 parse_two_digit_number(const char *text) {
+    s32 v = (text[0] - '0') * 10;
+    v += text[1] - '0';
     return v;
 }
 s32 calc_alpha_shifted(f32 alpha) {
@@ -562,7 +558,7 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
         }
         text_color = color | 0xFF0000 | 0xFFFF;
         draw_beat_time_label(text_color, x, y, scale);
-        draw_number_digits((void *)text_color, beat, 3, 163.0f + x, -1.0f + y, scale);
+        draw_number_digits(text_color, beat, 3, 163.0f + x, -1.0f + y, scale);
         clock_bar_pulse += 0.01f;
         if (clock_bar_pulse >= 1.0f) {
             clock_bar_pulse -= 1.0f;

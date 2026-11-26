@@ -27,7 +27,7 @@ void set_battle_param_difficulty(s32 difficulty);
 // reloads the tables when the difficulty or episode changed (name inferred)
 void update_battle_params();
 void free_battle_param_tables();
-s32 parse_two_digit_number(void *text);
+s32 parse_two_digit_number(const char *text);
 void set_clock_offset_from_server_time(char *time);
 s32 calc_time_from_hms(char *time);
 // Draws the "ship:block-lobby" location text built by TLobby::close_result_windows.

@@ -14,7 +14,7 @@ extern "C" {
 s32 get_small_font_glyph_width(u8 c);
 }
 
-void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
+void draw_number_digits(u32 color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
 void free_ending_callback();
 void set_ending_callback();
 
