@@ -12,12 +12,14 @@ struct AttackParams {
     s16 atp_min;
     s16 atp_max;
     s16 ata;
-    u8 pad_6[2];
+    s16 pad_6;
     f32 attack_range;
     s32 attack_angle;
     f32 damage_radius;
-    u8 pad_14[0x1C];
+    s16 pad_14[4];
+    s32 pad_1c[5];
 
+    AttackParams &operator=(AttackParams &src);
     s16 get_atp_min();
     s16 get_atp_max();
     s16 get_ata();
@@ -44,9 +46,10 @@ LAYOUT_ASSERT(AttackParamsSize, sizeof(AttackParams) == 0x30);
 // its own bonus in the same layout and adds it to it.
 struct ActorParamBlock {
     s16 values[6];
-    u8 pad_c[0x10];
+    s32 pad_c[4];
     s32 value_1c;
 
+    ActorParamBlock &operator=(ActorParamBlock &src);
     void swap_endian();
     // An equipped item's bonus to one value: values[0] EVP, [1] EFR,
     // [2] EIC, [3] ETH, [4] ELT, [5] EDK, value_1c DFP.

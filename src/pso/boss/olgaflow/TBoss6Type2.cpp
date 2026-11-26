@@ -1157,7 +1157,7 @@ void TBoss6Type2::init_segment_range() {
     if (min > e->values[5]) { min = e->values[5]; } else if (max < e->values[5]) { max = e->values[5]; }
     segment_min = min;
     segment_max = max;
-    ((TLobby *)&this->params_copy)->copy_entry(this->param_block);
+    this->params_copy = *this->param_block;
     this->param_block = &this->params_copy;
     update_segments();
 }

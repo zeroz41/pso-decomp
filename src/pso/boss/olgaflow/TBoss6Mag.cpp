@@ -443,7 +443,7 @@ void TBoss6Mag::init_segment_angle_range() {
     }
     value_min = lo;
     value_max = hi;
-    ((TLobby *)&param_copy)->copy_entry(param_block);
+    param_copy = *param_block;
     param_block = &param_copy;
     update_segment_angles();
 }

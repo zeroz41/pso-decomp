@@ -2755,7 +2755,7 @@ void TLobby::bswap_player_data(void *data) {
     bswap_32(&record->floor);
     bswap_32(&record->player_flags);
     bswap__15disp_data_part2Fv((saddr)&record->visual);
-    bswap__12player_statsFv(&record->stats);
+    record->stats.bswap();
     TLobby::bswap_inventory(&record->inventory.count);
 }
 void TLobby::bswap_inventory(void*p) { bswap_32((u32 *)p); { int i; for (i = 0; i < 30; i++) { ((TPlyInventoryItem *)((char*)p + 0x4 + i * 28))->bswap(); } } }

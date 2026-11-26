@@ -635,8 +635,8 @@ force_active:
   - clear__9AramBlockFv
   - reset_auto_reply_flags__Fl
   - TLobby__sub_8001DF58
-  - get_battle_param_attack__Fii
-  - get_battle_param_stats__Fii
+  - get_battle_param_attack__Fll
+  - get_battle_param_stats__Fll
   - parse_two_digit_number__FPv
   - add_resource_handle
   - challenge_rank_for_total__Fl
@@ -5369,7 +5369,7 @@ force_active:
   - __as__18IndirectDrawRecordFR18IndirectDrawRecord
   - copy_pair__11TBoss4Type3FPv
   - copy_pair__18TObjEnvSoundGlobalFP11EnvSoundRowP11EnvSoundRow
-  - copy_pair__6TLobbyFPvPv
+  - __as__Q220BattleMovementParams6ValuesFRCQ220BattleMovementParams6Values
   - copy_params__12TBoss1DragonFP29G_DragonBossActions_6x10_6x11
   - copy_pos__10TBoss6MineFv
   - copy_pos__13TBoss6MagMineFv

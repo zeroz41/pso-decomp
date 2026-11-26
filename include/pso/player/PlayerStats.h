@@ -18,21 +18,8 @@ struct stats {
 };
 
 struct player_stats {
-    void bswap() {
-        bswap_16((u16 *)&stats.atp);
-        bswap_16((u16 *)&stats.mst);
-        bswap_16((u16 *)&stats.evp);
-        bswap_16((u16 *)&stats.hp);
-        bswap_16((u16 *)&stats.dfp);
-        bswap_16((u16 *)&stats.ata);
-        bswap_16((u16 *)&stats.lck);
-        bswap_16((u16 *)&esp);
-        bswap_32((u32 *)&proportions);
-        bswap_32((u32 *)&knockback_resist);
-        bswap_32((u32 *)&level);
-        bswap_32((u32 *)&exp);
-        bswap_32((u32 *)&meseta);
-    };
+    void bswap();
+    player_stats &operator=(player_stats &src);
 
     struct stats stats;
     short esp;

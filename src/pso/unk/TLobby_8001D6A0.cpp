@@ -84,7 +84,7 @@ void load_battle_param_entry(void) {
       s32 i;
       for (i = 0; i < 0x60; i++)
       {
-        bswap__12player_statsFv(p);
+        p->bswap();
         p++;
       }
 
@@ -141,12 +141,6 @@ void set_enemy_attack_data(AttackParams *params) { set_battle_param_attack(overr
 
 void set_enemy_physical_data(player_stats *stats) { set_battle_param_stats(override_enemy_bp_index, stats); }
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-struct CopyDataBlk { s32 w[6]; };
-
-struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
 
 void set_override_enemy_bp_index(s32 index) {
     override_enemy_bp_index = index;
@@ -158,17 +152,10 @@ void set_battle_param_movement(s32 index, BattleMovementParams *src) {
     if (is_valid_battle_param_index(index) != 0) {
         i = 0;
         do {
-            TLobby::copy_pair((BattleMovementParams *)((saddr (*)(s32, s32))get_battle_param_movement)(i, index), src);
+            get_battle_param_movement(i, index)->values = src->values;
             i += 1;
         } while (i < 4);
     }
-}
-void *TLobby::copy_pair(void *dst, void *src) {
-    CopyDataObject *d = (CopyDataObject *)dst;
-    CopyDataObject *s = (CopyDataObject *)src;
-    d->a = s->a;
-    d->b = s->b;
-    return dst;
 }
 
 void set_battle_param_resistance(s32 index, ActorParamBlock *src) {
@@ -177,24 +164,25 @@ void set_battle_param_resistance(s32 index, ActorParamBlock *src) {
     if (is_valid_battle_param_index(index) != 0) {
         i = 0;
         do {
-            ((TLobby *)((saddr (*)(s32, s32))get_battle_param_resistance)(i, index))->copy_entry(src);
+            *get_battle_param_resistance(i, index) = *src;
             i += 1;
         } while (i < 4);
     }
 }
 
-void TLobby::copy_entry(void *ent) {
-    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)ent + 0);
-    *(s16 *)((s8 *)this + 2) = (s16) *(s16 *)((s8 *)ent + 2);
-    this->m_flags = (s16) *(s16 *)((s8 *)ent + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)ent + 6);
-    *(s16 *)&this->m_prev = (s16) *(s16 *)((s8 *)ent + 8);
-    *(s16 *)((s8 *)this + 0xA) = (s16) *(s16 *)((s8 *)ent + 0xA);
-    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)ent + 0xC);
-    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)ent + 0x10);
-    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)ent + 0x14);
-    *(s32 *)((s8 *)this + 0x18) = (s32) *(s32 *)((s8 *)ent + 0x18);
-    *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)ent + 0x1C);
+ActorParamBlock &ActorParamBlock::operator=(ActorParamBlock &src) {
+    values[0] = src.values[0];
+    values[1] = src.values[1];
+    values[2] = src.values[2];
+    values[3] = src.values[3];
+    values[4] = src.values[4];
+    values[5] = src.values[5];
+    pad_c[0] = src.pad_c[0];
+    pad_c[1] = src.pad_c[1];
+    pad_c[2] = src.pad_c[2];
+    pad_c[3] = src.pad_c[3];
+    value_1c = src.value_1c;
+    return *this;
 }
 
 void set_battle_param_attack(s32 index, AttackParams *src) {
@@ -203,29 +191,30 @@ void set_battle_param_attack(s32 index, AttackParams *src) {
     if (is_valid_battle_param_index(index) != 0) {
         i = 0;
         do {
-            ((TLobby *)((saddr (*)(s32, s32))get_battle_param_attack)(i, index))->copy_from(src);
+            *get_battle_param_attack(i, index) = *src;
             i += 1;
         } while (i < 4);
     }
 }
 
-void TLobby::copy_from(void *src) {
-    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)this + 2) = (s16) *(s16 *)((s8 *)src + 2);
-    this->m_flags = (s16) *(s16 *)((s8 *)src + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)src + 6);
-    *(f32 *)&this->m_prev = (f32) *(f32 *)((s8 *)src + 8);
-    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)src + 0xC);
-    *(f32 *)&this->m_up = (f32) *(f32 *)((s8 *)src + 0x10);
-    *(s16 *)&this->m_down = (s16) *(s16 *)((s8 *)src + 0x14);
-    *(s16 *)((s8 *)this + 0x16) = (s16) *(s16 *)((s8 *)src + 0x16);
-    *(s16 *)((s8 *)this + 0x18) = (s16) *(s16 *)((s8 *)src + 0x18);
-    *(s16 *)((s8 *)this + 0x1A) = (s16) *(s16 *)((s8 *)src + 0x1A);
-    *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)src + 0x1C);
-    *(s32 *)((s8 *)this + 0x20) = (s32) *(s32 *)((s8 *)src + 0x20);
-    *(s32 *)((s8 *)this + 0x24) = (s32) *(s32 *)((s8 *)src + 0x24);
-    *(s32 *)((s8 *)this + 0x28) = (s32) *(s32 *)((s8 *)src + 0x28);
-    *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)src + 0x2C);
+AttackParams &AttackParams::operator=(AttackParams &src) {
+    atp_min = src.atp_min;
+    atp_max = src.atp_max;
+    ata = src.ata;
+    pad_6 = src.pad_6;
+    attack_range = src.attack_range;
+    attack_angle = src.attack_angle;
+    damage_radius = src.damage_radius;
+    pad_14[0] = src.pad_14[0];
+    pad_14[1] = src.pad_14[1];
+    pad_14[2] = src.pad_14[2];
+    pad_14[3] = src.pad_14[3];
+    pad_1c[0] = src.pad_1c[0];
+    pad_1c[1] = src.pad_1c[1];
+    pad_1c[2] = src.pad_1c[2];
+    pad_1c[3] = src.pad_1c[3];
+    pad_1c[4] = src.pad_1c[4];
+    return *this;
 }
 
 void set_battle_param_stats(s32 index, player_stats *src) {
@@ -234,26 +223,27 @@ void set_battle_param_stats(s32 index, player_stats *src) {
     if (is_valid_battle_param_index(index) != 0) {
         i = 0;
         do {
-            TLobby::copy_data((void *)((saddr (*)(s32, s32))get_battle_param_stats)(i, index), src);
+            *get_battle_param_stats(i, index) = *src;
             i += 1;
         } while (i < 4);
     }
 }
 
-void TLobby::copy_data(void *stats, void *src) {
-    *(s16 *)((s8 *)stats + 0) = (s16) *(s16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)stats + 2) = (s16) *(s16 *)((s8 *)src + 2);
-    *(s16 *)((s8 *)stats + 4) = (s16) *(s16 *)((s8 *)src + 4);
-    *(s16 *)((s8 *)stats + 6) = (s16) *(s16 *)((s8 *)src + 6);
-    *(s16 *)((s8 *)stats + 8) = (s16) *(s16 *)((s8 *)src + 8);
-    *(s16 *)((s8 *)stats + 0xA) = (s16) *(s16 *)((s8 *)src + 0xA);
-    *(s16 *)((s8 *)stats + 0xC) = (s16) *(s16 *)((s8 *)src + 0xC);
-    *(s16 *)((s8 *)stats + 0xE) = (s16) *(s16 *)((s8 *)src + 0xE);
-    *(f32 *)((s8 *)stats + 0x10) = (f32) *(f32 *)((s8 *)src + 0x10);
-    *(f32 *)((s8 *)stats + 0x14) = (f32) *(f32 *)((s8 *)src + 0x14);
-    *(s32 *)((s8 *)stats + 0x18) = (s32) *(s32 *)((s8 *)src + 0x18);
-    *(s32 *)((s8 *)stats + 0x1C) = (s32) *(s32 *)((s8 *)src + 0x1C);
-    *(s32 *)((s8 *)stats + 0x20) = (s32) *(s32 *)((s8 *)src + 0x20);
+player_stats &player_stats::operator=(player_stats &src) {
+    stats.atp = src.stats.atp;
+    stats.mst = src.stats.mst;
+    stats.evp = src.stats.evp;
+    stats.hp = src.stats.hp;
+    stats.dfp = src.stats.dfp;
+    stats.ata = src.stats.ata;
+    stats.lck = src.stats.lck;
+    esp = src.esp;
+    proportions = src.proportions;
+    knockback_resist = src.knockback_resist;
+    level = src.level;
+    exp = src.exp;
+    meseta = src.meseta;
+    return *this;
 }
 
 s32 is_valid_battle_param_index(s32 index) {
@@ -268,19 +258,19 @@ s32 is_valid_battle_param_index(s32 index) {
 
 BattleMovementParams *TLobby::dispatch_shared_handler_a(s32 index) { return get_battle_param_movement(battle_parameter_difficulty, index); }
 
-BattleMovementParams *get_battle_param_movement(int difficulty, int index) { return &battle_param_movement[index]; }
+BattleMovementParams *get_battle_param_movement(s32 difficulty, s32 index) { return &battle_param_movement[index]; }
 
 ActorParamBlock *TLobby::register_object(s32 index) { return get_battle_param_resistance(battle_parameter_difficulty, index); }
 
-ActorParamBlock *get_battle_param_resistance(int difficulty, int index) { return &battle_param_resistances[index]; }
+ActorParamBlock *get_battle_param_resistance(s32 difficulty, s32 index) { return &battle_param_resistances[index]; }
 
 AttackParams *TLobby::dispatch_shared_handler_b(s32 index) { return get_battle_param_attack(battle_parameter_difficulty, index); }
 
-AttackParams *get_battle_param_attack(int difficulty, int index) { return &battle_param_attacks[index]; }
+AttackParams *get_battle_param_attack(s32 difficulty, s32 index) { return &battle_param_attacks[index]; }
 
 player_stats *TLobby::register_boss(s32 index) { return get_battle_param_stats(battle_parameter_difficulty, index); }
 
-player_stats *get_battle_param_stats(int difficulty, int index) { return &battle_param_stats[index]; }
+player_stats *get_battle_param_stats(s32 difficulty, s32 index) { return &battle_param_stats[index]; }
 void set_battle_param_episode(s32 episode) {
     battle_param_lab_variant = episode;
 }
@@ -350,10 +340,10 @@ void ActorParamBlock::swap_endian() {
     bswap_16(reinterpret_cast<u16 *>(&values[3]));
     bswap_16(reinterpret_cast<u16 *>(&values[4]));
     bswap_16(reinterpret_cast<u16 *>(&values[5]));
-    bswap_32(reinterpret_cast<u32 *>(pad_c));
-    bswap_32(reinterpret_cast<u32 *>(pad_c + 4));
-    bswap_32(reinterpret_cast<u32 *>(pad_c + 8));
-    bswap_32(reinterpret_cast<u32 *>(pad_c + 12));
+    bswap_32(reinterpret_cast<u32 *>(&pad_c[0]));
+    bswap_32(reinterpret_cast<u32 *>(&pad_c[1]));
+    bswap_32(reinterpret_cast<u32 *>(&pad_c[2]));
+    bswap_32(reinterpret_cast<u32 *>(&pad_c[3]));
     bswap_32(reinterpret_cast<u32 *>(&value_1c));
 }
 
@@ -361,37 +351,37 @@ void AttackParams::byteswap_packet() {
     bswap_16(reinterpret_cast<u16 *>(&atp_min));
     bswap_16(reinterpret_cast<u16 *>(&atp_max));
     bswap_16(reinterpret_cast<u16 *>(&ata));
-    bswap_16(reinterpret_cast<u16 *>(pad_6));
+    bswap_16(reinterpret_cast<u16 *>(&pad_6));
     bswap_32(reinterpret_cast<u32 *>(&attack_range));
     bswap_32(reinterpret_cast<u32 *>(&attack_angle));
     bswap_32(reinterpret_cast<u32 *>(&damage_radius));
-    bswap_16(reinterpret_cast<u16 *>(pad_14));
-    bswap_16(reinterpret_cast<u16 *>(pad_14 + 2));
-    bswap_16(reinterpret_cast<u16 *>(pad_14 + 4));
-    bswap_16(reinterpret_cast<u16 *>(pad_14 + 6));
-    bswap_32(reinterpret_cast<u32 *>(pad_14 + 8));
-    bswap_32(reinterpret_cast<u32 *>(pad_14 + 12));
-    bswap_32(reinterpret_cast<u32 *>(pad_14 + 16));
-    bswap_32(reinterpret_cast<u32 *>(pad_14 + 20));
-    bswap_32(reinterpret_cast<u32 *>(pad_14 + 24));
+    bswap_16(reinterpret_cast<u16 *>(&pad_14[0]));
+    bswap_16(reinterpret_cast<u16 *>(&pad_14[1]));
+    bswap_16(reinterpret_cast<u16 *>(&pad_14[2]));
+    bswap_16(reinterpret_cast<u16 *>(&pad_14[3]));
+    bswap_32(reinterpret_cast<u32 *>(&pad_1c[0]));
+    bswap_32(reinterpret_cast<u32 *>(&pad_1c[1]));
+    bswap_32(reinterpret_cast<u32 *>(&pad_1c[2]));
+    bswap_32(reinterpret_cast<u32 *>(&pad_1c[3]));
+    bswap_32(reinterpret_cast<u32 *>(&pad_1c[4]));
 }
-extern "C" {
+void player_stats::bswap() {
+    bswap_16(reinterpret_cast<u16 *>(&stats.atp));
+    bswap_16(reinterpret_cast<u16 *>(&stats.mst));
+    bswap_16(reinterpret_cast<u16 *>(&stats.evp));
+    bswap_16(reinterpret_cast<u16 *>(&stats.hp));
+    bswap_16(reinterpret_cast<u16 *>(&stats.dfp));
+    bswap_16(reinterpret_cast<u16 *>(&stats.ata));
+    bswap_16(reinterpret_cast<u16 *>(&stats.lck));
+    bswap_16(reinterpret_cast<u16 *>(&esp));
+    bswap_32(reinterpret_cast<u32 *>(&proportions));
+    bswap_32(reinterpret_cast<u32 *>(&knockback_resist));
+    bswap_32(reinterpret_cast<u32 *>(&level));
+    bswap_32(reinterpret_cast<u32 *>(&exp));
+    bswap_32(reinterpret_cast<u32 *>(&meseta));
+}
 
-void bswap__12player_statsFv(void *stats) {
-    bswap_16((u16 *)stats);
-    bswap_16((u16 *)((void *)((char *)stats + 2)));
-    bswap_16((u16 *)((void *)((char *)stats + 4)));
-    bswap_16((u16 *)((void *)((char *)stats + 6)));
-    bswap_16((u16 *)((void *)((char *)stats + 8)));
-    bswap_16((u16 *)((void *)((char *)stats + 10)));
-    bswap_16((u16 *)((void *)((char *)stats + 12)));
-    bswap_16((u16 *)((void *)((char *)stats + 14)));
-    bswap_32((u32 *)((void *)((char *)stats + 16)));
-    bswap_32((u32 *)((void *)((char *)stats + 20)));
-    bswap_32((u32 *)((void *)((char *)stats + 24)));
-    bswap_32((u32 *)((void *)((char *)stats + 28)));
-    bswap_32((u32 *)((void *)((char *)stats + 32)));
-}
+extern "C" {
 
 extern s32 selected_episode;
 

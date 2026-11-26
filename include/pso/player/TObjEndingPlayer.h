@@ -11,7 +11,7 @@ class TPlyCharData;
 struct EndingPlayerRecord {
     u8 visual[0x50];             // copy_player_visual_record
     TPlyInventoryItem items[2];  // TObjPlayer::assign_lobby_slot_if_flagged
-    u8 stats[0x24];              // TLobby::copy_data from the TPlyDispData
+    player_stats stats;          // copied from the TPlyCharData
     u8 pose[0x14];               // position and angle
     s16 pad_C0;
     f32 frame;                   // the motion frame the player starts at

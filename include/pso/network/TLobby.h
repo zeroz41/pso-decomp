@@ -83,9 +83,6 @@ struct TLobby : public TObject {
     void apply_lobby_markers();
     static s32 get_option_state();
     static void install_game_join_handlers();
-    static void copy_data(void *dst, void *src);
-    void copy_entry(void *ent);
-    void copy_from(void *src);
     static BattleMovementParams *dispatch_shared_handler_a(s32 index);
     static ActorParamBlock *register_object(s32 index);
     static AttackParams *dispatch_shared_handler_b(s32 index);
@@ -554,7 +551,6 @@ struct TLobby : public TObject {
     static void copy_all_data(int, int);
     static void *copy_com_card_entry(void *, void *);
     static void *copy_member_record(void *, void *);
-    static void *copy_pair(void *, void *);
     static void *copy_symbol_chat_entry(void *, void *);
     static s32 create_named_entry(const char *name, void *destination, void (*callback)(void *), const void *params, void **request);
     static void *create_quest_col_apc_inw(void *, void *);

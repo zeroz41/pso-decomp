@@ -299,7 +299,7 @@ void TPlyCharData::bswap() {
         m_inventory.m_items[i].bswap();
     }
     bswap__15disp_data_part2Fv((saddr)&m_disp_part2);
-    bswap__12player_statsFv(&m_stats);
+    m_stats.bswap();
     m_config.bswap();
 }
 

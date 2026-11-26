@@ -471,7 +471,7 @@ struct TObjPlayer : public TObjChara {
     void update_state();
     void update_if_active();
     int can_cast_technique();
-    void init_player_data(void *src);
+    void init_player_data(player_stats *src);
     void init_remote_pad_binding(PlayerSyncRecord *record);
     void init_data_table_ptr();
     static void update_recobox(saddr player);

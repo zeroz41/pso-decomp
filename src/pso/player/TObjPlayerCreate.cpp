@@ -313,19 +313,19 @@ int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castab
 
 void TObjPlayer::release_char_data() {}
 
-void TObjPlayer::init_player_data(void *src) {
+void TObjPlayer::init_player_data(player_stats *src) {
     f32 proportions;
     f32 tp_factor;
 
     proportions = base_stats.proportions;
-    TLobby::copy_data(&base_stats, src);
+    base_stats = *src;
     base_stats.proportions = proportions;
     stat_block = &base_stats;
     apply_input_mode();
     set_move_mode_from_class_flags();
     init_trait_flags();
-    ((TLobby *)((u8 *)this + 0xD5C))->copy_from((void *)get_class_attack_template(this));
-    ((TLobby *)((u8 *)this + 0xD8C))->copy_entry((void *)get_class_defense_template(this));
+    attack_stats = *get_class_attack_template(this);
+    resistance_stats = *get_class_defense_template(this);
     tp_factor = get_tp_class_factor();
     recalc_combat_stats(stat_block, &attack_stats, &resistance_stats, get_class_hp_factor(), tp_factor);
     bodies->offset.y = player_half * stat_block->proportions;
@@ -522,7 +522,7 @@ TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(par
     this->entity_id = 0;
     this->setup_control_role(7);
     this->update_body_parts(src);
-    this->init_player_data(src->stats);
+    this->init_player_data(&src->stats);
     this->init_data_table_ptr();
 }
 

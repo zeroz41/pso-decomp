@@ -2250,14 +2250,13 @@ void qst_op_set_enemy_attack_data(s32 label) {
 }
 
 void qst_op_set_enemy_physical_data(int _w0) {
-    struct SetEnemyPhysicalDataCopyStack { u8 bytes[0x24]; };
-    SetEnemyPhysicalDataCopyStack copy_storage;
+    player_stats stats;
     uaddr data_addr;
     data_addr = ((u32)((int (*)(int))qst_label_address)(_w0));
     if (data_addr != 0U) {
-        *(ByteBlock_24 *)(copy_storage.bytes) = *(const ByteBlock_24 *)((data_addr - 4) + 4);
-        bswap__12player_statsFv(((copy_storage.bytes)));
-        set_enemy_physical_data((player_stats *)copy_storage.bytes);
+        *(ByteBlock_24 *)&stats = *(const ByteBlock_24 *)((data_addr - 4) + 4);
+        stats.bswap();
+        set_enemy_physical_data(&stats);
     }
 }
 
