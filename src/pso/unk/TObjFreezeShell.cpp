@@ -24,7 +24,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/model_render_state.h"
@@ -36,7 +35,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
 
 
 __declspec(section ".data") const char *bm_eff_ice_model_names[3] = { "ice_break_root.gj", "ice_root.gj", NULL };

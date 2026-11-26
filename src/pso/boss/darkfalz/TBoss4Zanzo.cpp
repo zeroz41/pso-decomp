@@ -2,7 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
@@ -76,7 +75,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/boss/darkfalz/DrainPlayerHp.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/player/TPlyDispData.h"
 
 

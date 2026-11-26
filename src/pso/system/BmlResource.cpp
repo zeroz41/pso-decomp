@@ -7,7 +7,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/memory.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/network/TLobby.h"
@@ -116,14 +115,14 @@ void add_resource_handle(BmlResource *self, void *item) {
 }
 }
 
-void TLobby::tmp_buf_release_if_owner(const char *name) {
+void tmp_buf_release_if_owner(const char *name) {
     if (((s32) tmp_buf_in_use_flag == 0) && (strcmp(tmp_buf_name, name) == 0)) {
         tmp_buf_in_use_flag = 1;
         tmp_buf_name[0] = 0;
     }
 }
 
-s32 TLobby::tmp_buf_release(const char *name) {
+s32 tmp_buf_release(const char *name) {
     if (name != 0) {
         if (tmp_buf_in_use_flag == 1) {
             TLobby::debug_print("TmpBufRelease(%s) Bad Release", name);
@@ -139,10 +138,10 @@ s32 TLobby::tmp_buf_release(const char *name) {
     return 1;
 }
 
-s32 TLobby::tmp_buf_is_free() {
+s32 tmp_buf_is_free() {
     return tmp_buf_in_use_flag;
 }
-u8 *TLobby::tmp_buf_use_req(const char *name) {
+u8 *tmp_buf_use_req(const char *name) {
     if (tmp_buf_in_use_flag != 0) {
         tmp_buf_in_use_flag = 0;
         strncpy(tmp_buf_name, name, 0x20);
@@ -207,7 +206,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             break;
         }
         bml_load_entry_index = 0;
-        lobby_bml_read_buffer = TLobby::tmp_buf_use_req("LoadBmlExec");
+        lobby_bml_read_buffer = tmp_buf_use_req("LoadBmlExec");
         lobby_bml_file_handle = ADXF_Open(name, 0);
         if (lobby_bml_file_handle == 0) {
             TLobby::debug_print("LoadBmlExec: %s cannot open.", name);
@@ -396,11 +395,11 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
     case 9:
         bml->load_state = 0xA;
     case 10:
-        TLobby::tmp_buf_release("LoadBmlExec");
+        tmp_buf_release("LoadBmlExec");
         bml_archive_header = NULL;
         return 1;
     case 11:
-        TLobby::tmp_buf_release("LoadBmlExec");
+        tmp_buf_release("LoadBmlExec");
         bml_archive_header = NULL;
         return -1;
     }
@@ -431,7 +430,7 @@ void check_bin_model_loaded(BmlResource *resource) {
         resource->expected_textures <= resource->loaded_textures) {
         resource->set_flag_and_notify();
         resource->handle_count = 0;
-        TLobby::tmp_buf_release("TBinModel_REQ");
+        tmp_buf_release("TBinModel_REQ");
     }
 }
 
@@ -589,7 +588,7 @@ BmlResource::~BmlResource() {
             for (i = 0; i < handle_count; i++) {
                 TLobby__sub_800F9FF4((saddr)handles[i]);
             }
-            TLobby::tmp_buf_release_if_owner("TBinModel_REQ");
+            tmp_buf_release_if_owner("TBinModel_REQ");
         }
     }
     for (i = 0; i < model_count; i++) {
@@ -852,13 +851,13 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
         }
     }
     if (resource->flags & 1) {
-        TLobby::tmp_buf_use_req("TBinModel_NORMAL");
+        tmp_buf_use_req("TBinModel_NORMAL");
         load_models(resource, models);
         load_motions(resource, motions);
-        TLobby::tmp_buf_release("TBinModel_NORMAL");
+        tmp_buf_release("TBinModel_NORMAL");
         resource->set_flag_and_notify();
     } else if (resource->flags & 2) {
-        TLobby::tmp_buf_use_req("TBinModel_REQ");
+        tmp_buf_use_req("TBinModel_REQ");
         if (resource->model_count * 2 + resource->motion_count >= 0x100) {
             TLobby::debug_print("TBinModel:Too Many Files.");
         }

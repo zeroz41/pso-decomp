@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"

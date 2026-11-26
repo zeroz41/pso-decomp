@@ -8,7 +8,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecShot.h"

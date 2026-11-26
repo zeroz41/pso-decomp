@@ -6,6 +6,7 @@
 #include "pso/unk/text_800FA464.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/BmlResource.h"
 AsyncFileReadRequest *async_file_read_current_request;
 AsyncFileReadRequest *lobby_stack_entry_list_tail;
 s32 lobby_list_entry_count;
@@ -24,7 +25,7 @@ void process_async_file_reads(void) {
             } else {
                 async_file_read_current_request->flags |= 0x100;
                 if (async_file_read_current_request->flags & 2) {
-                    async_file_read_texture_buffer = TLobby::tmp_buf_use_req("FSVR_READPVM");
+                    async_file_read_texture_buffer = tmp_buf_use_req("FSVR_READPVM");
                     if (async_file_read_texture_buffer != NULL) {
                         lobby_download_state_ptr = ADXF_Open(async_file_read_current_request->name, 0);
                         ADXF_ReadNw(lobby_download_state_ptr, async_file_read_current_request->count, async_file_read_texture_buffer);
@@ -90,7 +91,7 @@ void process_async_file_reads(void) {
             async_file_read_state = 0;
         } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
             load_gvm_texture_archive(async_file_read_texture_buffer, async_file_read_current_request->tex);
-            TLobby::tmp_buf_release("FSVR_READPVM");
+            tmp_buf_release("FSVR_READPVM");
             TLobby::notify_and_close();
         }
         break;

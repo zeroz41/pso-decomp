@@ -13,7 +13,6 @@
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/render/DebugFont.h"
 #include "pso/unk/text_803E2D70.h"
 

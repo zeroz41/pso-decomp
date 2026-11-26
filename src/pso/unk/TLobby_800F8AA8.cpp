@@ -50,6 +50,7 @@
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/SubtractiveRng.h"
+#include "pso/system/BmlResource.h"
 
 const char *lbl_805D2B10 = "";
 
@@ -952,12 +953,12 @@ void TLobby::release_menu_font() {
 }
 
 void TLobby::load_font_texture() {
-    void *file = TLobby::tmp_buf_use_req("FONT");
+    void *file = tmp_buf_use_req("FONT");
     if (file != 0) {
         s32 r;
         prs_decompress_buffer(lobby_font_texture_prs_data, file);
         r = load_gvm_texture_archive(file, (NJS_TEXLIST *)lbl_8049C61C);
-        TLobby::tmp_buf_release("FONT");
+        tmp_buf_release("FONT");
         lobby_font_texture_loaded = 1;
         if (r == -1) {
             lobby_font_texture_loaded = 0;
@@ -1245,11 +1246,11 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     if (size <= 0) {
         return NULL;
     }
-    if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
-        buf = TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
+    if ((size <= 0x40000) && (tmp_buf_is_free() != 0)) {
+        buf = tmp_buf_use_req(load_file_prc_buffer_tag);
         read_disc_file(name, buf);
         ret = ((TLobby *)buf)->alloc_download_quest(size, &archive_size);
-        TLobby::tmp_buf_release(load_file_prc_buffer_tag);
+        tmp_buf_release(load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
         buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);

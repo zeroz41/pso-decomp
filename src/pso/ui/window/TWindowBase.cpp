@@ -36,6 +36,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/system/BmlResource.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -880,7 +881,7 @@ void TWindowCtrlMain::free_window() {
 
 void load_hud_palette_textures(void) {
     GvplPalette palette;
-    palette.data = TLobby::tmp_buf_use_req("TWindowBase");
+    palette.data = tmp_buf_use_req("TWindowBase");
     TLanguage::load_palette_tlut(f256_hyouji_a_palette_file, &palette, 0x40);
     TLanguage::load_palette_tlut(hud_palette_texture_filename, &palette, 0x41);
     TLanguage::load_palette_tlut(f256_hyouji_c_palette_file, &palette, 0x42);
@@ -891,7 +892,7 @@ void load_hud_palette_textures(void) {
     TLanguage::load_palette_tlut(r256_symparts_palette_file, &palette, 1);
     TLanguage::load_palette_tlut(f256_duelcount_palette_file, &palette, 0x4A);
     TLanguage::load_palette_tlut(f256_carsol_palette_file, &palette, 0x43);
-    TLobby::tmp_buf_release("TWindowBase");
+    tmp_buf_release("TWindowBase");
     load_disc_prs_texture(f256_hyouji_texture_file, &f256_hyouji_texlist);
     hud_texlist = &f256_hyouji_texlist;
     set_texture_list(&f256_hyouji_texlist);

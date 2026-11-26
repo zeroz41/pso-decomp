@@ -709,12 +709,12 @@ pso/network/TLobby.cpp
 pso/unk/TLobbyEventTheme.cpp
 pso/unk/TLobbyAutoReply.cpp
 pso/unk/TLobby_8001D6A0.cpp
-pso/unk/TLobby_8001EF5C.cpp
+pso/system/BmlResource.cpp
 pso/unk/TLobby_8002C140.cpp
 pso/unk/TLobby_8004A90C.cpp
 pso/unk/TLobby_80067410.cpp
 pso/quest/challenge/ChallengeModeQuest.cpp
-pso/unk/TLobby_800726F0.cpp
+pso/object/TObjChallengeRetry.cpp
 pso/unk/TLobby_8007340C.cpp
 pso/unk/TLobby_80073DAC.cpp
 pso/unk/TLobby_8007B858.cpp
@@ -783,10 +783,10 @@ pso/unk/TLobby_8026B06C.cpp
 pso/ui/window/TWindowMenuIconLineLists.cpp
 pso/unk/TLobby_8028A7C8.cpp
 pso/unk/TLobby_8028EA28.cpp
-pso/unk/TLobby_80291D94.cpp
+pso/quest/challenge/TChallenge4P.cpp
 pso/unk/TLobby_80299A60.cpp
 pso/unk/TLobby_80299B90.cpp
-pso/unk/TLobby_80299C4C.cpp
+pso/object/TObjChallenge4PRetry.cpp
 pso/player/GamePlayerActionProvider.cpp
 pso/camera/TCameraVolOptFollow.cpp
 pso/camera/TCameraDebugOrbit.cpp
@@ -809,7 +809,7 @@ pso/unk/TLobby_8034C18C.cpp
 pso/unk/TLobby_8034C23C.cpp
 pso/unk/TLobby_8035D540.cpp
 pso/unk/TLobby_8036A37C.cpp
-pso/unk/TLobby_8036B204.cpp
+pso/ui/chat/TSymbolChatCapture.cpp
 pso/ui/window/TWindowSubStatusDisp_8036D774.cpp
 pso/audio/AdxAiff.cpp
 pso/audio/AdxAu.cpp
@@ -1750,7 +1750,7 @@ pso/item/TUnk_804F112C.cpp
 pso/effect/item/TItemEffOrgaFlowShot.cpp
 pso/unk/text_8035B6B0.cpp
 pso/unk/text_8035B750.cpp
-pso/unk/text_8035D444.cpp
+pso/weapon/TItemWeaponRubyBullet.cpp
 pso/enemy/epsilon/TObjEneEpsilon.cpp
 pso/weapon/TItemWeaponSRankKnuckle.cpp
 pso/unk/text_8036A3CC.cpp

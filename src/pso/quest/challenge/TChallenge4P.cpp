@@ -31,7 +31,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby_80291D94.h"
 #include "pso/ui/TLevelSelect.h"
 
 ChallengeModeState challenge_default_settings = {
@@ -42,8 +41,8 @@ __declspec(section ".data") char lbl_804DB880[] = "theBest";
 
 
 
-void TLobby::update_screen() { if (is_challenge_mode_active() != 0) { TLobby::is_multi_ready(); } }
-void TLobby::set_challenge_split_flag() {
+void update_screen() { if (is_challenge_mode_active() != 0) { is_multi_ready(); } }
+void set_challenge_split_flag() {
     if (is_challenge_mode_active() != 0) {
         challenge4p_mode_state.retry_menu_disabled = 1;
     }
@@ -57,7 +56,7 @@ void challenge_set_min_clear_time(s32 v) {
     }
 }
 
-s32 TLobby::get_normalized_mode() {
+s32 get_normalized_mode() {
     if (is_challenge_mode_active() == 0) {
         return 0;
     }
@@ -87,13 +86,13 @@ void challenge_set_boss_warp_disabled(s32 disabled) {
 s32 get_challenge4p_retry_choice(void);
 char split_screen_player_name[0x20];
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
-void TLobby::draw_if_ready2() {
-    if ((is_challenge_mode_active() != 0) && (TLobby::is_multi_ready() != 0) && (challenge_retry_object != NULL)) {
+void draw_if_ready2() {
+    if ((is_challenge_mode_active() != 0) && (is_multi_ready() != 0) && (challenge_retry_object != NULL)) {
         TObjChallenge4PRetry::create(challenge_retry_object);
     }
 }
 
-s32 TLobby::check_ready_status() {
+s32 check_ready_status() {
     s32 status;
 
     status = get_challenge4p_retry_choice();
@@ -113,7 +112,7 @@ s32 get_challenge4p_retry_choice(void) {
     return 0;
 }
 
-void TLobby::reset_menu_state_globals() {
+void reset_menu_state_globals() {
     s32 i;
     if (challenge_retry_object != NULL) {
         challenge4p_mode_state.base_time = 0;
@@ -172,7 +171,7 @@ s32 split_screen_flag;
 s32 challenge_mode_active_flag;
 }
 
-void TLobby::store_challenge_seeds(s32 seed) {
+void store_challenge_seeds(s32 seed) {
     s32 i;
     if (is_challenge_mode_active() != 0) {
         for (i = 0; i < 4; i++) {
@@ -190,7 +189,7 @@ void TLobby::store_challenge_seeds(s32 seed) {
 void challenge_set_time_record(s32 seed) {
     TLobby::is_value_out_of_range(seed);
     fabs_float((f32) (seed - challenge4p_mode_state.base_time));
-    TLobby::store_challenge_seeds(seed);
+    store_challenge_seeds(seed);
 }
 extern "C" {
 
@@ -282,13 +281,12 @@ void set_challenge4p_rank_result(const char *title, s32 color) {
     encode_obfuscated_string(challenge4p_mode_state.rank_result_title, title, 0xC);
     challenge4p_mode_state.rank_result_color = color | 0xFF000000;
 }
-extern "C" {
-void TLobby::set_split_screen_name() {
-    saddr name = (saddr)this;
-    strncpy(split_screen_player_name, (const char *)name, 0x20);
+void set_split_screen_name(const char *name) {
+    strncpy(split_screen_player_name, name, 0x20);
     split_screen_player_name[0x1F] = 0;
 }
-void TLobby::update_challenge_timer(s32 time) {
+extern "C" {
+void update_challenge_timer(s32 time) {
     if (is_challenge_mode_active() != 0) {
         fabs_float((f32) (time - challenge4p_mode_state.base_time));
         challenge4p_mode_state.base_time = time;
@@ -305,7 +303,7 @@ extern "C" {
 void copy_player_visual_record(void *, void *);
 
 
-s32 TLobby::set_camera_height_if_valid(f32 multiplier) {
+s32 set_camera_height_if_valid(f32 multiplier) {
     if (is_challenge_mode_active() == 0) {
         return 0;
     }
@@ -317,14 +315,14 @@ s32 TLobby::set_camera_height_if_valid(f32 multiplier) {
 }
 
 
-s32 TLobby::try_set_split_screen(s32 difficulty) {
+s32 try_set_split_screen(s32 difficulty) {
     if (is_challenge_mode_active() == 0) {
         return 0;
     }
     game_difficulty_selection = difficulty;
     return 1;
 }
-void TLobby::rebuild_players_for_stage(s32 stage) {
+void rebuild_players_for_stage(s32 stage) {
     RebuildPlayersForStageInfo info;
     Vec pos;
     s32 i;
@@ -395,7 +393,7 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
 s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
 }
 
-void TLobby::clamp_and_store_layout_index(s32 stage) {
+void clamp_and_store_layout_index(s32 stage) {
     s32 layout_id;
     s32 index;
 
@@ -543,7 +541,7 @@ s32 count_card_layout_entries(s32 client) {
 
 extern "C" {
 
-s32 TLobby::calc_min_challenge_progress() {
+s32 calc_min_challenge_progress() {
     s32 progress;
     s32 min_progress;
     s32 i;
@@ -626,7 +624,7 @@ s32 is_challenge_time_limit_invalid(s32 limit) {
 int get_camera_view_count(void) { return TCameraCtrl::get_view_count(); }
 #pragma push
 #pragma fp_contract on
-s32 TLobby::get_challenge_mode_flag() {
+s32 get_challenge_mode_flag() {
     if (is_challenge_mode_active() != 0) {
         return challenge4p_mode_state.retry_menu_disabled;
     }
@@ -634,7 +632,7 @@ s32 TLobby::get_challenge_mode_flag() {
 }
 #pragma pop
 
-void TLobby::start_challenge_countdown() {
+void start_challenge_countdown() {
     if (is_challenge_mode_active() != 0) {
         switch (challenge4p_mode_state.retry_confirmed) {
         case 0:
@@ -645,7 +643,7 @@ void TLobby::start_challenge_countdown() {
 }
 
 
-void TLobby::set_retry_selection(s32 choice) {
+void set_retry_selection(s32 choice) {
     s32 selection;
 
     selection = choice;
@@ -681,7 +679,7 @@ TChallenge4P *TChallenge4P::create() {
     return new TChallenge4P(tl_su);
 }
 
-void TLobby::destroy_tombstone() { TObjTombstone::destroy(); }
+void destroy_tombstone() { TObjTombstone::destroy(); }
 void load_tombstone_resources() { TObjTombstone::load_resources(); }
 
 
@@ -715,7 +713,7 @@ void setup_split_screen(void) {
         challenge_retry_object = TChallenge4P::create();
         split_screen_challenge_created = 1;
         split_screen_flag = 0;
-        ((TLobby *)((saddr)"Area00"))->set_split_screen_name();
+        set_split_screen_name("Area00");
         i = 0U;
         do {
             player = get_player_by_client_id(i);
@@ -763,11 +761,11 @@ extern "C++" void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObj
 
 #pragma pop
 
-void TLobby::spawn_player_tombstones2() {
+void spawn_player_tombstones2() {
     saddr i;
     ChallengeClientRecords *r;
     const TObjTombstoneSpot *t;
-    TLobby::reset_tombstone_values();
+    reset_tombstone_values();
     for (i = 0; i < 4; i++) {
         r = &challenge4p_mode_state.client_records[i];
         if (r->present != 0 && get_player_by_client_id(i) != NULL) {
@@ -775,14 +773,14 @@ void TLobby::spawn_player_tombstones2() {
             if (t->phase == resolve_challenge_record_set(-1) &&
                 t->layout == challenge4p_mode_state.stage &&
                 t->floor == challenge4p_mode_state.current_floor) {
-                TLobby::create_tombstone(tl_07, i, t);
+                TObjTombstone::create_tombstone(tl_07, i, t);
             }
         }
     }
 }
 
 void TChallenge4P::create_time_window() {
-    TLobby::spawn_player_tombstones2();
+    spawn_player_tombstones2();
     create_ch_time_win(tl_07);
     ((TLobby *)tl_07)->create_new_floor_windows();
     if (challenge4p_mode_state.solo_play_notice_shown == 0) {
@@ -875,7 +873,7 @@ void TChallenge4P::run_task() {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_max_size(16)
-void TLobby::copy_global_value_block() {
+void copy_global_value_block() {
     *(ByteBlock_690 *)&challenge4p_mode_state = *(const ByteBlock_690 *)&challenge_default_settings;
 }
 
@@ -895,4 +893,4 @@ TChallenge4P::~TChallenge4P() {
     challenge_retry_object = NULL;
 }
 
-__declspec(section ".ctors") static void *const __sinit_TLobby_80291D94_cpp_ref = (void *)TLobby::copy_global_value_block;
+__declspec(section ".ctors") static void *const __sinit_TChallenge4P_cpp_ref = (void *)copy_global_value_block;

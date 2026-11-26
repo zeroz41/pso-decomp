@@ -847,13 +847,13 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # the class name sits in .rodata 0x804349C0; run_task reaches now_loading_pos and both Vec templates with a lis/addi each: -str reuse,readonly, -pool off.
     # The 1-byte chr_select_state at 0x805D4A78 is followed by 7 pad bytes, so 0x805D4A80 starts a new TU: 0x8001C5F8 cuts the unit.
     "pso/system/TLoadCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    "pso/unk/TLobby_80299C4C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/TObjChallenge4PRetry.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_80299B90.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the scene music names and the retry class name sit in .rodata 0x804651A0-0x804651F8: -str reuse,readonly.
     # Each zero word before an 8-aligned string restart (0x804651B0, 0x804651C0) ends one TU string pool.
     "pso/unk/TLobby_80299A60.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # "TChallenge4P" and "Area00" sit in .rodata 0x80464E48-0x80464E60: -str reuse,readonly.
-    "pso/unk/TLobby_80291D94.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/quest/challenge/TChallenge4P.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the class name and ":%04d:%02d'" sit in .rodata, ":%s" in .sdata2: -str reuse,readonly.
     "pso/ui/frontend/TAdPlyStatusGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the five model, archive and class-name strings 0x80465938-0x804659A0 sit in .rodata: -str reuse,readonly.
@@ -1390,7 +1390,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/ambient/TOKurage.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-fp_contract on", "-pool off")},
     # The TBinModel ctor (0x8002058C) inlines its list helpers; "gvm" is in .sdata2 (readonly strings) and
     # every literal gets its own lis/addi (no pool base).
-    "pso/unk/TLobby_8001EF5C.cpp": {"cflags": _switch(cflags_pso, "-inline on", "-str reuse,readonly", "-pool off")},
+    "pso/system/BmlResource.cpp": {"cflags": _switch(cflags_pso, "-inline on", "-str reuse,readonly", "-pool off")},
     "pso/object/TOHealGeneral.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # The key subclasses address each of their texture names on its own
     # (no shared .rodata base): built -pool off.

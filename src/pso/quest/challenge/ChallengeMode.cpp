@@ -571,7 +571,7 @@ void spawn_challenge_tombstones() {
     saddr i;
     ChallengeClientRecords *rec;
     TObjTombstoneRecord *info;
-    TLobby::reset_tombstone_values();
+    reset_tombstone_values();
     for (i = 0; i < 4; i++) {
         rec = &challenge_mode_state.client_records[i];
         if (rec->present != 0 && get_player_by_client_id(i) != NULL) {

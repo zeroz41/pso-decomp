@@ -37,7 +37,6 @@ struct AnimationMotion;
 
 #include "pso/system/BmlResourceDescriptor.h"
 
-#include "pso/system/SoundEffect.h"
 
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
@@ -58,8 +57,6 @@ struct AnimationMotion;
 
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby_8001EF5C.h"
-#include "pso/system/TLanguage_801E4874.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestStoryFlags.h"
 

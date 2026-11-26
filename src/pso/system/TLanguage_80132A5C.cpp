@@ -11,6 +11,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/BmlResource.h"
 
 extern const char f256_alphabet_gvp[];
 extern const char f256_symbolsetumei_jpn_gvp[];
@@ -62,9 +63,9 @@ void TLanguage::free_text_resources() {
 
 void TLanguage::load_fonts(s32 language) {
     GvplPalette palette;
-    palette.data = TLobby::tmp_buf_use_req(class_name);
+    palette.data = tmp_buf_use_req(class_name);
     TLanguage::load_palette_tlut(f256_alphabet_gvp, &palette, 0x48);
-    TLobby::tmp_buf_release(class_name);
+    tmp_buf_release(class_name);
 
     switch (language) {
         case LANGUAGE_JAPANESE:

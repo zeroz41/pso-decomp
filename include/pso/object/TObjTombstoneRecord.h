@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <dolphin/mtx.h>
 
-// What TLobby::create_tombstone spawns a tombstone from (inferred layout:
+// What TObjTombstone::create_tombstone spawns a tombstone from (inferred layout:
 // three bytes copied to the record, then its position).
 struct TObjTombstoneSpot {
     s8 phase;

@@ -430,11 +430,11 @@ ItemTextureArchiveLoader::~ItemTextureArchiveLoader() {}
 void ItemTextureArchiveLoader::on_loaded() {
     u8 *data;
 
-    if (TLobby::tmp_buf_is_free() == 1) {
-        data = (u8 *)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+    if (tmp_buf_is_free() == 1) {
+        data = (u8 *)tmp_buf_use_req(item_load_tmp_buffer);
         TItemLoad::decompress_buffer(data);
         load_gvm_texture_archive(data, texlist);
-        TLobby::tmp_buf_release(item_load_tmp_buffer);
+        tmp_buf_release(item_load_tmp_buffer);
         texlist = NULL;
         reset_state();
     }
@@ -468,8 +468,8 @@ void ItemModelChunkLoader::on_loaded() {
     s32 n;
     void *chunk;
     u32 i;
-    if (TLobby::tmp_buf_is_free() == 1) {
-        data = (u8 *)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+    if (tmp_buf_is_free() == 1) {
+        data = (u8 *)tmp_buf_use_req(item_load_tmp_buffer);
         dst = buffer;
         total = TItemLoad::decompress_buffer(data);
         pos = 0;
@@ -497,7 +497,7 @@ void ItemModelChunkLoader::on_loaded() {
                 break;
             }
         }
-        TLobby::tmp_buf_release(item_load_tmp_buffer);
+        tmp_buf_release(item_load_tmp_buffer);
         buffer = NULL;
         reset_state();
     }

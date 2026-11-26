@@ -39,7 +39,7 @@
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/unk/TLobby_80300098.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -195,7 +195,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {prepare_adventure_maps, release_adventure_maps},
     {clear_story_flag_list_and_reload, clear_story_flag_list},
     {start_challenge_mode, NULL},
-    {load_tombstone_resources, TLobby::destroy_tombstone},
+    {load_tombstone_resources, destroy_tombstone},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},

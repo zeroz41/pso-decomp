@@ -18,7 +18,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"

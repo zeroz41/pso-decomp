@@ -3,6 +3,7 @@
 
 #include "pso/system/BmlAccessors.h"
 #include <stddef.h>
+#include "types.h"
 
 struct BmlModelEntry {
     u32 flags; // 1 once its texture list is loaded, 2 when that load failed
@@ -70,5 +71,27 @@ LAYOUT_ASSERT(BmlResource_model_count_offset, offsetof(BmlResource, model_count)
 BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
     const char **models, const char **motions,
     BmlLoadCallback on_loaded, void *context, void *arena);
+
+extern "C" {
+void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset, u32 *tag);
+}
+void check_bin_model_loaded(BmlResource *resource);
+void increment_ref_and_set_flag(void *context);
+struct BmlModelLoadRequest;
+struct BmlMotionLoadRequest;
+struct AnimationMotion;
+void LoadBinModelCallBack(BmlModelLoadRequest *request);
+void LoadBinMotionCallBack(BmlMotionLoadRequest *request);
+
+// --- C functions defined in TLobby_8001EF5C.cpp ---
+extern "C" {
+AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
+}
+// --- end of C functions
+
+s32 tmp_buf_is_free();
+s32 tmp_buf_release(const char *name);
+void tmp_buf_release_if_owner(const char *name);
+u8 *tmp_buf_use_req(const char *name);
 
 #endif

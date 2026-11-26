@@ -12,7 +12,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/BmlResource.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"

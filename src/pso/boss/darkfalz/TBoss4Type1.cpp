@@ -2,8 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include <stdlib.h>
-#include "pso/system/BmlResource.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/render/ChunkModelDraw.h"

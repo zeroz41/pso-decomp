@@ -2,14 +2,13 @@
 #include "types.h"
 #include "pso/ui/chat/TSymbolChatCapture.h"
 #include "pso/unk/text_80076E84.h"
-#include "pso/unk/TLobby_8036B204.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 TSymbolChatCapture *slot_entity_dispatcher_instance;
 
-void TLobby::send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf) {
+void send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf) {
     if (slot_entity_dispatcher_instance != NULL && slot < 4) {
         slot_entity_dispatcher_instance->get_recent_symbol_chat(slot, buf);
         return;
@@ -70,9 +69,9 @@ TSymbolChatCapture::TSymbolChatCapture(TObject *parent) : TObject(parent) {
     slot_entity_dispatcher_instance = this;
 }
 
-void TLobby::create_singleton(void *parent) {
+void TSymbolChatCapture::create_singleton(TObject *parent) {
     if (slot_entity_dispatcher_instance == NULL) {
-        new TSymbolChatCapture((TObject *)parent);
+        new TSymbolChatCapture(parent);
     }
 }
 

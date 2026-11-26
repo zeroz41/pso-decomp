@@ -18,6 +18,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 
 extern "C" {
 s32 lbl_805D64A8;
@@ -242,7 +243,7 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
             entries = TQuestListChallenge__stage_table;
         }
         text_group = 0xF;
-        count = TLobby::calc_min_challenge_progress() + 1;
+        count = calc_min_challenge_progress() + 1;
         mode = TLobby::get_instance();
         limit = 5;
         if (mode == 0) {

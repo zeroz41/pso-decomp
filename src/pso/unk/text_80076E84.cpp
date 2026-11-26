@@ -1,6 +1,6 @@
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
-#include "pso/unk/TLobby_8036B204.h"
+#include "pso/ui/chat/TSymbolChatCapture.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/network/TLobby.h"

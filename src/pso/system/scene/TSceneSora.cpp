@@ -10,7 +10,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/animation/ActorAnimationState.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803D96A8.h"

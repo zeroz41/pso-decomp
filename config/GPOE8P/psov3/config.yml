@@ -5357,7 +5357,7 @@ force_active:
   - copy_from__23MagNodeOscillationStateFP23MagNodeOscillationState
   - set_parameters__15TEffStarLight2DFP19StarLightParameters
   - pop_fade_color__23TEquippedWeaponDrawTaskFv
-  - copy_global_value_block__6TLobbyFv
+  - copy_global_value_block__Fv
   - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFPvPv
@@ -15628,7 +15628,7 @@ force_active:
   - show__5TItemFv
   - show_active_window__17TWindowCtrlPlayerFv
   - show_already_healthy__22TMedicalCenterSequenceFv
-  - show_ctrl_and_play_effect__6TLobbyFPv
+  - show_ctrl_and_play_effect__FPv
   - show_declined__22TMedicalCenterSequenceFv
   - show_fee_prompt__22TMedicalCenterSequenceFv
   - show_guide_button__12TAdDialingGCFv
@@ -15972,7 +15972,7 @@ force_active:
   - spawn_particles_at__12TBoss3VoloptFi
   - spawn_parts__12TBoss3VoloptFv
   - spawn_player_hit_effects__14TBoss6PlotFalzFv
-  - spawn_player_tombstones2__6TLobbyFv
+  - spawn_player_tombstones2__Fv
   - spawn_poison_effect__9TObjCharaFl
   - spawn_rafoie_explosion_bursts__14TFireExplosionFv
   - spawn_random_effect__11TBoss4Type3Fv
@@ -16084,7 +16084,7 @@ force_active:
   - stop_adx_audio__14TBoss6PlotFalzFv
   - stop_effect__14TItemEquipBaseFUl
   - stop_if_advanced__10MovieStateFv
-  - store_challenge_seeds__6TLobbyFl
+  - store_challenge_seeds__Fl
   - store_position__11TBoss7JointFv
   - store_position__13TObjEneBm3FlyFv
   - stream_read_be32__Fv

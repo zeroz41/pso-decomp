@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_80228154.h"
-#include "pso/unk/TLobby_80299C4C.h"
+#include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
@@ -183,19 +183,19 @@ AreaInitializer area_initializer_dispatch_table[] = {
     { "RUINS02", init_temple_area, TLobby::run_floor_update_2 },
     { "SPACE01", init_spaceship_area, TLobby::refresh_floor_state },
     { "SPACE02", init_spaceship_area, TLobby::refresh_floor_state },
-    { "JUNGLE01", init_jungle_area, TLobby::update_floor_state_deferred },
-    { "JUNGLE02", init_jungle_area, TLobby::update_floor_state_deferred },
-    { "JUNGLE03", init_jungle_area, TLobby::update_floor_state_deferred },
-    { "JUNGLE04", init_jungle_area, TLobby::update_floor_state_deferred },
-    { "JUNGLE05", init_jungle_area, TLobby::update_floor_state_deferred },
-    { "SEABED01", initialize_boss_scene, TLobby::update_scene_alt },
-    { "SEABED02", initialize_boss_scene, TLobby::update_scene_alt },
+    { "JUNGLE01", init_jungle_area, update_floor_state_deferred },
+    { "JUNGLE02", init_jungle_area, update_floor_state_deferred },
+    { "JUNGLE03", init_jungle_area, update_floor_state_deferred },
+    { "JUNGLE04", init_jungle_area, update_floor_state_deferred },
+    { "JUNGLE05", init_jungle_area, update_floor_state_deferred },
+    { "SEABED01", initialize_boss_scene, update_scene_alt },
+    { "SEABED02", initialize_boss_scene, update_scene_alt },
     { "BOSS05", TLobby::init_gryphon_area, TLobby::cleanup_floor_state },
     { "BOSS06", TLobby::init_particle_model, TLobby::refresh_lobby_state },
     { "BOSS07", init_scene_delo2, TLobby::update_subsystems },
     { "BOSS08", load_dragon2_scene, TLobby::update_field_state },
-    { "JUNGLE06", init_jungle_area, TLobby::update_floor_state_deferred },
-    { "JUNGLE07", init_jungle_area, TLobby::update_floor_state_deferred },
+    { "JUNGLE06", init_jungle_area, update_floor_state_deferred },
+    { "JUNGLE07", init_jungle_area, update_floor_state_deferred },
 };
 
 void run_area_scene_cleanup(FloorTransition *transition) {

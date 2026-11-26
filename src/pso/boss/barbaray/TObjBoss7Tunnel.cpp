@@ -20,7 +20,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/boss/TObjBoss7TunnelNode.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include <stddef.h>

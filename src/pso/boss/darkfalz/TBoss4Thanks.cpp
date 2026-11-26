@@ -1,7 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/quest/QuestStoryFlags.h"
@@ -23,7 +23,6 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjBase.h"
 

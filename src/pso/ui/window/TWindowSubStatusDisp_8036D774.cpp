@@ -19,6 +19,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/system/BmlResource.h"
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
@@ -181,9 +182,9 @@ void TLobby::release_bg_multi_textures() {
 void TBGMulti__ct(void) {
     GvplPalette palette;
     if (TCameraCtrl::get_camera_id() == 3) {
-        palette.data = TLobby::tmp_buf_use_req("TBGMulti");
+        palette.data = tmp_buf_use_req("TBGMulti");
         TLanguage::load_palette_tlut("f128_gr.gvp", &palette, 0x4D);
-        TLobby::tmp_buf_release("TBGMulti");
+        tmp_buf_release("TBGMulti");
         set_texture_list(TBGMulti__textures = LoadPvmFileTls("bg_multi.gvm"));
         set_context_texture_palette_bank(0, 0x4D);
     }

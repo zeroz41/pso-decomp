@@ -1,11 +1,10 @@
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
-#include "pso/unk/TLobby_80299C4C.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/object/TObjChallenge4PRetry.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
@@ -25,7 +24,6 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "types.h"
-#include "pso/unk/TLobby_802268F4.h"
 
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -39,8 +37,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
-#include "pso/player/PlayerSlots.h"
-#include "pso/network/client_id.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
@@ -50,7 +46,7 @@ extern "C" {
 s32 load_floor_sound_bank();
 }
 
-void TLobby::update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
 // inferred: the JUNGLE01-07 init of area_initializer_dispatch_table
 s32 init_jungle_area(void) {
@@ -79,7 +75,7 @@ s32 init_jungle_area(void) {
     return 1;
 }
 
-void TLobby::update_scene_alt() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void update_scene_alt() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
 
 s32 initialize_boss_scene(void) {
@@ -119,8 +115,8 @@ extern "C" {
 const char *obj_challenge4p_retry_class_name = "TObjChallenge4PRetry";
 
 
-s32 TLobby::is_multi_ready() {
-    if ((TLobby::get_challenge_mode_flag() != 0) || (get_camera_view_count() <= 1)) {
+s32 is_multi_ready() {
+    if ((get_challenge_mode_flag() != 0) || (get_camera_view_count() <= 1)) {
         return 0;
     }
     return 1;
@@ -218,7 +214,7 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
     countdown = this->countdown - 1;
     this->countdown = countdown;
     if (countdown <= 0) {
-        TLobby::start_challenge_countdown();
+        start_challenge_countdown();
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
         close_window();
         close_window_field30();
@@ -279,7 +275,7 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
     if (this->menu->is_decided() != 0) {
         selected_menu_value = this->menu->get_selected_value();
         if (selected_menu_value != 2) {
-            TLobby::set_retry_selection(retry_selection_value_table[selected_menu_value]);
+            set_retry_selection(retry_selection_value_table[selected_menu_value]);
             ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
             TLobby::play_effect_all_players(this);
             this->m_24 = 1;
@@ -357,7 +353,7 @@ void TObjChallenge4PRetry::run_task() {
         this->countdown_and_destroy();
         break;
     }
-    if (TLobby::is_multi_ready() == 0) {
+    if (is_multi_ready() == 0) {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(self);
         this->close_window();
         this->close_window_field30();
@@ -367,7 +363,7 @@ void TObjChallenge4PRetry::run_task() {
 
 TObjChallenge4PRetry::~TObjChallenge4PRetry() {
     if (m_20 != 0 && m_24 == 0) {
-        TLobby::set_retry_selection(0);
+        set_retry_selection(0);
     }
 }
 }

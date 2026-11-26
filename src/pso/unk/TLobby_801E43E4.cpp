@@ -26,6 +26,7 @@
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/system/BmlResource.h"
 
 extern "C" {
 s32 append_command_to_batch_buffer(void *, void *);
@@ -147,14 +148,14 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
         }
         allocated = 1;
     } else {
-        buf = (u8 *)TLobby::tmp_buf_use_req("LoadTexturePvm");
+        buf = (u8 *)tmp_buf_use_req("LoadTexturePvm");
     }
     TGStream::gsSctLoadFile(path, buf);
     ret = load_gvm_texture_archive(buf, texlist);
     if (allocated != 0) {
         safe_free(buf);
     } else {
-        TLobby::tmp_buf_release("LoadTexturePvm");
+        tmp_buf_release("LoadTexturePvm");
     }
     if (ret < 0) {
         TLobby::debug_print("psoLoadTexturePvmFile:%s load error.", name);
@@ -215,7 +216,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
         big = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
         buf = big;
     } else {
-        buf = TLobby::tmp_buf_use_req("LoadPvmFileTls");
+        buf = tmp_buf_use_req("LoadPvmFileTls");
     }
     TGStream::gsSctLoadFile(name, buf);
     count = TLanguage::read_file_header(buf, &hdr);
@@ -223,7 +224,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
         if (big != NULL) {
             safe_free(big);
         } else {
-            TLobby::tmp_buf_release("LoadPvmFileTls");
+            tmp_buf_release("LoadPvmFileTls");
         }
         return NULL;
     }
@@ -254,7 +255,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     if (big != NULL) {
         safe_free(big);
     } else {
-        TLobby::tmp_buf_release("LoadPvmFileTls");
+        tmp_buf_release("LoadPvmFileTls");
     }
     return res;
 }

@@ -24,7 +24,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/technique/TTecResta.h"

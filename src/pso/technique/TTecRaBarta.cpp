@@ -9,7 +9,7 @@
 #include "pso/technique/TechniqueEmitter.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/BmlResource.h"
 
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"

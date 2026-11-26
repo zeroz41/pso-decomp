@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"

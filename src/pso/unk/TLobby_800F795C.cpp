@@ -1,6 +1,6 @@
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "pso/enemy/darkgunner/DarkGunner.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/boss/dragon/TBoss1DragonDemo.h"

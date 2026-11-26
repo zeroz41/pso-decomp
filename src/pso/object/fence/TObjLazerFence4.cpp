@@ -28,7 +28,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/BmlResource.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/ActorCollision.h"

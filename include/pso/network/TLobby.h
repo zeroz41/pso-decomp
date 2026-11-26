@@ -107,7 +107,6 @@ struct TLobby : public TObject {
     static void cleanup_boss5_pillars();
     void copy_header_struct(void* q);
     static void set_enemy_mode_flag();
-    static TObjTombstone *create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
     void collect_active_card_ids();
     static void send_status_packet();
     static void clear_flag_on_phase_e();
@@ -268,27 +267,9 @@ struct TLobby : public TObject {
     static void alloc_download_server();
     static void free_chr_select_singleton();
     static void free_all_resources();
-    static void update_screen();
-    static void set_challenge_split_flag();
-    static s32 get_normalized_mode();
-    static void draw_if_ready2();
-    static s32 check_ready_status();
-    static void reset_menu_state_globals();
-    static void update_challenge_timer(s32 time);
-    static s32 set_camera_height_if_valid(f32 multiplier);
-    static s32 try_set_split_screen(s32 difficulty);
-    static void rebuild_players_for_stage(s32 stage);
-    static void clamp_and_store_layout_index(s32 stage);
-    static s32 calc_min_challenge_progress();
     static s32 get_clamped_time_limit();
     static s32 is_value_out_of_range(s32 seed);
-    static s32 get_challenge_mode_flag();
-    static void start_challenge_countdown();
-    static void set_retry_selection(s32 choice);
     static void destroy_global();
-    static void destroy_tombstone();
-    static void spawn_player_tombstones2();
-    static void copy_global_value_block();
     static void free_chr_select_slots();
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
@@ -330,10 +311,6 @@ struct TLobby : public TObject {
     static void drain_deferred_packets();
     static void open_challenge_window(s32 lobby, s32 challenge_id);
     void add_status_disp_entry(s32 name, s32 id);
-    static void tmp_buf_release_if_owner(const char *name);
-    static s32 tmp_buf_release(const char *name);
-    static s32 tmp_buf_is_free();
-    static u8 *tmp_buf_use_req(const char *name);
     void handle_quest_download_chunk();
     static void update_battle_mode();
     static void update_trade_partner();
@@ -345,7 +322,6 @@ struct TLobby : public TObject {
     static void send_challenge_with_value(s32 challenge, s32 window_mode);
     static void send_challenge_records(u32 _w0);
     static s32 start_lobby_name_request();
-    static void reset_tombstone_values();
     static void init_fadeout_state(void (*callback)());
     static void set_fade_params(void (*callback)());
     static s32 get_quest_thread_state();
@@ -380,15 +356,12 @@ struct TLobby : public TObject {
     static void apply_trade_items();
 
     static void update_alloc_size();
-    void bswap_challenge_dead_flag();
     void send_and_handle_60_wrapper();
     void byteswap_challenge_time_packet();
     void send_state();
     void byteswap_challenge_packet();
     void send_challenge_packet();
-    static s32 is_ready_to_draw();
     static void send_45_and_close_windows(void * _w0);
-    static void show_ctrl_and_play_effect(void* a0);
     static void play_default_effect(void* a0);
     static void create_tasks();
     static void clear_session_buffers();
@@ -460,14 +433,10 @@ struct TLobby : public TObject {
     void send_player_update();
     static void update_guild_or_quest_phase();
     static void free_window();
-    static void store_challenge_seeds(s32 seed);
     static void refresh_lobby_state();
     static s32 init_particle_model();
     static void update_field_state();
     static void update_subsystems();
-    static void update_floor_state_deferred();
-    static void update_scene_alt();
-    static s32 is_multi_ready();
     static void update_game_modes();
     static void free_global_buffers();
     void fill_guild_card_from_char(s32 index);
@@ -494,7 +463,6 @@ struct TLobby : public TObject {
     static void append_color_code(s32 color);
     static s32 parse_color_code(char *s);
     s32 init_guild_card_tag();
-    static void send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf);
     void destroy_matching_children();
     static void destroy_download_server(TObject *fade);
     void send_compressed_packet_6c();
@@ -517,8 +485,6 @@ struct TLobby : public TObject {
     static void*get_com_card_entry(int a0);
     // Empties the com card list and clears its flag.
     static void reset_com_card_list();
-    void set_split_screen_name();
-    static void create_singleton(void *parent);
     static s32 assign_player_id(void *);
     static void handle_battle_result(int client, s32 local);
     static void close_and_play_effect(int client, s32 local);

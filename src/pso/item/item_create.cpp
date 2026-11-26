@@ -78,7 +78,7 @@
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
 #include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/system/scene/TEnding.h"
-#include "pso/unk/text_8035D444.h"
+#include "pso/weapon/TItemWeaponRubyBullet.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/weapon/TItemWeaponEvilCurst.h"
 #include "pso/weapon/TItemWeaponMechgun.h"

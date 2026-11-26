@@ -34,6 +34,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/HeadingEntry.h"
+#include "pso/system/BmlResource.h"
 
 
 // A window's width and height.
@@ -42,7 +43,7 @@ struct WindowSize {
     f32 height;
 };
 
-// Owner token for TLobby::tmp_buf_use_req/tmp_buf_release_if_owner, like TQuestListVM's tmp_buf_owner_name
+// Owner token for tmp_buf_use_req/tmp_buf_release_if_owner, like TQuestListVM's tmp_buf_owner_name
 static const char online_tmp_buf_owner_name[] = "quest_online";
 const char *quest_list_online_class_name = "TQuestListOnline";
 // Size of the description window build_list_window creates (TQuestListVM's description window uses the same size)
@@ -267,8 +268,8 @@ void TQuestListOnline::handle_list_selection() {
 void TQuestListOnline::begin_buffer_request() { set_state(5); }
 
 void TQuestListOnline::request_download_buffer() {
-    if (TLobby::tmp_buf_is_free() != 0) {
-        quest_list_online_decompression_cursor = TLobby::tmp_buf_use_req(online_tmp_buf_owner_name);
+    if (tmp_buf_is_free() != 0) {
+        quest_list_online_decompression_cursor = tmp_buf_use_req(online_tmp_buf_owner_name);
         set_state(6);
     }
 }
@@ -371,8 +372,8 @@ void TQuestListOnline::invoke_callback_30_and_queue_destruction() {
 }
 
 void TQuestListOnline::ensure_online_quests_loaded() {
-    if (TLobby::tmp_buf_is_free() == 0) {
-        TLobby::tmp_buf_release_if_owner(online_tmp_buf_owner_name);
+    if (tmp_buf_is_free() == 0) {
+        tmp_buf_release_if_owner(online_tmp_buf_owner_name);
     }
 }
 
@@ -408,8 +409,8 @@ void TQuestListOnline::invoke_callback_2c_and_queue_destruction() {
 
 s32 TQuestListOnline::init() {
     quest_list_online_decompression_cursor = NULL;
-    if (TLobby::tmp_buf_is_free() != 0) {
-        quest_list_online_decompression_cursor = TLobby::tmp_buf_use_req(online_tmp_buf_owner_name);
+    if (tmp_buf_is_free() != 0) {
+        quest_list_online_decompression_cursor = tmp_buf_use_req(online_tmp_buf_owner_name);
         return 1;
     }
     return 0;

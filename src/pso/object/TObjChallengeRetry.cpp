@@ -19,7 +19,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/TObjChallengeRetry.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
@@ -29,8 +28,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
-#include "pso/player/PlayerSlots.h"
-#include "pso/network/client_id.h"
 
 
 #pragma readonly_strings on
@@ -44,20 +41,20 @@ __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f
 }
 
 const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
-void send_challenge_dead_flag_packet(TLobby *lobby);
+void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
 void build_6x9D_packet(u8 *packet);
 extern "C" {
 void TLobby__sub_800727A0(void *player);
 }
 void build_6x97_packet(u8 *packet);
 
-void TLobby::bswap_challenge_dead_flag() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((char *)this + 4));
+void G_SetChallengeDeadFlag_6x9D::bswap() {
+    header.bswap();
+    bswap_32(&client_id);
 }
-void send_challenge_dead_flag_packet(TLobby *lobby) {
-    lobby->bswap_challenge_dead_flag();
-    send_subcommand((u8 *)lobby);
+void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet) {
+    packet->bswap();
+    send_subcommand((u8 *)packet);
 }
 
 void build_6x9D_packet(u8 *packet) {
@@ -165,7 +162,7 @@ void bswap_packet_field(s32 *value) {
     bswap_32((u32 *)value);
 }
 extern "C" {
-s32 TLobby::is_ready_to_draw() {
+s32 is_ready_to_draw() {
     if ((is_challenge_retry_menu_disabled() != 0) || (count_challenge_players() <= 1)) {
         return 0;
     }
@@ -222,7 +219,7 @@ void TLobby::send_45_and_close_windows(void * _w0) {
     TWindowCtrl::unsuppress_slot(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
 }
-void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
+void show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void TLobby::play_player_default_effect() {
     TObjPlayer *player;
@@ -269,7 +266,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
     default:
         if (((s32) this->m_20 != 0) && ((s32) this->m_24 == 0)) {
             TLobby::send_45_and_close_windows(this);
-            TLobby::show_ctrl_and_play_effect(this);
+            show_ctrl_and_play_effect(this);
             sub_80072B70();
             open_loss_menu();
             this->state = 2;
@@ -280,7 +277,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
 void TObjChallengeRetry::update_challenge_retry() {
     s32 selected_menu_value;
     s32 close_requested;
-    TLobby::show_ctrl_and_play_effect(this);
+    show_ctrl_and_play_effect(this);
     if (this->menu == NULL) {
         open_loss_menu();
     }
@@ -311,7 +308,7 @@ void TObjChallengeRetry::handle_challenge_retry_confirm() {
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         TLobby::send_45_and_close_windows(this);
-        TLobby::show_ctrl_and_play_effect(this);
+        show_ctrl_and_play_effect(this);
         this->state = 2;
     }
 }
@@ -363,7 +360,7 @@ void TObjChallengeRetry::sub_8007313C() {
         if ((this->m_20) != 0)
         {
           TLobby::send_45_and_close_windows((void *) ((u8 *)this));
-          TLobby::show_ctrl_and_play_effect((void *) ((u8 *)this));
+          show_ctrl_and_play_effect(this);
           this->state = 2;
           return;
         }
@@ -396,7 +393,7 @@ void TObjChallengeRetry::run_task() {
         this->update_destroy_countdown();
         break;
     }
-    if (TLobby::is_ready_to_draw() == 0) {
+    if (is_ready_to_draw() == 0) {
         TLobby::send_45_and_close_windows(self);
         this->close_window_2c();
         this->sub_80072B70();

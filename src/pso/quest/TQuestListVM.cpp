@@ -26,6 +26,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/BmlResource.h"
 
 // A window's width and height.
 struct WindowSize {
@@ -118,7 +119,7 @@ TQuestListVM::~TQuestListVM() {
         card_buffer = NULL;
     }
     quest_list_vm_instance = NULL;
-    TLobby::tmp_buf_release_if_owner(tmp_buf_owner_name);
+    tmp_buf_release_if_owner(tmp_buf_owner_name);
 }
 
 void TQuestListVM::update_state() {
@@ -203,8 +204,8 @@ void TQuestListVM::init() {
 }
 
 void TQuestListVM::load_quest_vm() {
-    if (TLobby::tmp_buf_is_free() != 0) {
-        tmp_buffer = TLobby::tmp_buf_use_req(tmp_buf_owner_name);
+    if (tmp_buf_is_free() != 0) {
+        tmp_buffer = tmp_buf_use_req(tmp_buf_owner_name);
         decrypted_quest_buffer = tmp_buffer;
         decompression_capacity = 0x40000;
         set_state(2);
@@ -447,8 +448,8 @@ void TQuestListVM::update_lobby_selection() {
 }
 
 void TQuestListVM::quest_vm_load() {
-    if (TLobby::tmp_buf_is_free() != 0) {
-        tmp_buffer = TLobby::tmp_buf_use_req(tmp_buf_owner_name);
+    if (tmp_buf_is_free() != 0) {
+        tmp_buffer = tmp_buf_use_req(tmp_buf_owner_name);
         set_state(resume_state);
     }
 }
@@ -669,8 +670,8 @@ void TQuestListVM::close() {
     if (callback != NULL) {
         callback();
     }
-    if (TLobby::tmp_buf_is_free() == 0) {
-        TLobby::tmp_buf_release(tmp_buf_owner_name);
+    if (tmp_buf_is_free() == 0) {
+        tmp_buf_release(tmp_buf_owner_name);
     }
     TQuestListVM::reset();
     queue_destruction();
@@ -681,8 +682,8 @@ void TQuestListVM::close_and_destroy() {
     if (callback != NULL) {
         callback();
     }
-    if (TLobby::tmp_buf_is_free() == 0) {
-        TLobby::tmp_buf_release(tmp_buf_owner_name);
+    if (tmp_buf_is_free() == 0) {
+        tmp_buf_release(tmp_buf_owner_name);
     }
     queue_destruction();
 }
@@ -703,8 +704,8 @@ void TQuestListVM::wait_for_message() {
 }
 
 void TQuestListVM::load_vm() {
-    if (TLobby::tmp_buf_is_free() == 0) {
-        TLobby::tmp_buf_release(tmp_buf_owner_name);
+    if (tmp_buf_is_free() == 0) {
+        tmp_buf_release(tmp_buf_owner_name);
     }
     evt2_random_enemies_mode = 0;
 }

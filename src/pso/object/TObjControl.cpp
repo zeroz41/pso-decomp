@@ -34,7 +34,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"

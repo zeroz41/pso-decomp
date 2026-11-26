@@ -35,7 +35,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
@@ -91,7 +91,7 @@ TObjTombstone *TObjTombstone::create(TObject *parent, s32 client, const TObjTomb
     return new TObjTombstone(parent, client, record);
 }
 
-TObjTombstone *TLobby::create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot) {
+TObjTombstone *TObjTombstone::create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot) {
     return new TObjTombstone(parent, client, spot);
 }
 
@@ -125,7 +125,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRec
     }
 }
 
-// Spawns the tombstone from a short spot record (TLobby::create_tombstone).
+// Spawns the tombstone from a short spot record (TObjTombstone::create_tombstone).
 TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot)
     : TObjCollidable(parent) {
     TObjTombstoneRecord record;
@@ -665,7 +665,7 @@ extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates) {
     tombstone_base_matrix.copy_matrix(rates);
 }
 
-void TLobby::reset_tombstone_values() {
+void reset_tombstone_values() {
     s32 i;
     for (i = 0; i < 4; i++) {
         tombstone_position_table[i].y = -10000.0f;

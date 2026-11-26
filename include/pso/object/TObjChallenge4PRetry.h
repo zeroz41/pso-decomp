@@ -32,4 +32,20 @@ public:
     static void *create(TObject *parent);
 };
 
+// --- C functions defined in TLobby_80299C4C.cpp ---
+u8 is_designated_client(void);
+extern "C" {
+s32 init_jungle_area(void);
+void send_giveup_to_all_players__6TLobbyFv(void);
+}
+// --- end of C functions
+
+s32 initialize_boss_scene(void);
+
+void start_challenge_countdown();
+void update_floor_state_deferred();
+void update_scene_alt();
+
+s32 is_multi_ready();
+
 #endif

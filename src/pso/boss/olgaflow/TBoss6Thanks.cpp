@@ -23,7 +23,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/unk/text_8035D444.h"
+#include "pso/weapon/TItemWeaponRubyBullet.h"
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"

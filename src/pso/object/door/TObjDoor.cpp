@@ -25,13 +25,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 

@@ -32,4 +32,7 @@ public:
     virtual void run_task();
 };
 
+s32 is_ready_to_draw();
+void show_ctrl_and_play_effect(void* a0);
+
 #endif

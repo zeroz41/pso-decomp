@@ -20,7 +20,7 @@ void build_6x8A_packet(u8 *packet);
 void build_6x95_packet(u8 *packet);
 void build_6x97_packet(u8 *packet);
 void build_6x9D_packet(u8 *packet);
-void send_challenge_dead_flag_packet(TLobby *lobby);
+void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
 extern "C" {
 void TLobby__sub_800727A0(void *player);
 }
@@ -29,7 +29,7 @@ void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
     if (is_challenge_mode() == 0) {
         return;
     }
-    ((TLobby *)command)->bswap_challenge_dead_flag();
+    command->bswap();
     idx = command->client_id;
     if (idx < 0 || idx >= 4) {
         return;
@@ -50,7 +50,7 @@ void TLobby__sub_800722AC(s32 index) {
     }
     build_6x9D_packet((u8 *)&stack);
     stack.client_id = index;
-    send_challenge_dead_flag_packet((TLobby *)&stack);
+    send_challenge_dead_flag_packet((G_SetChallengeDeadFlag_6x9D *)&stack);
 }
 
 void TLobby::send_challenge_retry_cmd(s32 choice) {

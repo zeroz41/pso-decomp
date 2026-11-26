@@ -147,7 +147,7 @@
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/chat/ShortMail.h"
@@ -155,6 +155,7 @@
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/ui/city/THunterGuildSeqOffline_801F3718.h"
+#include "pso/ui/chat/TSymbolChatCapture.h"
 
 
 
@@ -560,13 +561,13 @@ void qst_op_get_item_stackability() {
     qst_registers[dest_reg] = -1;
 }
 
-void qst_op_create_symbol_chat_capture_buffer() { TLobby::create_singleton((void *)tl_01); }
+void qst_op_create_symbol_chat_capture_buffer() { TSymbolChatCapture::create_singleton(tl_01); }
 
 void qst_op_get_recent_symbol_chat() {
     SymbolChatPayload buf;
     u8 idx;
     idx = (u8) qst_args[1];
-    TLobby::send_slot_entity_or_local((u16) qst_args[0], &buf);
+    send_slot_entity_or_local((u16) qst_args[0], &buf);
     memcpy(&qst_registers[idx], &buf, sizeof(buf));
 }
 
@@ -1842,7 +1843,7 @@ void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
 
 void qst_op_chl_show_dead_player_list() {
     if (is_split_screen() == 1) {
-        TLobby::update_screen();
+        update_screen();
         return;
     }
     show_challenge_dead_player_list();
@@ -1850,7 +1851,7 @@ void qst_op_chl_show_dead_player_list() {
 
 void qst_op_disable_retry_menu() {
     if (is_split_screen() == 1) {
-        TLobby::set_challenge_split_flag();
+        set_challenge_split_flag();
         return;
     }
     disable_challenge_retry_menu();
@@ -2043,7 +2044,7 @@ void qst_op_load_serial_number_to_flag_buf() {
 
 void qst_op_is_bosswarp_opt_disabled(s32 reg) {
     if (is_split_screen() == 1) {
-        if (TLobby::get_normalized_mode() != 0) {
+        if (get_normalized_mode() != 0) {
             qst_registers[(u8)reg] = 1;
             return;
         }
@@ -2091,7 +2092,7 @@ void qst_op_ba_forbid_scape_dolls() {
 
 void qst_op_chl_create_retry_menu() {
     if (is_split_screen() == 1) {
-        TLobby::draw_if_ready2();
+        draw_if_ready2();
         return;
     }
     create_challenge_retry_menu();
@@ -2100,7 +2101,7 @@ void qst_op_chl_create_retry_menu() {
 void qst_op_get_chl_retry_choice(s32 reg) {
     s32 retry_choice;
     if (is_split_screen() == 1) {
-        retry_choice = TLobby::check_ready_status();
+        retry_choice = check_ready_status();
     } else {
         retry_choice = get_challenge_retry_choice();
     }
@@ -2129,7 +2130,7 @@ void qst_op_reset_map(void) {
     init_switch_table();
     TRaderMapCore::free_map_data();
     if (is_split_screen() == 1) {
-        TLobby::reset_menu_state_globals();
+        reset_menu_state_globals();
         return;
     }
     reset_challenge_map();
@@ -3031,7 +3032,7 @@ void qst_op_ba_player_give_damage_score(s32 a) {
 
 void qst_op_set_cmode_base_time(s32 reg) {
     if (is_split_screen() == 1) {
-        TLobby::update_challenge_timer((int) (qst_registers[(u8)reg]));
+        update_challenge_timer((int) (qst_registers[(u8)reg]));
         return;
     }
     set_challenge_base_time((int) (qst_registers[(u8)reg]));
@@ -3200,7 +3201,7 @@ void qst_op_exp_multiplication(s32 a) {
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
     if (is_split_screen() == 1) {
-        TLobby::set_camera_height_if_valid(v);
+        set_camera_height_if_valid(v);
         return;
     }
     set_exp_multiplier(v);
@@ -3211,7 +3212,7 @@ void qst_op_set_cmode_difficulty() {
 
     difficulty = qst_args[0];
     if (is_split_screen() == 1) {
-        TLobby::try_set_split_screen(difficulty);
+        try_set_split_screen(difficulty);
         return;
     }
     set_challenge_difficulty(difficulty);
@@ -3222,7 +3223,7 @@ void qst_op_set_cmode_char_template() {
 
     stage = qst_args[0];
     if (is_split_screen() == 1) {
-        TLobby::rebuild_players_for_stage(stage);
+        rebuild_players_for_stage(stage);
         return;
     }
     TObjPlayer::rebuild_players_for_stage(stage);
@@ -3267,10 +3268,10 @@ void qst_op_cmode_stage() {
     layout_id = challenge_set_stage_count(-1);
     if (is_split_screen() == 1) {
         if (stage < layout_id) {
-            TLobby::clamp_and_store_layout_index(stage);
+            clamp_and_store_layout_index(stage);
             return;
         }
-        TLobby::clamp_and_store_layout_index(0U);
+        clamp_and_store_layout_index(0U);
         return;
     }
     if (stage < layout_id) {

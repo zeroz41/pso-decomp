@@ -62,6 +62,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/system/BmlResource.h"
 
 static s16 debug_chunk_a_strips[59] = {
     0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,
@@ -861,8 +862,8 @@ s32 take_snapshot(void) {
     copy_screen_to_texture(mode, &snapshot_frame_center);
     set_display_copy_filter(filter);
     render_tick();
-    if (TLobby::tmp_buf_is_free() != 0) {
-        frame = (SnapshotFrameBuffer *)TLobby::tmp_buf_use_req(buffer_owner);
+    if (tmp_buf_is_free() != 0) {
+        frame = (SnapshotFrameBuffer *)tmp_buf_use_req(buffer_owner);
         p = (u8 *)frame;
         sum = (u32 *)p;
         snap = (ScreenSnapshot *)p;
@@ -970,7 +971,7 @@ s32 take_snapshot(void) {
                 TObjBoss2Tunnel::show_message_and_wait(-2);
             }
         }
-        TLobby::tmp_buf_release(buffer_owner);
+        tmp_buf_release(buffer_owner);
         return 1;
     }
     return 0;

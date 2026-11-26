@@ -4,7 +4,6 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "types.h"

@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_8035D444_H
-#define PSO_UNK_TEXT_8035D444_H
+#ifndef PSO_WEAPON_TITEMWEAPONRUBYBULLET_H
+#define PSO_WEAPON_TITEMWEAPONRUBYBULLET_H
 
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"

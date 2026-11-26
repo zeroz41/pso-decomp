@@ -46,7 +46,7 @@
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/object/TObjSinBoard.h"
 #include "pso/unk/TLobby_8015ABD0.h"
-#include "pso/unk/TLobby_8036B204.h"
+#include "pso/ui/chat/TSymbolChatCapture.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/ui/window/TWindowReturnCity.h"

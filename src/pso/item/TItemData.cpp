@@ -16,7 +16,7 @@
 #include "pso/ui/Language.h"
 #include "pso/map/FloorArea.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_80291D94.h"
+#include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/object/base/TObjBase.h"

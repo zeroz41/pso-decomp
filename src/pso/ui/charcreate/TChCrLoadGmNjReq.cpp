@@ -4,7 +4,7 @@
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
-#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
@@ -56,7 +56,7 @@ void TChCrLoadGmNjReq::update_model_load() {
 void TChCrLoadGmNjReq::start_character_load_task() {
     BmlResource *request;
 
-    if ((TLobby::tmp_buf_is_free() != 0) && (this->try_acquire_slot() != 0)) {
+    if ((tmp_buf_is_free() != 0) && (this->try_acquire_slot() != 0)) {
         request = static_cast<BmlResource *>(::operator new(sizeof(BmlResource)));
         if (request != NULL) {
             request = init_bin_model_request(request, 6, model_ids, &model_ids[1], NULL, NULL, get_character_load_buffer(load_slot));
