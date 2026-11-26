@@ -438,25 +438,25 @@ void TLobby::invoke_command(u8 opcode) {
 
 
 s32 read_be_u32(void) {
-    s32 sp8;
+    s32 value;
     s32 cursor;
 
-    memcpy(&sp8, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
+    memcpy(&value, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
     cursor = wave_event_stream_cursor;
     wave_event_stream_cursor = cursor + 4;
-    bswap_32__FPUl(&sp8, cursor);
-    return sp8;
+    bswap_32__FPUl(&value, cursor);
+    return value;
 }
 
 u16 read_stream_u16(void) {
-    u16 sp8;
+    u16 value;
     s32 cursor;
 
-    memcpy(&sp8, wave_event_stream_base + wave_event_stream_cursor, 2);
+    memcpy(&value, wave_event_stream_base + wave_event_stream_cursor, 2);
     cursor = wave_event_stream_cursor;
     wave_event_stream_cursor = cursor + 2;
-    ((s32 (*)(u16 *, s32))bswap_16__FPUs)(&sp8, cursor);
-    return sp8;
+    ((s32 (*)(u16 *, s32))bswap_16__FPUs)(&value, cursor);
+    return value;
 }
 
 

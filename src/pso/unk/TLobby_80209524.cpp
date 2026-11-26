@@ -304,11 +304,11 @@ extern const s32 lobby_random_slot_id_table[42] = {
 
 s32 TLobby::pick_random_slot(s16 *slot) {
     s32 key;
-    s32 sp8;
+    s32 entry;
 
-    TLobby::pick_weighted_entry(&key, &sp8);
-    if ((key != -1) && (sp8 != -1)) {
-        *slot = (s16) lobby_random_slot_id_table[sp8];
+    TLobby::pick_weighted_entry(&key, &entry);
+    if ((key != -1) && (entry != -1)) {
+        *slot = (s16) lobby_random_slot_id_table[entry];
         lookup_item_data_record((AppendOut *)slot, key);
         ((TLobby *)slot)->pick_random_entry();
         return 0;

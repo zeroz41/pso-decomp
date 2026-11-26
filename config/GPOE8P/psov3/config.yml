@@ -616,7 +616,7 @@ force_active:
   - room_change_pending__6TLobby
   - pending_local_client_id__6TLobby
   - lobby_block_high__6TLobby
-  - TLobby__data_805D5EE0
+  - quest_dat_buffer
   - deferred_player_setup_state__6TLobby
   - disk_error_msg_last
   - disk_error_msg_table

@@ -16,48 +16,28 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/frontend/TitleSceneTables.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
-struct Stack_80335E7C
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-  f32 sp14;
-  f32 sp18;
-  f32 sp1C;
-  f32 sp20;
-  f32 sp24;
-};
-
-extern "C" {
-
-
-
-    
-    
-}
-
-typedef struct Stack_80335E7C Stack_80335E7C;
 void TUnk_804EE470::render() {
-  Stack_80335E7C stack;
+  TexturedQuad quad;
   TParticleCtrl::begin_effect_render();
   TCameraCtrl::restore_full_screen_view();
   begin_screen_draw(1);
   bind_title_texture_list();
   set_draw_texture_and_color(1, -1);
-  stack.sp8 = 64.0f;
-  stack.spC = 61.0f;
-  stack.sp10 = 3.2e+02f;
-  stack.sp14 = 317.0f;
-  stack.sp1C = (stack.sp18 = 0.0f);
-  stack.sp24 = (stack.sp20 = 1.0f);
-  draw_textured_quad_at_depth((&stack.sp8), 0.1f);
+  quad.x0 = 64.0f;
+  quad.y0 = 61.0f;
+  quad.x1 = 3.2e+02f;
+  quad.y1 = 317.0f;
+  quad.v0 = (quad.u0 = 0.0f);
+  quad.v1 = (quad.u1 = 1.0f);
+  draw_textured_quad_at_depth((&quad.x0), 0.1f);
   set_draw_texture_and_color(2, -1);
-  stack.sp8 = 3.2e+02f;
-  stack.spC = 61.0f;
-  stack.sp10 = 576.0f;
-  stack.sp14 = 317.0f;
-  draw_textured_quad_at_depth((&stack.sp8), 0.1f);
+  quad.x0 = 3.2e+02f;
+  quad.y0 = 61.0f;
+  quad.x1 = 576.0f;
+  quad.y1 = 317.0f;
+  draw_textured_quad_at_depth((&quad.x0), 0.1f);
   TWindowSubStatusDisp::get_player();
   TCameraCtrl::restore_saved_view();
   TParticleCtrl::end_effect_render();

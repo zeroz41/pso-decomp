@@ -16,55 +16,42 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
-struct Stack_8026C708
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-  f32 sp14;
-  f32 sp18;
-  f32 sp1C;
-  f32 sp20;
-  f32 sp24;
-};
-
 extern "C" {
 void fn_8026C664(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
-  f32 buffer_8[8];
-  buffer_8[0] = x;
-  buffer_8[1] = y;
+  TexturedQuad quad;
+  quad.x0 = x;
+  quad.y0 = y;
   if (arrow_offset < 0.0f)
   {
-    buffer_8[0] = ((f32) ((double) x)) + arrow_offset;
+    quad.x0 = ((f32) ((double) x)) + arrow_offset;
   }
-  buffer_8[2] = 29.0f + buffer_8[0];
-  buffer_8[3] = 15.0f + buffer_8[1];
-  buffer_8[4] = 0.72265625f;
-  buffer_8[5] = 0.3984375f;
-  buffer_8[6] = 0.8359375f;
-  buffer_8[7] = 0.45703125f;
-  ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&buffer_8[0]);
-  draw_textured_quad_at_depth(&buffer_8[0], depth);
+  quad.x1 = 29.0f + quad.x0;
+  quad.y1 = 15.0f + quad.y0;
+  quad.u0 = 0.72265625f;
+  quad.v0 = 0.3984375f;
+  quad.u1 = 0.8359375f;
+  quad.v1 = 0.45703125f;
+  ((WindowDrawContext *)context)->transform_quad(&quad);
+  draw_textured_quad_at_depth(&quad.x0, depth);
 }
-typedef struct Stack_8026C708 Stack_8026C708;
 void fn_8026C708(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   float new_var;
-  Stack_8026C708 stack;
-  stack.sp8 = x;
-  stack.spC = y;
+  TexturedQuad quad;
+  quad.x0 = x;
+  quad.y0 = y;
   if (arrow_offset > 0.0f)
   {
-    stack.sp8 = ((f32) ((double) x)) + arrow_offset;
+    quad.x0 = ((f32) ((double) x)) + arrow_offset;
   }
-  stack.sp10 = 29.0f + stack.sp8;
-  new_var = 15.0f + stack.spC;
-  stack.sp14 = new_var;
-  stack.sp18 = 0.84375f;
-  stack.sp1C = 0.3984375f;
-  stack.sp20 = 0.95703125f;
-  stack.sp24 = 0.45703125f;
-  ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&stack.sp8);
-  draw_textured_quad_at_depth(&stack.sp8, depth);
+  quad.x1 = 29.0f + quad.x0;
+  new_var = 15.0f + quad.y0;
+  quad.y1 = new_var;
+  quad.u0 = 0.84375f;
+  quad.v0 = 0.3984375f;
+  quad.u1 = 0.95703125f;
+  quad.v1 = 0.45703125f;
+  ((WindowDrawContext *)context)->transform_quad(&quad);
+  draw_textured_quad_at_depth(&quad.x0, depth);
 }
 
 void text_builder_append_int(s32);

@@ -212,7 +212,7 @@ s32 is_gvm_load_ok() {
 }
 
 s32 resolve_texlist_entry(s32 *texlist, u32 idx, s32 *out_surface, u32 *out_tlut) {
-    saddr sp8;
+    saddr slot;
     u32 j;
     s32 *surface;
     s32 *surface_hit;
@@ -232,25 +232,25 @@ s32 resolve_texlist_entry(s32 *texlist, u32 idx, s32 *out_surface, u32 *out_tlut
         *(s32 *)((s8 *)out_surface + 0) = *(s32 *)((s8 *)(*(s32 **)((s8 *)prev_entry + 0xC)) + 0);
         record_index = find_texture_by_surface_and_tlut((int) (*(s32 *)((s8 *)out_surface + 0)), (int) (*(u32 *)((s8 *)out_tlut + 0)));
         if (record_index < 0) {
-            if (find_free_texture_slot((GinjaTextureState **)&sp8, NULL) < 0) {
+            if (find_free_texture_slot((GinjaTextureState **)&slot, NULL) < 0) {
                 return -1;
             }
-            *(s32 *)((s8 *)entry + 8) = sp8;
-            *(u32 *)((s8 *)sp8 + 8) = (u32) *(u32 *)((s8 *)out_tlut + 0);
-            *(s32 **)((s8 *)sp8 + 0xC) = (s32 *) *(s32 **)((s8 *)prev_entry + 0xC);
-            *(s32 *)((s8 *)sp8 + 0x10) = 1;
-            surface = (s32 *)(*(s32 **)((s8 *)sp8 + 0xC));
+            *(s32 *)((s8 *)entry + 8) = slot;
+            *(u32 *)((s8 *)slot + 8) = (u32) *(u32 *)((s8 *)out_tlut + 0);
+            *(s32 **)((s8 *)slot + 0xC) = (s32 *) *(s32 **)((s8 *)prev_entry + 0xC);
+            *(s32 *)((s8 *)slot + 0x10) = 1;
+            surface = (s32 *)(*(s32 **)((s8 *)slot + 0xC));
             *(s32 *)((s8 *)surface + 0x24) = (s32) (*(s32 *)((s8 *)surface + 0x24) + 1);
-            *(s32 *)((s8 *)sp8 + 0x14) = (s32) *(s32 *)((s8 *)prev_entry + 0x14);
-            notify_texture_state_ready((int)sp8, (saddr)surface);
+            *(s32 *)((s8 *)slot + 0x14) = (s32) *(s32 *)((s8 *)prev_entry + 0x14);
+            notify_texture_state_ready((int)slot, (saddr)surface);
             goto block_7;
         }
         state = (saddr)&texture_states[record_index];
-        sp8 = state;
+        slot = state;
         *(s32 *)((s8 *)entry + 8) = state;
-        surface_hit = (s32 *)(*(s32 **)((s8 *)sp8 + 0xC));
+        surface_hit = (s32 *)(*(s32 **)((s8 *)slot + 0xC));
         *(s32 *)((s8 *)surface_hit + 0x24) = (s32) (*(s32 *)((s8 *)surface_hit + 0x24) + 1);
-        *(s32 *)((s8 *)sp8 + 0x10) = (s32) (*(s32 *)((s8 *)sp8 + 0x10) + 1);
+        *(s32 *)((s8 *)slot + 0x10) = (s32) (*(s32 *)((s8 *)slot + 0x10) + 1);
 block_7:
         return 1;
     }

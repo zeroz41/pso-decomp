@@ -5,6 +5,8 @@
 #include "pso/audio/AdxTalk.h"
 #include "pso/audio/AdxtEntryAfs.h"
 #include "types.h"
+#include <dolphin/ar.h>
+#include <dolphin/ai.h>
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLoadCtrl.h"
@@ -304,11 +306,7 @@ struct SndHooks {
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
 void setup_adx_file_systems(s32 *read_mode);
 void init_runtime_threads(s32 *cfg);
-u32 ARInit(u32 *stack_index_addr, u32 num_entries);
-void ARQInit(void);
-void AIInit(u8 *stack);
 s32 VISetPostRetraceCallback(int (*callback)(void *));
-u32 ARAlloc(u32 length);
 void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }

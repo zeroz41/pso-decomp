@@ -11,7 +11,7 @@
 
 void mark_unequippable_items(TWindowSubEquipKind *window);
 void mark_unequippable_items(TWindowSubEquipKind *window) {
-    u8 sp8[8];
+    u8 equip_buf[8];
     s16 i;
     u8 *item;
     ItemListRow *e;
@@ -21,7 +21,7 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
         for (i = 0; i < window->entry_capacity; i++) {
             e = static_cast<ItemListRow *>(window->get_array_entry(i));
             if (e != NULL && e->is_flag_4_set() != 0 && e->is_flag80_set() == 0) {
-                if ((t = (uaddr)find_item_by_id(e->get_item())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)sp8) == 0) {
+                if ((t = (uaddr)find_item_by_id(e->get_item())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)equip_buf) == 0) {
                     e->flags |= 0x80;
                 }
             }

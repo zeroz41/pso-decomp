@@ -37,7 +37,7 @@ struct BswapEnemySetRowsEntry {
 void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u32 byte_size);
 extern "C" {
 extern s16 quest_floor_designations[];
-u8 *TLobby__data_805D5EE0;
+u8 *quest_dat_buffer;
 }
 
 void TLobby::refresh_quest_list(const char *path) {
@@ -94,7 +94,7 @@ void TLobby::init_floor_encounter_sections() {
             break;
         }
         if (ok == 0) {
-            TLobby::init_buffers(i, TLobby__data_805D5EE0);
+            TLobby::init_buffers(i, quest_dat_buffer);
         }
     }
 }
@@ -115,7 +115,7 @@ void TLobby::handle_msg_type1_for_idle_slots() {
 
 
 void TLobby::rebuild_all(u8 *quest) {
-    TLobby__data_805D5EE0 = quest;
+    quest_dat_buffer = quest;
     TLobby::handle_msg_type1_for_idle_slots();
     TLobby::init_sub_state();
     TLobby__sub_8020A2AC();
@@ -124,7 +124,7 @@ void TLobby::rebuild_all(u8 *quest) {
     TLobby::rebuild_entry();
     TLobby::init_id_tables();
     floor_set_flags = 1;
-    TLobby__data_805D5EE0 = NULL;
+    quest_dat_buffer = NULL;
 }
 
 void set_quest_floor_designation_ex(s16 mode, s32 floor, s32 area, s32 layout, s32 entities) {
@@ -213,7 +213,7 @@ bool load_quest_encounter_section(s32 floor) {
     s32 record_floor;
     s32 size;
     u8 *record;
-    if ((record = TLobby__data_805D5EE0) != NULL) {
+    if ((record = quest_dat_buffer) != NULL) {
 loop_1:
         type = *(s32 *)((s8 *)record + 0);
         next_offset = *(s32 *)((s8 *)record + 4);
@@ -247,7 +247,7 @@ s32 TLobby::handle_msg_type2(s32 floor) {
     u8 *lobby;
     u8 *record;
 
-    if ((record = TLobby__data_805D5EE0) != NULL) {
+    if ((record = quest_dat_buffer) != NULL) {
 loop_1:
         type = *(s32 *)((s8 *)record + 0);
         next_offset = *(s32 *)((s8 *)record + 4);
@@ -283,7 +283,7 @@ s32 TLobby::handle_msg_type1(s32 floor) {
     u8 *rows;
     u8 *record;
 
-    if ((record = TLobby__data_805D5EE0) != NULL) {
+    if ((record = quest_dat_buffer) != NULL) {
 loop_1:
         type = *(s32 *)((s8 *)record + 0);
         next_offset = *(s32 *)((s8 *)record + 4);
@@ -345,11 +345,11 @@ void TLobby::setup_quest_list() {
 }
 
 void TLobby::update_and_reset(u8 *quest) {
-    TLobby__data_805D5EE0 = quest;
+    quest_dat_buffer = quest;
     populate_quest_floor_sets();
     TLobby::init_id_tables();
     floor_set_flags = 1;
-    TLobby__data_805D5EE0 = NULL;
+    quest_dat_buffer = NULL;
 }
 
 #include "pso/player/TObjPlayer.h"
@@ -361,14 +361,14 @@ void TLobby::open_session(const char *path) {
 
     size = get_resource_file_size(path);
     if (size >= 0) {
-        quest = (TLobby__data_805D5EE0 = (u8 *)TQuestVmDownLoadServer::alloc(size));
+        quest = (quest_dat_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size));
         if (quest != NULL) {
             read_disc_file(path, quest);
             populate_quest_floor_sets();
             TLobby::init_id_tables();
             floor_set_flags = 1;
-            safe_free(TLobby__data_805D5EE0);
-            TLobby__data_805D5EE0 = NULL;
+            safe_free(quest_dat_buffer);
+            quest_dat_buffer = NULL;
         }
     }
 }

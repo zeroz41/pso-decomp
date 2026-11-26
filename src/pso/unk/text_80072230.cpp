@@ -9,22 +9,10 @@
 
 #include <stddef.h>
 
-struct SendChallengeWithValueStack {
-    s32 sp8;
-    s32 spC;
-};
-
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 
 struct SendChallengeTimeStack {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    u8 trailing_storage[0x8];
-};
-
-struct SendChallengeRetryCmdStack {
     s32 sp8;
     s32 spC;
     s32 sp10;
@@ -73,15 +61,12 @@ void TLobby__sub_800722AC(s32 index) {
 }
 
 void TLobby::send_challenge_retry_cmd(s32 choice) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(SendChallengeRetryCmdStack, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(SendChallengeRetryCmdStack, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(SendChallengeRetryCmdStack, sp10) == 0x8);
-    SendChallengeRetryCmdStack stack;
+    G_SelectChallengeModeFailureOption_6x97 packet;
     if (is_challenge_mode() != 0) {
-        build_6x97_packet((u8 *)&stack.sp8);
-        stack.sp10 = choice;
-        stack.spC = local_client_id;
-        ((TLobby *)(&stack.sp8))->send_and_handle_60_wrapper();
+        build_6x97_packet((u8 *)&packet);
+        packet.is_retry = choice;
+        packet.client_id = local_client_id;
+        ((TLobby *)(&packet))->send_and_handle_60_wrapper();
     }
 }
 }
@@ -142,12 +127,10 @@ void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWi
 }
 
 void TLobby::send_challenge_with_value(s32 challenge, s32 window_mode) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(SendChallengeWithValueStack, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(SendChallengeWithValueStack, spC) == 0x4);
-    SendChallengeWithValueStack stack;
-    build_6x8A_packet((u8 *)&stack.sp8);
-    stack.spC = window_mode;
-    ((TLobby *)(&stack.sp8))->send_challenge_packet();
+    G_ShowChallengeTimeRecordsWindow_6x8A packet;
+    build_6x8A_packet((u8 *)&packet);
+    packet.which = window_mode;
+    ((TLobby *)(&packet))->send_challenge_packet();
 }
 
 void handle_6x7C_set_challenge_records(G_SetChallengeRecords_V3_6x7C *command) {

@@ -1243,7 +1243,7 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 h;
     u8 *buf;
     void *ret;
-    s32 sp8;
+    s32 archive_size;
 
     size = get_resource_file_size(name);
     if (size <= 0) {
@@ -1252,16 +1252,16 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
         buf = TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
         read_disc_file(name, buf);
-        ret = ((TLobby *)buf)->alloc_download_quest(size, &sp8);
+        ret = ((TLobby *)buf)->alloc_download_quest(size, &archive_size);
         TLobby::tmp_buf_release(load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
         buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
         st.read_sectors_sync(1, buf);
-        sp8 = *(s32 *)((s8 *)buf + 0);
+        archive_size = *(s32 *)((s8 *)buf + 0);
         h = *(s32 *)((s8 *)buf + 4);
         safe_free(buf);
-        ret = TQuestVmDownLoadServer::alloc(sp8);
+        ret = TQuestVmDownLoadServer::alloc(archive_size);
         buf = load_disc_file(name);
         SubtractiveRng rng;
         subtractive_rng_seed(&rng, h);
@@ -1270,7 +1270,7 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         safe_free(buf);
     }
     if (out_size != NULL) {
-        *out_size = sp8;
+        *out_size = archive_size;
     }
     return ret;
 }

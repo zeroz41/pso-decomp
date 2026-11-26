@@ -306,22 +306,22 @@ saddr TWindowSubComCard::get_card_slot(s32 index) {
 
 void TLobby::collect_active_card_ids() {
     CollectActiveCardIdsL *self = (CollectActiveCardIdsL *)this;
-    u8 *card;
+    GuildCardEntry *card;
     s32 *p;
     s32 i;
     s32 n;
-    card = (u8 *)TWindowSubComCard::get_card_slot(0);
+    card = (GuildCardEntry *)TWindowSubComCard::get_card_slot(0);
     p = self->ids;
     n = 0;
     i = 0;
     do {
-        if (reinterpret_cast<GuildCardEntry *>(card)->is_active() == 0) {
+        if (card->is_active() == 0) {
             break;
         }
-        *p++ = reinterpret_cast<GuildCardEntry *>(card)->get_card_id();
+        *p++ = card->get_card_id();
         i++;
         n++;
-        card += 0x90;
+        card++;
     } while (i < 0x1c);
     self->count = n;
     for (i = n; i < 0x1e; i++) {

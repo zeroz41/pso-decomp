@@ -242,19 +242,21 @@ void copy_all_data__6TLobbyFii(s32 lobby, saddr src) {
 }
 
 void TLobby::copy_data(void *stats, void *src) {
-    *(s16 *)((s8 *)stats + 0) = (s16) *(s16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)stats + 2) = (s16) *(s16 *)((s8 *)src + 2);
-    *(s16 *)((s8 *)stats + 4) = (s16) *(s16 *)((s8 *)src + 4);
-    *(s16 *)((s8 *)stats + 6) = (s16) *(s16 *)((s8 *)src + 6);
-    *(s16 *)((s8 *)stats + 8) = (s16) *(s16 *)((s8 *)src + 8);
-    *(s16 *)((s8 *)stats + 0xA) = (s16) *(s16 *)((s8 *)src + 0xA);
-    *(s16 *)((s8 *)stats + 0xC) = (s16) *(s16 *)((s8 *)src + 0xC);
-    *(s16 *)((s8 *)stats + 0xE) = (s16) *(s16 *)((s8 *)src + 0xE);
-    *(f32 *)((s8 *)stats + 0x10) = (f32) *(f32 *)((s8 *)src + 0x10);
-    *(f32 *)((s8 *)stats + 0x14) = (f32) *(f32 *)((s8 *)src + 0x14);
-    *(s32 *)((s8 *)stats + 0x18) = (s32) *(s32 *)((s8 *)src + 0x18);
-    *(s32 *)((s8 *)stats + 0x1C) = (s32) *(s32 *)((s8 *)src + 0x1C);
-    *(s32 *)((s8 *)stats + 0x20) = (s32) *(s32 *)((s8 *)src + 0x20);
+    player_stats *dst = (player_stats *)stats;
+    player_stats *from = (player_stats *)src;
+    dst->stats.atp = from->stats.atp;
+    dst->stats.mst = from->stats.mst;
+    dst->stats.evp = from->stats.evp;
+    dst->stats.hp = from->stats.hp;
+    dst->stats.dfp = from->stats.dfp;
+    dst->stats.ata = from->stats.ata;
+    dst->stats.lck = from->stats.lck;
+    dst->esp = from->esp;
+    dst->proportions = from->proportions;
+    dst->knockback_resist = from->knockback_resist;
+    dst->level = from->level;
+    dst->exp = from->exp;
+    dst->meseta = from->meseta;
 }
 
 u8 is_valid_player_index__6TLobbyFi(s32 index) {

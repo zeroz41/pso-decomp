@@ -169,9 +169,9 @@ s32 load_network_info(void) {
     return found;
 }
 s32 TLobby__sub_80145DB4(s32 mode) {
-    s32 sp8;
-    get_network_adapter_type(&sp8);
-    switch (sp8) {
+    s32 adapter_type;
+    get_network_adapter_type(&adapter_type);
+    switch (adapter_type) {
     case 0:
     case 1:
         return 0;
@@ -195,48 +195,48 @@ s32 TLobby__sub_80145DB4(s32 mode) {
 int is_network_info_loaded(void) {  return (network_info_flags & 0x1); }
 
 s32 TLobby::is_status_zero() {
-    u8 sp8;
+    u8 status;
 
-    if ((TLobby__sub_803F517C(&sp8) == 0) && (sp8 == 0)) {
+    if ((TLobby__sub_803F517C(&status) == 0) && (status == 0)) {
         return 1;
     }
     return 0;
 }
 
 s32 is_state_active() {
-    u8 sp8;
+    u8 state;
 
-    if (TLobby__sub_803F5678((&sp8)) != 0) {
+    if (TLobby__sub_803F5678((&state)) != 0) {
         return 0;
     }
-    if (sp8 == 0) {
+    if (state == 0) {
         return 0;
     }
-    return (u32) __cntlzw(1 - sp8) >> 5;
+    return (u32) __cntlzw(1 - state) >> 5;
 }
 s32 TLobby__sub_80145EE4(void) {
-    u8 sp8;
-    if (TLobby__sub_803F5678((&sp8)) != 0) {
+    u8 state;
+    if (TLobby__sub_803F5678((&state)) != 0) {
         return 0;
     }
-    if (sp8 == 0) {
+    if (state == 0) {
         return 1;
     }
-    return (sp8 == 1) ? 0 : 0;
+    return (state == 1) ? 0 : 0;
 }
 
 
 s32 init_struct(u8 *info) {
-    u8 sp8;
+    u8 state;
 
     if (!(network_info_flags & 1)) {
         return 0;
     }
     memset((void *)((saddr)info), 0, 0x26C);
-    if (TLobby__sub_803F5678(&sp8) != 0) {
+    if (TLobby__sub_803F5678(&state) != 0) {
         return 0;
     }
-    *(s32 *)((s8 *)info + 4) = (s32) sp8;
+    *(s32 *)((s8 *)info + 4) = (s32) state;
     TLobby__sub_803F5748(info + 0xA8);
     TLobby__sub_803F5824(info + 0xAC);
     TLobby__sub_803F5900(info + 0xBC);
@@ -256,7 +256,7 @@ s32 init_struct(u8 *info) {
 }
 
 s32 init_work(s32 unused, u8 *info) {
-    u8 sp28[0x40];
+    u8 scratch[0x40];
     u8 dst[0x20];
 
     memset(info, 0, 0x270);
@@ -273,7 +273,7 @@ s32 init_work(s32 unused, u8 *info) {
     TLobby__sub_803F6000((char *)(info + 0x20C), 0x20);
     TLobby__sub_803F6138((char *)(info + 0x22C), 0x20);
     memset(dst, 0, 0x20);
-    memset(sp28, 0, 0x40);
+    memset(scratch, 0, 0x40);
     TLobby__sub_803F524C((char *)((s32 *)dst), 0x20);
     TLobby__sub_803F53A0(0, (char *)(info + 0xA4), 0x40);
     TLobby__sub_803F53A0(1, (char *)(info + 0xE4), 0x40);

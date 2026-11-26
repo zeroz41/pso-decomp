@@ -803,19 +803,19 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     TLobby::clear_player_slot_tables(-1);
     id = self->route[self->route_pos];
     for (i = 0; i < 4; i++) {
-        file = self->ents[id].k[i];
-        crc = calculate_crc16_ccitt((const u8 *)self->ents[id].h[i], sound_bank_file_sizes[file]);
+        file = self->ents[id].file_index[i];
+        crc = calculate_crc16_ccitt((const u8 *)self->ents[id].file_data[i], sound_bank_file_sizes[file]);
         if (crc != sound_bank_file_crc16[file]) {
             return;
         }
     }
-    sndPushGroup((void *)self->ents[id].h[0], sound_bank_group_ids[id], (void *)self->ents[id].h[3],
-                 musyx_sdir_buffers[self->ents[id].k[2] / 4], (void *)self->ents[id].h[1]);
+    sndPushGroup(self->ents[id].file_data[0], sound_bank_group_ids[id], self->ents[id].file_data[3],
+                 musyx_sdir_buffers[self->ents[id].file_index[2] / 4], self->ents[id].file_data[1]);
     self->stack[self->depth] = id;
     self->depth++;
-    if (self->ents[id].h[3] != 0) {
-        xfree((void *)self->ents[id].h[3]);
-        self->ents[id].h[3] = 0;
+    if (self->ents[id].file_data[3] != 0) {
+        xfree(self->ents[id].file_data[3]);
+        self->ents[id].file_data[3] = 0;
     }
     self->route_pos++;
     if (self->route[self->route_pos] >= 0) {
@@ -844,31 +844,31 @@ void TLobby::fade_voice_channels(s32 step) {
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
     s32 i;
     s32 ret;
-    if (self->ents[id].h[3] != 0) {
-        xfree((void *)self->ents[id].h[3]);
-        self->ents[id].h[3] = 0;
+    if (self->ents[id].file_data[3] != 0) {
+        xfree(self->ents[id].file_data[3]);
+        self->ents[id].file_data[3] = 0;
     }
-    if (self->ents[id].h[2] != 0) {
-        xfree((void *)self->ents[id].h[2]);
-        self->ents[id].h[2] = 0;
+    if (self->ents[id].file_data[2] != 0) {
+        xfree(self->ents[id].file_data[2]);
+        self->ents[id].file_data[2] = 0;
     }
-    if (self->ents[id].h[1] != 0) {
-        xfree((void *)self->ents[id].h[1]);
-        self->ents[id].h[1] = 0;
+    if (self->ents[id].file_data[1] != 0) {
+        xfree(self->ents[id].file_data[1]);
+        self->ents[id].file_data[1] = 0;
     }
-    if (self->ents[id].h[0] != 0) {
-        xfree((void *)self->ents[id].h[0]);
-        self->ents[id].h[0] = 0;
+    if (self->ents[id].file_data[0] != 0) {
+        xfree(self->ents[id].file_data[0]);
+        self->ents[id].file_data[0] = 0;
     }
     for (i = 0; i < 4; i++) {
         self->bank_file_sizes[i] = sound_bank_file_sizes[sound_bank_file_indices[id][i]];
         self->bank_file_sizes[i] = (self->bank_file_sizes[i] + 0x7FF) & ~0x7FF;
-        self->ents[id].h[i] = (uaddr)xmalloc(self->bank_file_sizes[i]);
-        if (self->ents[id].h[i] == 0) {
+        self->ents[id].file_data[i] = xmalloc(self->bank_file_sizes[i]);
+        if (self->ents[id].file_data[i] == 0) {
             ret = 3;
             goto fail;
         }
-        self->ents[id].k[i] = sound_bank_file_indices[id][i];
+        self->ents[id].file_index[i] = sound_bank_file_indices[id][i];
         self->bank_file_handles[i] = ADXF_OpenAfs(0, sound_bank_file_indices[id][i]);
         if (self->bank_file_handles[i] == NULL) {
             ret = 2;
@@ -876,26 +876,26 @@ s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
         }
     }
     for (i = 0; i < 4; i++) {
-        ADXF_ReadNw(self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), (void *)self->ents[id].h[i]);
-        ((TLobby *)(&self->bank_file_handles[i]))->set_entry_params(i, self->bank_file_sizes[i] / 2048, self->ents[id].h[i]);
+        ADXF_ReadNw(self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), self->ents[id].file_data[i]);
+        ((TLobby *)(&self->bank_file_handles[i]))->set_entry_params(i, self->bank_file_sizes[i] / 2048, (s32)self->ents[id].file_data[i]);
     }
     return 0;
 fail:
-    if (self->ents[id].h[3] != 0) {
-        xfree((void *)self->ents[id].h[3]);
-        self->ents[id].h[3] = 0;
+    if (self->ents[id].file_data[3] != 0) {
+        xfree(self->ents[id].file_data[3]);
+        self->ents[id].file_data[3] = 0;
     }
-    if (self->ents[id].h[2] != 0) {
-        xfree((void *)self->ents[id].h[2]);
-        self->ents[id].h[2] = 0;
+    if (self->ents[id].file_data[2] != 0) {
+        xfree(self->ents[id].file_data[2]);
+        self->ents[id].file_data[2] = 0;
     }
-    if (self->ents[id].h[1] != 0) {
-        xfree((void *)self->ents[id].h[1]);
-        self->ents[id].h[1] = 0;
+    if (self->ents[id].file_data[1] != 0) {
+        xfree(self->ents[id].file_data[1]);
+        self->ents[id].file_data[1] = 0;
     }
-    if (self->ents[id].h[0] != 0) {
-        xfree((void *)self->ents[id].h[0]);
-        self->ents[id].h[0] = 0;
+    if (self->ents[id].file_data[0] != 0) {
+        xfree(self->ents[id].file_data[0]);
+        self->ents[id].file_data[0] = 0;
     }
     return ret;
 }
