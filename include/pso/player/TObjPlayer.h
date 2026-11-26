@@ -285,12 +285,13 @@ struct TObjPlayer : public TObjChara {
     PlayerTelepipe telepipe;  // TTecLuker::init_fields, TelepipeState::send_telepipe_packet
     Vec marker_position;  // above the head (calc_marker_position), where the lobby marker is drawn
     void* death_flags;
+    // name through height are the player's CharacterAppearanceFields record.
     char name[0x1C];
     u8 extra_model;
     u8 pad_879[0xF];
     u32 name_colour_checksum;
     u8 section_id;
-    u8 char_class;
+    s8 char_class;
     s8 v2_flags;
     u8 version;
     s32 class_flags;
@@ -308,7 +309,7 @@ struct TObjPlayer : public TObjChara {
     // the hair and head hang from node 0x3B, the attachment from node 0x3A.
     void* hair_model;
     void* head_model;
-    u32 attachment_model;
+    uaddr attachment_model;
     u8 unk_8B8[0x164];
     // Texture lists TChCrLoadReq fills for the head/hair, the attachment and the body.
     u8 head_textures[0x16C];
@@ -1239,6 +1240,7 @@ LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, pad_binding) == 0x5
 LAYOUT_ASSERT(PlayerCollisionBodyOffset, offsetof(TObjPlayer, collision_body) == 0x680);
 LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, extra_model) == 0x878);
 LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, v2_flags) == 0x88E);
+LAYOUT_ASSERT(PlayerHairOffset, offsetof(TObjPlayer, hair) == 0x89C);
 LAYOUT_ASSERT(PlayerHairModelOffset, offsetof(TObjPlayer, hair_model) == 0x8AC);
 LAYOUT_ASSERT(PlayerHeadTexturesOffset, offsetof(TObjPlayer, head_textures) == 0xA1C);
 LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_textures) == 0xB88);

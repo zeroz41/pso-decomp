@@ -1035,7 +1035,7 @@ force_active:
   - resource_param__8TObjDoor
   - update_open__8TObjDoorFv
   - update_closing__8TObjDoorFv
-  - __ct__17TObjEZBoneRotBaseFP7TObjectPvP13EZBoneRotDesc
+  - __ct__17TObjEZBoneRotBaseFP7TObjectP10NJS_OBJECTP13EZBoneRotDesc
   - ez_rope_base_name
   - bal_claw_claw_collision_body_template
   - TObjEneBalClawClaw__ct
@@ -1637,7 +1637,7 @@ force_active:
   - collision_parts__11TObjTuitate
   - trade_collision_name
   - __ct__11TObjTuitateFP7TObjectPv
-  - TObjWaitEntryHairMoveSim__sub_800FE3BC
+  - sub_800FE3BC__24TObjWaitEntryHairMoveSimFP10NJS_OBJECT
   - TObjWarnChime_class_name
   - TObjWarnChime_name
   - __ct__12TObjWarpBaseFP7TObjectPv
@@ -2129,7 +2129,7 @@ force_active:
   - __ct__19TOComputerMachine01FPv
   - __ct__19TOMonumentAncient01FP7TObjectPv
   - __ct__19TOMonumentAncient02FP7TObjectPv
-  - __ct__19TObjEZBoneRotPlayerFP7TObjectPUcPv
+  - __ct__19TObjEZBoneRotPlayerFP10TObjPlayerP10NJS_OBJECTP13EZBoneRotDesc
   - __ct__19TObjEneDelDepthBombFP15TObjEneDelDepthP9TObjCharaPC3Vecl
   - __ct__19TObjStendGlassLobbyFP7TObjectPv
   - __ct__19TWindowMessageYesNoFP7TObjectlPvPv
@@ -5474,7 +5474,7 @@ force_active:
   - create_effect__21TItemProArmorParticleFP7TObjectlUsl
   - create_ending_sequence_player
   - create_entry_list_window__17TWindowSubComCardFv
-  - create_hair_effects__24TObjWaitEntryHairMoveSimFPv
+  - create_hair_effects__24TObjWaitEntryHairMoveSimFv
   - create_help_item__19TWindowSubTradeMainFv
   - spawn_item_follow_star_light__FP7TObjectll
   - create_input_number__19TWindowSubTradeMainFl
@@ -6666,7 +6666,7 @@ force_active:
   - get_model_variant__8TItemMagFv
   - get_motion__12TMotionModelFv
   - get_motion__14TOTrapChainSawFl
-  - get_move_done_result__24TObjWaitEntryHairMoveSimFPv
+  - get_move_done_result__24TObjWaitEntryHairMoveSimFP10TObjPlayer
   - get_network_config_card_channel__Fv
   - get_network_info_card_key__FiPUc
   - get_next_send_chunk__6TLobbyFv
@@ -7290,7 +7290,7 @@ force_active:
   - is_in_view_depth__15TODoorVS2Door01Ff
   - is_in_view_depth__6TSceneFP3Vecff
   - is_inactive__8TItemMagFv
-  - is_level_in_table__24TObjWaitEntryHairMoveSimFPv
+  - is_level_in_table__24TObjWaitEntryHairMoveSimFP10TObjPlayer
   - is_load_complete__12TAdTimeSetGCFv
   - is_lobby_active__17TObjWarpBossMultiFv
   - is_local__8TItemMagFv
@@ -7305,7 +7305,7 @@ force_active:
   - is_mode_0__16TBoss3VoloptCoreFv
   - is_mode_bit6__11TWindowChatFv
   - is_mode_entry_enabled__21TAdMultiSelGameModeGCFlUl
-  - is_move_done__24TObjWaitEntryHairMoveSimFv
+  - is_move_done__24TObjWaitEntryHairMoveSimFP10TObjPlayer
   - is_name_too_long__6TLobbyFPv
   - is_no_service_active__14TShopGeneratorFPvl
   - is_not_special__9TItemDropFv

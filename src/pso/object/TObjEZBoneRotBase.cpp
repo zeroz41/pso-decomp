@@ -42,14 +42,14 @@ void TObjEZBoneRotPlayer::run_task() {
     last_rotation_y = player->rotation_y;
 }
 
-TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc) : TObjEZBoneRotBase(parent, root, (EZBoneRotDesc *)desc) {
+TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObjPlayer *parent, NJS_OBJECT *root, EZBoneRotDesc *desc) : TObjEZBoneRotBase(parent, root, desc) {
     m_name = ez_bone_rot_player_name;
-    player = (TObjPlayer *)parent;
+    player = parent;
     last_rotation_y = player->rotation_y;
 }
 
-void *TObjEZBoneRotPlayer::create(void *parent, void *root, void *desc) {
-    return new TObjEZBoneRotPlayer((TObject *)parent, (u8 *)root, desc);
+TObjEZBoneRotPlayer *TObjEZBoneRotPlayer::create(TObjPlayer *player, NJS_OBJECT *root, EZBoneRotDesc *desc) {
+    return new TObjEZBoneRotPlayer(player, root, desc);
 }
 
 void TObjEZBoneRotPlayer::advance_bone_rotation() {
@@ -129,11 +129,11 @@ void TObjEZBoneRotBase::save_bone_angles() {
 TObjEZBoneRotBase::~TObjEZBoneRotBase() {}
 
 
-TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc *desc) : TObject(parent) {
+TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, NJS_OBJECT *root, EZBoneRotDesc *desc) : TObject(parent) {
     EZBoneRotKey *k;
 
     m_name = ez_bone_rot_base_name;
-    this->root = (NJS_OBJECT *)root;
+    this->root = root;
     this->desc = desc;
     k = this->desc->keys;
     while (k->bone >= 0) {
