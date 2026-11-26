@@ -29,8 +29,8 @@
 #pragma readonly_strings on
 
 
-// Screen x, y of each item icon slot (indexed by get_entry_ptr).
-extern const f32 status_disp_item_icon_coord_table[51][2] = {
+// HUD sprite-sheet pixel origin (u, v) of each item icon, indexed by get_entry_ptr.
+extern const NJS_POINT2 status_disp_item_icon_coord_table[51] = {
     { 161.0f, 98.0f },
     { 179.0f, 98.0f },
     { 197.0f, 98.0f },
@@ -522,8 +522,6 @@ void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
 
 
 
-struct Quad_8025941C { f32 v[8]; };
-
 extern "C" {
 u32 calc_text_width(char *s);
 }
@@ -593,15 +591,15 @@ void ItemListRow::calc_row_width() {
     }
 }
 
-void *get_entry_ptr(int index) {
-    return (char *)status_disp_item_icon_coord_table + (unsigned char)index * 8;
+const NJS_POINT2 *get_entry_ptr(int index) {
+    return &status_disp_item_icon_coord_table[(u8)index];
 }
 
 
 void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon, s32 style, f32 depth) {
-    Quad_8025941C q;
+    TexturedQuad q;
     ItemListPosition *p;
-    f32 *entry;
+    const NJS_POINT2 *entry;
     f32 scale;
     f32 offset;
     f32 edge;
@@ -611,21 +609,21 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
         begin_screen_draw(1);
         set_texture_list(hud_texlist);
         set_draw_texture_and_color(1, style);
-        entry = (f32 *)get_entry_ptr(icon);
+        entry = get_entry_ptr(icon);
         offset = 18.0f;
         scale = 0.00390625f;
-        q.v[0] = p->x;
-        q.v[1] = p->y;
-        q.v[2] = offset + p->x;
-        q.v[3] = offset + p->y;
-        q.v[4] = entry[0] * scale;
-        q.v[5] = entry[1] * scale;
-        edge = offset + entry[0];
-        q.v[6] = edge * scale;
-        edge = offset + entry[1];
-        q.v[7] = edge * scale;
-        if (win->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
-            draw_textured_quad_at_depth(q.v, depth);
+        q.x0 = p->x;
+        q.y0 = p->y;
+        q.x1 = offset + p->x;
+        q.y1 = offset + p->y;
+        q.u0 = entry->x * scale;
+        q.v0 = entry->y * scale;
+        edge = offset + entry->x;
+        q.u1 = edge * scale;
+        edge = offset + entry->y;
+        q.v1 = edge * scale;
+        if (win->clip_and_transform_quad(&q) != 0) {
+            draw_textured_quad_at_depth(&q.x0, depth);
         }
         end_screen_draw();
     }

@@ -10,13 +10,6 @@
 
 #pragma readonly_strings on
 
-struct Win_8026B148 {
-    u8 pad0[0x24];
-    u8 entries[0x5C - 0x24];
-    s32 opening;
-    u8 pad1[0x90 - 0x60];
-};
-
 const char *TWindowMessageQuest::class_name = "TWindowMessageQuest";
 
 static const DefaultQuestMessageExtent default_quest_message_extent = {{384.0f, 80.0f}, 0.0f};
@@ -31,7 +24,7 @@ void TWindowMessageQuest::render() {
     switch (frame_mode) {
     case 0:
         if (c->open_tick < 0) {
-            c->scale[0] = (f32)((Win_8026B148 *)this)->opening / 7.5f;
+            c->scale[0] = (f32)open_tick / 7.5f;
             c->scale[1] = c->scale[0];
         }
         this->draw_quest_message_frame(c);
@@ -42,10 +35,7 @@ void TWindowMessageQuest::render() {
     case 2:
         break;
     }
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(((Win_8026B148 *)this)),
-        reinterpret_cast<const WindowLayoutEntries *>(((Win_8026B148 *)this)->entries),
-        reinterpret_cast<WindowDrawContext *>(c));
+    draw_visible_window_entries(this, &entry_list, c);
 }
 
 

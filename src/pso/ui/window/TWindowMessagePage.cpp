@@ -19,9 +19,6 @@
 const char *TWindowMessagePage::class_name = "TWindowMessagePage";
 
 
-struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
-
-
 s32 TWindowMessagePage::is_ready() {
     if ((u32) this->page_text != 0U) {
         return 0;
@@ -38,12 +35,11 @@ void TWindowMessagePage::update_message() {
 }
 
 void TWindowMessagePage::set_message(void *msg, s32 flags) {
-    Page_8026AE20 *self = (Page_8026AE20 *)this;
-    while (self->msg != NULL) {
+    while (page_text != 0) {
         update_message();
     }
-    self->flags = flags | 2;
-    self->msg = msg;
+    line_mode = flags | 2;
+    page_text = (uaddr)msg;
     update_message();
 }
 

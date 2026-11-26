@@ -48,21 +48,6 @@ WindowDescriptor window_short_cut_layout = {
 };
 
 
-// A shortcut's preview text entry: its flags word and the measured size of its text.
-struct ShortcutPreviewEntry {
-    u16 flags;
-    u8 pad_02[0xE];
-    f32 width;
-    f32 height;
-};
-
-// Sprite origin in pixels on the window's sprite sheet.
-struct SpriteOrigin {
-    f32 u;
-    f32 v;
-};
-
-
 // Icon sprite of each shortcut kind, indexed by kind - 1: text, word select, symbol chat.
 static const u8 shortcut_kind_sprites[] = {0x12, 0x10, 0x11};
 
@@ -77,10 +62,10 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     NJS_POINT2 size;
 
     WindowTextEntry *shortcut_label = (WindowTextEntry *)get_array_entry(0);
-    ShortcutPreviewEntry *shortcut_icon = (ShortcutPreviewEntry *)get_array_entry(2);
-    u8 *detail_icon = (u8 *)get_array_entry(3);
+    WindowSpritePart *shortcut_icon = static_cast<WindowSpritePart *>(get_array_entry(2));
+    WindowSpritePart *detail_icon = static_cast<WindowSpritePart *>(get_array_entry(3));
     WindowTextEntry *kind_label = (WindowTextEntry *)get_array_entry(4);
-    u8 *kind_icon = (u8 *)get_array_entry(6);
+    WindowSpritePart *kind_icon = static_cast<WindowSpritePart *>(get_array_entry(6));
     WindowTextEntry *kind_name = (WindowTextEntry *)get_array_entry(7);
     WindowTextEntry *preview_label = (WindowTextEntry *)get_array_entry(8);
     WindowTextEntry *preview = (WindowTextEntry *)get_array_entry(10);
@@ -89,20 +74,20 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     set_text_entry_string(shortcut_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC4), 0);
     get_shortcut_entry_codes(index, &icon, &icon_detail, client_index);
     if (icon != 0x33) {
-        SpriteOrigin *origin = (SpriteOrigin *)get_entry_ptr(icon);
+        const NJS_POINT2 *origin = get_entry_ptr(icon);
         shortcut_icon->flags &= ~2;
-        reinterpret_cast<WindowSpritePart *>(shortcut_icon)->set_sprite_uv_from_pixels(origin->u, origin->v);
+        shortcut_icon->set_sprite_uv_from_pixels(origin->x, origin->y);
     } else {
         shortcut_icon->flags |= 2;
     }
 
-    SpriteOrigin *detail_origin = (SpriteOrigin *)get_entry_ptr(icon_detail);
-    reinterpret_cast<WindowSpritePart *>(detail_icon)->set_sprite_uv_from_pixels(detail_origin->u, detail_origin->v);
+    const NJS_POINT2 *detail_origin = get_entry_ptr(icon_detail);
+    detail_icon->set_sprite_uv_from_pixels(detail_origin->x, detail_origin->y);
     set_text_entry_string(kind_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC5), 0);
     set_text_entry_string(kind_name, (uaddr)TWindowSubStatusDisp::get_message_10(0xC0 + kind), 0);
     s32 kind_sprite = shortcut_kind_sprites[kind - 1];
-    SpriteOrigin *kind_origin = (SpriteOrigin *)get_entry_ptr(kind_sprite);
-    reinterpret_cast<WindowSpritePart *>(kind_icon)->set_sprite_uv_from_pixels(kind_origin->u, kind_origin->v);
+    const NJS_POINT2 *kind_origin = get_entry_ptr(kind_sprite);
+    kind_icon->set_sprite_uv_from_pixels(kind_origin->x, kind_origin->y);
 
     position.x = 211.0f;
     position.y = 380.0f;

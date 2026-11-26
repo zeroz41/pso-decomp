@@ -24,11 +24,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-
-struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
-
-struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
 const char *TWindowSubInformationBoard::class_name = "TWindowSubInformationBoard";
 
@@ -191,22 +188,24 @@ TWindowMenu *TWindowSubInformationBoard::create_info_board_menu() {
 }
 
 u32 TWindowSubInformationBoard::create_board_menu() {
-    I_8034CDE0 *it;
+    TRecvInfoBoard *board;
+    TInfoBoardEntry *it;
     TWindowMenu *w;
     s32 i;
     s32 n;
-    it = (I_8034CDE0 *)TLobby::get_info_board_ptr();
-    if (it == NULL) {
+    board = static_cast<TRecvInfoBoard *>(TLobby::get_info_board_ptr());
+    if (board == NULL) {
         return 0;
     }
     w = create_titled_window_menu_default(get_window_layout_position(0xA6), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
-    n = ((L_8034CDE0 *)it)->n;
-    it = ((L_8034CDE0 *)it)->items;
+    // The packet's header flags carry the entry count; an entry with no text is listed grayed out.
+    n = board->header.flags;
+    it = board->entries;
     for (i = 0; i < n; i++, it++) {
-        if (it->f10 != 0) {
-            w->add_text_entry((saddr)it, 0x16, i);
+        if (it->text[0] != 0) {
+            w->add_text_entry((saddr)it->name, 0x16, i);
         } else {
-            add_gray_text_entry(w, (const char *)it, 0x16, i);
+            add_gray_text_entry(w, it->name, 0x16, i);
         }
     }
     if (w->get_entry_count() <= 0) {

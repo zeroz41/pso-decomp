@@ -26,7 +26,7 @@ extern s32 chr_select_serial_seeds[];
 extern char memory_card_character_dir_name[];
 extern s32 memcard_access_active;
 }
-int TWindowKeyBoardHard::is_card_flag_set() { return TWindowKeyBoardHard::test_card_flag((saddr)this, 1); }
+s32 TWindowKeyBoardHard::is_card_flag_set(s32 client_id) { return test_card_flag(client_id, 1); }
 void draw_ginja_box_tree(NJS_OBJECT *node) {
     u32 flags;
     NJS_OBJECT *child;

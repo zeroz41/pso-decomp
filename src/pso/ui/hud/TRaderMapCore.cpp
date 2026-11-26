@@ -63,6 +63,7 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/hud/RadarMapData.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
 f32 radar_camera_height_default = 2000.0f;
@@ -102,7 +103,6 @@ static const RadarColor4 radar_player_slot_color_table[4] = {
 extern "C" {
 NJS_POINT2 get_follow_marker_position(TRaderMapCore *core);
 
-s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
 }
 void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos);
 #define RADAR_REGION_MAP ((struct RadarRegionMap *) TRaderMapCore::floor_map_resource)
@@ -400,7 +400,7 @@ void TRaderMapCore::update_target() {
         target_player = player;
     }
     if (target_player != NULL) {
-        if (is_card_flag_set__19TWindowKeyBoardHardFv(target_player->get_entity_id()) != 0) {
+        if (TWindowKeyBoardHard::is_card_flag_set(target_player->get_entity_id()) != 0) {
             this->view_flags |= radar_view_target_flag;
             return;
         }

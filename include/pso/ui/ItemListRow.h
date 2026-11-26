@@ -2,6 +2,7 @@
 #define PSO_UI_ITEMLISTROW_H
 
 #include "types.h"
+struct NJS_POINT2;
 #include "pso/unk/TWindowLayoutRect.h"
 
 struct TItem;
@@ -64,7 +65,8 @@ LAYOUT_ASSERT(ItemListRow_size, sizeof(ItemListRow) == 0x38);
 LAYOUT_ASSERT(ItemListRow_icons_offset, offsetof(ItemListRow, status_icon) == 0x1C);
 LAYOUT_ASSERT(ItemListRow_label_offset, offsetof(ItemListRow, label) == 0x20);
 
-void *get_entry_ptr(int index);
+// The pixel origin of item icon index on the HUD sprite sheet (status_disp_item_icon_coord_table).
+const NJS_POINT2 *get_entry_ptr(int index);
 void draw_item_list_icon(WindowDrawContext *context, ItemListPosition *position, s32 icon, s32 style, f32 depth);
 extern "C" {
 // ItemListRow::ItemListRow(u8 *, s32), called by init_window_layout_entries.

@@ -19,16 +19,19 @@ struct TWindowSubQuestBoard : public TObject {
     TQuestThreadBoard *quest_thread_board;
 
     static const char *class_name;
-    void set_board_flags(s32 value);
-    void set_card_window_flags(s32 value);
-    void clear_card_window_flags(s32 value);
-    void set_card_flags_scaled(s32 value);
-    int set_card_flags_direct(int card_flags_direct);
     virtual void render();
     virtual void run_task();
 };
 
 LAYOUT_ASSERT(TWindowSubQuestBoard_size, sizeof(TWindowSubQuestBoard) == 0x30);
+
+// The quest board option setters TWindowSubOption::update_quest_board_card_flags calls: each stores
+// value into one bit field of client_id's CharacterSaveRecord::card_window_flags.
+void set_board_flags(saddr client_id, s32 value);
+void set_card_window_flags(saddr client_id, s32 value);
+void clear_card_window_flags(saddr client_id, s32 value);
+void set_card_flags_scaled(saddr client_id, s32 value);
+void set_card_flags_direct(saddr client_id, s32 value);
 
 // --- C functions defined in TWindowSubQuestBoard.cpp ---
 extern "C" {
