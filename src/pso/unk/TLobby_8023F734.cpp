@@ -597,27 +597,27 @@ void SoundControlState::set_output_mode(s32 mode) {
 
 
 void TLobby::set_clamped_field27c(f32 value) {
-    f32 var_f1;
+    f32 clamped;
 
-    var_f1 = value;
-    if (var_f1 < 0.0f) {
-        var_f1 = 0.0f;
+    clamped = value;
+    if (clamped < 0.0f) {
+        clamped = 0.0f;
     }
-    if (var_f1 > 1.0f) {
-        var_f1 = 1.0f;
+    if (clamped > 1.0f) {
+        clamped = 1.0f;
     }
-    *(f32 *)((s8 *)this + 0x27C) = var_f1;
+    *(f32 *)((s8 *)this + 0x27C) = clamped;
 }
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-s32 TLobby__sub_8023F880(s32 arg0) {
+s32 TLobby__sub_8023F880(s32 voice) {
   u8 *new_var;
   s8 *new_var2;
-  if ((arg0 >= 0) && (arg0 < 0x28))
+  if ((voice >= 0) && (voice < 0x28))
   {
     new_var = (u8 *)sound_request_voices;
-    new_var2 = (s8 *) (new_var + (arg0 * 0xA0));
+    new_var2 = (s8 *) (new_var + (voice * 0xA0));
     return *((s32 *)(new_var2 + 4));
   }
   return -9;

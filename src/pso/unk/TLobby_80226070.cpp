@@ -105,14 +105,14 @@ void TLobby__sub_8022614C(s32 gain) {
 }
 
 void update_music_stream_gain(s32 user) {
-  unsigned int new_var;
+  unsigned int offset;
   s32 total;
-  new_var = music_gain_offset;
+  offset = music_gain_offset;
   total = user + (*(s32 *)&music_gain_adjust);
   if (music_gain_offset && music_gain_offset)
   {
   }
-  total = new_var + total;
+  total = offset + total;
   music_user_gain = user;
   music_stream_base_gain = total;
   music_stream_gain = (s32) (0.42333332f * ((f32) total));
@@ -162,7 +162,7 @@ int TLobby::init_sound_mode() {
 }
 
 void TLobby::set_sound_output_mode(s32 mode) {
-    s32 var_r30;
+    s32 mode_id;
     u8 *global_state;
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
     if (global_state != NULL) {
@@ -170,7 +170,7 @@ void TLobby::set_sound_output_mode(s32 mode) {
     }
     switch (mode) {
     case 0:
-        var_r30 = 1;
+        mode_id = 1;
         OSSetSoundMode(1);
         break;
     case 2:
@@ -178,14 +178,14 @@ void TLobby::set_sound_output_mode(s32 mode) {
         if (global_state != NULL) {
             *(s16 *)((s8 *)global_state + 0xE) = 1;
         }
-        var_r30 = 2;
+        mode_id = 2;
         break;
     case 1:
         OSSetSoundMode(0);
-        var_r30 = 0;
+        mode_id = 0;
         break;
     }
-    TLobby::set_mode(var_r30);
+    TLobby::set_mode(mode_id);
 }
 void TLobby__sub_8022644C(void) {
     s32 i;
@@ -221,14 +221,14 @@ u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
 
 s32 check_sound_admission(const Vec *position, s32 flags) {
-    s32 var_r3;
+    s32 range;
 
     if (flags & 0x2000) {
-        var_r3 = 0;
+        range = 0;
     } else {
-        var_r3 = check_sound_admission_range(position);
+        range = check_sound_admission_range(position);
     }
-    if (var_r3 == -0x100) {
+    if (range == -0x100) {
         return 0;
     }
     return 1;

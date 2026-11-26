@@ -64,7 +64,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             if (p == NULL) {
                 continue;
             }
-            VecCopy((Vec *)&pos, (const Vec *)((u8 *)p + 0x38));
+            VecCopy(&pos, (const Vec *)((u8 *)p + 0x38));
             copy_player_visual_record(&chr, (u8 *)p + 0x85c);
             ((TLobby *)(&hdr))->copy_header_struct((u8 *)p + 0xdac);
             delete p;

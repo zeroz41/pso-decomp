@@ -1099,7 +1099,7 @@ struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x278C - 0x41C]; B8_801FDFB8 f2
 
 extern "C" {
 s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
-saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr dst, saddr src);
 S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *dest, S_801FE010 *source);
 
 }

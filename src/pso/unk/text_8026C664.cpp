@@ -29,13 +29,13 @@ struct Stack_8026C708
 };
 
 extern "C" {
-void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
+void fn_8026C664(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   f32 buffer_8[8];
-  buffer_8[0] = farg0;
-  buffer_8[1] = farg1;
+  buffer_8[0] = x;
+  buffer_8[1] = y;
   if (arrow_offset < 0.0f)
   {
-    buffer_8[0] = ((f32) ((double) farg0)) + arrow_offset;
+    buffer_8[0] = ((f32) ((double) x)) + arrow_offset;
   }
   buffer_8[2] = 29.0f + buffer_8[0];
   buffer_8[3] = 15.0f + buffer_8[1];
@@ -43,18 +43,18 @@ void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
   buffer_8[5] = 0.3984375f;
   buffer_8[6] = 0.8359375f;
   buffer_8[7] = 0.45703125f;
-  ((WindowDrawContext *)arg0)->transform_quad((TexturedQuad *)&buffer_8[0]);
+  ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&buffer_8[0]);
   draw_textured_quad_at_depth(&buffer_8[0], depth);
 }
 typedef struct Stack_8026C708 Stack_8026C708;
-void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
+void fn_8026C708(u8 *context, f32 x, f32 y, f32 depth, f32 arrow_offset) {
   float new_var;
   Stack_8026C708 stack;
-  stack.sp8 = farg0;
-  stack.spC = farg1;
+  stack.sp8 = x;
+  stack.spC = y;
   if (arrow_offset > 0.0f)
   {
-    stack.sp8 = ((f32) ((double) farg0)) + arrow_offset;
+    stack.sp8 = ((f32) ((double) x)) + arrow_offset;
   }
   stack.sp10 = 29.0f + stack.sp8;
   new_var = 15.0f + stack.spC;
@@ -63,7 +63,7 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
   stack.sp1C = 0.3984375f;
   stack.sp20 = 0.95703125f;
   stack.sp24 = 0.45703125f;
-  ((WindowDrawContext *)arg0)->transform_quad((TexturedQuad *)&stack.sp8);
+  ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&stack.sp8);
   draw_textured_quad_at_depth(&stack.sp8, depth);
 }
 
@@ -72,25 +72,25 @@ void text_builder_append(u8 *str);
 }
 
 
-s32 fn_8026C7AC(void *arg0, s8 arg1) {
-    *(s8 *)((s8 *)arg0 + 0) = 0;
-    *(s8 *)((s8 *)arg0 + 1) = arg1;
+s32 fn_8026C7AC(void *indicator, s8 page) {
+    *(s8 *)((s8 *)indicator + 0) = 0;
+    *(s8 *)((s8 *)indicator + 1) = page;
     return 1;
 }
 
-s32 fn_8026C7C0(void *arg0, s8 arg1) {
-    u8 temp_r0;
+s32 fn_8026C7C0(void *indicator, s8 page) {
+    u8 old_page;
 
-    temp_r0 = *(u8 *)((s8 *)arg0 + 0);
-    if (arg1 == (s8) temp_r0) {
+    old_page = *(u8 *)((s8 *)indicator + 0);
+    if (page == (s8) old_page) {
         return 0;
     }
-    if (arg1 > (s8) temp_r0) {
-        *(f32 *)((s8 *)arg0 + 8) = (f32) 1e+01f;
+    if (page > (s8) old_page) {
+        *(f32 *)((s8 *)indicator + 8) = (f32) 1e+01f;
     } else {
-        *(f32 *)((s8 *)arg0 + 8) = (f32) (-1e+01f);
+        *(f32 *)((s8 *)indicator + 8) = (f32) (-1e+01f);
     }
-    *(u8 *)((s8 *)arg0 + 0) = (u8) arg1;
+    *(u8 *)((s8 *)indicator + 0) = (u8) page;
     return 1;
 }
 #pragma push

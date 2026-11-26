@@ -10,24 +10,24 @@ extern "C" {
 s32 load_unload_set_unload();
 s32 load_unload_set_load(void *);
 
-void *TItemDrop__sub_8010F168(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
+void *TItemDrop__sub_8010F168(void *drop, s16 flags) {
+    if (drop != NULL) {
         load_unload_set_unload();
-        mem_free((void *)(*(saddr *)((s8 *)arg0 + 8)));
-        if (arg1 > 0) {
-            ::operator delete(arg0);
+        mem_free((void *)(*(saddr *)((s8 *)drop + 8)));
+        if (flags > 0) {
+            ::operator delete(drop);
         }
     }
-    return arg0;
+    return drop;
 }
 
-u8 *TItemDrop__sub_8010F1B8(u8 *arg0, s32 arg1, s32 found) {
-    __ct__8FlagWordFv((arg0 + 0xC));
-    *(s32 *)((s8 *)arg0 + 4) = arg1;
-    *(s32 *)((s8 *)arg0 + 0) = found;
-    *(s32 *)((s8 *)arg0 + 8) = (saddr)mem_alloc((found));
-    load_unload_set_load(arg0);
-    return arg0;
+u8 *TItemDrop__sub_8010F1B8(u8 *drop, s32 id, s32 size) {
+    __ct__8FlagWordFv((drop + 0xC));
+    *(s32 *)((s8 *)drop + 4) = id;
+    *(s32 *)((s8 *)drop + 0) = size;
+    *(s32 *)((s8 *)drop + 8) = (saddr)mem_alloc((size));
+    load_unload_set_load(drop);
+    return drop;
 }
 
 }

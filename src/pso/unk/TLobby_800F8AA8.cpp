@@ -919,8 +919,8 @@ void TLobby::clear_player_slot_tables(s32 n) {
 }
 
 void TLobby::set_entry_params(s32 index, s32 sector_count, s32 buffer) {
-    saddr arg0 = (saddr)this;
-    lobby_checked_read_ptr_table[index] = (AdxfHandle **)arg0;
+    saddr handle = (saddr)this;
+    lobby_checked_read_ptr_table[index] = (AdxfHandle **)handle;
     lbl_80499A10[index] = sector_count;
     lbl_80499A20[index] = buffer;
 }

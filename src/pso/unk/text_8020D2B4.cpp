@@ -55,21 +55,21 @@ s32 find_set_factory_index(void *, void *);
 s32 is_battle_mode_running();
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
-void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
-void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
-s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
+void apply_room_transform(saddr matrix, u8 *rotation, u8 *room);
+void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
+s32 is_within_camera_distance(void *unused, void *pos, f32 max_dist_sq);
 void spawn_decorations_in_range(TSetManager *manager);
-void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2) {
+void apply_room_transform(saddr matrix, u8 *rotation, u8 *room) {
     push_matrix_from(&identity_matrix.value);
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)arg2 + 4)), (f32) (*(f32 *)((s8 *)arg2 + 8)), (f32) (*(f32 *)((s8 *)arg2 + 0xC)));
-    rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg2 + 0x18)));
-    rotate_matrix_x(0, (int) (*(s32 *)((s8 *)arg2 + 0x10)));
-    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg2 + 0x14)));
-    matrix_mult_vec(0, (void *)arg0, (void *)arg0);
+    translate_matrix(0, (f32) (*(f32 *)((s8 *)room + 4)), (f32) (*(f32 *)((s8 *)room + 8)), (f32) (*(f32 *)((s8 *)room + 0xC)));
+    rotate_matrix_z(0, (int) (*(s32 *)((s8 *)room + 0x18)));
+    rotate_matrix_x(0, (int) (*(s32 *)((s8 *)room + 0x10)));
+    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)room + 0x14)));
+    matrix_mult_vec(0, (void *)matrix, (void *)matrix);
     pop_matrix();
-    *(s32 *)((s8 *)arg1 + 0) = (s32) (*(s32 *)((s8 *)arg1 + 0) + *(s32 *)((s8 *)arg2 + 0x10));
-    *(s32 *)((s8 *)arg1 + 4) = (s32) (*(s32 *)((s8 *)arg1 + 4) + *(s32 *)((s8 *)arg2 + 0x14));
-    *(s32 *)((s8 *)arg1 + 8) = (s32) (*(s32 *)((s8 *)arg1 + 8) + *(s32 *)((s8 *)arg2 + 0x18));
+    *(s32 *)((s8 *)rotation + 0) = (s32) (*(s32 *)((s8 *)rotation + 0) + *(s32 *)((s8 *)room + 0x10));
+    *(s32 *)((s8 *)rotation + 4) = (s32) (*(s32 *)((s8 *)rotation + 4) + *(s32 *)((s8 *)room + 0x14));
+    *(s32 *)((s8 *)rotation + 8) = (s32) (*(s32 *)((s8 *)rotation + 8) + *(s32 *)((s8 *)room + 0x18));
 }
 
 void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count) {
@@ -108,7 +108,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
     }
 }
 
-void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count) {
+void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count) {
     ResolveSetRowFactoryIndicesOut o;
     FloorObjectSetRow *p;
     s32 i;
@@ -126,19 +126,19 @@ void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int co
     }
 }
 
-s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0) {
+s32 is_within_camera_distance(void *unused, void *pos, f32 max_dist_sq) {
     s32 n;
     s32 i;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (camera_ctrl_instance != NULL) {
             n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {
-                if (xyz_distance_squared(static_cast<const Vec *>(arg1), &camera_ctrl_instance->split_pos[i]) < farg0) {
+                if (xyz_distance_squared(static_cast<const Vec *>(pos), &camera_ctrl_instance->split_pos[i]) < max_dist_sq) {
                     return 1;
                 }
             }
         }
-    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(static_cast<const Vec *>(arg1), &camera_ctrl_instance->pos) < farg0) {
+    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(static_cast<const Vec *>(pos), &camera_ctrl_instance->pos) < max_dist_sq) {
         return 1;
     }
     return 0;
@@ -181,7 +181,7 @@ void TSetManager::update_decoration_spawning() { spawn_decorations_in_range(this
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TSetManager::apply_floor_set_rows() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 current_floor;
     LobbyFloorRows *floor;
     current_floor = get_current_floor();
@@ -203,7 +203,7 @@ void TSetManager::apply_floor_set_rows() {
     }
     if ((s32) floor_decoration_row_count > 0) {
         apply_room_transform_to_object_rows(floor_decoration_rows, floor_decoration_row_count);
-        resolve_set_row_factory_indices(arg0, floor_decoration_rows, floor_decoration_row_count);
+        resolve_set_row_factory_indices(self, floor_decoration_rows, floor_decoration_row_count);
     }
     this->step = 1;
 }

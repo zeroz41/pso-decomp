@@ -38,7 +38,7 @@ extern "C" {
 void TLobby__sub_8020A2AC(void);
 }
 void bswap_event_table_entry(void *p);
-void copy_event_table_entry(void *arg0, void *arg1);
+void copy_event_table_entry(void *dst, void *src);
 void bswap_item_data_record(void *p);
 void bswap_table_header(void *p);
 extern "C" {

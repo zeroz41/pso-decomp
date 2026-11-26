@@ -5,12 +5,12 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMessageInfomation.h"
 saddr create_message_information_window(const NJS_POINT2 *position, saddr extent, saddr client) {
-  u8 *temp_r3;
-  s32 phi_r4;
-  temp_r3 = (u8 *) TLobby__sub_80269CB4();
-  *((s32 *) (((s8 *) temp_r3) + 0x10)) = (s32) ((*((s32 *) (((s8 *) temp_r3) + 0x10))) | 0x20);
+  u8 *state;
+  s32 window;
+  state = (u8 *) TLobby__sub_80269CB4();
+  *((s32 *) (((s8 *) state) + 0x10)) = (s32) ((*((s32 *) (((s8 *) state) + 0x10))) | 0x20);
   TLobby__sub_80269DA4((void *) extent, 0x10);
-  phi_r4 = (saddr)new TWindowMessageInfomation(position, client);
-  *((s32 *) (((s8 *) temp_r3) + 0x10)) = (s32) ((*((s32 *) (((s8 *) temp_r3) + 0x10))) & 0xFFFFFFDF);
-  return phi_r4;
+  window = (saddr)new TWindowMessageInfomation(position, client);
+  *((s32 *) (((s8 *) state) + 0x10)) = (s32) ((*((s32 *) (((s8 *) state) + 0x10))) & 0xFFFFFFDF);
+  return window;
 }

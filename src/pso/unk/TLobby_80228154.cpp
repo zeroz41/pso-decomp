@@ -223,13 +223,13 @@ void run_area_scene_cleanup(FloorTransition *transition) {
 }
 
 
-void load_area_scene_and_init(u8 *arg0) {
+void load_area_scene_and_init(u8 *transition) {
     FloorMapSelection selection;
     FloorMapSelection *selection_ptr;
     s32 value;
     u8 *trans;
-    trans = arg0;
-    value = *(s32 *)((s8 *)arg0 + 4);
+    trans = transition;
+    value = *(s32 *)((s8 *)transition + 4);
     set_current_floor_area((value));
     value = *(s32 *)((s8 *)trans + 0x10);
     TScene::set_scene(value);

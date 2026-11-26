@@ -33,7 +33,7 @@ struct Win_8027DBB8 { u8 pad[0x20]; saddr client_id; };
 extern "C" {
 s32 clear_chat_shortcut();
 }
-s32 store_chat_shortcut(s32 arg0, s32 arg1);
+s32 store_chat_shortcut(s32 index, s32 value);
 extern "C" {
 u32 *get_chat_shortcut();
 }

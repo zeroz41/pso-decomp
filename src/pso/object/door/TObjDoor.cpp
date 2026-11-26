@@ -43,7 +43,7 @@ struct Node_8018E358 { s32 pad0; void *model; };
 struct DoorModelSet { NJS_OBJECT *f0; NJS_OBJECT *f4; Node_8018E358 *c; Node_8018E358 *a; Node_8018E358 *b; };
 struct DoorMotionHeader { void* rows; u32 frameCount; };
 
-s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0);
+s32 check_player_door_proximity(saddr door, s32 expect_clear, f32 radius);
 
 const char *fe_obj_doa_kanban_model_names[6] = {
     "fe_obj_doa_kanban.gj", "fs_obj_doa_shingo_omote.gj", "fs_obj_doa_shingo_ura.gj", "taiki_fe_obj_doa_laz_oya.gj",

@@ -207,27 +207,27 @@ void populate_quest_floor_sets(void) {
     TLobby::free_data_60F0();
 }
 
-bool load_quest_encounter_section(s32 arg0) {
-    s32 sp14;
-    s32 sp10;
-    s32 spC;
+bool load_quest_encounter_section(s32 floor) {
+    s32 type;
+    s32 next_offset;
+    s32 record_floor;
     s32 size;
-    u8 *var_r31;
-    if ((var_r31 = TLobby__data_805D5EE0) != NULL) {
+    u8 *record;
+    if ((record = TLobby__data_805D5EE0) != NULL) {
 loop_1:
-        sp14 = *(s32 *)((s8 *)var_r31 + 0);
-        sp10 = *(s32 *)((s8 *)var_r31 + 4);
-        spC = *(s32 *)((s8 *)var_r31 + 8);
-        size = *(s32 *)((s8 *)var_r31 + 0xC);
-        bswap_32((u32 *)&sp14);
-        bswap_32((u32 *)&sp10);
-        bswap_32((u32 *)&spC);
+        type = *(s32 *)((s8 *)record + 0);
+        next_offset = *(s32 *)((s8 *)record + 4);
+        record_floor = *(s32 *)((s8 *)record + 8);
+        size = *(s32 *)((s8 *)record + 0xC);
+        bswap_32((u32 *)&type);
+        bswap_32((u32 *)&next_offset);
+        bswap_32((u32 *)&record_floor);
         bswap_32((u32 *)&size);
-        if ((sp14 == 3) && (spC == arg0)) {
-            return TLobby::add_player(spC, (saddr)(var_r31 + 0x10), size) != 0;
+        if ((type == 3) && (record_floor == floor)) {
+            return TLobby::add_player(record_floor, (saddr)(record + 0x10), size) != 0;
         }
-        if (sp14 != 0) {
-            var_r31 += sp10;
+        if (type != 0) {
+            record += next_offset;
             goto loop_1;
         }
         goto block_6;
@@ -240,32 +240,32 @@ extern "C" {
 s32 reserve_enemy_set_actor_ids(void *, u32, s32);
 
 s32 TLobby::handle_msg_type2(s32 floor) {
-    s32 sp14;
-    s32 sp10;
-    s32 spC;
+    s32 type;
+    s32 next_offset;
+    s32 record_floor;
     s32 size;
     u8 *lobby;
-    u8 *var_r31;
+    u8 *record;
 
-    if ((var_r31 = TLobby__data_805D5EE0) != NULL) {
+    if ((record = TLobby__data_805D5EE0) != NULL) {
 loop_1:
-        sp14 = *(s32 *)((s8 *)var_r31 + 0);
-        sp10 = *(s32 *)((s8 *)var_r31 + 4);
-        spC = *(s32 *)((s8 *)var_r31 + 8);
-        size = *(s32 *)((s8 *)var_r31 + 0xC);
-        bswap_32((u32 *)&sp14);
-        bswap_32((u32 *)&sp10);
-        bswap_32((u32 *)&spC);
+        type = *(s32 *)((s8 *)record + 0);
+        next_offset = *(s32 *)((s8 *)record + 4);
+        record_floor = *(s32 *)((s8 *)record + 8);
+        size = *(s32 *)((s8 *)record + 0xC);
+        bswap_32((u32 *)&type);
+        bswap_32((u32 *)&next_offset);
+        bswap_32((u32 *)&record_floor);
         bswap_32((u32 *)&size);
-        if ((sp14 == 2) && (spC == floor)) {
-            lobby = var_r31 + 0x10;
+        if ((type == 2) && (record_floor == floor)) {
+            lobby = record + 0x10;
             ((TLobby *)lobby)->bswap_enemy_set_rows(size);
-            reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(spC));
-            TLobby::init_floor_enemy_count(spC, lobby, size);
+            reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(record_floor));
+            TLobby::init_floor_enemy_count(record_floor, lobby, size);
             return 1;
         }
-        if (sp14 != 0) {
-            var_r31 += sp10;
+        if (type != 0) {
+            record += next_offset;
             goto loop_1;
         }
         goto block_6;
@@ -276,32 +276,32 @@ block_6:
 
 
 s32 TLobby::handle_msg_type1(s32 floor) {
-    s32 sp14;
-    s32 sp10;
-    s32 spC;
+    s32 type;
+    s32 next_offset;
+    s32 record_floor;
     s32 byte_size;
     u8 *rows;
-    u8 *var_r31;
+    u8 *record;
 
-    if ((var_r31 = TLobby__data_805D5EE0) != NULL) {
+    if ((record = TLobby__data_805D5EE0) != NULL) {
 loop_1:
-        sp14 = *(s32 *)((s8 *)var_r31 + 0);
-        sp10 = *(s32 *)((s8 *)var_r31 + 4);
-        spC = *(s32 *)((s8 *)var_r31 + 8);
-        byte_size = *(s32 *)((s8 *)var_r31 + 0xC);
-        bswap_32((u32 *)&sp14);
-        bswap_32((u32 *)&sp10);
-        bswap_32((u32 *)&spC);
+        type = *(s32 *)((s8 *)record + 0);
+        next_offset = *(s32 *)((s8 *)record + 4);
+        record_floor = *(s32 *)((s8 *)record + 8);
+        byte_size = *(s32 *)((s8 *)record + 0xC);
+        bswap_32((u32 *)&type);
+        bswap_32((u32 *)&next_offset);
+        bswap_32((u32 *)&record_floor);
         bswap_32((u32 *)&byte_size);
-        if ((sp14 == 1) && (spC == floor)) {
-            rows = var_r31 + 0x10;
+        if ((type == 1) && (record_floor == floor)) {
+            rows = record + 0x10;
             convert_quest_object_rows((struct ConvertQuestObjectRowsQuestObjRow *)rows, byte_size);
-            assign_object_ids((FloorObjectSetRow *)rows, (s32)((u32) byte_size / 68U), get_floor_area(spC));
-            TLobby::load_object_set_entries(spC, rows, byte_size);
+            assign_object_ids((FloorObjectSetRow *)rows, (s32)((u32) byte_size / 68U), get_floor_area(record_floor));
+            TLobby::load_object_set_entries(record_floor, rows, byte_size);
             return 1;
         }
-        if (sp14 != 0) {
-            var_r31 += sp10;
+        if (type != 0) {
+            record += next_offset;
             goto loop_1;
         }
         goto block_6;

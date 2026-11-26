@@ -90,7 +90,7 @@ s32 draw_player_status(void *, void *, const char *);
 s32 submit_cursor_candidate(void *, int);
 }
 
-void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
+void init_6x9C_enemy_low_game_flags_packet(u8 *packet);
 
 
 

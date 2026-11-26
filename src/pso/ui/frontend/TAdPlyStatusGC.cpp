@@ -28,7 +28,7 @@
 struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 
 extern "C" {
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 group, s32 id);
 s32 *get_secondary_slot_summary(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 }

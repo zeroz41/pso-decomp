@@ -342,8 +342,8 @@ void TObjChallenge4PRetry::update_giveup() {
 void *__ct__20TObjChallenge4PRetryFP7TObject(void *, void *);
 
 void TObjChallenge4PRetry::run_task() {
-    u8 *arg0 = (u8 *)this;
-    this->m_20 = ((s32 (*)(void *))is_designated_client)(arg0);
+    u8 *self = (u8 *)this;
+    this->m_20 = ((s32 (*)(void *))is_designated_client)(self);
     switch (this->state) {
     case 0:
         this->update_giveup();
@@ -355,14 +355,14 @@ void TObjChallenge4PRetry::run_task() {
         this->handle_retry_menu_select();
         break;
     case 3:
-        giveup_window_handle_select(arg0);
+        giveup_window_handle_select(self);
         break;
     case 4:
         this->countdown_and_destroy();
         break;
     }
     if (TLobby::is_multi_ready() == 0) {
-        ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
+        ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(self);
         this->close_window();
         this->close_window_field30();
         this->queue_destruction();
@@ -385,10 +385,10 @@ TObjChallenge4PRetry::TObjChallenge4PRetry(TObject *parent) : TObject(parent) {
     this->state = 0;
 }
 
-void *TObjChallenge4PRetry::create(void *arg0) {
+void *TObjChallenge4PRetry::create(void *parent) {
     void *o = TObject::operator new(0x34);
     if (o != NULL) {
-        o = __ct__20TObjChallenge4PRetryFP7TObject(o, arg0);
+        o = __ct__20TObjChallenge4PRetryFP7TObject(o, parent);
     }
     return o;
 }

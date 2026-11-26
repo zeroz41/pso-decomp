@@ -33,13 +33,13 @@ struct SendChallengeRetryCmdStack {
 
 struct TLobbyStack { s32 sp8; s32 spC; s32 sp10; s32 sp14; };
 
-void build_6x8A_packet(u8 *arg0);
-void build_6x95_packet(u8 *arg0);
-void build_6x97_packet(u8 *arg0);
-void build_6x9D_packet(u8 *arg0);
+void build_6x8A_packet(u8 *packet);
+void build_6x95_packet(u8 *packet);
+void build_6x97_packet(u8 *packet);
+void build_6x9D_packet(u8 *packet);
 extern "C" {
 void TLobby__sub_80072724(TLobby *lobby);
-void TLobby__sub_800722AC(s32 arg0);
+void TLobby__sub_800722AC(s32 index);
 void TLobby__sub_80072618(void);
 void TLobby__sub_800727A0(void *player);
 }
@@ -59,16 +59,16 @@ void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
 }
 extern "C" {
 
-void TLobby__sub_800722AC(s32 arg0) {
+void TLobby__sub_800722AC(s32 index) {
     TLobbyStack stack;
     if (is_challenge_mode() == 0) {
         return;
     }
-    if (arg0 < 0 || arg0 >= 4) {
+    if (index < 0 || index >= 4) {
         return;
     }
     build_6x9D_packet((u8 *)&stack);
-    stack.spC = arg0;
+    stack.spC = index;
     TLobby__sub_80072724((TLobby *)&stack);
 }
 
@@ -87,15 +87,15 @@ void TLobby::send_challenge_retry_cmd(s32 choice) {
 }
 
 void handle_6x97_select_challenge_mode_failure_option(void *player) {
-    s32 var_r0;
+    s32 choice;
 
     if (is_challenge_mode() != 0) {
         TLobby__sub_800727A0(player);
-        var_r0 = *(s32 *)((s8 *)player + 8);
-        if ((var_r0 < 0) || (var_r0 > 1)) {
-            var_r0 = 0;
+        choice = *(s32 *)((s8 *)player + 8);
+        if ((choice < 0) || (choice > 1)) {
+            choice = 0;
         }
-        challenge_mode_state.retry_choice = var_r0;
+        challenge_mode_state.retry_choice = choice;
     }
 }
 

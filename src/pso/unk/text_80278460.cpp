@@ -28,16 +28,16 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
         }
     }
 }
-void disable_pack_item_rows(void *qst_pack_select_window, s32 arg1) {
+void disable_pack_item_rows(void *qst_pack_select_window, s32 item) {
     s32 i;
-    u16 *temp_r30;
+    u16 *row;
     for (i = 0; i < *(s16 *)((s8 *)qst_pack_select_window + 0x76); i++) {
-        temp_r30 = (u16 *)((TWindowBase *)qst_pack_select_window)->get_array_entry(i);
-        if ((((TWindowLayoutEntry *)temp_r30)->is_flag_4_set() != 0) && (arg1 == ((ItemListRow *)temp_r30)->get_item())) {
-            ((ItemListRow *)temp_r30)->category_style = 0xFFAAAAAA;
-            ((ItemListRow *)temp_r30)->style = 0xFF909090;
-            ((ItemListRow *)temp_r30)->suffix_style = 0xFF909090;
-            *(u16 *)((s8 *)temp_r30 + 0) = (u16) (*(u16 *)((s8 *)temp_r30 + 0) | 0x80);
+        row = (u16 *)((TWindowBase *)qst_pack_select_window)->get_array_entry(i);
+        if ((((TWindowLayoutEntry *)row)->is_flag_4_set() != 0) && (item == ((ItemListRow *)row)->get_item())) {
+            ((ItemListRow *)row)->category_style = 0xFFAAAAAA;
+            ((ItemListRow *)row)->style = 0xFF909090;
+            ((ItemListRow *)row)->suffix_style = 0xFF909090;
+            *(u16 *)((s8 *)row + 0) = (u16) (*(u16 *)((s8 *)row + 0) | 0x80);
         }
     }
 }

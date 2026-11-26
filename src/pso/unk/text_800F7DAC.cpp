@@ -172,17 +172,17 @@ void TColorOverlayFade::run_task() {
 
 #pragma push
 #pragma fp_contract on
-s32 TColorOverlayFade::lerp_color(f32 farg0) {
-    u8 temp_r10;
-    u8 temp_r11;
-    u8 temp_r12;
-    u8 temp_r31;
+s32 TColorOverlayFade::lerp_color(f32 t) {
+    u8 g0;
+    u8 r0;
+    u8 b0;
+    u8 a0;
 
-    temp_r10 = start_color[1];
-    temp_r12 = start_color[2];
-    temp_r11 = start_color[0];
-    temp_r31 = start_color[3];
-    return (((((((s32) ((farg0 * (f32) (target_color[0] - temp_r11)) + (f32) temp_r11) << 0x18)) | (((s32) ((farg0 * (f32) (target_color[1] - temp_r10)) + (f32) temp_r10) << 0x10) & 0xFF0000 & ~0xFF000000)) & ~0xFF00) | (((s32) ((farg0 * (f32) (target_color[2] - temp_r12)) + (f32) temp_r12) << 8) & 0xFF00)) & ~0xFF) | ((s32) ((farg0 * (f32) (target_color[3] - temp_r31)) + (f32) temp_r31) & 0xFF);
+    g0 = start_color[1];
+    b0 = start_color[2];
+    r0 = start_color[0];
+    a0 = start_color[3];
+    return (((((((s32) ((t * (f32) (target_color[0] - r0)) + (f32) r0) << 0x18)) | (((s32) ((t * (f32) (target_color[1] - g0)) + (f32) g0) << 0x10) & 0xFF0000 & ~0xFF000000)) & ~0xFF00) | (((s32) ((t * (f32) (target_color[2] - b0)) + (f32) b0) << 8) & 0xFF00)) & ~0xFF) | ((s32) ((t * (f32) (target_color[3] - a0)) + (f32) a0) & 0xFF);
 }
 #pragma pop
 

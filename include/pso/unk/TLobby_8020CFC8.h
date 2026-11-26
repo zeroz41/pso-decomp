@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_8020CFC8(void *arg0, void *entry);
+void TLobby__sub_8020CFC8(void *dst, void *entry);
 }
 
 // --- C functions defined in TLobby_8020CFC8.cpp ---
 extern "C" {
-void TLobby__sub_8020CFC8(void *arg0, void *entry);
+void TLobby__sub_8020CFC8(void *dst, void *entry);
 }
 // --- end of C functions
 

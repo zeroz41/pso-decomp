@@ -149,7 +149,7 @@ int TLobby__sub_8014677C(void);
 }
 s32 load_network_info(void);
 extern "C" {
-s32 TLobby__sub_80145DB4(s32 arg0);
+s32 TLobby__sub_80145DB4(s32 mode);
 s32 disconnect_network();
 s32 route4_del(saddr, saddr, saddr);
 s32 route4_add(saddr, saddr, saddr);
@@ -164,8 +164,8 @@ AccountEntry lobby_account_entries[3]; /* cleared by TLobby::init_account_entrie
 NetworkConfig network_config;
 __declspec(section ".data") s32 lbl_8050CE0C[2];
 }
-s32 init_struct(u8 *arg0);
-s32 init_work(s32 arg0, u8 *arg1);
+s32 init_struct(u8 *info);
+s32 init_work(s32 unused, u8 *info);
 s32 get_network_config_buffer_size(s32 mode);
 char lbl_8050CE14[0x20];
 char lbl_8050CE34[0x20];

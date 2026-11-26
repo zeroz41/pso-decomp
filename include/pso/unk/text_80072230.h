@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_800722AC(s32 arg0);
+void TLobby__sub_800722AC(s32 index);
 void TLobby__sub_80072618(void);
 }
 

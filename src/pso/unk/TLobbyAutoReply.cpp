@@ -25,11 +25,11 @@ saddr get_card_window_area() {
     return get_character_save_record(0xFFFF) + 0x2050;
 }
 void set_short_mail_text(char *text) {
-    u8 *temp_r31;
-    temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
+    u8 *mail_text;
+    mail_text = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
     TWindowSubComCard::mask_profanity_words(text, (char *)get_shared_text_buffer());
-    strncpy((char *)temp_r31, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
-    *(s8 *)((s8 *)temp_r31 + 0xAB) = 0;
+    strncpy((char *)mail_text, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
+    *(s8 *)((s8 *)mail_text + 0xAB) = 0;
     auto_reply_flags |= 4;
     if (is_active() != 0) {
         set_flag_bit0(1);
@@ -41,18 +41,18 @@ void set_short_mail_text(char *text) {
 int get_flag_bit0() { return (auto_reply_flags & 0x1); }
 
 s32 set_flag_bit0(s32 enabled) {
-    s32 var_r3;
+    s32 flags;
     s32 ret;
 
     ret = get_flag_bit0();
     if (ret == enabled) {
         return 0;
     }
-    var_r3 = auto_reply_flags & 0xFFFFFFFE;
+    flags = auto_reply_flags & 0xFFFFFFFE;
     if (enabled != 0) {
-        var_r3 = auto_reply_flags | 1;
+        flags = auto_reply_flags | 1;
     }
-    auto_reply_flags = var_r3;
+    auto_reply_flags = flags;
     return 1;
 }
 

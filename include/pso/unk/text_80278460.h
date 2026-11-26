@@ -5,7 +5,7 @@
 
 struct TWindowSubEquipKind;
 
-void disable_pack_item_rows(void *qst_pack_select_window, s32 arg1);
+void disable_pack_item_rows(void *qst_pack_select_window, s32 item);
 
 void mark_unequippable_items(TWindowSubEquipKind *window);
 
