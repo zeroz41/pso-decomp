@@ -829,6 +829,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     self->load_state = 1;
     }
 }
+}
 
 void reset_sound_group_fade() {
     s32 i;
@@ -899,7 +900,6 @@ fail:
         self->ents[id].h[0] = 0;
     }
     return ret;
-}
 }
 
 
