@@ -3,9 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
 void run_end_of_render_tasks(void);
-}
 // The console's video standard: 0 NTSC (30 frames a second), 1 PAL (25); this build always says NTSC.
 // Callers pick frame-rate dependent timings and the music program's ntsc or pal cue by it.
 int get_video_standard();
@@ -13,8 +11,8 @@ s32 get_previous_main_phase(void);
 void set_fallback_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);
 s32 switch_to_fallback_main_phase(void);
-extern "C" {
 void set_keyboard_input_flag(void);
+extern "C" {
 void clear_keyboard_input_flag(void);
 }
 void request_main_phase(s32 phase);
@@ -27,9 +25,7 @@ extern "C" {
 void clear_keyboard_key_state(void);
 }
 void deactivate_keyboard(void);
-extern "C" {
 s32 get_main_phase(void);
-}
 void init_game_systems(void);
 void init_gx_lighting_defaults(void);
 extern "C" {

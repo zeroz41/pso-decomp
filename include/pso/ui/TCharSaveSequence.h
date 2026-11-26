@@ -47,10 +47,8 @@ public:
 };
 LAYOUT_ASSERT(TCharSaveSequence_size, sizeof(TCharSaveSequence) == 0x44);
 
-extern "C" {
 void on_chr_select_fade_out_done(TObject *fade);
 void release_single_ply_chr_select_scene(void);
-}
 void init_single_player_char_select_scene(void);
 void seed_character_select_serial_rng(s32 seed);
 

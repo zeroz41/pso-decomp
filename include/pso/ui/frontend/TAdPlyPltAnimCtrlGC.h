@@ -28,9 +28,7 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
 
 LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
-extern "C" {
 void reset_plate_animations(TAdPlyPltAnimCtrlGC *ctrl);
-}
 
 // Whether every bit of `mask` is set in the flag word.
 s32 test_flags_all(s32 *flags, s32 mask);

@@ -191,7 +191,7 @@ force_active:
   - mount_memcard__Fl
   - open_or_create_memcard_file__FlPCcPvUl
   - __ct__19TAdPlyPltAnimCtrlGCFP7TObject
-  - reset_plate_animations
+  - reset_plate_animations__FP19TAdPlyPltAnimCtrlGC
   - tcp_fasttimo
   - tcp_drop
   - tcp_slowtimo
@@ -281,7 +281,7 @@ force_active:
   - sub_802E18C8__12TAdTimeSetGCFv
   - open_message_choice_by_entries__12TAdTimeSetGCFllll
   - report_missing_file__17TCharSaveSequenceFv
-  - on_chr_select_fade_out_done
+  - on_chr_select_fade_out_done__FP7TObject
   - close_message_window__17TCharSaveSequenceFv
   - enable_prompt__16TCheckMemoryCardFv
   - __ct__16TBGLightningCtrlFP7TObjectPv
@@ -728,9 +728,9 @@ force_active:
   - get_start_task__11LockOnTasksFv
   - __dt__22LockOnTargetRecordListFv
   - __ct__22LockOnTargetRecordListFv
-  - is_adx_logo_done
+  - is_adx_logo_done__FP10TAdADXlogo
   - TLogo__sub_8013F800
-  - is_logo_clear_flag_set
+  - is_logo_clear_flag_set__Fv
   - TMainCursor__ct
   - copy_action_entry__FP19ActionPriorityEntryP19ActionPriorityEntry
   - set_published_target_dist__19LockOnNearestTargetFf
@@ -1584,8 +1584,8 @@ force_active:
   - __ct__13TObjJungleEbiFP7TObjectPv
   - __ct__17TObjSeabedDolphinFP7TObjectPv
   - set_save_time__12TPlyCharDataFUl
-  - draw_model_tinted
-  - draw_model_tinted_opaque
+  - draw_model_tinted__FxP25CharacterAppearanceFieldsf
+  - draw_model_tinted_opaque__FPviPv
   - TObjPlayer__sub_802E75B8
   - TObjPlayer__sub_802E7640
   - TObjPlayer__sub_802E76C8
@@ -5076,7 +5076,7 @@ force_active:
   - __vt__21TObjCityVerticalModel
   - city_vertical_model_y_step
   - select_subtype__16TObjEneMerillLiaFv
-  - clamp_pad_axes
+  - clamp_pad_axes__FP9PADStatus
   - clamp_destination_index__15TObjCityMapWarpFv
   - set_battle_param_difficulty__Fl
   - clamp_flight_height__13TObjEneBm3FlyFv
@@ -8934,7 +8934,7 @@ force_active:
   - mag_sub_transition_frames
   - main_task_dtor_chain
   - make_players__6TLobbyFv
-  - map_pad_buttons
+  - map_pad_buttons__FUs
   - mark_done__12TBoss4ThanksFv
   - mark_done__12TBoss6ThanksFv
   - matrix_identity
@@ -15227,7 +15227,7 @@ force_active:
   - saver_boss_stat_handle
   - saver_collision_body_part_table
   - saver_object_stat_handle
-  - scale_axis_value
+  - scale_axis_value__Fs
   - scale_by_const__10TBoss6TubeFf
   - scale_by_level__14TOTrapChainSawFf
   - scale_owner_height__11TItemMagSubFf

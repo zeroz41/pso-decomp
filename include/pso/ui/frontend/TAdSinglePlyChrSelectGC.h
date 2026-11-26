@@ -274,7 +274,7 @@ extern s32 chr_select_save_slot;
 
 class TAdTitleTexGC;
 struct NJS_POINT2;
-extern "C" void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
+void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 
 s32 get_guild_card_file_block_count(void);
 

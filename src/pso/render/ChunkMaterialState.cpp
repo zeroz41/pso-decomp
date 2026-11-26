@@ -25,8 +25,6 @@ extern s32 pad_slot_state_buffer[0x78];
 
 u32 keyboard_pad_button_count = 12;
 
-extern "C" {
-
 #pragma push
 #pragma scheduling off
 
@@ -118,7 +116,6 @@ PadSlot *get_pad_slot(u32 device) {
         break;
     }
     return &keyboard_control_pad_slots[slot];
-}
 }
 #pragma pop
 

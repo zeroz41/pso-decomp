@@ -582,19 +582,19 @@ TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(pare
 
 void TAdSelectCurGC::set_selection_state(s32 v) { pending_command = v; }
 
-extern "C" {
 s32 TAdChrSelASlotGC::get_state() { return state; }
 void TAdChrSelASlotGC::set_state(s32 value) { state = value; }
 
 void TAdChrSelPlayerGC::request_state(s32 value) {
     pending_state = value;
 }
+extern "C" {
 
 void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
+}
 
 void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third) {
     copy_vec2__FPvPv(&title->rest_pos[0], first);
     copy_vec2__FPvPv(&title->rest_pos[1], second);
     copy_vec2__FPvPv(&title->rest_pos[2], third);
-}
 }

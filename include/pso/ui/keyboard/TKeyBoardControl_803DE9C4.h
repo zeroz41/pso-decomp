@@ -34,7 +34,6 @@ extern PadButtonMapping pad_button_map_table[12];
 
 struct PADStatus;
 
-extern "C" {
 // Device codes 0, 6, 12 and 18 select slots 0-3; any other code gives slot 0.
 PadSlot *get_pad_slot(u32 device);
 // Points the four slots at their status buffers and reads the pads once.
@@ -47,7 +46,6 @@ s32 map_pad_buttons(u16 button_bits);
 s16 scale_axis_value(s16 x);
 // Clamps the main stick of one pad status to +-89 on both axes.
 void clamp_pad_axes(PADStatus *pad);
-}
 void init_light_globals(s32, s32);
 
 void set_model_render_flags(u32 flags);
