@@ -1090,6 +1090,9 @@ struct G_SetSwitchFlagFromTimer_6x93 {
  u16 switch_flag_num;
  u8 should_set;
  u8 unused[3];
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_SetTechniqueLevelOverride_6x8D {

@@ -282,7 +282,7 @@ const QuestCommandTable message_substitution_handlers = { {
 
 void TLobby::capture_chat_sensor() {
     saddr message = (saddr)this;
-    TOChatSensor::dispatch_chat_message_to_children(message);
+    TOChatSensor::dispatch_chat_message_to_children((char *)message);
     TOChatSensorCapture::capture_message((u16)((u16) local_client_id), (const char *)message);
 }
 

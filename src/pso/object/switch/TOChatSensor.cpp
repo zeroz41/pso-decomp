@@ -59,33 +59,29 @@ struct ChatSensorTable {
     char **texts;
 };
 
-extern "C" {
-void *chat_sensor_folder_instance;
+TOChatSensorFolder *chat_sensor_folder_instance;
 
 ChatSensorTable *chat_sensor_table;
 
 TOChatSensorCapture *chat_sensor_capture_instance;
 
-s32 find_chat_keyword(char *, char (*)[0x20], s32);
+extern "C" s32 find_chat_keyword(char *, char (*)[0x20], s32);
 
-
+void G_SetSwitchFlagFromTimer_6x93::init() {
+    header.subcommand = 0x93;
+    header.size = 3;
 }
 
+void G_SetSwitchFlagFromTimer_6x93::bswap() {
+    ((G_ClientIDHeader *)&header)->bswap();
+    bswap_16((u16 *)&switch_flag_floor);
+    bswap_16(&switch_flag_num);
+}
 
-
-struct Packet_8015AD54 {
-    u32 hdr;
-    s16 a;
-    u16 b;
-    u8 c;
-};
-
-
-void TOChatSensor::init_packet_type() { *(u8 *)&this->m_name = 147; *(u8*)((char*)this + 0x1) = 3; }
-
-void TOChatSensor::swap_state_endian() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
-
-void TOChatSensor::send_state() { swap_state_endian(); send_subcommand((u8 *)this); }
+void G_SetSwitchFlagFromTimer_6x93::send() {
+    bswap();
+    send_subcommand(this);
+}
 
 void load_chat_sensor(void) { chat_sensor_table = (ChatSensorTable *)load_encrypted_archive_data("ChatSensor.prs"); }
 
@@ -97,35 +93,32 @@ void TOChatSensor::destroy_global() {
 }
 
 void *TOChatSensor::create(void *set) {
-    u32 temp_r3;
-    u32 temp_r3_2;
-    u32 var_r0;
-    if ((uaddr) chat_sensor_folder_instance == 0U) {
+    if (chat_sensor_folder_instance == NULL) {
         new TOChatSensorFolder(tl_05);
     }
-    if ((uaddr) chat_sensor_folder_instance != 0U) {
-        return new TOChatSensor((TObject *)chat_sensor_folder_instance, set);
+    if (chat_sensor_folder_instance != NULL) {
+        return new TOChatSensor(chat_sensor_folder_instance, set);
     }
     return NULL;
 }
 
-void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
-    void *var_r31;
-    if (chat_sensor_folder_instance != 0U) {
-        var_r31 = *(void **)((s8 *)chat_sensor_folder_instance + 0x14);
-        while (var_r31 != NULL) {
-            ((TOChatSensor *)var_r31)->handle_chat_message((void *)arg0);
-            var_r31 = *(void **)((s8 *)var_r31 + 0xC);
+void TOChatSensor::dispatch_chat_message_to_children(char *message) {
+    TObject *sensor;
+    if (chat_sensor_folder_instance != NULL) {
+        sensor = chat_sensor_folder_instance->m_down;
+        while (sensor != NULL) {
+            ((TOChatSensor *)sensor)->handle_chat_message(message);
+            sensor = sensor->m_next;
         }
     }
 }
 
-TOChatSensor::TOChatSensor(TObject *parent, void *arg2) : TObjBase(parent) {
+TOChatSensor::TOChatSensor(TObject *parent, void *set_data) : TObjBase(parent) {
     s32 n;
     char **t;
     m_name = chat_sensor_name;
-    apply_object_set_data(arg2);
-    script_thread = 0;
+    apply_object_set_data(set_data);
+    script_thread = NULL;
     player_inside = 0;
     init_params();
     n = text_index;
@@ -147,15 +140,15 @@ void TOChatSensor::run_task() {
             check_player_proximity();
             return;
         case 1:
-            if (((u32) this->script_thread != 0U) && (((TObject *)(this->script_thread))->all_parents_unqueued_for_destruction() == 0)) {
-                this->script_thread = 0U;
+            if ((this->script_thread != NULL) && (this->script_thread->all_parents_unqueued_for_destruction() == 0)) {
+                this->script_thread = NULL;
                 this->state = 0;
                 return;
             }
             break;
         }
     } else {
-        if (is_current_floor_switch_set(this->id) == 0) {
+        if (is_current_floor_switch_set(this->switch_id) == 0) {
             check_player_proximity();
             return;
         }
@@ -175,63 +168,61 @@ void TOChatSensor::render() {
 
 void TOChatSensor::init_params() {
     f32 x;
-    s32 temp_r5;
+    s32 index;
 
-    this->kind = (u32) *(u32 *)&this->rotation_x;
+    this->kind = (u32) this->rotation_x;
     if ((u32) this->kind >= 2U) {
         this->kind = 0U;
     }
-    this->match_mode = (u32) *(u32 *)&this->rotation_y;
+    this->match_mode = (u32) this->rotation_y;
     if ((u32) this->match_mode >= 2U) {
         this->kind = 0U;
     }
     x = this->scale.x;
     this->range_squared = (f32) (x * x);
     if ((u32) this->kind == 0U) {
-        *(s32 *)&this->id = (s32) this->set_params[0];
+        this->script_label = (s32) this->set_params[0];
     } else {
-        this->id = (u16) this->set_params[0];
-        if ((u16) this->id > 0x100U) {
-            this->id = 0xFFFF;
+        this->switch_id = (u16) this->set_params[0];
+        if ((u16) this->switch_id > 0x100U) {
+            this->switch_id = 0xFFFF;
         }
     }
-    *(s32 *)&this->text_index = (s32) *(s32 *)&this->set_params[1];
-    temp_r5 = *(s32 *)&this->text_index;
-    if ((temp_r5 != 0) && ((temp_r5 < 0) || (chat_sensor_table->count <= temp_r5))) {
-        *(s32 *)&this->text_index = 0;
+    this->text_index = (s32) this->set_params[1];
+    index = this->text_index;
+    if ((index != 0) && ((index < 0) || (chat_sensor_table->count <= index))) {
+        this->text_index = 0;
     }
-    *(s32 *)&this->state = 0;
+    this->state = 0;
 }
 
-void TOChatSensor::handle_chat_message(void *arg1) {
-    Packet_8015AD54 pkt;
+void TOChatSensor::handle_chat_message(char *message) {
+    G_SetSwitchFlagFromTimer_6x93 pkt;
     s32 r;
     u32 mode;
-    void *o;
-    if (arg1 != NULL && player_inside == 1) {
+    if (message != NULL && player_inside == 1) {
         mode = match_mode;
         r = -1;
         if (mode == 0) {
-            r = find_chat_keyword((char *)arg1, (char (*)[0x20])trigger_text, current_language);
+            r = find_chat_keyword(message, (char (*)[0x20])trigger_text, current_language);
         } else if (mode == 1) {
             r = 0;
         }
         if (r > -1) {
             if (kind == 0) {
                 if (quest_mission_manager != NULL) {
-                    o = new TQuestThread(quest_mission_manager, *(u32 *)&id);
-                    script_thread = (uaddr)o;
-                    if (script_thread != 0) {
-                        ((TObject *)script_thread)->set_parent(tl_00);
+                    script_thread = new TQuestThread(quest_mission_manager, script_label);
+                    if (script_thread != NULL) {
+                        script_thread->set_parent(tl_00);
                     }
                     state = 1;
                 }
-            } else if (this->id < 0x100) {
-                ((TOChatSensor *)(&pkt))->init_packet_type();
-                pkt.a = get_current_floor();
-                pkt.b = this->id;
-                pkt.c = 1;
-                ((TOChatSensor *)(&pkt))->send_state();
+            } else if (this->switch_id < 0x100) {
+                pkt.init();
+                pkt.switch_flag_floor = get_current_floor();
+                pkt.switch_flag_num = this->switch_id;
+                pkt.should_set = 1;
+                pkt.send();
             }
         }
     }

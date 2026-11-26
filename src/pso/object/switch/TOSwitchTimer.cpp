@@ -27,7 +27,7 @@ struct Stack_801781D8 {
 };
 
 void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *command) {
-    ((TOChatSensor *)command)->swap_state_endian();
+    command->bswap();
     if (command->should_set == 1) {
         set_floor_switch_flag(command->switch_flag_num, command->switch_flag_floor);
     } else if (command->switch_flag_floor != get_current_floor()) {
@@ -53,11 +53,11 @@ void TOSwitchTimer::send_switch_states() {
     s32 i;
     if ((u32) this->mode == 0U) {
         if ((u16) this->trigger_switch < 0x100U) {
-            ((TOChatSensor *)(&stack.sp14))->init_packet_type();
+            ((G_SetSwitchFlagFromTimer_6x93 *)(&stack.sp14))->init();
             stack.sp18 = this->floor;
             stack.sp1A = this->trigger_switch;
             stack.sp1C = 0;
-            ((TOChatSensor *)(&stack.sp14))->send_state();
+            ((G_SetSwitchFlagFromTimer_6x93 *)(&stack.sp14))->send();
             clear_floor_switch_flag((this->trigger_switch), (this->floor));
         }
     } else {
@@ -65,11 +65,11 @@ void TOSwitchTimer::send_switch_states() {
         i = 0;
         do {
             if ((u16) *target_switch < 0x100U) {
-                ((TOChatSensor *)(&stack.sp8))->init_packet_type();
+                ((G_SetSwitchFlagFromTimer_6x93 *)(&stack.sp8))->init();
                 stack.spC = this->floor;
                 stack.spE = *target_switch;
                 stack.sp10 = 1;
-                ((TOChatSensor *)(&stack.sp8))->send_state();
+                ((G_SetSwitchFlagFromTimer_6x93 *)(&stack.sp8))->send();
             }
             i += 1;
             target_switch = (u16 *)((u8 *)target_switch + (2));
