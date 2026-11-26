@@ -32,9 +32,8 @@ void unload_items(void);
 
 void find_tool_pmt_base_id(s32 item_id, u8 *item_code);
 f32 get_item_price_coefficient(u8 type, u8 sub);
-extern "C" {
-s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags);
-}
+// The star count of weapon special `special` (0: none or unidentified).
+s32 get_weapon_special_star_count(u8 special);
 s32 get_item_star_count(s32 id);
 u8 get_weapon_class_motion_type(u8 group);
 u8 roll_weapon_special_for_stars(u8 stars);

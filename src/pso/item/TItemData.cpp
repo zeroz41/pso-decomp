@@ -1344,7 +1344,7 @@ s32 TItemData::calc_price() {
           }
         }
 
-        stars = (f32) ((u8) get_unit_attribute_index__10TObjPlayerFUc(data1.data_u8[4]));
+        stars = (f32) (u8)get_weapon_special_star_count(data1.data_u8[4]);
         price = (s32) (((power * ((f32) bonus)) / 100.0f) + (1000.0f * (stars * stars)));
       }
     }
@@ -1652,7 +1652,7 @@ int TItemData::calc_display_grade() {
         if ((u8) base_rarity < 9U) {
             temp_b = this->data1.data_u8[4];
             if (!(temp_b & 0x80)) {
-                base_rarity += get_unit_attribute_index__10TObjPlayerFUc(temp_b);
+                base_rarity += get_weapon_special_star_count(temp_b);
             }
         } else if (this->data1.data_u8[4] & 0x80) {
             base_rarity = 0;
