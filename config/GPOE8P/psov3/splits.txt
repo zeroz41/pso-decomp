@@ -1160,22 +1160,13 @@ pso/effect/particle/ParticleRadial.cpp:
 	.data       start:0x8048E7A8 end:0x8048E7C0
 	.sdata2     start:0x805D9558 end:0x805D9570
 
-pso/system/scene/TEnding_8008C5C0.cpp:
-	.text       start:0x8008C4F4 end:0x8008C6F4
-	.rodata     start:0x80439568 end:0x80439598
-	.data       start:0x8048E7C0 end:0x8048E828
-	.sdata2     start:0x805D9570 end:0x805D9578
-
-pso/system/scene/TEndingC.cpp:
-	.text       start:0x8008C6F4 end:0x8008C6FC
-
 pso/system/scene/TEnding.cpp:
-	.text       start:0x8008C6FC end:0x8008C9FC
-	.rodata     start:0x80439598 end:0x804395A0
-	.data       start:0x8048E828 end:0x8048E840
+	.text       start:0x8008C4F4 end:0x8008C9FC
+	.rodata     start:0x80439568 end:0x804395A0
+	.data       start:0x8048E7C0 end:0x8048E840
 	.sdata      start:0x805D2950 end:0x805D2958
 	.sbss       start:0x805D4F08 end:0x805D4F10
-	.sdata2     start:0x805D9578 end:0x805D957C
+	.sdata2     start:0x805D9570 end:0x805D957C
 
 pso/system/scene/TEndingAB.cpp:
 	.text       start:0x8008C9FC end:0x8008D00C

@@ -662,11 +662,9 @@ pso/effect/TDuelEffectNumber.cpp
 pso/effect/TDuelEffectString.cpp
 pso/system/scene/TEnding.cpp
 pso/system/scene/TEndingAB.cpp
-pso/system/scene/TEndingC.cpp
 pso/system/scene/TEndingCWall.cpp
 pso/system/scene/TEndingPic.cpp
 pso/system/scene/TEndingPicStage.cpp
-pso/system/scene/TEnding_8008C5C0.cpp
 pso/effect/enemy/TEneEffHamon.cpp
 pso/effect/enemy/TEneParticleCtrl.cpp
 pso/render/TFogCtrl.cpp
