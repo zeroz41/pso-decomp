@@ -29,6 +29,7 @@ public:
     void mark_entry_by_id(s32 entry_id);
     void disable_entry_by_id(s32 id);
     void update_next_entry(void *label, void *string, s32 id);
+    void add_text_entry(uaddr label_text, s32 id);
     void set_entry_string_by_id(void *string, s32 entry_id);
     void create_sub_window(const char *title);
     u16 state_flags;

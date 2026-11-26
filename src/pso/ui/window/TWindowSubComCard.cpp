@@ -1324,7 +1324,7 @@ TWindowChoiceSetting *TWindowSubComCard::sub_80272DE0() {
             idx++;
         }
     }
-    ((TWindowSubStatusDisp *)w)->add_text_entry(get_message_text(0x4A), 0);
+    w->add_text_entry(get_message_text(0x4A), 0);
     w->set_flag_10();
     return w;
 }
@@ -1544,7 +1544,7 @@ TKeyBoardControl *TWindowSubComCard::create_keyboard(s32 card_index) {
     TKeyBoardControl *control;
 
     control = new TKeyBoardControl(this, 0xC6, 3, 4, local_client_id);
-    control->set_text((char *)((TWindowSubComCard *)card_index)->get_card_entry_data());
+    control->set_text(get_card_note_text(card_index));
     control->set_sub_position((u8 *)get_window_layout_position(0xBB));
     control->set_flag62_bit2();
     control->set_soft_flag60_bit1();
@@ -1613,7 +1613,7 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
 void TWindowSubComCard::set_card_index(s32 card_index) {
     if ((s32) this->m_28 != card_index) {
         this->m_28 = card_index;
-        this->message_window->append_line((saddr)((TWindowSubComCard *)(saddr)card_index)->get_card_entry_data(), 0x82);
+        this->message_window->append_line((saddr)get_card_note_text(card_index), 0x82);
     }
 }
 #pragma push

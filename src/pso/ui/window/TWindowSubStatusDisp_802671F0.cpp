@@ -772,12 +772,12 @@ void TWindowMenuInfomation::update_next_entry(void *label, void *string, s32 id)
     }
 }
 
-void TWindowSubStatusDisp::add_text_entry(s32 arg1, s32 arg2) {
-    s16 temp_r4;
+void TWindowMenuInfomation::add_text_entry(uaddr label_text, s32 id) {
+    s16 next_row;
 
-    temp_r4 = *(s16 *)((s8 *)this + 0x72);
-    if (temp_r4 < (s16) *(s16 *)((s8 *)this + 0x76)) {
-        ((LabelValueRow *)(get_array_entry(temp_r4)))->set_text(arg1, arg2);
-        *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
+    next_row = next_entry;
+    if (next_row < entry_capacity) {
+        ((LabelValueRow *)(get_array_entry(next_row)))->set_text(label_text, id);
+        ++next_entry;
     }
 }

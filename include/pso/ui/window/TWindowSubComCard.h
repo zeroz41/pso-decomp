@@ -23,6 +23,7 @@ struct TWindowSubComCard : public TObject {
     static void update_selection(TWindowMenu *list_window, TWindowComCard *card_window, s32 *last_selected, s32 cards);
     static void update_selection(TWindowMenu *list_window, TWindowComCard *card_window, s32 *last_selected);
     static GuildCardSlot *get_card_entry(s32 index);
+    static char *get_card_note_text(s32 index);
     TWindowSubComCard(TObject *parent, s32 client);
     virtual ~TWindowSubComCard();
     void rebuild_com_card_list(TWindowMenu *list_window);
@@ -90,7 +91,6 @@ struct TWindowSubComCard : public TObject {
     static TWindowSubComCardList *sub_802754EC(const NJS_POINT2 *position);
     static f32 trunc_float(f32 value);
     void set_card_text(saddr src);
-    u8 *get_card_entry_data();
     static GuildCardSlot *find_card_by_id(u32 id);
     static void swap_cards(s32 first_index, s32 second_index);
     static s32 init_com_card();

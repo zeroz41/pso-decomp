@@ -35,12 +35,12 @@ void TWindowSubComCard::set_card_text(saddr src) {
         }
     }
 }
-u8 *TWindowSubComCard::get_card_entry_data() {
-    GuildCardSlot *slot = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(this)));
+char *TWindowSubComCard::get_card_note_text(s32 index) {
+    GuildCardSlot *slot = TWindowSubComCard::get_card_entry(index);
     if (slot == NULL) {
         return NULL;
     }
-    return reinterpret_cast<u8 *>(slot->note.text);
+    return slot->note.text;
 }
 
 GuildCardSlot *TWindowSubComCard::find_card_by_id(u32 id) {

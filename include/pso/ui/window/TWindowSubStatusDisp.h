@@ -83,7 +83,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_animated_target(s32 meseta, f32 frames);
     static void update_palette_sprite();
     void init_scroll_pos();
-    void add_text_entry(s32 arg1, s32 arg2);
     static f32 get_base_y(f32 width);
     void update_entry_color();
     void set_entry_state(s8 entry_state);

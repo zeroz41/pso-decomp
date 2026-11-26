@@ -178,7 +178,7 @@ TWindowMenuInfomation *TWindowMakeTeam::create_menu() {
     information_counter_window->update_next_entry(TWindowSubStatusDisp::get_message_10(0x4E), 0, 1);
     information_counter_window->update_next_entry(TWindowSubStatusDisp::get_message_10(0x4F), 0, 2);
     information_counter_window->update_next_entry(TWindowSubStatusDisp::get_message_10(0x50), 0, 3);
-    ((TWindowSubStatusDisp *)information_counter_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x51), 4);
+    information_counter_window->add_text_entry((uaddr)TWindowSubStatusDisp::get_message_10(0x51), 4);
     return information_counter_window;
 }
 
