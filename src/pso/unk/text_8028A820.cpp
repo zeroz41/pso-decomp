@@ -1,10 +1,51 @@
-#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/system/BmlResourceLoader.h"
-#include "pso/render/psoLoadTexture.h"
+#include "pso/unk/text_8028A714.h"
 #include "pso/unk/text_8028A820.h"
+#include "pso/system/memory.h"
+#include "pso/system/BmlResource.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/network/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+
+u8 *get_green_door_motion(s32 index) {
+    if (green_door_bml_resource != NULL) {
+        return (u8 *)get_bml_motion(green_door_bml_resource, index);
+    }
+    return NULL;
+}
+NJS_TEXLIST *get_green_door_texlist(s32 index) {
+    if (green_door_bml_resource != NULL) {
+        return get_bml_texlist((BmlResource *)green_door_bml_resource, index);
+    }
+    return NULL;
+}
+u8 *get_green_door_model(s32 index) {
+    if (green_door_bml_resource != NULL) {
+        return (u8 *)get_bml_model((BmlResource *)green_door_bml_resource, index);
+    }
+    return NULL;
+}
+
+BmlResource *green_door_bml_resource;
+NJS_TEXLIST *green_door_texture_handle;
+
+void TLobby::free_shared_objects() {
+    if (green_door_texture_handle != NULL) {
+        release_texture_list(green_door_texture_handle);
+        safe_free(green_door_texture_handle);
+        green_door_texture_handle = NULL;
+    }
+    if (green_door_bml_resource != NULL) {
+        delete green_door_bml_resource;
+        green_door_bml_resource = NULL;
+    }
+}
+
 extern BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor;
 extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
 void load_green_door_resources(void) {
