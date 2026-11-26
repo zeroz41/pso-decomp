@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void bswap_16(u16 *p);
-void bswap_32(u32 *p);
+void bswap_16(u16 *val);
+void bswap_32(u32 *val);
 
 #endif
