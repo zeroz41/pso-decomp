@@ -144,28 +144,6 @@ struct TLobby : public TObject {
     void bswap_fields();
     void bswap_header_3words();
     static char *init_serial_access();
-    static void update_floor();
-    static void update_floor_a();
-    static void update_floor_state();
-    static s32 setup_area();
-    static s32 spawn_boss3_volopt_ctrl();
-    static void reset_subsystems();
-    static s32 init_lobby_scene();
-    static void cleanup_floor_state();
-    static s32 init_gryphon_area();
-    static void run_floor_update();
-    static void update_floor_and_windows();
-    static void update_scene();
-    static void cleanup_boss3_scene();
-    static s32 setup_scene();
-    static void update_floor_objects();
-    static void update_all();
-    static void update_floor_download();
-    static s32 init_lobby_floor_scene();
-    static void update_floor_alt();
-    static void update_floor_b();
-    static void refresh_floor_state();
-    static void run_floor_update_2();
     static void create_map_csn_ctrl();
     static s32 is_status_zero();
 

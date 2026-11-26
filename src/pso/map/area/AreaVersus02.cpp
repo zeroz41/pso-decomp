@@ -15,7 +15,7 @@
 
 #pragma readonly_strings on
 
-void TLobby::run_floor_update_2() {
+void cleanup_temple_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     unload_current_floor_resources();

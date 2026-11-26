@@ -19,7 +19,7 @@ void cleanup_boss3_area(void) {
     TLobby::clear_session_buffers();
 }
 
-s32 TLobby::spawn_boss3_volopt_ctrl() {
+s32 init_boss3_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

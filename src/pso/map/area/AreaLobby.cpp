@@ -24,7 +24,7 @@ void (*lobby_floor_scene_callbacks[12])(void) = {
     TAdMcSelectGC::close, TAdMcSelectGC::open,
 };
 
-void TLobby::update_floor_download() {
+void cleanup_lobby_area(void) {
     TQuestVmDownLoadServer::free_download_buffers();
     unload_current_floor_resources();
     TLobby::update_current_floor();
@@ -35,7 +35,7 @@ void TLobby::update_floor_download() {
     TLobby::clear_session_buffers();
 }
 
-s32 TLobby::init_lobby_floor_scene() {
+s32 init_lobby_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (run_load_callback_table(lobby_floor_scene_callbacks, sizeof(lobby_floor_scene_callbacks)) == 0) {
         return 0;

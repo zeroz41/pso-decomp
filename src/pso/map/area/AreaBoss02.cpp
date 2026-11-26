@@ -24,7 +24,7 @@ void cleanup_boss2_area(void) {
     TLobby::clear_session_buffers();
 }
 
-s32 TLobby::setup_area() {
+s32 init_boss2_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

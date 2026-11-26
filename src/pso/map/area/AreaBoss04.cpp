@@ -9,7 +9,7 @@
 #include "pso/boss/darkfalz/TBoss4CheckEmpty.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-void TLobby::reset_subsystems() {
+void cleanup_boss4_area(void) {
     TParticleCtrl::free_heap();
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
@@ -19,7 +19,7 @@ void TLobby::reset_subsystems() {
     TLobby::clear_session_buffers();
 }
 
-s32 TLobby::init_lobby_scene() {
+s32 init_boss4_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

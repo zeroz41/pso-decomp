@@ -11,7 +11,7 @@
 
 #pragma readonly_strings on
 
-void TLobby::update_floor_b() {
+void cleanup_machine2_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     TLobby::update_current_floor();
@@ -19,7 +19,7 @@ void TLobby::update_floor_b() {
     TLobby::clear_session_buffers();
 }
 
-s32 init_machine_b_scene(void) {
+s32 init_machine2_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

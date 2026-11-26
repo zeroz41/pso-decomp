@@ -27,7 +27,7 @@ void (*gryphon_area_cleanup_callbacks[2])(void) = {
     TLobby::cleanup_boss5_pillars, TLobby::cleanup_pillar_demo,
 };
 
-void TLobby::cleanup_floor_state() {
+void cleanup_gryphon_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     stop_cue_stream();
@@ -38,7 +38,7 @@ void TLobby::cleanup_floor_state() {
     TLobby::clear_session_buffers();
 }
 
-s32 TLobby::init_gryphon_area() {
+s32 init_gryphon_area(void) {
     Light_80140514 l;
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {

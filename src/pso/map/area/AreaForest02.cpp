@@ -12,7 +12,7 @@
 
 #pragma readonly_strings on
 
-void TLobby::update_all() {
+void cleanup_forest2_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     unload_current_floor_resources();
@@ -20,7 +20,7 @@ void TLobby::update_all() {
     TLobby::clear_session_buffers();
 }
 
-s32 init_forest_b(void) {
+s32 init_forest2_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

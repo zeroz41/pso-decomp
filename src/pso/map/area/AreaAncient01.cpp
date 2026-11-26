@@ -13,7 +13,7 @@
 
 #pragma readonly_strings on
 
-void TLobby::update_floor() {
+void cleanup_ancient1_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     unload_current_floor_resources();
@@ -21,7 +21,7 @@ void TLobby::update_floor() {
     TLobby::clear_session_buffers();
 }
 
-s32 ship_scene_update(void) {
+s32 init_ancient1_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

@@ -43,7 +43,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     gba_download_alloc_buffer, gba_download_free_buffer,
 };
 
-void TLobby::cleanup_boss3_scene() {
+void cleanup_city_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     TTecRaFoie__sub_80226254();
@@ -53,7 +53,7 @@ void TLobby::cleanup_boss3_scene() {
     TLobby::clear_session_buffers();
 }
 
-s32 TLobby::setup_scene() {
+s32 init_city_area(void) {
     load_floor_sound_bank(get_current_floor_area());
     TLobby__sub_80207E44();
     if (TLobby::check_disconnect_conditions() != 0) {
