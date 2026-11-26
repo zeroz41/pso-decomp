@@ -4,7 +4,6 @@
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
