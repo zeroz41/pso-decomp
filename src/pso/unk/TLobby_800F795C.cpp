@@ -12,7 +12,7 @@
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 #include "pso/unk/TLobby_800F795C.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/npc/TObjNpcFemale.h"
 #include "pso/npc/TObjNpcFomarl.h"
 #include "pso/npc/TObjNpcMale.h"

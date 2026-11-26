@@ -30,7 +30,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 
 

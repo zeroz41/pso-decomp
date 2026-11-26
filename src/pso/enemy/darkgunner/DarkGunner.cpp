@@ -76,7 +76,7 @@
 
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 
 #include "pso/enemy/saver/SaverLifecycle.h"
 

@@ -3,7 +3,6 @@
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/unk/TLobby_801E43E4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/network/TProtocol.h"

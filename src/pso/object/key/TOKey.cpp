@@ -6,7 +6,7 @@
 #include "pso/render/render_util.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/network/client_id.h"
 #include "pso/npc/TObjNpcEnemy.h"

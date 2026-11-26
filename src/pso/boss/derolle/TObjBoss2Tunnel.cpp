@@ -51,7 +51,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"

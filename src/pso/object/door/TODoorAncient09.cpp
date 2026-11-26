@@ -7,7 +7,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80160804.h"
 #include "pso/network/protocol/subcmd_6x.h"

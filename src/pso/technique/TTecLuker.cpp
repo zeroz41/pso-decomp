@@ -11,7 +11,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/technique/TTelepipeSelectField.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/object/TActorLight.h"
 #include "pso/map/FloorArea.h"

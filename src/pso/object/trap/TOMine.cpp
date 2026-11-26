@@ -43,7 +43,7 @@ struct game_command_header;
 #include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/trap/TOMineIcon01.h"
 #include "pso/technique/TTecCtrl.h"

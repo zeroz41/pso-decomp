@@ -1,7 +1,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/object/warp/ForestWarpResources.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/object/TObjGbAdvance.h"
 #include "pso/system/byteswap.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"

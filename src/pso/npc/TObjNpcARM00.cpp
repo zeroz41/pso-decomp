@@ -4,7 +4,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcARM00.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/npc/TObjNpcARW00.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TObjNpcMale.h"

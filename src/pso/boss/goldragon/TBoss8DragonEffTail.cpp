@@ -22,7 +22,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 
 const char *TBoss8DragonEffTail::name = "TBoss8DragonEffTail";
 // As TBoss1DragonEffTail's: what run_task hands its attack history.

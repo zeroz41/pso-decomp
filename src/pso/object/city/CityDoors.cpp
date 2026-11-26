@@ -44,7 +44,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/PlayerSlots.h"
 

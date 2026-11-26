@@ -1,3 +1,4 @@
+#include "pso/render/psoLoadTexture.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/GinjaTexture.h"

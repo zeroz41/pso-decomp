@@ -26,7 +26,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
 
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 
 #include "types.h"
 #include "pso/object/base/HitEligibility.h"

@@ -1,3 +1,4 @@
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/derolle/Boss2CommonResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"

@@ -3,7 +3,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "types.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/system/byteswap.h"

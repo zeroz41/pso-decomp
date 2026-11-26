@@ -11,7 +11,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/network/protocol/subcommand_validation.h"

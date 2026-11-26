@@ -40,7 +40,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TMotorcycle.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/unk/text_803D8F74.h"

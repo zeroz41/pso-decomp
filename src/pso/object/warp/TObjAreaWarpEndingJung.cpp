@@ -76,7 +76,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/object/warp/ForestWarpResources.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/ControllerInputState.h"

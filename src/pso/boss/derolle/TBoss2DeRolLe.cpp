@@ -20,7 +20,7 @@ struct NJS_OBJECT;
 
 #include "pso/network/protocol/protocol_types.h"
 
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/network/protocol/protocol.h"
 #include "pso/object/TObjControl.h"
 

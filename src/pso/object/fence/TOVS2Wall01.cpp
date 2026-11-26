@@ -28,7 +28,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TOVS2.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/map/TObjMapCsn.h"

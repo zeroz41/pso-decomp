@@ -27,7 +27,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/object/trap/TOTrapAncient02.h"

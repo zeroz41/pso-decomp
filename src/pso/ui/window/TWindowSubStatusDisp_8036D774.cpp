@@ -17,7 +17,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/unk/text_803DAFA8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
 

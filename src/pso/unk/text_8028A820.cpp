@@ -1,7 +1,7 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/BmlResourceLoader.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/unk/text_8028A820.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"

@@ -20,7 +20,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/camera/CameraAngles.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/ParticleStrip.h"

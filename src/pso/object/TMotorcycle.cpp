@@ -21,7 +21,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 

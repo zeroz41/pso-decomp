@@ -1,4 +1,4 @@
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResource.h"

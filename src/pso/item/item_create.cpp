@@ -3,7 +3,7 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/client_id.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/data/FlagWord.h"

@@ -2,7 +2,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"

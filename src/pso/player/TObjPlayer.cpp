@@ -48,7 +48,7 @@
 #include "pso/player/TPlyPtclObjectRightHand.h"
 #include "pso/player/PlayerTechniqueState.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include <string.h>

@@ -5,7 +5,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"

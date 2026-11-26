@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/MatrixTransforms.h"
 

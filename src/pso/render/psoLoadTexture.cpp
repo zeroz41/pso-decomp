@@ -7,8 +7,7 @@
 #include "pso/network/client_id.h"
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_801E43E4.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/TLanguage.h"
 #include "pso/network/TProtocol.h"
@@ -29,98 +28,7 @@
 #include "pso/system/BmlResource.h"
 
 extern "C" {
-s32 append_command_to_batch_buffer(void *, void *);
 s32 distort_texture_wave_image(void *);
-}
-
-
-void long_game_command_union::send_to_client(u32 client_id) {
-    u32 size;
-
-    size = ext_game_cmd.header.size;
-    bswap_32(&size);
-    if ((u32) local_client_id == client_id) {
-        dispatching_own_subcommand = 1;
-        dispatch_6x_subcommand((G_ParameterHeader *)this);
-        dispatching_own_subcommand = 0;
-        return;
-    }
-    if (TLobby::protocol_instance != NULL) {
-        TLobby::protocol_instance->send_pso_data_long2(client_id, game_cmd, size);
-    }
-}
-
-void send_subcommand_to_leader(void *cmd) {
-    s32 size;
-    game_command *packet = (game_command *)cmd;
-
-    size = packet->header.size * 4;
-    if (get_main_phase() == 0xE) {
-        dispatching_own_subcommand = 1;
-        dispatch_6x_subcommand((G_ParameterHeader *)packet);
-        dispatching_own_subcommand = 0;
-        return;
-    }
-    if (TLobby::protocol_instance != NULL) {
-        TLobby::protocol_instance->send_pso_data2(designated_client_id, *packet, size);
-    }
-}
-
-void game_command::send_to_client(u32 client_id) {
-    s32 size;
-    size = header.size * 4;
-    if ((u32) local_client_id == client_id) {
-        dispatching_own_subcommand = 1;
-        dispatch_6x_subcommand((G_ParameterHeader *)this);
-        dispatching_own_subcommand = 0;
-        return;
-    }
-    if (TLobby::protocol_instance != NULL) {
-        TLobby::protocol_instance->send_pso_data2(client_id, *this, size);
-    }
-}
-
-void game_command::send() {
-    int size = header.size * 4;
-    if (TLobby::protocol_instance != NULL) {
-        TLobby::protocol_instance->send_pso_data(*this, size);
-    }
-}
-
-void send_subcommand(void *cmd) {
-    game_command *packet = (game_command *)cmd;
-    s32 size = packet->header.size * 4;
-    if (TLobby::protocol_instance != NULL) {
-        TLobby::protocol_instance->send_pso_data(*packet, size);
-    }
-    dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand((G_ParameterHeader *)packet);
-    dispatching_own_subcommand = 0;
-}
-
-void broadcast_subcommand(void *cmd) {
-    TObject *client;
-
-    if ((s32) TLobby::join_state_flag == 1) {
-        send_subcommand(cmd);
-        return;
-    }
-    if (game_protocol_instance != NULL) {
-        client = game_protocol_instance->m_down;
-        while (client != NULL) {
-            append_command_to_batch_buffer(client, cmd);
-            client = client->m_next;
-        }
-    }
-    dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand((G_ParameterHeader *)cmd);
-    dispatching_own_subcommand = 0;
-}
-
-void G_LegacyActivateSwitchByToken_6x04::bswap() {
-    ((G_ClientIDHeader *)&header)->bswap();
-    bswap_16(&switch_token);
-    bswap_16(&unused);
 }
 
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {

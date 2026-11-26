@@ -4837,14 +4837,14 @@ pso/unk/TLobby_801E2F94.cpp:
 	.sdata2     start:0x805DC418 end:0x805DC444
 
 pso/network/TGameProtocol.cpp:
-	.text       start:0x801E3F60 end:0x801E43E4
+	.text       start:0x801E3F60 end:0x801E468C
 	.rodata     start:0x80449738 end:0x80449798
 	.data       start:0x804C5238 end:0x804C57E0
 	.sdata      start:0x805D3590 end:0x805D3594
 	.sbss       start:0x805D5E48 end:0x805D5E58
 
-pso/unk/TLobby_801E43E4.cpp:
-	.text       start:0x801E43E4 end:0x801E4BCC
+pso/render/psoLoadTexture.cpp:
+	.text       start:0x801E468C end:0x801E4BCC
 	.rodata     start:0x80449798 end:0x80449850
 	.sbss       start:0x805D5E58 end:0x805D5E5C
 	.sdata2     start:0x805DC448 end:0x805DC44C

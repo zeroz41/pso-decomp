@@ -1,4 +1,4 @@
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResourceLoader.h"
@@ -21,7 +21,6 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/TLanguage_801E4874.h"
 
 const char *boss06_tube_dat_model_names[4] = { "boss06_light01.gj", "boss06_light02.gj", "boss06_tube01.gj", NULL };
 const char *boss06_tube_dat_motion_names[1] = { NULL };

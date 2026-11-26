@@ -1,3 +1,4 @@
+#include "pso/render/psoLoadTexture.h"
 #include "pso/render/TriangleFan3D.h"
 // Character-creation sprite tables, ruler lines and UI sprite helpers (one TU).
 // One-TU evidence: resolve_creation_sprite_table addresses the three cell tables as offsets

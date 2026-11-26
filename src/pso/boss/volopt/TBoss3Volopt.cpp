@@ -31,7 +31,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"

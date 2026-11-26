@@ -24,7 +24,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/text_803DA798.h"

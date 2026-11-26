@@ -4,7 +4,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/byteswap.h"

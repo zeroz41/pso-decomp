@@ -5,7 +5,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/technique/TechniqueId.h"

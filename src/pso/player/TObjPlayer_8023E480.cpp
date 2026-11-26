@@ -1,3 +1,4 @@
+#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/Adxf.h"

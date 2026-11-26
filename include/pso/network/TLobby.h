@@ -33,8 +33,6 @@ struct TPlyChallenge;
 struct TRecvInfoBoard;
 struct TRecvChoiceSearchOptions;
 struct ChoiceSearchResultList;
-s32 psoLoadTexture(NJS_TEXLIST *texlist);
-s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist);
 s32 LoadBmlExec(BmlResource *bml, const char *name);
 
 struct TLobbyFloorItemEntry {

@@ -1,6 +1,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCallBack.h"

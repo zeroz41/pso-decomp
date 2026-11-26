@@ -1,7 +1,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/byteswap.h"

@@ -1,3 +1,4 @@
+#include "pso/render/psoLoadTexture.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/GinjaUvScroll.h"

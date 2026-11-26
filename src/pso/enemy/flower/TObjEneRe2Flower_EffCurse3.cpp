@@ -1,3 +1,4 @@
+#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTextureInput.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"

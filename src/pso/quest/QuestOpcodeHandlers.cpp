@@ -137,7 +137,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/GbaAramCache.h"
 #include "pso/object/warp/ForestWarpResources.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/map/AreaEventSet.h"
 #include "pso/network/GbaJoybootState.h"

@@ -5,7 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"

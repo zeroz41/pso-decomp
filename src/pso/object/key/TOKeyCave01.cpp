@@ -5,7 +5,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyCave01.h"
 #include "pso/ui/hud/TRaderMapCore.h"

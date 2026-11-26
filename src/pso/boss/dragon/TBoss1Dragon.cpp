@@ -27,7 +27,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"

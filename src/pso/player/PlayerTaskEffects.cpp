@@ -76,7 +76,7 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 #include "pso/network/TLobby.h"
 #include "pso/system/vector.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/unk/text_8020C354.h"

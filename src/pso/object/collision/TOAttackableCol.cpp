@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TQuestManager.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/object/collision/TOAttackableCol.h"
 #include "types.h"
 #include "pso/system/byteswap.h"

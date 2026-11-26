@@ -1,3 +1,4 @@
+#include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "types.h"
 #include "pso/system/memory.h"

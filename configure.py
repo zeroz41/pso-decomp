@@ -936,7 +936,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/beast/TObjEneBeast.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # psoLoadTexturePvmFile reaches each .rodata object with its own lis/addi (no shared base): -pool off.
-    "pso/unk/TLobby_801E43E4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/render/psoLoadTexture.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/system/scene/OfflineGameScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/system/scene/OnlineLobbyScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # run_task reaches each of its four .rodata initialiser templates with its own lis/addi: -pool off.

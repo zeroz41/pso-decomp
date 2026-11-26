@@ -751,7 +751,7 @@ pso/unk/TLobby_801D3518.cpp
 pso/unk/TLobby_801D6BF8.cpp
 pso/network/LobbyRuleSettings.cpp
 pso/unk/TLobby_801E2F94.cpp
-pso/unk/TLobby_801E43E4.cpp
+pso/render/psoLoadTexture.cpp
 pso/unk/TLobby_801F3A24.cpp
 pso/unk/TLobby_80207644.cpp
 pso/unk/TLobby_80207DA8.cpp

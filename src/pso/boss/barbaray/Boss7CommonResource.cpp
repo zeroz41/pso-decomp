@@ -1,3 +1,4 @@
+#include "pso/render/psoLoadTexture.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/boss/barbaray/Boss7CommonResource.h"

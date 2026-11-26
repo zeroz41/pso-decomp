@@ -25,7 +25,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 
 
 BmlResource *dragon_ground_resource;

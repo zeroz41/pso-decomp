@@ -15,7 +15,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/base/TObjCharaHelpers.h"

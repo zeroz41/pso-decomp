@@ -25,7 +25,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/npc/TObjNpcBringer.h"
 #include "pso/npc/TObjNpcEnemy.h"

@@ -1,5 +1,5 @@
 #include "pso/system/memory.h"
-#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/psoLoadTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -901,7 +901,6 @@ void *TObjEneLappy::create(void *set) {
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/player/PlayerSlots.h"
