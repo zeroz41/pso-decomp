@@ -9,7 +9,7 @@ struct NJS_OBJECT;
 struct TObjComputer : public TObjMesBase {
     TObjComputer(TObject *parent, ObjectSetData *placement);
     virtual ~TObjComputer();
-    virtual void vfunc_14();
+    virtual void update_idle();
     virtual void clear_ref_if_destroyed();
     virtual void debug_draw_label();
     NJS_OBJECT *screen_model;

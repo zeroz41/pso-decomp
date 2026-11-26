@@ -65,9 +65,9 @@ TObjChip::TObjChip(TObject *parent, const TObjChipParams *params) : TObject(pare
     copy_debris_params(&this->params, params);
     pad_1c = 200.0f;
     pad_20 = 40.0f;
-    pad_230 = 1;
+    alive = 1;
     if (init_chips() == 0) {
-        pad_230 = 0;
+        alive = 0;
     }
 }
 
@@ -94,16 +94,16 @@ TObjChip::TObjChip(TObject *parent, TObjChipSpawnParams *params) : TObject(paren
     copy_debris_params(&this->params, &params->chip);
     pad_1c = 200.0f;
     pad_20 = 40.0f;
-    pad_230 = 1;
+    alive = 1;
     if (spawn_chips(&params->pad_4C) == 0) {
-        pad_230 = 0;
+        alive = 0;
     }
 }
 TObjChip::~TObjChip() {}
 
 void TObjChip::run_task() {
     tick_chips();
-    if (vfunc_8() == 1) {
+    if (is_finished() == 1) {
         queue_destruction();
     }
 }
@@ -112,8 +112,8 @@ void TObjChip::render() {
     render_chips();
 }
 
-s32 TObjChip::vfunc_8() {
-    return pad_230 == 0;
+s32 TObjChip::is_finished() {
+    return alive == 0;
 }
 
 #pragma push
@@ -246,14 +246,14 @@ void TObjChip::tick_chips() {
         }
     }
     if (active == 0) {
-        pad_230 = 0;
+        alive = 0;
     }
 }
 #pragma pop
 void TObjChip::render_chips() {
     TObjFish::set_global_param(params.textures);
     if (params.flags & 0x10) {
-        vfunc_12();
+        draw_ginja_chips();
         return;
     }
     draw_chips();
@@ -324,7 +324,7 @@ void TObjChip::draw_chips() {
         }
     }
 }
-void TObjChip::vfunc_12() {
+void TObjChip::draw_ginja_chips() {
     TObjChipPiece *p = pieces;
     s32 i;
     s32 j;

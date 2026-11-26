@@ -572,7 +572,7 @@ TObjSuisoChip::TObjSuisoChip(TObjBase *owner, TObjChipSpawnParams *params) : TOb
 
 TObjSuisoChip::~TObjSuisoChip() {}
 
-void TObjSuisoChip::vfunc_12() {
+void TObjSuisoChip::draw_ginja_chips() {
     TObjChipPiece *piece;
     s32 i;
 
@@ -596,6 +596,6 @@ s32 TObjSuisoChip::is_in_view(Vec *center, f32 max_depth, f32 radius) {
     return TObjChip::is_in_view(&origin, max_depth, radius);
 }
 
-s32 TObjSuisoChip::vfunc_8() {
-    return TObjChip::vfunc_8();
+s32 TObjSuisoChip::is_finished() {
+    return TObjChip::is_finished();
 }

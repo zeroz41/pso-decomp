@@ -82,7 +82,7 @@ void TMotorcycle::render() {
     }
 }
 
-void TMotorcycle::vfunc_14() {  }
+void TMotorcycle::update_idle() {  }
 
 
 extern "C" void *create_stage_motorcycle(void *placement) {

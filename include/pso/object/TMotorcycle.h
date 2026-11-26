@@ -9,7 +9,7 @@ struct NJS_TEXLIST;
 struct TMotorcycle : public TObjMesBase {
     TMotorcycle(TObject *parent, ObjectSetData *placement);
     virtual ~TMotorcycle();
-    virtual void vfunc_14();
+    virtual void update_idle();
     virtual void debug_draw_label();
     virtual s32 update_object_view_visibility(f32 depth, f32 radius);
     s32 m_bc; // model index, picked by placement parity (scale.x)

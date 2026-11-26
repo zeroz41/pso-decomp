@@ -12,15 +12,15 @@ public:
     TObjSuisoChip(TObjBase *owner, TObjChipSpawnParams *params);
     TObjSuisoChip(TObjBase *owner, TObjChipParams *params);
     virtual ~TObjSuisoChip();
-    virtual s32 vfunc_8();
+    virtual s32 is_finished();
     virtual s32 is_in_view(Vec *center, f32 max_depth, f32 radius);
-    virtual void vfunc_12();
+    virtual void draw_ginja_chips();
 
     static const char *class_name;
 
     Vec origin;      // the owner's position
     s32 rotation_y;  // the owner's y turn
-    s32 pad_244;     // 1 hides the chips in vfunc_12
+    s32 pad_244;     // 1 hides the chips in draw_ginja_chips
     s32 pad_248;
 };
 

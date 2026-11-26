@@ -7,7 +7,7 @@
 struct TObjGbAdvance : public TObjMesBase {
     TObjGbAdvance(TObject *parent, ObjectSetData *placement);
     virtual ~TObjGbAdvance();
-    virtual void vfunc_14();
+    virtual void update_idle();
     static void free_shared_data();
     static void load_resource_instance();
     virtual void render();

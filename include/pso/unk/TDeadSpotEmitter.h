@@ -10,7 +10,7 @@ public:
     TDeadSpotEmitter(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius);
     virtual ~TDeadSpotEmitter();
     virtual void run_task();
-    virtual void vfunc_6();
+    virtual void place_emitter();
     Vec position;
     f32 radius;
     s32 timer;     // frames since the last emitter move (name inferred)

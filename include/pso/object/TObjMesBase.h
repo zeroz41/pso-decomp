@@ -9,7 +9,7 @@ class TQuestThread;
 struct TObjMesBase : public TObjCollidable {
     TObjMesBase(TObject *parent, ObjectSetData *placement);
     virtual ~TObjMesBase();
-    virtual void vfunc_14();
+    virtual void update_idle();
     virtual void clear_ref_if_destroyed();
     virtual void debug_draw_label();
     virtual void interact(u16 client);

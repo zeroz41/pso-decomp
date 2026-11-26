@@ -61,13 +61,13 @@ void TObjMesBase::clear_ref_if_destroyed() {
         this->messagePhase = 0;
     }
 }
-void TObjMesBase::vfunc_14() {  }
+void TObjMesBase::update_idle() {  }
 
 void TObjMesBase::run_task() {
 
     switch (this->messagePhase) {
     case 0:
-        this->vfunc_14();
+        this->update_idle();
         return;
     case 1:
         this->clear_ref_if_destroyed();

@@ -263,7 +263,7 @@ TDeadSpotEmitter::TDeadSpotEmitter(TObject *parent, Vec *position, TParticleCtrl
 #pragma pop
 TDeadSpotEmitter::~TDeadSpotEmitter() {}
 
-void TDeadSpotEmitter::vfunc_6() {
+void TDeadSpotEmitter::place_emitter() {
   Vec stack;
   f32 x;
   s32 angle;
@@ -284,7 +284,7 @@ void TDeadSpotEmitter::run_task() {
     timer++;
     if (timer >= interval) {
         timer = 0;
-        vfunc_6();
+        place_emitter();
     }
 }
 
@@ -295,7 +295,7 @@ TDeadSpotGroundEmitter::TDeadSpotGroundEmitter(TObject *parent, Vec *position, T
 TDeadSpotGroundEmitter::~TDeadSpotGroundEmitter() {}
 #pragma push
 #pragma opt_common_subs off
-void TDeadSpotGroundEmitter::vfunc_6() {
+void TDeadSpotGroundEmitter::place_emitter() {
     Vec stack;
     f32 x;
     s32 angle;

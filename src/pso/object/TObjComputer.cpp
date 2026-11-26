@@ -132,8 +132,8 @@ void *create_stage_computer(void *placement) {
     return new TObjComputer(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
 }
 
-void TObjComputer::vfunc_14() {
-    TObjMesBase::vfunc_14();
+void TObjComputer::update_idle() {
+    TObjMesBase::update_idle();
     if ((s32) this->messageLabel != 0) {
         submit_cursor_candidate(this, -1);
     }
@@ -205,8 +205,8 @@ TObjGbAdvance::~TObjGbAdvance() {
     free_collision_body_parts(this);
 }
 
-void TObjGbAdvance::vfunc_14() {
-    TObjMesBase::vfunc_14();
+void TObjGbAdvance::update_idle() {
+    TObjMesBase::update_idle();
     if ((s32) this->messageLabel != 0) {
         submit_cursor_candidate(this, -1);
     }

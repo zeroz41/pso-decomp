@@ -17382,12 +17382,12 @@ force_active:
   - remove_member__19TObjEneMe1GeeLeaderFP13TObjEneMe1Gee
   - update_state__12TQuestListVMFv
   - update_state__17TQuestListOfflineFv
-  - vfunc_12__8TObjChipFv
+  - draw_ginja_chips__8TObjChipFv
   - vfunc_13__21TObjCityVerticalModelFl
   - init_params__22TObjFogCollisionPoisonFv
   - init_params__22TObjFogCollisionSwitchFv
-  - vfunc_14__12TObjComputerFv
-  - vfunc_14__13TObjGbAdvanceFv
+  - update_idle__12TObjComputerFv
+  - update_idle__13TObjGbAdvanceFv
   - draw_debug_labels__14TOTrapChainSawFv
   - pre_draw__15TORockJungleL01Fv
   - pre_draw__15TORockJungleM01Fv
