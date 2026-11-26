@@ -545,7 +545,7 @@ void TTradeList::build_from_trade_window() {
             id = e->id;
             if (n > 0) {
                 if (id == 0xFFFFFF01) {
-                    ((TItemData *)(&item))->init_meseta(n);
+                    ((&item))->init_meseta(n);
                     items[item_count++].copy_from(&item);
                 } else if ((found = find_item_by_id(id)) != NULL) {
                     found->copy_to_item_data(&item);

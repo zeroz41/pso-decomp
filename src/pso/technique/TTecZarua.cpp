@@ -28,9 +28,8 @@ void TTecZarua::create_instance(void *caster, Vec *pos, TargetCursorList *target
 
 
 void TTecZarua::calc_range() {
-    u8 *arg0 = (u8 *)this;
     TechniqueParams *params = calc_technique_parameters(0xC, this->level, 0xFFFF);
-    ((TechniqueParams *)(arg0 + 0x88))->copy(params);
+    this->params.copy(params);
     this->params.power = (f32)(this->params.power_per_level * this->level);
 }
 

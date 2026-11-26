@@ -285,6 +285,7 @@ LAYOUT_ASSERT(TObjCharaTpMaxOffset, offsetof(TObjChara, tpmax) == 0x2BA);
 LAYOUT_ASSERT(TObjCharaHpBonusOffset, offsetof(TObjChara, hp_bonus) == 0x2BC);
 LAYOUT_ASSERT(TObjCharaTpBonusOffset, offsetof(TObjChara, tp_bonus) == 0x2BE);
 LAYOUT_ASSERT(TObjCharaHpOffset, offsetof(TObjChara, hp) == 0x32C);
+LAYOUT_ASSERT(TObjCharaBodyCenterOffset, offsetof(TObjChara, body_center) == 0x2FC);
 LAYOUT_ASSERT(TObjCharaTpOffset, offsetof(TObjChara, tp) == 0x32E);
 LAYOUT_ASSERT(TObjCharaBaseStatsOffset, offsetof(TObjChara, stat_block) == 0x2B0);
 LAYOUT_ASSERT(TObjCharaAttackParamsOffset, offsetof(TObjChara, attack_params) == 0x318);

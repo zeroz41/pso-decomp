@@ -8,7 +8,7 @@ public:
     TExplosionCollider(TObject *parent, S_802E451C *params);
     virtual ~TExplosionCollider();
     virtual void run_task();
-    f32 pad_C4; // run_task grows body.radius up to it, then destroys the collider
+    f32 max_radius; // run_task grows body.radius up to it, then destroys the collider
 };
 LAYOUT_ASSERT(TExplosionCollider_size, sizeof(TExplosionCollider) == 0xC8);
 

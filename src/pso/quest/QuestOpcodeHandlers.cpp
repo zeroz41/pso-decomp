@@ -696,18 +696,18 @@ union IntFloat { s32 i; f32 f; };
 
 struct ComputeBezierCurvePointGlobals {
     s32 count;
-    f32 f4;
-    f32 f8;
-    s32 fC;
+    f32 scale;
+    f32 step;
+    s32 closed;
     s32 out;
     u32 id;
 };
 
 struct GetVectorFromPathGlobals {
     s32 count;
-    f32 f4;
-    f32 f8;
-    s32 fC;
+    f32 scale;
+    f32 step;
+    s32 closed;
     s32 out;
     u32 id;
 };
@@ -875,7 +875,7 @@ void qst_op_scroll_text() {
     s32 y = qst_args[1];
     s32 cols = qst_args[2];
     s32 rows = qst_args[3];
-    s32 field90 = qst_args[4];
+    s32 frame_mode = qst_args[4];
     f32 timer = *(f32 *)&qst_args[5];
     s32 msg = qst_args[6];
     s32 arg = qst_args[7];
@@ -889,7 +889,7 @@ void qst_op_scroll_text() {
     size.x = 8.0f + (f32)(cols * 0x12);
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     win = open_message_scroll_window(&pos, &size, &qst_registers[msg]);
-    win->set_frame_mode(field90);
+    win->set_frame_mode(frame_mode);
     dispatch_message_window_text(win, arg, 0x13);
     win->set_scroll_speed(timer);
     qst_message_window = win;
@@ -971,7 +971,7 @@ void qst_op_chat_box() {
     s32 y = qst_args[1];
     s32 cols = qst_args[2];
     s32 rows = qst_args[3];
-    s32 field90 = qst_args[4];
+    s32 frame_mode = qst_args[4];
     s32 arg = qst_args[5];
 
     if (qst_message_window != NULL) {
@@ -982,7 +982,7 @@ void qst_op_chat_box() {
     size.x = 8.0f + (f32)(cols * 0x12);
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     qst_message_window = create_quest_message_window_at(&pos, &size);
-    qst_message_window->set_frame_mode(field90);
+    qst_message_window->set_frame_mode(frame_mode);
     dispatch_message_window_text(qst_message_window, arg, 3);
     qst_suspend_reason = QST_WAIT_MESSAGE;
     TWindowCtrl::set_flag_bit2();
@@ -1594,9 +1594,9 @@ void qst_op_compute_bezier_curve_point() {
     Vec v;
     ComputeBezierCurvePointGlobals *g = (ComputeBezierCurvePointGlobals *)qst_args;
     s32 count = g->count;
-    f32 f4 = g->f4;
-    f32 f8 = g->f8;
-    s32 fC = g->fC;
+    f32 scale = g->scale;
+    f32 step = g->step;
+    s32 closed = g->closed;
     s32 out = g->out;
     CurvePathPoint *pts;
     s32 i;
@@ -1610,7 +1610,7 @@ void qst_op_compute_bezier_curve_point() {
     for (i = 0; i < count; i++) {
         pts[i].bswap();
     }
-    ret = compute_bezier_curve_point(pts, f4, count, f8, fC, &v, 100);
+    ret = compute_bezier_curve_point(pts, scale, count, step, closed, &v, 100);
     dst = (Vec *)&qst_registers[out];
     dst->x = v.x;
     dst->y = v.y;
@@ -1626,9 +1626,9 @@ void qst_op_get_vector_from_path() {
     Vec v;
     GetVectorFromPathGlobals *g = (GetVectorFromPathGlobals *)qst_args;
     s32 count = g->count;
-    f32 f4 = g->f4;
-    f32 f8 = g->f8;
-    s32 fC = g->fC;
+    f32 scale = g->scale;
+    f32 step = g->step;
+    s32 closed = g->closed;
     s32 out = g->out;
     CurvePathPoint *pts;
     s32 i;
@@ -1642,7 +1642,7 @@ void qst_op_get_vector_from_path() {
     for (i = 0; i < count; i++) {
         pts[i].bswap();
     }
-    ret = get_vector_from_path(pts, f4, count, f8, fC, &v);
+    ret = get_vector_from_path(pts, scale, count, step, closed, &v);
     dst = (Vec *)&qst_registers[out];
     dst->x = v.x;
     dst->y = v.y;
@@ -4249,15 +4249,11 @@ void qst_op_p_dead(void) {
                 qst_registers[dest_reg] = 1;
                 return;
             }
-            goto block_7;
-        }
-        if (player->check_player_state_flag_2() != 0) {
+        } else if (player->check_player_state_flag_2() != 0) {
             qst_registers[dest_reg] = 1;
             return;
         }
-        goto block_7;
     }
-block_7:
     qst_registers[dest_reg] = 0;
 }
 

@@ -854,9 +854,9 @@ void TQuestVmDownLoadServer__sub_803E7F9C(u8 *text, s16 mode) {
     lbl_805D7820 = 1;
 }
 
-s32 TQuestVmDownLoadServer::is_char_allowed(const u8 *self_bytes, s16 len) {
-  int new_var;
-  u8 c = *self_bytes;
+s32 TQuestVmDownLoadServer::is_char_allowed(const u8 *text, s16 len) {
+  int bit_index;
+  u8 c = *text;
   s32 bit;
   s32 rowi;
   const u8 *p;
@@ -864,7 +864,7 @@ s32 TQuestVmDownLoadServer::is_char_allowed(const u8 *self_bytes, s16 len) {
   {
     return 0;
   }
-  p = self_bytes + 1;
+  p = text + 1;
   rowi = c - 0xA1;
   if (len == 1)
   {
@@ -882,8 +882,8 @@ s32 TQuestVmDownLoadServer::is_char_allowed(const u8 *self_bytes, s16 len) {
     }
     bit = d - 0xA0;
   }
-  new_var = (rowi * 0xB) + (bit >> 3);
-  if ((1 << (bit & 7)) & lbl_805D7824[new_var])
+  bit_index = (rowi * 0xB) + (bit >> 3);
+  if ((1 << (bit & 7)) & lbl_805D7824[bit_index])
   {
     return 0;
   }

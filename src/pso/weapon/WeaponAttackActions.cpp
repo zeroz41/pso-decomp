@@ -64,25 +64,16 @@ struct Node_8011EB84 { u8 b[0x2C]; };
 
 struct Skel_8011EB84 { u8 pad[0x1C]; Node_8011EB84 n[1]; };
 
-typedef struct A12_8011E3E8 { s32 a; s32 b; s32 c; } A12_8011E3E8;
-
-typedef struct A16_8011E3E8 { s32 a; s32 b; s32 c; s32 d; } A16_8011E3E8;
-
-
-
 extern "C" {
 f32 * get_weapon_range_record(void *, s16);
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
 extern const f32 lbl_805DAC94;
-extern A12_8011E3E8 weapon_light_direction[];
-extern A16_8011E3E8 weapon_light_color[];
+extern Vec weapon_light_direction[];
+extern NJS_ARGB weapon_light_color[];
 struct Stack_8011E56C {
     s32 sp8;
     f32 spC;
 };
-
-
-struct ShotVector { f32 x,y,z; };
 
 
 TObjChara *resolve_hittable_target(s32, s32);
@@ -100,9 +91,9 @@ void TItemWeapon::set_weapon_category_flags() {
     set_weapon_flags(flags);
 }
 
-void TItemWeapon::drain_owner_hp_fraction(f32 farg0) {
+void TItemWeapon::drain_owner_hp_fraction(f32 fraction) {
     if (owner != NULL) {
-        subtract_actor_hp(owner, (farg0 * (f32) ((TObjChara *)owner)->get_hpmax()));
+        subtract_actor_hp(owner, (fraction * (f32) ((TObjChara *)owner)->get_hpmax()));
     }
 }
 
@@ -115,16 +106,15 @@ s32 TItemWeapon::is_mode_two_and_ready() {
 }
 
 void TItemWeapon::spawn_light_task() {
-    A12_8011E3E8 a = weapon_light_direction[0];
-    A16_8011E3E8 b = weapon_light_color[0];
-    new TActorLight(0.2f, (NJS_ARGB *)&b, (Vec *)&a, 1, owner, tl_07);
+    Vec direction = weapon_light_direction[0];
+    NJS_ARGB color = weapon_light_color[0];
+    new TActorLight(0.2f, &color, &direction, 1, owner, tl_07);
 }
 
 void TItemWeapon::restore_action_type() {
-    TItemWeapon *arg0 = this;
-    if (arg0->test_weapon_flags(0x04000000) != 0U) {
+    if (test_weapon_flags(0x04000000) != 0U) {
         owner->attack_state.set_attack_kind(2);
-        arg0->clear_weapon_flags(0x04000000);
+        clear_weapon_flags(0x04000000);
     }
 }
 
@@ -140,10 +130,10 @@ void TItemWeapon::remap_extra_attack_type() {
 }
 
 CsnHit *TItemWeapon::trace_from_owner(u8 *point) {
-    Stack_8011E56C stack;
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)((u8 *)owner + 0x2FC));
-    stack.spC = *(f32 *)((s8 *)point + 4);
-    return csnVector((const Vec *)&stack.sp8, (const Vec *)point, 0x8100);
+    Vec start;
+    VecCopy(&start, &owner->body_center);
+    start.y = ((const Vec *)point)->y;
+    return csnVector(&start, (const Vec *)point, 0x8100);
 }
 
 void TItemWeapon::transform_model_node() {  }
@@ -195,9 +185,9 @@ void *TItemWeapon::get_center() {
     return &held_position;
 }
 
-void TItemWeapon::call_impact_callback(saddr arg1, saddr arg2) {
+void TItemWeapon::call_impact_callback(saddr target, saddr extra) {
     if (impact_callback != NULL) {
-        ((s32 (*)(s32, void *, s32, s32))impact_callback)((saddr)tl_05, this, arg1, arg2);
+        ((s32 (*)(s32, void *, s32, s32))impact_callback)((saddr)tl_05, this, target, extra);
     }
 }
 
@@ -313,7 +303,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
         } else if ((state = owner->get_extended_state()) != 0 && state->get_captured_target_count() > 0) {
             if ((item = state->get_captured_target_entry(0)) != 0) {
                 if ((ph = (TObjCollidable *)find_entity_by_id(item->get_uid())) != NULL && ph->bodies != NULL) {
-                    VecCopy((Vec *)&v, &ph->bodies[item->get_captured_target_collider_index()].center);
+                    VecCopy(&v, &ph->bodies[item->get_captured_target_collider_index()].center);
                     subtract_vector(&v, ((Vec *)origin));
                     push_matrix_from(identity_matrix);
                     rotate_matrix_y(0, angle);
@@ -356,7 +346,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         return;
     }
     if (origin == NULL) {
-        origin = (u8 *)owner + 0x2FC;
+        origin = &owner->body_center;
     }
     found = 0;
     if (ext->get_captured_target_count() != 0) {
@@ -364,7 +354,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         TObjChara *t = ((TObjChara *(*)(u16, s16))resolve_hittable_target)(e->get_uid(), e->get_captured_target_collider_index());
         if (t != NULL) {
             CollisionBody *part = &t->bodies[e->get_captured_target_collider_index()];
-            VecCopy((Vec *)&pos, &part->center);
+            VecCopy(&pos, &part->center);
             found = 1;
         }
     }
@@ -452,7 +442,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 }
             }
             if (has_aim_target == 0) {
-                ShotVector fallback;
+                Vec fallback;
                 push_matrix_from(identity_matrix);
                 range_record = (f32 *)(get_weapon_range_record(this, owner->is_status_subsystem_ready()));
                 fallback.y = lbl_805DAC98;
@@ -463,9 +453,9 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 pop_matrix();
                 vec3_add_to((Vec *)&endpoint.x, (const Vec *)origin);
             }
-            ShotVector rayOrigin = *(ShotVector *)((u8 *)owner + 0x2FC);
+            Vec rayOrigin = owner->body_center;
             rayOrigin.y = ((Vec *)origin)->y;
-            wall_hit = (csnVector((const Vec *)&rayOrigin.x, (const Vec *)&endpoint.x, 0x8100));
+            wall_hit = (csnVector(&rayOrigin, (const Vec *)&endpoint.x, 0x8100));
             if (wall_hit == NULL) {
                 if (aim_target != NULL) {
                     last_entry = targets->get_captured_target_entry(i);
@@ -657,37 +647,36 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
 }
 }
 void TItemWeapon::perform_action() {
-    TItemWeapon* self=this;
     ItemSoundRequest sound;
     Vec gun_point;
     Vec fallback_point;
-    if (self->is_active_in_game() && !self->is_hidden() && is_current_area_item_enabled()) {
-        self->rotation_y=self->owner->rotation_y;
-        self->stage=self->get_attack_stage();
+    if (is_active_in_game() && !is_hidden() && is_current_area_item_enabled()) {
+        rotation_y=owner->rotation_y;
+        stage=get_attack_stage();
         sound.clear();
-        sound.group=self->get_item_group();
-        sound.index=self->get_item_index();
-        sound.player=self->owner;
+        sound.group=get_item_group();
+        sound.index=get_item_index();
+        sound.player=owner;
         play_weapon_owner_sounds(&sound);
-        if(self->test_weapon_flags(0x40000)) {
-            start_pad_rumble_client(0x80, 5, (s16)self->owner->get_entity_id());
-        } else if(self->test_weapon_flags(0x80000) && self->is_mode_two_and_ready()) {
-            start_pad_rumble_client(0x80, 5, (s16)self->owner->get_entity_id());
+        if(test_weapon_flags(0x40000)) {
+            start_pad_rumble_client(0x80, 5, (s16)owner->get_entity_id());
+        } else if(test_weapon_flags(0x80000) && is_mode_two_and_ready()) {
+            start_pad_rumble_client(0x80, 5, (s16)owner->get_entity_id());
         }
-        self->emit_marker_effects();
-        self->set_weapon_flags(0x1000000);
-        if(!self->test_weapon_flags(2)) {
-            if(self->test_weapon_flags(0x8000)) {
-                self->get_gun_point(&gun_point);
-                self->fire_shot_at_target(&gun_point, self->second_model, 0);
+        emit_marker_effects();
+        set_weapon_flags(0x1000000);
+        if(!test_weapon_flags(2)) {
+            if(test_weapon_flags(0x8000)) {
+                get_gun_point(&gun_point);
+                fire_shot_at_target(&gun_point, second_model, 0);
                 return;
             }
-            if(self->test_weapon_flags(0x20000)) {
-                self->update_active_game_effect();
+            if(test_weapon_flags(0x20000)) {
+                update_active_game_effect();
                 return;
             }
-            self->get_gun_point(&fallback_point);
-            self->launch_shot((u8 *)&fallback_point,0,0,1);
+            get_gun_point(&fallback_point);
+            launch_shot((u8 *)&fallback_point,0,0,1);
         }
     }
 }
@@ -704,39 +693,36 @@ void TItemWeapon::sample_dual_muzzles(Vec *primary, Vec *secondary) {
 // ---- pso/unk/text_8011FC24
 
 void TItemWeapon::update_trails() {
-    TItemWeapon *arg0 = this;
-    if (arg0->test_weapon_flags(0x400U) != 0U) {
-        draw_weapon_at_joint((saddr)arg0, 0x30);
-        arg0->update_trail_slot(0);
-        draw_weapon_at_joint((saddr)arg0, 0x23);
-        arg0->update_trail_slot(1);
+    if (test_weapon_flags(0x400U) != 0U) {
+        draw_weapon_at_joint((saddr)this, 0x30);
+        update_trail_slot(0);
+        draw_weapon_at_joint((saddr)this, 0x23);
+        update_trail_slot(1);
         return;
     }
-    if (arg0->test_weapon_flags(1U) == 0U) {
-        arg0->draw_weapon_model();
-        arg0->update_trail_slot(0);
-        arg0->update_trail_slot(1);
+    if (test_weapon_flags(1U) == 0U) {
+        draw_weapon_model();
+        update_trail_slot(0);
+        update_trail_slot(1);
     }
 }
 
 void TItemWeapon::render_equipped_deferred() {
-    TItemWeapon *arg0 = this;
-    if (((uaddr) this->owner != 0U) && (arg0->test_weapon_flags(0xCU) == 0xCU) && (arg0->test_weapon_flags(0x80U) == 0U)) {
+    if (((uaddr) this->owner != 0U) && (test_weapon_flags(0xCU) == 0xCU) && (test_weapon_flags(0x80U) == 0U)) {
         this->draw_held_model();
         update_trails();
     }
 }
 void TItemWeapon::render_equipped_shadow() {
-    TItemWeapon *arg0 = this;
-    if (((uaddr) this->owner != 0U) && (arg0->test_weapon_flags(0xCU) == 0xCU) && (arg0->test_weapon_flags(0x80U) == 0U) && (arg0->test_weapon_flags(0x1000U) == 0U)) {
+    if (((uaddr) this->owner != 0U) && (test_weapon_flags(0xCU) == 0xCU) && (test_weapon_flags(0x80U) == 0U) && (test_weapon_flags(0x1000U) == 0U)) {
         this->draw_held_model();
-        if (arg0->test_weapon_flags(0x400U) != 0U) {
-            draw_weapon_at_joint((saddr)arg0, 0x30);
-            draw_weapon_at_joint((saddr)arg0, 0x23);
+        if (test_weapon_flags(0x400U) != 0U) {
+            draw_weapon_at_joint((saddr)this, 0x30);
+            draw_weapon_at_joint((saddr)this, 0x23);
             return;
         }
-        if (arg0->test_weapon_flags(1U) == 0U) {
-            arg0->draw_weapon_model();
+        if (test_weapon_flags(1U) == 0U) {
+            draw_weapon_model();
         }
     }
 }

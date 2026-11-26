@@ -740,9 +740,7 @@ void TQuestVmDownLoadServer::handle_confirm_window() {
                 this->state = 4;
                 return;
             }
-            goto block_12;
         }
-block_12:
         if (((TWindowMenu *)(this->status_window))->is_cancelled() != 0) {
             if ((uaddr) this->status_window != 0U) {
                 ((TWindowBase *)this->status_window)->close();

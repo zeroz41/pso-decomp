@@ -4,11 +4,13 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowMenu;
+
 class TObjItemOKWindow : public TObject {
 public:
     char m_text[0x40];
-    void *name_menu;       // shows the entered item name
-    void *confirm_menu;    // the yes/no choice get_result reads
+    TWindowMenu *name_menu;       // shows the entered item name
+    TWindowMenu *confirm_menu;    // the yes/no choice get_result reads
     void *message_window;
 
     TObjItemOKWindow(TObject *parent);

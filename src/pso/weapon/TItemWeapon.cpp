@@ -280,8 +280,8 @@ f32 PlayerAttackController::get_attack_accuracy_scale() {
 // ---- pso/player/TObjPlayer_801211F0
 
 void increment_model_node_counter(void) {
-    int temp_r3 = model_node_counter;
-    model_node_counter = temp_r3 + 1;
+    int count = model_node_counter;
+    model_node_counter = count + 1;
 }
 
 int TObjPlayer::get_player_list() {  return model_node_counter; }

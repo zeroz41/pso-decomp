@@ -89,7 +89,6 @@ struct TLobby : public TObject {
     static void open_scroll_text_window(saddr src);
     void render();
     static void copy_player_records(TPlyChallenge *records, s32 count);
-    void apply_lobby_markers();
     static s32 get_option_state();
     static void install_game_join_handlers();
     static void broadcast(void* a0);

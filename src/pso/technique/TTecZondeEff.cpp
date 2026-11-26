@@ -199,20 +199,20 @@ void TTecZondeEff::calc_lightning_scatter_direction(s32 axis, Vec *out) {
 
 
 s32 TTecZondeEff::calc_dominant_axis() {
-    f32 temp_f1;
-    f32 temp_f30;
-    f32 temp_f31;
+    f32 abs_z;
+    f32 abs_x;
+    f32 abs_y;
 
-    temp_f30 = fabs_float(this->direction.x);
-    temp_f31 = fabs_float(this->direction.y);
-    temp_f1 = fabs_float(this->direction.z);
-    if (temp_f30 > temp_f31) {
-        if (temp_f30 > temp_f1) {
+    abs_x = fabs_float(this->direction.x);
+    abs_y = fabs_float(this->direction.y);
+    abs_z = fabs_float(this->direction.z);
+    if (abs_x > abs_y) {
+        if (abs_x > abs_z) {
             return 0;
         }
         return 2;
     }
-    if (temp_f31 > temp_f1) {
+    if (abs_y > abs_z) {
         return 1;
     }
     return 2;

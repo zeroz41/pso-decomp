@@ -3,6 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/weapon/TItemWeapon.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
@@ -32,13 +33,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/system/MatrixOps.h"
-
-struct Elem_80125628 { u8 pad[0x1c]; u8 f1c[0x2c - 0x1c]; };
-
-struct Obj_80125628 { u8 pad[0xa4]; Elem_80125628 *elems; };
-
-struct Ctx_80125628 { Obj_80125628 *obj; s32 idx; };
-
 
 // Gi Gue bazooka (TItemWeaponGiGueBazooka), TItemWeaponNeisClaw and the fire-explosion spawners: its own
 // TU, since its 10.0f literal at 0x805DFE00 sits between two 4-byte pads.
@@ -136,10 +130,10 @@ void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
 }
 
 void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr arg1) {
-    Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
+    ActorBodyHit *hit = (ActorBodyHit *)arg1;
     uaddr p = (uaddr)find_item_by_id(id);
     if (p != 0U) {
-        TObjPlayer::spawn_fire_explosion(p, (s32)((saddr)ctx->obj->elems[ctx->idx].f1c));
+        TObjPlayer::spawn_fire_explosion(p, (saddr)&hit->target->bodies[hit->body].center);
     }
 }
 

@@ -21,27 +21,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct Part_80231C58 { u8 pad0[0x1C]; Vec pos; u8 pad28[0x2C - 0x28]; };
-
-struct EntBase_80231C58 { u8 pad[0x18]; };
-
-struct Ent_80231C58 : EntBase_80231C58 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30();
-    virtual s32 m31();
-    u8 pad1C[0x30 - 0x1C];
-    u32 flags;
-    u8 pad34[0xA4 - 0x34];
-    Part_80231C58 *parts;
-};
-
-
 #pragma readonly_strings on
 
 const char *TTecGiZonde_name_ref = "TTecGiZonde";
@@ -75,18 +54,18 @@ s32 TTecGiZonde::find_chain_targets() {
     f32 scale = 0.5f;
     f32 len;
     f32 len2;
-    Ent_80231C58 *e;
+    TObjChara *e;
     s32 i;
-    Ent_80231C58 *a;
-    Ent_80231C58 *b;
+    TObjChara *a;
+    TObjChara *b;
     void *p;
-    e = (Ent_80231C58 *) find_entity_by_id(targetList.records[0].id);
+    e = (TObjChara *) find_entity_by_id(targetList.records[0].id);
     if (UNQ((uaddr) e) == 0) {
         return 0;
     }
-    d.x = e->parts[targetList.records[0].flag].pos.x - position.x;
-    d.y = e->parts[targetList.records[0].flag].pos.y - position.y;
-    d.z = e->parts[targetList.records[0].flag].pos.z - position.z;
+    d.x = e->bodies[targetList.records[0].flag].center.x - position.x;
+    d.y = e->bodies[targetList.records[0].flag].center.y - position.y;
+    d.z = e->bodies[targetList.records[0].flag].center.z - position.z;
     len = vector_length(&d);
     if (0.0f != len) {
         normalize_vector(&d);
@@ -94,53 +73,53 @@ s32 TTecGiZonde::find_chain_targets() {
     switch (band) {
     case 0:
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, 0.5f);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x19F);
         break;
     case 1:
         scale *= 1.2f;
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, scale);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x19F);
         break;
     case 2:
         scale *= 1.4f;
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, scale);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x19F);
         break;
     case 3:
         scale *= 1.2f;
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, scale);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x188);
         break;
     case 4:
         scale *= 1.4f;
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, scale);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x188);
         break;
     case 5:
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, 5.0f);
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, 0.5f);
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, 0.5f);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
-        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->bodies[targetList.records[0].flag].center, &position, tl_07, 0x188);
         break;
     }
     if (targetList.count == 1) {
         return 1;
     }
     for (i = 0; i < targetList.count - 1; i++) {
-        a = (Ent_80231C58 *) find_entity_by_id(targetList.records[i].id);
-        b = (Ent_80231C58 *) find_entity_by_id(targetList.records[i + 1].id);
+        a = (TObjChara *) find_entity_by_id(targetList.records[i].id);
+        b = (TObjChara *) find_entity_by_id(targetList.records[i + 1].id);
         if (UNQ((uaddr) a) != 0 && UNQ((uaddr) b) != 0) {
-        if ((a->flags & 0x20000000) && (b->flags & 0x20000000) &&
+        if ((a->actorFlags & 0x20000000) && (b->actorFlags & 0x20000000) &&
             TObjPlayer::is_valid_and_active((uaddr) a) != 0 && TObjPlayer::is_valid_and_active((uaddr) b) != 0 &&
-            a->m31() != 0 && b->m31() != 0) {
+            a->is_actor_dead() != 0 && b->is_actor_dead() != 0) {
             return 0;
         }
-        d2.x = b->parts[targetList.records[i].flag].pos.x - a->parts[targetList.records[i + 1].flag].pos.x;
-        d2.y = b->parts[targetList.records[i].flag].pos.y - a->parts[targetList.records[i + 1].flag].pos.y;
-        d2.z = b->parts[targetList.records[i].flag].pos.z - a->parts[targetList.records[i + 1].flag].pos.z;
+        d2.x = b->bodies[targetList.records[i].flag].center.x - a->bodies[targetList.records[i + 1].flag].center.x;
+        d2.y = b->bodies[targetList.records[i].flag].center.y - a->bodies[targetList.records[i + 1].flag].center.y;
+        d2.z = b->bodies[targetList.records[i].flag].center.z - a->bodies[targetList.records[i + 1].flag].center.z;
         len2 = vector_length(&d2);
         if (0.0f != len2) {
             normalize_vector(&d2);
@@ -148,28 +127,28 @@ s32 TTecGiZonde::find_chain_targets() {
         scale = 0.5f;
         switch (band) {
         case 0:
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, 0.5f);
+            new TTecZondeEff(tl_07, &a->bodies[targetList.records[i].flag].center, &d2, 0x14000000, 20, len2, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, scale);
+            new TTecZondeEff(tl_07, &a->bodies[targetList.records[i].flag].center, &d2, 0x14000000, 20, len2, scale);
             break;
         case 2:
             scale *= 1.4f;
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, scale);
+            new TTecZondeEff(tl_07, &a->bodies[targetList.records[i].flag].center, &d2, 0x14000000, 20, len2, scale);
             break;
         case 3:
             scale *= 1.2f;
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, scale);
+            new TTecZondeEff(tl_07, &a->bodies[targetList.records[i].flag].center, &d2, 0x14000000, 20, len2, scale);
             break;
         case 4:
             scale *= 1.4f;
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, scale);
+            new TTecZondeEff(tl_07, &a->bodies[targetList.records[i].flag].center, &d2, 0x14000000, 20, len2, scale);
             break;
         case 5:
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, 5.0f);
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, 0.5f);
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, 0.5f);
+            new TTecZondeEff(tl_07, &a->bodies[targetList.records[i].flag].center, &d2, 0x14000000, 20, len2, 5.0f);
+            new TTecZondeEff(tl_07, &a->bodies[targetList.records[i].flag].center, &d2, 0x14000000, 20, len2, 0.5f);
+            new TTecZondeEff(tl_07, &a->bodies[targetList.records[i].flag].center, &d2, 0x14000000, 20, len2, 0.5f);
             break;
         }
         } else {

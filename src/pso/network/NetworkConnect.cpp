@@ -181,22 +181,22 @@ void init_keyboard_buffer() {
 }
 
 s32 poll_connect() {
-    s32 var_r31;
+    s32 tries;
 
-    var_r31 = 0;
-loop_1:
-    if (var_r31 > 0x12C) {
-        return 0;
+    tries = 0;
+    for (;;) {
+        if (tries > 0x12C) {
+            return 0;
+        }
+        tries += 1;
+        send_and_handle();
+        if (static_cast<s8>(func_801A5E54()) != 0) {
+            return 1;
+        }
+        if (query_link_status() == 1) {
+            return 2;
+        }
     }
-    var_r31 += 1;
-    send_and_handle();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
-        return 1;
-    }
-    if (query_link_status() == 1) {
-        return 2;
-    }
-    goto loop_1;
 }
 
 
@@ -315,9 +315,9 @@ s32 connect_pppoe(s32 *out_value) {
 }
 
 
-s32 apply_static_network_config(s32 *arg0) {
+s32 apply_static_network_config(s32 *netmask) {
     lobby_local_ip_addr = network_config.local_ip;
-    *arg0 = network_config.netmask;
+    *netmask = network_config.netmask;
     lobby_gateway_addr = network_config.gateway;
     lobby_dns_server_addr = network_config.dns_server1;
     lobby_dns_server_addr2 = network_config.dns_server2;
@@ -351,8 +351,8 @@ s32 apply_dhcp_network_config(s32 *netmask) {
     return DHCP_get_dns(lbl_8050C0C4, (char *)lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
 }
 
-s32 should_try_next_phone_number(u32 arg0) {
-    switch (arg0) {
+s32 should_try_next_phone_number(u32 result) {
+    switch (result) {
     case 0:
     case 1:
     case 2:
@@ -371,8 +371,8 @@ s32 should_try_next_phone_number(u32 arg0) {
 int get_phone_number_count(void) { return 3; }
 
 LAYOUT_ASSERT(RecoveredGlobal_8014672C_lbl_8050C0A8_size, sizeof(TLobbyRecoveredGlobal) == 0x6DC);
-void get_local_ip_address(s32 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)&lbl_8050C0A8.value + 4);
+void get_local_ip_address(s32 *out) {
+    *(s32 *)((s8 *)out + 0) = *(s32 *)((s8 *)&lbl_8050C0A8.value + 4);
 }
 
 int get_post_save_lobby_action(void) { return 0; }
@@ -556,12 +556,12 @@ char *get_modem_phone_number(s32 idx) {
 }
 
 void set_ppp_password(const char *src) {
-    u8 *temp_r31;
+    char *password;
     TLobby__sub_8014618C();
     is_state_active();
-    temp_r31 = (u8 *)network_config.password;
-    memset(temp_r31, 0, 0x20);
-    strncpy((char *)temp_r31, src, 0x1F);
+    password = network_config.password;
+    memset(password, 0, 0x20);
+    strncpy(password, src, 0x1F);
 }
 
 
