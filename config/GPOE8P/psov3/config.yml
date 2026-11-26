@@ -9297,7 +9297,7 @@ force_active:
   - option_name_table
   - ovs2wall01_collision_parts
   - pack_color_rgba__17TObjEneMe1CanadinFv
-  - pack_status_flags__20TWindowSubStatusDispFUl
+  - pack_ci4_texels__FPUcUl
   - pack_three_colors__9TItemDataFPUc
   - pack_weapon_trail_color__FP11TItemWeapon
   - pad_button_map_table

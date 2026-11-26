@@ -67,7 +67,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static saddr get_meseta_unit();
     static u32 calc_text_width(char *s);
     static s32 is_alpha_char(u16 arg0);
-    void pack_status_flags(u32 arg1);
     static s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **arg2);
     static void set_gauge_param(s32 gauge_param);
     static void reset_gauge(void* p);

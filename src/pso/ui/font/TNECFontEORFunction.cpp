@@ -289,11 +289,11 @@ u16 map_char_to_font_code(u16 c) {
     return c;
 }
 
-void TWindowSubStatusDisp::pack_status_flags(u32 pixel) {
-    *(u8 *)&this->m_name = (u8) ((pixel >> 4U) & 3);
-    *(u8 *)&this->m_name = (u8) (*(u8 *)&this->m_name | ((pixel >> 2U) & 0x30));
-    *(u8 *)((s8 *)this + 1) = (u8) (pixel & 3);
-    *(u8 *)((s8 *)this + 1) = (u8) (*(u8 *)((s8 *)this + 1) | ((pixel * 4) & 0x30));
+void pack_ci4_texels(u8 *dst, u32 pixel) {
+    dst[0] = (pixel >> 4) & 3;
+    dst[0] |= (pixel >> 2) & 0x30;
+    dst[1] = pixel & 3;
+    dst[1] |= (pixel * 4) & 0x30;
 }
 #define g ((MenuGlyphEntry *)free_slot)
 
@@ -325,7 +325,7 @@ void upload_font_glyph(u16 c, void *free_slot) {
         for (i = 0; i < 5; i++) {
             u8 b = *src;
             u8 *dst = tex + calc_ci4_tile_offset((u32)(x + i * 4), (u32)(y + j));
-            ((TWindowSubStatusDisp *)dst)->pack_status_flags(b);
+            pack_ci4_texels(dst, b);
             src++;
         }
     }
