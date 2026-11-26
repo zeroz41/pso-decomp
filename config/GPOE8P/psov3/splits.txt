@@ -5241,7 +5241,7 @@ pso/ui/city/TShopWindowBase.cpp:
 	.sdata      start:0x805D3700 end:0x805D3708
 	.sdata2     start:0x805DC728 end:0x805DC730
 
-pso/ui/window/TWindowSubStatusDisp.cpp:
+pso/ui/window/WindowArrayEntry.cpp:
 	.text       start:0x80223B88 end:0x80223B98
 
 pso/item/shop/ShopToolStock.cpp:
@@ -6318,7 +6318,7 @@ pso/unk/TWindowStatusCategoryMenu.cpp:
 	.data       start:0x804D1AD0 end:0x804D1AE8
 	.sdata2     start:0x805DD6D8 end:0x805DD6E0
 
-pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp:
+pso/ui/window/TWindowSubStatusDisp.cpp:
 	.text       start:0x8027FD88 end:0x80281814
 	.rodata     start:0x8044FAD8 end:0x8044FB08
 	.data       start:0x804D1AE8 end:0x804D2B48

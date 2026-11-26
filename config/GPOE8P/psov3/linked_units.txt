@@ -1143,7 +1143,7 @@ pso/ui/window/TWindowSubShortCutList.cpp
 pso/ui/window/TWindowSubShortCut_80246FB0.cpp
 pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail.cpp
-pso/ui/window/TWindowSubStatusDisp.cpp
+pso/ui/window/WindowArrayEntry.cpp
 pso/ui/window/ChallengeRank.cpp
 pso/ui/window/TWindowSubStatusDisp_80077760.cpp
 pso/ui/window/SmallFontText.cpp
@@ -1163,7 +1163,7 @@ pso/ui/window/WindowTextEntry.cpp
 pso/ui/window/WindowSpritePart.cpp
 pso/ui/window/LabelValueRow.cpp
 pso/ui/window/TWindowMenuIconLine.cpp
-pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
+pso/ui/window/TWindowSubStatusDisp.cpp
 pso/ui/window/HeadingEntry.cpp
 pso/ui/window/WindowHeading.cpp
 pso/ui/frontend/TAdSelectTxtSubGC.cpp

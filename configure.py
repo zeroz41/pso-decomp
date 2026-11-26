@@ -757,7 +757,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # its class-name string sits in .rodata and its short layout strings ("Lv", ":", "pt") in .sdata2: readonly strings.
     # .data ends rank table then vtable after the page-table statics, .sdata2 runs the layout strings, rank strings, 7.5f, 1.0f:
     # deferred generation of the ctor-first source (the page dispatchers were the deferred pair).
-    "pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/ui/window/TWindowSubStatusDisp.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/derolle/TBoss2Tentacle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/derolle/TObjBoss2Tunnel_8003B138.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrEffWall.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
