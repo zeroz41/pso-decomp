@@ -29,7 +29,6 @@ struct TWindowShortCut;
 
 #pragma readonly_strings on
 
-struct Win_8027DBB8 { u8 pad[0x20]; saddr client_id; };
 
 
 const char *TWindowSubShortCut::class_name = "TWindowSubShortCut";

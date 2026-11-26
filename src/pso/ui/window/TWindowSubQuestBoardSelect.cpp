@@ -48,7 +48,6 @@ void TWindowCtrl__sub_8027D214(void) {
 const char *TWindowSubQuestBoardSelect::class_name = "TWindowSubQuestBoardSelect";
 #pragma pop
 
-struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 
 

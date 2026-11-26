@@ -43,7 +43,6 @@ u16 soft_keyboard_conversion_exclusions[20] = {
 
 struct Rec_8025D3CC { u8 a; s8 len; };
 
-struct Desc_8025DECC { f32 *pos; u32 *col; s32 a; s32 b; };
 
 struct KbRec_8025D264 {
     u8 tag;

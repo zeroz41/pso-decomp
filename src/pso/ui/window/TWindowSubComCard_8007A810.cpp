@@ -175,7 +175,6 @@ void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
     }
 }
 
-struct Card_8007AFB8 { u8 body[0x100]; };
 
 
 extern "C" {

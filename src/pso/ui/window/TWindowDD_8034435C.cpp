@@ -2452,7 +2452,6 @@ void TWindowDD::append_word_select_token(s16 id, char *buf, s32 *pos) {
 
 
 NJS_POINT2 word_select_quad_points[7][8];
-typedef struct { char pad[0xBC]; } Buf;
 
 void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
     s32 len;
@@ -2468,15 +2467,15 @@ void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
 
 
 void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
-    Buf sp8;
+    WindowVertex verts[8];
     s32 draw_count;
 
     draw_count = TWindowDD::get_draw_count(hud_texlist);
-    reset_window_vertices((WindowVertex *)&sp8, word_select_inverse_depth(draw_depth, offset), -1);
-    copy_window_point_table((WindowVertex *)&sp8, idx);
-    fn_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
-    fn_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8), 0);
-    draw_window_vertices((WindowVertex *)&sp8, 8, draw_count, 1);
+    reset_window_vertices(verts, word_select_inverse_depth(draw_depth, offset), -1);
+    copy_window_point_table(verts, idx);
+    fn_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), verts);
+    fn_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), verts, 0);
+    draw_window_vertices(verts, 8, draw_count, 1);
 }
 
 #pragma push

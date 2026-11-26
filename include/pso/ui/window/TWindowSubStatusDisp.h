@@ -6,6 +6,7 @@ struct GuildCardRecord;
 #include "types.h"
 #include <stddef.h>
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct PageIndicator;
 struct NumberedTimesLayout;
@@ -100,5 +101,162 @@ LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_y, offsetof(TWindowSubStatusDisp
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_size, sizeof(TWindowSubStatusDisp) == 0x74);
 s32 measure_string_len(const char *str);
+
+struct SummaryPageLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    DirectSpritePartLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    ValueLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    TextLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    ValueLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    TextLayoutRecord rec_14;
+    TextLayoutRecord rec_15;
+    ValueLayoutRecord rec_16;
+    TextLayoutRecord rec_17;
+};
+
+struct StatPageLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    ValueLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    ValueLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    ValueLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    TextLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    ValueLayoutRecord rec_14;
+    TextLayoutRecord rec_15;
+    ValueLayoutRecord rec_16;
+    TextLayoutRecord rec_17;
+    TextLayoutRecord rec_18;
+    TextLayoutRecord rec_19;
+    ValueLayoutRecord rec_20;
+    TextLayoutRecord rec_21;
+    ValueLayoutRecord rec_22;
+    TextLayoutRecord rec_23;
+    TextLayoutRecord rec_24;
+    TextLayoutRecord rec_25;
+    ValueLayoutRecord rec_26;
+    TextLayoutRecord rec_27;
+    ValueLayoutRecord rec_28;
+    TextLayoutRecord rec_29;
+    TextLayoutRecord rec_30;
+    TextLayoutRecord rec_31;
+    ValueLayoutRecord rec_32;
+    TextLayoutRecord rec_33;
+    ValueLayoutRecord rec_34;
+    TextLayoutRecord rec_35;
+};
+
+struct ResistanceLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    ValueLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    ValueLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    ValueLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    TextLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    ValueLayoutRecord rec_14;
+    TextLayoutRecord rec_15;
+    ValueLayoutRecord rec_16;
+    TextLayoutRecord rec_17;
+    TextLayoutRecord rec_18;
+    TextLayoutRecord rec_19;
+    ValueLayoutRecord rec_20;
+    TextLayoutRecord rec_21;
+    ValueLayoutRecord rec_22;
+    TextLayoutRecord rec_23;
+    TextLayoutRecord rec_24;
+    TextLayoutRecord rec_25;
+    ValueLayoutRecord rec_26;
+    TextLayoutRecord rec_27;
+    ValueLayoutRecord rec_28;
+    TextLayoutRecord rec_29;
+};
+
+struct RecordSummaryLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    TextLayoutRecord rec_2;
+    ValueLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    ValueLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    TextLayoutRecord rec_8;
+    ValueLayoutRecord rec_9;
+    TextLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    ValueLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    TextLayoutRecord rec_14;
+    ValueLayoutRecord rec_15;
+};
+
+struct RankTimeRecordsLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    TextLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    TextLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    TextLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    TextLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    TextLayoutRecord rec_14;
+    TextLayoutRecord rec_15;
+};
+
+struct NumberedTimesLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    TextLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    TextLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+};
+
 
 #endif
