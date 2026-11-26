@@ -44,4 +44,6 @@ LAYOUT_ASSERT(SoundRequestVoice_studio_offset, offsetof(SoundRequestVoice, studi
 LAYOUT_ASSERT(SoundRequestVoice_reverb_offset, offsetof(SoundRequestVoice, reverb) == 0x9C);
 
 void send_sound_request_reverb(SoundRequestVoice* voice);
+void TLobby__sub_80240F38(SoundRequestVoice *v);
+void TLobby__sub_80241A0C(SoundRequestVoice *v);
 #endif
