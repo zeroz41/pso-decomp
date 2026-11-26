@@ -1046,13 +1046,13 @@ pso/ui/window/TWindowCtrl_80269FB0.cpp
 pso/ui/window/TWindowCtrl_8026AD44.cpp
 pso/ui/window/TWindowCtrl_8026F6A4.cpp
 pso/ui/window/TWindowCtrl_80271DFC.cpp
-pso/ui/window/TWindowDD.cpp
+pso/ui/window/WordSelectLayout.cpp
 pso/ui/window/TWindowDD_80246F8C.cpp
 pso/ui/window/TWindowWordSelectMode.cpp
 pso/ui/window/TWindowDD_WS_ScrollBar.cpp
 pso/ui/window/TWindowDD_WS_String.cpp
 pso/ui/window/TWindowDD_WS_Word.cpp
-pso/ui/window/TWindowDD_803430BC.cpp
+pso/ui/window/TWindowDD.cpp
 pso/ui/window/TWindowDD_8034435C.cpp
 pso/ui/window/WordSelectDataTables.cpp
 pso/ui/window/TWindowDeposit.cpp

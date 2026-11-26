@@ -8401,7 +8401,7 @@ pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.cpp:
 	.sdata      start:0x805D42C8 end:0x805D42D0
 	.sdata2     start:0x805DFAF8 end:0x805DFB14
 
-pso/ui/window/TWindowDD.cpp:
+pso/ui/window/WordSelectLayout.cpp:
 	.text       start:0x803403F8 end:0x8034055C
 	.sdata2     start:0x805DFB18 end:0x805DFC40
 
@@ -8436,7 +8436,7 @@ pso/ui/window/TWindowDD_WS_Word.cpp:
 	.sdata      start:0x805D42E0 end:0x805D42E8
 	.sdata2     start:0x805DFCA0 end:0x805DFCB0
 
-pso/ui/window/TWindowDD_803430BC.cpp:
+pso/ui/window/TWindowDD.cpp:
 	.text       start:0x80342428 end:0x8034435C
 	.rodata     start:0x80478618 end:0x80478650
 	.data       start:0x804EFCA8 end:0x804EFDBC
