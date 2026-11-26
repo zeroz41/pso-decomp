@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/window/TWindowCtrlPlayer.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
@@ -490,7 +491,7 @@ void prune_destroyed_balloons(TWindowCtrl *ctrl) {
 
 void TWindowCtrl::handle_controller() {
     if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (is_client_main_menu_disabled(local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], get_control_button_mask(local_client_id)) != 0)) {
-        TWindowCtrlMain::advance_card_status(local_client_id);
+        advance_card_status(local_client_id);
     }
 }
 

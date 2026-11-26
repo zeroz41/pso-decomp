@@ -24,7 +24,7 @@ extern TPlyChallenge lobby_player_status_records[];
 
 saddr TWindowCtrlMain::get_instance() {  return (saddr)instance; }
 
-void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
+void advance_card_status(s32 local_client_id) {
     s32 card_status_bits;
 
     card_status_bits = TWindowShortListCtrl::get_card_status_bits(local_client_id) + 1;

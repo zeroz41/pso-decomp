@@ -14,4 +14,6 @@ struct TFontSmallLobby
 };
 
 
+void advance_card_status(s32 local_client_id);
+
 #endif
