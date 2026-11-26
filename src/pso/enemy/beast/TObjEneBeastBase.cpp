@@ -671,6 +671,16 @@ void TObjEneBeastBase::refresh_target() {
 }
 
 #pragma defer_codegen on
+u16 get_enemy_target_id(TObjEnemy *enemy) { return enemy->targetId; }
+void TObjEneBeastBase::run_demo_task() {}
+void TObjEneBeastBase::play_death_sound() {}
+void TObjEneBeastBase::play_hurt_sound() {}
+void TObjEneBeastBase::play_attack_sound() {}
+void TObjEneBeastBase::play_alert_sound() {}
+void TObjEneBeastBase::spawn_death_effect() {}
+void TObjEneBeastBase::update_attack_trail() {}
+void TObjEneBeastBase::beast_update_appear() { mode = 1; }
+
 TObjEneBeastBase::TObjEneBeastBase(TObject *parent) : TObjEnemy(parent) {
     mode = 0;
     phase = 0;
@@ -733,4 +743,3 @@ void TObjEneBeastBase::run_task() {
     submit_cursor_candidate(this, -1);
     frame_timer += BEAST_FRAME_INCREMENT;
 }
-

@@ -40,6 +40,8 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/object/TObjControl.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -68,6 +70,10 @@ TBoss6MagMotionEntry boss6_type2_motion_table[5] = {
 __declspec(section ".data") TBoss6Mag *TBoss6Mag::instance_slots[2] = {
     NULL, NULL,
 };
+
+TBoss6Mag *TBoss6Type2::create_mag(TBoss6MagSpawnParams *params) {
+    return new TBoss6Mag(new TObjControl(tl_04), params);
+}
 
 void copy_mag_target(TBoss6MagTarget *dst, TBoss6MagTarget *src) {
     dst->client_id = src->client_id;

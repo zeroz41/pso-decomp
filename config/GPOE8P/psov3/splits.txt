@@ -1496,13 +1496,10 @@ pso/enemy/flower/TObjEneRe2Flower_EffCurse3.cpp:
 	.sdata2     start:0x805DA020 end:0x805DA028
 
 pso/enemy/beast/TObjEneBeastBase.cpp:
-	.text       start:0x800C4E08 end:0x800C69E8
+	.text       start:0x800C4E08 end:0x800C6A18
 	.rodata     start:0x8043BC68 end:0x8043BC90
 	.data       start:0x80493450 end:0x80493614
 	.sdata2     start:0x805DA028 end:0x805DA068
-
-pso/enemy/TObjEneBeastBase_800C69E8.cpp:
-	.text       start:0x800C69E8 end:0x800C6A18
 
 pso/enemy/TObjEnemyCustom.cpp:
 	.text       start:0x800C6A18 end:0x800C7FEC
@@ -6636,14 +6633,11 @@ pso/boss/galgryphon/TObjBoss5PillarDemo.cpp:
 	.sdata2     start:0x805DD908 end:0x805DD90C
 
 pso/boss/galgryphon/TObjBoss5PillarSmoke.cpp:
-	.text       start:0x8028ACE8 end:0x8028B08C
+	.text       start:0x8028ACE8 end:0x8028B190
 	.rodata     start:0x80450CB8 end:0x80450CE8
 	.data       start:0x804D3608 end:0x804D3620
 	.sdata      start:0x805D3B30 end:0x805D3B38
 	.sbss       start:0x805D64D0 end:0x805D64D8
-
-pso/boss/galgryphon/TObjBoss5Pillar_8028B08C.cpp:
-	.text       start:0x8028B08C end:0x8028B190
 	.sdata2     start:0x805DD910 end:0x805DD914
 
 pso/boss/galgryphon/TObjBoss5PillarCtrl.cpp:
@@ -8059,14 +8053,11 @@ pso/unk/text_80320358.cpp:
 	.sbss       start:0x805D6B28 end:0x805D6C10
 
 pso/boss/olgaflow/TBoss6Zanzo.cpp:
-	.text       start:0x803204B8 end:0x80320AE0
+	.text       start:0x803204B8 end:0x80320B38
 	.rodata     start:0x80476460 end:0x80476480
 	.data       start:0x804EC968 end:0x804EC980
 	.sdata      start:0x805D4140 end:0x805D4148
 	.sdata2     start:0x805DF470 end:0x805DF478
-
-pso/boss/olgaflow/TBoss6Type1_80320AE0.cpp:
-	.text       start:0x80320AE0 end:0x80320B38
 
 pso/ui/frontend/TAdGameStartShadowGC.cpp:
 	.text       start:0x80320B38 end:0x80320DE8
@@ -8110,15 +8101,12 @@ pso/ui/frontend/TAdLdQuestPrtGC.cpp:
 	.sdata2     start:0x805DF540 end:0x805DF550
 
 pso/boss/olgaflow/TBoss6GravBall.cpp:
-	.text       start:0x80323134 end:0x80323DCC
+	.text       start:0x80323134 end:0x80323E1C
 	.rodata     start:0x80476648 end:0x80476690
 	.data       start:0x804ECA40 end:0x804ECAC0
 	.sdata      start:0x805D4170 end:0x805D4178
 	.sbss       start:0x805D6C40 end:0x805D6C48
 	.sdata2     start:0x805DF550 end:0x805DF57C
-
-pso/boss/olgaflow/TBoss6Type1_80323DCC.cpp:
-	.text       start:0x80323DCC end:0x80323E1C
 
 pso/boss/olgaflow/TBoss6Mine.cpp:
 	.text       start:0x80323E1C end:0x80324D10
@@ -8358,14 +8346,11 @@ pso/effect/item/TItemWpnCardEffect.cpp:
 	.sdata2     start:0x805DF7D8 end:0x805DF7EC
 
 pso/boss/olgaflow/TBoss6Mag.cpp:
-	.text       start:0x8032E708 end:0x803309D8
+	.text       start:0x8032E708 end:0x80330A40
 	.rodata     start:0x804773B0 end:0x80477470
 	.data       start:0x804EDD68 end:0x804EDF90
 	.sdata      start:0x805D4220 end:0x805D4224
 	.sdata2     start:0x805DF7F0 end:0x805DF858
-
-pso/boss/olgaflow/TBoss6Type2_803309D8.cpp:
-	.text       start:0x803309D8 end:0x80330A40
 
 pso/ui/window/TWindowSubTradeMain.cpp:
 	.text       start:0x80330A40 end:0x803323D8
@@ -9200,14 +9185,11 @@ pso/unk/text_8036A3CC.cpp:
 	.data       start:0x804F3458 end:0x804F35E0
 
 pso/boss/olgaflow/TBoss6EffFlowSoul.cpp:
-	.text       start:0x8036A6B0 end:0x8036A92C
+	.text       start:0x8036A6B0 end:0x8036A9EC
 	.rodata     start:0x8047AC40 end:0x8047AC60
 	.data       start:0x804F35E0 end:0x804F35F8
 	.sdata      start:0x805D44D0 end:0x805D44D8
 	.sdata2     start:0x805E0370 end:0x805E037C
-
-pso/boss/olgaflow/TBoss6Type2_8036A92C.cpp:
-	.text       start:0x8036A92C end:0x8036A9EC
 
 pso/boss/olgaflow/TBoss6EffHyoui.cpp:
 	.text       start:0x8036A9EC end:0x8036AC14

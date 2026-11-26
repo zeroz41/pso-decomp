@@ -165,3 +165,7 @@ TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 points, s32 trail_length) : TObjec
     current->active = 0;
     current->points = (Boss6TrailPoint *)mem_alloc(point_count * sizeof(Boss6TrailPoint));
 }
+
+TBoss6Zanzo *TBoss6Zanzo::create(TObject *parent, s32 points, s32 frames) {
+    return new TBoss6Zanzo(parent, points, frames);
+}

@@ -275,15 +275,11 @@ pso/boss/olgaflow/TBoss6Thanks.cpp
 pso/boss/olgaflow/TBoss6Tube.cpp
 pso/boss/olgaflow/TBoss6Type1.cpp
 pso/boss/olgaflow/TBoss6Type1Actions.cpp
-pso/boss/olgaflow/TBoss6Type1_80320AE0.cpp
-pso/boss/olgaflow/TBoss6Type1_80323DCC.cpp
 pso/boss/olgaflow/TBoss6Type2.cpp
 pso/boss/olgaflow/TBoss6Type2Actions.cpp
-pso/boss/olgaflow/TBoss6Type2_803309D8.cpp
 pso/boss/olgaflow/TBoss6MagActions.cpp
 pso/boss/olgaflow/TBoss6Type2_80356E50.cpp
 pso/boss/olgaflow/TBoss6Zanzo.cpp
-pso/boss/olgaflow/TBoss6Type2_8036A92C.cpp
 pso/boss/olgaflow/Boss6PlayerSnapshots.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
 pso/boss/barbaray/TBoss7Joint.cpp
@@ -326,7 +322,6 @@ pso/boss/galgryphon/TObjBoss5Pillar.cpp
 pso/boss/galgryphon/TObjBoss5PillarCtrl.cpp
 pso/boss/galgryphon/TObjBoss5PillarDemo.cpp
 pso/boss/galgryphon/TObjBoss5PillarSmoke.cpp
-pso/boss/galgryphon/TObjBoss5Pillar_8028B08C.cpp
 pso/ui/charcreate/CharacterPreview.cpp
 pso/boss/barbaray/TObjBoss7Dust.cpp
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp
@@ -1644,7 +1639,6 @@ pso/unk/text_80076E84.cpp
 pso/network/protocol/choice_search.cpp
 pso/effect/TDuelEffectCtrl.cpp
 pso/enemy/flower/TObjEneRe2FlowerStates.cpp
-pso/enemy/TObjEneBeastBase_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
 pso/enemy/nanodrago/TObjNanoDragoSingleBeam.cpp
 pso/system/TScreenFadeController.cpp
