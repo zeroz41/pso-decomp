@@ -4,7 +4,6 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/unk/TLobby_803382E4.h"
-#include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
 #include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -269,8 +268,8 @@ void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 arg2) {
 }
 
 s32 TSnapshotFileSetup::get_result() { return this->result; }
-
-void TLobby__sub_8034C3A4(void* p) { ((TLobby *)p)->reset_info_board(); }
-
-void TLobby__sub_8034C384(void* p) { ((TLobby *)p)->reset_info_board(); }
 }
+
+void reset_info_board_on_load() { TLobby::reset_info_board(); }
+
+void reset_info_board_on_unload() { TLobby::reset_info_board(); }

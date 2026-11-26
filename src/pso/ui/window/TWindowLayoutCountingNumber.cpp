@@ -1,7 +1,5 @@
 #include "types.h"
 #include "pso/unk/TWindowLayoutNumber.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80259DB0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -13,23 +11,21 @@ f32 fabs_float(f32, f32);
 
 #pragma fp_contract on
 
-void TWindowSubStatusDisp::set_all_values(s32 meseta) {
-    TWindowLayoutCountingNumber *number = (TWindowLayoutCountingNumber *)this;
-    number->target = (f32) meseta;
-    number->current = (f32) meseta;
-    number->value = meseta;
-    number->step = 0.0f;
+void TWindowLayoutCountingNumber::set_all_values(s32 value) {
+    this->target = (f32) value;
+    this->current = (f32) value;
+    this->value = value;
+    this->step = 0.0f;
 }
 
-void TWindowSubStatusDisp::set_animated_target(s32 meseta, f32 frames) {
-    TWindowLayoutCountingNumber *number = (TWindowLayoutCountingNumber *)this;
+void TWindowLayoutCountingNumber::set_animated_target(s32 value, f32 frames) {
     f32 target;
     f32 delta;
 
-    if (number->target != (f32) meseta) {
-        number->target = (f32) meseta;
-        target = number->target;
-        delta = target - number->current;
+    if (this->target != (f32) value) {
+        this->target = (f32) value;
+        target = this->target;
+        delta = target - this->current;
         delta = delta / frames;
         if (fabs_float(delta, target) < 1.0f) {
             if (delta > 0.0f) {
@@ -38,19 +34,18 @@ void TWindowSubStatusDisp::set_animated_target(s32 meseta, f32 frames) {
                 delta = -1.0f;
             }
         }
-        number->step = delta;
+        this->step = delta;
     }
 }
 
-void set_status_entry_target(void *entry, s32 value) {
-  TWindowLayoutCountingNumber *number = (TWindowLayoutCountingNumber *)entry;
+void TWindowLayoutCountingNumber::set_status_entry_target(s32 value) {
   f32 target;
   f32 delta;
-  if (number->target != ((f32) value))
+  if (this->target != ((f32) value))
   {
-    number->target = (f32) value;
-    target = number->target;
-    delta = target - number->current;
+    this->target = (f32) value;
+    target = this->target;
+    delta = target - this->current;
     delta *= 0.0211f;
     if (fabs_float(delta, target) < 1.0f)
     {
@@ -63,7 +58,7 @@ void set_status_entry_target(void *entry, s32 value) {
         delta = -1.0f;
       }
     }
-    number->step = delta;
+    this->step = delta;
   }
 }
 

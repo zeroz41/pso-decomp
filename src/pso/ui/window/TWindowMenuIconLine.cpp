@@ -8,7 +8,6 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/WindowLayoutRecord.h"
@@ -366,12 +365,12 @@ void TLobby::add_status_disp_entry(s32 name, s32 id) {
     }
 }
 
-void TAdVIConfigGC__sub_80267704(s32 arg0) {
-    list_window_descriptor.flags = arg0;
+void set_menu_icon_line_flags(s32 flags) {
+    list_window_descriptor.flags = flags;
 }
 
 #pragma fp_contract on
-void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_items, s32 capacity) {
+void TWindowMenuIconLine::draw_item_list_capacity(WindowDrawContext *context, s32 current_items, s32 capacity) {
   u8 new_var;
   NJS_POINT2 pt;
   if (context->open_tick >= 0)
@@ -607,9 +606,9 @@ void TWindowMenuIconLine::init(u32 count, s32 client) {
     }
 }
 
-TWindowMenuIconLine *create_menu_icon_line(saddr parent, saddr position, uaddr count, s16 client) {
-    ((s32 (*)(void *, void *))set_menu_icon_line_params)((void *)position, (void *)count);
-    return new TWindowMenuIconLine((u8 *)parent, count, client);
+TWindowMenuIconLine *create_menu_icon_line(const NJS_POINT2 *position, const NJS_POINT2 *size, u32 count, s16 client) {
+    set_menu_icon_line_params(size, count);
+    return new TWindowMenuIconLine((u8 *)position, count, client);
 }
 
 void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count) {
@@ -687,7 +686,7 @@ void TWindowMenuIconLine::run_task() {
 }
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)this->scroll_bar, (s16)1);
+    delete this->scroll_bar;
     delete this->status_display;
 }
 

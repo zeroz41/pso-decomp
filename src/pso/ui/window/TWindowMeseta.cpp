@@ -4,6 +4,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMeseta.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyDispData.h"
@@ -16,7 +17,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 void TWindowMeseta::set_value(s32 value) {
     meseta = value;
-    ((TWindowSubStatusDisp *)get_array_entry(1))->set_all_values((int)meseta);
+    static_cast<TWindowLayoutCountingNumber *>(get_array_entry(1))->set_all_values((int)meseta);
 }
 
 #pragma readonly_strings on
@@ -68,7 +69,6 @@ WindowDescriptor TWindowMeseta__window_descriptor = {
 };
 
 
-struct Sub_80269244 { u8 pad0[8]; f32 x8; };
 
 
 
@@ -78,7 +78,7 @@ void TWindowMeseta::run_task() {
     meseta_value = this->get_meseta_value();
     if (meseta_value != (s32) this->meseta) {
         this->meseta = meseta_value;
-        ((TWindowSubStatusDisp *)(this->get_array_entry(1)))->set_animated_target(this->meseta, 9.0f);
+        static_cast<TWindowLayoutCountingNumber *>(this->get_array_entry(1))->set_animated_target(this->meseta, 9.0f);
     }
     update_window();
     update_window_entry_list(&entry_list);
@@ -88,15 +88,15 @@ TWindowMeseta::~TWindowMeseta() {}
 TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)position) {
     WindowTextEntry *a;
-    Sub_80269244 *b;
+    TWindowLayoutCountingNumber *b;
     m_name = TWindowMeseta::class_name;
     client = arg2;
     meseta = this->get_meseta_value();
     a = (WindowTextEntry *)get_array_entry(0);
-    b = (Sub_80269244 *)get_array_entry(1);
+    b = static_cast<TWindowLayoutCountingNumber *>(get_array_entry(1));
     set_text_entry_string(a, str, 0);
-    ((TWindowSubStatusDisp *)b)->set_all_values(meseta);
-    target_size[0] = 10.0f + b->x8;
+    b->set_all_values(meseta);
+    target_size[0] = 10.0f + b->x;
     save_position();
     width = calc_title_overflow_width(frame_size[0] - 16.0f);
     if (TCameraCtrl::get_camera_id() > 2) {

@@ -44,7 +44,7 @@ extern const u32 lbl_805DCFC4 = 0x3F000000;
 
 #pragma push
 #pragma fp_contract on
-void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
+void WindowTextEntry::measure_text(f32 max_width) {
     s32 sjis;
     f32 adv;
     f32 lineh;
@@ -57,18 +57,18 @@ void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
     s32 c;
     char ch;
     u8 w;
-    if (msg->text == NULL || *msg->text == 0) {
-        msg->width = K_CFAC;
-        msg->height = K_CFAC;
+    if (this->text == NULL || *this->text == 0) {
+        this->width = K_CFAC;
+        this->height = K_CFAC;
         return;
     }
-    if (msg->flags & 0x40) {
+    if (this->flags & 0x40) {
         limit = K_CFB0;
     } else {
-        limit = maxw;
+        limit = max_width;
     }
     sjis = (u32)__cntlzw(current_language) >> 5;
-    small = (msg->flags >> 2) & 1;
+    small = (this->flags >> 2) & 1;
     if (small) {
         lineh = K_CFB8;
         adv = K_CFB4;
@@ -79,7 +79,7 @@ void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
         y = adv;
     }
     maxx = K_CFAC;
-    p = msg->text;
+    p = this->text;
     x = maxx;
     while (*p != 0) {
         p = const_cast<char *>(parse_text_control_codes(p, &sjis, NULL));
@@ -90,7 +90,7 @@ void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
         c = ch & 0xFF;
         p++;
         if (c == 0xA) {
-            if (msg->flags & 0x80) {
+            if (this->flags & 0x80) {
                 x += adv * K_CFC4;
             } else {
                 if (x > maxx) {
@@ -127,11 +127,11 @@ void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
     if (x > maxx) {
         maxx = x;
     }
-    if (maxx > maxw) {
-        maxx = maxw;
+    if (maxx > max_width) {
+        maxx = max_width;
     }
-    msg->width = maxx;
-    msg->height = y;
+    this->width = maxx;
+    this->height = y;
 }
 }
 #pragma pop

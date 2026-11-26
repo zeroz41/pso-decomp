@@ -2,7 +2,6 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/unk/TWindowLayoutEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
@@ -92,9 +91,9 @@ void TWindowCheckBox::init_check_box(s32 client) {
 TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, s32 size, s32 client) {
     TWindowCheckBox *window;
 
-    TAdVIConfigGC__sub_80267704(0x23);
+    set_menu_icon_line_flags(0x23);
     window = TWindowCheckBox::create(position, size, client);
-    TAdVIConfigGC__sub_80267704(3);
+    set_menu_icon_line_flags(3);
     return window;
 }
 

@@ -14,6 +14,7 @@ struct WindowScrollBar {
     s32 frame;
 
     WindowScrollBar(const NJS_POINT2 *extent);
+    ~WindowScrollBar();
     void set_extent(const NJS_POINT2 *size);
     s32 clamp_offset(f32 *offset, const NJS_POINT2 *visible) const;
     void increment_counter();

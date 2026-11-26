@@ -55,7 +55,6 @@ struct Entry_80250380 { u8 pad[0x10]; f32 w; f32 h; };
 extern "C" {
 void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
-s32 measure_message_text_width(int, f32);
 }
 
 extern "C" {
@@ -480,7 +479,7 @@ void TWindowFukidasi::init_flags(s32 flags) {
 // text entry the way set_text does but without its 200 wrap width, using the
 // 1e6 "no limit" width draw_name_plate clips names with. Name inferred from that role.
 void TWindowFukidasi::measure_text_unbounded(int entry) {
-    measure_message_text_width(entry, 1000000.0f);
+    reinterpret_cast<WindowTextEntry *>(entry)->measure_text(1000000.0f);
 }
 
 #pragma push
@@ -515,7 +514,7 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
   }
   else
   {
-    measure_message_text_width((saddr) entry, 200.0f);
+    entry->measure_text(200.0f);
   }
   if (flags & 0x80)
   {

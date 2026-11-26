@@ -224,7 +224,7 @@ void TWindowSubCustomSelect::run_task() {
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
-    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
+    delete scroll_bar;
     delete status_display;
 }
 const u32 custom_select_organic_action_table[40] = {

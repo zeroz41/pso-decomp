@@ -63,7 +63,7 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
+#include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
@@ -158,7 +158,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)clear_auto_reply_flags},
-    {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
+    {reset_info_board_on_load, reset_info_board_on_unload},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
     {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},

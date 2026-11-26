@@ -73,7 +73,7 @@ TWindowDeposit::TWindowDeposit(s16 client)
     amount = (TWindowLayoutRect *)get_array_entry(1);
     set_text_entry_string(label, text, 0);
     amount->x = 96.0f + (12.0f + (8.0f + text_width));
-    target_size[0] = TWindowSubStatusDisp::get_base_y(width);
+    target_size[0] = get_base_y(width);
     save_position();
     if (TCameraCtrl::get_camera_id() > 2) {
         scale[0] = 0.75f;

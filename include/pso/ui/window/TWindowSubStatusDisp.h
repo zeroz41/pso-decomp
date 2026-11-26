@@ -57,7 +57,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void dispatch_page_init();
     void set_count_ratio_text(s32 count, s32 total);
     void clear_visible_flag();
-    static s32 destroy_allocation(s32 arg0, s16 arg1);
 
     static void *get_message_10(s32 index);
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
@@ -79,10 +78,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s16 get_item_type();
     s16 get_field_2F8();
     s16 get_stat();
-    void set_all_values(s32 meseta);
-    void set_animated_target(s32 meseta, f32 frames);
     void init_scroll_pos();
-    static f32 get_base_y(f32 width);
     void fill_card_text_entries(GuildCardRecord *record);
     static void draw_split_screen_dividers();
     static void draw_tiled_background();
@@ -91,7 +87,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_entry_display_value(s32 str);
     s32 get_display_mode();
     static s32 build_status_text(s32 client_id);
-    static void *get_entry_ptr(int a0);
     void update_entry_visibility();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);

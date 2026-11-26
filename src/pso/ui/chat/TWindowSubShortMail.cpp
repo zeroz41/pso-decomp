@@ -24,7 +24,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
@@ -38,7 +37,7 @@ class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
 
 // Size arguments of the mail list item and the mail text window.
-static const f32 short_mail_item_size[2] = {218.0f, 184.0f};
+static const NJS_POINT2 short_mail_item_size = {218.0f, 184.0f};
 static const f32 short_mail_text_window_size[2] = {206.0f, 120.0f};
 
 extern "C" {
@@ -372,8 +371,7 @@ void TWindowSubShortMail::render() {  }
 
 TWindowMenuIconLine *TWindowSubShortMail::create_list_item() {
     const NJS_POINT2 *position = get_window_layout_position(0x9B);
-    TWindowMenuIconLine *list = create_menu_icon_line(reinterpret_cast<saddr>(position),
-        reinterpret_cast<saddr>(short_mail_item_size), 8, static_cast<s16>(client_id));
+    TWindowMenuIconLine *list = create_menu_icon_line(position, &short_mail_item_size, 8, static_cast<s16>(client_id));
     list->ensure_status_display(reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0x2E)));
     list->set_flag70_bit10();
     return list;

@@ -296,7 +296,7 @@ void TWindowMessageLog::run_task() {
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24));
 }
 TWindowMessageLog::~TWindowMessageLog() {
-    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), 1);
+    delete scroll_bar;
     clear_message_log_window();
 }
 TWindowMessageLog::TWindowMessageLog(const NJS_POINT2 *position, s32 client) : TWindowMessage(position, 0x1E, client) {

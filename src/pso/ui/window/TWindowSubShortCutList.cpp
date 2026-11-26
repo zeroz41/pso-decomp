@@ -1,4 +1,3 @@
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"

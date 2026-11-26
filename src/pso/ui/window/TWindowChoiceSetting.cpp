@@ -264,7 +264,7 @@ void TWindowMenuInfomation::run_task() {
 }
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {
-    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
+    delete scroll_bar;
     delete this->heading;
 }
 TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)

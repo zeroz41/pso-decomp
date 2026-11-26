@@ -43,6 +43,7 @@ public:
 extern const f32 heading_title_offset[2];
 
 void draw_window_tab(WindowDrawContext *context, f32 *position, f32 width, u8 style);
+f32 get_base_y(f32 width);
 f32 calc_title_overflow_width(f32 text_width);
 f32 get_heading_frame_width(HeadingEntry *heading);
 void draw_heading_text(HeadingEntry *heading, WindowDrawContext *context);

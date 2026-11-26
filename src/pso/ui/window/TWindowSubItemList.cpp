@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowScrollBar.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -42,7 +41,7 @@ void TWindowSubItemList::render() {
     draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     draw_blinking_selection(context);
-    draw_item_list_capacity(this, context, item_count, 0x1E);
+    draw_item_list_capacity(context, item_count, 0x1E);
     if (status_display != NULL) {
         status_display->render(context);
     }

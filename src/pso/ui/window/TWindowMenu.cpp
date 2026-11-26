@@ -41,10 +41,6 @@
 
 
 void set_window_menu_rows(s32 rows);
-extern "C" {
-
-void measure_message_text_width(WindowTextEntry *e, f32 x);
-}
 
 const f64 com_card_minimum_entry_height = 0.0;
 // The TWindowMenu layout table (one type-3 text record; set_window_menu_rows sets the row count) and
@@ -336,7 +332,7 @@ void align_menu_entry_positions(TWindowMenu *self) {
     for (i = 0; i < self->row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(self->get_array_entry(i));
         if (((TWindowSubComCard *)e)->get_field_20() != 0) {
-            measure_message_text_width(e, left);
+            e->measure_text(left);
             if (e->height > 18.0f) {
                 e->x = 0.0f;
             } else {
@@ -355,7 +351,7 @@ void TWindowMenu::calc_layout_height(f32 width) {
     for (i = 0; i < row_count; i++) {
         e = static_cast<WindowTextEntry *>(get_array_entry(i));
         if (((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->height <= com_card_minimum_entry_height)) {
-            measure_message_text_width(e, width);
+            e->measure_text(width);
             h += 2.0f + e->height;
         }
     }
@@ -682,7 +678,7 @@ void TWindowMenu::run_task() {
 }
 
 TWindowMenu::~TWindowMenu() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)scroll_bar, (s16)1);
+    delete scroll_bar;
     delete heading;
     mem_free(rows);
 }

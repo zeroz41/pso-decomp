@@ -2,7 +2,6 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/WindowScrollBar.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -86,7 +85,7 @@ void TWindowShop::render() {
     }
     n = this->capacity;
     if (n > 0) {
-        draw_item_list_capacity(this, context, this->entry_count, n);
+        draw_item_list_capacity(context, this->entry_count, n);
     }
     if (status_display != NULL) {
         status_display->render(context);

@@ -15,6 +15,8 @@ public:
     virtual ~TWindowLayoutNumber();
     virtual void update();
     virtual void render(WindowDrawContext *context);
+    // Sets width and height from the digits of value.
+    void calc_size();
 };
 
 LAYOUT_ASSERT(TWindowLayoutNumber_size, sizeof(TWindowLayoutNumber) == 0x24);
@@ -29,6 +31,9 @@ public:
     TWindowLayoutCountingNumber(u8 *rec, s32 m_2);
     virtual ~TWindowLayoutCountingNumber();
     virtual void update();
+    void set_all_values(s32 value);
+    void set_animated_target(s32 value, f32 frames);
+    void set_status_entry_target(s32 value);
 };
 
 LAYOUT_ASSERT(TWindowLayoutCountingNumber_size, sizeof(TWindowLayoutCountingNumber) == 0x30);

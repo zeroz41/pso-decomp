@@ -20,7 +20,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 
@@ -28,7 +27,6 @@
 const char *TWindowStatus::class_name = "TWindowStatus";
 
 
-void set_status_entry_target(void *entry, s32 value);
 #pragma readonly_strings on
 
 struct StatusWindowLayout {
@@ -77,7 +75,7 @@ WindowDescriptor status_window_settings = {
 
 void TWindowStatus::update_hp_tp_values() {
     TObjPlayer *player;
-    void *charge;
+    TWindowLayoutCountingNumber *charge;
     TWindowLayoutNumber *current;
     TWindowLayoutNumber *maximum;
     WindowTextEntry *label;
@@ -96,8 +94,8 @@ void TWindowStatus::update_hp_tp_values() {
         label->color = color;
         maximum->style = color;
         slash->color = color;
-        draw_right_aligned_number(maximum);
-        draw_right_aligned_number(current);
+        maximum->calc_size();
+        current->calc_size();
         current->x = maximum->x - maximum->width - 12.0f;
         slash->x = current->x;
         current = (TWindowLayoutNumber *)get_array_entry(0xB);
@@ -111,13 +109,13 @@ void TWindowStatus::update_hp_tp_values() {
         label->color = color;
         maximum->style = color;
         slash->color = color;
-        draw_right_aligned_number(maximum);
-        draw_right_aligned_number(current);
+        maximum->calc_size();
+        current->calc_size();
         current->x = maximum->x - maximum->width - 12.0f;
         slash->x = current->x;
         update_status_entry();
-        charge = get_array_entry(0xE);
-        set_status_entry_target(charge, player->get_photon_blast_charge());
+        charge = static_cast<TWindowLayoutCountingNumber *>(get_array_entry(0xE));
+        charge->set_status_entry_target(player->get_photon_blast_charge());
     }
 }
 
@@ -165,10 +163,10 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
 
 #pragma fp_contract on
 void TWindowStatus::render() {
-    saddr entry = reinterpret_cast<saddr>(get_array_entry(0xE));
+    TWindowLayoutNumber *entry = static_cast<TWindowLayoutNumber *>(get_array_entry(0xE));
     WindowDrawContext *ctx;
-    draw_right_aligned_number((void *)entry);
-    *(f32 *)((s8 *)entry + 8) = 0.5f * *(f32 *)((s8 *)entry + 0x10) + 68.0f;
+    entry->calc_size();
+    entry->x = 0.5f * entry->width + 68.0f;
     ctx = draw_default_entry();
     draw_background(ctx);
     draw_visible_window_entries(this, &entry_list, ctx);

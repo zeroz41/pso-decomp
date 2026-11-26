@@ -10,7 +10,6 @@
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -170,7 +169,7 @@ void TWindowInputNumber::refresh_digit_entries() {
     do {
         entry = (TWindowLayoutNumber *)get_array_entry(i);
         entry->value = rest % 10;
-        draw_right_aligned_number(entry);
+        entry->calc_size();
         rest = rest / 10;
         i++;
     } while ((u32)i < 6U);

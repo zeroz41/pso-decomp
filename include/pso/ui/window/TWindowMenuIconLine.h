@@ -9,6 +9,8 @@ class WindowHeading;
 struct TItem;
 struct TItemData;
 struct WindowScrollBar;
+struct WindowDrawContext;
+struct NJS_POINT2;
 struct TWindowSubStatusDisp;
 
 class TWindowMenuIconLine : public TWindowAddition {
@@ -101,6 +103,8 @@ public:
     void refresh_equipment_list();
     void build_equipment_list();
     void add_status_line(u8 category_icon, TItem *item, s32 slot);
+    // Draws "current_items/capacity" on a tab above the list.
+    void draw_item_list_capacity(WindowDrawContext *context, s32 current_items, s32 capacity);
     u16 state_flags;
     s16 entry_count;
     s16 cursor;
@@ -112,5 +116,11 @@ public:
     WindowScrollBar *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
 LAYOUT_ASSERT(TWindowMenuIconLine_size, sizeof(TWindowMenuIconLine) == 0x88);
+
+// The size, row count and flags of the next list window built from the shared list descriptor.
+void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count);
+void set_menu_icon_line_flags(s32 flags);
+TWindowMenuIconLine *create_menu_icon_line(const NJS_POINT2 *position, const NJS_POINT2 *size, u32 count, s16 client);
+void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player);
 
 #endif

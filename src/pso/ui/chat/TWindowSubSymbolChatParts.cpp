@@ -439,7 +439,7 @@ void TWindowSubSymbolChatParts::run_task() {
 }
 
 TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)scrollbar, (s16)1);
+    delete scrollbar;
     delete heading;
 }
 

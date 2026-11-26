@@ -599,7 +599,9 @@ void ItemListRow::calc_row_width() {
     }
 }
 
-void*TWindowSubStatusDisp::get_entry_ptr(int a0) {  return (char*)status_disp_item_icon_coord_table + (unsigned char)(a0) * 8; }
+void *get_entry_ptr(int index) {
+    return (char *)status_disp_item_icon_coord_table + (unsigned char)index * 8;
+}
 
 
 void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon, s32 style, f32 depth) {
@@ -615,7 +617,7 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
         begin_screen_draw(1);
         set_texture_list(hud_texlist);
         set_draw_texture_and_color(1, style);
-        entry = (f32 *)TWindowSubStatusDisp::get_entry_ptr(icon);
+        entry = (f32 *)get_entry_ptr(icon);
         offset = 18.0f;
         scale = 0.00390625f;
         q.v[0] = p->x;

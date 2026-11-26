@@ -179,7 +179,6 @@ s32 TWindowOptionCtrl::add_label_value_line(const char *label, const char *value
 }
 
 extern "C" {
-void measure_message_text_width(void *, f32);
 
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color) {
     WindowTextEntry *e;
@@ -233,7 +232,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
     if (self->window_flags & 0x80) {
         y -= 5.0f;
     }
-    measure_message_text_width(e, y);
+    e->measure_text(y);
     if (flags & 0x200) {
         e->x = y - e->width;
     } else {

@@ -13,10 +13,6 @@
 // 8-aligned 0x805DD2F8 and is padded to 0x805DD338, where TWindowSetLevelUp's " +" starts the next TU's pool.
 
 
-extern "C" {
-void __dl__FPv(void);
-}
-
 s32 WindowScrollBar::clamp_offset(f32 *offset, const NJS_POINT2 *visible) const {
     f32 room;
     if (extent.y < visible->y || offset[1] < 0.0f) {
@@ -90,12 +86,7 @@ void WindowScrollBar::increment_counter() {
     frame++;
 }
 
-s32 TWindowSubStatusDisp::destroy_allocation(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
-}
+WindowScrollBar::~WindowScrollBar() {}
 
 WindowScrollBar::WindowScrollBar(const NJS_POINT2 *extent) {
     set_extent(extent);

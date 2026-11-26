@@ -21,6 +21,8 @@ public:
     virtual ~WindowTextEntry();
     virtual void update();
     virtual void render(WindowDrawContext *context);
+    // Sets width and height from the text, wrapping lines at max_width.
+    void measure_text(f32 max_width);
 };
 
 LAYOUT_ASSERT(WindowTextEntry_size, sizeof(WindowTextEntry) == 0x2C);

@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowScrollBar.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"

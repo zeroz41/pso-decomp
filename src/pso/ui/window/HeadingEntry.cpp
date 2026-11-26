@@ -64,7 +64,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
     end_screen_draw();
 }
 
-f32 TWindowSubStatusDisp::get_base_y(f32 width) {
+f32 get_base_y(f32 width) {
     return (1.6e+02f) + width;
 }
 

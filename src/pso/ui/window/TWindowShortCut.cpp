@@ -17,7 +17,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/text_80076BC4.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
@@ -25,6 +25,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/ItemListRow.h"
 
 const char *TWindowShortCut::class_name = "TWindowShortCut";
 
@@ -64,9 +65,6 @@ WindowDescriptor window_short_cut_layout = {
     {405.0f, 188.0f}, 50100.0f, &window_short_cut_layout_entries, 0x63,
 };
 
-extern "C" {
-void measure_message_text_width(void *entry, f32 max_width);
-}
 
 // A shortcut's preview text entry: its flags word and the measured size of its text.
 struct ShortcutPreviewEntry {
@@ -109,19 +107,19 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     set_text_entry_string(shortcut_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC4), 0);
     get_shortcut_entry_codes(index, &icon, &icon_detail, client_index);
     if (icon != 0x33) {
-        SpriteOrigin *origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon);
+        SpriteOrigin *origin = (SpriteOrigin *)get_entry_ptr(icon);
         shortcut_icon->flags &= ~2;
         reinterpret_cast<WindowSpritePart *>(shortcut_icon)->set_sprite_uv_from_pixels(origin->u, origin->v);
     } else {
         shortcut_icon->flags |= 2;
     }
 
-    SpriteOrigin *detail_origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon_detail);
+    SpriteOrigin *detail_origin = (SpriteOrigin *)get_entry_ptr(icon_detail);
     reinterpret_cast<WindowSpritePart *>(detail_icon)->set_sprite_uv_from_pixels(detail_origin->u, detail_origin->v);
     set_text_entry_string(kind_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC5), 0);
     set_text_entry_string(kind_name, (uaddr)TWindowSubStatusDisp::get_message_10(0xC0 + kind), 0);
     s32 kind_sprite = shortcut_kind_sprites[kind - 1];
-    SpriteOrigin *kind_origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(kind_sprite);
+    SpriteOrigin *kind_origin = (SpriteOrigin *)get_entry_ptr(kind_sprite);
     reinterpret_cast<WindowSpritePart *>(kind_icon)->set_sprite_uv_from_pixels(kind_origin->u, kind_origin->v);
 
     position.x = 211.0f;
@@ -134,7 +132,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     case 1: {
         char *text = fn_80076BC4(shortcut + 1);
         set_text_entry_string(preview, (uaddr)text, 0);
-        measure_message_text_width(preview, 200.0f);
+        preview->measure_text(200.0f);
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
         size.y = 3.0f + (20.0f + preview->height);

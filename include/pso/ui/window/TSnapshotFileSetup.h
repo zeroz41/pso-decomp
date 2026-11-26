@@ -24,4 +24,8 @@ public:
 };
 LAYOUT_ASSERT(TSnapshotFileSetup_size, sizeof(TSnapshotFileSetup) == 0x30);
 
+// The floor resource callbacks (load, unload) that clear the lobby information board.
+void reset_info_board_on_load();
+void reset_info_board_on_unload();
+
 #endif

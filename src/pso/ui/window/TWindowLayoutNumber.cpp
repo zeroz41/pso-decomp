@@ -2,9 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TWindowLayoutNumber.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -14,33 +12,32 @@ extern "C" {
 u8 get_small_font_glyph_width();
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 s32 build_small_font_glyph_quad(s32, TexturedQuad *);
+}
 
-void draw_right_aligned_number(void *arg0) {
-    TWindowLayoutNumber *digit = static_cast<TWindowLayoutNumber *>(arg0);
+void TWindowLayoutNumber::calc_size() {
     s32 n;
-    n = digit->value;
-    if (digit->flags & 4) {
+    n = this->value;
+    if (this->flags & 4) {
         n /= 10;
-        digit->width = 10.0f;
-        digit->height = 13.0f;
+        this->width = 10.0f;
+        this->height = 13.0f;
         while (n > 0) {
             n /= 10;
-            digit->width += 10.0f;
+            this->width += 10.0f;
         }
         return;
     }
-    digit->height = 18.0f;
+    this->height = 18.0f;
     if (n <= 0) {
-        digit->width = (u8)get_font_char_advance(map_char_to_font_code(0x30));
+        this->width = (u8)get_font_char_advance(map_char_to_font_code(0x30));
         return;
     }
-    digit->width = 0.0f;
+    this->width = 0.0f;
     while (n > 0) {
         u16 glyph = ((u16 (*)(s32))map_char_to_font_code)((u16)(n % 10) + 0x30);
-        digit->width += (u8)get_font_char_advance(glyph);
+        this->width += (u8)get_font_char_advance(glyph);
         n /= 10;
     }
-}
 }
 
 #pragma fp_contract on

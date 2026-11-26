@@ -16,7 +16,6 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/unk/text_803DA798.h"
@@ -462,7 +461,7 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
     reinterpret_cast<TWindowSubStatusDisp *>(label)->clear_visible_flag();
     label->style = icon->color;
     label->value = v;
-    draw_right_aligned_number(label);
+    label->calc_size();
     label->x = (icon->x - -25.0f) + 0.5f * label->width;
     label->y = icon->y - -28.0f;
 }
