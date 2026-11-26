@@ -16,7 +16,7 @@ char *cri_copyright_string = "(c)CRI";
 
 AixDemuxer aix_demuxer_pool[4];
 
-void TLobby__sub_803CD99C(void) {
+void aix_demuxer_exec_server(void) {
     AixDemuxer *demuxer;
     s32 i;
     s32 size;
@@ -40,7 +40,7 @@ void TLobby__sub_803CD99C(void) {
                         while (1) {
                         }
                     }
-                    TLobby__sub_803D3130(&chunk, size, &chunk, &rest);
+                    sj_split_chunk(&chunk, size, &chunk, &rest);
                     input->interface->put_chunk(input, 0, &chunk);
                     input->interface->unget_chunk(input, 1, &rest);
                     demuxer->bytes_consumed += size;
@@ -107,7 +107,7 @@ s32 demux_stream_chunks(AixDemuxer *demuxer) {
             return ret;
         }
         if (header.magic == 0x41495845) {
-            TLobby__sub_803D3130(&packet, header.size + 8, &packet, &rest);
+            sj_split_chunk(&packet, header.size + 8, &packet, &rest);
             input->interface->put_chunk(input, 0, &packet);
             input->interface->unget_chunk(input, 1, &rest);
             if (input->interface->get_available(input, 1) <= 0) {
@@ -129,9 +129,9 @@ s32 demux_stream_chunks(AixDemuxer *demuxer) {
         }
         middleware_interrupt_lock_enter();
         ret = header.result;
-        TLobby__sub_803D3130(&packet, header.size + 8, &packet, &rest);
+        sj_split_chunk(&packet, header.size + 8, &packet, &rest);
         input->interface->unget_chunk(input, 1, &rest);
-        TLobby__sub_803D3130(&packet, 0x10, &packet, &rest);
+        sj_split_chunk(&packet, 0x10, &packet, &rest);
         if (rest.size < header.data_size) {
             while (1) {
             }
@@ -239,6 +239,6 @@ void adx_interrupt_lock_leave() {
     middleware_interrupt_lock_leave();
 }
 
-void TLobby__sub_803CE220(void) {
+void adx_interrupt_lock_enter(void) {
     middleware_interrupt_lock_enter();
 }

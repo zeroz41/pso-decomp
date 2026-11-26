@@ -6,7 +6,7 @@
 struct GcrnaStream;
 
 extern "C" {
-void TLobby__sub_803CBF30(GcrnaStream *stream, s32 sample_bits);
+void gcrna_bridge_set_sample_bits(GcrnaStream *stream, s32 sample_bits);
 }
 
 #endif

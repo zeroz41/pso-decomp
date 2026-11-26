@@ -111,7 +111,7 @@ void update_adx_stream_read(AdxStreamFile *file) {
         r = cvFsGetStat(file->handle);
         if (r == 1) {
             n = file->sectors_read << 11;
-            TLobby__sub_803D3130(&file->pending_read, n, &a, &b);
+            sj_split_chunk(&file->pending_read, n, &a, &b);
             stream->interface->put_chunk(stream, 1, &a);
             stream->interface->unget_chunk(stream, 0, &b);
             if (file->sectors == get_stream_position(file) && file->on_completion != NULL) {

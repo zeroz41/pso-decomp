@@ -40,7 +40,7 @@ void adxb_exec_one_au(AdxbDecoder *adxb) {
         return;
     }
     if (kind == 1) {
-        TLobby__sub_803C2A00(adxb);
+        adxb_decode_au_pcm8(adxb);
         return;
     }
     process_byteswapped_pcm_transfer(adxb);
@@ -84,7 +84,7 @@ void adxb_decode_au_ulaw(AdxbDecoder *o) {
     }
 }
 
-void TLobby__sub_803C2A00(AdxbDecoder *o) {
+void adxb_decode_au_pcm8(AdxbDecoder *o) {
     u8 *src = o->src;
     if (o->state == 1 && o->channel->get_state() == 0) {
         s16 *l;

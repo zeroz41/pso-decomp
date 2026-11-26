@@ -54,7 +54,7 @@ void adxb_exec_one_spsd(AdxbDecoder *adxb) {
 s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 len;
     adxb->m_02 = 1;
-    if (TLobby__sub_803C44C0((SpsdHeader *)hdr, size, &len, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes, &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
+    if (adx_parse_spsd_header((SpsdHeader *)hdr, size, &len, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes, &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
     adxb->cutoff = 0;
@@ -83,7 +83,7 @@ s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     return len;
 }
 
-s32 TLobby__sub_803C44C0(SpsdHeader *hdr, s32 size, s16 *len, s8 *out_0C, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate, s32 *samples, s32 *block_samples, s16 *format) {
+s32 adx_parse_spsd_header(SpsdHeader *hdr, s32 size, s16 *len, s8 *out_0C, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate, s32 *samples, s32 *block_samples, s16 *format) {
     *len = hdr->m_07 * 0x10;
     *channels = (hdr->m_09 & 3) + 1;
     *rate = hdr->m_2A;

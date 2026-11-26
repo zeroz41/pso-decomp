@@ -93,11 +93,11 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
             s16 *dst = adxb->buf;
             dst += adxb->pos;
             channel->post_request((s8 *)adxb->src, n * 2, dst, dst + adxb->rOff);
-            TLobby__sub_803CB4A4(channel);
+            adx_decoder_channel_start(channel);
         } else {
             AdxDecoderChannel *channel = adxb->channel;
             channel->try_post_command((s8 *)adxb->src, n, adxb->buf + adxb->pos);
-            TLobby__sub_803CB4A4(channel);
+            adx_decoder_channel_start(channel);
         }
         adxb->state = 2;
     }
@@ -233,7 +233,7 @@ s32 AdxbDecoder::get_block_samples() {
     return block_samples;
 }
 
-s32 AdxbDecoder::get_packet_flag_for_state() {
+s32 AdxbDecoder::get_bits_per_sample() {
     s16 s = format;
     if (s == 0) {
         return 0x10;
@@ -323,7 +323,7 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
         return 0;
     }
     adxb->channel->calc_adx_coeffs_at_offset(adxb->rate, adxb->cutoff);
-    TLobby__sub_803CB570(adxb->channel, (u8 *)&sp18, (s16 *)&sp14);
+    adx_decoder_channel_set_delay(adxb->channel, (u8 *)&sp18, (s16 *)&sp14);
     adx_parse_header_loop(hdr, size, &adxb->loop_enabled, &adxb->loop_type, &adxb->loop_count, &adxb->loop_start_sample, &adxb->loop_start_byte, &adxb->loop_end_sample, &adxb->loop_end_byte);
     adxb->format = 0;
 block_11:

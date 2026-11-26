@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_803CE220(void);
+void adx_interrupt_lock_enter(void);
 }
 
 extern "C" {

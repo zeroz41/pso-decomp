@@ -12,7 +12,7 @@
 #include "pso/audio/AdxAiff.h"
 #include "pso/audio/AiffHeader.h"
 
-// The RIFF chunk ids TLobby__sub_803C1780 scans a WAVE header for.
+// The RIFF chunk ids adx_parse_wav_header scans a WAVE header for.
 const char *wav_fmt_chunk_id = "fmt ";
 const char *wav_data_chunk_id = "data";
 
@@ -55,7 +55,7 @@ void adxb_exec_wav_split16(AdxbDecoder *adxb);
 void adxb_exec_wav_pcm8(AdxbDecoder *adxb);
 
 void decode_audio_stream_step(AudioStreamInputState *st);
-u8 *AudioStreamInputState::get_offset_58() {
+u8 *AudioStreamInputState::get_header() {
     return header;
 }
 s32 get_stream_loop_end_byte(AudioStreamInputState *st) {
@@ -73,19 +73,19 @@ s32 AudioStreamInputState::get_loop_start_sample() {
 s32 get_stream_loop_type(AudioStreamInputState *st) {
     return st->decoder->get_loop_type();
 }
-s32 AudioStreamInputState::send_packet_by_id() {
+s32 AudioStreamInputState::get_total_samples() {
     return decoder->get_total_samples();
 }
-s32 AudioStreamInputState::notify_field_4_alt() {
+s32 AudioStreamInputState::get_block_samples() {
     return decoder->get_block_samples();
 }
-s32 AudioStreamInputState::send_packet_by_id_2() {
-    return decoder->get_packet_flag_for_state();
+s32 AudioStreamInputState::get_bits_per_sample() {
+    return decoder->get_bits_per_sample();
 }
-s32 AudioStreamInputState::send_with_offset4() {
+s32 AudioStreamInputState::get_channels() {
     return decoder->get_channels();
 }
-s32 AudioStreamInputState::notify_field_4() {
+s32 AudioStreamInputState::get_rate() {
     return decoder->get_rate();
 }
 s32 audio_stream_get_format(AudioStreamInputState *st) {
@@ -113,7 +113,7 @@ s32 audio_stream_get_output_samples(AudioStreamInputState *st) {
 
 struct AudioStreamGetOutputSamplesObject;
 
-void sub_803C0018(void) {
+void audio_stream_exec_server(void) {
     s32 i;
     for (i = 0; i < 0x10; i++) {
         if ((s32)((Rec_803C0018 *)&audio_stream_input_pool)[i].state == 1) {
@@ -150,7 +150,7 @@ inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
     if (h->get_format() == 10) {
         s->interface->unget_chunk(s, 1, &b);
     } else {
-        TLobby__sub_803D3130(&b, n, &b, &b2);
+        sj_split_chunk(&b, n, &b, &b2);
         s->interface->put_chunk(s, 0, &b);
         s->interface->unget_chunk(s, 1, &b2);
     }
@@ -210,11 +210,11 @@ inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
     avail = h->get_decoded_samples();
     n -= st->decoded_samples;
     n = avail < n ? avail : n;
-    TLobby__sub_803D3130(&st->src_chunk, bytes, &head, &tail);
+    sj_split_chunk(&st->src_chunk, bytes, &head, &tail);
     s->interface->put_chunk(s, 0, &head);
     s->interface->unget_chunk(s, 1, &tail);
     for (i = 0; i < st->decoder->get_channels(); i++) {
-        TLobby__sub_803D3130(&st->out_chunks[i], n * 2, &head, &tail);
+        sj_split_chunk(&st->out_chunks[i], n * 2, &head, &tail);
         if (st->output_callback != NULL) {
             st->output_callback(st->output_context, i, head.data, head.size);
         }
@@ -286,7 +286,7 @@ s16 *audio_stream_get_write_window(void *state_ptr, s32 *out_offset, s32 *out_av
     return state->decoder->get_output_buffer();
 }
 
-void AudioStreamInputState::reset_flag() {
+void AudioStreamInputState::stop() {
     decoder->stop();
     state = 0;
 }
@@ -302,11 +302,11 @@ void audio_stream_start(AudioStreamInputState *st) {
     st->stop_when_drained = 0;
     st->state = 1;
 }
-void AudioStreamInputState::set_network_result(s32 result) {
+void AudioStreamInputState::set_max_samples(s32 result) {
     max_samples = result;
     decoder->set_max_samples(result);
 }
-void AudioStreamInputState::set_param_and_notify(SjRingBuffer *sj) {
+void AudioStreamInputState::set_source(SjRingBuffer *sj) {
     source = sj;
     decoder->invoke_notify_callback();
 }
@@ -514,7 +514,7 @@ void adxb_exec_wav_pcm16(AdxbDecoder *adxb) {
 s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 n;
     adxb->m_02 = 1;
-    if (TLobby__sub_803C1780(hdr, size, &n, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes,
+    if (adx_parse_wav_header(hdr, size, &n, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes,
                              &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
@@ -580,7 +580,7 @@ LAYOUT_ASSERT(WavDataChunkSize, sizeof(WavDataChunk) == 8);
                             (((value) << 8) & 0xFF0000) | (((value) << 24) & 0xFF000000))
 #pragma push
 #pragma opt_propagation off
-s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
+s32 adx_parse_wav_header(u8 *buffer, s32 size, s16 *data_offset,
                         s8 *flags, s8 *bits_per_sample, s8 *block_align,
                         s8 *channels, s32 *sample_rate, s32 *sample_count,
                         s32 *codec, s16 *encoding) {

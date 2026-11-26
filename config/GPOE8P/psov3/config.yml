@@ -709,7 +709,7 @@ force_active:
   - __ct__18TSymbolChatCaptureFP7TObject
   - reset_init_ref_count
   - adx_bridge_set_loop_flag
-  - TLobby__sub_803CE2A0
+  - aix_exec_handle
   - svm_invoke_single_callback
   - gvm_stream_begin
   - gvm_stream_read
@@ -17747,13 +17747,13 @@ force_active:
   - TLobby__sub_803C5B50
   - TLobby__sub_803C5E58
   - TLobby__sub_803C5E68
-  - TObjPlayer__sub_80079108
+  - csn_debug_hook_ground_query__Fv
   - csn_debug_hook_contact_color__FP10CsnContactP8NJS_ARGB
   - csn_debug_hook_hit_record__FP6CsnHit
   - csn_debug_hook_group_list__FPCP8CsnGroup
   - csn_debug_hook_origin_vector__FPC3Vec
   - csn_debug_hook_segment__FPC3VecPC3Vec
-  - TObjPlayer__sub_80079DE0
+  - select_segment_query_groups__FP3VecP3Vec
   - adx_stream_ring_buffer
   - adx_stream_ring_buffer_storage
   - calc_segment_xz_distance_sq__FP3VecP3VecP3VecP3Vecfff
@@ -17784,16 +17784,16 @@ force_active:
   - update_cursor_input__25TWindowSubSymbolChatPartsFv
   - draw_selected_cursor__25TWindowSubSymbolChatPartsFPUc
   - "get_adx_threshold_and_chunk"
-  - "TLobby__sub_803C9104"
-  - "TLobby__sub_803C9350"
+  - "adxt_insert_silence"
+  - "adxt_set_time_offset"
   - "TLobby__sub_803C9358"
   - "TLobby__sub_803C94D8"
-  - "TLobby__sub_803C96A8"
-  - "TLobby__sub_803C96B0"
-  - "TLobby__sub_803C96E0"
+  - "adxt_set_server_freq"
+  - "adxt_get_output_vol"
+  - "adxt_get_output_pan"
   - "adx_get_data_start_offset"
   - "ADXT_SetOutPan"
-  - "apply_if_v2"
+  - "adxt_get_sample_rate"
   - "adx_check_packet_header"
   - "adx_talk_set_rate_mode"
   - "adxm_set_error_callback"

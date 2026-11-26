@@ -58,7 +58,7 @@ static const char *const volatile adxgc_version_pointer = "\nADXGC Ver.1.10 Buil
 
 void exec_adx_server(void) {
     adxgc_version_pointer;
-    TLobby__sub_803C9608();
+    adxt_exec_server();
     ADXT_ExecFsSvr();
 }
 

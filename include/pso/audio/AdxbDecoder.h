@@ -81,7 +81,7 @@ struct AdxbDecoder {
     s16 *get_output_buffer();
     s32 get_decoded_samples();
     s32 get_decoded_bytes();
-    s32 get_packet_flag_for_state();
+    s32 get_bits_per_sample();
     // Back to idle once decoding ended (state 3).
     void reset();
     void stop();
@@ -121,7 +121,7 @@ void adxb_exec_one_spsd(AdxbDecoder *adxb);
 void adxb_exec_one_aiff(AdxbDecoder *adxb);
 void adxb_exec_one_au(AdxbDecoder *adxb);
 void adxb_exec_one_wav(AdxbDecoder *adxb);
-void TLobby__sub_803C2A00(AdxbDecoder *o);
+void adxb_decode_au_pcm8(AdxbDecoder *o);
 
 // Decodes the ADX, SPSD, WAVE, AIFF or AU header at hdr into the handle; returns the
 // header size, 0 when the header is not supported.
@@ -146,7 +146,7 @@ void adxb_default_done(void *obj, s32 bytes, s32 samples);
 }
 void process_byteswapped_pcm_transfer(AdxbDecoder *o);
 extern "C" {
-s32 TLobby__sub_803C44C0(SpsdHeader *hdr, s32 size, s16 *len, s8 *out_0C, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate,
+s32 adx_parse_spsd_header(SpsdHeader *hdr, s32 size, s16 *len, s8 *out_0C, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate,
                          s32 *samples, s32 *block_samples, s16 *format);
 }
 
