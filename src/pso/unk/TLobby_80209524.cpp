@@ -468,8 +468,6 @@ void build_challenge_enemy_set(s32 floor) {
 }
 #pragma pop
 
-extern "C" {
-
 void TLobby::init_buffers(int id, u8 *quest) {
     QuestChunkHeader *chunks = (QuestChunkHeader *)quest;
     QuestChunkHeader *items;
@@ -501,8 +499,6 @@ void TLobby::free_boss4rock() {
 }
 
 // ---- pso/unk/text_8020A2AC
-s32 __cvt_fp2unsigned(f32);
-}
 
 saddr item_drop_server_seed;
 s32 lbl_805D60D4;
@@ -519,7 +515,7 @@ void init_item_drop_rng(void) {
     static const f32 seed_scale = 4294967296.0f;
     static const f32 rand_reciprocal = 3.0517578e-05f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        item_drop_server_seed = __cvt_fp2unsigned(seed_scale * (rand_reciprocal * (f32)rand()));
+        item_drop_server_seed = (u32)(seed_scale * (rand_reciprocal * (f32)rand()));
     }
     item_drop_rng = new SubtractiveRng(item_drop_server_seed);
     EventShuffleTable *table = static_cast<EventShuffleTable *>(::operator new(sizeof(EventShuffleTable)));

@@ -41,7 +41,6 @@ extern "C" {
 s32 lobby_request_flags;
 int info_icon_texture;
 s32 lobby_pulse_color_phase;
-u32 __cvt_fp2unsigned(f32);
 
 NJS_TEXNAME loading_texture_names[3] = {
     { "f256_nowloading", 0, 0 },
@@ -111,7 +110,7 @@ void TLobby__sub_803382E4(void) {
         draw_projected_textured_strip(loading_image_right, 4);
         end_screen_textured_draw();
         set_additive_blend();
-        draw_compass_sprite(&loading_compass_sprite, 2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
+        draw_compass_sprite(&loading_compass_sprite, 2, ((u32)(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();

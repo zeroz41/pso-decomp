@@ -429,13 +429,8 @@ s32 parse_two_digit_number(void *text) {
     v += s[1] - '0';
     return v;
 }
-extern "C" {
-
-s32 __cvt_fp2unsigned(f32);
-}
-
 s32 TLobby::calc_alpha_shifted(f32 alpha) {
-    return __cvt_fp2unsigned(255.0f * alpha) << 0x18;
+    return (u32)(255.0f * alpha) << 0x18;
 }
 
 
