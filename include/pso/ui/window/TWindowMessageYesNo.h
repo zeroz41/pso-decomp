@@ -25,7 +25,7 @@ struct TWindowMessageYesNo : public TObject {
     void set_choice_menu_flag70_bit10();
     virtual void render();
     virtual void run_task();
-    static TWindowMessageYesNo *create(void *parent, s32 client_id, const char *yes_label, const char *no_label);
+    static TWindowMessageYesNo *create(TObject *parent, s32 client_id, const char *yes_label, const char *no_label);
     void set_menu_selected_index(s16 index);
     void open_yes_no_prompt_with_text(s32 text, const NJS_POINT2 *pos, f32 width);
     void get_choice_menu_position(NJS_POINT2 *position);

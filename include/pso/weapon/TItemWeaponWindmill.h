@@ -31,6 +31,6 @@ public:
 // The TItemWeaponWindmill shot callback: a TItemShootWindmill from owner.
 saddr create_shoot_model(saddr owner, saddr pos, saddr dir, f32 life);
 // Item timer: sets charge_ready again 30 frames after a charged release.
-void charge_ready_timer(void *weapon);
+void charge_ready_timer(TItemWeaponWindmill *weapon);
 
 #endif

@@ -66,7 +66,7 @@ void TWindowMenu::update_cursor_pos() {
 s16 TWindowMenu::get_cursor_pos() { return selected_row; }
 
 void TWindowShortListCtrl::set_card_window_flags(saddr client_id, s32 page) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
 }
 
 TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TObject(parent) {

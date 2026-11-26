@@ -90,20 +90,18 @@ void TWindowMenuIconLine::deactivate() {
     }
 }
 
-
-
 // Puts the cursor back on the saved row, or the nearest selectable row above it.
 void TWindowMenuIconLine::clamp_selection_to_valid_entry() {
-    void *e;
+    TWindowLayoutEntry *e;
     if (entry_count >= 0) {
         if (saved_cursor >= entry_count) {
             cursor = entry_count - 1;
             return;
         }
-        e = get_array_entry(saved_cursor);
-        while (((TWindowLayoutEntry *)e)->is_flag_4_set() == 0) {
+        e = (TWindowLayoutEntry *)get_array_entry(saved_cursor);
+        while (e->is_flag_4_set() == 0) {
             saved_cursor = saved_cursor - 1;
-            e = get_array_entry(saved_cursor);
+            e = (TWindowLayoutEntry *)get_array_entry(saved_cursor);
         }
         cursor = saved_cursor;
     }
@@ -202,9 +200,9 @@ void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 src, s3
     }
 }
 
-void TWindowMenuIconLine::push_status_disp_entry(s32 count, s32 id) {
+void TWindowMenuIconLine::add_meseta_entry(s32 meseta, s32 id) {
     if (entry_count < entry_capacity) {
-        TWindowSubStatusDisp__sub_80258A28((ItemListRow *)get_array_entry(entry_count), count, id);
+        ((ItemListRow *)get_array_entry(entry_count))->init_meseta(meseta, id);
         entry_count++;
     }
 }
@@ -372,7 +370,7 @@ void set_menu_icon_line_flags(s32 flags) {
 
 #pragma fp_contract on
 void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_items, s32 capacity) {
-  u8 new_var;
+  u8 advance;
   NJS_POINT2 pt;
   if (context->open_tick >= 0)
   {
@@ -387,8 +385,8 @@ void draw_item_list_capacity(void *, WindowDrawContext *context, s32 current_ite
     get_shared_text_buffer();
     pt.x -= (f32) calc_text_width();
     map_char_to_font_code(0x2F);
-    new_var = get_font_char_advance();
-    pt.x -= 0.5f * new_var;
+    advance = get_font_char_advance();
+    pt.x -= 0.5f * advance;
     text_builder_append((u8 *)"/");
     text_builder_append_int(capacity);
     draw_window_text((f32 *)&pt, (const char *)(get_shared_text_buffer()), -1, 0, (f32)100000.0f);
@@ -531,7 +529,7 @@ void TWindowMenuIconLine::center_list_selection() {
     f32 target;
 
     if ((this->scroll_bar != 0U) && (this->tween_ticks == 0U)) {
-        f32 t = (*(f32 *)&this->frame_size[1] - 16.0f) - 10.0f;
+        f32 t = (this->frame_size[1] - 16.0f) - 10.0f;
         target = 9.0f + (f32) (this->cursor * 0x14);
         target -= 0.5f * t;
         scroll_offset[1] += target - scroll_offset[1];
@@ -553,13 +551,13 @@ void TWindowMenuIconLine::clamp_item_list_scroll() {
 
 #pragma fp_contract on
 void TWindowMenuIconLine::update_scroll_offset() {
-  s8 *new_var;
+  WindowTextEntry *entry;
   f32 target_y;
   u32 n;
   if ((this->state_flags) & 0x20)
   {
-    new_var = ((s8 *) ((u16 *)get_array_entry(this->cursor))) + 0xC;
-    target_y = *((f32 *) new_var);
+    entry = (WindowTextEntry *)get_array_entry(this->cursor);
+    target_y = entry->y;
   }
   else
   {

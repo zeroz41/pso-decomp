@@ -28,19 +28,19 @@ s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 mask) {
     return (character_save_record->card_window_flags & mask) ? 1 : 0;
 }
 
-void TWindowKeyBoardHard::set_card_window_flags(void *client_id, s32 bits, s32 keep_mask) {
+void TWindowKeyBoardHard::set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((uaddr)client_id);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u32)client_id);
     if (character_save_record != NULL) {
         character_save_record->card_window_flags = (s32) (character_save_record->card_window_flags & keep_mask);
         character_save_record->card_window_flags = (s32) (character_save_record->card_window_flags | bits);
     }
 }
 
-void set_fresh_card_flag(void *card) {
-    if (card != NULL) {
-        ((CharacterSaveRecord *)card)->card_window_flags = 0x40058;
+void set_default_card_window_flags(CharacterSaveRecord *record) {
+    if (record != NULL) {
+        record->card_window_flags = 0x40058;
     }
 }
 

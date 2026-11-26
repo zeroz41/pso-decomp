@@ -73,8 +73,8 @@ TObjEneHoldEffect::~TObjEneHoldEffect() {
     }
 }
 
-void TObjEneHoldEffect::create(void *target, s32 type, s32 frames) {
-    new TObjEneHoldEffect((TObjBase *)target, type, frames);
+void TObjEneHoldEffect::create(TObjBase *target, s32 type, s32 frames) {
+    new TObjEneHoldEffect(target, type, frames);
 }
 
 const char *TObjEneHoldEffect::class_name = "TObjEneHoldEffect";

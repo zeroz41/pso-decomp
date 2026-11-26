@@ -39,8 +39,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
-// The class name opens .rodata (0x8044F478), then the menu window positions
-// (0x8044F48C..0x8044F4A4) in this order, ahead of the strings of the functions.
+// The class name opens .rodata, then the menu window positions in this order, ahead of the
+// strings of the functions.
 const char *TWindowOptionCtrl::class_name = "TWindowOptionCtrl";
 const vec2f select_menu_window_size = {470.0f, 124.0f};
 const vec2f sound_mode_menu_window_size = {470.0f, 80.0f};
@@ -335,10 +335,10 @@ void TWindowOptionCtrl::run_task() {
         if (yes_no_window == NULL) {
             switch (sub_menu->get_selected_value()) {
             case 0x14:
-                yes_no_window = (TWindowMessageYesNo *)TWindowOptionCtrl::open_yes_no_window((saddr)this, 0x22, 0xD0);
+                yes_no_window = open_yes_no_window(0x22, 0xD0);
                 break;
             case 0x15:
-                yes_no_window = (TWindowMessageYesNo *)TWindowOptionCtrl::open_yes_no_window((saddr)this, 0x24, 0xD0);
+                yes_no_window = open_yes_no_window(0x24, 0xD0);
                 break;
             }
         }
@@ -486,12 +486,12 @@ TWindowCheckBox *TWindowOptionCtrl::create_udp_option_menu() {
     return check_box_window;
 }
 
-saddr TWindowOptionCtrl::open_yes_no_window(saddr parent, s32 message_id, s32 index) {
+TWindowMessageYesNo *TWindowOptionCtrl::open_yes_no_window(s32 message_id, s32 index) {
   TWindowMessageYesNo *window;
-  window = TWindowMessageYesNo::create((void *)parent, 6, NULL, NULL);
+  window = TWindowMessageYesNo::create(this, 6, NULL, NULL);
   window->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, message_id)), get_window_layout_position(index), 470.0f);
   window->set_menu_selected_index(1);
-  return (saddr)window;
+  return window;
 }
 
 saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {

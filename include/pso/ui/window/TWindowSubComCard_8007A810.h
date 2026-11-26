@@ -22,8 +22,8 @@ GuildCardEntry *get_received_guild_card_tags(void);
 void clear_received_guild_cards(s32 _w0);
 extern "C" {
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src);
-void TWindowGetComCard__sub_8007B65C(void *p);
-void TWindowGetComCard__sub_8007B67C(void *p);
+void free_received_guild_cards(void *p);
+void init_received_guild_cards(void *p);
 }
 
 extern GuildCardEntry received_guild_card_tags[4];

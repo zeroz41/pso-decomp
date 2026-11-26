@@ -30,7 +30,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     virtual void render();
     static s32 test_card_flag(s32 client, s32 mask);
     static s32 test_card_flag_2(s32 client_id);
-    static void set_card_window_flags(void *client_id, s32 bits, s32 keep_mask);
+    static void set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask);
     int is_card_flag_set();
     static s32 test_card_flag_8(s32 client_id);
     virtual void run_task();

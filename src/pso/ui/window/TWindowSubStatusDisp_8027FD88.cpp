@@ -475,7 +475,7 @@ void TWindowSubStatusDisp::vt0() {
     e = (WindowTextEntry *)get_array_entry(0xE);
     set_text_entry_string(e, (saddr)TWindowSubStatusDisp::get_message_10(0x82), 0x20);
     e = (WindowTextEntry *)get_array_entry(0x11);
-    set_text_entry_string(e, TWindowSubStatusDisp::get_download_server(), 0x20);
+    set_text_entry_string(e, TWindowSubStatusDisp::get_meseta_unit(), 0x20);
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
         st = (CharacterAppearanceFields *)pl->name;

@@ -63,7 +63,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void render_forward();
     static void end_render_forward();
     static void begin_render();
-    static saddr get_download_server();
+    static saddr get_meseta_unit();
     static u32 calc_text_width(char *s);
     static s32 is_alpha_char(u16 arg0);
     void pack_status_flags(u32 arg1);

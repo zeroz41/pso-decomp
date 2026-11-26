@@ -317,10 +317,10 @@ struct TLobby : public TObject {
     static void free_global_object();
     static void update_menu_cursor_selection();
     static void init_once(TRecvInfoBoard *info_board);
-    static void *get_info_board_ptr();
-    static void init_once_data(u32 buffer);
+    static TRecvInfoBoard *get_info_board_ptr();
+    static void request_info_board(TRecvInfoBoard *buffer);
     static void flush_pending_send();
-    static saddr get_card_window_field();
+    static char *get_info_board_text();  // the player's own info board text (CharacterSaveRecord)
     static void set_info_board_text(char *text);
     static void reset_info_board();
     static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
@@ -522,7 +522,7 @@ struct TLobby : public TObject {
     // Empties the com card list and clears its flag.
     static void reset_com_card_list();
     void set_split_screen_name();
-    static void create_singleton(void *parent);
+    static void create_singleton(TObject *parent);
     static s32 assign_player_id(void *);
     static void handle_battle_result(int client, s32 local);
     static void close_and_play_effect(int client, s32 local);

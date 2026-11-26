@@ -65,7 +65,7 @@ struct CharacterSaveRecord {
     s32 bank_item_count;    // rows of bank_items in use
     s32 bank_meseta;        // meseta kept in the bank
     BankItemRecord bank_items[200];
-    // Set up by init_guild_card_tag.
+    // The player's own GuildCardEntry (set_com_card_window fills it); set up by init_guild_card_tag.
     u8 guild_card[0x90];
     SymbolChatPreset symbol_chat_presets[12];
     ChatShortcut chat_shortcuts[20];

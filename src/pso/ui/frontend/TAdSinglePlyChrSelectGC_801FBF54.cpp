@@ -2627,7 +2627,7 @@ void init_fresh_character_card(void) {
         card->bank_items[i].init();
     }
     ((SavedSymbolChatPresets *)card)->load_symbol_chat_data();
-    set_fresh_card_flag(card);
+    set_default_card_window_flags(card);
     init_default_short_list_order(card->short_list_order);
 }
 

@@ -4,13 +4,15 @@
 #include "types.h"
 
 class TPacket;
+struct CharacterSaveRecord;
 
 extern "C" {
 void flush_packet_send_buffer(TPacket *packet);
 void append_command_to_batch_buffer(TPacket *batch, u8 *cmd);
 void alloc_work_buffer(void);
 }
-void set_fresh_card_flag(void *card);
+// The card window flags a new character starts with.
+void set_default_card_window_flags(CharacterSaveRecord *record);
 
 void free_deferred_packet_buffer();
 

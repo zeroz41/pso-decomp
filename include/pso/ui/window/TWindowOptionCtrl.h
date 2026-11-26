@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+class TWindowMessageYesNo;
 
 class TAdPlayerLoadGC;
 class TWindowBase;
@@ -47,7 +48,7 @@ struct TWindowOptionCtrl : public TObject {
     static s32 get_udp_option(); // 0 auto, 1 UDP on, 2 UDP off
     static const char *text_or_default(const char *text);
     static saddr create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
-    static saddr open_yes_no_window(saddr parent, s32 message_id, s32 index);
+    TWindowMessageYesNo *open_yes_no_window(s32 message_id, s32 index);
     TWindowCheckBox *create_udp_option_menu();
     saddr create_sub_menu_window();
     TWindowSnapShot *create_snap_shot_window();

@@ -1504,7 +1504,7 @@ void TItemData::format_item_name(char *buf) {
         return;
     }
     if (data1.data_u8[0] == 4) {
-        sprintf(buf, "%d%s", data2.meseta, TWindowSubStatusDisp::get_download_server());
+        sprintf(buf, "%d%s", data2.meseta, TWindowSubStatusDisp::get_meseta_unit());
         return;
     }
     pmt = (s32 *)lookup_item_pmt_record(data1.data_u8);

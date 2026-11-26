@@ -15485,7 +15485,7 @@ force_active:
   - set_lobby_map_state_code__Fl
   - set_low_flight_height__13TBoss5GryphonFv
   - set_mag_mode__13TWindowSubMagFl
-  - set_material_node__11TItemMagSubFlPv
+  - set_material_node__11TItemMagSubFlP8NJS_ARGB
   - set_menu_mode_0__6TLobbyFv
   - set_menu_mode_1__6TLobbyFv
   - set_menu_mode_2__6TLobbyFv

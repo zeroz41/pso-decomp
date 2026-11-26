@@ -260,7 +260,7 @@ void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 yes_no) {
         this->message_window->close();
         this->message_window = NULL;
     }
-    this->message_window = TWindowMessageYesNo::create((void *)tl_01, local_client_id, 0, 0);
+    this->message_window = TWindowMessageYesNo::create((TObject *)tl_01, local_client_id, 0, 0);
     if (yes_no != 0) {
         this->message_window->open_yes_no_prompt_with_text(message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
         return;

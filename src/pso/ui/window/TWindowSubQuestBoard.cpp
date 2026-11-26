@@ -33,7 +33,7 @@
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
 
 extern "C" {
-int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
+int set_card_window_flags__19TWindowKeyBoardHardFlll(int, int, int);
 }
 
 const char *TWindowSubQuestBoard::class_name = "TWindowSubQuestBoard";
@@ -92,26 +92,26 @@ void TWindowSubQuestBoard::run_task() {
 
 void TWindowSubQuestBoard::render() {  }
 
-int set_card_flag_1(saddr client_id, int value) { return set_card_window_flags__19TWindowKeyBoardHardFPvll((void *)client_id, value, -2); }
+int set_card_flag_1(saddr client_id, int value) { return set_card_window_flags__19TWindowKeyBoardHardFlll(client_id, value, -2); }
 
 void set_card_flag_2(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 2, -3);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 2, -3);
 }
 
 void set_card_flag_4(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 4, -5);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 4, -5);
 }
 
 void set_card_flag_8(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 8, -9);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 8, -9);
 }
 
 void set_card_flags_300(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 8, -0x301);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value << 8, -0x301);
 }
 
 void set_card_flags_1C00(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 0xA, -0x1C01);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value << 0xA, -0x1C01);
 }
 
 TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {

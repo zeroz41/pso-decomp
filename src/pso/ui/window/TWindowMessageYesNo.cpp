@@ -130,9 +130,9 @@ void TWindowMessageYesNo::render() {  }
 
 void TWindowMessageYesNo::run_task() { if (is_child_visible() != 0) { this->message_menu->confirm_selection(); } }
 
-TWindowMessageYesNo *TWindowMessageYesNo::create(void *parent, s32 client_id, const char *yes_label, const char *no_label) {
+TWindowMessageYesNo *TWindowMessageYesNo::create(TObject *parent, s32 client_id, const char *yes_label, const char *no_label) {
     TWindowMessageYesNo *o;
-    o = new TWindowMessageYesNo((TObject *)parent, client_id, yes_label, no_label);
+    o = new TWindowMessageYesNo(parent, client_id, yes_label, no_label);
     return o;
 }
 

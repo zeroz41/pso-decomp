@@ -50,6 +50,7 @@ public:
   void set_item_info(TItemData *item, s32 index, s32 count);
   void set_ground_item(TItemData *item, s32 index);
   void init_display(s32 src, s32 item);
+  void init_meseta(s32 meseta, s32 item);
   saddr replace_owned_string(saddr src, saddr buf, s32 mask, s32 copy);
   void calc_row_width();
 };

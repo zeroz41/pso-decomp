@@ -7,9 +7,9 @@
 #include "pso/system/task/TMainTask.h"
 
 
-void belra_cannon_return_timer(void *weapon) {
+void belra_cannon_return_timer(TItemWeaponBelraCannon *weapon) {
     if (weapon != NULL) {
-        ((TItemWeaponBelraCannon *)weapon)->shot_ready = 1;
+        weapon->shot_ready = 1;
     }
 }
 

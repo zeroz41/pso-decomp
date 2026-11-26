@@ -641,16 +641,16 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
 
 
 void TWindowKeyBoardHard::set_bits_shift7(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 7), -0x81);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 7), -0x81);
 }
 void TWindowKeyBoardHard::update_card_window_page_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 6), -0x41);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 6), -0x41);
 }
 void TWindowKeyBoardHard::clear_card_window_flag(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 4), -0x11);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 4), -0x11);
 }
 void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 5), -0x21);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 5), -0x21);
 }
 int TWindowKeyBoardHard::sub_8026042C() { return (this->input_flags >> 6) & 0x1; }
 int TWindowKeyBoardHard::sub_80260438() { return (this->input_flags >> 10) & 0x1; }

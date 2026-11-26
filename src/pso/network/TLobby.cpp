@@ -403,7 +403,7 @@ void TLobby::send_game_character() {
     choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
-    strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
+    strncpy(c, TLobby::get_info_board_text(), 0xAC);
     memset(&blocked_senders, 0, sizeof(blocked_senders));
     ((TLobby *)&blocked_senders)->collect_active_card_ids();
     memset(&auto_reply, 0, sizeof(auto_reply));
@@ -2013,7 +2013,7 @@ void TLobby::send_selected_character() {
     choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
-    strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
+    strncpy(c, TLobby::get_info_board_text(), 0xAC);
     memset(&blocked_senders, 0, sizeof(blocked_senders));
     ((TLobby *)&blocked_senders)->collect_active_card_ids();
     memset(&auto_reply, 0, sizeof(auto_reply));

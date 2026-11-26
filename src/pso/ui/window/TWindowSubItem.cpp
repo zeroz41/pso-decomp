@@ -90,7 +90,7 @@ void TWindowSubItemList::build_item_list() {
         }
         stats = pl->get_stats();
         if (stats != NULL && stats->meseta > 0) {
-            push_status_disp_entry(stats->meseta, -0xFF);
+            add_meseta_entry(stats->meseta, -0xFF);
         }
         if (entry_count <= 0) {
             add_list_entry(-1);

@@ -22,6 +22,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowGetComCard.h"
+#include "pso/player/TPlyCharData.h"
 
 
 void TWindowSubComCard::set_card_text(saddr src) {
@@ -341,23 +342,25 @@ s32 fill_guild_card_from_player(GuildCardEntry *card, u32 client) {
 }
 
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src) {
-    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
-    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
-    *(u16 *)((s8 *)dst + 2) = (u16) *(u16 *)((s8 *)src + 2);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    TPlyGuildCardTag *to = (TPlyGuildCardTag *)dst;
+    TPlyGuildCardTag *from = (TPlyGuildCardTag *)src;
+    to->m_tag0 = from->m_tag0;
+    to->m_tag1 = from->m_tag1;
+    to->m_tag2 = from->m_tag2;
+    to->m_guildcard_number = from->m_guildcard_number;
 }
 void GuildCardEntry::fill_from_char(s32 index) {
-    uaddr char_index;
-    u8 *char_data;
-    char_index = (uaddr)TAdSinglePlyChrSelectGC::get_char_index(index);
-    if (char_index != 0U) {
-        char_data = (unsigned char *) (char_index + 0x370);
-        if (char_data != NULL) {
+    TPlyCharData *chr;
+    disp_data_part2 *disp;
+    chr = TAdSinglePlyChrSelectGC::get_char_index(index);
+    if (chr != NULL) {
+        disp = &chr->m_disp_part2;
+        if (disp != NULL) {
             flags |= 1;
-            strncpy(name, (const char *)char_data, 0x17);
+            strncpy(name, disp->name, 0x17);
             name[0x17] = 0;
-            char_class = *(u8 *)((s8 *)char_data + 0x31);
-            section_id = *(u8 *)((s8 *)char_data + 0x30);
+            char_class = disp->char_class;
+            section_id = disp->section_id;
             language = current_language;
             if (TLobby::protocol_instance != NULL) {
                 TPlyGuildCardTag *src = &TLobby::protocol_instance->m_guildcard_tag;
@@ -372,16 +375,16 @@ void GuildCardEntry::fill_from_char(s32 index) {
 GuildCardEntry *own_guild_card;
 
 void TObjPlayer::set_com_card_window(s32 client) {
-    saddr guild_card;
-    u32 character_save_record;
+    GuildCardEntry *card;
+    CharacterSaveRecord *record;
 
     own_guild_card = NULL;
-    character_save_record = ((u32)get_character_save_record((u32)client));
-    if (character_save_record != 0U) {
-        guild_card = character_save_record + 0x1510;
-        if (guild_card != 0) {
-            ((GuildCardEntry *)guild_card)->fill_from_char(client);
-            own_guild_card = (GuildCardEntry *)guild_card;
+    record = (CharacterSaveRecord *)get_character_save_record((u32)client);
+    if (record != NULL) {
+        card = (GuildCardEntry *)record->guild_card;
+        if (card != NULL) {
+            card->fill_from_char(client);
+            own_guild_card = card;
         }
     }
 }
@@ -415,5 +418,5 @@ void clear_received_guild_cards(s32 _w0) {
         clear_entry_active_flag(&received_guild_card_tags[i]);
     }
 }
-void TWindowGetComCard__sub_8007B65C(void* p) { clear_received_guild_cards((saddr)p); }
-void TWindowGetComCard__sub_8007B67C(void* p) { clear_received_guild_cards((saddr)p); }
+void free_received_guild_cards(void* p) { clear_received_guild_cards((saddr)p); }
+void init_received_guild_cards(void* p) { clear_received_guild_cards((saddr)p); }

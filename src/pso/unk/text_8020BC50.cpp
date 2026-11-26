@@ -99,10 +99,10 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
 struct Send6x76SetEntitySetFlagsPacket { u8 hdr[2]; s16 a; s16 b; s16 c; };
 
 
-void send_6x76_set_entity_set_flags(void *object, s16 flags) {
+void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags) {
     Send6x76SetEntitySetFlagsPacket pkt;
     build_6x76_set_entity_set_flags(&pkt);
-    pkt.a = ((TObjBase *)(object))->get_entity_id();
+    pkt.a = object->get_entity_id();
     pkt.b = ((s16 (*)())get_current_floor)();
     pkt.c = flags;
     ((TLobby *)(&pkt))->send_player_update();

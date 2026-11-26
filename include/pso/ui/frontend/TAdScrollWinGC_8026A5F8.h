@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void cache_last_chat_line(uaddr text);
+void cache_last_chat_line(const char *text);
 void chat_log_add_line(const char *text);
 void chat_log_remove_line(saddr index);
 s32 chat_text_lacks_language_tag(const char *text);
